@@ -300,3 +300,9 @@ Thirteen Paper Sonata source/resource paths transfer using the separately record
 Six ADL historical v0.91.5 packet validators/tests remain with actual two unchanged original script passes and four original offline checks from the repaired mixed script. Live provider and obsolete Cargo obligations are excluded explicitly. Runtime-init navigation now names historical owner resources; no deployment or current-default proof is inferred. The mandatory-Node dashboard test and exact #4675 historical scheduler fixture are explicitly retained, without new test acceptance claims.
 
 Current total: 3,115 actions, 3,114 baseline deletions and one transient bridge. Baseline deletions include nine supplemental and three separately observed paths. Original4,134 plus22 captured additions remain immutable; both distributed holds remain unresolved.
+
+## Historical Guardian and v0.88 aggregate closure
+
+The Guardian refusal wrapper and companion retire together, preserving original report-deletion assertions and the genuine100cycle ignored-soak obligation without treating refusal as acceptance. Ten v0.88 monolithic aggregate resources retire with independent child obligations retained. DeepSeek historical ADL packet validation remains after removal of ambient credential-triggered production: two valid checks and one generic nonzero passed, but the negative failed packet-reference validation before score checking, not impossible-score rejection. Historical Software Development Polis packet validator and companion remain with their ADL evidence; no new pass claim is added.
+
+Current total: 3,127 actions and 3,126 baseline deletions plus one transient bridge. Eleven supplemental and three separately observed paths remain outside immutable4,134+22. Both distributed holds remain unresolved.

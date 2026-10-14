@@ -6,17 +6,17 @@
   "execution_authorized": false,
   "original_count": 4134,
   "counts": {
-    "retain_resolved": 525,
-    "preserve_approved_removal": 3101,
+    "retain_resolved": 529,
+    "preserve_approved_removal": 3111,
     "proposed_owner_transfer_with_consumer_qualification": 62,
     "retain_public_source_or_fixture": 201,
-    "preserve_reviewed_consumer_repair": 18,
+    "preserve_reviewed_consumer_repair": 19,
     "proposed_historical_retirement_with_caller_repair": 7,
-    "proposed_remove_with_entire_tool_family": 218,
+    "proposed_remove_with_entire_tool_family": 203,
     "hold_explicit_reconciliation": 2
   },
   "additional_current_source_paths": 22,
-  "preservation": "Original 4134 identities and separate 22 captured paths unchanged. Exact executed retirement actions 3115 comprise 3114 baseline deletions and one newly-added-then-retired ADL conversion bridge; the bridge is outside both captured inventories. The baseline count includes nine supplemental paths and three separately observed governed-room paths outside the immutable inventories. Other proposals remain conditional.",
+  "preservation": "Original 4134 identities and separate 22 captured paths unchanged. Exact executed retirement actions 3127 comprise 3126 baseline deletions and one newly-added-then-retired ADL conversion bridge; the bridge is outside both captured inventories. The baseline count includes eleven supplemental paths and three separately observed governed-room paths outside the immutable inventories. Other proposals remain conditional.",
   "review_boundary": "Exact paths and Git identities are pinned. Proposed removals remain conditional; this is not a claim that caller closure or all successor tests are qualified.",
   "known_prerequisites": {
     "codefriend": "Issue102 e14ff1b08b7ef01f838404bca8ecdf47c1318ac1 passed all39suites409Linux tests,0failed0ignored,174.293s; exacthead and clean source before/after. Evidence FastWork c1223/evidence/codefriend/issue102-e14ff1b0-full, transcriptSHA256c7944f7e0403ba485b377868b1bd85e91eeee0ecce3f79920de3e86c813cfa1a. Focused1 and parallel47 diagnostics also passed; prior dc2 redelivery failure did not reproduce and its cause is not claimed fixed. Earlier failures retained. One macOS-only case, actual hosted installed-acquisition CI proof and owner publication remain separate.",
@@ -50255,18 +50255,27 @@
         "blob": "614f112e61e45bafe3eb2353cee5fc9860da60ad"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/demo_v088_instinct_review_surface.sh"
         ]
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "V088_MONOLITH_HISTORICAL_TEN_APPLIED.json",
+        "sha256": "2ec37628c07e7177cb8fda660d32eeff242e6e19901edd1219232fd4eaf60702",
+        "implementation_commit": "29ef8d89e9d80f6d00830f71a0b5dce120db23a5"
       }
     },
     {
@@ -50310,18 +50319,27 @@
         "blob": "b0dba9361e1ab1798032d5a6e24cee4e4cb5d518"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/demo_v088_phi_review_surface.sh"
         ]
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "V088_MONOLITH_HISTORICAL_TEN_APPLIED.json",
+        "sha256": "2ec37628c07e7177cb8fda660d32eeff242e6e19901edd1219232fd4eaf60702",
+        "implementation_commit": "29ef8d89e9d80f6d00830f71a0b5dce120db23a5"
       }
     },
     {
@@ -50356,18 +50374,27 @@
         "blob": "2a0f49ee22fc347857a2526ed68bf40fa793e6da"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/demo_v088_review_surface.sh"
         ]
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "V088_MONOLITH_HISTORICAL_TEN_APPLIED.json",
+        "sha256": "2ec37628c07e7177cb8fda660d32eeff242e6e19901edd1219232fd4eaf60702",
+        "implementation_commit": "29ef8d89e9d80f6d00830f71a0b5dce120db23a5"
       }
     },
     {
@@ -50380,18 +50407,27 @@
         "blob": "8451cb93ef1cf37df7224715cad89d124791a12d"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/demo_v088_temporal_review_surface.sh"
         ]
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "V088_MONOLITH_HISTORICAL_TEN_APPLIED.json",
+        "sha256": "2ec37628c07e7177cb8fda660d32eeff242e6e19901edd1219232fd4eaf60702",
+        "implementation_commit": "29ef8d89e9d80f6d00830f71a0b5dce120db23a5"
       }
     },
     {
@@ -54852,16 +54888,25 @@
         "blob": "62f4c760d164249a2579bf9133a3ee350b56562e"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": []
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "GUARDIAN_SOAK_HISTORICAL_TWO_APPLIED.json",
+        "sha256": "f3c28762185b6e483771b33314ae1939cbbb9d4df0eb08e4a1e2ab09da320bbb",
+        "implementation_commit": "a2114b6bfc734544157c74e894b0a5376b08e58f"
       }
     },
     {
@@ -71121,18 +71166,27 @@
         "blob": "75c0c7101d9d252c6c98dbbfef9b963a822b2d56"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/test_demo_v088_instinct_review_surface.sh"
         ]
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "V088_MONOLITH_HISTORICAL_TEN_APPLIED.json",
+        "sha256": "2ec37628c07e7177cb8fda660d32eeff242e6e19901edd1219232fd4eaf60702",
+        "implementation_commit": "29ef8d89e9d80f6d00830f71a0b5dce120db23a5"
       }
     },
     {
@@ -71178,18 +71232,27 @@
         "blob": "4c319f485063fc64b7f54b1f6827ab49d1799159"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/test_demo_v088_phi_review_surface.sh"
         ]
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "V088_MONOLITH_HISTORICAL_TEN_APPLIED.json",
+        "sha256": "2ec37628c07e7177cb8fda660d32eeff242e6e19901edd1219232fd4eaf60702",
+        "implementation_commit": "29ef8d89e9d80f6d00830f71a0b5dce120db23a5"
       }
     },
     {
@@ -71226,18 +71289,27 @@
         "blob": "e0169706625cd930a382608e76155aca2a5caa3d"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/test_demo_v088_review_surface.sh"
         ]
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "V088_MONOLITH_HISTORICAL_TEN_APPLIED.json",
+        "sha256": "2ec37628c07e7177cb8fda660d32eeff242e6e19901edd1219232fd4eaf60702",
+        "implementation_commit": "29ef8d89e9d80f6d00830f71a0b5dce120db23a5"
       }
     },
     {
@@ -71250,18 +71322,27 @@
         "blob": "ca5f3e5b38bf80e6a9f191ec21d246da58cd6a52"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/test_demo_v088_temporal_review_surface.sh"
         ]
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "V088_MONOLITH_HISTORICAL_TEN_APPLIED.json",
+        "sha256": "2ec37628c07e7177cb8fda660d32eeff242e6e19901edd1219232fd4eaf60702",
+        "implementation_commit": "29ef8d89e9d80f6d00830f71a0b5dce120db23a5"
       }
     },
     {
@@ -75743,16 +75824,25 @@
         "blob": "33f037002636343d66350f2213e54ed63e057a97"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": []
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "GUARDIAN_SOAK_HISTORICAL_TWO_APPLIED.json",
+        "sha256": "f3c28762185b6e483771b33314ae1939cbbb9d4df0eb08e4a1e2ab09da320bbb",
+        "implementation_commit": "a2114b6bfc734544157c74e894b0a5376b08e58f"
       }
     },
     {
@@ -76434,18 +76524,33 @@
         "blob": "29ed4363886d38cfb5ad49667add275c0ebe8d14"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/test_software_development_polis_packet.sh"
         ]
+      },
+      "pre_doc49_retention_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/SOFTWARE_DEVELOPMENT_POLIS_RETAINED_PAIR_R2.json",
+        "packet_sha256": "fdc00acd02f02032fe85723c586804b097881c4a2be5076ba6bb8ab9021f19c4",
+        "reviewed_snapshot_head": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+        "current_source_head": "29ef8d89e9d80f6d00830f71a0b5dce120db23a5",
+        "current_identity": {
+          "mode": "100644",
+          "blob": "29ed4363886d38cfb5ad49667add275c0ebe8d14"
+        },
+        "reason": "Keep the ADL-resident historical packet validator and original companion together with their eight preserved packet inputs and two ADL feature documents. These validate immutable historical evidence rather than execute Runtime or establish native lifecycle authority."
       }
     },
     {
@@ -77262,18 +77367,32 @@
         "blob": "2d91fc561c4182d9b22056acf56efc3ba58e10c1"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_reviewed_consumer_repair",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/test_v0916_deepseek_suitability.sh"
         ]
+      },
+      "pre_cf_fitness_host_retention_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "DEEPSEEK_HISTORICAL_VALIDATION_APPLIED.json",
+        "packet_sha256": "3c0c881fc7731bc51bc7b2a0cd7ddd0bafba6ad189d6f60f77f401691cb3b8ee",
+        "implementation_commit": "d10336fdbb2fd5d283c28eacdfd3da9ec95d1028",
+        "current_identity": {
+          "mode": "100644",
+          "blob": "684f490755de7ba69e28497a2cf1750f95bb0c78"
+        },
+        "reason": "Retain ADL historical DeepSeek packet validation; repaired subset two valid/one generic nonzero passed. Negative failed packet reference validation before score validation, not impossible-score-specific proof. Live producer remains unqualified."
       }
     },
     {
@@ -79326,18 +79445,33 @@
         "blob": "07a0db2b4b1c21c79ded5760591d4e69922d2681"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/validate_software_development_polis_packet.py"
         ]
+      },
+      "pre_doc49_retention_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/SOFTWARE_DEVELOPMENT_POLIS_RETAINED_PAIR_R2.json",
+        "packet_sha256": "fdc00acd02f02032fe85723c586804b097881c4a2be5076ba6bb8ab9021f19c4",
+        "reviewed_snapshot_head": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+        "current_source_head": "29ef8d89e9d80f6d00830f71a0b5dce120db23a5",
+        "current_identity": {
+          "mode": "100644",
+          "blob": "07a0db2b4b1c21c79ded5760591d4e69922d2681"
+        },
+        "reason": "Keep the ADL-resident historical packet validator and original companion together with their eight preserved packet inputs and two ADL feature documents. These validate immutable historical evidence rather than execute Runtime or establish native lifecycle authority."
       }
     },
     {
@@ -79743,18 +79877,32 @@
         "blob": "2a1c3b4fb6a15329bbd0285aac01587b6ad66e82"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/validate_v0916_agent_suitability_panel.py"
         ]
+      },
+      "pre_cf_fitness_host_retention_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "DEEPSEEK_HISTORICAL_VALIDATION_APPLIED.json",
+        "packet_sha256": "3c0c881fc7731bc51bc7b2a0cd7ddd0bafba6ad189d6f60f77f401691cb3b8ee",
+        "implementation_commit": "d10336fdbb2fd5d283c28eacdfd3da9ec95d1028",
+        "current_identity": {
+          "mode": "100644",
+          "blob": "2a1c3b4fb6a15329bbd0285aac01587b6ad66e82"
+        },
+        "reason": "Retain ADL historical DeepSeek packet validation; repaired subset two valid/one generic nonzero passed. Negative failed packet reference validation before score validation, not impossible-score-specific proof. Live producer remains unqualified."
       }
     },
     {
@@ -79767,18 +79915,32 @@
         "blob": "c88e9af55f4c83e5054897f467c81565ec889f51"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/validate_v0916_deepseek_suitability.py"
         ]
+      },
+      "pre_cf_fitness_host_retention_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "DEEPSEEK_HISTORICAL_VALIDATION_APPLIED.json",
+        "packet_sha256": "3c0c881fc7731bc51bc7b2a0cd7ddd0bafba6ad189d6f60f77f401691cb3b8ee",
+        "implementation_commit": "d10336fdbb2fd5d283c28eacdfd3da9ec95d1028",
+        "current_identity": {
+          "mode": "100644",
+          "blob": "c88e9af55f4c83e5054897f467c81565ec889f51"
+        },
+        "reason": "Retain ADL historical DeepSeek packet validation; repaired subset two valid/one generic nonzero passed. Negative failed packet reference validation before score validation, not impossible-score-specific proof. Live producer remains unqualified."
       }
     },
     {
@@ -140019,6 +140181,48 @@
         "blob": "2296fa983eae7d11de8ab533566a4fe5de164f71",
         "sha256": "efc0eebb3f2686e8d039b0c0b179cfec75df58e44f977ccaf539bc3bde1a53bf",
         "custody_member": "original/docs/tooling/unity_ilpp_getdomainname_diagnosis.md"
+      }
+    },
+    {
+      "path": "adl/tools/demo_v088_quality_gate.sh",
+      "classification": "reviewed_supplemental_source_retirement_outside_immutable_inventories",
+      "applied_removal": {
+        "packet": "V088_MONOLITH_HISTORICAL_TEN_APPLIED.json",
+        "sha256": "2ec37628c07e7177cb8fda660d32eeff242e6e19901edd1219232fd4eaf60702",
+        "implementation_commit": "29ef8d89e9d80f6d00830f71a0b5dce120db23a5"
+      },
+      "before": {
+        "mode": "100755",
+        "blob": "69398a6ad041b1e8da746086f7152172ad77c3de",
+        "sha256": "0774120081b7a3ce1d860259444f73cc8a2e53501d2bb6d406bfc80e5bdf51f2"
+      },
+      "frozen_original": {
+        "revision": "248f00e359e412f6bc0061ac88be9ff374e3a212",
+        "mode": "100755",
+        "blob": "69398a6ad041b1e8da746086f7152172ad77c3de",
+        "sha256": "0774120081b7a3ce1d860259444f73cc8a2e53501d2bb6d406bfc80e5bdf51f2",
+        "custody_member": "original/adl/tools/demo_v088_quality_gate.sh"
+      }
+    },
+    {
+      "path": "adl/tools/test_demo_v088_quality_gate.sh",
+      "classification": "reviewed_supplemental_source_retirement_outside_immutable_inventories",
+      "applied_removal": {
+        "packet": "V088_MONOLITH_HISTORICAL_TEN_APPLIED.json",
+        "sha256": "2ec37628c07e7177cb8fda660d32eeff242e6e19901edd1219232fd4eaf60702",
+        "implementation_commit": "29ef8d89e9d80f6d00830f71a0b5dce120db23a5"
+      },
+      "before": {
+        "mode": "100755",
+        "blob": "f0e0166e5b5461518d73bb4bbcd2c82c7f25b1a0",
+        "sha256": "c529d5af8ba61b12333c440851a5023880258aafef0ccc513f90d12767ec17be"
+      },
+      "frozen_original": {
+        "revision": "248f00e359e412f6bc0061ac88be9ff374e3a212",
+        "mode": "100755",
+        "blob": "f0e0166e5b5461518d73bb4bbcd2c82c7f25b1a0",
+        "sha256": "c529d5af8ba61b12333c440851a5023880258aafef0ccc513f90d12767ec17be",
+        "custody_member": "original/adl/tools/test_demo_v088_quality_gate.sh"
       }
     }
   ],

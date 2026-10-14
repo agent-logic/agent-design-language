@@ -6,7 +6,7 @@
   "execution_authorized": false,
   "original_inventory_count": 4134,
   "additional_inventory_count": 22,
-  "executed_deletion_count": 3115,
+  "executed_deletion_count": 3127,
   "entries": [
     {
       "path": ".github/workflows/ci.yaml",
@@ -28984,7 +28984,7 @@
       ],
       "after": [
         "100644",
-        "9446000bde841cbc3efa798c1292ebb5633e8c80"
+        "9d8d239231ff178be92ac108c13181775a65e3ec"
       ],
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "INFRASTRUCTURE_SOURCE_FAMILY_APPLIED.json",
@@ -29153,6 +29153,18 @@
             "9446000bde841cbc3efa798c1292ebb5633e8c80"
           ],
           "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        },
+        {
+          "commit": "a2114b6bfc734544157c74e894b0a5376b08e58f",
+          "before": [
+            "100644",
+            "9446000bde841cbc3efa798c1292ebb5633e8c80"
+          ],
+          "after": [
+            "100644",
+            "9d8d239231ff178be92ac108c13181775a65e3ec"
+          ],
+          "packet": "GUARDIAN_SOAK_HISTORICAL_TWO_APPLIED.json"
         }
       ]
     },
@@ -29450,18 +29462,35 @@
     },
     {
       "path": "adl/tools/run_runtime_v3_guardian_soak.sh",
-      "action": "modify",
+      "action": "remove",
       "before": [
         "100755",
         "62f4c760d164249a2579bf9133a3ee350b56562e"
       ],
-      "after": [
-        "100755",
-        "6200e1a51b524c43569e86a9d7be138b110e77b1"
-      ],
+      "after": null,
       "implementation_commit": "3383f7f691ec248d6fe87cd18e4e13c5d1e8d900",
       "approval_reference": "RUNTIME_SOURCE_FAMILY_APPLIED.json",
-      "review_reference": "review_1223_public_facade exact Runtime896 plus54 caller repair review"
+      "review_reference": "review_1223_public_facade exact Runtime896 plus54 caller repair review",
+      "supplemental_source_chain": [
+        {
+          "commit": "a2114b6bfc734544157c74e894b0a5376b08e58f",
+          "before": [
+            "100755",
+            "6200e1a51b524c43569e86a9d7be138b110e77b1"
+          ],
+          "after": null,
+          "packet": "GUARDIAN_SOAK_HISTORICAL_TWO_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "GUARDIAN_SOAK_HISTORICAL_TWO_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/guardian-soak-historical-two/prepared-unity-composed/current-original.tar",
+        "archive_sha256": "871bbae4a5960d09977f3cff0fc4c023352b1cfc918b87f0085e50f36043c782",
+        "member": "current/adl/tools/run_runtime_v3_guardian_soak.sh",
+        "mode": "100755",
+        "blob": "6200e1a51b524c43569e86a9d7be138b110e77b1",
+        "sha256": "aae9b3a39a9f5a52afd0ab4d1663e4b34d554b41a03f382cd9f1b4318130735d"
+      }
     },
     {
       "path": "adl/tools/run_runtime_v3_operational_proof.sh",
@@ -57634,7 +57663,7 @@
       "before": null,
       "after": [
         "100644",
-        "5de72b96d2fa000e04b7e85cdebad74b382f6236"
+        "dc3f94226b75d9074a49854db7f285c70d97d2dc"
       ],
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "INFRASTRUCTURE_SOURCE_FAMILY_APPLIED.json",
@@ -58363,6 +58392,30 @@
             "5de72b96d2fa000e04b7e85cdebad74b382f6236"
           ],
           "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        },
+        {
+          "commit": "a2114b6bfc734544157c74e894b0a5376b08e58f",
+          "before": [
+            "100644",
+            "5de72b96d2fa000e04b7e85cdebad74b382f6236"
+          ],
+          "after": [
+            "100644",
+            "c5c1b94a68bd9266ec616cc72994b5f9b8f9a209"
+          ],
+          "packet": "GUARDIAN_SOAK_HISTORICAL_TWO_APPLIED.json"
+        },
+        {
+          "commit": "29ef8d89e9d80f6d00830f71a0b5dce120db23a5",
+          "before": [
+            "100644",
+            "c5c1b94a68bd9266ec616cc72994b5f9b8f9a209"
+          ],
+          "after": [
+            "100644",
+            "dc3f94226b75d9074a49854db7f285c70d97d2dc"
+          ],
+          "packet": "V088_MONOLITH_HISTORICAL_TEN_APPLIED.json"
         }
       ],
       "prior_execution_provenance": [
@@ -65604,7 +65657,7 @@
       "before": null,
       "after": [
         "100644",
-        "136e60d56f663431b41e3321d3ed778c7835caf1"
+        "8b5a3eb42f41823ad31158fad5ef11a2f1fc70d5"
       ],
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "Infrastructure212 source commit guard-documentation accompaniment",
@@ -66009,6 +66062,18 @@
             "136e60d56f663431b41e3321d3ed778c7835caf1"
           ],
           "packet": "Paper Sonata and Unity107 retirement with eight retained evidence consumers"
+        },
+        {
+          "commit": "pending_reviewed_integration",
+          "before": [
+            "100644",
+            "136e60d56f663431b41e3321d3ed778c7835caf1"
+          ],
+          "after": [
+            "100644",
+            "8b5a3eb42f41823ad31158fad5ef11a2f1fc70d5"
+          ],
+          "packet": "Guardian v088 historical retirement and DeepSeek packet retention"
         }
       ],
       "prior_execution_provenance": [
@@ -84610,7 +84675,7 @@
       ],
       "after": [
         "100644",
-        "b50a4f8543f675ee30938e595c4cb9f6b2fb96ff"
+        "7e09c58d36fee14469d409e8d1e9398f07bae055"
       ],
       "action": "modify",
       "implementation_commit": "9d98857c60448cd1af48508e2377e6bc3649b75b",
@@ -84738,6 +84803,18 @@
             "b50a4f8543f675ee30938e595c4cb9f6b2fb96ff"
           ],
           "packet": "PAPER_SONATA_THIRTEEN_APPLIED_APPLIED.json"
+        },
+        {
+          "commit": "29ef8d89e9d80f6d00830f71a0b5dce120db23a5",
+          "before": [
+            "100644",
+            "b50a4f8543f675ee30938e595c4cb9f6b2fb96ff"
+          ],
+          "after": [
+            "100644",
+            "7e09c58d36fee14469d409e8d1e9398f07bae055"
+          ],
+          "packet": "V088_MONOLITH_HISTORICAL_TEN_APPLIED.json"
         }
       ]
     },
@@ -94573,11 +94650,8 @@
         "100755",
         "2a0f49ee22fc347857a2526ed68bf40fa793e6da"
       ],
-      "after": [
-        "100755",
-        "be27e76692715b2e9762f3ed6413976ec7eab011"
-      ],
-      "action": "modify",
+      "after": null,
+      "action": "remove",
       "implementation_commit": "d97e221b28b7412ca64b6f05861ea332dfd7f205",
       "approval_reference": "PAPER_SONATA_THIRTEEN_APPLIED_APPLIED.json",
       "review_reference": "Independent source/caller review PASS and parent exact application review",
@@ -94594,7 +94668,27 @@
           ],
           "packet": "PAPER_SONATA_THIRTEEN_APPLIED_APPLIED.json"
         }
-      ]
+      ],
+      "supplemental_source_chain": [
+        {
+          "commit": "29ef8d89e9d80f6d00830f71a0b5dce120db23a5",
+          "before": [
+            "100755",
+            "be27e76692715b2e9762f3ed6413976ec7eab011"
+          ],
+          "after": null,
+          "packet": "V088_MONOLITH_HISTORICAL_TEN_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "V088_MONOLITH_HISTORICAL_TEN_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/v088-monolith-ten-composed/current-original.tar",
+        "archive_sha256": "d07e81bd85a9213a2a8f1e93714811b5d4f0ad52a68816bdd2bf90c9a67c0ca6",
+        "member": "current/adl/tools/demo_v088_review_surface.sh",
+        "mode": "100755",
+        "blob": "be27e76692715b2e9762f3ed6413976ec7eab011",
+        "sha256": "187c6d94a88e8aa64f5f279dd7be336a8cd5c1bd13fe043c4a601aea969babe5"
+      }
     },
     {
       "path": "adl/tools/test_v0915_openrouter_matrix.sh",
@@ -97561,6 +97655,355 @@
         "mode": "100644",
         "blob": "2296fa983eae7d11de8ab533566a4fe5de164f71",
         "sha256": "efc0eebb3f2686e8d039b0c0b179cfec75df58e44f977ccaf539bc3bde1a53bf"
+      }
+    },
+    {
+      "path": "adl/tools/test_run_runtime_v3_guardian_soak.sh",
+      "before": [
+        "100755",
+        "33f037002636343d66350f2213e54ed63e057a97"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "a2114b6bfc734544157c74e894b0a5376b08e58f",
+      "approval_reference": "GUARDIAN_SOAK_HISTORICAL_TWO_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "a2114b6bfc734544157c74e894b0a5376b08e58f",
+          "before": [
+            "100755",
+            "33f037002636343d66350f2213e54ed63e057a97"
+          ],
+          "after": null,
+          "packet": "GUARDIAN_SOAK_HISTORICAL_TWO_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "GUARDIAN_SOAK_HISTORICAL_TWO_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/guardian-soak-historical-two/prepared-unity-composed/current-original.tar",
+        "archive_sha256": "871bbae4a5960d09977f3cff0fc4c023352b1cfc918b87f0085e50f36043c782",
+        "member": "current/adl/tools/test_run_runtime_v3_guardian_soak.sh",
+        "mode": "100755",
+        "blob": "33f037002636343d66350f2213e54ed63e057a97",
+        "sha256": "6c87c6f466b678326c48f399a4556c139028278f42572fe795ef0d410458a10d"
+      }
+    },
+    {
+      "path": "adl/tools/test_v0916_deepseek_suitability.sh",
+      "before": [
+        "100644",
+        "2d91fc561c4182d9b22056acf56efc3ba58e10c1"
+      ],
+      "after": [
+        "100644",
+        "684f490755de7ba69e28497a2cf1750f95bb0c78"
+      ],
+      "action": "modify",
+      "implementation_commit": "d10336fdbb2fd5d283c28eacdfd3da9ec95d1028",
+      "approval_reference": "DEEPSEEK_HISTORICAL_VALIDATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "d10336fdbb2fd5d283c28eacdfd3da9ec95d1028",
+          "before": [
+            "100644",
+            "2d91fc561c4182d9b22056acf56efc3ba58e10c1"
+          ],
+          "after": [
+            "100644",
+            "684f490755de7ba69e28497a2cf1750f95bb0c78"
+          ],
+          "packet": "DEEPSEEK_HISTORICAL_VALIDATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/demo_v088_temporal_review_surface.sh",
+      "before": [
+        "100755",
+        "8451cb93ef1cf37df7224715cad89d124791a12d"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "29ef8d89e9d80f6d00830f71a0b5dce120db23a5",
+      "approval_reference": "V088_MONOLITH_HISTORICAL_TEN_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "29ef8d89e9d80f6d00830f71a0b5dce120db23a5",
+          "before": [
+            "100755",
+            "8451cb93ef1cf37df7224715cad89d124791a12d"
+          ],
+          "after": null,
+          "packet": "V088_MONOLITH_HISTORICAL_TEN_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "V088_MONOLITH_HISTORICAL_TEN_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/v088-monolith-ten-composed/current-original.tar",
+        "archive_sha256": "d07e81bd85a9213a2a8f1e93714811b5d4f0ad52a68816bdd2bf90c9a67c0ca6",
+        "member": "current/adl/tools/demo_v088_temporal_review_surface.sh",
+        "mode": "100755",
+        "blob": "8451cb93ef1cf37df7224715cad89d124791a12d",
+        "sha256": "3f04efaf99b7e11a6137d548b894c223bc2a0f6adebbcf5f4f46fe1f31f81417"
+      }
+    },
+    {
+      "path": "adl/tools/test_demo_v088_temporal_review_surface.sh",
+      "before": [
+        "100755",
+        "ca5f3e5b38bf80e6a9f191ec21d246da58cd6a52"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "29ef8d89e9d80f6d00830f71a0b5dce120db23a5",
+      "approval_reference": "V088_MONOLITH_HISTORICAL_TEN_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "29ef8d89e9d80f6d00830f71a0b5dce120db23a5",
+          "before": [
+            "100755",
+            "ca5f3e5b38bf80e6a9f191ec21d246da58cd6a52"
+          ],
+          "after": null,
+          "packet": "V088_MONOLITH_HISTORICAL_TEN_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "V088_MONOLITH_HISTORICAL_TEN_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/v088-monolith-ten-composed/current-original.tar",
+        "archive_sha256": "d07e81bd85a9213a2a8f1e93714811b5d4f0ad52a68816bdd2bf90c9a67c0ca6",
+        "member": "current/adl/tools/test_demo_v088_temporal_review_surface.sh",
+        "mode": "100755",
+        "blob": "ca5f3e5b38bf80e6a9f191ec21d246da58cd6a52",
+        "sha256": "06dd9865643b0ded62df3d69a080cc6becfcf58e460fbc2085f3b1c8981b815f"
+      }
+    },
+    {
+      "path": "adl/tools/demo_v088_phi_review_surface.sh",
+      "before": [
+        "100755",
+        "b0dba9361e1ab1798032d5a6e24cee4e4cb5d518"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "29ef8d89e9d80f6d00830f71a0b5dce120db23a5",
+      "approval_reference": "V088_MONOLITH_HISTORICAL_TEN_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "29ef8d89e9d80f6d00830f71a0b5dce120db23a5",
+          "before": [
+            "100755",
+            "b0dba9361e1ab1798032d5a6e24cee4e4cb5d518"
+          ],
+          "after": null,
+          "packet": "V088_MONOLITH_HISTORICAL_TEN_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "V088_MONOLITH_HISTORICAL_TEN_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/v088-monolith-ten-composed/current-original.tar",
+        "archive_sha256": "d07e81bd85a9213a2a8f1e93714811b5d4f0ad52a68816bdd2bf90c9a67c0ca6",
+        "member": "current/adl/tools/demo_v088_phi_review_surface.sh",
+        "mode": "100755",
+        "blob": "b0dba9361e1ab1798032d5a6e24cee4e4cb5d518",
+        "sha256": "55c3f2f5a0d968e7bcb5f5e96b64e57386c0de814ab33eb504cfbd088df42c72"
+      }
+    },
+    {
+      "path": "adl/tools/test_demo_v088_phi_review_surface.sh",
+      "before": [
+        "100755",
+        "4c319f485063fc64b7f54b1f6827ab49d1799159"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "29ef8d89e9d80f6d00830f71a0b5dce120db23a5",
+      "approval_reference": "V088_MONOLITH_HISTORICAL_TEN_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "29ef8d89e9d80f6d00830f71a0b5dce120db23a5",
+          "before": [
+            "100755",
+            "4c319f485063fc64b7f54b1f6827ab49d1799159"
+          ],
+          "after": null,
+          "packet": "V088_MONOLITH_HISTORICAL_TEN_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "V088_MONOLITH_HISTORICAL_TEN_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/v088-monolith-ten-composed/current-original.tar",
+        "archive_sha256": "d07e81bd85a9213a2a8f1e93714811b5d4f0ad52a68816bdd2bf90c9a67c0ca6",
+        "member": "current/adl/tools/test_demo_v088_phi_review_surface.sh",
+        "mode": "100755",
+        "blob": "4c319f485063fc64b7f54b1f6827ab49d1799159",
+        "sha256": "dcf63a929a4010a855002f0d7a3aa62c6dcb4e9d4e0c1f87af2fc8b26c7c747b"
+      }
+    },
+    {
+      "path": "adl/tools/demo_v088_instinct_review_surface.sh",
+      "before": [
+        "100755",
+        "614f112e61e45bafe3eb2353cee5fc9860da60ad"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "29ef8d89e9d80f6d00830f71a0b5dce120db23a5",
+      "approval_reference": "V088_MONOLITH_HISTORICAL_TEN_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "29ef8d89e9d80f6d00830f71a0b5dce120db23a5",
+          "before": [
+            "100755",
+            "614f112e61e45bafe3eb2353cee5fc9860da60ad"
+          ],
+          "after": null,
+          "packet": "V088_MONOLITH_HISTORICAL_TEN_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "V088_MONOLITH_HISTORICAL_TEN_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/v088-monolith-ten-composed/current-original.tar",
+        "archive_sha256": "d07e81bd85a9213a2a8f1e93714811b5d4f0ad52a68816bdd2bf90c9a67c0ca6",
+        "member": "current/adl/tools/demo_v088_instinct_review_surface.sh",
+        "mode": "100755",
+        "blob": "614f112e61e45bafe3eb2353cee5fc9860da60ad",
+        "sha256": "69c57d5f8702048fdddf21db1f615071bc35698fc3df0f31da2efd23c812435e"
+      }
+    },
+    {
+      "path": "adl/tools/test_demo_v088_instinct_review_surface.sh",
+      "before": [
+        "100755",
+        "75c0c7101d9d252c6c98dbbfef9b963a822b2d56"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "29ef8d89e9d80f6d00830f71a0b5dce120db23a5",
+      "approval_reference": "V088_MONOLITH_HISTORICAL_TEN_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "29ef8d89e9d80f6d00830f71a0b5dce120db23a5",
+          "before": [
+            "100755",
+            "75c0c7101d9d252c6c98dbbfef9b963a822b2d56"
+          ],
+          "after": null,
+          "packet": "V088_MONOLITH_HISTORICAL_TEN_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "V088_MONOLITH_HISTORICAL_TEN_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/v088-monolith-ten-composed/current-original.tar",
+        "archive_sha256": "d07e81bd85a9213a2a8f1e93714811b5d4f0ad52a68816bdd2bf90c9a67c0ca6",
+        "member": "current/adl/tools/test_demo_v088_instinct_review_surface.sh",
+        "mode": "100755",
+        "blob": "75c0c7101d9d252c6c98dbbfef9b963a822b2d56",
+        "sha256": "fb3930b9d7b742713ec065e9318ad19713b315095a89d8923e6c2c44638eb4bf"
+      }
+    },
+    {
+      "path": "adl/tools/test_demo_v088_review_surface.sh",
+      "before": [
+        "100755",
+        "e0169706625cd930a382608e76155aca2a5caa3d"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "29ef8d89e9d80f6d00830f71a0b5dce120db23a5",
+      "approval_reference": "V088_MONOLITH_HISTORICAL_TEN_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "29ef8d89e9d80f6d00830f71a0b5dce120db23a5",
+          "before": [
+            "100755",
+            "e0169706625cd930a382608e76155aca2a5caa3d"
+          ],
+          "after": null,
+          "packet": "V088_MONOLITH_HISTORICAL_TEN_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "V088_MONOLITH_HISTORICAL_TEN_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/v088-monolith-ten-composed/current-original.tar",
+        "archive_sha256": "d07e81bd85a9213a2a8f1e93714811b5d4f0ad52a68816bdd2bf90c9a67c0ca6",
+        "member": "current/adl/tools/test_demo_v088_review_surface.sh",
+        "mode": "100755",
+        "blob": "e0169706625cd930a382608e76155aca2a5caa3d",
+        "sha256": "a60d9920fd32623a5d52ec59838342fd2c7df41b2b446ebd343c4c0cc891d59e"
+      }
+    },
+    {
+      "path": "adl/tools/demo_v088_quality_gate.sh",
+      "before": [
+        "100755",
+        "69398a6ad041b1e8da746086f7152172ad77c3de"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "29ef8d89e9d80f6d00830f71a0b5dce120db23a5",
+      "approval_reference": "V088_MONOLITH_HISTORICAL_TEN_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "29ef8d89e9d80f6d00830f71a0b5dce120db23a5",
+          "before": [
+            "100755",
+            "69398a6ad041b1e8da746086f7152172ad77c3de"
+          ],
+          "after": null,
+          "packet": "V088_MONOLITH_HISTORICAL_TEN_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "V088_MONOLITH_HISTORICAL_TEN_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/v088-monolith-ten-composed/current-original.tar",
+        "archive_sha256": "d07e81bd85a9213a2a8f1e93714811b5d4f0ad52a68816bdd2bf90c9a67c0ca6",
+        "member": "current/adl/tools/demo_v088_quality_gate.sh",
+        "mode": "100755",
+        "blob": "69398a6ad041b1e8da746086f7152172ad77c3de",
+        "sha256": "0774120081b7a3ce1d860259444f73cc8a2e53501d2bb6d406bfc80e5bdf51f2"
+      }
+    },
+    {
+      "path": "adl/tools/test_demo_v088_quality_gate.sh",
+      "before": [
+        "100755",
+        "f0e0166e5b5461518d73bb4bbcd2c82c7f25b1a0"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "29ef8d89e9d80f6d00830f71a0b5dce120db23a5",
+      "approval_reference": "V088_MONOLITH_HISTORICAL_TEN_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "29ef8d89e9d80f6d00830f71a0b5dce120db23a5",
+          "before": [
+            "100755",
+            "f0e0166e5b5461518d73bb4bbcd2c82c7f25b1a0"
+          ],
+          "after": null,
+          "packet": "V088_MONOLITH_HISTORICAL_TEN_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "V088_MONOLITH_HISTORICAL_TEN_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/v088-monolith-ten-composed/current-original.tar",
+        "archive_sha256": "d07e81bd85a9213a2a8f1e93714811b5d4f0ad52a68816bdd2bf90c9a67c0ca6",
+        "member": "current/adl/tools/test_demo_v088_quality_gate.sh",
+        "mode": "100755",
+        "blob": "f0e0166e5b5461518d73bb4bbcd2c82c7f25b1a0",
+        "sha256": "c529d5af8ba61b12333c440851a5023880258aafef0ccc513f90d12767ec17be"
       }
     }
   ],
@@ -105291,9 +105734,65 @@
         "docs/tooling/TOOL_SURFACE_REGISTRY.md"
       ],
       "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "GUARDIAN_SOAK_HISTORICAL_TWO_APPLIED.json",
+      "sha256": "f3c28762185b6e483771b33314ae1939cbbb9d4df0eb08e4a1e2ab09da320bbb",
+      "commit": "a2114b6bfc734544157c74e894b0a5376b08e58f",
+      "files": 4,
+      "removals": 2,
+      "scope_sha256": "e3b07df9b58e632691510c0cdd7bbacfc28d2bb207dc894f19795c931a962c00",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "adl/tools/generate_tool_surface_registry.py",
+        "adl/tools/run_runtime_v3_guardian_soak.sh",
+        "adl/tools/test_run_runtime_v3_guardian_soak.sh",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "DEEPSEEK_HISTORICAL_VALIDATION_APPLIED.json",
+      "sha256": "3c0c881fc7731bc51bc7b2a0cd7ddd0bafba6ad189d6f60f77f401691cb3b8ee",
+      "commit": "d10336fdbb2fd5d283c28eacdfd3da9ec95d1028",
+      "files": 1,
+      "removals": 0,
+      "scope_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "adl/tools/test_v0916_deepseek_suitability.sh"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "V088_MONOLITH_HISTORICAL_TEN_APPLIED.json",
+      "sha256": "2ec37628c07e7177cb8fda660d32eeff242e6e19901edd1219232fd4eaf60702",
+      "commit": "29ef8d89e9d80f6d00830f71a0b5dce120db23a5",
+      "files": 12,
+      "removals": 10,
+      "scope_sha256": "9d59d992d17d11974327e71bdaedc4a016e4412552782cfc7a0d524953cfd0d4",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "adl/tools/demo_v088_temporal_review_surface.sh",
+        "adl/tools/test_demo_v088_temporal_review_surface.sh",
+        "adl/tools/demo_v088_phi_review_surface.sh",
+        "adl/tools/test_demo_v088_phi_review_surface.sh",
+        "adl/tools/demo_v088_instinct_review_surface.sh",
+        "adl/tools/test_demo_v088_instinct_review_surface.sh",
+        "adl/tools/demo_v088_review_surface.sh",
+        "adl/tools/test_demo_v088_review_surface.sh",
+        "adl/tools/demo_v088_quality_gate.sh",
+        "adl/tools/test_demo_v088_quality_gate.sh",
+        "demos/README.md",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
     }
   ],
-  "baseline_deletion_count": 3114,
+  "baseline_deletion_count": 3126,
   "transient_removed_paths": [
     "adl/tools/test_issue872_historical_manifest.py"
   ],
@@ -105306,10 +105805,12 @@
     "adl/tools/test_demo_v0901_quality_gate.sh",
     "adl/tools/test_demo_v0902_review_quality_gate.sh",
     "adl/tools/demo_v087_suite.sh",
-    "docs/tooling/unity_ilpp_getdomainname_diagnosis.md"
+    "docs/tooling/unity_ilpp_getdomainname_diagnosis.md",
+    "adl/tools/demo_v088_quality_gate.sh",
+    "adl/tools/test_demo_v088_quality_gate.sh"
   ],
-  "inventory_baseline_deletion_count": 3102,
-  "supplemental_baseline_deletion_count": 9,
+  "inventory_baseline_deletion_count": 3112,
+  "supplemental_baseline_deletion_count": 11,
   "separately_observed_baseline_deletion_count": 3,
   "separately_observed_retired_paths": [
     "demos/html-observatory/tests/governed_room_contracts.test.mjs",
