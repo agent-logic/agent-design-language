@@ -156,9 +156,7 @@ Likewise the [historical ADL v2 installer](../../adl-v2/tools/install-adl-v2.sh)
 uses `CARGO_TARGET_DIR` or `/Volumes/FastWork/adl-v2/target` but installs binaries
 and receipts separately; it does not define current worktree governance.
 
-[Unity editor/batch guidance](unity_observatory_editor_batch_proof.md) separates
-project ownership and FastWork staging. The [ILPP diagnosis](unity_ilpp_getdomainname_diagnosis.md)
-retains issue-local logs and distinguishes licensed imported assets from generated
-`Library` state. Keep editor/runtime users, asset recovery sources and evidence
-intact; neither all Unity staging nor an Asset Store cache is automatically
-rebuildable or disposable.
+Unity Observatory and Celestial Rescue were discontinued in #1223. Their source and
+original procedures remain in Git and the retirement custody archive; editor proof
+was not completed. This retirement does not authorize deleting existing operator
+assets, recovery sources, evidence, caches or staging directories.

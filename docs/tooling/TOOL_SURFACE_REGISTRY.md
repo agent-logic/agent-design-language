@@ -30,8 +30,8 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 
 - `primary`: 8
 - `supported shim`: 0
-- `internal helper`: 430
-- `historical evidence`: 31
+- `internal helper`: 421
+- `historical evidence`: 30
 - `archive candidate`: 0
 - `remove candidate`: 0
 
@@ -185,7 +185,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/polis_status_for_ssm_qts.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/polis_status_for_ssm_windows.ps1` | tool surface | internal helper | Visible tool surface retained for bounded support work. |
 | `adl/tools/preflight_review.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
-| `adl/tools/probe_unity_mcp_observatory_alignment.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/provider` | tool surface | internal helper | Directory containing bounded helper assets, scripts, or proof inputs. |
 | `adl/tools/provider_demo_common.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/rd01_repository_audit.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
@@ -239,7 +238,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/run_v0917_csm_continuity_capsule_4910_proof.sh` | tool surface | historical evidence | Infrastructure-owned manual proof; retained ADL copy is historical source evidence. Use agent-logic-infrastructure owner delivery; resolver proof does not qualify full behavior. |
 | `adl/tools/run_v0917_csm_otlp_4904_proof.sh` | tool surface | historical evidence | Infrastructure-owned manual proof; retained ADL copy is historical source evidence. Use agent-logic-infrastructure owner delivery; resolver proof does not qualify full behavior. |
 | `adl/tools/run_v0917_no_sparrow_4909_proof.sh` | tool surface | historical evidence | Infrastructure-owned manual proof; retained ADL copy is historical source evidence. Use agent-logic-infrastructure owner delivery; resolver proof does not qualify full behavior. |
-| `adl/tools/run_v0918_unity_ilpp_diagnostic_matrix.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_validation_manager_nessus_lane.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_wp08_acip_sns_live_proof.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_wp08_aws_signal_integration_live_proof.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
@@ -410,15 +408,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/test_v0915_openrouter_matrix.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_v0915_remote_gemma_watcher_probe.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_v0916_deepseek_suitability.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_v0916_unity_mcp_alignment_unit.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_v0916_unity_observatory_baseline.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_v0916_unity_observatory_contract.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_v0916_unity_observatory_unity65_smoke.sh` | tool surface | historical evidence | Historical Unity editor smoke contract; retained timeout is not a successful scene-validation result. |
 | `adl/tools/test_v0917_html_observatory_integrated_proof.sh` | tool surface | historical evidence | Historical Runtime source-tree route retired by #1223; invocation fails before execution. Original assertions are preserved in Git and retirement custody, not qualified as passing. |
-| `adl/tools/test_v0917_unity_observatory_integrated_proof.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_v0918_unity_ilpp_diagnostic_matrix.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_v092_demo_proof_coverage.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_validate_v0922_runtime_qualification.py` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_validate_v092_runtime_native_receipts.sh` | tool surface | internal helper | Focused regression or contract test helper. |

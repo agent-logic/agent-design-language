@@ -58,7 +58,6 @@ HISTORICAL_TOOL_SCRIPTS = {
     "demo_d11_signed_remote.sh": "Historical signed-remote contract; current public ADL does not supply its Runtime binary or test interfaces.",
     "demo_v087_operational_skills.sh": "Historical bundle-install and inventory contract; original recursive acceptance remains separate from owner resource proof.",
     "test_demo_v0871_real_multi_agent_discussion.sh": "Historical credentialed provider acceptance contract; five real calls remain unqualified.",
-    "test_v0916_unity_observatory_unity65_smoke.sh": "Historical Unity editor smoke contract; retained timeout is not a successful scene-validation result.",
 }
 
 HISTORICAL_EVIDENCE = [
