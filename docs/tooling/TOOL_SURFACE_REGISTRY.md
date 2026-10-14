@@ -30,7 +30,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 
 - `primary`: 8
 - `supported shim`: 0
-- `internal helper`: 447
+- `internal helper`: 439
 - `historical evidence`: 31
 - `archive candidate`: 0
 - `remove candidate`: 0
@@ -413,9 +413,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/test_use_case_writer_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_uts_benchmark_entrypoint_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_uts_benchmark_runner_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_v0914_csdlc_evidence_bundle.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_v0914_merge_readiness_gate.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_v0914_obsmem_transition_memory.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_v0915_multi_agent_quality_comparison.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_v0915_openrouter_matrix.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_v0915_remote_gemma_watcher_probe.sh` | tool surface | internal helper | Focused regression or contract test helper. |
@@ -435,7 +432,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/test_validate_wp12_ssm_readiness_4657.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_validation_inventory.sh` | tool surface | historical evidence | Historical Runtime source-tree route retired by #1223; invocation fails before execution. Original assertions are preserved in Git and retirement custody, not qualified as passing. |
 | `adl/tools/test_validation_manager.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_vllm_qwen_speculative_decoding_benchmark.py` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_warm_rust_dependency_cache.py` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_workflow_guardrails.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_workspace_coverage_deadline.rb` | tool surface | internal helper | Focused regression or contract test helper. |
@@ -479,9 +475,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/validate_v086_control_path.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_v0902_paper_sonata_expansion.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_v0913_quality_gate_review_surfaces.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
-| `adl/tools/validate_v0914_csdlc_evidence_bundle.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
-| `adl/tools/validate_v0914_merge_readiness_gate.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
-| `adl/tools/validate_v0914_obsmem_transition_memory.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_v0915_multi_agent_quality_comparison.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_v0915_openrouter_matrix.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_v0915_remote_gemma_watcher_probe.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
@@ -525,7 +518,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/verify_repo_review_contract.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/verify_review_output_provenance.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/verify_spot_advertised_ref.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
-| `adl/tools/vllm_qwen_speculative_decoding_benchmark.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/warm_rust_dependency_cache.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/workflow_guardrails.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/worktree_doctor.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
