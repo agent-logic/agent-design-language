@@ -94,6 +94,9 @@ pub enum AmendmentClass {
     Binding,
     Implementation,
     Review,
+    /// Internal cause retained when an accepted review judgment resets prior
+    /// review-dependent evidence. Later native operations must still decode it.
+    ReviewResultReset,
     DisplayOnly,
 }
 
@@ -281,7 +284,7 @@ pub fn amendment_rule(class: AmendmentClass) -> AmendmentRule {
             Bound,
             all_semantic_invalidations(),
         ),
-        Review => (
+        Review | ReviewResultReset => (
             REVIEW_STATES.to_vec(),
             vec![ApprovedSemanticTransition, CurrentProof, IndependentReview],
             Implemented,
@@ -699,6 +702,13 @@ mod amendment_tests {
             .iter()
             .map(|invalidation| invalidation.evidence)
             .collect()
+    }
+
+    #[test]
+    fn retained_review_result_reset_cause_remains_decodable() {
+        let cause: AmendmentClass = serde_json::from_str("\"review_result_reset\"")
+            .expect("retained review reset cause must remain readable");
+        assert_eq!(cause, AmendmentClass::ReviewResultReset);
     }
 
     #[test]
