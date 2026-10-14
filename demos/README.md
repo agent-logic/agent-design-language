@@ -108,9 +108,9 @@ The original fixture-backed CSM static console and operator report are retained 
 entrypoints were retired by #1223. Offline original-input checks are separate from
 installed Runtime or live Observatory qualification.
 
-The historical command-driven CSM demo source remains at
-`adl/tools/demo_v0901_csm_observatory.sh` pending custody and caller closure.
-It has not been requalified against the current ADL CLI.
+The old command-driven CSM demo is retired from the ADL source tree.
+Its original producer, guide and fixture remain preserved in Git and the #1223
+retirement archive; source preservation does not qualify a current CLI route.
 
 If you want the current C-SDLC mini-sprint HTML game demo:
 
@@ -312,9 +312,10 @@ also remains an owner source artifact. These links identify source custody;
 local composed-fixture checks do not prove a standalone installed owner package
 or a live CSM run.
 
-`v0.90.1/csm_observatory_cli_demo.md`, its Cargo producer, and the original
-visibility fixture remain in ADL pending original-custody and caller closure.
-Their retention does not establish that the current ADL CLI can run the old demo.
+The original CLI guide, Cargo producer and visibility fixture are retired as
+historical source. Their exact bytes and original proof obligations remain in
+Git and the #1223 archive. No current CLI packaging or live CSM behavior is
+claimed by this retirement.
 
 ### v0.90.2 publication field-test demos
 

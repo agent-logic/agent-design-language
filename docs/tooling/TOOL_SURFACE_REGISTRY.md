@@ -30,8 +30,8 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 
 - `primary`: 7
 - `supported shim`: 0
-- `internal helper`: 284
-- `historical evidence`: 24
+- `internal helper`: 272
+- `historical evidence`: 21
 - `archive candidate`: 0
 - `remove candidate`: 0
 
@@ -70,13 +70,11 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/clean_coverage_artifacts.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/compute_ccc_v0.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/csdlc_obs_ready_canary.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
-| `adl/tools/csm_binary_availability.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/demo_d11_signed_remote.sh` | tool surface | historical evidence | Historical signed-remote contract; current public ADL does not supply its Runtime binary or test interfaces. |
 | `adl/tools/demo_five_command_run.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v087_operational_skills.sh` | tool surface | historical evidence | Historical bundle-install and inventory contract; original recursive acceptance remains separate from owner resource proof. |
 | `adl/tools/demo_v087_trace_truth.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v0891_arxiv_manuscript_workflow.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
-| `adl/tools/demo_v0901_csm_observatory.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v090_architecture_document_generation.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v090_codebuddy_review_showcase.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v0911_five_agent_hey_jude_audio.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
@@ -155,15 +153,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/run_v0913_proof_validation_lane.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_v0914_multi_agent_workcell_proof.sh` | tool surface | historical evidence | Historical model-backed v0.91.4 workcell rehearsal; retained manifest and review artifacts do not qualify a new execution, including its provider-active dry-run path. |
 | `adl/tools/run_v0917_csm_api_gateway_bridge_live_proof.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
-| `adl/tools/run_v0917_csm_continuity_capsule_4910_proof.sh` | tool surface | historical evidence | Infrastructure-owned manual proof; retained ADL copy is historical source evidence. Use agent-logic-infrastructure owner delivery; resolver proof does not qualify full behavior. |
-| `adl/tools/run_v0917_csm_otlp_4904_proof.sh` | tool surface | historical evidence | Infrastructure-owned manual proof; retained ADL copy is historical source evidence. Use agent-logic-infrastructure owner delivery; resolver proof does not qualify full behavior. |
-| `adl/tools/run_v0917_no_sparrow_4909_proof.sh` | tool surface | historical evidence | Infrastructure-owned manual proof; retained ADL copy is historical source evidence. Use agent-logic-infrastructure owner delivery; resolver proof does not qualify full behavior. |
 | `adl/tools/run_validation_manager_nessus_lane.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
-| `adl/tools/run_wp08_acip_sns_live_proof.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
-| `adl/tools/run_wp08_aws_signal_integration_live_proof.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
-| `adl/tools/run_wp08_cloudfront_control_proof.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
-| `adl/tools/run_wp08_heartbeat_live_proof.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
-| `adl/tools/run_wp08_polis_storage_live_proof.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/rust_cache_env.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/rust_validation_warm_cache.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/select_validation_lanes.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
@@ -257,11 +247,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/test_run_pvf_validation_lane.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_run_v0913_proof_validation_lane.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_run_validation_manager_nessus_lane.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_run_wp08_acip_sns_live_proof.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_run_wp08_aws_signal_integration_live_proof.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_run_wp08_cloudfront_control_proof.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_run_wp08_heartbeat_live_proof.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_run_wp08_polis_storage_live_proof.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_rust_cache_env.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_rust_validation_warm_cache.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_software_development_polis_packet.sh` | tool surface | internal helper | Focused regression or contract test helper. |

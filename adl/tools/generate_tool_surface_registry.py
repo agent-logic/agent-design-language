@@ -44,9 +44,6 @@ HISTORICAL_TOOL_SCRIPTS = {
     'test_validation_inventory.sh': 'Historical Runtime source-tree route retired by #1223; invocation fails before execution. Original assertions are preserved in Git and retirement custody, not qualified as passing.',
     'validate_v092_browser_trusted_observatory.mjs': 'Historical Runtime source-tree route retired by #1223; invocation fails before execution. Original assertions are preserved in Git and retirement custody, not qualified as passing.',
     'validate_v092_runtime_guardian_lifecycle.sh': 'Historical Runtime source-tree route retired by #1223; invocation fails before execution. Original assertions are preserved in Git and retirement custody, not qualified as passing.',
-    'run_v0917_csm_continuity_capsule_4910_proof.sh': 'Infrastructure-owned manual proof; retained ADL copy is historical source evidence. Use agent-logic-infrastructure owner delivery; resolver proof does not qualify full behavior.',
-    'run_v0917_csm_otlp_4904_proof.sh': 'Infrastructure-owned manual proof; retained ADL copy is historical source evidence. Use agent-logic-infrastructure owner delivery; resolver proof does not qualify full behavior.',
-    'run_v0917_no_sparrow_4909_proof.sh': 'Infrastructure-owned manual proof; retained ADL copy is historical source evidence. Use agent-logic-infrastructure owner delivery; resolver proof does not qualify full behavior.',
 
     "run_v0914_multi_agent_workcell_proof.sh": "Historical model-backed v0.91.4 workcell rehearsal; retained manifest and review artifacts do not qualify a new execution, including its provider-active dry-run path.",
     "demo_d11_signed_remote.sh": "Historical signed-remote contract; current public ADL does not supply its Runtime binary or test interfaces.",
