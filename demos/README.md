@@ -1,5 +1,11 @@
 # ADL Demos
 
+The provider/conversation guides linked to the pinned Runtime source below are
+document transfers. Their byte custody preserves the original scenarios; it does
+not establish new provider execution, conversation quality, native acceptance or
+publication authority. Local fixture resources and executable demos retain their
+separate qualification requirements.
+
 > These packet generators moved to `agent-logic-infrastructure`. Set
 > `ADL_INFRASTRUCTURE_SOURCE_ROOT` to an absolute checkout at reviewed revision
 > `025850d265cbd1a55b28a8e9b238b2fe0bfcaf1d` before using the owner commands below.
@@ -181,7 +187,7 @@ When planning a demo sweep, do not assume every proof-package command above belo
 ### v0.87.1 Codex CLI + Ollama operational-skills demo
 
 - `v0.87.1/codex_ollama_operational_skills_demo.md`
-- `v0.87.1/claude_chatgpt_multi_agent_discussion_demo.md`
+- [v0.87.1/claude_chatgpt_multi_agent_discussion_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.87.1/claude_chatgpt_multi_agent_discussion_demo.md)
 
 The former WP-13 suite, quality gate and release-review aggregate are
 [historical contracts](../docs/tooling/V0871_HISTORICAL_AGGREGATE.md).
@@ -195,21 +201,21 @@ retired standalone card validators. Both dry-run and semantic-fallback companion
 tests are archived with that route; their assertions are not reported as passing.
 Current issue-bound card editing follows the selected native C-SDLC owner.
 
-Use `v0.87.1/claude_chatgpt_multi_agent_discussion_demo.md` for a bounded
+Use [v0.87.1/claude_chatgpt_multi_agent_discussion_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.87.1/claude_chatgpt_multi_agent_discussion_demo.md) for a bounded
 multi-agent runtime demo that keeps Claude and ChatGPT as two explicit named
 agents in a longer act-structured tea discussion and emits a transcript plus runtime proof
 artifacts.
 
-Use `v0.89/gemini_in_the_loop_demo.md` for a bounded provider-harmony demo that
+Use [v0.89/gemini_in_the_loop_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.89/gemini_in_the_loop_demo.md) for a bounded provider-harmony demo that
 packages one review packet for Gemini, validates Gemini's structured response,
 and records a reviewer-facing findings artifact plus runtime proof.
 
 ### v0.89 bounded provider-participation demos
 
 - `v0.89/v089_demo_program.md`
-- `v0.89/deep_agents_comparative_wave_demo.md`
+- [v0.89/deep_agents_comparative_wave_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.89/deep_agents_comparative_wave_demo.md)
 - `v0.89/medium_article_writing_demo.md`
-- `v0.89/gemini_provider_harmony_and_economics_demo.md`
+- [v0.89/gemini_provider_harmony_and_economics_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.89/gemini_provider_harmony_and_economics_demo.md)
 - `v0.89/gemma4_issue_clerk_demo.md`
 - `v0.89/paper_sonata_demo_refresh.md`
 - `v0.89/multi_agent_repo_code_review_demo.md`
@@ -233,7 +239,7 @@ Use `(cd "${ADL_INFRASTRUCTURE_SOURCE_ROOT:?set an absolute Infrastructure check
 - `artifacts/v089/review_surface/claim_matrix.md`
 - `artifacts/v089/review_surface/proof_entrypoints/demo_manifest.json`
 
-Use `v0.89/deep_agents_comparative_wave_demo.md` for a richer comparative demo
+Use [v0.89/deep_agents_comparative_wave_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.89/deep_agents_comparative_wave_demo.md) for a richer comparative demo
 where ChatGPT, Claude, and Gemini contribute bounded positions and ADL emits a
 findings-first synthesis package instead of a flat proof row.
 
@@ -241,7 +247,7 @@ Use `v0.89/medium_article_writing_demo.md` for a bounded publication-oriented
 demo where ADL turns one launch-essay brief into a reviewer-friendly article
 packet with outline, draft, editorial notes, and runtime proof.
 
-Use `v0.89/gemini_provider_harmony_and_economics_demo.md` for the stronger
+Use [v0.89/gemini_provider_harmony_and_economics_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.89/gemini_provider_harmony_and_economics_demo.md) for the stronger
 Gemini follow-on where ADL not only hosts Gemini in a bounded workflow, but
 also records why Gemini was selected through provider-fit and cost-class
 reasoning artifacts.
@@ -259,8 +265,8 @@ manifest, claim matrix, revision requests, and a clearer reviewer brief.
 
 - `v0.89.1/five_agent_hey_jude_midi_demo.md`
 - `v0.89.1/arxiv_manuscript_workflow_demo.md`
-- `v0.89.1/gemini_provider_harmony_roundtable_demo.md`
-- `v0.89.1/deep_agents_comparative_wave_follow_on_demo.md`
+- [v0.89.1/gemini_provider_harmony_roundtable_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.89.1/gemini_provider_harmony_roundtable_demo.md)
+- [v0.89.1/deep_agents_comparative_wave_follow_on_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.89.1/deep_agents_comparative_wave_follow_on_demo.md)
 - [v0.89.1 long-lived stock-league fixture demo (Runtime owner)](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.89.1/long_lived_stock_league_demo.md)
 
 The `v0.89.1` release-tail quality-gate aggregate is historical after #1223.
