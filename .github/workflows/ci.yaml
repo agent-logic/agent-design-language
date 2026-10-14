@@ -112,7 +112,7 @@ jobs:
           echo "required=$required" >> "$GITHUB_OUTPUT"
 
       - name: Verify CI performance profile contract
-        run: python3 -B adl/tools/ci_performance_contract.py
+        run: python3 -B csdlc-v3/tools/ci_performance_contract.py
 
       - name: Enforce whole-workflow dispatch policy
         run: ruby adl/tools/validate_ci_workflow_policy.rb
