@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 1266,
+  "issue_padded": "1266",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/1266",
+  "title": "[v0.93.1][C-SDLC v3][defect] Reconcile recordless merged closeout in external repositories",
+  "branch": "codex/1266-recordless-merged-closeout-recovery",
+  "version": "1.0.5",
+  "card": "sip",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-1266-recordless-merged-closeout-recovery"
+}

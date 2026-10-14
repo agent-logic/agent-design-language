@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.v3.local_state.v1",
+  "issue": 1265,
+  "phase": "bound",
+  "generation": 2,
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/1265-retained-dispatch-history-compatibility",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-1265-retained-dispatch-history-compatibility",
+  "template_registry_version": "1.0.5",
+  "operational_authority": true,
+  "digest": "1bb41806fbf7131bcb36d1c038b9decce7143be65b624827e454246fa8534f10"
+}

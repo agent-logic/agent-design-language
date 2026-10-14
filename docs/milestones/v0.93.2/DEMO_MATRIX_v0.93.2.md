@@ -18,7 +18,7 @@ Record actual run counts and failures against a pinned installed lockset.
 
 ## Scope
 
-Runtime plugins, governance/security, citizen continuity and launched CodeFriend compatibility.
+Runtime plugins, governance/security, citizen continuity and qualified ready-to-deploy CodeFriend compatibility.
 
 ## Runtime Preconditions
 
@@ -57,3 +57,11 @@ Independent reviewer records exact candidate, observed scenarios, gaps and dispo
 ## Exit Criteria
 
 Every admitted scenario is accepted or explicitly disposed without hiding mandatory behavior.
+
+## v0.93.2 scope integration
+
+The milestone retains the existing platform tracks and adds CodeFriend plus the approved full GHB program. CodeFriend public launch is routed through existing CodeFriend #92 and still requires exact deployment authorization. GHB requires Gate A, Gate B, and WP12 before milestone qualification; planning approval does not authorize experiments, provider spend, deployment, or issue creation. Runtime-v4 activation/generation and citizen-continuity/CM mechanisms are shared dependencies for GHB-WP07/WP08, not duplicate engines, schedulers, or transaction owners. ADL #1226 remains a deferred assessment.
+
+## CodeFriend launch allocation
+
+`CF-92` reuses existing CodeFriend #92 with predecessors ADL #1150, CodeFriend #45/#46, and website #21. Acceptance requires an explicitly authorized exact candidate, audience, environment and budget, followed by public-journey and rollback evidence. Planning scope is not deployment authority.

@@ -1,0 +1,23 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 1265,
+  "issue_padded": "1265",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/1265",
+  "title": "[v0.93.1][C-SDLC v3][defect] Preserve retained dispatch-state history compatibility",
+  "branch": "codex/1265-retained-dispatch-history-compatibility",
+  "version": "1.0.5",
+  "card": "spp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-1265-retained-dispatch-history-compatibility",
+  "notes_risks_inline": "Preserve replay prevention and current hash determinism.",
+  "non_goals_inline": "No migration or remote mutation bypass.",
+  "deliverables_inline": "Compatibility decoder, fail-closed validation, regression fixtures, and live closeout proof.",
+  "planned_pvf_lane": "csdlc",
+  "validation_plan_inline": "Focused and full Rust validation plus live readback and exact-head review.",
+  "acceptance_criteria_inline": "All issue acceptance criteria pass without modifying retained history.",
+  "dependencies_inline": "Authenticated immutable semantic commits and current native v3 authority.",
+  "target_files_surfaces_inline": "csdlc-v3/src/storage/semantic/protocol.rs and focused semantic/installed tests.",
+  "repo_inputs_inline": "Issue #1265 and exact retained #1260/#1261 histories.",
+  "plan_summary": "Capture the old marker in a strict raw representation, validate its allowed values against retained pending-operation semantics, convert into the current model, and prove deterministic current encoding."
+}

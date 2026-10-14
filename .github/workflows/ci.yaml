@@ -101,6 +101,8 @@ jobs:
           bash adl/tools/check_release_notes_commands.sh
           if test -f adl/tools/test_pr_closing_linkage.sh; then bash adl/tools/test_pr_closing_linkage.sh; fi
           if test -f adl/tools/check_pr_closing_linkage.sh; then bash adl/tools/check_pr_closing_linkage.sh; fi
+      - name: Public planning graph and split contract
+        run: python3 -B tools/public_adl/test_planning_contract.py
       - name: UTS selected-result contract
         run: ruby adl-uts/tools/test_ci_contract.rb
       - name: Public CI routing and refusal contracts

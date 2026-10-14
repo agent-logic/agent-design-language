@@ -30,7 +30,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 
 - `primary`: 7
 - `supported shim`: 0
-- `internal helper`: 219
+- `internal helper`: 220
 - `historical evidence`: 17
 - `archive candidate`: 0
 - `remove candidate`: 0
@@ -277,6 +277,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/validate_v092_durable_history_parent_integration.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_v092_runtime_guardian_lifecycle.sh` | tool surface | historical evidence | Historical Runtime source-tree route retired by #1223; invocation fails before execution. Original assertions are preserved in Git and retirement custody, not qualified as passing. |
 | `adl/tools/validate_v092_runtime_native_receipts.rb` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
+| `adl/tools/validate_v0932_planning.test.mjs` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validation_inventory.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/validation_inventory.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/validation_manager.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
