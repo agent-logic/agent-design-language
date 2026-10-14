@@ -29,7 +29,7 @@ Keep behavioral and milestone narrative in canonical docs, not here.
 - Issue execution uses the selected native C-SDLC owner and bound FastWork worktrees.
 - `batched_checks.sh`, `preflight_review.sh`: quality/preflight checks, including the repo-code-review skill contract guard.
 - `check_repo_quality_staleness.py`: focused reviewer-facing docs and tracked-junk audit for the current milestone package and root repo status surfaces.
-- `enforce_coverage_gates.sh`: deterministic coverage threshold enforcement (workspace + per-file).
+- Public coverage uses `tools/public_adl/coverage.py` with its declared inventory; see [coverage authority](../../docs/tooling/COVERAGE_AUTHORITY_AND_RELEASE_PROOF.md). Historical mixed-workspace gates and prerequisite installers are retired under #1223.
 - `clean_coverage_artifacts.sh`: removes local generated coverage summaries and loose LLVM profile shards after coverage/report runs.
 - `report_large_rust_modules.sh`: non-blocking Rust source-and-test module size report for maintainability review.
 - Inspect cards and reports directly in their registered issue worktree or retained evidence directory.
@@ -117,8 +117,8 @@ python3 adl/tools/validate_multi_agent_transcript.py artifacts/v0871/multi_agent
 # audit root + milestone reviewer-facing docs for current-milestone staleness
 python3 ./adl/tools/check_repo_quality_staleness.py --milestone v0.91.6
 
-# enforce coverage thresholds from coverage-summary.json
-cd ./adl/ && bash tools/enforce_coverage_gates.sh coverage-summary.json
+# inspect the public coverage contract and exact-commit proof requirements
+# docs/tooling/COVERAGE_AUTHORITY_AND_RELEASE_PROOF.md
 
 # remove local generated coverage artifacts after they are no longer needed
 ./adl/tools/clean_coverage_artifacts.sh --include-worktrees
