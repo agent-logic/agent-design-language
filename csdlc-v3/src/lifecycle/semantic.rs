@@ -284,7 +284,7 @@ pub fn amendment_rule(class: AmendmentClass) -> AmendmentRule {
             Bound,
             all_semantic_invalidations(),
         ),
-        Review | ReviewResultReset => (
+        Review => (
             REVIEW_STATES.to_vec(),
             vec![ApprovedSemanticTransition, CurrentProof, IndependentReview],
             Implemented,
@@ -296,6 +296,7 @@ pub fn amendment_rule(class: AmendmentClass) -> AmendmentRule {
                 Invalidation::Cleanup,
             ],
         ),
+        ReviewResultReset => (vec![], vec![], Preserve, vec![]),
         DisplayOnly => (
             PROJECTABLE_STATES.to_vec(),
             vec![ProjectionChange],
@@ -709,6 +710,16 @@ mod amendment_tests {
         let cause: AmendmentClass = serde_json::from_str("\"review_result_reset\"")
             .expect("retained review reset cause must remain readable");
         assert_eq!(cause, AmendmentClass::ReviewResultReset);
+        assert_eq!(
+            decide_amendment(
+                LifecycleState::Reviewed,
+                AmendmentClass::ReviewResultReset,
+                &valid_facts(),
+            ),
+            AmendmentOutcome::Inapplicable {
+                reason: AmendmentInapplicability::SourceState,
+            }
+        );
     }
 
     #[test]
