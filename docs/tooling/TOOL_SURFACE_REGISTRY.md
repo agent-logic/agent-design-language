@@ -30,7 +30,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 
 - `primary`: 8
 - `supported shim`: 0
-- `internal helper`: 456
+- `internal helper`: 453
 - `historical evidence`: 31
 - `archive candidate`: 0
 - `remove candidate`: 0
@@ -80,7 +80,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/demo_aee_bounded_adaptation.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_affect_engine.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_affect_godel_vertical_slice.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
-| `adl/tools/demo_codex_ollama_operational_skills.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_cross_workflow_learning.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_d11_signed_remote.sh` | tool surface | historical evidence | Historical signed-remote contract; current public ADL does not supply its Runtime binary or test interfaces. |
 | `adl/tools/demo_experiment_prioritization.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
@@ -293,8 +292,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/test_csdlc_prompt_editor.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_csdlc_v2_supply_chain.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_csmctl_linux_backend.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_demo_codex_ollama_operational_skills.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_demo_codex_ollama_semantic_fallback.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_operator_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v0871_multi_agent_discussion.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v0871_provider_chatgpt.sh` | tool surface | internal helper | Focused regression or contract test helper. |

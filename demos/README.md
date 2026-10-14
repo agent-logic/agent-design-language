@@ -40,11 +40,9 @@ If you want the current `v0.89.1` integration demo package:
 bash adl/tools/demo_v0891_wp13_demo_integration.sh
 ```
 
-If you want the local Codex CLI + Ollama operational-skills demo:
-
-```bash
-bash adl/tools/demo_codex_ollama_operational_skills.sh --dry-run
-```
+The local Codex CLI + Ollama operational-skills demo is retired. Its
+[historical recipe](v0.87.1/codex_ollama_operational_skills_demo.md) and original
+fixture assertions remain evidence, not an available dry-run or provider route.
 
 If you want the bounded Claude + ChatGPT tea discussion demo:
 
@@ -191,13 +189,11 @@ Their source-tree lifecycle, trace and aggregate assertions were explicitly
 retired with the v1 execution route. Individual provider and multi-agent demos
 retain their separate execution requirements and are not newly qualified here.
 
-Use `v0.87.1/codex_ollama_operational_skills_demo.md` for a bounded demo that
-installs the tracked skills into a demo-local `CODEX_HOME`, points Codex CLI at
-an Ollama-backed model on the default local host or a configured remote host,
-and runs the editor skills against a prepared local bundle fixture.
-
-Use `bash adl/tools/demo_codex_ollama_operational_skills.sh --dry-run` to
-prepare the prompt, workspace, and manifest without invoking a local model.
+The Codex/Ollama operational-skills recipe is historical. Its producer already
+refused execution before workspace/provider effects because it depended on
+retired standalone card validators. Both dry-run and semantic-fallback companion
+tests are archived with that route; their assertions are not reported as passing.
+Current issue-bound card editing follows the selected native C-SDLC owner.
 
 Use `v0.87.1/claude_chatgpt_multi_agent_discussion_demo.md` for a bounded
 multi-agent runtime demo that keeps Claude and ChatGPT as two explicit named

@@ -1,5 +1,14 @@
 # Codex CLI + Ollama Operational Skills Demo
 
+> Historical recipe; the producer and both original companion tests are retired.
+> The producer already refused execution before workspace/provider effects after
+> the standalone v1 card validators were removed. Commands and proof descriptions
+> below preserve the original intended contract, not a current runnable route or
+> new acceptance result. Original dry-run, semantic-fallback and redaction assertions
+> remain in Git and #1223 custody; the four local fixture resources remain unchanged.
+> Current issue-bound card editing uses the selected native C-SDLC owner; this does
+> not assert equivalence to the retired standalone model workflow.
+
 This is a bounded, operator-facing demo for running the tracked operational
 skills through Codex CLI against an Ollama-backed OSS provider, with a local
 Ollama service as the default and a configured remote Ollama host also
@@ -13,9 +22,9 @@ It is intentionally smaller than the full issue lifecycle. The proof target is:
 - complete one bounded task similar to the card-cleanup work we do during real
   issue flow
 
-## What It Proves
+## Original Intended Proof
 
-This demo proves:
+The original intended proof was:
 
 - the tracked skills root under `adl/tools/skills` can be installed into a
   demo-local `CODEX_HOME`
@@ -82,7 +91,7 @@ already have first-class remote Ollama transport.
 If you need a longer or shorter semantic-fallback wait window for a slower
 local model, set `ADL_OLLAMA_GENERATE_TIMEOUT_SECS`.
 
-## Fastest Smoke Path
+## Historical Smoke Path
 
 Dry-run only:
 
@@ -100,7 +109,7 @@ That prepares:
 
 No model call is made in dry-run mode.
 
-## Full Demo Run
+## Historical Full Demo Run
 
 ```bash
 bash adl/tools/demo_codex_ollama_operational_skills.sh
