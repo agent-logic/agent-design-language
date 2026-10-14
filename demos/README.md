@@ -171,7 +171,7 @@ Use these categories consistently:
   heavyweight validation or release-tail surfaces that are useful for review and ceremony work, but should not be treated as ordinary quick demos.
 
 Current heavyweight proof-package examples:
-- `bash adl/tools/demo_v088_review_surface.sh`
+- The v0.88 monolithic review-surface and quality-gate commands are historical and retired in #1223. Their original assertions remain in Git and retirement custody; no current aggregate pass is claimed. Paper Sonata remains available through the explicit owner adapter documented below.
 - Historical `v0.89.1` quality-gate package (retired aggregate; retained evidence).
 - `bash adl/tools/demo_v0891_wp13_demo_integration.sh`
 
