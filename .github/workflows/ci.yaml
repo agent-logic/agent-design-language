@@ -111,6 +111,9 @@ jobs:
           fi
           echo "required=$required" >> "$GITHUB_OUTPUT"
 
+      - name: Verify CI performance profile contract
+        run: python3 -B adl/tools/ci_performance_contract.py
+
       - name: Enforce whole-workflow dispatch policy
         run: ruby adl/tools/validate_ci_workflow_policy.rb
         working-directory: .
@@ -342,6 +345,15 @@ jobs:
     needs: adl_path_policy
     if: needs.adl_path_policy.outputs.csdlc_v3_standalone_required == 'true'
     runs-on: ubuntu-latest
+    # Installed fixtures repeatedly copy/hash/execute the candidate binary.
+    # Optimize that hot path; retain assertions and overflow checks.
+    env:
+      CARGO_PROFILE_DEV_DEBUG: "0"
+      CARGO_PROFILE_TEST_DEBUG: "0"
+      CARGO_PROFILE_TEST_OPT_LEVEL: "1"
+      CARGO_PROFILE_TEST_DEBUG_ASSERTIONS: "true"
+      CARGO_PROFILE_TEST_OVERFLOW_CHECKS: "true"
+      CARGO_INCREMENTAL: "0"
     permissions:
       contents: read
     steps:
