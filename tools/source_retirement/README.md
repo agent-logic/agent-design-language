@@ -312,3 +312,9 @@ Current total: 3,127 actions and 3,126 baseline deletions plus one transient bri
 The legacy generation family preserves its unchanged original synthetic installer proof without claiming modern package or live service equivalence. The mixed private coverage family retires its original changed-file and mechanical-classifier semantics explicitly; current public coverage unit routing does not reproduce those historical contracts or establish current-head instrumented coverage. Original assertion custody and prior adverse evidence remain bound. Planning source retirement uses its separate committed packet and recorded proof boundary.
 
 Current total: 3,147 actions and 3,146 baseline deletions plus one transient bridge. Eleven supplemental and three separately observed paths remain outside immutable4,134+22. Both distributed holds remain unresolved.
+
+## Historical provider and residual wrapper closure
+
+These committed families retire historical provider demonstrations, the Medium resource compatibility wrapper, the old Runtime compatibility interface, and the unconditional Observatory refusal stub. Exact original assertions and adverse evidence remain in custody. RD07-1957 prior retention is explicitly superseded by historical retirement; its five original paid calls remain unqualified. Inert routing checks are not live provider qualification. The current prompt-editor absence/schema guard remains retained without a new execution claim.
+
+Current total: 3,178 actions and 3,177 baseline deletions plus one transient bridge. Twelve supplemental and three separately observed paths remain outside immutable4,134+22. Both distributed holds remain unresolved.
