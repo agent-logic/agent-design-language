@@ -707,7 +707,6 @@
       ],
       "path_selectors": [
         "adl/src/csm_api_gateway_bridge.rs",
-        "adl/tools/run_v0917_csm_api_gateway_bridge_live_proof.sh",
         "adl/tools/test_run_v0917_csm_api_gateway_bridge_proof.sh",
         "adl/tools/run_runtime_gateway_owner_contract.py",
         "adl/tools/validate_v0917_csm_api_gateway_bridge_proof.py",
@@ -715,7 +714,6 @@
       ],
       "path_hints": [
         "adl/src/csm_api_gateway_bridge.rs",
-        "adl/tools/run_v0917_csm_api_gateway_bridge_live_proof.sh",
         "adl/tools/test_run_v0917_csm_api_gateway_bridge_proof.sh",
         "adl/tools/run_runtime_gateway_owner_contract.py",
         "adl/tools/validate_v0917_csm_api_gateway_bridge_proof.py",

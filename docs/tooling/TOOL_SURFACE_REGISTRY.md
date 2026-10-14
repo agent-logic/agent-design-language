@@ -30,7 +30,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 
 - `primary`: 7
 - `supported shim`: 0
-- `internal helper`: 224
+- `internal helper`: 223
 - `historical evidence`: 17
 - `archive candidate`: 0
 - `remove candidate`: 0
@@ -128,7 +128,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/run_runtime_gateway_owner_contract.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_v0913_proof_validation_lane.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_v0914_multi_agent_workcell_proof.sh` | tool surface | historical evidence | Historical model-backed v0.91.4 workcell rehearsal; retained manifest and review artifacts do not qualify a new execution, including its provider-active dry-run path. |
-| `adl/tools/run_v0917_csm_api_gateway_bridge_live_proof.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_validation_manager_nessus_lane.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/rust_cache_env.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/rust_validation_warm_cache.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
