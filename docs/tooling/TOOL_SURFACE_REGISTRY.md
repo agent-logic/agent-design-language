@@ -30,8 +30,8 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 
 - `primary`: 7
 - `supported shim`: 0
-- `internal helper`: 339
-- `historical evidence`: 25
+- `internal helper`: 338
+- `historical evidence`: 24
 - `archive candidate`: 0
 - `remove candidate`: 0
 
@@ -387,8 +387,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/validate_v0922_runtime_qualification.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_v092_browser_trusted_observatory.mjs` | tool surface | historical evidence | Historical Runtime source-tree route retired by #1223; invocation fails before execution. Original assertions are preserved in Git and retirement custody, not qualified as passing. |
 | `adl/tools/validate_v092_demo_proof_coverage.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
-| `adl/tools/validate_v092_distributed_guardian.sh` | tool surface | historical evidence | Historical Runtime source-tree route retired by #1223; invocation fails before execution. Original assertions are preserved in Git and retirement custody, not qualified as passing. |
-| `adl/tools/validate_v092_distributed_native_receipts.rb` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_v092_durable_history_parent_integration.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_v092_html_observatory_roster.mjs` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_v092_runtime_guardian_lifecycle.sh` | tool surface | historical evidence | Historical Runtime source-tree route retired by #1223; invocation fails before execution. Original assertions are preserved in Git and retirement custody, not qualified as passing. |
