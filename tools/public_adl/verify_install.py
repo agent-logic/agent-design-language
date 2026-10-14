@@ -39,6 +39,26 @@ def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+
+def consumer_sandbox_profile(work, original_home, toolchain, cache, secret, producer_root=ROOT):
+    def quote(value):
+        return json.dumps(str(value))
+    denied = [original_home, '/Volumes/FastWork', '/Volumes/home/builds', producer_root, secret]
+    profile = '(version 1)\n(allow default)\n(deny network*)\n'
+    profile += ''.join(f'(deny file-read* (subpath {quote(path)}))\n' for path in denied)
+    profile += f'(allow file-read* (subpath {quote(toolchain)}) (subpath {quote(cache)}))\n'
+    # A fresh scratch directory may be on a denied volume. Allow only that
+    # directory, excluding the synthetic private-credential denial probe.
+    profile += (f'(allow file-read* (require-all (subpath {quote(work)}) '
+                f'(require-not (subpath {quote(secret)}))))\n')
+    profile += f'(allow file-read-metadata (subpath {quote(original_home)}))\n'
+    # Cargo canonicalizes scratch paths while reading compiler dep-info. It
+    # needs metadata on each ancestor, even when the scratch tree is readable.
+    # Literal metadata grants do not expose sibling contents on denied volumes.
+    profile += ''.join(f'(allow file-read-metadata (literal {quote(path)}))\n'
+                       for path in work.parents)
+    return profile
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output', type=Path, required=True)
@@ -58,7 +78,7 @@ def main():
     cache = original_home / '.cargo/registry'
     versions = {}
     artifacts = []
-    with tempfile.TemporaryDirectory(prefix='adl-rd03-', dir='/private/tmp') as temporary:
+    with tempfile.TemporaryDirectory(prefix='adl-rd03-') as temporary:
         work = Path(temporary).resolve()
         vendor = work / 'vendor'
         vendor.mkdir()
@@ -117,15 +137,7 @@ def main():
         # Owned synthetic credential sentinel; never inspect real credentials.
         secret = work / 'private-credential'
         secret.write_text('synthetic-private-credential-denial-probe\n')
-        denied = [str(original_home), '/Volumes/FastWork', '/Volumes/home/builds', str(ROOT), str(secret)]
-        def quote(value):
-            return json.dumps(str(value))
-        profile = '(version 1)\n(allow default)\n(deny network*)\n'
-        profile += ''.join(f'(deny file-read* (subpath {quote(path)}))\n' for path in denied)
-        profile += f'(allow file-read* (subpath {quote(toolchain)}) (subpath {quote(cache)}))\n'
-        # Cargo canonicalizes public cache paths through their parent directories.
-        # Metadata traversal reveals no credential or producer file contents.
-        profile += f'(allow file-read-metadata (subpath {quote(original_home)}))\n'
+        profile = consumer_sandbox_profile(work, original_home, toolchain, cache, secret)
         sandbox = work / 'consumer.sb'
         sandbox.write_text(profile)
         env = {'HOME': str(home), 'CARGO_HOME': str(cargo_home), 'RUSTC': str(rustc),

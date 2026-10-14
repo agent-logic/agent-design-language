@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Run the public ADL install proof into fresh Git-local evidence storage."""
+"""Run the public ADL install proof into fresh worktree-local evidence storage."""
 
 import argparse
 import hashlib
 import json
+import os
 from pathlib import Path
 import subprocess
 import sys
@@ -81,13 +82,14 @@ def main():
     if args.issue <= 0:
         parser.error("--issue must be positive")
 
-    git_dir_result = run(["git", "rev-parse", "--path-format=absolute", "--git-common-dir"])
-    if git_dir_result.returncode:
-        raise SystemExit(git_dir_result.stderr.strip() or "unable to resolve Git metadata")
-    git_dir = Path(git_dir_result.stdout.strip()).resolve()
+    # A linked worktree's common Git directory may live on a different disk.
+    # Keep proof output with this checkout unless the operator selects a root.
+    evidence_root = Path(os.environ.get(
+        "ADL_PUBLIC_ADL_PROOF_ROOT", str(ROOT / "target/public-adl-proof")
+    )).expanduser().resolve()
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S.%fZ")
     run_id = f"{stamp}-{uuid.uuid4().hex}"
-    evidence_dir = git_dir / "csdlc-v3/local/public-adl-proof" / str(args.issue) / run_id
+    evidence_dir = evidence_root / str(args.issue) / run_id
     proof_dir = evidence_dir / "qualification"
     evidence_dir.mkdir(parents=True, exist_ok=False)
 

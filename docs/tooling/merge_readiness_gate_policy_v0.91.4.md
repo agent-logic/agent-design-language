@@ -1,5 +1,9 @@
 # v0.91.4 Merge-Readiness Gate Policy
 
+> Historical v0.91.4 policy record. The coverage-impact scripts named below
+> are retired by #1223. Current C-SDLC and public ADL coverage authority are
+> governed by the native v3 route and public coverage workflows, respectively.
+
 ## Purpose
 
 Define the bounded validation-policy surface for `WP-07` so reviewers can see

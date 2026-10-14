@@ -21,9 +21,9 @@ This ADR is grounded in:
 - `docs/milestones/v0.91/DEMO_MATRIX_v0.91.md`
 - `docs/milestones/v0.91/FEATURE_PROOF_COVERAGE_v0.91.md`
 - `docs/explainers/ACIP.md`
-- `demos/v0.91/cognitive_being_flagship_demo.md`
-- `demos/v0.91/chatgpt_gemini_task_handoff_demo.md`
-- `demos/v0.91/chatgpt_gemini_claude_review_panel_demo.md`
+- [demos/v0.91/cognitive_being_flagship_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.91/cognitive_being_flagship_demo.md)
+- [demos/v0.91/chatgpt_gemini_task_handoff_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.91/chatgpt_gemini_task_handoff_demo.md)
+- [demos/v0.91/chatgpt_gemini_claude_review_panel_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.91/chatgpt_gemini_claude_review_panel_demo.md)
 - `adl/src/agent_comms.rs`
 - `adl/src/agent_comms/transport.inc`
 - `adl/src/agent_comms/orchestrate/proof_demo.inc`

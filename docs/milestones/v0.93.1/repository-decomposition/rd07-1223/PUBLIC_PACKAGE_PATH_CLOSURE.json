@@ -1,0 +1,33 @@
+{
+  "issue": 1223,
+  "roots": [
+    "adl-schema/Cargo.toml",
+    "adl-uts/Cargo.toml",
+    "adl-v2/crates/adl-language/Cargo.toml",
+    "adl-v2/crates/adl-compiler/Cargo.toml",
+    "adl-legacy-contracts/Cargo.toml"
+  ],
+  "manifest_closure": [
+    "adl-legacy-contracts/Cargo.toml",
+    "adl-schema/Cargo.toml",
+    "adl-uts/Cargo.toml",
+    "adl-v2/crates/adl-compiler/Cargo.toml",
+    "adl-v2/crates/adl-language/Cargo.toml"
+  ],
+  "path_edges": [
+    {
+      "from": "adl-v2/crates/adl-compiler/Cargo.toml",
+      "kind": "dependencies",
+      "dependency": "adl-language",
+      "to": "adl-v2/crates/adl-language/Cargo.toml"
+    },
+    {
+      "from": "adl-legacy-contracts/Cargo.toml",
+      "kind": "dependencies",
+      "dependency": "adl-schema",
+      "to": "adl-schema/Cargo.toml"
+    }
+  ],
+  "workspace_inherited": [],
+  "claim": "Static declared path-dependency closure only; does not include build-script file reads or prove packaging."
+}

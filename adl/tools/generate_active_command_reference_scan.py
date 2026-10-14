@@ -5,7 +5,6 @@ import argparse
 import re
 from collections import Counter
 from dataclasses import dataclass
-from datetime import date
 from pathlib import Path
 
 
@@ -13,9 +12,8 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 OUTPUT_PATH = (
     REPO_ROOT
     / "docs"
-    / "milestones"
-    / "v0.91.5"
-    / "ACTIVE_COMMAND_REFERENCE_SCAN_3735.md"
+    / "tooling"
+    / "ACTIVE_COMMAND_REFERENCE_SCAN.md"
 )
 
 
@@ -90,6 +88,8 @@ EXCLUDED_REL_PATHS = {
     # Generated UI model; its tracked template source is validated separately.
     "docs/tooling/csdlc-prompt-editor/editor_model.js",
     "docs/milestones/v0.91.5/ACTIVE_COMMAND_REFERENCE_SCAN_3735.md",
+    # Current generated report must not recursively scan its own findings.
+    "docs/tooling/ACTIVE_COMMAND_REFERENCE_SCAN.md",
 }
 
 HISTORICAL_EXACT_PATHS = {
@@ -117,63 +117,63 @@ COMMAND_FAMILIES = (
     CommandFamily(
         key="sunset_pr_sh",
         label="sunset `adl/tools/pr.sh` wrapper",
-        preferred_owner="csdlc-install resolve + typed csdlc-* binaries",
+        preferred_owner="C-SDLC v3 owner documentation: agent-logic/cognitive-sdlc; installed operator manual",
         required_action="forbid if active or unknown; preserve only if historical",
         pattern=r"(?<![\w/-])(?:bash\s+)?(?:\./)?adl/tools/pr\.sh\s+(?:create|init|start|run|doctor|ready|preflight|finish|closeout|issue|shepherd|janitor|pr-inventory|project-doctor)\b|(?<![\w/-])bash\s+\"?\$ROOT_DIR/adl/tools/pr\.sh\"?\s+(?:create|init|start|run|doctor|ready|preflight|finish|closeout|issue|shepherd|janitor|pr-inventory|project-doctor)\b",
     ),
     CommandFamily(
         key="direct_adl_pr",
         label="direct `adl pr ...` issue-mode commands",
-        preferred_owner="csdlc-install resolve + typed csdlc-* binaries",
+        preferred_owner="C-SDLC v3 owner documentation: agent-logic/cognitive-sdlc; installed operator manual",
         required_action="forbid if active; preserve if historical; route if unknown",
         pattern=r"(?<![\w/-])adl pr (?:create|init|doctor|ready|preflight|run|finish|closeout)\b",
     ),
     CommandFamily(
         key="runtime_through_pr",
         label="`adl pr run <adl.yaml>` runtime-through-PR",
-        preferred_owner="adl-runtime run <adl.yaml> ...",
+        preferred_owner="Runtime owner documentation: agent-logic/agent-logic-runtime; installed operator manual",
         required_action="migrate if active; preserve if historical; route if unknown",
         pattern=r"(?<![\w/-])adl pr run\s+[^`\s]+\.adl\.ya?ml\b|(?<![\w/-])adl pr run\s+[^`\s]+\.ya?ml\b",
     ),
     CommandFamily(
         key="legacy_prompt_template",
         label="sunset tooling prompt-template route",
-        preferred_owner="csdlc-edit + csdlc-validate typed requests",
+        preferred_owner="C-SDLC v3 owner documentation: agent-logic/cognitive-sdlc; installed operator manual",
         required_action="forbid if active or unknown; preserve only if historical",
         pattern=r"(?<![\w/-])(?:adl|adl-csdlc) tooling prompt-template\b",
     ),
     CommandFamily(
         key="deleted_prompt_wrappers",
         label="deleted prompt/review shell wrapper",
-        preferred_owner="stable direct owner binary or typed csdlc-edit/csdlc-validate",
+        preferred_owner="C-SDLC v3 owner documentation: agent-logic/cognitive-sdlc; installed operator manual",
         required_action="forbid if active or unknown; preserve only if historical",
         pattern=r"(?<![\w/-])(?:bash\s+[\"']?(?:\$ROOT_DIR/)?(?:\./)?adl/tools/(?:prompt_template|validate_structured_prompt|card_prompt|lint_prompt_spec|review_card_surface)\.sh|[\"']?\$[A-Z_]+/adl/tools/(?:prompt_template|validate_structured_prompt|card_prompt|lint_prompt_spec|review_card_surface)\.sh|(?:\./)?adl/tools/(?:prompt_template|validate_structured_prompt|card_prompt|lint_prompt_spec|review_card_surface)\.sh\s+--|[A-Z_]+=[\"'][^\n\"']*adl/tools/(?:prompt_template|validate_structured_prompt|card_prompt|lint_prompt_spec|review_card_surface)\.sh)",
     ),
     CommandFamily(
         key="sunset_workflow_conductor",
         label="sunset workflow-conductor route",
-        preferred_owner="csdlc-install resolve + typed csdlc-* binary",
+        preferred_owner="C-SDLC v3 owner documentation: agent-logic/cognitive-sdlc; installed operator manual",
         required_action="forbid if active or unknown; preserve only if historical",
         pattern=r"(?:workflow-conductor|workflow_conductor|route_workflow\.py)\b",
     ),
     CommandFamily(
         key="retired_closeout_helpers",
         label="retired closeout/milestone helper",
-        preferred_owner="csdlc-doctor + csdlc-finish/csdlc-clean typed requests",
+        preferred_owner="C-SDLC v3 owner documentation: agent-logic/cognitive-sdlc; installed operator manual",
         required_action="forbid if active or unknown; preserve only if historical",
         pattern=r"(?<!test_)(?:closeout_completed_issue_wave|check_milestone_closed_issue_sor_truth|check_issue_metadata_parity)\.sh\b",
     ),
     CommandFamily(
         key="legacy_codex_pr",
         label="retired `codex_pr.sh` / `codexw.sh` wrappers",
-        preferred_owner="csdlc-install resolve + typed csdlc-* binary",
+        preferred_owner="C-SDLC v3 owner documentation: agent-logic/cognitive-sdlc; installed operator manual",
         required_action="migrate if active; preserve if historical; route if unknown",
         pattern=r"(?<![\w/-])(?:adl/tools/)?codex_pr\.sh\s+\S+|(?<![\w/-])(?:adl/tools/)?codexw\.sh\s+\S+",
     ),
     CommandFamily(
         key="csdlc_issue_run",
         label="`adl-csdlc issue run <issue>`",
-        preferred_owner="csdlc-bind --root <worktree> --request <bind-request.json>",
+        preferred_owner="C-SDLC v3 owner documentation: agent-logic/cognitive-sdlc; installed operator manual",
         required_action="forbid if active; preserve if historical; route if unknown",
         pattern=r"(?<![\w/-])adl-csdlc issue run\b",
     ),
@@ -388,11 +388,9 @@ def render(rows: list[tuple[str, str, int, str, str, str, str]], counts: Counter
     by_class = summarize_unique_class_counts(rows)
     summary_rows = summarize_family_counts(counts)
     lines = [
-        "# Active Command Reference Scan 3735",
+        "# Active Command Reference Scan",
         "",
-        "Issue: #3735",
-        "Parent sprint: #3732",
-        f"Captured: {date.today().isoformat()}",
+        "Historical baseline: issue #3735; its v0.91.5 snapshot remains unchanged.",
         "Status: generated_scan_report",
         "",
         "## Summary",

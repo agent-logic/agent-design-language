@@ -1,0 +1,75 @@
+{
+  "schema": "adl1223.signal_original_consumer_qualification.v1",
+  "id": "RD07-2103",
+  "input": {
+    "original_id": "RD07-2103",
+    "source": "91599dab6ca9886009e4adb8112478d7e4988d6f",
+    "owner_inputs": [
+      {
+        "path": "adl/tools/run_wp08_aws_signal_integration_live_proof.sh",
+        "blob": "18638bea3d26cbad073d56d2691b6126830a867f"
+      },
+      {
+        "path": "adl/tools/validate_wp08_aws_signal_integration_live_proof.py",
+        "blob": "e3eb4d4490512ae787b379856de84e75a4cb48ed"
+      },
+      {
+        "path": "adl/tools/csm_binary_availability.sh",
+        "blob": "90ea689920f6c64f444bba4d1618d089af66e49a"
+      },
+      {
+        "path": "adl/tools/ensure_csm_binary.sh",
+        "blob": "840698c1511b33b786e5f2e6d49feadf93f4bf14"
+      },
+      {
+        "path": "tools/artifacts/verify.py",
+        "blob": "68495821b4df1f20c56eb03692bfa6713e2ebe20"
+      }
+    ],
+    "test_change": "Only two csm-bin arguments select previously-qualified genuine artifact, required by new owner guard. Fake AWS and children, explicit non-CSM ACIP and all assertions unchanged. CSM is resolved but not executed.",
+    "build_download_cloud_native": false
+  },
+  "result": {
+    "exit_code": 0,
+    "seconds": 0.637,
+    "scope": "Original isolated orchestration success + wrong-account early refusal, with actual authenticated artifact resolution",
+    "native_or_live_aws_acceptance": false
+  },
+  "review": {
+    "result": "PASS bounded source and evidence review",
+    "reviewer": "WorkerBee18",
+    "owner_git_blobs_verified": 5,
+    "source_candidate": "91599dab6ca9886009e4adb8112478d7e4988d6f",
+    "original_assertions": "All original test bytes retained except two exact csm-bin input adaptations; fakeAWS, fakechildren, explicitnonCSM and wrongaccount-beforechild assertions unchanged.",
+    "scope": "Observed original orchestration fixture pass; resolved genuine CSM is only passed to fake child scripts, not executed. No liveAWS/provider/native acceptance.",
+    "remaining": "Original test absent owner delivery; publication/caller/retirement gate remains."
+  },
+  "evidence": [
+    {
+      "path": "/Volumes/FastWork/c1223/signal-original-consumer-proof/INPUT.json",
+      "sha256": "588e81ef218aa9b3f4a525e71919ea6bfde25ed2853a6c6ff07c967007a20c89"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/signal-original-consumer-proof/RESULT.json",
+      "sha256": "f8a0e79e2fdd7dd9825032cef251880fafba048e09c39c561560ff606b39ba61"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/signal-original-consumer-proof/WORKERBEE18_REVIEW.json",
+      "sha256": "606a17f3dced2fdabf6c825b2bd38aad1c31b84b258bb77fc7d4804825ec2a36"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/signal-original-consumer-proof/fixture-adaptation.patch",
+      "sha256": "9f5ff26045504670d02d5ac34ee87f16ac1c632a9e63cf5bd958d8ff8f49ff12"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/signal-original-consumer-proof/stdout",
+      "sha256": "d6b737fc0203d348bb3835a0a51b1b4094128244593be5a1d70e072119fbf0b8"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/signal-original-consumer-proof/stderr",
+      "sha256": "74db381ecb10ee67e13d32f3745c2042b595acbfe5d615bfef59c979308a8f4e"
+    }
+  ],
+  "delivery_complete": false,
+  "removal_authorized": false
+}

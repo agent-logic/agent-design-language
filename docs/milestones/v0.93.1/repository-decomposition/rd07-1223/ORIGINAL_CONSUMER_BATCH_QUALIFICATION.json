@@ -1,0 +1,164 @@
+{
+  "schema": "adl1223.original_consumer_batches.v1",
+  "cf12": {
+    "result_directory": "/Volumes/FastWork/c1223/evidence/codefriend/issue104-installed-preparation/original-contract-batch12-r2",
+    "result_sha256": "2331e0578449c0ef920d9372810ec7505517c38c7ece90131b2a998587fde3f7",
+    "input_sha256": "697d9a14d70f548df48616b4f74867ae5edaa2415b1d45f3afb6a471a2c92231",
+    "independent_review_sha256": "9d38e999e394ebd3eaaaecadc2dbc3e435198768450e404827ddf056b7c9628d",
+    "candidate": "e93a457ad6325017627a66a2abe31a3376fa28fd",
+    "skills_artifact": {
+      "repository": "agent-logic/codefriend",
+      "repository_id": 1388432185,
+      "candidate": "e93a457ad6325017627a66a2abe31a3376fa28fd",
+      "run_id": "38381695706",
+      "run_attempt": "1",
+      "job_id": "115243496722",
+      "artifact_id": "11803531674",
+      "workflow_ref": "agent-logic/codefriend/.github/workflows/product-ci.yaml@refs/pull/105/merge",
+      "workflow_sha": "6bbc8554bf3a18ff1e9a93f29cc4aa8eb5a64cb5",
+      "archive": ".csdlc/qualification/codefriend-review-skills-v1.tar",
+      "archive_sha256": "4ae4847f60a4b2cfd0504deb30fa01ae31db781f6a29ebad2255bbcba81113c4",
+      "installation_root": ".csdlc/qualification/skills"
+    },
+    "results": [
+      {
+        "id": "RD07-1904",
+        "exit_code": 0,
+        "seconds": 0.8333463439994375,
+        "stdout_sha256": "81f123ee5a57d9c596821d34cc00f6271cd1b656e97614210b8a600d5cbdd4fb",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "id": "RD07-1905",
+        "exit_code": 0,
+        "seconds": 0.7812464529997669,
+        "stdout_sha256": "a672983693623887ec2b0b8cf38d88b18e6ea348f726f06d9330cafc3e05db94",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "id": "RD07-1906",
+        "exit_code": 0,
+        "seconds": 0.8261589239991736,
+        "stdout_sha256": "56e9a69f02ae89e8f7826e3c478c2ba3f2e2c7f1294adc98a2804cc8ea853060",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "id": "RD07-1995",
+        "exit_code": 0,
+        "seconds": 0.680948150000404,
+        "stdout_sha256": "e2f95509deb2ae7dbb1b579483bed59f413fcabddd467045dba2ccbd1c8add13",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "id": "RD07-2002",
+        "exit_code": 0,
+        "seconds": 0.975690591001694,
+        "stdout_sha256": "de4631eb8f6d4ea2674298ce0bfc24b2d64d22667fe2db18321d060668542429",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "id": "RD07-2060",
+        "exit_code": 0,
+        "seconds": 0.9322460290004528,
+        "stdout_sha256": "b10001f201a5efb381d2d86996b7eb50250729866e45f8aee5e095d9c8dfe636",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "id": "RD07-2064",
+        "exit_code": 0,
+        "seconds": 0.7218094330000895,
+        "stdout_sha256": "5b391feed0cd67075cdaccfd01f25b10b05efdb55b8c87f08fbf0a1e033612f2",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "id": "RD07-2066",
+        "exit_code": 0,
+        "seconds": 0.7234640070000751,
+        "stdout_sha256": "762f1a937e31beddbf3cf2c279cbb01bf7f0be52a23ac42d8671eff378aed79c",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "id": "RD07-2067",
+        "exit_code": 0,
+        "seconds": 0.7761458959994343,
+        "stdout_sha256": "62e7b36aa6b9c1001ae646ac33392d7ff0db8b6e1f4e3831638b3715315b0c56",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "id": "RD07-2068",
+        "exit_code": 0,
+        "seconds": 3.36013510399971,
+        "stdout_sha256": "e4c1a7d4d3c81062865e71cc52e52c6612c64363e0d2c9c0243b9d44b8e425f0",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "id": "RD07-2075",
+        "exit_code": 0,
+        "seconds": 0.975208591999035,
+        "stdout_sha256": "ce1b86ea19873864a939a3bde129787fafbd771cf170426cfec9e5eb9a91035d",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "id": "RD07-2077",
+        "exit_code": 0,
+        "seconds": 0.8264132120002614,
+        "stdout_sha256": "76130abc4ee8905ceb53e8dca2e9c707469a6f2de9f358a9b5385fd1c122c36b",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ],
+    "passed": 12,
+    "failed": 0,
+    "installed_resources_unchanged": true,
+    "prior_failure": "../original-contract-batch12-r1:12exit127 missing Ruby; zero passes, preserved.",
+    "boundary": "Individual original contract scripts executed against authenticated installed skills; no product ELF, specialist suite, native lifecycle, provider, or network execution."
+  },
+  "csdlc4": {
+    "result_directory": "/Volumes/FastWork/c1223/original-four-contract-proof",
+    "result_sha256": "bb1b4a7b9cbaae2f32aaec94697c1f4e4fa66c44f89b81627afb91d307d43983",
+    "input_sha256": "e8ba1b53370c46fbe38fbd2d04b848e27c4429979b3d72b2679f0b0a52abd67d",
+    "independent_review_sha256": "86d23f378137c6dd3f719ad08bcace29c5e35abcddce1c59dea3a577d49c68d6",
+    "artifact": 11787649026,
+    "candidate": "79d6430a89edb350fe1012889650a6b4776912d0",
+    "results": [
+      {
+        "row": "RD07-1920",
+        "exit": 0,
+        "marker_found": true,
+        "passed": true,
+        "stdout_sha256": "dc51b8c96c2d745df3bd5590d990230a482fd247123599548e0632fdbf97fc22",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "row": "RD07-1925",
+        "exit": 0,
+        "marker_found": true,
+        "passed": true,
+        "stdout_sha256": "8d6f5e82950b83c93cc74793d6da4a9afa5296b0400fa644f116dd548783b9c8",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "row": "RD07-1926",
+        "exit": 0,
+        "marker_found": true,
+        "passed": true,
+        "stdout_sha256": "7237bdf50ea7ccde05461e2957f6de0be55337908cea2b49658df364acee66d6",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "row": "RD07-2058",
+        "exit": 0,
+        "marker_found": true,
+        "passed": true,
+        "stdout_sha256": "d1ffba8230ee4d60998bec06f1fbf2926f407cfea45f8c08651af0052ba8c92d",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ],
+    "passed": 4,
+    "failed": 0,
+    "boundary": "Exact original scripts in delivered private fixture closure; one log relocation, FastWork scratch wrappers; no native lifecycle acceptance."
+  },
+  "held_rows_resolved_for_conditional_proposal": 14,
+  "source_files_removed": 0,
+  "retirement_authorized": false,
+  "remaining": "ADL active caller closure, current delivery/native acceptance where required, and exact scoped retirement decision remain separate."
+}

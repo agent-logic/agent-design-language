@@ -1,3 +1,5 @@
+> Infrastructure source and execution for the Terraform paths below moved to [agent-logic-infrastructure](https://github.com/agent-logic/agent-logic-infrastructure/tree/61c2806b6274b1003aa42f02adec99faf5f2a74b/infra). Run applicable commands from that owner checkout with its reviewed inputs. These retained procedures and historical outcomes do not establish new cloud or deployment acceptance.
+
 # AWS Runtime platform runbook
 
 Issue: #489 / AWS-F
@@ -212,3 +214,12 @@ Before declaring zero residue, read back:
 - CloudFormation retirement.
 - Cross-cloud abstraction.
 - Direct public Runtime ingress.
+
+## Retired ADL entrypoint
+
+The ADL refusal-only `run-disposable-proof.sh` entrypoint is removed. Every
+command recipe above belongs to the [pinned Infrastructure script](https://github.com/agent-logic/agent-logic-infrastructure/blob/61c2806b6274b1003aa42f02adec99faf5f2a74b/docs/operations/cloud/aws/runtime-platform/run-disposable-proof.sh)
+and must be interpreted from that owner checkout with its separately reviewed
+authorization and inputs. This is not an authorization to execute AWS operations.
+Original staged-plan, expiry, account, cleanup and adverse-result obligations
+remain in retirement custody; source transfer is not live qualification.

@@ -1,0 +1,50 @@
+{
+  "scope_count": 4,
+  "original_inventory_count": 4134,
+  "rows": [
+    {
+      "id": "RD07-1267",
+      "path": "adl/tools/check_coverage_impact.sh",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "b366a3821f0b996955dfc892bc42b47d3b63a419"
+      },
+      "proposal": "retain_ADL_CI_consumer_until_public_CI_cutover",
+      "reason": "Coverage guard invoked by ADL ci.yaml444/1447/1796/1818 and merge readiness policy42; not Runtime-only ownership. Public coverage cutover must preserve required coverage outcomes.",
+      "retirement_authorized": false
+    },
+    {
+      "id": "RD07-1278",
+      "path": "adl/tools/codefriend/ci_select.py",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "7908b085214f3c05e4a28fc016163ccb98652e97"
+      },
+      "proposal": "cross_owner_CodeFriend_CI_cutover",
+      "reason": "Selector is old ADL CodeFriend acquisition path policy, not Runtime product code. Existing owner acquisition gate plus required aggregate selector replacement must be accepted together.",
+      "retirement_authorized": false
+    },
+    {
+      "id": "RD07-1280",
+      "path": "adl/tools/codefriend/test_ci_contract.rb",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "d03361b3c7952953291648283e75f913dad4b026"
+      },
+      "proposal": "cross_owner_CodeFriend_CI_cutover",
+      "reason": "Ruby contract asserts ADL acquisition aggregate and transport; ADLci643 calls it. Owner e14 migrated tools/ci/test_ci_acquisition_contract.py and hosted acquisition passed; remove old aggregate/test together during cutover.",
+      "retirement_authorized": false
+    },
+    {
+      "id": "RD07-1893",
+      "path": "adl/tools/suitability_specs/deepseek_csdlc_panel_4096.json",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "31996d82ceedc5ab37f327aa4fbdfd92cfedd7d4"
+      },
+      "proposal": "conditional_manual_Runtime_suitability_fixture_transfer",
+      "reason": "Five-task issue4096 provider suitability input, including CSDLc-themed text prompts, is data not lifecycle authority; preserve original prompt/outcome contract and manual/paid execution boundary. No provider execution required by this mapping.",
+      "retirement_authorized": false
+    }
+  ]
+}

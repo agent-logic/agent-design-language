@@ -2,7 +2,17 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-SCRIPT="$ROOT/adl/tools/skills/sprint-conductor/scripts/validate_review_subagent_policy.py"
+# Original-v1 policy contract only; this does not authenticate native operations.
+HISTORICAL_SKILLS_ROOT="${CSDLC_HISTORICAL_SKILLS_ROOT:-}"
+if [[ "$HISTORICAL_SKILLS_ROOT" != /* || ! -d "$HISTORICAL_SKILLS_ROOT" ]]; then
+  echo "Select authentic original-v1 skill resources with CSDLC_HISTORICAL_SKILLS_ROOT." >&2
+  exit 2
+fi
+SCRIPT="$HISTORICAL_SKILLS_ROOT/sprint-conductor/scripts/validate_review_subagent_policy.py"
+if [[ ! -f "$SCRIPT" ]]; then
+  echo "Selected historical resource root lacks the original policy validator." >&2
+  exit 2
+fi
 TMP="$(mktemp -d)"
 trap 'rm -rf "$TMP"' EXIT
 

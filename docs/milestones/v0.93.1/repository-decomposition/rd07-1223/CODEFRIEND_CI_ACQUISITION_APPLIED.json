@@ -1,0 +1,108 @@
+{
+  "schema": "adl1223.ci1279.transfer.v1",
+  "status": "applied_local_reversible_implementation",
+  "source_head": "706f09177df569da542bfde52da14e9f2ca85b19",
+  "removed_count": 1,
+  "rows": [
+    {
+      "id": "RD07-1279",
+      "path": "adl/tools/codefriend/ci_smoke.py",
+      "owner": "codefriend",
+      "component": "codefriend-unmapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "341498bd46ce1c93d80da70aa48fcd78235be969"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "e14 native publication and hosted installed-product acquisition gate passed run38368320407/artifact11798686377. Preserve exact candidate scope and final successor CI, no standalone rerun.",
+        "coherent caller and component disposition; no source-only qualification claim"
+      ],
+      "successor_mapping": {
+        "mapping": "unmapped",
+        "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
+        "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CODEFRIEND_27_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
+        "proposal": "e14 native publication and hosted installed-product acquisition gate passed run38368320407/artifact11798686377. Preserve exact candidate scope and final successor CI, no standalone rerun.",
+        "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
+      }
+    }
+  ],
+  "files": [
+    {
+      "path": "adl/tools/codefriend/ci_smoke.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "83b39b5e405f04fd6b65f60c600e2a2ec1eff121",
+        "sha256": "f877887ce857af9f5ee2d7e37a3f8bcecc67885d52de2456e15eb0ac373ccca9"
+      },
+      "after": null
+    }
+  ],
+  "owner_revision": "23eca64d9c9a7008dfbf61e4a4f3ab46e0baabd3",
+  "owner_source": [
+    {
+      "path": "crates/codefriend/tests/support/ci_smoke.py",
+      "mode": "100644",
+      "blob": "17dfbb5f0af139c7ef15a1e74a99e7a63da25a76",
+      "sha256": "7a1b707f52c9fec1d9d3c19d6627c35cea3ecc9a475958eae5b202b6e3004634",
+      "same_e14_proven_source": true
+    },
+    {
+      "path": "crates/codefriend/tests/codefriend_ci_ingestion.rs",
+      "mode": "100644",
+      "blob": "da76c21461a8a83d5588ac4f9cc014bb128a5f90",
+      "sha256": "4100b8999a85fc43d3c6eeabe445d092b7fffbf3b73e7c77adf9767ca05d8f96",
+      "same_e14_proven_source": true
+    }
+  ],
+  "proof": {
+    "component": "ten original acquisition cases; actual Rust caller asserts cases_passed10 and rejects receipt mutation",
+    "component_result": "PASS",
+    "hosted_candidate": "e14ff1b08b7ef01f838404bca8ecdf47c1318ac1",
+    "hosted_run": 38368320407,
+    "artifact": 11798686377,
+    "overall_run_conclusion": "failure",
+    "delivery": "not_established",
+    "source_consumer_log_lines": "235-240",
+    "source_comparison": "Four standalone CLI prefix removals and removal of ADL retired main refusal; every original assertion and fixture logic identical. Successor script and Rust harness byte-identical e14 to delivered merge23eca64."
+  },
+  "correction_to_prior_summary": "Installed acquisition and artifact transport steps succeeded; overall run did not pass. No green overallCI or whole-product delivery inferred. Prior original row kept verbatim for identity/history; this qualification detail governs the narrower acceptance claim.",
+  "caller_closure": "No active caller in inspected .github/adl/tools/tools/docs nonhistorical surfaces; removed main already refuses; actual successor retained Rust caller present. Root must regenerate real tool registry; no fake repo_rel simulation.",
+  "evidence": {
+    "/Volumes/FastWork/c1223/codefriend-ci1279-existing-proof/AUTHENTICATED_ACQUISITION_READBACK.json": "b97c4b55b07ec4ab38961366ff8e7085a903c2ba8d2a1812bc93f5df3cd7046e",
+    "/Volumes/FastWork/c1223/evidence/codefriend/issue102-e14ff1b0-full/receipt.json": "0e504ab35810a1b85e2509605f26d86dd32683809aa250179ac8f55da30a7c9c",
+    "/Volumes/FastWork/c1223/evidence/codefriend/issue102-e14ff1b0-full/remote-integration.log": "c7944f7e0403ba485b377868b1bd85e91eeee0ecce3f79920de3e86c813cfa1a",
+    "/Volumes/FastWork/adl-worktrees/adl-issue-1223-1223-coherent-source-retirement/docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CODEFRIEND_OWNER_MERGE_RECEIPT.json": "f0824534060bf28cf0249bd21c85c1a964d66e4a4e49fbe0a67d8007c4740ea5",
+    "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/ci1279-transfer/SOURCE_DELTA.diff": "eb528e8b49db8e6dc31d5b6cd7e009a28768e800b88e63aea2581d483d910565",
+    "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/ci1279-transfer/ci_smoke.py": "7a1b707f52c9fec1d9d3c19d6627c35cea3ecc9a475958eae5b202b6e3004634",
+    "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/ci1279-transfer/codefriend_ci_ingestion.rs": "4100b8999a85fc43d3c6eeabe445d092b7fffbf3b73e7c77adf9767ca05d8f96"
+  },
+  "custody": {
+    "path": "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/ci1279-transfer/rollback-preimages.tar",
+    "sha256": "2c48556192e68d2f4914ba159f901713778004024b64531021fca24a524d7466",
+    "members": 1
+  },
+  "patch_path": "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/ci1279-transfer/ci1279.patch",
+  "patch_sha256": "517e113b3112fa1c8d8644648c114cd8aa072a920cdbbf13bc888a93a61d3a7b",
+  "limits": [
+    "No test/build/download rerun",
+    "Preserve overall historicalCI failure and failed/API502 readback attempts",
+    "No native lifecycle/publication/current whole-product acceptance claimed",
+    "No shared edits"
+  ],
+  "proposal_source_head": "706f09177df569da542bfde52da14e9f2ca85b19",
+  "issue": 1223,
+  "registry_composition": "Actual generator ran successfully; no registry delta because nested codefriend/ci_smoke.py has no registered entry. Initial application assertion expected a change and stopped before staging; verified unchanged registry and continued without reapplying source patch.",
+  "review": {
+    "reviewer": "review_1223_historical_retention",
+    "result": "PASS",
+    "scope": "Seven evidence hashes,authenticated10-caseCIartifact,unchanged original assertions and successor correspondence,original custody/no active caller; historical overallCI failure and deliverynot_established preserved"
+  }
+}

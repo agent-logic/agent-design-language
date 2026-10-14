@@ -1,0 +1,12 @@
+{
+  "schema": "adl.issue872.historical_manifest.v1",
+  "source_repository": "agent-logic/agent-design-language",
+  "source_revision": "ad8f3d059e92c897ad9ca5cafda011c7331bf789",
+  "source_path": "csdlc-v3/Cargo.toml",
+  "source_git_blob": "297baf398c0f521fb7e97c5b8ace1e789ab667db",
+  "sha256": "8ab0d39857af75aad2782b9325258964712fc89106c3b0b984468edc9cc48e8d",
+  "fixture_path": "adl/tools/fixtures/issue872/csdlc-v3-Cargo.toml.historical",
+  "use": "Copy this exact file into the existing explicitly isolated fixture and set request historical_manifest_path to its absolute path. Used only when original authority-checkout manifest is absent; original manifest still takes precedence.",
+  "authority_boundary": "Manifest source provenance only. Canonical selector, native receipt,505 terminal receipt, registry, policy, original872 records and old executable remain authentic independent inputs. No synthetic authority or receipt construction; no operational v2 authorization.",
+  "execution_proof": "No new rehearsal execution; existing producer assertions unchanged."
+}

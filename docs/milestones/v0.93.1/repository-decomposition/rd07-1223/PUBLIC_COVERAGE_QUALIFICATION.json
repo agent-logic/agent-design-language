@@ -1,0 +1,88 @@
+{
+  "schema": "adl.source_retirement.public_coverage_qualification.v1",
+  "issue": 1223,
+  "producer_head": "b4216f40709fde889cc694aee850ad9c97b99720",
+  "base": null,
+  "status": "source_full_gate_passed",
+  "packages": [
+    "adl",
+    "adl-schema",
+    "adl-uts",
+    "adl-language",
+    "adl-compiler",
+    "adl-legacy-contracts"
+  ],
+  "executed": "All six package instrumentation selections and real public facade/refusal/session checks passed at committed b4216f4070 with fresh profiles. Relocated public_observation integration tests passed; held production source remains exact observed-main bytes. Exact HEAD and source hashes checked unchanged before/after.",
+  "source_lines": 10317,
+  "covered_lines": 9293,
+  "line_percent": 90.07463409905981,
+  "pr_changed_file_floor": 80,
+  "pr_failures": [],
+  "full_validation_thresholds": {
+    "aggregate": 90,
+    "per_file": 80
+  },
+  "full_validation_failures": [],
+  "declaration_only_unmeasured": [
+    "adl-schema/src/lib.rs",
+    "adl-schema/src/provider.rs",
+    "adl-v2/crates/adl-language/src/model.rs",
+    "adl/src/lib.rs"
+  ],
+  "evidence": "FastWork c1223/evidence/public-coverage-full-b4216f4070",
+  "adverse_evidence": [
+    "Initial aggregation refused two declaration-only files omitted by LLVM; source inspection added explicit classifications",
+    "Initial changed-file gate refused resume_args/runtime_owner/workflow_args; added real CLI diagnostics and owner selection refusal cases",
+    "Initial absent-format executable fixture invoked shell fallback; corrected to absent interpreter and verified invocation refusal"
+  ],
+  "limits": [
+    "Local supported-host instrumentation; not final PR-head GitHub CI",
+    "Required adl-coverage public wiring implemented; private owner test reconciliation and final GitHub execution remain pending",
+    "Full thresholds remain90% aggregate/80% perfile; former private source denominator is not comparable",
+    "Owner package acceptance and retirement authority are separate"
+  ],
+  "ci_wiring": {
+    "status": "implemented_local_contracts_passed",
+    "producer_job": "public_adl_coverage",
+    "aggregate": "adl-coverage",
+    "selection_result_cases": 24,
+    "workflow_policy": "passed",
+    "existing_ci_runtime_and_backend_contracts": "passed",
+    "routing": "passed",
+    "github_execution": "not_run"
+  },
+  "prior_diagnostic_evidence": {
+    "producer_head": "9cde440e207a71358b7c95c53265c575d7f2fba5",
+    "base": "9cfd035aac2a44637b3c8026bd40b669579a8c7f",
+    "status": "recorded_source_pr_gate_passed_full_gate_not_passed",
+    "source_lines": 10317,
+    "covered_lines": 8881,
+    "line_percent": 86.08122516235339,
+    "full_validation_failures": [
+      "adl/src/bin/adl_process.rs: below 80% line floor",
+      "adl/src/control_plane.rs: below 80% line floor",
+      "adl-schema/src/syntax.rs: below 80% line floor",
+      "adl-v2/crates/adl-language/src/diagnostic.rs: below 80% line floor",
+      "adl-v2/crates/adl-language/src/parse.rs: below 80% line floor",
+      "adl-legacy-contracts/src/adl/validation.rs: below 80% line floor",
+      "adl-legacy-contracts/src/lib.rs: below 80% line floor",
+      "adl-legacy-contracts/src/plan.rs: below 80% line floor",
+      "adl-legacy-contracts/src/prompt.rs: below 80% line floor",
+      "adl-legacy-contracts/src/schema.rs: below 80% line floor",
+      "public aggregate below 90% line floor"
+    ],
+    "evidence": "FastWork c1223/evidence/public-coverage-9cde440e20",
+    "reanalysis_sha256": "71a5ae3932bc049fc916e45a04e07d740dd518f9df35615a842c692f1b76eaf2"
+  },
+  "mode": "full",
+  "result_sha256": "93cc82ec9a0a2c155b6dfadf3e947e9e7dd066f787152dc9413f0a88a2a67ace",
+  "retained_result": "PUBLIC_COVERAGE_FULL_RESULT.json",
+  "prior_full_pass_before_test_relocation": {
+    "producer_head": "5def116e9e649071982562a2411a5386b1a514fe",
+    "source_lines": 10412,
+    "covered_lines": 9402,
+    "line_percent": 90.2996542451018,
+    "evidence": "FastWork c1223/evidence/public-coverage-full-5def116e9e",
+    "result_sha256": "c95632da434e2fd10efcc22927ecd3890ed9647fe7a7bc2fa05388b81d58d638"
+  }
+}

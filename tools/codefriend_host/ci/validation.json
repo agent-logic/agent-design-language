@@ -2,7 +2,7 @@
   "issue": 1077,
   "lanes": [
     {
-      "surface": "test_manifest.py",
+      "surface": "CodeFriend owner tools/codefriend_host/ci/test_manifest.py BinaryProof (six original methods)",
       "lane_class": "deterministic_component",
       "proof_role": "reject_binary_substitution_wrong_architecture_and_untested_bytes",
       "determinism": "small_synthetic_ELF_files_no_network_or_process_execution",
@@ -10,7 +10,7 @@
       "release_gate": "required_candidate_artifact_preflight"
     },
     {
-      "surface": "smoke.py",
+      "surface": "Archived original tools/codefriend_host/ci/smoke.py and interrupted-report.json at ADL 9707731d50f4209c07e3f7193d8be254ab6b9167",
       "lane_class": "installed_platform_integration",
       "proof_role": "actual_gateway_control_and_agent_report_CLI",
       "determinism": "empty_registry_static_report_fixture_loopback_provider_trap_no_external_requests",
@@ -22,7 +22,10 @@
         "systemd",
         "poweroff",
         "deployment"
-      ]
+      ],
+      "status": "historical_original16_obligations_not_current_command_or_qualification",
+      "original_case_count": 16,
+      "custody": "Pinned Git revision and issue1223 source retirement archive; original source and adverse installed receipt retained"
     }
   ],
   "integration_extension": {
@@ -32,5 +35,7 @@
     "determinism": "synthetic ELF fixtures and actual installed help invocation without providers",
     "resource_profile": "local bounded CPU/disk plus existing CI build",
     "release_gate": "component artifact proof; insufficient for independent complete product qualification"
-  }
+  },
+  "owner_manifest_command": "case \"$CODEFRIEND_HOST_SOURCE_ROOT\" in /*) ;; *) exit 2;; esac; cd \"$CODEFRIEND_HOST_SOURCE_ROOT/tools/codefriend_host/ci\" && python3 -B -m unittest -v test_manifest.BinaryProof",
+  "added_owner_contract": "InstalledContentContract.test_scenario_category_counts_are_derived is one separate added owner method; not part of original six"
 }

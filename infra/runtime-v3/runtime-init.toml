@@ -151,7 +151,8 @@ local_max_files = 8192
 retained_partials_per_agent = 12
 spool_max_bytes = 536870912
 spool_max_files = 4096
-# S3 archive values come from infra/aws/runtime/agent-checkpoint-archive outputs.
+# S3 archive values come from the agent-logic-infrastructure repository's
+# infra/aws/runtime/agent-checkpoint-archive outputs.
 # Add [agent_partial_checkpoints.s3_archive] during the separately authorized deploy.
 
 [weather]

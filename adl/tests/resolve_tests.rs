@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
-use ::adl::adl;
-use ::adl::resolve;
+use ::adl_legacy_contracts::adl;
+use ::adl_legacy_contracts::resolve;
 
 fn parse_doc(yaml: &str) -> adl::AdlDoc {
     serde_yaml::from_str::<adl::AdlDoc>(yaml).expect("yaml should parse")
@@ -237,7 +237,7 @@ providers: {}
 }
 
 #[test]
-fn resolve_run_expands_provider_profile_deterministically() {
+fn portable_resolver_requires_runtime_expansion_for_known_profiles() {
     let doc = parse_doc(
         r#"
 version: "0.5"
@@ -261,23 +261,18 @@ run:
 "#,
     );
 
-    let resolved1 = resolve::resolve_run(&doc).expect("resolve should succeed");
-    let resolved2 = resolve::resolve_run(&doc).expect("resolve should succeed");
+    // Runtime owns profile catalogs and expansion; portable planning must not
+    // resolve a machine/provider configuration implicitly.
+    let error = resolve::resolve_run(&doc).expect_err("profile needs Runtime expansion");
+    assert!(error.to_string().contains("require Runtime expansion"));
     assert_eq!(
-        resolved1.doc.providers["p1"].kind, "ollama",
-        "profile should expand to concrete provider kind"
+        doc.providers["p1"].profile.as_deref(),
+        Some("ollama:phi4-mini")
     );
-    assert_eq!(
-        resolved1.doc.providers["p1"].default_model.as_deref(),
-        Some("phi4-mini")
-    );
-    let json1 = serde_json::to_string(&resolved1.doc.providers).expect("serialize providers");
-    let json2 = serde_json::to_string(&resolved2.doc.providers).expect("serialize providers");
-    assert_eq!(json1, json2, "expanded providers should be byte-stable");
 }
 
 #[test]
-fn resolve_run_rejects_unknown_provider_profile() {
+fn portable_resolver_requires_runtime_expansion_for_unknown_profiles() {
     let doc = parse_doc(
         r#"
 version: "0.5"
@@ -302,7 +297,10 @@ run:
     );
     let err = resolve::resolve_run(&doc).expect_err("unknown profile should fail");
     let msg = format!("{err:#}");
-    assert!(msg.contains("unknown:profile"), "unexpected error: {msg}");
+    assert!(
+        msg.contains("require Runtime expansion"),
+        "unexpected error: {msg}"
+    );
 }
 
 #[test]

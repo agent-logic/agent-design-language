@@ -45,7 +45,7 @@ treated as the permanent owner for every new platform concern.
 | `adl-session` | Session-ledger claim, heartbeat, status, and release | agents and workflow operators | Owns session coordination, not PR execution or runtime state. |
 | `adl-process` | Permission-safe process status checks | agents and workflow operators | Owns bounded PID/port checks, not broad host process scanning. |
 | `adl-runtime` | Compatibility/runtime-oriented command surface during migration | runtime maintainers | Transitional owner for runtime command families until `csm`/specific runtime binaries own them directly. |
-| `adl-review` | Review tooling surfaces | reviewers and review automation | Owns review helpers, not issue mutation or runtime execution. |
+| CodeFriend owner package | Review tooling surfaces | reviewers and review automation | The historical `adl-review` wrapper is retired; use the separately qualified CodeFriend command contract. |
 | `adl-remote` / `adl-aws-remote-validation` | Remote validation and AWS remote-build lanes | validation operators | Own remote build/validation orchestration and remote artifacts, not general AWS product control. |
 | `tools/*` | Bounded helper scripts and adapters | maintainers and automation | Helpers must have one purpose, a validation lane, and a clear path to owner binaries when promoted. |
 

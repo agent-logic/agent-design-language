@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import contextlib
 import fnmatch
 import json
 import shlex
@@ -14,7 +15,7 @@ from typing import Any
 
 
 ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_MANIFEST = ROOT / "adl/config/validation_lane_selector.v0.91.6.json"
+DEFAULT_MANIFEST = ROOT / "adl/config/validation_lane_selector.public.v1.json"
 
 
 def fail(message: str) -> None:
@@ -37,54 +38,46 @@ def normalize_row(row: str) -> str | None:
 
 
 def changed_paths_from_file(path: Path) -> list[str]:
-    return [
-        normalized
-        for line in path.read_text().splitlines()
-        if (normalized := normalize_row(line))
-    ]
+    paths = []
+    for row in path.read_text().splitlines():
+        parts = row.strip().split("\t")
+        if len(parts) >= 3 and parts[0].startswith("R"):
+            paths.extend(parts[1:3])
+        elif normalized := normalize_row(row):
+            paths.append(normalized)
+    return sorted(set(paths))
 
 
 def changed_paths_from_git(base: str, head: str, include_worktree: bool) -> list[str]:
+    def git(*args: str) -> bytes:
+        result = subprocess.run(["git", "-C", str(ROOT), *args], check=False,
+                                stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        if result.returncode != 0:
+            fail("Git changed-path observation failed; no empty success plan produced")
+        return result.stdout
+
+    def commit(ref: str) -> str:
+        return git("rev-parse", "--verify", "--end-of-options", ref + "^{commit}").decode("ascii").strip()
+
+    base_commit = commit(base)
     if include_worktree:
-        cmd = ["git", "-C", str(ROOT), "diff", "--name-status", "--diff-filter=ACMR", base, "--"]
-        result = subprocess.run(cmd, check=False, text=True, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
-        untracked = subprocess.run(
-            ["git", "-C", str(ROOT), "ls-files", "--others", "--exclude-standard"],
-            check=False,
-            text=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.DEVNULL,
-        )
-        rows = result.stdout.splitlines() + untracked.stdout.splitlines()
-        return [
-            normalized
-            for line in rows
-            if (normalized := normalize_row(line))
-        ]
+        data = git("diff", "--name-only", "-z", "--no-renames", base_commit, "--")
+        data += git("ls-files", "--others", "--exclude-standard", "-z")
     else:
-        cmd = [
-            "git",
-            "-C",
-            str(ROOT),
-            "diff",
-            "--name-status",
-            "--diff-filter=ACMR",
-            f"{base}...{head}",
-        ]
-    result = subprocess.run(cmd, check=False, text=True, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
-    if result.returncode != 0 and not include_worktree:
-        result = subprocess.run(
-            ["git", "-C", str(ROOT), "diff", "--name-status", "--diff-filter=ACMR", base, head],
-            check=False,
-            text=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.DEVNULL,
-        )
-    return [
-        normalized
-        for line in result.stdout.splitlines()
-        if (normalized := normalize_row(line))
-    ]
+        head_commit = commit(head)
+        merge = subprocess.run(["git", "-C", str(ROOT), "merge-base", base_commit, head_commit],
+                               check=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        if merge.returncode == 0:
+            start = merge.stdout.decode("ascii").strip()
+        elif merge.returncode == 1:
+            # Preserve the prior two-commit comparison for valid unrelated histories.
+            start = base_commit
+        else:
+            fail("Git merge-base observation failed")
+        data = git("diff", "--name-only", "-z", "--no-renames", start, head_commit, "--")
+    # Disabling rename elision includes both endpoints. NUL framing preserves
+    # whitespace in filenames; deleted and type-changed paths are included.
+    return sorted({part.decode("utf-8", "surrogateescape") for part in data.split(b"\0") if part})
 
 
 def matches(path: str, hints: list[str]) -> bool:
@@ -209,6 +202,18 @@ def load_manifest(path: Path) -> dict[str, Any]:
     manifest = json.loads(path.read_text())
     if manifest.get("schema_version") != "adl.validation_lane_selector.v1":
         fail(f"{path}: unsupported schema_version")
+    surfaces = manifest.get("special_surfaces")
+    if not isinstance(surfaces, dict):
+        fail("public validation manifest requires a special_surfaces object")
+    for name in ("release_gate_review", "slow_proof_review", "rust_pr_fast"):
+        surface = surfaces.get(name)
+        if not isinstance(surface, dict):
+            fail("public validation manifest requires an explicit object for " + name)
+        if surface.get("default_surface") != "public" or (
+            name == "rust_pr_fast" and surface.get("planner") != "manifest_command"
+        ):
+            fail("retired private validation mode: " + name
+                 + "; use adl/config/validation_lane_selector.public.v1.json and product owner validation routes")
     for key in ("surface_defaults", "lanes", "release_gate_hints", "rust_path_hints"):
         if key not in manifest:
             fail(f"{path}: missing required key: {key}")
@@ -243,6 +248,13 @@ def load_manifest(path: Path) -> dict[str, Any]:
     for key in ("release_gate_hints", "rust_path_hints"):
         if not isinstance(manifest[key], list):
             fail(f"{path}: {key} must be an array")
+    planner = special_surfaces.get("rust_pr_fast", {}).get("planner", "pr_fast")
+    if planner not in {"pr_fast", "manifest_command"}:
+        fail(f"{path}: unsupported Rust planner: {planner}")
+    if planner == "manifest_command":
+        surface = special_surfaces["rust_pr_fast"]
+        if not isinstance(surface.get("run_command"), str) or not surface["run_command"].strip():
+            fail(f"{path}: manifest Rust planner requires a run_command")
     return manifest
 
 
@@ -357,7 +369,12 @@ def select_lanes(
         and not path.endswith(".md")
         and path != "adl/tests/fixtures/scheduler/local_agent_delegation_readiness_inputs_v1.json"
     ]
-    if rust_paths:
+    if rust_paths and rust_entry.get("planner") == "manifest_command":
+        selected[rust_entry["id"]] = plan_entry(
+            manifest, rust_entry, manifest_rule="special_surfaces.rust_pr_fast",
+            status="selected", matched_paths=rust_paths,
+        )
+    elif rust_paths:
         fast_plan = pr_fast_plan(changed_files, base, head)
         mode = fast_plan.get("mode", "full")
         reason = fast_plan.get("reason", "missing_pr_fast_reason")
@@ -411,6 +428,15 @@ def select_lanes(
             matched_paths=slow_proof_paths,
         )
 
+    uncovered = [path for path in paths if not any(
+        path in lane["matched_paths"] for lane in selected.values())]
+    if uncovered and "unmapped_review" in manifest.get("special_surfaces", {}):
+        selected["unmapped_review"] = plan_entry(
+            manifest, manifest["special_surfaces"]["unmapped_review"],
+            manifest_rule="special_surfaces.unmapped_review", status="escalated",
+            matched_paths=uncovered,
+        )
+
     aggregate = "skipped"
     for lane in selected.values():
         if lane["status"] == "escalated":
@@ -429,6 +455,8 @@ def select_lanes(
         "aggregate_status": aggregate,
         "pr_publication_sufficient": sufficient,
         "lanes": selected,
+        **({"deferred_obligations": manifest["deferred_obligations"]}
+           if "deferred_obligations" in manifest else {}),
     }
 
 
@@ -472,7 +500,8 @@ def write_report(path: Path, plan: dict[str, Any]) -> None:
 
 def run_selected_lanes(plan: dict[str, Any]) -> int:
     if plan["aggregate_status"] != "selected":
-        print_text(plan)
+        with contextlib.redirect_stdout(sys.stderr):
+            print_text(plan)
         print(
             "select_validation_lanes: refusing --run because the plan is not fully selected",
             file=sys.stderr,
@@ -487,7 +516,7 @@ def run_selected_lanes(plan: dict[str, Any]) -> int:
             lane["run_reason"] = "no_run_command"
             continue
         print(f"==> {lane_id}: {command}", file=sys.stderr)
-        result = subprocess.run(command, cwd=ROOT, shell=True)
+        result = subprocess.run(command, cwd=ROOT, shell=True, stdout=sys.stderr)
         if result.returncode == 0:
             lane["run_status"] = "passed"
             lane["run_reason"] = "command_succeeded"

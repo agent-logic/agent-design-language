@@ -1,0 +1,182 @@
+{
+  "schema": "adl1223.metrics_backfill_historical_retirement.v1",
+  "status": "applied_reviewed_historical_retirement",
+  "source_head": "37c851390b472e8a1ce9ccc711078219b31a7404",
+  "removed_count": 2,
+  "rows": [
+    {
+      "id": "RD07-1262",
+      "path": "adl/tools/build_v0916_workflow_metric_backfill_inventory.py",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "25b385fb23efea0a23af3ad3b40750bbcf410b7e"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
+      "required_before_execution": [
+        "specific_consumer_or_document_disposition_required",
+        "Apply coherent owner-lane/selector/manager caller retirement and obtain exact scoped decision; preserve historical outputs and explicit changed-contract distinction."
+      ],
+      "successor_mapping": {
+        "mapping": "unmapped",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "VALIDATION_ROUTING_DISPOSITIONS.json",
+        "packet_sha256": "0c3e169b260c77503071139e7424907dfa4007477b149cb3e0c3f94627c6f1b3",
+        "proposal": "historical_backfill_producer_requires_explicit_disposition"
+      },
+      "prior_proposed_action": "hold_explicit_reconciliation",
+      "disposition_evidence": "LEGACY_HELPERS_RETIREMENT_PROPOSAL.json"
+    },
+    {
+      "id": "RD07-1915",
+      "path": "adl/tools/test_build_v0916_workflow_metric_backfill_inventory.py",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "4e50fc41f5a57f79202a6ecd46d39e618fb9e024"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
+      "required_before_execution": [
+        "specific_consumer_or_document_disposition_required",
+        "Apply coherent owner-lane/selector/manager caller retirement and obtain exact scoped decision; preserve historical outputs and explicit changed-contract distinction."
+      ],
+      "successor_mapping": {
+        "mapping": "unmapped",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": []
+      },
+      "prior_proposed_action": "hold_explicit_reconciliation",
+      "disposition_evidence": "LEGACY_HELPERS_RETIREMENT_PROPOSAL.json"
+    }
+  ],
+  "files": [
+    {
+      "path": "adl/tools/build_v0916_workflow_metric_backfill_inventory.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "25b385fb23efea0a23af3ad3b40750bbcf410b7e",
+        "sha256": "84c35df728503b4ad104870691d88c34ecda0ff09bd76248f58b0163e57d62f9"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_build_v0916_workflow_metric_backfill_inventory.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "4e50fc41f5a57f79202a6ecd46d39e618fb9e024",
+        "sha256": "5805585cef71c94fda07719bfc1e5a1638d7aa4e35b19373027f495d698eb09d"
+      },
+      "after": null
+    },
+    {
+      "path": "docs/tooling/README.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "3329d9cd2da02159977aaf8ac2e17d7d62ccdff6",
+        "sha256": "ca5158587938b29a57c9dfae7dd2f758c27ff7df657fafbae1adf99fa35fcc03"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "980205e48f3fb782e0147d49e6ea27d2ede15aa8",
+        "sha256": "f004bfdf2846da35661a413d34e1d698f2b167a9fc098686aa5f46499369e105"
+      }
+    },
+    {
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "77d348cc679d2a8400e6eccc33c1c25f35fb76ac",
+        "sha256": "fda45979f2ef4f98c11ecd5acd8c628960c8fb64137f582587f06dea95e38a8d"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "a6517ef43261154402c72e9a6ac91e22aaa8075f",
+        "sha256": "026e8386e467f450137991bc78b9e8170206b9fa6fb1b3028dbe0d75b6033515"
+      }
+    }
+  ],
+  "prior_reviewed_disposition": {
+    "path": "/Volumes/FastWork/adl-worktrees/adl-issue-1223-1223-coherent-source-retirement/docs/milestones/v0.93.1/repository-decomposition/rd07-1223/LEGACY_HELPERS_RETIREMENT_PROPOSAL.json",
+    "sha256": "7da1c2e94bb8094fb0621eed101714201a3c74325ab25f7f217713e686d3db83",
+    "section": "legacy-janitor-metrics-disposition metrics; explicit retirement of closed4441 corpus generator and companion test"
+  },
+  "assertion_disposition": {
+    "original_test_cases": 1,
+    "original_unittest_assertions": 6,
+    "preserved_in_custody": [
+      "One generated row",
+      "3600-second GitHub cycle time",
+      "csdlc_github_issue_created_closed provenance",
+      "Exact old issue_read request body",
+      "Temporary typed-v2 request cleanup",
+      "Markdown typed-v2 command description"
+    ],
+    "retirement": "Old typed-v2 issue-read ABI and closed v0.91.6 primary task corpus; explicitly historical, not equivalent to current native v3 metrics."
+  },
+  "custody": {
+    "path": "/Volumes/FastWork/c1223/metrics-backfill-two-retirement/prepared/current-and-original-preimages.tar",
+    "sha256": "16cd71a99dd326c7f4febefdd86414d47305a05dd71f12d3b549aa129f4ebce8",
+    "current_members": 4,
+    "original_members": 2,
+    "original_revision": "248f00e359e412f6bc0061ac88be9ff374e3a212"
+  },
+  "preserved_historical_outputs": [
+    {
+      "path": "docs/milestones/v0.91.6/review/V0916_WORKFLOW_METRIC_BACKFILL_4441.json",
+      "sha256": "a3677015768d8559d1ce81b590d70794efb6ccbae30301143df01409ff4a8eaf"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/V0916_WORKFLOW_METRIC_BACKFILL_4441.md",
+      "sha256": "9a63c73984f2828cf2b3b9139b3d8962412d1b27de78b9b28a6b758d7a54b2cb"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/V0916_WORKFLOW_METRIC_BACKFILL_INVENTORY_4441.csv",
+      "sha256": "c188732139eece6c5db844c20ebfd8936dd25b056b0c35c63072f75db376fa35"
+    }
+  ],
+  "caller_closure": {
+    "executable": "Current bounded tracked scan: only companion imports generator. Former owner-lane/selector/manager calls already removed by reviewed public cutover. No current external executable caller found.",
+    "current_repairs": [
+      "Tooling guide explicitly marks old historical report refresh command retired.",
+      "Actual registry generator removes only exact two tool entries."
+    ],
+    "historical_references": "v0.91.5 registry, v0.91.6 original report and v0.91.7 review preserve original source names and commands unchanged."
+  },
+  "limits": [
+    "No original test or generator execution; no GitHub or obsolete/native ABI calls.",
+    "No owner-equivalence or current behavioral qualification claimed.",
+    "Two original captured rows;4134+22,seven supplemental paths and ten holds unchanged."
+  ],
+  "required_before_apply": [
+    "Independent exact source/caller/custody review.",
+    "Root actual composed registry regeneration."
+  ],
+  "patch": {
+    "path": "/Volumes/FastWork/c1223/metrics-backfill-two-retirement/prepared/two-and-navigation.patch",
+    "sha256": "cf195d8d58ffd2f46e3921df873909e7f2b4b6fab52512d5206602349b98f7f3"
+  },
+  "issue": 1223,
+  "review": {
+    "reviewer": "review_1223_applied_components",
+    "result": "PASS",
+    "findings": []
+  },
+  "validation": {
+    "registry": "actual generator matches reviewed afterimage",
+    "historical_outputs": "all three hashes unchanged",
+    "obsolete_abi_execution": false
+  }
+}

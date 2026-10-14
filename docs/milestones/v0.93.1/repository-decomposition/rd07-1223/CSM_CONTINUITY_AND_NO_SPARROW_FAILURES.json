@@ -1,0 +1,218 @@
+{
+  "schema": "adl.rd07.csm-continuity-no-sparrow-failures.v1",
+  "issue": 1223,
+  "rows": [
+    "RD07-1514",
+    "RD07-1516"
+  ],
+  "owner_source_revision": "a5838b0748cd6fb13b8d30afb02da1088167c9fe",
+  "runtime_producer_revision": "2fee402c5287091dcd61c831b49786ba116aedf5",
+  "cases": [
+    {
+      "row": "RD07-1514",
+      "result": "failed",
+      "attempts": 1,
+      "exit_code": 1,
+      "timed_out": false,
+      "elapsed_seconds": 8.474943791996338,
+      "evidence": [
+        {
+          "path": "/Volumes/FastWork/c1223/csm-continuity-original-qualification/execution-result.json",
+          "sha256": "388496c1b7b54b7714a9ee55207f69d510db1234a6c78fc5db1e4751407fdf32"
+        },
+        {
+          "path": "/Volumes/FastWork/c1223/csm-continuity-original-qualification/stdout",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/Volumes/FastWork/c1223/csm-continuity-original-qualification/stderr",
+          "sha256": "242f19bd7a459bdcf6b416931d4e3a171e52eee33e56e1e9aeb9cb4bbf5d459b"
+        },
+        {
+          "path": "/Volumes/FastWork/c1223/csm-continuity-original-qualification/inputs.json",
+          "sha256": "9a5be2486b685ee9991e0ad8cf50a7e5cf4b746f0d805ce10bbd045860b9d546"
+        },
+        {
+          "path": "/Volumes/FastWork/c1223/csm-continuity-original-qualification/original-runner.sh",
+          "sha256": "b2f370d595e94eead85977a5853f1d07d4f4cc87158ede5c81517a34747e44bb"
+        },
+        {
+          "path": "/Volumes/FastWork/c1223/csm-continuity-original-qualification/adaptation.diff",
+          "sha256": "cc284d7eb6d7f069d06bc26faaec1b6789ea3323bebf086a3a30fd76a5bd6640"
+        },
+        {
+          "path": "/Volumes/FastWork/c1223/csm-local-original-isolation-preflight/local-only.sb",
+          "sha256": "339423f809b977e1c1a1b0ca1d88035fc03f56227d8ae69e844d983b61bc484f"
+        },
+        {
+          "path": "/Volumes/FastWork/c1223/csm-continuity-original-qualification/proof/logs/daemon_stdout.json",
+          "sha256": "c3798340019bb6386478f1e0cbd3d9aee7e175e20080f0ec192a27ab811b5fb9"
+        },
+        {
+          "path": "/Volumes/FastWork/c1223/csm-continuity-original-qualification/proof/logs/restored_daemon_stdout.json",
+          "sha256": "87d8e8124a681acd4599d54e3706e68206a5408217a390473a749e81ccc0a66c"
+        },
+        {
+          "path": "/Volumes/FastWork/c1223/csm-continuity-original-qualification/proof/negative_results.json",
+          "sha256": "401705a4a847e2443010fbad8f868a4a1ddec34cea6a25482640709853e2e17d"
+        },
+        {
+          "path": "/Volumes/FastWork/c1223/csm-continuity-original-qualification/proof/proof_summary.json",
+          "sha256": "5f3d032f121d25cb5c0457ca2bb34566a752417949b8df682bae6eaa6ee4edd3"
+        }
+      ],
+      "observed_daemon_outputs": [
+        {
+          "file": "logs/daemon_stdout.json",
+          "json_document_count": 2,
+          "first_schema": "adl.csm.runtime_api.v1",
+          "second_schema": "adl.long_lived_agent_daemon_status.v1",
+          "listener_role": "local_test_harness",
+          "bind_addr": "127.0.0.1:57320",
+          "sntp_failure_state": "runtime_sntp_probe_disabled",
+          "sntp_poll_command": "ADL_CSM_SNTP_STATUS=0"
+        },
+        {
+          "file": "logs/restored_daemon_stdout.json",
+          "json_document_count": 2,
+          "first_schema": "adl.csm.runtime_api.v1",
+          "second_schema": "adl.long_lived_agent_daemon_status.v1",
+          "listener_role": "local_test_harness",
+          "bind_addr": "127.0.0.1:57336",
+          "sntp_failure_state": "runtime_sntp_probe_disabled",
+          "sntp_poll_command": "ADL_CSM_SNTP_STATUS=0"
+        }
+      ]
+    },
+    {
+      "row": "RD07-1516",
+      "result": "failed",
+      "attempts": 1,
+      "exit_code": 1,
+      "timed_out": false,
+      "elapsed_seconds": 8.275470624997979,
+      "evidence": [
+        {
+          "path": "/Volumes/FastWork/c1223/csm-no-sparrow-original-qualification/execution-result.json",
+          "sha256": "e71f7fedd5828d669e42d8c6c4f8b0bd4107ce019afb5a735b3bf8ae2e8c82f2"
+        },
+        {
+          "path": "/Volumes/FastWork/c1223/csm-no-sparrow-original-qualification/stdout",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/Volumes/FastWork/c1223/csm-no-sparrow-original-qualification/stderr",
+          "sha256": "6be2593dcce19a8b150f5f01536f1d76e6e2cdc3ea0a7c2e57dbdabe38d68b10"
+        },
+        {
+          "path": "/Volumes/FastWork/c1223/csm-no-sparrow-original-qualification/inputs.json",
+          "sha256": "473d857b2337e94b975b6ee6a14464e647bb12fcf4c9deb56a193c4b6cd522e6"
+        },
+        {
+          "path": "/Volumes/FastWork/c1223/csm-no-sparrow-original-qualification/original-runner.sh",
+          "sha256": "ab28dc4cdcf9eb308eb6e9ab74b7d3ed5571b595d3783f9710bea8ea98f7ff17"
+        },
+        {
+          "path": "/Volumes/FastWork/c1223/csm-no-sparrow-original-qualification/adaptation.diff",
+          "sha256": "79d02ef192b6f4ec77daef465992ccb3825b564ee3ec697971b24c760e5a3be5"
+        },
+        {
+          "path": "/Volumes/FastWork/c1223/csm-local-original-isolation-preflight/local-only.sb",
+          "sha256": "339423f809b977e1c1a1b0ca1d88035fc03f56227d8ae69e844d983b61bc484f"
+        },
+        {
+          "path": "/Volumes/FastWork/c1223/csm-no-sparrow-original-qualification/fixture/docs/milestones/v0.91.7/review/runtime/no_sparrow_4909/happy/csm_stdout.json",
+          "sha256": "876c99b4634f804c7f33f94865482ad8ae0c6f4bce21f32d6b095919a222fa3b"
+        },
+        {
+          "path": "/Volumes/FastWork/c1223/csm-no-sparrow-original-qualification/fixture/docs/milestones/v0.91.7/review/runtime/no_sparrow_4909/negative_retention/csm_stdout.json",
+          "sha256": "bb9c6eeb8696e7fe1b9545ba912d87a479dec7b6cc10147cd25f51c32dbc313e"
+        },
+        {
+          "path": "/Volumes/FastWork/c1223/csm-no-sparrow-original-qualification/fixture/docs/milestones/v0.91.7/review/runtime/no_sparrow_4909/happy/csm_stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/Volumes/FastWork/c1223/csm-no-sparrow-original-qualification/fixture/docs/milestones/v0.91.7/review/runtime/no_sparrow_4909/negative_retention/csm_stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "observed_daemon_outputs": [
+        {
+          "file": "happy/csm_stdout.json",
+          "json_document_count": 2,
+          "first_schema": "adl.csm.runtime_api.v1",
+          "second_schema": "adl.long_lived_agent_daemon_status.v1",
+          "listener_role": "local_test_harness",
+          "bind_addr": "127.0.0.1:57352",
+          "sntp_failure_state": "runtime_sntp_probe_disabled",
+          "sntp_poll_command": "ADL_CSM_SNTP_STATUS=0"
+        },
+        {
+          "file": "negative_retention/csm_stdout.json",
+          "json_document_count": 2,
+          "first_schema": "adl.csm.runtime_api.v1",
+          "second_schema": "adl.long_lived_agent_daemon_status.v1",
+          "listener_role": "local_test_harness",
+          "bind_addr": "127.0.0.1:57368",
+          "sntp_failure_state": "runtime_sntp_probe_disabled",
+          "sntp_poll_command": "ADL_CSM_SNTP_STATUS=0"
+        }
+      ]
+    }
+  ],
+  "execution_boundary": {
+    "genuine_artifact": "/Volumes/FastWork/c1223/csm-availability-caller-gap/genuine-artifact/bin/csm",
+    "genuine_artifact_sha256": "74c13b8da5c6652facb38f70d5ddf35a0c3e75b38786757a38be4f7bd0f760a1",
+    "consumer_lock_sha256": "955bb9c3b278916d9e6a75992653b7e0a95679f2d445490c32aa4cb01479d527",
+    "adaptation": "Exactly two --api-bind 127.0.0.1:0 daemon argument additions per runner; original assertions unchanged. Copies and diffs retained.",
+    "sntp": "ADL_CSM_SNTP_STATUS=0, independently observed disabled in four retained daemon statuses",
+    "network": "Both recorded argv execute through loopback-only macOS sandbox profile; initial unprivileged sandbox preflight failed, root subsequently verified privileged isolation before these single runtime attempts.",
+    "credentials_inherited": false,
+    "no_build_download_cloud_or_model_acceptance": true,
+    "external_owner_missing_inputs": []
+  },
+  "findings": [
+    {
+      "id": "runtime-stdout-single-json",
+      "classification": "proven_product_output_contract_defect",
+      "affected_rows": [
+        "RD07-1514",
+        "RD07-1516"
+      ],
+      "observed": "All four daemon stdout files contain an API-listening JSON object followed by a separate daemon-status JSON object.1516 fails json.loads with Extra data line2 char756.1514 restored daemon output has the same latent validator failure after its earlier negative-case failure.",
+      "source_evidence": [
+        "agent-logic-runtime@2fee402c:adl/src/csm_runtime_api.rs:159 unconditional println of listening payload",
+        "agent-logic-runtime@2fee402c:adl/src/long_lived_agent.rs:696 invokes serve_runtime_api for embedded daemon",
+        "Infrastructure original no_sparrow runner read_json uses json.loads",
+        "Infrastructure original continuity validator line323 parses restored_daemon_stdout as one JSON document"
+      ],
+      "remediation": "Repair Runtime embedded API readiness output routing so csm daemon --json emits one daemon result document. Preserve original assertions; do not parse away the extra payload."
+    },
+    {
+      "id": "continuity-path-leakage-diagnostic",
+      "classification": "observed_failed_assertion_with_source_grounded_cause_inference",
+      "affected_rows": [
+        "RD07-1514"
+      ],
+      "observed": "Eight of nine negative cases fail with expected reason. path_leakage returns1 but stderr_matched=false, so validator reports negative case did not fail as expected: path_leakage. This does not prove acceptance of tampered input.",
+      "inference": "The runner writes an absolute FastWork path into state/status.json but passes a relative bundle argument. Runtime stage_capsule supplies this relative path as forbidden_root; scanner only checks the supplied root when absolute and its marker list lacks /Volumes. Thus portability detection can miss this injected absolute path before later integrity rejection. Exact alternate stderr was discarded by original runner; its actual text and final rejecting branch cannot be recovered from retained result.",
+      "source_evidence": [
+        "agent-logic-runtime@2fee402c:adl/src/csm_continuity_capsule.rs:319 scan_tree_for_portability(&options.bundle_dir,&options.bundle_dir)",
+        "agent-logic-runtime@2fee402c:adl/src/csm_continuity_capsule.rs:1698 absolute forbidden-root condition",
+        "agent-logic-runtime@2fee402c:adl/src/csm_continuity_capsule.rs:1718 host_private_path_markers",
+        "Infrastructure original runner path_leakage case passes bundle.relative_to(out), records boolean stderr match, then deletes negative_cases"
+      ],
+      "remediation": "Runtime owner should normalize the bundle root and test the original path-portability contract on non-home mount paths; Infrastructure runner should retain exact per-case stderr. Do not weaken expected host-private-path rejection."
+    }
+  ],
+  "disposition": "Both rows remain unqualified for actual local protocol acceptance; no ledger disposition or new removal authorized by this failure packet.",
+  "owner_followup": "Runtime143/146/147 already underway; route evidence to existing work without starting new implementation.",
+  "limits": [
+    "Source diagnosis and retained-output inspection only after the two original attempts; no reruns.",
+    "No1515OTLP rerun.",
+    "No full CSM, cloud, provider, deployment, or release acceptance.",
+    "Sandbox initial failure is retained separately; it is not the result of these successful sandbox launches."
+  ],
+  "execution_authorized": false
+}

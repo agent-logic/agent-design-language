@@ -1,0 +1,380 @@
+{
+  "schema": "adl1223.public_cutover_applied.v1",
+  "issue": 1223,
+  "base_head": "3f806eea3c1fbc4836cdb5a2a9eb64b791e7202c",
+  "state": "local_implementation_not_published",
+  "user_instruction": "ok finish 1223",
+  "authorization_interpretation": "Renewed instruction used for reversible local implementation. No separate affirmative reply to prior scoped question is recorded. No broader retirement, owner mutation, publication or merge asserted.",
+  "paths": [
+    {
+      "path": ".github/workflows/ci.yaml",
+      "action": "modify",
+      "before_sha256": "73f35f4aa803c4c04334651a625a2f43ef1a8779fbb3c209f38d57e136655076",
+      "after_sha256": "dc0eae1752a9339f4dd9da6e341f5e844cb404e765dcd157e063fecdfbda97d8",
+      "applied_sha256": "e3cc84bd1be0f0fa54db50e0fecf26f9a945b71cb444493a8b176d2d924cc5bb",
+      "review_fix_after_prepared_patch": true
+    },
+    {
+      "path": "AGENTS.md",
+      "action": "modify",
+      "before_sha256": "e533a7948384c78b9baac8ac45a45199b4d6770b00c56c83f9f21d7ebeeb571e",
+      "after_sha256": "4f794af61c120bebcf8779c13d00e08919a4fe579234352a14a38c9663cf2549",
+      "applied_sha256": "4f794af61c120bebcf8779c13d00e08919a4fe579234352a14a38c9663cf2549",
+      "review_fix_after_prepared_patch": false
+    },
+    {
+      "path": "adl-uts/tools/test_ci_contract.rb",
+      "action": "modify",
+      "before_sha256": "93f342d64da3a60947088c341089766fc0c2cf49232d8288db9023e4af797e37",
+      "after_sha256": "044ea0a81db4ce59eb0aa6320e7bf9ecf0d31b7aba4713650ec5c9c910a74061",
+      "applied_sha256": "044ea0a81db4ce59eb0aa6320e7bf9ecf0d31b7aba4713650ec5c9c910a74061",
+      "review_fix_after_prepared_patch": false
+    },
+    {
+      "path": "adl/config/slow_proof_families.public.v1.json",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "63ba540320970ac51499b3777d96278440c0f8a0eb4112ee130b2fbf5e9e6ff2",
+      "applied_sha256": "63ba540320970ac51499b3777d96278440c0f8a0eb4112ee130b2fbf5e9e6ff2",
+      "review_fix_after_prepared_patch": false
+    },
+    {
+      "path": "adl/config/validation_lane_selector.public.v1.json",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "48b6c757e8d7bb0427f232df802051bad38b5ed2acb95b62a34860c8821b3ad7",
+      "applied_sha256": "7e688d41542dcedfbc24ed1962b11baf713714802ec13b5e533c6db1e05b24c4",
+      "review_fix_after_prepared_patch": true
+    },
+    {
+      "path": "adl/tools/batched_checks.sh",
+      "action": "modify",
+      "before_sha256": "9952e8c4004743c19c77ea1aa66a65484f507eb25c6754e6f0e6843d50943999",
+      "after_sha256": "998b29bff3c48ed030a2528b2f962f5f99b0506097aa6ea193aeb67a55ad8031",
+      "applied_sha256": "998b29bff3c48ed030a2528b2f962f5f99b0506097aa6ea193aeb67a55ad8031",
+      "review_fix_after_prepared_patch": false
+    },
+    {
+      "path": "adl/tools/ci_path_policy.sh",
+      "action": "modify",
+      "before_sha256": "7a6cd384b04293d06e5959403117f890f4f709f8c68f6df94a5219ff7e3c520f",
+      "after_sha256": "9fb3888c1bd86f907c714d30ca996bcbcfbf8445aa14d1862c2fed5e0f1d8f99",
+      "applied_sha256": "9fb3888c1bd86f907c714d30ca996bcbcfbf8445aa14d1862c2fed5e0f1d8f99",
+      "review_fix_after_prepared_patch": false
+    },
+    {
+      "path": "adl/tools/install_csdlc_man_pages.sh",
+      "action": "modify",
+      "before_sha256": "9d8e6bc3a8a3abf81d81afed95302469892c4db765128912f78f6f1dd2b93657",
+      "after_sha256": "1059f4d747cb606ee462367d150e8c1601b3143799330869da88e1c3515335eb",
+      "applied_sha256": "1059f4d747cb606ee462367d150e8c1601b3143799330869da88e1c3515335eb",
+      "review_fix_after_prepared_patch": false
+    },
+    {
+      "path": "adl/tools/install_owner_binaries.sh",
+      "action": "modify",
+      "before_sha256": "a67c20e82db1645247b692ecc2e8312d3c74198a6fd06ddcabc59f6fc01e484e",
+      "after_sha256": "32338661446d0fd4434dc753caa3138aea9c59cd5b0a33f019ab94ecb501b29a",
+      "applied_sha256": "592a92ab416c0d822011db53ed508d3b538e79577363c36020fda966dad6683c",
+      "review_fix_after_prepared_patch": true
+    },
+    {
+      "path": "adl/tools/preflight_review.sh",
+      "action": "modify",
+      "before_sha256": "566645acec419dce6da56c8980fbed84a3df97eadc07d5e760abe32c191707ee",
+      "after_sha256": "247ac8d5c55e7c4cdcd1b06f969b0985eeafd5578ecbb0014b4f2ab0db779969",
+      "applied_sha256": "247ac8d5c55e7c4cdcd1b06f969b0985eeafd5578ecbb0014b4f2ab0db779969",
+      "review_fix_after_prepared_patch": false
+    },
+    {
+      "path": "adl/tools/run_validation_manager_nessus_lane.sh",
+      "action": "modify",
+      "before_sha256": "48f4edecb8f0e24faa3e802f0c640737e9fd27fd2b6245aeceff15f9374ff7ec",
+      "after_sha256": "fae630ed8b215252ea4a549aeaab6f60afda0a23ca3c1620480214a093b74826",
+      "applied_sha256": "fae630ed8b215252ea4a549aeaab6f60afda0a23ca3c1620480214a093b74826",
+      "review_fix_after_prepared_patch": false
+    },
+    {
+      "path": "adl/tools/select_validation_lanes.py",
+      "action": "modify",
+      "before_sha256": "4d52dab1b38fc5cc7f6c15e843f93d08ab0374293d7bff857f889c17e541a3a0",
+      "after_sha256": "78c86a1532b34142b8ff94f4628e33dd3ab58d8e10c76a47bd910839e4680d52",
+      "applied_sha256": "78c86a1532b34142b8ff94f4628e33dd3ab58d8e10c76a47bd910839e4680d52",
+      "review_fix_after_prepared_patch": false
+    },
+    {
+      "path": "adl/tools/test_batched_checks_no_codexpr_usage_banner.sh",
+      "action": "modify",
+      "before_sha256": "2668dd522d47d597646fa3be76231d32ff030f598a79aecf5ad1be66e88fa3c2",
+      "after_sha256": "4c0f161fbdd4a0aa78bc1bdd6bce27bd35274b697ea49e3ff4a4ca29e30ad176",
+      "applied_sha256": "4c0f161fbdd4a0aa78bc1bdd6bce27bd35274b697ea49e3ff4a4ca29e30ad176",
+      "review_fix_after_prepared_patch": false
+    },
+    {
+      "path": "adl/tools/test_run_validation_manager_nessus_lane.sh",
+      "action": "modify",
+      "before_sha256": "50e08da48c7097ef8bb59e35985eac4d0f30dbfe2ce3194b602f838ccca25b2d",
+      "after_sha256": "e4c88a1b056cc66380229cf696b7295cc03cc7af2406a8a2bb07cb58a94e6220",
+      "applied_sha256": "e4c88a1b056cc66380229cf696b7295cc03cc7af2406a8a2bb07cb58a94e6220",
+      "review_fix_after_prepared_patch": false
+    },
+    {
+      "path": "adl/tools/test_select_validation_lanes.sh",
+      "action": "delete",
+      "before_sha256": "500f7126996838da30a4cf48a1797a8b04b505e4bdfdcaa549f9877d2b1081d4",
+      "after_sha256": null,
+      "applied_sha256": null,
+      "review_fix_after_prepared_patch": false
+    },
+    {
+      "path": "adl/tools/validate_ci_workflow_policy.rb",
+      "action": "modify",
+      "before_sha256": "efd286fdeb97255d1a8b4a101d5582ad51679f7873760e264e32e9556671de53",
+      "after_sha256": "3f49293999d251bb91d3ab5745d2bba8c27ca667a2a369f8731b47bc735b562d",
+      "applied_sha256": "3f49293999d251bb91d3ab5745d2bba8c27ca667a2a369f8731b47bc735b562d",
+      "review_fix_after_prepared_patch": false
+    },
+    {
+      "path": "adl/tools/validation_inventory.py",
+      "action": "modify",
+      "before_sha256": "e1c0c7f54404d8ec07d67c9f7796456a462174dde1dd205c14d3e3fde9a0944b",
+      "after_sha256": "6dd89823fb82ee071a8b67091f3b8a0f927bbab59b98e7d9ffeb8892f88e203f",
+      "applied_sha256": "6dd89823fb82ee071a8b67091f3b8a0f927bbab59b98e7d9ffeb8892f88e203f",
+      "review_fix_after_prepared_patch": false
+    },
+    {
+      "path": "adl/tools/validation_manager.py",
+      "action": "modify",
+      "before_sha256": "8655fc3c91b822007ecd8e7aec77410ad0110e7d0a161346654e734e0ec78778",
+      "after_sha256": "541ece57cf340e5675dce60421239d9d9c6669678395f6e0d13e33236f0e5e78",
+      "applied_sha256": "541ece57cf340e5675dce60421239d9d9c6669678395f6e0d13e33236f0e5e78",
+      "review_fix_after_prepared_patch": false
+    },
+    {
+      "path": "demos/v0.89/multi_agent_repo_code_review_demo.md",
+      "action": "modify",
+      "before_sha256": "cd379474cbbec69a306e04a76e54cf706000ecf17b9efd0029e15f9fd8118d4a",
+      "after_sha256": "e0eea13a9f6ea98f21261b8e1bb646ff7bb94b27dd443c566c7e7fd85ef765d5",
+      "applied_sha256": "e0eea13a9f6ea98f21261b8e1bb646ff7bb94b27dd443c566c7e7fd85ef765d5",
+      "review_fix_after_prepared_patch": false
+    },
+    {
+      "path": "demos/v0.90.2/multi_agent_repo_review_proof_demo.md",
+      "action": "modify",
+      "before_sha256": "243e1ca3a5a7917cb1fa42841aa1eeaad9ebdd4031ee0c136bcd119436566fb6",
+      "after_sha256": "2b671be4a528f171c5810c55cdf97db07bf2b8703a0796445998743d0c96df3d",
+      "applied_sha256": "2b671be4a528f171c5810c55cdf97db07bf2b8703a0796445998743d0c96df3d",
+      "review_fix_after_prepared_patch": false
+    },
+    {
+      "path": "demos/v0.90/codebuddy_multi_agent_review_showcase_demo.md",
+      "action": "modify",
+      "before_sha256": "a32bd045aab4d38f075951ef6847b3ab97fa54213694b189b181409a77cdbb51",
+      "after_sha256": "af207ca1ceca8f14aa6007d3f12fc3cdbbbfa3eeff17e38668b1a1181fa98d07",
+      "applied_sha256": "af207ca1ceca8f14aa6007d3f12fc3cdbbbfa3eeff17e38668b1a1181fa98d07",
+      "review_fix_after_prepared_patch": false
+    },
+    {
+      "path": "demos/v0.91.4/multi_agent_repo_review_serious_proof_demo.md",
+      "action": "modify",
+      "before_sha256": "cc62fc6f33b6ea346925fa1344277c8460f1b8a026d1e68f0002819fd4a05d87",
+      "after_sha256": "5299065b64628baa6d7c2d76f0531182a90ff3fc436e06cb75a2f6706a2e64e3",
+      "applied_sha256": "5299065b64628baa6d7c2d76f0531182a90ff3fc436e06cb75a2f6706a2e64e3",
+      "review_fix_after_prepared_patch": false
+    },
+    {
+      "path": "docs/architecture/VALIDATION_LANE_SELECTOR.md",
+      "action": "modify",
+      "before_sha256": "9abd3501aa27bd80214dda594c505b6e3cf36ca73c223f133276f93b31d6a407",
+      "after_sha256": "3a8ebeee46b4f1c7a9bdd582f5d1f1c17985291dae1cdc13fa430cca90267f39",
+      "applied_sha256": "3a8ebeee46b4f1c7a9bdd582f5d1f1c17985291dae1cdc13fa430cca90267f39",
+      "review_fix_after_prepared_patch": false
+    },
+    {
+      "path": "docs/csdlc-v3/man/README.md",
+      "action": "modify",
+      "before_sha256": "b766ea99a3100848a14e8551ee1edaed1ea33c79da4b2dee402a576d7373bccd",
+      "after_sha256": "bbc939f79319953e7449916e9b2311c1a58f01438f7ef657629a35f1bd13b121",
+      "applied_sha256": "bbc939f79319953e7449916e9b2311c1a58f01438f7ef657629a35f1bd13b121",
+      "review_fix_after_prepared_patch": false
+    },
+    {
+      "path": "docs/csdlc-v3/man/test_install.sh",
+      "action": "modify",
+      "before_sha256": "a30403c014c505f07fe0eb34baf708813facc56d5a64b9d0b548a87df4ad3de4",
+      "after_sha256": "dc9ec7ff69b750e58be29285e86073dcc8567204a36692b4e8eb6aabc371fadf",
+      "applied_sha256": "dc9ec7ff69b750e58be29285e86073dcc8567204a36692b4e8eb6aabc371fadf",
+      "review_fix_after_prepared_patch": false
+    },
+    {
+      "path": "docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md",
+      "action": "modify",
+      "before_sha256": "c16fd4a55557a3ecd2b5f63bd457ecd994de0fceaa3e95f16f3578d917da1b68",
+      "after_sha256": "524c36b9c047662e7a87278bbc005d1bfb6d0f4f464bfff077b4c70b91bf58da",
+      "applied_sha256": "524c36b9c047662e7a87278bbc005d1bfb6d0f4f464bfff077b4c70b91bf58da",
+      "review_fix_after_prepared_patch": false
+    },
+    {
+      "path": "docs/tooling/GITHUB_LARGER_RUNNER_PREFLIGHT.md",
+      "action": "modify",
+      "before_sha256": "645800dd33db2efea5eb4db764312c96c1e4eac36229e1c1c249f844c519915c",
+      "after_sha256": "f3fcda4db9c54abe2cf62fec0674a1259a33fb88d0e1687f65b9a5e103827cc4",
+      "applied_sha256": "f3fcda4db9c54abe2cf62fec0674a1259a33fb88d0e1687f65b9a5e103827cc4",
+      "review_fix_after_prepared_patch": false
+    },
+    {
+      "path": "docs/tooling/ISSUE_RESOURCE_TELEMETRY_COLLECTOR.md",
+      "action": "modify",
+      "before_sha256": "35c2b2464215ead7094faf1dd34d0e7e5d4e4d6f292d40f3afa30ae45435bcd3",
+      "after_sha256": "9a0d18003fc507a3fa8c39a6a3ec4b2039e01ee380180dd7bf06d16157ec023d",
+      "applied_sha256": "9a0d18003fc507a3fa8c39a6a3ec4b2039e01ee380180dd7bf06d16157ec023d",
+      "review_fix_after_prepared_patch": false
+    },
+    {
+      "path": "docs/tooling/NESSUS_VALIDATION_MANAGER_LANE.md",
+      "action": "modify",
+      "before_sha256": "e73a6383e6783c71203fec316f0c0a02c96ab55a1b577366b848e37d3350ea79",
+      "after_sha256": "5068bdcce42c64581a5771e6d0e059a58cf1ada6c0c753def03a621469b48822",
+      "applied_sha256": "5068bdcce42c64581a5771e6d0e059a58cf1ada6c0c753def03a621469b48822",
+      "review_fix_after_prepared_patch": false
+    },
+    {
+      "path": "docs/tooling/WP_ISSUE_WAVE_GENERATION.md",
+      "action": "modify",
+      "before_sha256": "1f64ee4b160b839f52bf2fb2aaa6df2b1db8df94d5892e37d4a627085bf80d21",
+      "after_sha256": "8dba774480139986c6d8e77c88ae06ac3dcfb27a49ed4be0613011f2535dbd8b",
+      "applied_sha256": "8dba774480139986c6d8e77c88ae06ac3dcfb27a49ed4be0613011f2535dbd8b",
+      "review_fix_after_prepared_patch": false
+    },
+    {
+      "path": "tools/groupd_validation/src/lib.rs",
+      "action": "modify",
+      "before_sha256": "848d4fd8429fcd350ad7f3d7d17e7bff1b964286e389c7922d93d345a4c0699a",
+      "after_sha256": "3dd1968fe5a7f6005ca0aa4afbea84ddeabacdc7dacae21de1c84231f25fea2f",
+      "applied_sha256": "3dd1968fe5a7f6005ca0aa4afbea84ddeabacdc7dacae21de1c84231f25fea2f",
+      "review_fix_after_prepared_patch": false
+    },
+    {
+      "path": "tools/public_adl/ci_policy.py",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "620f64f11cfc437282b05a83aee2dcfdac5a9610f7e3183bbb735a3b9e34ec6d",
+      "applied_sha256": "620f64f11cfc437282b05a83aee2dcfdac5a9610f7e3183bbb735a3b9e34ec6d",
+      "review_fix_after_prepared_patch": false
+    },
+    {
+      "path": "tools/public_adl/run_cli_ci.sh",
+      "action": "modify",
+      "before_sha256": "d21dd0c1a7c6e632e9caedefa1bad33abacff74f62792976864a7d4f2716ba65",
+      "after_sha256": "d72a13f408a6e0e9917419e1a8ea4fcc6057e343ecd1eda8efe06e0b88e7f8f3",
+      "applied_sha256": "d72a13f408a6e0e9917419e1a8ea4fcc6057e343ecd1eda8efe06e0b88e7f8f3",
+      "review_fix_after_prepared_patch": false
+    },
+    {
+      "path": "tools/public_adl/test_action_pins.py",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "9419e15b2f618d1d54d1454b6c00a2a0812fb33a22b5f4b22b54d63704a20d8c",
+      "applied_sha256": "9419e15b2f618d1d54d1454b6c00a2a0812fb33a22b5f4b22b54d63704a20d8c",
+      "review_fix_after_prepared_patch": false
+    },
+    {
+      "path": "tools/public_adl/test_ci_contract.py",
+      "action": "modify",
+      "before_sha256": "daed26a3c4d406d80e36d664ca968178b921998ad360c2913afb7b0621987e67",
+      "after_sha256": "0cbfe21744706e6150e03d83fe6ac3f081e196df2e3191cd7dac63f0e8b05033",
+      "applied_sha256": "43c9af63e8977b717909adc3153791c52e793e3fcd919ab71b0bcd50ce4a0962",
+      "review_fix_after_prepared_patch": true
+    },
+    {
+      "path": "tools/public_adl/test_ci_policy.py",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "2dfb4e74ff0248dd024f5b7a814a0a21e04d7ed19b754f0497db6491dc086b23",
+      "applied_sha256": "2dfb4e74ff0248dd024f5b7a814a0a21e04d7ed19b754f0497db6491dc086b23",
+      "review_fix_after_prepared_patch": false
+    },
+    {
+      "path": "tools/public_adl/test_ci_routing.sh",
+      "action": "modify",
+      "before_sha256": "697807d698c9b29ff5e355fd13ab36a740515c4d63c709f432a29c1ac2aaf616",
+      "after_sha256": "960c897a41ad53980531109dde684fb416a6ed9e9b7005ad09724ec9f9020cd3",
+      "applied_sha256": "960c897a41ad53980531109dde684fb416a6ed9e9b7005ad09724ec9f9020cd3",
+      "review_fix_after_prepared_patch": false
+    },
+    {
+      "path": "tools/public_adl/test_validation_interfaces.py",
+      "action": "add",
+      "before_sha256": null,
+      "after_sha256": "1a5a722fed60a946db3f70ac600d2472e725ed75ee3430cd7179d0a14a3190af",
+      "applied_sha256": "1a5a722fed60a946db3f70ac600d2472e725ed75ee3430cd7179d0a14a3190af",
+      "review_fix_after_prepared_patch": false
+    }
+  ],
+  "review_findings": [
+    {
+      "priority": "P2",
+      "finding": "Workflow bypassed classifier transpiler selection",
+      "disposition": "Removed duplicate classifier and used path-policy output; added CI wiring regression assertions."
+    },
+    {
+      "priority": "P3",
+      "finding": "Public default manifest status remained proposed",
+      "disposition": "Marked active_public_default."
+    }
+  ],
+  "validation": [
+    {
+      "command": "python3 -m unittest discover -s tools/public_adl -p test_*policy.py -v",
+      "result": "PASS",
+      "tests": 6
+    },
+    {
+      "command": "python3 tools/public_adl/test_validation_interfaces.py",
+      "result": "PASS",
+      "tests": 9
+    },
+    {
+      "command": "python3 tools/public_adl/test_ci_contract.py",
+      "result": "PASS",
+      "note": "Passed after review wiring fix."
+    },
+    {
+      "command": "python3 tools/public_adl/test_action_pins.py",
+      "result": "PASS"
+    },
+    {
+      "command": "bash docs/csdlc-v3/man/test_install.sh",
+      "result": "PASS",
+      "boundary": "isolated lookup fixtures; no actual authority admission or man rendering"
+    },
+    {
+      "command": "bash adl/tools/test_run_validation_manager_nessus_lane.sh",
+      "result": "PASS",
+      "boundary": "fake remote tools; no remote execution or build"
+    },
+    {
+      "command": "ruby adl/tools/validate_ci_workflow_policy.rb",
+      "result": "PASS",
+      "workflows": 19
+    },
+    {
+      "command": "bash adl/tools/test_batched_checks_no_codexpr_usage_banner.sh",
+      "result": "PASS",
+      "boundary": "fake Cargo and public CLI fixture; no build"
+    }
+  ],
+  "remaining": "Final retirement scope, owner deliveries, native authority reconciliation, final candidate build and lifecycle completion remain separate.",
+  "independent_review": {
+    "reviewer": "review_1223_historical_retention",
+    "result": "Both cutover findings resolved; no remaining actionable findings in corrections",
+    "scope": "Applied 38 paths and focused wiring/default-status corrections; not full issue acceptance"
+  },
+  "original_removal_accounting": {
+    "committed_original_removals_after_cutover": 71,
+    "cutover_deletion": "RD07-2113 adl/tools/test_select_validation_lanes.sh",
+    "ledger_disposition": "preserve_reviewed_consumer_repair; original identity and historical proof preserved",
+    "not_a_final_retirement_claim": true
+  },
+  "implementation_commit": "951a4c097f"
+}

@@ -1,5 +1,10 @@
 # Gemma 4 Issue Clerk Demo
 
+> Historical ADL v0.89 scenario. The ADL source command is retired by #1223.
+> Run the separately qualified Cognitive-SDLC owner route from its own checkout;
+> commands below document the original scenario and are not current ADL entrypoints.
+> The original dry-run and fixture assertions remain in Git and retirement custody.
+
 This is a bounded `v0.89` provider-participation demo for testing whether a
 Gemma-family local model can contribute usefully to one low-risk operational
 task: drafting a structured issue-init proposal from a prepared packet.

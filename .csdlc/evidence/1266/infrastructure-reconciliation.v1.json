@@ -1,0 +1,58 @@
+{
+  "schema": "adl.csdlc_v3.external_closeout_reconciliation.v1",
+  "issue": 1266,
+  "repository": "agent-logic/agent-logic-infrastructure",
+  "accepted_package": {
+    "artifact_id": 11787649026,
+    "artifact_sha256": "532c4a10bf806424dacbb13c48dbb5dc7d16aa27ae84a6a52fd98b3829a66ad4",
+    "candidate_head": "79d6430a89edb350fe1012889650a6b4776912d0",
+    "merge_commit": "c0dacd3d3a12a854f1c8cff3fa15fa3ec97c655a",
+    "source_issue": 245,
+    "source_pull_request": 246
+  },
+  "predecessor_package": {
+    "artifact_id": 11786371585,
+    "installed_executable_sha256": "ea30664cab70ddf87eb7bb63aa6d067201071f684a5ba0490430da0cd56ca1ed",
+    "installation_verification_sha256": "1e90d2ebac584cd0797a56306e86bfe43ee5121b72492d0bfafa0f059725f081",
+    "use": "Retained bound issue 27 only; the package exactly matches the semantic authority that prepared, bound, reviewed and published that issue."
+  },
+  "results": [
+    {
+      "issue": 26,
+      "pull_request": 28,
+      "pull_request_head": "8742930755b48e5d79451e80365685492954d496",
+      "merge_commit": "5bf3272df8bf51d4573238f2b3dbd75834c45cde",
+      "closing_linkage": "Closes #26",
+      "status": "canonical_terminal_receipt_written",
+      "terminal_receipt_sha256": "51cda8d5c6ec391715dae8a7717597c9abe44d811f9e3d507163be4229e068ee",
+      "terminal_state_sha256": "6787780754a95dedb789488ec4ace932258202dbf532addf42b6b06ef2e27c66",
+      "remote_writes": 0
+    },
+    {
+      "issue": 27,
+      "pull_request": 29,
+      "pull_request_head": "8b7494642c423d024c79bef5b4d493eaee126f63",
+      "merge_commit": "db78fff91b07a0b05dfbb4ceb5bdd3279b3315a1",
+      "closing_linkage": "Closes #27",
+      "status": "canonical_bound_controller_terminal_receipt_written",
+      "terminal_receipt_sha256": "0a27e9b244569c6fd96fd6088ebf5f214fb10cc959ee5063f00ef7151a868f3e",
+      "terminal_state_sha256": "fe26d3c7468b755d53b638e5c1ab93580030dbbccbf226559a19b2097512f19f",
+      "semantic_operation_id": "semantic-operation-v1:c0ccbb460af62a9618f9ce52b5af366b428e0f82398a5935a5fcaa89a6aea0b1",
+      "semantic_terminal_generation": 26,
+      "semantic_terminal_digest": "semantic-state-v1:3738b89b3932f400b5b56b3aade53ba2149d00c20cad2606e70779c83b32343a",
+      "replay_status": "expected_noop",
+      "remote_writes": 0
+    }
+  ],
+  "replay_defect": {
+    "observed": "A retained external terminal receipt was rejected after the consumer checkout advanced because receipt.head_sha was compared with current checkout HEAD.",
+    "finding": "intent_terminal_receipt_mismatch",
+    "repair": "Retain the immutable closing PR head for legacy merged replay and return expected_noop after authenticated readback when receipt and state already match.",
+    "focused_tests": [
+      "external_pr_finish_authenticates_without_fabricating_publication_history",
+      "external_pr_finish_rejects_conflicting_native_target_and_mixed_inputs"
+    ],
+    "focused_result": "2 passed; 0 failed"
+  },
+  "residual": "No eligible recordless merged Infrastructure issue remains unreconciled. Existing dirty tracked and untracked bytes in issue 27's bound worktree were preserved; finish wrote only canonical Git-common terminal state and receipt bytes."
+}

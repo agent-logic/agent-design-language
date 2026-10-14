@@ -1,0 +1,401 @@
+{
+  "schema": "adl1223.host_smoke_two.proposal.v1",
+  "status": "applied_local_reversible_implementation",
+  "source_head": "eb0cd79d88b65ba5633a53e12e396ee832e9e527",
+  "qualified12_source_commit": "9707731d50f4209c07e3f7193d8be254ab6b9167",
+  "removed_count": 2,
+  "rows": [
+    {
+      "id": "RD07-4108",
+      "path": "tools/codefriend_host/ci/interrupted-report.json",
+      "owner": "codefriend",
+      "component": "codefriend-other-consumers",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "135ab8a6657a9b9a010b3bd9367c4e8092670e91"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "coherent component and caller cutover",
+        "qualified owner adoption; exact source correspondence alone is insufficient",
+        "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
+        "exact_successor_paths": [
+          "tools/codefriend_host/ci/interrupted-report.json"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "CODEFRIEND_71_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "7c32a923f22ebfd0c3069d1f051f7201a8e97f27a6fba8343f4c2e91f5668648",
+        "proposal": "conditional_owner_transfer",
+        "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      }
+    },
+    {
+      "id": "RD07-4110",
+      "path": "tools/codefriend_host/ci/smoke.py",
+      "owner": "codefriend",
+      "component": "codefriend-other-consumers",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "da8e5e713d027002fa52b6dbc5847d441ea56a59"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
+        "coherent caller and component disposition; no source-only qualification claim"
+      ],
+      "successor_mapping": {
+        "mapping": "same_path_changed",
+        "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
+        "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CODEFRIEND_27_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
+        "proposal": "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
+        "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
+      }
+    }
+  ],
+  "files": [
+    {
+      "path": "tools/codefriend_host/ci/smoke.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "f455624d60ad391e56a56698bd70ae0020f79d6d",
+        "sha256": "33658aa5f124df3d957168c23170b1e8166189967607f7bad2e406e0cb04a7c5"
+      },
+      "after": null
+    },
+    {
+      "path": "tools/codefriend_host/ci/interrupted-report.json",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "135ab8a6657a9b9a010b3bd9367c4e8092670e91",
+        "sha256": "85ac5d982bd2c7185101ed0204964f258399ba263aeabc2a85ad147a96a6b263"
+      },
+      "after": null
+    },
+    {
+      "path": "tools/codefriend_host/README.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "ea4ed4e7fdb13f8db4db18a2383cbf30e0bcf684",
+        "sha256": "ffaa7c9bd23e0099f27398acdc9a46a4475f2705042c0c40834f39dce99b0907"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "4e54a1e4c069bb68eb45c7826dc7737672c947b5",
+        "sha256": "26b8183282b623ab7a299d5a5f7570ba015b70abe3b19af375459fcee3c37bcf"
+      }
+    },
+    {
+      "path": "tools/codefriend_host/ci/README.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "f3f5eb5e1fbae10002450f84a6abcf43883025dc",
+        "sha256": "9ac49e39d9c5e5b694da311ef13244af350ce86afb252ee7f368e3e1891a48bd"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "490010273a001473134c56c79e79e7a80773861f",
+        "sha256": "13a2b2060b4464935a76608c9153caca289b5d45e61e81daa528985ec71bfa5a"
+      }
+    },
+    {
+      "path": "tools/codefriend_host/ci/validation.json",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "3d8de177ce00182413ced98b026c7fd522360682",
+        "sha256": "11084330c1de61e4d411371acbd015e2a5e792891b4338b014891bea318279b6"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "f80a6bb217bb9a6f6e3103d932da892616ad9a61",
+        "sha256": "fc4077470134e0992d33747c5c66659a11d0965abf93c7a639c22ae3dbebeb16"
+      }
+    }
+  ],
+  "retained_rows": [
+    {
+      "row": {
+        "id": "RD07-4106",
+        "path": "tools/codefriend_host/README.md",
+        "owner": "codefriend",
+        "component": "codefriend-other-consumers",
+        "current_identity": {
+          "mode": "100644",
+          "blob": "689de45c3ff78f9c2f09f0933bda65a00508fdcc"
+        },
+        "existing_action": "retain",
+        "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
+          "coherent caller and component disposition; no source-only qualification claim"
+        ],
+        "successor_mapping": {
+          "mapping": "unmapped",
+          "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
+          "exact_successor_paths": []
+        },
+        "reviewed_disposition": {
+          "packet": "CODEFRIEND_27_DISPOSITION_PROPOSAL.json",
+          "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
+          "proposal": "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
+          "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
+        }
+      },
+      "identity": {
+        "mode": "100644",
+        "blob": "4e54a1e4c069bb68eb45c7826dc7737672c947b5",
+        "sha256": "26b8183282b623ab7a299d5a5f7570ba015b70abe3b19af375459fcee3c37bcf"
+      },
+      "basis": "Explicit current owner source commands and installation/validation boundary navigation repaired in qualified12; original16 obligations remain historical and separate. Retain useful current descriptors, not missing-path fallback."
+    },
+    {
+      "row": {
+        "id": "RD07-4107",
+        "path": "tools/codefriend_host/ci/README.md",
+        "owner": "codefriend",
+        "component": "codefriend-other-consumers",
+        "current_identity": {
+          "mode": "100644",
+          "blob": "5b7a8b592596e54183e151f2ef1152bea7e6d6b5"
+        },
+        "existing_action": "retain",
+        "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
+          "coherent caller and component disposition; no source-only qualification claim"
+        ],
+        "successor_mapping": {
+          "mapping": "unmapped",
+          "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
+          "exact_successor_paths": []
+        },
+        "reviewed_disposition": {
+          "packet": "CODEFRIEND_27_DISPOSITION_PROPOSAL.json",
+          "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
+          "proposal": "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
+          "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
+        }
+      },
+      "identity": {
+        "mode": "100644",
+        "blob": "490010273a001473134c56c79e79e7a80773861f",
+        "sha256": "13a2b2060b4464935a76608c9153caca289b5d45e61e81daa528985ec71bfa5a"
+      },
+      "basis": "Explicit current owner source commands and installation/validation boundary navigation repaired in qualified12; original16 obligations remain historical and separate. Retain useful current descriptors, not missing-path fallback."
+    },
+    {
+      "row": {
+        "id": "RD07-4134",
+        "path": "tools/codefriend_host/validation.json",
+        "owner": "codefriend",
+        "component": "codefriend-other-consumers",
+        "current_identity": {
+          "mode": "100644",
+          "blob": "73950ca7023785ec50dfaf1980558332af191ded"
+        },
+        "existing_action": "retain",
+        "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
+          "coherent caller and component disposition; no source-only qualification claim"
+        ],
+        "successor_mapping": {
+          "mapping": "unmapped",
+          "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
+          "exact_successor_paths": []
+        },
+        "reviewed_disposition": {
+          "packet": "CODEFRIEND_27_DISPOSITION_PROPOSAL.json",
+          "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
+          "proposal": "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
+          "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
+        }
+      },
+      "identity": {
+        "mode": "100644",
+        "blob": "33e598f4e89a560c5d4a652e0fb4bb27bf8c333f",
+        "sha256": "fc6d8408e13735a26e7f6264ff8b1e35b7138a661cc18304d1d905cc7abfe645"
+      },
+      "basis": "Explicit current owner source commands and installation/validation boundary navigation repaired in qualified12; original16 obligations remain historical and separate. Retain useful current descriptors, not missing-path fallback."
+    },
+    {
+      "row": {
+        "id": "RD07-4112",
+        "path": "tools/codefriend_host/ci/validation.json",
+        "owner": "codefriend",
+        "component": "codefriend-other-consumers",
+        "current_identity": {
+          "mode": "100644",
+          "blob": "c3d7111af4cbc55454daa9e09e23a90702286264"
+        },
+        "existing_action": "retain",
+        "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
+          "coherent caller and component disposition; no source-only qualification claim"
+        ],
+        "successor_mapping": {
+          "mapping": "unmapped",
+          "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
+          "exact_successor_paths": []
+        },
+        "reviewed_disposition": {
+          "packet": "CODEFRIEND_27_DISPOSITION_PROPOSAL.json",
+          "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
+          "proposal": "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
+          "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
+        }
+      },
+      "identity": {
+        "mode": "100644",
+        "blob": "f80a6bb217bb9a6f6e3103d932da892616ad9a61",
+        "sha256": "fc4077470134e0992d33747c5c66659a11d0965abf93c7a639c22ae3dbebeb16"
+      },
+      "basis": "Explicit current owner source commands and installation/validation boundary navigation repaired in qualified12; original16 obligations remain historical and separate. Retain useful current descriptors, not missing-path fallback."
+    }
+  ],
+  "assertion_disposition": {
+    "schema": "adl1223.cf_host_remaining_six.v1",
+    "source_head": "9d98857c60448cd1af48508e2377e6bc3649b75b",
+    "rows": [
+      {
+        "id": "RD07-4106",
+        "path": "tools/codefriend_host/README.md",
+        "artifact_same_path": false,
+        "artifact_sha256": null,
+        "same_current_bytes": false,
+        "proposal": "retain_reviewed_owner_navigation_or_proof_descriptor",
+        "reason": "Retained installation protocol and platform/nonclaim descriptions are useful current boundary documentation; qualified12 repairs active source routes while retaining original historical contract. Not retained because successor same-path absent.",
+        "remaining": "Adopt qualified12 explicit owner test/probe routes and historical CLI labels; if smoke pair retired separately, preserve descriptor as historical original gate, not executable local successor."
+      },
+      {
+        "id": "RD07-4107",
+        "path": "tools/codefriend_host/ci/README.md",
+        "artifact_same_path": false,
+        "artifact_sha256": null,
+        "same_current_bytes": false,
+        "proposal": "retain_reviewed_owner_navigation_or_proof_descriptor",
+        "reason": "Retained installation protocol and platform/nonclaim descriptions are useful current boundary documentation; qualified12 repairs active source routes while retaining original historical contract. Not retained because successor same-path absent.",
+        "remaining": "Adopt qualified12 explicit owner test/probe routes and historical CLI labels; if smoke pair retired separately, preserve descriptor as historical original gate, not executable local successor."
+      },
+      {
+        "id": "RD07-4108",
+        "path": "tools/codefriend_host/ci/interrupted-report.json",
+        "artifact_same_path": false,
+        "artifact_sha256": null,
+        "same_current_bytes": false,
+        "proposal": "conditional_explicit_historical_retirement_with_custody",
+        "reason": "Original installed smoke requires removed adl codefriend journey interface and three-binary adl/server/agent bundle; current __main__ explicitly refuses as retired. Coupled interrupted report supplies actual typed/tamper fixture. Preserve original16 obligations and failed prior installed receipt, not qualify by new source36 or product104.",
+        "remaining": "Archive both current source/fixture identities, preserve prior failure receipts and exact16cases; change qualified12 docs phrase retained smoke to archived original smoke if this separate retirement is accepted. No owner equivalence claim."
+      },
+      {
+        "id": "RD07-4110",
+        "path": "tools/codefriend_host/ci/smoke.py",
+        "artifact_same_path": false,
+        "artifact_sha256": null,
+        "same_current_bytes": false,
+        "proposal": "conditional_explicit_historical_retirement_with_custody",
+        "reason": "Original installed smoke requires removed adl codefriend journey interface and three-binary adl/server/agent bundle; current __main__ explicitly refuses as retired. Coupled interrupted report supplies actual typed/tamper fixture. Preserve original16 obligations and failed prior installed receipt, not qualify by new source36 or product104.",
+        "remaining": "Archive both current source/fixture identities, preserve prior failure receipts and exact16cases; change qualified12 docs phrase retained smoke to archived original smoke if this separate retirement is accepted. No owner equivalence claim."
+      },
+      {
+        "id": "RD07-4112",
+        "path": "tools/codefriend_host/ci/validation.json",
+        "artifact_same_path": false,
+        "artifact_sha256": null,
+        "same_current_bytes": false,
+        "proposal": "retain_reviewed_owner_navigation_or_proof_descriptor",
+        "reason": "Retained installation protocol and platform/nonclaim descriptions are useful current boundary documentation; qualified12 repairs active source routes while retaining original historical contract. Not retained because successor same-path absent.",
+        "remaining": "Adopt qualified12 explicit owner test/probe routes and historical CLI labels; if smoke pair retired separately, preserve descriptor as historical original gate, not executable local successor."
+      },
+      {
+        "id": "RD07-4134",
+        "path": "tools/codefriend_host/validation.json",
+        "artifact_same_path": false,
+        "artifact_sha256": null,
+        "same_current_bytes": false,
+        "proposal": "retain_reviewed_owner_navigation_or_proof_descriptor",
+        "reason": "Retained installation protocol and platform/nonclaim descriptions are useful current boundary documentation; qualified12 repairs active source routes while retaining original historical contract. Not retained because successor same-path absent.",
+        "remaining": "Adopt qualified12 explicit owner test/probe routes and historical CLI labels; if smoke pair retired separately, preserve descriptor as historical original gate, not executable local successor."
+      }
+    ],
+    "original_smoke_case_count": 16,
+    "original_smoke_cases": [
+      "cycle0_identity_and_readonly_quiescence",
+      "cycle0_drain",
+      "cycle0_foreign_resume_rejected",
+      "cycle0_resume",
+      "cycle0_retired_attempt_rejected",
+      "cycle0_unauthenticated_malformed_request_denied",
+      "cycle1_identity_and_readonly_quiescence",
+      "cycle1_drain",
+      "cycle1_foreign_resume_rejected",
+      "cycle1_resume",
+      "cycle1_retired_attempt_rejected",
+      "cycle1_unauthenticated_malformed_request_denied",
+      "stale_instance_rejected",
+      "installed_agent_accepts_valid_interrupted_report",
+      "installed_agent_rejects_tampered_report",
+      "installed_adl_exposes_codefriend_journey"
+    ],
+    "proof_nonclaims": [
+      "36originalhostsource and1added never establish smoke16 acceptance",
+      "Memory8/fitness4 do not prove host deployment/live processes",
+      "Original installed RESULT.json failure retained"
+    ],
+    "source_basis": {
+      "smoke_sha256": "33658aa5f124df3d957168c23170b1e8166189967607f7bad2e406e0cb04a7c5",
+      "retired_cli": "__main__ raises retired-source SystemExit before argument parsing; run body calls installed/adl codefriend --help and asserts journey resume",
+      "fixture_use": "smoke accepts valid interrupted typed report then mutates status and requires actual verifier denial"
+    },
+    "caller_scope": "Inspected current .github, public tools and host subtree; retiredci_select strings are historical unavailable route; no live workflow caller identified. Explicit retired interface, not absence of references, supports proposal.",
+    "case_count_basis": "Source range(2):6each + second-cycle stale1 + report/help3; static obligation inventory, not execution"
+  },
+  "patch_path": "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/host-smoke-two/host-smoke-two.patch",
+  "patch_sha256": "f3f4aa451d52a3f4ba11d85deaa89237cb7fcd9e0cc3257312c79b05feec9c71",
+  "custody": {
+    "path": "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/host-smoke-two/rollback-preimages.tar",
+    "sha256": "a83b30bf89ef035dfe89763671320c3292d529e02ce541d7b88d88223389f5fb",
+    "members": 5
+  },
+  "evidence": {
+    "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/HOST_REMAINING_SIX_DISPOSITIONS.json": "ebaae8ea670828e93bdee14c5c07bd1622c8501ab00c92e283232e8f0a321d5c",
+    "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/offline-source-proof/FINAL_RESULT.json": "47a00ffd506f81980ae7380e524d39bfa786f85aa67ad27c72cee189e0d8f123",
+    "/Volumes/FastWork/c1223/evidence/codefriend/installed/RESULT.json": "d635840d638125090738d9a3f59029e8527801865b029bbce260d46b378a5c56"
+  },
+  "limits": [
+    "Explicit historical retirement of obsolete installed ADL CLI interface, not operational successor equivalence",
+    "No original16pass claim",
+    "No test, product, provider, cloud or host operations",
+    "Four current navigation/validation descriptors explicitly retained",
+    "No ledger/card edits; original IDs unchanged"
+  ],
+  "proposal_source_head": "9d98857c60448cd1af48508e2377e6bc3649b75b",
+  "issue": 1223,
+  "review": {
+    "reviewer": "review_1223_historical_retention",
+    "result": "PASS",
+    "scope": "Exact source and proof custody, original assertion preservation and caller closure; actual registry composed at application; no repeated tests"
+  }
+}

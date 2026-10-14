@@ -1,0 +1,44 @@
+{
+  "schema": "adl1223.historical_consumer_closure.v1",
+  "rows": [
+    "RD07-1507",
+    "RD07-2150",
+    "RD07-2234",
+    "RD07-2236"
+  ],
+  "source_head": "f6000f411dd709870196c9ae902b458df8c9cd05",
+  "original_demo_coverage": {
+    "input": "/Volumes/FastWork/c1223/historical-demo-coverage-r1/INPUT.json",
+    "input_sha256": "3fe68739388b29502037b744cdec72c190df0cd3e795384eefa0e86d98ede048",
+    "result": {
+      "exit_code": 1,
+      "seconds": 0.08519279200118035,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "7d393240159f317535cab7bde860814dfd01ea92c9ca96c83f90963fd9430054",
+      "runtime_provider_or_native_execution": false,
+      "original_negative_cases_declared": 12,
+      "negative_cases_executed": 0,
+      "failure": "Initial positive validation rejects current coverage status implemented_with_evidence; negative suite not reached."
+    },
+    "result_sha256": "15f3924759962b29cde34a46472615a0d8bea0698d6705de7a29faf4d685cf66",
+    "validator_last_change": "9f373f5f04b0f8c9dc6e3e6cbf348fddec98486c",
+    "coverage_last_change": "612d782e29859d8aae05c5d8b099f38269600485",
+    "finding": "#468 coverage document introduces implemented_with_evidence after #447 validator; exact current original pair fails before negative scenarios.",
+    "next_action": "Choose supported current ledger validator or explicit frozen historical input closure; do not widen accepted statuses without matching predecessor/acceptance semantics."
+  },
+  "workcell": {
+    "path": "adl/tools/run_v0914_multi_agent_workcell_proof.sh",
+    "sha256": "1d4d7300ba3448403b261fc913e30a8438d505373af6115b4341c38fa76485f6",
+    "observed_effects": "Deletes selected runtime output, creates repo/worktrees and tracked-review output; ensure_model_present invokes ollama before later dry-run branch. Full route invokes model/provider workers.",
+    "executed": false,
+    "next_action": "Resolve owner/provider/orchestration contract or explicit historical retirement as a whole; two planner/validator component passes do not establish complete runner."
+  },
+  "distributed_receipts": {
+    "path": "adl/tools/validate_v092_distributed_native_receipts.rb",
+    "sha256": "8f1f7b8f3c983163a18523c89d413c6c51881a8c5f0299898abf8949ff5ad6ca",
+    "observed_effects": "Full route validates exact current Git head against macOS/Linux/Windows receipts and performs authenticated GitHub hosted-run/job readback. Self-test checks only fixed denominator/path invariants.",
+    "executed": false,
+    "next_action": "Preserve full receipt/provenance/negative-case denominator and original expected argv; source-only/self-test evidence cannot replace authentic hosted matrix acceptance."
+  },
+  "source_removal_authorized": false
+}

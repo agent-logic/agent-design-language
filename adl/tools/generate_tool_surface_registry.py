@@ -3,7 +3,6 @@ from __future__ import annotations
 
 import re
 from collections import Counter
-from datetime import date
 from pathlib import Path
 
 
@@ -11,32 +10,40 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 TOOLS_DIR = REPO_ROOT / "adl" / "tools"
 SKILLS_DIR = TOOLS_DIR / "skills"
 CARGO_TOML = REPO_ROOT / "adl" / "Cargo.toml"
-OUTPUT_PATH = REPO_ROOT / "docs" / "milestones" / "v0.91.5" / "TOOL_SURFACE_REGISTRY_3734.md"
+OUTPUT_PATH = REPO_ROOT / "docs" / "tooling" / "TOOL_SURFACE_REGISTRY.md"
 
 
 PRIMARY_BINARIES = {
-    "adl-csdlc": "Primary C-SDLC owner binary for workflow control-plane and prompt-card tooling.",
-    "adl-runtime": "Primary runtime owner binary for execution, providers, demos, agents, and instrumentation.",
-    "adl-review": "Primary review owner binary for review tooling and packet verification.",
-    "adl-validate-structured-prompt": "Direct validator binary for structured prompt validation.",
-    "adl-lint-prompt-spec": "Direct validator binary for Prompt Spec lint.",
-    "adl-prompt-template": "Direct editor/renderer binary for prompt-template operations.",
-    "adl-provider-adapter": "Primary provider adapter utility for provider invocation surfaces.",
-    "adl-remote": "Primary remote workflow binary for remote execution surfaces.",
+    "adl": "Public ADL planning and installed-product CLI declared by this repository.",
+    "adl-process": "Public permission-safe process-status helper declared by this repository.",
 }
+
 
 SUPPORTED_SHIMS = {
 }
 
 REMOVE_CANDIDATES = {
-    "codex_pr.sh": "Retired fail-closed wrapper kept only for migration guidance until final deletion.",
-    "codexw.sh": "Retired fail-closed wrapper kept only for migration guidance until final deletion.",
 }
 
 PRIMARY_TOOL_SCRIPTS = {
-    "run_owner_validation_lane.sh": "Primary focused owner-lane runner for bounded validation.",
+    "batched_checks.sh": "Local validation entrypoint; use the current declared public validation contract.",
     "run_pr_fast_test_lane.sh": "Primary focused PR-fast local test runner.",
-    "check_coverage_impact.sh": "Primary local coverage-impact gate for risky changed files.",
+}
+
+HISTORICAL_TOOL_SCRIPTS = {
+    'install_aws_remote_validation_tool.sh': 'Historical Infrastructure source route retired by #1223; command refuses execution. Original assertions remain in Git and retirement custody; run the reviewed owner route.',
+    'run_aws_spot_remote_validation_lane.sh': 'Historical Infrastructure source route retired by #1223; command refuses execution. Original assertions remain in Git and retirement custody; run the reviewed owner route.',
+    'test_run_aws_spot_ci_profile.sh': 'Historical Infrastructure source route retired by #1223; command refuses execution. Original assertions remain in Git and retirement custody; run the reviewed owner route.',
+    'run_issue509_gcp_drt_d_qualification.sh': 'Historical Infrastructure source route retired by #1223; command refuses execution. Original assertions remain in Git and retirement custody; run the reviewed owner route.',
+    'run_authoritative_coverage_lane.sh': 'Historical Runtime source-tree route retired by #1223; invocation fails before execution. Original assertions are preserved in Git and retirement custody, not qualified as passing.',
+    'run_pr_fast_test_lane.sh': 'Historical Runtime source-tree route retired by #1223; invocation fails before execution. Original assertions are preserved in Git and retirement custody, not qualified as passing.',
+    'test_run_authoritative_coverage_lane.sh': 'Historical Runtime source-tree route retired by #1223; invocation fails before execution. Original assertions are preserved in Git and retirement custody, not qualified as passing.',
+    'test_validation_inventory.sh': 'Historical Runtime source-tree route retired by #1223; invocation fails before execution. Original assertions are preserved in Git and retirement custody, not qualified as passing.',
+    'validate_v092_runtime_guardian_lifecycle.sh': 'Historical Runtime source-tree route retired by #1223; invocation fails before execution. Original assertions are preserved in Git and retirement custody, not qualified as passing.',
+
+    "run_v0914_multi_agent_workcell_proof.sh": "Historical model-backed v0.91.4 workcell rehearsal; retained manifest and review artifacts do not qualify a new execution, including its provider-active dry-run path.",
+    "demo_d11_signed_remote.sh": "Historical signed-remote contract; current public ADL does not supply its Runtime binary or test interfaces.",
+    "demo_v087_operational_skills.sh": "Historical bundle-install and inventory contract; original recursive acceptance remains separate from owner resource proof.",
 }
 
 HISTORICAL_EVIDENCE = [
@@ -58,66 +65,30 @@ HISTORICAL_EVIDENCE = [
     ),
 ]
 
-CORE_WORKFLOW_COMMANDS = [
+OWNER_NAVIGATION = [
     (
-        "csdlc-install resolve",
-        "core workflow command",
+        "https://github.com/agent-logic/agent-logic-infrastructure",
+        "owner documentation",
         "primary",
-        "Resolve the installed v2 generation selector before issue work.",
+        "Infrastructure manual proof owner; retained source and resolver checks do not qualify live behavior.",
     ),
     (
-        "csdlc-issue --root <repo> create --request <bootstrap-request.json>",
-        "core workflow command",
+        "https://github.com/agent-logic/cognitive-sdlc",
+        "owner documentation",
         "primary",
-        "Atomically create the canonical issue record and six projections.",
+        "C-SDLC v3 lifecycle owner. Use its installed operator manual and authenticated authority; source presence grants no authority.",
     ),
     (
-        "csdlc-bind --root <worktree> --request <bind-request.json>",
-        "core workflow command",
+        "https://github.com/agent-logic/agent-logic-runtime",
+        "owner documentation",
         "primary",
-        "Bind the issue claim, branch, and worktree through typed argv.",
+        "Runtime product owner; installation and product qualification are separate from this source inventory.",
     ),
     (
-        "csdlc-validate --root <worktree> finalize --request <finalize-request.json>",
-        "core workflow command",
+        "https://github.com/agent-logic/codefriend",
+        "owner documentation",
         "primary",
-        "Execute declared PVF proof and atomically record Implemented truth.",
-    ),
-    (
-        "csdlc-review record --request <review-request.json>",
-        "core workflow command",
-        "primary",
-        "Record exact-head review truth before publication.",
-    ),
-    (
-        "csdlc-publish publish --request <publication-request.json>",
-        "core workflow command",
-        "primary",
-        "Publish one ready PR only after review and validation gates pass.",
-    ),
-    (
-        "pr-janitor skill / janitor workflow",
-        "core workflow command",
-        "primary",
-        "Canonical in-flight PR blocker routing surface once a PR has been published.",
-    ),
-    (
-        "csdlc-edit apply --request <edit-request.json>",
-        "core workflow command",
-        "primary",
-        "Typed prompt-card values edit surface after final v1 sunset.",
-    ),
-    (
-        "adl-validate-structured-prompt --type <kind> --phase <phase> --input <card>",
-        "core workflow command",
-        "primary",
-        "Primary direct structured-prompt validator surface after the small-binary split.",
-    ),
-    (
-        "adl-lint-prompt-spec --input <file>",
-        "core workflow command",
-        "primary",
-        "Primary direct prompt-spec lint surface after the small-binary split.",
+        "CodeFriend review product owner; this registry does not invoke or qualify it.",
     ),
 ]
 
@@ -127,12 +98,25 @@ def repo_rel(path: Path) -> str:
 
 
 def parse_bin_names() -> list[str]:
-    text = CARGO_TOML.read_text()
-    return re.findall(r'^name = "(adl-[^"]+)"$', text, re.MULTILINE)
+    # Read explicit [[bin]] tables, excluding the package/library names.
+    # This inventory reports explicit declarations, not installed product admission.
+    names = []
+    in_bin = False
+    for raw in CARGO_TOML.read_text().splitlines():
+        line = raw.split("#", 1)[0].strip()
+        if line.startswith("["):
+            in_bin = line == "[[bin]]"
+        elif in_bin:
+            match = re.fullmatch(r'name\s*=\s*"([^\"]+)"', line)
+            if match:
+                names.append(match.group(1))
+    return names
 
 
 def classify_tool_script(path: Path) -> tuple[str, str]:
     name = path.name
+    if name in HISTORICAL_TOOL_SCRIPTS:
+        return "historical evidence", HISTORICAL_TOOL_SCRIPTS[name]
     if name in REMOVE_CANDIDATES:
         return "remove candidate", REMOVE_CANDIDATES[name]
     if name in SUPPORTED_SHIMS:
@@ -156,6 +140,8 @@ def classify_tool_script(path: Path) -> tuple[str, str]:
 
 def classify_skill_dir(path: Path) -> tuple[str, str]:
     name = path.name
+    if name == "pr-run":
+        return "historical evidence", "Partial historical ADL compatibility reference; use the selected native owner for current lifecycle commands."
     if name in {
         "csdlc-doctor",
         "pr-init",
@@ -184,16 +170,18 @@ def build_document() -> str:
     counts = Counter()
 
     for name in parse_bin_names():
-        notes = PRIMARY_BINARIES.get(name, "Owner binary present in Cargo manifest.")
+        notes = PRIMARY_BINARIES.get(name, "Local binary declared by this Cargo manifest; presence is not installed acceptance.")
         classification = "primary"
         counts[classification] += 1
         bin_rows.append((name, "owner binary", classification, notes))
 
     tool_rows: list[tuple[str, str, str, str]] = []
     for path in sorted(TOOLS_DIR.iterdir()):
-        if path.name == "skills":
+        if path.name in {"skills", "__pycache__"}:
             continue
         if path.is_dir():
+            if not any(child.is_file() for child in path.rglob("*")):
+                continue
             classification = "internal helper"
             notes = "Directory containing bounded helper assets, scripts, or proof inputs."
         else:
@@ -203,7 +191,8 @@ def build_document() -> str:
 
     skill_rows: list[tuple[str, str, str, str]] = []
     for path in sorted(
-        p for p in SKILLS_DIR.iterdir() if p.is_dir() and (p / "SKILL.md").exists()
+        p for p in (SKILLS_DIR.iterdir() if SKILLS_DIR.is_dir() else [])
+        if p.is_dir() and (p / "SKILL.md").exists()
     ):
         classification, notes = classify_skill_dir(path)
         counts[classification] += 1
@@ -215,22 +204,20 @@ def build_document() -> str:
         historical_rows.append((rel, "historical evidence", "historical evidence", notes))
 
     command_rows: list[tuple[str, str, str, str]] = []
-    for row in CORE_WORKFLOW_COMMANDS:
+    for row in OWNER_NAVIGATION:
         counts[row[2]] += 1
         command_rows.append(row)
 
     lines = [
-        "# v0.91.5 Tool Surface Registry",
+        "# ADL Source Tool Surface Registry",
         "",
-        "Issue: #3734",
-        "Parent sprint: #3732",
-        f"Captured: {date.today().isoformat()}",
+        "Historical baseline: issue #3734; its v0.91.5 snapshot remains unchanged.",
         "Status: generated_live_registry",
         "",
         "## Summary",
         "",
         "This registry records the current visible ADL toolkit surface for the",
-        "toolkit-simplification mini-sprint. It is a live inventory intended to",
+        "selected source checkout. It is a live source inventory intended to",
         "drive later simplification cuts without confusing primary workflow",
         "entrypoints, supported compatibility shims, internal helpers, and",
         "historical evidence artifacts.",
@@ -259,11 +246,11 @@ def build_document() -> str:
         f"- `archive candidate`: {counts['archive candidate']}",
         f"- `remove candidate`: {counts['remove candidate']}",
         "",
-        "## Owner Binaries",
+        "## Locally Declared Binaries",
         "",
         *render_table(bin_rows),
         "",
-        "## Core Workflow Commands",
+        "## Owner Navigation",
         "",
         *render_table(command_rows),
         "",
@@ -272,6 +259,10 @@ def build_document() -> str:
         *render_table(tool_rows),
         "",
         "## ADL Skills",
+        "",
+        ("Source skill directories only; installed skill admission is not inventoried here."
+         if SKILLS_DIR.is_dir() else
+         "Unavailable: the source skill directory is absent. Installed skills are not inventoried."),
         "",
         *render_table(skill_rows),
         "",

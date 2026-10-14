@@ -1,7 +1,29 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-repo_root="$(git rev-parse --show-toplevel)"
+# Preserved original historical telemetry contract; not native terminal authority.
+source_root="${CSDLC_HISTORICAL_SOURCE_ROOT:-}"
+if [[ "$source_root" != /* || ! -d "$source_root" ]]; then
+  echo "Select an authentic complete original telemetry fixture with CSDLC_HISTORICAL_SOURCE_ROOT." >&2
+  exit 2
+fi
+python3 - "$source_root" <<'SOURCE_PINS'
+import hashlib
+from pathlib import Path
+import sys
+root = Path(sys.argv[1])
+pins = {
+    "adl/tools/skills/sprint-conductor/scripts/record_issue_goal_stage_from_codex_session.py": "359c4274fc2498c67b0b97a912d5f573c35a06d7f2fb04309d147353ddfee3d6",
+    "adl/tools/skills/sprint-conductor/scripts/issue_goal_metrics.py": "cea05f335af023b6576faeaef57cd776ee5dcf0c09b67e17e51d50c6f7b869db",
+}
+for relative, expected in pins.items():
+    try:
+        actual = hashlib.sha256((root / relative).read_bytes()).hexdigest()
+    except OSError:
+        raise SystemExit("Missing original telemetry resource: " + relative)
+    if actual != expected:
+        raise SystemExit("Changed original telemetry resource: " + relative)
+SOURCE_PINS
 tmpdir="$(mktemp -d)"
 trap 'rm -rf "${tmpdir}"' EXIT
 
@@ -17,7 +39,7 @@ cat >"${transcript_path}" <<'EOF_TRANSCRIPT'
 {"type":"response_item","payload":{"item":{"type":"function_call_output","call_id":"call_goal_4666","output":"{\"goal\":{\"threadId\":\"thread-4666-completed\",\"objective\":\"Issue #4666 session\",\"status\":\"complete\",\"tokensUsed\":2500,\"timeUsedSeconds\":60,\"createdAt\":1783010000,\"updatedAt\":1783010060}}"}}}
 EOF_TRANSCRIPT
 
-python3 "${repo_root}/adl/tools/skills/sprint-conductor/scripts/record_issue_goal_stage_from_codex_session.py" \
+python3 "${source_root}/adl/tools/skills/sprint-conductor/scripts/record_issue_goal_stage_from_codex_session.py" \
   --issue-number 4666 \
   --artifacts-dir "${artifacts_dir}" \
   --capture-stage card_repair \
@@ -26,7 +48,7 @@ python3 "${repo_root}/adl/tools/skills/sprint-conductor/scripts/record_issue_goa
   --thread-id "${thread_id}" \
   --session-root "${home_dir}/.codex/sessions" \
   --metrics-confidence high \
-  >/tmp/adl-readiness-prep-non-terminal.out
+  >"${tmpdir}/readiness-prep-non-terminal.out"
 
 python3 - "$artifacts_dir/issue-4666-goal-metrics-summary.json" <<'PY'
 import json
@@ -39,7 +61,7 @@ assert summary["goal_terminal_state"]["completion_allowed"] is False, summary
 assert summary["sprint_goal_ref"] == "issue-4631", summary
 PY
 
-if python3 "${repo_root}/adl/tools/skills/sprint-conductor/scripts/record_issue_goal_stage_from_codex_session.py" \
+if python3 "${source_root}/adl/tools/skills/sprint-conductor/scripts/record_issue_goal_stage_from_codex_session.py" \
   --issue-number 4666 \
   --artifacts-dir "${tmpdir}/bound-artifacts" \
   --capture-stage issue_start \

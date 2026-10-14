@@ -1,0 +1,101 @@
+{
+  "schema": "adl1223.prompt_editor_current_guard_retention.v1",
+  "source_head": "455bb4562ad52ae9a7a88be1360e19458bec9903",
+  "status": "records_only_proposed",
+  "rows": [
+    {
+      "original_row": {
+        "id": "RD07-1940",
+        "path": "adl/tools/test_csdlc_prompt_editor.sh",
+        "owner": "cognitive-sdlc",
+        "component": "cognitive-sdlc-mapped-tools",
+        "current_identity": {
+          "mode": "100755",
+          "blob": "31fe2323174181334cffc5b1bcb88dab261b4065"
+        },
+        "existing_action": "retain",
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ],
+        "successor_mapping": {
+          "mapping": "exact_successor",
+          "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+          "exact_successor_paths": [
+            "docs/skill-distributions/planning-utilities/original/adl/tools/test_csdlc_prompt_editor.sh"
+          ]
+        }
+      },
+      "current_identity": {
+        "mode": "100755",
+        "blob": "10ca4ed5b68c34d4a94cd248106933b310baba4e",
+        "sha256": "17d8517f92aad2f65e20be75b94e8f986c8ff6eb79a0f442b1629d195058e417"
+      },
+      "proposed_action": "retain_resolved",
+      "reason": "Current wrapper has already been reduced to four absence assertions on retired prompt shell/Rust paths plus the retained versioned schema validator. Preserve these current ADL boundary/schema checks; this is not an archived-v1 resource wrapper."
+    }
+  ],
+  "evidence": [
+    {
+      "path": "adl/tools/test_csdlc_prompt_editor.sh",
+      "mode": "100755",
+      "blob": "10ca4ed5b68c34d4a94cd248106933b310baba4e",
+      "sha256": "17d8517f92aad2f65e20be75b94e8f986c8ff6eb79a0f442b1629d195058e417"
+    },
+    {
+      "path": "adl/tools/test_prompt_template_structure_schemas.py",
+      "mode": "100644",
+      "blob": "90db696ac64543eb4f60e82d532ea071ed0867e8",
+      "sha256": "0cee0c6a806b57102ab761993d6aee1bf0c4cb48f4dd1b421bd74bda419caca9"
+    },
+    {
+      "path": "docs/templates/prompts/current.json",
+      "mode": "100644",
+      "blob": "3dd3ce091ec9fdb2ab5adf7eac7611086aad948f",
+      "sha256": "1543d365c8ce8e2826bc1a775857f34030fd64245dd45e7d6c0bbafc705f0e27"
+    },
+    {
+      "path": "docs/templates/prompts/1.0.5/schemas/sip.structure.json",
+      "mode": "100644",
+      "blob": "05c04e1695e15ac9ad9932051fe34fd61cbdaef9",
+      "sha256": "07095fab557706bb673d2814476b83c04416beea64f8ac96ecd3c47a4371704a"
+    },
+    {
+      "path": "docs/templates/prompts/1.0.5/schemas/stp.structure.json",
+      "mode": "100644",
+      "blob": "bf3dbcb26249b114ea1669184e90cc730809254f",
+      "sha256": "b6ae4e3be0c94f3d24ab51372a2ebb3a49cbf7a103526a1f83b01a9b390c8656"
+    },
+    {
+      "path": "docs/templates/prompts/1.0.5/schemas/spp.structure.json",
+      "mode": "100644",
+      "blob": "f1420bcb130514e133dab92322cb0470fca42da4",
+      "sha256": "fd21331bb45bc743db913daff8b336d3aff3afe361ced9d7460b0e82f5fbf805"
+    },
+    {
+      "path": "docs/templates/prompts/1.0.5/schemas/vpp.structure.json",
+      "mode": "100644",
+      "blob": "681442a797a0f16f75072ae7bccebd9cf3220e03",
+      "sha256": "33577ceea99f85f2337c1d61bb7552d7358c50169f5066929114718f1de96d7d"
+    },
+    {
+      "path": "docs/templates/prompts/1.0.5/schemas/srp.structure.json",
+      "mode": "100644",
+      "blob": "044e380e89e84d69e3f355f9c98ba148c215d0d6",
+      "sha256": "ccbeae59f70d4173b52a2be11587911782cfce6d0e27126f9d1603edf8c43e06"
+    },
+    {
+      "path": "docs/templates/prompts/1.0.5/schemas/sor.structure.json",
+      "mode": "100644",
+      "blob": "a6931fb02cb67da3c1eb25c1f511953a7eeee748",
+      "sha256": "7ad244a86295c5fcf238f4a8f0cf05ce983525d25828545866949700a97c9cc2"
+    }
+  ],
+  "limits": [
+    "No new test/current pass or native lifecycle equivalence claimed.",
+    "Original v2 command/Gate2/Gate4 obligations remain historical and independently recorded; current script explicitly does not claim them.",
+    "Only one exact retention disposition; no source or card edits."
+  ]
+}

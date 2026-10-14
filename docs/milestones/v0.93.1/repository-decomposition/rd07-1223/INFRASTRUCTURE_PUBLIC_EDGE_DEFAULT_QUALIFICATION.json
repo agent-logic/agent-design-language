@@ -1,0 +1,74 @@
+{
+  "schema": "adl1223.infrastructure_public_edge_qualification.v1",
+  "status": "passed_original_default_validator",
+  "repository": "agent-logic/agent-logic-infrastructure",
+  "candidate": "52726019f14b790bdabe84b2e8e629fbbb6af7de",
+  "result": {
+    "candidate": "52726019f14b790bdabe84b2e8e629fbbb6af7de",
+    "command": [
+      "bash",
+      "adl/tools/validate_csm_public_edge_static.sh"
+    ],
+    "exit": 0,
+    "seconds": 4.0692179260004195,
+    "provider_directory_hash": "h1:wOhTPz6apLBuF7/FYZuCoXRK/MLgrNprZ3vXmq83g5k=",
+    "provider_files": [
+      {
+        "path": "LICENSE.txt",
+        "sha256": "4e2bb185ebd706f76329206869ccb348b92b6236100cfb07775fe31530dab0d5",
+        "size": 16761
+      },
+      {
+        "path": "terraform-provider-aws_v5.100.0_x5",
+        "sha256": "6c0d4e10cf57e3fcaad0055f7149a32f66e24a63d75e78fe6c8e39013964bfb9",
+        "size": 656474264
+      }
+    ],
+    "lock_sha256_before": "d85a4f8b87d864fb63e479a6e27b2ef2c6ae46afb2b59fef8c153b4a69aea9aa",
+    "lock_sha256_after": "d85a4f8b87d864fb63e479a6e27b2ef2c6ae46afb2b59fef8c153b4a69aea9aa",
+    "lock_unchanged": true,
+    "network": "none",
+    "provider_downloads": false,
+    "cloud_apply": false,
+    "credentials_supplied": false
+  },
+  "terraform": {
+    "terraform_version": "1.15.3",
+    "platform": "linux_arm64",
+    "provider_selections": {},
+    "terraform_outdated": false
+  },
+  "execution_boundary": "Real default validator, no --source-only. Isolated networknone filesystem mirror, no credentials/provider downloads/cloud plan/apply. Original stopped container not restarted.",
+  "authentication_boundary": "Terraform reports mirror provider unauthenticated because no live registry signature exchange is done. Cached expanded provider bytes were matched to retained prior platform hash and exact current source lock h1 before execution; this is checksum/custody evidence, not new registry authentication.",
+  "scope": "One public-edge root; does not rerun or supersede unrelated prior27/28matrix/ALB failure.",
+  "evidence": [
+    {
+      "path": "PREPARATION.json",
+      "sha256": "4ba22b27ec1b4c75fe653dfba1d20163ee0dc822eba3d26526bbeb84d4522fd4"
+    },
+    {
+      "path": "run-in-container.py",
+      "sha256": "f68586de925399f570b313422577fc3a9a1bec7027d2440dc2cb270eaf8eb1b6"
+    },
+    {
+      "path": "container-inspect.json",
+      "sha256": "17dc7a5e71e23a33ad564dad04bd2de0a03d526d54f234329a7756031aba99fe"
+    },
+    {
+      "path": "qualification/RESULT.json",
+      "sha256": "7b4b49910fe9d0e9cb2fd9e2299bef594488048df160fba7b5775c1f64f3182e"
+    },
+    {
+      "path": "qualification/stdout",
+      "sha256": "6f341cf02d4c8e59a216b48b7438a8553e35f2d04db852ced9725189e47169ba"
+    },
+    {
+      "path": "qualification/stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "qualification/terraform-version.json",
+      "sha256": "e9b33368ede7815aebd4d63228d16a555a3e911a56f3e77c5b8d98df9970472a"
+    }
+  ]
+}

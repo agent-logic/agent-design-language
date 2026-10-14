@@ -1,0 +1,982 @@
+{
+  "schema": "adl.source_retirement.test_cutover.v1",
+  "issue": 1223,
+  "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
+  "scope": "47 prior unmapped CodeFriend test/support/fixture rows only",
+  "method": "Exact Rust test-function names compared with successor Rust/Python function definitions; name matches are location evidence, not behavioral equivalence or executed proof.",
+  "rows": [
+    {
+      "path": "adl/tests/codefriend_agent.rs",
+      "source_tests": 47,
+      "matching_test_names": [],
+      "unmatched_test_names": [
+        "commands_cannot_change_identity_scope_or_expiry",
+        "consent_requires_exact_revision_bounded_scope_and_egress",
+        "run_reservations_survive_restart_and_never_replay",
+        "pairing_storage_is_private_create_only_and_expiring",
+        "origin_and_fixture_transport_reject_credential_exfiltration",
+        "journal_rejects_world_readable_or_symlink_store",
+        "local_orchestration_uses_four_gateway_lanes_and_redelivery_never_dispatches",
+        "local_update_cycle_uses_one_durable_gateway_operation_and_preserves_activity_results",
+        "local_update_cycle_restart_observes_the_known_result_without_reposting",
+        "local_update_cycle_accepts_gateway_admission_with_independent_clock_and_retention",
+        "local_update_cycle_resumes_after_legacy_deadline_without_cancel_or_repost",
+        "terminal_cycle_failure_without_envelope_reports_once_without_replay",
+        "local_update_cycle_cancellation_stops_without_replay_or_upload",
+        "failed_cycle_retains_each_activity_record_without_claiming_completion",
+        "native_report_verifier_rejects_rehashed_malformed_cycle_content",
+        "lost_model_reply_is_terminal_and_never_replayed",
+        "website_cancellation_prevents_success_and_remaining_model_lanes",
+        "deleting_consent_during_lane_stops_further_dispatch_and_upload",
+        "retention_deadline_stops_dispatch_and_cleans_even_single_poll",
+        "cancelled_redelivery_does_not_reupload_complete_artifact",
+        "expired_pairing_can_be_forgotten_and_replaced_without_remote_claim",
+        "consent_deleted_during_control_prevents_model_post",
+        "retention_expiring_during_control_prevents_model_post",
+        "consent_deleted_during_final_control_prevents_result_put",
+        "retained_report_corruption_is_not_forwarded",
+        "cli_restart_purges_expired_payload_before_rejecting_expired_pairing",
+        "interrupted_reservation_reports_failure_without_new_dispatch",
+        "serialized_reports_honor_shorter_website_command_deadlines",
+        "website_verifier_checks_native_report_digest_and_complete_contract",
+        "confirmed_unpair_scrubs_payloads_and_preserves_no_replay_tombstone",
+        "aggregate_four_lane_budget_never_persists_unforwardable_completion",
+        "restart_resumes_known_result_observation_without_reposting_any_lane",
+        "restart_resumes_known_status_observation_without_reposting_any_lane",
+        "reconnect_preserves_known_work_after_initial_lane_control_disconnect",
+        "reconnect_preserves_completed_work_after_final_control_disconnect",
+        "completed_lane_cache_survives_its_observation_timeout_during_later_lane_reconnect",
+        "gateway_result_must_match_acknowledged_candidate",
+        "gateway_candidate_must_remain_consistent_across_lanes",
+        "gateway_actual_model_must_remain_consistent_across_lanes",
+        "partial_scope_is_rejected_before_any_model_dispatch",
+        "missing_original_store_never_readmits_or_dispatches_on_reconnect",
+        "tampered_original_store_never_dispatches_on_reconnect",
+        "known_running_operation_resumes_after_legacy_deadline_without_cancel_or_repost",
+        "privacy_omissions_survive_agent_forwarding_without_replay_or_secret_bytes",
+        "assessment_gateway_rejects_mixed_generations",
+        "agent_report_accepts_legacy_and_assessment_runs_with_exact_lane_pairing",
+        "local_cycle_preserves_assessment_review_and_rejects_legacy_substitution"
+      ],
+      "status": "unresolved_behavioral_mapping_required"
+    },
+    {
+      "path": "adl/tests/codefriend_agent_publication.rs",
+      "source_tests": 8,
+      "matching_test_names": [],
+      "unmatched_test_names": [
+        "native_generated_preparation_validates_three_formats_without_granting_approval",
+        "recomputed_transport_hash_does_not_authorize_changed_native_challenge_or_owner",
+        "prepared_receipt_cannot_be_relabelled_complete_or_bypass_owned_report_validation",
+        "shared_builder_preserves_all_thirteen_original_owner_bytes_for_snapshot_encodings",
+        "v2_builder_preserves_all_thirteen_admitted_owner_bytes_for_snapshot_encodings",
+        "publication_preparation_bounds_the_single_snapshot_for_both_versions",
+        "publication_job_observation_rechecks_local_authority_before_upload_and_ack",
+        "public_local_relay_renders_three_real_formats_and_preserves_withheld_decision"
+      ],
+      "status": "unresolved_behavioral_mapping_required"
+    },
+    {
+      "path": "adl/tests/codefriend_agent_receipt.rs",
+      "source_tests": 9,
+      "matching_test_names": [],
+      "unmatched_test_names": [
+        "missing_ack_recovers_by_get_and_restart_reobserves_exact_receipt",
+        "forged_bindings_and_schema_are_rejected_without_retention",
+        "changed_authenticated_receipt_never_overwrites_retained_binding",
+        "expiry_scrubs_receipt_but_preserves_no_replay_reservation",
+        "remote_revocation_and_changed_consent_fail_closed",
+        "unpair_scrubs_receipt_and_retains_tombstone",
+        "cancelled_missing_receipt_and_expired_pairing_do_not_create_receipt",
+        "malformed_complete_report_is_rejected_even_with_recomputed_digest",
+        "expiry_during_receipt_observation_prevents_retention"
+      ],
+      "status": "unresolved_behavioral_mapping_required"
+    },
+    {
+      "path": "adl/tests/codefriend_baseline_repeat.rs",
+      "source_tests": 1,
+      "matching_test_names": [],
+      "unmatched_test_names": [
+        "genuine_repeated_review_results_retain_compare_and_keep_original_expiry"
+      ],
+      "status": "unresolved_behavioral_mapping_required"
+    },
+    {
+      "path": "adl/tests/codefriend_cf_cog.rs",
+      "source_tests": 18,
+      "matching_test_names": [],
+      "unmatched_test_names": [
+        "version_dispatch_preserves_original_v1_payload_and_source_authority",
+        "allowed_graph_is_deterministic_and_evidence_linked",
+        "explicit_boundary_policy_distinguishes_allowed_and_forbidden",
+        "cycle_and_coupling_report_real_directed_edges",
+        "unsupported_constructs_and_external_edges_cannot_claim_complete",
+        "syntax_uncertainty_preserves_references_and_exact_reasons",
+        "missing_module_parse_error_and_unsupported_language_are_partial",
+        "manifest_dependencies_are_declared_not_invented_resolved_code",
+        "root_super_paths_and_missing_boundaries_do_not_invent_edges",
+        "output_readback_rejects_tampering_and_never_overwrites",
+        "deletion_and_expiry_deny_saved_report_retrieval",
+        "invalid_policy_and_bounds_fail_closed",
+        "output_symlinks_are_rejected",
+        "real_cli_admits_reports_and_reads_persisted_artifact",
+        "malformed_root_with_manifest_returns_partial_without_dangling_edges",
+        "policy_changes_invalidate_run_compatibility",
+        "extern_crate_and_unresolved_types_are_explicit_unknowns",
+        "pathological_rust_is_partial_before_recursive_parsing"
+      ],
+      "status": "unresolved_behavioral_mapping_required"
+    },
+    {
+      "path": "adl/tests/codefriend_cf_cog_drift.rs",
+      "source_tests": 10,
+      "matching_test_names": [],
+      "unmatched_test_names": [
+        "original_store_pair_compares_without_readmission_and_preserves_lifetimes",
+        "introduced_removed_edges_and_cross_layer_explanations",
+        "unchanged_and_line_relocation_have_stable_shared_identity",
+        "repeated_edge_locations_do_not_create_identity_collisions",
+        "partial_narrower_and_policy_changes_never_resolve",
+        "actual_baseline_storage_is_required_and_deletion_revokes",
+        "artifacts_reject_tamper_expiry_and_deleted_evidence",
+        "malformed_graph_version_and_ambiguous_identity_reject",
+        "bad_artifacts_reject_without_partial_success",
+        "installed_dispatch_retains_real_graphs_and_reads_drift"
+      ],
+      "status": "unresolved_behavioral_mapping_required"
+    },
+    {
+      "path": "adl/tests/codefriend_cf_cog_impact.rs",
+      "source_tests": 10,
+      "matching_test_names": [],
+      "unmatched_test_names": [
+        "direct_transitive_cross_boundary_and_unaffected_have_exact_witnesses",
+        "multiple_roots_keep_distinct_paths_and_normalize_order",
+        "cycle_terminates_and_explains_each_affected_node",
+        "unsupported_symbols_and_outside_modules_are_partial_not_safe",
+        "unknown_graph_edges_never_become_no_impact",
+        "stale_malformed_duplicate_and_bounded_changes_fail_precisely",
+        "artifact_roundtrip_tamper_overwrite_deletion_and_expiry",
+        "pair_bound_rejects_dense_cycle_without_truncating_claims",
+        "artifact_input_guards_reject_malformed_oversize_and_unsafe_paths",
+        "product_cli_creates_and_consumes_impact_with_strict_inputs"
+      ],
+      "status": "unresolved_behavioral_mapping_required"
+    },
+    {
+      "path": "adl/tests/codefriend_cf_cog_rationale.rs",
+      "source_tests": 10,
+      "matching_test_names": [],
+      "unmatched_test_names": [
+        "accepted_rationale_traces_graph_deployment_and_source_revision",
+        "candidate_superseded_unknown_status_and_missing_are_not_accepted",
+        "conflicts_are_same_key_accepted_choices_not_candidate_or_different_decisions",
+        "unknown_deployment_and_unavailable_evidence_preserve_unknowns",
+        "malformed_or_mismatched_adrs_and_instructions_never_grant_authority",
+        "stale_tampered_out_of_scope_and_bounded_claims_reject",
+        "persistence_recomputes_and_denies_tamper_delete_expiry_and_overwrite",
+        "malformed_deployment_partial_graph_and_source_size_fail_closed",
+        "artifact_guards_deny_malformed_large_and_unsafe_inputs",
+        "product_cli_creates_and_consumes_rationale_with_strict_inputs"
+      ],
+      "status": "unresolved_behavioral_mapping_required"
+    },
+    {
+      "path": "adl/tests/codefriend_cf_gov.rs",
+      "source_tests": 11,
+      "matching_test_names": [],
+      "unmatched_test_names": [
+        "fitness_dispatch_preserves_v1_bytes_and_original_store_validation",
+        "literal_imports_pass_fail_and_stable_evidence",
+        "raw_identifiers_do_not_bypass_boundary",
+        "unprovable_inputs_are_errors_not_passes",
+        "invalid_policy_is_rejected_and_policy_is_run_identity",
+        "tamper_and_deleted_admission_fail_readback",
+        "cli_reports_distinct_outcomes_and_create_only_artifacts",
+        "cli_invalid_arguments_and_policy_are_machine_readable_errors",
+        "cli_rejects_symlink_and_oversized_input",
+        "bounded_parser_accepts_normal_files_and_denies_recursive_chains",
+        "bounded_parser_preserves_unassessed_macro_refusal"
+      ],
+      "status": "unresolved_behavioral_mapping_required"
+    },
+    {
+      "path": "adl/tests/codefriend_cf_gov_ci.rs",
+      "source_tests": 7,
+      "matching_test_names": [],
+      "unmatched_test_names": [
+        "installed_process_contract_preserves_pass_fail_error_and_local_parity",
+        "independently_pinned_identities_and_original_status_are_required",
+        "missing_truncated_tampered_and_stale_artifacts_fail_closed",
+        "command_failure_without_report_retains_original_error",
+        "malformed_cli_arguments_and_managed_output_are_denied",
+        "unrelated_executable_zero_without_artifacts_is_not_success",
+        "optimized_python_rejects_mismatched_receipt_identity"
+      ],
+      "status": "unresolved_behavioral_mapping_required"
+    },
+    {
+      "path": "adl/tests/codefriend_cf_memory.rs",
+      "source_tests": 12,
+      "matching_test_names": [],
+      "unmatched_test_names": [
+        "four_classifications_preserve_stable_identity_and_revision_references",
+        "incompatible_and_partial_coverage_never_resolves_findings",
+        "missing_tampered_and_colliding_baselines_fail_closed",
+        "deletion_expiry_and_saved_delta_readback_require_live_baselines",
+        "backend_substitution_cannot_bypass_reference_identity",
+        "persisted_delta_tampering_and_unsafe_paths_are_rejected",
+        "actual_cli_retains_compares_reads_and_deletes",
+        "invalid_roots_and_malformed_artifacts_leave_existing_content",
+        "same_run_distinct_results_coexist_and_tuple_deletion_does_not_delete_sibling",
+        "legacy_records_load_unchanged_and_run_tombstones_deny_all_variants",
+        "deleting_legacy_record_scrubs_payload_and_preserves_run_wide_tombstone",
+        "capacity_is_shared_by_legacy_records_new_results_and_tombstones"
+      ],
+      "status": "unresolved_behavioral_mapping_required"
+    },
+    {
+      "path": "adl/tests/codefriend_ci_ingestion.rs",
+      "source_tests": 1,
+      "matching_test_names": [],
+      "unmatched_test_names": [
+        "ci_production_route_conformance"
+      ],
+      "status": "unresolved_behavioral_mapping_required"
+    },
+    {
+      "path": "adl/tests/codefriend_drift_v2.rs",
+      "source_tests": 6,
+      "matching_test_names": [],
+      "unmatched_test_names": [
+        "incomplete_graphs_retain_original_refs_and_observed_fact_traces",
+        "both_original_owners_and_retained_records_remain_required",
+        "tampered_traces_backend_references_and_aggregate_output_fail_closed",
+        "postwrite_original_baseline_expiry_removes_new_artifact",
+        "existing_drift_cli_uses_two_original_admissions_in_same_store",
+        "cross_version_drift_rejects_before_baseline_lookup"
+      ],
+      "status": "unresolved_behavioral_mapping_required"
+    },
+    {
+      "path": "adl/tests/codefriend_evidence.rs",
+      "source_tests": 11,
+      "matching_test_names": [],
+      "unmatched_test_names": [
+        "local_adapter_cli_admission_restart_identity_and_deletion",
+        "expiry_uses_live_clock_and_repeat_cannot_renew",
+        "interrupted_publication_and_tombstone_cleanup_never_expose_partial_content",
+        "tampered_provenance_and_rehashed_retention_are_rejected_on_reopen",
+        "unsafe_packets_rejected_before_any_retained_content_and_source_omission",
+        "shared_consumers_reject_collisions_missing_evidence_and_versions",
+        "comparisons_require_compatible_complete_coverage_and_preserve_outcomes",
+        "exact_publication_binding_invalidates_each_changed_surface",
+        "store_rejects_symlinks_and_unowned_directories",
+        "canonical_versioned_fixture_is_shared_by_all_consumers",
+        "bootstrap_interruptions_leave_target_unowned_and_unrelated_paths_unchanged"
+      ],
+      "status": "unresolved_behavioral_mapping_required"
+    },
+    {
+      "path": "adl/tests/codefriend_four_plus_one.rs",
+      "source_tests": 16,
+      "matching_test_names": [],
+      "unmatched_test_names": [
+        "four_plus_one_accepts_honest_partial_and_rejects_false_complete",
+        "four_plus_one_rejects_forged_source_and_revision",
+        "four_plus_one_rejects_dangling_trace_and_expired_admission",
+        "four_plus_one_preserves_evidenced_conflicts_as_partial",
+        "four_plus_one_generation_populates_all_views_and_failure_scenario",
+        "four_plus_one_generation_denies_deleted_source_after_execution",
+        "four_plus_one_generation_rejects_model_identity_and_duplicate_keys",
+        "four_plus_one_render_preserves_sources_crosslinks_and_escapes_labels",
+        "four_plus_one_artifacts_are_create_only_and_private",
+        "four_plus_one_empty_views_and_traces_require_actionable_gaps",
+        "four_plus_one_render_retains_isolated_entities",
+        "four_plus_one_approved_exports_preserve_diagrams_and_reject_tampering",
+        "four_plus_one_accepts_complete_json_fence_but_not_truncated_or_extra_text",
+        "four_plus_one_derives_membership_only_from_declared_relationship_endpoints",
+        "four_plus_one_structure_seed_preserves_edges_without_inventing_runtime",
+        "four_plus_one_cli_generates_retrievable_package_and_refuses_overwrite"
+      ],
+      "status": "unresolved_behavioral_mapping_required"
+    },
+    {
+      "path": "adl/tests/codefriend_github_ingestion.rs",
+      "source_tests": 8,
+      "matching_test_names": [],
+      "unmatched_test_names": [
+        "exact_commit_and_pr_acquire_real_git_blobs_with_local_parity",
+        "transport_pin_and_incomplete_failures_are_sanitized",
+        "omissions_limits_and_hostile_paths_preserve_local_guards",
+        "invalid_identity_and_fixture_endpoints_fail_before_transport",
+        "installed_command_executes_transport_and_reads_packet_without_credentials",
+        "aggregate_metadata_is_bounded_across_individually_valid_responses",
+        "fork_pull_request_records_requested_and_actual_repository_separately",
+        "installed_transport_failure_and_compatibility_logs_never_capture_credentials"
+      ],
+      "status": "unresolved_behavioral_mapping_required"
+    },
+    {
+      "path": "adl/tests/codefriend_impact_v2.rs",
+      "source_tests": 4,
+      "matching_test_names": [],
+      "unmatched_test_names": [
+        "source_paths_have_deterministic_import_witnesses_without_absence_claims",
+        "selection_binds_exact_graph_revision_and_admitted_identity",
+        "original_owner_tampering_retention_and_aggregate_output_are_enforced",
+        "expiry_after_impact_write_removes_new_output"
+      ],
+      "status": "unresolved_behavioral_mapping_required"
+    },
+    {
+      "path": "adl/tests/codefriend_ingestion.rs",
+      "source_tests": 11,
+      "matching_test_names": [],
+      "unmatched_test_names": [
+        "installed_acquisition_readback_relocation_and_dirty_policy",
+        "partial_missing_unsafe_binary_and_unknown_analysis_are_explicit",
+        "rejects_bounds_paths_revisions_origin_and_overwrite_without_source_mutation",
+        "tracked_symlink_and_symlink_output_escape_are_rejected",
+        "reader_rejects_tampered_identity_claims_content_and_unknown_fields",
+        "compatibility_logging_and_errors_keep_stdout_json_and_inputs_private",
+        "production_reader_rejects_unsafe_content_even_with_recomputed_digests",
+        "subsequent_nested_array_and_escaped_credentials_never_enter_packets",
+        "git_sha1_and_sha256_blob_identity_is_verified_by_production_reader",
+        "ordinary_json_values_duplicate_parents_and_toml_remain_admissible",
+        "javascript_runtime_header_references_do_not_relax_literal_privacy_guards"
+      ],
+      "status": "unresolved_behavioral_mapping_required"
+    },
+    {
+      "path": "adl/tests/codefriend_integration.rs",
+      "source_tests": 3,
+      "matching_test_names": [],
+      "unmatched_test_names": [
+        "challenge_binds_identity_artifacts_destination_and_decision_head",
+        "retained_review_builds_verified_publication_bundle_without_approval",
+        "interrupted_preparation_does_not_block_distinct_format_bundles"
+      ],
+      "status": "unresolved_behavioral_mapping_required"
+    },
+    {
+      "path": "adl/tests/codefriend_journey.rs",
+      "source_tests": 21,
+      "matching_test_names": [],
+      "unmatched_test_names": [
+        "actual_offline_stages_preserve_source_and_never_claim_full_journey",
+        "cli_executes_native_offline_journey_and_reports_pending_not_complete",
+        "cli_rejects_unknown_authority_fields_before_creating_outputs",
+        "malformed_scope_and_wrong_provenance_cannot_reach_dispatch_boundary",
+        "failed_fitness_is_terminal_and_source_is_unchanged",
+        "foreign_impact_graph_fails_explicitly_and_cannot_be_retried",
+        "impact_and_compatible_second_revision_drift_use_retained_native_records",
+        "existing_output_and_source_nested_outputs_are_rejected_without_mutation",
+        "symlink_output_alias_cannot_write_inside_source",
+        "generated_four_lane_review_flows_through_three_separately_approved_exports",
+        "durable_resume_reconstructs_owners_and_keeps_pending_denominator",
+        "resume_rejects_retained_artifact_tampering_and_uncheckpointed_outputs",
+        "resume_rejects_missing_checkpoint_or_manifest",
+        "compiled_cli_dispatch_can_observe_a_resumed_journey",
+        "failed_review_continuation_survives_restart_without_another_dispatch",
+        "resume_rejects_broadened_private_record_permissions",
+        "resume_rejects_source_changes_and_deleted_admission",
+        "ci_continuation_pins_original_provenance",
+        "actual_journey_continuations_complete_all_eighteen_stages_and_resume",
+        "actual_journey_four_plus_one_generates_resumes_exports_and_rejects_replay",
+        "case_alias_source_output_and_store_are_rejected_before_writes"
+      ],
+      "status": "unresolved_behavioral_mapping_required"
+    },
+    {
+      "path": "adl/tests/codefriend_journey_v2.rs",
+      "source_tests": 4,
+      "matching_test_names": [],
+      "unmatched_test_names": [
+        "rust_journey_retains_gaps_and_rejects_resealed_erasure",
+        "java_journey_retains_original_admission_and_gaps",
+        "python_journey_retains_original_admission_and_gaps",
+        "javascript_journey_retains_original_admission_and_gaps"
+      ],
+      "status": "unresolved_behavioral_mapping_required"
+    },
+    {
+      "path": "adl/tests/codefriend_language.rs",
+      "source_tests": 7,
+      "matching_test_names": [],
+      "unmatched_test_names": [
+        "four_languages_preserve_original_packet_validation",
+        "resealed_wrong_source_and_expired_reports_fail",
+        "source_spans_and_reference_targets_are_checked",
+        "coverage_and_scope_cannot_be_silently_dropped",
+        "policy_and_aggregate_output_bounds_are_enforced",
+        "fully_resealed_text_and_cross_language_claims_fail",
+        "fully_resealed_cross_language_import_target_is_rejected"
+      ],
+      "status": "unresolved_behavioral_mapping_required"
+    },
+    {
+      "path": "adl/tests/codefriend_language_fitness.rs",
+      "source_tests": 11,
+      "matching_test_names": [],
+      "unmatched_test_names": [
+        "four_languages_literal_violations_and_supported_absence",
+        "unresolved_and_conditional_imports_never_pass",
+        "conclusive_violation_retains_other_unknowns",
+        "resolved_edges_fail_but_external_edges_are_unknown",
+        "recomputation_retention_and_resource_failures_are_errors",
+        "raw_rust_identifier_is_unknown_and_v2_dispatch_preserves_payload",
+        "no_proven_edge_does_not_claim_complete_dependency_coverage",
+        "embedded_record_overhead_cannot_escape_the_total_report_cap",
+        "real_cli_v2_run_read_preserves_status_and_raw_input_limit",
+        "privacy_omissions_are_unknown_while_available_violations_still_fail",
+        "privacy_filtered_manifest_continues_with_explicit_dependency_gap"
+      ],
+      "status": "unresolved_behavioral_mapping_required"
+    },
+    {
+      "path": "adl/tests/codefriend_language_fitness_ci.rs",
+      "source_tests": 3,
+      "matching_test_names": [],
+      "unmatched_test_names": [
+        "native_v2_receipt_unknown_is_valid_but_never_success_and_pins_live_source",
+        "actual_ci_run_and_wrapper_preserve_pass_fail_unknown_for_four_languages",
+        "ci_run_missing_store_does_not_create_store_or_output"
+      ],
+      "status": "unresolved_behavioral_mapping_required"
+    },
+    {
+      "path": "adl/tests/codefriend_language_parser.rs",
+      "source_tests": 11,
+      "matching_test_names": [],
+      "unmatched_test_names": [
+        "four_modern_language_sources_emit_actual_named_facts",
+        "malformed_source_retains_error_spans_and_partial_coverage",
+        "actual_parser_obeys_node_depth_fact_and_output_limits",
+        "extension_mismatch_is_explicit_not_false_syntax_success",
+        "parser_results_are_deterministic_and_unicode_spans_are_source_backed",
+        "deleted_original_store_entry_cannot_be_replaced_by_retained_snapshot",
+        "store_clock_expiry_rejects_old_caller_time_and_preserves_original_deadline",
+        "expiry_between_extraction_and_return_discards_the_report",
+        "four_languages_resolve_actual_imports_to_original_admitted_sources",
+        "conditional_rust_ancestors_cannot_resolve_descendant_imports",
+        "javascript_does_not_guess_a_loader_extension_policy"
+      ],
+      "status": "unresolved_behavioral_mapping_required"
+    },
+    {
+      "path": "adl/tests/codefriend_plat_memory.rs",
+      "source_tests": 10,
+      "matching_test_names": [],
+      "unmatched_test_names": [
+        "production_second_review_is_deterministic_and_retains_only_shared_digest_references",
+        "missing_corrupt_pointer_and_tampered_kernel_packet_are_denied_without_repair",
+        "wrong_identity_continuity_run_and_stale_observation_are_denied",
+        "partial_narrower_and_version_changed_runs_remain_not_comparable",
+        "deleted_baseline_and_expired_evidence_cannot_be_retrieved_or_reindexed",
+        "working_set_is_bounded_and_duplicates_and_unselected_baselines_are_denied",
+        "untrusted_keys_do_not_create_a_palace",
+        "production_prepare_preserves_successor_lineage_and_failure_is_atomic",
+        "cli_palace_roundtrip_and_managed_path_guards",
+        "repeated_run_distinct_results_use_versioned_tuple_anchors"
+      ],
+      "status": "unresolved_behavioral_mapping_required"
+    },
+    {
+      "path": "adl/tests/codefriend_rationale_v2.rs",
+      "source_tests": 6,
+      "matching_test_names": [],
+      "unmatched_test_names": [
+        "admitted_context_adr_and_deployment_are_evidence_not_authority",
+        "conflicting_and_absent_decisions_remain_explicit_unknowns",
+        "original_owner_retention_tamper_and_aggregate_bounds",
+        "postwrite_expiry_removes_new_rationale_artifact",
+        "duplicate_deployment_keys_are_rejected_instead_of_selecting_last_value",
+        "existing_rationale_cli_dispatches_v2_without_re_admission"
+      ],
+      "status": "unresolved_behavioral_mapping_required"
+    },
+    {
+      "path": "adl/tests/codefriend_remediate.rs",
+      "source_tests": 9,
+      "matching_test_names": [],
+      "unmatched_test_names": [
+        "remediation_plan_orders_traceable_bounded_actions",
+        "remediation_plan_resolves_evidence_ids_to_review_record_paths",
+        "remediation_plan_preserves_dot_directories_and_root_files",
+        "remediation_plan_preserves_ingestion_valid_paths_with_spaces",
+        "remediation_reader_rejects_tampered_paths_acceptance_and_cycles",
+        "installed_cli_generates_and_reads_remediation_plan",
+        "installed_cli_rejects_bare_synthetic_synthesis",
+        "remediation_reader_rejects_unrelated_action_substitution",
+        "remediation_reader_rejects_missing_evidence_and_tampered_bundle"
+      ],
+      "status": "unresolved_behavioral_mapping_required"
+    },
+    {
+      "path": "adl/tests/codefriend_render_html.rs",
+      "source_tests": 6,
+      "matching_test_names": [],
+      "unmatched_test_names": [
+        "installed_renderer_emits_navigable_bound_report_and_manifest",
+        "renderer_escapes_hostile_markup_and_preserves_long_content",
+        "renderer_refuses_withheld_approval_wrong_identity_and_tampering",
+        "empty_findings_have_explicit_complete_output",
+        "html_and_markdown_preserve_complete_governed_semantics",
+        "assessment_details_and_observations_survive_approved_exports"
+      ],
+      "status": "unresolved_behavioral_mapping_required"
+    },
+    {
+      "path": "adl/tests/codefriend_render_md.rs",
+      "source_tests": 5,
+      "matching_test_names": [],
+      "unmatched_test_names": [
+        "installed_renderer_emits_complete_bound_report_and_manifest",
+        "renderer_refuses_missing_or_withheld_approval_and_identity_drift",
+        "renderer_refuses_changed_approved_artifacts_and_missing_provenance",
+        "renderer_handles_empty_and_long_partial_evidence_without_claim_drift",
+        "renderer_escapes_links_and_rechecks_secret_like_claims"
+      ],
+      "status": "unresolved_behavioral_mapping_required"
+    },
+    {
+      "path": "adl/tests/codefriend_render_pdf.rs",
+      "source_tests": 4,
+      "matching_test_names": [],
+      "unmatched_test_names": [
+        "installed_renderer_emits_extractable_multipage_pdf_and_bound_manifest",
+        "renderer_refuses_withheld_approval_renderer_drift_and_tampering",
+        "renderer_rejects_invalid_font",
+        "renderer_rejects_font_without_complete_glyph_coverage"
+      ],
+      "status": "unresolved_behavioral_mapping_required"
+    },
+    {
+      "path": "adl/tests/codefriend_review.rs",
+      "source_tests": 16,
+      "matching_test_names": [],
+      "unmatched_test_names": [
+        "installed_review_run_executes_four_isolated_provider_lanes",
+        "review_run_fails_closed_for_assessments_without_admitted_evidence",
+        "review_run_fails_closed_when_provider_omits_assessments_field",
+        "review_run_rejects_existing_output_directory_before_provider_execution",
+        "review_run_rejects_provider_assigned_projection_rule",
+        "review_run_persists_incomplete_lane_for_positive_observation_with_defect_details",
+        "review_run_rejects_provider_templates_with_preloaded_input",
+        "review_shell_start_inspect_and_withhold_publication_tracks_operator_state",
+        "review_shell_retry_preserves_failed_attempt_evidence",
+        "review_shell_cancel_settles_active_run_without_losing_attempt_artifacts",
+        "review_shell_retry_after_cancel_archives_cancel_request_and_completes_new_attempt",
+        "review_shell_immediate_retry_after_cancel_preserves_active_attempt_settlement",
+        "review_shell_rejects_retry_while_active_provider_attempt_is_incomplete",
+        "review_shell_retry_after_pre_run_failure_uses_settlement_marker",
+        "review_shell_serializes_concurrent_retries_before_provider_dispatch",
+        "review_shell_cancel_during_final_lane_does_not_fabricate_completion"
+      ],
+      "status": "unresolved_behavioral_mapping_required"
+    },
+    {
+      "path": "adl/tests/codefriend_review_assessments.rs",
+      "source_tests": 20,
+      "matching_test_names": [],
+      "unmatched_test_names": [
+        "native_v4_website_compatibility_fixture_generator",
+        "mixed_assessments_bind_receipts_and_project_only_defects",
+        "valid_nonactionable_only_is_successful_even_with_explicit_privacy_coverage",
+        "wrong_file_support_retains_incomplete_run_not_empty_success",
+        "citation_utf8_and_actionability_and_aggregate_bounds_fail_closed",
+        "legacy_complete_and_privacy_run_bytes_omit_assessment_fields",
+        "logical_defect_identity_survives_assessment_changes_and_original_revision_changes",
+        "conflicting_receipts_for_same_logical_defect_are_incomplete_not_silently_deduplicated",
+        "remedy_only_change_preserves_logical_identity_but_changes_assessment",
+        "privacy_assessments_traverse_original_store_planner_and_publication",
+        "unique_quotes_derive_utf8_crlf_spans_and_ignore_legacy_offsets",
+        "overlapping_quotes_are_ambiguous_even_with_claimed_offsets",
+        "mixed_claims_keep_supported_siblings_and_drop_entire_unsupported_assessment",
+        "fenced_json_requires_one_whole_response_payload",
+        "all_unsupported_is_distinct_from_genuinely_empty_assessments",
+        "historical_assessment_lane_v2_remains_readable_with_verified_spans",
+        "historical_v3_mixed_assessment_coverage_remains_consumable",
+        "mixed_assessment_gaps_traverse_original_store_planner_and_publication",
+        "verbatim_prompt_preserves_original_bytes_and_json_quotes",
+        "verbatim_prompt_examples_include_complete_shapes_without_padding_requirement"
+      ],
+      "status": "unresolved_behavioral_mapping_required"
+    },
+    {
+      "path": "adl/tests/codefriend_server.rs",
+      "source_tests": 10,
+      "matching_test_names": [],
+      "unmatched_test_names": [
+        "empty_registry_support_does_not_admit_invalid_registries",
+        "build_provenance_tracks_sources_without_lifecycle_residue",
+        "cargo_provenance_stays_fresh_and_detects_packed_ref_recreation",
+        "candidate_identity_must_match_the_compiled_build",
+        "built_server_runs_hosted_pipeline_and_rejects_invalid_local_findings",
+        "drain_rejects_uncertain_or_corrupt_reservations",
+        "drain_retains_interrupted_uncertainty_through_expiry_and_restart",
+        "server_cli_control_socket_drains_resumes_and_shuts_down_gracefully",
+        "model_generation_is_explicit_and_legacy_submit_bytes_are_preserved",
+        "assessment_prompt_maximum_source_and_acquisition_limit"
+      ],
+      "status": "unresolved_behavioral_mapping_required"
+    },
+    {
+      "path": "adl/tests/codefriend_structure_v2.rs",
+      "source_tests": 8,
+      "matching_test_names": [],
+      "unmatched_test_names": [
+        "four_languages_produce_source_bound_edges_without_complete_claim",
+        "graph_findings_keep_cycle_and_coupling_witnesses_bounded",
+        "tampering_and_original_owner_expiry_deletion_are_rejected",
+        "v2_requires_explicit_layers_and_does_not_accept_fake_rust_policy",
+        "inline_rust_import_is_not_a_file_cycle",
+        "expiry_after_artifact_write_removes_only_new_artifact",
+        "existing_architecture_cli_reports_and_reads_java_v2",
+        "architecture_dispatch_retains_original_admission_authority"
+      ],
+      "status": "unresolved_behavioral_mapping_required"
+    },
+    {
+      "path": "adl/tests/codefriend_synthesis.rs",
+      "source_tests": 6,
+      "matching_test_names": [],
+      "unmatched_test_names": [
+        "synthesis_deduplicates_and_preserves_disagreement",
+        "synthesis_rejects_incomplete_lane_sets",
+        "synthesis_rejects_unsupported_lane_contract_versions",
+        "synthesis_flags_same_severity_distinct_claim_variants",
+        "installed_cli_writes_create_only_synthesis_artifacts",
+        "privacy_omissions_preserve_failed_guards_and_explicit_synthesis_coverage"
+      ],
+      "status": "unresolved_behavioral_mapping_required"
+    },
+    {
+      "path": "adl/tests/codefriend_testplan.rs",
+      "source_tests": 12,
+      "matching_test_names": [],
+      "unmatched_test_names": [
+        "test_plan_maps_every_traceable_finding_to_executable_case",
+        "test_plan_omits_findings_without_repository_path",
+        "test_plan_preserves_dot_directories_and_root_files",
+        "test_plan_consumes_tracked_predecessor_synthesis_with_concrete_mapping",
+        "test_plan_reader_rejects_placeholder_untraceable_or_non_test_cases",
+        "installed_cli_generates_and_reads_test_plan_without_source_mutation",
+        "generator_rejects_standalone_or_tampered_synthesis_bundle",
+        "reader_rejects_plan_manifest_synthesis_and_partition_tampering",
+        "admitted_ids_with_opaque_anchors_produce_source_bound_v2_without_fixture_guessing",
+        "admitted_mapping_rejects_unknown_duplicate_or_mismatched_identity",
+        "admitted_v2_file_owner_requires_original_store_and_rejects_deletion_expiry_and_tamper",
+        "admitted_mixed_privacy_and_unsupported_sources_preserve_real_coverage"
+      ],
+      "status": "unresolved_behavioral_mapping_required"
+    },
+    {
+      "path": "adl/tests/codefriend_update_cycle.rs",
+      "source_tests": 12,
+      "matching_test_names": [],
+      "unmatched_test_names": [
+        "activity_selection_is_canonical_independent_and_testing_goal_is_conditional",
+        "selected_activities_only_produce_bound_proposals_without_coverage_claims",
+        "generated_artifacts_and_gaps_require_admitted_source_evidence",
+        "prompt_subset_limits_citations_but_preserves_full_path_disposition_truth",
+        "diagrams_require_mermaid_syntax_and_an_exact_render_manifest",
+        "documentation_proposals_require_create_or_update_classification",
+        "aggregate_revalidates_embedded_review_content_beyond_its_digest",
+        "review_activity_accepts_successful_partial_review_with_explicit_coverage",
+        "invalid_or_failed_activity_output_is_explicit_and_does_not_dispatch_unselected_work",
+        "uncertain_provider_effect_is_not_downgraded_to_an_activity_failure",
+        "review_selection_cannot_claim_completion_without_the_bound_review_result",
+        "assessment_cycle_preserves_generation_and_rejects_mixed_lane_contracts"
+      ],
+      "status": "unresolved_behavioral_mapping_required"
+    },
+    {
+      "path": "adl/tests/codefriend_ux.rs",
+      "source_tests": 7,
+      "matching_test_names": [],
+      "unmatched_test_names": [
+        "installed_prepare_approve_inspect_and_atomic_local_admission",
+        "installed_commands_reject_bad_flags_and_record_withholding_and_invalidation",
+        "withheld_invalidated_and_changed_identity_are_denied_until_new_approval",
+        "revoked_approval_cannot_be_replayed_from_an_alternate_or_truncated_store",
+        "rollback_anchor_must_be_external_to_the_decision_store",
+        "incomplete_runs_missing_provenance_and_manifest_attacks_fail_closed",
+        "symlink_artifacts_and_destination_collision_leave_no_partial_target"
+      ],
+      "status": "unresolved_behavioral_mapping_required"
+    },
+    {
+      "path": "adl/tests/fixtures/codefriend/fitness-ci/manifest.json",
+      "source_tests": 0,
+      "matching_test_names": [],
+      "unmatched_test_names": [],
+      "status": "unresolved_behavioral_mapping_required"
+    },
+    {
+      "path": "adl/tests/fixtures/codefriend/palace/PVF.json",
+      "source_tests": 0,
+      "matching_test_names": [],
+      "unmatched_test_names": [],
+      "status": "unresolved_behavioral_mapping_required"
+    },
+    {
+      "path": "adl/tests/fixtures/codefriend/review-assessments/PVF.json",
+      "source_tests": 0,
+      "matching_test_names": [],
+      "unmatched_test_names": [],
+      "status": "unresolved_behavioral_mapping_required"
+    },
+    {
+      "path": "adl/tests/fixtures/codefriend/server/PVF.json",
+      "source_tests": 0,
+      "matching_test_names": [],
+      "unmatched_test_names": [],
+      "status": "unresolved_behavioral_mapping_required"
+    },
+    {
+      "path": "adl/tests/support/codefriend_agent_journey_tests.rs",
+      "source_tests": 15,
+      "matching_test_names": [
+        {
+          "name": "paired_journey_prepare_replay_and_graph_reuse_original_review_without_posts",
+          "locations": [
+            [
+              "crates/codefriend/tests/support/codefriend_agent_journey_tests.rs",
+              "73"
+            ]
+          ]
+        },
+        {
+          "name": "lost_journey_ack_resends_identical_result_without_repeating_effects",
+          "locations": [
+            [
+              "crates/codefriend/tests/support/codefriend_agent_journey_tests.rs",
+              "108"
+            ]
+          ]
+        },
+        {
+          "name": "reserved_but_unattempted_effect_cannot_be_reported_complete_or_reexecuted",
+          "locations": [
+            [
+              "crates/codefriend/tests/support/codefriend_agent_journey_tests.rs",
+              "119"
+            ]
+          ]
+        },
+        {
+          "name": "paired_continuations_and_native_artifacts_preserve_owner_and_order",
+          "locations": [
+            [
+              "crates/codefriend/tests/support/codefriend_agent_journey_tests.rs",
+              "157"
+            ]
+          ]
+        },
+        {
+          "name": "paired_jobs_reject_foreign_authority_and_unavailable_baselines_without_dispatch",
+          "locations": [
+            [
+              "crates/codefriend/tests/support/codefriend_agent_journey_tests.rs",
+              "292"
+            ]
+          ]
+        },
+        {
+          "name": "paired_existing_publication_attaches_without_renderer_or_provider_replay",
+          "locations": [
+            [
+              "crates/codefriend/tests/support/codefriend_agent_journey_tests.rs",
+              "331"
+            ]
+          ]
+        },
+        {
+          "name": "paired_drift_reopens_both_original_run_owners_and_denies_revoked_baseline",
+          "locations": [
+            [
+              "crates/codefriend/tests/support/codefriend_agent_journey_tests.rs",
+              "383"
+            ]
+          ]
+        },
+        {
+          "name": "cycle_journey_imports_exact_producer_bytes_without_replaying_review",
+          "locations": [
+            [
+              "crates/codefriend/tests/support/codefriend_agent_journey_tests.rs",
+              "690"
+            ]
+          ]
+        },
+        {
+          "name": "cycle_capsule_rejects_swapped_lanes_and_post_transfer_revocation",
+          "locations": [
+            [
+              "crates/codefriend/tests/support/codefriend_agent_journey_tests.rs",
+              "739"
+            ]
+          ]
+        },
+        {
+          "name": "cycle_publication_preserves_report_and_requires_live_gateway",
+          "locations": [
+            [
+              "crates/codefriend/tests/support/codefriend_agent_journey_tests.rs",
+              "772"
+            ]
+          ]
+        },
+        {
+          "name": "cycle_import_rejects_expiry_after_transfer_without_retaining_payload",
+          "locations": [
+            [
+              "crates/codefriend/tests/support/codefriend_agent_journey_tests.rs",
+              "809"
+            ]
+          ]
+        },
+        {
+          "name": "cycle_drift_rechecks_two_imported_owners_and_denies_revoked_baseline",
+          "locations": [
+            [
+              "crates/codefriend/tests/support/codefriend_agent_journey_tests.rs",
+              "826"
+            ]
+          ]
+        },
+        {
+          "name": "cycle_import_shortens_cleanup_deadline_before_expired_report_rejection",
+          "locations": [
+            [
+              "crates/codefriend/tests/support/codefriend_agent_journey_tests.rs",
+              "953"
+            ]
+          ]
+        },
+        {
+          "name": "historical_v2_cycle_capsule_and_report_preserve_original_prompt_contract",
+          "locations": [
+            [
+              "crates/codefriend/tests/support/codefriend_agent_journey_tests.rs",
+              "975"
+            ]
+          ]
+        },
+        {
+          "name": "mixed_assessment_gaps_remain_incomplete_through_cycle_journey",
+          "locations": [
+            [
+              "crates/codefriend/tests/support/codefriend_agent_journey_tests.rs",
+              "994"
+            ]
+          ]
+        }
+      ],
+      "unmatched_test_names": [],
+      "status": "unresolved_behavioral_mapping_required"
+    },
+    {
+      "path": "adl/tests/support/codefriend_agent_journey_verification.rs",
+      "source_tests": 2,
+      "matching_test_names": [
+        {
+          "name": "actual_paired_snapshot_verification_binds_owner_candidate_and_native_stages",
+          "locations": [
+            [
+              "crates/codefriend/tests/support/codefriend_agent_journey_verification.rs",
+              "10"
+            ]
+          ]
+        },
+        {
+          "name": "actual_v2_paired_snapshot_preserves_version_and_replay",
+          "locations": [
+            [
+              "crates/codefriend/tests/support/codefriend_agent_journey_verification.rs",
+              "15"
+            ]
+          ]
+        }
+      ],
+      "unmatched_test_names": [],
+      "status": "unresolved_behavioral_mapping_required"
+    },
+    {
+      "path": "adl/tests/support/codefriend_local_publication_case.rs",
+      "source_tests": 0,
+      "matching_test_names": [],
+      "unmatched_test_names": [],
+      "status": "unresolved_behavioral_mapping_required"
+    },
+    {
+      "path": "adl/tests/support/codefriend_owned_journey.rs",
+      "source_tests": 6,
+      "matching_test_names": [
+        {
+          "name": "existing_admission_and_review_resume_without_checkout_or_redispatch",
+          "locations": [
+            [
+              "crates/codefriend/tests/support/codefriend_owned_journey.rs",
+              "170"
+            ]
+          ]
+        },
+        {
+          "name": "attachment_rejects_foreign_identity_expiry_and_review_before_output",
+          "locations": [
+            [
+              "crates/codefriend/tests/support/codefriend_owned_journey.rs",
+              "195"
+            ]
+          ]
+        },
+        {
+          "name": "resume_rejects_external_review_mutation_and_deleted_admission",
+          "locations": [
+            [
+              "crates/codefriend/tests/support/codefriend_owned_journey.rs",
+              "214"
+            ]
+          ]
+        },
+        {
+          "name": "interrupted_owned_attachment_cannot_be_resumed_for_review_dispatch",
+          "locations": [
+            [
+              "crates/codefriend/tests/support/codefriend_owned_journey.rs",
+              "232"
+            ]
+          ]
+        },
+        {
+          "name": "nonprivate_owned_boundary_is_rejected_without_journey_creation",
+          "locations": [
+            [
+              "crates/codefriend/tests/support/codefriend_owned_journey.rs",
+              "253"
+            ]
+          ]
+        },
+        {
+          "name": "case_alias_destinations_and_owned_store_boundaries_use_identity",
+          "locations": [
+            [
+              "crates/codefriend/tests/support/codefriend_owned_journey.rs",
+              "271"
+            ]
+          ]
+        }
+      ],
+      "unmatched_test_names": [],
+      "status": "unresolved_behavioral_mapping_required"
+    }
+  ],
+  "source_test_count": 414,
+  "matched_test_name_count": 23,
+  "unmatched_test_name_count": 391,
+  "removal_authorized": false
+}

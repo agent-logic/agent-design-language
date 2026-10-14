@@ -1,0 +1,406 @@
+{
+  "issue": 1223,
+  "source_head": "84ea944470de7f47d88b2dfe9a77d8cf680ab152",
+  "status": "applied_local_reversible_implementation",
+  "rows": [
+    {
+      "id": "RD07-1322",
+      "path": "adl/tools/demo_v0871_operator_surface.sh",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "a90c5273cc33120d4307192ae181e0ccc7052341"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Independent original-consumer/delivery review",
+        "Coherent ADL caller repairs and scoped retirement decision"
+      ],
+      "successor_mapping": {
+        "mapping": "unmapped",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_DEMO_OWNER_DELIVERY_RESULT.json",
+        "packet_sha256": "f9d02dbe96596f2c1a59954ef134345a8f173e3381952ef9df7c5ddf47d26547",
+        "proposal": "proposed_owner_transfer_with_consumer_qualification",
+        "review": "Bounded independent source/delivery review; no additional execution claimed"
+      }
+    },
+    {
+      "id": "RD07-1332",
+      "path": "adl/tools/demo_v0871_runtime_state.sh",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "6cfda577374af99516488e340ef2856302a20d45"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Independent original-consumer/delivery review",
+        "Coherent ADL caller repairs and scoped retirement decision"
+      ],
+      "successor_mapping": {
+        "mapping": "unmapped",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_DEMO_OWNER_DELIVERY_RESULT.json",
+        "packet_sha256": "f9d02dbe96596f2c1a59954ef134345a8f173e3381952ef9df7c5ddf47d26547",
+        "proposal": "proposed_owner_transfer_with_consumer_qualification",
+        "review": "Bounded independent source/delivery review; no additional execution claimed"
+      }
+    },
+    {
+      "id": "RD07-1336",
+      "path": "adl/tools/demo_v087_control_plane.sh",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "72c8d31a6a5221339ebd4a3372a279788bb71e66"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Independent original-consumer/delivery review",
+        "Coherent ADL caller repairs and scoped retirement decision"
+      ],
+      "successor_mapping": {
+        "mapping": "unmapped",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_DEMO_OWNER_DELIVERY_RESULT.json",
+        "packet_sha256": "f9d02dbe96596f2c1a59954ef134345a8f173e3381952ef9df7c5ddf47d26547",
+        "proposal": "proposed_owner_transfer_with_consumer_qualification",
+        "review": "Bounded independent source/delivery review; no additional execution claimed"
+      }
+    },
+    {
+      "id": "RD07-1951",
+      "path": "adl/tools/test_demo_v0871_operator_surface.sh",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "a062fcb2911308be656089b0654290202c291cd4"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Independent original-consumer/delivery review",
+        "Coherent ADL caller repairs and scoped retirement decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/test_demo_v0871_operator_surface.sh"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_DEMO_OWNER_DELIVERY_RESULT.json",
+        "packet_sha256": "f9d02dbe96596f2c1a59954ef134345a8f173e3381952ef9df7c5ddf47d26547",
+        "proposal": "proposed_owner_transfer_with_consumer_qualification",
+        "review": "Bounded independent source/delivery review; no additional execution claimed"
+      }
+    },
+    {
+      "id": "RD07-1961",
+      "path": "adl/tools/test_demo_v0871_runtime_state.sh",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "140cc800a54458c4d09fbf2db201f67b8fdfb627"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Independent original-consumer/delivery review",
+        "Coherent ADL caller repairs and scoped retirement decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/test_demo_v0871_runtime_state.sh"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_DEMO_OWNER_DELIVERY_RESULT.json",
+        "packet_sha256": "f9d02dbe96596f2c1a59954ef134345a8f173e3381952ef9df7c5ddf47d26547",
+        "proposal": "proposed_owner_transfer_with_consumer_qualification",
+        "review": "Bounded independent source/delivery review; no additional execution claimed"
+      }
+    }
+  ],
+  "removed_count": 5,
+  "caller_modification_count": 8,
+  "files": [
+    {
+      "path": "adl/tools/demo_v0871_operator_surface.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "a90c5273cc33120d4307192ae181e0ccc7052341",
+        "sha256": "7390fcfa31735e62576bd50307d57d0b11a4fc2b842bc30bfaa2cbbb6aede519"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/demo_v0871_runtime_state.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "6cfda577374af99516488e340ef2856302a20d45",
+        "sha256": "14b8eda558a9283ed66f55dba315403c26a2e87b9b8fdade6b030f43c412cc28"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/demo_v087_control_plane.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "72c8d31a6a5221339ebd4a3372a279788bb71e66",
+        "sha256": "e9c063eea3fe5e9daaec9a5fc6543310bbea31d062d059d2cd5b79ef86251993"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_demo_v0871_operator_surface.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "a062fcb2911308be656089b0654290202c291cd4",
+        "sha256": "44d093a0fbe42312d0ffce60d9294fe5073f247514b9a178d6f7a59d2d984cfc"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_demo_v0871_runtime_state.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "140cc800a54458c4d09fbf2db201f67b8fdfb627",
+        "sha256": "5559354f1aa90140fb2f7aedb4655f5f1ab81a4fec92a5526ea8729aa7f4a472"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/demo_v087_suite.sh",
+      "action": "modify",
+      "before": {
+        "mode": "100755",
+        "blob": "2e65f54ca1027b358bfe33a66a537d199753e951",
+        "sha256": "3af122f04239f17f094df4ae67e15f3087688200f1f7f1d396c311e0b5b475b9"
+      },
+      "after": {
+        "mode": "100755",
+        "sha256": "00e6b05f88dc918ce160832b858ce146a295edc221b1823dd143155bab65f732",
+        "blob": "d85940819eb3357d3b1f629ff0e93e6498d917d2"
+      }
+    },
+    {
+      "path": "adl/tools/demo_v0871_restartability.sh",
+      "action": "modify",
+      "before": {
+        "mode": "100755",
+        "blob": "b55e0f426409129eaaf4a274756ba3042bd6f686",
+        "sha256": "b2690542ca37db76b5750f5b7514abb87b5b823faaccf6708277e87746cdc5eb"
+      },
+      "after": {
+        "mode": "100755",
+        "sha256": "4220abb17c69b171494538be1613031ab768491e89c9745d1561d027b925c47c",
+        "blob": "4142a6ee7f2685d3e7b7ffe6f9a23357da23a36c"
+      }
+    },
+    {
+      "path": "adl/tools/demo_v0871_shepherd_recovery.sh",
+      "action": "modify",
+      "before": {
+        "mode": "100755",
+        "blob": "76be369e1fd70ef1c8bf4b38b492748925333efd",
+        "sha256": "91c8782f96f81387509be98af5492cc0cec8e6fa2885f9e7cb30e53f9382178a"
+      },
+      "after": {
+        "mode": "100755",
+        "sha256": "72fb0e2f7de06f0a198fc70800f11ba6f415356edc20141d11e5cf6a372793bd",
+        "blob": "9eacf353c9bf7f6d9b25f504a9cc0876d5062bc1"
+      }
+    },
+    {
+      "path": "adl/tools/demo_v0871_review_surface.sh",
+      "action": "modify",
+      "before": {
+        "mode": "100755",
+        "blob": "5030b07bed7fc0d83a02709d0186c58906d6b10d",
+        "sha256": "e02ee960bed8742b4e61a22f5c15aca60809cd2163b8cc9a8fa3a31ba8b25586"
+      },
+      "after": {
+        "mode": "100755",
+        "sha256": "14e0c45f5b555a14c72bcd33a03326cf8151c6469a60213b32cf329828163d5c",
+        "blob": "2257989c958e1867ab9d8c7bb1643c986b56bffe"
+      }
+    },
+    {
+      "path": "adl/tools/demo_v0871_quality_gate.sh",
+      "action": "modify",
+      "before": {
+        "mode": "100755",
+        "blob": "50b7d40fa0f9494ca962c765b66497a2d0eda4f7",
+        "sha256": "8f8aa1415e45bd500b2f5ffe57d01d03582cd642075db510d98123366936d997"
+      },
+      "after": {
+        "mode": "100755",
+        "sha256": "555e5bb16013d3a6c9f84794f2b12d968625e228498f5678efe52dae8460ad8f",
+        "blob": "554c5a6844834c27208ede903ac92a020b859282"
+      }
+    },
+    {
+      "path": "adl/tools/demo_v0871_integrated_runtime.sh",
+      "action": "modify",
+      "before": {
+        "mode": "100755",
+        "blob": "608d5698aac535db9911b0866839146e26106499",
+        "sha256": "3fd1a4c7508c5c5d6112d4ed65e3ede49241d3c44ca9bb5b859fbd653c30aee0"
+      },
+      "after": {
+        "mode": "100755",
+        "sha256": "6b642896cef6d0892abc24cbf7901df4cbdcd799def003078e6a86e4e923cbe4",
+        "blob": "ad3ee0d0b56a66d1ddc44ef3ac636a7a260c6656"
+      }
+    },
+    {
+      "path": "adl/tools/README.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "9775e0d99621f8a88d139bd09a5a21eca94d4b1f",
+        "sha256": "0dd128a157744b5413e574da7bb26e26d0d1643da9f3fc14a27051efe7040853"
+      },
+      "after": {
+        "mode": "100644",
+        "sha256": "59946eaae1b675edea53ecbb202b00e61453ad28098cf64a2f488baab0d9593e",
+        "blob": "6966b08d9ef141fdbd966e0d692f563f95a8423d"
+      }
+    },
+    {
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "759ed1f4a2debf2f388b29a043a64a3e03cf5306",
+        "sha256": "7079050385292147da0239a00e352616731b2a8874702ed9d8ca5c63399d18c6"
+      },
+      "after": {
+        "mode": "100644",
+        "sha256": "75bf946a7219a8981cb6ef2111aa2c957658e7fa8d7440b277561545546faab1",
+        "blob": "a5406109d258ab40313fa0d8478b750edc3c4174"
+      }
+    }
+  ],
+  "owner_revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+  "owner_resources": [
+    {
+      "path": "adl/tools/demo_v0871_operator_surface.sh",
+      "owner_sha256": "5f26ac70b31db3f9b1d1dd2276b39ed8ef519b18e938bd4bf98771b34cd63e83",
+      "proposed_sha256": "5f26ac70b31db3f9b1d1dd2276b39ed8ef519b18e938bd4bf98771b34cd63e83",
+      "same_as_proposal": true
+    },
+    {
+      "path": "adl/tools/demo_v0871_runtime_state.sh",
+      "owner_sha256": "f3cb2fae7aec79544d2e09c05304577bf76b2190b65205799e19009dd4a6bea6",
+      "proposed_sha256": "f3cb2fae7aec79544d2e09c05304577bf76b2190b65205799e19009dd4a6bea6",
+      "same_as_proposal": true
+    },
+    {
+      "path": "adl/tools/demo_v087_control_plane.sh",
+      "owner_sha256": "9f8ed3612ed2d0123ad946a4c78a7f0267fcd2b3f9bf0971c9a0185966b35e1d",
+      "proposed_sha256": "7e91a0edb54791c2bd158fbe9d60b9a072ab163e4462bb78d7addf8a0f2b441c",
+      "same_as_proposal": false
+    },
+    {
+      "path": "adl/examples/v0-4-demo-deterministic-replay.adl.yaml",
+      "owner_sha256": "0eea46c81879acd430296b9d3737cb4b4581b99b20213c924c3ca05d497333fb",
+      "proposed_sha256": "0eea46c81879acd430296b9d3737cb4b4581b99b20213c924c3ca05d497333fb",
+      "same_as_proposal": true
+    },
+    {
+      "path": "adl/tools/test_demo_v0871_operator_surface.sh",
+      "owner_sha256": "f323d3f0e31a394389a2b45bd341e1d07c24aa59f1b6434c755dd5a9cc7255a3",
+      "proposed_sha256": "f323d3f0e31a394389a2b45bd341e1d07c24aa59f1b6434c755dd5a9cc7255a3",
+      "same_as_proposal": true
+    },
+    {
+      "path": "adl/tools/test_demo_v0871_runtime_state.sh",
+      "owner_sha256": "5559354f1aa90140fb2f7aedb4655f5f1ab81a4fec92a5526ea8729aa7f4a472",
+      "proposed_sha256": "5559354f1aa90140fb2f7aedb4655f5f1ab81a4fec92a5526ea8729aa7f4a472",
+      "same_as_proposal": true
+    }
+  ],
+  "existing_qualification": {
+    "packet": "RUNTIME_DEMO_OWNER_DELIVERY_RESULT.json",
+    "sha256": "f9d02dbe96596f2c1a59954ef134345a8f173e3381952ef9df7c5ddf47d26547",
+    "scope": "Actual three original mock consumers against retained Linux11ce executable; All6resources match exact delivered owner hashes at7d0db620; control-plane ADL_RUNTIME_ROOT isolation differs from the initial proposal as reviewed in the delivery packet. Original runtime-state test unchanged; operator test only explicit invocation documentation assertion differs as reviewed."
+  },
+  "caller_contract": "Six existing shell callers select absolute explicit Runtime checkout before effects and fail on missing required scripts. Selection is operator input, not cryptographic artifact admission. All existing remaining commands/assertions retained. Owner ADL_RUNTIME_BIN still required. No cargo/installer fallback introduced.",
+  "preserved_limits": [
+    "No original4134+22 identity changes.",
+    "Historical suite/quality gate semantics and other child obligations not qualified.",
+    "No live provider, recovery, installed current package or aggregate execution claim.",
+    "Common2171 retained: other demo callers still depend on it.",
+    "No new tests/builds; focused routing proof remains required before application.",
+    "Registry composition must refresh against current other source batches."
+  ],
+  "patch_sha256": "2270b6a928cca8749623bc66cdffb7de15d08834b790b46d7ad6ee4d964d25a6",
+  "custody": {
+    "path": "/Volumes/FastWork/c1223/runtime-remaining-tool-reconciliation/runtime-five/preimages.tar",
+    "sha256": "b6474fc92f3b5a966e9eb1aeba1cb3706fe7bc509d21a84385f0433a8c53bdca",
+    "members": 13
+  },
+  "schema": "adl1223.runtime_demo_family_applied.v1",
+  "source_head_before": "b2d7e517f6fd946d68c0eaf0dfe78cac415d4013",
+  "implementation_commit": "pending_parent_commit",
+  "authorization_basis": "User-directed coherent ADL1223 owner transfer; preserve original scenario assertions and explicit resource/binary preflight.",
+  "proposal": {
+    "path": "/Volumes/FastWork/c1223/runtime-remaining-tool-reconciliation/runtime-five/PROPOSAL.json",
+    "sha256": "ccf54f752e0fdbf59aec836e82610423989e0e731006c907a3115f1d95092e66"
+  },
+  "reviewed_patch": {
+    "path": "/Volumes/FastWork/c1223/runtime-remaining-tool-reconciliation/runtime-five/runtime-five-and-callers.patch",
+    "sha256": "2270b6a928cca8749623bc66cdffb7de15d08834b790b46d7ad6ee4d964d25a6"
+  },
+  "review": "Independent historical-retention PASS after missing binary-before-effects repair. Original proof/custody verified; no original scenario repeat.",
+  "focused_routing_proof": {
+    "path": "/Volumes/FastWork/c1223/runtime-remaining-tool-reconciliation/runtime-five-review/RESULT.json",
+    "sha256": "c9bb135b2a1df18777ac3ad29b21c24230f9a06ee99fd753c380a673c94fd76a",
+    "cases": 59,
+    "result": "PASS",
+    "boundary": "Only isolated prefixes executed; no product/aggregate children invoked."
+  },
+  "application_verification": "13preimage modes/bytes and afterimages verified; actual registry regenerated exactly; no repeatedtests.",
+  "after_identity_completion": {
+    "source_commit": "1eb50b3eefb1fe41ad39d1c8dd2fd1e6971387d2",
+    "paths": [
+      "adl/tools/demo_v087_suite.sh",
+      "adl/tools/demo_v0871_restartability.sh",
+      "adl/tools/demo_v0871_shepherd_recovery.sh",
+      "adl/tools/demo_v0871_review_surface.sh",
+      "adl/tools/demo_v0871_quality_gate.sh",
+      "adl/tools/demo_v0871_integrated_runtime.sh",
+      "adl/tools/README.md",
+      "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+    ],
+    "method": "Existing mode and SHA256 verified against committed Git objects; missing blob IDs added without changing any source bytes or proof claim."
+  }
+}

@@ -1,0 +1,422 @@
+{
+  "status": "applied",
+  "source_head": "d10336fdbb2fd5d283c28eacdfd3da9ec95d1028",
+  "original_baseline": "248f00e359e412f6bc0061ac88be9ff374e3a212",
+  "removed_count": 10,
+  "rows": [
+    {
+      "id": "RD07-1343",
+      "path": "adl/tools/demo_v088_instinct_review_surface.sh",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "614f112e61e45bafe3eb2353cee5fc9860da60ad"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/demo_v088_instinct_review_surface.sh"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1345",
+      "path": "adl/tools/demo_v088_phi_review_surface.sh",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "b0dba9361e1ab1798032d5a6e24cee4e4cb5d518"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/demo_v088_phi_review_surface.sh"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1347",
+      "path": "adl/tools/demo_v088_review_surface.sh",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "2a0f49ee22fc347857a2526ed68bf40fa793e6da"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/demo_v088_review_surface.sh"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1348",
+      "path": "adl/tools/demo_v088_temporal_review_surface.sh",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "8451cb93ef1cf37df7224715cad89d124791a12d"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/demo_v088_temporal_review_surface.sh"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1963",
+      "path": "adl/tools/test_demo_v088_instinct_review_surface.sh",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "75c0c7101d9d252c6c98dbbfef9b963a822b2d56"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/test_demo_v088_instinct_review_surface.sh"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1965",
+      "path": "adl/tools/test_demo_v088_phi_review_surface.sh",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "4c319f485063fc64b7f54b1f6827ab49d1799159"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/test_demo_v088_phi_review_surface.sh"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1967",
+      "path": "adl/tools/test_demo_v088_review_surface.sh",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "e0169706625cd930a382608e76155aca2a5caa3d"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/test_demo_v088_review_surface.sh"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1968",
+      "path": "adl/tools/test_demo_v088_temporal_review_surface.sh",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "ca5f3e5b38bf80e6a9f191ec21d246da58cd6a52"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/test_demo_v088_temporal_review_surface.sh"
+        ]
+      }
+    }
+  ],
+  "supplemental_paths": [
+    "adl/tools/demo_v088_quality_gate.sh",
+    "adl/tools/test_demo_v088_quality_gate.sh"
+  ],
+  "files": [
+    {
+      "path": "adl/tools/demo_v088_temporal_review_surface.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "8451cb93ef1cf37df7224715cad89d124791a12d",
+        "sha256": "3f04efaf99b7e11a6137d548b894c223bc2a0f6adebbcf5f4f46fe1f31f81417"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_demo_v088_temporal_review_surface.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "ca5f3e5b38bf80e6a9f191ec21d246da58cd6a52",
+        "sha256": "06dd9865643b0ded62df3d69a080cc6becfcf58e460fbc2085f3b1c8981b815f"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/demo_v088_phi_review_surface.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "b0dba9361e1ab1798032d5a6e24cee4e4cb5d518",
+        "sha256": "55c3f2f5a0d968e7bcb5f5e96b64e57386c0de814ab33eb504cfbd088df42c72"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_demo_v088_phi_review_surface.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "4c319f485063fc64b7f54b1f6827ab49d1799159",
+        "sha256": "dcf63a929a4010a855002f0d7a3aa62c6dcb4e9d4e0c1f87af2fc8b26c7c747b"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/demo_v088_instinct_review_surface.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "614f112e61e45bafe3eb2353cee5fc9860da60ad",
+        "sha256": "69c57d5f8702048fdddf21db1f615071bc35698fc3df0f31da2efd23c812435e"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_demo_v088_instinct_review_surface.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "75c0c7101d9d252c6c98dbbfef9b963a822b2d56",
+        "sha256": "fb3930b9d7b742713ec065e9318ad19713b315095a89d8923e6c2c44638eb4bf"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/demo_v088_review_surface.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "be27e76692715b2e9762f3ed6413976ec7eab011",
+        "sha256": "187c6d94a88e8aa64f5f279dd7be336a8cd5c1bd13fe043c4a601aea969babe5"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_demo_v088_review_surface.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "e0169706625cd930a382608e76155aca2a5caa3d",
+        "sha256": "a60d9920fd32623a5d52ec59838342fd2c7df41b2b446ebd343c4c0cc891d59e"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/demo_v088_quality_gate.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "69398a6ad041b1e8da746086f7152172ad77c3de",
+        "sha256": "0774120081b7a3ce1d860259444f73cc8a2e53501d2bb6d406bfc80e5bdf51f2"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_demo_v088_quality_gate.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "f0e0166e5b5461518d73bb4bbcd2c82c7f25b1a0",
+        "sha256": "c529d5af8ba61b12333c440851a5023880258aafef0ccc513f90d12767ec17be"
+      },
+      "after": null
+    },
+    {
+      "path": "demos/README.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "b50a4f8543f675ee30938e595c4cb9f6b2fb96ff",
+        "sha256": "e8447fc539eb13e01f0a0699449806a7d93cf766db1885aca0f5b1b7a3bf5925"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "7e09c58d36fee14469d409e8d1e9398f07bae055",
+        "sha256": "e792169eb4fdedc75bc4c8cc619fb6a85164a3e7098b5170ba17e929eadb334e"
+      }
+    },
+    {
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "c5c1b94a68bd9266ec616cc72994b5f9b8f9a209",
+        "sha256": "96120733c76f35a55ab037b023f889d1bfd7b46dc87bce112fc783b66e4ab0fb"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "dc3f94226b75d9074a49854db7f285c70d97d2dc",
+        "sha256": "e497e815f71c02c034be661b251877fb29c52af349cbb3ada0a821974e5eebf9"
+      }
+    }
+  ],
+  "custody": {
+    "path": "/Volumes/FastWork/c1223/v088-monolith-ten-composed/current-original.tar",
+    "sha256": "d07e81bd85a9213a2a8f1e93714811b5d4f0ad52a68816bdd2bf90c9a67c0ca6",
+    "members": 22
+  },
+  "patch": {
+    "path": "/Volumes/FastWork/c1223/v088-monolith-ten-composed/ten-and-navigation.patch",
+    "sha256": "2d27822c90a22b25c39e527f84ec10cb59d9e259ad019b0fb6361a6c70f942ec"
+  },
+  "original_contracts": {
+    "temporal": {
+      "literal_cargo_identity_commands": 7,
+      "required_files": 9,
+      "manifest_grep_checks": 2
+    },
+    "phi": {
+      "literal_cargo_identity_commands": 1,
+      "required_files": 2,
+      "manifest_grep_checks": 1
+    },
+    "instinct": {
+      "literal_cargo_identity_commands": 2,
+      "required_files": 3,
+      "manifest_grep_checks": 2
+    },
+    "review_surface_aggregate": {
+      "required_files": 8,
+      "grep_checks": 2,
+      "dependency": "all three retired producers plus separately retained Paper and deep-agents routes"
+    },
+    "quality_gate": {
+      "required_files": 2,
+      "manifest_version_check": 1,
+      "required_check_names": 10,
+      "does_not_assert_child_pass": true,
+      "producer_child_checks": 11
+    }
+  },
+  "disposition": [
+    "Retire obsolete ADL monolith Cargo identity demo dispatch and its coupled aggregate/quality runner contracts, not Runtime identity functionality. The public ADL manifest no longer contains that private dispatcher.",
+    "Runtime7d0 retains temporal/phi/instinct sources but they still invoke literal Cargo; source correspondence and identity unit proof are not original shell qualification. No fake Cargo shim, binary route substitution or broad build used.",
+    "Quality producer drives old monolith fmt/clippy/test/coverage and deleted legacy/skill children; its original test checks structural keys, never child success. This is explicitly historical aggregate retirement, not accepted current release proof.",
+    "Review aggregate cannot remain callable after its temporal/phi/instinct producers retire. Paper13 qualified owner adapter and independent deep-agents source/test remain untouched."
+  ],
+  "limits": [
+    "No originals or products run for this historical proposal. No new Runtime behavioral qualification or child pass claimed.",
+    "Original assertions and current caller repair preimages preserved exactly; historical milestone evidence unchanged.",
+    "Retiring original shell acceptance here is explicit historical-contract disposition requiring independent review, not inferred proof from archival custody."
+  ],
+  "supplemental_retirements": [
+    {
+      "path": "adl/tools/demo_v088_quality_gate.sh",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "69398a6ad041b1e8da746086f7152172ad77c3de",
+        "sha256": "0774120081b7a3ce1d860259444f73cc8a2e53501d2bb6d406bfc80e5bdf51f2"
+      },
+      "baseline_revision": "248f00e359e412f6bc0061ac88be9ff374e3a212",
+      "introduction_commit": "a7d564c14571f0619d2caa3452dc5ea2c01d506a",
+      "reason": "Separate historical quality-gate aggregate pair outside frozen4134/22; original baseline custody explicit."
+    },
+    {
+      "path": "adl/tools/test_demo_v088_quality_gate.sh",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "f0e0166e5b5461518d73bb4bbcd2c82c7f25b1a0",
+        "sha256": "c529d5af8ba61b12333c440851a5023880258aafef0ccc513f90d12767ec17be"
+      },
+      "baseline_revision": "248f00e359e412f6bc0061ac88be9ff374e3a212",
+      "introduction_commit": "a7d564c14571f0619d2caa3452dc5ea2c01d506a",
+      "reason": "Separate historical quality-gate aggregate pair outside frozen4134/22; original baseline custody explicit."
+    }
+  ],
+  "composition": {
+    "reviewed_proposal": "/Volumes/FastWork/c1223/v088-monolith-ten-retirement/PROPOSAL.json",
+    "sha256": "7a64238e6e8d89e6d77c38aba76daf633612f1c2dff0f791e614d6a58c09f3ef",
+    "changed_source_postimages": [
+      "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+    ],
+    "reason": "Preserve committed Guardian2 registry removal; other11 reviewed identities unchanged."
+  },
+  "proposal_source_head": "a2114b6bfc734544157c74e894b0a5376b08e58f",
+  "review": {
+    "status": "PASS",
+    "reviewer": "review_1223_public_facade",
+    "proposal_sha256": "0214b9094e32e0967de0f9c878fc759514694ba7efaf295dde6d29b51473ed7a",
+    "scope": "Reviewed source/caller/custody composition; all individual qualification and historical limits preserved."
+  }
+}

@@ -1,33 +1,31 @@
 #!/usr/bin/env bash
-# Install reviewed generated pages without rebuilding or replacing the owner.
+# Read-only manual discovery; package admission belongs to native C-SDLC.
 set -euo pipefail
-ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 if [[ $# != 2 || "$1" != "--stable-bin-dir" || -z "$2" ]]; then
-  echo 'usage: install_csdlc_man_pages.sh --stable-bin-dir DIRECTORY' >&2
+  echo 'usage: install_csdlc_man_pages.sh --stable-bin-dir DIRECTORY_CONTAINING_SELECTED_CSDLC' >&2
   exit 2
 fi
-MAN_ROOT="$2/share/man"
-SOURCE="$ROOT_DIR/docs/csdlc-v3/man/man1"
-[[ -f "$SOURCE/csdlc.1" && -f "$SOURCE/csdlc-requests.1" ]] || {
-  echo 'csdlc manual source pages are missing' >&2
-  exit 1
-}
-for directory in "$2" "$2/share" "$MAN_ROOT" "$MAN_ROOT/man1"; do
-  [[ ! -L "$directory" ]] || { echo 'csdlc manual destination must not be a symlink' >&2; exit 1; }
-done
-mkdir -p "$MAN_ROOT/man1"
-for source in "$SOURCE"/*.1; do
-  destination="$MAN_ROOT/man1/$(basename "$source")"
-  [[ ! -L "$destination" ]] || { echo 'csdlc manual page destination must not be a symlink' >&2; exit 1; }
-  if [[ -f "$destination" ]] && cmp -s "$source" "$destination"; then
-    continue
-  fi
-  stage="$(mktemp "$MAN_ROOT/man1/.csdlc-man.XXXXXX")"
-  trap 'rm -f "$stage"' EXIT
-  cp "$source" "$stage"
-  chmod 0644 "$stage"
-  mv "$stage" "$destination"
-  trap - EXIT
-done
-printf 'csdlc manual installed: %s\n' "$MAN_ROOT"
-printf 'Manual lookup: MANPATH="%s:${MANPATH:-}" man csdlc\n' "$MAN_ROOT"
+python3 - "$2/csdlc" <<'PYTHON'
+from pathlib import Path
+import os
+import shlex
+import sys
+
+selected = Path(sys.argv[1])
+try:
+    executable = selected.resolve(strict=True)
+    package = executable.parent.parent
+    if executable.name != "csdlc" or executable.parent.name != "bin" or package.name != "installed" or not executable.is_file() or not os.access(executable, os.X_OK):
+        raise ValueError("selected executable is not an installed owner-package entrypoint")
+    manual = package / "resources/docs/csdlc-v3/man"
+    for path in (package / "manifest.json", manual / "man1/csdlc.1", manual / "man1/csdlc-workflow.1", manual / "man1/csdlc-requests.1"):
+        if path.resolve(strict=True) != path or not path.is_file():
+            raise ValueError("package manual or manifest is missing or aliased")
+except (OSError, RuntimeError, ValueError) as error:
+    print(f"csdlc manual lookup refused: {error}", file=sys.stderr)
+    print("Use native csdlc package-install --request REVIEWED_REQUEST.json with an authenticated exact owner package; then use its returned executable directory. ADL source builds and manual copies are not a substitute.", file=sys.stderr)
+    sys.exit(2)
+print(f"csdlc package manual directory: {manual}")
+print(f'export MANPATH={shlex.quote(str(manual))}:"${{MANPATH:-}}"')
+print("Run man csdlc-workflow. This lookup neither authenticates nor activates the package; native admission remains required.")
+PYTHON

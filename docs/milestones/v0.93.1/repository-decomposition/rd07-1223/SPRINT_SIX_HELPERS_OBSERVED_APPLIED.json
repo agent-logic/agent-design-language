@@ -1,0 +1,543 @@
+{
+  "schema": "adl1223.remaining_sprint_six.v1",
+  "status": "applied_local_reversible_implementation",
+  "source_head": "f6d09c7874cc9ff2ec1431057353b53aef2630ae",
+  "rows": [
+    {
+      "id": "RD07-1848",
+      "path": "adl/tools/skills/sprint-conductor/scripts/check_installed_skill_parity.py",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "31a95e23ca29962c91ba737fa7798c9b1f64ea21"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "same_path_changed",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": []
+      }
+    },
+    {
+      "id": "RD07-1855",
+      "path": "adl/tools/skills/sprint-conductor/scripts/issue_goal_metrics.py",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "7851a931f118231907bbbbd9e56eeccf80201fd2"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "docs/skill-distributions/planning-utilities/original/adl/tools/skills/sprint-conductor/scripts/issue_goal_metrics.py"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1858",
+      "path": "adl/tools/skills/sprint-conductor/scripts/record_codex_goal_tool_snapshot.py",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "1b18a4b75e0db6be4f9b1c18516694197df0fcac"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "docs/skill-distributions/original-contracts/original/adl/tools/skills/sprint-conductor/scripts/record_codex_goal_tool_snapshot.py"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1859",
+      "path": "adl/tools/skills/sprint-conductor/scripts/record_issue_goal_metrics.py",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "15f38aad7d3d1843b356531f5ce4b788cf49fae7"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "docs/skill-distributions/planning-utilities/original/adl/tools/skills/sprint-conductor/scripts/record_issue_goal_metrics.py"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1861",
+      "path": "adl/tools/skills/sprint-conductor/scripts/record_issue_goal_stage_from_codex_session.py",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "e8be55d4c2e0f98a8b1b1c72bc9419da56a0077f"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "docs/skill-distributions/original-contracts/original/adl/tools/skills/sprint-conductor/scripts/record_issue_goal_stage_from_codex_session.py"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1865",
+      "path": "adl/tools/skills/sprint-conductor/scripts/write_sprint_closeout_artifact.py",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "46b6ce350368243013b662fd5f4b0fc4ccea0009"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "docs/skill-distributions/original-contracts/original/adl/tools/skills/sprint-conductor/scripts/write_sprint_closeout_artifact.py"
+        ]
+      }
+    }
+  ],
+  "removed_count": 6,
+  "files": [
+    {
+      "path": "adl/config/validation_lane_selector.public.v1.json",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "62e2419109ff34d11f617c87b0c974549f6a757a",
+        "sha256": "158105d0234d479f6d4ce7b94a26a15bffe7603dba5288aac337a61bbed1e693"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "36c9aad7d8d545249daf36811015cbb501b03ac8",
+        "sha256": "c7ad89cf206d00ceda937b553e25a17e6b1bea2bb320c185f021f0d1066e188d"
+      }
+    },
+    {
+      "path": "adl/config/validation_lane_selector.v0.91.6.json",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "a56f26b9bb38636d931aef3cfb9989943de3451d",
+        "sha256": "138dd6032939e0ad540b73071f2adf4b2b8f89ab0d887f4e9d1db8211611f1fc"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "6c93e60177d37171fa4dc6f96732701efdbd3746",
+        "sha256": "b51b22ce61c0c1db4eb9a298bd8510d8d1b2813024c2648f3d21aaea78e312ac"
+      }
+    },
+    {
+      "path": "adl/tools/test_validation_manager.sh",
+      "action": "modify",
+      "before": {
+        "mode": "100755",
+        "blob": "e9f8e9f28be74e4c60bf441b9d2a283506a32f8c",
+        "sha256": "ea210dc663f3d6fa687ef08ba8fc15c07cace2d7ac931cb5b277f09c45650c44"
+      },
+      "after": {
+        "mode": "100755",
+        "blob": "dc529de911ebda319e307e063c1b49a7280e1f9c",
+        "sha256": "107ec20229513451cc8bbdb29fc47ceeb134706e666a188e7812bb60ee183896"
+      }
+    },
+    {
+      "path": "tools/sprint_contracts/README.md",
+      "action": "add",
+      "before": null,
+      "after": {
+        "mode": "100755",
+        "blob": "165ef76f94ccc0017ef7c943ab49b879a926c323",
+        "sha256": "5be36fc74d8e671716c57f492d9a7705f2db2f8bf93013ffa755bdc7df693c26"
+      }
+    },
+    {
+      "path": "adl/tools/skills/sprint-conductor/scripts/check_installed_skill_parity.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "31a95e23ca29962c91ba737fa7798c9b1f64ea21",
+        "sha256": "558a3228fb1c2898635aa811176c669ec5907cbcdc67a0d2428e291fc4940ade"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/sprint-conductor/scripts/issue_goal_metrics.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "7851a931f118231907bbbbd9e56eeccf80201fd2",
+        "sha256": "cea05f335af023b6576faeaef57cd776ee5dcf0c09b67e17e51d50c6f7b869db"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/sprint-conductor/scripts/record_codex_goal_tool_snapshot.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "1b18a4b75e0db6be4f9b1c18516694197df0fcac",
+        "sha256": "004dd8da18c4ebb0ea71802505b46883572d8abf00337362bd2aad2d9826c437"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/sprint-conductor/scripts/record_issue_goal_metrics.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "15f38aad7d3d1843b356531f5ce4b788cf49fae7",
+        "sha256": "c0fb411031270eb9f947b5ee6cbba19f3abb56db07b385c7d90cd4e129bcb266"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/sprint-conductor/scripts/record_issue_goal_stage_from_codex_session.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "e8be55d4c2e0f98a8b1b1c72bc9419da56a0077f",
+        "sha256": "359c4274fc2498c67b0b97a912d5f573c35a06d7f2fb04309d147353ddfee3d6"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/sprint-conductor/scripts/write_sprint_closeout_artifact.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "46b6ce350368243013b662fd5f4b0fc4ccea0009",
+        "sha256": "264c4711742f27b028a095a74bd354ee0b0750d9ba33a4253b47fc1df2b01121"
+      },
+      "after": null
+    }
+  ],
+  "mapping": [
+    {
+      "id": "RD07-1848",
+      "path": "adl/tools/skills/sprint-conductor/scripts/check_installed_skill_parity.py",
+      "owner_resource": {
+        "path": "resources/adl/tools/skills/sprint-conductor/scripts/check_installed_skill_parity.py",
+        "sha256": "f2c19acc0e5d986658584e03fa7094acfce1ca2d16737c9203aed500b8d2bf89",
+        "mode": 493,
+        "matches_prior_qualified_bytes_and_mode": true
+      },
+      "byte_identical": false,
+      "owner_package": "/Volumes/FastWork/c1223/csdlc255-admission/issue260-full-consumer/.adl/packages/11837302828/installed"
+    },
+    {
+      "id": "RD07-1855",
+      "path": "adl/tools/skills/sprint-conductor/scripts/issue_goal_metrics.py",
+      "owner_resource": {
+        "path": "resources/docs/skill-distributions/planning-utilities/original/adl/tools/skills/sprint-conductor/scripts/issue_goal_metrics.py",
+        "sha256": "cea05f335af023b6576faeaef57cd776ee5dcf0c09b67e17e51d50c6f7b869db",
+        "mode": 493,
+        "matches_prior_qualified_bytes_and_mode": true
+      },
+      "byte_identical": true,
+      "owner_package": "/Volumes/FastWork/c1223/csdlc255-admission/issue260-full-consumer/.adl/packages/11837302828/installed"
+    },
+    {
+      "id": "RD07-1858",
+      "path": "adl/tools/skills/sprint-conductor/scripts/record_codex_goal_tool_snapshot.py",
+      "owner_resource": {
+        "path": "resources/docs/skill-distributions/original-contracts/original/adl/tools/skills/sprint-conductor/scripts/record_codex_goal_tool_snapshot.py",
+        "sha256": "004dd8da18c4ebb0ea71802505b46883572d8abf00337362bd2aad2d9826c437",
+        "mode": 420,
+        "matches_prior_qualified_bytes_and_mode": true
+      },
+      "byte_identical": true,
+      "owner_package": "/Volumes/FastWork/c1223/csdlc255-admission/issue260-full-consumer/.adl/packages/11837302828/installed"
+    },
+    {
+      "id": "RD07-1859",
+      "path": "adl/tools/skills/sprint-conductor/scripts/record_issue_goal_metrics.py",
+      "owner_resource": {
+        "path": "resources/docs/skill-distributions/planning-utilities/original/adl/tools/skills/sprint-conductor/scripts/record_issue_goal_metrics.py",
+        "sha256": "c0fb411031270eb9f947b5ee6cbba19f3abb56db07b385c7d90cd4e129bcb266",
+        "mode": 493,
+        "matches_prior_qualified_bytes_and_mode": true
+      },
+      "byte_identical": true,
+      "owner_package": "/Volumes/FastWork/c1223/csdlc255-admission/issue260-full-consumer/.adl/packages/11837302828/installed"
+    },
+    {
+      "id": "RD07-1861",
+      "path": "adl/tools/skills/sprint-conductor/scripts/record_issue_goal_stage_from_codex_session.py",
+      "owner_resource": {
+        "path": "resources/docs/skill-distributions/original-contracts/original/adl/tools/skills/sprint-conductor/scripts/record_issue_goal_stage_from_codex_session.py",
+        "sha256": "359c4274fc2498c67b0b97a912d5f573c35a06d7f2fb04309d147353ddfee3d6",
+        "mode": 420,
+        "matches_prior_qualified_bytes_and_mode": true
+      },
+      "byte_identical": true,
+      "owner_package": "/Volumes/FastWork/c1223/csdlc255-admission/issue260-full-consumer/.adl/packages/11837302828/installed"
+    },
+    {
+      "id": "RD07-1865",
+      "path": "adl/tools/skills/sprint-conductor/scripts/write_sprint_closeout_artifact.py",
+      "owner_resource": {
+        "path": "resources/docs/skill-distributions/original-contracts/original/adl/tools/skills/sprint-conductor/scripts/write_sprint_closeout_artifact.py",
+        "sha256": "264c4711742f27b028a095a74bd354ee0b0750d9ba33a4253b47fc1df2b01121",
+        "mode": 420,
+        "matches_prior_qualified_bytes_and_mode": true
+      },
+      "byte_identical": true,
+      "owner_package": "/Volumes/FastWork/c1223/csdlc255-admission/issue260-full-consumer/.adl/packages/11837302828/installed"
+    }
+  ],
+  "evidence": {
+    "/Volumes/FastWork/c1223/sprint-conductor-qualification-plan/PLAN.json": "305ec171899281bb4421e1e1f87cb5b2ce5b45a7cb3ec03e04c20ecd056f3bbb",
+    "/Volumes/FastWork/c1223/evidence/cognitive-sdlc/operational-79d6430/COMPONENT_RESULTS.json": "293782988589a46ac27ea8ffc8c56529c7ac901c08b62d0e6738f48ef09a547c",
+    "/Volumes/FastWork/c1223/evidence/cognitive-sdlc/operational-79d6430/reports.stdout": "5aa5bd652c62566e15af99298e1abe1ebc322a0e5fd643e6edde629f4dd0d5a7",
+    "/Volumes/FastWork/c1223/evidence/cognitive-sdlc/operational-79d6430/reports.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/Volumes/FastWork/c1223/evidence/cognitive-sdlc/operational-79d6430/LIFECYCLE_MODE_FAILURE.json": "41cc57c74c0240420b356b381927946b4fa2426952ac5c0d04b8ece238bbc43b",
+    "/Volumes/FastWork/c1223/evidence/cognitive-sdlc/operational-79d6430/boundaries/boundaries.stderr": "63e34114ff7d38b62d869885213e5b1084f75a6a36b4b5888c4e63b6c14c62cf",
+    "/Volumes/FastWork/c1223/evidence/cognitive-sdlc/operational-79d6430/closeout/closeout/result.json": "65e6f7f794763b0a854a831961d57cf83832c10e8babbec450e0bd820add7af3",
+    "/Volumes/FastWork/c1223/evidence/cognitive-sdlc/operational-79d6430/closeout/transport/result.json": "bc81f9bdbd4adf16268e1f4b1257944ab146532942654bf671a4d845db2097a0",
+    "/Volumes/FastWork/c1223/evidence/cognitive-sdlc/operational-79d6430/reports/result.json": "fd98df8bb051372074f8cc8d6c999da252ca29d6de0051aabaf773cb1cbbb2eb",
+    "/Volumes/FastWork/c1223/evidence/cognitive-sdlc/operational-79d6430/closeout/result.json": "baaa92f5ce2d5f425320afde74e378a5721ff12e0d46fac797fe9a2171511ba1",
+    "/Volumes/FastWork/c1223/evidence/cognitive-sdlc/operational-79d6430/boundaries/result.json": "3c27448232c4296ab4c37989f7daea81ad483530ce4ea0e279544e5d4b7b92de",
+    "/Volumes/FastWork/adl-worktrees/adl-issue-1223-1223-coherent-source-retirement/docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CSDLC_OPERATIONAL_COMPONENT_QUALIFICATION.json": "761f65fcdfb41f3e6d58bbb001857c3dbb3597f35e8aa402289ae9068ec17022",
+    "/Volumes/FastWork/adl-worktrees/adl-issue-1223-1223-coherent-source-retirement/docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CSDLC_PRIOR_COMPONENT_RESOURCE_CORRESPONDENCE.json": "f3a9a11067936553e840206365b17f557c7fbe40a496d1e5f41e6f54edcdc868",
+    "/Volumes/FastWork/adl-worktrees/adl-issue-1223-1223-coherent-source-retirement/docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CONDUCTOR_WRAPPER_HISTORICAL_DISPOSITION.json": "74215108b875e13a217d829ad44dc226321df7de410a8f03fbd859c95fac8039",
+    "/Volumes/FastWork/adl-worktrees/adl-issue-1223-1223-coherent-source-retirement/docs/milestones/v0.93.1/repository-decomposition/rd07-1223/SPRINT_CONDUCTOR_FAMILY_APPLIED.json": "31280e5aa3c1d6b304facb2ea37d6a6430e18c58f1f0ad9499d456d260cb978a",
+    "/Volumes/FastWork/adl-worktrees/adl-issue-1223-1223-coherent-source-retirement/docs/milestones/v0.93.1/repository-decomposition/rd07-1223/READINESS_METRICS_CALLER_APPLIED.json": "78e494203c33d791597c2698464b069542a9fad46570a6fb3f083f4b46e983cd"
+  },
+  "assertion_ranges": [
+    {
+      "lines": [
+        1,
+        376
+      ],
+      "original_role": "Private fixture setup; zero assertion-bearing expressions",
+      "current_invocation": "Fixtures in validation/fixtures plus explicit --scripts-dir/--out; no reviewer-policy assertion occurs in original lines1-376.",
+      "retained_evidence": "setup_only"
+    },
+    {
+      "lines": [
+        377,
+        458
+      ],
+      "original_role": "bootstrap and original retired transport/card-directory ABI",
+      "current_invocation": "python3 contracts/validation/check_conductor_correspondence.py --scripts-dir ABS_INSTALLED_SCRIPTS --out NEW_ABS_PRIVATE_OUTPUT --component lifecycle",
+      "retained_evidence": "mapped_bootstrap15_passed; actual native bind/validate remains required",
+      "boundary_invocation": "CSDLC_CONDUCTOR_SCRIPTS_DIR=ABS_INSTALLED_SCRIPTS python3 contracts/validation/test_native_boundaries.py",
+      "semantic_mapping": "Original417-431 field assertions retained. Original433 and436-458 legacy source/card paths map to explicit native bound checkout, validate projection, and generated request custody; not direct filesystem card writes. Retired default writer calls map to explicit pinned native boundary checks.",
+      "wrapper_execution": "new_portable_driver_not_rerun; underlying original blocks already passed"
+    },
+    {
+      "lines": [
+        459,
+        761
+      ],
+      "original_role": "readiness/SEP/card exports",
+      "current_invocation": "python3 contracts/validation/check_conductor_correspondence.py --scripts-dir ABS_INSTALLED_SCRIPTS --out NEW_ABS_PRIVATE_OUTPUT --component reports",
+      "retained_evidence": "retained31_passed",
+      "wrapper_execution": "new_portable_driver_not_rerun; underlying original blocks already passed"
+    },
+    {
+      "lines": [
+        762,
+        1075
+      ],
+      "original_role": "truth/update/child finish",
+      "current_invocation": "python3 contracts/validation/check_conductor_correspondence.py --scripts-dir ABS_INSTALLED_SCRIPTS --out NEW_ABS_PRIVATE_OUTPUT --component lifecycle",
+      "retained_evidence": "retained20_python_assertions_and_shell_guards_passed",
+      "wrapper_execution": "new_portable_driver_not_rerun; underlying original blocks already passed"
+    },
+    {
+      "lines": [
+        1076,
+        1269
+      ],
+      "original_role": "closeout artifact and native completion",
+      "current_invocation": "python3 contracts/validation/check_conductor_correspondence.py --scripts-dir ABS_INSTALLED_SCRIPTS --out NEW_ABS_PRIVATE_OUTPUT --component closeout",
+      "retained_evidence": "final-closure/closeout-proof-r2/result.json and transport-proof/result.json: private transport-double PASS, native admission false",
+      "wrapper_execution": "new_portable_driver_not_rerun; underlying original blocks already passed"
+    },
+    {
+      "lines": [
+        1270,
+        1319
+      ],
+      "original_role": "parity",
+      "current_invocation": "python3 contracts/validation/check_conductor_correspondence.py --scripts-dir ABS_INSTALLED_SCRIPTS --out NEW_ABS_PRIVATE_OUTPUT --component reports",
+      "retained_evidence": "retained8_passed",
+      "wrapper_execution": "new_portable_driver_not_rerun; underlying original blocks already passed"
+    },
+    {
+      "lines": [
+        1320,
+        1363
+      ],
+      "original_role": "card defects",
+      "current_invocation": "python3 contracts/validation/check_conductor_correspondence.py --scripts-dir ABS_INSTALLED_SCRIPTS --out NEW_ABS_PRIVATE_OUTPUT --component reports",
+      "retained_evidence": "retained7_passed",
+      "wrapper_execution": "new_portable_driver_not_rerun; underlying original blocks already passed"
+    },
+    {
+      "lines": [
+        1364,
+        1584
+      ],
+      "original_role": "metrics artifact/rollup",
+      "current_invocation": "python3 contracts/validation/check_conductor_correspondence.py --scripts-dir ABS_INSTALLED_SCRIPTS --out NEW_ABS_PRIVATE_OUTPUT --component reports",
+      "retained_evidence": "retained73_assertion_bearing_lines_including_shell_passed",
+      "wrapper_execution": "new_portable_driver_not_rerun; underlying original blocks already passed"
+    },
+    {
+      "lines": [
+        1585,
+        1723
+      ],
+      "original_role": "closeout classification",
+      "current_invocation": "python3 contracts/validation/check_conductor_correspondence.py --scripts-dir ABS_INSTALLED_SCRIPTS --out NEW_ABS_PRIVATE_OUTPUT --component lifecycle",
+      "retained_evidence": "retained13_passed",
+      "wrapper_execution": "new_portable_driver_not_rerun; underlying original blocks already passed"
+    },
+    {
+      "lines": [
+        1724,
+        2574
+      ],
+      "original_role": "metrics capture/prediction/session",
+      "current_invocation": "python3 contracts/validation/check_conductor_correspondence.py --scripts-dir ABS_INSTALLED_SCRIPTS --out NEW_ABS_PRIVATE_OUTPUT --component reports",
+      "retained_evidence": "retained168_passed",
+      "wrapper_execution": "new_portable_driver_not_rerun; underlying original blocks already passed"
+    },
+    {
+      "lines": [
+        2575,
+        2640
+      ],
+      "original_role": "old default Cargo/override transport contracts",
+      "current_invocation": "python3 contracts/validation/check_conductor_correspondence.py --scripts-dir ABS_INSTALLED_SCRIPTS --out NEW_ABS_PRIVATE_OUTPUT --component closeout",
+      "retained_evidence": "final-closure/closeout-proof-r2/result.json and transport-proof/result.json: private transport-double PASS, native admission false",
+      "wrapper_execution": "new_portable_driver_not_rerun; underlying original blocks already passed"
+    }
+  ],
+  "missing_acceptance": [
+    {
+      "obligation": "Actual native bind/validate, child finish and sprint coordination finish under sole selected native operator",
+      "why_not_covered": "Every correspondence component uses explicit local native transport doubles. Artifact admission to ADL1223 does not execute these sprint behaviors.",
+      "offline_fixture_can_prove": false
+    },
+    {
+      "obligation": "Original retired wrapper/card-directory/default-Cargo transport ABI",
+      "disposition": "Already explicit historical retirement; do not resurrect it or label changed interface exact equivalence. Full original2640-line wrapper has not passed;421 remains preserved inventory, not all-green current native proof."
+    }
+  ],
+  "qualification": "Reused exact reports, closeout and boundaries receipts; original lifecycle mode failure retained. Five source bodies exact; parity changed interface explicitly mapped. No new component run.",
+  "caller_closure": [
+    "readiness test already uses external pinned source root; unchanged",
+    "installer assertions already consume explicit full original source-root; unchanged",
+    "owner_inputs contains installed resources, not missing local paths; unchanged",
+    "three manager fixtures repaired to current adapter/installer inputs, public docs, and unknown-owner fail-closed case",
+    "active public selector gets exact Sprint lane; historical selector removes dead path hints without claiming it is active"
+  ],
+  "custody": [
+    {
+      "path": "/Volumes/FastWork/c1223/sprint-six-source-retirement/current-preimages.tar",
+      "sha256": "3b7617a84db4e4f5a46bbbdb2d4dc3ae51ff86c791e6089a373f1ed083efa90f"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/sprint-six-source-retirement/original-sources.tar",
+      "sha256": "d1637450bbb54363fdf39cd4b2fa4880898a59804c265d9729e96bfa07fa8058"
+    }
+  ],
+  "patch_sha256": "7113928f4b47fda346247f91b9d59b71391f9a0ecd8df021db0aea017e0e0bf3",
+  "limits": [
+    "Existing component proof reused; no original/product suites repeated.",
+    "New real defaultmanager routing only; initialfailure and correctedthirdcase retained.",
+    "No full native Sprint behavior or finalpublicpackage acceptance inferred."
+  ],
+  "focused_routing": {
+    "status": "PASS_three_blocks_with_preserved_initial_test_expectation_failure",
+    "initial_result": {
+      "path": "/Volumes/FastWork/c1223/sprint-six-source-retirement/routing-proof/RESULT.json",
+      "sha256": "d28cd7414b245fd3cea06221b3f634d5278542ffaa6a6e9968708b005677345c"
+    },
+    "corrected_third": {
+      "path": "/Volumes/FastWork/c1223/sprint-six-source-retirement/routing-proof/CORRECTED_THIRD_RESULT.json",
+      "sha256": "dd39e79a56672f47179867cdd1f5a428e33573e99c65210a822098c76b19ed7f"
+    },
+    "limits": "Real default manager JSON routing only. No --run; installer/components/products not executed. Initial mapped two blocks passed; unknown owner correctly escalated before obsolete diagnostic-name assertion failed. Corrected only expected current diagnostic code, reran only affected third block."
+  },
+  "issue": 1223,
+  "patch_path": "/Volumes/FastWork/c1223/sprint-six-source-retirement/retirement.patch",
+  "registry_validation": "Actual generator/--check PASS; nested scripts have no registered entry, registry unchanged.",
+  "review": {
+    "reviewer": "review_1223_historical_retention",
+    "result": "PASS",
+    "scope": "6installedresourcepins,16priorproofpins,custody, actualpublicrouting, original421denominator/transport/nativegaps preserved"
+  },
+  "observed_application_correction": {
+    "original_packet": "SPRINT_SIX_HELPERS_APPLIED.json",
+    "original_packet_sha256": "90b7a04c4cbe5d6f03a15c7501d36f86797d16e5a1d960fee4bbd2e8d2bc4576",
+    "source_commit": "e131de500a7f09f4bdc9c80f9d1dfad0706f4ba4",
+    "path": "tools/sprint_contracts/README.md",
+    "original_recorded_after": {
+      "mode": "100644",
+      "blob": "165ef76f94ccc0017ef7c943ab49b879a926c323",
+      "sha256": "5be36fc74d8e671716c57f492d9a7705f2db2f8bf93013ffa755bdc7df693c26"
+    },
+    "git_observed_after": {
+      "mode": "100755",
+      "blob": "165ef76f94ccc0017ef7c943ab49b879a926c323",
+      "sha256": "5be36fc74d8e671716c57f492d9a7705f2db2f8bf93013ffa755bdc7df693c26"
+    },
+    "reason": "Original applied packet preserved intended mode100644 rather than actual committed100755. This supplemental observed-source packet corrects that one observation without rewriting historical packet or source. Subsequent zero-removal modefix remains separately recorded.",
+    "followup_commit": "5b0403985e65ef36f6a36f659af5c42b88f2b1c9",
+    "followup_packet": "SPRINT_README_MODE_CORRECTION_APPLIED.json"
+  }
+}

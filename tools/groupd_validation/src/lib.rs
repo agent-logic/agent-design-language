@@ -30,7 +30,7 @@ mod tests {
     fn dependency_inventory() {
         run(
             "python3",
-            "adl/tools/skills/repo-dependency-review/scripts/test_prepare_dependency_review.py",
+            "tools/groupd_validation/run_dependency_inventory.py",
         );
     }
     #[test]
@@ -39,25 +39,20 @@ mod tests {
     }
     #[test]
     fn builder_inputs() {
-        run("python3", "adl/docker/adl-builder/test_builder_inputs.py");
+        run("python3", "tools/groupd_validation/run_builder_contracts.py");
     }
     #[test]
     fn ci_routing() {
         run("bash", "adl/tools/test_ci_path_policy.sh");
     }
-    #[test]
-    fn verified_bootstrap() {
-        run(
-            "python3",
-            "tools/aws_remote_validation/scripts/test_verified_bootstrap.py",
-        );
-    }
+    // Bootstrap safety tests moved with the Infrastructure package (#1223).
+    // Their 24 original assertions are not counted as ADL adapter executions.
     #[test]
     fn lane_selector() {
-        run("bash", "adl/tools/test_select_validation_lanes.sh");
+        run("python3", "tools/public_adl/test_validation_interfaces.py");
     }
     #[test]
-    fn coverage_test_only() {
-        run("python3", "adl/tools/test_coverage_test_only.py");
+    fn public_coverage_contract() {
+        run("python3", "tools/public_adl/test_coverage.py");
     }
 }

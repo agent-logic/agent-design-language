@@ -1,0 +1,137 @@
+{
+  "schema": "adl.rd07.public-workspace-closure.v1",
+  "implementation_commit": "6030a16305699af338e41c27f2abcac893c078f3",
+  "independent_review": {
+    "reviewer": "review_1223_applied_components",
+    "result": "PASS reported by root"
+  },
+  "paths": [
+    {
+      "path": "adl-v2/Cargo.lock",
+      "before": [
+        "100644",
+        "94e5598e0824d6e50651c226fba383c33da18dfc"
+      ],
+      "after": [
+        "100644",
+        "c1f8cb82f2bee0196fe62b88354efa03d52b75a0"
+      ]
+    },
+    {
+      "path": "adl-v2/Cargo.toml",
+      "before": [
+        "100644",
+        "21ca333bfd944143ac156866dd1e70814eec1be5"
+      ],
+      "after": [
+        "100644",
+        "5992378030c2801a91197d6c93ed9081a58b5b3a"
+      ]
+    },
+    {
+      "path": "adl/config/validation_lane_selector.public.v1.json",
+      "before": [
+        "100644",
+        "1ec456fd1628ac12284e12771b46eff37e4413bf"
+      ],
+      "after": [
+        "100644",
+        "0c258a5d2a9225d3912975b4d1318e9f8225c71a"
+      ]
+    },
+    {
+      "path": "tools/public_adl/test_ci_contract.py",
+      "before": [
+        "100755",
+        "7e64d99db4cb346ac252f93704184a2e5848c78d"
+      ],
+      "after": [
+        "100755",
+        "0a8444d0f026b3800ee776957419817f0cba35f1"
+      ]
+    },
+    {
+      "path": "tools/public_adl/test_validation_interfaces.py",
+      "before": [
+        "100644",
+        "67913eff47f26792a46f731e2bfaf43196e3b7b6"
+      ],
+      "after": [
+        "100644",
+        "2c0d332d738aab85e37a90740916771d2356206a"
+      ]
+    },
+    {
+      "path": "tools/source_retirement/README.md",
+      "before": [
+        "100644",
+        "8608b1ad9009fb958e3ee88d5ec1ac4eec53df6a"
+      ],
+      "after": [
+        "100644",
+        "9e6dae1ee100b09ca30fcfd826fcc9ea2cebd926"
+      ]
+    }
+  ],
+  "metadata_qualification": {
+    "schema": "adl1223.public-v2-workspace-closure.v1",
+    "status": "passed",
+    "private_member_directories_present": false,
+    "local_packages": [
+      "adl-compiler",
+      "adl-language"
+    ],
+    "locked_offline_metadata_exit": 0,
+    "platform": "aarch64-apple-darwin",
+    "lock_packages_before": 284,
+    "lock_packages_after": 121,
+    "new_package_identities": [],
+    "checksum_changes": [],
+    "files": {
+      "Cargo.toml": "94e0f06f663b9d06468edf117627e08deae8891158e3e313f513eefb52753630",
+      "Cargo.lock": "499bebe6660d9cf86761914e120d2bcd23293b1b88fb2f3b5577eb370fd360b3"
+    },
+    "stdout_sha256": "ecc63bdab6d85b482f98e92f9bd3df7db7d1c57e6bc7aa0c51e68c572d6150db",
+    "limits": [
+      "Metadata resolution only; no build or final package acceptance",
+      "Other platform dependency unpack not qualified by this host check"
+    ]
+  },
+  "validation": {
+    "interface_tests": 12,
+    "interface_seconds": 3.323,
+    "ci_contract_exit_code": 0,
+    "capture_directory": "/Volumes/FastWork/c1223/public-v2-workspace-closure",
+    "captured_files": [
+      {
+        "path": "/Volumes/FastWork/c1223/public-v2-workspace-closure/result.json",
+        "sha256": "7972e1cf3d9468905783b7ddf77ccd80ef9ec9b0b102ae6750a2e144cb894d1e"
+      },
+      {
+        "path": "/Volumes/FastWork/c1223/public-v2-workspace-closure/stdout.json",
+        "sha256": "ecc63bdab6d85b482f98e92f9bd3df7db7d1c57e6bc7aa0c51e68c572d6150db"
+      },
+      {
+        "path": "/Volumes/FastWork/c1223/public-v2-workspace-closure/stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "/Volumes/FastWork/c1223/public-v2-workspace-closure/interface-stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "/Volumes/FastWork/c1223/public-v2-workspace-closure/interface-stderr",
+        "sha256": "b34e63c360dd929670a5705edb66cd142c7d57bb351d199f612261a1dbcd9605"
+      },
+      {
+        "path": "/Volumes/FastWork/c1223/public-v2-workspace-closure/ci-stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "/Volumes/FastWork/c1223/public-v2-workspace-closure/ci-stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  "boundary": "Six exact reviewed changes; no new removal, inventory identity or count change; host metadata does not prove builds or other platforms."
+}

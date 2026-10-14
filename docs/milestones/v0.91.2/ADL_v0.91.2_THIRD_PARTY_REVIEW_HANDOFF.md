@@ -1,5 +1,7 @@
 # Third-Party Review Handoff - v0.91.2
 
+> Historical v0.91.2 quality walkthrough. #1223 retired demo_v0912_quality_gate.sh and its companion test because their required legacy coverage plan/full-run routes are retired. The original record, recipes and assertions below are preserved as history; they are not current executable commands or evidence of passing coverage. Current public validation is defined by .github/workflows/ci.yaml and tools/public_adl/run_ci.sh; coverage semantics are documented in tools/public_adl/COVERAGE.md.
+
 ## Metadata
 
 - Milestone: `v0.91.2`

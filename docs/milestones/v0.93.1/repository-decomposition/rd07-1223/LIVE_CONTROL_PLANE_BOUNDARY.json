@@ -1,0 +1,45 @@
+{
+  "schema": "adl.source_retirement.live_control_plane_gap.v1",
+  "issue": 1223,
+  "adl_revision": "9cfd035aac2a44637b3c8026bd40b669579a8c7f",
+  "successor_revision": "deed45851f9e8a6847dd5adae277b78eb3531336",
+  "noncandidate_source": [
+    {
+      "path": "csdlc-v3/src/commands/proof/node.rs",
+      "current_adl_blob": "47743cbf9a2e848c017522ae1ffb6e30f6034159",
+      "same_path_successor_exists": false,
+      "scope": "same-path check only, not proof of absent equivalent implementation"
+    },
+    {
+      "path": "csdlc-v3/src/commands/remote/publication_observation.rs",
+      "current_adl_blob": "2d07111a08a35cae6f4210d7cda72378ab398d9b",
+      "same_path_successor_exists": true,
+      "scope": "same-path check only, not proof of absent equivalent implementation"
+    }
+  ],
+  "retained_consumers": [
+    "9cfd035aac2a44637b3c8026bd40b669579a8c7f:.github/workflows/ci.yaml:365:        run: bash adl/tools/run_cargo_validation.sh cargo test --locked --manifest-path csdlc-v3/Cargo.toml",
+    "9cfd035aac2a44637b3c8026bd40b669579a8c7f:.github/workflows/ci.yaml:368:        run: bash adl/tools/run_cargo_validation.sh cargo fmt --manifest-path csdlc-v3/Cargo.toml --all -- --check",
+    "9cfd035aac2a44637b3c8026bd40b669579a8c7f:.github/workflows/ci.yaml:371:        run: bash adl/tools/run_cargo_validation.sh cargo clippy --locked --manifest-path csdlc-v3/Cargo.toml --all-targets -- -D warnings",
+    "9cfd035aac2a44637b3c8026bd40b669579a8c7f:adl/tools/install_owner_binaries.sh:75:    SOURCE_PATHS=(csdlc-v3/Cargo.toml csdlc-v3/Cargo.lock csdlc-v3/src)",
+    "9cfd035aac2a44637b3c8026bd40b669579a8c7f:adl/tools/install_owner_binaries.sh:76:    MANIFEST=\"$ROOT_DIR/csdlc-v3/Cargo.toml\""
+  ],
+  "node_route_evidence": [
+    "9cfd035aac2a44637b3c8026bd40b669579a8c7f:csdlc-v3/src/commands/proof/intent.rs:4:mod node;",
+    "9cfd035aac2a44637b3c8026bd40b669579a8c7f:csdlc-v3/src/commands/proof/intent.rs:160:            node::admit(root, validator)?;",
+    "9cfd035aac2a44637b3c8026bd40b669579a8c7f:csdlc-v3/src/commands/proof/intent.rs:365:            node::counts(root, validator, &text)",
+    "9cfd035aac2a44637b3c8026bd40b669579a8c7f:csdlc-v3/src/commands/proof/intent.rs:926:            node::admit(root, validator)?;",
+    "9cfd035aac2a44637b3c8026bd40b669579a8c7f:csdlc-v3/src/commands/proof/intent.rs:1334:        node::admit(root, validator)?;"
+  ],
+  "decision": "Do not delete current C-SDLC source or disable its consumers based on identical old source rows. Review supported packaged-owner replacement and Node/publication semantic parity first.205 normalization is not a dependency.",
+  "changes_applied": false,
+  "installer_boundary": {
+    "local_installer": "adl/tools/install_owner_binaries.sh",
+    "local_source_required_even_with_no_build": true,
+    "reason": "Source provenance is computed from csdlc-v3/Cargo.toml, Cargo.lock and src before installation. Supplying prebuilt bytes does not remove this source dependency.",
+    "successor_manual": "agent-logic/cognitive-sdlc@deed45851f9e8a6847dd5adae277b78eb3531336:docs/csdlc-v3/man/man1/csdlc-package-install.1",
+    "manual_contract": "First import is repository-bound to agent-logic/cognitive-sdlc, preserves shared binaries, and still requires live qualification.",
+    "conclusion": "This route alone is not evidence that ADL can retire its local lifecycle source. A supported ADL consumer installation and semantic parity must be established first.",
+    "installation_attempted": false
+  }
+}

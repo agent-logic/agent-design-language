@@ -129,7 +129,9 @@ if not command:
 print(command)
 PY
 )"
-  if [[ -n "$CHANGED_FILES" ]]; then
+  # The exact public batch runs the complete public source scope and consumes
+  # no changed-file input. Keep the original rewrite/refusal for filtered lanes.
+  if [[ -n "$CHANGED_FILES" && "$REMOTE_COMMAND" != "bash adl/tools/batched_checks.sh" ]]; then
     REMOTE_COMMAND="$(python3 - "$REMOTE_COMMAND" "$CHANGED_FILES" <<'PY'
 import base64
 import shlex

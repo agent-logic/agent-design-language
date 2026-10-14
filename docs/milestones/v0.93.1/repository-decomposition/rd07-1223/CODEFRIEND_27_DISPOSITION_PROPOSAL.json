@@ -1,0 +1,431 @@
+{
+  "original_inventory_count": 4134,
+  "scope_count": 27,
+  "owner_revision": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+  "status": "specific_dispositions_and_gates_not_approval",
+  "rows": [
+    {
+      "id": "RD07-1281",
+      "path": "adl/tools/codefriend_drift_installed_proof.py",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "cbf71010ed4aacb5abc3d8eb38ca35add821d7db"
+      },
+      "family": "installed_consumer_gap",
+      "owner_references": [],
+      "proposal": "Original installed CLI scenarios lack identified owner counterpart; preserve until accepted replacement crosswalk or migration.",
+      "retirement_authorized": false
+    },
+    {
+      "id": "RD07-1287",
+      "path": "adl/tools/codefriend_impact_installed_proof.py",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "961e2b9a6540b0879850e65ca737c27ffc800856"
+      },
+      "family": "installed_consumer_gap",
+      "owner_references": [],
+      "proposal": "Original installed CLI scenarios lack identified owner counterpart; preserve until accepted replacement crosswalk or migration.",
+      "retirement_authorized": false
+    },
+    {
+      "id": "RD07-1289",
+      "path": "adl/tools/codefriend_palace_installed_proof.py",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "9fa185f52404e5c4949e97fd4783f7535c2f8c0e"
+      },
+      "family": "installed_consumer_gap",
+      "owner_references": [],
+      "proposal": "Original installed CLI scenarios lack identified owner counterpart; preserve until accepted replacement crosswalk or migration.",
+      "retirement_authorized": false
+    },
+    {
+      "id": "RD07-1290",
+      "path": "adl/tools/codefriend_rationale_installed_proof.py",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "ac0d2f8ed1c46d4b1e06727a8a79dbd93c63e9a3"
+      },
+      "family": "installed_consumer_gap",
+      "owner_references": [],
+      "proposal": "Original installed CLI scenarios lack identified owner counterpart; preserve until accepted replacement crosswalk or migration.",
+      "retirement_authorized": false
+    },
+    {
+      "id": "RD07-1902",
+      "path": "adl/tools/test_adl_review_compatibility.sh",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "7a9edec6939ad6165614e5e55eccbad08509ac3b"
+      },
+      "family": "legacy_review_compatibility",
+      "owner_references": [],
+      "proposal": "Original adl-review compatibility CLI includes review contract/code-review and retired ownership refusals; cannot retire just because lifecycle v1 is sunset. Needs explicit owner or historical disposition.",
+      "retirement_authorized": false
+    },
+    {
+      "id": "RD07-3209",
+      "path": "demos/v0.89/multi_agent_repo_code_review_demo.md",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "c3283f32060705f1f4bed4f014b918061e1fb56f"
+      },
+      "family": "versioned_demo_history",
+      "owner_references": [
+        "docs/rd08-demo-exports/README.md",
+        "docs/codefriend/ORIGINAL031.md"
+      ],
+      "proposal": "Preserve historical scenario/docs boundary. Link archived or owner execution routes; original035 remains non-proving. Do not claim historical fixture is live review.",
+      "retirement_authorized": false
+    },
+    {
+      "id": "RD07-3219",
+      "path": "demos/v0.90.2/multi_agent_repo_review_proof_demo.md",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "c157417fbabfa86d0ad9da4c9f0cfd3aabc85b89"
+      },
+      "family": "versioned_demo_history",
+      "owner_references": [
+        "docs/rd08-demo-exports/README.md",
+        "docs/codefriend/ORIGINAL031.md"
+      ],
+      "proposal": "Preserve historical scenario/docs boundary. Link archived or owner execution routes; original035 remains non-proving. Do not claim historical fixture is live review.",
+      "retirement_authorized": false
+    },
+    {
+      "id": "RD07-3227",
+      "path": "demos/v0.90/codebuddy_multi_agent_review_showcase_demo.md",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "6f2b4600e791e9cfa08989ea6a895e20897c72f3"
+      },
+      "family": "versioned_demo_history",
+      "owner_references": [
+        "docs/rd08-demo-exports/README.md",
+        "docs/codefriend/ORIGINAL031.md"
+      ],
+      "proposal": "Preserve historical scenario/docs boundary. Link archived or owner execution routes; original035 remains non-proving. Do not claim historical fixture is live review.",
+      "retirement_authorized": false
+    },
+    {
+      "id": "RD07-3268",
+      "path": "demos/v0.91.4/multi_agent_repo_review_serious_proof_demo.md",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "61ff2d9455affc75a5ffee0565edff741275cf20"
+      },
+      "family": "versioned_demo_history",
+      "owner_references": [
+        "docs/rd08-demo-exports/README.md",
+        "docs/codefriend/ORIGINAL031.md"
+      ],
+      "proposal": "Preserve historical scenario/docs boundary. Link archived or owner execution routes; original035 remains non-proving. Do not claim historical fixture is live review.",
+      "retirement_authorized": false
+    },
+    {
+      "id": "RD07-0003",
+      "path": ".github/codefriend-fitness-policy.json",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "790ec0d103ec47eed4f69562ae42b2a511350ea1"
+      },
+      "family": "fitness_owner_contract",
+      "owner_references": [
+        ".github/codefriend-fitness-policy.json",
+        ".github/workflows/codefriend-fitness.yml",
+        "tools/installed_proof/codefriend_fitness_installed_proof.py",
+        "tools/test_fitness_ci_resources.py",
+        "docs/codefriend/FITNESS_CI_SOURCE.json"
+      ],
+      "proposal": "Owner has artifact-consuming candidate/pass/fail/error lane and original source inventory. Require existing outcome/assertion evidence and caller cutover, not new broad build.",
+      "retirement_authorized": false
+    },
+    {
+      "id": "RD07-0006",
+      "path": ".github/workflows/codefriend-fitness.yml",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "4e3647dd60be3bba45ee94a24a0a1c81e7573ea9"
+      },
+      "family": "fitness_owner_contract",
+      "owner_references": [
+        ".github/codefriend-fitness-policy.json",
+        ".github/workflows/codefriend-fitness.yml",
+        "tools/installed_proof/codefriend_fitness_installed_proof.py",
+        "tools/test_fitness_ci_resources.py",
+        "docs/codefriend/FITNESS_CI_SOURCE.json"
+      ],
+      "proposal": "Owner has artifact-consuming candidate/pass/fail/error lane and original source inventory. Require existing outcome/assertion evidence and caller cutover, not new broad build.",
+      "retirement_authorized": false
+    },
+    {
+      "id": "RD07-1286",
+      "path": "adl/tools/codefriend_fitness_installed_proof.py",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "a42e45502097b519c156a4268bdf50498e708c6a"
+      },
+      "family": "fitness_owner_contract",
+      "owner_references": [
+        ".github/codefriend-fitness-policy.json",
+        ".github/workflows/codefriend-fitness.yml",
+        "tools/installed_proof/codefriend_fitness_installed_proof.py",
+        "tools/test_fitness_ci_resources.py",
+        "docs/codefriend/FITNESS_CI_SOURCE.json"
+      ],
+      "proposal": "Owner has artifact-consuming candidate/pass/fail/error lane and original source inventory. Require existing outcome/assertion evidence and caller cutover, not new broad build.",
+      "retirement_authorized": false
+    },
+    {
+      "id": "RD07-1934",
+      "path": "adl/tools/test_codefriend_fitness_ci_artifacts.py",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "f0a6f9f7f806a696f778550ebc0e56b66b32d5f5"
+      },
+      "family": "fitness_owner_contract",
+      "owner_references": [
+        ".github/codefriend-fitness-policy.json",
+        ".github/workflows/codefriend-fitness.yml",
+        "tools/installed_proof/codefriend_fitness_installed_proof.py",
+        "tools/test_fitness_ci_resources.py",
+        "docs/codefriend/FITNESS_CI_SOURCE.json"
+      ],
+      "proposal": "Owner has artifact-consuming candidate/pass/fail/error lane and original source inventory. Require existing outcome/assertion evidence and caller cutover, not new broad build.",
+      "retirement_authorized": false
+    },
+    {
+      "id": "RD07-3415",
+      "path": "docs/codefriend/FITNESS_CI.md",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "59933592d31a3b7dc4baff10ad5c764815747bf6"
+      },
+      "family": "fitness_owner_contract",
+      "owner_references": [
+        ".github/codefriend-fitness-policy.json",
+        ".github/workflows/codefriend-fitness.yml",
+        "tools/installed_proof/codefriend_fitness_installed_proof.py",
+        "tools/test_fitness_ci_resources.py",
+        "docs/codefriend/FITNESS_CI_SOURCE.json"
+      ],
+      "proposal": "Owner has artifact-consuming candidate/pass/fail/error lane and original source inventory. Require existing outcome/assertion evidence and caller cutover, not new broad build.",
+      "retirement_authorized": false
+    },
+    {
+      "id": "RD07-0007",
+      "path": ".github/workflows/codefriend-host-candidate.yml",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "9a2c2c06be5f10d540ba60610d860bfe3a2b5e51"
+      },
+      "family": "host_owner_contract",
+      "owner_references": [
+        "docs/codefriend/HOST_RESOURCE_SOURCE.json",
+        "docs/codefriend/LINUX_HOST_PACKAGE.md",
+        "tools/codefriend_host/ci/INSTALLED_CONTENT_PVF.json",
+        ".github/workflows/codefriend-host-candidate.yml"
+      ],
+      "proposal": "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
+      "retirement_authorized": false
+    },
+    {
+      "id": "RD07-3436",
+      "path": "docs/codefriend/SERVER.md",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "d8801293513048fd940c4dc461434e83606d75b1"
+      },
+      "family": "host_owner_contract",
+      "owner_references": [
+        "docs/codefriend/HOST_RESOURCE_SOURCE.json",
+        "docs/codefriend/LINUX_HOST_PACKAGE.md",
+        "tools/codefriend_host/ci/INSTALLED_CONTENT_PVF.json",
+        ".github/workflows/codefriend-host-candidate.yml"
+      ],
+      "proposal": "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
+      "retirement_authorized": false
+    },
+    {
+      "id": "RD07-4106",
+      "path": "tools/codefriend_host/README.md",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "689de45c3ff78f9c2f09f0933bda65a00508fdcc"
+      },
+      "family": "host_owner_contract",
+      "owner_references": [
+        "docs/codefriend/HOST_RESOURCE_SOURCE.json",
+        "docs/codefriend/LINUX_HOST_PACKAGE.md",
+        "tools/codefriend_host/ci/INSTALLED_CONTENT_PVF.json",
+        ".github/workflows/codefriend-host-candidate.yml"
+      ],
+      "proposal": "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
+      "retirement_authorized": false
+    },
+    {
+      "id": "RD07-4107",
+      "path": "tools/codefriend_host/ci/README.md",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "5b7a8b592596e54183e151f2ef1152bea7e6d6b5"
+      },
+      "family": "host_owner_contract",
+      "owner_references": [
+        "docs/codefriend/HOST_RESOURCE_SOURCE.json",
+        "docs/codefriend/LINUX_HOST_PACKAGE.md",
+        "tools/codefriend_host/ci/INSTALLED_CONTENT_PVF.json",
+        ".github/workflows/codefriend-host-candidate.yml"
+      ],
+      "proposal": "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
+      "retirement_authorized": false
+    },
+    {
+      "id": "RD07-4109",
+      "path": "tools/codefriend_host/ci/manifest.py",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "0baf7bf321f15cb6eb45bef649d3b2ea43143740"
+      },
+      "family": "host_owner_contract",
+      "owner_references": [
+        "docs/codefriend/HOST_RESOURCE_SOURCE.json",
+        "docs/codefriend/LINUX_HOST_PACKAGE.md",
+        "tools/codefriend_host/ci/INSTALLED_CONTENT_PVF.json",
+        ".github/workflows/codefriend-host-candidate.yml"
+      ],
+      "proposal": "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
+      "retirement_authorized": false
+    },
+    {
+      "id": "RD07-4110",
+      "path": "tools/codefriend_host/ci/smoke.py",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "da8e5e713d027002fa52b6dbc5847d441ea56a59"
+      },
+      "family": "host_owner_contract",
+      "owner_references": [
+        "docs/codefriend/HOST_RESOURCE_SOURCE.json",
+        "docs/codefriend/LINUX_HOST_PACKAGE.md",
+        "tools/codefriend_host/ci/INSTALLED_CONTENT_PVF.json",
+        ".github/workflows/codefriend-host-candidate.yml"
+      ],
+      "proposal": "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
+      "retirement_authorized": false
+    },
+    {
+      "id": "RD07-4111",
+      "path": "tools/codefriend_host/ci/test_manifest.py",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "b61e934db19542fc0f5eb7f0efabead0e3b20048"
+      },
+      "family": "host_owner_contract",
+      "owner_references": [
+        "docs/codefriend/HOST_RESOURCE_SOURCE.json",
+        "docs/codefriend/LINUX_HOST_PACKAGE.md",
+        "tools/codefriend_host/ci/INSTALLED_CONTENT_PVF.json",
+        ".github/workflows/codefriend-host-candidate.yml"
+      ],
+      "proposal": "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
+      "retirement_authorized": false
+    },
+    {
+      "id": "RD07-4112",
+      "path": "tools/codefriend_host/ci/validation.json",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "c3d7111af4cbc55454daa9e09e23a90702286264"
+      },
+      "family": "host_owner_contract",
+      "owner_references": [
+        "docs/codefriend/HOST_RESOURCE_SOURCE.json",
+        "docs/codefriend/LINUX_HOST_PACKAGE.md",
+        "tools/codefriend_host/ci/INSTALLED_CONTENT_PVF.json",
+        ".github/workflows/codefriend-host-candidate.yml"
+      ],
+      "proposal": "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
+      "retirement_authorized": false
+    },
+    {
+      "id": "RD07-4134",
+      "path": "tools/codefriend_host/validation.json",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "73950ca7023785ec50dfaf1980558332af191ded"
+      },
+      "family": "host_owner_contract",
+      "owner_references": [
+        "docs/codefriend/HOST_RESOURCE_SOURCE.json",
+        "docs/codefriend/LINUX_HOST_PACKAGE.md",
+        "tools/codefriend_host/ci/INSTALLED_CONTENT_PVF.json",
+        ".github/workflows/codefriend-host-candidate.yml"
+      ],
+      "proposal": "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
+      "retirement_authorized": false
+    },
+    {
+      "id": "RD07-1288",
+      "path": "adl/tools/codefriend_memory_installed_proof.py",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "dce774ef1c296a172f3135114295f7fc78e5ccf2"
+      },
+      "family": "memory_owner_contract",
+      "owner_references": [
+        "tools/memory_proof/codefriend_memory_installed_proof.py",
+        "tools/memory_proof/run_installed.py"
+      ],
+      "proposal": "Existing owner installed consumer route; preserve original scenarios and producer dependency identity through existing evidence.",
+      "retirement_authorized": false
+    },
+    {
+      "id": "RD07-1291",
+      "path": "adl/tools/codefriend_structure_installed_proof.py",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "697fc50ad9d68e4e0032c3f066f39847f2f88bc2"
+      },
+      "family": "structure_owner_contract",
+      "owner_references": [
+        "tools/installed_proof/codefriend_structure_installed_proof.py",
+        "tools/installed_proof/run_consumers.py"
+      ],
+      "proposal": "Owner runner asserts original structure9 plus3partial scenarios; existing receipt required, source assertion not execution.",
+      "retirement_authorized": false
+    },
+    {
+      "id": "RD07-1279",
+      "path": "adl/tools/codefriend/ci_smoke.py",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "341498bd46ce1c93d80da70aa48fcd78235be969"
+      },
+      "family": "ci_acquisition_transfer",
+      "owner_references": [
+        "crates/codefriend/tests/support/ci_smoke.py",
+        "docs/codefriend-ci-ingestion.md"
+      ],
+      "proposal": "e14 native publication and hosted installed-product acquisition gate passed run38368320407/artifact11798686377. Preserve exact candidate scope and final successor CI, no standalone rerun.",
+      "retirement_authorized": false
+    },
+    {
+      "id": "RD07-3403",
+      "path": "docs/codefriend-ci-ingestion.md",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "228374c8e3720a3afb024875e9532e2ad366ec71"
+      },
+      "family": "ci_acquisition_transfer",
+      "owner_references": [
+        "crates/codefriend/tests/support/ci_smoke.py",
+        "docs/codefriend-ci-ingestion.md"
+      ],
+      "proposal": "e14 native publication and hosted installed-product acquisition gate passed run38368320407/artifact11798686377. Preserve exact candidate scope and final successor CI, no standalone rerun.",
+      "retirement_authorized": false
+    }
+  ]
+}

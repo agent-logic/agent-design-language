@@ -1,7 +1,14 @@
 # GitHub larger-runner preflight
 
-Use the native `csdlc-github runner-preflight` operation before treating a
-queued larger-runner job as capacity pressure. A hosted runner can report
+> Historical C-SDLC v2 reference. Current operational authority is documented in
+> [Current C-SDLC authority](../csdlc-v3/CURRENT_AUTHORITY.md). The commands and
+> installation instructions below describe the retained v2 contract; they do not
+> authorize installing or running v2. V2 use requires an explicitly authorized
+> rollback or bounded transition remediation. Do not infer a current v3 command
+> from these examples.
+
+The v2 `csdlc-github runner-preflight` operation was designed to check whether a
+queued larger-runner job reflects capacity pressure. A hosted runner can report
 `Ready` while its group policy or dispatch route still prevents assignment.
 
 The request is typed JSON:

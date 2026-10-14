@@ -8,14 +8,10 @@ required_surfaces=(
   "AGENTS.md"
   "CONTRIBUTING.md"
   "docs/default_workflow.md"
-  "adl/tools/codex_pr.sh"
-  "adl/tools/codexw.sh"
   "adl/tools/generate_active_command_reference_scan.py"
   "adl/tools/generate_tool_surface_registry.py"
-  "adl/src/cli/mod.rs"
+  "adl/src/cli/public_dispatch.rs"
   "adl/tools/editor_action.sh"
-  "adl/tools/demo_five_command_editing.sh"
-  "adl/tools/demo_v0871_operator_surface.sh"
   "adl/tools/README.md"
   "docs/tooling/editor/command_adapter.md"
   "docs/tooling/editor/current_skill_wiring_demo.md"
@@ -32,12 +28,8 @@ forbidden_guidance_surfaces=(
   "AGENTS.md"
   "CONTRIBUTING.md"
   "docs/default_workflow.md"
-  "adl/tools/codex_pr.sh"
-  "adl/tools/codexw.sh"
-  "adl/src/cli/mod.rs"
+  "adl/src/cli/public_dispatch.rs"
   "adl/tools/editor_action.sh"
-  "adl/tools/demo_five_command_editing.sh"
-  "adl/tools/demo_v0871_operator_surface.sh"
   "adl/tools/README.md"
   "docs/tooling/editor/command_adapter.md"
   "docs/tooling/editor/current_skill_wiring_demo.md"
@@ -76,6 +68,14 @@ while IFS= read -r surface; do
   required_surfaces+=("$surface")
 done < <(git ls-files 'adl/src/cli/*.rs' 'adl/src/cli/**/*.rs')
 
+# Missing retained guidance must fail rather than be ignored by rg inside an if.
+for surface in "${required_surfaces[@]}"; do
+  [[ -f "$surface" ]] || {
+    echo "FAIL: retained command guidance surface is missing: $surface" >&2
+    exit 1
+  }
+done
+
 for pattern in "${forbidden_patterns[@]}"; do
   if rg -n --fixed-strings "$pattern" "${forbidden_guidance_surfaces[@]}"; then
     echo "FAIL: live command guidance still teaches deprecated command: $pattern" >&2
@@ -84,9 +84,9 @@ for pattern in "${forbidden_patterns[@]}"; do
 done
 
 required_patterns=(
-  "csdlc-install resolve"
-  "csdlc-bind"
-  "csdlc-review"
+  ".adl/bin/native-v3/csdlc"
+  "csdlc bind"
+  "csdlc review"
 )
 
 for pattern in "${required_patterns[@]}"; do
@@ -96,4 +96,4 @@ for pattern in "${required_patterns[@]}"; do
   fi
 done
 
-echo "PASS: live CLI owner command guidance is aligned with final typed C-SDLC v2 authority"
+echo "PASS: live CLI owner command guidance is aligned with current native C-SDLC v3 authority"

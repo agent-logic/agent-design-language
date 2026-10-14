@@ -1,0 +1,77 @@
+{
+  "schema": "adl1223.runtime_archive_caller_transfer.v1",
+  "row": "RD07-2171",
+  "successor": {
+    "repository": "agent-logic/agent-logic-runtime",
+    "revision": "dc88ec20b91a9375823808d633029a0d02f095b3",
+    "path": "adl/tools/v0871_demo_common.sh",
+    "blob": "8d8a438ed6a65220dd4bf64e1f744a1c363b0aca",
+    "merge": {
+      "repository": "agent-logic/agent-logic-runtime",
+      "pull_request": 151,
+      "head_sha": "dc88ec20b91a9375823808d633029a0d02f095b3",
+      "base": "main",
+      "base_sha": "11ce6614603532738e9ceffab093e35d96b262b5",
+      "method": "merge",
+      "merge_commit": "cf5b4fc6e2f6ffb17a7d9f62115877fce68ac9ca",
+      "publication_linkage": {
+        "repository": "agent-logic/agent-logic-runtime",
+        "issue": 150,
+        "mode": "closing"
+      },
+      "issue_state": "CLOSED"
+    },
+    "authenticated_reconciliation_digest": "d7013b89b699185a1de896ed16d749e82989906318e02f8c68294d148bc24a51"
+  },
+  "component_proof": {
+    "source_test": "tools/packaging/test_archive_delivery.py",
+    "cases_passed": 4,
+    "cases_failed": 0,
+    "scope": "Original shell contract, real provider/common archive functions and first-source dedup; actual2171archive function executes helper in isolated copiedtree. No runtime/provider execution or complete demo suite proof."
+  },
+  "current_callers": [
+    {
+      "id": "RD07-1329",
+      "path": "adl/tools/demo_v0871_restartability.sh",
+      "current_action": "proposed_remove_with_entire_tool_family"
+    },
+    {
+      "id": "RD07-1333",
+      "path": "adl/tools/demo_v0871_shepherd_recovery.sh",
+      "current_action": "proposed_remove_with_entire_tool_family"
+    },
+    {
+      "id": "RD07-1320",
+      "path": "adl/tools/demo_v0871_lifecycle.sh",
+      "current_action": "proposed_remove_with_entire_tool_family"
+    },
+    {
+      "id": "RD07-1335",
+      "path": "adl/tools/demo_v0871_trace_runtime.sh",
+      "current_action": "hold_explicit_reconciliation"
+    },
+    {
+      "id": "RD07-1331",
+      "path": "adl/tools/demo_v0871_runtime_environment.sh",
+      "current_action": "proposed_remove_with_entire_tool_family"
+    },
+    {
+      "id": "RD07-1328",
+      "path": "adl/tools/demo_v0871_resilience_failure.sh",
+      "current_action": "proposed_remove_with_entire_tool_family"
+    }
+  ],
+  "history": {
+    "initial_merge_status": "recovery_required",
+    "supported_recovery_status": "completed"
+  },
+  "evidence_sha256": {
+    "SOURCE_REVIEW.json": "82dd560621f18cc5844ab4de83c7f8d0965e3a0428154114567983bdb5b83994",
+    "proof-dc88ec20.json": "82d0538147f4cfb8ba2b4e44185fa3428809ac98773096d6ff67f432d06e6f21",
+    "merge-result.json": "b9c68f050bf97776c33adba9ce241af80965bc8c2d763afc43ab8702ca78c0c6",
+    "recover-result.json": "62efea197746f42dc2e5e87319a812fa42b0bde772f13e673765e5db7fadba53"
+  },
+  "reviewer": "WorkerBee18",
+  "retirement_boundary": "Conditional owner transfer only. All6original ADLcaller paths must transfer or retire in same approved delta. Explicitly retired mock workflow helpers remain retired; native demo compatibility not inferred.",
+  "execution_authorized": false
+}
