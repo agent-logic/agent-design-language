@@ -6,15 +6,15 @@
   "execution_authorized": false,
   "original_count": 4134,
   "counts": {
-    "retain_resolved": 533,
-    "preserve_approved_removal": 3270,
+    "retain_resolved": 538,
+    "preserve_approved_removal": 3318,
     "retain_public_source_or_fixture": 200,
     "preserve_reviewed_consumer_repair": 19,
-    "proposed_remove_with_entire_tool_family": 78,
-    "proposed_owner_transfer_with_consumer_qualification": 34
+    "proposed_remove_with_entire_tool_family": 48,
+    "proposed_owner_transfer_with_consumer_qualification": 11
   },
   "additional_current_source_paths": 22,
-  "preservation": "Original 4134 identities and separate 22 captured paths unchanged. Exact executed retirement actions 3288 comprise 3287 baseline deletions and one newly-added-then-retired ADL conversion bridge; the bridge is outside both captured inventories. The baseline count includes twelve supplemental paths and three separately observed governed-room paths outside the immutable inventories. Other proposals remain conditional.",
+  "preservation": "Original 4134 identities and separate 22 captured paths unchanged. Exact executed retirement actions 3336 comprise 3335 baseline deletions and one newly-added-then-retired ADL conversion bridge; the bridge is outside both captured inventories. The baseline count includes twelve supplemental paths and three separately observed governed-room paths outside the immutable inventories. Other proposals remain conditional.",
   "review_boundary": "Exact paths and Git identities are pinned. Proposed removals remain conditional; this is not a claim that caller closure or all successor tests are qualified.",
   "known_prerequisites": {
     "codefriend": "Issue102 e14ff1b08b7ef01f838404bca8ecdf47c1318ac1 passed all39suites409Linux tests,0failed0ignored,174.293s; exacthead and clean source before/after. Evidence FastWork c1223/evidence/codefriend/issue102-e14ff1b0-full, transcriptSHA256c7944f7e0403ba485b377868b1bd85e91eeee0ecce3f79920de3e86c813cfa1a. Focused1 and parallel47 diagnostics also passed; prior dc2 redelivery failure did not reproduce and its cause is not claimed fixed. Earlier failures retained. One macOS-only case, actual hosted installed-acquisition CI proof and owner publication remain separate.",
@@ -49237,11 +49237,8 @@
         "blob": "9c541f2006fad4fa96092105e3b630f0580f9d13"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Reconcile exact active callers and every child obligation",
-        "Scoped retirement decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "reviewed_owner_adaptation",
         "successor_repository": "agent-logic/agent-logic-infrastructure",
@@ -49270,6 +49267,18 @@
         "proposal": "proposed_owner_transfer_with_consumer_qualification",
         "reason": "Infrastructure18/PR19 actual default/explicit/mismatch artifact-resolution cases passed; no live caller behavior inferred.",
         "review": "Bounded independent source and exact packet/caller review; conditional disposition, no broad equivalence claim"
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Reconcile exact active callers and every child obligation",
+          "Scoped retirement decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSM_SEVENTEEN_HISTORICAL_APPLIED.json",
+        "sha256": "62ae7046b63c1e5f6c99fa684883e4851d5918e39b7837782d2caddfd7bedfde",
+        "implementation_commit": "f6854e87213b3e815b733d91155f987c47bc8377"
       }
     },
     {
@@ -49634,16 +49643,25 @@
         "blob": "5eebe73217c7706f94916b2c4624ccb0a1092edc"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "LEGACY_RUNTIME_DEMO_EIGHT_APPLIED.json",
+        "sha256": "351993691ecc50099016337877d24b6285199fce30ddb6293081d4a239e5d4cc",
+        "implementation_commit": "0b9ea27933aec47c76e0c5e2deefa79f842f2a29"
       }
     },
     {
@@ -49656,18 +49674,27 @@
         "blob": "9386fba810f8f26c144d3b936da9e46d3372d1b7"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/demo_one_command.sh"
         ]
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "LEGACY_RUNTIME_DEMO_EIGHT_APPLIED.json",
+        "sha256": "351993691ecc50099016337877d24b6285199fce30ddb6293081d4a239e5d4cc",
+        "implementation_commit": "0b9ea27933aec47c76e0c5e2deefa79f842f2a29"
       }
     },
     {
@@ -49744,18 +49771,27 @@
         "blob": "5cc2bcd48e6fc61233eaa9c7fb2076ec093fee11"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/demo_smoke_v07_story.sh"
         ]
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "LEGACY_RUNTIME_DEMO_EIGHT_APPLIED.json",
+        "sha256": "351993691ecc50099016337877d24b6285199fce30ddb6293081d4a239e5d4cc",
+        "implementation_commit": "0b9ea27933aec47c76e0c5e2deefa79f842f2a29"
       }
     },
     {
@@ -49768,16 +49804,25 @@
         "blob": "fa2cd92f0e6833993813f9350274de0154e100c2"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": []
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "LEGACY_RUNTIME_DEMO_EIGHT_APPLIED.json",
+        "sha256": "351993691ecc50099016337877d24b6285199fce30ddb6293081d4a239e5d4cc",
+        "implementation_commit": "0b9ea27933aec47c76e0c5e2deefa79f842f2a29"
       }
     },
     {
@@ -49790,18 +49835,27 @@
         "blob": "cf2a291791e784767b8ef7557cda42051e9d7e6d"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/demo_v086_control_path.sh"
         ]
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "LEGACY_RUNTIME_DEMO_EIGHT_APPLIED.json",
+        "sha256": "351993691ecc50099016337877d24b6285199fce30ddb6293081d4a239e5d4cc",
+        "implementation_commit": "0b9ea27933aec47c76e0c5e2deefa79f842f2a29"
       }
     },
     {
@@ -50550,18 +50604,27 @@
         "blob": "7605f15b4abe69de9428a3a83272b56aa6d8ddc0"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/demo_v087_shared_obsmem.sh"
         ]
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "LEGACY_RUNTIME_DEMO_EIGHT_APPLIED.json",
+        "sha256": "351993691ecc50099016337877d24b6285199fce30ddb6293081d4a239e5d4cc",
+        "implementation_commit": "0b9ea27933aec47c76e0c5e2deefa79f842f2a29"
       }
     },
     {
@@ -50598,18 +50661,27 @@
         "blob": "fffbcc32826df69109fa1f21b0eb7f6b8231d0c9"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/demo_v088_deep_agents_comparative_proof.sh"
         ]
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "DEEP_AGENTS_TWO_HISTORICAL_APPLIED.json",
+        "sha256": "5abaf5a48bf1498a32f3db40e7ec6ac5cdb664d511bde7d2f3f7336cc0d9a724",
+        "implementation_commit": "d73cf67198ff788a6ab148f8b2c4a8483a2abafa"
       }
     },
     {
@@ -51299,16 +51371,25 @@
         "blob": "6c48477c33d469cf772c2fce295d8a02aebb26f1"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": []
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSM_SEVENTEEN_HISTORICAL_APPLIED.json",
+        "sha256": "62ae7046b63c1e5f6c99fa684883e4851d5918e39b7837782d2caddfd7bedfde",
+        "implementation_commit": "f6854e87213b3e815b733d91155f987c47bc8377"
       }
     },
     {
@@ -51480,18 +51561,27 @@
         "blob": "c24d5dc33d47fa779722af844ff9e34dd738a215"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/demo_v0911_five_agent_hey_jude_audio.sh"
         ]
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "AUDIO_FOUR_HISTORICAL_APPLIED.json",
+        "sha256": "3b9e38388d3622347375a97c22dcf56e3dbd0df1edebc616db4055771c3446b1",
+        "implementation_commit": "0196c505c08252df056ba7bc63c1b7c278772e16"
       }
     },
     {
@@ -51609,16 +51699,30 @@
         "blob": "a672a32b98105b0d2e83d5c6bf30c72db129fceb"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "pre_cf_fitness_host_retention_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "ORPHAN_ADAPTER_MEDIUM_FIVE_HISTORICAL_APPLIED.json",
+        "packet_sha256": "af83c099a5b53221279bf0bb46e9539fe319a18cade771a42499cad9078205d4",
+        "implementation_commit": "2fb1b78397ab44c003c471a5fe5f561bdef1d9bd",
+        "current_identity": {
+          "mode": "100755",
+          "blob": "a672a32b98105b0d2e83d5c6bf30c72db129fceb"
+        },
+        "reason": "Active demo index invokes this launcher; it checks a surviving explicitly retained versioned ADL HTML demo and supports print-path/print-url or Python static hosting. Historical CSDL owner label does not make this current ADL resource route obsolete."
       }
     },
     {
@@ -51682,16 +51786,30 @@
         "blob": "db72840e121906b4580a353170745747c7c5f517"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": []
+      },
+      "pre_cf_fitness_host_retention_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "ORPHAN_ADAPTER_MEDIUM_FIVE_HISTORICAL_APPLIED.json",
+        "packet_sha256": "af83c099a5b53221279bf0bb46e9539fe319a18cade771a42499cad9078205d4",
+        "implementation_commit": "2fb1b78397ab44c003c471a5fe5f561bdef1d9bd",
+        "current_identity": {
+          "mode": "100755",
+          "blob": "db72840e121906b4580a353170745747c7c5f517"
+        },
+        "reason": "Active demo index invokes this launcher; it checks a surviving explicitly retained versioned ADL HTML demo and supports print-path/print-url or Python static hosting. Historical CSDL owner label does not make this current ADL resource route obsolete."
       }
     },
     {
@@ -53277,18 +53395,27 @@
         "blob": "c3c952c787414d3e4b504fae55068e5569bef7a9"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/local_model_capabilities.v1.json"
         ]
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "STANDALONE_FOUR_OWNER_TRANSFER_APPLIED.json",
+        "sha256": "aa3cf80071e96651a87e51f83242be2c378d1435dd926ad47f218566caac1cf9",
+        "implementation_commit": "3007d06bd005d9289acd4158562552030d8a20a7"
       }
     },
     {
@@ -53334,18 +53461,27 @@
         "blob": "63c8ed595fe9e6257d33a0e01242799caade8061"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/mcp/midi-bridge/midi_bridge.py"
         ]
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "AUDIO_MIDI_EIGHT_HISTORICAL_APPLIED.json",
+        "sha256": "194122095178d46d5abbc920774c0cfb11be899ea8f522927ef2597778944427",
+        "implementation_commit": "a89e8f129a396e618e0cbe9b5e662ff79c2c2857"
       }
     },
     {
@@ -53358,18 +53494,27 @@
         "blob": "dd8232f90ef89cf6d4cda1952e0fa350d7ca9ab4"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/mcp/midi-bridge/profiles/mvave_chocolate.json"
         ]
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "AUDIO_MIDI_EIGHT_HISTORICAL_APPLIED.json",
+        "sha256": "194122095178d46d5abbc920774c0cfb11be899ea8f522927ef2597778944427",
+        "implementation_commit": "a89e8f129a396e618e0cbe9b5e662ff79c2c2857"
       }
     },
     {
@@ -53704,7 +53849,35 @@
           "mode": "100755",
           "blob": "4cc1591d2caecd00ed072dec640a07abab3349fd"
         },
-        "reason": "Retain deterministic mock for six surviving demo/proof callers and surviving CLI-source/example navigation. No original execution or current workflow acceptance claimed."
+        "reason": "Retain deterministic mock for six surviving demo/proof callers and surviving CLI-source/example navigation. No original execution or current workflow acceptance claimed.",
+        "referenced_input_transitions": [
+          {
+            "path": "adl/tools/demo_smoke_v07_story.sh",
+            "commit": "0b9ea27933aec47c76e0c5e2deefa79f842f2a29",
+            "packet": "LEGACY_RUNTIME_DEMO_EIGHT_APPLIED.json",
+            "packet_sha256": "351993691ecc50099016337877d24b6285199fce30ddb6293081d4a239e5d4cc",
+            "before": {
+              "mode": "100755",
+              "blob": "5cc2bcd48e6fc61233eaa9c7fb2076ec093fee11",
+              "sha256": "5acccf84be4f1d1a580afe61adab6668f2667343dcdbea1f59346a6a3e76111c"
+            },
+            "after": null
+          },
+          {
+            "path": "adl/tools/demo_one_command.sh",
+            "commit": "0b9ea27933aec47c76e0c5e2deefa79f842f2a29",
+            "packet": "LEGACY_RUNTIME_DEMO_EIGHT_APPLIED.json",
+            "packet_sha256": "351993691ecc50099016337877d24b6285199fce30ddb6293081d4a239e5d4cc",
+            "before": {
+              "mode": "100755",
+              "blob": "9386fba810f8f26c144d3b936da9e46d3372d1b7",
+              "sha256": "482601cc724ffa60bcde5ed4103a4d672925aaaefd2f112e5f9a1b6b8c0c9cdb"
+            },
+            "after": null
+          }
+        ],
+        "current_source_head": "2fb1b78397ab44c003c471a5fe5f561bdef1d9bd",
+        "snapshot_boundary": "Original Mock6 retention packet remains historical snapshot; previous example/test callers retired in this batch. Remaining five-command, trace and signed-remote script consumers continue to require this mock; no new behavioral pass claimed."
       }
     },
     {
@@ -53717,18 +53890,27 @@
         "blob": "05bb66e47bcdc79b8053b2a24701358d11f18973"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/native_qwen_assisted_generation_benchmark.py"
         ]
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "STANDALONE_FOUR_OWNER_TRANSFER_APPLIED.json",
+        "sha256": "aa3cf80071e96651a87e51f83242be2c378d1435dd926ad47f218566caac1cf9",
+        "implementation_commit": "3007d06bd005d9289acd4158562552030d8a20a7"
       }
     },
     {
@@ -54098,18 +54280,27 @@
         "blob": "169ce2513b6eea1a098778d59f31c23b3ba7e219"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": [
           "adl/tools/provider/run_dspark_gpu_smoke_preflight.sh"
         ]
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "STANDALONE_FOUR_OWNER_TRANSFER_APPLIED.json",
+        "sha256": "aa3cf80071e96651a87e51f83242be2c378d1435dd926ad47f218566caac1cf9",
+        "implementation_commit": "3007d06bd005d9289acd4158562552030d8a20a7"
       }
     },
     {
@@ -54240,18 +54431,27 @@
         "blob": "c279fceee3f3a525fa8ba10649ec0f09cb6ac9b0"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/real_chatgpt_gemini_provider_adapter.py"
         ]
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "ORPHAN_ADAPTER_MEDIUM_FIVE_HISTORICAL_APPLIED.json",
+        "sha256": "af83c099a5b53221279bf0bb46e9539fe319a18cade771a42499cad9078205d4",
+        "implementation_commit": "2fb1b78397ab44c003c471a5fe5f561bdef1d9bd"
       }
     },
     {
@@ -54264,18 +54464,27 @@
         "blob": "7d2b9ab3bd7a0d8127a5386645f0e7824f1b9d7f"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/real_multi_agent_provider_adapter.py"
         ]
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "ORPHAN_ADAPTER_MEDIUM_FIVE_HISTORICAL_APPLIED.json",
+        "sha256": "af83c099a5b53221279bf0bb46e9539fe319a18cade771a42499cad9078205d4",
+        "implementation_commit": "2fb1b78397ab44c003c471a5fe5f561bdef1d9bd"
       }
     },
     {
@@ -54555,18 +54764,27 @@
         "blob": "d3d1bc1d3d1e0e9a8b94f0ba546a11cdcd92ef57"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/run_anrm_gemma_shepherd_trials.py"
         ]
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "STANDALONE_FOUR_OWNER_TRANSFER_APPLIED.json",
+        "sha256": "aa3cf80071e96651a87e51f83242be2c378d1435dd926ad47f218566caac1cf9",
+        "implementation_commit": "3007d06bd005d9289acd4158562552030d8a20a7"
       }
     },
     {
@@ -56039,10 +56257,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_adl_caller_closure_and_behavior_obligations_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Coherent source-family retirement with rollback and scoped decision; manual/live qualification is not inferred."
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "reviewed_owner_adaptation",
         "successor_repository": "agent-logic/agent-logic-infrastructure",
@@ -56076,6 +56292,17 @@
         "packet": "CSM_MANUAL_CALLER_RECONCILIATION.json",
         "sha256": "53dab1fcf47d6ca6ffa016a54f7f3a656b63bb34d6f586dcc02faffd613bd60d",
         "scope": "Registry routes to delivered Infrastructure owner; historical manifest and changed-path fixtures preserved."
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Coherent source-family retirement with rollback and scoped decision; manual/live qualification is not inferred."
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSM_SEVENTEEN_HISTORICAL_APPLIED.json",
+        "sha256": "62ae7046b63c1e5f6c99fa684883e4851d5918e39b7837782d2caddfd7bedfde",
+        "implementation_commit": "f6854e87213b3e815b733d91155f987c47bc8377"
       }
     },
     {
@@ -56089,10 +56316,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_adl_caller_closure_and_behavior_obligations_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Coherent source-family retirement with rollback and scoped decision; manual/live qualification is not inferred."
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "reviewed_owner_adaptation",
         "successor_repository": "agent-logic/agent-logic-infrastructure",
@@ -56126,6 +56351,17 @@
         "packet": "CSM_MANUAL_CALLER_RECONCILIATION.json",
         "sha256": "53dab1fcf47d6ca6ffa016a54f7f3a656b63bb34d6f586dcc02faffd613bd60d",
         "scope": "Registry routes to delivered Infrastructure owner; historical manifest and changed-path fixtures preserved."
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Coherent source-family retirement with rollback and scoped decision; manual/live qualification is not inferred."
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSM_SEVENTEEN_HISTORICAL_APPLIED.json",
+        "sha256": "62ae7046b63c1e5f6c99fa684883e4851d5918e39b7837782d2caddfd7bedfde",
+        "implementation_commit": "f6854e87213b3e815b733d91155f987c47bc8377"
       }
     },
     {
@@ -56139,10 +56375,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_adl_caller_closure_and_behavior_obligations_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "Coherent source-family retirement with rollback and scoped decision; manual/live qualification is not inferred."
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "reviewed_owner_adaptation",
         "successor_repository": "agent-logic/agent-logic-infrastructure",
@@ -56176,6 +56410,17 @@
         "packet": "CSM_MANUAL_CALLER_RECONCILIATION.json",
         "sha256": "53dab1fcf47d6ca6ffa016a54f7f3a656b63bb34d6f586dcc02faffd613bd60d",
         "scope": "Registry routes to delivered Infrastructure owner; historical manifest and changed-path fixtures preserved."
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Coherent source-family retirement with rollback and scoped decision; manual/live qualification is not inferred."
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSM_SEVENTEEN_HISTORICAL_APPLIED.json",
+        "sha256": "62ae7046b63c1e5f6c99fa684883e4851d5918e39b7837782d2caddfd7bedfde",
+        "implementation_commit": "f6854e87213b3e815b733d91155f987c47bc8377"
       }
     },
     {
@@ -56260,16 +56505,8 @@
         "blob": "22641bf9d4530c0010c0c2a7018943c8af14c126"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required",
-        "Reconcile active ADL inbound callers and docs with delivered Infrastructure family.",
-        "Preserve original live behavior obligations separately from resolver proof; validator delivery is not validator execution.",
-        "Scoped retirement decision required before removal.",
-        "Reconcile original ADL callers and source retirement together.",
-        "Externally supplied missing validators and tests remain an explicit owner-support dependency; do not claim owner delivery.",
-        "Preserve separate genuine resolver3case evidence and liveAWS/CSM nonclaims."
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "reviewed_owner_adaptation",
         "successor_repository": "agent-logic/agent-logic-infrastructure",
@@ -56299,6 +56536,23 @@
         "proposal": "proposed_owner_transfer_with_consumer_qualification",
         "reason": "Original tests and owner runner bytes unchanged; explicit resolver double. Missing original validators supplied externally, not owner delivery. No liveAWS/CSM/provider/installed acceptance.",
         "review": "Bounded independent source and exact evidence review; limits retained."
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "specific_consumer_or_document_disposition_required",
+          "Reconcile active ADL inbound callers and docs with delivered Infrastructure family.",
+          "Preserve original live behavior obligations separately from resolver proof; validator delivery is not validator execution.",
+          "Scoped retirement decision required before removal.",
+          "Reconcile original ADL callers and source retirement together.",
+          "Externally supplied missing validators and tests remain an explicit owner-support dependency; do not claim owner delivery.",
+          "Preserve separate genuine resolver3case evidence and liveAWS/CSM nonclaims."
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSM_SEVENTEEN_HISTORICAL_APPLIED.json",
+        "sha256": "62ae7046b63c1e5f6c99fa684883e4851d5918e39b7837782d2caddfd7bedfde",
+        "implementation_commit": "f6854e87213b3e815b733d91155f987c47bc8377"
       }
     },
     {
@@ -56311,16 +56565,8 @@
         "blob": "8a1b6d53860bc711210af84c95b14e028cb2839d"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required",
-        "Reconcile active ADL inbound callers and docs with delivered Infrastructure family.",
-        "Preserve original live behavior obligations separately from resolver proof; validator delivery is not validator execution.",
-        "Scoped retirement decision required before removal.",
-        "Reconcile original ADL callers and source retirement together.",
-        "Externally supplied missing validators and tests remain an explicit owner-support dependency; do not claim owner delivery.",
-        "Preserve separate genuine resolver3case evidence and liveAWS/CSM nonclaims."
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "reviewed_owner_adaptation",
         "successor_repository": "agent-logic/agent-logic-infrastructure",
@@ -56350,6 +56596,23 @@
         "proposal": "proposed_owner_transfer_with_consumer_qualification",
         "reason": "Original tests and owner runner bytes unchanged; explicit resolver double. Missing original validators supplied externally, not owner delivery. No liveAWS/CSM/provider/installed acceptance.",
         "review": "Bounded independent source and exact evidence review; limits retained."
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "specific_consumer_or_document_disposition_required",
+          "Reconcile active ADL inbound callers and docs with delivered Infrastructure family.",
+          "Preserve original live behavior obligations separately from resolver proof; validator delivery is not validator execution.",
+          "Scoped retirement decision required before removal.",
+          "Reconcile original ADL callers and source retirement together.",
+          "Externally supplied missing validators and tests remain an explicit owner-support dependency; do not claim owner delivery.",
+          "Preserve separate genuine resolver3case evidence and liveAWS/CSM nonclaims."
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSM_SEVENTEEN_HISTORICAL_APPLIED.json",
+        "sha256": "62ae7046b63c1e5f6c99fa684883e4851d5918e39b7837782d2caddfd7bedfde",
+        "implementation_commit": "f6854e87213b3e815b733d91155f987c47bc8377"
       }
     },
     {
@@ -56362,18 +56625,27 @@
         "blob": "5538499f70e03f7e693f7713ae1c99e0b3f145c8"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/run_wp08_cloudfront_control_proof.sh"
         ]
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSM_SEVENTEEN_HISTORICAL_APPLIED.json",
+        "sha256": "62ae7046b63c1e5f6c99fa684883e4851d5918e39b7837782d2caddfd7bedfde",
+        "implementation_commit": "f6854e87213b3e815b733d91155f987c47bc8377"
       }
     },
     {
@@ -56386,16 +56658,8 @@
         "blob": "90544d83ac9c0baa4c8ce7a5d4a19b3608763031"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required",
-        "Reconcile active ADL inbound callers and docs with delivered Infrastructure family.",
-        "Preserve original live behavior obligations separately from resolver proof; validator delivery is not validator execution.",
-        "Scoped retirement decision required before removal.",
-        "Reconcile original ADL callers and source retirement together.",
-        "Externally supplied missing validators and tests remain an explicit owner-support dependency; do not claim owner delivery.",
-        "Preserve separate genuine resolver3case evidence and liveAWS/CSM nonclaims."
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "reviewed_owner_adaptation",
         "successor_repository": "agent-logic/agent-logic-infrastructure",
@@ -56425,6 +56689,23 @@
         "proposal": "proposed_owner_transfer_with_consumer_qualification",
         "reason": "Original tests and owner runner bytes unchanged; explicit resolver double. Missing original validators supplied externally, not owner delivery. No liveAWS/CSM/provider/installed acceptance.",
         "review": "Bounded independent source and exact evidence review; limits retained."
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "specific_consumer_or_document_disposition_required",
+          "Reconcile active ADL inbound callers and docs with delivered Infrastructure family.",
+          "Preserve original live behavior obligations separately from resolver proof; validator delivery is not validator execution.",
+          "Scoped retirement decision required before removal.",
+          "Reconcile original ADL callers and source retirement together.",
+          "Externally supplied missing validators and tests remain an explicit owner-support dependency; do not claim owner delivery.",
+          "Preserve separate genuine resolver3case evidence and liveAWS/CSM nonclaims."
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSM_SEVENTEEN_HISTORICAL_APPLIED.json",
+        "sha256": "62ae7046b63c1e5f6c99fa684883e4851d5918e39b7837782d2caddfd7bedfde",
+        "implementation_commit": "f6854e87213b3e815b733d91155f987c47bc8377"
       }
     },
     {
@@ -56503,16 +56784,8 @@
         "blob": "39ef22f262e9d095ce51e4a9a44f654f7d015fc8"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required",
-        "Reconcile active ADL inbound callers and docs with delivered Infrastructure family.",
-        "Preserve original live behavior obligations separately from resolver proof; validator delivery is not validator execution.",
-        "Scoped retirement decision required before removal.",
-        "Reconcile original ADL callers and source retirement together.",
-        "Externally supplied missing validators and tests remain an explicit owner-support dependency; do not claim owner delivery.",
-        "Preserve separate genuine resolver3case evidence and liveAWS/CSM nonclaims."
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "reviewed_owner_adaptation",
         "successor_repository": "agent-logic/agent-logic-infrastructure",
@@ -56542,6 +56815,23 @@
         "proposal": "proposed_owner_transfer_with_consumer_qualification",
         "reason": "Original tests and owner runner bytes unchanged; explicit resolver double. Missing original validators supplied externally, not owner delivery. No liveAWS/CSM/provider/installed acceptance.",
         "review": "Bounded independent source and exact evidence review; limits retained."
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "specific_consumer_or_document_disposition_required",
+          "Reconcile active ADL inbound callers and docs with delivered Infrastructure family.",
+          "Preserve original live behavior obligations separately from resolver proof; validator delivery is not validator execution.",
+          "Scoped retirement decision required before removal.",
+          "Reconcile original ADL callers and source retirement together.",
+          "Externally supplied missing validators and tests remain an explicit owner-support dependency; do not claim owner delivery.",
+          "Preserve separate genuine resolver3case evidence and liveAWS/CSM nonclaims."
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSM_SEVENTEEN_HISTORICAL_APPLIED.json",
+        "sha256": "62ae7046b63c1e5f6c99fa684883e4851d5918e39b7837782d2caddfd7bedfde",
+        "implementation_commit": "f6854e87213b3e815b733d91155f987c47bc8377"
       }
     },
     {
@@ -72087,18 +72377,27 @@
         "blob": "f77b25f1bca4958b922bd4e0cb66f7d6bd10f76f"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/test_demo_v088_deep_agents_comparative_proof.sh"
         ]
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "DEEP_AGENTS_TWO_HISTORICAL_APPLIED.json",
+        "sha256": "5abaf5a48bf1498a32f3db40e7ec6ac5cdb664d511bde7d2f3f7336cc0d9a724",
+        "implementation_commit": "d73cf67198ff788a6ab148f8b2c4a8483a2abafa"
       }
     },
     {
@@ -72862,7 +73161,7 @@
         "packet": "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/ARXIV_FIELD_DOCUMENT_THREE_RETENTION.json",
         "packet_sha256": "37fdd19e20f6abc7405710e702fbc802643ef99297d1b19a54a5dc90cb783e81",
         "reviewed_snapshot_head": "e766b05f48d9155c8813c72b7d743cfcb6630965",
-        "current_source_head": "96562adef70009e5b803d159447b45a414e2c379",
+        "current_source_head": "2fb1b78397ab44c003c471a5fe5f561bdef1d9bd",
         "current_identity": {
           "mode": "100644",
           "blob": "9953c0be392d047ba85c5454db11a008fd8c7f35"
@@ -72960,6 +73259,86 @@
               "mode": "100644",
               "blob": "880d695a62af976a85b845b0b0642d3481517421",
               "sha256": "cb755e125589b53b37cd530fff5947c8b8fd0a22da4b98bf5a90946b649c42d9"
+            }
+          },
+          {
+            "path": "demos/README.md",
+            "commit": "0b9ea27933aec47c76e0c5e2deefa79f842f2a29",
+            "packet": "LEGACY_RUNTIME_DEMO_EIGHT_APPLIED.json",
+            "packet_sha256": "351993691ecc50099016337877d24b6285199fce30ddb6293081d4a239e5d4cc",
+            "before": {
+              "mode": "100644",
+              "blob": "880d695a62af976a85b845b0b0642d3481517421",
+              "sha256": "cb755e125589b53b37cd530fff5947c8b8fd0a22da4b98bf5a90946b649c42d9"
+            },
+            "after": {
+              "mode": "100644",
+              "blob": "57388f74c94f739c15526fbad4ec917ff1e4f3cf",
+              "sha256": "fba4502269e45bf9f912f78fac38cd6781e02eb245980ba83f119438d5b28771"
+            }
+          },
+          {
+            "path": "demos/README.md",
+            "commit": "a89e8f129a396e618e0cbe9b5e662ff79c2c2857",
+            "packet": "AUDIO_MIDI_EIGHT_HISTORICAL_APPLIED.json",
+            "packet_sha256": "194122095178d46d5abbc920774c0cfb11be899ea8f522927ef2597778944427",
+            "before": {
+              "mode": "100644",
+              "blob": "57388f74c94f739c15526fbad4ec917ff1e4f3cf",
+              "sha256": "fba4502269e45bf9f912f78fac38cd6781e02eb245980ba83f119438d5b28771"
+            },
+            "after": {
+              "mode": "100644",
+              "blob": "8bbe8dc1df03e300eb6543dca8932a39e1ba754f",
+              "sha256": "b5f5ce80131f6a3c78960e3688452ba27ef9b16a73235a215abdf3fde446321f"
+            }
+          },
+          {
+            "path": "demos/README.md",
+            "commit": "f6854e87213b3e815b733d91155f987c47bc8377",
+            "packet": "CSM_SEVENTEEN_HISTORICAL_APPLIED.json",
+            "packet_sha256": "62ae7046b63c1e5f6c99fa684883e4851d5918e39b7837782d2caddfd7bedfde",
+            "before": {
+              "mode": "100644",
+              "blob": "8bbe8dc1df03e300eb6543dca8932a39e1ba754f",
+              "sha256": "b5f5ce80131f6a3c78960e3688452ba27ef9b16a73235a215abdf3fde446321f"
+            },
+            "after": {
+              "mode": "100644",
+              "blob": "39bd146fb3037eadf96f5a07524dcc5e31ecc1ce",
+              "sha256": "95fe2d71084833d50d64f4e1e7cdc3e7b5035ea7c6f57efd758f43e5bcfa9b60"
+            }
+          },
+          {
+            "path": "demos/README.md",
+            "commit": "0196c505c08252df056ba7bc63c1b7c278772e16",
+            "packet": "AUDIO_FOUR_HISTORICAL_APPLIED.json",
+            "packet_sha256": "3b9e38388d3622347375a97c22dcf56e3dbd0df1edebc616db4055771c3446b1",
+            "before": {
+              "mode": "100644",
+              "blob": "39bd146fb3037eadf96f5a07524dcc5e31ecc1ce",
+              "sha256": "95fe2d71084833d50d64f4e1e7cdc3e7b5035ea7c6f57efd758f43e5bcfa9b60"
+            },
+            "after": {
+              "mode": "100644",
+              "blob": "935c3945c2c939626c08012a8607ea73a09f896d",
+              "sha256": "54c01d34895de1c1cf68b6a1bb4e0ce63f02dd025f92656b25189f1a94cc1be6"
+            }
+          },
+          {
+            "path": "demos/README.md",
+            "commit": "2fb1b78397ab44c003c471a5fe5f561bdef1d9bd",
+            "packet": "ORPHAN_ADAPTER_MEDIUM_FIVE_HISTORICAL_APPLIED.json",
+            "packet_sha256": "af83c099a5b53221279bf0bb46e9539fe319a18cade771a42499cad9078205d4",
+            "before": {
+              "mode": "100644",
+              "blob": "935c3945c2c939626c08012a8607ea73a09f896d",
+              "sha256": "54c01d34895de1c1cf68b6a1bb4e0ce63f02dd025f92656b25189f1a94cc1be6"
+            },
+            "after": {
+              "mode": "100644",
+              "blob": "89db54fad0b2cc46be6a794c60b732903dd80c19",
+              "sha256": "119618f0faa067f1b2389e280f40150fc33bfa3c793fb10c2357a554360ce856"
             }
           }
         ],
@@ -73101,18 +73480,27 @@
         "blob": "d3bf16c0288d6c6210a28e0bc98b9191090fa53c"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/test_demo_v0911_five_agent_hey_jude_audio.sh"
         ]
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "AUDIO_FOUR_HISTORICAL_APPLIED.json",
+        "sha256": "3b9e38388d3622347375a97c22dcf56e3dbd0df1edebc616db4055771c3446b1",
+        "implementation_commit": "0196c505c08252df056ba7bc63c1b7c278772e16"
       }
     },
     {
@@ -74721,12 +75109,8 @@
         "blob": "e16e3febacdacec89a91305b63c07f15a7a06844"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "scoped_operator_retirement_decision",
-        "remaining_current_callers_repaired_or_retired",
-        "native_installed_and_full_original_acceptance_remain_separate"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -74745,6 +75129,24 @@
         "sha256": "ad7e716ce1c9fb9a2daa4403370be15448e1ee5f1256e53d6e1bca2aeb4e7801",
         "review": "Planning #12 bounded result and exact source correspondence review PASS",
         "scope": "Exact original12assertion source proof reused against authenticated PR250 wrapper and unchanged originaltest. No test/provider rerun; native_admissionfalse/installed_executionfalse/fullacceptancefalse. Proposed transfer only; no deletion."
+      },
+      "pre_cf_fitness_host_retention_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "scoped_operator_retirement_decision",
+          "remaining_current_callers_repaired_or_retired",
+          "native_installed_and_full_original_acceptance_remain_separate"
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "AUDIO_MIDI_EIGHT_HISTORICAL_APPLIED.json",
+        "packet_sha256": "194122095178d46d5abbc920774c0cfb11be899ea8f522927ef2597778944427",
+        "implementation_commit": "a89e8f129a396e618e0cbe9b5e662ff79c2c2857",
+        "current_identity": {
+          "mode": "100755",
+          "blob": "e16e3febacdacec89a91305b63c07f15a7a06844"
+        },
+        "reason": "Actual current installer child invokes original synthetic-tone podcast policy test with explicit source episodes; preserve original native/surrogate manifest and packet assertions. Existing owner component proof is not full ADL original test equivalence."
       }
     },
     {
@@ -77228,18 +77630,27 @@
         "blob": "7daf42fbf36b0df08b23f77d7f5d7db5f2c2601d"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/test_run_wp08_acip_sns_live_proof.sh"
         ]
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSM_SEVENTEEN_HISTORICAL_APPLIED.json",
+        "sha256": "62ae7046b63c1e5f6c99fa684883e4851d5918e39b7837782d2caddfd7bedfde",
+        "implementation_commit": "f6854e87213b3e815b733d91155f987c47bc8377"
       }
     },
     {
@@ -77252,14 +77663,8 @@
         "blob": "e05e5fde4f295e755f9b6d7ef43d5d9412bdb85e"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "specific_consumer_or_document_disposition_required",
-        "Deliver original adapted test with Infrastructure signal caller family; passing private fixture is not owner test publication or ADL caller closure.",
-        "Reconcile original ADL callers and source retirement together.",
-        "Externally supplied missing validators and tests remain an explicit owner-support dependency; do not claim owner delivery.",
-        "Preserve separate genuine resolver3case evidence and liveAWS/CSM nonclaims."
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -77278,6 +77683,21 @@
         "proposal": "proposed_owner_transfer_with_consumer_qualification",
         "reason": "Original tests and owner runner bytes unchanged; explicit resolver double. Missing original validators supplied externally, not owner delivery. No liveAWS/CSM/provider/installed acceptance.",
         "review": "Bounded independent source and exact evidence review; limits retained."
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "specific_consumer_or_document_disposition_required",
+          "Deliver original adapted test with Infrastructure signal caller family; passing private fixture is not owner test publication or ADL caller closure.",
+          "Reconcile original ADL callers and source retirement together.",
+          "Externally supplied missing validators and tests remain an explicit owner-support dependency; do not claim owner delivery.",
+          "Preserve separate genuine resolver3case evidence and liveAWS/CSM nonclaims."
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSM_SEVENTEEN_HISTORICAL_APPLIED.json",
+        "sha256": "62ae7046b63c1e5f6c99fa684883e4851d5918e39b7837782d2caddfd7bedfde",
+        "implementation_commit": "f6854e87213b3e815b733d91155f987c47bc8377"
       }
     },
     {
@@ -77290,18 +77710,27 @@
         "blob": "1d92bf7afa1c637804f5d067fd8833287df117cb"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/test_run_wp08_cloudfront_control_proof.sh"
         ]
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSM_SEVENTEEN_HISTORICAL_APPLIED.json",
+        "sha256": "62ae7046b63c1e5f6c99fa684883e4851d5918e39b7837782d2caddfd7bedfde",
+        "implementation_commit": "f6854e87213b3e815b733d91155f987c47bc8377"
       }
     },
     {
@@ -77314,18 +77743,27 @@
         "blob": "03499d244506b7777ff82bf083552b7e42615e22"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/test_run_wp08_heartbeat_live_proof.sh"
         ]
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSM_SEVENTEEN_HISTORICAL_APPLIED.json",
+        "sha256": "62ae7046b63c1e5f6c99fa684883e4851d5918e39b7837782d2caddfd7bedfde",
+        "implementation_commit": "f6854e87213b3e815b733d91155f987c47bc8377"
       }
     },
     {
@@ -77371,18 +77809,27 @@
         "blob": "a29daf54895043167820d15af5f40714eefcf37a"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/test_run_wp08_polis_storage_live_proof.sh"
         ]
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSM_SEVENTEEN_HISTORICAL_APPLIED.json",
+        "sha256": "62ae7046b63c1e5f6c99fa684883e4851d5918e39b7837782d2caddfd7bedfde",
+        "implementation_commit": "f6854e87213b3e815b733d91155f987c47bc8377"
       }
     },
     {
@@ -80136,18 +80583,27 @@
         "blob": "03dcc8b4fdbc866057ca1b9dd5a8133a6dcb415a"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/validate_five_agent_hey_jude_audio_demo.py"
         ]
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "AUDIO_FOUR_HISTORICAL_APPLIED.json",
+        "sha256": "3b9e38388d3622347375a97c22dcf56e3dbd0df1edebc616db4055771c3446b1",
+        "implementation_commit": "0196c505c08252df056ba7bc63c1b7c278772e16"
       }
     },
     {
@@ -80160,18 +80616,27 @@
         "blob": "9bd5c7ebba6def3bad3d565984c90a8c0575e2f6"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": [
           "adl/tools/validate_five_agent_music_demo.py"
         ]
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "AUDIO_FOUR_HISTORICAL_APPLIED.json",
+        "sha256": "3b9e38388d3622347375a97c22dcf56e3dbd0df1edebc616db4055771c3446b1",
+        "implementation_commit": "0196c505c08252df056ba7bc63c1b7c278772e16"
       }
     },
     {
@@ -80468,18 +80933,27 @@
         "blob": "060928ccd5253b1d97a908361dcd9af9b8ce1086"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
         "exact_successor_paths": [
           "adl/tools/validate_multi_agent_transcript.py"
         ]
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "ORPHAN_ADAPTER_MEDIUM_FIVE_HISTORICAL_APPLIED.json",
+        "sha256": "af83c099a5b53221279bf0bb46e9539fe319a18cade771a42499cad9078205d4",
+        "implementation_commit": "2fb1b78397ab44c003c471a5fe5f561bdef1d9bd"
       }
     },
     {
@@ -80863,18 +81337,27 @@
         "blob": "2d51530a55e48234747bf41921139afdeef267cc"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/validate_v086_control_path.sh"
         ]
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "LEGACY_RUNTIME_DEMO_EIGHT_APPLIED.json",
+        "sha256": "351993691ecc50099016337877d24b6285199fce30ddb6293081d4a239e5d4cc",
+        "implementation_commit": "0b9ea27933aec47c76e0c5e2deefa79f842f2a29"
       }
     },
     {
@@ -113502,11 +113985,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "coherent component and caller cutover",
-        "qualified owner adoption; exact source correspondence alone is insufficient"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
@@ -113519,6 +113999,18 @@
         "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
         "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
         "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "coherent component and caller cutover",
+          "qualified owner adoption; exact source correspondence alone is insufficient"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSM_SEVENTEEN_HISTORICAL_APPLIED.json",
+        "sha256": "62ae7046b63c1e5f6c99fa684883e4851d5918e39b7837782d2caddfd7bedfde",
+        "implementation_commit": "f6854e87213b3e815b733d91155f987c47bc8377"
       }
     },
     {
@@ -113610,11 +114102,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "coherent component and caller cutover",
-        "qualified owner adoption; exact source correspondence alone is insufficient"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
@@ -113627,6 +114116,18 @@
         "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
         "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
         "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "coherent component and caller cutover",
+          "qualified owner adoption; exact source correspondence alone is insufficient"
+        ]
+      },
+      "applied_removal": {
+        "packet": "AUDIO_MIDI_EIGHT_HISTORICAL_APPLIED.json",
+        "sha256": "194122095178d46d5abbc920774c0cfb11be899ea8f522927ef2597778944427",
+        "implementation_commit": "a89e8f129a396e618e0cbe9b5e662ff79c2c2857"
       }
     },
     {
@@ -113897,11 +114398,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "coherent component and caller cutover",
-        "qualified owner adoption; exact source correspondence alone is insufficient"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
@@ -113914,6 +114412,18 @@
         "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
         "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
         "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "coherent component and caller cutover",
+          "qualified owner adoption; exact source correspondence alone is insufficient"
+        ]
+      },
+      "applied_removal": {
+        "packet": "ORPHAN_ADAPTER_MEDIUM_FIVE_HISTORICAL_APPLIED.json",
+        "sha256": "af83c099a5b53221279bf0bb46e9539fe319a18cade771a42499cad9078205d4",
+        "implementation_commit": "2fb1b78397ab44c003c471a5fe5f561bdef1d9bd"
       }
     },
     {
@@ -115475,7 +115985,7 @@
         "packet": "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/ARXIV_FIELD_DOCUMENT_THREE_RETENTION.json",
         "packet_sha256": "37fdd19e20f6abc7405710e702fbc802643ef99297d1b19a54a5dc90cb783e81",
         "reviewed_snapshot_head": "e766b05f48d9155c8813c72b7d743cfcb6630965",
-        "current_source_head": "96562adef70009e5b803d159447b45a414e2c379",
+        "current_source_head": "2fb1b78397ab44c003c471a5fe5f561bdef1d9bd",
         "current_identity": {
           "mode": "100644",
           "blob": "81da210796445f6e473455186c1f996d9e5645b8"
@@ -115574,6 +116084,86 @@
               "blob": "880d695a62af976a85b845b0b0642d3481517421",
               "sha256": "cb755e125589b53b37cd530fff5947c8b8fd0a22da4b98bf5a90946b649c42d9"
             }
+          },
+          {
+            "path": "demos/README.md",
+            "commit": "0b9ea27933aec47c76e0c5e2deefa79f842f2a29",
+            "packet": "LEGACY_RUNTIME_DEMO_EIGHT_APPLIED.json",
+            "packet_sha256": "351993691ecc50099016337877d24b6285199fce30ddb6293081d4a239e5d4cc",
+            "before": {
+              "mode": "100644",
+              "blob": "880d695a62af976a85b845b0b0642d3481517421",
+              "sha256": "cb755e125589b53b37cd530fff5947c8b8fd0a22da4b98bf5a90946b649c42d9"
+            },
+            "after": {
+              "mode": "100644",
+              "blob": "57388f74c94f739c15526fbad4ec917ff1e4f3cf",
+              "sha256": "fba4502269e45bf9f912f78fac38cd6781e02eb245980ba83f119438d5b28771"
+            }
+          },
+          {
+            "path": "demos/README.md",
+            "commit": "a89e8f129a396e618e0cbe9b5e662ff79c2c2857",
+            "packet": "AUDIO_MIDI_EIGHT_HISTORICAL_APPLIED.json",
+            "packet_sha256": "194122095178d46d5abbc920774c0cfb11be899ea8f522927ef2597778944427",
+            "before": {
+              "mode": "100644",
+              "blob": "57388f74c94f739c15526fbad4ec917ff1e4f3cf",
+              "sha256": "fba4502269e45bf9f912f78fac38cd6781e02eb245980ba83f119438d5b28771"
+            },
+            "after": {
+              "mode": "100644",
+              "blob": "8bbe8dc1df03e300eb6543dca8932a39e1ba754f",
+              "sha256": "b5f5ce80131f6a3c78960e3688452ba27ef9b16a73235a215abdf3fde446321f"
+            }
+          },
+          {
+            "path": "demos/README.md",
+            "commit": "f6854e87213b3e815b733d91155f987c47bc8377",
+            "packet": "CSM_SEVENTEEN_HISTORICAL_APPLIED.json",
+            "packet_sha256": "62ae7046b63c1e5f6c99fa684883e4851d5918e39b7837782d2caddfd7bedfde",
+            "before": {
+              "mode": "100644",
+              "blob": "8bbe8dc1df03e300eb6543dca8932a39e1ba754f",
+              "sha256": "b5f5ce80131f6a3c78960e3688452ba27ef9b16a73235a215abdf3fde446321f"
+            },
+            "after": {
+              "mode": "100644",
+              "blob": "39bd146fb3037eadf96f5a07524dcc5e31ecc1ce",
+              "sha256": "95fe2d71084833d50d64f4e1e7cdc3e7b5035ea7c6f57efd758f43e5bcfa9b60"
+            }
+          },
+          {
+            "path": "demos/README.md",
+            "commit": "0196c505c08252df056ba7bc63c1b7c278772e16",
+            "packet": "AUDIO_FOUR_HISTORICAL_APPLIED.json",
+            "packet_sha256": "3b9e38388d3622347375a97c22dcf56e3dbd0df1edebc616db4055771c3446b1",
+            "before": {
+              "mode": "100644",
+              "blob": "39bd146fb3037eadf96f5a07524dcc5e31ecc1ce",
+              "sha256": "95fe2d71084833d50d64f4e1e7cdc3e7b5035ea7c6f57efd758f43e5bcfa9b60"
+            },
+            "after": {
+              "mode": "100644",
+              "blob": "935c3945c2c939626c08012a8607ea73a09f896d",
+              "sha256": "54c01d34895de1c1cf68b6a1bb4e0ce63f02dd025f92656b25189f1a94cc1be6"
+            }
+          },
+          {
+            "path": "demos/README.md",
+            "commit": "2fb1b78397ab44c003c471a5fe5f561bdef1d9bd",
+            "packet": "ORPHAN_ADAPTER_MEDIUM_FIVE_HISTORICAL_APPLIED.json",
+            "packet_sha256": "af83c099a5b53221279bf0bb46e9539fe319a18cade771a42499cad9078205d4",
+            "before": {
+              "mode": "100644",
+              "blob": "935c3945c2c939626c08012a8607ea73a09f896d",
+              "sha256": "54c01d34895de1c1cf68b6a1bb4e0ce63f02dd025f92656b25189f1a94cc1be6"
+            },
+            "after": {
+              "mode": "100644",
+              "blob": "89db54fad0b2cc46be6a794c60b732903dd80c19",
+              "sha256": "119618f0faa067f1b2389e280f40150fc33bfa3c793fb10c2357a554360ce856"
+            }
           }
         ],
         "snapshot_boundary": "Original Arxiv packet remains immutable snapshot; later reviewed source-navigation changes recorded explicitly, without a new original-test pass claim."
@@ -115629,11 +116219,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "coherent component and caller cutover",
-        "qualified owner adoption; exact source correspondence alone is insufficient"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
@@ -115644,6 +116231,18 @@
         "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
         "proposal": "transfer_updated_demo_instructions_with_existing_manual_obligation",
         "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "coherent component and caller cutover",
+          "qualified owner adoption; exact source correspondence alone is insufficient"
+        ]
+      },
+      "applied_removal": {
+        "packet": "AUDIO_MIDI_EIGHT_HISTORICAL_APPLIED.json",
+        "sha256": "194122095178d46d5abbc920774c0cfb11be899ea8f522927ef2597778944427",
+        "implementation_commit": "a89e8f129a396e618e0cbe9b5e662ff79c2c2857"
       }
     },
     {
@@ -115872,11 +116471,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "coherent component and caller cutover",
-        "qualified owner adoption; exact source correspondence alone is insufficient"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
@@ -115889,6 +116485,18 @@
         "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
         "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
         "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "coherent component and caller cutover",
+          "qualified owner adoption; exact source correspondence alone is insufficient"
+        ]
+      },
+      "applied_removal": {
+        "packet": "ORPHAN_ADAPTER_MEDIUM_FIVE_HISTORICAL_APPLIED.json",
+        "sha256": "af83c099a5b53221279bf0bb46e9539fe319a18cade771a42499cad9078205d4",
+        "implementation_commit": "2fb1b78397ab44c003c471a5fe5f561bdef1d9bd"
       }
     },
     {
@@ -115971,11 +116579,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "coherent component and caller cutover",
-        "qualified owner adoption; exact source correspondence alone is insufficient"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
@@ -115986,6 +116591,18 @@
         "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
         "proposal": "transfer_updated_demo_instructions_with_existing_manual_obligation",
         "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "coherent component and caller cutover",
+          "qualified owner adoption; exact source correspondence alone is insufficient"
+        ]
+      },
+      "applied_removal": {
+        "packet": "CSM_SEVENTEEN_HISTORICAL_APPLIED.json",
+        "sha256": "62ae7046b63c1e5f6c99fa684883e4851d5918e39b7837782d2caddfd7bedfde",
+        "implementation_commit": "f6854e87213b3e815b733d91155f987c47bc8377"
       }
     },
     {
@@ -116194,11 +116811,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "coherent component and caller cutover",
-        "qualified owner adoption; exact source correspondence alone is insufficient"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
@@ -116211,6 +116825,18 @@
         "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
         "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
         "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "coherent component and caller cutover",
+          "qualified owner adoption; exact source correspondence alone is insufficient"
+        ]
+      },
+      "applied_removal": {
+        "packet": "LEGACY_RUNTIME_DEMO_EIGHT_APPLIED.json",
+        "sha256": "351993691ecc50099016337877d24b6285199fce30ddb6293081d4a239e5d4cc",
+        "implementation_commit": "0b9ea27933aec47c76e0c5e2deefa79f842f2a29"
       }
     },
     {
@@ -116250,7 +116876,7 @@
         "packet": "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/ARXIV_FIELD_DOCUMENT_THREE_RETENTION.json",
         "packet_sha256": "37fdd19e20f6abc7405710e702fbc802643ef99297d1b19a54a5dc90cb783e81",
         "reviewed_snapshot_head": "e766b05f48d9155c8813c72b7d743cfcb6630965",
-        "current_source_head": "96562adef70009e5b803d159447b45a414e2c379",
+        "current_source_head": "2fb1b78397ab44c003c471a5fe5f561bdef1d9bd",
         "current_identity": {
           "mode": "100644",
           "blob": "edf0bff4b73abb4b60ea4966d99cb4f20f046c2c"
@@ -116349,6 +116975,86 @@
               "blob": "880d695a62af976a85b845b0b0642d3481517421",
               "sha256": "cb755e125589b53b37cd530fff5947c8b8fd0a22da4b98bf5a90946b649c42d9"
             }
+          },
+          {
+            "path": "demos/README.md",
+            "commit": "0b9ea27933aec47c76e0c5e2deefa79f842f2a29",
+            "packet": "LEGACY_RUNTIME_DEMO_EIGHT_APPLIED.json",
+            "packet_sha256": "351993691ecc50099016337877d24b6285199fce30ddb6293081d4a239e5d4cc",
+            "before": {
+              "mode": "100644",
+              "blob": "880d695a62af976a85b845b0b0642d3481517421",
+              "sha256": "cb755e125589b53b37cd530fff5947c8b8fd0a22da4b98bf5a90946b649c42d9"
+            },
+            "after": {
+              "mode": "100644",
+              "blob": "57388f74c94f739c15526fbad4ec917ff1e4f3cf",
+              "sha256": "fba4502269e45bf9f912f78fac38cd6781e02eb245980ba83f119438d5b28771"
+            }
+          },
+          {
+            "path": "demos/README.md",
+            "commit": "a89e8f129a396e618e0cbe9b5e662ff79c2c2857",
+            "packet": "AUDIO_MIDI_EIGHT_HISTORICAL_APPLIED.json",
+            "packet_sha256": "194122095178d46d5abbc920774c0cfb11be899ea8f522927ef2597778944427",
+            "before": {
+              "mode": "100644",
+              "blob": "57388f74c94f739c15526fbad4ec917ff1e4f3cf",
+              "sha256": "fba4502269e45bf9f912f78fac38cd6781e02eb245980ba83f119438d5b28771"
+            },
+            "after": {
+              "mode": "100644",
+              "blob": "8bbe8dc1df03e300eb6543dca8932a39e1ba754f",
+              "sha256": "b5f5ce80131f6a3c78960e3688452ba27ef9b16a73235a215abdf3fde446321f"
+            }
+          },
+          {
+            "path": "demos/README.md",
+            "commit": "f6854e87213b3e815b733d91155f987c47bc8377",
+            "packet": "CSM_SEVENTEEN_HISTORICAL_APPLIED.json",
+            "packet_sha256": "62ae7046b63c1e5f6c99fa684883e4851d5918e39b7837782d2caddfd7bedfde",
+            "before": {
+              "mode": "100644",
+              "blob": "8bbe8dc1df03e300eb6543dca8932a39e1ba754f",
+              "sha256": "b5f5ce80131f6a3c78960e3688452ba27ef9b16a73235a215abdf3fde446321f"
+            },
+            "after": {
+              "mode": "100644",
+              "blob": "39bd146fb3037eadf96f5a07524dcc5e31ecc1ce",
+              "sha256": "95fe2d71084833d50d64f4e1e7cdc3e7b5035ea7c6f57efd758f43e5bcfa9b60"
+            }
+          },
+          {
+            "path": "demos/README.md",
+            "commit": "0196c505c08252df056ba7bc63c1b7c278772e16",
+            "packet": "AUDIO_FOUR_HISTORICAL_APPLIED.json",
+            "packet_sha256": "3b9e38388d3622347375a97c22dcf56e3dbd0df1edebc616db4055771c3446b1",
+            "before": {
+              "mode": "100644",
+              "blob": "39bd146fb3037eadf96f5a07524dcc5e31ecc1ce",
+              "sha256": "95fe2d71084833d50d64f4e1e7cdc3e7b5035ea7c6f57efd758f43e5bcfa9b60"
+            },
+            "after": {
+              "mode": "100644",
+              "blob": "935c3945c2c939626c08012a8607ea73a09f896d",
+              "sha256": "54c01d34895de1c1cf68b6a1bb4e0ce63f02dd025f92656b25189f1a94cc1be6"
+            }
+          },
+          {
+            "path": "demos/README.md",
+            "commit": "2fb1b78397ab44c003c471a5fe5f561bdef1d9bd",
+            "packet": "ORPHAN_ADAPTER_MEDIUM_FIVE_HISTORICAL_APPLIED.json",
+            "packet_sha256": "af83c099a5b53221279bf0bb46e9539fe319a18cade771a42499cad9078205d4",
+            "before": {
+              "mode": "100644",
+              "blob": "935c3945c2c939626c08012a8607ea73a09f896d",
+              "sha256": "54c01d34895de1c1cf68b6a1bb4e0ce63f02dd025f92656b25189f1a94cc1be6"
+            },
+            "after": {
+              "mode": "100644",
+              "blob": "89db54fad0b2cc46be6a794c60b732903dd80c19",
+              "sha256": "119618f0faa067f1b2389e280f40150fc33bfa3c793fb10c2357a554360ce856"
+            }
           }
         ],
         "snapshot_boundary": "Original Arxiv packet remains immutable snapshot; later reviewed source-navigation changes recorded explicitly, without a new original-test pass claim."
@@ -116434,11 +117140,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "coherent component and caller cutover",
-        "qualified owner adoption; exact source correspondence alone is insufficient"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
@@ -116451,6 +117154,24 @@
         "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
         "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
         "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      },
+      "pre_doc49_retention_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "coherent component and caller cutover",
+          "qualified owner adoption; exact source correspondence alone is insufficient"
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CCC_TWO_PUBLIC_RETENTION.json",
+        "packet_sha256": "779a38611ed991e1ac8d8fb74feb1ffb7102f748e6b9b87359c939ea27a43194",
+        "reviewed_snapshot_head": "d73cf67198ff788a6ab148f8b2c4a8483a2abafa",
+        "current_source_head": "2fb1b78397ab44c003c471a5fe5f561bdef1d9bd",
+        "current_identity": {
+          "mode": "100644",
+          "blob": "2b7b9a8e338d61a9fdeed81cd20ec9c1d7efd12f"
+        },
+        "reason": "These two reports are current documented outputs of the retained compute_ccc_v0.py public tooling surface. Its original test independently regenerates the same report names, checks determinism and numerical/claim-boundary contracts. Removing the report examples while retaining that generator and documentation would break the public example surface. Runtime source correspondence does not override actual ADL public use."
       }
     },
     {
@@ -116464,11 +117185,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "coherent component and caller cutover",
-        "qualified owner adoption; exact source correspondence alone is insufficient"
-      ],
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
@@ -116481,6 +117199,24 @@
         "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
         "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
         "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      },
+      "pre_doc49_retention_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "coherent component and caller cutover",
+          "qualified owner adoption; exact source correspondence alone is insufficient"
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CCC_TWO_PUBLIC_RETENTION.json",
+        "packet_sha256": "779a38611ed991e1ac8d8fb74feb1ffb7102f748e6b9b87359c939ea27a43194",
+        "reviewed_snapshot_head": "d73cf67198ff788a6ab148f8b2c4a8483a2abafa",
+        "current_source_head": "2fb1b78397ab44c003c471a5fe5f561bdef1d9bd",
+        "current_identity": {
+          "mode": "100644",
+          "blob": "728d71e2413c3479a41da129a8feb44c6c08be52"
+        },
+        "reason": "These two reports are current documented outputs of the retained compute_ccc_v0.py public tooling surface. Its original test independently regenerates the same report names, checks determinism and numerical/claim-boundary contracts. Removing the report examples while retaining that generator and documentation would break the public example surface. Runtime source correspondence does not override actual ADL public use."
       }
     },
     {
@@ -116758,11 +117494,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "coherent component and caller cutover",
-        "qualified owner adoption; exact source correspondence alone is insufficient"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
@@ -116775,6 +117508,18 @@
         "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
         "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
         "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "coherent component and caller cutover",
+          "qualified owner adoption; exact source correspondence alone is insufficient"
+        ]
+      },
+      "applied_removal": {
+        "packet": "AUDIO_MIDI_EIGHT_HISTORICAL_APPLIED.json",
+        "sha256": "194122095178d46d5abbc920774c0cfb11be899ea8f522927ef2597778944427",
+        "implementation_commit": "a89e8f129a396e618e0cbe9b5e662ff79c2c2857"
       }
     },
     {
@@ -116788,11 +117533,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "coherent component and caller cutover",
-        "qualified owner adoption; exact source correspondence alone is insufficient"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
@@ -116805,6 +117547,18 @@
         "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
         "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
         "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "coherent component and caller cutover",
+          "qualified owner adoption; exact source correspondence alone is insufficient"
+        ]
+      },
+      "applied_removal": {
+        "packet": "AUDIO_MIDI_EIGHT_HISTORICAL_APPLIED.json",
+        "sha256": "194122095178d46d5abbc920774c0cfb11be899ea8f522927ef2597778944427",
+        "implementation_commit": "a89e8f129a396e618e0cbe9b5e662ff79c2c2857"
       }
     },
     {
@@ -116818,11 +117572,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "coherent component and caller cutover",
-        "qualified owner adoption; exact source correspondence alone is insufficient"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
@@ -116835,6 +117586,18 @@
         "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
         "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
         "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "coherent component and caller cutover",
+          "qualified owner adoption; exact source correspondence alone is insufficient"
+        ]
+      },
+      "applied_removal": {
+        "packet": "AUDIO_MIDI_EIGHT_HISTORICAL_APPLIED.json",
+        "sha256": "194122095178d46d5abbc920774c0cfb11be899ea8f522927ef2597778944427",
+        "implementation_commit": "a89e8f129a396e618e0cbe9b5e662ff79c2c2857"
       }
     },
     {
@@ -116848,11 +117611,8 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        "coherent component and caller cutover",
-        "qualified owner adoption; exact source correspondence alone is insufficient"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
@@ -116865,6 +117625,18 @@
         "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
         "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
         "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "coherent component and caller cutover",
+          "qualified owner adoption; exact source correspondence alone is insufficient"
+        ]
+      },
+      "applied_removal": {
+        "packet": "AUDIO_MIDI_EIGHT_HISTORICAL_APPLIED.json",
+        "sha256": "194122095178d46d5abbc920774c0cfb11be899ea8f522927ef2597778944427",
+        "implementation_commit": "a89e8f129a396e618e0cbe9b5e662ff79c2c2857"
       }
     },
     {
