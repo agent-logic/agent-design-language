@@ -1,0 +1,48 @@
+# TAIL-03 publication candidate inventory — preparation
+
+Status: **not frozen; not ready for downstream approval** (2026-10-14). Sprint 4 preparation was authorized while ADL #1223 remains open. This inventory assembles exact *retained inputs* for a later publication decision; it does not select a final seven-role lockset, create a tag, publish a release, deploy, invite testers, or approve live launch. The seven RD-11 roles are compatibility identities, not seven repositories changed by this milestone.
+
+## Authority and predecessor ledger
+
+| Input | Exact checked evidence | Status for this packet |
+| --- | --- | --- |
+| TAIL-01/#1232 quality matrix | ADL local commit `68c38b733afd99468cd888883568e939b9982401`, `docs/milestones/v0.93.1/quality-gate-1232/EVIDENCE_MATRIX.json`, SHA-256 `f8c4b7ae66b7b4d1df604f7eabc5d9cb5813a33e8de957127fab0ae15acec737` | Independent review passed for the *current-state handoff*. Decision is `NOT_READY_FOR_FINAL_RELEASE_ACCEPTANCE`; `acceptance_authority=false`; issue still open. Authenticated GitHub commit readback returned 404 for this unmerged local commit, so it is not an externally usable source link yet. |
+| TAIL-02/#1234 documentation handoff | ADL local commit `279bba9d2c352227bcec41e3ab88b93007a1ce41`, `docs/milestones/v0.93.1/TAIL02_DOCUMENTATION_HANDOFF_1234.md`, SHA-256 `204fd5cf5490b81d7b6cd0ebed9d4a3a33849472ab35b4a817d12c103b2eaa15` | Independently reviewed at that head; branch-only preparation, no PR or native publication yet. Authenticated GitHub commit readback returned 404. The accepted documentation version for release is **unselected**. |
+| RD-11/#1223 | Historical candidate-lockset source is S1 in the #1232 matrix. | Final source-retirement decision, selected seven-role lockset, changed-role set and per-role clean container clone/build correspondence are **unavailable**. #1223 remains open. |
+
+The #1232 matrix supplies eight source byte hashes, seven historical RD-11 role/source/artifact pins and 15 gate dispositions. Its `observed_main` values are observations at matrix time, not selections for release. A later reader must compare #1223's final accepted lockset and actual changed interfaces to this inventory, retaining unchanged-role proof without commissioning seven fresh reviews or builds.
+
+## Retained product and site candidate
+
+| Surface | Exact identity and evidence | Limit |
+| --- | --- | --- |
+| CodeFriend package `0.93.1` | Qualified source `aa2cca757ba4e6c37cef6c1a6e013d3896cd1de1`, tree `89ca46e84d9f1060c80e47c97704eb9ab369af2a`; macOS arm64 installed binary SHA-256 `17c64d9c1c5244aa0f1811268dcab6ce2bacfa2e03339574888e49eff384f328`; Linux x86_64 SHA-256 `55520a6994b084affcc1aeb9dd88ae6aac245a88aeef7263f2402ae47cf1cb39`. | CodeFriend #47 and ADL #1150 qualified this exact candidate; no automatic transfer to a later source head. |
+| Product package archive | [CI run `38030979163`](https://github.com/agent-logic/codefriend/actions/runs/38030979163), [artifact `11661624501`](https://github.com/agent-logic/codefriend/actions/runs/38030979163/artifacts/11661624501), archive SHA-256 `2bf22aa1d0f354c5a719d26a07c92f0fbd39a890733f4d7336bed80b943c2c0c`. | Authenticated GitHub readback confirms the run succeeded at exact source `aa2cca75...`, and artifact `codefriend-product-distribution` is currently unexpired (259,867,457 bytes; expires 2027-01-08). The 260 MB archive was **not downloaded or rehashed** for this packet; its retained digest is not current byte-integrity proof. Private-repo access is required. |
+| Website bridge | Accepted source commit `62b34f30a7042c10e35cbd5924841305bf68d106`, tree `811421dd8d69b390509e6670536c50c84e263871`, dependency lock SHA-256 `766cfdaf2374e261a3c09a55b9cc7906628dd80e7ed24fbcf36e54ab72d58781`. | Accepted disabled, undeployed readiness with the qualified product; no live site or waiting list claim. Later website `main` needs its own correspondence decision. |
+| Qualification | #1150/#47: 24/24 obligations PASS, 12/12 release cells accepted. Retained catalog 44/44 kinds across nine scenarios: two denial, seven positive. | The original Linux Vector first execution group failed and its compatible repeat passed Q06. Q03 second-user denial is operator-witnessed with corroborating bound-subject evidence, not a retained raw HTTP capture. CodeFriend #101 document readability remains open. |
+
+The CodeFriend qualification source is `docs/codefriend/QUALIFICATION_RECONCILIATION_v0.93.1.json` at commit `188dd2b701be0a4acce1ec510559fdff119fd4c7`, SHA-256 `3c662ded351af833179da02039ad5a4fd5c036f26058d4d3ac16c0cdebfdc1f0`. Deployment-readiness JSON at the same commit is SHA-256 `04236d79a764f2aeb97b6c528089fbb164eabae5bcfd4e69f7aea8c58de8c6ea`. Both are in the private CodeFriend repository and require authorized access; no private payload is copied into this public packet.
+
+## Runtime, template and rollback boundary
+
+The historical CodeFriend #45 lockset is `proposed_unaccepted` with `acceptance_authority=false`. It identifies a Runtime `0.92.1` RD-11 baseline at source `2fee402c5287091dcd61c831b49786ba116aedf5f`, aarch64 artifact SHA-256 `9cbd2fd026c84fe7c5b85bdfe48fa635eee7f556bb0cbd51194eecfcf5ea4186`, and seven historical passed scenarios. It separately identifies the `agent-product-support` `=0.1.1` consumer interface at source `94b336e851d6313418b6c86f03eaed627126da53`. **Neither is the final selected Runtime product or full installed compatibility decision.** #1223 must supply the accepted Runtime/consumer correspondence; do not infer it from the shared-library pin.
+
+CodeFriend #47 records template release `1.0.0` for its qualified product. Historical #45 pins `templates/1.0.0/manifest.json` SHA-256 `1e2e27261cc71b958d33601c4fdd94fb82708b3e387063412a29f0c26868e27d` at its older qualified template source. The same path has SHA-256 `8114de617d91c98691fc4dc80c36fad77fdb9fe8efb528ee05cfe98694ee31af` at the #47 product commit `aa2cca75...`, and `cfaf4e4dc8cdb89f2e8a9ae2cea5452bb5d46dae7b6945f2bb61d54291ce9a2c` at later CodeFriend evidence commit `188dd2b...`. These bytes were locally rehashed from Git objects. **The template manifest identity for publication is unselected**; version `1.0.0` alone is insufficient. The final owner must resolve which manifest the installed candidate actually consumes and how changes after the catalog proof affect readability and compatibility.
+
+Retained rollback scope from historical #45: CodeFriend has a prior private-prefix archive restore only; Runtime has a retained installed generation with no replay authority; the website has safe disablement but no prior accepted deployed baseline or tested Beta rollback. This is an inventory of limits, not an executable rollback plan. TAIL-03 must obtain exact candidate-bound rollback references and a tested decision before calling the publication packet final.
+
+## Proposed names, notes and disclosure
+
+The issue branch is `codex/1236-v0931-tail03-publication-finalization`. `v0.93.1-rc.1` is a **proposed review label only**; no tag was created or approved. `v0.93.1` remains a reserved release name with no release action. The [release-note candidate](RELEASE_NOTES_CANDIDATE.md) is review copy, not public announcement.
+
+| Material | Audience and permission | Integrity / availability now |
+| --- | --- | --- |
+| This inventory and redacted release-note candidate | Public-safe source draft after ordinary review; no release authority. | Repository files will be hashable at the #1236 committed head; no PR yet. |
+| #1232 matrix and #1234 handoff | ADL source evidence; both exact commits remain unmerged/unpublished. | Local Git object bytes were rehashed above; authenticated remote commit readback returned 404 for both. Publish through the native lifecycle and verify remote availability before linking externally. |
+| CodeFriend source, qualification JSON, catalog proof and CI artifact | Private repository; grant named reviewer access before sharing. | Exact source-object digests above; archived downloadable bytes and current artifact availability were not reverified here. |
+| Tester/repository content, authorization receipts, provider traces, private installed evidence and operational credentials | Access-controlled evidence store only; never copy into public notes or a public issue/PR body. | Inventory path, permission and digest must be supplied by the owning private reviewer packet. |
+| Runtime, infrastructure and other historical RD-11 role artifacts | Owner-controlled until #1223 selects final lockset and destinations. | Historical pins in #1232 do not establish current downloadable integrity. |
+
+Before freezing: accept #1223/#1232 and the final #1234 documentation version; resolve CodeFriend #101 and ADL #1269 documentation applicability; select the exact seven-role source/artifact/edge lockset; verify each distributable archive's current availability and SHA-256 through authorized access; bind installed consumer versions and actual scenario counts; approve public/private destinations and reviewer permissions; identify rollback steps and owner authority; and obtain independent packet review. Missing predecessor acceptance or private evidence in public output is a stop condition. TAIL-04/05/06 own subsequent internal review, external review and findings disposition; TAIL-10 owns any release ceremony.
+
+This preparation used local Git-object hashing, issue readback and source review only. It ran zero product tests, builds, CI dispatches, provider calls, deployments, tag creations, releases or shared-binary replacements.
