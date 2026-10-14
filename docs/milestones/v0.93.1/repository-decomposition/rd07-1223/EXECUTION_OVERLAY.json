@@ -6,7 +6,7 @@
   "execution_authorized": false,
   "original_inventory_count": 4134,
   "additional_inventory_count": 22,
-  "executed_deletion_count": 2948,
+  "executed_deletion_count": 2950,
   "entries": [
     {
       "path": ".github/workflows/ci.yaml",
@@ -57405,7 +57405,7 @@
       "before": null,
       "after": [
         "100644",
-        "89c804b3313f921aa6ae53a74d716e0c709e8f86"
+        "f2fbcb1884b55478c6aebdf7a155e2f4410b00f0"
       ],
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "INFRASTRUCTURE_SOURCE_FAMILY_APPLIED.json",
@@ -58074,6 +58074,18 @@
             "89c804b3313f921aa6ae53a74d716e0c709e8f86"
           ],
           "packet": "RUNTIME901_FOUR_APPLIED.json"
+        },
+        {
+          "commit": "ef8a1cfe24e3ef23b4a5b1f613186a6d3fe6c535",
+          "before": [
+            "100644",
+            "89c804b3313f921aa6ae53a74d716e0c709e8f86"
+          ],
+          "after": [
+            "100644",
+            "f2fbcb1884b55478c6aebdf7a155e2f4410b00f0"
+          ],
+          "packet": "RUNTIME905_TWO_APPLIED.json"
         }
       ],
       "prior_execution_provenance": [
@@ -65315,7 +65327,7 @@
       "before": null,
       "after": [
         "100644",
-        "2ede305294af5050719018ff045fbb4000259721"
+        "6359e30e949642940fbbaedbfd551a870bffae7a"
       ],
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "Infrastructure212 source commit guard-documentation accompaniment",
@@ -65672,6 +65684,18 @@
             "2ede305294af5050719018ff045fbb4000259721"
           ],
           "packet": "Historical demo Runtime901 integration"
+        },
+        {
+          "commit": "pending_reviewed_integration",
+          "before": [
+            "100644",
+            "2ede305294af5050719018ff045fbb4000259721"
+          ],
+          "after": [
+            "100644",
+            "6359e30e949642940fbbaedbfd551a870bffae7a"
+          ],
+          "packet": "Runtime905 pair integration"
         }
       ],
       "prior_execution_provenance": [
@@ -91619,6 +91643,70 @@
         "blob": "a2b9d59a5918bec796c8812aeedd6f6bf09538d5",
         "sha256": "87f9546331a2cd984e9c29f87c5e9072b240cbaacc607e1f608bbbcca0f8a454"
       }
+    },
+    {
+      "path": "adl/tools/issue905_runtime_speculative_retest.py",
+      "before": [
+        "100644",
+        "87b209373121a9b61f513874cc1b5f579c8dd0e9"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ef8a1cfe24e3ef23b4a5b1f613186a6d3fe6c535",
+      "approval_reference": "RUNTIME905_TWO_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ef8a1cfe24e3ef23b4a5b1f613186a6d3fe6c535",
+          "before": [
+            "100644",
+            "87b209373121a9b61f513874cc1b5f579c8dd0e9"
+          ],
+          "after": null,
+          "packet": "RUNTIME905_TWO_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME905_TWO_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime905-two-original-plan/retirement/current-and-original-preimages.tar",
+        "archive_sha256": "85f07f00a214a04d7fed33b94153ce56532d6fd952754bb823ba05f7ebbd4d37",
+        "member": "current/adl/tools/issue905_runtime_speculative_retest.py",
+        "mode": "100644",
+        "blob": "87b209373121a9b61f513874cc1b5f579c8dd0e9",
+        "sha256": "d18c8947cc145380b61b5d51e02dbb1ce57f0e7d18ecc3ed2d5c2abc58683a08"
+      }
+    },
+    {
+      "path": "adl/tools/test_issue905_runtime_speculative_retest.py",
+      "before": [
+        "100644",
+        "2d4ae47c3ec0528efb16935f95b48db1fddc0af3"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ef8a1cfe24e3ef23b4a5b1f613186a6d3fe6c535",
+      "approval_reference": "RUNTIME905_TWO_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ef8a1cfe24e3ef23b4a5b1f613186a6d3fe6c535",
+          "before": [
+            "100644",
+            "2d4ae47c3ec0528efb16935f95b48db1fddc0af3"
+          ],
+          "after": null,
+          "packet": "RUNTIME905_TWO_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME905_TWO_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime905-two-original-plan/retirement/current-and-original-preimages.tar",
+        "archive_sha256": "85f07f00a214a04d7fed33b94153ce56532d6fd952754bb823ba05f7ebbd4d37",
+        "member": "current/adl/tools/test_issue905_runtime_speculative_retest.py",
+        "mode": "100644",
+        "blob": "2d4ae47c3ec0528efb16935f95b48db1fddc0af3",
+        "sha256": "94ba30ebfe6a52c0fb0442bf3d912ff2f17a0b52179b4dcca2b1a0aef3c06ca0"
+      }
     }
   ],
   "missing_entries": [],
@@ -98949,9 +99037,25 @@
         "docs/tooling/TOOL_SURFACE_REGISTRY.md"
       ],
       "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "RUNTIME905_TWO_APPLIED.json",
+      "sha256": "39e64d4812efbcde1d8a547f8fa3ba3c7e95e43c9e481e739c7c3aeb847dba29",
+      "commit": "ef8a1cfe24e3ef23b4a5b1f613186a6d3fe6c535",
+      "files": 3,
+      "removals": 2,
+      "scope_sha256": "767f47078bbb73a44586d7a2c7ac9ac020bbe2f51d9c0ac490359240613f8e80",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "adl/tools/issue905_runtime_speculative_retest.py",
+        "adl/tools/test_issue905_runtime_speculative_retest.py",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
     }
   ],
-  "baseline_deletion_count": 2947,
+  "baseline_deletion_count": 2949,
   "transient_removed_paths": [
     "adl/tools/test_issue872_historical_manifest.py"
   ],
@@ -98964,7 +99068,7 @@
     "adl/tools/test_demo_v0901_quality_gate.sh",
     "adl/tools/test_demo_v0902_review_quality_gate.sh"
   ],
-  "inventory_baseline_deletion_count": 2937,
+  "inventory_baseline_deletion_count": 2939,
   "supplemental_baseline_deletion_count": 7,
   "separately_observed_baseline_deletion_count": 3,
   "separately_observed_retired_paths": [

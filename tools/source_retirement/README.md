@@ -274,3 +274,9 @@ Five historical helper contracts and the three-file Codex/Ollama demo family are
 Three existing ADL adapters1909/2087/2059 are explicitly retained under the pinned RETAINED_ADAPTERS_THREE record. ArXiv retains its ADL shared-validator resource contract; issue268 retains six mocked wrapper invocations; records-hygiene retains the complete-root historical installer/analyzer contract. Composed136/138 evidence does not establish a full2059 pass.
 
 Current total: 2,948 actions and 2,947 baseline deletions, including seven prior supplemental and three separately observed paths, plus one transient bridge. Original 4,134 identities and 22 additional paths remain unchanged; distributed holds2235/2236 remain unresolved.
+
+## Runtime905 speculative-retest safety pair
+
+Two exact Runtime owner source files retire after the unchanged original 11-method safety suite passed with its existing lifecycle ModuleType and Ollama/subprocess/killpg mocks. This proves the original identity/refusal/cleanup report assertions, not live model execution, speculative-performance benefit, installed Runtime or native acceptance. The production lifecycle helper remains separate.
+
+Current total: 2,950 actions and 2,949 baseline deletions, including seven prior supplemental and three separately observed paths, plus one transient bridge. Original 4,134 identities and 22 additional paths remain unchanged; distributed holds2235/2236 remain unresolved.

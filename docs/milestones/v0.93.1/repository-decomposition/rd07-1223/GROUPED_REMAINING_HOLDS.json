@@ -1,7 +1,7 @@
 {
   "schema": "adl.source_retirement.grouped_holds.v1",
   "source_head": "5edd4bf7452227fbfa83e990ffd496baeba6a3c0",
-  "ledger_sha256": "99b71c78f63e1cbac11eef5d596e170e0463812ab3503858f5c5309f9865fa2d",
+  "ledger_sha256": "ea911742e5a3ded7467e6d5d93dc04effb1fde0f57aab2acf7e1e6103854a85e",
   "original_count": 4134,
   "held_count": 2,
   "additional_paths_separate": 22,
