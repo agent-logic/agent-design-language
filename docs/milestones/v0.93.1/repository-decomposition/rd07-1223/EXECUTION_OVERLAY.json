@@ -6,7 +6,7 @@
   "execution_authorized": false,
   "original_inventory_count": 4134,
   "additional_inventory_count": 22,
-  "executed_deletion_count": 3008,
+  "executed_deletion_count": 3115,
   "entries": [
     {
       "path": ".github/workflows/ci.yaml",
@@ -6966,7 +6966,7 @@
       ],
       "after": [
         "100644",
-        "18e675098150cbbafea90f582ebe916d21b4e1f2"
+        "2c6d1e5208f684a521a019910dc60752aae86ad8"
       ],
       "implementation_commit": "39a64819e2ccc75a0b09616a7883f5835d047e35",
       "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
@@ -7104,6 +7104,18 @@
             "18e675098150cbbafea90f582ebe916d21b4e1f2"
           ],
           "packet": "HISTORICAL_FIVE_APPLIED.json"
+        },
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "18e675098150cbbafea90f582ebe916d21b4e1f2"
+          ],
+          "after": [
+            "100644",
+            "2c6d1e5208f684a521a019910dc60752aae86ad8"
+          ],
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
         }
       ]
     },
@@ -28262,7 +28274,7 @@
       ],
       "after": [
         "100644",
-        "4867f7e9394abf65eceac3378aeffb80fb38efbb"
+        "8807f3e7f5b12c7be2a0ad42890e23e57603443f"
       ],
       "implementation_commit": "666818f2aafdaf4839d1c3de4119b513c4236d3d",
       "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
@@ -28376,6 +28388,18 @@
             "4867f7e9394abf65eceac3378aeffb80fb38efbb"
           ],
           "packet": "CSDLC_HISTORICAL_WRAPPER_TWO_APPLIED.json"
+        },
+        {
+          "commit": "50b820c593d6f3ce4db105ae562965d76a173dd0",
+          "before": [
+            "100644",
+            "4867f7e9394abf65eceac3378aeffb80fb38efbb"
+          ],
+          "after": [
+            "100644",
+            "8807f3e7f5b12c7be2a0ad42890e23e57603443f"
+          ],
+          "packet": "V0915_HISTORICAL_VALIDATION_APPLIED.json"
         }
       ]
     },
@@ -28960,7 +28984,7 @@
       ],
       "after": [
         "100644",
-        "51c3a83e6f7d764c8fff89e9dbb887f2fca536c7"
+        "9446000bde841cbc3efa798c1292ebb5633e8c80"
       ],
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "INFRASTRUCTURE_SOURCE_FAMILY_APPLIED.json",
@@ -29117,6 +29141,18 @@
             "51c3a83e6f7d764c8fff89e9dbb887f2fca536c7"
           ],
           "packet": "RUNTIME_REFUSAL_TWELVE_APPLIED.json"
+        },
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "51c3a83e6f7d764c8fff89e9dbb887f2fca536c7"
+          ],
+          "after": [
+            "100644",
+            "9446000bde841cbc3efa798c1292ebb5633e8c80"
+          ],
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
         }
       ]
     },
@@ -30499,33 +30535,67 @@
     },
     {
       "path": "adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh",
-      "action": "modify",
+      "action": "remove",
       "before": [
         "100755",
         "69ce57beffccf5dd7f73b969d49278b796777d41"
       ],
-      "after": [
-        "100755",
-        "46ed5ef2da10c08e6db1ff0419bf2025aed6f6f7"
-      ],
+      "after": null,
       "implementation_commit": "3383f7f691ec248d6fe87cd18e4e13c5d1e8d900",
       "approval_reference": "RUNTIME_SOURCE_FAMILY_APPLIED.json",
-      "review_reference": "review_1223_public_facade exact Runtime896 plus54 caller repair review"
+      "review_reference": "review_1223_public_facade exact Runtime896 plus54 caller repair review",
+      "supplemental_source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100755",
+            "46ed5ef2da10c08e6db1ff0419bf2025aed6f6f7"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh",
+        "mode": "100755",
+        "blob": "46ed5ef2da10c08e6db1ff0419bf2025aed6f6f7",
+        "sha256": "c50ea47d32ce1f51c317fc00b12610a1fe284254b770df5ac6dc99a8baecca90"
+      }
     },
     {
       "path": "adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh",
-      "action": "modify",
+      "action": "remove",
       "before": [
         "100755",
         "a435ad1f2c20d2fca1678b78549e3f107a3c491d"
       ],
-      "after": [
-        "100755",
-        "720e45164a51fecf1e77a2ec16f189024c4eb127"
-      ],
+      "after": null,
       "implementation_commit": "3383f7f691ec248d6fe87cd18e4e13c5d1e8d900",
       "approval_reference": "RUNTIME_SOURCE_FAMILY_APPLIED.json",
-      "review_reference": "review_1223_public_facade exact Runtime896 plus54 caller repair review"
+      "review_reference": "review_1223_public_facade exact Runtime896 plus54 caller repair review",
+      "supplemental_source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100755",
+            "720e45164a51fecf1e77a2ec16f189024c4eb127"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh",
+        "mode": "100755",
+        "blob": "720e45164a51fecf1e77a2ec16f189024c4eb127",
+        "sha256": "522b44b57888d41b6fe602135dc95a8b12652ec94a98420ef36455ea6f0da8d0"
+      }
     },
     {
       "path": "adl/tools/test_v0917_html_observatory_integrated_proof.sh",
@@ -30566,7 +30636,7 @@
       ],
       "after": [
         "100755",
-        "dc529de911ebda319e307e063c1b49a7280e1f9c"
+        "b8767e029c837d83cb4dd045da7229594b5454c2"
       ],
       "implementation_commit": "9b6ea052ff24c8819a4b9a86a68a8255a8dd6503",
       "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
@@ -30608,6 +30678,18 @@
             "dc529de911ebda319e307e063c1b49a7280e1f9c"
           ],
           "packet": "SPRINT_SIX_HELPERS_OBSERVED_APPLIED.json"
+        },
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100755",
+            "dc529de911ebda319e307e063c1b49a7280e1f9c"
+          ],
+          "after": [
+            "100755",
+            "b8767e029c837d83cb4dd045da7229594b5454c2"
+          ],
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
         }
       ]
     },
@@ -56535,33 +56617,67 @@
     },
     {
       "path": "demos/v0.91.6/unity-observatory/PROOF_PACKET.md",
-      "action": "modify",
+      "action": "remove",
       "before": [
         "100644",
         "ef1882516dd23015a02d7510e182e31c527b02ef"
       ],
-      "after": [
-        "100644",
-        "35fc9d0c376b4f87cc550e8e64ff9911c5eb5129"
-      ],
+      "after": null,
       "implementation_commit": "3383f7f691ec248d6fe87cd18e4e13c5d1e8d900",
       "approval_reference": "RUNTIME_SOURCE_FAMILY_APPLIED.json",
-      "review_reference": "review_1223_public_facade exact Runtime896 plus54 caller repair review"
+      "review_reference": "review_1223_public_facade exact Runtime896 plus54 caller repair review",
+      "supplemental_source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "35fc9d0c376b4f87cc550e8e64ff9911c5eb5129"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.6/unity-observatory/PROOF_PACKET.md",
+        "mode": "100644",
+        "blob": "35fc9d0c376b4f87cc550e8e64ff9911c5eb5129",
+        "sha256": "5404cdb04793e0f04c03867666448ae3a238bc76b2573a5d7b02fcb4e864e4b5"
+      }
     },
     {
       "path": "demos/v0.91.6/unity-observatory/README.md",
-      "action": "modify",
+      "action": "remove",
       "before": [
         "100644",
         "8bbe343e16ec5fe2a768a52d95fd995739bf1356"
       ],
-      "after": [
-        "100644",
-        "21401cd87472dec82f56203bf801532b3a2f0570"
-      ],
+      "after": null,
       "implementation_commit": "3383f7f691ec248d6fe87cd18e4e13c5d1e8d900",
       "approval_reference": "RUNTIME_SOURCE_FAMILY_APPLIED.json",
-      "review_reference": "review_1223_public_facade exact Runtime896 plus54 caller repair review"
+      "review_reference": "review_1223_public_facade exact Runtime896 plus54 caller repair review",
+      "supplemental_source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "21401cd87472dec82f56203bf801532b3a2f0570"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.6/unity-observatory/README.md",
+        "mode": "100644",
+        "blob": "21401cd87472dec82f56203bf801532b3a2f0570",
+        "sha256": "50d3302546266bd6b437a454606a0f5b4e3fd909e496ea1e2fbebaedbb4f84d4"
+      }
     },
     {
       "path": "docs/architecture/VALIDATION_LANE_SELECTOR.md",
@@ -57518,7 +57634,7 @@
       "before": null,
       "after": [
         "100644",
-        "6ff6b87c06353718a8ae3720f722d64e380919bc"
+        "5de72b96d2fa000e04b7e85cdebad74b382f6236"
       ],
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "INFRASTRUCTURE_SOURCE_FAMILY_APPLIED.json",
@@ -58223,6 +58339,30 @@
             "6ff6b87c06353718a8ae3720f722d64e380919bc"
           ],
           "packet": "V087_REVIEWER_HISTORICAL_FOUR_APPLIED.json"
+        },
+        {
+          "commit": "d97e221b28b7412ca64b6f05861ea332dfd7f205",
+          "before": [
+            "100644",
+            "6ff6b87c06353718a8ae3720f722d64e380919bc"
+          ],
+          "after": [
+            "100644",
+            "69f348e1424da7c001ad06af67ce6a3df73da540"
+          ],
+          "packet": "PAPER_SONATA_THIRTEEN_APPLIED_APPLIED.json"
+        },
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "69f348e1424da7c001ad06af67ce6a3df73da540"
+          ],
+          "after": [
+            "100644",
+            "5de72b96d2fa000e04b7e85cdebad74b382f6236"
+          ],
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
         }
       ],
       "prior_execution_provenance": [
@@ -65464,7 +65604,7 @@
       "before": null,
       "after": [
         "100644",
-        "a15d8d61bfddd1709191e44911cc865ad7a1e9a6"
+        "136e60d56f663431b41e3321d3ed778c7835caf1"
       ],
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "Infrastructure212 source commit guard-documentation accompaniment",
@@ -65857,6 +65997,18 @@
             "a15d8d61bfddd1709191e44911cc865ad7a1e9a6"
           ],
           "packet": "Eighteen source removals, public README repair and ten retentions integration"
+        },
+        {
+          "commit": "pending_reviewed_integration",
+          "before": [
+            "100644",
+            "a15d8d61bfddd1709191e44911cc865ad7a1e9a6"
+          ],
+          "after": [
+            "100644",
+            "136e60d56f663431b41e3321d3ed778c7835caf1"
+          ],
+          "packet": "Paper Sonata and Unity107 retirement with eight retained evidence consumers"
         }
       ],
       "prior_execution_provenance": [
@@ -76261,7 +76413,7 @@
       ],
       "after": [
         "100644",
-        "70a1799fdd73614e66c9c56c19bf1ea169adda79"
+        "4ace484e876ae6acc084b03a3baaaaa06b29b87b"
       ],
       "action": "modify",
       "implementation_commit": "be5cdb719496fefe9a0ed55d5666cf3c1c14fc3b",
@@ -76279,6 +76431,20 @@
             "70a1799fdd73614e66c9c56c19bf1ea169adda79"
           ],
           "packet": "MANUAL_FAMILY_APPLIED.json"
+        }
+      ],
+      "supplemental_source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "70a1799fdd73614e66c9c56c19bf1ea169adda79"
+          ],
+          "after": [
+            "100644",
+            "4ace484e876ae6acc084b03a3baaaaa06b29b87b"
+          ],
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
         }
       ]
     },
@@ -84444,7 +84610,7 @@
       ],
       "after": [
         "100644",
-        "e24b13b3574813d9a995654d6659c82b378716c6"
+        "b50a4f8543f675ee30938e595c4cb9f6b2fb96ff"
       ],
       "action": "modify",
       "implementation_commit": "9d98857c60448cd1af48508e2377e6bc3649b75b",
@@ -84560,6 +84726,18 @@
             "e24b13b3574813d9a995654d6659c82b378716c6"
           ],
           "packet": "V087_REVIEWER_HISTORICAL_FOUR_APPLIED.json"
+        },
+        {
+          "commit": "d97e221b28b7412ca64b6f05861ea332dfd7f205",
+          "before": [
+            "100644",
+            "e24b13b3574813d9a995654d6659c82b378716c6"
+          ],
+          "after": [
+            "100644",
+            "b50a4f8543f675ee30938e595c4cb9f6b2fb96ff"
+          ],
+          "packet": "PAPER_SONATA_THIRTEEN_APPLIED_APPLIED.json"
         }
       ]
     },
@@ -93949,6 +94127,3441 @@
         "blob": "f3dd2d1b1805b13af6089b714715cce6a96cc0ee",
         "sha256": "da8b499c988f8cde63f6a245827ae39330c3204bfd41bdce104d04f0897a70e4"
       }
+    },
+    {
+      "path": "adl/tools/demo_v088_paper_sonata.sh",
+      "before": [
+        "100755",
+        "65653d309d6af929ff0836017b0af3753f9d69a5"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "d97e221b28b7412ca64b6f05861ea332dfd7f205",
+      "approval_reference": "PAPER_SONATA_THIRTEEN_APPLIED_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "d97e221b28b7412ca64b6f05861ea332dfd7f205",
+          "before": [
+            "100755",
+            "65653d309d6af929ff0836017b0af3753f9d69a5"
+          ],
+          "after": null,
+          "packet": "PAPER_SONATA_THIRTEEN_APPLIED_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PAPER_SONATA_THIRTEEN_APPLIED_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/paper-sonata-thirteen-composed/current-original.tar",
+        "archive_sha256": "0cb81fc51d18bce5f1f636d6da0cb72bd7d72c65b5275a7840f1a389a98e7bc5",
+        "member": "current/adl/tools/demo_v088_paper_sonata.sh",
+        "mode": "100755",
+        "blob": "65653d309d6af929ff0836017b0af3753f9d69a5",
+        "sha256": "b87cc08893e515eadf85bb69c50be4619331363154d02728e745553318c5aff9"
+      }
+    },
+    {
+      "path": "adl/tools/test_demo_v088_paper_sonata.sh",
+      "before": [
+        "100755",
+        "744b3417dcf33afc62f6188f0e278551aedde00f"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "d97e221b28b7412ca64b6f05861ea332dfd7f205",
+      "approval_reference": "PAPER_SONATA_THIRTEEN_APPLIED_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "d97e221b28b7412ca64b6f05861ea332dfd7f205",
+          "before": [
+            "100755",
+            "744b3417dcf33afc62f6188f0e278551aedde00f"
+          ],
+          "after": null,
+          "packet": "PAPER_SONATA_THIRTEEN_APPLIED_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PAPER_SONATA_THIRTEEN_APPLIED_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/paper-sonata-thirteen-composed/current-original.tar",
+        "archive_sha256": "0cb81fc51d18bce5f1f636d6da0cb72bd7d72c65b5275a7840f1a389a98e7bc5",
+        "member": "current/adl/tools/test_demo_v088_paper_sonata.sh",
+        "mode": "100755",
+        "blob": "744b3417dcf33afc62f6188f0e278551aedde00f",
+        "sha256": "1d7ac415764ad82a1f0bcaf10b52bc9ef98d72408e461d1aebc1d9e99603394a"
+      }
+    },
+    {
+      "path": "adl/tools/demo_v0902_paper_sonata_expansion.sh",
+      "before": [
+        "100644",
+        "1e1fef1dac9f54b1026c3170f154a5c9eac83e59"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "d97e221b28b7412ca64b6f05861ea332dfd7f205",
+      "approval_reference": "PAPER_SONATA_THIRTEEN_APPLIED_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "d97e221b28b7412ca64b6f05861ea332dfd7f205",
+          "before": [
+            "100644",
+            "1e1fef1dac9f54b1026c3170f154a5c9eac83e59"
+          ],
+          "after": null,
+          "packet": "PAPER_SONATA_THIRTEEN_APPLIED_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PAPER_SONATA_THIRTEEN_APPLIED_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/paper-sonata-thirteen-composed/current-original.tar",
+        "archive_sha256": "0cb81fc51d18bce5f1f636d6da0cb72bd7d72c65b5275a7840f1a389a98e7bc5",
+        "member": "current/adl/tools/demo_v0902_paper_sonata_expansion.sh",
+        "mode": "100644",
+        "blob": "1e1fef1dac9f54b1026c3170f154a5c9eac83e59",
+        "sha256": "4177332568b41ba79af7ae62821f6b769868457b4959d387e95860f8772bb3f1"
+      }
+    },
+    {
+      "path": "adl/tools/test_demo_v0902_paper_sonata_expansion.sh",
+      "before": [
+        "100644",
+        "eeb4c81928d3fe3217c56b340c24df2c614773df"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "d97e221b28b7412ca64b6f05861ea332dfd7f205",
+      "approval_reference": "PAPER_SONATA_THIRTEEN_APPLIED_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "d97e221b28b7412ca64b6f05861ea332dfd7f205",
+          "before": [
+            "100644",
+            "eeb4c81928d3fe3217c56b340c24df2c614773df"
+          ],
+          "after": null,
+          "packet": "PAPER_SONATA_THIRTEEN_APPLIED_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PAPER_SONATA_THIRTEEN_APPLIED_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/paper-sonata-thirteen-composed/current-original.tar",
+        "archive_sha256": "0cb81fc51d18bce5f1f636d6da0cb72bd7d72c65b5275a7840f1a389a98e7bc5",
+        "member": "current/adl/tools/test_demo_v0902_paper_sonata_expansion.sh",
+        "mode": "100644",
+        "blob": "eeb4c81928d3fe3217c56b340c24df2c614773df",
+        "sha256": "9ccf7bf652c6c2e5e58ad48f197a80887044625b212f0aeac88dc692bd91d26a"
+      }
+    },
+    {
+      "path": "adl/tools/validate_v0902_paper_sonata_expansion.py",
+      "before": [
+        "100644",
+        "d92cce267773f366f3aa5a985b9d789a2c3d1020"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "d97e221b28b7412ca64b6f05861ea332dfd7f205",
+      "approval_reference": "PAPER_SONATA_THIRTEEN_APPLIED_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "d97e221b28b7412ca64b6f05861ea332dfd7f205",
+          "before": [
+            "100644",
+            "d92cce267773f366f3aa5a985b9d789a2c3d1020"
+          ],
+          "after": null,
+          "packet": "PAPER_SONATA_THIRTEEN_APPLIED_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PAPER_SONATA_THIRTEEN_APPLIED_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/paper-sonata-thirteen-composed/current-original.tar",
+        "archive_sha256": "0cb81fc51d18bce5f1f636d6da0cb72bd7d72c65b5275a7840f1a389a98e7bc5",
+        "member": "current/adl/tools/validate_v0902_paper_sonata_expansion.py",
+        "mode": "100644",
+        "blob": "d92cce267773f366f3aa5a985b9d789a2c3d1020",
+        "sha256": "8b958b13513eca1e9b9c1d0887073e16ff34d96bdd4964a71d085e76c589d3e6"
+      }
+    },
+    {
+      "path": "demos/fixtures/paper_sonata/citations_seed.json",
+      "before": [
+        "100644",
+        "fea6198804dd3b85fdc72f1b5e5ce1606d0946dc"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "d97e221b28b7412ca64b6f05861ea332dfd7f205",
+      "approval_reference": "PAPER_SONATA_THIRTEEN_APPLIED_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "d97e221b28b7412ca64b6f05861ea332dfd7f205",
+          "before": [
+            "100644",
+            "fea6198804dd3b85fdc72f1b5e5ce1606d0946dc"
+          ],
+          "after": null,
+          "packet": "PAPER_SONATA_THIRTEEN_APPLIED_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PAPER_SONATA_THIRTEEN_APPLIED_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/paper-sonata-thirteen-composed/current-original.tar",
+        "archive_sha256": "0cb81fc51d18bce5f1f636d6da0cb72bd7d72c65b5275a7840f1a389a98e7bc5",
+        "member": "current/demos/fixtures/paper_sonata/citations_seed.json",
+        "mode": "100644",
+        "blob": "fea6198804dd3b85fdc72f1b5e5ce1606d0946dc",
+        "sha256": "936948e61aca7f4446c690c0b4f2b9cc7a638feea11ca9792e3a7531b9561b93"
+      }
+    },
+    {
+      "path": "demos/fixtures/paper_sonata/experiment_results.json",
+      "before": [
+        "100644",
+        "e0f1e45e7261c6159ca8965ae614177238c500ae"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "d97e221b28b7412ca64b6f05861ea332dfd7f205",
+      "approval_reference": "PAPER_SONATA_THIRTEEN_APPLIED_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "d97e221b28b7412ca64b6f05861ea332dfd7f205",
+          "before": [
+            "100644",
+            "e0f1e45e7261c6159ca8965ae614177238c500ae"
+          ],
+          "after": null,
+          "packet": "PAPER_SONATA_THIRTEEN_APPLIED_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PAPER_SONATA_THIRTEEN_APPLIED_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/paper-sonata-thirteen-composed/current-original.tar",
+        "archive_sha256": "0cb81fc51d18bce5f1f636d6da0cb72bd7d72c65b5275a7840f1a389a98e7bc5",
+        "member": "current/demos/fixtures/paper_sonata/experiment_results.json",
+        "mode": "100644",
+        "blob": "e0f1e45e7261c6159ca8965ae614177238c500ae",
+        "sha256": "960610b1326ee733fce82246e71cd347219dad18d09bf35c69d54b8bdecad238"
+      }
+    },
+    {
+      "path": "demos/fixtures/paper_sonata/idea_summary.md",
+      "before": [
+        "100644",
+        "c9b3a96490ab538f75e857bd69baa7d57521857e"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "d97e221b28b7412ca64b6f05861ea332dfd7f205",
+      "approval_reference": "PAPER_SONATA_THIRTEEN_APPLIED_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "d97e221b28b7412ca64b6f05861ea332dfd7f205",
+          "before": [
+            "100644",
+            "c9b3a96490ab538f75e857bd69baa7d57521857e"
+          ],
+          "after": null,
+          "packet": "PAPER_SONATA_THIRTEEN_APPLIED_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PAPER_SONATA_THIRTEEN_APPLIED_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/paper-sonata-thirteen-composed/current-original.tar",
+        "archive_sha256": "0cb81fc51d18bce5f1f636d6da0cb72bd7d72c65b5275a7840f1a389a98e7bc5",
+        "member": "current/demos/fixtures/paper_sonata/idea_summary.md",
+        "mode": "100644",
+        "blob": "c9b3a96490ab538f75e857bd69baa7d57521857e",
+        "sha256": "63af8664824a23cc5cabfb9f6e80996e3fba616dbbe53246610d755edf78cc64"
+      }
+    },
+    {
+      "path": "demos/fixtures/paper_sonata/lab_notes.md",
+      "before": [
+        "100644",
+        "457d1912b26c11613bb2cb95ecba8f2b3c8e2baa"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "d97e221b28b7412ca64b6f05861ea332dfd7f205",
+      "approval_reference": "PAPER_SONATA_THIRTEEN_APPLIED_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "d97e221b28b7412ca64b6f05861ea332dfd7f205",
+          "before": [
+            "100644",
+            "457d1912b26c11613bb2cb95ecba8f2b3c8e2baa"
+          ],
+          "after": null,
+          "packet": "PAPER_SONATA_THIRTEEN_APPLIED_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PAPER_SONATA_THIRTEEN_APPLIED_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/paper-sonata-thirteen-composed/current-original.tar",
+        "archive_sha256": "0cb81fc51d18bce5f1f636d6da0cb72bd7d72c65b5275a7840f1a389a98e7bc5",
+        "member": "current/demos/fixtures/paper_sonata/lab_notes.md",
+        "mode": "100644",
+        "blob": "457d1912b26c11613bb2cb95ecba8f2b3c8e2baa",
+        "sha256": "dd61e45e601a02a1b29a11e2c61b4a6869780eeb301610740b215eb2d1e9f6dc"
+      }
+    },
+    {
+      "path": "demos/fixtures/paper_sonata/paper_constraints.md",
+      "before": [
+        "100644",
+        "81842b2c1416aaa1c2a1c15365a186dd1f551531"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "d97e221b28b7412ca64b6f05861ea332dfd7f205",
+      "approval_reference": "PAPER_SONATA_THIRTEEN_APPLIED_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "d97e221b28b7412ca64b6f05861ea332dfd7f205",
+          "before": [
+            "100644",
+            "81842b2c1416aaa1c2a1c15365a186dd1f551531"
+          ],
+          "after": null,
+          "packet": "PAPER_SONATA_THIRTEEN_APPLIED_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PAPER_SONATA_THIRTEEN_APPLIED_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/paper-sonata-thirteen-composed/current-original.tar",
+        "archive_sha256": "0cb81fc51d18bce5f1f636d6da0cb72bd7d72c65b5275a7840f1a389a98e7bc5",
+        "member": "current/demos/fixtures/paper_sonata/paper_constraints.md",
+        "mode": "100644",
+        "blob": "81842b2c1416aaa1c2a1c15365a186dd1f551531",
+        "sha256": "d8da46ad3fb854ff9aaf8e063ab6a8671643e79097761ec03fe6cf13fd3428bb"
+      }
+    },
+    {
+      "path": "demos/fixtures/paper_sonata/target_venue.md",
+      "before": [
+        "100644",
+        "f92ea28d1f05a3ac08e90d4b1d7577ef18a1f144"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "d97e221b28b7412ca64b6f05861ea332dfd7f205",
+      "approval_reference": "PAPER_SONATA_THIRTEEN_APPLIED_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "d97e221b28b7412ca64b6f05861ea332dfd7f205",
+          "before": [
+            "100644",
+            "f92ea28d1f05a3ac08e90d4b1d7577ef18a1f144"
+          ],
+          "after": null,
+          "packet": "PAPER_SONATA_THIRTEEN_APPLIED_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PAPER_SONATA_THIRTEEN_APPLIED_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/paper-sonata-thirteen-composed/current-original.tar",
+        "archive_sha256": "0cb81fc51d18bce5f1f636d6da0cb72bd7d72c65b5275a7840f1a389a98e7bc5",
+        "member": "current/demos/fixtures/paper_sonata/target_venue.md",
+        "mode": "100644",
+        "blob": "f92ea28d1f05a3ac08e90d4b1d7577ef18a1f144",
+        "sha256": "41b4ab42fe34f591b5121ec5d0886d9e2b15fc686c73e5b388b234a672686547"
+      }
+    },
+    {
+      "path": "demos/v0.89/paper_sonata_demo_refresh.md",
+      "before": [
+        "100644",
+        "a946e08594845c2dbacbd4eaf7114d774b5bd496"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "d97e221b28b7412ca64b6f05861ea332dfd7f205",
+      "approval_reference": "PAPER_SONATA_THIRTEEN_APPLIED_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "d97e221b28b7412ca64b6f05861ea332dfd7f205",
+          "before": [
+            "100644",
+            "a946e08594845c2dbacbd4eaf7114d774b5bd496"
+          ],
+          "after": null,
+          "packet": "PAPER_SONATA_THIRTEEN_APPLIED_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PAPER_SONATA_THIRTEEN_APPLIED_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/paper-sonata-thirteen-composed/current-original.tar",
+        "archive_sha256": "0cb81fc51d18bce5f1f636d6da0cb72bd7d72c65b5275a7840f1a389a98e7bc5",
+        "member": "current/demos/v0.89/paper_sonata_demo_refresh.md",
+        "mode": "100644",
+        "blob": "a946e08594845c2dbacbd4eaf7114d774b5bd496",
+        "sha256": "ddeb94b0f756b3cd85a5c7e5710397e7d57e82072e7f12e2f2cad40b8fcb73a9"
+      }
+    },
+    {
+      "path": "demos/v0.90.2/paper_sonata_expansion_demo.md",
+      "before": [
+        "100644",
+        "20e40b1501018fe6986f39d637037c86cbf297e0"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "d97e221b28b7412ca64b6f05861ea332dfd7f205",
+      "approval_reference": "PAPER_SONATA_THIRTEEN_APPLIED_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "d97e221b28b7412ca64b6f05861ea332dfd7f205",
+          "before": [
+            "100644",
+            "20e40b1501018fe6986f39d637037c86cbf297e0"
+          ],
+          "after": null,
+          "packet": "PAPER_SONATA_THIRTEEN_APPLIED_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PAPER_SONATA_THIRTEEN_APPLIED_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/paper-sonata-thirteen-composed/current-original.tar",
+        "archive_sha256": "0cb81fc51d18bce5f1f636d6da0cb72bd7d72c65b5275a7840f1a389a98e7bc5",
+        "member": "current/demos/v0.90.2/paper_sonata_expansion_demo.md",
+        "mode": "100644",
+        "blob": "20e40b1501018fe6986f39d637037c86cbf297e0",
+        "sha256": "47d63f079c762bfde6270a3241cb52aaa976a81a304843e49e28f8b35af3ace0"
+      }
+    },
+    {
+      "path": "tools/runtime_contracts/run_paper_sonata.py",
+      "before": null,
+      "after": [
+        "100644",
+        "31ed04980cc1f2f5c9ad60608934bd6cf780b975"
+      ],
+      "action": "add",
+      "implementation_commit": "d97e221b28b7412ca64b6f05861ea332dfd7f205",
+      "approval_reference": "PAPER_SONATA_THIRTEEN_APPLIED_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "d97e221b28b7412ca64b6f05861ea332dfd7f205",
+          "before": null,
+          "after": [
+            "100644",
+            "31ed04980cc1f2f5c9ad60608934bd6cf780b975"
+          ],
+          "packet": "PAPER_SONATA_THIRTEEN_APPLIED_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/demo_v088_review_surface.sh",
+      "before": [
+        "100755",
+        "2a0f49ee22fc347857a2526ed68bf40fa793e6da"
+      ],
+      "after": [
+        "100755",
+        "be27e76692715b2e9762f3ed6413976ec7eab011"
+      ],
+      "action": "modify",
+      "implementation_commit": "d97e221b28b7412ca64b6f05861ea332dfd7f205",
+      "approval_reference": "PAPER_SONATA_THIRTEEN_APPLIED_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "d97e221b28b7412ca64b6f05861ea332dfd7f205",
+          "before": [
+            "100755",
+            "2a0f49ee22fc347857a2526ed68bf40fa793e6da"
+          ],
+          "after": [
+            "100755",
+            "be27e76692715b2e9762f3ed6413976ec7eab011"
+          ],
+          "packet": "PAPER_SONATA_THIRTEEN_APPLIED_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/test_v0915_openrouter_matrix.sh",
+      "before": [
+        "100644",
+        "0d35a8e76443efaa73a963e69e881ee0ed7afe62"
+      ],
+      "after": [
+        "100644",
+        "3d177e226944a3229ca151a91666b9d2e135826d"
+      ],
+      "action": "modify",
+      "implementation_commit": "50b820c593d6f3ce4db105ae562965d76a173dd0",
+      "approval_reference": "V0915_HISTORICAL_VALIDATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "50b820c593d6f3ce4db105ae562965d76a173dd0",
+          "before": [
+            "100644",
+            "0d35a8e76443efaa73a963e69e881ee0ed7afe62"
+          ],
+          "after": [
+            "100644",
+            "3d177e226944a3229ca151a91666b9d2e135826d"
+          ],
+          "packet": "V0915_HISTORICAL_VALIDATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/runtime/VERTEX_AI_POLIS_CONFIGURATION.md",
+      "before": [
+        "100644",
+        "58770ac98461f4b7b0354b10c934f76037ac7fc8"
+      ],
+      "after": [
+        "100644",
+        "ef0e448b201936d1889776e603862e74e0cfe5aa"
+      ],
+      "action": "modify",
+      "implementation_commit": "1da4e85cdde1b483008a6eca9eaf4920687853ff",
+      "approval_reference": "RUNTIME_INIT_NAVIGATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "1da4e85cdde1b483008a6eca9eaf4920687853ff",
+          "before": [
+            "100644",
+            "58770ac98461f4b7b0354b10c934f76037ac7fc8"
+          ],
+          "after": [
+            "100644",
+            "ef0e448b201936d1889776e603862e74e0cfe5aa"
+          ],
+          "packet": "RUNTIME_INIT_NAVIGATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/architecture/RUNTIME_V3_ENTRYPOINT_SWITCH.md",
+      "before": [
+        "100644",
+        "f3c7e2ad39f47b288d7fee01d831473cc72273f2"
+      ],
+      "after": [
+        "100644",
+        "5b3925aa050b5cca697311d06c629c95f48ea4e1"
+      ],
+      "action": "modify",
+      "implementation_commit": "1da4e85cdde1b483008a6eca9eaf4920687853ff",
+      "approval_reference": "RUNTIME_INIT_NAVIGATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "1da4e85cdde1b483008a6eca9eaf4920687853ff",
+          "before": [
+            "100644",
+            "f3c7e2ad39f47b288d7fee01d831473cc72273f2"
+          ],
+          "after": [
+            "100644",
+            "5b3925aa050b5cca697311d06c629c95f48ea4e1"
+          ],
+          "packet": "RUNTIME_INIT_NAVIGATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/lib/unity_observatory_batch_classifiers.sh",
+      "before": [
+        "100755",
+        "f0c92d3959926942db9629e1f394f9c05955fc27"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100755",
+            "f0c92d3959926942db9629e1f394f9c05955fc27"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/adl/tools/lib/unity_observatory_batch_classifiers.sh",
+        "mode": "100755",
+        "blob": "f0c92d3959926942db9629e1f394f9c05955fc27",
+        "sha256": "40dbdff88a54e7f766b991bfc8075891d1c0ecb15dd51191b05a601af9de75a2"
+      }
+    },
+    {
+      "path": "adl/tools/probe_unity_mcp_observatory_alignment.sh",
+      "before": [
+        "100755",
+        "ad52ac939cea20bb526153f179d7c87c47a8232d"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100755",
+            "ad52ac939cea20bb526153f179d7c87c47a8232d"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/adl/tools/probe_unity_mcp_observatory_alignment.sh",
+        "mode": "100755",
+        "blob": "ad52ac939cea20bb526153f179d7c87c47a8232d",
+        "sha256": "8568055583483d74211a8a22c521f27e4bd8c55ca7e2765b4abe65d7d48320a9"
+      }
+    },
+    {
+      "path": "adl/tools/run_v0918_unity_ilpp_diagnostic_matrix.sh",
+      "before": [
+        "100755",
+        "29e3ea9e5c42866c56bb17003eac51382e5c9210"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100755",
+            "29e3ea9e5c42866c56bb17003eac51382e5c9210"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/adl/tools/run_v0918_unity_ilpp_diagnostic_matrix.sh",
+        "mode": "100755",
+        "blob": "29e3ea9e5c42866c56bb17003eac51382e5c9210",
+        "sha256": "72ae15c46fdde2bab5e7ea2249dab02739637036e331d4d4aeb74380b88f2996"
+      }
+    },
+    {
+      "path": "adl/tools/test_v0916_unity_mcp_alignment_unit.sh",
+      "before": [
+        "100755",
+        "f7bca0818fc9872eecf3da27e037368185d35ec8"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100755",
+            "f7bca0818fc9872eecf3da27e037368185d35ec8"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/adl/tools/test_v0916_unity_mcp_alignment_unit.sh",
+        "mode": "100755",
+        "blob": "f7bca0818fc9872eecf3da27e037368185d35ec8",
+        "sha256": "9190b2803763cb3b23d971333326465baa09896c8fd9824975453e7cf0b1dd2f"
+      }
+    },
+    {
+      "path": "adl/tools/test_v0916_unity_observatory_baseline.sh",
+      "before": [
+        "100755",
+        "481b8f23ab5cb173111cdd420b6dad639665749e"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100755",
+            "481b8f23ab5cb173111cdd420b6dad639665749e"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/adl/tools/test_v0916_unity_observatory_baseline.sh",
+        "mode": "100755",
+        "blob": "481b8f23ab5cb173111cdd420b6dad639665749e",
+        "sha256": "a852811f396fac27456568d9ac95072bcb8ef14b8bc89aa1a7915ce5c413d530"
+      }
+    },
+    {
+      "path": "adl/tools/test_v0916_unity_observatory_contract.sh",
+      "before": [
+        "100755",
+        "ebda52f6c2cac5fe1ec9bcadc88cc56095e77159"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100755",
+            "ebda52f6c2cac5fe1ec9bcadc88cc56095e77159"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/adl/tools/test_v0916_unity_observatory_contract.sh",
+        "mode": "100755",
+        "blob": "ebda52f6c2cac5fe1ec9bcadc88cc56095e77159",
+        "sha256": "bd8438ad917b4f024a519410b709a078e5dfe7b4d91ed0eef3406736139ed95f"
+      }
+    },
+    {
+      "path": "adl/tools/test_v0916_unity_observatory_unity65_smoke.sh",
+      "before": [
+        "100755",
+        "f99a84a371636be076f65d448bfa9aed6e5f97db"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100755",
+            "f99a84a371636be076f65d448bfa9aed6e5f97db"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/adl/tools/test_v0916_unity_observatory_unity65_smoke.sh",
+        "mode": "100755",
+        "blob": "f99a84a371636be076f65d448bfa9aed6e5f97db",
+        "sha256": "e5b0a8475d05bbdf9534dce07ed8dad51bcee3831e36e8e70b44b3b68e613699"
+      }
+    },
+    {
+      "path": "adl/tools/test_v0917_unity_observatory_integrated_proof.sh",
+      "before": [
+        "100755",
+        "5eb8a59f4704f4441573f2def936c07f28cd4bea"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100755",
+            "5eb8a59f4704f4441573f2def936c07f28cd4bea"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/adl/tools/test_v0917_unity_observatory_integrated_proof.sh",
+        "mode": "100755",
+        "blob": "5eb8a59f4704f4441573f2def936c07f28cd4bea",
+        "sha256": "2d3041e89208fa8133894b6276543e969917bf8cf9c8edabac3f60fe08f96092"
+      }
+    },
+    {
+      "path": "adl/tools/test_v0918_unity_ilpp_diagnostic_matrix.sh",
+      "before": [
+        "100755",
+        "46f08a30b74d8afd782066f4a7ea9de2a83c0ffa"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100755",
+            "46f08a30b74d8afd782066f4a7ea9de2a83c0ffa"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/adl/tools/test_v0918_unity_ilpp_diagnostic_matrix.sh",
+        "mode": "100755",
+        "blob": "46f08a30b74d8afd782066f4a7ea9de2a83c0ffa",
+        "sha256": "a7130f10fcebd43454d70ba9fdeff24985e466c1fdbaa17a3620fe2edf27255f"
+      }
+    },
+    {
+      "path": "demos/v0.91.6/unity-observatory/Assets/Editor.meta",
+      "before": [
+        "100644",
+        "a13433b318027fc14d141be182e286e5ce4cc39e"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "a13433b318027fc14d141be182e286e5ce4cc39e"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.6/unity-observatory/Assets/Editor.meta",
+        "mode": "100644",
+        "blob": "a13433b318027fc14d141be182e286e5ce4cc39e",
+        "sha256": "3e933bc9926338ef75ef1ec7ce3c317eae1b987070b3403033693e847a134b2f"
+      }
+    },
+    {
+      "path": "demos/v0.91.6/unity-observatory/Assets/Editor/UnityObservatoryBatchValidator.cs",
+      "before": [
+        "100644",
+        "417fc5da3be465b5273ffb9f7960281807195494"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "417fc5da3be465b5273ffb9f7960281807195494"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.6/unity-observatory/Assets/Editor/UnityObservatoryBatchValidator.cs",
+        "mode": "100644",
+        "blob": "417fc5da3be465b5273ffb9f7960281807195494",
+        "sha256": "da0e15f647d004e9210a105438fecba16b3b13b6898bd8a2b8f9c593ceddc059"
+      }
+    },
+    {
+      "path": "demos/v0.91.6/unity-observatory/Assets/Editor/UnityObservatoryBatchValidator.cs.meta",
+      "before": [
+        "100644",
+        "23f0c88cb85bf3991bf395a22e1a205bdb36ee46"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "23f0c88cb85bf3991bf395a22e1a205bdb36ee46"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.6/unity-observatory/Assets/Editor/UnityObservatoryBatchValidator.cs.meta",
+        "mode": "100644",
+        "blob": "23f0c88cb85bf3991bf395a22e1a205bdb36ee46",
+        "sha256": "ed8d0d37b95f9ffc089667af8b1574c8b81f6f2f2cefc1a519045d62ca497a44"
+      }
+    },
+    {
+      "path": "demos/v0.91.6/unity-observatory/Assets/Editor/UnityObservatoryCompatibilityVerifier.cs",
+      "before": [
+        "100644",
+        "2c87d2ea48c052d7639d720524ee7928b2c66055"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "2c87d2ea48c052d7639d720524ee7928b2c66055"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.6/unity-observatory/Assets/Editor/UnityObservatoryCompatibilityVerifier.cs",
+        "mode": "100644",
+        "blob": "2c87d2ea48c052d7639d720524ee7928b2c66055",
+        "sha256": "35fe69bcc8508c924ff63b480615211bde21c897babde07204f61c5c6fbf5dd9"
+      }
+    },
+    {
+      "path": "demos/v0.91.6/unity-observatory/Assets/Editor/UnityObservatoryCompatibilityVerifier.cs.meta",
+      "before": [
+        "100644",
+        "6040349487bea1a3dc1419854786b475901ff5a7"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "6040349487bea1a3dc1419854786b475901ff5a7"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.6/unity-observatory/Assets/Editor/UnityObservatoryCompatibilityVerifier.cs.meta",
+        "mode": "100644",
+        "blob": "6040349487bea1a3dc1419854786b475901ff5a7",
+        "sha256": "d05c4922484f98df9ccc27199de92ab76d3d2397f30ea3daf02cf366fee0d813"
+      }
+    },
+    {
+      "path": "demos/v0.91.6/unity-observatory/Assets/Editor/UnityObservatoryFlagshipStageBuilder.cs",
+      "before": [
+        "100644",
+        "2e3e91a62bae845e7dd60d7a5cd14e5a6383bf4d"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "2e3e91a62bae845e7dd60d7a5cd14e5a6383bf4d"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.6/unity-observatory/Assets/Editor/UnityObservatoryFlagshipStageBuilder.cs",
+        "mode": "100644",
+        "blob": "2e3e91a62bae845e7dd60d7a5cd14e5a6383bf4d",
+        "sha256": "e377646582e06bb527e2ef56fead561e09b93d2cd8bc8f37ef9e9b4339c1e6df"
+      }
+    },
+    {
+      "path": "demos/v0.91.6/unity-observatory/Assets/Editor/UnityObservatoryFlagshipStageBuilder.cs.meta",
+      "before": [
+        "100644",
+        "4e8724757d0241c0a9849040136a37b770b854fc"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "4e8724757d0241c0a9849040136a37b770b854fc"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.6/unity-observatory/Assets/Editor/UnityObservatoryFlagshipStageBuilder.cs.meta",
+        "mode": "100644",
+        "blob": "4e8724757d0241c0a9849040136a37b770b854fc",
+        "sha256": "82664c86b5438bc36f9da608eed2bf3a3e6f003b79da30ec9edf976d0133ad43"
+      }
+    },
+    {
+      "path": "demos/v0.91.6/unity-observatory/Assets/Resources.meta",
+      "before": [
+        "100644",
+        "fb216c9b24e8756d906721d69c9b37ae4eaaa1b7"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "fb216c9b24e8756d906721d69c9b37ae4eaaa1b7"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.6/unity-observatory/Assets/Resources.meta",
+        "mode": "100644",
+        "blob": "fb216c9b24e8756d906721d69c9b37ae4eaaa1b7",
+        "sha256": "22cab8f29b4d3fefd9cdd2d0121b5376bb9d89194c317e24d2d451d8ea9e97dd"
+      }
+    },
+    {
+      "path": "demos/v0.91.6/unity-observatory/Assets/Resources/ObservatoryShellRuntime.uss",
+      "before": [
+        "100644",
+        "4fa4c92a8d2087ff3467eead046942d2bd77184e"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "4fa4c92a8d2087ff3467eead046942d2bd77184e"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.6/unity-observatory/Assets/Resources/ObservatoryShellRuntime.uss",
+        "mode": "100644",
+        "blob": "4fa4c92a8d2087ff3467eead046942d2bd77184e",
+        "sha256": "a70039a146285353c20f43704c8d8b1f2a20be9581b4918fe3c9aae223f2b1f2"
+      }
+    },
+    {
+      "path": "demos/v0.91.6/unity-observatory/Assets/Resources/ObservatoryShellRuntime.uss.meta",
+      "before": [
+        "100644",
+        "dfdfa0ccb9a4a78dc93616b9b48c40b52363f35c"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "dfdfa0ccb9a4a78dc93616b9b48c40b52363f35c"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.6/unity-observatory/Assets/Resources/ObservatoryShellRuntime.uss.meta",
+        "mode": "100644",
+        "blob": "dfdfa0ccb9a4a78dc93616b9b48c40b52363f35c",
+        "sha256": "0faac9087ebc7e670a25ed9ab754c0e5ebbc56e4fbec03f5ed154af1c853096e"
+      }
+    },
+    {
+      "path": "demos/v0.91.6/unity-observatory/Assets/Resources/UnityDefaultRuntimeTheme.tss",
+      "before": [
+        "100644",
+        "ab006fd4abc1e6919cb66558cbba058456eb9ae7"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "ab006fd4abc1e6919cb66558cbba058456eb9ae7"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.6/unity-observatory/Assets/Resources/UnityDefaultRuntimeTheme.tss",
+        "mode": "100644",
+        "blob": "ab006fd4abc1e6919cb66558cbba058456eb9ae7",
+        "sha256": "37d3d9939503e8f84c1ded1de0e731f8b8289d21b857cc54e0906ce7758d633b"
+      }
+    },
+    {
+      "path": "demos/v0.91.6/unity-observatory/Assets/Resources/UnityDefaultRuntimeTheme.tss.meta",
+      "before": [
+        "100644",
+        "fb5d98555df48cb05cc8b04a39343fb575131bc4"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "fb5d98555df48cb05cc8b04a39343fb575131bc4"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.6/unity-observatory/Assets/Resources/UnityDefaultRuntimeTheme.tss.meta",
+        "mode": "100644",
+        "blob": "fb5d98555df48cb05cc8b04a39343fb575131bc4",
+        "sha256": "ab7ddd22da05fea023dc881799733672aaca093053faf57abddd655113335d8a"
+      }
+    },
+    {
+      "path": "demos/v0.91.6/unity-observatory/Assets/Resources/observatory_contract.json",
+      "before": [
+        "100644",
+        "36920948e2655ece47fdfb2de6c720ef377ca9a9"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "36920948e2655ece47fdfb2de6c720ef377ca9a9"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.6/unity-observatory/Assets/Resources/observatory_contract.json",
+        "mode": "100644",
+        "blob": "36920948e2655ece47fdfb2de6c720ef377ca9a9",
+        "sha256": "0de42652ad3a2a789448bcba6d4c2713cc97f94e8970b638ab6b58ce71e8cfb7"
+      }
+    },
+    {
+      "path": "demos/v0.91.6/unity-observatory/Assets/Resources/observatory_contract.json.meta",
+      "before": [
+        "100644",
+        "ecbac1b4023e11a361cff9a3242c9693d3b1515f"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "ecbac1b4023e11a361cff9a3242c9693d3b1515f"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.6/unity-observatory/Assets/Resources/observatory_contract.json.meta",
+        "mode": "100644",
+        "blob": "ecbac1b4023e11a361cff9a3242c9693d3b1515f",
+        "sha256": "79e65258080ff02195a0a122063650dcafeddbe168a91585786276fafeee053e"
+      }
+    },
+    {
+      "path": "demos/v0.91.6/unity-observatory/Assets/Scenes.meta",
+      "before": [
+        "100644",
+        "8acdbbffabecd763402cc0ee3467c0890d7b0648"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "8acdbbffabecd763402cc0ee3467c0890d7b0648"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.6/unity-observatory/Assets/Scenes.meta",
+        "mode": "100644",
+        "blob": "8acdbbffabecd763402cc0ee3467c0890d7b0648",
+        "sha256": "1da96a56851003e2982d587f8b1760cdf60776098a3e8a7eb9596281ce30e0da"
+      }
+    },
+    {
+      "path": "demos/v0.91.6/unity-observatory/Assets/Scenes/FlagshipObservatoryStage.unity",
+      "before": [
+        "100644",
+        "6ddeb2e18505e1e9af8b2ac09d1a18123d55bad8"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "6ddeb2e18505e1e9af8b2ac09d1a18123d55bad8"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.6/unity-observatory/Assets/Scenes/FlagshipObservatoryStage.unity",
+        "mode": "100644",
+        "blob": "6ddeb2e18505e1e9af8b2ac09d1a18123d55bad8",
+        "sha256": "4e2d4868c803a37d9428959da173089cd48e8282d5572ddcea0938746671cbac"
+      }
+    },
+    {
+      "path": "demos/v0.91.6/unity-observatory/Assets/Scenes/FlagshipObservatoryStage.unity.meta",
+      "before": [
+        "100644",
+        "d44b74c40f90f06ea729f339187b2ce2e94acc4c"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "d44b74c40f90f06ea729f339187b2ce2e94acc4c"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.6/unity-observatory/Assets/Scenes/FlagshipObservatoryStage.unity.meta",
+        "mode": "100644",
+        "blob": "d44b74c40f90f06ea729f339187b2ce2e94acc4c",
+        "sha256": "735d3f944d17a87bac1aff6fd117d92d276bdc754027372020bf1a15c7926859"
+      }
+    },
+    {
+      "path": "demos/v0.91.6/unity-observatory/Assets/Scenes/UnityObservatory.unity",
+      "before": [
+        "100644",
+        "a02affec004acd40239a24345ceb295db747b407"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "a02affec004acd40239a24345ceb295db747b407"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.6/unity-observatory/Assets/Scenes/UnityObservatory.unity",
+        "mode": "100644",
+        "blob": "a02affec004acd40239a24345ceb295db747b407",
+        "sha256": "5e1e04316d58a0f2160333cec5e6d7e7656e85cced24fed3b6c79cfc6b9e05d3"
+      }
+    },
+    {
+      "path": "demos/v0.91.6/unity-observatory/Assets/Scenes/UnityObservatory.unity.meta",
+      "before": [
+        "100644",
+        "e68bd93f3a5d091819cbd25b8d46b83b04b5ff6b"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "e68bd93f3a5d091819cbd25b8d46b83b04b5ff6b"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.6/unity-observatory/Assets/Scenes/UnityObservatory.unity.meta",
+        "mode": "100644",
+        "blob": "e68bd93f3a5d091819cbd25b8d46b83b04b5ff6b",
+        "sha256": "f7eb86627ae3888bd9212696e6c2333d7ea7bf5dc5bc1f9e2ec35dfbce0da78d"
+      }
+    },
+    {
+      "path": "demos/v0.91.6/unity-observatory/Assets/Scripts.meta",
+      "before": [
+        "100644",
+        "aea1beb9ac1d5df7b8cb3df2eeb6a492b3158bfc"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "aea1beb9ac1d5df7b8cb3df2eeb6a492b3158bfc"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.6/unity-observatory/Assets/Scripts.meta",
+        "mode": "100644",
+        "blob": "aea1beb9ac1d5df7b8cb3df2eeb6a492b3158bfc",
+        "sha256": "7285056643aa3367fee70295291db767e210ffcbaeb8bcb2c04caf57cfbde787"
+      }
+    },
+    {
+      "path": "demos/v0.91.6/unity-observatory/Assets/Scripts/UnityObservatoryBootstrap.cs",
+      "before": [
+        "100644",
+        "d10f3c83f232cffc25be20e7624ce089ef8b21d9"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "d10f3c83f232cffc25be20e7624ce089ef8b21d9"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.6/unity-observatory/Assets/Scripts/UnityObservatoryBootstrap.cs",
+        "mode": "100644",
+        "blob": "d10f3c83f232cffc25be20e7624ce089ef8b21d9",
+        "sha256": "3a5e43f06dd96e96b064659adbb65db4b0584aa401c2004d0cd8090914d33325"
+      }
+    },
+    {
+      "path": "demos/v0.91.6/unity-observatory/Assets/Scripts/UnityObservatoryBootstrap.cs.meta",
+      "before": [
+        "100644",
+        "a37a3d53325fbc57593c036ab01fc51908f282c8"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "a37a3d53325fbc57593c036ab01fc51908f282c8"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.6/unity-observatory/Assets/Scripts/UnityObservatoryBootstrap.cs.meta",
+        "mode": "100644",
+        "blob": "a37a3d53325fbc57593c036ab01fc51908f282c8",
+        "sha256": "b2b0165119dfdeb5aba350e4d6ce07361b3c319d26e42da067199b526ad90ca7"
+      }
+    },
+    {
+      "path": "demos/v0.91.6/unity-observatory/Assets/Scripts/UnityObservatoryShellController.cs",
+      "before": [
+        "100644",
+        "515ce438f2c514e59bc47e553fd1ca5a1834a2bd"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "515ce438f2c514e59bc47e553fd1ca5a1834a2bd"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.6/unity-observatory/Assets/Scripts/UnityObservatoryShellController.cs",
+        "mode": "100644",
+        "blob": "515ce438f2c514e59bc47e553fd1ca5a1834a2bd",
+        "sha256": "ed3ba303e490793af07b50cdc131720a684a68d48ec11015ba729a1d214988a3"
+      }
+    },
+    {
+      "path": "demos/v0.91.6/unity-observatory/Assets/Scripts/UnityObservatoryShellController.cs.meta",
+      "before": [
+        "100644",
+        "194d34fb1ace61729bab37eba35a2ec1157b1a30"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "194d34fb1ace61729bab37eba35a2ec1157b1a30"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.6/unity-observatory/Assets/Scripts/UnityObservatoryShellController.cs.meta",
+        "mode": "100644",
+        "blob": "194d34fb1ace61729bab37eba35a2ec1157b1a30",
+        "sha256": "a4816d46191d7f2dd5b441df727136ff647ffeea2271912250b5989f78dcc77f"
+      }
+    },
+    {
+      "path": "demos/v0.91.6/unity-observatory/Assets/UI.meta",
+      "before": [
+        "100644",
+        "f45676904b0d377b0c6506f299368bec837ab5b0"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "f45676904b0d377b0c6506f299368bec837ab5b0"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.6/unity-observatory/Assets/UI.meta",
+        "mode": "100644",
+        "blob": "f45676904b0d377b0c6506f299368bec837ab5b0",
+        "sha256": "b8b031afb018a44ad7838ed2003b1196b88ea9560884004d9ff0a783a2142660"
+      }
+    },
+    {
+      "path": "demos/v0.91.6/unity-observatory/Assets/UI/ObservatoryShell.uss",
+      "before": [
+        "100644",
+        "409374355e9089b8abe98c1c3d993d9bcdb4db80"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "409374355e9089b8abe98c1c3d993d9bcdb4db80"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.6/unity-observatory/Assets/UI/ObservatoryShell.uss",
+        "mode": "100644",
+        "blob": "409374355e9089b8abe98c1c3d993d9bcdb4db80",
+        "sha256": "32079532661259d5c73b0d8e0c052185169ce10faa62dbccfc7d280753382280"
+      }
+    },
+    {
+      "path": "demos/v0.91.6/unity-observatory/Assets/UI/ObservatoryShell.uss.meta",
+      "before": [
+        "100644",
+        "d04e045dda2c22e51b12fc6b483a00a4a04815c7"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "d04e045dda2c22e51b12fc6b483a00a4a04815c7"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.6/unity-observatory/Assets/UI/ObservatoryShell.uss.meta",
+        "mode": "100644",
+        "blob": "d04e045dda2c22e51b12fc6b483a00a4a04815c7",
+        "sha256": "bb030e0ea652ca14a5cc79615ba25e22a1c69d84af5d8bd45f1c160e36258098"
+      }
+    },
+    {
+      "path": "demos/v0.91.6/unity-observatory/Assets/UI/ObservatoryShell.uxml",
+      "before": [
+        "100644",
+        "bf16e09a7bd6366640ce9e04f082136767dd8b9a"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "bf16e09a7bd6366640ce9e04f082136767dd8b9a"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.6/unity-observatory/Assets/UI/ObservatoryShell.uxml",
+        "mode": "100644",
+        "blob": "bf16e09a7bd6366640ce9e04f082136767dd8b9a",
+        "sha256": "7e7708865ce3911a92d09d3e2190cf1c8de88e0a987cd8172f722f8eb2ad862b"
+      }
+    },
+    {
+      "path": "demos/v0.91.6/unity-observatory/Assets/UI/ObservatoryShell.uxml.meta",
+      "before": [
+        "100644",
+        "bc4c3b82c0dffebdf20f019e44bdbc810be886e4"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "bc4c3b82c0dffebdf20f019e44bdbc810be886e4"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.6/unity-observatory/Assets/UI/ObservatoryShell.uxml.meta",
+        "mode": "100644",
+        "blob": "bc4c3b82c0dffebdf20f019e44bdbc810be886e4",
+        "sha256": "ecf0853a677081129c30f1d13f266e0405aef274763cec1732189cfb786453cf"
+      }
+    },
+    {
+      "path": "demos/v0.91.6/unity-observatory/Packages/manifest.json",
+      "before": [
+        "100644",
+        "6db009ab3a7504bf78fa4face200bc2da2a016c8"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "6db009ab3a7504bf78fa4face200bc2da2a016c8"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.6/unity-observatory/Packages/manifest.json",
+        "mode": "100644",
+        "blob": "6db009ab3a7504bf78fa4face200bc2da2a016c8",
+        "sha256": "34d33ef57f6398cb44f7704eff85f93c914e90e35d1b3cbf475ba2ab541873a4"
+      }
+    },
+    {
+      "path": "demos/v0.91.6/unity-observatory/Packages/packages-lock.json",
+      "before": [
+        "100644",
+        "c8c9d2e2edb901761024ee2e61bf84f750af7676"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "c8c9d2e2edb901761024ee2e61bf84f750af7676"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.6/unity-observatory/Packages/packages-lock.json",
+        "mode": "100644",
+        "blob": "c8c9d2e2edb901761024ee2e61bf84f750af7676",
+        "sha256": "b3122bed23e4129a461f6983564183ae1af5dc032ea43875ec4362f14c052814"
+      }
+    },
+    {
+      "path": "demos/v0.91.6/unity-observatory/ProjectSettings/AudioManager.asset",
+      "before": [
+        "100644",
+        "50b4625b0374d5aa81daeb6320a5f4443d5efc9a"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "50b4625b0374d5aa81daeb6320a5f4443d5efc9a"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.6/unity-observatory/ProjectSettings/AudioManager.asset",
+        "mode": "100644",
+        "blob": "50b4625b0374d5aa81daeb6320a5f4443d5efc9a",
+        "sha256": "9543c41dbfc7d3951217c4dd9481ed026eb8e529b85ecf4463969a0fea747729"
+      }
+    },
+    {
+      "path": "demos/v0.91.6/unity-observatory/ProjectSettings/ClusterInputManager.asset",
+      "before": [
+        "100644",
+        "e7886b266a005f4d9d80f2fef8d1649dcfd3ed2b"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "e7886b266a005f4d9d80f2fef8d1649dcfd3ed2b"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.6/unity-observatory/ProjectSettings/ClusterInputManager.asset",
+        "mode": "100644",
+        "blob": "e7886b266a005f4d9d80f2fef8d1649dcfd3ed2b",
+        "sha256": "40e65dd214bf254955d2c8829ca8ce2130fd3510485560ce012e9a1ddd93e623"
+      }
+    },
+    {
+      "path": "demos/v0.91.6/unity-observatory/ProjectSettings/DynamicsManager.asset",
+      "before": [
+        "100644",
+        "3c102d1130c320dfb3ac45fb0c994ca124d6ef93"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "3c102d1130c320dfb3ac45fb0c994ca124d6ef93"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.6/unity-observatory/ProjectSettings/DynamicsManager.asset",
+        "mode": "100644",
+        "blob": "3c102d1130c320dfb3ac45fb0c994ca124d6ef93",
+        "sha256": "fb36e677f7de32325bede8462e7e3eaf0be86ca374216d2907886fce7cb1d488"
+      }
+    },
+    {
+      "path": "demos/v0.91.6/unity-observatory/ProjectSettings/EditorBuildSettings.asset",
+      "before": [
+        "100644",
+        "56f897780561ba09425aa0acc99e80c453a3ad3c"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "56f897780561ba09425aa0acc99e80c453a3ad3c"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.6/unity-observatory/ProjectSettings/EditorBuildSettings.asset",
+        "mode": "100644",
+        "blob": "56f897780561ba09425aa0acc99e80c453a3ad3c",
+        "sha256": "3e6a6356be53b2ab735e1f6eda1b2417a7a5f2ffe508b7f1300805d6c26b917c"
+      }
+    },
+    {
+      "path": "demos/v0.91.6/unity-observatory/ProjectSettings/EditorSettings.asset",
+      "before": [
+        "100644",
+        "08066118971d30f944b2b2562d8a7c92172a820a"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "08066118971d30f944b2b2562d8a7c92172a820a"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.6/unity-observatory/ProjectSettings/EditorSettings.asset",
+        "mode": "100644",
+        "blob": "08066118971d30f944b2b2562d8a7c92172a820a",
+        "sha256": "c3457984f413109cea03254192b3873ad51a17d4ef50d13dbb427f8a7a76cdd2"
+      }
+    },
+    {
+      "path": "demos/v0.91.6/unity-observatory/ProjectSettings/GraphicsSettings.asset",
+      "before": [
+        "100644",
+        "b34982f50f6aea9f2666313f0bd45da388c52764"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "b34982f50f6aea9f2666313f0bd45da388c52764"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.6/unity-observatory/ProjectSettings/GraphicsSettings.asset",
+        "mode": "100644",
+        "blob": "b34982f50f6aea9f2666313f0bd45da388c52764",
+        "sha256": "8ef104b545ec651221d6806e99e8e3ee854916c6366d8db57d2d6c50eaf4a9a3"
+      }
+    },
+    {
+      "path": "demos/v0.91.6/unity-observatory/ProjectSettings/InputManager.asset",
+      "before": [
+        "100644",
+        "8068b2058b089f9973b15f83648e58cd238688f0"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "8068b2058b089f9973b15f83648e58cd238688f0"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.6/unity-observatory/ProjectSettings/InputManager.asset",
+        "mode": "100644",
+        "blob": "8068b2058b089f9973b15f83648e58cd238688f0",
+        "sha256": "d0f454ddb880912abcae92e3e12957a7446786ba89e24937e019ff3bbc0d4300"
+      }
+    },
+    {
+      "path": "demos/v0.91.6/unity-observatory/ProjectSettings/MemorySettings.asset",
+      "before": [
+        "100644",
+        "434c340ec490825b06a69702ca95d77b052b2ada"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "434c340ec490825b06a69702ca95d77b052b2ada"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.6/unity-observatory/ProjectSettings/MemorySettings.asset",
+        "mode": "100644",
+        "blob": "434c340ec490825b06a69702ca95d77b052b2ada",
+        "sha256": "614ea14e97e08ea3bc2e3849a35414ff708b255075f475fc8a03991c5c9b4d57"
+      }
+    },
+    {
+      "path": "demos/v0.91.6/unity-observatory/ProjectSettings/MultiplayerManager.asset",
+      "before": [
+        "100644",
+        "2a936644e0d87339f17484efc93de6f0de5774b1"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "2a936644e0d87339f17484efc93de6f0de5774b1"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.6/unity-observatory/ProjectSettings/MultiplayerManager.asset",
+        "mode": "100644",
+        "blob": "2a936644e0d87339f17484efc93de6f0de5774b1",
+        "sha256": "aba89fd1a1ddad182727ad82727e536d27372e90328a8196da2a4560398983dd"
+      }
+    },
+    {
+      "path": "demos/v0.91.6/unity-observatory/ProjectSettings/NavMeshAreas.asset",
+      "before": [
+        "100644",
+        "2e2e36968e36401ed2c4cf0f4d545e3d38ad25e9"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "2e2e36968e36401ed2c4cf0f4d545e3d38ad25e9"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.6/unity-observatory/ProjectSettings/NavMeshAreas.asset",
+        "mode": "100644",
+        "blob": "2e2e36968e36401ed2c4cf0f4d545e3d38ad25e9",
+        "sha256": "7ebbf8f53b8033104e1878b95ca07a28d0954092d81c220f14196a42f651e658"
+      }
+    },
+    {
+      "path": "demos/v0.91.6/unity-observatory/ProjectSettings/PackageManagerSettings.asset",
+      "before": [
+        "100644",
+        "e053c536a7256449c53cbcf60d26f17001d05efe"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "e053c536a7256449c53cbcf60d26f17001d05efe"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.6/unity-observatory/ProjectSettings/PackageManagerSettings.asset",
+        "mode": "100644",
+        "blob": "e053c536a7256449c53cbcf60d26f17001d05efe",
+        "sha256": "3eebc21d3b9406592baf41f3631d3cb45a01a89f59f830ac5bcd00eff31b5d49"
+      }
+    },
+    {
+      "path": "demos/v0.91.6/unity-observatory/ProjectSettings/Physics2DSettings.asset",
+      "before": [
+        "100644",
+        "14f419f848295ffdd17e5907883c0c833486285c"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "14f419f848295ffdd17e5907883c0c833486285c"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.6/unity-observatory/ProjectSettings/Physics2DSettings.asset",
+        "mode": "100644",
+        "blob": "14f419f848295ffdd17e5907883c0c833486285c",
+        "sha256": "1cfc0c8fbceec604fd7cd2a06c04ff05dddee6335b75c92b0f5715ad80ba9490"
+      }
+    },
+    {
+      "path": "demos/v0.91.6/unity-observatory/ProjectSettings/PhysicsCoreProjectSettings2D.asset",
+      "before": [
+        "100644",
+        "049c7454b5cb1220c8440514c5628548672a661e"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "049c7454b5cb1220c8440514c5628548672a661e"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.6/unity-observatory/ProjectSettings/PhysicsCoreProjectSettings2D.asset",
+        "mode": "100644",
+        "blob": "049c7454b5cb1220c8440514c5628548672a661e",
+        "sha256": "bedc5339a832c60dc3f11b84abc4f4384dbfa20b0cd9ad6c444b907e751fc35e"
+      }
+    },
+    {
+      "path": "demos/v0.91.6/unity-observatory/ProjectSettings/PresetManager.asset",
+      "before": [
+        "100644",
+        "67a94daefe2e6bce3ec73546ad7cda94f702ad22"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "67a94daefe2e6bce3ec73546ad7cda94f702ad22"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.6/unity-observatory/ProjectSettings/PresetManager.asset",
+        "mode": "100644",
+        "blob": "67a94daefe2e6bce3ec73546ad7cda94f702ad22",
+        "sha256": "29c125923fe6e29f90190d4fce1c82d660e7051546e2c9d02908d18c9cf2436c"
+      }
+    },
+    {
+      "path": "demos/v0.91.6/unity-observatory/ProjectSettings/ProjectSettings.asset",
+      "before": [
+        "100644",
+        "e8b520701e3584c8186e1200e71bf5d33beab1e8"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "e8b520701e3584c8186e1200e71bf5d33beab1e8"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.6/unity-observatory/ProjectSettings/ProjectSettings.asset",
+        "mode": "100644",
+        "blob": "e8b520701e3584c8186e1200e71bf5d33beab1e8",
+        "sha256": "cd1b1f1e654e60de496e1b7809199f3bf3250e3d2536d0c795f6f43b1dd73b26"
+      }
+    },
+    {
+      "path": "demos/v0.91.6/unity-observatory/ProjectSettings/ProjectVersion.txt",
+      "before": [
+        "100644",
+        "ebb0abf3343ad3bddf64f1d7d3f86d2760840480"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "ebb0abf3343ad3bddf64f1d7d3f86d2760840480"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.6/unity-observatory/ProjectSettings/ProjectVersion.txt",
+        "mode": "100644",
+        "blob": "ebb0abf3343ad3bddf64f1d7d3f86d2760840480",
+        "sha256": "bc71c3a8424ffc604954c822f98b7586371f21736060a12d78c506145fd42772"
+      }
+    },
+    {
+      "path": "demos/v0.91.6/unity-observatory/ProjectSettings/QualitySettings.asset",
+      "before": [
+        "100644",
+        "64f8abaf15b65739baa144aa04ab955160ea4ad3"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "64f8abaf15b65739baa144aa04ab955160ea4ad3"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.6/unity-observatory/ProjectSettings/QualitySettings.asset",
+        "mode": "100644",
+        "blob": "64f8abaf15b65739baa144aa04ab955160ea4ad3",
+        "sha256": "f1f893b1be47ad2442f58338dd7c860dc1986bb317e2f5bb31084454ffabbf4c"
+      }
+    },
+    {
+      "path": "demos/v0.91.6/unity-observatory/ProjectSettings/TagManager.asset",
+      "before": [
+        "100644",
+        "6abf33d85028220e7832b659c2085a7b49dc21a2"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "6abf33d85028220e7832b659c2085a7b49dc21a2"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.6/unity-observatory/ProjectSettings/TagManager.asset",
+        "mode": "100644",
+        "blob": "6abf33d85028220e7832b659c2085a7b49dc21a2",
+        "sha256": "996628fdc904025b83606bbfbda4fe08c0bbe916475146110e77cdc2f22c2013"
+      }
+    },
+    {
+      "path": "demos/v0.91.6/unity-observatory/ProjectSettings/TimeManager.asset",
+      "before": [
+        "100644",
+        "2e23a1f42187cc2b6b25e899a7caaede6e8a0bd1"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "2e23a1f42187cc2b6b25e899a7caaede6e8a0bd1"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.6/unity-observatory/ProjectSettings/TimeManager.asset",
+        "mode": "100644",
+        "blob": "2e23a1f42187cc2b6b25e899a7caaede6e8a0bd1",
+        "sha256": "3396f52fdc16d445024e01d7a2d99db6f0a37569d1d73c0302e9ffb857d90287"
+      }
+    },
+    {
+      "path": "demos/v0.91.6/unity-observatory/ProjectSettings/UnityConnectSettings.asset",
+      "before": [
+        "100644",
+        "5ef56984d721f3673bc862fc972f5ea9c06132d4"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "5ef56984d721f3673bc862fc972f5ea9c06132d4"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.6/unity-observatory/ProjectSettings/UnityConnectSettings.asset",
+        "mode": "100644",
+        "blob": "5ef56984d721f3673bc862fc972f5ea9c06132d4",
+        "sha256": "11251dae0356b6f43dd2c67bb511f6b7ecda4e5de425186bba3297e6f3dc1c6f"
+      }
+    },
+    {
+      "path": "demos/v0.91.6/unity-observatory/ProjectSettings/VFXManager.asset",
+      "before": [
+        "100644",
+        "56783bbf189349f69ba739d235355a5c2ae8ca42"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "56783bbf189349f69ba739d235355a5c2ae8ca42"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.6/unity-observatory/ProjectSettings/VFXManager.asset",
+        "mode": "100644",
+        "blob": "56783bbf189349f69ba739d235355a5c2ae8ca42",
+        "sha256": "2973a6af930e142f62cde00076beda8a3cc3a66d9bfcde7a58ba7d4be2251c26"
+      }
+    },
+    {
+      "path": "demos/v0.91.6/unity-observatory/ProjectSettings/VersionControlSettings.asset",
+      "before": [
+        "100644",
+        "979fd8eca84fae8dac89c1021ef6049be95ee5f6"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "979fd8eca84fae8dac89c1021ef6049be95ee5f6"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.6/unity-observatory/ProjectSettings/VersionControlSettings.asset",
+        "mode": "100644",
+        "blob": "979fd8eca84fae8dac89c1021ef6049be95ee5f6",
+        "sha256": "e199cdfa6a8f2bf33cfd47e549198f13e3eb2a5099e908fdb4e0f14d939ccc6b"
+      }
+    },
+    {
+      "path": "demos/v0.91.4/celestial-rescue-unity/Assets/Scenes/CelestialRescue.unity",
+      "before": [
+        "100644",
+        "ea6fada8900e0bc9bede62e1035f5f7e7818ea64"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "ea6fada8900e0bc9bede62e1035f5f7e7818ea64"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.4/celestial-rescue-unity/Assets/Scenes/CelestialRescue.unity",
+        "mode": "100644",
+        "blob": "ea6fada8900e0bc9bede62e1035f5f7e7818ea64",
+        "sha256": "6801553d61a3a4d14eb72a562139b43ac9d5cf88029e62e89e48d5a788b3ff9f"
+      }
+    },
+    {
+      "path": "demos/v0.91.4/celestial-rescue-unity/Assets/Scenes/CelestialRescue.unity.meta",
+      "before": [
+        "100644",
+        "68459ae8ae27fa751af9e9dc980237431ab0e236"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "68459ae8ae27fa751af9e9dc980237431ab0e236"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.4/celestial-rescue-unity/Assets/Scenes/CelestialRescue.unity.meta",
+        "mode": "100644",
+        "blob": "68459ae8ae27fa751af9e9dc980237431ab0e236",
+        "sha256": "8b0515e3d07483c5aad100bce7df60753243783d0ca40978105f03768d05cf69"
+      }
+    },
+    {
+      "path": "demos/v0.91.4/celestial-rescue-unity/Assets/Scripts/CelestialRescueBootstrap.cs",
+      "before": [
+        "100644",
+        "b91970fe4a4ff032626850f4fd9a722cb253e818"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "b91970fe4a4ff032626850f4fd9a722cb253e818"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.4/celestial-rescue-unity/Assets/Scripts/CelestialRescueBootstrap.cs",
+        "mode": "100644",
+        "blob": "b91970fe4a4ff032626850f4fd9a722cb253e818",
+        "sha256": "f34c6c6e2769d7ac75d31916b6a0dee149fec8b7d42db8122902a5b3d6e5c175"
+      }
+    },
+    {
+      "path": "demos/v0.91.4/celestial-rescue-unity/Assets/Scripts/CelestialRescueBootstrap.cs.meta",
+      "before": [
+        "100644",
+        "7273faecea2fd534b4ba973e3523c5e2e71f3706"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "7273faecea2fd534b4ba973e3523c5e2e71f3706"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.4/celestial-rescue-unity/Assets/Scripts/CelestialRescueBootstrap.cs.meta",
+        "mode": "100644",
+        "blob": "7273faecea2fd534b4ba973e3523c5e2e71f3706",
+        "sha256": "de58b5820052d4249ba890eb36048ced408f3a27a887d697b5555a4f6beca454"
+      }
+    },
+    {
+      "path": "demos/v0.91.4/celestial-rescue-unity/Assets/Scripts/CelestialRescueGame.cs",
+      "before": [
+        "100644",
+        "a93c1f27a488b4435b5e36ef80cc046c07ecab90"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "a93c1f27a488b4435b5e36ef80cc046c07ecab90"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.4/celestial-rescue-unity/Assets/Scripts/CelestialRescueGame.cs",
+        "mode": "100644",
+        "blob": "a93c1f27a488b4435b5e36ef80cc046c07ecab90",
+        "sha256": "08c071b102e7b369e20b423ba69b857f2d6daaa4085dae27edeb689b5aebad56"
+      }
+    },
+    {
+      "path": "demos/v0.91.4/celestial-rescue-unity/Assets/Scripts/CelestialRescueGame.cs.meta",
+      "before": [
+        "100644",
+        "87c53b3363bfee681eb0a7a8cb4fc1e0b15fb6f7"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "87c53b3363bfee681eb0a7a8cb4fc1e0b15fb6f7"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.4/celestial-rescue-unity/Assets/Scripts/CelestialRescueGame.cs.meta",
+        "mode": "100644",
+        "blob": "87c53b3363bfee681eb0a7a8cb4fc1e0b15fb6f7",
+        "sha256": "2c32adbbe4fa9fa3f87a8d82dd62a03cb3b00b51e557d9e8135f69756fa71e70"
+      }
+    },
+    {
+      "path": "demos/v0.91.4/celestial-rescue-unity/Assets/Scripts/HudController.cs",
+      "before": [
+        "100644",
+        "ff7992c7aba566d9301a2500fe5be611dca48c06"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "ff7992c7aba566d9301a2500fe5be611dca48c06"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.4/celestial-rescue-unity/Assets/Scripts/HudController.cs",
+        "mode": "100644",
+        "blob": "ff7992c7aba566d9301a2500fe5be611dca48c06",
+        "sha256": "c393ead3df41cfbc0644a26f06c68bfacbe37da155d91ba7bc54829eae1b9476"
+      }
+    },
+    {
+      "path": "demos/v0.91.4/celestial-rescue-unity/Assets/Scripts/HudController.cs.meta",
+      "before": [
+        "100644",
+        "55124a0bc3421caac133589f0939cfbcae701947"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "55124a0bc3421caac133589f0939cfbcae701947"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.4/celestial-rescue-unity/Assets/Scripts/HudController.cs.meta",
+        "mode": "100644",
+        "blob": "55124a0bc3421caac133589f0939cfbcae701947",
+        "sha256": "8d17f3ce85321a4008288beacb2ffb2197470987845c61215f19c446056d90bb"
+      }
+    },
+    {
+      "path": "demos/v0.91.4/celestial-rescue-unity/Assets/Scripts/OxygenTimer.cs",
+      "before": [
+        "100644",
+        "0d594e7c26411d3e23179773ed04b7cb4a11c63b"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "0d594e7c26411d3e23179773ed04b7cb4a11c63b"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.4/celestial-rescue-unity/Assets/Scripts/OxygenTimer.cs",
+        "mode": "100644",
+        "blob": "0d594e7c26411d3e23179773ed04b7cb4a11c63b",
+        "sha256": "2dc60dd600a8520f18d336ec41fd8809bb4c2985512909c3f498a2c274d5d801"
+      }
+    },
+    {
+      "path": "demos/v0.91.4/celestial-rescue-unity/Assets/Scripts/OxygenTimer.cs.meta",
+      "before": [
+        "100644",
+        "7139c438465ad3a62322e7d676d7bed1eac4f4d0"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "7139c438465ad3a62322e7d676d7bed1eac4f4d0"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.4/celestial-rescue-unity/Assets/Scripts/OxygenTimer.cs.meta",
+        "mode": "100644",
+        "blob": "7139c438465ad3a62322e7d676d7bed1eac4f4d0",
+        "sha256": "704b6de1f3b79218aafb3106b318a2a7aac4700b8eb123f80e4658eab5966abf"
+      }
+    },
+    {
+      "path": "demos/v0.91.4/celestial-rescue-unity/Assets/Scripts/SatelliteBeacon.cs",
+      "before": [
+        "100644",
+        "bcdbd70be2b0cec11c511191ff9a974dfd7dbdf8"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "bcdbd70be2b0cec11c511191ff9a974dfd7dbdf8"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.4/celestial-rescue-unity/Assets/Scripts/SatelliteBeacon.cs",
+        "mode": "100644",
+        "blob": "bcdbd70be2b0cec11c511191ff9a974dfd7dbdf8",
+        "sha256": "e6c9d3103d9ed654e9b5a9fd0643bc1e01a93251c1db8dc8752dbac894163fca"
+      }
+    },
+    {
+      "path": "demos/v0.91.4/celestial-rescue-unity/Assets/Scripts/SatelliteBeacon.cs.meta",
+      "before": [
+        "100644",
+        "0516dde25364320a4bb9b4c18af7eeb5882aee07"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "0516dde25364320a4bb9b4c18af7eeb5882aee07"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.4/celestial-rescue-unity/Assets/Scripts/SatelliteBeacon.cs.meta",
+        "mode": "100644",
+        "blob": "0516dde25364320a4bb9b4c18af7eeb5882aee07",
+        "sha256": "e565f31049c12f6a4b59b29d597d3a074673b8b5c0971e1b79f6a4dbfbf53667"
+      }
+    },
+    {
+      "path": "demos/v0.91.4/celestial-rescue-unity/Assets/Scripts/ShipController.cs",
+      "before": [
+        "100644",
+        "a21ed6077ed9771b08a496d554c609da5007ee08"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "a21ed6077ed9771b08a496d554c609da5007ee08"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.4/celestial-rescue-unity/Assets/Scripts/ShipController.cs",
+        "mode": "100644",
+        "blob": "a21ed6077ed9771b08a496d554c609da5007ee08",
+        "sha256": "f240f4f46b858332001793e860d50fc69feabf77fe37bbc52fc88e8682b20f95"
+      }
+    },
+    {
+      "path": "demos/v0.91.4/celestial-rescue-unity/Assets/Scripts/ShipController.cs.meta",
+      "before": [
+        "100644",
+        "62a1915d98c3313437175b5aca1f3228f2fe3d20"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "62a1915d98c3313437175b5aca1f3228f2fe3d20"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.4/celestial-rescue-unity/Assets/Scripts/ShipController.cs.meta",
+        "mode": "100644",
+        "blob": "62a1915d98c3313437175b5aca1f3228f2fe3d20",
+        "sha256": "cbaf2f43671931bf79a4984aa50622f97885125f043d285030a783613e806c21"
+      }
+    },
+    {
+      "path": "demos/v0.91.4/celestial-rescue-unity/Assets/UI/CelestialRescueHUD.uss",
+      "before": [
+        "100644",
+        "a71117e41e6327d3263a93b1b1a391d4235b7e77"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "a71117e41e6327d3263a93b1b1a391d4235b7e77"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.4/celestial-rescue-unity/Assets/UI/CelestialRescueHUD.uss",
+        "mode": "100644",
+        "blob": "a71117e41e6327d3263a93b1b1a391d4235b7e77",
+        "sha256": "40a256c9f6ec40b77d5b1d34d5e401ed6aad37b36d2bd33bf4a8d85883839b81"
+      }
+    },
+    {
+      "path": "demos/v0.91.4/celestial-rescue-unity/Assets/UI/CelestialRescueHUD.uss.meta",
+      "before": [
+        "100644",
+        "d2ef82da06e04304bab280ae44dc4ab12e230176"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "d2ef82da06e04304bab280ae44dc4ab12e230176"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.4/celestial-rescue-unity/Assets/UI/CelestialRescueHUD.uss.meta",
+        "mode": "100644",
+        "blob": "d2ef82da06e04304bab280ae44dc4ab12e230176",
+        "sha256": "8c9a27d8d6f6d0a3227679273deae1e0a5c80a3a5d387e500b49217ad7ea43c0"
+      }
+    },
+    {
+      "path": "demos/v0.91.4/celestial-rescue-unity/Assets/UI/CelestialRescueHUD.uxml",
+      "before": [
+        "100644",
+        "e4085c762c32dc5c5b9037e49659689caef05cf6"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "e4085c762c32dc5c5b9037e49659689caef05cf6"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.4/celestial-rescue-unity/Assets/UI/CelestialRescueHUD.uxml",
+        "mode": "100644",
+        "blob": "e4085c762c32dc5c5b9037e49659689caef05cf6",
+        "sha256": "ae539955a580472c805d579c03c151efb71a14e3e40e794dcdc927ef11ce5a84"
+      }
+    },
+    {
+      "path": "demos/v0.91.4/celestial-rescue-unity/Assets/UI/CelestialRescueHUD.uxml.meta",
+      "before": [
+        "100644",
+        "af4b0b071213c657fda29819d379e077bea0806c"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "af4b0b071213c657fda29819d379e077bea0806c"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.4/celestial-rescue-unity/Assets/UI/CelestialRescueHUD.uxml.meta",
+        "mode": "100644",
+        "blob": "af4b0b071213c657fda29819d379e077bea0806c",
+        "sha256": "44d41059f3cda7df78ca4fc80715a2cb9ef79b67a454aa741d1516409437c7a0"
+      }
+    },
+    {
+      "path": "demos/v0.91.4/celestial-rescue-unity/PROOF_PACKET.md",
+      "before": [
+        "100644",
+        "72e6529c42ad794e83a72305f5780aa630bef4d5"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "72e6529c42ad794e83a72305f5780aa630bef4d5"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.4/celestial-rescue-unity/PROOF_PACKET.md",
+        "mode": "100644",
+        "blob": "72e6529c42ad794e83a72305f5780aa630bef4d5",
+        "sha256": "fefb0c365892ed00115a61baa4b5edce2ceb27134430dbccfcc7bfae771de51a"
+      }
+    },
+    {
+      "path": "demos/v0.91.4/celestial-rescue-unity/Packages/manifest.json",
+      "before": [
+        "100644",
+        "3aa0e5267cec50a4f3fe99c6091dd706904628ba"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "3aa0e5267cec50a4f3fe99c6091dd706904628ba"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.4/celestial-rescue-unity/Packages/manifest.json",
+        "mode": "100644",
+        "blob": "3aa0e5267cec50a4f3fe99c6091dd706904628ba",
+        "sha256": "d16f984bfba960bf8105a59e206e6c7ef99996b1df3ea99a16f439106556130c"
+      }
+    },
+    {
+      "path": "demos/v0.91.4/celestial-rescue-unity/Packages/packages-lock.json",
+      "before": [
+        "100644",
+        "9ca956fbad30665e5eeff92551cb52eb0f99d2b2"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "9ca956fbad30665e5eeff92551cb52eb0f99d2b2"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.4/celestial-rescue-unity/Packages/packages-lock.json",
+        "mode": "100644",
+        "blob": "9ca956fbad30665e5eeff92551cb52eb0f99d2b2",
+        "sha256": "61eef809592f47d78891ee9adde638d19ea1b3061dbd3fe37ad94073a5bccae6"
+      }
+    },
+    {
+      "path": "demos/v0.91.4/celestial-rescue-unity/ProjectSettings/EditorBuildSettings.asset",
+      "before": [
+        "100644",
+        "2132d889d539c0b6f3b6df978d4094516abad74c"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "2132d889d539c0b6f3b6df978d4094516abad74c"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.4/celestial-rescue-unity/ProjectSettings/EditorBuildSettings.asset",
+        "mode": "100644",
+        "blob": "2132d889d539c0b6f3b6df978d4094516abad74c",
+        "sha256": "2a00d950dc99a8c26725085736ea58b6e84046a1a96d106f8dbf2d02b5387b70"
+      }
+    },
+    {
+      "path": "demos/v0.91.4/celestial-rescue-unity/ProjectSettings/ProjectSettings.asset",
+      "before": [
+        "100644",
+        "c3460e8d343f889d3a041de971a084fabbde6ab4"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "c3460e8d343f889d3a041de971a084fabbde6ab4"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.4/celestial-rescue-unity/ProjectSettings/ProjectSettings.asset",
+        "mode": "100644",
+        "blob": "c3460e8d343f889d3a041de971a084fabbde6ab4",
+        "sha256": "df830971aa74d234cbb3d7838ca1cbd82ed6ec140ee9a7c75de58e1125b8b9fc"
+      }
+    },
+    {
+      "path": "demos/v0.91.4/celestial-rescue-unity/ProjectSettings/ProjectVersion.txt",
+      "before": [
+        "100644",
+        "496bb97f0ff00b5e48b4b6f1f1240126adc14a44"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "496bb97f0ff00b5e48b4b6f1f1240126adc14a44"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.4/celestial-rescue-unity/ProjectSettings/ProjectVersion.txt",
+        "mode": "100644",
+        "blob": "496bb97f0ff00b5e48b4b6f1f1240126adc14a44",
+        "sha256": "7548a2e5c7b6367374d1316868b6f0870cd0aa8cf4589c1496b031ec65c0767c"
+      }
+    },
+    {
+      "path": "demos/v0.91.4/celestial-rescue-unity/README.md",
+      "before": [
+        "100644",
+        "87800206db8c5033bf1945c8ab37624551c9f886"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "87800206db8c5033bf1945c8ab37624551c9f886"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/demos/v0.91.4/celestial-rescue-unity/README.md",
+        "mode": "100644",
+        "blob": "87800206db8c5033bf1945c8ab37624551c9f886",
+        "sha256": "5542ec75a632073b353095109bb3f9045cc322e9cf15afca76a3110677b132c3"
+      }
+    },
+    {
+      "path": "docs/tooling/unity_mcp_observatory_alignment.md",
+      "before": [
+        "100644",
+        "426a8518b0b251e5de10ee2af857ede77e53272e"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "426a8518b0b251e5de10ee2af857ede77e53272e"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/docs/tooling/unity_mcp_observatory_alignment.md",
+        "mode": "100644",
+        "blob": "426a8518b0b251e5de10ee2af857ede77e53272e",
+        "sha256": "c781a25728e5c269c0bc63bf29461dc34a682962ff2e160706a698de0ef8a461"
+      }
+    },
+    {
+      "path": "docs/tooling/unity_observatory_editor_batch_proof.md",
+      "before": [
+        "100644",
+        "6faf78b17ab1cb82890f06ddda9596f7dce00abd"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "6faf78b17ab1cb82890f06ddda9596f7dce00abd"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/docs/tooling/unity_observatory_editor_batch_proof.md",
+        "mode": "100644",
+        "blob": "6faf78b17ab1cb82890f06ddda9596f7dce00abd",
+        "sha256": "d1c6db11b121a08990dc61dc7980cb4a7af7c33bcc86cb8349082912e5c3d4e4"
+      }
+    },
+    {
+      "path": "docs/tooling/unity_ilpp_getdomainname_diagnosis.md",
+      "before": [
+        "100644",
+        "2296fa983eae7d11de8ab533566a4fe5de164f71"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "approval_reference": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+          "before": [
+            "100644",
+            "2296fa983eae7d11de8ab533566a4fe5de164f71"
+          ],
+          "after": null,
+          "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/unity-observatory-historical-composed/current-original.tar",
+        "archive_sha256": "b95ca62cee090879120aa55fefdbd90d76157386a78983e542bdd3e51a402353",
+        "member": "current/docs/tooling/unity_ilpp_getdomainname_diagnosis.md",
+        "mode": "100644",
+        "blob": "2296fa983eae7d11de8ab533566a4fe5de164f71",
+        "sha256": "efc0eebb3f2686e8d039b0c0b179cfec75df58e44f977ccaf539bc3bde1a53bf"
+      }
     }
   ],
   "missing_entries": [],
@@ -101506,9 +105119,181 @@
         "infra/runtime-v3/runtime-api-5665.toml"
       ],
       "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "PAPER_SONATA_THIRTEEN_APPLIED_APPLIED.json",
+      "sha256": "0ceb10130fe93e33f60f2bcfabc336f64d2095e8340bc291774a9bf7af595b62",
+      "commit": "d97e221b28b7412ca64b6f05861ea332dfd7f205",
+      "files": 17,
+      "removals": 13,
+      "scope_sha256": "0ac157655c97ecce50f5d5793b7ef4051dcb851ae3a1640bcced7004940cce1a",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "adl/tools/demo_v088_paper_sonata.sh",
+        "adl/tools/test_demo_v088_paper_sonata.sh",
+        "adl/tools/demo_v0902_paper_sonata_expansion.sh",
+        "adl/tools/test_demo_v0902_paper_sonata_expansion.sh",
+        "adl/tools/validate_v0902_paper_sonata_expansion.py",
+        "demos/fixtures/paper_sonata/citations_seed.json",
+        "demos/fixtures/paper_sonata/experiment_results.json",
+        "demos/fixtures/paper_sonata/idea_summary.md",
+        "demos/fixtures/paper_sonata/lab_notes.md",
+        "demos/fixtures/paper_sonata/paper_constraints.md",
+        "demos/fixtures/paper_sonata/target_venue.md",
+        "demos/v0.89/paper_sonata_demo_refresh.md",
+        "demos/v0.90.2/paper_sonata_expansion_demo.md",
+        "tools/runtime_contracts/run_paper_sonata.py",
+        "adl/tools/demo_v088_review_surface.sh",
+        "demos/README.md",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "V0915_HISTORICAL_VALIDATION_APPLIED.json",
+      "sha256": "1ebde3653aec1a431d310e83d10763a7207214f6d7cb3545dfbacd962ef86a62",
+      "commit": "50b820c593d6f3ce4db105ae562965d76a173dd0",
+      "files": 2,
+      "removals": 0,
+      "scope_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "adl/tools/test_v0915_openrouter_matrix.sh",
+        "adl/tools/README.md"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "RUNTIME_INIT_NAVIGATION_APPLIED.json",
+      "sha256": "07fd068352b12adfc3cd86b7cf891cc2d86cd719fbfca754c696be53e954e7ce",
+      "commit": "1da4e85cdde1b483008a6eca9eaf4920687853ff",
+      "files": 2,
+      "removals": 0,
+      "scope_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "docs/runtime/VERTEX_AI_POLIS_CONFIGURATION.md",
+        "docs/architecture/RUNTIME_V3_ENTRYPOINT_SWITCH.md"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "UNITY_HISTORICAL_NINETY_FOUR_APPLIED.json",
+      "sha256": "372866da0a7e004ba122a43cbbf7452d0d3041e5e1575c3b778552bf5d7fe12d",
+      "commit": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+      "files": 99,
+      "removals": 94,
+      "scope_sha256": "808823348d2feb9a061c9699be1b7549cc2f1b582d86bbd474f459b6dde03452",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "adl/tools/lib/unity_observatory_batch_classifiers.sh",
+        "adl/tools/probe_unity_mcp_observatory_alignment.sh",
+        "adl/tools/run_v0918_unity_ilpp_diagnostic_matrix.sh",
+        "adl/tools/test_v0916_unity_mcp_alignment_unit.sh",
+        "adl/tools/test_v0916_unity_observatory_baseline.sh",
+        "adl/tools/test_v0916_unity_observatory_contract.sh",
+        "adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh",
+        "adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh",
+        "adl/tools/test_v0916_unity_observatory_unity65_smoke.sh",
+        "adl/tools/test_v0917_unity_observatory_integrated_proof.sh",
+        "adl/tools/test_v0918_unity_ilpp_diagnostic_matrix.sh",
+        "demos/v0.91.6/unity-observatory/Assets/Editor.meta",
+        "demos/v0.91.6/unity-observatory/Assets/Editor/UnityObservatoryBatchValidator.cs",
+        "demos/v0.91.6/unity-observatory/Assets/Editor/UnityObservatoryBatchValidator.cs.meta",
+        "demos/v0.91.6/unity-observatory/Assets/Editor/UnityObservatoryCompatibilityVerifier.cs",
+        "demos/v0.91.6/unity-observatory/Assets/Editor/UnityObservatoryCompatibilityVerifier.cs.meta",
+        "demos/v0.91.6/unity-observatory/Assets/Editor/UnityObservatoryFlagshipStageBuilder.cs",
+        "demos/v0.91.6/unity-observatory/Assets/Editor/UnityObservatoryFlagshipStageBuilder.cs.meta",
+        "demos/v0.91.6/unity-observatory/Assets/Resources.meta",
+        "demos/v0.91.6/unity-observatory/Assets/Resources/ObservatoryShellRuntime.uss",
+        "demos/v0.91.6/unity-observatory/Assets/Resources/ObservatoryShellRuntime.uss.meta",
+        "demos/v0.91.6/unity-observatory/Assets/Resources/UnityDefaultRuntimeTheme.tss",
+        "demos/v0.91.6/unity-observatory/Assets/Resources/UnityDefaultRuntimeTheme.tss.meta",
+        "demos/v0.91.6/unity-observatory/Assets/Resources/observatory_contract.json",
+        "demos/v0.91.6/unity-observatory/Assets/Resources/observatory_contract.json.meta",
+        "demos/v0.91.6/unity-observatory/Assets/Scenes.meta",
+        "demos/v0.91.6/unity-observatory/Assets/Scenes/FlagshipObservatoryStage.unity",
+        "demos/v0.91.6/unity-observatory/Assets/Scenes/FlagshipObservatoryStage.unity.meta",
+        "demos/v0.91.6/unity-observatory/Assets/Scenes/UnityObservatory.unity",
+        "demos/v0.91.6/unity-observatory/Assets/Scenes/UnityObservatory.unity.meta",
+        "demos/v0.91.6/unity-observatory/Assets/Scripts.meta",
+        "demos/v0.91.6/unity-observatory/Assets/Scripts/UnityObservatoryBootstrap.cs",
+        "demos/v0.91.6/unity-observatory/Assets/Scripts/UnityObservatoryBootstrap.cs.meta",
+        "demos/v0.91.6/unity-observatory/Assets/Scripts/UnityObservatoryShellController.cs",
+        "demos/v0.91.6/unity-observatory/Assets/Scripts/UnityObservatoryShellController.cs.meta",
+        "demos/v0.91.6/unity-observatory/Assets/UI.meta",
+        "demos/v0.91.6/unity-observatory/Assets/UI/ObservatoryShell.uss",
+        "demos/v0.91.6/unity-observatory/Assets/UI/ObservatoryShell.uss.meta",
+        "demos/v0.91.6/unity-observatory/Assets/UI/ObservatoryShell.uxml",
+        "demos/v0.91.6/unity-observatory/Assets/UI/ObservatoryShell.uxml.meta",
+        "demos/v0.91.6/unity-observatory/PROOF_PACKET.md",
+        "demos/v0.91.6/unity-observatory/Packages/manifest.json",
+        "demos/v0.91.6/unity-observatory/Packages/packages-lock.json",
+        "demos/v0.91.6/unity-observatory/ProjectSettings/AudioManager.asset",
+        "demos/v0.91.6/unity-observatory/ProjectSettings/ClusterInputManager.asset",
+        "demos/v0.91.6/unity-observatory/ProjectSettings/DynamicsManager.asset",
+        "demos/v0.91.6/unity-observatory/ProjectSettings/EditorBuildSettings.asset",
+        "demos/v0.91.6/unity-observatory/ProjectSettings/EditorSettings.asset",
+        "demos/v0.91.6/unity-observatory/ProjectSettings/GraphicsSettings.asset",
+        "demos/v0.91.6/unity-observatory/ProjectSettings/InputManager.asset",
+        "demos/v0.91.6/unity-observatory/ProjectSettings/MemorySettings.asset",
+        "demos/v0.91.6/unity-observatory/ProjectSettings/MultiplayerManager.asset",
+        "demos/v0.91.6/unity-observatory/ProjectSettings/NavMeshAreas.asset",
+        "demos/v0.91.6/unity-observatory/ProjectSettings/PackageManagerSettings.asset",
+        "demos/v0.91.6/unity-observatory/ProjectSettings/Physics2DSettings.asset",
+        "demos/v0.91.6/unity-observatory/ProjectSettings/PhysicsCoreProjectSettings2D.asset",
+        "demos/v0.91.6/unity-observatory/ProjectSettings/PresetManager.asset",
+        "demos/v0.91.6/unity-observatory/ProjectSettings/ProjectSettings.asset",
+        "demos/v0.91.6/unity-observatory/ProjectSettings/ProjectVersion.txt",
+        "demos/v0.91.6/unity-observatory/ProjectSettings/QualitySettings.asset",
+        "demos/v0.91.6/unity-observatory/ProjectSettings/TagManager.asset",
+        "demos/v0.91.6/unity-observatory/ProjectSettings/TimeManager.asset",
+        "demos/v0.91.6/unity-observatory/ProjectSettings/UnityConnectSettings.asset",
+        "demos/v0.91.6/unity-observatory/ProjectSettings/VFXManager.asset",
+        "demos/v0.91.6/unity-observatory/ProjectSettings/VersionControlSettings.asset",
+        "demos/v0.91.6/unity-observatory/README.md",
+        "demos/v0.91.4/celestial-rescue-unity/Assets/Scenes/CelestialRescue.unity",
+        "demos/v0.91.4/celestial-rescue-unity/Assets/Scenes/CelestialRescue.unity.meta",
+        "demos/v0.91.4/celestial-rescue-unity/Assets/Scripts/CelestialRescueBootstrap.cs",
+        "demos/v0.91.4/celestial-rescue-unity/Assets/Scripts/CelestialRescueBootstrap.cs.meta",
+        "demos/v0.91.4/celestial-rescue-unity/Assets/Scripts/CelestialRescueGame.cs",
+        "demos/v0.91.4/celestial-rescue-unity/Assets/Scripts/CelestialRescueGame.cs.meta",
+        "demos/v0.91.4/celestial-rescue-unity/Assets/Scripts/HudController.cs",
+        "demos/v0.91.4/celestial-rescue-unity/Assets/Scripts/HudController.cs.meta",
+        "demos/v0.91.4/celestial-rescue-unity/Assets/Scripts/OxygenTimer.cs",
+        "demos/v0.91.4/celestial-rescue-unity/Assets/Scripts/OxygenTimer.cs.meta",
+        "demos/v0.91.4/celestial-rescue-unity/Assets/Scripts/SatelliteBeacon.cs",
+        "demos/v0.91.4/celestial-rescue-unity/Assets/Scripts/SatelliteBeacon.cs.meta",
+        "demos/v0.91.4/celestial-rescue-unity/Assets/Scripts/ShipController.cs",
+        "demos/v0.91.4/celestial-rescue-unity/Assets/Scripts/ShipController.cs.meta",
+        "demos/v0.91.4/celestial-rescue-unity/Assets/UI/CelestialRescueHUD.uss",
+        "demos/v0.91.4/celestial-rescue-unity/Assets/UI/CelestialRescueHUD.uss.meta",
+        "demos/v0.91.4/celestial-rescue-unity/Assets/UI/CelestialRescueHUD.uxml",
+        "demos/v0.91.4/celestial-rescue-unity/Assets/UI/CelestialRescueHUD.uxml.meta",
+        "demos/v0.91.4/celestial-rescue-unity/PROOF_PACKET.md",
+        "demos/v0.91.4/celestial-rescue-unity/Packages/manifest.json",
+        "demos/v0.91.4/celestial-rescue-unity/Packages/packages-lock.json",
+        "demos/v0.91.4/celestial-rescue-unity/ProjectSettings/EditorBuildSettings.asset",
+        "demos/v0.91.4/celestial-rescue-unity/ProjectSettings/ProjectSettings.asset",
+        "demos/v0.91.4/celestial-rescue-unity/ProjectSettings/ProjectVersion.txt",
+        "demos/v0.91.4/celestial-rescue-unity/README.md",
+        "docs/tooling/unity_mcp_observatory_alignment.md",
+        "docs/tooling/unity_observatory_editor_batch_proof.md",
+        "docs/tooling/unity_ilpp_getdomainname_diagnosis.md",
+        "adl/config/validation_lane_selector.v0.91.6.json",
+        "adl/tools/test_validation_manager.sh",
+        "adl/tools/generate_tool_surface_registry.py",
+        "docs/tooling/worktree_governance.md",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
     }
   ],
-  "baseline_deletion_count": 3007,
+  "baseline_deletion_count": 3114,
   "transient_removed_paths": [
     "adl/tools/test_issue872_historical_manifest.py"
   ],
@@ -101520,10 +105305,11 @@
     "adl/tools/test_demo_v089_quality_gate.sh",
     "adl/tools/test_demo_v0901_quality_gate.sh",
     "adl/tools/test_demo_v0902_review_quality_gate.sh",
-    "adl/tools/demo_v087_suite.sh"
+    "adl/tools/demo_v087_suite.sh",
+    "docs/tooling/unity_ilpp_getdomainname_diagnosis.md"
   ],
-  "inventory_baseline_deletion_count": 2996,
-  "supplemental_baseline_deletion_count": 8,
+  "inventory_baseline_deletion_count": 3102,
+  "supplemental_baseline_deletion_count": 9,
   "separately_observed_baseline_deletion_count": 3,
   "separately_observed_retired_paths": [
     "demos/html-observatory/tests/governed_room_contracts.test.mjs",
