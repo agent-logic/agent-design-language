@@ -1,0 +1,297 @@
+{
+  "status": "applied",
+  "source_head": "e766b05f48d9155c8813c72b7d743cfcb6630965",
+  "original_baseline": "248f00e359e412f6bc0061ac88be9ff374e3a212",
+  "removed_count": 3,
+  "rows": [
+    {
+      "id": "RD07-3165",
+      "path": "demos/fixtures/stock_league/season_001_fixture.json",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-other-consumers",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "f80bb763180ea26e1320f91961596a0d79c8b728"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "coherent component and caller cutover",
+        "qualified owner adoption; exact source correspondence alone is insufficient"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "demos/fixtures/stock_league/season_001_fixture.json"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_200_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
+        "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+        "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      }
+    },
+    {
+      "id": "RD07-3228",
+      "path": "demos/v0.90/long_lived_stock_league_demo.md",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-other-consumers",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "3c15d8a88b313a1e67a3ae4293b2fcd34301d8e4"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "coherent component and caller cutover",
+        "qualified owner adoption; exact source correspondence alone is insufficient"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "demos/v0.90/long_lived_stock_league_demo.md"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_200_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
+        "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+        "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      }
+    },
+    {
+      "id": "RD07-3229",
+      "path": "demos/v0.90/stock_league_demo_extensions.md",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-other-consumers",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "d6366fb844615d4ca4f3e5b71037efab9d2d4bdd"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "coherent component and caller cutover",
+        "qualified owner adoption; exact source correspondence alone is insufficient"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "demos/v0.90/stock_league_demo_extensions.md"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_200_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
+        "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+        "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      }
+    }
+  ],
+  "files": [
+    {
+      "path": "demos/fixtures/stock_league/season_001_fixture.json",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "f80bb763180ea26e1320f91961596a0d79c8b728",
+        "sha256": "de0d2b1a1137028faf258bb2c37bb9d2d1e9c4b009106dc1e14205f357b10971"
+      },
+      "after": null
+    },
+    {
+      "path": "demos/v0.90/long_lived_stock_league_demo.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "3c15d8a88b313a1e67a3ae4293b2fcd34301d8e4",
+        "sha256": "063b8cb84f5a7a26e8f280f1557f29ec1a55781b19e76579e6edcac08a620448"
+      },
+      "after": null
+    },
+    {
+      "path": "demos/v0.90/stock_league_demo_extensions.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "d6366fb844615d4ca4f3e5b71037efab9d2d4bdd",
+        "sha256": "3f0d804d0d4cfded98df8bb78de9fd9f83e78059027e52d7b14d71a34979d7d7"
+      },
+      "after": null
+    },
+    {
+      "path": "demos/README.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "aac48db04bf0a3c3a6b3a96159b5d45e30ca1ef4",
+        "sha256": "4d6fb47525ccd48fc95c24116efd30582a55e74fa907890515e83258efff96ec"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "c05f57c767f3f394b28d4d9a263b1cb67e2f34f7",
+        "sha256": "b082681a956a56af098dca80185779de74660a18714dd1f4506a86ed703a4bbc"
+      }
+    },
+    {
+      "path": "adl/build.rs",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "80876b7c089bc45c55bf189e32192888c7475de2",
+        "sha256": "9dc3f7c52ee02841da30f56cf7b817c211ad8426a767bac1b5250b548558ead7"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "0f50415d8ac12777b5936d9d544f178bf750096e",
+        "sha256": "9263ecf2a387dd192c3e8258ddf48aafa311c5f88931a78ee0b0bc38639c8b81"
+      }
+    }
+  ],
+  "owner_revision": "0d11d040bd2dd578f8182e0408d80c844bc711d1",
+  "reviewed_owner_revision": "e35ad15f6498ba30a50cb259a278426bb8c2dff0",
+  "owner_inputs": [
+    {
+      "path": "demos/fixtures/stock_league/season_001_fixture.json",
+      "revision": "0d11d040bd2dd578f8182e0408d80c844bc711d1",
+      "mode": "100644",
+      "blob": "f80bb763180ea26e1320f91961596a0d79c8b728",
+      "sha256": "de0d2b1a1137028faf258bb2c37bb9d2d1e9c4b009106dc1e14205f357b10971"
+    },
+    {
+      "path": "demos/v0.90/long_lived_stock_league_demo.md",
+      "revision": "0d11d040bd2dd578f8182e0408d80c844bc711d1",
+      "mode": "100644",
+      "blob": "3c15d8a88b313a1e67a3ae4293b2fcd34301d8e4",
+      "sha256": "063b8cb84f5a7a26e8f280f1557f29ec1a55781b19e76579e6edcac08a620448"
+    },
+    {
+      "path": "demos/v0.90/stock_league_demo_extensions.md",
+      "revision": "0d11d040bd2dd578f8182e0408d80c844bc711d1",
+      "mode": "100644",
+      "blob": "d6366fb844615d4ca4f3e5b71037efab9d2d4bdd",
+      "sha256": "3f0d804d0d4cfded98df8bb78de9fd9f83e78059027e52d7b14d71a34979d7d7"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "/Volumes/FastWork/c1223/runtime-stock-three-owner-delivery/merged-source-verification.json",
+      "sha256": "77f3170c224c3a1c48db024d6a94cea0412a1d5e3557e1a23417fa8550985ebd"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime-stock-three-owner-delivery/finish171-result.json",
+      "sha256": "f87ae26c5fc694f7d33f3fde105deba7aa861fbd61e8188fe67b5532dc460f8a"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime-stock-three-owner-delivery/clean171-result.json",
+      "sha256": "435e06e13bc126f73fcf4f420708be1ff99ad44b2e36adbfda02bc6bffaa7234"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime-stock-three-owner-delivery/SIX_CASE_PROOF_CURRENT.json",
+      "sha256": "cb41113358fe7972aafb314a00c8995775f30cd04272bee6c9341c2b71c56b64"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime-stock-three-owner-delivery/source-correspondence.json",
+      "sha256": "c2deb495466dcd7a05fd710b4bccef866e813b143d6801235e38017c1c1cdb6c"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime-stock-three-owner-delivery/proof171-pr-open-result.json",
+      "sha256": "3d62ca358259aeec2a17277032aef5707a1a85d792f01df7b2f30c58eaa2a21b"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime-stock-three-owner-delivery/proof171-result.json",
+      "sha256": "84a2371415afe6fc3e5dad4bc1eeef000af04b9fd8616bc5e3705f2e657ba44d"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime-stock-three-owner-delivery/artifact-path-repair.json",
+      "sha256": "85ca4f3c390aeb68ba1e15cfcb7b213e03060fd883622d97833daa0e5552a477"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime-stock-three-owner-delivery/DELIVERY_COMPLETE.json",
+      "sha256": "7db181a5c66b6b405e71e2cef53bf99f9fdda0bf5833afd8358132a1c92de76a"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime-stock-three-owner-delivery/accepted-artifacts/manifest.json",
+      "sha256": "0e53c1290d95d85a14fefc4bccb4eb46a16999b78043c31daea6ec0647b8d95b"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime-stock-three-resource-audit/AUDIT-r2.json",
+      "sha256": "76a698ab61b645e7034b7e6f851e0e71da28801bd3e14132dae65f3c5c59331d"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime-stock-three-owner-delivery/SIX_CASE_PROOF.json",
+      "sha256": "fe2b3c4dd19424a0b36472e51a3debc0b3d82dd7359bbe2c0c433b63355abd4b"
+    }
+  ],
+  "custody": {
+    "path": "/Volumes/FastWork/c1223/runtime-stock-three-retirement/current-original.tar",
+    "sha256": "4cbee2cc39e84ba0fe0a3fd3a53c0a2c34817231ca736f4087abc1c08eb33a74",
+    "current_members": 5,
+    "original_members": 3
+  },
+  "patch": {
+    "path": "/Volumes/FastWork/c1223/runtime-stock-three-retirement/three-and-callers.patch",
+    "sha256": "2f449fa3323c7ce38efd6a56a906a9ead8149d12dd31734cb2fe4f3b68a83306"
+  },
+  "original_assertion_correspondence": {
+    "original_test_path": "/Volumes/FastWork/c1223/runtime-stock-three-retirement/original-demo-tests.rs",
+    "original_sha256": "7ad325ec4e063325c6b6707a4ee670987a496b1b5ada271833e6f24dbb72bb0e",
+    "merged_test_path": "/Volumes/FastWork/c1223/runtime-stock-three-retirement/merged-demo-tests.rs",
+    "merged_sha256": "7b7a703d423f0c516fa3b5e4fc243529da430dbe51834c176d5d1b123997b0c3",
+    "only_changes": "Exactly three CARGO_BIN_EXE_adl substitutions to CARGO_BIN_EXE_adl-runtime; all six method bodies and assertions otherwise unchanged.",
+    "six_names": [
+      "demo_i_v090_stock_league_scaffold_print_plan_works",
+      "demo_i_v090_stock_league_scaffold_writes_guarded_fixture_packet",
+      "demo_j_v090_stock_league_recurring_print_plan_works",
+      "demo_k_v090_stock_league_proof_expansion_print_plan_works",
+      "demo_j_v090_stock_league_recurring_writes_multi_cycle_proof_packet",
+      "demo_k_v090_stock_league_proof_expansion_writes_selected_extension_packet"
+    ]
+  },
+  "qualification": {
+    "native_proof_status": "passed",
+    "tests_passed": 6,
+    "tests_failed": 0,
+    "test_report_valid": true,
+    "inputs_unchanged": true,
+    "scope": "Six original stock_league Rust methods, including three artifact writers, at reviewed owner source. No full target, service, provider, installed-product qualification. No rerun in this preparation.",
+    "artifact_metadata_discrepancy": "SIX_CASE_PROOF_CURRENT repeats the older SIX_CASE_PROOF binary hashes verbatim; actual retained files match accepted-artifacts/manifest.json but differ from both summaries. Native final proof records exact source head, Cargo compiler-artifact paths and six passing tests, not executable SHA256. Thus preserved artifact custody is NOT independently bound to the binaries executed by that final proof; it may be another build. Do not call these verified executed or accepted binaries. The exact-source six-case native outcome and original assertion correspondence are separately supported.",
+    "preserved_artifact_custody": [
+      {
+        "path": "/Volumes/FastWork/c1223/runtime-stock-three-owner-delivery/accepted-artifacts/demo_tests",
+        "sha256": "07209f819e65d07d4cbf2a3c2fbee21b6c3e944960bc78c1f9dd7d0b5fb77918",
+        "size": 2190280
+      },
+      {
+        "path": "/Volumes/FastWork/c1223/runtime-stock-three-owner-delivery/accepted-artifacts/adl-runtime",
+        "sha256": "097263647caea275c18fcddd2ffeb81eadc3c9a6fe9bbcb578dccb8829a66fed",
+        "size": 163470608
+      }
+    ],
+    "preserved_artifacts_bound_to_final_executed_binaries": false
+  },
+  "caller_closure": {
+    "fixture": "Actual include_str consumer already transferred to Runtime. Remove obsolete watchlist entry from build.rs, which is disabled by public Cargo build=false. No public compiled consumer depends on fixture.",
+    "navigation": "Two active demos README entries route to exact merged owner pages. Immutable milestone planning/review manifests remain historical evidence, not execution callers.",
+    "registry": "No tool removals or registry delta."
+  },
+  "limits": [
+    "Prior Stock6 Python proof did not qualify these resources and is not reused as acceptance.",
+    "Preserve initial failed native attestation and subsequent canonical-path/source-evidence repair in pinned evidence.",
+    "Finish/clean completed receipts read from existing delivery; no new lifecycle operation or remote observation performed."
+  ],
+  "proposal_source_head": "e766b05f48d9155c8813c72b7d743cfcb6630965",
+  "review": {
+    "status": "PASS",
+    "reviewer": "review_1223_public_facade",
+    "proposal_sha256": "7d98ffb1b9d1f439b7f4edd8a8674a9ad8b63fcb15f9bd93e05883717c671155",
+    "scope": "Reviewed source/caller/custody composition; all individual qualification and historical limits preserved."
+  }
+}

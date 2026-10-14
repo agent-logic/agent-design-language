@@ -41,7 +41,6 @@ fn main() {
         "adl-uts/schemas",
         "adl-spec/examples/v0.8/godel_experiment_workflow.template.v1.json",
         "adl-spec/schemas/v0.8/tool_result.v1.schema.json",
-        "demos/fixtures/stock_league/season_001_fixture.json",
         "docs/api/runtime-v3/v1/openapi.json",
         "docs/api/runtime-v3/v1/observatory.openapi.json",
         "docs/architecture/runtime_v3_parity_matrix.v1.json",

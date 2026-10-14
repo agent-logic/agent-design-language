@@ -286,8 +286,8 @@ review artifacts, and then writes one synthesized findings-first review.
 
 ### v0.90 long-lived agents and CodeBuddy review demos
 
-- `v0.90/long_lived_stock_league_demo.md`
-- `v0.90/stock_league_demo_extensions.md`
+- [Runtime owner: v0.90/long_lived_stock_league_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/0d11d040bd2dd578f8182e0408d80c844bc711d1/demos/v0.90/long_lived_stock_league_demo.md)
+- [Runtime owner: v0.90/stock_league_demo_extensions.md](https://github.com/agent-logic/agent-logic-runtime/blob/0d11d040bd2dd578f8182e0408d80c844bc711d1/demos/v0.90/stock_league_demo_extensions.md)
 - `v0.90/codebuddy_multi_agent_review_showcase_demo.md`
 - `v0.90/aptitude_atlas_repo_review_aptitude_demo.md`
 
