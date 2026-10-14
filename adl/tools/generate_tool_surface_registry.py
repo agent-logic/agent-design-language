@@ -54,7 +54,6 @@ HISTORICAL_TOOL_SCRIPTS = {
     "run_v0914_multi_agent_workcell_proof.sh": "Historical model-backed v0.91.4 workcell rehearsal; retained manifest and review artifacts do not qualify a new execution, including its provider-active dry-run path.",
     "demo_d11_signed_remote.sh": "Historical signed-remote contract; current public ADL does not supply its Runtime binary or test interfaces.",
     "demo_v087_operational_skills.sh": "Historical bundle-install and inventory contract; original recursive acceptance remains separate from owner resource proof.",
-    "test_demo_v0871_real_multi_agent_discussion.sh": "Historical credentialed provider acceptance contract; five real calls remain unqualified.",
 }
 
 HISTORICAL_EVIDENCE = [

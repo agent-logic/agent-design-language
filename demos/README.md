@@ -40,26 +40,26 @@ The historical `v0.89.1` quality-gate aggregate and its original companion
 contract are retained in #1223 custody. Its monolithic ADL execution route is
 retired; this is not a claim that its independent product checks passed.
 
-If you want the current `v0.89.1` integration demo package:
+The former `v0.89.1` integration package is retired; its original command was:
 
 ```bash
-bash adl/tools/demo_v0891_wp13_demo_integration.sh
+# Historical retired command: bash adl/tools/demo_v0891_wp13_demo_integration.sh
 ```
 
 The local Codex CLI + Ollama operational-skills demo is retired. Its
 [historical recipe](v0.87.1/codex_ollama_operational_skills_demo.md) and original
 fixture assertions remain evidence, not an available dry-run or provider route.
 
-If you want the bounded Claude + ChatGPT tea discussion demo:
+The former ADL Claude + ChatGPT shell route is retired; its original command was:
 
 ```bash
-bash adl/tools/demo_v0871_multi_agent_discussion.sh
+# Historical retired command: bash adl/tools/demo_v0871_multi_agent_discussion.sh
 ```
 
-If you want the bounded five-agent Hey Jude MIDI demo:
+The former ADL Hey Jude producer is retired; its original command was:
 
 ```bash
-bash adl/tools/demo_v0891_five_agent_hey_jude.sh
+# Historical retired command: bash adl/tools/demo_v0891_five_agent_hey_jude.sh
 ```
 
 If you want the bounded arXiv manuscript workflow demo:
@@ -173,7 +173,7 @@ Use these categories consistently:
 Current heavyweight proof-package examples:
 - The v0.88 monolithic review-surface and quality-gate commands are historical and retired in #1223. Their original assertions remain in Git and retirement custody; no current aggregate pass is claimed. Paper Sonata remains available through the explicit owner adapter documented below.
 - Historical `v0.89.1` quality-gate package (retired aggregate; retained evidence).
-- `bash adl/tools/demo_v0891_wp13_demo_integration.sh`
+- Historical `v0.89.1` integration shell package (retired; original assertions in custody).
 
 When planning a demo sweep, do not assume every proof-package command above belongs in the ordinary demo lane.
 
@@ -273,11 +273,9 @@ The `v0.89.1` release-tail quality-gate aggregate is historical after #1223.
 Use the current public ADL and separately qualified owner checks for their
 respective scopes; no single replacement claims its old combined denominator.
 
-Use `bash adl/tools/demo_v0891_wp13_demo_integration.sh` for the integrated
-`v0.89.1` demo package.
+The integrated `v0.89.1` shell package is historical and retired.
 
-Use `bash adl/tools/demo_v0891_five_agent_hey_jude.sh` for the flagship bounded
-multi-agent music demo.
+The ADL multi-agent music shell producer is historical and retired; existing audio episodes remain usable as explicit renderer inputs.
 
 Use `bash adl/tools/demo_v0891_arxiv_manuscript_workflow.sh` for the bounded
 manuscript workflow packet.
@@ -482,3 +480,5 @@ its six production fixtures come from Runtime. The `paper` mode requires an expl
 executable `ADL_DEMO_ADL_BIN` and never falls back to Cargo. Output is selected explicitly.
 Original local-mock Paper Sonata and synthetic expansion assertions passed separately;
 this does not qualify the full v0.88 aggregate, live providers, publication or discovery.
+
+The legacy provider demo shell family was retired in #1223 with its original assertions in Git and custody. Owner source delivery does not establish new live-provider, transcript, musical-performance or archive acceptance. Retained audio rendering requires an explicit existing source episode through `ADL_HEY_JUDE_AUDIO_SOURCE_DIR`; it does not regenerate an episode through a removed ADL command.

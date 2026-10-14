@@ -16,8 +16,8 @@ Keep behavioral and milestone narrative in canonical docs, not here.
 - Runtime owns `adl/tools/demo_v0871_runtime_state.sh`: the qualified mock paused/completed persistence consumer is preserved there. Retained ADL aggregate callers require an absolute `RUNTIME_DEMO_SOURCE_ROOT` pointing to the reviewed complete Runtime checkout and the owner-required `ADL_RUNTIME_BIN`; missing source selection refuses before effects. This routing does not qualify the aggregate, live providers, or historical recovery expectations.
 - The v0.87.1 WP-13 aggregate is retired; see [retired v0.87.1 aggregate contract](../../docs/tooling/V0871_HISTORICAL_AGGREGATE.md). Individual provider demos retain separate qualification obligations.
 - Historical compatibility-card link repair and bootstrap SOR materialization are retired. Use the selected native C-SDLC owner for current card operations; it does not restore the old duplicate-root/symlink contract.
-- `demo_v0871_multi_agent_discussion.sh`: canonical `v0.87.1` bounded multi-agent discussion proof wrapper for a five-turn Claude + ChatGPT runtime demo.
-- `demo_v0871_real_multi_agent_discussion.sh`: live-provider companion demo that calls real OpenAI and Anthropic APIs through a local ADL completion adapter using operator-managed keys; a missing-credentials skip in the paired test is a non-proving disposition, not live-provider proof.
+- `demo_v0871_multi_agent_discussion.sh` (historical, retired in #1223): canonical `v0.87.1` bounded multi-agent discussion proof wrapper for a five-turn Claude + ChatGPT runtime demo.
+- `demo_v0871_real_multi_agent_discussion.sh` (historical, retired in #1223): live-provider companion demo that calls real OpenAI and Anthropic APIs through a local ADL completion adapter using operator-managed keys; a missing-credentials skip in the paired test is a non-proving disposition, not live-provider proof.
 - `real_multi_agent_provider_adapter.py`: local adapter that translates ADL's bounded HTTP completion contract to vendor-native OpenAI and Anthropic calls without recording secret material.
 - `validate_multi_agent_transcript.py`: validates the bounded multi-agent transcript artifact contract for the D13 discussion demo.
 - `worktree_doctor.sh`, `worktree_prune.sh`: deterministic worktree governance and safe cleanup helpers.
@@ -65,10 +65,10 @@ bash adl/tools/test_multi_agent_repo_review_specialist_skill_contracts.sh
 diff -qr "$CSDLC_SKILL_CONTRACT_ROOT/test-generator" "$CODEX_HOME/skills/test-generator"
 
 # run the bounded Claude + ChatGPT discussion demo through the real runtime
-bash adl/tools/demo_v0871_multi_agent_discussion.sh
+# Historical retired command: bash adl/tools/demo_v0871_multi_agent_discussion.sh
 
 # run the live-provider Claude + ChatGPT discussion demo using env vars or explicit key-file overrides
-bash adl/tools/demo_v0871_real_multi_agent_discussion.sh
+# Historical retired command: bash adl/tools/demo_v0871_real_multi_agent_discussion.sh
 
 # validate the generated bounded multi-agent transcript artifact
 python3 adl/tools/validate_multi_agent_transcript.py artifacts/v0871/multi_agent_discussion/transcript.md
@@ -204,3 +204,5 @@ packet checks and two negative mutations. Its former credential-dependent live
 runner assertions and three monolithic Cargo selectors remain historical
 obligations in #1223 custody; an offline packet pass does not satisfy them.
 The two quality/watcher test bodies remain unchanged.
+
+The legacy provider demo shell family was retired in #1223 with its original assertions in Git and custody. Owner source delivery does not establish new live-provider, transcript, musical-performance or archive acceptance. Retained audio rendering requires an explicit existing source episode through `ADL_HEY_JUDE_AUDIO_SOURCE_DIR`; it does not regenerate an episode through a removed ADL command.

@@ -82,16 +82,23 @@ PY
     --output "$out_path"
 }
 
+# The retired monolith producer is not an implicit source-episode fallback.
+# Validate the explicit existing episode before credential reads or output deletion.
+python3 - "$SOURCE_DIR" "$OUT_DIR" <<'PY_SOURCE'
+import pathlib, sys
+source, output = (pathlib.Path(p).resolve() for p in sys.argv[1:])
+if not (source / "transcript.md").is_file():
+    raise SystemExit("Set ADL_HEY_JUDE_AUDIO_SOURCE_DIR to an existing episode; the historical producer is retired")
+if source == output or output in source.parents:
+    raise SystemExit("Source episode must be outside the audio output directory")
+PY_SOURCE
+
 if [[ "${ADL_HEY_JUDE_AUDIO_TEST_TONES:-0}" != "1" ]]; then
   load_key OPENAI_API_KEY "$OPENAI_KEY_FILE"
 fi
 
 rm -rf "$OUT_DIR"
 mkdir -p "$SEGMENTS_DIR"
-
-if [[ ! -f "$SOURCE_DIR/transcript.md" ]]; then
-  bash "$ROOT_DIR/adl/tools/demo_v0891_five_agent_hey_jude.sh" "$SOURCE_DIR"
-fi
 
 python3 "$ROOT_DIR/adl/tools/validate_five_agent_music_demo.py" "$SOURCE_DIR" >/dev/null
 

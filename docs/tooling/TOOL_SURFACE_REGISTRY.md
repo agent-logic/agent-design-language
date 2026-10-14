@@ -30,8 +30,8 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 
 - `primary`: 7
 - `supported shim`: 0
-- `internal helper`: 385
-- `historical evidence`: 28
+- `internal helper`: 363
+- `historical evidence`: 27
 - `archive candidate`: 0
 - `remove candidate`: 0
 
@@ -90,22 +90,12 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/demo_smoke_v07_story.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_steering_queue_checkpoint.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v086_control_path.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
-| `adl/tools/demo_v0871_multi_agent_discussion.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
-| `adl/tools/demo_v0871_provider_chatgpt.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
-| `adl/tools/demo_v0871_provider_local_ollama.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
-| `adl/tools/demo_v0871_real_multi_agent_discussion.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v087_operational_skills.sh` | tool surface | historical evidence | Historical bundle-install and inventory contract; original recursive acceptance remains separate from owner resource proof. |
-| `adl/tools/demo_v087_provider_portability.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v087_shared_obsmem.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v087_trace_truth.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v088_deep_agents_comparative_proof.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v088_real_multi_agent_discussion.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v0891_arxiv_manuscript_workflow.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
-| `adl/tools/demo_v0891_deep_agents_comparative_wave.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
-| `adl/tools/demo_v0891_five_agent_hey_jude.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
-| `adl/tools/demo_v0891_gemini_provider_harmony_roundtable.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
-| `adl/tools/demo_v0891_wp13_demo_integration.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
-| `adl/tools/demo_v089_deep_agents_comparative_wave.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v089_gemini_in_the_loop.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v089_gemini_provider_harmony_and_economics.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v089_gemma4_issue_clerk.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
@@ -128,8 +118,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/demo_v0918_podcast_launch.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v091_chatgpt_gemini_claude_review_panel.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v091_chatgpt_gemini_claude_triad_conversation.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
-| `adl/tools/demo_v091_chatgpt_gemini_direct_conversation.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
-| `adl/tools/demo_v091_chatgpt_gemini_task_handoff.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/diagnose_browser_routes.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/editor_action.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/enforce_coverage_gates.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
@@ -172,7 +160,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/polis_status_for_ssm_windows.ps1` | tool surface | internal helper | Visible tool surface retained for bounded support work. |
 | `adl/tools/preflight_review.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/provider` | tool surface | internal helper | Directory containing bounded helper assets, scripts, or proof inputs. |
-| `adl/tools/provider_demo_common.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/rd01_repository_audit.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/real_chatgpt_gemini_claude_provider_adapter.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/real_chatgpt_gemini_provider_adapter.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
@@ -261,18 +248,9 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/test_csdlc_v2_supply_chain.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_csmctl_linux_backend.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_operator_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_demo_v0871_multi_agent_discussion.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_demo_v0871_provider_chatgpt.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_demo_v0871_provider_local_ollama.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_demo_v0871_real_multi_agent_discussion.sh` | tool surface | historical evidence | Historical credentialed provider acceptance contract; five real calls remain unqualified. |
 | `adl/tools/test_demo_v088_deep_agents_comparative_proof.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v088_real_multi_agent_discussion.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v0891_arxiv_manuscript_workflow.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_demo_v0891_deep_agents_comparative_wave.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_demo_v0891_five_agent_hey_jude.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_demo_v0891_gemini_provider_harmony_roundtable.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_demo_v0891_wp13_demo_integration.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_demo_v089_deep_agents_comparative_wave.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v089_gemini_in_the_loop.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v089_gemini_provider_harmony_and_economics.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v089_gemma4_issue_clerk.sh` | tool surface | internal helper | Focused regression or contract test helper. |
@@ -322,7 +300,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/test_product_report_writer_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_prompt_spec_lint.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_prompt_template_structure_schemas.py` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_provider_demo_common.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_pvf_ci_release_policy.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_readiness_prep_metrics_non_terminal.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_records_hygiene_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |

@@ -103,7 +103,7 @@ Fable 5 UTS acceptance note:
 - provide credentials with `--key-file "$HOME/keys/claude2.key"` or an already-set `ANTHROPIC_API_KEY`; the script must not print or retain the key value
 - proof for issue #5044 is recorded in `docs/milestones/v0.91.7/review/provider/FABLE5_UTS_ACCEPTANCE_5044.md`
 
-Live multi-agent demo note:
+Historical multi-agent demo note (ADL wrappers retired in #1223; the following describes the preserved original contract, not a current ADL command):
 - `adl/tools/demo_v0871_real_multi_agent_discussion.sh` is the operator-run live-provider companion to the deterministic multi-agent demo
 - `adl/tools/test_demo_v0871_real_multi_agent_discussion.sh` preserves local ergonomics by exiting successfully when operator credentials are unavailable, but it now emits an explicit machine-readable non-proving skip disposition instead of implying live-provider proof
 - it reads `OPENAI_API_KEY` and `ANTHROPIC_API_KEY` from the environment when set, or from explicit operator-selected key-file overrides when provided
