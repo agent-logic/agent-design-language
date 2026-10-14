@@ -425,9 +425,29 @@ struct Payload {
     causal_invalidations: Vec<CausalInvalidation>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     acknowledged_card_projection: Option<Digest>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    installed_tool_transition: Option<InstalledToolTransition>,
     projection_required: bool,
     pending: Option<protocol::PendingOperation>,
     completed: Vec<protocol::CompletedOperation>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct InstalledToolTransition {
+    schema: InstalledToolTransitionSchema,
+    repository: String,
+    issue: u64,
+    expected_version: SemanticVersion,
+    expected_audit: Digest,
+    expected_authority: Digest,
+    new_authority: Digest,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+enum InstalledToolTransitionSchema {
+    #[serde(rename = "csdlc.v3.installed_tool_transition.v1")]
+    V1,
 }
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -527,6 +547,21 @@ impl Snapshot {
     }
     fn validate(&self) -> Result<(), Error> {
         self.payload.inputs.validate()?;
+        if self
+            .payload
+            .installed_tool_transition
+            .as_ref()
+            .is_some_and(|transition| {
+                transition.repository != self.payload.key.repository
+                    || transition.issue != self.payload.key.issue
+                    || transition.new_authority != self.payload.inputs.authority
+                    || transition.expected_authority == transition.new_authority
+                    || transition.expected_version.generation == 0
+                    || transition.expected_version.generation > self.payload.generation
+            })
+        {
+            return Err(Error::InvalidDigest);
+        }
         if self.payload.generation == 0
             || self.payload.input_version.revision == 0
             || self.payload.input_version.revision > self.payload.generation
@@ -2115,6 +2150,7 @@ impl DurableTransactionStore {
             invalidations: vec![],
             causal_invalidations: vec![],
             acknowledged_card_projection: None,
+            installed_tool_transition: None,
             projection_required: true,
             pending: None,
             completed: Vec::new(),
@@ -2187,6 +2223,7 @@ impl DurableTransactionStore {
             invalidations: vec![],
             causal_invalidations: vec![],
             acknowledged_card_projection: None,
+            installed_tool_transition: None,
             projection_required: true,
             pending: None,
             completed: Vec::new(),
@@ -2951,6 +2988,42 @@ mod prepare_retry_tests {
 
     fn current(f: &Fixture) -> Snapshot {
         read_current(&f.root.directory(&f.key).unwrap(), &f.key).unwrap()
+    }
+
+    fn rehash(snapshot: &mut Snapshot) {
+        snapshot.audit.after.digest = hash("semantic-state-v1", &snapshot.payload).unwrap();
+        snapshot.audit_digest = hash("semantic-audit-v1", &snapshot.audit).unwrap();
+    }
+
+    #[test]
+    fn retained_installed_tool_transition_is_strictly_decoded() {
+        let f = Fixture::new();
+        let mut snapshot = current(&f);
+        snapshot.payload.installed_tool_transition = Some(InstalledToolTransition {
+            schema: InstalledToolTransitionSchema::V1,
+            repository: snapshot.key().repository().to_owned(),
+            issue: snapshot.key().issue(),
+            expected_version: snapshot.version().clone(),
+            expected_audit: snapshot.audit_identity().clone(),
+            expected_authority: Digest::authority(b"retired-installed-tool"),
+            new_authority: snapshot.inputs().authority.clone(),
+        });
+        rehash(&mut snapshot);
+        let bytes = snapshot.canonical_bytes().unwrap();
+        assert_eq!(Snapshot::from_bytes(&bytes).unwrap(), snapshot);
+
+        let mut wrong_repository = snapshot;
+        wrong_repository
+            .payload
+            .installed_tool_transition
+            .as_mut()
+            .unwrap()
+            .repository = "agent-logic/wrong-repository".into();
+        rehash(&mut wrong_repository);
+        assert!(matches!(
+            Snapshot::from_bytes(&wrong_repository.canonical_bytes().unwrap()),
+            Err(Error::InvalidDigest)
+        ));
     }
 
     #[test]

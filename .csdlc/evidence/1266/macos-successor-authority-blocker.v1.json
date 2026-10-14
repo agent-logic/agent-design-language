@@ -1,0 +1,58 @@
+{
+  "schema": "adl.csdlc_v3.macos_successor_authority_blocker.v1",
+  "issue": 1266,
+  "observed_at": "2026-10-13T19:47:34Z",
+  "status": "blocked",
+  "blocking_requirement": "Authenticated Apple Silicon macOS external-consumer package succession and activation for the verified recordless v0.93.1 closeout denominator.",
+  "observations": {
+    "cognitive_sdlc_canonical_head": "fc6446e190afc7dee9194168b3a3979b01e4cbab",
+    "old_activated_package": {
+      "artifact": 11660977711,
+      "result": "portable_authenticated_observation_unavailable",
+      "remote_writes": 0
+    },
+    "newer_authenticated_package": {
+      "artifact": 11787649026,
+      "candidate": "79d6430a89edb350fe1012889650a6b4776912d0",
+      "limitation": "Predates cognitive-sdlc PR 257 semantic-card compatibility selection and cannot validate the current legacy projection without rendered_card_drift."
+    },
+    "post_pr257_artifacts": {
+      "producer_pr": 257,
+      "producer_merge": "1e818729c26be16ab5ed6bd04db81bbc2a30ef13",
+      "macos_artifact": 11830821151,
+      "result": "No authenticated external-consumer successor endorsement or activation path was found; CI artifact availability is not installed package authority."
+    },
+    "platform_contract": {
+      "package_maintain_and_upgrade": "linux_x86_64_only",
+      "macos_external_consumer_successor": "unavailable"
+    },
+    "sidecar_issue_creation": {
+      "repository": "agent-logic/agent-design-language",
+      "coordinating_issue": 1266,
+      "requested_title": "[v0.93.1][C-SDLC v3][defect] Support authenticated macOS external-consumer package succession",
+      "route": "github-issue",
+      "package_artifact": 11787649026,
+      "first_result": "semantic_issue_creation_exact_replay_required",
+      "documented_recovery": "retry_after_authenticated_absence",
+      "recovery_result": "semantic_issue_creation_exact_replay_required",
+      "remote_reads_per_attempt": 1,
+      "remote_writes_per_attempt": 0,
+      "performed_mutation": null,
+      "effects_unknown": true,
+      "disposition": "Stopped without raw GitHub fallback or further replay."
+    }
+  },
+  "required_repair": [
+    "Provide a reviewed macOS external-consumer successor or upgrade contract without weakening package provenance, review, activation, or consumer identity.",
+    "Produce and authenticate a post-PR257 package containing current semantic validation and the issue 1266 retained-terminal replay repair.",
+    "Activate and read back the exact package in each affected consumer through typed routes.",
+    "Resolve the issue-create one-shot recovery regression before using that route to publish the durable sidecar issue."
+  ],
+  "non_claims": [
+    "No candidate or CI artifact is treated as installed authority.",
+    "No consumer package activation succeeded.",
+    "No sidecar GitHub issue was created.",
+    "No raw GitHub lifecycle write was used.",
+    "Issue 1266 acceptance is not complete."
+  ]
+}

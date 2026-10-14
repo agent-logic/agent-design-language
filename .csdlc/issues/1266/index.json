@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.v3.local_state.v1",
+  "issue": 1266,
+  "phase": "bound",
+  "generation": 2,
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/1266-recordless-merged-closeout-recovery",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-1266-recordless-merged-closeout-recovery",
+  "template_registry_version": "1.0.5",
+  "operational_authority": true,
+  "digest": "f2829e50c2c1a07d5ea69d70f5ed1307af14f34894124b912840e03588905db3"
+}

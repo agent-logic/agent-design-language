@@ -1,0 +1,53 @@
+{
+  "schema": "adl.csdlc_v3.v0931_consumer_denominator.v1",
+  "issue": 1266,
+  "observed_at": "2026-10-13",
+  "milestone": "v0.93.1",
+  "closed_issue_count": 39,
+  "preexisting_terminal_receipt_count": 35,
+  "eligible_recordless_merged_count": 2,
+  "excluded_without_closing_pr_count": 2,
+  "preexisting_receipt_ledger": ".csdlc/evidence/1266/preexisting-terminal-receipts.v1.json",
+  "consumer_authority_observations": ".csdlc/evidence/1266/consumer-authority-observations.v1.json",
+  "complete_denominator_preview": ".csdlc/evidence/1266/complete-denominator-preview.v1.json",
+  "repositories": [
+    {
+      "repository": "agent-logic/codefriend",
+      "closed_issues": [1, 4, 6, 7, 10, 12, 14, 15, 16, 17, 18, 24, 26, 27, 29, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47],
+      "preexisting_receipts": [1, 4, 6, 7, 10, 12, 14, 15, 16, 17, 18, 24, 26, 27, 29, 31, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47],
+      "excluded": [
+        {"issue": 32, "reason": "closedByPullRequestsReferences_empty"},
+        {"issue": 33, "reason": "closedByPullRequestsReferences_empty"}
+      ]
+    },
+    {
+      "repository": "agent-logic/agent-logic-infrastructure",
+      "closed_issues": [1, 26, 27],
+      "preexisting_receipts": [1],
+      "eligible_recordless_merged": [26, 27]
+    },
+    {
+      "repository": "agent-logic/agent-logic-enterprise-security",
+      "closed_issues": [1],
+      "preexisting_receipts": [1]
+    },
+    {
+      "repository": "agent-logic/agent-logic-runtime",
+      "closed_issues": [1, 2],
+      "preexisting_receipts": [1, 2]
+    },
+    {
+      "repository": "agent-logic/cognitive-sdlc",
+      "closed_issues": [1],
+      "preexisting_receipts": [1]
+    }
+  ],
+  "scope_rule": "Only closed v0.93.1 issues with an authenticated merged closing pull request are eligible. Manual closures without a closing PR are preserved as excluded evidence, not converted into delivery claims.",
+  "eligible_reconciliation": {
+    "attempted": 2,
+    "completed": 2,
+    "remaining": 0,
+    "complete_denominator_replay_acceptance": "blocked_by_retained_receipt_state_mismatch"
+  },
+  "remote_writes": 0
+}

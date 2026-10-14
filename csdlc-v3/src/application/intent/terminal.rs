@@ -503,7 +503,7 @@ fn native_request(
     explicit: Option<u64>,
     publication_repository: Option<&str>,
     receipt_path: &std::path::Path,
-) -> Result<(TerminalRouteRequest, bool), String> {
+) -> Result<(TerminalRouteRequest, bool, bool), String> {
     let mut missing_state_repair = false;
     let mut retained_head = None;
     let mut retained_publication_repository = None;
@@ -515,7 +515,8 @@ fn native_request(
         let state_path =
             state_root(context)?.join(format!("v3/issues/{}/terminal.json", context.issue));
         let state_digest = file_digest(&state_path)?;
-        if receipt.repository != context.repository
+        if receipt.schema != "csdlc.v3.terminal_receipt.v1"
+            || receipt.repository != context.repository
             || receipt.issue != context.issue
             || receipt.disposition != "closed_out"
             || receipt.no_pr_closeout.is_some()
@@ -524,17 +525,31 @@ fn native_request(
         {
             return Err("intent_terminal_receipt_mismatch".into());
         }
+        if state_digest.is_some() {
+            let state: Value = serde_json::from_slice(
+                &fs::read(&state_path).map_err(|_| "intent_terminal_receipt_required")?,
+            )
+            .map_err(|_| "intent_terminal_receipt_mismatch")?;
+            if state["schema"] != "csdlc.v3.terminal_state.v1"
+                || state["repository"] != receipt.repository
+                || state["issue"] != receipt.issue
+                || state["pull_request"] != json!(receipt.pull_request)
+                || state["head_sha"] != receipt.head_sha
+                || state["disposition"] != receipt.disposition
+                || state["publication_repository"] != json!(receipt.publication_repository)
+                || !state["no_pr_closeout"].is_null()
+            {
+                return Err("intent_terminal_receipt_mismatch".into());
+            }
+        }
         if state_digest.is_none() {
             missing_state_repair = true;
-            retained_head = Some(receipt.head_sha.clone());
-        } else if receipt.head_sha != context.head
-            && receipt
-                .publication_repository
-                .as_deref()
-                .is_none_or(|repository| repository == context.repository)
-        {
-            return Err("intent_terminal_receipt_mismatch".into());
         }
+        // Terminal authority is bound to the immutable closing PR head. The
+        // invoking checkout may legitimately advance after a historical
+        // external closeout, so replay must retain that authenticated head
+        // instead of comparing it with the consumer's current HEAD.
+        retained_head = Some(receipt.head_sha.clone());
         retained_publication_repository = receipt.publication_repository.clone();
         receipt.pull_request
     } else {
@@ -634,7 +649,11 @@ fn native_request(
     .map_err(|_| "intent_terminal_request_invalid".to_owned())?;
     Ok((
         request,
-        legacy_settled.is_some() || legacy_explicit || missing_state_repair,
+        legacy_settled.is_some()
+            || legacy_explicit
+            || missing_state_repair
+            || (retained.is_some() && semantic_migration),
+        retained.is_some(),
     ))
 }
 fn attach_terminal_observation(
@@ -1330,6 +1349,7 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
     }
     let mut legacy_merged_compatibility = false;
     let mut missing_semantic_no_pr_compatibility = false;
+    let mut retained_terminal_receipt = false;
     let mut native = if request.command == "finish"
         && !request.content.is_null()
         && explicit_pr.is_none()
@@ -1420,13 +1440,14 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
         serde_json::from_value(json!({"repository":context.repository,"publication_repository":receipt.publication_repository,"issue":context.issue,"expected_head_sha":cleanup_head,"pull_request":receipt.pull_request,
             "mode":if receipt.no_pr_closeout.is_some(){Value::Null}else{json!("closing")},"no_pr_closeout":receipt.no_pr_closeout,"credential_names":["GITHUB_TOKEN"]})).map_err(|_|"intent_terminal_request_invalid")?
     } else {
-        let (native, compatibility) = native_request(
+        let (native, compatibility, retained) = native_request(
             context,
             explicit_pr,
             publication_repository.as_deref(),
             &receipt_path,
         )?;
         legacy_merged_compatibility = compatibility;
+        retained_terminal_receipt = retained;
         native
     };
     let legacy_coordination_compatibility = native
@@ -1450,7 +1471,9 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
             let state_path = output_root.join(format!("v3/issues/{}/terminal.json", context.issue));
             context.fresh()?;
             let mut process = RealProcessAdapter::new(EnvironmentCredentialResolver);
-            if legacy_merged_compatibility || native.publication_repository.is_some() {
+            if !retained_terminal_receipt
+                && (legacy_merged_compatibility || native.publication_repository.is_some())
+            {
                 let observed = observe_terminal_github_readback(&native, &mut process)
                     .map_err(|finding| finding.code)?;
                 native.expected_head_sha = Some(observed.head_sha().to_owned());
@@ -1473,6 +1496,17 @@ pub fn run(context: &Context, request: &IntentRequest) -> Result<Value, String> 
                 catch_up_terminal_merge_state(context, &staged)?;
             }
             if legacy_merged_compatibility {
+                if receipt_path.exists() && file_digest(&state_path)?.is_some() {
+                    return Ok(json!({
+                        "status":"expected_noop",
+                        "read_only":true,
+                        "operational_authority":true,
+                        "performed_mutation":false,
+                        "effects_unknown":false,
+                        "result":staged,
+                        "compatibility":"legacy_merged_publication"
+                    }));
+                }
                 native.terminal_state = Some(TerminalStateWriteRequest {
                     repository_root: context.primary.clone(),
                     reconciliation_checkout: Some(context.root.clone()),
