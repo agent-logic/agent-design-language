@@ -18,8 +18,8 @@ Keep behavioral and milestone narrative in canonical docs, not here.
 - Historical compatibility-card link repair and bootstrap SOR materialization are retired. Use the selected native C-SDLC owner for current card operations; it does not restore the old duplicate-root/symlink contract.
 - `demo_v0871_multi_agent_discussion.sh` (historical, retired in #1223): canonical `v0.87.1` bounded multi-agent discussion proof wrapper for a five-turn Claude + ChatGPT runtime demo.
 - `demo_v0871_real_multi_agent_discussion.sh` (historical, retired in #1223): live-provider companion demo that calls real OpenAI and Anthropic APIs through a local ADL completion adapter using operator-managed keys; a missing-credentials skip in the paired test is a non-proving disposition, not live-provider proof.
-- `real_multi_agent_provider_adapter.py`: local adapter that translates ADL's bounded HTTP completion contract to vendor-native OpenAI and Anthropic calls without recording secret material.
-- `validate_multi_agent_transcript.py`: validates the bounded multi-agent transcript artifact contract for the D13 discussion demo.
+- [Historical multi-agent provider adapter](https://github.com/agent-logic/cognitive-sdlc/blob/d316340c212800ff523f957b1bf290db68d8efad/adl/tools/real_multi_agent_provider_adapter.py): owner source adapter that translates ADL's bounded HTTP completion contract to vendor-native OpenAI and Anthropic calls without recording secret material.
+- [Historical transcript validator](https://github.com/agent-logic/cognitive-sdlc/blob/d316340c212800ff523f957b1bf290db68d8efad/adl/tools/validate_multi_agent_transcript.py): owner source validates the bounded multi-agent transcript artifact contract for the D13 discussion demo.
 - `worktree_doctor.sh`, `worktree_prune.sh`: deterministic worktree governance and safe cleanup helpers.
 - `archive_run_artifacts.sh`: dry-run/apply helper that inventories local run roots, copies unique run artifacts into `.adl/trace-archive/milestones/<milestone>/runs/`, and can move archived active `.adl/runs` entries into `.adl/trace-archive/source-roots/`.
 - `release_ceremony.sh`: nonmutating native v3 release candidate preflight; requires an exact typed candidate request and stable owner. See `docs/csdlc-v3/RELEASE_PREFLIGHT.md`.
@@ -70,8 +70,7 @@ diff -qr "$CSDLC_SKILL_CONTRACT_ROOT/test-generator" "$CODEX_HOME/skills/test-ge
 # run the live-provider Claude + ChatGPT discussion demo using env vars or explicit key-file overrides
 # Historical retired command: bash adl/tools/demo_v0871_real_multi_agent_discussion.sh
 
-# validate the generated bounded multi-agent transcript artifact
-python3 adl/tools/validate_multi_agent_transcript.py artifacts/v0871/multi_agent_discussion/transcript.md
+# Historical retired ADL transcript command; owner source and original contract are linked above.
 
 # The v0.87.1 aggregate is historical; see docs/tooling/V0871_HISTORICAL_AGGREGATE.md
 

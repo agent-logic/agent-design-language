@@ -30,7 +30,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 
 - `primary`: 7
 - `supported shim`: 0
-- `internal helper`: 268
+- `internal helper`: 265
 - `historical evidence`: 21
 - `archive candidate`: 0
 - `remove candidate`: 0
@@ -120,8 +120,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/preflight_review.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/rd01_repository_audit.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/real_chatgpt_gemini_claude_provider_adapter.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
-| `adl/tools/real_chatgpt_gemini_provider_adapter.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
-| `adl/tools/real_multi_agent_provider_adapter.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/record_podcast_browser_playback.mjs` | tool surface | internal helper | Visible tool surface retained for bounded support work. |
 | `adl/tools/record_podcast_ios_safari_playback.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/record_podcast_native_playback.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
@@ -286,7 +284,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/validate_five_minute_html_game_packet.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_five_minute_sprint_console_packet.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_merge_readiness_packet.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
-| `adl/tools/validate_multi_agent_transcript.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_obsmem_handoff_packet.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_planning_template.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_podcast_launch_packet.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |

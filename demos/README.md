@@ -204,7 +204,7 @@ and records a reviewer-facing findings artifact plus runtime proof.
 
 - `v0.89/v089_demo_program.md`
 - [v0.89/deep_agents_comparative_wave_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.89/deep_agents_comparative_wave_demo.md)
-- `v0.89/medium_article_writing_demo.md`
+- [historical Medium article demo guide](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.89/medium_article_writing_demo.md)
 - [v0.89/gemini_provider_harmony_and_economics_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.89/gemini_provider_harmony_and_economics_demo.md)
 - `v0.89/gemma4_issue_clerk_demo.md`
 - [v0.89/paper_sonata_demo_refresh.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.89/paper_sonata_demo_refresh.md)
@@ -233,7 +233,7 @@ Use [v0.89/deep_agents_comparative_wave_demo.md](https://github.com/agent-logic/
 where ChatGPT, Claude, and Gemini contribute bounded positions and ADL emits a
 findings-first synthesis package instead of a flat proof row.
 
-Use `v0.89/medium_article_writing_demo.md` for a bounded publication-oriented
+See the [historical Medium article demo guide](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.89/medium_article_writing_demo.md) for a bounded publication-oriented
 demo where ADL turns one launch-essay brief into a reviewer-friendly article
 packet with outline, draft, editorial notes, and runtime proof.
 
