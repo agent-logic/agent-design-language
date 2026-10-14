@@ -379,11 +379,11 @@ Use `./adl/tools/demo_v086_control_path.sh` for the primary bounded cognitive-pa
 ### v0.85 demo program
 
 - `v0.85/v085_demo_program.md`
-- `v0.85/steering_queue_checkpoint_demo.md`
+- [v0.85/steering_queue_checkpoint_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.85/steering_queue_checkpoint_demo.md)
 - `v0.85/hitl_editor_review_demo.md`
 - `v0.85/godel_hypothesis_engine_demo.md`
-- `aee-recovery/README.md`
-- `v0.85/affect_godel_vertical_slice_demo.md`
+- [aee-recovery/README.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/aee-recovery/README.md)
+- [v0.85/affect_godel_vertical_slice_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.85/affect_godel_vertical_slice_demo.md)
 
 Use `v0.85/v085_demo_program.md` for the canonical milestone review order.
 
@@ -413,12 +413,12 @@ path. For a one-command review flow, run
 - `v0.8/v0.8-bounded-critical-demos.md`
 - `v0.8/godel_failure_hypothesis_experiment.md`
 - `v0.85/adaptive_godel_loop_demo.md`
-- `v0.85/experiment_prioritization_demo.md`
-- `v0.85/cross_workflow_learning_demo.md`
-- `v0.85/promotion_eval_loop_demo.md`
-- `aee-recovery/README.md`
+- [v0.85/experiment_prioritization_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.85/experiment_prioritization_demo.md)
+- [v0.85/cross_workflow_learning_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.85/cross_workflow_learning_demo.md)
+- [v0.85/promotion_eval_loop_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.85/promotion_eval_loop_demo.md)
+- [aee-recovery/README.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/aee-recovery/README.md)
 
-Use `aee-recovery/README.md` for the bounded Adaptive Execution Engine recovery
+Use [aee-recovery/README.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/aee-recovery/README.md) for the bounded Adaptive Execution Engine recovery
 demo: failure, explicit retry-budget recommendation, bounded overlay, and
 successful recovery with replayable artifacts.
 
@@ -432,7 +432,7 @@ persisted Gödel schema/runtime artifacts it produces, including the
 first-class `godel_hypothesis.v1.json` hypothesis record. For a one-command
 review flow, run `adl/tools/demo_godel_hypothesis_engine.sh`.
 
-Use `v0.85/promotion_eval_loop_demo.md` for the bounded WP-14 review path that proves
+Use [v0.85/promotion_eval_loop_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.85/promotion_eval_loop_demo.md) for the bounded WP-14 review path that proves
 the prior Gödel artifacts now feed a structured evaluation report and an
 explicit promotion decision through the persisted
 `godel_eval_report.v1.json` and `godel_promotion_decision.v1.json` artifacts.
@@ -443,19 +443,19 @@ It shows a deterministic policy decision and before/after policy comparison
 derived from the persisted hypothesis artifact. For a one-command review flow,
 run `adl/tools/demo_adaptive_godel_loop.sh`.
 
-Use `v0.85/experiment_prioritization_demo.md` for the bounded WP-12 prioritization
+Use [v0.85/experiment_prioritization_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.85/experiment_prioritization_demo.md) for the bounded WP-12 prioritization
 slice. It shows a deterministic ranked experiment output with explicit
 confidence values and stable tie-break behavior derived from the hypothesis and
 policy artifacts. For a one-command review flow, run
 `adl/tools/demo_experiment_prioritization.sh`.
 
-Use `v0.85/cross_workflow_learning_demo.md` for the bounded WP-13 review path that
+Use [v0.85/cross_workflow_learning_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.85/cross_workflow_learning_demo.md) for the bounded WP-13 review path that
 proves workflow-A prioritization output changes a downstream workflow-B
 decision through the persisted `godel_cross_workflow_learning.v1.json`
 artifact. For a one-command review flow, run
 `adl/tools/demo_cross_workflow_learning.sh`.
 
-Use `v0.85/affect_godel_vertical_slice_demo.md` for the bounded WP-17 slice that
+Use [v0.85/affect_godel_vertical_slice_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.85/affect_godel_vertical_slice_demo.md) for the bounded WP-17 slice that
 proves an affect transition changes the top Gödel-adjacent strategy ranking
 through the persisted `godel_affect_vertical_slice.v1.json` artifact. For a
 one-command review flow, run

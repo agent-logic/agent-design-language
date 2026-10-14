@@ -14,7 +14,7 @@ adl/tools/demo_steering_queue_checkpoint.sh
 ```
 
 Review:
-- `demos/v0.85/steering_queue_checkpoint_demo.md`
+- [demos/v0.85/steering_queue_checkpoint_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.85/steering_queue_checkpoint_demo.md)
 
 Primary proof:
 - `.adl/runs/v0-85-hitl-steering-demo/pause_state.json`
@@ -41,7 +41,7 @@ adl/tools/demo_aee_bounded_adaptation.sh
 ```
 
 Review:
-- `demos/aee-recovery/README.md`
+- [demos/aee-recovery/README.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/aee-recovery/README.md)
 
 Primary proof:
 - `.adl/runs/v0-3-aee-recovery-initial/learning/aee_decision.json`
@@ -54,7 +54,7 @@ adl/tools/demo_affect_godel_vertical_slice.sh
 ```
 
 Review:
-- `demos/v0.85/affect_godel_vertical_slice_demo.md`
+- [demos/v0.85/affect_godel_vertical_slice_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.85/affect_godel_vertical_slice_demo.md)
 
 Primary proof:
 - `.adl/reports/demo-affect-godel-vertical-slice/runs/review-godel-affect-001/godel/godel_affect_vertical_slice.v1.json`
