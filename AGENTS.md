@@ -1,5 +1,13 @@
 # ADL Agent Guidelines
 
+## Repository scope after the split
+
+This repository owns public ADL language/contracts and CLI dispatch. Runtime,
+CodeFriend and Cognitive-SDLC implementations and their validation belong to
+separate owners; see [the repository map](docs/REPOSITORIES.md). Do not restore
+private source or require sibling checkouts to validate public-only changes.
+Historical milestone and review records retain their original scope.
+
 ## C-SDLC v3 authority after V3-F
 
 The v1 C-SDLC command wrappers, `pr.sh` lifecycle wrappers, prompt-template
@@ -335,12 +343,12 @@ For a normal tracked issue:
   Private owner validation belongs to the separately qualified Runtime,
   CodeFriend, or C-SDLC repository lane; the retired ADL owner aggregate is
   not a current validation route.
-- Operational ADL owner binaries must be installed into the stable generated
-  repo-local directory outside Cargo build output: `.adl/bin/` by default, via
-  `bash adl/tools/install_owner_binaries.sh`. Treat `adl/target/` as disposable
-  build/cache output only; do not rely on live issue-worktree target directories
-  as the operational source of truth, and do not replace stable binaries unless
-  their recorded source provenance changes.
+- C-SDLC executables and manuals come from an authenticated owner package.
+  Use the exact admitted executable and its paired manuals. The compatibility
+  `install_owner_binaries.sh --bin csdlc` helper only locates manuals; it does not
+  install or activate C-SDLC. Public `adl` installation is a separate contract.
+  Treat Cargo target directories as disposable build output and never select
+  their binaries as operational owner authority.
 - Before Rust-heavy validation in a fresh issue worktree or on an EC2/remote
   builder, use the dependency-cache warmup wrapper only when a trusted warm
   target from the same host, same filesystem, same checkout family, and same
