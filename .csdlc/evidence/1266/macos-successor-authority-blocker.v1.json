@@ -1,7 +1,7 @@
 {
   "schema": "adl.csdlc_v3.macos_successor_authority_blocker.v1",
   "issue": 1266,
-  "observed_at": "2026-10-14T02:55:53Z",
+  "observed_at": "2026-10-14T02:58:57Z",
   "status": "blocked",
   "blocking_requirement": "Authenticated Apple Silicon macOS external-consumer package succession and activation for the verified recordless v0.93.1 closeout denominator.",
   "observations": {
@@ -48,6 +48,28 @@
       "portable_review_attestation_present": false,
       "producer_issue_linkage": "Closes agent-logic/agent-design-language#1266",
       "authority_effect": "Merge and CI establish canonical source only. PR 275 cannot satisfy portable package admission because its body lacks the required canonical csdlc-portable-review-v1 attestation and it does not close a cognitive-sdlc producer issue."
+    },
+    "authenticated_bootstrap_candidate_attempt": {
+      "retained_attempt_packet": ".csdlc/evidence/1266/package-bootstrap-attempt.v1.json",
+      "producer_pr": 261,
+      "producer_issue": 260,
+      "candidate": "fa5e22e818f9eb5478faac298877f188492cd879",
+      "merge": "4ce85e5b5c3ee0190c3fc5b8c05d422f75db0be0",
+      "workflow_run": 38444295777,
+      "macos_arm64_artifact": 11837107877,
+      "artifact_sha256": "868cd5b3db7c13a39ba1352941d4abea82c3a4a81bf15c28e691fa3c28606527",
+      "portable_review_attestation_sha256": "2f5681163487e5ed71f2ed6a600afcce1660e52cd3db3b8e1a997ea42104f636",
+      "result": "portable_authenticated_observation_unavailable",
+      "explicit_token_file_retry_result": "portable_authenticated_observation_unavailable",
+      "remote_writes": 0,
+      "authority_effect": "The stale installed owner could not authenticate even this canonical reviewed predecessor package, so it cannot bootstrap itself through package-install."
+    },
+    "typed_issue_creation_attempt": {
+      "simple_route_result": "legacy_writer_retired",
+      "semantic_coordinator": 205,
+      "semantic_status_result": "intent_semantic_InvalidEncoding_unknown_field_installed_tool_transition",
+      "remote_writes": 0,
+      "authority_effect": "The installed owner cannot currently establish the semantic context required to create the missing cognitive-sdlc producer issue."
     },
     "sidecar_issue_creation": {
       "repository": "agent-logic/agent-design-language",

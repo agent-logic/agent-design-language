@@ -1,0 +1,63 @@
+{
+  "schema": "adl.csdlc_v3.package_bootstrap_attempt.v1",
+  "issue": 1266,
+  "observed_at": "2026-10-14T03:01:46Z",
+  "repository": "agent-logic/cognitive-sdlc",
+  "working_directory": "/Users/daniel/git/cognitive-sdlc",
+  "installed_executable": ".adl/packages/11660977711/installed/bin/csdlc",
+  "request_path": "/Volumes/FastWork/csdlc-package-install-pr261.json",
+  "request": {
+    "schema": "csdlc.v3.portable_package_install.v1",
+    "repository_root": "/Users/daniel/git/cognitive-sdlc",
+    "artifact_path": "/Volumes/FastWork/csdlc-owner-macos-arm64-pr261.zip",
+    "observation": {
+      "pull_request": 261,
+      "producer_issue": 260,
+      "workflow_run": 38444295777,
+      "artifact": 11837107877,
+      "candidate_revision": "fa5e22e818f9eb5478faac298877f188492cd879",
+      "merge_revision": "4ce85e5b5c3ee0190c3fc5b8c05d422f75db0be0",
+      "default_branch": "main",
+      "workflow_attempt": 1,
+      "review_attestation_sha256": "2f5681163487e5ed71f2ed6a600afcce1660e52cd3db3b8e1a997ea42104f636"
+    }
+  },
+  "downloaded_artifact_sha256": "868cd5b3db7c13a39ba1352941d4abea82c3a4a81bf15c28e691fa3c28606527",
+  "retained_result": {
+    "exit_code": 2,
+    "stdout_path": ".csdlc/evidence/1266/package-bootstrap-native.stdout.json",
+    "stderr_path": ".csdlc/evidence/1266/package-bootstrap-native.stderr.txt",
+    "stdout_sha256": "4c10343ecaaf64d0d07bdc41b09458d2d5ca017cec28918a0f79989baefc29be",
+    "stderr_sha256": "d48d67ffa9099e96e343a9da656dbba9ef0e7a824cf3350f5d15325ae9348792",
+    "stderr": "csdlc: portable_authenticated_observation_unavailable; see structured stdout findings\n",
+    "stdout": {
+      "schema": "csdlc.v3.command_failure.v1",
+      "status": "failed",
+      "findings": [{"code": "portable_authenticated_observation_unavailable", "message": "portable_authenticated_observation_unavailable"}],
+      "envelope": {
+        "schema": "csdlc.v3.command_result.v1",
+        "command": "package-install",
+        "issue": {"status": "unavailable"},
+        "status": "failed",
+        "process_status": "failed",
+        "authority_status": "not_established",
+        "issue_version": {
+          "before": {"basis": "request_expectation", "digest": null},
+          "after": {"basis": "owner_result", "digest": null}
+        },
+        "effects": {"class": "guarded_local", "outcome": "unknown"},
+        "findings": [{"code": "portable_authenticated_observation_unavailable", "message": "portable_authenticated_observation_unavailable"}],
+        "reason_code": "portable_authenticated_observation_unavailable",
+        "allowed_next_operations": [],
+        "correlation_id": "41103-1791946906686",
+        "intent_identity": null,
+        "evidence_invalidation": {"status": "not_reported"},
+        "timing": {"started_unix_ms": 1791946906686, "monotonic_duration_ms": 12},
+        "wait_owner": "operator"
+      }
+    }
+  },
+  "credential_handling": "The approved token file was mapped through ADL_GITHUB_TOKEN_FILE for this invocation only; no credential value or file content is retained.",
+  "remote_effect": "Package installation exposes no remote-write operation; the retained attempt failed while establishing authenticated producer observation.",
+  "local_effect": "The native result classified guarded-local outcome as unknown. Post-attempt readback still names artifact 11660977711 and candidate 7d64e64da26df4f8613711adcc5d619d4f8a9508; .adl/packages/11837107877 is absent. No successor activation occurred."
+}
