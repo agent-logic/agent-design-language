@@ -532,7 +532,7 @@ operation, with an explicit parent contract, operator approval, durable evidence
 digests and authenticated child deliveries. Marker-free legacy umbrellas may
 install the exact structured contract in the same guarded completion mutation;
 ordinary legacy edits remain denied. See
-[Coordination completion](COORDINATION_COMPLETION.md) for the complete
+[Coordination completion](https://github.com/agent-logic/cognitive-sdlc/blob/fa5e22e818f9eb5478faac298877f188492cd879/docs/csdlc-v3/COORDINATION_COMPLETION.md) for the complete
 ordinary edit, completion, reconciliation and finish sequence.
 
 For an externally created, already merged PR without a native publication receipt,
@@ -578,3 +578,7 @@ not create a new merge identity; the original retired operation stays retired.
 
 After any dispatch evidence, only authenticated reconciliation remains supported.
 Retirement does not claim a merge, close an issue, relax policy, or permit replay.
+
+The linked owner revision documents the selected native contract, including
+repository-qualified child identities and publication linkage. This navigation
+change does not execute coordination operations or establish live acceptance.

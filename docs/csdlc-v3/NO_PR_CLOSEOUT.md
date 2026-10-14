@@ -53,5 +53,9 @@ identity. These are deterministic offline tooling tests; live issue reconciliati
 is separate operational evidence.
 
 For an open coordination-only umbrella, use the explicitly authorized
-[native coordination completion route](COORDINATION_COMPLETION.md) first.
+[native coordination completion route](https://github.com/agent-logic/cognitive-sdlc/blob/fa5e22e818f9eb5478faac298877f188492cd879/docs/csdlc-v3/COORDINATION_COMPLETION.md) first.
 The existing no-PR finish route observes closure; it does not close an open issue.
+
+The linked owner revision documents the selected native contract, including
+repository-qualified child identities and publication linkage. This navigation
+change does not execute coordination operations or establish live acceptance.
