@@ -27,8 +27,8 @@ Status: delivered baseline / future follow-on only.
 
 - `docs/planning/DEEP_AGENTS_COMPARATIVE_WAVE.md`
 - `docs/milestones/v0.88/features/DEEP_AGENTS_COMPARATIVE_PROOF.md`
-- `demos/v0.89/deep_agents_comparative_wave_demo.md`
-- `demos/v0.89.1/deep_agents_comparative_wave_follow_on_demo.md`
+- [demos/v0.89/deep_agents_comparative_wave_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.89/deep_agents_comparative_wave_demo.md)
+- [demos/v0.89.1/deep_agents_comparative_wave_follow_on_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.89.1/deep_agents_comparative_wave_follow_on_demo.md)
 
 ### Current Reading
 

@@ -1,8 +1,27 @@
-# Using Claude Opus for ADL reviews
+> Runtime source paths and in-tree build commands below are historical references after ADL #1223. Current execution requires the separately qualified Runtime owner; retaining this document does not qualify the original procedure.
 
-This is the operator procedure for a bounded, evidence-first review through
-the Rust `adl-provider-adapter`. It is review evidence, not lifecycle
-authority: the typed `csdlc-review` record remains authoritative.
+# Historical Opus review procedure
+
+This page preserves the pre-split `adl-provider-adapter` request and review
+contract. It is historical evidence, not an executable procedure for current
+public ADL. The public `adl/Cargo.toml` no longer declares that adapter binary,
+and the v2 `csdlc-review` invocation below is retired.
+
+For current lifecycle authority, follow
+[the native C-SDLC authority contract](../csdlc-v3/CURRENT_AUTHORITY.md) and the
+manual supplied by the selected installed owner package. This page does not
+establish a current provider-adapter command or qualify a successor for the
+original Opus request contract. Do not run its historical build or review
+commands against the public ADL checkout.
+
+The preserved contract covers structured request/model identity, a 120-second
+single-attempt policy, separate result/log files, and redaction. Its original
+`test_opus_review_runbook.sh` is retired with its unavailable monorepo adapter
+contract; its original assertions remain in Git and retirement custody. See
+[the retirement disposition](../milestones/v0.93.1/repository-decomposition/rd07-1223/CODEFRIEND_LEGACY_CI_RETIREMENT.json)
+for the preserved historical obligations.
+
+The procedure below is retained in its historical form.
 
 ## Preconditions
 
@@ -106,7 +125,8 @@ review truth is absent or stale.
   path scope, the review summary and dispositions, live-probe limitations, and
   the typed review/guard results.
 
-The repository contract check is `bash adl/tools/test_opus_review_runbook.sh`.
-It verifies the documented flags and request fields against the current Rust
-binary help and rejects retired flag-form instructions, secrets, and absolute
-machine paths.
+The historical repository check was `bash adl/tools/test_opus_review_runbook.sh`.
+Its archived assertions covered documented flags and request fields against the
+former adapter help, plus retired-flag and machine-path refusals. That command
+is no longer available in ADL; this retirement does not establish a successor
+provider contract.

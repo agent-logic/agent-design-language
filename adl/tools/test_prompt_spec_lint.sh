@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Original v2 command/Gate2/Gate4 assertions retain their independent owner/historical
+# dispositions. This script proves local wrapper absence/schema guards only.
+
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$ROOT_DIR"
 
@@ -9,11 +12,10 @@ if [[ -e adl/tools/lint_prompt_spec.sh ]]; then
   exit 1
 fi
 
-cargo run --quiet --locked --manifest-path csdlc-v2/Cargo.toml --bin csdlc-validate -- --help >/dev/null
 rg -q 'csdlc-validate' csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md
 if rg -n 'adl/tools/lint_prompt_spec\.sh' docs/templates/prompts/1.0.3 >/dev/null; then
   echo "assertion failed: active prompt templates reference the sunset lint wrapper" >&2
   exit 1
 fi
 
-echo "PASS: prompt-spec lint wrapper remains retired and typed csdlc-validate is available"
+echo "PASS: retained local wrapper absence/schema guards only; no native edit, validation, or lifecycle equivalence claimed"

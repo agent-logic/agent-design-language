@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Validate the WP-18C #114 durable-history parent terminal-chain proof.
+"""Audit retained WP-18C #114 durable-history parent terminal-chain history.
 
 This command proves the terminal child cache/ancestry inputs and the presence of
-the focused Runtime integration test surface. #114 lifecycle/card scope and
+the retained historical Runtime integration test fixture. This is not current
+Runtime execution or native lifecycle authority. #114 lifecycle/card scope and
 parent-vs-child ownership truth are enforced by the issue-owned preparation
 bundle validator, not by this terminal-chain checker.
 """
@@ -132,7 +133,7 @@ def main() -> None:
             "canonical_digest": canonical_digest,
         }
 
-    test_path = root / "adl-runtime-kernel" / "tests" / "durable_conversation_history_integration.rs"
+    test_path = root / "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/historical-fixtures/durable_conversation_history_integration.rs"
     test_text = test_path.read_text(encoding="utf-8")
     for marker in REQUIRED_TEST_MARKERS:
         if marker not in test_text:
@@ -146,8 +147,9 @@ def main() -> None:
                 "issue": 114,
                 "head": git(root, "rev-parse", "HEAD"),
                 "proof_boundary": (
-                    "terminal child cache ancestry and focused test-surface "
-                    "presence only; lifecycle/card ownership is validated by "
+                    "historical terminal child cache ancestry and retained test-fixture "
+                    "marker presence only, not current Runtime execution; "
+                    "lifecycle/card ownership is validated by "
                     ".csdlc/prepared/issues/114/validate_preparation_bundle.py"
                 ),
                 "terminals": terminals,

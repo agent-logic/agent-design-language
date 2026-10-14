@@ -1,0 +1,67 @@
+{
+  "schema": "adl1223.additional_coverage_retirement.v1",
+  "proposal": {
+    "source_head": "18973c1b9ebdd8534fd445a2ae198241a58b2d1a",
+    "original_inventory_count": 4134,
+    "additional_rows": [
+      {
+        "path": "adl/tools/demo_v0912_quality_gate.sh",
+        "original_inventory_member": false,
+        "current_git_blob": "97d0e90e20a86a4844c7ca72dc8371ca85459624",
+        "mode": "0o755",
+        "proposed_action": "additional_remove_with_legacy_coverage_family",
+        "requires": [
+          "explicit_additional_path_review",
+          "scoped_operator_decision",
+          "coherent_private_coverage_and_original_test_disposition"
+        ]
+      },
+      {
+        "path": "adl/tools/test_demo_v0912_quality_gate.sh",
+        "original_inventory_member": false,
+        "current_git_blob": "c658a17b93dab0bfbef3a1d22e2e0583e3bb02d5",
+        "mode": "0o755",
+        "proposed_action": "additional_remove_with_legacy_coverage_family",
+        "requires": [
+          "explicit_additional_path_review",
+          "scoped_operator_decision",
+          "coherent_private_coverage_and_original_test_disposition"
+        ]
+      },
+      {
+        "path": "adl/tools/run_local_authoritative_coverage_gate.sh",
+        "original_inventory_member": false,
+        "current_git_blob": "4a1f4856e2d7b9655f2165f59872eb86a6f403bf",
+        "mode": "0o644",
+        "proposed_action": "additional_remove_with_legacy_coverage_family",
+        "requires": [
+          "explicit_additional_path_review",
+          "scoped_operator_decision",
+          "coherent_private_coverage_and_original_test_disposition"
+        ]
+      }
+    ],
+    "original_companions": [
+      "RD07-2093 adl/tools/test_run_local_authoritative_coverage_gate.sh",
+      "RD07-1405 adl/tools/install_local_authoritative_coverage_prereqs.sh",
+      "RD07-1473 adl/tools/run_authoritative_coverage_lane.sh"
+    ],
+    "reason": "Two previously unlisted active callers and paired v0912 demo test would otherwise survive removal of their private coverage producer. Preserve old source in Git and historical records. New public validation is not asserted equivalent to the old monolithic coverage gate.",
+    "existing_additional_count": 19,
+    "proposed_total_if_accepted": 22,
+    "followup": "Update retained validation_inventory categorization and original private family callers with the final retirement delta. Historical docs remain historical, not runnable current guidance.",
+    "boundary": "Not part of38path cutover approval; no deletion applied or authorized, no build/test/network/provider run."
+  },
+  "review": {
+    "reviewer": "WorkerBee18",
+    "result": "PASS conditional scope review",
+    "verified_new_paths": 3,
+    "original_rows_preserved": 4134,
+    "source_review": "Actual demo aggregates private coverage tests and producer; paired test invokes3demo modes and preserves forced-failure/inspect distinctions. Local gate invokes original coverage producer andenforcescoverage output. These are intentional legacy retirements, not public replacement equivalence.",
+    "caller_boundary": "Original2093/1405/1473 plus check_coverage_impact consumer and validation_inventory categories require coherent final delta. Current bounded source search disclosed no additional active demo callers.",
+    "no_execution_or_deletion": true
+  },
+  "patch_sha256": "8c91fac27690cd3573e4707e8954464460a79534cf9a6cc94c20c6e74020c07a",
+  "execution_authorized": false,
+  "separate_from_pending_38path_cutover": true
+}

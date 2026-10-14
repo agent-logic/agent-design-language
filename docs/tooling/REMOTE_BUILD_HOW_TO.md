@@ -1,5 +1,11 @@
 # Remote Build How-To
 
+> Historical ADL procedure retained as source evidence. The local benchmark
+> and remote-build entrypoints described below were retired by #1223.
+> These commands are not current ADL execution instructions. Consult the
+> [Infrastructure owner source](https://github.com/agent-logic/agent-logic-infrastructure/tree/db78fff91b07a0b05dfbb4ceb5bdd3279b3315a1) for the owner implementation;
+> source presence does not establish current build or cloud qualification.
+
 Use this playbook to run ADL validation or repeated builds on Nessus, AWS Spot,
 or AWS CodeBuild without rediscovering the setup. Keep runs issue-bound,
 explicit, and proof-producing.

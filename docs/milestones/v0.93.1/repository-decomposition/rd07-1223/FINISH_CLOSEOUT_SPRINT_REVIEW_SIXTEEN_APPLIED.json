@@ -1,0 +1,572 @@
+{
+  "schema": "adl1223.finish_closeout_review_resource_retirement.v1",
+  "source_head": "6eb768b4dcbe6714072ed74820b4bdb37e908ad4",
+  "execution_authorized": false,
+  "files": [
+    {
+      "id": "RD07-1598",
+      "path": "adl/tools/skills/docs/PR_CLOSEOUT_SKILL_INPUT_SCHEMA.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "099333745bc03b233e3b1cde1cd35e2a82802d0b",
+        "sha256": "c3be3d851ed1a1430ebd9420413f5c1eead373f2a6efc2f9b55b540c9654c35d"
+      },
+      "original_captured_identity": {
+        "mode": "100644",
+        "blob": "099333745bc03b233e3b1cde1cd35e2a82802d0b"
+      },
+      "owner": {
+        "installed_path": "/Volumes/FastWork/c1223/csdlc255-admission/issue260-full-consumer/.adl/packages/11837302828/installed/resources/adl/tools/skills/docs/PR_CLOSEOUT_SKILL_INPUT_SCHEMA.md",
+        "qualified_bundle_path": "/Volumes/FastWork/c1223/evidence/cognitive-sdlc/bundle-92779b3/composition/candidate-bundle/skills/docs/PR_CLOSEOUT_SKILL_INPUT_SCHEMA.md",
+        "sha256": "c3be3d851ed1a1430ebd9420413f5c1eead373f2a6efc2f9b55b540c9654c35d",
+        "exact_original": true
+      },
+      "disposition": "qualified_resource_transfer",
+      "after": null
+    },
+    {
+      "id": "RD07-1599",
+      "path": "adl/tools/skills/docs/PR_FINISH_SKILL_INPUT_SCHEMA.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "db255f1535abf56623e40f4e5af93f27adc3e093",
+        "sha256": "a47f38e7af105fc631bca7e8ceae97820d6325359c1bfb53ccd8ec6f4190db76"
+      },
+      "original_captured_identity": {
+        "mode": "100644",
+        "blob": "db255f1535abf56623e40f4e5af93f27adc3e093"
+      },
+      "owner": {
+        "installed_path": "/Volumes/FastWork/c1223/csdlc255-admission/issue260-full-consumer/.adl/packages/11837302828/installed/resources/adl/tools/skills/docs/PR_FINISH_SKILL_INPUT_SCHEMA.md",
+        "qualified_bundle_path": "/Volumes/FastWork/c1223/evidence/cognitive-sdlc/bundle-92779b3/composition/candidate-bundle/skills/docs/PR_FINISH_SKILL_INPUT_SCHEMA.md",
+        "sha256": "a47f38e7af105fc631bca7e8ceae97820d6325359c1bfb53ccd8ec6f4190db76",
+        "exact_original": true
+      },
+      "disposition": "qualified_resource_transfer",
+      "after": null
+    },
+    {
+      "id": "RD07-1677",
+      "path": "adl/tools/skills/pr-closeout/SKILL.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "268b2da7488c9fb25c219d2e8367954e26983823",
+        "sha256": "2f46a2bc130fcd8ee99cfe330e1573d1083bd3eed61ff87a90a8f97b1d22669f"
+      },
+      "original_captured_identity": {
+        "mode": "100644",
+        "blob": "268b2da7488c9fb25c219d2e8367954e26983823"
+      },
+      "owner": {
+        "installed_path": "/Volumes/FastWork/c1223/csdlc255-admission/issue260-full-consumer/.adl/packages/11837302828/installed/resources/adl/tools/skills/pr-closeout/SKILL.md",
+        "qualified_bundle_path": "/Volumes/FastWork/c1223/evidence/cognitive-sdlc/bundle-92779b3/composition/candidate-bundle/skills/pr-closeout/SKILL.md",
+        "sha256": "becee5f4c3bd5de9ea7fdc258fe5a28195938e0663181c6a0a7e10879ea08c8f",
+        "exact_original": false
+      },
+      "disposition": "explicit_historical_v1_v2_instruction_retirement",
+      "after": null,
+      "owner_difference": "/Volumes/FastWork/c1223/finish-closeout-sprint-review-sixteen/owner-diffs/pr-closeout/SKILL.md"
+    },
+    {
+      "id": "RD07-1678",
+      "path": "adl/tools/skills/pr-closeout/adl-skill.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "6afb403af23e9ec6801a1236bca6fbfc5269c787",
+        "sha256": "43edb160cad5c874614535109dc210052c208e0d2449799dced2a335966b72e3"
+      },
+      "original_captured_identity": {
+        "mode": "100644",
+        "blob": "6afb403af23e9ec6801a1236bca6fbfc5269c787"
+      },
+      "owner": {
+        "installed_path": "/Volumes/FastWork/c1223/csdlc255-admission/issue260-full-consumer/.adl/packages/11837302828/installed/resources/adl/tools/skills/pr-closeout/adl-skill.yaml",
+        "qualified_bundle_path": "/Volumes/FastWork/c1223/evidence/cognitive-sdlc/bundle-92779b3/composition/candidate-bundle/skills/pr-closeout/adl-skill.yaml",
+        "sha256": "c78f957fce4062ba6340624cd1e7004061725604a6e8e4e78fa1368246c43df3",
+        "exact_original": false
+      },
+      "disposition": "explicit_historical_v1_v2_instruction_retirement",
+      "after": null,
+      "owner_difference": "/Volumes/FastWork/c1223/finish-closeout-sprint-review-sixteen/owner-diffs/pr-closeout/adl-skill.yaml"
+    },
+    {
+      "id": "RD07-1679",
+      "path": "adl/tools/skills/pr-closeout/agents/openai.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "e9158ad17fd363415f459aad4ec6d9c96567c9e2",
+        "sha256": "b06fddaa6d32c2b9ac38a1c4ceded59924829a9a60bedeb37dbe7cc5dac0189d"
+      },
+      "original_captured_identity": {
+        "mode": "100644",
+        "blob": "e9158ad17fd363415f459aad4ec6d9c96567c9e2"
+      },
+      "owner": {
+        "installed_path": "/Volumes/FastWork/c1223/csdlc255-admission/issue260-full-consumer/.adl/packages/11837302828/installed/resources/adl/tools/skills/pr-closeout/agents/openai.yaml",
+        "qualified_bundle_path": "/Volumes/FastWork/c1223/evidence/cognitive-sdlc/bundle-92779b3/composition/candidate-bundle/skills/pr-closeout/agents/openai.yaml",
+        "sha256": "b06fddaa6d32c2b9ac38a1c4ceded59924829a9a60bedeb37dbe7cc5dac0189d",
+        "exact_original": true
+      },
+      "disposition": "qualified_resource_transfer",
+      "after": null
+    },
+    {
+      "id": "RD07-1680",
+      "path": "adl/tools/skills/pr-closeout/references/closeout-playbook.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "3b540fb979a2a9b4ed777c969a4bf1eee6b56b7c",
+        "sha256": "651e826b5ce0bdb0bf9dddd9fe45ce01ede75ff1a6e66f7f946c2f0239c1000c"
+      },
+      "original_captured_identity": {
+        "mode": "100644",
+        "blob": "3b540fb979a2a9b4ed777c969a4bf1eee6b56b7c"
+      },
+      "owner": {
+        "installed_path": "/Volumes/FastWork/c1223/csdlc255-admission/issue260-full-consumer/.adl/packages/11837302828/installed/resources/adl/tools/skills/pr-closeout/references/closeout-playbook.md",
+        "qualified_bundle_path": "/Volumes/FastWork/c1223/evidence/cognitive-sdlc/bundle-92779b3/composition/candidate-bundle/skills/pr-closeout/references/closeout-playbook.md",
+        "sha256": "6df7355596083fbb96e52433c37c9e833605696620f5964fe61e51eec26b256c",
+        "exact_original": false
+      },
+      "disposition": "explicit_historical_v1_v2_instruction_retirement",
+      "after": null,
+      "owner_difference": "/Volumes/FastWork/c1223/finish-closeout-sprint-review-sixteen/owner-diffs/pr-closeout/references/closeout-playbook.md"
+    },
+    {
+      "id": "RD07-1681",
+      "path": "adl/tools/skills/pr-closeout/references/output-contract.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "6736ec5c8c04d0fbda821843177060a7a367e342",
+        "sha256": "14eb5a92298b9dbbf7d502934e30197423a51b82fa7a6978799c01f34f9db0f5"
+      },
+      "original_captured_identity": {
+        "mode": "100644",
+        "blob": "6736ec5c8c04d0fbda821843177060a7a367e342"
+      },
+      "owner": {
+        "installed_path": "/Volumes/FastWork/c1223/csdlc255-admission/issue260-full-consumer/.adl/packages/11837302828/installed/resources/adl/tools/skills/pr-closeout/references/output-contract.md",
+        "qualified_bundle_path": "/Volumes/FastWork/c1223/evidence/cognitive-sdlc/bundle-92779b3/composition/candidate-bundle/skills/pr-closeout/references/output-contract.md",
+        "sha256": "14eb5a92298b9dbbf7d502934e30197423a51b82fa7a6978799c01f34f9db0f5",
+        "exact_original": true
+      },
+      "disposition": "qualified_resource_transfer",
+      "after": null
+    },
+    {
+      "id": "RD07-1683",
+      "path": "adl/tools/skills/pr-finish/adl-skill.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "1ab1ef7088fd41cd81b1043d66f17d8b47ef10ae",
+        "sha256": "d8977d8ecd26f3623e26e148ede9f2b3c17d427dd29dd11404e7ffacbc795bc3"
+      },
+      "original_captured_identity": {
+        "mode": "100644",
+        "blob": "1ab1ef7088fd41cd81b1043d66f17d8b47ef10ae"
+      },
+      "owner": {
+        "installed_path": "/Volumes/FastWork/c1223/csdlc255-admission/issue260-full-consumer/.adl/packages/11837302828/installed/resources/adl/tools/skills/pr-finish/adl-skill.yaml",
+        "qualified_bundle_path": "/Volumes/FastWork/c1223/evidence/cognitive-sdlc/bundle-92779b3/composition/candidate-bundle/skills/pr-finish/adl-skill.yaml",
+        "sha256": "9664abb8a2358f5a051ac34456745c23514c84a40bb1959e0e5e59cd5259688d",
+        "exact_original": false
+      },
+      "disposition": "explicit_historical_v1_v2_instruction_retirement",
+      "after": null,
+      "owner_difference": "/Volumes/FastWork/c1223/finish-closeout-sprint-review-sixteen/owner-diffs/pr-finish/adl-skill.yaml"
+    },
+    {
+      "id": "RD07-1684",
+      "path": "adl/tools/skills/pr-finish/agents/openai.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "77ac02985bc85bca099a84aaee8f38aea7c9fa26",
+        "sha256": "776da96011785ea0f851df3d2263454fd341bc841cb2c63e2b6b5c255ddddd9b"
+      },
+      "original_captured_identity": {
+        "mode": "100644",
+        "blob": "77ac02985bc85bca099a84aaee8f38aea7c9fa26"
+      },
+      "owner": {
+        "installed_path": "/Volumes/FastWork/c1223/csdlc255-admission/issue260-full-consumer/.adl/packages/11837302828/installed/resources/adl/tools/skills/pr-finish/agents/openai.yaml",
+        "qualified_bundle_path": "/Volumes/FastWork/c1223/evidence/cognitive-sdlc/bundle-92779b3/composition/candidate-bundle/skills/pr-finish/agents/openai.yaml",
+        "sha256": "776da96011785ea0f851df3d2263454fd341bc841cb2c63e2b6b5c255ddddd9b",
+        "exact_original": true
+      },
+      "disposition": "qualified_resource_transfer",
+      "after": null
+    },
+    {
+      "id": "RD07-1685",
+      "path": "adl/tools/skills/pr-finish/references/finish-playbook.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "08f49137772e3a0ee26f356aba4de8124d94301e",
+        "sha256": "7f70d2bb99be6bc1a128c9e7145e126dcfdf3618c0c7bc986196fd61c13b611f"
+      },
+      "original_captured_identity": {
+        "mode": "100644",
+        "blob": "08f49137772e3a0ee26f356aba4de8124d94301e"
+      },
+      "owner": {
+        "installed_path": "/Volumes/FastWork/c1223/csdlc255-admission/issue260-full-consumer/.adl/packages/11837302828/installed/resources/adl/tools/skills/pr-finish/references/finish-playbook.md",
+        "qualified_bundle_path": "/Volumes/FastWork/c1223/evidence/cognitive-sdlc/bundle-92779b3/composition/candidate-bundle/skills/pr-finish/references/finish-playbook.md",
+        "sha256": "031a0db0760a98604cf20af090748b91f94f5c21a459ab8bf19d0740431cb24d",
+        "exact_original": false
+      },
+      "disposition": "explicit_historical_v1_v2_instruction_retirement",
+      "after": null,
+      "owner_difference": "/Volumes/FastWork/c1223/finish-closeout-sprint-review-sixteen/owner-diffs/pr-finish/references/finish-playbook.md"
+    },
+    {
+      "id": "RD07-1686",
+      "path": "adl/tools/skills/pr-finish/references/output-contract.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "3c47e54ec627062f72912780b77d8ba40042d3d4",
+        "sha256": "d9749b94dc53cd94bc534ad197cef24b577a53e75dad8762451a965fb9bc0c83"
+      },
+      "original_captured_identity": {
+        "mode": "100644",
+        "blob": "3c47e54ec627062f72912780b77d8ba40042d3d4"
+      },
+      "owner": {
+        "installed_path": "/Volumes/FastWork/c1223/csdlc255-admission/issue260-full-consumer/.adl/packages/11837302828/installed/resources/adl/tools/skills/pr-finish/references/output-contract.md",
+        "qualified_bundle_path": "/Volumes/FastWork/c1223/evidence/cognitive-sdlc/bundle-92779b3/composition/candidate-bundle/skills/pr-finish/references/output-contract.md",
+        "sha256": "d9749b94dc53cd94bc534ad197cef24b577a53e75dad8762451a965fb9bc0c83",
+        "exact_original": true
+      },
+      "disposition": "qualified_resource_transfer",
+      "after": null
+    },
+    {
+      "id": "RD07-1866",
+      "path": "adl/tools/skills/sprint-review/SKILL.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "da651d8c92a41b5314e88255862e1f437a412dc1",
+        "sha256": "b1c78f744e4adae7d1040f17b059e9092d4e8e2a0780db62518c645a0bda8c9c"
+      },
+      "original_captured_identity": {
+        "mode": "100644",
+        "blob": "da651d8c92a41b5314e88255862e1f437a412dc1"
+      },
+      "owner": {
+        "installed_path": "/Volumes/FastWork/c1223/csdlc255-admission/issue260-full-consumer/.adl/packages/11837302828/installed/resources/adl/tools/skills/sprint-review/SKILL.md",
+        "qualified_bundle_path": "/Volumes/FastWork/c1223/evidence/cognitive-sdlc/bundle-92779b3/composition/candidate-bundle/skills/sprint-review/SKILL.md",
+        "sha256": "b1c78f744e4adae7d1040f17b059e9092d4e8e2a0780db62518c645a0bda8c9c",
+        "exact_original": true
+      },
+      "disposition": "qualified_resource_transfer",
+      "after": null
+    },
+    {
+      "id": "RD07-1867",
+      "path": "adl/tools/skills/sprint-review/adl-skill.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "3253353dd6a2562593b4d60d5ab1b3908717d603",
+        "sha256": "ada986c2d9087ab3807d1559dfbbba17e2ccf8548e1d01c2abcacf5174bff185"
+      },
+      "original_captured_identity": {
+        "mode": "100644",
+        "blob": "3253353dd6a2562593b4d60d5ab1b3908717d603"
+      },
+      "owner": {
+        "installed_path": "/Volumes/FastWork/c1223/csdlc255-admission/issue260-full-consumer/.adl/packages/11837302828/installed/resources/adl/tools/skills/sprint-review/adl-skill.yaml",
+        "qualified_bundle_path": "/Volumes/FastWork/c1223/evidence/cognitive-sdlc/bundle-92779b3/composition/candidate-bundle/skills/sprint-review/adl-skill.yaml",
+        "sha256": "ada986c2d9087ab3807d1559dfbbba17e2ccf8548e1d01c2abcacf5174bff185",
+        "exact_original": true
+      },
+      "disposition": "qualified_resource_transfer",
+      "after": null
+    },
+    {
+      "id": "RD07-1868",
+      "path": "adl/tools/skills/sprint-review/agents/openai.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "02808f66ec7fbbeeef6fb5f9477d48651da02865",
+        "sha256": "e6855d32ccd26985fed56482a858c604c8da6b99599b9d4b26c723d631feaa61"
+      },
+      "original_captured_identity": {
+        "mode": "100644",
+        "blob": "02808f66ec7fbbeeef6fb5f9477d48651da02865"
+      },
+      "owner": {
+        "installed_path": "/Volumes/FastWork/c1223/csdlc255-admission/issue260-full-consumer/.adl/packages/11837302828/installed/resources/adl/tools/skills/sprint-review/agents/openai.yaml",
+        "qualified_bundle_path": "/Volumes/FastWork/c1223/evidence/cognitive-sdlc/bundle-92779b3/composition/candidate-bundle/skills/sprint-review/agents/openai.yaml",
+        "sha256": "e6855d32ccd26985fed56482a858c604c8da6b99599b9d4b26c723d631feaa61",
+        "exact_original": true
+      },
+      "disposition": "qualified_resource_transfer",
+      "after": null
+    },
+    {
+      "id": "RD07-1869",
+      "path": "adl/tools/skills/sprint-review/docs/SPRINT_REVIEW_SKILL_INPUT_SCHEMA.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "30d73f07220923dd0bc9296834677f64c6544f57",
+        "sha256": "9e6d41a8786c601d2cc0129114bd50de2552ae4195782a4bebab8a85e40fbaa7"
+      },
+      "original_captured_identity": {
+        "mode": "100644",
+        "blob": "30d73f07220923dd0bc9296834677f64c6544f57"
+      },
+      "owner": {
+        "installed_path": "/Volumes/FastWork/c1223/csdlc255-admission/issue260-full-consumer/.adl/packages/11837302828/installed/resources/adl/tools/skills/sprint-review/docs/SPRINT_REVIEW_SKILL_INPUT_SCHEMA.md",
+        "qualified_bundle_path": "/Volumes/FastWork/c1223/evidence/cognitive-sdlc/bundle-92779b3/composition/candidate-bundle/skills/sprint-review/docs/SPRINT_REVIEW_SKILL_INPUT_SCHEMA.md",
+        "sha256": "9e6d41a8786c601d2cc0129114bd50de2552ae4195782a4bebab8a85e40fbaa7",
+        "exact_original": true
+      },
+      "disposition": "qualified_resource_transfer",
+      "after": null
+    },
+    {
+      "id": "RD07-1870",
+      "path": "adl/tools/skills/sprint-review/references/output-contract.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "7f84861599a6b54637487933d6e5eee9f056dae0",
+        "sha256": "7374babc87d5fb970ae208cb953e0102e72e5a2b887d112c900587ef85c8bac7"
+      },
+      "original_captured_identity": {
+        "mode": "100644",
+        "blob": "7f84861599a6b54637487933d6e5eee9f056dae0"
+      },
+      "owner": {
+        "installed_path": "/Volumes/FastWork/c1223/csdlc255-admission/issue260-full-consumer/.adl/packages/11837302828/installed/resources/adl/tools/skills/sprint-review/references/output-contract.md",
+        "qualified_bundle_path": "/Volumes/FastWork/c1223/evidence/cognitive-sdlc/bundle-92779b3/composition/candidate-bundle/skills/sprint-review/references/output-contract.md",
+        "sha256": "7374babc87d5fb970ae208cb953e0102e72e5a2b887d112c900587ef85c8bac7",
+        "exact_original": true
+      },
+      "disposition": "qualified_resource_transfer",
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/docs/OPERATIONAL_SKILLS_GUIDE.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "480b2347cda4d0c41fd10f1bafec4bfb65d6ba50",
+        "sha256": "9fce0ccd91c54a5974d657846118880a2215bb8a9277f150abc66d4e07052e50"
+      },
+      "after": {
+        "mode": "100644",
+        "sha256": "97a19bd5a640dd290050840a137cecba2ead692c12e33278575385e90da936d9",
+        "blob": "27db13138274a8c649df05fc50310be0d83b7593"
+      }
+    },
+    {
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "69c5216b2159729edfb54884e89e8e6b01297a6f",
+        "sha256": "2299ebf2285eda432eda1484d7f13f2d911af0a563de865a1a9f492a2922a9fc"
+      },
+      "after": {
+        "mode": "100644",
+        "sha256": "7e354031a36919febef99abd51188a919449873cc83e73dfbc823540c06e01dd",
+        "blob": "a21da54ae69ce8ced7c22f82663dafd1f7a091dc"
+      }
+    }
+  ],
+  "removal_count": 16,
+  "caller_repairs": 2,
+  "archive": {
+    "path": "/Volumes/FastWork/c1223/finish-closeout-sprint-review-sixteen/current-and-original-preimages.tar",
+    "sha256": "cf9908bcaf8476c518c874f76365f95a59135df809acec77d75c2e693efe447e",
+    "members": "current/ for all18; original/ captured blobs and modes for16"
+  },
+  "patch": {
+    "path": "/Volumes/FastWork/c1223/finish-closeout-sprint-review-sixteen/sixteen-resources.patch",
+    "sha256": "56e3c6871f73159b416926bb96a1eb8c6d86b2488acd05a0c1882742be93944c"
+  },
+  "evidence": [
+    {
+      "path": "/Volumes/FastWork/adl-worktrees/adl-issue-1223-1223-coherent-source-retirement/docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CSDLC_COMPOSED_INSTALLER_QUALIFICATION.json",
+      "sha256": "80cee13cedd460c00e803ada34bbb5985c16d0c4ed749fb0af9a75913c911f7c"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/evidence/cognitive-sdlc/bundle-92779b3/installer-proof/installer-correspondence.json",
+      "sha256": "25763ddd35df4bca33d59dd656b01ea470e7bed1e7c4b46b5a98a279c1497994"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/evidence/cognitive-sdlc/bundle-92779b3/INSTALLER_RESULT.json",
+      "sha256": "7b082b99c4c1f5c096ae1298ad29c627386c6e768a67d88f390a04d77f0f0355"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/csdlc255-admission/issue260-full-consumer/.adl/packages/11837302828/installed/resources/adl/tools/skills/pr-finish/references/compatibility-v1.md",
+      "sha256": "6c2235462211544a3c59dfd303d21b6a9a02dd4872faa1218b0804e005c6b008"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/csdlc255-admission/issue260-full-consumer/.adl/packages/11837302828/installed/resources/adl/tools/skills/pr-closeout/references/compatibility-v1.md",
+      "sha256": "6c2235462211544a3c59dfd303d21b6a9a02dd4872faa1218b0804e005c6b008"
+    }
+  ],
+  "reused_assertions": [
+    {
+      "line": 19,
+      "text": "[[ -f \"${root}/skills/pr-finish/SKILL.md\" ]]",
+      "original_test": "test_install_adl_operational_skills.sh",
+      "current_kind": "same_assertion",
+      "current_text": "[[ -f \"${root}/skills/pr-finish/SKILL.md\" ]]",
+      "status": "passed_current_correspondence"
+    },
+    {
+      "line": 21,
+      "text": "[[ -f \"${root}/skills/pr-closeout/SKILL.md\" ]]",
+      "original_test": "test_install_adl_operational_skills.sh",
+      "current_kind": "same_assertion",
+      "current_text": "[[ -f \"${root}/skills/pr-closeout/SKILL.md\" ]]",
+      "status": "passed_current_correspondence"
+    },
+    {
+      "line": 65,
+      "text": "[[ -f \"${root}/skills/sprint-review/SKILL.md\" ]]",
+      "original_test": "test_install_adl_operational_skills.sh",
+      "current_kind": "same_assertion",
+      "current_text": "[[ -f \"${root}/skills/sprint-review/SKILL.md\" ]]",
+      "status": "passed_current_correspondence"
+    },
+    {
+      "line": 66,
+      "text": "[[ -f \"${root}/skills/sprint-review/adl-skill.yaml\" ]]",
+      "original_test": "test_install_adl_operational_skills.sh",
+      "current_kind": "same_assertion",
+      "current_text": "[[ -f \"${root}/skills/sprint-review/adl-skill.yaml\" ]]",
+      "status": "passed_current_correspondence"
+    },
+    {
+      "line": 67,
+      "text": "[[ -f \"${root}/skills/sprint-review/docs/SPRINT_REVIEW_SKILL_INPUT_SCHEMA.md\" ]]",
+      "original_test": "test_install_adl_operational_skills.sh",
+      "current_kind": "same_assertion",
+      "current_text": "[[ -f \"${root}/skills/sprint-review/docs/SPRINT_REVIEW_SKILL_INPUT_SCHEMA.md\" ]]",
+      "status": "passed_current_correspondence"
+    },
+    {
+      "line": 68,
+      "text": "[[ -f \"${root}/skills/sprint-review/agents/openai.yaml\" ]]",
+      "original_test": "test_install_adl_operational_skills.sh",
+      "current_kind": "same_assertion",
+      "current_text": "[[ -f \"${root}/skills/sprint-review/agents/openai.yaml\" ]]",
+      "status": "passed_current_correspondence"
+    },
+    {
+      "line": 69,
+      "text": "[[ -f \"${root}/skills/sprint-review/references/output-contract.md\" ]]",
+      "original_test": "test_install_adl_operational_skills.sh",
+      "current_kind": "same_assertion",
+      "current_text": "[[ -f \"${root}/skills/sprint-review/references/output-contract.md\" ]]",
+      "status": "passed_current_correspondence"
+    },
+    {
+      "line": 90,
+      "text": "grep -Fq \"truthful closeout\" \"${root}/skills/pr-finish/SKILL.md\"",
+      "original_test": "test_install_adl_operational_skills.sh",
+      "current_kind": "current_native_policy_location",
+      "current_text": "grep -Fq \"truthful closeout\" \"${root}/skills/sprint-conductor/references/conductor-playbook.md\"",
+      "reason": "Current conductor handoff policy explicitly preserves this original child-lifecycle rule and routes its effects through native v3.",
+      "status": "passed_current_correspondence"
+    },
+    {
+      "line": 91,
+      "text": "grep -Fq \"active issue session into explicit PR shepherding\" \"${root}/skills/pr-finish/SKILL.md\"",
+      "original_test": "test_install_adl_operational_skills.sh",
+      "current_kind": "current_native_policy_location",
+      "current_text": "grep -Fq \"active issue session into explicit PR shepherding\" \"${root}/skills/sprint-conductor/references/conductor-playbook.md\"",
+      "reason": "Current conductor handoff policy explicitly preserves this original child-lifecycle rule and routes its effects through native v3.",
+      "status": "passed_current_correspondence"
+    },
+    {
+      "line": 94,
+      "text": "grep -Fq \"post-merge and post-closure cleanup phase\" \"${root}/skills/pr-closeout/SKILL.md\"",
+      "original_test": "test_install_adl_operational_skills.sh",
+      "current_kind": "current_native_policy_location",
+      "current_text": "grep -Fq \"post-merge and post-closure cleanup phase\" \"${root}/skills/sprint-conductor/references/conductor-playbook.md\"",
+      "reason": "Current conductor handoff policy explicitly preserves this original child-lifecycle rule and routes its effects through native v3.",
+      "status": "passed_current_correspondence"
+    },
+    {
+      "line": 95,
+      "text": "grep -Fq \"settle the shepherding handoff once PR outcome truth is known\" \"${root}/skills/pr-closeout/SKILL.md\"",
+      "original_test": "test_install_adl_operational_skills.sh",
+      "current_kind": "current_native_policy_location",
+      "current_text": "grep -Fq \"settle the shepherding handoff once PR outcome truth is known\" \"${root}/skills/sprint-conductor/references/conductor-playbook.md\"",
+      "reason": "Current conductor handoff policy explicitly preserves this original child-lifecycle rule and routes its effects through native v3.",
+      "status": "passed_current_correspondence"
+    },
+    {
+      "line": 120,
+      "text": "grep -Fq \"findings-first review orchestrator\" \"${root}/skills/sprint-review/SKILL.md\"",
+      "original_test": "test_install_adl_operational_skills.sh",
+      "current_kind": "same_assertion",
+      "current_text": "grep -Fq \"findings-first review orchestrator\" \"${root}/skills/sprint-review/SKILL.md\"",
+      "status": "passed_current_correspondence"
+    },
+    {
+      "line": 179,
+      "text": "[[ -L \"${CODEX_HOME}/skills/sprint-review\" ]]",
+      "original_test": "test_install_adl_operational_skills.sh",
+      "current_kind": "same_assertion",
+      "current_text": "[[ -L \"${CODEX_HOME}/skills/sprint-review\" ]]",
+      "status": "passed_current_correspondence"
+    }
+  ],
+  "qualification_limits": {
+    "original_denominator": {
+      "assertion_bearing_lines": 138,
+      "named_skills": 33,
+      "direct_paths": 84,
+      "recursive_entrypoints": 17
+    },
+    "full_original_acceptance": false,
+    "native_admission": false,
+    "new_execution": false,
+    "source_current_equals_qualified_bundle": true
+  },
+  "caller_closure": [
+    "Original installer script explicitly requires ADL_OPERATIONAL_SKILLS_SOURCE_ROOT and keeps old lexical assertions; no local partial tree fallback. Its mapped owner component preflight remains unchanged.",
+    "Card editor contract uses explicit CSDLC_HISTORICAL_SKILLS_ROOT; pr-finish SKILL was already retired and authentic original fixtures remain required.",
+    "Skill-local relative finish/closeout schema references retire with these families; two schema reporting inventories remain exact owner bytes.",
+    "Issue folding and lifecycle shepherd documents use semantic skill names, not local executable file dispatch; native authority remains CURRENT_AUTHORITY.md.",
+    "Generated registry loses exactly pr-closeout and sprint-review directory rows; pr-finish already had no SKILL.md and no row. Registry bytes are prospective edit; root must regenerate actual registry on application."
+  ],
+  "historical_disposition": [
+    "Five changed instruction/metadata resources are explicitly retired historical V1/V2 contracts; owner copy/symlink success does not establish native semantic equivalence.",
+    "Unsupported root-card synchronization, auto-apply staging/cleanup and old v2 routes are not newly accepted; compatibility documents retain field-by-field blocked requirements.",
+    "Eleven exact resource copies relocate; sprint-review obligations are not sunset.",
+    "No current issue-card template schema, authority record, original test assertion or native command changed."
+  ],
+  "required_before_apply": [
+    "Independent exact patch/custody/caller review",
+    "Parent scoped adoption and actual registry regeneration"
+  ],
+  "status": "applied_local_reversible_implementation",
+  "issue": 1223,
+  "applied_base_head": "2b0612c55ac46b7ca178c912d64824046f517722",
+  "review": {
+    "reviewer": "review_1223_historical_retention",
+    "result": "PASS",
+    "scope": "Exact custody, bytes and modes; original qualification evidence and bounded historical dispositions; caller closure."
+  }
+}

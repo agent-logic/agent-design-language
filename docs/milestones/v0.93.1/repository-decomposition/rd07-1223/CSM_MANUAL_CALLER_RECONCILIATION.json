@@ -1,0 +1,233 @@
+{
+  "schema": "adl1223.csm_manual_caller_reconciliation.v1",
+  "source_head": "ad8f3d059e92c897ad9ca5cafda011c7331bf789",
+  "status": "caller_navigation_applied_conditional_source_transfer",
+  "source_proposal": {
+    "path": "/Volumes/FastWork/c1223/final-nine-tool-closure/PROPOSAL.json",
+    "sha256": "0c89c89ad9b555f57105b9d9b4ca184090464e736f7850ab9fde6ecb23ba0b19"
+  },
+  "rows": [
+    {
+      "id": "RD07-1514",
+      "path": "adl/tools/run_v0917_csm_continuity_capsule_4910_proof.sh",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "302afcbadc721f4ffec97f1cafeb8c65e4198d85"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_adl_caller_closure_and_behavior_obligations_are_reconciled",
+      "proposed_action": "hold_explicit_reconciliation",
+      "required_before_execution": [
+        "specific_consumer_or_document_disposition_required",
+        "Reconcile active ADL inbound callers and docs with delivered Infrastructure family.",
+        "Preserve original live behavior obligations separately from resolver proof; validator delivery is not validator execution.",
+        "Scoped retirement decision required before removal."
+      ],
+      "successor_mapping": {
+        "mapping": "reviewed_owner_adaptation",
+        "successor_repository": "agent-logic/agent-logic-infrastructure",
+        "successor_revision": "a5838b0748cd6fb13b8d30afb02da1088167c9fe",
+        "successor_paths": [
+          "adl/tools/run_v0917_csm_continuity_capsule_4910_proof.sh"
+        ],
+        "successor_blob": "46ce5185ed113d501b55e275aa55c99b52c68015",
+        "evidence": "INFRASTRUCTURE_CSM_FAMILY_DELIVERY.json"
+      },
+      "prior_successor_mapping": {
+        "mapping": "unmapped",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": []
+      },
+      "qualification_followup": {
+        "record": "INFRASTRUCTURE_CSM_FAMILY_DELIVERY.json",
+        "scope": "published_source_and_bounded_resolver_only",
+        "live_behavior_qualified": false,
+        "validator_presence_is_execution": false,
+        "changes_removal_authority": false
+      },
+      "observed_adl_identity": {
+        "mode": "100755",
+        "type": "blob",
+        "blob": "302afcbadc721f4ffec97f1cafeb8c65e4198d85",
+        "path": "adl/tools/run_v0917_csm_continuity_capsule_4910_proof.sh"
+      },
+      "source_sha256": "9d95a66c9dba6c977d0de91a797b3e34a54c393b6711bb8a7acaae907b652074",
+      "proposal_only": true,
+      "removal_authorized": false,
+      "recommended_disposition": "conditional_owner_transfer_with_explicit_manual_obligations",
+      "delivered": {
+        "repository": "agent-logic/agent-logic-infrastructure",
+        "revision": "a5838b0748cd6fb13b8d30afb02da1088167c9fe",
+        "identity": {
+          "mode": "100755",
+          "type": "blob",
+          "blob": "46ce5185ed113d501b55e275aa55c99b52c68015",
+          "path": "adl/tools/run_v0917_csm_continuity_capsule_4910_proof.sh"
+        }
+      },
+      "preserved_obligation": "Continuity export/import/capsule custody, corruption/identity refusal, daemon resumption and terminal status validator remain manual acceptance obligations.",
+      "caller_closure": [
+        "Current validation_manager.py defaults to validation_lane_selector.public.v1.json and slow_proof_families.public.v1.json; original v0.91.6 selectors are historical inputs.",
+        "test_validation_manager.sh lines788-790 are changed-file fixture strings, not runner execution; preserve them.",
+        "External two-file patch classifies retained ADL copies as owner-manual evidence and routes navigation to Infrastructure."
+      ],
+      "condition": "Review/apply caller registry patch and retain manual proof obligations in owner record; source transfer is not live qualification."
+    },
+    {
+      "id": "RD07-1515",
+      "path": "adl/tools/run_v0917_csm_otlp_4904_proof.sh",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "5aa8443e31200bb119c413fba0d4d0cedbb8c78c"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_adl_caller_closure_and_behavior_obligations_are_reconciled",
+      "proposed_action": "hold_explicit_reconciliation",
+      "required_before_execution": [
+        "specific_consumer_or_document_disposition_required",
+        "Reconcile active ADL inbound callers and docs with delivered Infrastructure family.",
+        "Preserve original live behavior obligations separately from resolver proof; validator delivery is not validator execution.",
+        "Scoped retirement decision required before removal."
+      ],
+      "successor_mapping": {
+        "mapping": "reviewed_owner_adaptation",
+        "successor_repository": "agent-logic/agent-logic-infrastructure",
+        "successor_revision": "a5838b0748cd6fb13b8d30afb02da1088167c9fe",
+        "successor_paths": [
+          "adl/tools/run_v0917_csm_otlp_4904_proof.sh"
+        ],
+        "successor_blob": "7244973a70eee2b9cbdcfec63eb37b327d57c836",
+        "evidence": "INFRASTRUCTURE_CSM_FAMILY_DELIVERY.json"
+      },
+      "prior_successor_mapping": {
+        "mapping": "unmapped",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": []
+      },
+      "qualification_followup": {
+        "record": "INFRASTRUCTURE_CSM_FAMILY_DELIVERY.json",
+        "scope": "published_source_and_bounded_resolver_only",
+        "live_behavior_qualified": false,
+        "validator_presence_is_execution": false,
+        "changes_removal_authority": false
+      },
+      "observed_adl_identity": {
+        "mode": "100755",
+        "type": "blob",
+        "blob": "5aa8443e31200bb119c413fba0d4d0cedbb8c78c",
+        "path": "adl/tools/run_v0917_csm_otlp_4904_proof.sh"
+      },
+      "source_sha256": "929415242e1abf2be1e0af3b0c46abf0d1d19897fd7624d7d9addb91a0441cf0",
+      "proposal_only": true,
+      "removal_authorized": false,
+      "recommended_disposition": "conditional_owner_transfer_with_explicit_manual_obligations",
+      "delivered": {
+        "repository": "agent-logic/agent-logic-infrastructure",
+        "revision": "a5838b0748cd6fb13b8d30afb02da1088167c9fe",
+        "identity": {
+          "mode": "100755",
+          "type": "blob",
+          "blob": "7244973a70eee2b9cbdcfec63eb37b327d57c836",
+          "path": "adl/tools/run_v0917_csm_otlp_4904_proof.sh"
+        }
+      },
+      "preserved_obligation": "OTLP HTTP JSON-proto collector export only; prior exit0 retained with API bind failure and SNTP self-report. No full Runtime acceptance or strict loopback-only claim.",
+      "caller_closure": [
+        "Current validation_manager.py defaults to validation_lane_selector.public.v1.json and slow_proof_families.public.v1.json; original v0.91.6 selectors are historical inputs.",
+        "test_validation_manager.sh lines788-790 are changed-file fixture strings, not runner execution; preserve them.",
+        "External two-file patch classifies retained ADL copies as owner-manual evidence and routes navigation to Infrastructure."
+      ],
+      "condition": "Review/apply caller registry patch and retain manual proof obligations in owner record; source transfer is not live qualification."
+    },
+    {
+      "id": "RD07-1516",
+      "path": "adl/tools/run_v0917_no_sparrow_4909_proof.sh",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "ef85ba07473e0475a96668876856d0f95c409378"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_adl_caller_closure_and_behavior_obligations_are_reconciled",
+      "proposed_action": "hold_explicit_reconciliation",
+      "required_before_execution": [
+        "specific_consumer_or_document_disposition_required",
+        "Reconcile active ADL inbound callers and docs with delivered Infrastructure family.",
+        "Preserve original live behavior obligations separately from resolver proof; validator delivery is not validator execution.",
+        "Scoped retirement decision required before removal."
+      ],
+      "successor_mapping": {
+        "mapping": "reviewed_owner_adaptation",
+        "successor_repository": "agent-logic/agent-logic-infrastructure",
+        "successor_revision": "a5838b0748cd6fb13b8d30afb02da1088167c9fe",
+        "successor_paths": [
+          "adl/tools/run_v0917_no_sparrow_4909_proof.sh"
+        ],
+        "successor_blob": "025addaeac742eb2187b41edb6062a8490454732",
+        "evidence": "INFRASTRUCTURE_CSM_FAMILY_DELIVERY.json"
+      },
+      "prior_successor_mapping": {
+        "mapping": "unmapped",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": []
+      },
+      "qualification_followup": {
+        "record": "INFRASTRUCTURE_CSM_FAMILY_DELIVERY.json",
+        "scope": "published_source_and_bounded_resolver_only",
+        "live_behavior_qualified": false,
+        "validator_presence_is_execution": false,
+        "changes_removal_authority": false
+      },
+      "observed_adl_identity": {
+        "mode": "100755",
+        "type": "blob",
+        "blob": "ef85ba07473e0475a96668876856d0f95c409378",
+        "path": "adl/tools/run_v0917_no_sparrow_4909_proof.sh"
+      },
+      "source_sha256": "04e9ec3cf9dd462eb1947e7def1cf068f969b6741a9d922af078545a1f6b0cb8",
+      "proposal_only": true,
+      "removal_authorized": false,
+      "recommended_disposition": "conditional_owner_transfer_with_explicit_manual_obligations",
+      "delivered": {
+        "repository": "agent-logic/agent-logic-infrastructure",
+        "revision": "a5838b0748cd6fb13b8d30afb02da1088167c9fe",
+        "identity": {
+          "mode": "100755",
+          "type": "blob",
+          "blob": "025addaeac742eb2187b41edb6062a8490454732",
+          "path": "adl/tools/run_v0917_no_sparrow_4909_proof.sh"
+        }
+      },
+      "preserved_obligation": "No-sparrow cadence/checkpoint/event retention and failed-sink machine-output safety; no live AWS, freeze-dry or full CAV equivalence.",
+      "caller_closure": [
+        "Current validation_manager.py defaults to validation_lane_selector.public.v1.json and slow_proof_families.public.v1.json; original v0.91.6 selectors are historical inputs.",
+        "test_validation_manager.sh lines788-790 are changed-file fixture strings, not runner execution; preserve them.",
+        "External two-file patch classifies retained ADL copies as owner-manual evidence and routes navigation to Infrastructure."
+      ],
+      "condition": "Review/apply caller registry patch and retain manual proof obligations in owner record; source transfer is not live qualification."
+    }
+  ],
+  "caller_patch": {
+    "path": "/Volumes/FastWork/c1223/final-nine-tool-closure/caller-repair.patch",
+    "sha256": "ab74bbde5ff519d53fa855ac8e946ab1db25cc3db8a173e75f3dfe58912ab9cb",
+    "scope": "Generator plus matching generated registry,3 classifications and Infrastructure navigation only; no deletion or executable routing changes."
+  },
+  "review": {
+    "author": "review_1223_public_facade",
+    "independent_review": "WorkerBee18 inspected source/current public defaults, original assertions and three delivered owner Git identities; no actionable findings"
+  },
+  "validation": {
+    "command": "python3 -B adl/tools/generate_tool_surface_registry.py --check",
+    "result": "passed"
+  },
+  "limits": [
+    "Three original scripts retained; no source removals.",
+    "Original manual/live acceptance obligations remain; source delivery and resolver checks are not full behavior qualification.",
+    "Six other held tools stay held for concrete owner resource delivery."
+  ]
+}

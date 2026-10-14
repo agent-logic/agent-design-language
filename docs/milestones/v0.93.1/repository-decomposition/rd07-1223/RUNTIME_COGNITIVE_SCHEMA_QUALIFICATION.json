@@ -1,0 +1,61 @@
+{
+  "status": "PASS_exact_standalone_locked_owner_schema_tests",
+  "source_head": "315abf70358828a8f4d452532ebd995fb4178389",
+  "source_blob": "5878b7a6adf25f263cc87e90d984fc6f16d194f5",
+  "result": {
+    "exit_code": 0,
+    "elapsed_seconds": 8.498,
+    "argv": [
+      "cargo",
+      "test",
+      "--offline",
+      "--locked",
+      "--manifest-path",
+      "adl-legacy-contracts/Cargo.toml",
+      "--lib",
+      "cognitive_transition_schema",
+      "--",
+      "--nocapture"
+    ]
+  },
+  "tests": [
+    "cognitive_transition_schema::tests::cognitive_transition_manifest_fixture_points_at_wp06_merge_gate",
+    "cognitive_transition_schema::tests::cognitive_transition_manifest_fixture_points_at_wp05_evidence_bundle",
+    "cognitive_transition_schema::tests::cognitive_transition_manifest_fixture_points_at_wp07_obsmem_handoff",
+    "cognitive_transition_schema::tests::cognitive_transition_manifest_fixture_points_at_wp04_transition_packet",
+    "cognitive_transition_schema::tests::cognitive_transition_manifest_rejects_unknown_schema_version",
+    "cognitive_transition_schema::tests::cognitive_transition_manifest_rejects_absolute_paths",
+    "cognitive_transition_schema::tests::cognitive_transition_manifest_rejects_traversal_components",
+    "cognitive_transition_schema::tests::cognitive_transition_manifest_requires_seed_actor_roles",
+    "cognitive_transition_schema::tests::cognitive_transition_manifest_rejects_unknown_lifecycle_state",
+    "cognitive_transition_schema::tests::cognitive_transition_manifest_valid_fixture_passes_validation",
+    "cognitive_transition_schema::tests::cognitive_transition_manifest_schema_json_exposes_expected_properties",
+    "cognitive_transition_schema::tests::wp02_valid_fixture_defers_future_trace_proof_paths_only"
+  ],
+  "passed": 12,
+  "failed": 0,
+  "ignored": 0,
+  "filtered_out": 66,
+  "cache_fill": {
+    "crate": "fastrand",
+    "version": "2.5.0",
+    "sha256": "da7c62ceae207dd37ea5b845da6a0696c799f85e97da1ab5b7910be3c1c80223",
+    "bytes": 20782,
+    "source": "https://static.crates.io/crates/fastrand/fastrand-2.5.0.crate",
+    "lock_unchanged": true,
+    "other_downloads": false
+  },
+  "source_manifest_and_locks_unchanged_after_run": true,
+  "evidence": {
+    "r2.stdout": "6a73d3f579b3c38a9c637094b39f1661145247cfa564a9bc0cd07296156b87ef",
+    "r2.stderr": "8f70262b493d2633121fe4100ceb692e645e7f3f1877587c7394fbb8c626a30f",
+    "RESULT.json": "9d55c76f17eb02c6b742555687b7b27a200a9f4ab49bf80cd3983736723d8e12",
+    "RETAINED_LOCK_CORRESPONDENCE.json": "19045bf49983fbd1674c6d8291897b4bfcd03138cbf4217d8957cee194f591bd"
+  },
+  "prior_failure": "Initial offline attempt failed before tests due solely to missing exact fastrand2.5.0; retained RESULT.json and stderr. Parent-lock substitution was not used.",
+  "boundaries": [
+    "Owner-source unit proof only; not installed Runtime execution or final package acceptance.",
+    "Both legacy ADL callers still select wrong manifest and remain unresolved.",
+    "No original source removed or retirement approved."
+  ]
+}

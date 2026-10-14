@@ -1,0 +1,18 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 1270,
+  "issue_padded": "1270",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/1270",
+  "title": "Reduce ADL CI installed-test latency without dropping coverage",
+  "branch": "codex/1270-ci-performance",
+  "version": "1.0.5",
+  "card": "vpp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-1270-ci-performance",
+  "planned_pvf_lane": "ci-contracts",
+  "proof_role": "Required CI profile/coverage preservation contract",
+  "determinism_posture": "Local static workflow checks; hosted Rust integration separately required",
+  "resource_profile": "Small CPU local proof, normal GitHub CI; no paid providers",
+  "release_gate_status": "Existing adl-ci and coverage gates retained"
+}

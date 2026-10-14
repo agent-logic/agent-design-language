@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Original v2 command/Gate2/Gate4 assertions retain their independent owner/historical
+# dispositions. This script proves local wrapper absence/schema guards only.
+
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 
 for retired in \
@@ -14,7 +17,4 @@ for retired in \
   }
 done
 
-cargo run --quiet --locked --manifest-path "$ROOT_DIR/csdlc-v2/Cargo.toml" --bin csdlc-install -- --help >/dev/null
-cargo run --quiet --locked --manifest-path "$ROOT_DIR/csdlc-v2/Cargo.toml" --bin csdlc-bind -- --help >/dev/null
-
-echo "PASS test_cli_wrapper_migration_contract"
+echo "PASS: retained local wrapper absence/schema guards only; no native edit, validation, or lifecycle equivalence claimed"

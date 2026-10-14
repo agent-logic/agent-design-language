@@ -5,7 +5,7 @@ live paid Vertex AI request. The runtime initialization file names the provider,
 GCP project, Vertex location, model, and credential source explicitly so the
 provider path cannot fall back to ambient defaults or a mock transport.
 
-The active GCP configuration surface is `infra/runtime-v3/runtime-init.toml`:
+The #592 configuration example is retained in the [Runtime owner source](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/infra/runtime-v3/runtime-init.toml). The former ADL-local init file has retired; this page preserves the historical provider setup contract, not an active deployment or current provider acceptance:
 
 ```toml
 [polis.vertex_ai]

@@ -33,7 +33,7 @@ Refines [ADR 0004](../../adr/0004-provider-profiles.md) and [ADR 0041](../../adr
 ## Source Evidence
 
 - [Provider feature](../../milestones/v0.92.1/features/PROVIDER_INFERENCE_PROFILES_v0.92.1.md)
-- [Profile contract](../../provider/inference-profiles.md)
+- [Profile contract](https://github.com/agent-logic/agent-logic-runtime/blob/315abf70358828a8f4d452532ebd995fb4178389/docs/provider/inference-profiles.md)
 - [Provider reload implementation](../../../adl/src/provider/reload.rs)
 - [Milestone decisions](../../milestones/v0.92.1/DECISIONS_v0.92.1.md)
 - [Profile validation evidence](../../../.csdlc/evidence/514/profile-schema.log)

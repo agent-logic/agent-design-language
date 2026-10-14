@@ -1,5 +1,11 @@
 # Build Platform Benchmarks
 
+> Historical ADL procedure retained as source evidence. The local benchmark
+> and remote-build entrypoints described below were retired by #1223.
+> These commands are not current ADL execution instructions. Consult the
+> [Infrastructure owner source](https://github.com/agent-logic/agent-logic-infrastructure/tree/db78fff91b07a0b05dfbb4ceb5bdd3279b3315a1) for the owner implementation;
+> source presence does not establish current build or cloud qualification.
+
 `adl/tools/run_build_platform_benchmark.sh` runs the same small build/test
 workload on each build platform so WP-06 timing comparisons use one shape.
 

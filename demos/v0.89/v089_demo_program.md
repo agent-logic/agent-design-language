@@ -1,5 +1,13 @@
 # v0.89 Demo Program
 
+> These packet generators moved to `agent-logic-infrastructure`. Set
+> `ADL_INFRASTRUCTURE_SOURCE_ROOT` to an absolute checkout at reviewed revision
+> `025850d265cbd1a55b28a8e9b238b2fe0bfcaf1d` before using the owner commands below.
+> The three original offline tests qualified generated packet shape and redaction;
+> they did not execute the represented skills, embedded Cargo commands, or live providers.
+> This retained ADL guide preserves historical scenario context, not current runtime acceptance.
+
+
 `v0.89` uses a mixed proof model:
 - bounded runnable proof rows where the runtime already exposes stable entrypoints
 - reviewer-legible document rows where the milestone claim is deliberately design-contract work
@@ -7,7 +15,7 @@
 The canonical scaffolding command is:
 
 ```bash
-bash adl/tools/demo_v089_proof_entrypoints.sh
+(cd "${ADL_INFRASTRUCTURE_SOURCE_ROOT:?set an absolute Infrastructure checkout}" && bash adl/tools/demo_v089_proof_entrypoints.sh)
 ```
 
 That command writes:
@@ -20,7 +28,7 @@ Use those artifacts as the reviewer entry surface for D1 through D7.
 If you want the integrated reviewer package instead of the row-by-row entry map:
 
 ```bash
-bash adl/tools/demo_v089_review_surface.sh
+(cd "${ADL_INFRASTRUCTURE_SOURCE_ROOT:?set an absolute Infrastructure checkout}" && bash adl/tools/demo_v089_review_surface.sh)
 ```
 
 That review surface assembles:

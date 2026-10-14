@@ -1,0 +1,61 @@
+{
+  "schema": "adl1223.csdlc_planning_original_contract_qualification.v1",
+  "package_source": "79d6430a89edb350fe1012889650a6b4776912d0",
+  "package_authentication": "Existing native download-result receipt under combined243245-install; no new download",
+  "producer_authentication": "Existing immutable local producer source transports with exact pinned Git/blob/member identities, not published remote artifacts",
+  "input_denominators": {
+    "original": 108,
+    "current": 109,
+    "addition": "frozen docs/legacy/DEFAULT_WORKFLOW_V1.md"
+  },
+  "execution": {
+    "exit_code": 0,
+    "duration_seconds": 1.7126891250009066,
+    "stdout_sha256": "cb55435d37eff8d1637876c6386b101e50bafcafdcb9e0c4592ee4758b8a0b06",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native_or_full_installed_acceptance_claimed": false
+  },
+  "observed_result": {
+    "bounded_original_contracts_passed": [
+      "test_check_v090_milestone_state.sh",
+      "test_evidence_bundle_packet.sh",
+      "test_first_proof_readiness_packet.sh",
+      "test_issue_goal_terminal_state_truth.sh",
+      "test_merge_readiness_packet.sh",
+      "test_plan_multi_agent_workcell.sh",
+      "test_transition_dag_packet.sh",
+      "test_validate_multi_agent_workcell_state.sh",
+      "test_csdlc_demo_proof_contract_packet.sh",
+      "check_compression_finish_profiles.sh"
+    ],
+    "bounded_contract_count": 10,
+    "maintained_resources": 18,
+    "producer_union": {
+      "csdlc": 46,
+      "infrastructure": 6,
+      "adl_history": 57
+    },
+    "all_original_obligations_complete": false,
+    "native_acceptance": false,
+    "effects": "Only private assembled inputs and original temporary state/report outputs; no current lifecycle state",
+    "unresolved": [
+      "browser input pair absent frozen source",
+      "review provenance obsolete ADL multiplexer",
+      "Rust lane delegation and complete selector suite",
+      "historical v0.91.4 SOR and signed-trace/native Rust assertions"
+    ],
+    "other_utilities": "source distributed; no unexecuted coverage inferred"
+  },
+  "evidence_directory": "/Volumes/FastWork/c1223/evidence/cognitive-sdlc/planning-79d6430-original-inputs",
+  "files": {
+    "INPUT.json": "3291a0a5248f9318b13aa949a672c883a50ee58885f110ae935422feb4db73e4",
+    "RESULT.json": "6e4506dd63435722a18482a910fc0e57c559a2a6e3b8f38ade3b9a487c84391a",
+    "harness.stdout": "cb55435d37eff8d1637876c6386b101e50bafcafdcb9e0c4592ee4758b8a0b06",
+    "harness.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "limits": [
+    "Ten original contracts executed from private authenticated package resources; not all eighteen maintained resources qualified.",
+    "Producer inputs are pinned local source transports, not published remote artifacts.",
+    "No shared owner installation, native lifecycle acceptance, source-removal authorization, or completion claim."
+  ]
+}

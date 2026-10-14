@@ -1,5 +1,7 @@
 # ADL engine and records producer delivery
 
+> Historical #1207 producer-candidate contract. #1223 retired the ADL source-tree candidate builder and its three companion tests after the engine/records source family left this checkout. The recipes and original assertions below are immutable historical obligations, not commands against current HEAD. Existing candidate/consumer evidence does not establish current Runtime admission. Current portable package validation is tools/public_adl/run_ci.sh; Runtime execution and artifact admission belong to the separately qualified Runtime owner.
+
 Status: local candidate only; accepted:false. This is separate from RD03's accepted five-package distribution and does not reopen issue1185. ADL remains implementation owner for both packages under RD02 D-GENERATION. Runtime owns only its adapter/consumer integration. No release or destination admission is performed by this proposal.
 
 ## Smallest producer change

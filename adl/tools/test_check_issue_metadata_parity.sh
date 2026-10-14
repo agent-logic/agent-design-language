@@ -8,7 +8,7 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
   exit 1
 }
 
-grep -Fq 'csdlc-github-issue run --request' "$ROOT/adl/tools/skills/docs/OPERATIONAL_SKILLS_GUIDE.md"
-grep -Fq 'csdlc-doctor --repo <repo> --issue <issue>' "$ROOT/adl/tools/skills/docs/OPERATIONAL_SKILLS_GUIDE.md"
+grep -Fq 'csdlc github-issue <issue> --operation <issue-operation.json> --execute' "$ROOT/adl/tools/skills/docs/OPERATIONAL_SKILLS_GUIDE.md"
+grep -Fq 'csdlc doctor --request <doctor-request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>' "$ROOT/adl/tools/skills/docs/OPERATIONAL_SKILLS_GUIDE.md"
 
 echo "PASS test_check_issue_metadata_parity"

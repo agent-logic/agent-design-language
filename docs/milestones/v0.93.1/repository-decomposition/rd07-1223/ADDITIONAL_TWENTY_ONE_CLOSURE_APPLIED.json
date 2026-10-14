@@ -1,0 +1,1434 @@
+{
+  "status": "applied",
+  "source_head": "e30c5880e3f870487685617acf1c1063eea0cdac",
+  "removed_count": 22,
+  "additional_captured_removals": 21,
+  "supplemental_removals": [
+    {
+      "path": "tools/runtime_contracts/build_candidates.py",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "f2bbe6d9858c68c5c392031c113b99945bbecee1",
+        "sha256": "ecbeca7a21094082b30b3d47c60e4d61dc27648dd19aa2cadfd9501adcc553d1"
+      },
+      "introduction_commits": [
+        "8cfd5afba6cb0556bf03c6373c43e6f4c96e2efd"
+      ],
+      "present_in_frozen248f": false,
+      "outside_original4134_and_additional22": true,
+      "basis": "Coupled original-consumer producer; no other active executable caller found. Exact candidate source/build contract preserved historically; no fresh package or Runtime acceptance.",
+      "retirement_current_baseline": "9cfd035aac2a44637b3c8026bd40b669579a8c7f",
+      "present_in_retirement_current_baseline": true
+    }
+  ],
+  "rows": [
+    {
+      "path": "adl-provider-core/src/spec.rs",
+      "captured_current_identity": {
+        "mode": "100644",
+        "blob": "ec6fe6a3bf00bd9a9170fbb91554b69a9b4de861"
+      },
+      "current_identity": {
+        "mode": "100644",
+        "blob": "ec6fe6a3bf00bd9a9170fbb91554b69a9b4de861",
+        "sha256": "4238a59cdf87f7d92e993422ea8ff49372c1959c8786fa6ca93887300d93642e"
+      },
+      "prior_classification": {
+        "path": "adl-provider-core/src/spec.rs",
+        "current_identity": {
+          "mode": "100644",
+          "blob": "ec6fe6a3bf00bd9a9170fbb91554b69a9b4de861"
+        },
+        "proposed_action": "proposed_remove_with_entire_source_family",
+        "original_inventory_member": false,
+        "required_before_execution": [
+          "explicit_additional_path_review",
+          "qualified_successor_or_public_contract_reexport",
+          "all_active_callers_repaired",
+          "scoped_operator_decision"
+        ]
+      },
+      "proposed_action": "conditional_historical_source_retirement",
+      "basis": "Uncompiled compatibility reexport facade. Public lib.rs reexports actual versioned packages directly; canonical package declarations/implementations remain untouched. No current module/path consumer found; historical source references remain evidence."
+    },
+    {
+      "path": "adl/src/adl.rs",
+      "captured_current_identity": {
+        "mode": "100644",
+        "blob": "9706646ca99f91a7fadfbc5cbab2df8618fbd9bd"
+      },
+      "current_identity": {
+        "mode": "100644",
+        "blob": "9706646ca99f91a7fadfbc5cbab2df8618fbd9bd",
+        "sha256": "c5f15b2de1afe6076a5c87bc73b30714d926ecedd1866d4d35c9423619e3588c"
+      },
+      "prior_classification": {
+        "path": "adl/src/adl.rs",
+        "current_identity": {
+          "mode": "100644",
+          "blob": "9706646ca99f91a7fadfbc5cbab2df8618fbd9bd"
+        },
+        "proposed_action": "proposed_remove_with_entire_source_family",
+        "original_inventory_member": false,
+        "required_before_execution": [
+          "explicit_additional_path_review",
+          "qualified_successor_or_public_contract_reexport",
+          "all_active_callers_repaired",
+          "scoped_operator_decision"
+        ]
+      },
+      "proposed_action": "conditional_historical_source_retirement",
+      "basis": "Uncompiled compatibility reexport facade. Public lib.rs reexports actual versioned packages directly; canonical package declarations/implementations remain untouched. No current module/path consumer found; historical source references remain evidence."
+    },
+    {
+      "path": "adl/src/cli/commands.rs",
+      "captured_current_identity": {
+        "mode": "100644",
+        "blob": "1c479853faeee3e530166caf8fd33611dbebe933"
+      },
+      "current_identity": {
+        "mode": "100644",
+        "blob": "1c479853faeee3e530166caf8fd33611dbebe933",
+        "sha256": "1f3b71fd395ca74cc5e10bff00bacd531d96899fbd6f78cb9bc79085a6094b54"
+      },
+      "prior_classification": {
+        "path": "adl/src/cli/commands.rs",
+        "current_identity": {
+          "mode": "100644",
+          "blob": "1c479853faeee3e530166caf8fd33611dbebe933"
+        },
+        "proposed_action": "proposed_remove_with_entire_source_family",
+        "original_inventory_member": false,
+        "required_before_execution": [
+          "explicit_additional_path_review",
+          "qualified_successor_or_public_contract_reexport",
+          "all_active_callers_repaired",
+          "scoped_operator_decision"
+        ]
+      },
+      "proposed_action": "conditional_historical_source_retirement",
+      "basis": "Excluded historical private dispatcher/refusal module. main.rs explicitly loads cli/public_dispatch.rs, which has no inclusion of these modules; preserve former product dispatch obligations in original source/owner retirement custody."
+    },
+    {
+      "path": "adl/src/cli/mod.rs",
+      "captured_current_identity": {
+        "mode": "100644",
+        "blob": "0779a488e5cf60cb4e899eb63a0afe986f1cd900"
+      },
+      "current_identity": {
+        "mode": "100644",
+        "blob": "c664ac114cf71b11fd7b32b00470d4b959ff2259",
+        "sha256": "ca5830c1a72435d3a3973cdc74db041bd9188c35d8f39afc586a69ab003db6c2"
+      },
+      "prior_classification": {
+        "path": "adl/src/cli/mod.rs",
+        "current_identity": {
+          "mode": "100644",
+          "blob": "0779a488e5cf60cb4e899eb63a0afe986f1cd900"
+        },
+        "proposed_action": "proposed_remove_with_entire_source_family",
+        "original_inventory_member": false,
+        "required_before_execution": [
+          "explicit_additional_path_review",
+          "qualified_successor_or_public_contract_reexport",
+          "all_active_callers_repaired",
+          "scoped_operator_decision"
+        ]
+      },
+      "proposed_action": "conditional_historical_source_retirement",
+      "basis": "Excluded historical private dispatcher/refusal module. main.rs explicitly loads cli/public_dispatch.rs, which has no inclusion of these modules; preserve former product dispatch obligations in original source/owner retirement custody."
+    },
+    {
+      "path": "adl/src/cognitive_transition_schema.rs",
+      "captured_current_identity": {
+        "mode": "100644",
+        "blob": "e5cd7c0193562a0f6bc7c3374eaa227bcd1cfadc"
+      },
+      "current_identity": {
+        "mode": "100644",
+        "blob": "e5cd7c0193562a0f6bc7c3374eaa227bcd1cfadc",
+        "sha256": "3c3bc732fbaa5e93ded8b5e10fb410eed245c358decae90eed44b01c81f3f22c"
+      },
+      "prior_classification": {
+        "path": "adl/src/cognitive_transition_schema.rs",
+        "current_identity": {
+          "mode": "100644",
+          "blob": "e5cd7c0193562a0f6bc7c3374eaa227bcd1cfadc"
+        },
+        "proposed_action": "proposed_remove_with_entire_source_family",
+        "original_inventory_member": false,
+        "required_before_execution": [
+          "explicit_additional_path_review",
+          "qualified_successor_or_public_contract_reexport",
+          "all_active_callers_repaired",
+          "scoped_operator_decision"
+        ]
+      },
+      "proposed_action": "conditional_historical_source_retirement",
+      "basis": "Uncompiled compatibility reexport facade. Public lib.rs reexports actual versioned packages directly; canonical package declarations/implementations remain untouched. No current module/path consumer found; historical source references remain evidence."
+    },
+    {
+      "path": "adl/src/execution_plan.rs",
+      "captured_current_identity": {
+        "mode": "100644",
+        "blob": "c6966ec77e54f95c8ec71aea326f03a7226cae3d"
+      },
+      "current_identity": {
+        "mode": "100644",
+        "blob": "c6966ec77e54f95c8ec71aea326f03a7226cae3d",
+        "sha256": "49fc498962dcc21a3155b6e82f8da8aea5aa257d89822d8539215b47a48156ef"
+      },
+      "prior_classification": {
+        "path": "adl/src/execution_plan.rs",
+        "current_identity": {
+          "mode": "100644",
+          "blob": "c6966ec77e54f95c8ec71aea326f03a7226cae3d"
+        },
+        "proposed_action": "proposed_remove_with_entire_source_family",
+        "original_inventory_member": false,
+        "required_before_execution": [
+          "explicit_additional_path_review",
+          "qualified_successor_or_public_contract_reexport",
+          "all_active_callers_repaired",
+          "scoped_operator_decision"
+        ]
+      },
+      "proposed_action": "conditional_historical_source_retirement",
+      "basis": "Uncompiled compatibility reexport facade. Public lib.rs reexports actual versioned packages directly; canonical package declarations/implementations remain untouched. No current module/path consumer found; historical source references remain evidence."
+    },
+    {
+      "path": "adl/src/plan.rs",
+      "captured_current_identity": {
+        "mode": "100644",
+        "blob": "1752c07a0833d8f5166b9d21986f971dbbb0a437"
+      },
+      "current_identity": {
+        "mode": "100644",
+        "blob": "1752c07a0833d8f5166b9d21986f971dbbb0a437",
+        "sha256": "9e434ec301d18672e0240a095ade7d4197b95ddcc5097c51548a68ba78cddf93"
+      },
+      "prior_classification": {
+        "path": "adl/src/plan.rs",
+        "current_identity": {
+          "mode": "100644",
+          "blob": "1752c07a0833d8f5166b9d21986f971dbbb0a437"
+        },
+        "proposed_action": "proposed_remove_with_entire_source_family",
+        "original_inventory_member": false,
+        "required_before_execution": [
+          "explicit_additional_path_review",
+          "qualified_successor_or_public_contract_reexport",
+          "all_active_callers_repaired",
+          "scoped_operator_decision"
+        ]
+      },
+      "proposed_action": "conditional_historical_source_retirement",
+      "basis": "Uncompiled compatibility reexport facade. Public lib.rs reexports actual versioned packages directly; canonical package declarations/implementations remain untouched. No current module/path consumer found; historical source references remain evidence."
+    },
+    {
+      "path": "adl/src/prompt.rs",
+      "captured_current_identity": {
+        "mode": "100644",
+        "blob": "fc3bfbb42737daa94a321b5548ff8313b3557d1a"
+      },
+      "current_identity": {
+        "mode": "100644",
+        "blob": "fc3bfbb42737daa94a321b5548ff8313b3557d1a",
+        "sha256": "4d66e370eae4bbced1854e1c08b2957d54accd3428490a35f5d5aa6072845353"
+      },
+      "prior_classification": {
+        "path": "adl/src/prompt.rs",
+        "current_identity": {
+          "mode": "100644",
+          "blob": "fc3bfbb42737daa94a321b5548ff8313b3557d1a"
+        },
+        "proposed_action": "proposed_remove_with_entire_source_family",
+        "original_inventory_member": false,
+        "required_before_execution": [
+          "explicit_additional_path_review",
+          "qualified_successor_or_public_contract_reexport",
+          "all_active_callers_repaired",
+          "scoped_operator_decision"
+        ]
+      },
+      "proposed_action": "conditional_historical_source_retirement",
+      "basis": "Uncompiled compatibility reexport facade. Public lib.rs reexports actual versioned packages directly; canonical package declarations/implementations remain untouched. No current module/path consumer found; historical source references remain evidence."
+    },
+    {
+      "path": "adl/src/schema.rs",
+      "captured_current_identity": {
+        "mode": "100644",
+        "blob": "9560d411e56cd0cd76c83f1114a87dc78ece9000"
+      },
+      "current_identity": {
+        "mode": "100644",
+        "blob": "9560d411e56cd0cd76c83f1114a87dc78ece9000",
+        "sha256": "f989b9bc714068597af377d7239b25446e397446a11c5d0e86f505c7849cd2e9"
+      },
+      "prior_classification": {
+        "path": "adl/src/schema.rs",
+        "current_identity": {
+          "mode": "100644",
+          "blob": "9560d411e56cd0cd76c83f1114a87dc78ece9000"
+        },
+        "proposed_action": "proposed_remove_with_entire_source_family",
+        "original_inventory_member": false,
+        "required_before_execution": [
+          "explicit_additional_path_review",
+          "qualified_successor_or_public_contract_reexport",
+          "all_active_callers_repaired",
+          "scoped_operator_decision"
+        ]
+      },
+      "proposed_action": "conditional_historical_source_retirement",
+      "basis": "Uncompiled compatibility reexport facade. Public lib.rs reexports actual versioned packages directly; canonical package declarations/implementations remain untouched. No current module/path consumer found; historical source references remain evidence."
+    },
+    {
+      "path": "adl/src/trace_schema_v1.rs",
+      "captured_current_identity": {
+        "mode": "100644",
+        "blob": "c7a2219893fa1c2cdfdeb0c627209ed56a904ad9"
+      },
+      "current_identity": {
+        "mode": "100644",
+        "blob": "c7a2219893fa1c2cdfdeb0c627209ed56a904ad9",
+        "sha256": "2e08675f925ba17a3de2d5d523e9de17a45ef254551f10f398eb67081ea0dc33"
+      },
+      "prior_classification": {
+        "path": "adl/src/trace_schema_v1.rs",
+        "current_identity": {
+          "mode": "100644",
+          "blob": "c7a2219893fa1c2cdfdeb0c627209ed56a904ad9"
+        },
+        "proposed_action": "proposed_remove_with_entire_source_family",
+        "original_inventory_member": false,
+        "required_before_execution": [
+          "explicit_additional_path_review",
+          "qualified_successor_or_public_contract_reexport",
+          "all_active_callers_repaired",
+          "scoped_operator_decision"
+        ]
+      },
+      "proposed_action": "conditional_historical_source_retirement",
+      "basis": "Uncompiled compatibility reexport facade. Public lib.rs reexports actual versioned packages directly; canonical package declarations/implementations remain untouched. No current module/path consumer found; historical source references remain evidence."
+    },
+    {
+      "path": "adl/src/uts.rs",
+      "captured_current_identity": {
+        "mode": "100644",
+        "blob": "1ba571ad6c61302bf53304fae97ec99f3b69caad"
+      },
+      "current_identity": {
+        "mode": "100644",
+        "blob": "1ba571ad6c61302bf53304fae97ec99f3b69caad",
+        "sha256": "582ce111695a5ec36a7ffc909f7fbe27ec3babb11309b0864b4a466626822223"
+      },
+      "prior_classification": {
+        "path": "adl/src/uts.rs",
+        "current_identity": {
+          "mode": "100644",
+          "blob": "1ba571ad6c61302bf53304fae97ec99f3b69caad"
+        },
+        "proposed_action": "proposed_remove_with_entire_source_family",
+        "original_inventory_member": false,
+        "required_before_execution": [
+          "explicit_additional_path_review",
+          "qualified_successor_or_public_contract_reexport",
+          "all_active_callers_repaired",
+          "scoped_operator_decision"
+        ]
+      },
+      "proposed_action": "conditional_historical_source_retirement",
+      "basis": "Uncompiled compatibility reexport facade. Public lib.rs reexports actual versioned packages directly; canonical package declarations/implementations remain untouched. No current module/path consumer found; historical source references remain evidence."
+    },
+    {
+      "path": "adl/src/uts_conformance.rs",
+      "captured_current_identity": {
+        "mode": "100644",
+        "blob": "0cdec168520da692e8183774099e6c5b2e672f51"
+      },
+      "current_identity": {
+        "mode": "100644",
+        "blob": "0cdec168520da692e8183774099e6c5b2e672f51",
+        "sha256": "0d3771c821c57a90606a320fd70b5edabfafba92932ea51d046ce8941f74b264"
+      },
+      "prior_classification": {
+        "path": "adl/src/uts_conformance.rs",
+        "current_identity": {
+          "mode": "100644",
+          "blob": "0cdec168520da692e8183774099e6c5b2e672f51"
+        },
+        "proposed_action": "proposed_remove_with_entire_source_family",
+        "original_inventory_member": false,
+        "required_before_execution": [
+          "explicit_additional_path_review",
+          "qualified_successor_or_public_contract_reexport",
+          "all_active_callers_repaired",
+          "scoped_operator_decision"
+        ]
+      },
+      "proposed_action": "conditional_historical_source_retirement",
+      "basis": "Uncompiled compatibility reexport facade. Public lib.rs reexports actual versioned packages directly; canonical package declarations/implementations remain untouched. No current module/path consumer found; historical source references remain evidence."
+    },
+    {
+      "path": "adl/tests/runtime_contract_candidates.rs",
+      "captured_current_identity": {
+        "mode": "100644",
+        "blob": "1a1d7d232fe915c8c92a9e412657de6adb5cc119"
+      },
+      "current_identity": {
+        "mode": "100644",
+        "blob": "1a1d7d232fe915c8c92a9e412657de6adb5cc119",
+        "sha256": "6a896f8e20a51c856225eab461759dca05f3318c2748c9e349427ce078ff7ec7"
+      },
+      "prior_classification": {
+        "path": "adl/tests/runtime_contract_candidates.rs",
+        "current_identity": {
+          "mode": "100644",
+          "blob": "1a1d7d232fe915c8c92a9e412657de6adb5cc119"
+        },
+        "proposed_action": "proposed_remove_with_entire_source_family",
+        "original_inventory_member": false,
+        "required_before_execution": [
+          "explicit_additional_path_review",
+          "qualified_successor_or_public_contract_reexport",
+          "all_active_callers_repaired",
+          "scoped_operator_decision"
+        ]
+      },
+      "proposed_action": "conditional_historical_source_retirement",
+      "basis": "Three original source-candidate packaging tests require currentHEAD private engine/records source now retired. Retire coupled historical builder/test contract; preserve reproducibility, bytes/modes, revision and overwrite assertions in custody and historical delivery document. No Runtime admission or replacement proof claimed."
+    },
+    {
+      "path": "csdlc-v3/src/commands/proof/node.rs",
+      "captured_current_identity": {
+        "mode": "100644",
+        "blob": "47743cbf9a2e848c017522ae1ffb6e30f6034159"
+      },
+      "current_identity": {
+        "mode": "100644",
+        "blob": "47743cbf9a2e848c017522ae1ffb6e30f6034159",
+        "sha256": "ef90982f6c0ec10447ca4a12ce65b8f2ef450c515546a1d620e4a8843274f717"
+      },
+      "prior_classification": {
+        "path": "csdlc-v3/src/commands/proof/node.rs",
+        "current_identity": {
+          "mode": "100644",
+          "blob": "47743cbf9a2e848c017522ae1ffb6e30f6034159"
+        },
+        "proposed_action": "proposed_remove_with_entire_source_family",
+        "original_inventory_member": false,
+        "required_before_execution": [
+          "explicit_additional_path_review",
+          "qualified_successor_or_public_contract_reexport",
+          "all_active_callers_repaired",
+          "scoped_operator_decision"
+        ]
+      },
+      "proposed_action": "conditional_historical_source_retirement",
+      "basis": "Orphaned CSDL source after private manifest/source family retirement. Owner mapping/custody explicit; four planning assertions preserved byte-exact as owner historical sources. No current execution acceptance inferred."
+    },
+    {
+      "path": "csdlc-v3/src/commands/remote/publication_observation.rs",
+      "captured_current_identity": {
+        "mode": "100644",
+        "blob": "2d07111a08a35cae6f4210d7cda72378ab398d9b"
+      },
+      "current_identity": {
+        "mode": "100644",
+        "blob": "2d07111a08a35cae6f4210d7cda72378ab398d9b",
+        "sha256": "57f749ce9b484fdfe17358548481f52173a19c6316b89cbea79267735b490ed8"
+      },
+      "prior_classification": {
+        "path": "csdlc-v3/src/commands/remote/publication_observation.rs",
+        "current_identity": {
+          "mode": "100644",
+          "blob": "2d07111a08a35cae6f4210d7cda72378ab398d9b"
+        },
+        "proposed_action": "proposed_remove_with_entire_source_family",
+        "original_inventory_member": false,
+        "required_before_execution": [
+          "explicit_additional_path_review",
+          "qualified_successor_or_public_contract_reexport",
+          "all_active_callers_repaired",
+          "scoped_operator_decision"
+        ]
+      },
+      "proposed_action": "conditional_historical_source_retirement",
+      "basis": "Orphaned CSDL source after private manifest/source family retirement. Owner mapping/custody explicit; four planning assertions preserved byte-exact as owner historical sources. No current execution acceptance inferred."
+    },
+    {
+      "path": "csdlc-v3/tests/rd01_1181_census.rs",
+      "captured_current_identity": {
+        "mode": "100644",
+        "blob": "92ec485bc6e964dfae4b648954c9ec0dd918e360"
+      },
+      "current_identity": {
+        "mode": "100644",
+        "blob": "92ec485bc6e964dfae4b648954c9ec0dd918e360",
+        "sha256": "246264c6b8d3e16dbb4dc1cff52731a032399ce4b97520cd597647e1937f4b7d"
+      },
+      "prior_classification": {
+        "path": "csdlc-v3/tests/rd01_1181_census.rs",
+        "current_identity": {
+          "mode": "100644",
+          "blob": "92ec485bc6e964dfae4b648954c9ec0dd918e360"
+        },
+        "proposed_action": "proposed_remove_with_entire_source_family",
+        "original_inventory_member": false,
+        "required_before_execution": [
+          "explicit_additional_path_review",
+          "qualified_successor_or_public_contract_reexport",
+          "all_active_callers_repaired",
+          "scoped_operator_decision"
+        ]
+      },
+      "proposed_action": "conditional_historical_source_retirement",
+      "basis": "Orphaned CSDL source after private manifest/source family retirement. Owner mapping/custody explicit; four planning assertions preserved byte-exact as owner historical sources. No current execution acceptance inferred."
+    },
+    {
+      "path": "csdlc-v3/tests/rd02_1182_contract.rs",
+      "captured_current_identity": {
+        "mode": "100644",
+        "blob": "95fbbf01e56c4f6c88cfda5281ec25a01ff65ee0"
+      },
+      "current_identity": {
+        "mode": "100644",
+        "blob": "95fbbf01e56c4f6c88cfda5281ec25a01ff65ee0",
+        "sha256": "4bbd79679d797b48035cc00aa382f418c7d25dfeee97f7635a2b13d7aa313c21"
+      },
+      "prior_classification": {
+        "path": "csdlc-v3/tests/rd02_1182_contract.rs",
+        "current_identity": {
+          "mode": "100644",
+          "blob": "95fbbf01e56c4f6c88cfda5281ec25a01ff65ee0"
+        },
+        "proposed_action": "proposed_remove_with_entire_source_family",
+        "original_inventory_member": false,
+        "required_before_execution": [
+          "explicit_additional_path_review",
+          "qualified_successor_or_public_contract_reexport",
+          "all_active_callers_repaired",
+          "scoped_operator_decision"
+        ]
+      },
+      "proposed_action": "conditional_historical_source_retirement",
+      "basis": "Orphaned CSDL source after private manifest/source family retirement. Owner mapping/custody explicit; four planning assertions preserved byte-exact as owner historical sources. No current execution acceptance inferred."
+    },
+    {
+      "path": "csdlc-v3/tests/rd12_1183_bootstrap.rs",
+      "captured_current_identity": {
+        "mode": "100644",
+        "blob": "8ea387f2a09e051303d23b48fe68c2c9a8751003"
+      },
+      "current_identity": {
+        "mode": "100644",
+        "blob": "8ea387f2a09e051303d23b48fe68c2c9a8751003",
+        "sha256": "353d87ff6d3716fb69c18b3a772c1930d7ea40b5fdc2fa0a055eba9876a2fb3f"
+      },
+      "prior_classification": {
+        "path": "csdlc-v3/tests/rd12_1183_bootstrap.rs",
+        "current_identity": {
+          "mode": "100644",
+          "blob": "8ea387f2a09e051303d23b48fe68c2c9a8751003"
+        },
+        "proposed_action": "proposed_remove_with_entire_source_family",
+        "original_inventory_member": false,
+        "required_before_execution": [
+          "explicit_additional_path_review",
+          "qualified_successor_or_public_contract_reexport",
+          "all_active_callers_repaired",
+          "scoped_operator_decision"
+        ]
+      },
+      "proposed_action": "conditional_historical_source_retirement",
+      "basis": "Orphaned CSDL source after private manifest/source family retirement. Owner mapping/custody explicit; four planning assertions preserved byte-exact as owner historical sources. No current execution acceptance inferred."
+    },
+    {
+      "path": "csdlc-v3/tests/rd13_1184_mapping.rs",
+      "captured_current_identity": {
+        "mode": "100644",
+        "blob": "aae39a163050d922672e68eca0bb4d644eb6ba72"
+      },
+      "current_identity": {
+        "mode": "100644",
+        "blob": "aae39a163050d922672e68eca0bb4d644eb6ba72",
+        "sha256": "dce1fd57cf9448dc35d12424c8da3210f35c59a10b26f1d2958419b1a0be7afc"
+      },
+      "prior_classification": {
+        "path": "csdlc-v3/tests/rd13_1184_mapping.rs",
+        "current_identity": {
+          "mode": "100644",
+          "blob": "aae39a163050d922672e68eca0bb4d644eb6ba72"
+        },
+        "proposed_action": "proposed_remove_with_entire_source_family",
+        "original_inventory_member": false,
+        "required_before_execution": [
+          "explicit_additional_path_review",
+          "qualified_successor_or_public_contract_reexport",
+          "all_active_callers_repaired",
+          "scoped_operator_decision"
+        ]
+      },
+      "proposed_action": "conditional_historical_source_retirement",
+      "basis": "Orphaned CSDL source after private manifest/source family retirement. Owner mapping/custody explicit; four planning assertions preserved byte-exact as owner historical sources. No current execution acceptance inferred."
+    },
+    {
+      "path": "adl/tools/demo_v0912_quality_gate.sh",
+      "captured_current_identity": {
+        "mode": "100755",
+        "blob": "97d0e90e20a86a4844c7ca72dc8371ca85459624"
+      },
+      "current_identity": {
+        "mode": "100755",
+        "blob": "7908248c6a637091fed162b80fe4d46bfa0f1190",
+        "sha256": "29bc1aa929480ab78ed6e6496f1d39fe249a2f92c2d9de7fe74c2bff29d7f10f"
+      },
+      "prior_classification": {
+        "path": "adl/tools/demo_v0912_quality_gate.sh",
+        "current_identity": {
+          "mode": "100755",
+          "blob": "97d0e90e20a86a4844c7ca72dc8371ca85459624"
+        },
+        "proposed_action": "additional_remove_with_legacy_coverage_family",
+        "original_inventory_member": false,
+        "required_before_execution": [
+          "explicit_additional_path_review",
+          "scoped_operator_decision",
+          "coherent_private_coverage_and_original_test_disposition",
+          "Repair validation_inventory explicit categories and preserve historical documentation as historical."
+        ],
+        "disposition_evidence": "ADDITIONAL_COVERAGE_CALLER_RETIREMENT.json"
+      },
+      "proposed_action": "conditional_historical_source_retirement",
+      "basis": "Obsolete historical quality aggregate and companion require retired authoritative coverage route to pass; preserve filtered/failure/inspect-only and heavy-skip assertions as historical. Current public CI/run_ci/coverage contracts remain unchanged."
+    },
+    {
+      "path": "adl/tools/test_demo_v0912_quality_gate.sh",
+      "captured_current_identity": {
+        "mode": "100755",
+        "blob": "c658a17b93dab0bfbef3a1d22e2e0583e3bb02d5"
+      },
+      "current_identity": {
+        "mode": "100755",
+        "blob": "c658a17b93dab0bfbef3a1d22e2e0583e3bb02d5",
+        "sha256": "fc869930a652b2c7df2f3fdf11c9e234bbb56d9ca04f3d29b73f42351a992fe4"
+      },
+      "prior_classification": {
+        "path": "adl/tools/test_demo_v0912_quality_gate.sh",
+        "current_identity": {
+          "mode": "100755",
+          "blob": "c658a17b93dab0bfbef3a1d22e2e0583e3bb02d5"
+        },
+        "proposed_action": "additional_remove_with_legacy_coverage_family",
+        "original_inventory_member": false,
+        "required_before_execution": [
+          "explicit_additional_path_review",
+          "scoped_operator_decision",
+          "coherent_private_coverage_and_original_test_disposition",
+          "Repair validation_inventory explicit categories and preserve historical documentation as historical."
+        ],
+        "disposition_evidence": "ADDITIONAL_COVERAGE_CALLER_RETIREMENT.json"
+      },
+      "proposed_action": "conditional_historical_source_retirement",
+      "basis": "Obsolete historical quality aggregate and companion require retired authoritative coverage route to pass; preserve filtered/failure/inspect-only and heavy-skip assertions as historical. Current public CI/run_ci/coverage contracts remain unchanged."
+    }
+  ],
+  "files": [
+    {
+      "path": "adl-provider-core/src/spec.rs",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "ec6fe6a3bf00bd9a9170fbb91554b69a9b4de861",
+        "sha256": "4238a59cdf87f7d92e993422ea8ff49372c1959c8786fa6ca93887300d93642e"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/src/adl.rs",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "9706646ca99f91a7fadfbc5cbab2df8618fbd9bd",
+        "sha256": "c5f15b2de1afe6076a5c87bc73b30714d926ecedd1866d4d35c9423619e3588c"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/src/cli/commands.rs",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "1c479853faeee3e530166caf8fd33611dbebe933",
+        "sha256": "1f3b71fd395ca74cc5e10bff00bacd531d96899fbd6f78cb9bc79085a6094b54"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/src/cli/mod.rs",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "c664ac114cf71b11fd7b32b00470d4b959ff2259",
+        "sha256": "ca5830c1a72435d3a3973cdc74db041bd9188c35d8f39afc586a69ab003db6c2"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/src/cognitive_transition_schema.rs",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "e5cd7c0193562a0f6bc7c3374eaa227bcd1cfadc",
+        "sha256": "3c3bc732fbaa5e93ded8b5e10fb410eed245c358decae90eed44b01c81f3f22c"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/src/execution_plan.rs",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "c6966ec77e54f95c8ec71aea326f03a7226cae3d",
+        "sha256": "49fc498962dcc21a3155b6e82f8da8aea5aa257d89822d8539215b47a48156ef"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/src/plan.rs",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "1752c07a0833d8f5166b9d21986f971dbbb0a437",
+        "sha256": "9e434ec301d18672e0240a095ade7d4197b95ddcc5097c51548a68ba78cddf93"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/src/prompt.rs",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "fc3bfbb42737daa94a321b5548ff8313b3557d1a",
+        "sha256": "4d66e370eae4bbced1854e1c08b2957d54accd3428490a35f5d5aa6072845353"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/src/schema.rs",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "9560d411e56cd0cd76c83f1114a87dc78ece9000",
+        "sha256": "f989b9bc714068597af377d7239b25446e397446a11c5d0e86f505c7849cd2e9"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/src/trace_schema_v1.rs",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "c7a2219893fa1c2cdfdeb0c627209ed56a904ad9",
+        "sha256": "2e08675f925ba17a3de2d5d523e9de17a45ef254551f10f398eb67081ea0dc33"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/src/uts.rs",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "1ba571ad6c61302bf53304fae97ec99f3b69caad",
+        "sha256": "582ce111695a5ec36a7ffc909f7fbe27ec3babb11309b0864b4a466626822223"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/src/uts_conformance.rs",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "0cdec168520da692e8183774099e6c5b2e672f51",
+        "sha256": "0d3771c821c57a90606a320fd70b5edabfafba92932ea51d046ce8941f74b264"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tests/runtime_contract_candidates.rs",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "1a1d7d232fe915c8c92a9e412657de6adb5cc119",
+        "sha256": "6a896f8e20a51c856225eab461759dca05f3318c2748c9e349427ce078ff7ec7"
+      },
+      "after": null
+    },
+    {
+      "path": "csdlc-v3/src/commands/proof/node.rs",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "47743cbf9a2e848c017522ae1ffb6e30f6034159",
+        "sha256": "ef90982f6c0ec10447ca4a12ce65b8f2ef450c515546a1d620e4a8843274f717"
+      },
+      "after": null
+    },
+    {
+      "path": "csdlc-v3/src/commands/remote/publication_observation.rs",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "2d07111a08a35cae6f4210d7cda72378ab398d9b",
+        "sha256": "57f749ce9b484fdfe17358548481f52173a19c6316b89cbea79267735b490ed8"
+      },
+      "after": null
+    },
+    {
+      "path": "csdlc-v3/tests/rd01_1181_census.rs",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "92ec485bc6e964dfae4b648954c9ec0dd918e360",
+        "sha256": "246264c6b8d3e16dbb4dc1cff52731a032399ce4b97520cd597647e1937f4b7d"
+      },
+      "after": null
+    },
+    {
+      "path": "csdlc-v3/tests/rd02_1182_contract.rs",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "95fbbf01e56c4f6c88cfda5281ec25a01ff65ee0",
+        "sha256": "4bbd79679d797b48035cc00aa382f418c7d25dfeee97f7635a2b13d7aa313c21"
+      },
+      "after": null
+    },
+    {
+      "path": "csdlc-v3/tests/rd12_1183_bootstrap.rs",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "8ea387f2a09e051303d23b48fe68c2c9a8751003",
+        "sha256": "353d87ff6d3716fb69c18b3a772c1930d7ea40b5fdc2fa0a055eba9876a2fb3f"
+      },
+      "after": null
+    },
+    {
+      "path": "csdlc-v3/tests/rd13_1184_mapping.rs",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "aae39a163050d922672e68eca0bb4d644eb6ba72",
+        "sha256": "dce1fd57cf9448dc35d12424c8da3210f35c59a10b26f1d2958419b1a0be7afc"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/demo_v0912_quality_gate.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "7908248c6a637091fed162b80fe4d46bfa0f1190",
+        "sha256": "29bc1aa929480ab78ed6e6496f1d39fe249a2f92c2d9de7fe74c2bff29d7f10f"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_demo_v0912_quality_gate.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "c658a17b93dab0bfbef3a1d22e2e0583e3bb02d5",
+        "sha256": "fc869930a652b2c7df2f3fdf11c9e234bbb56d9ca04f3d29b73f42351a992fe4"
+      },
+      "after": null
+    },
+    {
+      "path": "tools/runtime_contracts/build_candidates.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "f2bbe6d9858c68c5c392031c113b99945bbecee1",
+        "sha256": "ecbeca7a21094082b30b3d47c60e4d61dc27648dd19aa2cadfd9501adcc553d1"
+      },
+      "after": null
+    },
+    {
+      "path": "docs/milestones/v0.91.2/QUALITY_GATE_v0.91.2.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "167a05e266a2ad8b73066f649b19653a39e9fb02",
+        "sha256": "aa936a93660db3b9a6a7fc54f14b509e6a75ce387fce54d8ff01ac0374d45415"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "c5fab41364db425c50a1043b76229db2effcf70f",
+        "sha256": "1040ebe6c8bf99749f5265823d3d256891f8747ca3821af0993727ae6ecd8a8a"
+      }
+    },
+    {
+      "path": "docs/milestones/v0.91.2/ADL_v0.91.2_THIRD_PARTY_REVIEW_HANDOFF.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "4a3b422c5d984867ef63a085ef7e39fe9da90e3e",
+        "sha256": "014638aeb51c3f03fa6c6bbee2f3de49cb245f48004bb4506979ca76ae6f2240"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "54e8c62c44588882959e9021b84ee59b4d8d920c",
+        "sha256": "d114a6cc9b111dcc8f0df9bf9d4eb0abc80ccb54f1f661678e74628c647eff00"
+      }
+    },
+    {
+      "path": "docs/milestones/v0.91.2/FEATURE_PROOF_COVERAGE_v0.91.2.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "9c4909d24e7bbe830e827b9004e619eb2b0483ff",
+        "sha256": "b3e842d1a0c350143e10dde2bcaab037f24e438d4bf8b9407c9bd92e85afddec"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "7b0cade7e0c6c08d880425a84f89d65e9e184c44",
+        "sha256": "c246dc947ea9e05807bb86df03aac64d3b3a3f77173b12dc615fb525f067f1bb"
+      }
+    },
+    {
+      "path": "docs/milestones/v0.91.2/review/quality_gate/README.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "ccce22babe71ab8714d152253fb471db715c9abf",
+        "sha256": "e4fe50d2fa420050ba203476da5640054a5b882ebc117282697c2e56a6c9baaf"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "370e35c325feb6950f936c669f343a090feabca1",
+        "sha256": "ae02d28db71f2bfbd252052db81be411a0de416e32396c790e43c140f8a462b1"
+      }
+    },
+    {
+      "path": "docs/milestones/v0.91.2/review/quality_gate/QUALITY_GATE_PACKET_v0.91.2.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "cc40dd0762a0a488c7fd58761a566bf840ae8d8f",
+        "sha256": "f9980174ecff3124fdec177ced1528ee36bc6d827863543944a37237b21f245e"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "0259b831f7842507f56503dd0fd8395bc3977d1e",
+        "sha256": "52b8133177c55b363dadd0869be15218bea2a031a54a281e0b2f7237d80cc4d4"
+      }
+    },
+    {
+      "path": "docs/runtime-contracts/ENGINE_RECORDS_DELIVERY.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "edb30a3144d01443cc466723c2417670f69743c0",
+        "sha256": "0db83630efa2e33b5d2868efdc94e02ef6f2f9f8585f9460c44ce39267776065"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "dae620adc7c0a0540acf4e994a6b404792d840c9",
+        "sha256": "7330b5f2becfe2cf56a1b40542343af336aac63c6d847ac65fb798149b5f39e3"
+      }
+    },
+    {
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "24425ce3bf01964313cb078e150955644f1b4382",
+        "sha256": "87889700e27e36bce75bcaac3a9d1070f67399993a1733205d7a3000ee5f6470"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "cf8b6d12f4b44c0c8e2ed1de7878b843295e25f5",
+        "sha256": "e2107eed898c6fed349cfc990598063f1671892e4f28544c298ee863b0558712"
+      }
+    }
+  ],
+  "custody": {
+    "path": "/Volumes/FastWork/c1223/additional-twenty-one-closure/current-captured-custody.tar",
+    "sha256": "1a8e16a891e8023d7bb8d424d83b417eee4fdeccc297b8c5d9cad592e5d5b897",
+    "current_members": 29,
+    "captured_additional_members": 21
+  },
+  "patch": {
+    "path": "/Volumes/FastWork/c1223/additional-twenty-one-closure/twenty-two-and-navigation.patch",
+    "sha256": "a27998bd97db82d0b2d2c1005efb84bbbd6c1e6b8ee73ebd30ba40c264bc51fe"
+  },
+  "evidence": [
+    {
+      "path": "/Volumes/FastWork/c1223/wp12-status-next-guard-integration/ADDITIONAL_PRESENT_UNRESOLVED.json",
+      "sha256": "c987573a078ad9171f330cf32d58653e25e3145534b7311190279c1945cff2f9"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/additional-twenty-one-closure/CALLERS.json",
+      "sha256": "1e01335ecc06474b5e0964c11fd8266b9333ba50d665969fa63cd97fe4e65d46"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/additional-twenty-one-closure/DISPOSITIONS.json",
+      "sha256": "0eff265f512afef0d842082964de7d4b6746e437fb961c9adbc57b36d5ac3784"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/additional-twenty-one-closure/evidence/adl/Cargo.toml",
+      "sha256": "461e3f4d4a7c0d4b21c33e7752b1f72395c2a5eab36cf5b80fde5e1aad8a3919",
+      "source_path": "adl/Cargo.toml",
+      "source_head": "e30c5880e3f870487685617acf1c1063eea0cdac",
+      "identity": {
+        "mode": "100644",
+        "blob": "03766d115e8d7d285717731573710ff52159a2bd",
+        "sha256": "461e3f4d4a7c0d4b21c33e7752b1f72395c2a5eab36cf5b80fde5e1aad8a3919"
+      }
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/additional-twenty-one-closure/evidence/adl/src/lib.rs",
+      "sha256": "6b78653ab0e732bde6b88e8d9a32d470479486dbf203ffd2138a5cc1c9094161",
+      "source_path": "adl/src/lib.rs",
+      "source_head": "e30c5880e3f870487685617acf1c1063eea0cdac",
+      "identity": {
+        "mode": "100644",
+        "blob": "73e00c2bb1d8f81a52eda36b9efcaa915ed3471d",
+        "sha256": "6b78653ab0e732bde6b88e8d9a32d470479486dbf203ffd2138a5cc1c9094161"
+      }
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/additional-twenty-one-closure/evidence/adl/src/main.rs",
+      "sha256": "bbde80598d338d89679b02f7a856ac06228d8af1b71e25288341802553462614",
+      "source_path": "adl/src/main.rs",
+      "source_head": "e30c5880e3f870487685617acf1c1063eea0cdac",
+      "identity": {
+        "mode": "100644",
+        "blob": "e3bc8d4ffd603fc1ce8dbb22037d7f200357e360",
+        "sha256": "bbde80598d338d89679b02f7a856ac06228d8af1b71e25288341802553462614"
+      }
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/additional-twenty-one-closure/evidence/adl/src/cli/public_dispatch.rs",
+      "sha256": "1bba6365e36fbeb1b59cf8e4c3d4fa95636bb92839f7af5d1d9aea91ac258d2b",
+      "source_path": "adl/src/cli/public_dispatch.rs",
+      "source_head": "e30c5880e3f870487685617acf1c1063eea0cdac",
+      "identity": {
+        "mode": "100644",
+        "blob": "ca1bc53db06de14e6e3da5fc8017508e1b41d36e",
+        "sha256": "1bba6365e36fbeb1b59cf8e4c3d4fa95636bb92839f7af5d1d9aea91ac258d2b"
+      }
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/additional-twenty-one-closure/evidence/adl-legacy-contracts/src/lib.rs",
+      "sha256": "ddefe372bd69775dd4f0d3dfd15660d48309bd3bcb51da821363fba9a2fb8951",
+      "source_path": "adl-legacy-contracts/src/lib.rs",
+      "source_head": "e30c5880e3f870487685617acf1c1063eea0cdac",
+      "identity": {
+        "mode": "100644",
+        "blob": "242b54f1123687499ae33b6bc4b5c769792b5fcb",
+        "sha256": "ddefe372bd69775dd4f0d3dfd15660d48309bd3bcb51da821363fba9a2fb8951"
+      }
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/additional-twenty-one-closure/evidence/adl-schema/src/lib.rs",
+      "sha256": "a97526fea96931451e900aef821c090d0d9bfdb82c9f6f383888b5335cd957a4",
+      "source_path": "adl-schema/src/lib.rs",
+      "source_head": "e30c5880e3f870487685617acf1c1063eea0cdac",
+      "identity": {
+        "mode": "100644",
+        "blob": "54f5711da65c3fa2f404c8c4ae348a59f48fb079",
+        "sha256": "a97526fea96931451e900aef821c090d0d9bfdb82c9f6f383888b5335cd957a4"
+      }
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/additional-twenty-one-closure/evidence/adl-uts/src/lib.rs",
+      "sha256": "3d5225a8ca394f658e66e03499dcf6881c73e5734047a3d3234eea7ddaf0ce1a",
+      "source_path": "adl-uts/src/lib.rs",
+      "source_head": "e30c5880e3f870487685617acf1c1063eea0cdac",
+      "identity": {
+        "mode": "100644",
+        "blob": "ffb39c63b6424d85ae9c4dfdb0223529fbea1c85",
+        "sha256": "3d5225a8ca394f658e66e03499dcf6881c73e5734047a3d3234eea7ddaf0ce1a"
+      }
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/additional-twenty-one-closure/evidence/.github/workflows/ci.yaml",
+      "sha256": "95633db2f95305ccf45930d7d595048468a5d2e5473e0b2203756f0508a2d8f2",
+      "source_path": ".github/workflows/ci.yaml",
+      "source_head": "e30c5880e3f870487685617acf1c1063eea0cdac",
+      "identity": {
+        "mode": "100644",
+        "blob": "b022060133a88be28fb5f7325d3408c434a462e6",
+        "sha256": "95633db2f95305ccf45930d7d595048468a5d2e5473e0b2203756f0508a2d8f2"
+      }
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/additional-twenty-one-closure/evidence/tools/public_adl/run_ci.sh",
+      "sha256": "310a6889c0d41f8a44a365582c13bc00e1489596024e8e7e221244ec75adc0e0",
+      "source_path": "tools/public_adl/run_ci.sh",
+      "source_head": "e30c5880e3f870487685617acf1c1063eea0cdac",
+      "identity": {
+        "mode": "100755",
+        "blob": "d0fd8513b85ce6100303e811e243a8da4e070287",
+        "sha256": "310a6889c0d41f8a44a365582c13bc00e1489596024e8e7e221244ec75adc0e0"
+      }
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/additional-twenty-one-closure/evidence/tools/public_adl/run_cli_ci.sh",
+      "sha256": "d72a13f408a6e0e9917419e1a8ea4fcc6057e343ecd1eda8efe06e0b88e7f8f3",
+      "source_path": "tools/public_adl/run_cli_ci.sh",
+      "source_head": "e30c5880e3f870487685617acf1c1063eea0cdac",
+      "identity": {
+        "mode": "100644",
+        "blob": "befb4b3f785e227b3aea445efc4a6b157f010e80",
+        "sha256": "d72a13f408a6e0e9917419e1a8ea4fcc6057e343ecd1eda8efe06e0b88e7f8f3"
+      }
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/additional-twenty-one-closure/evidence/tools/public_adl/coverage.py",
+      "sha256": "eb23ab74074ab5f8ab4350fbbbccaba93e1e2e32f23ae80649de2af67d5d6692",
+      "source_path": "tools/public_adl/coverage.py",
+      "source_head": "e30c5880e3f870487685617acf1c1063eea0cdac",
+      "identity": {
+        "mode": "100644",
+        "blob": "bf7f8a3f8782ad6180457277c65e1e2a5088b403",
+        "sha256": "eb23ab74074ab5f8ab4350fbbbccaba93e1e2e32f23ae80649de2af67d5d6692"
+      }
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/additional-twenty-one-closure/evidence/adl/tools/run_authoritative_coverage_lane.sh",
+      "sha256": "aae9b3a39a9f5a52afd0ab4d1663e4b34d554b41a03f382cd9f1b4318130735d",
+      "source_path": "adl/tools/run_authoritative_coverage_lane.sh",
+      "source_head": "e30c5880e3f870487685617acf1c1063eea0cdac",
+      "identity": {
+        "mode": "100755",
+        "blob": "6200e1a51b524c43569e86a9d7be138b110e77b1",
+        "sha256": "aae9b3a39a9f5a52afd0ab4d1663e4b34d554b41a03f382cd9f1b4318130735d"
+      }
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/additional-twenty-one-closure/evidence/docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CSDLC_SOURCE_FAMILY_APPLIED.json",
+      "sha256": "1e462af26effbb5ab0f9318152105a3f270d499386fa799c0622a36df014aea2",
+      "source_path": "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CSDLC_SOURCE_FAMILY_APPLIED.json",
+      "source_head": "e30c5880e3f870487685617acf1c1063eea0cdac",
+      "identity": {
+        "mode": "100644",
+        "blob": "b9b27c477de17da841cbe0ff5aeb1ac2d269104d",
+        "sha256": "1e462af26effbb5ab0f9318152105a3f270d499386fa799c0622a36df014aea2"
+      }
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/additional-twenty-one-closure/evidence/docs/milestones/v0.93.1/repository-decomposition/rd07-1223/RUNTIME_SOURCE_FAMILY_APPLIED.json",
+      "sha256": "9600a1fb0ee1a58508069b5847f5b8cf475805cf9b0059bc3f3f5ee3b51fd486",
+      "source_path": "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/RUNTIME_SOURCE_FAMILY_APPLIED.json",
+      "source_head": "e30c5880e3f870487685617acf1c1063eea0cdac",
+      "identity": {
+        "mode": "100644",
+        "blob": "f998a3d4a0a33a550075c9dd0c4c7fa49fc64635",
+        "sha256": "9600a1fb0ee1a58508069b5847f5b8cf475805cf9b0059bc3f3f5ee3b51fd486"
+      }
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/additional-twenty-one-closure/PUBLIC_SUCCESSORS.json",
+      "sha256": "465aaceb1bcd233d3a0f100338cc5e2c375721f238b47e553a359326203af556"
+    }
+  ],
+  "owner_correspondence": [
+    {
+      "source_path": "csdlc-v3/src/commands/proof/node.rs",
+      "owner_repository": "cognitive-sdlc",
+      "owner_revision": "6516a33d0761a256f018d74ee2d000086be111f9",
+      "owner_path": "csdlc-v3/src/commands/proof/node.rs",
+      "identity": {
+        "mode": "100644",
+        "blob": "fd192e8533d3a06d592a67b8ab919f296c7f5574",
+        "sha256": "f2b8e2f109a5dffb6f26843a35efbf3ddad85721db22941c89d6d853efc707a8"
+      },
+      "exact_bytes": false,
+      "custody": {
+        "path": "/Volumes/FastWork/c1223/additional-twenty-one-closure/owner/csdlc-v3/src/commands/proof/node.rs",
+        "sha256": "f2b8e2f109a5dffb6f26843a35efbf3ddad85721db22941c89d6d853efc707a8"
+      },
+      "full_difference": {
+        "path": "/Volumes/FastWork/c1223/additional-twenty-one-closure/owner-diffs/node.diff",
+        "sha256": "b96d494d61cb3dc831461931f66956b3b925f8ce587de93b0f72936bb87de5a4"
+      },
+      "boundary": "Four planning tests are exact archived source, not current owner execution; two operational modules have evolved in owner, no new behavioral equivalence claimed."
+    },
+    {
+      "source_path": "csdlc-v3/src/commands/remote/publication_observation.rs",
+      "owner_repository": "cognitive-sdlc",
+      "owner_revision": "6516a33d0761a256f018d74ee2d000086be111f9",
+      "owner_path": "csdlc-v3/src/commands/remote/publication_observation.rs",
+      "identity": {
+        "mode": "100644",
+        "blob": "5c6e62833a5e14f2712df7ef9be5a81a4932ab73",
+        "sha256": "d74186e37afc307967b865381834aba7d170f165e9ae7dc59fd4419718b7d42d"
+      },
+      "exact_bytes": false,
+      "custody": {
+        "path": "/Volumes/FastWork/c1223/additional-twenty-one-closure/owner/csdlc-v3/src/commands/remote/publication_observation.rs",
+        "sha256": "d74186e37afc307967b865381834aba7d170f165e9ae7dc59fd4419718b7d42d"
+      },
+      "full_difference": {
+        "path": "/Volumes/FastWork/c1223/additional-twenty-one-closure/owner-diffs/publication_observation.diff",
+        "sha256": "cec0ac714b5ef480ff4e58bcd4d582d5a6f940f74b5fe875108fb52d441b2bef"
+      },
+      "boundary": "Four planning tests are exact archived source, not current owner execution; two operational modules have evolved in owner, no new behavioral equivalence claimed."
+    },
+    {
+      "source_path": "csdlc-v3/tests/rd01_1181_census.rs",
+      "owner_repository": "cognitive-sdlc",
+      "owner_revision": "6516a33d0761a256f018d74ee2d000086be111f9",
+      "owner_path": "docs/activation/historical-planning-tests/rd01_1181_census.rs",
+      "identity": {
+        "mode": "100644",
+        "blob": "92ec485bc6e964dfae4b648954c9ec0dd918e360",
+        "sha256": "246264c6b8d3e16dbb4dc1cff52731a032399ce4b97520cd597647e1937f4b7d"
+      },
+      "exact_bytes": true,
+      "custody": {
+        "path": "/Volumes/FastWork/c1223/additional-twenty-one-closure/owner/docs/activation/historical-planning-tests/rd01_1181_census.rs",
+        "sha256": "246264c6b8d3e16dbb4dc1cff52731a032399ce4b97520cd597647e1937f4b7d"
+      },
+      "full_difference": {
+        "path": "/Volumes/FastWork/c1223/additional-twenty-one-closure/owner-diffs/rd01_1181_census.diff",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "boundary": "Four planning tests are exact archived source, not current owner execution; two operational modules have evolved in owner, no new behavioral equivalence claimed."
+    },
+    {
+      "source_path": "csdlc-v3/tests/rd02_1182_contract.rs",
+      "owner_repository": "cognitive-sdlc",
+      "owner_revision": "6516a33d0761a256f018d74ee2d000086be111f9",
+      "owner_path": "docs/activation/historical-planning-tests/rd02_1182_contract.rs",
+      "identity": {
+        "mode": "100644",
+        "blob": "95fbbf01e56c4f6c88cfda5281ec25a01ff65ee0",
+        "sha256": "4bbd79679d797b48035cc00aa382f418c7d25dfeee97f7635a2b13d7aa313c21"
+      },
+      "exact_bytes": true,
+      "custody": {
+        "path": "/Volumes/FastWork/c1223/additional-twenty-one-closure/owner/docs/activation/historical-planning-tests/rd02_1182_contract.rs",
+        "sha256": "4bbd79679d797b48035cc00aa382f418c7d25dfeee97f7635a2b13d7aa313c21"
+      },
+      "full_difference": {
+        "path": "/Volumes/FastWork/c1223/additional-twenty-one-closure/owner-diffs/rd02_1182_contract.diff",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "boundary": "Four planning tests are exact archived source, not current owner execution; two operational modules have evolved in owner, no new behavioral equivalence claimed."
+    },
+    {
+      "source_path": "csdlc-v3/tests/rd12_1183_bootstrap.rs",
+      "owner_repository": "cognitive-sdlc",
+      "owner_revision": "6516a33d0761a256f018d74ee2d000086be111f9",
+      "owner_path": "docs/activation/historical-planning-tests/rd12_1183_bootstrap.rs",
+      "identity": {
+        "mode": "100644",
+        "blob": "8ea387f2a09e051303d23b48fe68c2c9a8751003",
+        "sha256": "353d87ff6d3716fb69c18b3a772c1930d7ea40b5fdc2fa0a055eba9876a2fb3f"
+      },
+      "exact_bytes": true,
+      "custody": {
+        "path": "/Volumes/FastWork/c1223/additional-twenty-one-closure/owner/docs/activation/historical-planning-tests/rd12_1183_bootstrap.rs",
+        "sha256": "353d87ff6d3716fb69c18b3a772c1930d7ea40b5fdc2fa0a055eba9876a2fb3f"
+      },
+      "full_difference": {
+        "path": "/Volumes/FastWork/c1223/additional-twenty-one-closure/owner-diffs/rd12_1183_bootstrap.diff",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "boundary": "Four planning tests are exact archived source, not current owner execution; two operational modules have evolved in owner, no new behavioral equivalence claimed."
+    },
+    {
+      "source_path": "csdlc-v3/tests/rd13_1184_mapping.rs",
+      "owner_repository": "cognitive-sdlc",
+      "owner_revision": "6516a33d0761a256f018d74ee2d000086be111f9",
+      "owner_path": "docs/activation/historical-planning-tests/rd13_1184_mapping.rs",
+      "identity": {
+        "mode": "100644",
+        "blob": "aae39a163050d922672e68eca0bb4d644eb6ba72",
+        "sha256": "dce1fd57cf9448dc35d12424c8da3210f35c59a10b26f1d2958419b1a0be7afc"
+      },
+      "exact_bytes": true,
+      "custody": {
+        "path": "/Volumes/FastWork/c1223/additional-twenty-one-closure/owner/docs/activation/historical-planning-tests/rd13_1184_mapping.rs",
+        "sha256": "dce1fd57cf9448dc35d12424c8da3210f35c59a10b26f1d2958419b1a0be7afc"
+      },
+      "full_difference": {
+        "path": "/Volumes/FastWork/c1223/additional-twenty-one-closure/owner-diffs/rd13_1184_mapping.diff",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "boundary": "Four planning tests are exact archived source, not current owner execution; two operational modules have evolved in owner, no new behavioral equivalence claimed."
+    }
+  ],
+  "proof_limits": "Read-only source/module/caller/custody review. No tests/builds/current owner acceptance performed. Historical tests and their adverse/equivalence boundaries preserved. Current public CI and versioned package implementations remain unchanged.",
+  "registry_delta": {
+    "removed": [
+      "| `adl/tools/demo_v0912_quality_gate.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |",
+      "| `adl/tools/test_demo_v0912_quality_gate.sh` | tool surface | internal helper | Focused regression or contract test helper. |"
+    ],
+    "added": []
+  },
+  "public_successors": [
+    {
+      "removed_unused_facade": "adl-provider-core/src/spec.rs",
+      "remaining_canonical_source": "adl-schema/src/lib.rs",
+      "source_head": "e30c5880e3f870487685617acf1c1063eea0cdac",
+      "identity": {
+        "mode": "100644",
+        "blob": "54f5711da65c3fa2f404c8c4ae348a59f48fb079",
+        "sha256": "a97526fea96931451e900aef821c090d0d9bfdb82c9f6f383888b5335cd957a4"
+      },
+      "evidence": {
+        "path": "/Volumes/FastWork/c1223/additional-twenty-one-closure/canonical-public/adl-schema/src/lib.rs",
+        "sha256": "a97526fea96931451e900aef821c090d0d9bfdb82c9f6f383888b5335cd957a4"
+      },
+      "scope": "Canonical declaration/implementation remains; deleted compatibility file is not included in public module graph. No execution or equivalence test added."
+    },
+    {
+      "removed_unused_facade": "adl/src/adl.rs",
+      "remaining_canonical_source": "adl-legacy-contracts/src/adl.rs",
+      "source_head": "e30c5880e3f870487685617acf1c1063eea0cdac",
+      "identity": {
+        "mode": "100644",
+        "blob": "c2cb21894d1edbdee4685061b23d49d96128c1b0",
+        "sha256": "7cc79365feb1f990eacc88738a602adcd72dc2e1d3a6ea14ddeb40efb4ae0ef4"
+      },
+      "evidence": {
+        "path": "/Volumes/FastWork/c1223/additional-twenty-one-closure/canonical-public/adl-legacy-contracts/src/adl.rs",
+        "sha256": "7cc79365feb1f990eacc88738a602adcd72dc2e1d3a6ea14ddeb40efb4ae0ef4"
+      },
+      "scope": "Canonical declaration/implementation remains; deleted compatibility file is not included in public module graph. No execution or equivalence test added."
+    },
+    {
+      "removed_unused_facade": "adl/src/cognitive_transition_schema.rs",
+      "remaining_canonical_source": "adl-legacy-contracts/src/cognitive_transition_schema.rs",
+      "source_head": "e30c5880e3f870487685617acf1c1063eea0cdac",
+      "identity": {
+        "mode": "100644",
+        "blob": "5878b7a6adf25f263cc87e90d984fc6f16d194f5",
+        "sha256": "94b13e105c1b8790f9b20de3f6bb986afb42ef739962ce903051638c9561975f"
+      },
+      "evidence": {
+        "path": "/Volumes/FastWork/c1223/additional-twenty-one-closure/canonical-public/adl-legacy-contracts/src/cognitive_transition_schema.rs",
+        "sha256": "94b13e105c1b8790f9b20de3f6bb986afb42ef739962ce903051638c9561975f"
+      },
+      "scope": "Canonical declaration/implementation remains; deleted compatibility file is not included in public module graph. No execution or equivalence test added."
+    },
+    {
+      "removed_unused_facade": "adl/src/execution_plan.rs",
+      "remaining_canonical_source": "adl-legacy-contracts/src/execution_plan.rs",
+      "source_head": "e30c5880e3f870487685617acf1c1063eea0cdac",
+      "identity": {
+        "mode": "100644",
+        "blob": "9b6ecfcfc5b9ece81fdf3883d0966f13a960022d",
+        "sha256": "380755000d8d1395e8e3832c54e221bef046c1218e3634fbb563bf2cadafa21f"
+      },
+      "evidence": {
+        "path": "/Volumes/FastWork/c1223/additional-twenty-one-closure/canonical-public/adl-legacy-contracts/src/execution_plan.rs",
+        "sha256": "380755000d8d1395e8e3832c54e221bef046c1218e3634fbb563bf2cadafa21f"
+      },
+      "scope": "Canonical declaration/implementation remains; deleted compatibility file is not included in public module graph. No execution or equivalence test added."
+    },
+    {
+      "removed_unused_facade": "adl/src/plan.rs",
+      "remaining_canonical_source": "adl-legacy-contracts/src/plan.rs",
+      "source_head": "e30c5880e3f870487685617acf1c1063eea0cdac",
+      "identity": {
+        "mode": "100644",
+        "blob": "038e0a012d2c7a1b451ad4be3192a0d6c331a893",
+        "sha256": "fbbf08371806559e82ff54a85cc64217949ae92d9e4685bb470ea958acc434c1"
+      },
+      "evidence": {
+        "path": "/Volumes/FastWork/c1223/additional-twenty-one-closure/canonical-public/adl-legacy-contracts/src/plan.rs",
+        "sha256": "fbbf08371806559e82ff54a85cc64217949ae92d9e4685bb470ea958acc434c1"
+      },
+      "scope": "Canonical declaration/implementation remains; deleted compatibility file is not included in public module graph. No execution or equivalence test added."
+    },
+    {
+      "removed_unused_facade": "adl/src/prompt.rs",
+      "remaining_canonical_source": "adl-legacy-contracts/src/prompt.rs",
+      "source_head": "e30c5880e3f870487685617acf1c1063eea0cdac",
+      "identity": {
+        "mode": "100644",
+        "blob": "dbfcdd7d4e25eec88dc0b560e9ea26411a105d68",
+        "sha256": "ac9e69bd32fdc6718fa05a0f366749cf3e78c61f0287ab79ce6d6a3d2b664918"
+      },
+      "evidence": {
+        "path": "/Volumes/FastWork/c1223/additional-twenty-one-closure/canonical-public/adl-legacy-contracts/src/prompt.rs",
+        "sha256": "ac9e69bd32fdc6718fa05a0f366749cf3e78c61f0287ab79ce6d6a3d2b664918"
+      },
+      "scope": "Canonical declaration/implementation remains; deleted compatibility file is not included in public module graph. No execution or equivalence test added."
+    },
+    {
+      "removed_unused_facade": "adl/src/schema.rs",
+      "remaining_canonical_source": "adl-legacy-contracts/src/schema.rs",
+      "source_head": "e30c5880e3f870487685617acf1c1063eea0cdac",
+      "identity": {
+        "mode": "100644",
+        "blob": "0c3089b038a89cd2f9ae913d53aa3c488ffd26c9",
+        "sha256": "7894acdd10063b4c608c8fc6fc1930b072549e8c4c8f436346f7008445ba55f3"
+      },
+      "evidence": {
+        "path": "/Volumes/FastWork/c1223/additional-twenty-one-closure/canonical-public/adl-legacy-contracts/src/schema.rs",
+        "sha256": "7894acdd10063b4c608c8fc6fc1930b072549e8c4c8f436346f7008445ba55f3"
+      },
+      "scope": "Canonical declaration/implementation remains; deleted compatibility file is not included in public module graph. No execution or equivalence test added."
+    },
+    {
+      "removed_unused_facade": "adl/src/trace_schema_v1.rs",
+      "remaining_canonical_source": "adl-legacy-contracts/src/trace_schema_v1.rs",
+      "source_head": "e30c5880e3f870487685617acf1c1063eea0cdac",
+      "identity": {
+        "mode": "100644",
+        "blob": "b57f701aa52fa2c6aa9269af282d9788d2894d77",
+        "sha256": "e4aebba20dd926af7638b206972c0c6d17317df480ce061d739e1b9944ef4b51"
+      },
+      "evidence": {
+        "path": "/Volumes/FastWork/c1223/additional-twenty-one-closure/canonical-public/adl-legacy-contracts/src/trace_schema_v1.rs",
+        "sha256": "e4aebba20dd926af7638b206972c0c6d17317df480ce061d739e1b9944ef4b51"
+      },
+      "scope": "Canonical declaration/implementation remains; deleted compatibility file is not included in public module graph. No execution or equivalence test added."
+    },
+    {
+      "removed_unused_facade": "adl/src/uts.rs",
+      "remaining_canonical_source": "adl-uts/src/lib.rs",
+      "source_head": "e30c5880e3f870487685617acf1c1063eea0cdac",
+      "identity": {
+        "mode": "100644",
+        "blob": "ffb39c63b6424d85ae9c4dfdb0223529fbea1c85",
+        "sha256": "3d5225a8ca394f658e66e03499dcf6881c73e5734047a3d3234eea7ddaf0ce1a"
+      },
+      "evidence": {
+        "path": "/Volumes/FastWork/c1223/additional-twenty-one-closure/canonical-public/adl-uts/src/lib.rs",
+        "sha256": "3d5225a8ca394f658e66e03499dcf6881c73e5734047a3d3234eea7ddaf0ce1a"
+      },
+      "scope": "Canonical declaration/implementation remains; deleted compatibility file is not included in public module graph. No execution or equivalence test added."
+    },
+    {
+      "removed_unused_facade": "adl/src/uts_conformance.rs",
+      "remaining_canonical_source": "adl-uts/src/conformance.rs",
+      "source_head": "e30c5880e3f870487685617acf1c1063eea0cdac",
+      "identity": {
+        "mode": "100644",
+        "blob": "d23f734c5ceb0b08ebc3fb703ee8003c50f8d224",
+        "sha256": "2c2a129b034cd794c3d05bec4fcc85364dba756c14c3a26ad3778ed09aa8919c"
+      },
+      "evidence": {
+        "path": "/Volumes/FastWork/c1223/additional-twenty-one-closure/canonical-public/adl-uts/src/conformance.rs",
+        "sha256": "2c2a129b034cd794c3d05bec4fcc85364dba756c14c3a26ad3778ed09aa8919c"
+      },
+      "scope": "Canonical declaration/implementation remains; deleted compatibility file is not included in public module graph. No execution or equivalence test added."
+    }
+  ],
+  "proposal_source_head": "e30c5880e3f870487685617acf1c1063eea0cdac",
+  "review": {
+    "status": "PASS",
+    "reviewer": "review_1223_historical_retention",
+    "proposal_sha256": "7debac6969b949f2410f438f5d44edc976be57c7f90e886606dbaf555e9fca21",
+    "scope": "Reviewed source/caller/custody composition; all individual qualification and historical limits preserved."
+  }
+}

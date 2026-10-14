@@ -1,5 +1,12 @@
 # Bounded Rust syntax admission
 
+This retained ADL page describes the historical parser contract pinned in
+`tools/groupd_validation/fixtures/historical_parser_bounds.json`. Its source
+revision, blob and SHA256 identify the original implementation; the documentation
+test needs no historical Git objects. Current CodeFriend parser implementation
+and qualification belong to `agent-logic/codefriend`. This record does not claim
+current installed-owner acceptance.
+
 Architecture and local fitness share one resource boundary before parsing inert
 admitted Rust source. The previous 128-unit whole-file budget rejected ordinary
 files; it did not distinguish long files from deep recursive expressions.

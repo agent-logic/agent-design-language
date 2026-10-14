@@ -2,7 +2,7 @@
 
 ADL small fixes should move quickly without pretending that a narrow check proves
 a broad change. This policy defines a proportional fast lane for tiny,
-low-risk work while preserving typed C-SDLC v2, exact-head review, and truthful
+low-risk work while preserving typed C-SDLC v3, exact-head review, and truthful
 closeout.
 
 The validation selector remains the source for lane classification:
@@ -47,7 +47,9 @@ Required behavior:
 ## Validation Selection
 
 The fast lane changes how much proof is selected, not who owns lifecycle truth.
-The typed C-SDLC v2 remains the lifecycle authority.
+The typed C-SDLC v3 remains the lifecycle authority when its canonical native
+selector and authenticated reconciliation receipt validate. Missing or stale
+proof suspends authority; see `docs/csdlc-v3/CURRENT_AUTHORITY.md`.
 
 For fast-lane issues:
 
@@ -104,7 +106,7 @@ rather than letting a tiny fix become an unbounded repair session.
 
 This policy does not:
 
-- bypass typed C-SDLC v2
+- bypass typed C-SDLC v3
 - remove exact-head review before publication
 - make docs-only proof sufficient for runtime/product work
 - authorize raw GitHub lifecycle operations

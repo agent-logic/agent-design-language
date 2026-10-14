@@ -1,0 +1,2229 @@
+{
+  "schema": "adl1223.codefriend_source_family_reconciliation.v1",
+  "issue": 1223,
+  "status": "source_backed_conditional_transfer_proposal",
+  "execution_authorized": false,
+  "source_head_at_adoption": "2013a04d998ad8d52e4e110d8f418a434b30bcb7",
+  "external_reconciliation": {
+    "path": "/Volumes/FastWork/c1223/codefriend-197-reconciliation-20261013.json",
+    "sha256": "c7852bc6534c0a7c1f1723afe7d3c7600dc31e6bdd525d88b5ad79c6529588e5"
+  },
+  "historical_packet_preserved": {
+    "path": "/Volumes/FastWork/adl-worktrees/adl-issue-1223-1223-coherent-source-retirement/docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CODEFRIEND_TEST_CUTOVER.json",
+    "sha256": "9b6cdf9dd820f4a16b00f3029c9d9dc7948f771c960523b9f3ebc420425fb637"
+  },
+  "correction": "The original391 unmatched names described predecessor7520ee before issue102/PR103 suite migration. At recorded owner23eca64d all414 original declarations are present:391 suite declarations and23 support declarations. No missing behavior issue is inferred from the superseded mapping.",
+  "owner_repository": "agent-logic/codefriend",
+  "owner_revision": "23eca64d9c9a7008dfbf61e4a4f3ab46e0baabd3",
+  "source_revision_compared": "17699bae95f0aea73145b0d695aa8d84dd29b0cd",
+  "captured_identity_distinction": "Ledger captured identities remain immutable; reconciliation source blobs describe later source revision17699bae95, including separately reviewed metadata repairs such as1040.",
+  "row_count": 197,
+  "conditional_codefriend_rows": 196,
+  "separate_review_owner_hold": "RD07-0426",
+  "source_counts": {
+    "fixture": {
+      "adapted": 5,
+      "blob_identical": 58
+    },
+    "source": {
+      "adapted": 32,
+      "blob_identical": 57,
+      "review_tooling_misclassified": 1
+    },
+    "suite": {
+      "adapted": 39
+    },
+    "support": {
+      "adapted": 4,
+      "blob_identical": 1
+    }
+  },
+  "test_text_census": {
+    "body_matches": 301,
+    "named_present": 414,
+    "named_tests": 414,
+    "owner_assertion_macros": 1711,
+    "owner_async_attrs": 19,
+    "source_assertion_macros": 1709,
+    "source_async_attrs": 19
+  },
+  "census_boundary": {
+    "original_declarations": 414,
+    "suite_declarations": 391,
+    "support_declarations": 23,
+    "async_declarations_outside_original_count": 19,
+    "whitespace_normalized_body_matches": 301,
+    "assertion_macros_before": 1709,
+    "assertion_macros_after": 1711,
+    "assertion_count_drops_reported": 0,
+    "lexical_correspondence_is_behavioral_equivalence": false
+  },
+  "qualification": {
+    "linux39suites": {
+      "evidence": {
+        "path": "/Volumes/FastWork/c1223/evidence/codefriend/issue102-e14ff1b0-full/COUNTS.json",
+        "sha256": "042927f3e8017e541df1d7e8ff08edf2430bde74bf24cf82de4b4abaf2a13297"
+      },
+      "passed": 409,
+      "failed": 0,
+      "ignored": 0,
+      "suites": 39,
+      "candidate": "e14ff1b08b7ef01f838404bca8ecdf47c1318ac1",
+      "transcript_sha256": "c7944f7e0403ba485b377868b1bd85e91eeee0ecce3f79920de3e86c813cfa1a"
+    },
+    "macos_case": {
+      "evidence": {
+        "path": "/Volumes/FastWork/c1223/evidence/codefriend/issue102-3424cc7-macos-case/RESULT.json",
+        "sha256": "6d7e89fd92b60139d7484be1bafe508ce9a0a503720d488480d39284177f16ad"
+      },
+      "passed": 1,
+      "failed": 0,
+      "candidate": "3424cc775f65ec3a6e69f82888a73639a941a1e4",
+      "native_acceptance": false
+    },
+    "focused": {
+      "packet": {
+        "path": "/Volumes/FastWork/adl-worktrees/adl-issue-1223-1223-coherent-source-retirement/docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CODEFRIEND_FOCUSED_QUALIFICATION.json",
+        "sha256": "13e6fa8723bfdd0b7173fb8f375dc6f928d65f8bfdc803184221c8d872b17d3b"
+      },
+      "candidate": "69c9e76de44a27e4d4329ca4f652c1e291d67ed9",
+      "lib_passed": 177,
+      "publication_passed": 8,
+      "failed": 0,
+      "prior_170_pass_7_fail_and_native_refusal_preserved": true
+    },
+    "nonadditive": true,
+    "new_execution": false,
+    "current_owner_ci": "Worker14 recorded current-main CI; not treated as installed equivalence or a new run here."
+  },
+  "coherent_retirement_proposal": {
+    "scope": "196 CodeFriend source, fixture, support and suite rows as one conditional source family; exclude misclassified review wrapper0426.",
+    "remaining_before_removal": [
+      "Reconcile exact active ADL callers, automatic test discovery, tool fixtures and CI references in the same reviewed removal delta; do not leave partial source dependencies.",
+      "Preserve source and changed-byte rollback custody and exact removal approval overlay.",
+      "Reuse recorded qualified executions and scoped installed journeys at their exact heads; preserve adaptations and platform distinctions without summing overlapping proof or claiming every changed assertion equivalent."
+    ],
+    "new_missing_behavior_issue_required": false,
+    "source_deletions_performed": 0
+  },
+  "review_owner_exception": {
+    "id": "RD07-0426",
+    "path": "adl/src/bin/adl_review.rs",
+    "owner_route": "review",
+    "observation": "Wrapper calls cli::run_review_main. Compatibility dispatcher exposes deterministic fixture code-review and verify-repo-contract. Public manifest autobins=false with only adl/adl-process, so this is excluded from the current public build.",
+    "required": "Establish actual review-owner source mapping and original contract disposition before deletion; no CodeFriend product-loss claim."
+  },
+  "rows": [
+    {
+      "id": "RD07-0426",
+      "kind": "source",
+      "original": "adl/src/bin/adl_review.rs",
+      "owner": null,
+      "owner_blob": null,
+      "source_blob": "40e34e399ca67b7d2832da4a008f88edb72e247d",
+      "state": "review_tooling_misclassified"
+    },
+    {
+      "id": "RD07-0428",
+      "kind": "source",
+      "original": "adl/src/bin/codefriend_agent.rs",
+      "owner": "crates/codefriend/src/bin/codefriend_agent.rs",
+      "owner_blob": "adf00905e56d3c0cb47ca390e7b0d90c9449827b",
+      "source_blob": "dfc26c266751060350a2bc93189f19f24de25ff2",
+      "state": "adapted"
+    },
+    {
+      "id": "RD07-0429",
+      "kind": "source",
+      "original": "adl/src/bin/codefriend_server.rs",
+      "owner": "crates/codefriend/src/bin/codefriend_server.rs",
+      "owner_blob": "19ea6b42d79f7780328fad3208bbfb363c4d04e4",
+      "source_blob": "83505db1892e495f6b99a1a31d0008c0b761e4e5",
+      "state": "adapted"
+    },
+    {
+      "id": "RD07-0452",
+      "kind": "source",
+      "original": "adl/src/cli/codefriend_ci_cmd.rs",
+      "owner": "crates/codefriend/src/bin/cli/codefriend_ci_cmd.rs",
+      "owner_blob": "5e92f7fbaa2a49f27ba32a15be52502fea6f6f42",
+      "source_blob": "f031f7144b018baec170fc12bbddfba492650cd8",
+      "state": "adapted"
+    },
+    {
+      "id": "RD07-0453",
+      "kind": "source",
+      "original": "adl/src/cli/codefriend_cmd.rs",
+      "owner": "crates/codefriend/src/bin/cli/codefriend_cmd.rs",
+      "owner_blob": "5f19a033a4466b4be0ea9ebf17bcc4cf6832188e",
+      "source_blob": "191b9b4ad262be27d4a6743c55581e9e4187e2fa",
+      "state": "adapted"
+    },
+    {
+      "id": "RD07-0454",
+      "kind": "source",
+      "original": "adl/src/cli/codefriend_evidence_cmd.rs",
+      "owner": "crates/codefriend/src/bin/cli/codefriend_evidence_cmd.rs",
+      "owner_blob": "b0227a49ce614f224ab3a47fb97d884c8a3971a0",
+      "source_blob": "bcc664f54c4adacb8ecbbc6c5ad6e6e8ea891e70",
+      "state": "adapted"
+    },
+    {
+      "id": "RD07-0455",
+      "kind": "source",
+      "original": "adl/src/cli/codefriend_fitness_ci_cmd.rs",
+      "owner": "crates/codefriend/src/bin/cli/codefriend_fitness_ci_cmd.rs",
+      "owner_blob": "938656738d74dc3f139272dae6747065ffe33055",
+      "source_blob": "78154c6f77bf62a338f0b4bd007db5ea2ac88d10",
+      "state": "adapted"
+    },
+    {
+      "id": "RD07-0456",
+      "kind": "source",
+      "original": "adl/src/cli/codefriend_fitness_ci_v2_cmd.rs",
+      "owner": "crates/codefriend/src/bin/cli/codefriend_fitness_ci_v2_cmd.rs",
+      "owner_blob": "7d34a9a96b53ca02d0012bcf24ad02628799b6af",
+      "source_blob": "cb32c4297eb251e32c264629f2a0e81ba9cfecc5",
+      "state": "adapted"
+    },
+    {
+      "id": "RD07-0457",
+      "kind": "source",
+      "original": "adl/src/cli/codefriend_fitness_cmd.rs",
+      "owner": "crates/codefriend/src/bin/cli/codefriend_fitness_cmd.rs",
+      "owner_blob": "ebe447330952f76007ddc2f3a4d4b23276caae99",
+      "source_blob": "084b734fd72735f6b4dae736a87dededaf1cb394",
+      "state": "adapted"
+    },
+    {
+      "id": "RD07-0458",
+      "kind": "source",
+      "original": "adl/src/cli/codefriend_github_cmd.rs",
+      "owner": "crates/codefriend/src/bin/cli/codefriend_github_cmd.rs",
+      "owner_blob": "37beeb796a26c0680f3a8400df631ddb3799001a",
+      "source_blob": "e25ebe3242bc34f5b5530bb7093db8525168d0be",
+      "state": "adapted"
+    },
+    {
+      "id": "RD07-0459",
+      "kind": "source",
+      "original": "adl/src/cli/codefriend_memory_cmd.rs",
+      "owner": "crates/codefriend/src/bin/cli/codefriend_memory_cmd.rs",
+      "owner_blob": "7801a956f0db640852355ef4542930ba84fa6766",
+      "source_blob": "fb01778fe77a5797324b8d021c6286def8f46957",
+      "state": "adapted"
+    },
+    {
+      "id": "RD07-0460",
+      "kind": "source",
+      "original": "adl/src/cli/codefriend_publication_cmd.rs",
+      "owner": "crates/codefriend/src/bin/cli/codefriend_publication_cmd.rs",
+      "owner_blob": "5405d88b2c422e61c7fb9281e9cdcd8e56d30a0c",
+      "source_blob": "2f9efd798efd9c9f49b066be1034f10fe305fe3d",
+      "state": "adapted"
+    },
+    {
+      "id": "RD07-0461",
+      "kind": "source",
+      "original": "adl/src/cli/codefriend_structure_cmd.rs",
+      "owner": "crates/codefriend/src/bin/cli/codefriend_structure_cmd.rs",
+      "owner_blob": "891906886b98cf842af6e7101b800718dc2855a9",
+      "source_blob": "c6998a2c297ff6f6957de6d2d086f82c0a0c008b",
+      "state": "adapted"
+    },
+    {
+      "id": "RD07-0533",
+      "kind": "source",
+      "original": "adl/src/codefriend/actions/mod.rs",
+      "owner": "crates/codefriend/src/codefriend/actions/mod.rs",
+      "owner_blob": "1c42457190c2d78813aa15289daa6debe4d972b6",
+      "source_blob": "1c42457190c2d78813aa15289daa6debe4d972b6",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0534",
+      "kind": "source",
+      "original": "adl/src/codefriend/actions/remediation.rs",
+      "owner": "crates/codefriend/src/codefriend/actions/remediation.rs",
+      "owner_blob": "027b0913de603029937531a90bd9657d2c720032",
+      "source_blob": "027b0913de603029937531a90bd9657d2c720032",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0535",
+      "kind": "source",
+      "original": "adl/src/codefriend/actions/test_plan.rs",
+      "owner": "crates/codefriend/src/codefriend/actions/test_plan.rs",
+      "owner_blob": "1f2f234f956d115fdec52066c20f613d563aaedb",
+      "source_blob": "1f2f234f956d115fdec52066c20f613d563aaedb",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0536",
+      "kind": "source",
+      "original": "adl/src/codefriend/activities.rs",
+      "owner": "crates/codefriend/src/codefriend/activities.rs",
+      "owner_blob": "b5618a7d2b7378c482bb4390f952bd0e9c0b9c4c",
+      "source_blob": "b5618a7d2b7378c482bb4390f952bd0e9c0b9c4c",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0537",
+      "kind": "source",
+      "original": "adl/src/codefriend/agent.rs",
+      "owner": "crates/codefriend/src/codefriend/agent.rs",
+      "owner_blob": "b311fa284d8883af07a25e4eb4fbf55c7824557d",
+      "source_blob": "62a5000d53aa8a33a9ccbe9b4f099e3921ba517b",
+      "state": "adapted"
+    },
+    {
+      "id": "RD07-0538",
+      "kind": "source",
+      "original": "adl/src/codefriend/agent/cycle_bridge.rs",
+      "owner": "crates/codefriend/src/codefriend/agent/cycle_bridge.rs",
+      "owner_blob": "c66608df409178e858c2263c61bde7d44bda8e3c",
+      "source_blob": "c66608df409178e858c2263c61bde7d44bda8e3c",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0539",
+      "kind": "source",
+      "original": "adl/src/codefriend/agent/journey.rs",
+      "owner": "crates/codefriend/src/codefriend/agent/journey.rs",
+      "owner_blob": "15a35ebeedf98cc254d504084dc5f5dd9b4d6d6a",
+      "source_blob": "15a35ebeedf98cc254d504084dc5f5dd9b4d6d6a",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0540",
+      "kind": "source",
+      "original": "adl/src/codefriend/agent/journey/delivery.rs",
+      "owner": "crates/codefriend/src/codefriend/agent/journey/delivery.rs",
+      "owner_blob": "da29d756f9ccd531acbae8f6abe14e3d9407d024",
+      "source_blob": "da29d756f9ccd531acbae8f6abe14e3d9407d024",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0541",
+      "kind": "source",
+      "original": "adl/src/codefriend/agent/journey/verification.rs",
+      "owner": "crates/codefriend/src/codefriend/agent/journey/verification.rs",
+      "owner_blob": "946c2cab0c5ac7940367a08941cf737dfaef2a7c",
+      "source_blob": "946c2cab0c5ac7940367a08941cf737dfaef2a7c",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0542",
+      "kind": "source",
+      "original": "adl/src/codefriend/agent/publication.rs",
+      "owner": "crates/codefriend/src/codefriend/agent/publication.rs",
+      "owner_blob": "ccbb90e59bb8488557dcf04cf8467b0b59dd5f3d",
+      "source_blob": "a025eea1bcf1a9b156922fb1809564e82b5abd41",
+      "state": "adapted"
+    },
+    {
+      "id": "RD07-0543",
+      "kind": "source",
+      "original": "adl/src/codefriend/architecture/artifact.rs",
+      "owner": "crates/codefriend/src/codefriend/architecture/artifact.rs",
+      "owner_blob": "0cdc5758b66174460ca0f5aa9ef3902a1f975ad8",
+      "source_blob": "0cdc5758b66174460ca0f5aa9ef3902a1f975ad8",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0544",
+      "kind": "source",
+      "original": "adl/src/codefriend/architecture/drift.rs",
+      "owner": "crates/codefriend/src/codefriend/architecture/drift.rs",
+      "owner_blob": "855deb0696cfc616b65391175ca8cd47918f56e4",
+      "source_blob": "855deb0696cfc616b65391175ca8cd47918f56e4",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0545",
+      "kind": "source",
+      "original": "adl/src/codefriend/architecture/drift_v2.rs",
+      "owner": "crates/codefriend/src/codefriend/architecture/drift_v2.rs",
+      "owner_blob": "8c8b918b355c46403208ad9cb5c9b6095e7eab8b",
+      "source_blob": "8c8b918b355c46403208ad9cb5c9b6095e7eab8b",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0546",
+      "kind": "source",
+      "original": "adl/src/codefriend/architecture/four_plus_one.rs",
+      "owner": "crates/codefriend/src/codefriend/architecture/four_plus_one.rs",
+      "owner_blob": "0716d91db01e85acac5f0e8fe495247f33a5ed68",
+      "source_blob": "0716d91db01e85acac5f0e8fe495247f33a5ed68",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0547",
+      "kind": "source",
+      "original": "adl/src/codefriend/architecture/four_plus_one/generation.rs",
+      "owner": "crates/codefriend/src/codefriend/architecture/four_plus_one/generation.rs",
+      "owner_blob": "8d345c41876e565b1beb8ae380309568b221fb79",
+      "source_blob": "8d345c41876e565b1beb8ae380309568b221fb79",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0548",
+      "kind": "source",
+      "original": "adl/src/codefriend/architecture/four_plus_one/render.rs",
+      "owner": "crates/codefriend/src/codefriend/architecture/four_plus_one/render.rs",
+      "owner_blob": "b860100fb93f2ece2a07c1dd2f5be24d4347e9a3",
+      "source_blob": "b860100fb93f2ece2a07c1dd2f5be24d4347e9a3",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0549",
+      "kind": "source",
+      "original": "adl/src/codefriend/architecture/impact.rs",
+      "owner": "crates/codefriend/src/codefriend/architecture/impact.rs",
+      "owner_blob": "606a5be8f4e28e480409c6e47b68820a4bcb04ed",
+      "source_blob": "606a5be8f4e28e480409c6e47b68820a4bcb04ed",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0550",
+      "kind": "source",
+      "original": "adl/src/codefriend/architecture/impact_v2.rs",
+      "owner": "crates/codefriend/src/codefriend/architecture/impact_v2.rs",
+      "owner_blob": "d111988d5d1988c8d457d746557942b410e6ceae",
+      "source_blob": "d111988d5d1988c8d457d746557942b410e6ceae",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0551",
+      "kind": "source",
+      "original": "adl/src/codefriend/architecture/mod.rs",
+      "owner": "crates/codefriend/src/codefriend/architecture/mod.rs",
+      "owner_blob": "88cc27ca2b98ae3e10ada42191e2f8db6be1dd87",
+      "source_blob": "88cc27ca2b98ae3e10ada42191e2f8db6be1dd87",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0552",
+      "kind": "source",
+      "original": "adl/src/codefriend/architecture/rationale.rs",
+      "owner": "crates/codefriend/src/codefriend/architecture/rationale.rs",
+      "owner_blob": "aff2592e48a4a1b0064bd85b333b6a69ec732319",
+      "source_blob": "aff2592e48a4a1b0064bd85b333b6a69ec732319",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0553",
+      "kind": "source",
+      "original": "adl/src/codefriend/architecture/rationale_v2.rs",
+      "owner": "crates/codefriend/src/codefriend/architecture/rationale_v2.rs",
+      "owner_blob": "60f16620e233414ceb6b4fe2f08bfbe559fd2844",
+      "source_blob": "60f16620e233414ceb6b4fe2f08bfbe559fd2844",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0554",
+      "kind": "source",
+      "original": "adl/src/codefriend/architecture/structure.rs",
+      "owner": "crates/codefriend/src/codefriend/architecture/structure.rs",
+      "owner_blob": "7c8c4f187059ab044354d86c7f45ae356ad720c8",
+      "source_blob": "7c8c4f187059ab044354d86c7f45ae356ad720c8",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0555",
+      "kind": "source",
+      "original": "adl/src/codefriend/architecture/structure_v2.rs",
+      "owner": "crates/codefriend/src/codefriend/architecture/structure_v2.rs",
+      "owner_blob": "f1177734544f05ca7d275c50544774d1c1cee444",
+      "source_blob": "f1177734544f05ca7d275c50544774d1c1cee444",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0556",
+      "kind": "source",
+      "original": "adl/src/codefriend/architecture/syntax.rs",
+      "owner": "crates/codefriend/src/codefriend/architecture/syntax.rs",
+      "owner_blob": "54ee2f582bdf957977aded998174f299f7590ae1",
+      "source_blob": "54ee2f582bdf957977aded998174f299f7590ae1",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0557",
+      "kind": "source",
+      "original": "adl/src/codefriend/cycle_bridge.rs",
+      "owner": "crates/codefriend/src/codefriend/cycle_bridge.rs",
+      "owner_blob": "3caea02d4cebd086bb7c4eacd9100f06090dd33f",
+      "source_blob": "3caea02d4cebd086bb7c4eacd9100f06090dd33f",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0558",
+      "kind": "source",
+      "original": "adl/src/codefriend/evidence/assessments.rs",
+      "owner": "crates/codefriend/src/codefriend/evidence/assessments.rs",
+      "owner_blob": "9543dcc36002706b46c3e800ac737e0efcbd0eb6",
+      "source_blob": "9543dcc36002706b46c3e800ac737e0efcbd0eb6",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0559",
+      "kind": "source",
+      "original": "adl/src/codefriend/evidence/contracts.rs",
+      "owner": "crates/codefriend/src/codefriend/evidence/contracts.rs",
+      "owner_blob": "7f3ba7f3494f7ef8152d79953aff960b335efa92",
+      "source_blob": "cc932d1ac13087cadac3221df0773b25cf7f9fbc",
+      "state": "adapted"
+    },
+    {
+      "id": "RD07-0560",
+      "kind": "source",
+      "original": "adl/src/codefriend/evidence/mod.rs",
+      "owner": "crates/codefriend/src/codefriend/evidence/mod.rs",
+      "owner_blob": "199e122e25a5b0afc41c7151283f5d9ab59bae21",
+      "source_blob": "199e122e25a5b0afc41c7151283f5d9ab59bae21",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0561",
+      "kind": "source",
+      "original": "adl/src/codefriend/evidence/store.rs",
+      "owner": "crates/codefriend/src/codefriend/evidence/store.rs",
+      "owner_blob": "f09481a907528885ef73b13762caa778c85731f7",
+      "source_blob": "f09481a907528885ef73b13762caa778c85731f7",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0562",
+      "kind": "source",
+      "original": "adl/src/codefriend/governance/artifact.rs",
+      "owner": "crates/codefriend/src/codefriend/governance/artifact.rs",
+      "owner_blob": "e7f0febdd22fbc3df0ee50e02065eb8802331ecc",
+      "source_blob": "e7f0febdd22fbc3df0ee50e02065eb8802331ecc",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0563",
+      "kind": "source",
+      "original": "adl/src/codefriend/governance/ci.rs",
+      "owner": "crates/codefriend/src/codefriend/governance/ci.rs",
+      "owner_blob": "38f7de02a48bf886ecadd952025d9cf9bebe79b4",
+      "source_blob": "38f7de02a48bf886ecadd952025d9cf9bebe79b4",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0564",
+      "kind": "source",
+      "original": "adl/src/codefriend/governance/ci_v2.rs",
+      "owner": "crates/codefriend/src/codefriend/governance/ci_v2.rs",
+      "owner_blob": "d41737e1aea085baa9c029e0fae73c2a54550d23",
+      "source_blob": "d41737e1aea085baa9c029e0fae73c2a54550d23",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0565",
+      "kind": "source",
+      "original": "adl/src/codefriend/governance/language.rs",
+      "owner": "crates/codefriend/src/codefriend/governance/language.rs",
+      "owner_blob": "b268ed8af664ea30824168067ae5e92934e07912",
+      "source_blob": "b268ed8af664ea30824168067ae5e92934e07912",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0566",
+      "kind": "source",
+      "original": "adl/src/codefriend/governance/local.rs",
+      "owner": "crates/codefriend/src/codefriend/governance/local.rs",
+      "owner_blob": "2bc07b62eb2c14c0a0e939f947ace211c5d3167f",
+      "source_blob": "2bc07b62eb2c14c0a0e939f947ace211c5d3167f",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0567",
+      "kind": "source",
+      "original": "adl/src/codefriend/governance/mod.rs",
+      "owner": "crates/codefriend/src/codefriend/governance/mod.rs",
+      "owner_blob": "cd28a15e626062ca8b9f26c7cd38e9d83155f446",
+      "source_blob": "cd28a15e626062ca8b9f26c7cd38e9d83155f446",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0568",
+      "kind": "source",
+      "original": "adl/src/codefriend/ingestion/ci.rs",
+      "owner": "crates/codefriend/src/codefriend/ingestion/ci.rs",
+      "owner_blob": "6b8cf3ff37da152e4b8cc631f73bd3434d8a0e52",
+      "source_blob": "6b8cf3ff37da152e4b8cc631f73bd3434d8a0e52",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0569",
+      "kind": "source",
+      "original": "adl/src/codefriend/ingestion/github.rs",
+      "owner": "crates/codefriend/src/codefriend/ingestion/github.rs",
+      "owner_blob": "76df1a083d539c8ca0be53f3946021866fdf47e2",
+      "source_blob": "76df1a083d539c8ca0be53f3946021866fdf47e2",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0570",
+      "kind": "source",
+      "original": "adl/src/codefriend/ingestion/javascript_runtime.rs",
+      "owner": "crates/codefriend/src/codefriend/ingestion/javascript_runtime.rs",
+      "owner_blob": "ea634308eac44eaa9a08d0a4d7e0989a06444d2b",
+      "source_blob": "ea634308eac44eaa9a08d0a4d7e0989a06444d2b",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0571",
+      "kind": "source",
+      "original": "adl/src/codefriend/ingestion/local.rs",
+      "owner": "crates/codefriend/src/codefriend/ingestion/local.rs",
+      "owner_blob": "5d7e59b6177dfd4d3680ecac0a76de7c09b501f8",
+      "source_blob": "5d7e59b6177dfd4d3680ecac0a76de7c09b501f8",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0572",
+      "kind": "source",
+      "original": "adl/src/codefriend/ingestion/mod.rs",
+      "owner": "crates/codefriend/src/codefriend/ingestion/mod.rs",
+      "owner_blob": "9e3710e36d3d1743f426bcc75c5cd4638b4a2b7e",
+      "source_blob": "9e3710e36d3d1743f426bcc75c5cd4638b4a2b7e",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0573",
+      "kind": "source",
+      "original": "adl/src/codefriend/integration.rs",
+      "owner": "crates/codefriend/src/codefriend/integration.rs",
+      "owner_blob": "6be05ab9fcc28fd0e5aa6fea16d64bb2d6bca851",
+      "source_blob": "b24186e88c7e2366f8d2684183ee70393b7821b9",
+      "state": "adapted"
+    },
+    {
+      "id": "RD07-0574",
+      "kind": "source",
+      "original": "adl/src/codefriend/integration/journey.rs",
+      "owner": "crates/codefriend/src/codefriend/integration/journey.rs",
+      "owner_blob": "80366ac6c49a290c2f48a8380ed9e03fbd914164",
+      "source_blob": "e6aa049b8852fdcb6a8ae4bcbf9f23435363f371",
+      "state": "adapted"
+    },
+    {
+      "id": "RD07-0575",
+      "kind": "source",
+      "original": "adl/src/codefriend/integration/journey/local_publication_attachment.rs",
+      "owner": "crates/codefriend/src/codefriend/integration/journey/local_publication_attachment.rs",
+      "owner_blob": "cfa12947777b6a48ac7bc3247f67be186af5a302",
+      "source_blob": "cfa12947777b6a48ac7bc3247f67be186af5a302",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0576",
+      "kind": "source",
+      "original": "adl/src/codefriend/integration/journey/owned_baseline.rs",
+      "owner": "crates/codefriend/src/codefriend/integration/journey/owned_baseline.rs",
+      "owner_blob": "6839d3733c5382bc1a9aee4f29105a66554dbc51",
+      "source_blob": "6839d3733c5382bc1a9aee4f29105a66554dbc51",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0577",
+      "kind": "source",
+      "original": "adl/src/codefriend/integration/journey/owned_palace.rs",
+      "owner": "crates/codefriend/src/codefriend/integration/journey/owned_palace.rs",
+      "owner_blob": "420084e60422c5174778c57846eadce152777e54",
+      "source_blob": "f24a24c3d7da9a2e0e395fa18280d28f2f8dc07e",
+      "state": "adapted"
+    },
+    {
+      "id": "RD07-0578",
+      "kind": "source",
+      "original": "adl/src/codefriend/integration/journey/publication_attachment.rs",
+      "owner": "crates/codefriend/src/codefriend/integration/journey/publication_attachment.rs",
+      "owner_blob": "fdc3923f79673974a46a81be581e5b2f12cb609b",
+      "source_blob": "fdc3923f79673974a46a81be581e5b2f12cb609b",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0579",
+      "kind": "source",
+      "original": "adl/src/codefriend/language/imports.rs",
+      "owner": "crates/codefriend/src/codefriend/language/imports.rs",
+      "owner_blob": "b290974441fe016c70b376f7b8982f1821ab7a5a",
+      "source_blob": "b290974441fe016c70b376f7b8982f1821ab7a5a",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0580",
+      "kind": "source",
+      "original": "adl/src/codefriend/language/mod.rs",
+      "owner": "crates/codefriend/src/codefriend/language/mod.rs",
+      "owner_blob": "36ec8c8c451180a0fb1122f62e9087e13693dc91",
+      "source_blob": "36ec8c8c451180a0fb1122f62e9087e13693dc91",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0581",
+      "kind": "source",
+      "original": "adl/src/codefriend/language/owner.rs",
+      "owner": "crates/codefriend/src/codefriend/language/owner.rs",
+      "owner_blob": "6c5d00133735dd5a6be4ed0ba310f3e0c1da1b11",
+      "source_blob": "6c5d00133735dd5a6be4ed0ba310f3e0c1da1b11",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0582",
+      "kind": "source",
+      "original": "adl/src/codefriend/language/parser.rs",
+      "owner": "crates/codefriend/src/codefriend/language/parser.rs",
+      "owner_blob": "8a6d5d90c40c8fbfd16686c25e0775f46ad49784",
+      "source_blob": "8a6d5d90c40c8fbfd16686c25e0775f46ad49784",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0583",
+      "kind": "source",
+      "original": "adl/src/codefriend/language/resolver.rs",
+      "owner": "crates/codefriend/src/codefriend/language/resolver.rs",
+      "owner_blob": "dcb111da9caf8ded823a4011cec36a1f74b4cd1e",
+      "source_blob": "dcb111da9caf8ded823a4011cec36a1f74b4cd1e",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0584",
+      "kind": "source",
+      "original": "adl/src/codefriend/memory/baseline.rs",
+      "owner": "crates/codefriend/src/codefriend/memory/baseline.rs",
+      "owner_blob": "7beb9de51d9c015662b5e72bc6360e84aa461b6c",
+      "source_blob": "7beb9de51d9c015662b5e72bc6360e84aa461b6c",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0585",
+      "kind": "source",
+      "original": "adl/src/codefriend/memory/comparison.rs",
+      "owner": "crates/codefriend/src/codefriend/memory/comparison.rs",
+      "owner_blob": "a5d9ff77a6707df606cf9d93136276888c7e8ae7",
+      "source_blob": "a5d9ff77a6707df606cf9d93136276888c7e8ae7",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0586",
+      "kind": "source",
+      "original": "adl/src/codefriend/memory/mod.rs",
+      "owner": "crates/codefriend/src/codefriend/memory/mod.rs",
+      "owner_blob": "55b13bf66f9bdce7381ae3c3b7ab5dc009fcb3a8",
+      "source_blob": "55b13bf66f9bdce7381ae3c3b7ab5dc009fcb3a8",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0587",
+      "kind": "source",
+      "original": "adl/src/codefriend/memory/palace.rs",
+      "owner": "crates/codefriend/src/codefriend/memory/palace.rs",
+      "owner_blob": "c23176ab09649da10a5899eb977555948c1f29d3",
+      "source_blob": "c50704901352aa7ef3ca4da25c9df6323af63c64",
+      "state": "adapted"
+    },
+    {
+      "id": "RD07-0588",
+      "kind": "source",
+      "original": "adl/src/codefriend/memory/palace_authority.rs",
+      "owner": "crates/codefriend/src/codefriend/memory/palace_authority.rs",
+      "owner_blob": "16df3c491a5e342a613b050c7db1b52d1711880c",
+      "source_blob": "ddeb4b1d927b4da6347542f78055ee4aa4f4a1a4",
+      "state": "adapted"
+    },
+    {
+      "id": "RD07-0589",
+      "kind": "source",
+      "original": "adl/src/codefriend/mod.rs",
+      "owner": "crates/codefriend/src/codefriend/mod.rs",
+      "owner_blob": "4ff9759f90de81d9c49ee9bf48fb6e8a09bba6aa",
+      "source_blob": "eee3f2bcd169256c8a322dbd8b35ee3ee1d5db6a",
+      "state": "adapted"
+    },
+    {
+      "id": "RD07-0590",
+      "kind": "source",
+      "original": "adl/src/codefriend/operator/mod.rs",
+      "owner": "crates/codefriend/src/codefriend/operator/mod.rs",
+      "owner_blob": "d30b1ca296c68cfd0c76ac6b9e4e51a1b4729e9f",
+      "source_blob": "6d73d2fbaf42a09a0d6cae4389b8ddc520f10e0e",
+      "state": "adapted"
+    },
+    {
+      "id": "RD07-0591",
+      "kind": "source",
+      "original": "adl/src/codefriend/publication/approval.rs",
+      "owner": "crates/codefriend/src/codefriend/publication/approval.rs",
+      "owner_blob": "a8383114367ce63854362830cad645f2478a164c",
+      "source_blob": "a8383114367ce63854362830cad645f2478a164c",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0592",
+      "kind": "source",
+      "original": "adl/src/codefriend/publication/architecture.rs",
+      "owner": "crates/codefriend/src/codefriend/publication/architecture.rs",
+      "owner_blob": "e86d0480e5bcd7c820451b38922a46c1b4739493",
+      "source_blob": "1d12d7ac8634a68ae4a58a219bc3a6845da19d61",
+      "state": "adapted"
+    },
+    {
+      "id": "RD07-0593",
+      "kind": "source",
+      "original": "adl/src/codefriend/publication/html.rs",
+      "owner": "crates/codefriend/src/codefriend/publication/html.rs",
+      "owner_blob": "7004479cf2682d56e1cba08c610b99546171bedb",
+      "source_blob": "8f7f1b0254a7361a6cfee53a1500032a31210969",
+      "state": "adapted"
+    },
+    {
+      "id": "RD07-0594",
+      "kind": "source",
+      "original": "adl/src/codefriend/publication/manifest.rs",
+      "owner": "crates/codefriend/src/codefriend/publication/manifest.rs",
+      "owner_blob": "6787c08bf9753552baf8173067fd0a581b948c05",
+      "source_blob": "6787c08bf9753552baf8173067fd0a581b948c05",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0595",
+      "kind": "source",
+      "original": "adl/src/codefriend/publication/markdown.rs",
+      "owner": "crates/codefriend/src/codefriend/publication/markdown.rs",
+      "owner_blob": "1f9f49684e58cc1380c7987209c968dc43f59a21",
+      "source_blob": "c010ec72dd8c5a7819a21bb489c7f2a476ebc337",
+      "state": "adapted"
+    },
+    {
+      "id": "RD07-0596",
+      "kind": "source",
+      "original": "adl/src/codefriend/publication/mod.rs",
+      "owner": "crates/codefriend/src/codefriend/publication/mod.rs",
+      "owner_blob": "d5424a3b7c81d59752691bf77b9e0159795b6461",
+      "source_blob": "7a46331b7d11670de38705dea635886d7cd860ff",
+      "state": "adapted"
+    },
+    {
+      "id": "RD07-0597",
+      "kind": "source",
+      "original": "adl/src/codefriend/publication/pdf.rs",
+      "owner": "crates/codefriend/src/codefriend/publication/pdf.rs",
+      "owner_blob": "c4998128a34ed7243958a8892e656b876df58618",
+      "source_blob": "034e5c6ce383a614a4111d9674eabf751a7f10ac",
+      "state": "adapted"
+    },
+    {
+      "id": "RD07-0598",
+      "kind": "source",
+      "original": "adl/src/codefriend/publication/relay.rs",
+      "owner": "crates/codefriend/src/codefriend/publication/relay.rs",
+      "owner_blob": "de6b2555c466ac0cc279cdb4c12a2ad636ae15af",
+      "source_blob": "49ddec667e5879ea0e85c84b315c88f90bf93e6a",
+      "state": "adapted"
+    },
+    {
+      "id": "RD07-0599",
+      "kind": "source",
+      "original": "adl/src/codefriend/review/lanes.rs",
+      "owner": "crates/codefriend/src/codefriend/review/lanes.rs",
+      "owner_blob": "0cdc2206a40708ee01e0cd167ad141aca883c28e",
+      "source_blob": "02c51a2b46f38f1cf9ce8b714fe06e16969d06b1",
+      "state": "adapted"
+    },
+    {
+      "id": "RD07-0600",
+      "kind": "source",
+      "original": "adl/src/codefriend/review/mod.rs",
+      "owner": "crates/codefriend/src/codefriend/review/mod.rs",
+      "owner_blob": "7e36b9ab26bbbdf9ec1c44612e96b61dc048b450",
+      "source_blob": "7e36b9ab26bbbdf9ec1c44612e96b61dc048b450",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0601",
+      "kind": "source",
+      "original": "adl/src/codefriend/review/runner.rs",
+      "owner": "crates/codefriend/src/codefriend/review/runner.rs",
+      "owner_blob": "97ebb4b278011b1ac04c0c3ddb4a36852d0cf8cb",
+      "source_blob": "1692c251bbfde21946a0f771a37987643c945acb",
+      "state": "adapted"
+    },
+    {
+      "id": "RD07-0602",
+      "kind": "source",
+      "original": "adl/src/codefriend/review/synthesis.rs",
+      "owner": "crates/codefriend/src/codefriend/review/synthesis.rs",
+      "owner_blob": "3722a01fff5c3b316051b8a5f26345640cc9992f",
+      "source_blob": "3722a01fff5c3b316051b8a5f26345640cc9992f",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0603",
+      "kind": "source",
+      "original": "adl/src/codefriend/rust_parse.rs",
+      "owner": "crates/codefriend/src/codefriend/rust_parse.rs",
+      "owner_blob": "115c352e13a8115c464cf58b0514fe2b9f894783",
+      "source_blob": "115c352e13a8115c464cf58b0514fe2b9f894783",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0604",
+      "kind": "source",
+      "original": "adl/src/codefriend/schema.rs",
+      "owner": "crates/codefriend/src/codefriend/schema.rs",
+      "owner_blob": "2e6587708b6f0b0621fe09922fdd92fcb384cd9e",
+      "source_blob": "2e6587708b6f0b0621fe09922fdd92fcb384cd9e",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0605",
+      "kind": "source",
+      "original": "adl/src/codefriend/server.rs",
+      "owner": "crates/codefriend/src/codefriend/server.rs",
+      "owner_blob": "292b97a608dd760a016fcbcb50d4fcde55e1ce3d",
+      "source_blob": "ca8706d1c41de42eaf951b0dfcfe5014f27e01e2",
+      "state": "adapted"
+    },
+    {
+      "id": "RD07-0606",
+      "kind": "source",
+      "original": "adl/src/codefriend/server/control.rs",
+      "owner": "crates/codefriend/src/codefriend/server/control.rs",
+      "owner_blob": "e4ada144a58112bf45e9df4e297397287ae67c04",
+      "source_blob": "e4ada144a58112bf45e9df4e297397287ae67c04",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0607",
+      "kind": "source",
+      "original": "adl/src/codefriend/server/journey.rs",
+      "owner": "crates/codefriend/src/codefriend/server/journey.rs",
+      "owner_blob": "d20cc532b8872c63b70c4bd0d96470553e7ff324",
+      "source_blob": "d20cc532b8872c63b70c4bd0d96470553e7ff324",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0608",
+      "kind": "source",
+      "original": "adl/src/codefriend/server/journey_publication.rs",
+      "owner": "crates/codefriend/src/codefriend/server/journey_publication.rs",
+      "owner_blob": "598fbc60a31d4ea2d3f2a4cb18b15fc1a90ced9a",
+      "source_blob": "598fbc60a31d4ea2d3f2a4cb18b15fc1a90ced9a",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-0609",
+      "kind": "source",
+      "original": "adl/src/codefriend/server/publication_export.rs",
+      "owner": "crates/codefriend/src/codefriend/server/publication_export.rs",
+      "owner_blob": "9aa1f95683d98fcf1a7b224bfa01309cecf1f585",
+      "source_blob": "85a10c3e07e34985fa188bcf004e110a2e376acc",
+      "state": "adapted"
+    },
+    {
+      "declared_named_tests": 47,
+      "id": "RD07-0965",
+      "kind": "suite",
+      "original": "adl/tests/codefriend_agent.rs",
+      "owner": "crates/codefriend/tests/codefriend_agent.rs",
+      "owner_assertion_macros": 145,
+      "owner_async_test_attrs": 0,
+      "owner_blob": "73c4c626d36a93f81525cbc8b6174175a1923970",
+      "present_named_tests": 47,
+      "source_assertion_macros": 145,
+      "source_async_test_attrs": 0,
+      "source_blob": "47a33c0006f8fc1a010febcd5103bfa3ebdff1ee",
+      "state": "adapted",
+      "whitespace_normalized_body_matches": 41
+    },
+    {
+      "declared_named_tests": 8,
+      "id": "RD07-0966",
+      "kind": "suite",
+      "original": "adl/tests/codefriend_agent_publication.rs",
+      "owner": "crates/codefriend/tests/codefriend_agent_publication.rs",
+      "owner_assertion_macros": 34,
+      "owner_async_test_attrs": 0,
+      "owner_blob": "c08a63cb78d95dc5a3894468158076c0597b5aed",
+      "present_named_tests": 8,
+      "source_assertion_macros": 34,
+      "source_async_test_attrs": 0,
+      "source_blob": "a87db886e13dd61861f4b4fa3fb1175f4b891009",
+      "state": "adapted",
+      "whitespace_normalized_body_matches": 6
+    },
+    {
+      "declared_named_tests": 9,
+      "id": "RD07-0967",
+      "kind": "suite",
+      "original": "adl/tests/codefriend_agent_receipt.rs",
+      "owner": "crates/codefriend/tests/codefriend_agent_receipt.rs",
+      "owner_assertion_macros": 32,
+      "owner_async_test_attrs": 0,
+      "owner_blob": "072a7ef1006aa5c87918e5d064c377456f010efd",
+      "present_named_tests": 9,
+      "source_assertion_macros": 32,
+      "source_async_test_attrs": 0,
+      "source_blob": "2c3ef379776035349e03798eb9abce5edcefec09",
+      "state": "adapted",
+      "whitespace_normalized_body_matches": 9
+    },
+    {
+      "declared_named_tests": 1,
+      "id": "RD07-0968",
+      "kind": "suite",
+      "original": "adl/tests/codefriend_baseline_repeat.rs",
+      "owner": "crates/codefriend/tests/codefriend_baseline_repeat.rs",
+      "owner_assertion_macros": 0,
+      "owner_async_test_attrs": 0,
+      "owner_blob": "0b47579123050a7bac6060dfb86b4ebd0b45db1e",
+      "present_named_tests": 1,
+      "source_assertion_macros": 0,
+      "source_async_test_attrs": 0,
+      "source_blob": "cf198f00eb2cca4b6513d44beba869bb8dbb1e70",
+      "state": "adapted",
+      "whitespace_normalized_body_matches": 1
+    },
+    {
+      "declared_named_tests": 18,
+      "id": "RD07-0969",
+      "kind": "suite",
+      "original": "adl/tests/codefriend_cf_cog.rs",
+      "owner": "crates/codefriend/tests/codefriend_cf_cog.rs",
+      "owner_assertion_macros": 55,
+      "owner_async_test_attrs": 0,
+      "owner_blob": "3828d46764a60ed449ad8f6cd2801c060dc220ad",
+      "present_named_tests": 18,
+      "source_assertion_macros": 55,
+      "source_async_test_attrs": 0,
+      "source_blob": "3bfd7ad479d59061938a8bfa053a325b41f6f84d",
+      "state": "adapted",
+      "whitespace_normalized_body_matches": 16
+    },
+    {
+      "declared_named_tests": 10,
+      "id": "RD07-0970",
+      "kind": "suite",
+      "original": "adl/tests/codefriend_cf_cog_drift.rs",
+      "owner": "crates/codefriend/tests/codefriend_cf_cog_drift.rs",
+      "owner_assertion_macros": 54,
+      "owner_async_test_attrs": 0,
+      "owner_blob": "d00c2c2fc1433ce742c433ecad580e8c3790f79a",
+      "present_named_tests": 10,
+      "source_assertion_macros": 54,
+      "source_async_test_attrs": 0,
+      "source_blob": "c1838c369f3f11b49e3467ccbdec6856b2eb0692",
+      "state": "adapted",
+      "whitespace_normalized_body_matches": 8
+    },
+    {
+      "declared_named_tests": 10,
+      "id": "RD07-0971",
+      "kind": "suite",
+      "original": "adl/tests/codefriend_cf_cog_impact.rs",
+      "owner": "crates/codefriend/tests/codefriend_cf_cog_impact.rs",
+      "owner_assertion_macros": 56,
+      "owner_async_test_attrs": 0,
+      "owner_blob": "69c9a9596d33671d04ff758f54417cb4751c4baa",
+      "present_named_tests": 10,
+      "source_assertion_macros": 56,
+      "source_async_test_attrs": 0,
+      "source_blob": "36ec31e9354f818c7cc7187b62b27a92fe0f8073",
+      "state": "adapted",
+      "whitespace_normalized_body_matches": 9
+    },
+    {
+      "declared_named_tests": 10,
+      "id": "RD07-0972",
+      "kind": "suite",
+      "original": "adl/tests/codefriend_cf_cog_rationale.rs",
+      "owner": "crates/codefriend/tests/codefriend_cf_cog_rationale.rs",
+      "owner_assertion_macros": 55,
+      "owner_async_test_attrs": 0,
+      "owner_blob": "db8a34f602419fd23deb9ea428d0c1ae3694a1e0",
+      "present_named_tests": 10,
+      "source_assertion_macros": 55,
+      "source_async_test_attrs": 0,
+      "source_blob": "782ab5a43862cc8900c10483c3101944dca33713",
+      "state": "adapted",
+      "whitespace_normalized_body_matches": 8
+    },
+    {
+      "declared_named_tests": 11,
+      "id": "RD07-0973",
+      "kind": "suite",
+      "original": "adl/tests/codefriend_cf_gov.rs",
+      "owner": "crates/codefriend/tests/codefriend_cf_gov.rs",
+      "owner_assertion_macros": 44,
+      "owner_async_test_attrs": 0,
+      "owner_blob": "c4346332d45478f822506b1049cc878fdbf67ef7",
+      "present_named_tests": 11,
+      "source_assertion_macros": 44,
+      "source_async_test_attrs": 0,
+      "source_blob": "1984fd344ff8105265300fabc47e7d2d88fc92d3",
+      "state": "adapted",
+      "whitespace_normalized_body_matches": 10
+    },
+    {
+      "declared_named_tests": 7,
+      "id": "RD07-0974",
+      "kind": "suite",
+      "original": "adl/tests/codefriend_cf_gov_ci.rs",
+      "owner": "crates/codefriend/tests/codefriend_cf_gov_ci.rs",
+      "owner_assertion_macros": 0,
+      "owner_async_test_attrs": 0,
+      "owner_blob": "498b23bcb9e10c5f9c3663355670025c3d40d08b",
+      "present_named_tests": 7,
+      "source_assertion_macros": 0,
+      "source_async_test_attrs": 0,
+      "source_blob": "0479a5f612a0a22c95cb480772524e4fb13ef312",
+      "state": "adapted",
+      "whitespace_normalized_body_matches": 7
+    },
+    {
+      "declared_named_tests": 12,
+      "id": "RD07-0975",
+      "kind": "suite",
+      "original": "adl/tests/codefriend_cf_memory.rs",
+      "owner": "crates/codefriend/tests/codefriend_cf_memory.rs",
+      "owner_assertion_macros": 8,
+      "owner_async_test_attrs": 0,
+      "owner_blob": "be3594f6f48940f8dc456f62f0a47809accaa0d7",
+      "present_named_tests": 12,
+      "source_assertion_macros": 8,
+      "source_async_test_attrs": 0,
+      "source_blob": "afc4d20a958a9d5d635590bf0762d018671c730f",
+      "state": "adapted",
+      "whitespace_normalized_body_matches": 12
+    },
+    {
+      "declared_named_tests": 1,
+      "id": "RD07-0976",
+      "kind": "suite",
+      "original": "adl/tests/codefriend_ci_ingestion.rs",
+      "owner": "crates/codefriend/tests/codefriend_ci_ingestion.rs",
+      "owner_assertion_macros": 4,
+      "owner_async_test_attrs": 0,
+      "owner_blob": "da76c21461a8a83d5588ac4f9cc014bb128a5f90",
+      "present_named_tests": 1,
+      "source_assertion_macros": 4,
+      "source_async_test_attrs": 0,
+      "source_blob": "ea6476eb1a4026af1d31cf8eb2e3681872b015f0",
+      "state": "adapted",
+      "whitespace_normalized_body_matches": 0
+    },
+    {
+      "declared_named_tests": 6,
+      "id": "RD07-0977",
+      "kind": "suite",
+      "original": "adl/tests/codefriend_drift_v2.rs",
+      "owner": "crates/codefriend/tests/codefriend_drift_v2.rs",
+      "owner_assertion_macros": 24,
+      "owner_async_test_attrs": 0,
+      "owner_blob": "28c94c0deef63e452726891350be3cb4a306bd78",
+      "present_named_tests": 6,
+      "source_assertion_macros": 24,
+      "source_async_test_attrs": 0,
+      "source_blob": "34b958a01c788c64ea1c163882130392f947de6e",
+      "state": "adapted",
+      "whitespace_normalized_body_matches": 4
+    },
+    {
+      "declared_named_tests": 11,
+      "id": "RD07-0978",
+      "kind": "suite",
+      "original": "adl/tests/codefriend_evidence.rs",
+      "owner": "crates/codefriend/tests/codefriend_evidence.rs",
+      "owner_assertion_macros": 55,
+      "owner_async_test_attrs": 0,
+      "owner_blob": "080eee49ec9a7ff648a8f73700a3321b9087a860",
+      "present_named_tests": 11,
+      "source_assertion_macros": 55,
+      "source_async_test_attrs": 0,
+      "source_blob": "9423cb33639f35410cb16840e039e02df9146856",
+      "state": "adapted",
+      "whitespace_normalized_body_matches": 9
+    },
+    {
+      "declared_named_tests": 16,
+      "id": "RD07-0979",
+      "kind": "suite",
+      "original": "adl/tests/codefriend_four_plus_one.rs",
+      "owner": "crates/codefriend/tests/codefriend_four_plus_one.rs",
+      "owner_assertion_macros": 76,
+      "owner_async_test_attrs": 0,
+      "owner_blob": "d8822f40c0eaa16c55778d9d5a6231bd09879e55",
+      "present_named_tests": 16,
+      "source_assertion_macros": 76,
+      "source_async_test_attrs": 0,
+      "source_blob": "6254a60c632c45a4975b3ac3c128d39ceadd1108",
+      "state": "adapted",
+      "whitespace_normalized_body_matches": 5
+    },
+    {
+      "declared_named_tests": 8,
+      "id": "RD07-0980",
+      "kind": "suite",
+      "original": "adl/tests/codefriend_github_ingestion.rs",
+      "owner": "crates/codefriend/tests/codefriend_github_ingestion.rs",
+      "owner_assertion_macros": 24,
+      "owner_async_test_attrs": 0,
+      "owner_blob": "d6f796a68cea1e076f3dc609a8ce09b700b53530",
+      "present_named_tests": 8,
+      "source_assertion_macros": 24,
+      "source_async_test_attrs": 0,
+      "source_blob": "805df4e56f7ea767f780ef11a52f431fd5a091d2",
+      "state": "adapted",
+      "whitespace_normalized_body_matches": 7
+    },
+    {
+      "declared_named_tests": 4,
+      "id": "RD07-0981",
+      "kind": "suite",
+      "original": "adl/tests/codefriend_impact_v2.rs",
+      "owner": "crates/codefriend/tests/codefriend_impact_v2.rs",
+      "owner_assertion_macros": 22,
+      "owner_async_test_attrs": 0,
+      "owner_blob": "128025312c3cbc39ae01b32ff2b26df1f56bd552",
+      "present_named_tests": 4,
+      "source_assertion_macros": 22,
+      "source_async_test_attrs": 0,
+      "source_blob": "8f27f7ccb6f57dc8e8180e5b8cde42609a19a4b2",
+      "state": "adapted",
+      "whitespace_normalized_body_matches": 4
+    },
+    {
+      "declared_named_tests": 11,
+      "id": "RD07-0982",
+      "kind": "suite",
+      "original": "adl/tests/codefriend_ingestion.rs",
+      "owner": "crates/codefriend/tests/codefriend_ingestion.rs",
+      "owner_assertion_macros": 71,
+      "owner_async_test_attrs": 0,
+      "owner_blob": "efb325754c2caf4136d9597bde276832fbf4ced7",
+      "present_named_tests": 11,
+      "source_assertion_macros": 71,
+      "source_async_test_attrs": 0,
+      "source_blob": "eb955c32ca7916bb522eca03ac16c416fd90cce2",
+      "state": "adapted",
+      "whitespace_normalized_body_matches": 5
+    },
+    {
+      "declared_named_tests": 3,
+      "id": "RD07-0983",
+      "kind": "suite",
+      "original": "adl/tests/codefriend_integration.rs",
+      "owner": "crates/codefriend/tests/codefriend_integration.rs",
+      "owner_assertion_macros": 23,
+      "owner_async_test_attrs": 4,
+      "owner_blob": "95ae5ebb79955c8d74d7740a2b683626f14a24f1",
+      "present_named_tests": 3,
+      "source_assertion_macros": 23,
+      "source_async_test_attrs": 4,
+      "source_blob": "4d22c93cf44b0d802396acc03afcaadc6b86ca8d",
+      "state": "adapted",
+      "whitespace_normalized_body_matches": 1
+    },
+    {
+      "declared_named_tests": 21,
+      "id": "RD07-0984",
+      "kind": "suite",
+      "original": "adl/tests/codefriend_journey.rs",
+      "owner": "crates/codefriend/tests/codefriend_journey.rs",
+      "owner_assertion_macros": 0,
+      "owner_async_test_attrs": 0,
+      "owner_blob": "e987e60024da8799bf52b63b4f28061de6758278",
+      "present_named_tests": 21,
+      "source_assertion_macros": 0,
+      "source_async_test_attrs": 0,
+      "source_blob": "419f0fccfb1f324d18468a961f543d0b7c756680",
+      "state": "adapted",
+      "whitespace_normalized_body_matches": 13
+    },
+    {
+      "declared_named_tests": 4,
+      "id": "RD07-0985",
+      "kind": "suite",
+      "original": "adl/tests/codefriend_journey_v2.rs",
+      "owner": "crates/codefriend/tests/codefriend_journey_v2.rs",
+      "owner_assertion_macros": 0,
+      "owner_async_test_attrs": 0,
+      "owner_blob": "9aa6d8303b93f800fc5b1a776d310b7e4f35196a",
+      "present_named_tests": 4,
+      "source_assertion_macros": 0,
+      "source_async_test_attrs": 0,
+      "source_blob": "e0ee87dd59cf97544cf052d8ddf73d40404c5b4d",
+      "state": "adapted",
+      "whitespace_normalized_body_matches": 4
+    },
+    {
+      "declared_named_tests": 7,
+      "id": "RD07-0986",
+      "kind": "suite",
+      "original": "adl/tests/codefriend_language.rs",
+      "owner": "crates/codefriend/tests/codefriend_language.rs",
+      "owner_assertion_macros": 15,
+      "owner_async_test_attrs": 0,
+      "owner_blob": "195d922d2eb40e73d2a8b4530a94fe02460afb26",
+      "present_named_tests": 7,
+      "source_assertion_macros": 15,
+      "source_async_test_attrs": 0,
+      "source_blob": "836fb83c2741d4bc4d5152b7692beecb3bc4ec8a",
+      "state": "adapted",
+      "whitespace_normalized_body_matches": 7
+    },
+    {
+      "declared_named_tests": 11,
+      "id": "RD07-0987",
+      "kind": "suite",
+      "original": "adl/tests/codefriend_language_fitness.rs",
+      "owner": "crates/codefriend/tests/codefriend_language_fitness.rs",
+      "owner_assertion_macros": 42,
+      "owner_async_test_attrs": 0,
+      "owner_blob": "16de6b504cb246b72170d99af6c2318899756c7b",
+      "present_named_tests": 11,
+      "source_assertion_macros": 42,
+      "source_async_test_attrs": 0,
+      "source_blob": "ea9d32e5f44119d53765560879ddd00df81d4927",
+      "state": "adapted",
+      "whitespace_normalized_body_matches": 6
+    },
+    {
+      "declared_named_tests": 3,
+      "id": "RD07-0988",
+      "kind": "suite",
+      "original": "adl/tests/codefriend_language_fitness_ci.rs",
+      "owner": "crates/codefriend/tests/codefriend_language_fitness_ci.rs",
+      "owner_assertion_macros": 29,
+      "owner_async_test_attrs": 0,
+      "owner_blob": "2b7a9bfbc03e67a29dbed48c0597e23e58f667e7",
+      "present_named_tests": 3,
+      "source_assertion_macros": 29,
+      "source_async_test_attrs": 0,
+      "source_blob": "50944764bbf5ae143a469a0e2e1b7604600af70c",
+      "state": "adapted",
+      "whitespace_normalized_body_matches": 0
+    },
+    {
+      "declared_named_tests": 11,
+      "id": "RD07-0989",
+      "kind": "suite",
+      "original": "adl/tests/codefriend_language_parser.rs",
+      "owner": "crates/codefriend/tests/codefriend_language_parser.rs",
+      "owner_assertion_macros": 23,
+      "owner_async_test_attrs": 0,
+      "owner_blob": "46e1bdc293c57f0dca07d02dafe7f883f4e9265b",
+      "present_named_tests": 11,
+      "source_assertion_macros": 23,
+      "source_async_test_attrs": 0,
+      "source_blob": "431b49f9ba103d5a3e730087fc6a9d6a939b5929",
+      "state": "adapted",
+      "whitespace_normalized_body_matches": 11
+    },
+    {
+      "declared_named_tests": 10,
+      "id": "RD07-0990",
+      "kind": "suite",
+      "original": "adl/tests/codefriend_plat_memory.rs",
+      "owner": "crates/codefriend/tests/codefriend_plat_memory.rs",
+      "owner_assertion_macros": 1,
+      "owner_async_test_attrs": 0,
+      "owner_blob": "73338fc4621da41fb2538cc351313f483598dda5",
+      "present_named_tests": 10,
+      "source_assertion_macros": 1,
+      "source_async_test_attrs": 0,
+      "source_blob": "e1b73382976e40e724a06284e0159c356f49c6d9",
+      "state": "adapted",
+      "whitespace_normalized_body_matches": 10
+    },
+    {
+      "declared_named_tests": 6,
+      "id": "RD07-0991",
+      "kind": "suite",
+      "original": "adl/tests/codefriend_rationale_v2.rs",
+      "owner": "crates/codefriend/tests/codefriend_rationale_v2.rs",
+      "owner_assertion_macros": 28,
+      "owner_async_test_attrs": 0,
+      "owner_blob": "f79705cb00c707650fa6a6c42d71964d98bd32a1",
+      "present_named_tests": 6,
+      "source_assertion_macros": 28,
+      "source_async_test_attrs": 0,
+      "source_blob": "9621233f386ca8d9ba1a13618d475979453d31b7",
+      "state": "adapted",
+      "whitespace_normalized_body_matches": 4
+    },
+    {
+      "declared_named_tests": 9,
+      "id": "RD07-0992",
+      "kind": "suite",
+      "original": "adl/tests/codefriend_remediate.rs",
+      "owner": "crates/codefriend/tests/codefriend_remediate.rs",
+      "owner_assertion_macros": 44,
+      "owner_async_test_attrs": 0,
+      "owner_blob": "406bcfa6ebd7e2770afd51f9a8d299cfad629d50",
+      "present_named_tests": 9,
+      "source_assertion_macros": 44,
+      "source_async_test_attrs": 0,
+      "source_blob": "716e51a35d36ff7d1c2c45be5125d4ccef395987",
+      "state": "adapted",
+      "whitespace_normalized_body_matches": 8
+    },
+    {
+      "declared_named_tests": 6,
+      "id": "RD07-0993",
+      "kind": "suite",
+      "original": "adl/tests/codefriend_render_html.rs",
+      "owner": "crates/codefriend/tests/codefriend_render_html.rs",
+      "owner_assertion_macros": 40,
+      "owner_async_test_attrs": 0,
+      "owner_blob": "da4425e68c568b9febde563bf46da07b412509f4",
+      "present_named_tests": 6,
+      "source_assertion_macros": 39,
+      "source_async_test_attrs": 0,
+      "source_blob": "dbb4af5b5e3c281f707a544628d29f3aa4eafaef",
+      "state": "adapted",
+      "whitespace_normalized_body_matches": 1
+    },
+    {
+      "declared_named_tests": 5,
+      "id": "RD07-0994",
+      "kind": "suite",
+      "original": "adl/tests/codefriend_render_md.rs",
+      "owner": "crates/codefriend/tests/codefriend_render_md.rs",
+      "owner_assertion_macros": 36,
+      "owner_async_test_attrs": 0,
+      "owner_blob": "db3abfb32d3dd967d554246f5bdbc275a3670f75",
+      "present_named_tests": 5,
+      "source_assertion_macros": 35,
+      "source_async_test_attrs": 0,
+      "source_blob": "3f7f8de9289f6920a3a26d9db8a50b3be757d785",
+      "state": "adapted",
+      "whitespace_normalized_body_matches": 2
+    },
+    {
+      "declared_named_tests": 4,
+      "id": "RD07-0995",
+      "kind": "suite",
+      "original": "adl/tests/codefriend_render_pdf.rs",
+      "owner": "crates/codefriend/tests/codefriend_render_pdf.rs",
+      "owner_assertion_macros": 19,
+      "owner_async_test_attrs": 0,
+      "owner_blob": "2b63110133743429900b88e4eedbf4c12632e2a2",
+      "present_named_tests": 4,
+      "source_assertion_macros": 19,
+      "source_async_test_attrs": 0,
+      "source_blob": "ed0d3963fc35ddf94bf0f03af6184a5346d0fc54",
+      "state": "adapted",
+      "whitespace_normalized_body_matches": 1
+    },
+    {
+      "declared_named_tests": 16,
+      "id": "RD07-0996",
+      "kind": "suite",
+      "original": "adl/tests/codefriend_review.rs",
+      "owner": "crates/codefriend/tests/codefriend_review.rs",
+      "owner_assertion_macros": 134,
+      "owner_async_test_attrs": 0,
+      "owner_blob": "832d9b0c00b24866fbfc7347146f1a815d89f9cf",
+      "present_named_tests": 16,
+      "source_assertion_macros": 134,
+      "source_async_test_attrs": 0,
+      "source_blob": "b8a7ff9cb56ed62e40729f24e78634e9c9098da0",
+      "state": "adapted",
+      "whitespace_normalized_body_matches": 10
+    },
+    {
+      "declared_named_tests": 20,
+      "id": "RD07-0997",
+      "kind": "suite",
+      "original": "adl/tests/codefriend_review_assessments.rs",
+      "owner": "crates/codefriend/tests/codefriend_review_assessments.rs",
+      "owner_assertion_macros": 86,
+      "owner_async_test_attrs": 0,
+      "owner_blob": "24ae3e25d2ce4c44167be24ddc9efacf6c2d5bc7",
+      "present_named_tests": 20,
+      "source_assertion_macros": 86,
+      "source_async_test_attrs": 0,
+      "source_blob": "cce9befa4e97f375467e5dbd45109fe27c66020d",
+      "state": "adapted",
+      "whitespace_normalized_body_matches": 9
+    },
+    {
+      "declared_named_tests": 10,
+      "id": "RD07-0998",
+      "kind": "suite",
+      "original": "adl/tests/codefriend_server.rs",
+      "owner": "crates/codefriend/tests/codefriend_server.rs",
+      "owner_assertion_macros": 112,
+      "owner_async_test_attrs": 15,
+      "owner_blob": "2eece93a7af496eeebde09a73f5962c2ce054257",
+      "present_named_tests": 10,
+      "source_assertion_macros": 112,
+      "source_async_test_attrs": 15,
+      "source_blob": "f82556c0ab33a2440cb91ed441c6c0eaab29ae04",
+      "state": "adapted",
+      "whitespace_normalized_body_matches": 5
+    },
+    {
+      "declared_named_tests": 8,
+      "id": "RD07-0999",
+      "kind": "suite",
+      "original": "adl/tests/codefriend_structure_v2.rs",
+      "owner": "crates/codefriend/tests/codefriend_structure_v2.rs",
+      "owner_assertion_macros": 36,
+      "owner_async_test_attrs": 0,
+      "owner_blob": "efe0759af0dc5dbb6536a7619cafe27b1e3e70d3",
+      "present_named_tests": 8,
+      "source_assertion_macros": 36,
+      "source_async_test_attrs": 0,
+      "source_blob": "71331a29e611cfad09a0927f854da3aed238e77c",
+      "state": "adapted",
+      "whitespace_normalized_body_matches": 6
+    },
+    {
+      "declared_named_tests": 6,
+      "id": "RD07-1000",
+      "kind": "suite",
+      "original": "adl/tests/codefriend_synthesis.rs",
+      "owner": "crates/codefriend/tests/codefriend_synthesis.rs",
+      "owner_assertion_macros": 43,
+      "owner_async_test_attrs": 0,
+      "owner_blob": "b236be4789f52f7264b9013b6de2273e6c67c599",
+      "present_named_tests": 6,
+      "source_assertion_macros": 43,
+      "source_async_test_attrs": 0,
+      "source_blob": "1f8214eef0efca3bc7c0b3370f75f52f8f4e3c72",
+      "state": "adapted",
+      "whitespace_normalized_body_matches": 4
+    },
+    {
+      "declared_named_tests": 12,
+      "id": "RD07-1001",
+      "kind": "suite",
+      "original": "adl/tests/codefriend_testplan.rs",
+      "owner": "crates/codefriend/tests/codefriend_testplan.rs",
+      "owner_assertion_macros": 67,
+      "owner_async_test_attrs": 0,
+      "owner_blob": "b7e642d92ff56a4d9e9c671d329d6d7fbd9c5880",
+      "present_named_tests": 12,
+      "source_assertion_macros": 67,
+      "source_async_test_attrs": 0,
+      "source_blob": "21f45aa38e1ff226eda193527b68865e642eb02f",
+      "state": "adapted",
+      "whitespace_normalized_body_matches": 8
+    },
+    {
+      "declared_named_tests": 12,
+      "id": "RD07-1002",
+      "kind": "suite",
+      "original": "adl/tests/codefriend_update_cycle.rs",
+      "owner": "crates/codefriend/tests/codefriend_update_cycle.rs",
+      "owner_assertion_macros": 46,
+      "owner_async_test_attrs": 0,
+      "owner_blob": "89692df675618f2c3ecc4ee36cba9063511c5603",
+      "present_named_tests": 12,
+      "source_assertion_macros": 46,
+      "source_async_test_attrs": 0,
+      "source_blob": "d3b28ac56d3ec885fbbb672216af722e7fe75b45",
+      "state": "adapted",
+      "whitespace_normalized_body_matches": 2
+    },
+    {
+      "declared_named_tests": 7,
+      "id": "RD07-1003",
+      "kind": "suite",
+      "original": "adl/tests/codefriend_ux.rs",
+      "owner": "crates/codefriend/tests/codefriend_ux.rs",
+      "owner_assertion_macros": 37,
+      "owner_async_test_attrs": 0,
+      "owner_blob": "ad56d43e84404b948039dd323de2f12631d7a189",
+      "present_named_tests": 7,
+      "source_assertion_macros": 37,
+      "source_async_test_attrs": 0,
+      "source_blob": "87372c78896d74ecd9c604906801b342ca930961",
+      "state": "adapted",
+      "whitespace_normalized_body_matches": 7
+    },
+    {
+      "id": "RD07-1022",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/active-provider/PVF.json",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/active-provider/PVF.json",
+      "owner_blob": "20208441783a5efafd59ecf2cd9aba4eaf8147e2",
+      "source_blob": "20208441783a5efafd59ecf2cd9aba4eaf8147e2",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1023",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/agent-journey-verification/PVF.json",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/agent-journey-verification/PVF.json",
+      "owner_blob": "9977864892e6961e72b1611dade18bee476d98c2",
+      "source_blob": "9977864892e6961e72b1611dade18bee476d98c2",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1024",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/agent-publication/PVF.json",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/agent-publication/PVF.json",
+      "owner_blob": "4ee8ab4300dff64310062d92679884064345c8b2",
+      "source_blob": "4ee8ab4300dff64310062d92679884064345c8b2",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1025",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/agent-receipt/PVF.json",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/agent-receipt/PVF.json",
+      "owner_blob": "c0dc750c232d49efe59691a3655a026d4a6735c5",
+      "source_blob": "c0dc750c232d49efe59691a3655a026d4a6735c5",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1026",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/agent/PVF.json",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/agent/PVF.json",
+      "owner_blob": "b1750a8b6fefae5dae62f2d0a13f826f245d2636",
+      "source_blob": "b1750a8b6fefae5dae62f2d0a13f826f245d2636",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1027",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/architecture/allowed/api.rs",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/architecture/allowed/api.rs",
+      "owner_blob": "342960ba3dc3e8df629b6f54d03a0b970a848369",
+      "source_blob": "342960ba3dc3e8df629b6f54d03a0b970a848369",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1028",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/architecture/allowed/domain.rs",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/architecture/allowed/domain.rs",
+      "owner_blob": "efc4daa7befb8fc03ec37952e29f9eb7e89feaa4",
+      "source_blob": "efc4daa7befb8fc03ec37952e29f9eb7e89feaa4",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1029",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/architecture/allowed/helper.rs",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/architecture/allowed/helper.rs",
+      "owner_blob": "80e133f6e04e9d1f9285a76498e8a98d0df42042",
+      "source_blob": "80e133f6e04e9d1f9285a76498e8a98d0df42042",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1030",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/architecture/allowed/lib.rs",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/architecture/allowed/lib.rs",
+      "owner_blob": "b1176fe04c0886e3cceec8a94adfc8afd61ce4b1",
+      "source_blob": "b1176fe04c0886e3cceec8a94adfc8afd61ce4b1",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1031",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/assessment-transport/PVF.json",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/assessment-transport/PVF.json",
+      "owner_blob": "05e4c409818af710999e81d0afce4f46a02134d3",
+      "source_blob": "05e4c409818af710999e81d0afce4f46a02134d3",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1032",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/drift-v2/PVF.json",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/drift-v2/PVF.json",
+      "owner_blob": "b17749d2703e41d9fe56a4933508932be537b8a6",
+      "source_blob": "b17749d2703e41d9fe56a4933508932be537b8a6",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1033",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/drift/PVF.json",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/drift/PVF.json",
+      "owner_blob": "2dff0b263497944f24605a2331117af576357f05",
+      "source_blob": "2dff0b263497944f24605a2331117af576357f05",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1034",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/evidence/comparison-schema-v1.json",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/evidence/comparison-schema-v1.json",
+      "owner_blob": "7916912462e3abd9d04fda888e3a5607ee56bbc2",
+      "source_blob": "7916912462e3abd9d04fda888e3a5607ee56bbc2",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1035",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/evidence/comparison-v1.json",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/evidence/comparison-v1.json",
+      "owner_blob": "8fe54824401e633638d5c2bcde9880034e4d9a13",
+      "source_blob": "8fe54824401e633638d5c2bcde9880034e4d9a13",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1036",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/evidence/publication-schema-v1.json",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/evidence/publication-schema-v1.json",
+      "owner_blob": "a5f143b2a0b3f2bd4da8ed0dc3b33d2735a1fef0",
+      "source_blob": "a5f143b2a0b3f2bd4da8ed0dc3b33d2735a1fef0",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1037",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/evidence/publication-v1.json",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/evidence/publication-v1.json",
+      "owner_blob": "6c9d90bd12f7dc27f644fca09e2971f905c5e030",
+      "source_blob": "6c9d90bd12f7dc27f644fca09e2971f905c5e030",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1038",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/evidence/review-schema-v1.json",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/evidence/review-schema-v1.json",
+      "owner_blob": "b34aac04d3376a3269613e7da0de3546d0d7b863",
+      "source_blob": "b34aac04d3376a3269613e7da0de3546d0d7b863",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1039",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/evidence/review-v1.json",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/evidence/review-v1.json",
+      "owner_blob": "5b7bfffe5626cd56d76bac3c7f76a0a4712369ed",
+      "source_blob": "5b7bfffe5626cd56d76bac3c7f76a0a4712369ed",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1040",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/fitness-ci/PVF.json",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/fitness-ci/PVF.json",
+      "owner_blob": "68f8c55f7a320522ec70c7d806ddfce0cf564a3d",
+      "source_blob": "8f9e57493c4c7aace1c4e5766cd862dca90f993f",
+      "state": "adapted"
+    },
+    {
+      "id": "RD07-1041",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/fitness-ci/manifest.json",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/fitness-ci/manifest.json",
+      "owner_blob": "14e9645ed56d021db0584573679498a124cbcd30",
+      "source_blob": "235a9186e4957a31eaf442efed92dc4da0648d37",
+      "state": "adapted"
+    },
+    {
+      "id": "RD07-1042",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/fitness/error.rs",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/fitness/error.rs",
+      "owner_blob": "5ef748eb36406309e034b2bb71ae88eb6649ed07",
+      "source_blob": "5ef748eb36406309e034b2bb71ae88eb6649ed07",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1043",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/fitness/fail.rs",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/fitness/fail.rs",
+      "owner_blob": "4ddf8d33175bfc048a450753e71d0d8def2abf3c",
+      "source_blob": "4ddf8d33175bfc048a450753e71d0d8def2abf3c",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1044",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/fitness/normal-rust.rs",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/fitness/normal-rust.rs",
+      "owner_blob": "3a3cd4765db13be84deab1b17eeea17ef5965a0c",
+      "source_blob": "3a3cd4765db13be84deab1b17eeea17ef5965a0c",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1045",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/fitness/pass.rs",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/fitness/pass.rs",
+      "owner_blob": "d012504ed334372a45d839aca8dd6d6d4c1a6bbc",
+      "source_blob": "d012504ed334372a45d839aca8dd6d6d4c1a6bbc",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1046",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/fitness/policy.json",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/fitness/policy.json",
+      "owner_blob": "7e8b3469f746d72644d4e987d1ab7106793bcc4e",
+      "source_blob": "7e8b3469f746d72644d4e987d1ab7106793bcc4e",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1047",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/four-plus-one/PVF.json",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/four-plus-one/PVF.json",
+      "owner_blob": "a513b87794a6b1213c3d4d6fac88088c3cdc9060",
+      "source_blob": "a513b87794a6b1213c3d4d6fac88088c3cdc9060",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1048",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/github-active-acquisition/PVF.json",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/github-active-acquisition/PVF.json",
+      "owner_blob": "7375105f979f5fdd7d7e3af508ffed5a49da017c",
+      "source_blob": "7375105f979f5fdd7d7e3af508ffed5a49da017c",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1049",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/hosted-baselines/PVF.json",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/hosted-baselines/PVF.json",
+      "owner_blob": "337d5346135d0604d22152068f87f04a564ac171",
+      "source_blob": "337d5346135d0604d22152068f87f04a564ac171",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1050",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/hosted-palace/PVF.json",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/hosted-palace/PVF.json",
+      "owner_blob": "0c91091235f12ae22eaf67a689d17cd62e1265bb",
+      "source_blob": "0c91091235f12ae22eaf67a689d17cd62e1265bb",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1051",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/hosted-publication-attachment/PVF.json",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/hosted-publication-attachment/PVF.json",
+      "owner_blob": "eb708e6bcf57e119d18432c1b7d03c4327d4111f",
+      "source_blob": "eb708e6bcf57e119d18432c1b7d03c4327d4111f",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1052",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/html/PVF.json",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/html/PVF.json",
+      "owner_blob": "68a6c80c4093c9b7322ea9f8457c9316768b4421",
+      "source_blob": "68a6c80c4093c9b7322ea9f8457c9316768b4421",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1053",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/impact-v2/PVF.json",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/impact-v2/PVF.json",
+      "owner_blob": "e5646cee704d8c1633f4d4fd06c049a028681fe0",
+      "source_blob": "e5646cee704d8c1633f4d4fd06c049a028681fe0",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1054",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/impact/PVF.json",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/impact/PVF.json",
+      "owner_blob": "4100a41132bbaa87e4b33c0a65ad3a20cf98f800",
+      "source_blob": "4100a41132bbaa87e4b33c0a65ad3a20cf98f800",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1055",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/impact/api.rs",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/impact/api.rs",
+      "owner_blob": "fea5bca81ffc5c9e0eb9a80c62437d66cbc8932c",
+      "source_blob": "fea5bca81ffc5c9e0eb9a80c62437d66cbc8932c",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1056",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/impact/domain.rs",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/impact/domain.rs",
+      "owner_blob": "047ccd27016f4df1f07268e625e42a59aa9816f0",
+      "source_blob": "047ccd27016f4df1f07268e625e42a59aa9816f0",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1057",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/impact/lib.rs",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/impact/lib.rs",
+      "owner_blob": "197d9cd350ad6396c35a80649535c614511dd004",
+      "source_blob": "197d9cd350ad6396c35a80649535c614511dd004",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1058",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/impact/storage.rs",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/impact/storage.rs",
+      "owner_blob": "f3c51b7a9449d3730381d97348af215bb5246763",
+      "source_blob": "f3c51b7a9449d3730381d97348af215bb5246763",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1059",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/impact/unused.rs",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/impact/unused.rs",
+      "owner_blob": "0b1b03f978ce7389dc6f523af089a144fe57685d",
+      "source_blob": "0b1b03f978ce7389dc6f523af089a144fe57685d",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1060",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/integration/PVF.json",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/integration/PVF.json",
+      "owner_blob": "8bc726666535be07d137246f08e52029f79c94ee",
+      "source_blob": "8bc726666535be07d137246f08e52029f79c94ee",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1061",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/journey/PVF.json",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/journey/PVF.json",
+      "owner_blob": "c5bda4a7c564814eb70e00520ccdec89a6ee9415",
+      "source_blob": "c5bda4a7c564814eb70e00520ccdec89a6ee9415",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1062",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/language-fitness-ci/PVF.json",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/language-fitness-ci/PVF.json",
+      "owner_blob": "1f47cf2320ddcbea2944557059b151bf8b268e2e",
+      "source_blob": "1f47cf2320ddcbea2944557059b151bf8b268e2e",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1063",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/language-fitness/PVF.json",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/language-fitness/PVF.json",
+      "owner_blob": "ed7d01a5d32de6eb77c04a59cf01c562ae906b64",
+      "source_blob": "ed7d01a5d32de6eb77c04a59cf01c562ae906b64",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1064",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/language-imports/PVF.json",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/language-imports/PVF.json",
+      "owner_blob": "8a9204349ee6db44f1d658ae021935d3f3a8e6a1",
+      "source_blob": "8a9204349ee6db44f1d658ae021935d3f3a8e6a1",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1065",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/language/PVF.json",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/language/PVF.json",
+      "owner_blob": "04bcbea7898175baef2b5123536575eccef47abc",
+      "source_blob": "04bcbea7898175baef2b5123536575eccef47abc",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1066",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/local-journey-delivery/PVF.json",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/local-journey-delivery/PVF.json",
+      "owner_blob": "9a5551965cbded7e453319b5f4bd0d231ee59119",
+      "source_blob": "9a5551965cbded7e453319b5f4bd0d231ee59119",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1067",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/local-publication-attachment/PVF.json",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/local-publication-attachment/PVF.json",
+      "owner_blob": "b86d50606f23a0478e825adde84183f70cfebfa7",
+      "source_blob": "b86d50606f23a0478e825adde84183f70cfebfa7",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1068",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/markdown/PVF.json",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/markdown/PVF.json",
+      "owner_blob": "6c91dfae27584f1c487dbfd7dd9679c1d263e596",
+      "source_blob": "6c91dfae27584f1c487dbfd7dd9679c1d263e596",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1069",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/owned-journey/PVF.json",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/owned-journey/PVF.json",
+      "owner_blob": "c138af4d47e20dd62187cc0b064912b4296a043a",
+      "source_blob": "c138af4d47e20dd62187cc0b064912b4296a043a",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1070",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/palace/PVF.json",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/palace/PVF.json",
+      "owner_blob": "b33e71f8eb3dab84458a8c5225def748526234b5",
+      "source_blob": "dbc9e0660d88b75e1bf00a9594124ac0bd7e3baf",
+      "state": "adapted"
+    },
+    {
+      "id": "RD07-1071",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/pdf/PVF.json",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/pdf/PVF.json",
+      "owner_blob": "cc835fdd483b7fd2de133647a88047d4e0f8dba2",
+      "source_blob": "cc835fdd483b7fd2de133647a88047d4e0f8dba2",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1072",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/publication/PVF.json",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/publication/PVF.json",
+      "owner_blob": "5cb80d46fe0378d121251c5b71b4aeac4f303fd6",
+      "source_blob": "5cb80d46fe0378d121251c5b71b4aeac4f303fd6",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1073",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/rationale-v2/PVF.json",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/rationale-v2/PVF.json",
+      "owner_blob": "6cf60bf8004d9afefb33d5015c2de01050e17de2",
+      "source_blob": "6cf60bf8004d9afefb33d5015c2de01050e17de2",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1074",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/rationale/PVF.json",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/rationale/PVF.json",
+      "owner_blob": "c463e861a508dfa450af6ce41a14626169769e98",
+      "source_blob": "c463e861a508dfa450af6ce41a14626169769e98",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1075",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/rationale/accepted.md",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/rationale/accepted.md",
+      "owner_blob": "71adfac566fedf9080909a7e8a7ba28d9a3ac7a0",
+      "source_blob": "71adfac566fedf9080909a7e8a7ba28d9a3ac7a0",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1076",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/rationale/compose.json",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/rationale/compose.json",
+      "owner_blob": "b2853ccd343ef54b6aa93f4fbc252839fb991e46",
+      "source_blob": "b2853ccd343ef54b6aa93f4fbc252839fb991e46",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1077",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/repeated-review-baseline/PVF.json",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/repeated-review-baseline/PVF.json",
+      "owner_blob": "0ba7a7fc5f53992a6b6a44a1c8311a46af9d77b8",
+      "source_blob": "0ba7a7fc5f53992a6b6a44a1c8311a46af9d77b8",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1078",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/review-assessments/PVF.json",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/review-assessments/PVF.json",
+      "owner_blob": "b434d5c23474d22e55e4d790710786490e4eefa7",
+      "source_blob": "dcc88de27d5c88898ee00aa4c646e1d52a004825",
+      "state": "adapted"
+    },
+    {
+      "id": "RD07-1079",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/rust-parser/PVF.json",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/rust-parser/PVF.json",
+      "owner_blob": "d8642d63e6186bf9d98199359065a069013fe8e7",
+      "source_blob": "d8642d63e6186bf9d98199359065a069013fe8e7",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1080",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/schema-coverage/PVF.json",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/schema-coverage/PVF.json",
+      "owner_blob": "9ca141165150b85b78fd5f3b5d7281f248246d59",
+      "source_blob": "9ca141165150b85b78fd5f3b5d7281f248246d59",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1081",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/server/PVF.json",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/server/PVF.json",
+      "owner_blob": "8aba9ce176c3ab2e4fcdfd77fd4ee254fb18e743",
+      "source_blob": "e46dc299591f1c672c4b57d2f17f6ab48d88b2de",
+      "state": "adapted"
+    },
+    {
+      "id": "RD07-1082",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/structure-v2/PVF.json",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/structure-v2/PVF.json",
+      "owner_blob": "e4590f809cadc90e4e176f11a93aa611e24fa7d9",
+      "source_blob": "e4590f809cadc90e4e176f11a93aa611e24fa7d9",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1083",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/test-plan-evidence/PVF.json",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/test-plan-evidence/PVF.json",
+      "owner_blob": "18568754e2e7b2689d4c039ceec44a37f4fe17d7",
+      "source_blob": "18568754e2e7b2689d4c039ceec44a37f4fe17d7",
+      "state": "blob_identical"
+    },
+    {
+      "id": "RD07-1084",
+      "kind": "fixture",
+      "original": "adl/tests/fixtures/codefriend/update-cycle/PVF.json",
+      "owner": "crates/codefriend/tests/fixtures/codefriend/update-cycle/PVF.json",
+      "owner_blob": "a656cc4acdccb6bb71690e20fd93fc7f91ce2f97",
+      "source_blob": "a656cc4acdccb6bb71690e20fd93fc7f91ce2f97",
+      "state": "blob_identical"
+    },
+    {
+      "declared_named_tests": 15,
+      "id": "RD07-1226",
+      "kind": "support",
+      "original": "adl/tests/support/codefriend_agent_journey_tests.rs",
+      "owner": "crates/codefriend/tests/support/codefriend_agent_journey_tests.rs",
+      "owner_assertion_macros": 83,
+      "owner_async_test_attrs": 0,
+      "owner_blob": "7d7a5596735c1f6380c963bc9fbfcce94088f985",
+      "present_named_tests": 15,
+      "source_assertion_macros": 83,
+      "source_async_test_attrs": 0,
+      "source_blob": "7bed8ecff1594a11c164bde048eeb2178df8949c",
+      "state": "adapted",
+      "whitespace_normalized_body_matches": 13
+    },
+    {
+      "declared_named_tests": 2,
+      "id": "RD07-1227",
+      "kind": "support",
+      "original": "adl/tests/support/codefriend_agent_journey_verification.rs",
+      "owner": "crates/codefriend/tests/support/codefriend_agent_journey_verification.rs",
+      "owner_assertion_macros": 0,
+      "owner_async_test_attrs": 0,
+      "owner_blob": "573be0a38e5480649005cd2f0a3b84ed9461d8bf",
+      "present_named_tests": 2,
+      "source_assertion_macros": 0,
+      "source_async_test_attrs": 0,
+      "source_blob": "ca167835a1c7eee9884fe37bf18a493a1a8871e9",
+      "state": "adapted",
+      "whitespace_normalized_body_matches": 2
+    },
+    {
+      "id": "RD07-1228",
+      "kind": "support",
+      "original": "adl/tests/support/codefriend_local_attachment_tests.rs",
+      "owner": "crates/codefriend/tests/support/codefriend_local_attachment_tests.rs",
+      "owner_blob": "22a1f0c932e814e60e11578f02f78b9e47b9668c",
+      "source_blob": "22a1f0c932e814e60e11578f02f78b9e47b9668c",
+      "state": "blob_identical"
+    },
+    {
+      "declared_named_tests": 0,
+      "id": "RD07-1229",
+      "kind": "support",
+      "original": "adl/tests/support/codefriend_local_publication_case.rs",
+      "owner": "crates/codefriend/tests/support/codefriend_local_publication_case.rs",
+      "owner_assertion_macros": 0,
+      "owner_async_test_attrs": 0,
+      "owner_blob": "479b949e132fa284623799c6bb5b21d21711d948",
+      "present_named_tests": 0,
+      "source_assertion_macros": 0,
+      "source_async_test_attrs": 0,
+      "source_blob": "1ec3a1970e1009307b3af3abe0e57cd834f4b143",
+      "state": "adapted",
+      "whitespace_normalized_body_matches": 0
+    },
+    {
+      "declared_named_tests": 6,
+      "id": "RD07-1230",
+      "kind": "support",
+      "original": "adl/tests/support/codefriend_owned_journey.rs",
+      "owner": "crates/codefriend/tests/support/codefriend_owned_journey.rs",
+      "owner_assertion_macros": 8,
+      "owner_async_test_attrs": 0,
+      "owner_blob": "f7f97a07413eddfb076d71660e8ffd9b3fc3f054",
+      "present_named_tests": 6,
+      "source_assertion_macros": 8,
+      "source_async_test_attrs": 0,
+      "source_blob": "233a5c90d4c940e4388bdba93c526f1d79ac8b92",
+      "state": "adapted",
+      "whitespace_normalized_body_matches": 6
+    }
+  ],
+  "limits": [
+    "Lexical name and assertion-macro counts are correspondence evidence, not proof that all changed assertion meanings are equivalent.",
+    "The 39-suite Linux 409/0 and macOS-only 1/0 executions used earlier exact candidate heads; current main CI is green but installed equivalence remains scoped to its explicit owner journeys.",
+    "Five fixture files and 32 CodeFriend source files are adapted, not blob-identical; original negative cases are retained in migrated tests, but retirement still needs ADL consumer/authority coordination.",
+    "No new CodeFriend owner issue is justified without an identified missing behavior; stale mapping records should be reconciled in ADL #1223."
+  ],
+  "subsequent_source_changes": [
+    {
+      "id": "RD07-1033",
+      "path": "adl/tests/fixtures/codefriend/drift/PVF.json",
+      "compared_source_blob": "2dff0b263497944f24605a2331117af576357f05",
+      "current_blob": "af5685ee643f577cd1891ddb730bae5931322b27",
+      "disposition": "Preserve later reviewed source change; do not assert current-byte equality with historical comparison."
+    },
+    {
+      "id": "RD07-1054",
+      "path": "adl/tests/fixtures/codefriend/impact/PVF.json",
+      "compared_source_blob": "4100a41132bbaa87e4b33c0a65ad3a20cf98f800",
+      "current_blob": "fc16a9189eaf948d2301ff0e9b0ec5d4159d9617",
+      "disposition": "Preserve later reviewed source change; do not assert current-byte equality with historical comparison."
+    },
+    {
+      "id": "RD07-1070",
+      "path": "adl/tests/fixtures/codefriend/palace/PVF.json",
+      "compared_source_blob": "dbc9e0660d88b75e1bf00a9594124ac0bd7e3baf",
+      "current_blob": "566da116c27b3d5c325d002eb161de6d9a21a0f9",
+      "disposition": "Preserve later reviewed source change; do not assert current-byte equality with historical comparison."
+    },
+    {
+      "id": "RD07-1074",
+      "path": "adl/tests/fixtures/codefriend/rationale/PVF.json",
+      "compared_source_blob": "c463e861a508dfa450af6ce41a14626169769e98",
+      "current_blob": "9111d3a8ad07ab5baf3d8388df6373fffd0eb74f",
+      "disposition": "Preserve later reviewed source change; do not assert current-byte equality with historical comparison."
+    }
+  ],
+  "subsequent_source_evidence": "CODEFRIEND_SIX_HELPER_APPLIED.json records the four PVF routing-only repairs after comparison revision; original assertion fields retained."
+}

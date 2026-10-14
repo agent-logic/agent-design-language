@@ -1,13 +1,22 @@
 #!/usr/bin/env python3
 """Transport-only fixtures; native recomputation is covered by Rust CLI tests."""
 import json
+import hashlib
+import os
 from pathlib import Path
 import subprocess
 import sys
 import tempfile
 import unittest
 
-TOOL = Path(__file__).with_name('codefriend_fitness_ci_artifacts.py')
+# PVF deterministic component: original five transport assertions; selected owner parser only.
+# No product binary, provider or installed-gate acceptance is exercised by this test.
+_selected = os.environ.get('CODEFRIEND_FITNESS_SOURCE_ROOT', '')
+if not _selected or not Path(_selected).is_absolute():
+    raise SystemExit('CODEFRIEND_FITNESS_SOURCE_ROOT must select an absolute authenticated owner root')
+TOOL = Path(_selected) / 'adl/tools/codefriend_fitness_ci_artifacts.py'
+if not TOOL.is_file() or TOOL.is_symlink() or hashlib.sha256(TOOL.read_bytes()).hexdigest() != '2643d16c953d1fbe23a9ae6d131ff360a7e69c2ce436bd469f9dac6f58056836':
+    raise SystemExit('selected owner fitness parser differs from authenticated e93 artifact11804671827')
 
 class TransportContract(unittest.TestCase):
     def setUp(self):

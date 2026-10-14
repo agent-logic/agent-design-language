@@ -28,9 +28,9 @@ Status: delivered baseline / future follow-on only.
 ### Primary Sources
 
 - `docs/planning/GEMINI_PROVIDER_HARMONY_AND_ECONOMICS_DEMO.md`
-- `demos/v0.89/gemini_in_the_loop_demo.md`
-- `demos/v0.89/gemini_provider_harmony_and_economics_demo.md`
-- `demos/v0.89.1/gemini_provider_harmony_roundtable_demo.md`
+- [demos/v0.89/gemini_in_the_loop_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.89/gemini_in_the_loop_demo.md)
+- [demos/v0.89/gemini_provider_harmony_and_economics_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.89/gemini_provider_harmony_and_economics_demo.md)
+- [demos/v0.89.1/gemini_provider_harmony_roundtable_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.89.1/gemini_provider_harmony_roundtable_demo.md)
 
 ### Current Reading
 

@@ -195,7 +195,37 @@
         "adl-v2/crates/adl-language/**",
         "adl-v2/crates/adl-compiler/**",
         "adl-legacy-contracts/**",
-        "tools/public_adl/**"
+        "tools/public_adl/**",
+        "adl/Cargo.toml",
+        "adl/Cargo.lock",
+        "adl/src/main.rs",
+        "adl/src/lib.rs",
+        "adl/src/cli/public_dispatch.rs",
+        "adl/src/cli/public_workflow.rs",
+        "adl/src/cli/workflow_args.rs",
+        "adl/src/cli/workflow_display.rs",
+        "adl/src/cli/resume_args.rs",
+        "adl/src/cli/runtime_owner.rs",
+        "adl/src/cli/codefriend_owner.rs",
+        "adl/src/cli/process_cmd.rs",
+        "adl/src/cli/process_cmd/**",
+        "adl/src/cli/session_cmd.rs",
+        "adl/src/cli/observability.rs",
+        "adl/src/cli/usage.rs",
+        "adl/src/control_plane.rs",
+        "adl/src/session_ledger.rs",
+        "adl/src/bin/adl_process.rs",
+        "adl/tests/adl_tests.rs",
+        "adl/tests/resolve_tests.rs",
+        "adl/tests/schema_tests.rs",
+        "adl/tests/public_process.rs",
+        "adl/tests/public_observation.rs",
+        "adl/tests/issue_327_removed_tooling.rs",
+        "adl/tests/cli_smoke/process_status.rs",
+        "adl/tests/helpers.rs",
+        "adl/tools/install_owner_binaries.sh",
+        "adl/tools/owner_binary_resolution.sh",
+        "adl/tools/test_owner_binary_install.sh"
       ],
       "path_hints": [
         "adl-schema/**",
@@ -203,7 +233,37 @@
         "adl-v2/crates/adl-language/**",
         "adl-v2/crates/adl-compiler/**",
         "adl-legacy-contracts/**",
-        "tools/public_adl/**"
+        "tools/public_adl/**",
+        "adl/Cargo.toml",
+        "adl/Cargo.lock",
+        "adl/src/main.rs",
+        "adl/src/lib.rs",
+        "adl/src/cli/public_dispatch.rs",
+        "adl/src/cli/public_workflow.rs",
+        "adl/src/cli/workflow_args.rs",
+        "adl/src/cli/workflow_display.rs",
+        "adl/src/cli/resume_args.rs",
+        "adl/src/cli/runtime_owner.rs",
+        "adl/src/cli/codefriend_owner.rs",
+        "adl/src/cli/process_cmd.rs",
+        "adl/src/cli/process_cmd/**",
+        "adl/src/cli/session_cmd.rs",
+        "adl/src/cli/observability.rs",
+        "adl/src/cli/usage.rs",
+        "adl/src/control_plane.rs",
+        "adl/src/session_ledger.rs",
+        "adl/src/bin/adl_process.rs",
+        "adl/tests/adl_tests.rs",
+        "adl/tests/resolve_tests.rs",
+        "adl/tests/schema_tests.rs",
+        "adl/tests/public_process.rs",
+        "adl/tests/public_observation.rs",
+        "adl/tests/issue_327_removed_tooling.rs",
+        "adl/tests/cli_smoke/process_status.rs",
+        "adl/tests/helpers.rs",
+        "adl/tools/install_owner_binaries.sh",
+        "adl/tools/owner_binary_resolution.sh",
+        "adl/tools/test_owner_binary_install.sh"
       ],
       "command": "bash tools/public_adl/run_ci.sh",
       "run_command": "bash tools/public_adl/run_ci.sh",
@@ -315,13 +375,10 @@
         "adl/config/validation_lane_selector.v0.91.6.json",
         "adl/tools/ci_path_policy.sh",
         "adl/tools/run_v0913_proof_validation_lane.sh",
-        "adl/tools/run_pr_fast_coverage_lane.sh",
-        "adl/tools/test_run_pr_fast_coverage_lane.sh",
         "adl/tools/run_pr_fast_test_lane.sh",
         "adl/tools/run_nessus_remote_validation.sh",
         "adl/tools/run_validation_manager_nessus_lane.sh",
         "adl/tools/select_validation_lanes.py",
-        "adl/tools/test_run_pr_fast_test_lane.sh",
         "adl/tools/test_select_validation_lanes.sh",
         "adl/tools/validation_manager.py",
         "adl/tools/validation_manager.sh",
@@ -333,13 +390,7 @@
         "adl/tools/run_ci_step_with_log.sh",
         "adl/tools/test_run_ci_step_with_log.sh",
         "adl/tools/test_ci_cache_linker_contracts.sh",
-        "adl/tools/summarize_ci_runtime.py",
-        "adl/tools/test_summarize_ci_runtime.sh",
         "adl/tools/test_ci_runtime_contracts.sh",
-        "adl/tools/verify_coverage_producer_results.sh",
-        "adl/tools/test_verify_coverage_producer_results.sh",
-        "adl/tools/setup_required_coverage_toolchain.sh",
-        "adl/tools/test_setup_required_coverage_toolchain.sh",
         "adl/tools/rust_cache_env.sh",
         "adl/tools/test_rust_cache_env.sh",
         "adl/tools/ensure_final_merge_gate.sh",
@@ -349,13 +400,10 @@
         "adl/config/validation_lane_selector.v0.91.6.json",
         "adl/tools/ci_path_policy.sh",
         "adl/tools/run_v0913_proof_validation_lane.sh",
-        "adl/tools/run_pr_fast_coverage_lane.sh",
-        "adl/tools/test_run_pr_fast_coverage_lane.sh",
         "adl/tools/run_pr_fast_test_lane.sh",
         "adl/tools/run_nessus_remote_validation.sh",
         "adl/tools/run_validation_manager_nessus_lane.sh",
         "adl/tools/select_validation_lanes.py",
-        "adl/tools/test_run_pr_fast_test_lane.sh",
         "adl/tools/test_select_validation_lanes.sh",
         "adl/tools/validation_manager.py",
         "adl/tools/validation_manager.sh",
@@ -367,13 +415,7 @@
         "adl/tools/run_ci_step_with_log.sh",
         "adl/tools/test_run_ci_step_with_log.sh",
         "adl/tools/test_ci_cache_linker_contracts.sh",
-        "adl/tools/summarize_ci_runtime.py",
-        "adl/tools/test_summarize_ci_runtime.sh",
         "adl/tools/test_ci_runtime_contracts.sh",
-        "adl/tools/verify_coverage_producer_results.sh",
-        "adl/tools/test_verify_coverage_producer_results.sh",
-        "adl/tools/setup_required_coverage_toolchain.sh",
-        "adl/tools/test_setup_required_coverage_toolchain.sh",
         "adl/tools/rust_cache_env.sh",
         "adl/tools/test_rust_cache_env.sh",
         "adl/tools/ensure_final_merge_gate.sh",
@@ -393,31 +435,24 @@
         "coverage_impact_contracts"
       ],
       "path_selectors": [
-        "adl/tools/check_coverage_impact.sh",
-        "adl/tools/mechanical_coverage_fallout.py",
-        "adl/config/mechanical_coverage_fallout.v1.json",
-        "adl/tools/enforce_coverage_gates.sh",
-        "adl/tools/test_check_coverage_impact.sh",
-        "adl/tools/test_mechanical_coverage_fallout.sh",
-        "adl/tools/test_run_authoritative_coverage_lane.sh",
-        "adl/tools/test_run_local_authoritative_coverage_gate.sh"
+        "tools/public_adl/coverage.py",
+        "tools/public_adl/test_coverage.py",
+        "adl/tools/test_run_authoritative_coverage_lane.sh"
       ],
       "path_hints": [
-        "adl/tools/check_coverage_impact.sh",
-        "adl/tools/mechanical_coverage_fallout.py",
-        "adl/config/mechanical_coverage_fallout.v1.json",
-        "adl/tools/enforce_coverage_gates.sh",
-        "adl/tools/test_check_coverage_impact.sh",
-        "adl/tools/test_mechanical_coverage_fallout.sh",
-        "adl/tools/test_run_authoritative_coverage_lane.sh",
-        "adl/tools/test_run_local_authoritative_coverage_gate.sh"
+        "tools/public_adl/coverage.py",
+        "tools/public_adl/test_coverage.py",
+        "adl/tools/test_run_authoritative_coverage_lane.sh"
       ],
-      "command": "bash adl/tools/test_mechanical_coverage_fallout.sh && bash adl/tools/test_check_coverage_impact.sh",
-      "run_command": "bash adl/tools/test_mechanical_coverage_fallout.sh && bash adl/tools/test_check_coverage_impact.sh",
-      "reason": "coverage_impact_surface_requires_coverage_impact_contract_checks",
+      "command": "python3 tools/public_adl/test_coverage.py",
+      "run_command": "python3 tools/public_adl/test_coverage.py",
+      "reason": "public_coverage_surface_requires_public_coverage_contract_checks",
       "vpp_record": {
         "contract_version": "vpp.lane.v1",
-        "artifacts": ["mechanical_fallout_receipt", "changed_source_threshold_regression"],
+        "artifacts": [
+          "public_coverage_inventory",
+          "public_coverage_threshold_regression"
+        ],
         "expected_runtime_class": "small",
         "parallel_group": "coverage_policy",
         "cache_equivalence_group": "coverage_impact_contracts",
@@ -453,172 +488,6 @@
       "reason": "podcast_launch_surface_requires_audio_rss_and_studio_packet_validation"
     },
     {
-      "id": "html_observatory_governed_surface",
-      "lane_class": "cli_workflow",
-      "default_surface": "tooling",
-      "owner": "review",
-      "proof_role": "demo_contract",
-      "requirement_ids": [
-        "html_observatory_governed_surface"
-      ],
-      "path_selectors": [
-        "adl/tools/test_demo_v0904_csm_observatory_governed_prototype.sh",
-        "adl/tools/validate_csm_governed_observatory.py",
-        "demos/fixtures/csm_observatory/proto-csm-02-governed-observatory-packet.json",
-        "demos/v0.90.4/csm_observatory_governed_prototype.html",
-        "demos/v0.90.4/csm_observatory_governed_prototype.css",
-        "demos/v0.90.4/csm_observatory_governed_prototype.js",
-        "demos/v0.90.4/csm_observatory_governed_prototype.md",
-        "docs/milestones/v0.91.6/review/observatory/HTML_MOBILE_GOVERNED_OBSERVATORY_PROOF_4341.md"
-      ],
-      "path_hints": [
-        "adl/tools/test_demo_v0904_csm_observatory_governed_prototype.sh",
-        "adl/tools/validate_csm_governed_observatory.py",
-        "demos/fixtures/csm_observatory/proto-csm-02-governed-observatory-packet.json",
-        "demos/v0.90.4/csm_observatory_governed_prototype.html",
-        "demos/v0.90.4/csm_observatory_governed_prototype.css",
-        "demos/v0.90.4/csm_observatory_governed_prototype.js",
-        "demos/v0.90.4/csm_observatory_governed_prototype.md",
-        "docs/milestones/v0.91.6/review/observatory/HTML_MOBILE_GOVERNED_OBSERVATORY_PROOF_4341.md"
-      ],
-      "command": "bash adl/tools/test_demo_v0904_csm_observatory_governed_prototype.sh",
-      "run_command": "bash adl/tools/test_demo_v0904_csm_observatory_governed_prototype.sh",
-      "reason": "portable_html_observatory_surface_requires_governed_demo_smoke"
-    },
-    {
-      "id": "unity_mcp_alignment",
-      "lane_class": "cli_workflow",
-      "default_surface": "tooling",
-      "owner": "review",
-      "proof_role": "demo_contract",
-      "requirement_ids": [
-        "unity_mcp_alignment"
-      ],
-      "path_selectors": [
-        "adl/tools/probe_unity_mcp_observatory_alignment.sh",
-        "adl/tools/test_v0916_unity_mcp_alignment_unit.sh",
-        "docs/tooling/unity_mcp_observatory_alignment.md"
-      ],
-      "path_hints": [
-        "adl/tools/probe_unity_mcp_observatory_alignment.sh",
-        "adl/tools/test_v0916_unity_mcp_alignment_unit.sh",
-        "docs/tooling/unity_mcp_observatory_alignment.md"
-      ],
-      "command": "bash -n adl/tools/probe_unity_mcp_observatory_alignment.sh && bash -n adl/tools/test_v0916_unity_mcp_alignment_unit.sh && bash adl/tools/test_v0916_unity_mcp_alignment_unit.sh && bash adl/tools/test_v0916_unity_observatory_contract.sh",
-      "run_command": "bash -n adl/tools/probe_unity_mcp_observatory_alignment.sh && bash -n adl/tools/test_v0916_unity_mcp_alignment_unit.sh && bash adl/tools/test_v0916_unity_mcp_alignment_unit.sh && bash adl/tools/test_v0916_unity_observatory_contract.sh",
-      "reason": "unity_mcp_alignment_paths_require_project_endpoint_and_read_only_failure_classifier_proof"
-    },
-    {
-      "id": "unity_editor_liveness",
-      "lane_class": "cli_workflow",
-      "default_surface": "tooling",
-      "owner": "review",
-      "proof_role": "demo_contract",
-      "requirement_ids": [
-        "unity_editor_liveness"
-      ],
-      "path_selectors": [
-        "adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh",
-        "adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh"
-      ],
-      "path_hints": [
-        "adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh",
-        "adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh"
-      ],
-      "command": "bash -n adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh && bash -n adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh && bash adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh && bash adl/tools/test_v0916_unity_observatory_contract.sh",
-      "run_command": "bash -n adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh && bash -n adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh && bash adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh && bash adl/tools/test_v0916_unity_observatory_contract.sh",
-      "reason": "unity_editor_liveness_paths_require_focused_mode_and_watchdog_proof"
-    },
-    {
-      "id": "unity_ilpp_diagnostics",
-      "lane_class": "cli_workflow",
-      "default_surface": "tooling",
-      "owner": "review",
-      "proof_role": "demo_contract",
-      "requirement_ids": [
-        "unity_ilpp_diagnostics"
-      ],
-      "path_selectors": [
-        "adl/tools/lib/unity_observatory_batch_classifiers.sh",
-        "adl/tools/run_v0918_unity_ilpp_diagnostic_matrix.sh",
-        "adl/tools/test_v0918_unity_ilpp_diagnostic_matrix.sh",
-        "docs/tooling/unity_ilpp_getdomainname_diagnosis.md"
-      ],
-      "path_hints": [
-        "adl/tools/lib/unity_observatory_batch_classifiers.sh",
-        "adl/tools/run_v0918_unity_ilpp_diagnostic_matrix.sh",
-        "adl/tools/test_v0918_unity_ilpp_diagnostic_matrix.sh",
-        "docs/tooling/unity_ilpp_getdomainname_diagnosis.md"
-      ],
-      "command": "bash -n adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh && bash -n adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh && bash -n adl/tools/lib/unity_observatory_batch_classifiers.sh && bash -n adl/tools/run_v0918_unity_ilpp_diagnostic_matrix.sh && bash -n adl/tools/test_v0918_unity_ilpp_diagnostic_matrix.sh && bash adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh && bash adl/tools/test_v0918_unity_ilpp_diagnostic_matrix.sh",
-      "run_command": "bash -n adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh && bash -n adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh && bash -n adl/tools/lib/unity_observatory_batch_classifiers.sh && bash -n adl/tools/run_v0918_unity_ilpp_diagnostic_matrix.sh && bash -n adl/tools/test_v0918_unity_ilpp_diagnostic_matrix.sh && bash adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh && bash adl/tools/test_v0918_unity_ilpp_diagnostic_matrix.sh",
-      "reason": "unity_ilpp_paths_require_focused_host_identity_and_progress_classifier_proof"
-    },
-    {
-      "id": "unity_observatory_contract_surface",
-      "lane_class": "cli_workflow",
-      "default_surface": "tooling",
-      "owner": "review",
-      "proof_role": "demo_contract",
-      "requirement_ids": [
-        "unity_observatory_contract_surface"
-      ],
-      "path_selectors": [
-        "adl/tools/test_v0916_unity_observatory_baseline.sh",
-        "adl/tools/test_v0916_unity_observatory_contract.sh",
-        "adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh",
-        "adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh",
-        "adl/tools/test_v0916_unity_observatory_soak_integration.sh",
-        "adl/tools/test_v0916_unity_observatory_unity65_smoke.sh",
-        "demos/v0.91.6/unity-observatory/README.md",
-        "demos/v0.91.6/unity-observatory/PROOF_PACKET.md",
-        "demos/v0.91.6/unity-observatory/Assets/**",
-        "demos/v0.91.6/unity-observatory/Packages/**",
-        "demos/v0.91.6/unity-observatory/ProjectSettings/**",
-        "docs/milestones/v0.91.6/review/observatory/UNITY_OBSERVATORY_LOCAL_RUNTIME_CONSUMPTION_4548.md",
-        "docs/milestones/v0.91.6/review/observatory/UNITY_OBSERVATORY_LOGGING_OTEL_SECURITY_CONSUMPTION_4034.md"
-      ],
-      "path_hints": [
-        "adl/tools/test_v0916_unity_observatory_baseline.sh",
-        "adl/tools/test_v0916_unity_observatory_contract.sh",
-        "adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh",
-        "adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh",
-        "adl/tools/test_v0916_unity_observatory_soak_integration.sh",
-        "adl/tools/test_v0916_unity_observatory_unity65_smoke.sh",
-        "demos/v0.91.6/unity-observatory/README.md",
-        "demos/v0.91.6/unity-observatory/PROOF_PACKET.md",
-        "demos/v0.91.6/unity-observatory/Assets/**",
-        "demos/v0.91.6/unity-observatory/Packages/**",
-        "demos/v0.91.6/unity-observatory/ProjectSettings/**",
-        "docs/milestones/v0.91.6/review/observatory/UNITY_OBSERVATORY_LOCAL_RUNTIME_CONSUMPTION_4548.md",
-        "docs/milestones/v0.91.6/review/observatory/UNITY_OBSERVATORY_LOGGING_OTEL_SECURITY_CONSUMPTION_4034.md"
-      ],
-      "command": "bash -n adl/tools/test_v0916_unity_observatory_unity65_smoke.sh && bash adl/tools/test_v0916_unity_observatory_baseline.sh && bash adl/tools/test_v0916_unity_observatory_contract.sh && bash adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh && bash adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh && bash adl/tools/test_v0916_unity_observatory_soak_integration.sh && cargo test --manifest-path adl/Cargo.toml --test cli_smoke csm_observatory_cli_writes_unity_contract_bundle_and_matches_seeded_resource -- --nocapture",
-      "run_command": "bash -n adl/tools/test_v0916_unity_observatory_unity65_smoke.sh && bash adl/tools/test_v0916_unity_observatory_baseline.sh && bash adl/tools/test_v0916_unity_observatory_contract.sh && bash adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh && bash adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh && bash adl/tools/test_v0916_unity_observatory_soak_integration.sh && cargo test --manifest-path adl/Cargo.toml --test cli_smoke csm_observatory_cli_writes_unity_contract_bundle_and_matches_seeded_resource -- --nocapture",
-      "reason": "unity_observatory_surface_requires_contract_and_csm_smoke"
-    },
-    {
-      "id": "unity_observatory_v0917_integrated_proof",
-      "lane_class": "cli_workflow",
-      "default_surface": "tooling",
-      "owner": "review",
-      "proof_role": "demo_contract",
-      "requirement_ids": [
-        "unity_observatory_v0917_integrated_proof"
-      ],
-      "path_selectors": [
-        "adl/tools/test_v0917_unity_observatory_integrated_proof.sh",
-        "docs/milestones/v0.91.7/review/unity_observatory_4689/**"
-      ],
-      "path_hints": [
-        "adl/tools/test_v0917_unity_observatory_integrated_proof.sh",
-        "docs/milestones/v0.91.7/review/unity_observatory_4689/"
-      ],
-      "command": "bash adl/tools/test_v0917_unity_observatory_integrated_proof.sh",
-      "run_command": "bash adl/tools/test_v0917_unity_observatory_integrated_proof.sh",
-      "reason": "v0917_unity_observatory_integrated_rollup_requires_retained_proof_chain_check"
-    },
-    {
       "id": "podcast_static_demo_surface",
       "lane_class": "docs",
       "default_surface": "docs",
@@ -640,51 +509,6 @@
       "reason": "podcast_static_demo_surface_requires_diff_hygiene_and_demo_smoke"
     },
     {
-      "id": "html_observatory_v0917_runtime_surface",
-      "lane_class": "cli_workflow",
-      "default_surface": "tooling",
-      "owner": "review",
-      "proof_role": "demo_contract",
-      "requirement_ids": [
-        "html_observatory_v0917_runtime_surface"
-      ],
-      "path_selectors": [
-        "adl/tools/test_v0917_html_observatory_integrated_proof.sh",
-        "adl/tools/validate_v0917_html_observatory.py",
-        "adl/tools/validate_v092_browser_trusted_observatory.mjs",
-        "demos/html-observatory/**"
-      ],
-      "path_hints": [
-        "adl/tools/test_v0917_html_observatory_integrated_proof.sh",
-        "adl/tools/validate_v0917_html_observatory.py",
-        "adl/tools/validate_v092_browser_trusted_observatory.mjs",
-        "demos/html-observatory/"
-      ],
-      "command": "bash adl/tools/test_v0917_html_observatory_integrated_proof.sh",
-      "run_command": "bash adl/tools/test_v0917_html_observatory_integrated_proof.sh",
-      "reason": "v0917_html_observatory_surface_requires_integrated_runtime_demo_proof"
-    },
-    {
-      "id": "html_observatory_tooling_syntax",
-      "lane_class": "cli_workflow",
-      "default_surface": "tooling",
-      "owner": "review",
-      "resource_class": "tiny",
-      "proof_role": "tooling_contract",
-      "requirement_ids": [
-        "html_observatory_tooling_syntax"
-      ],
-      "path_selectors": [
-        "adl/tools/test_html_observatory.sh"
-      ],
-      "path_hints": [
-        "adl/tools/test_html_observatory.sh"
-      ],
-      "command": "bash -n adl/tools/test_html_observatory.sh",
-      "run_command": "bash -n adl/tools/test_html_observatory.sh",
-      "reason": "html_observatory_shell_tooling_changes_require_direct_syntax_proof"
-    },
-    {
       "id": "provider_neutral_multi_agent_proof",
       "lane_class": "cli_workflow",
       "default_surface": "tooling",
@@ -699,172 +523,20 @@
         "adl/tools/serve_v092_provider_neutral_observatory_api.py",
         "adl/tools/test_v092_provider_neutral_proof.sh",
         "adl/tools/validate_v092_provider_neutral_proof.py",
-        "demos/v0.92/provider-neutral-birthday/**"
+        "demos/v0.92/provider-neutral-birthday/**",
+        "tools/runtime_contracts/run_provider_neutral_proof.py"
       ],
       "path_hints": [
         "adl/tools/demo_v092_provider_neutral_birthday.sh",
         "adl/tools/serve_v092_provider_neutral_observatory_api.py",
         "adl/tools/test_v092_provider_neutral_proof.sh",
         "adl/tools/validate_v092_provider_neutral_proof.py",
-        "demos/v0.92/provider-neutral-birthday/"
+        "demos/v0.92/provider-neutral-birthday/",
+        "tools/runtime_contracts/run_provider_neutral_proof.py"
       ],
-      "command": "bash adl/tools/test_v092_provider_neutral_proof.sh",
-      "run_command": "bash adl/tools/test_v092_provider_neutral_proof.sh",
+      "command": "python3 tools/runtime_contracts/run_provider_neutral_proof.py",
+      "run_command": "python3 tools/runtime_contracts/run_provider_neutral_proof.py",
       "reason": "provider_neutral_multi_agent_proof_surface_requires_focused_demo_packet_validation"
-    },
-    {
-      "id": "html_observatory_roster_javascript_syntax",
-      "lane_class": "cli_workflow",
-      "default_surface": "tooling",
-      "owner": "review",
-      "resource_class": "tiny",
-      "proof_role": "tooling_contract",
-      "requirement_ids": [
-        "html_observatory_roster_javascript_syntax"
-      ],
-      "path_selectors": [
-        "adl/tools/validate_v092_html_observatory_roster.mjs"
-      ],
-      "path_hints": [
-        "adl/tools/validate_v092_html_observatory_roster.mjs"
-      ],
-      "command": "test -f adl/tools/validate_v092_html_observatory_roster.mjs && node --check adl/tools/validate_v092_html_observatory_roster.mjs",
-      "run_command": "test -f adl/tools/validate_v092_html_observatory_roster.mjs && node --check adl/tools/validate_v092_html_observatory_roster.mjs",
-      "reason": "html_observatory_roster_javascript_changes_require_direct_syntax_proof"
-    },
-    {
-      "id": "csdlc_owner_lane",
-      "lane_class": "cli_workflow",
-      "default_surface": "tooling",
-      "owner": "csdlc",
-      "proof_role": "owner_lane",
-      "requirement_ids": [
-        "csdlc_owner_lane"
-      ],
-      "path_selectors": [
-        "csdlc-v2/**",
-        "adl/tools/install_owner_binaries.sh",
-        "adl/tools/build_v0917_execution_outlier_analysis.py",
-        "adl/tools/build_v0916_workflow_metric_backfill_inventory.py",
-        "adl/tools/test_build_v0916_workflow_metric_backfill_inventory.py",
-        "adl/tools/validation_inventory.py",
-        "adl/tools/validation_inventory.sh",
-        "adl/tools/run_owner_validation_lane.sh",
-        "adl/tools/test_owner_validation_lane.sh",
-        "adl/tools/test_readiness_prep_metrics_non_terminal.sh",
-        "adl/tools/test_validation_inventory.sh"
-      ],
-      "path_hints": [
-        "csdlc-v2/**",
-        "adl/tools/install_owner_binaries.sh",
-        "adl/tools/build_v0917_execution_outlier_analysis.py",
-        "adl/tools/build_v0916_workflow_metric_backfill_inventory.py",
-        "adl/tools/test_build_v0916_workflow_metric_backfill_inventory.py",
-        "adl/tools/validation_inventory.py",
-        "adl/tools/validation_inventory.sh",
-        "adl/tools/run_owner_validation_lane.sh",
-        "adl/tools/test_owner_validation_lane.sh",
-        "adl/tools/test_readiness_prep_metrics_non_terminal.sh",
-        "adl/tools/test_validation_inventory.sh"
-      ],
-      "command": "cargo test --manifest-path csdlc-v2/Cargo.toml --no-run",
-      "run_command": "cargo test --manifest-path csdlc-v2/Cargo.toml",
-      "reason": "csdlc_owner_surface_requires_csdlc_owner_lane"
-    },
-    {
-      "id": "runtime_owner_lane",
-      "lane_class": "cli_workflow",
-      "default_surface": "runtime",
-      "owner": "runtime",
-      "proof_role": "owner_lane",
-      "requirement_ids": [
-        "runtime_owner_lane"
-      ],
-      "path_selectors": [
-        "adl-runtime/**",
-        "adl/src/bin/adl_runtime.rs",
-        "adl/tools/csm_binary_availability.sh",
-        "adl/tools/demo_d11_signed_remote.sh",
-        "adl/tools/demo_smoke_v07_story.sh",
-        "adl/tools/ensure_csm_binary.sh",
-        "adl/tools/install_owner_binaries.sh",
-        "adl/tools/owner_binary_resolution.sh",
-        "adl/tools/run_owner_validation_lane.sh",
-        "adl/tools/test_ensure_csm_binary.sh",
-        "adl/tools/test_owner_binary_install.sh",
-        "adl/tools/test_owner_validation_lane.sh",
-        "adl/tools/install_vector_component.sh",
-        "adl/tools/test_adl_runtime_compatibility.sh"
-      ],
-      "path_hints": [
-        "adl-runtime/**",
-        "adl/src/bin/adl_runtime.rs",
-        "adl/tools/csm_binary_availability.sh",
-        "adl/tools/demo_d11_signed_remote.sh",
-        "adl/tools/demo_smoke_v07_story.sh",
-        "adl/tools/ensure_csm_binary.sh",
-        "adl/tools/install_owner_binaries.sh",
-        "adl/tools/owner_binary_resolution.sh",
-        "adl/tools/run_owner_validation_lane.sh",
-        "adl/tools/test_ensure_csm_binary.sh",
-        "adl/tools/test_owner_binary_install.sh",
-        "adl/tools/test_owner_validation_lane.sh",
-        "adl/tools/install_vector_component.sh",
-        "adl/tools/test_adl_runtime_compatibility.sh"
-      ],
-      "command": "bash adl/tools/run_owner_validation_lane.sh runtime --print-plan",
-      "run_command": "bash adl/tools/run_owner_validation_lane.sh runtime",
-      "reason": "runtime_owner_surface_requires_runtime_owner_lane"
-    },
-    {
-      "id": "review_owner_lane",
-      "lane_class": "cli_workflow",
-      "default_surface": "tooling",
-      "owner": "review",
-      "proof_role": "owner_lane",
-      "requirement_ids": [
-        "review_owner_lane"
-      ],
-      "path_selectors": [
-        "adl/src/bin/adl_review.rs",
-        "adl/src/review*.rs",
-        "adl/tools/test_adl_review_compatibility.sh"
-      ],
-      "path_hints": [
-        "adl/src/bin/adl_review.rs",
-        "adl/src/review*.rs",
-        "adl/tools/test_adl_review_compatibility.sh"
-      ],
-      "command": "bash adl/tools/run_owner_validation_lane.sh review --print-plan",
-      "run_command": "bash adl/tools/run_owner_validation_lane.sh review",
-      "reason": "review_owner_surface_requires_review_owner_lane"
-    },
-    {
-      "id": "aws_runtime_platform_static",
-      "lane_class": "cli_workflow",
-      "default_surface": "tooling",
-      "owner": "cloud",
-      "proof_role": "terraform_static_contract",
-      "requirement_ids": [
-        "aws_runtime_platform_static"
-      ],
-      "path_selectors": [
-        "infra/aws/modules/csm-runtime-alb/**",
-        "infra/aws/runtime/**",
-        "docs/operations/cloud/aws/runtime-platform/**",
-        "docs/milestones/v0.92.1/evidence/cloud/aws-f/**",
-        "adl/tools/validate_aws_runtime_platform_static.sh"
-      ],
-      "path_hints": [
-        "infra/aws/modules/csm-runtime-alb/**",
-        "infra/aws/runtime/**",
-        "docs/operations/cloud/aws/runtime-platform/**",
-        "docs/milestones/v0.92.1/evidence/cloud/aws-f/**",
-        "adl/tools/validate_aws_runtime_platform_static.sh"
-      ],
-      "command": "bash adl/tools/validate_aws_runtime_platform_static.sh --lane=all",
-      "run_command": "bash adl/tools/validate_aws_runtime_platform_static.sh --lane=all",
-      "reason": "aws_runtime_platform_surface_requires_static_terraform_and_public_edge_boundary_contracts"
     },
     {
       "id": "wp08_local_polis_ssm_proof",
@@ -894,89 +566,6 @@
       "command": "bash adl/tools/test_run_wp08_local_polis_ssm_proof.sh",
       "run_command": "bash adl/tools/test_run_wp08_local_polis_ssm_proof.sh",
       "reason": "wp08_local_polis_ssm_live_proof_requires_account_gate_redaction_and_contract_validation"
-    },
-    {
-      "id": "wp12_ssm_readiness_4657_contracts",
-      "lane_class": "runtime_integration",
-      "default_surface": "security",
-      "owner": "security",
-      "proof_role": "security_regression",
-      "requirement_ids": [
-        "wp12_ssm_readiness_4657_contracts"
-      ],
-      "path_selectors": [
-        "adl/tools/validate_wp12_ssm_readiness_4657.py",
-        "adl/tools/test_validate_wp12_ssm_readiness_4657.sh",
-        "docs/milestones/v0.91.7/review/security/WP12_SSM_READINESS_4657.md",
-        "docs/milestones/v0.91.7/review/security/wp12_ssm_readiness_4657.json",
-        "docs/milestones/v0.91.7/review/security/wp12_security_cav_gate_4656.json"
-      ],
-      "path_hints": [
-        "adl/tools/validate_wp12_ssm_readiness_4657.py",
-        "adl/tools/test_validate_wp12_ssm_readiness_4657.sh",
-        "docs/milestones/v0.91.7/review/security/WP12_SSM_READINESS_4657.md",
-        "docs/milestones/v0.91.7/review/security/wp12_ssm_readiness_4657.json",
-        "docs/milestones/v0.91.7/review/security/wp12_security_cav_gate_4656.json"
-      ],
-      "command": "python3 -m py_compile adl/tools/validate_wp12_ssm_readiness_4657.py && bash adl/tools/test_select_validation_lanes.sh && bash adl/tools/test_validation_manager.sh",
-      "run_command": "python3 -m py_compile adl/tools/validate_wp12_ssm_readiness_4657.py && bash adl/tools/test_select_validation_lanes.sh && bash adl/tools/test_validation_manager.sh",
-      "reason": "wp12_ssm_readiness_surface_requires_registered_finish-safe_validator_syntax_selector_and_validation_manager_contract_checks; focused issue proof runs through adl/tools/test_validate_wp12_ssm_readiness_4657.sh"
-    },
-    {
-      "id": "wp12_access_activation_gate_4660_contracts",
-      "lane_class": "cli_workflow",
-      "default_surface": "security",
-      "owner": "security",
-      "proof_role": "security_gate_contract",
-      "requirement_ids": [
-        "wp12_access_activation_gate_4660_contracts"
-      ],
-      "path_selectors": [
-        "adl/tools/validate_wp12_access_activation_gate_4660.py",
-        "docs/milestones/v0.91.7/review/security/WP12_ACCESS_ACTIVATION_GATE_4660.md",
-        "docs/milestones/v0.91.7/review/security/wp12_access_activation_gate_4660.json",
-        "docs/milestones/v0.91.7/review/security/wp12_security_cav_gate_4656.json"
-      ],
-      "path_hints": [
-        "adl/tools/validate_wp12_access_activation_gate_4660.py",
-        "docs/milestones/v0.91.7/review/security/WP12_ACCESS_ACTIVATION_GATE_4660.md",
-        "docs/milestones/v0.91.7/review/security/wp12_access_activation_gate_4660.json",
-        "docs/milestones/v0.91.7/review/security/wp12_security_cav_gate_4656.json"
-      ],
-      "command": "python3 -m py_compile adl/tools/validate_wp12_access_activation_gate_4660.py && bash adl/tools/test_select_validation_lanes.sh && bash adl/tools/test_validation_manager.sh",
-      "run_command": "python3 -m py_compile adl/tools/validate_wp12_access_activation_gate_4660.py && bash adl/tools/test_select_validation_lanes.sh && bash adl/tools/test_validation_manager.sh",
-      "reason": "wp12_access_activation_gate_surface_requires_registered_finish_safe_validator_syntax_selector_and_validation_manager_contract_checks; focused issue proof runs through adl/tools/validate_wp12_access_activation_gate_4660.py"
-    },
-    {
-      "id": "wp12_cav_red_blue_4914_contracts",
-      "lane_class": "runtime_integration",
-      "default_surface": "security",
-      "owner": "security",
-      "proof_role": "security_regression",
-      "requirement_ids": [
-        "wp12_cav_red_blue_4914_contracts"
-      ],
-      "path_selectors": [
-        "adl/src/csm_cav_red_blue.rs",
-        "adl/tools/validate_wp12_cav_red_blue_4914.py",
-        "docs/milestones/v0.91.7/review/security/wp12_cav_red_blue_4914/**",
-        "docs/milestones/v0.91.7/review/security/WP12_SECURITY_CAV_PRE_V092_REQUIREMENTS_4656.md",
-        "docs/milestones/v0.91.7/review/security/wp12_security_cav_gate_4656.json",
-        "docs/milestones/v0.91.7/review/runtime/final_csm_coherence_4906/runtime_coherence_matrix_4906.json"
-      ],
-      "path_hints": [
-        "adl/src/csm_cav_red_blue.rs",
-        "adl/tools/validate_wp12_cav_red_blue_4914.py",
-        "docs/milestones/v0.91.7/review/security/wp12_cav_red_blue_4914/cav_red_blue_summary.json",
-        "docs/milestones/v0.91.7/review/security/wp12_cav_red_blue_4914/cav_red_blue_events.jsonl",
-        "docs/milestones/v0.91.7/review/security/wp12_cav_red_blue_4914/cav_pass_fail_register.json",
-        "docs/milestones/v0.91.7/review/security/WP12_SECURITY_CAV_PRE_V092_REQUIREMENTS_4656.md",
-        "docs/milestones/v0.91.7/review/security/wp12_security_cav_gate_4656.json",
-        "docs/milestones/v0.91.7/review/runtime/final_csm_coherence_4906/runtime_coherence_matrix_4906.json"
-      ],
-      "command": "python3 -m py_compile adl/tools/validate_wp12_cav_red_blue_4914.py && python3 adl/tools/validate_wp12_cav_red_blue_4914.py --proof docs/milestones/v0.91.7/review/security/wp12_cav_red_blue_4914/cav_red_blue_summary.json --parent-gate docs/milestones/v0.91.7/review/security/wp12_security_cav_gate_4656.json --coherence docs/milestones/v0.91.7/review/runtime/final_csm_coherence_4906/runtime_coherence_matrix_4906.json && bash adl/tools/test_select_validation_lanes.sh && bash adl/tools/test_validation_manager.sh",
-      "run_command": "python3 -m py_compile adl/tools/validate_wp12_cav_red_blue_4914.py && python3 adl/tools/validate_wp12_cav_red_blue_4914.py --proof docs/milestones/v0.91.7/review/security/wp12_cav_red_blue_4914/cav_red_blue_summary.json --parent-gate docs/milestones/v0.91.7/review/security/wp12_security_cav_gate_4656.json --coherence docs/milestones/v0.91.7/review/runtime/final_csm_coherence_4906/runtime_coherence_matrix_4906.json && bash adl/tools/test_select_validation_lanes.sh && bash adl/tools/test_validation_manager.sh",
-      "reason": "wp12_cav_red_blue_surface_requires_registered_finish_safe_validator_syntax_selector_and_validation_manager_contract_checks; focused issue proof runs through adl/tools/validate_wp12_cav_red_blue_4914.py"
     },
     {
       "id": "local_polis_ssm_wrapper",
@@ -1033,13 +622,6 @@
       ],
       "path_selectors": [
         "adl/tools/run_aws_spot_remote_validation_lane.sh",
-        "adl/tools/run_build_platform_benchmark.sh",
-        "adl/tools/setup_aws_spot_remote_validation_github_resources.sh",
-        "adl/tools/aws_spot_artifact_finalize.py",
-        "adl/tools/run_aws_spot_builder_image_validation.sh",
-        "adl/tools/test_aws_spot_artifact_finalize.sh",
-        "adl/tools/test_aws_spot_lifecycle_controls.sh",
-        "adl/tools/test_run_aws_spot_builder_image_validation.sh",
         "adl/tools/test_run_aws_spot_remote_validation_lane.sh",
         "tools/aws_remote_validation/Cargo.toml",
         "tools/aws_remote_validation/Cargo.lock",
@@ -1048,21 +630,14 @@
       ],
       "path_hints": [
         "adl/tools/run_aws_spot_remote_validation_lane.sh",
-        "adl/tools/run_build_platform_benchmark.sh",
-        "adl/tools/setup_aws_spot_remote_validation_github_resources.sh",
-        "adl/tools/aws_spot_artifact_finalize.py",
-        "adl/tools/run_aws_spot_builder_image_validation.sh",
-        "adl/tools/test_aws_spot_artifact_finalize.sh",
-        "adl/tools/test_aws_spot_lifecycle_controls.sh",
-        "adl/tools/test_run_aws_spot_builder_image_validation.sh",
         "adl/tools/test_run_aws_spot_remote_validation_lane.sh",
         "tools/aws_remote_validation/Cargo.toml",
         "tools/aws_remote_validation/Cargo.lock",
         "tools/aws_remote_validation/scripts/**",
         "tools/aws_remote_validation/src/**"
       ],
-      "command": "bash adl/tools/test_run_aws_spot_remote_validation_lane.sh && bash adl/tools/test_run_aws_spot_builder_image_validation.sh && bash adl/tools/test_aws_spot_artifact_finalize.sh && bash adl/tools/test_aws_spot_lifecycle_controls.sh && bash -n tools/aws_remote_validation/scripts/remote_validation_runner.sh && bash -n tools/aws_remote_validation/scripts/ssh_debug_control.sh && cargo check --manifest-path tools/aws_remote_validation/Cargo.toml --bin adl-aws-remote-validation && cargo test --manifest-path tools/aws_remote_validation/Cargo.toml --bin adl-aws-remote-validation -- --nocapture",
-      "run_command": "bash adl/tools/test_run_aws_spot_remote_validation_lane.sh && bash adl/tools/test_run_aws_spot_builder_image_validation.sh && bash adl/tools/test_aws_spot_artifact_finalize.sh && bash adl/tools/test_aws_spot_lifecycle_controls.sh && bash -n tools/aws_remote_validation/scripts/remote_validation_runner.sh && bash -n tools/aws_remote_validation/scripts/ssh_debug_control.sh && cargo check --manifest-path tools/aws_remote_validation/Cargo.toml --bin adl-aws-remote-validation && cargo test --manifest-path tools/aws_remote_validation/Cargo.toml --bin adl-aws-remote-validation -- --nocapture",
+      "command": "bash adl/tools/run_aws_spot_remote_validation_lane.sh",
+      "run_command": "bash adl/tools/run_aws_spot_remote_validation_lane.sh",
       "reason": "aws_remote_validation_tool_surface_requires_focused_tooling_regression_checks"
     },
     {
@@ -1079,101 +654,20 @@
         "adl/tools/import_adl_builder_image_from_s3_to_ecr.sh",
         "adl/tools/setup_adl_builder_image.sh",
         "adl/tools/test_adl_builder_image.sh",
-        "adl/tools/test_import_adl_builder_image_from_s3_to_ecr.sh"
+        "adl/tools/test_import_adl_builder_image_from_s3_to_ecr.sh",
+        "tools/groupd_validation/run_builder_contracts.py"
       ],
       "path_hints": [
         "adl/docker/adl-builder/**",
         "adl/tools/import_adl_builder_image_from_s3_to_ecr.sh",
         "adl/tools/setup_adl_builder_image.sh",
         "adl/tools/test_adl_builder_image.sh",
-        "adl/tools/test_import_adl_builder_image_from_s3_to_ecr.sh"
+        "adl/tools/test_import_adl_builder_image_from_s3_to_ecr.sh",
+        "tools/groupd_validation/run_builder_contracts.py"
       ],
-      "command": "bash adl/tools/test_adl_builder_image.sh && bash adl/tools/test_import_adl_builder_image_from_s3_to_ecr.sh",
-      "run_command": "bash adl/tools/test_adl_builder_image.sh && bash adl/tools/test_import_adl_builder_image_from_s3_to_ecr.sh",
+      "command": "python3 tools/groupd_validation/run_builder_contracts.py --suite setup-import",
+      "run_command": "python3 tools/groupd_validation/run_builder_contracts.py --suite setup-import",
       "reason": "builder_image_surface_requires_dockerfile_setup_import_and_policy_contract_checks"
-    },
-    {
-      "id": "aws_codefriend_build_lane",
-      "lane_class": "cli_workflow",
-      "default_surface": "ci_policy",
-      "owner": "tools",
-      "proof_role": "ci_contract",
-      "requirement_ids": [
-        "aws_codefriend_build_lane"
-      ],
-      "path_selectors": [
-        ".github/workflows/aws-codefriend-build.yaml",
-        "adl/tools/run_aws_codefriend_build_lane.sh",
-        "adl/tools/run_build_platform_benchmark.sh",
-        "adl/tools/setup_aws_codefriend_build_resources.sh",
-        "adl/tools/test_run_aws_codefriend_build_lane.sh",
-        "docs/tooling/AWS_CODEFRIEND_BUILD_LANE.md"
-      ],
-      "path_hints": [
-        ".github/workflows/aws-codefriend-build.yaml",
-        "adl/tools/run_aws_codefriend_build_lane.sh",
-        "adl/tools/run_build_platform_benchmark.sh",
-        "adl/tools/setup_aws_codefriend_build_resources.sh",
-        "adl/tools/test_run_aws_codefriend_build_lane.sh",
-        "docs/tooling/AWS_CODEFRIEND_BUILD_LANE.md"
-      ],
-      "command": "bash adl/tools/test_run_aws_codefriend_build_lane.sh",
-      "run_command": "bash adl/tools/test_run_aws_codefriend_build_lane.sh",
-      "reason": "aws_codefriend_build_lane_requires_github_actions_and_aws_codebuild_contract_checks"
-    },
-    {
-      "id": "wp08_runtime_heartbeat_proof",
-      "lane_class": "cli_workflow",
-      "default_surface": "runtime",
-      "owner": "runtime",
-      "proof_role": "runtime_aws_signal_contract",
-      "requirement_ids": [
-        "wp08_runtime_heartbeat_proof"
-      ],
-      "path_selectors": [
-        "adl/tools/run_wp08_heartbeat_live_proof.sh",
-        "adl/tools/test_run_wp08_heartbeat_live_proof.sh",
-        "adl/tools/validate_wp08_heartbeat_live_proof.py",
-        "docs/tooling/RUNTIME_AWS_HEARTBEAT.md",
-        "docs/milestones/v0.91.7/review/runtime/wp08_heartbeat_4684/**"
-      ],
-      "path_hints": [
-        "adl/tools/run_wp08_heartbeat_live_proof.sh",
-        "adl/tools/test_run_wp08_heartbeat_live_proof.sh",
-        "adl/tools/validate_wp08_heartbeat_live_proof.py",
-        "docs/tooling/RUNTIME_AWS_HEARTBEAT.md",
-        "docs/milestones/v0.91.7/review/runtime/wp08_heartbeat_4684/**"
-      ],
-      "command": "bash adl/tools/test_run_wp08_heartbeat_live_proof.sh",
-      "run_command": "bash adl/tools/test_run_wp08_heartbeat_live_proof.sh",
-      "reason": "wp08_runtime_heartbeat_surface_requires_wrapper_contract_checks; issue-local retained live summary validation runs through adl/tools/validate_wp08_heartbeat_live_proof.py"
-    },
-    {
-      "id": "wp08_acip_sns_proof",
-      "lane_class": "cli_workflow",
-      "default_surface": "runtime",
-      "owner": "runtime",
-      "proof_role": "runtime_aws_signal_contract",
-      "requirement_ids": [
-        "wp08_acip_sns_proof"
-      ],
-      "path_selectors": [
-        "adl/tools/run_wp08_acip_sns_live_proof.sh",
-        "adl/tools/test_run_wp08_acip_sns_live_proof.sh",
-        "adl/tools/validate_wp08_acip_sns_live_proof.py",
-        "docs/tooling/RUNTIME_AWS_ACIP_SNS.md",
-        "docs/milestones/v0.91.7/review/runtime/wp08_acip_sns_4685/**"
-      ],
-      "path_hints": [
-        "adl/tools/run_wp08_acip_sns_live_proof.sh",
-        "adl/tools/test_run_wp08_acip_sns_live_proof.sh",
-        "adl/tools/validate_wp08_acip_sns_live_proof.py",
-        "docs/tooling/RUNTIME_AWS_ACIP_SNS.md",
-        "docs/milestones/v0.91.7/review/runtime/wp08_acip_sns_4685/**"
-      ],
-      "command": "bash adl/tools/test_run_wp08_acip_sns_live_proof.sh",
-      "run_command": "bash adl/tools/test_run_wp08_acip_sns_live_proof.sh",
-      "reason": "wp08_acip_sns_surface_requires_wrapper_contract_checks; issue-local retained live summaries are validated by adl/tools/validate_wp08_acip_sns_live_proof.py"
     },
     {
       "id": "wp08_s3_obsmem_archive_policy",
@@ -1203,39 +697,6 @@
       "reason": "wp08_s3_obsmem_archive_policy_setup_requires_wrapper_contract_checks; issue-local retained live summary validation runs through adl/tools/validate_wp08_s3_obsmem_archive_policy.py"
     },
     {
-      "id": "wp08_cloudfront_control_proof",
-      "lane_class": "cli_workflow",
-      "default_surface": "runtime",
-      "owner": "runtime",
-      "proof_role": "runtime_cloud_control_contract",
-      "requirement_ids": [
-        "wp08_cloudfront_control_proof"
-      ],
-      "path_selectors": [
-        "adl/src/cli/csm_cmd.rs",
-        "adl/src/csm_cloud_control.rs",
-        "adl/src/lib.rs",
-        "adl/tools/run_wp08_cloudfront_control_proof.sh",
-        "adl/tools/test_run_wp08_cloudfront_control_proof.sh",
-        "adl/tools/validate_wp08_cloudfront_control_proof.py",
-        "docs/tooling/RUNTIME_CLOUD_CONTROL_CLOUDFRONT.md",
-        "docs/milestones/v0.91.7/review/runtime/wp08_cloudfront_4915/**"
-      ],
-      "path_hints": [
-        "adl/src/cli/csm_cmd.rs",
-        "adl/src/csm_cloud_control.rs",
-        "adl/src/lib.rs",
-        "adl/tools/run_wp08_cloudfront_control_proof.sh",
-        "adl/tools/test_run_wp08_cloudfront_control_proof.sh",
-        "adl/tools/validate_wp08_cloudfront_control_proof.py",
-        "docs/tooling/RUNTIME_CLOUD_CONTROL_CLOUDFRONT.md",
-        "docs/milestones/v0.91.7/review/runtime/wp08_cloudfront_4915/**"
-      ],
-      "command": "bash adl/tools/test_run_wp08_cloudfront_control_proof.sh",
-      "run_command": "bash adl/tools/test_run_wp08_cloudfront_control_proof.sh",
-      "reason": "wp08_cloudfront_control_surface_requires_csm_runtime_hook_wrapper_contract_checks; retained live summary validation runs through adl/tools/validate_wp08_cloudfront_control_proof.py"
-    },
-    {
       "id": "wp07_csm_api_gateway_bridge_proof",
       "lane_class": "cli_workflow",
       "default_surface": "runtime",
@@ -1246,79 +707,21 @@
       ],
       "path_selectors": [
         "adl/src/csm_api_gateway_bridge.rs",
-        "adl/tools/run_v0917_csm_api_gateway_bridge_live_proof.sh",
         "adl/tools/test_run_v0917_csm_api_gateway_bridge_proof.sh",
+        "adl/tools/run_runtime_gateway_owner_contract.py",
         "adl/tools/validate_v0917_csm_api_gateway_bridge_proof.py",
         "docs/milestones/v0.91.7/review/runtime/csm_api_gateway_bridge_5039/**"
       ],
       "path_hints": [
         "adl/src/csm_api_gateway_bridge.rs",
-        "adl/tools/run_v0917_csm_api_gateway_bridge_live_proof.sh",
         "adl/tools/test_run_v0917_csm_api_gateway_bridge_proof.sh",
+        "adl/tools/run_runtime_gateway_owner_contract.py",
         "adl/tools/validate_v0917_csm_api_gateway_bridge_proof.py",
         "docs/milestones/v0.91.7/review/runtime/csm_api_gateway_bridge_5039/**"
       ],
-      "command": "bash adl/tools/test_run_v0917_csm_api_gateway_bridge_proof.sh",
-      "run_command": "bash adl/tools/test_run_v0917_csm_api_gateway_bridge_proof.sh",
+      "command": "python3 adl/tools/run_runtime_gateway_owner_contract.py",
+      "run_command": "python3 adl/tools/run_runtime_gateway_owner_contract.py",
       "reason": "wp07_csm_api_gateway_bridge_surface_requires_runtime_api_path_account_gate_auth_redaction_and_contract_validation; retained live summary validation runs through adl/tools/validate_v0917_csm_api_gateway_bridge_proof.py"
-    },
-    {
-      "id": "wp08_aws_signal_integration_proof",
-      "lane_class": "cli_workflow",
-      "default_surface": "runtime",
-      "owner": "runtime",
-      "proof_role": "runtime_aws_signal_integration_contract",
-      "requirement_ids": [
-        "wp08_aws_signal_integration_proof"
-      ],
-      "path_selectors": [
-        "adl/tools/run_wp08_aws_signal_integration_live_proof.sh",
-        "adl/tools/test_run_wp08_aws_signal_integration_live_proof.sh",
-        "adl/tools/validate_wp08_aws_signal_integration_live_proof.py",
-        "docs/tooling/RUNTIME_AWS_SIGNAL_INTEGRATION.md",
-        "docs/milestones/v0.91.7/review/runtime/wp08_aws_signal_integration_4686/**"
-      ],
-      "path_hints": [
-        "adl/tools/run_wp08_aws_signal_integration_live_proof.sh",
-        "adl/tools/test_run_wp08_aws_signal_integration_live_proof.sh",
-        "adl/tools/validate_wp08_aws_signal_integration_live_proof.py",
-        "docs/tooling/RUNTIME_AWS_SIGNAL_INTEGRATION.md",
-        "docs/milestones/v0.91.7/review/runtime/wp08_aws_signal_integration_4686/**"
-      ],
-      "command": "bash adl/tools/test_run_wp08_aws_signal_integration_live_proof.sh",
-      "run_command": "bash adl/tools/test_run_wp08_aws_signal_integration_live_proof.sh",
-      "reason": "wp08_aws_signal_integration_surface_requires_integrated_heartbeat_and_acip_sns_wrapper_contract_checks; retained live summary validation runs through adl/tools/validate_wp08_aws_signal_integration_live_proof.py"
-    },
-    {
-      "id": "wp08_polis_durable_storage_proof",
-      "lane_class": "cli_workflow",
-      "default_surface": "runtime",
-      "owner": "runtime",
-      "proof_role": "runtime_polis_durable_storage_contract",
-      "requirement_ids": [
-        "wp08_polis_durable_storage_proof"
-      ],
-      "path_selectors": [
-        "adl/src/csm_polis_storage.rs",
-        "adl/src/cli/csm_cmd.rs",
-        "adl/tools/run_wp08_polis_storage_live_proof.sh",
-        "adl/tools/test_run_wp08_polis_storage_live_proof.sh",
-        "adl/tools/validate_wp08_polis_storage_live_proof.py",
-        "docs/tooling/RUNTIME_POLIS_DURABLE_STORAGE.md",
-        "docs/milestones/v0.91.7/review/runtime/csm_polis_storage_4913/**"
-      ],
-      "path_hints": [
-        "adl/src/csm_polis_storage.rs",
-        "adl/src/cli/csm_cmd.rs",
-        "adl/tools/run_wp08_polis_storage_live_proof.sh",
-        "adl/tools/test_run_wp08_polis_storage_live_proof.sh",
-        "adl/tools/validate_wp08_polis_storage_live_proof.py",
-        "docs/tooling/RUNTIME_POLIS_DURABLE_STORAGE.md",
-        "docs/milestones/v0.91.7/review/runtime/csm_polis_storage_4913/**"
-      ],
-      "command": "bash adl/tools/test_run_wp08_polis_storage_live_proof.sh",
-      "run_command": "bash adl/tools/test_run_wp08_polis_storage_live_proof.sh",
-      "reason": "wp08_polis_storage_surface_requires_runtime_command_and_wrapper_contract_checks; issue-local retained live summary validation runs through adl/tools/validate_wp08_polis_storage_live_proof.py"
     },
     {
       "id": "v0917_soak2_status_contracts",
@@ -1351,12 +754,10 @@
         "v0917_no_sparrow_4909_contracts"
       ],
       "path_selectors": [
-        "adl/tools/run_v0917_no_sparrow_4909_proof.sh",
         "adl/tools/validate_v0917_no_sparrow_4909_status.sh",
         "docs/milestones/v0.91.7/review/runtime/no_sparrow_4909/**"
       ],
       "path_hints": [
-        "adl/tools/run_v0917_no_sparrow_4909_proof.sh",
         "adl/tools/validate_v0917_no_sparrow_4909_status.sh",
         "docs/milestones/v0.91.7/review/runtime/no_sparrow_4909/**"
       ],
@@ -1374,12 +775,10 @@
         "v0917_csm_otlp_4904_contracts"
       ],
       "path_selectors": [
-        "adl/tools/run_v0917_csm_otlp_4904_proof.sh",
         "adl/tools/validate_v0917_csm_otlp_4904_status.sh",
         "docs/milestones/v0.91.7/review/runtime/csm_otlp_4904/**"
       ],
       "path_hints": [
-        "adl/tools/run_v0917_csm_otlp_4904_proof.sh",
         "adl/tools/validate_v0917_csm_otlp_4904_status.sh",
         "docs/milestones/v0.91.7/review/runtime/csm_otlp_4904/**"
       ],
@@ -1398,13 +797,11 @@
       ],
       "path_selectors": [
         "adl/src/csm_continuity_capsule.rs",
-        "adl/tools/run_v0917_csm_continuity_capsule_4910_proof.sh",
         "adl/tools/validate_v0917_csm_continuity_capsule_4910_status.sh",
         "docs/milestones/v0.91.7/review/runtime/csm_continuity_capsule_4910/**"
       ],
       "path_hints": [
         "adl/src/csm_continuity_capsule.rs",
-        "adl/tools/run_v0917_csm_continuity_capsule_4910_proof.sh",
         "adl/tools/validate_v0917_csm_continuity_capsule_4910_status.sh",
         "docs/milestones/v0.91.7/review/runtime/csm_continuity_capsule_4910/**"
       ],
@@ -1470,18 +867,16 @@
         "sprint_conductor_contracts"
       ],
       "path_selectors": [
-        "adl/tools/skills/sprint-conductor/**",
-        "adl/tools/test_sprint_conductor_helpers.sh",
+        "tools/sprint_contracts/**",
         "adl/tools/test_install_adl_operational_skills.sh"
       ],
       "path_hints": [
-        "adl/tools/skills/sprint-conductor/**",
-        "adl/tools/test_sprint_conductor_helpers.sh",
+        "tools/sprint_contracts/**",
         "adl/tools/test_install_adl_operational_skills.sh"
       ],
-      "command": "bash adl/tools/test_sprint_conductor_helpers.sh && bash adl/tools/test_install_adl_operational_skills.sh",
-      "run_command": "bash adl/tools/test_sprint_conductor_helpers.sh && bash adl/tools/test_install_adl_operational_skills.sh",
-      "reason": "sprint_conductor_surface_requires_helper_contract_checks"
+      "command": "bash adl/tools/test_install_adl_operational_skills.sh",
+      "run_command": "bash adl/tools/test_install_adl_operational_skills.sh",
+      "reason": "sprint_conductor_surface_requires_explicit_mapped_owner_components_and_separate_original_installer_contract; no_full_original_or_native_acceptance"
     },
     {
       "id": "rust_dependency_cache_warmup_contracts",
@@ -1498,9 +893,6 @@
         "adl/tools/rust_validation_warm_cache.sh",
         "adl/tools/test_rust_validation_warm_cache.sh",
         "adl/tools/run_authoritative_coverage_lane.sh",
-        "adl/tools/test_run_pr_fast_coverage_lane.sh",
-        "adl/tools/run_owner_validation_lane.sh",
-        "adl/tools/run_pr_fast_coverage_lane.sh",
         "adl/tools/run_pr_fast_test_lane.sh"
       ],
       "path_hints": [
@@ -1509,13 +901,10 @@
         "adl/tools/rust_validation_warm_cache.sh",
         "adl/tools/test_rust_validation_warm_cache.sh",
         "adl/tools/run_authoritative_coverage_lane.sh",
-        "adl/tools/test_run_pr_fast_coverage_lane.sh",
-        "adl/tools/run_owner_validation_lane.sh",
-        "adl/tools/run_pr_fast_coverage_lane.sh",
         "adl/tools/run_pr_fast_test_lane.sh"
       ],
-      "command": "python3 -m py_compile adl/tools/warm_rust_dependency_cache.py adl/tools/test_warm_rust_dependency_cache.py && python3 adl/tools/test_warm_rust_dependency_cache.py && bash adl/tools/test_rust_validation_warm_cache.sh && bash adl/tools/test_run_authoritative_coverage_lane.sh && bash adl/tools/test_run_pr_fast_test_lane.sh",
-      "run_command": "python3 -m py_compile adl/tools/warm_rust_dependency_cache.py adl/tools/test_warm_rust_dependency_cache.py && python3 adl/tools/test_warm_rust_dependency_cache.py && bash adl/tools/test_rust_validation_warm_cache.sh && bash adl/tools/test_run_authoritative_coverage_lane.sh && bash adl/tools/test_run_pr_fast_test_lane.sh",
+      "command": "python3 -m py_compile adl/tools/warm_rust_dependency_cache.py adl/tools/test_warm_rust_dependency_cache.py && python3 adl/tools/test_warm_rust_dependency_cache.py && bash adl/tools/test_rust_validation_warm_cache.sh && bash adl/tools/test_run_authoritative_coverage_lane.sh",
+      "run_command": "python3 -m py_compile adl/tools/warm_rust_dependency_cache.py adl/tools/test_warm_rust_dependency_cache.py && python3 adl/tools/test_warm_rust_dependency_cache.py && bash adl/tools/test_rust_validation_warm_cache.sh && bash adl/tools/test_run_authoritative_coverage_lane.sh",
       "reason": "rust_dependency_cache_warmup_surface_requires_python_shell_and_runner_contract_checks"
     },
     {
@@ -1584,18 +973,14 @@
         "infra/rustysd/**",
         "infra/horust/**",
         "infra/runtime-v3/**",
-        "infra/systemd/adl-runtime-kernel.service",
-        "adl/tools/test_v0917_html_observatory_integrated_proof.sh",
-        "adl/tools/validate_v0917_html_observatory.py"
+        "infra/systemd/adl-runtime-kernel.service"
       ],
       "path_hints": [
         "adl-runtime-kernel/**",
         "infra/rustysd/**",
         "infra/horust/**",
         "infra/runtime-v3/**",
-        "infra/systemd/adl-runtime-kernel.service",
-        "adl/tools/test_v0917_html_observatory_integrated_proof.sh",
-        "adl/tools/validate_v0917_html_observatory.py"
+        "infra/systemd/adl-runtime-kernel.service"
       ],
       "command": "cargo test --manifest-path adl-runtime-kernel/Cargo.toml && cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --all-targets -- -D warnings",
       "run_command": "cargo test --manifest-path adl-runtime-kernel/Cargo.toml && cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --all-targets -- -D warnings",
@@ -1624,7 +1009,6 @@
         "design/*.mmd",
         "*.md",
         ".csdlc/**",
-        "adl/tools/test_opus_review_runbook.sh",
         "adl/tools/validate_v0917_*_status.sh"
       ],
       "path_hints": [
@@ -1647,6 +1031,52 @@
         "cache_equivalence_group": "git_diff_check",
         "failure_semantics": "fail_closed"
       }
+    },
+    {
+      "id": "public_validation_inventory",
+      "lane_class": "cli_workflow",
+      "default_surface": "tooling",
+      "owner": "adl/tools",
+      "proof_role": "inventory_generation_not_owner_test_qualification",
+      "resource_class": "small",
+      "determinism_posture": "deterministic_local",
+      "requirement_ids": [
+        "public_validation_inventory"
+      ],
+      "path_selectors": [
+        "adl/tools/validation_inventory.py",
+        "adl/tools/validation_inventory.sh"
+      ],
+      "path_hints": [
+        "adl/tools/validation_inventory.py",
+        "adl/tools/validation_inventory.sh"
+      ],
+      "command": "bash adl/tools/validation_inventory.sh --format json",
+      "run_command": "bash adl/tools/validation_inventory.sh --format json",
+      "reason": "public_validation_inventory_requires_explicit_public_contract"
+    },
+    {
+      "id": "csm_retired_route_diagnostics",
+      "lane_class": "cli_workflow",
+      "default_surface": "tooling",
+      "owner": "adl/tools",
+      "proof_role": "diagnostic_refusal_contract_not_runtime_acceptance",
+      "resource_class": "small",
+      "determinism_posture": "deterministic_local",
+      "requirement_ids": [
+        "csm_retired_route_diagnostics"
+      ],
+      "path_selectors": [
+        "adl/tools/ensure_csm_binary.sh",
+        "adl/tools/test_ensure_csm_binary.sh"
+      ],
+      "path_hints": [
+        "adl/tools/ensure_csm_binary.sh",
+        "adl/tools/test_ensure_csm_binary.sh"
+      ],
+      "command": "bash adl/tools/test_ensure_csm_binary.sh",
+      "run_command": "bash adl/tools/test_ensure_csm_binary.sh",
+      "reason": "csm_retired_route_diagnostics_requires_explicit_public_contract"
     }
   ],
   "special_surfaces": {

@@ -1,0 +1,75 @@
+{
+  "schema": "adl1223.review_subagent_policy_component_qualification.v1",
+  "status": "passed_original_local_policy_component",
+  "candidate": "92779b3a8376182b691aad45258435ffb9c095f0",
+  "artifact": 11808226974,
+  "members": [
+    {
+      "package_member": "resources/docs/skill-distributions/active-lifecycle/original-v1/adl/tools/skills/sprint-conductor/scripts/validate_review_subagent_policy.py",
+      "manifest": {
+        "mode": 420,
+        "path": "resources/docs/skill-distributions/active-lifecycle/original-v1/adl/tools/skills/sprint-conductor/scripts/validate_review_subagent_policy.py",
+        "sha256": "5e87d23e586bf8526425d48dd63ca819c55263af978212de932acf7ee23114c5",
+        "size": 2708
+      },
+      "original_adl_blob": "30f8c333e253c17336c9d4fae281ab2d675c43ec"
+    },
+    {
+      "package_member": "resources/docs/skill-distributions/active-lifecycle/original-v1/adl/tools/test_review_subagent_auth_policy.sh",
+      "manifest": {
+        "mode": 420,
+        "path": "resources/docs/skill-distributions/active-lifecycle/original-v1/adl/tools/test_review_subagent_auth_policy.sh",
+        "sha256": "6e56d582f74263c0c245a9576f211d5843b517a4e4a1d289341bf60cdeef2444",
+        "size": 1855
+      },
+      "original_adl_blob": "edf50a9660baaf0b068b3e2651387845ec2acd97"
+    }
+  ],
+  "result": {
+    "command": [
+      "bash",
+      "/Volumes/FastWork/c1223/evidence/cognitive-sdlc/reviewer-policy-92779b3/resources/docs/skill-distributions/active-lifecycle/original-v1/adl/tools/test_review_subagent_auth_policy.sh"
+    ],
+    "exit": 0,
+    "seconds": 0.15848137499415316,
+    "success_marker": true,
+    "fixture_token_absent_from_output": true,
+    "original_invocations": 4,
+    "cases": [
+      "exception allowed without required auth",
+      "required missing auth refuses and diagnostic redacts",
+      "fixture auth accepted",
+      "model override refuses without disclosing supplied value"
+    ],
+    "not_proven": [
+      "disabled exception",
+      "reviewer count overflow",
+      "all boolean aliases",
+      "live auth validation",
+      "actual review dispatch",
+      "native admission"
+    ],
+    "provider_calls": false,
+    "native_calls": false
+  },
+  "review": "Planning #12 read full original helper/test, approved unchanged four-invocation focused check and import on pass.",
+  "scope": "Exact original local policy behavior only. No real credentials, API/subagent/native calls, actual review dispatch or installed authority. Original untested branches remain explicitly unproven.",
+  "evidence": [
+    {
+      "path": "INPUT.json",
+      "sha256": "9ddc4ff1b0e208e24094c622f51b5a246820c20782651fbc913c53416772e52f"
+    },
+    {
+      "path": "RESULT.json",
+      "sha256": "2c32b56937a35a0daa33eb1817b52bb2aa18b3d74ccea82851a0b5c740151ed9"
+    },
+    {
+      "path": "stdout",
+      "sha256": "5dc2c944e067c260a453b450bade06a1f4e63ff0d23b53e8f8c1efdd864be5fe"
+    },
+    {
+      "path": "stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

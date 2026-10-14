@@ -1,0 +1,165 @@
+{
+  "schema": "adl.rd07.private-wuji-owner-disposition.v1",
+  "issue": 1223,
+  "rows": [
+    {
+      "id": "RD07-1410",
+      "path": "adl/tools/issue194_model_health_command.py",
+      "adl_sha256": "1b7f021e6c69bd8bbc227f098d694bfca49581a483991059007d64832e1ec3ad",
+      "owner_source_sha256": "1b7f021e6c69bd8bbc227f098d694bfca49581a483991059007d64832e1ec3ad",
+      "owner_mode": "100644",
+      "owner_blob": "49e876f566f6540f1dfb415b87f8b04489b95b6d",
+      "mapping": "exact_bytes",
+      "proposal": "conditional_owner_transfer_with_consumer_closure_required"
+    },
+    {
+      "id": "RD07-1411",
+      "path": "adl/tools/issue194_private_network.cloudformation.json",
+      "adl_sha256": "80905a1c6adec4623c3dac504e673ebb318aec0873b4d4d243b650c86f514030",
+      "owner_source_sha256": "80905a1c6adec4623c3dac504e673ebb318aec0873b4d4d243b650c86f514030",
+      "owner_mode": "100644",
+      "owner_blob": "4094e107b601f4d35525212ddebc39900ed16e3d",
+      "mapping": "exact_bytes",
+      "proposal": "conditional_owner_transfer_with_consumer_closure_required"
+    },
+    {
+      "id": "RD07-1412",
+      "path": "adl/tools/issue194_private_wuji_aws_runner.sh",
+      "adl_sha256": "84d83cff9c5a22e19efcd5c6781fb9163ce87e85cd44cbdd569b52b41da77369",
+      "owner_source_sha256": "f921dba089d40099f72012f4f97bd590536c18b15e799d658882d864d83e7f63",
+      "owner_mode": "100755",
+      "owner_blob": "ea1214d428bfb36becacf92d795eb77eb052a7b7",
+      "mapping": "reviewed_explicit_runtime_source_boundary_adaptation",
+      "proposal": "conditional_owner_transfer_with_consumer_closure_required"
+    },
+    {
+      "id": "RD07-2050",
+      "path": "adl/tools/test_private_wuji_aws_recovery_qualification.sh",
+      "adl_sha256": "e84b79eec80caaa92f3ad6684101ec952a5675a857261568746006dcbfa14188",
+      "owner_source_sha256": "e84b79eec80caaa92f3ad6684101ec952a5675a857261568746006dcbfa14188",
+      "owner_mode": "100755",
+      "owner_blob": "62563199814768e8a98e861a2fa532e965a02de4",
+      "mapping": "exact_bytes",
+      "proposal": "conditional_owner_transfer_with_consumer_closure_required"
+    }
+  ],
+  "owner": {
+    "repository": "agent-logic/agent-logic-infrastructure",
+    "issue": 27,
+    "pull_request": 29,
+    "source_revision": "8b7494642c423d024c79bef5b4d493eaee126f63",
+    "merge_revision": "db78fff91b07a0b05dfbb4ceb5bdd3279b3315a1",
+    "git_object_checkout_inspected": "/Volumes/FastWork/c1223/infrastructure18-controller/agent-logic-infrastructure",
+    "source_objects_verified": true,
+    "merge_object_present_locally": false,
+    "merge_basis": "Authenticated successful merge/reconciliation receipt, not local merge-tree comparison. No fetch performed.",
+    "native_finish": "pending explicit approval; not claimed complete"
+  },
+  "evidence": [
+    {
+      "path": "/Volumes/FastWork/c1223/infra-private-wuji-delivery/source-transfer.json",
+      "sha256": "db48e8a448323fa487926de3ab03e62e8a26bc3192a86c3c86b4759c5c778fcd"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/infra-private-wuji-delivery/proof-counted.json",
+      "sha256": "dc79ec28fc9ea79d063c8cddff2d49eb089bd189f8badc465973a6f0b5a33a4b"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/infra-private-wuji-delivery/review-counted.json",
+      "sha256": "174a45f61b010c07339182353e0c504fb1a3c0fecbea99bb46ad0ae77c0638de"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/infra-private-wuji-delivery/merge-executed.json",
+      "sha256": "915ba6f2c5b5be02de6875ae2af64b8a5323ede8bcb30a4057663c7f4e8e4576"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/infra-private-wuji-delivery/pr-final-readback.json",
+      "sha256": "488c77aa19be17b497aff5649a7c825b0ae95c42a56a29710d63206f9c46258c"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/infra-private-wuji-delivery/authorized-premerge-readback.json",
+      "sha256": "d7892a672a79490e03329fcc5b4ca91ceffac37f694f83264c3c7ec81cf504eb"
+    }
+  ],
+  "qualification": {
+    "source_transfer_manifest_status": "external_proposal_not_applied is stale planning metadata; actual source objects and authenticated merge receipt establish subsequent delivery",
+    "proof_head": "8b7494642c423d024c79bef5b4d493eaee126f63",
+    "offline_tests_passed": 3,
+    "offline_tests_failed": 0,
+    "cases": [
+      "Original private-network template contract",
+      "Original offline private-Wuji recovery fixture with positive preflights and negative public-IP/ingress/TTL boundaries",
+      "Explicit Runtime root refusal and preserved exact semantic-test argv through mocked subprocess only"
+    ],
+    "real_runtime_semantic_test_run": false,
+    "live_aws_or_model_run": false,
+    "independent_native_review_receipt": "review-counted.json",
+    "ci": "authorized-premerge-readback.json records four completed SUCCESS checks at exact source head",
+    "stale_readback_limit": "pr-final-readback.json is earlier: draft and slow check in progress. Do not use it as four-green or postmerge evidence."
+  },
+  "source_contract": {
+    "unchanged_paths": [
+      "adl/tools/issue194_model_health_command.py",
+      "adl/tools/issue194_private_network.cloudformation.json",
+      "adl/tools/test_private_wuji_aws_recovery_qualification.sh"
+    ],
+    "runner_change": "Documentation plus required absolute ADL_RUNTIME_SOURCE_ROOT containing adl-runtime/Cargo.toml; canonicalizes runtime root/log path. Original semantic argv, timeout and success marker preserved.",
+    "runtime_obligation": "Genuine distributed_runtime_transport::three_secure_voters_commit_with_two_halt_with_one_and_restart_snapshot_state with internal-test-fixtures remains separate and unrun.",
+    "live_obligation": "Authentic Wuji recovery, mesh, two-voter model health and AWS resource/cost/cleanup acceptance remain unrun."
+  },
+  "remaining_adl_caller_obligations": [
+    {
+      "paths": [
+        "adl/tools/test_private_wuji_aws_recovery_qualification.sh"
+      ],
+      "obligation": "Still directly invokes ADL-local runner at lines212/222/241/255/277/330/340. Transfer/rebind whole fixture family or explicitly preserve historical local source; owner delivery alone does not close these calls."
+    },
+    {
+      "paths": [
+        "adl/tools/issue194_private_wuji_aws_runner.sh"
+      ],
+      "obligation": "Still locally references template at line10 and model-health generator at line1056; remove/transfer as a coherent family only."
+    },
+    {
+      "paths": [
+        "adl/tools/test_issue194_private_network_template.sh"
+      ],
+      "obligation": "Retained direct template reader at line5 needs owner routing or explicit historical disposition alongside1411; it is outside the four-row scope."
+    },
+    {
+      "paths": [
+        "infra/runtime-portable/runtime-workload-contract.v1.json"
+      ],
+      "obligation": "Source field line8 names ADL-local CloudFormation template. Coordinate typed portable workload/rollback contract before deletion."
+    },
+    {
+      "paths": [
+        "docs/milestones/v0.92.1/evidence/cloud/aws-g/validate-aws-g-cloudformation-retirement.sh",
+        "docs/milestones/v0.92.1/evidence/cloud/xcl-01/validate-xcl-01-cross-cloud-runtime-terraform.sh"
+      ],
+      "obligation": "Historical executable validators require template file and path references (aws-g28/32/52; xcl-0161/64). Preserve immutable historical assertions or explicitly classify/rehome dependencies; do not silently break."
+    },
+    {
+      "paths": [
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ],
+      "obligation": "Still advertises model generator/template/runner/template-test/recovery-test at lines226-228/488/521. Regenerate or classify current owner navigation when coherent source disposition applied."
+    },
+    {
+      "paths": [
+        ".csdlc/issues/194/",
+        "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
+        "docs/reviews/v0.92/internal-review-5846/specialist_assignments.json"
+      ],
+      "obligation": "Historical issue/planning/review references are retained evidence, not authorization for live ADL-local execution or assertions of new acceptance."
+    }
+  ],
+  "caller_scan_scope": "Direct literal references across ADL tools/config, infra, .github, tools and docs plus issue194 history; no complete dynamic caller proof.",
+  "disposition": "Conditional owner transfer supported for four rows. Keep ADL source until coupled direct caller/document/rollback obligations receive explicit coherent disposition; no new deletion approved here.",
+  "execution_authorized": false,
+  "limits": [
+    "No tests, builds, network fetch, provider or cloud execution in this review.",
+    "No ledger edits or Runtime implementation.",
+    "Source delivery, offline qualification, CI, native finish and consumer closure remain distinct."
+  ]
+}

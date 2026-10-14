@@ -1,0 +1,217 @@
+{
+  "schema": "adl1223.adl_caller_contract_repairs.v1",
+  "source_edits": [
+    "adl/tools/test_check_issue_metadata_parity.sh",
+    "adl/tools/test_cli_owner_command_guidance.sh",
+    "adl/tools/test_closeout_completed_issue_wave.sh",
+    "adl/tools/fix_git_main_sync_preserve_local_adl.sh",
+    "adl/tools/test_wp17a_demo_follow_ons.sh"
+  ],
+  "original_batch": [
+    {
+      "id": "RD07-1923",
+      "path": "adl/tools/test_check_issue_metadata_parity.sh",
+      "source_sha256": "1a4b55aede9ae8957e25a4fed1d217bf1acb7edf73448012a92791ec797b515a",
+      "argv": [
+        "bash",
+        "/Volumes/FastWork/adl-worktrees/adl-issue-1223-1223-coherent-source-retirement/adl/tools/test_check_issue_metadata_parity.sh"
+      ],
+      "exit_code": 1,
+      "seconds": 0.012457166012609378
+    },
+    {
+      "id": "RD07-1924",
+      "path": "adl/tools/test_check_milestone_closed_issue_sor_truth.sh",
+      "source_sha256": "2565ae16740ff6cd067de01a938fbf6ccaaf105930e3e5f4c299a8d78fa53900",
+      "argv": [
+        "bash",
+        "/Volumes/FastWork/adl-worktrees/adl-issue-1223-1223-coherent-source-retirement/adl/tools/test_check_milestone_closed_issue_sor_truth.sh"
+      ],
+      "exit_code": 0,
+      "seconds": 0.0187614579917863
+    },
+    {
+      "id": "RD07-1931",
+      "path": "adl/tools/test_cli_owner_command_guidance.sh",
+      "source_sha256": "27b7343754c8de680a7d248eb370f6fbd974f7122006f92b3afcf078e98ede2c",
+      "argv": [
+        "bash",
+        "/Volumes/FastWork/adl-worktrees/adl-issue-1223-1223-coherent-source-retirement/adl/tools/test_cli_owner_command_guidance.sh"
+      ],
+      "exit_code": 0,
+      "seconds": 0.24021712499961723
+    },
+    {
+      "id": "RD07-1933",
+      "path": "adl/tools/test_closeout_completed_issue_wave.sh",
+      "source_sha256": "80117a34351fdebc8f18c9915df6d5125b1bd57b199e3f54109bc5d1a59bf5d9",
+      "argv": [
+        "bash",
+        "/Volumes/FastWork/adl-worktrees/adl-issue-1223-1223-coherent-source-retirement/adl/tools/test_closeout_completed_issue_wave.sh"
+      ],
+      "exit_code": 0,
+      "seconds": 0.02452554200135637
+    },
+    {
+      "id": "RD07-1997",
+      "path": "adl/tools/test_editor_action.sh",
+      "source_sha256": "1e45c9e395faceb67bf63e9c15c6e19771c2c66cf2e5a002e303889417d20784",
+      "argv": [
+        "bash",
+        "/Volumes/FastWork/adl-worktrees/adl-issue-1223-1223-coherent-source-retirement/adl/tools/test_editor_action.sh"
+      ],
+      "exit_code": 0,
+      "seconds": 0.04681429101037793
+    },
+    {
+      "id": "RD07-2027",
+      "path": "adl/tools/test_issue_lifecycle_shepherd_contract.sh",
+      "source_sha256": "3a39a6c8cf88a3948e8de394fefe56b2b5fbc2f320423849a339a1b9380a1071",
+      "argv": [
+        "bash",
+        "/Volumes/FastWork/adl-worktrees/adl-issue-1223-1223-coherent-source-retirement/adl/tools/test_issue_lifecycle_shepherd_contract.sh"
+      ],
+      "exit_code": 1,
+      "seconds": 0.07170741600566544
+    },
+    {
+      "id": "RD07-2054",
+      "path": "adl/tools/test_prompt_template_structure_schemas.py",
+      "source_sha256": "0cee0c6a806b57102ab761993d6aee1bf0c4cb48f4dd1b421bd74bda419caca9",
+      "argv": [
+        "python3",
+        "-B",
+        "/Volumes/FastWork/adl-worktrees/adl-issue-1223-1223-coherent-source-retirement/adl/tools/test_prompt_template_structure_schemas.py"
+      ],
+      "exit_code": 0,
+      "seconds": 0.04845120800018776
+    }
+  ],
+  "repaired_batch": [
+    {
+      "id": "RD07-1923",
+      "path": "adl/tools/test_check_issue_metadata_parity.sh",
+      "source_sha256": "177fb97b6d13ea5abc3965bd2d02fda8d8138fda3d6dbb017cfed5e9b29ebe2e",
+      "exit_code": 0,
+      "seconds": 0.012754707990097813
+    },
+    {
+      "id": "RD07-1931",
+      "path": "adl/tools/test_cli_owner_command_guidance.sh",
+      "source_sha256": "8feed5f187a3a574e91d2e358d0eae8384b1e06c93fac2d551d6b5bf1f8d7c75",
+      "exit_code": 0,
+      "seconds": 0.23986141600471456
+    },
+    {
+      "id": "RD07-1933",
+      "path": "adl/tools/test_closeout_completed_issue_wave.sh",
+      "source_sha256": "2ba380e968185269dc604f0dca74628feb98620c2a78cd29d1ac049fbd650616",
+      "exit_code": 0,
+      "seconds": 0.024509916998795234
+    }
+  ],
+  "evidence": [
+    {
+      "path": "/Volumes/FastWork/c1223/adl-caller-contracts-original-r1/RESULT.json",
+      "sha256": "b6c7c4acab8c80ff56c81609f374c627c85560a8154ecdaf99a53d52b7435ede"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/adl-caller-contracts-repaired-r1/RESULT.json",
+      "sha256": "98f15b4591e09b802722a590d5ce268187fc21361ba313524e5d7f6dde124a72"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/adl-caller-contracts-repaired-r1/ROOT_REVIEW.json",
+      "sha256": "349be3ab9aa81a6cb6a6a12a64efb283ef1b112d88d1b274af4f0072c8fd0f02"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/guardrail-followon-repair/RESULT.json",
+      "sha256": "f78125aabe85c299bdcb341c210dbf04f3c29baf01abf168e2b7fb9d79728b9e"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/guardrail-followon-repair/consumer.patch",
+      "sha256": "2c509603ee280669d60dc277dd34f7f96da0867194c970ef1c13b88f2fba8a27"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/guardrail-followon-repair/WORKERBEE18_REVIEW.json",
+      "sha256": "000adb84ce823a0d955df4642e456d4e9bf240c20f89c6137d3253a496280423"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/adl-caller-contracts-original-r1/1923.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/adl-caller-contracts-original-r1/1923.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/adl-caller-contracts-original-r1/1924.stdout",
+      "sha256": "b9289bce33609963564712652d989053c20704880db0d761d0f2f55d389e3d51"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/adl-caller-contracts-original-r1/1924.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/adl-caller-contracts-original-r1/1931.stdout",
+      "sha256": "7d6594d6de397c4547e22d5c513f9d7c60ab05176f8dc49402d80a7531c6cf93"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/adl-caller-contracts-original-r1/1931.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/adl-caller-contracts-original-r1/1933.stdout",
+      "sha256": "e99563b0e8dca2c85fc78e6b853ebda9ba27d3ab3e116ac91369f562e65021a4"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/adl-caller-contracts-original-r1/1933.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/adl-caller-contracts-original-r1/1997.stdout",
+      "sha256": "aa0e75f0e84614317911e2a72cbc6cb687e7c87ed8be223c131420c7e592cdb7"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/adl-caller-contracts-original-r1/1997.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/adl-caller-contracts-original-r1/2027.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/adl-caller-contracts-original-r1/2027.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/adl-caller-contracts-original-r1/2054.stdout",
+      "sha256": "f607d824d799839c48e240a149338b73047ccf6baf6c6708e41dd5f606796030"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/adl-caller-contracts-original-r1/2054.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "guardrail": "Five original assertions preserved; explicit typed argv/output and exit37 checked through transparent double. All three adopted files match tested bytes.",
+  "historical_shepherd": "RD07-2027 remains failed: current default workflow no longer links old Shepherd contract. Do not restore a stale active link just to pass.",
+  "final_consumer_closure": {
+    "RD07-1923": [
+      "RD07-1594 operational skills guide remains proposed removal"
+    ],
+    "RD07-1931": [
+      "CLI guidance scanner requires surfaces pending final retirement including private CLI sources"
+    ],
+    "RD07-1933": [
+      "RD07-1394 main-sync utility remains proposed removal"
+    ],
+    "RD07-1997": [
+      "RD07-1388 editor_action remains proposed removal"
+    ]
+  },
+  "retained_rows": [
+    "RD07-1924",
+    "RD07-2054",
+    "RD07-2166"
+  ],
+  "boundary": "Passing current source tests is not final caller closure. Four other tested rows remain held pending producer decisions. No main-sync operation, real native call, product build or source removal."
+}

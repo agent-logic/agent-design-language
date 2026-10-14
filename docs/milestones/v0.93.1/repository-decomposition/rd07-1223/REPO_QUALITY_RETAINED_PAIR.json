@@ -1,0 +1,97 @@
+{
+  "schema": "adl1223.repo_quality_public_retention.v1",
+  "status": "proposed_records_only_no_source_edits",
+  "source_head": "48d6993e20bd9bef0d81d4a08d8d8a64026671a8",
+  "rows": [
+    {
+      "original_row": {
+        "id": "RD07-1274",
+        "path": "adl/tools/check_repo_quality_staleness.py",
+        "owner": "cognitive-sdlc",
+        "component": "cognitive-sdlc-mapped-tools",
+        "current_identity": {
+          "mode": "100644",
+          "blob": "ca3514f8d0fa010284b641d82fa2edc957704729"
+        },
+        "existing_action": "retain",
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ],
+        "successor_mapping": {
+          "mapping": "exact_successor",
+          "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+          "exact_successor_paths": [
+            "docs/skill-distributions/original-contracts/original/adl/tools/check_repo_quality_staleness.py"
+          ]
+        }
+      },
+      "current_identity": {
+        "mode": "100644",
+        "blob": "ca3514f8d0fa010284b641d82fa2edc957704729",
+        "sha256": "b328e676004f22920bd544e35956d75c8a7ca989178f025f7d27826ec4b1f554"
+      },
+      "proposed_action": "retain_resolved",
+      "reason": "Retained ADL repository-quality auditor and its unchanged original fixture contract. CLI --repo-root/--milestone and planned/active/release modes inspect ADL root README/CHANGELOG, public milestone document links and tracked junk through Git; no private product source or owner binary dependency. Current adl/tools/README.md advertises this local audit; keeping paired test preserves positive modes and stale README/CHANGELOG/tracked-junk refusal assertions."
+    },
+    {
+      "original_row": {
+        "id": "RD07-1926",
+        "path": "adl/tools/test_check_repo_quality_staleness.sh",
+        "owner": "cognitive-sdlc",
+        "component": "cognitive-sdlc-mapped-tools",
+        "current_identity": {
+          "mode": "100644",
+          "blob": "2467f6a6df2ad97f7302aac7437997a3b017ff4d"
+        },
+        "existing_action": "retain",
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ],
+        "successor_mapping": {
+          "mapping": "exact_successor",
+          "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+          "exact_successor_paths": [
+            "docs/skill-distributions/active-lifecycle/original-v1/adl/tools/test_check_repo_quality_staleness.sh",
+            "docs/skill-distributions/original-contracts/original/adl/tools/test_check_repo_quality_staleness.sh"
+          ]
+        }
+      },
+      "current_identity": {
+        "mode": "100644",
+        "blob": "2467f6a6df2ad97f7302aac7437997a3b017ff4d",
+        "sha256": "a433216b2454acfe60e0a5964ee1acbd9f8fb42c077e2282b830ee6490b87714"
+      },
+      "proposed_action": "retain_resolved",
+      "reason": "Retained ADL repository-quality auditor and its unchanged original fixture contract. CLI --repo-root/--milestone and planned/active/release modes inspect ADL root README/CHANGELOG, public milestone document links and tracked junk through Git; no private product source or owner binary dependency. Current adl/tools/README.md advertises this local audit; keeping paired test preserves positive modes and stale README/CHANGELOG/tracked-junk refusal assertions."
+    }
+  ],
+  "evidence": [
+    {
+      "path": "adl/tools/README.md",
+      "sha256": "934d95ce908e33a5d27f713711bd4888ea2b4f24595d4eb991132ecd370edc74"
+    },
+    {
+      "path": "adl/tools/check_repo_quality_staleness.py",
+      "sha256": "b328e676004f22920bd544e35956d75c8a7ca989178f025f7d27826ec4b1f554"
+    },
+    {
+      "path": "adl/tools/test_check_repo_quality_staleness.sh",
+      "sha256": "a433216b2454acfe60e0a5964ee1acbd9f8fb42c077e2282b830ee6490b87714"
+    }
+  ],
+  "caller_evidence": [
+    "adl/tools/README.md:31 names public repository/milestone audit; line118 local invocation.",
+    "test_check_repo_quality_staleness.sh invokes producer9times: six positive mode/layout observations and three negative exits. Original test fixture creates its own Git repository, no lifecycle authority."
+  ],
+  "limits": [
+    "No new test execution or current milestone health claim.",
+    "No source removal or original inventory identity change.",
+    "Source may also exist in owner archives; that does not eliminate current ADL repository-quality purpose."
+  ]
+}

@@ -103,9 +103,9 @@ The validator must not:
 - accept out-of-order turns
 - validate broad runtime behavior outside the transcript contract
 
-## Canonical Validation Command
+## Historical Validation Command
 
-From repository root:
+The local ADL provider demos and validator are retired. The [original validator source](https://github.com/agent-logic/cognitive-sdlc/blob/d316340c212800ff523f957b1bf290db68d8efad/adl/tools/validate_multi_agent_transcript.py) remains with its owner; this preserves the transcript contract without claiming current provider or installed acceptance. The original ADL command was:
 
 ```bash
 python3 adl/tools/validate_multi_agent_transcript.py \

@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Original v2 command/Gate2/Gate4 assertions retain their independent owner/historical
+# dispositions. This script proves local wrapper absence/schema guards only.
+
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 [[ ! -e "$ROOT/adl/tools/validate_structured_prompt.sh" ]] || {
   echo "retired structured-prompt wrapper unexpectedly exists" >&2
   exit 1
 }
-cargo run --quiet --locked --manifest-path "$ROOT/csdlc-v2/Cargo.toml" --bin csdlc-validate -- --help >/dev/null
-echo "PASS: completed-output validation is owned by typed csdlc-validate"
+echo "PASS: retained local wrapper absence/schema guards only; no native edit, validation, or lifecycle equivalence claimed"

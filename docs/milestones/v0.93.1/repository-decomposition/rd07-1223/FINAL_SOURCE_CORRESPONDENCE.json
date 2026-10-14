@@ -1,0 +1,805 @@
+{
+  "qualified_source": "ad8204be76528a2c13ffabf5ee1e2672df475c8b",
+  "composed_source": "2095d3707487cfd8e5a9239691cea96f6f4a31a3",
+  "changed_paths": [
+    "adl/src/cli/run.rs",
+    "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/ORPHAN_PRIVATE_RUN_ONE_APPLIED.json"
+  ],
+  "unchanged_public_input_count": 185,
+  "unchanged_public_inputs": {
+    "adl-legacy-contracts/Cargo.lock": [
+      "100644",
+      "925e34b9bcfc3eddf51240d48cc4191921762794"
+    ],
+    "adl-legacy-contracts/Cargo.toml": [
+      "100644",
+      "4bf2f18f5c0b177786446645082391c3444a5638"
+    ],
+    "adl-legacy-contracts/LICENSE": [
+      "100644",
+      "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64"
+    ],
+    "adl-legacy-contracts/README.md": [
+      "100644",
+      "7ffdb5c3455dd556da8c124fdfbd6d38c87cce00"
+    ],
+    "adl-legacy-contracts/fixtures/ct_demo_001_evidence_bundle.md": [
+      "100644",
+      "dfa71ce581ce6618926323221d56849c082a97c7"
+    ],
+    "adl-legacy-contracts/fixtures/ct_demo_001_merge_gate.md": [
+      "100644",
+      "e1f1f20687af40761c35888050c70ad959f366ab"
+    ],
+    "adl-legacy-contracts/fixtures/ct_demo_001_obsmem_handoff.json": [
+      "100644",
+      "83f1a9daf344c88609fe599985d24decd997f689"
+    ],
+    "adl-legacy-contracts/fixtures/ct_demo_001_obsmem_handoff.md": [
+      "100644",
+      "5bdecac190e2f2219d393d808ce7c170811f7c61"
+    ],
+    "adl-legacy-contracts/fixtures/ct_demo_001_review_synthesis.md": [
+      "100644",
+      "b57fd93ddf0ee7d4050cf475417acb1c80805f5e"
+    ],
+    "adl-legacy-contracts/fixtures/ct_demo_001_shard_plan.md": [
+      "100644",
+      "f02843b34077726c860fc651c4b3a2934b35e6b5"
+    ],
+    "adl-legacy-contracts/fixtures/ct_demo_001_transition_dag.md": [
+      "100644",
+      "c2ec5e0d83629532c1994956a6c32f4c4b7a87d3"
+    ],
+    "adl-legacy-contracts/schemas/adl.schema.json": [
+      "100644",
+      "e52ded5c2b7f94b6684bb33d722af203f4ae6782"
+    ],
+    "adl-legacy-contracts/src/adl.rs": [
+      "100644",
+      "c2cb21894d1edbdee4685061b23d49d96128c1b0"
+    ],
+    "adl-legacy-contracts/src/adl/loading.rs": [
+      "100644",
+      "98a8c00ecd329c0266185ea802d82030a5354972"
+    ],
+    "adl-legacy-contracts/src/adl/tests.rs": [
+      "100644",
+      "277da4ec05096455621a1e526d612b9ec8245317"
+    ],
+    "adl-legacy-contracts/src/adl/types.rs": [
+      "100644",
+      "c74c89aa5b1b7f5629792029abbd3fccc0eb916a"
+    ],
+    "adl-legacy-contracts/src/adl/validation.rs": [
+      "100644",
+      "5ec5c92c7b391067335802ddf59e2f10c3263f9b"
+    ],
+    "adl-legacy-contracts/src/cognitive_transition_schema.rs": [
+      "100644",
+      "5878b7a6adf25f263cc87e90d984fc6f16d194f5"
+    ],
+    "adl-legacy-contracts/src/execution_plan.rs": [
+      "100644",
+      "9b6ecfcfc5b9ece81fdf3883d0966f13a960022d"
+    ],
+    "adl-legacy-contracts/src/lib.rs": [
+      "100644",
+      "242b54f1123687499ae33b6bc4b5c769792b5fcb"
+    ],
+    "adl-legacy-contracts/src/plan.rs": [
+      "100644",
+      "038e0a012d2c7a1b451ad4be3192a0d6c331a893"
+    ],
+    "adl-legacy-contracts/src/prompt.rs": [
+      "100644",
+      "dbfcdd7d4e25eec88dc0b560e9ea26411a105d68"
+    ],
+    "adl-legacy-contracts/src/resolve.rs": [
+      "100644",
+      "174203bdb4748309f926e4f58952b563b3f00b7f"
+    ],
+    "adl-legacy-contracts/src/schema.rs": [
+      "100644",
+      "0c3089b038a89cd2f9ae913d53aa3c488ffd26c9"
+    ],
+    "adl-legacy-contracts/src/trace_schema_v1.rs": [
+      "100644",
+      "b57f701aa52fa2c6aa9269af282d9788d2894d77"
+    ],
+    "adl-legacy-contracts/tests/retained_contract_edges.rs": [
+      "100644",
+      "dae0c4ced0083b28579cc629779804d1ddb2fbba"
+    ],
+    "adl-schema/Cargo.lock": [
+      "100644",
+      "9c122d48143a09f82fd9c1be65066ffdb9d682be"
+    ],
+    "adl-schema/Cargo.toml": [
+      "100644",
+      "a0bddb4a83e01f1bed3bc68ac97be10cffb798bd"
+    ],
+    "adl-schema/LICENSE": [
+      "100644",
+      "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64"
+    ],
+    "adl-schema/README.md": [
+      "100644",
+      "1f97d89da3309ccbc65234947e49581e7d60cbc0"
+    ],
+    "adl-schema/src/lib.rs": [
+      "100644",
+      "54f5711da65c3fa2f404c8c4ae348a59f48fb079"
+    ],
+    "adl-schema/src/model_identity.rs": [
+      "100644",
+      "920dae230248e0e3dbe42f5838e8403e9314f7d6"
+    ],
+    "adl-schema/src/provider.rs": [
+      "100644",
+      "36aad1b88e24ed49530ed041562bb78e7cb1572b"
+    ],
+    "adl-schema/src/syntax.rs": [
+      "100644",
+      "377e95091ce13ec492554b832af59f7746437548"
+    ],
+    "adl-schema/tests/declaration_contract.rs": [
+      "100644",
+      "7619b8dcd26415422d6c052b699a20d7300628da"
+    ],
+    "adl-uts/Cargo.lock": [
+      "100644",
+      "cc949b2e36364d19ce0de959ab81f1e0fce3efdf"
+    ],
+    "adl-uts/Cargo.toml": [
+      "100644",
+      "3675186158dc17c8890732c180e566913da139ea"
+    ],
+    "adl-uts/LICENSE": [
+      "100644",
+      "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64"
+    ],
+    "adl-uts/README.md": [
+      "100644",
+      "0196b7f22ef598a7c8f1164b1c6e9f91199753d0"
+    ],
+    "adl-uts/fixtures/uts-conformance-report.json": [
+      "100644",
+      "c4c5df533f3fec61305739c738f291bcb8c3e17e"
+    ],
+    "adl-uts/schemas/examples/readonly.v1.json": [
+      "100644",
+      "6a305217e5067b01a14fe117c480755d660a6c8b"
+    ],
+    "adl-uts/schemas/v1.0/universal_tool_schema.v1.schema.json": [
+      "100644",
+      "5a29d49d5ae8cf8d18b5ba4d909946032b7e5845"
+    ],
+    "adl-uts/schemas/v1.1/tool_invocation.v1_1.schema.json": [
+      "100644",
+      "b8eea84cfcbbfa059aa0b51815f245fb02af83fa"
+    ],
+    "adl-uts/schemas/v1.1/universal_tool_schema.v1_1.schema.json": [
+      "100644",
+      "c4622d299c11dcd87949881d00e21f4292583e52"
+    ],
+    "adl-uts/src/conformance.rs": [
+      "100644",
+      "d23f734c5ceb0b08ebc3fb703ee8003c50f8d224"
+    ],
+    "adl-uts/src/lib.rs": [
+      "100644",
+      "ffb39c63b6424d85ae9c4dfdb0223529fbea1c85"
+    ],
+    "adl-uts/tools/test_ci_contract.rb": [
+      "100644",
+      "57b2a401f4c12a03b32bd06679777f23de489f51"
+    ],
+    "adl-uts/tools/verify_install.py": [
+      "100644",
+      "1afb438b487c9113464c82aceee29a285932ce6a"
+    ],
+    "adl-v2/Cargo.lock": [
+      "100644",
+      "c1f8cb82f2bee0196fe62b88354efa03d52b75a0"
+    ],
+    "adl-v2/Cargo.toml": [
+      "100644",
+      "5992378030c2801a91197d6c93ed9081a58b5b3a"
+    ],
+    "adl-v2/crates/adl-compiler/CHARACTERIZATION_PARITY.md": [
+      "100644",
+      "41b0722c013508a294808f8b53e72f510de59354"
+    ],
+    "adl-v2/crates/adl-compiler/Cargo.lock": [
+      "100644",
+      "41ee892bbd21982e9c04b0f7e7260d58f0ab0283"
+    ],
+    "adl-v2/crates/adl-compiler/Cargo.toml": [
+      "100644",
+      "9f7dd83edeed4d1683b4f4991bd330aac78dfcdd"
+    ],
+    "adl-v2/crates/adl-compiler/LICENSE": [
+      "100644",
+      "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64"
+    ],
+    "adl-v2/crates/adl-compiler/README.md": [
+      "100644",
+      "d7b4928c7306b4ab5be9a3790d0372fbfc73f3f1"
+    ],
+    "adl-v2/crates/adl-compiler/fixtures/branch-a.adl.yaml": [
+      "100644",
+      "0129972c4846d456218d21585739ce577465aaa5"
+    ],
+    "adl-v2/crates/adl-compiler/fixtures/branch-b.adl.yaml": [
+      "100644",
+      "245132fa39ab8141d05f8dd69ca0b30b87a9f2c6"
+    ],
+    "adl-v2/crates/adl-compiler/fixtures/cycle.adl.yaml": [
+      "100644",
+      "81e2aecb82fd1f511da1b4ee79cf194f8fb31522"
+    ],
+    "adl-v2/crates/adl-compiler/fixtures/fork-join.adl.yaml": [
+      "100644",
+      "c9a23f8f035c3768d592250371ae4f1fd6c90c85"
+    ],
+    "adl-v2/crates/adl-compiler/fixtures/malformed.adl.yaml": [
+      "100644",
+      "6409a6b451c50d287a525b8683316dc049d226a8"
+    ],
+    "adl-v2/crates/adl-compiler/fixtures/map-a.adl.yaml": [
+      "100644",
+      "82116872642d0979282046ff9022cd8f951e654f"
+    ],
+    "adl-v2/crates/adl-compiler/fixtures/map-b.adl.yaml": [
+      "100644",
+      "09766a5412902dd366c36a81aea839caf7fe8829"
+    ],
+    "adl-v2/crates/adl-compiler/fixtures/mock-run.adl.yaml": [
+      "100644",
+      "be2ec3effe106c4edac4b9e6d78170634c5278bd"
+    ],
+    "adl-v2/crates/adl-compiler/fixtures/schema-unknown.adl.yaml": [
+      "100644",
+      "013453ae6204582a2fbfa29af0dbe89c1fe42f5a"
+    ],
+    "adl-v2/crates/adl-compiler/fixtures/sequential-a.adl.yaml": [
+      "100644",
+      "7e713d04b09a526c0e58c8666fc31a8e3b1fdb26"
+    ],
+    "adl-v2/crates/adl-compiler/fixtures/sequential-b.adl.yaml": [
+      "100644",
+      "2d8213a7bcee6da492421230325458a6e8201131"
+    ],
+    "adl-v2/crates/adl-compiler/fixtures/six-primitives.adl.yaml": [
+      "100644",
+      "7c3a66ae2b6ad2d1dc60938bd9d24f06f7e71ff2"
+    ],
+    "adl-v2/crates/adl-compiler/fixtures/state-missing.adl.yaml": [
+      "100644",
+      "e88c5989f58155e1d6691ce81a4d3b3e17f6c66f"
+    ],
+    "adl-v2/crates/adl-compiler/fixtures/unknown-agent.adl.yaml": [
+      "100644",
+      "bf0746430056fd1bb0fbe96f3b973b11e28a95da"
+    ],
+    "adl-v2/crates/adl-compiler/fixtures/unknown-provider.adl.yaml": [
+      "100644",
+      "92391da32ccf0d38ae29152cf92d681433866bcf"
+    ],
+    "adl-v2/crates/adl-compiler/fixtures/unknown-task.adl.yaml": [
+      "100644",
+      "503c0b32271158d8b0e9eca50770bb08438aa67b"
+    ],
+    "adl-v2/crates/adl-compiler/fixtures/unknown-tool.adl.yaml": [
+      "100644",
+      "5878245a69a6dbd81382e3c8c2fdc49549c45058"
+    ],
+    "adl-v2/crates/adl-compiler/fixtures/unknown-workflow.adl.yaml": [
+      "100644",
+      "17137a5e644bd4ebfbeef37b81261db5f9ddd548"
+    ],
+    "adl-v2/crates/adl-compiler/fixtures/unsupported-run-field.adl.yaml": [
+      "100644",
+      "6e9dd0fe45615b77ba9558b5820962b20e509763"
+    ],
+    "adl-v2/crates/adl-compiler/src/lib.rs": [
+      "100644",
+      "54bb58ec38787667d76e1879545a4e6e2f0dcf50"
+    ],
+    "adl-v2/crates/adl-compiler/tests/characterization_parity.rs": [
+      "100644",
+      "eb6a2b3cda9d028d0e3290fbe60c89be05474f4f"
+    ],
+    "adl-v2/crates/adl-compiler/tests/common/mod.rs": [
+      "100644",
+      "2415afee93c3e6f383f8da2d65dddd8a6478a97a"
+    ],
+    "adl-v2/crates/adl-compiler/tests/deterministic_replay.rs": [
+      "100644",
+      "16c0846c3b5c26073d6ee54e41c515c7184e89ef"
+    ],
+    "adl-v2/crates/adl-compiler/tests/limits_and_diagnostics.rs": [
+      "100644",
+      "ff8631b5067a771f9d4bdcfbb1e9afdb94f44553"
+    ],
+    "adl-v2/crates/adl-compiler/tests/stable_identity.rs": [
+      "100644",
+      "92b2e469e508cb54db26902e71f81ecbfe2f8535"
+    ],
+    "adl-v2/crates/adl-language/CHARACTERIZATION_PARITY.md": [
+      "100644",
+      "3ce377f080f26ff491531e56d27017fbb3b419a7"
+    ],
+    "adl-v2/crates/adl-language/Cargo.lock": [
+      "100644",
+      "a95f9a34d7753c33f3434dcc27cbeb5b54395a10"
+    ],
+    "adl-v2/crates/adl-language/Cargo.toml": [
+      "100644",
+      "5fd689f36bcbfffdff953222dc6ca2d597e6bfa5"
+    ],
+    "adl-v2/crates/adl-language/LICENSE": [
+      "100644",
+      "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64"
+    ],
+    "adl-v2/crates/adl-language/README.md": [
+      "100644",
+      "63e4443dea9aabb0708a8b51de95540aeaf20703"
+    ],
+    "adl-v2/crates/adl-language/examples/generate_schema.rs": [
+      "100644",
+      "b63bab7b77295141c54f94eb5b9b3b6608ff0ed9"
+    ],
+    "adl-v2/crates/adl-language/fixtures/branch-a.adl.yaml": [
+      "100644",
+      "0129972c4846d456218d21585739ce577465aaa5"
+    ],
+    "adl-v2/crates/adl-language/fixtures/branch-b.adl.yaml": [
+      "100644",
+      "245132fa39ab8141d05f8dd69ca0b30b87a9f2c6"
+    ],
+    "adl-v2/crates/adl-language/fixtures/cycle.adl.yaml": [
+      "100644",
+      "81e2aecb82fd1f511da1b4ee79cf194f8fb31522"
+    ],
+    "adl-v2/crates/adl-language/fixtures/fork-join.adl.yaml": [
+      "100644",
+      "c9a23f8f035c3768d592250371ae4f1fd6c90c85"
+    ],
+    "adl-v2/crates/adl-language/fixtures/malformed.adl.yaml": [
+      "100644",
+      "6409a6b451c50d287a525b8683316dc049d226a8"
+    ],
+    "adl-v2/crates/adl-language/fixtures/map-a.adl.yaml": [
+      "100644",
+      "82116872642d0979282046ff9022cd8f951e654f"
+    ],
+    "adl-v2/crates/adl-language/fixtures/map-b.adl.yaml": [
+      "100644",
+      "09766a5412902dd366c36a81aea839caf7fe8829"
+    ],
+    "adl-v2/crates/adl-language/fixtures/mock-run.adl.yaml": [
+      "100644",
+      "be2ec3effe106c4edac4b9e6d78170634c5278bd"
+    ],
+    "adl-v2/crates/adl-language/fixtures/schema-unknown.adl.yaml": [
+      "100644",
+      "013453ae6204582a2fbfa29af0dbe89c1fe42f5a"
+    ],
+    "adl-v2/crates/adl-language/fixtures/sequential-a.adl.yaml": [
+      "100644",
+      "7e713d04b09a526c0e58c8666fc31a8e3b1fdb26"
+    ],
+    "adl-v2/crates/adl-language/fixtures/sequential-b.adl.yaml": [
+      "100644",
+      "2d8213a7bcee6da492421230325458a6e8201131"
+    ],
+    "adl-v2/crates/adl-language/fixtures/six-primitives.adl.yaml": [
+      "100644",
+      "7c3a66ae2b6ad2d1dc60938bd9d24f06f7e71ff2"
+    ],
+    "adl-v2/crates/adl-language/fixtures/state-missing.adl.yaml": [
+      "100644",
+      "e88c5989f58155e1d6691ce81a4d3b3e17f6c66f"
+    ],
+    "adl-v2/crates/adl-language/fixtures/unknown-agent.adl.yaml": [
+      "100644",
+      "bf0746430056fd1bb0fbe96f3b973b11e28a95da"
+    ],
+    "adl-v2/crates/adl-language/fixtures/unknown-provider.adl.yaml": [
+      "100644",
+      "92391da32ccf0d38ae29152cf92d681433866bcf"
+    ],
+    "adl-v2/crates/adl-language/fixtures/unknown-task.adl.yaml": [
+      "100644",
+      "503c0b32271158d8b0e9eca50770bb08438aa67b"
+    ],
+    "adl-v2/crates/adl-language/fixtures/unknown-tool.adl.yaml": [
+      "100644",
+      "5878245a69a6dbd81382e3c8c2fdc49549c45058"
+    ],
+    "adl-v2/crates/adl-language/fixtures/unknown-workflow.adl.yaml": [
+      "100644",
+      "17137a5e644bd4ebfbeef37b81261db5f9ddd548"
+    ],
+    "adl-v2/crates/adl-language/fixtures/unsupported-run-field.adl.yaml": [
+      "100644",
+      "6e9dd0fe45615b77ba9558b5820962b20e509763"
+    ],
+    "adl-v2/crates/adl-language/schema/adl-document.schema.json": [
+      "100644",
+      "390e7d2e271a657b09a7ce2f063dcebc25232778"
+    ],
+    "adl-v2/crates/adl-language/src/canonical.rs": [
+      "100644",
+      "b77da1fbc2268e420fc325cc6230ceb8c900809d"
+    ],
+    "adl-v2/crates/adl-language/src/diagnostic.rs": [
+      "100644",
+      "d7e9190b37aa21cefab6e8f5c783a0cbff341f72"
+    ],
+    "adl-v2/crates/adl-language/src/lib.rs": [
+      "100644",
+      "46fa6937ad2d1357688af777ffba3895899c5719"
+    ],
+    "adl-v2/crates/adl-language/src/model.rs": [
+      "100644",
+      "f73ed87455e9efd98e8681c9a98b5dc0ee2bfdc0"
+    ],
+    "adl-v2/crates/adl-language/src/parse.rs": [
+      "100644",
+      "9725c5c3f263675aaf5aeade814fa82efa0e993e"
+    ],
+    "adl-v2/crates/adl-language/src/validate.rs": [
+      "100644",
+      "39bf8658d21cc3b10d82bc8b1dc4ba783d1104cb"
+    ],
+    "adl-v2/crates/adl-language/tests/characterization_parity.rs": [
+      "100644",
+      "ce2003228b572d0adc682ea83e4049f4d4340783"
+    ],
+    "adl-v2/crates/adl-language/tests/language.rs": [
+      "100644",
+      "044d385e283ed016f7d9bbfad7a45975c912d7e2"
+    ],
+    "adl/Cargo.lock": [
+      "100644",
+      "3f989532f48fdfe88dbdacf8610c21e1ff4302fe"
+    ],
+    "adl/Cargo.toml": [
+      "100644",
+      "03766d115e8d7d285717731573710ff52159a2bd"
+    ],
+    "adl/src/bin/adl_process.rs": [
+      "100644",
+      "08a2a78fe9eea4090ccc3a25d9b896fbe5784828"
+    ],
+    "adl/src/cli/codefriend_owner.rs": [
+      "100644",
+      "9d21acce4c7ecda4683d78511fb98d02227519f4"
+    ],
+    "adl/src/cli/observability.rs": [
+      "100644",
+      "80f280007f6e62f0f7c12bed19f1aa3ee9a3c51f"
+    ],
+    "adl/src/cli/process_cmd.rs": [
+      "100644",
+      "203688a40e5c8f3ecdeeff893994a91cb66f9e5c"
+    ],
+    "adl/src/cli/process_cmd/args.rs": [
+      "100644",
+      "7849149e3a117947ba6fa2a3efb4137617736550"
+    ],
+    "adl/src/cli/public_dispatch.rs": [
+      "100644",
+      "ca1bc53db06de14e6e3da5fc8017508e1b41d36e"
+    ],
+    "adl/src/cli/public_workflow.rs": [
+      "100644",
+      "3b2ca82c4322af31c1e1578f1cbd7b8b24c2c708"
+    ],
+    "adl/src/cli/resume_args.rs": [
+      "100644",
+      "b2a609eafbdef4b389134aafea4c4badd5bc92cf"
+    ],
+    "adl/src/cli/runtime_owner.rs": [
+      "100644",
+      "417120da28c7b50c8562e6c71b1cc23c298406e2"
+    ],
+    "adl/src/cli/session_cmd.rs": [
+      "100644",
+      "fcae715847d7f4037368bfc9c7dd92d82f9fda85"
+    ],
+    "adl/src/cli/usage.rs": [
+      "100644",
+      "84b47c3a31b9f4b8fb9e4c2cee00d6623adc5167"
+    ],
+    "adl/src/cli/workflow_args.rs": [
+      "100644",
+      "78a6ebbc0dbe5ccfdce5e28c0cc40a827da64bca"
+    ],
+    "adl/src/cli/workflow_display.rs": [
+      "100644",
+      "50828cc3d3267fedc8334f6139a1a325ea834a6c"
+    ],
+    "adl/src/control_plane.rs": [
+      "100644",
+      "ace24a204f37de2bf2a1688b8c08ca39f73dca8e"
+    ],
+    "adl/src/lib.rs": [
+      "100644",
+      "73e00c2bb1d8f81a52eda36b9efcaa915ed3471d"
+    ],
+    "adl/src/main.rs": [
+      "100644",
+      "e3bc8d4ffd603fc1ce8dbb22037d7f200357e360"
+    ],
+    "adl/src/session_ledger.rs": [
+      "100644",
+      "cf64b10e1fd3a51cd269aea7a4b59f3eaee51064"
+    ],
+    "adl/tests/adl_tests.rs": [
+      "100644",
+      "5dea8d79544c2a4aed61c7a262dd67e6a2fe2c24"
+    ],
+    "adl/tests/cli_smoke/process_status.rs": [
+      "100644",
+      "812e1e6c5a4252b7c40e9765b52cf479b79d48c1"
+    ],
+    "adl/tests/fixtures/cli_smoke.adl.yaml": [
+      "100644",
+      "a536d6d8b24a6faef9c1b0119c769b512dc50cd6"
+    ],
+    "adl/tests/fixtures/scheduler/economics_inputs_v1.json": [
+      "100644",
+      "223d7157dc26842b4c865ac1e7aa124817983015"
+    ],
+    "adl/tests/fixtures/scheduler/local_agent_delegation_readiness_inputs_v1.json": [
+      "100644",
+      "84c80f55d623c058487cfb66840b3a821f9c8f49"
+    ],
+    "adl/tests/helpers.rs": [
+      "100644",
+      "a41e8756c3463ffe0b5fcdad3f3b9164b134f356"
+    ],
+    "adl/tests/issue_327_removed_tooling.rs": [
+      "100644",
+      "91abfeaf670075fbc54bdd2004e3f9674b2f4406"
+    ],
+    "adl/tests/public_observation.rs": [
+      "100644",
+      "44c8ba6e6842f044a4fafbc761118fcac7e96242"
+    ],
+    "adl/tests/public_process.rs": [
+      "100644",
+      "c6cea37f1acccf49fcc0524faf31e8766b0317ed"
+    ],
+    "adl/tests/resolve_tests.rs": [
+      "100644",
+      "b7ec6a42a1cb17f806e96a8125a21986a90c2aa9"
+    ],
+    "adl/tests/schema_tests.rs": [
+      "100644",
+      "940ae35fb4b819709c9d0afc3ea8c64381274060"
+    ],
+    "tools/public_adl/COVERAGE.md": [
+      "100644",
+      "85b44386d4619348953bddc4b84a91b27f0c2f0e"
+    ],
+    "tools/public_adl/ci_policy.py": [
+      "100644",
+      "5479c5222f03afdbc501e82c671f298c3978b8b8"
+    ],
+    "tools/public_adl/compare_resume_args.py": [
+      "100644",
+      "13c0676171d0e6e11aa778765734e220df6519cf"
+    ],
+    "tools/public_adl/compatibility-validator/Cargo.lock": [
+      "100644",
+      "608a623dc350b7690d5de1e942dca840ac851195"
+    ],
+    "tools/public_adl/compatibility-validator/Cargo.toml": [
+      "100644",
+      "183ceea08c7d80983655fb77d2093d3b48d987fa"
+    ],
+    "tools/public_adl/compatibility-validator/tests/full_contract.rs": [
+      "100644",
+      "1fab2c4f3e68eb8fb397f01e32c9d67a5976025c"
+    ],
+    "tools/public_adl/consumer.rs": [
+      "100644",
+      "4c38c886ecf8d082b4aa81c9b6881f4354cfebd1"
+    ],
+    "tools/public_adl/coverage.py": [
+      "100644",
+      "bf7f8a3f8782ad6180457277c65e1e2a5088b403"
+    ],
+    "tools/public_adl/coverage_inventory.json": [
+      "100644",
+      "663c80f2afde260badefff35a248681c8e5fd616"
+    ],
+    "tools/public_adl/run_ci.sh": [
+      "100755",
+      "d0fd8513b85ce6100303e811e243a8da4e070287"
+    ],
+    "tools/public_adl/run_cli_ci.sh": [
+      "100644",
+      "befb4b3f785e227b3aea445efc4a6b157f010e80"
+    ],
+    "tools/public_adl/test_action_pins.py": [
+      "100644",
+      "2dde981211b3aa5d3fa02e4f49a1ea723b36c6db"
+    ],
+    "tools/public_adl/test_ci_contract.py": [
+      "100755",
+      "0a8444d0f026b3800ee776957419817f0cba35f1"
+    ],
+    "tools/public_adl/test_ci_policy.py": [
+      "100644",
+      "9d355630522ddaaafb03d00758213dab50632274"
+    ],
+    "tools/public_adl/test_ci_routing.sh": [
+      "100755",
+      "f895b325e82d5f2150001b33dd052fd4c1f16aa5"
+    ],
+    "tools/public_adl/test_codefriend_owner.py": [
+      "100644",
+      "43577c60d0e4e396faa900436e8ba8ea7db88f25"
+    ],
+    "tools/public_adl/test_compatibility_lockset.py": [
+      "100644",
+      "70eccbbd87ff5e658168b7f3f4aa017fe6be0ecb"
+    ],
+    "tools/public_adl/test_coverage.py": [
+      "100644",
+      "c688a4f55c3eafde304bd084e126370cd436658c"
+    ],
+    "tools/public_adl/test_install_storage.py": [
+      "100644",
+      "5b43af7f8831be990ddfc7d2d8098a86e1635618"
+    ],
+    "tools/public_adl/test_planning_contract.py": [
+      "100644",
+      "7cc2a538117fcbc1388d8f32d62171446074f8ce"
+    ],
+    "tools/public_adl/test_portable_workflow.py": [
+      "100644",
+      "8e5cd086059bce46cd275fe758033e7423e78eee"
+    ],
+    "tools/public_adl/test_public_cli_refusals.py": [
+      "100644",
+      "f54292256190e00b81124cb24a3492442588fce2"
+    ],
+    "tools/public_adl/test_public_codefriend_dispatch.py": [
+      "100644",
+      "0406d7f36f7fa9c5e8fa5d67f4a9cc96ad295b0b"
+    ],
+    "tools/public_adl/test_public_runtime_dispatch.py": [
+      "100644",
+      "4df3a048490736fd18b1cef31a690ba2740b7c25"
+    ],
+    "tools/public_adl/test_public_session.py": [
+      "100644",
+      "a27197435d1d8bff8867c2c700518eeeed59d1ae"
+    ],
+    "tools/public_adl/test_runtime_owner.py": [
+      "100644",
+      "399585da821b0f541151ae4c46927dfd7a177aad"
+    ],
+    "tools/public_adl/test_validation_interfaces.py": [
+      "100644",
+      "2c0d332d738aab85e37a90740916771d2356206a"
+    ],
+    "tools/public_adl/test_workflow_args.py": [
+      "100644",
+      "8f66088c5f0dddd51d371299e08f45e2388924b9"
+    ],
+    "tools/public_adl/validator/Cargo.lock": [
+      "100644",
+      "6ded01c6db9a8c207ea8160f81d496356d5083b8"
+    ],
+    "tools/public_adl/validator/Cargo.toml": [
+      "100644",
+      "e896e0a3a2ab93db7310c54601babfff9b6f343c"
+    ],
+    "tools/public_adl/validator/public_adl_install_validator.rs": [
+      "100644",
+      "d3e69db09f2acfb5e8602feca56536e199fc643e"
+    ],
+    "tools/public_adl/verify_compatibility_lockset.py": [
+      "100644",
+      "cc2aa08ac95f64fe7b4b597dec5228ace4a08431"
+    ],
+    "tools/public_adl/verify_install.py": [
+      "100644",
+      "ca0831745b92a425abf02114bdba61932740aaac"
+    ],
+    "tools/public_adl/verify_install_validator.py": [
+      "100644",
+      "642578367f29d04c4b5915637204a28aa2a8b637"
+    ],
+    "tools/source_retirement/README.md": [
+      "100644",
+      "507f4ab630b4b2071f783f52b541e34b577ff608"
+    ],
+    "tools/source_retirement/check.py": [
+      "100644",
+      "55672134ecfea021c6905e77b2a6e7b43291dfcf"
+    ],
+    "tools/source_retirement/test_check.py": [
+      "100644",
+      "200deee83d8edba0923072e7c3b4ae67c24351e5"
+    ],
+    "tools/source_retirement/validator/Cargo.lock": [
+      "100644",
+      "89ffe2b0a61b2cd90eadcd7fd0b4a8dc0396ebbd"
+    ],
+    "tools/source_retirement/validator/Cargo.toml": [
+      "100644",
+      "f3dcdf5663f9b78e7074575f452a95e6ca5fca8a"
+    ],
+    "tools/source_retirement/validator/installed_public_packages.rs": [
+      "100644",
+      "1025f3bcc40b3935e916614627dec5f47d158662"
+    ],
+    "tools/source_retirement/validator/retirement_contract.rs": [
+      "100644",
+      "c252c0fdfaba376ba1a7f8bf56b594c0a0e3398f"
+    ]
+  },
+  "removed_file_excluded_from_compilation": "adl/Cargo.toml autobins=false/build=false; explicit main uses cli/public_dispatch.rs, whose module graph excludes run.rs. Applied packet independently reviewed actual source closure.",
+  "five_public_artifact_sources": "All five package source/member files, manifests, locked dependency inputs and packaging tooling unchanged; recorded artifact hashes remain those actually produced at ad8204, not a rebuild claim.",
+  "applied_packet": {
+    "path": "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/ORPHAN_PRIVATE_RUN_ONE_APPLIED.json",
+    "sha256": "9c75d6ba489e4f05f587b0c6ac9dfc92f576e9f8d3499fe5c2c4a9f82118a1fa"
+  },
+  "new_execution_claimed": false,
+  "final_guard_source": "0e2c059565fd1d35f7d74fad289d0d4ccc904537",
+  "final_guard_correspondence": {
+    "original_comparison_count": 185,
+    "unchanged_at_final_head": 182,
+    "changed_guard_inputs": {
+      "tools/source_retirement/README.md": {
+        "prior": [
+          "100644",
+          "507f4ab630b4b2071f783f52b541e34b577ff608"
+        ],
+        "current": [
+          "100644",
+          "5a2b14cb4224bf70cffd55aa1ab6801df447b701"
+        ]
+      },
+      "tools/source_retirement/check.py": {
+        "prior": [
+          "100644",
+          "55672134ecfea021c6905e77b2a6e7b43291dfcf"
+        ],
+        "current": [
+          "100644",
+          "26bab3a6125f7573fd38aec92101a543da6a3fb7"
+        ]
+      },
+      "tools/source_retirement/test_check.py": {
+        "prior": [
+          "100644",
+          "200deee83d8edba0923072e7c3b4ae67c24351e5"
+        ],
+        "current": [
+          "100644",
+          "7a752ed5fbc3e27eade146bac66042a1e424802d"
+        ]
+      }
+    },
+    "actual_final_guard": {
+      "path": "/Volumes/FastWork/c1223/orphan-run-final-guard-records/ROOT_VALIDATION.json",
+      "sha256": "94d24511f313932bd7c749c991541cf4fbb0b4bb4ebdecb6e1deb8a48e1018f1"
+    },
+    "independent_review": {
+      "path": "/Volumes/FastWork/c1223/orphan-run-final-guard-records/FINAL_REVIEW_DISPOSITION.json",
+      "sha256": "1c64e582ef65ec00709dfd8d049e791cba27f51509dfeb5fdb3c8f6473e5fc76"
+    },
+    "compiled_product_inputs_unchanged": true,
+    "new_linux_or_macos_execution_claimed": false
+  }
+}

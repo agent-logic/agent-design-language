@@ -16,12 +16,8 @@ python3 adl/tools/validate_v0916_agent_suitability_panel.py "$packet_dir"
     "$repo_root/$packet_dir"
 )
 
-if [[ -n "${DEEPSEEK_API_KEY:-}" || -s "${ADL_DEEPSEEK_KEY_FILE:-$HOME/keys/deepseek.key}" ]]; then
-  python3 adl/tools/run_v0916_agent_suitability_panel.py \
-    --spec adl/tools/suitability_specs/deepseek_csdlc_panel_4096.json \
-    --out "$tmpdir/packet"
-  python3 adl/tools/validate_v0916_agent_suitability_panel.py "$tmpdir/packet"
-fi
+# Historical ADL packet validation only. Live suitability production remains a
+# separate owner operation; ambient credentials must not change this test.
 
 cp -R "$packet_dir" "$tmpdir/drift"
 python3 - <<'PY' "$tmpdir/drift"
@@ -40,4 +36,4 @@ if python3 adl/tools/validate_v0916_agent_suitability_panel.py "$tmpdir/drift"; 
   exit 1
 fi
 
-echo "PASS test_v0916_deepseek_suitability"
+echo "PASS test_v0916_deepseek_suitability offline packet: two valid checks and one negative"

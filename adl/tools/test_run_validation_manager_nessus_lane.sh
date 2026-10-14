@@ -20,13 +20,16 @@ mkdir -p "$origin_src"
 git -C "$origin_src" init -q
 git -C "$origin_src" branch -M main
 mkdir -p "$origin_src/adl/tools"
-cat >"$origin_src/adl/tools/run_pr_fast_test_lane.sh" <<'EOF'
+# The original private provider/pr-fast fixture is superseded by the retained
+# public full-source command. Its filter-rewrite scenario is a separate historical
+# obligation, not a claim made by this public consumer test.
+cat >"$origin_src/adl/tools/batched_checks.sh" <<'EOF'
 #!/usr/bin/env bash
 set -euo pipefail
-cargo nextest run --manifest-path adl/Cargo.toml -E 'test(provider_communication)'
+printf 'public batch fixture ran\n'
 EOF
-chmod +x "$origin_src/adl/tools/run_pr_fast_test_lane.sh"
-git -C "$origin_src" add adl/tools/run_pr_fast_test_lane.sh
+chmod +x "$origin_src/adl/tools/batched_checks.sh"
+git -C "$origin_src" add adl/tools/batched_checks.sh
 git -C "$origin_src" -c user.name=Codex -c user.email=codex@example.com commit -q -m "fixture"
 git clone -q --bare "$origin_src" "$origin_bare"
 
@@ -91,7 +94,7 @@ deb https://apt.kubernetes.io/ kubernetes-xenial main
 EOF
 
 changed="$TMP/changed-files.txt"
-printf 'M\tadl/src/provider_communication.rs\n' >"$changed"
+printf 'M\tadl/src/main.rs\n' >"$changed"
 
 ADL_NESSUS_REMOTE_EXECUTOR=local \
 ADL_NESSUS_REMOTE_ROOT="$TMP/remote-root" \
@@ -110,6 +113,10 @@ bash "$SCRIPT" \
 
 assert_file "$TMP/report.json"
 assert_file "$TMP/artifacts/summary.json"
+if [[ -e "$TMP/remote-root/agent-design-language/.adl/tmp/validation-manager-nessus-changed-files.txt" ]]; then
+  echo "full public command unexpectedly materialized a changed-files manifest" >&2
+  exit 1
+fi
 python3 - "$TMP/report.json" "$TMP/artifacts/summary.json" "$changed" <<'PY'
 import json
 import sys
@@ -121,8 +128,10 @@ assert profile["remote_runner"]["requested"] == "nessus"
 assert profile["remote_runner"]["decision"] == "selected"
 assert profile["run"][0]["lane_id"] == "nessus_remote_validation"
 assert profile["run"][0]["local_run"], "remote lane should retain consumed local lane evidence"
-assert "run_pr_fast_test_lane.sh" in summary["command"]
-assert ".adl/tmp/validation-manager-nessus-changed-files.txt" in summary["command"]
+assert profile["run"][0]["local_run"][0]["lane_id"] == "public_source"
+assert profile["run"][0]["local_run"][0]["command"] == "bash adl/tools/batched_checks.sh"
+assert summary["command"] == "bash adl/tools/batched_checks.sh"
+assert ".adl/tmp/validation-manager-nessus-changed-files.txt" not in summary["command"]
 assert sys.argv[3] not in summary["command"], "remote command must not keep local temp changed-files path"
 assert summary["git_ref"] == "origin/main"
 assert summary["runner"] == "nessus"

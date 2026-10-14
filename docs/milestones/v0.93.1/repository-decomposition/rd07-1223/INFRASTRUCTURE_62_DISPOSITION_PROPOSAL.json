@@ -1,0 +1,961 @@
+{
+  "schema": "adl1223.infrastructure_exact_disposition_proposal.v1",
+  "original_denominator": 4134,
+  "input_held_count": 64,
+  "covered_count": 62,
+  "prior_decisions_not_repeated": [
+    "RD07-3550",
+    "RD07-3557",
+    "RD07-3743"
+  ],
+  "count_note": "RD07-3550 is no longer in current held snapshot; only two prior-decision rows overlap. Thus 62 current rows, not requested 61.",
+  "infrastructure_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+  "method": "Read-only source/caller inspection and reuse of existing evidence. No hashing, execution, build, cloud, issue write or repeated qualification.",
+  "search_boundary": "Current ADL tracked .github, adl/tools, docs/tooling, docs/operations and tools text references; names may include fixture/test references. Not an exhaustive runtime reachability proof.",
+  "deletion_authorized": false,
+  "execution_authorized": false,
+  "qualification_claimed": false,
+  "families": [
+    {
+      "family": "ADL repository CI and coverage control",
+      "ids": [
+        "RD07-0322",
+        "RD07-1473",
+        "RD07-1498",
+        "RD07-1499",
+        "RD07-1500",
+        "RD07-1503",
+        "RD07-2057",
+        "RD07-2079",
+        "RD07-2084",
+        "RD07-2095",
+        "RD07-2097",
+        "RD07-2118",
+        "RD07-2173",
+        "RD07-2204"
+      ],
+      "recommendation": "retain_adl_ci_contract_pending_explicit_ci_cutover",
+      "evidence": [
+        "Current .github/workflows/ci.yaml calls fast-test runner at line 921, authoritative coverage at 1393, PVF policy test at 455, workflow-policy validator at 115 and slow-proof runner at 1319.",
+        "These are ADL checkout consumers, not infrastructure runtime ownership merely because copied source exists in Infrastructure.",
+        "Infrastructure ed02d559 lacks adl/Cargo.toml, adl-runtime/Cargo.toml, adl/config/slow_proof_families.v0.91.6.json and docs/milestones/v0.91.4/features/PVF_CI_RELEASE_POLICY_MANIFEST_v0.91.4.json. Copied runners refer to these exact inputs.",
+        "nextest.toml is implicitly discovered configuration for ADL tests, including Runtime-specific selectors; absence of textual callers is not non-use."
+      ],
+      "next_action": "Retain exact paths with ADL CI owner until replacement CI contract removes or redirects current calls and preserves surviving tests. Classify source-policy tests together with their runners; no transfer based on copy alone."
+    },
+    {
+      "family": "Nessus ADL validation-manager integration",
+      "ids": [
+        "RD07-1518",
+        "RD07-2101",
+        "RD07-3753"
+      ],
+      "recommendation": "retain_adl_consumer_until_validation_manager_cutover",
+      "evidence": [
+        "run_validation_manager_nessus_lane.sh:5 calls adl/tools/validation_manager.sh; that dependency is absent at Infrastructure ed02d559.",
+        "Current docs/tooling/README.md:37,137 advertises Nessus lane; test_select_validation_lanes.sh:507 includes its test in final merge gate."
+      ],
+      "next_action": "Retain runner/test/runbook under ADL consumer contract until an explicit owner-local validation-manager route replaces it. Infrastructure copy is not standalone replacement."
+    },
+    {
+      "family": "Historical pre-cutover observatory canary",
+      "ids": [
+        "RD07-1298"
+      ],
+      "recommendation": "retain_historical_nonoperational",
+      "evidence": [
+        "Script installs csdlc-v2 at line 33 and describes v3 local as non-authoritative cutover evidence at line 97; hardcoded issues 511/512 and retired local request interface.",
+        "Bounded current caller search found only archived changed-path fixture, not a current operational invocation."
+      ],
+      "next_action": "Retain as historical pre-cutover evidence and mark nonoperational in inventory/navigation. Do not execute, restore v2 or call copied script a current native owner."
+    },
+    {
+      "family": "Source-bound Runtime tests",
+      "ids": [
+        "RD07-2100",
+        "RD07-2108"
+      ],
+      "recommendation": "hold_runtime_owner_test_and_consumer_reconciliation",
+      "evidence": [
+        "Bridge test builds adl/Cargo.toml and invokes validate_v0917_csm_api_gateway_bridge_proof.py; cross-binary test builds three Runtime manifests and invokes install_runtime_v3_generation.sh.",
+        "Infrastructure ed02d559 lacks those application manifests, bridge validator and generation installer. Copied tests remain source-dependent."
+      ],
+      "next_action": "Route source tests2100/2108 to Runtime owner with manifests, fixtures and existing scenario obligations; copied source alone does not close these dependencies."
+    },
+    {
+      "family": "Artifact-consuming Runtime entrypoints",
+      "ids": [
+        "RD07-1260",
+        "RD07-1390",
+        "RD07-1404",
+        "RD07-1483",
+        "RD07-1489",
+        "RD07-1502",
+        "RD07-2243"
+      ],
+      "recommendation": "owner_transfer_with_explicit_artifact_and_caller_contract",
+      "evidence": [
+        "Qualified revision changes relay from source build to verified producer-bundle transport; ensure_csm_binary verifies locked Runtime artifact instead of building.",
+        "Volume installer uses artifact root/lock/reviewed digest and required binaries; issue268 resident wrapper uses artifact config inputs; issue509 artifact preparation uses reviewed producer artifacts.",
+        "run_runtime_v3_operational_proof.sh consumes lifecycle-soak/kernel/guardian/vector plus config from verified artifact; it no longer builds application source.",
+        "ADL csm_binary_availability.sh and run_owner_validation_lane.sh still reference local tools; repair these callers. At pinned ed02d559 guardian lines90-99 verify the Runtime artifact and266-268/589-591 invoke its binaries. No guardian source-build repair remains."
+      ],
+      "next_action": "Preserve reviewed artifact contracts and redirect or retire specific ADL callers. Reuse existing qualified evidence where applicable; no live Runtime or cloud qualification inferred."
+    },
+    {
+      "family": "Cloud proof orchestration and coupled static tests",
+      "ids": [
+        "RD07-1484",
+        "RD07-1486",
+        "RD07-2081",
+        "RD07-2088"
+      ],
+      "recommendation": "owner_transfer_with_remaining_source_caller_hold",
+      "evidence": [
+        "Issue268 six-hour wrapper defaults portable binary to tools/remote_validation/target/debug/adl-remote-validation, which is not a source project in Infrastructure; it also references ADL-owned UTS validator/config.",
+        "Its test explicitly invokes multiple issue268 Runtime Python tests and inspects source implementation details; static correspondence is insufficient for owner-local execution.",
+        "Issue345 GPU proof is infrastructure/cloud orchestration with explicit authorization and cleanup semantics; builder-image validation/test are infrastructure-owned together."
+      ],
+      "next_action": "Transfer orchestration ownership to Infrastructure, replacing source-relative portable/Runtime inputs with installed qualified artifacts and owner test evidence. Preserve explicit authorization gates; do not run cloud proof to resolve source retirement."
+    },
+    {
+      "family": "AWS remote validation package and reusable workflow",
+      "ids": [
+        "RD07-0005",
+        "RD07-4094",
+        "RD07-4095",
+        "RD07-4096",
+        "RD07-4097",
+        "RD07-4098",
+        "RD07-4099",
+        "RD07-4100",
+        "RD07-4101",
+        "RD07-4102",
+        "RD07-4103",
+        "RD07-4104",
+        "RD07-4105"
+      ],
+      "recommendation": "owner_transfer_requires_adl_workflow_cutover",
+      "evidence": [
+        "Infrastructure aws_remote_validation.rs binds portable public source through .artifacts/adl-remote-validation-0.92.1/src/lib.rs rather than sibling application source.",
+        "Existing ADAPTER_RESULT.json records passed isolated adapter compile with pinned portable source contract and no AWS operation. Reused evidence only; no new qualification.",
+        "ADL ci.yaml:1016 calls ./.github/workflows/aws-spot-remote-validation.yaml; reusable workflow builds tools/aws_remote_validation/Cargo.toml at line 237 and caches its lock at 233/247.",
+        "remote_validation_runner.sh:215 loads its verified_bootstrap.py companion; bootstrap tests and PVF manifest form one package."
+      ],
+      "next_action": "Assign package/workflow implementation to Infrastructure and pin a reviewed reusable-workflow or installed-adapter consumer route in ADL. Keep workflow/package hold until current local CI build invocation is replaced; retain bootstrap safety contract as a family."
+    },
+    {
+      "family": "Builder image source and product runbooks",
+      "ids": [
+        "RD07-0329",
+        "RD07-0330",
+        "RD07-0331",
+        "RD07-0332",
+        "RD07-3715",
+        "RD07-3722",
+        "RD07-3723",
+        "RD07-3724"
+      ],
+      "recommendation": "owner_transfer_with_navigation_and_publisher_cutover",
+      "evidence": [
+        "Dockerfile is standalone toolchain image source; INPUT_PROVENANCE, verification helper and test are its coupled supply-chain proof surfaces.",
+        "ADL publish_adl_builder_image_codebuild.sh:107 builds adl/docker/adl-builder/Dockerfile; tools/groupd_validation/src/lib.rs:42 invokes test_builder_inputs.py.",
+        "docs/tooling/README.md links builder and Spot runbooks; AWS Spot HOW-TO links builder guide. Existing exact successor mappings cover the family."
+      ],
+      "next_action": "Infrastructure owns builder publication and runbooks. Redirect retained ADL navigation and concrete publisher/groupd callers to pinned owner contracts or explicitly retain compatibility entrypoints; no new image publication or cloud acceptance claim."
+    },
+    {
+      "family": "Historical CI log archival command guide",
+      "ids": [
+        "RD07-3728"
+      ],
+      "recommendation": "retain_historical_navigation_evidence",
+      "evidence": [
+        "ADL docs/tooling/README.md:126 labels CI Log Archive To S3 as historical context.",
+        "Copied guide advertises adl tooling ci-log-archive summarize; mere Infrastructure copy does not provide current installed CLI contract."
+      ],
+      "next_action": "Preserve historical guide or replace with a historical pointer; do not advertise a supported current command or infer cloud upload acceptance."
+    },
+    {
+      "family": "CodeFriend artifact release assembly",
+      "ids": [
+        "RD07-4118",
+        "RD07-4119",
+        "RD07-4120",
+        "RD07-4121",
+        "RD07-4122"
+      ],
+      "recommendation": "owner_transfer_artifact_release_family",
+      "evidence": [
+        "Infrastructure README/assemble/test switch from ADL and website source checkouts to verified artifact root, lock and reviewed lock digest.",
+        "Required packet includes codefriend-server, codefriend-agent, host/idle_stop.py and website payload; application source, Git metadata and Terraform are excluded.",
+        "verify_packet accepts v2 producer_revision manifest; ready_for_activation remains false. Current ADL callers found within this release family, not an external operational invocation in inspected surfaces."
+      ],
+      "next_action": "Transfer complete release assembly family to Infrastructure, preserving producer artifact and independent installed-product acceptance requirements. Redirect any retained product navigation; assembly is not deployment or installed acceptance."
+    },
+    {
+      "family": "CodeFriend host Terraform family",
+      "ids": [
+        "RD07-4127",
+        "RD07-4128",
+        "RD07-4129",
+        "RD07-4130"
+      ],
+      "recommendation": "owner_transfer_terraform_family",
+      "evidence": [
+        "Exact successor paths cover ignore/lock/main/variables as one root; business-profile/account constraint stays in main.tf.",
+        "Release assembly explicitly excludes Terraform runtime payload. Inspected ADL references include a test fixture exclusion, not an operational Terraform caller."
+      ],
+      "next_action": "Infrastructure owns this whole Terraform root. Link retained CodeFriend host documentation to owner root and preserve existing static qualification evidence. No plan/apply/deploy or live-account claim."
+    }
+  ],
+  "rows": [
+    {
+      "id": "RD07-0005",
+      "path": ".github/workflows/aws-spot-remote-validation.yaml",
+      "family": "AWS remote validation package and reusable workflow",
+      "recommendation": "owner_transfer_requires_adl_workflow_cutover",
+      "existing_successor_mapping": "exact_successor",
+      "caller_evidence": [
+        ".github/workflows/ci.yaml:1016:    uses: ./.github/workflows/aws-spot-remote-validation.yaml",
+        "adl/tools/test_run_aws_spot_ci_profile.sh:6:WORKFLOW=\"$ROOT/.github/workflows/aws-spot-remote-validation.yaml\"",
+        "adl/tools/test_run_aws_spot_ci_profile.sh:189:assert_backend_snapshot grep -F 'uses: ./.github/workflows/aws-spot-remote-validation.yaml' \"$CI_WORKFLOW\"",
+        "adl/tools/test_run_aws_spot_remote_validation_lane.sh:7:WORKFLOW=\"$ROOT/.github/workflows/aws-spot-remote-validation.yaml\"",
+        "adl/tools/test_run_pr_fast_test_lane.sh:567:M\t.github/workflows/aws-spot-remote-validation.yaml",
+        "docs/tooling/AWS_SPOT_REMOTE_VALIDATION_LANE.md:241:`.github/workflows/aws-spot-remote-validation.yaml` is manual"
+      ]
+    },
+    {
+      "id": "RD07-0322",
+      "path": "adl/.config/nextest.toml",
+      "family": "ADL repository CI and coverage control",
+      "recommendation": "retain_adl_ci_contract_pending_explicit_ci_cutover",
+      "existing_successor_mapping": "exact_successor",
+      "caller_evidence": [
+        "adl/tools/skills/repo-packet-builder/tests/fixtures/issue-520-changed-paths.txt:4050:adl/.config/nextest.toml"
+      ]
+    },
+    {
+      "id": "RD07-0329",
+      "path": "adl/docker/adl-builder/Dockerfile",
+      "family": "Builder image source and product runbooks",
+      "recommendation": "owner_transfer_with_navigation_and_publisher_cutover",
+      "existing_successor_mapping": "exact_successor",
+      "caller_evidence": [
+        "adl/tools/publish_adl_builder_image_codebuild.sh:20:  --run it prints a redacted plan. The publisher builds the ADL Dockerfile once,",
+        "adl/tools/publish_adl_builder_image_codebuild.sh:107:      - docker build --platform linux/amd64 -f adl/docker/adl-builder/Dockerfile -t \"$ADL_BUILDER_IMAGE_URI\" .",
+        "adl/tools/setup_adl_builder_image.sh:20:  --dockerfile <path>        Dockerfile path. Defaults to adl/docker/adl-builder/Dockerfile.",
+        "adl/tools/setup_adl_builder_image.sh:49:DOCKERFILE=\"$ROOT_DIR/adl/docker/adl-builder/Dockerfile\"",
+        "adl/tools/skills/redaction-and-evidence-auditor/scripts/audit_review_packet.py:73:    return path.suffix.lower() in TEXT_SUFFIXES or path.name in {\"Dockerfile\", \"Makefile\"}",
+        "adl/tools/skills/repo-code-review/SKILL.md:12:Always include build, dependency, and package configuration in the review surface. Do not treat files such as `Cargo.toml`, `package.json`, `pyproject.toml`, `go.mod`, workspace manifests, toolchain files, Dockerfiles, CI workflow files, or lockfiles as incidental just because they are not executable source.",
+        "adl/tools/skills/repo-dependency-review/SKILL.md:10:source-grounded. It may inspect code, manifests, lockfiles, Dockerfiles, CI",
+        "adl/tools/skills/repo-dependency-review/SKILL.md:106:- runtime images, Dockerfiles, compose files, and devcontainers"
+      ]
+    },
+    {
+      "id": "RD07-0330",
+      "path": "adl/docker/adl-builder/INPUT_PROVENANCE.json",
+      "family": "Builder image source and product runbooks",
+      "recommendation": "owner_transfer_with_navigation_and_publisher_cutover",
+      "existing_successor_mapping": "exact_successor",
+      "caller_evidence": [
+        "docs/tooling/ADL_BUILDER_IMAGE.md:255:`adl/docker/adl-builder/INPUT_PROVENANCE.json` records source URLs and the trust",
+        "tools/groupd_validation/README.md:52:Official source identity provenance is in the builder's `INPUT_PROVENANCE.json`."
+      ]
+    },
+    {
+      "id": "RD07-0331",
+      "path": "adl/docker/adl-builder/test_builder_inputs.py",
+      "family": "Builder image source and product runbooks",
+      "recommendation": "owner_transfer_with_navigation_and_publisher_cutover",
+      "existing_successor_mapping": "exact_successor",
+      "caller_evidence": [
+        "tools/groupd_validation/README.md:9:| DEP-002 / SYN-005 | Digest-pinned Ubuntu index, exact Rust/rustup/AWS/Cargo tool versions, verification before direct extraction/execution, complete toolchain record | `adl/docker/adl-builder/test_builder_inputs.py`: 4 tests, including changed bytes/missing hashes/mutable inputs |",
+        "tools/groupd_validation/src/lib.rs:42:        run(\"python3\", \"adl/docker/adl-builder/test_builder_inputs.py\");"
+      ]
+    },
+    {
+      "id": "RD07-0332",
+      "path": "adl/docker/adl-builder/verify_sha256.sh",
+      "family": "Builder image source and product runbooks",
+      "recommendation": "owner_transfer_with_navigation_and_publisher_cutover",
+      "existing_successor_mapping": "exact_successor",
+      "caller_evidence": []
+    },
+    {
+      "id": "RD07-1260",
+      "path": "adl/tools/build_issue509_runtime_bundle_on_relay.sh",
+      "family": "Artifact-consuming Runtime entrypoints",
+      "recommendation": "owner_transfer_with_explicit_artifact_and_caller_contract",
+      "existing_successor_mapping": "same_path_changed",
+      "caller_evidence": [
+        "adl/tools/skills/repo-packet-builder/tests/fixtures/issue-520-changed-paths.txt:4107:adl/tools/build_issue509_runtime_bundle_on_relay.sh"
+      ]
+    },
+    {
+      "id": "RD07-1298",
+      "path": "adl/tools/csdlc_obs_ready_canary.sh",
+      "family": "Historical pre-cutover observatory canary",
+      "recommendation": "retain_historical_nonoperational",
+      "existing_successor_mapping": "exact_successor",
+      "caller_evidence": [
+        "adl/tools/skills/repo-packet-builder/tests/fixtures/issue-520-changed-paths.txt:4110:adl/tools/csdlc_obs_ready_canary.sh"
+      ]
+    },
+    {
+      "id": "RD07-1390",
+      "path": "adl/tools/ensure_csm_binary.sh",
+      "family": "Artifact-consuming Runtime entrypoints",
+      "recommendation": "owner_transfer_with_explicit_artifact_and_caller_contract",
+      "existing_successor_mapping": "same_path_changed",
+      "caller_evidence": [
+        "adl/tools/csm_binary_availability.sh:20:  payload=\"$(bash \"$root/adl/tools/ensure_csm_binary.sh\" \"${args[@]}\")\"",
+        "adl/tools/run_owner_validation_lane.sh:147:    bash adl/tools/test_ensure_csm_binary.sh",
+        "adl/tools/run_owner_validation_lane.sh:149:    bash adl/tools/ensure_csm_binary.sh --json",
+        "adl/tools/test_ensure_csm_binary.sh:11:cp \"$ROOT_DIR/adl/tools/ensure_csm_binary.sh\" \"$fixture/adl/tools/ensure_csm_binary.sh\"",
+        "adl/tools/test_ensure_csm_binary.sh:14:chmod +x \"$fixture/adl/tools/ensure_csm_binary.sh\"",
+        "adl/tools/test_ensure_csm_binary.sh:58:    bash \"$fixture/adl/tools/ensure_csm_binary.sh\" --json --check-only >\"$missing_json\"; then",
+        "adl/tools/test_ensure_csm_binary.sh:74:  bash \"$fixture/adl/tools/ensure_csm_binary.sh\" --json >\"$restore_json\"",
+        "adl/tools/test_ensure_csm_binary.sh:90:  bash \"$fixture/adl/tools/ensure_csm_binary.sh\" --json --out \"$out_evidence_json\" >\"$out_stdout_json\""
+      ]
+    },
+    {
+      "id": "RD07-1404",
+      "path": "adl/tools/install_issue268_runtime_volume.py",
+      "family": "Artifact-consuming Runtime entrypoints",
+      "recommendation": "owner_transfer_with_explicit_artifact_and_caller_contract",
+      "existing_successor_mapping": "same_path_changed",
+      "caller_evidence": [
+        "adl/tools/run_issue268_remote_resident_qualification.sh:38:INSTALLER=${ADL_ISSUE268_VOLUME_INSTALLER:-$ROOT/adl/tools/install_issue268_runtime_volume.py}",
+        "adl/tools/test_install_issue268_runtime_volume.py:8:MODULE_PATH = pathlib.Path(__file__).with_name(\"install_issue268_runtime_volume.py\")",
+        "adl/tools/test_run_issue268_six_hour_spot_qualification.sh:479:\"adl/tools/install_issue268_runtime_volume.py\",",
+        "adl/tools/test_run_issue268_six_hour_spot_qualification.sh:480:\"adl/tools/test_install_issue268_runtime_volume.py\","
+      ]
+    },
+    {
+      "id": "RD07-1473",
+      "path": "adl/tools/run_authoritative_coverage_lane.sh",
+      "family": "ADL repository CI and coverage control",
+      "recommendation": "retain_adl_ci_contract_pending_explicit_ci_cutover",
+      "existing_successor_mapping": "exact_successor",
+      "caller_evidence": [
+        ".github/workflows/ci.yaml:474:        run: bash adl/tools/test_run_authoritative_coverage_lane.sh",
+        ".github/workflows/ci.yaml:1393:        run: bash adl/tools/run_ci_step_with_log.sh --name \"coverage-runtime-summary-json\" --log-root ci-step-logs -- bash adl/tools/run_authoritative_coverage_lane.sh --profile adl-runtime --authority \"${{ needs.adl_path_policy.outputs.coverage_authority }}\" --event-name \"${{ github.event_name }}\"",
+        ".github/workflows/ci.yaml:1654:        run: bash adl/tools/run_ci_step_with_log.sh --name \"coverage-workspace-summary-json\" --log-root ci-step-logs -- bash adl/tools/run_authoritative_coverage_lane.sh --profile workspace --authority \"${{ needs.adl_path_policy.outputs.coverage_authority }}\" --event-name \"${{ github.event_name }}\"",
+        ".github/workflows/nightly-coverage-ratchet.yaml:40:          bash tools/run_authoritative_coverage_lane.sh --authority nightly_main --event-name push",
+        "adl/tools/ci_path_policy.sh:622:    adl/tools/run_authoritative_coverage_lane.sh|\\",
+        "adl/tools/ci_path_policy.sh:626:    adl/tools/test_run_authoritative_coverage_lane.sh|\\",
+        "adl/tools/ci_path_policy.sh:676:      adl/tools/run_authoritative_coverage_lane.sh)",
+        "adl/tools/ci_path_policy.sh:690:      adl/tools/test_run_authoritative_coverage_lane.sh)"
+      ]
+    },
+    {
+      "id": "RD07-1483",
+      "path": "adl/tools/run_issue268_remote_resident_qualification.sh",
+      "family": "Artifact-consuming Runtime entrypoints",
+      "recommendation": "owner_transfer_with_explicit_artifact_and_caller_contract",
+      "existing_successor_mapping": "same_path_changed",
+      "caller_evidence": [
+        "adl/tools/run_aws_spot_remote_validation_lane.sh:410:print(\"true\" if argv == [\"bash\", \"adl/tools/run_issue268_remote_resident_qualification.sh\"] else \"false\")",
+        "adl/tools/run_aws_spot_remote_validation_lane.sh:958:if [[ \"$COMMAND\" == \"bash adl/tools/run_issue268_remote_resident_qualification.sh\" \\",
+        "adl/tools/run_issue268_six_hour_spot_qualification.sh:22:REMOTE_QUALIFICATION=adl/tools/run_issue268_remote_resident_qualification.sh",
+        "adl/tools/run_issue268_six_hour_spot_qualification.sh:114:    \"argv\": [\"bash\", \"adl/tools/run_issue268_remote_resident_qualification.sh\"],",
+        "adl/tools/test_run_aws_spot_builder_image_validation.sh:237:  --command 'bash adl/tools/run_issue268_remote_resident_qualification.sh' \\",
+        "adl/tools/test_run_aws_spot_remote_validation_lane.sh:478:  --command \"bash adl/tools/run_issue268_remote_resident_qualification.sh\" \\",
+        "adl/tools/test_run_aws_spot_remote_validation_lane.sh:489:assert command == \"bash adl/tools/run_issue268_remote_resident_qualification.sh\"",
+        "adl/tools/test_run_issue268_remote_resident_qualification.sh:4:grep -Fq 'tail -80 \"$OLLAMA_LOG\"' \"$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh\""
+      ]
+    },
+    {
+      "id": "RD07-1484",
+      "path": "adl/tools/run_issue268_six_hour_spot_qualification.sh",
+      "family": "Cloud proof orchestration and coupled static tests",
+      "recommendation": "owner_transfer_with_remaining_source_caller_hold",
+      "existing_successor_mapping": "exact_successor",
+      "caller_evidence": [
+        "adl/tools/skills/repo-packet-builder/tests/fixtures/issue-520-changed-paths.txt:4137:adl/tools/test_run_issue268_six_hour_spot_qualification.sh",
+        "adl/tools/test_run_issue268_six_hour_spot_qualification.sh:5:wrapper=\"$ROOT/adl/tools/run_issue268_six_hour_spot_qualification.sh\"",
+        "adl/tools/test_run_issue268_six_hour_spot_qualification.sh:424:grep -Fq 'REMOTE_BIN=${ADL_AWS_REMOTE_VALIDATION_BIN:-$ROOT/.adl/bin/adl-aws-remote-validation-tool}' \"$ROOT/adl/tools/run_issue268_six_hour_spot_qualification.sh\"",
+        "adl/tools/test_run_issue268_six_hour_spot_qualification.sh:425:grep -Fq '.provenance/adl-aws-remote-validation-tool.sha256' \"$ROOT/adl/tools/run_issue268_six_hour_spot_qualification.sh\"",
+        "adl/tools/test_run_issue268_six_hour_spot_qualification.sh:452:\"adl/tools/run_issue268_six_hour_spot_qualification.sh\",",
+        "adl/tools/test_run_issue268_six_hour_spot_qualification.sh:454:\"adl/tools/test_run_issue268_six_hour_spot_qualification.sh\","
+      ]
+    },
+    {
+      "id": "RD07-1486",
+      "path": "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
+      "family": "Cloud proof orchestration and coupled static tests",
+      "recommendation": "owner_transfer_with_remaining_source_caller_hold",
+      "existing_successor_mapping": "exact_successor",
+      "caller_evidence": [
+        "adl/tools/skills/repo-packet-builder/tests/fixtures/issue-520-changed-paths.txt:4122:adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
+        "adl/tools/skills/repo-packet-builder/tests/fixtures/issue-520-changed-paths.txt:4138:adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh",
+        "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh:5:RUNNER=\"$ROOT/adl/tools/run_issue345_aws_gpu_shepherd_proof.sh\"",
+        "docs/operations/cloud/aws/shepherd-gpu-proof/README.md:66:bash adl/tools/run_issue345_aws_gpu_shepherd_proof.sh preflight",
+        "docs/operations/cloud/aws/shepherd-gpu-proof/README.md:102:bash adl/tools/run_issue345_aws_gpu_shepherd_proof.sh run \\",
+        "docs/operations/cloud/aws/shepherd-gpu-proof/README.md:170:bash adl/tools/run_issue345_aws_gpu_shepherd_proof.sh cleanup \\",
+        "docs/operations/cloud/aws/shepherd-gpu-proof/README.md:179:bash adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh"
+      ]
+    },
+    {
+      "id": "RD07-1489",
+      "path": "adl/tools/run_issue509_gcp_drt_d_qualification.sh",
+      "family": "Artifact-consuming Runtime entrypoints",
+      "recommendation": "owner_transfer_with_explicit_artifact_and_caller_contract",
+      "existing_successor_mapping": "same_path_changed",
+      "caller_evidence": [
+        "adl/tools/skills/repo-packet-builder/tests/fixtures/issue-520-changed-paths.txt:4123:adl/tools/run_issue509_gcp_drt_d_qualification.sh"
+      ]
+    },
+    {
+      "id": "RD07-1498",
+      "path": "adl/tools/run_pr_fast_test_lane.sh",
+      "family": "ADL repository CI and coverage control",
+      "recommendation": "retain_adl_ci_contract_pending_explicit_ci_cutover",
+      "existing_successor_mapping": "exact_successor",
+      "caller_evidence": [
+        ".github/workflows/ci.yaml:466:        run: bash adl/tools/test_run_pr_fast_test_lane.sh",
+        ".github/workflows/ci.yaml:921:        run: bash adl/tools/run_pr_fast_test_lane.sh --base \"${{ github.event.pull_request.base.sha }}\" --head \"${{ github.event.pull_request.head.sha }}\"",
+        "adl/tools/ci_path_policy.sh:464:          \"        run: bash adl/tools/run_pr_fast_test_lane.sh --base \\\"\\${{ github.event.pull_request.base.sha }}\\\" --head \\\"\\${{ github.event.pull_request.head.sha }}\\\"\"|\\",
+        "adl/tools/ci_path_policy.sh:769:    adl/tools/run_pr_fast_test_lane.sh|\\",
+        "adl/tools/ci_path_policy.sh:773:    adl/tools/test_run_pr_fast_test_lane.sh|\\",
+        "adl/tools/ci_path_policy.sh:812:      adl/tools/run_pr_fast_test_lane.sh|\\",
+        "adl/tools/ci_path_policy.sh:816:      adl/tools/test_run_pr_fast_test_lane.sh|\\",
+        "adl/tools/generate_tool_surface_registry.py:38:    \"run_pr_fast_test_lane.sh\": \"Primary focused PR-fast local test runner.\","
+      ]
+    },
+    {
+      "id": "RD07-1499",
+      "path": "adl/tools/run_pvf_ci_release_policy_fixture.sh",
+      "family": "ADL repository CI and coverage control",
+      "recommendation": "retain_adl_ci_contract_pending_explicit_ci_cutover",
+      "existing_successor_mapping": "exact_successor",
+      "caller_evidence": []
+    },
+    {
+      "id": "RD07-1500",
+      "path": "adl/tools/run_pvf_validation_lane.sh",
+      "family": "ADL repository CI and coverage control",
+      "recommendation": "retain_adl_ci_contract_pending_explicit_ci_cutover",
+      "existing_successor_mapping": "exact_successor",
+      "caller_evidence": [
+        "adl/tools/test_ci_path_policy.sh:1327:  printf '#!/usr/bin/env bash\\nprintf pvf-runner\\n' > adl/tools/run_pvf_validation_lane.sh",
+        "adl/tools/test_ci_path_policy.sh:1328:  git add adl/tools/run_pvf_validation_lane.sh",
+        "adl/tools/test_pvf_ci_release_policy.sh:5:RUNNER=\"$ROOT_DIR/adl/tools/run_pvf_validation_lane.sh\"",
+        "adl/tools/test_run_pvf_validation_lane.sh:5:RUNNER=\"$ROOT_DIR/adl/tools/run_pvf_validation_lane.sh\""
+      ]
+    },
+    {
+      "id": "RD07-1502",
+      "path": "adl/tools/run_runtime_v3_operational_proof.sh",
+      "family": "Artifact-consuming Runtime entrypoints",
+      "recommendation": "owner_transfer_with_explicit_artifact_and_caller_contract",
+      "existing_successor_mapping": "same_path_changed",
+      "caller_evidence": []
+    },
+    {
+      "id": "RD07-1503",
+      "path": "adl/tools/run_slow_proof_family.sh",
+      "family": "ADL repository CI and coverage control",
+      "recommendation": "retain_adl_ci_contract_pending_explicit_ci_cutover",
+      "existing_successor_mapping": "exact_successor",
+      "caller_evidence": [
+        ".github/workflows/ci.yaml:1319:          bash tools/run_slow_proof_family.sh --family all --run --partition \"count:${{ matrix.shard }}/4\"",
+        "adl/tools/ci_path_policy.sh:768:    adl/tools/run_slow_proof_family.sh|\\",
+        "adl/tools/ci_path_policy.sh:811:      adl/tools/run_slow_proof_family.sh|\\",
+        "adl/tools/test_ci_path_policy.sh:1436:        run: bash tools/run_slow_proof_family.sh --family all --run --partition \"count:${{ matrix.shard }}/4\"",
+        "adl/tools/test_ci_runtime_contracts.sh:585:if 'bash tools/run_slow_proof_family.sh --family all --run --partition \"count:${{ matrix.shard }}/4\"' not in slow_proof_job:",
+        "adl/tools/test_slow_proof_lane_contract.sh:139:  bash \"$ROOT_DIR/adl/tools/run_slow_proof_family.sh\" --family \"$family\" --json >\"$plan\"",
+        "adl/tools/test_slow_proof_lane_contract.sh:177:bash \"$ROOT_DIR/adl/tools/run_slow_proof_family.sh\" --family all --json >\"$tmpdir/all.json\"",
+        "adl/tools/test_validation_inventory.sh:85:assert \"adl/tools/run_slow_proof_family.sh\" in shell_validator_paths"
+      ]
+    },
+    {
+      "id": "RD07-1518",
+      "path": "adl/tools/run_validation_manager_nessus_lane.sh",
+      "family": "Nessus ADL validation-manager integration",
+      "recommendation": "retain_adl_consumer_until_validation_manager_cutover",
+      "existing_successor_mapping": "exact_successor",
+      "caller_evidence": [
+        "adl/tools/skills/docs/CI_RUNTIME_POLICY_GUIDE.md:137:bash adl/tools/run_validation_manager_nessus_lane.sh \\",
+        "adl/tools/test_run_validation_manager_nessus_lane.sh:5:SCRIPT=\"$ROOT/adl/tools/run_validation_manager_nessus_lane.sh\"",
+        "adl/tools/test_select_validation_lanes.sh:507:assert_has \"$TMP/final-merge-gate-surface.out\" \"command=bash adl/tools/test_ci_path_policy.sh && bash adl/tools/test_ci_runtime_contracts.sh && bash adl/tools/test_select_validation_lanes.sh && bash adl/tools/test_validation_manager.sh && bash adl/tools/test_run_nessus_remote_validation.sh && bash adl/tools/test_run_validation_manager_nessus_lane.sh\"",
+        "docs/tooling/NESSUS_VALIDATION_MANAGER_LANE.md:3:`adl/tools/run_validation_manager_nessus_lane.sh` is the repo-native wrapper for",
+        "docs/tooling/NESSUS_VALIDATION_MANAGER_LANE.md:14:bash adl/tools/run_validation_manager_nessus_lane.sh \\",
+        "docs/tooling/NESSUS_VALIDATION_MANAGER_LANE.md:83:bash adl/tools/run_validation_manager_nessus_lane.sh \\",
+        "docs/tooling/NESSUS_VALIDATION_MANAGER_LANE.md:97:bash adl/tools/run_validation_manager_nessus_lane.sh \\",
+        "docs/tooling/README.md:135:- `bash adl/tools/run_validation_manager_nessus_lane.sh` \u2014 validation-manager"
+      ]
+    },
+    {
+      "id": "RD07-2057",
+      "path": "adl/tools/test_pvf_ci_release_policy.sh",
+      "family": "ADL repository CI and coverage control",
+      "recommendation": "retain_adl_ci_contract_pending_explicit_ci_cutover",
+      "existing_successor_mapping": "exact_successor",
+      "caller_evidence": [
+        ".github/workflows/ci.yaml:455:        run: bash adl/tools/test_pvf_ci_release_policy.sh"
+      ]
+    },
+    {
+      "id": "RD07-2079",
+      "path": "adl/tools/test_run_authoritative_coverage_lane.sh",
+      "family": "ADL repository CI and coverage control",
+      "recommendation": "retain_adl_ci_contract_pending_explicit_ci_cutover",
+      "existing_successor_mapping": "exact_successor",
+      "caller_evidence": [
+        ".github/workflows/ci.yaml:474:        run: bash adl/tools/test_run_authoritative_coverage_lane.sh",
+        "adl/tools/ci_path_policy.sh:626:    adl/tools/test_run_authoritative_coverage_lane.sh|\\",
+        "adl/tools/ci_path_policy.sh:690:      adl/tools/test_run_authoritative_coverage_lane.sh)",
+        "adl/tools/ci_path_policy.sh:772:    adl/tools/test_run_authoritative_coverage_lane.sh|\\",
+        "adl/tools/ci_path_policy.sh:815:      adl/tools/test_run_authoritative_coverage_lane.sh|\\",
+        "adl/tools/demo_v0912_quality_gate.sh:47:checks_json+=\"$(run_check authoritative_coverage_lane_contract bash \"$ROOT_DIR/adl/tools/test_run_authoritative_coverage_lane.sh\"),\"",
+        "adl/tools/skills/repo-packet-builder/tests/fixtures/issue-520-changed-paths.txt:4136:adl/tools/test_run_authoritative_coverage_lane.sh",
+        "adl/tools/test_check_coverage_impact.sh:454:  ADL_COVERAGE_CONTRACT_NESTED=1 bash \"$ROOT/adl/tools/test_run_authoritative_coverage_lane.sh\""
+      ]
+    },
+    {
+      "id": "RD07-2081",
+      "path": "adl/tools/test_run_aws_spot_builder_image_validation.sh",
+      "family": "Cloud proof orchestration and coupled static tests",
+      "recommendation": "owner_transfer_with_remaining_source_caller_hold",
+      "existing_successor_mapping": "exact_successor",
+      "caller_evidence": [
+        "adl/tools/test_run_issue268_six_hour_spot_qualification.sh:447:\"adl/tools/test_run_aws_spot_builder_image_validation.sh\",",
+        "docs/tooling/AWS_SPOT_REMOTE_VALIDATION_LANE.md:290:bash adl/tools/test_run_aws_spot_builder_image_validation.sh"
+      ]
+    },
+    {
+      "id": "RD07-2084",
+      "path": "adl/tools/test_run_cargo_validation.sh",
+      "family": "ADL repository CI and coverage control",
+      "recommendation": "retain_adl_ci_contract_pending_explicit_ci_cutover",
+      "existing_successor_mapping": "exact_successor",
+      "caller_evidence": [
+        "adl/tools/test_ci_path_policy.sh:2031:  printf '#!/usr/bin/env bash\\nbash adl/tools/run_cargo_validation.sh\\n' > adl/tools/test_run_cargo_validation.sh",
+        "adl/tools/test_ci_path_policy.sh:2043:    adl/tools/test_run_cargo_validation.sh \\"
+      ]
+    },
+    {
+      "id": "RD07-2088",
+      "path": "adl/tools/test_run_issue268_six_hour_spot_qualification.sh",
+      "family": "Cloud proof orchestration and coupled static tests",
+      "recommendation": "owner_transfer_with_remaining_source_caller_hold",
+      "existing_successor_mapping": "exact_successor",
+      "caller_evidence": [
+        "adl/tools/skills/repo-packet-builder/tests/fixtures/issue-520-changed-paths.txt:4137:adl/tools/test_run_issue268_six_hour_spot_qualification.sh"
+      ]
+    },
+    {
+      "id": "RD07-2095",
+      "path": "adl/tools/test_run_pr_fast_coverage_lane.sh",
+      "family": "ADL repository CI and coverage control",
+      "recommendation": "retain_adl_ci_contract_pending_explicit_ci_cutover",
+      "existing_successor_mapping": "exact_successor",
+      "caller_evidence": [
+        "adl/tools/ci_path_policy.sh:627:    adl/tools/test_run_pr_fast_coverage_lane.sh|\\",
+        "adl/tools/ci_path_policy.sh:697:      adl/tools/test_run_pr_fast_coverage_lane.sh)",
+        "adl/tools/test_ci_path_policy.sh:1907:runner_contract = Path(\"adl/tools/test_run_pr_fast_coverage_lane.sh\")",
+        "adl/tools/test_ci_path_policy.sh:1930:  git add adl/src/cli/process_cmd.rs .github/workflows/ci.yaml adl/tools/check_coverage_impact.sh adl/tools/test_check_coverage_impact.sh adl/tools/test_ci_runtime_contracts.sh adl/tools/test_run_pr_fast_coverage_lane.sh adl/tools/run_authoritative_coverage_lane.sh adl/tools/test_run_authoritative_coverage_lane.sh",
+        "adl/tools/test_ci_runtime_contracts.sh:1137:bash \"$ROOT_DIR/adl/tools/test_run_pr_fast_coverage_lane.sh\""
+      ]
+    },
+    {
+      "id": "RD07-2097",
+      "path": "adl/tools/test_run_pvf_validation_lane.sh",
+      "family": "ADL repository CI and coverage control",
+      "recommendation": "retain_adl_ci_contract_pending_explicit_ci_cutover",
+      "existing_successor_mapping": "exact_successor",
+      "caller_evidence": []
+    },
+    {
+      "id": "RD07-2100",
+      "path": "adl/tools/test_run_v0917_csm_api_gateway_bridge_proof.sh",
+      "family": "Source-bound Runtime tests",
+      "recommendation": "hold_runtime_owner_test_and_consumer_reconciliation",
+      "existing_successor_mapping": "exact_successor",
+      "caller_evidence": [
+        "adl/tools/test_select_validation_lanes.sh:596:A\tadl/tools/test_run_v0917_csm_api_gateway_bridge_proof.sh"
+      ]
+    },
+    {
+      "id": "RD07-2101",
+      "path": "adl/tools/test_run_validation_manager_nessus_lane.sh",
+      "family": "Nessus ADL validation-manager integration",
+      "recommendation": "retain_adl_consumer_until_validation_manager_cutover",
+      "existing_successor_mapping": "exact_successor",
+      "caller_evidence": [
+        "adl/tools/test_select_validation_lanes.sh:507:assert_has \"$TMP/final-merge-gate-surface.out\" \"command=bash adl/tools/test_ci_path_policy.sh && bash adl/tools/test_ci_runtime_contracts.sh && bash adl/tools/test_select_validation_lanes.sh && bash adl/tools/test_validation_manager.sh && bash adl/tools/test_run_nessus_remote_validation.sh && bash adl/tools/test_run_validation_manager_nessus_lane.sh\""
+      ]
+    },
+    {
+      "id": "RD07-2108",
+      "path": "adl/tools/test_runtime_v3_cross_binary_generation.sh",
+      "family": "Source-bound Runtime tests",
+      "recommendation": "hold_runtime_owner_test_and_consumer_reconciliation",
+      "existing_successor_mapping": "exact_successor",
+      "caller_evidence": [
+        "adl/tools/skills/repo-packet-builder/tests/fixtures/issue-520-changed-paths.txt:4139:adl/tools/test_runtime_v3_cross_binary_generation.sh"
+      ]
+    },
+    {
+      "id": "RD07-2118",
+      "path": "adl/tools/test_slow_proof_lane_contract.sh",
+      "family": "ADL repository CI and coverage control",
+      "recommendation": "retain_adl_ci_contract_pending_explicit_ci_cutover",
+      "existing_successor_mapping": "exact_successor",
+      "caller_evidence": [
+        ".github/workflows/ci.yaml:470:        run: bash adl/tools/test_slow_proof_lane_contract.sh",
+        "adl/tools/ci_path_policy.sh:774:    adl/tools/test_slow_proof_lane_contract.sh|\\",
+        "adl/tools/ci_path_policy.sh:817:      adl/tools/test_slow_proof_lane_contract.sh|\\",
+        "adl/tools/run_pr_fast_test_lane.sh:666:    adl/tools/test_slow_proof_lane_contract.sh|\\",
+        "adl/tools/select_validation_lanes.py:316:                \"adl/tools/test_slow_proof_lane_contract.sh\",",
+        "adl/tools/test_ci_path_policy.sh:1372:    \"      - name: slow-proof lane contract\\n        if: steps.path-policy.outputs.ci_contracts_required == 'true'\\n        run: bash adl/tools/test_slow_proof_lane_contract.sh\\n      - name: Coverage run and summary (json)\\n        run: bash adl/tools/run_authoritative_coverage_lane.sh\\n\",",
+        "adl/tools/test_ci_path_policy.sh:1424:    \"      - name: slow-proof lane contract\\n        if: steps.path-policy.outputs.ci_contracts_required == 'true'\\n        run: bash adl/tools/test_slow_proof_lane_contract.sh\\n      - name: Coverage run and summary (json)\\n        run: bash adl/tools/run_authoritative_coverage_lane.sh\\n\",",
+        "adl/tools/test_run_pr_fast_test_lane.sh:447:M\tadl/tools/test_slow_proof_lane_contract.sh"
+      ]
+    },
+    {
+      "id": "RD07-2173",
+      "path": "adl/tools/validate_ci_workflow_policy.rb",
+      "family": "ADL repository CI and coverage control",
+      "recommendation": "retain_adl_ci_contract_pending_explicit_ci_cutover",
+      "existing_successor_mapping": "same_path_changed",
+      "caller_evidence": [
+        ".github/workflows/ci.yaml:115:        run: ruby adl/tools/validate_ci_workflow_policy.rb",
+        "adl/tools/test_ci_runtime_contracts.sh:7:ruby \"$ROOT_DIR/adl/tools/validate_ci_workflow_policy.rb\" >/dev/null",
+        "adl/tools/test_ci_runtime_contracts.sh:18:if ruby \"$ROOT_DIR/adl/tools/validate_ci_workflow_policy.rb\" \"$POLICY_FIXTURE_ROOT\" >/dev/null 2>&1; then",
+        "adl/tools/test_ci_runtime_contracts.sh:24:if ruby \"$ROOT_DIR/adl/tools/validate_ci_workflow_policy.rb\" \"$POLICY_FIXTURE_ROOT\" >/dev/null 2>&1; then",
+        "adl/tools/test_ci_runtime_contracts.sh:30:if ruby \"$ROOT_DIR/adl/tools/validate_ci_workflow_policy.rb\" \"$POLICY_FIXTURE_ROOT\" >/dev/null 2>&1; then",
+        "adl/tools/test_ci_runtime_contracts.sh:36:if ruby \"$ROOT_DIR/adl/tools/validate_ci_workflow_policy.rb\" \"$POLICY_FIXTURE_ROOT\" >/dev/null 2>&1; then",
+        "adl/tools/test_ci_runtime_contracts.sh:42:if ruby \"$ROOT_DIR/adl/tools/validate_ci_workflow_policy.rb\" \"$POLICY_FIXTURE_ROOT\" >/dev/null 2>&1; then",
+        "adl/tools/test_ci_runtime_contracts.sh:48:if ruby \"$ROOT_DIR/adl/tools/validate_ci_workflow_policy.rb\" \"$POLICY_FIXTURE_ROOT\" >/dev/null 2>&1; then"
+      ]
+    },
+    {
+      "id": "RD07-2204",
+      "path": "adl/tools/validate_pvf_manifest.py",
+      "family": "ADL repository CI and coverage control",
+      "recommendation": "retain_adl_ci_contract_pending_explicit_ci_cutover",
+      "existing_successor_mapping": "exact_successor",
+      "caller_evidence": [
+        "adl/tools/run_pvf_validation_lane.sh:109:if ! python3 \"$ROOT_DIR/adl/tools/validate_pvf_manifest.py\" \"$MANIFEST_PATH\" >/dev/null; then"
+      ]
+    },
+    {
+      "id": "RD07-2243",
+      "path": "adl/tools/validate_v092_runtime_guardian_lifecycle.sh",
+      "family": "Artifact-consuming Runtime entrypoints",
+      "recommendation": "owner_transfer_with_explicit_artifact_and_caller_contract",
+      "existing_successor_mapping": "same_path_changed",
+      "caller_evidence": [
+        "adl/tools/run_issue268_remote_resident_qualification.sh:36:GUARDIAN=${ADL_ISSUE268_GUARDIAN_RUNNER:-$ROOT/adl/tools/validate_v092_runtime_guardian_lifecycle.sh}",
+        "adl/tools/run_issue268_remote_resident_qualification.sh:211:if [[ \"$GUARDIAN\" == \"$ROOT/adl/tools/validate_v092_runtime_guardian_lifecycle.sh\" ]] \\",
+        "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh:601:bash adl/tools/validate_v092_runtime_guardian_lifecycle.sh --suite preflight_1x >/opt/adl-issue345/guardian.log 2>&1",
+        "adl/tools/skills/repo-packet-builder/tests/fixtures/issue-520-changed-paths.txt:4149:adl/tools/validate_v092_runtime_guardian_lifecycle.sh",
+        "adl/tools/test_issue607_warm_polis.sh:515:  rg -Fq 'if [[ \"${ADL_RUNTIME_USE_PREBUILT_BINARIES:-0}\" == 1 ]]; then' \"$ROOT/adl/tools/validate_v092_runtime_guardian_lifecycle.sh\"",
+        "adl/tools/test_run_issue268_six_hour_spot_qualification.sh:8:validator=\"$ROOT/adl/tools/validate_v092_runtime_guardian_lifecycle.sh\"",
+        "adl/tools/test_run_issue268_six_hour_spot_qualification.sh:441:\"adl/tools/validate_v092_runtime_guardian_lifecycle.sh\",",
+        "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh:51:grep -q 'revision=${ADL_RUNTIME_SOURCE_REVISION:-}' \"$ROOT/adl/tools/validate_v092_runtime_guardian_lifecycle.sh\" || fail \"Guardian validator cannot consume an archive-safe source revision\""
+      ]
+    },
+    {
+      "id": "RD07-3715",
+      "path": "docs/tooling/ADL_BUILDER_IMAGE.md",
+      "family": "Builder image source and product runbooks",
+      "recommendation": "owner_transfer_with_navigation_and_publisher_cutover",
+      "existing_successor_mapping": "exact_successor",
+      "caller_evidence": [
+        "docs/tooling/AWS_SPOT_REMOTE_EXECUTION_HOW_TO.md:118:Use [ADL Builder Image](ADL_BUILDER_IMAGE.md) for publication. Publish a new",
+        "docs/tooling/README.md:29:- [ADL Builder Image](ADL_BUILDER_IMAGE.md) - shared builder-image contract,",
+        "docs/tooling/README.md:140:  [ADL Builder Image](ADL_BUILDER_IMAGE.md)",
+        "docs/tooling/REMOTE_BUILD_HOW_TO.md:285:- [ADL Builder Image](ADL_BUILDER_IMAGE.md)"
+      ]
+    },
+    {
+      "id": "RD07-3722",
+      "path": "docs/tooling/AWS_SPOT_REMOTE_EXECUTION_HOW_TO.md",
+      "family": "Builder image source and product runbooks",
+      "recommendation": "owner_transfer_with_navigation_and_publisher_cutover",
+      "existing_successor_mapping": "exact_successor",
+      "caller_evidence": [
+        "docs/tooling/GITHUB_SPOT_CI_COVERAGE_HOW_TO.md:343:- [AWS Spot Remote Execution HOW-TO](AWS_SPOT_REMOTE_EXECUTION_HOW_TO.md)"
+      ]
+    },
+    {
+      "id": "RD07-3723",
+      "path": "docs/tooling/AWS_SPOT_REMOTE_VALIDATION_LANE.md",
+      "family": "Builder image source and product runbooks",
+      "recommendation": "owner_transfer_with_navigation_and_publisher_cutover",
+      "existing_successor_mapping": "exact_successor",
+      "caller_evidence": [
+        "adl/tools/test_select_validation_lanes.sh:473:A\tdocs/tooling/AWS_SPOT_REMOTE_VALIDATION_LANE.md",
+        "docs/tooling/README.md:34:- [AWS Spot Remote Validation Lane](AWS_SPOT_REMOTE_VALIDATION_LANE.md) - Spot",
+        "docs/tooling/README.md:152:  [AWS Spot Remote Validation Lane](AWS_SPOT_REMOTE_VALIDATION_LANE.md)",
+        "docs/tooling/REMOTE_BUILD_HOW_TO.md:287:- [AWS Spot Remote Validation Lane](AWS_SPOT_REMOTE_VALIDATION_LANE.md)"
+      ]
+    },
+    {
+      "id": "RD07-3724",
+      "path": "docs/tooling/AWS_SPOT_REMOTE_VALIDATION_WRAPPER_CONTRACT.mmd",
+      "family": "Builder image source and product runbooks",
+      "recommendation": "owner_transfer_with_navigation_and_publisher_cutover",
+      "existing_successor_mapping": "exact_successor",
+      "caller_evidence": []
+    },
+    {
+      "id": "RD07-3728",
+      "path": "docs/tooling/CI_LOG_ARCHIVE_S3.md",
+      "family": "Historical CI log archival command guide",
+      "recommendation": "retain_historical_navigation_evidence",
+      "existing_successor_mapping": "exact_successor",
+      "caller_evidence": [
+        "docs/tooling/README.md:126:  [CI Log Archive To S3](CI_LOG_ARCHIVE_S3.md) for historical context."
+      ]
+    },
+    {
+      "id": "RD07-3753",
+      "path": "docs/tooling/NESSUS_VALIDATION_MANAGER_LANE.md",
+      "family": "Nessus ADL validation-manager integration",
+      "recommendation": "retain_adl_consumer_until_validation_manager_cutover",
+      "existing_successor_mapping": "exact_successor",
+      "caller_evidence": [
+        "docs/tooling/README.md:37:- [Nessus Validation Manager Lane](NESSUS_VALIDATION_MANAGER_LANE.md) - Nessus",
+        "docs/tooling/README.md:137:  remote runner; see [Nessus Validation Manager Lane](NESSUS_VALIDATION_MANAGER_LANE.md)",
+        "docs/tooling/REMOTE_BUILD_HOW_TO.md:288:- [Nessus Validation Manager Lane](NESSUS_VALIDATION_MANAGER_LANE.md)"
+      ]
+    },
+    {
+      "id": "RD07-4094",
+      "path": "tools/aws_remote_validation/BOOTSTRAP_IDENTITIES.md",
+      "family": "AWS remote validation package and reusable workflow",
+      "recommendation": "owner_transfer_requires_adl_workflow_cutover",
+      "existing_successor_mapping": "exact_successor",
+      "caller_evidence": []
+    },
+    {
+      "id": "RD07-4095",
+      "path": "tools/aws_remote_validation/Cargo.lock",
+      "family": "AWS remote validation package and reusable workflow",
+      "recommendation": "owner_transfer_requires_adl_workflow_cutover",
+      "existing_successor_mapping": "exact_successor",
+      "caller_evidence": [
+        ".github/workflows/aws-spot-remote-validation.yaml:233:          key: spot-launcher-${{ runner.os }}-${{ hashFiles('tools/aws_remote_validation/Cargo.lock') }}",
+        ".github/workflows/aws-spot-remote-validation.yaml:247:          key: spot-launcher-${{ runner.os }}-${{ hashFiles('tools/aws_remote_validation/Cargo.lock') }}",
+        "adl/tools/install_aws_remote_validation_tool.sh:15:    tools/aws_remote_validation/Cargo.lock \\",
+        "adl/tools/test_ci_path_policy.sh:2040:  printf '# lock\\n' > tools/aws_remote_validation/Cargo.lock",
+        "adl/tools/test_select_validation_lanes.sh:517:A\ttools/aws_remote_validation/Cargo.lock"
+      ]
+    },
+    {
+      "id": "RD07-4096",
+      "path": "tools/aws_remote_validation/Cargo.toml",
+      "family": "AWS remote validation package and reusable workflow",
+      "recommendation": "owner_transfer_requires_adl_workflow_cutover",
+      "existing_successor_mapping": "exact_successor",
+      "caller_evidence": [
+        ".github/workflows/aws-spot-remote-validation.yaml:237:        run: cargo build --manifest-path tools/aws_remote_validation/Cargo.toml --bin adl-aws-remote-validation",
+        "adl/tools/install_aws_remote_validation_tool.sh:5:MANIFEST=\"$ROOT/tools/aws_remote_validation/Cargo.toml\"",
+        "adl/tools/install_aws_remote_validation_tool.sh:14:    tools/aws_remote_validation/Cargo.toml \\",
+        "adl/tools/install_aws_remote_validation_tool.sh:41:printf '{\"binary\":\"adl-aws-remote-validation-tool\",\"source_hash\":\"%s\",\"manifest\":\"tools/aws_remote_validation/Cargo.toml\"}\\n' \\",
+        "adl/tools/run_aws_spot_remote_validation_lane.sh:491:  echo \"build it with: cargo build --locked --manifest-path tools/aws_remote_validation/Cargo.toml --bin adl-aws-remote-validation\" >&2",
+        "adl/tools/test_ci_path_policy.sh:2039:  printf '[package]\\nname = \"adl-aws-remote-validation\"\\nversion = \"0.1.0\"\\nedition = \"2021\"\\n' > tools/aws_remote_validation/Cargo.toml",
+        "adl/tools/test_run_aws_spot_remote_validation_lane.sh:669:grep -F -- \"tools/aws_remote_validation/Cargo.toml\" \"$WORKFLOW\" >/dev/null",
+        "adl/tools/test_select_validation_lanes.sh:518:A\ttools/aws_remote_validation/Cargo.toml"
+      ]
+    },
+    {
+      "id": "RD07-4097",
+      "path": "tools/aws_remote_validation/scripts/remote_validation_runner.sh",
+      "family": "AWS remote validation package and reusable workflow",
+      "recommendation": "owner_transfer_requires_adl_workflow_cutover",
+      "existing_successor_mapping": "exact_successor",
+      "caller_evidence": [
+        "adl/tools/test_run_aws_spot_builder_image_validation.sh:345:runner=\"$ROOT/tools/aws_remote_validation/scripts/remote_validation_runner.sh\"",
+        "adl/tools/test_run_aws_spot_builder_image_validation.sh:424:    tools/aws_remote_validation/scripts/remote_validation_runner.sh | \\",
+        "adl/tools/test_run_issue268_six_hour_spot_qualification.sh:421:grep -Fq 'od -An -N32 -tx1 /dev/urandom' \"$ROOT/tools/aws_remote_validation/scripts/remote_validation_runner.sh\"",
+        "adl/tools/test_run_issue268_six_hour_spot_qualification.sh:422:grep -Fq 'export ADL_ISSUE414_SIGNING_KEY_HEX' \"$ROOT/tools/aws_remote_validation/scripts/remote_validation_runner.sh\"",
+        "adl/tools/test_run_issue268_six_hour_spot_qualification.sh:423:grep -Fq 'ADL_SPOT_RETAINED_RUNTIME_ROOT=\"$ADL_RUNTIME_CONTINUITY_ROOT/state/$ADL_RUN_ID\"' \"$ROOT/tools/aws_remote_validation/scripts/remote_validation_runner.sh\"",
+        "adl/tools/test_run_issue268_six_hour_spot_qualification.sh:451:\"tools/aws_remote_validation/scripts/remote_validation_runner.sh\",",
+        "adl/tools/test_select_validation_lanes.sh:519:A\ttools/aws_remote_validation/scripts/remote_validation_runner.sh",
+        "tools/aws_remote_validation/src/aws_remote_validation.rs:2291:bash \"$CHECKOUT_DIR/tools/aws_remote_validation/scripts/remote_validation_runner.sh\"\"#,"
+      ]
+    },
+    {
+      "id": "RD07-4098",
+      "path": "tools/aws_remote_validation/scripts/ssh_debug_control.sh",
+      "family": "AWS remote validation package and reusable workflow",
+      "recommendation": "owner_transfer_requires_adl_workflow_cutover",
+      "existing_successor_mapping": "exact_successor",
+      "caller_evidence": [
+        "adl/tools/test_select_validation_lanes.sh:520:A\ttools/aws_remote_validation/scripts/ssh_debug_control.sh"
+      ]
+    },
+    {
+      "id": "RD07-4099",
+      "path": "tools/aws_remote_validation/scripts/test_verified_bootstrap.py",
+      "family": "AWS remote validation package and reusable workflow",
+      "recommendation": "owner_transfer_requires_adl_workflow_cutover",
+      "existing_successor_mapping": "exact_successor",
+      "caller_evidence": [
+        "tools/aws_remote_validation/BOOTSTRAP_IDENTITIES.md:57:Validation: `python3 tools/aws_remote_validation/scripts/test_verified_bootstrap.py`.",
+        "tools/aws_remote_validation/scripts/verified_bootstrap.pvf.json:5:  \"surface\": \"tools/aws_remote_validation/scripts/test_verified_bootstrap.py\",",
+        "tools/aws_remote_validation/scripts/verified_bootstrap.pvf.json:11:  \"command\": \"python3 tools/aws_remote_validation/scripts/test_verified_bootstrap.py\"",
+        "tools/groupd_validation/README.md:10:| DEP-003 / SYN-004 | Reviewed raw-host identities; no latest/unchecked URL/unversioned S3 fallback; safe archive admission | `tools/aws_remote_validation/scripts/test_verified_bootstrap.py`: 24 tests |",
+        "tools/groupd_validation/src/lib.rs:52:            \"tools/aws_remote_validation/scripts/test_verified_bootstrap.py\","
+      ]
+    },
+    {
+      "id": "RD07-4100",
+      "path": "tools/aws_remote_validation/scripts/verified_bootstrap.pvf.json",
+      "family": "AWS remote validation package and reusable workflow",
+      "recommendation": "owner_transfer_requires_adl_workflow_cutover",
+      "existing_successor_mapping": "exact_successor",
+      "caller_evidence": []
+    },
+    {
+      "id": "RD07-4101",
+      "path": "tools/aws_remote_validation/scripts/verified_bootstrap.py",
+      "family": "AWS remote validation package and reusable workflow",
+      "recommendation": "owner_transfer_requires_adl_workflow_cutover",
+      "existing_successor_mapping": "exact_successor",
+      "caller_evidence": [
+        "tools/aws_remote_validation/scripts/remote_validation_runner.sh:215:BOOTSTRAP_HELPER=\"$ADL_REMOTE_REPO_DIR/tools/aws_remote_validation/scripts/verified_bootstrap.py\""
+      ]
+    },
+    {
+      "id": "RD07-4102",
+      "path": "tools/aws_remote_validation/src/aws_remote_validation.rs",
+      "family": "AWS remote validation package and reusable workflow",
+      "recommendation": "owner_transfer_requires_adl_workflow_cutover",
+      "existing_successor_mapping": "same_path_changed",
+      "caller_evidence": [
+        "adl/tools/test_run_aws_spot_ci_profile.sh:54:grep -F '.attach_volume()' \"$ROOT/tools/aws_remote_validation/src/aws_remote_validation.rs\" >/dev/null",
+        "adl/tools/test_run_aws_spot_ci_profile.sh:56:grep -F '.delete_role_policy()' \"$ROOT/tools/aws_remote_validation/src/aws_remote_validation.rs\" >/dev/null",
+        "adl/tools/test_run_aws_spot_ci_profile.sh:61:grep -F 'https://checkip.amazonaws.com' \"$ROOT/tools/aws_remote_validation/src/aws_remote_validation.rs\" >/dev/null",
+        "adl/tools/test_run_issue268_six_hour_spot_qualification.sh:426:grep -Fq '.parameters(\"executionTimeout\", vec![ssm_execution_timeout_seconds])' \"$ROOT/tools/aws_remote_validation/src/aws_remote_validation.rs\"",
+        "adl/tools/test_run_issue268_six_hour_spot_qualification.sh:448:\"tools/aws_remote_validation/src/aws_remote_validation.rs\",",
+        "adl/tools/test_select_validation_lanes.sh:417:printf 'A\\ttools/aws_remote_validation/src/aws_remote_validation.rs\\n' >\"$aws_remote_validation_tool\"",
+        "adl/tools/test_select_validation_lanes.sh:521:A\ttools/aws_remote_validation/src/aws_remote_validation.rs"
+      ]
+    },
+    {
+      "id": "RD07-4103",
+      "path": "tools/aws_remote_validation/src/bin/adl_aws_remote_validation.rs",
+      "family": "AWS remote validation package and reusable workflow",
+      "recommendation": "owner_transfer_requires_adl_workflow_cutover",
+      "existing_successor_mapping": "exact_successor",
+      "caller_evidence": [
+        "adl/tools/test_run_issue268_six_hour_spot_qualification.sh:449:\"tools/aws_remote_validation/src/bin/adl_aws_remote_validation.rs\",",
+        "adl/tools/test_select_validation_lanes.sh:522:A\ttools/aws_remote_validation/src/bin/adl_aws_remote_validation.rs"
+      ]
+    },
+    {
+      "id": "RD07-4104",
+      "path": "tools/aws_remote_validation/src/cli/observability.rs",
+      "family": "AWS remote validation package and reusable workflow",
+      "recommendation": "owner_transfer_requires_adl_workflow_cutover",
+      "existing_successor_mapping": "exact_successor",
+      "caller_evidence": [
+        "adl/tools/test_select_validation_lanes.sh:523:A\ttools/aws_remote_validation/src/cli/observability.rs"
+      ]
+    },
+    {
+      "id": "RD07-4105",
+      "path": "tools/aws_remote_validation/tests/portable_adapter.rs",
+      "family": "AWS remote validation package and reusable workflow",
+      "recommendation": "owner_transfer_requires_adl_workflow_cutover",
+      "existing_successor_mapping": "exact_successor",
+      "caller_evidence": [
+        "adl/tools/test_run_issue268_six_hour_spot_qualification.sh:450:\"tools/aws_remote_validation/tests/portable_adapter.rs\","
+      ]
+    },
+    {
+      "id": "RD07-4118",
+      "path": "tools/codefriend_host/release/README.md",
+      "family": "CodeFriend artifact release assembly",
+      "recommendation": "owner_transfer_artifact_release_family",
+      "existing_successor_mapping": "same_path_changed",
+      "caller_evidence": []
+    },
+    {
+      "id": "RD07-4119",
+      "path": "tools/codefriend_host/release/assemble.py",
+      "family": "CodeFriend artifact release assembly",
+      "recommendation": "owner_transfer_artifact_release_family",
+      "existing_successor_mapping": "same_path_changed",
+      "caller_evidence": [
+        "tools/codefriend_host/release/README.md:11:python3 tools/codefriend_host/release/assemble.py \\",
+        "tools/codefriend_host/release/README.md:67:Local validation: `python3 -m py_compile tools/codefriend_host/release/assemble.py`"
+      ]
+    },
+    {
+      "id": "RD07-4120",
+      "path": "tools/codefriend_host/release/test_assemble.py",
+      "family": "CodeFriend artifact release assembly",
+      "recommendation": "owner_transfer_artifact_release_family",
+      "existing_successor_mapping": "same_path_changed",
+      "caller_evidence": []
+    },
+    {
+      "id": "RD07-4121",
+      "path": "tools/codefriend_host/release/validation.json",
+      "family": "CodeFriend artifact release assembly",
+      "recommendation": "owner_transfer_artifact_release_family",
+      "existing_successor_mapping": "exact_successor",
+      "caller_evidence": []
+    },
+    {
+      "id": "RD07-4122",
+      "path": "tools/codefriend_host/release/verify_packet.py",
+      "family": "CodeFriend artifact release assembly",
+      "recommendation": "owner_transfer_artifact_release_family",
+      "existing_successor_mapping": "same_path_changed",
+      "caller_evidence": [
+        "tools/codefriend_host/release/README.md:75:python3 tools/codefriend_host/release/verify_packet.py /approved/releases/beta-candidate"
+      ]
+    },
+    {
+      "id": "RD07-4127",
+      "path": "tools/codefriend_host/terraform/.gitignore",
+      "family": "CodeFriend host Terraform family",
+      "recommendation": "owner_transfer_terraform_family",
+      "existing_successor_mapping": "exact_successor",
+      "caller_evidence": []
+    },
+    {
+      "id": "RD07-4128",
+      "path": "tools/codefriend_host/terraform/.terraform.lock.hcl",
+      "family": "CodeFriend host Terraform family",
+      "recommendation": "owner_transfer_terraform_family",
+      "existing_successor_mapping": "exact_successor",
+      "caller_evidence": []
+    },
+    {
+      "id": "RD07-4129",
+      "path": "tools/codefriend_host/terraform/main.tf",
+      "family": "CodeFriend host Terraform family",
+      "recommendation": "owner_transfer_terraform_family",
+      "existing_successor_mapping": "exact_successor",
+      "caller_evidence": [
+        "tools/codefriend_host/release/test_assemble.py:96:                'tools/codefriend_host/terraform/main.tf':'excluded\\n', '.gitignore':'private\\n'})"
+      ]
+    },
+    {
+      "id": "RD07-4130",
+      "path": "tools/codefriend_host/terraform/variables.tf",
+      "family": "CodeFriend host Terraform family",
+      "recommendation": "owner_transfer_terraform_family",
+      "existing_successor_mapping": "exact_successor",
+      "caller_evidence": []
+    }
+  ],
+  "review_disposition": {
+    "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+    "fixed_ids": [
+      "RD07-2243",
+      "RD07-1483"
+    ],
+    "other_findings": 0
+  }
+}

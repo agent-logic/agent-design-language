@@ -1,0 +1,2111 @@
+{
+  "original_inventory_count": 4134,
+  "scope_count": 29,
+  "method": "Reuse prior bounded role/caller evidence; verify Git identities at Runtime315, inspect complete changed welcome delta; no tests/hashes or operation execution",
+  "retirement_authorized": false,
+  "rows": [
+    {
+      "id": "RD07-3338",
+      "path": "docs/api/runtime-v3/v1/API_VERSIONING.md",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "48d74682519afe9bd8b84000e8e532ec62c91fa0"
+      },
+      "owner_identity": {
+        "mode": "100644",
+        "blob": "48d74682519afe9bd8b84000e8e532ec62c91fa0"
+      },
+      "source_correspondence": "exact",
+      "owner_revision": "315abf70358828a8f4d452532ebd995fb4178389",
+      "reason": "Defines independently versioned Runtime Core and Observatory API contracts and server-variable behavior. Product API ownership belongs to Runtime; active callers/navigation must move with OpenAPI resources.",
+      "caller_edges": [
+        {
+          "path": "docs/reviews/v0.92/internal-review-5846/specialist_assignments.json",
+          "line": 5874,
+          "text": "\"docs/api/runtime-v3/v1/API_VERSIONING.md\",",
+          "match": "literal_repository_path",
+          "role": "policy_or_navigation_reference"
+        },
+        {
+          "path": "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+          "line": 8281,
+          "text": "\"path\": \"docs/api/runtime-v3/v1/API_VERSIONING.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+          "line": 8306,
+          "text": "\"source_url\": \"https://github.com/agent-logic/agent-design-language/blob/682be6b8babb69f73c5e9fef8580f1b3c88966d5/docs/api/runtime-v3/v1/API_VERSIONING.md#L1\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+          "line": 58214,
+          "text": "\"docs/api/runtime-v3/v1/API_VERSIONING.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        }
+      ],
+      "proposal": "conditional_owner_document_transfer_with_caller_cutover",
+      "remaining_requirements": [
+        "active ADL navigation and source consumers reconciled",
+        "reuse applicable owner proof; source presence alone not execution",
+        "scoped retirement approval"
+      ]
+    },
+    {
+      "id": "RD07-3339",
+      "path": "docs/api/runtime-v3/v1/distributed.openapi.json",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "cf45718e6baa8b8795b0fe493e1b64ed361e65e4"
+      },
+      "owner_identity": {
+        "mode": "100644",
+        "blob": "cf45718e6baa8b8795b0fe493e1b64ed361e65e4"
+      },
+      "source_correspondence": "exact",
+      "owner_revision": "315abf70358828a8f4d452532ebd995fb4178389",
+      "reason": "Distributed OpenAPI is parsed by adl-runtime/tests/distributed_projection.rs:601,1219. Need explicit test/installed API-resource consumer migration and endpoint contract acceptance before removing this machine-readable input.",
+      "caller_edges": [
+        {
+          "path": "adl-runtime/tests/distributed_projection.rs",
+          "line": 601,
+          "text": "\"../../docs/api/runtime-v3/v1/distributed.openapi.json\"",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        },
+        {
+          "path": "adl-runtime/tests/distributed_projection.rs",
+          "line": 1219,
+          "text": "\"../../docs/api/runtime-v3/v1/distributed.openapi.json\"",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        },
+        {
+          "path": "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+          "line": 8328,
+          "text": "\"path\": \"docs/api/runtime-v3/v1/distributed.openapi.json\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+          "line": 8348,
+          "text": "\"source_url\": \"https://github.com/agent-logic/agent-design-language/blob/682be6b8babb69f73c5e9fef8580f1b3c88966d5/docs/api/runtime-v3/v1/distributed.openapi.json#L3\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        }
+      ],
+      "proposal": "conditional_machine_resource_or_executable_transfer_with_explicit_consumer_gate",
+      "remaining_requirements": [
+        "active ADL navigation and source consumers reconciled",
+        "reuse applicable owner proof; source presence alone not execution",
+        "scoped retirement approval"
+      ],
+      "existing_review_packet": "../1223-product-docs-unresolved/runtime-seven.json and issue256-historical-consumer-proposal.json; reuse reviewed producer/resource/validator boundaries"
+    },
+    {
+      "id": "RD07-3340",
+      "path": "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "5636f691814632ea5fe094a4875b1ab51032fdc6"
+      },
+      "owner_identity": {
+        "mode": "100644",
+        "blob": "bb65f608c2c0cfdaa3cf3b428edc9b2b15cb44b0"
+      },
+      "source_correspondence": "changed",
+      "owner_revision": "315abf70358828a8f4d452532ebd995fb4178389",
+      "reason": "Observatory OpenAPI is a production-resource input in adl/build.rs:46 and current guide/test consumers; successor is same_path_changed. Need accepted changed API contract, embedded/served-resource migration and frontend consumer closure.",
+      "caller_edges": [
+        {
+          "path": "adl-runtime-kernel/src/control.rs",
+          "line": 622,
+          "text": "include_str!(\"../../docs/api/runtime-v3/v1/observatory.openapi.json\");",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        },
+        {
+          "path": "adl-runtime-kernel/tests/openapi_contract.rs",
+          "line": 7,
+          "text": "include_str!(\"../../docs/api/runtime-v3/v1/observatory.openapi.json\");",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        },
+        {
+          "path": "adl-runtime-kernel/tests/openapi_contract.rs",
+          "line": 256,
+          "text": ".contains(\"include_str!(\\\"../../docs/api/runtime-v3/v1/observatory.openapi.json\\\")\"));",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        },
+        {
+          "path": "adl-runtime/tests/runtime_api_wss.rs",
+          "line": 5,
+          "text": "include_str!(\"../../docs/api/runtime-v3/v1/observatory.openapi.json\");",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        },
+        {
+          "path": "adl/build.rs",
+          "line": 46,
+          "text": "\"docs/api/runtime-v3/v1/observatory.openapi.json\",",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        },
+        {
+          "path": "adl/tools/test_ci_path_policy.sh",
+          "line": 609,
+          "text": "printf '{}\\n' > docs/api/runtime-v3/v1/observatory.openapi.json",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        },
+        {
+          "path": "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh",
+          "line": 127,
+          "text": "docs/api/runtime-v3/v1/observatory.openapi.json \\",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        },
+        {
+          "path": "adl/tools/test_select_validation_lanes.sh",
+          "line": 179,
+          "text": "M\tdocs/api/runtime-v3/v1/observatory.openapi.json",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        }
+      ],
+      "proposal": "conditional_machine_resource_or_executable_transfer_with_explicit_consumer_gate",
+      "remaining_requirements": [
+        "active ADL navigation and source consumers reconciled",
+        "reuse applicable owner proof; source presence alone not execution",
+        "scoped retirement approval"
+      ],
+      "existing_review_packet": "../1223-product-docs-unresolved/runtime-seven.json and issue256-historical-consumer-proposal.json; reuse reviewed producer/resource/validator boundaries"
+    },
+    {
+      "id": "RD07-3341",
+      "path": "docs/api/runtime-v3/v1/openapi.json",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "809d3a3b09befe434c7ad3103d1dabf355a8c94e"
+      },
+      "owner_identity": {
+        "mode": "100644",
+        "blob": "809d3a3b09befe434c7ad3103d1dabf355a8c94e"
+      },
+      "source_correspondence": "exact",
+      "owner_revision": "315abf70358828a8f4d452532ebd995fb4178389",
+      "reason": "Runtime Core OpenAPI is a production-resource input in adl/build.rs:45 and installed proof helpers. Need compiled/served API-resource and proof-helper cutover; exact_successor alone does not settle consumers.",
+      "caller_edges": [
+        {
+          "path": "adl-runtime-kernel/src/control.rs",
+          "line": 620,
+          "text": "const RUNTIME_OPENAPI_DOCUMENT: &str = include_str!(\"../../docs/api/runtime-v3/v1/openapi.json\");",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        },
+        {
+          "path": "adl-runtime-kernel/tests/openapi_contract.rs",
+          "line": 5,
+          "text": "const RUNTIME_OPENAPI: &str = include_str!(\"../../docs/api/runtime-v3/v1/openapi.json\");",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        },
+        {
+          "path": "adl-runtime-kernel/tests/openapi_contract.rs",
+          "line": 254,
+          "text": "assert!(CONTROL_RS.contains(\"include_str!(\\\"../../docs/api/runtime-v3/v1/openapi.json\\\")\"));",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        },
+        {
+          "path": "adl-runtime/tests/runtime_api_wss.rs",
+          "line": 3,
+          "text": "const OPENAPI: &str = include_str!(\"../../docs/api/runtime-v3/v1/openapi.json\");",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        },
+        {
+          "path": "adl/build.rs",
+          "line": 45,
+          "text": "\"docs/api/runtime-v3/v1/openapi.json\",",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        },
+        {
+          "path": "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh",
+          "line": 126,
+          "text": "docs/api/runtime-v3/v1/openapi.json \\",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        },
+        {
+          "path": "adl/tools/test_select_validation_lanes.sh",
+          "line": 180,
+          "text": "M\tdocs/api/runtime-v3/v1/openapi.json",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        },
+        {
+          "path": "adl/tools/validate_v092_browser_trusted_observatory.mjs",
+          "line": 17,
+          "text": "\"docs/api/runtime-v3/v1/openapi.json\",",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        }
+      ],
+      "proposal": "conditional_machine_resource_or_executable_transfer_with_explicit_consumer_gate",
+      "remaining_requirements": [
+        "active ADL navigation and source consumers reconciled",
+        "reuse applicable owner proof; source presence alone not execution",
+        "scoped retirement approval"
+      ],
+      "existing_review_packet": "../1223-product-docs-unresolved/runtime-seven.json and issue256-historical-consumer-proposal.json; reuse reviewed producer/resource/validator boundaries"
+    },
+    {
+      "id": "RD07-3358",
+      "path": "docs/architecture/RUNTIME_V3_WEATHER.md",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "bc29010ede4eaa6691ac1639a3cbb05cce4250a4"
+      },
+      "owner_identity": {
+        "mode": "100644",
+        "blob": "bc29010ede4eaa6691ac1639a3cbb05cce4250a4"
+      },
+      "source_correspondence": "exact",
+      "owner_revision": "315abf70358828a8f4d452532ebd995fb4178389",
+      "reason": "Describes current Runtime weather resource report and sysinfo implementation; successor owns evolving product behavior. Cut current guide links over while historical issue evidence remains.",
+      "caller_edges": [
+        {
+          "path": "docs/reviews/v0.91.7/internal-review-4645/packet/evidence_index.json",
+          "line": 1000,
+          "text": "\"path\": \"docs/architecture/RUNTIME_V3_WEATHER.md\",",
+          "match": "literal_repository_path",
+          "role": "policy_or_navigation_reference"
+        },
+        {
+          "path": "docs/reviews/v0.91.7/internal-review-4645/packet/specialist_assignments.json",
+          "line": 161,
+          "text": "\"docs/architecture/RUNTIME_V3_WEATHER.md\"",
+          "match": "literal_repository_path",
+          "role": "policy_or_navigation_reference"
+        },
+        {
+          "path": "docs/reviews/v0.92/internal-review-5846/specialist_assignments.json",
+          "line": 5904,
+          "text": "\"docs/architecture/RUNTIME_V3_WEATHER.md\",",
+          "match": "literal_repository_path",
+          "role": "policy_or_navigation_reference"
+        },
+        {
+          "path": "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+          "line": 12928,
+          "text": "\"path\": \"docs/architecture/RUNTIME_V3_WEATHER.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+          "line": 12964,
+          "text": "\"source_url\": \"https://github.com/agent-logic/agent-design-language/blob/682be6b8babb69f73c5e9fef8580f1b3c88966d5/docs/architecture/RUNTIME_V3_WEATHER.md#L1\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+          "line": 49238,
+          "text": "\"docs/architecture/RUNTIME_V3_WEATHER.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+          "line": 49754,
+          "text": "\"docs/architecture/RUNTIME_V3_WEATHER.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+          "line": 58242,
+          "text": "\"docs/architecture/RUNTIME_V3_WEATHER.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        }
+      ],
+      "proposal": "conditional_owner_document_transfer_with_caller_cutover",
+      "remaining_requirements": [
+        "active ADL navigation and source consumers reconciled",
+        "reuse applicable owner proof; source presence alone not execution",
+        "scoped retirement approval"
+      ]
+    },
+    {
+      "id": "RD07-3386",
+      "path": "docs/architecture/runtime_v3_current_inventory.v1.json",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "6a849697ef504eaea6ace82b4bbaa5332365f152"
+      },
+      "owner_identity": {
+        "mode": "100644",
+        "blob": "6a849697ef504eaea6ace82b4bbaa5332365f152"
+      },
+      "source_correspondence": "exact",
+      "owner_revision": "315abf70358828a8f4d452532ebd995fb4178389",
+      "reason": "Tracked generated inventory is written/read by adl-runtime-kernel/tools/generate_runtime_inventory.py:19-20 and its test; schema lists old implementation paths. Need explicit generator/output/test migration preserving baseline denominator, not passive-document deletion.",
+      "caller_edges": [
+        {
+          "path": "adl-runtime-kernel/tools/generate_runtime_inventory.py",
+          "line": 19,
+          "text": "OUTPUT_PATH = \"docs/architecture/runtime_v3_current_inventory.v1.json\"",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        },
+        {
+          "path": "adl-runtime-kernel/tools/test_generate_runtime_inventory.py",
+          "line": 16,
+          "text": "OUTPUT = ROOT / \"docs/architecture/runtime_v3_current_inventory.v1.json\"",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        },
+        {
+          "path": "docs/architecture/RUNTIME_V3_FINAL_REVIEW_5175.md",
+          "line": 40,
+          "text": "[current generated Runtime v3 inventory](runtime_v3_current_inventory.v1.json)",
+          "match": "resolved_relative_link",
+          "role": "policy_or_navigation_reference"
+        },
+        {
+          "path": "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+          "line": 28739,
+          "text": "\"path\": \"docs/architecture/runtime_v3_current_inventory.v1.json\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+          "line": 28788,
+          "text": "\"source_url\": \"https://github.com/agent-logic/agent-design-language/blob/682be6b8babb69f73c5e9fef8580f1b3c88966d5/docs/architecture/runtime_v3_current_inventory.v1.json#L2\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        }
+      ],
+      "proposal": "conditional_machine_resource_or_executable_transfer_with_explicit_consumer_gate",
+      "remaining_requirements": [
+        "active ADL navigation and source consumers reconciled",
+        "reuse applicable owner proof; source presence alone not execution",
+        "scoped retirement approval"
+      ],
+      "existing_review_packet": "../1223-product-docs-unresolved/runtime-seven.json and issue256-historical-consumer-proposal.json; reuse reviewed producer/resource/validator boundaries"
+    },
+    {
+      "id": "RD07-3548",
+      "path": "docs/operations/cloud/aws/observatory/S3_CLOUDFRONT_DEPLOYMENT_RUNBOOK.md",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "3f91157d65da32a36845c755258177b32cf0e6d4"
+      },
+      "owner_identity": {
+        "mode": "100644",
+        "blob": "3f91157d65da32a36845c755258177b32cf0e6d4"
+      },
+      "source_correspondence": "exact",
+      "owner_revision": "315abf70358828a8f4d452532ebd995fb4178389",
+      "reason": "Observatory static S3/CloudFront deployment runbook points to infrastructure root and separates product bundle/live authorization. Move canonical operational recipe with exact Terraform/product links, not dated ADL evidence.",
+      "caller_edges": [
+        {
+          "path": "adl/tools/skills/repo-packet-builder/tests/fixtures/issue-520-changed-paths.txt",
+          "line": 5169,
+          "text": "docs/operations/cloud/aws/observatory/S3_CLOUDFRONT_DEPLOYMENT_RUNBOOK.md",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/repo_inventory.json",
+          "line": 103617,
+          "text": "\"path\": \"docs/operations/cloud/aws/observatory/S3_CLOUDFRONT_DEPLOYMENT_RUNBOOK.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/repo_inventory.json",
+          "line": 103623,
+          "text": "\"path\": \"docs/operations/cloud/aws/observatory/S3_CLOUDFRONT_DEPLOYMENT_RUNBOOK.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/repo_inventory.json",
+          "line": 103628,
+          "text": "\"path\": \"docs/operations/cloud/aws/observatory/S3_CLOUDFRONT_DEPLOYMENT_RUNBOOK.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialist-input/demos.json",
+          "line": 359,
+          "text": "\"detail\": \"Read exact-candidate demo surface docs/operations/cloud/aws/observatory/S3_CLOUDFRONT_DEPLOYMENT_RUNBOOK.md in full (SHA-256 ae2a5f40c9008323a53d6573e224eb374bf3d2a15808496022cd265d6cce57fa, 1855 bytes, 33 lines, 1 headings, 0 fence markers, 1 proof",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialist-input/demos.json",
+          "line": 362,
+          "text": "\"subject\": \"docs/operations/cloud/aws/observatory/S3_CLOUDFRONT_DEPLOYMENT_RUNBOOK.md@fb6cbc7f619daa54f901fd2d12f480add682ace3 sha256:ae2a5f40c9008323a53d6573e224eb374bf3d2a15808496022cd265d6cce57fa\"",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/demos-review.json",
+          "line": 664,
+          "text": "\"path\": \"docs/operations/cloud/aws/observatory/S3_CLOUDFRONT_DEPLOYMENT_RUNBOOK.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/demos-review.json",
+          "line": 669,
+          "text": "\"path\": \"docs/operations/cloud/aws/observatory/S3_CLOUDFRONT_DEPLOYMENT_RUNBOOK.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        }
+      ],
+      "proposal": "conditional_owner_document_transfer_with_caller_cutover",
+      "remaining_requirements": [
+        "active ADL navigation and source consumers reconciled",
+        "reuse applicable owner proof; source presence alone not execution",
+        "scoped retirement approval"
+      ]
+    },
+    {
+      "id": "RD07-3549",
+      "path": "docs/operations/cloud/aws/runtime-platform/README.md",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "ad03bf5de218411255b3a000c85e4cb81dfc801f"
+      },
+      "owner_identity": {
+        "mode": "100644",
+        "blob": "ad03bf5de218411255b3a000c85e4cb81dfc801f"
+      },
+      "source_correspondence": "exact",
+      "owner_revision": "315abf70358828a8f4d452532ebd995fb4178389",
+      "reason": "AWS Runtime ALB/node operational recipe depends on infrastructure roots and ADL path-policy/validation-manager tests. Cut these consumers over with infrastructure guide; live operation authorization stays separate.",
+      "caller_edges": [
+        {
+          "path": "adl/tools/test_ci_path_policy.sh",
+          "line": 407,
+          "text": "printf 'aws runtime docs\\n' > docs/operations/cloud/aws/runtime-platform/README.md",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        },
+        {
+          "path": "adl/tools/test_ci_path_policy.sh",
+          "line": 409,
+          "text": "git add infra/aws/modules/csm-runtime-alb/main.tf infra/aws/runtime/alb-origin/main.tf infra/aws/runtime/private-node/main.tf docs/operations/cloud/aws/runtime-platform/README.md docs/milestones/v0.92.1/evidence/cloud/aws-f/aws-f-runtime-platform-proof.md",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        },
+        {
+          "path": "adl/tools/test_validation_manager.sh",
+          "line": 82,
+          "text": "M\tdocs/operations/cloud/aws/runtime-platform/README.md",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        },
+        {
+          "path": "adl/tools/validate_aws_runtime_platform_static.sh",
+          "line": 115,
+          "text": "require_text \"docs/operations/cloud/aws/runtime-platform/README.md\" \"backend config file names or state keys\"",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        },
+        {
+          "path": "adl/tools/validate_aws_runtime_platform_static.sh",
+          "line": 157,
+          "text": "if [ -e \"$ROOT/docs/operations/cloud/aws/runtime-platform/README.md\" ]; then",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        },
+        {
+          "path": "adl/tools/validate_aws_runtime_platform_static.sh",
+          "line": 158,
+          "text": "require_text \"docs/operations/cloud/aws/runtime-platform/README.md\" \"#122\"",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        },
+        {
+          "path": "adl/tools/validate_aws_runtime_platform_static.sh",
+          "line": 159,
+          "text": "require_text \"docs/operations/cloud/aws/runtime-platform/README.md\" \"no direct public ingress\"",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        },
+        {
+          "path": "adl/tools/validate_aws_runtime_platform_static.sh",
+          "line": 160,
+          "text": "require_text \"docs/operations/cloud/aws/runtime-platform/README.md\" \"workspace\"",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        }
+      ],
+      "proposal": "conditional_owner_document_transfer_with_caller_cutover",
+      "remaining_requirements": [
+        "active ADL navigation and source consumers reconciled",
+        "reuse applicable owner proof; source presence alone not execution",
+        "scoped retirement approval"
+      ]
+    },
+    {
+      "id": "RD07-3550",
+      "path": "docs/operations/cloud/aws/runtime-platform/run-disposable-proof.sh",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "2a5444dfc0f812802de91d952bb1559cc081c6b2"
+      },
+      "owner_identity": {
+        "mode": "100755",
+        "blob": "2a5444dfc0f812802de91d952bb1559cc081c6b2"
+      },
+      "source_correspondence": "exact",
+      "owner_revision": "315abf70358828a8f4d452532ebd995fb4178389",
+      "reason": "Exact script exists Runtime315 but Infrastructure ed02 lacks same script. Joint ownership and referenced infrastructure closure need explicit transfer; no AWS execution authorized.",
+      "caller_edges": [
+        {
+          "path": "docs/operations/cloud/aws/runtime-platform/README.md",
+          "line": 54,
+          "text": "docs/operations/cloud/aws/runtime-platform/run-disposable-proof.sh",
+          "match": "literal_repository_path",
+          "role": "policy_or_navigation_reference"
+        },
+        {
+          "path": "docs/operations/cloud/aws/runtime-platform/README.md",
+          "line": 121,
+          "text": "ISSUE_728_MODE=plan-alb docs/operations/cloud/aws/runtime-platform/run-disposable-proof.sh",
+          "match": "literal_repository_path",
+          "role": "policy_or_navigation_reference"
+        },
+        {
+          "path": "docs/operations/cloud/aws/runtime-platform/README.md",
+          "line": 122,
+          "text": "ISSUE_728_MODE=apply-alb docs/operations/cloud/aws/runtime-platform/run-disposable-proof.sh",
+          "match": "literal_repository_path",
+          "role": "policy_or_navigation_reference"
+        },
+        {
+          "path": "docs/operations/cloud/aws/runtime-platform/README.md",
+          "line": 123,
+          "text": "ISSUE_728_MODE=plan-node docs/operations/cloud/aws/runtime-platform/run-disposable-proof.sh",
+          "match": "literal_repository_path",
+          "role": "policy_or_navigation_reference"
+        },
+        {
+          "path": "docs/operations/cloud/aws/runtime-platform/README.md",
+          "line": 124,
+          "text": "ISSUE_728_MODE=apply-node docs/operations/cloud/aws/runtime-platform/run-disposable-proof.sh",
+          "match": "literal_repository_path",
+          "role": "policy_or_navigation_reference"
+        },
+        {
+          "path": "docs/operations/cloud/aws/runtime-platform/README.md",
+          "line": 125,
+          "text": "ISSUE_728_MODE=plan-attach docs/operations/cloud/aws/runtime-platform/run-disposable-proof.sh",
+          "match": "literal_repository_path",
+          "role": "policy_or_navigation_reference"
+        },
+        {
+          "path": "docs/operations/cloud/aws/runtime-platform/README.md",
+          "line": 126,
+          "text": "ISSUE_728_MODE=apply-attach-prove-destroy docs/operations/cloud/aws/runtime-platform/run-disposable-proof.sh",
+          "match": "literal_repository_path",
+          "role": "policy_or_navigation_reference"
+        },
+        {
+          "path": "adl/tools/skills/repo-packet-builder/tests/fixtures/issue-520-changed-paths.txt",
+          "line": 5171,
+          "text": "docs/operations/cloud/aws/runtime-platform/run-disposable-proof.sh",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        }
+      ],
+      "proposal": "hold_cross_owner_infrastructure_dependencies",
+      "remaining_requirements": [
+        "active ADL navigation and source consumers reconciled",
+        "reuse applicable owner proof; source presence alone not execution",
+        "scoped retirement approval"
+      ]
+    },
+    {
+      "id": "RD07-3553",
+      "path": "docs/operations/cloud/gcp/WARM_POLIS_SNAPSHOT_RUNBOOK.md",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "7fc02d8d314ce027e8bc1e0b7c153de6b15f4323"
+      },
+      "owner_identity": {
+        "mode": "100644",
+        "blob": "7fc02d8d314ce027e8bc1e0b7c153de6b15f4323"
+      },
+      "source_correspondence": "exact",
+      "owner_revision": "315abf70358828a8f4d452532ebd995fb4178389",
+      "reason": "Active GCP warm snapshot operational recipe delegates executable truth to infra/gcp/workloads/warm-polis; move recipe/root links together and preserve project/spend/cleanup guards.",
+      "caller_edges": [
+        {
+          "path": "adl/tools/skills/repo-packet-builder/tests/fixtures/issue-520-changed-paths.txt",
+          "line": 5174,
+          "text": "docs/operations/cloud/gcp/WARM_POLIS_SNAPSHOT_RUNBOOK.md",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/repo_inventory.json",
+          "line": 103707,
+          "text": "\"path\": \"docs/operations/cloud/gcp/WARM_POLIS_SNAPSHOT_RUNBOOK.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/repo_inventory.json",
+          "line": 103713,
+          "text": "\"path\": \"docs/operations/cloud/gcp/WARM_POLIS_SNAPSHOT_RUNBOOK.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/repo_inventory.json",
+          "line": 103718,
+          "text": "\"path\": \"docs/operations/cloud/gcp/WARM_POLIS_SNAPSHOT_RUNBOOK.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialist-input/documentation.json",
+          "line": 12413,
+          "text": "\"detail\": \"Read exact-candidate documentation docs/operations/cloud/gcp/WARM_POLIS_SNAPSHOT_RUNBOOK.md in full (SHA-256 086a3e74e657f2b66bc310fdf02297273143f1a8d56f5e30d35f36f1eae4763a, 1834 bytes, 20 lines, 1 headings, 1 Markdown links; opening anchor \\\"# GCP",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialist-input/documentation.json",
+          "line": 12416,
+          "text": "\"subject\": \"docs/operations/cloud/gcp/WARM_POLIS_SNAPSHOT_RUNBOOK.md@fb6cbc7f619daa54f901fd2d12f480add682ace3 sha256:086a3e74e657f2b66bc310fdf02297273143f1a8d56f5e30d35f36f1eae4763a\"",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/documentation-review.json",
+          "line": 25280,
+          "text": "\"path\": \"docs/operations/cloud/gcp/WARM_POLIS_SNAPSHOT_RUNBOOK.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/documentation-review.json",
+          "line": 25285,
+          "text": "\"path\": \"docs/operations/cloud/gcp/WARM_POLIS_SNAPSHOT_RUNBOOK.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        }
+      ],
+      "proposal": "conditional_owner_document_transfer_with_caller_cutover",
+      "remaining_requirements": [
+        "active ADL navigation and source consumers reconciled",
+        "reuse applicable owner proof; source presence alone not execution",
+        "scoped retirement approval"
+      ]
+    },
+    {
+      "id": "RD07-3573",
+      "path": "docs/provider/inference-profiles.md",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "a4cbec3dcec27b6ff6879982692e6913aec7f5fa"
+      },
+      "owner_identity": {
+        "mode": "100644",
+        "blob": "a4cbec3dcec27b6ff6879982692e6913aec7f5fa"
+      },
+      "source_correspondence": "exact",
+      "owner_revision": "315abf70358828a8f4d452532ebd995fb4178389",
+      "reason": "Runtime provider profile materialization and bounded inference parameter contract; successor owns implementation while ADL setup/navigation references must be reconciled.",
+      "caller_edges": [
+        {
+          "path": "docs/architecture/adr/0075-provider-profile-and-shadow-authority.md",
+          "line": 36,
+          "text": "- [Profile contract](../../provider/inference-profiles.md)",
+          "match": "resolved_relative_link",
+          "role": "policy_or_navigation_reference"
+        },
+        {
+          "path": "adl/tools/skills/repo-packet-builder/tests/fixtures/issue-520-changed-paths.txt",
+          "line": 5190,
+          "text": "docs/provider/inference-profiles.md",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/integration/gap-analysis.b8e1b4483b1c345e42ec7817bfde8214469867bb.ebe7fe5d2d2a55df068e920b9517e5d7b1956d8688aeabdd300178b58c41163f.json",
+          "line": 1,
+          "text": "{\"schema\":\"adl.gap_analysis_report.v2\",\"mode\":\"compare_canonical_plan_to_immutable_evidence\",\"candidate\":\"b8e1b4483b1c345e42ec7817bfde8214469867bb\",\"source_digest\":\"ebe7fe5d2d2a55df068e920b9517e5d7b1956d8688aeabdd300178b58c41163f\",\"execution_issues\":[{\"planned",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/integration/release-tail-admission.b8e1b4483b1c345e42ec7817bfde8214469867bb.ebe7fe5d2d2a55df068e920b9517e5d7b1956d8688aeabdd300178b58c41163f.json",
+          "line": 1,
+          "text": "{\"schema\":\"adl.v0921.release_tail_admission.v2\",\"candidate\":\"b8e1b4483b1c345e42ec7817bfde8214469867bb\",\"source_digest\":\"ebe7fe5d2d2a55df068e920b9517e5d7b1956d8688aeabdd300178b58c41163f\",\"output_identity\":\"release-tail-admission.b8e1b4483b1c345e42ec7817bfde8214",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/integration/release-tail-input.b8e1b4483b1c345e42ec7817bfde8214469867bb.json",
+          "line": 1,
+          "text": "{\"schema\":\"adl.v0921.release_tail_input.v1\",\"candidate\":\"b8e1b4483b1c345e42ec7817bfde8214469867bb\",\"planning\":[{\"path\":\"docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml\",\"sha256\":\"70fc3e2b3529fc33de967f17cc70d6fff036d9b6f73f48513aaf8ac28fb6f8ad\"},{\"path\":\"do",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/repo_inventory.json",
+          "line": 103995,
+          "text": "\"path\": \"docs/provider/inference-profiles.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/repo_inventory.json",
+          "line": 104001,
+          "text": "\"path\": \"docs/provider/inference-profiles.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/repo_inventory.json",
+          "line": 104006,
+          "text": "\"path\": \"docs/provider/inference-profiles.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        }
+      ],
+      "proposal": "conditional_owner_document_transfer_with_caller_cutover",
+      "remaining_requirements": [
+        "active ADL navigation and source consumers reconciled",
+        "reuse applicable owner proof; source presence alone not execution",
+        "scoped retirement approval"
+      ]
+    },
+    {
+      "id": "RD07-3574",
+      "path": "docs/providers/provider-profile-hot-loading.md",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "37aa812beaf0727fa52e9598d77cd22e063f68c0"
+      },
+      "owner_identity": {
+        "mode": "100644",
+        "blob": "37aa812beaf0727fa52e9598d77cd22e063f68c0"
+      },
+      "source_correspondence": "exact",
+      "owner_revision": "315abf70358828a8f4d452532ebd995fb4178389",
+      "reason": "Production provider-only sidecar reload owner and CSM workflow arguments are Runtime behavior; cut guide/config links and command consumers over together.",
+      "caller_edges": [
+        {
+          "path": "adl/tools/skills/repo-packet-builder/tests/fixtures/issue-520-changed-paths.txt",
+          "line": 5191,
+          "text": "docs/providers/provider-profile-hot-loading.md",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/repo_inventory.json",
+          "line": 104013,
+          "text": "\"path\": \"docs/providers/provider-profile-hot-loading.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/repo_inventory.json",
+          "line": 104019,
+          "text": "\"path\": \"docs/providers/provider-profile-hot-loading.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/repo_inventory.json",
+          "line": 104024,
+          "text": "\"path\": \"docs/providers/provider-profile-hot-loading.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialist-input/documentation.json",
+          "line": 12521,
+          "text": "\"detail\": \"Read exact-candidate documentation docs/providers/provider-profile-hot-loading.md in full (SHA-256 e1ea64e58801d4b6e0bbeee494a35e8f4f4f33fdbff83bdaa9f54ebd3891cfb1, 1993 bytes, 40 lines, 1 headings, 0 Markdown links; opening anchor \\\"# Provider and ",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialist-input/documentation.json",
+          "line": 12524,
+          "text": "\"subject\": \"docs/providers/provider-profile-hot-loading.md@fb6cbc7f619daa54f901fd2d12f480add682ace3 sha256:e1ea64e58801d4b6e0bbeee494a35e8f4f4f33fdbff83bdaa9f54ebd3891cfb1\"",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/documentation-review.json",
+          "line": 25520,
+          "text": "\"path\": \"docs/providers/provider-profile-hot-loading.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/documentation-review.json",
+          "line": 25525,
+          "text": "\"path\": \"docs/providers/provider-profile-hot-loading.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        }
+      ],
+      "proposal": "conditional_owner_document_transfer_with_caller_cutover",
+      "remaining_requirements": [
+        "active ADL navigation and source consumers reconciled",
+        "reuse applicable owner proof; source presence alone not execution",
+        "scoped retirement approval"
+      ]
+    },
+    {
+      "id": "RD07-3583",
+      "path": "docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V1.md",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "c8b330fba2d04dd406f78ca2e4dfe987925f420d"
+      },
+      "owner_identity": {
+        "mode": "100644",
+        "blob": "c8b330fba2d04dd406f78ca2e4dfe987925f420d"
+      },
+      "source_correspondence": "exact",
+      "owner_revision": "315abf70358828a8f4d452532ebd995fb4178389",
+      "reason": "Welcome Markdown is compiled via include_str! in adl-runtime-kernel/src/agent_orientation.rs:13, supplies default path/version/capability markers, and appears in adl/build.rs:48. Need exact orientation resource/version/reader migration before removal.",
+      "caller_edges": [
+        {
+          "path": "adl-runtime-kernel/src/agent_orientation.rs",
+          "line": 10,
+          "text": "\"docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V1.md\";",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        },
+        {
+          "path": "adl-runtime-kernel/src/agent_orientation.rs",
+          "line": 13,
+          "text": "include_str!(\"../../docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V1.md\");",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        },
+        {
+          "path": "adl-runtime-kernel/src/agent_orientation.rs",
+          "line": 484,
+          "text": "Source: docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V1.md\\n\\",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        },
+        {
+          "path": "adl-runtime-kernel/src/control.rs",
+          "line": 16491,
+          "text": "include_str!(\"../../docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V1.md\")",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        },
+        {
+          "path": "adl-runtime-kernel/src/control.rs",
+          "line": 16566,
+          "text": "include_str!(\"../../docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V1.md\")",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        },
+        {
+          "path": "adl-runtime-kernel/src/control.rs",
+          "line": 16624,
+          "text": "Source: docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V1.md\\n\\",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        },
+        {
+          "path": "adl-runtime-kernel/src/control.rs",
+          "line": 16678,
+          "text": "include_str!(\"../../docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V1.md\")",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        },
+        {
+          "path": "adl-runtime-kernel/src/control.rs",
+          "line": 16726,
+          "text": "include_str!(\"../../docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V1.md\")",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        }
+      ],
+      "proposal": "conditional_machine_resource_or_executable_transfer_with_explicit_consumer_gate",
+      "remaining_requirements": [
+        "active ADL navigation and source consumers reconciled",
+        "reuse applicable owner proof; source presence alone not execution",
+        "scoped retirement approval"
+      ],
+      "existing_review_packet": "../1223-product-docs-unresolved/runtime-seven.json and issue256-historical-consumer-proposal.json; reuse reviewed producer/resource/validator boundaries"
+    },
+    {
+      "id": "RD07-3584",
+      "path": "docs/runtime/LIVE_RESIDENT_MANAGEMENT.md",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "066b8d72a414d553da38631229a487638c1081ca"
+      },
+      "owner_identity": {
+        "mode": "100644",
+        "blob": "066b8d72a414d553da38631229a487638c1081ca"
+      },
+      "source_correspondence": "exact",
+      "owner_revision": "315abf70358828a8f4d452532ebd995fb4178389",
+      "reason": "Authenticated csmctl /v1/agents management guide describes current product behavior without restart/installation claims; migrate active operation links to Runtime.",
+      "caller_edges": [
+        {
+          "path": "docs/runtime/RESIDENT_PROVIDER_MONITORING.md",
+          "line": 83,
+          "text": "See [live resident management](LIVE_RESIDENT_MANAGEMENT.md) for credential rotation",
+          "match": "resolved_relative_link",
+          "role": "policy_or_navigation_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/issue-919/full-review/assignments.json",
+          "line": 68024,
+          "text": "\"path\": \"docs/runtime/LIVE_RESIDENT_MANAGEMENT.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/issue-919/full-review/changed-paths.json",
+          "line": 30760,
+          "text": "\"path\": \"docs/runtime/LIVE_RESIDENT_MANAGEMENT.md\"",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/issue-919/full-review/coverage/docs-coverage.json",
+          "line": 2482,
+          "text": "\"path\": \"docs/runtime/LIVE_RESIDENT_MANAGEMENT.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/issue-919/full-review/coverage/security-coverage.json",
+          "line": 43074,
+          "text": "\"path\": \"docs/runtime/LIVE_RESIDENT_MANAGEMENT.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/issue-919/full-review/lanes/docs-coverage.json",
+          "line": 2482,
+          "text": "\"path\": \"docs/runtime/LIVE_RESIDENT_MANAGEMENT.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        }
+      ],
+      "proposal": "conditional_owner_document_transfer_with_caller_cutover",
+      "remaining_requirements": [
+        "active ADL navigation and source consumers reconciled",
+        "reuse applicable owner proof; source presence alone not execution",
+        "scoped retirement approval"
+      ]
+    },
+    {
+      "id": "RD07-3586",
+      "path": "docs/runtime/RESIDENT_PROVIDER_MONITORING.md",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "724422c0f69a1a62b794bd2ec1e9424db68c6167"
+      },
+      "owner_identity": {
+        "mode": "100644",
+        "blob": "724422c0f69a1a62b794bd2ec1e9424db68c6167"
+      },
+      "source_correspondence": "exact",
+      "owner_revision": "315abf70358828a8f4d452532ebd995fb4178389",
+      "reason": "Runtime resident provider readiness/invalidation/monitoring behavior guide; successor owns current semantics, preserve no-probe and bounded execution limits through link cutover.",
+      "caller_edges": [
+        {
+          "path": "docs/milestones/v0.92.2/evidence/issue-916/PREREQUISITE_ACCEPTANCE.json",
+          "line": 81,
+          "text": "\"path\": \"docs/runtime/RESIDENT_PROVIDER_MONITORING.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/issue-916/PRODUCER_HASH_RECHECK.json",
+          "line": 87,
+          "text": "\"path\": \"docs/runtime/RESIDENT_PROVIDER_MONITORING.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/issue-919/full-review/assignments.json",
+          "line": 68046,
+          "text": "\"path\": \"docs/runtime/RESIDENT_PROVIDER_MONITORING.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/issue-919/full-review/changed-paths.json",
+          "line": 30770,
+          "text": "\"path\": \"docs/runtime/RESIDENT_PROVIDER_MONITORING.md\"",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/issue-919/full-review/coverage/docs-coverage.json",
+          "line": 2498,
+          "text": "\"path\": \"docs/runtime/RESIDENT_PROVIDER_MONITORING.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/issue-919/full-review/coverage/security-coverage.json",
+          "line": 43088,
+          "text": "\"path\": \"docs/runtime/RESIDENT_PROVIDER_MONITORING.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/issue-919/full-review/lanes/docs-coverage.json",
+          "line": 2498,
+          "text": "\"path\": \"docs/runtime/RESIDENT_PROVIDER_MONITORING.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        }
+      ],
+      "proposal": "conditional_owner_document_transfer_with_caller_cutover",
+      "remaining_requirements": [
+        "active ADL navigation and source consumers reconciled",
+        "reuse applicable owner proof; source presence alone not execution",
+        "scoped retirement approval"
+      ]
+    },
+    {
+      "id": "RD07-3588",
+      "path": "docs/runtime/WELCOME_RECOVERY.md",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "6eae1138ef7b8a159829c5d605019462d58add09"
+      },
+      "owner_identity": {
+        "mode": "100644",
+        "blob": "5fe85ef30f2027efc17258203e88aee196977831"
+      },
+      "source_correspondence": "changed",
+      "owner_revision": "315abf70358828a8f4d452532ebd995fb4178389",
+      "reason": "Active failed-welcome recovery guide binds real Runtime shepherd identity/authorization; accept changed successor content before retargeting operator navigation.",
+      "caller_edges": [
+        {
+          "path": "docs/milestones/v0.92.2/evidence/issue-919/full-review/assignments.json",
+          "line": 68057,
+          "text": "\"path\": \"docs/runtime/WELCOME_RECOVERY.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/issue-919/full-review/changed-paths.json",
+          "line": 30775,
+          "text": "\"path\": \"docs/runtime/WELCOME_RECOVERY.md\"",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/issue-919/full-review/coverage/docs-coverage.json",
+          "line": 2506,
+          "text": "\"path\": \"docs/runtime/WELCOME_RECOVERY.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/issue-919/full-review/coverage/security-coverage.json",
+          "line": 43095,
+          "text": "\"path\": \"docs/runtime/WELCOME_RECOVERY.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/issue-919/full-review/lanes/docs-coverage.json",
+          "line": 2506,
+          "text": "\"path\": \"docs/runtime/WELCOME_RECOVERY.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        }
+      ],
+      "proposal": "conditional_owner_document_transfer_with_caller_cutover",
+      "remaining_requirements": [
+        "active ADL navigation and source consumers reconciled",
+        "reuse applicable owner proof; source presence alone not execution",
+        "scoped retirement approval"
+      ],
+      "accepted_source_delta": "Appends installed default orientation semantics: bundled default vs explicit custom path. Existing text unchanged; no startup/reload run claimed."
+    },
+    {
+      "id": "RD07-3589",
+      "path": "docs/runtime/config-hot-reload.md",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "bb1feb1f12acdedf526f4d6d218a03440d8f37ec"
+      },
+      "owner_identity": {
+        "mode": "100644",
+        "blob": "bb1feb1f12acdedf526f4d6d218a03440d8f37ec"
+      },
+      "source_correspondence": "exact",
+      "owner_revision": "315abf70358828a8f4d452532ebd995fb4178389",
+      "reason": "Runtime-owned HotReloadHandle snapshot API documentation; move API guide with callers and product source references, leaving historical issue510 evidence intact.",
+      "caller_edges": [
+        {
+          "path": "docs/architecture/adr/0073-validated-configuration-snapshot-reload.md",
+          "line": 35,
+          "text": "- [Operator documentation](../../runtime/config-hot-reload.md)",
+          "match": "resolved_relative_link",
+          "role": "policy_or_navigation_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
+          "line": 303,
+          "text": "owned_paths: [\"adl-runtime/src/config_reload.rs\", \"adl-runtime/tests/config_reload.rs\", \"adl-runtime-kernel/src/config.rs\", \"adl-runtime-kernel/src/control.rs\", \"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\", \"adl-runtime-kernel/tests/configuration.rs\", \"a",
+          "match": "literal_repository_path",
+          "role": "milestone_reference"
+        },
+        {
+          "path": "adl/tools/skills/repo-packet-builder/tests/fixtures/issue-520-changed-paths.txt",
+          "line": 5194,
+          "text": "docs/runtime/config-hot-reload.md",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/integration/gap-analysis.b8e1b4483b1c345e42ec7817bfde8214469867bb.ebe7fe5d2d2a55df068e920b9517e5d7b1956d8688aeabdd300178b58c41163f.json",
+          "line": 1,
+          "text": "{\"schema\":\"adl.gap_analysis_report.v2\",\"mode\":\"compare_canonical_plan_to_immutable_evidence\",\"candidate\":\"b8e1b4483b1c345e42ec7817bfde8214469867bb\",\"source_digest\":\"ebe7fe5d2d2a55df068e920b9517e5d7b1956d8688aeabdd300178b58c41163f\",\"execution_issues\":[{\"planned",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/integration/release-tail-admission.71da4802fca3879679e498c2d4c30f20ca168613.657f177f73f8497cec3ca1b1765b2dd41cb6f81ba1635311736026b38a2ad465.json",
+          "line": 1,
+          "text": "{\"schema\":\"adl.v0921.release_tail_admission.v2\",\"candidate\":\"71da4802fca3879679e498c2d4c30f20ca168613\",\"source_digest\":\"657f177f73f8497cec3ca1b1765b2dd41cb6f81ba1635311736026b38a2ad465\",\"output_identity\":\"release-tail-admission.71da4802fca3879679e498c2d4c30f20",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/integration/release-tail-admission.8b430826ef3e1e092fd84a2d254453f662fa8f7d.1745ba83d8922eedfe9791256833f067eea836a631ed92829f92d960052c06d8.json",
+          "line": 1,
+          "text": "{\"schema\":\"adl.v0921.release_tail_admission.v2\",\"candidate\":\"8b430826ef3e1e092fd84a2d254453f662fa8f7d\",\"source_digest\":\"1745ba83d8922eedfe9791256833f067eea836a631ed92829f92d960052c06d8\",\"output_identity\":\"release-tail-admission.8b430826ef3e1e092fd84a2d254453f6",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/integration/release-tail-admission.8b430826ef3e1e092fd84a2d254453f662fa8f7d.f871e29df8b5e140431bacb15ddb7a83fd339d684171af12e2c6725b9fb52552.json",
+          "line": 1,
+          "text": "{\"schema\":\"adl.v0921.release_tail_admission.v2\",\"candidate\":\"8b430826ef3e1e092fd84a2d254453f662fa8f7d\",\"source_digest\":\"f871e29df8b5e140431bacb15ddb7a83fd339d684171af12e2c6725b9fb52552\",\"output_identity\":\"release-tail-admission.8b430826ef3e1e092fd84a2d254453f6",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/integration/release-tail-admission.af5f8036ab7a0619751ab55fa9bd4891f377cd9d.2a3f55d786fa47d407d1c1f91e8e0fc7133d6a400c2158584e0f969720640cf3.json",
+          "line": 1,
+          "text": "{\"schema\":\"adl.v0921.release_tail_admission.v2\",\"candidate\":\"af5f8036ab7a0619751ab55fa9bd4891f377cd9d\",\"source_digest\":\"2a3f55d786fa47d407d1c1f91e8e0fc7133d6a400c2158584e0f969720640cf3\",\"output_identity\":\"release-tail-admission.af5f8036ab7a0619751ab55fa9bd4891",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        }
+      ],
+      "proposal": "conditional_owner_document_transfer_with_caller_cutover",
+      "remaining_requirements": [
+        "active ADL navigation and source consumers reconciled",
+        "reuse applicable owner proof; source presence alone not execution",
+        "scoped retirement approval"
+      ]
+    },
+    {
+      "id": "RD07-3727",
+      "path": "docs/tooling/CALL_CLAUDE_FABLE_5.md",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "62a1e4a4230ac4f6967bca53b1b877a6dd26ac64"
+      },
+      "owner_identity": {
+        "mode": "100644",
+        "blob": "62a1e4a4230ac4f6967bca53b1b877a6dd26ac64"
+      },
+      "source_correspondence": "exact",
+      "owner_revision": "315abf70358828a8f4d452532ebd995fb4178389",
+      "reason": "Bounded provider-adapter request/log recipe belongs to Runtime provider owner; revise old ADL invocation only after accepted owner command destination, never grant paid execution by doc transfer.",
+      "caller_edges": [
+        {
+          "path": "docs/reviews/v0.92/internal-review-5846/specialist_assignments.json",
+          "line": 8507,
+          "text": "\"docs/tooling/CALL_CLAUDE_FABLE_5.md\",",
+          "match": "literal_repository_path",
+          "role": "policy_or_navigation_reference"
+        },
+        {
+          "path": "docs/tooling/PROVIDER_SETUP.md",
+          "line": 101,
+          "text": "- use `docs/tooling/CALL_CLAUDE_FABLE_5.md` for a bounded diagnostic or review call with retained provider artifacts",
+          "match": "literal_repository_path",
+          "role": "policy_or_navigation_reference"
+        },
+        {
+          "path": "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+          "line": 60725,
+          "text": "\"docs/tooling/CALL_CLAUDE_FABLE_5.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+          "line": 89513,
+          "text": "\"path\": \"docs/tooling/CALL_CLAUDE_FABLE_5.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+          "line": 89562,
+          "text": "\"source_url\": \"https://github.com/agent-logic/agent-design-language/blob/682be6b8babb69f73c5e9fef8580f1b3c88966d5/docs/tooling/CALL_CLAUDE_FABLE_5.md#L4\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+          "line": 89581,
+          "text": "\"source_url\": \"https://github.com/agent-logic/agent-design-language/blob/682be6b8babb69f73c5e9fef8580f1b3c88966d5/docs/tooling/CALL_CLAUDE_FABLE_5.md#L9\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+          "line": 94366,
+          "text": "\"docs/tooling/CALL_CLAUDE_FABLE_5.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        }
+      ],
+      "proposal": "conditional_owner_document_transfer_with_caller_cutover",
+      "remaining_requirements": [
+        "active ADL navigation and source consumers reconciled",
+        "reuse applicable owner proof; source presence alone not execution",
+        "scoped retirement approval"
+      ]
+    },
+    {
+      "id": "RD07-3731",
+      "path": "docs/tooling/CODEX_USAGE_WATCHER.md",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "3a968c0499c4d4098b241c5a835e8b1a477b8fb3"
+      },
+      "owner_identity": {
+        "mode": "100644",
+        "blob": "3a968c0499c4d4098b241c5a835e8b1a477b8fb3"
+      },
+      "source_correspondence": "exact",
+      "owner_revision": "315abf70358828a8f4d452532ebd995fb4178389",
+      "reason": "Local Codex status-text watcher is product command guidance with explicit no-private-API claim; confirm accepted successor CLI path then cut operator links over.",
+      "caller_edges": [
+        {
+          "path": "docs/reviews/v0.92/internal-review-5846/specialist_assignments.json",
+          "line": 8512,
+          "text": "\"docs/tooling/CODEX_USAGE_WATCHER.md\",",
+          "match": "literal_repository_path",
+          "role": "policy_or_navigation_reference"
+        },
+        {
+          "path": "docs/milestones/v0.91.6/review/context/FASTCONTEXT_EVALUATION_4398.md",
+          "line": 31,
+          "text": "- `docs/tooling/CODEX_USAGE_WATCHER.md`",
+          "match": "literal_repository_path",
+          "role": "milestone_reference"
+        },
+        {
+          "path": "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+          "line": 60730,
+          "text": "\"docs/tooling/CODEX_USAGE_WATCHER.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+          "line": 90055,
+          "text": "\"path\": \"docs/tooling/CODEX_USAGE_WATCHER.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+          "line": 90108,
+          "text": "\"source_url\": \"https://github.com/agent-logic/agent-design-language/blob/682be6b8babb69f73c5e9fef8580f1b3c88966d5/docs/tooling/CODEX_USAGE_WATCHER.md#L109\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        }
+      ],
+      "proposal": "conditional_owner_document_transfer_with_caller_cutover",
+      "remaining_requirements": [
+        "active ADL navigation and source consumers reconciled",
+        "reuse applicable owner proof; source presence alone not execution",
+        "scoped retirement approval"
+      ]
+    },
+    {
+      "id": "RD07-3733",
+      "path": "docs/tooling/CSMctl.conf.example",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "90d75ab776d69165234da2929352ddeffc7132ed"
+      },
+      "owner_identity": {
+        "mode": "100644",
+        "blob": "90d75ab776d69165234da2929352ddeffc7132ed"
+      },
+      "source_correspondence": "exact",
+      "owner_revision": "315abf70358828a8f4d452532ebd995fb4178389",
+      "reason": "CSMctl config example is a validator-loaded input (validate_issue256_birthday_after_observatory.py:34,161) with stable ADL service install path. Need default-config/template/validator migration, not docs-only unlink.",
+      "caller_edges": [
+        {
+          "path": "adl/tools/validate_issue256_birthday_after_observatory.py",
+          "line": 34,
+          "text": "\"docs/tooling/CSMctl.conf.example\",",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        },
+        {
+          "path": "adl/tools/validate_issue256_birthday_after_observatory.py",
+          "line": 161,
+          "text": "root / \"docs/tooling/CSMctl.conf.example\",",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        },
+        {
+          "path": "adl/tools/skills/repo-packet-builder/tests/fixtures/issue-520-changed-paths.txt",
+          "line": 5230,
+          "text": "docs/tooling/CSMctl.conf.example",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/repo_inventory.json",
+          "line": 104967,
+          "text": "\"path\": \"docs/tooling/CSMctl.conf.example\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/repo_inventory.json",
+          "line": 104973,
+          "text": "\"path\": \"docs/tooling/CSMctl.conf.example\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/repo_inventory.json",
+          "line": 104978,
+          "text": "\"path\": \"docs/tooling/CSMctl.conf.example\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialist-input/retained-evidence.json",
+          "line": 39997,
+          "text": "\"detail\": \"Read exact retained artifact docs/tooling/CSMctl.conf.example (SHA-256 eaab84906b26665a9c9861d56d793dcacd81713d7206c352038dbfc96b575adb, 4591 bytes, 74 lines, non-JSON retained artifact, 0 proof/result markers; opening anchor \\\"# CSMctl local operat",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialist-input/retained-evidence.json",
+          "line": 40000,
+          "text": "\"subject\": \"docs/tooling/CSMctl.conf.example@fb6cbc7f619daa54f901fd2d12f480add682ace3 sha256:eaab84906b26665a9c9861d56d793dcacd81713d7206c352038dbfc96b575adb\"",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        }
+      ],
+      "proposal": "conditional_machine_resource_or_executable_transfer_with_explicit_consumer_gate",
+      "remaining_requirements": [
+        "active ADL navigation and source consumers reconciled",
+        "reuse applicable owner proof; source presence alone not execution",
+        "scoped retirement approval"
+      ],
+      "existing_review_packet": "../1223-product-docs-unresolved/runtime-seven.json and issue256-historical-consumer-proposal.json; reuse reviewed producer/resource/validator boundaries"
+    },
+    {
+      "id": "RD07-3734",
+      "path": "docs/tooling/CSMctl.observatory.conf.example",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "d2ec5fb99a77371e106099cf7cb18ab207ae6d3e"
+      },
+      "owner_identity": {
+        "mode": "100644",
+        "blob": "d2ec5fb99a77371e106099cf7cb18ab207ae6d3e"
+      },
+      "source_correspondence": "exact",
+      "owner_revision": "315abf70358828a8f4d452532ebd995fb4178389",
+      "reason": "Observatory CSMctl config example is a validator-loaded input (validate_issue256_birthday_after_observatory.py:35,170). Need endpoint/config-file consumer migration and installed default-path decision.",
+      "caller_edges": [
+        {
+          "path": "adl/tools/validate_issue256_birthday_after_observatory.py",
+          "line": 35,
+          "text": "\"docs/tooling/CSMctl.observatory.conf.example\",",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        },
+        {
+          "path": "adl/tools/validate_issue256_birthday_after_observatory.py",
+          "line": 170,
+          "text": "root / \"docs/tooling/CSMctl.observatory.conf.example\",",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        },
+        {
+          "path": "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+          "line": 90298,
+          "text": "\"path\": \"docs/tooling/CSMctl.observatory.conf.example\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+          "line": 90367,
+          "text": "\"source_url\": \"https://github.com/agent-logic/agent-design-language/blob/682be6b8babb69f73c5e9fef8580f1b3c88966d5/docs/tooling/CSMctl.observatory.conf.example#L1\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        }
+      ],
+      "proposal": "conditional_machine_resource_or_executable_transfer_with_explicit_consumer_gate",
+      "remaining_requirements": [
+        "active ADL navigation and source consumers reconciled",
+        "reuse applicable owner proof; source presence alone not execution",
+        "scoped retirement approval"
+      ],
+      "existing_review_packet": "../1223-product-docs-unresolved/runtime-seven.json and issue256-historical-consumer-proposal.json; reuse reviewed producer/resource/validator boundaries"
+    },
+    {
+      "id": "RD07-3750",
+      "path": "docs/tooling/LOCAL_POLIS_SSM_OPERATIONS.md",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "fffdbe15325ad8ed8d044b79f885ce13fb5f2690"
+      },
+      "owner_identity": {
+        "mode": "100644",
+        "blob": "fffdbe15325ad8ed8d044b79f885ce13fb5f2690"
+      },
+      "source_correspondence": "exact",
+      "owner_revision": "315abf70358828a8f4d452532ebd995fb4178389",
+      "reason": "Local Polis SSM operations-plane recipe belongs with infrastructure operations while explicitly excluding governance/state ownership; cut validation-selector references and guide links together.",
+      "caller_edges": [
+        {
+          "path": "adl/config/validation_lane_selector.v0.91.6.json",
+          "line": 944,
+          "text": "\"docs/tooling/LOCAL_POLIS_SSM_OPERATIONS.md\",",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        },
+        {
+          "path": "adl/config/validation_lane_selector.v0.91.6.json",
+          "line": 952,
+          "text": "\"docs/tooling/LOCAL_POLIS_SSM_OPERATIONS.md\",",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        },
+        {
+          "path": "docs/reviews/v0.92/internal-review-5846/specialist_assignments.json",
+          "line": 8528,
+          "text": "\"docs/tooling/LOCAL_POLIS_SSM_OPERATIONS.md\",",
+          "match": "literal_repository_path",
+          "role": "policy_or_navigation_reference"
+        },
+        {
+          "path": "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+          "line": 60746,
+          "text": "\"docs/tooling/LOCAL_POLIS_SSM_OPERATIONS.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+          "line": 92335,
+          "text": "\"path\": \"docs/tooling/LOCAL_POLIS_SSM_OPERATIONS.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+          "line": 92364,
+          "text": "\"source_url\": \"https://github.com/agent-logic/agent-design-language/blob/682be6b8babb69f73c5e9fef8580f1b3c88966d5/docs/tooling/LOCAL_POLIS_SSM_OPERATIONS.md#L1\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        }
+      ],
+      "proposal": "conditional_owner_document_transfer_with_caller_cutover",
+      "remaining_requirements": [
+        "active ADL navigation and source consumers reconciled",
+        "reuse applicable owner proof; source presence alone not execution",
+        "scoped retirement approval"
+      ]
+    },
+    {
+      "id": "RD07-3766",
+      "path": "docs/tooling/PROVIDER_SETUP.md",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "939408d098ead225c31d7af50d902ad20fa29f73"
+      },
+      "owner_identity": {
+        "mode": "100644",
+        "blob": "939408d098ead225c31d7af50d902ad20fa29f73"
+      },
+      "source_correspondence": "exact",
+      "owner_revision": "315abf70358828a8f4d452532ebd995fb4178389",
+      "reason": "Provider setup command generates untracked local bundles; successor owns current CLI behavior. Update ADL setup/navigation links and family examples without implying credential/paid authorization.",
+      "caller_edges": [
+        {
+          "path": "docs/reviews/v0.92/internal-review-5846/specialist_assignments.json",
+          "line": 8544,
+          "text": "\"docs/tooling/PROVIDER_SETUP.md\",",
+          "match": "literal_repository_path",
+          "role": "policy_or_navigation_reference"
+        },
+        {
+          "path": "docs/tooling/PROVIDER_DEMO_SURFACES.md",
+          "line": 17,
+          "text": "- `docs/tooling/PROVIDER_SETUP.md`",
+          "match": "literal_repository_path",
+          "role": "policy_or_navigation_reference"
+        },
+        {
+          "path": "docs/milestones/v0.87.1/INTERNAL_REVIEW_v0.87.1.md",
+          "line": 14,
+          "text": "- `docs/tooling/PROVIDER_SETUP.md`",
+          "match": "literal_repository_path",
+          "role": "milestone_reference"
+        },
+        {
+          "path": "docs/milestones/v0.87.1/INTERNAL_REVIEW_v0.87.1.md",
+          "line": 33,
+          "text": "- Removed the `v0.88` native-provider note from `docs/tooling/PROVIDER_SETUP.md` so the bounded `v0.87.1` reviewer package stays milestone-scoped.",
+          "match": "literal_repository_path",
+          "role": "milestone_reference"
+        },
+        {
+          "path": "adl/tools/skills/repo-packet-builder/tests/fixtures/issue-520-changed-paths.txt",
+          "line": 5232,
+          "text": "docs/tooling/PROVIDER_SETUP.md",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/repo_inventory.json",
+          "line": 105003,
+          "text": "\"path\": \"docs/tooling/PROVIDER_SETUP.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/repo_inventory.json",
+          "line": 105009,
+          "text": "\"path\": \"docs/tooling/PROVIDER_SETUP.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/repo_inventory.json",
+          "line": 105014,
+          "text": "\"path\": \"docs/tooling/PROVIDER_SETUP.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        }
+      ],
+      "proposal": "conditional_owner_document_transfer_with_caller_cutover",
+      "remaining_requirements": [
+        "active ADL navigation and source consumers reconciled",
+        "reuse applicable owner proof; source presence alone not execution",
+        "scoped retirement approval"
+      ]
+    },
+    {
+      "id": "RD07-3770",
+      "path": "docs/tooling/RUNTIME_AWS_ACIP_SNS.md",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "9c93ae48cc6144ff27b8905b08cd4292778bc0a6"
+      },
+      "owner_identity": {
+        "mode": "100644",
+        "blob": "9c93ae48cc6144ff27b8905b08cd4292778bc0a6"
+      },
+      "source_correspondence": "exact",
+      "owner_revision": "315abf70358828a8f4d452532ebd995fb4178389",
+      "reason": "Runtime csm ACIP-to-SNS proof command guide with business-account guard; update active validation-selector/guide references to Runtime owner, retain past proof records.",
+      "caller_edges": [
+        {
+          "path": "adl/config/validation_lane_selector.v0.91.6.json",
+          "line": 1196,
+          "text": "\"docs/tooling/RUNTIME_AWS_ACIP_SNS.md\",",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        },
+        {
+          "path": "adl/config/validation_lane_selector.v0.91.6.json",
+          "line": 1203,
+          "text": "\"docs/tooling/RUNTIME_AWS_ACIP_SNS.md\",",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        },
+        {
+          "path": "docs/reviews/v0.92/internal-review-5846/specialist_assignments.json",
+          "line": 8549,
+          "text": "\"docs/tooling/RUNTIME_AWS_ACIP_SNS.md\",",
+          "match": "literal_repository_path",
+          "role": "policy_or_navigation_reference"
+        },
+        {
+          "path": "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+          "line": 60767,
+          "text": "\"docs/tooling/RUNTIME_AWS_ACIP_SNS.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+          "line": 95255,
+          "text": "\"path\": \"docs/tooling/RUNTIME_AWS_ACIP_SNS.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+          "line": 95299,
+          "text": "\"source_url\": \"https://github.com/agent-logic/agent-design-language/blob/682be6b8babb69f73c5e9fef8580f1b3c88966d5/docs/tooling/RUNTIME_AWS_ACIP_SNS.md#L1\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+          "line": 95318,
+          "text": "\"source_url\": \"https://github.com/agent-logic/agent-design-language/blob/682be6b8babb69f73c5e9fef8580f1b3c88966d5/docs/tooling/RUNTIME_AWS_ACIP_SNS.md#L82\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+          "line": 95329,
+          "text": "\"source_url\": \"https://github.com/agent-logic/agent-design-language/blob/682be6b8babb69f73c5e9fef8580f1b3c88966d5/docs/tooling/RUNTIME_AWS_ACIP_SNS.md#L20\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        }
+      ],
+      "proposal": "conditional_owner_document_transfer_with_caller_cutover",
+      "remaining_requirements": [
+        "active ADL navigation and source consumers reconciled",
+        "reuse applicable owner proof; source presence alone not execution",
+        "scoped retirement approval"
+      ]
+    },
+    {
+      "id": "RD07-3771",
+      "path": "docs/tooling/RUNTIME_AWS_HEARTBEAT.md",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "a71a1a5b81e6947d6f6cbef1511d704f8e78b7d7"
+      },
+      "owner_identity": {
+        "mode": "100644",
+        "blob": "a71a1a5b81e6947d6f6cbef1511d704f8e78b7d7"
+      },
+      "source_correspondence": "exact",
+      "owner_revision": "315abf70358828a8f4d452532ebd995fb4178389",
+      "reason": "Runtime live opt-in heartbeat CloudWatch publisher guide, consumed by ADL selector/manager tests; command and caller cutover required.",
+      "caller_edges": [
+        {
+          "path": "adl/config/validation_lane_selector.v0.91.6.json",
+          "line": 1169,
+          "text": "\"docs/tooling/RUNTIME_AWS_HEARTBEAT.md\",",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        },
+        {
+          "path": "adl/config/validation_lane_selector.v0.91.6.json",
+          "line": 1176,
+          "text": "\"docs/tooling/RUNTIME_AWS_HEARTBEAT.md\",",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        },
+        {
+          "path": "adl/tools/test_validation_manager.sh",
+          "line": 803,
+          "text": "M\tdocs/tooling/RUNTIME_AWS_HEARTBEAT.md",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        },
+        {
+          "path": "docs/reviews/v0.92/internal-review-5846/specialist_assignments.json",
+          "line": 8550,
+          "text": "\"docs/tooling/RUNTIME_AWS_HEARTBEAT.md\",",
+          "match": "literal_repository_path",
+          "role": "policy_or_navigation_reference"
+        },
+        {
+          "path": "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+          "line": 60768,
+          "text": "\"docs/tooling/RUNTIME_AWS_HEARTBEAT.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+          "line": 95397,
+          "text": "\"path\": \"docs/tooling/RUNTIME_AWS_HEARTBEAT.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+          "line": 95443,
+          "text": "\"source_url\": \"https://github.com/agent-logic/agent-design-language/blob/682be6b8babb69f73c5e9fef8580f1b3c88966d5/docs/tooling/RUNTIME_AWS_HEARTBEAT.md#L1\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+          "line": 95462,
+          "text": "\"source_url\": \"https://github.com/agent-logic/agent-design-language/blob/682be6b8babb69f73c5e9fef8580f1b3c88966d5/docs/tooling/RUNTIME_AWS_HEARTBEAT.md#L20\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        }
+      ],
+      "proposal": "conditional_owner_document_transfer_with_caller_cutover",
+      "remaining_requirements": [
+        "active ADL navigation and source consumers reconciled",
+        "reuse applicable owner proof; source presence alone not execution",
+        "scoped retirement approval"
+      ]
+    },
+    {
+      "id": "RD07-3772",
+      "path": "docs/tooling/RUNTIME_AWS_SIGNAL_INTEGRATION.md",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "23eb2b7d449e0ffe06e9c59bf79883aa2a7c7e3a"
+      },
+      "owner_identity": {
+        "mode": "100644",
+        "blob": "23eb2b7d449e0ffe06e9c59bf79883aa2a7c7e3a"
+      },
+      "source_correspondence": "exact",
+      "owner_revision": "315abf70358828a8f4d452532ebd995fb4178389",
+      "reason": "Combined Runtime AWS signal proof command guide; migrate active selector links while preserving child-producer/account guards and historical issue4686 claims.",
+      "caller_edges": [
+        {
+          "path": "adl/config/validation_lane_selector.v0.91.6.json",
+          "line": 1310,
+          "text": "\"docs/tooling/RUNTIME_AWS_SIGNAL_INTEGRATION.md\",",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        },
+        {
+          "path": "adl/config/validation_lane_selector.v0.91.6.json",
+          "line": 1317,
+          "text": "\"docs/tooling/RUNTIME_AWS_SIGNAL_INTEGRATION.md\",",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        },
+        {
+          "path": "docs/reviews/v0.92/internal-review-5846/specialist_assignments.json",
+          "line": 8551,
+          "text": "\"docs/tooling/RUNTIME_AWS_SIGNAL_INTEGRATION.md\",",
+          "match": "literal_repository_path",
+          "role": "policy_or_navigation_reference"
+        },
+        {
+          "path": "docs/reviews/v0.92/internal-review-5846/specialist_assignments.json",
+          "line": 10359,
+          "text": "\"docs/tooling/RUNTIME_AWS_SIGNAL_INTEGRATION.md\"",
+          "match": "literal_repository_path",
+          "role": "policy_or_navigation_reference"
+        },
+        {
+          "path": "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+          "line": 60769,
+          "text": "\"docs/tooling/RUNTIME_AWS_SIGNAL_INTEGRATION.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+          "line": 95541,
+          "text": "\"path\": \"docs/tooling/RUNTIME_AWS_SIGNAL_INTEGRATION.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+          "line": 95586,
+          "text": "\"source_url\": \"https://github.com/agent-logic/agent-design-language/blob/682be6b8babb69f73c5e9fef8580f1b3c88966d5/docs/tooling/RUNTIME_AWS_SIGNAL_INTEGRATION.md#L1\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+          "line": 95605,
+          "text": "\"source_url\": \"https://github.com/agent-logic/agent-design-language/blob/682be6b8babb69f73c5e9fef8580f1b3c88966d5/docs/tooling/RUNTIME_AWS_SIGNAL_INTEGRATION.md#L18\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        }
+      ],
+      "proposal": "conditional_owner_document_transfer_with_caller_cutover",
+      "remaining_requirements": [
+        "active ADL navigation and source consumers reconciled",
+        "reuse applicable owner proof; source presence alone not execution",
+        "scoped retirement approval"
+      ]
+    },
+    {
+      "id": "RD07-3773",
+      "path": "docs/tooling/RUNTIME_CLOUD_CONTROL_CLOUDFRONT.md",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "6dafddd58c52693009c225c4d3de5b9054560037"
+      },
+      "owner_identity": {
+        "mode": "100644",
+        "blob": "6dafddd58c52693009c225c4d3de5b9054560037"
+      },
+      "source_correspondence": "exact",
+      "owner_revision": "315abf70358828a8f4d452532ebd995fb4178389",
+      "reason": "Read-only Runtime CloudFront hook command guide, coupled to path-policy/selector tests; successor-owned operation needs consumer link cutover.",
+      "caller_edges": [
+        {
+          "path": "adl/config/validation_lane_selector.v0.91.6.json",
+          "line": 1253,
+          "text": "\"docs/tooling/RUNTIME_CLOUD_CONTROL_CLOUDFRONT.md\",",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        },
+        {
+          "path": "adl/config/validation_lane_selector.v0.91.6.json",
+          "line": 1263,
+          "text": "\"docs/tooling/RUNTIME_CLOUD_CONTROL_CLOUDFRONT.md\",",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        },
+        {
+          "path": "adl/tools/test_ci_path_policy.sh",
+          "line": 2112,
+          "text": "printf '# Runtime CloudFront Control\\n' > docs/tooling/RUNTIME_CLOUD_CONTROL_CLOUDFRONT.md",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        },
+        {
+          "path": "adl/tools/test_ci_path_policy.sh",
+          "line": 2161,
+          "text": "docs/tooling/RUNTIME_CLOUD_CONTROL_CLOUDFRONT.md",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        },
+        {
+          "path": "docs/reviews/v0.92/internal-review-5846/specialist_assignments.json",
+          "line": 8552,
+          "text": "\"docs/tooling/RUNTIME_CLOUD_CONTROL_CLOUDFRONT.md\",",
+          "match": "literal_repository_path",
+          "role": "policy_or_navigation_reference"
+        },
+        {
+          "path": "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+          "line": 60770,
+          "text": "\"docs/tooling/RUNTIME_CLOUD_CONTROL_CLOUDFRONT.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+          "line": 95669,
+          "text": "\"path\": \"docs/tooling/RUNTIME_CLOUD_CONTROL_CLOUDFRONT.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+          "line": 95696,
+          "text": "\"source_url\": \"https://github.com/agent-logic/agent-design-language/blob/682be6b8babb69f73c5e9fef8580f1b3c88966d5/docs/tooling/RUNTIME_CLOUD_CONTROL_CLOUDFRONT.md#L1\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        }
+      ],
+      "proposal": "conditional_owner_document_transfer_with_caller_cutover",
+      "remaining_requirements": [
+        "active ADL navigation and source consumers reconciled",
+        "reuse applicable owner proof; source presence alone not execution",
+        "scoped retirement approval"
+      ]
+    },
+    {
+      "id": "RD07-3774",
+      "path": "docs/tooling/RUNTIME_POLIS_DURABLE_STORAGE.md",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "301550fe99c238ebd20102c5154f660bd881df85"
+      },
+      "owner_identity": {
+        "mode": "100644",
+        "blob": "301550fe99c238ebd20102c5154f660bd881df85"
+      },
+      "source_correspondence": "exact",
+      "owner_revision": "315abf70358828a8f4d452532ebd995fb4178389",
+      "reason": "Runtime Polis state artifact S3 proof command guide; migrate selector/caller links, preserving original archive-authority policy separately.",
+      "caller_edges": [
+        {
+          "path": "adl/config/validation_lane_selector.v0.91.6.json",
+          "line": 1339,
+          "text": "\"docs/tooling/RUNTIME_POLIS_DURABLE_STORAGE.md\",",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        },
+        {
+          "path": "adl/config/validation_lane_selector.v0.91.6.json",
+          "line": 1348,
+          "text": "\"docs/tooling/RUNTIME_POLIS_DURABLE_STORAGE.md\",",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        },
+        {
+          "path": "docs/reviews/v0.92/internal-review-5846/specialist_assignments.json",
+          "line": 8553,
+          "text": "\"docs/tooling/RUNTIME_POLIS_DURABLE_STORAGE.md\",",
+          "match": "literal_repository_path",
+          "role": "policy_or_navigation_reference"
+        },
+        {
+          "path": "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+          "line": 60771,
+          "text": "\"docs/tooling/RUNTIME_POLIS_DURABLE_STORAGE.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+          "line": 95757,
+          "text": "\"path\": \"docs/tooling/RUNTIME_POLIS_DURABLE_STORAGE.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+          "line": 95800,
+          "text": "\"source_url\": \"https://github.com/agent-logic/agent-design-language/blob/682be6b8babb69f73c5e9fef8580f1b3c88966d5/docs/tooling/RUNTIME_POLIS_DURABLE_STORAGE.md#L1\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+          "line": 95819,
+          "text": "\"source_url\": \"https://github.com/agent-logic/agent-design-language/blob/682be6b8babb69f73c5e9fef8580f1b3c88966d5/docs/tooling/RUNTIME_POLIS_DURABLE_STORAGE.md#L20\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        }
+      ],
+      "proposal": "conditional_owner_document_transfer_with_caller_cutover",
+      "remaining_requirements": [
+        "active ADL navigation and source consumers reconciled",
+        "reuse applicable owner proof; source presence alone not execution",
+        "scoped retirement approval"
+      ]
+    },
+    {
+      "id": "RD07-3777",
+      "path": "docs/tooling/START_CSM_RUNBOOK.md",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "69622d69d5ab6a67df775c9924dcae3d3f4c3477"
+      },
+      "owner_identity": {
+        "mode": "100644",
+        "blob": "69622d69d5ab6a67df775c9924dcae3d3f4c3477"
+      },
+      "source_correspondence": "exact",
+      "owner_revision": "315abf70358828a8f4d452532ebd995fb4178389",
+      "reason": "Active permanent Runtime service start/stop/reload guide; update Linux-backend and installed-proof helper consumers with Runtime operating guide, preserving explicit host control authority.",
+      "caller_edges": [
+        {
+          "path": "adl/tools/test_csmctl_linux_backend.sh",
+          "line": 7,
+          "text": "RUNBOOK=\"$ROOT/docs/tooling/START_CSM_RUNBOOK.md\"",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        },
+        {
+          "path": "adl/tools/validate_issue256_birthday_after_observatory.py",
+          "line": 33,
+          "text": "\"docs/tooling/START_CSM_RUNBOOK.md\",",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        },
+        {
+          "path": "adl/tools/validate_issue256_birthday_after_observatory.py",
+          "line": 152,
+          "text": "root / \"docs/tooling/START_CSM_RUNBOOK.md\",",
+          "match": "literal_repository_path",
+          "role": "code_test_or_tool_consumer"
+        },
+        {
+          "path": "docs/reviews/v0.92/internal-review-5846/specialist_assignments.json",
+          "line": 8556,
+          "text": "\"docs/tooling/START_CSM_RUNBOOK.md\",",
+          "match": "literal_repository_path",
+          "role": "policy_or_navigation_reference"
+        },
+        {
+          "path": "docs/tooling/ACTIVE_BOOT_PATHS.md",
+          "line": 37,
+          "text": "[`START_CSM_RUNBOOK.md`](START_CSM_RUNBOOK.md), which keeps exactly one active",
+          "match": "resolved_relative_link",
+          "role": "policy_or_navigation_reference"
+        },
+        {
+          "path": "adl/tools/skills/repo-packet-builder/tests/fixtures/issue-520-changed-paths.txt",
+          "line": 5234,
+          "text": "docs/tooling/START_CSM_RUNBOOK.md",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/repo_inventory.json",
+          "line": 105057,
+          "text": "\"path\": \"docs/tooling/START_CSM_RUNBOOK.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/repo_inventory.json",
+          "line": 105063,
+          "text": "\"path\": \"docs/tooling/START_CSM_RUNBOOK.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        }
+      ],
+      "proposal": "conditional_owner_document_transfer_with_caller_cutover",
+      "remaining_requirements": [
+        "active ADL navigation and source consumers reconciled",
+        "reuse applicable owner proof; source presence alone not execution",
+        "scoped retirement approval"
+      ]
+    }
+  ]
+}
