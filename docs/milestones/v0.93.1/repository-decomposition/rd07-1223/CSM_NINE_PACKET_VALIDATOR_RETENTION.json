@@ -1,0 +1,384 @@
+{
+  "schema": "adl1223.csm_nine_historical_packet_validators.retention.v1",
+  "source_head": "1a3abf7e3562df36559ac9156fcf48d65e88c4de",
+  "rows": [
+    {
+      "original_row": {
+        "id": "RD07-2222",
+        "path": "adl/tools/validate_v0917_csm_4890_status.sh",
+        "owner": "agent-logic-runtime",
+        "component": "agent-logic-runtime-mapped-tools",
+        "current_identity": {
+          "mode": "100755",
+          "blob": "103d3e1e35fa16a08cfdf0ab8da88486bd79962a"
+        },
+        "existing_action": "retain",
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ],
+        "successor_mapping": {
+          "mapping": "exact_successor",
+          "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+          "exact_successor_paths": [
+            "adl/tools/validate_v0917_csm_4890_status.sh"
+          ]
+        }
+      },
+      "captured_current_identity": {
+        "mode": "100755",
+        "blob": "103d3e1e35fa16a08cfdf0ab8da88486bd79962a"
+      },
+      "current_identity": {
+        "mode": "100755",
+        "blob": "103d3e1e35fa16a08cfdf0ab8da88486bd79962a",
+        "sha256": "d9e4f839f424a9c13ddd82917d13c4435429158cc5921f09f0004e6266c5d204"
+      },
+      "proposed_action": "retain_resolved",
+      "basis": "Retained ADL #4890 daemon/control-plane packet: schema, capability integration, trace/observability and workflow record assertions."
+    },
+    {
+      "original_row": {
+        "id": "RD07-2223",
+        "path": "adl/tools/validate_v0917_csm_api_gateway_bridge_proof.py",
+        "owner": "agent-logic-runtime",
+        "component": "agent-logic-runtime-mapped-tools",
+        "current_identity": {
+          "mode": "100755",
+          "blob": "52acb09fd03e3c0019cd96b81c237fca812942af"
+        },
+        "existing_action": "retain",
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ],
+        "successor_mapping": {
+          "mapping": "exact_successor",
+          "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+          "exact_successor_paths": [
+            "adl/tools/validate_v0917_csm_api_gateway_bridge_proof.py"
+          ]
+        }
+      },
+      "captured_current_identity": {
+        "mode": "100755",
+        "blob": "52acb09fd03e3c0019cd96b81c237fca812942af"
+      },
+      "current_identity": {
+        "mode": "100755",
+        "blob": "52acb09fd03e3c0019cd96b81c237fca812942af",
+        "sha256": "f1a726b5130c1f1a37fe290d61ea752878a6eb9c375b25121126b37364a5a1a1"
+      },
+      "proposed_action": "retain_resolved",
+      "basis": "Retained redacted #5039 ADL API Gateway bridge summary: bounded_smoke identity, per-polis ingress, route, auth/account and redaction assertions. Reading a recorded summary is distinct from rerunning producer1513."
+    },
+    {
+      "original_row": {
+        "id": "RD07-2224",
+        "path": "adl/tools/validate_v0917_csm_continuity_capsule_4910_status.sh",
+        "owner": "cognitive-sdlc",
+        "component": "cognitive-sdlc-unmapped-tools",
+        "current_identity": {
+          "mode": "100755",
+          "blob": "bafd22db7b0ac30459443286359b4296a85ea146"
+        },
+        "existing_action": "retain",
+        "hold_reason": "hold_until_adl_caller_closure_and_behavior_obligations_are_reconciled",
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Keep exact reviewed evidence and all independent caller/dependency obligations.",
+          "Final coherent removal decision and final public package qualification remain separate."
+        ],
+        "successor_mapping": {
+          "mapping": "exact_successor",
+          "successor_repository": "agent-logic/agent-logic-infrastructure",
+          "successor_revision": "a5838b0748cd6fb13b8d30afb02da1088167c9fe",
+          "successor_paths": [
+            "adl/tools/validate_v0917_csm_continuity_capsule_4910_status.sh"
+          ],
+          "successor_blob": "bafd22db7b0ac30459443286359b4296a85ea146",
+          "evidence": "INFRASTRUCTURE_CSM_FAMILY_DELIVERY.json"
+        },
+        "prior_successor_mapping": {
+          "mapping": "unmapped",
+          "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+          "exact_successor_paths": []
+        },
+        "qualification_followup": {
+          "record": "INFRASTRUCTURE_CSM_FAMILY_DELIVERY.json",
+          "scope": "published_source_and_bounded_resolver_only",
+          "live_behavior_qualified": false,
+          "validator_presence_is_execution": false,
+          "changes_removal_authority": false
+        },
+        "prior_dispositions": [
+          {
+            "proposed_action": "hold_explicit_reconciliation",
+            "required_before_execution": [
+              "specific_consumer_or_document_disposition_required",
+              "Reconcile active ADL inbound callers and docs with delivered Infrastructure family.",
+              "Preserve original live behavior obligations separately from resolver proof; validator delivery is not validator execution.",
+              "Scoped retirement decision required before removal."
+            ],
+            "reviewed_disposition": null
+          }
+        ],
+        "reviewed_disposition": {
+          "packet": "CSM_RETAINED_CAPSULE_VALIDATOR_QUALIFICATION.json",
+          "packet_sha256": "ae85c77c4f0947b15e4ebc2432384bc99e82b69bccd2a644a761f3d1588af841",
+          "proposal": "proposed_owner_transfer_with_consumer_qualification",
+          "scope": "Bounded source disposition only; original identities and independent obligations preserved."
+        }
+      },
+      "captured_current_identity": {
+        "mode": "100755",
+        "blob": "bafd22db7b0ac30459443286359b4296a85ea146"
+      },
+      "current_identity": {
+        "mode": "100755",
+        "blob": "bafd22db7b0ac30459443286359b4296a85ea146",
+        "sha256": "df060dfcad582a20284b4dde5da2f7e3a0fe8f5c73ea30a0827559682450992a"
+      },
+      "proposed_action": "retain_resolved",
+      "basis": "Retained #4910 ADL continuity capsule and custody: complete local artifact/hash/signature and nine recorded-negative-case assertions, including explicit live EC2 blocked boundary. Local openssl signature verification and private temporary files are required; no live service invocation."
+    },
+    {
+      "original_row": {
+        "id": "RD07-2225",
+        "path": "adl/tools/validate_v0917_csm_governed_notice_4998_status.sh",
+        "owner": "agent-logic-runtime",
+        "component": "agent-logic-runtime-mapped-tools",
+        "current_identity": {
+          "mode": "100644",
+          "blob": "5d3f61e8351082476f6ea14273390c69f3e92b44"
+        },
+        "existing_action": "retain",
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ],
+        "successor_mapping": {
+          "mapping": "exact_successor",
+          "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+          "exact_successor_paths": [
+            "adl/tools/validate_v0917_csm_governed_notice_4998_status.sh"
+          ]
+        }
+      },
+      "captured_current_identity": {
+        "mode": "100644",
+        "blob": "5d3f61e8351082476f6ea14273390c69f3e92b44"
+      },
+      "current_identity": {
+        "mode": "100644",
+        "blob": "5d3f61e8351082476f6ea14273390c69f3e92b44",
+        "sha256": "0007760eec26c4e5558e42746d5519503244e5dd119335f39a9436ca849a1c8c"
+      },
+      "proposed_action": "retain_resolved",
+      "basis": "Retained ADL #4998 EventBridge/governed-notice packet: exact recorded delivery/log/redaction assertions; no fresh CloudWatch/SNS/EventBridge request."
+    },
+    {
+      "original_row": {
+        "id": "RD07-2226",
+        "path": "adl/tools/validate_v0917_csm_otlp_4904_status.sh",
+        "owner": "agent-logic-runtime",
+        "component": "agent-logic-runtime-mapped-tools",
+        "current_identity": {
+          "mode": "100755",
+          "blob": "ed3430261d8349dcf8cdf79c4eb3804adef1a308"
+        },
+        "existing_action": "retain",
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ],
+        "successor_mapping": {
+          "mapping": "exact_successor",
+          "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+          "exact_successor_paths": [
+            "adl/tools/validate_v0917_csm_otlp_4904_status.sh"
+          ]
+        }
+      },
+      "captured_current_identity": {
+        "mode": "100755",
+        "blob": "ed3430261d8349dcf8cdf79c4eb3804adef1a308"
+      },
+      "current_identity": {
+        "mode": "100755",
+        "blob": "ed3430261d8349dcf8cdf79c4eb3804adef1a308",
+        "sha256": "bfbb221ca64c34124bf2f4fcd480d9721ef4fe1c250d2bcacd8467ff01a0418d"
+      },
+      "proposed_action": "retain_resolved",
+      "basis": "Retained ADL #4904 OTLP packet: collector/exporter count/status/provenance assertions; does not start exporter or collector."
+    },
+    {
+      "original_row": {
+        "id": "RD07-2227",
+        "path": "adl/tools/validate_v0917_csm_service_4903_status.sh",
+        "owner": "agent-logic-runtime",
+        "component": "agent-logic-runtime-mapped-tools",
+        "current_identity": {
+          "mode": "100755",
+          "blob": "e829ad746239c32aec9d50077c0c4f43d472a088"
+        },
+        "existing_action": "retain",
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ],
+        "successor_mapping": {
+          "mapping": "exact_successor",
+          "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+          "exact_successor_paths": [
+            "adl/tools/validate_v0917_csm_service_4903_status.sh"
+          ]
+        }
+      },
+      "captured_current_identity": {
+        "mode": "100755",
+        "blob": "e829ad746239c32aec9d50077c0c4f43d472a088"
+      },
+      "current_identity": {
+        "mode": "100755",
+        "blob": "e829ad746239c32aec9d50077c0c4f43d472a088",
+        "sha256": "e4f98c7b451d458c09c22b3d738bd6495179761587026376d630506e2639e291"
+      },
+      "proposed_action": "retain_resolved",
+      "basis": "Retained ADL #4903 service packet: original stopped state, no-broad-process-scan, portable paths and service/OTel assertions; does not manage launchd."
+    },
+    {
+      "original_row": {
+        "id": "RD07-2229",
+        "path": "adl/tools/validate_v0917_no_sparrow_4909_status.sh",
+        "owner": "agent-logic-runtime",
+        "component": "agent-logic-runtime-mapped-tools",
+        "current_identity": {
+          "mode": "100755",
+          "blob": "aef117c31981969a80c4cd79bbc79232062b575c"
+        },
+        "existing_action": "retain",
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ],
+        "successor_mapping": {
+          "mapping": "exact_successor",
+          "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+          "exact_successor_paths": [
+            "adl/tools/validate_v0917_no_sparrow_4909_status.sh"
+          ]
+        }
+      },
+      "captured_current_identity": {
+        "mode": "100755",
+        "blob": "aef117c31981969a80c4cd79bbc79232062b575c"
+      },
+      "current_identity": {
+        "mode": "100755",
+        "blob": "aef117c31981969a80c4cd79bbc79232062b575c",
+        "sha256": "54a4b7ca48bbaf6f6a6ed94c0f9f83cc6896ec3ba77e6c76ece092078adaef6a"
+      },
+      "proposed_action": "retain_resolved",
+      "basis": "Retained ADL #4909 no-sparrow SLO packet: preserves proving_with_blocked_rows, required event classes, negative retention accounting and hygiene."
+    },
+    {
+      "original_row": {
+        "id": "RD07-2230",
+        "path": "adl/tools/validate_v0917_soak2_4682_status.sh",
+        "owner": "agent-logic-runtime",
+        "component": "agent-logic-runtime-mapped-tools",
+        "current_identity": {
+          "mode": "100755",
+          "blob": "eac10ac91ff140a8736235a33ef01e057e7abb9e"
+        },
+        "existing_action": "retain",
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ],
+        "successor_mapping": {
+          "mapping": "exact_successor",
+          "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+          "exact_successor_paths": [
+            "adl/tools/validate_v0917_soak2_4682_status.sh"
+          ]
+        }
+      },
+      "captured_current_identity": {
+        "mode": "100755",
+        "blob": "eac10ac91ff140a8736235a33ef01e057e7abb9e"
+      },
+      "current_identity": {
+        "mode": "100755",
+        "blob": "eac10ac91ff140a8736235a33ef01e057e7abb9e",
+        "sha256": "7c1feb5cdd2f44ea13380d3a1aa026f0e60125f6996f0f6a84ac22498db76974"
+      },
+      "proposed_action": "retain_resolved",
+      "basis": "Retained ADL final Soak2 #4880/#4682 packet: exact integrated/blocked/deferred row dispositions and remaining blockers remain assertions, not current Runtime acceptance."
+    },
+    {
+      "original_row": {
+        "id": "RD07-2231",
+        "path": "adl/tools/validate_v0917_soak2_matrix.sh",
+        "owner": "agent-logic-runtime",
+        "component": "agent-logic-runtime-mapped-tools",
+        "current_identity": {
+          "mode": "100755",
+          "blob": "626b3f6f97150039fd4bf4aa118d4c2baccd499d"
+        },
+        "existing_action": "retain",
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ],
+        "successor_mapping": {
+          "mapping": "exact_successor",
+          "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+          "exact_successor_paths": [
+            "adl/tools/validate_v0917_soak2_matrix.sh"
+          ]
+        }
+      },
+      "captured_current_identity": {
+        "mode": "100755",
+        "blob": "626b3f6f97150039fd4bf4aa118d4c2baccd499d"
+      },
+      "current_identity": {
+        "mode": "100755",
+        "blob": "626b3f6f97150039fd4bf4aa118d4c2baccd499d",
+        "sha256": "f7a89db24dc1a51260b5cc883a45f629e25509c2d1dff220c1c3510c4e8d2536"
+      },
+      "proposed_action": "retain_resolved",
+      "basis": "Retained ADL #4843 pre-Soak2 matrix and Markdown: exact15rows, schema/field/issue requirements and blocked/nonclaim semantics remain."
+    }
+  ],
+  "packet_inputs": {
+    "path": "/Volumes/FastWork/c1223/csm-polis-status-family/STATUS_PACKET_INPUTS.json",
+    "sha256": "e3de714a8ff9ac240e8db17aca175a7f663ed913c93aed986947277b15f69ca0",
+    "tracked_packet_files": 624
+  },
+  "consumer_boundary": "Nine ADL historical packet validation entrypoints remain with the actual immutable evidence they read. Legacy selector references do not establish active public execution, and source retention is not a new validation pass. Existing schemas/assertions remain unchanged.",
+  "validation": "Read-only source and tracked-input identity audit; no validator, cloud, service, Runtime, or product execution.",
+  "limits": [
+    "No original test or current Runtime acceptance claim.",
+    "1513 effectful live producer disposition is separate; retained2223 can validate historical summaries without it.",
+    "Original4134+22 immutable identities preserved."
+  ]
+}

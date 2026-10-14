@@ -408,6 +408,18 @@ class TransientBridgeTests(unittest.TestCase):
 
 
 
+# PVF: deterministic local guard regression; small CPU/disk; no Runtime execution.
+class TransientRuntimeResourcesTests(TransientBridgeTests):
+    def setUp(self):
+        super().setUp()
+        self.path = check.TRANSIENT_RUNTIME_RESOURCES
+        identity = check.TRANSIENT_RUNTIME_IDENTITY
+        self.entry['path'] = self.path
+        self.entry['rollback_custody'] = {'mode': identity[0], 'blob': identity[1]}
+        self.entry['source_chain'] = [{'commit': '4df3ff232116341f2dfecb4dfd4e5448157aed63', 'before': None, 'after': identity}]
+        self.entry['supplemental_source_chain'] = [{'commit': '7783ee5303651ace42d5d3fecd4055aa83a0a3a5', 'before': identity, 'after': None}]
+
+
 class RecentOwnerFamilyTests(unittest.TestCase):
     # PVF: deterministic local guard regression; small disk/CPU; no owner execution.
     def batches(self):
@@ -422,7 +434,7 @@ class RecentOwnerFamilyTests(unittest.TestCase):
             self.assertEqual(len(paths), spec['removals'])
             check.check_recent_owner_custody(batch, spec)
             total += len(paths)
-        self.assertEqual(total, 1005)
+        self.assertEqual(total, 1053)
 
     def test_expanded_scope_and_repeat_refuse(self):
         for spec, batch, before, after in self.batches():

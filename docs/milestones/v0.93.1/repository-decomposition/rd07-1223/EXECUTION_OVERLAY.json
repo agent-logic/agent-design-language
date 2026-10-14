@@ -6,7 +6,7 @@
   "execution_authorized": false,
   "original_inventory_count": 4134,
   "additional_inventory_count": 22,
-  "executed_deletion_count": 3336,
+  "executed_deletion_count": 3384,
   "entries": [
     {
       "path": ".github/workflows/ci.yaml",
@@ -6966,7 +6966,7 @@
       ],
       "after": [
         "100644",
-        "d0c4aaa2ff745397268c4c84394799acf46a9c5b"
+        "7c71e2bd1e3a1d9182e71ef652ef0e33023f58b3"
       ],
       "implementation_commit": "39a64819e2ccc75a0b09616a7883f5835d047e35",
       "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
@@ -7176,6 +7176,54 @@
             "d0c4aaa2ff745397268c4c84394799acf46a9c5b"
           ],
           "packet": "CSM_SEVENTEEN_HISTORICAL_APPLIED.json"
+        },
+        {
+          "commit": "1635ecbd5a934e36ffcaffee8aa73c7f48a8c44a",
+          "before": [
+            "100644",
+            "d0c4aaa2ff745397268c4c84394799acf46a9c5b"
+          ],
+          "after": [
+            "100644",
+            "3e68437a7eeab2371cd0d679f8df0b0e3d0fb93e"
+          ],
+          "packet": "WP12_FOUR_HISTORICAL_APPLIED.json"
+        },
+        {
+          "commit": "7783ee5303651ace42d5d3fecd4055aa83a0a3a5",
+          "before": [
+            "100644",
+            "3e68437a7eeab2371cd0d679f8df0b0e3d0fb93e"
+          ],
+          "after": [
+            "100644",
+            "cd269f78a49285e0d3e1df7e710f0c2c67d2a367"
+          ],
+          "packet": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json"
+        },
+        {
+          "commit": "e6b4efd7913e616b745c670777e9ba7b89a3cf93",
+          "before": [
+            "100644",
+            "cd269f78a49285e0d3e1df7e710f0c2c67d2a367"
+          ],
+          "after": [
+            "100644",
+            "3fd6dab84ae6a6c4c0292167ec93583b900862e7"
+          ],
+          "packet": "BROWSER_EDGE_SIX_HISTORICAL_APPLIED.json"
+        },
+        {
+          "commit": "553a1c68ab10031bbb2e2282ec4893bf58eb97ab",
+          "before": [
+            "100644",
+            "3fd6dab84ae6a6c4c0292167ec93583b900862e7"
+          ],
+          "after": [
+            "100644",
+            "7c71e2bd1e3a1d9182e71ef652ef0e33023f58b3"
+          ],
+          "packet": "CSM_BRIDGE_ONE_HISTORICAL_APPLIED.json"
         }
       ]
     },
@@ -29111,7 +29159,7 @@
       ],
       "after": [
         "100644",
-        "a8cb235e98b82a3cab6bc34641900757b1675276"
+        "2a45cf4b0ab657b2a6b447891d8245f9509749eb"
       ],
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "INFRASTRUCTURE_SOURCE_FAMILY_APPLIED.json",
@@ -29376,6 +29424,54 @@
             "a8cb235e98b82a3cab6bc34641900757b1675276"
           ],
           "packet": "CSM_SEVENTEEN_HISTORICAL_APPLIED.json"
+        },
+        {
+          "commit": "7783ee5303651ace42d5d3fecd4055aa83a0a3a5",
+          "before": [
+            "100644",
+            "a8cb235e98b82a3cab6bc34641900757b1675276"
+          ],
+          "after": [
+            "100644",
+            "0383a18d633ee3262bf7657f6276748db11419e6"
+          ],
+          "packet": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json"
+        },
+        {
+          "commit": "8c4348401b7306c3cb74186abe19a397fa7ad052",
+          "before": [
+            "100644",
+            "0383a18d633ee3262bf7657f6276748db11419e6"
+          ],
+          "after": [
+            "100644",
+            "46e4e67c75e27b516ef9e812ad0d111f3913a2c5"
+          ],
+          "packet": "RUNTIME_DEPLOYMENT_EIGHT_HISTORICAL_APPLIED.json"
+        },
+        {
+          "commit": "e6b4efd7913e616b745c670777e9ba7b89a3cf93",
+          "before": [
+            "100644",
+            "46e4e67c75e27b516ef9e812ad0d111f3913a2c5"
+          ],
+          "after": [
+            "100644",
+            "c2b3fd1b24616578c00d5c56fc8858da8b3b4474"
+          ],
+          "packet": "BROWSER_EDGE_SIX_HISTORICAL_APPLIED.json"
+        },
+        {
+          "commit": "705571ee5bc7930bd27db7cd7288dbb2722ed82b",
+          "before": [
+            "100644",
+            "c2b3fd1b24616578c00d5c56fc8858da8b3b4474"
+          ],
+          "after": [
+            "100644",
+            "2a45cf4b0ab657b2a6b447891d8245f9509749eb"
+          ],
+          "packet": "REGISTRY_EMPTY_DIRECTORY_FIX_APPLIED.json"
         }
       ]
     },
@@ -29543,11 +29639,8 @@
         "100755",
         "c46755d59c55bf2102ccacee570c0f24c62c3dbd"
       ],
-      "after": [
-        "100755",
-        "99ab3812eb5b04a37f450b69e90ed8bde26356d7"
-      ],
-      "action": "modify",
+      "after": null,
+      "action": "remove",
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "INFRASTRUCTURE_SOURCE_FAMILY_APPLIED.json",
       "review_reference": "Parent coordination: independent Infrastructure212 review PASS; exact patch172fa9839baa2e2f1b812180d3bafee8732b2ca7c9a437fd74eb1a4a86a295a3",
@@ -29564,7 +29657,27 @@
           ],
           "packet": "INFRASTRUCTURE_SOURCE_FAMILY_APPLIED.json"
         }
-      ]
+      ],
+      "supplemental_source_chain": [
+        {
+          "commit": "8c4348401b7306c3cb74186abe19a397fa7ad052",
+          "before": [
+            "100755",
+            "99ab3812eb5b04a37f450b69e90ed8bde26356d7"
+          ],
+          "after": null,
+          "packet": "RUNTIME_DEPLOYMENT_EIGHT_HISTORICAL_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_DEPLOYMENT_EIGHT_HISTORICAL_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-deployment-eight-composed/current-original.tar",
+        "archive_sha256": "524032f95611ee8f869af86fd6e55edcf7873065045eb0119b5f7611b57bf76b",
+        "member": "current/adl/tools/run_issue607_warm_polis.sh",
+        "mode": "100755",
+        "blob": "99ab3812eb5b04a37f450b69e90ed8bde26356d7",
+        "sha256": "b4a152ce2273f1996b411788f1b880e695e57c6e1745cb8eed990696834e5bfb"
+      }
     },
     {
       "path": "adl/tools/run_issue872_conversion_rehearsal.py",
@@ -30336,27 +30449,58 @@
       ],
       "after": [
         "100644",
-        "a8d771dc269f5da5cfcfbefdd2565459c1d17332"
+        "f758f5846b031f8fb2262531b8b217eb57bd5db9"
       ],
       "implementation_commit": "387ca92b99f04cd9f73c45d23711fa9cfecccaae",
       "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
       "review_reference": "review_1223_applied_components exact77/112 review",
-      "source_chain_reference": "proposed_reconciled_entries:adl/tools/test_generate_tool_surface_registry.sh"
+      "source_chain_reference": "proposed_reconciled_entries:adl/tools/test_generate_tool_surface_registry.sh",
+      "supplemental_source_chain": [
+        {
+          "commit": "705571ee5bc7930bd27db7cd7288dbb2722ed82b",
+          "before": [
+            "100644",
+            "a8d771dc269f5da5cfcfbefdd2565459c1d17332"
+          ],
+          "after": [
+            "100644",
+            "f758f5846b031f8fb2262531b8b217eb57bd5db9"
+          ],
+          "packet": "REGISTRY_EMPTY_DIRECTORY_FIX_APPLIED.json"
+        }
+      ]
     },
     {
       "path": "adl/tools/test_html_observatory.sh",
-      "action": "modify",
+      "action": "remove",
       "before": [
         "100755",
         "93d712544ae872f21ff75156ac1de7a237ddd40c"
       ],
-      "after": [
-        "100755",
-        "6200e1a51b524c43569e86a9d7be138b110e77b1"
-      ],
+      "after": null,
       "implementation_commit": "3383f7f691ec248d6fe87cd18e4e13c5d1e8d900",
       "approval_reference": "RUNTIME_SOURCE_FAMILY_APPLIED.json",
-      "review_reference": "review_1223_public_facade exact Runtime896 plus54 caller repair review"
+      "review_reference": "review_1223_public_facade exact Runtime896 plus54 caller repair review",
+      "supplemental_source_chain": [
+        {
+          "commit": "e6b4efd7913e616b745c670777e9ba7b89a3cf93",
+          "before": [
+            "100755",
+            "6200e1a51b524c43569e86a9d7be138b110e77b1"
+          ],
+          "after": null,
+          "packet": "BROWSER_EDGE_SIX_HISTORICAL_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "BROWSER_EDGE_SIX_HISTORICAL_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/browser-edge-six/8c4348401b7306c3cb74186abe19a397fa7ad052/current-original.tar",
+        "archive_sha256": "aa4da55506e963a32d625a421d1b8c9ad05216efd24214fec3ded93464e4b7a2",
+        "member": "current/adl/tools/test_html_observatory.sh",
+        "mode": "100755",
+        "blob": "6200e1a51b524c43569e86a9d7be138b110e77b1",
+        "sha256": "aae9b3a39a9f5a52afd0ab4d1663e4b34d554b41a03f382cd9f1b4318130735d"
+      }
     },
     {
       "path": "adl/tools/test_issue607_warm_polis.sh",
@@ -31049,11 +31193,8 @@
         "100755",
         "8006ccddf1ab52995226328bd9c5121eb982ca0e"
       ],
-      "after": [
-        "100755",
-        "5275c62bbfb5a62848d5311e8a414ebe372d2f5e"
-      ],
-      "action": "modify",
+      "after": null,
+      "action": "remove",
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "INFRASTRUCTURE_SOURCE_FAMILY_APPLIED.json",
       "review_reference": "Parent coordination: independent Infrastructure212 review PASS; exact patch172fa9839baa2e2f1b812180d3bafee8732b2ca7c9a437fd74eb1a4a86a295a3",
@@ -31070,7 +31211,27 @@
           ],
           "packet": "INFRASTRUCTURE_SOURCE_FAMILY_APPLIED.json"
         }
-      ]
+      ],
+      "supplemental_source_chain": [
+        {
+          "commit": "7783ee5303651ace42d5d3fecd4055aa83a0a3a5",
+          "before": [
+            "100755",
+            "5275c62bbfb5a62848d5311e8a414ebe372d2f5e"
+          ],
+          "after": null,
+          "packet": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/operational-seventeen-current-composition/current-original.tar",
+        "archive_sha256": "07197e26f6a571d71aa7273e306eecea2ab27aa62e6ffc9347d5500098cae640",
+        "member": "current/adl/tools/test_xcl_terraform_provider_major_bounds.sh",
+        "mode": "100755",
+        "blob": "5275c62bbfb5a62848d5311e8a414ebe372d2f5e",
+        "sha256": "878c15c197a704d6b832df8a2b4106497b238f39f217510d192baa6a681b4fc7"
+      }
     },
     {
       "path": "adl/tools/validate_aws_runtime_platform_static.sh",
@@ -31078,11 +31239,8 @@
         "100755",
         "55199a86baf223e74d9f355d73eeda051c4cc6a3"
       ],
-      "after": [
-        "100755",
-        "9c7712307e4972ffd91a1a5a7aee3e9882ed1934"
-      ],
-      "action": "modify",
+      "after": null,
+      "action": "remove",
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "INFRASTRUCTURE_SOURCE_FAMILY_APPLIED.json",
       "review_reference": "Parent coordination: independent Infrastructure212 review PASS; exact patch172fa9839baa2e2f1b812180d3bafee8732b2ca7c9a437fd74eb1a4a86a295a3",
@@ -31099,7 +31257,27 @@
           ],
           "packet": "INFRASTRUCTURE_SOURCE_FAMILY_APPLIED.json"
         }
-      ]
+      ],
+      "supplemental_source_chain": [
+        {
+          "commit": "7783ee5303651ace42d5d3fecd4055aa83a0a3a5",
+          "before": [
+            "100755",
+            "9c7712307e4972ffd91a1a5a7aee3e9882ed1934"
+          ],
+          "after": null,
+          "packet": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/operational-seventeen-current-composition/current-original.tar",
+        "archive_sha256": "07197e26f6a571d71aa7273e306eecea2ab27aa62e6ffc9347d5500098cae640",
+        "member": "current/adl/tools/validate_aws_runtime_platform_static.sh",
+        "mode": "100755",
+        "blob": "9c7712307e4972ffd91a1a5a7aee3e9882ed1934",
+        "sha256": "fe0afac30f7dfdff7c871834ff1f254d1e9ad223b79a4e7519093f6b1d07903c"
+      }
     },
     {
       "path": "adl/tools/validate_ci_workflow_policy.rb",
@@ -31171,11 +31349,8 @@
         "100755",
         "a1e19fcfc9f7f0c0768fc6cfa1f1bd85786d9daa"
       ],
-      "after": [
-        "100755",
-        "c3498152435e448f1379fff612016fd5ec01b869"
-      ],
-      "action": "modify",
+      "after": null,
+      "action": "remove",
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "INFRASTRUCTURE_SOURCE_FAMILY_APPLIED.json",
       "review_reference": "Parent coordination: independent Infrastructure212 review PASS; exact patch172fa9839baa2e2f1b812180d3bafee8732b2ca7c9a437fd74eb1a4a86a295a3",
@@ -31192,7 +31367,27 @@
           ],
           "packet": "INFRASTRUCTURE_SOURCE_FAMILY_APPLIED.json"
         }
-      ]
+      ],
+      "supplemental_source_chain": [
+        {
+          "commit": "e6b4efd7913e616b745c670777e9ba7b89a3cf93",
+          "before": [
+            "100755",
+            "c3498152435e448f1379fff612016fd5ec01b869"
+          ],
+          "after": null,
+          "packet": "BROWSER_EDGE_SIX_HISTORICAL_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "BROWSER_EDGE_SIX_HISTORICAL_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/browser-edge-six/8c4348401b7306c3cb74186abe19a397fa7ad052/current-original.tar",
+        "archive_sha256": "aa4da55506e963a32d625a421d1b8c9ad05216efd24214fec3ded93464e4b7a2",
+        "member": "current/adl/tools/validate_csm_public_edge_static.sh",
+        "mode": "100755",
+        "blob": "c3498152435e448f1379fff612016fd5ec01b869",
+        "sha256": "5dd7cd78ed7621f35b0ad954374548e4cc693c8ead5468ccb1c2188d734dc9a3"
+      }
     },
     {
       "path": "adl/tools/validate_issue256_birthday_after_observatory.py",
@@ -31260,18 +31455,35 @@
     },
     {
       "path": "adl/tools/validate_v092_browser_trusted_observatory.mjs",
-      "action": "modify",
+      "action": "remove",
       "before": [
         "100644",
         "77bcb5a1a5d4272b8e552779732b0903b0f50fe8"
       ],
-      "after": [
-        "100644",
-        "c4f8dd183cdfc63bdb55d235b000e1a0df2920b7"
-      ],
+      "after": null,
       "implementation_commit": "3383f7f691ec248d6fe87cd18e4e13c5d1e8d900",
       "approval_reference": "RUNTIME_SOURCE_FAMILY_APPLIED.json",
-      "review_reference": "review_1223_public_facade exact Runtime896 plus54 caller repair review"
+      "review_reference": "review_1223_public_facade exact Runtime896 plus54 caller repair review",
+      "supplemental_source_chain": [
+        {
+          "commit": "e6b4efd7913e616b745c670777e9ba7b89a3cf93",
+          "before": [
+            "100644",
+            "c4f8dd183cdfc63bdb55d235b000e1a0df2920b7"
+          ],
+          "after": null,
+          "packet": "BROWSER_EDGE_SIX_HISTORICAL_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "BROWSER_EDGE_SIX_HISTORICAL_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/browser-edge-six/8c4348401b7306c3cb74186abe19a397fa7ad052/current-original.tar",
+        "archive_sha256": "aa4da55506e963a32d625a421d1b8c9ad05216efd24214fec3ded93464e4b7a2",
+        "member": "current/adl/tools/validate_v092_browser_trusted_observatory.mjs",
+        "mode": "100644",
+        "blob": "c4f8dd183cdfc63bdb55d235b000e1a0df2920b7",
+        "sha256": "6a1b7863a34ac63f3f339e50d4b2a46887a2eb34842adf01b8f5309a90b5129a"
+      }
     },
     {
       "path": "adl/tools/validate_v092_distributed_guardian.sh",
@@ -57583,7 +57795,7 @@
       ],
       "after": [
         "100644",
-        "7d04971cb64e411e16dc72dafe8cd114087ab56f"
+        "5e0b0630d0db8571782c8bb86c208c25b37becd2"
       ],
       "action": "modify",
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
@@ -57615,6 +57827,18 @@
             "7d04971cb64e411e16dc72dafe8cd114087ab56f"
           ],
           "packet": "RUNTIME_REFUSAL_TWELVE_APPLIED.json"
+        },
+        {
+          "commit": "8c4348401b7306c3cb74186abe19a397fa7ad052",
+          "before": [
+            "100644",
+            "7d04971cb64e411e16dc72dafe8cd114087ab56f"
+          ],
+          "after": [
+            "100644",
+            "5e0b0630d0db8571782c8bb86c208c25b37becd2"
+          ],
+          "packet": "RUNTIME_DEPLOYMENT_EIGHT_HISTORICAL_APPLIED.json"
         }
       ]
     },
@@ -57942,12 +58166,26 @@
       ],
       "after": [
         "100644",
-        "1047549202fb151040cbefcb214f7e252c367f53"
+        "1d18f259195886a2927ac49389c997e8cde72980"
       ],
       "implementation_commit": "9b6ea052ff24c8819a4b9a86a68a8255a8dd6503",
       "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
       "review_reference": "review_1223_applied_components exact77/112 review",
-      "source_chain_reference": "proposed_reconciled_entries:docs/tooling/AWS_CODEFRIEND_BUILD_LANE.md"
+      "source_chain_reference": "proposed_reconciled_entries:docs/tooling/AWS_CODEFRIEND_BUILD_LANE.md",
+      "supplemental_source_chain": [
+        {
+          "commit": "7783ee5303651ace42d5d3fecd4055aa83a0a3a5",
+          "before": [
+            "100644",
+            "1047549202fb151040cbefcb214f7e252c367f53"
+          ],
+          "after": [
+            "100644",
+            "1d18f259195886a2927ac49389c997e8cde72980"
+          ],
+          "packet": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json"
+        }
+      ]
     },
     {
       "path": "docs/tooling/CSMctl.conf.example",
@@ -58123,7 +58361,7 @@
       "before": null,
       "after": [
         "100644",
-        "49c361caca6ae5918375a5435e45403e04d96e9a"
+        "24425ce3bf01964313cb078e150955644f1b4382"
       ],
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "INFRASTRUCTURE_SOURCE_FAMILY_APPLIED.json",
@@ -59188,6 +59426,126 @@
             "49c361caca6ae5918375a5435e45403e04d96e9a"
           ],
           "packet": "ORPHAN_ADAPTER_MEDIUM_FIVE_HISTORICAL_APPLIED.json"
+        },
+        {
+          "commit": "1635ecbd5a934e36ffcaffee8aa73c7f48a8c44a",
+          "before": [
+            "100644",
+            "49c361caca6ae5918375a5435e45403e04d96e9a"
+          ],
+          "after": [
+            "100644",
+            "f9098a52e03325d5fdc35d750e09ec5a3c307d82"
+          ],
+          "packet": "WP12_FOUR_HISTORICAL_APPLIED.json"
+        },
+        {
+          "commit": "4f92a0667dffbd9f3da7928a74b572e76366acf3",
+          "before": [
+            "100644",
+            "f9098a52e03325d5fdc35d750e09ec5a3c307d82"
+          ],
+          "after": [
+            "100644",
+            "e14685ec4cb94a475887d52bb08b54fe09976e74"
+          ],
+          "packet": "WORKCELL_TWO_HISTORICAL_APPLIED.json"
+        },
+        {
+          "commit": "f8ab9567f603ea654f0e15a00fb20d576c1ac6f7",
+          "before": [
+            "100644",
+            "e14685ec4cb94a475887d52bb08b54fe09976e74"
+          ],
+          "after": [
+            "100644",
+            "d7ab8ac45d4f3fdd05412852c251617bd1b24cc6"
+          ],
+          "packet": "MANUAL_ORPHAN_THREE_HISTORICAL_APPLIED.json"
+        },
+        {
+          "commit": "7783ee5303651ace42d5d3fecd4055aa83a0a3a5",
+          "before": [
+            "100644",
+            "d7ab8ac45d4f3fdd05412852c251617bd1b24cc6"
+          ],
+          "after": [
+            "100644",
+            "b84d223fac2cc535b0e96cc5e2fabd39922c8a7a"
+          ],
+          "packet": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json"
+        },
+        {
+          "commit": "8c4348401b7306c3cb74186abe19a397fa7ad052",
+          "before": [
+            "100644",
+            "b84d223fac2cc535b0e96cc5e2fabd39922c8a7a"
+          ],
+          "after": [
+            "100644",
+            "694e0551a9fd0100e35df99396df300bca225376"
+          ],
+          "packet": "RUNTIME_DEPLOYMENT_EIGHT_HISTORICAL_APPLIED.json"
+        },
+        {
+          "commit": "e6b4efd7913e616b745c670777e9ba7b89a3cf93",
+          "before": [
+            "100644",
+            "694e0551a9fd0100e35df99396df300bca225376"
+          ],
+          "after": [
+            "100644",
+            "d804ebe4586b32551a9fe5149f3ed0e8230d3009"
+          ],
+          "packet": "BROWSER_EDGE_SIX_HISTORICAL_APPLIED.json"
+        },
+        {
+          "commit": "00e16ac1da39e401008abba0e10495f369e84ee7",
+          "before": [
+            "100644",
+            "d804ebe4586b32551a9fe5149f3ed0e8230d3009"
+          ],
+          "after": [
+            "100644",
+            "3d069828a9d14c8a2779f41d9fbb99892e496459"
+          ],
+          "packet": "WP08_FIVE_VALIDATORS_HISTORICAL_APPLIED.json"
+        },
+        {
+          "commit": "553a1c68ab10031bbb2e2282ec4893bf58eb97ab",
+          "before": [
+            "100644",
+            "3d069828a9d14c8a2779f41d9fbb99892e496459"
+          ],
+          "after": [
+            "100644",
+            "e32e1e7187d95ba0a5d57b324b174008a12ab51a"
+          ],
+          "packet": "CSM_BRIDGE_ONE_HISTORICAL_APPLIED.json"
+        },
+        {
+          "commit": "9834ea77abb663b379a676a0f0aac906565bf0b8",
+          "before": [
+            "100644",
+            "e32e1e7187d95ba0a5d57b324b174008a12ab51a"
+          ],
+          "after": [
+            "100644",
+            "8bd7103cb652070169d3c3fb6e8b4e16db77f2ea"
+          ],
+          "packet": "RUNTIME_DEMO_TWO_HISTORICAL_APPLIED.json"
+        },
+        {
+          "commit": "705571ee5bc7930bd27db7cd7288dbb2722ed82b",
+          "before": [
+            "100644",
+            "8bd7103cb652070169d3c3fb6e8b4e16db77f2ea"
+          ],
+          "after": [
+            "100644",
+            "24425ce3bf01964313cb078e150955644f1b4382"
+          ],
+          "packet": "REGISTRY_EMPTY_DIRECTORY_FIX_APPLIED.json"
         }
       ],
       "prior_execution_provenance": [
@@ -66441,7 +66799,7 @@
       "before": null,
       "after": [
         "100644",
-        "ab8b6eb038c4e4463262c825a86239371d1aadd0"
+        "a45725bfa1f79eaa4deb22c6ed55d7ed80d55b11"
       ],
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "Infrastructure212 source commit guard-documentation accompaniment",
@@ -66918,6 +67276,18 @@
             "ab8b6eb038c4e4463262c825a86239371d1aadd0"
           ],
           "packet": "Legacy standalone audio closure"
+        },
+        {
+          "commit": "pending_reviewed_integration",
+          "before": [
+            "100644",
+            "ab8b6eb038c4e4463262c825a86239371d1aadd0"
+          ],
+          "after": [
+            "100644",
+            "a45725bfa1f79eaa4deb22c6ed55d7ed80d55b11"
+          ],
+          "packet": "WP12 operational and status-family closure"
         }
       ],
       "prior_execution_provenance": [
@@ -75063,11 +75433,8 @@
         "100755",
         "16b94e284732826bb30689eea4e54f037bf7f3fd"
       ],
-      "after": [
-        "100755",
-        "107af3b83f4c23154d68fcdcc0f1cf09286d217a"
-      ],
-      "action": "modify",
+      "after": null,
+      "action": "remove",
       "implementation_commit": "1f438d059a37442c85059992c503740aa1bf088e",
       "approval_reference": "AWS_REMOTE_FAMILY_APPLIED.json",
       "review_reference": "Independent source/caller review PASS and parent exact application review",
@@ -75084,7 +75451,27 @@
           ],
           "packet": "AWS_REMOTE_FAMILY_APPLIED.json"
         }
-      ]
+      ],
+      "supplemental_source_chain": [
+        {
+          "commit": "7783ee5303651ace42d5d3fecd4055aa83a0a3a5",
+          "before": [
+            "100755",
+            "107af3b83f4c23154d68fcdcc0f1cf09286d217a"
+          ],
+          "after": null,
+          "packet": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/operational-seventeen-current-composition/current-original.tar",
+        "archive_sha256": "07197e26f6a571d71aa7273e306eecea2ab27aa62e6ffc9347d5500098cae640",
+        "member": "current/adl/tools/test_run_aws_spot_builder_image_validation.sh",
+        "mode": "100755",
+        "blob": "107af3b83f4c23154d68fcdcc0f1cf09286d217a",
+        "sha256": "ff8fcffbb1c0708041f6361110ac441f1a52dade60d383bd41f31474d67a8684"
+      }
     },
     {
       "path": "tools/groupd_validation/README.md",
@@ -83562,7 +83949,7 @@
       ],
       "after": [
         "100644",
-        "a04108c2c38c4a1e1f2ea3f6b538133f154f43be"
+        "76d0d440266d76a5bea87b770dc8e06d1334bfb6"
       ],
       "action": "modify",
       "implementation_commit": "ba90cf9dc1ca7388610444da604fb76491f17149",
@@ -83762,6 +84149,30 @@
             "a04108c2c38c4a1e1f2ea3f6b538133f154f43be"
           ],
           "packet": "REVIEW_WRAPPER_LLAMA_THREE_APPLIED.json"
+        },
+        {
+          "commit": "f8ab9567f603ea654f0e15a00fb20d576c1ac6f7",
+          "before": [
+            "100644",
+            "a04108c2c38c4a1e1f2ea3f6b538133f154f43be"
+          ],
+          "after": [
+            "100644",
+            "ab49bb4fa804e259e3f058ad58a23a3a65975bc5"
+          ],
+          "packet": "MANUAL_ORPHAN_THREE_HISTORICAL_APPLIED.json"
+        },
+        {
+          "commit": "7783ee5303651ace42d5d3fecd4055aa83a0a3a5",
+          "before": [
+            "100644",
+            "ab49bb4fa804e259e3f058ad58a23a3a65975bc5"
+          ],
+          "after": [
+            "100644",
+            "76d0d440266d76a5bea87b770dc8e06d1334bfb6"
+          ],
+          "packet": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json"
         }
       ]
     },
@@ -90281,11 +90692,8 @@
     {
       "path": "adl/tools/lib/issue268_runtime_resources.py",
       "before": null,
-      "after": [
-        "100644",
-        "f94781ac51dd381cde614c850fb7c673a13637ad"
-      ],
-      "action": "add",
+      "after": null,
+      "action": "remove_added",
       "implementation_commit": "4df3ff232116341f2dfecb4dfd4e5448157aed63",
       "approval_reference": "RUNTIME_ISSUE268_THIRTEEN_APPLIED.json",
       "review_reference": "Independent source/caller review PASS and parent exact application review",
@@ -90299,7 +90707,27 @@
           ],
           "packet": "RUNTIME_ISSUE268_THIRTEEN_APPLIED.json"
         }
-      ]
+      ],
+      "supplemental_source_chain": [
+        {
+          "commit": "7783ee5303651ace42d5d3fecd4055aa83a0a3a5",
+          "before": [
+            "100644",
+            "f94781ac51dd381cde614c850fb7c673a13637ad"
+          ],
+          "after": null,
+          "packet": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/operational-seventeen-current-composition/current-original.tar",
+        "archive_sha256": "07197e26f6a571d71aa7273e306eecea2ab27aa62e6ffc9347d5500098cae640",
+        "member": "current/adl/tools/lib/issue268_runtime_resources.py",
+        "mode": "100644",
+        "blob": "f94781ac51dd381cde614c850fb7c673a13637ad",
+        "sha256": "e1b0d05a03aa1ae94f5946816867facb926c31f8b74aaba2822b2db3a40e9212"
+      }
     },
     {
       "path": "adl/tools/run_issue268_remote_resident_qualification.sh",
@@ -90307,11 +90735,8 @@
         "100755",
         "f12f98344ff6d277779b5ddf3aac509b10baac62"
       ],
-      "after": [
-        "100755",
-        "9608835f27bee97b8982d7f0d88fd38e5bef961c"
-      ],
-      "action": "modify",
+      "after": null,
+      "action": "remove",
       "implementation_commit": "4df3ff232116341f2dfecb4dfd4e5448157aed63",
       "approval_reference": "RUNTIME_ISSUE268_THIRTEEN_APPLIED.json",
       "review_reference": "Independent source/caller review PASS and parent exact application review",
@@ -90328,7 +90753,27 @@
           ],
           "packet": "RUNTIME_ISSUE268_THIRTEEN_APPLIED.json"
         }
-      ]
+      ],
+      "supplemental_source_chain": [
+        {
+          "commit": "7783ee5303651ace42d5d3fecd4055aa83a0a3a5",
+          "before": [
+            "100755",
+            "9608835f27bee97b8982d7f0d88fd38e5bef961c"
+          ],
+          "after": null,
+          "packet": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/operational-seventeen-current-composition/current-original.tar",
+        "archive_sha256": "07197e26f6a571d71aa7273e306eecea2ab27aa62e6ffc9347d5500098cae640",
+        "member": "current/adl/tools/run_issue268_remote_resident_qualification.sh",
+        "mode": "100755",
+        "blob": "9608835f27bee97b8982d7f0d88fd38e5bef961c",
+        "sha256": "13323d46ac9e9f384a118a01b6f76a2e8c3adbdcdd51ea5e6ab0787201b5367a"
+      }
     },
     {
       "path": "adl/tools/run_issue268_six_hour_spot_qualification.sh",
@@ -90336,11 +90781,8 @@
         "100755",
         "7ecc02ac0ba2a6372604b159bd83a40e25a8df07"
       ],
-      "after": [
-        "100755",
-        "238fc1e325143d404d20a3c507d505ef168c630f"
-      ],
-      "action": "modify",
+      "after": null,
+      "action": "remove",
       "implementation_commit": "4df3ff232116341f2dfecb4dfd4e5448157aed63",
       "approval_reference": "RUNTIME_ISSUE268_THIRTEEN_APPLIED.json",
       "review_reference": "Independent source/caller review PASS and parent exact application review",
@@ -90357,7 +90799,27 @@
           ],
           "packet": "RUNTIME_ISSUE268_THIRTEEN_APPLIED.json"
         }
-      ]
+      ],
+      "supplemental_source_chain": [
+        {
+          "commit": "7783ee5303651ace42d5d3fecd4055aa83a0a3a5",
+          "before": [
+            "100755",
+            "238fc1e325143d404d20a3c507d505ef168c630f"
+          ],
+          "after": null,
+          "packet": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/operational-seventeen-current-composition/current-original.tar",
+        "archive_sha256": "07197e26f6a571d71aa7273e306eecea2ab27aa62e6ffc9347d5500098cae640",
+        "member": "current/adl/tools/run_issue268_six_hour_spot_qualification.sh",
+        "mode": "100755",
+        "blob": "238fc1e325143d404d20a3c507d505ef168c630f",
+        "sha256": "fa26777185085958a31b3683ed02a9fc8ab384217f3bd2376c2fcc170fd4e717"
+      }
     },
     {
       "path": "adl/tools/build_issue509_runtime_bundle_on_relay.sh",
@@ -90365,11 +90827,8 @@
         "100755",
         "b8b57df617266a93fda577591620b28660bb8649"
       ],
-      "after": [
-        "100755",
-        "578731664da1bc3deaf5c31e4992b3e78c31759d"
-      ],
-      "action": "modify",
+      "after": null,
+      "action": "remove",
       "implementation_commit": "4df3ff232116341f2dfecb4dfd4e5448157aed63",
       "approval_reference": "RUNTIME_ISSUE268_THIRTEEN_APPLIED.json",
       "review_reference": "Independent source/caller review PASS and parent exact application review",
@@ -90386,7 +90845,27 @@
           ],
           "packet": "RUNTIME_ISSUE268_THIRTEEN_APPLIED.json"
         }
-      ]
+      ],
+      "supplemental_source_chain": [
+        {
+          "commit": "8c4348401b7306c3cb74186abe19a397fa7ad052",
+          "before": [
+            "100755",
+            "578731664da1bc3deaf5c31e4992b3e78c31759d"
+          ],
+          "after": null,
+          "packet": "RUNTIME_DEPLOYMENT_EIGHT_HISTORICAL_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_DEPLOYMENT_EIGHT_HISTORICAL_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-deployment-eight-composed/current-original.tar",
+        "archive_sha256": "524032f95611ee8f869af86fd6e55edcf7873065045eb0119b5f7611b57bf76b",
+        "member": "current/adl/tools/build_issue509_runtime_bundle_on_relay.sh",
+        "mode": "100755",
+        "blob": "578731664da1bc3deaf5c31e4992b3e78c31759d",
+        "sha256": "49c862d05bbe16992117f3e4754873396df8e896db69949c423e31461a9ba2f0"
+      }
     },
     {
       "path": "adl/tools/test_run_issue268_remote_resident_qualification.sh",
@@ -90394,11 +90873,8 @@
         "100755",
         "1048e536957dfd4fb4ff634db5c5b9d60444366e"
       ],
-      "after": [
-        "100755",
-        "d6964df33107318b0e8eba84947d46195c9b5911"
-      ],
-      "action": "modify",
+      "after": null,
+      "action": "remove",
       "implementation_commit": "4df3ff232116341f2dfecb4dfd4e5448157aed63",
       "approval_reference": "RUNTIME_ISSUE268_THIRTEEN_APPLIED.json",
       "review_reference": "Independent source/caller review PASS and parent exact application review",
@@ -90415,7 +90891,27 @@
           ],
           "packet": "RUNTIME_ISSUE268_THIRTEEN_APPLIED.json"
         }
-      ]
+      ],
+      "supplemental_source_chain": [
+        {
+          "commit": "7783ee5303651ace42d5d3fecd4055aa83a0a3a5",
+          "before": [
+            "100755",
+            "d6964df33107318b0e8eba84947d46195c9b5911"
+          ],
+          "after": null,
+          "packet": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/operational-seventeen-current-composition/current-original.tar",
+        "archive_sha256": "07197e26f6a571d71aa7273e306eecea2ab27aa62e6ffc9347d5500098cae640",
+        "member": "current/adl/tools/test_run_issue268_remote_resident_qualification.sh",
+        "mode": "100755",
+        "blob": "d6964df33107318b0e8eba84947d46195c9b5911",
+        "sha256": "9883899d923992f768bffb86daec6d61d69acf990c95788b6074b964e9e1d098"
+      }
     },
     {
       "path": "adl/tools/demo_v0891_long_lived_stock_league.sh",
@@ -95179,7 +95675,7 @@
       ],
       "after": [
         "100644",
-        "794ea04c698a23da863b3433c2bbd8627e843c78"
+        "f1efbed6278d938773458fc2f11dd69f62d384a9"
       ],
       "action": "modify",
       "implementation_commit": "69ddc398d913473d489b3447bbe58f12bf9c09a1",
@@ -95211,6 +95707,18 @@
             "794ea04c698a23da863b3433c2bbd8627e843c78"
           ],
           "packet": "LEGACY_RUNTIME_DEMO_EIGHT_APPLIED.json"
+        },
+        {
+          "commit": "9834ea77abb663b379a676a0f0aac906565bf0b8",
+          "before": [
+            "100644",
+            "794ea04c698a23da863b3433c2bbd8627e843c78"
+          ],
+          "after": [
+            "100644",
+            "f1efbed6278d938773458fc2f11dd69f62d384a9"
+          ],
+          "packet": "RUNTIME_DEMO_TWO_HISTORICAL_APPLIED.json"
         }
       ]
     },
@@ -105852,6 +106360,1297 @@
           "packet": "ORPHAN_ADAPTER_MEDIUM_FIVE_HISTORICAL_APPLIED.json"
         }
       ]
+    },
+    {
+      "path": "adl/tools/test_validate_wp12_ssm_readiness_4657.sh",
+      "before": [
+        "100644",
+        "00051cc5cd86fca328843922bf698ffac4e9dc9d"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "1635ecbd5a934e36ffcaffee8aa73c7f48a8c44a",
+      "approval_reference": "WP12_FOUR_HISTORICAL_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "1635ecbd5a934e36ffcaffee8aa73c7f48a8c44a",
+          "before": [
+            "100644",
+            "00051cc5cd86fca328843922bf698ffac4e9dc9d"
+          ],
+          "after": null,
+          "packet": "WP12_FOUR_HISTORICAL_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "WP12_FOUR_HISTORICAL_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/wp12-four-retirement/composed-1a3abf7e/current-original.tar",
+        "archive_sha256": "e854393ae4e32bae47e2d45184df6fb69405f29dbf6fd2c2eb5d5e32e3379da1",
+        "member": "current/adl/tools/test_validate_wp12_ssm_readiness_4657.sh",
+        "mode": "100644",
+        "blob": "00051cc5cd86fca328843922bf698ffac4e9dc9d",
+        "sha256": "6fea6523e890cf86f2e016e7f998ef1fa8c3af7c80db128071faaa4a98611b43"
+      }
+    },
+    {
+      "path": "adl/tools/validate_wp12_access_activation_gate_4660.py",
+      "before": [
+        "100755",
+        "ff0f81c35b4b51bc6201c40c0d9caee7da1f360d"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "1635ecbd5a934e36ffcaffee8aa73c7f48a8c44a",
+      "approval_reference": "WP12_FOUR_HISTORICAL_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "1635ecbd5a934e36ffcaffee8aa73c7f48a8c44a",
+          "before": [
+            "100755",
+            "ff0f81c35b4b51bc6201c40c0d9caee7da1f360d"
+          ],
+          "after": null,
+          "packet": "WP12_FOUR_HISTORICAL_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "WP12_FOUR_HISTORICAL_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/wp12-four-retirement/composed-1a3abf7e/current-original.tar",
+        "archive_sha256": "e854393ae4e32bae47e2d45184df6fb69405f29dbf6fd2c2eb5d5e32e3379da1",
+        "member": "current/adl/tools/validate_wp12_access_activation_gate_4660.py",
+        "mode": "100755",
+        "blob": "ff0f81c35b4b51bc6201c40c0d9caee7da1f360d",
+        "sha256": "37579927d7f412d074063ffa11cf978a953ac8ba269f7396c61ad1d9219f29d5"
+      }
+    },
+    {
+      "path": "adl/tools/validate_wp12_cav_red_blue_4914.py",
+      "before": [
+        "100644",
+        "d160756334c88cdd712d36f3648409c3baeb1e69"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "1635ecbd5a934e36ffcaffee8aa73c7f48a8c44a",
+      "approval_reference": "WP12_FOUR_HISTORICAL_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "1635ecbd5a934e36ffcaffee8aa73c7f48a8c44a",
+          "before": [
+            "100644",
+            "d160756334c88cdd712d36f3648409c3baeb1e69"
+          ],
+          "after": null,
+          "packet": "WP12_FOUR_HISTORICAL_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "WP12_FOUR_HISTORICAL_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/wp12-four-retirement/composed-1a3abf7e/current-original.tar",
+        "archive_sha256": "e854393ae4e32bae47e2d45184df6fb69405f29dbf6fd2c2eb5d5e32e3379da1",
+        "member": "current/adl/tools/validate_wp12_cav_red_blue_4914.py",
+        "mode": "100644",
+        "blob": "d160756334c88cdd712d36f3648409c3baeb1e69",
+        "sha256": "94acec2fb0982a32bf25f3b901b6ac147ea7b894f330085f137f9fcb930eb846"
+      }
+    },
+    {
+      "path": "adl/tools/validate_wp12_ssm_readiness_4657.py",
+      "before": [
+        "100644",
+        "7ba3287b4a49390227fd66d142e09d8f3284123e"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "1635ecbd5a934e36ffcaffee8aa73c7f48a8c44a",
+      "approval_reference": "WP12_FOUR_HISTORICAL_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "1635ecbd5a934e36ffcaffee8aa73c7f48a8c44a",
+          "before": [
+            "100644",
+            "7ba3287b4a49390227fd66d142e09d8f3284123e"
+          ],
+          "after": null,
+          "packet": "WP12_FOUR_HISTORICAL_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "WP12_FOUR_HISTORICAL_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/wp12-four-retirement/composed-1a3abf7e/current-original.tar",
+        "archive_sha256": "e854393ae4e32bae47e2d45184df6fb69405f29dbf6fd2c2eb5d5e32e3379da1",
+        "member": "current/adl/tools/validate_wp12_ssm_readiness_4657.py",
+        "mode": "100644",
+        "blob": "7ba3287b4a49390227fd66d142e09d8f3284123e",
+        "sha256": "cfc1178a625b7efa90bb133b5ff446379ec39abfdbb65308c837579e10149542"
+      }
+    },
+    {
+      "path": "adl/tools/demo_v0914_codex_only_complete_issue_workcell.sh",
+      "before": [
+        "100644",
+        "80c7126737fbc1e180351e656f5c435fa54854b5"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "4f92a0667dffbd9f3da7928a74b572e76366acf3",
+      "approval_reference": "WORKCELL_TWO_HISTORICAL_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "4f92a0667dffbd9f3da7928a74b572e76366acf3",
+          "before": [
+            "100644",
+            "80c7126737fbc1e180351e656f5c435fa54854b5"
+          ],
+          "after": null,
+          "packet": "WORKCELL_TWO_HISTORICAL_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "WORKCELL_TWO_HISTORICAL_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/workcell-two-retirement/composed-1635ecbd/current-original.tar",
+        "archive_sha256": "d4b3d7d1fb7616054e339b74fae5aa5c689732f094d0cf6e9c28544d523ad3f6",
+        "member": "current/adl/tools/demo_v0914_codex_only_complete_issue_workcell.sh",
+        "mode": "100644",
+        "blob": "80c7126737fbc1e180351e656f5c435fa54854b5",
+        "sha256": "eb83b6c3cd278dc40fa3b13c9f839eea200031a148e9f833547910ac937c0660"
+      }
+    },
+    {
+      "path": "adl/tools/test_demo_v0914_codex_only_complete_issue_workcell.sh",
+      "before": [
+        "100644",
+        "1b8e702676bca471e7924d090f45cca6f5e7fb18"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "4f92a0667dffbd9f3da7928a74b572e76366acf3",
+      "approval_reference": "WORKCELL_TWO_HISTORICAL_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "4f92a0667dffbd9f3da7928a74b572e76366acf3",
+          "before": [
+            "100644",
+            "1b8e702676bca471e7924d090f45cca6f5e7fb18"
+          ],
+          "after": null,
+          "packet": "WORKCELL_TWO_HISTORICAL_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "WORKCELL_TWO_HISTORICAL_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/workcell-two-retirement/composed-1635ecbd/current-original.tar",
+        "archive_sha256": "d4b3d7d1fb7616054e339b74fae5aa5c689732f094d0cf6e9c28544d523ad3f6",
+        "member": "current/adl/tools/test_demo_v0914_codex_only_complete_issue_workcell.sh",
+        "mode": "100644",
+        "blob": "1b8e702676bca471e7924d090f45cca6f5e7fb18",
+        "sha256": "2ac4fd396d50c813beff1a126cc0ef00018829600c2d9582582ff8d84407c6bd"
+      }
+    },
+    {
+      "path": "adl/tools/BURST_FINAL_SUMMARY_TEMPLATE.md",
+      "before": [
+        "100644",
+        "7590d82adbd91ceee205f263f4b2efdc9760ae99"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "f8ab9567f603ea654f0e15a00fb20d576c1ac6f7",
+      "approval_reference": "MANUAL_ORPHAN_THREE_HISTORICAL_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "f8ab9567f603ea654f0e15a00fb20d576c1ac6f7",
+          "before": [
+            "100644",
+            "7590d82adbd91ceee205f263f4b2efdc9760ae99"
+          ],
+          "after": null,
+          "packet": "MANUAL_ORPHAN_THREE_HISTORICAL_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "MANUAL_ORPHAN_THREE_HISTORICAL_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/manual-orphan-three-retirement/composed-4f92a066/current-original.tar",
+        "archive_sha256": "5bb7520b88b7ebfa697236472846eb1ed6e8b7648639afd859f1a59b19cf4c06",
+        "member": "current/adl/tools/BURST_FINAL_SUMMARY_TEMPLATE.md",
+        "mode": "100644",
+        "blob": "7590d82adbd91ceee205f263f4b2efdc9760ae99",
+        "sha256": "3aeaa69bbe351997543de81ad3934584993a993733800b63a25182ddf71fdf83"
+      }
+    },
+    {
+      "path": "adl/tools/diagnose_browser_routes.py",
+      "before": [
+        "100755",
+        "44caa7f24d030f20cc67f3b3a5056f1653c5be4c"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "f8ab9567f603ea654f0e15a00fb20d576c1ac6f7",
+      "approval_reference": "MANUAL_ORPHAN_THREE_HISTORICAL_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "f8ab9567f603ea654f0e15a00fb20d576c1ac6f7",
+          "before": [
+            "100755",
+            "44caa7f24d030f20cc67f3b3a5056f1653c5be4c"
+          ],
+          "after": null,
+          "packet": "MANUAL_ORPHAN_THREE_HISTORICAL_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "MANUAL_ORPHAN_THREE_HISTORICAL_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/manual-orphan-three-retirement/composed-4f92a066/current-original.tar",
+        "archive_sha256": "5bb7520b88b7ebfa697236472846eb1ed6e8b7648639afd859f1a59b19cf4c06",
+        "member": "current/adl/tools/diagnose_browser_routes.py",
+        "mode": "100755",
+        "blob": "44caa7f24d030f20cc67f3b3a5056f1653c5be4c",
+        "sha256": "8c0338f6b873663524cc4bd635a98614dd68136bd9cd6aa389975d9e60404153"
+      }
+    },
+    {
+      "path": "adl/tools/fix_git_main_sync.sh",
+      "before": [
+        "100755",
+        "0b404874753d903f4eeff69a74c3c9ac4cb26faf"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "f8ab9567f603ea654f0e15a00fb20d576c1ac6f7",
+      "approval_reference": "MANUAL_ORPHAN_THREE_HISTORICAL_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "f8ab9567f603ea654f0e15a00fb20d576c1ac6f7",
+          "before": [
+            "100755",
+            "0b404874753d903f4eeff69a74c3c9ac4cb26faf"
+          ],
+          "after": null,
+          "packet": "MANUAL_ORPHAN_THREE_HISTORICAL_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "MANUAL_ORPHAN_THREE_HISTORICAL_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/manual-orphan-three-retirement/composed-4f92a066/current-original.tar",
+        "archive_sha256": "5bb7520b88b7ebfa697236472846eb1ed6e8b7648639afd859f1a59b19cf4c06",
+        "member": "current/adl/tools/fix_git_main_sync.sh",
+        "mode": "100755",
+        "blob": "0b404874753d903f4eeff69a74c3c9ac4cb26faf",
+        "sha256": "3675d91de3239b7654e83ab097b672b8ff0492e4b2b79b829bacdf913b99889f"
+      }
+    },
+    {
+      "path": "adl/tools/install_vector_component.ps1",
+      "before": [
+        "100644",
+        "16a38003dcb5a8bd1750a325a084c769fa17e630"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "7783ee5303651ace42d5d3fecd4055aa83a0a3a5",
+      "approval_reference": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "7783ee5303651ace42d5d3fecd4055aa83a0a3a5",
+          "before": [
+            "100644",
+            "16a38003dcb5a8bd1750a325a084c769fa17e630"
+          ],
+          "after": null,
+          "packet": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/operational-seventeen-current-composition/current-original.tar",
+        "archive_sha256": "07197e26f6a571d71aa7273e306eecea2ab27aa62e6ffc9347d5500098cae640",
+        "member": "current/adl/tools/install_vector_component.ps1",
+        "mode": "100644",
+        "blob": "16a38003dcb5a8bd1750a325a084c769fa17e630",
+        "sha256": "3cfd037bec63908f1cb910e0b676fcf54ea2195a5d8c74c6f14891ae28c50bef"
+      }
+    },
+    {
+      "path": "adl/tools/install_vector_component.sh",
+      "before": [
+        "100755",
+        "3a87fbce4492993553e4e57ff707fffd03d1ba0c"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "7783ee5303651ace42d5d3fecd4055aa83a0a3a5",
+      "approval_reference": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "7783ee5303651ace42d5d3fecd4055aa83a0a3a5",
+          "before": [
+            "100755",
+            "3a87fbce4492993553e4e57ff707fffd03d1ba0c"
+          ],
+          "after": null,
+          "packet": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/operational-seventeen-current-composition/current-original.tar",
+        "archive_sha256": "07197e26f6a571d71aa7273e306eecea2ab27aa62e6ffc9347d5500098cae640",
+        "member": "current/adl/tools/install_vector_component.sh",
+        "mode": "100755",
+        "blob": "3a87fbce4492993553e4e57ff707fffd03d1ba0c",
+        "sha256": "be3ea80e808194e31101f673902c14e99c19403886c1edbd89d5263b7c746c2c"
+      }
+    },
+    {
+      "path": "adl/tools/issue345_aws_gpu_prerequisites.cloudformation.yaml",
+      "before": [
+        "100644",
+        "1986fcb7a61fca54d2cbeb6aa4af923a37e20eb7"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "7783ee5303651ace42d5d3fecd4055aa83a0a3a5",
+      "approval_reference": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "7783ee5303651ace42d5d3fecd4055aa83a0a3a5",
+          "before": [
+            "100644",
+            "1986fcb7a61fca54d2cbeb6aa4af923a37e20eb7"
+          ],
+          "after": null,
+          "packet": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/operational-seventeen-current-composition/current-original.tar",
+        "archive_sha256": "07197e26f6a571d71aa7273e306eecea2ab27aa62e6ffc9347d5500098cae640",
+        "member": "current/adl/tools/issue345_aws_gpu_prerequisites.cloudformation.yaml",
+        "mode": "100644",
+        "blob": "1986fcb7a61fca54d2cbeb6aa4af923a37e20eb7",
+        "sha256": "ad9b5c23a47862f7105f739afc3d012f4c866c47716bb2514baba132f605e038"
+      }
+    },
+    {
+      "path": "adl/tools/report_runtime_v3_loc.sh",
+      "before": [
+        "100755",
+        "413b7772ca6e885bc4044215321fb9e69385e5a0"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "7783ee5303651ace42d5d3fecd4055aa83a0a3a5",
+      "approval_reference": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "7783ee5303651ace42d5d3fecd4055aa83a0a3a5",
+          "before": [
+            "100755",
+            "413b7772ca6e885bc4044215321fb9e69385e5a0"
+          ],
+          "after": null,
+          "packet": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/operational-seventeen-current-composition/current-original.tar",
+        "archive_sha256": "07197e26f6a571d71aa7273e306eecea2ab27aa62e6ffc9347d5500098cae640",
+        "member": "current/adl/tools/report_runtime_v3_loc.sh",
+        "mode": "100755",
+        "blob": "413b7772ca6e885bc4044215321fb9e69385e5a0",
+        "sha256": "8adfae0e283c329acdf0086a6e74ce3456744128e603332888c44f6e6370bdff"
+      }
+    },
+    {
+      "path": "adl/tools/resolve_ci_backend.sh",
+      "before": [
+        "100755",
+        "c08fff671853e5a5d781d51858854d24149ac601"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "7783ee5303651ace42d5d3fecd4055aa83a0a3a5",
+      "approval_reference": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "7783ee5303651ace42d5d3fecd4055aa83a0a3a5",
+          "before": [
+            "100755",
+            "c08fff671853e5a5d781d51858854d24149ac601"
+          ],
+          "after": null,
+          "packet": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/operational-seventeen-current-composition/current-original.tar",
+        "archive_sha256": "07197e26f6a571d71aa7273e306eecea2ab27aa62e6ffc9347d5500098cae640",
+        "member": "current/adl/tools/resolve_ci_backend.sh",
+        "mode": "100755",
+        "blob": "c08fff671853e5a5d781d51858854d24149ac601",
+        "sha256": "3f9fa6e1d568d7b4c6dfdcebc3ac7fe00adad94eb07607b942c9669641fd4ca6"
+      }
+    },
+    {
+      "path": "adl/tools/run_aws_spot_builder_image_validation.sh",
+      "before": [
+        "100755",
+        "2511850ee346146eeedcd4413683c73601d87c44"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "7783ee5303651ace42d5d3fecd4055aa83a0a3a5",
+      "approval_reference": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "7783ee5303651ace42d5d3fecd4055aa83a0a3a5",
+          "before": [
+            "100755",
+            "2511850ee346146eeedcd4413683c73601d87c44"
+          ],
+          "after": null,
+          "packet": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/operational-seventeen-current-composition/current-original.tar",
+        "archive_sha256": "07197e26f6a571d71aa7273e306eecea2ab27aa62e6ffc9347d5500098cae640",
+        "member": "current/adl/tools/run_aws_spot_builder_image_validation.sh",
+        "mode": "100755",
+        "blob": "2511850ee346146eeedcd4413683c73601d87c44",
+        "sha256": "c8547a78be7a64e70240df43b41d7ecc6c287cf36a4f5d8c7d3dd081568a7a33"
+      }
+    },
+    {
+      "path": "adl/tools/run_build_platform_benchmark.sh",
+      "before": [
+        "100755",
+        "fe8f9675f1ae7c69739747fc17437a4cb540b1c7"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "7783ee5303651ace42d5d3fecd4055aa83a0a3a5",
+      "approval_reference": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "7783ee5303651ace42d5d3fecd4055aa83a0a3a5",
+          "before": [
+            "100755",
+            "fe8f9675f1ae7c69739747fc17437a4cb540b1c7"
+          ],
+          "after": null,
+          "packet": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/operational-seventeen-current-composition/current-original.tar",
+        "archive_sha256": "07197e26f6a571d71aa7273e306eecea2ab27aa62e6ffc9347d5500098cae640",
+        "member": "current/adl/tools/run_build_platform_benchmark.sh",
+        "mode": "100755",
+        "blob": "fe8f9675f1ae7c69739747fc17437a4cb540b1c7",
+        "sha256": "8b677bf726b698cd2007096a2ce7f19b41aeeff75a4d95516f40825d415ccdbd"
+      }
+    },
+    {
+      "path": "adl/tools/setup_aws_spot_remote_validation_github_resources.sh",
+      "before": [
+        "100755",
+        "fad63cfe18797126b92994703578b31a1ba80622"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "7783ee5303651ace42d5d3fecd4055aa83a0a3a5",
+      "approval_reference": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "7783ee5303651ace42d5d3fecd4055aa83a0a3a5",
+          "before": [
+            "100755",
+            "fad63cfe18797126b92994703578b31a1ba80622"
+          ],
+          "after": null,
+          "packet": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/operational-seventeen-current-composition/current-original.tar",
+        "archive_sha256": "07197e26f6a571d71aa7273e306eecea2ab27aa62e6ffc9347d5500098cae640",
+        "member": "current/adl/tools/setup_aws_spot_remote_validation_github_resources.sh",
+        "mode": "100755",
+        "blob": "fad63cfe18797126b92994703578b31a1ba80622",
+        "sha256": "c2fca5b230b04db7e044b7e0b9956d00a78230123e82c61c5d0e4cd3d64e164d"
+      }
+    },
+    {
+      "path": "adl/tools/verify_ci_backend_route.py",
+      "before": [
+        "100755",
+        "cb1fffc1c33ff6726935e9fb746f987426c27758"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "7783ee5303651ace42d5d3fecd4055aa83a0a3a5",
+      "approval_reference": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "7783ee5303651ace42d5d3fecd4055aa83a0a3a5",
+          "before": [
+            "100755",
+            "cb1fffc1c33ff6726935e9fb746f987426c27758"
+          ],
+          "after": null,
+          "packet": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/operational-seventeen-current-composition/current-original.tar",
+        "archive_sha256": "07197e26f6a571d71aa7273e306eecea2ab27aa62e6ffc9347d5500098cae640",
+        "member": "current/adl/tools/verify_ci_backend_route.py",
+        "mode": "100755",
+        "blob": "cb1fffc1c33ff6726935e9fb746f987426c27758",
+        "sha256": "04db0516147e1207a217fba43f0d818636d6af2318dade3e5f2c4792b030b254"
+      }
+    },
+    {
+      "path": "adl/tools/verify_spot_advertised_ref.sh",
+      "before": [
+        "100755",
+        "7ab4da42fe3ba9e2498f44af1cf326ffcd5008f0"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "7783ee5303651ace42d5d3fecd4055aa83a0a3a5",
+      "approval_reference": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "7783ee5303651ace42d5d3fecd4055aa83a0a3a5",
+          "before": [
+            "100755",
+            "7ab4da42fe3ba9e2498f44af1cf326ffcd5008f0"
+          ],
+          "after": null,
+          "packet": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/operational-seventeen-current-composition/current-original.tar",
+        "archive_sha256": "07197e26f6a571d71aa7273e306eecea2ab27aa62e6ffc9347d5500098cae640",
+        "member": "current/adl/tools/verify_spot_advertised_ref.sh",
+        "mode": "100755",
+        "blob": "7ab4da42fe3ba9e2498f44af1cf326ffcd5008f0",
+        "sha256": "b19dbfe785094bc69fec7fd5b79fb6c8b53af15f424661c80fbe06a89cd80c96"
+      }
+    },
+    {
+      "path": "docs/tooling/BUILD_PLATFORM_BENCHMARKS.md",
+      "before": [
+        "100644",
+        "cc25a18e918b57f9d06d9a74f4d5a3e8ea2762ea"
+      ],
+      "after": [
+        "100644",
+        "3f16f97947835c04f9c0bc4335257e49089a1f87"
+      ],
+      "action": "modify",
+      "implementation_commit": "7783ee5303651ace42d5d3fecd4055aa83a0a3a5",
+      "approval_reference": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "7783ee5303651ace42d5d3fecd4055aa83a0a3a5",
+          "before": [
+            "100644",
+            "cc25a18e918b57f9d06d9a74f4d5a3e8ea2762ea"
+          ],
+          "after": [
+            "100644",
+            "3f16f97947835c04f9c0bc4335257e49089a1f87"
+          ],
+          "packet": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/tooling/REMOTE_BUILD_HOW_TO.md",
+      "before": [
+        "100644",
+        "4bdd5ddd1d2d9dc29c51c86ea6ed6e444780422c"
+      ],
+      "after": [
+        "100644",
+        "967af74ea64ffc23e0d73d5c0dbe41ef3acc0128"
+      ],
+      "action": "modify",
+      "implementation_commit": "7783ee5303651ace42d5d3fecd4055aa83a0a3a5",
+      "approval_reference": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "7783ee5303651ace42d5d3fecd4055aa83a0a3a5",
+          "before": [
+            "100644",
+            "4bdd5ddd1d2d9dc29c51c86ea6ed6e444780422c"
+          ],
+          "after": [
+            "100644",
+            "967af74ea64ffc23e0d73d5c0dbe41ef3acc0128"
+          ],
+          "packet": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/architecture/RUNTIME_V3_STATE_AUTHENTICITY_5412.md",
+      "before": [
+        "100644",
+        "1db554f286e18f476985ff97e8767d964b652c35"
+      ],
+      "after": [
+        "100644",
+        "68331ba567146fb85b8996e27f71203561ed23e0"
+      ],
+      "action": "modify",
+      "implementation_commit": "7783ee5303651ace42d5d3fecd4055aa83a0a3a5",
+      "approval_reference": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "7783ee5303651ace42d5d3fecd4055aa83a0a3a5",
+          "before": [
+            "100644",
+            "1db554f286e18f476985ff97e8767d964b652c35"
+          ],
+          "after": [
+            "100644",
+            "68331ba567146fb85b8996e27f71203561ed23e0"
+          ],
+          "packet": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/install_issue268_runtime_volume.py",
+      "before": [
+        "100755",
+        "8aae8b10894eaeaae8e5554bb1cbed1732284c1a"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "8c4348401b7306c3cb74186abe19a397fa7ad052",
+      "approval_reference": "RUNTIME_DEPLOYMENT_EIGHT_HISTORICAL_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "8c4348401b7306c3cb74186abe19a397fa7ad052",
+          "before": [
+            "100755",
+            "8aae8b10894eaeaae8e5554bb1cbed1732284c1a"
+          ],
+          "after": null,
+          "packet": "RUNTIME_DEPLOYMENT_EIGHT_HISTORICAL_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_DEPLOYMENT_EIGHT_HISTORICAL_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-deployment-eight-composed/current-original.tar",
+        "archive_sha256": "524032f95611ee8f869af86fd6e55edcf7873065045eb0119b5f7611b57bf76b",
+        "member": "current/adl/tools/install_issue268_runtime_volume.py",
+        "mode": "100755",
+        "blob": "8aae8b10894eaeaae8e5554bb1cbed1732284c1a",
+        "sha256": "77884aaf618b7b5eae6e0cb2c74dea8d1b1ac275abc20e0f636c78b8fca24fdf"
+      }
+    },
+    {
+      "path": "adl/tools/issue607_guardian_recovery_proof.sh",
+      "before": [
+        "100755",
+        "fb04ef9849bf6ddd0e8d289ea555625e2307596e"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "8c4348401b7306c3cb74186abe19a397fa7ad052",
+      "approval_reference": "RUNTIME_DEPLOYMENT_EIGHT_HISTORICAL_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "8c4348401b7306c3cb74186abe19a397fa7ad052",
+          "before": [
+            "100755",
+            "fb04ef9849bf6ddd0e8d289ea555625e2307596e"
+          ],
+          "after": null,
+          "packet": "RUNTIME_DEPLOYMENT_EIGHT_HISTORICAL_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_DEPLOYMENT_EIGHT_HISTORICAL_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-deployment-eight-composed/current-original.tar",
+        "archive_sha256": "524032f95611ee8f869af86fd6e55edcf7873065045eb0119b5f7611b57bf76b",
+        "member": "current/adl/tools/issue607_guardian_recovery_proof.sh",
+        "mode": "100755",
+        "blob": "fb04ef9849bf6ddd0e8d289ea555625e2307596e",
+        "sha256": "81a724c5b748e7da13f7124a500b982ee96eb99639bd72add68a5f488d9413df"
+      }
+    },
+    {
+      "path": "adl/tools/issue607_probe_runtime.py",
+      "before": [
+        "100755",
+        "5eecebfddf16c7add8cb26fb4cf657df39362f47"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "8c4348401b7306c3cb74186abe19a397fa7ad052",
+      "approval_reference": "RUNTIME_DEPLOYMENT_EIGHT_HISTORICAL_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "8c4348401b7306c3cb74186abe19a397fa7ad052",
+          "before": [
+            "100755",
+            "5eecebfddf16c7add8cb26fb4cf657df39362f47"
+          ],
+          "after": null,
+          "packet": "RUNTIME_DEPLOYMENT_EIGHT_HISTORICAL_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_DEPLOYMENT_EIGHT_HISTORICAL_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-deployment-eight-composed/current-original.tar",
+        "archive_sha256": "524032f95611ee8f869af86fd6e55edcf7873065045eb0119b5f7611b57bf76b",
+        "member": "current/adl/tools/issue607_probe_runtime.py",
+        "mode": "100755",
+        "blob": "5eecebfddf16c7add8cb26fb4cf657df39362f47",
+        "sha256": "b18d4cbd637a5f97e527927e908c6686c96854ee59f1ef0f555f51d88e0d84f2"
+      }
+    },
+    {
+      "path": "adl/tools/issue607_qualify_warm_polis.sh",
+      "before": [
+        "100755",
+        "307d247999c2548e6025e2bc83cbac2ae96bee54"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "8c4348401b7306c3cb74186abe19a397fa7ad052",
+      "approval_reference": "RUNTIME_DEPLOYMENT_EIGHT_HISTORICAL_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "8c4348401b7306c3cb74186abe19a397fa7ad052",
+          "before": [
+            "100755",
+            "307d247999c2548e6025e2bc83cbac2ae96bee54"
+          ],
+          "after": null,
+          "packet": "RUNTIME_DEPLOYMENT_EIGHT_HISTORICAL_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_DEPLOYMENT_EIGHT_HISTORICAL_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-deployment-eight-composed/current-original.tar",
+        "archive_sha256": "524032f95611ee8f869af86fd6e55edcf7873065045eb0119b5f7611b57bf76b",
+        "member": "current/adl/tools/issue607_qualify_warm_polis.sh",
+        "mode": "100755",
+        "blob": "307d247999c2548e6025e2bc83cbac2ae96bee54",
+        "sha256": "30842a6561c23361aede6345d4a33858f4104d67729d26f702982eeaa8309b8c"
+      }
+    },
+    {
+      "path": "adl/tools/run_issue900_continuity_negatives.py",
+      "before": [
+        "100644",
+        "6b56a0a438f311a959b966a84a25cbc96d54219f"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "8c4348401b7306c3cb74186abe19a397fa7ad052",
+      "approval_reference": "RUNTIME_DEPLOYMENT_EIGHT_HISTORICAL_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "8c4348401b7306c3cb74186abe19a397fa7ad052",
+          "before": [
+            "100644",
+            "6b56a0a438f311a959b966a84a25cbc96d54219f"
+          ],
+          "after": null,
+          "packet": "RUNTIME_DEPLOYMENT_EIGHT_HISTORICAL_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_DEPLOYMENT_EIGHT_HISTORICAL_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-deployment-eight-composed/current-original.tar",
+        "archive_sha256": "524032f95611ee8f869af86fd6e55edcf7873065045eb0119b5f7611b57bf76b",
+        "member": "current/adl/tools/run_issue900_continuity_negatives.py",
+        "mode": "100644",
+        "blob": "6b56a0a438f311a959b966a84a25cbc96d54219f",
+        "sha256": "40ddb11266b12e9b1ad51997b2b569753b10502b35828525acd749464c5afd3d"
+      }
+    },
+    {
+      "path": "adl/tools/test_install_issue268_runtime_volume.py",
+      "before": [
+        "100755",
+        "cddf79d69d3c2de79f7afcc83eaf902d22070f7a"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "8c4348401b7306c3cb74186abe19a397fa7ad052",
+      "approval_reference": "RUNTIME_DEPLOYMENT_EIGHT_HISTORICAL_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "8c4348401b7306c3cb74186abe19a397fa7ad052",
+          "before": [
+            "100755",
+            "cddf79d69d3c2de79f7afcc83eaf902d22070f7a"
+          ],
+          "after": null,
+          "packet": "RUNTIME_DEPLOYMENT_EIGHT_HISTORICAL_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_DEPLOYMENT_EIGHT_HISTORICAL_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-deployment-eight-composed/current-original.tar",
+        "archive_sha256": "524032f95611ee8f869af86fd6e55edcf7873065045eb0119b5f7611b57bf76b",
+        "member": "current/adl/tools/test_install_issue268_runtime_volume.py",
+        "mode": "100755",
+        "blob": "cddf79d69d3c2de79f7afcc83eaf902d22070f7a",
+        "sha256": "fc3bba9ae0956a83993a68e38d360b425ec1299ef7a258879b03344e8e0fe1da"
+      }
+    },
+    {
+      "path": "adl/tools/validate_v092_html_observatory_roster.mjs",
+      "before": [
+        "100644",
+        "5d2ab8f19148bfd3b00f454f5d0640d53310c335"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "e6b4efd7913e616b745c670777e9ba7b89a3cf93",
+      "approval_reference": "BROWSER_EDGE_SIX_HISTORICAL_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "e6b4efd7913e616b745c670777e9ba7b89a3cf93",
+          "before": [
+            "100644",
+            "5d2ab8f19148bfd3b00f454f5d0640d53310c335"
+          ],
+          "after": null,
+          "packet": "BROWSER_EDGE_SIX_HISTORICAL_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "BROWSER_EDGE_SIX_HISTORICAL_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/browser-edge-six/8c4348401b7306c3cb74186abe19a397fa7ad052/current-original.tar",
+        "archive_sha256": "aa4da55506e963a32d625a421d1b8c9ad05216efd24214fec3ded93464e4b7a2",
+        "member": "current/adl/tools/validate_v092_html_observatory_roster.mjs",
+        "mode": "100644",
+        "blob": "5d2ab8f19148bfd3b00f454f5d0640d53310c335",
+        "sha256": "9f7b5f573a4de31f463aeb72f39787109de31d25cc5b5c44be8b756c84574124"
+      }
+    },
+    {
+      "path": "adl/tools/validate_v0917_html_observatory.py",
+      "before": [
+        "100644",
+        "b27a5523af47aa1b5afde3b1854e83676b0c0ece"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "e6b4efd7913e616b745c670777e9ba7b89a3cf93",
+      "approval_reference": "BROWSER_EDGE_SIX_HISTORICAL_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "e6b4efd7913e616b745c670777e9ba7b89a3cf93",
+          "before": [
+            "100644",
+            "b27a5523af47aa1b5afde3b1854e83676b0c0ece"
+          ],
+          "after": null,
+          "packet": "BROWSER_EDGE_SIX_HISTORICAL_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "BROWSER_EDGE_SIX_HISTORICAL_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/browser-edge-six/8c4348401b7306c3cb74186abe19a397fa7ad052/current-original.tar",
+        "archive_sha256": "aa4da55506e963a32d625a421d1b8c9ad05216efd24214fec3ded93464e4b7a2",
+        "member": "current/adl/tools/validate_v0917_html_observatory.py",
+        "mode": "100644",
+        "blob": "b27a5523af47aa1b5afde3b1854e83676b0c0ece",
+        "sha256": "4961e8146ba522d5b111973c306fcb5a1ca85f930ca99c25b26561af738a3fdf"
+      }
+    },
+    {
+      "path": "adl/tools/validate_csm_public_edge_live.sh",
+      "before": [
+        "100755",
+        "a09d95f9ab4462b630b1635baf932f09b8b5f6ed"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "e6b4efd7913e616b745c670777e9ba7b89a3cf93",
+      "approval_reference": "BROWSER_EDGE_SIX_HISTORICAL_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "e6b4efd7913e616b745c670777e9ba7b89a3cf93",
+          "before": [
+            "100755",
+            "a09d95f9ab4462b630b1635baf932f09b8b5f6ed"
+          ],
+          "after": null,
+          "packet": "BROWSER_EDGE_SIX_HISTORICAL_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "BROWSER_EDGE_SIX_HISTORICAL_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/browser-edge-six/8c4348401b7306c3cb74186abe19a397fa7ad052/current-original.tar",
+        "archive_sha256": "aa4da55506e963a32d625a421d1b8c9ad05216efd24214fec3ded93464e4b7a2",
+        "member": "current/adl/tools/validate_csm_public_edge_live.sh",
+        "mode": "100755",
+        "blob": "a09d95f9ab4462b630b1635baf932f09b8b5f6ed",
+        "sha256": "ae312a9d3f11f3cacf6fc63180c242afea0cd81798c5f65a1a5205facff2f9dc"
+      }
+    },
+    {
+      "path": "adl/tools/validate_wp08_acip_sns_live_proof.py",
+      "before": [
+        "100755",
+        "ac58055a24a488ff80bb18567fd7bc561ce0404f"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "00e16ac1da39e401008abba0e10495f369e84ee7",
+      "approval_reference": "WP08_FIVE_VALIDATORS_HISTORICAL_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "00e16ac1da39e401008abba0e10495f369e84ee7",
+          "before": [
+            "100755",
+            "ac58055a24a488ff80bb18567fd7bc561ce0404f"
+          ],
+          "after": null,
+          "packet": "WP08_FIVE_VALIDATORS_HISTORICAL_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "WP08_FIVE_VALIDATORS_HISTORICAL_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/wp08-five-current-composition/e6b4efd7913e616b745c670777e9ba7b89a3cf93/current-original.tar",
+        "archive_sha256": "29416b55a947717493df7c23fe4343246e93cf769a069ec735e04dded8c7724b",
+        "member": "current/adl/tools/validate_wp08_acip_sns_live_proof.py",
+        "mode": "100755",
+        "blob": "ac58055a24a488ff80bb18567fd7bc561ce0404f",
+        "sha256": "5c93e73e85318ce79dd02a463917b0a04c2f555fc51fdc8dea89eb70d4558570"
+      }
+    },
+    {
+      "path": "adl/tools/validate_wp08_aws_signal_integration_live_proof.py",
+      "before": [
+        "100755",
+        "e3eb4d4490512ae787b379856de84e75a4cb48ed"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "00e16ac1da39e401008abba0e10495f369e84ee7",
+      "approval_reference": "WP08_FIVE_VALIDATORS_HISTORICAL_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "00e16ac1da39e401008abba0e10495f369e84ee7",
+          "before": [
+            "100755",
+            "e3eb4d4490512ae787b379856de84e75a4cb48ed"
+          ],
+          "after": null,
+          "packet": "WP08_FIVE_VALIDATORS_HISTORICAL_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "WP08_FIVE_VALIDATORS_HISTORICAL_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/wp08-five-current-composition/e6b4efd7913e616b745c670777e9ba7b89a3cf93/current-original.tar",
+        "archive_sha256": "29416b55a947717493df7c23fe4343246e93cf769a069ec735e04dded8c7724b",
+        "member": "current/adl/tools/validate_wp08_aws_signal_integration_live_proof.py",
+        "mode": "100755",
+        "blob": "e3eb4d4490512ae787b379856de84e75a4cb48ed",
+        "sha256": "ce90fdc4cd3f568385f578a683622f04544928286b3739720730eb4dd2ae2043"
+      }
+    },
+    {
+      "path": "adl/tools/validate_wp08_cloudfront_control_proof.py",
+      "before": [
+        "100755",
+        "087edcc2cb0a2e4f135355629673a62ce4912e10"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "00e16ac1da39e401008abba0e10495f369e84ee7",
+      "approval_reference": "WP08_FIVE_VALIDATORS_HISTORICAL_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "00e16ac1da39e401008abba0e10495f369e84ee7",
+          "before": [
+            "100755",
+            "087edcc2cb0a2e4f135355629673a62ce4912e10"
+          ],
+          "after": null,
+          "packet": "WP08_FIVE_VALIDATORS_HISTORICAL_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "WP08_FIVE_VALIDATORS_HISTORICAL_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/wp08-five-current-composition/e6b4efd7913e616b745c670777e9ba7b89a3cf93/current-original.tar",
+        "archive_sha256": "29416b55a947717493df7c23fe4343246e93cf769a069ec735e04dded8c7724b",
+        "member": "current/adl/tools/validate_wp08_cloudfront_control_proof.py",
+        "mode": "100755",
+        "blob": "087edcc2cb0a2e4f135355629673a62ce4912e10",
+        "sha256": "2c0376db4e0f90bc39866c7b1bffa90b6dd966ee2c46d42c0c979c27b8fe4caf"
+      }
+    },
+    {
+      "path": "adl/tools/validate_wp08_heartbeat_live_proof.py",
+      "before": [
+        "100755",
+        "b66427548a30ae4fc4f8ab8d7546e76d334a8079"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "00e16ac1da39e401008abba0e10495f369e84ee7",
+      "approval_reference": "WP08_FIVE_VALIDATORS_HISTORICAL_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "00e16ac1da39e401008abba0e10495f369e84ee7",
+          "before": [
+            "100755",
+            "b66427548a30ae4fc4f8ab8d7546e76d334a8079"
+          ],
+          "after": null,
+          "packet": "WP08_FIVE_VALIDATORS_HISTORICAL_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "WP08_FIVE_VALIDATORS_HISTORICAL_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/wp08-five-current-composition/e6b4efd7913e616b745c670777e9ba7b89a3cf93/current-original.tar",
+        "archive_sha256": "29416b55a947717493df7c23fe4343246e93cf769a069ec735e04dded8c7724b",
+        "member": "current/adl/tools/validate_wp08_heartbeat_live_proof.py",
+        "mode": "100755",
+        "blob": "b66427548a30ae4fc4f8ab8d7546e76d334a8079",
+        "sha256": "d751fb1fea55d047c80c1fda345bb1f8c36e2746ff1d82f687a730c213d6a980"
+      }
+    },
+    {
+      "path": "adl/tools/validate_wp08_polis_storage_live_proof.py",
+      "before": [
+        "100644",
+        "36625bb40de978adb640b559e2dfee9b19a2f4a2"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "00e16ac1da39e401008abba0e10495f369e84ee7",
+      "approval_reference": "WP08_FIVE_VALIDATORS_HISTORICAL_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "00e16ac1da39e401008abba0e10495f369e84ee7",
+          "before": [
+            "100644",
+            "36625bb40de978adb640b559e2dfee9b19a2f4a2"
+          ],
+          "after": null,
+          "packet": "WP08_FIVE_VALIDATORS_HISTORICAL_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "WP08_FIVE_VALIDATORS_HISTORICAL_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/wp08-five-current-composition/e6b4efd7913e616b745c670777e9ba7b89a3cf93/current-original.tar",
+        "archive_sha256": "29416b55a947717493df7c23fe4343246e93cf769a069ec735e04dded8c7724b",
+        "member": "current/adl/tools/validate_wp08_polis_storage_live_proof.py",
+        "mode": "100644",
+        "blob": "36625bb40de978adb640b559e2dfee9b19a2f4a2",
+        "sha256": "b6357401a3d4a3f817ae85cbb3c8bbeebf34834af0dde958974e97ea6cd617c8"
+      }
+    },
+    {
+      "path": "adl/tools/run_v0917_csm_api_gateway_bridge_live_proof.sh",
+      "before": [
+        "100755",
+        "031bc2ba0267bd036f2da2bbd28e87d24c0ff305"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "553a1c68ab10031bbb2e2282ec4893bf58eb97ab",
+      "approval_reference": "CSM_BRIDGE_ONE_HISTORICAL_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "553a1c68ab10031bbb2e2282ec4893bf58eb97ab",
+          "before": [
+            "100755",
+            "031bc2ba0267bd036f2da2bbd28e87d24c0ff305"
+          ],
+          "after": null,
+          "packet": "CSM_BRIDGE_ONE_HISTORICAL_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "CSM_BRIDGE_ONE_HISTORICAL_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/csm-polis-status-family/producer-one-wp08/current-original.tar",
+        "archive_sha256": "3b49887d9f5cb358f1a3160cd14f739f8842e66d939c9c35a551f86f62198229",
+        "member": "current/adl/tools/run_v0917_csm_api_gateway_bridge_live_proof.sh",
+        "mode": "100755",
+        "blob": "031bc2ba0267bd036f2da2bbd28e87d24c0ff305",
+        "sha256": "fd4da6bb7a973028611531739b47ddc3394a0a117e588a3c537dd1fdfa881021"
+      }
+    },
+    {
+      "path": "adl/tools/demo_five_command_run.sh",
+      "before": [
+        "100755",
+        "e45b105cb70ec9a4aa7c76f0f387403e825597c4"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "9834ea77abb663b379a676a0f0aac906565bf0b8",
+      "approval_reference": "RUNTIME_DEMO_TWO_HISTORICAL_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "9834ea77abb663b379a676a0f0aac906565bf0b8",
+          "before": [
+            "100755",
+            "e45b105cb70ec9a4aa7c76f0f387403e825597c4"
+          ],
+          "after": null,
+          "packet": "RUNTIME_DEMO_TWO_HISTORICAL_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_DEMO_TWO_HISTORICAL_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-live-demo-pair/prepared-csm/current-original.tar",
+        "archive_sha256": "d7ba05d44d58d7300e313b5fcf73469283e82cd0e6459563815f8cd0c4d60957",
+        "member": "current/adl/tools/demo_five_command_run.sh",
+        "mode": "100755",
+        "blob": "e45b105cb70ec9a4aa7c76f0f387403e825597c4",
+        "sha256": "165e336f2a26f6a600119729a47b4caae0fb59c8d10067a34a669819222bf526"
+      }
+    },
+    {
+      "path": "adl/tools/demo_v087_trace_truth.sh",
+      "before": [
+        "100755",
+        "40c27d5ac4997d93a13688f61413d5bde5d73a71"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "9834ea77abb663b379a676a0f0aac906565bf0b8",
+      "approval_reference": "RUNTIME_DEMO_TWO_HISTORICAL_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "9834ea77abb663b379a676a0f0aac906565bf0b8",
+          "before": [
+            "100755",
+            "40c27d5ac4997d93a13688f61413d5bde5d73a71"
+          ],
+          "after": null,
+          "packet": "RUNTIME_DEMO_TWO_HISTORICAL_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_DEMO_TWO_HISTORICAL_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-live-demo-pair/prepared-csm/current-original.tar",
+        "archive_sha256": "d7ba05d44d58d7300e313b5fcf73469283e82cd0e6459563815f8cd0c4d60957",
+        "member": "current/adl/tools/demo_v087_trace_truth.sh",
+        "mode": "100755",
+        "blob": "40c27d5ac4997d93a13688f61413d5bde5d73a71",
+        "sha256": "92ee6a45f515f7b12ad3c577e61fd1b81cc24f6159bd644e202f2a6e38f9c493"
+      }
+    },
+    {
+      "path": "docs/tooling/editor/pr_run_demo.md",
+      "before": [
+        "100644",
+        "ca910566ebbb302d0da8686a6639d32648d05d07"
+      ],
+      "after": [
+        "100644",
+        "455167d699490457f020b949e86a97255bcd5313"
+      ],
+      "action": "modify",
+      "implementation_commit": "9834ea77abb663b379a676a0f0aac906565bf0b8",
+      "approval_reference": "RUNTIME_DEMO_TWO_HISTORICAL_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "9834ea77abb663b379a676a0f0aac906565bf0b8",
+          "before": [
+            "100644",
+            "ca910566ebbb302d0da8686a6639d32648d05d07"
+          ],
+          "after": [
+            "100644",
+            "455167d699490457f020b949e86a97255bcd5313"
+          ],
+          "packet": "RUNTIME_DEMO_TWO_HISTORICAL_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/test_generate_tool_surface_registry.py",
+      "before": null,
+      "after": [
+        "100644",
+        "7341fd865452986852342b9edffbeaf55199323d"
+      ],
+      "action": "add",
+      "implementation_commit": "705571ee5bc7930bd27db7cd7288dbb2722ed82b",
+      "approval_reference": "REGISTRY_EMPTY_DIRECTORY_FIX_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "705571ee5bc7930bd27db7cd7288dbb2722ed82b",
+          "before": null,
+          "after": [
+            "100644",
+            "7341fd865452986852342b9edffbeaf55199323d"
+          ],
+          "packet": "REGISTRY_EMPTY_DIRECTORY_FIX_APPLIED.json"
+        }
+      ]
     }
   ],
   "missing_entries": [],
@@ -114300,11 +116099,219 @@
         "docs/tooling/TOOL_SURFACE_REGISTRY.md"
       ],
       "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "WP12_FOUR_HISTORICAL_APPLIED.json",
+      "sha256": "6df0e6226ac5bbbb33ce6bc068ef28fe420a760658efcb72f22c8c90d7e26ff5",
+      "commit": "1635ecbd5a934e36ffcaffee8aa73c7f48a8c44a",
+      "files": 6,
+      "removals": 4,
+      "scope_sha256": "484ec0cc9f46abd3df4f63de8312849cb3afd8e7972ca2c77fc4e968b3849311",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "adl/tools/test_validate_wp12_ssm_readiness_4657.sh",
+        "adl/tools/validate_wp12_access_activation_gate_4660.py",
+        "adl/tools/validate_wp12_cav_red_blue_4914.py",
+        "adl/tools/validate_wp12_ssm_readiness_4657.py",
+        "adl/config/validation_lane_selector.v0.91.6.json",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "WORKCELL_TWO_HISTORICAL_APPLIED.json",
+      "sha256": "7bf8280520571017fd2172d0eda9a5f47da7a10fc30849586878105e3695865a",
+      "commit": "4f92a0667dffbd9f3da7928a74b572e76366acf3",
+      "files": 3,
+      "removals": 2,
+      "scope_sha256": "60e73868ab8d7f2cb2d791fb18e703d343540f96e8594d560e7043545a0ed678",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "adl/tools/demo_v0914_codex_only_complete_issue_workcell.sh",
+        "adl/tools/test_demo_v0914_codex_only_complete_issue_workcell.sh",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "MANUAL_ORPHAN_THREE_HISTORICAL_APPLIED.json",
+      "sha256": "978e2b3dda6b2e385e1ddfd5c71a59b82b600a5832ac51c3c0aae35ba6c47499",
+      "commit": "f8ab9567f603ea654f0e15a00fb20d576c1ac6f7",
+      "files": 5,
+      "removals": 3,
+      "scope_sha256": "6975b9837322eef456372f19ecc8df92cd9cbb090c703e58cdeb8e37bcfb3c76",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "adl/tools/BURST_FINAL_SUMMARY_TEMPLATE.md",
+        "adl/tools/diagnose_browser_routes.py",
+        "adl/tools/fix_git_main_sync.sh",
+        "docs/tooling/README.md",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "OPERATIONAL_SEVENTEEN_HISTORICAL_APPLIED.json",
+      "sha256": "31e26bd80ade10fe00a53bcc84b4cf43d3c795a6cf6c9e39734b9ca318ff904b",
+      "commit": "7783ee5303651ace42d5d3fecd4055aa83a0a3a5",
+      "files": 25,
+      "removals": 17,
+      "scope_sha256": "9ab8a02445fbeb1b8363f968216c623df2466639c3fe879012d1fa9eb18f145d",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "adl/tools/install_vector_component.ps1",
+        "adl/tools/install_vector_component.sh",
+        "adl/tools/issue345_aws_gpu_prerequisites.cloudformation.yaml",
+        "adl/tools/report_runtime_v3_loc.sh",
+        "adl/tools/resolve_ci_backend.sh",
+        "adl/tools/run_aws_spot_builder_image_validation.sh",
+        "adl/tools/run_build_platform_benchmark.sh",
+        "adl/tools/setup_aws_spot_remote_validation_github_resources.sh",
+        "adl/tools/test_xcl_terraform_provider_major_bounds.sh",
+        "adl/tools/validate_aws_runtime_platform_static.sh",
+        "adl/tools/verify_ci_backend_route.py",
+        "adl/tools/verify_spot_advertised_ref.sh",
+        "adl/tools/run_issue268_remote_resident_qualification.sh",
+        "adl/tools/run_issue268_six_hour_spot_qualification.sh",
+        "adl/tools/test_run_issue268_remote_resident_qualification.sh",
+        "adl/tools/lib/issue268_runtime_resources.py",
+        "adl/tools/test_run_aws_spot_builder_image_validation.sh",
+        "adl/tools/generate_tool_surface_registry.py",
+        "adl/config/validation_lane_selector.v0.91.6.json",
+        "docs/tooling/AWS_CODEFRIEND_BUILD_LANE.md",
+        "docs/tooling/BUILD_PLATFORM_BENCHMARKS.md",
+        "docs/tooling/REMOTE_BUILD_HOW_TO.md",
+        "docs/tooling/README.md",
+        "docs/architecture/RUNTIME_V3_STATE_AUTHENTICITY_5412.md",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "RUNTIME_DEPLOYMENT_EIGHT_HISTORICAL_APPLIED.json",
+      "sha256": "e4ad3afbba08b9edab208d1f5402fca685bbeea7a25d2ec5ee23bfe8555540b1",
+      "commit": "8c4348401b7306c3cb74186abe19a397fa7ad052",
+      "files": 11,
+      "removals": 8,
+      "scope_sha256": "b05e53ac181f30072b92d99a21ca38d8250fc3d3ad95cc73ae6d0c0d697a04cd",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "adl/tools/build_issue509_runtime_bundle_on_relay.sh",
+        "adl/tools/install_issue268_runtime_volume.py",
+        "adl/tools/issue607_guardian_recovery_proof.sh",
+        "adl/tools/issue607_probe_runtime.py",
+        "adl/tools/issue607_qualify_warm_polis.sh",
+        "adl/tools/run_issue607_warm_polis.sh",
+        "adl/tools/run_issue900_continuity_negatives.py",
+        "adl/tools/test_install_issue268_runtime_volume.py",
+        "adl/tools/generate_tool_surface_registry.py",
+        "docs/operations/cloud/aws/shepherd-gpu-proof/README.md",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "BROWSER_EDGE_SIX_HISTORICAL_APPLIED.json",
+      "sha256": "af7ef72f75ecb20d3d86cb9ffd71a2c911ce203ff9b1c0aaa1824caaca1f7604",
+      "commit": "e6b4efd7913e616b745c670777e9ba7b89a3cf93",
+      "files": 9,
+      "removals": 6,
+      "scope_sha256": "74d025ae88127b422fd11d3278bcc9728b50a433b4966777969ee8605bf51746",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "adl/tools/validate_v092_html_observatory_roster.mjs",
+        "adl/tools/validate_csm_public_edge_static.sh",
+        "adl/tools/validate_v092_browser_trusted_observatory.mjs",
+        "adl/tools/validate_v0917_html_observatory.py",
+        "adl/tools/validate_csm_public_edge_live.sh",
+        "adl/tools/test_html_observatory.sh",
+        "adl/config/validation_lane_selector.v0.91.6.json",
+        "adl/tools/generate_tool_surface_registry.py",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "WP08_FIVE_VALIDATORS_HISTORICAL_APPLIED.json",
+      "sha256": "5ed19bcdb777dba040ff32988135d8fa3fbe2cc33f4fc9726e652c64bb9731a1",
+      "commit": "00e16ac1da39e401008abba0e10495f369e84ee7",
+      "files": 6,
+      "removals": 5,
+      "scope_sha256": "4d88931a56ebbbc21b91272a0ffb606b0ddfd4cc2155979c87ada15b752be79f",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "adl/tools/validate_wp08_acip_sns_live_proof.py",
+        "adl/tools/validate_wp08_aws_signal_integration_live_proof.py",
+        "adl/tools/validate_wp08_cloudfront_control_proof.py",
+        "adl/tools/validate_wp08_heartbeat_live_proof.py",
+        "adl/tools/validate_wp08_polis_storage_live_proof.py",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "CSM_BRIDGE_ONE_HISTORICAL_APPLIED.json",
+      "sha256": "cee7e9b1115f9654db3d680647a8b4f0dc85ab5eea53c149cef9f0eb4029672d",
+      "commit": "553a1c68ab10031bbb2e2282ec4893bf58eb97ab",
+      "files": 3,
+      "removals": 1,
+      "scope_sha256": "1b9ba8a5dcd85687df301015b5fbb2a5dd31786524d8a3fe9e6b3b61c306df1e",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "adl/config/validation_lane_selector.v0.91.6.json",
+        "adl/tools/run_v0917_csm_api_gateway_bridge_live_proof.sh",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "RUNTIME_DEMO_TWO_HISTORICAL_APPLIED.json",
+      "sha256": "ab23e7c5f88e29eb51a7c9a07d733d630b6f57d993345e32bd2957b87050e079",
+      "commit": "9834ea77abb663b379a676a0f0aac906565bf0b8",
+      "files": 5,
+      "removals": 2,
+      "scope_sha256": "c332c6895ff29fc9d1214ed570f58c2b83b78ec8dd221a58e80090d5580593ab",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "adl/tools/demo_five_command_run.sh",
+        "adl/tools/demo_v087_trace_truth.sh",
+        "demos/v0.87/v087_demo_program.md",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+        "docs/tooling/editor/pr_run_demo.md"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "REGISTRY_EMPTY_DIRECTORY_FIX_APPLIED.json",
+      "sha256": "e73c8399d71db62d0ddbb44c4552c867c2dd2e93b02ba8b343503fe59e4ecc69",
+      "commit": "705571ee5bc7930bd27db7cd7288dbb2722ed82b",
+      "files": 4,
+      "removals": 0,
+      "scope_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "adl/tools/generate_tool_surface_registry.py",
+        "adl/tools/test_generate_tool_surface_registry.sh",
+        "adl/tools/test_generate_tool_surface_registry.py",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
     }
   ],
-  "baseline_deletion_count": 3335,
+  "baseline_deletion_count": 3382,
   "transient_removed_paths": [
-    "adl/tools/test_issue872_historical_manifest.py"
+    "adl/tools/test_issue872_historical_manifest.py",
+    "adl/tools/lib/issue268_runtime_resources.py"
   ],
   "supplemental_retired_paths": [
     "adl/tools/demo_v0871_quality_gate.sh",
@@ -114320,7 +116327,7 @@
     "adl/tools/test_demo_v088_quality_gate.sh",
     "adl/tools/demo_v0891_wp13_demo_integration.sh"
   ],
-  "inventory_baseline_deletion_count": 3320,
+  "inventory_baseline_deletion_count": 3367,
   "supplemental_baseline_deletion_count": 12,
   "separately_observed_baseline_deletion_count": 3,
   "separately_observed_retired_paths": [
