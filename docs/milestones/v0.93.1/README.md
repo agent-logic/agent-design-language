@@ -2,11 +2,11 @@
 
 ## Metadata
 
-Planning template family 1.1.0; authoring issue #922. Scope split approved; Sprint 1 preparation opened by the operator on 2026-09-25. Split execution and release are not authorized. Named execution owners and resource limits remain to be assigned.
+Planning template family 1.1.0; authoring issue #922. The original Sprint 1 preparation baseline below is historical. See the dated status update for current tail work; release is not authorized by this page.
 
 ## Status
 
-Sprint 1 issue preparation is open; its 14 core identities and umbrella exist in ADL. No new later-sprint or closeout issues are created now; later-wave preparation waits for split acceptance and preserves existing identities. Extraction, provider spending, public launch and release are not authorized.
+The original Sprint 1 preparation state is retained below for planning traceability. The current tail status and evidence limits are in the dated update at the end of this page.
 
 ## How To Use
 
@@ -54,6 +54,7 @@ The [original v0.93 package](../v0.93/README.md) retains historical planning con
 - [ADR_PLAN_v0.93.1.md](ADR_PLAN_v0.93.1.md)
 - [NEXT_MILESTONE_HANDOFF_v0.93.1.md](NEXT_MILESTONE_HANDOFF_v0.93.1.md)
 - [features/README.md](features/README.md)
+- [TAIL02_DOCUMENTATION_HANDOFF_1234.md](TAIL02_DOCUMENTATION_HANDOFF_1234.md)
 
 ## Execution Model
 
@@ -76,3 +77,7 @@ All admitted launch requirements have accepted evidence; actual launch authoriza
 See [operator amendment](OPERATOR_AMENDMENT_2026-09-25.md) for the verified issue map, routing and historical-evidence boundary. RD-01 depends on acceptance of WP-01's opening/preparation checkpoint, not closure of #1178. WP-01 stays open through later-wave creation. RD-03 and RD-04 both depend on RD-13 and converge at RD-05; serial scheduling does not add an RD-03 → RD-04 dependency.
 
 Sprint 1 closeout requires RD-11 acceptance and every Sprint 1 result accepted or explicitly deferred, recording issue/PR, source and artifact versions, actual proof, original review findings and dispositions, failures/unknowns, residual owner and cleanup status. Record WP-01's later-wave duty as an open milestone obligation. Cleanup remains separately owned. The ten-step milestone tail remains planned only; no tail or later-sprint issues are created by this amendment.
+
+## Sprint 4 documentation checkpoint — 2026-10-13
+
+The operator authorized Sprint 4 preparation while #1223 remains open. The reviewed #1232 current-state matrix records qualified CodeFriend/website evidence and a `NOT_READY_FOR_FINAL_RELEASE_ACCEPTANCE` decision; it does not accept the final lockset. [TAIL-02/#1234 documentation handoff](TAIL02_DOCUMENTATION_HANDOFF_1234.md) identifies current claims, source/artifact versions, adverse evidence, disclosure boundaries and unresolved owner inputs. ADL #1269 owns the multi-repository README update and CodeFriend #101 owns the open document-readability defect. TAIL-03 must still freeze the exact publication candidate before final internal/external review. No final release, live launch, or external review is approved by this checkpoint.
