@@ -1,11 +1,11 @@
 {
   "schema": "adl.csdlc_v3.macos_successor_authority_blocker.v1",
   "issue": 1266,
-  "observed_at": "2026-10-14T02:49:12Z",
+  "observed_at": "2026-10-14T02:55:53Z",
   "status": "blocked",
   "blocking_requirement": "Authenticated Apple Silicon macOS external-consumer package succession and activation for the verified recordless v0.93.1 closeout denominator.",
   "observations": {
-    "cognitive_sdlc_canonical_head": "565f2242933f4ce6ba0ad74e096f449cd5ab5dca",
+    "cognitive_sdlc_canonical_head": "63c3193e876197128be0b454253390ab5cbbf5aa",
     "old_activated_package": {
       "artifact": 11660977711,
       "result": "portable_authenticated_observation_unavailable",
@@ -23,15 +23,17 @@
       "result": "No authenticated external-consumer successor endorsement or activation path was found; CI artifact availability is not installed package authority."
     },
     "platform_contract": {
-      "package_maintain_and_upgrade": "linux_x86_64_only",
-      "macos_external_consumer_successor": "reviewed_repair_published_unmerged"
+      "package_maintain_and_upgrade": "linux_x86_64_and_macos_arm64_in_merged_source",
+      "macos_external_consumer_successor": "merged_source_not_admissible_as_installed_package"
     },
     "macos_maintenance_repair": {
       "repository": "agent-logic/cognitive-sdlc",
       "pull_request": 275,
       "pull_request_url": "https://github.com/agent-logic/cognitive-sdlc/pull/275",
       "head": "ea1bc3892df2f6968d69f9c84cec9155a058d2bf",
-      "state": "open_draft_unmerged",
+      "state": "merged",
+      "merged_at": "2026-10-14T02:52:03Z",
+      "merge_commit": "63c3193e876197128be0b454253390ab5cbbf5aa",
       "mergeable": true,
       "independent_review": "pass_no_actionable_findings",
       "ci": {
@@ -43,7 +45,9 @@
         "macos_arm64_artifact_digest": "sha256:f7c7212afd13fb9efba11f2a9cf49dfeaf5971927e1135dd0e9f0e9d4e8a7102"
       },
       "scope": "Adds fail-closed macOS arm64 libproc process census while preserving package provenance, quiescence, endorsement, activation and installed-child readback guards.",
-      "authority_effect": "Publication and CI establish a reviewed candidate only. The unmerged artifact is not canonical installed package authority."
+      "portable_review_attestation_present": false,
+      "producer_issue_linkage": "Closes agent-logic/agent-design-language#1266",
+      "authority_effect": "Merge and CI establish canonical source only. PR 275 cannot satisfy portable package admission because its body lacks the required canonical csdlc-portable-review-v1 attestation and it does not close a cognitive-sdlc producer issue."
     },
     "sidecar_issue_creation": {
       "repository": "agent-logic/agent-design-language",
@@ -62,10 +66,11 @@
     }
   },
   "required_repair": [
-    "Merge the reviewed macOS external-consumer maintenance contract only after separate operator authorization.",
-    "After merge, produce and authenticate a canonical package containing current semantic validation and the issue 1266 retained-terminal replay repair.",
+    "Treat merged cognitive-sdlc PR 275 as source repair only, not as portable installed authority.",
+    "Produce and authenticate a new canonical package containing current semantic validation and the issue 1266 retained-terminal replay repair.",
     "Activate and read back the exact package in each affected consumer through typed routes.",
-    "Resolve the issue-create one-shot recovery regression before using that route to publish the durable sidecar issue."
+    "Publish a new cognitive-sdlc producer issue and exact-head reviewed candidate PR with canonical closing linkage and csdlc-portable-review-v1 attestation; PR 275 cannot be retroactively treated as admissible package authority.",
+    "Resolve the installed-owner semantic decoding and issue-create routing regression before using the typed route to create that producer issue."
   ],
   "non_claims": [
     "No candidate or CI artifact is treated as installed authority.",
