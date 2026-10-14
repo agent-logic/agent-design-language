@@ -31,6 +31,14 @@ bash adl/tools/validation_manager.sh \
   --json
 ```
 
+AWS Spot advice requires the optional `--aws-spot-owner-runner /absolute/path`
+argument naming an existing executable from the selected owner package. Without
+it, AWS Spot is rejected and no AWS command is emitted. This checks executable
+availability only; it does not authenticate the package or grant execution,
+credentials, or spending authority. The supplied runner must support the emitted
+`--command`, `--instance-type`, and `--print-command` interface. Normal profile
+eligibility checks still apply.
+
 Valid platform choices are:
 
 ```text

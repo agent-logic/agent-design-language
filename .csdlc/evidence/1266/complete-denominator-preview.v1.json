@@ -1,0 +1,29 @@
+{
+  "schema": "adl.csdlc_v3.complete_denominator_preview.v1",
+  "issue": 1266,
+  "milestone": "v0.93.1",
+  "read_only": true,
+  "remote_writes": 0,
+  "package_artifact_id": 11786371585,
+  "results": [
+    {"repository":"agent-logic/codefriend","issues":[1,4,6,7,10,12,14,15,16,17,18,24,26,27,29,31,34,35,36,37,38,39,40,41,42,43,44,45,46,47],"result":"intent_terminal_receipt_mismatch"},
+    {"repository":"agent-logic/agent-logic-infrastructure","issues":[1,26],"result":"intent_terminal_receipt_mismatch"},
+    {"repository":"agent-logic/agent-logic-infrastructure","issues":[27],"result":"intent_bound_checkout_mismatch","note":"The canonical bound controller remains the only valid topology for issue 27."},
+    {"repository":"agent-logic/agent-logic-enterprise-security","issues":[1],"result":"intent_terminal_receipt_mismatch"},
+    {"repository":"agent-logic/agent-logic-runtime","issues":[1,2],"result":"intent_terminal_receipt_mismatch"},
+    {"repository":"agent-logic/cognitive-sdlc","issues":[1],"result":"intent_terminal_receipt_mismatch"},
+    {"repository":"agent-logic/codefriend","issues":[32,33],"result":"excluded_no_merged_closing_pr"}
+  ],
+  "summary": {
+    "closed_milestone_issues": 39,
+    "previewed_terminal_record_cases": 37,
+    "preview_passed": 0,
+    "preview_blocked": 37,
+    "receipt_state_mismatch": 36,
+    "bound_checkout_mismatch": 1,
+    "excluded_without_closing_pr": 2,
+    "canonical_new_reconciliations": 2
+  },
+  "acceptance": "blocked",
+  "finding": "The complete live preview disproves the earlier receipt-count inference: retained receipt bytes exist but do not currently authenticate against their terminal state, and package/activation proof is incomplete. No receipt was rewritten."
+}

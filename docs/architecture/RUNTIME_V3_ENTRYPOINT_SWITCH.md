@@ -2,7 +2,9 @@
 
 ## Status
 
-As of v0.91.7, Runtime v3 is selectable through an explicit CLI compatibility
+This page records the historical v0.91.7 selection contract. The launch example below requires the [Runtime owner init resource](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/infra/runtime-v3/runtime-init.toml); that file is no longer present in ADL. These retained statements do not establish the current installed Runtime selection or authorize a launch.
+
+As of v0.91.7, Runtime v3 was selectable through an explicit CLI compatibility
 boundary. Runtime v2 remains the default runtime until the cutover proof gate
 authorizes a default switch.
 

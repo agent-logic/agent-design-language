@@ -18,13 +18,36 @@ assert_contains() {
 
 test_workflow_guardrails_showcase() {
   local out
-  out="$(bash "$ROOT/adl/tools/demo_v0912_workflow_guardrails_showcase.sh")"
+  local inputs="$TMP/native inputs"
+  mkdir -p "$inputs"
+  printf '{}\n' >"$inputs/request.json"
+  printf '{}\n' >"$inputs/registry.json"
+  printf '{}\n' >"$inputs/registrations.json"
+  # Routing double only: these fixtures establish no native authority.
+  cat >"$inputs/csdlc" <<'EOF'
+#!/usr/bin/env bash
+printf '%s\n' "$@" >"${CSDLC_TEST_ARGV:?}"
+printf 'fixture doctor output\n'
+exit "${CSDLC_TEST_EXIT:-0}"
+EOF
+  chmod +x "$inputs/csdlc"
+  export CSDLC_TEST_ARGV="$inputs/observed-argv"
+  local args=(--request "$inputs/request.json" --registry "$inputs/registry.json"
+    --registrations "$inputs/registrations.json" --root "$inputs" --csdlc "$inputs/csdlc")
+  out="$(bash "$ROOT/adl/tools/demo_v0912_workflow_guardrails_showcase.sh" "${args[@]}")"
   assert_contains "WP-16 workflow guardrails showcase" "$out" "workflow showcase header"
   assert_contains "main_write_clean: PASS main-write branch=main clean=true" "$out" "workflow clean main"
   assert_contains "main_write_dirty: BLOCKED main-write branch=main clean=false" "$out" "workflow dirty main"
   assert_contains "safe_report_command_blocked: BLOCKED safe-report-command" "$out" "workflow unsafe report"
   assert_contains "safe_report_command_pass: PASS safe-report-command" "$out" "workflow safe report"
-  assert_contains "card_drift_invocation: doctor 3015 --version v0.91.2 --mode full --slug v0-91-2-wp-16-workflow-guardrails-hardening" "$out" "workflow card drift"
+  assert_contains "card_drift_output: fixture doctor output" "$out" "workflow card drift"
+  printf '%s\n' doctor --request "$inputs/request.json" --registry "$inputs/registry.json" \
+    --registrations "$inputs/registrations.json" --repo-root "$inputs" >"$inputs/expected-argv"
+  cmp "$inputs/expected-argv" "$CSDLC_TEST_ARGV"
+  local status=0
+  CSDLC_TEST_EXIT=37 bash "$ROOT/adl/tools/demo_v0912_workflow_guardrails_showcase.sh" \
+    "${args[@]}" >"$TMP/refused.out" 2>"$TMP/refused.err" || status=$?
+  [[ "$status" -eq 37 ]] || { echo "expected native doctor refusal status37, got $status" >&2; return 1; }
 }
 
 test_workflow_guardrails_showcase

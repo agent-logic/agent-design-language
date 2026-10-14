@@ -31,9 +31,9 @@ def validate(plans, mapping, inspect_files=True):
             if inspect_files:
                 assert (ROOT / version / row['source']).is_file(), (version, key, row['source'])
             for dep in row['depends_on']:
-                if '/' in dep:
-                    assert dep in plan['external_dependencies'], (key, dep)
-                    assert dep.startswith('v0.93.1/') and version == 'v0.93.2'
+                if dep in plan['external_dependencies']:
+                    if '/' in dep:
+                        assert dep.startswith('v0.93.1/') and version == 'v0.93.2'
                 else:
                     assert dep in rows and assignment[dep] <= assignment[key], (key, dep)
             all_rows[version + '/' + key] = row
@@ -58,6 +58,8 @@ def validate(plans, mapping, inspect_files=True):
         version = key.split('/')[0]
         found = set()
         for dep in all_rows[key]['depends_on']:
+            if dep in plans[version]['external_dependencies']:
+                continue
             target = dep if '/' in dep else version + '/' + dep
             found.add(target)
             found.update(ancestors(target, active))
@@ -95,7 +97,7 @@ def validate(plans, mapping, inspect_files=True):
     assert first['counts']['new_core_issues_to_seed_at_most'] == 28
     assert first['counts']['existing_additional_issues'] == 4
     assert plans['v0.93.2']['existing_issue_routing'] == []
-    assert plans['v0.93.2']['counts']['distinct_planned_issue_identities'] == 53
+    assert plans['v0.93.2']['counts']['distinct_planned_issue_identities'] == 68
     assert mapping['existing_issue_routing'] == {'v0.93.1':[1148,1149,1150,875,1145],'v0.93.2':[]}
     if inspect_files:
         overlay = ROOT / 'v0.93' / mapping['operator_amendment']
@@ -120,7 +122,13 @@ def validate(plans, mapping, inspect_files=True):
     for row in mapped:
         assert row['destination']+'/'+row['destination_id'] in all_rows
     extras = {(r['milestone'],r['id']) for r in mapping['additional_version_specific_gates']}
-    assert len(extras) == 13 and len(all_rows) == 83 + len(extras)
+    planned_additions = extras | {('v0.93.2', 'CF-92'), ('v0.93.2', 'GHB-SPRINT')} | {
+        ('v0.93.2', f'GHB-WP{n:02}') for n in range(13)
+    }
+    destinations = {(r['destination'], r['destination_id']) for r in mapped}
+    assert len(extras) == 13 and {
+        tuple(key.split('/', 1)) for key in all_rows
+    } - destinations == planned_additions
 
 if __name__ == '__main__':
     plans = {v:read(v,'EXECUTION_PLAN_'+v+'.json') for v in VERSIONS}
@@ -154,4 +162,6 @@ if __name__ == '__main__':
     reject('invented serial acceptance edge',lambda p,m:next(w for w in p['v0.93.1']['work_packages'] if w['id']=='RD-04')['depends_on'].append('RD-03'))
     reject('stale sidecar routing',lambda p,m:p['v0.93.2']['existing_issue_routing'].append({'issue':875}))
     reject('core count inflated by sidecar',lambda p,m:p['v0.93.1']['counts'].__setitem__('core_work_packages',45))
-    print(json.dumps({'status':'pass','source_tasks':83,'successor_tasks':[43,53],'version_specific_gates':13,'negative_fixtures':len(probes),'execution_opened':False},indent=2))
+    print(json.dumps({'status':'pass','source_tasks':83,
+        'successor_tasks':[plans[v]['counts']['core_work_packages'] for v in VERSIONS],
+        'version_specific_gates':13,'negative_fixtures':len(probes),'execution_opened':False},indent=2))

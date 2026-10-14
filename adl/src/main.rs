@@ -1,3 +1,4 @@
+#[path = "cli/public_dispatch.rs"]
 mod cli;
 
 fn main() {

@@ -26,7 +26,7 @@ No repository re-extraction, Beta 1 launch redo, template foundation duplication
 
 ## Scope
 
-53 planned candidates: 40 inherited implementation/demo tasks plus 13 version-specific opening, integration, qualification and release-tail tasks. Existing #875 is a separately gated v0.93.1 sidecar and is not counted in 53. Podcast #671 is completed in v0.92.2 (PR #1174).
+68 planned identities: the existing 53 platform candidates, existing CodeFriend #92, plus `GHB-SPRINT` and `GHB-WP00` through `GHB-WP12`. Existing #875 is a separately gated v0.93.1 sidecar and is not counted in 53. Podcast #671 is completed in v0.92.2 (PR #1174).
 
 ## Requirements
 
@@ -38,7 +38,7 @@ RV design acceptance precedes implementation; native lifecycle and state migrati
 
 ## Interfaces And Contracts
 
-Pin repository commits, installed artifacts and contract versions. Public ADL stays free of private build dependencies. Private Runtime consumes public contracts; security owns its private enforcement producer. Upgrade and rollback preserve user data and launched consumer behavior.
+Pin repository commits, installed artifacts and contract versions. Public ADL stays free of private build dependencies. Private Runtime consumes public contracts; security owns its private enforcement producer. Upgrade and rollback preserve user data and ready-to-deploy consumer behavior.
 
 ## Validation Plan
 
@@ -47,3 +47,7 @@ Use component negatives, authentic interruption/recovery journeys and installed 
 ## Exit Criteria
 
 All mandatory outcomes have accepted evidence or explicit operator disposition; review and release authorization remain distinct.
+
+## v0.93.2 scope integration
+
+The milestone retains the existing platform tracks and adds CodeFriend plus the approved full GHB program. CodeFriend public launch is routed through existing CodeFriend #92 and still requires exact deployment authorization. GHB requires Gate A, Gate B, and WP12 before milestone qualification; planning approval does not authorize experiments, provider spend, deployment, or issue creation. Runtime-v4 activation/generation and citizen-continuity/CM mechanisms are shared dependencies for GHB-WP07/WP08, not duplicate engines, schedulers, or transaction owners. ADL #1226 remains a deferred assessment.

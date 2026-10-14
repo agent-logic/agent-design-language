@@ -1,0 +1,536 @@
+{
+  "schema": "adl1223.deepseek_historical_packet_validation.v1",
+  "status": "applied",
+  "source_head": "a2114b6bfc734544157c74e894b0a5376b08e58f",
+  "rows": [
+    {
+      "original_row": {
+        "id": "RD07-2140",
+        "path": "adl/tools/test_v0916_deepseek_suitability.sh",
+        "owner": "agent-logic-runtime",
+        "component": "agent-logic-runtime-mapped-tools",
+        "current_identity": {
+          "mode": "100644",
+          "blob": "2d91fc561c4182d9b22056acf56efc3ba58e10c1"
+        },
+        "existing_action": "retain",
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ],
+        "successor_mapping": {
+          "mapping": "exact_successor",
+          "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+          "exact_successor_paths": [
+            "adl/tools/test_v0916_deepseek_suitability.sh"
+          ]
+        }
+      },
+      "recommended_action": "preserve_reviewed_consumer_repair"
+    },
+    {
+      "original_row": {
+        "id": "RD07-2220",
+        "path": "adl/tools/validate_v0916_agent_suitability_panel.py",
+        "owner": "agent-logic-runtime",
+        "component": "agent-logic-runtime-mapped-tools",
+        "current_identity": {
+          "mode": "100644",
+          "blob": "2a1c3b4fb6a15329bbd0285aac01587b6ad66e82"
+        },
+        "existing_action": "retain",
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ],
+        "successor_mapping": {
+          "mapping": "exact_successor",
+          "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+          "exact_successor_paths": [
+            "adl/tools/validate_v0916_agent_suitability_panel.py"
+          ]
+        }
+      },
+      "recommended_action": "retain_resolved"
+    },
+    {
+      "original_row": {
+        "id": "RD07-2221",
+        "path": "adl/tools/validate_v0916_deepseek_suitability.py",
+        "owner": "agent-logic-runtime",
+        "component": "agent-logic-runtime-mapped-tools",
+        "current_identity": {
+          "mode": "100644",
+          "blob": "c88e9af55f4c83e5054897f467c81565ec889f51"
+        },
+        "existing_action": "retain",
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ],
+        "successor_mapping": {
+          "mapping": "exact_successor",
+          "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+          "exact_successor_paths": [
+            "adl/tools/validate_v0916_deepseek_suitability.py"
+          ]
+        }
+      },
+      "recommended_action": "retain_resolved"
+    }
+  ],
+  "files": [
+    {
+      "path": "adl/tools/test_v0916_deepseek_suitability.sh",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "2d91fc561c4182d9b22056acf56efc3ba58e10c1",
+        "sha256": "e40f19f73acd917509ba8284e85bc0ebd5d643f14170ca6f36cef6baefd54257"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "684f490755de7ba69e28497a2cf1750f95bb0c78",
+        "sha256": "d90449f97dfbfe64b1b9aacf4ddb9462854250c3e431380d900f1966b6c7b981"
+      }
+    }
+  ],
+  "removed_count": 0,
+  "patch": {
+    "path": "/Volumes/FastWork/c1223/deepseek-historical-validation-closure/qualified-r2/offline-only.patch",
+    "sha256": "c6fdd2a504cdfc3dc6f5ac09fea8304bf10e19cfcc2967f70bc4c74f475374ea"
+  },
+  "custody": {
+    "path": "/Volumes/FastWork/c1223/deepseek-historical-validation-closure/current-original.tar",
+    "sha256": "ad44cdcc57342f483bec46111fd8e9ece45a90b7777126a9aefcbbb8f2023cb8"
+  },
+  "inputs": [
+    {
+      "path": "adl/tools/test_v0916_deepseek_suitability.sh",
+      "sha256": "e40f19f73acd917509ba8284e85bc0ebd5d643f14170ca6f36cef6baefd54257",
+      "mode": "0644"
+    },
+    {
+      "path": "adl/tools/validate_v0916_agent_suitability_panel.py",
+      "sha256": "062fa6b024d99d5315ea2afb3d75974a4bd28c41f47165e764d79eb518e64c2b",
+      "mode": "0644"
+    },
+    {
+      "path": "adl/tools/validate_v0916_deepseek_suitability.py",
+      "sha256": "c084a938181b2b391f01b5ab3be09acf9560132bdf42fc28749c8eea869e78ae",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/DEEPSEEK_C_SDLC_SUITABILITY_PROOF_2026-06-18.md",
+      "sha256": "2898959405a6f5fb8370d5b5fd6b0938485d6409fd019139f578e3356389756d",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/README.md",
+      "sha256": "184ea14cb337412c037d225e0f0a217ae7c892849b64918cba74fdcc836aa420",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/deepseek_suitability_state_2026-06-18.json",
+      "sha256": "1192b5078126c8c47168db62b6ecc64b000b796d0e8dd0da8f1f9881890d8d17",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_logs/ollama__deepseek-r1__8b__card_validator_v1.jsonl",
+      "sha256": "3422db48ef6fa6c98fd745add52dd26ddb9fff9efe7369873529fe27cf2016b9",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_logs/ollama__deepseek-r1__32b__card_validator_v1.jsonl",
+      "sha256": "659d4b8de72d24195a23d23bbd528de9524b314ff932f15c4e6603e5131ead43",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_logs/ollama__deepseek-r1__32b__bounded_planner_v1.jsonl",
+      "sha256": "76061390875022c1c26047c13b64bcb504663d7e579cb79879ee98bccf359059",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_logs/ollama__deepseek-r1__8b__review_findings_v1.jsonl",
+      "sha256": "848c9a741c3786d65bb6f9f04ad637eeff52af404412b353013d597376f76d38",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_logs/ollama__deepseek-r1__8b__watcher_state_v1.jsonl",
+      "sha256": "993e3f3de3d5cbcb99281791e283869403f1ac4a2e169d994fe1dcc6207f1079",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_logs/deepseek_api__deepseek-chat__bounded_planner_v1.jsonl",
+      "sha256": "2e5fe9ed4653dc1f1133bedcbdccd03a88d9b59353910b08e5b307fa32c682c9",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_logs/deepseek_api__deepseek-chat__card_validator_v1.jsonl",
+      "sha256": "f8e3b1604e4d2a58418319d6adef380747f604452f2089c6a29c966fbcb4e601",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_logs/deepseek_api__deepseek-chat__closeout_checker_v1.jsonl",
+      "sha256": "9a1a28154ab90d53493b8d8366451cb54c4ed5a2f02eac8a1d830b45641338d3",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_logs/ollama__deepseek-r1__32b__review_findings_v1.jsonl",
+      "sha256": "2e52dd58cd7646e6674755daa0ffc7f21ef3fd417fd4a4c5c1e5bbe03f044d0a",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_logs/deepseek_api__deepseek-chat__watcher_state_v1.jsonl",
+      "sha256": "61c0eb8d53a916d64070207ea2cd78e98f2d9186b8093fe0ff7f6316be290f7c",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_logs/ollama__deepseek-r1__32b__closeout_checker_v1.jsonl",
+      "sha256": "01c17f4e587ea857e905924e973ce1e51bd5d67fb47a6f24880eb0b6ee8ec664",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_logs/ollama__deepseek-r1__32b__watcher_state_v1.jsonl",
+      "sha256": "6663c897355b555ddd8b3628c943d3d07e26f9cb654506e67034c3d243ce09f3",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_logs/ollama__deepseek-r1__8b__bounded_planner_v1.jsonl",
+      "sha256": "7aad45aaf60ba6e2ec4b0beaa6f41e31f24204391010fdf00d07dd359748f0f9",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_logs/deepseek_api__deepseek-chat__review_findings_v1.jsonl",
+      "sha256": "9e0fa3a9d20953ea971e7241696b45318a902c779ae21da9f5482bc1a73fe0dd",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_logs/ollama__deepseek-r1__8b__closeout_checker_v1.jsonl",
+      "sha256": "9d5617ab7c4f9b0556ec89dbec64e878c5e1c586c1d0077c54eaf744d7aa67d8",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_requests/ollama__deepseek-r1__32b__watcher_state_v1.json",
+      "sha256": "37bb285006b6a533f51f2903ab57cb468195eccb9ce48aaf9ec71b9274f15952",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_requests/deepseek_api__deepseek-chat__watcher_state_v1.json",
+      "sha256": "09fd640c3428fb27df4ef5bfddcf8a9067c1b98c97fcb5f6fe4ef7ccb6a7be77",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_requests/ollama__deepseek-r1__32b__closeout_checker_v1.json",
+      "sha256": "9116eedefdaf39a12a0f28ac62f71d99c2030bacd6ea3b039c6c315e17cdfc88",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_requests/deepseek_api__deepseek-chat__review_findings_v1.json",
+      "sha256": "9e8631a5274859770903be1186cb7cd69fc955375dce99fe09433eab80175e26",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_requests/ollama__deepseek-r1__8b__watcher_state_v1.json",
+      "sha256": "ab5cf656de9978d4205a06b3fccd26508a7f4f9bbd4f345ec2bfef6ba08edf05",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_requests/deepseek_api__deepseek-chat__card_validator_v1.json",
+      "sha256": "22cdf35f3805e3592e45d8a3fd518ba7d001af19572cd6dbf707366bce0bcc1f",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_requests/ollama__deepseek-r1__32b__review_findings_v1.json",
+      "sha256": "fd9756af03b35d3ffad3cba0c8488b7efca0675e8cb0bd11ed7651dafbe4ce22",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_requests/ollama__deepseek-r1__32b__card_validator_v1.json",
+      "sha256": "fbc5d81102bc3f0858b98206723201191a1396d8b61a041c0187e470757b3307",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_requests/ollama__deepseek-r1__8b__review_findings_v1.json",
+      "sha256": "533cb5af2a4cc39a17644f2299ee4a3cdd5f0d002ec253410c3e2efac6639658",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_requests/deepseek_api__deepseek-chat__closeout_checker_v1.json",
+      "sha256": "1f55b65552ae67f19e1edfae2da53da2d8ad917d270f0434fc65d9eaa14752a9",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_requests/ollama__deepseek-r1__32b__bounded_planner_v1.json",
+      "sha256": "d27835e8115fc3b2ed33a4accc66ca408906df956126f935f487293de823cb05",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_requests/ollama__deepseek-r1__8b__bounded_planner_v1.json",
+      "sha256": "5803329e1fa2b391a83ee2180da399fa70d2dae073c7f5faef44e4da80025144",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_requests/ollama__deepseek-r1__8b__card_validator_v1.json",
+      "sha256": "d2379371aa36bc78847c9eabe94e4f78a5e78a00893c324ad428afcc68849ac4",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_requests/ollama__deepseek-r1__8b__closeout_checker_v1.json",
+      "sha256": "b42bdf8d1567038f045555334ac164a28a5f6893b5b6877aaeef5e8cc90df4d5",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_requests/deepseek_api__deepseek-chat__bounded_planner_v1.json",
+      "sha256": "118d79e52fee88de8ad21f2a63a5d9f27318e73466a6b4b52eff6b711aec4acb",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_results/ollama__deepseek-r1__32b__watcher_state_v1.json",
+      "sha256": "95a89c34717dced8c65fdfc7eeef321f3a05fee7a45f9263ec799a051044ab8e",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_results/deepseek_api__deepseek-chat__watcher_state_v1.json",
+      "sha256": "cd159f8c800781befcad928feb4e583b8528c07c0a078e9348da995576203d3f",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_results/ollama__deepseek-r1__32b__closeout_checker_v1.json",
+      "sha256": "5cf3f90c8969a670a1a7a2fbe39758d4ee9d848a240f6855db077758bf348100",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_results/deepseek_api__deepseek-chat__review_findings_v1.json",
+      "sha256": "5d122120f64d33da62dd874b55dc7f373961981cf551eec9584663791e9c5759",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_results/ollama__deepseek-r1__8b__watcher_state_v1.json",
+      "sha256": "c5f2d04b6fd3ea778c809cc8d115eeabc18a6666548f122627933e85735ee44e",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_results/deepseek_api__deepseek-chat__card_validator_v1.json",
+      "sha256": "b76e0310e2a16c66ed6c8b5d1f2cba28081ccd4f8990338ff15a11ca933c2cf3",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_results/ollama__deepseek-r1__32b__review_findings_v1.json",
+      "sha256": "ed8254c7e53e7756249c8495914ede909d1d9b16c0bf7658f5983cbec33fe64d",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_results/ollama__deepseek-r1__32b__card_validator_v1.json",
+      "sha256": "7f94ad9ed1ff9788de57e2bcfd3ddbf89581822e90f83b9f3f707caa1594d9ff",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_results/ollama__deepseek-r1__8b__review_findings_v1.json",
+      "sha256": "a8d956c4185d4627ff2ab96f1f718c4d39093768fd5b4c4fb0f1e5476a114e0c",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_results/deepseek_api__deepseek-chat__closeout_checker_v1.json",
+      "sha256": "01f0dd4e956d89fd06eccefa49628d818a180ec77707a597eb430db548ba5915",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_results/ollama__deepseek-r1__32b__bounded_planner_v1.json",
+      "sha256": "225f6149213379350badbd3ace5849c5181223c52179a428a8c111e17d7feabf",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_results/ollama__deepseek-r1__8b__bounded_planner_v1.json",
+      "sha256": "148f4a7340fb09156a49115c443c763a22ae77fb35925d2335d64a47d7c55541",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_results/ollama__deepseek-r1__8b__card_validator_v1.json",
+      "sha256": "0ea7524d3cad20c6945d3a63fe117a06914d2371fe5fcecd15f2777f3e874b22",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_results/ollama__deepseek-r1__8b__closeout_checker_v1.json",
+      "sha256": "a41c70fb636e7c28272b4a70fd63ca31f52c64c89a0b451e90106133599b4d8d",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_results/deepseek_api__deepseek-chat__bounded_planner_v1.json",
+      "sha256": "86901f930a12074b804e377f484e483e15cf19d3e9eb83323a24e0cbc02036ea",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_outputs/deepseek_api__deepseek-chat__card_validator_v1.md",
+      "sha256": "9019a3c8a1ce90c41a71e1ccd970be31d1854698fa06b3d82b94eae5a2231280",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_outputs/ollama__deepseek-r1__32b__watcher_state_v1.md",
+      "sha256": "6e57c1f8da852017dfd5f4e0531e5f9c01cadbe83d65d0ff7d2423a9c17e8175",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_outputs/ollama__deepseek-r1__32b__card_validator_v1.md",
+      "sha256": "abaa9e98f1002923e7ef6f40c6adfac4c4fc6bdffafb4d65ffe9ca0104d450ed",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_outputs/deepseek_api__deepseek-chat__watcher_state_v1.md",
+      "sha256": "c36041f287159f28f7b6fc1ff89889336c18c753f5f26e96acd4f889a74b5e82",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_outputs/deepseek_api__deepseek-chat__closeout_checker_v1.md",
+      "sha256": "fc413d4c82be3f3f628669c267457ff9ceba8bb356b9f06771c1fc09a3a76e89",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_outputs/ollama__deepseek-r1__32b__closeout_checker_v1.md",
+      "sha256": "e1bd0ca5a0d7fb8235b4960192d64593d12d64aaa9c06e15a696e4d3ea1295d5",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_outputs/ollama__deepseek-r1__8b__card_validator_v1.md",
+      "sha256": "9a691ec885ca18f849d61678b08f5e0f71472b66d14dce99e9bd1456a1b2af9e",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_outputs/ollama__deepseek-r1__8b__review_findings_v1.md",
+      "sha256": "e78715b19136d429284d8dfcbdfaf3ae6cf66021dff9669c2320006d49e38069",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_outputs/ollama__deepseek-r1__8b__closeout_checker_v1.md",
+      "sha256": "629462fe96d661bfbbb521265b0f807b3d24c4956f12850a461d3dcd8b090440",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_outputs/deepseek_api__deepseek-chat__review_findings_v1.md",
+      "sha256": "7162b7ddf87728c7a949d9ca3586699cdeaa9d95493a9c50ef3155f9078b643c",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_outputs/ollama__deepseek-r1__32b__review_findings_v1.md",
+      "sha256": "5c0f0f71cc5d3ec655e816ea040ce5036913202978ac48c0c0fa48b21cb10aa9",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_outputs/ollama__deepseek-r1__8b__watcher_state_v1.md",
+      "sha256": "2790eca3b3c7b098d950cbdb904da8bf0de5255cbcbe838f66c19c1d34a214bf",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_outputs/ollama__deepseek-r1__8b__bounded_planner_v1.md",
+      "sha256": "a628e06b723a025b1ecbae2b5257e9cd8f8523cfe1b206cdbf7ea216b704c718",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_outputs/ollama__deepseek-r1__32b__bounded_planner_v1.md",
+      "sha256": "109b0e01a6f5c34c30fac3387c521b05d65204f6165cb8f6f80312f0310b3423",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/lane_outputs/deepseek_api__deepseek-chat__bounded_planner_v1.md",
+      "sha256": "eca9af614c886dae462ec2ffcb1215e6adc3b4d6d0c52128c5572e0e55f0264f",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/provider_setup/deepseek/README.md",
+      "sha256": "8e68e3dcc47c2d02fe43e5baf824dad9dff0566fbc6e8835fd1888c779374b3f",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/provider_setup/deepseek/provider.adl.yaml",
+      "sha256": "0f8af5278dfb0a1eef8506477a8637aa3031b6cd44ac35a1eda6f3234f1e6e28",
+      "mode": "0644"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/provider_setup/deepseek/env.example",
+      "sha256": "5c244de6ce71aa367654c4dbab9ef48f3f7967a2985af7cf598ea80b0152d4eb",
+      "mode": "0644"
+    }
+  ],
+  "historical_live_branch": "if [[ -n \"${DEEPSEEK_API_KEY:-}\" || -s \"${ADL_DEEPSEEK_KEY_FILE:-$HOME/keys/deepseek.key}\" ]]; then\n  python3 adl/tools/run_v0916_agent_suitability_panel.py \\\n    --spec adl/tools/suitability_specs/deepseek_csdlc_panel_4096.json \\\n    --out \"$tmpdir/packet\"\n  python3 adl/tools/validate_v0916_agent_suitability_panel.py \"$tmpdir/packet\"\nfi\n",
+  "prospective_qualification": {
+    "original_offline_calls": 3,
+    "positive": 2,
+    "negative": 1,
+    "assertions": "Keep both existing cwd-sensitive valid calls and original impossible-score mutation and nonzero assertion verbatim. No originals executed yet.",
+    "environment": "Proposed fresh network-none cached container, copied declared sources/immutable packets, private writable root for original mktemp, no keys/HOME/config mounts, no product/build."
+  },
+  "reason": "ADL historical packet state references ADL-resident artifacts; retain validators with historical evidence while removing ambient-key-dependent live effects from this packet regression test. The real producer and its present spec remain separate explicitly invoked surfaces, not removed or qualified here.",
+  "limits": [
+    "No original test or source producer execution. No owner equivalence or current model suitability claim.",
+    "All immutable packet inputs unchanged. Retired live branch preserved exactly in custody and this record.",
+    "Live branch previously performs producer then validator without additional explicit behavioral assertions. Its production obligation remains unqualified, not passed by offline validation."
+  ],
+  "prior_proposal": {
+    "path": "/Volumes/FastWork/c1223/deepseek-historical-validation-closure/PROPOSAL.json",
+    "sha256": "95b4cc1e1e4e5f5ff6bd556b68bf716dc11471a2de1f91e6a63c00619c1fbd65"
+  },
+  "qualification": {
+    "evidence": [
+      {
+        "path": "/Volumes/FastWork/c1223/deepseek-historical-validation-closure/offline-plan/PLAN.json",
+        "sha256": "bf9e4286b1b47aaa4295c084dd7c3b3ca09a55b179045b13ea1119175c1ecf99"
+      },
+      {
+        "path": "/Volumes/FastWork/c1223/deepseek-historical-validation-closure/offline-plan/driver.py",
+        "sha256": "a6fc5d953f9ac98c117883381b008e4917301c02c84f7f14eca62239a4474a65"
+      },
+      {
+        "path": "/Volumes/FastWork/c1223/deepseek-historical-validation-closure/offline-plan/execute.py",
+        "sha256": "e990aebe00727ad7d6d064d4d421625dec5342626bcb4b8c2cab72d5eb6d40ce"
+      },
+      {
+        "path": "/Volumes/FastWork/c1223/deepseek-historical-validation-closure/offline-plan/EXECUTION_PINS.json",
+        "sha256": "80f2466150b2430bce4d02c38057248320c89341423a640b31a8f70cef6d1d27"
+      },
+      {
+        "path": "/Volumes/FastWork/c1223/deepseek-historical-validation-closure/offline-plan/execution/RESULT.json",
+        "sha256": "4b10096f53b5fc1be1bd7463de438ba641b1b226adfd39e557530607fbf00d9a"
+      },
+      {
+        "path": "/Volumes/FastWork/c1223/deepseek-historical-validation-closure/offline-plan/execution/CONTAINER.json",
+        "sha256": "83ec9aab2867cdcf89907028dc0fef84a80ad7c7c7cb4dd8036fd3c07ebcadad"
+      },
+      {
+        "path": "/Volumes/FastWork/c1223/deepseek-historical-validation-closure/offline-plan/execution/output/result.json",
+        "sha256": "d846aec7b2ba5387314b6d76cfea937eba4e2b7f2876fc1ea9d714447eca50e0"
+      },
+      {
+        "path": "/Volumes/FastWork/c1223/deepseek-historical-validation-closure/offline-plan/execution/output/case-1/stdout",
+        "sha256": "9db6cbb5e3a00c1cea7f4a0f2b1aa9f54773abc3d43f8d45d30b22da83b963b9"
+      },
+      {
+        "path": "/Volumes/FastWork/c1223/deepseek-historical-validation-closure/offline-plan/execution/output/case-1/stderr",
+        "sha256": "dff3c697634d2643c2f03322a47f1cf51859fd2e7b932c0ef786b508ea482fd6"
+      }
+    ],
+    "actual": {
+      "repaired_subset_scripts": 1,
+      "full_original_mixed_scripts": 0,
+      "positive_validator_calls": 2,
+      "negative_nonzero_calls": 1,
+      "status": "PASS",
+      "inputs_before_after_exact": true,
+      "container_seconds": 0.3920625410100911
+    },
+    "negative_observed_diagnostic": "FAIL validate_v0916_deepseek_suitability: top-level packet markdown does not match state artifact ref",
+    "negative_limit": "The unchanged original generic nonzero assertion passed at copied-packet path validation before score validation. This run does not prove rejection of impossible_score specifically. No rerun, diagnostic substitution, or assertion strengthening occurred."
+  },
+  "proposal_source_head": "a2114b6bfc734544157c74e894b0a5376b08e58f",
+  "review": {
+    "status": "PASS",
+    "reviewer": "review_1223_historical_retention",
+    "proposal_sha256": "ce28faa0bb219564ac3ea8c8a399874020b6e4cfcd74140c9d4a0c63384305e6",
+    "scope": "Reviewed source/caller/custody composition; all individual qualification and historical limits preserved."
+  }
+}

@@ -2,7 +2,11 @@
 set -euo pipefail
 
 repo_root="$(git rev-parse --show-toplevel)"
-skills_root="${repo_root}/adl/tools/skills"
+skills_root="${ADL_OPERATIONAL_SKILLS_SOURCE_ROOT:-}"
+if [[ "$skills_root" != /* || ! -d "$skills_root" ]]; then
+  echo "Select authentic complete historical skill inputs using ADL_OPERATIONAL_SKILLS_SOURCE_ROOT." >&2
+  exit 2
+fi
 docs_root="${skills_root}/docs"
 tmpdir="$(mktemp -d)"
 trap 'rm -rf "${tmpdir}"' EXIT

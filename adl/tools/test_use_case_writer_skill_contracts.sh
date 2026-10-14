@@ -2,7 +2,11 @@
 set -euo pipefail
 
 repo_root="$(git rev-parse --show-toplevel)"
-skills_root="${repo_root}/adl/tools/skills"
+skills_root="${ADL_OPERATIONAL_SKILLS_SOURCE_ROOT:-}"
+if [[ "$skills_root" != /* || ! -d "$skills_root" ]]; then
+  echo "Select authentic complete historical skill inputs using ADL_OPERATIONAL_SKILLS_SOURCE_ROOT." >&2
+  exit 2
+fi
 tmpdir="$(mktemp -d)"
 trap 'rm -rf "${tmpdir}"' EXIT
 
@@ -122,7 +126,7 @@ bash "${repo_root}/adl/tools/validate_skill_frontmatter.sh" \
   "${skills_root}/use-case-writer/SKILL.md"
 
 export CODEX_HOME="${tmpdir}/codex-home"
-bash "${repo_root}/adl/tools/install_adl_operational_skills.sh" >/dev/null
+ADL_OPERATIONAL_SKILLS_SOURCE_ROOT="$skills_root" bash "${repo_root}/adl/tools/install_adl_operational_skills.sh" >/dev/null
 [[ -f "${CODEX_HOME}/skills/use-case-writer/SKILL.md" ]]
 [[ -f "${CODEX_HOME}/skills/use-case-writer/adl-skill.yaml" ]]
 [[ -f "${CODEX_HOME}/skills/use-case-writer/agents/openai.yaml" ]]

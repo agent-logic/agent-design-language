@@ -1,5 +1,7 @@
 # HITL Editor / Review Demo
 
+Historical boundary: the editor start, monolith steering/checkpoint, and shared-ObsMem shell routes named below were retired in #1223. Their original assertions and artifacts remain historical obligations, not current passing proof. The independent `adl-runtime` trace-truth route and current editor adapter/assets are retained.
+
 This bounded demo is the milestone-facing proof surface for ADL's current
 human-in-the-loop authoring and review workflow.
 
@@ -17,7 +19,7 @@ It does not claim a finished browser-only workflow platform.
 From repository root:
 
 ```bash
-adl/tools/demo_hitl_editor_review.sh
+# Historical retired command: adl/tools/demo_hitl_editor_review.sh
 ```
 
 ## Primary proof artifacts

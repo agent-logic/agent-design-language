@@ -1,3 +1,5 @@
+// PVF local_contract: deterministic, in-memory parser and diagnostic contracts;
+// bounded CPU/memory, no execution/provider/network; required public package lane.
 use adl_language::{
     canonical_bytes, json_schema, parse_and_validate_json, parse_and_validate_yaml, DiagnosticCode,
 };
@@ -25,6 +27,42 @@ workflows:
     steps: [{id: summarize.topic, task: summarize, inputs: {topic: test}, save_as: summary}]
 run: {id: run-main, name: complete, workflow_ref: main, inputs: {topic: test}, placement: {target: local}}
 "#;
+
+#[test]
+fn provider_config_preserves_nested_scalar_types_across_yaml_and_json() {
+    let source = COMPLETE.replace(
+        "config: {model: test}",
+        "config: {model: test, options: [true, -2, 18446744073709551615, 1.25, null, {label: value}]}",
+    );
+    let document = parse_and_validate_yaml(&source).unwrap();
+    let expected = serde_json::json!([true, -2, u64::MAX, 1.25, null, {"label": "value"}]);
+    assert_eq!(document.providers["local"].config["options"], expected);
+    let roundtrip = parse_and_validate_json(&serde_json::to_string(&document).unwrap()).unwrap();
+    assert_eq!(roundtrip.providers["local"].config["options"], expected);
+}
+
+#[test]
+fn parser_refusals_retain_structured_and_human_diagnostics() {
+    let valid = serde_json::to_string(&parse_and_validate_yaml(COMPLETE).unwrap()).unwrap();
+    for malformed in [format!("{valid} true"), "{\"version\": [}".to_owned()] {
+        let errors = parse_and_validate_json(&malformed).unwrap_err();
+        assert_eq!(errors.len(), 1);
+        let error = &errors[0];
+        assert_eq!(error.code, DiagnosticCode::Syntax);
+        assert_eq!(error.path, "$");
+        assert!(!error.message.is_empty());
+        assert_eq!(error.to_string(), format!("$: {}", error.message));
+    }
+    for number in [".nan", ".inf", "-.inf"] {
+        let source = COMPLETE.replace(
+            "config: {model: test}",
+            &format!("config: {{value: {number}}}"),
+        );
+        let errors = parse_and_validate_yaml(&source).unwrap_err();
+        assert_eq!(errors[0].code, DiagnosticCode::Syntax);
+        assert!(errors[0].message.contains("non-finite number"));
+    }
+}
 
 #[test]
 fn parses_and_validates_all_six_primitives() {

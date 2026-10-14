@@ -1,0 +1,51 @@
+{
+  "schema": "adl.rd07.aws-disposable-owner-delivery-result.v1",
+  "row": "RD07-3550",
+  "repository": "agent-logic/agent-logic-infrastructure",
+  "issue": 22,
+  "pull_request": 25,
+  "head": "489ea52bb100e8139f1d726109d69d9bb9cda6af",
+  "merge_commit": "025850d265cbd1a55b28a8e9b238b2fe0bfcaf1d",
+  "evidence": [
+    {
+      "path": "/Volumes/FastWork/c1223/infra22-delivery/merge-current-root-result.json",
+      "sha256": "8966ace35adfaf33f41fe69a8dcdbac4295200ba23eb25214335fc537c8d5b30"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/infra22-delivery/proof-merge-root.json",
+      "sha256": "a4121dfa0292df9f64106b1189616e2473bda1736d090df01471535ef0c86dbd"
+    }
+  ],
+  "files": [
+    {
+      "path": "docs/operations/cloud/aws/runtime-platform/README.md",
+      "mode": "100644",
+      "blob": "ad03bf5de218411255b3a000c85e4cb81dfc801f",
+      "sha256": "f76f95009ab35ede44a1860fe7ab6333fcc64191aa88ec20fbc6a66e0726272e"
+    },
+    {
+      "path": "docs/operations/cloud/aws/runtime-platform/run-disposable-proof.sh",
+      "mode": "100755",
+      "blob": "2a5444dfc0f812802de91d952bb1559cc081c6b2",
+      "sha256": "5ed6f495bfd5f50ca976e9f361bb104a5e54702035042da7b6f57ecfc100f4e8"
+    }
+  ],
+  "proof": {
+    "passed": 5,
+    "failed": 0,
+    "scope": "Exact source/runbook, six stages, authorization fields, command failures, reverse cleanup/readback ordering and adverse suppressed-readback behavior; fake tools only."
+  },
+  "known_limits": [
+    "Cost field matching is not budget enforcement.",
+    "Original provider readback failures can be suppressed; retain adverse test, no live absence proof.",
+    "No live AWS qualification.",
+    "ALB23 proof adopted separately.",
+    "Native finish reported by coordination, not independently adopted here."
+  ],
+  "reviewer": "review_1223_public_facade",
+  "required_before_retirement": [
+    "Reconcile original runbook/caller references and exact source removal scope.",
+    "Preserve historical authorization examples as non-current."
+  ],
+  "execution_authorized": false
+}

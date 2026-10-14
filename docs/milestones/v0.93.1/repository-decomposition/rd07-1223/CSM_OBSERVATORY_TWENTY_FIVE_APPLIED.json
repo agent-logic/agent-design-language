@@ -1,0 +1,1725 @@
+{
+  "schema": "adl1223.csm_twenty_five_composed.v1",
+  "status": "applied",
+  "source_head": "927d89c431cd02850460b150d115ca76d01df93a",
+  "original_baseline": "248f00e359e412f6bc0061ac88be9ff374e3a212",
+  "removed_count": 25,
+  "rows": [
+    {
+      "id": "RD07-0021",
+      "path": "CSMctl",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-other-consumers",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "ee820de5ec70ac2302ddea0eae37347a035f17f0"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "coherent component and caller cutover",
+        "qualified owner adoption; exact source correspondence alone is insufficient"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "CSMctl"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_200_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
+        "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+        "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      }
+    },
+    {
+      "id": "RD07-0392",
+      "path": "adl/schemas/csm_operator_command_packet.v1.schema.json",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-other-consumers",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "9829b1f8d2bc422f305a43d9c687add58ccdbd61"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "coherent component and caller cutover",
+        "qualified owner adoption; exact source correspondence alone is insufficient"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/schemas/csm_operator_command_packet.v1.schema.json"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_200_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
+        "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+        "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      }
+    },
+    {
+      "id": "RD07-0393",
+      "path": "adl/schemas/csm_visibility_packet.v1.schema.json",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-other-consumers",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "42e9badfe545425e48571aeaf9a78e4874e09a07"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "coherent component and caller cutover",
+        "qualified owner adoption; exact source correspondence alone is insufficient"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/schemas/csm_visibility_packet.v1.schema.json"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_200_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
+        "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+        "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      }
+    },
+    {
+      "id": "RD07-1466",
+      "path": "adl/tools/render_csm_observatory_report.py",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "5f58511d3ccb7742dd761af9aff7a32b0a0651eb"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/render_csm_observatory_report.py"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1944",
+      "path": "adl/tools/test_csmctl_linux_backend.sh",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "bd94f88ad34ebe87a4c58ee8b3e88e9b7ec5fd35"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/test_csmctl_linux_backend.sh"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1983",
+      "path": "adl/tools/test_demo_v0901_csm_observatory_operator_report.sh",
+      "owner": "agent-logic-infrastructure",
+      "component": "agent-logic-infrastructure-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "90995304a0c669ba5a2384fcea4db5fab59b21f4"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+        "exact_successor_paths": [
+          "adl/tools/test_demo_v0901_csm_observatory_operator_report.sh"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1988",
+      "path": "adl/tools/test_demo_v0904_csm_observatory_governed_prototype.sh",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "09e2f70cbfeed778176f2d88985bdb1dd5ee089a"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/test_demo_v0904_csm_observatory_governed_prototype.sh"
+        ]
+      }
+    },
+    {
+      "id": "RD07-2177",
+      "path": "adl/tools/validate_csm_governed_observatory.py",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "548de4e1a8686d2e586b5b9e93420c6ffcf19818"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/validate_csm_governed_observatory.py"
+        ]
+      }
+    },
+    {
+      "id": "RD07-3145",
+      "path": "demos/fixtures/csm_observatory/proto-csm-01-operator-command-packets.json",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-other-consumers",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "d42355b4f8cd27a7aaae5b46c59ec411202e866f"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "coherent component and caller cutover",
+        "qualified owner adoption; exact source correspondence alone is insufficient"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "demos/fixtures/csm_observatory/proto-csm-01-operator-command-packets.json"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_200_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
+        "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+        "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      }
+    },
+    {
+      "id": "RD07-3146",
+      "path": "demos/fixtures/csm_observatory/proto-csm-01-operator-event.json",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-other-consumers",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "96465b3ee96a5e76ea8a0836423d6e3e4d89e9a8"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "coherent component and caller cutover",
+        "qualified owner adoption; exact source correspondence alone is insufficient"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "demos/fixtures/csm_observatory/proto-csm-01-operator-event.json"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_200_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
+        "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+        "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      }
+    },
+    {
+      "id": "RD07-3148",
+      "path": "demos/fixtures/csm_observatory/proto-csm-02-governed-observatory-packet.json",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-other-consumers",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "809fddb58132c3f0a38a1ae0556145a47b129b8c"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "coherent component and caller cutover",
+        "qualified owner adoption; exact source correspondence alone is insufficient"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "demos/fixtures/csm_observatory/proto-csm-02-governed-observatory-packet.json"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_200_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
+        "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+        "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      }
+    },
+    {
+      "id": "RD07-3149",
+      "path": "demos/fixtures/csm_run/proto-csm-01-run-packet.json",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-other-consumers",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "a89ad2d4b542ab1862b480bb5391a996cae49553"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "coherent component and caller cutover",
+        "qualified owner adoption; exact source correspondence alone is insufficient"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "demos/fixtures/csm_run/proto-csm-01-run-packet.json"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_200_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
+        "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+        "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      }
+    },
+    {
+      "id": "RD07-3212",
+      "path": "demos/v0.90.1/csm_observatory_operator_report.md",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-other-consumers",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "b2af416228c652af3f9ca15887f3cd085611ddd1"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "coherent component and caller cutover",
+        "qualified owner adoption; exact source correspondence alone is insufficient"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "demos/v0.90.1/csm_observatory_operator_report.md"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_200_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
+        "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+        "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      }
+    },
+    {
+      "id": "RD07-3213",
+      "path": "demos/v0.90.1/csm_observatory_static_console.css",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-other-consumers",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "e38efa245579703f613f30a5cc42bfe316a16c90"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "coherent component and caller cutover",
+        "qualified owner adoption; exact source correspondence alone is insufficient"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "demos/v0.90.1/csm_observatory_static_console.css"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_200_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
+        "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+        "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      }
+    },
+    {
+      "id": "RD07-3214",
+      "path": "demos/v0.90.1/csm_observatory_static_console.html",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-other-consumers",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "aa6e66bcf14650414922831366b53e98920230b2"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "coherent component and caller cutover",
+        "qualified owner adoption; exact source correspondence alone is insufficient"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "demos/v0.90.1/csm_observatory_static_console.html"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_200_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
+        "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+        "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      }
+    },
+    {
+      "id": "RD07-3215",
+      "path": "demos/v0.90.1/csm_observatory_static_console.js",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-other-consumers",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "15497213168e5bfcc3a95ad410aa6dcf1436a694"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "coherent component and caller cutover",
+        "qualified owner adoption; exact source correspondence alone is insufficient"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "demos/v0.90.1/csm_observatory_static_console.js"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_200_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
+        "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+        "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      }
+    },
+    {
+      "id": "RD07-3216",
+      "path": "demos/v0.90.1/csm_observatory_static_console.md",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-other-consumers",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "bc0222102de6bcd26d0b9e612fdc9bede734be1e"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "coherent component and caller cutover",
+        "qualified owner adoption; exact source correspondence alone is insufficient"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "demos/v0.90.1/csm_observatory_static_console.md"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_200_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
+        "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+        "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      }
+    },
+    {
+      "id": "RD07-3223",
+      "path": "demos/v0.90.4/csm_observatory_governed_prototype.css",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-other-consumers",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "23f7f0fc7f79b1e2f603b8a2ddc9999ad64ccbe2"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "coherent component and caller cutover",
+        "qualified owner adoption; exact source correspondence alone is insufficient"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "demos/v0.90.4/csm_observatory_governed_prototype.css"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_200_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
+        "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+        "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      }
+    },
+    {
+      "id": "RD07-3224",
+      "path": "demos/v0.90.4/csm_observatory_governed_prototype.html",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-other-consumers",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "0cea4596385afe410594c5edacfcbbc8b3ef0fdb"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "coherent component and caller cutover",
+        "qualified owner adoption; exact source correspondence alone is insufficient"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "demos/v0.90.4/csm_observatory_governed_prototype.html"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_200_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
+        "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+        "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      }
+    },
+    {
+      "id": "RD07-3225",
+      "path": "demos/v0.90.4/csm_observatory_governed_prototype.js",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-other-consumers",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "a8444da2f7aee4691b6dc2717663bb54bcf23d5c"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "coherent component and caller cutover",
+        "qualified owner adoption; exact source correspondence alone is insufficient"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "demos/v0.90.4/csm_observatory_governed_prototype.js"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_200_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
+        "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+        "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      }
+    },
+    {
+      "id": "RD07-3226",
+      "path": "demos/v0.90.4/csm_observatory_governed_prototype.md",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-other-consumers",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "890d9d39fe690bf991546fc5532504afe99a120c"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "coherent component and caller cutover",
+        "qualified owner adoption; exact source correspondence alone is insufficient"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "demos/v0.90.4/csm_observatory_governed_prototype.md"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_200_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
+        "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+        "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      }
+    },
+    {
+      "id": "RD07-3733",
+      "path": "docs/tooling/CSMctl.conf.example",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "90d75ab776d69165234da2929352ddeffc7132ed"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "active ADL navigation and source consumers reconciled",
+        "reuse applicable owner proof; source presence alone not execution",
+        "scoped retirement approval"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "docs/tooling/CSMctl.conf.example"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_29_DOC_DISPOSITIONS.json",
+        "packet_sha256": "2ae4a55dbaee23c4367e3503cd4f94378f6eec43ea42d8fec40f750296335dc1",
+        "proposal": "conditional_machine_resource_or_executable_transfer_with_explicit_consumer_gate",
+        "review": "Source specialist and root finite-disposition review; no execution or owner acceptance inferred"
+      }
+    },
+    {
+      "id": "RD07-3734",
+      "path": "docs/tooling/CSMctl.observatory.conf.example",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "d2ec5fb99a77371e106099cf7cb18ab207ae6d3e"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "active ADL navigation and source consumers reconciled",
+        "reuse applicable owner proof; source presence alone not execution",
+        "scoped retirement approval"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "docs/tooling/CSMctl.observatory.conf.example"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_29_DOC_DISPOSITIONS.json",
+        "packet_sha256": "2ae4a55dbaee23c4367e3503cd4f94378f6eec43ea42d8fec40f750296335dc1",
+        "proposal": "conditional_machine_resource_or_executable_transfer_with_explicit_consumer_gate",
+        "review": "Source specialist and root finite-disposition review; no execution or owner acceptance inferred"
+      }
+    },
+    {
+      "id": "RD07-3777",
+      "path": "docs/tooling/START_CSM_RUNBOOK.md",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "69622d69d5ab6a67df775c9924dcae3d3f4c3477"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "active ADL navigation and source consumers reconciled",
+        "reuse applicable owner proof; source presence alone not execution",
+        "scoped retirement approval"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "docs/tooling/START_CSM_RUNBOOK.md"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_29_DOC_DISPOSITIONS.json",
+        "packet_sha256": "2ae4a55dbaee23c4367e3503cd4f94378f6eec43ea42d8fec40f750296335dc1",
+        "proposal": "conditional_owner_document_transfer_with_caller_cutover",
+        "review": "Source specialist and root finite-disposition review; no execution or owner acceptance inferred"
+      }
+    },
+    {
+      "id": "RD07-4093",
+      "path": "start_CSM.sh",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-other-consumers",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "e9d7efd277cf12d74bd49059115cc105d541da7d"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "coherent component and caller cutover",
+        "qualified owner adoption; exact source correspondence alone is insufficient"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "start_CSM.sh"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_200_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
+        "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+        "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      }
+    }
+  ],
+  "files": [
+    {
+      "path": "CSMctl",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "ee820de5ec70ac2302ddea0eae37347a035f17f0",
+        "sha256": "131e3d36c0fe167f4cbb10be6bb1327aeea3030758b88361fa16f6e870620f0e"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/schemas/csm_operator_command_packet.v1.schema.json",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "9829b1f8d2bc422f305a43d9c687add58ccdbd61",
+        "sha256": "c162c25cc4d80c4f89a65160cd37560e2860ecef92d51c91a0bf232563eeddf2"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/schemas/csm_visibility_packet.v1.schema.json",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "42e9badfe545425e48571aeaf9a78e4874e09a07",
+        "sha256": "ca3db12316a25864bebf99ea9918afc51ffa7c4883fbc65a953192744fb1c0e4"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/render_csm_observatory_report.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "5f58511d3ccb7742dd761af9aff7a32b0a0651eb",
+        "sha256": "da44dad525bed571f756fc43f7a2c42cbba397674d8b8d1da24ef7839da44841"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_csmctl_linux_backend.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "bd94f88ad34ebe87a4c58ee8b3e88e9b7ec5fd35",
+        "sha256": "269948ee76eb3b8741e0d43a00ca67eb895acd0b0dad2204c054104536afbeca"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_demo_v0901_csm_observatory_operator_report.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "b40ecbbfa0edc0def53a059ae9879099d6c9f95f",
+        "sha256": "970d72887a1735cd2e9b1b515646e1994eb3539967dda3025bf08103f03bb6d9"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_demo_v0904_csm_observatory_governed_prototype.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "37728175c7bfd66075ec7aacdebd4e9767628497",
+        "sha256": "9b9ea44a7ee93de4b8359af7f6295a3622d3d2935d6e6c55b6e5a39765ca02ff"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/validate_csm_governed_observatory.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "fb02202f7d469b074a1fdbdb3c3699494e01064d",
+        "sha256": "17e1112205ee6f3d30a5603015becd9f15710ebc5a77da09cf6f5c3d47c47002"
+      },
+      "after": null
+    },
+    {
+      "path": "demos/fixtures/csm_observatory/proto-csm-01-operator-command-packets.json",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "d42355b4f8cd27a7aaae5b46c59ec411202e866f",
+        "sha256": "975c46c55a826e0fdc3d73db143a6138bf9078c6ea2d9c86c1166fd1af7b12c4"
+      },
+      "after": null
+    },
+    {
+      "path": "demos/fixtures/csm_observatory/proto-csm-01-operator-event.json",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "96465b3ee96a5e76ea8a0836423d6e3e4d89e9a8",
+        "sha256": "9879a5d8ba5a82260bff968f97474015e26b49329e885a7c10acb0eabbbb1bd1"
+      },
+      "after": null
+    },
+    {
+      "path": "demos/fixtures/csm_observatory/proto-csm-02-governed-observatory-packet.json",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "809fddb58132c3f0a38a1ae0556145a47b129b8c",
+        "sha256": "72f37641ab4105e5949f27efabac2c709e6985e85d430f5792a7b2cfc3b76128"
+      },
+      "after": null
+    },
+    {
+      "path": "demos/fixtures/csm_run/proto-csm-01-run-packet.json",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "a89ad2d4b542ab1862b480bb5391a996cae49553",
+        "sha256": "218270f33de78a1378be001aae8d74d6acdf1c21630476497c6077cef00f3f42"
+      },
+      "after": null
+    },
+    {
+      "path": "demos/v0.90.1/csm_observatory_operator_report.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "ffa697b7105194b14007271c6e93b66938c44cf3",
+        "sha256": "a90cf23325272449c7580d4211ba08317cd1d6cff97750d8365052a741b4bb09"
+      },
+      "after": null
+    },
+    {
+      "path": "demos/v0.90.1/csm_observatory_static_console.css",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "e38efa245579703f613f30a5cc42bfe316a16c90",
+        "sha256": "68507880e5eec8f0e273ff1970dd1697832ecad16bed79a4f9be897c24804447"
+      },
+      "after": null
+    },
+    {
+      "path": "demos/v0.90.1/csm_observatory_static_console.html",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "aa6e66bcf14650414922831366b53e98920230b2",
+        "sha256": "217f70c007491ae36cb522dc055ee7133edb3683cb666644925571a285135b34"
+      },
+      "after": null
+    },
+    {
+      "path": "demos/v0.90.1/csm_observatory_static_console.js",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "15497213168e5bfcc3a95ad410aa6dcf1436a694",
+        "sha256": "db180225f3d5586e84765571c0799da29d102a778c976608ff25fb88744d64d3"
+      },
+      "after": null
+    },
+    {
+      "path": "demos/v0.90.1/csm_observatory_static_console.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "bc0222102de6bcd26d0b9e612fdc9bede734be1e",
+        "sha256": "7b3da724be018b3ac58e10de811d562dd71bec8e40e6ae186ca188d45a637bc7"
+      },
+      "after": null
+    },
+    {
+      "path": "demos/v0.90.4/csm_observatory_governed_prototype.css",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "23f7f0fc7f79b1e2f603b8a2ddc9999ad64ccbe2",
+        "sha256": "b559b468ec1381009c4f00248d1f5b9902086b372eddb98600c0cbb8c1e69116"
+      },
+      "after": null
+    },
+    {
+      "path": "demos/v0.90.4/csm_observatory_governed_prototype.html",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "f87076aa59db68131292dd9ae7ee41579a4e6e85",
+        "sha256": "dc14b15beacb4ee5cc6d5766a77a6b09b4e5dc3379ed4f8af7eb7da28e3eec3d"
+      },
+      "after": null
+    },
+    {
+      "path": "demos/v0.90.4/csm_observatory_governed_prototype.js",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "05f4665fb8161690656471589e7b75f8dbd4641b",
+        "sha256": "41d7d96b54b1928362f7142698b7e4ca37ed35259e37793b927d22a7cddb0dbf"
+      },
+      "after": null
+    },
+    {
+      "path": "demos/v0.90.4/csm_observatory_governed_prototype.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "43f1dc840affcfc856ba35f46878382553b3128d",
+        "sha256": "78d9a66308d206b1fc0b853257dc7db04839c578596b64066c50d9f8d5e63058"
+      },
+      "after": null
+    },
+    {
+      "path": "docs/tooling/CSMctl.conf.example",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "2a90417bdf7187470cc78c01c62fe23d17acc6de",
+        "sha256": "8ea4b939387e02d1265338c7d3e7771a482542e42649597663da5d51f79319b1"
+      },
+      "after": null
+    },
+    {
+      "path": "docs/tooling/CSMctl.observatory.conf.example",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "fd65cc2e0a20a6f3a7b7b01b3cf569dc064073de",
+        "sha256": "7478d79d134d651705bb09c40ba884bfdf7764d9a07ed9f13a348495c6f6e506"
+      },
+      "after": null
+    },
+    {
+      "path": "docs/tooling/START_CSM_RUNBOOK.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "69622d69d5ab6a67df775c9924dcae3d3f4c3477",
+        "sha256": "ba7ab5f70be34ad543071a5637fa48a2ee506b3474d96515d01dd6f1492b6306"
+      },
+      "after": null
+    },
+    {
+      "path": "start_CSM.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "e9d7efd277cf12d74bd49059115cc105d541da7d",
+        "sha256": "9d5a9c6a9f6ffd2a3fa31cc740d28b244a8c874c56ad01e3549994bff70e2de5"
+      },
+      "after": null
+    },
+    {
+      "path": "demos/README.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "e4413de417e4cb8b46c41bbe54b0f7fee651c609",
+        "sha256": "b6ba357b01629d539b0eff759cc64e88189a1f95d9b112d1d994fce66f214317"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "880d695a62af976a85b845b0b0642d3481517421",
+        "sha256": "cb755e125589b53b37cd530fff5947c8b8fd0a22da4b98bf5a90946b649c42d9"
+      }
+    },
+    {
+      "path": "docs/tooling/ACTIVE_BOOT_PATHS.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "661a2eaefd696160897d5b4ad162f4b5a21f7c94",
+        "sha256": "7327d40f830ca3bbe3daace11cde44a45ef4e84c19955462db46df3e16d6487a"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "138588d52a053ead0ee771912a4679d77ef16479",
+        "sha256": "32bf21a7f1172c0d0771420e67420618b931c11792f4d9556b62d597eee35669"
+      }
+    },
+    {
+      "path": "adl/config/validation_lane_selector.v0.91.6.json",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "e202ff7a93b43d5235198bab3eff60a398d7b67f",
+        "sha256": "62801095087ee0e50fe5abb4454ca9be66af289cbc845acca2d5e402e453abef"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "3a3ba0a80f737885ea4735fc68d819599219260f",
+        "sha256": "ed520fcb7f5c041b45565799d76344af5f5fb8e1b16aae04ad1725503dc7646d"
+      }
+    },
+    {
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "2cd0069e66506f7ab1e4a469926243042301f24c",
+        "sha256": "68fd7f11bace64c5b046fbd739351508eae8d6bc8856d14421f1341594e747c3"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "70e75eadbf71814d231ca2c790a60640ebecd4ca",
+        "sha256": "1c14bc0fe7ec8c4353177deeb43da9da7e6a112e88581756a43292653532b9a3"
+      }
+    }
+  ],
+  "custody": {
+    "path": "/Volumes/FastWork/c1223/csm-twenty-five-composed/927d89c431cd02850460b150d115ca76d01df93a/current-original.tar",
+    "sha256": "b434dc68c3827ef8ad6622e66693d687cb75b5cb3484ed25aab612de863bd05e",
+    "current_members": 29,
+    "original_members": 25
+  },
+  "patch": {
+    "path": "/Volumes/FastWork/c1223/csm-twenty-five-composed/927d89c431cd02850460b150d115ca76d01df93a/twenty-five-and-callers.patch",
+    "sha256": "b4549f7868d496ad58983abef9e20ac10a9ce95d272e299dbd3905153e1102c6"
+  },
+  "evidence": [
+    {
+      "path": "/Volumes/FastWork/c1223/worker25-csm-observatory-family/PROPOSAL.json",
+      "sha256": "432c96e1f95de7b4e31488614e7b5050ec2d7e94704e75950ff26c88813c4593"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/worker25-csm-observatory-family/REVIEW.json",
+      "sha256": "40673ef687a8a01dc43ad52a15e6a784136290819ab36ad40299287488cd4da9"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/worker25-csm-observatory-family/HANDOFF.md",
+      "sha256": "a6e4839c28b7a0136fc0f0d7dee6c41e8825e86335d0603e3db687593d06cd93"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/worker25-csm-observatory-family/OFFLINE_RESULT.json",
+      "sha256": "cf96a70792647a67c343c019d2796e88fa961efffcef2cc936f3e5d6113f145a"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/worker25-csm-observatory-family/OFFLINE_INPUTS.json",
+      "sha256": "981127160ad4846386965448cc18b0dbbb248476d04cfbd449eeb9754cb0702f"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/worker25-csm-observatory-family/CONSUMER_PLAN_REVIEW.json",
+      "sha256": "3205f6fc3be3ba8e96e5e3d191887d2d663424dedfff024ab649dc4d929e25f8"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/worker25-csm-observatory-family/CUSTODY_CURRENT.json",
+      "sha256": "ea7be902b1f29fa43d7cecc57eb2ae570c9ebdaf53442ca0bda731e9419f6cc3"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/worker25-csm-observatory-family/VALIDATION.json",
+      "sha256": "a9c817b333a59c23a8d86e250bee07a8381e808ced52a5d03983cf60b9bacc06"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/worker25-csm-observatory-family/CALLER_DISPOSITIONS.json",
+      "sha256": "96bd1a73f2d50c7c1421f7ffea6cf8776cb02432f602bc50ffe3d30354711e09"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/worker25-csm-observatory-family/EXACT_CALLER_SCAN.json",
+      "sha256": "ae2e856ff02277f62b0067532e1e615874fc95798b997cb0b24bd79d7481f0c6"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/worker25-csm-observatory-family/current-and-original-preimages.tar",
+      "sha256": "959547d00c29b014db0f983dc6be2c668c11f8fe1f747356a872c5f97564a5c2"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/worker25-csm-observatory-family/REUSED_CSM_SIX_RESOURCES_APPLIED.json",
+      "sha256": "0aa64e902380cca67e559658ada2e4e7eb0535ecae40e3a90d5abb50469f42e4"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/worker25-csm-observatory-family/test_csmctl_linux_backend.stdout",
+      "sha256": "9d9174bcb55492c7f33d8578009cd7127defbf9ac48448653b7b4e17322b46f8"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/worker25-csm-observatory-family/test_csmctl_linux_backend.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/worker25-csm-observatory-family/test_demo_v0901_csm_observatory_operator_report.stdout",
+      "sha256": "d4243fe962bff083860c1beae433e8da1d2d33be01e7a987de88feac1fff66ee"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/worker25-csm-observatory-family/test_demo_v0901_csm_observatory_operator_report.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/worker25-csm-observatory-family/test_demo_v0904_csm_observatory_governed_prototype.stdout",
+      "sha256": "ee16eec0f3790d1d88acdfe7a69dd609ade5dfe9ad5e7190480631b1c4b35e41"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/worker25-csm-observatory-family/test_demo_v0904_csm_observatory_governed_prototype.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "prior_reviewed_proposal": {
+    "status": "prepared_pending_independent_review",
+    "source_head": "662645845ea15df2f13b16532327cdaa242fdab3",
+    "scope_denominator": 36,
+    "already_absent": 7,
+    "proposed_removals": 25,
+    "held_remaining": 4,
+    "rows": [
+      {
+        "id": "RD07-0021",
+        "path": "CSMctl",
+        "disposition": "proposed_source_retirement",
+        "reason": "Exact original owner custody and bounded source/fixture proof only; non-executed service/configuration behaviors remain owner/manual obligations."
+      },
+      {
+        "id": "RD07-0392",
+        "path": "adl/schemas/csm_operator_command_packet.v1.schema.json",
+        "disposition": "proposed_source_retirement",
+        "reason": "Exact original owner custody and bounded source/fixture proof only; non-executed service/configuration behaviors remain owner/manual obligations."
+      },
+      {
+        "id": "RD07-0393",
+        "path": "adl/schemas/csm_visibility_packet.v1.schema.json",
+        "disposition": "proposed_source_retirement",
+        "reason": "Exact original owner custody and bounded source/fixture proof only; non-executed service/configuration behaviors remain owner/manual obligations."
+      },
+      {
+        "id": "RD07-1299",
+        "path": "adl/tools/csm_binary_availability.sh",
+        "disposition": "hold",
+        "reason": "Exact original absent from both owners; eight active manual proof callers source helper. Needs original custody and coherent caller closure."
+      },
+      {
+        "id": "RD07-1364",
+        "path": "adl/tools/demo_v0901_csm_observatory.sh",
+        "disposition": "hold",
+        "reason": "Owner demos differ; original Cargo producer remains unqualified and unexecuted. Requires explicit historical/manual disposition or independently qualified source transfer."
+      },
+      {
+        "id": "RD07-1466",
+        "path": "adl/tools/render_csm_observatory_report.py",
+        "disposition": "proposed_source_retirement",
+        "reason": "Exact original owner custody and bounded source/fixture proof only; non-executed service/configuration behaviors remain owner/manual obligations."
+      },
+      {
+        "id": "RD07-1942",
+        "path": "adl/tools/test_csm_operator_command_packets.sh",
+        "disposition": "already_absent_do_not_repeat",
+        "reason": "Exact original owner custody and bounded source/fixture proof only; non-executed service/configuration behaviors remain owner/manual obligations."
+      },
+      {
+        "id": "RD07-1943",
+        "path": "adl/tools/test_csm_visibility_packet.sh",
+        "disposition": "already_absent_do_not_repeat",
+        "reason": "Exact original owner custody and bounded source/fixture proof only; non-executed service/configuration behaviors remain owner/manual obligations."
+      },
+      {
+        "id": "RD07-1944",
+        "path": "adl/tools/test_csmctl_linux_backend.sh",
+        "disposition": "proposed_source_retirement",
+        "reason": "Exact original owner custody and bounded source/fixture proof only; non-executed service/configuration behaviors remain owner/manual obligations."
+      },
+      {
+        "id": "RD07-1945",
+        "path": "adl/tools/test_csmctl_observatory_origins.sh",
+        "disposition": "already_absent_do_not_repeat",
+        "reason": "Exact original owner custody and bounded source/fixture proof only; non-executed service/configuration behaviors remain owner/manual obligations."
+      },
+      {
+        "id": "RD07-1983",
+        "path": "adl/tools/test_demo_v0901_csm_observatory_operator_report.sh",
+        "disposition": "proposed_source_retirement",
+        "reason": "Exact original owner custody and bounded source/fixture proof only; non-executed service/configuration behaviors remain owner/manual obligations."
+      },
+      {
+        "id": "RD07-1984",
+        "path": "adl/tools/test_demo_v0901_csm_observatory_static_console.sh",
+        "disposition": "already_absent_do_not_repeat",
+        "reason": "Exact original owner custody and bounded source/fixture proof only; non-executed service/configuration behaviors remain owner/manual obligations."
+      },
+      {
+        "id": "RD07-1988",
+        "path": "adl/tools/test_demo_v0904_csm_observatory_governed_prototype.sh",
+        "disposition": "proposed_source_retirement",
+        "reason": "Exact original owner custody and bounded source/fixture proof only; non-executed service/configuration behaviors remain owner/manual obligations."
+      },
+      {
+        "id": "RD07-2177",
+        "path": "adl/tools/validate_csm_governed_observatory.py",
+        "disposition": "proposed_source_retirement",
+        "reason": "Exact original owner custody and bounded source/fixture proof only; non-executed service/configuration behaviors remain owner/manual obligations."
+      },
+      {
+        "id": "RD07-2178",
+        "path": "adl/tools/validate_csm_operator_command_packets.py",
+        "disposition": "already_absent_do_not_repeat",
+        "reason": "Exact original owner custody and bounded source/fixture proof only; non-executed service/configuration behaviors remain owner/manual obligations."
+      },
+      {
+        "id": "RD07-2181",
+        "path": "adl/tools/validate_csm_static_console.py",
+        "disposition": "already_absent_do_not_repeat",
+        "reason": "Exact original owner custody and bounded source/fixture proof only; non-executed service/configuration behaviors remain owner/manual obligations."
+      },
+      {
+        "id": "RD07-2182",
+        "path": "adl/tools/validate_csm_visibility_packet.py",
+        "disposition": "already_absent_do_not_repeat",
+        "reason": "Exact original owner custody and bounded source/fixture proof only; non-executed service/configuration behaviors remain owner/manual obligations."
+      },
+      {
+        "id": "RD07-3145",
+        "path": "demos/fixtures/csm_observatory/proto-csm-01-operator-command-packets.json",
+        "disposition": "proposed_source_retirement",
+        "reason": "Exact original owner custody and bounded source/fixture proof only; non-executed service/configuration behaviors remain owner/manual obligations."
+      },
+      {
+        "id": "RD07-3146",
+        "path": "demos/fixtures/csm_observatory/proto-csm-01-operator-event.json",
+        "disposition": "proposed_source_retirement",
+        "reason": "Exact original owner custody and bounded source/fixture proof only; non-executed service/configuration behaviors remain owner/manual obligations."
+      },
+      {
+        "id": "RD07-3147",
+        "path": "demos/fixtures/csm_observatory/proto-csm-01-visibility-packet.json",
+        "disposition": "hold",
+        "reason": "Retain exact visibility fixture consumed by held Cargo demo and current adl/src/cli/usage.rs example; no broken retained caller."
+      },
+      {
+        "id": "RD07-3148",
+        "path": "demos/fixtures/csm_observatory/proto-csm-02-governed-observatory-packet.json",
+        "disposition": "proposed_source_retirement",
+        "reason": "Exact original owner custody and bounded source/fixture proof only; non-executed service/configuration behaviors remain owner/manual obligations."
+      },
+      {
+        "id": "RD07-3149",
+        "path": "demos/fixtures/csm_run/proto-csm-01-run-packet.json",
+        "disposition": "proposed_source_retirement",
+        "reason": "Exact original owner custody and bounded source/fixture proof only; non-executed service/configuration behaviors remain owner/manual obligations."
+      },
+      {
+        "id": "RD07-3211",
+        "path": "demos/v0.90.1/csm_observatory_cli_demo.md",
+        "disposition": "hold",
+        "reason": "Original CLI doc differs from Runtime and is absent in Infrastructure; kept with retained Cargo demo."
+      },
+      {
+        "id": "RD07-3212",
+        "path": "demos/v0.90.1/csm_observatory_operator_report.md",
+        "disposition": "proposed_source_retirement",
+        "reason": "Exact original owner custody and bounded source/fixture proof only; non-executed service/configuration behaviors remain owner/manual obligations."
+      },
+      {
+        "id": "RD07-3213",
+        "path": "demos/v0.90.1/csm_observatory_static_console.css",
+        "disposition": "proposed_source_retirement",
+        "reason": "Exact original owner custody and bounded source/fixture proof only; non-executed service/configuration behaviors remain owner/manual obligations."
+      },
+      {
+        "id": "RD07-3214",
+        "path": "demos/v0.90.1/csm_observatory_static_console.html",
+        "disposition": "proposed_source_retirement",
+        "reason": "Exact original owner custody and bounded source/fixture proof only; non-executed service/configuration behaviors remain owner/manual obligations."
+      },
+      {
+        "id": "RD07-3215",
+        "path": "demos/v0.90.1/csm_observatory_static_console.js",
+        "disposition": "proposed_source_retirement",
+        "reason": "Exact original owner custody and bounded source/fixture proof only; non-executed service/configuration behaviors remain owner/manual obligations."
+      },
+      {
+        "id": "RD07-3216",
+        "path": "demos/v0.90.1/csm_observatory_static_console.md",
+        "disposition": "proposed_source_retirement",
+        "reason": "Exact original owner custody and bounded source/fixture proof only; non-executed service/configuration behaviors remain owner/manual obligations."
+      },
+      {
+        "id": "RD07-3223",
+        "path": "demos/v0.90.4/csm_observatory_governed_prototype.css",
+        "disposition": "proposed_source_retirement",
+        "reason": "Exact original owner custody and bounded source/fixture proof only; non-executed service/configuration behaviors remain owner/manual obligations."
+      },
+      {
+        "id": "RD07-3224",
+        "path": "demos/v0.90.4/csm_observatory_governed_prototype.html",
+        "disposition": "proposed_source_retirement",
+        "reason": "Exact original owner custody and bounded source/fixture proof only; non-executed service/configuration behaviors remain owner/manual obligations."
+      },
+      {
+        "id": "RD07-3225",
+        "path": "demos/v0.90.4/csm_observatory_governed_prototype.js",
+        "disposition": "proposed_source_retirement",
+        "reason": "Exact original owner custody and bounded source/fixture proof only; non-executed service/configuration behaviors remain owner/manual obligations."
+      },
+      {
+        "id": "RD07-3226",
+        "path": "demos/v0.90.4/csm_observatory_governed_prototype.md",
+        "disposition": "proposed_source_retirement",
+        "reason": "Exact original owner custody and bounded source/fixture proof only; non-executed service/configuration behaviors remain owner/manual obligations."
+      },
+      {
+        "id": "RD07-3733",
+        "path": "docs/tooling/CSMctl.conf.example",
+        "disposition": "proposed_source_retirement",
+        "reason": "Exact original owner custody and bounded source/fixture proof only; non-executed service/configuration behaviors remain owner/manual obligations."
+      },
+      {
+        "id": "RD07-3734",
+        "path": "docs/tooling/CSMctl.observatory.conf.example",
+        "disposition": "proposed_source_retirement",
+        "reason": "Exact original owner custody and bounded source/fixture proof only; non-executed service/configuration behaviors remain owner/manual obligations."
+      },
+      {
+        "id": "RD07-3777",
+        "path": "docs/tooling/START_CSM_RUNBOOK.md",
+        "disposition": "proposed_source_retirement",
+        "reason": "Exact original owner custody and bounded source/fixture proof only; non-executed service/configuration behaviors remain owner/manual obligations."
+      },
+      {
+        "id": "RD07-4093",
+        "path": "start_CSM.sh",
+        "disposition": "proposed_source_retirement",
+        "reason": "Exact original owner custody and bounded source/fixture proof only; non-executed service/configuration behaviors remain owner/manual obligations."
+      }
+    ],
+    "holds": {
+      "RD07-1299": "Exact original absent from both owners; eight active manual proof callers source helper. Needs original custody and coherent caller closure.",
+      "RD07-1364": "Owner demos differ; original Cargo producer remains unqualified and unexecuted. Requires explicit historical/manual disposition or independently qualified source transfer.",
+      "RD07-3211": "Original CLI doc differs from Runtime and is absent in Infrastructure; kept with retained Cargo demo.",
+      "RD07-3147": "Retain exact visibility fixture consumed by held Cargo demo and current adl/src/cli/usage.rs example; no broken retained caller."
+    },
+    "changes": [
+      {
+        "path": "CSMctl",
+        "before": {
+          "mode": "100755",
+          "blob": "ee820de5ec70ac2302ddea0eae37347a035f17f0",
+          "sha256": "131e3d36c0fe167f4cbb10be6bb1327aeea3030758b88361fa16f6e870620f0e"
+        },
+        "after": null
+      },
+      {
+        "path": "adl/schemas/csm_operator_command_packet.v1.schema.json",
+        "before": {
+          "mode": "100644",
+          "blob": "9829b1f8d2bc422f305a43d9c687add58ccdbd61",
+          "sha256": "c162c25cc4d80c4f89a65160cd37560e2860ecef92d51c91a0bf232563eeddf2"
+        },
+        "after": null
+      },
+      {
+        "path": "adl/schemas/csm_visibility_packet.v1.schema.json",
+        "before": {
+          "mode": "100644",
+          "blob": "42e9badfe545425e48571aeaf9a78e4874e09a07",
+          "sha256": "ca3db12316a25864bebf99ea9918afc51ffa7c4883fbc65a953192744fb1c0e4"
+        },
+        "after": null
+      },
+      {
+        "path": "adl/tools/render_csm_observatory_report.py",
+        "before": {
+          "mode": "100755",
+          "blob": "5f58511d3ccb7742dd761af9aff7a32b0a0651eb",
+          "sha256": "da44dad525bed571f756fc43f7a2c42cbba397674d8b8d1da24ef7839da44841"
+        },
+        "after": null
+      },
+      {
+        "path": "adl/tools/test_csmctl_linux_backend.sh",
+        "before": {
+          "mode": "100755",
+          "blob": "bd94f88ad34ebe87a4c58ee8b3e88e9b7ec5fd35",
+          "sha256": "269948ee76eb3b8741e0d43a00ca67eb895acd0b0dad2204c054104536afbeca"
+        },
+        "after": null
+      },
+      {
+        "path": "adl/tools/test_demo_v0901_csm_observatory_operator_report.sh",
+        "before": {
+          "mode": "100755",
+          "blob": "b40ecbbfa0edc0def53a059ae9879099d6c9f95f",
+          "sha256": "970d72887a1735cd2e9b1b515646e1994eb3539967dda3025bf08103f03bb6d9"
+        },
+        "after": null
+      },
+      {
+        "path": "adl/tools/test_demo_v0904_csm_observatory_governed_prototype.sh",
+        "before": {
+          "mode": "100644",
+          "blob": "37728175c7bfd66075ec7aacdebd4e9767628497",
+          "sha256": "9b9ea44a7ee93de4b8359af7f6295a3622d3d2935d6e6c55b6e5a39765ca02ff"
+        },
+        "after": null
+      },
+      {
+        "path": "adl/tools/validate_csm_governed_observatory.py",
+        "before": {
+          "mode": "100644",
+          "blob": "fb02202f7d469b074a1fdbdb3c3699494e01064d",
+          "sha256": "17e1112205ee6f3d30a5603015becd9f15710ebc5a77da09cf6f5c3d47c47002"
+        },
+        "after": null
+      },
+      {
+        "path": "demos/fixtures/csm_observatory/proto-csm-01-operator-command-packets.json",
+        "before": {
+          "mode": "100644",
+          "blob": "d42355b4f8cd27a7aaae5b46c59ec411202e866f",
+          "sha256": "975c46c55a826e0fdc3d73db143a6138bf9078c6ea2d9c86c1166fd1af7b12c4"
+        },
+        "after": null
+      },
+      {
+        "path": "demos/fixtures/csm_observatory/proto-csm-01-operator-event.json",
+        "before": {
+          "mode": "100644",
+          "blob": "96465b3ee96a5e76ea8a0836423d6e3e4d89e9a8",
+          "sha256": "9879a5d8ba5a82260bff968f97474015e26b49329e885a7c10acb0eabbbb1bd1"
+        },
+        "after": null
+      },
+      {
+        "path": "demos/fixtures/csm_observatory/proto-csm-02-governed-observatory-packet.json",
+        "before": {
+          "mode": "100644",
+          "blob": "809fddb58132c3f0a38a1ae0556145a47b129b8c",
+          "sha256": "72f37641ab4105e5949f27efabac2c709e6985e85d430f5792a7b2cfc3b76128"
+        },
+        "after": null
+      },
+      {
+        "path": "demos/fixtures/csm_run/proto-csm-01-run-packet.json",
+        "before": {
+          "mode": "100644",
+          "blob": "a89ad2d4b542ab1862b480bb5391a996cae49553",
+          "sha256": "218270f33de78a1378be001aae8d74d6acdf1c21630476497c6077cef00f3f42"
+        },
+        "after": null
+      },
+      {
+        "path": "demos/v0.90.1/csm_observatory_operator_report.md",
+        "before": {
+          "mode": "100644",
+          "blob": "ffa697b7105194b14007271c6e93b66938c44cf3",
+          "sha256": "a90cf23325272449c7580d4211ba08317cd1d6cff97750d8365052a741b4bb09"
+        },
+        "after": null
+      },
+      {
+        "path": "demos/v0.90.1/csm_observatory_static_console.css",
+        "before": {
+          "mode": "100644",
+          "blob": "e38efa245579703f613f30a5cc42bfe316a16c90",
+          "sha256": "68507880e5eec8f0e273ff1970dd1697832ecad16bed79a4f9be897c24804447"
+        },
+        "after": null
+      },
+      {
+        "path": "demos/v0.90.1/csm_observatory_static_console.html",
+        "before": {
+          "mode": "100644",
+          "blob": "aa6e66bcf14650414922831366b53e98920230b2",
+          "sha256": "217f70c007491ae36cb522dc055ee7133edb3683cb666644925571a285135b34"
+        },
+        "after": null
+      },
+      {
+        "path": "demos/v0.90.1/csm_observatory_static_console.js",
+        "before": {
+          "mode": "100644",
+          "blob": "15497213168e5bfcc3a95ad410aa6dcf1436a694",
+          "sha256": "db180225f3d5586e84765571c0799da29d102a778c976608ff25fb88744d64d3"
+        },
+        "after": null
+      },
+      {
+        "path": "demos/v0.90.1/csm_observatory_static_console.md",
+        "before": {
+          "mode": "100644",
+          "blob": "bc0222102de6bcd26d0b9e612fdc9bede734be1e",
+          "sha256": "7b3da724be018b3ac58e10de811d562dd71bec8e40e6ae186ca188d45a637bc7"
+        },
+        "after": null
+      },
+      {
+        "path": "demos/v0.90.4/csm_observatory_governed_prototype.css",
+        "before": {
+          "mode": "100644",
+          "blob": "23f7f0fc7f79b1e2f603b8a2ddc9999ad64ccbe2",
+          "sha256": "b559b468ec1381009c4f00248d1f5b9902086b372eddb98600c0cbb8c1e69116"
+        },
+        "after": null
+      },
+      {
+        "path": "demos/v0.90.4/csm_observatory_governed_prototype.html",
+        "before": {
+          "mode": "100644",
+          "blob": "f87076aa59db68131292dd9ae7ee41579a4e6e85",
+          "sha256": "dc14b15beacb4ee5cc6d5766a77a6b09b4e5dc3379ed4f8af7eb7da28e3eec3d"
+        },
+        "after": null
+      },
+      {
+        "path": "demos/v0.90.4/csm_observatory_governed_prototype.js",
+        "before": {
+          "mode": "100644",
+          "blob": "05f4665fb8161690656471589e7b75f8dbd4641b",
+          "sha256": "41d7d96b54b1928362f7142698b7e4ca37ed35259e37793b927d22a7cddb0dbf"
+        },
+        "after": null
+      },
+      {
+        "path": "demos/v0.90.4/csm_observatory_governed_prototype.md",
+        "before": {
+          "mode": "100644",
+          "blob": "43f1dc840affcfc856ba35f46878382553b3128d",
+          "sha256": "78d9a66308d206b1fc0b853257dc7db04839c578596b64066c50d9f8d5e63058"
+        },
+        "after": null
+      },
+      {
+        "path": "docs/tooling/CSMctl.conf.example",
+        "before": {
+          "mode": "100644",
+          "blob": "2a90417bdf7187470cc78c01c62fe23d17acc6de",
+          "sha256": "8ea4b939387e02d1265338c7d3e7771a482542e42649597663da5d51f79319b1"
+        },
+        "after": null
+      },
+      {
+        "path": "docs/tooling/CSMctl.observatory.conf.example",
+        "before": {
+          "mode": "100644",
+          "blob": "fd65cc2e0a20a6f3a7b7b01b3cf569dc064073de",
+          "sha256": "7478d79d134d651705bb09c40ba884bfdf7764d9a07ed9f13a348495c6f6e506"
+        },
+        "after": null
+      },
+      {
+        "path": "docs/tooling/START_CSM_RUNBOOK.md",
+        "before": {
+          "mode": "100644",
+          "blob": "69622d69d5ab6a67df775c9924dcae3d3f4c3477",
+          "sha256": "ba7ab5f70be34ad543071a5637fa48a2ee506b3474d96515d01dd6f1492b6306"
+        },
+        "after": null
+      },
+      {
+        "path": "start_CSM.sh",
+        "before": {
+          "mode": "100755",
+          "blob": "e9d7efd277cf12d74bd49059115cc105d541da7d",
+          "sha256": "9d5a9c6a9f6ffd2a3fa31cc740d28b244a8c874c56ad01e3549994bff70e2de5"
+        },
+        "after": null
+      },
+      {
+        "path": "demos/README.md",
+        "before": {
+          "mode": "100644",
+          "blob": "5da38e8bc94eafa37dffe7bf1406e47364b2ee85",
+          "sha256": "b4f9f2aae35aaee701bf19cdb12094abd80750ad46c8430024a17b96c2780cd8"
+        },
+        "after": {
+          "mode": "100644",
+          "sha256": "18683635aab65d286287e8eed3f1a236b8174334a7ef4960d89743d6fefe3fb1",
+          "blob": "3fe207b99362d33834ae15468ae57841a04ff0fd"
+        }
+      },
+      {
+        "path": "docs/tooling/ACTIVE_BOOT_PATHS.md",
+        "before": {
+          "mode": "100644",
+          "blob": "661a2eaefd696160897d5b4ad162f4b5a21f7c94",
+          "sha256": "7327d40f830ca3bbe3daace11cde44a45ef4e84c19955462db46df3e16d6487a"
+        },
+        "after": {
+          "mode": "100644",
+          "sha256": "32bf21a7f1172c0d0771420e67420618b931c11792f4d9556b62d597eee35669",
+          "blob": "138588d52a053ead0ee771912a4679d77ef16479"
+        }
+      },
+      {
+        "path": "adl/config/validation_lane_selector.v0.91.6.json",
+        "before": {
+          "mode": "100644",
+          "blob": "e202ff7a93b43d5235198bab3eff60a398d7b67f",
+          "sha256": "62801095087ee0e50fe5abb4454ca9be66af289cbc845acca2d5e402e453abef"
+        },
+        "after": {
+          "mode": "100644",
+          "sha256": "ed520fcb7f5c041b45565799d76344af5f5fb8e1b16aae04ad1725503dc7646d",
+          "blob": "3a3ba0a80f737885ea4735fc68d819599219260f"
+        }
+      },
+      {
+        "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+        "before": {
+          "mode": "100644",
+          "blob": "b6ee1d93148618c2cdcf983897d5f983fc4a70c8",
+          "sha256": "29d7fc7ea7165210180dbf5028d588995c988d1b0560461ae997c059de788f11"
+        },
+        "after": {
+          "mode": "100644",
+          "sha256": "0a69467faec677f76d42795e4204f13e379409a519f59e85681c9a5accf63aa2",
+          "blob": "17c54c6078e47f5534678392b5245bca7149f829"
+        }
+      }
+    ],
+    "patch_sha256": "d721dfd9ef644cc9d5f5c7a6bd2bf73622262378646bd60b7ad3702235c1a46a",
+    "patch_preimages_sha256": "441f6bf7d8ac9ebfc1637a6af964c27561a49096a7131575d0ead1687004d667",
+    "selector_delta": {
+      "removed_id": "html_observatory_governed_surface",
+      "other_lanes_unchanged": true,
+      "preserve_parallel_2147": true
+    },
+    "boundaries": [
+      "Full36-family retirement is NOT complete. Four current source resources remain on explicit holds.",
+      "No source facade or mock substituted for original assertions. Three original composed consumers passed; prior six-resource proof reused.",
+      "Source-custody and focused fixture/refusal proof are not installed acceptance, live CSM/Runtime behavior or config qualification.",
+      "Root sole writer must combine final registry and record exact originals/proof and holds. No shared edits or native lifecycle writes performed.",
+      "Public selector and current HTML validators untouched; only historical v0.91.6 governed-demo lane is proposed retired with its resources."
+    ]
+  },
+  "scope_denominator": {
+    "original": 36,
+    "already_absent_do_not_repeat": 7,
+    "proposed_removals": 25,
+    "held": 4
+  },
+  "holds": {
+    "RD07-1299": "Exact original absent from both owners; eight active manual proof callers source helper. Needs original custody and coherent caller closure.",
+    "RD07-1364": "Owner demos differ; original Cargo producer remains unqualified and unexecuted. Requires explicit historical/manual disposition or independently qualified source transfer.",
+    "RD07-3211": "Original CLI doc differs from Runtime and is absent in Infrastructure; kept with retained Cargo demo.",
+    "RD07-3147": "Retain exact visibility fixture consumed by held Cargo demo and current adl/src/cli/usage.rs example; no broken retained caller."
+  },
+  "qualification": {
+    "status": "PASS",
+    "results": [
+      {
+        "consumer": "adl/tools/test_csmctl_linux_backend.sh",
+        "exit": 0,
+        "elapsed_seconds": 0.381,
+        "stdout_sha256": "9d9174bcb55492c7f33d8578009cd7127defbf9ac48448653b7b4e17322b46f8",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "consumer": "adl/tools/test_demo_v0901_csm_observatory_operator_report.sh",
+        "exit": 0,
+        "elapsed_seconds": 0.147,
+        "stdout_sha256": "d4243fe962bff083860c1beae433e8da1d2d33be01e7a987de88feac1fff66ee",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "consumer": "adl/tools/test_demo_v0904_csm_observatory_governed_prototype.sh",
+        "exit": 0,
+        "elapsed_seconds": 0.283,
+        "stdout_sha256": "ee16eec0f3790d1d88acdfe7a69dd609ade5dfe9ad5e7190480631b1c4b35e41",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ],
+    "source_inputs_unchanged": true,
+    "pvf": {
+      "lane": "local_focused_contract",
+      "proof_role": "original_composed_fixture_consumers",
+      "determinism": "sanitized_environment_static_inputs_mocked_controls",
+      "resource_profile": "bash_python_node_no_network_or_build",
+      "release_gate": false
+    },
+    "limits": [
+      "CSMctl legacy refusal and help only; no service or Observatory operation proof.",
+      "Report equality and governed synthetic DOM smoke use original assertions; authentic external ADL doc means no standalone owner package admission.",
+      "No full CLI demo, builds, provider, cloud, browser, Runtime or Unity operation.",
+      "Prior six-resource proof reused, not rerun."
+    ]
+  },
+  "caller_closure": {
+    "held_demo_and_cli": "Original Cargo producer and CLI doc remain, along with visibility fixture. Their direct references remain satisfied. README no longer recommends them as qualified current execution.",
+    "schema_fixture_reference": "Retained visibility packet review.primary_artifacts contains the historical schema path. This is recorded review provenance, not a runtime schema-loader call. Preserve fixture bytes and identify schema custody in retirement record; do not rewrite the original packet.",
+    "source_publication": "v0.90.5 publication source packet identifies issue2643 draft manuscript inputs and retains a source heading for the old static-console doc. This is historical source provenance, not an active executable caller. Preserve captured document.",
+    "adapter": "tools/csm_contracts/validate_visibility.py resolves a pinned external Infrastructure validator; it does not load the deleted local validator/schema. Keep adapter unchanged for separately held/external callers.",
+    "historical_guard": "tools/source_retirement/check.py references prior CSM packet/archive custody as historical applied-batch evidence. Do not mutate historical hashes to reflect new removals; sole writer adds separate batch evidence.",
+    "helper": "Eight manual proof scripts still source csm_binary_availability.sh; helper retained on explicit hold.",
+    "new_caller_updates": "README active paths are replaced with exact owner source links; ACTIVE_BOOT_PATHS runbook links point to pinned Runtime copy; only named governed-selector lane is removed; registry rows/count reflect deleted tools."
+  },
+  "limits": [
+    "Full36-family retirement is NOT complete. Four current source resources remain on explicit holds.",
+    "No source facade or mock substituted for original assertions. Three original composed consumers passed; prior six-resource proof reused.",
+    "Source-custody and focused fixture/refusal proof are not installed acceptance, live CSM/Runtime behavior or config qualification.",
+    "Root sole writer must combine final registry and record exact originals/proof and holds. No shared edits or native lifecycle writes performed.",
+    "Public selector and current HTML validators untouched; only historical v0.91.6 governed-demo lane is proposed retired with its resources."
+  ],
+  "composition": "Preserve exact reviewed source removals and three caller repairs, merge current navigation where needed, regenerate registry from actual current tracked topology. No original tests rerun.",
+  "proposal_source_head": "927d89c431cd02850460b150d115ca76d01df93a",
+  "review": {
+    "status": "PASS",
+    "reviewer": "review_1223_historical_retention",
+    "proposal_sha256": "6f31c18a0170bd0b3c2fb9bd0ead6f28f0be38aa0ce140cf25f156f149a02bba",
+    "scope": "Reviewed source/caller/custody composition; all individual qualification and historical limits preserved."
+  }
+}

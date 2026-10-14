@@ -2,7 +2,11 @@
 set -euo pipefail
 
 repo_root="$(git rev-parse --show-toplevel)"
-skills_root="${repo_root}/adl/tools/skills"
+skills_root="${CSDLC_SKILL_CONTRACT_ROOT:-}"
+if [[ "$skills_root" != /* || ! -d "$skills_root" ]]; then
+  echo "Select authentic complete owner or historical skill resources with absolute CSDLC_SKILL_CONTRACT_ROOT; partial local enumeration is not contract proof." >&2
+  exit 2
+fi
 tmpdir="$(mktemp -d)"
 trap 'rm -rf "${tmpdir}"' EXIT
 

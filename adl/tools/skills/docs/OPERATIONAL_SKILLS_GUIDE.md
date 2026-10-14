@@ -1,5 +1,17 @@
 # Operational Skills Guide
 
+> Medium writer resources belong to [Runtime at the qualified source](https://github.com/agent-logic/agent-logic-runtime/tree/cadb48e496cf27a6011cd31752894438b772ae9c/adl/tools/skills/medium-article-writer). Select that complete source checkout with `ADL_MEDIUM_SKILL_SOURCE_ROOT` for the retained original contract test. The six pinned resources passed the unchanged original source contract; this is not installed, provider, publication, or demo acceptance. The full-layout installer retains its separate `ADL_OPERATIONAL_SKILLS_SOURCE_ROOT` input.
+
+> The remaining pr-finish, pr-closeout and sprint-review resource copies now belong to the authenticated Cognitive-SDLC distribution under `resources/adl/tools/skills/`. Sprint-review remains a findings-first review contract; its relocation does not retire review obligations. Finish/closeout input schemas and output inventories remain owner reporting contracts, not native wire formats. Read the owner `pr-finish/references/compatibility-v1.md` and `pr-closeout/references/compatibility-v1.md`: legacy root-card copying, automatic branch deletion and typed-v2 publication are not supported replacements for native review/publish/finish/clean. Original installer tests retain their explicitly selected complete historical fixture and every original assertion; mapped copy/symlink resource proof is not full native or installer acceptance.
+
+> CodeFriend input-schema and suite documents are now supplied under the authenticated review-skill distribution's `review-skills/contracts/248f00e3/` directory. The former `adl/tools/skills/docs/` paths below are historical source references. Original-layout contract adapters select their complete historical input root explicitly; they do not read removed local schemas. Owner path/example normalization changes documentation locations, not schema requirements.
+
+> The original-v1 lifecycle skill records (milestone/planning, PR stages, card editors, stack/records helpers and sprint-conductor metadata) are historical custody in the admitted Cognitive-SDLC package under `resources/docs/skill-distributions/active-lifecycle/original-v1/adl/tools/skills`. They are not current native skill replacements or authority. Select that authenticated complete historical layout with `CSDLC_HISTORICAL_SKILLS_ROOT` for original contract checks; full installer/records tests retain their separate `ADL_OPERATIONAL_SKILLS_SOURCE_ROOT` requirement. Current lifecycle commands follow `docs/csdlc-v3/CURRENT_AUTHORITY.md` and the selected owner manual. Do not install the partial ADL tree as a complete skill distribution.
+
+> The twelve C-SDLC skill families retired from this checkout by #1223 are owned by the authenticated installed C-SDLC package: demo-operator, documentation-specialist, gap-analysis, issue-folding, issue-splitter, issue-watcher, portable-contract-normalizer, refactoring-helper, release-evidence, review-comment-triage, test-generator and use-case-writer. For the ten direct resource contract scripts, set `CSDLC_SKILL_CONTRACT_ROOT` to the verified package's absolute `resources/adl/tools/skills` directory. The documentation-specialist and use-case-writer contracts instead require `ADL_OPERATIONAL_SKILLS_SOURCE_ROOT` selecting an authentic complete original layout, because they retain full-layout installer assertions. A directory path alone does not authenticate its contents. These scripts preserve the original assertions and refuse a missing or relative root. The former source layout below is historical where explicitly marked; it is not current installation authority.
+
+> CodeFriend review-skill sources now belong to [the CodeFriend owner](https://github.com/agent-logic/codefriend/tree/e93a457ad6325017627a66a2abe31a3376fa28fd/review-skills). Select its authenticated installed distribution for operational use. Retained original-layout tests require explicitly selected authentic historical fixtures; the partial ADL skill tree is not a complete installer input.
+
 ## Purpose
 
 This document explains the operational skills in the tracked PR tooling
@@ -12,7 +24,7 @@ scratch.
 
 ## Current Skill Set
 
-The tracked skill set is:
+The historical monorepo skill inventory is (ownership now follows the split owner distributions):
 
 - `adl-milestone-creator`
 - `adr-curator`
@@ -243,33 +255,33 @@ Installed Codex skill bundles live under:
 
 - `$CODEX_HOME/skills`
 
-To install or resync the tracked ADL skill bundles:
+For the historical full-layout compatibility installer, explicitly select a complete reviewed `ADL_OPERATIONAL_SKILLS_SOURCE_ROOT`. The partial ADL tree is not an installation input:
 
 ```bash
 bash adl/tools/install_adl_operational_skills.sh
 ```
 
-To install the tracked bundles as symlinks instead of copies:
+To install that explicitly selected complete distribution as symlinks instead of copies:
 
 ```bash
 ADL_OPERATIONAL_SKILLS_INSTALL_MODE=symlink bash adl/tools/install_adl_operational_skills.sh
 ```
 
-To verify installation behavior without mutating your real Codex home:
+To exercise the original installation assertions without mutating your real Codex home, explicitly select an authentic complete original `ADL_OPERATIONAL_SKILLS_SOURCE_ROOT`. This is historical contract proof, not full current owner acceptance:
 
 ```bash
 bash adl/tools/test_install_adl_operational_skills.sh
 ```
 
-To verify a real deployed copy of one skill against the tracked bundle, compare
-the two directories:
+To compare a deployed copy with authenticated installed owner resources, select
+`CSDLC_SKILL_CONTRACT_ROOT` as described above and compare the two directories:
 
 ```bash
-diff -qr adl/tools/skills/test-generator "$CODEX_HOME/skills/test-generator"
+diff -qr "$CSDLC_SKILL_CONTRACT_ROOT/test-generator" "$CODEX_HOME/skills/test-generator"
 ```
 
 Replace `test-generator` with the skill being checked. No output means the
-deployed copy matches the tracked bundle.
+deployed copy matches the selected owner resource bytes.
 
 ## General Invocation Pattern
 
@@ -351,7 +363,7 @@ Do not use it for:
 
 Structured schema:
 
-- `adl/tools/skills/docs/ISSUE_WATCHER_SKILL_INPUT_SCHEMA.md`
+- `${CSDLC_SKILL_CONTRACT_ROOT}/docs/ISSUE_WATCHER_SKILL_INPUT_SCHEMA.md`
 - schema id: `issue_watcher.v1`
 
 Supported modes:
@@ -1524,13 +1536,13 @@ uncertainty, and current-issue scope.
 
 Structured schema:
 
-- `adl/tools/skills/docs/REVIEW_COMMENT_TRIAGE_SKILL_INPUT_SCHEMA.md`
+- `${CSDLC_SKILL_CONTRACT_ROOT}/docs/REVIEW_COMMENT_TRIAGE_SKILL_INPUT_SCHEMA.md`
 - schema id: `review_comment_triage.v1`
 
 Deterministic fixture analyzer:
 
 ```bash
-python3 adl/tools/skills/review-comment-triage/scripts/triage_review_comments.py <payload-path>
+python3 "${CSDLC_SKILL_CONTRACT_ROOT}/review-comment-triage/scripts/triage_review_comments.py" <payload-path>
 ```
 
 ### Typical Handoff
@@ -1608,13 +1620,13 @@ Do not use it for:
 
 Structured schema:
 
-- `adl/tools/skills/docs/ISSUE_FOLDING_SKILL_INPUT_SCHEMA.md`
+- `${CSDLC_SKILL_CONTRACT_ROOT}/docs/ISSUE_FOLDING_SKILL_INPUT_SCHEMA.md`
 - schema id: `issue_folding.v1`
 
 Deterministic fixture analyzer:
 
 ```bash
-python3 adl/tools/skills/issue-folding/scripts/classify_issue_folding.py --task-bundle <path> --source-prompt <path> --out <artifact-root> --run-id <run-id>
+python3 "${CSDLC_SKILL_CONTRACT_ROOT}/issue-folding/scripts/classify_issue_folding.py" --task-bundle <path> --source-prompt <path> --out <artifact-root> --run-id <run-id>
 ```
 
 ### Typical Handoff
@@ -1650,13 +1662,13 @@ Do not use it for:
 
 Structured schema:
 
-- `adl/tools/skills/docs/ISSUE_SPLITTER_SKILL_INPUT_SCHEMA.md`
+- `${CSDLC_SKILL_CONTRACT_ROOT}/docs/ISSUE_SPLITTER_SKILL_INPUT_SCHEMA.md`
 - schema id: `issue_splitter.v1`
 
 Deterministic fixture analyzer:
 
 ```bash
-python3 adl/tools/skills/issue-splitter/scripts/plan_issue_split.py --task-bundle <path> --source-prompt <path> --out <artifact-root> --run-id <run-id>
+python3 "${CSDLC_SKILL_CONTRACT_ROOT}/issue-splitter/scripts/plan_issue_split.py" --task-bundle <path> --source-prompt <path> --out <artifact-root> --run-id <run-id>
 ```
 
 ### Typical Handoff
@@ -1695,13 +1707,13 @@ Do not use it for:
 
 Structured schema:
 
-- `adl/tools/skills/docs/PORTABLE_CONTRACT_NORMALIZER_SKILL_INPUT_SCHEMA.md`
+- `${CSDLC_SKILL_CONTRACT_ROOT}/docs/PORTABLE_CONTRACT_NORMALIZER_SKILL_INPUT_SCHEMA.md`
 - schema id: `portable_contract_normalizer.v1`
 
 Deterministic fixture analyzer:
 
 ```bash
-python3 adl/tools/skills/portable-contract-normalizer/scripts/normalize_portable_contracts.py --root <path> --out <artifact-root> --run-id <run-id>
+python3 "${CSDLC_SKILL_CONTRACT_ROOT}/portable-contract-normalizer/scripts/normalize_portable_contracts.py" --root <path> --out <artifact-root> --run-id <run-id>
 ```
 
 ### Typical Handoff
@@ -2239,7 +2251,7 @@ Minimum:
 
 Canonical schema:
 
-- `adl/tools/skills/docs/TEST_GENERATOR_SKILL_INPUT_SCHEMA.md`
+- `${CSDLC_SKILL_CONTRACT_ROOT}/docs/TEST_GENERATOR_SKILL_INPUT_SCHEMA.md`
 
 Schema id:
 
@@ -2283,7 +2295,7 @@ It must stop before broader implementation, janitoring, or finish.
 ### Example Invocation
 
 ```yaml
-Use $test-generator at <repo-root>/adl/tools/skills/test-generator/SKILL.md with:
+Use $test-generator at ${CSDLC_SKILL_CONTRACT_ROOT}/test-generator/SKILL.md with:
 skill_input_schema: test_generator.v1
 mode: generate_for_issue
 repo_root: <repo-root>
@@ -2341,7 +2353,7 @@ Minimum:
 
 Canonical schema:
 
-- `adl/tools/skills/docs/DEMO_OPERATOR_SKILL_INPUT_SCHEMA.md`
+- `${CSDLC_SKILL_CONTRACT_ROOT}/docs/DEMO_OPERATOR_SKILL_INPUT_SCHEMA.md`
 
 Schema id:
 
@@ -2382,11 +2394,15 @@ It must stop before demo implementation, release-evidence assembly, or unrelated
 
 ### Example Invocation
 
+This historical Gemma example now belongs to the Cognitive-SDLC owner checkout.
+Resolve `repo_root` there before using the relative command; the ADL source
+command was retired by #1223. The example does not authorize a live model run.
+
 ```yaml
-Use $demo-operator at <repo-root>/adl/tools/skills/demo-operator/SKILL.md with:
+Use $demo-operator at ${CSDLC_SKILL_CONTRACT_ROOT}/demo-operator/SKILL.md with:
 skill_input_schema: demo_operator.v1
 mode: operate_named_demo
-repo_root: <repo-root>
+repo_root: <cognitive-sdlc-owner-root>
 target:
   demo_name: gemma4_issue_clerk
   demo_command: bash adl/tools/demo_v089_gemma4_issue_clerk.sh --dry-run
@@ -2440,7 +2456,7 @@ Minimum:
 
 Canonical schema:
 
-- `adl/tools/skills/docs/RELEASE_EVIDENCE_SKILL_INPUT_SCHEMA.md`
+- `${CSDLC_SKILL_CONTRACT_ROOT}/docs/RELEASE_EVIDENCE_SKILL_INPUT_SCHEMA.md`
 
 Schema id:
 
@@ -2485,6 +2501,14 @@ execution, or remediation.
 
 ## `arxiv-paper-writer`
 
+This resource family is owned by Runtime. Select the reviewed Runtime checkout
+with `ADL_ARXIV_SKILL_SOURCE_ROOT`; the retained ADL contract test verifies all
+six resource hashes before checking the original assertions with the shared ADL
+frontmatter validator. This is source-resource proof, not installed drafting or
+arXiv submission acceptance. The full-layout installer retains its separate
+`ADL_OPERATIONAL_SKILLS_SOURCE_ROOT` input and original bundle assertions.
+
+
 ### Purpose
 
 `arxiv-paper-writer` drafts or reviews one arXiv-style manuscript packet from a
@@ -2524,7 +2548,7 @@ Minimum:
 
 Canonical schema:
 
-- `adl/tools/skills/docs/ARXIV_PAPER_WRITER_SKILL_INPUT_SCHEMA.md`
+- `$ADL_ARXIV_SKILL_SOURCE_ROOT/adl/tools/skills/docs/ARXIV_PAPER_WRITER_SKILL_INPUT_SCHEMA.md`
 
 Schema id:
 
@@ -2576,7 +2600,7 @@ unbounded research.
 ### Example Invocation
 
 ```yaml
-Use $arxiv-paper-writer at <repo-root>/adl/tools/skills/arxiv-paper-writer/SKILL.md with:
+Use $arxiv-paper-writer at <selected-runtime-root>/adl/tools/skills/arxiv-paper-writer/SKILL.md with:
 skill_input_schema: arxiv_paper_writer.v1
 mode: draft_from_source_packet
 repo_root: <repo-root>
@@ -2838,7 +2862,7 @@ surfaces:
 | `gap-analysis` | `GAP_ANALYSIS_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | gap report only |
 | `issue-folding` | `ISSUE_FOLDING_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | issue disposition classification only |
 | `issue-splitter` | `ISSUE_SPLITTER_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | issue split planning only |
-| `medium-article-writer` | `MEDIUM_ARTICLE_WRITER_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | article packet only |
+| `medium-article-writer` (Runtime owner source) | `MEDIUM_ARTICLE_WRITER_SKILL_INPUT_SCHEMA.md` (owner source) | `references/output-contract.md` | article packet only |
 | `portable-contract-normalizer` | `PORTABLE_CONTRACT_NORMALIZER_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | bounded portability scan or explicit safe normalization only |
 | `pr-closeout` | `PR_CLOSEOUT_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | local closeout only |
 | `pr-finish` | `PR_FINISH_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | PR publication/update only |
@@ -2884,5 +2908,22 @@ The `repo-review-code`, `repo-review-docs`, `repo-review-security`,
 checked together by
 `adl/tools/test_multi_agent_repo_review_specialist_skill_contracts.sh`.
 
-The complete inventory expectation is checked by
-`adl/tools/test_skill_documentation_completeness.sh`.
+The retired `adl/tools/test_skill_documentation_completeness.sh` is preserved in
+retirement custody as a historical monorepo-layout fixture. The [historical disposition](../../../../docs/milestones/v0.93.1/repository-decomposition/rd07-1223/SKILL_COMPLETENESS_HISTORICAL_DISPOSITION.json)
+preserves all 51 skill families and 205 inputs, including the missing Sprint
+Review schema; it does not record a full completeness pass. Each current skill
+owner must verify its declared inventory, manifests, schemas, output contracts,
+guide coverage, and installation contract against its own layout. Preserve
+explicit shared-contract exceptions and unresolved inputs; individual transferred
+resource checks do not establish complete owner coverage.
+
+## Historical original-layout diff recipe
+
+The original monorepo documentation contract requires this exact recipe. It is
+retained as historical evidence only; the source directory has been retired. Use
+the explicit authenticated owner resource comparison above for current copies.
+
+```bash
+# Historical only; not executable against the split ADL checkout.
+diff -qr adl/tools/skills/test-generator "$CODEX_HOME/skills/test-generator"
+```

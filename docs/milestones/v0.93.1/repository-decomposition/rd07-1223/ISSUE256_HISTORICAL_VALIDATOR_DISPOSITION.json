@@ -1,0 +1,25 @@
+{
+  "schema": "adl.rd07.issue256-historical-disposition.v1",
+  "row": "RD07-2189",
+  "path": "adl/tools/validate_issue256_birthday_after_observatory.py",
+  "source_sha256": "0a6642863c44ac5aa0e40e232a76a901ff86d3a13a556e46f2047dea851bcb11",
+  "proposed_action": "proposed_historical_retirement_with_caller_repair",
+  "basis": "PRODUCT_DOCUMENT_FOLLOWUP.json reviewed issue256-historical-consumer-proposal; fixed issue256/414/424 evidence acceptance, not a portable ongoing Runtime validator.",
+  "preserved_assertions": [
+    "Six focused tests; two logical residents; one loaded model; sequential inference.",
+    "Pinned llama3.1:8b Q4 scope and explicitly excluded non-proving attempts.",
+    "Historical5836 launch input and AWS/Unity/public launch deferrals."
+  ],
+  "required_before_retirement": [
+    "Reconcile generated TOOL_SURFACE_REGISTRY.md entry that still advertises primary workflow use.",
+    "3733/3734 remain conditional Runtime configuration transfers, with operational config qualification independent.",
+    "Preserve original validator and historical evidence at pinned Git baseline.",
+    "Exact scoped retirement decision."
+  ],
+  "review": {
+    "reviewer": "review_1223_historical_retention",
+    "result": "No executable invocation found in bounded current-source search; generated registry caller identified and retained as obligation."
+  },
+  "validation": "No new execution or equivalent acceptance claim.",
+  "execution_authorized": false
+}

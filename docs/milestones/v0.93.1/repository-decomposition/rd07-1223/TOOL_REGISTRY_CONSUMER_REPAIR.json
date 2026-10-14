@@ -1,0 +1,79 @@
+{
+  "status": "reviewed_bounded_consumer_repair_applied",
+  "proposal": {
+    "status": "reviewed_source_with_original_contracts_pass_pending_adoption",
+    "paths": [
+      "adl/tools/generate_tool_surface_registry.py",
+      "adl/tools/generate_active_command_reference_scan.py",
+      "adl/tools/test_generate_tool_surface_registry.sh",
+      "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "docs/tooling/ACTIVE_COMMAND_REFERENCE_SCAN.md"
+    ],
+    "patch_sha256": "afc8c405a78fe037db0d7cb8a77bc16d5e0368e7c30c50cd0ec518d4fe57ff37",
+    "family_ids": [
+      "RD07-1398",
+      "RD07-2010",
+      "RD07-2011"
+    ],
+    "additional_required_consumer": "RD07-1395 scanner currently proposed whole-family removal; retain with original2010scanner test if proposal adopted.",
+    "unchanged_tests": [
+      "adl/tools/test_generate_active_command_reference_scan.sh"
+    ],
+    "historical_files_unchanged": [
+      "docs/milestones/v0.91.5/TOOL_SURFACE_REGISTRY_3734.md",
+      "docs/milestones/v0.91.5/ACTIVE_COMMAND_REFERENCE_SCAN_3735.md"
+    ],
+    "changed_assertion": "2011 original generator/check/tracked/freshness sequence targets new current report; adds originalhistorical hashpreservation assertion.2010allassertions unchanged.",
+    "scanner_boundary": "All command regexes, classification, prohibition/absence logic, active+unknown refusal, self-test fixtures unchanged. Onlypreferred_ownerlabels,currentoutputpath/currentgeneratedreportself-exclusion/header change. No broad exceptions.",
+    "next": "Adopt bounded consumer repair after coordinator confirms final report scope; pending27/11 unchanged.",
+    "validation": "Original2011registry test PASS and unchanged2010scanner contract including whole-source check PASS in tracked current-source view; historical snapshots unchanged. No product executable invoked.",
+    "approval": "Separate newproposal; pending27/11 unchanged.",
+    "manifest_boundary": "Every explicit binary is inventoried from selected source manifest, without hardcoded filtering. Report title and generic description do not claim all declared binaries are public."
+  },
+  "validation": {
+    "source_head": "b9306e563e546d6ed1b53b7a618fde1d7d06d6ed",
+    "view": "tracked current working files hardlinked; proposed source files replaced with independent copies before execution",
+    "tracked_files": 37329,
+    "pending27_overlay": false,
+    "pending11_overlay": false,
+    "package_or_owner_execution": false,
+    "results": {
+      "registry": {
+        "exit_code": 0,
+        "original_contract": "test_generate_tool_surface_registry.sh"
+      },
+      "scanner": {
+        "exit_code": 0,
+        "original_contract": "test_generate_active_command_reference_scan.sh"
+      }
+    }
+  },
+  "assertion_preservation": {
+    "status": "PASS_static_scanner_assertion_preservation",
+    "unchanged_functions": [
+      "repo_rel",
+      "should_skip",
+      "iter_paths",
+      "classify_path",
+      "load_text",
+      "evidence_pointer",
+      "is_prohibition_reference",
+      "is_absence_assertion",
+      "run_regression_fixtures",
+      "build_rows",
+      "summarize_family_counts",
+      "summarize_unique_class_counts",
+      "main"
+    ],
+    "changed_functions": [
+      "render"
+    ],
+    "command_family_patterns_and_actions_identical": true,
+    "scanner_executed": false,
+    "full_repository_scan_pass_claimed": false,
+    "preparation_note": "First comparison expected renderer name render_report; corrected harness expectation to actual function render. No source change caused by that check."
+  },
+  "approval": "Planning #12 approved exact five-path patch after review of proposal, results and source-scoped report.",
+  "original_source_removed": false,
+  "retirement_authorized": false
+}

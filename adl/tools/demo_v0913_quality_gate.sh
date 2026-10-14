@@ -43,7 +43,7 @@ gate_mode() {
 }
 
 checks_json="{"
-checks_json+="$(run_check transition_manifest_schema cargo test --manifest-path "$ROOT_DIR/adl/Cargo.toml" cognitive_transition_schema -- --nocapture),"
+checks_json+="$(run_check transition_manifest_schema cargo test --manifest-path "$ROOT_DIR/adl-legacy-contracts/Cargo.toml" --lib cognitive_transition_schema -- --nocapture),"
 checks_json+="$(run_check transition_dag_packet python3 "$ROOT_DIR/adl/tools/validate_transition_dag_packet.py" "$ROOT_DIR/docs/milestones/v0.91.3/review/transition_dag"),"
 checks_json+="$(run_check evidence_bundle_packet python3 "$ROOT_DIR/adl/tools/validate_evidence_bundle_packet.py" "$ROOT_DIR/docs/milestones/v0.91.3/review/evidence_bundle"),"
 checks_json+="$(run_check merge_readiness_packet python3 "$ROOT_DIR/adl/tools/validate_merge_readiness_packet.py" "$ROOT_DIR/docs/milestones/v0.91.3/review/merge_readiness"),"

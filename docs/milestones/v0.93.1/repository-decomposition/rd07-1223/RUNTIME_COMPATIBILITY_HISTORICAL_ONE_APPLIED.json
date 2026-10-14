@@ -1,0 +1,106 @@
+{
+  "schema": "adl1223.runtime_compatibility_historical_one.v1",
+  "source_head": "bc80ec6eb0b6bf1468f06c07bc0cf92cba21654f",
+  "original_baseline": "248f00e359e412f6bc0061ac88be9ff374e3a212",
+  "status": "applied",
+  "removed_count": 1,
+  "rows": [
+    {
+      "id": "RD07-1903",
+      "path": "adl/tools/test_adl_runtime_compatibility.sh",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "579e4b4e9f59672c8d06d9305682c5d403b6cac4"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/test_adl_runtime_compatibility.sh"
+        ]
+      }
+    }
+  ],
+  "files": [
+    {
+      "path": "adl/tools/test_adl_runtime_compatibility.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "579e4b4e9f59672c8d06d9305682c5d403b6cac4",
+        "sha256": "9055f352b9031e4887af425164d50af8e2d9e307d3e6d5652ff5f05635e80f99"
+      },
+      "after": null
+    },
+    {
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "1b2fd60f697c0425a84c9119aba2b87113991704",
+        "sha256": "4c13c0b025062d9b4c3cbf7732b6c3542fa9cd932980d490b3efb2e78272cbd6"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "433821d3d02bca94bdab3c2b7c5a0438fe0d3f7c",
+        "sha256": "1516646d7c1abd6b25427ae965a8f6d99da1588f3a0c449e072a04c62b83a654"
+      }
+    }
+  ],
+  "custody": {
+    "path": "/Volumes/FastWork/c1223/runtime-compatibility-historical-one/prepared/current-original.tar",
+    "sha256": "9a961e045a0690119550e741133aec2c4adc6268aa4a32c079203dd1c5569f55",
+    "current_members": 2,
+    "original_members": 1
+  },
+  "patch": {
+    "path": "/Volumes/FastWork/c1223/runtime-compatibility-historical-one/prepared/one-and-registry.patch",
+    "sha256": "388f894508970dbf02f5cfb84e037b8bccbf0ea00bc768d4584bb44681cdfcfa"
+  },
+  "evidence": [
+    {
+      "path": "/Volumes/FastWork/adl-worktrees/adl-issue-1223-1223-coherent-source-retirement/docs/milestones/v0.93.1/repository-decomposition/rd07-1223/RUNTIME_SOURCE_FAMILY_APPLIED.json",
+      "sha256": "9600a1fb0ee1a58508069b5847f5b8cf475805cf9b0059bc3f3f5ee3b51fd486"
+    },
+    {
+      "path": "/Volumes/FastWork/adl-worktrees/adl-issue-1223-1223-coherent-source-retirement/docs/milestones/v0.93.1/repository-decomposition/rd07-1223/NATIVE_SUNSET_FAMILY_APPLIED.json",
+      "sha256": "4efc3870f82f5a32398adfcb1dd9b049f9a865b4e55095f43c4517fb048a008b"
+    },
+    {
+      "path": "/Volumes/FastWork/adl-worktrees/adl-issue-1223-1223-coherent-source-retirement/adl/Cargo.toml",
+      "sha256": "461e3f4d4a7c0d4b21c33e7752b1f72395c2a5eab36cf5b80fde5e1aad8a3919"
+    }
+  ],
+  "original_assertions": {
+    "help": "Compatibility title, run command usage, typed-v2 C-SDLC handoff; subcommand run help.",
+    "version": "Runtime version includes same historical ADL Cargo package version.",
+    "plan": "cmp old ADL YAML shortcut and old adl-runtime run plan outputs for preserved concurrency YAML.",
+    "rejections": "Numeric issue and hash-prefixed issue must fail with typed-v2 handoff; pr/tooling must fail with C-SDLC ownership rejection."
+  },
+  "basis": "Runtime896 already removed adl/src/bin/adl_runtime.rs and public manifest no longer declares adl-runtime. Native sunset independently retired typed-v2 operational entrypoints. This untouched test targets those historical help/dispatch semantics even when binaries are supplied; it is not a current public owner-selector test.",
+  "caller_closure": "No active executable or current tooling/runtime documentation callers beyond generated registry in bounded tools/CI/config scan. Actual registry removes one row.",
+  "preserved": [
+    "Concurrency YAML fixture and current public CLI/runtime selector contracts unchanged.",
+    "Original tests and current script bytes preserved in custody; no old assertions silently reported as passed."
+  ],
+  "limits": [
+    "No tests or builds run; no new Runtime/current CLI behavior equivalence claimed.",
+    "Captured original4134+22 identities unchanged;one captured retirement,no supplementary source."
+  ],
+  "proposal_source_head": "bc80ec6eb0b6bf1468f06c07bc0cf92cba21654f",
+  "review": {
+    "status": "PASS",
+    "reviewer": "review_1223_historical_retention",
+    "proposal_sha256": "ea1c686698d3ff8d7ccfb27bfb9ac06396fa1195fc18a63962a5653b2c902095",
+    "scope": "Reviewed source/caller/custody composition; all individual qualification and historical limits preserved."
+  }
+}

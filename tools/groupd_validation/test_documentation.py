@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """PVF: deterministic, small local documentation-contract regressions (#1160)."""
 import re
+import json
 import unittest
 from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
@@ -34,12 +35,13 @@ class Contracts(unittest.TestCase):
         with self.assertRaises(ValueError):
             current_routing(source.replace('#915 is closed', '#915 pending'))
 
-    def test_parser_docs_match_shared_bounds(self):
-        source = (ROOT / 'adl/src/codefriend/rust_parse.rs').read_text()
-        self.assertIn('MAX_SOURCE_BYTES: usize = 400 * 1024', source)
-        self.assertIn('MAX_TOKENS: usize = 32 * 1024', source)
-        self.assertIn('MAX_DEPTH: usize = 32', source)
-        self.assertIn('MAX_PATH_UNITS: usize = 2048', source)
+    def test_historical_parser_docs_match_pinned_bounds(self):
+        # Historical documentation contract, not current installed-owner acceptance.
+        record = json.loads((ROOT / 'tools/groupd_validation/fixtures/historical_parser_bounds.json').read_text())
+        self.assertEqual(record['bounds'], {
+            'MAX_SOURCE_BYTES': 400 * 1024, 'MAX_TOKENS': 32 * 1024,
+            'MAX_DEPTH': 32, 'MAX_PATH_UNITS': 2048})
+        self.assertFalse(record['current_owner_qualification'])
         for name in ('ARCHITECTURE.md', 'LOCAL_FITNESS.md'):
             text = (ROOT / 'docs/codefriend' / name).read_text()
             self.assertIn('400 KiB', text)

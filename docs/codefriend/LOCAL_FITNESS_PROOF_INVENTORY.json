@@ -54,7 +54,7 @@
     ]
   },
   "fixtures": "adl/tests/fixtures/codefriend/fitness",
-  "installed_runner": "adl/tools/codefriend_fitness_installed_proof.py",
+  "installed_runner": "https://github.com/agent-logic/codefriend/blob/e93a457ad6325017627a66a2abe31a3376fa28fd/tools/installed_proof/codefriend_fitness_installed_proof.py",
   "installed_scenarios": [
     "passing policy, repeat, readback, tamper, deletion and source immutability",
     "violating policy with actionable location, repeat, readback, tamper, deletion and source immutability",
@@ -64,5 +64,16 @@
     "No architecture quality judgment",
     "No actual CI integration (#888)",
     "No external source or provider qualification"
-  ]
+  ],
+  "repository_split_routing": {
+    "status": "historical_ADL_contract_with_qualified_owner_runner",
+    "owner_repository": "agent-logic/codefriend",
+    "owner_candidate": "e93a457ad6325017627a66a2abe31a3376fa28fd",
+    "owner_runner": "tools/installed_proof/codefriend_fitness_installed_proof.py",
+    "owner_runner_source": "https://github.com/agent-logic/codefriend/blob/e93a457ad6325017627a66a2abe31a3376fa28fd/tools/installed_proof/codefriend_fitness_installed_proof.py",
+    "historical_adl_runner": "adl/tools/codefriend_fitness_installed_proof.py",
+    "qualification_packet": "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CODEFRIEND_104_INSTALLED_QUALIFICATION.json",
+    "boundary": "Original fields preserve historical assertions and fixture provenance. They do not declare a current runnable ADL test target or release gate. Execute the owner runner with its owner resources; local source-family retirement remains separately conditional."
+  },
+  "historical_installed_runner": "adl/tools/codefriend_fitness_installed_proof.py"
 }

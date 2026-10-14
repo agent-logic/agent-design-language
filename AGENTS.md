@@ -20,16 +20,21 @@ dependencies are satisfied, while preserving typed authority guards and review t
 
 ## Operator manual
 
-From the selected repository root, install with
-`bash adl/tools/install_owner_binaries.sh --bin csdlc`, then use
-`export MANPATH="$PWD/.adl/bin/native-v3/share/man:${MANPATH:-}"` and
-`man csdlc-workflow` (or `man csdlc` for the overview). For
-`ADL_OWNER_BIN_DIR` or `--stable-bin-dir`, use the actual man directory printed
-by the installer instead of assuming the default; shell startup files are not
-edited. See [the operator manual](docs/csdlc-v3/man/man1/csdlc-workflow.1).
-Reviewed repository pages do not establish the installed manual or binary
-version: check `man -w csdlc-workflow` and compare those page bytes to the
-intended source. Coordinate any shared owner-binary replacement with active
+C-SDLC binaries and manuals come from the same authenticated owner package.
+Use native `csdlc package-install --request REVIEWED_REQUEST.json` for an explicitly
+reviewed first installation; see [owner-package manual lookup](docs/csdlc-v3/man/README.md).
+Use the exact `executable` returned by successful installation/admission. Its
+package manual directory is `installed/resources/docs/csdlc-v3/man`, beside the
+same package's `bin/csdlc`; add that directory to `MANPATH` and run
+`man csdlc-workflow` (or `man csdlc` for the overview).
+
+`bash adl/tools/install_owner_binaries.sh --bin csdlc` only reports manuals for
+an already selected package. `ADL_OWNER_BIN_DIR` or `--stable-bin-dir` identifies
+the directory containing the selected executable; it is not a manual-copy target.
+The helper follows the selected executable to its package and performs no install,
+activation, source build, binary replacement or shell startup edit. It does not
+establish package authority. Check `man -w csdlc-workflow` resolves inside that
+exact admitted package. Coordinate any shared owner-binary replacement with active
 sessions; documentation lookup alone is not a reason to replace it.
 
 ## Completed C-SDLC tooling changeover
@@ -326,8 +331,10 @@ For a normal tracked issue:
 - Separate local preflight proof from CI integration proof. Local records must
   say what ran locally, what is deferred to GitHub CI, and why that deferral is
   safe for the touched surface.
-- For owner-binary surfaces, prefer the focused lane runner when it matches the
-  change: `bash adl/tools/run_owner_validation_lane.sh csdlc|runtime|review|all`.
+- For public ADL CLI surfaces, use `bash tools/public_adl/run_cli_ci.sh`.
+  Private owner validation belongs to the separately qualified Runtime,
+  CodeFriend, or C-SDLC repository lane; the retired ADL owner aggregate is
+  not a current validation route.
 - Operational ADL owner binaries must be installed into the stable generated
   repo-local directory outside Cargo build output: `.adl/bin/` by default, via
   `bash adl/tools/install_owner_binaries.sh`. Treat `adl/target/` as disposable

@@ -1,0 +1,508 @@
+{
+  "schema": "adl1223.runtime_five_guides.v1",
+  "status": "applied_local_reversible_implementation",
+  "source_head": "153aa38de4ccf7a93836f1c03cb675d5fab5ebe2",
+  "removed_count": 5,
+  "rows": [
+    {
+      "id": "RD07-3358",
+      "path": "docs/architecture/RUNTIME_V3_WEATHER.md",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "bc29010ede4eaa6691ac1639a3cbb05cce4250a4"
+      },
+      "owner_identity": {
+        "mode": "100644",
+        "blob": "bc29010ede4eaa6691ac1639a3cbb05cce4250a4"
+      },
+      "source_correspondence": "exact",
+      "owner_revision": "315abf70358828a8f4d452532ebd995fb4178389",
+      "reason": "Describes current Runtime weather resource report and sysinfo implementation; successor owns evolving product behavior. Cut current guide links over while historical issue evidence remains.",
+      "caller_edges": [
+        {
+          "path": "docs/reviews/v0.91.7/internal-review-4645/packet/evidence_index.json",
+          "line": 1000,
+          "text": "\"path\": \"docs/architecture/RUNTIME_V3_WEATHER.md\",",
+          "match": "literal_repository_path",
+          "role": "policy_or_navigation_reference"
+        },
+        {
+          "path": "docs/reviews/v0.91.7/internal-review-4645/packet/specialist_assignments.json",
+          "line": 161,
+          "text": "\"docs/architecture/RUNTIME_V3_WEATHER.md\"",
+          "match": "literal_repository_path",
+          "role": "policy_or_navigation_reference"
+        },
+        {
+          "path": "docs/reviews/v0.92/internal-review-5846/specialist_assignments.json",
+          "line": 5904,
+          "text": "\"docs/architecture/RUNTIME_V3_WEATHER.md\",",
+          "match": "literal_repository_path",
+          "role": "policy_or_navigation_reference"
+        },
+        {
+          "path": "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+          "line": 12928,
+          "text": "\"path\": \"docs/architecture/RUNTIME_V3_WEATHER.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+          "line": 12964,
+          "text": "\"source_url\": \"https://github.com/agent-logic/agent-design-language/blob/682be6b8babb69f73c5e9fef8580f1b3c88966d5/docs/architecture/RUNTIME_V3_WEATHER.md#L1\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+          "line": 49238,
+          "text": "\"docs/architecture/RUNTIME_V3_WEATHER.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+          "line": 49754,
+          "text": "\"docs/architecture/RUNTIME_V3_WEATHER.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+          "line": 58242,
+          "text": "\"docs/architecture/RUNTIME_V3_WEATHER.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        }
+      ],
+      "proposal": "conditional_owner_document_transfer_with_caller_cutover",
+      "remaining_requirements": [
+        "active ADL navigation and source consumers reconciled",
+        "reuse applicable owner proof; source presence alone not execution",
+        "scoped retirement approval"
+      ]
+    },
+    {
+      "id": "RD07-3573",
+      "path": "docs/provider/inference-profiles.md",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "a4cbec3dcec27b6ff6879982692e6913aec7f5fa"
+      },
+      "owner_identity": {
+        "mode": "100644",
+        "blob": "a4cbec3dcec27b6ff6879982692e6913aec7f5fa"
+      },
+      "source_correspondence": "exact",
+      "owner_revision": "315abf70358828a8f4d452532ebd995fb4178389",
+      "reason": "Runtime provider profile materialization and bounded inference parameter contract; successor owns implementation while ADL setup/navigation references must be reconciled.",
+      "caller_edges": [
+        {
+          "path": "docs/architecture/adr/0075-provider-profile-and-shadow-authority.md",
+          "line": 36,
+          "text": "- [Profile contract](../../provider/inference-profiles.md)",
+          "match": "resolved_relative_link",
+          "role": "policy_or_navigation_reference"
+        },
+        {
+          "path": "adl/tools/skills/repo-packet-builder/tests/fixtures/issue-520-changed-paths.txt",
+          "line": 5190,
+          "text": "docs/provider/inference-profiles.md",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/integration/gap-analysis.b8e1b4483b1c345e42ec7817bfde8214469867bb.ebe7fe5d2d2a55df068e920b9517e5d7b1956d8688aeabdd300178b58c41163f.json",
+          "line": 1,
+          "text": "{\"schema\":\"adl.gap_analysis_report.v2\",\"mode\":\"compare_canonical_plan_to_immutable_evidence\",\"candidate\":\"b8e1b4483b1c345e42ec7817bfde8214469867bb\",\"source_digest\":\"ebe7fe5d2d2a55df068e920b9517e5d7b1956d8688aeabdd300178b58c41163f\",\"execution_issues\":[{\"planned",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/integration/release-tail-admission.b8e1b4483b1c345e42ec7817bfde8214469867bb.ebe7fe5d2d2a55df068e920b9517e5d7b1956d8688aeabdd300178b58c41163f.json",
+          "line": 1,
+          "text": "{\"schema\":\"adl.v0921.release_tail_admission.v2\",\"candidate\":\"b8e1b4483b1c345e42ec7817bfde8214469867bb\",\"source_digest\":\"ebe7fe5d2d2a55df068e920b9517e5d7b1956d8688aeabdd300178b58c41163f\",\"output_identity\":\"release-tail-admission.b8e1b4483b1c345e42ec7817bfde8214",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/integration/release-tail-input.b8e1b4483b1c345e42ec7817bfde8214469867bb.json",
+          "line": 1,
+          "text": "{\"schema\":\"adl.v0921.release_tail_input.v1\",\"candidate\":\"b8e1b4483b1c345e42ec7817bfde8214469867bb\",\"planning\":[{\"path\":\"docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml\",\"sha256\":\"70fc3e2b3529fc33de967f17cc70d6fff036d9b6f73f48513aaf8ac28fb6f8ad\"},{\"path\":\"do",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/repo_inventory.json",
+          "line": 103995,
+          "text": "\"path\": \"docs/provider/inference-profiles.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/repo_inventory.json",
+          "line": 104001,
+          "text": "\"path\": \"docs/provider/inference-profiles.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/repo_inventory.json",
+          "line": 104006,
+          "text": "\"path\": \"docs/provider/inference-profiles.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        }
+      ],
+      "proposal": "conditional_owner_document_transfer_with_caller_cutover",
+      "remaining_requirements": [
+        "active ADL navigation and source consumers reconciled",
+        "reuse applicable owner proof; source presence alone not execution",
+        "scoped retirement approval"
+      ]
+    },
+    {
+      "id": "RD07-3584",
+      "path": "docs/runtime/LIVE_RESIDENT_MANAGEMENT.md",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "066b8d72a414d553da38631229a487638c1081ca"
+      },
+      "owner_identity": {
+        "mode": "100644",
+        "blob": "066b8d72a414d553da38631229a487638c1081ca"
+      },
+      "source_correspondence": "exact",
+      "owner_revision": "315abf70358828a8f4d452532ebd995fb4178389",
+      "reason": "Authenticated csmctl /v1/agents management guide describes current product behavior without restart/installation claims; migrate active operation links to Runtime.",
+      "caller_edges": [
+        {
+          "path": "docs/runtime/RESIDENT_PROVIDER_MONITORING.md",
+          "line": 83,
+          "text": "See [live resident management](LIVE_RESIDENT_MANAGEMENT.md) for credential rotation",
+          "match": "resolved_relative_link",
+          "role": "policy_or_navigation_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/issue-919/full-review/assignments.json",
+          "line": 68024,
+          "text": "\"path\": \"docs/runtime/LIVE_RESIDENT_MANAGEMENT.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/issue-919/full-review/changed-paths.json",
+          "line": 30760,
+          "text": "\"path\": \"docs/runtime/LIVE_RESIDENT_MANAGEMENT.md\"",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/issue-919/full-review/coverage/docs-coverage.json",
+          "line": 2482,
+          "text": "\"path\": \"docs/runtime/LIVE_RESIDENT_MANAGEMENT.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/issue-919/full-review/coverage/security-coverage.json",
+          "line": 43074,
+          "text": "\"path\": \"docs/runtime/LIVE_RESIDENT_MANAGEMENT.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/issue-919/full-review/lanes/docs-coverage.json",
+          "line": 2482,
+          "text": "\"path\": \"docs/runtime/LIVE_RESIDENT_MANAGEMENT.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        }
+      ],
+      "proposal": "conditional_owner_document_transfer_with_caller_cutover",
+      "remaining_requirements": [
+        "active ADL navigation and source consumers reconciled",
+        "reuse applicable owner proof; source presence alone not execution",
+        "scoped retirement approval"
+      ]
+    },
+    {
+      "id": "RD07-3586",
+      "path": "docs/runtime/RESIDENT_PROVIDER_MONITORING.md",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "724422c0f69a1a62b794bd2ec1e9424db68c6167"
+      },
+      "owner_identity": {
+        "mode": "100644",
+        "blob": "724422c0f69a1a62b794bd2ec1e9424db68c6167"
+      },
+      "source_correspondence": "exact",
+      "owner_revision": "315abf70358828a8f4d452532ebd995fb4178389",
+      "reason": "Runtime resident provider readiness/invalidation/monitoring behavior guide; successor owns current semantics, preserve no-probe and bounded execution limits through link cutover.",
+      "caller_edges": [
+        {
+          "path": "docs/milestones/v0.92.2/evidence/issue-916/PREREQUISITE_ACCEPTANCE.json",
+          "line": 81,
+          "text": "\"path\": \"docs/runtime/RESIDENT_PROVIDER_MONITORING.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/issue-916/PRODUCER_HASH_RECHECK.json",
+          "line": 87,
+          "text": "\"path\": \"docs/runtime/RESIDENT_PROVIDER_MONITORING.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/issue-919/full-review/assignments.json",
+          "line": 68046,
+          "text": "\"path\": \"docs/runtime/RESIDENT_PROVIDER_MONITORING.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/issue-919/full-review/changed-paths.json",
+          "line": 30770,
+          "text": "\"path\": \"docs/runtime/RESIDENT_PROVIDER_MONITORING.md\"",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/issue-919/full-review/coverage/docs-coverage.json",
+          "line": 2498,
+          "text": "\"path\": \"docs/runtime/RESIDENT_PROVIDER_MONITORING.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/issue-919/full-review/coverage/security-coverage.json",
+          "line": 43088,
+          "text": "\"path\": \"docs/runtime/RESIDENT_PROVIDER_MONITORING.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/issue-919/full-review/lanes/docs-coverage.json",
+          "line": 2498,
+          "text": "\"path\": \"docs/runtime/RESIDENT_PROVIDER_MONITORING.md\",",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        }
+      ],
+      "proposal": "conditional_owner_document_transfer_with_caller_cutover",
+      "remaining_requirements": [
+        "active ADL navigation and source consumers reconciled",
+        "reuse applicable owner proof; source presence alone not execution",
+        "scoped retirement approval"
+      ]
+    },
+    {
+      "id": "RD07-3589",
+      "path": "docs/runtime/config-hot-reload.md",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "bb1feb1f12acdedf526f4d6d218a03440d8f37ec"
+      },
+      "owner_identity": {
+        "mode": "100644",
+        "blob": "bb1feb1f12acdedf526f4d6d218a03440d8f37ec"
+      },
+      "source_correspondence": "exact",
+      "owner_revision": "315abf70358828a8f4d452532ebd995fb4178389",
+      "reason": "Runtime-owned HotReloadHandle snapshot API documentation; move API guide with callers and product source references, leaving historical issue510 evidence intact.",
+      "caller_edges": [
+        {
+          "path": "docs/architecture/adr/0073-validated-configuration-snapshot-reload.md",
+          "line": 35,
+          "text": "- [Operator documentation](../../runtime/config-hot-reload.md)",
+          "match": "resolved_relative_link",
+          "role": "policy_or_navigation_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
+          "line": 303,
+          "text": "owned_paths: [\"adl-runtime/src/config_reload.rs\", \"adl-runtime/tests/config_reload.rs\", \"adl-runtime-kernel/src/config.rs\", \"adl-runtime-kernel/src/control.rs\", \"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\", \"adl-runtime-kernel/tests/configuration.rs\", \"a",
+          "match": "literal_repository_path",
+          "role": "milestone_reference"
+        },
+        {
+          "path": "adl/tools/skills/repo-packet-builder/tests/fixtures/issue-520-changed-paths.txt",
+          "line": 5194,
+          "text": "docs/runtime/config-hot-reload.md",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/integration/gap-analysis.b8e1b4483b1c345e42ec7817bfde8214469867bb.ebe7fe5d2d2a55df068e920b9517e5d7b1956d8688aeabdd300178b58c41163f.json",
+          "line": 1,
+          "text": "{\"schema\":\"adl.gap_analysis_report.v2\",\"mode\":\"compare_canonical_plan_to_immutable_evidence\",\"candidate\":\"b8e1b4483b1c345e42ec7817bfde8214469867bb\",\"source_digest\":\"ebe7fe5d2d2a55df068e920b9517e5d7b1956d8688aeabdd300178b58c41163f\",\"execution_issues\":[{\"planned",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/integration/release-tail-admission.71da4802fca3879679e498c2d4c30f20ca168613.657f177f73f8497cec3ca1b1765b2dd41cb6f81ba1635311736026b38a2ad465.json",
+          "line": 1,
+          "text": "{\"schema\":\"adl.v0921.release_tail_admission.v2\",\"candidate\":\"71da4802fca3879679e498c2d4c30f20ca168613\",\"source_digest\":\"657f177f73f8497cec3ca1b1765b2dd41cb6f81ba1635311736026b38a2ad465\",\"output_identity\":\"release-tail-admission.71da4802fca3879679e498c2d4c30f20",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/integration/release-tail-admission.8b430826ef3e1e092fd84a2d254453f662fa8f7d.1745ba83d8922eedfe9791256833f067eea836a631ed92829f92d960052c06d8.json",
+          "line": 1,
+          "text": "{\"schema\":\"adl.v0921.release_tail_admission.v2\",\"candidate\":\"8b430826ef3e1e092fd84a2d254453f662fa8f7d\",\"source_digest\":\"1745ba83d8922eedfe9791256833f067eea836a631ed92829f92d960052c06d8\",\"output_identity\":\"release-tail-admission.8b430826ef3e1e092fd84a2d254453f6",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/integration/release-tail-admission.8b430826ef3e1e092fd84a2d254453f662fa8f7d.f871e29df8b5e140431bacb15ddb7a83fd339d684171af12e2c6725b9fb52552.json",
+          "line": 1,
+          "text": "{\"schema\":\"adl.v0921.release_tail_admission.v2\",\"candidate\":\"8b430826ef3e1e092fd84a2d254453f662fa8f7d\",\"source_digest\":\"f871e29df8b5e140431bacb15ddb7a83fd339d684171af12e2c6725b9fb52552\",\"output_identity\":\"release-tail-admission.8b430826ef3e1e092fd84a2d254453f6",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/integration/release-tail-admission.af5f8036ab7a0619751ab55fa9bd4891f377cd9d.2a3f55d786fa47d407d1c1f91e8e0fc7133d6a400c2158584e0f969720640cf3.json",
+          "line": 1,
+          "text": "{\"schema\":\"adl.v0921.release_tail_admission.v2\",\"candidate\":\"af5f8036ab7a0619751ab55fa9bd4891f377cd9d\",\"source_digest\":\"2a3f55d786fa47d407d1c1f91e8e0fc7133d6a400c2158584e0f969720640cf3\",\"output_identity\":\"release-tail-admission.af5f8036ab7a0619751ab55fa9bd4891",
+          "match": "literal_repository_path",
+          "role": "historical_or_inventory_reference"
+        }
+      ],
+      "proposal": "conditional_owner_document_transfer_with_caller_cutover",
+      "remaining_requirements": [
+        "active ADL navigation and source consumers reconciled",
+        "reuse applicable owner proof; source presence alone not execution",
+        "scoped retirement approval"
+      ]
+    }
+  ],
+  "files": [
+    {
+      "path": "docs/architecture/RUNTIME_V3_WEATHER.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "bc29010ede4eaa6691ac1639a3cbb05cce4250a4",
+        "sha256": "e2ac3dae7b555a1b0a6dc4d9ecb61c48fe20d7d2b95dddcb7454ab0cf1488daf"
+      },
+      "after": null
+    },
+    {
+      "path": "docs/provider/inference-profiles.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "a4cbec3dcec27b6ff6879982692e6913aec7f5fa",
+        "sha256": "6b633989c8b9ffe5b86acb48f3d472980936ea573da577ad5f82f33d0de70100"
+      },
+      "after": null
+    },
+    {
+      "path": "docs/runtime/LIVE_RESIDENT_MANAGEMENT.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "066b8d72a414d553da38631229a487638c1081ca",
+        "sha256": "d2fa77cfae4ff4f3e46163f9f6b9252a2f1353735dc898e6cbde4a0372959cbb"
+      },
+      "after": null
+    },
+    {
+      "path": "docs/runtime/RESIDENT_PROVIDER_MONITORING.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "724422c0f69a1a62b794bd2ec1e9424db68c6167",
+        "sha256": "f146fa85b8a358352fa39e03d3ca00f2183e3282b1f7b583b21cc9ae6c87ffc5"
+      },
+      "after": null
+    },
+    {
+      "path": "docs/runtime/config-hot-reload.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "bb1feb1f12acdedf526f4d6d218a03440d8f37ec",
+        "sha256": "6b246c3a45133f627bba9a45e31812d13d8c331d64b7059ec54eae73d4eb98df"
+      },
+      "after": null
+    },
+    {
+      "path": "docs/architecture/adr/0073-validated-configuration-snapshot-reload.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "c165eb6e6b54606add46f8933b13fbab4645bed5",
+        "sha256": "5eb80fb0ceda331ca0b93a49b8ba0add2f41e14b3d9f316deb8140d37064032f"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "0c79af6256fae250e0b42671015a73f2b094c7c2",
+        "sha256": "42714283e92f18d1a55f106dfdaf8b790097d797f7d8e2bc49c03de5fe40d27b"
+      }
+    },
+    {
+      "path": "docs/architecture/adr/0075-provider-profile-and-shadow-authority.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "6b14412ea3a7d91d2b9812c17ffea646bc99e248",
+        "sha256": "46b90accd10c85dd2071a68ecddd7a4e966f659de6639e98801b8ec0f16cfc76"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "990ed4a7d96106ae9406db465fcb9cbb5d316202",
+        "sha256": "a0fe65af18de162f85011320898004a72f1cd7b65331f0b1e31314b304091a54"
+      }
+    },
+    {
+      "path": "docs/tooling/README.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "78864d45a508187159e79dd0eeacda9635f4c0b0",
+        "sha256": "9d96f2aa4d674ad83f060e1d9ef47985fce57274176424f84811e64d15dc75fc"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "7d8e3b76019a74695289dfe49f848ae31dcca01e",
+        "sha256": "883072dedda1789ce673ed75900af14d99f070d99f964a570db8798f6771e754"
+      }
+    },
+    {
+      "path": "docs/tooling/RUNTIME_OWNER_GUIDES.md",
+      "action": "add",
+      "before": null,
+      "after": {
+        "mode": "100644",
+        "blob": "98cf9b284c734c18552faee150e621454657d96e",
+        "sha256": "8e1e97e2ea92a714a5db3ce4ca4833a0e6eda3309dfef67d013ad05a4c99d8c2"
+      }
+    }
+  ],
+  "owner_revision": "315abf70358828a8f4d452532ebd995fb4178389",
+  "proof_boundary": "Documentation-only transfer of exact reviewed source bytes, not executable/machine resources; no behavioral acceptance claim.",
+  "caller_closure": "Trackedbasename scan excluding immutable milestones/reviews/lifecycle evidence: two ADR relative links repaired, one intrafamily link retained in owner, two frozen issue520 changed-path fixture strings preserved as historical test data. No active executable consumer discovered. Runtime machine-resource documents expressly excluded.",
+  "custody": {
+    "path": "/Volumes/FastWork/c1223/runtime-five-guide-retirement/preimages.tar",
+    "sha256": "f0b360f10e90251c86f18b753489f90492de6503aa84adade248e9da002dad7a",
+    "members": 8
+  },
+  "patch_path": "/Volumes/FastWork/c1223/runtime-five-guide-retirement/guides.patch",
+  "patch_sha256": "3af648977d17aeaacf0e6789fd503ee851125ca4adf9a5d4e3b4fd7f37063be9",
+  "limits": [
+    "No Runtime/service/provider operation or tests executed.",
+    "No ADR status or decision changed.",
+    "Original4134plus22 inventories unchanged."
+  ],
+  "validation": "Exact5ownerbytes verified through localGit315; newlink targets exist at pinned revision; gitapplycheck.",
+  "issue": 1223,
+  "review": {
+    "reviewer": "review_1223_historical_retention",
+    "result": "PASS",
+    "scope": "Exact5ownerbytes/8preimages,7pinnedownerlinks,noexecutablereader,ADRdecisionsunchanged"
+  }
+}

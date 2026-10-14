@@ -1,0 +1,43 @@
+{
+  "status": "reviewed_bounded_consumer_repair_applied",
+  "patch_sha256": "9ea1552f3e3123d8d57e6baa28da3128f2f7e6f61ec49e000e81a044b23c1552",
+  "review": "Planning #12 reviewed native doctor routing design and authorized adoption after demo smoke; obsolete demo stub remainder caught and removed before adoption.",
+  "validation": {
+    "original_main_write_and_safe_report_functions_and_assertions_byte_identical": true,
+    "test_exit_code": 0,
+    "scope": "Routing fixture; no native admission or product execution",
+    "assertions_added": [
+      "exact argv boundaries including spaces",
+      "native output forwarding",
+      "native refusal exit37 forwarding",
+      "missing required inputs refused before dispatch",
+      "absent input file refused before dispatch"
+    ],
+    "demo_cases": [
+      {
+        "case": "r2",
+        "exit_code": 0
+      },
+      {
+        "case": "refusal",
+        "exit_code": 37
+      }
+    ],
+    "demo_labels_checked": 5,
+    "native_owner_invoked": false,
+    "prior_demo_proposal_defect": "DEMO_PREPARATION_FAILURE.json"
+  },
+  "intentional_interface_change": "card-drift --issue replaced by required --request/--registry/--registrations with optional --root/--csdlc. Native owner alone validates authority and issue identity.",
+  "active_inbound_search": "Bounded literal search in adl/tools, docs/tooling and .github found only paired test/demo/help references; all updated together. Immutable historical docs not rewritten.",
+  "native_acceptance": false,
+  "retirement_authorized": false,
+  "evidence": {
+    "test.stdout": "8598b4648eab0c3c31bfe0709daa29a023b99d26ddb902c436f664f99f7377e2",
+    "test.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "demo-r2.stdout": "a4e95b25f4c37e5427f0fc568a22a0a91958bcae71251dd5bd02aaeded2d9801",
+    "demo-r2.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "demo-refusal.stdout": "2942935700763c6f8100c781358e986f75a10e3597ab2024fc563d42334e1a2b",
+    "demo-refusal.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "DEMO_PREPARATION_FAILURE.json": "9e9c9a99df7e0358fd511475f1edabbb152302b2698d709e08e893e2184ed462"
+  }
+}

@@ -28,7 +28,13 @@ mathematical 12-nines guarantee from this single-region bucket alone. #4913 owns
 the follow-on durability proof and any stronger multi-copy or multi-region
 durability argument.
 
-Reapply or verify the policy with:
+The setup and validator source now belongs to the Runtime repository. Run the
+following only from an approved `agent-logic-runtime` checkout after checking
+its current operator instructions and obtaining authorization for AWS writes.
+The retained source at commit `033edb6f4387ad6138373f1994e7248ded437e29`
+is source custody, not current live bucket verification.
+
+Reapply or verify the policy from that owner checkout with:
 
 ```bash
 ADL_AWS_S3_OBSMEM_ARCHIVE_ACCOUNT_SHA256="<operator-approved-agent-logic-account-sha256>" \

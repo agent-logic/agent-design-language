@@ -1,10 +1,19 @@
 # AWS CodeFriend Build Lane
 
-## Status
+> Historical ADL procedure retained as source evidence. The local benchmark
+> and remote-build entrypoints described below were retired by #1223.
+> These commands are not current ADL execution instructions. Consult the
+> [Infrastructure owner source](https://github.com/agent-logic/agent-logic-infrastructure/tree/db78fff91b07a0b05dfbb4ceb5bdd3279b3315a1) for the owner implementation;
+> source presence does not establish current build or cloud qualification.
 
-Implemented for issue `#4838` and operationally hardened by `#5164` as a
-manual GitHub Actions plus AWS CodeBuild lane. The lane is intentionally
-separate from the AWS Spot EC2 remote validation lane.
+## Retirement status
+
+The ADL launcher and dispatch workflow are retired by #1223. The commands below
+are historical migration context and must not be run from this repository.
+Standalone [CodeFriend configuration](https://github.com/agent-logic/codefriend/blob/main/deployment/workflows/aws-codefriend-build.v1.json)
+records the disabled successor route. Its [infrastructure helper package](https://github.com/agent-logic/agent-logic-infrastructure/tree/main/tools/codefriend-build)
+is a separate source dependency. Neither migration nor source packaging activates
+a cloud build; successor activation requires a separate decision.
 
 ## Entry Points
 

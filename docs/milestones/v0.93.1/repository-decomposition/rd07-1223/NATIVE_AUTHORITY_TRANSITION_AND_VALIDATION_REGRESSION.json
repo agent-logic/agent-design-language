@@ -1,0 +1,47 @@
+{
+  "schema": "adl.rd07.native-transition-validation-regression.v1",
+  "issue": 1223,
+  "candidate": "92779b3a8376182b691aad45258435ffb9c095f0",
+  "events": [
+    "Exact independently reviewed local authority transition completed generation24; no remote writes or shared binary replacement.",
+    "Native rebuild completed generation25.",
+    "Initial SRP author request refused because prior result fields required explicit reset.",
+    "Explicit native SRP reset authored issue-specific prompt with review_results.status not_run at generation26.",
+    "Validate still refuses rendered_card_drift. No repeated reset or manual state repair."
+  ],
+  "evidence": [
+    {
+      "path": "/Volumes/FastWork/c1223/installed-transition-1223-exact-disposition.json",
+      "sha256": "83b2b849ae483639f61d075e0beb2336136c2e10327810c9a37b0e9e50044f75"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/installed-transition-1223-execute-result.json",
+      "sha256": "fd085265b148f15582074b809ad06dd2d822e9c725e09c0aa81f874bd6d7d6b3"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/rebuild-1223-after-transition.json",
+      "sha256": "8f685a315e96370fc822cdeddbc198e9973371f0630800ea88c60c32d15fa388"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/validate-1223-after-transition.json",
+      "sha256": "86137a519702c05affd4547261cda9d30db81fbf2cb775a78eb29e2649c78e48"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/srp-prompt-1223-normalization-result.json",
+      "sha256": "f849dc4179374fe1b768ab3a1773e1bd8720340737a545469346d3f6cb35d286"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/srp-prompt-1223-reset-result.json",
+      "sha256": "8c4d1b127812cf36a7850a7a853ff2611f250ff77e68b1af0344bb48a0b5bedb"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/validate-1223-after-srp-reset.json",
+      "sha256": "ff4efec86062697ea867b418905631952fbdf68abd4bf471ee37e84cfadc189c"
+    }
+  ],
+  "diagnosis": "Existing compatibility index selects local .csdlc/issues/1223/cards for validation against installed package template; native semantic edit/rebuild produce .csdlc/v3/issues/1223/cards. Old compatibility template and installed new template share version1.0.5 but differ. Authoritative semantic SRP matches package rendering; compatibility SRP matches repository older template.",
+  "source": "application/intent/local.rs:745 selects semantic validation only for absent compatibility index; otherwise commands/local/cards.rs validation_findings checks compatibility cards.",
+  "independent_reviewer": "review_1223_applied_components",
+  "follow_up": "Planning #12 notified with exact reproduction for owner regression repair. No semantic journal, receipt or compatibility card hand edits.",
+  "completion_claim": false
+}

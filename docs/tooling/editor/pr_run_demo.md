@@ -17,7 +17,9 @@ Historical limitation:
   written
 - browser/editor direct invocation remains follow-on work
 
-Demo command:
+Historical ADL demo command (wrapper retired in #1223):
+
+The [exact Runtime source scenario](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/adl/tools/demo_five_command_run.sh) now invokes `adl-runtime` directly. Its source custody does not re-establish the retired `pr run` interface or prove a new run.
 
 ```bash
 adl/tools/demo_five_command_run.sh

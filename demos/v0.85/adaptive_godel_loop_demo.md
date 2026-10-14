@@ -1,5 +1,7 @@
 # v0.85 Demo: Adaptive Godel Loop Policy Update
 
+The Gödel/AEE shell commands below are historical ADL monolith interfaces, retired in #1223. Original scenario and artifact requirements remain historical obligations; this page does not establish a current execution or equivalent Runtime acceptance. Preserved owner source is available in the [Runtime checkout](https://github.com/agent-logic/agent-logic-runtime/tree/7d0db620ad79c50ff5d8fabf0fb543183583d05c/adl/tools) and [Infrastructure archive](https://github.com/agent-logic/agent-logic-infrastructure/tree/ed02d55985482a0dbb1469951d36efef931b63e2/adl/tools).
+
 This bounded demo shows the first real WP-11 policy-learning surface.
 
 It takes the deterministic hypothesis artifact produced by the Godel loop and
@@ -12,7 +14,7 @@ learning or unconstrained policy mutation.
 From repository root:
 
 ```bash
-adl/tools/demo_adaptive_godel_loop.sh
+# Historical retired command: adl/tools/demo_adaptive_godel_loop.sh
 ```
 
 The script runs:

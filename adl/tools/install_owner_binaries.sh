@@ -6,22 +6,34 @@ MANIFEST="$ROOT_DIR/adl/Cargo.toml"
 STABLE_BIN_DIR="${ADL_OWNER_BIN_DIR:-$ROOT_DIR/.adl/bin}"
 SOURCE_BIN_DIR=""
 SOURCE_COMPONENT="adl"
-SOURCE_PATHS=(adl/Cargo.toml adl/Cargo.lock adl/build.rs adl/src adl/tools/adl_provider_adapter.rs)
+SOURCE_PATHS=(
+  adl/Cargo.toml adl/Cargo.lock adl/src/main.rs adl/src/lib.rs
+  adl/src/control_plane.rs adl/src/session_ledger.rs adl/src/bin/adl_process.rs
+  adl/src/cli/public_dispatch.rs adl/src/cli/public_workflow.rs
+  adl/src/cli/workflow_args.rs adl/src/cli/workflow_display.rs adl/src/cli/resume_args.rs
+  adl/src/cli/runtime_owner.rs adl/src/cli/codefriend_owner.rs
+  adl/src/cli/process_cmd.rs adl/src/cli/process_cmd adl/src/cli/session_cmd.rs
+  adl/src/cli/observability.rs adl/src/cli/usage.rs
+  adl-legacy-contracts/Cargo.toml adl-legacy-contracts/src adl-legacy-contracts/schemas
+  adl-schema/Cargo.toml adl-schema/src adl-schema/schemas
+)
 NO_BUILD=0
 EXPLICIT_BINS=0
 BINS=()
-INSTALL_VECTOR_COMPONENT=0
 
 usage() {
   cat <<'EOF' >&2
 Usage:
   adl/tools/install_owner_binaries.sh [--bin <name>]... [--stable-bin-dir <dir>] [--source-bin-dir <dir>] [--no-build]
 
-Installs ADL owner binaries into a stable repo-local generated directory outside
-Cargo target. Use --bin csdlc for the native v3 owner (installed in .adl/bin/native-v3).
-Use --bin csdlc-transition to install only the separate transition owner.
-The csdlc install also places man pages in <stable-bin-dir>/share/man and prints
-MANPATH discovery instructions. It never edits shell startup files.
+Installs the public adl and adl-process binaries into a stable repo-local generated
+directory outside Cargo target. Runtime, CodeFriend and C-SDLC use their owner packages.
+--bin csdlc only reports manuals for an already selected installed package; it
+does not build, copy or replace C-SDLC. For first installation, use the admitted
+native csdlc package-install --request REVIEWED_REQUEST.json route.
+csdlc-transition source installation is retired; obtain it from its owner package.
+The csdlc lookup prints MANPATH for that package resource directory.
+It never copies ADL pages into the selected package or edits shell startup files.
 Re-running without relevant source changes is a no-op and does
 not replace binaries.
 EOF
@@ -62,41 +74,28 @@ while [[ $# -gt 0 ]]; do
 done
 
 if [[ "${#BINS[@]}" -eq 0 ]]; then
-  BINS=(
-    adl adl-runtime csm csmctl adl-review adl-process adl-remote
-    adl-aws-remote-validation adl-provider-adapter
-  )
+  BINS=(adl adl-process)
 fi
 
 for bin in "${BINS[@]}"; do
-  if [[ "$bin" == "csdlc" || "$bin" == "csdlc-transition" ]]; then
+  case "$bin" in
+    csdlc-transition)
+      echo "install_owner_binaries: csdlc-transition source installation is retired; use the qualified C-SDLC owner package" >&2
+      exit 2 ;;
+    adl|adl-process|csdlc) ;;
+    *)
+      echo "install_owner_binaries: '$bin' is not a public ADL binary; install product binaries from their qualified owner packages" >&2
+      exit 2
+      ;;
+  esac
+  if [[ "$bin" == "csdlc" ]]; then
     [[ "${#BINS[@]}" == 1 ]] || { echo 'install_owner_binaries: install csdlc separately from ADL owners' >&2; exit 2; }
-    SOURCE_COMPONENT="csdlc-v3"
-    SOURCE_PATHS=(csdlc-v3/Cargo.toml csdlc-v3/Cargo.lock csdlc-v3/src)
-    MANIFEST="$ROOT_DIR/csdlc-v3/Cargo.toml"
+    [[ -z "$SOURCE_BIN_DIR" ]] || { echo 'install_owner_binaries: C-SDLC source binary installation is retired; use native package-install with a reviewed request' >&2; exit 2; }
     if [[ "$STABLE_BIN_DIR" == "$ROOT_DIR/.adl/bin" ]]; then STABLE_BIN_DIR="$ROOT_DIR/.adl/bin/native-v3"; fi
+    bash "$ROOT_DIR/adl/tools/install_csdlc_man_pages.sh" --stable-bin-dir "$STABLE_BIN_DIR"
+    exit 0
   fi
  done
-
-for bin in "${BINS[@]}"; do
-  if [[ "$bin" == "csm" ]]; then
-    INSTALL_VECTOR_COMPONENT=1
-    break
-  fi
-done
-
-install_vector_component() {
-  if [[ "$INSTALL_VECTOR_COMPONENT" == "1" ]]; then
-    ADL_VECTOR_INSTALL_ROOT="$(dirname "$STABLE_BIN_DIR")" \
-      bash "$ROOT_DIR/adl/tools/install_vector_component.sh"
-  fi
-}
-
-install_csdlc_manual() {
-  if [[ "$SOURCE_COMPONENT" == "csdlc-v3" && "${BINS[0]}" == "csdlc" ]]; then
-    bash "$ROOT_DIR/adl/tools/install_csdlc_man_pages.sh" --stable-bin-dir "$STABLE_BIN_DIR"
-  fi
-}
 
 source_hash() {
   if git -C "$ROOT_DIR" rev-parse --show-toplevel >/dev/null 2>&1; then
@@ -116,7 +115,13 @@ source_hash() {
   fi
   (
     cd "$ROOT_DIR"
-    find "$SOURCE_COMPONENT" -type f \( -path "$SOURCE_COMPONENT/src/*" -o -path 'adl/tools/adl_provider_adapter.rs' -o -name Cargo.toml -o -name Cargo.lock -o -name build.rs \) -print 2>/dev/null |
+    for path in "${SOURCE_PATHS[@]}"; do
+      if [[ -d "$path" ]]; then
+        find "$path" -type f -print
+      elif [[ -f "$path" ]]; then
+        printf '%s\n' "$path"
+      fi
+    done |
       grep -Ev '(^adl/src/cli/tests/|/tests\.rs$|/tests/)' |
       LC_ALL=C sort |
       while IFS= read -r path; do
@@ -141,8 +146,6 @@ for bin in "${BINS[@]}"; do
 done
 
 if [[ "${#BUILD_BINS[@]}" -eq 0 ]]; then
-  install_vector_component
-  install_csdlc_manual
   echo "owner-binary install: all requested binaries are current"
   exit 0
 fi
@@ -193,6 +196,3 @@ if [[ "${#MISSING_BINS[@]}" -gt 0 ]]; then
   echo "install_owner_binaries: incomplete default --no-build install; missing source binaries: ${MISSING_BINS[*]}" >&2
   exit 1
 fi
-
-install_vector_component
-install_csdlc_manual

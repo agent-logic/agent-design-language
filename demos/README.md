@@ -1,5 +1,19 @@
 # ADL Demos
 
+The provider/conversation guides linked to the pinned Runtime source below are
+document transfers. Their byte custody preserves the original scenarios; it does
+not establish new provider execution, conversation quality, native acceptance or
+publication authority. Local fixture resources and executable demos retain their
+separate qualification requirements.
+
+> These packet generators moved to `agent-logic-infrastructure`. Set
+> `ADL_INFRASTRUCTURE_SOURCE_ROOT` to an absolute checkout at reviewed revision
+> `025850d265cbd1a55b28a8e9b238b2fe0bfcaf1d` before using the owner commands below.
+> The three original offline tests qualified generated packet shape and redaction;
+> they did not execute the represented skills, embedded Cargo commands, or live providers.
+> This retained ADL guide preserves historical scenario context, not current runtime acceptance.
+
+
 `demos/` is the canonical user-facing entrypoint for finding and running ADL demos from repository root.
 
 ## Start Here
@@ -22,34 +36,30 @@ If you want the historical `v0.8` flagship demo surface:
 cargo run --manifest-path demos/transpiler_demo/Cargo.toml --quiet
 ```
 
-If you want the current `v0.89.1` quality-gate proof package:
+The historical `v0.89.1` quality-gate aggregate and its original companion
+contract are retained in #1223 custody. Its monolithic ADL execution route is
+retired; this is not a claim that its independent product checks passed.
+
+The former `v0.89.1` integration package is retired; its original command was:
 
 ```bash
-bash adl/tools/demo_v0891_quality_gate.sh
+# Historical retired command: bash adl/tools/demo_v0891_wp13_demo_integration.sh
 ```
 
-If you want the current `v0.89.1` integration demo package:
+The local Codex CLI + Ollama operational-skills demo is retired. Its
+[historical recipe](v0.87.1/codex_ollama_operational_skills_demo.md) and original
+fixture assertions remain evidence, not an available dry-run or provider route.
+
+The former ADL Claude + ChatGPT shell route is retired; its original command was:
 
 ```bash
-bash adl/tools/demo_v0891_wp13_demo_integration.sh
+# Historical retired command: bash adl/tools/demo_v0871_multi_agent_discussion.sh
 ```
 
-If you want the local Codex CLI + Ollama operational-skills demo:
+The former ADL Hey Jude producer is retired; its original command was:
 
 ```bash
-bash adl/tools/demo_codex_ollama_operational_skills.sh --dry-run
-```
-
-If you want the bounded Claude + ChatGPT tea discussion demo:
-
-```bash
-bash adl/tools/demo_v0871_multi_agent_discussion.sh
-```
-
-If you want the bounded five-agent Hey Jude MIDI demo:
-
-```bash
-bash adl/tools/demo_v0891_five_agent_hey_jude.sh
+# Historical retired command: bash adl/tools/demo_v0891_five_agent_hey_jude.sh
 ```
 
 If you want the bounded arXiv manuscript workflow demo:
@@ -64,22 +74,21 @@ If you want the v0.90.2 arXiv-writer field-test packet:
 bash adl/tools/test_demo_v0902_arxiv_writer_field_test.sh
 ```
 
-If you want the bounded multi-agent repo code review demo:
-
-```bash
-bash adl/tools/demo_v089_multi_agent_repo_code_review.sh
-```
+The v0.89 multi-agent repo code review is a historical scenario. Its ADL
+source command was retired by #1223; see
+[`v0.89` demo history](v0.89/multi_agent_repo_code_review_demo.md) and the
+separately qualified CodeFriend/C-SDLC owner routes before attempting a replay.
 
 If you want the stricter v0.90.2 multi-agent repo-review proof packet:
 
 ```bash
-bash adl/tools/demo_v0902_multi_agent_repo_review_proof.sh
+(cd "${ADL_INFRASTRUCTURE_SOURCE_ROOT:?set an absolute Infrastructure checkout}" && bash adl/tools/demo_v0902_multi_agent_repo_review_proof.sh)
 ```
 
 If you want the v0.90.2 Paper Sonata manuscript review/revision proof packet:
 
 ```bash
-bash adl/tools/demo_v0902_paper_sonata_expansion.sh
+python3 tools/runtime_contracts/run_paper_sonata.py expansion ./artifacts/paper-sonata-expansion
 ```
 
 If you want the CodeBuddy multi-agent review showcase packet:
@@ -94,23 +103,14 @@ If you want the ADL architecture document generation proof packet:
 bash adl/tools/demo_v090_architecture_document_generation.sh
 ```
 
-If you want the fixture-backed CSM Observatory static console:
+The original fixture-backed CSM static console and operator report are retained in
+[Runtime source](https://github.com/agent-logic/agent-logic-runtime/blob/0c5b129decab8ab71738e19967c46d39b5f4afad/demos/v0.90.1/). Their ADL source
+entrypoints were retired by #1223. Offline original-input checks are separate from
+installed Runtime or live Observatory qualification.
 
-```text
-demos/v0.90.1/csm_observatory_static_console.html
-```
-
-If you want the fixture-backed CSM Observatory operator report:
-
-```bash
-bash adl/tools/test_demo_v0901_csm_observatory_operator_report.sh
-```
-
-If you want the command-driven CSM Observatory demo bundle:
-
-```bash
-bash adl/tools/demo_v0901_csm_observatory.sh
-```
+The old command-driven CSM demo is retired from the ADL source tree.
+Its original producer, guide and fixture remain preserved in Git and the #1223
+retirement archive; source preservation does not qualify a current CLI route.
 
 If you want the current C-SDLC mini-sprint HTML game demo:
 
@@ -161,12 +161,9 @@ Use these categories consistently:
   heavyweight validation or release-tail surfaces that are useful for review and ceremony work, but should not be treated as ordinary quick demos.
 
 Current heavyweight proof-package examples:
-- `bash adl/tools/demo_v0871_suite.sh`
-- `bash adl/tools/demo_v0871_quality_gate.sh`
-- `bash adl/tools/demo_v0871_release_review_package.sh`
-- `bash adl/tools/demo_v088_review_surface.sh`
-- `bash adl/tools/demo_v0891_quality_gate.sh`
-- `bash adl/tools/demo_v0891_wp13_demo_integration.sh`
+- The v0.88 monolithic review-surface and quality-gate commands are historical and retired in #1223. Their original assertions remain in Git and retirement custody; no current aggregate pass is claimed. Paper Sonata remains available through the explicit owner adapter documented below.
+- Historical `v0.89.1` quality-gate package (retired aggregate; retained evidence).
+- Historical `v0.89.1` integration shell package (retired; original assertions in custody).
 
 When planning a demo sweep, do not assume every proof-package command above belongs in the ordinary demo lane.
 
@@ -180,42 +177,37 @@ When planning a demo sweep, do not assume every proof-package command above belo
 ### v0.87.1 Codex CLI + Ollama operational-skills demo
 
 - `v0.87.1/codex_ollama_operational_skills_demo.md`
-- `v0.87.1/claude_chatgpt_multi_agent_discussion_demo.md`
+- [v0.87.1/claude_chatgpt_multi_agent_discussion_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.87.1/claude_chatgpt_multi_agent_discussion_demo.md)
 
-Use `bash adl/tools/demo_v0871_suite.sh` for the canonical WP-13 demo-suite
-entrypoint. It runs the currently implemented `v0.87.1` proof surfaces and
-writes a suite manifest at `artifacts/v0871/suite/demo_manifest.json`.
+The former WP-13 suite, quality gate and release-review aggregate are
+[historical contracts](../docs/tooling/V0871_HISTORICAL_AGGREGATE.md).
+Their source-tree lifecycle, trace and aggregate assertions were explicitly
+retired with the v1 execution route. Individual provider and multi-agent demos
+retain their separate execution requirements and are not newly qualified here.
 
-Treat that suite as the current reviewer starting point for the milestone.
-It is a heavyweight reviewer proof package, not an ordinary quick demo.
-The live-provider D13L companion proof remains explicit and credential-gated
-rather than part of the default suite.
+The Codex/Ollama operational-skills recipe is historical. Its producer already
+refused execution before workspace/provider effects because it depended on
+retired standalone card validators. Both dry-run and semantic-fallback companion
+tests are archived with that route; their assertions are not reported as passing.
+Current issue-bound card editing follows the selected native C-SDLC owner.
 
-Use `v0.87.1/codex_ollama_operational_skills_demo.md` for a bounded demo that
-installs the tracked skills into a demo-local `CODEX_HOME`, points Codex CLI at
-an Ollama-backed model on the default local host or a configured remote host,
-and runs the editor skills against a prepared local bundle fixture.
-
-Use `bash adl/tools/demo_codex_ollama_operational_skills.sh --dry-run` to
-prepare the prompt, workspace, and manifest without invoking a local model.
-
-Use `v0.87.1/claude_chatgpt_multi_agent_discussion_demo.md` for a bounded
+Use [v0.87.1/claude_chatgpt_multi_agent_discussion_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.87.1/claude_chatgpt_multi_agent_discussion_demo.md) for a bounded
 multi-agent runtime demo that keeps Claude and ChatGPT as two explicit named
 agents in a longer act-structured tea discussion and emits a transcript plus runtime proof
 artifacts.
 
-Use `v0.89/gemini_in_the_loop_demo.md` for a bounded provider-harmony demo that
+Use [v0.89/gemini_in_the_loop_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.89/gemini_in_the_loop_demo.md) for a bounded provider-harmony demo that
 packages one review packet for Gemini, validates Gemini's structured response,
 and records a reviewer-facing findings artifact plus runtime proof.
 
 ### v0.89 bounded provider-participation demos
 
 - `v0.89/v089_demo_program.md`
-- `v0.89/deep_agents_comparative_wave_demo.md`
-- `v0.89/medium_article_writing_demo.md`
-- `v0.89/gemini_provider_harmony_and_economics_demo.md`
+- [v0.89/deep_agents_comparative_wave_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.89/deep_agents_comparative_wave_demo.md)
+- [historical Medium article demo guide](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.89/medium_article_writing_demo.md)
+- [v0.89/gemini_provider_harmony_and_economics_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.89/gemini_provider_harmony_and_economics_demo.md)
 - `v0.89/gemma4_issue_clerk_demo.md`
-- `v0.89/paper_sonata_demo_refresh.md`
+- [v0.89/paper_sonata_demo_refresh.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.89/paper_sonata_demo_refresh.md)
 - `v0.89/multi_agent_repo_code_review_demo.md`
 
 Use `v0.89/v089_demo_program.md` for the canonical `v0.89` proof-row entrypoint
@@ -223,7 +215,7 @@ guide. It ties D1 through D7 to one reviewer flow and points at the bounded
 proof-entrypoint manifest produced by:
 
 ```bash
-bash adl/tools/demo_v089_proof_entrypoints.sh
+(cd "${ADL_INFRASTRUCTURE_SOURCE_ROOT:?set an absolute Infrastructure checkout}" && bash adl/tools/demo_v089_proof_entrypoints.sh)
 ```
 
 That command writes a lightweight review packet at:
@@ -231,21 +223,21 @@ That command writes a lightweight review packet at:
 - `artifacts/v089/proof_entrypoints/README.md`
 - `artifacts/v089/proof_entrypoints/index.txt`
 
-Use `bash adl/tools/demo_v089_review_surface.sh` when you want the integrated
+Use `(cd "${ADL_INFRASTRUCTURE_SOURCE_ROOT:?set an absolute Infrastructure checkout}" && bash adl/tools/demo_v089_review_surface.sh)` when you want the integrated
 `v0.89` reviewer package instead of the lighter row-entry map. It emits:
 - `artifacts/v089/review_surface/demo_manifest.json`
 - `artifacts/v089/review_surface/claim_matrix.md`
 - `artifacts/v089/review_surface/proof_entrypoints/demo_manifest.json`
 
-Use `v0.89/deep_agents_comparative_wave_demo.md` for a richer comparative demo
+Use [v0.89/deep_agents_comparative_wave_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.89/deep_agents_comparative_wave_demo.md) for a richer comparative demo
 where ChatGPT, Claude, and Gemini contribute bounded positions and ADL emits a
 findings-first synthesis package instead of a flat proof row.
 
-Use `v0.89/medium_article_writing_demo.md` for a bounded publication-oriented
+See the [historical Medium article demo guide](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.89/medium_article_writing_demo.md) for a bounded publication-oriented
 demo where ADL turns one launch-essay brief into a reviewer-friendly article
 packet with outline, draft, editorial notes, and runtime proof.
 
-Use `v0.89/gemini_provider_harmony_and_economics_demo.md` for the stronger
+Use [v0.89/gemini_provider_harmony_and_economics_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.89/gemini_provider_harmony_and_economics_demo.md) for the stronger
 Gemini follow-on where ADL not only hosts Gemini in a bounded workflow, but
 also records why Gemini was selected through provider-fit and cost-class
 reasoning artifacts.
@@ -255,26 +247,25 @@ demo where an Ollama-hosted Gemma-family model proposes one issue-init payload,
 ADL validates it, and the final result is either accepted deterministically or
 rejected truthfully.
 
-Use `v0.89/paper_sonata_demo_refresh.md` for the refreshed reviewer-facing
+Use [v0.89/paper_sonata_demo_refresh.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.89/paper_sonata_demo_refresh.md) for the refreshed reviewer-facing
 Paper Sonata package. It keeps the bounded flagship workflow, but adds a packet
 manifest, claim matrix, revision requests, and a clearer reviewer brief.
 
 ### v0.89.1 adversarial/runtime and publication demos
 
-- `v0.89.1/five_agent_hey_jude_midi_demo.md`
+- [Historical Hey Jude MIDI source guide](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.89.1/five_agent_hey_jude_midi_demo.md) (source custody; the original ADL producer is retired).
 - `v0.89.1/arxiv_manuscript_workflow_demo.md`
-- `v0.89.1/gemini_provider_harmony_roundtable_demo.md`
-- `v0.89.1/deep_agents_comparative_wave_follow_on_demo.md`
-- `v0.89.1/long_lived_stock_league_demo.md`
+- [v0.89.1/gemini_provider_harmony_roundtable_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.89.1/gemini_provider_harmony_roundtable_demo.md)
+- [v0.89.1/deep_agents_comparative_wave_follow_on_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.89.1/deep_agents_comparative_wave_follow_on_demo.md)
+- [v0.89.1 long-lived stock-league fixture demo (Runtime owner)](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.89.1/long_lived_stock_league_demo.md)
 
-Use `bash adl/tools/demo_v0891_quality_gate.sh` for the current release-tail
-quality-gate proof package.
+The `v0.89.1` release-tail quality-gate aggregate is historical after #1223.
+Use the current public ADL and separately qualified owner checks for their
+respective scopes; no single replacement claims its old combined denominator.
 
-Use `bash adl/tools/demo_v0891_wp13_demo_integration.sh` for the integrated
-`v0.89.1` demo package.
+The integrated `v0.89.1` shell package is historical and retired.
 
-Use `bash adl/tools/demo_v0891_five_agent_hey_jude.sh` for the flagship bounded
-multi-agent music demo.
+The ADL multi-agent music shell producer is historical and retired; existing audio episodes remain usable as explicit renderer inputs.
 
 Use `bash adl/tools/demo_v0891_arxiv_manuscript_workflow.sh` for the bounded
 manuscript workflow packet.
@@ -285,8 +276,8 @@ review artifacts, and then writes one synthesized findings-first review.
 
 ### v0.90 long-lived agents and CodeBuddy review demos
 
-- `v0.90/long_lived_stock_league_demo.md`
-- `v0.90/stock_league_demo_extensions.md`
+- [Runtime owner: v0.90/long_lived_stock_league_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/0d11d040bd2dd578f8182e0408d80c844bc711d1/demos/v0.90/long_lived_stock_league_demo.md)
+- [Runtime owner: v0.90/stock_league_demo_extensions.md](https://github.com/agent-logic/agent-logic-runtime/blob/0d11d040bd2dd578f8182e0408d80c844bc711d1/demos/v0.90/stock_league_demo_extensions.md)
 - `v0.90/codebuddy_multi_agent_review_showcase_demo.md`
 - `v0.90/aptitude_atlas_repo_review_aptitude_demo.md`
 
@@ -300,39 +291,31 @@ staged `review-quality-evaluator` lane from `#2070` lands.
 ### v0.90.2 review proof demos
 
 - `v0.90.2/multi_agent_repo_review_proof_demo.md`
-- `v0.90.2/paper_sonata_expansion_demo.md`
+- [v0.90.2/paper_sonata_expansion_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.90.2/paper_sonata_expansion_demo.md)
 
-Use `bash adl/tools/demo_v0902_multi_agent_repo_review_proof.sh` for the
+Use `(cd "${ADL_INFRASTRUCTURE_SOURCE_ROOT:?set an absolute Infrastructure checkout}" && bash adl/tools/demo_v0902_multi_agent_repo_review_proof.sh)` for the
 stricter multi-agent repo-review proof packet. It is fixture-backed and
 deterministic, but it validates a stronger review contract than the original
 v0.89 demo: specialist boundaries, findings-first synthesis, explicit
 non-findings, residual risk, publication gates, and no merge-approval claims.
 
-Use `bash adl/tools/demo_v0902_paper_sonata_expansion.sh` for the bounded Paper
+Use `python3 tools/runtime_contracts/run_paper_sonata.py expansion ./artifacts/paper-sonata-expansion` for the bounded Paper
 Sonata manuscript review/revision proof packet. It preserves the delivered
 v0.88/v0.89 baseline while adding source/draft/review/revision separation,
 addressed revision requests, and an explicit no-submission publication gate.
 
-### v0.90.1 Runtime v2 and CSM Observatory demos
+### v0.90.1 Runtime v2 and CSM Observatory source
 
-- `v0.90.1/csm_observatory_static_console.md`
-- `v0.90.1/csm_observatory_operator_report.md`
-- `v0.90.1/csm_observatory_cli_demo.md`
+The [original static console and operator report](https://github.com/agent-logic/agent-logic-runtime/blob/0c5b129decab8ab71738e19967c46d39b5f4afad/demos/v0.90.1/)
+are held in Runtime source. The [governed prototype](https://github.com/agent-logic/agent-logic-runtime/blob/0c5b129decab8ab71738e19967c46d39b5f4afad/demos/v0.90.4/)
+also remains an owner source artifact. These links identify source custody;
+local composed-fixture checks do not prove a standalone installed owner package
+or a live CSM run.
 
-Use `v0.90.1/csm_observatory_static_console.html` for the first read-only CSM
-Observatory prototype. It renders the fixture-backed proto-csm-01 visibility
-packet into a control-room surface with manifold header, citizen constellation,
-kernel pulse, Freedom Gate docket, trace ribbon, and read-only operator action
-rail.
-
-Use `bash adl/tools/test_demo_v0901_csm_observatory_operator_report.sh` to
-validate the packet-to-report proof surface. The generated Markdown report is a
-compact reviewer artifact for manifold status, citizen state, invariant risk,
-Freedom Gate decisions, trace tail, operator-action boundaries, and caveats.
-
-Use `bash adl/tools/demo_v0901_csm_observatory.sh` for the first command-driven
-Observatory demo bundle. It emits the packet copy, operator report, static
-console reference, and demo manifest from one ADL CLI command.
+The original CLI guide, Cargo producer and visibility fixture are retired as
+historical source. Their exact bytes and original proof obligations remain in
+Git and the #1223 archive. No current CLI packaging or live CSM behavior is
+claimed by this retirement.
 
 ### v0.90.2 publication field-test demos
 
@@ -346,8 +329,10 @@ and the explicit no-submission publication boundary.
 Use `v0.87/v087_demo_program.md` for the canonical `v0.87` demo order and bounded
 repo-local commands.
 
-Use `bash adl/tools/demo_v087_suite.sh` for the one-command substrate review
-path. It populates:
+The former `demo_v087_suite.sh` aggregate and reviewer-package wrapper are
+retired historical tooling. Their original commands and assertions are retained
+in Git and the #1223 custody record; no current full-suite pass is claimed.
+The historical aggregate produced:
 - `artifacts/v087/trace_v1/`
 - `artifacts/v087/provider_portability/`
 - `artifacts/v087/shared_obsmem/`
@@ -367,7 +352,7 @@ Use `./adl/tools/demo_v086_review_surface.sh` for the one-command reviewer entry
 - `artifacts/v086/review_surface/README.txt`
 - `artifacts/v086/review_surface/index.txt`
 
-Use `./adl/tools/demo_v086_control_path.sh` for the primary bounded cognitive-path proof surface. It generates:
+The historical monolith control-path shell route is retired. Its original expected artifacts remain:
 - `artifacts/v086/control_path/demo-g-v086-control-path/summary.txt`
 - `artifacts/v086/control_path/demo-g-v086-control-path/arbitration.json`
 - `artifacts/v086/control_path/demo-g-v086-control-path/freedom_gate.json`
@@ -376,27 +361,24 @@ Use `./adl/tools/demo_v086_control_path.sh` for the primary bounded cognitive-pa
 ### v0.85 demo program
 
 - `v0.85/v085_demo_program.md`
-- `v0.85/steering_queue_checkpoint_demo.md`
+- [v0.85/steering_queue_checkpoint_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.85/steering_queue_checkpoint_demo.md)
 - `v0.85/hitl_editor_review_demo.md`
 - `v0.85/godel_hypothesis_engine_demo.md`
-- `aee-recovery/README.md`
-- `v0.85/affect_godel_vertical_slice_demo.md`
+- [aee-recovery/README.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/aee-recovery/README.md)
+- [v0.85/affect_godel_vertical_slice_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.85/affect_godel_vertical_slice_demo.md)
 
 Use `v0.85/v085_demo_program.md` for the canonical milestone review order.
 
-Use `adl/tools/demo_steering_queue_checkpoint.sh` for the bounded
-steering/checkpoint/resume proof surface. It emits:
+The historical monolith steering/checkpoint shell route is retired. Its original artifact requirements remain:
 - `.adl/runs/v0-85-hitl-steering-demo/pause_state.json`
 - `.adl/runs/v0-85-hitl-steering-demo/run.json`
 - `.adl/reports/demo-steering-queue-checkpoint/steer.json`
 
-Use `adl/tools/demo_hitl_editor_review.sh` for the bounded editor/review
-workflow proof surface. It emits:
+The historical editor demo used the retired `editor_action start` interface. Its original artifact requirement remains:
 - `.adl/reports/demo-hitl-editor-review/editor_review_demo_manifest.v1.json`
 
 Use `v0.85/godel_hypothesis_engine_demo.md` for the milestone-facing WP-10 review
-path. For a one-command review flow, run
-`adl/tools/demo_godel_hypothesis_engine.sh`.
+path. The historical ADL shell route is retired; its original assertions remain in #1223 custody.
 
 ### Quickstart runtime demos
 
@@ -408,58 +390,70 @@ path. For a one-command review flow, run
 
 - `rust-transpiler/README.md`
 - `v0.8/v0.8-bounded-critical-demos.md`
-- `v0.8/godel_failure_hypothesis_experiment.md`
+- [v0.8/godel_failure_hypothesis_experiment.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.8/godel_failure_hypothesis_experiment.md)
 - `v0.85/adaptive_godel_loop_demo.md`
-- `v0.85/experiment_prioritization_demo.md`
-- `v0.85/cross_workflow_learning_demo.md`
-- `v0.85/promotion_eval_loop_demo.md`
-- `aee-recovery/README.md`
+- [v0.85/experiment_prioritization_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.85/experiment_prioritization_demo.md)
+- [v0.85/cross_workflow_learning_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.85/cross_workflow_learning_demo.md)
+- [v0.85/promotion_eval_loop_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.85/promotion_eval_loop_demo.md)
+- [aee-recovery/README.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/aee-recovery/README.md)
 
-Use `aee-recovery/README.md` for the bounded Adaptive Execution Engine recovery
+Use [aee-recovery/README.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/aee-recovery/README.md) for the bounded Adaptive Execution Engine recovery
 demo: failure, explicit retry-budget recommendation, bounded overlay, and
 successful recovery with replayable artifacts.
 
-Use `adl/tools/demo_aee_bounded_adaptation.sh` for the one-command v0.85
-bounded adaptation demo that emits `learning/aee_decision.json` as the primary
-adaptive decision artifact.
+The historical v0.85 AEE shell route is retired. Its expected `learning/aee_decision.json` artifact remains an original scenario obligation, not a newly passing proof.
 
-Use `v0.8/godel_failure_hypothesis_experiment.md` for the concrete
+Use [v0.8/godel_failure_hypothesis_experiment.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.8/godel_failure_hypothesis_experiment.md) for the concrete
 `adl godel run` / `adl godel inspect` / `adl godel evaluate` review path and the
 persisted Gödel schema/runtime artifacts it produces, including the
-first-class `godel_hypothesis.v1.json` hypothesis record. For a one-command
-review flow, run `adl/tools/demo_godel_hypothesis_engine.sh`.
+first-class `godel_hypothesis.v1.json` hypothesis record. The former one-command ADL route is retired; these remain historical scenario requirements.
 
-Use `v0.85/promotion_eval_loop_demo.md` for the bounded WP-14 review path that proves
+Use [v0.85/promotion_eval_loop_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.85/promotion_eval_loop_demo.md) for the bounded WP-14 review path that proves
 the prior Gödel artifacts now feed a structured evaluation report and an
 explicit promotion decision through the persisted
 `godel_eval_report.v1.json` and `godel_promotion_decision.v1.json` artifacts.
-For a one-command review flow, run `adl/tools/demo_promotion_eval_loop.sh`.
+The former one-command ADL route is retired; its original checks remain in custody.
 
 Use `v0.85/adaptive_godel_loop_demo.md` for the bounded WP-11 policy-learning slice.
 It shows a deterministic policy decision and before/after policy comparison
-derived from the persisted hypothesis artifact. For a one-command review flow,
-run `adl/tools/demo_adaptive_godel_loop.sh`.
+derived from the persisted hypothesis artifact. The former one-command ADL route is retired; its original checks remain in custody.
 
-Use `v0.85/experiment_prioritization_demo.md` for the bounded WP-12 prioritization
+Use [v0.85/experiment_prioritization_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.85/experiment_prioritization_demo.md) for the bounded WP-12 prioritization
 slice. It shows a deterministic ranked experiment output with explicit
 confidence values and stable tie-break behavior derived from the hypothesis and
-policy artifacts. For a one-command review flow, run
-`adl/tools/demo_experiment_prioritization.sh`.
+policy artifacts. The former one-command ADL route is retired; its original checks remain in custody.
 
-Use `v0.85/cross_workflow_learning_demo.md` for the bounded WP-13 review path that
+Use [v0.85/cross_workflow_learning_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.85/cross_workflow_learning_demo.md) for the bounded WP-13 review path that
 proves workflow-A prioritization output changes a downstream workflow-B
 decision through the persisted `godel_cross_workflow_learning.v1.json`
-artifact. For a one-command review flow, run
-`adl/tools/demo_cross_workflow_learning.sh`.
+artifact. The former one-command ADL route is retired; its original checks remain in custody.
 
-Use `v0.85/affect_godel_vertical_slice_demo.md` for the bounded WP-17 slice that
+Use [v0.85/affect_godel_vertical_slice_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.85/affect_godel_vertical_slice_demo.md) for the bounded WP-17 slice that
 proves an affect transition changes the top Gödel-adjacent strategy ranking
-through the persisted `godel_affect_vertical_slice.v1.json` artifact. For a
-one-command review flow, run
-`adl/tools/demo_affect_godel_vertical_slice.sh`.
+through the persisted `godel_affect_vertical_slice.v1.json` artifact. The former one-command ADL route is retired; its original checks remain in custody.
 
 ### Historical/runtime fixture inventory
 
 - `../adl/examples/README.md`
 
 Use that README when you specifically want the full crate-local example inventory. For user-facing demo discovery, start here instead.
+
+The pinned v0.8 Gödel guide preserves historical source instructions only. Its
+owner copy predates the ADL retirement warning; no current native procedure or
+original scenario acceptance is established by this document transfer.
+
+### Paper Sonata owner resources
+
+The retained adapter requires an absolute `ADL_RUNTIME_SOURCE_ROOT` pinned to Runtime
+`7d0db620ad79c50ff5d8fabf0fb543183583d05c`. The `expansion` mode also requires
+`ADL_INFRASTRUCTURE_SOURCE_ROOT` at Infrastructure `025850d265cbd1a55b28a8e9b238b2fe0bfcaf1d`;
+its six production fixtures come from Runtime. The `paper` mode requires an explicit
+executable `ADL_DEMO_ADL_BIN` and never falls back to Cargo. Output is selected explicitly.
+Original local-mock Paper Sonata and synthetic expansion assertions passed separately;
+this does not qualify the full v0.88 aggregate, live providers, publication or discovery.
+
+The legacy provider demo shell family was retired in #1223 with its original assertions in Git and custody. Owner source delivery does not establish new live-provider, transcript, musical-performance or archive acceptance. The later Hey Jude explicit-source preflight and the original implicit-source aggregate are preserved in historical custody; their retirement does not qualify media rendering.
+
+### Historical audio and podcast source guides
+
+The [Hey Jude audio and podcast guides](https://github.com/agent-logic/agent-logic-runtime/tree/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.91.1) are retained in Runtime source. These historical documents do not establish current media, provider, or installed qualification. The manual Hey Jude renderer, aggregate test and two validators are retired together, with original assertions and the later explicit-source preflight preserved in custody. The separate podcast renderer and installer-facing audio-policy test remain in ADL; no new media or provider acceptance is claimed.

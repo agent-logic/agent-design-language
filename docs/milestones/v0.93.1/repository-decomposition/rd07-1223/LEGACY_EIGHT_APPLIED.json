@@ -1,0 +1,394 @@
+{
+  "schema": "adl1223.reviewed_family_applied.v1",
+  "status": "applied_local_reversible_implementation",
+  "source_head": "1eb50b3eefb1fe41ad39d1c8dd2fd1e6971387d2",
+  "rows": [
+    {
+      "id": "RD07-1259",
+      "path": "adl/tools/branch_hygiene.sh",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "0cee74d5cfceb32afd52e7f4f21368479a3d14ca"
+      },
+      "existing_action": "retain",
+      "hold_reason": "Legacy branch cleanup fetches/prunes and offers local force/remote branch deletion directly, without typed finish/clean. Full110line source read; bounded existing caller scan has no references.",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
+      "required_before_execution": [
+        "Retire only by explicit sunset decision and preserve Git history; absence of callers is not deletion authorization; no new replacement branch-management feature.",
+        "Explicit coherent retirement approval; preserve original identities and historical evidence"
+      ],
+      "successor_mapping": {
+        "mapping": "unmapped",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "PUBLIC_LEGACY_HELPER_DISPOSITIONS.json",
+        "packet_sha256": "19c401eb8c113e49d7b5751af38a8188731cf7b4094e9794c7a234d6c5a4eaed",
+        "proposal": "proposed_historical_retirement_with_caller_repair",
+        "reason": "Legacy branch cleanup fetches/prunes and offers local force/remote branch deletion directly, without typed finish/clean. Full110line source read; bounded existing caller scan has no references."
+      }
+    },
+    {
+      "id": "RD07-1264",
+      "path": "adl/tools/burst_continue.sh",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "d0fb8d32c9b3d4715009fb878c13a7a0c861b5fd"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
+      "required_before_execution": [
+        "Current native v3 route already governs this operation; do not port retired wrapper behavior into new product. Preserve historical Git/evidence. Repair or explicitly retire the listed active callers/tests; update public tool navigation. No new removal authority.",
+        "atomic family and caller disposition; no v1 route restoration"
+      ],
+      "successor_mapping": {
+        "mapping": "unmapped",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_UNMAPPED_TOOLS_DISPOSITIONS.json",
+        "packet_sha256": "2682d1f5904ff8cf484acec5c0a8f2e62c45798c7f7a9b1de3fbc422ec655f35",
+        "proposal": "retire_sunset_with_caller_repairs",
+        "reason": "Determines progress exclusively by run_log marker executed via adl_pr_cycle; current native receipts do not use that legacy authority."
+      }
+    },
+    {
+      "id": "RD07-1265",
+      "path": "adl/tools/burst_worktree.sh",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "9f2eb8bd337568b84685abd1a55862d90b8f677e"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
+      "required_before_execution": [
+        "Current native v3 route already governs this operation; do not port retired wrapper behavior into new product. Preserve historical Git/evidence. Repair or explicitly retire the listed active callers/tests; update public tool navigation. No new removal authority.",
+        "atomic family and caller disposition; no v1 route restoration"
+      ],
+      "successor_mapping": {
+        "mapping": "unmapped",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CSDLC_UNMAPPED_TOOLS_DISPOSITIONS.json",
+        "packet_sha256": "2682d1f5904ff8cf484acec5c0a8f2e62c45798c7f7a9b1de3fbc422ec655f35",
+        "proposal": "retire_sunset_with_caller_repairs",
+        "reason": "Creates/removes raw Git worktrees beneath default .worktrees/burst without native bind or FastWork policy; current AGENTS mandates native bind/clean."
+      }
+    },
+    {
+      "id": "RD07-1268",
+      "path": "adl/tools/check_csdlc_prompt_editor_browser.js",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "6308713d2e161dfe561b481d355623b76f123ee6"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
+      "required_before_execution": [
+        "specific_consumer_or_document_disposition_required",
+        "Exact scoped retirement decision for orphan checker; preserve original five-card DOM assertions historically without claiming native equivalence."
+      ],
+      "successor_mapping": {
+        "mapping": "unmapped",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": []
+      },
+      "prior_proposed_action": "hold_explicit_reconciliation",
+      "disposition_evidence": "RETIRED_PROMPT_EDITOR_CHECKER.json"
+    },
+    {
+      "id": "RD07-1295",
+      "path": "adl/tools/coverage.sh",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "89b025c49a478bc353841b4a3f12330ec66c52e5"
+      },
+      "existing_action": "retain",
+      "hold_reason": "Seven-line unscoped cargo llvm-cov/genhtml/open wrapper is superseded for retained public package proof by explicit six-package coverage producer. Existing basename hits were substrings of other test names, not calls.",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
+      "required_before_execution": [
+        "Record explicit retirement and use tools/public_adl coverage path; no threshold reduction or assertion that old private denominator transferred.",
+        "Explicit coherent retirement approval; preserve original identities and historical evidence"
+      ],
+      "successor_mapping": {
+        "mapping": "unmapped",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "PUBLIC_LEGACY_HELPER_DISPOSITIONS.json",
+        "packet_sha256": "19c401eb8c113e49d7b5751af38a8188731cf7b4094e9794c7a234d6c5a4eaed",
+        "proposal": "proposed_historical_retirement_with_caller_repair",
+        "reason": "Seven-line unscoped cargo llvm-cov/genhtml/open wrapper is superseded for retained public package proof by explicit six-package coverage producer. Existing basename hits were substrings of other test names, not calls."
+      }
+    },
+    {
+      "id": "RD07-1444",
+      "path": "adl/tools/observability.sh",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "bde621fa5660e4f6fdec637b739885e1a28220ac"
+      },
+      "existing_action": "retain",
+      "hold_reason": "Shell library defines redaction, stdout/stderr compatibility, timed stages and heartbeat settings; Runtime-labelled component alone does not establish owner succession. Existing Rust observability.shutdown hits are false literal matches.",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
+      "required_before_execution": [
+        "Reconcile sole source test_control_plane_observability.sh and run_owner_validation_lane.sh before transfer/retirement; preserve all sanitization/compatibility assertions; no new logging feature.",
+        "Apply coherent owner-lane/selector/manager caller retirement and obtain exact scoped decision; preserve historical outputs and explicit changed-contract distinction."
+      ],
+      "successor_mapping": {
+        "mapping": "unmapped",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "PUBLIC_LEGACY_HELPER_DISPOSITIONS.json",
+        "packet_sha256": "19c401eb8c113e49d7b5751af38a8188731cf7b4094e9794c7a234d6c5a4eaed",
+        "proposal": "hold_specific_shell_observability_contract",
+        "reason": "Shell library defines redaction, stdout/stderr compatibility, timed stages and heartbeat settings; Runtime-labelled component alone does not establish owner succession. Existing Rust observability.shutdown hits are false literal matches."
+      },
+      "prior_proposed_action": "hold_explicit_reconciliation",
+      "disposition_evidence": "LEGACY_HELPERS_RETIREMENT_PROPOSAL.json"
+    },
+    {
+      "id": "RD07-1445",
+      "path": "adl/tools/open_artifact.sh",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "7d0c52ce3208e3a47beec206b37c8dfeec78ed88"
+      },
+      "existing_action": "retain",
+      "hold_reason": "Legacy card/burst opener depends on card_paths.sh and input/output card conventions; full94line source read.",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
+      "required_before_execution": [
+        "Repair adl/tools/README.md opener recommendation together with legacy card_paths dependency disposition; preserve historical usage.",
+        "Explicit coherent retirement approval; preserve original identities and historical evidence"
+      ],
+      "successor_mapping": {
+        "mapping": "unmapped",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "PUBLIC_LEGACY_HELPER_DISPOSITIONS.json",
+        "packet_sha256": "19c401eb8c113e49d7b5751af38a8188731cf7b4094e9794c7a234d6c5a4eaed",
+        "proposal": "proposed_historical_retirement_with_caller_repair",
+        "reason": "Legacy card/burst opener depends on card_paths.sh and input/output card conventions; full94line source read."
+      }
+    },
+    {
+      "id": "RD07-1936",
+      "path": "adl/tools/test_control_plane_observability.sh",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "2205d79ca53b7b7d22a260e7e03222a80eb7af3d"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
+      "required_before_execution": [
+        "specific_consumer_or_document_disposition_required",
+        "Apply coherent owner-lane/selector/manager caller retirement and obtain exact scoped decision; preserve historical outputs and explicit changed-contract distinction."
+      ],
+      "successor_mapping": {
+        "mapping": "unmapped",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": []
+      },
+      "prior_proposed_action": "hold_explicit_reconciliation",
+      "disposition_evidence": "LEGACY_HELPERS_RETIREMENT_PROPOSAL.json"
+    }
+  ],
+  "files": [
+    {
+      "path": "adl/tools/test_control_plane_observability.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "2205d79ca53b7b7d22a260e7e03222a80eb7af3d",
+        "sha256": "0c59dc15742c942796db274829d5e78f31e80577dbae111f59a234e89c8e2ded"
+      },
+      "after": null,
+      "archive_member": "source/adl/tools/test_control_plane_observability.sh"
+    },
+    {
+      "path": "adl/tools/burst_worktree.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "9f2eb8bd337568b84685abd1a55862d90b8f677e",
+        "sha256": "b2c332b035ff0a0f215323f4b43faf70f0be06d613cded581e1977d3cf733fd4"
+      },
+      "after": null,
+      "archive_member": "source/adl/tools/burst_worktree.sh"
+    },
+    {
+      "path": "adl/tools/burst_continue.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "d0fb8d32c9b3d4715009fb878c13a7a0c861b5fd",
+        "sha256": "9ebdac11c8a74c2878619bb18bbe582661b8dab1ebc974af64bd426939f54152"
+      },
+      "after": null,
+      "archive_member": "source/adl/tools/burst_continue.sh"
+    },
+    {
+      "path": "adl/tools/coverage.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "89b025c49a478bc353841b4a3f12330ec66c52e5",
+        "sha256": "0115e93b0e26dcc392ee1b4a7d146b9f0c61a59551fc14feb52e7f858b778a2d"
+      },
+      "after": null,
+      "archive_member": "source/adl/tools/coverage.sh"
+    },
+    {
+      "path": "adl/tools/check_csdlc_prompt_editor_browser.js",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "6308713d2e161dfe561b481d355623b76f123ee6",
+        "sha256": "88fda85a59437efffd6ada57cff16f920755b07bf478bd322aa67f4e556245a7"
+      },
+      "after": null,
+      "archive_member": "source/adl/tools/check_csdlc_prompt_editor_browser.js"
+    },
+    {
+      "path": "adl/tools/branch_hygiene.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "0cee74d5cfceb32afd52e7f4f21368479a3d14ca",
+        "sha256": "7607315d747d5164da000012dbcf5a50bab975b004bab03aed895eba4533c164"
+      },
+      "after": null,
+      "archive_member": "source/adl/tools/branch_hygiene.sh"
+    },
+    {
+      "path": "adl/tools/open_artifact.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "7d0c52ce3208e3a47beec206b37c8dfeec78ed88",
+        "sha256": "75b8a7b8f245b939c6d48fc9e2fdda53697f96eaf1bf8329d22e975884668714"
+      },
+      "after": null,
+      "archive_member": "source/adl/tools/open_artifact.sh"
+    },
+    {
+      "path": "adl/tools/observability.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "bde621fa5660e4f6fdec637b739885e1a28220ac",
+        "sha256": "27afa246a06d4849e3335b0e88e4d37ec5f634be842eefca740064e4d715dd25"
+      },
+      "after": null,
+      "archive_member": "source/adl/tools/observability.sh"
+    },
+    {
+      "path": "adl/tools/README.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "6966b08d9ef141fdbd966e0d692f563f95a8423d",
+        "sha256": "59946eaae1b675edea53ecbb202b00e61453ad28098cf64a2f488baab0d9593e"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "c8f7102d7d4176cbcd012ca5b6e8b2041195506e",
+        "sha256": "625747c53e2fcf16a20753e01f50a2546f830e813349a13d443b8faa6b6821f6"
+      },
+      "archive_member": "source/adl/tools/README.md"
+    },
+    {
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "a5406109d258ab40313fa0d8478b750edc3c4174",
+        "sha256": "75bf946a7219a8981cb6ef2111aa2c957658e7fa8d7440b277561545546faab1"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "0af1b622a30df843b46b9c8567149f5deb2af15f",
+        "sha256": "fc6e7260e492c1403742d5afb494c68b6ccb0019ae50eba477291b975435e2d2"
+      },
+      "archive_member": "source/docs/tooling/TOOL_SURFACE_REGISTRY.md"
+    }
+  ],
+  "patch": {
+    "path": "/Volumes/FastWork/c1223/legacy-eight-preparation/legacy-eight.patch",
+    "sha256": "d688fc971174f105d6d966d8d9b7d649fdae0fda67715c6c3ac4f10d84abce64"
+  },
+  "custody": {
+    "path": "/Volumes/FastWork/c1223/legacy-eight-preparation/preimages.tar",
+    "sha256": "b7e3aea77341e35080cdf5df0df341a63b12ac432904eddf70be66b2312fcc91",
+    "members": 10
+  },
+  "accepted_prior_dispositions": [
+    "PUBLIC_LEGACY_HELPER_DISPOSITIONS.json",
+    "RETIRED_PROMPT_EDITOR_CHECKER.json",
+    "LEGACY_HELPERS_RETIREMENT_PROPOSAL.json",
+    "CSDLC_UNMAPPED_TOOLS_DISPOSITIONS.json"
+  ],
+  "rationale": {
+    "branch_and_burst": "Historical direct Git branch/worktree operations and v1 run-log continuation; selected native bind/finish/clean governs current issues. No old command executed.",
+    "coverage": "Unscoped source-era llvm-cov helper retired; retained explicit public package coverage unchanged.",
+    "prompt_checker": "Orphan five-card browser checker imports already retired editor. Original draft/schema/locked-field assertions preserved historically; no native equivalence asserted.",
+    "artifact_opener": "Legacy two-card and burst report navigation retired; registered worktree/evidence remain browsable.",
+    "observability_pair": "Only retained executable dependency is paired historical test; preserves original redaction/stdout/stderr/durable-log/sink-failure assertions in exact custody. Does not change current native logging or claim replacement behavior."
+  },
+  "caller_scan": {
+    "path": "/Volumes/FastWork/c1223/legacy-eight-preparation/CALLERS.json",
+    "boundary": "Literal basename reads in current tools/workflow/operator-doc roots; immutable milestones/journals unchanged. Registry generated prospectively; actual regeneration required."
+  },
+  "limits": [
+    "No tests, cleanup, shell helpers, browser, cloud or native operations executed.",
+    "Historical retirement decision is separate from supported owner equivalence.",
+    "Original4134+22 not modified; no blanket prefix removal."
+  ],
+  "source_head_before": "1e57d25cd7c3d5413e83a1220a748791bc598eef",
+  "implementation_commit": "pending_parent_commit",
+  "proposal": {
+    "path": "/Volumes/FastWork/c1223/legacy-eight-preparation/PROPOSAL.json",
+    "sha256": "979289ef02db7555c3ce5c38066f33eadce36723b4733bb6a9f0fc372c0d9bfc"
+  },
+  "reviewed_patch": {
+    "path": "/Volumes/FastWork/c1223/legacy-eight-preparation/legacy-eight.patch",
+    "sha256": "d688fc971174f105d6d966d8d9b7d649fdae0fda67715c6c3ac4f10d84abce64"
+  },
+  "registry_custody": {
+    "path": "/Volumes/FastWork/c1223/legacy-eight-preparation/application-registry-1e57d25cd7c3.tar",
+    "sha256": "fadcdfb88e6efc6e8c68c4b505193e1c876f8bef77a6aa74e74452658505378c",
+    "member": "source/docs/tooling/TOOL_SURFACE_REGISTRY.md"
+  },
+  "authorization_basis": "User-directed coherent ADL1223 source retirement, with bounded independent exact-family review.",
+  "independent_review": "Historical-retention subagent PASS on exact source/custody/caller and prior qualified or explicit historical retirement boundaries.",
+  "application_verification": "Non-registry current preimages and removal/modified afterimages verified; actual registry regenerated preserving preceding batches. Original evidence unchanged; no original tests/builds/cloud/native operations repeated."
+}

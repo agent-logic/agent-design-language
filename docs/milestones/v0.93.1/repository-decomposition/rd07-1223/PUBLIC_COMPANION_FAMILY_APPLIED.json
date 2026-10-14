@@ -1,0 +1,2032 @@
+{
+  "schema": "adl1223.public_companion_applied.v1",
+  "status": "applied_local_reversible_implementation",
+  "source_head": "c1db31d3589aac55eadd7225d2403167e37b69d6",
+  "denominators": {
+    "original": 4134,
+    "additional_separate": 22,
+    "schema_removals": 21,
+    "public_retention_proposals": 24
+  },
+  "schema_rows": [
+    {
+      "id": "RD07-1579",
+      "path": "adl/tools/skills/docs/ADR_CURATOR_SKILL_INPUT_SCHEMA.md",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "c92726970c59b090bb5d1738c254b0f9f19d2a39"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_successor_consumer_and_retirement_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Retained ADL callers redirect to packaged owner skill resources",
+        "Behavioral script assertions preserved in separately bounded owner repair packet"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_cross_owner_mode_blob",
+        "successor_owner": "agent-logic/codefriend",
+        "successor_revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "exact_successor_paths": [
+          "review-skills/contracts/248f00e3/ADR_CURATOR_SKILL_INPUT_SCHEMA.md"
+        ]
+      },
+      "cross_owner_correspondence": {
+        "repository": "agent-logic/codefriend",
+        "revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "path": "review-skills/contracts/248f00e3/ADR_CURATOR_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "c92726970c59b090bb5d1738c254b0f9f19d2a39",
+        "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
+      },
+      "reviewed_disposition": {
+        "packet": "REVIEWED_SKILL_OWNER_TRANSFERS.json",
+        "packet_sha256": "533b7ff42008e116789ff31034d28082d1b7bea7c320bf061cd1e4919b77dab4",
+        "proposal": "exact original bytes",
+        "successor": {
+          "owner": "codefriend",
+          "path": "review-skills/contracts/248f00e3/ADR_CURATOR_SKILL_INPUT_SCHEMA.md",
+          "mode": "100644",
+          "blob": "c92726970c59b090bb5d1738c254b0f9f19d2a39",
+          "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+          "original_blob_matches": true,
+          "kind": "owner_surface_requires_semantic_review"
+        }
+      },
+      "owner_member": "review-skills/contracts/248f00e3/ADR_CURATOR_SKILL_INPUT_SCHEMA.md",
+      "exact": true,
+      "owner_sha256": "e0c2abeb89bd48a8cc12da3ba427fb0e21d824a9811e46aac135af7363d83314"
+    },
+    {
+      "id": "RD07-1580",
+      "path": "adl/tools/skills/docs/ARCHITECTURE_DIAGRAM_REVIEWER_SKILL_INPUT_SCHEMA.md",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "909b743a3e4cd312f0b8af1ef6eff659139fb228"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_successor_consumer_and_retirement_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Retained ADL callers redirect to packaged owner skill resources",
+        "Behavioral script assertions preserved in separately bounded owner repair packet"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_cross_owner_mode_blob",
+        "successor_owner": "agent-logic/codefriend",
+        "successor_revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "exact_successor_paths": [
+          "review-skills/contracts/248f00e3/ARCHITECTURE_DIAGRAM_REVIEWER_SKILL_INPUT_SCHEMA.md"
+        ]
+      },
+      "cross_owner_correspondence": {
+        "repository": "agent-logic/codefriend",
+        "revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "path": "review-skills/contracts/248f00e3/ARCHITECTURE_DIAGRAM_REVIEWER_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "909b743a3e4cd312f0b8af1ef6eff659139fb228",
+        "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
+      },
+      "reviewed_disposition": {
+        "packet": "REVIEWED_SKILL_OWNER_TRANSFERS.json",
+        "packet_sha256": "533b7ff42008e116789ff31034d28082d1b7bea7c320bf061cd1e4919b77dab4",
+        "proposal": "exact original bytes",
+        "successor": {
+          "owner": "codefriend",
+          "path": "review-skills/contracts/248f00e3/ARCHITECTURE_DIAGRAM_REVIEWER_SKILL_INPUT_SCHEMA.md",
+          "mode": "100644",
+          "blob": "909b743a3e4cd312f0b8af1ef6eff659139fb228",
+          "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+          "original_blob_matches": true,
+          "kind": "owner_surface_requires_semantic_review"
+        }
+      },
+      "owner_member": "review-skills/contracts/248f00e3/ARCHITECTURE_DIAGRAM_REVIEWER_SKILL_INPUT_SCHEMA.md",
+      "exact": true,
+      "owner_sha256": "ae63dae7ce4591b90c645d6156166ee18004d89cf97c4a4071f38b788fbdb977"
+    },
+    {
+      "id": "RD07-1581",
+      "path": "adl/tools/skills/docs/ARCHITECTURE_FITNESS_FUNCTION_AUTHOR_SKILL_INPUT_SCHEMA.md",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "3f25e0f3f2e03f2d1602dac6460ee6249d24c90a"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_successor_consumer_and_retirement_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Retained ADL callers redirect to packaged owner skill resources",
+        "Behavioral script assertions preserved in separately bounded owner repair packet"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_cross_owner_mode_blob",
+        "successor_owner": "agent-logic/codefriend",
+        "successor_revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "exact_successor_paths": [
+          "review-skills/contracts/248f00e3/ARCHITECTURE_FITNESS_FUNCTION_AUTHOR_SKILL_INPUT_SCHEMA.md"
+        ]
+      },
+      "cross_owner_correspondence": {
+        "repository": "agent-logic/codefriend",
+        "revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "path": "review-skills/contracts/248f00e3/ARCHITECTURE_FITNESS_FUNCTION_AUTHOR_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "3f25e0f3f2e03f2d1602dac6460ee6249d24c90a",
+        "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
+      },
+      "reviewed_disposition": {
+        "packet": "REVIEWED_SKILL_OWNER_TRANSFERS.json",
+        "packet_sha256": "533b7ff42008e116789ff31034d28082d1b7bea7c320bf061cd1e4919b77dab4",
+        "proposal": "exact original bytes",
+        "successor": {
+          "owner": "codefriend",
+          "path": "review-skills/contracts/248f00e3/ARCHITECTURE_FITNESS_FUNCTION_AUTHOR_SKILL_INPUT_SCHEMA.md",
+          "mode": "100644",
+          "blob": "3f25e0f3f2e03f2d1602dac6460ee6249d24c90a",
+          "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+          "original_blob_matches": true,
+          "kind": "owner_surface_requires_semantic_review"
+        }
+      },
+      "owner_member": "review-skills/contracts/248f00e3/ARCHITECTURE_FITNESS_FUNCTION_AUTHOR_SKILL_INPUT_SCHEMA.md",
+      "exact": true,
+      "owner_sha256": "b6471053637b111dd5215cb9c8b6df0cc0451dcb530d6e31b26dbc0d79163452"
+    },
+    {
+      "id": "RD07-1585",
+      "path": "adl/tools/skills/docs/DIAGRAM_AUTHOR_SKILL_INPUT_SCHEMA.md",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "1eb731879c9c6f2c9f23dbb73b17c1b6ba5c2b41"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Retained ADL callers redirect to packaged owner skill resources",
+        "Behavioral script assertions preserved in separately bounded owner repair packet"
+      ],
+      "successor_mapping": {
+        "mapping": "unmapped",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "REVIEWED_SKILL_OWNER_TRANSFERS.json",
+        "packet_sha256": "533b7ff42008e116789ff31034d28082d1b7bea7c320bf061cd1e4919b77dab4",
+        "proposal": "owner path/example-root adaptation only",
+        "successor": {
+          "owner": "codefriend",
+          "path": "review-skills/contracts/248f00e3/DIAGRAM_AUTHOR_SKILL_INPUT_SCHEMA.md",
+          "mode": "100644",
+          "blob": "674c2b936b7fe0c58523afec9c07a3cda76238d6",
+          "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+          "original_blob_matches": false,
+          "kind": "owner_surface_requires_semantic_review"
+        }
+      },
+      "owner_member": "review-skills/contracts/248f00e3/DIAGRAM_AUTHOR_SKILL_INPUT_SCHEMA.md",
+      "exact": false,
+      "owner_sha256": "96aa5dafcc97bf75870c0ff552b0602818b6719659c3df7ebf25afdb1086f5ef"
+    },
+    {
+      "id": "RD07-1587",
+      "path": "adl/tools/skills/docs/FINDING_TO_ISSUE_PLANNER_SKILL_INPUT_SCHEMA.md",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "327c2178aaf40cb4335db1786a4aa9bd8b0d0832"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_successor_consumer_and_retirement_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Retained ADL callers redirect to packaged owner skill resources",
+        "Behavioral script assertions preserved in separately bounded owner repair packet"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_cross_owner_mode_blob",
+        "successor_owner": "agent-logic/codefriend",
+        "successor_revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "exact_successor_paths": [
+          "review-skills/contracts/248f00e3/FINDING_TO_ISSUE_PLANNER_SKILL_INPUT_SCHEMA.md"
+        ]
+      },
+      "cross_owner_correspondence": {
+        "repository": "agent-logic/codefriend",
+        "revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "path": "review-skills/contracts/248f00e3/FINDING_TO_ISSUE_PLANNER_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "327c2178aaf40cb4335db1786a4aa9bd8b0d0832",
+        "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
+      },
+      "reviewed_disposition": {
+        "packet": "REVIEWED_SKILL_OWNER_TRANSFERS.json",
+        "packet_sha256": "533b7ff42008e116789ff31034d28082d1b7bea7c320bf061cd1e4919b77dab4",
+        "proposal": "exact original bytes",
+        "successor": {
+          "owner": "codefriend",
+          "path": "review-skills/contracts/248f00e3/FINDING_TO_ISSUE_PLANNER_SKILL_INPUT_SCHEMA.md",
+          "mode": "100644",
+          "blob": "327c2178aaf40cb4335db1786a4aa9bd8b0d0832",
+          "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+          "original_blob_matches": true,
+          "kind": "owner_surface_requires_semantic_review"
+        }
+      },
+      "owner_member": "review-skills/contracts/248f00e3/FINDING_TO_ISSUE_PLANNER_SKILL_INPUT_SCHEMA.md",
+      "exact": true,
+      "owner_sha256": "cc4abc16ed080d8a32769c19fdc34d060dd78105498fae63596067032a25d628"
+    },
+    {
+      "id": "RD07-1593",
+      "path": "adl/tools/skills/docs/MULTI_AGENT_REPO_REVIEW_SKILL_SUITE.md",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "9f49bd71b38f3ca4985db316bd780bcef243e27d"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_successor_consumer_and_retirement_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Retained ADL callers redirect to packaged owner skill resources",
+        "Behavioral script assertions preserved in separately bounded owner repair packet"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_cross_owner_mode_blob",
+        "successor_owner": "agent-logic/codefriend",
+        "successor_revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "exact_successor_paths": [
+          "review-skills/contracts/248f00e3/MULTI_AGENT_REPO_REVIEW_SKILL_SUITE.md"
+        ]
+      },
+      "cross_owner_correspondence": {
+        "repository": "agent-logic/codefriend",
+        "revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "path": "review-skills/contracts/248f00e3/MULTI_AGENT_REPO_REVIEW_SKILL_SUITE.md",
+        "mode": "100644",
+        "blob": "9f49bd71b38f3ca4985db316bd780bcef243e27d",
+        "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
+      },
+      "reviewed_disposition": {
+        "packet": "REVIEWED_SKILL_OWNER_TRANSFERS.json",
+        "packet_sha256": "533b7ff42008e116789ff31034d28082d1b7bea7c320bf061cd1e4919b77dab4",
+        "proposal": "exact original bytes",
+        "successor": {
+          "owner": "codefriend",
+          "path": "review-skills/contracts/248f00e3/MULTI_AGENT_REPO_REVIEW_SKILL_SUITE.md",
+          "mode": "100644",
+          "blob": "9f49bd71b38f3ca4985db316bd780bcef243e27d",
+          "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+          "original_blob_matches": true,
+          "kind": "owner_surface_requires_semantic_review"
+        }
+      },
+      "owner_member": "review-skills/contracts/248f00e3/MULTI_AGENT_REPO_REVIEW_SKILL_SUITE.md",
+      "exact": true,
+      "owner_sha256": "a776823162f0ea4ae4b2944ace454ee33cc4f809ef21f4986848d171d4075a33"
+    },
+    {
+      "id": "RD07-1597",
+      "path": "adl/tools/skills/docs/PRODUCT_REPORT_WRITER_SKILL_INPUT_SCHEMA.md",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "09fbc9a0a2365699835fca8f5afc27620682b78e"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_successor_consumer_and_retirement_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Retained ADL callers redirect to packaged owner skill resources",
+        "Behavioral script assertions preserved in separately bounded owner repair packet"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_cross_owner_mode_blob",
+        "successor_owner": "agent-logic/codefriend",
+        "successor_revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "exact_successor_paths": [
+          "review-skills/contracts/248f00e3/PRODUCT_REPORT_WRITER_SKILL_INPUT_SCHEMA.md"
+        ]
+      },
+      "cross_owner_correspondence": {
+        "repository": "agent-logic/codefriend",
+        "revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "path": "review-skills/contracts/248f00e3/PRODUCT_REPORT_WRITER_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "09fbc9a0a2365699835fca8f5afc27620682b78e",
+        "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
+      },
+      "reviewed_disposition": {
+        "packet": "REVIEWED_SKILL_OWNER_TRANSFERS.json",
+        "packet_sha256": "533b7ff42008e116789ff31034d28082d1b7bea7c320bf061cd1e4919b77dab4",
+        "proposal": "exact original bytes",
+        "successor": {
+          "owner": "codefriend",
+          "path": "review-skills/contracts/248f00e3/PRODUCT_REPORT_WRITER_SKILL_INPUT_SCHEMA.md",
+          "mode": "100644",
+          "blob": "09fbc9a0a2365699835fca8f5afc27620682b78e",
+          "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+          "original_blob_matches": true,
+          "kind": "owner_surface_requires_semantic_review"
+        }
+      },
+      "owner_member": "review-skills/contracts/248f00e3/PRODUCT_REPORT_WRITER_SKILL_INPUT_SCHEMA.md",
+      "exact": true,
+      "owner_sha256": "ca857d45343a82ffd212f91372d2f32b614086b0ce1394899ac261a700cd76fe"
+    },
+    {
+      "id": "RD07-1606",
+      "path": "adl/tools/skills/docs/REDACTION_AND_EVIDENCE_AUDITOR_SKILL_INPUT_SCHEMA.md",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "a21a546c54bdaab90fdd76dfee9cffef46676a0a"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_successor_consumer_and_retirement_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Retained ADL callers redirect to packaged owner skill resources",
+        "Behavioral script assertions preserved in separately bounded owner repair packet"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_cross_owner_mode_blob",
+        "successor_owner": "agent-logic/codefriend",
+        "successor_revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "exact_successor_paths": [
+          "review-skills/contracts/248f00e3/REDACTION_AND_EVIDENCE_AUDITOR_SKILL_INPUT_SCHEMA.md"
+        ]
+      },
+      "cross_owner_correspondence": {
+        "repository": "agent-logic/codefriend",
+        "revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "path": "review-skills/contracts/248f00e3/REDACTION_AND_EVIDENCE_AUDITOR_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "a21a546c54bdaab90fdd76dfee9cffef46676a0a",
+        "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
+      },
+      "reviewed_disposition": {
+        "packet": "REVIEWED_SKILL_OWNER_TRANSFERS.json",
+        "packet_sha256": "533b7ff42008e116789ff31034d28082d1b7bea7c320bf061cd1e4919b77dab4",
+        "proposal": "exact original bytes",
+        "successor": {
+          "owner": "codefriend",
+          "path": "review-skills/contracts/248f00e3/REDACTION_AND_EVIDENCE_AUDITOR_SKILL_INPUT_SCHEMA.md",
+          "mode": "100644",
+          "blob": "a21a546c54bdaab90fdd76dfee9cffef46676a0a",
+          "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+          "original_blob_matches": true,
+          "kind": "owner_surface_requires_semantic_review"
+        }
+      },
+      "owner_member": "review-skills/contracts/248f00e3/REDACTION_AND_EVIDENCE_AUDITOR_SKILL_INPUT_SCHEMA.md",
+      "exact": true,
+      "owner_sha256": "731fae0aada1d6efdc7dbfed750b587c79a5dcd24efb68a565b88a17cdf1832c"
+    },
+    {
+      "id": "RD07-1609",
+      "path": "adl/tools/skills/docs/REPO_ARCHITECTURE_REVIEW_SKILL_INPUT_SCHEMA.md",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "c7595f19de07ed845bee50c054af5baa51927bd1"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_successor_consumer_and_retirement_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Retained ADL callers redirect to packaged owner skill resources",
+        "Behavioral script assertions preserved in separately bounded owner repair packet"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_cross_owner_mode_blob",
+        "successor_owner": "agent-logic/codefriend",
+        "successor_revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "exact_successor_paths": [
+          "review-skills/contracts/248f00e3/REPO_ARCHITECTURE_REVIEW_SKILL_INPUT_SCHEMA.md"
+        ]
+      },
+      "cross_owner_correspondence": {
+        "repository": "agent-logic/codefriend",
+        "revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "path": "review-skills/contracts/248f00e3/REPO_ARCHITECTURE_REVIEW_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "c7595f19de07ed845bee50c054af5baa51927bd1",
+        "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
+      },
+      "reviewed_disposition": {
+        "packet": "REVIEWED_SKILL_OWNER_TRANSFERS.json",
+        "packet_sha256": "533b7ff42008e116789ff31034d28082d1b7bea7c320bf061cd1e4919b77dab4",
+        "proposal": "exact original bytes",
+        "successor": {
+          "owner": "codefriend",
+          "path": "review-skills/contracts/248f00e3/REPO_ARCHITECTURE_REVIEW_SKILL_INPUT_SCHEMA.md",
+          "mode": "100644",
+          "blob": "c7595f19de07ed845bee50c054af5baa51927bd1",
+          "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+          "original_blob_matches": true,
+          "kind": "owner_surface_requires_semantic_review"
+        }
+      },
+      "owner_member": "review-skills/contracts/248f00e3/REPO_ARCHITECTURE_REVIEW_SKILL_INPUT_SCHEMA.md",
+      "exact": true,
+      "owner_sha256": "335b0ec63afbcfb0dbf1fe1a7ba6236e2ce88b233052423a525f8e18f089b2e4"
+    },
+    {
+      "id": "RD07-1610",
+      "path": "adl/tools/skills/docs/REPO_CODE_REVIEW_SKILL_INPUT_SCHEMA.md",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "ba9b6f27f0f5cc64093b7eb0355208d79f85753b"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Retained ADL callers redirect to packaged owner skill resources",
+        "Behavioral script assertions preserved in separately bounded owner repair packet"
+      ],
+      "successor_mapping": {
+        "mapping": "unmapped",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "REVIEWED_SKILL_OWNER_TRANSFERS.json",
+        "packet_sha256": "533b7ff42008e116789ff31034d28082d1b7bea7c320bf061cd1e4919b77dab4",
+        "proposal": "owner path/example-root adaptation only",
+        "successor": {
+          "owner": "codefriend",
+          "path": "review-skills/contracts/248f00e3/REPO_CODE_REVIEW_SKILL_INPUT_SCHEMA.md",
+          "mode": "100644",
+          "blob": "be6462e0e510ec7a381abd0291ab8d383b729a78",
+          "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+          "original_blob_matches": false,
+          "kind": "owner_surface_requires_semantic_review"
+        }
+      },
+      "owner_member": "review-skills/contracts/248f00e3/REPO_CODE_REVIEW_SKILL_INPUT_SCHEMA.md",
+      "exact": false,
+      "owner_sha256": "a7b2145bfeabaa6d4c942bad89d74ef8e8991d730ca0d0ea95e89807b04eed77"
+    },
+    {
+      "id": "RD07-1611",
+      "path": "adl/tools/skills/docs/REPO_DEPENDENCY_REVIEW_SKILL_INPUT_SCHEMA.md",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "9a616189a2f68421c1c53c2fba6fe86fc27b7947"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_successor_consumer_and_retirement_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Retained ADL callers redirect to packaged owner skill resources",
+        "Behavioral script assertions preserved in separately bounded owner repair packet"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_cross_owner_mode_blob",
+        "successor_owner": "agent-logic/codefriend",
+        "successor_revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "exact_successor_paths": [
+          "review-skills/contracts/248f00e3/REPO_DEPENDENCY_REVIEW_SKILL_INPUT_SCHEMA.md"
+        ]
+      },
+      "cross_owner_correspondence": {
+        "repository": "agent-logic/codefriend",
+        "revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "path": "review-skills/contracts/248f00e3/REPO_DEPENDENCY_REVIEW_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "9a616189a2f68421c1c53c2fba6fe86fc27b7947",
+        "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
+      },
+      "reviewed_disposition": {
+        "packet": "REVIEWED_SKILL_OWNER_TRANSFERS.json",
+        "packet_sha256": "533b7ff42008e116789ff31034d28082d1b7bea7c320bf061cd1e4919b77dab4",
+        "proposal": "exact original bytes",
+        "successor": {
+          "owner": "codefriend",
+          "path": "review-skills/contracts/248f00e3/REPO_DEPENDENCY_REVIEW_SKILL_INPUT_SCHEMA.md",
+          "mode": "100644",
+          "blob": "9a616189a2f68421c1c53c2fba6fe86fc27b7947",
+          "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+          "original_blob_matches": true,
+          "kind": "owner_surface_requires_semantic_review"
+        }
+      },
+      "owner_member": "review-skills/contracts/248f00e3/REPO_DEPENDENCY_REVIEW_SKILL_INPUT_SCHEMA.md",
+      "exact": true,
+      "owner_sha256": "0881bff4b0d5c4a64fd727280d5aba16e4b9a1651c45d2f3e84d58c83fd3548b"
+    },
+    {
+      "id": "RD07-1612",
+      "path": "adl/tools/skills/docs/REPO_DIAGRAM_PLANNER_SKILL_INPUT_SCHEMA.md",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "2110dbfae6610c95b960b0b3ec8ba7d6984b5b73"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_successor_consumer_and_retirement_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Retained ADL callers redirect to packaged owner skill resources",
+        "Behavioral script assertions preserved in separately bounded owner repair packet"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_cross_owner_mode_blob",
+        "successor_owner": "agent-logic/codefriend",
+        "successor_revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "exact_successor_paths": [
+          "review-skills/contracts/248f00e3/REPO_DIAGRAM_PLANNER_SKILL_INPUT_SCHEMA.md"
+        ]
+      },
+      "cross_owner_correspondence": {
+        "repository": "agent-logic/codefriend",
+        "revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "path": "review-skills/contracts/248f00e3/REPO_DIAGRAM_PLANNER_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "2110dbfae6610c95b960b0b3ec8ba7d6984b5b73",
+        "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
+      },
+      "reviewed_disposition": {
+        "packet": "REVIEWED_SKILL_OWNER_TRANSFERS.json",
+        "packet_sha256": "533b7ff42008e116789ff31034d28082d1b7bea7c320bf061cd1e4919b77dab4",
+        "proposal": "exact original bytes",
+        "successor": {
+          "owner": "codefriend",
+          "path": "review-skills/contracts/248f00e3/REPO_DIAGRAM_PLANNER_SKILL_INPUT_SCHEMA.md",
+          "mode": "100644",
+          "blob": "2110dbfae6610c95b960b0b3ec8ba7d6984b5b73",
+          "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+          "original_blob_matches": true,
+          "kind": "owner_surface_requires_semantic_review"
+        }
+      },
+      "owner_member": "review-skills/contracts/248f00e3/REPO_DIAGRAM_PLANNER_SKILL_INPUT_SCHEMA.md",
+      "exact": true,
+      "owner_sha256": "5da30b8423935d1b0d955ccbbec8e11704c423c000ca2887c72b95095ade99ef"
+    },
+    {
+      "id": "RD07-1613",
+      "path": "adl/tools/skills/docs/REPO_PACKET_BUILDER_SKILL_INPUT_SCHEMA.md",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "07e954f335347f4de9523d56c43b4cfbaeed7f68"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_successor_consumer_and_retirement_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Retained ADL callers redirect to packaged owner skill resources",
+        "Behavioral script assertions preserved in separately bounded owner repair packet"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_cross_owner_mode_blob",
+        "successor_owner": "agent-logic/codefriend",
+        "successor_revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "exact_successor_paths": [
+          "review-skills/contracts/248f00e3/REPO_PACKET_BUILDER_SKILL_INPUT_SCHEMA.md"
+        ]
+      },
+      "cross_owner_correspondence": {
+        "repository": "agent-logic/codefriend",
+        "revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "path": "review-skills/contracts/248f00e3/REPO_PACKET_BUILDER_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "07e954f335347f4de9523d56c43b4cfbaeed7f68",
+        "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
+      },
+      "reviewed_disposition": {
+        "packet": "REVIEWED_SKILL_OWNER_TRANSFERS.json",
+        "packet_sha256": "533b7ff42008e116789ff31034d28082d1b7bea7c320bf061cd1e4919b77dab4",
+        "proposal": "exact original bytes",
+        "successor": {
+          "owner": "codefriend",
+          "path": "review-skills/contracts/248f00e3/REPO_PACKET_BUILDER_SKILL_INPUT_SCHEMA.md",
+          "mode": "100644",
+          "blob": "07e954f335347f4de9523d56c43b4cfbaeed7f68",
+          "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+          "original_blob_matches": true,
+          "kind": "owner_surface_requires_semantic_review"
+        }
+      },
+      "owner_member": "review-skills/contracts/248f00e3/REPO_PACKET_BUILDER_SKILL_INPUT_SCHEMA.md",
+      "exact": true,
+      "owner_sha256": "1f616babd2ec2fe3a104fc719f2fcbae1be843f9f02676b12d98f0499d128a8a"
+    },
+    {
+      "id": "RD07-1614",
+      "path": "adl/tools/skills/docs/REPO_REVIEW_CODE_SKILL_INPUT_SCHEMA.md",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "9a12bedefeb82f9e3f75fd593fce8f0d8f090e1b"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Retained ADL callers redirect to packaged owner skill resources",
+        "Behavioral script assertions preserved in separately bounded owner repair packet"
+      ],
+      "successor_mapping": {
+        "mapping": "unmapped",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "REVIEWED_SKILL_OWNER_TRANSFERS.json",
+        "packet_sha256": "533b7ff42008e116789ff31034d28082d1b7bea7c320bf061cd1e4919b77dab4",
+        "proposal": "owner path/example-root adaptation only",
+        "successor": {
+          "owner": "codefriend",
+          "path": "review-skills/contracts/248f00e3/REPO_REVIEW_CODE_SKILL_INPUT_SCHEMA.md",
+          "mode": "100644",
+          "blob": "af3be6a0ce6ed5718a6fc4088f94bd3659b8c236",
+          "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+          "original_blob_matches": false,
+          "kind": "owner_surface_requires_semantic_review"
+        }
+      },
+      "owner_member": "review-skills/contracts/248f00e3/REPO_REVIEW_CODE_SKILL_INPUT_SCHEMA.md",
+      "exact": false,
+      "owner_sha256": "599ee549e8bd4b83134d7eeec08764194b358a7b88c718b408ef4865b1fcfdf7"
+    },
+    {
+      "id": "RD07-1615",
+      "path": "adl/tools/skills/docs/REPO_REVIEW_DOCS_SKILL_INPUT_SCHEMA.md",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "d8ea7cfd6c0a87a4affb4dbbd9fc623ab2573730"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Retained ADL callers redirect to packaged owner skill resources",
+        "Behavioral script assertions preserved in separately bounded owner repair packet"
+      ],
+      "successor_mapping": {
+        "mapping": "unmapped",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "REVIEWED_SKILL_OWNER_TRANSFERS.json",
+        "packet_sha256": "533b7ff42008e116789ff31034d28082d1b7bea7c320bf061cd1e4919b77dab4",
+        "proposal": "owner path/example-root adaptation only",
+        "successor": {
+          "owner": "codefriend",
+          "path": "review-skills/contracts/248f00e3/REPO_REVIEW_DOCS_SKILL_INPUT_SCHEMA.md",
+          "mode": "100644",
+          "blob": "d82366e3f9d83eda191e0c129df46b8cca2d4e1d",
+          "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+          "original_blob_matches": false,
+          "kind": "owner_surface_requires_semantic_review"
+        }
+      },
+      "owner_member": "review-skills/contracts/248f00e3/REPO_REVIEW_DOCS_SKILL_INPUT_SCHEMA.md",
+      "exact": false,
+      "owner_sha256": "0f2e21e2145349574f6881eba1faa24b1be85f5071103e4383bb2f1719bcfc3b"
+    },
+    {
+      "id": "RD07-1616",
+      "path": "adl/tools/skills/docs/REPO_REVIEW_SECURITY_SKILL_INPUT_SCHEMA.md",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "f942978bc6b1fc8b52193f5e9ab39219c3b47ba9"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Retained ADL callers redirect to packaged owner skill resources",
+        "Behavioral script assertions preserved in separately bounded owner repair packet"
+      ],
+      "successor_mapping": {
+        "mapping": "unmapped",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "REVIEWED_SKILL_OWNER_TRANSFERS.json",
+        "packet_sha256": "533b7ff42008e116789ff31034d28082d1b7bea7c320bf061cd1e4919b77dab4",
+        "proposal": "owner path/example-root adaptation only",
+        "successor": {
+          "owner": "codefriend",
+          "path": "review-skills/contracts/248f00e3/REPO_REVIEW_SECURITY_SKILL_INPUT_SCHEMA.md",
+          "mode": "100644",
+          "blob": "1280b73a5ad19def90e9322e3fe52ebcf4586fef",
+          "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+          "original_blob_matches": false,
+          "kind": "owner_surface_requires_semantic_review"
+        }
+      },
+      "owner_member": "review-skills/contracts/248f00e3/REPO_REVIEW_SECURITY_SKILL_INPUT_SCHEMA.md",
+      "exact": false,
+      "owner_sha256": "38ecae418ca11d33210d985ae397758f5f86a452d666c45d4d0634118a986ecd"
+    },
+    {
+      "id": "RD07-1617",
+      "path": "adl/tools/skills/docs/REPO_REVIEW_SYNTHESIS_SKILL_INPUT_SCHEMA.md",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "5ce99cf52034a569c8d734e89f6b3264c13fdfef"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Retained ADL callers redirect to packaged owner skill resources",
+        "Behavioral script assertions preserved in separately bounded owner repair packet"
+      ],
+      "successor_mapping": {
+        "mapping": "unmapped",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "REVIEWED_SKILL_OWNER_TRANSFERS.json",
+        "packet_sha256": "533b7ff42008e116789ff31034d28082d1b7bea7c320bf061cd1e4919b77dab4",
+        "proposal": "owner path/example-root adaptation only",
+        "successor": {
+          "owner": "codefriend",
+          "path": "review-skills/contracts/248f00e3/REPO_REVIEW_SYNTHESIS_SKILL_INPUT_SCHEMA.md",
+          "mode": "100644",
+          "blob": "0f2568fc28862092e4af975fa0521188a742e686",
+          "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+          "original_blob_matches": false,
+          "kind": "owner_surface_requires_semantic_review"
+        }
+      },
+      "owner_member": "review-skills/contracts/248f00e3/REPO_REVIEW_SYNTHESIS_SKILL_INPUT_SCHEMA.md",
+      "exact": false,
+      "owner_sha256": "8eacf07e5439b45be28bee4d4fa5bfb2f41c496ba344bca05276087027398302"
+    },
+    {
+      "id": "RD07-1618",
+      "path": "adl/tools/skills/docs/REPO_REVIEW_TESTS_SKILL_INPUT_SCHEMA.md",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "a8e680ccdc79259a711981f8eadbb47b4f62b8f4"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Retained ADL callers redirect to packaged owner skill resources",
+        "Behavioral script assertions preserved in separately bounded owner repair packet"
+      ],
+      "successor_mapping": {
+        "mapping": "unmapped",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "REVIEWED_SKILL_OWNER_TRANSFERS.json",
+        "packet_sha256": "533b7ff42008e116789ff31034d28082d1b7bea7c320bf061cd1e4919b77dab4",
+        "proposal": "owner path/example-root adaptation only",
+        "successor": {
+          "owner": "codefriend",
+          "path": "review-skills/contracts/248f00e3/REPO_REVIEW_TESTS_SKILL_INPUT_SCHEMA.md",
+          "mode": "100644",
+          "blob": "5bb95edbd0d4dbc821e12ea3a0dcedcb8fff74b1",
+          "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+          "original_blob_matches": false,
+          "kind": "owner_surface_requires_semantic_review"
+        }
+      },
+      "owner_member": "review-skills/contracts/248f00e3/REPO_REVIEW_TESTS_SKILL_INPUT_SCHEMA.md",
+      "exact": false,
+      "owner_sha256": "8accf5a528af5280a3904e93de7b4ee5d8e028391cc0566345df9c4b63c43d23"
+    },
+    {
+      "id": "RD07-1620",
+      "path": "adl/tools/skills/docs/REVIEW_QUALITY_EVALUATOR_SKILL_INPUT_SCHEMA.md",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "0e91e8e8f3d3f9c20c2add83bea07be4696da916"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_successor_consumer_and_retirement_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Retained ADL callers redirect to packaged owner skill resources",
+        "Behavioral script assertions preserved in separately bounded owner repair packet"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_cross_owner_mode_blob",
+        "successor_owner": "agent-logic/codefriend",
+        "successor_revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "exact_successor_paths": [
+          "review-skills/contracts/248f00e3/REVIEW_QUALITY_EVALUATOR_SKILL_INPUT_SCHEMA.md"
+        ]
+      },
+      "cross_owner_correspondence": {
+        "repository": "agent-logic/codefriend",
+        "revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "path": "review-skills/contracts/248f00e3/REVIEW_QUALITY_EVALUATOR_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "0e91e8e8f3d3f9c20c2add83bea07be4696da916",
+        "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
+      },
+      "reviewed_disposition": {
+        "packet": "REVIEWED_SKILL_OWNER_TRANSFERS.json",
+        "packet_sha256": "533b7ff42008e116789ff31034d28082d1b7bea7c320bf061cd1e4919b77dab4",
+        "proposal": "exact original bytes",
+        "successor": {
+          "owner": "codefriend",
+          "path": "review-skills/contracts/248f00e3/REVIEW_QUALITY_EVALUATOR_SKILL_INPUT_SCHEMA.md",
+          "mode": "100644",
+          "blob": "0e91e8e8f3d3f9c20c2add83bea07be4696da916",
+          "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+          "original_blob_matches": true,
+          "kind": "owner_surface_requires_semantic_review"
+        }
+      },
+      "owner_member": "review-skills/contracts/248f00e3/REVIEW_QUALITY_EVALUATOR_SKILL_INPUT_SCHEMA.md",
+      "exact": true,
+      "owner_sha256": "71722ca76f1c6f45e9b4531f30224dab25bbefb24d742b444021650e582f014b"
+    },
+    {
+      "id": "RD07-1621",
+      "path": "adl/tools/skills/docs/REVIEW_READINESS_CLEANUP_SKILL_INPUT_SCHEMA.md",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "fb9dc584563109438f9fd576d80f7029ac10ef8a"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_successor_consumer_and_retirement_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Retained ADL callers redirect to packaged owner skill resources",
+        "Behavioral script assertions preserved in separately bounded owner repair packet"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_cross_owner_mode_blob",
+        "successor_owner": "agent-logic/codefriend",
+        "successor_revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "exact_successor_paths": [
+          "review-skills/contracts/248f00e3/REVIEW_READINESS_CLEANUP_SKILL_INPUT_SCHEMA.md"
+        ]
+      },
+      "cross_owner_correspondence": {
+        "repository": "agent-logic/codefriend",
+        "revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "path": "review-skills/contracts/248f00e3/REVIEW_READINESS_CLEANUP_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "fb9dc584563109438f9fd576d80f7029ac10ef8a",
+        "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
+      },
+      "reviewed_disposition": {
+        "packet": "REVIEWED_SKILL_OWNER_TRANSFERS.json",
+        "packet_sha256": "533b7ff42008e116789ff31034d28082d1b7bea7c320bf061cd1e4919b77dab4",
+        "proposal": "exact original bytes",
+        "successor": {
+          "owner": "codefriend",
+          "path": "review-skills/contracts/248f00e3/REVIEW_READINESS_CLEANUP_SKILL_INPUT_SCHEMA.md",
+          "mode": "100644",
+          "blob": "fb9dc584563109438f9fd576d80f7029ac10ef8a",
+          "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+          "original_blob_matches": true,
+          "kind": "owner_surface_requires_semantic_review"
+        }
+      },
+      "owner_member": "review-skills/contracts/248f00e3/REVIEW_READINESS_CLEANUP_SKILL_INPUT_SCHEMA.md",
+      "exact": true,
+      "owner_sha256": "7a985daadb37d08885aa559d96b7e895cbc61e53de940e29c227191bace7ec5e"
+    },
+    {
+      "id": "RD07-1622",
+      "path": "adl/tools/skills/docs/REVIEW_TO_TEST_PLANNER_SKILL_INPUT_SCHEMA.md",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "1f67f6f365576077a9316deb779a60f2ee4f1778"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_successor_consumer_and_retirement_reconciliation",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Retained ADL callers redirect to packaged owner skill resources",
+        "Behavioral script assertions preserved in separately bounded owner repair packet"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_cross_owner_mode_blob",
+        "successor_owner": "agent-logic/codefriend",
+        "successor_revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "exact_successor_paths": [
+          "review-skills/contracts/248f00e3/REVIEW_TO_TEST_PLANNER_SKILL_INPUT_SCHEMA.md"
+        ]
+      },
+      "cross_owner_correspondence": {
+        "repository": "agent-logic/codefriend",
+        "revision": "dc2d93e2c531606174f0d624fd0f3edeb117ef86",
+        "path": "review-skills/contracts/248f00e3/REVIEW_TO_TEST_PLANNER_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "1f67f6f365576077a9316deb779a60f2ee4f1778",
+        "qualification": "exact Git mode/blob correspondence only; consumer disposition and scoped retirement approval remain required"
+      },
+      "reviewed_disposition": {
+        "packet": "REVIEWED_SKILL_OWNER_TRANSFERS.json",
+        "packet_sha256": "533b7ff42008e116789ff31034d28082d1b7bea7c320bf061cd1e4919b77dab4",
+        "proposal": "exact original bytes",
+        "successor": {
+          "owner": "codefriend",
+          "path": "review-skills/contracts/248f00e3/REVIEW_TO_TEST_PLANNER_SKILL_INPUT_SCHEMA.md",
+          "mode": "100644",
+          "blob": "1f67f6f365576077a9316deb779a60f2ee4f1778",
+          "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+          "original_blob_matches": true,
+          "kind": "owner_surface_requires_semantic_review"
+        }
+      },
+      "owner_member": "review-skills/contracts/248f00e3/REVIEW_TO_TEST_PLANNER_SKILL_INPUT_SCHEMA.md",
+      "exact": true,
+      "owner_sha256": "e1d1ef3575f621a04187e8c717c308dae30713cbb0818913caeb75608c36f851"
+    }
+  ],
+  "retention_rows": [
+    {
+      "id": "RD07-1949",
+      "path": "adl/tools/test_demo_operator_skill_contracts.sh",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "1eab78f625c5ac3e8d0ed6b6aceaec94b52039f6"
+      },
+      "current_sha256": "cfa9d723a2090d9b9238a593fa4efd9e3ec50a9d602f96838edadb2d8207eb15",
+      "prior_action": "proposed_remove_with_entire_tool_family",
+      "proposed_action": "retain_public_source_or_fixture",
+      "reason": "Public original-contract adapter: explicit selected owner or authentic full historical resource root; original assertions and refusal preserved. Retention does not claim full external suite acceptance.",
+      "remaining_caller_repair": [],
+      "current_identity": {
+        "mode": "100644",
+        "blob": "0029e6ec5ca17a6a9eeccec429ee57b98c5b0300",
+        "sha256": "cfa9d723a2090d9b9238a593fa4efd9e3ec50a9d602f96838edadb2d8207eb15"
+      },
+      "evidence_packets": [
+        "CSDLC_SKILL_FAMILY_APPLIED.json"
+      ]
+    },
+    {
+      "id": "RD07-1996",
+      "path": "adl/tools/test_documentation_specialist_skill_contracts.sh",
+      "captured_identity": {
+        "mode": "100755",
+        "blob": "747def844e522847e7972941dedc6e3f95425b4b"
+      },
+      "current_sha256": "9fe1e7e844715bd29dc481067aeac42b09a6ff157e9c73b76a12578caa5db24b",
+      "prior_action": "proposed_remove_with_entire_tool_family",
+      "proposed_action": "retain_public_source_or_fixture",
+      "reason": "Public original-contract adapter: explicit selected owner or authentic full historical resource root; original assertions and refusal preserved. Retention does not claim full external suite acceptance.",
+      "remaining_caller_repair": [],
+      "current_identity": {
+        "mode": "100755",
+        "blob": "19bab6269e36048734778621916251f3a050edd1",
+        "sha256": "9fe1e7e844715bd29dc481067aeac42b09a6ff157e9c73b76a12578caa5db24b"
+      },
+      "evidence_packets": [
+        "CSDLC_SKILL_FAMILY_APPLIED.json"
+      ]
+    },
+    {
+      "id": "RD07-2009",
+      "path": "adl/tools/test_gap_analysis_skill_contracts.sh",
+      "captured_identity": {
+        "mode": "100755",
+        "blob": "51a1104c2113fbe33a6e9340308e4cd367efc73d"
+      },
+      "current_sha256": "a61ee36b9a0b09c07dd5aa7e6ca251c0d8ac94e9116557b1ed15bb9c7fe09acb",
+      "prior_action": "proposed_remove_with_entire_tool_family",
+      "proposed_action": "retain_public_source_or_fixture",
+      "reason": "Public original-contract adapter: explicit selected owner or authentic full historical resource root; original assertions and refusal preserved. Retention does not claim full external suite acceptance.",
+      "remaining_caller_repair": [],
+      "current_identity": {
+        "mode": "100755",
+        "blob": "cc500c7f19435cdc9dbbebeb814fe6bbd39134af",
+        "sha256": "a61ee36b9a0b09c07dd5aa7e6ca251c0d8ac94e9116557b1ed15bb9c7fe09acb"
+      },
+      "evidence_packets": [
+        "CSDLC_SKILL_FAMILY_APPLIED.json"
+      ]
+    },
+    {
+      "id": "RD07-2025",
+      "path": "adl/tools/test_issue_folding_skill_contracts.sh",
+      "captured_identity": {
+        "mode": "100755",
+        "blob": "8aa3c0547f19cde821365241d8cc017e147fac63"
+      },
+      "current_sha256": "6ada33e159c29c50750548494e6a10038d43a0abe7948af3cc0bb2c3a9917696",
+      "prior_action": "proposed_remove_with_entire_tool_family",
+      "proposed_action": "retain_public_source_or_fixture",
+      "reason": "Public original-contract adapter: explicit selected owner or authentic full historical resource root; original assertions and refusal preserved. Retention does not claim full external suite acceptance.",
+      "remaining_caller_repair": [],
+      "current_identity": {
+        "mode": "100755",
+        "blob": "800ef8f999f105beafc3c405bbba59de578569ce",
+        "sha256": "6ada33e159c29c50750548494e6a10038d43a0abe7948af3cc0bb2c3a9917696"
+      },
+      "evidence_packets": [
+        "CSDLC_SKILL_FAMILY_APPLIED.json"
+      ]
+    },
+    {
+      "id": "RD07-2028",
+      "path": "adl/tools/test_issue_splitter_skill_contracts.sh",
+      "captured_identity": {
+        "mode": "100755",
+        "blob": "96a36a6a93115016faacc461bbccdc68e219a067"
+      },
+      "current_sha256": "90622d260d06cb1e8e6bf9c4effc8c0154a2b0b39e05b71c35d8f4dd12597f45",
+      "prior_action": "proposed_remove_with_entire_tool_family",
+      "proposed_action": "retain_public_source_or_fixture",
+      "reason": "Public original-contract adapter: explicit selected owner or authentic full historical resource root; original assertions and refusal preserved. Retention does not claim full external suite acceptance.",
+      "remaining_caller_repair": [],
+      "current_identity": {
+        "mode": "100755",
+        "blob": "5d5208fb766672dba482eef4f0198152f0048e31",
+        "sha256": "90622d260d06cb1e8e6bf9c4effc8c0154a2b0b39e05b71c35d8f4dd12597f45"
+      },
+      "evidence_packets": [
+        "CSDLC_SKILL_FAMILY_APPLIED.json"
+      ]
+    },
+    {
+      "id": "RD07-2029",
+      "path": "adl/tools/test_issue_watcher_skill_contracts.sh",
+      "captured_identity": {
+        "mode": "100755",
+        "blob": "9f992625d47e8637a2b050c2dc6eb32baedd876b"
+      },
+      "current_sha256": "ba516bfcfc58d910f09090368a5555a991783ac3fa2f78d93fa79ef1ab284e65",
+      "prior_action": "proposed_remove_with_entire_tool_family",
+      "proposed_action": "retain_public_source_or_fixture",
+      "reason": "Public original-contract adapter: explicit selected owner or authentic full historical resource root; original assertions and refusal preserved. Retention does not claim full external suite acceptance.",
+      "remaining_caller_repair": [],
+      "current_identity": {
+        "mode": "100755",
+        "blob": "8f8b143bcf40d4a80a29ad70578745aa312af8b8",
+        "sha256": "ba516bfcfc58d910f09090368a5555a991783ac3fa2f78d93fa79ef1ab284e65"
+      },
+      "evidence_packets": [
+        "CSDLC_SKILL_FAMILY_APPLIED.json"
+      ]
+    },
+    {
+      "id": "RD07-2049",
+      "path": "adl/tools/test_portable_contract_normalizer_skill_contracts.sh",
+      "captured_identity": {
+        "mode": "100755",
+        "blob": "cd30d25d6f8db509e4078963648b38f09571fce2"
+      },
+      "current_sha256": "0a4e23cebf2917374c704a629f68ca87c2fe3be1a65efdb3421455c30a88ca0e",
+      "prior_action": "proposed_remove_with_entire_tool_family",
+      "proposed_action": "retain_public_source_or_fixture",
+      "reason": "Public original-contract adapter: explicit selected owner or authentic full historical resource root; original assertions and refusal preserved. Retention does not claim full external suite acceptance.",
+      "remaining_caller_repair": [],
+      "current_identity": {
+        "mode": "100755",
+        "blob": "aca39fb239009324c8b4556cfe640a1e6b2deca0",
+        "sha256": "0a4e23cebf2917374c704a629f68ca87c2fe3be1a65efdb3421455c30a88ca0e"
+      },
+      "evidence_packets": [
+        "CSDLC_SKILL_FAMILY_APPLIED.json"
+      ]
+    },
+    {
+      "id": "RD07-2061",
+      "path": "adl/tools/test_refactoring_helper_skill_contracts.sh",
+      "captured_identity": {
+        "mode": "100755",
+        "blob": "c9f5807c922bf40c3492df3e07097e9a348a1e89"
+      },
+      "current_sha256": "a33024f4f3362864cf426ec027e5b104746c997cd172f0c00ec4c471d2bd3c67",
+      "prior_action": "proposed_remove_with_entire_tool_family",
+      "proposed_action": "retain_public_source_or_fixture",
+      "reason": "Public original-contract adapter: explicit selected owner or authentic full historical resource root; original assertions and refusal preserved. Retention does not claim full external suite acceptance.",
+      "remaining_caller_repair": [],
+      "current_identity": {
+        "mode": "100755",
+        "blob": "e9a54d8b9d91145236955b852284b105687f4032",
+        "sha256": "a33024f4f3362864cf426ec027e5b104746c997cd172f0c00ec4c471d2bd3c67"
+      },
+      "evidence_packets": [
+        "CSDLC_SKILL_FAMILY_APPLIED.json"
+      ]
+    },
+    {
+      "id": "RD07-2063",
+      "path": "adl/tools/test_release_evidence_skill_contracts.sh",
+      "captured_identity": {
+        "mode": "100755",
+        "blob": "dbf5498cd27ca74b6c8e0f5cde8d7d846bb401b5"
+      },
+      "current_sha256": "6fcc923862c1a22e7bc63179406a2098d157f68f4966551027b22bedb64874bf",
+      "prior_action": "proposed_remove_with_entire_tool_family",
+      "proposed_action": "retain_public_source_or_fixture",
+      "reason": "Public original-contract adapter: explicit selected owner or authentic full historical resource root; original assertions and refusal preserved. Retention does not claim full external suite acceptance.",
+      "remaining_caller_repair": [],
+      "current_identity": {
+        "mode": "100755",
+        "blob": "25f15131525916f0738d215e544e08ea97d1422c",
+        "sha256": "6fcc923862c1a22e7bc63179406a2098d157f68f4966551027b22bedb64874bf"
+      },
+      "evidence_packets": [
+        "CSDLC_SKILL_FAMILY_APPLIED.json"
+      ]
+    },
+    {
+      "id": "RD07-2072",
+      "path": "adl/tools/test_review_comment_triage_skill_contracts.sh",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "7ae4327deabc1021bc7ef6db694064ea27d0890d"
+      },
+      "current_sha256": "2afc7cd70e7391fea3b50cdc60bd6f75bb8deaf5962c6ae83ab11b3fae048ea3",
+      "prior_action": "proposed_remove_with_entire_tool_family",
+      "proposed_action": "retain_public_source_or_fixture",
+      "reason": "Public original-contract adapter: explicit selected owner or authentic full historical resource root; original assertions and refusal preserved. Retention does not claim full external suite acceptance.",
+      "remaining_caller_repair": [],
+      "current_identity": {
+        "mode": "100644",
+        "blob": "36fb957e466be5a9d7b2629efdfc1bb8da365c1f",
+        "sha256": "2afc7cd70e7391fea3b50cdc60bd6f75bb8deaf5962c6ae83ab11b3fae048ea3"
+      },
+      "evidence_packets": [
+        "CSDLC_SKILL_FAMILY_APPLIED.json"
+      ]
+    },
+    {
+      "id": "RD07-2126",
+      "path": "adl/tools/test_test_generator_skill_contracts.sh",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "7d25c69f5e0224850d082ff85c2006b5f42e227a"
+      },
+      "current_sha256": "96a61b9d0e2404aec26d7ec579b54b873ccd11a987e44cb88c517176de98436e",
+      "prior_action": "proposed_remove_with_entire_tool_family",
+      "proposed_action": "retain_public_source_or_fixture",
+      "reason": "Public original-contract adapter: explicit selected owner or authentic full historical resource root; original assertions and refusal preserved. Retention does not claim full external suite acceptance.",
+      "remaining_caller_repair": [],
+      "current_identity": {
+        "mode": "100644",
+        "blob": "df6699f5e3242fc103d646a1beae80318e784d71",
+        "sha256": "96a61b9d0e2404aec26d7ec579b54b873ccd11a987e44cb88c517176de98436e"
+      },
+      "evidence_packets": [
+        "CSDLC_SKILL_FAMILY_APPLIED.json"
+      ]
+    },
+    {
+      "id": "RD07-2128",
+      "path": "adl/tools/test_use_case_writer_skill_contracts.sh",
+      "captured_identity": {
+        "mode": "100755",
+        "blob": "94d791c6fa588c6285aae3e0be6170ca6f5e84c6"
+      },
+      "current_sha256": "60bfa27c1a9afae2993f152966283cb1310103236df6352e1ff064ff6f00fdec",
+      "prior_action": "proposed_remove_with_entire_tool_family",
+      "proposed_action": "retain_public_source_or_fixture",
+      "reason": "Public original-contract adapter: explicit selected owner or authentic full historical resource root; original assertions and refusal preserved. Retention does not claim full external suite acceptance.",
+      "remaining_caller_repair": [],
+      "current_identity": {
+        "mode": "100755",
+        "blob": "b161edb8b271000d37e2d4b66c06572687918bf4",
+        "sha256": "60bfa27c1a9afae2993f152966283cb1310103236df6352e1ff064ff6f00fdec"
+      },
+      "evidence_packets": [
+        "CSDLC_SKILL_FAMILY_APPLIED.json"
+      ]
+    },
+    {
+      "id": "RD07-2036",
+      "path": "adl/tools/test_multi_agent_repo_review_skill_suite_contracts.sh",
+      "captured_identity": {
+        "mode": "100755",
+        "blob": "2c665aeb0a89ae26945ac48c9c84b5fa6ed0e583"
+      },
+      "current_sha256": "d446f6dde3b96ab554d9d15ac69d9fe4e6686a4976f22db8c4ae590e9f09bb72",
+      "prior_action": "proposed_owner_transfer_with_consumer_qualification",
+      "proposed_action": "retain_public_source_or_fixture",
+      "reason": "Public original-contract adapter: explicit selected owner or authentic full historical resource root; original assertions and refusal preserved. Retention does not claim full external suite acceptance.",
+      "remaining_caller_repair": [],
+      "current_identity": {
+        "mode": "100755",
+        "blob": "a48686041b69d20d50cf735395e67ad34264fc02",
+        "sha256": "d446f6dde3b96ab554d9d15ac69d9fe4e6686a4976f22db8c4ae590e9f09bb72"
+      },
+      "evidence_packets": [
+        "CODEFRIEND_SKILL_FAMILY_APPLIED.json"
+      ]
+    },
+    {
+      "id": "RD07-2037",
+      "path": "adl/tools/test_multi_agent_repo_review_specialist_skill_contracts.sh",
+      "captured_identity": {
+        "mode": "100755",
+        "blob": "6da4174c535cc5ab4a5b97402bf21449e92a14d4"
+      },
+      "current_sha256": "9ace1dbc2f5a16b1b93aa6406022ff0ce82c89a928911e4f81d5d11c8ec29095",
+      "prior_action": "proposed_remove_with_entire_tool_family",
+      "proposed_action": "retain_public_source_or_fixture",
+      "reason": "Public original-contract adapter: explicit selected owner or authentic full historical resource root; original assertions and refusal preserved. Retention does not claim full external suite acceptance.",
+      "remaining_caller_repair": [],
+      "current_identity": {
+        "mode": "100755",
+        "blob": "c62df3b26df751e8dbdb65d9b529786113983bb6",
+        "sha256": "9ace1dbc2f5a16b1b93aa6406022ff0ce82c89a928911e4f81d5d11c8ec29095"
+      },
+      "evidence_packets": [
+        "CODEFRIEND_SKILL_FAMILY_APPLIED.json"
+      ]
+    },
+    {
+      "id": "RD07-2052",
+      "path": "adl/tools/test_product_report_writer_skill_contracts.sh",
+      "captured_identity": {
+        "mode": "100755",
+        "blob": "9ecd6e5d7f1c141ea9e3bea06753c180c8df7223"
+      },
+      "current_sha256": "625591d173cabb0852012b8985b209e3b509602df218d2a05b4810695859cbbb",
+      "prior_action": "proposed_remove_with_entire_tool_family",
+      "proposed_action": "retain_public_source_or_fixture",
+      "reason": "Public original-contract adapter: explicit selected owner or authentic full historical resource root; original assertions and refusal preserved. Retention does not claim full external suite acceptance.",
+      "remaining_caller_repair": [],
+      "current_identity": {
+        "mode": "100755",
+        "blob": "5686e29354d4bf7e8e44274d6e1420a416416152",
+        "sha256": "625591d173cabb0852012b8985b209e3b509602df218d2a05b4810695859cbbb"
+      },
+      "evidence_packets": [
+        "CODEFRIEND_SKILL_FAMILY_APPLIED.json"
+      ]
+    },
+    {
+      "id": "RD07-2065",
+      "path": "adl/tools/test_repo_code_review_skill_contracts.sh",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "39edcdf08c4d8de6bc81a783925b6d5fc8eca283"
+      },
+      "current_sha256": "779cf664cade23723a59ebe1e600d647e8f65050700b2719a9f1b497bc70d70f",
+      "prior_action": "proposed_remove_with_entire_tool_family",
+      "proposed_action": "retain_public_source_or_fixture",
+      "reason": "Public original-contract adapter: explicit selected owner or authentic full historical resource root; original assertions and refusal preserved. Retention does not claim full external suite acceptance.",
+      "remaining_caller_repair": [],
+      "current_identity": {
+        "mode": "100644",
+        "blob": "781da5abf507b7d7b5d9666a54df87619c6e7960",
+        "sha256": "779cf664cade23723a59ebe1e600d647e8f65050700b2719a9f1b497bc70d70f"
+      },
+      "evidence_packets": [
+        "CODEFRIEND_SKILL_FAMILY_APPLIED.json"
+      ]
+    },
+    {
+      "id": "RD07-2074",
+      "path": "adl/tools/test_review_quality_evaluator_skill_contracts.sh",
+      "captured_identity": {
+        "mode": "100755",
+        "blob": "3406554f5c575c40f632b5885587b71d0ae0779f"
+      },
+      "current_sha256": "ec4ac930216a5b23c12467c5450f287700ed15ae5d55b6cd39d189389abdedc1",
+      "prior_action": "proposed_remove_with_entire_tool_family",
+      "proposed_action": "retain_public_source_or_fixture",
+      "reason": "Public original-contract adapter: explicit selected owner or authentic full historical resource root; original assertions and refusal preserved. Retention does not claim full external suite acceptance.",
+      "remaining_caller_repair": [],
+      "current_identity": {
+        "mode": "100755",
+        "blob": "66d023c86d779ca9b2b14cdd9eaf158069feffcb",
+        "sha256": "ec4ac930216a5b23c12467c5450f287700ed15ae5d55b6cd39d189389abdedc1"
+      },
+      "evidence_packets": [
+        "CODEFRIEND_SKILL_FAMILY_APPLIED.json"
+      ]
+    },
+    {
+      "id": "RD07-1400",
+      "path": "adl/tools/install_adl_operational_skills.sh",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "5550dd137ad2e304629ded3d21c0c3bcba23dd24"
+      },
+      "current_sha256": "957079f44e4d2d1b1330e314bd1e336a1e823955c588736333e065f4792c85ac",
+      "prior_action": "proposed_remove_with_entire_tool_family",
+      "proposed_action": "retain_public_source_or_fixture",
+      "reason": "Public generic installer/frontmatter contract utility; repaired installer requires explicit complete source root and preserves all original installation assertions.",
+      "remaining_caller_repair": [],
+      "current_identity": {
+        "mode": "100644",
+        "blob": "8a27be44d46928838422b93a4b01de1544cb7ee8",
+        "sha256": "957079f44e4d2d1b1330e314bd1e336a1e823955c588736333e065f4792c85ac"
+      },
+      "evidence_packets": [
+        "CODEFRIEND_SKILL_FAMILY_APPLIED.json"
+      ]
+    },
+    {
+      "id": "RD07-2015",
+      "path": "adl/tools/test_install_adl_operational_skills.sh",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "8e426c334ebc780b4c43086aefdc76058db94233"
+      },
+      "current_sha256": "791113312b1e248e001a70ec1a83161d651694919191b370186d47b1cb5750c9",
+      "prior_action": "proposed_remove_with_entire_tool_family",
+      "proposed_action": "retain_public_source_or_fixture",
+      "reason": "Public generic installer/frontmatter contract utility; repaired installer requires explicit complete source root and preserves all original installation assertions.",
+      "remaining_caller_repair": [],
+      "current_identity": {
+        "mode": "100644",
+        "blob": "5f8b588e25bf3996af3b1350b44548996eae756e",
+        "sha256": "791113312b1e248e001a70ec1a83161d651694919191b370186d47b1cb5750c9"
+      },
+      "evidence_packets": [
+        "CODEFRIEND_SKILL_FAMILY_APPLIED.json"
+      ]
+    },
+    {
+      "id": "RD07-2206",
+      "path": "adl/tools/validate_skill_frontmatter.sh",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "5e577a219bf5fba6d15bf0fb16bbc29d482ccf8f"
+      },
+      "current_sha256": "fb090ed767cbf58d11fad831eb933ab701ac294932179ea0ea42740c78e427fc",
+      "prior_action": "proposed_remove_with_entire_tool_family",
+      "proposed_action": "retain_public_source_or_fixture",
+      "reason": "Public generic installer/frontmatter contract utility; repaired installer requires explicit complete source root and preserves all original installation assertions.",
+      "remaining_caller_repair": [],
+      "current_identity": {
+        "mode": "100644",
+        "blob": "5e577a219bf5fba6d15bf0fb16bbc29d482ccf8f",
+        "sha256": "fb090ed767cbf58d11fad831eb933ab701ac294932179ea0ea42740c78e427fc"
+      },
+      "evidence_packets": [
+        "CODEFRIEND_SKILL_FAMILY_APPLIED.json"
+      ]
+    },
+    {
+      "id": "RD07-3455",
+      "path": "docs/csdlc-v3/INTENT_COMMANDS.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "0bae0dc05ed3ca1c2e77168db05a7b3e6a2cb351"
+      },
+      "current_sha256": "1941bb0f7443144c59377133474806322591826004854fdefcb76a68334f8933",
+      "prior_action": "proposed_owner_transfer_with_consumer_qualification",
+      "proposed_action": "retain_public_source_or_fixture",
+      "reason": "ADL-facing current native workflow navigation retained for repository operators; selected owner help/authority remains controlling, not copied-source implementation.",
+      "remaining_caller_repair": [
+        "Repair opening removed local csdlc-v3/src/application/intent source pointer to Cognitive-SDLC owner reference; preserve current interface text and selected-executable caveat."
+      ],
+      "current_identity": {
+        "mode": "100644",
+        "blob": "83f7a8c8b78fd0ee89be50e5d49ba77b1b90665f",
+        "sha256": "1941bb0f7443144c59377133474806322591826004854fdefcb76a68334f8933"
+      },
+      "evidence_packets": [
+        "ACTUAL_INSTALLED_MANUAL_QUALIFICATION.json"
+      ]
+    },
+    {
+      "id": "RD07-3456",
+      "path": "docs/csdlc-v3/NO_PR_CLOSEOUT.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "e38d9e5c9a9b8040602a165dea4dee99e86538d9"
+      },
+      "current_sha256": "e36ad0ffb38a40842030a902d795eceb37f2033b582403c76f13c9e8f3d8377e",
+      "prior_action": "proposed_owner_transfer_with_consumer_qualification",
+      "proposed_action": "retain_public_source_or_fixture",
+      "reason": "ADL-facing current native workflow navigation retained for repository operators; selected owner help/authority remains controlling, not copied-source implementation.",
+      "remaining_caller_repair": [],
+      "current_identity": {
+        "mode": "100644",
+        "blob": "e38d9e5c9a9b8040602a165dea4dee99e86538d9",
+        "sha256": "e36ad0ffb38a40842030a902d795eceb37f2033b582403c76f13c9e8f3d8377e"
+      },
+      "evidence_packets": [
+        "ACTUAL_INSTALLED_MANUAL_QUALIFICATION.json"
+      ]
+    },
+    {
+      "id": "RD07-3457",
+      "path": "docs/csdlc-v3/PROOF_WORKTREE_BINDING.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "7e90c3ca906d228d63d40f7001da2cb87abf62e1"
+      },
+      "current_sha256": "35beb7003b69c0c7af4b1a29dcff5e6a3e816e3ff8debc50effdf7386a04a3d8",
+      "prior_action": "proposed_owner_transfer_with_consumer_qualification",
+      "proposed_action": "retain_public_source_or_fixture",
+      "reason": "ADL-facing current native workflow navigation retained for repository operators; selected owner help/authority remains controlling, not copied-source implementation.",
+      "remaining_caller_repair": [],
+      "current_identity": {
+        "mode": "100644",
+        "blob": "7e90c3ca906d228d63d40f7001da2cb87abf62e1",
+        "sha256": "35beb7003b69c0c7af4b1a29dcff5e6a3e816e3ff8debc50effdf7386a04a3d8"
+      },
+      "evidence_packets": [
+        "ACTUAL_INSTALLED_MANUAL_QUALIFICATION.json"
+      ]
+    },
+    {
+      "id": "RD07-3458",
+      "path": "docs/csdlc-v3/PULL_REQUEST_MERGE.md",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "86b353a20f04b1e0ceef524bcd0f8b09d9a254f1"
+      },
+      "current_sha256": "997bf7f960bf3535ca659f208ae17ba1d444606bed6696723d1d688519369d23",
+      "prior_action": "proposed_owner_transfer_with_consumer_qualification",
+      "proposed_action": "retain_public_source_or_fixture",
+      "reason": "ADL-facing current native workflow navigation retained for repository operators; selected owner help/authority remains controlling, not copied-source implementation.",
+      "remaining_caller_repair": [],
+      "current_identity": {
+        "mode": "100644",
+        "blob": "86b353a20f04b1e0ceef524bcd0f8b09d9a254f1",
+        "sha256": "997bf7f960bf3535ca659f208ae17ba1d444606bed6696723d1d688519369d23"
+      },
+      "evidence_packets": [
+        "ACTUAL_INSTALLED_MANUAL_QUALIFICATION.json"
+      ]
+    }
+  ],
+  "files": [
+    {
+      "path": "adl/tools/skills/docs/ADR_CURATOR_SKILL_INPUT_SCHEMA.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "c92726970c59b090bb5d1738c254b0f9f19d2a39",
+        "sha256": "e0c2abeb89bd48a8cc12da3ba427fb0e21d824a9811e46aac135af7363d83314"
+      },
+      "after": null,
+      "archive_member": "source/adl/tools/skills/docs/ADR_CURATOR_SKILL_INPUT_SCHEMA.md"
+    },
+    {
+      "path": "adl/tools/skills/docs/ARCHITECTURE_DIAGRAM_REVIEWER_SKILL_INPUT_SCHEMA.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "909b743a3e4cd312f0b8af1ef6eff659139fb228",
+        "sha256": "ae63dae7ce4591b90c645d6156166ee18004d89cf97c4a4071f38b788fbdb977"
+      },
+      "after": null,
+      "archive_member": "source/adl/tools/skills/docs/ARCHITECTURE_DIAGRAM_REVIEWER_SKILL_INPUT_SCHEMA.md"
+    },
+    {
+      "path": "adl/tools/skills/docs/ARCHITECTURE_FITNESS_FUNCTION_AUTHOR_SKILL_INPUT_SCHEMA.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "3f25e0f3f2e03f2d1602dac6460ee6249d24c90a",
+        "sha256": "b6471053637b111dd5215cb9c8b6df0cc0451dcb530d6e31b26dbc0d79163452"
+      },
+      "after": null,
+      "archive_member": "source/adl/tools/skills/docs/ARCHITECTURE_FITNESS_FUNCTION_AUTHOR_SKILL_INPUT_SCHEMA.md"
+    },
+    {
+      "path": "adl/tools/skills/docs/DIAGRAM_AUTHOR_SKILL_INPUT_SCHEMA.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "1eb731879c9c6f2c9f23dbb73b17c1b6ba5c2b41",
+        "sha256": "f3139641880b61ab0cd1d16ac7d2bb58dd6938bd5bca7130f430c0f9d82413ac"
+      },
+      "after": null,
+      "archive_member": "source/adl/tools/skills/docs/DIAGRAM_AUTHOR_SKILL_INPUT_SCHEMA.md"
+    },
+    {
+      "path": "adl/tools/skills/docs/FINDING_TO_ISSUE_PLANNER_SKILL_INPUT_SCHEMA.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "327c2178aaf40cb4335db1786a4aa9bd8b0d0832",
+        "sha256": "cc4abc16ed080d8a32769c19fdc34d060dd78105498fae63596067032a25d628"
+      },
+      "after": null,
+      "archive_member": "source/adl/tools/skills/docs/FINDING_TO_ISSUE_PLANNER_SKILL_INPUT_SCHEMA.md"
+    },
+    {
+      "path": "adl/tools/skills/docs/MULTI_AGENT_REPO_REVIEW_SKILL_SUITE.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "9f49bd71b38f3ca4985db316bd780bcef243e27d",
+        "sha256": "a776823162f0ea4ae4b2944ace454ee33cc4f809ef21f4986848d171d4075a33"
+      },
+      "after": null,
+      "archive_member": "source/adl/tools/skills/docs/MULTI_AGENT_REPO_REVIEW_SKILL_SUITE.md"
+    },
+    {
+      "path": "adl/tools/skills/docs/PRODUCT_REPORT_WRITER_SKILL_INPUT_SCHEMA.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "09fbc9a0a2365699835fca8f5afc27620682b78e",
+        "sha256": "ca857d45343a82ffd212f91372d2f32b614086b0ce1394899ac261a700cd76fe"
+      },
+      "after": null,
+      "archive_member": "source/adl/tools/skills/docs/PRODUCT_REPORT_WRITER_SKILL_INPUT_SCHEMA.md"
+    },
+    {
+      "path": "adl/tools/skills/docs/REDACTION_AND_EVIDENCE_AUDITOR_SKILL_INPUT_SCHEMA.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "a21a546c54bdaab90fdd76dfee9cffef46676a0a",
+        "sha256": "731fae0aada1d6efdc7dbfed750b587c79a5dcd24efb68a565b88a17cdf1832c"
+      },
+      "after": null,
+      "archive_member": "source/adl/tools/skills/docs/REDACTION_AND_EVIDENCE_AUDITOR_SKILL_INPUT_SCHEMA.md"
+    },
+    {
+      "path": "adl/tools/skills/docs/REPO_ARCHITECTURE_REVIEW_SKILL_INPUT_SCHEMA.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "c7595f19de07ed845bee50c054af5baa51927bd1",
+        "sha256": "335b0ec63afbcfb0dbf1fe1a7ba6236e2ce88b233052423a525f8e18f089b2e4"
+      },
+      "after": null,
+      "archive_member": "source/adl/tools/skills/docs/REPO_ARCHITECTURE_REVIEW_SKILL_INPUT_SCHEMA.md"
+    },
+    {
+      "path": "adl/tools/skills/docs/REPO_CODE_REVIEW_SKILL_INPUT_SCHEMA.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "ba9b6f27f0f5cc64093b7eb0355208d79f85753b",
+        "sha256": "2faae9979b3a05611ec01fe7b7e692ad1ef94418dc5b1086f65df7fc2e4fa549"
+      },
+      "after": null,
+      "archive_member": "source/adl/tools/skills/docs/REPO_CODE_REVIEW_SKILL_INPUT_SCHEMA.md"
+    },
+    {
+      "path": "adl/tools/skills/docs/REPO_DEPENDENCY_REVIEW_SKILL_INPUT_SCHEMA.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "9a616189a2f68421c1c53c2fba6fe86fc27b7947",
+        "sha256": "0881bff4b0d5c4a64fd727280d5aba16e4b9a1651c45d2f3e84d58c83fd3548b"
+      },
+      "after": null,
+      "archive_member": "source/adl/tools/skills/docs/REPO_DEPENDENCY_REVIEW_SKILL_INPUT_SCHEMA.md"
+    },
+    {
+      "path": "adl/tools/skills/docs/REPO_DIAGRAM_PLANNER_SKILL_INPUT_SCHEMA.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "2110dbfae6610c95b960b0b3ec8ba7d6984b5b73",
+        "sha256": "5da30b8423935d1b0d955ccbbec8e11704c423c000ca2887c72b95095ade99ef"
+      },
+      "after": null,
+      "archive_member": "source/adl/tools/skills/docs/REPO_DIAGRAM_PLANNER_SKILL_INPUT_SCHEMA.md"
+    },
+    {
+      "path": "adl/tools/skills/docs/REPO_PACKET_BUILDER_SKILL_INPUT_SCHEMA.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "07e954f335347f4de9523d56c43b4cfbaeed7f68",
+        "sha256": "1f616babd2ec2fe3a104fc719f2fcbae1be843f9f02676b12d98f0499d128a8a"
+      },
+      "after": null,
+      "archive_member": "source/adl/tools/skills/docs/REPO_PACKET_BUILDER_SKILL_INPUT_SCHEMA.md"
+    },
+    {
+      "path": "adl/tools/skills/docs/REPO_REVIEW_CODE_SKILL_INPUT_SCHEMA.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "9a12bedefeb82f9e3f75fd593fce8f0d8f090e1b",
+        "sha256": "00822aeb205ee6b024571cce5fe2edcb54ff5b71778b1599b4cc7199119b0ab8"
+      },
+      "after": null,
+      "archive_member": "source/adl/tools/skills/docs/REPO_REVIEW_CODE_SKILL_INPUT_SCHEMA.md"
+    },
+    {
+      "path": "adl/tools/skills/docs/REPO_REVIEW_DOCS_SKILL_INPUT_SCHEMA.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "d8ea7cfd6c0a87a4affb4dbbd9fc623ab2573730",
+        "sha256": "ba36f7916e5a802fe1ba52b989006afb41f3639ff9f0b6383dbe4a008e9e2a44"
+      },
+      "after": null,
+      "archive_member": "source/adl/tools/skills/docs/REPO_REVIEW_DOCS_SKILL_INPUT_SCHEMA.md"
+    },
+    {
+      "path": "adl/tools/skills/docs/REPO_REVIEW_SECURITY_SKILL_INPUT_SCHEMA.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "f942978bc6b1fc8b52193f5e9ab39219c3b47ba9",
+        "sha256": "628e029bd934a1b9db14cc08286dafe682c27c4df0bf3d156b1bdea4533529a3"
+      },
+      "after": null,
+      "archive_member": "source/adl/tools/skills/docs/REPO_REVIEW_SECURITY_SKILL_INPUT_SCHEMA.md"
+    },
+    {
+      "path": "adl/tools/skills/docs/REPO_REVIEW_SYNTHESIS_SKILL_INPUT_SCHEMA.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "5ce99cf52034a569c8d734e89f6b3264c13fdfef",
+        "sha256": "b07132200673f54a0bae3665ff6dd78cf3f442f63408e9106653686b8f31cdaa"
+      },
+      "after": null,
+      "archive_member": "source/adl/tools/skills/docs/REPO_REVIEW_SYNTHESIS_SKILL_INPUT_SCHEMA.md"
+    },
+    {
+      "path": "adl/tools/skills/docs/REPO_REVIEW_TESTS_SKILL_INPUT_SCHEMA.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "a8e680ccdc79259a711981f8eadbb47b4f62b8f4",
+        "sha256": "2355befe3dc30e866f3d18924ef3677370ba342db7498b1b2c3ca9afa29c1743"
+      },
+      "after": null,
+      "archive_member": "source/adl/tools/skills/docs/REPO_REVIEW_TESTS_SKILL_INPUT_SCHEMA.md"
+    },
+    {
+      "path": "adl/tools/skills/docs/REVIEW_QUALITY_EVALUATOR_SKILL_INPUT_SCHEMA.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "0e91e8e8f3d3f9c20c2add83bea07be4696da916",
+        "sha256": "71722ca76f1c6f45e9b4531f30224dab25bbefb24d742b444021650e582f014b"
+      },
+      "after": null,
+      "archive_member": "source/adl/tools/skills/docs/REVIEW_QUALITY_EVALUATOR_SKILL_INPUT_SCHEMA.md"
+    },
+    {
+      "path": "adl/tools/skills/docs/REVIEW_READINESS_CLEANUP_SKILL_INPUT_SCHEMA.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "fb9dc584563109438f9fd576d80f7029ac10ef8a",
+        "sha256": "7a985daadb37d08885aa559d96b7e895cbc61e53de940e29c227191bace7ec5e"
+      },
+      "after": null,
+      "archive_member": "source/adl/tools/skills/docs/REVIEW_READINESS_CLEANUP_SKILL_INPUT_SCHEMA.md"
+    },
+    {
+      "path": "adl/tools/skills/docs/REVIEW_TO_TEST_PLANNER_SKILL_INPUT_SCHEMA.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "1f67f6f365576077a9316deb779a60f2ee4f1778",
+        "sha256": "e1d1ef3575f621a04187e8c717c308dae30713cbb0818913caeb75608c36f851"
+      },
+      "after": null,
+      "archive_member": "source/adl/tools/skills/docs/REVIEW_TO_TEST_PLANNER_SKILL_INPUT_SCHEMA.md"
+    },
+    {
+      "path": "adl/tools/skills/docs/OPERATIONAL_SKILLS_GUIDE.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "fe8a5bb482ea23c75c52d8c322e3a2c4f861b900",
+        "sha256": "a981a3170f2b86a14f66d29e8e312ab07141991447d09f2b047aa257c883bf60"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "480b2347cda4d0c41fd10f1bafec4bfb65d6ba50",
+        "sha256": "9fce0ccd91c54a5974d657846118880a2215bb8a9277f150abc66d4e07052e50"
+      },
+      "archive_member": "source/adl/tools/skills/docs/OPERATIONAL_SKILLS_GUIDE.md"
+    },
+    {
+      "path": "docs/csdlc-v3/INTENT_COMMANDS.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "0bae0dc05ed3ca1c2e77168db05a7b3e6a2cb351",
+        "sha256": "7ec0b6ab86fbe52bc99a565bfd9eaad0685ef7e51079c9bfd466f0329a197938"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "83f7a8c8b78fd0ee89be50e5d49ba77b1b90665f",
+        "sha256": "1941bb0f7443144c59377133474806322591826004854fdefcb76a68334f8933"
+      },
+      "archive_member": "source/docs/csdlc-v3/INTENT_COMMANDS.md"
+    }
+  ],
+  "patch": {
+    "path": "/Volumes/FastWork/c1223/csdlc-public-companion-closure/schema-twenty-one.patch",
+    "sha256": "210758744fb0388e33800b2777b313494137fd3eaac4c0a0cc67bd3acaf1e6f0"
+  },
+  "navigation_patch": {
+    "path": "/Volumes/FastWork/c1223/csdlc-public-companion-closure/intent-navigation.patch",
+    "sha256": "c16e8220d1196872243151e2fca766fa6edb6496816ebedfb063b52cb1848b6d"
+  },
+  "custody": {
+    "path": "/Volumes/FastWork/c1223/csdlc-public-companion-closure/schema-current-preimages.tar",
+    "sha256": "0c4fa3a12087ede4ee98705c58441df9d70e61e13c6c8371459ca97cda7a1994",
+    "members": 23
+  },
+  "owner_artifact": {
+    "path": "/Volumes/FastWork/c1223/evidence/codefriend/issue104-installed-preparation/codefriend-review-skills-v1.tar",
+    "sha256": "4ae4847f60a4b2cfd0504deb30fa01ae31db781f6a29ebad2255bbcba81113c4",
+    "artifact_id": 11803531674,
+    "candidate": "e93a457ad6325017627a66a2abe31a3376fa28fd"
+  },
+  "owner_correspondence": {
+    "exact_bytes": 14,
+    "documentation_path_only_changes": 7,
+    "diff": "/Volumes/FastWork/c1223/csdlc-public-companion-closure/SCHEMA_DELTAS.diff",
+    "diff_sha256": "8411f48110e000dacfd5284584affb809dfca97d4cd9ece3ac2753ad64bab464",
+    "boundary": "Only owner skill/schema path relocation and replacement of example workstation roots; no schema field/required-value/policy deletion."
+  },
+  "reused_evidence": [
+    {
+      "path": "/Volumes/FastWork/adl-worktrees/adl-issue-1223-1223-coherent-source-retirement/docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CODEFRIEND_SKILL_FAMILY_APPLIED.json",
+      "sha256": "df23c00b87f41144ac19d30c8c6a8e7e806304bb09cc0c6d1e8a51d783ac08ca"
+    },
+    {
+      "path": "/Volumes/FastWork/adl-worktrees/adl-issue-1223-1223-coherent-source-retirement/docs/milestones/v0.93.1/repository-decomposition/rd07-1223/ORIGINAL_CONSUMER_BATCH_QUALIFICATION.json",
+      "sha256": "9284cb5d06020294a9c2606e19cc58249dbaf0e23cbe6ddc242bce6e71514daa"
+    },
+    {
+      "path": "/Volumes/FastWork/adl-worktrees/adl-issue-1223-1223-coherent-source-retirement/docs/milestones/v0.93.1/repository-decomposition/rd07-1223/REVIEWED_SKILL_OWNER_TRANSFERS.json",
+      "sha256": "533b7ff42008e116789ff31034d28082d1b7bea7c320bf061cd1e4919b77dab4"
+    },
+    {
+      "path": "/Volumes/FastWork/adl-worktrees/adl-issue-1223-1223-coherent-source-retirement/docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CSDLC_SKILL_FAMILY_APPLIED.json",
+      "sha256": "273a859462a937e1cfea30d7db9aacdd5317eb7a4bf254079695b19afa51d699"
+    },
+    {
+      "path": "/Volumes/FastWork/adl-worktrees/adl-issue-1223-1223-coherent-source-retirement/docs/milestones/v0.93.1/repository-decomposition/rd07-1223/ACTUAL_INSTALLED_MANUAL_QUALIFICATION.json",
+      "sha256": "fc439b4120d0410dde86023c9bcfda2dff2d66ed25f03dd712663a2ba6e69f7b"
+    }
+  ],
+  "caller_closure": {
+    "scan": "/Volumes/FastWork/c1223/csdlc-public-companion-closure/CALLERS.json",
+    "scan_sha256": "564bf47be92a5307c2a53b4a2f7938162e48339fb1b395c547cec0c60736af87",
+    "five_original_CF_tests": "Already select ADL_REVIEW_SKILL_CONTRACT_ROOT and docs_root from that external authentic fixture; no local schema dependency remains. Their exact original assertions remain.",
+    "guide": "Explicit owner contracts location plus historical-source boundary; do not delete retained mixed operator guide.",
+    "showcase": "One staged Included paths string in demo_v090_codebuddy_review_showcase.sh is historical staged review provenance alongside already removed csdlc-v2/source paths; not an executable/file reader. No change to proven staged artifact assertions."
+  },
+  "limits": [
+    "No original qualification reruns, builds, cloud or provider calls.",
+    "Current operator documentation retention is not proof that every native operation has executed.",
+    "Explicit root adapters retain expected failure and full historical denominators; their public retention is not blanket owner equivalence.",
+    "No local ledger mutations, no changes to4134captured identities or22additional rows."
+  ],
+  "remaining": [
+    "Parent ledger/guard integration including24retention decisions; final public qualification separate."
+  ],
+  "source_head_before": "8ec7bb979a9f2a7d7b81b530ad91999dccd8967e",
+  "implementation_commit": "pending_parent_commit",
+  "authorization_basis": "User-directed coherent ADL1223 source retirement with explicit public interface retention.",
+  "proposal": {
+    "path": "/Volumes/FastWork/c1223/csdlc-public-companion-closure/PROPOSAL.json",
+    "sha256": "96e948b3f586696e2a39e38de03ac00e3b2ade9f8d41efe7a95a8786fe70016b"
+  },
+  "review": "Public-facade independent review PASS on exact21resource members,7path-only diffs,23preimages,original root-routed tests and24concrete public retentions.",
+  "application_verification": "21removed and2modified afterimages exact; no tests/builds repeated.",
+  "retention_identity_correction": {
+    "verified_at": "84ea944470de7f47d88b2dfe9a77d8cf680ab152",
+    "reason": "Thirteen executable current-mode values were mistakenly recorded as100644 and one navigation identity was recorded before the applied edit. Correct current snapshots from committed Git; captured original identities unchanged.",
+    "rows": [
+      {
+        "id": "RD07-1996",
+        "path": "adl/tools/test_documentation_specialist_skill_contracts.sh",
+        "prior_current_identity": {
+          "mode": "100644",
+          "blob": "19bab6269e36048734778621916251f3a050edd1",
+          "sha256": "9fe1e7e844715bd29dc481067aeac42b09a6ff157e9c73b76a12578caa5db24b"
+        },
+        "verified_current_identity": {
+          "mode": "100755",
+          "blob": "19bab6269e36048734778621916251f3a050edd1",
+          "sha256": "9fe1e7e844715bd29dc481067aeac42b09a6ff157e9c73b76a12578caa5db24b"
+        }
+      },
+      {
+        "id": "RD07-2009",
+        "path": "adl/tools/test_gap_analysis_skill_contracts.sh",
+        "prior_current_identity": {
+          "mode": "100644",
+          "blob": "cc500c7f19435cdc9dbbebeb814fe6bbd39134af",
+          "sha256": "a61ee36b9a0b09c07dd5aa7e6ca251c0d8ac94e9116557b1ed15bb9c7fe09acb"
+        },
+        "verified_current_identity": {
+          "mode": "100755",
+          "blob": "cc500c7f19435cdc9dbbebeb814fe6bbd39134af",
+          "sha256": "a61ee36b9a0b09c07dd5aa7e6ca251c0d8ac94e9116557b1ed15bb9c7fe09acb"
+        }
+      },
+      {
+        "id": "RD07-2025",
+        "path": "adl/tools/test_issue_folding_skill_contracts.sh",
+        "prior_current_identity": {
+          "mode": "100644",
+          "blob": "800ef8f999f105beafc3c405bbba59de578569ce",
+          "sha256": "6ada33e159c29c50750548494e6a10038d43a0abe7948af3cc0bb2c3a9917696"
+        },
+        "verified_current_identity": {
+          "mode": "100755",
+          "blob": "800ef8f999f105beafc3c405bbba59de578569ce",
+          "sha256": "6ada33e159c29c50750548494e6a10038d43a0abe7948af3cc0bb2c3a9917696"
+        }
+      },
+      {
+        "id": "RD07-2028",
+        "path": "adl/tools/test_issue_splitter_skill_contracts.sh",
+        "prior_current_identity": {
+          "mode": "100644",
+          "blob": "5d5208fb766672dba482eef4f0198152f0048e31",
+          "sha256": "90622d260d06cb1e8e6bf9c4effc8c0154a2b0b39e05b71c35d8f4dd12597f45"
+        },
+        "verified_current_identity": {
+          "mode": "100755",
+          "blob": "5d5208fb766672dba482eef4f0198152f0048e31",
+          "sha256": "90622d260d06cb1e8e6bf9c4effc8c0154a2b0b39e05b71c35d8f4dd12597f45"
+        }
+      },
+      {
+        "id": "RD07-2029",
+        "path": "adl/tools/test_issue_watcher_skill_contracts.sh",
+        "prior_current_identity": {
+          "mode": "100644",
+          "blob": "8f8b143bcf40d4a80a29ad70578745aa312af8b8",
+          "sha256": "ba516bfcfc58d910f09090368a5555a991783ac3fa2f78d93fa79ef1ab284e65"
+        },
+        "verified_current_identity": {
+          "mode": "100755",
+          "blob": "8f8b143bcf40d4a80a29ad70578745aa312af8b8",
+          "sha256": "ba516bfcfc58d910f09090368a5555a991783ac3fa2f78d93fa79ef1ab284e65"
+        }
+      },
+      {
+        "id": "RD07-2049",
+        "path": "adl/tools/test_portable_contract_normalizer_skill_contracts.sh",
+        "prior_current_identity": {
+          "mode": "100644",
+          "blob": "aca39fb239009324c8b4556cfe640a1e6b2deca0",
+          "sha256": "0a4e23cebf2917374c704a629f68ca87c2fe3be1a65efdb3421455c30a88ca0e"
+        },
+        "verified_current_identity": {
+          "mode": "100755",
+          "blob": "aca39fb239009324c8b4556cfe640a1e6b2deca0",
+          "sha256": "0a4e23cebf2917374c704a629f68ca87c2fe3be1a65efdb3421455c30a88ca0e"
+        }
+      },
+      {
+        "id": "RD07-2061",
+        "path": "adl/tools/test_refactoring_helper_skill_contracts.sh",
+        "prior_current_identity": {
+          "mode": "100644",
+          "blob": "e9a54d8b9d91145236955b852284b105687f4032",
+          "sha256": "a33024f4f3362864cf426ec027e5b104746c997cd172f0c00ec4c471d2bd3c67"
+        },
+        "verified_current_identity": {
+          "mode": "100755",
+          "blob": "e9a54d8b9d91145236955b852284b105687f4032",
+          "sha256": "a33024f4f3362864cf426ec027e5b104746c997cd172f0c00ec4c471d2bd3c67"
+        }
+      },
+      {
+        "id": "RD07-2063",
+        "path": "adl/tools/test_release_evidence_skill_contracts.sh",
+        "prior_current_identity": {
+          "mode": "100644",
+          "blob": "25f15131525916f0738d215e544e08ea97d1422c",
+          "sha256": "6fcc923862c1a22e7bc63179406a2098d157f68f4966551027b22bedb64874bf"
+        },
+        "verified_current_identity": {
+          "mode": "100755",
+          "blob": "25f15131525916f0738d215e544e08ea97d1422c",
+          "sha256": "6fcc923862c1a22e7bc63179406a2098d157f68f4966551027b22bedb64874bf"
+        }
+      },
+      {
+        "id": "RD07-2128",
+        "path": "adl/tools/test_use_case_writer_skill_contracts.sh",
+        "prior_current_identity": {
+          "mode": "100644",
+          "blob": "b161edb8b271000d37e2d4b66c06572687918bf4",
+          "sha256": "60bfa27c1a9afae2993f152966283cb1310103236df6352e1ff064ff6f00fdec"
+        },
+        "verified_current_identity": {
+          "mode": "100755",
+          "blob": "b161edb8b271000d37e2d4b66c06572687918bf4",
+          "sha256": "60bfa27c1a9afae2993f152966283cb1310103236df6352e1ff064ff6f00fdec"
+        }
+      },
+      {
+        "id": "RD07-2036",
+        "path": "adl/tools/test_multi_agent_repo_review_skill_suite_contracts.sh",
+        "prior_current_identity": {
+          "mode": "100644",
+          "blob": "a48686041b69d20d50cf735395e67ad34264fc02",
+          "sha256": "d446f6dde3b96ab554d9d15ac69d9fe4e6686a4976f22db8c4ae590e9f09bb72"
+        },
+        "verified_current_identity": {
+          "mode": "100755",
+          "blob": "a48686041b69d20d50cf735395e67ad34264fc02",
+          "sha256": "d446f6dde3b96ab554d9d15ac69d9fe4e6686a4976f22db8c4ae590e9f09bb72"
+        }
+      },
+      {
+        "id": "RD07-2037",
+        "path": "adl/tools/test_multi_agent_repo_review_specialist_skill_contracts.sh",
+        "prior_current_identity": {
+          "mode": "100644",
+          "blob": "c62df3b26df751e8dbdb65d9b529786113983bb6",
+          "sha256": "9ace1dbc2f5a16b1b93aa6406022ff0ce82c89a928911e4f81d5d11c8ec29095"
+        },
+        "verified_current_identity": {
+          "mode": "100755",
+          "blob": "c62df3b26df751e8dbdb65d9b529786113983bb6",
+          "sha256": "9ace1dbc2f5a16b1b93aa6406022ff0ce82c89a928911e4f81d5d11c8ec29095"
+        }
+      },
+      {
+        "id": "RD07-2052",
+        "path": "adl/tools/test_product_report_writer_skill_contracts.sh",
+        "prior_current_identity": {
+          "mode": "100644",
+          "blob": "5686e29354d4bf7e8e44274d6e1420a416416152",
+          "sha256": "625591d173cabb0852012b8985b209e3b509602df218d2a05b4810695859cbbb"
+        },
+        "verified_current_identity": {
+          "mode": "100755",
+          "blob": "5686e29354d4bf7e8e44274d6e1420a416416152",
+          "sha256": "625591d173cabb0852012b8985b209e3b509602df218d2a05b4810695859cbbb"
+        }
+      },
+      {
+        "id": "RD07-2074",
+        "path": "adl/tools/test_review_quality_evaluator_skill_contracts.sh",
+        "prior_current_identity": {
+          "mode": "100644",
+          "blob": "66d023c86d779ca9b2b14cdd9eaf158069feffcb",
+          "sha256": "ec4ac930216a5b23c12467c5450f287700ed15ae5d55b6cd39d189389abdedc1"
+        },
+        "verified_current_identity": {
+          "mode": "100755",
+          "blob": "66d023c86d779ca9b2b14cdd9eaf158069feffcb",
+          "sha256": "ec4ac930216a5b23c12467c5450f287700ed15ae5d55b6cd39d189389abdedc1"
+        }
+      },
+      {
+        "id": "RD07-3455",
+        "path": "docs/csdlc-v3/INTENT_COMMANDS.md",
+        "prior_current_identity": {
+          "mode": "100644",
+          "blob": "0bae0dc05ed3ca1c2e77168db05a7b3e6a2cb351",
+          "sha256": "7ec0b6ab86fbe52bc99a565bfd9eaad0685ef7e51079c9bfd466f0329a197938"
+        },
+        "verified_current_identity": {
+          "mode": "100644",
+          "blob": "83f7a8c8b78fd0ee89be50e5d49ba77b1b90665f",
+          "sha256": "1941bb0f7443144c59377133474806322591826004854fdefcb76a68334f8933"
+        }
+      }
+    ]
+  }
+}

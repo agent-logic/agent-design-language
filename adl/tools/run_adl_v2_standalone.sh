@@ -2,13 +2,20 @@
 set -euo pipefail
 
 root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-shopt -s nullglob
-manifests=("$root"/adl-v2/crates/*/Cargo.toml)
+# Keep this list aligned with the public adl-v2 workspace. Private source
+# directories may remain as historical inputs during repository retirement.
+manifests=(
+  "$root/adl-v2/crates/adl-language/Cargo.toml"
+  "$root/adl-v2/crates/adl-compiler/Cargo.toml"
+)
 
-if [ "${#manifests[@]}" -eq 0 ]; then
-  echo "no ADL v2 crate manifests found" >&2
-  exit 2
-fi
+# Check the complete public input set before invoking any validation command.
+for manifest in "${manifests[@]}"; do
+  if [ ! -f "$manifest" ]; then
+    echo "missing public ADL v2 crate manifest: ${manifest#"$root/"}" >&2
+    exit 2
+  fi
+done
 
 for manifest in "${manifests[@]}"; do
   relative_manifest="${manifest#"$root/"}"

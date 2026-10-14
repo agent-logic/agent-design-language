@@ -54,10 +54,21 @@ adl_owner_run_if_executable() {
 
 adl_owner_source_hash() {
   local root="$1"
+  local source_paths=(
+  adl/Cargo.toml adl/Cargo.lock adl/src/main.rs adl/src/lib.rs
+  adl/src/control_plane.rs adl/src/session_ledger.rs adl/src/bin/adl_process.rs
+  adl/src/cli/public_dispatch.rs adl/src/cli/public_workflow.rs
+  adl/src/cli/workflow_args.rs adl/src/cli/workflow_display.rs adl/src/cli/resume_args.rs
+  adl/src/cli/runtime_owner.rs adl/src/cli/codefriend_owner.rs
+  adl/src/cli/process_cmd.rs adl/src/cli/process_cmd adl/src/cli/session_cmd.rs
+  adl/src/cli/observability.rs adl/src/cli/usage.rs
+  adl-legacy-contracts/Cargo.toml adl-legacy-contracts/src adl-legacy-contracts/schemas
+  adl-schema/Cargo.toml adl-schema/src adl-schema/schemas
+  )
   if git -C "$root" rev-parse --show-toplevel >/dev/null 2>&1; then
     (
       cd "$root"
-      git ls-files --cached --others --exclude-standard -- adl/Cargo.toml adl/Cargo.lock adl/build.rs adl/src adl/tools/adl_provider_adapter.rs |
+      git ls-files --cached --others --exclude-standard -- "${source_paths[@]}" |
         grep -Ev '(^adl/src/cli/tests/|/tests\.rs$|/tests/)' |
         LC_ALL=C sort |
         while IFS= read -r path; do
@@ -71,7 +82,13 @@ adl_owner_source_hash() {
   fi
   (
     cd "$root"
-    find adl -type f \( -path 'adl/src/*' -o -path 'adl/tools/adl_provider_adapter.rs' -o -name Cargo.toml -o -name Cargo.lock -o -name build.rs \) -print 2>/dev/null |
+    for path in "${source_paths[@]}"; do
+      if [[ -d "$path" ]]; then
+        find "$path" -type f -print
+      elif [[ -f "$path" ]]; then
+        printf '%s\n' "$path"
+      fi
+    done |
       grep -Ev '(^adl/src/cli/tests/|/tests\.rs$|/tests/)' |
       LC_ALL=C sort |
       while IFS= read -r path; do

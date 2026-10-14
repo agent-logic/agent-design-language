@@ -1,0 +1,204 @@
+{
+  "schema": "adl1223.historical_demo_coverage_retention.v1",
+  "retained_ids": [
+    "RD07-2150",
+    "RD07-2234"
+  ],
+  "inputs": {
+    "revision": "9f373f5f04b0f8c9dc6e3e6cbf348fddec98486c",
+    "files": [
+      {
+        "path": "adl/tools/test_v092_demo_proof_coverage.sh",
+        "git_blob": "19b7efb884c87678aa1f15baa83ae9d9da4151bc"
+      },
+      {
+        "path": "adl/tools/validate_v092_demo_proof_coverage.py",
+        "git_blob": "37985a5300f26139a308c4dddeae914806cdf4c8"
+      },
+      {
+        "path": "docs/milestones/v0.92/DEMO_MATRIX_v0.92.md",
+        "git_blob": "e3d268ce4b7e396e89e301eb5e4305de143f1739"
+      },
+      {
+        "path": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+        "git_blob": "9e69a59f343e3ba58cdaab6278b936c40e439423"
+      },
+      {
+        "path": "docs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md",
+        "git_blob": "07933908acf77379ae90ebbf50367f65051323f0"
+      },
+      {
+        "path": "docs/milestones/v0.92/review/V092_DEMO_AEE_ARTIFACT_INDEX.md",
+        "git_blob": "3f089b4e13219731a528ba45535ba2f247155a3b"
+      },
+      {
+        "path": ".csdlc/evidence/308/wp20-demo-proof-validator.log",
+        "git_blob": "82fb8620117215fef730463b0be00b62700c8cd5"
+      },
+      {
+        "path": ".csdlc/evidence/308/wp20-demo-proof-negative-suite.log",
+        "git_blob": "efbf0f0d051bb2b3e6c30cb1cc7347b6593d0e68"
+      },
+      {
+        "path": ".csdlc/evidence/308/exact-base-revisions.txt",
+        "git_blob": "8acaeafed4971a3317178894fa33f5a321163a0d"
+      },
+      {
+        "path": ".csdlc/evidence/308/predecessors/256-derived-terminal.json",
+        "git_blob": "9be445eab0709117f3d645f30f8a156d203a63a4"
+      },
+      {
+        "path": ".csdlc/evidence/308/predecessors/340-derived-terminal.json",
+        "git_blob": "0db7fd49695bcb618e1b73beb91147ec06156b86"
+      },
+      {
+        "path": ".csdlc/evidence/308/predecessors/341-derived-terminal.json",
+        "git_blob": "faaff9978b3476e0e3f1bc93373857d5f5ea05ae"
+      },
+      {
+        "path": ".csdlc/evidence/308/predecessors/5839-derived-terminal.json",
+        "git_blob": "c002c4a216377dc0efe1cefb3c6b767d7136d10d"
+      }
+    ],
+    "scope": "Unchanged original historical test and 13-file input closure. Not current-document or product acceptance."
+  },
+  "result": {
+    "exit_code": 0,
+    "seconds": 0.8232801249978365,
+    "revision": "9f373f5f04b0f8c9dc6e3e6cbf348fddec98486c",
+    "current_documents_validated": false,
+    "source_edits": false
+  },
+  "independent_review": {
+    "result": "PASS bounded original source/assertion/log review",
+    "reviewer": "WorkerBee18",
+    "verified_git_input_blobs": 13,
+    "positive_validations": 2,
+    "distinct_negative_refusals": 12,
+    "runtime_provider_or_native_execution": false,
+    "current_document_failure_preserved": "/Volumes/FastWork/c1223/historical-demo-coverage-r1",
+    "boundary": "Historical WP20 contract only. Does not validate later corrective-ledger statuses or current milestone acceptance."
+  },
+  "closure_review": {
+    "historical_revision": "9f373f5f04b0f8c9dc6e3e6cbf348fddec98486c",
+    "files": [
+      {
+        "path": "adl/tools/test_v092_demo_proof_coverage.sh",
+        "historical_blob": "19b7efb884c87678aa1f15baa83ae9d9da4151bc",
+        "current_blob": "19b7efb884c87678aa1f15baa83ae9d9da4151bc",
+        "same_as_historical": true,
+        "inventory": {
+          "id": "RD07-2150",
+          "action": "retain",
+          "reason": "hold_no_proven_current_successor_mapping",
+          "disposition_status": null
+        }
+      },
+      {
+        "path": "adl/tools/validate_v092_demo_proof_coverage.py",
+        "historical_blob": "37985a5300f26139a308c4dddeae914806cdf4c8",
+        "current_blob": "37985a5300f26139a308c4dddeae914806cdf4c8",
+        "same_as_historical": true,
+        "inventory": {
+          "id": "RD07-2234",
+          "action": "retain",
+          "reason": "hold_no_proven_current_successor_mapping",
+          "disposition_status": null
+        }
+      },
+      {
+        "path": "docs/milestones/v0.92/DEMO_MATRIX_v0.92.md",
+        "historical_blob": "e3d268ce4b7e396e89e301eb5e4305de143f1739",
+        "current_blob": "1374d7506f6ef45e1fafbd8b492ce2e161dd1a7b",
+        "same_as_historical": false,
+        "inventory": null
+      },
+      {
+        "path": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+        "historical_blob": "9e69a59f343e3ba58cdaab6278b936c40e439423",
+        "current_blob": "a8d8f8f198ad0c48cd2a3da659331db7e6e06cca",
+        "same_as_historical": false,
+        "inventory": null
+      },
+      {
+        "path": "docs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md",
+        "historical_blob": "07933908acf77379ae90ebbf50367f65051323f0",
+        "current_blob": "030e19494ee6d07aae965d1696b97245e129f13d",
+        "same_as_historical": false,
+        "inventory": null
+      },
+      {
+        "path": "docs/milestones/v0.92/review/V092_DEMO_AEE_ARTIFACT_INDEX.md",
+        "historical_blob": "3f089b4e13219731a528ba45535ba2f247155a3b",
+        "current_blob": "f6ad6562f8a3ccaa9b0c58d70a876a6e7624ed5e",
+        "same_as_historical": false,
+        "inventory": null
+      },
+      {
+        "path": ".csdlc/evidence/308/wp20-demo-proof-validator.log",
+        "historical_blob": "82fb8620117215fef730463b0be00b62700c8cd5",
+        "current_blob": "82fb8620117215fef730463b0be00b62700c8cd5",
+        "same_as_historical": true,
+        "inventory": null
+      },
+      {
+        "path": ".csdlc/evidence/308/wp20-demo-proof-negative-suite.log",
+        "historical_blob": "efbf0f0d051bb2b3e6c30cb1cc7347b6593d0e68",
+        "current_blob": "efbf0f0d051bb2b3e6c30cb1cc7347b6593d0e68",
+        "same_as_historical": true,
+        "inventory": null
+      },
+      {
+        "path": ".csdlc/evidence/308/exact-base-revisions.txt",
+        "historical_blob": "8acaeafed4971a3317178894fa33f5a321163a0d",
+        "current_blob": "8acaeafed4971a3317178894fa33f5a321163a0d",
+        "same_as_historical": true,
+        "inventory": null
+      },
+      {
+        "path": ".csdlc/evidence/308/predecessors/256-derived-terminal.json",
+        "historical_blob": "9be445eab0709117f3d645f30f8a156d203a63a4",
+        "current_blob": "9be445eab0709117f3d645f30f8a156d203a63a4",
+        "same_as_historical": true,
+        "inventory": null
+      },
+      {
+        "path": ".csdlc/evidence/308/predecessors/340-derived-terminal.json",
+        "historical_blob": "0db7fd49695bcb618e1b73beb91147ec06156b86",
+        "current_blob": "0db7fd49695bcb618e1b73beb91147ec06156b86",
+        "same_as_historical": true,
+        "inventory": null
+      },
+      {
+        "path": ".csdlc/evidence/308/predecessors/341-derived-terminal.json",
+        "historical_blob": "faaff9978b3476e0e3f1bc93373857d5f5ea05ae",
+        "current_blob": "faaff9978b3476e0e3f1bc93373857d5f5ea05ae",
+        "same_as_historical": true,
+        "inventory": null
+      },
+      {
+        "path": ".csdlc/evidence/308/predecessors/5839-derived-terminal.json",
+        "historical_blob": "c002c4a216377dc0efe1cefb3c6b767d7136d10d",
+        "current_blob": "c002c4a216377dc0efe1cefb3c6b767d7136d10d",
+        "same_as_historical": true,
+        "inventory": null
+      }
+    ],
+    "conclusion": "Original historical suite passes; current changed milestone documents are not validated. Keep original tool hold until historical closure retention and honest invocation documentation are adopted."
+  },
+  "evidence": {
+    "INPUT.json": "885494930e830cc74d21528938f39b81162be00ebd82e42943d2febbcd5bddcb",
+    "RESULT.json": "4bf96c350535ed8d0e69c8393e345d3484d5642c71b2fe3c5b61ed12e50aebb9",
+    "WORKERBEE18_REVIEW.json": "cf9c4247f2414f6f7444669ad76694d31dced409f892d5dc6ac6d9e346c2d177",
+    "CLOSURE_REVIEW.json": "4b623f492d23cc2130155ae789ff033e6293232a8410744265ecd0fbb609bb04",
+    "stdout": "56159eddc164bc6a2fab9576b49b83221b652600971114079ca0a84be6b2c750",
+    "stderr": "50199fb9e9142014b16673b7425481371ed920475013e6b7275ececda24ee7c2"
+  },
+  "previous_current_input_failure": {
+    "directory": "/Volumes/FastWork/c1223/historical-demo-coverage-r1",
+    "exit_code": 1,
+    "negative_cases_executed": 0,
+    "reason": "Later corrective ledger status implemented_with_evidence is unsupported by the unchanged historical validator."
+  },
+  "boundary": "Historical WP20 contract only; no current milestone acceptance, native execution, provider execution, or new removal. Eleven input paths are outside the original 4134-row inventory."
+}

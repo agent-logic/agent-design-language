@@ -1,0 +1,1803 @@
+{
+  "schema": "adl1223.csdlc_skill_family_applied.v1",
+  "status": "applied_worktree_pending_root_review_and_commit",
+  "predecessor_commit": "4bc30356466434e5023fbad45b4f72387adb534f",
+  "source_proposal": {
+    "path": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/PROPOSAL.json",
+    "sha256": "224b32b1f06164dd16a85cca829a3d327d93f97542b40796e4c0572c4b392511"
+  },
+  "caller_closure": {
+    "path": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/caller-closure/PACKET.json",
+    "sha256": "85c338d40c82457a3bd0b396f13f0a2ef8ee67a1fe6fc05041cebb8b5fa59b57"
+  },
+  "patches": [
+    {
+      "path": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/83-skills-and-callers.patch",
+      "sha256": "4b5d4d9e1ff5be223b3bc71c14cb2b88630a9456d039a0a996ba433ac4f58362"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/caller-closure/caller-closure.patch",
+      "sha256": "808f07b3d8274aee326b6942fc64b2b924c78391622deda207f4a37aa39dd675"
+    }
+  ],
+  "counts": {
+    "source_removals": 83,
+    "skill_files": 71,
+    "schema_files": 12,
+    "original_ids": 83,
+    "original_denominator": 4134,
+    "additional_denominator": 22,
+    "retained_original_contract_scripts_adapted": 10,
+    "navigation_docs_modified": 2,
+    "registry_modified": 1
+  },
+  "original_row_ids": [
+    "RD07-1566",
+    "RD07-1567",
+    "RD07-1568",
+    "RD07-1569",
+    "RD07-1570",
+    "RD07-1584",
+    "RD07-1586",
+    "RD07-1588",
+    "RD07-1589",
+    "RD07-1590",
+    "RD07-1591",
+    "RD07-1596",
+    "RD07-1607",
+    "RD07-1608",
+    "RD07-1619",
+    "RD07-1629",
+    "RD07-1630",
+    "RD07-1631",
+    "RD07-1632",
+    "RD07-1633",
+    "RD07-1634",
+    "RD07-1640",
+    "RD07-1641",
+    "RD07-1642",
+    "RD07-1643",
+    "RD07-1644",
+    "RD07-1645",
+    "RD07-1646",
+    "RD07-1647",
+    "RD07-1648",
+    "RD07-1649",
+    "RD07-1650",
+    "RD07-1651",
+    "RD07-1652",
+    "RD07-1653",
+    "RD07-1654",
+    "RD07-1655",
+    "RD07-1656",
+    "RD07-1657",
+    "RD07-1658",
+    "RD07-1659",
+    "RD07-1660",
+    "RD07-1661",
+    "RD07-1671",
+    "RD07-1672",
+    "RD07-1673",
+    "RD07-1674",
+    "RD07-1675",
+    "RD07-1676",
+    "RD07-1731",
+    "RD07-1732",
+    "RD07-1733",
+    "RD07-1734",
+    "RD07-1735",
+    "RD07-1736",
+    "RD07-1737",
+    "RD07-1738",
+    "RD07-1739",
+    "RD07-1740",
+    "RD07-1741",
+    "RD07-1742",
+    "RD07-1799",
+    "RD07-1800",
+    "RD07-1801",
+    "RD07-1802",
+    "RD07-1803",
+    "RD07-1804",
+    "RD07-1805",
+    "RD07-1806",
+    "RD07-1807",
+    "RD07-1808",
+    "RD07-1809",
+    "RD07-1881",
+    "RD07-1882",
+    "RD07-1883",
+    "RD07-1884",
+    "RD07-1885",
+    "RD07-1886",
+    "RD07-1887",
+    "RD07-1888",
+    "RD07-1889",
+    "RD07-1890",
+    "RD07-1891"
+  ],
+  "families": [
+    "demo-operator",
+    "documentation-specialist",
+    "gap-analysis",
+    "issue-folding",
+    "issue-splitter",
+    "issue-watcher",
+    "portable-contract-normalizer",
+    "refactoring-helper",
+    "release-evidence",
+    "review-comment-triage",
+    "test-generator",
+    "use-case-writer"
+  ],
+  "files": [
+    {
+      "id": "RD07-1566",
+      "path": "adl/tools/skills/demo-operator/SKILL.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "6b6bb653f78cc9e6373a9c72d68ce7b5638da842",
+        "sha256": "bff2d56d08a8003915334d392dedbfe6103c4fb7af33c011138878a39f313391"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/demo-operator/SKILL.md",
+        "sha256": "bff2d56d08a8003915334d392dedbfe6103c4fb7af33c011138878a39f313391",
+        "size": 4517
+      }
+    },
+    {
+      "id": "RD07-1567",
+      "path": "adl/tools/skills/demo-operator/adl-skill.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "30c7123b0ca3a9ead53068597c54942bd19b3574",
+        "sha256": "bfa0c1af476bd13cceb56aed4e9c9082a1dbfa2a4dc2ee9fdc64881500a51ab1"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/demo-operator/adl-skill.yaml",
+        "sha256": "bfa0c1af476bd13cceb56aed4e9c9082a1dbfa2a4dc2ee9fdc64881500a51ab1",
+        "size": 2885
+      }
+    },
+    {
+      "id": "RD07-1568",
+      "path": "adl/tools/skills/demo-operator/agents/openai.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "aeeb0cfb5539d3d9763bfa408921514576ddf263",
+        "sha256": "9d05bac9853bee2f1ef166fceb9fdc7cb2a51dd62fe30558fac27b4be04ffd11"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/demo-operator/agents/openai.yaml",
+        "sha256": "9d05bac9853bee2f1ef166fceb9fdc7cb2a51dd62fe30558fac27b4be04ffd11",
+        "size": 261
+      }
+    },
+    {
+      "id": "RD07-1569",
+      "path": "adl/tools/skills/demo-operator/references/demo-playbook.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "0f79ba41ce59fbfb25c304f8c9ccce4333ce29bf",
+        "sha256": "3c766598ea3fd4ac350c92455877dc27b4eee3962cd7fe65e0f96baf02816043"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/demo-operator/references/demo-playbook.md",
+        "sha256": "3c766598ea3fd4ac350c92455877dc27b4eee3962cd7fe65e0f96baf02816043",
+        "size": 1386
+      }
+    },
+    {
+      "id": "RD07-1570",
+      "path": "adl/tools/skills/demo-operator/references/output-contract.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "7418de7132fdf25045578c4f26e92a1fa6a92905",
+        "sha256": "4821a61a521e69d9fa3b44f6f2f54209c3d6ee21e8173908e29b3c9c293c9d30"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/demo-operator/references/output-contract.md",
+        "sha256": "4821a61a521e69d9fa3b44f6f2f54209c3d6ee21e8173908e29b3c9c293c9d30",
+        "size": 1335
+      }
+    },
+    {
+      "id": "RD07-1584",
+      "path": "adl/tools/skills/docs/DEMO_OPERATOR_SKILL_INPUT_SCHEMA.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "6a7394e0a9fbe1a1e16d48fd77738a911d9c5afe",
+        "sha256": "b29066bece0b09ecbfac7ed10b9d7a195a63f2f43c494ec71c660b9ed24a9ff4"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/docs/DEMO_OPERATOR_SKILL_INPUT_SCHEMA.md",
+        "sha256": "b29066bece0b09ecbfac7ed10b9d7a195a63f2f43c494ec71c660b9ed24a9ff4",
+        "size": 2736
+      }
+    },
+    {
+      "id": "RD07-1586",
+      "path": "adl/tools/skills/docs/DOCUMENTATION_SPECIALIST_SKILL_INPUT_SCHEMA.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "83c9bc8f40bedf232abdff950e99c7bccb12d39c",
+        "sha256": "4c0f3c1672238408ddfe7e942689afffb0e13e185e5d1a89904c7cbf6dbbaa1a"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/docs/DOCUMENTATION_SPECIALIST_SKILL_INPUT_SCHEMA.md",
+        "sha256": "4c0f3c1672238408ddfe7e942689afffb0e13e185e5d1a89904c7cbf6dbbaa1a",
+        "size": 3153
+      }
+    },
+    {
+      "id": "RD07-1588",
+      "path": "adl/tools/skills/docs/GAP_ANALYSIS_SKILL_INPUT_SCHEMA.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "a149b44fb83d78fece8d566138ca73d880524853",
+        "sha256": "08c9c844b871c1b7b14a29f727557ee599a415e0957419e9c11953c9b92819af"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/docs/GAP_ANALYSIS_SKILL_INPUT_SCHEMA.md",
+        "sha256": "08c9c844b871c1b7b14a29f727557ee599a415e0957419e9c11953c9b92819af",
+        "size": 3357
+      }
+    },
+    {
+      "id": "RD07-1589",
+      "path": "adl/tools/skills/docs/ISSUE_FOLDING_SKILL_INPUT_SCHEMA.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "5a53829dee9e62f09dbfbd4e321e7a9ad464074b",
+        "sha256": "a9e6e25fd2712b880dc7f6aeef64540a21aff4b069308e6c114ab52ee94fcded"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/docs/ISSUE_FOLDING_SKILL_INPUT_SCHEMA.md",
+        "sha256": "a9e6e25fd2712b880dc7f6aeef64540a21aff4b069308e6c114ab52ee94fcded",
+        "size": 1795
+      }
+    },
+    {
+      "id": "RD07-1590",
+      "path": "adl/tools/skills/docs/ISSUE_SPLITTER_SKILL_INPUT_SCHEMA.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "7556f84bb4cceca62823a907a8a1dfb66cea2fdd",
+        "sha256": "03d330e2ae64a0d6ef61349ef08381a06714e49d88f05ab546b060a5709b5731"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/docs/ISSUE_SPLITTER_SKILL_INPUT_SCHEMA.md",
+        "sha256": "03d330e2ae64a0d6ef61349ef08381a06714e49d88f05ab546b060a5709b5731",
+        "size": 1838
+      }
+    },
+    {
+      "id": "RD07-1591",
+      "path": "adl/tools/skills/docs/ISSUE_WATCHER_SKILL_INPUT_SCHEMA.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "e8b8b08f79ebfb280611342c8816ce4fb41549f0",
+        "sha256": "36f133469154375c04cd691eef116bdd01e407947cfb4415bc2b0a99ab26918c"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/docs/ISSUE_WATCHER_SKILL_INPUT_SCHEMA.md",
+        "sha256": "36f133469154375c04cd691eef116bdd01e407947cfb4415bc2b0a99ab26918c",
+        "size": 3584
+      }
+    },
+    {
+      "id": "RD07-1596",
+      "path": "adl/tools/skills/docs/PORTABLE_CONTRACT_NORMALIZER_SKILL_INPUT_SCHEMA.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "962173e5855e91ada70d358bbb12ab4d5564c0c0",
+        "sha256": "bf939da0922bda192d9a42bfff673e8b370526ec0d988dc6054d03bcb4ff270e"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/docs/PORTABLE_CONTRACT_NORMALIZER_SKILL_INPUT_SCHEMA.md",
+        "sha256": "bf939da0922bda192d9a42bfff673e8b370526ec0d988dc6054d03bcb4ff270e",
+        "size": 1855
+      }
+    },
+    {
+      "id": "RD07-1607",
+      "path": "adl/tools/skills/docs/REFACTORING_HELPER_SKILL_INPUT_SCHEMA.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "2b5f2d01defc4e1d6f88f6011d3bd036cca21dc2",
+        "sha256": "35cf84422c2643c7f90a1e3e00a8e01995963bbac737fe596fd611ac8ec6306e"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/docs/REFACTORING_HELPER_SKILL_INPUT_SCHEMA.md",
+        "sha256": "35cf84422c2643c7f90a1e3e00a8e01995963bbac737fe596fd611ac8ec6306e",
+        "size": 2358
+      }
+    },
+    {
+      "id": "RD07-1608",
+      "path": "adl/tools/skills/docs/RELEASE_EVIDENCE_SKILL_INPUT_SCHEMA.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "314c644d186d9be27f7c37f5e9ad14b792f76e1d",
+        "sha256": "6cef7898c9b9758c1a099f8f6e7656ce7b9b25542d92895ecd54b95b654a280c"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/docs/RELEASE_EVIDENCE_SKILL_INPUT_SCHEMA.md",
+        "sha256": "6cef7898c9b9758c1a099f8f6e7656ce7b9b25542d92895ecd54b95b654a280c",
+        "size": 1964
+      }
+    },
+    {
+      "id": "RD07-1619",
+      "path": "adl/tools/skills/docs/REVIEW_COMMENT_TRIAGE_SKILL_INPUT_SCHEMA.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "acb55d7ca7df7befc2852aa4df859d78bbd6ae5a",
+        "sha256": "7348294b4181aef63a2a4765d41757862f391b6986f775a59400f9137678b4e0"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/docs/REVIEW_COMMENT_TRIAGE_SKILL_INPUT_SCHEMA.md",
+        "sha256": "7348294b4181aef63a2a4765d41757862f391b6986f775a59400f9137678b4e0",
+        "size": 1957
+      }
+    },
+    {
+      "id": "RD07-1629",
+      "path": "adl/tools/skills/docs/TEST_GENERATOR_SKILL_INPUT_SCHEMA.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "7f557fab229a559cf0055d0a3fb6203b9035b671",
+        "sha256": "5eb4412319c6941b448be316cce845ec34a91a2bced3d6af8866219aba2297a1"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/docs/TEST_GENERATOR_SKILL_INPUT_SCHEMA.md",
+        "sha256": "5eb4412319c6941b448be316cce845ec34a91a2bced3d6af8866219aba2297a1",
+        "size": 2678
+      }
+    },
+    {
+      "id": "RD07-1630",
+      "path": "adl/tools/skills/docs/USE_CASE_WRITER_SKILL_INPUT_SCHEMA.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "650fccd1d754c79f341f7c2c784fcd1a383dff1d",
+        "sha256": "77940e6bd2d160f49eb9a80c288bd9ea7294503149a75a6086b25c6ecc631d38"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/docs/USE_CASE_WRITER_SKILL_INPUT_SCHEMA.md",
+        "sha256": "77940e6bd2d160f49eb9a80c288bd9ea7294503149a75a6086b25c6ecc631d38",
+        "size": 2169
+      }
+    },
+    {
+      "id": "RD07-1631",
+      "path": "adl/tools/skills/documentation-specialist/SKILL.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "8b3edca82f6d8da28f847c4763a82278288abe03",
+        "sha256": "ea635c404c3b32facc4ebd691eaef948698ad6bc468c40ba476fc83ff53452ab"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/documentation-specialist/SKILL.md",
+        "sha256": "ea635c404c3b32facc4ebd691eaef948698ad6bc468c40ba476fc83ff53452ab",
+        "size": 5863
+      }
+    },
+    {
+      "id": "RD07-1632",
+      "path": "adl/tools/skills/documentation-specialist/adl-skill.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "6328c6765f8155ae7666ccc35977baec0081dab1",
+        "sha256": "398e390e8ca2a4a65bd25e22c3d02f559f67f133d323807a5e4c904fa23a9577"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/documentation-specialist/adl-skill.yaml",
+        "sha256": "398e390e8ca2a4a65bd25e22c3d02f559f67f133d323807a5e4c904fa23a9577",
+        "size": 3939
+      }
+    },
+    {
+      "id": "RD07-1633",
+      "path": "adl/tools/skills/documentation-specialist/agents/openai.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "e3788df0d48eaa9a29d715e877ae942b097261dd",
+        "sha256": "11d5cb1997537e25357c478d04a2832d1913daf3508fcef07d0772c088a801e1"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/documentation-specialist/agents/openai.yaml",
+        "sha256": "11d5cb1997537e25357c478d04a2832d1913daf3508fcef07d0772c088a801e1",
+        "size": 408
+      }
+    },
+    {
+      "id": "RD07-1634",
+      "path": "adl/tools/skills/documentation-specialist/references/output-contract.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "188fc0ebab13619e3f6d09800595b437919f8b90",
+        "sha256": "6f671e2ffdbd06687361070db7ccf4eb2b064ff20aaf0c3f7afca6966845b89c"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/documentation-specialist/references/output-contract.md",
+        "sha256": "6f671e2ffdbd06687361070db7ccf4eb2b064ff20aaf0c3f7afca6966845b89c",
+        "size": 1996
+      }
+    },
+    {
+      "id": "RD07-1640",
+      "path": "adl/tools/skills/gap-analysis/SKILL.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "ae99a5d84701f402fb53c7ff17c927ce5fe21d41",
+        "sha256": "afd76637cbcae5e782ce97771bfdc6b8fbd8562dbcb2e9b15524f03225aed1d2"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/gap-analysis/SKILL.md",
+        "sha256": "afd76637cbcae5e782ce97771bfdc6b8fbd8562dbcb2e9b15524f03225aed1d2",
+        "size": 5537
+      }
+    },
+    {
+      "id": "RD07-1641",
+      "path": "adl/tools/skills/gap-analysis/adl-skill.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "aabf69d88226da7dcd9eb358b862ab0386ad0123",
+        "sha256": "03c4bf563fa18abf8354faf722794a45624247246a4a5bd6e0fd63e9168ee542"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/gap-analysis/adl-skill.yaml",
+        "sha256": "03c4bf563fa18abf8354faf722794a45624247246a4a5bd6e0fd63e9168ee542",
+        "size": 4118
+      }
+    },
+    {
+      "id": "RD07-1642",
+      "path": "adl/tools/skills/gap-analysis/agents/openai.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "e669694700b78797b1ab672964962b7febdc4858",
+        "sha256": "f4c645460f7b3130dae46b5819cf09f3315cbf67d551d865be1208365be6ab5f"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/gap-analysis/agents/openai.yaml",
+        "sha256": "f4c645460f7b3130dae46b5819cf09f3315cbf67d551d865be1208365be6ab5f",
+        "size": 465
+      }
+    },
+    {
+      "id": "RD07-1643",
+      "path": "adl/tools/skills/gap-analysis/references/gap-analysis-playbook.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "772ffbb2eb7f747c5fea8604c7db0d3c28fc2e34",
+        "sha256": "579b3af74cb6d1cdd80d1aec51282c7b2dbaf7553fc3b4079126ef6c89785d00"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/gap-analysis/references/gap-analysis-playbook.md",
+        "sha256": "579b3af74cb6d1cdd80d1aec51282c7b2dbaf7553fc3b4079126ef6c89785d00",
+        "size": 1296
+      }
+    },
+    {
+      "id": "RD07-1644",
+      "path": "adl/tools/skills/gap-analysis/references/output-contract.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "7ab93573c9cf3b5397cc1d360a354971e99d9b8c",
+        "sha256": "280900f454b1ed5251768d3f81ee2f2d4eed546df5de6aaa30411a624fda94cb"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/gap-analysis/references/output-contract.md",
+        "sha256": "280900f454b1ed5251768d3f81ee2f2d4eed546df5de6aaa30411a624fda94cb",
+        "size": 2257
+      }
+    },
+    {
+      "id": "RD07-1645",
+      "path": "adl/tools/skills/gap-analysis/scripts/analyze_gaps.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "58d9710f553d6fe247a0d12013247d1b93c598c4",
+        "sha256": "40904b2b0186716c5b795a9f2065a564e95d3c15179c717703c7bc3f03956cbc"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 493,
+        "path": "resources/adl/tools/skills/gap-analysis/scripts/analyze_gaps.py",
+        "sha256": "40904b2b0186716c5b795a9f2065a564e95d3c15179c717703c7bc3f03956cbc",
+        "size": 19729
+      }
+    },
+    {
+      "id": "RD07-1646",
+      "path": "adl/tools/skills/issue-folding/SKILL.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "a48a0fb8efd4177583692f971a988bdb77403f31",
+        "sha256": "1b2661ad4de79c34e6a2c6fce904e4e2f5ba055bc15690809bf7abb377153740"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/issue-folding/SKILL.md",
+        "sha256": "1b2661ad4de79c34e6a2c6fce904e4e2f5ba055bc15690809bf7abb377153740",
+        "size": 3762
+      }
+    },
+    {
+      "id": "RD07-1647",
+      "path": "adl/tools/skills/issue-folding/adl-skill.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "5f14650aa194f55847f25020ce71af2501525a6f",
+        "sha256": "cbece242dc4678094690801981263f26086de7a12ffd08fb69f71916afcfee4f"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/issue-folding/adl-skill.yaml",
+        "sha256": "cbece242dc4678094690801981263f26086de7a12ffd08fb69f71916afcfee4f",
+        "size": 2699
+      }
+    },
+    {
+      "id": "RD07-1648",
+      "path": "adl/tools/skills/issue-folding/agents/openai.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "4f00e86c3ed0fdeea34d33dc953d250cb0d0a784",
+        "sha256": "40053fc1f80d8c41cc8401b78df7ae852de5dada018734286828750580979a54"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/issue-folding/agents/openai.yaml",
+        "sha256": "40053fc1f80d8c41cc8401b78df7ae852de5dada018734286828750580979a54",
+        "size": 536
+      }
+    },
+    {
+      "id": "RD07-1649",
+      "path": "adl/tools/skills/issue-folding/references/issue-folding-playbook.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "002f40c5e712c65393e85877eb114d3ee5b2a0e2",
+        "sha256": "3eaf6ece161fc5e92e6c2cd779bdb6186f25290488b1ba2b057d61e6422c5b32"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/issue-folding/references/issue-folding-playbook.md",
+        "sha256": "3eaf6ece161fc5e92e6c2cd779bdb6186f25290488b1ba2b057d61e6422c5b32",
+        "size": 1417
+      }
+    },
+    {
+      "id": "RD07-1650",
+      "path": "adl/tools/skills/issue-folding/references/output-contract.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "e9f0dd1884761e21d79068743e7d247a66104823",
+        "sha256": "1484d6a5e96bd438705f805cff3a57a5f7bac7efe4e256f3ef8eb873bf442711"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/issue-folding/references/output-contract.md",
+        "sha256": "1484d6a5e96bd438705f805cff3a57a5f7bac7efe4e256f3ef8eb873bf442711",
+        "size": 1168
+      }
+    },
+    {
+      "id": "RD07-1651",
+      "path": "adl/tools/skills/issue-folding/scripts/classify_issue_folding.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "5d9b5153e8276817a123d771e0cfda154b26580c",
+        "sha256": "c8ffa7dfe8c19dabf25e59467dd6450b07774ea1e84d74cd3f7844ea11b0c005"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 493,
+        "path": "resources/adl/tools/skills/issue-folding/scripts/classify_issue_folding.py",
+        "sha256": "c8ffa7dfe8c19dabf25e59467dd6450b07774ea1e84d74cd3f7844ea11b0c005",
+        "size": 9050
+      }
+    },
+    {
+      "id": "RD07-1652",
+      "path": "adl/tools/skills/issue-splitter/SKILL.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "f32b5302ce18d3757dfd40e474402f52bfdc7e8a",
+        "sha256": "725ab87c86f6b571d5efd7121e9e85b0f79241849da3a55f329c09dbe00810fb"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/issue-splitter/SKILL.md",
+        "sha256": "725ab87c86f6b571d5efd7121e9e85b0f79241849da3a55f329c09dbe00810fb",
+        "size": 3858
+      }
+    },
+    {
+      "id": "RD07-1653",
+      "path": "adl/tools/skills/issue-splitter/adl-skill.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "b02ebca381241d7ae8ea2568e8933bd2467b527c",
+        "sha256": "c7b29cbc292235e74fc2f3d918ea6e14627c1b2059b606bb940abe60304c052e"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/issue-splitter/adl-skill.yaml",
+        "sha256": "c7b29cbc292235e74fc2f3d918ea6e14627c1b2059b606bb940abe60304c052e",
+        "size": 2753
+      }
+    },
+    {
+      "id": "RD07-1654",
+      "path": "adl/tools/skills/issue-splitter/agents/openai.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "c116dc85eae854b7d66c4037a76c806e17ae5cea",
+        "sha256": "c424bdcb4371b5f9b6a5fe0bb21586836d1aa00ecca0fa2860516e539ad6330c"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/issue-splitter/agents/openai.yaml",
+        "sha256": "c424bdcb4371b5f9b6a5fe0bb21586836d1aa00ecca0fa2860516e539ad6330c",
+        "size": 474
+      }
+    },
+    {
+      "id": "RD07-1655",
+      "path": "adl/tools/skills/issue-splitter/references/issue-splitter-playbook.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "60433d61786a6afd3651db1caa04f7b681992d80",
+        "sha256": "67f2612f6d1a566273a549762fdf36f6d6774083581e8c258d4efbdc2ff9c1bd"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/issue-splitter/references/issue-splitter-playbook.md",
+        "sha256": "67f2612f6d1a566273a549762fdf36f6d6774083581e8c258d4efbdc2ff9c1bd",
+        "size": 1262
+      }
+    },
+    {
+      "id": "RD07-1656",
+      "path": "adl/tools/skills/issue-splitter/references/output-contract.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "eeea3713d6030978329659506f353f6a16ba7c32",
+        "sha256": "1437e065fcbad57e2cd6d26d2f4c571f215a5289dfdb55a3dc6ad6e72819cc0d"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/issue-splitter/references/output-contract.md",
+        "sha256": "1437e065fcbad57e2cd6d26d2f4c571f215a5289dfdb55a3dc6ad6e72819cc0d",
+        "size": 1108
+      }
+    },
+    {
+      "id": "RD07-1657",
+      "path": "adl/tools/skills/issue-splitter/scripts/plan_issue_split.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "e7c53a6c04da171dce055f68ffd80b9d66fe032c",
+        "sha256": "ab20885adb93e39f83477b62b8d67362afa37d037ac8ad1a1c00a3a15c267d72"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 493,
+        "path": "resources/adl/tools/skills/issue-splitter/scripts/plan_issue_split.py",
+        "sha256": "ab20885adb93e39f83477b62b8d67362afa37d037ac8ad1a1c00a3a15c267d72",
+        "size": 10557
+      }
+    },
+    {
+      "id": "RD07-1658",
+      "path": "adl/tools/skills/issue-watcher/SKILL.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "79695efa25c49db95e6d46e476054c88c0b03109",
+        "sha256": "ab34d92f5aafff3b05bd472e84904537857d7847204e850ec90286a483b0ee54"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/issue-watcher/SKILL.md",
+        "sha256": "ab34d92f5aafff3b05bd472e84904537857d7847204e850ec90286a483b0ee54",
+        "size": 5731
+      }
+    },
+    {
+      "id": "RD07-1659",
+      "path": "adl/tools/skills/issue-watcher/adl-skill.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "a1bac8642875cba3fc76a742a8502b0604db0efa",
+        "sha256": "23107e02666656258e41ad100629610fd650e6d42527ef93fc83c104ceb1a6e0"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/issue-watcher/adl-skill.yaml",
+        "sha256": "23107e02666656258e41ad100629610fd650e6d42527ef93fc83c104ceb1a6e0",
+        "size": 3397
+      }
+    },
+    {
+      "id": "RD07-1660",
+      "path": "adl/tools/skills/issue-watcher/agents/openai.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "3999776a0893931c48e0ba9c8e2dec16dc43aa7c",
+        "sha256": "8522cce19da93cd855a72fe4053fabfc8fcbe66d7b838ebe8d26f9f65cb7adb7"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/issue-watcher/agents/openai.yaml",
+        "sha256": "8522cce19da93cd855a72fe4053fabfc8fcbe66d7b838ebe8d26f9f65cb7adb7",
+        "size": 291
+      }
+    },
+    {
+      "id": "RD07-1661",
+      "path": "adl/tools/skills/issue-watcher/references/output-contract.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "4d6e06a52f7e7a8947bcd5c22c35f83e28830b92",
+        "sha256": "8c8436d51a8d2cd0959dc1c491c86b957f47ccf2ff3fdd82bfd05b4b41c78b60"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/issue-watcher/references/output-contract.md",
+        "sha256": "8c8436d51a8d2cd0959dc1c491c86b957f47ccf2ff3fdd82bfd05b4b41c78b60",
+        "size": 2757
+      }
+    },
+    {
+      "id": "RD07-1671",
+      "path": "adl/tools/skills/portable-contract-normalizer/SKILL.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "f18437e83a9db87772ab3e67f11fc2678e972f65",
+        "sha256": "26532d164fd1abcd8f95f62994f954a64524df89c787c5a47b80b86427314421"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/portable-contract-normalizer/SKILL.md",
+        "sha256": "26532d164fd1abcd8f95f62994f954a64524df89c787c5a47b80b86427314421",
+        "size": 3333
+      }
+    },
+    {
+      "id": "RD07-1672",
+      "path": "adl/tools/skills/portable-contract-normalizer/adl-skill.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "04a2044bf1271ede82e38a5e628a9ac4babcb752",
+        "sha256": "2e41547a34870ae22d64e06f89096553cdd6ad0545804fd05d354bdcd1a56151"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/portable-contract-normalizer/adl-skill.yaml",
+        "sha256": "2e41547a34870ae22d64e06f89096553cdd6ad0545804fd05d354bdcd1a56151",
+        "size": 2964
+      }
+    },
+    {
+      "id": "RD07-1673",
+      "path": "adl/tools/skills/portable-contract-normalizer/agents/openai.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "fd7dc7061c18df9b6602f6071cda85b5b8368df0",
+        "sha256": "05a420fef11eb6c7c16cf9ff7df2af2c8c00e987d38115e701a074adb5b87715"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/portable-contract-normalizer/agents/openai.yaml",
+        "sha256": "05a420fef11eb6c7c16cf9ff7df2af2c8c00e987d38115e701a074adb5b87715",
+        "size": 569
+      }
+    },
+    {
+      "id": "RD07-1674",
+      "path": "adl/tools/skills/portable-contract-normalizer/references/output-contract.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "12d223309c4fa9ce7d4499cbbee1ead7ab4ddb62",
+        "sha256": "739f1779e03b4607be011fa05abe70c973b99aaf27ddb74a0ba577c90a7e2495"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/portable-contract-normalizer/references/output-contract.md",
+        "sha256": "739f1779e03b4607be011fa05abe70c973b99aaf27ddb74a0ba577c90a7e2495",
+        "size": 1367
+      }
+    },
+    {
+      "id": "RD07-1675",
+      "path": "adl/tools/skills/portable-contract-normalizer/references/portable-contract-normalizer-playbook.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "db0117fb042076de40b340d94abc856e0cdc2f28",
+        "sha256": "da2d4e503c760fecf72342cc79d5a5a142e8e1ca00492e53bbb0163ccc3dfc04"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/portable-contract-normalizer/references/portable-contract-normalizer-playbook.md",
+        "sha256": "da2d4e503c760fecf72342cc79d5a5a142e8e1ca00492e53bbb0163ccc3dfc04",
+        "size": 1080
+      }
+    },
+    {
+      "id": "RD07-1676",
+      "path": "adl/tools/skills/portable-contract-normalizer/scripts/normalize_portable_contracts.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "f081438abd78a10cc44c34c19f45419e5d8da9dc",
+        "sha256": "8d11afa50d27450fdb94caaacd87ba87bc3b4cf0a836c16fee53899630bf756f"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 493,
+        "path": "resources/adl/tools/skills/portable-contract-normalizer/scripts/normalize_portable_contracts.py",
+        "sha256": "8d11afa50d27450fdb94caaacd87ba87bc3b4cf0a836c16fee53899630bf756f",
+        "size": 9637
+      }
+    },
+    {
+      "id": "RD07-1731",
+      "path": "adl/tools/skills/refactoring-helper/SKILL.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "3bb65ce78ca301b329f2d14c3bb2513af0f03ed5",
+        "sha256": "fec532a8cee353835071e279a1e766c127437b08f75c149de0d6ac7d75699ac5"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/refactoring-helper/SKILL.md",
+        "sha256": "fec532a8cee353835071e279a1e766c127437b08f75c149de0d6ac7d75699ac5",
+        "size": 3812
+      }
+    },
+    {
+      "id": "RD07-1732",
+      "path": "adl/tools/skills/refactoring-helper/adl-skill.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "34c1d8a1953358727604a01770cb9b95e34b4416",
+        "sha256": "f0c89162d147983f2d7c0df8a7c9178e08fa578ba542a5ddc369842b4d5716fe"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/refactoring-helper/adl-skill.yaml",
+        "sha256": "f0c89162d147983f2d7c0df8a7c9178e08fa578ba542a5ddc369842b4d5716fe",
+        "size": 3679
+      }
+    },
+    {
+      "id": "RD07-1733",
+      "path": "adl/tools/skills/refactoring-helper/agents/openai.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "d51ebd244a4ea41e9676afe2661eba7bd3dada28",
+        "sha256": "4bc74e90769d48deb2ecf3083ef2aa7714f21c1c52b08ad748e34cd97500cb55"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/refactoring-helper/agents/openai.yaml",
+        "sha256": "4bc74e90769d48deb2ecf3083ef2aa7714f21c1c52b08ad748e34cd97500cb55",
+        "size": 430
+      }
+    },
+    {
+      "id": "RD07-1734",
+      "path": "adl/tools/skills/refactoring-helper/references/output-contract.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "c540de21e9d58e5b4577f4c75d6d956e0d6ed6ed",
+        "sha256": "b658b19413fca51616dadde6e7e88c40eff04f5f500062f419bc9f21aad38369"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/refactoring-helper/references/output-contract.md",
+        "sha256": "b658b19413fca51616dadde6e7e88c40eff04f5f500062f419bc9f21aad38369",
+        "size": 1953
+      }
+    },
+    {
+      "id": "RD07-1735",
+      "path": "adl/tools/skills/refactoring-helper/references/refactoring-playbook.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "fdf6abe053eb5fb99a5a71c5621470dcbc43ab9d",
+        "sha256": "922ce1b9ae2dd4cd023aa9d379704dbe58dfaaafffaa4532cf04861a2cbccd13"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/refactoring-helper/references/refactoring-playbook.md",
+        "sha256": "922ce1b9ae2dd4cd023aa9d379704dbe58dfaaafffaa4532cf04861a2cbccd13",
+        "size": 1330
+      }
+    },
+    {
+      "id": "RD07-1736",
+      "path": "adl/tools/skills/refactoring-helper/scripts/plan_refactor.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "7729a848f7b73770b275032fcb9d9834e1987b69",
+        "sha256": "ee2056851cc9038961eae7674ccba35175d6f57b53d47a804729ad7df7e9db22"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 493,
+        "path": "resources/adl/tools/skills/refactoring-helper/scripts/plan_refactor.py",
+        "sha256": "ee2056851cc9038961eae7674ccba35175d6f57b53d47a804729ad7df7e9db22",
+        "size": 11366
+      }
+    },
+    {
+      "id": "RD07-1737",
+      "path": "adl/tools/skills/release-evidence/SKILL.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "ae1ec8ffffd1d7d2d807d9cc254e75dbc16ffe22",
+        "sha256": "2158f72d43ad4d6be1a39771b370fffacc8040dcfd8cba156eaa7022d402bd16"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/release-evidence/SKILL.md",
+        "sha256": "2158f72d43ad4d6be1a39771b370fffacc8040dcfd8cba156eaa7022d402bd16",
+        "size": 4329
+      }
+    },
+    {
+      "id": "RD07-1738",
+      "path": "adl/tools/skills/release-evidence/adl-skill.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "02abe8f10e4f969671f31e1e0f8fd78b37922dc2",
+        "sha256": "80d87d611a3aefcefc0bc3f6e49c0841a2863765331655b27dab0c519652a1fb"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/release-evidence/adl-skill.yaml",
+        "sha256": "80d87d611a3aefcefc0bc3f6e49c0841a2863765331655b27dab0c519652a1fb",
+        "size": 3267
+      }
+    },
+    {
+      "id": "RD07-1739",
+      "path": "adl/tools/skills/release-evidence/agents/openai.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "238ca8b201e89b3188a526d724e4700ac988f755",
+        "sha256": "139158fb85361d1a4522e0879b019982c9ba699897fcf66bda130d255b7c73f2"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/release-evidence/agents/openai.yaml",
+        "sha256": "139158fb85361d1a4522e0879b019982c9ba699897fcf66bda130d255b7c73f2",
+        "size": 518
+      }
+    },
+    {
+      "id": "RD07-1740",
+      "path": "adl/tools/skills/release-evidence/references/output-contract.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "1ff7a18da0ca489a1d9319b7067e5be3cd1ee2f5",
+        "sha256": "d3b77801f30e82c65dbe2373bef99d75186c73bf892b981fdcd3737e826df5af"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/release-evidence/references/output-contract.md",
+        "sha256": "d3b77801f30e82c65dbe2373bef99d75186c73bf892b981fdcd3737e826df5af",
+        "size": 1071
+      }
+    },
+    {
+      "id": "RD07-1741",
+      "path": "adl/tools/skills/release-evidence/references/release-evidence-playbook.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "047ebc5ad9980d7b3fc2f266f1fe570e20a571b3",
+        "sha256": "053cb9dbe344a05470929749be7f61705e74e0743816f383706c210f25a9695c"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/release-evidence/references/release-evidence-playbook.md",
+        "sha256": "053cb9dbe344a05470929749be7f61705e74e0743816f383706c210f25a9695c",
+        "size": 1462
+      }
+    },
+    {
+      "id": "RD07-1742",
+      "path": "adl/tools/skills/release-evidence/scripts/assemble_release_evidence.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "8f3b3abbb61905f51455bbb903cf9bfb43742512",
+        "sha256": "39a14effd80bb64c676acf0a67b9c0ee4164c993ef75484460bef7292b33687a"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 493,
+        "path": "resources/adl/tools/skills/release-evidence/scripts/assemble_release_evidence.py",
+        "sha256": "39a14effd80bb64c676acf0a67b9c0ee4164c993ef75484460bef7292b33687a",
+        "size": 8555
+      }
+    },
+    {
+      "id": "RD07-1799",
+      "path": "adl/tools/skills/review-comment-triage/SKILL.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "722cad1232cd1e3172eead039cebc448a5f77842",
+        "sha256": "67bb43f85477fbe13795bb3588baa48d78ecdc67a5494987a865d66852811f29"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/review-comment-triage/SKILL.md",
+        "sha256": "67bb43f85477fbe13795bb3588baa48d78ecdc67a5494987a865d66852811f29",
+        "size": 3818
+      }
+    },
+    {
+      "id": "RD07-1800",
+      "path": "adl/tools/skills/review-comment-triage/adl-skill.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "11df2cc6b290c0e576d5a277f95dff71a278262a",
+        "sha256": "ecef80f8ff711a7f0b2f12439fc4f65637abb6400a5ab17c7580d6bdc34f2530"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/review-comment-triage/adl-skill.yaml",
+        "sha256": "ecef80f8ff711a7f0b2f12439fc4f65637abb6400a5ab17c7580d6bdc34f2530",
+        "size": 2373
+      }
+    },
+    {
+      "id": "RD07-1801",
+      "path": "adl/tools/skills/review-comment-triage/agents/openai.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "c1cca4c6a27143c5f7e2949d52a4b36db6d0ba79",
+        "sha256": "e084d08f602605132eb24f5f40bcb333732bbf81785f41261fcfc77c4fb62966"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/review-comment-triage/agents/openai.yaml",
+        "sha256": "e084d08f602605132eb24f5f40bcb333732bbf81785f41261fcfc77c4fb62966",
+        "size": 300
+      }
+    },
+    {
+      "id": "RD07-1802",
+      "path": "adl/tools/skills/review-comment-triage/fixtures/actionable_comments.json",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "8113ff931caceadd14abff370f187d9385e08a53",
+        "sha256": "c06864aa08f9d03b9e12f6429da15caa1deadb86b5394fafb878d608ddb3fec3"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/review-comment-triage/fixtures/actionable_comments.json",
+        "sha256": "c06864aa08f9d03b9e12f6429da15caa1deadb86b5394fafb878d608ddb3fec3",
+        "size": 738
+      }
+    },
+    {
+      "id": "RD07-1803",
+      "path": "adl/tools/skills/review-comment-triage/fixtures/already_fixed_comments.json",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "16e6451fd7ea00675a1a356843f1d2f8bc5855e9",
+        "sha256": "95da91dd040441dd64cc83cf1419b3526e286b4697a8715339d09cb79e13cc60"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/review-comment-triage/fixtures/already_fixed_comments.json",
+        "sha256": "95da91dd040441dd64cc83cf1419b3526e286b4697a8715339d09cb79e13cc60",
+        "size": 728
+      }
+    },
+    {
+      "id": "RD07-1804",
+      "path": "adl/tools/skills/review-comment-triage/fixtures/follow_on_comments.json",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "27de8d19de5d1cb112248837ea2565bde21bc93d",
+        "sha256": "e08e7d455bc9481acd2d2fbff4d38bd6da25c4964b5dbbc5444e1e0b2864ba83"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/review-comment-triage/fixtures/follow_on_comments.json",
+        "sha256": "e08e7d455bc9481acd2d2fbff4d38bd6da25c4964b5dbbc5444e1e0b2864ba83",
+        "size": 825
+      }
+    },
+    {
+      "id": "RD07-1805",
+      "path": "adl/tools/skills/review-comment-triage/fixtures/mixed_comments.json",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "738675bba964ed0325e53891f95553b117ae0002",
+        "sha256": "f3b93962e094a0add1583d697558e7b0f7e6a49efa44a313bba8f7d105534cd5"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/review-comment-triage/fixtures/mixed_comments.json",
+        "sha256": "f3b93962e094a0add1583d697558e7b0f7e6a49efa44a313bba8f7d105534cd5",
+        "size": 1803
+      }
+    },
+    {
+      "id": "RD07-1806",
+      "path": "adl/tools/skills/review-comment-triage/fixtures/stale_comments.json",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "38fc1d3f666ddda6696aaf11e375ca4fac683ebb",
+        "sha256": "5e14611a79b816c7ab22c896be41380e704e55e2e66e2a226020b02e73dd2b35"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/review-comment-triage/fixtures/stale_comments.json",
+        "sha256": "5e14611a79b816c7ab22c896be41380e704e55e2e66e2a226020b02e73dd2b35",
+        "size": 770
+      }
+    },
+    {
+      "id": "RD07-1807",
+      "path": "adl/tools/skills/review-comment-triage/references/output-contract.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "b23da781d424b3a5cf79eb2cf6e4008fa9468e6b",
+        "sha256": "d9179406d7a96eca4b7484a8cd60bfc58d728a44747c2db44c1517fc09a529c9"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/review-comment-triage/references/output-contract.md",
+        "sha256": "d9179406d7a96eca4b7484a8cd60bfc58d728a44747c2db44c1517fc09a529c9",
+        "size": 2125
+      }
+    },
+    {
+      "id": "RD07-1808",
+      "path": "adl/tools/skills/review-comment-triage/references/review-comment-triage-playbook.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "dc3b062b133f6fa26a052a3df190e74537fedee2",
+        "sha256": "44d950eb70068c5665a7c9d79e1b102865f685b8f89f35d28ab3794158cb5147"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/review-comment-triage/references/review-comment-triage-playbook.md",
+        "sha256": "44d950eb70068c5665a7c9d79e1b102865f685b8f89f35d28ab3794158cb5147",
+        "size": 1325
+      }
+    },
+    {
+      "id": "RD07-1809",
+      "path": "adl/tools/skills/review-comment-triage/scripts/triage_review_comments.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "ac25d6ee7af24ab314a05948350ffb780073fa3e",
+        "sha256": "577cedee80087e527894b499e453239fa699f84c06d048a2d353a07e526c0d14"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 493,
+        "path": "resources/adl/tools/skills/review-comment-triage/scripts/triage_review_comments.py",
+        "sha256": "577cedee80087e527894b499e453239fa699f84c06d048a2d353a07e526c0d14",
+        "size": 3588
+      }
+    },
+    {
+      "id": "RD07-1881",
+      "path": "adl/tools/skills/test-generator/SKILL.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "3122536968b4dbc5db5417ffe67bc8a588e58510",
+        "sha256": "0d10f9d2ed33ca254d84cdbc651a38f72ba16fb8bb62b768754a9abf343c20a5"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/test-generator/SKILL.md",
+        "sha256": "0d10f9d2ed33ca254d84cdbc651a38f72ba16fb8bb62b768754a9abf343c20a5",
+        "size": 5017
+      }
+    },
+    {
+      "id": "RD07-1882",
+      "path": "adl/tools/skills/test-generator/adl-skill.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "3bea949d9b57e3ce35ca82e268b6989a2951ca47",
+        "sha256": "8665839a74a86ef9f9192f40ffd7237ab869e83dba915b9ce4015764104e7146"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/test-generator/adl-skill.yaml",
+        "sha256": "8665839a74a86ef9f9192f40ffd7237ab869e83dba915b9ce4015764104e7146",
+        "size": 3208
+      }
+    },
+    {
+      "id": "RD07-1883",
+      "path": "adl/tools/skills/test-generator/agents/openai.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "f3a3fcc01e0e0c90f6dcf05545b1c8c952ceede8",
+        "sha256": "4bc18210c1953740ab6ba57dc995cee8162304bf8b46f3b44aa33b9e88d1810c"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/test-generator/agents/openai.yaml",
+        "sha256": "4bc18210c1953740ab6ba57dc995cee8162304bf8b46f3b44aa33b9e88d1810c",
+        "size": 283
+      }
+    },
+    {
+      "id": "RD07-1884",
+      "path": "adl/tools/skills/test-generator/references/output-contract.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "ebba5056d3efe2203e8e2971ab178ced1dc2557e",
+        "sha256": "1097986e9ea2574a7ce0bf7e76ede9763f2d63ce56ded8c0daa475986de89fe9"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/test-generator/references/output-contract.md",
+        "sha256": "1097986e9ea2574a7ce0bf7e76ede9763f2d63ce56ded8c0daa475986de89fe9",
+        "size": 1172
+      }
+    },
+    {
+      "id": "RD07-1885",
+      "path": "adl/tools/skills/test-generator/references/test-playbook.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "18fdc59078caa94377c9bd8b3f2f9323ef0bfe44",
+        "sha256": "bb1cb8c88a2d6635c59d8a75e611a10dfcd71a216293804eec62e753a5cfa634"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/test-generator/references/test-playbook.md",
+        "sha256": "bb1cb8c88a2d6635c59d8a75e611a10dfcd71a216293804eec62e753a5cfa634",
+        "size": 1365
+      }
+    },
+    {
+      "id": "RD07-1886",
+      "path": "adl/tools/skills/use-case-writer/SKILL.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "d532c6d994f473ffbb0c2e1db3ddf5f3bc9e8c80",
+        "sha256": "bf352c8a537f950e853da97d9f37d2785e299baec25842a2d3a6ad6a4ecc4479"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/use-case-writer/SKILL.md",
+        "sha256": "bf352c8a537f950e853da97d9f37d2785e299baec25842a2d3a6ad6a4ecc4479",
+        "size": 3706
+      }
+    },
+    {
+      "id": "RD07-1887",
+      "path": "adl/tools/skills/use-case-writer/adl-skill.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "a765b2bd4936ee2852dda8191260989be9900b2e",
+        "sha256": "97f823d9de362fd7bced99ab4f775c03ebd353e12325400814080d8164dd5005"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/use-case-writer/adl-skill.yaml",
+        "sha256": "97f823d9de362fd7bced99ab4f775c03ebd353e12325400814080d8164dd5005",
+        "size": 3712
+      }
+    },
+    {
+      "id": "RD07-1888",
+      "path": "adl/tools/skills/use-case-writer/agents/openai.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "70fc37b72c1d675b444faa8a4fa508d51df3f850",
+        "sha256": "19ae7a1fa4492a94aa846adaf14147c434d1c5c5458ee03d234f25aa7d96b85c"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/use-case-writer/agents/openai.yaml",
+        "sha256": "19ae7a1fa4492a94aa846adaf14147c434d1c5c5458ee03d234f25aa7d96b85c",
+        "size": 472
+      }
+    },
+    {
+      "id": "RD07-1889",
+      "path": "adl/tools/skills/use-case-writer/references/output-contract.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "e965de7fde8ac2a041d40cadcca6b3aea17ea9d5",
+        "sha256": "97c6155515a17da712fd2908fd0b2ef88d670b9ed1454fa53e5edf913f7c7386"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/use-case-writer/references/output-contract.md",
+        "sha256": "97c6155515a17da712fd2908fd0b2ef88d670b9ed1454fa53e5edf913f7c7386",
+        "size": 1847
+      }
+    },
+    {
+      "id": "RD07-1890",
+      "path": "adl/tools/skills/use-case-writer/references/use-case-writing-playbook.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "1877a504e584e7532f428cfbaa577155384c8ad0",
+        "sha256": "f4916fd7464e9d62853e210f668e905387ebd7a05f97a865bc053887027f9b3f"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 420,
+        "path": "resources/adl/tools/skills/use-case-writer/references/use-case-writing-playbook.md",
+        "sha256": "f4916fd7464e9d62853e210f668e905387ebd7a05f97a865bc053887027f9b3f",
+        "size": 1141
+      }
+    },
+    {
+      "id": "RD07-1891",
+      "path": "adl/tools/skills/use-case-writer/scripts/write_use_cases.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "8dee355ffcc2121cf581f1cec11bea80e5aa8303",
+        "sha256": "074cd563f039c1a33eeac236b8b2a9eb7a6df35952cb2d3d8fbe3b389b084b02"
+      },
+      "after": null,
+      "owner_resource": {
+        "mode": 493,
+        "path": "resources/adl/tools/skills/use-case-writer/scripts/write_use_cases.py",
+        "sha256": "074cd563f039c1a33eeac236b8b2a9eb7a6df35952cb2d3d8fbe3b389b084b02",
+        "size": 11496
+      }
+    },
+    {
+      "path": "adl/tools/test_demo_operator_skill_contracts.sh",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "1eab78f625c5ac3e8d0ed6b6aceaec94b52039f6",
+        "sha256": "bcc5c7717f2adbac6cbd1131e1e8b44507b09a76061ec69f87f46db83403eba7"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "0029e6ec5ca17a6a9eeccec429ee57b98c5b0300",
+        "sha256": "cfa9d723a2090d9b9238a593fa4efd9e3ec50a9d602f96838edadb2d8207eb15"
+      },
+      "assertion_preservation": "Exact original body; only one root assignment replaced by explicit absolute root/refusal guard before temporary effects."
+    },
+    {
+      "path": "adl/tools/test_gap_analysis_skill_contracts.sh",
+      "action": "modify",
+      "before": {
+        "mode": "100755",
+        "blob": "51a1104c2113fbe33a6e9340308e4cd367efc73d",
+        "sha256": "25b217cc188f0bdf51764a0658e19f5d6b1c4cd5c083ab72a96ab2e3e739a22a"
+      },
+      "after": {
+        "mode": "100755",
+        "blob": "cc500c7f19435cdc9dbbebeb814fe6bbd39134af",
+        "sha256": "a61ee36b9a0b09c07dd5aa7e6ca251c0d8ac94e9116557b1ed15bb9c7fe09acb"
+      },
+      "assertion_preservation": "Exact original body; only one root assignment replaced by explicit absolute root/refusal guard before temporary effects."
+    },
+    {
+      "path": "adl/tools/test_issue_folding_skill_contracts.sh",
+      "action": "modify",
+      "before": {
+        "mode": "100755",
+        "blob": "8aa3c0547f19cde821365241d8cc017e147fac63",
+        "sha256": "631d58d23bf35e4a8bb46cc43efc8fbb829cc851c23257abcd8622144880abad"
+      },
+      "after": {
+        "mode": "100755",
+        "blob": "800ef8f999f105beafc3c405bbba59de578569ce",
+        "sha256": "6ada33e159c29c50750548494e6a10038d43a0abe7948af3cc0bb2c3a9917696"
+      },
+      "assertion_preservation": "Exact original body; only one root assignment replaced by explicit absolute root/refusal guard before temporary effects."
+    },
+    {
+      "path": "adl/tools/test_issue_splitter_skill_contracts.sh",
+      "action": "modify",
+      "before": {
+        "mode": "100755",
+        "blob": "96a36a6a93115016faacc461bbccdc68e219a067",
+        "sha256": "18f0bbdd32e98b29166dc9925f04f88fec4fba69c0a1092968ca87cee7b24579"
+      },
+      "after": {
+        "mode": "100755",
+        "blob": "5d5208fb766672dba482eef4f0198152f0048e31",
+        "sha256": "90622d260d06cb1e8e6bf9c4effc8c0154a2b0b39e05b71c35d8f4dd12597f45"
+      },
+      "assertion_preservation": "Exact original body; only one root assignment replaced by explicit absolute root/refusal guard before temporary effects."
+    },
+    {
+      "path": "adl/tools/test_issue_watcher_skill_contracts.sh",
+      "action": "modify",
+      "before": {
+        "mode": "100755",
+        "blob": "9f992625d47e8637a2b050c2dc6eb32baedd876b",
+        "sha256": "1f1e8b219cb674c2ec3c7661f15c649178d5aa4549b3a2b3cfa093711685bb0b"
+      },
+      "after": {
+        "mode": "100755",
+        "blob": "8f8b143bcf40d4a80a29ad70578745aa312af8b8",
+        "sha256": "ba516bfcfc58d910f09090368a5555a991783ac3fa2f78d93fa79ef1ab284e65"
+      },
+      "assertion_preservation": "Exact original body; only one root assignment replaced by explicit absolute root/refusal guard before temporary effects."
+    },
+    {
+      "path": "adl/tools/test_portable_contract_normalizer_skill_contracts.sh",
+      "action": "modify",
+      "before": {
+        "mode": "100755",
+        "blob": "cd30d25d6f8db509e4078963648b38f09571fce2",
+        "sha256": "96e0b7a8e679cd7f06b485c418f5785835f5790c65831ca831c3043cced47bce"
+      },
+      "after": {
+        "mode": "100755",
+        "blob": "aca39fb239009324c8b4556cfe640a1e6b2deca0",
+        "sha256": "0a4e23cebf2917374c704a629f68ca87c2fe3be1a65efdb3421455c30a88ca0e"
+      },
+      "assertion_preservation": "Exact original body; only one root assignment replaced by explicit absolute root/refusal guard before temporary effects."
+    },
+    {
+      "path": "adl/tools/test_refactoring_helper_skill_contracts.sh",
+      "action": "modify",
+      "before": {
+        "mode": "100755",
+        "blob": "c9f5807c922bf40c3492df3e07097e9a348a1e89",
+        "sha256": "381b81698f20f36a200c0445aad0d23c42873bbecc8f56edb80ecc8eca8597d7"
+      },
+      "after": {
+        "mode": "100755",
+        "blob": "e9a54d8b9d91145236955b852284b105687f4032",
+        "sha256": "a33024f4f3362864cf426ec027e5b104746c997cd172f0c00ec4c471d2bd3c67"
+      },
+      "assertion_preservation": "Exact original body; only one root assignment replaced by explicit absolute root/refusal guard before temporary effects."
+    },
+    {
+      "path": "adl/tools/test_release_evidence_skill_contracts.sh",
+      "action": "modify",
+      "before": {
+        "mode": "100755",
+        "blob": "dbf5498cd27ca74b6c8e0f5cde8d7d846bb401b5",
+        "sha256": "38980d92ff953974904b8c5ac86bea7a4e10a3c53e46d4e88a5507f6b611a24e"
+      },
+      "after": {
+        "mode": "100755",
+        "blob": "25f15131525916f0738d215e544e08ea97d1422c",
+        "sha256": "6fcc923862c1a22e7bc63179406a2098d157f68f4966551027b22bedb64874bf"
+      },
+      "assertion_preservation": "Exact original body; only one root assignment replaced by explicit absolute root/refusal guard before temporary effects."
+    },
+    {
+      "path": "adl/tools/test_review_comment_triage_skill_contracts.sh",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "7ae4327deabc1021bc7ef6db694064ea27d0890d",
+        "sha256": "1371fe874896b3abd19aeb953be673ac4e045b3841f63eb7a1e1f5c8071466de"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "36fb957e466be5a9d7b2629efdfc1bb8da365c1f",
+        "sha256": "2afc7cd70e7391fea3b50cdc60bd6f75bb8deaf5962c6ae83ab11b3fae048ea3"
+      },
+      "assertion_preservation": "Exact original body; only one root assignment replaced by explicit absolute root/refusal guard before temporary effects."
+    },
+    {
+      "path": "adl/tools/test_test_generator_skill_contracts.sh",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "7d25c69f5e0224850d082ff85c2006b5f42e227a",
+        "sha256": "ca1d894f9b646a0a915c510e8c206d3d3eebe40c929010a7c4b05671218ebff0"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "df6699f5e3242fc103d646a1beae80318e784d71",
+        "sha256": "96a61b9d0e2404aec26d7ec579b54b873ccd11a987e44cb88c517176de98436e"
+      },
+      "assertion_preservation": "Exact original body; only one root assignment replaced by explicit absolute root/refusal guard before temporary effects."
+    },
+    {
+      "path": "adl/tools/README.md",
+      "before_sha256": "9a6a95b7f2bfe276ef454ee1539beb43b154447a24be5580c15f475b1576b7bc",
+      "after_sha256": "0dd128a157744b5413e574da7bb26e26d0d1643da9f3fc14a27051efe7040853",
+      "mode": "0o644",
+      "archive_member": "source/adl/tools/README.md",
+      "action": "modify",
+      "before": {
+        "sha256": "9a6a95b7f2bfe276ef454ee1539beb43b154447a24be5580c15f475b1576b7bc",
+        "blob": "583c98bf66dbc0876ed94a394a926d0f0fb36ca3",
+        "mode": "100644"
+      },
+      "after": {
+        "sha256": "0dd128a157744b5413e574da7bb26e26d0d1643da9f3fc14a27051efe7040853",
+        "blob": "9775e0d99621f8a88d139bd09a5a21eca94d4b1f",
+        "mode": "100644"
+      }
+    },
+    {
+      "path": "adl/tools/skills/docs/OPERATIONAL_SKILLS_GUIDE.md",
+      "before_sha256": "efe2d28d6afa2541d4fc6ad2d7d6d223fee8b0faf25f9e208c361fa2aaf24fdc",
+      "after_sha256": "35587c41aa7edcdf3f79e3edf44d2e16c432a774d36e4036e13e506d2dcca8c0",
+      "mode": "0o644",
+      "archive_member": "source/adl/tools/skills/docs/OPERATIONAL_SKILLS_GUIDE.md",
+      "action": "modify",
+      "before": {
+        "sha256": "efe2d28d6afa2541d4fc6ad2d7d6d223fee8b0faf25f9e208c361fa2aaf24fdc",
+        "blob": "071291a9df7462addb3daa4144e9939034eff375",
+        "mode": "100644"
+      },
+      "after": {
+        "sha256": "35587c41aa7edcdf3f79e3edf44d2e16c432a774d36e4036e13e506d2dcca8c0",
+        "blob": "d8b74ea9f40cfd075ea714a3f02a5c2374c1f245",
+        "mode": "100644"
+      }
+    },
+    {
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "before_sha256": "ee16a22af0af2e90b1e5c457b5d43ee0bc28cccfda1bfcb3153d6d8fec0ecdda",
+      "after_sha256": "66bf6428c822b61eb9e7b34ce9075534beab4d2826468fec872889fa9a6bd7ef",
+      "mode": "0o644",
+      "archive_member": "source/docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "action": "modify",
+      "before": {
+        "sha256": "ee16a22af0af2e90b1e5c457b5d43ee0bc28cccfda1bfcb3153d6d8fec0ecdda",
+        "blob": "f328f23dfa2e3f046293cd48b1113bf03cc4fda2",
+        "mode": "100644"
+      },
+      "after": {
+        "sha256": "66bf6428c822b61eb9e7b34ce9075534beab4d2826468fec872889fa9a6bd7ef",
+        "blob": "a144ace290458dc3dc11b3e8e8f37aa901b23b26",
+        "mode": "100644"
+      }
+    }
+  ],
+  "owner_manifest": {
+    "path": "/Volumes/FastWork/c1223/csdlc250-admission/component-resources/manifest.json",
+    "sha256": "e5de1aa10dcb069bec3dd5fc71c0329afd2c322e80ecd8c9b319a904ed4e9191",
+    "candidate": "92779b3a8376182b691aad45258435ffb9c095f0",
+    "artifact": 11808226974,
+    "authentication_reference": "CSDLC_LIFECYCLE_REPAIRED_PACKAGE_QUALIFICATION.json; manifest self-description alone is not authentication"
+  },
+  "custody": [
+    {
+      "path": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/current-preimages.tar",
+      "sha256": "9385ec068473fae8f6cc0ec051fdff46deb35e6d57026172fee7d19e85a6d46e",
+      "members": 93
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/caller-closure/preimages.tar",
+      "sha256": "b4c6f5dc9fc639043b9735c860eaf8bb76dcf3fb040665a8494c2859db3e9885"
+    }
+  ],
+  "custody_verification": "All96 actual source/caller/archive member preimages read and matched byte/mode before application.",
+  "proof": [
+    {
+      "path": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/caller-closure/proof/RESULT.json",
+      "sha256": "0411911a9aff2029eed94779b709281d318fde44a008cfb6bb37a0db7567a46f"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/csdlc83-skill-preparation/caller-closure/proof/LOCALE_CORRECTION.json",
+      "sha256": "f808f73a0f4c7b261274943ec2be35153ebb4609fc0a930ecf1c108b54fd3773"
+    }
+  ],
+  "proof_summary": "10 original scripts passed in aggregate: initial9/10; issue-splitter retried once after correcting explicit C locale to UTF-8 and passed unchanged. Initial failure retained. 10syntax+20missing/relative-rootrefusals passed. Not full completeness/installer acceptance.",
+  "qualification_limits": [
+    "All83source bytes and modes equal authenticated payload manifest entries; this is source/resource correspondence, not new execution or whole installer acceptance.",
+    "Composed prior136 correspondence observations plus2separatebehavior lines not upgraded to138pass.",
+    "No builds, proof execution, download, provider, source apply, or tracked edits."
+  ],
+  "existing_proof": {
+    "composed_installer": "CSDLC_COMPOSED_INSTALLER_QUALIFICATION.json: copy/symlink365files51families,136current-correspondence assertions; two separate behavior rows211/212 remain explicit. Not native admission/full138pass.",
+    "conductor": "CSDLC_OPERATIONAL_COMPONENT_QUALIFICATION.json partial reports/closeout/boundaries plus CSDLC_LIFECYCLE_REPAIRED_PACKAGE_QUALIFICATION.json lifecycle repaired pass; transport doubles not native execution.",
+    "planning": "CSDLC_PLANNING_ORIGINAL_CONTRACT_QUALIFICATION.json ten exact original contracts PASS from109inputs, not18accepted utilities. This supports bounded planning helper/test family next, not all674tools."
+  },
+  "review": {
+    "base_source_and_ten_root_adapters": "Independent applied_components source/custody review PASS reported to parent before this application.",
+    "supplemental_navigation_registry": "Independent public_facade review PASS required before invoking this application; parent has review message."
+  },
+  "application": {
+    "registry": "Actual current generator executed after source and documentation patch application; exactly12family rows removed; all other rows preserved.",
+    "generator_sha256": "0113fc3d8ad29233c98d7e3c5285d5dcc5943f84cdfa122ea6411a8ca8d2912f",
+    "diff_check": "PASS",
+    "tests": "Reused external focused proof; no application-time rerun.",
+    "unrelated_872_deletion": "Preserved, outside96changedpaths.",
+    "ledger_guard_overlay": "Not modified by this application. Parent integrates reviewed applied authority separately.",
+    "staging_commit": "Not performed."
+  }
+}

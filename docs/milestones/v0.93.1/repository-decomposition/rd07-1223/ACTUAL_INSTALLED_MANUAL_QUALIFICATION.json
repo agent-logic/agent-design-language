@@ -1,0 +1,28 @@
+{
+  "schema": "adl.rd07.actual-installed-manual.v1",
+  "rows": [
+    "RD07-1403",
+    "RD07-3525"
+  ],
+  "disposition": "Retain repaired ADL package lookup helper and its consumer fixture. Original source-copy behavior is superseded; original ledger identities remain unchanged.",
+  "candidate": "92779b3a8376182b691aad45258435ffb9c095f0",
+  "installed_manifest_sha256": "5ddd5a1222db3eca837d7867ce91c3ebb6c5883b03bf8c1edd580c1922598cd9",
+  "source_inventory_sha256": "397d92df167b3045a09fe5804e1eaa3bdf27c17cb6c9f16416a39e48b168d305",
+  "manual_resources_verified": 66,
+  "roff_pages": 42,
+  "actual_resolution_and_render_pass": 42,
+  "result": {
+    "path": "/Volumes/FastWork/c1223/actual-installed-manual-qualification/result.json",
+    "sha256": "d42a41fd06af20b1a7b7f4d34da48a3a7520edc39cffe9cd121b6cd2149dbbdc"
+  },
+  "caller_repairs": [
+    "RD07-2042 preserves public installer tests and delegates current package lookup/refusal tests; obsolete source-copy assertion removed.",
+    "README qualifies34 as historical, selected package inventory governs."
+  ],
+  "limits": [
+    "No package replacement or activation by lookup.",
+    "Native authority transition independently establishes issue1223 installed authority; manual render is a separate check.",
+    "RD07-3085 owner renderer tests retain their independent obligations."
+  ],
+  "execution_authorized": false
+}

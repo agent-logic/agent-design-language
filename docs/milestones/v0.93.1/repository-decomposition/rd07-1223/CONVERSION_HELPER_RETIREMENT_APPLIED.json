@@ -1,0 +1,336 @@
+{
+  "schema": "adl1223.conversion_helper_retirement_applied.v1",
+  "status": "applied_worktree_pending_independent_review_and_commit",
+  "predecessor_commit": "b59b49eb956dd20a3765e6263f83e88ac1fb4c78",
+  "proposal": {
+    "path": "/Volumes/FastWork/c1223/conversion-six-retirement-proposal.json",
+    "sha256": "768ae17cf7412eefae21505f4c3bee384f03b8a435f29da1afda17e5e7659eee"
+  },
+  "reviewed_patch": {
+    "path": "/Volumes/FastWork/c1223/conversion-six-retirement.patch",
+    "sha256": "9ac9db9649c6fbe83cf31f8f8c38667aa07fa4fecb15167514d21542f24264c0",
+    "apply_check": "PASS current worktree"
+  },
+  "application": {
+    "method": "git apply --exclude=docs/tooling/TOOL_SURFACE_REGISTRY.md; python3 adl/tools/generate_tool_surface_registry.py",
+    "stale_registry_patch_excluded": true,
+    "generator": {
+      "path": "adl/tools/generate_tool_surface_registry.py",
+      "sha256": "0113fc3d8ad29233c98d7e3c5285d5dcc5943f84cdfa122ea6411a8ca8d2912f"
+    },
+    "registry_delta": "Exactly six removed internal-helper rows; internal helper count 681 to 675. All other bytes and Infrastructure classifications preserved."
+  },
+  "counts": {
+    "original_inventory_denominator": 4134,
+    "existing_additional_inventory_denominator": 22,
+    "original_held_helpers_removed": 5,
+    "new_adl_only_bridge_test_removed_separately": 1,
+    "source_files_removed_total": 6,
+    "registry_files_modified": 1
+  },
+  "original_row_ids": [
+    "RD07-1297",
+    "RD07-1491",
+    "RD07-2152",
+    "RD07-2191",
+    "RD07-2192"
+  ],
+  "new_separate_retirement": {
+    "path": "adl/tools/test_issue872_historical_manifest.py",
+    "disposition": "Historical retirement of newly introduced ADL-only manifest fallback test; not owner transfer or behavior equivalence; not an original4134 or prior22 row.",
+    "prior_cases": 5,
+    "assertion_custody": "Exact complete executable preimage preserved in supplement and predecessor Git; no cases rerun."
+  },
+  "files": [
+    {
+      "path": "adl/tools/csdlc-conversion-rehearsal",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "557711032425158e884bf41f1c4a5818d71a8a55",
+        "sha256": "31ded850f9bb18640c5839ecd57321180eb5ca054c0364051a3e8f110ef72b58"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/run_issue872_conversion_rehearsal.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "456054aa2d3c53b597fc661dce85960dd1e806c9",
+        "sha256": "cd302e6998fe8e7e5acb2eaedbef310ba1cf225c7aeccdac197e7bcce20cb46d"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_validate_issue872_conversion_rehearsal.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "090cfb344429a9ae65080a9aecb4033c72a9a633",
+        "sha256": "4ff1278e8ec5fc0a5944f2537a22a1748251db75fb5561b3787a30008a2d06e4"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/validate_issue872_conversion_rehearsal.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "765c8b2b6eff6164bc15a75dd643341a9d8b2fe2",
+        "sha256": "96ef9959a6d463c40653485e429d6c6d1c925bc82760a0535639a566e8257e9b"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/validate_issue872_generation9_fixture.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "789684c66b9805afed1585bbd094cec0d93555ba",
+        "sha256": "6cdc5d227fd71c95c4f08ac94a4b4f95bb99c72dc8c015da4aba187390e14c17"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_issue872_historical_manifest.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "480dcfe6e6b6355184b1fa729de3cd6f457e7bef",
+        "sha256": "4d2b64a4d8f30593ace6069445a149f21b943c9ea3067ff1d341588701cfb674"
+      },
+      "after": null
+    },
+    {
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "action": "modify",
+      "before": {
+        "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+        "sha256": "3fe757f502040236772f4b92f660d93a1ff8d42156ca18f3a74a290f83fe21ab",
+        "blob": "480b3e5fb4d7498d4705617699062733e87b0352",
+        "mode": "100644"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "93d456c8f06304fa1a2790a30650d555161448ee",
+        "sha256": "4757f08e7515d7904181e921e1c43c1322853fae7fb01d1b0522c7f09e3e8a22"
+      }
+    }
+  ],
+  "rollback": {
+    "supplement": {
+      "path": "/Volumes/FastWork/c1223/conversion-six-current-preimages.tar",
+      "sha256": "89bb846dc7b9a48201e488d4efc6a1f7faa75d34d8de76514cf3f4a46324ee32",
+      "members": [
+        "adl/tools/csdlc-conversion-rehearsal",
+        "adl/tools/run_issue872_conversion_rehearsal.py",
+        "adl/tools/test_validate_issue872_conversion_rehearsal.py",
+        "adl/tools/validate_issue872_conversion_rehearsal.py",
+        "adl/tools/validate_issue872_generation9_fixture.py",
+        "adl/tools/test_issue872_historical_manifest.py"
+      ],
+      "scope": "All six exact current preimages, including changed driver and new bridge test, independently readable."
+    },
+    "actual_verified_members": [
+      {
+        "path": "adl/tools/csdlc-conversion-rehearsal",
+        "member": "source/adl/tools/csdlc-conversion-rehearsal",
+        "mode": "100755",
+        "blob": "557711032425158e884bf41f1c4a5818d71a8a55",
+        "sha256": "31ded850f9bb18640c5839ecd57321180eb5ca054c0364051a3e8f110ef72b58"
+      },
+      {
+        "path": "adl/tools/run_issue872_conversion_rehearsal.py",
+        "member": "source/adl/tools/run_issue872_conversion_rehearsal.py",
+        "mode": "100755",
+        "blob": "456054aa2d3c53b597fc661dce85960dd1e806c9",
+        "sha256": "cd302e6998fe8e7e5acb2eaedbef310ba1cf225c7aeccdac197e7bcce20cb46d"
+      },
+      {
+        "path": "adl/tools/test_validate_issue872_conversion_rehearsal.py",
+        "member": "source/adl/tools/test_validate_issue872_conversion_rehearsal.py",
+        "mode": "100755",
+        "blob": "090cfb344429a9ae65080a9aecb4033c72a9a633",
+        "sha256": "4ff1278e8ec5fc0a5944f2537a22a1748251db75fb5561b3787a30008a2d06e4"
+      },
+      {
+        "path": "adl/tools/validate_issue872_conversion_rehearsal.py",
+        "member": "source/adl/tools/validate_issue872_conversion_rehearsal.py",
+        "mode": "100755",
+        "blob": "765c8b2b6eff6164bc15a75dd643341a9d8b2fe2",
+        "sha256": "96ef9959a6d463c40653485e429d6c6d1c925bc82760a0535639a566e8257e9b"
+      },
+      {
+        "path": "adl/tools/validate_issue872_generation9_fixture.py",
+        "member": "source/adl/tools/validate_issue872_generation9_fixture.py",
+        "mode": "100755",
+        "blob": "789684c66b9805afed1585bbd094cec0d93555ba",
+        "sha256": "6cdc5d227fd71c95c4f08ac94a4b4f95bb99c72dc8c015da4aba187390e14c17"
+      },
+      {
+        "path": "adl/tools/test_issue872_historical_manifest.py",
+        "member": "source/adl/tools/test_issue872_historical_manifest.py",
+        "mode": "100644",
+        "blob": "480dcfe6e6b6355184b1fa729de3cd6f457e7bef",
+        "sha256": "4d2b64a4d8f30593ace6069445a149f21b943c9ea3067ff1d341588701cfb674"
+      }
+    ],
+    "original_archive_sha256": "12205043566913435c25ea414b1fd9148b46727821f7bfefd5d452cfe47a1c17",
+    "registry_preimage_git": "b59b49eb956dd20a3765e6263f83e88ac1fb4c78:docs/tooling/TOOL_SURFACE_REGISTRY.md",
+    "verification": "All six actual tar member bytes/modes independently read and matched exact current source before application."
+  },
+  "installed_owner_rows": [
+    {
+      "id": "RD07-1297",
+      "path": "adl/tools/csdlc-conversion-rehearsal",
+      "captured_identity": {
+        "mode": "100755",
+        "blob": "557711032425158e884bf41f1c4a5818d71a8a55"
+      },
+      "current_sha256": "31ded850f9bb18640c5839ecd57321180eb5ca054c0364051a3e8f110ef72b58",
+      "installed_owner_path": "/Volumes/FastWork/c1223/csdlc255-admission/issue260-full-consumer/.adl/packages/11837302828/installed/resources/adl/tools/csdlc-conversion-rehearsal",
+      "installed_sha256": "31ded850f9bb18640c5839ecd57321180eb5ca054c0364051a3e8f110ef72b58",
+      "byte_identical": true
+    },
+    {
+      "id": "RD07-1491",
+      "path": "adl/tools/run_issue872_conversion_rehearsal.py",
+      "captured_identity": {
+        "mode": "100755",
+        "blob": "bdd77f17ddf75da284dd679f3114d2fb1a210f11"
+      },
+      "current_sha256": "cd302e6998fe8e7e5acb2eaedbef310ba1cf225c7aeccdac197e7bcce20cb46d",
+      "installed_owner_path": "/Volumes/FastWork/c1223/csdlc255-admission/issue260-full-consumer/.adl/packages/11837302828/installed/resources/adl/tools/run_issue872_conversion_rehearsal.py",
+      "installed_sha256": "a75ca40c65c48f68c37eb71de77611c227ea8e69b18fd0ff42d23cfb234f80fb",
+      "byte_identical": false,
+      "delta": "Owner adds installed-package layout, installed registry/relocation routing, exact native transition/rebuild with durable chain receipts. ADL instead adds explicit authentic historical manifest fallback. Original seven roles/twelve scenarios/fifteen fault points preserved; do not overwrite owner driver with ADL copy."
+    },
+    {
+      "id": "RD07-2152",
+      "path": "adl/tools/test_validate_issue872_conversion_rehearsal.py",
+      "captured_identity": {
+        "mode": "100755",
+        "blob": "090cfb344429a9ae65080a9aecb4033c72a9a633"
+      },
+      "current_sha256": "4ff1278e8ec5fc0a5944f2537a22a1748251db75fb5561b3787a30008a2d06e4",
+      "installed_owner_path": "/Volumes/FastWork/c1223/csdlc255-admission/issue260-full-consumer/.adl/packages/11837302828/installed/resources/adl/tools/test_validate_issue872_conversion_rehearsal.py",
+      "installed_sha256": "101eb84b293e4afca9ddfb6fd2bf68cfc37d229adb05819a9e61d2cd8d03f663",
+      "byte_identical": false,
+      "original_tests": 8,
+      "all_original_tests_ast_identical": true,
+      "additional_owner_tests": [
+        "test_installed_candidate_layout_is_exact_and_contained"
+      ]
+    },
+    {
+      "id": "RD07-2191",
+      "path": "adl/tools/validate_issue872_conversion_rehearsal.py",
+      "captured_identity": {
+        "mode": "100755",
+        "blob": "765c8b2b6eff6164bc15a75dd643341a9d8b2fe2"
+      },
+      "current_sha256": "96ef9959a6d463c40653485e429d6c6d1c925bc82760a0535639a566e8257e9b",
+      "installed_owner_path": "/Volumes/FastWork/c1223/csdlc255-admission/issue260-full-consumer/.adl/packages/11837302828/installed/resources/adl/tools/validate_issue872_conversion_rehearsal.py",
+      "installed_sha256": "e82ae1980351871d9bb78c763e6416416b3f0c6cedeb71c047099c07f13d517b",
+      "byte_identical": false,
+      "delta": "Owner adds candidate_observation_executable layout/confinement checks; original raw-owner branch retained. Candidate observation argv checks route through this helper."
+    },
+    {
+      "id": "RD07-2192",
+      "path": "adl/tools/validate_issue872_generation9_fixture.py",
+      "captured_identity": {
+        "mode": "100755",
+        "blob": "789684c66b9805afed1585bbd094cec0d93555ba"
+      },
+      "current_sha256": "6cdc5d227fd71c95c4f08ac94a4b4f95bb99c72dc8c015da4aba187390e14c17",
+      "installed_owner_path": "/Volumes/FastWork/c1223/csdlc255-admission/issue260-full-consumer/.adl/packages/11837302828/installed/resources/adl/tools/validate_issue872_generation9_fixture.py",
+      "installed_sha256": "6cdc5d227fd71c95c4f08ac94a4b4f95bb99c72dc8c015da4aba187390e14c17",
+      "byte_identical": true
+    }
+  ],
+  "owner_proof": {
+    "owner_candidate": "fa5e22e818f9eb5478faac298877f188492cd879",
+    "artifact": "11837302828",
+    "all_five_actual_installed_resources_present": true,
+    "earlier_hold_missing_five_helpers_now_stale": true,
+    "isolated_rehearsal": {
+      "roles": 7,
+      "scenarios": 12,
+      "fault_points": 15,
+      "fault_cases": 30,
+      "status": "passed existing evidence; not rerun"
+    },
+    "package_admission": "PR261 package admitted natively to ADL1223, healthy rebuild and verified validate; separately recorded from full rehearsal",
+    "limits": "Existing isolated rehearsal and source correspondence do not prove new live operational conversion or final retirement proof."
+  },
+  "evidence": [
+    {
+      "path": "/Volumes/FastWork/adl-worktrees/adl-issue-1223-1223-coherent-source-retirement/docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CSDLC255_CONVERSION_REHEARSAL_PROGRESS.json",
+      "sha256": "3a1d8456e5333d2b6daee76bd3c7796d1db4d6015248b4c4c511559df9c5ba2e"
+    },
+    {
+      "path": "/Volumes/FastWork/adl-worktrees/adl-issue-1223-1223-coherent-source-retirement/docs/milestones/v0.93.1/repository-decomposition/rd07-1223/NATIVE_OWNER_TRANSITION_PR261.json",
+      "sha256": "1a262751b8e8253f8816758d431f79ff60b85e6519e2f16d89a34b09d0acdced"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/native-conversion-closure/conversion-full-pass.json",
+      "sha256": "3acc530f2790cb7495639b4c872f7014fb52fabf24fee7388158e983bc1b610d"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/native-conversion-closure/transition-chain-review.json",
+      "sha256": "f39a0adf7764d406c6f811c5c2b38ec66b8210e3aa53ed2f9150f462abb873a6"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/native-conversion-closure/generation9-authentic-archive-validation.json",
+      "sha256": "d9cacbe8f3a2730d7d9de06e4a1e65c14cb5c6e3ee632e6092f731d1da2881e6"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/native-conversion-closure/conversion-attempt6/summary.json",
+      "sha256": "75e2d93be6e921c7edd184c72af0eec33600784d3f738ece310d63f41b631119"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/native-conversion-closure/original-validator-tests.log",
+      "sha256": "c6352adff70a6982c739a1cd77bbb43d2425eefd2dc2112b92b0ceebf2a6ca31"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/native-conversion-closure/validator-layout-tests.log",
+      "sha256": "55df81c03b1fc09a739803668e8b10b1a1cd87ac7e716666dddb1c968f87bb76"
+    }
+  ],
+  "assertion_boundaries": {
+    "fallback_test": "New ADL-only historical manifest selection bridge is explicitly historically retired, not transferred or equivalent owner behavior. Its five passing cases remain in source/evidence custody.",
+    "original_validator_tests": "All eight original cases AST-identical in installed owner, plus one layout/confinement test.",
+    "driver": "Preserve owner installed-package relocation/transition/rebuild additions. Owner original-manifest input remains explicit isolated authentic checkout prerequisite; no dependency on current ADL source crate.",
+    "history": "No original872 journal/evidence/executable, authority selectors/receipts, retained manifests or prompt resources removed. Retained historical manifest/provenance files remain passive authentic fixtures."
+  },
+  "caller_closure": {
+    "removed_importers": [
+      "adl/tools/csdlc-conversion-rehearsal",
+      "adl/tools/run_issue872_conversion_rehearsal.py",
+      "adl/tools/test_validate_issue872_conversion_rehearsal.py",
+      "adl/tools/test_issue872_historical_manifest.py"
+    ],
+    "scan": "Committed git grep literal five names across repository excluding immutable .csdlc/milestone/review and distributed historical skill snapshots, followed by bounded current public workflow/tool/config scan; no retained active importer outside six files. Dynamic invocation not established.",
+    "navigation": "Existing generated Owner Navigation already routes to agent-logic/cognitive-sdlc. Installed resources/adl/tools/csdlc-conversion-rehearsal is the Python orchestration entrypoint; resources/csdlc-v3/bin/csdlc-conversion-rehearsal is native companion, not interchangeable.",
+    "generator": {
+      "path": "adl/tools/generate_tool_surface_registry.py",
+      "sha256": "c6d5956aebc84350f0dab3486ce1383691d12d13739e33d2c682aa8c1481ba10",
+      "method": "Executed exact current generator against external current tools/skills topology with only six selected paths omitted; no manual registry listing edits.",
+      "delta": "/Volumes/FastWork/c1223/conversion-six-registry-delta.json",
+      "status": "Historical proposal generation only; actual applied generator identity and exact delta recorded under application."
+    }
+  },
+  "verification": {
+    "all_six_preimages_git_blob_mode_sha256": "PASS",
+    "all_six_archive_member_bytes_modes": "PASS",
+    "all_five_installed_resource_hashes": "PASS",
+    "all_eight_retained_evidence_hashes": "PASS",
+    "registry_exact_delta": "PASS",
+    "generator_unchanged": "PASS",
+    "tests_builds_native_rehearsals": "Not rerun; existing qualification reused.",
+    "ledger_guard_overlay": "Unmodified by this application; original4134 and existing22 identities preserved; parent integrates applied authority separately.",
+    "preexisting_872_binary_deletion": "Preserved unchanged and excluded from this application.",
+    "staging_commit": "Not performed."
+  }
+}
