@@ -34,6 +34,10 @@ ordinary PR validation.
 
 ## Source-size exception
 
+The command and counts below describe the historical review candidate. The ADL
+source-local counter was retired by #1223; its exact owner source is preserved
+in Runtime. No count was rerun or requalified by source retirement.
+
 The reproducible count from `bash adl/tools/report_runtime_v3_loc.sh` is 12,034
 physical Rust lines under `adl-runtime-kernel/src` at this review candidate.
 The 10,000-line goal is exceeded, but the result remains below the previously

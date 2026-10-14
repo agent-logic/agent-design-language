@@ -56,8 +56,8 @@ before launching paid or remote work:
   expectations.
 - [Nessus Validation Manager Lane](NESSUS_VALIDATION_MANAGER_LANE.md) - Nessus
   remote validation-manager wrapper and artifact contract.
-- [Build Platform Benchmarks](BUILD_PLATFORM_BENCHMARKS.md) - current retained
-  timing rows and the accepted proof posture for each platform.
+- [Build Platform Benchmarks](BUILD_PLATFORM_BENCHMARKS.md) - historical timing
+  rows and their recorded proof posture; local execution routes are retired.
 
 Operational defaults:
 
@@ -168,9 +168,9 @@ Important repo-local tooling surfaces include:
   retained Agent Logic proof before launch and reuses the retained warm EBS
   cache volume by default; see
   [AWS Spot Remote Validation Lane](AWS_SPOT_REMOTE_VALIDATION_LANE.md)
-- `bash adl/tools/run_build_platform_benchmark.sh` — shared Wuji, Nessus, AWS
-  Spot, and CodeBuild timing workload; see
-  [Build Platform Benchmarks](BUILD_PLATFORM_BENCHMARKS.md)
+- [Historical build-platform benchmarks](BUILD_PLATFORM_BENCHMARKS.md) preserve
+  the original timing workload and evidence. The ADL command is retired;
+  use separately admitted Infrastructure owner routes for new execution.
 - lifecycle authority is native v3 via `.adl/bin/native-v3/csdlc`, subject to its selector and authenticated receipt; retained v2 binaries require explicit rollback or transition authorization
 - `adl/tools/report_large_rust_modules.sh` — non-blocking Rust source-and-test module size report; by default it scans both `adl/src` and `adl/tests`, and current snapshots should live under `.adl/reports/manual/` instead of tracked repo docs
 - Legacy draft-to-task-bundle synchronization has been retired. Current cards

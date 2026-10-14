@@ -579,33 +579,6 @@
       "reason": "html_observatory_roster_javascript_changes_require_direct_syntax_proof"
     },
     {
-      "id": "aws_runtime_platform_static",
-      "lane_class": "cli_workflow",
-      "default_surface": "tooling",
-      "owner": "cloud",
-      "proof_role": "terraform_static_contract",
-      "requirement_ids": [
-        "aws_runtime_platform_static"
-      ],
-      "path_selectors": [
-        "infra/aws/modules/csm-runtime-alb/**",
-        "infra/aws/runtime/**",
-        "docs/operations/cloud/aws/runtime-platform/**",
-        "docs/milestones/v0.92.1/evidence/cloud/aws-f/**",
-        "adl/tools/validate_aws_runtime_platform_static.sh"
-      ],
-      "path_hints": [
-        "infra/aws/modules/csm-runtime-alb/**",
-        "infra/aws/runtime/**",
-        "docs/operations/cloud/aws/runtime-platform/**",
-        "docs/milestones/v0.92.1/evidence/cloud/aws-f/**",
-        "adl/tools/validate_aws_runtime_platform_static.sh"
-      ],
-      "command": "bash adl/tools/validate_aws_runtime_platform_static.sh --lane=all",
-      "run_command": "bash adl/tools/validate_aws_runtime_platform_static.sh --lane=all",
-      "reason": "aws_runtime_platform_surface_requires_static_terraform_and_public_edge_boundary_contracts"
-    },
-    {
       "id": "wp08_local_polis_ssm_proof",
       "lane_class": "runtime_integration",
       "default_surface": "runtime",
@@ -689,10 +662,6 @@
       ],
       "path_selectors": [
         "adl/tools/run_aws_spot_remote_validation_lane.sh",
-        "adl/tools/run_build_platform_benchmark.sh",
-        "adl/tools/setup_aws_spot_remote_validation_github_resources.sh",
-        "adl/tools/run_aws_spot_builder_image_validation.sh",
-        "adl/tools/test_run_aws_spot_builder_image_validation.sh",
         "adl/tools/test_run_aws_spot_remote_validation_lane.sh",
         "tools/aws_remote_validation/Cargo.toml",
         "tools/aws_remote_validation/Cargo.lock",
@@ -701,10 +670,6 @@
       ],
       "path_hints": [
         "adl/tools/run_aws_spot_remote_validation_lane.sh",
-        "adl/tools/run_build_platform_benchmark.sh",
-        "adl/tools/setup_aws_spot_remote_validation_github_resources.sh",
-        "adl/tools/run_aws_spot_builder_image_validation.sh",
-        "adl/tools/test_run_aws_spot_builder_image_validation.sh",
         "adl/tools/test_run_aws_spot_remote_validation_lane.sh",
         "tools/aws_remote_validation/Cargo.toml",
         "tools/aws_remote_validation/Cargo.lock",

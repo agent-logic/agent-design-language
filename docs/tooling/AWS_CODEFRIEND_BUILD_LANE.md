@@ -1,5 +1,11 @@
 # AWS CodeFriend Build Lane
 
+> Historical ADL procedure retained as source evidence. The local benchmark
+> and remote-build entrypoints described below were retired by #1223.
+> These commands are not current ADL execution instructions. Consult the
+> [Infrastructure owner source](https://github.com/agent-logic/agent-logic-infrastructure/tree/db78fff91b07a0b05dfbb4ceb5bdd3279b3315a1) for the owner implementation;
+> source presence does not establish current build or cloud qualification.
+
 ## Retirement status
 
 The ADL launcher and dispatch workflow are retired by #1223. The commands below
