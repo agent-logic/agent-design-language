@@ -1,0 +1,503 @@
+{
+  "schema": "adl.quality_gate.observation.v1",
+  "issue": 1232,
+  "observed_at": "2026-10-14T03:09:54.245401+00:00",
+  "decision": "NOT_READY_FOR_FINAL_RELEASE_ACCEPTANCE",
+  "acceptance_authority": false,
+  "source_worktree_head": "a9352df04eb2d2d11e6c029abaa638a3d2b83be8",
+  "codefriend_evidence_head": "188dd2b701be0a4acce1ec510559fdff119fd4c7",
+  "start_override": {
+    "operator_instruction": "go ahead and start sprint 4, noting that 1223 is still open",
+    "source_sha256": "a7c8d1a40a8af8efecf283da68e66c032d824118edeb16fe97742ff651c40b21",
+    "scope": "Independent evidence work only; preserves unresolved #1223 and final acceptance gates"
+  },
+  "status_definitions": {
+    "passed": "Cited bounded historical evidence passed; no transfer to final candidate implied",
+    "failed": "Known unresolved adverse outcome or defect",
+    "not_executed": "Required future action/decision has not been executed here",
+    "unavailable": "Required evidence bytes or exact-head result unavailable in this packet",
+    "unknown": "Observed evidence cannot establish the requested acceptance"
+  },
+  "repositories": [
+    {
+      "role": "public_adl",
+      "repository": "agent-logic/agent-design-language",
+      "observed_main": {
+        "head": "6a891db6d2ec7b59cfd369078bb9dd8204fd101c",
+        "status": "observed"
+      },
+      "retained_rd11_source": "1889916a1bf458fc39cfe047a0b0733701e044bc",
+      "retained_rd11_artifact_sha256": "ec6fd3198dc60c9062e5f6811026225040574f7de4a702fbc88f301bdb797326",
+      "rd11_evidence": "S1",
+      "same_source": false,
+      "final_1223_lockset_correspondence": "unknown",
+      "independent_container_clone_build_at_final_head": "unavailable",
+      "note": "Historical selection preserved; main observation alone gives no installed or portability acceptance."
+    },
+    {
+      "role": "csdlc",
+      "repository": "agent-logic/cognitive-sdlc",
+      "observed_main": {
+        "head": "6516a33d0761a256f018d74ee2d000086be111f9",
+        "status": "observed"
+      },
+      "retained_rd11_source": "8da60c666e6c71586cc2ad6185814499a63f8487",
+      "retained_rd11_artifact_sha256": "86f2a0612520a923b97e76f10e84846378df3fccf00fac52ebd035303d7eb5b4",
+      "rd11_evidence": "S1",
+      "same_source": false,
+      "final_1223_lockset_correspondence": "unknown",
+      "independent_container_clone_build_at_final_head": "unavailable",
+      "note": "Historical selection preserved; main observation alone gives no installed or portability acceptance."
+    },
+    {
+      "role": "runtime",
+      "repository": "agent-logic/agent-logic-runtime",
+      "observed_main": {
+        "head": "54e3963386bf67a466ba1cd6c5e7af8feebe6d09",
+        "status": "observed"
+      },
+      "retained_rd11_source": "2fee402c5287091dcd61c831b49786ba116aedf5",
+      "retained_rd11_artifact_sha256": "9cbd2fd026c84fe7c5b85bdfe48fa635eee7f556bb0cbd51194eecfcf5ea4186",
+      "rd11_evidence": "S1",
+      "same_source": false,
+      "final_1223_lockset_correspondence": "unknown",
+      "independent_container_clone_build_at_final_head": "unavailable",
+      "note": "Historical selection preserved; main observation alone gives no installed or portability acceptance."
+    },
+    {
+      "role": "infrastructure",
+      "repository": "agent-logic/agent-logic-infrastructure",
+      "observed_main": {
+        "head": "5cd48811ef8cdf4df169476c87e14b37b38c5eb9",
+        "status": "observed"
+      },
+      "retained_rd11_source": "c8b787ce065e2912fe1db88fc778daded7a8ba63",
+      "retained_rd11_artifact_sha256": "21d604bb77831c9176430020c0346d0ef8c94946736335519767cae94314ea94",
+      "rd11_evidence": "S1",
+      "same_source": false,
+      "final_1223_lockset_correspondence": "unknown",
+      "independent_container_clone_build_at_final_head": "unavailable",
+      "note": "Historical selection preserved; main observation alone gives no installed or portability acceptance."
+    },
+    {
+      "role": "enterprise_adapter",
+      "repository": "agent-logic/agent-logic-enterprise-security",
+      "observed_main": {
+        "head": "4682fef2512744f73ee55d3169ae7094aa750ba1",
+        "status": "observed"
+      },
+      "retained_rd11_source": "bbd5a4665d2e6756644bc78f9a7c5c537a7f540b",
+      "retained_rd11_artifact_sha256": "a04cc023c822d7360bbd8dcd834a271f0f0278bb4679acab55f94ca3bace0c6f",
+      "rd11_evidence": "S1",
+      "same_source": false,
+      "final_1223_lockset_correspondence": "unknown",
+      "independent_container_clone_build_at_final_head": "unavailable",
+      "note": "Historical selection preserved; main observation alone gives no installed or portability acceptance."
+    },
+    {
+      "role": "codefriend",
+      "repository": "agent-logic/codefriend",
+      "observed_main": {
+        "head": "188dd2b701be0a4acce1ec510559fdff119fd4c7",
+        "status": "observed"
+      },
+      "retained_rd11_source": "91ae8c5e4008a07cee8fd3a70a1306d4d971f9b4",
+      "retained_rd11_artifact_sha256": "a82fdb80f79bca977599c68b6a6e42da411be97dffef988d3031db24e46442ee",
+      "rd11_evidence": "S1",
+      "same_source": false,
+      "final_1223_lockset_correspondence": "unknown",
+      "independent_container_clone_build_at_final_head": "unavailable",
+      "note": "Historical selection preserved; main observation alone gives no installed or portability acceptance."
+    },
+    {
+      "role": "website",
+      "repository": "agent-logic/codefriend.ai",
+      "observed_main": {
+        "head": "d8132b986ea9a7db0651d9855f9576f8907f7db0",
+        "status": "observed"
+      },
+      "retained_rd11_source": "8b0c5fd12423494c7fed27059321b217d7dff430",
+      "retained_rd11_artifact_sha256": "0a783f9d00a77b6dedf6e63a785754c65abbf0895f1761dc86697c62b7be8512",
+      "rd11_evidence": "S1",
+      "same_source": false,
+      "final_1223_lockset_correspondence": "unknown",
+      "independent_container_clone_build_at_final_head": "unavailable",
+      "note": "Historical selection preserved; main observation alone gives no installed or portability acceptance."
+    }
+  ],
+  "accepted_product_candidate": {
+    "execution_product_reviewed_head": "e4c7e25660d779791e7c81ad75ba5fff4c86b697",
+    "execution_installed_codefriend_sha256": "0a926b685ec9db7fb14c3c35c107fcac6dadcc7a66368717d1fd5d09fbda2db4",
+    "deployable_product_candidate": "aa2cca757ba4e6c37cef6c1a6e013d3896cd1de1",
+    "deployable_product_tree": "89ca46e84d9f1060c80e47c97704eb9ab369af2a",
+    "deployable_macos_arm64_codefriend_sha256": "17c64d9c1c5244aa0f1811268dcab6ce2bacfa2e03339574888e49eff384f328",
+    "deployable_linux_x86_64_codefriend_sha256": "55520a6994b084affcc1aeb9dd88ae6aac245a88aeef7263f2402ae47cf1cb39",
+    "product_ci_run_id": "38030979163",
+    "product_ci_artifact_id": "11661624501",
+    "product_archive_sha256": "2bf22aa1d0f354c5a719d26a07c92f0fbd39a890733f4d7336bed80b943c2c0c",
+    "execution_website_baseline": "de2cfedbab3d102fe12b00a1368a18892d0eec7a",
+    "current_website_merge": "62b34f30a7042c10e35cbd5924841305bf68d106"
+  },
+  "gates": [
+    {
+      "id": "RD-11",
+      "evidence_status": "unknown",
+      "scope": "Seven-role historical candidate lockset is present, state candidate.",
+      "evidence": [
+        "S1"
+      ],
+      "remaining": "Final #1223 lockset and per-repository clean container clone/build correspondence pending; retained candidate does not assert accepted state.",
+      "final_lockset_acceptance": false
+    },
+    {
+      "id": "CF-01",
+      "evidence_status": "passed",
+      "scope": "Requirement mapping and accepted producer dispositions are retained; this is mapping proof, not every current product behavior.",
+      "evidence": [
+        "S3"
+      ],
+      "remaining": "Reconcile final candidate and retain all 7 workstreams, 3 demos and 13 tester criteria without erasing original #915 unknowns.",
+      "final_lockset_acceptance": false,
+      "counts": {
+        "workstreams": 7,
+        "demos": 3,
+        "external_tester_criteria": 13
+      }
+    },
+    {
+      "id": "CT-05",
+      "evidence_status": "passed",
+      "scope": "Retained installed Linux amd64 catalog proof at 29bbec94aab82d856f6a42d2b1af517e0c2f8f9d.",
+      "evidence": [
+        "S4"
+      ],
+      "remaining": "Check changed catalog members against final candidate and resolve CodeFriend #101; reuse unchanged catalog proof without rerunning it.",
+      "final_lockset_acceptance": false,
+      "counts": {
+        "executed": 44,
+        "total": 44,
+        "unexecuted": 0,
+        "scenarios": {
+          "denial": 2,
+          "positive": 7,
+          "recovery": 0,
+          "total": 9
+        }
+      }
+    },
+    {
+      "id": "ADL-1148",
+      "evidence_status": "passed",
+      "scope": "Closed producer prerequisite with accepted result recorded in CF-01 map; independent product qualification is separate.",
+      "evidence": [
+        "S3",
+        "S2"
+      ],
+      "remaining": "Preserve source-specific producer evidence; do not infer final lockset from closed issue.",
+      "final_lockset_acceptance": false
+    },
+    {
+      "id": "ADL-1149",
+      "evidence_status": "passed",
+      "scope": "Closed producer prerequisite with accepted result recorded in CF-01 map; independent product qualification is separate.",
+      "evidence": [
+        "S3",
+        "S2"
+      ],
+      "remaining": "Preserve source-specific producer evidence; do not infer final lockset from closed issue.",
+      "final_lockset_acceptance": false
+    },
+    {
+      "id": "CF-05/ADL-1150",
+      "evidence_status": "passed",
+      "scope": "Accepted exact deployable CodeFriend/website qualification; retain original failed execution group.",
+      "evidence": [
+        "S2"
+      ],
+      "remaining": "Final #1223 candidate correspondence still required; do not expand historical qualification to changed heads.",
+      "final_lockset_acceptance": false,
+      "counts": {
+        "obligations": {
+          "pass": 24,
+          "fail": 0,
+          "incomplete": 0,
+          "incomplete_ids": []
+        },
+        "execution_groups": {
+          "pass": 23,
+          "fail": 1,
+          "incomplete": 0
+        },
+        "semantic_cells": {
+          "pass": 12,
+          "fail": 0
+        },
+        "release_cells": {
+          "accepted": 12,
+          "denominator": 12,
+          "reason": "all_required_obligations_pass"
+        }
+      }
+    },
+    {
+      "id": "INTEGRATE",
+      "evidence_status": "unknown",
+      "scope": "Historical #45 lockset explicitly has acceptance_authority=false; newer #46/#47 acceptance uses its separately pinned candidate.",
+      "evidence": [
+        "S7",
+        "S6",
+        "S5"
+      ],
+      "remaining": "Do not restamp the historical lockset. Reconcile the eventual #1223 lockset to accepted #46/#47 product/site evidence.",
+      "final_lockset_acceptance": false
+    },
+    {
+      "id": "CF-07-readiness",
+      "evidence_status": "passed",
+      "scope": "Accepted deployable, disabled, undeployed product/site and waiting-list readiness.",
+      "evidence": [
+        "S6"
+      ],
+      "remaining": "Final candidate correspondence pending; actual launch is outside v0.93.1 in CodeFriend #92.",
+      "final_lockset_acceptance": false,
+      "counts": {
+        "waiting_list_scenarios": 25,
+        "application_deployment_scenarios": 10
+      }
+    },
+    {
+      "id": "QUALIFY",
+      "evidence_status": "passed",
+      "scope": "Retained CodeFriend #47 owner reconciliation is QUALIFIED against exact aa2cca75 product and 62b34f30 website.",
+      "evidence": [
+        "S5"
+      ],
+      "remaining": "No automatic transfer of acceptance to newer repository heads.",
+      "final_lockset_acceptance": false,
+      "counts": {
+        "fail": 0,
+        "incomplete": 0,
+        "pass": 24,
+        "release_cells_accepted": 12,
+        "release_cells_total": 12,
+        "total": 24
+      }
+    },
+    {
+      "id": "CodeFriend-101",
+      "evidence_status": "failed",
+      "scope": "Open product document readability defect; successful exports/catalog proof do not resolve it.",
+      "evidence": [],
+      "remaining": "Await reviewed rendering/composition fix and representative visual acceptance from its owner.",
+      "final_lockset_acceptance": false
+    },
+    {
+      "id": "ADL-1223",
+      "evidence_status": "not_executed",
+      "scope": "Source retirement/final release lockset acceptance remains open.",
+      "evidence": [],
+      "remaining": "Consume final owner decision and exact repository/artifact lockset when delivered; Sprint4 start does not waive it.",
+      "final_lockset_acceptance": false
+    },
+    {
+      "id": "ADL-1269",
+      "evidence_status": "not_executed",
+      "scope": "Multi-repository README refresh remains open.",
+      "evidence": [],
+      "remaining": "Consume README owner delivery; do not duplicate editing.",
+      "final_lockset_acceptance": false
+    },
+    {
+      "id": "CodeFriend-107",
+      "evidence_status": "passed",
+      "scope": "Prior Worker21 correction delivered through merged PR108 at 188dd2b701be0a4acce1ec510559fdff119fd4c7.",
+      "evidence": [
+        "S8"
+      ],
+      "remaining": "No implementation overlap; correction alone is not #101 acceptance.",
+      "final_lockset_acceptance": false
+    },
+    {
+      "id": "CF-07-live-launch",
+      "evidence_status": "not_executed",
+      "scope": "Explicitly deferred outside v0.93.1 to CodeFriend #92.",
+      "evidence": [],
+      "remaining": "Requires future candidate/audience/environment/spend authorization; does not block current undeployed-readiness scope.",
+      "final_lockset_acceptance": false
+    },
+    {
+      "id": "TAIL-02-through-TAIL-10",
+      "evidence_status": "not_executed",
+      "scope": "Later tail decisions remain visible and pending; they are not prerequisites to this TAIL-01 evidence work.",
+      "evidence": [],
+      "remaining": "Separate owners execute serial tail and record actual decisions.",
+      "final_lockset_acceptance": false
+    }
+  ],
+  "sources": [
+    {
+      "id": "S1",
+      "repository": "agent-logic/agent-design-language",
+      "commit": "a9352df04eb2d2d11e6c029abaa638a3d2b83be8",
+      "path": "docs/milestones/v0.93.1/repository-decomposition/rd11-1193/candidate-lockset.json",
+      "sha256": "833c15aaf59138bced61eeb5f27ad2d81d45e5e3d324618b2a5e8b878f422db3",
+      "url": "https://github.com/agent-logic/agent-design-language/blob/a9352df04eb2d2d11e6c029abaa638a3d2b83be8/docs/milestones/v0.93.1/repository-decomposition/rd11-1193/candidate-lockset.json"
+    },
+    {
+      "id": "S2",
+      "repository": "agent-logic/agent-design-language",
+      "commit": "a9352df04eb2d2d11e6c029abaa638a3d2b83be8",
+      "path": ".csdlc/evidence/1150/QUALIFICATION_EVIDENCE_MANIFEST.json",
+      "sha256": "d6e34a220b32db59b1d070573d4af06b3629c7bc6bd4dcf1fb86d04954874f0a",
+      "url": "https://github.com/agent-logic/agent-design-language/blob/a9352df04eb2d2d11e6c029abaa638a3d2b83be8/.csdlc/evidence/1150/QUALIFICATION_EVIDENCE_MANIFEST.json"
+    },
+    {
+      "id": "S3",
+      "repository": "agent-logic/codefriend",
+      "commit": "188dd2b701be0a4acce1ec510559fdff119fd4c7",
+      "path": "docs/codefriend/BETA1_REQUIREMENTS.json",
+      "sha256": "fb7fdbbaf3598772b2aba0f223f39a73ec8b76de49f88ea25de91a9bd0706db3",
+      "url": "https://github.com/agent-logic/codefriend/blob/188dd2b701be0a4acce1ec510559fdff119fd4c7/docs/codefriend/BETA1_REQUIREMENTS.json"
+    },
+    {
+      "id": "S4",
+      "repository": "agent-logic/codefriend",
+      "commit": "188dd2b701be0a4acce1ec510559fdff119fd4c7",
+      "path": "crates/codefriend/tests/fixtures/codefriend/installed-catalog/INSTALLED_PROOF.json",
+      "sha256": "94ba4c72fc49e1e8a7df774aa6e2e889ff5037b396ce36c0fdd9622c22967159",
+      "url": "https://github.com/agent-logic/codefriend/blob/188dd2b701be0a4acce1ec510559fdff119fd4c7/crates/codefriend/tests/fixtures/codefriend/installed-catalog/INSTALLED_PROOF.json"
+    },
+    {
+      "id": "S5",
+      "repository": "agent-logic/codefriend",
+      "commit": "188dd2b701be0a4acce1ec510559fdff119fd4c7",
+      "path": "docs/codefriend/QUALIFICATION_RECONCILIATION_v0.93.1.json",
+      "sha256": "3c662ded351af833179da02039ad5a4fd5c036f26058d4d3ac16c0cdebfdc1f0",
+      "url": "https://github.com/agent-logic/codefriend/blob/188dd2b701be0a4acce1ec510559fdff119fd4c7/docs/codefriend/QUALIFICATION_RECONCILIATION_v0.93.1.json"
+    },
+    {
+      "id": "S6",
+      "repository": "agent-logic/codefriend",
+      "commit": "188dd2b701be0a4acce1ec510559fdff119fd4c7",
+      "path": "docs/codefriend/DEPLOYMENT_READINESS_v0.93.1.json",
+      "sha256": "04236d79a764f2aeb97b6c528089fbb164eabae5bcfd4e69f7aea8c58de8c6ea",
+      "url": "https://github.com/agent-logic/codefriend/blob/188dd2b701be0a4acce1ec510559fdff119fd4c7/docs/codefriend/DEPLOYMENT_READINESS_v0.93.1.json"
+    },
+    {
+      "id": "S7",
+      "repository": "agent-logic/codefriend",
+      "commit": "188dd2b701be0a4acce1ec510559fdff119fd4c7",
+      "path": "docs/codefriend/LAUNCH_LOCKSET_v0.93.1.json",
+      "sha256": "bb03829af25b87bf0f613b6c48b6fb4b4eea0f6ca807d87fb4e1c2548cb3250b",
+      "url": "https://github.com/agent-logic/codefriend/blob/188dd2b701be0a4acce1ec510559fdff119fd4c7/docs/codefriend/LAUNCH_LOCKSET_v0.93.1.json"
+    },
+    {
+      "id": "S8",
+      "repository": "agent-logic/codefriend",
+      "commit": "188dd2b701be0a4acce1ec510559fdff119fd4c7",
+      "path": "review-skills/repo-code-review/references/output-contract.md",
+      "sha256": "2cdb82aaf5599bd5cbad5fc42bded5850d878c5be768900644d6dc3512d0097d",
+      "url": "https://github.com/agent-logic/codefriend/blob/188dd2b701be0a4acce1ec510559fdff119fd4c7/review-skills/repo-code-review/references/output-contract.md"
+    }
+  ],
+  "remote_issue_observations": [
+    {
+      "number": 1148,
+      "title": "[v0.93.1][CodeFriend] Produce citation-grounded review assessments",
+      "state": "CLOSED",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/1148",
+      "closedAt": "2026-10-03T00:09:25Z"
+    },
+    {
+      "number": 1149,
+      "title": "[v0.93.1][CodeFriend] Reconcile the interrupted qualification request safely",
+      "state": "CLOSED",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/1149",
+      "closedAt": "2026-10-03T00:08:47Z"
+    },
+    {
+      "number": 1150,
+      "title": "[v0.93.1][CodeFriend] Complete independent Beta 1 installed qualification",
+      "state": "CLOSED",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/1150",
+      "closedAt": "2026-10-11T02:17:52Z"
+    },
+    {
+      "number": 1223,
+      "title": "[v0.93.1][Follow-up] Complete coherent source retirement after the repository split",
+      "state": "OPEN",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/1223",
+      "closedAt": null
+    },
+    {
+      "number": 1269,
+      "title": "[v0.93.1][Docs] Refresh all repository READMEs after the repository split",
+      "state": "OPEN",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/1269",
+      "closedAt": null
+    },
+    {
+      "number": 101,
+      "title": "[v0.93.1] Fix CodeFriend templates: readable, useful documents matching the reference review",
+      "state": "OPEN",
+      "url": "https://github.com/agent-logic/codefriend/issues/101",
+      "closedAt": null
+    },
+    {
+      "number": 31,
+      "title": "[v0.93.1][CF-01] Accept the Beta 1 to launch requirements mapping",
+      "state": "CLOSED",
+      "url": "https://github.com/agent-logic/codefriend/issues/31",
+      "closedAt": "2026-10-03T07:27:28Z"
+    },
+    {
+      "number": 44,
+      "title": "[v0.93.1][CT-05] Qualify the complete branded artifact catalog",
+      "state": "CLOSED",
+      "url": "https://github.com/agent-logic/codefriend/issues/44",
+      "closedAt": "2026-10-04T09:34:12Z"
+    },
+    {
+      "number": 45,
+      "title": "[v0.93.1][INTEGRATE] Accept the installed CodeFriend launch lockset",
+      "state": "CLOSED",
+      "url": "https://github.com/agent-logic/codefriend/issues/45",
+      "closedAt": "2026-10-06T04:46:56Z"
+    },
+    {
+      "number": 46,
+      "title": "[v0.93.1][CF-07] Complete deployment readiness and waiting-list mechanism",
+      "state": "CLOSED",
+      "url": "https://github.com/agent-logic/codefriend/issues/46",
+      "closedAt": "2026-10-11T02:59:34Z"
+    },
+    {
+      "number": 47,
+      "title": "[v0.93.1][QUALIFY] Independently qualify the installed milestone",
+      "state": "CLOSED",
+      "url": "https://github.com/agent-logic/codefriend/issues/47",
+      "closedAt": "2026-10-11T03:16:50Z"
+    },
+    {
+      "number": 92,
+      "title": "[v0.93.2 or later] Deploy and launch the qualified CodeFriend service",
+      "state": "OPEN",
+      "url": "https://github.com/agent-logic/codefriend/issues/92",
+      "closedAt": null
+    }
+  ],
+  "retained_adverse_evidence": [
+    "The Linux Vector first execution group remains failed; its compatible repeat satisfies Q06.",
+    "The Q03 second-user denial is operator-witnessed and corroborated by bound subject enforcement evidence, not retained as a raw HTTP capture."
+  ],
+  "historical_rd11_limits": "Runtime issue39 and C-SDLC original installed admission remain historical nonclaims, not newly added blanket Runtime v4 gates. Private manifest references are not copied or reauthenticated here.",
+  "effects": {
+    "product_tests": 0,
+    "builds": 0,
+    "ci_dispatch": 0,
+    "provider_calls": 0,
+    "deployment": 0,
+    "shared_binary_replacements": 0
+  },
+  "handoff": "Reviewed current-state evidence matrix only. Issue1232 remains open until final dependency/candidate acceptance; no closing PR or release acceptance claimed."
+}
