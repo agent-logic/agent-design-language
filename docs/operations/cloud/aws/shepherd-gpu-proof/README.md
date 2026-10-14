@@ -203,7 +203,7 @@ disjoint local Terraform states:
    retained, AZ-bound gp3 data volumes.
 2. `infra/aws/runtime/gpu-proof/warm-storage/preparation` owns the two
    short-lived hydrator instances and their disposable infrastructure. It
-   builds the repository binaries, installs package-managed build facilities,
+   verifies and installs the pinned Runtime artifact without a source build,
    copies the exact versioned Ollama/model closure, prepares reusable Runtime
    state, writes every volume block, and seals each content partition with
    dm-verity. It does not survive preparation.
@@ -211,16 +211,27 @@ disjoint local Terraform states:
    security/IAM/deadline resources, and warm-volume attachments. It never owns
    or deletes the retained volumes.
 
-All generated state remains under `.adl/local/issue607` in the bound issue
-worktree. Use only `agent-logic-admin` in `us-west-2`, one existing SSH public
-key, and one exact public IPv4 `/32`.
+The warm-Polis controller is owned by `agent-logic-infrastructure`. The
+commands below are historical campaign examples; execute only the current
+reviewed owner contract from an Infrastructure checkout. Set
+`AGENT_LOGIC_INFRA_ROOT` to its absolute path. For paid actions, set the exact
+`ADL_ISSUE607_RUNTIME_ARCHIVE`, `ADL_ISSUE607_RUNTIME_ARCHIVE_SHA256`, and
+`ADL_ISSUE607_RUNTIME_REVISION` of the separately accepted Runtime producer
+artifact. The `--commit` argument for preparation names the clean
+Infrastructure controller HEAD, not the Runtime producer revision. Recovery
+and launch use the exact persisted generation identity required by the owner
+contract. No example here grants paid-run authorization or proves acceptance.
+
+Generated controller state stays under `.adl/local/issue607` in the bound
+Infrastructure issue worktree. Use only `agent-logic-admin` in `us-west-2`, one
+existing SSH public key, and one exact public IPv4 `/32`.
 
 ### Read-only preflight
 
 ```bash
 ADL_ISSUE607_SSH_PUBLIC_KEY_FILE=/absolute/path/to/public-key.pub \
 AWS_PROFILE=agent-logic-admin AWS_REGION=us-west-2 \
-bash adl/tools/run_issue607_warm_polis.sh preflight
+bash "$AGENT_LOGIC_INFRA_ROOT/adl/tools/run_issue607_warm_polis.sh" preflight
 ```
 
 Preflight resolves and records exact AMI metadata, account/network/KMS and SSH
@@ -233,13 +244,14 @@ estimate exceeds USD 21 and launches nothing.
 
 ### Prepare once
 
-Run preparation first without an authorization file. The controller builds a
-local source archive, creates and validates the exact storage saved plan, writes
-`authorization-request.json`, and exits before S3 upload or AWS mutation:
+Run preparation first without an authorization file. The Infrastructure
+controller verifies and copies the pinned Runtime archive, creates and
+validates the exact storage saved plan, writes `authorization-request.json`,
+and exits before S3 upload or AWS mutation:
 
 ```bash
-bash adl/tools/run_issue607_warm_polis.sh prepare \
-  --commit EXACT_REVIEWED_SHA \
+bash "$AGENT_LOGIC_INFRA_ROOT/adl/tools/run_issue607_warm_polis.sh" prepare \
+  --commit INFRASTRUCTURE_CONTROLLER_HEAD_SHA \
   --run-id adl-issue607-prepare-UNIQUE \
   --storage-id adl-issue607-warm-v1 \
   --execute
@@ -290,12 +302,13 @@ handled failure removes disposable preparation resources and incomplete warm
 storage. After both successful guest receipts exist and both guests are stopped,
 the controller preserves the exact state and resource ledger while it creates
 the retained images and snapshots. If interrupted in that preserved phase,
-resume the same preparation from the same worktree, run ID, storage ID, source
-commit, campaign, and authorization lineage:
+resume the same preparation from the same Infrastructure worktree, run ID,
+storage ID, persisted Infrastructure generation SHA, campaign, and
+authorization lineage:
 
 ```bash
-bash adl/tools/run_issue607_warm_polis.sh resume-preparation \
-  --commit EXACT_REVIEWED_SHA \
+bash "$AGENT_LOGIC_INFRA_ROOT/adl/tools/run_issue607_warm_polis.sh" resume-preparation \
+  --commit PREPARED_INFRA_GENERATION_SHA \
   --run-id adl-issue607-prepare-UNIQUE \
   --storage-id adl-issue607-warm-v1 \
   --authorization-file EXACT_CONSUMED_AUTHORIZATION.json \
@@ -312,8 +325,8 @@ generation is terminal and obsolete, use the separately authorized
 Use a unique run ID and distinct single-use authorization for each ordinal:
 
 ```bash
-bash adl/tools/run_issue607_warm_polis.sh launch \
-  --commit EXACT_REVIEWED_SHA \
+bash "$AGENT_LOGIC_INFRA_ROOT/adl/tools/run_issue607_warm_polis.sh" launch \
+  --commit PREPARED_INFRA_GENERATION_SHA \
   --run-id adl-issue607-launch-1-UNIQUE \
   --storage-id adl-issue607-warm-v1 \
   --ordinal 1 --execute
@@ -337,8 +350,8 @@ and the final projected issue total. It is accepted only while the issue-wide
 ledger remains at or below USD 21:
 
 ```bash
-bash adl/tools/run_issue607_warm_polis.sh qualification-remediation \
-  --commit PREPARED_ARTIFACT_SHA \
+bash "$AGENT_LOGIC_INFRA_ROOT/adl/tools/run_issue607_warm_polis.sh" qualification-remediation \
+  --commit PREPARED_INFRA_GENERATION_SHA \
   --run-id adl-issue607-CAMPAIGNPREFIX-remediate \
   --storage-id adl-issue607-warm-v1 --execute
 ```
@@ -351,8 +364,8 @@ uses a new run ID, plan, marker, and authorization; it does not reuse the failed
 action:
 
 ```bash
-bash adl/tools/run_issue607_warm_polis.sh qualification-quota-recovery \
-  --commit PREPARED_ARTIFACT_SHA \
+bash "$AGENT_LOGIC_INFRA_ROOT/adl/tools/run_issue607_warm_polis.sh" qualification-quota-recovery \
+  --commit PREPARED_INFRA_GENERATION_SHA \
   --run-id adl-issue607-CAMPAIGNPREFIX-quota-recovery \
   --storage-id adl-issue607-warm-v1 --execute
 ```
@@ -387,7 +400,7 @@ require a fresh plan and authorization.
 Inspect the exact volumes and seven-day deadline without mutation:
 
 ```bash
-bash adl/tools/run_issue607_warm_polis.sh retention-status \
+bash "$AGENT_LOGIC_INFRA_ROOT/adl/tools/run_issue607_warm_polis.sh" retention-status \
   --storage-id adl-issue607-warm-v1
 ```
 
@@ -397,14 +410,14 @@ saved plan, both volume IDs, both prepared AMIs, and all four retained snapshot
 IDs. None of these paths is reachable from compute cleanup:
 
 ```bash
-bash adl/tools/run_issue607_warm_polis.sh extend-retention \
+bash "$AGENT_LOGIC_INFRA_ROOT/adl/tools/run_issue607_warm_polis.sh" extend-retention \
   --storage-id adl-issue607-warm-v1 \
-  --retention-until 2026-09-15T00:00:00Z --execute
+  --retention-until FUTURE_APPROVED_UTC_DEADLINE --execute
 
-bash adl/tools/run_issue607_warm_polis.sh retire-storage \
+bash "$AGENT_LOGIC_INFRA_ROOT/adl/tools/run_issue607_warm_polis.sh" retire-storage \
   --storage-id adl-issue607-warm-v1 --execute
 
-bash adl/tools/run_issue607_warm_polis.sh retire-snapshots \
+bash "$AGENT_LOGIC_INFRA_ROOT/adl/tools/run_issue607_warm_polis.sh" retire-snapshots \
   --storage-id adl-issue607-warm-v1 --execute
 ```
 
