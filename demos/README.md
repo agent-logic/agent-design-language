@@ -349,8 +349,10 @@ and the explicit no-submission publication boundary.
 Use `v0.87/v087_demo_program.md` for the canonical `v0.87` demo order and bounded
 repo-local commands.
 
-Use `bash adl/tools/demo_v087_suite.sh` for the one-command substrate review
-path. It populates:
+The former `demo_v087_suite.sh` aggregate and reviewer-package wrapper are
+retired historical tooling. Their original commands and assertions are retained
+in Git and the #1223 custody record; no current full-suite pass is claimed.
+The historical aggregate produced:
 - `artifacts/v087/trace_v1/`
 - `artifacts/v087/provider_portability/`
 - `artifacts/v087/shared_obsmem/`

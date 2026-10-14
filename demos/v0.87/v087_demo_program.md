@@ -1,16 +1,17 @@
 # v0.87 Demo Program
 
-This is the bounded, truthful demo runbook for the `v0.87` substrate milestone.
+This records the historical `v0.87` substrate demo program. The aggregate and
+reviewer-package wrapper below are retired after the monolithic tooling route
+was sunset. Individual child demos have separate owner and qualification
+requirements; this page does not establish a current full-suite pass.
 
 Run from repository root.
 
-## Fastest full review path
+## Historical full review path
 
-```bash
-bash adl/tools/demo_v087_suite.sh
-```
+Former command (unavailable): `bash adl/tools/demo_v087_suite.sh`.
 
-That populates the canonical demo artifact roots under:
+The historical aggregate populated artifact roots under:
 
 - `artifacts/v087/trace_v1/`
 - `artifacts/v087/provider_portability/`
@@ -66,11 +67,12 @@ bash adl/tools/demo_v087_control_plane.sh
 Primary proof surface:
 - `artifacts/v087/control_plane/runs/v0-4-demo-deterministic-replay/run_summary.json`
 
-### D6 Reviewer-facing substrate package
+### D6 Historical reviewer-facing substrate package
 
-```bash
-bash adl/tools/demo_v087_reviewer_package.sh
-```
+Former command (unavailable): `bash adl/tools/demo_v087_reviewer_package.sh`.
+The original good/bad review contract assertions and source remain in Git and
+retirement custody. The retained review format and fixtures are unchanged;
+this is not a replacement validator or a claim of current acceptance.
 
 Primary proof surface:
 - `artifacts/v087/reviewer_package/reviewer_package_manifest.txt`

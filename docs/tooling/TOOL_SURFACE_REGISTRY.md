@@ -30,7 +30,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 
 - `primary`: 8
 - `supported shim`: 0
-- `internal helper`: 439
+- `internal helper`: 435
 - `historical evidence`: 31
 - `archive candidate`: 0
 - `remove candidate`: 0
@@ -100,9 +100,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/demo_v0871_real_multi_agent_discussion.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v087_operational_skills.sh` | tool surface | historical evidence | Historical bundle-install and inventory contract; original recursive acceptance remains separate from owner resource proof. |
 | `adl/tools/demo_v087_provider_portability.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
-| `adl/tools/demo_v087_reviewer_package.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v087_shared_obsmem.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
-| `adl/tools/demo_v087_suite.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v087_trace_truth.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v088_deep_agents_comparative_proof.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v088_instinct_review_surface.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
@@ -373,7 +371,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/test_release_ceremony.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_release_evidence_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_repo_code_review_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_repo_review_contract.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_retained_diff_proof_contract.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_review_card_surface.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_review_comment_triage_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
@@ -515,7 +512,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/validation_manager.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/verify_ci_backend_route.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/verify_external_git_baseline.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
-| `adl/tools/verify_repo_review_contract.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/verify_review_output_provenance.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/verify_spot_advertised_ref.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/warm_rust_dependency_cache.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
