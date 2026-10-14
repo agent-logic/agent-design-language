@@ -30,7 +30,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 
 - `primary`: 7
 - `supported shim`: 0
-- `internal helper`: 221
+- `internal helper`: 219
 - `historical evidence`: 17
 - `archive candidate`: 0
 - `remove candidate`: 0
@@ -75,7 +75,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/demo_v090_codebuddy_review_showcase.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v0911_multiagent_podcast_audio.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v0911_multiagent_podcast_pilot.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
-| `adl/tools/demo_v0912_quality_gate.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v0912_workflow_guardrails_showcase.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v0913_first_proof_demo.py` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v0913_five_minute_sprint_console.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
@@ -157,7 +156,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/test_demo_v0902_arxiv_writer_field_test.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v090_architecture_document_generation.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v090_codebuddy_review_showcase.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_demo_v0912_quality_gate.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v0913_quality_gate.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_developer_throughput_fast_lane.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_documentation_specialist_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
