@@ -6,7 +6,7 @@
   "execution_authorized": false,
   "original_inventory_count": 4134,
   "additional_inventory_count": 22,
-  "executed_deletion_count": 2950,
+  "executed_deletion_count": 2990,
   "entries": [
     {
       "path": ".github/workflows/ci.yaml",
@@ -56322,18 +56322,35 @@
     },
     {
       "path": "demos/v0.8/godel_failure_hypothesis_experiment.md",
-      "action": "modify",
+      "action": "remove",
       "before": [
         "100644",
         "f130bb44ddc1a153fecc9042ccaea76d97838e8e"
       ],
-      "after": [
-        "100644",
-        "a22af87931052a5e9da0c1e3e8fcba501f4f0f88"
-      ],
+      "after": null,
       "implementation_commit": "3383f7f691ec248d6fe87cd18e4e13c5d1e8d900",
       "approval_reference": "RUNTIME_SOURCE_FAMILY_APPLIED.json",
-      "review_reference": "review_1223_public_facade exact Runtime896 plus54 caller repair review"
+      "review_reference": "review_1223_public_facade exact Runtime896 plus54 caller repair review",
+      "supplemental_source_chain": [
+        {
+          "commit": "849b93527a12394b58253898e53f8d26a01eb206",
+          "before": [
+            "100644",
+            "a22af87931052a5e9da0c1e3e8fcba501f4f0f88"
+          ],
+          "after": null,
+          "packet": "DOC49_FINAL_SEVEN_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "DOC49_FINAL_SEVEN_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/doc49-final-seven/prepared-final30/current-and-original-preimages.tar",
+        "archive_sha256": "8ef7908e210bc2c879e8b66aca112fe6cb2569cd414bdd3506d249c4591107bc",
+        "member": "current/demos/v0.8/godel_failure_hypothesis_experiment.md",
+        "mode": "100644",
+        "blob": "a22af87931052a5e9da0c1e3e8fcba501f4f0f88",
+        "sha256": "44a2c5a4db8b273fabe1241c6e5fd9b55d4aa16adc08d7c12c165afe3a9c50f8"
+      }
     },
     {
       "path": "demos/v0.8/v0.8-bounded-critical-demos.md",
@@ -56855,11 +56872,8 @@
         "100644",
         "3f91157d65da32a36845c755258177b32cf0e6d4"
       ],
-      "after": [
-        "100644",
-        "1b2c9d17c692cd3a6a3f2528246605387170a469"
-      ],
-      "action": "modify",
+      "after": null,
+      "action": "remove",
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "INFRASTRUCTURE_SOURCE_FAMILY_APPLIED.json",
       "review_reference": "Parent coordination: independent Infrastructure212 review PASS; exact patch172fa9839baa2e2f1b812180d3bafee8732b2ca7c9a437fd74eb1a4a86a295a3",
@@ -56876,7 +56890,27 @@
           ],
           "packet": "INFRASTRUCTURE_SOURCE_FAMILY_APPLIED.json"
         }
-      ]
+      ],
+      "supplemental_source_chain": [
+        {
+          "commit": "849b93527a12394b58253898e53f8d26a01eb206",
+          "before": [
+            "100644",
+            "1b2c9d17c692cd3a6a3f2528246605387170a469"
+          ],
+          "after": null,
+          "packet": "DOC49_FINAL_SEVEN_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "DOC49_FINAL_SEVEN_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/doc49-final-seven/prepared-final30/current-and-original-preimages.tar",
+        "archive_sha256": "8ef7908e210bc2c879e8b66aca112fe6cb2569cd414bdd3506d249c4591107bc",
+        "member": "current/docs/operations/cloud/aws/observatory/S3_CLOUDFRONT_DEPLOYMENT_RUNBOOK.md",
+        "mode": "100644",
+        "blob": "1b2c9d17c692cd3a6a3f2528246605387170a469",
+        "sha256": "0452e6b494534fba4b0ce8841a0a0ad646dd7e82bf161f81bbd1bc776ea0095a"
+      }
     },
     {
       "path": "docs/operations/cloud/aws/runtime-platform/README.md",
@@ -56886,7 +56920,7 @@
       ],
       "after": [
         "100644",
-        "c7e3755ead9b3d83034311242e23c04a97121474"
+        "faa9c3ed09463af044f96c1ab9a2b978caf3970f"
       ],
       "action": "modify",
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
@@ -56905,6 +56939,20 @@
           ],
           "packet": "INFRASTRUCTURE_SOURCE_FAMILY_APPLIED.json"
         }
+      ],
+      "supplemental_source_chain": [
+        {
+          "commit": "849b93527a12394b58253898e53f8d26a01eb206",
+          "before": [
+            "100644",
+            "c7e3755ead9b3d83034311242e23c04a97121474"
+          ],
+          "after": [
+            "100644",
+            "faa9c3ed09463af044f96c1ab9a2b978caf3970f"
+          ],
+          "packet": "DOC49_FINAL_SEVEN_APPLIED.json"
+        }
       ]
     },
     {
@@ -56913,11 +56961,8 @@
         "100755",
         "2a5444dfc0f812802de91d952bb1559cc081c6b2"
       ],
-      "after": [
-        "100755",
-        "99ab3812eb5b04a37f450b69e90ed8bde26356d7"
-      ],
-      "action": "modify",
+      "after": null,
+      "action": "remove",
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "INFRASTRUCTURE_SOURCE_FAMILY_APPLIED.json",
       "review_reference": "Parent coordination: independent Infrastructure212 review PASS; exact patch172fa9839baa2e2f1b812180d3bafee8732b2ca7c9a437fd74eb1a4a86a295a3",
@@ -56934,7 +56979,27 @@
           ],
           "packet": "INFRASTRUCTURE_SOURCE_FAMILY_APPLIED.json"
         }
-      ]
+      ],
+      "supplemental_source_chain": [
+        {
+          "commit": "849b93527a12394b58253898e53f8d26a01eb206",
+          "before": [
+            "100755",
+            "99ab3812eb5b04a37f450b69e90ed8bde26356d7"
+          ],
+          "after": null,
+          "packet": "DOC49_FINAL_SEVEN_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "DOC49_FINAL_SEVEN_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/doc49-final-seven/prepared-final30/current-and-original-preimages.tar",
+        "archive_sha256": "8ef7908e210bc2c879e8b66aca112fe6cb2569cd414bdd3506d249c4591107bc",
+        "member": "current/docs/operations/cloud/aws/runtime-platform/run-disposable-proof.sh",
+        "mode": "100755",
+        "blob": "99ab3812eb5b04a37f450b69e90ed8bde26356d7",
+        "sha256": "b4a152ce2273f1996b411788f1b880e695e57c6e1745cb8eed990696834e5bfb"
+      }
     },
     {
       "path": "docs/operations/cloud/aws/shepherd-gpu-proof/README.md",
@@ -57022,11 +57087,8 @@
         "100644",
         "7fc02d8d314ce027e8bc1e0b7c153de6b15f4323"
       ],
-      "after": [
-        "100644",
-        "674ea2faffbb4f23e1b2dcc468f79c7b046b0044"
-      ],
-      "action": "modify",
+      "after": null,
+      "action": "remove",
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "INFRASTRUCTURE_SOURCE_FAMILY_APPLIED.json",
       "review_reference": "Parent coordination: independent Infrastructure212 review PASS; exact patch172fa9839baa2e2f1b812180d3bafee8732b2ca7c9a437fd74eb1a4a86a295a3",
@@ -57043,7 +57105,27 @@
           ],
           "packet": "INFRASTRUCTURE_SOURCE_FAMILY_APPLIED.json"
         }
-      ]
+      ],
+      "supplemental_source_chain": [
+        {
+          "commit": "849b93527a12394b58253898e53f8d26a01eb206",
+          "before": [
+            "100644",
+            "674ea2faffbb4f23e1b2dcc468f79c7b046b0044"
+          ],
+          "after": null,
+          "packet": "DOC49_FINAL_SEVEN_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "DOC49_FINAL_SEVEN_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/doc49-final-seven/prepared-final30/current-and-original-preimages.tar",
+        "archive_sha256": "8ef7908e210bc2c879e8b66aca112fe6cb2569cd414bdd3506d249c4591107bc",
+        "member": "current/docs/operations/cloud/gcp/WARM_POLIS_SNAPSHOT_RUNBOOK.md",
+        "mode": "100644",
+        "blob": "674ea2faffbb4f23e1b2dcc468f79c7b046b0044",
+        "sha256": "480de4638266532fff423bb1555327b3a7ad93760e031cfa685a8e5754b73c56"
+      }
     },
     {
       "path": "docs/operations/cloud/gcp/organization-billing/README.md",
@@ -57091,7 +57173,7 @@
       ],
       "after": [
         "100644",
-        "4669ec0d4a8b92e75e4f7ad8e57885cc951c539c"
+        "ce3f7f6147a95c97e0d3a9a8a3d4118fed4346ba"
       ],
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "INFRASTRUCTURE_SOURCE_FAMILY_APPLIED.json",
@@ -57117,6 +57199,20 @@
           ],
           "packet": "INFRASTRUCTURE_SOURCE_FAMILY_APPLIED.json"
         }
+      ],
+      "supplemental_source_chain": [
+        {
+          "commit": "849b93527a12394b58253898e53f8d26a01eb206",
+          "before": [
+            "100644",
+            "4669ec0d4a8b92e75e4f7ad8e57885cc951c539c"
+          ],
+          "after": [
+            "100644",
+            "ce3f7f6147a95c97e0d3a9a8a3d4118fed4346ba"
+          ],
+          "packet": "DOC49_FINAL_SEVEN_APPLIED.json"
+        }
       ]
     },
     {
@@ -57125,11 +57221,8 @@
         "100755",
         "103a532a058198f34f6568caf5b81fe4d548c620"
       ],
-      "after": [
-        "100755",
-        "78a0ee208ef2585e8df82eb4565e5cca62edd441"
-      ],
-      "action": "modify",
+      "after": null,
+      "action": "remove",
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "INFRASTRUCTURE_SOURCE_FAMILY_APPLIED.json",
       "review_reference": "Parent coordination: independent Infrastructure212 review PASS; exact patch172fa9839baa2e2f1b812180d3bafee8732b2ca7c9a437fd74eb1a4a86a295a3",
@@ -57146,7 +57239,27 @@
           ],
           "packet": "INFRASTRUCTURE_SOURCE_FAMILY_APPLIED.json"
         }
-      ]
+      ],
+      "supplemental_source_chain": [
+        {
+          "commit": "849b93527a12394b58253898e53f8d26a01eb206",
+          "before": [
+            "100755",
+            "78a0ee208ef2585e8df82eb4565e5cca62edd441"
+          ],
+          "after": null,
+          "packet": "DOC49_FINAL_SEVEN_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "DOC49_FINAL_SEVEN_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/doc49-final-seven/prepared-final30/current-and-original-preimages.tar",
+        "archive_sha256": "8ef7908e210bc2c879e8b66aca112fe6cb2569cd414bdd3506d249c4591107bc",
+        "member": "current/docs/operations/cloud/gcp/platform-foundation/readback-disposable-residue.sh",
+        "mode": "100755",
+        "blob": "78a0ee208ef2585e8df82eb4565e5cca62edd441",
+        "sha256": "99a9efd4d2c65201e33c1cec1686fce1c4480d28cdce8658d70ef9fe37bca1f6"
+      }
     },
     {
       "path": "docs/operations/cloud/gcp/terraform-bootstrap/README.md",
@@ -65327,7 +65440,7 @@
       "before": null,
       "after": [
         "100644",
-        "6359e30e949642940fbbaedbfd551a870bffae7a"
+        "8a9a9b9ab51ccab11b17a25987b3db9fd58062e7"
       ],
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "Infrastructure212 source commit guard-documentation accompaniment",
@@ -65696,6 +65809,18 @@
             "6359e30e949642940fbbaedbfd551a870bffae7a"
           ],
           "packet": "Runtime905 pair integration"
+        },
+        {
+          "commit": "pending_reviewed_integration",
+          "before": [
+            "100644",
+            "6359e30e949642940fbbaedbfd551a870bffae7a"
+          ],
+          "after": [
+            "100644",
+            "8a9a9b9ab51ccab11b17a25987b3db9fd58062e7"
+          ],
+          "packet": "Forty source removals and sixteen public retentions integration"
         }
       ],
       "prior_execution_provenance": [
@@ -73855,7 +73980,7 @@
       ],
       "after": [
         "100644",
-        "3353eb73053878744faee43e0545ffebf1cd9cd4"
+        "26eb08c6b05b11ead4e11b3cc236a6099825abd7"
       ],
       "action": "modify",
       "implementation_commit": "1f438d059a37442c85059992c503740aa1bf088e",
@@ -73887,6 +74012,18 @@
             "3353eb73053878744faee43e0545ffebf1cd9cd4"
           ],
           "packet": "BUILDER_FAMILY_APPLIED.json"
+        },
+        {
+          "commit": "9d55e3612a3e9fcc5046ce716034cd8816914c29",
+          "before": [
+            "100644",
+            "3353eb73053878744faee43e0545ffebf1cd9cd4"
+          ],
+          "after": [
+            "100644",
+            "26eb08c6b05b11ead4e11b3cc236a6099825abd7"
+          ],
+          "packet": "RESILIENCE_THREE_APPLIED.json"
         }
       ]
     },
@@ -82186,7 +82323,7 @@
       ],
       "after": [
         "100644",
-        "12d79ffeab3fc090c1746c6ad7048a1d24d19f09"
+        "e701ac25f48cfdaf2c442f5536bb2afff6d9a0c2"
       ],
       "action": "modify",
       "implementation_commit": "ba90cf9dc1ca7388610444da604fb76491f17149",
@@ -82338,6 +82475,30 @@
             "12d79ffeab3fc090c1746c6ad7048a1d24d19f09"
           ],
           "packet": "HISTORICAL_FIVE_APPLIED.json"
+        },
+        {
+          "commit": "48d6993e20bd9bef0d81d4a08d8d8a64026671a8",
+          "before": [
+            "100644",
+            "12d79ffeab3fc090c1746c6ad7048a1d24d19f09"
+          ],
+          "after": [
+            "100644",
+            "6d57d31d18145345add634c35189c6bdcbea3349"
+          ],
+          "packet": "RUNTIME_OPERATOR_NINE_APPLIED.json"
+        },
+        {
+          "commit": "849b93527a12394b58253898e53f8d26a01eb206",
+          "before": [
+            "100644",
+            "6d57d31d18145345add634c35189c6bdcbea3349"
+          ],
+          "after": [
+            "100644",
+            "e701ac25f48cfdaf2c442f5536bb2afff6d9a0c2"
+          ],
+          "packet": "DOC49_FINAL_SEVEN_APPLIED.json"
         }
       ]
     },
@@ -84204,7 +84365,7 @@
       ],
       "after": [
         "100644",
-        "d75e915e2a98d4f31840751dd2a8fffa886d863b"
+        "631c9977cba7ac23f49c7033ad6378e6562865da"
       ],
       "action": "modify",
       "implementation_commit": "9d98857c60448cd1af48508e2377e6bc3649b75b",
@@ -84272,6 +84433,42 @@
             "d75e915e2a98d4f31840751dd2a8fffa886d863b"
           ],
           "packet": "CODEX_OLLAMA_HISTORICAL_THREE_APPLIED.json"
+        },
+        {
+          "commit": "af5a909318c9609a26e7d59e43dffcdeb75d0a72",
+          "before": [
+            "100644",
+            "d75e915e2a98d4f31840751dd2a8fffa886d863b"
+          ],
+          "after": [
+            "100644",
+            "bf010a6cd0893180bcd79c161796f791a6bc9eba"
+          ],
+          "packet": "PROVIDER_CONVERSATION_THIRTEEN_APPLIED.json"
+        },
+        {
+          "commit": "f74bdef05ba4eb0d198ba243c020823b55b1d9b0",
+          "before": [
+            "100644",
+            "bf010a6cd0893180bcd79c161796f791a6bc9eba"
+          ],
+          "after": [
+            "100644",
+            "bf083a6583e64850bf4094b77b885bdca16517f4"
+          ],
+          "packet": "EARLY_RUNTIME_EIGHT_APPLIED.json"
+        },
+        {
+          "commit": "849b93527a12394b58253898e53f8d26a01eb206",
+          "before": [
+            "100644",
+            "bf083a6583e64850bf4094b77b885bdca16517f4"
+          ],
+          "after": [
+            "100644",
+            "631c9977cba7ac23f49c7033ad6378e6562865da"
+          ],
+          "packet": "DOC49_FINAL_SEVEN_APPLIED.json"
         }
       ]
     },
@@ -91707,6 +91904,1329 @@
         "blob": "2d4ae47c3ec0528efb16935f95b48db1fddc0af3",
         "sha256": "94ba30ebfe6a52c0fb0442bf3d912ff2f17a0b52179b4dcca2b1a0aef3c06ca0"
       }
+    },
+    {
+      "path": "demos/v0.87.1/claude_chatgpt_multi_agent_discussion_demo.md",
+      "before": [
+        "100644",
+        "0ebbf4fc2ffd56fda674ad7f5f99067a4894b025"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "af5a909318c9609a26e7d59e43dffcdeb75d0a72",
+      "approval_reference": "PROVIDER_CONVERSATION_THIRTEEN_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "af5a909318c9609a26e7d59e43dffcdeb75d0a72",
+          "before": [
+            "100644",
+            "0ebbf4fc2ffd56fda674ad7f5f99067a4894b025"
+          ],
+          "after": null,
+          "packet": "PROVIDER_CONVERSATION_THIRTEEN_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PROVIDER_CONVERSATION_THIRTEEN_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/provider-conversation-thirteen-docs/prepared/current-and-original-preimages.tar",
+        "archive_sha256": "76aaf8f6735a8ddc85e24c9d88c3f215047cfa338192a09e3e357ac951b0f58b",
+        "member": "current/demos/v0.87.1/claude_chatgpt_multi_agent_discussion_demo.md",
+        "mode": "100644",
+        "blob": "0ebbf4fc2ffd56fda674ad7f5f99067a4894b025",
+        "sha256": "47c3b7e8ae2643365eee64a1220c1acbc700ffb7ad6a5d71d8e024015eca8771"
+      }
+    },
+    {
+      "path": "demos/v0.87.1/real_chatgpt_claude_multi_agent_discussion_demo.md",
+      "before": [
+        "100644",
+        "76a68959d96e570d55109c578f5322e25a1994bc"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "af5a909318c9609a26e7d59e43dffcdeb75d0a72",
+      "approval_reference": "PROVIDER_CONVERSATION_THIRTEEN_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "af5a909318c9609a26e7d59e43dffcdeb75d0a72",
+          "before": [
+            "100644",
+            "76a68959d96e570d55109c578f5322e25a1994bc"
+          ],
+          "after": null,
+          "packet": "PROVIDER_CONVERSATION_THIRTEEN_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PROVIDER_CONVERSATION_THIRTEEN_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/provider-conversation-thirteen-docs/prepared/current-and-original-preimages.tar",
+        "archive_sha256": "76aaf8f6735a8ddc85e24c9d88c3f215047cfa338192a09e3e357ac951b0f58b",
+        "member": "current/demos/v0.87.1/real_chatgpt_claude_multi_agent_discussion_demo.md",
+        "mode": "100644",
+        "blob": "76a68959d96e570d55109c578f5322e25a1994bc",
+        "sha256": "b659d31ccd964f8b3adad16e4c0e8d4d22b57788b2f8968ef30b8099e4ed1668"
+      }
+    },
+    {
+      "path": "demos/v0.88/real_chatgpt_claude_multi_agent_discussion_demo.md",
+      "before": [
+        "100644",
+        "e95cbd3459ade84d5fffea574a997944b26703c8"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "af5a909318c9609a26e7d59e43dffcdeb75d0a72",
+      "approval_reference": "PROVIDER_CONVERSATION_THIRTEEN_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "af5a909318c9609a26e7d59e43dffcdeb75d0a72",
+          "before": [
+            "100644",
+            "e95cbd3459ade84d5fffea574a997944b26703c8"
+          ],
+          "after": null,
+          "packet": "PROVIDER_CONVERSATION_THIRTEEN_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PROVIDER_CONVERSATION_THIRTEEN_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/provider-conversation-thirteen-docs/prepared/current-and-original-preimages.tar",
+        "archive_sha256": "76aaf8f6735a8ddc85e24c9d88c3f215047cfa338192a09e3e357ac951b0f58b",
+        "member": "current/demos/v0.88/real_chatgpt_claude_multi_agent_discussion_demo.md",
+        "mode": "100644",
+        "blob": "e95cbd3459ade84d5fffea574a997944b26703c8",
+        "sha256": "e0ba848e777f926911264f73ecd879e4577175227ed5a97744e354aad7be1174"
+      }
+    },
+    {
+      "path": "demos/v0.89.1/deep_agents_comparative_wave_follow_on_demo.md",
+      "before": [
+        "100644",
+        "7c8866a66e483ec6e38852f3353be9cbe5a3d5d3"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "af5a909318c9609a26e7d59e43dffcdeb75d0a72",
+      "approval_reference": "PROVIDER_CONVERSATION_THIRTEEN_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "af5a909318c9609a26e7d59e43dffcdeb75d0a72",
+          "before": [
+            "100644",
+            "7c8866a66e483ec6e38852f3353be9cbe5a3d5d3"
+          ],
+          "after": null,
+          "packet": "PROVIDER_CONVERSATION_THIRTEEN_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PROVIDER_CONVERSATION_THIRTEEN_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/provider-conversation-thirteen-docs/prepared/current-and-original-preimages.tar",
+        "archive_sha256": "76aaf8f6735a8ddc85e24c9d88c3f215047cfa338192a09e3e357ac951b0f58b",
+        "member": "current/demos/v0.89.1/deep_agents_comparative_wave_follow_on_demo.md",
+        "mode": "100644",
+        "blob": "7c8866a66e483ec6e38852f3353be9cbe5a3d5d3",
+        "sha256": "39596878859f74858e71c997c879597dc5893e66c548025c2bed586906828f97"
+      }
+    },
+    {
+      "path": "demos/v0.89.1/gemini_provider_harmony_roundtable_demo.md",
+      "before": [
+        "100644",
+        "2d59ecd1840fa89f9a2f752d594a571a903158ca"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "af5a909318c9609a26e7d59e43dffcdeb75d0a72",
+      "approval_reference": "PROVIDER_CONVERSATION_THIRTEEN_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "af5a909318c9609a26e7d59e43dffcdeb75d0a72",
+          "before": [
+            "100644",
+            "2d59ecd1840fa89f9a2f752d594a571a903158ca"
+          ],
+          "after": null,
+          "packet": "PROVIDER_CONVERSATION_THIRTEEN_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PROVIDER_CONVERSATION_THIRTEEN_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/provider-conversation-thirteen-docs/prepared/current-and-original-preimages.tar",
+        "archive_sha256": "76aaf8f6735a8ddc85e24c9d88c3f215047cfa338192a09e3e357ac951b0f58b",
+        "member": "current/demos/v0.89.1/gemini_provider_harmony_roundtable_demo.md",
+        "mode": "100644",
+        "blob": "2d59ecd1840fa89f9a2f752d594a571a903158ca",
+        "sha256": "a3c8d0ab0ca33879beeabd9fd1e0464e19d91079a65292aac1500fc834d9be78"
+      }
+    },
+    {
+      "path": "demos/v0.89/deep_agents_comparative_wave_demo.md",
+      "before": [
+        "100644",
+        "0d25dc10b6970f193ca8bba66757060ebdce8599"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "af5a909318c9609a26e7d59e43dffcdeb75d0a72",
+      "approval_reference": "PROVIDER_CONVERSATION_THIRTEEN_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "af5a909318c9609a26e7d59e43dffcdeb75d0a72",
+          "before": [
+            "100644",
+            "0d25dc10b6970f193ca8bba66757060ebdce8599"
+          ],
+          "after": null,
+          "packet": "PROVIDER_CONVERSATION_THIRTEEN_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PROVIDER_CONVERSATION_THIRTEEN_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/provider-conversation-thirteen-docs/prepared/current-and-original-preimages.tar",
+        "archive_sha256": "76aaf8f6735a8ddc85e24c9d88c3f215047cfa338192a09e3e357ac951b0f58b",
+        "member": "current/demos/v0.89/deep_agents_comparative_wave_demo.md",
+        "mode": "100644",
+        "blob": "0d25dc10b6970f193ca8bba66757060ebdce8599",
+        "sha256": "965dd2085ecb30f83c97a2f283ecd0649d1152eeffcbefaedd223424a7d717db"
+      }
+    },
+    {
+      "path": "demos/v0.89/gemini_in_the_loop_demo.md",
+      "before": [
+        "100644",
+        "ba2cf6d42d861d910b5861437ff1e86a11b20b1d"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "af5a909318c9609a26e7d59e43dffcdeb75d0a72",
+      "approval_reference": "PROVIDER_CONVERSATION_THIRTEEN_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "af5a909318c9609a26e7d59e43dffcdeb75d0a72",
+          "before": [
+            "100644",
+            "ba2cf6d42d861d910b5861437ff1e86a11b20b1d"
+          ],
+          "after": null,
+          "packet": "PROVIDER_CONVERSATION_THIRTEEN_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PROVIDER_CONVERSATION_THIRTEEN_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/provider-conversation-thirteen-docs/prepared/current-and-original-preimages.tar",
+        "archive_sha256": "76aaf8f6735a8ddc85e24c9d88c3f215047cfa338192a09e3e357ac951b0f58b",
+        "member": "current/demos/v0.89/gemini_in_the_loop_demo.md",
+        "mode": "100644",
+        "blob": "ba2cf6d42d861d910b5861437ff1e86a11b20b1d",
+        "sha256": "d49dac785220b8bfa9f6e26e62dc38228faa976d078822d1db8a1e103cb79da2"
+      }
+    },
+    {
+      "path": "demos/v0.89/gemini_provider_harmony_and_economics_demo.md",
+      "before": [
+        "100644",
+        "250234571194535fce8ad63fc32c5b43f3abb157"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "af5a909318c9609a26e7d59e43dffcdeb75d0a72",
+      "approval_reference": "PROVIDER_CONVERSATION_THIRTEEN_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "af5a909318c9609a26e7d59e43dffcdeb75d0a72",
+          "before": [
+            "100644",
+            "250234571194535fce8ad63fc32c5b43f3abb157"
+          ],
+          "after": null,
+          "packet": "PROVIDER_CONVERSATION_THIRTEEN_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PROVIDER_CONVERSATION_THIRTEEN_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/provider-conversation-thirteen-docs/prepared/current-and-original-preimages.tar",
+        "archive_sha256": "76aaf8f6735a8ddc85e24c9d88c3f215047cfa338192a09e3e357ac951b0f58b",
+        "member": "current/demos/v0.89/gemini_provider_harmony_and_economics_demo.md",
+        "mode": "100644",
+        "blob": "250234571194535fce8ad63fc32c5b43f3abb157",
+        "sha256": "559fd931d38d6f9fc5242d5d98b913d5f81571295c29930955ced09137661c65"
+      }
+    },
+    {
+      "path": "demos/v0.91/chatgpt_gemini_claude_review_panel_demo.md",
+      "before": [
+        "100644",
+        "26b662d2941e6776dd6c0d80269323f5ba0d7812"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "af5a909318c9609a26e7d59e43dffcdeb75d0a72",
+      "approval_reference": "PROVIDER_CONVERSATION_THIRTEEN_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "af5a909318c9609a26e7d59e43dffcdeb75d0a72",
+          "before": [
+            "100644",
+            "26b662d2941e6776dd6c0d80269323f5ba0d7812"
+          ],
+          "after": null,
+          "packet": "PROVIDER_CONVERSATION_THIRTEEN_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PROVIDER_CONVERSATION_THIRTEEN_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/provider-conversation-thirteen-docs/prepared/current-and-original-preimages.tar",
+        "archive_sha256": "76aaf8f6735a8ddc85e24c9d88c3f215047cfa338192a09e3e357ac951b0f58b",
+        "member": "current/demos/v0.91/chatgpt_gemini_claude_review_panel_demo.md",
+        "mode": "100644",
+        "blob": "26b662d2941e6776dd6c0d80269323f5ba0d7812",
+        "sha256": "f26c5ac9b049594885226afa439a2325977e1e4bcb0b2dc9065d32f7f555f6f2"
+      }
+    },
+    {
+      "path": "demos/v0.91/chatgpt_gemini_claude_triad_conversation_demo.md",
+      "before": [
+        "100644",
+        "00eb4c522daeffff32732e9d587d343b908e529b"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "af5a909318c9609a26e7d59e43dffcdeb75d0a72",
+      "approval_reference": "PROVIDER_CONVERSATION_THIRTEEN_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "af5a909318c9609a26e7d59e43dffcdeb75d0a72",
+          "before": [
+            "100644",
+            "00eb4c522daeffff32732e9d587d343b908e529b"
+          ],
+          "after": null,
+          "packet": "PROVIDER_CONVERSATION_THIRTEEN_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PROVIDER_CONVERSATION_THIRTEEN_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/provider-conversation-thirteen-docs/prepared/current-and-original-preimages.tar",
+        "archive_sha256": "76aaf8f6735a8ddc85e24c9d88c3f215047cfa338192a09e3e357ac951b0f58b",
+        "member": "current/demos/v0.91/chatgpt_gemini_claude_triad_conversation_demo.md",
+        "mode": "100644",
+        "blob": "00eb4c522daeffff32732e9d587d343b908e529b",
+        "sha256": "92336d72590b77f17e8d9e015ef1c7860a4f17be4393422c5d630bc893a43ae3"
+      }
+    },
+    {
+      "path": "demos/v0.91/chatgpt_gemini_direct_conversation_demo.md",
+      "before": [
+        "100644",
+        "320d33b725c1a975c6c7428d8ce4844922508989"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "af5a909318c9609a26e7d59e43dffcdeb75d0a72",
+      "approval_reference": "PROVIDER_CONVERSATION_THIRTEEN_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "af5a909318c9609a26e7d59e43dffcdeb75d0a72",
+          "before": [
+            "100644",
+            "320d33b725c1a975c6c7428d8ce4844922508989"
+          ],
+          "after": null,
+          "packet": "PROVIDER_CONVERSATION_THIRTEEN_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PROVIDER_CONVERSATION_THIRTEEN_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/provider-conversation-thirteen-docs/prepared/current-and-original-preimages.tar",
+        "archive_sha256": "76aaf8f6735a8ddc85e24c9d88c3f215047cfa338192a09e3e357ac951b0f58b",
+        "member": "current/demos/v0.91/chatgpt_gemini_direct_conversation_demo.md",
+        "mode": "100644",
+        "blob": "320d33b725c1a975c6c7428d8ce4844922508989",
+        "sha256": "7985828f580c134e350e1626643a06795a2f33352d99dbd2986a46db3c426f8b"
+      }
+    },
+    {
+      "path": "demos/v0.91/chatgpt_gemini_task_handoff_demo.md",
+      "before": [
+        "100644",
+        "8a17deb8d330e32d1f51d5411010b1f8f83eb1ad"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "af5a909318c9609a26e7d59e43dffcdeb75d0a72",
+      "approval_reference": "PROVIDER_CONVERSATION_THIRTEEN_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "af5a909318c9609a26e7d59e43dffcdeb75d0a72",
+          "before": [
+            "100644",
+            "8a17deb8d330e32d1f51d5411010b1f8f83eb1ad"
+          ],
+          "after": null,
+          "packet": "PROVIDER_CONVERSATION_THIRTEEN_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PROVIDER_CONVERSATION_THIRTEEN_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/provider-conversation-thirteen-docs/prepared/current-and-original-preimages.tar",
+        "archive_sha256": "76aaf8f6735a8ddc85e24c9d88c3f215047cfa338192a09e3e357ac951b0f58b",
+        "member": "current/demos/v0.91/chatgpt_gemini_task_handoff_demo.md",
+        "mode": "100644",
+        "blob": "8a17deb8d330e32d1f51d5411010b1f8f83eb1ad",
+        "sha256": "7c7a8a12064d7a766b5fdb2958728bed8bb825990184442bba12bf6a60d4a9c9"
+      }
+    },
+    {
+      "path": "demos/v0.91/cognitive_being_flagship_demo.md",
+      "before": [
+        "100644",
+        "43a5118dd0781982651b0d4c3ec95ccde7be2b55"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "af5a909318c9609a26e7d59e43dffcdeb75d0a72",
+      "approval_reference": "PROVIDER_CONVERSATION_THIRTEEN_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "af5a909318c9609a26e7d59e43dffcdeb75d0a72",
+          "before": [
+            "100644",
+            "43a5118dd0781982651b0d4c3ec95ccde7be2b55"
+          ],
+          "after": null,
+          "packet": "PROVIDER_CONVERSATION_THIRTEEN_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "PROVIDER_CONVERSATION_THIRTEEN_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/provider-conversation-thirteen-docs/prepared/current-and-original-preimages.tar",
+        "archive_sha256": "76aaf8f6735a8ddc85e24c9d88c3f215047cfa338192a09e3e357ac951b0f58b",
+        "member": "current/demos/v0.91/cognitive_being_flagship_demo.md",
+        "mode": "100644",
+        "blob": "43a5118dd0781982651b0d4c3ec95ccde7be2b55",
+        "sha256": "9f7bd7de0a9843696766e623603e616831c0674e18addfe21b77d242180efe6e"
+      }
+    },
+    {
+      "path": "README.md",
+      "before": [
+        "100644",
+        "a978de3102c01e928f1e24b35c065677b4db5232"
+      ],
+      "after": [
+        "100644",
+        "93ea3118101bf9b8ddf5fc3fc706d9adf253aeaf"
+      ],
+      "action": "modify",
+      "implementation_commit": "af5a909318c9609a26e7d59e43dffcdeb75d0a72",
+      "approval_reference": "PROVIDER_CONVERSATION_THIRTEEN_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "af5a909318c9609a26e7d59e43dffcdeb75d0a72",
+          "before": [
+            "100644",
+            "a978de3102c01e928f1e24b35c065677b4db5232"
+          ],
+          "after": [
+            "100644",
+            "93ea3118101bf9b8ddf5fc3fc706d9adf253aeaf"
+          ],
+          "packet": "PROVIDER_CONVERSATION_THIRTEEN_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/adr/0017-secure-local-agent-comms-and-a2a-boundary.md",
+      "before": [
+        "100644",
+        "2b842d46ce9df34878c178b143e8d9139f73d63b"
+      ],
+      "after": [
+        "100644",
+        "6a9caea1e46dacdbca30be9ff76014f796693aa7"
+      ],
+      "action": "modify",
+      "implementation_commit": "af5a909318c9609a26e7d59e43dffcdeb75d0a72",
+      "approval_reference": "PROVIDER_CONVERSATION_THIRTEEN_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "af5a909318c9609a26e7d59e43dffcdeb75d0a72",
+          "before": [
+            "100644",
+            "2b842d46ce9df34878c178b143e8d9139f73d63b"
+          ],
+          "after": [
+            "100644",
+            "6a9caea1e46dacdbca30be9ff76014f796693aa7"
+          ],
+          "packet": "PROVIDER_CONVERSATION_THIRTEEN_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/explainers/ACIP.md",
+      "before": [
+        "100644",
+        "528ba78d7608c1f703d2470c7c0f313421bba86d"
+      ],
+      "after": [
+        "100644",
+        "487cfa0291b7cc4366476e76560bfd62f6c94974"
+      ],
+      "action": "modify",
+      "implementation_commit": "af5a909318c9609a26e7d59e43dffcdeb75d0a72",
+      "approval_reference": "PROVIDER_CONVERSATION_THIRTEEN_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "af5a909318c9609a26e7d59e43dffcdeb75d0a72",
+          "before": [
+            "100644",
+            "528ba78d7608c1f703d2470c7c0f313421bba86d"
+          ],
+          "after": [
+            "100644",
+            "487cfa0291b7cc4366476e76560bfd62f6c94974"
+          ],
+          "packet": "PROVIDER_CONVERSATION_THIRTEEN_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/planning/NEXT_MILESTONE_DEMO_CANDIDATES.md",
+      "before": [
+        "100644",
+        "c30382bc9ab728f5c652d450d20edbea43330289"
+      ],
+      "after": [
+        "100644",
+        "4c23490c017c7554d40780682fcdec04fb587d8a"
+      ],
+      "action": "modify",
+      "implementation_commit": "af5a909318c9609a26e7d59e43dffcdeb75d0a72",
+      "approval_reference": "PROVIDER_CONVERSATION_THIRTEEN_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "af5a909318c9609a26e7d59e43dffcdeb75d0a72",
+          "before": [
+            "100644",
+            "c30382bc9ab728f5c652d450d20edbea43330289"
+          ],
+          "after": [
+            "100644",
+            "4c23490c017c7554d40780682fcdec04fb587d8a"
+          ],
+          "packet": "PROVIDER_CONVERSATION_THIRTEEN_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/planning/NEXT_MILESTONE_POSITIONING_CANDIDATES.md",
+      "before": [
+        "100644",
+        "0f09d1fc8f8c3f20a528223a85ea59b3216c70e6"
+      ],
+      "after": [
+        "100644",
+        "3dc9198a77c24a85d3efb6528c528c234ee7e569"
+      ],
+      "action": "modify",
+      "implementation_commit": "af5a909318c9609a26e7d59e43dffcdeb75d0a72",
+      "approval_reference": "PROVIDER_CONVERSATION_THIRTEEN_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "af5a909318c9609a26e7d59e43dffcdeb75d0a72",
+          "before": [
+            "100644",
+            "0f09d1fc8f8c3f20a528223a85ea59b3216c70e6"
+          ],
+          "after": [
+            "100644",
+            "3dc9198a77c24a85d3efb6528c528c234ee7e569"
+          ],
+          "packet": "PROVIDER_CONVERSATION_THIRTEEN_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "demos/aee-recovery/README.md",
+      "before": [
+        "100644",
+        "d5ce6fec4dee0455787471ebc0b476d3235ec843"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "f74bdef05ba4eb0d198ba243c020823b55b1d9b0",
+      "approval_reference": "EARLY_RUNTIME_EIGHT_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "f74bdef05ba4eb0d198ba243c020823b55b1d9b0",
+          "before": [
+            "100644",
+            "d5ce6fec4dee0455787471ebc0b476d3235ec843"
+          ],
+          "after": null,
+          "packet": "EARLY_RUNTIME_EIGHT_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "EARLY_RUNTIME_EIGHT_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/early-runtime-eight-docs/prepared-provider13-composed/current-and-original-preimages.tar",
+        "archive_sha256": "f989c4330e13568ed69d6a28cc23488f6a650ad5c06f000ef32ed1ba9d52b7a1",
+        "member": "current/demos/aee-recovery/README.md",
+        "mode": "100644",
+        "blob": "d5ce6fec4dee0455787471ebc0b476d3235ec843",
+        "sha256": "2764c626bed7d4e33e9106d60997eeadfde1bb01593296f6996456806fcf045c"
+      }
+    },
+    {
+      "path": "demos/v0.85/affect_engine_demo.md",
+      "before": [
+        "100644",
+        "1d778e0a8a7a824d522a5217e9aeb1c5099f59f0"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "f74bdef05ba4eb0d198ba243c020823b55b1d9b0",
+      "approval_reference": "EARLY_RUNTIME_EIGHT_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "f74bdef05ba4eb0d198ba243c020823b55b1d9b0",
+          "before": [
+            "100644",
+            "1d778e0a8a7a824d522a5217e9aeb1c5099f59f0"
+          ],
+          "after": null,
+          "packet": "EARLY_RUNTIME_EIGHT_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "EARLY_RUNTIME_EIGHT_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/early-runtime-eight-docs/prepared-provider13-composed/current-and-original-preimages.tar",
+        "archive_sha256": "f989c4330e13568ed69d6a28cc23488f6a650ad5c06f000ef32ed1ba9d52b7a1",
+        "member": "current/demos/v0.85/affect_engine_demo.md",
+        "mode": "100644",
+        "blob": "1d778e0a8a7a824d522a5217e9aeb1c5099f59f0",
+        "sha256": "2f13b7d5d61973c1599c65d7d7a5a0839ba221a7fb81cbde7aad7b353295a777"
+      }
+    },
+    {
+      "path": "demos/v0.85/affect_godel_vertical_slice_demo.md",
+      "before": [
+        "100644",
+        "8a46470bc35d2669b3659b82be2a50915100b41b"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "f74bdef05ba4eb0d198ba243c020823b55b1d9b0",
+      "approval_reference": "EARLY_RUNTIME_EIGHT_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "f74bdef05ba4eb0d198ba243c020823b55b1d9b0",
+          "before": [
+            "100644",
+            "8a46470bc35d2669b3659b82be2a50915100b41b"
+          ],
+          "after": null,
+          "packet": "EARLY_RUNTIME_EIGHT_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "EARLY_RUNTIME_EIGHT_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/early-runtime-eight-docs/prepared-provider13-composed/current-and-original-preimages.tar",
+        "archive_sha256": "f989c4330e13568ed69d6a28cc23488f6a650ad5c06f000ef32ed1ba9d52b7a1",
+        "member": "current/demos/v0.85/affect_godel_vertical_slice_demo.md",
+        "mode": "100644",
+        "blob": "8a46470bc35d2669b3659b82be2a50915100b41b",
+        "sha256": "f02894cbcb9f49ea5dd130a2ae9eef3a4590d247e140b56f5bdab07f26163da8"
+      }
+    },
+    {
+      "path": "demos/v0.85/cross_workflow_learning_demo.md",
+      "before": [
+        "100644",
+        "4928962959a9185b3c9506a04dcd1357b4b96a21"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "f74bdef05ba4eb0d198ba243c020823b55b1d9b0",
+      "approval_reference": "EARLY_RUNTIME_EIGHT_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "f74bdef05ba4eb0d198ba243c020823b55b1d9b0",
+          "before": [
+            "100644",
+            "4928962959a9185b3c9506a04dcd1357b4b96a21"
+          ],
+          "after": null,
+          "packet": "EARLY_RUNTIME_EIGHT_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "EARLY_RUNTIME_EIGHT_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/early-runtime-eight-docs/prepared-provider13-composed/current-and-original-preimages.tar",
+        "archive_sha256": "f989c4330e13568ed69d6a28cc23488f6a650ad5c06f000ef32ed1ba9d52b7a1",
+        "member": "current/demos/v0.85/cross_workflow_learning_demo.md",
+        "mode": "100644",
+        "blob": "4928962959a9185b3c9506a04dcd1357b4b96a21",
+        "sha256": "87ed3e88a6c76e1fbab4a9d240be996dd65bc3f0daf8d3895c78a02c241ef302"
+      }
+    },
+    {
+      "path": "demos/v0.85/experiment_prioritization_demo.md",
+      "before": [
+        "100644",
+        "c1f00af0727bdd7698ec3205cbbff371ee6ef75c"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "f74bdef05ba4eb0d198ba243c020823b55b1d9b0",
+      "approval_reference": "EARLY_RUNTIME_EIGHT_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "f74bdef05ba4eb0d198ba243c020823b55b1d9b0",
+          "before": [
+            "100644",
+            "c1f00af0727bdd7698ec3205cbbff371ee6ef75c"
+          ],
+          "after": null,
+          "packet": "EARLY_RUNTIME_EIGHT_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "EARLY_RUNTIME_EIGHT_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/early-runtime-eight-docs/prepared-provider13-composed/current-and-original-preimages.tar",
+        "archive_sha256": "f989c4330e13568ed69d6a28cc23488f6a650ad5c06f000ef32ed1ba9d52b7a1",
+        "member": "current/demos/v0.85/experiment_prioritization_demo.md",
+        "mode": "100644",
+        "blob": "c1f00af0727bdd7698ec3205cbbff371ee6ef75c",
+        "sha256": "8ad19611cb465085c30cebc210052d7413fc2b49b748043e9316e0ec441ab279"
+      }
+    },
+    {
+      "path": "demos/v0.85/promotion_eval_loop_demo.md",
+      "before": [
+        "100644",
+        "5188fd1c51cd457ad0fcfcb7253313076d74693b"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "f74bdef05ba4eb0d198ba243c020823b55b1d9b0",
+      "approval_reference": "EARLY_RUNTIME_EIGHT_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "f74bdef05ba4eb0d198ba243c020823b55b1d9b0",
+          "before": [
+            "100644",
+            "5188fd1c51cd457ad0fcfcb7253313076d74693b"
+          ],
+          "after": null,
+          "packet": "EARLY_RUNTIME_EIGHT_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "EARLY_RUNTIME_EIGHT_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/early-runtime-eight-docs/prepared-provider13-composed/current-and-original-preimages.tar",
+        "archive_sha256": "f989c4330e13568ed69d6a28cc23488f6a650ad5c06f000ef32ed1ba9d52b7a1",
+        "member": "current/demos/v0.85/promotion_eval_loop_demo.md",
+        "mode": "100644",
+        "blob": "5188fd1c51cd457ad0fcfcb7253313076d74693b",
+        "sha256": "2b67849b4659dc5ba73b120b1b7c6fbb08febe49cd17dfb0541e8b5613b9ad67"
+      }
+    },
+    {
+      "path": "demos/v0.85/reasoning_graph_affect_demo.md",
+      "before": [
+        "100644",
+        "2ee4e5b54475cbbaa57e593f1b5cffc8bd97bca0"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "f74bdef05ba4eb0d198ba243c020823b55b1d9b0",
+      "approval_reference": "EARLY_RUNTIME_EIGHT_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "f74bdef05ba4eb0d198ba243c020823b55b1d9b0",
+          "before": [
+            "100644",
+            "2ee4e5b54475cbbaa57e593f1b5cffc8bd97bca0"
+          ],
+          "after": null,
+          "packet": "EARLY_RUNTIME_EIGHT_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "EARLY_RUNTIME_EIGHT_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/early-runtime-eight-docs/prepared-provider13-composed/current-and-original-preimages.tar",
+        "archive_sha256": "f989c4330e13568ed69d6a28cc23488f6a650ad5c06f000ef32ed1ba9d52b7a1",
+        "member": "current/demos/v0.85/reasoning_graph_affect_demo.md",
+        "mode": "100644",
+        "blob": "2ee4e5b54475cbbaa57e593f1b5cffc8bd97bca0",
+        "sha256": "332719f98f328e2084d1859b7a113ebfdb56572ace26c68d0ae524d6d740e67f"
+      }
+    },
+    {
+      "path": "demos/v0.85/steering_queue_checkpoint_demo.md",
+      "before": [
+        "100644",
+        "d7afa6e00f447a17d11214da4447d60241432c9d"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "f74bdef05ba4eb0d198ba243c020823b55b1d9b0",
+      "approval_reference": "EARLY_RUNTIME_EIGHT_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "f74bdef05ba4eb0d198ba243c020823b55b1d9b0",
+          "before": [
+            "100644",
+            "d7afa6e00f447a17d11214da4447d60241432c9d"
+          ],
+          "after": null,
+          "packet": "EARLY_RUNTIME_EIGHT_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "EARLY_RUNTIME_EIGHT_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/early-runtime-eight-docs/prepared-provider13-composed/current-and-original-preimages.tar",
+        "archive_sha256": "f989c4330e13568ed69d6a28cc23488f6a650ad5c06f000ef32ed1ba9d52b7a1",
+        "member": "current/demos/v0.85/steering_queue_checkpoint_demo.md",
+        "mode": "100644",
+        "blob": "d7afa6e00f447a17d11214da4447d60241432c9d",
+        "sha256": "868063c42a8c48dc0a1ed92241bd86c60064395af215ddbb55c6b72e4cc2b5c7"
+      }
+    },
+    {
+      "path": "demos/v0.85/v085_demo_program.md",
+      "before": [
+        "100644",
+        "6f4983c4ee0612b8fd2e76f3820e22e473f120e3"
+      ],
+      "after": [
+        "100644",
+        "59d3d16ca4bfdf4b2ce9e66886347199b0491db4"
+      ],
+      "action": "modify",
+      "implementation_commit": "f74bdef05ba4eb0d198ba243c020823b55b1d9b0",
+      "approval_reference": "EARLY_RUNTIME_EIGHT_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "f74bdef05ba4eb0d198ba243c020823b55b1d9b0",
+          "before": [
+            "100644",
+            "6f4983c4ee0612b8fd2e76f3820e22e473f120e3"
+          ],
+          "after": [
+            "100644",
+            "59d3d16ca4bfdf4b2ce9e66886347199b0491db4"
+          ],
+          "packet": "EARLY_RUNTIME_EIGHT_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/providers/provider-profile-hot-loading.md",
+      "before": [
+        "100644",
+        "37aa812beaf0727fa52e9598d77cd22e063f68c0"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "48d6993e20bd9bef0d81d4a08d8d8a64026671a8",
+      "approval_reference": "RUNTIME_OPERATOR_NINE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "48d6993e20bd9bef0d81d4a08d8d8a64026671a8",
+          "before": [
+            "100644",
+            "37aa812beaf0727fa52e9598d77cd22e063f68c0"
+          ],
+          "after": null,
+          "packet": "RUNTIME_OPERATOR_NINE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_OPERATOR_NINE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-operator-nine-docs/prepared/current-and-original-preimages.tar",
+        "archive_sha256": "4b57b27ed71bc4801f57537d4cbf1f63f4f749c15883b27e780c06248a5f56f4",
+        "member": "current/docs/providers/provider-profile-hot-loading.md",
+        "mode": "100644",
+        "blob": "37aa812beaf0727fa52e9598d77cd22e063f68c0",
+        "sha256": "36b358ac8cdbda9b6b848bc4407280d5fcfacaf75b7a668960cbba99712bcf17"
+      }
+    },
+    {
+      "path": "docs/tooling/CALL_CLAUDE_FABLE_5.md",
+      "before": [
+        "100644",
+        "62a1e4a4230ac4f6967bca53b1b877a6dd26ac64"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "48d6993e20bd9bef0d81d4a08d8d8a64026671a8",
+      "approval_reference": "RUNTIME_OPERATOR_NINE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "48d6993e20bd9bef0d81d4a08d8d8a64026671a8",
+          "before": [
+            "100644",
+            "62a1e4a4230ac4f6967bca53b1b877a6dd26ac64"
+          ],
+          "after": null,
+          "packet": "RUNTIME_OPERATOR_NINE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_OPERATOR_NINE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-operator-nine-docs/prepared/current-and-original-preimages.tar",
+        "archive_sha256": "4b57b27ed71bc4801f57537d4cbf1f63f4f749c15883b27e780c06248a5f56f4",
+        "member": "current/docs/tooling/CALL_CLAUDE_FABLE_5.md",
+        "mode": "100644",
+        "blob": "62a1e4a4230ac4f6967bca53b1b877a6dd26ac64",
+        "sha256": "f6fe67d0546cf9e6d6740c27b0fd48a6453e8170ddf1f365bc39b14262df2eb0"
+      }
+    },
+    {
+      "path": "docs/tooling/CODEX_USAGE_WATCHER.md",
+      "before": [
+        "100644",
+        "3a968c0499c4d4098b241c5a835e8b1a477b8fb3"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "48d6993e20bd9bef0d81d4a08d8d8a64026671a8",
+      "approval_reference": "RUNTIME_OPERATOR_NINE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "48d6993e20bd9bef0d81d4a08d8d8a64026671a8",
+          "before": [
+            "100644",
+            "3a968c0499c4d4098b241c5a835e8b1a477b8fb3"
+          ],
+          "after": null,
+          "packet": "RUNTIME_OPERATOR_NINE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_OPERATOR_NINE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-operator-nine-docs/prepared/current-and-original-preimages.tar",
+        "archive_sha256": "4b57b27ed71bc4801f57537d4cbf1f63f4f749c15883b27e780c06248a5f56f4",
+        "member": "current/docs/tooling/CODEX_USAGE_WATCHER.md",
+        "mode": "100644",
+        "blob": "3a968c0499c4d4098b241c5a835e8b1a477b8fb3",
+        "sha256": "0b5556fb436cd7030047050cef62c61c36e84cf2e710e250ad0046c7be191231"
+      }
+    },
+    {
+      "path": "docs/tooling/LOCAL_POLIS_SSM_OPERATIONS.md",
+      "before": [
+        "100644",
+        "fffdbe15325ad8ed8d044b79f885ce13fb5f2690"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "48d6993e20bd9bef0d81d4a08d8d8a64026671a8",
+      "approval_reference": "RUNTIME_OPERATOR_NINE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "48d6993e20bd9bef0d81d4a08d8d8a64026671a8",
+          "before": [
+            "100644",
+            "fffdbe15325ad8ed8d044b79f885ce13fb5f2690"
+          ],
+          "after": null,
+          "packet": "RUNTIME_OPERATOR_NINE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_OPERATOR_NINE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-operator-nine-docs/prepared/current-and-original-preimages.tar",
+        "archive_sha256": "4b57b27ed71bc4801f57537d4cbf1f63f4f749c15883b27e780c06248a5f56f4",
+        "member": "current/docs/tooling/LOCAL_POLIS_SSM_OPERATIONS.md",
+        "mode": "100644",
+        "blob": "fffdbe15325ad8ed8d044b79f885ce13fb5f2690",
+        "sha256": "ffc3b4aa48edbffbe9a83d2f4e7a0f9c8c3cefbbb257fa9f0a9e9906ef702302"
+      }
+    },
+    {
+      "path": "docs/tooling/RUNTIME_AWS_ACIP_SNS.md",
+      "before": [
+        "100644",
+        "9c93ae48cc6144ff27b8905b08cd4292778bc0a6"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "48d6993e20bd9bef0d81d4a08d8d8a64026671a8",
+      "approval_reference": "RUNTIME_OPERATOR_NINE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "48d6993e20bd9bef0d81d4a08d8d8a64026671a8",
+          "before": [
+            "100644",
+            "9c93ae48cc6144ff27b8905b08cd4292778bc0a6"
+          ],
+          "after": null,
+          "packet": "RUNTIME_OPERATOR_NINE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_OPERATOR_NINE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-operator-nine-docs/prepared/current-and-original-preimages.tar",
+        "archive_sha256": "4b57b27ed71bc4801f57537d4cbf1f63f4f749c15883b27e780c06248a5f56f4",
+        "member": "current/docs/tooling/RUNTIME_AWS_ACIP_SNS.md",
+        "mode": "100644",
+        "blob": "9c93ae48cc6144ff27b8905b08cd4292778bc0a6",
+        "sha256": "8074e740fc1a9e2a677c1785de0ca0386bfee598f3f27bac8aa2f03ed8e8642c"
+      }
+    },
+    {
+      "path": "docs/tooling/RUNTIME_AWS_HEARTBEAT.md",
+      "before": [
+        "100644",
+        "a71a1a5b81e6947d6f6cbef1511d704f8e78b7d7"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "48d6993e20bd9bef0d81d4a08d8d8a64026671a8",
+      "approval_reference": "RUNTIME_OPERATOR_NINE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "48d6993e20bd9bef0d81d4a08d8d8a64026671a8",
+          "before": [
+            "100644",
+            "a71a1a5b81e6947d6f6cbef1511d704f8e78b7d7"
+          ],
+          "after": null,
+          "packet": "RUNTIME_OPERATOR_NINE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_OPERATOR_NINE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-operator-nine-docs/prepared/current-and-original-preimages.tar",
+        "archive_sha256": "4b57b27ed71bc4801f57537d4cbf1f63f4f749c15883b27e780c06248a5f56f4",
+        "member": "current/docs/tooling/RUNTIME_AWS_HEARTBEAT.md",
+        "mode": "100644",
+        "blob": "a71a1a5b81e6947d6f6cbef1511d704f8e78b7d7",
+        "sha256": "2cabc0174745e10000cbfd78e884a5613e2807db9970511bcd540039c106434b"
+      }
+    },
+    {
+      "path": "docs/tooling/RUNTIME_AWS_SIGNAL_INTEGRATION.md",
+      "before": [
+        "100644",
+        "23eb2b7d449e0ffe06e9c59bf79883aa2a7c7e3a"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "48d6993e20bd9bef0d81d4a08d8d8a64026671a8",
+      "approval_reference": "RUNTIME_OPERATOR_NINE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "48d6993e20bd9bef0d81d4a08d8d8a64026671a8",
+          "before": [
+            "100644",
+            "23eb2b7d449e0ffe06e9c59bf79883aa2a7c7e3a"
+          ],
+          "after": null,
+          "packet": "RUNTIME_OPERATOR_NINE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_OPERATOR_NINE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-operator-nine-docs/prepared/current-and-original-preimages.tar",
+        "archive_sha256": "4b57b27ed71bc4801f57537d4cbf1f63f4f749c15883b27e780c06248a5f56f4",
+        "member": "current/docs/tooling/RUNTIME_AWS_SIGNAL_INTEGRATION.md",
+        "mode": "100644",
+        "blob": "23eb2b7d449e0ffe06e9c59bf79883aa2a7c7e3a",
+        "sha256": "6977c773fff7eb4123aa1ae06d1f13a7579031ab9ffd66adaf0c2e4c336f32e3"
+      }
+    },
+    {
+      "path": "docs/tooling/RUNTIME_CLOUD_CONTROL_CLOUDFRONT.md",
+      "before": [
+        "100644",
+        "6dafddd58c52693009c225c4d3de5b9054560037"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "48d6993e20bd9bef0d81d4a08d8d8a64026671a8",
+      "approval_reference": "RUNTIME_OPERATOR_NINE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "48d6993e20bd9bef0d81d4a08d8d8a64026671a8",
+          "before": [
+            "100644",
+            "6dafddd58c52693009c225c4d3de5b9054560037"
+          ],
+          "after": null,
+          "packet": "RUNTIME_OPERATOR_NINE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_OPERATOR_NINE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-operator-nine-docs/prepared/current-and-original-preimages.tar",
+        "archive_sha256": "4b57b27ed71bc4801f57537d4cbf1f63f4f749c15883b27e780c06248a5f56f4",
+        "member": "current/docs/tooling/RUNTIME_CLOUD_CONTROL_CLOUDFRONT.md",
+        "mode": "100644",
+        "blob": "6dafddd58c52693009c225c4d3de5b9054560037",
+        "sha256": "b59d4242497c7b56262f1031adfdecbe8f0c2d9ef201ce5dcd4dd13996b3326f"
+      }
+    },
+    {
+      "path": "docs/tooling/RUNTIME_POLIS_DURABLE_STORAGE.md",
+      "before": [
+        "100644",
+        "301550fe99c238ebd20102c5154f660bd881df85"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "48d6993e20bd9bef0d81d4a08d8d8a64026671a8",
+      "approval_reference": "RUNTIME_OPERATOR_NINE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "48d6993e20bd9bef0d81d4a08d8d8a64026671a8",
+          "before": [
+            "100644",
+            "301550fe99c238ebd20102c5154f660bd881df85"
+          ],
+          "after": null,
+          "packet": "RUNTIME_OPERATOR_NINE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RUNTIME_OPERATOR_NINE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/runtime-operator-nine-docs/prepared/current-and-original-preimages.tar",
+        "archive_sha256": "4b57b27ed71bc4801f57537d4cbf1f63f4f749c15883b27e780c06248a5f56f4",
+        "member": "current/docs/tooling/RUNTIME_POLIS_DURABLE_STORAGE.md",
+        "mode": "100644",
+        "blob": "301550fe99c238ebd20102c5154f660bd881df85",
+        "sha256": "ad325be8d0337a901e5b6abbbb43c46fdfe3063695fcd2393a5427be0ceb98a4"
+      }
+    },
+    {
+      "path": "docs/tooling/PROVIDER_SETUP.md",
+      "before": [
+        "100644",
+        "939408d098ead225c31d7af50d902ad20fa29f73"
+      ],
+      "after": [
+        "100644",
+        "e9cc9e964ecde41749486f2c76d73efe94ef03c5"
+      ],
+      "action": "modify",
+      "implementation_commit": "48d6993e20bd9bef0d81d4a08d8d8a64026671a8",
+      "approval_reference": "RUNTIME_OPERATOR_NINE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "48d6993e20bd9bef0d81d4a08d8d8a64026671a8",
+          "before": [
+            "100644",
+            "939408d098ead225c31d7af50d902ad20fa29f73"
+          ],
+          "after": [
+            "100644",
+            "e9cc9e964ecde41749486f2c76d73efe94ef03c5"
+          ],
+          "packet": "RUNTIME_OPERATOR_NINE_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "adl-resilience/Cargo.lock",
+      "before": [
+        "100644",
+        "95854d01a5b7438a6eb3764a95dbe8b152778495"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "9d55e3612a3e9fcc5046ce716034cd8816914c29",
+      "approval_reference": "RESILIENCE_THREE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "9d55e3612a3e9fcc5046ce716034cd8816914c29",
+          "before": [
+            "100644",
+            "95854d01a5b7438a6eb3764a95dbe8b152778495"
+          ],
+          "after": null,
+          "packet": "RESILIENCE_THREE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RESILIENCE_THREE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/resilience-three-original-r2-plan/retirement/current-original.tar",
+        "archive_sha256": "51bc9a13656d403abd868caa373fcdf0addbbead10d8992fc7505a2059cd282f",
+        "member": "current/adl-resilience/Cargo.lock",
+        "mode": "100644",
+        "blob": "95854d01a5b7438a6eb3764a95dbe8b152778495",
+        "sha256": "a380f9afeb90232f3fbe8dee2fee0ddea3acb86bfb52743f3374698d822d8d2c"
+      }
+    },
+    {
+      "path": "adl-resilience/Cargo.toml",
+      "before": [
+        "100644",
+        "43dee0bfe7ae17c7008897d5cdfe793aa69b4d85"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "9d55e3612a3e9fcc5046ce716034cd8816914c29",
+      "approval_reference": "RESILIENCE_THREE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "9d55e3612a3e9fcc5046ce716034cd8816914c29",
+          "before": [
+            "100644",
+            "43dee0bfe7ae17c7008897d5cdfe793aa69b4d85"
+          ],
+          "after": null,
+          "packet": "RESILIENCE_THREE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RESILIENCE_THREE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/resilience-three-original-r2-plan/retirement/current-original.tar",
+        "archive_sha256": "51bc9a13656d403abd868caa373fcdf0addbbead10d8992fc7505a2059cd282f",
+        "member": "current/adl-resilience/Cargo.toml",
+        "mode": "100644",
+        "blob": "43dee0bfe7ae17c7008897d5cdfe793aa69b4d85",
+        "sha256": "95de576c2de0bed2b89f48bf8b241a6cfe01d050eff87d447496447133758f7d"
+      }
+    },
+    {
+      "path": "adl-resilience/src/lib.rs",
+      "before": [
+        "100644",
+        "5f200c14c75c8079844bdacac6e6ce182c44a912"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "9d55e3612a3e9fcc5046ce716034cd8816914c29",
+      "approval_reference": "RESILIENCE_THREE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "9d55e3612a3e9fcc5046ce716034cd8816914c29",
+          "before": [
+            "100644",
+            "5f200c14c75c8079844bdacac6e6ce182c44a912"
+          ],
+          "after": null,
+          "packet": "RESILIENCE_THREE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "RESILIENCE_THREE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/resilience-three-original-r2-plan/retirement/current-original.tar",
+        "archive_sha256": "51bc9a13656d403abd868caa373fcdf0addbbead10d8992fc7505a2059cd282f",
+        "member": "current/adl-resilience/src/lib.rs",
+        "mode": "100644",
+        "blob": "5f200c14c75c8079844bdacac6e6ce182c44a912",
+        "sha256": "9c98ac51d7a4a48e9050f7b394b7abda5308be6146cd301e6a44a9c79c1b78a3"
+      }
+    },
+    {
+      "path": "docs/runtime/WELCOME_RECOVERY.md",
+      "before": [
+        "100644",
+        "6eae1138ef7b8a159829c5d605019462d58add09"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "849b93527a12394b58253898e53f8d26a01eb206",
+      "approval_reference": "DOC49_FINAL_SEVEN_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "849b93527a12394b58253898e53f8d26a01eb206",
+          "before": [
+            "100644",
+            "6eae1138ef7b8a159829c5d605019462d58add09"
+          ],
+          "after": null,
+          "packet": "DOC49_FINAL_SEVEN_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "DOC49_FINAL_SEVEN_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/doc49-final-seven/prepared-final30/current-and-original-preimages.tar",
+        "archive_sha256": "8ef7908e210bc2c879e8b66aca112fe6cb2569cd414bdd3506d249c4591107bc",
+        "member": "current/docs/runtime/WELCOME_RECOVERY.md",
+        "mode": "100644",
+        "blob": "6eae1138ef7b8a159829c5d605019462d58add09",
+        "sha256": "ef94ed07af2279c74c81fc024291f8b5a7fc00bbb4e79bd34063f76793787414"
+      }
+    },
+    {
+      "path": "docs/tooling/AWS_SPOT_REMOTE_VALIDATION_WRAPPER_CONTRACT.mmd",
+      "before": [
+        "100644",
+        "ad29faf94a255737a2147c74fe4fa93a727a043e"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "849b93527a12394b58253898e53f8d26a01eb206",
+      "approval_reference": "DOC49_FINAL_SEVEN_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "849b93527a12394b58253898e53f8d26a01eb206",
+          "before": [
+            "100644",
+            "ad29faf94a255737a2147c74fe4fa93a727a043e"
+          ],
+          "after": null,
+          "packet": "DOC49_FINAL_SEVEN_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "DOC49_FINAL_SEVEN_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/doc49-final-seven/prepared-final30/current-and-original-preimages.tar",
+        "archive_sha256": "8ef7908e210bc2c879e8b66aca112fe6cb2569cd414bdd3506d249c4591107bc",
+        "member": "current/docs/tooling/AWS_SPOT_REMOTE_VALIDATION_WRAPPER_CONTRACT.mmd",
+        "mode": "100644",
+        "blob": "ad29faf94a255737a2147c74fe4fa93a727a043e",
+        "sha256": "06517cf7ad6c2e550b88ccf7d1a4fa4e602f697c56548ea2630b59062a5183f3"
+      }
     }
   ],
   "missing_entries": [],
@@ -99053,9 +100573,129 @@
         "docs/tooling/TOOL_SURFACE_REGISTRY.md"
       ],
       "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "PROVIDER_CONVERSATION_THIRTEEN_APPLIED.json",
+      "sha256": "32aa314bb5110614191973c7f2e1d35cec6114d23304befc46e18982488eaa10",
+      "commit": "af5a909318c9609a26e7d59e43dffcdeb75d0a72",
+      "files": 19,
+      "removals": 13,
+      "scope_sha256": "583aec68f778b5918f51d28d2656a42a2f4c98e7290f1156bd34bde6a703413f",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "demos/v0.87.1/claude_chatgpt_multi_agent_discussion_demo.md",
+        "demos/v0.87.1/real_chatgpt_claude_multi_agent_discussion_demo.md",
+        "demos/v0.88/real_chatgpt_claude_multi_agent_discussion_demo.md",
+        "demos/v0.89.1/deep_agents_comparative_wave_follow_on_demo.md",
+        "demos/v0.89.1/gemini_provider_harmony_roundtable_demo.md",
+        "demos/v0.89/deep_agents_comparative_wave_demo.md",
+        "demos/v0.89/gemini_in_the_loop_demo.md",
+        "demos/v0.89/gemini_provider_harmony_and_economics_demo.md",
+        "demos/v0.91/chatgpt_gemini_claude_review_panel_demo.md",
+        "demos/v0.91/chatgpt_gemini_claude_triad_conversation_demo.md",
+        "demos/v0.91/chatgpt_gemini_direct_conversation_demo.md",
+        "demos/v0.91/chatgpt_gemini_task_handoff_demo.md",
+        "demos/v0.91/cognitive_being_flagship_demo.md",
+        "README.md",
+        "demos/README.md",
+        "docs/adr/0017-secure-local-agent-comms-and-a2a-boundary.md",
+        "docs/explainers/ACIP.md",
+        "docs/planning/NEXT_MILESTONE_DEMO_CANDIDATES.md",
+        "docs/planning/NEXT_MILESTONE_POSITIONING_CANDIDATES.md"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "EARLY_RUNTIME_EIGHT_APPLIED.json",
+      "sha256": "f1d042c100828ff12890f25d1a3f276e9b170990c9a52297299a8a697f06cabb",
+      "commit": "f74bdef05ba4eb0d198ba243c020823b55b1d9b0",
+      "files": 10,
+      "removals": 8,
+      "scope_sha256": "44f56182eb7c26c47eeeca074f4503a25d07980a19da42fc61ce6e39b7f871b3",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "demos/aee-recovery/README.md",
+        "demos/v0.85/affect_engine_demo.md",
+        "demos/v0.85/affect_godel_vertical_slice_demo.md",
+        "demos/v0.85/cross_workflow_learning_demo.md",
+        "demos/v0.85/experiment_prioritization_demo.md",
+        "demos/v0.85/promotion_eval_loop_demo.md",
+        "demos/v0.85/reasoning_graph_affect_demo.md",
+        "demos/v0.85/steering_queue_checkpoint_demo.md",
+        "demos/README.md",
+        "demos/v0.85/v085_demo_program.md"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "RUNTIME_OPERATOR_NINE_APPLIED.json",
+      "sha256": "95266c6cc6126775e5c3a9cada531b1257649919a48e81040750355cca111abc",
+      "commit": "48d6993e20bd9bef0d81d4a08d8d8a64026671a8",
+      "files": 11,
+      "removals": 9,
+      "scope_sha256": "13f6c5a0318ef31c90be8719f5e1e6d88f960e41553b75ec3c31c082e57eeda6",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "docs/providers/provider-profile-hot-loading.md",
+        "docs/tooling/CALL_CLAUDE_FABLE_5.md",
+        "docs/tooling/CODEX_USAGE_WATCHER.md",
+        "docs/tooling/LOCAL_POLIS_SSM_OPERATIONS.md",
+        "docs/tooling/RUNTIME_AWS_ACIP_SNS.md",
+        "docs/tooling/RUNTIME_AWS_HEARTBEAT.md",
+        "docs/tooling/RUNTIME_AWS_SIGNAL_INTEGRATION.md",
+        "docs/tooling/RUNTIME_CLOUD_CONTROL_CLOUDFRONT.md",
+        "docs/tooling/RUNTIME_POLIS_DURABLE_STORAGE.md",
+        "docs/tooling/PROVIDER_SETUP.md",
+        "docs/tooling/README.md"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "RESILIENCE_THREE_APPLIED.json",
+      "sha256": "596cc29a645265370a7a70cc2b06273f7e8e45a57792bbacdb299005b6e89581",
+      "commit": "9d55e3612a3e9fcc5046ce716034cd8816914c29",
+      "files": 4,
+      "removals": 3,
+      "scope_sha256": "3d31d4bba1b4d9147e02c11760b959c2023ece2ecdaa59a88ee53b63847546d1",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "adl-resilience/Cargo.lock",
+        "adl-resilience/Cargo.toml",
+        "adl-resilience/src/lib.rs",
+        "tools/groupd_validation/README.md"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "DOC49_FINAL_SEVEN_APPLIED.json",
+      "sha256": "872260372d3316ba67e2252a6a44a3000cfed253c790cdc2d18a7bd5cafef9a1",
+      "commit": "849b93527a12394b58253898e53f8d26a01eb206",
+      "files": 11,
+      "removals": 7,
+      "scope_sha256": "4f934a03706c575643db92db1fb6e56200f00a0e9bbbc07f467977b58b9fc392",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "demos/v0.8/godel_failure_hypothesis_experiment.md",
+        "docs/operations/cloud/aws/observatory/S3_CLOUDFRONT_DEPLOYMENT_RUNBOOK.md",
+        "docs/operations/cloud/aws/runtime-platform/run-disposable-proof.sh",
+        "docs/operations/cloud/gcp/WARM_POLIS_SNAPSHOT_RUNBOOK.md",
+        "docs/operations/cloud/gcp/platform-foundation/readback-disposable-residue.sh",
+        "docs/runtime/WELCOME_RECOVERY.md",
+        "docs/tooling/AWS_SPOT_REMOTE_VALIDATION_WRAPPER_CONTRACT.mmd",
+        "demos/README.md",
+        "docs/operations/cloud/aws/runtime-platform/README.md",
+        "docs/operations/cloud/gcp/platform-foundation/README.md",
+        "docs/tooling/README.md"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
     }
   ],
-  "baseline_deletion_count": 2949,
+  "baseline_deletion_count": 2989,
   "transient_removed_paths": [
     "adl/tools/test_issue872_historical_manifest.py"
   ],
@@ -99068,7 +100708,7 @@
     "adl/tools/test_demo_v0901_quality_gate.sh",
     "adl/tools/test_demo_v0902_review_quality_gate.sh"
   ],
-  "inventory_baseline_deletion_count": 2939,
+  "inventory_baseline_deletion_count": 2979,
   "supplemental_baseline_deletion_count": 7,
   "separately_observed_baseline_deletion_count": 3,
   "separately_observed_retired_paths": [
