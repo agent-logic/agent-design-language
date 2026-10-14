@@ -552,31 +552,6 @@
       "reason": "podcast_static_demo_surface_requires_diff_hygiene_and_demo_smoke"
     },
     {
-      "id": "html_observatory_v0917_runtime_surface",
-      "lane_class": "cli_workflow",
-      "default_surface": "tooling",
-      "owner": "review",
-      "proof_role": "demo_contract",
-      "requirement_ids": [
-        "html_observatory_v0917_runtime_surface"
-      ],
-      "path_selectors": [
-        "adl/tools/test_v0917_html_observatory_integrated_proof.sh",
-        "adl/tools/validate_v0917_html_observatory.py",
-        "adl/tools/validate_v092_browser_trusted_observatory.mjs",
-        "demos/html-observatory/**"
-      ],
-      "path_hints": [
-        "adl/tools/test_v0917_html_observatory_integrated_proof.sh",
-        "adl/tools/validate_v0917_html_observatory.py",
-        "adl/tools/validate_v092_browser_trusted_observatory.mjs",
-        "demos/html-observatory/"
-      ],
-      "command": "bash adl/tools/test_v0917_html_observatory_integrated_proof.sh",
-      "run_command": "bash adl/tools/test_v0917_html_observatory_integrated_proof.sh",
-      "reason": "v0917_html_observatory_surface_requires_integrated_runtime_demo_proof"
-    },
-    {
       "id": "html_observatory_tooling_syntax",
       "lane_class": "cli_workflow",
       "default_surface": "tooling",
@@ -1353,7 +1328,6 @@
         "infra/horust/**",
         "infra/runtime-v3/**",
         "infra/systemd/adl-runtime-kernel.service",
-        "adl/tools/test_v0917_html_observatory_integrated_proof.sh",
         "adl/tools/validate_v0917_html_observatory.py"
       ],
       "path_hints": [
@@ -1362,7 +1336,6 @@
         "infra/horust/**",
         "infra/runtime-v3/**",
         "infra/systemd/adl-runtime-kernel.service",
-        "adl/tools/test_v0917_html_observatory_integrated_proof.sh",
         "adl/tools/validate_v0917_html_observatory.py"
       ],
       "command": "cargo test --manifest-path adl-runtime-kernel/Cargo.toml && cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --all-targets -- -D warnings",

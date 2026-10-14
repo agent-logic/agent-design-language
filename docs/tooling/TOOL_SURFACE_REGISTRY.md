@@ -31,7 +31,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 - `primary`: 7
 - `supported shim`: 0
 - `internal helper`: 385
-- `historical evidence`: 29
+- `historical evidence`: 28
 - `archive candidate`: 0
 - `remove candidate`: 0
 
@@ -370,7 +370,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/test_v0915_openrouter_matrix.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_v0915_remote_gemma_watcher_probe.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_v0916_deepseek_suitability.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_v0917_html_observatory_integrated_proof.sh` | tool surface | historical evidence | Historical Runtime source-tree route retired by #1223; invocation fails before execution. Original assertions are preserved in Git and retirement custody, not qualified as passing. |
 | `adl/tools/test_v092_demo_proof_coverage.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_validate_v0922_runtime_qualification.py` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_validate_v092_runtime_native_receipts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
