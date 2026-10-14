@@ -30,7 +30,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 
 - `primary`: 7
 - `supported shim`: 0
-- `internal helper`: 387
+- `internal helper`: 386
 - `historical evidence`: 29
 - `archive candidate`: 0
 - `remove candidate`: 0
@@ -309,7 +309,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/test_issue_folding_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_issue_splitter_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_issue_watcher_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_medium_article_writer_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_merge_readiness_packet.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_milestone_dashboard.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_module_navigability_report.sh` | tool surface | internal helper | Focused regression or contract test helper. |
