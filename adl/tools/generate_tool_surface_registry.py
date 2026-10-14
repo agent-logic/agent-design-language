@@ -180,6 +180,8 @@ def build_document() -> str:
         if path.name in {"skills", "__pycache__"}:
             continue
         if path.is_dir():
+            if not any(child.is_file() for child in path.rglob("*")):
+                continue
             classification = "internal helper"
             notes = "Directory containing bounded helper assets, scripts, or proof inputs."
         else:

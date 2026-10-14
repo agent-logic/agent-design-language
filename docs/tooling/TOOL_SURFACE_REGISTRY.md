@@ -96,7 +96,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/install_aws_remote_validation_tool.sh` | tool surface | historical evidence | Historical Infrastructure source route retired by #1223; command refuses execution. Original assertions remain in Git and retirement custody; run the reviewed owner route. |
 | `adl/tools/install_csdlc_man_pages.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/install_owner_binaries.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
-| `adl/tools/mcp` | tool surface | internal helper | Directory containing bounded helper assets, scripts, or proof inputs. |
 | `adl/tools/mock_ollama_v0_4.sh` | tool surface | internal helper | Mock helper used for focused testing or proof. |
 | `adl/tools/owner_binary_resolution.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/polis_status_for_ssm.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
@@ -172,6 +171,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/test_five_minute_sprint_console_packet.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_gap_analysis_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_generate_active_command_reference_scan.sh` | tool surface | internal helper | Focused regression or contract test helper. |
+| `adl/tools/test_generate_tool_surface_registry.py` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_generate_tool_surface_registry.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_install_adl_operational_skills.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_issue_folding_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
