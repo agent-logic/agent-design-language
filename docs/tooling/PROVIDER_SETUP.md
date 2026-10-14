@@ -103,11 +103,10 @@ Fable 5 UTS acceptance note:
 - provide credentials with `--key-file "$HOME/keys/claude2.key"` or an already-set `ANTHROPIC_API_KEY`; the script must not print or retain the key value
 - proof for issue #5044 is recorded in `docs/milestones/v0.91.7/review/provider/FABLE5_UTS_ACCEPTANCE_5044.md`
 
-Triad and review-panel credential configuration:
-- the retained `demo_v091_chatgpt_gemini_claude_triad_conversation.sh` and `demo_v091_chatgpt_gemini_claude_review_panel.sh` use exported `OPENAI_API_KEY`, `GEMINI_API_KEY`, and `ANTHROPIC_API_KEY` first
-- otherwise select key files explicitly with `ADL_OPENAI_KEY_FILE`, `ADL_GEMINI_KEY_FILE`, and `ADL_ANTHROPIC_KEY_FILE`; the corresponding `ADL_OPENAI_API_KEY_FILE`, `ADL_GEMINI_API_KEY_FILE`, and `ADL_ANTHROPIC_API_KEY_FILE` aliases are also accepted, with the shorter names taking precedence
-- an optional `ADL_HOSTED_PROVIDER_KEYS_FILE` selects an operator-supplied JSON registry; legacy string paths and v2 `file_env_var` descriptors are supported. There is no implicit benchmark registry or sibling checkout dependency
-- this configuration change does not qualify either live demo or authorize provider calls
+Historical triad and review-panel credential contract (ADL source scripts retired by #1223):
+- the original `demo_v091_chatgpt_gemini_claude_triad_conversation.sh` and `demo_v091_chatgpt_gemini_claude_review_panel.sh` accepted exported `OPENAI_API_KEY`, `GEMINI_API_KEY`, and `ANTHROPIC_API_KEY` first; their current and frozen source bytes remain in #1223 custody
+- the original scripts also accepted explicit `ADL_OPENAI_KEY_FILE`, `ADL_GEMINI_KEY_FILE`, and `ADL_ANTHROPIC_KEY_FILE`, corresponding `ADL_*_API_KEY_FILE` aliases, and an optional `ADL_HOSTED_PROVIDER_KEYS_FILE` registry. These describe historical behavior, not current ADL setup instructions
+- the separate Runtime owner retains successor source at revision `11ce6614603532738e9ceffab093e35d96b262b5`. Source correspondence does not qualify either live demo or authorize provider calls
 
 Historical multi-agent demo note (ADL wrappers retired in #1223; the following describes the preserved original contract, not a current ADL command):
 - `adl/tools/demo_v0871_real_multi_agent_discussion.sh` is the operator-run live-provider companion to the deterministic multi-agent demo

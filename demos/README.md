@@ -74,11 +74,10 @@ If you want the v0.90.2 arXiv-writer field-test packet:
 bash adl/tools/test_demo_v0902_arxiv_writer_field_test.sh
 ```
 
-If you want the bounded multi-agent repo code review demo:
-
-```bash
-bash adl/tools/demo_v089_multi_agent_repo_code_review.sh
-```
+The v0.89 multi-agent repo code review is a historical scenario. Its ADL
+source command was retired by #1223; see
+[`v0.89` demo history](v0.89/multi_agent_repo_code_review_demo.md) and the
+separately qualified CodeFriend/C-SDLC owner routes before attempting a replay.
 
 If you want the stricter v0.90.2 multi-agent repo-review proof packet:
 

@@ -2394,11 +2394,15 @@ It must stop before demo implementation, release-evidence assembly, or unrelated
 
 ### Example Invocation
 
+This historical Gemma example now belongs to the Cognitive-SDLC owner checkout.
+Resolve `repo_root` there before using the relative command; the ADL source
+command was retired by #1223. The example does not authorize a live model run.
+
 ```yaml
 Use $demo-operator at ${CSDLC_SKILL_CONTRACT_ROOT}/demo-operator/SKILL.md with:
 skill_input_schema: demo_operator.v1
 mode: operate_named_demo
-repo_root: <repo-root>
+repo_root: <cognitive-sdlc-owner-root>
 target:
   demo_name: gemma4_issue_clerk
   demo_command: bash adl/tools/demo_v089_gemma4_issue_clerk.sh --dry-run

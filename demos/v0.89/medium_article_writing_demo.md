@@ -1,5 +1,9 @@
 # Medium Article Writing Demo
 
+> Historical v0.89 Runtime scenario. Its ADL source command is retired by
+> #1223. The command below is retained for provenance, not current execution;
+> original tests remain in Git and retirement custody without a new provider run.
+
 Canonical command:
 
 ```bash
