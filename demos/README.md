@@ -452,8 +452,8 @@ executable `ADL_DEMO_ADL_BIN` and never falls back to Cargo. Output is selected 
 Original local-mock Paper Sonata and synthetic expansion assertions passed separately;
 this does not qualify the full v0.88 aggregate, live providers, publication or discovery.
 
-The legacy provider demo shell family was retired in #1223 with its original assertions in Git and custody. Owner source delivery does not establish new live-provider, transcript, musical-performance or archive acceptance. Retained audio rendering requires an explicit existing source episode through `ADL_HEY_JUDE_AUDIO_SOURCE_DIR`; it does not regenerate an episode through a removed ADL command.
+The legacy provider demo shell family was retired in #1223 with its original assertions in Git and custody. Owner source delivery does not establish new live-provider, transcript, musical-performance or archive acceptance. The later Hey Jude explicit-source preflight and the original implicit-source aggregate are preserved in historical custody; their retirement does not qualify media rendering.
 
 ### Historical audio and podcast source guides
 
-The [Hey Jude audio and podcast guides](https://github.com/agent-logic/agent-logic-runtime/tree/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.91.1) are retained in Runtime source. These historical documents do not establish current media, provider, or installed qualification. The ADL audio renderers and their current explicit-source preflight remain separate; the old Hey Jude aggregate test still requires reconciliation with that external-source boundary.
+The [Hey Jude audio and podcast guides](https://github.com/agent-logic/agent-logic-runtime/tree/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.91.1) are retained in Runtime source. These historical documents do not establish current media, provider, or installed qualification. The manual Hey Jude renderer, aggregate test and two validators are retired together, with original assertions and the later explicit-source preflight preserved in custody. The separate podcast renderer and installer-facing audio-policy test remain in ADL; no new media or provider acceptance is claimed.
