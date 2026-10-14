@@ -1,5 +1,3 @@
 # Remaining source retirement holds
 
-Current ledger has zero explicit holds. Original4,134 and separate22 identities remain unchanged; other proposed dispositions remain conditional. Distributed2235/2236 are resolved through exact historical/manual contract transfer, not current Runtime acceptance.
-
-3384 executed actions; 3382 baseline deletions plus two transient helpers.
+Zero explicit holds and zero unresolved original/additional proposals. Original4,134 and separate22 captured identities remain unchanged. 3,406 executed actions: 3,404 execution-baseline deletions plus two transient helpers. Thirteen supplemental and three separately observed baseline paths remain outside both inventories. Historical source retirement does not imply current Runtime or platform acceptance.

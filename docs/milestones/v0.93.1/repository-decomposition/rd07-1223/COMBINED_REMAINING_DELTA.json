@@ -12,7 +12,7 @@
     "preserve_reviewed_consumer_repair": 19
   },
   "additional_current_source_paths": 22,
-  "preservation": "Original 4134 identities and separate 22 captured paths unchanged. Exact executed retirement actions 3384 comprise 3382 baseline deletions and two newly-added-then-retired helpers; both are outside captured inventories and separately authenticated by exact add/remove commits and custody. The baseline count includes twelve supplemental paths and three separately observed governed-room paths outside the immutable inventories. Other proposals remain conditional.",
+  "preservation": "Original4134 identities and separate22 captured paths unchanged. All original and additional dispositions resolved. 3406 executed actions = 3404 execution-baseline deletions + two exact transient helpers. Baseline deletions include thirteen supplemental paths and three separately observed governed-room paths outside the immutable inventories. Builder is absent frozen248f but authenticated at introduction8cfd5af and observed9cfd, not a transient.",
   "review_boundary": "Exact paths and Git identities are pinned. Proposed removals remain conditional; this is not a claim that caller closure or all successor tests are qualified.",
   "known_prerequisites": {
     "codefriend": "Issue102 e14ff1b08b7ef01f838404bca8ecdf47c1318ac1 passed all39suites409Linux tests,0failed0ignored,174.293s; exacthead and clean source before/after. Evidence FastWork c1223/evidence/codefriend/issue102-e14ff1b0-full, transcriptSHA256c7944f7e0403ba485b377868b1bd85e91eeee0ecce3f79920de3e86c813cfa1a. Focused1 and parallel47 diagnostics also passed; prior dc2 redelivery failure did not reproduce and its cause is not claimed fixed. Earlier failures retained. One macOS-only case, actual hosted installed-acquisition CI proof and owner publication remain separate.",
@@ -142845,14 +142845,23 @@
         "mode": "100644",
         "blob": "ec6fe6a3bf00bd9a9170fbb91554b69a9b4de861"
       },
-      "proposed_action": "proposed_remove_with_entire_source_family",
+      "proposed_action": "preserve_approved_removal",
       "original_inventory_member": false,
-      "required_before_execution": [
-        "explicit_additional_path_review",
-        "qualified_successor_or_public_contract_reexport",
-        "all_active_callers_repaired",
-        "scoped_operator_decision"
-      ]
+      "required_before_execution": [],
+      "pre_reviewed_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_source_family",
+        "required_before_execution": [
+          "explicit_additional_path_review",
+          "qualified_successor_or_public_contract_reexport",
+          "all_active_callers_repaired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+        "sha256": "74be3468b23e63ffbc4bced76b50b59e9785b94bf5c917875c7aa2a470af0c47",
+        "implementation_commit": "41429a6d3432445bb922d62358e39f6efbcff632"
+      }
     },
     {
       "path": "adl/src/adl.rs",
@@ -142860,14 +142869,23 @@
         "mode": "100644",
         "blob": "9706646ca99f91a7fadfbc5cbab2df8618fbd9bd"
       },
-      "proposed_action": "proposed_remove_with_entire_source_family",
+      "proposed_action": "preserve_approved_removal",
       "original_inventory_member": false,
-      "required_before_execution": [
-        "explicit_additional_path_review",
-        "qualified_successor_or_public_contract_reexport",
-        "all_active_callers_repaired",
-        "scoped_operator_decision"
-      ]
+      "required_before_execution": [],
+      "pre_reviewed_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_source_family",
+        "required_before_execution": [
+          "explicit_additional_path_review",
+          "qualified_successor_or_public_contract_reexport",
+          "all_active_callers_repaired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+        "sha256": "74be3468b23e63ffbc4bced76b50b59e9785b94bf5c917875c7aa2a470af0c47",
+        "implementation_commit": "41429a6d3432445bb922d62358e39f6efbcff632"
+      }
     },
     {
       "path": "adl/src/cli/commands.rs",
@@ -142875,14 +142893,23 @@
         "mode": "100644",
         "blob": "1c479853faeee3e530166caf8fd33611dbebe933"
       },
-      "proposed_action": "proposed_remove_with_entire_source_family",
+      "proposed_action": "preserve_approved_removal",
       "original_inventory_member": false,
-      "required_before_execution": [
-        "explicit_additional_path_review",
-        "qualified_successor_or_public_contract_reexport",
-        "all_active_callers_repaired",
-        "scoped_operator_decision"
-      ]
+      "required_before_execution": [],
+      "pre_reviewed_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_source_family",
+        "required_before_execution": [
+          "explicit_additional_path_review",
+          "qualified_successor_or_public_contract_reexport",
+          "all_active_callers_repaired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+        "sha256": "74be3468b23e63ffbc4bced76b50b59e9785b94bf5c917875c7aa2a470af0c47",
+        "implementation_commit": "41429a6d3432445bb922d62358e39f6efbcff632"
+      }
     },
     {
       "path": "adl/src/cli/mod.rs",
@@ -142890,14 +142917,23 @@
         "mode": "100644",
         "blob": "0779a488e5cf60cb4e899eb63a0afe986f1cd900"
       },
-      "proposed_action": "proposed_remove_with_entire_source_family",
+      "proposed_action": "preserve_approved_removal",
       "original_inventory_member": false,
-      "required_before_execution": [
-        "explicit_additional_path_review",
-        "qualified_successor_or_public_contract_reexport",
-        "all_active_callers_repaired",
-        "scoped_operator_decision"
-      ]
+      "required_before_execution": [],
+      "pre_reviewed_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_source_family",
+        "required_before_execution": [
+          "explicit_additional_path_review",
+          "qualified_successor_or_public_contract_reexport",
+          "all_active_callers_repaired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+        "sha256": "74be3468b23e63ffbc4bced76b50b59e9785b94bf5c917875c7aa2a470af0c47",
+        "implementation_commit": "41429a6d3432445bb922d62358e39f6efbcff632"
+      }
     },
     {
       "path": "adl/src/cognitive_transition_schema.rs",
@@ -142905,14 +142941,23 @@
         "mode": "100644",
         "blob": "e5cd7c0193562a0f6bc7c3374eaa227bcd1cfadc"
       },
-      "proposed_action": "proposed_remove_with_entire_source_family",
+      "proposed_action": "preserve_approved_removal",
       "original_inventory_member": false,
-      "required_before_execution": [
-        "explicit_additional_path_review",
-        "qualified_successor_or_public_contract_reexport",
-        "all_active_callers_repaired",
-        "scoped_operator_decision"
-      ]
+      "required_before_execution": [],
+      "pre_reviewed_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_source_family",
+        "required_before_execution": [
+          "explicit_additional_path_review",
+          "qualified_successor_or_public_contract_reexport",
+          "all_active_callers_repaired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+        "sha256": "74be3468b23e63ffbc4bced76b50b59e9785b94bf5c917875c7aa2a470af0c47",
+        "implementation_commit": "41429a6d3432445bb922d62358e39f6efbcff632"
+      }
     },
     {
       "path": "adl/src/execution_plan.rs",
@@ -142920,14 +142965,23 @@
         "mode": "100644",
         "blob": "c6966ec77e54f95c8ec71aea326f03a7226cae3d"
       },
-      "proposed_action": "proposed_remove_with_entire_source_family",
+      "proposed_action": "preserve_approved_removal",
       "original_inventory_member": false,
-      "required_before_execution": [
-        "explicit_additional_path_review",
-        "qualified_successor_or_public_contract_reexport",
-        "all_active_callers_repaired",
-        "scoped_operator_decision"
-      ]
+      "required_before_execution": [],
+      "pre_reviewed_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_source_family",
+        "required_before_execution": [
+          "explicit_additional_path_review",
+          "qualified_successor_or_public_contract_reexport",
+          "all_active_callers_repaired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+        "sha256": "74be3468b23e63ffbc4bced76b50b59e9785b94bf5c917875c7aa2a470af0c47",
+        "implementation_commit": "41429a6d3432445bb922d62358e39f6efbcff632"
+      }
     },
     {
       "path": "adl/src/plan.rs",
@@ -142935,14 +142989,23 @@
         "mode": "100644",
         "blob": "1752c07a0833d8f5166b9d21986f971dbbb0a437"
       },
-      "proposed_action": "proposed_remove_with_entire_source_family",
+      "proposed_action": "preserve_approved_removal",
       "original_inventory_member": false,
-      "required_before_execution": [
-        "explicit_additional_path_review",
-        "qualified_successor_or_public_contract_reexport",
-        "all_active_callers_repaired",
-        "scoped_operator_decision"
-      ]
+      "required_before_execution": [],
+      "pre_reviewed_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_source_family",
+        "required_before_execution": [
+          "explicit_additional_path_review",
+          "qualified_successor_or_public_contract_reexport",
+          "all_active_callers_repaired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+        "sha256": "74be3468b23e63ffbc4bced76b50b59e9785b94bf5c917875c7aa2a470af0c47",
+        "implementation_commit": "41429a6d3432445bb922d62358e39f6efbcff632"
+      }
     },
     {
       "path": "adl/src/prompt.rs",
@@ -142950,14 +143013,23 @@
         "mode": "100644",
         "blob": "fc3bfbb42737daa94a321b5548ff8313b3557d1a"
       },
-      "proposed_action": "proposed_remove_with_entire_source_family",
+      "proposed_action": "preserve_approved_removal",
       "original_inventory_member": false,
-      "required_before_execution": [
-        "explicit_additional_path_review",
-        "qualified_successor_or_public_contract_reexport",
-        "all_active_callers_repaired",
-        "scoped_operator_decision"
-      ]
+      "required_before_execution": [],
+      "pre_reviewed_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_source_family",
+        "required_before_execution": [
+          "explicit_additional_path_review",
+          "qualified_successor_or_public_contract_reexport",
+          "all_active_callers_repaired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+        "sha256": "74be3468b23e63ffbc4bced76b50b59e9785b94bf5c917875c7aa2a470af0c47",
+        "implementation_commit": "41429a6d3432445bb922d62358e39f6efbcff632"
+      }
     },
     {
       "path": "adl/src/schema.rs",
@@ -142965,14 +143037,23 @@
         "mode": "100644",
         "blob": "9560d411e56cd0cd76c83f1114a87dc78ece9000"
       },
-      "proposed_action": "proposed_remove_with_entire_source_family",
+      "proposed_action": "preserve_approved_removal",
       "original_inventory_member": false,
-      "required_before_execution": [
-        "explicit_additional_path_review",
-        "qualified_successor_or_public_contract_reexport",
-        "all_active_callers_repaired",
-        "scoped_operator_decision"
-      ]
+      "required_before_execution": [],
+      "pre_reviewed_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_source_family",
+        "required_before_execution": [
+          "explicit_additional_path_review",
+          "qualified_successor_or_public_contract_reexport",
+          "all_active_callers_repaired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+        "sha256": "74be3468b23e63ffbc4bced76b50b59e9785b94bf5c917875c7aa2a470af0c47",
+        "implementation_commit": "41429a6d3432445bb922d62358e39f6efbcff632"
+      }
     },
     {
       "path": "adl/src/trace_schema_v1.rs",
@@ -142980,14 +143061,23 @@
         "mode": "100644",
         "blob": "c7a2219893fa1c2cdfdeb0c627209ed56a904ad9"
       },
-      "proposed_action": "proposed_remove_with_entire_source_family",
+      "proposed_action": "preserve_approved_removal",
       "original_inventory_member": false,
-      "required_before_execution": [
-        "explicit_additional_path_review",
-        "qualified_successor_or_public_contract_reexport",
-        "all_active_callers_repaired",
-        "scoped_operator_decision"
-      ]
+      "required_before_execution": [],
+      "pre_reviewed_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_source_family",
+        "required_before_execution": [
+          "explicit_additional_path_review",
+          "qualified_successor_or_public_contract_reexport",
+          "all_active_callers_repaired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+        "sha256": "74be3468b23e63ffbc4bced76b50b59e9785b94bf5c917875c7aa2a470af0c47",
+        "implementation_commit": "41429a6d3432445bb922d62358e39f6efbcff632"
+      }
     },
     {
       "path": "adl/src/uts.rs",
@@ -142995,14 +143085,23 @@
         "mode": "100644",
         "blob": "1ba571ad6c61302bf53304fae97ec99f3b69caad"
       },
-      "proposed_action": "proposed_remove_with_entire_source_family",
+      "proposed_action": "preserve_approved_removal",
       "original_inventory_member": false,
-      "required_before_execution": [
-        "explicit_additional_path_review",
-        "qualified_successor_or_public_contract_reexport",
-        "all_active_callers_repaired",
-        "scoped_operator_decision"
-      ]
+      "required_before_execution": [],
+      "pre_reviewed_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_source_family",
+        "required_before_execution": [
+          "explicit_additional_path_review",
+          "qualified_successor_or_public_contract_reexport",
+          "all_active_callers_repaired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+        "sha256": "74be3468b23e63ffbc4bced76b50b59e9785b94bf5c917875c7aa2a470af0c47",
+        "implementation_commit": "41429a6d3432445bb922d62358e39f6efbcff632"
+      }
     },
     {
       "path": "adl/src/uts_conformance.rs",
@@ -143010,14 +143109,23 @@
         "mode": "100644",
         "blob": "0cdec168520da692e8183774099e6c5b2e672f51"
       },
-      "proposed_action": "proposed_remove_with_entire_source_family",
+      "proposed_action": "preserve_approved_removal",
       "original_inventory_member": false,
-      "required_before_execution": [
-        "explicit_additional_path_review",
-        "qualified_successor_or_public_contract_reexport",
-        "all_active_callers_repaired",
-        "scoped_operator_decision"
-      ]
+      "required_before_execution": [],
+      "pre_reviewed_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_source_family",
+        "required_before_execution": [
+          "explicit_additional_path_review",
+          "qualified_successor_or_public_contract_reexport",
+          "all_active_callers_repaired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+        "sha256": "74be3468b23e63ffbc4bced76b50b59e9785b94bf5c917875c7aa2a470af0c47",
+        "implementation_commit": "41429a6d3432445bb922d62358e39f6efbcff632"
+      }
     },
     {
       "path": "adl/tests/runtime_contract_candidates.rs",
@@ -143025,14 +143133,23 @@
         "mode": "100644",
         "blob": "1a1d7d232fe915c8c92a9e412657de6adb5cc119"
       },
-      "proposed_action": "proposed_remove_with_entire_source_family",
+      "proposed_action": "preserve_approved_removal",
       "original_inventory_member": false,
-      "required_before_execution": [
-        "explicit_additional_path_review",
-        "qualified_successor_or_public_contract_reexport",
-        "all_active_callers_repaired",
-        "scoped_operator_decision"
-      ]
+      "required_before_execution": [],
+      "pre_reviewed_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_source_family",
+        "required_before_execution": [
+          "explicit_additional_path_review",
+          "qualified_successor_or_public_contract_reexport",
+          "all_active_callers_repaired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+        "sha256": "74be3468b23e63ffbc4bced76b50b59e9785b94bf5c917875c7aa2a470af0c47",
+        "implementation_commit": "41429a6d3432445bb922d62358e39f6efbcff632"
+      }
     },
     {
       "path": "csdlc-v3/src/commands/proof/node.rs",
@@ -143040,14 +143157,23 @@
         "mode": "100644",
         "blob": "47743cbf9a2e848c017522ae1ffb6e30f6034159"
       },
-      "proposed_action": "proposed_remove_with_entire_source_family",
+      "proposed_action": "preserve_approved_removal",
       "original_inventory_member": false,
-      "required_before_execution": [
-        "explicit_additional_path_review",
-        "qualified_successor_or_public_contract_reexport",
-        "all_active_callers_repaired",
-        "scoped_operator_decision"
-      ]
+      "required_before_execution": [],
+      "pre_reviewed_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_source_family",
+        "required_before_execution": [
+          "explicit_additional_path_review",
+          "qualified_successor_or_public_contract_reexport",
+          "all_active_callers_repaired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+        "sha256": "74be3468b23e63ffbc4bced76b50b59e9785b94bf5c917875c7aa2a470af0c47",
+        "implementation_commit": "41429a6d3432445bb922d62358e39f6efbcff632"
+      }
     },
     {
       "path": "csdlc-v3/src/commands/remote/publication_observation.rs",
@@ -143055,14 +143181,23 @@
         "mode": "100644",
         "blob": "2d07111a08a35cae6f4210d7cda72378ab398d9b"
       },
-      "proposed_action": "proposed_remove_with_entire_source_family",
+      "proposed_action": "preserve_approved_removal",
       "original_inventory_member": false,
-      "required_before_execution": [
-        "explicit_additional_path_review",
-        "qualified_successor_or_public_contract_reexport",
-        "all_active_callers_repaired",
-        "scoped_operator_decision"
-      ]
+      "required_before_execution": [],
+      "pre_reviewed_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_source_family",
+        "required_before_execution": [
+          "explicit_additional_path_review",
+          "qualified_successor_or_public_contract_reexport",
+          "all_active_callers_repaired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+        "sha256": "74be3468b23e63ffbc4bced76b50b59e9785b94bf5c917875c7aa2a470af0c47",
+        "implementation_commit": "41429a6d3432445bb922d62358e39f6efbcff632"
+      }
     },
     {
       "path": "csdlc-v3/tests/rd01_1181_census.rs",
@@ -143070,14 +143205,23 @@
         "mode": "100644",
         "blob": "92ec485bc6e964dfae4b648954c9ec0dd918e360"
       },
-      "proposed_action": "proposed_remove_with_entire_source_family",
+      "proposed_action": "preserve_approved_removal",
       "original_inventory_member": false,
-      "required_before_execution": [
-        "explicit_additional_path_review",
-        "qualified_successor_or_public_contract_reexport",
-        "all_active_callers_repaired",
-        "scoped_operator_decision"
-      ]
+      "required_before_execution": [],
+      "pre_reviewed_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_source_family",
+        "required_before_execution": [
+          "explicit_additional_path_review",
+          "qualified_successor_or_public_contract_reexport",
+          "all_active_callers_repaired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+        "sha256": "74be3468b23e63ffbc4bced76b50b59e9785b94bf5c917875c7aa2a470af0c47",
+        "implementation_commit": "41429a6d3432445bb922d62358e39f6efbcff632"
+      }
     },
     {
       "path": "csdlc-v3/tests/rd02_1182_contract.rs",
@@ -143085,14 +143229,23 @@
         "mode": "100644",
         "blob": "95fbbf01e56c4f6c88cfda5281ec25a01ff65ee0"
       },
-      "proposed_action": "proposed_remove_with_entire_source_family",
+      "proposed_action": "preserve_approved_removal",
       "original_inventory_member": false,
-      "required_before_execution": [
-        "explicit_additional_path_review",
-        "qualified_successor_or_public_contract_reexport",
-        "all_active_callers_repaired",
-        "scoped_operator_decision"
-      ]
+      "required_before_execution": [],
+      "pre_reviewed_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_source_family",
+        "required_before_execution": [
+          "explicit_additional_path_review",
+          "qualified_successor_or_public_contract_reexport",
+          "all_active_callers_repaired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+        "sha256": "74be3468b23e63ffbc4bced76b50b59e9785b94bf5c917875c7aa2a470af0c47",
+        "implementation_commit": "41429a6d3432445bb922d62358e39f6efbcff632"
+      }
     },
     {
       "path": "csdlc-v3/tests/rd12_1183_bootstrap.rs",
@@ -143100,14 +143253,23 @@
         "mode": "100644",
         "blob": "8ea387f2a09e051303d23b48fe68c2c9a8751003"
       },
-      "proposed_action": "proposed_remove_with_entire_source_family",
+      "proposed_action": "preserve_approved_removal",
       "original_inventory_member": false,
-      "required_before_execution": [
-        "explicit_additional_path_review",
-        "qualified_successor_or_public_contract_reexport",
-        "all_active_callers_repaired",
-        "scoped_operator_decision"
-      ]
+      "required_before_execution": [],
+      "pre_reviewed_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_source_family",
+        "required_before_execution": [
+          "explicit_additional_path_review",
+          "qualified_successor_or_public_contract_reexport",
+          "all_active_callers_repaired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+        "sha256": "74be3468b23e63ffbc4bced76b50b59e9785b94bf5c917875c7aa2a470af0c47",
+        "implementation_commit": "41429a6d3432445bb922d62358e39f6efbcff632"
+      }
     },
     {
       "path": "csdlc-v3/tests/rd13_1184_mapping.rs",
@@ -143115,14 +143277,23 @@
         "mode": "100644",
         "blob": "aae39a163050d922672e68eca0bb4d644eb6ba72"
       },
-      "proposed_action": "proposed_remove_with_entire_source_family",
+      "proposed_action": "preserve_approved_removal",
       "original_inventory_member": false,
-      "required_before_execution": [
-        "explicit_additional_path_review",
-        "qualified_successor_or_public_contract_reexport",
-        "all_active_callers_repaired",
-        "scoped_operator_decision"
-      ]
+      "required_before_execution": [],
+      "pre_reviewed_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_source_family",
+        "required_before_execution": [
+          "explicit_additional_path_review",
+          "qualified_successor_or_public_contract_reexport",
+          "all_active_callers_repaired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+        "sha256": "74be3468b23e63ffbc4bced76b50b59e9785b94bf5c917875c7aa2a470af0c47",
+        "implementation_commit": "41429a6d3432445bb922d62358e39f6efbcff632"
+      }
     },
     {
       "path": "adl/tools/demo_v0912_quality_gate.sh",
@@ -143130,15 +143301,24 @@
         "mode": "100755",
         "blob": "97d0e90e20a86a4844c7ca72dc8371ca85459624"
       },
-      "proposed_action": "additional_remove_with_legacy_coverage_family",
+      "proposed_action": "preserve_approved_removal",
       "original_inventory_member": false,
-      "required_before_execution": [
-        "explicit_additional_path_review",
-        "scoped_operator_decision",
-        "coherent_private_coverage_and_original_test_disposition",
-        "Repair validation_inventory explicit categories and preserve historical documentation as historical."
-      ],
-      "disposition_evidence": "ADDITIONAL_COVERAGE_CALLER_RETIREMENT.json"
+      "required_before_execution": [],
+      "disposition_evidence": "ADDITIONAL_COVERAGE_CALLER_RETIREMENT.json",
+      "pre_reviewed_execution_classification": {
+        "proposed_action": "additional_remove_with_legacy_coverage_family",
+        "required_before_execution": [
+          "explicit_additional_path_review",
+          "scoped_operator_decision",
+          "coherent_private_coverage_and_original_test_disposition",
+          "Repair validation_inventory explicit categories and preserve historical documentation as historical."
+        ]
+      },
+      "applied_removal": {
+        "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+        "sha256": "74be3468b23e63ffbc4bced76b50b59e9785b94bf5c917875c7aa2a470af0c47",
+        "implementation_commit": "41429a6d3432445bb922d62358e39f6efbcff632"
+      }
     },
     {
       "path": "adl/tools/test_demo_v0912_quality_gate.sh",
@@ -143146,15 +143326,24 @@
         "mode": "100755",
         "blob": "c658a17b93dab0bfbef3a1d22e2e0583e3bb02d5"
       },
-      "proposed_action": "additional_remove_with_legacy_coverage_family",
+      "proposed_action": "preserve_approved_removal",
       "original_inventory_member": false,
-      "required_before_execution": [
-        "explicit_additional_path_review",
-        "scoped_operator_decision",
-        "coherent_private_coverage_and_original_test_disposition",
-        "Repair validation_inventory explicit categories and preserve historical documentation as historical."
-      ],
-      "disposition_evidence": "ADDITIONAL_COVERAGE_CALLER_RETIREMENT.json"
+      "required_before_execution": [],
+      "disposition_evidence": "ADDITIONAL_COVERAGE_CALLER_RETIREMENT.json",
+      "pre_reviewed_execution_classification": {
+        "proposed_action": "additional_remove_with_legacy_coverage_family",
+        "required_before_execution": [
+          "explicit_additional_path_review",
+          "scoped_operator_decision",
+          "coherent_private_coverage_and_original_test_disposition",
+          "Repair validation_inventory explicit categories and preserve historical documentation as historical."
+        ]
+      },
+      "applied_removal": {
+        "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+        "sha256": "74be3468b23e63ffbc4bced76b50b59e9785b94bf5c917875c7aa2a470af0c47",
+        "implementation_commit": "41429a6d3432445bb922d62358e39f6efbcff632"
+      }
     },
     {
       "path": "adl/tools/run_local_authoritative_coverage_gate.sh",
@@ -143472,6 +143661,46 @@
         "sha256": "d4f6e7a8bad6fd4bfd33f6dd41ad09bb78828ec6f1e50430e3a4fcf41109cd32",
         "custody_member": "original/adl/tools/demo_v0891_wp13_demo_integration.sh"
       }
+    },
+    {
+      "path": "tools/runtime_contracts/build_candidates.py",
+      "classification": "reviewed_supplemental_source_retirement_outside_immutable_inventories",
+      "applied_removal": {
+        "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+        "sha256": "74be3468b23e63ffbc4bced76b50b59e9785b94bf5c917875c7aa2a470af0c47",
+        "implementation_commit": "41429a6d3432445bb922d62358e39f6efbcff632"
+      },
+      "before": {
+        "mode": "100644",
+        "blob": "f2bbe6d9858c68c5c392031c113b99945bbecee1",
+        "sha256": "ecbeca7a21094082b30b3d47c60e4d61dc27648dd19aa2cadfd9501adcc553d1"
+      },
+      "frozen_original": {
+        "revision": "248f00e359e412f6bc0061ac88be9ff374e3a212",
+        "identity": null
+      },
+      "source_introduction": {
+        "commit": "8cfd5afba6cb0556bf03c6373c43e6f4c96e2efd",
+        "before": null,
+        "after": {
+          "mode": "100644",
+          "blob": "f2bbe6d9858c68c5c392031c113b99945bbecee1",
+          "sha256": "ecbeca7a21094082b30b3d47c60e4d61dc27648dd19aa2cadfd9501adcc553d1"
+        }
+      },
+      "execution_baseline": {
+        "revision": "9cfd035aac2a44637b3c8026bd40b669579a8c7f",
+        "identity": {
+          "mode": "100644",
+          "blob": "f2bbe6d9858c68c5c392031c113b99945bbecee1",
+          "sha256": "ecbeca7a21094082b30b3d47c60e4d61dc27648dd19aa2cadfd9501adcc553d1"
+        }
+      },
+      "custody": {
+        "archive": "/Volumes/FastWork/c1223/additional-twenty-one-closure/current-captured-custody.tar",
+        "member": "current/tools/runtime_contracts/build_candidates.py"
+      },
+      "boundary": "Post-frozen addition present at reviewed execution baseline; not an original4134/additional22 member and not a transient #1223 addition."
     }
   ],
   "separately_observed_retirements": [

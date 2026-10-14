@@ -6,7 +6,7 @@
   "execution_authorized": false,
   "original_inventory_count": 4134,
   "additional_inventory_count": 22,
-  "executed_deletion_count": 3384,
+  "executed_deletion_count": 3406,
   "entries": [
     {
       "path": ".github/workflows/ci.yaml",
@@ -17,7 +17,7 @@
       ],
       "after": [
         "100644",
-        "b022060133a88be28fb5f7325d3408c434a462e6"
+        "3e6d9c487383f34c8fe63839c97f7f83c52bae5a"
       ],
       "implementation_commit": "951a4c097fde039319c5b508ade9645c748e1fb5",
       "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
@@ -35,6 +35,18 @@
             "b022060133a88be28fb5f7325d3408c434a462e6"
           ],
           "packet": "MIXED_CI_CONTRACT_APPLIED.json"
+        },
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": [
+            "100644",
+            "b022060133a88be28fb5f7325d3408c434a462e6"
+          ],
+          "after": [
+            "100644",
+            "3e6d9c487383f34c8fe63839c97f7f83c52bae5a"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
         }
       ]
     },
@@ -9274,15 +9286,12 @@
     },
     {
       "path": "adl/src/cli/mod.rs",
-      "action": "modify",
+      "action": "remove",
       "before": [
         "100644",
         "a10f95cc6d9e97cb78e3ee40407819795bc7e2eb"
       ],
-      "after": [
-        "100644",
-        "c664ac114cf71b11fd7b32b00470d4b959ff2259"
-      ],
+      "after": null,
       "implementation_commit": "3383f7f691ec248d6fe87cd18e4e13c5d1e8d900",
       "approval_reference": "RUNTIME_SOURCE_FAMILY_APPLIED.json",
       "review_reference": "review_1223_public_facade exact Runtime896 plus54 caller repair review",
@@ -9312,8 +9321,26 @@
             "c664ac114cf71b11fd7b32b00470d4b959ff2259"
           ],
           "packet": "REVIEW_WRAPPER_LLAMA_THREE_APPLIED.json"
+        },
+        {
+          "commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+          "before": [
+            "100644",
+            "c664ac114cf71b11fd7b32b00470d4b959ff2259"
+          ],
+          "after": null,
+          "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json"
         }
-      ]
+      ],
+      "rollback_custody": {
+        "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/additional-twenty-one-closure/current-captured-custody.tar",
+        "archive_sha256": "1a8e16a891e8023d7bb8d424d83b417eee4fdeccc297b8c5d9cad592e5d5b897",
+        "member": "current/adl/src/cli/mod.rs",
+        "mode": "100644",
+        "blob": "c664ac114cf71b11fd7b32b00470d4b959ff2259",
+        "sha256": "ca5830c1a72435d3a3973cdc74db041bd9188c35d8f39afc586a69ab003db6c2"
+      }
     },
     {
       "path": "adl/src/cli/open.rs",
@@ -58361,7 +58388,7 @@
       "before": null,
       "after": [
         "100644",
-        "24425ce3bf01964313cb078e150955644f1b4382"
+        "a7d70d39fea19671d121d75e56409c97849994ba"
       ],
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "INFRASTRUCTURE_SOURCE_FAMILY_APPLIED.json",
@@ -59546,6 +59573,30 @@
             "24425ce3bf01964313cb078e150955644f1b4382"
           ],
           "packet": "REGISTRY_EMPTY_DIRECTORY_FIX_APPLIED.json"
+        },
+        {
+          "commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+          "before": [
+            "100644",
+            "24425ce3bf01964313cb078e150955644f1b4382"
+          ],
+          "after": [
+            "100644",
+            "cf8b6d12f4b44c0c8e2ed1de7878b843295e25f5"
+          ],
+          "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json"
+        },
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": [
+            "100644",
+            "cf8b6d12f4b44c0c8e2ed1de7878b843295e25f5"
+          ],
+          "after": [
+            "100644",
+            "a7d70d39fea19671d121d75e56409c97849994ba"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
         }
       ],
       "prior_execution_provenance": [
@@ -66799,7 +66850,7 @@
       "before": null,
       "after": [
         "100644",
-        "a45725bfa1f79eaa4deb22c6ed55d7ed80d55b11"
+        "507f4ab630b4b2071f783f52b541e34b577ff608"
       ],
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "Infrastructure212 source commit guard-documentation accompaniment",
@@ -67288,6 +67339,18 @@
             "a45725bfa1f79eaa4deb22c6ed55d7ed80d55b11"
           ],
           "packet": "WP12 operational and status-family closure"
+        },
+        {
+          "commit": "pending_reviewed_integration",
+          "before": [
+            "100644",
+            "a45725bfa1f79eaa4deb22c6ed55d7ed80d55b11"
+          ],
+          "after": [
+            "100644",
+            "507f4ab630b4b2071f783f52b541e34b577ff608"
+          ],
+          "packet": "Additional captured source closure"
         }
       ],
       "prior_execution_provenance": [
@@ -99974,11 +100037,8 @@
         "100755",
         "97d0e90e20a86a4844c7ca72dc8371ca85459624"
       ],
-      "after": [
-        "100755",
-        "7908248c6a637091fed162b80fe4d46bfa0f1190"
-      ],
-      "action": "modify",
+      "after": null,
+      "action": "remove",
       "implementation_commit": "928247eab189aeb70bddb608320a238592979045",
       "approval_reference": "COVERAGE_THIRTEEN_APPLIED.json",
       "review_reference": "Independent source/caller review PASS and parent exact application review",
@@ -99995,7 +100055,27 @@
           ],
           "packet": "COVERAGE_THIRTEEN_APPLIED.json"
         }
-      ]
+      ],
+      "supplemental_source_chain": [
+        {
+          "commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+          "before": [
+            "100755",
+            "7908248c6a637091fed162b80fe4d46bfa0f1190"
+          ],
+          "after": null,
+          "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/additional-twenty-one-closure/current-captured-custody.tar",
+        "archive_sha256": "1a8e16a891e8023d7bb8d424d83b417eee4fdeccc297b8c5d9cad592e5d5b897",
+        "member": "current/adl/tools/demo_v0912_quality_gate.sh",
+        "mode": "100755",
+        "blob": "7908248c6a637091fed162b80fe4d46bfa0f1190",
+        "sha256": "29bc1aa929480ab78ed6e6496f1d39fe249a2f92c2d9de7fe74c2bff29d7f10f"
+      }
     },
     {
       "path": "adl/tools/mechanical_coverage_fallout.py",
@@ -107649,6 +107729,4980 @@
             "7341fd865452986852342b9edffbeaf55199323d"
           ],
           "packet": "REGISTRY_EMPTY_DIRECTORY_FIX_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "adl-provider-core/src/spec.rs",
+      "before": [
+        "100644",
+        "ec6fe6a3bf00bd9a9170fbb91554b69a9b4de861"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+      "approval_reference": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+          "before": [
+            "100644",
+            "ec6fe6a3bf00bd9a9170fbb91554b69a9b4de861"
+          ],
+          "after": null,
+          "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/additional-twenty-one-closure/current-captured-custody.tar",
+        "archive_sha256": "1a8e16a891e8023d7bb8d424d83b417eee4fdeccc297b8c5d9cad592e5d5b897",
+        "member": "current/adl-provider-core/src/spec.rs",
+        "mode": "100644",
+        "blob": "ec6fe6a3bf00bd9a9170fbb91554b69a9b4de861",
+        "sha256": "4238a59cdf87f7d92e993422ea8ff49372c1959c8786fa6ca93887300d93642e"
+      }
+    },
+    {
+      "path": "adl/src/adl.rs",
+      "before": [
+        "100644",
+        "9706646ca99f91a7fadfbc5cbab2df8618fbd9bd"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+      "approval_reference": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+          "before": [
+            "100644",
+            "9706646ca99f91a7fadfbc5cbab2df8618fbd9bd"
+          ],
+          "after": null,
+          "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/additional-twenty-one-closure/current-captured-custody.tar",
+        "archive_sha256": "1a8e16a891e8023d7bb8d424d83b417eee4fdeccc297b8c5d9cad592e5d5b897",
+        "member": "current/adl/src/adl.rs",
+        "mode": "100644",
+        "blob": "9706646ca99f91a7fadfbc5cbab2df8618fbd9bd",
+        "sha256": "c5f15b2de1afe6076a5c87bc73b30714d926ecedd1866d4d35c9423619e3588c"
+      }
+    },
+    {
+      "path": "adl/src/cli/commands.rs",
+      "before": [
+        "100644",
+        "1c479853faeee3e530166caf8fd33611dbebe933"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+      "approval_reference": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+          "before": [
+            "100644",
+            "1c479853faeee3e530166caf8fd33611dbebe933"
+          ],
+          "after": null,
+          "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/additional-twenty-one-closure/current-captured-custody.tar",
+        "archive_sha256": "1a8e16a891e8023d7bb8d424d83b417eee4fdeccc297b8c5d9cad592e5d5b897",
+        "member": "current/adl/src/cli/commands.rs",
+        "mode": "100644",
+        "blob": "1c479853faeee3e530166caf8fd33611dbebe933",
+        "sha256": "1f3b71fd395ca74cc5e10bff00bacd531d96899fbd6f78cb9bc79085a6094b54"
+      }
+    },
+    {
+      "path": "adl/src/cognitive_transition_schema.rs",
+      "before": [
+        "100644",
+        "e5cd7c0193562a0f6bc7c3374eaa227bcd1cfadc"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+      "approval_reference": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+          "before": [
+            "100644",
+            "e5cd7c0193562a0f6bc7c3374eaa227bcd1cfadc"
+          ],
+          "after": null,
+          "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/additional-twenty-one-closure/current-captured-custody.tar",
+        "archive_sha256": "1a8e16a891e8023d7bb8d424d83b417eee4fdeccc297b8c5d9cad592e5d5b897",
+        "member": "current/adl/src/cognitive_transition_schema.rs",
+        "mode": "100644",
+        "blob": "e5cd7c0193562a0f6bc7c3374eaa227bcd1cfadc",
+        "sha256": "3c3bc732fbaa5e93ded8b5e10fb410eed245c358decae90eed44b01c81f3f22c"
+      }
+    },
+    {
+      "path": "adl/src/execution_plan.rs",
+      "before": [
+        "100644",
+        "c6966ec77e54f95c8ec71aea326f03a7226cae3d"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+      "approval_reference": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+          "before": [
+            "100644",
+            "c6966ec77e54f95c8ec71aea326f03a7226cae3d"
+          ],
+          "after": null,
+          "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/additional-twenty-one-closure/current-captured-custody.tar",
+        "archive_sha256": "1a8e16a891e8023d7bb8d424d83b417eee4fdeccc297b8c5d9cad592e5d5b897",
+        "member": "current/adl/src/execution_plan.rs",
+        "mode": "100644",
+        "blob": "c6966ec77e54f95c8ec71aea326f03a7226cae3d",
+        "sha256": "49fc498962dcc21a3155b6e82f8da8aea5aa257d89822d8539215b47a48156ef"
+      }
+    },
+    {
+      "path": "adl/src/plan.rs",
+      "before": [
+        "100644",
+        "1752c07a0833d8f5166b9d21986f971dbbb0a437"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+      "approval_reference": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+          "before": [
+            "100644",
+            "1752c07a0833d8f5166b9d21986f971dbbb0a437"
+          ],
+          "after": null,
+          "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/additional-twenty-one-closure/current-captured-custody.tar",
+        "archive_sha256": "1a8e16a891e8023d7bb8d424d83b417eee4fdeccc297b8c5d9cad592e5d5b897",
+        "member": "current/adl/src/plan.rs",
+        "mode": "100644",
+        "blob": "1752c07a0833d8f5166b9d21986f971dbbb0a437",
+        "sha256": "9e434ec301d18672e0240a095ade7d4197b95ddcc5097c51548a68ba78cddf93"
+      }
+    },
+    {
+      "path": "adl/src/prompt.rs",
+      "before": [
+        "100644",
+        "fc3bfbb42737daa94a321b5548ff8313b3557d1a"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+      "approval_reference": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+          "before": [
+            "100644",
+            "fc3bfbb42737daa94a321b5548ff8313b3557d1a"
+          ],
+          "after": null,
+          "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/additional-twenty-one-closure/current-captured-custody.tar",
+        "archive_sha256": "1a8e16a891e8023d7bb8d424d83b417eee4fdeccc297b8c5d9cad592e5d5b897",
+        "member": "current/adl/src/prompt.rs",
+        "mode": "100644",
+        "blob": "fc3bfbb42737daa94a321b5548ff8313b3557d1a",
+        "sha256": "4d66e370eae4bbced1854e1c08b2957d54accd3428490a35f5d5aa6072845353"
+      }
+    },
+    {
+      "path": "adl/src/schema.rs",
+      "before": [
+        "100644",
+        "9560d411e56cd0cd76c83f1114a87dc78ece9000"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+      "approval_reference": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+          "before": [
+            "100644",
+            "9560d411e56cd0cd76c83f1114a87dc78ece9000"
+          ],
+          "after": null,
+          "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/additional-twenty-one-closure/current-captured-custody.tar",
+        "archive_sha256": "1a8e16a891e8023d7bb8d424d83b417eee4fdeccc297b8c5d9cad592e5d5b897",
+        "member": "current/adl/src/schema.rs",
+        "mode": "100644",
+        "blob": "9560d411e56cd0cd76c83f1114a87dc78ece9000",
+        "sha256": "f989b9bc714068597af377d7239b25446e397446a11c5d0e86f505c7849cd2e9"
+      }
+    },
+    {
+      "path": "adl/src/trace_schema_v1.rs",
+      "before": [
+        "100644",
+        "c7a2219893fa1c2cdfdeb0c627209ed56a904ad9"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+      "approval_reference": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+          "before": [
+            "100644",
+            "c7a2219893fa1c2cdfdeb0c627209ed56a904ad9"
+          ],
+          "after": null,
+          "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/additional-twenty-one-closure/current-captured-custody.tar",
+        "archive_sha256": "1a8e16a891e8023d7bb8d424d83b417eee4fdeccc297b8c5d9cad592e5d5b897",
+        "member": "current/adl/src/trace_schema_v1.rs",
+        "mode": "100644",
+        "blob": "c7a2219893fa1c2cdfdeb0c627209ed56a904ad9",
+        "sha256": "2e08675f925ba17a3de2d5d523e9de17a45ef254551f10f398eb67081ea0dc33"
+      }
+    },
+    {
+      "path": "adl/src/uts.rs",
+      "before": [
+        "100644",
+        "1ba571ad6c61302bf53304fae97ec99f3b69caad"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+      "approval_reference": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+          "before": [
+            "100644",
+            "1ba571ad6c61302bf53304fae97ec99f3b69caad"
+          ],
+          "after": null,
+          "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/additional-twenty-one-closure/current-captured-custody.tar",
+        "archive_sha256": "1a8e16a891e8023d7bb8d424d83b417eee4fdeccc297b8c5d9cad592e5d5b897",
+        "member": "current/adl/src/uts.rs",
+        "mode": "100644",
+        "blob": "1ba571ad6c61302bf53304fae97ec99f3b69caad",
+        "sha256": "582ce111695a5ec36a7ffc909f7fbe27ec3babb11309b0864b4a466626822223"
+      }
+    },
+    {
+      "path": "adl/src/uts_conformance.rs",
+      "before": [
+        "100644",
+        "0cdec168520da692e8183774099e6c5b2e672f51"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+      "approval_reference": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+          "before": [
+            "100644",
+            "0cdec168520da692e8183774099e6c5b2e672f51"
+          ],
+          "after": null,
+          "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/additional-twenty-one-closure/current-captured-custody.tar",
+        "archive_sha256": "1a8e16a891e8023d7bb8d424d83b417eee4fdeccc297b8c5d9cad592e5d5b897",
+        "member": "current/adl/src/uts_conformance.rs",
+        "mode": "100644",
+        "blob": "0cdec168520da692e8183774099e6c5b2e672f51",
+        "sha256": "0d3771c821c57a90606a320fd70b5edabfafba92932ea51d046ce8941f74b264"
+      }
+    },
+    {
+      "path": "adl/tests/runtime_contract_candidates.rs",
+      "before": [
+        "100644",
+        "1a1d7d232fe915c8c92a9e412657de6adb5cc119"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+      "approval_reference": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+          "before": [
+            "100644",
+            "1a1d7d232fe915c8c92a9e412657de6adb5cc119"
+          ],
+          "after": null,
+          "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/additional-twenty-one-closure/current-captured-custody.tar",
+        "archive_sha256": "1a8e16a891e8023d7bb8d424d83b417eee4fdeccc297b8c5d9cad592e5d5b897",
+        "member": "current/adl/tests/runtime_contract_candidates.rs",
+        "mode": "100644",
+        "blob": "1a1d7d232fe915c8c92a9e412657de6adb5cc119",
+        "sha256": "6a896f8e20a51c856225eab461759dca05f3318c2748c9e349427ce078ff7ec7"
+      }
+    },
+    {
+      "path": "csdlc-v3/src/commands/proof/node.rs",
+      "before": [
+        "100644",
+        "47743cbf9a2e848c017522ae1ffb6e30f6034159"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+      "approval_reference": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+          "before": [
+            "100644",
+            "47743cbf9a2e848c017522ae1ffb6e30f6034159"
+          ],
+          "after": null,
+          "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/additional-twenty-one-closure/current-captured-custody.tar",
+        "archive_sha256": "1a8e16a891e8023d7bb8d424d83b417eee4fdeccc297b8c5d9cad592e5d5b897",
+        "member": "current/csdlc-v3/src/commands/proof/node.rs",
+        "mode": "100644",
+        "blob": "47743cbf9a2e848c017522ae1ffb6e30f6034159",
+        "sha256": "ef90982f6c0ec10447ca4a12ce65b8f2ef450c515546a1d620e4a8843274f717"
+      }
+    },
+    {
+      "path": "csdlc-v3/src/commands/remote/publication_observation.rs",
+      "before": [
+        "100644",
+        "2d07111a08a35cae6f4210d7cda72378ab398d9b"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+      "approval_reference": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+          "before": [
+            "100644",
+            "2d07111a08a35cae6f4210d7cda72378ab398d9b"
+          ],
+          "after": null,
+          "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/additional-twenty-one-closure/current-captured-custody.tar",
+        "archive_sha256": "1a8e16a891e8023d7bb8d424d83b417eee4fdeccc297b8c5d9cad592e5d5b897",
+        "member": "current/csdlc-v3/src/commands/remote/publication_observation.rs",
+        "mode": "100644",
+        "blob": "2d07111a08a35cae6f4210d7cda72378ab398d9b",
+        "sha256": "57f749ce9b484fdfe17358548481f52173a19c6316b89cbea79267735b490ed8"
+      }
+    },
+    {
+      "path": "csdlc-v3/tests/rd01_1181_census.rs",
+      "before": [
+        "100644",
+        "92ec485bc6e964dfae4b648954c9ec0dd918e360"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+      "approval_reference": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+          "before": [
+            "100644",
+            "92ec485bc6e964dfae4b648954c9ec0dd918e360"
+          ],
+          "after": null,
+          "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/additional-twenty-one-closure/current-captured-custody.tar",
+        "archive_sha256": "1a8e16a891e8023d7bb8d424d83b417eee4fdeccc297b8c5d9cad592e5d5b897",
+        "member": "current/csdlc-v3/tests/rd01_1181_census.rs",
+        "mode": "100644",
+        "blob": "92ec485bc6e964dfae4b648954c9ec0dd918e360",
+        "sha256": "246264c6b8d3e16dbb4dc1cff52731a032399ce4b97520cd597647e1937f4b7d"
+      }
+    },
+    {
+      "path": "csdlc-v3/tests/rd02_1182_contract.rs",
+      "before": [
+        "100644",
+        "95fbbf01e56c4f6c88cfda5281ec25a01ff65ee0"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+      "approval_reference": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+          "before": [
+            "100644",
+            "95fbbf01e56c4f6c88cfda5281ec25a01ff65ee0"
+          ],
+          "after": null,
+          "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/additional-twenty-one-closure/current-captured-custody.tar",
+        "archive_sha256": "1a8e16a891e8023d7bb8d424d83b417eee4fdeccc297b8c5d9cad592e5d5b897",
+        "member": "current/csdlc-v3/tests/rd02_1182_contract.rs",
+        "mode": "100644",
+        "blob": "95fbbf01e56c4f6c88cfda5281ec25a01ff65ee0",
+        "sha256": "4bbd79679d797b48035cc00aa382f418c7d25dfeee97f7635a2b13d7aa313c21"
+      }
+    },
+    {
+      "path": "csdlc-v3/tests/rd12_1183_bootstrap.rs",
+      "before": [
+        "100644",
+        "8ea387f2a09e051303d23b48fe68c2c9a8751003"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+      "approval_reference": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+          "before": [
+            "100644",
+            "8ea387f2a09e051303d23b48fe68c2c9a8751003"
+          ],
+          "after": null,
+          "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/additional-twenty-one-closure/current-captured-custody.tar",
+        "archive_sha256": "1a8e16a891e8023d7bb8d424d83b417eee4fdeccc297b8c5d9cad592e5d5b897",
+        "member": "current/csdlc-v3/tests/rd12_1183_bootstrap.rs",
+        "mode": "100644",
+        "blob": "8ea387f2a09e051303d23b48fe68c2c9a8751003",
+        "sha256": "353d87ff6d3716fb69c18b3a772c1930d7ea40b5fdc2fa0a055eba9876a2fb3f"
+      }
+    },
+    {
+      "path": "csdlc-v3/tests/rd13_1184_mapping.rs",
+      "before": [
+        "100644",
+        "aae39a163050d922672e68eca0bb4d644eb6ba72"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+      "approval_reference": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+          "before": [
+            "100644",
+            "aae39a163050d922672e68eca0bb4d644eb6ba72"
+          ],
+          "after": null,
+          "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/additional-twenty-one-closure/current-captured-custody.tar",
+        "archive_sha256": "1a8e16a891e8023d7bb8d424d83b417eee4fdeccc297b8c5d9cad592e5d5b897",
+        "member": "current/csdlc-v3/tests/rd13_1184_mapping.rs",
+        "mode": "100644",
+        "blob": "aae39a163050d922672e68eca0bb4d644eb6ba72",
+        "sha256": "dce1fd57cf9448dc35d12424c8da3210f35c59a10b26f1d2958419b1a0be7afc"
+      }
+    },
+    {
+      "path": "adl/tools/test_demo_v0912_quality_gate.sh",
+      "before": [
+        "100755",
+        "c658a17b93dab0bfbef3a1d22e2e0583e3bb02d5"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+      "approval_reference": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+          "before": [
+            "100755",
+            "c658a17b93dab0bfbef3a1d22e2e0583e3bb02d5"
+          ],
+          "after": null,
+          "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/additional-twenty-one-closure/current-captured-custody.tar",
+        "archive_sha256": "1a8e16a891e8023d7bb8d424d83b417eee4fdeccc297b8c5d9cad592e5d5b897",
+        "member": "current/adl/tools/test_demo_v0912_quality_gate.sh",
+        "mode": "100755",
+        "blob": "c658a17b93dab0bfbef3a1d22e2e0583e3bb02d5",
+        "sha256": "fc869930a652b2c7df2f3fdf11c9e234bbb56d9ca04f3d29b73f42351a992fe4"
+      }
+    },
+    {
+      "path": "tools/runtime_contracts/build_candidates.py",
+      "before": [
+        "100644",
+        "f2bbe6d9858c68c5c392031c113b99945bbecee1"
+      ],
+      "after": null,
+      "action": "remove",
+      "implementation_commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+      "approval_reference": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+          "before": [
+            "100644",
+            "f2bbe6d9858c68c5c392031c113b99945bbecee1"
+          ],
+          "after": null,
+          "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/additional-twenty-one-closure/current-captured-custody.tar",
+        "archive_sha256": "1a8e16a891e8023d7bb8d424d83b417eee4fdeccc297b8c5d9cad592e5d5b897",
+        "member": "current/tools/runtime_contracts/build_candidates.py",
+        "mode": "100644",
+        "blob": "f2bbe6d9858c68c5c392031c113b99945bbecee1",
+        "sha256": "ecbeca7a21094082b30b3d47c60e4d61dc27648dd19aa2cadfd9501adcc553d1"
+      }
+    },
+    {
+      "path": "docs/milestones/v0.91.2/QUALITY_GATE_v0.91.2.md",
+      "before": [
+        "100644",
+        "167a05e266a2ad8b73066f649b19653a39e9fb02"
+      ],
+      "after": [
+        "100644",
+        "c5fab41364db425c50a1043b76229db2effcf70f"
+      ],
+      "action": "modify",
+      "implementation_commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+      "approval_reference": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+          "before": [
+            "100644",
+            "167a05e266a2ad8b73066f649b19653a39e9fb02"
+          ],
+          "after": [
+            "100644",
+            "c5fab41364db425c50a1043b76229db2effcf70f"
+          ],
+          "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/milestones/v0.91.2/ADL_v0.91.2_THIRD_PARTY_REVIEW_HANDOFF.md",
+      "before": [
+        "100644",
+        "4a3b422c5d984867ef63a085ef7e39fe9da90e3e"
+      ],
+      "after": [
+        "100644",
+        "54e8c62c44588882959e9021b84ee59b4d8d920c"
+      ],
+      "action": "modify",
+      "implementation_commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+      "approval_reference": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+          "before": [
+            "100644",
+            "4a3b422c5d984867ef63a085ef7e39fe9da90e3e"
+          ],
+          "after": [
+            "100644",
+            "54e8c62c44588882959e9021b84ee59b4d8d920c"
+          ],
+          "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/milestones/v0.91.2/FEATURE_PROOF_COVERAGE_v0.91.2.md",
+      "before": [
+        "100644",
+        "9c4909d24e7bbe830e827b9004e619eb2b0483ff"
+      ],
+      "after": [
+        "100644",
+        "7b0cade7e0c6c08d880425a84f89d65e9e184c44"
+      ],
+      "action": "modify",
+      "implementation_commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+      "approval_reference": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+          "before": [
+            "100644",
+            "9c4909d24e7bbe830e827b9004e619eb2b0483ff"
+          ],
+          "after": [
+            "100644",
+            "7b0cade7e0c6c08d880425a84f89d65e9e184c44"
+          ],
+          "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/milestones/v0.91.2/review/quality_gate/README.md",
+      "before": [
+        "100644",
+        "ccce22babe71ab8714d152253fb471db715c9abf"
+      ],
+      "after": [
+        "100644",
+        "370e35c325feb6950f936c669f343a090feabca1"
+      ],
+      "action": "modify",
+      "implementation_commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+      "approval_reference": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+          "before": [
+            "100644",
+            "ccce22babe71ab8714d152253fb471db715c9abf"
+          ],
+          "after": [
+            "100644",
+            "370e35c325feb6950f936c669f343a090feabca1"
+          ],
+          "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/milestones/v0.91.2/review/quality_gate/QUALITY_GATE_PACKET_v0.91.2.md",
+      "before": [
+        "100644",
+        "cc40dd0762a0a488c7fd58761a566bf840ae8d8f"
+      ],
+      "after": [
+        "100644",
+        "0259b831f7842507f56503dd0fd8395bc3977d1e"
+      ],
+      "action": "modify",
+      "implementation_commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+      "approval_reference": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+          "before": [
+            "100644",
+            "cc40dd0762a0a488c7fd58761a566bf840ae8d8f"
+          ],
+          "after": [
+            "100644",
+            "0259b831f7842507f56503dd0fd8395bc3977d1e"
+          ],
+          "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/runtime-contracts/ENGINE_RECORDS_DELIVERY.md",
+      "before": [
+        "100644",
+        "edb30a3144d01443cc466723c2417670f69743c0"
+      ],
+      "after": [
+        "100644",
+        "dae620adc7c0a0540acf4e994a6b404792d840c9"
+      ],
+      "action": "modify",
+      "implementation_commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+      "approval_reference": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+          "before": [
+            "100644",
+            "edb30a3144d01443cc466723c2417670f69743c0"
+          ],
+          "after": [
+            "100644",
+            "dae620adc7c0a0540acf4e994a6b404792d840c9"
+          ],
+          "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/evidence/1265/intent-review/e3fb34b9b3fc9635cba5743b6f44a9204401bc56/8e6f3e0d381055095e7eefb7e34a7ca4272d3de403db7d8319df2b06b25b1114.json",
+      "before": null,
+      "after": [
+        "100644",
+        "942b4949c582292ea1cca175c8263d695c90fad1"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "942b4949c582292ea1cca175c8263d695c90fad1"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/evidence/1266/card-truth-update.v1.json",
+      "before": null,
+      "after": [
+        "100644",
+        "7329f96c8582adb36f054c24c13b260a5f099be7"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "7329f96c8582adb36f054c24c13b260a5f099be7"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/evidence/1266/complete-denominator-preview.v1.json",
+      "before": null,
+      "after": [
+        "100644",
+        "e0172501f37458478f3660e92d99b5c3645d7884"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "e0172501f37458478f3660e92d99b5c3645d7884"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/evidence/1266/consumer-authority-observations.v1.json",
+      "before": null,
+      "after": [
+        "100644",
+        "786cb42643845df12a381112493d46402f5ed633"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "786cb42643845df12a381112493d46402f5ed633"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/evidence/1266/infrastructure-reconciliation.v1.json",
+      "before": null,
+      "after": [
+        "100644",
+        "95f06533fc5deea4f19f59b56898e185ab3e8638"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "95f06533fc5deea4f19f59b56898e185ab3e8638"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/evidence/1266/macos-successor-authority-blocker.v1.json",
+      "before": null,
+      "after": [
+        "100644",
+        "f61a8ea3ee382cf88dcc6b498f68d5bcf42a56e8"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "f61a8ea3ee382cf88dcc6b498f68d5bcf42a56e8"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/evidence/1266/preexisting-terminal-receipts.v1.json",
+      "before": null,
+      "after": [
+        "100644",
+        "92cd3f90f513f65c9eae1a02b8fd2426fe32b83c"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "92cd3f90f513f65c9eae1a02b8fd2426fe32b83c"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/evidence/1266/v0931-consumer-denominator.v1.json",
+      "before": null,
+      "after": [
+        "100644",
+        "ebfedfb32899f30a097c299608c35b5ab8162461"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "ebfedfb32899f30a097c299608c35b5ab8162461"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1259/binding.json",
+      "before": null,
+      "after": [
+        "100644",
+        "e2977d3ae39e13917ef0f69ffb4cb248a795a033"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "e2977d3ae39e13917ef0f69ffb4cb248a795a033"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1259/cards/sip.md",
+      "before": null,
+      "after": [
+        "100644",
+        "1c0d5c1ff63acdb0278c05766de76cea3449c8fd"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "1c0d5c1ff63acdb0278c05766de76cea3449c8fd"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1259/cards/sip.values.json",
+      "before": null,
+      "after": [
+        "100644",
+        "d0d41937a2cac02ab7d340969b64eab3855cc6e9"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "d0d41937a2cac02ab7d340969b64eab3855cc6e9"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1259/cards/sor.md",
+      "before": null,
+      "after": [
+        "100644",
+        "2bb4000b9c40dd95e1ca24a7ec4ca7038a0f7182"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "2bb4000b9c40dd95e1ca24a7ec4ca7038a0f7182"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1259/cards/sor.values.json",
+      "before": null,
+      "after": [
+        "100644",
+        "a788e96f02393c3f79fe242623ed47283ea1aa56"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "a788e96f02393c3f79fe242623ed47283ea1aa56"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1259/cards/spp.md",
+      "before": null,
+      "after": [
+        "100644",
+        "c781986e3d536524053acbb5253f3fcf6fa61c46"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "c781986e3d536524053acbb5253f3fcf6fa61c46"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1259/cards/spp.values.json",
+      "before": null,
+      "after": [
+        "100644",
+        "0021271ef31d64dcc696cc9b4d2a802264ae8513"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "0021271ef31d64dcc696cc9b4d2a802264ae8513"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1259/cards/srp.md",
+      "before": null,
+      "after": [
+        "100644",
+        "e5f713e1bcaf22ecaa36d781858fe5ce146c1466"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "e5f713e1bcaf22ecaa36d781858fe5ce146c1466"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1259/cards/srp.values.json",
+      "before": null,
+      "after": [
+        "100644",
+        "c2513058f8c8ffc2312281b000156ec8adfc5420"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "c2513058f8c8ffc2312281b000156ec8adfc5420"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1259/cards/stp.md",
+      "before": null,
+      "after": [
+        "100644",
+        "6c5520b97c306d79e3121fe052a311c414175187"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "6c5520b97c306d79e3121fe052a311c414175187"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1259/cards/stp.values.json",
+      "before": null,
+      "after": [
+        "100644",
+        "838e120c649d9fe149efa883212c7bf79a398a31"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "838e120c649d9fe149efa883212c7bf79a398a31"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1259/cards/vpp.md",
+      "before": null,
+      "after": [
+        "100644",
+        "9421f07195c0616889114aa13b71c381c3b7fbbc"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "9421f07195c0616889114aa13b71c381c3b7fbbc"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1259/cards/vpp.values.json",
+      "before": null,
+      "after": [
+        "100644",
+        "dd4d3c1501019dd91f0d3bb23daf6a6fc2071f11"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "dd4d3c1501019dd91f0d3bb23daf6a6fc2071f11"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1259/index.json",
+      "before": null,
+      "after": [
+        "100644",
+        "68e20cde2e2fd8a6524598ec905d6af98fc3b738"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "68e20cde2e2fd8a6524598ec905d6af98fc3b738"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1265/binding.json",
+      "before": null,
+      "after": [
+        "100644",
+        "375aa49742596f00a978a437c7dd536902e1b643"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "375aa49742596f00a978a437c7dd536902e1b643"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1265/cards/sip.md",
+      "before": null,
+      "after": [
+        "100644",
+        "e4948c86fd090b51e48ee1e8922b55c34c765765"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "e4948c86fd090b51e48ee1e8922b55c34c765765"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1265/cards/sip.values.json",
+      "before": null,
+      "after": [
+        "100644",
+        "8b72a1f8c418be26898b99ff8d961fc1cef3863f"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "8b72a1f8c418be26898b99ff8d961fc1cef3863f"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1265/cards/sor.md",
+      "before": null,
+      "after": [
+        "100644",
+        "adbe265633fd7dc802c7bacd3123b0f3cb847b82"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "adbe265633fd7dc802c7bacd3123b0f3cb847b82"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1265/cards/sor.values.json",
+      "before": null,
+      "after": [
+        "100644",
+        "dcd6bfa3e11cf06b162b4964facf0f3252b4a905"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "dcd6bfa3e11cf06b162b4964facf0f3252b4a905"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1265/cards/spp.md",
+      "before": null,
+      "after": [
+        "100644",
+        "dec9eb547a4e957c799361a429bc8f50e29dfaa1"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "dec9eb547a4e957c799361a429bc8f50e29dfaa1"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1265/cards/spp.values.json",
+      "before": null,
+      "after": [
+        "100644",
+        "2c2ea468875417665901c8bb679a9a41b2dd6ee4"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "2c2ea468875417665901c8bb679a9a41b2dd6ee4"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1265/cards/srp.md",
+      "before": null,
+      "after": [
+        "100644",
+        "74f01dd263dc7fe8d6ff2b20730efec94ee466f2"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "74f01dd263dc7fe8d6ff2b20730efec94ee466f2"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1265/cards/srp.values.json",
+      "before": null,
+      "after": [
+        "100644",
+        "e98812b448646a1e96dd2522bf9bcaa19e9242ab"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "e98812b448646a1e96dd2522bf9bcaa19e9242ab"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1265/cards/stp.md",
+      "before": null,
+      "after": [
+        "100644",
+        "2648034bd45fc0beeedc7f211535329863955b3d"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "2648034bd45fc0beeedc7f211535329863955b3d"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1265/cards/stp.values.json",
+      "before": null,
+      "after": [
+        "100644",
+        "cdf7b01c5eca2e1d3a947aac2ffd61f708906e8d"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "cdf7b01c5eca2e1d3a947aac2ffd61f708906e8d"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1265/cards/vpp.md",
+      "before": null,
+      "after": [
+        "100644",
+        "dca99511e61b4fe4f69aba7be9ae0a56d7ef5052"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "dca99511e61b4fe4f69aba7be9ae0a56d7ef5052"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1265/cards/vpp.values.json",
+      "before": null,
+      "after": [
+        "100644",
+        "634e49ec19967112d45fee52d2037f6d987d849b"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "634e49ec19967112d45fee52d2037f6d987d849b"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1265/index.json",
+      "before": null,
+      "after": [
+        "100644",
+        "0aa2f1a25a0220ee51de15f5b8dbaac52423e491"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "0aa2f1a25a0220ee51de15f5b8dbaac52423e491"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1265/intent-plan.json",
+      "before": null,
+      "after": [
+        "100644",
+        "f6e8b02716f26572d0a1b70dbe50f0fc2c2e4d98"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "f6e8b02716f26572d0a1b70dbe50f0fc2c2e4d98"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1266/binding.json",
+      "before": null,
+      "after": [
+        "100644",
+        "ac8ee6f8ad4f7244e65edba28763094f41c102b2"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "ac8ee6f8ad4f7244e65edba28763094f41c102b2"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1266/cards/sip.md",
+      "before": null,
+      "after": [
+        "100644",
+        "2986b519f0a072706eb127cb5fd91e9da81f8d4f"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "2986b519f0a072706eb127cb5fd91e9da81f8d4f"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1266/cards/sip.values.json",
+      "before": null,
+      "after": [
+        "100644",
+        "4f8f111e126e2636adaa72da9e3f9991b2df68d5"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "4f8f111e126e2636adaa72da9e3f9991b2df68d5"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1266/cards/sor.md",
+      "before": null,
+      "after": [
+        "100644",
+        "1933b6b4eae8a04f0a886546be773e5a9cc9736f"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "1933b6b4eae8a04f0a886546be773e5a9cc9736f"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1266/cards/sor.values.json",
+      "before": null,
+      "after": [
+        "100644",
+        "61586e2352267bc1aa7f87d0daf005b635ab8f8b"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "61586e2352267bc1aa7f87d0daf005b635ab8f8b"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1266/cards/spp.md",
+      "before": null,
+      "after": [
+        "100644",
+        "8e73a9cb2b0c385c936d541cfe2602e9bd0189ab"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "8e73a9cb2b0c385c936d541cfe2602e9bd0189ab"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1266/cards/spp.values.json",
+      "before": null,
+      "after": [
+        "100644",
+        "1f942f60a0f1b19d92e926e93b5c2cbe177eb1de"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "1f942f60a0f1b19d92e926e93b5c2cbe177eb1de"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1266/cards/srp.md",
+      "before": null,
+      "after": [
+        "100644",
+        "663c061f4e421cdc7ce1c9147b64fde09478ef9f"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "663c061f4e421cdc7ce1c9147b64fde09478ef9f"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1266/cards/srp.values.json",
+      "before": null,
+      "after": [
+        "100644",
+        "fbfe488e83b54f45c99bdb9a058abe2ca8e3ddd5"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "fbfe488e83b54f45c99bdb9a058abe2ca8e3ddd5"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1266/cards/stp.md",
+      "before": null,
+      "after": [
+        "100644",
+        "b4557482618f6429346ce597ec8512887ad8f749"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "b4557482618f6429346ce597ec8512887ad8f749"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1266/cards/stp.values.json",
+      "before": null,
+      "after": [
+        "100644",
+        "9287bfa736fec09ec44a1d2e6512fbb2366cf3fc"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "9287bfa736fec09ec44a1d2e6512fbb2366cf3fc"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1266/cards/vpp.md",
+      "before": null,
+      "after": [
+        "100644",
+        "98187cbd747d9242fcd52cd3ce0b70218251b660"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "98187cbd747d9242fcd52cd3ce0b70218251b660"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1266/cards/vpp.values.json",
+      "before": null,
+      "after": [
+        "100644",
+        "149866be583de11ef1e8c5e37e661ff1fde7d20e"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "149866be583de11ef1e8c5e37e661ff1fde7d20e"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1266/index.json",
+      "before": null,
+      "after": [
+        "100644",
+        "5a8be2759e6f5de1a0563639ca753b7190266c18"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "5a8be2759e6f5de1a0563639ca753b7190266c18"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1270/binding.json",
+      "before": null,
+      "after": [
+        "100644",
+        "a3bf2334081b700d0bdfcd688ac313368275ae3a"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "a3bf2334081b700d0bdfcd688ac313368275ae3a"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1270/cards/sip.md",
+      "before": null,
+      "after": [
+        "100644",
+        "e89a35db4bdc0ffad227f0e64aa373f86d4726f0"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "e89a35db4bdc0ffad227f0e64aa373f86d4726f0"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1270/cards/sip.values.json",
+      "before": null,
+      "after": [
+        "100644",
+        "500ae896d0994f5bc954037fc9e90af7de894427"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "500ae896d0994f5bc954037fc9e90af7de894427"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1270/cards/sor.md",
+      "before": null,
+      "after": [
+        "100644",
+        "7d5bd6887d56a30a7d699298e77abc517ae943eb"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "7d5bd6887d56a30a7d699298e77abc517ae943eb"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1270/cards/sor.values.json",
+      "before": null,
+      "after": [
+        "100644",
+        "d3b24d3d861dc2be2082030316eb3f5c389ef94f"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "d3b24d3d861dc2be2082030316eb3f5c389ef94f"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1270/cards/spp.md",
+      "before": null,
+      "after": [
+        "100644",
+        "e81368f86a4f1214aa46bd9b4af76d6d4f3b9129"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "e81368f86a4f1214aa46bd9b4af76d6d4f3b9129"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1270/cards/spp.values.json",
+      "before": null,
+      "after": [
+        "100644",
+        "9ebb542f61e1c1add550d034095d899e264de752"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "9ebb542f61e1c1add550d034095d899e264de752"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1270/cards/srp.md",
+      "before": null,
+      "after": [
+        "100644",
+        "14fbad91d23aa225bbedb78df98062f4b0d47e97"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "14fbad91d23aa225bbedb78df98062f4b0d47e97"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1270/cards/srp.values.json",
+      "before": null,
+      "after": [
+        "100644",
+        "7e1481b13048409d9035c6f0221c2f759cd741a7"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "7e1481b13048409d9035c6f0221c2f759cd741a7"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1270/cards/stp.md",
+      "before": null,
+      "after": [
+        "100644",
+        "bb6ffec3ee95515584b29745c84016f4a576662c"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "bb6ffec3ee95515584b29745c84016f4a576662c"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1270/cards/stp.values.json",
+      "before": null,
+      "after": [
+        "100644",
+        "d761bde267a41cea27df06761d51fa3a5cd43ade"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "d761bde267a41cea27df06761d51fa3a5cd43ade"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1270/cards/vpp.md",
+      "before": null,
+      "after": [
+        "100644",
+        "d7b525cb79fcc5f61e8d6c8affeda1757c03c30e"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "d7b525cb79fcc5f61e8d6c8affeda1757c03c30e"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1270/cards/vpp.values.json",
+      "before": null,
+      "after": [
+        "100644",
+        "2f539a35e32c49d69209dce5d2b7b1c09ca948a6"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "2f539a35e32c49d69209dce5d2b7b1c09ca948a6"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1270/index.json",
+      "before": null,
+      "after": [
+        "100644",
+        "fe308839bbbc9f0cd17224e0308c4187908cf288"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "fe308839bbbc9f0cd17224e0308c4187908cf288"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/issues/1270/intent-plan.json",
+      "before": null,
+      "after": [
+        "100644",
+        "c5251c7aa1c97711a3671e4f63fc202a2c7f9f50"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "c5251c7aa1c97711a3671e4f63fc202a2c7f9f50"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/transactions/completed/1259/bind-581d8bd715f72372963a024c4831ed193343a9246699604c27affa6c1e59efdd.json",
+      "before": null,
+      "after": [
+        "100644",
+        "0f4ebf8d507fbdb06fbcf961453c489ca5d25828"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "0f4ebf8d507fbdb06fbcf961453c489ca5d25828"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/transactions/completed/1265/bind-26ccb078e693d636083b01eb0e6c74171ba0424b6d426bcbb8c7e0be962af35e.json",
+      "before": null,
+      "after": [
+        "100644",
+        "96f60099ad00c232f5acc891b76a223a01d3f061"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "96f60099ad00c232f5acc891b76a223a01d3f061"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/transactions/completed/1266/bind-14435ef936fed21c150f3ae4bc5fd3e8e6692f842eae39f66988897f64edcd1f.json",
+      "before": null,
+      "after": [
+        "100644",
+        "95cc8c572e3551d0c0259c58b185eb772a9029a2"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "95cc8c572e3551d0c0259c58b185eb772a9029a2"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/transactions/completed/1270/bind-e7524a866afeacaa56224baea508afbc48021b23e6f60c97f381ffa05407f8fc.json",
+      "before": null,
+      "after": [
+        "100644",
+        "dd22c06d840e00d3dd7d9bb13ff2ea3c509b8aa7"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "dd22c06d840e00d3dd7d9bb13ff2ea3c509b8aa7"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1259/cards/manifest.json",
+      "before": null,
+      "after": [
+        "100644",
+        "8a5d73b858982cbb7e6f4d8f0e4f6684c779abf9"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "8a5d73b858982cbb7e6f4d8f0e4f6684c779abf9"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1259/cards/sip.md",
+      "before": null,
+      "after": [
+        "100644",
+        "1c0d5c1ff63acdb0278c05766de76cea3449c8fd"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "1c0d5c1ff63acdb0278c05766de76cea3449c8fd"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1259/cards/sip.values.json",
+      "before": null,
+      "after": [
+        "100644",
+        "5a2982914afa427950405b5798f33047a890c471"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "5a2982914afa427950405b5798f33047a890c471"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1259/cards/sor.md",
+      "before": null,
+      "after": [
+        "100644",
+        "2bb4000b9c40dd95e1ca24a7ec4ca7038a0f7182"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "2bb4000b9c40dd95e1ca24a7ec4ca7038a0f7182"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1259/cards/sor.values.json",
+      "before": null,
+      "after": [
+        "100644",
+        "0e3c775c898cae0222b6432ace8db44c8cf6e869"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "0e3c775c898cae0222b6432ace8db44c8cf6e869"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1259/cards/spp.md",
+      "before": null,
+      "after": [
+        "100644",
+        "4b14aed94941128271d51c386307fe93d9e3a1e8"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "4b14aed94941128271d51c386307fe93d9e3a1e8"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1259/cards/spp.values.json",
+      "before": null,
+      "after": [
+        "100644",
+        "54f418929b4aec4f4b993bead24ee8398cc40480"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "54f418929b4aec4f4b993bead24ee8398cc40480"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1259/cards/srp.md",
+      "before": null,
+      "after": [
+        "100644",
+        "e5f713e1bcaf22ecaa36d781858fe5ce146c1466"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "e5f713e1bcaf22ecaa36d781858fe5ce146c1466"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1259/cards/srp.values.json",
+      "before": null,
+      "after": [
+        "100644",
+        "422396f22abf74acb08d40bbf94017773e312b6d"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "422396f22abf74acb08d40bbf94017773e312b6d"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1259/cards/stp.md",
+      "before": null,
+      "after": [
+        "100644",
+        "6c5520b97c306d79e3121fe052a311c414175187"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "6c5520b97c306d79e3121fe052a311c414175187"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1259/cards/stp.values.json",
+      "before": null,
+      "after": [
+        "100644",
+        "a7de80948c4f03e0ebb240e12db46d6217ba49c6"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "a7de80948c4f03e0ebb240e12db46d6217ba49c6"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1259/cards/vpp.md",
+      "before": null,
+      "after": [
+        "100644",
+        "b5e8c4a250eba91a003a53c57a8aa275d5e7159f"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "b5e8c4a250eba91a003a53c57a8aa275d5e7159f"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1259/cards/vpp.values.json",
+      "before": null,
+      "after": [
+        "100644",
+        "02da5873ab57d760879d12874a59a7fd2ec72575"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "02da5873ab57d760879d12874a59a7fd2ec72575"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1259/state.json",
+      "before": null,
+      "after": [
+        "100644",
+        "5272f7c2d150b46ae9855785496df6792e002741"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "5272f7c2d150b46ae9855785496df6792e002741"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1265/cards/manifest.json",
+      "before": null,
+      "after": [
+        "100644",
+        "5f51c5e98f64a6da91704c8fe95cd5d70e693e95"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "5f51c5e98f64a6da91704c8fe95cd5d70e693e95"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1265/cards/sip.md",
+      "before": null,
+      "after": [
+        "100644",
+        "e4948c86fd090b51e48ee1e8922b55c34c765765"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "e4948c86fd090b51e48ee1e8922b55c34c765765"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1265/cards/sip.values.json",
+      "before": null,
+      "after": [
+        "100644",
+        "768a544b71d13a523e2efaa20d275df41a7312f3"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "768a544b71d13a523e2efaa20d275df41a7312f3"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1265/cards/sor.md",
+      "before": null,
+      "after": [
+        "100644",
+        "adbe265633fd7dc802c7bacd3123b0f3cb847b82"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "adbe265633fd7dc802c7bacd3123b0f3cb847b82"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1265/cards/sor.values.json",
+      "before": null,
+      "after": [
+        "100644",
+        "4674070788aa7fb4369c5b115431fd46cec500b3"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "4674070788aa7fb4369c5b115431fd46cec500b3"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1265/cards/spp.md",
+      "before": null,
+      "after": [
+        "100644",
+        "dec9eb547a4e957c799361a429bc8f50e29dfaa1"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "dec9eb547a4e957c799361a429bc8f50e29dfaa1"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1265/cards/spp.values.json",
+      "before": null,
+      "after": [
+        "100644",
+        "e09bc3adb1afda09c3cab2933c859c4c0d18a6c4"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "e09bc3adb1afda09c3cab2933c859c4c0d18a6c4"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1265/cards/srp.md",
+      "before": null,
+      "after": [
+        "100644",
+        "74f01dd263dc7fe8d6ff2b20730efec94ee466f2"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "74f01dd263dc7fe8d6ff2b20730efec94ee466f2"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1265/cards/srp.values.json",
+      "before": null,
+      "after": [
+        "100644",
+        "f35e63ce37770955df6613e9b8e5bb089ddd807b"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "f35e63ce37770955df6613e9b8e5bb089ddd807b"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1265/cards/stp.md",
+      "before": null,
+      "after": [
+        "100644",
+        "2648034bd45fc0beeedc7f211535329863955b3d"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "2648034bd45fc0beeedc7f211535329863955b3d"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1265/cards/stp.values.json",
+      "before": null,
+      "after": [
+        "100644",
+        "55b692b4d5e1f84c93274a0b3b42f5da3f0bd237"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "55b692b4d5e1f84c93274a0b3b42f5da3f0bd237"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1265/cards/vpp.md",
+      "before": null,
+      "after": [
+        "100644",
+        "dca99511e61b4fe4f69aba7be9ae0a56d7ef5052"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "dca99511e61b4fe4f69aba7be9ae0a56d7ef5052"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1265/cards/vpp.values.json",
+      "before": null,
+      "after": [
+        "100644",
+        "1b2777b4e410116e580ad68502fe0d74ecb515dc"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "1b2777b4e410116e580ad68502fe0d74ecb515dc"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1265/proof.json",
+      "before": null,
+      "after": [
+        "100644",
+        "aceb438853a5a0463c89f9a77b4842fcbabf1003"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "aceb438853a5a0463c89f9a77b4842fcbabf1003"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1265/state.json",
+      "before": null,
+      "after": [
+        "100644",
+        "f77bbc86a5ae90ec90541c381ba99bb1d5d6544c"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "f77bbc86a5ae90ec90541c381ba99bb1d5d6544c"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1266/cards/manifest.json",
+      "before": null,
+      "after": [
+        "100644",
+        "50cb08c9aefbf646d6d95cd046558a6b10f6235c"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "50cb08c9aefbf646d6d95cd046558a6b10f6235c"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1266/cards/sip.md",
+      "before": null,
+      "after": [
+        "100644",
+        "09a7b0a57c56b1163e476d3336713856723bf561"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "09a7b0a57c56b1163e476d3336713856723bf561"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1266/cards/sip.values.json",
+      "before": null,
+      "after": [
+        "100644",
+        "883e5607478ed93d8bb86695b090ed802d510a34"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "883e5607478ed93d8bb86695b090ed802d510a34"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1266/cards/sor.md",
+      "before": null,
+      "after": [
+        "100644",
+        "c200e1548ce5fa149810e65ade2fad8f50012487"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "c200e1548ce5fa149810e65ade2fad8f50012487"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1266/cards/sor.values.json",
+      "before": null,
+      "after": [
+        "100644",
+        "664442251651d9d0687dca846f9528c6c4daae1b"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "664442251651d9d0687dca846f9528c6c4daae1b"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1266/cards/spp.md",
+      "before": null,
+      "after": [
+        "100644",
+        "841a25d6646734216a93040ab420f9696c41fe7e"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "841a25d6646734216a93040ab420f9696c41fe7e"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1266/cards/spp.values.json",
+      "before": null,
+      "after": [
+        "100644",
+        "029b72f3adf78bd4a7c749a339e51668d1e217a6"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "029b72f3adf78bd4a7c749a339e51668d1e217a6"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1266/cards/srp.md",
+      "before": null,
+      "after": [
+        "100644",
+        "487e5343cb25ec6de0010df64b7bb5100c28e835"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "487e5343cb25ec6de0010df64b7bb5100c28e835"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1266/cards/srp.values.json",
+      "before": null,
+      "after": [
+        "100644",
+        "9d002ccb8fce3f34b173e8e564aea37c617b7af7"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "9d002ccb8fce3f34b173e8e564aea37c617b7af7"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1266/cards/stp.md",
+      "before": null,
+      "after": [
+        "100644",
+        "16c30857b6e32c122a222f2f73450dfd6b5c7db0"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "16c30857b6e32c122a222f2f73450dfd6b5c7db0"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1266/cards/stp.values.json",
+      "before": null,
+      "after": [
+        "100644",
+        "b20f5bdb5cd8175aa5851a591a2bef694aa7e077"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "b20f5bdb5cd8175aa5851a591a2bef694aa7e077"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1266/cards/vpp.md",
+      "before": null,
+      "after": [
+        "100644",
+        "0d5b9527a85b70c7d79eda0a897fc70bf865289a"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "0d5b9527a85b70c7d79eda0a897fc70bf865289a"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1266/cards/vpp.values.json",
+      "before": null,
+      "after": [
+        "100644",
+        "a042162df09aae3348e4298f8bf632e631fc32f7"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "a042162df09aae3348e4298f8bf632e631fc32f7"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1266/state.json",
+      "before": null,
+      "after": [
+        "100644",
+        "160943857959da99ef52de38cf6cb04cca970385"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "160943857959da99ef52de38cf6cb04cca970385"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1270/cards/manifest.json",
+      "before": null,
+      "after": [
+        "100644",
+        "4b9fadff20f8f21219d87758413ed8cf450b108e"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "4b9fadff20f8f21219d87758413ed8cf450b108e"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1270/cards/sip.md",
+      "before": null,
+      "after": [
+        "100644",
+        "e89a35db4bdc0ffad227f0e64aa373f86d4726f0"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "e89a35db4bdc0ffad227f0e64aa373f86d4726f0"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1270/cards/sip.values.json",
+      "before": null,
+      "after": [
+        "100644",
+        "7f818303594473d79feb6827233034e1dcda9929"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "7f818303594473d79feb6827233034e1dcda9929"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1270/cards/sor.md",
+      "before": null,
+      "after": [
+        "100644",
+        "7d5bd6887d56a30a7d699298e77abc517ae943eb"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "7d5bd6887d56a30a7d699298e77abc517ae943eb"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1270/cards/sor.values.json",
+      "before": null,
+      "after": [
+        "100644",
+        "656a6265ac0fbdce08a2f897e4a3c337f3c4ff6b"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "656a6265ac0fbdce08a2f897e4a3c337f3c4ff6b"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1270/cards/spp.md",
+      "before": null,
+      "after": [
+        "100644",
+        "e81368f86a4f1214aa46bd9b4af76d6d4f3b9129"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "e81368f86a4f1214aa46bd9b4af76d6d4f3b9129"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1270/cards/spp.values.json",
+      "before": null,
+      "after": [
+        "100644",
+        "75c9e870aa744f399fb974a38f3c4e7b72259883"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "75c9e870aa744f399fb974a38f3c4e7b72259883"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1270/cards/srp.md",
+      "before": null,
+      "after": [
+        "100644",
+        "14fbad91d23aa225bbedb78df98062f4b0d47e97"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "14fbad91d23aa225bbedb78df98062f4b0d47e97"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1270/cards/srp.values.json",
+      "before": null,
+      "after": [
+        "100644",
+        "0ef70e6a15787d64484466d039c84f3f4f4a39c1"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "0ef70e6a15787d64484466d039c84f3f4f4a39c1"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1270/cards/stp.md",
+      "before": null,
+      "after": [
+        "100644",
+        "bb6ffec3ee95515584b29745c84016f4a576662c"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "bb6ffec3ee95515584b29745c84016f4a576662c"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1270/cards/stp.values.json",
+      "before": null,
+      "after": [
+        "100644",
+        "0051c896d2ca86d31d10d3942c1f4ca54afb975e"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "0051c896d2ca86d31d10d3942c1f4ca54afb975e"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1270/cards/vpp.md",
+      "before": null,
+      "after": [
+        "100644",
+        "d7b525cb79fcc5f61e8d6c8affeda1757c03c30e"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "d7b525cb79fcc5f61e8d6c8affeda1757c03c30e"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1270/cards/vpp.values.json",
+      "before": null,
+      "after": [
+        "100644",
+        "76dcd2ffecd7d886c30b44be2eafae8ec2eb50b4"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "76dcd2ffecd7d886c30b44be2eafae8ec2eb50b4"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": ".csdlc/v3/issues/1270/state.json",
+      "before": null,
+      "after": [
+        "100644",
+        "3b5c413d584ef05ff9ceb10c35ca7b23cb23d614"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "3b5c413d584ef05ff9ceb10c35ca7b23cb23d614"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/validate_v0932_planning.test.mjs",
+      "before": null,
+      "after": [
+        "100644",
+        "5ac0eb35c210569a7122775734afba310d812897"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "5ac0eb35c210569a7122775734afba310d812897"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/milestones/v0.93.1/NEXT_MILESTONE_HANDOFF_v0.93.1.md",
+      "before": [
+        "100644",
+        "0eac8428caf2386c96c01b8a3742bf5cefcca778"
+      ],
+      "after": [
+        "100644",
+        "9ee0902f785af4c3ff04c7bb0d24a7af500a2b42"
+      ],
+      "action": "modify",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": [
+            "100644",
+            "0eac8428caf2386c96c01b8a3742bf5cefcca778"
+          ],
+          "after": [
+            "100644",
+            "9ee0902f785af4c3ff04c7bb0d24a7af500a2b42"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/milestones/v0.93.2/ADR_PLAN_v0.93.2.md",
+      "before": [
+        "100644",
+        "f8497a49681ff9ed615383d1af22b566fafd38ea"
+      ],
+      "after": [
+        "100644",
+        "261830407fca8f859a25b0c76d958e9224a8d90a"
+      ],
+      "action": "modify",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": [
+            "100644",
+            "f8497a49681ff9ed615383d1af22b566fafd38ea"
+          ],
+          "after": [
+            "100644",
+            "261830407fca8f859a25b0c76d958e9224a8d90a"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/milestones/v0.93.2/DECISIONS_v0.93.2.md",
+      "before": [
+        "100644",
+        "b1fe0b3c1c47ad50ae66f19789ee5e56ec684ca8"
+      ],
+      "after": [
+        "100644",
+        "3475b16757f251eb0550fc225c971bcf4df6f975"
+      ],
+      "action": "modify",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": [
+            "100644",
+            "b1fe0b3c1c47ad50ae66f19789ee5e56ec684ca8"
+          ],
+          "after": [
+            "100644",
+            "3475b16757f251eb0550fc225c971bcf4df6f975"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/milestones/v0.93.2/DEMO_MATRIX_v0.93.2.md",
+      "before": [
+        "100644",
+        "bcc3bc8ec1195b68e84b8c410eb233a251572336"
+      ],
+      "after": [
+        "100644",
+        "fe6a2eb775a4699a67519c48d44c54ca2c1aec9e"
+      ],
+      "action": "modify",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": [
+            "100644",
+            "bcc3bc8ec1195b68e84b8c410eb233a251572336"
+          ],
+          "after": [
+            "100644",
+            "fe6a2eb775a4699a67519c48d44c54ca2c1aec9e"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/milestones/v0.93.2/DESIGN_v0.93.2.md",
+      "before": [
+        "100644",
+        "585a648b2e165c4cfcde10ae1f0d5ea0b8f8f4bf"
+      ],
+      "after": [
+        "100644",
+        "1efc67a41c4e037862e913a8cbecf37b4c8842c5"
+      ],
+      "action": "modify",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": [
+            "100644",
+            "585a648b2e165c4cfcde10ae1f0d5ea0b8f8f4bf"
+          ],
+          "after": [
+            "100644",
+            "1efc67a41c4e037862e913a8cbecf37b4c8842c5"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json",
+      "before": [
+        "100644",
+        "06454ca30180a0cdc6f852dc307dc0c8308bb8fd"
+      ],
+      "after": [
+        "100644",
+        "d3dda0ab880dd0556337f94d5c2bd5895093f675"
+      ],
+      "action": "modify",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": [
+            "100644",
+            "06454ca30180a0cdc6f852dc307dc0c8308bb8fd"
+          ],
+          "after": [
+            "100644",
+            "d3dda0ab880dd0556337f94d5c2bd5895093f675"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/milestones/v0.93.2/FEATURE_PROOF_COVERAGE_v0.93.2.md",
+      "before": [
+        "100644",
+        "02628cba00cfa023a6e4bf25213a58872ca3f350"
+      ],
+      "after": [
+        "100644",
+        "97f5ab4b15e81c5ef91a9b210bc38919135c6ecf"
+      ],
+      "action": "modify",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": [
+            "100644",
+            "02628cba00cfa023a6e4bf25213a58872ca3f350"
+          ],
+          "after": [
+            "100644",
+            "97f5ab4b15e81c5ef91a9b210bc38919135c6ecf"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/milestones/v0.93.2/MILESTONE_CHECKLIST_v0.93.2.md",
+      "before": [
+        "100644",
+        "f4dfa13e8c37386d2b8682521f58cf3f82944b81"
+      ],
+      "after": [
+        "100644",
+        "db9f2fb082aca0796a97e9f8d9e6a89dd6ca4047"
+      ],
+      "action": "modify",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": [
+            "100644",
+            "f4dfa13e8c37386d2b8682521f58cf3f82944b81"
+          ],
+          "after": [
+            "100644",
+            "db9f2fb082aca0796a97e9f8d9e6a89dd6ca4047"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/milestones/v0.93.2/NEXT_MILESTONE_HANDOFF_v0.93.2.md",
+      "before": [
+        "100644",
+        "63f5423417050d74dd9397e6739e29a8a1348758"
+      ],
+      "after": [
+        "100644",
+        "d33d32247d47a9de7bf7b5862555f54ecc1f9c12"
+      ],
+      "action": "modify",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": [
+            "100644",
+            "63f5423417050d74dd9397e6739e29a8a1348758"
+          ],
+          "after": [
+            "100644",
+            "d33d32247d47a9de7bf7b5862555f54ecc1f9c12"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/milestones/v0.93.2/QUALITY_GATE_v0.93.2.md",
+      "before": [
+        "100644",
+        "c4b0b58356f792cb8245009e5c4888b5e1b8ceeb"
+      ],
+      "after": [
+        "100644",
+        "72c7202b2efe2eaa498a73cc96a93b081b04c603"
+      ],
+      "action": "modify",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": [
+            "100644",
+            "c4b0b58356f792cb8245009e5c4888b5e1b8ceeb"
+          ],
+          "after": [
+            "100644",
+            "72c7202b2efe2eaa498a73cc96a93b081b04c603"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/milestones/v0.93.2/README.md",
+      "before": [
+        "100644",
+        "3fae8a730206d813334fe65db6c49df6b6c09311"
+      ],
+      "after": [
+        "100644",
+        "f3075e3d13c956172a769a20bda97f9d62a9c0dd"
+      ],
+      "action": "modify",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": [
+            "100644",
+            "3fae8a730206d813334fe65db6c49df6b6c09311"
+          ],
+          "after": [
+            "100644",
+            "f3075e3d13c956172a769a20bda97f9d62a9c0dd"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/milestones/v0.93.2/RELEASE_NOTES_v0.93.2.md",
+      "before": [
+        "100644",
+        "c6acf948b178780bb9fade4289b64492a03a0ac0"
+      ],
+      "after": [
+        "100644",
+        "3d07ffc4a7875d043e654d4f8b8a1d06ca7ca4cb"
+      ],
+      "action": "modify",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": [
+            "100644",
+            "c6acf948b178780bb9fade4289b64492a03a0ac0"
+          ],
+          "after": [
+            "100644",
+            "3d07ffc4a7875d043e654d4f8b8a1d06ca7ca4cb"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/milestones/v0.93.2/RELEASE_PLAN_v0.93.2.md",
+      "before": [
+        "100644",
+        "84e2eaf860c6cb0e34dfdc6b40cfa23ce8075bf2"
+      ],
+      "after": [
+        "100644",
+        "d6a392b5fb2edce2d18253e166b5428fccb85802"
+      ],
+      "action": "modify",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": [
+            "100644",
+            "84e2eaf860c6cb0e34dfdc6b40cfa23ce8075bf2"
+          ],
+          "after": [
+            "100644",
+            "d6a392b5fb2edce2d18253e166b5428fccb85802"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/milestones/v0.93.2/SPRINT_v0.93.2.md",
+      "before": [
+        "100644",
+        "9645d86496e9f26105582cddf347c5f46bdf594d"
+      ],
+      "after": [
+        "100644",
+        "3e2dd7fb9e89ddfc5b94af478bd7eeddc6862e9d"
+      ],
+      "action": "modify",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": [
+            "100644",
+            "9645d86496e9f26105582cddf347c5f46bdf594d"
+          ],
+          "after": [
+            "100644",
+            "3e2dd7fb9e89ddfc5b94af478bd7eeddc6862e9d"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/milestones/v0.93.2/VISION_v0.93.2.md",
+      "before": [
+        "100644",
+        "3b381f0810015a13f931b21e5676039282e5b74f"
+      ],
+      "after": [
+        "100644",
+        "eb80f408f8f9b68ae00789cdc1ddbfd757676872"
+      ],
+      "action": "modify",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": [
+            "100644",
+            "3b381f0810015a13f931b21e5676039282e5b74f"
+          ],
+          "after": [
+            "100644",
+            "eb80f408f8f9b68ae00789cdc1ddbfd757676872"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/milestones/v0.93.2/WBS_v0.93.2.md",
+      "before": [
+        "100644",
+        "2edb4d566fbe96641885f0e6deae3944638a2ce8"
+      ],
+      "after": [
+        "100644",
+        "28cef1ffb88f0db1e9ccc3616c98d9ec1d3bbdf2"
+      ],
+      "action": "modify",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": [
+            "100644",
+            "2edb4d566fbe96641885f0e6deae3944638a2ce8"
+          ],
+          "after": [
+            "100644",
+            "28cef1ffb88f0db1e9ccc3616c98d9ec1d3bbdf2"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/milestones/v0.93.2/WP_EXECUTION_READINESS_v0.93.2.md",
+      "before": [
+        "100644",
+        "b8eb0d0444ff3f9d3f752694d499c33e9454e8dd"
+      ],
+      "after": [
+        "100644",
+        "9fe61924ead9788e82a409b1ef913e140fdb731c"
+      ],
+      "action": "modify",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": [
+            "100644",
+            "b8eb0d0444ff3f9d3f752694d499c33e9454e8dd"
+          ],
+          "after": [
+            "100644",
+            "9fe61924ead9788e82a409b1ef913e140fdb731c"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/milestones/v0.93.2/WP_EXECUTION_SPECIFICATIONS_v0.93.2.yaml",
+      "before": [
+        "100644",
+        "62fbdeb95097b0d3a22c876ced5301dcd9bc435a"
+      ],
+      "after": [
+        "100644",
+        "16f4001bc2e88a7e3b6dba514cb5f71bd95642f9"
+      ],
+      "action": "modify",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": [
+            "100644",
+            "62fbdeb95097b0d3a22c876ced5301dcd9bc435a"
+          ],
+          "after": [
+            "100644",
+            "16f4001bc2e88a7e3b6dba514cb5f71bd95642f9"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/milestones/v0.93.2/WP_ISSUE_WAVE_v0.93.2.yaml",
+      "before": [
+        "100644",
+        "dd1625616334e12955e7b5e20b6170892539bda3"
+      ],
+      "after": [
+        "100644",
+        "d3c9ca7fee785b33e97616424d15e877c7b0f4f3"
+      ],
+      "action": "modify",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": [
+            "100644",
+            "dd1625616334e12955e7b5e20b6170892539bda3"
+          ],
+          "after": [
+            "100644",
+            "d3c9ca7fee785b33e97616424d15e877c7b0f4f3"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/milestones/v0.93.2/features/CITIZENSHIP_RIGHTS_DUTIES_AND_SOCIAL_CONTRACT_v0.93.2.md",
+      "before": [
+        "100644",
+        "e8b85e9cdcb47b3eb4334082d8b1d9d5ba108424"
+      ],
+      "after": [
+        "100644",
+        "c1f212498739027ba240b7eceeda1a10030de183"
+      ],
+      "action": "modify",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": [
+            "100644",
+            "e8b85e9cdcb47b3eb4334082d8b1d9d5ba108424"
+          ],
+          "after": [
+            "100644",
+            "c1f212498739027ba240b7eceeda1a10030de183"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/milestones/v0.93.2/features/CODEFRIEND_LAUNCH_v0.93.2.md",
+      "before": null,
+      "after": [
+        "100644",
+        "eb5afedc8b8e3de6636dd72db5ba082b8e9ff3e9"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "eb5afedc8b8e3de6636dd72db5ba082b8e9ff3e9"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/milestones/v0.93.2/features/DELEGATION_IAM_STANDING_AND_APPEAL_GOVERNANCE_v0.93.2.md",
+      "before": [
+        "100644",
+        "9c91b96b7e38c0bd1667ac7a615b9dc50fbae2e7"
+      ],
+      "after": [
+        "100644",
+        "89eae897150b7b170a27bcd5b254e8f1b811945b"
+      ],
+      "action": "modify",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": [
+            "100644",
+            "9c91b96b7e38c0bd1667ac7a615b9dc50fbae2e7"
+          ],
+          "after": [
+            "100644",
+            "89eae897150b7b170a27bcd5b254e8f1b811945b"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/milestones/v0.93.2/features/ENTERPRISE_SECURITY_v0.93.2.md",
+      "before": [
+        "100644",
+        "0b1615fc98274d799ea3bf6f0fb5e1d62e378888"
+      ],
+      "after": [
+        "100644",
+        "a7a6fb641d803f029fac5a87f8be9ac7faf254e5"
+      ],
+      "action": "modify",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": [
+            "100644",
+            "0b1615fc98274d799ea3bf6f0fb5e1d62e378888"
+          ],
+          "after": [
+            "100644",
+            "a7a6fb641d803f029fac5a87f8be9ac7faf254e5"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/milestones/v0.93.2/features/GODEL_HADAMARD_BAYES_v0.93.2.md",
+      "before": null,
+      "after": [
+        "100644",
+        "3307b3784e4d6d90f86c802595c334b55efb9b2d"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "3307b3784e4d6d90f86c802595c334b55efb9b2d"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/milestones/v0.93.2/features/INTEGRATED_DEMONSTRATIONS_v0.93.2.md",
+      "before": [
+        "100644",
+        "3a9cb74d5e7342932c7afc439d561e616983af91"
+      ],
+      "after": [
+        "100644",
+        "a212c715f8fd3670f9dd2b071e36ea20160ab0d7"
+      ],
+      "action": "modify",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": [
+            "100644",
+            "3a9cb74d5e7342932c7afc439d561e616983af91"
+          ],
+          "after": [
+            "100644",
+            "a212c715f8fd3670f9dd2b071e36ea20160ab0d7"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/milestones/v0.93.2/features/PYTHON_REDUCTION_v0.93.2.md",
+      "before": [
+        "100644",
+        "717a7e69e6ddb1dcba899db60f8ebbd2d94e9a5f"
+      ],
+      "after": [
+        "100644",
+        "fe96178a83cae03bd361ebe97d27c82c690e35c8"
+      ],
+      "action": "modify",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": [
+            "100644",
+            "717a7e69e6ddb1dcba899db60f8ebbd2d94e9a5f"
+          ],
+          "after": [
+            "100644",
+            "fe96178a83cae03bd361ebe97d27c82c690e35c8"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/milestones/v0.93.2/features/RUNTIME_V4_PLUGIN_SYSTEM_v0.93.2.md",
+      "before": [
+        "100644",
+        "36a2f38319378dac2313645069b6c9a2197a9f5f"
+      ],
+      "after": [
+        "100644",
+        "f97b5d9f9814f4f20cafa4dd7b11e1ecb28c98c8"
+      ],
+      "action": "modify",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": [
+            "100644",
+            "36a2f38319378dac2313645069b6c9a2197a9f5f"
+          ],
+          "after": [
+            "100644",
+            "f97b5d9f9814f4f20cafa4dd7b11e1ecb28c98c8"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/milestones/v0.93.2/features/SECURITY_WP_S1_ZERO_TRUST_ARCHITECTURE_v0.93.2.md",
+      "before": [
+        "100644",
+        "8c8bc4b269081670fb2f51d8e7b1b216da327859"
+      ],
+      "after": [
+        "100644",
+        "c4d652a823813111cea702ce547596a535b875a2"
+      ],
+      "action": "modify",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": [
+            "100644",
+            "8c8bc4b269081670fb2f51d8e7b1b216da327859"
+          ],
+          "after": [
+            "100644",
+            "c4d652a823813111cea702ce547596a535b875a2"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/milestones/v0.93.2/features/SECURITY_WP_S2_POLICY_ENFORCEMENT_AUTHORIZATION_v0.93.2.md",
+      "before": [
+        "100644",
+        "127233e6b35edded5d5a30c89ac4f55628428bb7"
+      ],
+      "after": [
+        "100644",
+        "37c55b42b50c60093c1616044f8d10661815251d"
+      ],
+      "action": "modify",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": [
+            "100644",
+            "127233e6b35edded5d5a30c89ac4f55628428bb7"
+          ],
+          "after": [
+            "100644",
+            "37c55b42b50c60093c1616044f8d10661815251d"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/milestones/v0.93.2/features/SECURITY_WP_S3_SECRETS_KEYS_CRYPTOGRAPHIC_TRUST_v0.93.2.md",
+      "before": [
+        "100644",
+        "a3ba60a2b8eb9bd8dcb36938c38cf27d3b688755"
+      ],
+      "after": [
+        "100644",
+        "5f1f79d03b4bb5466025a1a688dfc9aedff8de51"
+      ],
+      "action": "modify",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": [
+            "100644",
+            "a3ba60a2b8eb9bd8dcb36938c38cf27d3b688755"
+          ],
+          "after": [
+            "100644",
+            "5f1f79d03b4bb5466025a1a688dfc9aedff8de51"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/milestones/v0.93.2/features/SECURITY_WP_S4_AUDIT_COMPLIANCE_INCIDENT_EVIDENCE_v0.93.2.md",
+      "before": [
+        "100644",
+        "41f89212272c2ef1d59f0cd0ab7a4dc3aceae3dc"
+      ],
+      "after": [
+        "100644",
+        "4a65fca560c26880c7a508f46746ba17b75723a8"
+      ],
+      "action": "modify",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": [
+            "100644",
+            "41f89212272c2ef1d59f0cd0ab7a4dc3aceae3dc"
+          ],
+          "after": [
+            "100644",
+            "4a65fca560c26880c7a508f46746ba17b75723a8"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/milestones/v0.93.2/features/SECURITY_WP_S5_ISOLATION_DATA_GOVERNANCE_PRIVACY_v0.93.2.md",
+      "before": [
+        "100644",
+        "6aa381982213040c4386a131cfa142e36d245efb"
+      ],
+      "after": [
+        "100644",
+        "7c3ddd4cdac9db49f17e7deb22eea025e378ce1c"
+      ],
+      "action": "modify",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": [
+            "100644",
+            "6aa381982213040c4386a131cfa142e36d245efb"
+          ],
+          "after": [
+            "100644",
+            "7c3ddd4cdac9db49f17e7deb22eea025e378ce1c"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/milestones/v0.93.2/features/SECURITY_WP_S6_SECURITY_OPERATIONS_ADVERSARIAL_PROVENANCE_v0.93.2.md",
+      "before": [
+        "100644",
+        "c03a60cc4d0478b9cc42bbdc42e54e1af514a859"
+      ],
+      "after": [
+        "100644",
+        "164e0bc9b78133237f393b93e66f09e23571b8f0"
+      ],
+      "action": "modify",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": [
+            "100644",
+            "c03a60cc4d0478b9cc42bbdc42e54e1af514a859"
+          ],
+          "after": [
+            "100644",
+            "164e0bc9b78133237f393b93e66f09e23571b8f0"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/milestones/v0.93.2/features/SOCIAL_RELATIONSHIP_REPUTATION_AND_SHARED_MEMORY_v0.93.2.md",
+      "before": [
+        "100644",
+        "63f9a7c4cbf3a8bfae4319002b84a43dccc789df"
+      ],
+      "after": [
+        "100644",
+        "78020f452dabaa2e8f6df1fca911009df512c997"
+      ],
+      "action": "modify",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": [
+            "100644",
+            "63f9a7c4cbf3a8bfae4319002b84a43dccc789df"
+          ],
+          "after": [
+            "100644",
+            "78020f452dabaa2e8f6df1fca911009df512c997"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/milestones/v0.93.2/features/THEORY_OF_MIND_AND_SOCIAL_COGNITION_v0.93.2.md",
+      "before": [
+        "100644",
+        "b0a8a8d3b674b0964e9983118ad777a4b3e3fce7"
+      ],
+      "after": [
+        "100644",
+        "3ec8cd6a3ad94397742919bc49d1ae79ab5ff557"
+      ],
+      "action": "modify",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": [
+            "100644",
+            "b0a8a8d3b674b0964e9983118ad777a4b3e3fce7"
+          ],
+          "after": [
+            "100644",
+            "3ec8cd6a3ad94397742919bc49d1ae79ab5ff557"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/milestones/v0.93.2/sources/ghb/DESIGN_AND_RESEARCH.md",
+      "before": null,
+      "after": [
+        "100644",
+        "262cbbb3c138a51fdde512c709e6240057ec1954"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "262cbbb3c138a51fdde512c709e6240057ec1954"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/milestones/v0.93.2/sources/ghb/ESTIMATE.md",
+      "before": null,
+      "after": [
+        "100644",
+        "4977b1580779eb96bb43cc601c3c4445be2fcda7"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "4977b1580779eb96bb43cc601c3c4445be2fcda7"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/milestones/v0.93.2/sources/ghb/IMPLEMENTATION_PLAN.md",
+      "before": null,
+      "after": [
+        "100644",
+        "53635112bf00abf50220f9e00fa9826c24a10df1"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "53635112bf00abf50220f9e00fa9826c24a10df1"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/milestones/v0.93.2/sources/ghb/ISSUE_LIST.md",
+      "before": null,
+      "after": [
+        "100644",
+        "ce580f04447e1466a84f9ccd1839268f9ed7ebb1"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "ce580f04447e1466a84f9ccd1839268f9ed7ebb1"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/milestones/v0.93.2/sources/ghb/README.md",
+      "before": null,
+      "after": [
+        "100644",
+        "ce7e625c681f5703f6a8907f811d7171842738e3"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "ce7e625c681f5703f6a8907f811d7171842738e3"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/milestones/v0.93.2/sources/ghb/issue_candidates.json",
+      "before": null,
+      "after": [
+        "100644",
+        "3c627def8801da7863154833931273f50801d649"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "3c627def8801da7863154833931273f50801d649"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/milestones/v0.93/validate_split.py",
+      "before": [
+        "100644",
+        "8aaca390fc6a7de85bcb71bfbd5e162b93decd15"
+      ],
+      "after": [
+        "100644",
+        "fba1705f1a241988edf9a0ff6e5daa355463ff56"
+      ],
+      "action": "modify",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": [
+            "100644",
+            "8aaca390fc6a7de85bcb71bfbd5e162b93decd15"
+          ],
+          "after": [
+            "100644",
+            "fba1705f1a241988edf9a0ff6e5daa355463ff56"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "docs/tooling/CI_PERFORMANCE_1270.md",
+      "before": null,
+      "after": [
+        "100644",
+        "7a44dc8f8e72ef57a98ed15c9b3de38989fed24c"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "7a44dc8f8e72ef57a98ed15c9b3de38989fed24c"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
+        }
+      ]
+    },
+    {
+      "path": "tools/public_adl/test_planning_contract.py",
+      "before": null,
+      "after": [
+        "100644",
+        "7cc2a538117fcbc1388d8f32d62171446074f8ce"
+      ],
+      "action": "add",
+      "implementation_commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "approval_reference": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "review_reference": "Independent source/caller review PASS and parent exact application review",
+      "source_chain": [
+        {
+          "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+          "before": null,
+          "after": [
+            "100644",
+            "7cc2a538117fcbc1388d8f32d62171446074f8ce"
+          ],
+          "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json"
         }
       ]
     }
@@ -116306,9 +121360,238 @@
         "docs/tooling/TOOL_SURFACE_REGISTRY.md"
       ],
       "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "ADDITIONAL_TWENTY_ONE_CLOSURE_APPLIED.json",
+      "sha256": "74be3468b23e63ffbc4bced76b50b59e9785b94bf5c917875c7aa2a470af0c47",
+      "commit": "41429a6d3432445bb922d62358e39f6efbcff632",
+      "files": 29,
+      "removals": 22,
+      "scope_sha256": "9f1861049199f79c014969811a27510fd40c40d4d12f37eb9e17a5c6b212ae17",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "adl-provider-core/src/spec.rs",
+        "adl/src/adl.rs",
+        "adl/src/cli/commands.rs",
+        "adl/src/cli/mod.rs",
+        "adl/src/cognitive_transition_schema.rs",
+        "adl/src/execution_plan.rs",
+        "adl/src/plan.rs",
+        "adl/src/prompt.rs",
+        "adl/src/schema.rs",
+        "adl/src/trace_schema_v1.rs",
+        "adl/src/uts.rs",
+        "adl/src/uts_conformance.rs",
+        "adl/tests/runtime_contract_candidates.rs",
+        "csdlc-v3/src/commands/proof/node.rs",
+        "csdlc-v3/src/commands/remote/publication_observation.rs",
+        "csdlc-v3/tests/rd01_1181_census.rs",
+        "csdlc-v3/tests/rd02_1182_contract.rs",
+        "csdlc-v3/tests/rd12_1183_bootstrap.rs",
+        "csdlc-v3/tests/rd13_1184_mapping.rs",
+        "adl/tools/demo_v0912_quality_gate.sh",
+        "adl/tools/test_demo_v0912_quality_gate.sh",
+        "tools/runtime_contracts/build_candidates.py",
+        "docs/milestones/v0.91.2/QUALITY_GATE_v0.91.2.md",
+        "docs/milestones/v0.91.2/ADL_v0.91.2_THIRD_PARTY_REVIEW_HANDOFF.md",
+        "docs/milestones/v0.91.2/FEATURE_PROOF_COVERAGE_v0.91.2.md",
+        "docs/milestones/v0.91.2/review/quality_gate/README.md",
+        "docs/milestones/v0.91.2/review/quality_gate/QUALITY_GATE_PACKET_v0.91.2.md",
+        "docs/runtime-contracts/ENGINE_RECORDS_DELIVERY.md",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "INCOMING_MAIN_RECONCILIATION_APPLIED.json",
+      "sha256": "9df5bc22971682d094ddff7dfd07120198e986ea9649329e5518e0cf933e310b",
+      "commit": "49effa02ab04fb0e401a5521ed38f580a16d0d7d",
+      "files": 174,
+      "removals": 0,
+      "scope_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        ".csdlc/evidence/1265/intent-review/e3fb34b9b3fc9635cba5743b6f44a9204401bc56/8e6f3e0d381055095e7eefb7e34a7ca4272d3de403db7d8319df2b06b25b1114.json",
+        ".csdlc/evidence/1266/card-truth-update.v1.json",
+        ".csdlc/evidence/1266/complete-denominator-preview.v1.json",
+        ".csdlc/evidence/1266/consumer-authority-observations.v1.json",
+        ".csdlc/evidence/1266/infrastructure-reconciliation.v1.json",
+        ".csdlc/evidence/1266/macos-successor-authority-blocker.v1.json",
+        ".csdlc/evidence/1266/preexisting-terminal-receipts.v1.json",
+        ".csdlc/evidence/1266/v0931-consumer-denominator.v1.json",
+        ".csdlc/issues/1259/binding.json",
+        ".csdlc/issues/1259/cards/sip.md",
+        ".csdlc/issues/1259/cards/sip.values.json",
+        ".csdlc/issues/1259/cards/sor.md",
+        ".csdlc/issues/1259/cards/sor.values.json",
+        ".csdlc/issues/1259/cards/spp.md",
+        ".csdlc/issues/1259/cards/spp.values.json",
+        ".csdlc/issues/1259/cards/srp.md",
+        ".csdlc/issues/1259/cards/srp.values.json",
+        ".csdlc/issues/1259/cards/stp.md",
+        ".csdlc/issues/1259/cards/stp.values.json",
+        ".csdlc/issues/1259/cards/vpp.md",
+        ".csdlc/issues/1259/cards/vpp.values.json",
+        ".csdlc/issues/1259/index.json",
+        ".csdlc/issues/1265/binding.json",
+        ".csdlc/issues/1265/cards/sip.md",
+        ".csdlc/issues/1265/cards/sip.values.json",
+        ".csdlc/issues/1265/cards/sor.md",
+        ".csdlc/issues/1265/cards/sor.values.json",
+        ".csdlc/issues/1265/cards/spp.md",
+        ".csdlc/issues/1265/cards/spp.values.json",
+        ".csdlc/issues/1265/cards/srp.md",
+        ".csdlc/issues/1265/cards/srp.values.json",
+        ".csdlc/issues/1265/cards/stp.md",
+        ".csdlc/issues/1265/cards/stp.values.json",
+        ".csdlc/issues/1265/cards/vpp.md",
+        ".csdlc/issues/1265/cards/vpp.values.json",
+        ".csdlc/issues/1265/index.json",
+        ".csdlc/issues/1265/intent-plan.json",
+        ".csdlc/issues/1266/binding.json",
+        ".csdlc/issues/1266/cards/sip.md",
+        ".csdlc/issues/1266/cards/sip.values.json",
+        ".csdlc/issues/1266/cards/sor.md",
+        ".csdlc/issues/1266/cards/sor.values.json",
+        ".csdlc/issues/1266/cards/spp.md",
+        ".csdlc/issues/1266/cards/spp.values.json",
+        ".csdlc/issues/1266/cards/srp.md",
+        ".csdlc/issues/1266/cards/srp.values.json",
+        ".csdlc/issues/1266/cards/stp.md",
+        ".csdlc/issues/1266/cards/stp.values.json",
+        ".csdlc/issues/1266/cards/vpp.md",
+        ".csdlc/issues/1266/cards/vpp.values.json",
+        ".csdlc/issues/1266/index.json",
+        ".csdlc/issues/1270/binding.json",
+        ".csdlc/issues/1270/cards/sip.md",
+        ".csdlc/issues/1270/cards/sip.values.json",
+        ".csdlc/issues/1270/cards/sor.md",
+        ".csdlc/issues/1270/cards/sor.values.json",
+        ".csdlc/issues/1270/cards/spp.md",
+        ".csdlc/issues/1270/cards/spp.values.json",
+        ".csdlc/issues/1270/cards/srp.md",
+        ".csdlc/issues/1270/cards/srp.values.json",
+        ".csdlc/issues/1270/cards/stp.md",
+        ".csdlc/issues/1270/cards/stp.values.json",
+        ".csdlc/issues/1270/cards/vpp.md",
+        ".csdlc/issues/1270/cards/vpp.values.json",
+        ".csdlc/issues/1270/index.json",
+        ".csdlc/issues/1270/intent-plan.json",
+        ".csdlc/transactions/completed/1259/bind-581d8bd715f72372963a024c4831ed193343a9246699604c27affa6c1e59efdd.json",
+        ".csdlc/transactions/completed/1265/bind-26ccb078e693d636083b01eb0e6c74171ba0424b6d426bcbb8c7e0be962af35e.json",
+        ".csdlc/transactions/completed/1266/bind-14435ef936fed21c150f3ae4bc5fd3e8e6692f842eae39f66988897f64edcd1f.json",
+        ".csdlc/transactions/completed/1270/bind-e7524a866afeacaa56224baea508afbc48021b23e6f60c97f381ffa05407f8fc.json",
+        ".csdlc/v3/issues/1259/cards/manifest.json",
+        ".csdlc/v3/issues/1259/cards/sip.md",
+        ".csdlc/v3/issues/1259/cards/sip.values.json",
+        ".csdlc/v3/issues/1259/cards/sor.md",
+        ".csdlc/v3/issues/1259/cards/sor.values.json",
+        ".csdlc/v3/issues/1259/cards/spp.md",
+        ".csdlc/v3/issues/1259/cards/spp.values.json",
+        ".csdlc/v3/issues/1259/cards/srp.md",
+        ".csdlc/v3/issues/1259/cards/srp.values.json",
+        ".csdlc/v3/issues/1259/cards/stp.md",
+        ".csdlc/v3/issues/1259/cards/stp.values.json",
+        ".csdlc/v3/issues/1259/cards/vpp.md",
+        ".csdlc/v3/issues/1259/cards/vpp.values.json",
+        ".csdlc/v3/issues/1259/state.json",
+        ".csdlc/v3/issues/1265/cards/manifest.json",
+        ".csdlc/v3/issues/1265/cards/sip.md",
+        ".csdlc/v3/issues/1265/cards/sip.values.json",
+        ".csdlc/v3/issues/1265/cards/sor.md",
+        ".csdlc/v3/issues/1265/cards/sor.values.json",
+        ".csdlc/v3/issues/1265/cards/spp.md",
+        ".csdlc/v3/issues/1265/cards/spp.values.json",
+        ".csdlc/v3/issues/1265/cards/srp.md",
+        ".csdlc/v3/issues/1265/cards/srp.values.json",
+        ".csdlc/v3/issues/1265/cards/stp.md",
+        ".csdlc/v3/issues/1265/cards/stp.values.json",
+        ".csdlc/v3/issues/1265/cards/vpp.md",
+        ".csdlc/v3/issues/1265/cards/vpp.values.json",
+        ".csdlc/v3/issues/1265/proof.json",
+        ".csdlc/v3/issues/1265/state.json",
+        ".csdlc/v3/issues/1266/cards/manifest.json",
+        ".csdlc/v3/issues/1266/cards/sip.md",
+        ".csdlc/v3/issues/1266/cards/sip.values.json",
+        ".csdlc/v3/issues/1266/cards/sor.md",
+        ".csdlc/v3/issues/1266/cards/sor.values.json",
+        ".csdlc/v3/issues/1266/cards/spp.md",
+        ".csdlc/v3/issues/1266/cards/spp.values.json",
+        ".csdlc/v3/issues/1266/cards/srp.md",
+        ".csdlc/v3/issues/1266/cards/srp.values.json",
+        ".csdlc/v3/issues/1266/cards/stp.md",
+        ".csdlc/v3/issues/1266/cards/stp.values.json",
+        ".csdlc/v3/issues/1266/cards/vpp.md",
+        ".csdlc/v3/issues/1266/cards/vpp.values.json",
+        ".csdlc/v3/issues/1266/state.json",
+        ".csdlc/v3/issues/1270/cards/manifest.json",
+        ".csdlc/v3/issues/1270/cards/sip.md",
+        ".csdlc/v3/issues/1270/cards/sip.values.json",
+        ".csdlc/v3/issues/1270/cards/sor.md",
+        ".csdlc/v3/issues/1270/cards/sor.values.json",
+        ".csdlc/v3/issues/1270/cards/spp.md",
+        ".csdlc/v3/issues/1270/cards/spp.values.json",
+        ".csdlc/v3/issues/1270/cards/srp.md",
+        ".csdlc/v3/issues/1270/cards/srp.values.json",
+        ".csdlc/v3/issues/1270/cards/stp.md",
+        ".csdlc/v3/issues/1270/cards/stp.values.json",
+        ".csdlc/v3/issues/1270/cards/vpp.md",
+        ".csdlc/v3/issues/1270/cards/vpp.values.json",
+        ".csdlc/v3/issues/1270/state.json",
+        ".github/workflows/ci.yaml",
+        "adl/tools/validate_v0932_planning.test.mjs",
+        "docs/milestones/v0.93.1/NEXT_MILESTONE_HANDOFF_v0.93.1.md",
+        "docs/milestones/v0.93.2/ADR_PLAN_v0.93.2.md",
+        "docs/milestones/v0.93.2/DECISIONS_v0.93.2.md",
+        "docs/milestones/v0.93.2/DEMO_MATRIX_v0.93.2.md",
+        "docs/milestones/v0.93.2/DESIGN_v0.93.2.md",
+        "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json",
+        "docs/milestones/v0.93.2/FEATURE_PROOF_COVERAGE_v0.93.2.md",
+        "docs/milestones/v0.93.2/MILESTONE_CHECKLIST_v0.93.2.md",
+        "docs/milestones/v0.93.2/NEXT_MILESTONE_HANDOFF_v0.93.2.md",
+        "docs/milestones/v0.93.2/QUALITY_GATE_v0.93.2.md",
+        "docs/milestones/v0.93.2/README.md",
+        "docs/milestones/v0.93.2/RELEASE_NOTES_v0.93.2.md",
+        "docs/milestones/v0.93.2/RELEASE_PLAN_v0.93.2.md",
+        "docs/milestones/v0.93.2/SPRINT_v0.93.2.md",
+        "docs/milestones/v0.93.2/VISION_v0.93.2.md",
+        "docs/milestones/v0.93.2/WBS_v0.93.2.md",
+        "docs/milestones/v0.93.2/WP_EXECUTION_READINESS_v0.93.2.md",
+        "docs/milestones/v0.93.2/WP_EXECUTION_SPECIFICATIONS_v0.93.2.yaml",
+        "docs/milestones/v0.93.2/WP_ISSUE_WAVE_v0.93.2.yaml",
+        "docs/milestones/v0.93.2/features/CITIZENSHIP_RIGHTS_DUTIES_AND_SOCIAL_CONTRACT_v0.93.2.md",
+        "docs/milestones/v0.93.2/features/CODEFRIEND_LAUNCH_v0.93.2.md",
+        "docs/milestones/v0.93.2/features/DELEGATION_IAM_STANDING_AND_APPEAL_GOVERNANCE_v0.93.2.md",
+        "docs/milestones/v0.93.2/features/ENTERPRISE_SECURITY_v0.93.2.md",
+        "docs/milestones/v0.93.2/features/GODEL_HADAMARD_BAYES_v0.93.2.md",
+        "docs/milestones/v0.93.2/features/INTEGRATED_DEMONSTRATIONS_v0.93.2.md",
+        "docs/milestones/v0.93.2/features/PYTHON_REDUCTION_v0.93.2.md",
+        "docs/milestones/v0.93.2/features/RUNTIME_V4_PLUGIN_SYSTEM_v0.93.2.md",
+        "docs/milestones/v0.93.2/features/SECURITY_WP_S1_ZERO_TRUST_ARCHITECTURE_v0.93.2.md",
+        "docs/milestones/v0.93.2/features/SECURITY_WP_S2_POLICY_ENFORCEMENT_AUTHORIZATION_v0.93.2.md",
+        "docs/milestones/v0.93.2/features/SECURITY_WP_S3_SECRETS_KEYS_CRYPTOGRAPHIC_TRUST_v0.93.2.md",
+        "docs/milestones/v0.93.2/features/SECURITY_WP_S4_AUDIT_COMPLIANCE_INCIDENT_EVIDENCE_v0.93.2.md",
+        "docs/milestones/v0.93.2/features/SECURITY_WP_S5_ISOLATION_DATA_GOVERNANCE_PRIVACY_v0.93.2.md",
+        "docs/milestones/v0.93.2/features/SECURITY_WP_S6_SECURITY_OPERATIONS_ADVERSARIAL_PROVENANCE_v0.93.2.md",
+        "docs/milestones/v0.93.2/features/SOCIAL_RELATIONSHIP_REPUTATION_AND_SHARED_MEMORY_v0.93.2.md",
+        "docs/milestones/v0.93.2/features/THEORY_OF_MIND_AND_SOCIAL_COGNITION_v0.93.2.md",
+        "docs/milestones/v0.93.2/sources/ghb/DESIGN_AND_RESEARCH.md",
+        "docs/milestones/v0.93.2/sources/ghb/ESTIMATE.md",
+        "docs/milestones/v0.93.2/sources/ghb/IMPLEMENTATION_PLAN.md",
+        "docs/milestones/v0.93.2/sources/ghb/ISSUE_LIST.md",
+        "docs/milestones/v0.93.2/sources/ghb/README.md",
+        "docs/milestones/v0.93.2/sources/ghb/issue_candidates.json",
+        "docs/milestones/v0.93/validate_split.py",
+        "docs/tooling/CI_PERFORMANCE_1270.md",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+        "tools/public_adl/test_planning_contract.py"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
     }
   ],
-  "baseline_deletion_count": 3382,
+  "baseline_deletion_count": 3404,
   "transient_removed_paths": [
     "adl/tools/test_issue872_historical_manifest.py",
     "adl/tools/lib/issue268_runtime_resources.py"
@@ -116325,10 +121608,11 @@
     "docs/tooling/unity_ilpp_getdomainname_diagnosis.md",
     "adl/tools/demo_v088_quality_gate.sh",
     "adl/tools/test_demo_v088_quality_gate.sh",
-    "adl/tools/demo_v0891_wp13_demo_integration.sh"
+    "adl/tools/demo_v0891_wp13_demo_integration.sh",
+    "tools/runtime_contracts/build_candidates.py"
   ],
-  "inventory_baseline_deletion_count": 3367,
-  "supplemental_baseline_deletion_count": 12,
+  "inventory_baseline_deletion_count": 3388,
+  "supplemental_baseline_deletion_count": 13,
   "separately_observed_baseline_deletion_count": 3,
   "separately_observed_retired_paths": [
     "demos/html-observatory/tests/governed_room_contracts.test.mjs",
