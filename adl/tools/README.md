@@ -188,3 +188,19 @@ the explicit authenticated owner resource comparison above for current copies.
 # Historical only; not executable against the split ADL checkout.
 diff -qr adl/tools/skills/test-generator "$CODEX_HOME/skills/test-generator"
 ```
+
+## Historical v0.91.5 packet validation
+
+The three `validate_v0915_*` validators for `openrouter_matrix`,
+`remote_gemma_watcher_probe` and `multi_agent_quality_comparison` validate the
+retained ADL review packets and their repository-relative evidence references.
+They do not repeat the original provider experiments or establish current
+provider readiness. Keep the immutable packets under
+`docs/milestones/v0.91.5/review/` unchanged.
+
+The corresponding three shell tests exercise packet acceptance and mutated-copy
+refusals. `test_v0915_openrouter_matrix.sh` now runs only its original two valid
+packet checks and two negative mutations. Its former credential-dependent live
+runner assertions and three monolithic Cargo selectors remain historical
+obligations in #1223 custody; an offline packet pass does not satisfy them.
+The two quality/watcher test bodies remain unchanged.
