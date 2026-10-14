@@ -30,7 +30,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 
 - `primary`: 8
 - `supported shim`: 0
-- `internal helper`: 460
+- `internal helper`: 456
 - `historical evidence`: 31
 - `archive candidate`: 0
 - `remove candidate`: 0
@@ -63,7 +63,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/batched_checks.sh` | tool surface | primary | Local validation entrypoint; use the current declared public validation contract. |
 | `adl/tools/benchmark` | tool surface | internal helper | Directory containing bounded helper assets, scripts, or proof inputs. |
 | `adl/tools/build_issue509_runtime_bundle_on_relay.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
-| `adl/tools/build_v0917_closeout_register.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/build_v0917_execution_outlier_analysis.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/check_coverage_impact.sh` | tool surface | primary | Primary local coverage-impact gate for risky changed files. |
 | `adl/tools/check_no_new_legacy_swarm_refs.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
@@ -73,7 +72,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/check_repo_quality_staleness.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/ci_path_policy.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/clean_coverage_artifacts.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
-| `adl/tools/codefriend` | tool surface | internal helper | Directory containing bounded helper assets, scripts, or proof inputs. |
 | `adl/tools/compute_ccc_v0.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/coverage_test_only.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/csdlc_obs_ready_canary.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
@@ -354,7 +352,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/test_install_issue268_runtime_volume.py` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_issue905_runtime_speculative_retest.py` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_issue_folding_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_issue_lifecycle_shepherd_contract.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_issue_splitter_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_issue_watcher_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_mechanical_coverage_fallout.sh` | tool surface | internal helper | Focused regression or contract test helper. |
@@ -367,7 +364,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/test_multi_agent_repo_review_specialist_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_multiagent_podcast_audio_policy.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_obsmem_handoff_packet.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_opus_review_runbook.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_owner_binary_install.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_planning_doc_editor_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_podcast_launch_packet.sh` | tool surface | internal helper | Focused regression or contract test helper. |

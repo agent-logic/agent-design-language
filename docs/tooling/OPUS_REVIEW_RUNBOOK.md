@@ -16,10 +16,10 @@ commands against the public ADL checkout.
 
 The preserved contract covers structured request/model identity, a 120-second
 single-attempt policy, separate result/log files, and redaction. Its original
-`test_opus_review_runbook.sh` is a conditional retirement candidate; it is not
-a current public-package gate. See
+`test_opus_review_runbook.sh` is retired with its unavailable monorepo adapter
+contract; its original assertions remain in Git and retirement custody. See
 [the retirement disposition](../milestones/v0.93.1/repository-decomposition/rd07-1223/CODEFRIEND_LEGACY_CI_RETIREMENT.json)
-for the explicit remaining obligations.
+for the preserved historical obligations.
 
 The procedure below is retained in its historical form.
 
@@ -125,7 +125,8 @@ review truth is absent or stale.
   path scope, the review summary and dispositions, live-probe limitations, and
   the typed review/guard results.
 
-The repository contract check is `bash adl/tools/test_opus_review_runbook.sh`.
-It verifies the documented flags and request fields against the current Rust
-binary help and rejects retired flag-form instructions, secrets, and absolute
-machine paths.
+The historical repository check was `bash adl/tools/test_opus_review_runbook.sh`.
+Its archived assertions covered documented flags and request fields against the
+former adapter help, plus retired-flag and machine-path refusals. That command
+is no longer available in ADL; this retirement does not establish a successor
+provider contract.
