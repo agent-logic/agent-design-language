@@ -30,7 +30,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 
 - `primary`: 7
 - `supported shim`: 0
-- `internal helper`: 261
+- `internal helper`: 259
 - `historical evidence`: 21
 - `archive candidate`: 0
 - `remove candidate`: 0
@@ -86,7 +86,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/demo_v0913_podcast_studio_v2.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v0913_quality_gate.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v0913_starharvest_html_game.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
-| `adl/tools/demo_v0914_codex_only_complete_issue_workcell.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v0918_podcast_launch.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/diagnose_browser_routes.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/editor_action.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
@@ -185,7 +184,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/test_demo_v090_codebuddy_review_showcase.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v0912_quality_gate.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v0913_quality_gate.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_demo_v0914_codex_only_complete_issue_workcell.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_developer_throughput_fast_lane.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_documentation_specialist_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_editor_action.sh` | tool surface | internal helper | Focused regression or contract test helper. |
