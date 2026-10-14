@@ -253,7 +253,7 @@ manifest, claim matrix, revision requests, and a clearer reviewer brief.
 
 ### v0.89.1 adversarial/runtime and publication demos
 
-- `v0.89.1/five_agent_hey_jude_midi_demo.md`
+- [Historical Hey Jude MIDI source guide](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.89.1/five_agent_hey_jude_midi_demo.md) (source custody; the original ADL producer is retired).
 - `v0.89.1/arxiv_manuscript_workflow_demo.md`
 - [v0.89.1/gemini_provider_harmony_roundtable_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.89.1/gemini_provider_harmony_roundtable_demo.md)
 - [v0.89.1/deep_agents_comparative_wave_follow_on_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.89.1/deep_agents_comparative_wave_follow_on_demo.md)
@@ -452,3 +452,7 @@ Original local-mock Paper Sonata and synthetic expansion assertions passed separ
 this does not qualify the full v0.88 aggregate, live providers, publication or discovery.
 
 The legacy provider demo shell family was retired in #1223 with its original assertions in Git and custody. Owner source delivery does not establish new live-provider, transcript, musical-performance or archive acceptance. Retained audio rendering requires an explicit existing source episode through `ADL_HEY_JUDE_AUDIO_SOURCE_DIR`; it does not regenerate an episode through a removed ADL command.
+
+### Historical audio and podcast source guides
+
+The [Hey Jude audio and podcast guides](https://github.com/agent-logic/agent-logic-runtime/tree/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.91.1) are retained in Runtime source. These historical documents do not establish current media, provider, or installed qualification. The ADL audio renderers and their current explicit-source preflight remain separate; the old Hey Jude aggregate test still requires reconciliation with that external-source boundary.
