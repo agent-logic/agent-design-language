@@ -7,12 +7,12 @@
   "original_count": 4134,
   "counts": {
     "retain_resolved": 551,
-    "preserve_approved_removal": 3365,
+    "preserve_approved_removal": 3366,
     "retain_public_source_or_fixture": 199,
-    "preserve_reviewed_consumer_repair": 19
+    "preserve_reviewed_consumer_repair": 18
   },
   "additional_current_source_paths": 22,
-  "preservation": "Original4134 identities and separate22 captured paths unchanged. All original and additional dispositions resolved. 3406 executed actions = 3404 execution-baseline deletions + two exact transient helpers. Baseline deletions include thirteen supplemental paths and three separately observed governed-room paths outside the immutable inventories. Builder is absent frozen248f but authenticated at introduction8cfd5af and observed9cfd, not a transient.",
+  "preservation": "Original4134 identities and separate22 captured paths unchanged. All original and additional dispositions resolved. 3407 executed actions = 3405 execution-baseline deletions + two exact transient helpers. Baseline deletions include thirteen supplemental paths and three separately observed governed-room paths outside the immutable inventories. Builder is absent frozen248f but authenticated at introduction8cfd5af and observed9cfd, not a transient.",
   "review_boundary": "Exact paths and Git identities are pinned. Proposed removals remain conditional; this is not a claim that caller closure or all successor tests are qualified.",
   "known_prerequisites": {
     "codefriend": "Issue102 e14ff1b08b7ef01f838404bca8ecdf47c1318ac1 passed all39suites409Linux tests,0failed0ignored,174.293s; exacthead and clean source before/after. Evidence FastWork c1223/evidence/codefriend/issue102-e14ff1b0-full, transcriptSHA256c7944f7e0403ba485b377868b1bd85e91eeee0ecce3f79920de3e86c813cfa1a. Focused1 and parallel47 diagnostics also passed; prior dc2 redelivery failure did not reproduce and its cause is not claimed fixed. Earlier failures retained. One macOS-only case, actual hosted installed-acquisition CI proof and owner publication remain separate.",
@@ -15683,8 +15683,18 @@
         "blob": "9d43c8fcb600fe21a6c43de7819a40aedc6f525d"
       },
       "existing_action": "approved_component_consumer_repair",
-      "proposed_action": "preserve_reviewed_consumer_repair",
-      "required_before_execution": []
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
+      "pre_reviewed_execution_classification": {
+        "proposed_action": "preserve_reviewed_consumer_repair",
+        "required_before_execution": []
+      },
+      "applied_removal": {
+        "packet": "ORPHAN_PRIVATE_RUN_ONE_APPLIED.json",
+        "sha256": "9c75d6ba489e4f05f587b0c6ac9dfc92f576e9f8d3499fe5c2c4a9f82118a1fa",
+        "implementation_commit": "2095d3707487cfd8e5a9239691cea96f6f4a31a3"
+      },
+      "retention_supersession": "Unused pre-public private dispatcher source; reviewed current public module closure excludes this file. Owner source correspondence and original/current custody preserved in applied packet, no new Runtime acceptance."
     },
     {
       "id": "RD07-0487",

@@ -126,32 +126,32 @@
   },
   "required_counts": {
     "original_rows": 4134,
-    "existing_removals": 34,
-    "regression_cases": 15,
+    "regression_cases": 57,
     "public_packages": 5,
     "consumer_cases": 7,
     "uts_fixtures": 21,
     "installed_negative_cases": 5,
     "independent_repositories": 5,
     "install_storage_regressions": 6,
-    "approved_component_removals": 36,
-    "total_removals": 70,
-    "public_packages_including_retained_cli": 6
+    "total_removals": 3407,
+    "public_packages_including_retained_cli": 6,
+    "baseline_removals": 3405,
+    "transient_removals": 2,
+    "captured_additional_rows": 22,
+    "held_rows": 0
   },
   "remaining_execution_gates": [
-    "operator_sequence_after_non_tail_before_sprint4",
-    "coherent_component_consumer_and_qualified_replacement_decisions",
-    "independent_fresh_clone_container_build_each_split_repository",
-    "final_candidate_installed_proof",
+    "final_authentic_owner_cli_parity_disposition",
     "independent_exact_head_review",
-    "native_publication_integration_finish"
+    "required_pr_checks",
+    "native_publication_integration_finish_and_cleanup"
   ],
   "proof_executed_by_this_document": false,
   "package_selection": "Explicit member --manifest-path selects full package tests including integration tests and doctests. No --lib filter; native admitted form omits unsupported --package flag.",
   "independent_repository_builds": "INDEPENDENT_REPOSITORY_BUILDS.json",
   "retained_cli_gate": {
     "required": true,
-    "status": "preliminary_public_proof_passed_final_candidate_pending",
+    "status": "final_linux_public_cli_passed_authentic_owner_prior_evidence_disposition_pending",
     "plan": "LEGACY_PUBLIC_CLI_PARTITION.json",
     "scope": "Public CLI behavior plus authenticated private-owner consumer parity after partition; five-package proof alone is insufficient",
     "no_legacy_cli_retirement_authorized": true,
@@ -270,5 +270,21 @@
     },
     "scope": "Full six-package public coverage including retained CLI; separate from final installed acceptance and clean-clone build.",
     "no_rerun": true
-  }
+  },
+  "initial_preparation_required_counts": {
+    "original_rows": 4134,
+    "existing_removals": 34,
+    "regression_cases": 15,
+    "public_packages": 5,
+    "consumer_cases": 7,
+    "uts_fixtures": 21,
+    "installed_negative_cases": 5,
+    "independent_repositories": 5,
+    "install_storage_regressions": 6,
+    "approved_component_removals": 36,
+    "total_removals": 70,
+    "public_packages_including_retained_cli": 6
+  },
+  "final_validation": "FINAL_VALIDATION.json",
+  "final_source_correspondence": "FINAL_SOURCE_CORRESPONDENCE.json"
 }

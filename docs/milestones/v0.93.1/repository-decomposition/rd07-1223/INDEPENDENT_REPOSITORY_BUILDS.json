@@ -8,125 +8,164 @@
     {
       "repository": "agent-logic/agent-design-language",
       "observed_revision": "9cfd035aac2a44637b3c8026bd40b669579a8c7f",
-      "execution_revision": "e4d7bf057634c2f0fd6d22421e9ca3e6cb37702e",
-      "status": "partial",
-      "kind": "rust_public_packages",
-      "commands": [
-        [
-          "cargo",
-          "build",
-          "--locked",
-          "--manifest-path",
-          "adl-schema/Cargo.toml"
+      "execution_revision": "ad8204be76528a2c13ffabf5ee1e2672df475c8b",
+      "status": "passed",
+      "kind": "fresh_clone_public_packages_and_retained_cli",
+      "prior_record": {
+        "repository": "agent-logic/agent-design-language",
+        "observed_revision": "9cfd035aac2a44637b3c8026bd40b669579a8c7f",
+        "execution_revision": "e4d7bf057634c2f0fd6d22421e9ca3e6cb37702e",
+        "status": "partial",
+        "kind": "rust_public_packages",
+        "commands": [
+          [
+            "cargo",
+            "build",
+            "--locked",
+            "--manifest-path",
+            "adl-schema/Cargo.toml"
+          ],
+          [
+            "cargo",
+            "build",
+            "--locked",
+            "--manifest-path",
+            "adl-uts/Cargo.toml"
+          ],
+          [
+            "cargo",
+            "build",
+            "--locked",
+            "--manifest-path",
+            "adl-v2/crates/adl-language/Cargo.toml"
+          ],
+          [
+            "cargo",
+            "build",
+            "--locked",
+            "--manifest-path",
+            "adl-v2/crates/adl-compiler/Cargo.toml"
+          ],
+          [
+            "cargo",
+            "build",
+            "--locked",
+            "--manifest-path",
+            "adl-legacy-contracts/Cargo.toml"
+          ]
         ],
-        [
-          "cargo",
-          "build",
-          "--locked",
-          "--manifest-path",
-          "adl-uts/Cargo.toml"
-        ],
-        [
-          "cargo",
-          "build",
-          "--locked",
-          "--manifest-path",
-          "adl-v2/crates/adl-language/Cargo.toml"
-        ],
-        [
-          "cargo",
-          "build",
-          "--locked",
-          "--manifest-path",
-          "adl-v2/crates/adl-compiler/Cargo.toml"
-        ],
-        [
-          "cargo",
-          "build",
-          "--locked",
-          "--manifest-path",
-          "adl-legacy-contracts/Cargo.toml"
-        ]
+        "source": "PUBLIC_PACKAGE_PATH_CLOSURE.json",
+        "note": "Five normalized public artifacts built and passed all 7 consumer and 21 UTS cases in network-disabled Linux. Public CLI has separate retained Linux proof. Dedicated fresh-clone/final-candidate acceptance remains outstanding; neither is claimed by this artifact run.",
+        "artifact_consumer": {
+          "status": "passed",
+          "source_revision": "e4d7bf057634c2f0fd6d22421e9ca3e6cb37702e",
+          "evidence": "FastWork c1223/evidence/public-linux-five-e4d7bf0576",
+          "result_sha256": "4159b40cc8c05ae9bc2a06ef6c0f50d1f5a6cb16206a2ac1a3287e702677195f",
+          "input_sha256": "7e9e88fbbd8c3ea7a9d31a360b1fc38141359d26ff52a18adf6be401c5b05a85",
+          "exit_code": 0,
+          "elapsed_seconds": 29.105,
+          "packages": [
+            {
+              "package": "adl-schema",
+              "version": "0.1.0",
+              "source": "adl-schema",
+              "artifact": "adl-schema-0.1.0.tar",
+              "sha256": "59b160ba52a136489a24cba80e2b9ab1bd4db70d66455cded29fae71a40010f7",
+              "manifest_normalization": "standalone workspace; existing sibling public dependencies retained"
+            },
+            {
+              "package": "adl-uts",
+              "version": "0.1.0",
+              "source": "adl-uts",
+              "artifact": "adl-uts-0.1.0.tar",
+              "sha256": "8d95da463d8840e8ab0c93ad4ac83d3b7eb87398d3f8cca3c039cde908def2ab",
+              "manifest_normalization": "standalone workspace; existing sibling public dependencies retained"
+            },
+            {
+              "package": "adl-language",
+              "version": "0.92.1",
+              "source": "adl-v2/crates/adl-language",
+              "artifact": "adl-language-0.92.1.tar",
+              "sha256": "32ee997b0ab5ec326cfb8b9c2759d00377febdc9da1f71ab91c2e9b6bd58d01c",
+              "manifest_normalization": "standalone workspace; existing sibling public dependencies retained"
+            },
+            {
+              "package": "adl-compiler",
+              "version": "0.92.1",
+              "source": "adl-v2/crates/adl-compiler",
+              "artifact": "adl-compiler-0.92.1.tar",
+              "sha256": "b029bcaf5cd658989d66299710c89749f151e48170a1f180410687907ebe4d7f",
+              "manifest_normalization": "standalone workspace; existing sibling public dependencies retained"
+            },
+            {
+              "package": "adl-legacy-contracts",
+              "version": "0.1.0",
+              "source": "adl-legacy-contracts",
+              "artifact": "adl-legacy-contracts-0.1.0.tar",
+              "sha256": "0af06ee11000ebebc0efc2e24e3c0ef1c330a225dd2e8844a278f7f0cce634d3",
+              "manifest_normalization": "standalone workspace; existing sibling public dependencies retained"
+            }
+          ],
+          "consumer_cases": 7,
+          "uts_fixtures": 21,
+          "argv": [
+            "docker",
+            "--host",
+            "unix:///Volumes/FastWork/c1223/home/split-build/docker.sock",
+            "exec",
+            "--workdir",
+            "/qualification-public-five-e4d7-r2/source/consumer",
+            "--env",
+            "CARGO_BUILD_JOBS=1",
+            "--env",
+            "CARGO_TARGET_DIR=/build-target",
+            "issue1223-runtime-11ce6614",
+            "cargo",
+            "run",
+            "--offline",
+            "--locked",
+            "--quiet"
+          ],
+          "isolation": "Network-disabled Linux container; fresh extracted public artifacts and locked consumer, no private source in extracted tree; reused Runtime qualification container and public dependency cache.",
+          "limits": [
+            "Artifact construction and consumer proof, not a fresh ADL clone in a dedicated new container",
+            "Does not rerun macOS sandbox negative cases or source test/fmt/clippy",
+            "Recorded source only, not final PR-head CI"
+          ]
+        }
+      },
+      "source": "FINAL_VALIDATION.json",
+      "commands_source": {
+        "path": "/Volumes/FastWork/c1223/final-qualification-ad8204be76528a2c13ffabf5ee1e2672df475c8b/linux-r2/run.sh",
+        "sha256": "62d5abad58b8f23b34415aede12fa3e9f2c312afbf1b1c3f632c17c9ec2b44bb"
+      },
+      "evidence": [
+        {
+          "path": "/Volumes/FastWork/c1223/final-qualification-ad8204be76528a2c13ffabf5ee1e2672df475c8b/ROOT_QUALIFICATION_READBACK.json",
+          "sha256": "73b13c25bddb9d202d4188c33e39e6063d7e8c7ddb1c20398bf7e9ef5936c961"
+        },
+        {
+          "path": "/Volumes/FastWork/c1223/final-qualification-ad8204be76528a2c13ffabf5ee1e2672df475c8b/linux-r2/run.sh",
+          "sha256": "62d5abad58b8f23b34415aede12fa3e9f2c312afbf1b1c3f632c17c9ec2b44bb"
+        },
+        {
+          "path": "/Volumes/FastWork/c1223/final-qualification-ad8204be76528a2c13ffabf5ee1e2672df475c8b/linux-r2/INPUT.json",
+          "sha256": "d9244642ffcbacb46786fde1dde5e9f99c778885b5ccf74dd11f715d620a3d23"
+        },
+        {
+          "path": "/Volumes/FastWork/c1223/final-qualification-ad8204be76528a2c13ffabf5ee1e2672df475c8b/linux-r2/RESULT.json",
+          "sha256": "5e1da200ada0db5ef78918f3338af091b8aabb61028172170c2c05407dd768ed"
+        },
+        {
+          "path": "/Volumes/FastWork/c1223/final-qualification-ad8204be76528a2c13ffabf5ee1e2672df475c8b/linux-r2/CONTAINER_FINAL.json",
+          "sha256": "57c3b3d873dcb105da66f8ff793ed57efb37e0adb9d25bd86b86dc0e6a7fa750"
+        },
+        {
+          "path": "/Volumes/FastWork/c1223/final-qualification-ad8204be76528a2c13ffabf5ee1e2672df475c8b/linux-r2/execution.log",
+          "sha256": "e5efac08a23655504597c50406d24429aabe838103513f726ac68c12ddf210c3"
+        }
       ],
-      "source": "PUBLIC_PACKAGE_PATH_CLOSURE.json",
-      "note": "Five normalized public artifacts built and passed all 7 consumer and 21 UTS cases in network-disabled Linux. Public CLI has separate retained Linux proof. Dedicated fresh-clone/final-candidate acceptance remains outstanding; neither is claimed by this artifact run.",
-      "artifact_consumer": {
-        "status": "passed",
-        "source_revision": "e4d7bf057634c2f0fd6d22421e9ca3e6cb37702e",
-        "evidence": "FastWork c1223/evidence/public-linux-five-e4d7bf0576",
-        "result_sha256": "4159b40cc8c05ae9bc2a06ef6c0f50d1f5a6cb16206a2ac1a3287e702677195f",
-        "input_sha256": "7e9e88fbbd8c3ea7a9d31a360b1fc38141359d26ff52a18adf6be401c5b05a85",
-        "exit_code": 0,
-        "elapsed_seconds": 29.105,
-        "packages": [
-          {
-            "package": "adl-schema",
-            "version": "0.1.0",
-            "source": "adl-schema",
-            "artifact": "adl-schema-0.1.0.tar",
-            "sha256": "59b160ba52a136489a24cba80e2b9ab1bd4db70d66455cded29fae71a40010f7",
-            "manifest_normalization": "standalone workspace; existing sibling public dependencies retained"
-          },
-          {
-            "package": "adl-uts",
-            "version": "0.1.0",
-            "source": "adl-uts",
-            "artifact": "adl-uts-0.1.0.tar",
-            "sha256": "8d95da463d8840e8ab0c93ad4ac83d3b7eb87398d3f8cca3c039cde908def2ab",
-            "manifest_normalization": "standalone workspace; existing sibling public dependencies retained"
-          },
-          {
-            "package": "adl-language",
-            "version": "0.92.1",
-            "source": "adl-v2/crates/adl-language",
-            "artifact": "adl-language-0.92.1.tar",
-            "sha256": "32ee997b0ab5ec326cfb8b9c2759d00377febdc9da1f71ab91c2e9b6bd58d01c",
-            "manifest_normalization": "standalone workspace; existing sibling public dependencies retained"
-          },
-          {
-            "package": "adl-compiler",
-            "version": "0.92.1",
-            "source": "adl-v2/crates/adl-compiler",
-            "artifact": "adl-compiler-0.92.1.tar",
-            "sha256": "b029bcaf5cd658989d66299710c89749f151e48170a1f180410687907ebe4d7f",
-            "manifest_normalization": "standalone workspace; existing sibling public dependencies retained"
-          },
-          {
-            "package": "adl-legacy-contracts",
-            "version": "0.1.0",
-            "source": "adl-legacy-contracts",
-            "artifact": "adl-legacy-contracts-0.1.0.tar",
-            "sha256": "0af06ee11000ebebc0efc2e24e3c0ef1c330a225dd2e8844a278f7f0cce634d3",
-            "manifest_normalization": "standalone workspace; existing sibling public dependencies retained"
-          }
-        ],
-        "consumer_cases": 7,
-        "uts_fixtures": 21,
-        "argv": [
-          "docker",
-          "--host",
-          "unix:///Volumes/FastWork/c1223/home/split-build/docker.sock",
-          "exec",
-          "--workdir",
-          "/qualification-public-five-e4d7-r2/source/consumer",
-          "--env",
-          "CARGO_BUILD_JOBS=1",
-          "--env",
-          "CARGO_TARGET_DIR=/build-target",
-          "issue1223-runtime-11ce6614",
-          "cargo",
-          "run",
-          "--offline",
-          "--locked",
-          "--quiet"
-        ],
-        "isolation": "Network-disabled Linux container; fresh extracted public artifacts and locked consumer, no private source in extracted tree; reused Runtime qualification container and public dependency cache.",
-        "limits": [
-          "Artifact construction and consumer proof, not a fresh ADL clone in a dedicated new container",
-          "Does not rerun macOS sandbox negative cases or source test/fmt/clippy",
-          "Recorded source only, not final PR-head CI"
-        ]
-      }
+      "note": "Fresh exact-source Git clone in a dedicated network-disabled container, no host mounts; five full public package test/fmt/clippy lanes and retained public CLI runner passed. Earlier artifact-only partial result preserved. Other repositories retain their exact historical revisions and recorded limits; this matrix is not five simultaneous latest-head builds."
     },
     {
       "repository": "agent-logic/agent-logic-infrastructure",
@@ -898,7 +937,7 @@
     }
   ],
   "isolation": {
-    "one_fresh_container_and_clone_per_repository": false,
+    "one_fresh_container_and_clone_per_repository": true,
     "host_source_mounts": false,
     "sibling_checkouts": false,
     "host_target_directories": false,
@@ -908,7 +947,7 @@
     "storage": "Docker data, builds, caches, temporary files and evidence on FastWork",
     "runtime_activation": false,
     "csdlc_lifecycle_execution": false,
-    "exception": "ADL artifact proof reused the isolated Runtime container with a distinct public-only extraction; dedicated fresh-clone requirement remains outstanding."
+    "exception": "Prior ADL artifact-only container reuse is preserved in prior_summary and prior_record; final ADL dedicated fresh-clone qualification resolves that exception. Other recorded repository revisions and limitations remain unchanged."
   },
   "execution_policy": "Run once per selected final candidate. Fix independence failures and rerun affected repositories only. Record all failed attempts.",
   "required_evidence": [
@@ -929,6 +968,24 @@
     "agent-logic/codefriend.ai",
     "agent-logic/agent-logic.ai"
   ],
-  "completed_repositories": 4,
-  "all_repositories_passed": false
+  "completed_repositories": 5,
+  "all_repositories_passed": true,
+  "prior_summary": {
+    "completed_repositories": 4,
+    "all_repositories_passed": false,
+    "isolation": {
+      "one_fresh_container_and_clone_per_repository": false,
+      "host_source_mounts": false,
+      "sibling_checkouts": false,
+      "host_target_directories": false,
+      "prebuilt_project_outputs": false,
+      "declared_external_dependencies": "allowed; pin source/artifact identity and record acquisition",
+      "credential_handling": "ephemeral clone/acquisition credential only; no image, log, remote URL or retained filesystem credential",
+      "storage": "Docker data, builds, caches, temporary files and evidence on FastWork",
+      "runtime_activation": false,
+      "csdlc_lifecycle_execution": false,
+      "exception": "ADL artifact proof reused the isolated Runtime container with a distinct public-only extraction; dedicated fresh-clone requirement remains outstanding."
+    }
+  },
+  "passed_repository_count": 5
 }

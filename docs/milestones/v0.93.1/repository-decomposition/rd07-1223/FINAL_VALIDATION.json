@@ -1,0 +1,242 @@
+{
+  "schema": "adl.source_retirement.final_validation.v1",
+  "issue": 1223,
+  "source_revision": "ad8204be76528a2c13ffabf5ee1e2672df475c8b",
+  "status": "qualified_source_reused_by_reviewed_unused_file_removal_correspondence_native_delivery_pending",
+  "accounting": {
+    "original_rows": 4134,
+    "captured_additional_rows": 22,
+    "retirement_actions": 3407,
+    "baseline_retirements": 3405,
+    "transient_retirements": 2,
+    "supplemental_baseline_paths": 13,
+    "separately_observed_baseline_paths": 3,
+    "unresolved_original_rows": 0,
+    "unresolved_additional_rows": 0,
+    "held_rows": 0
+  },
+  "retirement": {
+    "result": {
+      "head": "ad8204be76528a2c13ffabf5ee1e2672df475c8b",
+      "command": "cargo test --offline --locked --manifest-path tools/source_retirement/validator/Cargo.toml --test retirement_contract",
+      "exit_code": 0,
+      "wrapper_tests": 2,
+      "duration_seconds": 47.48,
+      "source_guard": "passed",
+      "complete_python_negative_suite": "passed",
+      "logs": {
+        "root-retirement.stdout": "8c2b6b8a7b341846b257c05a8766da7fd35431d6dca77809c9cd66951407fb68",
+        "root-retirement.stderr": "e452c3e0e36bb8f655f0d7c492cd567b5ba82d96c72cf8e7c2e6327050d220b5"
+      },
+      "preceding_failure_preserved": "/Volumes/FastWork/c1223/additional-twenty-one-guard-postmerge/root-retirement.stdout"
+    },
+    "python_test_methods": 57,
+    "rust_wrapper_tests": 2,
+    "evidence": [
+      {
+        "path": "/Volumes/FastWork/c1223/zero-hold-regression-fixture-fix/ROOT_VALIDATION.json",
+        "sha256": "0d79e6a761a8f24e1bd3b106610dce5a97ca2c379818c016f8f40fecd1b44cad"
+      },
+      {
+        "path": "/Volumes/FastWork/c1223/zero-hold-regression-fixture-fix/root-retirement.stdout",
+        "sha256": "8c2b6b8a7b341846b257c05a8766da7fd35431d6dca77809c9cd66951407fb68"
+      },
+      {
+        "path": "/Volumes/FastWork/c1223/zero-hold-regression-fixture-fix/root-retirement.stderr",
+        "sha256": "e452c3e0e36bb8f655f0d7c492cd567b5ba82d96c72cf8e7c2e6327050d220b5"
+      }
+    ],
+    "preceding_failure": {
+      "path": "/Volumes/FastWork/c1223/additional-twenty-one-guard-postmerge/root-retirement.stdout",
+      "sha256": "0f18dd4dc5fa11ebfc5bb0936716c4ab905e63c02d73adcf3ef0c5b11d070ac5"
+    },
+    "limit": "Actual 57-case/wrapper2 result is at ad8204 before the one-row strict guard update. Current guard integration requires its own focused validation; no new exact-head test execution claimed."
+  },
+  "linux": {
+    "status": "passed",
+    "source_revision": "ad8204be76528a2c13ffabf5ee1e2672df475c8b",
+    "fresh_clone": true,
+    "network": "none",
+    "host_mounts": [],
+    "public_packages": 5,
+    "package_test_fmt_clippy_commands": 15,
+    "retained_cli": "tools/public_adl/run_cli_ci.sh completed; genuine public CLI source tests and synthetic owner-routing cases, not a new authentic private-owner installation",
+    "readback": {
+      "source_head": "ad8204be76528a2c13ffabf5ee1e2672df475c8b",
+      "linux": {
+        "exit_code": 0,
+        "attach_exit": 0,
+        "stop_error": null,
+        "timed_out": false,
+        "container_status": "exited",
+        "container_running": false,
+        "oom_killed": false,
+        "source_revision": "ad8204be76528a2c13ffabf5ee1e2672df475c8b",
+        "container_retained_for_evidence": "0438ce25d15dd54d25113db56d31dad46860812bcacbb680a86fe8c056d35b7c",
+        "status": "passed",
+        "not_proven": [
+          "macOS denial probes",
+          "installed artifact consumer (separate final verify_install.py gate)",
+          "deployment"
+        ]
+      },
+      "post_run_trees_unchanged": true,
+      "evidence_sha256": {
+        "FREEZE.json": "15a1665cd71343070bdbfa3de53c1f2ba7112fa7447810d12c93e99d19d575c9",
+        "linux-r2/INPUT.json": "d9244642ffcbacb46786fde1dde5e9f99c778885b5ccf74dd11f715d620a3d23",
+        "linux-r2/RESULT.json": "5e1da200ada0db5ef78918f3338af091b8aabb61028172170c2c05407dd768ed",
+        "linux-r2/CONTAINER_FINAL.json": "57c3b3d873dcb105da66f8ff793ed57efb37e0adb9d25bd86b86dc0e6a7fa750",
+        "linux-r2/execution.log": "e5efac08a23655504597c50406d24429aabe838103513f726ac68c12ddf210c3",
+        "installed-wrapper-r2.log": "4ef6d2788369a7cbcca36c7e52fe7202d21485c7855870f49fae89730ac4a4b6"
+      },
+      "limits": [
+        "Linux source qualification and retained CLI only; separate macOS artifact proof passed.",
+        "Native publication/reconciliation and final review remain outstanding."
+      ]
+    },
+    "evidence": [
+      {
+        "path": "/Volumes/FastWork/c1223/final-qualification-ad8204be76528a2c13ffabf5ee1e2672df475c8b/ROOT_QUALIFICATION_READBACK.json",
+        "sha256": "73b13c25bddb9d202d4188c33e39e6063d7e8c7ddb1c20398bf7e9ef5936c961"
+      },
+      {
+        "path": "/Volumes/FastWork/c1223/final-qualification-ad8204be76528a2c13ffabf5ee1e2672df475c8b/linux-r2/run.sh",
+        "sha256": "62d5abad58b8f23b34415aede12fa3e9f2c312afbf1b1c3f632c17c9ec2b44bb"
+      },
+      {
+        "path": "/Volumes/FastWork/c1223/final-qualification-ad8204be76528a2c13ffabf5ee1e2672df475c8b/linux-r2/INPUT.json",
+        "sha256": "d9244642ffcbacb46786fde1dde5e9f99c778885b5ccf74dd11f715d620a3d23"
+      },
+      {
+        "path": "/Volumes/FastWork/c1223/final-qualification-ad8204be76528a2c13ffabf5ee1e2672df475c8b/linux-r2/RESULT.json",
+        "sha256": "5e1da200ada0db5ef78918f3338af091b8aabb61028172170c2c05407dd768ed"
+      },
+      {
+        "path": "/Volumes/FastWork/c1223/final-qualification-ad8204be76528a2c13ffabf5ee1e2672df475c8b/linux-r2/CONTAINER_FINAL.json",
+        "sha256": "57c3b3d873dcb105da66f8ff793ed57efb37e0adb9d25bd86b86dc0e6a7fa750"
+      },
+      {
+        "path": "/Volumes/FastWork/c1223/final-qualification-ad8204be76528a2c13ffabf5ee1e2672df475c8b/linux-r2/execution.log",
+        "sha256": "e5efac08a23655504597c50406d24429aabe838103513f726ac68c12ddf210c3"
+      }
+    ],
+    "initial_failure": {
+      "path": "/Volumes/FastWork/c1223/final-qualification-ad8204be76528a2c13ffabf5ee1e2672df475c8b/linux/RESULT.json",
+      "sha256": "01828bf2bd95d7a0d4ca9471d9ccf35e0b4a5f14068bd215a062ac3951417522"
+    },
+    "limits": [
+      "No deployment, private-owner rebuild, or new live provider qualification."
+    ]
+  },
+  "installed": {
+    "status": "passed",
+    "validator_result": {
+      "artifact_hashes": {
+        "adl-compiler": "b029bcaf5cd658989d66299710c89749f151e48170a1f180410687907ebe4d7f",
+        "adl-language": "a54f1d3af30c31d7ef8efe73bb69154460494a547d6dc48436da697dd6591eec",
+        "adl-legacy-contracts": "5b34f29bbd3f6b5d2ca7c95aee265e5ed00a8c69c7f9549306fa2a3f75c50e41",
+        "adl-schema": "50b78dccde2700f43a6b54d06f1c7b7ba6e31334faf1537a73158ff375485f38",
+        "adl-uts": "0c542ea90d65b79f93b234f336bd920f505bf2e652d1a51296bd1789b9014649"
+      },
+      "consumer_cases_executed": 7,
+      "dependency_lock_sha256": "48d0e670282c0b8683b77ce635b93cd6775a9ae7ad886dc34725555e5ea41eea",
+      "evidence_directory": "/Volumes/FastWork/c1223/final-qualification-ad8204be76528a2c13ffabf5ee1e2672df475c8b/installed-r2/1223/20261014T035753.401197Z-16d209a6b562440ab46df78f6a1b9d3c",
+      "exit_code": 0,
+      "issue": 1223,
+      "negative_cases_executed": 5,
+      "public_packages_consumed": 5,
+      "report_path": "/Volumes/FastWork/c1223/final-qualification-ad8204be76528a2c13ffabf5ee1e2672df475c8b/installed-r2/1223/20261014T035753.401197Z-16d209a6b562440ab46df78f6a1b9d3c/qualification/report.json",
+      "report_sha256": "4fe7d4e740948370a2c832ee9653c3e33939568345a7ed4f012e3debb8de49de",
+      "schema": "adl.public.install-validator.v1",
+      "source_revision": "ad8204be76528a2c13ffabf5ee1e2672df475c8b",
+      "status": "passed",
+      "uts_fixtures_executed": 21
+    },
+    "report": {
+      "path": "/Volumes/FastWork/c1223/final-qualification-ad8204be76528a2c13ffabf5ee1e2672df475c8b/installed-r2/1223/20261014T035753.401197Z-16d209a6b562440ab46df78f6a1b9d3c/qualification/report.json",
+      "sha256": "4fe7d4e740948370a2c832ee9653c3e33939568345a7ed4f012e3debb8de49de"
+    },
+    "validator": {
+      "path": "/Volumes/FastWork/c1223/final-qualification-ad8204be76528a2c13ffabf5ee1e2672df475c8b/installed-r2/1223/20261014T035753.401197Z-16d209a6b562440ab46df78f6a1b9d3c/validator-result.json",
+      "sha256": "e822213e19a5bd8b5ae2a3e62bc1ef3400de1417c932e4efa2e0712efd8415c7"
+    },
+    "wrapper_log": {
+      "path": "/Volumes/FastWork/c1223/final-qualification-ad8204be76528a2c13ffabf5ee1e2672df475c8b/installed-wrapper-r2.log",
+      "sha256": "4ef6d2788369a7cbcca36c7e52fe7202d21485c7855870f49fae89730ac4a4b6"
+    },
+    "sandbox": "macOS sandbox-exec: network, home and producer source denied; toolchain/public registry allowed",
+    "initial_failed_wrapper": {
+      "path": "/Volumes/FastWork/c1223/final-qualification-ad8204be76528a2c13ffabf5ee1e2672df475c8b/installed-wrapper.log",
+      "sha256": "be8630766a827980d6f992e1cbdef1817d3a2e129a6f383a8a217d05c1ba7c86"
+    },
+    "initial_failure_boundary": "sandbox_apply denied before installed consumer; retained, not counted as acceptance",
+    "limits": [
+      "Five public artifacts only; retained CLI is separately qualified on Linux. No registry publication."
+    ]
+  },
+  "coverage": {
+    "status": "reuse_reviewed_prior_measurement",
+    "prior_source": "b4216f40709fde889cc694aee850ad9c97b99720",
+    "measured_files": 42,
+    "identical_to_prior_measurement": 39,
+    "reviewed_differences": {
+      "adl/src/lib.rs": "Formatting of identical public reexport list only.",
+      "adl/src/cli/usage.rs": "Deleted one historical help example; no new executable branch.",
+      "adl/src/cli/codefriend_owner.rs": "Logical complement rewrite: !as_str().is_some_and(nonempty) becomes as_str().is_none_or(empty); None, empty, nonempty cases preserve behavior."
+    },
+    "all_42_final_source_hashes_equal_reviewed_correspondence": true,
+    "evidence": [
+      {
+        "path": "/Volumes/FastWork/c1223/public-coverage-source-correspondence-e30c5880/PROPOSAL.json",
+        "sha256": "b4a24d308f204097c9d17f929b412753962443fe7a72dfae2290c1a3a0cefbc7"
+      },
+      {
+        "path": "/Volumes/FastWork/c1223/public-coverage-source-correspondence-e30c5880/INDEPENDENT_REVIEW.json",
+        "sha256": "1aa92ad026a1dda39d26dc86b186ef7e87684835d3ad0738a592dca293de5a14"
+      }
+    ],
+    "limits": [
+      "No final-source measured coverage percentages or new instrumented run claimed."
+    ]
+  },
+  "authentic_owner_cli_evidence": {
+    "records": [
+      {
+        "path": "/Volumes/FastWork/adl-worktrees/adl-issue-1223-1223-coherent-source-retirement/docs/milestones/v0.93.1/repository-decomposition/rd07-1223/RUNTIME_CONSUMER_PREFLIGHT.json",
+        "sha256": "e5e74aed25beb711e87e2105c0a9d1add2ab10caca5fece45ddb103d4c6fb6ff"
+      },
+      {
+        "path": "/Volumes/FastWork/adl-worktrees/adl-issue-1223-1223-coherent-source-retirement/docs/milestones/v0.93.1/repository-decomposition/rd07-1223/LEGACY_RUNTIME_PARITY.json",
+        "sha256": "6a40af525baa6e901eef1c56dcda3649634a75de909c8dbc816ab8c2cd3dd768"
+      },
+      {
+        "path": "/Volumes/FastWork/adl-worktrees/adl-issue-1223-1223-coherent-source-retirement/docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CODEFRIEND_INSTALLED_PREFLIGHT.json",
+        "sha256": "336cf92fc305acd958dcec613908e737edbf7cca12257893cceac358988f15e1"
+      },
+      {
+        "path": "/Volumes/FastWork/adl-worktrees/adl-issue-1223-1223-coherent-source-retirement/docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CODEFRIEND_104_INSTALLED_QUALIFICATION.json",
+        "sha256": "d073c884fe6ef973dee5b40a32b2fed2f4bdd4bedc421895188a35aad020a5b6"
+      },
+      {
+        "path": "/Volumes/FastWork/adl-worktrees/adl-issue-1223-1223-coherent-source-retirement/docs/milestones/v0.93.1/repository-decomposition/rd07-1223/PUBLIC_FACADE_CLOSURE.json",
+        "sha256": "c34442adad489c063e37824788a5fedc8a735ebf6ea0604affd5c2009b22483f"
+      }
+    ],
+    "runtime": "Authenticated installed Runtime archive direct-owner/adapter eleven functional cases plus successful pause/resume. Legacy comparison preserved one help difference, resolved by six exact public parser cases; logging retains both truthful dispatch events and clock normalization limits. These are prior recorded-source cases, not a new ad8204 authentic-owner invocation.",
+    "codefriend": "Authentic installed CodeFriend smoke plus legacy ingestion and refusal comparisons; issue104 separately qualifies original installed consumers. Synthetic final CLI routing tests do not replace these authentic-owner records.",
+    "remaining_exact_gap": "No fresh ad8204 public CLI invocation against authentic installed private Runtime and CodeFriend is asserted by the current Linux/installed results. Prior owner qualification plus reviewed source correspondence may be reused only with explicit acceptance disposition; the existing retained_cli_gate final_candidate_installed_parity remains pending until that disposition or actual bounded proof.",
+    "limits": [
+      "Counts from different owner packets overlap and must not be summed.",
+      "No live providers, service activation, or complete private-product parity inferred."
+    ]
+  },
+  "remaining_delivery": [
+    "Independent final records/source review",
+    "Required PR checks and native review/publication/reconciliation/finish/clean",
+    "Resolve explicit retained CLI authentic-owner final-candidate parity disposition; five-artifact proof alone is insufficient"
+  ],
+  "native_cards_modified": false,
+  "tests_run_by_this_record_preparation": false,
+  "composed_source_revision": "2095d3707487cfd8e5a9239691cea96f6f4a31a3",
+  "source_correspondence": "FINAL_SOURCE_CORRESPONDENCE.json"
+}

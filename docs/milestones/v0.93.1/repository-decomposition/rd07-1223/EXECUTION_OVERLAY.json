@@ -6,7 +6,7 @@
   "execution_authorized": false,
   "original_inventory_count": 4134,
   "additional_inventory_count": 22,
-  "executed_deletion_count": 3406,
+  "executed_deletion_count": 3407,
   "entries": [
     {
       "path": ".github/workflows/ci.yaml",
@@ -9392,19 +9392,36 @@
     },
     {
       "path": "adl/src/cli/run.rs",
-      "action": "modify",
+      "action": "remove",
       "before": [
         "100644",
         "d81cbe5f5580aa63bafd4f0ebae7e5207148c220"
       ],
-      "after": [
-        "100644",
-        "9d43c8fcb600fe21a6c43de7819a40aedc6f525d"
-      ],
+      "after": null,
       "implementation_commit": "b54b4009ef8856ab8404d9344576c33774ceb7a2",
       "approval_reference": "independent_final_review and proposed_reconciled_entries evidence_candidates",
       "review_reference": "review_1223_applied_components exact77/112 review",
-      "source_chain_reference": "proposed_reconciled_entries:adl/src/cli/run.rs"
+      "source_chain_reference": "proposed_reconciled_entries:adl/src/cli/run.rs",
+      "supplemental_source_chain": [
+        {
+          "commit": "2095d3707487cfd8e5a9239691cea96f6f4a31a3",
+          "before": [
+            "100644",
+            "9d43c8fcb600fe21a6c43de7819a40aedc6f525d"
+          ],
+          "after": null,
+          "packet": "ORPHAN_PRIVATE_RUN_ONE_APPLIED.json"
+        }
+      ],
+      "rollback_custody": {
+        "packet": "ORPHAN_PRIVATE_RUN_ONE_APPLIED.json",
+        "archive": "/Volumes/FastWork/c1223/orphan-private-run-one/current-original-owner.tar",
+        "archive_sha256": "0e9f6caf959b60af0ade2973fba12fc4849c0a6b3fe9670ff0ffe70bf034ad3e",
+        "member": "current/adl/src/cli/run.rs",
+        "mode": "100644",
+        "blob": "9d43c8fcb600fe21a6c43de7819a40aedc6f525d",
+        "sha256": "0486873ec6e36e2b61203019a4f8c1acdd64f6c1c7b6c77380fd65d1b4c65462"
+      }
     },
     {
       "path": "adl/src/cli/run_artifacts/cognitive.rs",
@@ -66850,7 +66867,7 @@
       "before": null,
       "after": [
         "100644",
-        "507f4ab630b4b2071f783f52b541e34b577ff608"
+        "5a2b14cb4224bf70cffd55aa1ab6801df447b701"
       ],
       "implementation_commit": "ddfe457ebbc2107ee349abf61ba27d57c35b5c37",
       "approval_reference": "Infrastructure212 source commit guard-documentation accompaniment",
@@ -67351,6 +67368,18 @@
             "507f4ab630b4b2071f783f52b541e34b577ff608"
           ],
           "packet": "Additional captured source closure"
+        },
+        {
+          "commit": "pending_reviewed_integration",
+          "before": [
+            "100644",
+            "507f4ab630b4b2071f783f52b541e34b577ff608"
+          ],
+          "after": [
+            "100644",
+            "5a2b14cb4224bf70cffd55aa1ab6801df447b701"
+          ],
+          "packet": "Final unused private dispatcher integration"
         }
       ],
       "prior_execution_provenance": [
@@ -121589,9 +121618,23 @@
         "tools/public_adl/test_planning_contract.py"
       ],
       "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
+    },
+    {
+      "packet": "ORPHAN_PRIVATE_RUN_ONE_APPLIED.json",
+      "sha256": "9c75d6ba489e4f05f587b0c6ac9dfc92f576e9f8d3499fe5c2c4a9f82118a1fa",
+      "commit": "2095d3707487cfd8e5a9239691cea96f6f4a31a3",
+      "files": 1,
+      "removals": 1,
+      "scope_sha256": "b402fdc470cc8c828a1c1b456e8286729f5237d8d8ae305b2b23e5403c522efc",
+      "reviewer": "Independent reviewers and parent",
+      "verdict": "PASS",
+      "paths": [
+        "adl/src/cli/run.rs"
+      ],
+      "boundary": "Uses separately bounded owner/original contract qualification; initial failures and incomplete full-suite/live acceptance remain explicit."
     }
   ],
-  "baseline_deletion_count": 3404,
+  "baseline_deletion_count": 3405,
   "transient_removed_paths": [
     "adl/tools/test_issue872_historical_manifest.py",
     "adl/tools/lib/issue268_runtime_resources.py"
@@ -121611,7 +121654,7 @@
     "adl/tools/demo_v0891_wp13_demo_integration.sh",
     "tools/runtime_contracts/build_candidates.py"
   ],
-  "inventory_baseline_deletion_count": 3388,
+  "inventory_baseline_deletion_count": 3389,
   "supplemental_baseline_deletion_count": 13,
   "separately_observed_baseline_deletion_count": 3,
   "separately_observed_retired_paths": [
