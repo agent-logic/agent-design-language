@@ -411,7 +411,7 @@ path. For a one-command review flow, run
 
 - `rust-transpiler/README.md`
 - `v0.8/v0.8-bounded-critical-demos.md`
-- `v0.8/godel_failure_hypothesis_experiment.md`
+- [v0.8/godel_failure_hypothesis_experiment.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.8/godel_failure_hypothesis_experiment.md)
 - `v0.85/adaptive_godel_loop_demo.md`
 - [v0.85/experiment_prioritization_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.85/experiment_prioritization_demo.md)
 - [v0.85/cross_workflow_learning_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.85/cross_workflow_learning_demo.md)
@@ -426,7 +426,7 @@ Use `adl/tools/demo_aee_bounded_adaptation.sh` for the one-command v0.85
 bounded adaptation demo that emits `learning/aee_decision.json` as the primary
 adaptive decision artifact.
 
-Use `v0.8/godel_failure_hypothesis_experiment.md` for the concrete
+Use [v0.8/godel_failure_hypothesis_experiment.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.8/godel_failure_hypothesis_experiment.md) for the concrete
 `adl godel run` / `adl godel inspect` / `adl godel evaluate` review path and the
 persisted Gödel schema/runtime artifacts it produces, including the
 first-class `godel_hypothesis.v1.json` hypothesis record. For a one-command
@@ -466,3 +466,7 @@ one-command review flow, run
 - `../adl/examples/README.md`
 
 Use that README when you specifically want the full crate-local example inventory. For user-facing demo discovery, start here instead.
+
+The pinned v0.8 Gödel guide preserves historical source instructions only. Its
+owner copy predates the ADL retirement warning; no current native procedure or
+original scenario acceptance is established by this document transfer.

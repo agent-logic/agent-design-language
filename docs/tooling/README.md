@@ -252,3 +252,21 @@ keep their separate qualification requirements.
 - [docs/tooling/RUNTIME_AWS_SIGNAL_INTEGRATION.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/docs/tooling/RUNTIME_AWS_SIGNAL_INTEGRATION.md)
 - [docs/tooling/RUNTIME_CLOUD_CONTROL_CLOUDFRONT.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/docs/tooling/RUNTIME_CLOUD_CONTROL_CLOUDFRONT.md)
 - [docs/tooling/RUNTIME_POLIS_DURABLE_STORAGE.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/docs/tooling/RUNTIME_POLIS_DURABLE_STORAGE.md)
+
+## Remaining split guide and readback custody
+
+The following exact owner resources preserve historical documentation or
+separately bounded readback behavior. None establishes live provider/cloud or
+current native acceptance. The Runtime copies of Observatory and GCP runbooks
+predate ADL Infrastructure routing repairs: their Terraform paths must instead
+be resolved in [Infrastructure at the reviewed revision](https://github.com/agent-logic/agent-logic-infrastructure/tree/61c2806b6274b1003aa42f02adec99faf5f2a74b/infra).
+The Runtime welcome guide adds installed-default orientation documentation;
+this transfer does not validate that runtime behavior.
+
+- [demos/v0.8/godel_failure_hypothesis_experiment.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.8/godel_failure_hypothesis_experiment.md)
+- [docs/operations/cloud/aws/observatory/S3_CLOUDFRONT_DEPLOYMENT_RUNBOOK.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/docs/operations/cloud/aws/observatory/S3_CLOUDFRONT_DEPLOYMENT_RUNBOOK.md)
+- [docs/operations/cloud/aws/runtime-platform/run-disposable-proof.sh](https://github.com/agent-logic/agent-logic-infrastructure/blob/61c2806b6274b1003aa42f02adec99faf5f2a74b/docs/operations/cloud/aws/runtime-platform/run-disposable-proof.sh)
+- [docs/operations/cloud/gcp/WARM_POLIS_SNAPSHOT_RUNBOOK.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/docs/operations/cloud/gcp/WARM_POLIS_SNAPSHOT_RUNBOOK.md)
+- [docs/operations/cloud/gcp/platform-foundation/readback-disposable-residue.sh](https://github.com/agent-logic/agent-logic-infrastructure/blob/61c2806b6274b1003aa42f02adec99faf5f2a74b/docs/operations/cloud/gcp/platform-foundation/readback-disposable-residue.sh)
+- [docs/runtime/WELCOME_RECOVERY.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/docs/runtime/WELCOME_RECOVERY.md)
+- [docs/tooling/AWS_SPOT_REMOTE_VALIDATION_WRAPPER_CONTRACT.mmd](https://github.com/agent-logic/agent-logic-infrastructure/blob/61c2806b6274b1003aa42f02adec99faf5f2a74b/docs/tooling/AWS_SPOT_REMOTE_VALIDATION_WRAPPER_CONTRACT.mmd)

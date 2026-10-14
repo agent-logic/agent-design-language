@@ -214,3 +214,12 @@ Before declaring zero residue, read back:
 - CloudFormation retirement.
 - Cross-cloud abstraction.
 - Direct public Runtime ingress.
+
+## Retired ADL entrypoint
+
+The ADL refusal-only `run-disposable-proof.sh` entrypoint is removed. Every
+command recipe above belongs to the [pinned Infrastructure script](https://github.com/agent-logic/agent-logic-infrastructure/blob/61c2806b6274b1003aa42f02adec99faf5f2a74b/docs/operations/cloud/aws/runtime-platform/run-disposable-proof.sh)
+and must be interpreted from that owner checkout with its separately reviewed
+authorization and inputs. This is not an authorization to execute AWS operations.
+Original staged-plan, expiry, account, cleanup and adverse-result obligations
+remain in retirement custody; source transfer is not live qualification.
