@@ -34,8 +34,12 @@ Support private social cognition, challengeable governance, bounded delegation a
 
 ## Summary
 
-A qualified platform upgrade supporting the launched product and governed citizens.
+A qualified platform upgrade supporting the qualified ready-to-deploy product and governed citizens.
 
 ## Exit Criteria
 
 Installed integration, independent qualification and the full release tail establish actual outcomes and explicit residuals.
+
+## v0.93.2 scope integration
+
+The milestone retains the existing platform tracks and adds CodeFriend plus the approved full GHB program. CodeFriend public launch is routed through existing CodeFriend #92 and still requires exact deployment authorization. GHB requires Gate A, Gate B, and WP12 before milestone qualification; planning approval does not authorize experiments, provider spend, deployment, or issue creation. Runtime-v4 activation/generation and citizen-continuity/CM mechanisms are shared dependencies for GHB-WP07/WP08, not duplicate engines, schedulers, or transaction owners. ADL #1226 remains a deferred assessment.

@@ -27,3 +27,7 @@ Existing #1148 (citation-grounded correctness) and #1149 (uncertain second-run r
 ## Exit Criteria
 
 Reviewed successor package accounts for every moved result and residual; opening and release authorization remain separate.
+
+## 2026-10-10 successor correction
+
+v0.93.1 reached a ready-to-deploy boundary; it did not establish public CodeFriend launch. v0.93.2 planning is refreshed by ADL #1259 and routes launch through existing CodeFriend #92 with exact candidate, audience, environment and budget still required. ADL #1150 remains open; #875 and #1145 are closed, but closure alone is not acceptance evidence. No release or deployment is authorized by this handoff.

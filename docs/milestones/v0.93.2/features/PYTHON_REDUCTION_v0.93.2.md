@@ -26,7 +26,7 @@ Remove only the selected post-split Python dependency tranche, preserving user-f
 
 ## Design
 
-Consume accepted producer contracts and preserve the launched CodeFriend baseline.
+Consume accepted producer contracts and preserve the qualified ready-to-deploy CodeFriend baseline.
 
 ## Execution Flow
 
