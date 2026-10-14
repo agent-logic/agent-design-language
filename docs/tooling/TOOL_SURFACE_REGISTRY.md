@@ -30,7 +30,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 
 - `primary`: 8
 - `supported shim`: 0
-- `internal helper`: 410
+- `internal helper`: 405
 - `historical evidence`: 29
 - `archive candidate`: 0
 - `remove candidate`: 0
@@ -152,15 +152,12 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/install_issue268_runtime_volume.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/install_local_authoritative_coverage_prereqs.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/install_owner_binaries.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
-| `adl/tools/install_runtime_v3_generation.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/install_vector_component.ps1` | tool surface | internal helper | Visible tool surface retained for bounded support work. |
 | `adl/tools/install_vector_component.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/issue345_aws_gpu_prerequisites.cloudformation.yaml` | tool surface | internal helper | Visible tool surface retained for bounded support work. |
 | `adl/tools/issue607_guardian_recovery_proof.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/issue607_probe_runtime.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/issue607_qualify_warm_polis.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
-| `adl/tools/issue855_provider_lifecycle.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
-| `adl/tools/issue990_managed_restart_proof.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/lib` | tool surface | internal helper | Directory containing bounded helper assets, scripts, or proof inputs. |
 | `adl/tools/local_model_capabilities.v1.json` | tool surface | internal helper | Visible tool surface retained for bounded support work. |
 | `adl/tools/mcp` | tool surface | internal helper | Directory containing bounded helper assets, scripts, or proof inputs. |
@@ -240,7 +237,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/run_wp08_local_polis_ssm_proof.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_wp08_local_polis_ssm_proof.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_wp08_polis_storage_live_proof.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
-| `adl/tools/runtime_v3_generation.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/rust_cache_env.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/rust_validation_warm_cache.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/select_validation_lanes.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
@@ -380,7 +376,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/test_run_wp08_heartbeat_live_proof.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_run_wp08_local_polis_ssm_proof.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_run_wp08_polis_storage_live_proof.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_runtime_v3_generation_install.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_rust_cache_env.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_rust_validation_warm_cache.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_setup_required_coverage_toolchain.sh` | tool surface | internal helper | Focused regression or contract test helper. |
