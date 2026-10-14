@@ -1,7 +1,7 @@
 {
   "schema": "adl.csdlc_v3.macos_successor_authority_blocker.v1",
   "issue": 1266,
-  "observed_at": "2026-10-14T03:07:13Z",
+  "observed_at": "2026-10-14T03:11:44Z",
   "status": "blocked",
   "blocking_requirement": "Authenticated Apple Silicon macOS external-consumer package succession and activation for the verified recordless v0.93.1 closeout denominator.",
   "observations": {
@@ -64,6 +64,33 @@
       "remote_writes": 0,
       "authority_effect": "With an isolated private quota store, the installed owner authenticated this canonical reviewed predecessor package and then correctly refused package-install because the platform activation receipt is create-only. A reviewed package-upgrade or other native successor route is required."
     },
+    "reviewed_successor_candidate": {
+      "producer_pr": 274,
+      "producer_issue": 273,
+      "candidate": "36c312e607fc74ddb990a44517c3f29ffa14684b",
+      "merge": "565f2242933f4ce6ba0ad74e096f449cd5ab5dca",
+      "workflow_run": 38498276387,
+      "macos_arm64_artifact": 11864643021,
+      "artifact_sha256": "da1fdf6bd656ad252aef7341a52c93739a1e0c760f3ff77f96c2016786fbe65d",
+      "portable_review_attestation_sha256": "17d72b09c8dbf40070847d9d3aa38277ab1862d7a0f22dfb8811faff6bdc38ab",
+      "attestation_update_route": "native_github_admin_api",
+      "attestation_readback": "exact_body_present_head_and_merge_unchanged",
+      "direct_candidate_status_result": "installed_executable_layout",
+      "invalid_consumer_install_result": "portable_declaration_invalid",
+      "remote_writes": 1,
+      "authority_effect": "The native administrative PATCH and authenticated readback completed PR 274's portable review metadata without changing its exact head or merge. Direct execution is correctly refused outside installed layout, and package-install against ADL is correctly refused because portable package admission is bound to the cognitive-sdlc consumer. PR 274 predates PR 275's macOS maintenance repair, so it cannot execute the required package-upgrade on this host."
+    },
+    "post_repair_candidate_check": {
+      "producer_pr": 277,
+      "producer_issue": 276,
+      "candidate": "457aca2307d770c09dace4c210eed5c0f9937648",
+      "merge": "6516a33d0761a256f018d74ee2d000086be111f9",
+      "workflow_run": 38503220893,
+      "macos_arm64_artifact": 11866890752,
+      "artifact_digest": "sha256:924498c4682641e684421a07e2c7b8eb2c603752ecbb0d5079420eb4993ede45",
+      "independent_review": "fail_missing_pr275_ancestry",
+      "authority_effect": "PR 277's exact candidate is based on PR 274's merge and does not contain PR 275. The combined merge commit contains both changes, but no package artifact is built from that merge commit. PR 277 therefore cannot supply the macOS repair either."
+    },
     "typed_issue_creation_attempt": {
       "simple_route_result": "legacy_writer_retired",
       "semantic_coordinator": 205,
@@ -91,14 +118,14 @@
     "Treat merged cognitive-sdlc PR 275 as source repair only, not as portable installed authority.",
     "Produce and authenticate a new canonical package containing current semantic validation and the issue 1266 retained-terminal replay repair.",
     "Activate and read back the exact package in each affected consumer through typed routes.",
-    "Publish a new cognitive-sdlc producer issue and exact-head reviewed candidate PR with canonical closing linkage and csdlc-portable-review-v1 attestation; PR 275 cannot be retroactively treated as admissible package authority.",
-    "Resolve the installed-owner semantic decoding and issue-create routing regression before using the typed route to create that producer issue."
+    "Produce a newly reviewed cognitive-sdlc candidate descended from canonical merge 6516a33d0761a256f018d74ee2d000086be111f9 so one package contains both the semantic fixes and PR 275's macOS maintenance repair.",
+    "Publish the reviewed package-upgrade endorsement and exact artifact identities through a bound cognitive-sdlc issue, then use that separately verified upgrade-capable successor package from exact primary main to perform the native macOS bootstrap transition, verify installed-child readback, and reconcile ADL issue 1266. The currently activated predecessor cannot execute this transition because it hard-refuses macOS maintenance."
   ],
   "non_claims": [
     "No candidate or CI artifact is treated as installed authority.",
     "No consumer package activation succeeded.",
     "No sidecar GitHub issue was created.",
-    "No raw GitHub lifecycle write was used.",
+    "No raw GitHub lifecycle write was used; the only remote mutation was the explicitly authorized native administrative PR-body PATCH and its authenticated readback.",
     "Issue 1266 acceptance is not complete."
   ]
 }
