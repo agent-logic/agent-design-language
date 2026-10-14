@@ -89,7 +89,7 @@ If you want the stricter v0.90.2 multi-agent repo-review proof packet:
 If you want the v0.90.2 Paper Sonata manuscript review/revision proof packet:
 
 ```bash
-bash adl/tools/demo_v0902_paper_sonata_expansion.sh
+python3 tools/runtime_contracts/run_paper_sonata.py expansion ./artifacts/paper-sonata-expansion
 ```
 
 If you want the CodeBuddy multi-agent review showcase packet:
@@ -217,7 +217,7 @@ and records a reviewer-facing findings artifact plus runtime proof.
 - `v0.89/medium_article_writing_demo.md`
 - [v0.89/gemini_provider_harmony_and_economics_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.89/gemini_provider_harmony_and_economics_demo.md)
 - `v0.89/gemma4_issue_clerk_demo.md`
-- `v0.89/paper_sonata_demo_refresh.md`
+- [v0.89/paper_sonata_demo_refresh.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.89/paper_sonata_demo_refresh.md)
 - `v0.89/multi_agent_repo_code_review_demo.md`
 
 Use `v0.89/v089_demo_program.md` for the canonical `v0.89` proof-row entrypoint
@@ -257,7 +257,7 @@ demo where an Ollama-hosted Gemma-family model proposes one issue-init payload,
 ADL validates it, and the final result is either accepted deterministically or
 rejected truthfully.
 
-Use `v0.89/paper_sonata_demo_refresh.md` for the refreshed reviewer-facing
+Use [v0.89/paper_sonata_demo_refresh.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.89/paper_sonata_demo_refresh.md) for the refreshed reviewer-facing
 Paper Sonata package. It keeps the bounded flagship workflow, but adds a packet
 manifest, claim matrix, revision requests, and a clearer reviewer brief.
 
@@ -303,7 +303,7 @@ staged `review-quality-evaluator` lane from `#2070` lands.
 ### v0.90.2 review proof demos
 
 - `v0.90.2/multi_agent_repo_review_proof_demo.md`
-- `v0.90.2/paper_sonata_expansion_demo.md`
+- [v0.90.2/paper_sonata_expansion_demo.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.90.2/paper_sonata_expansion_demo.md)
 
 Use `(cd "${ADL_INFRASTRUCTURE_SOURCE_ROOT:?set an absolute Infrastructure checkout}" && bash adl/tools/demo_v0902_multi_agent_repo_review_proof.sh)` for the
 stricter multi-agent repo-review proof packet. It is fixture-backed and
@@ -311,7 +311,7 @@ deterministic, but it validates a stronger review contract than the original
 v0.89 demo: specialist boundaries, findings-first synthesis, explicit
 non-findings, residual risk, publication gates, and no merge-approval claims.
 
-Use `bash adl/tools/demo_v0902_paper_sonata_expansion.sh` for the bounded Paper
+Use `python3 tools/runtime_contracts/run_paper_sonata.py expansion ./artifacts/paper-sonata-expansion` for the bounded Paper
 Sonata manuscript review/revision proof packet. It preserves the delivered
 v0.88/v0.89 baseline while adding source/draft/review/revision separation,
 addressed revision requests, and an explicit no-submission publication gate.
@@ -472,3 +472,13 @@ Use that README when you specifically want the full crate-local example inventor
 The pinned v0.8 Gödel guide preserves historical source instructions only. Its
 owner copy predates the ADL retirement warning; no current native procedure or
 original scenario acceptance is established by this document transfer.
+
+### Paper Sonata owner resources
+
+The retained adapter requires an absolute `ADL_RUNTIME_SOURCE_ROOT` pinned to Runtime
+`7d0db620ad79c50ff5d8fabf0fb543183583d05c`. The `expansion` mode also requires
+`ADL_INFRASTRUCTURE_SOURCE_ROOT` at Infrastructure `025850d265cbd1a55b28a8e9b238b2fe0bfcaf1d`;
+its six production fixtures come from Runtime. The `paper` mode requires an explicit
+executable `ADL_DEMO_ADL_BIN` and never falls back to Cargo. Output is selected explicitly.
+Original local-mock Paper Sonata and synthetic expansion assertions passed separately;
+this does not qualify the full v0.88 aggregate, live providers, publication or discovery.

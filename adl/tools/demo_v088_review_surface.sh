@@ -2,6 +2,7 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+python3 "$ROOT_DIR/tools/runtime_contracts/run_paper_sonata.py" --check paper
 OUT_DIR="${1:-$ROOT_DIR/artifacts/v088/review_surface}"
 TEMPORAL_ROOT="$OUT_DIR/temporal"
 PHI_ROOT="$OUT_DIR/phi"
@@ -20,7 +21,7 @@ cd "$ROOT_DIR"
 bash adl/tools/demo_v088_temporal_review_surface.sh "$TEMPORAL_ROOT" >/dev/null
 bash adl/tools/demo_v088_phi_review_surface.sh "$PHI_ROOT" >/dev/null
 bash adl/tools/demo_v088_instinct_review_surface.sh "$INSTINCT_ROOT" >/dev/null
-bash adl/tools/demo_v088_paper_sonata.sh "$PAPER_ROOT" >/dev/null
+python3 "$ROOT_DIR/tools/runtime_contracts/run_paper_sonata.py" paper "$PAPER_ROOT" >/dev/null
 bash adl/tools/demo_v088_deep_agents_comparative_proof.sh "$COMPARATIVE_ROOT" >/dev/null
 
 python3 - "$MANIFEST" <<'PY'
@@ -55,7 +56,7 @@ manifest = {
         {
             "demo_id": "D8",
             "package": "paper_sonata",
-            "command": "bash adl/tools/demo_v088_paper_sonata.sh",
+            "command": "python3 tools/runtime_contracts/run_paper_sonata.py paper OUTPUT_DIRECTORY",
             "primary_proof_surface": "paper_sonata/demo_manifest.json"
         },
         {
