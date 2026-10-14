@@ -97,11 +97,17 @@ Claude family note:
 - the first-class Claude setup surface uses `claude:claude-3-7-sonnet` plus the same bounded ADL completion contract; it is distinct from the generic `anthropic` compatibility setup so Claude can be referenced symmetrically with ChatGPT in multi-agent workflows
 
 Fable 5 UTS acceptance note:
-- use `adl/tools/run_fable5_uts_acceptance.sh` to run Claude Fable 5 through the ADL provider adapter and the sibling UTS benchmark runner
+- the benchmark implementation is owned by [Runtime](https://github.com/agent-logic/agent-logic-runtime); its [Fable 5 acceptance source](https://github.com/agent-logic/agent-logic-runtime/blob/4610077ca808318598c70dc50378c5c3627996f3/adl/tools/run_fable5_uts_acceptance.sh) is retained at this exact merged revision. ADL no longer supplies this command. Merged source delivery and bounded offline consumer evidence do not establish installed acceptance or a credentialed provider run
 - use [docs/tooling/CALL_CLAUDE_FABLE_5.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/docs/tooling/CALL_CLAUDE_FABLE_5.md) for a bounded diagnostic or review call with retained provider artifacts
-- the script writes an ad-hoc selector for `hosted:adl-anthropic:claude-fable-5`, injects a portable `max_output_tokens` budget through `adl/tools/adl_provider_adapter_with_budget.py`, runs the UTS deterministic self-check, runs an optional hosted probe, and then runs the `regular,uts_only` lanes
+- the owner script writes an ad-hoc selector for `hosted:adl-anthropic:claude-fable-5`, injects a portable `max_output_tokens` budget through its owner-local `adl/tools/adl_provider_adapter_with_budget.py`, runs the UTS deterministic self-check, runs an optional hosted probe, and then runs the `regular,uts_only` lanes
 - provide credentials with `--key-file "$HOME/keys/claude2.key"` or an already-set `ANTHROPIC_API_KEY`; the script must not print or retain the key value
 - proof for issue #5044 is recorded in `docs/milestones/v0.91.7/review/provider/FABLE5_UTS_ACCEPTANCE_5044.md`
+
+Triad and review-panel credential configuration:
+- the retained `demo_v091_chatgpt_gemini_claude_triad_conversation.sh` and `demo_v091_chatgpt_gemini_claude_review_panel.sh` use exported `OPENAI_API_KEY`, `GEMINI_API_KEY`, and `ANTHROPIC_API_KEY` first
+- otherwise select key files explicitly with `ADL_OPENAI_KEY_FILE`, `ADL_GEMINI_KEY_FILE`, and `ADL_ANTHROPIC_KEY_FILE`; the corresponding `ADL_OPENAI_API_KEY_FILE`, `ADL_GEMINI_API_KEY_FILE`, and `ADL_ANTHROPIC_API_KEY_FILE` aliases are also accepted, with the shorter names taking precedence
+- an optional `ADL_HOSTED_PROVIDER_KEYS_FILE` selects an operator-supplied JSON registry; legacy string paths and v2 `file_env_var` descriptors are supported. There is no implicit benchmark registry or sibling checkout dependency
+- this configuration change does not qualify either live demo or authorize provider calls
 
 Historical multi-agent demo note (ADL wrappers retired in #1223; the following describes the preserved original contract, not a current ADL command):
 - `adl/tools/demo_v0871_real_multi_agent_discussion.sh` is the operator-run live-provider companion to the deterministic multi-agent demo

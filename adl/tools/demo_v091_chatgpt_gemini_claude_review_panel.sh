@@ -76,16 +76,26 @@ OBSERVATORY_PROJECTION="$OUT_DIR/observatory_projection.json"
 MANIFEST="$OUT_DIR/demo_manifest.json"
 PROOF_NOTE="$OUT_DIR/proof_note.md"
 GENERATED_EXAMPLE="$OUT_DIR/v0-91-chatgpt-gemini-claude-review-panel.runtime.adl.yaml"
-HOSTED_KEYS_FILE="${ADL_HOSTED_PROVIDER_KEYS_FILE:-$ROOT_DIR/adl/tools/benchmark/hosted_provider_key_files.json}"
+HOSTED_KEYS_FILE="${ADL_HOSTED_PROVIDER_KEYS_FILE:-}"
 resolve_key_file() {
   local env_name="$1"
   local explicit_path="${2:-}"
+  local file_env_name="ADL_${env_name}_FILE"
+  # An exported credential needs no key-file registry or owner checkout.
+  if [[ -n "${!env_name:-}" ]]; then
+    return 0
+  fi
+  explicit_path="${explicit_path:-${!file_env_name:-}}"
   if [[ -n "$explicit_path" ]]; then
     printf '%s\n' "$explicit_path"
     return 0
   fi
+  if [[ -z "$HOSTED_KEYS_FILE" ]]; then
+    return 0
+  fi
   python3 - "$HOSTED_KEYS_FILE" "$env_name" <<'PY'
 import json
+import os
 import sys
 from pathlib import Path
 path = Path(sys.argv[1])
@@ -94,6 +104,11 @@ if not path.is_file():
     raise SystemExit(1)
 doc = json.loads(path.read_text(encoding="utf-8"))
 value = (doc.get("keys") or {}).get(env_name, "")
+if isinstance(value, dict):
+    file_env = value.get("file_env_var", "")
+    value = os.environ.get(file_env, "") if isinstance(file_env, str) else ""
+if not isinstance(value, str):
+    raise SystemExit("hosted provider key-file entry must be a path or a file-env descriptor")
 print(value, end="")
 PY
 }
