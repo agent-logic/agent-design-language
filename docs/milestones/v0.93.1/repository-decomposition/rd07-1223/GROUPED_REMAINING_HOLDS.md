@@ -14,4 +14,4 @@ After reviewed caller cutover, reconcile each retained runner, selector, coverag
 
 Resolve the exact per-row required_before_execution entries preserved below as one owner consumer batch: map current caller and qualified successor or choose explicit historical retention/retirement. Reuse existing owner evidence; source presence alone does not close behavior. Cloud/live operations require their own existing authorization.
 
-2936 executed actions; 2935 baseline deletions, including seven prior supplemental and three separately observed paths, plus one transient bridge.
+2948 executed actions; 2947 baseline deletions, including seven prior supplemental and three separately observed paths, plus one transient bridge.

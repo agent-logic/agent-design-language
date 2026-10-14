@@ -266,3 +266,11 @@ Current total: 2,933 actions and 2,932 baseline deletions, including seven prior
 The committed issue607 saved-plan helper retirement and the separately qualified PAIR producer/test pair add three exact captured removals. PAIR proof is 19 unchanged original unittest methods and two Python CLI children, with inline accounting and isolated loopback HTTP fixtures. Matrix attempts and parameterized subtests are not extra test methods; accounting success does not establish real Ollama/model or two-node Runtime qualification. The saved-plan batch retains its own applied-packet proof and historical command boundaries. No tests are rerun by ledger integration.
 
 Current total: 2,936 actions and 2,935 baseline deletions, including seven prior supplemental and three separately observed paths, plus one transient bridge. Original 4,134 identities and 22 additional paths remain unchanged; distributed holds2235/2236 remain unresolved.
+
+## Historical tooling, retired model demo and Runtime901 report contracts
+
+Five historical helper contracts and the three-file Codex/Ollama demo family are retired with original assertions/custody preserved; no obsolete ABI, provider or model execution is credited. Runtime901 separately transfers four exact owner files after two unchanged original scripts passed 19+6 synthetic report-validation methods. This is not real provider or Runtime loss/recovery qualification.
+
+Three existing ADL adapters1909/2087/2059 are explicitly retained under the pinned RETAINED_ADAPTERS_THREE record. ArXiv retains its ADL shared-validator resource contract; issue268 retains six mocked wrapper invocations; records-hygiene retains the complete-root historical installer/analyzer contract. Composed136/138 evidence does not establish a full2059 pass.
+
+Current total: 2,948 actions and 2,947 baseline deletions, including seven prior supplemental and three separately observed paths, plus one transient bridge. Original 4,134 identities and 22 additional paths remain unchanged; distributed holds2235/2236 remain unresolved.
