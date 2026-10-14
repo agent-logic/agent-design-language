@@ -64,18 +64,8 @@ if ! grep -Fq '*/.worktrees/adl-wp-*)' "$HELPER"; then
   exit 1
 fi
 
-for runner in \
-  "$ROOT_DIR/adl/tools/run_authoritative_coverage_lane.sh" \
-  "$ROOT_DIR/adl/tools/run_pr_fast_coverage_lane.sh" \
-  "$ROOT_DIR/adl/tools/run_pr_fast_test_lane.sh"
-do
-  if ! grep -Fq 'rust_validation_warm_cache.sh' "$runner"; then
-    echo "expected runner to invoke shared warm-cache helper: $runner" >&2
-    exit 1
-  fi
-done
-
-# The retired owner aggregate print-plan integration is preserved in #1223 custody.
-# Generic cache safety and the other runner obligations above are unchanged.
+# Former Runtime runner integration assertions are preserved in Git and #1223
+# custody. The ADL source-tree runners are retirement stubs; this test proves
+# only the retained generic cache safety behavior above.
 
 echo "PASS test_rust_validation_warm_cache"

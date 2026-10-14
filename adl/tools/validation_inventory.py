@@ -45,8 +45,8 @@ RELEASE_GATE_EXTRA_PATTERNS = (
 )
 COVERAGE_ONLY_PATTERNS = (
     ".github/workflows/nightly-coverage-ratchet.yaml",
-    "adl/tools/check_coverage_impact.sh",
-    "adl/tools/test_check_coverage_impact.sh",
+    "tools/public_adl/coverage.py",
+    "tools/public_adl/test_coverage.py",
     "adl/tools/run_authoritative_coverage_lane.sh",
     "adl/tools/run_local_authoritative_coverage_gate.sh",
 )

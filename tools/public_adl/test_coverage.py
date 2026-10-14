@@ -59,6 +59,13 @@ class CoverageContract(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'unexpected repository source'):
             self.check()
         files.pop()
+        for retired in ('/synthetic/repo/adl/src/codefriend/review/runner.rs',
+                        '/synthetic/repo/adl-runtime/src/runtime_api_auth.rs'):
+            extra['filename'] = retired
+            files.append(extra)
+            with self.assertRaisesRegex(ValueError, 'unexpected repository source'):
+                self.check()
+            files.pop()
         self.inventory['packages'].append({'name': 'b', 'sources': ['b/src/lib.rs']})
         self.reports['b'] = copy.deepcopy(self.reports['a'])
         extra['filename'] = '/synthetic/repo/b/src/lib.rs'

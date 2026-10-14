@@ -375,8 +375,6 @@
         "adl/config/validation_lane_selector.v0.91.6.json",
         "adl/tools/ci_path_policy.sh",
         "adl/tools/run_v0913_proof_validation_lane.sh",
-        "adl/tools/run_pr_fast_coverage_lane.sh",
-        "adl/tools/test_run_pr_fast_coverage_lane.sh",
         "adl/tools/run_pr_fast_test_lane.sh",
         "adl/tools/run_nessus_remote_validation.sh",
         "adl/tools/run_validation_manager_nessus_lane.sh",
@@ -405,8 +403,6 @@
         "adl/config/validation_lane_selector.v0.91.6.json",
         "adl/tools/ci_path_policy.sh",
         "adl/tools/run_v0913_proof_validation_lane.sh",
-        "adl/tools/run_pr_fast_coverage_lane.sh",
-        "adl/tools/test_run_pr_fast_coverage_lane.sh",
         "adl/tools/run_pr_fast_test_lane.sh",
         "adl/tools/run_nessus_remote_validation.sh",
         "adl/tools/run_validation_manager_nessus_lane.sh",
@@ -445,33 +441,27 @@
         "coverage_impact_contracts"
       ],
       "path_selectors": [
-        "adl/tools/check_coverage_impact.sh",
-        "adl/tools/mechanical_coverage_fallout.py",
-        "adl/config/mechanical_coverage_fallout.v1.json",
+        "tools/public_adl/coverage.py",
+        "tools/public_adl/test_coverage.py",
         "adl/tools/enforce_coverage_gates.sh",
-        "adl/tools/test_check_coverage_impact.sh",
-        "adl/tools/test_mechanical_coverage_fallout.sh",
         "adl/tools/test_run_authoritative_coverage_lane.sh",
         "adl/tools/test_run_local_authoritative_coverage_gate.sh"
       ],
       "path_hints": [
-        "adl/tools/check_coverage_impact.sh",
-        "adl/tools/mechanical_coverage_fallout.py",
-        "adl/config/mechanical_coverage_fallout.v1.json",
+        "tools/public_adl/coverage.py",
+        "tools/public_adl/test_coverage.py",
         "adl/tools/enforce_coverage_gates.sh",
-        "adl/tools/test_check_coverage_impact.sh",
-        "adl/tools/test_mechanical_coverage_fallout.sh",
         "adl/tools/test_run_authoritative_coverage_lane.sh",
         "adl/tools/test_run_local_authoritative_coverage_gate.sh"
       ],
-      "command": "bash adl/tools/test_mechanical_coverage_fallout.sh && bash adl/tools/test_check_coverage_impact.sh",
-      "run_command": "bash adl/tools/test_mechanical_coverage_fallout.sh && bash adl/tools/test_check_coverage_impact.sh",
-      "reason": "coverage_impact_surface_requires_coverage_impact_contract_checks",
+      "command": "python3 tools/public_adl/test_coverage.py",
+      "run_command": "python3 tools/public_adl/test_coverage.py",
+      "reason": "public_coverage_surface_requires_public_coverage_contract_checks",
       "vpp_record": {
         "contract_version": "vpp.lane.v1",
         "artifacts": [
-          "mechanical_fallout_receipt",
-          "changed_source_threshold_regression"
+          "public_coverage_inventory",
+          "public_coverage_threshold_regression"
         ],
         "expected_runtime_class": "small",
         "parallel_group": "coverage_policy",
@@ -1282,8 +1272,6 @@
         "adl/tools/rust_validation_warm_cache.sh",
         "adl/tools/test_rust_validation_warm_cache.sh",
         "adl/tools/run_authoritative_coverage_lane.sh",
-        "adl/tools/test_run_pr_fast_coverage_lane.sh",
-        "adl/tools/run_pr_fast_coverage_lane.sh",
         "adl/tools/run_pr_fast_test_lane.sh"
       ],
       "path_hints": [
@@ -1292,8 +1280,6 @@
         "adl/tools/rust_validation_warm_cache.sh",
         "adl/tools/test_rust_validation_warm_cache.sh",
         "adl/tools/run_authoritative_coverage_lane.sh",
-        "adl/tools/test_run_pr_fast_coverage_lane.sh",
-        "adl/tools/run_pr_fast_coverage_lane.sh",
         "adl/tools/run_pr_fast_test_lane.sh"
       ],
       "command": "python3 -m py_compile adl/tools/warm_rust_dependency_cache.py adl/tools/test_warm_rust_dependency_cache.py && python3 adl/tools/test_warm_rust_dependency_cache.py && bash adl/tools/test_rust_validation_warm_cache.sh && bash adl/tools/test_run_authoritative_coverage_lane.sh && bash adl/tools/test_run_pr_fast_test_lane.sh",

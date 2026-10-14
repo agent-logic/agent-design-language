@@ -28,7 +28,6 @@ REMOVE_CANDIDATES = {
 PRIMARY_TOOL_SCRIPTS = {
     "batched_checks.sh": "Local validation entrypoint; use the current declared public validation contract.",
     "run_pr_fast_test_lane.sh": "Primary focused PR-fast local test runner.",
-    "check_coverage_impact.sh": "Primary local coverage-impact gate for risky changed files.",
 }
 
 HISTORICAL_TOOL_SCRIPTS = {

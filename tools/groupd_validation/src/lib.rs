@@ -52,7 +52,7 @@ mod tests {
         run("python3", "tools/public_adl/test_validation_interfaces.py");
     }
     #[test]
-    fn coverage_test_only() {
-        run("python3", "adl/tools/test_coverage_test_only.py");
+    fn public_coverage_contract() {
+        run("python3", "tools/public_adl/test_coverage.py");
     }
 }

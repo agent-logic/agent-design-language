@@ -12,7 +12,7 @@ handoff. It does not rewrite the frozen #918/#919 candidate.
 | SYN-006 | Three explicit Cargo CI jobs, mixed-path ownership, fail-closed aggregate result checks | Selector + CI path-policy suites; 24 aggregate combinations and real Git path fixtures; affected crates below |
 | DOC-001 | Current incomplete/deferred qualification routing; #1148/#1149 then #1150 in v0.93.1; Runtime v4 in v0.93.2 | `test_documentation.py`: 3 tests, including rejected stale routing |
 | DOC-SUP-001 | Current parser documentation matches shared source bounds and links canonical contract | Same documentation suite |
-| CI-1160-001 (subsequent finding) | Exact production projection around existing top-level `cfg(test)` module bodies avoids production percentage gate for test-only edits | `adl/tools/test_coverage_test_only.py`: 5 tests, including actual #1151 fixture when historical Git objects exist; actual shell gate keeps mixed/production/malformed/unknown failures |
+| CI-1160-001 (subsequent finding) | Exact production projection around existing top-level `cfg(test)` module bodies avoids production percentage gate for test-only edits | Historical `adl/tools/test_coverage_test_only.py`: 5 original assertions retained in Git and #1223 custody; current adapter runs `tools/public_adl/test_coverage.py` for public inventory, denominator and floor checks. The old test-only projection and shell gate are not current ADL proof. |
 
 The subsequent CI finding was assigned after the frozen review: #1151's
 `36ec0814683d0c8cc136bc9af27a0163ed506460` changes only its bad-signature test
@@ -21,7 +21,7 @@ not lower the 80% threshold, allowlist a source file, bypass selected tests, or
 skip coverage generation. It compares exact Git-derived production segments
 including test module headers, names, delimiters and all following production
 code. Unknown syntax/objects and mixed edits keep the original coverage gate.
-The existing `test_check_coverage_impact.sh` suite also passed locally.
+The former `test_check_coverage_impact.sh` suite passed in the historical #1160 record; it is retired by #1223 and is not part of the current adapter run.
 
 All three independent Cargo roots passed on Rust 1.92.0 with `--locked` tests,
 format checks and strict all-target Clippy:
@@ -38,12 +38,13 @@ in the frozen packet and excluded 102 ordinary locks. It does not invent missing
 manifests or claim a full repository dependency audit. Installed skill files were
 not replaced; the fix is in the reviewed repository skill source.
 
-The native Cargo adapter executes the actual shell/Python suites as six Rust
-tests after the #1223 Infrastructure bootstrap transfer. The original seven-test
+The native Cargo adapter executes the retained shell/Python suites as six Rust
+tests after the #1223 Infrastructure bootstrap and coverage-family transfers. The original seven-test
 adapter remains historical evidence; its bootstrap test is not a current ADL pass. The three Cargo crate suites are separately retained local proof; Linux CI
 runs the three new jobs. No zero-test success is treated as proof. The historical
-#1151 comparison can be skipped in shallow CI when its objects are absent; the
-portable synthetic-Git positive/negative gate cases remain mandatory.
+#1151 comparison and synthetic-Git gate cases remain original custody evidence,
+not current ADL adapter assertions. Current public coverage unit tests must pass
+without treating that historical projection as qualified.
 
 Independent review found a misplaced duplicate aggregate block and two omitted
 adapter suites; both were fixed and re-reviewed. Final exact-head independent
