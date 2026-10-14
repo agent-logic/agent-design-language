@@ -30,7 +30,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 
 - `primary`: 7
 - `supported shim`: 0
-- `internal helper`: 305
+- `internal helper`: 304
 - `historical evidence`: 24
 - `archive candidate`: 0
 - `remove candidate`: 0
@@ -123,7 +123,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/lib` | tool surface | internal helper | Directory containing bounded helper assets, scripts, or proof inputs. |
 | `adl/tools/local_model_capabilities.v1.json` | tool surface | internal helper | Visible tool surface retained for bounded support work. |
 | `adl/tools/mcp` | tool surface | internal helper | Directory containing bounded helper assets, scripts, or proof inputs. |
-| `adl/tools/mock_gemini_http_provider.py` | tool surface | internal helper | Mock helper used for focused testing or proof. |
 | `adl/tools/mock_ollama_v0_4.sh` | tool surface | internal helper | Mock helper used for focused testing or proof. |
 | `adl/tools/native_qwen_assisted_generation_benchmark.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/owner_binary_resolution.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
