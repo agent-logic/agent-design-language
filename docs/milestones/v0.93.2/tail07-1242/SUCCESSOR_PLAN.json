@@ -1,0 +1,1960 @@
+{
+  "schema": "adl.successor_planning_reconciliation.v1",
+  "issue": 1242,
+  "status": "reviewable_preparation_only",
+  "observed_at": "2026-10-14T17:35:30.511062+00:00",
+  "execution_authorized": false,
+  "final_acceptance": false,
+  "reused_setup": {
+    "issue": 1259,
+    "pull_request": 1264,
+    "merge_commit": "0ba1106676c7c3a815e91336ae32942b5c51ba49",
+    "source_path": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json",
+    "sha256": "5005ea5f63145872bebd9d347b8d0c4adc277faec26c205d4558155c98d1f65c",
+    "source_url": "https://github.com/agent-logic/agent-design-language/blob/0ba1106676c7c3a815e91336ae32942b5c51ba49/docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json"
+  },
+  "scope_decision": "Retain CodeFriend, GHB, Runtime v4/plugins, governance/ToM/relationships/delegation/guilds, enterprise security, citizen migration/reproduction, demos, integration and release. Defer Python and affect/humour. v0.93.3 is a proposal, not an activated milestone.",
+  "counts": {
+    "source": 68,
+    "deferred_python": 1,
+    "proposed": 67,
+    "ghb": 14,
+    "codefriend_existing_launch": 1
+  },
+  "work_packages": [
+    {
+      "id": "WP-01",
+      "title": "Open the reviewed v0.93.2 execution wave",
+      "repository": "agent-design-language",
+      "existing_issue": null,
+      "depends_on": [
+        "v0.93.1/TAIL-10",
+        "v0.93.1/RD-11"
+      ],
+      "acceptance": [
+        "Open only the reviewed remaining-platform wave after accepted v0.93.1 closure and explicit authorization; consume existing destination repositories and issue identities without repeating the split.",
+        "No launch, paid run, cloud change or issue creation inferred from planning approval."
+      ],
+      "negative_cases": [
+        "Unaccepted predecessor",
+        "Missing opening approval",
+        "Duplicate issue identities"
+      ],
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/WP-01",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "RV-01",
+      "title": "Resolve plugin lifecycle design findings",
+      "repository": "agent-logic-runtime",
+      "existing_issue": null,
+      "depends_on": [
+        "v0.93.1/RD-11",
+        "WP-01"
+      ],
+      "acceptance": [
+        "An accepted plugin contract defines topology precedence, epochs, durable activation journal, in-flight delivery, cancellation, versioned state/config migration, two-phase reconfiguration, dependency-safe removal and recovery classes.",
+        "Independent design review resolves actionable findings against the versioned plugin contract and explicit success, refusal and recovery scenarios. Implementation and installed-consumer proof are delivered by RV-02 through RV-11, not required to admit RV-02."
+      ],
+      "negative_cases": [
+        "Manifest self-grants",
+        "Undefined crash recovery"
+      ],
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/RV-01",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "RV-02",
+      "title": "Adapt built-in components to the native plugin contract",
+      "repository": "agent-logic-runtime",
+      "existing_issue": null,
+      "depends_on": [
+        "RV-01"
+      ],
+      "acceptance": [
+        "Existing Runtime behavior and identity survive native adapter conversion with no second scheduler.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Behavior parity regression"
+      ],
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/RV-02",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "RV-03",
+      "title": "Implement recoverable plugin generation transitions",
+      "repository": "agent-logic-runtime",
+      "existing_issue": null,
+      "depends_on": [
+        "RV-02"
+      ],
+      "acceptance": [
+        "The durable generation transaction stages, quiesces, activates and rolls back to one fenced generation after interruption; in-flight work and cancellation retain their declared disposition.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Interrupted activation loses owner",
+        "Stale generation accepts work",
+        "Rollback duplicates in-flight delivery"
+      ],
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/RV-03",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "RV-09",
+      "title": "Migrate versioned plugin state",
+      "repository": "agent-logic-runtime",
+      "existing_issue": null,
+      "depends_on": [
+        "RV-03"
+      ],
+      "acceptance": [
+        "An installed plugin migrates declared prior-version state to the selected version and preserves the prior generation when the migrator refuses or fails.",
+        "Exact versioned input/output evidence and positive/negative scenario counts are retained; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Unsupported state version",
+        "Migrator failure mutates prior state",
+        "Retry repeats non-idempotent migration"
+      ],
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/RV-09",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "RV-10",
+      "title": "Reconfigure a plugin atomically",
+      "repository": "agent-logic-runtime",
+      "existing_issue": null,
+      "depends_on": [
+        "RV-09"
+      ],
+      "acceptance": [
+        "Versioned configuration migration and two-phase validation/activation apply one accepted configuration, or preserve the prior version and active configuration on refusal, failure or interruption.",
+        "Exact versioned input/output evidence and positive/negative scenario counts are retained; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Invalid configuration activated",
+        "Interrupted apply loses known-good configuration",
+        "Credential scope changes silently",
+        "Unsupported configuration version",
+        "Configuration migrator failure loses prior version"
+      ],
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/RV-10",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "RV-11",
+      "title": "Remove a plugin without breaking dependents",
+      "repository": "agent-logic-runtime",
+      "existing_issue": null,
+      "depends_on": [
+        "RV-10"
+      ],
+      "acceptance": [
+        "A requested plugin removal checks dependencies and in-flight work, refuses unsafe removal, and completes authorized removal with durable recovery state.",
+        "Exact versioned input/output evidence and positive/negative scenario counts are retained; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Live dependent orphaned",
+        "Unsafe removal accepted",
+        "Interrupted removal resurrects stale generation"
+      ],
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/RV-11",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "RV-04",
+      "title": "Run a governed process plugin",
+      "repository": "agent-logic-runtime",
+      "existing_issue": null,
+      "depends_on": [
+        "RV-11"
+      ],
+      "acceptance": [
+        "One real non-core plugin uses authenticated bounded transport, deadlines and process supervision.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Orphan process",
+        "Hung handler",
+        "Unbounded queue"
+      ],
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/RV-04",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "RV-05",
+      "title": "Run a bounded WASM component plugin",
+      "repository": "agent-logic-runtime",
+      "existing_issue": null,
+      "depends_on": [
+        "RV-04"
+      ],
+      "acceptance": [
+        "The canonical contract drives a default-deny WIT adapter with enforced memory, time and host-call limits.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Unapproved import",
+        "Timeout bypass"
+      ],
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/RV-05",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "RV-06",
+      "title": "Prove cross-adapter module equivalence",
+      "repository": "agent-logic-runtime",
+      "existing_issue": null,
+      "depends_on": [
+        "RV-05"
+      ],
+      "acceptance": [
+        "One module has equivalent CSM-visible identity, messages, failure and state behavior across native, process and WASM adapters.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Adapter-specific authority",
+        "State identity drift"
+      ],
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/RV-06",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "RV-07",
+      "title": "Move provider instances to plugin configuration",
+      "repository": "agent-logic-runtime",
+      "existing_issue": null,
+      "depends_on": [
+        "RV-06"
+      ],
+      "acceptance": [
+        "Provider instances consume host-owned credentials and versioned configuration through the common inference capability.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Credential in manifest",
+        "Implicit provider fallback"
+      ],
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/RV-07",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "RV-08",
+      "title": "Qualify installed plugin recovery and operations",
+      "repository": "agent-logic-runtime",
+      "existing_issue": null,
+      "depends_on": [
+        "RV-07"
+      ],
+      "acceptance": [
+        "Installed package signing, checkpoint compatibility, generation recovery and Observatory operations pass with a retained known-good rollback.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings.",
+        "Preserve the qualified ready-to-deploy CodeFriend API/artifact contract and demonstrate compatible upgrade and known-good rollback."
+      ],
+      "negative_cases": [
+        "Bad signature",
+        "Incompatible checkpoint",
+        "Rollback cannot restore"
+      ],
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/RV-08",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "GOV-01",
+      "title": "Enforce citizen and guest actor boundaries",
+      "repository": "agent-logic-runtime",
+      "existing_issue": null,
+      "depends_on": [
+        "RV-08"
+      ],
+      "acceptance": [
+        "Runtime admits citizen conduct only through bound identity, Freedom Gate and signed trace; guest/operator action remains distinct.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings.",
+        "Installed cognitive-loop and instinct-originated actions traverse bound identity, Freedom Gate and temporal anchoring; guest or stale identity cannot acquire citizen authority."
+      ],
+      "negative_cases": [
+        "Guest impersonates citizen",
+        "Instinct bypasses governance",
+        "Missing or inconsistent temporal anchor"
+      ],
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/GOV-01",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "GOV-02",
+      "title": "Evaluate trace-grounded rights and duties",
+      "repository": "agent-logic-runtime",
+      "existing_issue": null,
+      "depends_on": [
+        "GOV-01"
+      ],
+      "acceptance": [
+        "A Runtime policy evaluator returns rights/duties decisions with trace evidence for a bounded action.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Evidence-free verdict"
+      ],
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/GOV-02",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "GOV-03",
+      "title": "Apply evidence-backed standing transitions",
+      "repository": "agent-logic-runtime",
+      "existing_issue": null,
+      "depends_on": [
+        "GOV-02"
+      ],
+      "acceptance": [
+        "Standing maintenance, restriction, restoration and revocation consume existing state primitives and retain reasons and challenge context.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Unexplained restriction",
+        "Restoration loses history"
+      ],
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/GOV-03",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "GOV-04",
+      "title": "Produce constitutional review from evidence",
+      "repository": "agent-logic-runtime",
+      "existing_issue": null,
+      "depends_on": [
+        "GOV-03"
+      ],
+      "acceptance": [
+        "A review consumer emits findings over trace/outcome/policy evidence without raw private-state access.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Fabricated evidence",
+        "Raw state disclosure"
+      ],
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/GOV-04",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "GOV-05",
+      "title": "Resolve challenges and appeals",
+      "repository": "agent-logic-runtime",
+      "existing_issue": null,
+      "depends_on": [
+        "GOV-04"
+      ],
+      "acceptance": [
+        "A challenged finding progresses through appeal and recorded disposition without destroying original evidence.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Replay changes verdict",
+        "Evidence lost on appeal"
+      ],
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/GOV-05",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "GOV-06",
+      "title": "Persist governed private ToM updates",
+      "repository": "agent-logic-runtime",
+      "existing_issue": null,
+      "depends_on": [
+        "GOV-01"
+      ],
+      "acceptance": [
+        "Signed evidence-backed model updates replay under standing, consent/scope and projection controls.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Unsigned update",
+        "Guest scope exceeded"
+      ],
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/GOV-06",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "GOV-07",
+      "title": "Preserve ToM conflict and temporal decay",
+      "repository": "agent-logic-runtime",
+      "existing_issue": null,
+      "depends_on": [
+        "GOV-06"
+      ],
+      "acceptance": [
+        "Conflicting and stale entries change a bounded consumer decision through explicit uncertainty/decay events.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Conflict overwritten",
+        "Stale confidence unchanged"
+      ],
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/GOV-07",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "GOV-08",
+      "title": "Persist governed relationship context",
+      "repository": "agent-logic-runtime",
+      "existing_issue": null,
+      "depends_on": [
+        "GOV-06"
+      ],
+      "acceptance": [
+        "Relationship records preserve evidence and permitted scope across restart without becoming standing verdicts.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Untraceable relationship assertion"
+      ],
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/GOV-08",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "GOV-09",
+      "title": "Publish challengeable reputation projections",
+      "repository": "agent-logic-runtime",
+      "existing_issue": null,
+      "depends_on": [
+        "GOV-05",
+        "GOV-07",
+        "GOV-08"
+      ],
+      "acceptance": [
+        "Authorized redacted projections can inform review while retaining challenge and source lineage.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Raw ToM leak",
+        "Scalar moral verdict"
+      ],
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/GOV-09",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "GOV-10",
+      "title": "Consume redacted shared social memory",
+      "repository": "agent-logic-runtime",
+      "existing_issue": null,
+      "depends_on": [
+        "GOV-09"
+      ],
+      "acceptance": [
+        "Two governed consumers share evidence projections with preserved uncertainty, access rules and freshness.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Private model copied",
+        "Stale projection trusted"
+      ],
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/GOV-10",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "GOV-11",
+      "title": "Enforce delegated action authority",
+      "repository": "agent-logic-runtime",
+      "existing_issue": null,
+      "depends_on": [
+        "GOV-03"
+      ],
+      "acceptance": [
+        "Delegated action binds identity, standing, resource, capability and policy without exceeding the delegator grant.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings.",
+        "A bounded remote action accepts a current scoped delegation and rejects refusal, revocation and replay without applying the action twice."
+      ],
+      "negative_cases": [
+        "Overbroad delegation",
+        "Revoked grant",
+        "Remote replay duplicates effect",
+        "Remote refusal ignored"
+      ],
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/GOV-11",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "GOV-12",
+      "title": "Execute governed upstream cognition",
+      "repository": "agent-logic-runtime",
+      "existing_issue": null,
+      "depends_on": [
+        "GOV-11",
+        "GOV-07"
+      ],
+      "acceptance": [
+        "A selected/rejected upstream call retains citizen identity, policy, provenance and verification; ToM may inform selection but cannot override authority.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Provider becomes sovereign",
+        "Unverified answer accepted"
+      ],
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/GOV-12",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "GOV-13",
+      "title": "Communicate without private inspection",
+      "repository": "agent-logic-runtime",
+      "existing_issue": null,
+      "depends_on": [
+        "GOV-11"
+      ],
+      "acceptance": [
+        "A governed exchange succeeds while an associated unauthorized private-state/ToM inspection is denied.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Message receipt grants inspection"
+      ],
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/GOV-13",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "GOV-14",
+      "title": "Evaluate bounded social-contract obligations",
+      "repository": "agent-logic-runtime",
+      "existing_issue": null,
+      "depends_on": [
+        "GOV-05",
+        "GOV-10",
+        "GOV-13"
+      ],
+      "acceptance": [
+        "A policy consumer evaluates explicit polis/citizen obligations and emits reviewable evidence.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings.",
+        "The installed obligations consumer evaluates accepted, expired and missed commitments and rejects causally invalid ordering using explicit temporal evidence and reviewable policy disposition."
+      ],
+      "negative_cases": [
+        "Policy text treated as executed behavior",
+        "Expired commitment treated as current",
+        "Missed deadline silently satisfied",
+        "Causally invalid commitment accepted"
+      ],
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/GOV-14",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "GOV-15",
+      "title": "Operate governed guild membership and action",
+      "repository": "agent-logic-runtime",
+      "existing_issue": null,
+      "depends_on": [
+        "GOV-14",
+        "GOV-12"
+      ],
+      "acceptance": [
+        "Guild identity, membership, scoped resources and delegated actions persist with trace and challenge support.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Revoked membership acts",
+        "Guild exceeds citizen authority"
+      ],
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/GOV-15",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "GOV-16",
+      "title": "Produce redacted polis governance health",
+      "repository": "agent-logic-runtime",
+      "existing_issue": null,
+      "depends_on": [
+        "GOV-15"
+      ],
+      "acceptance": [
+        "The operator receives evidence-linked standing, appeals and social-memory summaries without private-state leaks or scalar moral ranking.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Hidden uncertainty",
+        "Protected data in report"
+      ],
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/GOV-16",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "WP-S1",
+      "title": "Enforce the enterprise zero-trust boundary",
+      "repository": "agent-logic-enterprise-security",
+      "existing_issue": null,
+      "depends_on": [
+        "GOV-11",
+        "v0.93.1/RD-09"
+      ],
+      "acceptance": [
+        "A private policy provider drives Runtime allow/deny decisions over all declared actor/message/data boundaries.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Implicit internal trust",
+        "Connection treated as permission"
+      ],
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/WP-S1",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "WP-S2",
+      "title": "Enforce per-action and per-message authorization",
+      "repository": "agent-logic-enterprise-security",
+      "existing_issue": null,
+      "depends_on": [
+        "WP-S1",
+        "GOV-12"
+      ],
+      "acceptance": [
+        "Enterprise policy narrows Runtime grants for identity, standing, delegation, tools and ACIP messages.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Stale/revoked grant",
+        "Malformed/replayed/out-of-order message"
+      ],
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/WP-S2",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "WP-S3",
+      "title": "Enforce key and secret lifecycle",
+      "repository": "agent-logic-enterprise-security",
+      "existing_issue": null,
+      "depends_on": [
+        "WP-S2"
+      ],
+      "acceptance": [
+        "Current scoped keys work and rotated/revoked keys fail in signed/encrypted message and checkpoint consumers.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Wrong-scope key",
+        "Secret in output",
+        "Revocation ignored"
+      ],
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/WP-S3",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "WP-S4",
+      "title": "Produce tamper-evident incident evidence",
+      "repository": "agent-logic-enterprise-security",
+      "existing_issue": null,
+      "depends_on": [
+        "WP-S3",
+        "GOV-05"
+      ],
+      "acceptance": [
+        "A synthetic incident emits linked audit, control and redacted review evidence accepted by the governance consumer.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Tampered event",
+        "Raw private-state dump"
+      ],
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/WP-S4",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "WP-S5",
+      "title": "Enforce protected data lifecycle and isolation",
+      "repository": "agent-logic-enterprise-security",
+      "existing_issue": null,
+      "depends_on": [
+        "WP-S3",
+        "GOV-10"
+      ],
+      "acceptance": [
+        "Access, retention, deletion and projection operations enforce tenant/polis/citizen ownership and privacy.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Cross-tenant leak",
+        "Raw ToM projection",
+        "Deletion leaves accessible data"
+      ],
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/WP-S5",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "WP-S6",
+      "title": "Operate a replayable security regression drill",
+      "repository": "agent-logic-enterprise-security",
+      "existing_issue": null,
+      "depends_on": [
+        "WP-S4",
+        "WP-S5"
+      ],
+      "acceptance": [
+        "One bounded red/blue/purple drill replays a seed per control area and produces mitigation, provenance, threat-board and release-risk evidence.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Undeclared target",
+        "Non-replayable finding",
+        "Unproven mitigation"
+      ],
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/WP-S6",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "CM-01",
+      "title": "Accept citizen migration and descendant identity contracts",
+      "repository": "agent-logic-runtime",
+      "existing_issue": null,
+      "depends_on": [
+        "RV-08",
+        "GOV-01"
+      ],
+      "acceptance": [
+        "A reviewed contract distinguishes same-identity migration and recovery from new-identity descendants, replication and independent clones; it defines authority, lineage, consent, state inheritance, fencing and recovery outcomes.",
+        "Independent design review checks the enumerated success, denial and recovery examples against the contract; implementation and installed scenario counts belong to downstream results."
+      ],
+      "negative_cases": [
+        "Copy treated as same active identity",
+        "Implicit grant inheritance",
+        "Ambiguous ownership during transfer"
+      ],
+      "resources": "Bounded local CPU/files and owned CI. No paid provider, cloud mutation or external publication without separately scoped authorization.",
+      "pvf": "planning_contract",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/CM-01",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "CM-02",
+      "title": "Migrate one citizen without conflicting active identity",
+      "repository": "agent-logic-runtime",
+      "existing_issue": null,
+      "depends_on": [
+        "CM-01",
+        "WP-S3"
+      ],
+      "acceptance": [
+        "Two owned Runtime endpoints transfer one authorized citizen checkpoint and scoped continuity evidence; the source is fenced before destination activation and interruption can recover without two active holders or lost lineage.",
+        "Exact versioned inputs and actual positive, denial and recovery scenario counts are retained; independent review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Stale or replayed transfer",
+        "Unauthorized destination",
+        "Interrupted handover",
+        "Source continues after destination activation",
+        "Wrong key or corrupt checkpoint"
+      ],
+      "resources": "Bounded local CPU/files and owned CI. No paid provider, cloud mutation or external publication without separately scoped authorization.",
+      "pvf": "installed_integration",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/CM-02",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "CM-03",
+      "title": "Create a governed descendant with distinct identity",
+      "repository": "agent-logic-runtime",
+      "existing_issue": null,
+      "depends_on": [
+        "CM-01",
+        "GOV-11",
+        "WP-S5"
+      ],
+      "acceptance": [
+        "An authorized parent creates one distinctly identified descendant with explicit lineage, selected inherited state and newly scoped authority while preserving the parent and protecting private state.",
+        "Exact versioned inputs and actual positive, denial and recovery scenario counts are retained; independent review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Unauthorized cloning",
+        "Duplicate descendant on retry",
+        "Private state inherited without scope",
+        "Parent standing or credentials copied as authority"
+      ],
+      "resources": "Bounded local CPU/files and owned CI. No paid provider, cloud mutation or external publication without separately scoped authorization.",
+      "pvf": "installed_integration",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/CM-03",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "CM-04",
+      "title": "Qualify citizen migration and reproduction recovery",
+      "repository": "agent-logic-runtime",
+      "existing_issue": null,
+      "depends_on": [
+        "CM-02",
+        "CM-03"
+      ],
+      "acceptance": [
+        "Independent installed scenarios exercise migration and descendant creation across restart, interruption and retry, verify lineage/privacy/fencing and expose the resulting identity and custody status to the operator.",
+        "Exact versioned inputs and actual positive, denial and recovery scenario counts are retained; independent review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Split-brain identity",
+        "Orphaned in-transit custody",
+        "Silent lineage loss",
+        "Retry creates extra descendant"
+      ],
+      "resources": "Bounded local CPU/files and owned CI. No paid provider, cloud mutation or external publication without separately scoped authorization.",
+      "pvf": "installed_integration",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/CM-04",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "DEMO-GOV",
+      "title": "Run integrated governance demonstrations",
+      "repository": "agent-logic-runtime",
+      "existing_issue": null,
+      "depends_on": [
+        "GOV-16"
+      ],
+      "acceptance": [
+        "Execute D1-D8 and guild D13 through installed Runtime consumers with accepted and refused paths.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Demo replaces production path"
+      ],
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/DEMO-GOV",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "DEMO-SEC",
+      "title": "Run integrated security demonstrations",
+      "repository": "agent-logic-enterprise-security",
+      "existing_issue": null,
+      "depends_on": [
+        "WP-S6"
+      ],
+      "acceptance": [
+        "Execute D9-D12 plus per-message ACIP cases against the private provider and installed Runtime.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Synthetic mechanics claimed as enterprise qualification"
+      ],
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/DEMO-SEC",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "INTEGRATE",
+      "title": "Integrate governance with security and plugin operations",
+      "repository": "agent-logic-runtime",
+      "existing_issue": null,
+      "depends_on": [
+        "DEMO-GOV",
+        "DEMO-SEC",
+        "CM-04"
+      ],
+      "acceptance": [
+        "One installed polis joins citizen action, upstream delegation, private cognition, policy enforcement, appeal and plugin restart without contract drift.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings.",
+        "The inherited feature crosswalk is executed: remote delegation, cognitive-loop and instinct actions, Chronosense anchoring, commitments/deadlines and citizen migration/reproduction retain governance across restart."
+      ],
+      "negative_cases": [
+        "Authority lost across product boundary"
+      ],
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/INTEGRATE",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "QUALIFY",
+      "title": "Independently qualify the installed milestone",
+      "repository": "agent-logic-runtime",
+      "existing_issue": null,
+      "depends_on": [
+        "INTEGRATE",
+        "GHB-WP12",
+        "CF-92"
+      ],
+      "acceptance": [
+        "Independent reviewer runs the accepted success/failure/recovery denominator on the exact multi-repository lockset.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings.",
+        "Qualify the pinned Runtime v4 upgrade against qualified ready-to-deploy CodeFriend contracts and rollback without reopening Beta 1 launch as a prerequisite."
+      ],
+      "negative_cases": [
+        "Wrong artifact head",
+        "Missing negative scenario"
+      ],
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/QUALIFY",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "TAIL-01",
+      "title": "Quality gate",
+      "repository": "agent-design-language",
+      "existing_issue": null,
+      "depends_on": [
+        "QUALIFY"
+      ],
+      "acceptance": [
+        "Deliver the complete quality gate result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/TAIL-01",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "TAIL-02",
+      "title": "Documentation review and external-review handoff",
+      "repository": "agent-design-language",
+      "existing_issue": null,
+      "depends_on": [
+        "TAIL-01"
+      ],
+      "acceptance": [
+        "Deliver the complete documentation review and external-review handoff result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/TAIL-02",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "TAIL-03",
+      "title": "Publication finalization",
+      "repository": "agent-design-language",
+      "existing_issue": null,
+      "depends_on": [
+        "TAIL-02"
+      ],
+      "acceptance": [
+        "Deliver the complete publication finalization result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/TAIL-03",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "TAIL-04",
+      "title": "Internal milestone review",
+      "repository": "agent-design-language",
+      "existing_issue": null,
+      "depends_on": [
+        "TAIL-03"
+      ],
+      "acceptance": [
+        "Deliver the complete internal milestone review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/TAIL-04",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "TAIL-05",
+      "title": "External or third-party review",
+      "repository": "agent-design-language",
+      "existing_issue": null,
+      "depends_on": [
+        "TAIL-04"
+      ],
+      "acceptance": [
+        "Deliver the complete external or third-party review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/TAIL-05",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "TAIL-06",
+      "title": "Accepted-findings remediation or explicit deferral capture",
+      "repository": "agent-design-language",
+      "existing_issue": null,
+      "depends_on": [
+        "TAIL-05"
+      ],
+      "acceptance": [
+        "Deliver the complete accepted-findings remediation or explicit deferral capture result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/TAIL-06",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "TAIL-07",
+      "title": "Next-milestone planning",
+      "repository": "agent-design-language",
+      "existing_issue": null,
+      "depends_on": [
+        "TAIL-06"
+      ],
+      "acceptance": [
+        "Deliver the complete next-milestone planning result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/TAIL-07",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "TAIL-08",
+      "title": "Next-milestone closeout planning",
+      "repository": "agent-design-language",
+      "existing_issue": null,
+      "depends_on": [
+        "TAIL-07"
+      ],
+      "acceptance": [
+        "Deliver the complete next-milestone closeout planning result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/TAIL-08",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "TAIL-09",
+      "title": "Next-milestone planning review",
+      "repository": "agent-design-language",
+      "existing_issue": null,
+      "depends_on": [
+        "TAIL-08"
+      ],
+      "acceptance": [
+        "Deliver the complete next-milestone planning review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/TAIL-09",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "TAIL-10",
+      "title": "Release ceremony and milestone close",
+      "repository": "agent-design-language",
+      "existing_issue": null,
+      "depends_on": [
+        "TAIL-09"
+      ],
+      "acceptance": [
+        "Deliver the complete release ceremony and milestone close result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/TAIL-10",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "GHB-SPRINT",
+      "title": "[GHB][Sprint] Deliver governed recursive improvement in the installed Agent Logic Runtime",
+      "repository": "agent-logic-runtime",
+      "existing_issue": null,
+      "depends_on": [],
+      "acceptance": [
+        "The GHB roster, ownership, scope, budgets-to-approve, dependency order, and separate Gate A/Gate B acceptance are reviewable before child execution."
+      ],
+      "negative_cases": [
+        "Planning status treated as execution authority",
+        "Duplicate owner or issue identity",
+        "Fixture evidence substituted for installed behavior"
+      ],
+      "resources": "Issue-specific authorization required for provider spend, experiments, deployment and publication.",
+      "pvf": "installed_runtime_and_independent_evaluation",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/GHB-SPRINT",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "GHB-WP00",
+      "title": "[GHB][WP00] Source-to-caller audit and baseline",
+      "repository": "agent-logic-runtime",
+      "existing_issue": null,
+      "depends_on": [
+        "GHB-SPRINT"
+      ],
+      "acceptance": [
+        "source-to-caller matrix at pinned revisions; no duplicated owner planned; runnable unchanged-agent baseline; measurable Gate A scenario; approved evaluation protocol and task/data licenses. A missing existing owner is an explicit gap rather than assumed absence."
+      ],
+      "negative_cases": [
+        "Planning status treated as execution authority",
+        "Duplicate owner or issue identity",
+        "Fixture evidence substituted for installed behavior"
+      ],
+      "resources": "Issue-specific authorization required for provider spend, experiments, deployment and publication.",
+      "pvf": "installed_runtime_and_independent_evaluation",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/GHB-WP00",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "GHB-WP01",
+      "title": "[GHB][WP01] Normative specification and invariants",
+      "repository": "agent-design-language",
+      "existing_issue": null,
+      "depends_on": [
+        "GHB-SPRINT",
+        "GHB-WP00"
+      ],
+      "acceptance": [
+        "every transition has inputs, outputs, authority, side effects and stop conditions; fresh inference versus replay is explicit; historical docs link to the normative successor after review; conformance labels remain proposed until accepted."
+      ],
+      "negative_cases": [
+        "Planning status treated as execution authority",
+        "Duplicate owner or issue identity",
+        "Fixture evidence substituted for installed behavior"
+      ],
+      "resources": "Issue-specific authorization required for provider spend, experiments, deployment and publication.",
+      "pvf": "installed_runtime_and_independent_evaluation",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/GHB-WP01",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "GHB-WP02",
+      "title": "[GHB][WP02] Schemas and installed contract parity",
+      "repository": "agent-design-language",
+      "existing_issue": null,
+      "depends_on": [
+        "GHB-SPRINT",
+        "GHB-WP01"
+      ],
+      "acceptance": [
+        "canonical digest/round-trip tests, malformed and stale-reference rejection, schema examples, installed Runtime compatibility test, and a migration policy for existing artifacts. New tests are classified in the validation inventory when authored."
+      ],
+      "negative_cases": [
+        "Planning status treated as execution authority",
+        "Duplicate owner or issue identity",
+        "Fixture evidence substituted for installed behavior"
+      ],
+      "resources": "Issue-specific authorization required for provider spend, experiments, deployment and publication.",
+      "pvf": "installed_runtime_and_independent_evaluation",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/GHB-WP02",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "GHB-WP03",
+      "title": "[GHB][WP03] Belief update and experiment selection",
+      "repository": "agent-logic-runtime",
+      "existing_issue": null,
+      "depends_on": [
+        "GHB-SPRINT",
+        "GHB-WP02"
+      ],
+      "acceptance": [
+        "analytically known posterior fixtures; zero/impossible likelihood handling; correlated evidence cannot be silently double-counted; replay reproduces updates; informative experiments can differ from high-utility candidates; sparse evidence defers promotion."
+      ],
+      "negative_cases": [
+        "Planning status treated as execution authority",
+        "Duplicate owner or issue identity",
+        "Fixture evidence substituted for installed behavior"
+      ],
+      "resources": "Issue-specific authorization required for provider spend, experiments, deployment and publication.",
+      "pvf": "installed_runtime_and_independent_evaluation",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/GHB-WP03",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "GHB-WP04",
+      "title": "[GHB][WP04] Candidate generation and archive",
+      "repository": "agent-logic-runtime",
+      "existing_issue": null,
+      "depends_on": [
+        "GHB-SPRINT",
+        "GHB-WP02",
+        "GHB-WP03"
+      ],
+      "acceptance": [
+        "candidate changes match the declared mutation class; exact parent and proposal provenance retained; archive cannot change production head; budget exhaustion terminates cleanly; at least two distinct useful candidate strategies are exercised."
+      ],
+      "negative_cases": [
+        "Planning status treated as execution authority",
+        "Duplicate owner or issue identity",
+        "Fixture evidence substituted for installed behavior"
+      ],
+      "resources": "Issue-specific authorization required for provider spend, experiments, deployment and publication.",
+      "pvf": "installed_runtime_and_independent_evaluation",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/GHB-WP04",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "GHB-WP05",
+      "title": "[GHB][WP05] Isolated body builder and experiment executor",
+      "repository": "agent-logic-runtime",
+      "existing_issue": null,
+      "depends_on": [
+        "GHB-SPRINT",
+        "GHB-WP02"
+      ],
+      "acceptance": [
+        "denied network/filesystem/capability escapes; killed and timed-out experiments leave no production changes; exact candidate digest in results; measured resource accounting; controlled-adapter and live-provider execution classifications remain distinct."
+      ],
+      "negative_cases": [
+        "Planning status treated as execution authority",
+        "Duplicate owner or issue identity",
+        "Fixture evidence substituted for installed behavior"
+      ],
+      "resources": "Issue-specific authorization required for provider spend, experiments, deployment and publication.",
+      "pvf": "installed_runtime_and_independent_evaluation",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/GHB-WP05",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "GHB-WP06",
+      "title": "[GHB][WP06] Independent evaluator and promotion decision",
+      "repository": "agent-logic-runtime",
+      "existing_issue": null,
+      "depends_on": [
+        "GHB-SPRINT",
+        "GHB-WP00",
+        "GHB-WP02",
+        "GHB-WP03",
+        "GHB-WP05"
+      ],
+      "acceptance": [
+        "these malicious/invalid candidates fail; raw outcomes can be independently recomputed; unseen final tasks are excluded from candidate context; thresholds declared before trials; non-improvement is a legitimate terminal outcome. Promotion recommendation cannot itself activate a body."
+      ],
+      "negative_cases": [
+        "Planning status treated as execution authority",
+        "Duplicate owner or issue identity",
+        "Fixture evidence substituted for installed behavior"
+      ],
+      "resources": "Issue-specific authorization required for provider spend, experiments, deployment and publication.",
+      "pvf": "installed_runtime_and_independent_evaluation",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/GHB-WP06",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "GHB-WP07",
+      "title": "[P1] Complete the governed resident-to-birthday activation path",
+      "repository": "agent-logic-runtime",
+      "existing_issue": 112,
+      "depends_on": [
+        "GHB-SPRINT",
+        "GHB-WP00",
+        "RV-09",
+        "RV-10",
+        "CM-02"
+      ],
+      "acceptance": [
+        "Runtime #112's actual-resident positive/negative criteria pass without test-support authority substitutes; no implicit birthday on startup; one birthday under retry/concurrency/interruption; authenticated restored resident performs a useful task."
+      ],
+      "negative_cases": [
+        "Planning status treated as execution authority",
+        "Duplicate owner or issue identity",
+        "Fixture evidence substituted for installed behavior"
+      ],
+      "resources": "Issue-specific authorization required for provider spend, experiments, deployment and publication.",
+      "pvf": "installed_runtime_and_independent_evaluation",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/GHB-WP07",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "GHB-WP08",
+      "title": "[GHB][WP08] Successor activation and rollback",
+      "repository": "agent-logic-runtime",
+      "existing_issue": null,
+      "depends_on": [
+        "GHB-SPRINT",
+        "GHB-WP02",
+        "GHB-WP05",
+        "GHB-WP06",
+        "GHB-WP07",
+        "RV-11",
+        "CM-03",
+        "CM-04"
+      ],
+      "acceptance": [
+        "failpoints at durable boundaries; stale parents and concurrent conflicting activations reject; crash recovery yields one authoritative head; accepted successor is actually loaded; rollback restores compatible execution without erasing history or replaying external effects."
+      ],
+      "negative_cases": [
+        "Planning status treated as execution authority",
+        "Duplicate owner or issue identity",
+        "Fixture evidence substituted for installed behavior"
+      ],
+      "resources": "Issue-specific authorization required for provider spend, experiments, deployment and publication.",
+      "pvf": "installed_runtime_and_independent_evaluation",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/GHB-WP08",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "GHB-WP09",
+      "title": "[GHB][WP09] Live GHB resident loop and Gate A",
+      "repository": "agent-logic-runtime",
+      "existing_issue": null,
+      "depends_on": [
+        "GHB-SPRINT",
+        "GHB-WP03",
+        "GHB-WP04",
+        "GHB-WP05",
+        "GHB-WP06",
+        "GHB-WP07",
+        "GHB-WP08"
+      ],
+      "acceptance": [
+        "full Gate A scenario from a clean installed Runtime environment with no ADL source checkout or development binaries; separate controlled-adapter regression and live-provider evidence; successor handles later tasks; replay performs no external mutations; two competing cycles cannot both activate against one parent. Export an exact-version evidence packet."
+      ],
+      "negative_cases": [
+        "Planning status treated as execution authority",
+        "Duplicate owner or issue identity",
+        "Fixture evidence substituted for installed behavior"
+      ],
+      "resources": "Issue-specific authorization required for provider spend, experiments, deployment and publication.",
+      "pvf": "installed_runtime_and_independent_evaluation",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/GHB-WP09",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "GHB-WP10",
+      "title": "[GHB][WP10] Bounded recursive improvement",
+      "repository": "agent-logic-runtime",
+      "existing_issue": null,
+      "depends_on": [
+        "GHB-SPRINT",
+        "GHB-WP09"
+      ],
+      "acceptance": [
+        "at least one admitted successor changes improvement behavior and executes the next cycle using that change; independent tests verify the change did not modify protected evaluation or authority rules. If no improvement emerges within budget, report the capability as implemented but empirical improvement unproven; do not manufacture acceptance."
+      ],
+      "negative_cases": [
+        "Planning status treated as execution authority",
+        "Duplicate owner or issue identity",
+        "Fixture evidence substituted for installed behavior"
+      ],
+      "resources": "Issue-specific authorization required for provider spend, experiments, deployment and publication.",
+      "pvf": "installed_runtime_and_independent_evaluation",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/GHB-WP10",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "GHB-WP11",
+      "title": "[GHB][WP11] Longitudinal qualification, fleet adoption and Gate B",
+      "repository": "agent-logic-runtime",
+      "existing_issue": null,
+      "depends_on": [
+        "GHB-SPRINT",
+        "GHB-WP10"
+      ],
+      "acceptance": [
+        "qualification matrix names each tested domain/configuration; one resident reaches Gate B with useful post-restore continuation; every intended fleet profile is either qualified, pending or excluded with a reason; no blanket claim that all agents qualify from one demonstration. Rollout authorization is separate from local qualification."
+      ],
+      "negative_cases": [
+        "Planning status treated as execution authority",
+        "Duplicate owner or issue identity",
+        "Fixture evidence substituted for installed behavior"
+      ],
+      "resources": "Issue-specific authorization required for provider spend, experiments, deployment and publication.",
+      "pvf": "installed_runtime_and_independent_evaluation",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/GHB-WP11",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "GHB-WP12",
+      "title": "[GHB][WP12] Research evidence and operator documentation",
+      "repository": "agent-logic-runtime",
+      "existing_issue": null,
+      "depends_on": [
+        "GHB-SPRINT",
+        "GHB-WP01",
+        "GHB-WP11"
+      ],
+      "acceptance": [
+        "claim-to-evidence ledger; reproducible benchmark instructions; installed command/manual parity where applicable; no unsupported theorem, novelty, personhood or general-performance claim. Scholarly publication is outside this plan's authorization."
+      ],
+      "negative_cases": [
+        "Planning status treated as execution authority",
+        "Duplicate owner or issue identity",
+        "Fixture evidence substituted for installed behavior"
+      ],
+      "resources": "Issue-specific authorization required for provider spend, experiments, deployment and publication.",
+      "pvf": "installed_runtime_and_independent_evaluation",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/GHB-WP12",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    },
+    {
+      "id": "CF-92",
+      "title": "Deploy and launch the qualified CodeFriend service",
+      "repository": "codefriend",
+      "existing_issue": 92,
+      "depends_on": [
+        "ADL-1150",
+        "CodeFriend-45",
+        "CodeFriend-46",
+        "codefriend.ai-21"
+      ],
+      "acceptance": [
+        "Pin the exact qualified candidate, audience, environment and budget before deployment.",
+        "Deploy through the authorized production route, verify the public journey and rollback, and preserve exact artifact and evidence identity."
+      ],
+      "negative_cases": [
+        "Planning allocation treated as deployment authorization",
+        "Unqualified candidate or missing predecessor",
+        "Public availability inferred from ready-to-deploy evidence"
+      ],
+      "resources": "Deployment environment and budget require explicit issue-specific authorization.",
+      "pvf": "installed_and_public_codefriend_launch",
+      "source_ref": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json#work_packages/CF-92",
+      "owner": "unassigned",
+      "effort_estimate": "unknown; owner estimate required before activation",
+      "status": "proposed_not_activated"
+    }
+  ],
+  "sprints": [
+    {
+      "number": 1,
+      "title": "Runtime v4 and remaining platform foundations",
+      "work_packages": [
+        "WP-01",
+        "RV-01",
+        "RV-02",
+        "RV-03",
+        "RV-09",
+        "RV-10",
+        "RV-11",
+        "RV-04",
+        "RV-05",
+        "RV-06",
+        "RV-07",
+        "RV-08"
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Governance and security",
+      "work_packages": [
+        "GOV-01",
+        "GOV-02",
+        "GOV-03",
+        "GOV-04",
+        "GOV-05",
+        "GOV-06",
+        "GOV-07",
+        "GOV-08",
+        "GOV-09",
+        "GOV-10",
+        "GOV-11",
+        "GOV-12",
+        "GOV-13",
+        "GOV-14",
+        "GOV-15",
+        "GOV-16",
+        "WP-S1",
+        "WP-S2",
+        "WP-S3",
+        "WP-S4",
+        "WP-S5",
+        "WP-S6"
+      ]
+    },
+    {
+      "number": 3,
+      "title": "Citizen migration/reproduction and demonstrations",
+      "work_packages": [
+        "CM-01",
+        "CM-02",
+        "CM-03",
+        "CM-04",
+        "DEMO-GOV",
+        "DEMO-SEC"
+      ]
+    },
+    {
+      "number": 4,
+      "title": "GHB Gate A, Gate B, qualification and research packet",
+      "work_packages": [
+        "GHB-SPRINT",
+        "GHB-WP00",
+        "GHB-WP01",
+        "GHB-WP02",
+        "GHB-WP03",
+        "GHB-WP04",
+        "GHB-WP05",
+        "GHB-WP06",
+        "GHB-WP07",
+        "GHB-WP08",
+        "GHB-WP09",
+        "GHB-WP10",
+        "GHB-WP11",
+        "GHB-WP12"
+      ]
+    },
+    {
+      "number": 5,
+      "title": "Milestone integration and release closeout",
+      "work_packages": [
+        "INTEGRATE",
+        "CF-92",
+        "QUALIFY",
+        "TAIL-01",
+        "TAIL-02",
+        "TAIL-03",
+        "TAIL-04",
+        "TAIL-05",
+        "TAIL-06",
+        "TAIL-07",
+        "TAIL-08",
+        "TAIL-09",
+        "TAIL-10"
+      ]
+    }
+  ],
+  "dependency_changes": [
+    {
+      "work_package": "QUALIFY",
+      "removed_from_proposed_v0932_dependencies": "PY-01",
+      "reason": "Python reduction deferred out of v0.93.2; retain obligation in future-milestone handoff, do not claim completed."
+    }
+  ],
+  "deferred": [
+    {
+      "id": "PY-01",
+      "disposition": "next milestone, v0.93.3 proposed only",
+      "original": {
+        "id": "PY-01",
+        "title": "Complete the bounded Python reduction tranche",
+        "repository": "agent-design-language",
+        "depends_on": [
+          "v0.93.1/RD-11",
+          "WP-01"
+        ],
+        "result": "Record tracked Python file and LOC counts at milestone start and end across the split repository set, separating moves from reductions; remove or replace one coherent remaining public ADL helper family with live-behavior parity, or record an explicit reviewed no-reduction justification if no suitable family remains. Preserve the no-new-Python policy and enable a zero-Python gate only where the measured footprint supports it.",
+        "acceptance": [
+          "Record tracked Python file and LOC counts at milestone start and end across the split repository set, separating moves from reductions; remove or replace one coherent remaining public ADL helper family with live-behavior parity, or record an explicit reviewed no-reduction justification if no suitable family remains. Preserve the no-new-Python policy and enable a zero-Python gate only where the measured footprint supports it.",
+          "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+        ],
+        "negative_cases": [
+          "Repository move counted as deletion",
+          "Live behavior removed without parity",
+          "Unexplained unchanged footprint"
+        ],
+        "phase": "maintenance",
+        "source": "README.md",
+        "status": "candidate",
+        "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+        "pvf": "installed_integration",
+        "non_goals": [
+          "No unrelated feature expansion",
+          "No completion from scaffolding, schema-only work or zero executed scenarios"
+        ],
+        "task_boundary": {
+          "single_result": "Complete the bounded Python reduction tranche",
+          "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+          "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+        },
+        "sprint": 1,
+        "origin": {
+          "milestone": "v0.93",
+          "id": "PY-01",
+          "kind": "retained_work"
+        }
+      }
+    },
+    {
+      "id": "affect/humour",
+      "disposition": "outside v0.93.2; no invented issue identity or execution allocation"
+    },
+    {
+      "id": "ADL-1226",
+      "disposition": "deferred assessment only, not committed work"
+    }
+  ],
+  "external_dependencies": {
+    "v0.93.1/TAIL-10": "Accepted ready-to-deploy milestone closure",
+    "v0.93.1/RD-11": "Accepted repository compatibility lockset",
+    "v0.93.1/RD-09": "Accepted enterprise security repository boundary",
+    "ADL-1150": "https://github.com/agent-logic/agent-design-language/issues/1150 \u2014 independent CodeFriend qualification predecessor (state captured separately; closure is not new-candidate acceptance)",
+    "CodeFriend-45": "https://github.com/agent-logic/codefriend/issues/45 \u2014 existing launch predecessor",
+    "CodeFriend-46": "https://github.com/agent-logic/codefriend/issues/46 \u2014 built waiting-list predecessor",
+    "codefriend.ai-21": "https://github.com/agent-logic/codefriend.ai/issues/21 \u2014 website predecessor"
+  },
+  "issue_observations": [
+    {
+      "number": 1223,
+      "state": "OPEN",
+      "title": "[v0.93.1][Follow-up] Complete coherent source retirement after the repository split",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/1223",
+      "repository": "agent-logic/agent-design-language"
+    },
+    {
+      "number": 1241,
+      "state": "OPEN",
+      "title": "[v0.93.1][TAIL-06] Accepted-findings remediation or explicit deferral capture",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/1241",
+      "repository": "agent-logic/agent-design-language"
+    },
+    {
+      "number": 1259,
+      "state": "CLOSED",
+      "title": "[v0.93.1][planning] Create v0.93.2 milestone planning package",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/1259",
+      "repository": "agent-logic/agent-design-language"
+    },
+    {
+      "number": 875,
+      "state": "CLOSED",
+      "title": "[v0.93.1][SIM-09] Run one authorized consecutive-issue pilot",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/875",
+      "repository": "agent-logic/agent-design-language"
+    },
+    {
+      "number": 1145,
+      "state": "CLOSED",
+      "title": "[v0.93.1][Observatory] Add Everyone selection to the multi-agent room",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/1145",
+      "repository": "agent-logic/agent-design-language"
+    },
+    {
+      "number": 671,
+      "state": "CLOSED",
+      "title": "[v0.92.2][sidecar][podcast] Register and launch The Cognitive Stack",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/671",
+      "repository": "agent-logic/agent-design-language"
+    },
+    {
+      "number": 1226,
+      "state": "OPEN",
+      "title": "[v0.93.2 or later][CI] Add Linux sandbox isolation for public ADL installed-package tests",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/1226",
+      "repository": "agent-logic/agent-design-language"
+    },
+    {
+      "number": 1269,
+      "state": "OPEN",
+      "title": "[v0.93.1][Docs] Refresh all repository READMEs after the repository split",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/1269",
+      "repository": "agent-logic/agent-design-language"
+    },
+    {
+      "number": 1150,
+      "state": "CLOSED",
+      "title": "[v0.93.1][CodeFriend] Complete independent Beta 1 installed qualification",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/1150",
+      "repository": "agent-logic/agent-design-language"
+    },
+    {
+      "number": 92,
+      "state": "OPEN",
+      "title": "[v0.93.2 or later] Deploy and launch the qualified CodeFriend service",
+      "url": "https://github.com/agent-logic/codefriend/issues/92",
+      "repository": "agent-logic/codefriend"
+    },
+    {
+      "number": 101,
+      "state": "OPEN",
+      "title": "[v0.93.1] Fix CodeFriend templates: readable, useful documents matching the reference review",
+      "url": "https://github.com/agent-logic/codefriend/issues/101",
+      "repository": "agent-logic/codefriend"
+    },
+    {
+      "number": 45,
+      "state": "CLOSED",
+      "title": "[v0.93.1][INTEGRATE] Accept the installed CodeFriend launch lockset",
+      "url": "https://github.com/agent-logic/codefriend/issues/45",
+      "repository": "agent-logic/codefriend"
+    },
+    {
+      "number": 46,
+      "state": "CLOSED",
+      "title": "[v0.93.1][CF-07] Complete deployment readiness and waiting-list mechanism",
+      "url": "https://github.com/agent-logic/codefriend/issues/46",
+      "repository": "agent-logic/codefriend"
+    },
+    {
+      "number": 112,
+      "state": "CLOSED",
+      "title": "[P1] Complete the governed resident-to-birthday activation path",
+      "url": "https://github.com/agent-logic/agent-logic-runtime/issues/112",
+      "repository": "agent-logic/agent-logic-runtime"
+    },
+    {
+      "number": 21,
+      "state": "CLOSED",
+      "title": "[v0.93.1][CF-06] Prepare the website to hand off to the qualified product",
+      "url": "https://github.com/agent-logic/codefriend.ai/issues/21",
+      "repository": "agent-logic/codefriend.ai"
+    }
+  ],
+  "residual_handoff": [
+    {
+      "id": "ADL-1223",
+      "status": "pending",
+      "required": "Final source retirement, exact repository/artifact lockset and acceptance. Observed sources are not accepted lockset."
+    },
+    {
+      "id": "ADL-1241",
+      "status": "pending",
+      "required": "Predecessor accepted findings/remediation or explicit deferral and exact residual handoff."
+    },
+    {
+      "id": "ADL-1269",
+      "status": "pending",
+      "required": "README owner delivery; do not duplicate edits."
+    },
+    {
+      "id": "CodeFriend-101",
+      "status": "pending",
+      "required": "Readable template/rendering owner acceptance and change-impact review before using final candidate."
+    },
+    {
+      "id": "ADL-1232",
+      "status": "interim_only",
+      "required": "Reuse reviewed matrix at68c38b733afd99468cd888883568e939b9982401; no final quality-gate acceptance."
+    }
+  ],
+  "identity_rules": [
+    "Reuse Runtime112 forGHB-WP07 andCodeFriend92 forCF-92.",
+    "Preserve875 and1145 in their existing separately gated routes; do not duplicate.",
+    "Completed671 has no successor allocation.",
+    "Numeric issue creation/assignment and estimates require later owner decisions; no mass wave."
+  ],
+  "qualification_limits": [
+    "Retain original915 adverse/unknown effects and1148/1149 producer provenance; reuse1150 rather than repeat qualification.",
+    "Accepted product/template/runtime versions and final lockset must come from final predecessor handoff; none inferred from this roster.",
+    "No builds, CI dispatch, providers, deployments, shared tools or product changes."
+  ],
+  "canonical_reconciliation_pending": "This scoped overlay reuses1259 rather than duplicating its package. Once predecessor residuals are accepted, apply the same scoped decisions consistently to canonical execution graph, issue wave, specifications, WBS, sprint, vision, proof coverage, feature routes and handoff before final1242 acceptance."
+}
