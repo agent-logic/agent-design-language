@@ -6,17 +6,17 @@
   "execution_authorized": false,
   "original_count": 4134,
   "counts": {
-    "retain_resolved": 529,
-    "preserve_approved_removal": 3111,
-    "proposed_owner_transfer_with_consumer_qualification": 62,
+    "retain_resolved": 528,
+    "preserve_approved_removal": 3131,
+    "proposed_owner_transfer_with_consumer_qualification": 60,
     "retain_public_source_or_fixture": 201,
     "preserve_reviewed_consumer_repair": 19,
-    "proposed_historical_retirement_with_caller_repair": 7,
-    "proposed_remove_with_entire_tool_family": 203,
+    "proposed_historical_retirement_with_caller_repair": 4,
+    "proposed_remove_with_entire_tool_family": 189,
     "hold_explicit_reconciliation": 2
   },
   "additional_current_source_paths": 22,
-  "preservation": "Original 4134 identities and separate 22 captured paths unchanged. Exact executed retirement actions 3127 comprise 3126 baseline deletions and one newly-added-then-retired ADL conversion bridge; the bridge is outside both captured inventories. The baseline count includes eleven supplemental paths and three separately observed governed-room paths outside the immutable inventories. Other proposals remain conditional.",
+  "preservation": "Original 4134 identities and separate 22 captured paths unchanged. Exact executed retirement actions 3147 comprise 3146 baseline deletions and one newly-added-then-retired ADL conversion bridge; the bridge is outside both captured inventories. The baseline count includes eleven supplemental paths and three separately observed governed-room paths outside the immutable inventories. Other proposals remain conditional.",
   "review_boundary": "Exact paths and Git identities are pinned. Proposed removals remain conditional; this is not a claim that caller closure or all successor tests are qualified.",
   "known_prerequisites": {
     "codefriend": "Issue102 e14ff1b08b7ef01f838404bca8ecdf47c1318ac1 passed all39suites409Linux tests,0failed0ignored,174.293s; exacthead and clean source before/after. Evidence FastWork c1223/evidence/codefriend/issue102-e14ff1b0-full, transcriptSHA256c7944f7e0403ba485b377868b1bd85e91eeee0ecce3f79920de3e86c813cfa1a. Focused1 and parallel47 diagnostics also passed; prior dc2 redelivery failure did not reproduce and its cause is not claimed fixed. Earlier failures retained. One macOS-only case, actual hosted installed-acquisition CI proof and owner publication remain separate.",
@@ -10763,7 +10763,7 @@
       },
       "existing_action": "retain",
       "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
-      "proposed_action": "retain_resolved",
+      "proposed_action": "preserve_approved_removal",
       "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
@@ -10795,6 +10795,15 @@
           "blob": "52a81fb7a3612842e40cfae7bfb7aa119b806ef7"
         },
         "reason": "Current check_coverage_impact.sh reads the tracked mapping. test_mechanical_coverage_fallout.sh validates the same mapping interface using separately generated synthetic copied/mutated fixtures; it does not read/copy this tracked mapping. Retain active policy input, not owner qualification."
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "retain_resolved",
+        "required_before_execution": []
+      },
+      "applied_removal": {
+        "packet": "COVERAGE_THIRTEEN_APPLIED.json",
+        "sha256": "f795dc8a58774739c7bbb2850169622829dacb7bf5a0a79092adc73cba1a5c18",
+        "implementation_commit": "928247eab189aeb70bddb608320a238592979045"
       }
     },
     {
@@ -47819,13 +47828,8 @@
         "blob": "b366a3821f0b996955dfc892bc42b47d3b63a419"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_historical_retirement_with_caller_repair",
-      "required_before_execution": [
-        "coherent mandatory caller repairs",
-        "preserve original child test obligations independently",
-        "scoped retirement decision",
-        "Resolve remaining caller repairs enumerated in PRIVATE_VALIDATION_DISPOSITION.json"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "same_path_changed",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
@@ -47837,6 +47841,20 @@
         "proposal": "proposed_historical_retirement_with_caller_repair",
         "reason": "Multi-product changed-source risk classification, threshold/summary requirements, focused expressions and mechanical-change evidence.",
         "review": "Independent source-only disposition and exact packet review passed"
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_historical_retirement_with_caller_repair",
+        "required_before_execution": [
+          "coherent mandatory caller repairs",
+          "preserve original child test obligations independently",
+          "scoped retirement decision",
+          "Resolve remaining caller repairs enumerated in PRIVATE_VALIDATION_DISPOSITION.json"
+        ]
+      },
+      "applied_removal": {
+        "packet": "COVERAGE_THIRTEEN_APPLIED.json",
+        "sha256": "f795dc8a58774739c7bbb2850169622829dacb7bf5a0a79092adc73cba1a5c18",
+        "implementation_commit": "928247eab189aeb70bddb608320a238592979045"
       }
     },
     {
@@ -48918,18 +48936,27 @@
         "blob": "ceb2ade1573e41ed77120c45c58a234de08718cd"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/coverage_test_only.py"
         ]
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "COVERAGE_THIRTEEN_APPLIED.json",
+        "sha256": "f795dc8a58774739c7bbb2850169622829dacb7bf5a0a79092adc73cba1a5c18",
+        "implementation_commit": "928247eab189aeb70bddb608320a238592979045"
       }
     },
     {
@@ -52041,18 +52068,27 @@
         "blob": "fcd59a6dc3c173580112aeb49e8e6acb92747cbf"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/install_runtime_v3_generation.sh"
         ]
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "LEGACY_GENERATION_FIVE_APPLIED.json",
+        "sha256": "3deada51b720bc9c657b7e565ec9452bb048e54570036e5c2365e64eefaa5ad5",
+        "implementation_commit": "5c447a013f6071faa50fecee9aa816da44579f4a"
       }
     },
     {
@@ -52625,18 +52661,27 @@
         "blob": "3f60cc20a457e4f7e07a7d5fd18dc863d7a978d5"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/issue855_provider_lifecycle.py"
         ]
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "LEGACY_GENERATION_FIVE_APPLIED.json",
+        "sha256": "3deada51b720bc9c657b7e565ec9452bb048e54570036e5c2365e64eefaa5ad5",
+        "implementation_commit": "5c447a013f6071faa50fecee9aa816da44579f4a"
       }
     },
     {
@@ -52682,18 +52727,27 @@
         "blob": "9262009a2c851a8dbb6e3b1fc5d4271b236dcc40"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/issue990_managed_restart_proof.py"
         ]
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "LEGACY_GENERATION_FIVE_APPLIED.json",
+        "sha256": "3deada51b720bc9c657b7e565ec9452bb048e54570036e5c2365e64eefaa5ad5",
+        "implementation_commit": "5c447a013f6071faa50fecee9aa816da44579f4a"
       }
     },
     {
@@ -52844,18 +52898,27 @@
         "blob": "d0b869502f22ae76028d65d8bab800277cc8fdfa"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/mechanical_coverage_fallout.py"
         ]
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "COVERAGE_THIRTEEN_APPLIED.json",
+        "sha256": "f795dc8a58774739c7bbb2850169622829dacb7bf5a0a79092adc73cba1a5c18",
+        "implementation_commit": "928247eab189aeb70bddb608320a238592979045"
       }
     },
     {
@@ -52868,18 +52931,27 @@
         "blob": "f2c6e04241e3b8d02dd1131aa9838d2312ff6887"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/merge_coverage_summaries.py"
         ]
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "COVERAGE_THIRTEEN_APPLIED.json",
+        "sha256": "f795dc8a58774739c7bbb2850169622829dacb7bf5a0a79092adc73cba1a5c18",
+        "implementation_commit": "928247eab189aeb70bddb608320a238592979045"
       }
     },
     {
@@ -54008,18 +54080,27 @@
         "blob": "6bd8f5ddb4f57138e5993d45696f9e5a4191b2c1"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": [
           "adl/tools/run_aws_spot_ci_profile.sh"
         ]
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "COVERAGE_THIRTEEN_APPLIED.json",
+        "sha256": "f795dc8a58774739c7bbb2850169622829dacb7bf5a0a79092adc73cba1a5c18",
+        "implementation_commit": "928247eab189aeb70bddb608320a238592979045"
       }
     },
     {
@@ -54740,18 +54821,27 @@
         "blob": "0047086bf8c21cbb1742c08d4c992319a673aae1"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
         "exact_successor_paths": [
           "adl/tools/run_pr_fast_coverage_lane.sh"
         ]
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "COVERAGE_THIRTEEN_APPLIED.json",
+        "sha256": "f795dc8a58774739c7bbb2850169622829dacb7bf5a0a79092adc73cba1a5c18",
+        "implementation_commit": "928247eab189aeb70bddb608320a238592979045"
       }
     },
     {
@@ -55858,18 +55948,27 @@
         "blob": "61aa5728b14921bc0dc01a44f4251f3eb0ee5173"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/runtime_v3_generation.py"
         ]
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "LEGACY_GENERATION_FIVE_APPLIED.json",
+        "sha256": "3deada51b720bc9c657b7e565ec9452bb048e54570036e5c2365e64eefaa5ad5",
+        "implementation_commit": "5c447a013f6071faa50fecee9aa816da44579f4a"
       }
     },
     {
@@ -68999,21 +69098,8 @@
         "blob": "da12b4aacdabfe2b13c025591b7e67393b4a1efe"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        {
-          "path": "adl/tools/batched_checks.sh",
-          "line": 59,
-          "reference": "run_step \"adl-milestone-creator contract check\" bash \"$ROOT/adl/tools/test_adl_milestone_creator_skill_contracts.sh\"",
-          "kind": "source_or_configuration_reference",
-          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
-        },
-        "Accept per-row disposition and close listed caller/dependency obligations.",
-        "For transfers, bind actual owner package/fixture outcomes to the mapped assertion denominator; source availability alone is insufficient.",
-        "Obtain coherent source-retirement approval and guard qualification.",
-        "Reconcile active callers and registry inventory coherently.",
-        "Explicit scoped retirement decision."
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -69026,7 +69112,29 @@
         "reason": "Archived original-resource contracts only. Current active skills explicitly declare legacy_equivalence false; active milestone/planning operations are not qualified.",
         "review": "Independent exact resource closure review; original scripts passed unchanged against owner archive."
       },
-      "prior_hold_reason": "Milestone skill files, manifest/schema IDs, planning-package policy, output contract, host-path/TODO checks must be reconciled with current owner skill; passive resource integrity is not equivalent."
+      "prior_hold_reason": "Milestone skill files, manifest/schema IDs, planning-package policy, output contract, host-path/TODO checks must be reconciled with current owner skill; passive resource integrity is not equivalent.",
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          {
+            "path": "adl/tools/batched_checks.sh",
+            "line": 59,
+            "reference": "run_step \"adl-milestone-creator contract check\" bash \"$ROOT/adl/tools/test_adl_milestone_creator_skill_contracts.sh\"",
+            "kind": "source_or_configuration_reference",
+            "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+          },
+          "Accept per-row disposition and close listed caller/dependency obligations.",
+          "For transfers, bind actual owner package/fixture outcomes to the mapped assertion denominator; source availability alone is insufficient.",
+          "Obtain coherent source-retirement approval and guard qualification.",
+          "Reconcile active callers and registry inventory coherently.",
+          "Explicit scoped retirement decision."
+        ]
+      },
+      "applied_removal": {
+        "packet": "HISTORICAL_PLANNING_TESTS_TWO_APPLIED.json",
+        "sha256": "c642fb1db334b3e69f7fa375d84258f96d5b8b252a91a8dc14f7f83d977b0a72",
+        "implementation_commit": "455bb4562ad52ae9a7a88be1360e19458bec9903"
+      }
     },
     {
       "id": "RD07-1902",
@@ -69853,18 +69961,27 @@
         "blob": "3e1d5fb27038da86c9b37a4ef452165383ead8c3"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/test_check_coverage_impact.sh"
         ]
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "COVERAGE_THIRTEEN_APPLIED.json",
+        "sha256": "f795dc8a58774739c7bbb2850169622829dacb7bf5a0a79092adc73cba1a5c18",
+        "implementation_commit": "928247eab189aeb70bddb608320a238592979045"
       }
     },
     {
@@ -70392,18 +70509,27 @@
         "blob": "7ee5b111988f4fd7d49f76c9f345ec3d192ebe43"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/test_coverage_authority_contract.sh"
         ]
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "COVERAGE_THIRTEEN_APPLIED.json",
+        "sha256": "f795dc8a58774739c7bbb2850169622829dacb7bf5a0a79092adc73cba1a5c18",
+        "implementation_commit": "928247eab189aeb70bddb608320a238592979045"
       }
     },
     {
@@ -70416,18 +70542,27 @@
         "blob": "2485c2bf9f826b0fd402fa30a377f15608a043b1"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/test_coverage_test_only.py"
         ]
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "COVERAGE_THIRTEEN_APPLIED.json",
+        "sha256": "f795dc8a58774739c7bbb2850169622829dacb7bf5a0a79092adc73cba1a5c18",
+        "implementation_commit": "928247eab189aeb70bddb608320a238592979045"
       }
     },
     {
@@ -73268,18 +73403,27 @@
         "blob": "a9dbc7ff5555fd9ef1e5ba2ca46fa7f1a7b12035"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/test_mechanical_coverage_fallout.sh"
         ]
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "COVERAGE_THIRTEEN_APPLIED.json",
+        "sha256": "f795dc8a58774739c7bbb2850169622829dacb7bf5a0a79092adc73cba1a5c18",
+        "implementation_commit": "928247eab189aeb70bddb608320a238592979045"
       }
     },
     {
@@ -73323,18 +73467,27 @@
         "blob": "a6291fd17648327d6e8cd72e0c302443d3e2a0e3"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_remove_with_entire_tool_family",
-      "required_before_execution": [
-        "qualified_successor_tool_family",
-        "inbound_active_callers_repaired_or_retired",
-        "scoped_operator_decision"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
         "exact_successor_paths": [
           "adl/tools/test_merge_coverage_summaries.sh"
         ]
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "applied_removal": {
+        "packet": "COVERAGE_THIRTEEN_APPLIED.json",
+        "sha256": "f795dc8a58774739c7bbb2850169622829dacb7bf5a0a79092adc73cba1a5c18",
+        "implementation_commit": "928247eab189aeb70bddb608320a238592979045"
       }
     },
     {
@@ -73766,21 +73919,8 @@
         "blob": "0e39b8299d9dc4f6c1dd032831725b8a2d472b84"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
-      "required_before_execution": [
-        {
-          "path": "adl/tools/batched_checks.sh",
-          "line": 60,
-          "reference": "run_step \"planning-doc-editor contract check\" bash \"$ROOT/adl/tools/test_planning_doc_editor_skill_contracts.sh\"",
-          "kind": "source_or_configuration_reference",
-          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
-        },
-        "Accept per-row disposition and close listed caller/dependency obligations.",
-        "For transfers, bind actual owner package/fixture outcomes to the mapped assertion denominator; source availability alone is insufficient.",
-        "Obtain coherent source-retirement approval and guard qualification.",
-        "Reconcile active callers and registry inventory coherently.",
-        "Explicit scoped retirement decision."
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -73793,7 +73933,29 @@
         "reason": "Archived original-resource contracts only. Current active skills explicitly declare legacy_equivalence false; active milestone/planning operations are not qualified.",
         "review": "Independent exact resource closure review; original scripts passed unchanged against owner archive."
       },
-      "prior_hold_reason": "Planning-doc editor policy.no_card_edits, input/output schema and path/TODO assertions need current-owner contract mapping, not just an archived copy."
+      "prior_hold_reason": "Planning-doc editor policy.no_card_edits, input/output schema and path/TODO assertions need current-owner contract mapping, not just an archived copy.",
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          {
+            "path": "adl/tools/batched_checks.sh",
+            "line": 60,
+            "reference": "run_step \"planning-doc-editor contract check\" bash \"$ROOT/adl/tools/test_planning_doc_editor_skill_contracts.sh\"",
+            "kind": "source_or_configuration_reference",
+            "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+          },
+          "Accept per-row disposition and close listed caller/dependency obligations.",
+          "For transfers, bind actual owner package/fixture outcomes to the mapped assertion denominator; source availability alone is insufficient.",
+          "Obtain coherent source-retirement approval and guard qualification.",
+          "Reconcile active callers and registry inventory coherently.",
+          "Explicit scoped retirement decision."
+        ]
+      },
+      "applied_removal": {
+        "packet": "HISTORICAL_PLANNING_TESTS_TWO_APPLIED.json",
+        "sha256": "c642fb1db334b3e69f7fa375d84258f96d5b8b252a91a8dc14f7f83d977b0a72",
+        "implementation_commit": "455bb4562ad52ae9a7a88be1360e19458bec9903"
+      }
     },
     {
       "id": "RD07-2047",
@@ -75729,13 +75891,8 @@
         "blob": "d61b93f866bae51e0ca70ff8cbe217cd9bea2b71"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_historical_retirement_with_caller_repair",
-      "required_before_execution": [
-        "coherent mandatory caller repairs",
-        "preserve original child test obligations independently",
-        "scoped retirement decision",
-        "Resolve remaining caller repairs enumerated in PRIVATE_VALIDATION_DISPOSITION.json"
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "exact_successor",
         "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
@@ -75749,6 +75906,20 @@
         "proposal": "proposed_historical_retirement_with_caller_repair",
         "reason": "Focused coverage routing, runtime companion selection, summary merging and selector controls; producer disposition remains independent.",
         "review": "Independent source-only disposition and exact packet review passed"
+      },
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_historical_retirement_with_caller_repair",
+        "required_before_execution": [
+          "coherent mandatory caller repairs",
+          "preserve original child test obligations independently",
+          "scoped retirement decision",
+          "Resolve remaining caller repairs enumerated in PRIVATE_VALIDATION_DISPOSITION.json"
+        ]
+      },
+      "applied_removal": {
+        "packet": "COVERAGE_THIRTEEN_APPLIED.json",
+        "sha256": "f795dc8a58774739c7bbb2850169622829dacb7bf5a0a79092adc73cba1a5c18",
+        "implementation_commit": "928247eab189aeb70bddb608320a238592979045"
       }
     },
     {
@@ -76169,13 +76340,8 @@
         "blob": "fd041dd56f43f5ed680cea688efda8c40cbf2d25"
       },
       "existing_action": "retain",
-      "proposed_action": "proposed_historical_retirement_with_caller_repair",
-      "required_before_execution": [
-        "Map Runtime installer generation selection, predecessor receipts, stale stable-launcher repair, rollback and missing-active-CSM refusals to current installer tests.",
-        "Reconcile active owner-lane, aggregate, registry and documentation callers.",
-        "Preserve independent source-family and behavioral obligations.",
-        "Exact scoped retirement decision."
-      ],
+      "proposed_action": "preserve_approved_removal",
+      "required_before_execution": [],
       "successor_mapping": {
         "mapping": "unmapped",
         "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
@@ -76188,7 +76354,21 @@
         "reason": "Explicit historical interface disposition with surviving assertions and callers preserved.",
         "review": "review_1223_public_facade"
       },
-      "prior_hold_reason": "protect_existing_public_contract_policy_or_control_plane"
+      "prior_hold_reason": "protect_existing_public_contract_policy_or_control_plane",
+      "pre_docs_resilience_forty_execution_classification": {
+        "proposed_action": "proposed_historical_retirement_with_caller_repair",
+        "required_before_execution": [
+          "Map Runtime installer generation selection, predecessor receipts, stale stable-launcher repair, rollback and missing-active-CSM refusals to current installer tests.",
+          "Reconcile active owner-lane, aggregate, registry and documentation callers.",
+          "Preserve independent source-family and behavioral obligations.",
+          "Exact scoped retirement decision."
+        ]
+      },
+      "applied_removal": {
+        "packet": "LEGACY_GENERATION_FIVE_APPLIED.json",
+        "sha256": "3deada51b720bc9c657b7e565ec9452bb048e54570036e5c2365e64eefaa5ad5",
+        "implementation_commit": "5c447a013f6071faa50fecee9aa816da44579f4a"
+      }
     },
     {
       "id": "RD07-2110",

@@ -306,3 +306,9 @@ Current total: 3,115 actions, 3,114 baseline deletions and one transient bridge.
 The Guardian refusal wrapper and companion retire together, preserving original report-deletion assertions and the genuine100cycle ignored-soak obligation without treating refusal as acceptance. Ten v0.88 monolithic aggregate resources retire with independent child obligations retained. DeepSeek historical ADL packet validation remains after removal of ambient credential-triggered production: two valid checks and one generic nonzero passed, but the negative failed packet-reference validation before score checking, not impossible-score rejection. Historical Software Development Polis packet validator and companion remain with their ADL evidence; no new pass claim is added.
 
 Current total: 3,127 actions and 3,126 baseline deletions plus one transient bridge. Eleven supplemental and three separately observed paths remain outside immutable4,134+22. Both distributed holds remain unresolved.
+
+## Generation, coverage and planning family closure
+
+The legacy generation family preserves its unchanged original synthetic installer proof without claiming modern package or live service equivalence. The mixed private coverage family retires its original changed-file and mechanical-classifier semantics explicitly; current public coverage unit routing does not reproduce those historical contracts or establish current-head instrumented coverage. Original assertion custody and prior adverse evidence remain bound. Planning source retirement uses its separate committed packet and recorded proof boundary.
+
+Current total: 3,147 actions and 3,146 baseline deletions plus one transient bridge. Eleven supplemental and three separately observed paths remain outside immutable4,134+22. Both distributed holds remain unresolved.
