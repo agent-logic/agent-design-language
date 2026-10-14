@@ -30,7 +30,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 
 - `primary`: 8
 - `supported shim`: 0
-- `internal helper`: 449
+- `internal helper`: 447
 - `historical evidence`: 31
 - `archive candidate`: 0
 - `remove candidate`: 0
@@ -169,7 +169,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/issue607_probe_runtime.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/issue607_qualify_warm_polis.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/issue855_provider_lifecycle.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
-| `adl/tools/issue905_runtime_speculative_retest.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/issue990_managed_restart_proof.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/lib` | tool surface | internal helper | Directory containing bounded helper assets, scripts, or proof inputs. |
 | `adl/tools/local_model_capabilities.v1.json` | tool surface | internal helper | Visible tool surface retained for bounded support work. |
@@ -345,7 +344,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/test_html_observatory.sh` | tool surface | historical evidence | Historical Runtime source-tree route retired by #1223; invocation fails before execution. Original assertions are preserved in Git and retirement custody, not qualified as passing. |
 | `adl/tools/test_install_adl_operational_skills.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_install_issue268_runtime_volume.py` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_issue905_runtime_speculative_retest.py` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_issue_folding_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_issue_splitter_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_issue_watcher_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
