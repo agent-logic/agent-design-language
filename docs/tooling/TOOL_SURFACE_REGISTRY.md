@@ -30,7 +30,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 
 - `primary`: 8
 - `supported shim`: 0
-- `internal helper`: 453
+- `internal helper`: 449
 - `historical evidence`: 31
 - `archive candidate`: 0
 - `remove candidate`: 0
@@ -224,8 +224,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/run_issue509_gcp_drt_d_qualification.sh` | tool surface | historical evidence | Historical Infrastructure source route retired by #1223; command refuses execution. Original assertions remain in Git and retirement custody; run the reviewed owner route. |
 | `adl/tools/run_issue607_warm_polis.sh` | tool surface | historical evidence | Historical Infrastructure source route retired by #1223; command refuses execution. Original assertions remain in Git and retirement custody; run the reviewed owner route. |
 | `adl/tools/run_issue900_continuity_negatives.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
-| `adl/tools/run_issue901_provider_recovery_qualification.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
-| `adl/tools/run_issue901_runtime_recovery_qualification.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_local_authoritative_coverage_gate.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_nessus_remote_validation.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_pr_fast_coverage_lane.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
@@ -391,8 +389,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/test_run_cargo_validation.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_run_ci_step_with_log.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_run_issue268_remote_resident_qualification.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_run_issue901_provider_recovery_qualification.py` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_run_issue901_runtime_recovery_qualification.py` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_run_local_authoritative_coverage_gate.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_run_nessus_remote_validation.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_run_pr_fast_coverage_lane.sh` | tool surface | internal helper | Focused regression or contract test helper. |
