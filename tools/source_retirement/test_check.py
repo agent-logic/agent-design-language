@@ -130,10 +130,21 @@ class InventoryAndCustodyTests(unittest.TestCase):
                     self.validate(combined=data)
 
     def test_incomplete_hold_group_refuses(self):
+        combined = copy.deepcopy(self.combined)
+        held = combined['rows'][0]
+        held['proposed_action'] = 'hold_test_fixture'
+        combined['counts'] = {}
+        for row in combined['rows']:
+            action = row['proposed_action']
+            combined['counts'][action] = combined['counts'].get(action, 0) + 1
         data = copy.deepcopy(self.groups)
-        data['groups'][0]['rows'].pop()
+        data['held_count'] = 1
+        data['groups'] = [{'count': 1, 'rows': [copy.deepcopy(held)]}]
+        self.validate(combined=combined, groups=data)
+        data['groups'][0]['rows'].clear()
+        data['groups'][0]['count'] = 0
         with self.assertRaisesRegex(ValueError, 'held groups'):
-            self.validate(groups=data)
+            self.validate(combined=combined, groups=data)
 
     def test_missing_and_corrupt_rollback_refuse(self):
         with tempfile.TemporaryDirectory() as directory:
