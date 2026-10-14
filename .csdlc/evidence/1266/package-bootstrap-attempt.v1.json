@@ -57,7 +57,19 @@
       }
     }
   },
+  "fresh_quota_store_retry": {
+    "quota_store": "/Volumes/FastWork/csdlc-quota-1266",
+    "exit_code": 2,
+    "stdout_path": ".csdlc/evidence/1266/package-bootstrap-conflict.stdout.json",
+    "stderr_path": ".csdlc/evidence/1266/package-bootstrap-conflict.stderr.txt",
+    "stdout_sha256": "52f8269245993783c809ff3b6f9baab3beaa4b34a66b6b65d675ab9a86cb3ce5",
+    "stderr_sha256": "1cb9f1095e3b472f5ca6bf661ea6d2f7090e18b557ba314d2db273d36ec89a2c",
+    "correlation_id": "54279-1791947127953",
+    "reason_code": "install_activation_receipt_conflict",
+    "monotonic_duration_ms": 64976,
+    "interpretation": "Authenticated producer and artifact observation completed; package-install then refused to replace the existing create-only activation receipt. A reviewed package-upgrade or other native successor route is required."
+  },
   "credential_handling": "The approved token file was mapped through ADL_GITHUB_TOKEN_FILE for this invocation only; no credential value or file content is retained.",
-  "remote_effect": "Package installation exposes no remote-write operation; the retained attempt failed while establishing authenticated producer observation.",
+  "remote_effect": "Package installation exposes no remote-write operation. The final retained retry completed authenticated producer observation and failed at the create-only local activation receipt guard.",
   "local_effect": "The native result classified guarded-local outcome as unknown. Post-attempt readback still names artifact 11660977711 and candidate 7d64e64da26df4f8613711adcc5d619d4f8a9508; .adl/packages/11837107877 is absent. No successor activation occurred."
 }

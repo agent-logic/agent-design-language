@@ -1,7 +1,7 @@
 {
   "schema": "adl.csdlc_v3.macos_successor_authority_blocker.v1",
   "issue": 1266,
-  "observed_at": "2026-10-14T02:58:57Z",
+  "observed_at": "2026-10-14T03:07:13Z",
   "status": "blocked",
   "blocking_requirement": "Authenticated Apple Silicon macOS external-consumer package succession and activation for the verified recordless v0.93.1 closeout denominator.",
   "observations": {
@@ -59,10 +59,10 @@
       "macos_arm64_artifact": 11837107877,
       "artifact_sha256": "868cd5b3db7c13a39ba1352941d4abea82c3a4a81bf15c28e691fa3c28606527",
       "portable_review_attestation_sha256": "2f5681163487e5ed71f2ed6a600afcce1660e52cd3db3b8e1a997ea42104f636",
-      "result": "portable_authenticated_observation_unavailable",
+      "result": "install_activation_receipt_conflict_after_authenticated_observation",
       "explicit_token_file_retry_result": "portable_authenticated_observation_unavailable",
       "remote_writes": 0,
-      "authority_effect": "The stale installed owner could not authenticate even this canonical reviewed predecessor package, so it cannot bootstrap itself through package-install."
+      "authority_effect": "With an isolated private quota store, the installed owner authenticated this canonical reviewed predecessor package and then correctly refused package-install because the platform activation receipt is create-only. A reviewed package-upgrade or other native successor route is required."
     },
     "typed_issue_creation_attempt": {
       "simple_route_result": "legacy_writer_retired",

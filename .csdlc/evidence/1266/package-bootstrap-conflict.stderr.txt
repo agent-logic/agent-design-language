@@ -1,0 +1,1 @@
+csdlc: install_activation_receipt_conflict; see structured stdout findings
