@@ -28,3 +28,17 @@ Inspected #1236 at `abb3d067c840be870a09f561ac216ffc7df5bd3b` and #1238 at `7889
 #1244's actual successor planning review records PLAN-01 (canonical #1259 reconciliation not applied) and PLAN-02 (complete #1241 residual input absent). These are successor planning completeness findings owned by #1242/#1243 and #1241 respectively. They are not substitutes for #1238/#1240 product findings. No author is authorized here to defer missing product evidence or to close launch-critical findings.
 
 Final product finding denominator remains unknown until the actual internal and external reports arrive. This register is not complete acceptance merely because currently known preparation gaps have owners.
+
+## Actual independent finding intake — 2026-10-15
+
+Source: independent reviewer `/root/tail1240_independent`, exact ADL packet `22816165efff2416f0bba84d7b1e2c4b9a2acf2e`; tracked result in #1240 `tail-1240/INDEPENDENT_REVIEW_RESULT_1240.md`. This intake contains **one actual P3 finding**, no established P0–P2 defect in the examined scope; it is not a zero-gap release decision.
+
+| Finding | Evidence / effect | Owner and disposition |
+| --- | --- | --- |
+| IR-1240-01 (P3) | Inventory says 185 unchanged public inputs; final correspondence has 182 unchanged plus three separately validated guard changes. Compiled product inputs remain unchanged. | #1236 wording fix assigned; open until exact correction is checked. No product rebuild required. Preserve intermediate and final counts. |
+
+The raw report's “#1242/TAIL-06” routing is corrected here to #1241/TAIL-06; #1242 is successor planning. No severity or substantive observation changed.
+
+CodeFriend #101 exact source `393dd2ee7c5db8e6108a27cf6441e380fb62f4c3` now has owner delivery evidence: 90/0 native tests, 6/6 CI checks, artifact `11994981448` from run `38777770708`, GitHub archive digest `2be7a8804199bf578388637915e399bf8e9cf23ac5057f4f4ef180b544c1f6f0`. Its 25-kind/50-view gallery preserves all final view bytes and explicitly limits readable-scale review coverage. PREP-02/03 are narrowed to final selected consumption and cross-version correspondence; new artifact existence and current CI are no longer missing. This intake did not download, hash or install the archive.
+
+PLAN-01 is resolved by #1242 canonical reconciliation `99628d13ed1af84141dd038646363e82e5c64320`; #1244 retains the reviewed resolution. PLAN-02 and PREP-05 remain open for the actual #1238 result and final residual reconciliation. The combined internal/external denominator is still incomplete. Artifact availability, successful CI and a minor review finding do not alone establish milestone acceptance.
