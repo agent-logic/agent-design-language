@@ -346,8 +346,10 @@
     },
     {
       "source_id": "PY-01",
-      "destination": "v0.93.2",
-      "destination_id": "PY-01"
+      "destination": "later_milestone_unassigned",
+      "destination_id": "PY-01",
+      "disposition": "deferred_by_1242",
+      "definition": "v0.93.2/tail07-1242/SUCCESSOR_PLAN.json#deferred/PY-01"
     },
     {
       "source_id": "DEMO-GOV",

@@ -13,9 +13,9 @@ ROOT = Path(__file__).resolve().parents[2]
 EXPECTED = {
     "status": "pass",
     "source_tasks": 83,
-    "successor_tasks": [43, 68],
+    "successor_tasks": [43, 67],
     "version_specific_gates": 13,
-    "negative_fixtures": 22,
+    "negative_fixtures": 24,
     "execution_opened": False,
 }
 

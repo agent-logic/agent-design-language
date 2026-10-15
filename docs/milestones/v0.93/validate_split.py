@@ -97,7 +97,7 @@ def validate(plans, mapping, inspect_files=True):
     assert first['counts']['new_core_issues_to_seed_at_most'] == 28
     assert first['counts']['existing_additional_issues'] == 4
     assert plans['v0.93.2']['existing_issue_routing'] == []
-    assert plans['v0.93.2']['counts']['distinct_planned_issue_identities'] == 68
+    assert plans['v0.93.2']['counts']['distinct_planned_issue_identities'] == 67
     assert mapping['existing_issue_routing'] == {'v0.93.1':[1148,1149,1150,875,1145],'v0.93.2':[]}
     if inspect_files:
         overlay = ROOT / 'v0.93' / mapping['operator_amendment']
@@ -120,7 +120,17 @@ def validate(plans, mapping, inspect_files=True):
     assert len(mapped) == len({r['source_id'] for r in mapped}) == 83
     assert {r['source_id'] for r in mapped} == original
     for row in mapped:
-        assert row['destination']+'/'+row['destination_id'] in all_rows
+        if row['source_id'] == 'PY-01':
+            assert row['destination'] == 'later_milestone_unassigned'
+            assert row['destination_id'] == 'PY-01'
+            assert row['disposition'] == 'deferred_by_1242'
+            assert row['definition'] == 'v0.93.2/tail07-1242/SUCCESSOR_PLAN.json#deferred/PY-01'
+            assert 'v0.93.2/PY-01' not in all_rows
+            deferred = read('v0.93.2', 'tail07-1242/SUCCESSOR_PLAN.json')['deferred']
+            preserved = next(item['original'] for item in deferred if item['id'] == 'PY-01')
+            assert preserved['id'] == 'PY-01' and preserved['acceptance'] and preserved['negative_cases']
+        else:
+            assert row['destination']+'/'+row['destination_id'] in all_rows
     extras = {(r['milestone'],r['id']) for r in mapping['additional_version_specific_gates']}
     planned_additions = extras | {('v0.93.2', 'CF-92'), ('v0.93.2', 'GHB-SPRINT')} | {
         ('v0.93.2', f'GHB-WP{n:02}') for n in range(13)
@@ -162,6 +172,8 @@ if __name__ == '__main__':
     reject('invented serial acceptance edge',lambda p,m:next(w for w in p['v0.93.1']['work_packages'] if w['id']=='RD-04')['depends_on'].append('RD-03'))
     reject('stale sidecar routing',lambda p,m:p['v0.93.2']['existing_issue_routing'].append({'issue':875}))
     reject('core count inflated by sidecar',lambda p,m:p['v0.93.1']['counts'].__setitem__('core_work_packages',45))
+    reject('lost Python deferral',lambda p,m:next(r for r in m['source_disposition'] if r['source_id']=='PY-01').pop('disposition'))
+    reject('Python silently reallocated',lambda p,m:next(r for r in m['source_disposition'] if r['source_id']=='PY-01').__setitem__('destination','v0.93.2'))
     print(json.dumps({'status':'pass','source_tasks':83,
         'successor_tasks':[plans[v]['counts']['core_work_packages'] for v in VERSIONS],
         'version_specific_gates':13,'negative_fixtures':len(probes),'execution_opened':False},indent=2))

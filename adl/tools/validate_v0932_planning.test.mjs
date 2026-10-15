@@ -7,9 +7,16 @@ test('v0.93.2 graphs agree on the complete allocated scope', () => {
   const graphs = files.map((file) => JSON.parse(fs.readFileSync(root + file, 'utf8')));
   const ids = graphs.map((graph) => graph.work_packages.map((wp) => wp.wp ?? wp.id));
   assert.deepEqual(ids[0], ids[1]); assert.deepEqual(ids[1], ids[2]);
-  assert.equal(ids[0].length, 68); assert.equal(new Set(ids[0]).size, 68);
+  assert.equal(ids[0].length, 67); assert.equal(new Set(ids[0]).size, 67);
   for (const id of ['CF-92','GHB-SPRINT','GHB-WP00','GHB-WP12']) assert.ok(ids[0].includes(id));
+  const successor = JSON.parse(fs.readFileSync(root + 'tail07-1242/SUCCESSOR_PLAN.json', 'utf8'));
+  const python = successor.deferred.find((row) => row.id === 'PY-01');
+  assert.equal(python.original.id, 'PY-01');
+  assert.ok(python.original.acceptance.length > 0);
   for (const graph of graphs) {
+    assert.ok(!graph.work_packages.some((wp) => (wp.wp ?? wp.id) === 'PY-01'));
+    assert.ok(graph.work_packages.every((wp) => !wp.depends_on.includes('PY-01')));
+    assert.ok(graph.sprint_plan.sprints.every((sprint) => !sprint.work_packages.includes('PY-01')));
     const byId = Object.fromEntries(graph.work_packages.map((wp) => [wp.wp ?? wp.id, wp]));
     assert.ok(byId.QUALIFY.depends_on.includes('GHB-WP12'));
     assert.ok(byId.QUALIFY.depends_on.includes('CF-92'));
