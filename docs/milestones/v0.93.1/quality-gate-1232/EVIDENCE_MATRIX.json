@@ -279,14 +279,14 @@
     },
     {
       "id": "INTEGRATE",
-      "evidence_status": "unknown",
-      "scope": "Historical #45 lockset explicitly has acceptance_authority=false; newer #46/#47 acceptance uses its separately pinned candidate.",
+      "evidence_status": "passed",
+      "scope": "Accepted #46/#47 exact product/site reconciliation in S5 supersedes the old proposed #45 lockset for the named aa2cca75/62b34f30 candidate; S7 is retained historical adverse evidence.",
       "evidence": [
         "S7",
         "S6",
         "S5"
       ],
-      "remaining": "Do not restamp the historical lockset. Reconcile the selected release lockset to accepted #46/#47 product/site evidence; merged #1223 supplies source-retirement/build evidence, not that installed product decision.",
+      "remaining": "No missing historical product/site qualification. Correspondence to a changed release candidate, including the pending #101 template fix, must be explicit before transferring acceptance.",
       "final_lockset_acceptance": false
     },
     {
@@ -344,10 +344,12 @@
     },
     {
       "id": "ADL-1269",
-      "evidence_status": "not_executed",
-      "scope": "Multi-repository README refresh remains open.",
-      "evidence": [],
-      "remaining": "Consume README owner delivery; do not duplicate editing.",
+      "evidence_status": "passed",
+      "scope": "Parent documentation PR1274 merged at fa66dfb20ffde07e455f0f9fdce7ef32c3786796; issue1269 CLOSED. Owner delivery accounts for thirteen repository documentation PRs.",
+      "evidence": [
+        "S13"
+      ],
+      "remaining": "No README predecessor blocker. Documentation delivery does not qualify changed product artifacts.",
       "final_lockset_acceptance": false
     },
     {
@@ -473,6 +475,14 @@
       "path": "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/FINAL_AUTHENTIC_CLI_DISPOSITION.json",
       "sha256": "13f35ee6f0daaa850f265abae763dc498a3b1f8e0c5149f0d711b426578ecfaa",
       "url": "https://github.com/agent-logic/agent-design-language/blob/791e44216659a14eeb95c8a05f79e965709b3421/docs/milestones/v0.93.1/repository-decomposition/rd07-1223/FINAL_AUTHENTIC_CLI_DISPOSITION.json"
+    },
+    {
+      "id": "S13",
+      "repository": "agent-logic/agent-design-language",
+      "commit": "fa66dfb20ffde07e455f0f9fdce7ef32c3786796",
+      "path": "docs/repository-split/DOCUMENTATION_DELIVERY_1269.md",
+      "sha256": "373b2da5fb661b249567fa15c4dbbe726a0c745e0a7db2524d20e0b3f2d64149",
+      "url": "https://github.com/agent-logic/agent-design-language/blob/fa66dfb20ffde07e455f0f9fdce7ef32c3786796/docs/repository-split/DOCUMENTATION_DELIVERY_1269.md"
     }
   ],
   "remote_issue_observations": [
@@ -508,9 +518,10 @@
     {
       "number": 1269,
       "title": "[v0.93.1][Docs] Refresh all repository READMEs after the repository split",
-      "state": "OPEN",
+      "state": "CLOSED",
       "url": "https://github.com/agent-logic/agent-design-language/issues/1269",
-      "closedAt": null
+      "closedAt": "2026-10-15T17:25:01Z",
+      "observation_source": "Live GitHub readback; PR1274 merged fa66dfb20ffde07e455f0f9fdce7ef32c3786796"
     },
     {
       "number": 101,
@@ -578,8 +589,8 @@
     "deployment": 0,
     "shared_binary_replacements": 0
   },
-  "handoff": "Current quality decision remains NOT_READY_FOR_FINAL_RELEASE_ACCEPTANCE. #1223 source retirement is delivered and reusable now; remaining installed-lockset correspondence, CodeFriend101 and ADL1269 gaps remain explicit. Later tail work may consume this evidence without asserting release acceptance.",
-  "reconciled_at": "2026-10-14T18:06:36.002797+00:00",
+  "handoff": "Complete NOT_READY quality assessment. Source-retirement1223 and README1269 are delivered; #47 establishes exact historical product/site qualification. CodeFriend101 visual acceptance and explicit correspondence for changed release artifacts remain. No blanket seven-repository build requirement; later-tail decisions are not circular prerequisites.",
+  "reconciled_at": "2026-10-15T17:27:23.302671+00:00",
   "reconciliation_1223": {
     "reviewed_head": "129e5017508ac958311cf44553d20fddb997fa34",
     "merge_commit": "791e44216659a14eeb95c8a05f79e965709b3421",
