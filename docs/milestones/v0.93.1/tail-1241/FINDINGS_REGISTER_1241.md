@@ -46,3 +46,28 @@ PLAN-01 is resolved by #1242 canonical reconciliation `99628d13ed1af84141dd03864
 ## IR-1240-01 fixed
 
 Verified #1236 correction at `bd93dab710d99c076a7030b6908af4fd9e301a34`, inventory line 22: intermediate 185 inputs, final 182 unchanged plus three separately validated source-retirement guard changes; compiled product inputs remain unchanged. Root independently verified the same correction. IR-1240-01 is **fixed**; the original finding is retained above. No full review or product test was repeated. Internal #1238 findings and final correspondence remain pending.
+
+## Combined actual finding denominator
+
+Internal source: #1238 `0f363c1415a6e50f16a6b6718bb4c6e62ffc118c`, `docs/reviews/v0.93.1/internal-review-1238/INTERIM_SOURCE_REVIEW_1238.md`. Independent source: #1240 frozen packet review at `22816165efff2416f0bba84d7b1e2c4b9a2acf2e`, with P3 correction at `bd93dab710d99c076a7030b6908af4fd9e301a34`.
+
+**Six actual findings received: five open, one fixed.** Internal: two P1 evidence/acceptance gaps and three P2 gaps. Independent: one P3 documentation finding fixed. Preparation PREP rows are evidence-gap precursors, not additional findings; PLAN rows are separately tracked planning completeness findings. This is the complete received interim-review denominator, not a claim of complete final candidate coverage.
+
+| Original ID | Severity / scope | Assigned owner and next evidence | Disposition |
+| --- | --- | --- | --- |
+| IR-1238-01 | P1 artifact and installed correspondence | #24 verifies archive11994981448 once; #1236/#101 bind exact393dd2 archive, template and installed evidence. Current6/6CI is passed, not a failure. | Open; #24 verified archive integrity and exact manifest/source correspondence; selected consumption and affected qualification remain pending. |
+| IR-1238-02 | P1 dated quality assessment | #1232/#1236 reconcile15gate rows against actual current101 proof and selected lockset. | Open; historical failed/unknown rows remain dated, not a claim currentCI failed. |
+| IR-1238-03 | P2 affected interfaces | #21 reads PublicADL→Runtime/Infrastructure correspondence; #15 supplies CodeFriend→website, other role identities and consolidated before/after edge ledger. | Open; six graph edges plus separate CodeFriend disposition, no seven-build campaign. |
+| IR-1238-04 | P2 reviewer-facing documentation | #26 refreshes #1234 and dates/corrects #1269's merged13-PR status, then identifies final pages. | Open; administrative PR state is distinct from product evidence. |
+| IR-1238-05 | P2 recovery/access | #15/#1236 binds actual archive, deployment/stop owner, authorized reviewer access and existing prepare/safe-disable/failed-activation limits. | Open; undeployed readiness only, no demand for live rollback or prior deployed baseline. |
+| IR-1240-01 | P3 count precision | #1236 correctionbd93, independently verified. | Fixed; original185/final182+3guard change distinction retained. |
+
+PREP-01 maps to IR-1238-02/03; PREP-02/03 map to IR-1238-01; PREP-04 maps to IR-1238-05. PREP-05's missing-report condition is now replaced by the actual interim reports and their explicitly incomplete final coverage. PREP-06 is historical tooling evidence, not an added product finding. No unsupported deferrals, severity reductions or omitted raw IDs.
+
+Successor handoff: carry these five open source-bound gaps with the owners above until fixed or explicitly authorized for deferral. None has been deferred into v0.93.2 by this register. #1242/#1243 can consume this concrete register now; their final residual decision must reflect later dispositions. Source reviews and current green CI do not independently establish release acceptance.
+
+## Archive verification update
+
+#24 verification at 2026-10-15T17:54:29Z fetched artifact11994981448 once: 262,057,006 bytes, digest `2be7a8804199bf578388637915e399bf8e9cf23ac5057f4f4ef180b544c1f6f0`, source `393dd2ee7c5db8e6108a27cf6441e380fb62f4c3`, tree `1808b045553b2e3ff1f54e841359cc0cd890c6df`, and template manifest `45bd407bd8cd850925d6177ee99814dc533d28779833e6cb8b01bc2337f68cd2` match. No missing package evidence was reported. Archive integrity and included manifest/source correspondence are now proven within that check; no second download or hash was performed here.
+
+Preserve the proposed template-manifest status and packaged renderer proof's `acquisition_measurement_matches=false` for PNG/SVG. Their semantics are under owner investigation, not silently waived or labeled a newly proven product defect. This check did not execute binaries, install, build or requalify rendering. Selected consumer/affected-interface acceptance remains distinct and pending.
