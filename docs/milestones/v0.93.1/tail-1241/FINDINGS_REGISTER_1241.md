@@ -42,3 +42,7 @@ The raw report's “#1242/TAIL-06” routing is corrected here to #1241/TAIL-06;
 CodeFriend #101 exact source `393dd2ee7c5db8e6108a27cf6441e380fb62f4c3` now has owner delivery evidence: 90/0 native tests, 6/6 CI checks, artifact `11994981448` from run `38777770708`, GitHub archive digest `2be7a8804199bf578388637915e399bf8e9cf23ac5057f4f4ef180b544c1f6f0`. Its 25-kind/50-view gallery preserves all final view bytes and explicitly limits readable-scale review coverage. PREP-02/03 are narrowed to final selected consumption and cross-version correspondence; new artifact existence and current CI are no longer missing. This intake did not download, hash or install the archive.
 
 PLAN-01 is resolved by #1242 canonical reconciliation `99628d13ed1af84141dd038646363e82e5c64320`; #1244 retains the reviewed resolution. PLAN-02 and PREP-05 remain open for the actual #1238 result and final residual reconciliation. The combined internal/external denominator is still incomplete. Artifact availability, successful CI and a minor review finding do not alone establish milestone acceptance.
+
+## IR-1240-01 fixed
+
+Verified #1236 correction at `bd93dab710d99c076a7030b6908af4fd9e301a34`, inventory line 22: intermediate 185 inputs, final 182 unchanged plus three separately validated source-retirement guard changes; compiled product inputs remain unchanged. Root independently verified the same correction. IR-1240-01 is **fixed**; the original finding is retained above. No full review or product test was repeated. Internal #1238 findings and final correspondence remain pending.
