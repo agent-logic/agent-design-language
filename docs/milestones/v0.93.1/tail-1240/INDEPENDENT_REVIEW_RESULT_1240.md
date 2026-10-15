@@ -64,3 +64,15 @@ IR-1240-01 remains open pending #1236's corrected exact revision. #1238's actual
 ## IR-1240-01 fixed
 
 Verified #1236 correction at `bd93dab710d99c076a7030b6908af4fd9e301a34`, inventory line 22: intermediate 185 inputs, final 182 unchanged plus three separately validated source-retirement guard changes; compiled product inputs remain unchanged. Root independently verified the same correction. IR-1240-01 is **fixed**; the original finding is retained above. No full review or product test was repeated. Internal #1238 findings and final correspondence remain pending.
+
+## Internal-review comparison — no repeated source review
+
+Consumed actual #1238 report `0f363c1415a6e50f16a6b6718bb4c6e62ffc118c`, `docs/reviews/v0.93.1/internal-review-1238/INTERIM_SOURCE_REVIEW_1238.md`. Its five stable findings IR-1238-01 through05 cover current artifact/installed correspondence, dated quality rows, affected interfaces, stale reviewer-facing documents, and recovery/access. They are consistent with this independent review's acceptance limitations; they do not contradict the finding that no P0–P2 source-document defect was established in this review's narrower examined scope.
+
+The internal report reviewed path inventories and evidence summaries, not all product source bodies or installed outputs. This comparison adds no full-source-review coverage claim and no test execution. #1241 now preserves the six received actual finding IDs: five internal open gaps and one independent P3 fixed. The internal-input absence condition is replaced by an actual interim report; final candidate correspondence and complete final coverage remain pending. Do not turn a completed source review into a final qualified-lockset approval.
+
+## Archive verification update
+
+#24 verification at 2026-10-15T17:54:29Z fetched artifact11994981448 once: 262,057,006 bytes, digest `2be7a8804199bf578388637915e399bf8e9cf23ac5057f4f4ef180b544c1f6f0`, source `393dd2ee7c5db8e6108a27cf6441e380fb62f4c3`, tree `1808b045553b2e3ff1f54e841359cc0cd890c6df`, and template manifest `45bd407bd8cd850925d6177ee99814dc533d28779833e6cb8b01bc2337f68cd2` match. No missing package evidence was reported. Archive integrity and included manifest/source correspondence are now proven within that check; no second download or hash was performed here.
+
+Preserve the proposed template-manifest status and packaged renderer proof's `acquisition_measurement_matches=false` for PNG/SVG. Their semantics are under owner investigation, not silently waived or labeled a newly proven product defect. This check did not execute binaries, install, build or requalify rendering. Selected consumer/affected-interface acceptance remains distinct and pending.
