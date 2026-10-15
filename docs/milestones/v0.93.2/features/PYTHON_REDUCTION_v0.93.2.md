@@ -1,3 +1,5 @@
+> Deferred by #1242: retained historical design, excluded from v0.93.2 execution and QUALIFY. See ../tail07-1242/SUCCESSOR_PLAN.json for complete preserved obligation.
+
 # v0.93.2 Bounded Python reduction
 
 ## Metadata
@@ -26,7 +28,7 @@ Remove only the selected post-split Python dependency tranche, preserving user-f
 
 ## Design
 
-Consume accepted producer contracts and preserve the launched CodeFriend baseline.
+Consume accepted producer contracts and preserve the qualified ready-to-deploy CodeFriend baseline.
 
 ## Execution Flow
 

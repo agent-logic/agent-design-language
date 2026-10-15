@@ -18,7 +18,7 @@ TAIL-01 quality decision → TAIL-02 docs/review handoff → TAIL-03 publication
 
 ## 1. Release Readiness
 
-Require accepted installed lockset, all 53 result dispositions, independent qualification and explicit handoff of any unresolved v0.93.1 #875 disposition.
+Require accepted installed lockset, all 67 result dispositions, independent qualification and explicit handoff of any unresolved v0.93.1 #875 disposition.
 
 ## 2. Branch And Tag Preparation
 
@@ -34,8 +34,12 @@ Read back published identities and validate installation, compatibility, recover
 
 ## 5. Communication
 
-State delivered behavior, unsupported scenarios and remaining risks. Beta 1 launch belongs to v0.93.1; describe this release as a qualified upgrade.
+State delivered behavior, unsupported scenarios and remaining risks. v0.93.1 targets ready-to-deploy qualification; public launch remains separately authorized through CodeFriend #92.
 
 ## Exit Criteria
 
 Authorized release readback and successor handoff are accepted; failed or deferred results remain visible.
+
+## v0.93.2 scope integration
+
+The milestone retains the existing platform tracks and adds CodeFriend plus the approved full GHB program. CodeFriend public launch is routed through existing CodeFriend #92 and still requires exact deployment authorization. GHB requires Gate A, Gate B, and WP12 before milestone qualification; planning approval does not authorize experiments, provider spend, deployment, or issue creation. Runtime-v4 activation/generation and citizen-continuity/CM mechanisms are shared dependencies for GHB-WP07/WP08, not duplicate engines, schedulers, or transaction owners. ADL #1226 remains a deferred assessment.

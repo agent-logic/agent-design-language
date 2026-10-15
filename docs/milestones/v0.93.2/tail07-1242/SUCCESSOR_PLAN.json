@@ -1957,7 +1957,7 @@
     "Accepted product/template/runtime versions and final lockset must come from final predecessor handoff; none inferred from this roster.",
     "No builds, CI dispatch, providers, deployments, shared tools or product changes."
   ],
-  "canonical_reconciliation_pending": "This scoped overlay reuses1259 rather than duplicating its package. Once predecessor residuals are accepted, apply the same scoped decisions consistently to canonical execution graph, issue wave, specifications, WBS, sprint, vision, proof coverage, feature routes and handoff before final1242 acceptance.",
+  "canonical_reconciliation_pending": "Canonical1259 graph, wave, specifications, WBS, sprint, vision, proof coverage, feature route and handoff now reconcile67 identities andPY01 deferral. Final1241 dispositions and selected installed-lockset correspondence remain pending.",
   "post_retirement_reconciliation": {
     "merge": "791e44216659a14eeb95c8a05f79e965709b3421",
     "pr": 1273,

@@ -2,7 +2,7 @@
 
 ## Status
 
-Reviewed preparation target for ADL #1242. Final predecessor acceptance, successor opening, issue creation, spending and release remain unauthorized. This overlay does not replace the canonical v0.93.2 package.
+Reviewed preparation target for ADL #1242. Final predecessor acceptance, successor opening, issue creation, spending and release remain unauthorized. The canonical v0.93.2 package now incorporates this roster reconciliation; final residual acceptance remains pending.
 
 ## Reused source and concrete proposal
 
@@ -15,7 +15,7 @@ The full proposed roster retains source acceptance and negative cases, repositor
 1. Consume #1232’s reconciled matrix at `ea597506c370f6de3d997fbd46fa3ba2a0150d3f`: source retirement is delivered, but the release quality decision remains NOT_READY.
 2. Reuse #1223’s merged PR #1273 at `791e44216659a14eeb95c8a05f79e965709b3421` and recorded five-repository build evidence. Selected seven-role installed release-lockset correspondence and #1241’s accepted findings/residual dispositions remain pending. Native closeout runs asynchronously.
 3. Consume #1269 README and CodeFriend #101 template-quality owner results without duplicating their work.
-4. Reconcile this overlay into the existing canonical graph, issue wave, specifications, WBS, sprint, vision, proof coverage, feature routes and handoff. Reuse #1259; create no second milestone package.
+4. Canonical graph, issue wave, specifications, WBS, sprint, vision, proof coverage, feature routes and handoff now incorporate the same roster decisions from #1259. Final residual dispositions still require reconciliation.
 5. Obtain bounded final review and native acceptance/publication before successor opening. This preparation is not a closing PR for #1242.
 
 Preserve existing #875/#1145 routes and completed #671; do not allocate duplicates. Keep original #915 failures and #1148/#1149 provenance, and reuse #1150 proof. CodeFriend #92 needs its separate exact candidate/audience/environment/budget decision before deployment.
