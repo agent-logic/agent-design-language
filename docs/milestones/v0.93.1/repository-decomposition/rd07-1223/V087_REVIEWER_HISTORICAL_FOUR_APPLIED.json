@@ -1,0 +1,243 @@
+{
+  "schema": "adl1223.v087_reviewer_historical_four.v1",
+  "status": "applied",
+  "source_head": "97c2f1014e1ee0528dd7370542c7ed7672a2bdd6",
+  "removed_count": 4,
+  "captured_removals": 3,
+  "rows": [
+    {
+      "id": "RD07-1339",
+      "path": "adl/tools/demo_v087_reviewer_package.sh",
+      "owner": "codefriend",
+      "component": "codefriend-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "d23e06cf910fd1fbd604a97a88fa6b5f227ad77d"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "same_path_changed",
+        "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
+        "exact_successor_paths": []
+      }
+    },
+    {
+      "id": "RD07-2069",
+      "path": "adl/tools/test_repo_review_contract.sh",
+      "owner": "codefriend",
+      "component": "codefriend-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "b35276ab2083d4675aa44216eef2a1815316171f"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "same_path_changed",
+        "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
+        "exact_successor_paths": []
+      }
+    },
+    {
+      "id": "RD07-2260",
+      "path": "adl/tools/verify_repo_review_contract.sh",
+      "owner": "codefriend",
+      "component": "codefriend-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "3ed912c21d931f23590f6b5edbd02d0a0efcbcda"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "same_path_changed",
+        "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
+        "exact_successor_paths": []
+      }
+    }
+  ],
+  "supplemental_retirements": [
+    {
+      "path": "adl/tools/demo_v087_suite.sh",
+      "reason": "Coherent inbound aggregate invokes the retired monolithic reviewer wrapper; all independent child scripts remain unchanged. Separately enumerated outside immutable4134+22; parent explicitly approved bounded supplemental scope.",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "d85940819eb3357d3b1f629ff0e93e6498d917d2",
+        "sha256": "00e6b05f88dc918ce160832b858ce146a295edc221b1823dd143155bab65f732"
+      },
+      "original_revision": "248f00e359e412f6bc0061ac88be9ff374e3a212"
+    }
+  ],
+  "files": [
+    {
+      "path": "adl/tools/demo_v087_reviewer_package.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "d23e06cf910fd1fbd604a97a88fa6b5f227ad77d",
+        "sha256": "51fd11c8477e809337936829039821fa9ec843e5ad2f4ac8e6e3d4f77f5cb5c1"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/demo_v087_suite.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "d85940819eb3357d3b1f629ff0e93e6498d917d2",
+        "sha256": "00e6b05f88dc918ce160832b858ce146a295edc221b1823dd143155bab65f732"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_repo_review_contract.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "b35276ab2083d4675aa44216eef2a1815316171f",
+        "sha256": "5c6ea4a8251c7e69e091b63d17b3dba7af18013466695a951c9e6e4bfb7fefd9"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/verify_repo_review_contract.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "3ed912c21d931f23590f6b5edbd02d0a0efcbcda",
+        "sha256": "0e561c5d55f97a3d0136da1f0e9a828d56048cda74994f2203554ee8bb246fef"
+      },
+      "after": null
+    },
+    {
+      "path": "demos/README.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "631c9977cba7ac23f49c7033ad6378e6562865da",
+        "sha256": "6695c478da8cd3919d1f6f3b492f9fe5894d40f1e0dfae1b781230f3e7c560d4"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "e24b13b3574813d9a995654d6659c82b378716c6",
+        "sha256": "78d06d25a1c2a63114a8b06481d7f001427577fc7cd0a87b4c75fa5d44d14f17"
+      }
+    },
+    {
+      "path": "demos/v0.87/v087_demo_program.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "b4081964741a30269dd09a567f3e607017ccd541",
+        "sha256": "5a8850bd61c10c39cfc6378dce12394a6f5a6bf76f475b1f007f6d0a2e93cd20"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "8f37c2a786291e7ef88ef9b9c75568e4f636034a",
+        "sha256": "8a1a2242add25a9110208e72683be45566df36f0aa258035f8e06a4f38304a68"
+      }
+    },
+    {
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "842548afbcf05bf0fe0e9da8b3974e1f9a95e509",
+        "sha256": "ddb87b56e9c37a45f16368785f6ce58898a6978a3f0b819100bafa4ad217f6c8"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "6ff6b87c06353718a8ae3720f722d64e380919bc",
+        "sha256": "8a5280780e744f75da444909e5ddb8cdfc7f79f498e74d6622e7d78b31a3aaa9"
+      }
+    }
+  ],
+  "qualification_boundary": "Explicit historical aggregation retirement only. No original test run, no current reviewer validation or successor equivalence claimed.",
+  "assertion_dispositions": {
+    "test_repo_review_contract": "Original good fixture must pass and bad fixture must fail via verify wrapper; both fixturebytes and review-format doc retained. Assertion source preserved unchanged in current/original custody.",
+    "verify_repo_review_contract": "Original explicit manifest-root selection/validation and binary overrides precede adl tooling verify-repo-review-contract. That monolithic multiplexer is explicitly sunset/refused by current public dispatch; no fake substitute.",
+    "reviewer_demo": "Original invokes paired test then emits six reviewer-entry paths and README; no live acceptance inferred from retained archive.",
+    "suite": "Original six-child ordered aggregation retained in custody, including retained operational-skills child and selected-owner control-plane child. Retiring aggregation does not retire or qualify independent child products."
+  },
+  "caller_closure": "Only active executable inbound edges within these4files; two retained navigation pages mark former commands historical/unavailable. Actual registry removes4rows; immutable milestone records unchanged.",
+  "preserved_files": [
+    {
+      "path": "docs/tooling/review-surface-format.md",
+      "sha256": "e33a14baf01f5ec82bee91eac275b4b59fb74fdf85143de82b7a5ad8b5f25594"
+    },
+    {
+      "path": "docs/tooling/examples/repo-review/good_repo_review.md",
+      "sha256": "7c5be79d4d8314a15bbdaa6153ec129ba365e03baf7b1fb2d950089871a382b2"
+    },
+    {
+      "path": "docs/tooling/examples/repo-review/bad_repo_review.md",
+      "sha256": "c384b9cda1e5fc1c6fe975b56367d8cc4f91f58e90f2c48f36a22714e5a62129"
+    },
+    {
+      "path": "adl/tools/demo_v087_trace_truth.sh",
+      "sha256": "92ee6a45f515f7b12ad3c577e61fd1b81cc24f6159bd644e202f2a6e38f9c493"
+    },
+    {
+      "path": "adl/tools/demo_v087_provider_portability.sh",
+      "sha256": "2a88868931db6568a1edf6e577eaf647a8e4bc182e44784d7c973a93ec2a3f5e"
+    },
+    {
+      "path": "adl/tools/demo_v087_shared_obsmem.sh",
+      "sha256": "30a8c1614a7252a0389a392d3a2ab7ec7e4a269052496db646cf00735b3143c2"
+    },
+    {
+      "path": "adl/tools/demo_v087_operational_skills.sh",
+      "sha256": "a8647b3469a6adad9dae6d813631de7fb4a78aaafe8e9d20eccc4138ecf48177"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "/Volumes/FastWork/adl-worktrees/adl-issue-1223-1223-coherent-source-retirement/adl/src/cli/public_dispatch.rs",
+      "sha256": "1bba6365e36fbeb1b59cf8e4c3d4fa95636bb92839f7af5d1d9aea91ac258d2b"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/v087-reviewer-historical-four/prepared-r2/CALLERS.txt",
+      "sha256": "9568228c6842329e6879417329d34e76d8b89d3975613fd5239aa7e30f2a3a2b"
+    }
+  ],
+  "custody": {
+    "path": "/Volumes/FastWork/c1223/v087-reviewer-historical-four/prepared-r2/current-original.tar",
+    "sha256": "1b699b21d5d535b9868f065532363195205c843954d6506086acc45facfc7aac",
+    "current_members": 7,
+    "original_members": 4,
+    "original_revision": "248f00e359e412f6bc0061ac88be9ff374e3a212"
+  },
+  "patch": {
+    "path": "/Volumes/FastWork/c1223/v087-reviewer-historical-four/prepared-r2/four-and-navigation.patch",
+    "sha256": "71d5395c36193960d967e69fa74c1fbdb72d1583f267d4ca21ad87c4b39bd7b0"
+  },
+  "preparation_correction": "Initial generation stopped on false operational-skills absence assumption before patch output; child actually exists and is explicitly preserved. Original aborted prepare-r1.py retained.",
+  "limits": [
+    "No execution/build/model/provider/cloud/native authority changes.",
+    "Supplemental aggregate counted separately; original4134+22 identities unchanged.",
+    "Current independent demo children and external Runtime control-plane resource remain governed by their original proofs/obligations."
+  ],
+  "proposal_source_head": "caef58ba03d2b1c4ecae15ba65b34a4ab93f0795",
+  "review": {
+    "status": "PASS",
+    "reviewer": "/root/review_1223_historical_retention",
+    "proposal_sha256": "374c345adfd2ab7fb6032b0b95101f8908d08f7514702be18356fab2b85b2285",
+    "scope": "Reviewed source/caller/custody composition; all individual qualification and historical limits preserved."
+  }
+}

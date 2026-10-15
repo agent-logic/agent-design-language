@@ -1,0 +1,86 @@
+{
+  "status": "reviewed_retained_historical_pair",
+  "candidate_ids": [
+    "RD07-1470",
+    "RD07-2078"
+  ],
+  "tests": [
+    "test_artifact_features_mismatch",
+    "test_changed_transcript",
+    "test_cli_stdout_stderr_separation",
+    "test_duplicate_case",
+    "test_duplicate_target",
+    "test_environment_overrides_removed",
+    "test_external_cargo_config_rejected",
+    "test_failed_build",
+    "test_features_mismatch",
+    "test_lexical_reduction_claim",
+    "test_listing_command_not_executed",
+    "test_manifest_mismatch",
+    "test_missing_scenario",
+    "test_omitted_command",
+    "test_omitted_target",
+    "test_source_count_substitution",
+    "test_toolchain_substitution",
+    "test_valid_measured_fixture",
+    "test_wrong_build_features",
+    "test_wrong_manifest_identity",
+    "test_wrong_revision"
+  ],
+  "execution": {
+    "status": "PASS",
+    "exit_code": 0,
+    "elapsed_seconds": 2.717,
+    "inputs": [
+      {
+        "path": "adl/tools/revision_validation_inventory.py",
+        "sha256": "450debce0d1b24ee75a99e81378fbe5b91f823544b00e2dc0c8b25cee9b12ca7",
+        "blob": "6f9789e3df2f8659be71312315b65b708ab57a54"
+      },
+      {
+        "path": "adl/tools/test_revision_validation_inventory.py",
+        "sha256": "baf4313e430b9ec220336878e041910752c84d94f46cbf77e1a2e3b1bed0d5fa",
+        "blob": "8c73d14ef43a287f313a313698a46e42105060c4"
+      }
+    ],
+    "scope": "Original synthetic transcript admission integrity unittest suite in isolated FastWork Gitfixtures; collect/Cargo/real toolchain/provider not invoked. No actualmeasurement or runtimequalification claim."
+  },
+  "evidence_hashes": {
+    "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "5b12c3ca447a4d5e1aa3e435b08e88e4d40d4e12bc3f4818c12a04cb478a2361"
+  },
+  "source_disposition": "Retain unchanged historical ADL revision measurement verifier and its original synthetic admission negatives as a pair.",
+  "non_claims": [
+    "No actual Cargo measurement at pinned revisions",
+    "No product/test-count reduction claim",
+    "No current Runtime qualification",
+    "No source removal authorization"
+  ],
+  "review": {
+    "status": "PASS",
+    "scope": "Retain original historical inventory helper RD07-1470 and test RD07-2078 together, unchanged",
+    "source_head": "5facda9243",
+    "evidence": [
+      "RESULT.json",
+      "stderr",
+      "adl/tools/revision_validation_inventory.py",
+      "adl/tools/test_revision_validation_inventory.py"
+    ],
+    "findings": [],
+    "verified": [
+      "Both current files byte-equal original Git blobs recorded in RESULT.json",
+      "Actual unittest stderr reports 21 tests and OK",
+      "All test methods inspected; subprocesses use disposable Git fixtures and verify, not collect",
+      "Profile fixes historical adl package, toolchain 1.92.0, default features; compare fixes two historical revisions",
+      "Current qualification validator reads matching archived inventory schema; no direct collector invocation found in bounded active caller search"
+    ],
+    "boundaries": [
+      "No new test run",
+      "No collect, Cargo build, toolchain installation, or native lifecycle command",
+      "Synthetic integrity tests do not establish actual measurements or current Runtime qualification",
+      "Historical collect can build Cargo packages; retention does not authorize executing it"
+    ],
+    "recommendation": "Adopt paired retention with these scope boundaries; preserve original denominator and no source deletion."
+  },
+  "helper_boundary": "The collect subcommand performs historical Cargo builds; only original verify/integrity tests were executed. No collect execution authorized by this retention."
+}

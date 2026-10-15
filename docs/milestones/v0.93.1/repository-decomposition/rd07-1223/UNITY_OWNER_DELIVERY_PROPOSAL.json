@@ -1,0 +1,301 @@
+{
+  "schema": "adl1223.unity_owner_delivery.v1",
+  "issue": 1223,
+  "status": "prepared_not_delivered",
+  "owner": "agent-logic-runtime",
+  "owner_baseline": "dc88ec20b91a9375823808d633029a0d02f095b3",
+  "original_rows": [
+    "RD07-2142",
+    "RD07-2143",
+    "RD07-2146"
+  ],
+  "files": [
+    {
+      "path": "adl/tools/test_v0916_unity_observatory_baseline.sh",
+      "action": "add_to_runtime",
+      "mode": "100755",
+      "source_blob": "481b8f23ab5cb173111cdd420b6dad639665749e",
+      "sha256": "14c97e5a120c51c79bbad17e5065bd06fe1955e69604cf2ef53b9d3821674fcc"
+    },
+    {
+      "path": "adl/tools/test_v0916_unity_observatory_contract.sh",
+      "action": "add_to_runtime",
+      "mode": "100755",
+      "source_blob": "ebda52f6c2cac5fe1ec9bcadc88cc56095e77159",
+      "sha256": "bd8438ad917b4f024a519410b709a078e5dfe7b4d91ed0eef3406736139ed95f"
+    },
+    {
+      "path": "adl/tools/test_v0916_unity_observatory_unity65_smoke.sh",
+      "action": "add_to_runtime",
+      "mode": "100755",
+      "source_blob": "f99a84a371636be076f65d448bfa9aed6e5f97db",
+      "sha256": "5ac068f9cbc9e30c93c75cfb9fb86db397f080c5d4aea07446888de680f399f5"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/observatory/UNITY_OBSERVATORY_IMPLEMENTATION_BASELINE_4030.md",
+      "action": "add_to_runtime",
+      "mode": "100644",
+      "source_blob": "d28a0fe92e0ec44a90c5acc8b1263e66ef6196f8",
+      "sha256": "74c3b0177bbbf301afc5dd8c9d9089403fb5cb1962de1238191b044d5db41121"
+    }
+  ],
+  "inputs": {
+    "files": [
+      {
+        "path": "adl/tools/test_v0916_unity_observatory_baseline.sh",
+        "origin": "agent-design-language",
+        "revision": "b2d9a1ec7db522fa2ed7402fb32edff6a15cd0ed",
+        "git_blob": "481b8f23ab5cb173111cdd420b6dad639665749e",
+        "sha256": "a852811f396fac27456568d9ac95072bcb8ef14b8bc89aa1a7915ce5c413d530"
+      },
+      {
+        "path": "adl/tools/test_v0916_unity_observatory_contract.sh",
+        "origin": "agent-design-language",
+        "revision": "b2d9a1ec7db522fa2ed7402fb32edff6a15cd0ed",
+        "git_blob": "ebda52f6c2cac5fe1ec9bcadc88cc56095e77159",
+        "sha256": "bd8438ad917b4f024a519410b709a078e5dfe7b4d91ed0eef3406736139ed95f"
+      },
+      {
+        "path": "demos/v0.91.6/unity-observatory/Assets/Editor.meta",
+        "origin": "agent-logic-runtime",
+        "revision": "dc88ec20b91a9375823808d633029a0d02f095b3",
+        "git_blob": "a13433b318027fc14d141be182e286e5ce4cc39e",
+        "sha256": "3e933bc9926338ef75ef1ec7ce3c317eae1b987070b3403033693e847a134b2f"
+      },
+      {
+        "path": "demos/v0.91.6/unity-observatory/Assets/Editor/UnityObservatoryBatchValidator.cs",
+        "origin": "agent-logic-runtime",
+        "revision": "dc88ec20b91a9375823808d633029a0d02f095b3",
+        "git_blob": "417fc5da3be465b5273ffb9f7960281807195494",
+        "sha256": "da0e15f647d004e9210a105438fecba16b3b13b6898bd8a2b8f9c593ceddc059"
+      },
+      {
+        "path": "demos/v0.91.6/unity-observatory/Assets/Editor/UnityObservatoryBatchValidator.cs.meta",
+        "origin": "agent-logic-runtime",
+        "revision": "dc88ec20b91a9375823808d633029a0d02f095b3",
+        "git_blob": "23f0c88cb85bf3991bf395a22e1a205bdb36ee46",
+        "sha256": "ed8d0d37b95f9ffc089667af8b1574c8b81f6f2f2cefc1a519045d62ca497a44"
+      },
+      {
+        "path": "demos/v0.91.6/unity-observatory/Assets/Editor/UnityObservatoryFlagshipStageBuilder.cs",
+        "origin": "agent-logic-runtime",
+        "revision": "dc88ec20b91a9375823808d633029a0d02f095b3",
+        "git_blob": "2e3e91a62bae845e7dd60d7a5cd14e5a6383bf4d",
+        "sha256": "e377646582e06bb527e2ef56fead561e09b93d2cd8bc8f37ef9e9b4339c1e6df"
+      },
+      {
+        "path": "demos/v0.91.6/unity-observatory/Assets/Resources.meta",
+        "origin": "agent-logic-runtime",
+        "revision": "dc88ec20b91a9375823808d633029a0d02f095b3",
+        "git_blob": "fb216c9b24e8756d906721d69c9b37ae4eaaa1b7",
+        "sha256": "22cab8f29b4d3fefd9cdd2d0121b5376bb9d89194c317e24d2d451d8ea9e97dd"
+      },
+      {
+        "path": "demos/v0.91.6/unity-observatory/Assets/Resources/observatory_contract.json",
+        "origin": "agent-logic-runtime",
+        "revision": "dc88ec20b91a9375823808d633029a0d02f095b3",
+        "git_blob": "36920948e2655ece47fdfb2de6c720ef377ca9a9",
+        "sha256": "0de42652ad3a2a789448bcba6d4c2713cc97f94e8970b638ab6b58ce71e8cfb7"
+      },
+      {
+        "path": "demos/v0.91.6/unity-observatory/Assets/Resources/observatory_contract.json.meta",
+        "origin": "agent-logic-runtime",
+        "revision": "dc88ec20b91a9375823808d633029a0d02f095b3",
+        "git_blob": "ecbac1b4023e11a361cff9a3242c9693d3b1515f",
+        "sha256": "79e65258080ff02195a0a122063650dcafeddbe168a91585786276fafeee053e"
+      },
+      {
+        "path": "demos/v0.91.6/unity-observatory/Assets/Scenes/UnityObservatory.unity",
+        "origin": "agent-logic-runtime",
+        "revision": "dc88ec20b91a9375823808d633029a0d02f095b3",
+        "git_blob": "a02affec004acd40239a24345ceb295db747b407",
+        "sha256": "5e1e04316d58a0f2160333cec5e6d7e7656e85cced24fed3b6c79cfc6b9e05d3"
+      },
+      {
+        "path": "demos/v0.91.6/unity-observatory/Assets/Scenes/UnityObservatory.unity.meta",
+        "origin": "agent-logic-runtime",
+        "revision": "dc88ec20b91a9375823808d633029a0d02f095b3",
+        "git_blob": "e68bd93f3a5d091819cbd25b8d46b83b04b5ff6b",
+        "sha256": "f7eb86627ae3888bd9212696e6c2333d7ea7bf5dc5bc1f9e2ec35dfbce0da78d"
+      },
+      {
+        "path": "demos/v0.91.6/unity-observatory/Assets/Scripts/UnityObservatoryBootstrap.cs",
+        "origin": "agent-logic-runtime",
+        "revision": "dc88ec20b91a9375823808d633029a0d02f095b3",
+        "git_blob": "d10f3c83f232cffc25be20e7624ce089ef8b21d9",
+        "sha256": "3a5e43f06dd96e96b064659adbb65db4b0584aa401c2004d0cd8090914d33325"
+      },
+      {
+        "path": "demos/v0.91.6/unity-observatory/Assets/Scripts/UnityObservatoryBootstrap.cs.meta",
+        "origin": "agent-logic-runtime",
+        "revision": "dc88ec20b91a9375823808d633029a0d02f095b3",
+        "git_blob": "a37a3d53325fbc57593c036ab01fc51908f282c8",
+        "sha256": "b2b0165119dfdeb5aba350e4d6ce07361b3c319d26e42da067199b526ad90ca7"
+      },
+      {
+        "path": "demos/v0.91.6/unity-observatory/Assets/Scripts/UnityObservatoryShellController.cs",
+        "origin": "agent-logic-runtime",
+        "revision": "dc88ec20b91a9375823808d633029a0d02f095b3",
+        "git_blob": "515ce438f2c514e59bc47e553fd1ca5a1834a2bd",
+        "sha256": "ed3ba303e490793af07b50cdc131720a684a68d48ec11015ba729a1d214988a3"
+      },
+      {
+        "path": "demos/v0.91.6/unity-observatory/Assets/Scripts/UnityObservatoryShellController.cs.meta",
+        "origin": "agent-logic-runtime",
+        "revision": "dc88ec20b91a9375823808d633029a0d02f095b3",
+        "git_blob": "194d34fb1ace61729bab37eba35a2ec1157b1a30",
+        "sha256": "a4816d46191d7f2dd5b441df727136ff647ffeea2271912250b5989f78dcc77f"
+      },
+      {
+        "path": "demos/v0.91.6/unity-observatory/Assets/UI/ObservatoryShell.uss",
+        "origin": "agent-logic-runtime",
+        "revision": "dc88ec20b91a9375823808d633029a0d02f095b3",
+        "git_blob": "409374355e9089b8abe98c1c3d993d9bcdb4db80",
+        "sha256": "32079532661259d5c73b0d8e0c052185169ce10faa62dbccfc7d280753382280"
+      },
+      {
+        "path": "demos/v0.91.6/unity-observatory/Assets/UI/ObservatoryShell.uss.meta",
+        "origin": "agent-logic-runtime",
+        "revision": "dc88ec20b91a9375823808d633029a0d02f095b3",
+        "git_blob": "d04e045dda2c22e51b12fc6b483a00a4a04815c7",
+        "sha256": "bb030e0ea652ca14a5cc79615ba25e22a1c69d84af5d8bd45f1c160e36258098"
+      },
+      {
+        "path": "demos/v0.91.6/unity-observatory/Assets/UI/ObservatoryShell.uxml",
+        "origin": "agent-logic-runtime",
+        "revision": "dc88ec20b91a9375823808d633029a0d02f095b3",
+        "git_blob": "bf16e09a7bd6366640ce9e04f082136767dd8b9a",
+        "sha256": "7e7708865ce3911a92d09d3e2190cf1c8de88e0a987cd8172f722f8eb2ad862b"
+      },
+      {
+        "path": "demos/v0.91.6/unity-observatory/Assets/UI/ObservatoryShell.uxml.meta",
+        "origin": "agent-logic-runtime",
+        "revision": "dc88ec20b91a9375823808d633029a0d02f095b3",
+        "git_blob": "bc4c3b82c0dffebdf20f019e44bdbc810be886e4",
+        "sha256": "ecf0853a677081129c30f1d13f266e0405aef274763cec1732189cfb786453cf"
+      },
+      {
+        "path": "demos/v0.91.6/unity-observatory/PROOF_PACKET.md",
+        "origin": "agent-logic-runtime",
+        "revision": "dc88ec20b91a9375823808d633029a0d02f095b3",
+        "git_blob": "ef1882516dd23015a02d7510e182e31c527b02ef",
+        "sha256": "2437ea0602fe15291b118aba126f63181ed6f94d4e21c95064ca42ef25c210ac"
+      },
+      {
+        "path": "demos/v0.91.6/unity-observatory/Packages/manifest.json",
+        "origin": "agent-logic-runtime",
+        "revision": "dc88ec20b91a9375823808d633029a0d02f095b3",
+        "git_blob": "6db009ab3a7504bf78fa4face200bc2da2a016c8",
+        "sha256": "34d33ef57f6398cb44f7704eff85f93c914e90e35d1b3cbf475ba2ab541873a4"
+      },
+      {
+        "path": "demos/v0.91.6/unity-observatory/Packages/packages-lock.json",
+        "origin": "agent-logic-runtime",
+        "revision": "dc88ec20b91a9375823808d633029a0d02f095b3",
+        "git_blob": "c8c9d2e2edb901761024ee2e61bf84f750af7676",
+        "sha256": "b3122bed23e4129a461f6983564183ae1af5dc032ea43875ec4362f14c052814"
+      },
+      {
+        "path": "demos/v0.91.6/unity-observatory/ProjectSettings/EditorBuildSettings.asset",
+        "origin": "agent-logic-runtime",
+        "revision": "dc88ec20b91a9375823808d633029a0d02f095b3",
+        "git_blob": "56f897780561ba09425aa0acc99e80c453a3ad3c",
+        "sha256": "3e6a6356be53b2ab735e1f6eda1b2417a7a5f2ffe508b7f1300805d6c26b917c"
+      },
+      {
+        "path": "demos/v0.91.6/unity-observatory/ProjectSettings/ProjectSettings.asset",
+        "origin": "agent-logic-runtime",
+        "revision": "dc88ec20b91a9375823808d633029a0d02f095b3",
+        "git_blob": "e8b520701e3584c8186e1200e71bf5d33beab1e8",
+        "sha256": "cd1b1f1e654e60de496e1b7809199f3bf3250e3d2536d0c795f6f43b1dd73b26"
+      },
+      {
+        "path": "demos/v0.91.6/unity-observatory/ProjectSettings/ProjectVersion.txt",
+        "origin": "agent-logic-runtime",
+        "revision": "dc88ec20b91a9375823808d633029a0d02f095b3",
+        "git_blob": "ebb0abf3343ad3bddf64f1d7d3f86d2760840480",
+        "sha256": "bc71c3a8424ffc604954c822f98b7586371f21736060a12d78c506145fd42772"
+      },
+      {
+        "path": "demos/v0.91.6/unity-observatory/README.md",
+        "origin": "agent-logic-runtime",
+        "revision": "dc88ec20b91a9375823808d633029a0d02f095b3",
+        "git_blob": "8bbe343e16ec5fe2a768a52d95fd995739bf1356",
+        "sha256": "d64caee6389b89c83a37521959bd3e5dd9863bb807bbb8ad0fee40179792ff4b"
+      },
+      {
+        "path": "docs/milestones/v0.91.6/review/observatory/UNITY_OBSERVATORY_IMPLEMENTATION_BASELINE_4030.md",
+        "origin": "agent-design-language",
+        "revision": "b2d9a1ec7db522fa2ed7402fb32edff6a15cd0ed",
+        "git_blob": "d28a0fe92e0ec44a90c5acc8b1263e66ef6196f8",
+        "sha256": "74c3b0177bbbf301afc5dd8c9d9089403fb5cb1962de1238191b044d5db41121"
+      }
+    ],
+    "boundary": "24actualRuntimeprojectfiles plus3retainedADLinputs (2originaltests,1historicaldoc). Mixedsource pre-delivery qualification; no ownerinstallation or Unityexecution."
+  },
+  "original_result": {
+    "results": [
+      {
+        "test": "adl/tools/test_v0916_unity_observatory_baseline.sh",
+        "exit_code": 1,
+        "seconds": 0.08887979100109078,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "3004b94742759eebaa322fc77e47c5ff4d7e75831bf42c6264c7026f4643a879"
+      },
+      {
+        "test": "adl/tools/test_v0916_unity_observatory_contract.sh",
+        "exit_code": 0,
+        "seconds": 0.227969875006238,
+        "stdout_sha256": "300c2bd2f7a56d3365e4e0e8274561b8dd4ac0b1e634ed3f8738d4d7d6ce2d3f",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ],
+    "unity_executed": false,
+    "runtime_executed": false,
+    "provider_executed": false,
+    "build": false
+  },
+  "repaired_baseline_result": {
+    "exit_code": 0,
+    "seconds": 0.13107029200182296,
+    "change": "One original success-marker assertion matches actual BatchValidator ValidateScene compatibility path. Original verification wording remains in separate CompatibilityVerifier, not this class. All other assertions unchanged.",
+    "original_failure_preserved": "/Volumes/FastWork/c1223/unity-static-original-r1",
+    "unity_executed": false,
+    "runtime_executed": false,
+    "build": false,
+    "stdout_sha256": "ec17f37d4efa094a98595439732cd956d54662b49edd24f9823b2be4d179424f",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "repair": "Two exact assertion fixes: static baseline matches the BatchValidator compatibility path; editor smoke matches the final BatchValidator success message after ValidateFlagshipScene. All error checks preserved.",
+  "qualification_boundary": "Two static source contracts only. Unity editor smoke has not run; no runtime, provider, build or deployment. All three original rows remain held pending owner delivery and applicable qualification.",
+  "pvf": {
+    "static_contracts": {
+      "lane": "local_contract",
+      "proof_role": "source_contract",
+      "determinism": "deterministic",
+      "resources": "small CPU and temporary files",
+      "release_gate": "owner delivery qualification"
+    },
+    "editor_smoke": {
+      "lane": "manual_integration",
+      "proof_role": "Unity editor scene validation",
+      "determinism": "environment dependent",
+      "resources": "installed licensed Unity 6.5 editor",
+      "release_gate": "not satisfied"
+    }
+  },
+  "patch_sha256": "cfd927305d9fd68634c349be266126a480e38ba7fae94857dc646ac25c0fcff2",
+  "review_findings": [
+    {
+      "priority": "P2",
+      "finding": "Smoke invoked BatchValidator but required CompatibilityVerifier message.",
+      "disposition": "Require final BatchValidator shell and flagship success message; smoke not executed."
+    }
+  ],
+  "independent_review": {
+    "reviewer": "review_1223_historical_retention",
+    "result": "No remaining actionable findings after smoke-marker correction",
+    "scope": "four-file proposal, exact patch identities, source assertion and error preservation",
+    "no_editor_execution": true
+  }
+}

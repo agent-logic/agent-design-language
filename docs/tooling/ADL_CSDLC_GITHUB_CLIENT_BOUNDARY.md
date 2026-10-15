@@ -1,6 +1,13 @@
 # ADL C-SDLC GitHub Client Boundary
 
-This document records the current C-SDLC v2 ownership boundary for GitHub issue
+> Historical C-SDLC v2 reference. Current operational authority is documented in
+> [Current C-SDLC authority](../csdlc-v3/CURRENT_AUTHORITY.md). The commands and
+> installation instructions below describe the retained v2 contract; they do not
+> authorize installing or running v2. V2 use requires an explicitly authorized
+> rollback or bounded transition remediation. Do not infer a current v3 command
+> from these examples.
+
+This document records the historical C-SDLC v2 ownership boundary for GitHub issue
 and pull-request operations.
 
 ## Canonical Entry Points

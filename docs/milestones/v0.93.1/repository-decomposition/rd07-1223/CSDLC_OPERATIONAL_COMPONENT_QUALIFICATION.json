@@ -1,0 +1,70 @@
+{
+  "schema": "adl1223.csdlc_original_conductor_components.v1",
+  "candidate": "79d6430a89edb350fe1012889650a6b4776912d0",
+  "status": "partial_pass_lifecycle_packaging_failure",
+  "evidence_directory": "/Volumes/FastWork/c1223/evidence/cognitive-sdlc/operational-79d6430",
+  "inputs": "INPUT.json",
+  "inputs_sha256": "ba3a97a13b4473d809b3dbe53878e7510b026267113b892584c8d78b0a3d5940",
+  "original_denominators": {
+    "conductor_assertion_expressions": 421,
+    "installer_assertion_bearing_lines": 138,
+    "installer_named_skills": 33,
+    "installer_direct_paths": 84,
+    "installer_recursive_helpers": 17
+  },
+  "denominator_note": "Expressions and scenario cases are not homogeneous independent tests; no total pass count is inferred.",
+  "component_results": {
+    "reports": {
+      "status": "passed",
+      "completed_components": [
+        "readiness",
+        "card-defects",
+        "metrics",
+        "metrics-artifact",
+        "parity"
+      ],
+      "result_sha256": "fd98df8bb051372074f8cc8d6c999da252ca29d6de0051aabaf773cb1cbbb2eb"
+    },
+    "closeout": {
+      "status": "passed",
+      "completed_components": [
+        "closeout",
+        "transport"
+      ],
+      "result_sha256": "baaa92f5ce2d5f425320afde74e378a5721ff12e0d46fac797fe9a2171511ba1",
+      "original_python_assertions": 8
+    },
+    "boundaries": {
+      "status": "passed",
+      "completed_components": [
+        "boundaries"
+      ],
+      "result_sha256": "3c27448232c4296ab4c37989f7daea81ad483530ce4ea0e279544e5d4b7b92de",
+      "unit_tests": 15
+    },
+    "lifecycle": {
+      "status": "failed",
+      "stderr_sha256": "7ff12d1d527dde9feac945496263a55657dbd1d55111c07562956aa58b033ae8",
+      "cause": "published executable resource mode lost"
+    }
+  },
+  "lifecycle_failure": "LIFECYCLE_MODE_FAILURE.json",
+  "native_execution": false,
+  "installed_full_bundle": false,
+  "full_original_acceptance": false,
+  "limits": [
+    "Report/lifecycle/closeout fixtures use explicit synthetic native transport; no live/native/provider invocation.",
+    "Installer copy/symlink and full authenticated bundle remain separate.",
+    "No original denominator retired or source removal authorized.",
+    "Lifecycle stopped before original bootstrap assertions because published resource mode0644 cannot execute existing source100755 fixture."
+  ],
+  "proof_hashes": {
+    "COMPONENT_RESULTS.json": "293782988589a46ac27ea8ffc8c56529c7ac901c08b62d0e6738f48ef09a547c",
+    "reports.stdout": "5aa5bd652c62566e15af99298e1abe1ebc322a0e5fd643e6edde629f4dd0d5a7",
+    "reports.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "LIFECYCLE_MODE_FAILURE.json": "41cc57c74c0240420b356b381927946b4fa2426952ac5c0d04b8ece238bbc43b",
+    "boundaries/boundaries.stderr": "63e34114ff7d38b62d869885213e5b1084f75a6a36b4b5888c4e63b6c14c62cf",
+    "closeout/closeout/result.json": "65e6f7f794763b0a854a831961d57cf83832c10e8babbec450e0bd820add7af3",
+    "closeout/transport/result.json": "bc81f9bdbd4adf16268e1f4b1257944ab146532942654bf671a4d845db2097a0"
+  }
+}

@@ -13,9 +13,10 @@ Usage:
   adl/tools/preflight_review.sh [--with-pr-hygiene]
 
 Runs one-command preflight checks:
-- tooling sanity + fmt + clippy + tests (via batched_checks.sh)
-- schema-focused tests
-- demo/example-focused tests
+- public CLI and five public package tests, formatting and linting
+- public schema/example tests included in those package suites
+
+Installed consumer and owner qualification remain separate.
 
 Optional:
 - PR hygiene checks for branch naming and issue linkage
@@ -28,13 +29,6 @@ done
 
 echo "• Running batched checks…"
 bash "$ROOT/adl/tools/batched_checks.sh"
-
-echo "• Running schema/example focused checks…"
-(
-  cd "$ROOT/adl"
-  cargo test --test schema_tests
-  cargo test --test demo_tests
-)
 
 if [[ "$WITH_PR_HYGIENE" == "1" ]]; then
   echo "• Running optional PR hygiene checks…"

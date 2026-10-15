@@ -1,6 +1,6 @@
 # Documentation Index
 
-Current engineering and release-tail review: [v0.92.1](milestones/v0.92.1/README.md). Acceptance remains pending; completed milestone links below retain their historical meaning.
+Current post-split entrypoints: [repository map](REPOSITORIES.md), [contributor onboarding](onboarding.md), [public CLI](../adl/README.md) and [default workflow](default_workflow.md). Milestone reviews below retain their dated scope and do not establish current product acceptance.
 
 This directory is the main documentation entrypoint for ADL milestone records, contributor workflow docs, tooling guides, and architecture references.
 
@@ -10,10 +10,10 @@ Use this index to find the right source of truth quickly.
 
 - Completed v0.92 milestone package: `milestones/v0.92/`
 - Retained v0.92 execution record: `milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md`
-- Most recently published release: `v0.91.7`
+- Historical release reference: `v0.91.7`
 - Immediate completed handoff bridge: `milestones/v0.91.8/`
 - Root project overview: `../README.md`
-- Runtime and CLI guide: `../adl/README.md`
+- Public CLI guide: `../adl/README.md`
 - Language/spec entrypoint: `../adl-spec/README.md`
 - Glossary: `GLOSSARY.md`
 - Default contributor workflow: `default_workflow.md`
@@ -26,7 +26,7 @@ Use this index to find the right source of truth quickly.
 - Review entrypoint: `milestones/v0.92/README.md`
 - Canonical v0.92 documentation inventory: `milestones/v0.92/CANONICAL_DOC_INVENTORY_v0.92.md`
 - Third-party review handoff: `milestones/v0.92/review/THIRD_PARTY_REVIEW_HANDOFF_v0.92.md`
-- Most recently published release package: `milestones/v0.91.7/`
+- Historical release package: `milestones/v0.91.7/`
 - Recent stable milestones: `milestones/v0.91.8/`, `milestones/v0.91.7/`, `milestones/v0.91.6/`, `milestones/v0.91.5/`, `milestones/v0.91.4/`, `milestones/v0.91.3/`, `milestones/v0.91.2/`, `milestones/v0.91.1/`, `milestones/v0.90.5/`
 - Earlier milestones: `milestones/v0.75/`, `milestones/v0.7/`, `milestones/v0.6/`
 - Historical milestones: `milestones/v0.5/`, `milestones/v0.4/`, `milestones/v0.3/`, `milestones/v0.2/`

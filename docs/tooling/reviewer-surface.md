@@ -23,12 +23,9 @@ adl tooling review-card-surface \
   --output docs/tooling/examples/reviewer-regression/issue-661/output_661.md
 ```
 
-For the `v0.87.1` runtime reviewer walkthrough, use:
-
-```bash
-bash adl/tools/demo_v0871_review_surface.sh
-adl tooling review-runtime-surface --review-root artifacts/v0871/review_surface
-```
+The v0.87.1 runtime walkthrough is [historically retired](V0871_HISTORICAL_AGGREGATE.md).
+Its D8 assembler and private `review-runtime-surface` recipe are no longer ADL
+execution routes; their original assertions and artifact format remain in custody.
 
 For the broader milestone reviewer package, pair that walkthrough with:
 
@@ -70,15 +67,9 @@ This fixture run compares the tool output against:
 
 - `docs/tooling/examples/reviewer-surface/issue-661/expected_review_surface_output_661.yaml`
 
-For the runtime reviewer walkthrough, use:
-
-```bash
-bash adl/tools/test_demo_v0871_review_surface.sh
-```
-
-This fixture run builds the D8 review package and validates it with:
-
-- `adl tooling review-runtime-surface --review-root <assembled review root>`
+The former runtime walkthrough fixture is retired with its assembler. Its checks
+for D8 manifest identity, D6/D7 ordering, README guidance and private CLI validation
+are preserved as historical obligations, not counted as a current passing test.
 
 ## Scope Notes
 

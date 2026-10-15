@@ -1,5 +1,14 @@
 # Codex CLI + Ollama Operational Skills Demo
 
+> Historical recipe; the producer and both original companion tests are retired.
+> The producer already refused execution before workspace/provider effects after
+> the standalone v1 card validators were removed. Commands and proof descriptions
+> below preserve the original intended contract, not a current runnable route or
+> new acceptance result. Original dry-run, semantic-fallback and redaction assertions
+> remain in Git and #1223 custody; the four local fixture resources remain unchanged.
+> Current issue-bound card editing uses the selected native C-SDLC owner; this does
+> not assert equivalence to the retired standalone model workflow.
+
 This is a bounded, operator-facing demo for running the tracked operational
 skills through Codex CLI against an Ollama-backed OSS provider, with a local
 Ollama service as the default and a configured remote Ollama host also
@@ -13,9 +22,9 @@ It is intentionally smaller than the full issue lifecycle. The proof target is:
 - complete one bounded task similar to the card-cleanup work we do during real
   issue flow
 
-## What It Proves
+## Original Intended Proof
 
-This demo proves:
+The original intended proof was:
 
 - the tracked skills root under `adl/tools/skills` can be installed into a
   demo-local `CODEX_HOME`
@@ -82,7 +91,7 @@ already have first-class remote Ollama transport.
 If you need a longer or shorter semantic-fallback wait window for a slower
 local model, set `ADL_OLLAMA_GENERATE_TIMEOUT_SECS`.
 
-## Fastest Smoke Path
+## Historical Smoke Path
 
 Dry-run only:
 
@@ -100,7 +109,7 @@ That prepares:
 
 No model call is made in dry-run mode.
 
-## Full Demo Run
+## Historical Full Demo Run
 
 ```bash
 bash adl/tools/demo_codex_ollama_operational_skills.sh
@@ -122,7 +131,7 @@ The script will:
    - `stp-editor`
    - `sip-editor`
 4. resolve the model capability profile from
-   `adl/tools/local_model_capabilities.v1.json`
+   [Runtime capability registry](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/adl/tools/local_model_capabilities.v1.json)
 5. choose one of two execution modes:
    - `native_tool_calling` for tool-capable local models such as `gpt-oss:latest`
    - `semantic_tool_fallback` for non-tool local models such as `deepseek-r1:latest`
@@ -168,7 +177,7 @@ with `--phase bootstrap` after the edit rather than requiring a bound
 execution branch.
 
 The capability declaration is explicit in
-`adl/tools/local_model_capabilities.v1.json`, and the run manifest records both
+[Runtime capability registry](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/adl/tools/local_model_capabilities.v1.json), and the run manifest records both
 the selected capability profile and the execution mode that was used.
 
 ## Artifact Layout

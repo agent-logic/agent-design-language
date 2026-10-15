@@ -1,0 +1,265 @@
+{
+  "schema": "adl.sprint_mapped_fixture_inputs.v1",
+  "resources": [
+    {
+      "path": "resources/docs/skill-distributions/original-contracts/current-conductor/check_sprint_closeout_readiness.py",
+      "sha256": "f53209eab9f5dd034d368c4dad8f4a16f6a98f81d9e25ff05384ac681027b1db",
+      "mode": 420,
+      "matches_prior_qualified_bytes_and_mode": true
+    },
+    {
+      "path": "resources/docs/skill-distributions/original-contracts/current-conductor/check_sprint_readiness.py",
+      "sha256": "d6346aa6a4776736dbdba156f4aa5265473d6a9deb8e777c300ad7f0927f6325",
+      "mode": 420,
+      "matches_prior_qualified_bytes_and_mode": true
+    },
+    {
+      "path": "resources/docs/skill-distributions/original-contracts/current-conductor/check_sprint_structured_prompt_readiness.py",
+      "sha256": "1d6c0dda842c0563fdf409e5d9f5d8c7eb9cc4ce9e0938dbe50f07bb0a98f356",
+      "mode": 420,
+      "matches_prior_qualified_bytes_and_mode": true
+    },
+    {
+      "path": "resources/docs/skill-distributions/original-contracts/current-conductor/check_sprint_truth.py",
+      "sha256": "332a334060cb6b260fd7ac43d67214d75d6974f9bd3a8015d6bc3944f4ce6416",
+      "mode": 420,
+      "matches_prior_qualified_bytes_and_mode": true
+    },
+    {
+      "path": "resources/docs/skill-distributions/original-contracts/current-conductor/close_sprint_issue.py",
+      "sha256": "e627a3a97d73e0127a2a6b37d1f53d5680cfe3fb00aacf4c8db7d9df6f3674cb",
+      "mode": 420,
+      "matches_prior_qualified_bytes_and_mode": true
+    },
+    {
+      "path": "resources/docs/skill-distributions/original-contracts/current-conductor/create_missing_sprint_issue.py",
+      "sha256": "85b6a7613e5f3fb6a5dd5fbe88ccdc955bcc5f41990c643e66eef4935322e2ca",
+      "mode": 420,
+      "matches_prior_qualified_bytes_and_mode": true
+    },
+    {
+      "path": "resources/docs/skill-distributions/original-contracts/current-conductor/native_sprint_client.py",
+      "sha256": "66ebe366a07dad249382f04da6f5914fffd2039c44c8d6aac9a1b67481dba384",
+      "mode": 420,
+      "matches_prior_qualified_bytes_and_mode": true
+    },
+    {
+      "path": "resources/docs/skill-distributions/original-contracts/current-conductor/record_child_issue_closeout.py",
+      "sha256": "113d89472aa51e9b4b2e89c01b67f21db758777dd6c7b0cc217d75a03019f853",
+      "mode": 420,
+      "matches_prior_qualified_bytes_and_mode": true
+    },
+    {
+      "path": "resources/docs/skill-distributions/original-contracts/current-conductor/sprint_closeout_guards.py",
+      "sha256": "5d5131d6ae2aa55f7e0d1a94a3bc84d1b0663f18a57be059174cf50981c7b466",
+      "mode": 420,
+      "matches_prior_qualified_bytes_and_mode": true
+    },
+    {
+      "path": "resources/docs/skill-distributions/original-contracts/current-conductor/sprint_report_inputs.py",
+      "sha256": "406ad69d699a4928617becb0ddfa8327e39fcf3c6189b86f171493c091129e8f",
+      "mode": 420,
+      "matches_prior_qualified_bytes_and_mode": true
+    },
+    {
+      "path": "resources/docs/skill-distributions/original-contracts/current-conductor/update_sprint_state.py",
+      "sha256": "a227c7f452dd3c514ad609623e47db92ab62957e53d814b7cf4860360866a4e3",
+      "mode": 420,
+      "matches_prior_qualified_bytes_and_mode": true
+    },
+    {
+      "path": "resources/docs/skill-distributions/planning-utilities/original/adl/tools/skills/sprint-conductor/scripts/issue_goal_metrics.py",
+      "sha256": "cea05f335af023b6576faeaef57cd776ee5dcf0c09b67e17e51d50c6f7b869db",
+      "mode": 493,
+      "matches_prior_qualified_bytes_and_mode": true
+    },
+    {
+      "path": "resources/docs/skill-distributions/planning-utilities/original/adl/tools/skills/sprint-conductor/scripts/record_issue_goal_metrics.py",
+      "sha256": "c0fb411031270eb9f947b5ee6cbba19f3abb56db07b385c7d90cd4e129bcb266",
+      "mode": 493,
+      "matches_prior_qualified_bytes_and_mode": true
+    },
+    {
+      "path": "resources/docs/skill-distributions/original-contracts/original/adl/tools/skills/sprint-conductor/scripts/record_issue_goal_stage_from_codex_session.py",
+      "sha256": "359c4274fc2498c67b0b97a912d5f573c35a06d7f2fb04309d147353ddfee3d6",
+      "mode": 420,
+      "matches_prior_qualified_bytes_and_mode": true
+    },
+    {
+      "path": "resources/docs/skill-distributions/original-contracts/original/adl/tools/skills/sprint-conductor/scripts/record_codex_goal_tool_snapshot.py",
+      "sha256": "004dd8da18c4ebb0ea71802505b46883572d8abf00337362bd2aad2d9826c437",
+      "mode": 420,
+      "matches_prior_qualified_bytes_and_mode": true
+    },
+    {
+      "path": "resources/docs/skill-distributions/original-contracts/original/adl/tools/skills/sprint-conductor/scripts/record_issue_goal_stage_artifacts.py",
+      "sha256": "b0c2b8ff84bd7eb2528aead54bc6301d352b058eac364ab38ee70d29a692ba50",
+      "mode": 420,
+      "matches_prior_qualified_bytes_and_mode": true
+    },
+    {
+      "path": "resources/docs/skill-distributions/original-contracts/original/adl/tools/skills/sprint-conductor/scripts/write_issue_goal_metrics_report.py",
+      "sha256": "4809a13f1064d64cdbef25bf8c435350acee28c8b874001c561c8069cdd3b388",
+      "mode": 420,
+      "matches_prior_qualified_bytes_and_mode": true
+    },
+    {
+      "path": "resources/docs/skill-distributions/original-contracts/original/adl/tools/skills/sprint-conductor/scripts/predict_issue_execution_metrics.py",
+      "sha256": "631ae4b30a7f781b0a7c87ed2b92419b93c544539ea38c2a4f025b47c4d5df4a",
+      "mode": 420,
+      "matches_prior_qualified_bytes_and_mode": true
+    },
+    {
+      "path": "resources/docs/skill-distributions/original-contracts/original/adl/tools/skills/sprint-conductor/scripts/write_sprint_closeout_artifact.py",
+      "sha256": "264c4711742f27b028a095a74bd354ee0b0750d9ba33a4253b47fc1df2b01121",
+      "mode": 420,
+      "matches_prior_qualified_bytes_and_mode": true
+    },
+    {
+      "path": "resources/adl/tools/skills/sprint-conductor/scripts/check_installed_skill_parity.py",
+      "sha256": "f2c19acc0e5d986658584e03fa7094acfce1ca2d16737c9203aed500b8d2bf89",
+      "mode": 493,
+      "matches_prior_qualified_bytes_and_mode": true
+    },
+    {
+      "path": "resources/docs/skill-distributions/original-contracts/validation/CONDUCTOR_ASSERTION_MAP.json",
+      "sha256": "3cbad9bcd3d4cc26d5c273a43353e261273a1863feb5851dd00def6767ce53b1",
+      "mode": 420
+    },
+    {
+      "path": "resources/docs/skill-distributions/original-contracts/validation/FIXTURE_PROVENANCE.json",
+      "sha256": "d8f4fd391415d743306cbeadd2fa783e5e77f96f2ac453a2eb751eb526f20192",
+      "mode": 420
+    },
+    {
+      "path": "resources/docs/skill-distributions/original-contracts/validation/INSTALLER_ASSERTION_MAP.json",
+      "sha256": "a2f257f8605026cdb226172df649c4f46d6da4d35a0a4d625235397597f1793b",
+      "mode": 420
+    },
+    {
+      "path": "resources/docs/skill-distributions/original-contracts/validation/README.md",
+      "sha256": "27f5be17356a8c1e20145f81aac2cf5f0b423d994509f22080c989bb75d50ffb",
+      "mode": 420
+    },
+    {
+      "path": "resources/docs/skill-distributions/original-contracts/validation/check_audio_policy.py",
+      "sha256": "9b101ec1c2c75665b4ac02d530e54be3098d259ea8b041b5baac1c6888ebb51b",
+      "mode": 420
+    },
+    {
+      "path": "resources/docs/skill-distributions/original-contracts/validation/check_complete_install.py",
+      "sha256": "db675dd8a03515ed95c62de6dd9e12b2d40188f248fea92edb8ee9636ca170ce",
+      "mode": 420
+    },
+    {
+      "path": "resources/docs/skill-distributions/original-contracts/validation/check_conductor_closeout.py",
+      "sha256": "8e3c2849a1518758270d6d812a214dd146fddc4b31b7cf78d02d268f00bf32a9",
+      "mode": 420
+    },
+    {
+      "path": "resources/docs/skill-distributions/original-contracts/validation/check_conductor_correspondence.py",
+      "sha256": "1dac4849ef78b30651653fac9490baeb498cc48528ae38413d99c7d7d4160c3f",
+      "mode": 420
+    },
+    {
+      "path": "resources/docs/skill-distributions/original-contracts/validation/check_current_transport.py",
+      "sha256": "f6ee01b80082f630bec60e18312b7659f6fbc43493ce71787ae9ba13d6592053",
+      "mode": 420
+    },
+    {
+      "path": "resources/docs/skill-distributions/original-contracts/validation/check_lifecycle_correspondence.py",
+      "sha256": "44c1130d327965d747990e596395154021acb5f20e5a1a9916a76696417f90a0",
+      "mode": 420
+    },
+    {
+      "path": "resources/docs/skill-distributions/original-contracts/validation/fixtures/mapped-card-defects-block.sh",
+      "sha256": "dac511f55801dceaa17d33be27dc1e041fcaac12b2a71b8d4e701f3185065463",
+      "mode": 420
+    },
+    {
+      "path": "resources/docs/skill-distributions/original-contracts/validation/fixtures/mapped-readiness-block.sh",
+      "sha256": "1266ec2ce5bf06615c2b0bfefd549aabf30fe516cda8243f4c1f321f0b22124f",
+      "mode": 420
+    },
+    {
+      "path": "resources/docs/skill-distributions/original-contracts/validation/fixtures/original-metrics-artifact-block.sh",
+      "sha256": "07c34d261226d31cd997886661b16aac2cf778b2bd924b2001175478d874ec2d",
+      "mode": 420
+    },
+    {
+      "path": "resources/docs/skill-distributions/original-contracts/validation/fixtures/original-metrics-block.sh",
+      "sha256": "c3a2a859b396296e1d354f9f73f1d7a8495bda0275fae162b9100d447adcf0ca",
+      "mode": 420
+    },
+    {
+      "path": "resources/docs/skill-distributions/original-contracts/validation/fixtures/run-card-defects.sh",
+      "sha256": "ccd818cbc0fe398b5dd470c9a52e17fe3c7bc16649a99e8287353ac6fcb96cb9",
+      "mode": 420
+    },
+    {
+      "path": "resources/docs/skill-distributions/original-contracts/validation/fixtures/run-original-metrics.sh",
+      "sha256": "3919f13b279bdb8321404d427cfdd77636085a824b7397fee3d9e6a5c6e4305b",
+      "mode": 420
+    },
+    {
+      "path": "resources/docs/skill-distributions/original-contracts/validation/fixtures/run-original-parity.sh",
+      "sha256": "703e2e515accd94f1d961a0c9513bef35d22a721919d9afd6975bd845785b16c",
+      "mode": 420
+    },
+    {
+      "path": "resources/docs/skill-distributions/original-contracts/validation/fixtures/run-original-readiness.sh",
+      "sha256": "4a4c702cbf70df5e23444c8453a5b8a8baaa4118f3f79cd5f51c1ec268678df2",
+      "mode": 420
+    },
+    {
+      "path": "resources/docs/skill-distributions/original-contracts/validation/fixtures/test_native_transport_fixture.py",
+      "sha256": "0697dad34e0553734b471477db5e0a54c6199d4078327710986642030b8733c2",
+      "mode": 493
+    },
+    {
+      "path": "resources/docs/skill-distributions/original-contracts/validation/original/test_install_adl_operational_skills.sh",
+      "sha256": "62261f6ae0b1c2454d92421a4a13117068445898a0fabe68f5b4d07b5e996f9a",
+      "mode": 420
+    },
+    {
+      "path": "resources/docs/skill-distributions/original-contracts/validation/original/test_multiagent_podcast_audio_policy.sh",
+      "sha256": "360dc9c7574a62302c0f5ae683525b7c1cdd9302b9c4169d689225540f3f325e",
+      "mode": 420
+    },
+    {
+      "path": "resources/docs/skill-distributions/original-contracts/validation/original/test_sprint_conductor_helpers.sh",
+      "sha256": "97ef0393dcf40f1d19e391334ef56eb9c72973bfb4fe39a1049c17c0dce1b5de",
+      "mode": 420
+    },
+    {
+      "path": "resources/docs/skill-distributions/original-contracts/validation/test_native_boundaries.py",
+      "sha256": "bb3bb9da84f34d4e2a1c573fd0d858bb0205d9c9b60dbb41a615e6e628b0288b",
+      "mode": 420
+    }
+  ],
+  "composed_scripts": {
+    "check_sprint_closeout_readiness.py": "resources/docs/skill-distributions/original-contracts/current-conductor/check_sprint_closeout_readiness.py",
+    "check_sprint_readiness.py": "resources/docs/skill-distributions/original-contracts/current-conductor/check_sprint_readiness.py",
+    "check_sprint_structured_prompt_readiness.py": "resources/docs/skill-distributions/original-contracts/current-conductor/check_sprint_structured_prompt_readiness.py",
+    "check_sprint_truth.py": "resources/docs/skill-distributions/original-contracts/current-conductor/check_sprint_truth.py",
+    "close_sprint_issue.py": "resources/docs/skill-distributions/original-contracts/current-conductor/close_sprint_issue.py",
+    "create_missing_sprint_issue.py": "resources/docs/skill-distributions/original-contracts/current-conductor/create_missing_sprint_issue.py",
+    "native_sprint_client.py": "resources/docs/skill-distributions/original-contracts/current-conductor/native_sprint_client.py",
+    "record_child_issue_closeout.py": "resources/docs/skill-distributions/original-contracts/current-conductor/record_child_issue_closeout.py",
+    "sprint_closeout_guards.py": "resources/docs/skill-distributions/original-contracts/current-conductor/sprint_closeout_guards.py",
+    "sprint_report_inputs.py": "resources/docs/skill-distributions/original-contracts/current-conductor/sprint_report_inputs.py",
+    "update_sprint_state.py": "resources/docs/skill-distributions/original-contracts/current-conductor/update_sprint_state.py",
+    "issue_goal_metrics.py": "resources/docs/skill-distributions/planning-utilities/original/adl/tools/skills/sprint-conductor/scripts/issue_goal_metrics.py",
+    "record_issue_goal_metrics.py": "resources/docs/skill-distributions/planning-utilities/original/adl/tools/skills/sprint-conductor/scripts/record_issue_goal_metrics.py",
+    "record_issue_goal_stage_from_codex_session.py": "resources/docs/skill-distributions/original-contracts/original/adl/tools/skills/sprint-conductor/scripts/record_issue_goal_stage_from_codex_session.py",
+    "record_codex_goal_tool_snapshot.py": "resources/docs/skill-distributions/original-contracts/original/adl/tools/skills/sprint-conductor/scripts/record_codex_goal_tool_snapshot.py",
+    "record_issue_goal_stage_artifacts.py": "resources/docs/skill-distributions/original-contracts/original/adl/tools/skills/sprint-conductor/scripts/record_issue_goal_stage_artifacts.py",
+    "write_issue_goal_metrics_report.py": "resources/docs/skill-distributions/original-contracts/original/adl/tools/skills/sprint-conductor/scripts/write_issue_goal_metrics_report.py",
+    "predict_issue_execution_metrics.py": "resources/docs/skill-distributions/original-contracts/original/adl/tools/skills/sprint-conductor/scripts/predict_issue_execution_metrics.py",
+    "write_sprint_closeout_artifact.py": "resources/docs/skill-distributions/original-contracts/original/adl/tools/skills/sprint-conductor/scripts/write_sprint_closeout_artifact.py",
+    "check_installed_skill_parity.py": "resources/adl/tools/skills/sprint-conductor/scripts/check_installed_skill_parity.py"
+  },
+  "original_assertion_expressions": 421,
+  "full_original_acceptance": false,
+  "native_admission": false
+}

@@ -8,10 +8,11 @@ trap 'rm -rf "$TMP"' EXIT
 usage() {
   cat <<'EOF'
 Usage:
-  bash adl/tools/demo_v0912_workflow_guardrails_showcase.sh
+  bash adl/tools/demo_v0912_workflow_guardrails_showcase.sh --request <path> --registry <path> --registrations <path> [--root <repo-root>] [--csdlc <installed-path>]
 
 Runs one bounded operator-facing showcase pass over the WP-16 workflow
 guardrails and prints the pass/block outcomes for each guardrail family.
+Card-drift requires real caller-provided native doctor inputs; none are fabricated.
 EOF
 }
 
@@ -62,24 +63,10 @@ MD
 EOF
 safe_report="$(bash "$ROOT/adl/tools/workflow_guardrails.sh" safe-report-command --file "$safe_cmd")"
 
-card_drift_repo="$TMP/card-drift-repo"
-mkdir -p "$card_drift_repo/adl/tools"
-cp "$ROOT/adl/tools/workflow_guardrails.sh" "$card_drift_repo/adl/tools/workflow_guardrails.sh"
-chmod +x "$card_drift_repo/adl/tools/workflow_guardrails.sh"
-log="$TMP/card-drift.log"
-cat >"$card_drift_repo/adl/tools/pr.sh" <<EOF
-#!/usr/bin/env bash
-set -euo pipefail
-printf '%s\n' "\$*" >>"$log"
-exit 0
-EOF
-chmod +x "$card_drift_repo/adl/tools/pr.sh"
-card_drift_out="$(cd "$card_drift_repo" && bash ./adl/tools/workflow_guardrails.sh card-drift --issue 3015 --version v0.91.2 --slug v0-91-2-wp-16-workflow-guardrails-hardening --root "$card_drift_repo" --mode full)"
-card_drift_invocation="$(cat "$log")"
+card_drift_out="$(bash "$ROOT/adl/tools/workflow_guardrails.sh" card-drift "$@")"
 
 printf '%s\n' "main_write_clean: $clean_main"
 printf '%s\n' "main_write_dirty: $dirty_main"
 printf '%s\n' "safe_report_command_blocked: $unsafe_report"
 printf '%s\n' "safe_report_command_pass: $safe_report"
 printf '%s\n' "card_drift_output: $card_drift_out"
-printf '%s\n' "card_drift_invocation: $card_drift_invocation"

@@ -89,27 +89,40 @@ SAFE_MARKDOWN
 }
 
 test_card_drift_wrapper() {
-  local repo="$TMP/card-drift-repo"
-  mkdir -p "$repo/adl/tools" "$repo/.adl/bin/csdlc-v2"
-  cp "$ROOT/adl/tools/workflow_guardrails.sh" "$repo/adl/tools/workflow_guardrails.sh"
-  chmod +x "$repo/adl/tools/workflow_guardrails.sh"
-  local log="$TMP/card-drift.log"
-  cat >"$repo/.adl/bin/csdlc-v2/csdlc-install" <<EOF
+  local repo="$TMP/card drift repo" log="$TMP/card-drift.log"
+  mkdir -p "$repo/.adl/bin/native-v3"
+  local request="$repo/request.json" registry="$repo/registry.json" registrations="$repo/registrations.json"
+  printf '{}\n' >"$request"
+  printf '{}\n' >"$registry"
+  printf '{}\n' >"$registrations"
+  # Routing double only: these fixture objects do not establish native authority.
+  cat >"$repo/.adl/bin/native-v3/csdlc" <<'DOUBLE'
 #!/usr/bin/env bash
-set -euo pipefail
-printf '%s\n' "\$*" >>"$log"
-exit 0
-EOF
-  cat >"$repo/.adl/bin/csdlc-v2/csdlc-doctor" <<EOF
-#!/usr/bin/env bash
-set -euo pipefail
-printf '%s\n' "\$*" >>"$log"
-exit 0
-EOF
-  chmod +x "$repo/.adl/bin/csdlc-v2/csdlc-install" "$repo/.adl/bin/csdlc-v2/csdlc-doctor"
-  (cd "$repo" && bash ./adl/tools/workflow_guardrails.sh card-drift --issue 100 --root "$repo")
-  assert_contains "resolve --repo $repo --issue 100" "$(cat "$log")" "card drift selector"
-  assert_contains "--repo $repo --issue 100" "$(cat "$log")" "card drift doctor"
+printf '%s\n' "$@" >"$GUARDRAIL_LOG"
+echo 'fixture doctor response'
+exit "${GUARDRAIL_EXIT:-0}"
+DOUBLE
+  chmod +x "$repo/.adl/bin/native-v3/csdlc"
+  export GUARDRAIL_LOG="$log"
+  local args=(card-drift --request "$request" --registry "$registry" --registrations "$registrations" --root "$repo")
+  local out code
+  out="$(bash "$ROOT/adl/tools/workflow_guardrails.sh" "${args[@]}")"
+  assert_contains 'fixture doctor response' "$out" 'native output propagation'
+  printf '%s\n' doctor --request "$request" --registry "$registry" --registrations "$registrations" --repo-root "$repo" >"$TMP/expected-argv"
+  cmp "$TMP/expected-argv" "$log"
+  code=0
+  GUARDRAIL_EXIT=37 bash "$ROOT/adl/tools/workflow_guardrails.sh" "${args[@]}" >/dev/null || code=$?
+  [[ "$code" == 37 ]] || { echo 'native refusal exit was not preserved' >&2; exit 1; }
+  rm "$log"
+  if bash "$ROOT/adl/tools/workflow_guardrails.sh" card-drift --root "$repo" >/dev/null 2>&1; then
+    echo 'missing native inputs unexpectedly passed' >&2; exit 1
+  fi
+  [[ ! -e "$log" ]]
+  rm "$request"
+  if bash "$ROOT/adl/tools/workflow_guardrails.sh" "${args[@]}" >/dev/null 2>&1; then
+    echo 'absent native input unexpectedly passed' >&2; exit 1
+  fi
+  [[ ! -e "$log" ]]
 }
 
 test_main_write_guardrail

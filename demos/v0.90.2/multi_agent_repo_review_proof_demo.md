@@ -1,5 +1,22 @@
 # Multi-Agent Repo Review Proof Demo
 
+> These packet generators moved to `agent-logic-infrastructure`. Set
+> `ADL_INFRASTRUCTURE_SOURCE_ROOT` to an absolute checkout at reviewed revision
+> `025850d265cbd1a55b28a8e9b238b2fe0bfcaf1d` before using the owner commands below.
+> The three original offline tests qualified generated packet shape and redaction;
+> they did not execute the represented skills, embedded Cargo commands, or live providers.
+> This retained ADL guide preserves historical scenario context, not current runtime acceptance.
+
+
+> Historical scenario reference. This document records the named milestone
+> and its source-era commands, artifact paths, and implementation status.
+> Those commands are not the execution contract for the decomposed repositories.
+> Retaining this guide does not qualify the current CodeFriend product or authorize
+> running providers, publishing customer reports, or retiring the original tests.
+> See the [preserved source revision](https://github.com/agent-logic/agent-design-language/blob/485c11a10cb27cde1343bd5a0d165c550b739fe0/demos/v0.90.2/multi_agent_repo_review_proof_demo.md)
+> for the complete historical recipe. Current owner delivery and consumer proof
+> are tracked separately by [ADL #1223](https://github.com/agent-logic/agent-design-language/issues/1223).
+
 ## Purpose
 
 This v0.90.2 demo hardens the earlier multi-agent repo-review surface into a
@@ -15,7 +32,7 @@ approval claims.
 ## Command
 
 ```bash
-bash adl/tools/demo_v0902_multi_agent_repo_review_proof.sh
+(cd "${ADL_INFRASTRUCTURE_SOURCE_ROOT:?set an absolute Infrastructure checkout}" && bash adl/tools/demo_v0902_multi_agent_repo_review_proof.sh)
 ```
 
 Default artifact root:
@@ -77,7 +94,7 @@ artifacts/v0902/multi_agent_repo_review_proof/
 Run:
 
 ```bash
-bash adl/tools/test_demo_v0902_multi_agent_repo_review_proof.sh
+(cd "${ADL_INFRASTRUCTURE_SOURCE_ROOT:?set an absolute Infrastructure checkout}" && bash adl/tools/test_demo_v0902_multi_agent_repo_review_proof.sh)
 ```
 
 The test generates the packet in a temporary artifact root, validates the

@@ -1,3 +1,7 @@
+> The owner-lane commands and finish-selector examples below are immutable historical procedure descriptions. The ADL owner aggregate was retired by #1223; these examples are not executable current guidance. Public CLI validation uses `bash tools/public_adl/run_cli_ci.sh`; private validation remains with the separately qualified owner repository.
+
+> Runtime source paths and in-tree build commands below are historical references after ADL #1223. Current execution requires the separately qualified Runtime owner; retaining this document does not qualify the original procedure.
+
 # Finish Validation Path Ownership Registry
 
 `pr finish` still fails closed for unknown changed paths.

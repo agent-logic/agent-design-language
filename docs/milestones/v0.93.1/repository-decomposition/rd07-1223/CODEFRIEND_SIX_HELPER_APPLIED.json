@@ -1,0 +1,448 @@
+{
+  "schema": "adl1223.codefriend_six_helper_applied.v1",
+  "issue": 1223,
+  "source_head_before": "01ca3ad4dc09d963ccf884de81758c0395c01654",
+  "status": "applied_local_reversible_implementation_not_committed",
+  "authorization_interpretation": "Renewed user instruction to implement ADL1223 source retirement authorizes this reviewed bounded local implementation, consistent with PUBLIC_CUTOVER_APPLIED; no separate explicit six-path reply is asserted.",
+  "independent_review": {
+    "reviewer": "/root/review_1223_applied_components",
+    "result": "PASS",
+    "scope": "Exact six helper removals and eight caller repairs, source identities, qualification receipts, rollback custody and caller closure; parent transmitted approval before application."
+  },
+  "batch": {
+    "path": "/Volumes/FastWork/c1223/codefriend-removal-ready-batch.json",
+    "sha256": "1ecf31da26b236b320ec5ad33a76f9cdc93fde31ed3946c05fc6c5600f134ac2"
+  },
+  "caller_patch": {
+    "path": "/Volumes/FastWork/c1223/codefriend-six-helper-caller-repair.patch",
+    "sha256": "01411a6b0b9dc5324f1179c018228fa548dee767c56ecb8ab9621b4d1aa26864"
+  },
+  "rollback_archive": {
+    "git_common_relative": "csdlc-v3/local/evidence/1223/retirement/baseline.tar.gz",
+    "sha256": "12205043566913435c25ea414b1fd9148b46727821f7bfefd5d452cfe47a1c17"
+  },
+  "evidence": [
+    {
+      "path": "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CODEFRIEND_104_INSTALLED_QUALIFICATION.json",
+      "sha256": "d073c884fe6ef973dee5b40a32b2fed2f4bdd4bedc421895188a35aad020a5b6"
+    },
+    {
+      "path": "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CODEFRIEND_OWNER_MERGE_RECEIPT.json",
+      "sha256": "f0824534060bf28cf0249bd21c85c1a964d66e4a4e49fbe0a67d8007c4740ea5"
+    },
+    {
+      "path": "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/ORIGINAL_CONSUMER_BATCH_QUALIFICATION.json",
+      "sha256": "9284cb5d06020294a9c2606e19cc58249dbaf0e23cbe6ddc242bce6e71514daa"
+    },
+    {
+      "path": "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CODEFRIEND_104_SOURCE_CONTRACT_OBSERVATIONS.json",
+      "sha256": "ef9bf774392906cf394a2aa1eaa1e60319e7af05f83533adc391a7828b410c3d"
+    },
+    {
+      "path": "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CODEFRIEND_27_DISPOSITION_PROPOSAL.json",
+      "sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10"
+    },
+    {
+      "path": "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CODEFRIEND_71_DISPOSITION_PROPOSAL.json",
+      "sha256": "7c32a923f22ebfd0c3069d1f051f7201a8e97f27a6fba8343f4c2e91f5668648"
+    },
+    {
+      "path": "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CODEFRIEND_TEST_CUTOVER.json",
+      "sha256": "9b6cdf9dd820f4a16b00f3029c9d9dc7948f771c960523b9f3ebc420425fb637"
+    },
+    {
+      "path": "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CODEFRIEND_FOCUSED_QUALIFICATION.json",
+      "sha256": "13e6fa8723bfdd0b7173fb8f375dc6f928d65f8bfdc803184221c8d872b17d3b"
+    }
+  ],
+  "removed": [
+    {
+      "id": "RD07-1281",
+      "path": "adl/tools/codefriend_drift_installed_proof.py",
+      "before": {
+        "mode": "100644",
+        "blob": "cbf71010ed4aacb5abc3d8eb38ca35add821d7db",
+        "sha256": "da8df42fb40eff9e8c4fa730aeb94c6e5a5756642eeb245b238a99d029bc5193"
+      },
+      "after": null,
+      "rollback": {
+        "archive_member": "source/adl/tools/codefriend_drift_installed_proof.py",
+        "mode": "0o644",
+        "current_bytes_match_archive": true,
+        "archive_member_sha256": "da8df42fb40eff9e8c4fa730aeb94c6e5a5756642eeb245b238a99d029bc5193",
+        "supplement_required": false
+      },
+      "owner_successor": {
+        "repository": "agent-logic/codefriend",
+        "candidate": "e93a457ad6325017627a66a2abe31a3376fa28fd",
+        "path": "tools/installed_proof/codefriend_drift_installed_proof.py",
+        "source_sha256": "5d8d1bb2a4b95636c230a47dfe72348c1b159f242990490fcfd6863db0efd5a5"
+      },
+      "qualification": {
+        "family": "drift",
+        "scenario_count": 11,
+        "evidence": "consumer-results-r4/results/drift/proof.json",
+        "sha256": "fe675639e838b15486f212365d14d3892fe825641ef1fe6a0a8a9ce849cfa7da",
+        "installation_provenance": {
+          "schema": "codefriend.product_installation.v1",
+          "archive_sha256": "9bb54979951435d136e153d74369fe8d4baf28b65ae71078d2e38a6e001f5a14",
+          "candidate": "e93a457ad6325017627a66a2abe31a3376fa28fd",
+          "product_manifest_sha256": "7b0f2aea95df33c1fd39bfee1805ace557075cd5eef288c5388a439bd1bc0e77",
+          "run_id": "38381695706",
+          "run_attempt": "1",
+          "artifact_id": "11804671827",
+          "workflow_ref": "agent-logic/codefriend/.github/workflows/product-ci.yaml@refs/pull/105/merge",
+          "workflow_sha": "6bbc8554bf3a18ff1e9a93f29cc4aa8eb5a64cb5",
+          "job_name": "installed-product",
+          "job_id": "115243615242",
+          "authentication": "external_owner_pins_not_self_authorization"
+        }
+      }
+    },
+    {
+      "id": "RD07-1286",
+      "path": "adl/tools/codefriend_fitness_installed_proof.py",
+      "before": {
+        "mode": "100644",
+        "blob": "a42e45502097b519c156a4268bdf50498e708c6a",
+        "sha256": "3c418a3997b7608793154226f4a9aa10a729705c73ac49b5d0a70488118d630d"
+      },
+      "after": null,
+      "rollback": {
+        "archive_member": "source/adl/tools/codefriend_fitness_installed_proof.py",
+        "mode": "0o644",
+        "current_bytes_match_archive": true,
+        "archive_member_sha256": "3c418a3997b7608793154226f4a9aa10a729705c73ac49b5d0a70488118d630d",
+        "supplement_required": false
+      },
+      "owner_successor": {
+        "repository": "agent-logic/codefriend",
+        "candidate": "e93a457ad6325017627a66a2abe31a3376fa28fd",
+        "path": "tools/installed_proof/codefriend_fitness_installed_proof.py",
+        "source_sha256": "caedd52ffd9300f8d8fc940bb5bcc6bd23442ee8579db58f409babae2e4508a5"
+      },
+      "qualification": {
+        "family": "fitness",
+        "scenario_count": 3,
+        "evidence": "consumer-results-r4/results/fitness/installed-proof.json",
+        "sha256": "70cb54376b205444f9cfad646c7b758fb840567e90f9ce89f82cb6b3ccb864e7",
+        "installation_provenance": {
+          "schema": "codefriend.product_installation.v1",
+          "archive_sha256": "9bb54979951435d136e153d74369fe8d4baf28b65ae71078d2e38a6e001f5a14",
+          "candidate": "e93a457ad6325017627a66a2abe31a3376fa28fd",
+          "product_manifest_sha256": "7b0f2aea95df33c1fd39bfee1805ace557075cd5eef288c5388a439bd1bc0e77",
+          "run_id": "38381695706",
+          "run_attempt": "1",
+          "artifact_id": "11804671827",
+          "workflow_ref": "agent-logic/codefriend/.github/workflows/product-ci.yaml@refs/pull/105/merge",
+          "workflow_sha": "6bbc8554bf3a18ff1e9a93f29cc4aa8eb5a64cb5",
+          "job_name": "installed-product",
+          "job_id": "115243615242",
+          "authentication": "external_owner_pins_not_self_authorization"
+        }
+      }
+    },
+    {
+      "id": "RD07-1287",
+      "path": "adl/tools/codefriend_impact_installed_proof.py",
+      "before": {
+        "mode": "100644",
+        "blob": "961e2b9a6540b0879850e65ca737c27ffc800856",
+        "sha256": "c3f7f878e394d8ea6046334b4cab85cce7ae55247b78cea924a5f7aba782de6c"
+      },
+      "after": null,
+      "rollback": {
+        "archive_member": "source/adl/tools/codefriend_impact_installed_proof.py",
+        "mode": "0o644",
+        "current_bytes_match_archive": true,
+        "archive_member_sha256": "c3f7f878e394d8ea6046334b4cab85cce7ae55247b78cea924a5f7aba782de6c",
+        "supplement_required": false
+      },
+      "owner_successor": {
+        "repository": "agent-logic/codefriend",
+        "candidate": "e93a457ad6325017627a66a2abe31a3376fa28fd",
+        "path": "tools/installed_proof/codefriend_impact_installed_proof.py",
+        "source_sha256": "2c6c8c21e0bf438598c42f6a4223dcc8843672920925f2705b398db19f4cfe9a"
+      },
+      "qualification": {
+        "family": "impact",
+        "scenario_count": 12,
+        "evidence": "consumer-results-r4/results/impact/proof.json",
+        "sha256": "362bd889884610e2551e3ad68d456a95975f0ffa588e4652f7d47519ebe1baf2",
+        "installation_provenance": {
+          "schema": "codefriend.product_installation.v1",
+          "archive_sha256": "9bb54979951435d136e153d74369fe8d4baf28b65ae71078d2e38a6e001f5a14",
+          "candidate": "e93a457ad6325017627a66a2abe31a3376fa28fd",
+          "product_manifest_sha256": "7b0f2aea95df33c1fd39bfee1805ace557075cd5eef288c5388a439bd1bc0e77",
+          "run_id": "38381695706",
+          "run_attempt": "1",
+          "artifact_id": "11804671827",
+          "workflow_ref": "agent-logic/codefriend/.github/workflows/product-ci.yaml@refs/pull/105/merge",
+          "workflow_sha": "6bbc8554bf3a18ff1e9a93f29cc4aa8eb5a64cb5",
+          "job_name": "installed-product",
+          "job_id": "115243615242",
+          "authentication": "external_owner_pins_not_self_authorization"
+        }
+      }
+    },
+    {
+      "id": "RD07-1289",
+      "path": "adl/tools/codefriend_palace_installed_proof.py",
+      "before": {
+        "mode": "100644",
+        "blob": "9fa185f52404e5c4949e97fd4783f7535c2f8c0e",
+        "sha256": "daa9351f24ce8b114a92bac9f85a6672993f52a8fc1fc1f1668b011f3833ee8b"
+      },
+      "after": null,
+      "rollback": {
+        "archive_member": "source/adl/tools/codefriend_palace_installed_proof.py",
+        "mode": "0o644",
+        "current_bytes_match_archive": true,
+        "archive_member_sha256": "daa9351f24ce8b114a92bac9f85a6672993f52a8fc1fc1f1668b011f3833ee8b",
+        "supplement_required": false
+      },
+      "owner_successor": {
+        "repository": "agent-logic/codefriend",
+        "candidate": "e93a457ad6325017627a66a2abe31a3376fa28fd",
+        "path": "tools/installed_proof/codefriend_palace_installed_proof.py",
+        "source_sha256": "e9020f8ee10fd68610c65bf28047ea5c566d88e5c346864bb77adb3420e46498"
+      },
+      "qualification": {
+        "family": "palace",
+        "scenario_count": 23,
+        "evidence": "consumer-results-r4/results/memory-fixture/palace-installed-proof.json",
+        "sha256": "56b7636161220df9bc28badbe46fae23856be2fbd4bef85160455f87d4734aba",
+        "installation_provenance": {
+          "schema": "codefriend.product_installation.v1",
+          "archive_sha256": "9bb54979951435d136e153d74369fe8d4baf28b65ae71078d2e38a6e001f5a14",
+          "candidate": "e93a457ad6325017627a66a2abe31a3376fa28fd",
+          "product_manifest_sha256": "7b0f2aea95df33c1fd39bfee1805ace557075cd5eef288c5388a439bd1bc0e77",
+          "run_id": "38381695706",
+          "run_attempt": "1",
+          "artifact_id": "11804671827",
+          "workflow_ref": "agent-logic/codefriend/.github/workflows/product-ci.yaml@refs/pull/105/merge",
+          "workflow_sha": "6bbc8554bf3a18ff1e9a93f29cc4aa8eb5a64cb5",
+          "job_name": "installed-product",
+          "job_id": "115243615242",
+          "authentication": "external_owner_pins_not_self_authorization"
+        }
+      }
+    },
+    {
+      "id": "RD07-1290",
+      "path": "adl/tools/codefriend_rationale_installed_proof.py",
+      "before": {
+        "mode": "100644",
+        "blob": "ac0d2f8ed1c46d4b1e06727a8a79dbd93c63e9a3",
+        "sha256": "5ecf0004e366aabb87141e96c95cb1b949d3cfd0ea31a164dd4c9d45e831094e"
+      },
+      "after": null,
+      "rollback": {
+        "archive_member": "source/adl/tools/codefriend_rationale_installed_proof.py",
+        "mode": "0o644",
+        "current_bytes_match_archive": true,
+        "archive_member_sha256": "5ecf0004e366aabb87141e96c95cb1b949d3cfd0ea31a164dd4c9d45e831094e",
+        "supplement_required": false
+      },
+      "owner_successor": {
+        "repository": "agent-logic/codefriend",
+        "candidate": "e93a457ad6325017627a66a2abe31a3376fa28fd",
+        "path": "tools/installed_proof/codefriend_rationale_installed_proof.py",
+        "source_sha256": "2348026d170c422804f240286fb7391c172dfa276483f071a93897d4aebf6e69"
+      },
+      "qualification": {
+        "family": "rationale",
+        "scenario_count": 11,
+        "evidence": "consumer-results-r4/results/rationale/proof.json",
+        "sha256": "f02c5df27f25b1173f32ab7a5e789253f1382bec02129fd4ac5ae4fce66c3502",
+        "installation_provenance": {
+          "schema": "codefriend.product_installation.v1",
+          "archive_sha256": "9bb54979951435d136e153d74369fe8d4baf28b65ae71078d2e38a6e001f5a14",
+          "candidate": "e93a457ad6325017627a66a2abe31a3376fa28fd",
+          "product_manifest_sha256": "7b0f2aea95df33c1fd39bfee1805ace557075cd5eef288c5388a439bd1bc0e77",
+          "run_id": "38381695706",
+          "run_attempt": "1",
+          "artifact_id": "11804671827",
+          "workflow_ref": "agent-logic/codefriend/.github/workflows/product-ci.yaml@refs/pull/105/merge",
+          "workflow_sha": "6bbc8554bf3a18ff1e9a93f29cc4aa8eb5a64cb5",
+          "job_name": "installed-product",
+          "job_id": "115243615242",
+          "authentication": "external_owner_pins_not_self_authorization"
+        }
+      }
+    },
+    {
+      "id": "RD07-1291",
+      "path": "adl/tools/codefriend_structure_installed_proof.py",
+      "before": {
+        "mode": "100644",
+        "blob": "697fc50ad9d68e4e0032c3f066f39847f2f88bc2",
+        "sha256": "6427cb011566ab74a28f2d1a429847941da13f48be8edeb00c5e02d93a609009"
+      },
+      "after": null,
+      "rollback": {
+        "archive_member": "source/adl/tools/codefriend_structure_installed_proof.py",
+        "mode": "0o644",
+        "current_bytes_match_archive": true,
+        "archive_member_sha256": "6427cb011566ab74a28f2d1a429847941da13f48be8edeb00c5e02d93a609009",
+        "supplement_required": false
+      },
+      "owner_successor": {
+        "repository": "agent-logic/codefriend",
+        "candidate": "e93a457ad6325017627a66a2abe31a3376fa28fd",
+        "path": "tools/installed_proof/codefriend_structure_installed_proof.py",
+        "source_sha256": "2539080656c562aff89c72054b1a39cbb4851c52da404c701a411e39c6ae6b1e"
+      },
+      "qualification": {
+        "family": "structure",
+        "scenario_count": 9,
+        "evidence": "consumer-results-r4/results/structure/proof.json",
+        "sha256": "26dffab95f1fc67d9e1736f4a48533ee9e37f5d58cb9dff31fb3e94804e3e6d9",
+        "installation_provenance": {
+          "schema": "codefriend.product_installation.v1",
+          "archive_sha256": "9bb54979951435d136e153d74369fe8d4baf28b65ae71078d2e38a6e001f5a14",
+          "candidate": "e93a457ad6325017627a66a2abe31a3376fa28fd",
+          "product_manifest_sha256": "7b0f2aea95df33c1fd39bfee1805ace557075cd5eef288c5388a439bd1bc0e77",
+          "run_id": "38381695706",
+          "run_attempt": "1",
+          "artifact_id": "11804671827",
+          "workflow_ref": "agent-logic/codefriend/.github/workflows/product-ci.yaml@refs/pull/105/merge",
+          "workflow_sha": "6bbc8554bf3a18ff1e9a93f29cc4aa8eb5a64cb5",
+          "job_name": "installed-product",
+          "job_id": "115243615242",
+          "authentication": "external_owner_pins_not_self_authorization"
+        }
+      }
+    }
+  ],
+  "modified": [
+    {
+      "path": "adl/tests/fixtures/codefriend/drift/PVF.json",
+      "before": {
+        "mode": "100644",
+        "blob": "2dff0b263497944f24605a2331117af576357f05",
+        "sha256": "87bd3986322463b4fd5ecfb57e98b90eca9af07e11a42becd1484868bb0ba90c"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "af5685ee643f577cd1891ddb730bae5931322b27",
+        "sha256": "cdf03a353a394956ae27e8bde243261201d6c77ff6d0c016ebfec6ff680f2688"
+      },
+      "prior_ledger_disposition": "proposed_remove_with_entire_source_family"
+    },
+    {
+      "path": "adl/tests/fixtures/codefriend/impact/PVF.json",
+      "before": {
+        "mode": "100644",
+        "blob": "4100a41132bbaa87e4b33c0a65ad3a20cf98f800",
+        "sha256": "cfac9c2664ca13219f7bc00881362057d90c1364361d325ce5addb467a8d2e17"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "fc16a9189eaf948d2301ff0e9b0ec5d4159d9617",
+        "sha256": "3ae51edfe9371b7854580b916a50ff7e4c1783e04262b2ab76d526577e1c849b"
+      },
+      "prior_ledger_disposition": "proposed_remove_with_entire_source_family"
+    },
+    {
+      "path": "adl/tests/fixtures/codefriend/palace/PVF.json",
+      "before": {
+        "mode": "100644",
+        "blob": "dbc9e0660d88b75e1bf00a9594124ac0bd7e3baf",
+        "sha256": "51f7d28e430724b1afb31c370a0adf4ea45cfd523d85d1ff8b87d3311cf12e13"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "566da116c27b3d5c325d002eb161de6d9a21a0f9",
+        "sha256": "a753ef636c9dd028430cdb0b21964b1cfc61e2ceee45314c7c0e3e23ae164737"
+      },
+      "prior_ledger_disposition": "proposed_remove_with_entire_source_family"
+    },
+    {
+      "path": "adl/tests/fixtures/codefriend/rationale/PVF.json",
+      "before": {
+        "mode": "100644",
+        "blob": "c463e861a508dfa450af6ce41a14626169769e98",
+        "sha256": "3a63cbceeaeb47642ef9dbd22059069a4f643209485db8db071a8d667178b6c3"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "9111d3a8ad07ab5baf3d8388df6373fffd0eb74f",
+        "sha256": "15b4765d2adcd2869533a96af60c1a22245d995f8cef67943bfec0abcf416f11"
+      },
+      "prior_ledger_disposition": "proposed_remove_with_entire_source_family"
+    },
+    {
+      "path": "docs/codefriend/CHANGE_IMPACT.md",
+      "before": {
+        "mode": "100644",
+        "blob": "a095a6dd5001c088aecaf2361cac4b7e6121f5ba",
+        "sha256": "aaf1428f722e77d005dfe7a44dc8e736f2285f4cb3abf06485fee6a50ca4a27f"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "0187ae5ed39947ce7f73f253eb34cbb925f2b162",
+        "sha256": "c9ed96f148cb8effae6fd8de2cec72581646beb0ac490ac23ba240e81c993d46"
+      },
+      "prior_ledger_disposition": "proposed_owner_transfer_with_consumer_qualification"
+    },
+    {
+      "path": "docs/codefriend/LOCAL_FITNESS_PROOF_INVENTORY.json",
+      "before": {
+        "mode": "100644",
+        "blob": "900dc7d104913ef79098eef7f7f94206faf68df0",
+        "sha256": "1c880486b9cf316f52077313a7b63ce731105fbb8e1a8810237531908b0df976"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "8fc6178286747889eddf9d84e2cfc9412ea0fd3e",
+        "sha256": "0114cd8e31ae78616d39887ef94f9c3648ad1b8c346170c9925bca2a75ca0166"
+      },
+      "prior_ledger_disposition": "retain_resolved"
+    },
+    {
+      "path": "docs/codefriend/MEMORY_PALACE.md",
+      "before": {
+        "mode": "100644",
+        "blob": "ff4d6b3233be6b9956f739e6403d131cfd349094",
+        "sha256": "87aaf8bf4f37a1cbcead35c4b84669f7ee6dec454d7b08174befb4ca29246e60"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "b1f03f0f71242a2746c8f91bb5e2d4a7a62c8434",
+        "sha256": "483d3c3cdda07b4e270899b22a0be519eb66dffac00e81488ffaf2f06639ac1f"
+      },
+      "prior_ledger_disposition": "proposed_owner_transfer_with_consumer_qualification"
+    },
+    {
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "before": {
+        "mode": "100644",
+        "blob": "d93a263899bc94af09e9013b8d57b164bca64d80",
+        "sha256": "08e8eda4f85ccccafa54b2164d75e250c3b1d33c210bbf16b90f1a8d7950a8a9"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "eff5d80e20903d0ee0bf5188bb95088b7f31e5ef",
+        "sha256": "a4b99517b89b36e1e420731083d70b96aec59ec34ffcbab7ab5f0dee1c3e2711"
+      },
+      "prior_ledger_disposition": null
+    }
+  ],
+  "validation": {
+    "all_preimage_git_modes_blobs_and_bytes_verified": true,
+    "patch_apply_check": "passed",
+    "actual_registry_regeneration_matches_reviewed_prospective_output": true,
+    "product_tests_rerun": false,
+    "builds_run": false
+  },
+  "boundary": {
+    "original_inventory": 4134,
+    "broader_371_removal_authorized": false,
+    "additional_files_removed": 6,
+    "source_family_acceptance_expanded": false,
+    "native_publication": false,
+    "guard_overlay_and_ledger_edited": false,
+    "unrelated_dirty_paths_touched": false
+  }
+}

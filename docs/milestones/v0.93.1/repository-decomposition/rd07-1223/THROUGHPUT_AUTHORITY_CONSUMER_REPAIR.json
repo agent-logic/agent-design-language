@@ -1,0 +1,30 @@
+{
+  "status": "reviewed_bounded_documentation_repair_applied",
+  "mode": "repair_doc",
+  "audience": "ADL operators",
+  "paths": [
+    "docs/tooling/DEVELOPER_THROUGHPUT_FAST_LANE.md",
+    "adl/tools/test_developer_throughput_fast_lane.sh"
+  ],
+  "source": "docs/csdlc-v3/CURRENT_AUTHORITY.md lines3-7 and user AGENTS.md",
+  "review": "Exact patch changes three stale v2 authority references and corresponding test assertion only; adds selector/receipt qualification and missing-proof suspension. All other assertions preserved.",
+  "patch_sha256": "05b6d275aa1c821fe9bbefb90b43aecb26a3f7b0a02f558bfe4246d77436ad52",
+  "validation": {
+    "status": "PASS",
+    "exit_code": 0,
+    "paths": [
+      "docs/tooling/DEVELOPER_THROUGHPUT_FAST_LANE.md",
+      "adl/tools/test_developer_throughput_fast_lane.sh"
+    ],
+    "scope": "Three authority references corrected in active throughput policy and exact authority assertion updated. Other original proportionality/FastWork/watching/escalation assertions unchanged; no product/native invocation.",
+    "authority_source": "User-provided AGENTS.md canonical v3 selector and authenticated reconciliation receipt rule.",
+    "action": "Unapplied proposal for sole-writer independent review/adoption; no original removals."
+  },
+  "logs": {
+    "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "native_execution": false,
+  "publication": false,
+  "retirement_authorized": false
+}

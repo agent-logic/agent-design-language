@@ -1,0 +1,991 @@
+{
+  "schema": "adl.source_retirement.independent_repository_builds.v1",
+  "issue": 1223,
+  "requirement": "Before acceptance, freshly clone each code repository affected by the split into its own isolated container and build it separately.",
+  "acceptance_gate": "required",
+  "repository_count": 5,
+  "repositories": [
+    {
+      "repository": "agent-logic/agent-design-language",
+      "observed_revision": "9cfd035aac2a44637b3c8026bd40b669579a8c7f",
+      "execution_revision": "ad8204be76528a2c13ffabf5ee1e2672df475c8b",
+      "status": "passed",
+      "kind": "fresh_clone_public_packages_and_retained_cli",
+      "prior_record": {
+        "repository": "agent-logic/agent-design-language",
+        "observed_revision": "9cfd035aac2a44637b3c8026bd40b669579a8c7f",
+        "execution_revision": "e4d7bf057634c2f0fd6d22421e9ca3e6cb37702e",
+        "status": "partial",
+        "kind": "rust_public_packages",
+        "commands": [
+          [
+            "cargo",
+            "build",
+            "--locked",
+            "--manifest-path",
+            "adl-schema/Cargo.toml"
+          ],
+          [
+            "cargo",
+            "build",
+            "--locked",
+            "--manifest-path",
+            "adl-uts/Cargo.toml"
+          ],
+          [
+            "cargo",
+            "build",
+            "--locked",
+            "--manifest-path",
+            "adl-v2/crates/adl-language/Cargo.toml"
+          ],
+          [
+            "cargo",
+            "build",
+            "--locked",
+            "--manifest-path",
+            "adl-v2/crates/adl-compiler/Cargo.toml"
+          ],
+          [
+            "cargo",
+            "build",
+            "--locked",
+            "--manifest-path",
+            "adl-legacy-contracts/Cargo.toml"
+          ]
+        ],
+        "source": "PUBLIC_PACKAGE_PATH_CLOSURE.json",
+        "note": "Five normalized public artifacts built and passed all 7 consumer and 21 UTS cases in network-disabled Linux. Public CLI has separate retained Linux proof. Dedicated fresh-clone/final-candidate acceptance remains outstanding; neither is claimed by this artifact run.",
+        "artifact_consumer": {
+          "status": "passed",
+          "source_revision": "e4d7bf057634c2f0fd6d22421e9ca3e6cb37702e",
+          "evidence": "FastWork c1223/evidence/public-linux-five-e4d7bf0576",
+          "result_sha256": "4159b40cc8c05ae9bc2a06ef6c0f50d1f5a6cb16206a2ac1a3287e702677195f",
+          "input_sha256": "7e9e88fbbd8c3ea7a9d31a360b1fc38141359d26ff52a18adf6be401c5b05a85",
+          "exit_code": 0,
+          "elapsed_seconds": 29.105,
+          "packages": [
+            {
+              "package": "adl-schema",
+              "version": "0.1.0",
+              "source": "adl-schema",
+              "artifact": "adl-schema-0.1.0.tar",
+              "sha256": "59b160ba52a136489a24cba80e2b9ab1bd4db70d66455cded29fae71a40010f7",
+              "manifest_normalization": "standalone workspace; existing sibling public dependencies retained"
+            },
+            {
+              "package": "adl-uts",
+              "version": "0.1.0",
+              "source": "adl-uts",
+              "artifact": "adl-uts-0.1.0.tar",
+              "sha256": "8d95da463d8840e8ab0c93ad4ac83d3b7eb87398d3f8cca3c039cde908def2ab",
+              "manifest_normalization": "standalone workspace; existing sibling public dependencies retained"
+            },
+            {
+              "package": "adl-language",
+              "version": "0.92.1",
+              "source": "adl-v2/crates/adl-language",
+              "artifact": "adl-language-0.92.1.tar",
+              "sha256": "32ee997b0ab5ec326cfb8b9c2759d00377febdc9da1f71ab91c2e9b6bd58d01c",
+              "manifest_normalization": "standalone workspace; existing sibling public dependencies retained"
+            },
+            {
+              "package": "adl-compiler",
+              "version": "0.92.1",
+              "source": "adl-v2/crates/adl-compiler",
+              "artifact": "adl-compiler-0.92.1.tar",
+              "sha256": "b029bcaf5cd658989d66299710c89749f151e48170a1f180410687907ebe4d7f",
+              "manifest_normalization": "standalone workspace; existing sibling public dependencies retained"
+            },
+            {
+              "package": "adl-legacy-contracts",
+              "version": "0.1.0",
+              "source": "adl-legacy-contracts",
+              "artifact": "adl-legacy-contracts-0.1.0.tar",
+              "sha256": "0af06ee11000ebebc0efc2e24e3c0ef1c330a225dd2e8844a278f7f0cce634d3",
+              "manifest_normalization": "standalone workspace; existing sibling public dependencies retained"
+            }
+          ],
+          "consumer_cases": 7,
+          "uts_fixtures": 21,
+          "argv": [
+            "docker",
+            "--host",
+            "unix:///Volumes/FastWork/c1223/home/split-build/docker.sock",
+            "exec",
+            "--workdir",
+            "/qualification-public-five-e4d7-r2/source/consumer",
+            "--env",
+            "CARGO_BUILD_JOBS=1",
+            "--env",
+            "CARGO_TARGET_DIR=/build-target",
+            "issue1223-runtime-11ce6614",
+            "cargo",
+            "run",
+            "--offline",
+            "--locked",
+            "--quiet"
+          ],
+          "isolation": "Network-disabled Linux container; fresh extracted public artifacts and locked consumer, no private source in extracted tree; reused Runtime qualification container and public dependency cache.",
+          "limits": [
+            "Artifact construction and consumer proof, not a fresh ADL clone in a dedicated new container",
+            "Does not rerun macOS sandbox negative cases or source test/fmt/clippy",
+            "Recorded source only, not final PR-head CI"
+          ]
+        }
+      },
+      "source": "FINAL_VALIDATION.json",
+      "commands_source": {
+        "path": "/Volumes/FastWork/c1223/final-qualification-ad8204be76528a2c13ffabf5ee1e2672df475c8b/linux-r2/run.sh",
+        "sha256": "62d5abad58b8f23b34415aede12fa3e9f2c312afbf1b1c3f632c17c9ec2b44bb"
+      },
+      "evidence": [
+        {
+          "path": "/Volumes/FastWork/c1223/final-qualification-ad8204be76528a2c13ffabf5ee1e2672df475c8b/ROOT_QUALIFICATION_READBACK.json",
+          "sha256": "73b13c25bddb9d202d4188c33e39e6063d7e8c7ddb1c20398bf7e9ef5936c961"
+        },
+        {
+          "path": "/Volumes/FastWork/c1223/final-qualification-ad8204be76528a2c13ffabf5ee1e2672df475c8b/linux-r2/run.sh",
+          "sha256": "62d5abad58b8f23b34415aede12fa3e9f2c312afbf1b1c3f632c17c9ec2b44bb"
+        },
+        {
+          "path": "/Volumes/FastWork/c1223/final-qualification-ad8204be76528a2c13ffabf5ee1e2672df475c8b/linux-r2/INPUT.json",
+          "sha256": "d9244642ffcbacb46786fde1dde5e9f99c778885b5ccf74dd11f715d620a3d23"
+        },
+        {
+          "path": "/Volumes/FastWork/c1223/final-qualification-ad8204be76528a2c13ffabf5ee1e2672df475c8b/linux-r2/RESULT.json",
+          "sha256": "5e1da200ada0db5ef78918f3338af091b8aabb61028172170c2c05407dd768ed"
+        },
+        {
+          "path": "/Volumes/FastWork/c1223/final-qualification-ad8204be76528a2c13ffabf5ee1e2672df475c8b/linux-r2/CONTAINER_FINAL.json",
+          "sha256": "57c3b3d873dcb105da66f8ff793ed57efb37e0adb9d25bd86b86dc0e6a7fa750"
+        },
+        {
+          "path": "/Volumes/FastWork/c1223/final-qualification-ad8204be76528a2c13ffabf5ee1e2672df475c8b/linux-r2/execution.log",
+          "sha256": "e5efac08a23655504597c50406d24429aabe838103513f726ac68c12ddf210c3"
+        }
+      ],
+      "note": "Fresh exact-source Git clone in a dedicated network-disabled container, no host mounts; five full public package test/fmt/clippy lanes and retained public CLI runner passed. Earlier artifact-only partial result preserved. Other repositories retain their exact historical revisions and recorded limits; this matrix is not five simultaneous latest-head builds."
+    },
+    {
+      "repository": "agent-logic/agent-logic-infrastructure",
+      "observed_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+      "execution_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+      "status": "passed",
+      "kind": "infrastructure_and_rust_tooling",
+      "commands": [
+        [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tools/artifacts",
+          "-p",
+          "test_*.py",
+          "-v"
+        ],
+        [
+          "bash",
+          "adl/tools/install_aws_remote_validation_tool.sh"
+        ]
+      ],
+      "source": "README.md and .github/workflows/product-ci.yaml",
+      "note": "The original independent clone/build and failed 27/28 Terraform matrix remain preserved. Existing repaired ALB, focused alb-origin, public-edge and GPU345 proofs reconcile all 28 root configurations under the documented platform-lock correction policy. Exact changed artifact sources match successful PR38 CI; its WP08 1-pass/2-skip result remains explicit. This is original independent build plus affected-source requalification, not a new current whole-repository clone or live acceptance.",
+      "terraform_result": {
+        "repository": "agent-logic/agent-logic-infrastructure",
+        "revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+        "status": "failed",
+        "validated_roots": [
+          "infra/aws/account-foundation",
+          "infra/aws/bootstrap",
+          "infra/aws/csm-public-edge",
+          "infra/aws/csm-runtime-health",
+          "infra/aws/csm-runtime-spot",
+          "infra/aws/observatory",
+          "infra/aws/runtime/agent-checkpoint-archive",
+          "infra/aws/runtime/alb-origin",
+          "infra/aws/runtime/gpu-proof",
+          "infra/aws/runtime/gpu-proof/warm-storage",
+          "infra/aws/runtime/gpu-proof/warm-storage/preparation",
+          "infra/aws/runtime/log-archive",
+          "infra/aws/runtime/private-node",
+          "infra/aws/runtime/xcl-01",
+          "infra/ddns",
+          "infra/gcp/bootstrap",
+          "infra/gcp/organization",
+          "infra/gcp/platform",
+          "infra/gcp/workloads/drt-d-six-resident",
+          "infra/gcp/workloads/gpu-smoke-instance",
+          "infra/gcp/workloads/gpu-smoke-support",
+          "infra/gcp/workloads/modules/two-node-ollama-runtime",
+          "infra/gcp/workloads/warm-polis",
+          "infra/gcp/workloads/warm-polis/preparation",
+          "infra/gcp/workloads/warm-polis/snapshot-catalog",
+          "infra/gcp/workloads/xcl-01",
+          "tools/codefriend_host/terraform"
+        ],
+        "validated_root_count": 27,
+        "total_root_count": 28,
+        "failure": {
+          "root": "infra/aws/csm-runtime-alb",
+          "reason": "Caller passes hosted_zone_id, create_dns_record, create_certificate absent from child module interface",
+          "phase": "terraform get",
+          "source_changed": false
+        },
+        "environment_corrections": [
+          "Signed same-version Linux ARM64 provider hash additions",
+          "Initialize local modules before provider lock",
+          "Python3.12 for tarfile filter extraction contract test"
+        ],
+        "limitations": [
+          "No cloud plan or apply",
+          "Source defect remains unresolved",
+          "AWS adapter compile remains running"
+        ],
+        "logs": {
+          "modules-build.log": "3d0271640feaf27697b24a92e963bb28c2b29c90fef44f47d0eaf9c625a01bb4",
+          "arm64-build.log": "451e164a8687c9d09a73b053c34ab504c4167eca2362a79d3266e5018de932aa"
+        }
+      },
+      "adapter_build_status": "passed",
+      "adapter_build": {
+        "status": "passed",
+        "started_at": 1791862313.431974,
+        "scope": "Compile infrastructure-owned AWS remote-validation adapter using the CI-pinned portable source contract; install only inside isolated container; no AWS operation",
+        "script_sha256": "dd79c5661b2d338cfab53076caf61571cddbe391a05515707420f619484802e2",
+        "exit_code": 0,
+        "finished_at": 1791862798.612522,
+        "log_sha256": "aa7c9da67c02b8546aecec6e340187f3811e98b20ef146377b4dff7f1008bb40",
+        "binary_sha256": "521e73341644833d997657e2718d54908dbb99d90e039c5887d83ebc517756c0"
+      },
+      "reconciliation": {
+        "status": "affected_source_reconciled_using_existing_proof",
+        "matrix_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+        "focused_revision": "5bf3272df8bf51d4573238f2b3dbd75834c45cde",
+        "observed_owner_revision": "5cd48811ef8cdf4df169476c87e14b37b38c5eb9",
+        "prior_result_preserved": "terraform_result and adapter_build unchanged",
+        "proof_reuse": {
+          "schema": "infrastructure-28-root-reconciliation-v1",
+          "current_revision": "5bf3272df8bf51d4573238f2b3dbd75834c45cde",
+          "prior_matrix_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+          "prior_total_roots": 28,
+          "prior_validated_roots": 27,
+          "prior_failure": {
+            "root": "infra/aws/csm-runtime-alb",
+            "reason": "Caller passes hosted_zone_id, create_dns_record, create_certificate absent from child module interface",
+            "phase": "terraform get",
+            "source_changed": false
+          },
+          "alb_issue23_head": "3f0583978b3d7810071b54257824257cf4965127",
+          "alb_wrapper_module_changed_since_issue23": [],
+          "public_edge_candidate": "52726019f14b790bdabe84b2e8e629fbbb6af7de",
+          "public_edge_changed_since_offline_proof": [],
+          "changed_roots_since_matrix": [
+            "infra/aws/csm-public-edge/.terraform.lock.hcl",
+            "infra/aws/csm-runtime-alb/.terraform.lock.hcl",
+            "infra/aws/csm-runtime-alb/README.md",
+            "infra/aws/csm-runtime-alb/variables.tf",
+            "infra/aws/runtime/alb-origin/main.tf",
+            "infra/aws/runtime/gpu-proof/main.tf"
+          ],
+          "current_local_get_result": "focused-roots-5bf3272df8bf/LOCAL_GET_RESULT.json",
+          "current_local_get_outcome": "csm-runtime-alb and runtime/alb-origin both pass terraform get -update=false; local source only, no provider or cloud",
+          "gpu_proof_change": "formatting only; terraform fmt -check passed",
+          "reused_proof": {
+            "alb_wrapper": "/Volumes/FastWork/c1223/infra23-delivery/DELIVERY.json",
+            "public_edge": "public-edge-52726019/QUALIFICATION.json",
+            "prior_matrix": "TERRAFORM_RESULT.json"
+          },
+          "remaining_gap": "Tracked infra/aws/runtime/alb-origin/.terraform.lock.hcl lacks Linux ARM64 provider h1; strict offline readonly init fails. In an isolated qualification copy, terraform providers lock -fs-mirror adds only that h1, and readonly init plus validate then pass. Source Terraform configuration is valid; decide separately whether to commit platform lock hash.",
+          "execution_limit": "No AWS credentials, cloud calls, provider downloads, or broad matrix rerun. Existing cached Linux ARM64 provider was reused from split-build Docker endpoint.",
+          "issue32_interference": "WorkerBee #14 reports #32 changes only GPU345 runner/artifact helper, no Terraform roots or shared container activity.",
+          "focused_linux_arm64_proof": "/Volumes/FastWork/c1223/evidence/infrastructure/focused-roots-5bf3272df8bf/qualification/RESULT.json",
+          "focused_linux_arm64_outcome": {
+            "get": 0,
+            "init-readonly-original-lock": 1,
+            "lock-from-offline-mirror": 0,
+            "init-readonly-augmented-lock": 0,
+            "validate": 0
+          },
+          "qualification_claim": "The previously failed ALB wrapper and the only other semantically changed Terraform root now pass focused offline qualification when the Linux ARM64 provider hash is added to the ephemeral root lock, matching the prior matrix procedure; the tracked lock itself is not offline readonly valid for that provider cache."
+        },
+        "source_correspondence": {
+          "roots": [
+            {
+              "root": "infra/aws/account-foundation",
+              "prior_matrix_to_reconciliation_changes": [],
+              "reconciliation_to_observed_changes": []
+            },
+            {
+              "root": "infra/aws/bootstrap",
+              "prior_matrix_to_reconciliation_changes": [],
+              "reconciliation_to_observed_changes": []
+            },
+            {
+              "root": "infra/aws/csm-public-edge",
+              "prior_matrix_to_reconciliation_changes": [
+                "infra/aws/csm-public-edge/.terraform.lock.hcl"
+              ],
+              "reconciliation_to_observed_changes": []
+            },
+            {
+              "root": "infra/aws/csm-runtime-health",
+              "prior_matrix_to_reconciliation_changes": [],
+              "reconciliation_to_observed_changes": []
+            },
+            {
+              "root": "infra/aws/csm-runtime-spot",
+              "prior_matrix_to_reconciliation_changes": [],
+              "reconciliation_to_observed_changes": []
+            },
+            {
+              "root": "infra/aws/observatory",
+              "prior_matrix_to_reconciliation_changes": [],
+              "reconciliation_to_observed_changes": []
+            },
+            {
+              "root": "infra/aws/runtime/agent-checkpoint-archive",
+              "prior_matrix_to_reconciliation_changes": [],
+              "reconciliation_to_observed_changes": []
+            },
+            {
+              "root": "infra/aws/runtime/alb-origin",
+              "prior_matrix_to_reconciliation_changes": [
+                "infra/aws/runtime/alb-origin/main.tf"
+              ],
+              "reconciliation_to_observed_changes": []
+            },
+            {
+              "root": "infra/aws/runtime/gpu-proof",
+              "prior_matrix_to_reconciliation_changes": [
+                "infra/aws/runtime/gpu-proof/main.tf"
+              ],
+              "reconciliation_to_observed_changes": [
+                "infra/aws/runtime/gpu-proof/.terraform.lock.hcl",
+                "infra/aws/runtime/gpu-proof/main.tf",
+                "infra/aws/runtime/gpu-proof/terraform.tfvars.example",
+                "infra/aws/runtime/gpu-proof/tests/issue345_deadline.tftest.hcl",
+                "infra/aws/runtime/gpu-proof/variables.tf"
+              ]
+            },
+            {
+              "root": "infra/aws/runtime/gpu-proof/warm-storage",
+              "prior_matrix_to_reconciliation_changes": [],
+              "reconciliation_to_observed_changes": []
+            },
+            {
+              "root": "infra/aws/runtime/gpu-proof/warm-storage/preparation",
+              "prior_matrix_to_reconciliation_changes": [],
+              "reconciliation_to_observed_changes": []
+            },
+            {
+              "root": "infra/aws/runtime/log-archive",
+              "prior_matrix_to_reconciliation_changes": [],
+              "reconciliation_to_observed_changes": []
+            },
+            {
+              "root": "infra/aws/runtime/private-node",
+              "prior_matrix_to_reconciliation_changes": [],
+              "reconciliation_to_observed_changes": []
+            },
+            {
+              "root": "infra/aws/runtime/xcl-01",
+              "prior_matrix_to_reconciliation_changes": [],
+              "reconciliation_to_observed_changes": []
+            },
+            {
+              "root": "infra/ddns",
+              "prior_matrix_to_reconciliation_changes": [],
+              "reconciliation_to_observed_changes": []
+            },
+            {
+              "root": "infra/gcp/bootstrap",
+              "prior_matrix_to_reconciliation_changes": [],
+              "reconciliation_to_observed_changes": []
+            },
+            {
+              "root": "infra/gcp/organization",
+              "prior_matrix_to_reconciliation_changes": [],
+              "reconciliation_to_observed_changes": []
+            },
+            {
+              "root": "infra/gcp/platform",
+              "prior_matrix_to_reconciliation_changes": [],
+              "reconciliation_to_observed_changes": []
+            },
+            {
+              "root": "infra/gcp/workloads/drt-d-six-resident",
+              "prior_matrix_to_reconciliation_changes": [],
+              "reconciliation_to_observed_changes": []
+            },
+            {
+              "root": "infra/gcp/workloads/gpu-smoke-instance",
+              "prior_matrix_to_reconciliation_changes": [],
+              "reconciliation_to_observed_changes": []
+            },
+            {
+              "root": "infra/gcp/workloads/gpu-smoke-support",
+              "prior_matrix_to_reconciliation_changes": [],
+              "reconciliation_to_observed_changes": []
+            },
+            {
+              "root": "infra/gcp/workloads/modules/two-node-ollama-runtime",
+              "prior_matrix_to_reconciliation_changes": [],
+              "reconciliation_to_observed_changes": []
+            },
+            {
+              "root": "infra/gcp/workloads/warm-polis",
+              "prior_matrix_to_reconciliation_changes": [],
+              "reconciliation_to_observed_changes": []
+            },
+            {
+              "root": "infra/gcp/workloads/warm-polis/preparation",
+              "prior_matrix_to_reconciliation_changes": [],
+              "reconciliation_to_observed_changes": []
+            },
+            {
+              "root": "infra/gcp/workloads/warm-polis/snapshot-catalog",
+              "prior_matrix_to_reconciliation_changes": [],
+              "reconciliation_to_observed_changes": []
+            },
+            {
+              "root": "infra/gcp/workloads/xcl-01",
+              "prior_matrix_to_reconciliation_changes": [],
+              "reconciliation_to_observed_changes": []
+            },
+            {
+              "root": "tools/codefriend_host/terraform",
+              "prior_matrix_to_reconciliation_changes": [],
+              "reconciliation_to_observed_changes": []
+            },
+            {
+              "root": "infra/aws/csm-runtime-alb",
+              "prior_matrix_to_reconciliation_changes": [
+                "infra/aws/csm-runtime-alb/.terraform.lock.hcl",
+                "infra/aws/csm-runtime-alb/README.md",
+                "infra/aws/csm-runtime-alb/variables.tf"
+              ],
+              "reconciliation_to_observed_changes": []
+            }
+          ],
+          "alb_wrapper_and_child_unchanged_since_issue23": true,
+          "public_edge_and_validator_unchanged_since_offline_proof": true,
+          "alb_origin_unchanged_since_focused_proof": true,
+          "artifact_changes_since_reconciliation": [
+            "tools/artifacts/issue345_runtime_package.py",
+            "tools/artifacts/native-proof/Cargo.toml",
+            "tools/artifacts/native-proof/tests/issue345_artifact_contract.rs",
+            "tools/artifacts/self_test.py",
+            "tools/artifacts/test_issue345_runtime_package.py",
+            "tools/artifacts/test_wp08_support.py"
+          ],
+          "adapter_installer_changes_since_original_build": []
+        },
+        "evidence": [
+          {
+            "path": "/Volumes/FastWork/c1223/evidence/infrastructure/RECONCILIATION-5bf3272.json",
+            "sha256": "c466a48a62b7a8bfe11f7d3164e12e0fab2465fe9fe09aa4b9f99b3a5d9aab34"
+          },
+          {
+            "path": "/Volumes/FastWork/c1223/evidence/infrastructure/TERRAFORM_RESULT.json",
+            "sha256": "77e00076b66710345ae796de3683ece79e5eff3b8d31126350454bff46374a6a"
+          },
+          {
+            "path": "/Volumes/FastWork/c1223/evidence/infrastructure/ADAPTER_RESULT.json",
+            "sha256": "1530b49f5510d488a86479462d7c415a51db4b95486196ec4c6907c6aa522c9c"
+          },
+          {
+            "path": "/Volumes/FastWork/c1223/evidence/infrastructure/RESULT.json",
+            "sha256": "5564111ec4b3be6367691aca475e0c4f241a188c14ba70c267ff78b3f8cfc97e"
+          },
+          {
+            "path": "/Volumes/FastWork/c1223/evidence/infrastructure/focused-roots-5bf3272df8bf/LOCAL_GET_RESULT.json",
+            "sha256": "3ff2dc2feacf0f8f506022e792bd8f7b0f2812857d5ebcf9e4a9096d3fa5743b"
+          },
+          {
+            "path": "/Volumes/FastWork/c1223/evidence/infrastructure/focused-roots-5bf3272df8bf/qualification/RESULT.json",
+            "sha256": "6380b99646ffc1273fad7d689d6144b5107db29b50c5e10a205c0b389c675539"
+          },
+          {
+            "path": "/Volumes/FastWork/c1223/evidence/infrastructure/public-edge-52726019/QUALIFICATION.json",
+            "sha256": "8d89366a1d68a42610c71ba129021c7d921dd7cabe6e21d0af1f14d837b0ac3a"
+          },
+          {
+            "path": "/Volumes/FastWork/c1223/infra23-delivery/DELIVERY.json",
+            "sha256": "1b329a1dc1f9eab416a1a7fd3f3bb1c31e5ac2ccaf5ec10280aea838f32eca20"
+          },
+          {
+            "path": "/Volumes/FastWork/c1223/evidence/infrastructure/public-edge-52726019/PREPARATION.json",
+            "sha256": "4ba22b27ec1b4c75fe653dfba1d20163ee0dc822eba3d26526bbeb84d4522fd4"
+          },
+          {
+            "path": "/Volumes/FastWork/c1223/evidence/infrastructure/public-edge-52726019/run-in-container.py",
+            "sha256": "f68586de925399f570b313422577fc3a9a1bec7027d2440dc2cb270eaf8eb1b6"
+          },
+          {
+            "path": "/Volumes/FastWork/c1223/evidence/infrastructure/public-edge-52726019/container-inspect.json",
+            "sha256": "17dc7a5e71e23a33ad564dad04bd2de0a03d526d54f234329a7756031aba99fe"
+          },
+          {
+            "path": "/Volumes/FastWork/c1223/evidence/infrastructure/public-edge-52726019/qualification/RESULT.json",
+            "sha256": "7b4b49910fe9d0e9cb2fd9e2299bef594488048df160fba7b5775c1f64f3182e"
+          },
+          {
+            "path": "/Volumes/FastWork/c1223/evidence/infrastructure/public-edge-52726019/qualification/stdout",
+            "sha256": "6f341cf02d4c8e59a216b48b7438a8553e35f2d04db852ced9725189e47169ba"
+          },
+          {
+            "path": "/Volumes/FastWork/c1223/evidence/infrastructure/public-edge-52726019/qualification/stderr",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "/Volumes/FastWork/c1223/evidence/infrastructure/public-edge-52726019/qualification/terraform-version.json",
+            "sha256": "e9b33368ede7815aebd4d63228d16a555a3e911a56f3e77c5b8d98df9970472a"
+          },
+          {
+            "path": "/Volumes/FastWork/c1223/evidence/infrastructure/focused-roots-5bf3272df8bf/qualification/get.stdout",
+            "sha256": "5b936c336c9f575105a63befcdab96ef2d16ad577d91dffa0a34330e1619dac8"
+          },
+          {
+            "path": "/Volumes/FastWork/c1223/evidence/infrastructure/focused-roots-5bf3272df8bf/qualification/init-readonly-augmented-lock.stdout",
+            "sha256": "68d1aa39064235dae47d987f838b1285bbbed71fc6b66690ef77b493f5a803a0"
+          },
+          {
+            "path": "/Volumes/FastWork/c1223/evidence/infrastructure/focused-roots-5bf3272df8bf/qualification/init-readonly-original-lock.stdout",
+            "sha256": "60b61f85e63119d7b2100be0b8716fa4905a70c73613216efa80881999f8d47a"
+          },
+          {
+            "path": "/Volumes/FastWork/c1223/evidence/infrastructure/focused-roots-5bf3272df8bf/qualification/lock-from-offline-mirror.stdout",
+            "sha256": "58fbbb0c2ea446acc403eb1b992ac201c9579101f6f8678c3941233af510a383"
+          },
+          {
+            "path": "/Volumes/FastWork/c1223/evidence/infrastructure/focused-roots-5bf3272df8bf/qualification/validate.stdout",
+            "sha256": "f7997225125835fdd14060ac776d273f394b874f9a481b9e2122c83dc8adc5c1"
+          },
+          {
+            "path": "/Volumes/FastWork/c1223/evidence/infrastructure/focused-roots-5bf3272df8bf/qualification/get.stderr",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "/Volumes/FastWork/c1223/evidence/infrastructure/focused-roots-5bf3272df8bf/qualification/init-readonly-augmented-lock.stderr",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "/Volumes/FastWork/c1223/evidence/infrastructure/focused-roots-5bf3272df8bf/qualification/init-readonly-original-lock.stderr",
+            "sha256": "21d2bb8c936012e93dbc516b816f8e92611642e515498fae3f482ebb7215f3a0"
+          },
+          {
+            "path": "/Volumes/FastWork/c1223/evidence/infrastructure/focused-roots-5bf3272df8bf/qualification/lock-from-offline-mirror.stderr",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "/Volumes/FastWork/c1223/evidence/infrastructure/focused-roots-5bf3272df8bf/qualification/validate.stderr",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "/Volumes/FastWork/c1223/infra23-delivery/modes-r7.log",
+            "sha256": "b05b33c97946bdeb7732de984e7c82c8321912db043c3e1aa2d2bc5dfbc7f9db"
+          },
+          {
+            "path": "/Volumes/FastWork/c1223/infra23-delivery/validate-final.log",
+            "sha256": "f7997225125835fdd14060ac776d273f394b874f9a481b9e2122c83dc8adc5c1"
+          },
+          {
+            "path": "/Volumes/FastWork/c1223/infra23-delivery/ci-corrected-jobs.json",
+            "sha256": "9e0c2f3008ca57cde3bad8af4a85ddea011643b2a8333b36e41da4c43dd8ee05"
+          },
+          {
+            "path": "/Volumes/FastWork/c1223/wp08-owner-delivery/pr38-green.json",
+            "sha256": "d84fc820bfeb796f3c492360971aaa22edb305fbfdc2ff34c19dd4b2d0555673"
+          },
+          {
+            "path": "/Volumes/FastWork/c1223/infrastructure212-prepared-patch/infra34-merge-ci-readback.json",
+            "sha256": "e1263da9c8a32fed3bdc0a816d2920e6ddd53baa11e555e59bbb1a16f3047a70"
+          },
+          {
+            "path": "/Volumes/FastWork/c1223/wp08-owner-delivery/ci-fast-contracts.log",
+            "sha256": "95698e0d080bc21e6c97e8268f85ac0ed1aed400011cb8c96db8d9a9429b84e3"
+          },
+          {
+            "path": "/Volumes/FastWork/c1223/wp08-owner-delivery/proof37-srp.json",
+            "sha256": "209097f0d075048c354400c56a081432684da91f5c092d2db6aa0fb15ba8e1eb"
+          }
+        ],
+        "acceptance_boundary": [
+          "Original dedicated independent clone/build is preserved at ed02; affected-file follow-ups and exact source correspondence support the recorded rerun-affected-only policy. This is not a new fresh clone of current5cd48811.",
+          "Twenty-eight Terraform root configurations are reconciled across the original27 successful roots, repaired ALB wrapper, focused alb-origin and exact GPU/public-edge follow-ups; not a single newly executed28-root matrix.",
+          "Platform lock qualification remains explicit: original alb-origin readonly Linux ARM64 init failed; isolated augmentation from the existing provider mirror then init/validate passed, matching prior matrix platform correction. No claim unchanged tracked lock works readonly against that ARM64 cache.",
+          "Current GPU/artifact changes are now matched to existing CI proof at an identical source tree; no new validation executed for this reconciliation.",
+          "WP08 construction result remains1 passed/2 skipped; these skips are not current live heartbeat, Polis or installed Runtime acceptance.",
+          "No cloud plan/apply, credentials, provider downloads or live execution performed by this reconciliation."
+        ],
+        "affected_source_proof": {
+          "current_revision": "5cd48811ef8cdf4df169476c87e14b37b38c5eb9",
+          "current_tree": "0153feeab972be17ad65718c28e441f7f45e6658",
+          "ci_revision": "227e5fc798837ed596376284a0c267f3ee9e1b04",
+          "ci_tree_identical": true,
+          "gpu_tree_unchanged_since": "61c2806b6274b1003aa42f02adec99faf5f2a74b",
+          "changed_source_identities": [
+            {
+              "path": "infra/aws/runtime/gpu-proof/.terraform.lock.hcl",
+              "mode": "100644",
+              "blob": "d3dc9365fd1e06f2b40af1e274c4bda4c94c3ca3",
+              "sha256": "cc3c53200eb7a7d7d8f5fb26d988db1768bf3dac77e37afc9ce72b8260d445e5",
+              "proof_revision": "61c2806b6274b1003aa42f02adec99faf5f2a74b"
+            },
+            {
+              "path": "infra/aws/runtime/gpu-proof/main.tf",
+              "mode": "100644",
+              "blob": "dc5e15c7d4c96a1895928334cc93cd7fde058e7a",
+              "sha256": "32309024d6c668ae3183cc7726b6a9a6d6701df1be3cc4a0fc84a9ea499f0f7a",
+              "proof_revision": "61c2806b6274b1003aa42f02adec99faf5f2a74b"
+            },
+            {
+              "path": "infra/aws/runtime/gpu-proof/terraform.tfvars.example",
+              "mode": "100644",
+              "blob": "368b32a99ad51952cc6bc48b00748854076df01f",
+              "sha256": "bd2c2da2c745a1bad1d86c2cfb285037075adc1511ff241296fe5264aadaf417",
+              "proof_revision": "61c2806b6274b1003aa42f02adec99faf5f2a74b"
+            },
+            {
+              "path": "infra/aws/runtime/gpu-proof/tests/issue345_deadline.tftest.hcl",
+              "mode": "100644",
+              "blob": "d2009dd220ec4622c3355593b1db5424027a7185",
+              "sha256": "3d255e8a460ca36aae4eaa869ef83e7ce4e06015a5a1c20a864eba94f51df3b3",
+              "proof_revision": "61c2806b6274b1003aa42f02adec99faf5f2a74b"
+            },
+            {
+              "path": "infra/aws/runtime/gpu-proof/variables.tf",
+              "mode": "100644",
+              "blob": "ec201e526febdc4ce024be6a1a233a2427d71058",
+              "sha256": "68698cc93933f47f468854700dfdee606ba178c3f69a5fd06cddb26144b9e663",
+              "proof_revision": "61c2806b6274b1003aa42f02adec99faf5f2a74b"
+            },
+            {
+              "path": "tools/artifacts/issue345_runtime_package.py",
+              "mode": "100644",
+              "blob": "eca9e407c09976552e091f3ae93efbfd78e0d0c2",
+              "sha256": "c5122e8bf2964cb32b7e9e517bb5b8b417e942a11d01c64f84832f53038c34fe",
+              "proof_revision": "227e5fc798837ed596376284a0c267f3ee9e1b04"
+            },
+            {
+              "path": "tools/artifacts/native-proof/Cargo.toml",
+              "mode": "100644",
+              "blob": "da6e5eed647da16e5a5edb3cf3944ac79a74bc54",
+              "sha256": "e40d414d4e7abd764e59891af1b4ef11a180e80b6fa79565972c6cb97b20e986",
+              "proof_revision": "227e5fc798837ed596376284a0c267f3ee9e1b04"
+            },
+            {
+              "path": "tools/artifacts/native-proof/tests/issue345_artifact_contract.rs",
+              "mode": "100644",
+              "blob": "304867ebacfe13c2a720d2afc2943215b3261242",
+              "sha256": "7d0d313b68a710502a4e49364fd124ed2310e58e30d1ee927c847fd18f0f1701",
+              "proof_revision": "227e5fc798837ed596376284a0c267f3ee9e1b04"
+            },
+            {
+              "path": "tools/artifacts/self_test.py",
+              "mode": "100644",
+              "blob": "d8c1321204508bbb94f2f146e17b40611a6a8e97",
+              "sha256": "5bd462e3a68691214d2e4c3c0d85f96edcb71c549d9dd957e07a4e9ff9bdc4e6",
+              "proof_revision": "227e5fc798837ed596376284a0c267f3ee9e1b04"
+            },
+            {
+              "path": "tools/artifacts/test_issue345_runtime_package.py",
+              "mode": "100644",
+              "blob": "d5b6c473476be9ff9f5bdbeb21a4345d13f32d99",
+              "sha256": "970c63c1547448264aa88283c604cb15bdffd532598814d0d426464eb3d71e67",
+              "proof_revision": "227e5fc798837ed596376284a0c267f3ee9e1b04"
+            },
+            {
+              "path": "tools/artifacts/test_wp08_support.py",
+              "mode": "100644",
+              "blob": "0de5a6e57be55a505f80e9bf85976c6aca0e1559",
+              "sha256": "cc0ed079a2818c3a4023b013ab0fc341510fa0796252a816e1026d2e9130aa09",
+              "proof_revision": "227e5fc798837ed596376284a0c267f3ee9e1b04"
+            }
+          ],
+          "gpu_terraform_commands": [
+            "terraform -chdir=infra/aws/runtime/gpu-proof init -backend=false -input=false -lockfile=readonly -no-color",
+            "terraform -chdir=infra/aws/runtime/gpu-proof fmt -check -recursive",
+            "terraform -chdir=infra/aws/runtime/gpu-proof validate -no-color",
+            "terraform -chdir=infra/aws/runtime/gpu-proof test -filter=tests/issue345_deadline.tftest.hcl -no-color"
+          ],
+          "gpu_ci_run": 38450584559,
+          "current_ci_run": 38502423730,
+          "artifact_proof": {
+            "issue345_original_python_methods": 4,
+            "offline_runner_contract": "pass; paid_launches=0; live_equivalence_proved=false",
+            "construction_suites": [
+              {
+                "suite": "WP08 support",
+                "passed": 1,
+                "skipped": 2
+              },
+              {
+                "suite": "artifact verification",
+                "passed": 10
+              },
+              {
+                "suite": "bootstrap",
+                "passed": 24
+              },
+              {
+                "suite": "assembly",
+                "passed": 4
+              }
+            ],
+            "connected_contracts": {
+              "passed": 47,
+              "skipped": 0
+            },
+            "counts_boundary": "Separate nested suite counts, not additive with CI jobs or native proof; two WP08 skips remain."
+          },
+          "workflow_source_identity": {
+            "path": ".github/workflows/product-ci.yaml",
+            "revision": "61c2806b6274b1003aa42f02adec99faf5f2a74b",
+            "blob": "f48a168276d70d44b3cca7d3f594744688bec1dd"
+          }
+        }
+      },
+      "reconciled_revision": "5cd48811ef8cdf4df169476c87e14b37b38c5eb9",
+      "acceptance_class": "independent_original_build_plus_exact_affected_source_requalification",
+      "prior_record_status": "failed"
+    },
+    {
+      "repository": "agent-logic/agent-logic-runtime",
+      "observed_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+      "execution_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+      "status": "passed",
+      "kind": "rust_product",
+      "commands": [
+        [
+          "cargo",
+          "build",
+          "--locked",
+          "--manifest-path",
+          "adl-runtime-kernel/Cargo.toml",
+          "--bin",
+          "adl-runtime-kernel"
+        ],
+        [
+          "cargo",
+          "build",
+          "--locked",
+          "--manifest-path",
+          "adl-runtime/Cargo.toml",
+          "--bin",
+          "adl-runtime-guardian",
+          "--bin",
+          "adl-observatory-static"
+        ],
+        [
+          "cargo",
+          "build",
+          "--locked",
+          "--manifest-path",
+          "adl/Cargo.toml",
+          "--bin",
+          "adl-runtime",
+          "--bin",
+          "csm",
+          "--bin",
+          "csmctl"
+        ],
+        [
+          "cargo",
+          "build",
+          "--locked",
+          "--all-features",
+          "--manifest-path",
+          "agent-product-support/Cargo.toml"
+        ]
+      ],
+      "source": "tools/packaging/ci_package.py BUILDS and README.md at observed_revision",
+      "note": "Compile all six product binaries plus the shared library in the isolated Linux container with Rust 1.92.0. Commands use the documented product build graph. The macOS-only packaging wrapper is not used or relabelled as Linux package qualification. Do not activate or replace Runtime.",
+      "evidence": {
+        "revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "image_digest": "rust@sha256:e90e846de4124376164ddfbaab4b0774c7bdeef5e738866295e5a90a34a307a2",
+        "architecture": "arm64",
+        "exit_code": 0,
+        "binary_sha256": {
+          "adl-runtime-kernel": "c431dfc3377fd6f6eba03b316f61faab168cbf2ec0a50ca04f0632d2834d63c0",
+          "adl-runtime-guardian": "6dfdd54c2c8e206d17498aee61b5b5c05216c8cb4262d9613eb6f6a2492fec5f",
+          "adl-observatory-static": "41bb6806cef533711a0ac75cac3d7f7dd44650efd10a00475aa0b5f9dc6624e7",
+          "adl-runtime": "28a324cb0a307ca5851ee0b1c102578accf7a7580a278c44c9a2f754d15617d5",
+          "csm": "d885069770c8a5a7b68abbf6fd61439de7e7e4c2a58b808b40e7dab377c66be8",
+          "csmctl": "05c575332da62bf8a009e90e543ff25cb4ec5d9e79595a847f8ce282a12d2a4e"
+        },
+        "first_attempt": {
+          "status": "failed",
+          "cause": "cgroup memory limit; two compiler processes OOM-killed",
+          "log_sha256": "a44890a04fd81079bb72461404f0e901448eb2e90ece900ee53593b33e929b54"
+        },
+        "second_attempt": {
+          "status": "passed",
+          "cargo_build_jobs": 1,
+          "scope": "failed CLI command and remaining library only; earlier successful kernel/guardian/Observatory commands retained",
+          "log_sha256": "94d7e08a87734453d034266f7d79b845697dbc214549df276d96836082dfe423"
+        },
+        "container_inspection_sha256": "5a3f6bc7326aa34666fe5886b9f7e6ac52e2f1aabef6e0abff782b223525ec8b",
+        "credential_removed_after_checkout": true,
+        "host_source_mounts": false,
+        "evidence_location": "FastWork c1223/evidence/agent-logic-runtime",
+        "runtime_activated": false
+      },
+      "container_execution": {
+        "test": "guardian_lease_loss_checkpoints_and_stops_the_real_kernel",
+        "result": "passed",
+        "test_count": 1,
+        "filtered_tests": 7,
+        "repository": "agent-logic/agent-logic-runtime",
+        "revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "execution": "real kernel subprocess in isolated Linux container with synthetic init, keys, loopback, continuity state",
+        "assertions": [
+          "Guardian lease handshake",
+          "control_ready event",
+          "clean shutdown after lease loss",
+          "generation-1 signed ed25519 checkpoint"
+        ],
+        "log_sha256": "f370bcdf92ab6eacab089de8f79ae826e75524d7360c3970fdac5af0ce91c194",
+        "binary_sha256": "5c42d71edf564422670171cfe0eb3b76fc90be0bf49e7e85172cec3fc0f68552",
+        "production_deployment_changed": false,
+        "hosted_inference_tested": false
+      }
+    },
+    {
+      "repository": "agent-logic/codefriend",
+      "observed_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
+      "execution_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
+      "status": "passed",
+      "kind": "rust_product",
+      "commands": [
+        [
+          "cargo",
+          "+1.92.0",
+          "fetch",
+          "--locked"
+        ],
+        [
+          "cargo",
+          "+1.92.0",
+          "build",
+          "--offline",
+          "--locked",
+          "--release",
+          "-p",
+          "codefriend",
+          "--bins"
+        ]
+      ],
+      "source": "README.md",
+      "note": "First acquire and verify the independently authenticated agent-product-support source archive using tools/shared_library_artifact.py; record exact archive and producer identity. Download locked public dependencies inside this container before offline build. No sibling Runtime checkout.",
+      "evidence": {
+        "revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
+        "image_digest": "rust@sha256:e90e846de4124376164ddfbaab4b0774c7bdeef5e738866295e5a90a34a307a2",
+        "architecture": "arm64",
+        "exit_code": 0,
+        "binary_sha256": {
+          "codefriend": "712140dbd24c221ae19693513bee6f049509a05f3f7f9ad3c1131a59f1ceba07",
+          "codefriend-agent": "11b6b19d9f30dbe4d9001701b63f8af4a0e1abf12ac3eadf9775e52a21cc8c2f",
+          "codefriend-server": "45f4d817e70889122db27ad18a9b4d7e8eacb72d7a4c4b5ab5c0227050d584a9"
+        },
+        "log_sha256": "a6cf593aff7060518edda9388bb61826945be7e5479bd6fadd9b47114c078ee6",
+        "result_sha256": "a4417deda5fd155dd94a019458e796843a5b8daf96d4c783ca4fc0a2286b5039",
+        "credential_removed_after_checkout": true,
+        "host_source_mounts": false,
+        "evidence_location": "FastWork c1223/evidence/codefriend",
+        "dependency_source": "Pinned agent-product-support archive acquired and verified inside fresh container; no sibling checkout"
+      }
+    },
+    {
+      "repository": "agent-logic/cognitive-sdlc",
+      "observed_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+      "execution_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+      "status": "passed",
+      "kind": "rust_product",
+      "commands": [
+        [
+          "cargo",
+          "+1.92.0",
+          "build",
+          "--release",
+          "--locked",
+          "--manifest-path",
+          "csdlc-v3/Cargo.toml",
+          "--bin",
+          "csdlc"
+        ]
+      ],
+      "source": ".github/workflows/owner-package.yml",
+      "note": "Build only. No owner installation or lifecycle commands in the container.",
+      "evidence": {
+        "revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "image_digest": "rust@sha256:e90e846de4124376164ddfbaab4b0774c7bdeef5e738866295e5a90a34a307a2",
+        "architecture": "arm64",
+        "exit_code": 0,
+        "binary_sha256": "0111738e16f13a322d5c1e0a444617aae5465231bcdcc0a108014618050361e0",
+        "log_sha256": "3ac2538db482df1a9aaffea6887d1231787e8e2aef09ecfb8dd97970a21e5f32",
+        "container_inspection_sha256": "e7821a0b90a7715fa493e9ab896ffe2105e2c54f0f1b46cc310b2c1f6c81f26b",
+        "result_sha256": "ea9aa6cd9d87c5e01fa138bbf958410a4e7067fc60b219166c255d3778411f69",
+        "credential_removed_after_checkout": true,
+        "host_source_mounts": false,
+        "source": "independent fresh GitHub clone",
+        "evidence_location": "FastWork c1223/evidence/cognitive-sdlc"
+      }
+    }
+  ],
+  "isolation": {
+    "one_fresh_container_and_clone_per_repository": true,
+    "host_source_mounts": false,
+    "sibling_checkouts": false,
+    "host_target_directories": false,
+    "prebuilt_project_outputs": false,
+    "declared_external_dependencies": "allowed; pin source/artifact identity and record acquisition",
+    "credential_handling": "ephemeral clone/acquisition credential only; no image, log, remote URL or retained filesystem credential",
+    "storage": "Docker data, builds, caches, temporary files and evidence on FastWork",
+    "runtime_activation": false,
+    "csdlc_lifecycle_execution": false,
+    "exception": "Prior ADL artifact-only container reuse is preserved in prior_summary and prior_record; final ADL dedicated fresh-clone qualification resolves that exception. Other recorded repository revisions and limitations remain unchanged."
+  },
+  "execution_policy": "Run once per selected final candidate. Fix independence failures and rerun affected repositories only. Record all failed attempts.",
+  "required_evidence": [
+    "repository and exact clone commit",
+    "container image digest and platform",
+    "toolchain versions",
+    "dependency identity and acquisition provenance",
+    "exact commands and exit codes",
+    "stdout/stderr logs without credentials",
+    "container mount inspection",
+    "produced artifact inventory and hashes",
+    "per-repository result including explicit no-compiler disposition"
+  ],
+  "proof_executed": true,
+  "cards_sync": "Pending supported native authority; this packet records the acceptance requirement now and does not claim a successful native card update.",
+  "scope_clarification": "Operator excludes websites and unrelated non-code repositories. Infrastructure remains in scope for split Terraform and executable tooling; validation does not deploy cloud resources.",
+  "excluded_repositories": [
+    "agent-logic/codefriend.ai",
+    "agent-logic/agent-logic.ai"
+  ],
+  "completed_repositories": 5,
+  "all_repositories_passed": true,
+  "prior_summary": {
+    "completed_repositories": 4,
+    "all_repositories_passed": false,
+    "isolation": {
+      "one_fresh_container_and_clone_per_repository": false,
+      "host_source_mounts": false,
+      "sibling_checkouts": false,
+      "host_target_directories": false,
+      "prebuilt_project_outputs": false,
+      "declared_external_dependencies": "allowed; pin source/artifact identity and record acquisition",
+      "credential_handling": "ephemeral clone/acquisition credential only; no image, log, remote URL or retained filesystem credential",
+      "storage": "Docker data, builds, caches, temporary files and evidence on FastWork",
+      "runtime_activation": false,
+      "csdlc_lifecycle_execution": false,
+      "exception": "ADL artifact proof reused the isolated Runtime container with a distinct public-only extraction; dedicated fresh-clone requirement remains outstanding."
+    }
+  },
+  "passed_repository_count": 5
+}

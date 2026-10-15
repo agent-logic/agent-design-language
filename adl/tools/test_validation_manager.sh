@@ -312,37 +312,7 @@ assert not any(
 assert "rust_pr_fast" not in profile["selector_plan"]["lanes"]
 PY
 
-unity_observatory="$TMP/unity-observatory.txt"
-cat >"$unity_observatory" <<'EOF'
-M	demos/v0.91.6/unity-observatory/Assets/Resources/observatory_contract.json
-M	demos/v0.91.6/unity-observatory/Assets/Scripts/UnityObservatoryBootstrap.cs
-M	adl/tools/test_v0916_unity_observatory_soak_integration.sh
-M	adl/tools/test_v0916_unity_observatory_unity65_smoke.sh
-EOF
-bash "$SCRIPT" --changed-files "$unity_observatory" --json >"$TMP/unity-observatory.json"
-python3 - <<'PY' "$TMP/unity-observatory.json"
-import json
-import sys
-
-profile = json.load(open(sys.argv[1]))
-assert profile["schema_version"] == "adl.validation_profile.v1"
-assert profile["selected_profile"] == "unity_observatory_contract_surface_profile"
-assert profile["status"] == "ready_to_run"
-assert profile["pr_publication_sufficient"] is True
-assert [item["lane_id"] for item in profile["run"]] == ["unity_observatory_contract_surface"]
-surface = profile["behavior_surfaces"][0]
-assert surface["id"] == "demo_contract_unity_observatory_contract_surface"
-assert surface["owner"] == "review"
-assert surface["proof_role"] == "demo_contract"
-assert surface["resource_class"] == "small"
-assert "bash -n adl/tools/test_v0916_unity_observatory_unity65_smoke.sh" in profile["run"][0]["command"]
-assert "test_v0916_unity_observatory_baseline.sh" in profile["run"][0]["command"]
-assert "test_v0916_unity_observatory_contract.sh" in profile["run"][0]["command"]
-assert "test_v0916_unity_observatory_soak_integration.sh" in profile["run"][0]["command"]
-assert "csm_observatory_cli_writes_unity_contract_bundle" in profile["run"][0]["command"]
-assert profile["diagnostics"] == []
-assert profile["escalation"]["required"] is False
-PY
+# Unity-only selector contract retired with the discontinued Observatory project.
 
 runtime="$TMP/runtime.txt"
 printf 'M\tadl/src/runtime_v2/contract_schema.rs\n' >"$runtime"
@@ -625,46 +595,23 @@ if bash "$SCRIPT" --changed-files "$mixed" --run >"$TMP/mixed-run.out" 2>"$TMP/m
 fi
 assert_has "$TMP/mixed-run.err" "refusing --run for non-runnable profile"
 
-workflow_metrics_backfill="$TMP/workflow-metrics-backfill.txt"
-cat >"$workflow_metrics_backfill" <<'EOF'
-M	adl/config/validation_lane_selector.v0.91.6.json
-M	adl/tools/build_v0916_workflow_metric_backfill_inventory.py
-M	adl/tools/test_build_v0916_workflow_metric_backfill_inventory.py
-M	adl/tools/test_select_validation_lanes.sh
-M	adl/tools/test_validation_manager.sh
-M	csdlc-v2/src/github.rs
-M	csdlc-v2/tests/gate_github_actions.rs
-M	docs/milestones/v0.91.6/review/V0916_WORKFLOW_METRIC_BACKFILL_4441.json
-EOF
-bash "$SCRIPT" --changed-files "$workflow_metrics_backfill" --json >"$TMP/workflow-metrics-backfill.json"
-python3 - <<'PY' "$TMP/workflow-metrics-backfill.json"
-import json
-import sys
-
+# The former workflow/owner aggregate fixture is preserved in #1223 custody.
+# Inventory generation remains a distinct public requirement, not owner proof.
+public_inventory="$TMP/public-inventory.txt"
+printf 'M\tadl/tools/validation_inventory.py\nM\tadl/tools/validation_inventory.sh\n' >"$public_inventory"
+bash "$SCRIPT" --changed-files "$public_inventory" --json >"$TMP/public-inventory.json"
+python3 - <<'PYASSERT' "$TMP/public-inventory.json"
+import json, sys
 profile = json.load(open(sys.argv[1]))
 assert profile["schema_version"] == "adl.validation_profile.v1"
-assert profile["selected_profile"] == "selected_4_lane_profile"
 assert profile["status"] == "ready_to_run"
-assert profile["pr_publication_sufficient"] is True
-assert [item["lane_id"] for item in profile["run"]] == [
-    "ci_path_policy_contracts",
-    "csdlc_owner_lane",
-    "csdlc_v2_standalone",
-    "docs_diff_check",
-]
 assert profile["escalation"]["required"] is False
-assert profile["escalation"]["reasons"] == []
 assert profile["diagnostics"] == []
 lanes = {item["lane_id"]: item for item in profile["run"]}
-assert lanes["csdlc_owner_lane"]["matched_paths"] == [
-    "adl/tools/build_v0916_workflow_metric_backfill_inventory.py",
-    "adl/tools/test_build_v0916_workflow_metric_backfill_inventory.py",
-]
-assert lanes["csdlc_v2_standalone"]["matched_paths"] == [
-    "csdlc-v2/src/github.rs",
-    "csdlc-v2/tests/gate_github_actions.rs",
-]
-PY
+assert set(lanes) == {"public_validation_inventory"}
+assert lanes["public_validation_inventory"]["matched_paths"] == [
+    "adl/tools/validation_inventory.py", "adl/tools/validation_inventory.sh"]
+PYASSERT
 
 typed_csdlc_finish="$TMP/typed-csdlc-finish.txt"
 cat >"$typed_csdlc_finish" <<'EOF'
@@ -692,167 +639,87 @@ assert profile["escalation"]["reasons"] == []
 assert profile["diagnostics"] == []
 PY
 
+# Owner component resources are selected explicitly; removed local helpers are
+# historical inputs. The unchanged installer invokes mapped proof once.
 sprint_conductor="$TMP/sprint-conductor.txt"
 cat >"$sprint_conductor" <<'EOF'
-M	adl/tools/skills/sprint-conductor/SKILL.md
-M	adl/tools/skills/sprint-conductor/scripts/issue_goal_metrics.py
-M	adl/tools/test_sprint_conductor_helpers.sh
+M	tools/sprint_contracts/run_owner_correspondence.py
+M	tools/sprint_contracts/owner_inputs.json
 M	adl/tools/test_install_adl_operational_skills.sh
 EOF
 bash "$SCRIPT" --changed-files "$sprint_conductor" --json >"$TMP/sprint-conductor.json"
-python3 - <<'PY' "$TMP/sprint-conductor.json"
-import json
-import sys
-
+python3 - <<'PYASSERT' "$TMP/sprint-conductor.json"
+import json, sys
 profile = json.load(open(sys.argv[1]))
 assert profile["schema_version"] == "adl.validation_profile.v1"
-assert profile["selected_profile"] == "sprint_conductor_contracts_profile"
 assert profile["status"] == "ready_to_run"
 assert profile["pr_publication_sufficient"] is True
 assert [item["lane_id"] for item in profile["run"]] == ["sprint_conductor_contracts"]
-surface_ids = {surface["id"] for surface in profile["behavior_surfaces"]}
-assert "regression_sprint_conductor_contracts" in surface_ids
 assert profile["diagnostics"] == []
 assert profile["escalation"]["required"] is False
-PY
+PYASSERT
 
 sprint_conductor_mixed="$TMP/sprint-conductor-mixed.txt"
-cat >"$sprint_conductor_mixed" <<'EOF'
-M	adl/tools/skills/sprint-conductor/SKILL.md
-M	adl/tools/skills/sprint-conductor/scripts/issue_goal_metrics.py
-M	adl/tools/test_sprint_conductor_helpers.sh
-M	adl/tools/test_install_adl_operational_skills.sh
-M	docs/milestones/v0.91.6/README.md
-EOF
+cat "$sprint_conductor" >"$sprint_conductor_mixed"
+printf 'M\tdocs/milestones/v0.91.6/README.md\n' >>"$sprint_conductor_mixed"
 bash "$SCRIPT" --changed-files "$sprint_conductor_mixed" --json >"$TMP/sprint-conductor-mixed.json"
-python3 - <<'PY' "$TMP/sprint-conductor-mixed.json"
-import json
-import sys
-
+python3 - <<'PYASSERT' "$TMP/sprint-conductor-mixed.json"
+import json, sys
 profile = json.load(open(sys.argv[1]))
-assert profile["schema_version"] == "adl.validation_profile.v1"
 assert profile["status"] == "ready_to_run"
 assert profile["pr_publication_sufficient"] is True
-assert {item["lane_id"] for item in profile["run"]} == {
-    "sprint_conductor_contracts",
-    "docs_diff_check",
-}
-surface_ids = {surface["id"] for surface in profile["behavior_surfaces"]}
-assert "regression_sprint_conductor_contracts" in surface_ids
-assert "diff_hygiene_docs_diff_check" in surface_ids
+assert {item["lane_id"] for item in profile["run"]} == {"sprint_conductor_contracts", "public_docs"}
 assert profile["diagnostics"] == []
 assert profile["escalation"]["required"] is False
-PY
+PYASSERT
 
+# Unknown retired owner paths must still escalate instead of borrowing this lane.
 classifier_followup="$TMP/classifier-followup.txt"
-cat >"$classifier_followup" <<'EOF'
-M	adl/config/validation_lane_selector.v0.91.6.json
-M	adl/tools/ci_path_policy.sh
-M	adl/tools/test_ci_path_policy.sh
-M	adl/tools/test_validation_manager.sh
-M	adl/tools/skills/sprint-conductor/SKILL.md
-M	adl/tools/skills/sprint-conductor/scripts/issue_goal_metrics.py
-M	adl/tools/test_sprint_conductor_helpers.sh
-M	adl/tools/test_install_adl_operational_skills.sh
-M	docs/milestones/v0.91.6/README.md
-EOF
+cat "$sprint_conductor" >"$classifier_followup"
+printf 'M\tcsdlc-v2/src/retired-unmapped-contract.rs\n' >>"$classifier_followup"
 bash "$SCRIPT" --changed-files "$classifier_followup" --json >"$TMP/classifier-followup.json"
-python3 - <<'PY' "$TMP/classifier-followup.json"
-import json
-import sys
-
+python3 - <<'PYASSERT' "$TMP/classifier-followup.json"
+import json, sys
 profile = json.load(open(sys.argv[1]))
-assert profile["schema_version"] == "adl.validation_profile.v1"
-assert profile["status"] == "ready_to_run"
-assert profile["pr_publication_sufficient"] is True
-assert {item["lane_id"] for item in profile["run"]} == {
-    "ci_path_policy_contracts",
-    "sprint_conductor_contracts",
-    "docs_diff_check",
-}
-assert profile["escalation"]["required"] is False
-assert profile["diagnostics"] == []
-PY
+assert profile["pr_publication_sufficient"] is False
+assert profile["escalation"]["required"] is True
+assert profile["status"] != "ready_to_run"
+assert any(d["code"] == "unmapped_review_requires_escalation" for d in profile["diagnostics"])
+PYASSERT
 
-csm_binary_availability="$TMP/csm-binary-availability.txt"
-cat >"$csm_binary_availability" <<'EOF'
-M	adl/src/cli/csm_service_cmd.rs
-M	adl/src/csm_runtime_api.rs
-M	adl/tools/csm_binary_availability.sh
-M	adl/tools/demo_d11_signed_remote.sh
-M	adl/tools/demo_smoke_v07_story.sh
-M	adl/tools/ensure_csm_binary.sh
+# The old mixed private CSM fixture asserted retired source topology.
+# Preserve the actual public installer and refusal obligations independently.
+public_owner_support="$TMP/public-owner-support.txt"
+cat >"$public_owner_support" <<'EOF'
 M	adl/tools/install_owner_binaries.sh
 M	adl/tools/owner_binary_resolution.sh
-M	adl/tools/run_owner_validation_lane.sh
-M	adl/tools/run_v0917_csm_continuity_capsule_4910_proof.sh
-M	adl/tools/run_v0917_csm_otlp_4904_proof.sh
-M	adl/tools/run_v0917_no_sparrow_4909_proof.sh
-M	adl/tools/run_wp08_acip_sns_live_proof.sh
-M	adl/tools/run_wp08_aws_signal_integration_live_proof.sh
-M	adl/tools/run_wp08_cloudfront_control_proof.sh
-M	adl/tools/run_wp08_heartbeat_live_proof.sh
-M	adl/tools/run_wp08_polis_storage_live_proof.sh
-M	adl/tools/test_ensure_csm_binary.sh
 M	adl/tools/test_owner_binary_install.sh
-M	adl/tools/test_owner_validation_lane.sh
-M	adl/tools/test_run_wp08_aws_signal_integration_live_proof.sh
-M	docs/milestones/v0.91.7/review/runtime/csm_binary_availability_4977/README.md
-M	docs/milestones/v0.91.7/review/runtime/csm_binary_availability_4977/restoration.json
-M	docs/tooling/C_SDLC_RESCUE_SPRINT_OPERATING_CONTRACT.md
-M	docs/tooling/RUNTIME_AWS_HEARTBEAT.md
+M	adl/tools/ensure_csm_binary.sh
+M	adl/tools/test_ensure_csm_binary.sh
 EOF
-bash "$SCRIPT" --changed-files "$csm_binary_availability" --json >"$TMP/csm-binary-availability.json"
-python3 - <<'PY' "$TMP/csm-binary-availability.json"
-import json
-import sys
-
+bash "$SCRIPT" --changed-files "$public_owner_support" --json >"$TMP/public-owner-support.json"
+python3 - <<'PYASSERT' "$TMP/public-owner-support.json"
+import json, sys
 profile = json.load(open(sys.argv[1]))
 assert profile["schema_version"] == "adl.validation_profile.v1"
 assert profile["status"] == "ready_to_run"
 assert profile["pr_publication_sufficient"] is True
 assert profile["escalation"]["required"] is False
-assert len(profile["run"]) == 12
-assert not any(
-    diagnostic["code"] in {"unmapped_change_surface", "selected_lane_threshold_exceeded"}
-    for diagnostic in profile["diagnostics"]
-)
+assert profile["diagnostics"] == []
 lanes = {item["lane_id"]: item for item in profile["run"]}
-assert lanes["csdlc_owner_lane"]["matched_paths"] == [
+assert set(lanes) == {"public_source", "csm_retired_route_diagnostics"}
+assert lanes["public_source"]["matched_paths"] == [
     "adl/tools/install_owner_binaries.sh",
-    "adl/tools/run_owner_validation_lane.sh",
-    "adl/tools/test_owner_validation_lane.sh",
-]
-runtime_owner_paths = lanes["runtime_owner_lane"]["matched_paths"]
-for path in [
-    "adl/tools/csm_binary_availability.sh",
-    "adl/tools/demo_d11_signed_remote.sh",
-    "adl/tools/demo_smoke_v07_story.sh",
-    "adl/tools/ensure_csm_binary.sh",
     "adl/tools/owner_binary_resolution.sh",
-    "adl/tools/test_ensure_csm_binary.sh",
     "adl/tools/test_owner_binary_install.sh",
-]:
-    assert path in runtime_owner_paths
-assert "adl/src/cli/csm_service_cmd.rs" in lanes["rust_pr_fast"]["matched_paths"]
-assert "adl/src/csm_runtime_api.rs" in lanes["rust_pr_fast"]["matched_paths"]
-PY
-
-owner_mix="$TMP/owner-mix.txt"
-printf 'M\tadl/tools/build_v0916_workflow_metric_backfill_inventory.py\nM\tadl/src/bin/adl_runtime.rs\n' >"$owner_mix"
-bash "$SCRIPT" --changed-files "$owner_mix" --json >"$TMP/owner-mix.json"
-python3 - <<'PY' "$TMP/owner-mix.json"
-import json
-import sys
-
-profile = json.load(open(sys.argv[1]))
+]
+assert lanes["csm_retired_route_diagnostics"]["matched_paths"] == [
+    "adl/tools/ensure_csm_binary.sh", "adl/tools/test_ensure_csm_binary.sh"]
 surface_ids = [surface["id"] for surface in profile["behavior_surfaces"]]
-assert "owner_lane_csdlc_owner_lane" in surface_ids
-assert "owner_lane_runtime_owner_lane" in surface_ids
 assert len(surface_ids) == len(set(surface_ids))
 node_ids = [node["behavior_surface"] for node in profile["validation_dag"]["nodes"]]
 assert len(node_ids) == len(set(node_ids))
-PY
+PYASSERT
 
 portable_dir="$TMP/portable"
 mkdir -p "$portable_dir"
@@ -1139,11 +1006,10 @@ assert candidates["local"]["decision"] == "eligible"
 assert candidates["local"]["cache_posture"] == "local_target_or_repo_configured"
 assert candidates["aws_spot"]["decision"] == "rejected"
 assert "not cost-appropriate" in candidates["aws_spot"]["reason"]
-assert candidates["codebuild"]["decision"] == "eligible"
-assert "run_aws_codefriend_build_lane.sh" in candidates["codebuild"]["command"]
-assert "--project-name adl-codefriend-build" in candidates["codebuild"]["command"]
-assert "--print-command" in candidates["codebuild"]["command"]
-assert "<branch-or-ref>" not in candidates["codebuild"]["command"]
+assert candidates["codebuild"]["decision"] == "rejected"
+assert "command" not in candidates["codebuild"]
+assert "wrapper" not in candidates["codebuild"]
+assert candidates["codebuild"]["launch_posture"] == "retired_in_adl"
 PY
 
 bash "$SCRIPT" \
@@ -1199,29 +1065,25 @@ import sys
 profile = json.load(open(sys.argv[1]))
 routing = profile["platform_routing"]
 assert routing["requested_platform"] == "codebuild"
-assert routing["decision"] == "selected"
-assert routing["selected_platform"] == "codebuild"
+assert routing["decision"] == "rejected"
+assert routing["selected_platform"] is None
 candidates = {item["platform"]: item for item in routing["candidates"]}
 codebuild = candidates["codebuild"]
-assert codebuild["decision"] == "eligible"
-assert "run_aws_codefriend_build_lane.sh" in codebuild["command"]
-assert "--project-name adl-codefriend-build" in codebuild["command"]
-assert "--print-command" in codebuild["command"]
-assert "<branch-or-ref>" not in codebuild["command"]
-assert "--git-ref" not in codebuild["command"]
-assert "--compute-type" not in codebuild["command"]
-assert codebuild["cache_posture"] == "stable_local_target_cache_plus_s3_sccache"
-assert "requires builder image and S3 sccache to be configured" in codebuild["caveats"]
+assert codebuild["decision"] == "rejected"
+assert "command" not in codebuild
+assert "wrapper" not in codebuild
+assert codebuild["launch_posture"] == "retired_in_adl"
+assert "agent-logic/codefriend" in codebuild["reason"]
 PY
 
 if bash "$SCRIPT" \
   --changed-files "$daemon_wave" \
   --validation-platform codebuild \
   --run >"$TMP/platform-codebuild-run.out" 2>"$TMP/platform-codebuild-run.err"; then
-  echo "expected selected CodeBuild platform request to remain dry-run only under --run" >&2
+  echo "expected retired CodeBuild platform request to be rejected under --run" >&2
   exit 1
 fi
-assert_has "$TMP/platform-codebuild-run.err" "platform routing is dry-run only for non-local platforms"
+assert_has "$TMP/platform-codebuild-run.err" "requested validation platform is not eligible"
 
 if bash "$SCRIPT" \
   --changed-files "$remote_profile_changed" \

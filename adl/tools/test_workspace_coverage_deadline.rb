@@ -11,7 +11,7 @@ require "yaml"
 root = File.expand_path("../..", __dir__)
 validator = File.join(__dir__, "validate_ci_workflow_policy.rb")
 source = File.read(File.join(root, ".github/workflows/ci.yaml"))
-job_header = "  adl_coverage_workspace_hosted:\n"
+job_header = "  public_adl_coverage:\n"
 raise "missing fixture job" unless source.include?(job_header)
 
 Dir.mktmpdir("coverage-deadline-contract") do |fixture|
@@ -19,6 +19,8 @@ Dir.mktmpdir("coverage-deadline-contract") do |fixture|
   FileUtils.cp_r(File.join(root, ".github/workflows"), File.join(fixture, ".github"))
   FileUtils.cp(File.join(root, "rust-toolchain.toml"), fixture)
   FileUtils.mkdir_p(File.join(fixture, "adl/tools"))
+  FileUtils.mkdir_p(File.join(fixture, "tools/public_adl"))
+  FileUtils.cp(File.join(root, "tools/public_adl/ci_policy.py"), File.join(fixture, "tools/public_adl"))
   FileUtils.cp(File.join(root, "adl/tools/ci_path_policy.sh"), File.join(fixture, "adl/tools"))
   workflow = File.join(fixture, ".github/workflows/ci.yaml")
   cases = {

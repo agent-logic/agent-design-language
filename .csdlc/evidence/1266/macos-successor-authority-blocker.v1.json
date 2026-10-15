@@ -1,0 +1,77 @@
+{
+  "schema": "adl.csdlc_v3.macos_successor_authority_blocker.v1",
+  "issue": 1266,
+  "observed_at": "2026-10-14T02:49:12Z",
+  "status": "blocked",
+  "blocking_requirement": "Authenticated Apple Silicon macOS external-consumer package succession and activation for the verified recordless v0.93.1 closeout denominator.",
+  "observations": {
+    "cognitive_sdlc_canonical_head": "565f2242933f4ce6ba0ad74e096f449cd5ab5dca",
+    "old_activated_package": {
+      "artifact": 11660977711,
+      "result": "portable_authenticated_observation_unavailable",
+      "remote_writes": 0
+    },
+    "newer_authenticated_package": {
+      "artifact": 11787649026,
+      "candidate": "79d6430a89edb350fe1012889650a6b4776912d0",
+      "limitation": "Predates cognitive-sdlc PR 257 semantic-card compatibility selection and cannot validate the current legacy projection without rendered_card_drift."
+    },
+    "post_pr257_artifacts": {
+      "producer_pr": 257,
+      "producer_merge": "1e818729c26be16ab5ed6bd04db81bbc2a30ef13",
+      "macos_artifact": 11830821151,
+      "result": "No authenticated external-consumer successor endorsement or activation path was found; CI artifact availability is not installed package authority."
+    },
+    "platform_contract": {
+      "package_maintain_and_upgrade": "linux_x86_64_only",
+      "macos_external_consumer_successor": "reviewed_repair_published_unmerged"
+    },
+    "macos_maintenance_repair": {
+      "repository": "agent-logic/cognitive-sdlc",
+      "pull_request": 275,
+      "pull_request_url": "https://github.com/agent-logic/cognitive-sdlc/pull/275",
+      "head": "ea1bc3892df2f6968d69f9c84cec9155a058d2bf",
+      "state": "open_draft_unmerged",
+      "mergeable": true,
+      "independent_review": "pass_no_actionable_findings",
+      "ci": {
+        "workflow_run": 38501918230,
+        "passed_checks": 20,
+        "failed_checks": 0,
+        "pending_checks": 0,
+        "macos_arm64_artifact": 11866028682,
+        "macos_arm64_artifact_digest": "sha256:f7c7212afd13fb9efba11f2a9cf49dfeaf5971927e1135dd0e9f0e9d4e8a7102"
+      },
+      "scope": "Adds fail-closed macOS arm64 libproc process census while preserving package provenance, quiescence, endorsement, activation and installed-child readback guards.",
+      "authority_effect": "Publication and CI establish a reviewed candidate only. The unmerged artifact is not canonical installed package authority."
+    },
+    "sidecar_issue_creation": {
+      "repository": "agent-logic/agent-design-language",
+      "coordinating_issue": 1266,
+      "requested_title": "[v0.93.1][C-SDLC v3][defect] Support authenticated macOS external-consumer package succession",
+      "route": "github-issue",
+      "package_artifact": 11787649026,
+      "first_result": "semantic_issue_creation_exact_replay_required",
+      "documented_recovery": "retry_after_authenticated_absence",
+      "recovery_result": "semantic_issue_creation_exact_replay_required",
+      "remote_reads_per_attempt": 1,
+      "remote_writes_per_attempt": 0,
+      "performed_mutation": null,
+      "effects_unknown": true,
+      "disposition": "Stopped without raw GitHub fallback or further replay."
+    }
+  },
+  "required_repair": [
+    "Merge the reviewed macOS external-consumer maintenance contract only after separate operator authorization.",
+    "After merge, produce and authenticate a canonical package containing current semantic validation and the issue 1266 retained-terminal replay repair.",
+    "Activate and read back the exact package in each affected consumer through typed routes.",
+    "Resolve the issue-create one-shot recovery regression before using that route to publish the durable sidecar issue."
+  ],
+  "non_claims": [
+    "No candidate or CI artifact is treated as installed authority.",
+    "No consumer package activation succeeded.",
+    "No sidecar GitHub issue was created.",
+    "No raw GitHub lifecycle write was used.",
+    "Issue 1266 acceptance is not complete."
+  ]
+}

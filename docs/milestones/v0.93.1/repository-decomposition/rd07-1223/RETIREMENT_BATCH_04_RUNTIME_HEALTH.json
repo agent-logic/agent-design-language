@@ -1,0 +1,243 @@
+{
+  "batch": "04-runtime-health",
+  "component": "infra/aws/csm-runtime-health",
+  "counts": {
+    "remove_paths": 10,
+    "retained_historical_reference_files": 30,
+    "surgical_files": 1,
+    "surgical_new_lines": 1,
+    "surgical_old_lines": 1
+  },
+  "decision_boundary": "No deletion or reference edit is applied by this manifest. Apply only as one coherent reviewed delta.",
+  "destination": {
+    "remote_main_authenticated": true,
+    "repository": "agent-logic/agent-logic-infrastructure",
+    "revision": "8344415ead670b0749ea1a426e7bfd13be31042f"
+  },
+  "inventory_source_revision": "f8e422781145b1b0addb537ddacfc44f3ddf7a14",
+  "issue": 1223,
+  "preservation": {
+    "archive_sha256": "12205043566913435c25ea414b1fd9148b46727821f7bfefd5d452cfe47a1c17",
+    "batch_all_match": true,
+    "batch_files_restored": 10,
+    "full_restore_mismatches": 0,
+    "original_remote_retrievable": true,
+    "original_revision": "248f00e359e412f6bc0061ac88be9ff374e3a212"
+  },
+  "protected_surfaces_untouched": [
+    "active C-SDLC control plane",
+    "ADL public package roots",
+    "Runtime implementation and configuration behavior"
+  ],
+  "reference_scan": {
+    "classification": "The sole live reference is explanatory Runtime documentation. Repair it to name the successor repository. Exact directory and per-file scanning found all other references only in immutable lifecycle/evidence/inventory records or the inert issue-520 changed-path fixture.",
+    "operational_reference_files": [
+      "docs/runtime/RESIDENT_HEALTH_SUPERVISION.md"
+    ],
+    "retained_historical_reference_files": [
+      ".csdlc/issues/589/audit.jsonl",
+      ".csdlc/issues/589/cards/sor.md",
+      ".csdlc/issues/589/cards/sor.values.json",
+      ".csdlc/issues/589/cards/spp.values.json",
+      ".csdlc/issues/589/cards/vpp.md",
+      ".csdlc/issues/589/cards/vpp.values.json",
+      ".csdlc/issues/589/index.json",
+      ".csdlc/issues/594/cards/stp.md",
+      ".csdlc/issues/594/cards/stp.values.json",
+      ".csdlc/prepared/issues/594/bootstrap-request.json",
+      "adl/tools/skills/repo-packet-builder/tests/fixtures/issue-520-changed-paths.txt",
+      "docs/milestones/v0.92.1/evidence/release/tail-02/document-inventory.json",
+      "docs/milestones/v0.92.1/evidence/release/tail-02/handoff-content.json",
+      "docs/milestones/v0.92.1/evidence/release/tail-04/canonical-surface-inventory.json",
+      "docs/milestones/v0.92.1/evidence/release/tail-04/repo_inventory.json",
+      "docs/milestones/v0.92.1/evidence/release/tail-04/specialist-input/dependency.json",
+      "docs/milestones/v0.92.1/evidence/release/tail-04/specialist-input/documentation.json",
+      "docs/milestones/v0.92.1/evidence/release/tail-04/specialist-input/provider-cloud.json",
+      "docs/milestones/v0.92.1/evidence/release/tail-04/specialist-input/retained-evidence.json",
+      "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/dependency-review.json",
+      "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/documentation-review.json",
+      "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/provider-cloud-review.json",
+      "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/retained-evidence-review.json",
+      "docs/milestones/v0.92.2/evidence/issue-919/full-review/assignments.json",
+      "docs/milestones/v0.92.2/evidence/issue-919/full-review/changed-paths.json",
+      "docs/milestones/v0.92.2/evidence/issue-919/full-review/coverage/provider-coverage.json",
+      "docs/milestones/v0.92.2/evidence/issue-919/full-review/coverage/security-coverage.json",
+      "docs/milestones/v0.92.2/evidence/issue-919/full-review/lanes/provider-coverage.json",
+      "docs/milestones/v0.92.2/evidence/rd01-977/dependencies.json",
+      "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/delivery-dispositions.json"
+    ]
+  },
+  "removals": [
+    {
+      "candidate_id": "RD07-3863",
+      "mode": "100644",
+      "path": "infra/aws/csm-runtime-health/.gitignore",
+      "restore_matches": true,
+      "restored_sha256": "ee2be6e70e1e7d8ebb0a3edc76b6316f60496b875d0815022b3d6a4d3826759f",
+      "sha256": "ee2be6e70e1e7d8ebb0a3edc76b6316f60496b875d0815022b3d6a4d3826759f",
+      "source_blob": "285732de90c0b7fde49c682d41cb6d28a0b0eb4c",
+      "successor_blob": "285732de90c0b7fde49c682d41cb6d28a0b0eb4c",
+      "successor_exact": true,
+      "successor_mode": "100644",
+      "successor_path": "infra/aws/csm-runtime-health/.gitignore",
+      "successor_repository": "agent-logic/agent-logic-infrastructure",
+      "successor_revision": "8344415ead670b0749ea1a426e7bfd13be31042f"
+    },
+    {
+      "candidate_id": "RD07-3864",
+      "mode": "100644",
+      "path": "infra/aws/csm-runtime-health/.terraform.lock.hcl",
+      "restore_matches": true,
+      "restored_sha256": "f678275ddf36104cbfeb4dd68014e754598dede8dd45c7b7e5fe0dfe4fb37558",
+      "sha256": "f678275ddf36104cbfeb4dd68014e754598dede8dd45c7b7e5fe0dfe4fb37558",
+      "source_blob": "dd16ec3d2f202e7b3f59806a1370327bfc2643b0",
+      "successor_blob": "dd16ec3d2f202e7b3f59806a1370327bfc2643b0",
+      "successor_exact": true,
+      "successor_mode": "100644",
+      "successor_path": "infra/aws/csm-runtime-health/.terraform.lock.hcl",
+      "successor_repository": "agent-logic/agent-logic-infrastructure",
+      "successor_revision": "8344415ead670b0749ea1a426e7bfd13be31042f"
+    },
+    {
+      "candidate_id": "RD07-3865",
+      "mode": "100644",
+      "path": "infra/aws/csm-runtime-health/README.md",
+      "restore_matches": true,
+      "restored_sha256": "320fb85621015778eccc54ea5fa170422a7f6f8f14f55840dd936b63fce4c36f",
+      "sha256": "320fb85621015778eccc54ea5fa170422a7f6f8f14f55840dd936b63fce4c36f",
+      "source_blob": "d3067db773ba047dd31bc87dcc3e5ae11742d9b0",
+      "successor_blob": "d3067db773ba047dd31bc87dcc3e5ae11742d9b0",
+      "successor_exact": true,
+      "successor_mode": "100644",
+      "successor_path": "infra/aws/csm-runtime-health/README.md",
+      "successor_repository": "agent-logic/agent-logic-infrastructure",
+      "successor_revision": "8344415ead670b0749ea1a426e7bfd13be31042f"
+    },
+    {
+      "candidate_id": "RD07-3866",
+      "mode": "100644",
+      "path": "infra/aws/csm-runtime-health/locals.tf",
+      "restore_matches": true,
+      "restored_sha256": "5f1bd5ea0b272f8fc3ca07ff33eda2c623ecc05db8a44ea29d99953940367d3e",
+      "sha256": "5f1bd5ea0b272f8fc3ca07ff33eda2c623ecc05db8a44ea29d99953940367d3e",
+      "source_blob": "1b8a0c4c6091a039f00ebba6c48e4227889bd390",
+      "successor_blob": "1b8a0c4c6091a039f00ebba6c48e4227889bd390",
+      "successor_exact": true,
+      "successor_mode": "100644",
+      "successor_path": "infra/aws/csm-runtime-health/locals.tf",
+      "successor_repository": "agent-logic/agent-logic-infrastructure",
+      "successor_revision": "8344415ead670b0749ea1a426e7bfd13be31042f"
+    },
+    {
+      "candidate_id": "RD07-3867",
+      "mode": "100644",
+      "path": "infra/aws/csm-runtime-health/main.tf",
+      "restore_matches": true,
+      "restored_sha256": "bbc17444b5270d5a7b0854797d95ab134863324b0692d3bbc45bc7d0621bc72b",
+      "sha256": "bbc17444b5270d5a7b0854797d95ab134863324b0692d3bbc45bc7d0621bc72b",
+      "source_blob": "e41fcd2e5b4ed5b55e2227768774298af0c7e841",
+      "successor_blob": "e41fcd2e5b4ed5b55e2227768774298af0c7e841",
+      "successor_exact": true,
+      "successor_mode": "100644",
+      "successor_path": "infra/aws/csm-runtime-health/main.tf",
+      "successor_repository": "agent-logic/agent-logic-infrastructure",
+      "successor_revision": "8344415ead670b0749ea1a426e7bfd13be31042f"
+    },
+    {
+      "candidate_id": "RD07-3868",
+      "mode": "100644",
+      "path": "infra/aws/csm-runtime-health/outputs.tf",
+      "restore_matches": true,
+      "restored_sha256": "46ce9a158b86ab26174c0dc6b122f95d0176293916f748574b3f66a09fa37cf8",
+      "sha256": "46ce9a158b86ab26174c0dc6b122f95d0176293916f748574b3f66a09fa37cf8",
+      "source_blob": "472d103c08848dce4c87399993918ec56b2784d3",
+      "successor_blob": "472d103c08848dce4c87399993918ec56b2784d3",
+      "successor_exact": true,
+      "successor_mode": "100644",
+      "successor_path": "infra/aws/csm-runtime-health/outputs.tf",
+      "successor_repository": "agent-logic/agent-logic-infrastructure",
+      "successor_revision": "8344415ead670b0749ea1a426e7bfd13be31042f"
+    },
+    {
+      "candidate_id": "RD07-3869",
+      "mode": "100644",
+      "path": "infra/aws/csm-runtime-health/shepherd.tf",
+      "restore_matches": true,
+      "restored_sha256": "23ab4fbb6df2fd210d5496a87276c65e3f83f9a1b66d8bb3fdc0791cef923b58",
+      "sha256": "23ab4fbb6df2fd210d5496a87276c65e3f83f9a1b66d8bb3fdc0791cef923b58",
+      "source_blob": "7d0070871691add02d00d194fc5ce0e7ca7aefe2",
+      "successor_blob": "7d0070871691add02d00d194fc5ce0e7ca7aefe2",
+      "successor_exact": true,
+      "successor_mode": "100644",
+      "successor_path": "infra/aws/csm-runtime-health/shepherd.tf",
+      "successor_repository": "agent-logic/agent-logic-infrastructure",
+      "successor_revision": "8344415ead670b0749ea1a426e7bfd13be31042f"
+    },
+    {
+      "candidate_id": "RD07-3870",
+      "mode": "100644",
+      "path": "infra/aws/csm-runtime-health/terraform.tfvars.example",
+      "restore_matches": true,
+      "restored_sha256": "de0aa0a6ff62a02197961e999294f4d8679939168b9a772f01b201bbf044d886",
+      "sha256": "de0aa0a6ff62a02197961e999294f4d8679939168b9a772f01b201bbf044d886",
+      "source_blob": "4a6a8ae68c3792e7148cbf64573d4673b27ad030",
+      "successor_blob": "4a6a8ae68c3792e7148cbf64573d4673b27ad030",
+      "successor_exact": true,
+      "successor_mode": "100644",
+      "successor_path": "infra/aws/csm-runtime-health/terraform.tfvars.example",
+      "successor_repository": "agent-logic/agent-logic-infrastructure",
+      "successor_revision": "8344415ead670b0749ea1a426e7bfd13be31042f"
+    },
+    {
+      "candidate_id": "RD07-3871",
+      "mode": "100644",
+      "path": "infra/aws/csm-runtime-health/variables.tf",
+      "restore_matches": true,
+      "restored_sha256": "0fb0b83ec356448c3eed32162e60bd1bd730caec05bd9ebca67c007cb9a6158f",
+      "sha256": "0fb0b83ec356448c3eed32162e60bd1bd730caec05bd9ebca67c007cb9a6158f",
+      "source_blob": "71fdde2c15ab92d2a48d32c04065046314924570",
+      "successor_blob": "71fdde2c15ab92d2a48d32c04065046314924570",
+      "successor_exact": true,
+      "successor_mode": "100644",
+      "successor_path": "infra/aws/csm-runtime-health/variables.tf",
+      "successor_repository": "agent-logic/agent-logic-infrastructure",
+      "successor_revision": "8344415ead670b0749ea1a426e7bfd13be31042f"
+    },
+    {
+      "candidate_id": "RD07-3872",
+      "mode": "100644",
+      "path": "infra/aws/csm-runtime-health/versions.tf",
+      "restore_matches": true,
+      "restored_sha256": "ede8b659fe6554a730852c204f5f7426f69207ca96cb55cf1f5182424afa321a",
+      "sha256": "ede8b659fe6554a730852c204f5f7426f69207ca96cb55cf1f5182424afa321a",
+      "source_blob": "5526765b6869127c071a37defd219927cbcb1449",
+      "successor_blob": "5526765b6869127c071a37defd219927cbcb1449",
+      "successor_exact": true,
+      "successor_mode": "100644",
+      "successor_path": "infra/aws/csm-runtime-health/versions.tf",
+      "successor_repository": "agent-logic/agent-logic-infrastructure",
+      "successor_revision": "8344415ead670b0749ea1a426e7bfd13be31042f"
+    }
+  ],
+  "schema": "adl.rd07.retirement_batch.v1",
+  "source_revision": "979b073bf02645cb0679911fbcf006ea6fb43b55",
+  "status": "proposed_pending_independent_review",
+  "surgical_edits": [
+    {
+      "path": "docs/runtime/RESIDENT_HEALTH_SUPERVISION.md",
+      "reason": "Keep retained Runtime documentation truthful after repository split without changing product behavior.",
+      "replace_exact": "`infra/aws/csm-runtime-health/shepherd.tf` declares the separate role: scoped",
+      "with_lines": [
+        "The agent-logic-infrastructure repository's `infra/aws/csm-runtime-health/shepherd.tf` declares the separate role: scoped"
+      ]
+    }
+  ],
+  "validation_plan": [
+    "independent exact-delta review",
+    "apply all ten removals and the one documentation reference repair atomically",
+    "reject any retained unclassified reference to infra/aws/csm-runtime-health",
+    "run Markdown path and git diff checks",
+    "run final public ADL qualification at committed candidate",
+    "native exact-head review"
+  ]
+}

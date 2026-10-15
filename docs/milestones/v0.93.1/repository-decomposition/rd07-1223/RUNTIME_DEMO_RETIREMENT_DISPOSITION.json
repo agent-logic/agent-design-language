@@ -1,0 +1,114 @@
+{
+  "schema": "adl.rd07.runtime-demo-retirement.v1",
+  "rows": [
+    {
+      "id": "RD07-1299",
+      "path": "adl/tools/csm_binary_availability.sh",
+      "source_sha256": "f689f58f5dd467c05b94247e297bdae98f5e087a9d63648ad4fbbd806508a9b7",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "original_outcome": "Infrastructure18/PR19 actual default/explicit/mismatch artifact-resolution cases passed; no live caller behavior inferred."
+    },
+    {
+      "id": "RD07-1334",
+      "path": "adl/tools/demo_v0871_suite.sh",
+      "source_sha256": "adc0458b4dc66bf3a294361fe79c6da1b05913730b440bac5003c4051e195339",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
+      "original_outcome": "Retire historical16child aggregate topology, preserving each child and manifest/index/README obligations separately."
+    },
+    {
+      "id": "RD07-1335",
+      "path": "adl/tools/demo_v0871_trace_runtime.sh",
+      "source_sha256": "e98a41ce804093f2c24e889678323ceea825532efd0dd2cd06da0c8f906f4bc6",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
+      "original_outcome": "First workflow call reaches explicit retired return2 before trace archive/manifest creation; retain historical trace/summary/archive/event expectations."
+    }
+  ],
+  "aggregate_children": [
+    {
+      "path": "adl/tools/demo_v0871_runtime_environment.sh",
+      "sha256": "d28d0007dcc718300b5f32168abee7b1f9618c07946a2964da9efa2ca91afffc"
+    },
+    {
+      "path": "adl/tools/demo_v0871_lifecycle.sh",
+      "sha256": "26a00cdf995448cfccb6873c05e596dd33fc96fd3884bd364c4789f624fb17cc"
+    },
+    {
+      "path": "adl/tools/demo_v0871_trace_runtime.sh",
+      "sha256": "e98a41ce804093f2c24e889678323ceea825532efd0dd2cd06da0c8f906f4bc6"
+    },
+    {
+      "path": "adl/tools/demo_v0871_resilience_failure.sh",
+      "sha256": "345362ccb828c44bc153ab5a7b85e5b8b73d5a09159f228283220100a8c56dc1"
+    },
+    {
+      "path": "adl/tools/demo_v0871_shepherd_recovery.sh",
+      "sha256": "91c8782f96f81387509be98af5492cc0cec8e6fa2885f9e7cb30e53f9382178a"
+    },
+    {
+      "path": "adl/tools/demo_v0871_restartability.sh",
+      "sha256": "b2690542ca37db76b5750f5b7514abb87b5b823faaccf6708277e87746cdc5eb"
+    },
+    {
+      "path": "adl/tools/demo_v0871_integrated_runtime.sh",
+      "sha256": "3fd1a4c7508c5c5d6112d4ed65e3ede49241d3c44ca9bb5b859fbd653c30aee0"
+    },
+    {
+      "path": "adl/tools/demo_v0871_docs_review.sh",
+      "sha256": "d20201f174cda031667b9bd6763d9c04323c5718ea727f4752ea90e8bb339c30"
+    },
+    {
+      "path": "adl/tools/demo_v0871_quality_gate.sh",
+      "sha256": "8f8aa1415e45bd500b2f5ffe57d01d03582cd642075db510d98123366936d997"
+    },
+    {
+      "path": "adl/tools/demo_v0871_release_review_package.sh",
+      "sha256": "5b79f75452c70c1642fc4012f58828c297ab222ff4ca9b525281d7ca17ab15a6"
+    },
+    {
+      "path": "adl/tools/demo_v0871_provider_local_ollama.sh",
+      "sha256": "9d28aac99d619585406b66207cf50a5692901d6a06f9968f0a99d9f4304a7533"
+    },
+    {
+      "path": "adl/tools/demo_v0871_provider_http.sh",
+      "sha256": "218546830461855d9c3b0c81454f5ea4538a568dec9b481531d459bd8da7e7d1"
+    },
+    {
+      "path": "adl/tools/demo_v0871_provider_mock.sh",
+      "sha256": "9cc9c4558b592b61db3b700a090fe156fb1a5d4cdfc20c721ba6ad6c9503a0ee"
+    },
+    {
+      "path": "adl/tools/demo_v0871_provider_chatgpt.sh",
+      "sha256": "e3d2bc5b5d1792f886072c7bd20b8312d36f0212ac23d2c0492822a350a86591"
+    },
+    {
+      "path": "adl/tools/demo_v0871_review_surface.sh",
+      "sha256": "e02ee960bed8742b4e61a22f5c15aca60809cd2163b8cc9a8fa3a31ba8b25586"
+    },
+    {
+      "path": "adl/tools/demo_v0871_multi_agent_discussion.sh",
+      "sha256": "d331af73a4602dc3e3e359a4baa844703154546ba34508add9efa45214b4fe78"
+    }
+  ],
+  "child_presence": "All16 literal executable child paths currently exist. Earlier absent-children claim corrected; obsolete behavior is the supported aggregate-retirement reason.",
+  "resolver_evidence": {
+    "packet": "INFRASTRUCTURE_CSM_FAMILY_DELIVERY.json",
+    "sha256": "33fb1d8e16f40bf0d5d8451300dbdb0dcf73ad61dc268bb13422b778ab74b2b8"
+  },
+  "caller_obligations": [
+    "1299 delegates1390ensure_csm_binary; retain accepted status/binary parsing and evidence output",
+    "Reconcile8direct CSM callers: continuity,OTLP,no-Sparrow,ACIP/SNS,AWS-signal,CloudFront-control,heartbeat,Polis-storage; CloudFront absent from owner packet list remains an independent obligation",
+    "Historical selector and test_validation_manager fixtures",
+    "1334 suite companion,tools README,matrix/feature guidance and registry",
+    "1335 suite/integrated-runtime1319/runtime-rows1960 trace expectations;2171 archive transfer independent"
+  ],
+  "required_before_retirement": [
+    "Reconcile exact active callers and every child obligation",
+    "Scoped retirement decision"
+  ],
+  "independent_review": {
+    "reviewer": "review_1223_historical_retention",
+    "result": "Three conditional source dispositions supported; remaining signed-remote/live-provider/installer demo holds unchanged"
+  },
+  "execution_authorized": false,
+  "validation": "Source review and literal16child existence/hash check only; no aggregate/provider/cloud run"
+}

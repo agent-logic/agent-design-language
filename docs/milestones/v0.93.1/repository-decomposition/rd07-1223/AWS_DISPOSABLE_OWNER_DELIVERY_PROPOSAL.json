@@ -1,0 +1,56 @@
+{
+  "schema": "adl1223.aws_disposable_owner_delivery.v1",
+  "status": "prepared_not_delivered",
+  "original_candidate": "RD07-3550",
+  "owner": "agent-logic-infrastructure",
+  "owner_revision": "8344415ead670b0749ea1a426e7bfd13be31042f",
+  "files": [
+    {
+      "path": "docs/operations/cloud/aws/runtime-platform/README.md",
+      "mode": "100644",
+      "blob": "ad03bf5de218411255b3a000c85e4cb81dfc801f",
+      "sha256": "f76f95009ab35ede44a1860fe7ab6333fcc64191aa88ec20fbc6a66e0726272e"
+    },
+    {
+      "path": "docs/operations/cloud/aws/runtime-platform/run-disposable-proof.sh",
+      "mode": "100755",
+      "blob": "2a5444dfc0f812802de91d952bb1559cc081c6b2",
+      "sha256": "5ed6f495bfd5f50ca976e9f361bb104a5e54702035042da7b6f57ecfc100f4e8"
+    }
+  ],
+  "reason": "Script is present in Runtime mapping but hard-pins Terraform roots owned by Infrastructure; deliver script and its sole operational runbook together alongside those roots. No cross-repository live path assumption.",
+  "dependencies": [
+    {
+      "path": "infra/aws/runtime/alb-origin",
+      "state": "present; original construction validation fails on three unsupported module arguments; tracked diagnosis remains unresolved"
+    },
+    {
+      "path": "infra/aws/runtime/private-node",
+      "state": "present; original proof retained elsewhere, no rerun"
+    }
+  ],
+  "preserved_contract": [
+    "All six original stage names and authorization-field checks",
+    "Exact business AWS profile and region guards",
+    "Saved-plan digest, deadline, and account checks",
+    "Reverse cleanup and exact resource readback sequence"
+  ],
+  "qualification_required": [
+    "Owner source delivery and scoped review",
+    "Applicable isolated fake-tool command coverage, preserving error cases",
+    "Existing ALB source repair and construction validation",
+    "No live AWS operation unless separately authorized"
+  ],
+  "known_limits": [
+    "No live execution in this proposal",
+    "Historical example deadline remains literal historical configuration and cannot authorize current execution",
+    "cost_ceiling_usd is matched to authorization text, not an enforced budget cap",
+    "Several absence checks suppress provider errors; transport failure is not independent proof of absence"
+  ],
+  "patch_sha256": "8e1dfcb30ad9602126fbe9c003f0c3036f0b2f52deaab99d052782be95ee981d",
+  "source_removal_authorized": false,
+  "independent_review": {
+    "reviewer": "review_1223_historical_retention",
+    "result": "No actionable findings; conditional disposition and stated acceptance limits preserved"
+  }
+}

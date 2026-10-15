@@ -1,0 +1,58 @@
+{
+  "schema": "adl1223.public_manifest_retirement_guard_proposal.v1",
+  "source": "/Volumes/FastWork/c1223/retired-validation-surface-repair",
+  "review": {
+    "result": "PASS bounded r3 source review",
+    "reviewer": "WorkerBee18",
+    "patch_sha256": "f9fb95e091a0e1f562403018e0e56f05be442640f1f5be1c7ab679709d8dc80e",
+    "proof": {
+      "status": "passed",
+      "count": 26,
+      "checks": [
+        "select_validation_lanes:public accepted",
+        "select_validation_lanes:original_legacy rejected",
+        "select_validation_lanes:release_gate_review_missing rejected",
+        "select_validation_lanes:release_gate_review_malformed rejected",
+        "select_validation_lanes:release_gate_review_legacy rejected",
+        "select_validation_lanes:slow_proof_review_missing rejected",
+        "select_validation_lanes:slow_proof_review_malformed rejected",
+        "select_validation_lanes:slow_proof_review_legacy rejected",
+        "select_validation_lanes:rust_pr_fast_missing rejected",
+        "select_validation_lanes:rust_pr_fast_malformed rejected",
+        "select_validation_lanes:rust_pr_fast_legacy rejected",
+        "select_validation_lanes:surfaces_missing rejected",
+        "select_validation_lanes:surfaces_malformed rejected",
+        "validation_manager:public accepted",
+        "validation_manager:original_legacy rejected",
+        "validation_manager:release_gate_review_missing rejected",
+        "validation_manager:release_gate_review_malformed rejected",
+        "validation_manager:release_gate_review_legacy rejected",
+        "validation_manager:slow_proof_review_missing rejected",
+        "validation_manager:slow_proof_review_malformed rejected",
+        "validation_manager:slow_proof_review_legacy rejected",
+        "validation_manager:rust_pr_fast_missing rejected",
+        "validation_manager:rust_pr_fast_malformed rejected",
+        "validation_manager:rust_pr_fast_legacy rejected",
+        "validation_manager:surfaces_missing rejected",
+        "validation_manager:surfaces_malformed rejected"
+      ],
+      "subprocess_execution": false
+    },
+    "finding_disposition": "Requires all3explicit dict definitions, public modes and manifest_command Rust planner. Missing-key private fallback and malformed-entry AttributeError identified in r2 are now refused before plan construction. Both base files independently match exact27-path cutover afterhash after removing only added12lineguards.",
+    "limits": "Reported26loaderchecks reviewed, not rerun. FullCLI flow/remainingexternalcallers and scoped approval remain. No sourceapply."
+  },
+  "scope": {
+    "basis": "Exact prepared public cutover files, not live source edits",
+    "behavior": "Require explicit public definitions for all three special surfaces and manifest_command Rust planner. Missing or malformed definitions refuse; no private fallback. Custom manifests must satisfy this public contract.",
+    "not_claimed": "Does not validate arbitrary custom shell commands or fix the two outside-inventory historical coverage callers.",
+    "approval_boundary": "Intentional retirement of old manifest dispatch modes; append to scoped retirement proposal before applying.",
+    "validation": "See RESULT-r3.json. R1 failure and R2 review gap preserved; no source apply."
+  },
+  "patch": "--- a/adl/tools/select_validation_lanes.py\n+++ b/adl/tools/select_validation_lanes.py\n@@ -202,6 +202,18 @@\n     manifest = json.loads(path.read_text())\n     if manifest.get(\"schema_version\") != \"adl.validation_lane_selector.v1\":\n         fail(f\"{path}: unsupported schema_version\")\n+    surfaces = manifest.get(\"special_surfaces\")\n+    if not isinstance(surfaces, dict):\n+        fail(\"public validation manifest requires a special_surfaces object\")\n+    for name in (\"release_gate_review\", \"slow_proof_review\", \"rust_pr_fast\"):\n+        surface = surfaces.get(name)\n+        if not isinstance(surface, dict):\n+            fail(\"public validation manifest requires an explicit object for \" + name)\n+        if surface.get(\"default_surface\") != \"public\" or (\n+            name == \"rust_pr_fast\" and surface.get(\"planner\") != \"manifest_command\"\n+        ):\n+            fail(\"retired private validation mode: \" + name\n+                 + \"; use adl/config/validation_lane_selector.public.v1.json and product owner validation routes\")\n     for key in (\"surface_defaults\", \"lanes\", \"release_gate_hints\", \"rust_path_hints\"):\n         if key not in manifest:\n             fail(f\"{path}: missing required key: {key}\")\n--- a/adl/tools/validation_manager.py\n+++ b/adl/tools/validation_manager.py\n@@ -81,6 +81,18 @@\n         fail(f\"validation manifest is not valid JSON: {exc}\")\n     if manifest.get(\"schema_version\") != \"adl.validation_lane_selector.v1\":\n         fail(\"validation manifest returned unsupported schema_version\")\n+    surfaces = manifest.get(\"special_surfaces\")\n+    if not isinstance(surfaces, dict):\n+        fail(\"public validation manifest requires a special_surfaces object\")\n+    for name in (\"release_gate_review\", \"slow_proof_review\", \"rust_pr_fast\"):\n+        surface = surfaces.get(name)\n+        if not isinstance(surface, dict):\n+            fail(\"public validation manifest requires an explicit object for \" + name)\n+        if surface.get(\"default_surface\") != \"public\" or (\n+            name == \"rust_pr_fast\" and surface.get(\"planner\") != \"manifest_command\"\n+        ):\n+            fail(\"retired private validation mode: \" + name\n+                 + \"; use adl/config/validation_lane_selector.public.v1.json and product owner validation routes\")\n     return manifest\n \n \n",
+  "prior_failure": {
+    "status": "failed",
+    "reason": "Initial name-only guard also rejected public manifest which reuses legacy keys. No successful checks; no worktree edits."
+  },
+  "r2_insufficiency": "Missing special surface bypassed mode check, retaining synthesized private Rust runner. R3 requires explicit public definitions.",
+  "execution_authorized": false
+}

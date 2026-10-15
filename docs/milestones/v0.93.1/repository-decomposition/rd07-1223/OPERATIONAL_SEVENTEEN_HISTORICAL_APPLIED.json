@@ -1,0 +1,1104 @@
+{
+  "status": "applied",
+  "source_head": "f8ab9567f603ea654f0e15a00fb20d576c1ac6f7",
+  "original_baseline": "248f00e359e412f6bc0061ac88be9ff374e3a212",
+  "removed_count": 17,
+  "original_removed_count": 16,
+  "additional_removed_count": 1,
+  "rows": [
+    {
+      "id": "RD07-1408",
+      "path": "adl/tools/install_vector_component.ps1",
+      "owner": "agent-logic-infrastructure",
+      "component": "agent-logic-infrastructure-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "16a38003dcb5a8bd1750a325a084c769fa17e630"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+        "exact_successor_paths": [
+          "adl/tools/install_vector_component.ps1"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1409",
+      "path": "adl/tools/install_vector_component.sh",
+      "owner": "agent-logic-infrastructure",
+      "component": "agent-logic-infrastructure-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "3a87fbce4492993553e4e57ff707fffd03d1ba0c"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+        "exact_successor_paths": [
+          "adl/tools/install_vector_component.sh"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1416",
+      "path": "adl/tools/issue345_aws_gpu_prerequisites.cloudformation.yaml",
+      "owner": "agent-logic-infrastructure",
+      "component": "agent-logic-infrastructure-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "1986fcb7a61fca54d2cbeb6aa4af923a37e20eb7"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+        "exact_successor_paths": [
+          "adl/tools/issue345_aws_gpu_prerequisites.cloudformation.yaml"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1468",
+      "path": "adl/tools/report_runtime_v3_loc.sh",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "413b7772ca6e885bc4044215321fb9e69385e5a0"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/report_runtime_v3_loc.sh"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1469",
+      "path": "adl/tools/resolve_ci_backend.sh",
+      "owner": "agent-logic-infrastructure",
+      "component": "agent-logic-infrastructure-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "c08fff671853e5a5d781d51858854d24149ac601"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+        "exact_successor_paths": [
+          "adl/tools/resolve_ci_backend.sh"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1475",
+      "path": "adl/tools/run_aws_spot_builder_image_validation.sh",
+      "owner": "agent-logic-infrastructure",
+      "component": "agent-logic-infrastructure-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "2511850ee346146eeedcd4413683c73601d87c44"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+        "exact_successor_paths": [
+          "adl/tools/run_aws_spot_builder_image_validation.sh"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1478",
+      "path": "adl/tools/run_build_platform_benchmark.sh",
+      "owner": "agent-logic-infrastructure",
+      "component": "agent-logic-infrastructure-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "fe8f9675f1ae7c69739747fc17437a4cb540b1c7"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+        "exact_successor_paths": [
+          "adl/tools/run_build_platform_benchmark.sh"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1483",
+      "path": "adl/tools/run_issue268_remote_resident_qualification.sh",
+      "owner": "agent-logic-infrastructure",
+      "component": "agent-logic-infrastructure-active-tool-contracts",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "f12f98344ff6d277779b5ddf3aac509b10baac62"
+      },
+      "existing_action": "retain",
+      "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Preserve reviewed artifact contracts and redirect or retire specific ADL callers. Reuse existing qualified evidence where applicable; no live Runtime or cloud qualification inferred."
+      ],
+      "successor_mapping": {
+        "mapping": "same_path_changed",
+        "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+        "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "owner_transfer_with_explicit_artifact_and_caller_contract",
+        "family": "Artifact-consuming Runtime entrypoints",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
+      }
+    },
+    {
+      "id": "RD07-1484",
+      "path": "adl/tools/run_issue268_six_hour_spot_qualification.sh",
+      "owner": "agent-logic-infrastructure",
+      "component": "agent-logic-infrastructure-active-tool-contracts",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "7ecc02ac0ba2a6372604b159bd83a40e25a8df07"
+      },
+      "existing_action": "retain",
+      "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Transfer orchestration ownership to Infrastructure, replacing source-relative portable/Runtime inputs with installed qualified artifacts and owner test evidence. Preserve explicit authorization gates; do not run cloud proof to resolve source retirement."
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+        "exact_successor_paths": [
+          "adl/tools/run_issue268_six_hour_spot_qualification.sh"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "owner_transfer_with_remaining_source_caller_hold",
+        "family": "Cloud proof orchestration and coupled static tests",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
+      }
+    },
+    {
+      "id": "RD07-1536",
+      "path": "adl/tools/setup_aws_spot_remote_validation_github_resources.sh",
+      "owner": "agent-logic-infrastructure",
+      "component": "agent-logic-infrastructure-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "fad63cfe18797126b92994703578b31a1ba80622"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+        "exact_successor_paths": [
+          "adl/tools/setup_aws_spot_remote_validation_github_resources.sh"
+        ]
+      }
+    },
+    {
+      "id": "RD07-2081",
+      "path": "adl/tools/test_run_aws_spot_builder_image_validation.sh",
+      "owner": "agent-logic-infrastructure",
+      "component": "agent-logic-infrastructure-active-tool-contracts",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "16b94e284732826bb30689eea4e54f037bf7f3fd"
+      },
+      "existing_action": "retain",
+      "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
+      "proposed_action": "retain_public_source_or_fixture",
+      "required_before_execution": [],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+        "exact_successor_paths": [
+          "adl/tools/test_run_aws_spot_builder_image_validation.sh"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "owner_transfer_with_remaining_source_caller_hold",
+        "family": "Cloud proof orchestration and coupled static tests",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
+      },
+      "pre_legacy_anrm_infrastructure_public_retention_classification": {
+        "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+        "required_before_execution": [
+          "Transfer orchestration ownership to Infrastructure, replacing source-relative portable/Runtime inputs with installed qualified artifacts and owner test evidence. Preserve explicit authorization gates; do not run cloud proof to resolve source retirement."
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+        "packet_sha256": "14a66f746122c76cbf4c48181d0ceacfcc1623e31b523b659ec78c729cd983d5",
+        "implementation_commit": "50b88a0340a0e4c08d6585d7b7e3c589ef449e04",
+        "current_identity": {
+          "mode": "100755",
+          "blob": "107af3b83f4c23154d68fcdcc0f1cf09286d217a"
+        },
+        "reason": "retain_explicit_historical_refusal: committed prior owner cutover retains compatibility diagnostic; no original assertions execute."
+      }
+    },
+    {
+      "id": "RD07-2087",
+      "path": "adl/tools/test_run_issue268_remote_resident_qualification.sh",
+      "owner": "agent-logic-infrastructure",
+      "component": "agent-logic-infrastructure-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "1048e536957dfd4fb4ff634db5c5b9d60444366e"
+      },
+      "existing_action": "retain",
+      "proposed_action": "retain_resolved",
+      "required_before_execution": [],
+      "successor_mapping": {
+        "mapping": "same_path_changed",
+        "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+        "exact_successor_paths": []
+      },
+      "pre_retained_adapter_classification": {
+        "proposed_action": "proposed_remove_with_entire_tool_family",
+        "required_before_execution": [
+          "qualified_successor_tool_family",
+          "inbound_active_callers_repaired_or_retired",
+          "scoped_operator_decision"
+        ]
+      },
+      "reviewed_retention": {
+        "packet": "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/RETAINED_ADAPTERS_THREE.json",
+        "packet_sha256": "b6ff7081f6daa8feeb72ca684f37ba1146245eac44db341a5d18f1e6d10f7731",
+        "current_identity": {
+          "mode": "100755",
+          "blob": "d6964df33107318b0e8eba84947d46195c9b5911",
+          "sha256": "9883899d923992f768bffb86daec6d61d69acf990c95788b6074b964e9e1d098"
+        },
+        "reason": "Retained ADL remote qualification wrapper test exercises current repaired local orchestrator/helper and selected13 Runtime resources. Original one Bash script/six mocked wrapper invocations qualified; retain current caller safety assertions, without real SSH/AWS/Runtime/native equivalence.",
+        "review": "Independent source/evidence records review PASS; no new execution or full2059 acceptance claim"
+      }
+    },
+    {
+      "id": "RD07-2167",
+      "path": "adl/tools/test_xcl_terraform_provider_major_bounds.sh",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "8006ccddf1ab52995226328bd9c5121eb982ca0e"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "coherent_source_retirement_approval",
+        "remaining_ADL_current_callers_repaired_or_retired",
+        "preserve_original_design_inputs_and_negative_guard_obligations"
+      ],
+      "successor_mapping": {
+        "mapping": "reviewed_owner_transfer",
+        "repository": "agent-logic/agent-logic-infrastructure",
+        "successor_revision": "52726019f14b790bdabe84b2e8e629fbbb6af7de",
+        "exact_successor_paths": [
+          "adl/tools/test_xcl_terraform_provider_major_bounds.sh"
+        ],
+        "source_sha256": "190a8113ec1e578bfe6f4bf081f81a5dc02e2365807c3d3974bb162f0d4e1032"
+      },
+      "prior_proposed_action": "hold_explicit_reconciliation",
+      "historical_hold_reason": "hold_no_proven_current_successor_mapping",
+      "historical_successor_mapping": {
+        "mapping": "unmapped",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": []
+      },
+      "consumer_qualification": {
+        "packet": "INFRASTRUCTURE_STATIC_VALIDATOR_OWNER_DELIVERY.json",
+        "sha256": "8fe93d2abe293bca60e15fe2d20b012b88fe38c26ed1793d6534706d92599f3b",
+        "scope": "Owner source guards6cases plus separately realdefaultpublicedge execution. No cloudplan/apply, source removal authority, nativefinish or cleanup claim."
+      }
+    },
+    {
+      "id": "RD07-2172",
+      "path": "adl/tools/validate_aws_runtime_platform_static.sh",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "55199a86baf223e74d9f355d73eeda051c4cc6a3"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "coherent_source_retirement_approval",
+        "remaining_ADL_current_callers_repaired_or_retired",
+        "preserve_original_design_inputs_and_negative_guard_obligations"
+      ],
+      "successor_mapping": {
+        "mapping": "reviewed_owner_transfer",
+        "repository": "agent-logic/agent-logic-infrastructure",
+        "successor_revision": "52726019f14b790bdabe84b2e8e629fbbb6af7de",
+        "exact_successor_paths": [
+          "adl/tools/validate_aws_runtime_platform_static.sh"
+        ],
+        "source_sha256": "07394896e73617239dbd21be53384312fadd17db502ee33d0fd2cef022f9b48a"
+      },
+      "prior_proposed_action": "hold_explicit_reconciliation",
+      "historical_hold_reason": "hold_no_proven_current_successor_mapping",
+      "historical_successor_mapping": {
+        "mapping": "unmapped",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": []
+      },
+      "consumer_qualification": {
+        "packet": "INFRASTRUCTURE_STATIC_VALIDATOR_OWNER_DELIVERY.json",
+        "sha256": "8fe93d2abe293bca60e15fe2d20b012b88fe38c26ed1793d6534706d92599f3b",
+        "scope": "Owner source guards6cases plus separately realdefaultpublicedge execution. No cloudplan/apply, source removal authority, nativefinish or cleanup claim."
+      }
+    },
+    {
+      "id": "RD07-2258",
+      "path": "adl/tools/verify_ci_backend_route.py",
+      "owner": "agent-logic-infrastructure",
+      "component": "agent-logic-infrastructure-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "cb1fffc1c33ff6726935e9fb746f987426c27758"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+        "exact_successor_paths": [
+          "adl/tools/verify_ci_backend_route.py"
+        ]
+      }
+    },
+    {
+      "id": "RD07-2262",
+      "path": "adl/tools/verify_spot_advertised_ref.sh",
+      "owner": "agent-logic-infrastructure",
+      "component": "agent-logic-infrastructure-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "7ab4da42fe3ba9e2498f44af1cf326ffcd5008f0"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+        "exact_successor_paths": [
+          "adl/tools/verify_spot_advertised_ref.sh"
+        ]
+      }
+    }
+  ],
+  "files": [
+    {
+      "path": "adl/tools/install_vector_component.ps1",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "16a38003dcb5a8bd1750a325a084c769fa17e630",
+        "sha256": "3cfd037bec63908f1cb910e0b676fcf54ea2195a5d8c74c6f14891ae28c50bef"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/install_vector_component.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "3a87fbce4492993553e4e57ff707fffd03d1ba0c",
+        "sha256": "be3ea80e808194e31101f673902c14e99c19403886c1edbd89d5263b7c746c2c"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/issue345_aws_gpu_prerequisites.cloudformation.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "1986fcb7a61fca54d2cbeb6aa4af923a37e20eb7",
+        "sha256": "ad9b5c23a47862f7105f739afc3d012f4c866c47716bb2514baba132f605e038"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/report_runtime_v3_loc.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "413b7772ca6e885bc4044215321fb9e69385e5a0",
+        "sha256": "8adfae0e283c329acdf0086a6e74ce3456744128e603332888c44f6e6370bdff"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/resolve_ci_backend.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "c08fff671853e5a5d781d51858854d24149ac601",
+        "sha256": "3f9fa6e1d568d7b4c6dfdcebc3ac7fe00adad94eb07607b942c9669641fd4ca6"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/run_aws_spot_builder_image_validation.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "2511850ee346146eeedcd4413683c73601d87c44",
+        "sha256": "c8547a78be7a64e70240df43b41d7ecc6c287cf36a4f5d8c7d3dd081568a7a33"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/run_build_platform_benchmark.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "fe8f9675f1ae7c69739747fc17437a4cb540b1c7",
+        "sha256": "8b677bf726b698cd2007096a2ce7f19b41aeeff75a4d95516f40825d415ccdbd"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/setup_aws_spot_remote_validation_github_resources.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "fad63cfe18797126b92994703578b31a1ba80622",
+        "sha256": "c2fca5b230b04db7e044b7e0b9956d00a78230123e82c61c5d0e4cd3d64e164d"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_xcl_terraform_provider_major_bounds.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "5275c62bbfb5a62848d5311e8a414ebe372d2f5e",
+        "sha256": "878c15c197a704d6b832df8a2b4106497b238f39f217510d192baa6a681b4fc7"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/validate_aws_runtime_platform_static.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "9c7712307e4972ffd91a1a5a7aee3e9882ed1934",
+        "sha256": "fe0afac30f7dfdff7c871834ff1f254d1e9ad223b79a4e7519093f6b1d07903c"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/verify_ci_backend_route.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "cb1fffc1c33ff6726935e9fb746f987426c27758",
+        "sha256": "04db0516147e1207a217fba43f0d818636d6af2318dade3e5f2c4792b030b254"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/verify_spot_advertised_ref.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "7ab4da42fe3ba9e2498f44af1cf326ffcd5008f0",
+        "sha256": "b19dbfe785094bc69fec7fd5b79fb6c8b53af15f424661c80fbe06a89cd80c96"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/run_issue268_remote_resident_qualification.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "9608835f27bee97b8982d7f0d88fd38e5bef961c",
+        "sha256": "13323d46ac9e9f384a118a01b6f76a2e8c3adbdcdd51ea5e6ab0787201b5367a"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/run_issue268_six_hour_spot_qualification.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "238fc1e325143d404d20a3c507d505ef168c630f",
+        "sha256": "fa26777185085958a31b3683ed02a9fc8ab384217f3bd2376c2fcc170fd4e717"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_run_issue268_remote_resident_qualification.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "d6964df33107318b0e8eba84947d46195c9b5911",
+        "sha256": "9883899d923992f768bffb86daec6d61d69acf990c95788b6074b964e9e1d098"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/lib/issue268_runtime_resources.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "f94781ac51dd381cde614c850fb7c673a13637ad",
+        "sha256": "e1b0d05a03aa1ae94f5946816867facb926c31f8b74aaba2822b2db3a40e9212"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_run_aws_spot_builder_image_validation.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "107af3b83f4c23154d68fcdcc0f1cf09286d217a",
+        "sha256": "ff8fcffbb1c0708041f6361110ac441f1a52dade60d383bd41f31474d67a8684"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/generate_tool_surface_registry.py",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "a8cb235e98b82a3cab6bc34641900757b1675276",
+        "sha256": "265db92586bc8864f7afe824cbe6e94474e7ed95bff99a5406bb987783b82be1"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "0383a18d633ee3262bf7657f6276748db11419e6",
+        "sha256": "05b16f0939d4cf0a0b96268ec72748cd82c428d8666e6db9175f5bd4f21860fe"
+      }
+    },
+    {
+      "path": "adl/config/validation_lane_selector.v0.91.6.json",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "3e68437a7eeab2371cd0d679f8df0b0e3d0fb93e",
+        "sha256": "78db88efb1ae013bc7f97a6279c967e3484a6e6bcbc6d100d86e3bf48a99171c"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "cd269f78a49285e0d3e1df7e710f0c2c67d2a367",
+        "sha256": "69e643d7a5d1f8e722f35d9513d164d3052d19b0298632b6307f108467c87f76"
+      }
+    },
+    {
+      "path": "docs/tooling/AWS_CODEFRIEND_BUILD_LANE.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "1047549202fb151040cbefcb214f7e252c367f53",
+        "sha256": "b36e7f68ed427a76c6e526b0424bf9b4c35e5535738e5939731307f99d864692"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "1d18f259195886a2927ac49389c997e8cde72980",
+        "sha256": "97c8adb8311f5ac04fe23d14f39d515a849df06443575df9b2b8b98400bc9377"
+      }
+    },
+    {
+      "path": "docs/tooling/BUILD_PLATFORM_BENCHMARKS.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "cc25a18e918b57f9d06d9a74f4d5a3e8ea2762ea",
+        "sha256": "47b7029aac6d294827db7dbde807b42266a66c16b8797fc2ec531d941ad5403c"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "3f16f97947835c04f9c0bc4335257e49089a1f87",
+        "sha256": "f7e85134fa8b3237a927c0f471380b36eada3d992df69627ce50c2d7d6ea07b4"
+      }
+    },
+    {
+      "path": "docs/tooling/REMOTE_BUILD_HOW_TO.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "4bdd5ddd1d2d9dc29c51c86ea6ed6e444780422c",
+        "sha256": "aaeb3be02d87d7f7078b17ca616b75c8ff5c28a36bb6dfe9e9296f6d9a1dbaa8"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "967af74ea64ffc23e0d73d5c0dbe41ef3acc0128",
+        "sha256": "2921878fa85b4219468d9ad42b5cd0ff8f2d4db4c5309bf8728a39f239defd3d"
+      }
+    },
+    {
+      "path": "docs/tooling/README.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "ab49bb4fa804e259e3f058ad58a23a3a65975bc5",
+        "sha256": "01d6ec078d69ccf7ddd8c26692139481ab23be28f2bcaf0cbe9e0ad75cf7dd49"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "76d0d440266d76a5bea87b770dc8e06d1334bfb6",
+        "sha256": "cdf816f9702d822eaa644f14da35e48ac42b4418cdb844cc3d7a10bbc39fa1d2"
+      }
+    },
+    {
+      "path": "docs/architecture/RUNTIME_V3_STATE_AUTHENTICITY_5412.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "1db554f286e18f476985ff97e8767d964b652c35",
+        "sha256": "513631b7ba0be7da6bfd8bcce1cfc7a8faf3811d458948df9dbfb5b300fd5e33"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "68331ba567146fb85b8996e27f71203561ed23e0",
+        "sha256": "6c8e09b5cbd31903b5d441c8427b8281bc9b1103ac9dfe9ae7f2c7790be54652"
+      }
+    },
+    {
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "d7ab8ac45d4f3fdd05412852c251617bd1b24cc6",
+        "sha256": "77c6ad84fa15ffb9b95360b33b9678c8b33143f520ce87881fd8f3df09684162"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "b84d223fac2cc535b0e96cc5e2fabd39922c8a7a",
+        "sha256": "504bac857a71b6fdf981d358b56f04f7d90b0d556ab29759ea7a152536904575"
+      }
+    }
+  ],
+  "owner_inputs": [
+    {
+      "path": "adl/tools/install_vector_component.ps1",
+      "repository": "/Volumes/FastWork/c1223/infrastructure14/agent-logic-infrastructure",
+      "revision": "db78fff91b07a0b05dfbb4ceb5bdd3279b3315a1",
+      "identity": {
+        "mode": "100644",
+        "blob": "16a38003dcb5a8bd1750a325a084c769fa17e630",
+        "sha256": "3cfd037bec63908f1cb910e0b676fcf54ea2195a5d8c74c6f14891ae28c50bef"
+      },
+      "matches_current": true,
+      "matches_original": true
+    },
+    {
+      "path": "adl/tools/install_vector_component.ps1",
+      "repository": "/Volumes/FastWork/runtime-installer147/agent-logic-runtime",
+      "revision": "0c5b129decab8ab71738e19967c46d39b5f4afad",
+      "identity": {
+        "mode": "100644",
+        "blob": "16a38003dcb5a8bd1750a325a084c769fa17e630",
+        "sha256": "3cfd037bec63908f1cb910e0b676fcf54ea2195a5d8c74c6f14891ae28c50bef"
+      },
+      "matches_current": true,
+      "matches_original": true
+    },
+    {
+      "path": "adl/tools/install_vector_component.sh",
+      "repository": "/Volumes/FastWork/c1223/infrastructure14/agent-logic-infrastructure",
+      "revision": "db78fff91b07a0b05dfbb4ceb5bdd3279b3315a1",
+      "identity": {
+        "mode": "100755",
+        "blob": "3a87fbce4492993553e4e57ff707fffd03d1ba0c",
+        "sha256": "be3ea80e808194e31101f673902c14e99c19403886c1edbd89d5263b7c746c2c"
+      },
+      "matches_current": true,
+      "matches_original": true
+    },
+    {
+      "path": "adl/tools/install_vector_component.sh",
+      "repository": "/Volumes/FastWork/runtime-installer147/agent-logic-runtime",
+      "revision": "0c5b129decab8ab71738e19967c46d39b5f4afad",
+      "identity": {
+        "mode": "100755",
+        "blob": "3a87fbce4492993553e4e57ff707fffd03d1ba0c",
+        "sha256": "be3ea80e808194e31101f673902c14e99c19403886c1edbd89d5263b7c746c2c"
+      },
+      "matches_current": true,
+      "matches_original": true
+    },
+    {
+      "path": "adl/tools/issue345_aws_gpu_prerequisites.cloudformation.yaml",
+      "repository": "/Volumes/FastWork/c1223/infrastructure14/agent-logic-infrastructure",
+      "revision": "db78fff91b07a0b05dfbb4ceb5bdd3279b3315a1",
+      "identity": {
+        "mode": "100644",
+        "blob": "1986fcb7a61fca54d2cbeb6aa4af923a37e20eb7",
+        "sha256": "ad9b5c23a47862f7105f739afc3d012f4c866c47716bb2514baba132f605e038"
+      },
+      "matches_current": true,
+      "matches_original": true
+    },
+    {
+      "path": "adl/tools/report_runtime_v3_loc.sh",
+      "repository": "/Volumes/FastWork/runtime-installer147/agent-logic-runtime",
+      "revision": "0c5b129decab8ab71738e19967c46d39b5f4afad",
+      "identity": {
+        "mode": "100755",
+        "blob": "413b7772ca6e885bc4044215321fb9e69385e5a0",
+        "sha256": "8adfae0e283c329acdf0086a6e74ce3456744128e603332888c44f6e6370bdff"
+      },
+      "matches_current": true,
+      "matches_original": true
+    },
+    {
+      "path": "adl/tools/resolve_ci_backend.sh",
+      "repository": "/Volumes/FastWork/c1223/infrastructure14/agent-logic-infrastructure",
+      "revision": "db78fff91b07a0b05dfbb4ceb5bdd3279b3315a1",
+      "identity": {
+        "mode": "100755",
+        "blob": "c08fff671853e5a5d781d51858854d24149ac601",
+        "sha256": "3f9fa6e1d568d7b4c6dfdcebc3ac7fe00adad94eb07607b942c9669641fd4ca6"
+      },
+      "matches_current": true,
+      "matches_original": true
+    },
+    {
+      "path": "adl/tools/run_aws_spot_builder_image_validation.sh",
+      "repository": "/Volumes/FastWork/c1223/infrastructure14/agent-logic-infrastructure",
+      "revision": "db78fff91b07a0b05dfbb4ceb5bdd3279b3315a1",
+      "identity": {
+        "mode": "100755",
+        "blob": "2511850ee346146eeedcd4413683c73601d87c44",
+        "sha256": "c8547a78be7a64e70240df43b41d7ecc6c287cf36a4f5d8c7d3dd081568a7a33"
+      },
+      "matches_current": true,
+      "matches_original": true
+    },
+    {
+      "path": "adl/tools/run_build_platform_benchmark.sh",
+      "repository": "/Volumes/FastWork/c1223/infrastructure14/agent-logic-infrastructure",
+      "revision": "db78fff91b07a0b05dfbb4ceb5bdd3279b3315a1",
+      "identity": {
+        "mode": "100755",
+        "blob": "fe8f9675f1ae7c69739747fc17437a4cb540b1c7",
+        "sha256": "8b677bf726b698cd2007096a2ce7f19b41aeeff75a4d95516f40825d415ccdbd"
+      },
+      "matches_current": true,
+      "matches_original": true
+    },
+    {
+      "path": "adl/tools/setup_aws_spot_remote_validation_github_resources.sh",
+      "repository": "/Volumes/FastWork/c1223/infrastructure14/agent-logic-infrastructure",
+      "revision": "db78fff91b07a0b05dfbb4ceb5bdd3279b3315a1",
+      "identity": {
+        "mode": "100755",
+        "blob": "fad63cfe18797126b92994703578b31a1ba80622",
+        "sha256": "c2fca5b230b04db7e044b7e0b9956d00a78230123e82c61c5d0e4cd3d64e164d"
+      },
+      "matches_current": true,
+      "matches_original": true
+    },
+    {
+      "path": "adl/tools/test_xcl_terraform_provider_major_bounds.sh",
+      "repository": "/Volumes/FastWork/c1223/infrastructure14/agent-logic-infrastructure",
+      "revision": "db78fff91b07a0b05dfbb4ceb5bdd3279b3315a1",
+      "identity": {
+        "mode": "100755",
+        "blob": "8006ccddf1ab52995226328bd9c5121eb982ca0e",
+        "sha256": "190a8113ec1e578bfe6f4bf081f81a5dc02e2365807c3d3974bb162f0d4e1032"
+      },
+      "matches_current": false,
+      "matches_original": true
+    },
+    {
+      "path": "adl/tools/validate_aws_runtime_platform_static.sh",
+      "repository": "/Volumes/FastWork/c1223/infrastructure14/agent-logic-infrastructure",
+      "revision": "db78fff91b07a0b05dfbb4ceb5bdd3279b3315a1",
+      "identity": {
+        "mode": "100755",
+        "blob": "5f2513e34c9a8ffde11a9e46a8b6faba7a79d4c3",
+        "sha256": "c78c5c51dcb506a3278f7cc27ba3c3911110137b263b93febb7a022e9af81a35"
+      },
+      "matches_current": false,
+      "matches_original": false
+    },
+    {
+      "path": "adl/tools/verify_ci_backend_route.py",
+      "repository": "/Volumes/FastWork/c1223/infrastructure14/agent-logic-infrastructure",
+      "revision": "db78fff91b07a0b05dfbb4ceb5bdd3279b3315a1",
+      "identity": {
+        "mode": "100755",
+        "blob": "cb1fffc1c33ff6726935e9fb746f987426c27758",
+        "sha256": "04db0516147e1207a217fba43f0d818636d6af2318dade3e5f2c4792b030b254"
+      },
+      "matches_current": true,
+      "matches_original": true
+    },
+    {
+      "path": "adl/tools/verify_spot_advertised_ref.sh",
+      "repository": "/Volumes/FastWork/c1223/infrastructure14/agent-logic-infrastructure",
+      "revision": "db78fff91b07a0b05dfbb4ceb5bdd3279b3315a1",
+      "identity": {
+        "mode": "100755",
+        "blob": "7ab4da42fe3ba9e2498f44af1cf326ffcd5008f0",
+        "sha256": "b19dbfe785094bc69fec7fd5b79fb6c8b53af15f424661c80fbe06a89cd80c96"
+      },
+      "matches_current": true,
+      "matches_original": true
+    },
+    {
+      "path": "adl/tools/run_issue268_remote_resident_qualification.sh",
+      "repository": "/Volumes/FastWork/c1223/infrastructure14/agent-logic-infrastructure",
+      "revision": "db78fff91b07a0b05dfbb4ceb5bdd3279b3315a1",
+      "identity": {
+        "mode": "100755",
+        "blob": "443b158fd438ee8c957f09ea8c7ebf9adbf2a902",
+        "sha256": "2d2d39189c7435294f93f35468aa3095a30c3bc041ec5af5d144c466a4a45aba"
+      },
+      "matches_current": false,
+      "matches_original": false
+    },
+    {
+      "path": "adl/tools/run_issue268_six_hour_spot_qualification.sh",
+      "repository": "/Volumes/FastWork/c1223/infrastructure14/agent-logic-infrastructure",
+      "revision": "db78fff91b07a0b05dfbb4ceb5bdd3279b3315a1",
+      "identity": {
+        "mode": "100755",
+        "blob": "7ecc02ac0ba2a6372604b159bd83a40e25a8df07",
+        "sha256": "8c4fb74df1fee8c7788329f1fceb615b467010a3c3923b9a39bd43c0d1af6ca1"
+      },
+      "matches_current": false,
+      "matches_original": true
+    },
+    {
+      "path": "adl/tools/test_run_issue268_remote_resident_qualification.sh",
+      "repository": "/Volumes/FastWork/c1223/infrastructure14/agent-logic-infrastructure",
+      "revision": "db78fff91b07a0b05dfbb4ceb5bdd3279b3315a1",
+      "identity": {
+        "mode": "100755",
+        "blob": "517995fa563a4e4bc2171ffd41bb37ecae1fca8b",
+        "sha256": "37a1ca06bafc94f24445a16a781d2eb2bd1d27475217d890cbcf043ad4c699a0"
+      },
+      "matches_current": false,
+      "matches_original": false
+    },
+    {
+      "path": "adl/tools/test_run_aws_spot_builder_image_validation.sh",
+      "repository": "/Volumes/FastWork/c1223/infrastructure14/agent-logic-infrastructure",
+      "revision": "db78fff91b07a0b05dfbb4ceb5bdd3279b3315a1",
+      "identity": {
+        "mode": "100755",
+        "blob": "16b94e284732826bb30689eea4e54f037bf7f3fd",
+        "sha256": "adc7c9d0b4018deb414a6db76216b0d5923362490830687a7a0c5173ff1e6ec3"
+      },
+      "matches_current": false,
+      "matches_original": true
+    }
+  ],
+  "evidence": [
+    {
+      "path": "/Volumes/FastWork/c1223/worker25-operational-leftovers/PROPOSAL.json",
+      "sha256": "e568a4f5b4fbbfdf8fd3aff56320954183925b0e7cbcf2e0f4f345a07b4bd11c"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/worker25-operational-leftovers/REVIEW.json",
+      "sha256": "f2a74a1c8300bae8de6bf27789946d2aa6e5ddda567d295c0a365de4675a4c93"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/worker25-operational-leftovers/CALLER_SCAN_FINAL.json",
+      "sha256": "e18e7640f8cdd7cd4d1b662fdbcd17ddd76e0c22e9444d1b9e859e4b41b87b6f"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/worker25-operational-leftovers/REUSED_PROOF_READBACK.json",
+      "sha256": "0702babd425ab5f9282523c0b1c597c9e059fd4eda19315d92b4dcd968d5f5c1"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/worker25-operational-leftovers/COMPLETION_AUDIT.json",
+      "sha256": "5af747fd70553b5b0b8e45083c2a0e9f5d1e9784961a381dcdb619d5cfd8f54b"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/worker25-operational-leftovers/HANDOFF.md",
+      "sha256": "844744e4c02114e44d9fb7c7b3e3f5bd8822be3f8984b770f2db8588c618fee0"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/operational-seventeen-current-composition/CALLER_SCAN.json",
+      "sha256": "3ac9df9c9f24bba26f747804c70baf5b0590c6d500066865dbac9c09d5725eaf"
+    }
+  ],
+  "prior_reviewed_packet": {
+    "path": "/Volumes/FastWork/c1223/worker25-operational-leftovers/PROPOSAL.json",
+    "sha256": "e568a4f5b4fbbfdf8fd3aff56320954183925b0e7cbcf2e0f4f345a07b4bd11c"
+  },
+  "custody": {
+    "path": "/Volumes/FastWork/c1223/operational-seventeen-current-composition/current-original.tar",
+    "sha256": "07197e26f6a571d71aa7273e306eecea2ab27aa62e6ffc9347d5500098cae640",
+    "current_members": 25,
+    "original_members": 16,
+    "total_members": 41
+  },
+  "patch": {
+    "path": "/Volumes/FastWork/c1223/operational-seventeen-current-composition/seventeen-and-callers.patch",
+    "sha256": "87f487fa0a7746f14c4aceebf93526dc9ff2488dbb66927f5d45c51f18c47167"
+  },
+  "additional_removals": [
+    {
+      "path": "adl/tools/lib/issue268_runtime_resources.py",
+      "classification": "Postbaseline ADL-only source adapter introduced during this issue; separately accounted, not one of4134 or22original paths.",
+      "introduction_commit": "4df3ff232116341f2dfecb4dfd4e5448157aed63",
+      "introduction_identity": {
+        "mode": "100644",
+        "blob": "f94781ac51dd381cde614c850fb7c673a13637ad",
+        "sha256": "e1b0d05a03aa1ae94f5946816867facb926c31f8b74aaba2822b2db3a40e9212"
+      },
+      "current_identity": {
+        "mode": "100644",
+        "blob": "f94781ac51dd381cde614c850fb7c673a13637ad",
+        "sha256": "e1b0d05a03aa1ae94f5946816867facb926c31f8b74aaba2822b2db3a40e9212"
+      },
+      "absent_original_baseline": true
+    }
+  ],
+  "disposition": "Historical/manual source retirement and genuine prior proof reuse only. No cloud/build/provider/Vector download/model/qualification execution. Static validator owner six-case guards are not blanket proof of all original paths or Terraform plan/apply. Exact source copies are custody, not current operational acceptance. No shared or owner edits.",
+  "composition": {
+    "previous_head": "f6854e87213b3e815b733d91155f987c47bc8377",
+    "current_head": "f8ab9567f603ea654f0e15a00fb20d576c1ac6f7",
+    "registry_removed_rows": 16,
+    "registry_added_rows": 0,
+    "source_patch_sha256": "59289901c38bd35a29ac0848a6cdbc8f6912042f2b263aee8647c09f315d60e7",
+    "reason": "Reviewed17 historical removals and7caller repairs recomposed against current source plus actualregistry. Prior retirements preserved."
+  },
+  "obligations": "Preserves hosted/Spotadmission,missing-result rejection,advertisedrefbinding,LOCceilings,GitHubvariablemutation,Docker/ECR/cachebuild,benchmarkdenominators,Vectorplatform/install,GPUprerequisites,staticdesign/negativeguards,andissue268custody/model/volume/UTS/Guardian manualobligations.",
+  "owner_limits": "10 of 12 named CURRENT ADL resources match an inspected owner;11 of12 named ORIGINAL resources match an inspected owner, independently counted from first12PROPOSAL rows. XCL current ADL source is a refusal stub; its preserved original executable blob8006ccddf1ab52995226328bd9c5121eb982ca0e matches owner and is unchanged across prior candidate/merge/inspected owner. RD07-2172 original ADL55199 remains archived; prior reviewed/merged Infrastructure03094eff7bc3d8007368cc95c758b91d1073fa35 differs from inspected5f2513e34c9a8ffde11a9e46a8b6faba7a79d4c3. Six-case receipt is historical candidate proof,not current-owner-head qualification. No source correspondence establishes live acceptance,full originalmatrix orcloudplan/apply.",
+  "limits": [
+    "Source/custody review only; no original test, cloud, GitHub variable mutation, builder/model/provider/service execution.",
+    "Six-case static-validator receipt remains historical candidate proof; inspectedcurrent owner differs and is not qualified by that receipt.",
+    "CurrentXCL and Spotrefusal stubs are preserved with original assertions; no refusal counted as passing original behavior.",
+    "Four issue268 paths retire together under designated compositionownership; earlierRuntime13 proofs remain bounded separately.",
+    "All4134 and22 immutable identities remain unchanged; one new ADL adapter removal accounted separately."
+  ],
+  "prior_retention_supersessions": [
+    {
+      "id": "RD07-2081",
+      "prior_packet": "INFRASTRUCTURE_TOOL_FAMILY_APPLIED.json",
+      "reason": "Prior compatibility diagnostic retention ends with its full Spot producer/selector family retirement. Preserve original archived executable assertions; no refusal result is counted as proof."
+    },
+    {
+      "id": "RD07-2087",
+      "prior_packet": "RETAINED_ADAPTERS_THREE.json",
+      "reason": "Prior currentADL wrapper test retention ends only because its remote/Spot producers and exact ADL-only resourceadapter retire in this same packet. Preserve original and repaired mocked assertions plus actual earlier six-invocation proof; no live SSH/AWS or current owner equivalence claim."
+    }
+  ],
+  "preserved_callers": [
+    {
+      "path": "adl/tools/test_owner_binary_install.sh",
+      "mode": "100755",
+      "blob": "7e6d589f9f3fdc868881c873a7649117002ba08a",
+      "sha256": "0a51632d4643bc4bf0aa06d0136078a304968b6d560a416616796d0770a934fd",
+      "reason": "Creates fixture-local dummy Vector installers; never reads the removed actual installer. All original assertions remain unchanged."
+    },
+    {
+      "path": "adl/tools/skills/repo-packet-builder/tests/fixtures/issue-520-changed-paths.txt",
+      "mode": "100644",
+      "blob": "f652da0f91908d6c384d3a716a5df1aff1d7580a",
+      "sha256": "59c4c5de57d5aac07549a97bf508c00cbc2b5234e63f984a2eece6a8e07acb33",
+      "reason": "Historical changed-path fixture strings, not executable source dependencies. Preserved unchanged."
+    }
+  ],
+  "proposal_source_head": "f8ab9567f603ea654f0e15a00fb20d576c1ac6f7",
+  "review": {
+    "status": "PASS",
+    "reviewer": "review_1223_public_facade",
+    "proposal_sha256": "51912f8a3240e9584bcf53a8f87f9e50d325d5c4e45c0962cc09221939e585d1",
+    "scope": "Reviewed source/caller/custody composition; all individual qualification and historical limits preserved."
+  }
+}

@@ -1,0 +1,539 @@
+{
+  "schema": "adl1223.v0915_historical_validator_closure.v1",
+  "status": "applied",
+  "source_head": "d97e221b28b7412ca64b6f05861ea332dfd7f205",
+  "rows": [
+    {
+      "id": "RD07-2137",
+      "path": "adl/tools/test_v0915_multi_agent_quality_comparison.sh",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "256312ef8f7f69e408f7400baf983e5d3cc0db01",
+        "sha256": "a230102150e9c03520808c98207cc5bd1bdab97a9b3968ddc7901fee09cc1b01"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/test_v0915_multi_agent_quality_comparison.sh"
+        ]
+      },
+      "recommended_action": "retain_resolved"
+    },
+    {
+      "id": "RD07-2138",
+      "path": "adl/tools/test_v0915_openrouter_matrix.sh",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "0d35a8e76443efaa73a963e69e881ee0ed7afe62",
+        "sha256": "c1454b631c96800c70d44c056f2336bef987bab5e1620a57ac5385c71cd7c545"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/test_v0915_openrouter_matrix.sh"
+        ]
+      },
+      "recommended_action": "preserve_reviewed_consumer_repair"
+    },
+    {
+      "id": "RD07-2139",
+      "path": "adl/tools/test_v0915_remote_gemma_watcher_probe.sh",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "250455d3f71f0e9ad486290cfad004f8f2933bad",
+        "sha256": "04adc5b5ad9e282ab424034362bde8293f3b70db6f73ef42cbb39e490f0c12c5"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/test_v0915_remote_gemma_watcher_probe.sh"
+        ]
+      },
+      "recommended_action": "retain_resolved"
+    },
+    {
+      "id": "RD07-2217",
+      "path": "adl/tools/validate_v0915_multi_agent_quality_comparison.py",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "51c9b8fd9c8f43862243330d253cac2097f1d4ea",
+        "sha256": "6c8216d816bea819e1c882c0c2a2b95ad5579d7d5c2048008b8aa89b1b6d5f68"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/validate_v0915_multi_agent_quality_comparison.py"
+        ]
+      },
+      "recommended_action": "retain_resolved"
+    },
+    {
+      "id": "RD07-2218",
+      "path": "adl/tools/validate_v0915_openrouter_matrix.py",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "9e55fa20c46b36ad976ad607589b9af77e1e4958",
+        "sha256": "185c7f4e422d5c07cebb84867ecf0ab827a1c40b5527ce73199b0af5d8b712d7"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/validate_v0915_openrouter_matrix.py"
+        ]
+      },
+      "recommended_action": "retain_resolved"
+    },
+    {
+      "id": "RD07-2219",
+      "path": "adl/tools/validate_v0915_remote_gemma_watcher_probe.py",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "4d7331b3bcb10170a10d0e973efbae51c326c761",
+        "sha256": "1445c697a6a8ad8b468f5b944f530af9d3a10739be75e6da8b40e6327d9a5689"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/validate_v0915_remote_gemma_watcher_probe.py"
+        ]
+      },
+      "recommended_action": "retain_resolved"
+    }
+  ],
+  "removed_count": 0,
+  "files": [
+    {
+      "path": "adl/tools/test_v0915_openrouter_matrix.sh",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "0d35a8e76443efaa73a963e69e881ee0ed7afe62",
+        "sha256": "c1454b631c96800c70d44c056f2336bef987bab5e1620a57ac5385c71cd7c545"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "3d177e226944a3229ca151a91666b9d2e135826d",
+        "sha256": "c48b7c2afc4fbdf9f19824c9c77e211a8841438e79a11481a8f08fd6407e17aa"
+      }
+    },
+    {
+      "path": "adl/tools/README.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "4867f7e9394abf65eceac3378aeffb80fb38efbb",
+        "sha256": "934d95ce908e33a5d27f713711bd4888ea2b4f24595d4eb991132ecd370edc74"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "8807f3e7f5b12c7be2a0ad42890e23e57603443f",
+        "sha256": "709dc9943a62b13f7922ed11740b0595e2d5a9819221b0ad4c2c3194e188c15b"
+      }
+    }
+  ],
+  "immutable_packet_inputs": [
+    {
+      "path": "docs/milestones/v0.91.5/review/multi_agent_quality_comparison/MULTI_AGENT_QUALITY_COMPARISON_2026-06-15.md",
+      "sha256": "c9f7e1eba74d41ebe65e5e1e52d03a6399564565e15f491f231421b4ba1815e4"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/review/multi_agent_quality_comparison/lane_outputs/multi_agent_overhead_claude_3_5_haiku.md",
+      "sha256": "767b921dbb8de21f9d7db35620f95c725b7b93ee0d76c2e65d4abbb0028e5fe8"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/review/multi_agent_quality_comparison/lane_outputs/multi_agent_provider_openai_gpt4o_mini.md",
+      "sha256": "2484ac1465be4790ae767c4502d340981f2664b43c1340b882c1251d8037fc7d"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/review/multi_agent_quality_comparison/lane_outputs/multi_agent_watcher_gemini_2_5_flash_lite.md",
+      "sha256": "2412f8291698744289055d08173e7db0bf4069dafd405f5e547f2fd8406cf061"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/review/multi_agent_quality_comparison/lane_outputs/single_agent_openrouter_deepseek_v4_flash.md",
+      "sha256": "a89bd4e70c579e34e2328bb50164b3d8cfc31bb68ffc42b95e687b6012520c73"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/review/multi_agent_quality_comparison/v0915_multi_agent_quality_comparison_state_2026-06-15.json",
+      "sha256": "6bd7a4a5ca63aa62d3dc187546e43bbed6018f3503faa9bf18f5c48dbfa3b691"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/review/remote_gemma_watcher/REMOTE_GEMMA_WATCHER_PROOF_2026-06-15.md",
+      "sha256": "abf47a48d02bb7570bccc595610e306534b553b5f26ded9d20a14badb1d0f8f0"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/review/remote_gemma_watcher/lane_outputs/adapter_gemma4_31b.md",
+      "sha256": "7adac113a90b5413465d209811c301e9e852e79d54c6b4f37ca058a7dc76e4da"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/review/remote_gemma_watcher/lane_outputs/raw_gemma4_26b.md",
+      "sha256": "2e5b5bfcf1005d2656d97eb47f8f005962dd70d7de8b32d90c86539a65056fa5"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/review/remote_gemma_watcher/lane_outputs/raw_gemma4_e4b.md",
+      "sha256": "a78fe86ec9561f56b78a712f21d361a61f716eff194e748ea1d463e70ddeb2b0"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/review/remote_gemma_watcher/v0915_remote_gemma_watcher_state_2026-06-15.json",
+      "sha256": "b196de3442306f95f73444c74fda4557d0a375fdd6753669cfe09edcaa47a6c4"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/review/openrouter_matrix/OPENROUTER_MATRIX_PROOF_2026-06-14.md",
+      "sha256": "26cc9a77301d65130239f9db877b9c3c37dd17d191375b4355ad9a1940ce77fe"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/review/openrouter_matrix/README.md",
+      "sha256": "2c654496ed31f3b6c96e5430c16fae31ebd2c3ceef84c4c9b62a45707d28ce25"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/review/openrouter_matrix/catalog_snapshot_2026-06-14.json",
+      "sha256": "ab00e83bf99c15d3ecb96de969ecf1b933d144612f7b6de2cc806f396a52e462"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/review/openrouter_matrix/lane_logs/negative_missing_credential.jsonl",
+      "sha256": "ac79622bd690b674284a569bbc973d4add3d7ac0d6d53c030a741e28cf30dcf3"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/review/openrouter_matrix/lane_logs/planner_openrouter_deepseek_v4_flash.jsonl",
+      "sha256": "93ec7de26ae965af72429c52c0d1abbefd411ef71d997762ad3e452c4760c927"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/review/openrouter_matrix/lane_logs/reviewer_openrouter_claude_3_5_haiku.jsonl",
+      "sha256": "1d18ec948e022a2e0c89477902f3863abc1e94d509f08fe5a45f219abcbf49d1"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/review/openrouter_matrix/lane_logs/watcher_openrouter_gemini_2_5_flash_lite.jsonl",
+      "sha256": "f494dd49d63833d1bd1797ebc1d19c6b26c595e4bb83b044d466da2feca1084e"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/review/openrouter_matrix/lane_logs/worker_openrouter_gpt4o_mini.jsonl",
+      "sha256": "ec4effc85506b283451016170716aa1094b4a5966d97bd927ac84f0226190ede"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/review/openrouter_matrix/lane_logs/worker_openrouter_qwen3_6_flash.jsonl",
+      "sha256": "cb2870dfd9e761750e22ad0203e33c68f5a1d30b7bcefca3b0225a0df3a0ff6e"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/review/openrouter_matrix/lane_outputs/planner_openrouter_deepseek_v4_flash.md",
+      "sha256": "cd8d62bd647acb57495ae5619f583d7b6c3cebfd0660d847de6b7d7821ba5413"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/review/openrouter_matrix/lane_outputs/reviewer_openrouter_claude_3_5_haiku.md",
+      "sha256": "997bd07bf3a133b6796586079da22657f880807619348ab7e4e7c757bec4662d"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/review/openrouter_matrix/lane_outputs/watcher_openrouter_gemini_2_5_flash_lite.md",
+      "sha256": "19906fcb2e3cec8f3bc9196c56580339be9bc1ac4801b6b76b8241357a1cb039"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/review/openrouter_matrix/lane_outputs/worker_openrouter_gpt4o_mini.md",
+      "sha256": "b789f5436056debcc73384d18497a134be89b544653ae4786435b3fb6a2eb1d9"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/review/openrouter_matrix/lane_outputs/worker_openrouter_qwen3_6_flash.md",
+      "sha256": "540afc4258fa497277a5a623e47a7d597e08fd1c861643fde5e219a98e0249fe"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/review/openrouter_matrix/lane_requests/negative_missing_credential.json",
+      "sha256": "aadcec530ccb60828328e45b27f5dd98fe094c997f0ea5b2755f25ec2ec07724"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/review/openrouter_matrix/lane_requests/planner_openrouter_deepseek_v4_flash.json",
+      "sha256": "17f0304a0ee87836ed06ec10d467cb1c901a3ad2f6c607a1f58417ecfe9fc39c"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/review/openrouter_matrix/lane_requests/reviewer_openrouter_claude_3_5_haiku.json",
+      "sha256": "9b0ec5363220b0c9176d6e91f6c0a58c13641c66b429811114307c7b0b8b2ce6"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/review/openrouter_matrix/lane_requests/watcher_openrouter_gemini_2_5_flash_lite.json",
+      "sha256": "0b2dc1f4272ee8ea4b34e45ec31441cb684dfbad1ea94fd5408750dd3ebb76b2"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/review/openrouter_matrix/lane_requests/worker_openrouter_gpt4o_mini.json",
+      "sha256": "b07da27a5878687cd9f8a95f2ddbba259f8bd704bdcc2462d05f5da6721014ad"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/review/openrouter_matrix/lane_requests/worker_openrouter_qwen3_6_flash.json",
+      "sha256": "dfb80b7bee8d32a756276825943d91f1190d6860fd64e40408a7e353ab9a0ed8"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/review/openrouter_matrix/lane_results/negative_missing_credential.json",
+      "sha256": "34cf0cc4f5f72e5c4b833f824056de3f29c8fac10a680cd94c2c6ebe6c2a1e6a"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/review/openrouter_matrix/lane_results/planner_openrouter_deepseek_v4_flash.json",
+      "sha256": "cdc23755460933ba32ebffc75d39662681f6e2174a5337f19c081899e48ca58f"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/review/openrouter_matrix/lane_results/reviewer_openrouter_claude_3_5_haiku.json",
+      "sha256": "160cc2d06c4a152b4c933b7d84a076e4083c2ec2cc92f3c29d5935fcc6febffb"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/review/openrouter_matrix/lane_results/watcher_openrouter_gemini_2_5_flash_lite.json",
+      "sha256": "003283ef7b5aeadccd5981e3a9a878af31ff1451b9285cde50f492200e4d2aa3"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/review/openrouter_matrix/lane_results/worker_openrouter_gpt4o_mini.json",
+      "sha256": "8ee75112662ca924b3c190f58afa4331c0a235691912d23f15831b397174c419"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/review/openrouter_matrix/lane_results/worker_openrouter_qwen3_6_flash.json",
+      "sha256": "227ba6705976d44425eaa48f0d254403c5fdaea4c5fc8f3dbc83d36b328116d2"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/review/openrouter_matrix/openrouter_matrix_state_2026-06-14.json",
+      "sha256": "98ee91457afc7f6987139ff0f22df48660edcf399ff71f18bc4334495b684f9b"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/review/openrouter_matrix/provider_invocations.json",
+      "sha256": "a00dafaae26e619236becd1f7d86afe5fa503dae2d23748ec3fa5c2462bac708"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/review/openrouter_matrix/provider_setup/README.md",
+      "sha256": "c3d9adbc6c00ce0173643e08ef2887d244ce1b27b9b17cdf95ef4d1401af119f"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/review/openrouter_matrix/provider_setup/env.example",
+      "sha256": "e70af9a0a01ca067ffd2ad194cbb1b7d3009eb5288f04f50485a9dccf25f312d"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/review/openrouter_matrix/provider_setup/provider.adl.yaml",
+      "sha256": "41ee3e2507e8f22ac956da70494df4b6a0530183a0f465a6eed7df777eca3be9"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/review/multi_agent_overhead/MULTI_AGENT_OVERHEAD_COMPARISON_2026-06-14.md",
+      "sha256": "f26ab183972b6b020741cb1ba5a70a47c311012ae5a081b99d28cbffc6386dff"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/review/multi_agent_overhead/multi_agent_overhead_comparison_2026-06-14.json",
+      "sha256": "db2a8a49ea66e94c52355148b5ffe230cc8be042d6996484a9ea62035617e637"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/review/multi_agent_workcell/V0915_PARALLEL_C_SDLC_WORKCELL_PROOF_PACKET_2026-06-14.md",
+      "sha256": "bb35825a77157c3ff4c31b92861f824cb1f2b320ce3b9689316a2ae9a9e558b0"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/review/multi_agent_workcell/lane_outputs/planner_openrouter_deepseek_v4_flash.md",
+      "sha256": "cce2532d2b19ab2b755410d7ee1dac5eaa7c80edfdabde2f23c133ab088d2eba"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/review/multi_agent_workcell/lane_outputs/watcher_remote_gemma4_e2b.md",
+      "sha256": "65fa05bd2b2f6644404894696853cddd62d932dc3ccfdad7ac62ca23ab0ae301"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/review/multi_agent_workcell/lane_outputs/worker_local_qwen3_coder_30b.md",
+      "sha256": "7154b7f4db750e9e0695c95e18099177688ce1ab99b8a8dba70d45cea5027ebb"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/review/multi_agent_workcell/v0915_parallel_csdlc_workcell_state_2026-06-14.json",
+      "sha256": "49aa4b211d619a783f7e982f58b18467524d87d070f372a2d22828b120521630"
+    }
+  ],
+  "custody": {
+    "path": "/Volumes/FastWork/c1223/v0915-historical-validation-closure/current-original.tar",
+    "sha256": "36a6c0b696b6b826d1c476df61255593a95e88c0699b77af3e25021df7822422"
+  },
+  "patch": {
+    "path": "/Volumes/FastWork/c1223/v0915-historical-validation-closure/qualified-r3-eof/packet-validation-only.patch",
+    "sha256": "2a2a930b2d16505fdd417fb5822304bea7d37c908ccc79f8fab39063ee7f63e7"
+  },
+  "disposition": "Retain original ADL evidence validators and offline consumers. These load immutable ADL packets via repo-relative paths; quality validator invokes its two upstream local validators. Owner source presence without these packet resources does not qualify a standalone replacement. Narrow mixed-test repair removes implicit live effects and retired monolithic Cargo commands while preserving every original offline statement.",
+  "original_assertion_disposition": {
+    "quality": "Unchanged: two valid executions (repo and /private/tmp cwd), six mutated packet refusal executions and exact diagnostic greps. Each accepted upstream invokes original OpenRouter and Gemma validators.",
+    "remote_gemma": "Unchanged: two valid executions and five mutated packet refusal executions with exact diagnostic greps.",
+    "openrouter_offline": "All original offline statements retained: two valid executions plus negative-control failure-kind mutation and proof-heading mutation refusals. Only end-of-test success label now explicitly narrows scope.",
+    "openrouter_live_historical": {
+      "removed_source": "key_file=\"${ADL_OPENROUTER_KEY_FILE:-$HOME/keys/openrouter.key}\"\nlive_tmp=\"\"\ntmpdir=\"\"\n\nif [[ -z \"${OPENROUTER_API_KEY:-}\" && ! -s \"$key_file\" ]]; then\n  echo \"SKIP live runner check: missing OPENROUTER_API_KEY and $key_file\" >&2\nelse\n  live_tmp=\"$(mktemp -d \"$repo_root/.tmp-openrouter-live.XXXXXX\")\"\n  trap 'rm -rf \"$tmpdir\" \"$live_tmp\"' EXIT\n  python3 adl/tools/run_v0915_openrouter_matrix.py --out \"$live_tmp/packet\"\n  python3 - <<'PY' \"$live_tmp/packet/openrouter_matrix_state_2026-06-14.json\"\nimport json\nimport sys\nfrom pathlib import Path\n\npath = Path(sys.argv[1])\ndata = json.loads(path.read_text())\nlanes = data.get(\"lanes\", [])\nif len(lanes) != 6:\n    raise SystemExit(\"expected six lanes in live runner state output\")\nstatuses = {lane.get(\"contract_status\") for lane in lanes}\nallowed = {\"supported\", \"non_proving\", \"blocked_missing_credential\"}\nif not statuses.issubset(allowed):\n    raise SystemExit(f\"unexpected live runner statuses: {sorted(statuses)}\")\nnegative = [lane for lane in lanes if lane.get(\"role\") == \"negative_control\"]\nif len(negative) != 1 or negative[0].get(\"failure_kind\") != \"provider_auth_missing\":\n    raise SystemExit(\"live runner missing fail-closed negative control\")\nsupported_or_non_proving = [\n    lane for lane in lanes if lane.get(\"role\") != \"negative_control\"\n]\nif len(supported_or_non_proving) != 5:\n    raise SystemExit(\"expected five routed live lanes\")\nPY\nfi\n",
+      "obligation": "Optional original live producer plus five structural checks on six lanes/allowed statuses/negative-control/five routed lanes remain explicitly unqualified. No credentials read or live execution in retained offline test."
+    },
+    "openrouter_cargo_historical": [
+      "cargo test --manifest-path adl/Cargo.toml provider_setup_supports_all_declared_families -- --nocapture",
+      "cargo test --manifest-path adl/Cargo.toml provider_setup_supports_model_override_for_openrouter -- --nocapture",
+      "cargo test --manifest-path adl/Cargo.toml provider_substrate_accepts_native_openai_anthropic_deepseek_and_openrouter_kinds -- --nocapture"
+    ]
+  },
+  "qualification_plan": {
+    "execute_now": false,
+    "lanes": [
+      "adl/tools/test_v0915_multi_agent_quality_comparison.sh",
+      "adl/tools/test_v0915_openrouter_matrix.sh",
+      "adl/tools/test_v0915_remote_gemma_watcher_probe.sh"
+    ],
+    "denominator": "Two unchanged original shell tests (8+7 invocations) plus repaired mixed-script offline original subset (4 invocations); 19 direct validator invocations, upstream calls additional/nonadditive. Not a full original mixed-script pass.",
+    "inputs": "Six exact scripts plus49 immutable packet/resource files. Root marker only for repo-relative resolution; /private/tmp cwd must exist inside private isolated environment. No product binary, Cargo, provider, network, or owner-source graft needed.",
+    "isolation": "Executed once in pinned existing network-none container with private copied fixture, no mounts/credentials. All55 declared source/packet inputs exact before and after every case. No original full mixed-script pass."
+  },
+  "limits": [
+    "No source deletion; no original inventory identity change.",
+    "All three live producer scripts1508/1509/1510 remain separately unresolved, not silently retired or qualified.",
+    "Executed two unchanged full offline originals plus original four-check offline subset, not the excluded live provider/Cargo branches. Validators and two complete original test bodies unchanged."
+  ],
+  "prior_proposal": {
+    "path": "/Volumes/FastWork/c1223/v0915-historical-validation-closure/PROPOSAL.json",
+    "sha256": "ce796137c05457939d23a47330d01138010e8a7c804218fc79291304a98e618d"
+  },
+  "proofs": [
+    {
+      "path": "/Volumes/FastWork/c1223/v0915-historical-validation-closure/offline-plan/PLAN.json",
+      "sha256": "df5003371f84d86cd37aa5f37688ef4dd54b37aad5046020750d46424c79743a"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/v0915-historical-validation-closure/offline-plan/driver.py",
+      "sha256": "3af0236cf370055dc8068b45b4e8a3014500b282f84b9e06d3bbb22c651876a5"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/v0915-historical-validation-closure/offline-plan/execute.py",
+      "sha256": "b5b1bfcfefbcecbc5fe6ca3fd7acc4857cd2470fc708cdb768e295d1beb588bc"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/v0915-historical-validation-closure/offline-plan/EXECUTION_PINS.json",
+      "sha256": "c567532ba985e42bafed61e3db59379e570c4d2c977dd707b4558956a8df7d2c"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/v0915-historical-validation-closure/offline-plan/execution/RESULT.json",
+      "sha256": "76c72a1e5002f3ddc93dabb9eb4de4183e524f0c6bc66fc6f3f7bb5dfbc2c72c"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/v0915-historical-validation-closure/offline-plan/execution/CONTAINER.json",
+      "sha256": "bb86ab6952ddbe98c3b779782c699078e62fc587977cec62046dae1eef828052"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/v0915-historical-validation-closure/offline-plan/execution/output/result.json",
+      "sha256": "b18d880497254392595477e67fd5b1c6c4f2645767bcd10f5f84b04cd23cb61b"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/v0915-historical-validation-closure/offline-plan/execution/output/case-1/stdout",
+      "sha256": "d03f1474b57e08a62c915870ee4bc04289e64fbf3f11a1741fa8a0b89abd56c6"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/v0915-historical-validation-closure/offline-plan/execution/output/case-1/stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/v0915-historical-validation-closure/offline-plan/execution/output/case-2/stdout",
+      "sha256": "a17a794c1a42ef6a38925e5e02f7ef4a2c7f8b2e3e824f8b2731de15b0010181"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/v0915-historical-validation-closure/offline-plan/execution/output/case-2/stderr",
+      "sha256": "51e9c74ec3d5c84e6ce22f4cc4bd979be5e5d083d98f1ef488298d3310050ca7"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/v0915-historical-validation-closure/offline-plan/execution/output/case-3/stdout",
+      "sha256": "91ec66fd116ab37445631bcde0a2df414bcf00728229c8308aa8843417aaa846"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/v0915-historical-validation-closure/offline-plan/execution/output/case-3/stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "qualification_result": {
+    "status": "PASS",
+    "tests": [
+      {
+        "test": "adl/tools/test_v0915_multi_agent_quality_comparison.sh",
+        "exit_code": 0,
+        "timeout": false,
+        "seconds": 1.7683841850011959,
+        "stdout_sha256": "d03f1474b57e08a62c915870ee4bc04289e64fbf3f11a1741fa8a0b89abd56c6",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "inputs_after_exact": true
+      },
+      {
+        "test": "adl/tools/test_v0915_openrouter_matrix.sh",
+        "exit_code": 0,
+        "timeout": false,
+        "seconds": 0.36333850499795517,
+        "stdout_sha256": "a17a794c1a42ef6a38925e5e02f7ef4a2c7f8b2e3e824f8b2731de15b0010181",
+        "stderr_sha256": "51e9c74ec3d5c84e6ce22f4cc4bd979be5e5d083d98f1ef488298d3310050ca7",
+        "inputs_after_exact": true
+      },
+      {
+        "test": "adl/tools/test_v0915_remote_gemma_watcher_probe.sh",
+        "exit_code": 0,
+        "timeout": false,
+        "seconds": 0.8588327940015006,
+        "stdout_sha256": "91ec66fd116ab37445631bcde0a2df414bcf00728229c8308aa8843417aaa846",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "inputs_after_exact": true
+      }
+    ],
+    "original_full_scripts_executed": 2,
+    "repaired_subset_scripts_executed": 1,
+    "denominators": "Two unchanged original shell tests (8+7 invocations) plus repaired mixed-script offline original subset (4 invocations); 19 direct validator invocations, upstream calls additional/nonadditive. Not a full original mixed-script pass.",
+    "inputs_before_after_exact": true
+  },
+  "eof_correction": {
+    "prior_proposal": {
+      "path": "/Volumes/FastWork/c1223/v0915-historical-validation-closure/qualified-r2/PROPOSAL.json",
+      "sha256": "5c4496b940bf1ed3a7ec6798701b3eaa1161eda4023acc917acd41b6705fee8f"
+    },
+    "change": "Remove exactly one final LF from README; retain one terminating newline. All script bytes, custody, and original execution evidence unchanged."
+  },
+  "proposal_source_head": "833360ac5fe5ff71b88082bded75cef1a09a6801",
+  "review": {
+    "status": "PASS",
+    "reviewer": "review_1223_historical_retention; review_1223_applied_components",
+    "proposal_sha256": "3aa06a98f386ad1d15937b74fdf9e8a5f471e6f1b136b23d1689a6db89cd4dfc",
+    "scope": "Original source and actual proof reviewed; exact one trailing LF removal independently reviewed, unchanged behavior."
+  }
+}

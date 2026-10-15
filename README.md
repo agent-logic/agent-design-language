@@ -1,355 +1,89 @@
 # Agent Design Language (ADL)
 
-Agent Design Language is a deterministic cognitive architecture for building
-agent-based systems that are reliable, governable, observable, and reviewable.
+ADL is the public language, contract and command surface for Agent Logic systems.
+It provides portable workflow presentation, schemas, tool contracts and a CLI that
+routes product execution to separately installed owners. Runtime, CodeFriend and
+Cognitive-SDLC implementations live in their own repositories after the #1223 split.
 
-ADL is a Rust-backed runtime and documentation system for turning agent work
-into explicit programs, governed tool calls, traceable artifacts, review
-packets, demos, and milestone evidence.
+[Project website](https://agent-logic.ai) · [Repository map](docs/REPOSITORIES.md) ·
+[Contributing](CONTRIBUTING.md) · [Review guide](REVIEW.md)
 
-[![adl-ci (main)](https://github.com/agent-logic/agent-design-language/actions/workflows/ci.yaml/badge.svg?branch=main&event=push)](https://github.com/agent-logic/agent-design-language/actions/workflows/ci.yaml)
-[![coverage](https://codecov.io/gh/agent-logic/agent-design-language/graph/badge.svg?branch=main)](https://app.codecov.io/gh/agent-logic/agent-design-language/tree/main)
-![Milestone](https://img.shields.io/badge/milestone-v0.92%20complete-brightgreen)
+## What is in this repository
 
-Homepage: [agent-logic.ai](https://agent-logic.ai)
+| Path | Purpose |
+| --- | --- |
+| `adl/` | Public `adl` and `adl-process` commands; installed-product dispatch |
+| `adl-schema/` | Public schema package |
+| `adl-uts/` | Public tool-contract package |
+| `adl-v2/` | Retained public ADL v2 package |
+| `adl-legacy-contracts/` | Explicit legacy compatibility contracts |
+| `adl-spec/` | Language specification and schemas |
+| `tools/public_adl/` | Public validation, coverage and owner-selection contracts |
+| `docs/`, `demos/` | Current guidance and clearly bounded historical evidence |
 
-Canonical repository: [agent-logic/agent-design-language](https://github.com/agent-logic/agent-design-language)
+The public CLI does not contain the private Runtime engine, CodeFriend application
+or C-SDLC lifecycle implementation. A command being listed in help does not mean
+its product owner is installed or qualified. See the [CLI guide](adl/README.md)
+for the dispatch and installation-selection boundary.
 
-![ADL deterministic cognitive architecture overview](docs/assets/ADL-overview.png)
+## Get started
 
-## Table Of Contents
+Install Git and Rust through rustup. The repository pins Rust 1.92.0 and its
+components in [rust-toolchain.toml](rust-toolchain.toml). From a fresh checkout:
 
-- [Why ADL Exists](#why-adl-exists)
-- [What ADL Provides](#what-adl-provides)
-- [Core Ideas](#core-ideas)
-- [Quick Start](#quick-start)
-- [Recent Demos And Proofs](#recent-demos-and-proofs)
-- [Recent Milestones](#recent-milestones)
-- [Documentation Map](#documentation-map)
-- [Project Status](#project-status)
-
-## Why ADL Exists
-
-Agent systems are crossing from impressive prototypes into real operational
-infrastructure. To make that transition safely, they need more than fluent
-model output: they need durable programs, explicit authority, governed tools,
-state you can trust, and evidence strong enough for teams to build on.
-
-As these systems take on more authority, review and security work also need to
-become continuous. Serious agent platforms cannot rely only on occasional audits
-or after-the-fact explanations; they need workflows that can find, replay, and
-repair weaknesses as part of normal operation.
-
-ADL turns those requirements into an architecture for dependable agent systems:
-
-- deterministic workflows that make agent behavior reproducible
-- governed tools that separate model intent from runtime authority
-- Freedom Gate policy checks before risky action
-- traces, artifacts, and replay surfaces that make outcomes durable
-- milestone proof packages that connect product claims to evidence
-
-The project goal is simple: make agent-based systems safe enough to operate,
-clear enough to trust, and structured enough to improve.
-
-## What ADL Provides
-
-ADL already has a substantial platform baseline:
-
-- a Rust runtime and CLI for deterministic workflow execution
-- explicit workflow, task, agent, provider, and tool artifacts
-- bounded concurrency, retry, failure policy, signing, and verification
-- run artifacts, traces, replay-oriented inspection, and review records
-- governed tool calls through
-  [UTS + ACC](docs/explainers/UTS_AND_ACC.md)
-- traceable agent communication through [ACIP](docs/explainers/ACIP.md)
-- Runtime v2 and CSM Observatory planning and proof surfaces
-- Gödel agents and the
-  [Gödel-Hadamard-Bayes algorithm](docs/milestones/v0.86/features/GODEL_HADAMARD_BAYES_ALGORITHM.md)
-- structured PR/control-plane workflow with SIP, STP, SPP, VPP, SRP, and SOR records
-
-For the full capability matrix, read the canonical feature index:
-[docs/planning/ADL_FEATURE_LIST.md](docs/planning/ADL_FEATURE_LIST.md).
-
-## Core Ideas
-
-ADL starts with a deterministic runtime. Agent behavior is represented as
-explicit programs, bounded state, policy decisions, and replayable artifacts so
-intelligence can become infrastructure instead of an unreproducible transcript.
-
-- The ADL runtime and
-  [CSM](docs/explainers/CSM.md), the Cognitive Spacetime Manifold, are the
-  foundation: they turn agent intent into governed, replayable execution inside
-  a persistent runtime world with durable traces, artifacts, state transitions,
-  causality, identity continuity, and operator-visible observability.
-- [AEE](docs/explainers/AEE.md), the Adaptive Execution Engine, is ADL's
-  adaptation lineage: bounded strategy selection, recovery, learning, and
-  policy-aware execution without hidden magic.
-- The
-  [red/blue adversarial security model](docs/explainers/RED_BLUE_SECURITY.md)
-  makes attack, defense, exploit replay, and purple-team coordination part of
-  the runtime evidence story rather than a separate theater exercise.
-- [Gödel agents](docs/explainers/GODEL_AGENTS.md) are the long-running
-  direction for self-reference, self-improvement, and reviewable adaptation
-  inside the deterministic runtime.
-- The
-  [Gödel-Hadamard-Bayes algorithm](docs/milestones/v0.86/features/GODEL_HADAMARD_BAYES_ALGORITHM.md)
-  is the cognitive loop behind that work: structured awareness, controlled
-  hypothesis generation, and evidence-weighted judgment before authorized
-  action.
-- [UTS + ACC](docs/explainers/UTS_AND_ACC.md) gives the runtime governed tools:
-  portable tool shape stays separate from permission, visibility, redaction,
-  and audit evidence.
-- [ACIP](docs/explainers/ACIP.md) gives agents a communication layer for
-  conversation, consultation, delegation, review, handoff, and negotiation that
-  remains traceable by the runtime.
-
-## Quick Start
-
-Generate the retained v0.91 cognitive-being flagship proof packet:
-
-```bash
-cargo run --manifest-path adl/Cargo.toml -- runtime-v2 cognitive-being-flagship-demo --out artifacts/quickstart/cognitive-being-flagship
+```sh
+git clone https://github.com/agent-logic/agent-design-language.git
+cd agent-design-language
+cargo run --locked --manifest-path adl/Cargo.toml --bin adl -- --help
 ```
 
-Inspect a retained v0.91 multi-agent workflow plan:
+This builds and displays the public CLI. It does not install a product owner,
+start a service, or call a model provider. There is no root Cargo workspace:
+select the package manifest explicitly.
 
-```bash
-cargo run -q --manifest-path adl/Cargo.toml --bin adl -- adl/examples/v0-91-chatgpt-gemini-claude-triad-conversation.adl.yaml --print-plan
+For execution, obtain an independently qualified installation from the relevant
+[owner repository](docs/REPOSITORIES.md). Do not clone sibling private source
+repositories merely to build the public CLI. Runtime selection uses
+`ADL_RUNTIME_INSTALL_PREFIX` and `ADL_RUNTIME_ARCHIVE_SHA256`; follow the
+[public selector contract](adl/README.md#selected-product-owners) and the owner's
+artifact instructions rather than supplying an arbitrary executable.
+
+## Development and validation
+
+For a public CLI change, the focused validation entrypoint is:
+
+```sh
+bash tools/public_adl/run_cli_ci.sh
 ```
 
-## Recent Demos And Proofs
+It checks the public dependency boundary, formatting, lint, named tests and
+installed-owner dispatch/refusal contracts. It is a build/test command, not a
+required step for reading documentation. Documentation edits use focused path,
+link and command-source checks; see [CONTRIBUTING.md](CONTRIBUTING.md).
+Product validation belongs to the corresponding owner. Public CI does not prove
+Runtime installation, provider readiness, CodeFriend release or C-SDLC admission.
 
-These are three high-signal recent demo entrypoints.
+## Documentation
 
-Start with the completed v0.91.4 C-SDLC release evidence lane:
+- [Contributor onboarding](docs/onboarding.md)
+- [Documentation index](docs/README.md)
+- [Language specification](adl-spec/README.md)
+- [Default issue workflow](docs/default_workflow.md)
+- [Agent instructions](AGENTS.md)
+- [C-SDLC package manuals](docs/csdlc-v3/man/README.md)
+- [Demo and historical proof index](demos/README.md)
+- [Source-retirement evidence](tools/source_retirement/README.md)
 
-- [v0.91.4 README](docs/milestones/v0.91.4/README.md)
-- [v0.91.4 sprint plan](docs/milestones/v0.91.4/SPRINT_v0.91.4.md)
-- [v0.91.4 demo matrix](docs/milestones/v0.91.4/DEMO_MATRIX_v0.91.4.md)
-- [v0.91.4 release evidence](docs/milestones/v0.91.4/RELEASE_EVIDENCE_v0.91.4.md)
+Milestone, architecture and demo records retain their original scope and dates.
+Historical monorepo commands are not current public CLI recipes. Source movement,
+merged changes and passing CI are distinct from installed-product or release
+acceptance; use the relevant owner's current evidence for those claims.
 
-Generate the v0.91 cognitive-being flagship proof bundle:
+## Issues, security and licensing
 
-```bash
-cargo run --manifest-path adl/Cargo.toml -- runtime-v2 cognitive-being-flagship-demo --out artifacts/v091/demo-d13-cognitive-being-flagship
-```
-
-Run the v0.90.5 governed-tools flagship demo:
-
-```bash
-cargo run --manifest-path adl/Cargo.toml -- demo demo-v0905-governed-tools-flagship --run --trace --out artifacts/v0905/flagship-demo --no-open
-```
-
-Run the v0.89.1 adversarial self-attack demo:
-
-```bash
-cargo run --manifest-path adl/Cargo.toml -- demo demo-h-v0891-adversarial-self-attack --run --trace --out .adl/reports/adversarial-demo --no-open
-```
-
-Review the v0.91
-[ChatGPT + Gemini + Claude triad conversation](demos/v0.91/chatgpt_gemini_claude_triad_conversation_demo.md)
-from issue
-[#2764](https://github.com/danielbaustin/agent-design-language/issues/2764).
-
-## Recent Milestones
-
-### v0.92 - Completed Milestone
-
-v0.92 completed ADL's first-birthday and resident-runtime milestone, including
-the associated continuity, memory, capability, learning, governed-tool,
-provider, Observatory, evidence, and review work. The retained milestone
-package records what shipped, what was proved, and what moved forward.
-
-Start here:
-
-- [v0.92 README](docs/milestones/v0.92/README.md)
-- [v0.92 sprint plan](docs/milestones/v0.92/SPRINT_v0.92.md)
-- [v0.92 issue wave](docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml)
-- [v0.92 execution readiness](docs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md)
-- [v0.92 feature-proof coverage](docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md)
-- [v0.92 milestone checklist](docs/milestones/v0.92/MILESTONE_CHECKLIST_v0.92.md)
-- [v0.92 canonical documentation inventory](docs/milestones/v0.92/CANONICAL_DOC_INVENTORY_v0.92.md)
-- [v0.92 third-party review handoff](docs/milestones/v0.92/review/THIRD_PARTY_REVIEW_HANDOFF_v0.92.md)
-
-### v0.91.8 - Retained Handoff Bridge
-
-v0.91.7 is now published as the [ADL v0.91.7 GitHub release](https://github.com/danielbaustin/agent-design-language/releases/tag/v0.91.7)
-and remains the implementation/readiness tranche that fed the v0.91.8 bridge.
-v0.91.8 completed its retained review and handoff bridge. The integrated quality gate merged at
-`2e9d2dd7c` and records 67 audited issue outcomes, 0 unacceptable outcomes,
-and passing ADL v2, Runtime v3, and C-SDLC v2 focused/integrated lanes. The
-subsequent documentation, internal and external review, remediation,
-revalidation, v0.92 handoff, and release-ceremony issues are closed. These
-retained records supply upstream evidence for v0.92; they do not prove any
-planned v0.92 outcome complete.
-
-Start here:
-
-- [v0.91.8 README](docs/milestones/v0.91.8/README.md)
-- [v0.91.8 sprint plan](docs/milestones/v0.91.8/SPRINT_PLAN_v0.91.8.md)
-- [v0.91.8 issue wave](docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml)
-- [v0.91.8 parallel plan](docs/milestones/v0.91.8/PARALLEL_EXECUTION_PLAN_v0.91.8.md)
-- [v0.91.8 WP-16 quality gate](docs/milestones/v0.91.8/evidence/wp16/QUALITY_GATE.md)
-- [v0.91.8 issue outcome audit](docs/milestones/v0.91.8/evidence/wp16/ISSUE_OUTCOME_AUDIT.md)
-- [v0.91.8 to v0.92 handoff](docs/milestones/v0.91.8/NEXT_MILESTONE_HANDOFF_v0.91.8.md)
-Historical v0.91.7 evidence:
-- [v0.91.7 README](docs/milestones/v0.91.7/README.md)
-- [v0.91.7 sprint plan](docs/milestones/v0.91.7/SPRINT_PLAN_v0.91.7.md)
-- [v0.91.7 issue wave](docs/milestones/v0.91.7/WP_ISSUE_WAVE_v0.91.7.yaml)
-- [v0.91.7 feature-doc index](docs/milestones/v0.91.7/FEATURE_DOCS_v0.91.7.md)
-- [v0.91.7 sprint-review register](docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md)
-
-### v0.91.6 - Completed First Bridge Tranche
-
-v0.91.6 is the completed first pre-v0.92 bridge/readiness tranche. Its retained
-handoff and release-tail evidence are inputs to v0.91.7; they are historical
-records rather than the current review entrypoint.
-
-Start here:
-
-- [v0.91.6 README](docs/milestones/v0.91.6/README.md)
-- [v0.91.6 sprint plan](docs/milestones/v0.91.6/SPRINT_PLAN_v0.91.6.md)
-- [v0.91.6 issue wave](docs/milestones/v0.91.6/WP_ISSUE_WAVE_v0.91.6.yaml)
-- [v0.91.6 feature-doc index](docs/milestones/v0.91.6/FEATURE_DOCS_v0.91.6.md)
-
-### v0.91.5 - Previous Bridge Package And Release-Tail Input
-
-v0.91.5 remains the immediate upstream bridge package between the C-SDLC
-rollout closeout and the v0.92 first-birthday milestone. It carried
-multi-agent stabilization, provider/model breadth, public prompt records, demo
-readiness, AEE completion routing, and activation testing so v0.91.6 and
-v0.91.7 could open from a cleaner operational base.
-
-Start here:
-
-- [v0.91.5 README](docs/milestones/v0.91.5/README.md)
-- [v0.91.5 sprint plan](docs/milestones/v0.91.5/SPRINT_v0.91.5.md)
-- [v0.91.5 issue wave](docs/milestones/v0.91.5/WP_ISSUE_WAVE_v0.91.5.yaml)
-- [v0.92 activation test map](docs/milestones/v0.91.5/V092_ACTIVATION_TEST_MAP_v0.91.5.md)
-
-### v0.91.4 - Completed Cognitive SDLC Default-Operation Milestone
-
-v0.91.4 is complete as the Cognitive SDLC completion and hardening milestone.
-Its issue wave closed through Sprint 4 release ceremony, and the crate version
-is `0.91.4`. The milestone turns the v0.91.3 first slice into default
-operating practice:
-validator/doctor/conductor/editor alignment, signed trace and ObsMem handoff
-hardening, five-minute-sprint repeatability, validation-tail/PVF work, and
-bounded sidecar evidence for CodeFriend and WildClawBench.
-
-Start here:
-
-- [v0.91.4 README](docs/milestones/v0.91.4/README.md)
-- [v0.91.4 issue wave](docs/milestones/v0.91.4/WP_ISSUE_WAVE_v0.91.4.yaml)
-- [v0.91.4 sprint plan](docs/milestones/v0.91.4/SPRINT_v0.91.4.md)
-- [v0.91.4 demo matrix](docs/milestones/v0.91.4/DEMO_MATRIX_v0.91.4.md)
-- [v0.91.4 quality gate](docs/milestones/v0.91.4/QUALITY_GATE_v0.91.4.md)
-- [v0.91.4 release evidence](docs/milestones/v0.91.4/RELEASE_EVIDENCE_v0.91.4.md)
-
-### v0.91.3 - Completed Cognitive SDLC First-Slice Milestone
-
-v0.91.3 is complete. It proved one bounded Cognitive State Transition with
-tracked cards, transition evidence, review synthesis, merge-readiness truth,
-ObsMem handoff, and a reviewer-facing first-proof/demo package. It does not
-claim full C-SDLC default operation; v0.91.4 owns repeatability, enforcement,
-signed trace proof, validation-tail hardening, and default adoption for future
-software-development issues.
-
-### v0.91.2 - Completed Tooling, Evaluation, Productization, And Workflow Pressure Release
-
-v0.91.2 is complete. It closed the UTS + ACC benchmark, runtime/test-cycle
-recovery, CodeFriend productization, Workspace bridge, modernization,
-publication packet, rustdoc/doc cleanup, repo-visibility follow-on, and
-workflow-guardrail pressure-release band. Its release-tail review, remediation,
-next-milestone planning, and ceremony work prepared v0.91.3 and v0.91.4.
-
-### v0.91.1 - Completed Inhabited Runtime Readiness Milestone
-
-v0.91.1 is complete. The core implementation, review, next-milestone handoff,
-final next-milestone review-pass wave, and release ceremony package landed
-before v0.91.2 opened.
-
-It ended with an observatory-visible agent runtime proof inside the CSM
-boundary: lifecycle state, citizen standing/state, memory/identity
-architecture, Theory of Mind, capability testing, intelligence metrics,
-governed learning, secure ACIP/A2A hardening, and an agent-shaped runtime run
-that remains explicit about non-claims for birthday, identity continuity, and
-external federation.
-
-Start here:
-
-- [v0.91.1 README](docs/milestones/v0.91.1/README.md)
-- [v0.91.1 issue wave](docs/milestones/v0.91.1/WP_ISSUE_WAVE_v0.91.1.yaml)
-- [v0.91.1 execution readiness](docs/milestones/v0.91.1/WP_EXECUTION_READINESS_v0.91.1.md)
-- [v0.91.1 release readiness](docs/milestones/v0.91.1/RELEASE_READINESS_v0.91.1.md)
-
-### v0.91 - Released Moral Governance And Cognitive-Being Milestone
-
-v0.91 is the completed `0.91.0` milestone. Its core line landed
-the moral governance, wellbeing, kindness, humor, affect, cultivated
-intelligence, structured planning, SRP, and secure intra-polis Agent Comms
-band. Internal review, third-party review, accepted-finding remediation,
-next-milestone handoff, release ceremony, tag, and release publication are
-complete.
-
-Start here:
-
-- [v0.91 README](docs/milestones/v0.91/README.md)
-- [v0.91 feature index](docs/milestones/v0.91/features/README.md)
-- [v0.91 release plan](docs/milestones/v0.91/RELEASE_PLAN_v0.91.md)
-- [v0.91 release readiness](docs/milestones/v0.91/RELEASE_READINESS_v0.91.md)
-
-### v0.90.5 - Completed Governed Tools v1.0
-
-v0.90.5 is the completed Governed Tools v1.0 milestone. It landed:
-Universal Tool Schema, ADL Capability Contract, deterministic registry and
-compiler surfaces, governed execution policy, trace/replay/redaction evidence,
-dangerous negative proofs, model compatibility work, and the first ACIP/Comms
-integration slice.
-
-Start here:
-
-- [v0.90.5 release readiness](docs/milestones/v0.90.5/RELEASE_READINESS_v0.90.5.md)
-- [v0.90.5 release evidence](docs/milestones/v0.90.5/RELEASE_EVIDENCE_v0.90.5.md)
-- [v0.90.5 release notes](docs/milestones/v0.90.5/RELEASE_NOTES_v0.90.5.md)
-
-### v0.90.4 - Completed Citizen Economics And Contract Market
-
-v0.90.4 is the completed bounded citizen-economics and contract-market
-milestone. It made contract schema, bid schema, evaluation, lifecycle,
-transition authority, external counterparty boundaries, delegation, and one
-bounded contract-market proof legible without claiming payment rails or
-production markets.
-
-## Documentation Map
-
-- [Feature list](docs/planning/ADL_FEATURE_LIST.md): canonical capability
-  overview and roadmap truth.
-- [Explainers](docs/explainers/README.md): short entrypoints for UTS + ACC,
-  ACIP, AEE, red/blue security, Gödel Agents, and CSM.
-- [Docs index](docs/README.md): repository documentation entrypoint.
-- [Changelog](CHANGELOG.md): milestone-level project history.
-- [ADRs](docs/adr/README.md): architecture decisions.
-- [GHB algorithm](docs/milestones/v0.86/features/GODEL_HADAMARD_BAYES_ALGORITHM.md):
-  cognitive loop behind Gödel-agent work.
-- [Examples](adl/examples/README.md): runnable ADL examples.
-- [Demos](demos/README.md): demo-oriented proof surfaces.
-- [AGENTS.md](AGENTS.md): repository-local operating contract for coding agents.
-
-## Project Status
-
-- Completed milestone: v0.92
-- Foundation sprint umbrella: #5858
-- Upstream handoff: v0.92 consumed the retained exact-revision v0.91.8
-  acceptance and handoff
-- Current ADL package and workspace version: `0.92.1`
-- Most recently completed engineering milestone: v0.92
-- Most recently published public release: v0.91.7
-  ([GitHub release](https://github.com/danielbaustin/agent-design-language/releases/tag/v0.91.7))
-- Current engineering/review context: [v0.92.2](docs/milestones/v0.92.2/README.md), with external review pending and product qualification incomplete and deferred to v0.93.1. The completed v0.92 package remains retained historical evidence; this entry does not declare a new public release.
-- Primary implementation language: Rust
-
-ADL is under active development. The repository contains implemented runtime
-surfaces, completed milestone evidence, retained milestone docs, and forward
-planning. Treat milestone documents as bounded engineering records: they say
-what is implemented, what is demoable, and what remains planned.
+Report public language/CLI issues in
+[the ADL issue tracker](https://github.com/agent-logic/agent-design-language/issues).
+Route product defects through the [repository map](docs/REPOSITORIES.md).
+Follow [SECURITY.md](SECURITY.md) for sensitive reports. Licensing remains governed
+by the repository's existing license files and package declarations; this refresh
+does not change their terms.

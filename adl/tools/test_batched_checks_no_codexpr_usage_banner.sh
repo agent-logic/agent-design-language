@@ -18,36 +18,14 @@ if grep -Fq "$RETIRED_CODEXW_NAME" "$ROOT_DIR/adl/tools/batched_checks.sh"; then
   exit 1
 fi
 
-set +e
-codex_pr_out="$(sh "$RETIRED_PR_SH" --help 2>&1)"
-codex_pr_rc=$?
-codexw_out="$(sh "$RETIRED_CODEXW_SH" --help 2>&1)"
-codexw_rc=$?
-set -e
-
-[[ "$codex_pr_rc" -eq 2 ]] || {
-  echo "assertion failed: codex_pr.sh should fail closed with exit 2" >&2
-  printf '%s\n' "$codex_pr_out" >&2
-  exit 1
-}
-
-[[ "$codexw_rc" -eq 2 ]] || {
-  echo "assertion failed: codexw.sh should fail closed with exit 2" >&2
-  printf '%s\n' "$codexw_out" >&2
-  exit 1
-}
-
-grep -Fq "retired and now fails closed" <<<"$codex_pr_out" || {
-  echo "assertion failed: codex_pr.sh missing fail-closed guidance" >&2
-  printf '%s\n' "$codex_pr_out" >&2
-  exit 1
-}
-
-grep -Fq "retired and now fails closed" <<<"$codexw_out" || {
-  echo "assertion failed: codexw.sh missing fail-closed guidance" >&2
-  printf '%s\n' "$codexw_out" >&2
-  exit 1
-}
+# The fail-closed migration wrappers are now removed. Their prior exit/guidance
+# assertions remain in #1223 custody; public source/output non-use stays below.
+for retired in "$RETIRED_PR_SH" "$RETIRED_CODEXW_SH"; do
+  [[ ! -e "$retired" ]] || {
+    echo "assertion failed: retired wrapper unexpectedly exists: $retired" >&2
+    exit 1
+  }
+done
 
 tmpdir="$(mktemp -d)"
 trap 'rm -rf "$tmpdir"' EXIT
@@ -79,6 +57,11 @@ for rel in sorted(set(re.findall(r'adl/tools/([A-Za-z0-9_.-]+\.sh)', source))):
     target.write_text("#!/usr/bin/env bash\nexit 0\n")
     target.chmod(0o755)
 PY
+mkdir -p "$repo/tools/public_adl"
+cat > "$repo/tools/public_adl/run_cli_ci.sh" <<'SH'
+#!/usr/bin/env bash
+exit 0
+SH
 chmod +x "$repo/adl/tools/batched_checks.sh" "$repo/adl/tools/pr.sh"
 
 fakebin="$tmpdir/fakebin"
@@ -107,4 +90,4 @@ if grep -Fq "$RETIRED_CODEXW_NAME" "$out"; then
   exit 1
 fi
 
-echo "retired codex wrappers fail closed and batched checks no longer depend on them: ok"
+echo "retired codex wrappers are absent and batched checks do not depend on them: ok"

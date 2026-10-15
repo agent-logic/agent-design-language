@@ -1,0 +1,634 @@
+{
+  "schema": "adl1223.cf_qualified_twelve.proposal.v1",
+  "source_head": "14706c14b12090a4d354755387b0b49997f6c0a7",
+  "rows": [
+    {
+      "id": "RD07-1288",
+      "path": "adl/tools/codefriend_memory_installed_proof.py",
+      "owner": "codefriend",
+      "component": "codefriend-unmapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "dce774ef1c296a172f3135114295f7fc78e5ccf2"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Existing owner installed consumer route; preserve original scenarios and producer dependency identity through existing evidence.",
+        "coherent caller and component disposition; no source-only qualification claim"
+      ],
+      "successor_mapping": {
+        "mapping": "unmapped",
+        "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
+        "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CODEFRIEND_27_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
+        "proposal": "Existing owner installed consumer route; preserve original scenarios and producer dependency identity through existing evidence.",
+        "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
+      }
+    },
+    {
+      "id": "RD07-4109",
+      "path": "tools/codefriend_host/ci/manifest.py",
+      "owner": "codefriend",
+      "component": "codefriend-other-consumers",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "0baf7bf321f15cb6eb45bef649d3b2ea43143740"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
+        "coherent caller and component disposition; no source-only qualification claim"
+      ],
+      "successor_mapping": {
+        "mapping": "same_path_changed",
+        "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
+        "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CODEFRIEND_27_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
+        "proposal": "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
+        "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
+      }
+    },
+    {
+      "id": "RD07-4111",
+      "path": "tools/codefriend_host/ci/test_manifest.py",
+      "owner": "codefriend",
+      "component": "codefriend-other-consumers",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "b61e934db19542fc0f5eb7f0efabead0e3b20048"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
+        "coherent caller and component disposition; no source-only qualification claim"
+      ],
+      "successor_mapping": {
+        "mapping": "same_path_changed",
+        "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
+        "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CODEFRIEND_27_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
+        "proposal": "Owner documents adapted manifest/release and installed component proof; preserve original live website/gateway integration separately. Old docs/validation files require explicit navigation/inventory supersession, not silent disappearance.",
+        "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
+      }
+    },
+    {
+      "id": "RD07-4113",
+      "path": "tools/codefriend_host/idle_stop.py",
+      "owner": "codefriend",
+      "component": "codefriend-other-consumers",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "e364866e37bd83724b28225e0f4435902f4e84f8"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "coherent component and caller cutover",
+        "qualified owner adoption; exact source correspondence alone is insufficient",
+        "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
+        "exact_successor_paths": [
+          "tools/codefriend_host/idle_stop.py"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "CODEFRIEND_71_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "7c32a923f22ebfd0c3069d1f051f7201a8e97f27a6fba8343f4c2e91f5668648",
+        "proposal": "conditional_owner_transfer",
+        "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      }
+    },
+    {
+      "id": "RD07-4114",
+      "path": "tools/codefriend_host/initialize_registry.py",
+      "owner": "codefriend",
+      "component": "codefriend-other-consumers",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "cdecf137cb3eed135ff84a67e85a74f63061225c"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "coherent component and caller cutover",
+        "qualified owner adoption; exact source correspondence alone is insufficient",
+        "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
+        "exact_successor_paths": [
+          "tools/codefriend_host/initialize_registry.py"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "CODEFRIEND_71_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "7c32a923f22ebfd0c3069d1f051f7201a8e97f27a6fba8343f4c2e91f5668648",
+        "proposal": "conditional_owner_transfer",
+        "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      }
+    },
+    {
+      "id": "RD07-4115",
+      "path": "tools/codefriend_host/probe_linux_control.py",
+      "owner": "codefriend",
+      "component": "codefriend-other-consumers",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "d5833efc8271aa2ea1fb7eb0317f21a61e9ab670"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "coherent component and caller cutover",
+        "qualified owner adoption; exact source correspondence alone is insufficient",
+        "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
+        "exact_successor_paths": [
+          "tools/codefriend_host/probe_linux_control.py"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "CODEFRIEND_71_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "7c32a923f22ebfd0c3069d1f051f7201a8e97f27a6fba8343f4c2e91f5668648",
+        "proposal": "conditional_owner_transfer",
+        "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      }
+    },
+    {
+      "id": "RD07-4123",
+      "path": "tools/codefriend_host/systemd/codefriend-gateway.service",
+      "owner": "codefriend",
+      "component": "codefriend-other-consumers",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "31acf843322443aea2d362b50a92b030e88e6625"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "coherent component and caller cutover",
+        "qualified owner adoption; exact source correspondence alone is insufficient",
+        "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
+        "exact_successor_paths": [
+          "tools/codefriend_host/systemd/codefriend-gateway.service"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "CODEFRIEND_71_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "7c32a923f22ebfd0c3069d1f051f7201a8e97f27a6fba8343f4c2e91f5668648",
+        "proposal": "conditional_owner_transfer",
+        "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      }
+    },
+    {
+      "id": "RD07-4124",
+      "path": "tools/codefriend_host/systemd/codefriend-idle-stop.service",
+      "owner": "codefriend",
+      "component": "codefriend-other-consumers",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "d5ac4177e9a6d81225e7ad3ef655dc170c3020bb"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "coherent component and caller cutover",
+        "qualified owner adoption; exact source correspondence alone is insufficient",
+        "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
+        "exact_successor_paths": [
+          "tools/codefriend_host/systemd/codefriend-idle-stop.service"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "CODEFRIEND_71_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "7c32a923f22ebfd0c3069d1f051f7201a8e97f27a6fba8343f4c2e91f5668648",
+        "proposal": "conditional_owner_transfer",
+        "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      }
+    },
+    {
+      "id": "RD07-4125",
+      "path": "tools/codefriend_host/systemd/codefriend-idle-stop.timer",
+      "owner": "codefriend",
+      "component": "codefriend-other-consumers",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "8f5065562719605561510c4b6c453000effb7171"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "coherent component and caller cutover",
+        "qualified owner adoption; exact source correspondence alone is insufficient",
+        "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
+        "exact_successor_paths": [
+          "tools/codefriend_host/systemd/codefriend-idle-stop.timer"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "CODEFRIEND_71_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "7c32a923f22ebfd0c3069d1f051f7201a8e97f27a6fba8343f4c2e91f5668648",
+        "proposal": "conditional_owner_transfer",
+        "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      }
+    },
+    {
+      "id": "RD07-4131",
+      "path": "tools/codefriend_host/test_idle_stop.py",
+      "owner": "codefriend",
+      "component": "codefriend-other-consumers",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "438e0d43210ba6c26d08e4bd827bb91d70906b12"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "coherent component and caller cutover",
+        "qualified owner adoption; exact source correspondence alone is insufficient",
+        "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
+        "exact_successor_paths": [
+          "tools/codefriend_host/test_idle_stop.py"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "CODEFRIEND_71_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "7c32a923f22ebfd0c3069d1f051f7201a8e97f27a6fba8343f4c2e91f5668648",
+        "proposal": "conditional_owner_transfer",
+        "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      }
+    },
+    {
+      "id": "RD07-4132",
+      "path": "tools/codefriend_host/test_initialize_registry.py",
+      "owner": "codefriend",
+      "component": "codefriend-other-consumers",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "8f06ad5d3b0fca3c066c613a6433bce1b4609aa7"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "coherent component and caller cutover",
+        "qualified owner adoption; exact source correspondence alone is insufficient",
+        "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
+        "exact_successor_paths": [
+          "tools/codefriend_host/test_initialize_registry.py"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "CODEFRIEND_71_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "7c32a923f22ebfd0c3069d1f051f7201a8e97f27a6fba8343f4c2e91f5668648",
+        "proposal": "conditional_owner_transfer",
+        "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      }
+    },
+    {
+      "id": "RD07-4133",
+      "path": "tools/codefriend_host/test_linux_transport.py",
+      "owner": "codefriend",
+      "component": "codefriend-other-consumers",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "3680f22e0413c0fa281b6557c6f1089ba1823073"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "coherent component and caller cutover",
+        "qualified owner adoption; exact source correspondence alone is insufficient",
+        "ADL caller cutover and existing owner qualification; exact source alone is not acceptance"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
+        "exact_successor_paths": [
+          "tools/codefriend_host/test_linux_transport.py"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "CODEFRIEND_71_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "7c32a923f22ebfd0c3069d1f051f7201a8e97f27a6fba8343f4c2e91f5668648",
+        "proposal": "conditional_owner_transfer",
+        "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      }
+    }
+  ],
+  "removals": 12,
+  "caller_repairs": 5,
+  "apply_check_exit": 0,
+  "patch_sha256": "ae7ec2e7161a5d851fe8342d2a01eba2bfa3cbf08d4e01e830ead93cabc77a97",
+  "custody_sha256": "3de3c6ca107a4f85254382203732df441a0661ab6dcdfface0ffe41a5f7cbc65",
+  "proof": [
+    "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/HOST_ARTIFACT_CLOSURE.json",
+    "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/ORIGINAL_ASSERTION_MAPPING.json",
+    "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/offline-source-proof/INPUT.json",
+    "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/offline-source-proof/FINAL_RESULT.json",
+    "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/installed-original-proof/SOURCE_COMPARISON.json",
+    "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/installed-original-proof/SOURCE_COMPARISON.diff",
+    "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/installed-original-proof/SOURCE_COMPARISON_REVIEW.json",
+    "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/installed-original-proof/FINAL_RESULT.json",
+    "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/installed-original-proof/r3/corrected-results/VERIFIED.json",
+    "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/installed-original-proof/r3/corrected-results/memory/fixture/installed-proof.json"
+  ],
+  "scope": "Host11 delivered source/resources plus original memory comparison consumer1288; source36+added1 and actualinstalledmemory8. Probe/unit custody is not live equivalence.",
+  "required_composition": "Parent must regenerate actual tool registry after12deletions; no guessed registry edits here. Preserve all6legacy host docs/CI inputs, originalfitness1934 and unresolvedfitnesscandidate.",
+  "execution_authorized": false,
+  "limits": [
+    "No shared edits",
+    "No fullfitness4PASS",
+    "No deployment/provider/systemd proof",
+    "Native authority/cards unchanged"
+  ],
+  "files": [
+    {
+      "path": "tools/codefriend_host/ci/manifest.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "9b9c36523c0bb87ea30c5cf24098b953a9ff43e8",
+        "sha256": "64bc50fdc6d9e04d12dd3ed92f4be6045158c3025f2fb0040f2eb58ec0d244c7"
+      },
+      "after": null
+    },
+    {
+      "path": "tools/codefriend_host/ci/test_manifest.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "b61e934db19542fc0f5eb7f0efabead0e3b20048",
+        "sha256": "85cabb4aa8be21e8553e89492571853c9421e8a47f0ca15bba7a14b78e87fed3"
+      },
+      "after": null
+    },
+    {
+      "path": "tools/codefriend_host/idle_stop.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "e364866e37bd83724b28225e0f4435902f4e84f8",
+        "sha256": "33d77e7a15355b2a3e95e5965e00cbc3410988a197bacfea247b9208b827e584"
+      },
+      "after": null
+    },
+    {
+      "path": "tools/codefriend_host/initialize_registry.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "cdecf137cb3eed135ff84a67e85a74f63061225c",
+        "sha256": "2cf1eba78cd66d6ba600cb0ed26c615669ee62d3ecca4c788f0ece11a8befe6c"
+      },
+      "after": null
+    },
+    {
+      "path": "tools/codefriend_host/probe_linux_control.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "d5833efc8271aa2ea1fb7eb0317f21a61e9ab670",
+        "sha256": "5bc5d2fd3f06326bf4a164c672db3c52eb678e09a8c869260ff47a8688b7fef4"
+      },
+      "after": null
+    },
+    {
+      "path": "tools/codefriend_host/systemd/codefriend-gateway.service",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "31acf843322443aea2d362b50a92b030e88e6625",
+        "sha256": "6ef839fde17e36981cc14b3d8fe9989291a70ba8abf00698198027b119ba8327"
+      },
+      "after": null
+    },
+    {
+      "path": "tools/codefriend_host/systemd/codefriend-idle-stop.service",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "d5ac4177e9a6d81225e7ad3ef655dc170c3020bb",
+        "sha256": "7585d90feee7b974e096dcd7e696c5af0452c0b77fff45eb7e3ccd6985b77e9e"
+      },
+      "after": null
+    },
+    {
+      "path": "tools/codefriend_host/systemd/codefriend-idle-stop.timer",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "8f5065562719605561510c4b6c453000effb7171",
+        "sha256": "c27d83876ecb54ddef61b009c47bbf083094acccfecc6d22954eb7d488ca91fb"
+      },
+      "after": null
+    },
+    {
+      "path": "tools/codefriend_host/test_idle_stop.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "438e0d43210ba6c26d08e4bd827bb91d70906b12",
+        "sha256": "1c197a23b109a129b7f0385bfbc758e5d24f8e84061fb91b3a961a6181c62281"
+      },
+      "after": null
+    },
+    {
+      "path": "tools/codefriend_host/test_initialize_registry.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "8f06ad5d3b0fca3c066c613a6433bce1b4609aa7",
+        "sha256": "f30ae919365cec24fbc7790c3d1c124d584a5f3fb65ad9d449353ec7c12e45f4"
+      },
+      "after": null
+    },
+    {
+      "path": "tools/codefriend_host/test_linux_transport.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "3680f22e0413c0fa281b6557c6f1089ba1823073",
+        "sha256": "86686320f1513d8f1dcf79087d73ba0bdea9dfb718d733c495c357b6b5341b74"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/codefriend_memory_installed_proof.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "dce774ef1c296a172f3135114295f7fc78e5ccf2",
+        "sha256": "c45867eddb0223bb1984808efef747779bcdfd7ef2b724962b6e4dc8d141c7d9"
+      },
+      "after": null
+    },
+    {
+      "path": "tools/codefriend_host/README.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "689de45c3ff78f9c2f09f0933bda65a00508fdcc",
+        "sha256": "0f0d79f5a548ae0706d5562e8875ffa791698ff5cd0932e4c047e3bd6f6ee5eb"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "ea4ed4e7fdb13f8db4db18a2383cbf30e0bcf684",
+        "sha256": "ffaa7c9bd23e0099f27398acdc9a46a4475f2705042c0c40834f39dce99b0907"
+      }
+    },
+    {
+      "path": "tools/codefriend_host/ci/README.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "5b7a8b592596e54183e151f2ef1152bea7e6d6b5",
+        "sha256": "57c1cf50f75d475fc8808d7953ec389d842ac1f74646e24cddc8a5d24580c19d"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "f3f5eb5e1fbae10002450f84a6abcf43883025dc",
+        "sha256": "9ac49e39d9c5e5b694da311ef13244af350ce86afb252ee7f368e3e1891a48bd"
+      }
+    },
+    {
+      "path": "tools/codefriend_host/validation.json",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "73950ca7023785ec50dfaf1980558332af191ded",
+        "sha256": "c78f128d86a03b1de7910c7164c043d5a4203cbef101d803e294d1a9e88f304e"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "33e598f4e89a560c5d4a652e0fb4bb27bf8c333f",
+        "sha256": "fc6d8408e13735a26e7f6264ff8b1e35b7138a661cc18304d1d905cc7abfe645"
+      }
+    },
+    {
+      "path": "tools/codefriend_host/ci/validation.json",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "c3d7111af4cbc55454daa9e09e23a90702286264",
+        "sha256": "7ad92b57adfb3a95fc09cbdfabd6235a09a9c22ec2ca03bddfce1d7437f2b5e2"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "3d8de177ce00182413ced98b026c7fd522360682",
+        "sha256": "11084330c1de61e4d411371acbd015e2a5e792891b4338b014891bea318279b6"
+      }
+    },
+    {
+      "path": "docs/codefriend/MEMORY_COMPARISON_PROOF_INVENTORY.json",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "1c596ec435a0b96fbaf596e94e57d2143cb2c1b4",
+        "sha256": "b797c9bd4c420532bbd3f1ce001df19cef6badf6135cbd5a028c12834df37f75"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "b0f30bbd36df35dbf0f15ddd2f714522f0caf15e",
+        "sha256": "4d9d37f9de198c45facf6dda09036bdb43a6efb713c101e06a10d391dd6fc189"
+      }
+    },
+    {
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "940ab94e8ef290ee9eb720569aedb35078af609c",
+        "sha256": "9a3dfe47affbf053cf433cd4d6eecb360f29534bc4b8f924fc7e5e1fa63860c9"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "590542b287b9c702afb84805ab56bdf41f8a7da8",
+        "sha256": "670de7b5fba75fe85f183b42bd821a0eca4c0962fe9f1ccc4c2a8f645adcc71d"
+      }
+    }
+  ],
+  "removed_count": 12,
+  "removal_count": 12,
+  "custody": {
+    "path": "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/qualified-twelve/rollback-preimages.tar",
+    "sha256": "3de3c6ca107a4f85254382203732df441a0661ab6dcdfface0ffe41a5f7cbc65",
+    "members": 17
+  },
+  "evidence": {
+    "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/HOST_ARTIFACT_CLOSURE.json": "6c77ad05f52dbc503f896f218dd00ce5d9b215d003cb5570babfa8b8453df0a8",
+    "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/ORIGINAL_ASSERTION_MAPPING.json": "393559eed58057faf8b89b295ac7bc88726f4ee7a26d983abc2197fbef4a7934",
+    "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/offline-source-proof/INPUT.json": "5ac7687c38ca4f4065d8f139ae11398b63f1fa20cc8c9d7d5d17808710913d16",
+    "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/offline-source-proof/FINAL_RESULT.json": "47a00ffd506f81980ae7380e524d39bfa786f85aa67ad27c72cee189e0d8f123",
+    "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/installed-original-proof/SOURCE_COMPARISON.json": "fd6e9fdc4335250a639d10c41ea383a14479ed4c892b8fbbcbf10e87ff511c56",
+    "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/installed-original-proof/SOURCE_COMPARISON.diff": "5a8ad2f3c6214b8afecca765c75f4b271f537fc2b0992012b34457a13d7bbae4",
+    "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/installed-original-proof/SOURCE_COMPARISON_REVIEW.json": "3cf013ae9cc5cbe485b17725ae95af7a1c58b4f2cfbe8c84f637d9b49d60f163",
+    "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/installed-original-proof/FINAL_RESULT.json": "793901b86faf3fb614f911e88cf2582b761e112875ddd9a50252b67662e351b3",
+    "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/installed-original-proof/r3/corrected-results/VERIFIED.json": "8e1a4efc78ef24471772aa8f843a249a3b001ecdd5d2e39f75a8000faf75bb92",
+    "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/installed-original-proof/r3/corrected-results/memory/fixture/installed-proof.json": "98e88673c3167d3e4ee3d94e5057657e0b281a4d045faf96a0b58f3857c80f05"
+  },
+  "patch_path": "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/qualified-twelve/qualified-twelve.patch",
+  "review_followup": "Corrected CI README obsolete current workflow/local test command; retained original16smoke as historical. Memory producer originalpath preserved historical, actual authenticated owner producer named.",
+  "registry_custody": {
+    "path": "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/qualified-twelve/registry-14706c14b120.tar",
+    "sha256": "a7f55bf14a324c049bbf42d34e0c4a747e433909fb051d482ce4013c9dcc49a0"
+  },
+  "proposal_source_head": "95d2f92c37dff0a01557aaf69abc805c9f252fe0",
+  "status": "applied_local_reversible_implementation",
+  "issue": 1223,
+  "review": {
+    "reviewer": "review_1223_historical_retention",
+    "result": "PASS",
+    "scope": "17preimage modes/bytes,10proof hashes,original host36plus1 and actualmemory8,all navigation findings fixed; registry regenerated from actual post-removal filesystem"
+  }
+}

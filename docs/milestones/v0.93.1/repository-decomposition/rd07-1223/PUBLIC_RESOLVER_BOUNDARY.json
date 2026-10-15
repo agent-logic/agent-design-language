@@ -1,0 +1,25 @@
+{
+  "schema": "adl.source_retirement.public_resolver_boundary.v1",
+  "issue": 1223,
+  "public_tests": [
+    "adl/tests/adl_tests.rs",
+    "adl/tests/resolve_tests.rs",
+    "adl/tests/schema_tests.rs"
+  ],
+  "change": "Public tests consume adl-legacy-contracts directly. Known and unknown profiles require explicit Runtime expansion before portable resolution.",
+  "runtime_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+  "runtime_test_source": "adl/tests/provider_tests/profiles.rs",
+  "runtime_test_obligations": [
+    "expand_provider_profiles_rejects_unknown_profile",
+    "expand_provider_profiles_is_byte_stable_across_runs",
+    "resolve_run_accepts_http_profile_with_valid_endpoint_override"
+  ],
+  "proof_limit": "Equivalent Runtime source assertions inspected; these Runtime tests were not re-executed in this change. Existing installed transport proof is recorded separately.",
+  "pvf": {
+    "lane": "local_contract",
+    "proof_role": "portable provider boundary",
+    "determinism": "fixed input/no provider execution",
+    "resource_profile": "bounded local CPU/disk",
+    "release_gate": true
+  }
+}
