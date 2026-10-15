@@ -20,3 +20,11 @@ Source: #1236 `docs/milestones/v0.93.1/publication-1236/CANDIDATE_INVENTORY.md` 
 Append every raw #1238/#1240 finding with its original ID, reviewer, candidate and evidence. Deduplicate by shared cause without dropping source IDs or lowering supported severity. Record one outcome: fixed with exact owning-repository commit and affected proof; evidence-backed non-finding with rationale; or explicitly authorized deferral with owner, risk, successor issue and release-note impact. Preparation gaps above are not automatically accepted review findings.
 
 Only rerun proof invalidated by the actual fix. Preserve prior failures and distinguish source, installed, CI and review evidence. Unresolved launch-critical criteria remain unmet; a deferral or closed issue cannot manufacture acceptance. Acceptance waits for the complete review denominator and reviewed disposition of every row.
+
+## 2026-10-15 reconciliation
+
+Inspected #1236 at `abb3d067c840be870a09f561ac216ffc7df5bd3b` and #1238 at `78894c8a44ebc61f7fc6ce2a5ccf10ed6086532a`. #1236 now correctly records merged #1223 and draft documentation PR #1276; its inventory remains explicitly not frozen. PREP-01 through PREP-05 therefore remain unresolved within these exact inputs. PREP-06 is historical workflow evidence: #1234 has since published, so do not continue treating its old SRP failure as current. #1236 native admission must be assessed by its owner, not inferred from this old symptom.
+
+#1244's actual successor planning review records PLAN-01 (canonical #1259 reconciliation not applied) and PLAN-02 (complete #1241 residual input absent). These are successor planning completeness findings owned by #1242/#1243 and #1241 respectively. They are not substitutes for #1238/#1240 product findings. No author is authorized here to defer missing product evidence or to close launch-critical findings.
+
+Final product finding denominator remains unknown until the actual internal and external reports arrive. This register is not complete acceptance merely because currently known preparation gaps have owners.
