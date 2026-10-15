@@ -345,12 +345,170 @@
     {
       "id": "ADL-1269",
       "evidence_status": "passed",
-      "scope": "Parent documentation PR1274 merged at fa66dfb20ffde07e455f0f9fdce7ef32c3786796; issue1269 CLOSED. Owner delivery accounts for thirteen repository documentation PRs.",
+      "scope": "S13 is the publication-time inventory. Subsequent authenticated live readback confirms all thirteen linked documentation PRs merged; parent PR1274 merged fa66dfb20ffde07e455f0f9fdce7ef32c3786796 and issue1269 CLOSED.",
       "evidence": [
         "S13"
       ],
-      "remaining": "No README predecessor blocker. Documentation delivery does not qualify changed product artifacts.",
-      "final_lockset_acceptance": false
+      "remaining": "No README predecessor blocker. Four repositories had no CI and retain operator-approved review-only merge exceptions; nine native admission gaps remain separately tracked under1275. Documentation merges do not qualify changed product artifacts.",
+      "final_lockset_acceptance": false,
+      "merge_readback": [
+        {
+          "repository": "agent-logic/agent-design-language",
+          "pr": 1274,
+          "observation": {
+            "mergeCommit": {
+              "oid": "fa66dfb20ffde07e455f0f9fdce7ef32c3786796"
+            },
+            "mergedAt": "2026-10-15T17:24:59Z",
+            "state": "MERGED",
+            "url": "https://github.com/agent-logic/agent-design-language/pull/1274"
+          }
+        },
+        {
+          "repository": "agent-logic/cognitive-sdlc",
+          "pr": 292,
+          "observation": {
+            "mergeCommit": {
+              "oid": "d77fff2eef02305f077f885e001ea8300933be1a"
+            },
+            "mergedAt": "2026-10-14T19:10:42Z",
+            "state": "MERGED",
+            "url": "https://github.com/agent-logic/cognitive-sdlc/pull/292"
+          }
+        },
+        {
+          "repository": "agent-logic/agent-logic-runtime",
+          "pr": 181,
+          "observation": {
+            "mergeCommit": {
+              "oid": "e13b2b03165c94171b2160d01c90d24d4fab3a98"
+            },
+            "mergedAt": "2026-10-14T19:11:33Z",
+            "state": "MERGED",
+            "url": "https://github.com/agent-logic/agent-logic-runtime/pull/181"
+          }
+        },
+        {
+          "repository": "agent-logic/codefriend",
+          "pr": 117,
+          "observation": {
+            "mergeCommit": {
+              "oid": "69677b4443ecd1472a66150bc33481b7d0b8fbb6"
+            },
+            "mergedAt": "2026-10-14T19:12:19Z",
+            "state": "MERGED",
+            "url": "https://github.com/agent-logic/codefriend/pull/117"
+          }
+        },
+        {
+          "repository": "agent-logic/agent-logic-infrastructure",
+          "pr": 40,
+          "observation": {
+            "mergeCommit": {
+              "oid": "6aa48960dde398cd459b487a9452dc9a7b3c757f"
+            },
+            "mergedAt": "2026-10-14T19:32:57Z",
+            "state": "MERGED",
+            "url": "https://github.com/agent-logic/agent-logic-infrastructure/pull/40"
+          }
+        },
+        {
+          "repository": "agent-logic/agent-logic-enterprise-security",
+          "pr": 8,
+          "observation": {
+            "mergeCommit": {
+              "oid": "51a1c02e1ed273b63b397b3371d0230158a0450c"
+            },
+            "mergedAt": "2026-10-14T19:33:04Z",
+            "state": "MERGED",
+            "url": "https://github.com/agent-logic/agent-logic-enterprise-security/pull/8"
+          }
+        },
+        {
+          "repository": "agent-logic/agent-logic.ai",
+          "pr": 99,
+          "observation": {
+            "mergeCommit": {
+              "oid": "4756b251b7d144bf4d6c6d25ea8403a49f8288a3"
+            },
+            "mergedAt": "2026-10-14T19:33:10Z",
+            "state": "MERGED",
+            "url": "https://github.com/agent-logic/agent-logic.ai/pull/99"
+          }
+        },
+        {
+          "repository": "agent-logic/codefriend.ai",
+          "pr": 36,
+          "observation": {
+            "mergeCommit": {
+              "oid": "106d202bc11ef5c2a0f367429770b08b3c869ea4"
+            },
+            "mergedAt": "2026-10-14T19:33:16Z",
+            "state": "MERGED",
+            "url": "https://github.com/agent-logic/codefriend.ai/pull/36"
+          }
+        },
+        {
+          "repository": "agent-logic/universal-tool-schema",
+          "pr": 2,
+          "observation": {
+            "mergeCommit": {
+              "oid": "dea902201e1823c42c928ea0bc9b8bc36c842210"
+            },
+            "mergedAt": "2026-10-15T17:20:40Z",
+            "state": "MERGED",
+            "url": "https://github.com/agent-logic/universal-tool-schema/pull/2"
+          }
+        },
+        {
+          "repository": "agent-logic/strategic-cognitive-reserve",
+          "pr": 29,
+          "observation": {
+            "mergeCommit": {
+              "oid": "f5cf19a986b554035f02a698ee2e1388f05620a4"
+            },
+            "mergedAt": "2026-10-14T19:33:22Z",
+            "state": "MERGED",
+            "url": "https://github.com/agent-logic/strategic-cognitive-reserve/pull/29"
+          }
+        },
+        {
+          "repository": "agent-logic/godel-hadamard-bayes-paper",
+          "pr": 2,
+          "observation": {
+            "mergeCommit": {
+              "oid": "2ac23cdd95fb76ecd9f9af70ff1e3b78d5286361"
+            },
+            "mergedAt": "2026-10-15T17:20:46Z",
+            "state": "MERGED",
+            "url": "https://github.com/agent-logic/godel-hadamard-bayes-paper/pull/2"
+          }
+        },
+        {
+          "repository": "agent-logic/cognitive-sdlc-paper",
+          "pr": 2,
+          "observation": {
+            "mergeCommit": {
+              "oid": "77f7a19e94f1743dbcbb3f8a5a50fa759f7a8080"
+            },
+            "mergedAt": "2026-10-15T17:20:53Z",
+            "state": "MERGED",
+            "url": "https://github.com/agent-logic/cognitive-sdlc-paper/pull/2"
+          }
+        },
+        {
+          "repository": "agent-logic/general-intelligence-paper-private",
+          "pr": 2,
+          "observation": {
+            "mergeCommit": {
+              "oid": "536f2cbdc1de0deac6371076c2caf7eebd450992"
+            },
+            "mergedAt": "2026-10-15T17:20:59Z",
+            "state": "MERGED",
+            "url": "https://github.com/agent-logic/general-intelligence-paper-private/pull/2"
+          }
+        }
+      ]
     },
     {
       "id": "CodeFriend-107",
