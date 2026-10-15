@@ -60,3 +60,7 @@ CodeFriend #101 supplied a delivery-completion record dated 2026-10-15T17:39:18Z
 The record states 25 catalog kinds, 50 byte-identical final review views, overview inspection of all kinds and readable-scale inspection of representative/repair pages. It expressly does not claim every page was inspected at readable scale. These counts do not replace historical #47's 44-kind catalog denominator or establish all-journey qualification at the new source. The original report's absent-new-artifact/CI condition is superseded by this exact metadata; selected artifact consumption, affected-edge correspondence and final acceptance still need owner evidence.
 
 IR-1240-01 remains open pending #1236's corrected exact revision. #1238's actual findings remain pending for a bounded coverage/disposition comparison. No second full review is required for unchanged packet inputs. Source review is complete; final #1240 acceptance is not yet established.
+
+## IR-1240-01 fixed
+
+Verified #1236 correction at `bd93dab710d99c076a7030b6908af4fd9e301a34`, inventory line 22: intermediate 185 inputs, final 182 unchanged plus three separately validated source-retirement guard changes; compiled product inputs remain unchanged. Root independently verified the same correction. IR-1240-01 is **fixed**; the original finding is retained above. No full review or product test was repeated. Internal #1238 findings and final correspondence remain pending.
