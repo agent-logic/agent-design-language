@@ -63,10 +63,16 @@ notification; they are not authorized by these historical notices.
 
 ## Focused fitness proof
 
-Run `cargo test --manifest-path csdlc-v3/Cargo.toml --test command_manifest`.
+The `command_manifest` test now belongs to the
+[Cognitive-SDLC owner repository](https://github.com/agent-logic/cognitive-sdlc).
+From that owner checkout, its source-level command is
+`cargo test --manifest-path csdlc-v3/Cargo.toml --test command_manifest`.
+The private manifest is no longer present in public ADL; public documentation
+changes use focused link, path and contract checks rather than rebuilding an owner.
 The authority-surface checks validate canonical selector/receipt truth, current
 policy and metadata, and actual CLI help. Negative cases introduce obsolete
 policy/help wording and require rejection. Historical records are excluded from
 the current-routing scan and checked for preservation in the issue review.
 PVF: deterministic local contract proof; small CPU and local Git/subprocess;
-required for this authority-guidance change, no network or cloud execution.
+Owner execution results must be recorded separately from public documentation
+checks; this source command alone is not installed authority proof.

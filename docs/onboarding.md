@@ -1,66 +1,35 @@
-# Contributor Onboarding (Docs + Reports)
+# Contributor onboarding
 
-Use this page when you need to orient quickly in the ADL repo.
+Start with the [project README](../README.md), [repository map](REPOSITORIES.md)
+and [contribution guide](../CONTRIBUTING.md). Use this checkout for public ADL
+language/contracts and CLI behavior; use the product owner for Runtime,
+CodeFriend or lifecycle implementation work.
 
-## Where to Add or Update Docs
+## Reading order
 
-- Project overview: `README.md`
-- Tooling workflow docs: `adl/tools/README.md`
-- Language docs: `adl-spec/`
-- Contributor planning docs: `docs/`
+1. [Public CLI guide](../adl/README.md) and [language specification](../adl-spec/README.md).
+2. [Agent rules](../AGENTS.md) and [review expectations](../REVIEW.md).
+3. [Default workflow](default_workflow.md) and [package manual lookup](csdlc-v3/man/README.md).
+4. The changed package's manifest, source and focused validation script.
 
-## Where Reports Live
+There is no root Cargo workspace. Rust is pinned in `rust-toolchain.toml`.
+The root README's explicit-manifest help command builds only the public CLI;
+product execution needs its separately qualified owner installation.
 
-- `.adl/reports/burst/<timestamp_utc_z>/` (burst artifacts)
-- `.adl/reports/pr-cycle/<issue>/<timestamp_utc_z>/` (per-issue cycle reports)
-- `.adl/reports/INDEX.md` (report directory orientation)
+## Work and evidence locations
 
-## Workflow Context
+Keep primary `main` clean. Native preparation uses resolved Git metadata; native
+binding creates the policy-approved issue worktree. Work there with an issue-bound
+goal and six truthful lifecycle cards. Never create issue artifacts on primary or
+edit generated card Markdown and receipts directly.
 
-C-SDLC v3 is operational after V3-F/#505 and merged PR #591. Authority requires the native selector and authenticated reconciliation proof against canonical `origin/main`. Use `.adl/bin/native-v3/csdlc`; inspect its help and typed request contracts before invoking a lifecycle route. Missing or stale proof suspends authority. V2 is retained only for an explicitly authorized rollback or bounded transition remediation.
+Current guidance belongs in README, contribution, review and relevant documentation
+entrypoints. Milestone records, past reviews, ADRs and retirement custody retain
+their original meaning. Link to them as historical evidence, not current command
+recipes. Check ignored report directories before citing local-only artifacts as
+portable evidence.
 
-Follow `docs/default_workflow.md` for current command discovery. The three-minute prepared-issue start target preserves typed validation, review and authority guards.
-
-Canonical issue state lives under `.csdlc/issues/<issue>/`, with typed request
-material normally prepared under `.csdlc/prepared/issues/<issue>/` or
-Git-common invocation paths when the request is transient. Generated cards are
-typed projections; do not edit their Markdown directly. Use the matching
-native `edit`, `validate`, `review`, `publish`, `finish` and `clean` routes for lifecycle state changes.
-
-The canonical repository is `agent-logic/agent-design-language`. The
-`danielbaustin/agent-design-language` remote is legacy provenance unless a
-bounded legacy task explicitly names it. In the primary checkout, `origin`
-should identify the canonical repository; `legacy-origin`, when present, should
-not be treated as the default target for current issue or PR work.
-
-The primary checkout is inspection-only and should stay clean on `main`. Before
-starting issue work, check `git status --short --branch` and
-`git worktree list --porcelain`; if a feature branch or tracked changes are
-sitting in the primary checkout, route the recovery through native v3
-`doctor` / `bind` evidence when available. Use only the narrowest
-manual fallback needed to preserve work in an issue worktree and restore root
-to clean `main`. Native C-SDLC preparation and binding use `.adl/bin/native-v3/csdlc`
-`issue` and `bind` with their declared typed inputs, followed by work in the
-registered FastWork issue worktree. See
-`docs/tooling/SESSION_COORDINATION_AND_ROOT_CHECKOUT_POLICY.md` for the
-cross-session handoff and broadcast-note rules.
-
-After an issue is ready and bound, tracked implementation happens in the bound
-issue worktree, not on root `main`. New ADL issue worktrees belong under
-the approved FastWork ADL worktree root unless a typed migration/recovery route
-explicitly records a different existing topology.
-
-An initialized issue, green CI result, or published PR is not terminal proof by
-itself. Keep review, publication, finish, and cleanup truth separate:
-native `review` records exact-head review, native `publish` records publication,
-native `finish` derives terminal authority from live GitHub state, and
-native `clean` removes the exact registered worktree after truthful closeout.
-Compression-safe finish validation is allowed only when the issue is low-risk
-docs/static-tooling work and the SOR truthfully records focused local validation
-instead of full local validation. CI remains required before merge.
-
-## Reading Order
-
-1. `README.md`
-2. `adl/tools/README.md`
-3. `.adl/reports/INDEX.md`
+For docs changes, check paths/links and command-source correspondence, then run
+`git diff --check`. For public CLI changes use `bash tools/public_adl/run_cli_ci.sh`.
+Record actual validation separately from owner qualification, CI, merge and native
+finish. Follow [SECURITY.md](../SECURITY.md) for sensitive reports.
