@@ -23,3 +23,11 @@ Return reviewer identity and independence, exact packet revision and candidate i
 ## Dispatch boundary
 
 Current result: **external review not executed**. Reviewer assignment, disclosure/access approval, accepted #1238 result and frozen #1236 packet are outstanding. No paid provider work or external disclosure is performed in this preparation. A preparation review by an internal subagent cannot substitute for the external review required by #1240.
+
+## Minimal independent review route — 2026-10-15
+
+The native STP acceptance lines 54–60 require a genuinely independent review, retained identity/observations/limitations, and a fresh independent reviewer. They name no model vendor or paid provider. The source specification TAIL-05 likewise names no vendor. Under the coordinator-confirmed interpretation, a fresh reviewer outside the implementation and #1238 internal-review team can review the bounded approved packet without a new paid API campaign. Record the reviewer affiliation, non-participation in authoring/internal review, exact inputs and all unexamined surfaces; a new label on self-review does not establish independence. Report this as an independent agent review, never as a review by a third-party organization.
+
+Dispatch one fresh reviewer with only: accepted #1234 documentation; frozen #1236 candidate inventory, release notes and source/artifact/interface identities; actual #1238 report; #1232 evidence matrix and retained #1223 build/retirement proof. Use retained exact proof, inspect relevant changed source and claims, and preserve adverse findings. Request a findings-first report and evidence coverage ledger, not another full test/build run. Keep private evidence in authorized local/repository access; a new external transmission requires its applicable authority. No provider call or reviewer dispatch occurred here.
+
+Latest inspected inputs are #1236 `abb3d067c840be870a09f561ac216ffc7df5bd3b` (still explicitly unfrozen) and #1238 `78894c8a44ebc61f7fc6ce2a5ccf10ed6086532a` (plan, not final report). These two gaps prevent final external acceptance, irrespective of reviewer vendor. #1232's current reconciled matrix is `ea597506c370f6de3d997fbd46fa3ba2a0150d3f`; obtain the final accepted decision from its owner without repeating unchanged qualification.
