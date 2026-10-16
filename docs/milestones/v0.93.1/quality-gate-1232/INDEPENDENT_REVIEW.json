@@ -1,0 +1,62 @@
+{
+  "schema": "adl.independent_evidence_review.v1",
+  "issue": 1232,
+  "reviewed_at": "2026-10-14T03:11:41.058267+00:00",
+  "reviewer": "review_1232_matrix",
+  "scope": "Current-state evidence handoff only; no final lockset acceptance or closing PR",
+  "matrix_path": "docs/milestones/v0.93.1/quality-gate-1232/EVIDENCE_MATRIX.json",
+  "matrix_sha256": "f8c4b7ae66b7b4d1df604f7eabc5d9cb5813a33e8de957127fab0ae15acec737",
+  "result": "PASS",
+  "findings": [],
+  "resolved_observations": [
+    {
+      "id": "R1",
+      "severity": "clarity",
+      "observation": "CT-05 remaining used 37-cell wording alongside its 44-cell denominator; 37 is a retained subset, not the full catalog.",
+      "resolution": "Wording now says reuse unchanged catalog proof without rerunning it; full 44/44 denominator preserved."
+    }
+  ],
+  "checks": {
+    "cited_git_source_hashes_verified": 8,
+    "retained_rd11_role_source_and_artifact_pins_verified": 7,
+    "live_remote_main_heads_matching_observations": 7,
+    "gate_count": 15,
+    "recorded_issue_observations_matched_saved_remote_readbacks": 12,
+    "cf01_counts": [
+      7,
+      3,
+      13
+    ],
+    "catalog_counts": {
+      "executed": 44,
+      "total": 44,
+      "unexecuted": 0
+    },
+    "qualification_counts": {
+      "obligations_pass": 24,
+      "execution_group_pass": 23,
+      "execution_group_fail": 1,
+      "semantic_cells_pass": 12,
+      "release_cells_accepted": 12
+    },
+    "accepted_product_candidate_equals_source": true,
+    "start_override_sha256_matches": true,
+    "cf07_launch_deferred_to_codefriend92": true,
+    "adl1223_adl1269_codefriend101_remain_open": true,
+    "codefriend107_pr108_correction_accounted_at_merge188dd2b7": true,
+    "native_start_validation_completed": true,
+    "retained_adverse_evidence_preserved": true
+  },
+  "limitations": [
+    "This verifies cited source record bytes and their stated acceptance boundaries; it does not reauthenticate every referenced historical artifact or rerun prior qualification.",
+    "Remote issue states were checked against saved observations, while all seven remote main heads were independently read live.",
+    "No final #1223 candidate or release acceptance is established."
+  ],
+  "effects": {
+    "product_tests": 0,
+    "builds": 0,
+    "provider_calls": 0,
+    "remote_writes": 0,
+    "source_edits": 0
+  }
+}

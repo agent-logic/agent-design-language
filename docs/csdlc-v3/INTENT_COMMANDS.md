@@ -106,7 +106,9 @@ by the owner. Card prose cannot override that identity. Publication must carry
 current intent publication contract uses closing mode; it does not silently
 convert a checkpoint into terminal delivery.
 
-A bounded validator declaration has this shape:
+The following bounded Cargo declaration is an owner-repository example. Its
+`csdlc-v3/Cargo.toml` path exists in `agent-logic/cognitive-sdlc`, not public ADL.
+Choose a tracked test surface belonging to the repository being validated:
 
 ```json
 {
@@ -142,12 +144,22 @@ operator-installed dependency bundle. Node/runtime and externally installed
 packages are ambient dependencies, not hermetically fingerprinted by this receipt;
 use explicit dependency provenance for installed or release qualification.
 
-Preparation and validator edits also admit three non-executing declaration forms:
-`python3` with a tracked relative `.py` script and optional `--self-test`; `git`
-with exactly `diff --check`; and `manual-review` with one nonempty review-scope
-identifier excluding path separators and `.`/`..`. These forms retain requirements
-but still refuse at proof execution with `intent_validator_execution_unsupported`.
-They do not import human attestations or substitute unrelated Cargo tests.
+Preparation and validator edits also admit three bounded declaration forms:
+`python3` with a tracked repository-relative `.py` script and
+optional `--self-test`; `git` with exactly `diff --check`; and `manual-review`
+with one nonempty review-scope identifier excluding path separators and `.`/`..`. Each declaration still needs
+a unique ID, nonempty success marker and bounded timeout. For example,
+`{"id":"quality-review","program":"manual-review","args":["release-evidence"],"success_marker":"accepted independent evidence"}`
+retains a human acceptance requirement without inventing a Rust test.
+
+Native proof executes the allowlisted `git diff --check` declaration as an
+exact resolved `BASE...HEAD` candidate check, and executes tracked Python
+`--self-test` forms with the same timeout, isolated process group, bounded output,
+cleanup and input-freshness guards as Cargo. Git proof requires a clean exit;
+Python also requires its declared success marker. `manual-review` remains a human
+requirement and proof refuses it as unsupported machine execution. Never replace a
+required review or document check with an unrelated Cargo test to obtain publication admission.
+Preparing or binding a task does not satisfy its predecessor or acceptance gates.
 
 An empty validator set, an exit-zero marker-only process or stale candidate
 bytes does not establish proof. Cargo targets selected by the validator and

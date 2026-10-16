@@ -218,6 +218,6 @@ fi
 # Original 421-expression child ABI is historically retired; run reviewed mapped
 # components here. This does not claim full original/native acceptance.
 python3 "$repo_root/tools/sprint_contracts/run_owner_correspondence.py"
-bash "${repo_root}/adl/tools/test_multiagent_podcast_audio_policy.sh"
+node --test "$repo_root/tools/test_podcast_migration.mjs"
 
 echo "PASS test_install_adl_operational_skills"

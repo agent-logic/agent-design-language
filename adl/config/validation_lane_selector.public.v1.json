@@ -113,6 +113,32 @@
       "command": "bash adl/tools/test_install_adl_operational_skills.sh",
       "run_command": "bash adl/tools/test_install_adl_operational_skills.sh",
       "reason": "exact_owner_components_and_original_installer_contract; no_full_native_acceptance"
+    },
+    {
+      "id": "podcast_migration_contract",
+      "lane_class": "docs",
+      "default_surface": "public",
+      "owner": "adl",
+      "proof_role": "migration_preservation_not_media_qualification",
+      "resource_class": "tiny",
+      "determinism_posture": "deterministic_local",
+      "requirement_ids": [
+        "podcast_migration_preservation"
+      ],
+      "path_selectors": [
+        "demos/podcast/**",
+        "demos/_preview/podcast/**",
+        "tools/test_podcast_migration.mjs",
+        "tools/podcast_migration/**"
+      ],
+      "path_hints": [
+        "demos/podcast/",
+        "demos/_preview/podcast/",
+        "tools/podcast_migration/"
+      ],
+      "command": "node --test tools/test_podcast_migration.mjs",
+      "run_command": "node --test tools/test_podcast_migration.mjs",
+      "reason": "podcast_owner_migration_preservation_contract"
     }
   ],
   "release_gate_hints": [

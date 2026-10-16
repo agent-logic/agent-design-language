@@ -1,0 +1,55 @@
+{
+  "schema": "csdlc.v3.intent_plan.v1",
+  "slug": "post-split-repository-cleanup",
+  "cards": {
+    "sip": {
+      "summary": "After podcast PR1286 integrates, remove post-split ADL cruft while preserving public behavior, historical evidence and current authority.",
+      "non_goals_inline": "No podcast ownership overlap, deletion of sole evidence copies, history rewrite, private implementation restoration, Runtime or deployment changes, provider spend or shared binary replacement."
+    },
+    "stp": {
+      "summary": "After podcast PR1286 integrates, remove post-split ADL cruft while preserving public behavior, historical evidence and current authority.",
+      "non_goals_inline": "No podcast ownership overlap, deletion of sole evidence copies, history rewrite, private implementation restoration, Runtime or deployment changes, provider spend or shared binary replacement."
+    },
+    "spp": {
+      "summary": "After podcast PR1286 integrates, remove post-split ADL cruft while preserving public behavior, historical evidence and current authority.",
+      "non_goals_inline": "No podcast ownership overlap, deletion of sole evidence copies, history rewrite, private implementation restoration, Runtime or deployment changes, provider spend or shared binary replacement.",
+      "dependencies_inline": "Execution depends on verified integration of podcast PR1286; preparation is authorized before that. Issue1284 created and native-reconciled.",
+      "repo_inputs_inline": "Current repository map, public CI runners, tools README, source-retirement ledger and guard, completed evidence inventory and podcast migration handoff.",
+      "target_files_surfaces_inline": "adl/tools/README.md; retired wrapper and classified caller families; tools/public_adl/run_ci.sh and adl/tools/batched_checks.sh; tools/source_retirement documentation/guard; bounded completed evidence payloads and relocation index.",
+      "deliverables_inline": "Verified recoverable archive mapping before evidence removal; obsolete wrapper/caller retirement; corrected current documentation; shared public package validation helper preserving exact semantics; reviewed PR.",
+      "validation_plan_inline": "Focused deterministic archive restoration and reference checks; wrapper absence/remaining caller contracts; mocked runner argument/order/failure propagation tests; native proof and independent exact-head review; required CI only.",
+      "acceptance_criteria_inline": "No source deletion before archive verification; no active authority/release proof loss; no stale operational references; unchanged required public validation/installed-consumer behavior; reviewed green PR closes1284.",
+      "notes_risks_inline": "Pre-existing retirement guard drift exposed by1285 must be diagnosed from saved baseline evidence, not bypassed. Immutable1223 records remain historical. Archive storage choice must preserve retrieval with no history rewrite. FastWork free space is limited; avoid redundant copies."
+    },
+    "vpp": {
+      "summary": "After podcast PR1286 integrates, remove post-split ADL cruft while preserving public behavior, historical evidence and current authority.",
+      "non_goals_inline": "No podcast ownership overlap, deletion of sole evidence copies, history rewrite, private implementation restoration, Runtime or deployment changes, provider spend or shared binary replacement.",
+      "validation_plan_inline": "Focused deterministic archive restoration and reference checks; wrapper absence/remaining caller contracts; mocked runner argument/order/failure propagation tests; native proof and independent exact-head review; required CI only.",
+      "planned_pvf_lane": "local",
+      "notes_risks_inline": "Local deterministic filesystem/docs/orchestration contracts; bounded CPU/disk, no provider/cloud calls. Archive identity checked once and restoration verified. CI integration proof remains separate."
+    },
+    "srp": {},
+    "sor": {
+      "summary": "After podcast PR1286 integrates, remove post-split ADL cruft while preserving public behavior, historical evidence and current authority.",
+      "non_goals_inline": "No podcast ownership overlap, deletion of sole evidence copies, history rewrite, private implementation restoration, Runtime or deployment changes, provider spend or shared binary replacement."
+    }
+  },
+  "validators": [
+    {
+      "id": "cleanup-diff",
+      "program": "git",
+      "args": [
+        "diff",
+        "--check"
+      ],
+      "success_marker": "clean candidate diff",
+      "timeout_seconds": 120
+    }
+  ],
+  "publication": {
+    "base": "main",
+    "title": "[v0.93.1] Remove post-split ADL repository cruft",
+    "body": "Preserve and relocate completed evidence, remove retired command residue, correct current documentation, and consolidate public validation orchestration after podcast migration.\n\nCloses #1284",
+    "draft": true
+  }
+}

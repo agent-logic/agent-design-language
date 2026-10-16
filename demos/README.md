@@ -124,11 +124,9 @@ If you want the current C-SDLC sprint-console replay demo:
 bash adl/tools/demo_v0913_five_minute_sprint_console.sh
 ```
 
-If you want the current C-SDLC podcast-studio production packet:
-
-```bash
-bash adl/tools/demo_v0913_podcast_studio_v2.sh
-```
+The podcast studio and production sources now belong to
+[The Cognitive Stack](https://github.com/agent-logic/the-cognitive-stack).
+See the [migration record](../docs/repository-split/PODCAST_MIGRATION_1285.md).
 
 If you want the recommended C-SDLC demo mini-sprint review order and packet:
 
@@ -456,4 +454,4 @@ The legacy provider demo shell family was retired in #1223 with its original ass
 
 ### Historical audio and podcast source guides
 
-The [Hey Jude audio and podcast guides](https://github.com/agent-logic/agent-logic-runtime/tree/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.91.1) are retained in Runtime source. These historical documents do not establish current media, provider, or installed qualification. The manual Hey Jude renderer, aggregate test and two validators are retired together, with original assertions and the later explicit-source preflight preserved in custody. The separate podcast renderer and installer-facing audio-policy test remain in ADL; no new media or provider acceptance is claimed.
+The [Hey Jude audio and podcast guides](https://github.com/agent-logic/agent-logic-runtime/tree/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.91.1) are retained in Runtime source. These historical documents do not establish current media, provider, or installed qualification. The manual Hey Jude renderer, aggregate test and two validators are retired together, with original assertions and the later explicit-source preflight preserved in custody. The separate podcast renderer and audio-policy test moved to [The Cognitive Stack](https://github.com/agent-logic/the-cognitive-stack); no new media or provider acceptance is claimed.

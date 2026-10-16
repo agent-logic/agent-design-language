@@ -38,7 +38,6 @@ SLOW_PROOF_PATTERNS = (
     ".github/workflows/ci.yaml",
 )
 RELEASE_GATE_EXTRA_PATTERNS = (
-    "adl/tools/run_authoritative_coverage_lane.sh",
     "adl/tools/run_slow_proof_family.sh",
     "adl/tools/test_slow_proof_lane_contract.sh",
 )
@@ -46,7 +45,6 @@ COVERAGE_ONLY_PATTERNS = (
     ".github/workflows/nightly-coverage-ratchet.yaml",
     "tools/public_adl/coverage.py",
     "tools/public_adl/test_coverage.py",
-    "adl/tools/run_authoritative_coverage_lane.sh",
 )
 
 

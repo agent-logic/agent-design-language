@@ -13,30 +13,9 @@ if [[ "$(uname -s)" != Darwin ]] || [[ ! -x /usr/bin/sandbox-exec ]]; then
   exit 2
 fi
 
-manifests=(
-  adl-schema/Cargo.toml
-  adl-uts/Cargo.toml
-  adl-v2/crates/adl-language/Cargo.toml
-  adl-v2/crates/adl-compiler/Cargo.toml
-  adl-legacy-contracts/Cargo.toml
-)
-packages=(
-  adl-schema
-  adl-uts
-  adl-language
-  adl-compiler
-  adl-legacy-contracts
-)
-
 # These five package tests populate only their public registry dependency graph.
 # The installed-consumer proof then runs offline inside the enforced sandbox.
-for index in "${!manifests[@]}"; do
-  manifest="${manifests[$index]}"
-  package="${packages[$index]}"
-  cargo test --locked --manifest-path "$manifest" --package "$package"
-  cargo fmt --manifest-path "$manifest" --package "$package" -- --check
-  cargo clippy --locked --manifest-path "$manifest" --package "$package" --all-targets -- -D warnings
-done
+bash tools/public_adl/run_package_checks.sh
 
 cargo test --offline --locked \
   --manifest-path tools/public_adl/validator/Cargo.toml \

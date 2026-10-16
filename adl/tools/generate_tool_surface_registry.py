@@ -31,13 +31,10 @@ PRIMARY_TOOL_SCRIPTS = {
 }
 
 HISTORICAL_TOOL_SCRIPTS = {
-    'install_aws_remote_validation_tool.sh': 'Historical Infrastructure source route retired by #1223; command refuses execution. Original assertions remain in Git and retirement custody; run the reviewed owner route.',
     'run_aws_spot_remote_validation_lane.sh': 'Historical Infrastructure source route retired by #1223; command refuses execution. Original assertions remain in Git and retirement custody; run the reviewed owner route.',
     'test_run_aws_spot_ci_profile.sh': 'Historical Infrastructure source route retired by #1223; command refuses execution. Original assertions remain in Git and retirement custody; run the reviewed owner route.',
     'run_issue509_gcp_drt_d_qualification.sh': 'Historical Infrastructure source route retired by #1223; command refuses execution. Original assertions remain in Git and retirement custody; run the reviewed owner route.',
-    'run_authoritative_coverage_lane.sh': 'Historical Runtime source-tree route retired by #1223; invocation fails before execution. Original assertions are preserved in Git and retirement custody, not qualified as passing.',
     'run_pr_fast_test_lane.sh': 'Historical Runtime source-tree route retired by #1223; invocation fails before execution. Original assertions are preserved in Git and retirement custody, not qualified as passing.',
-    'test_run_authoritative_coverage_lane.sh': 'Historical Runtime source-tree route retired by #1223; invocation fails before execution. Original assertions are preserved in Git and retirement custody, not qualified as passing.',
     'test_validation_inventory.sh': 'Historical Runtime source-tree route retired by #1223; invocation fails before execution. Original assertions are preserved in Git and retirement custody, not qualified as passing.',
     'validate_v092_runtime_guardian_lifecycle.sh': 'Historical Runtime source-tree route retired by #1223; invocation fails before execution. Original assertions are preserved in Git and retirement custody, not qualified as passing.',
 

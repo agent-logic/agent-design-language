@@ -95,13 +95,8 @@ run_check five_minute_sprint_console_packet \
 run_check five_minute_sprint_console_contract \
   bash "$ROOT_DIR/adl/tools/test_five_minute_sprint_console_packet.sh"
 
-run_check podcast_studio_v2_packet \
-  python3 "$ROOT_DIR/adl/tools/validate_podcast_studio_v2_packet.py" \
-  "$ROOT_DIR/docs/milestones/v0.91.3/review/podcast_studio_v2" \
-  "$ROOT_DIR/demos/v0.91.3/adl_podcast_studio_v2_episode_card.html" \
-  "$ROOT_DIR/docs/milestones/v0.91.3/features/PODCAST_STUDIO_V2_DEMO.md"
-run_check podcast_studio_v2_contract \
-  bash "$ROOT_DIR/adl/tools/test_podcast_studio_v2_packet.sh"
+# Podcast packet assertions moved with their owner; verify the ADL relocation contract.
+run_check podcast_migration_contract node --test "$ROOT_DIR/tools/test_podcast_migration.mjs"
 
 run_check csdlc_demo_proof_contract_packet \
   python3 "$ROOT_DIR/adl/tools/validate_csdlc_demo_proof_contract_packet.py" \
