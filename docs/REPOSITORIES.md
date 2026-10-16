@@ -13,6 +13,7 @@ qualification claim. Each repository owns its current setup and validation guide
 | [codefriend](https://github.com/agent-logic/codefriend) | CodeFriend product CLI, agent and server; consumes qualified shared-library artifacts. |
 | [agent-logic-infrastructure](https://github.com/agent-logic/agent-logic-infrastructure) | Cloud, build and deployment infrastructure; consumes reviewed product artifacts. |
 | [agent-logic-enterprise-security](https://github.com/agent-logic/agent-logic-enterprise-security) | Optional enterprise policy adapter; Runtime retains enforcement authority. |
+| [the-cognitive-stack](https://github.com/agent-logic/the-cognitive-stack) | Private podcast editorial, production, media and feed sources; existing public feed URL and publication approvals remain unchanged. |
 | [agent-logic.ai](https://github.com/agent-logic/agent-logic.ai) | Agent Logic website and its infrastructure. |
 | [codefriend.ai](https://github.com/agent-logic/codefriend.ai) | CodeFriend website and site-specific services; separate from the product repository. |
 | [strategic-cognitive-reserve](https://github.com/agent-logic/strategic-cognitive-reserve) | Open-weight asset preservation, inventory and continuity operations. |

@@ -1,0 +1,1720 @@
+{
+  "destination_commit": "13f217d846b305f43943a50cbbdd6ee4292a1aef",
+  "remote_verified_commit": "13f217d846b305f43943a50cbbdd6ee4292a1aef",
+  "destination_private": true,
+  "verification": "Fresh authenticated GitHub clone; all521 imported hashes/sizes/executable modes and tracked membership verified; feed identity unchanged",
+  "source_commit": "02cf7874596a45c5eb76e0e43762c28d77ddf723",
+  "manifest_sha256": "8a297cc0f1de5586572e90285061346d526c725e12f4d0f9416a5d3661de471b",
+  "public_feed": "https://agent-logic.ai/podcast/feed.xml",
+  "deployed": false,
+  "removed": [
+    "adl/examples/v0-91-1-multi-agent-podcast-pilot.adl.yaml",
+    "adl/tools/demo_v0911_multiagent_podcast_audio.sh",
+    "adl/tools/demo_v0911_multiagent_podcast_pilot.sh",
+    "adl/tools/demo_v0913_podcast_studio_v2.sh",
+    "adl/tools/demo_v0918_podcast_launch.sh",
+    "adl/tools/generate_podcast_launch_packet.py",
+    "adl/tools/generate_podcast_studio_v2_packet.py",
+    "adl/tools/real_chatgpt_gemini_claude_provider_adapter.py",
+    "adl/tools/record_podcast_browser_playback.mjs",
+    "adl/tools/record_podcast_ios_safari_playback.sh",
+    "adl/tools/record_podcast_native_playback.sh",
+    "adl/tools/test_multiagent_podcast_audio_policy.sh",
+    "adl/tools/test_podcast_launch_packet.sh",
+    "adl/tools/test_podcast_studio_v2_packet.sh",
+    "adl/tools/validate_podcast_launch_packet.py",
+    "adl/tools/validate_podcast_studio_v2_packet.py",
+    "demos/_preview/podcast/assets/agent-logic-logo.svg",
+    "demos/_preview/podcast/audio/meet-the-ai-coworkers.mp3",
+    "demos/_preview/podcast/index.html",
+    "demos/podcast/DEEPGRAM_PROVIDER_WORKFLOW.md",
+    "demos/podcast/LAUNCH_READINESS.md",
+    "demos/podcast/PRELAUNCH.md",
+    "demos/podcast/PUBLICATION_HOLD.md",
+    "demos/podcast/S3_CLOUDFRONT_RUNBOOK.md",
+    "demos/podcast/artwork.png",
+    "demos/podcast/artwork/the-cognitive-stack-cover-3000.png",
+    "demos/podcast/audio/meet-the-ai-coworkers.mp3",
+    "demos/podcast/audio/meet-the-ai-coworkers.wav",
+    "demos/podcast/audio/the-cognitive-stack-episode-001-meet-the-ai-coworkers.mp3",
+    "demos/podcast/editorial/1166-episode-1-introduction/README.md",
+    "demos/podcast/editorial/1166-episode-1-introduction/artwork-provenance.json",
+    "demos/podcast/editorial/1166-episode-1-introduction/audio-candidate/chapters.json",
+    "demos/podcast/editorial/1166-episode-1-introduction/audio-candidate/episode.json",
+    "demos/podcast/editorial/1166-episode-1-introduction/audio-candidate/episode.mp3",
+    "demos/podcast/editorial/1166-episode-1-introduction/audio-candidate/episode.wav",
+    "demos/podcast/editorial/1166-episode-1-introduction/audio-candidate/loudness-final.json",
+    "demos/podcast/editorial/1166-episode-1-introduction/audio-candidate/loudness-input.json",
+    "demos/podcast/editorial/1166-episode-1-introduction/audio-candidate/production.json",
+    "demos/podcast/editorial/1166-episode-1-introduction/audio-candidate/qa-report.md",
+    "demos/podcast/editorial/1166-episode-1-introduction/audio-candidate/review.md",
+    "demos/podcast/editorial/1166-episode-1-introduction/audio-candidate/rss-enclosure.json",
+    "demos/podcast/editorial/1166-episode-1-introduction/audio-candidate/show-notes.md",
+    "demos/podcast/editorial/1166-episode-1-introduction/audio-candidate/storage-manifest.json",
+    "demos/podcast/editorial/1166-episode-1-introduction/audio-candidate/transcript-comparison.json",
+    "demos/podcast/editorial/1166-episode-1-introduction/audio-candidate/transcript.md",
+    "demos/podcast/editorial/1166-episode-1-introduction/audio-candidate/transcription-observed.txt",
+    "demos/podcast/editorial/1166-episode-1-introduction/audio-candidate/transcription-response.json",
+    "demos/podcast/editorial/1166-episode-1-introduction/audio-candidate/turn11-second-transcription.json",
+    "demos/podcast/editorial/1166-episode-1-introduction/cognitive_stack_cover_3000.png",
+    "demos/podcast/editorial/1166-episode-1-introduction/own-words/01-chatgpt.json",
+    "demos/podcast/editorial/1166-episode-1-introduction/own-words/01-prompt.txt",
+    "demos/podcast/editorial/1166-episode-1-introduction/own-words/01-revision-prompt.txt",
+    "demos/podcast/editorial/1166-episode-1-introduction/own-words/02-gemini.json",
+    "demos/podcast/editorial/1166-episode-1-introduction/own-words/02-prompt.txt",
+    "demos/podcast/editorial/1166-episode-1-introduction/own-words/03-claude.json",
+    "demos/podcast/editorial/1166-episode-1-introduction/own-words/03-prompt.txt",
+    "demos/podcast/editorial/1166-episode-1-introduction/own-words/04-chatgpt.json",
+    "demos/podcast/editorial/1166-episode-1-introduction/own-words/04-prompt.txt",
+    "demos/podcast/editorial/1166-episode-1-introduction/own-words/05-gemini.json",
+    "demos/podcast/editorial/1166-episode-1-introduction/own-words/05-prompt.txt",
+    "demos/podcast/editorial/1166-episode-1-introduction/own-words/06-claude.json",
+    "demos/podcast/editorial/1166-episode-1-introduction/own-words/06-prompt.txt",
+    "demos/podcast/editorial/1166-episode-1-introduction/own-words/06-revision-prompt.txt",
+    "demos/podcast/editorial/1166-episode-1-introduction/own-words/07-chatgpt.json",
+    "demos/podcast/editorial/1166-episode-1-introduction/own-words/07-prompt.txt",
+    "demos/podcast/editorial/1166-episode-1-introduction/own-words/08-gemini.json",
+    "demos/podcast/editorial/1166-episode-1-introduction/own-words/08-prompt.txt",
+    "demos/podcast/editorial/1166-episode-1-introduction/own-words/09-claude.json",
+    "demos/podcast/editorial/1166-episode-1-introduction/own-words/09-prompt.txt",
+    "demos/podcast/editorial/1166-episode-1-introduction/own-words/10-chatgpt.json",
+    "demos/podcast/editorial/1166-episode-1-introduction/own-words/10-prompt.txt",
+    "demos/podcast/editorial/1166-episode-1-introduction/own-words/11-gemini.json",
+    "demos/podcast/editorial/1166-episode-1-introduction/own-words/11-prompt.txt",
+    "demos/podcast/editorial/1166-episode-1-introduction/own-words/12-claude.json",
+    "demos/podcast/editorial/1166-episode-1-introduction/own-words/12-prompt.txt",
+    "demos/podcast/editorial/1166-episode-1-introduction/own-words/12-revision-prompt.txt",
+    "demos/podcast/editorial/1166-episode-1-introduction/own-words/13-chatgpt.json",
+    "demos/podcast/editorial/1166-episode-1-introduction/own-words/13-prompt.txt",
+    "demos/podcast/editorial/1166-episode-1-introduction/own-words/14-gemini.json",
+    "demos/podcast/editorial/1166-episode-1-introduction/own-words/14-prompt.txt",
+    "demos/podcast/editorial/1166-episode-1-introduction/own-words/15-claude.json",
+    "demos/podcast/editorial/1166-episode-1-introduction/own-words/15-prompt.txt",
+    "demos/podcast/editorial/1166-episode-1-introduction/own-words/16-gemini.json",
+    "demos/podcast/editorial/1166-episode-1-introduction/own-words/16-prompt.txt",
+    "demos/podcast/editorial/1166-episode-1-introduction/own-words/17-claude.json",
+    "demos/podcast/editorial/1166-episode-1-introduction/own-words/17-prompt.txt",
+    "demos/podcast/editorial/1166-episode-1-introduction/own-words/18-chatgpt.json",
+    "demos/podcast/editorial/1166-episode-1-introduction/own-words/18-prompt.txt",
+    "demos/podcast/editorial/1166-episode-1-introduction/own-words/18-revision-prompt.txt",
+    "demos/podcast/editorial/1166-episode-1-introduction/own-words/brief.txt",
+    "demos/podcast/editorial/1166-episode-1-introduction/own-words/manifest.json",
+    "demos/podcast/editorial/1166-episode-1-introduction/own-words/original-turns/01-chatgpt-before-opening-review.json",
+    "demos/podcast/editorial/1166-episode-1-introduction/own-words/original-turns/06-claude.json",
+    "demos/podcast/editorial/1166-episode-1-introduction/own-words/original-turns/12-claude.json",
+    "demos/podcast/editorial/1166-episode-1-introduction/own-words/original-turns/18-chatgpt-before-guest-teaser.json",
+    "demos/podcast/editorial/1166-episode-1-introduction/own-words/original-turns/script-approved-before-opening-review.md",
+    "demos/podcast/editorial/1166-episode-1-introduction/own-words/original-turns/script-before-guest-teaser.md",
+    "demos/podcast/editorial/1166-episode-1-introduction/own-words/original-turns/script-before-review.md",
+    "demos/podcast/editorial/1166-episode-1-introduction/own-words/review.md",
+    "demos/podcast/editorial/1166-episode-1-introduction/own-words/script.md",
+    "demos/podcast/editorial/1166-episode-1-introduction/own-words/validation.json",
+    "demos/podcast/editorial/1166-episode-1-introduction/preserved-candidate.json",
+    "demos/podcast/editorial/1166-episode-1-introduction/review.md",
+    "demos/podcast/editorial/1166-episode-1-introduction/script.md",
+    "demos/podcast/editorial/1166-episode-1-introduction/validation.json",
+    "demos/podcast/episode-packages/001-meet-the-ai-coworkers/package.json",
+    "demos/podcast/episode-packages/002-can-an-ai-be-a-good-teammate/package.json",
+    "demos/podcast/episode-packages/003-the-promise-and-weirdness-of-talking-to-machines/package.json",
+    "demos/podcast/episode-packages/004-what-should-we-let-ai-do-for-us/package.json",
+    "demos/podcast/episode-packages/005-can-ai-help-us-think-better/package.json",
+    "demos/podcast/episode-packages/006-the-new-creative-room/package.json",
+    "demos/podcast/episode-packages/007-trust-receipts-and-proof/package.json",
+    "demos/podcast/episode-packages/008-local-ai-vs-cloud-ai/package.json",
+    "demos/podcast/episode-packages/009-when-ai-gets-stuck/package.json",
+    "demos/podcast/episode-packages/010-what-does-a-weekly-ai-studio-look-like/package.json",
+    "demos/podcast/episode-packages/README.md",
+    "demos/podcast/episode-packages/feed-fragment.xml",
+    "demos/podcast/episode-packages/package-index.json",
+    "demos/podcast/episode-packages/season-arc.md",
+    "demos/podcast/episodes/001-meet-the-ai-coworkers/CREATOR_WORKFLOW.md",
+    "demos/podcast/episodes/001-meet-the-ai-coworkers/artwork-source.png",
+    "demos/podcast/episodes/001-meet-the-ai-coworkers/artwork.png",
+    "demos/podcast/episodes/001-meet-the-ai-coworkers/audio-manifest.json",
+    "demos/podcast/episodes/001-meet-the-ai-coworkers/episode.json",
+    "demos/podcast/episodes/001-meet-the-ai-coworkers/guest-metadata.json",
+    "demos/podcast/episodes/001-meet-the-ai-coworkers/qa-report.md",
+    "demos/podcast/episodes/001-meet-the-ai-coworkers/redaction-report.md",
+    "demos/podcast/episodes/001-meet-the-ai-coworkers/review.md",
+    "demos/podcast/episodes/001-meet-the-ai-coworkers/rss-enclosure.json",
+    "demos/podcast/episodes/001-meet-the-ai-coworkers/s3-object-inventory.json",
+    "demos/podcast/episodes/001-meet-the-ai-coworkers/script.md",
+    "demos/podcast/episodes/001-meet-the-ai-coworkers/show-notes.md",
+    "demos/podcast/episodes/001-meet-the-ai-coworkers/source-packet.md",
+    "demos/podcast/episodes/001-meet-the-ai-coworkers/storage-manifest.json",
+    "demos/podcast/episodes/001-meet-the-ai-coworkers/transcript.md",
+    "demos/podcast/episodes/meet-the-ai-coworkers/index.html",
+    "demos/podcast/feed.xml",
+    "demos/podcast/index.html",
+    "demos/podcast/releases/episode-001/README.md",
+    "demos/podcast/releases/episode-001/apple-preflight.json",
+    "demos/podcast/releases/episode-001/private-feed.xml",
+    "demos/podcast/releases/episode-001/public-deployment.json",
+    "demos/podcast/releases/episode-001/public-headers-policy.json",
+    "demos/podcast/releases/episode-001/release.json",
+    "demos/podcast/studio-reference/.thumbnail",
+    "demos/podcast/studio-reference/REFERENCE_DIGESTS.txt",
+    "demos/podcast/studio-reference/image-slot.js",
+    "demos/podcast/studio-reference/podcast-studio.html",
+    "demos/podcast/studio-reference/support.js",
+    "demos/podcast/studio-reference/uploads/agent-logic-logo.svg",
+    "demos/podcast/studio-reference/uploads/pasted-1785349876840-0.png",
+    "demos/podcast/studio-reference/uploads/pasted-1785352283803-0.png",
+    "demos/podcast/studio-reference/uploads/pasted-1785352572936-0.png",
+    "demos/podcast/studio-reference/uploads/pasted-1785352657594-0.png",
+    "demos/podcast/studio-reference/uploads/pasted-1785353328771-0.png",
+    "demos/podcast/studio-reference/uploads/pasted-1785353505947-0.png",
+    "demos/podcast/studio-reference/uploads/pasted-1785353612368-0.png",
+    "demos/podcast/studio-reference/uploads/pasted-1785353717303-0.png",
+    "demos/podcast/studio-reference/uploads/pasted-1785353893264-0.png",
+    "demos/podcast/studio-reference/uploads/speech-bubble-vector-halftone-style-set/v999-11.jpg",
+    "demos/podcast/studio/.thumbnail",
+    "demos/podcast/studio/REFERENCE_DIGESTS.txt",
+    "demos/podcast/studio/image-slot.js",
+    "demos/podcast/studio/index.html",
+    "demos/podcast/studio/podcast-navigation.js",
+    "demos/podcast/studio/podcast-player.js",
+    "demos/podcast/studio/podcast-studio.html",
+    "demos/podcast/studio/reference.sha256",
+    "demos/podcast/studio/support.js",
+    "demos/podcast/studio/uploads/agent-logic-logo.svg",
+    "demos/podcast/studio/uploads/pasted-1785349876840-0.png",
+    "demos/podcast/studio/uploads/pasted-1785352283803-0.png",
+    "demos/podcast/studio/uploads/pasted-1785352572936-0.png",
+    "demos/podcast/studio/uploads/pasted-1785352657594-0.png",
+    "demos/podcast/studio/uploads/pasted-1785353328771-0.png",
+    "demos/podcast/studio/uploads/pasted-1785353505947-0.png",
+    "demos/podcast/studio/uploads/pasted-1785353612368-0.png",
+    "demos/podcast/studio/uploads/pasted-1785353717303-0.png",
+    "demos/podcast/studio/uploads/pasted-1785353893264-0.png",
+    "demos/podcast/studio/uploads/speech-bubble-vector-halftone-style-set/v999-11.jpg",
+    "demos/podcast/transcripts/the-cognitive-stack-episode-001-meet-the-ai-coworkers-transcript.md",
+    "demos/v0.91.3/adl_podcast_studio_v2_episode_card.html"
+  ],
+  "changes": [
+    {
+      "path": "adl/config/validation_lane_selector.public.v1.json",
+      "before": [
+        "100644",
+        "36c9aad7d8d545249daf36811015cbb501b03ac8"
+      ],
+      "after": [
+        "100644",
+        "6129d6d08a8bd1c8d85cf3ec3c788b60eb19e307"
+      ]
+    },
+    {
+      "path": "adl/examples/v0-91-1-multi-agent-podcast-pilot.adl.yaml",
+      "before": [
+        "100644",
+        "5c5e041ad64e1dfec918ecd640dd12b14b214760"
+      ],
+      "after": null
+    },
+    {
+      "path": "adl/tools/demo_v0911_multiagent_podcast_audio.sh",
+      "before": [
+        "100755",
+        "c76c208399902654cf113b81d7e1c9a309ffbfac"
+      ],
+      "after": null
+    },
+    {
+      "path": "adl/tools/demo_v0911_multiagent_podcast_pilot.sh",
+      "before": [
+        "100755",
+        "d1867b78f4ad48491d3421df9b9cbae5f4bd63ef"
+      ],
+      "after": null
+    },
+    {
+      "path": "adl/tools/demo_v0913_podcast_studio_v2.sh",
+      "before": [
+        "100755",
+        "f814cdfcee9903dd27985bf648d8ec1557b181f4"
+      ],
+      "after": null
+    },
+    {
+      "path": "adl/tools/demo_v0918_podcast_launch.sh",
+      "before": [
+        "100755",
+        "a5247c3397fa9cd7f80c4a324649cccef887f6c9"
+      ],
+      "after": null
+    },
+    {
+      "path": "adl/tools/generate_podcast_launch_packet.py",
+      "before": [
+        "100755",
+        "4a6caf7b6b61cd73e8805e7ae66392b0f0110cb5"
+      ],
+      "after": null
+    },
+    {
+      "path": "adl/tools/generate_podcast_studio_v2_packet.py",
+      "before": [
+        "100755",
+        "fdbc46b631edf268da9661ecb41837baaf7466b0"
+      ],
+      "after": null
+    },
+    {
+      "path": "adl/tools/real_chatgpt_gemini_claude_provider_adapter.py",
+      "before": [
+        "100644",
+        "3353168fae5d30816291ac6cd3a180f0ee6cf9ba"
+      ],
+      "after": null
+    },
+    {
+      "path": "adl/tools/record_podcast_browser_playback.mjs",
+      "before": [
+        "100755",
+        "ff7459fa591144d85b111cf893f6b36cf0c9033a"
+      ],
+      "after": null
+    },
+    {
+      "path": "adl/tools/record_podcast_ios_safari_playback.sh",
+      "before": [
+        "100755",
+        "ad406d376cce856bd43c0026943533aec68ade3f"
+      ],
+      "after": null
+    },
+    {
+      "path": "adl/tools/record_podcast_native_playback.sh",
+      "before": [
+        "100755",
+        "2540266f8fc03064afd89c0f6351b70a33f276f2"
+      ],
+      "after": null
+    },
+    {
+      "path": "adl/tools/run_v0913_proof_validation_lane.sh",
+      "before": [
+        "100644",
+        "1f2982e6e3f7c2ca16ea88e1df6274649e4e2de1"
+      ],
+      "after": [
+        "100644",
+        "1f0339bc579ab216d65c12ebcbd8d1bf78b5478f"
+      ]
+    },
+    {
+      "path": "adl/tools/test_install_adl_operational_skills.sh",
+      "before": [
+        "100644",
+        "f9f813dca04b2445b498b5fb0bb29a8d4794d0d8"
+      ],
+      "after": [
+        "100644",
+        "fc2eb7c149abc474e4a58486bba31ac4c882042b"
+      ]
+    },
+    {
+      "path": "adl/tools/test_multiagent_podcast_audio_policy.sh",
+      "before": [
+        "100755",
+        "e16e3febacdacec89a91305b63c07f15a7a06844"
+      ],
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_podcast_launch_packet.sh",
+      "before": [
+        "100755",
+        "f454a5632e93672a36d36a017012035c03ba36d8"
+      ],
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_podcast_studio_v2_packet.sh",
+      "before": [
+        "100755",
+        "1a48528e21bbb5f2417379f0eadece340a755ea2"
+      ],
+      "after": null
+    },
+    {
+      "path": "adl/tools/validate_podcast_launch_packet.py",
+      "before": [
+        "100755",
+        "bb3c6ae5a69d49371edbbea4219bc6ef351ad0e7"
+      ],
+      "after": null
+    },
+    {
+      "path": "adl/tools/validate_podcast_studio_v2_packet.py",
+      "before": [
+        "100755",
+        "00d147395dd0098603f918ecb383a31b41b61bef"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/README.md",
+      "before": [
+        "100644",
+        "89db54fad0b2cc46be6a794c60b732903dd80c19"
+      ],
+      "after": [
+        "100644",
+        "51b9cb2ad84813bd121d9b204f2df0177032ba3f"
+      ]
+    },
+    {
+      "path": "demos/_preview/podcast/assets/agent-logic-logo.svg",
+      "before": [
+        "100644",
+        "1d212d248e57b41203155a14ba0173134e5202d2"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/_preview/podcast/audio/meet-the-ai-coworkers.mp3",
+      "before": [
+        "100644",
+        "81a5e3cf0d34eedc003faea5c4e4393ecfa9efa5"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/_preview/podcast/index.html",
+      "before": [
+        "100644",
+        "8c0aa64f47a85aea0023ff672a32d78fdd1d435d"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/DEEPGRAM_PROVIDER_WORKFLOW.md",
+      "before": [
+        "100644",
+        "aae02034f0d3422f5f212e3c1b3a545fc58d0a6a"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/LAUNCH_READINESS.md",
+      "before": [
+        "100644",
+        "bead4b2a95a3a0d3be4cc9a7a473786b1d4b1fc3"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/PRELAUNCH.md",
+      "before": [
+        "100644",
+        "2faa66a76ab72b5a13e6d361d4ec09b7c944feed"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/PUBLICATION_HOLD.md",
+      "before": [
+        "100644",
+        "f983b882ec548f4eb8168e24b82bb96672a387d7"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/S3_CLOUDFRONT_RUNBOOK.md",
+      "before": [
+        "100644",
+        "68333ae42acb4479011fa969af2f8bc2fd779135"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/artwork.png",
+      "before": [
+        "100644",
+        "0f2e365bd2f78a71a0651700364ad3dbf5ffb0be"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/artwork/the-cognitive-stack-cover-3000.png",
+      "before": [
+        "100644",
+        "a4fd6d81ee97baf2eabc965d5c1a69d9cc513f2a"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/audio/meet-the-ai-coworkers.mp3",
+      "before": [
+        "100644",
+        "81a5e3cf0d34eedc003faea5c4e4393ecfa9efa5"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/audio/meet-the-ai-coworkers.wav",
+      "before": [
+        "100644",
+        "ae9d4dbc950875ab5f6bccf5500a9200119b4695"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/audio/the-cognitive-stack-episode-001-meet-the-ai-coworkers.mp3",
+      "before": [
+        "100644",
+        "3a8ee75b9d9fae8f166170b5529d99a4e6620c95"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/README.md",
+      "before": [
+        "100644",
+        "99040f287ea241a02414197ca8e71a4164346417"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/artwork-provenance.json",
+      "before": [
+        "100644",
+        "b2b12fa7143246d98166ff0cd4298644022bfca5"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/audio-candidate/chapters.json",
+      "before": [
+        "100644",
+        "062c4425d57f0a4d28d8d55a700b45b47a39ccb5"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/audio-candidate/episode.json",
+      "before": [
+        "100644",
+        "171d1c616b83a99f5fce771f15e0fda45faae577"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/audio-candidate/episode.mp3",
+      "before": [
+        "100644",
+        "3a8ee75b9d9fae8f166170b5529d99a4e6620c95"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/audio-candidate/episode.wav",
+      "before": [
+        "100644",
+        "5357a4b8f92e0f66debc252356ea59fbabc9352f"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/audio-candidate/loudness-final.json",
+      "before": [
+        "100644",
+        "2eea1bfc91da9f654d5a5cda7578281789ff1d0d"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/audio-candidate/loudness-input.json",
+      "before": [
+        "100644",
+        "f7e3da1d70787d4e502048d2d5763831de61df35"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/audio-candidate/production.json",
+      "before": [
+        "100644",
+        "d98417051645ca2810515b5e92d22d07f5d7dfb3"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/audio-candidate/qa-report.md",
+      "before": [
+        "100644",
+        "b51522d0a2ba17e8820595e652dccba6b101ad99"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/audio-candidate/review.md",
+      "before": [
+        "100644",
+        "ce7a1a69bab895aef2ae61eec10df7246b914b68"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/audio-candidate/rss-enclosure.json",
+      "before": [
+        "100644",
+        "9b026a7d4b2837d86e92bd8bd0d8c1927b7097e5"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/audio-candidate/show-notes.md",
+      "before": [
+        "100644",
+        "98383e1c22c9a13ff32004e24de5948831c18770"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/audio-candidate/storage-manifest.json",
+      "before": [
+        "100644",
+        "305de7e7e09be00b42a5ac7c4845d2e2f5b1eaa7"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/audio-candidate/transcript-comparison.json",
+      "before": [
+        "100644",
+        "d83c76f650ed858c72f3d54a33adc7c747e68e16"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/audio-candidate/transcript.md",
+      "before": [
+        "100644",
+        "aefa3299e0a08c51decb864172d6104c4ca3696e"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/audio-candidate/transcription-observed.txt",
+      "before": [
+        "100644",
+        "ae4c25491ed116751c7e62f8792e1a71274fa51b"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/audio-candidate/transcription-response.json",
+      "before": [
+        "100644",
+        "e0fafa70931dc18e1ad642525633b7e394a2db2b"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/audio-candidate/turn11-second-transcription.json",
+      "before": [
+        "100644",
+        "17a810cd3c47db487faea0eb5101bd956d32b994"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/cognitive_stack_cover_3000.png",
+      "before": [
+        "100644",
+        "a4fd6d81ee97baf2eabc965d5c1a69d9cc513f2a"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/own-words/01-chatgpt.json",
+      "before": [
+        "100644",
+        "3716cb590b2db3f864eeb5db2696accf03962282"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/own-words/01-prompt.txt",
+      "before": [
+        "100644",
+        "b150ad0006e27855db2c4c62fb1f74f36f2b0770"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/own-words/01-revision-prompt.txt",
+      "before": [
+        "100644",
+        "5359ab6749090aaf833bdc3543f0f769b0d9619b"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/own-words/02-gemini.json",
+      "before": [
+        "100644",
+        "fba606a41f513d5afaa4440b3ace75a466fec102"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/own-words/02-prompt.txt",
+      "before": [
+        "100644",
+        "d844e96d6fa4ffb2eb5c1c8b1a2656f2472908e3"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/own-words/03-claude.json",
+      "before": [
+        "100644",
+        "7ba03c01b13ffcadb242902c584cdb662cc94232"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/own-words/03-prompt.txt",
+      "before": [
+        "100644",
+        "afb1f09eb88812384918ae26a1e9a55f0634da46"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/own-words/04-chatgpt.json",
+      "before": [
+        "100644",
+        "4ff444e072d5db4e63b6df07cb570acead8550a6"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/own-words/04-prompt.txt",
+      "before": [
+        "100644",
+        "a3cdb27d1d12444146bad082bde245126d4c03df"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/own-words/05-gemini.json",
+      "before": [
+        "100644",
+        "2b6f27915c2a2fcb5006e3fbcfc5a972ffecebcc"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/own-words/05-prompt.txt",
+      "before": [
+        "100644",
+        "442aca4706a2d82fc06ac6d4ecf802c4376bb94d"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/own-words/06-claude.json",
+      "before": [
+        "100644",
+        "3c25ebc318f9214450c359f6f301e56978d8af10"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/own-words/06-prompt.txt",
+      "before": [
+        "100644",
+        "736c78484f460ff625fb758655ded9b4d9c43bb9"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/own-words/06-revision-prompt.txt",
+      "before": [
+        "100644",
+        "0c55714ddd4f0d12d2a9e2d0ddb0a3ee82a6b414"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/own-words/07-chatgpt.json",
+      "before": [
+        "100644",
+        "0631fefcda7a1f24889703edd970fd0e638746f2"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/own-words/07-prompt.txt",
+      "before": [
+        "100644",
+        "df445eccfb07941ff4d6fcdbcefd2946e8452737"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/own-words/08-gemini.json",
+      "before": [
+        "100644",
+        "0668960203c454cedc3b3d5d404edaf6815012ce"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/own-words/08-prompt.txt",
+      "before": [
+        "100644",
+        "bf591662b3bb8931046bad7475b4821cdbfc7795"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/own-words/09-claude.json",
+      "before": [
+        "100644",
+        "2ae34e3024830ef556071308c75571a07a9d0a6a"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/own-words/09-prompt.txt",
+      "before": [
+        "100644",
+        "335e1f743fd18d8a45e429a6a9baeebfac3771ec"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/own-words/10-chatgpt.json",
+      "before": [
+        "100644",
+        "b4efed01edfaa38c88ec32b1ed5fd4bfaa025148"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/own-words/10-prompt.txt",
+      "before": [
+        "100644",
+        "37a1e007acf2026ddee89112bac210fdc3699666"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/own-words/11-gemini.json",
+      "before": [
+        "100644",
+        "a3823fa4b2f5209f783d2491dca81c97916f67e1"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/own-words/11-prompt.txt",
+      "before": [
+        "100644",
+        "a06414b3cff6c91e7a8254ee23cb367d909aea0d"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/own-words/12-claude.json",
+      "before": [
+        "100644",
+        "6e95880edfbbbe8b25ad21093fec9a792c7befaf"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/own-words/12-prompt.txt",
+      "before": [
+        "100644",
+        "b10b1ebf983da463019b4fa9c9c2aee0310f93da"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/own-words/12-revision-prompt.txt",
+      "before": [
+        "100644",
+        "50abd876e2e82d60743202dd6b9a5add48612020"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/own-words/13-chatgpt.json",
+      "before": [
+        "100644",
+        "ae0f674fbdbd7c506ec1a7c1944a8e807d7f4ac1"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/own-words/13-prompt.txt",
+      "before": [
+        "100644",
+        "9901e56b28bcb4c3f4271bcb21ef1d24b052a289"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/own-words/14-gemini.json",
+      "before": [
+        "100644",
+        "631efcaf36b81950f56399d0a6b6bfc002ad0639"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/own-words/14-prompt.txt",
+      "before": [
+        "100644",
+        "5ed9022463d995b32044d6ebfc10ccea763b7f1c"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/own-words/15-claude.json",
+      "before": [
+        "100644",
+        "aa05662d3a98b34f2f59bd5242d2f73dcb388d11"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/own-words/15-prompt.txt",
+      "before": [
+        "100644",
+        "53a5bfe19e7185cf924cbcab1fd9a60933d2ca49"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/own-words/16-gemini.json",
+      "before": [
+        "100644",
+        "419e8733766f9dca084627bee892901d785a1f2c"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/own-words/16-prompt.txt",
+      "before": [
+        "100644",
+        "bab9144dd1c80e0ac5e154755b67a7f6c8110403"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/own-words/17-claude.json",
+      "before": [
+        "100644",
+        "673d8d76cfc400a226f84203b2ef45c1f4e145e7"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/own-words/17-prompt.txt",
+      "before": [
+        "100644",
+        "3a6ed6a0dc9b643392b63ee93b08f4b382933719"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/own-words/18-chatgpt.json",
+      "before": [
+        "100644",
+        "32a39c0c07c3eaf7c7a98edb4bf71a3d1b971758"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/own-words/18-prompt.txt",
+      "before": [
+        "100644",
+        "9cab0d3fef6ab5b39543d279e0ad3a51a36ce025"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/own-words/18-revision-prompt.txt",
+      "before": [
+        "100644",
+        "6e3a76d24d1a1ab8d4a5d44a0588fa5fd7864c78"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/own-words/brief.txt",
+      "before": [
+        "100644",
+        "0dfb0144bf983c878c376407af7c60446e693fcb"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/own-words/manifest.json",
+      "before": [
+        "100644",
+        "052560d36ebe11ac8f8b00404b7be8e0bf2bafac"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/own-words/original-turns/01-chatgpt-before-opening-review.json",
+      "before": [
+        "100644",
+        "3127bdbb94a1c85bc5e131152e0a7403a87e4650"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/own-words/original-turns/06-claude.json",
+      "before": [
+        "100644",
+        "ba0471278baac68380c3718f892a1d5e7ae1e48c"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/own-words/original-turns/12-claude.json",
+      "before": [
+        "100644",
+        "b1c96e3f8eff04ea662380f30e5cc509fe363ce0"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/own-words/original-turns/18-chatgpt-before-guest-teaser.json",
+      "before": [
+        "100644",
+        "2cbc596063fe934aabd65d8b38615289931f25d4"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/own-words/original-turns/script-approved-before-opening-review.md",
+      "before": [
+        "100644",
+        "4df340920d752356ca6f9c5f87326a98b9b3141c"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/own-words/original-turns/script-before-guest-teaser.md",
+      "before": [
+        "100644",
+        "c8d6cb609cefe1a57be87ede5cebc29dd8512f11"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/own-words/original-turns/script-before-review.md",
+      "before": [
+        "100644",
+        "0e53e49bc36f3d0abf8cf1dd6b67200581a2030d"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/own-words/review.md",
+      "before": [
+        "100644",
+        "8e1add389cdfa6e82d3fa3cb72709ecdd0ca04eb"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/own-words/script.md",
+      "before": [
+        "100644",
+        "a7250a00da44674d16ae6d96003f2e9cd0887707"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/own-words/validation.json",
+      "before": [
+        "100644",
+        "5ffc4bcb4310fb3be8bbcb15a5ba6f81af787add"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/preserved-candidate.json",
+      "before": [
+        "100644",
+        "203d0afc26310d3e8405ae78f2c1a155566f3158"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/review.md",
+      "before": [
+        "100644",
+        "e5c34100647dee41174ef3e7e6f4a103eab3609a"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/script.md",
+      "before": [
+        "100644",
+        "feb004a7942ba33bd6ba938370ea2a64e59e336e"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/editorial/1166-episode-1-introduction/validation.json",
+      "before": [
+        "100644",
+        "73cf06697efe2643e062c5af9a4d7343702f36fc"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/episode-packages/001-meet-the-ai-coworkers/package.json",
+      "before": [
+        "100644",
+        "3cdb690bad1a8a7b369f723a97c76fd42c32b908"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/episode-packages/002-can-an-ai-be-a-good-teammate/package.json",
+      "before": [
+        "100644",
+        "74e8439c573cb1708528e482f4af8e58d807e375"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/episode-packages/003-the-promise-and-weirdness-of-talking-to-machines/package.json",
+      "before": [
+        "100644",
+        "835d2fc7057fa7cbe40e7fb55f83e3d4ec6c72fa"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/episode-packages/004-what-should-we-let-ai-do-for-us/package.json",
+      "before": [
+        "100644",
+        "179cc1c2e1acf1e75fbb10423b8823f0f41c9215"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/episode-packages/005-can-ai-help-us-think-better/package.json",
+      "before": [
+        "100644",
+        "5fa2595687e870d188c344bab47cff8e3ad0fd57"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/episode-packages/006-the-new-creative-room/package.json",
+      "before": [
+        "100644",
+        "70f281937de3fa7e4b59bbd2f909149a39d59153"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/episode-packages/007-trust-receipts-and-proof/package.json",
+      "before": [
+        "100644",
+        "606502a0baa681303da2f40bc8d7a93326a8f004"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/episode-packages/008-local-ai-vs-cloud-ai/package.json",
+      "before": [
+        "100644",
+        "4b9f9ecd2bb7fb44cb14f53b0db0b1c80f0663f7"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/episode-packages/009-when-ai-gets-stuck/package.json",
+      "before": [
+        "100644",
+        "5548a6856a213114d732971e30387001aa1caa37"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/episode-packages/010-what-does-a-weekly-ai-studio-look-like/package.json",
+      "before": [
+        "100644",
+        "b4e8bc534470b5f172f46fa8e78bcaaf9d187e4e"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/episode-packages/README.md",
+      "before": [
+        "100644",
+        "3050d51f2b522e3d362fcafef563db1ed2e38603"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/episode-packages/feed-fragment.xml",
+      "before": [
+        "100644",
+        "e31b359475757d8367c9edc37d8f987fd4c9b765"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/episode-packages/package-index.json",
+      "before": [
+        "100644",
+        "84ad1e2e4a3145c1df77a728d8fb623bce35d123"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/episode-packages/season-arc.md",
+      "before": [
+        "100644",
+        "4713fcfdf2f82f245fcfaf77ffc78a5854d961ae"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/episodes/001-meet-the-ai-coworkers/CREATOR_WORKFLOW.md",
+      "before": [
+        "100644",
+        "4424e161aada0515b8cdfcea6cd86a78e8601e9c"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/episodes/001-meet-the-ai-coworkers/artwork-source.png",
+      "before": [
+        "100644",
+        "df4a7d9aa1b94f08067250097d6637297c058093"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/episodes/001-meet-the-ai-coworkers/artwork.png",
+      "before": [
+        "100644",
+        "0f2e365bd2f78a71a0651700364ad3dbf5ffb0be"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/episodes/001-meet-the-ai-coworkers/audio-manifest.json",
+      "before": [
+        "100644",
+        "6bd03ace1c131e0d9fbba2ca295161f41f22ecee"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/episodes/001-meet-the-ai-coworkers/episode.json",
+      "before": [
+        "100644",
+        "4b12aa724c798c058b01197132e302d1beee2434"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/episodes/001-meet-the-ai-coworkers/guest-metadata.json",
+      "before": [
+        "100644",
+        "fc5f7255cd77372b92ec1ed350c7b25e8d413338"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/episodes/001-meet-the-ai-coworkers/qa-report.md",
+      "before": [
+        "100644",
+        "edb23c8f09d239c39bcc64df141bc1575fad5565"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/episodes/001-meet-the-ai-coworkers/redaction-report.md",
+      "before": [
+        "100644",
+        "b6368b7cc50b5022b7b249920693654027190cae"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/episodes/001-meet-the-ai-coworkers/review.md",
+      "before": [
+        "100644",
+        "7373e19b30fba6b748b54c2a2f0810bcd535a6f0"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/episodes/001-meet-the-ai-coworkers/rss-enclosure.json",
+      "before": [
+        "100644",
+        "6b688061e0cfeb946fbf0c88cc716da961e3b8f0"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/episodes/001-meet-the-ai-coworkers/s3-object-inventory.json",
+      "before": [
+        "100644",
+        "2aab1b499c48e588dd8fc18ace87bfe4aa6be636"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/episodes/001-meet-the-ai-coworkers/script.md",
+      "before": [
+        "100644",
+        "79901351792d73f3b69282591f2a416b125c5064"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/episodes/001-meet-the-ai-coworkers/show-notes.md",
+      "before": [
+        "100644",
+        "82824d2790660526ff82ef28782013c04c9b8fcf"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/episodes/001-meet-the-ai-coworkers/source-packet.md",
+      "before": [
+        "100644",
+        "edb99e1cf3d79836d408b65d0e527b0b2248d8ca"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/episodes/001-meet-the-ai-coworkers/storage-manifest.json",
+      "before": [
+        "100644",
+        "372a350797dae7f63eee496da744e54133559703"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/episodes/001-meet-the-ai-coworkers/transcript.md",
+      "before": [
+        "100644",
+        "a5677cbddd5f155750a7bf5c789919ed0aa943da"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/episodes/meet-the-ai-coworkers/index.html",
+      "before": [
+        "100644",
+        "8e865a7b465634bde50e6364e2173d3ad6b34e47"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/feed.xml",
+      "before": [
+        "100644",
+        "41a5ca3fbbfe6ac8ca0b2f5db59bfb90c6978a56"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/index.html",
+      "before": [
+        "100644",
+        "601245d8cc0d71958e0ee7ac9e42c67a2ae2dc29"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/releases/episode-001/README.md",
+      "before": [
+        "100644",
+        "dccb5740f07cacd6e5350cac1365d3b47b4fa640"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/releases/episode-001/apple-preflight.json",
+      "before": [
+        "100644",
+        "996efdcc520c55ec86b8d5b22c8c9ac067e3a69e"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/releases/episode-001/private-feed.xml",
+      "before": [
+        "100644",
+        "a84a922dd871193cfb43fdc4829b83df2e97dcc3"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/releases/episode-001/public-deployment.json",
+      "before": [
+        "100644",
+        "c63e4bd80df12437b204efb48450b7123b58f0e9"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/releases/episode-001/public-headers-policy.json",
+      "before": [
+        "100644",
+        "ac60a8d849f6a1c9b89ae9484ceae28ae6b64f00"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/releases/episode-001/release.json",
+      "before": [
+        "100644",
+        "afc05a3b7234057825ef4dddb849c523e96f8855"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/studio-reference/.thumbnail",
+      "before": [
+        "100644",
+        "f0e4e86420dc94c5ee245b6ae81bcf5cb70efdff"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/studio-reference/REFERENCE_DIGESTS.txt",
+      "before": [
+        "100644",
+        "e01390a62fef67b8784464747f0ac07a79c8bfe5"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/studio-reference/image-slot.js",
+      "before": [
+        "100644",
+        "e30189ba5b84fb5b9578f15081b5ce6ccf393ce4"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/studio-reference/podcast-studio.html",
+      "before": [
+        "100644",
+        "7ed35aa7d1363f8bb2fcc446b25ac2bbfb71f2f6"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/studio-reference/support.js",
+      "before": [
+        "100644",
+        "cb009b69ec6b5e00f48c6287a587fe7e0c6c421b"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/studio-reference/uploads/agent-logic-logo.svg",
+      "before": [
+        "100644",
+        "1d212d248e57b41203155a14ba0173134e5202d2"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/studio-reference/uploads/pasted-1785349876840-0.png",
+      "before": [
+        "100644",
+        "4326cbbe43870280ad78eee1a498d1e725f70463"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/studio-reference/uploads/pasted-1785352283803-0.png",
+      "before": [
+        "100644",
+        "b0b95f15e5d5851f12f1c7d88577141d050b8b51"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/studio-reference/uploads/pasted-1785352572936-0.png",
+      "before": [
+        "100644",
+        "0a5d6e3fe4a83052c2639fd6584da5f933a4c6be"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/studio-reference/uploads/pasted-1785352657594-0.png",
+      "before": [
+        "100644",
+        "beab6a5a39bd58da7b56417d0ee558619e400cac"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/studio-reference/uploads/pasted-1785353328771-0.png",
+      "before": [
+        "100644",
+        "fe5cc315d9ad3a65bcc4b059ffc4c11aa3c48aa9"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/studio-reference/uploads/pasted-1785353505947-0.png",
+      "before": [
+        "100644",
+        "852ca981390a5504707ee3a16d0e18d02c51b6fe"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/studio-reference/uploads/pasted-1785353612368-0.png",
+      "before": [
+        "100644",
+        "8692ec4ddda2d4173e3b56bb6919aec1a02dd7be"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/studio-reference/uploads/pasted-1785353717303-0.png",
+      "before": [
+        "100644",
+        "548bfb3adc898e74e12e83e357d662b840d4e260"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/studio-reference/uploads/pasted-1785353893264-0.png",
+      "before": [
+        "100644",
+        "71c83b2ead287d1e8e371378d5e2a0a392cb26f3"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/studio-reference/uploads/speech-bubble-vector-halftone-style-set/v999-11.jpg",
+      "before": [
+        "100644",
+        "7c0ef98192789fa632236afab7431749d45001d3"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/studio/.thumbnail",
+      "before": [
+        "100644",
+        "f0e4e86420dc94c5ee245b6ae81bcf5cb70efdff"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/studio/REFERENCE_DIGESTS.txt",
+      "before": [
+        "100644",
+        "e01390a62fef67b8784464747f0ac07a79c8bfe5"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/studio/image-slot.js",
+      "before": [
+        "100644",
+        "e30189ba5b84fb5b9578f15081b5ce6ccf393ce4"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/studio/index.html",
+      "before": [
+        "100644",
+        "6b645cc5ba5fda12969132c7bba22ca45d7594e8"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/studio/podcast-navigation.js",
+      "before": [
+        "100644",
+        "dd6221634415ec76a50ecbbc023dcf96de0679fe"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/studio/podcast-player.js",
+      "before": [
+        "100644",
+        "3895c8a7773ceaabe8a88a1c0f5ce98a39797e66"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/studio/podcast-studio.html",
+      "before": [
+        "100644",
+        "7ed35aa7d1363f8bb2fcc446b25ac2bbfb71f2f6"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/studio/reference.sha256",
+      "before": [
+        "100644",
+        "e01390a62fef67b8784464747f0ac07a79c8bfe5"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/studio/support.js",
+      "before": [
+        "100644",
+        "cb009b69ec6b5e00f48c6287a587fe7e0c6c421b"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/studio/uploads/agent-logic-logo.svg",
+      "before": [
+        "100644",
+        "1d212d248e57b41203155a14ba0173134e5202d2"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/studio/uploads/pasted-1785349876840-0.png",
+      "before": [
+        "100644",
+        "4326cbbe43870280ad78eee1a498d1e725f70463"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/studio/uploads/pasted-1785352283803-0.png",
+      "before": [
+        "100644",
+        "b0b95f15e5d5851f12f1c7d88577141d050b8b51"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/studio/uploads/pasted-1785352572936-0.png",
+      "before": [
+        "100644",
+        "0a5d6e3fe4a83052c2639fd6584da5f933a4c6be"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/studio/uploads/pasted-1785352657594-0.png",
+      "before": [
+        "100644",
+        "beab6a5a39bd58da7b56417d0ee558619e400cac"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/studio/uploads/pasted-1785353328771-0.png",
+      "before": [
+        "100644",
+        "fe5cc315d9ad3a65bcc4b059ffc4c11aa3c48aa9"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/studio/uploads/pasted-1785353505947-0.png",
+      "before": [
+        "100644",
+        "852ca981390a5504707ee3a16d0e18d02c51b6fe"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/studio/uploads/pasted-1785353612368-0.png",
+      "before": [
+        "100644",
+        "8692ec4ddda2d4173e3b56bb6919aec1a02dd7be"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/studio/uploads/pasted-1785353717303-0.png",
+      "before": [
+        "100644",
+        "548bfb3adc898e74e12e83e357d662b840d4e260"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/studio/uploads/pasted-1785353893264-0.png",
+      "before": [
+        "100644",
+        "71c83b2ead287d1e8e371378d5e2a0a392cb26f3"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/studio/uploads/speech-bubble-vector-halftone-style-set/v999-11.jpg",
+      "before": [
+        "100644",
+        "7c0ef98192789fa632236afab7431749d45001d3"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/podcast/transcripts/the-cognitive-stack-episode-001-meet-the-ai-coworkers-transcript.md",
+      "before": [
+        "100644",
+        "00cb7d162660bde96e8bcbf664c072214ae226b7"
+      ],
+      "after": null
+    },
+    {
+      "path": "demos/v0.91.3/adl_podcast_studio_v2_episode_card.html",
+      "before": [
+        "100644",
+        "dbb523ee74fb2a963034746f4954d7a9806bd81f"
+      ],
+      "after": null
+    },
+    {
+      "path": "docs/REPOSITORIES.md",
+      "before": [
+        "100644",
+        "c4571a5bd697dbc383613dcb4794a5ca68cf130c"
+      ],
+      "after": [
+        "100644",
+        "30951e118ae6a0b6d86c4026642ccab0c857d280"
+      ]
+    },
+    {
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "before": [
+        "100644",
+        "a7d70d39fea19671d121d75e56409c97849994ba"
+      ],
+      "after": [
+        "100644",
+        "65e3db91b25545cd1ef74bdee6fbb9169190584a"
+      ]
+    }
+  ],
+  "schema": "adl.podcast.migration_transition.v1",
+  "issue": 1285
+}
