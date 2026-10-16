@@ -235,9 +235,7 @@ impl SessionLedger {
         validate_non_empty("resource kind", &input.resource.kind)?;
         validate_non_empty("resource id", &input.resource.id)?;
         validate_non_empty("purpose", &input.purpose)?;
-        if input.ttl_secs <= 0 {
-            return Err(anyhow!("ttl seconds must be greater than zero"));
-        }
+        let expires_at = checked_expiration(now, input.ttl_secs)?;
 
         let active_conflicts = self
             .claims
@@ -275,7 +273,7 @@ impl SessionLedger {
             blockers: input.blockers,
             created_at: now,
             heartbeat_at: now,
-            expires_at: now + Duration::seconds(input.ttl_secs),
+            expires_at,
             released_at: None,
             release_reason: None,
         };
@@ -290,9 +288,7 @@ impl SessionLedger {
         ttl_secs: i64,
         now: DateTime<Utc>,
     ) -> Result<OccupancyClaim> {
-        if ttl_secs <= 0 {
-            return Err(anyhow!("ttl seconds must be greater than zero"));
-        }
+        let expires_at = checked_expiration(now, ttl_secs)?;
         let claim = self
             .claims
             .iter_mut()
@@ -312,7 +308,7 @@ impl SessionLedger {
             | ClaimClassification::Paused => {}
         }
         claim.heartbeat_at = now;
-        claim.expires_at = now + Duration::seconds(ttl_secs);
+        claim.expires_at = expires_at;
         claim.released_at = None;
         claim.release_reason = None;
         self.updated_at = now;
@@ -336,6 +332,16 @@ impl SessionLedger {
         self.updated_at = now;
         Ok(claim.clone())
     }
+}
+
+fn checked_expiration(now: DateTime<Utc>, ttl_secs: i64) -> Result<DateTime<Utc>> {
+    if ttl_secs <= 0 {
+        return Err(anyhow!("ttl seconds must be greater than zero"));
+    }
+    let ttl = Duration::try_seconds(ttl_secs)
+        .ok_or_else(|| anyhow!("ttl seconds exceed the supported duration range"))?;
+    now.checked_add_signed(ttl)
+        .ok_or_else(|| anyhow!("ttl seconds produce an expiration outside the supported range"))
 }
 
 pub fn default_ledger_path(repo_root: &Path) -> PathBuf {
@@ -809,6 +815,36 @@ mod tests {
             .expect("heartbeat");
         assert_eq!(renewed.heartbeat_at, later);
         assert_eq!(renewed.expires_at, later + Duration::seconds(30));
+    }
+
+    #[test]
+    fn overflowing_claim_ttls_leave_ledger_unchanged() {
+        let mut ledger = SessionLedger::empty(now());
+        let original = ledger.clone();
+
+        for ttl_secs in [i64::MAX, i64::MAX / 1000] {
+            let mut claim = input(4412);
+            claim.ttl_secs = ttl_secs;
+            let err = ledger.claim(claim, now()).unwrap_err();
+            assert!(err.to_string().contains("ttl seconds"));
+            assert_eq!(ledger, original);
+        }
+    }
+
+    #[test]
+    fn overflowing_heartbeat_ttls_leave_ledger_unchanged() {
+        let mut ledger = SessionLedger::empty(now());
+        let claim = ledger.claim(input(4412), now()).expect("claim");
+        let later = now() + Duration::seconds(1);
+
+        for ttl_secs in [i64::MAX, i64::MAX / 1000] {
+            let original = ledger.clone();
+            let err = ledger
+                .heartbeat(&claim.claim_id, ttl_secs, later)
+                .unwrap_err();
+            assert!(err.to_string().contains("ttl seconds"));
+            assert_eq!(ledger, original);
+        }
     }
 
     #[test]
