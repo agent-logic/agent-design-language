@@ -1,6 +1,6 @@
 # ADL repository external-review entrypoint
 
-Status: prepared for a bounded **ADL repository review**, substantive public ADL review now underway and not a Sprint 4 release-acceptance result. The latest operator request narrows this preparation to the ADL repository. Unrelated product release work does not prevent preparing or reviewing public ADL source.
+Status: prepared for a bounded **ADL repository review**, substantive public ADL review completed with CHANGES_REQUIRED and not a Sprint 4 release-acceptance result. The latest operator request narrows this preparation to the ADL repository. Unrelated product release work does not prevent preparing or reviewing public ADL source.
 
 ## Exact revision and freeze
 
@@ -10,7 +10,7 @@ The freeze includes #1234 documentation merge `11e62214592612bf48ced201e80a06732
 
 The initial #1287 CI failure on a stale UTS test remains historical evidence; the reviewed correction above and successful exact-head checks supersede it. The earlier inspected baseline `2f26936b9c0ec582471a3f8fbebcce31b471512e` is orientation history only. Public ADL source-review preparation can now advance against the freeze without waiting for unrelated website release work.
 
-The #1238 internal report at `1c7246e340740ec23de8642b4bf749db3eabd115` remains an interim NOT_PROVEN release assessment. Final Sprint 4 TAIL-05 synthesis still requires accepted #1236/#1238 inputs and the resolved findings register; freezing public ADL does not satisfy those separate release gates. After the recorded access preflight, the coordinator assigned substantive public ADL review against the frozen source. Its findings and verdict are not yet available.
+The #1238 internal report at `1c7246e340740ec23de8642b4bf749db3eabd115` remains an interim NOT_PROVEN release assessment. Final Sprint 4 TAIL-05 synthesis still requires accepted #1236/#1238 inputs and the resolved findings register; freezing public ADL does not satisfy those separate release gates. After the recorded access preflight, the coordinator assigned substantive public ADL review against the frozen source. Its report is now retained below; four findings require correction.
 
 ## Reader order
 
@@ -58,3 +58,9 @@ Fresh reviewer `OpenAI Codex /root/adl_external_reviewer` recorded ACCESS_PREFLI
 At that original snapshot, this was access verification only, with no substantive review, correctness judgment, tests, downloads, hash recomputation, provider calls or release acceptance. The workspace/member path clarification above corrects navigation, not a product finding. Full inventories and final accepted #1236/#1238 inputs were not examined. At that snapshot, private final-release evidence access remained unverified and was a separate final Sprint 4 synthesis gate; it is not required for the public ADL inputs already checked.
 
 The subsequent split-interface access extension verified all 17 selected retained records and nine exact-revision contracts/ledgers. No checked-input access gap remains; historical archive availability/current installation was not retested. Final accepted candidate, internal report and disposition heads still need readback when finalized. These access observations are not substantive findings or release acceptance.
+
+## Completed bounded ADL review
+
+[Independent report](ADL_INDEPENDENT_REVIEW_F75F0D3.md) and [coverage ledger](ADL_REVIEW_COVERAGE.json) preserve the reviewer-authored results for frozen source `f75f0d3`: **CHANGES_REQUIRED, two P2 and two P3 findings**. The report is copied without substantive changes. Its 591-path inventory is not a count of reviewed files. One isolated std-only prompt probe ran; broad tests, builds, CI, network/provider calls and installed execution did not. Private split-interface preflight remains access evidence, not private implementation review. The result is independent-agent coverage, not third-party organizational review or full Sprint 4 acceptance.
+
+#1241 owns the four original finding IDs and dispositions. Repair owners must provide exact commits and focused regression/review evidence; the independent reviewer should assess only the affected repair delta and retained coverage before advancing the product freeze. Do not discard this adverse report or repeat the whole repository campaign.
