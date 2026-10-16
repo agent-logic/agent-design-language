@@ -1,0 +1,6 @@
+{
+  "schema": "csdlc.v3.binding.v1",
+  "issue": 1288,
+  "branch": "codex/1288-deterministic-prompt-interpolation",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-1288-deterministic-prompt-interpolation"
+}

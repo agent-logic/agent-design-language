@@ -1,0 +1,16 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 1288,
+  "issue_padded": "1288",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/1288",
+  "title": "[v0.93.1] Make legacy prompt interpolation deterministic",
+  "branch": "codex/1288-deterministic-prompt-interpolation",
+  "version": "1.0.5",
+  "card": "srp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-1288-deterministic-prompt-interpolation",
+  "review_results": {
+    "status": "not_run"
+  }
+}

@@ -18,15 +18,23 @@ fn assemble_prompt(p: &PromptSpec, params: &HashMap<String, String>) -> String {
     let mut out = String::new();
 
     let render = |s: &str| -> String {
-        // Very small MVP templating: replace occurrences of {{key}} with values.
-        // (Intentionally simple and deterministic; we can evolve this later.)
-        let mut rendered = s.to_string();
-        for (k, v) in params.iter() {
-            let needle = format!("{{{{{k}}}}}");
-            if rendered.contains(&needle) {
-                rendered = rendered.replace(&needle, v);
-            }
+        // Substitute original template placeholders once. Input values are literal:
+        // never interpret their braces or depend on HashMap iteration order.
+        let mut rendered = String::with_capacity(s.len());
+        let mut remaining = s;
+        while let Some(start) = remaining.find("{{") {
+            rendered.push_str(&remaining[..start]);
+            remaining = &remaining[start..];
+            let Some(end) = remaining[2..].find("}}") else {
+                break;
+            };
+            let end = end + 2;
+            let key = &remaining[2..end];
+            let placeholder = &remaining[..end + 2];
+            rendered.push_str(params.get(key).map(String::as_str).unwrap_or(placeholder));
+            remaining = &remaining[end + 2..];
         }
+        rendered.push_str(remaining);
         rendered
     };
 
@@ -142,5 +150,45 @@ mod tests {
         // We don't enforce replacement semantics yet; just ensure no panic and content present.
         assert!(assembled.contains("Hello"));
         assert!(assembled.contains("{{missing}}"));
+    }
+
+    // PVF: local contract regression; deterministic, small CPU/memory, no I/O or
+    // providers. Required public package test coverage, not runtime qualification.
+    #[test]
+    fn trace_prompt_assembly_keeps_replacement_values_literal() {
+        let prompt = PromptSpec {
+            user: Some("{{a}} {{b}} {{a}}".to_string()),
+            ..PromptSpec::default()
+        };
+        // A cascading replacement fails this assertion in either iteration order.
+        for pairs in [
+            [("a", "{{b}}"), ("b", "{{a}}")],
+            [("b", "{{a}}"), ("a", "{{b}}")],
+        ] {
+            let inputs = pairs
+                .into_iter()
+                .map(|(k, v)| (k.to_string(), v.to_string()))
+                .collect();
+            assert_eq!(
+                trace_prompt_assembly(&prompt, &inputs),
+                "USER:\n{{b}} {{a}} {{b}}"
+            );
+        }
+    }
+
+    #[test]
+    fn trace_prompt_assembly_preserves_unknown_and_unclosed_placeholders() {
+        let prompt = PromptSpec {
+            user: Some("Résumé {{name}}/{{empty}}/{{missing}}/{{unfinished".to_string()),
+            ..PromptSpec::default()
+        };
+        let inputs = HashMap::from([
+            ("name".to_string(), "Zoë".to_string()),
+            ("empty".to_string(), String::new()),
+        ]);
+        assert_eq!(
+            trace_prompt_assembly(&prompt, &inputs),
+            "USER:\nRésumé Zoë//{{missing}}/{{unfinished"
+        );
     }
 }
