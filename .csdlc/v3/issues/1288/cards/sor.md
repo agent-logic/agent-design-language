@@ -21,7 +21,7 @@ Version: 1.0.5
 Title: [v0.93.1] Make legacy prompt interpolation deterministic
 Branch: codex/1288-deterministic-prompt-interpolation
 Card Status: ready
-Status: <status>
+Status: IN_PROGRESS
 Generated: <timestamp>
 
 Execution:
@@ -33,12 +33,12 @@ Execution:
 
 ## Summary
 
-Make legacy prompt interpolation deterministic by substituting only original template placeholders and treating inserted values literally.
+Replaced HashMap-driven cascading prompt replacement with a single pass over original placeholders; inserted values remain literal.
 
 ## PVF Lane Truth
 - Initial PVF lane: `<initial_pvf_lane>`
-- Planned PVF lane: `<planned_pvf_lane>`
-- Final PVF lane: `<final_pvf_lane>`
+- Planned PVF lane: `local`
+- Final PVF lane: `local`
 - Lane change reason: `<lane_change_reason>`
 
 ## Issue Metrics Truth
@@ -79,15 +79,15 @@ Make legacy prompt interpolation deterministic by substituting only original tem
 - Additional proof artifacts: `<additional_proof_artifacts>`
 
 ## Actions taken
-- `<actions_taken_line_1>`
-- `<actions_taken_line_2>`
-- `<actions_taken_line_3>`
+- `Confirmed public CLI callers and existing missing-placeholder and role-order contracts.`
+- `Added cyclic-value regression that fails original f75 function regardless of map order, plus Unicode/empty/unknown/unclosed markers.`
+- `Root independent source review passed; rustfmt and diff whitespace check passed.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `<main_repo_paths_updated>`
 - Worktree-only paths remaining: `<worktree_only_paths_remaining>`
-- Integration state: `<integration_state>`
-- Verification scope: `<verification_scope>`
+- Integration state: `worktree_only`
+- Verification scope: `Focused public legacy prompt contract; native focused Cargo proof and required GitHub CI remain pending at this record.`
 - Integration method used: `<integration_method_used>`
 - Verification performed:
   - `<integration_verification_command>`
@@ -107,10 +107,10 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `<validation_command>`
+  - `cargo test --offline --locked --manifest-path adl-legacy-contracts/Cargo.toml --lib prompt`
     `<validation_effect>`
 - Results:
-  - `<validation_result>`
+  - `Original exact f75 assemble_prompt failed the new cyclic-value regression in an external FastWork std-only harness (expected exit101). No broad suite or provider execution. Native proof receipt will record current candidate test outcome.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
