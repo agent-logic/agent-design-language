@@ -22,7 +22,7 @@ Runtime plugins provide recoverable evolution; trace-grounded governance and pri
 
 ## Core Goals
 
-Complete RV-01–RV-11, GOV-01–GOV-16, WP-S1–WP-S6, CM-01–CM-04, PY-01 and DEMO-GOV/DEMO-SEC.
+Complete RV-01–RV-11, GOV-01–GOV-16, WP-S1–WP-S6, CM-01–CM-04 and DEMO-GOV/DEMO-SEC.
 
 ## Milestone Context
 

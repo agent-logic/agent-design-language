@@ -26,7 +26,7 @@ No repository re-extraction, Beta 1 launch redo, template foundation duplication
 
 ## Scope
 
-68 planned identities: the existing 53 platform candidates, existing CodeFriend #92, plus `GHB-SPRINT` and `GHB-WP00` through `GHB-WP12`. Existing #875 is a separately gated v0.93.1 sidecar and is not counted in 53. Podcast #671 is completed in v0.92.2 (PR #1174).
+67 planned identities: the retained 52 platform candidates, existing CodeFriend #92, plus `GHB-SPRINT` and `GHB-WP00` through `GHB-WP12`. Existing #875 is a separately gated v0.93.1 sidecar and is not counted in 52. Podcast #671 is completed in v0.92.2 (PR #1174).
 
 ## Requirements
 

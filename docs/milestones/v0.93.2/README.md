@@ -10,7 +10,7 @@ Planned and unopened. The operator approved the scope split; this package does n
 
 ## Purpose
 
-Deliver Runtime v4, governed citizen behavior, enterprise security and citizen continuity after CodeFriend Beta 1 reaches ready-to-deploy qualification in v0.93.1. 68 planned identities: the existing 53 platform candidates, existing CodeFriend #92, plus `GHB-SPRINT` and `GHB-WP00` through `GHB-WP12`. Existing #875 is a separately gated v0.93.1 sidecar and is not counted in 53. Podcast #671 is completed in v0.92.2 (PR #1174).
+Deliver Runtime v4, governed citizen behavior, enterprise security and citizen continuity after CodeFriend Beta 1 reaches ready-to-deploy qualification in v0.93.1. 67 planned identities: the retained 52 platform candidates, existing CodeFriend #92, plus `GHB-SPRINT` and `GHB-WP00` through `GHB-WP12`. Existing #875 is a separately gated v0.93.1 sidecar and is not counted in 52. Podcast #671 is completed in v0.92.2 (PR #1174).
 
 ## Scope
 
@@ -47,7 +47,7 @@ Operator amendment routes existing #1145 (Everyone Observatory) and #875 to v0.9
 
 ## Current scope refresh (2026-10-10)
 
-The approved scope is the original 53 platform candidates plus CodeFriend launch readiness/deployment planning and the full GHB program. CodeFriend #92 is the existing v0.93.2-or-later launch candidate; deployment still requires exact candidate, audience, environment and budget authorization. ADL #1226 remains a deferred assessment, not committed work.
+The approved scope is the 52 platform candidates retained after deferring PY-01, plus CodeFriend launch readiness/deployment planning and the full GHB program. CodeFriend #92 is the existing v0.93.2-or-later launch candidate; deployment still requires exact candidate, audience, environment and budget authorization. ADL #1226 remains a deferred assessment, not committed work.
 
 ### Repository disposition
 
@@ -66,3 +66,7 @@ The approved scope is the original 53 platform candidates plus CodeFriend launch
 | `agent-logic/godel-hadamard-bayes-paper` | active owner or dependency; exact work-package routing required before execution |
 | `agent-logic/cognitive-sdlc-paper` | no matching open v0.93.2 issue found; observe and reuse only if a mapped dependency is verified |
 | `agent-logic/strategic-cognitive-reserve` | no matching open v0.93.2 issue found; observe and reuse only if a mapped dependency is verified |
+
+## #1242 scope reconciliation
+
+Reuse merged #1259; 67 planned identities retain the full approved scope except PY-01. Its complete original definition is preserved in `tail07-1242/SUCCESSOR_PLAN.json`. Affect/humour remain outside v0.93.2; no later milestone is activated here. #1241 final residual dispositions and selected installed lockset correspondence remain pending; source retirement #1223 is merged, not a public deployment.
