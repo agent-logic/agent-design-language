@@ -4,11 +4,13 @@ Status: prepared for a bounded **ADL repository review**, not dispatched and not
 
 ## Exact revision and freeze
 
-**Final review candidate: NOT YET FROZEN.** Select the full immutable ADL commit after the required merges; do not dispatch against a moving branch. Inspected public baseline `2f26936b9c0ec582471a3f8fbebcce31b471512e` is orientation evidence, not the final candidate.
+**Frozen ADL product source: `f75f0d3f9c4df85743638b956f2c2a80f3424f38`.** This immutable source revision is separate from the later commit containing this review packet. Review this commit, not a moving branch.
 
-The eventual freeze must include #1284 cleanup / PR #1287. Its initial CI failed on a stale UTS test; the reviewed correction is `1839d0536790bbd8653776a9cb30820658a05776`, with final proof/publication owned by the cleanup lane. The #1234 documentation owner reports local final preparation `f3943dac7171ba026bd21f31938c0c552b1e18d7` awaiting review. These are dated preparation inputs, not final selected commits. Preserve them as history rather than continually replacing this entrypoint with transient heads. The #1236 owner supplies the final source/evidence manifest once merges settle.
+The freeze includes #1234 documentation merge `11e62214592612bf48ced201e80a06732dd72f27` (reviewed head `f3943dac7171ba026bd21f31938c0c552b1e18d7`) and #1284 cleanup / PR #1287 (reviewed head `1839d0536790bbd8653776a9cb30820658a05776`). Local Git ancestry checks confirm both the documentation merge and reviewed cleanup head are ancestors of the frozen commit. The coordinator's authenticated native receipt confirms PR #1287 merged at the frozen commit and #1284 closed; all eight checks passed in run `38840558566`. #1234 is merged, closed and natively finished. These are retained owner results, not new tests run by this packet.
 
-The #1238 internal report at `1c7246e340740ec23de8642b4bf749db3eabd115` is explicitly NOT_PROVEN. Final TAIL-05 acceptance still requires accepted #1236/#1238 inputs. If only packet documentation changes after selection, retain the product source revision separately from the packet commit.
+The initial #1287 CI failure on a stale UTS test remains historical evidence; the reviewed correction above and successful exact-head checks supersede it. The earlier inspected baseline `2f26936b9c0ec582471a3f8fbebcce31b471512e` is orientation history only. Public ADL source-review preparation can now advance against the freeze without waiting for unrelated website release work.
+
+The #1238 internal report at `1c7246e340740ec23de8642b4bf749db3eabd115` remains an interim NOT_PROVEN release assessment. Final Sprint 4 TAIL-05 synthesis still requires accepted #1236/#1238 inputs and the resolved findings register; freezing public ADL does not satisfy those separate release gates. No reviewer has been dispatched by this packet.
 
 ## Reader order
 
@@ -41,7 +43,7 @@ The prior independent diagnostic review found IR-1240-01, the public-input count
 
 The unresolved Sprint 4 register also contains product artifact/platform correspondence, final quality/edge reconciliation, private review access and the CodeFriend/website export contract. Those remain real release gates but are **not automatically blockers for public ADL code review**. The website repair is relevant here only if its evidence is necessary to assess an ADL-owned dispatch or documented interface claim. Do not delay a language/schema/CLI review solely for website release readiness, and do not use an ADL review PASS to close those product findings.
 
-ADL dispatch readiness requires: a selected immutable ADL commit, the cleanup inclusion decision, the concrete scope/diff and retained evidence index, and an independent reviewer able to read those inputs. The final Sprint 4 external synthesis retains its separate all-findings-resolved gate; this scoped review supplies ADL coverage to that later synthesis rather than claiming to complete it.
+ADL dispatch readiness requires: a selected immutable ADL commit, the verified cleanup inclusion above, the concrete scope/diff and retained evidence index, and an independent reviewer able to read those inputs. The final Sprint 4 external synthesis retains its separate all-findings-resolved gate; this scoped review supplies ADL coverage to that later synthesis rather than claiming to complete it.
 
 ## Reviewer and access
 
