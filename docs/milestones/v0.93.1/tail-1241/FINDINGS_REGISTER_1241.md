@@ -2,7 +2,7 @@
 
 ## Current disposition summary
 
-Eleven findings received: **three fixed (IR-1238-01, IR-1238-04, IR-1240-01), four awaiting final candidate decisions (IR-1238-02/03/05/06), and four new public ADL findings open (ADL-1240-EXT-01 through EXT-04)**. The current detail is the consolidated original-finding table and subsequent public ADL intake below; earlier counts are historical. Named reviewer access to all 17 retained records and nine exact-revision contracts/ledgers has passed; no checked-input access gap remains. IR-1238-05 now needs only readback of finalized packet heads. Public ADL review completed against frozen `f75f0d3` with CHANGES_REQUIRED; final Sprint 4 synthesis and acceptance remain future results. No deployment is required or authorized.
+Eleven findings received: **all eleven have evidence-backed resolution for the selected, bounded review candidate**. The final disposition table at the end supersedes earlier interim counts. Final independent synthesis, native publication/CI and milestone acceptance remain separate pending decisions; this register does not assert a new repaired-source distributable archive or deployment. Product source is `ac2b596915538f3ed9ce418aec5aa7b917c18fd4`; selected local candidate packet is #1236 `1e632116d0e290db1fb7239277fe9e6824c85b1d`, with internal checkpoint #1238 `fb583a9ddda48afc9c1f5d245ba592a53abafa97`. Local committed inputs are readable; their remote update was in progress when consumed.
 
 All earlier sections below, up to “Consolidated retained-evidence dispositions,” are retained historical intake snapshots. Their open counts and present-tense descriptions apply to their stated source snapshots, not current status; they are preserved to show the original findings and subsequent evidence, not to reopen resolved findings.
 
@@ -149,3 +149,46 @@ Source: `/root/adl_external_reviewer`, exact public ADL `f75f0d3f9c4df85743638b9
 | ADL-1240-EXT-04 | P3: `adl-spec/README.md` current entrypoint calls public ADL the Rust Runtime and presents v0.87.1 as current, contradicting split ownership. | `runtime157_delivery`, separately assigned public ADL task: correct current navigation/ownership, label historical milestone text, preserve normative draft scope. | Open. |
 
 Current denominator: **eleven received findings: three fixed, eight open** (four original finalization rows plus these four corrective findings). The report's sampled coverage and unexamined areas remain explicit; no claim all 591 inventory paths were reviewed. One isolated probe is the only new reviewer execution. After the bounded repairs, advance the ADL source pin and request an affected-delta assessment reusing unchanged coverage; do not start a second full-repository review. No new release acceptance or deferral is inferred.
+
+## Reviewed external repairs and delivery state
+
+The original independent reviewer returned PASS for all four repairs in #1240 `ADL_REPAIR_DELTA_REVIEW.md`, without new execution or material findings. The original adverse report remains unchanged and true of `f75f0d3`. No lifecycle or final release claim is attributed to the source-delta review.
+
+| Finding | Exact repair and retained evidence | Current disposition |
+| --- | --- | --- |
+| ADL-1240-EXT-01 | `ba221958e90a85de74e01600dc33d7efa5d7cfef`: original-template single-pass interpolation, literal replacement values, nine focused tests and eight CI checks passed. #1288 / PR #1290 merged as `15485055270e7c1376638010e520b29734abb8ef`; native finish/cleanup complete. | **Fixed.** Retain exact repair in the final integrated source. |
+| ADL-1240-EXT-02 | `5e41adf2c63c073df56781ee2b5deba5254fc6d0`: iterative structural preflight before semantic validation, bounded pending fanout and iterative dependency traversal. Ten compiler and nine language tests passed; independent repair PASS. #1289 / PR #1292 published, CI pending. | Source repair accepted; delivery/integration pending. Caller-configurable compiler limits do not imply every standalone validator or declaration field is universally bounded. |
+| ADL-1240-EXT-03 | `1a979c83df1a862a42024a4f80e257a99aae89b3`: checked duration and timestamp before mutation; complete-state regression with advanced heartbeat time. Fourteen Rust tests and thirty CLI commands passed; two strengthened overflow regressions rechecked; independent repair PASS. | Source repair accepted; #1291 publication/CI/merge pending. |
+| ADL-1240-EXT-04 | Same #1291 exact head corrects current ownership/navigation and labels historic milestone prose, retaining normative draft status. Independent repair PASS. | Source repair accepted; shares #1291 delivery/integration gate. |
+
+Current denominator: **eleven findings, four fixed, seven pending finalization**. The latter comprise four original packet-decision rows and three reviewed repairs awaiting delivery/integration. Once the remaining merges are verified, bind the combined source and assess only affected composition; no full-repository review or test repetition is requested.
+
+## Integrated external repairs delivered
+
+All four external findings are **fixed**. EXT-01 is delivered by prompt merge `15485055270e7c1376638010e520b29734abb8ef`; EXT-02 by compiler merge `a0b4c38d373fdbf53d1866cb9b8d84a2f9507260`; EXT-03/04 by TTL/specification merge `ac2b596915538f3ed9ce418aec5aa7b917c18fd4`. The latter includes strengthened heartbeat-test head `38761b0805ceff3d2811a2a4e30088b83460c899`, with bounded root review PASS after the original reviewer's implementation PASS. Native owner receipts establish closed correction issues.
+
+All eight checks in integrated CI run `38846853808` passed against synthetic merge `e0b54abf76c2e0c6ed19cde612cb64d354f34766`. Local Git tree lookup establishes that the actual accepted final merge `ac2b5969` and that tested commit share exact tree `4806529b7f89a1efe12d75fbb61ae829e94f94cd`. Artifact `12023458238` retains the public qualification result; no new tests, download or hash ran here. The individual repair and original coverage limitations remain applicable.
+
+Current denominator: **eleven received, seven fixed, four awaiting final candidate decisions**. Final #1236/#1238 and reviewer packet readback will resolve the remaining original IR rows; this delivered repair finding disposition is not a fabricated final milestone verdict.
+
+## Final received-finding dispositions for synthesis
+
+Inspected the exact #1236/#1238 local commits named above. These are source-bound content decisions, not claims their PRs have merged or the milestone is accepted. All eleven original IDs are retained.
+
+| Original ID | Final bounded disposition |
+| --- | --- |
+| IR-1238-01 | Resolved: selected Linux393dd2/artifact11994981448 and Mac43f955e/artifact12019981590 each bind separate archive/source/installed proof. No cross-platform qualification transfer. |
+| IR-1238-02 | Resolved as a dated-evidence reconciliation gap: #1236 explicitly reconciles all fifteen original quality rows with actual corrections and accepted scope. Historical NOT_READY/changes_required remains preserved; final independent acceptance is the next decision, not evidence that the reconciliation is absent. |
+| IR-1238-03 | Resolved within retained scopes: final ledger selects repaired ADLac2b5969, unchanged Runtime/Infrastructure producer paths and original receipts, separate Enterprise policy97f30f04, inactive reverse edge and repaired website source. Controlled policy bytes remain pinned despite expired GitHub availability. No active backend/current installation claim. |
+| IR-1238-04 | Resolved: merged #1234 documentation and #1269 guidance are selected and current; historic snapshots remain labeled. |
+| IR-1238-05 | Resolved for undeployed review scope: exact selected archives, recovery procedures and their limits are recorded, with named reviewer access to all17retainedrecords and9contracts verified. Final committed packet readback is a handoff check, not a new authorization or demand for live activation. |
+| IR-1238-06 | Resolved: website source3ddd6976 merged57021dd4 with independent review, native18 selected tests,203 component tests and exact-head CI; supported producer/consumer source contract is selected. No deployed or native end-to-end rendering claim. |
+| IR-1240-01 | Fixed atbd93dab7: intermediate185/final182unchanged+3guardchanges preserved. |
+| ADL-1240-EXT-01 | Fixed by reviewed promptba221958, merged15485055; focused and integrated proof retained. |
+| ADL-1240-EXT-02 | Fixed by reviewed compiler5e41adf2, mergeda0b4c38d; bounded preflight and iterative dependency validation retain declared scope. |
+| ADL-1240-EXT-03 | Fixed by reviewed TTL1a979c83 and strengthenedtest38761b08, mergedac2b5969; checked errors precede mutation. |
+| ADL-1240-EXT-04 | Fixed in the same delivered #1291 source: current specification ownership/navigation corrected, normative draft preserved. |
+
+**Denominator: eleven received, eleven resolved within their stated scopes, zero undispositioned received findings.** This is not a claim no further findings can arise. The original independent reviewer must consume this exact register, final source/candidate and internal checkpoint for the bounded synthesis. No findings were deferred into v0.93.2 or dropped from the denominator.
+
+Remaining release limitations are explicit: final sourceac2b5969 has exact-tree green integrated CI and offline installed-consumer proof, but #1236 does not claim a newly delivered five-package distributable archive; old #1223 archive bytes remain historical. The selected policy artifact is retained under controlled access after remote expiry, not publicly downloadable. Neither source-ready review nor this register proves current installed Runtime, Linux Runtime execution, active Enterprise enforcement, live website operation or public deployment. Final synthesis must assess required delivery scope against these limits before #1245 can record acceptance; this register does not silently waive a required deliverable.
