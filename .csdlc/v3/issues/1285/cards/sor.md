@@ -21,7 +21,7 @@ Version: 1.0.5
 Title: [Podcast] Move The Cognitive Stack into its dedicated repository
 Branch: codex/1285-podcast-dedicated-repository
 Card Status: ready
-Status: <status>
+Status: IN_PROGRESS
 Generated: <timestamp>
 
 Execution:
@@ -33,12 +33,12 @@ Execution:
 
 ## Summary
 
-Move podcast assets into the verified private dedicated repository with exact provenance; remove ADL originals only after verified push.
+Private podcast destination 13f217d846b305f43943a50cbbdd6ee4292a1aef pushed and fresh-clone verified before 182 ADL product removals. Migration source code and reference repairs independently reviewed. ADL PR publication, CI and integration remain pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `<initial_pvf_lane>`
 - Planned PVF lane: `<planned_pvf_lane>`
-- Final PVF lane: `<final_pvf_lane>`
+- Final PVF lane: `deterministic_local_migration_contract`
 - Lane change reason: `<lane_change_reason>`
 
 ## Issue Metrics Truth
@@ -57,7 +57,7 @@ Move podcast assets into the verified private dedicated repository with exact pr
 - Goal metrics source ref: `<actual_metrics_source_ref>`
 - Data-source confidence: `<actual_metrics_confidence>`
 - Estimate error percent: `<estimate_error_percent>`
-- Completion state: `<completion_state>`
+- Completion state: `publication_pending`
 - Issue goal ref: `<issue_goal_ref>`
 - Sprint goal ref: `<sprint_goal_ref>`
 - Goal metrics rollup ref: `<goal_metrics_rollup_ref>`
@@ -75,20 +75,20 @@ Move podcast assets into the verified private dedicated repository with exact pr
 
 ## Artifacts produced
 - Local ignored output-card scaffold at `<output_card>`
-- Tracked implementation artifacts: `<tracked_implementation_artifacts>`
+- Tracked implementation artifacts: `tools/podcast_migration; tools/test_podcast_migration.mjs; docs/repository-split/PODCAST_MIGRATION_1285.md; active ownership/reference repairs`
 - Additional proof artifacts: `<additional_proof_artifacts>`
 
 ## Actions taken
-- `<actions_taken_line_1>`
-- `<actions_taken_line_2>`
-- `<actions_taken_line_3>`
+- `Exported 521 files with exact hashes/modes and source mapping; preserved draft/provider provenance and stable feed.`
+- `Verified fresh destination clone before removing 182 product assets in bound worktree.`
+- `Fixed both independent review findings; retained historical records and documented legacy runtime dependencies.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `<main_repo_paths_updated>`
 - Worktree-only paths remaining: `<worktree_only_paths_remaining>`
-- Integration state: `<integration_state>`
+- Integration state: `worktree_only`
 - Verification scope: `<verification_scope>`
-- Integration method used: `<integration_method_used>`
+- Integration method used: `Reviewed branch pushed; ADL merge pending. Dedicated repository main verified separately.`
 - Verification performed:
   - `<integration_verification_command>`
     `<integration_verification_effect>`
@@ -107,10 +107,10 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `<validation_command>`
-    `<validation_effect>`
+  - `node --test tools/test_podcast_migration.mjs; python 3 -B tools/public_adl/test_validation_interfaces.py; python 3 adl/tools/generate_tool_surface_registry.py --check; native csdlc proof 1285`
+    `Five migration and negative cases;12 routing cases; generated registry currency; native validator proof. Destination offline launch/studio/audio-policy synthetic fixtures separately passed.`
 - Results:
-  - `<validation_result>`
+  - `Focused checks passed. Full 1223 historical guard fails at unchanged baseline on retained-document drift; not claimed passed. No provider or deployment qualification.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
