@@ -677,7 +677,15 @@ def run():
     # Inventory members, additional paths, protected contracts and every approved
     # cutover path remain exact. Evidence records are not permission to change code.
     scoped = {r['path'] for r in combined['rows'] + combined['additional_paths']} | set(PROTECTED) | {r['path'] for r in cutover['paths']}
-    removed = check_execution_overlay(overlay, observed, candidate, removed, scoped)
+    # #1285 preserves the #1223 historical guard, after checking every exact
+    # successor identity against its separately pinned migration transition.
+    import importlib.util
+    spec = importlib.util.spec_from_file_location('podcast_migration_guard', ROOT / 'tools/podcast_migration/guard.py')
+    migration_guard = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(migration_guard)
+    migration = committed_json(Path('tools/podcast_migration/transition.json'))
+    historical_candidate = migration_guard.normalize_candidate(ROOT, candidate, tree(migration['source_commit']))
+    removed = check_execution_overlay(overlay, observed, historical_candidate, removed, scoped)
     for path, identity in observed.items():
         if path.startswith('.csdlc/') and not path.startswith(('.csdlc/issues/1223/', '.csdlc/v3/issues/1223/', '.csdlc/evidence/1223/', '.csdlc/transactions/')):
             require(candidate.get(path) == identity, 'historical lifecycle evidence changed: ' + path)
