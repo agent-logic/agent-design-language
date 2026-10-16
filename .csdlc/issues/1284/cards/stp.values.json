@@ -1,0 +1,15 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 1284,
+  "issue_padded": "1284",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/1284",
+  "title": "[v0.93.1] Remove post-split ADL repository cruft after podcast migration",
+  "branch": "codex/1284-post-split-repository-cleanup",
+  "version": "1.0.5",
+  "card": "stp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-1284-post-split-repository-cleanup",
+  "summary": "After podcast PR1286 integrates, remove post-split ADL cruft while preserving public behavior, historical evidence and current authority.",
+  "non_goals_inline": "No podcast ownership overlap, deletion of sole evidence copies, history rewrite, private implementation restoration, Runtime or deployment changes, provider spend or shared binary replacement."
+}

@@ -76,8 +76,8 @@ diff -qr "$CSDLC_SKILL_CONTRACT_ROOT/test-generator" "$CODEX_HOME/skills/test-ge
 
 # initialize through the semantic issue intent, then inspect through read-only owners
 .adl/bin/native-v3/csdlc prepare <issue> --plan <plan.json>
-.adl/bin/native-v3/csdlc validate --request <request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>
-.adl/bin/native-v3/csdlc doctor --request <request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>
+.adl/bin/native-v3/csdlc validate <issue>
+.adl/bin/native-v3/csdlc status <issue>
 
 # bind execution context at the last responsible moment
 .adl/bin/native-v3/csdlc bind <issue>
@@ -103,7 +103,7 @@ diff -qr "$CSDLC_SKILL_CONTRACT_ROOT/test-generator" "$CODEX_HOME/skills/test-ge
 # copy unique run artifacts, then clear active .adl/runs by preserving source dirs under .adl/trace-archive/source-roots/
 ./adl/tools/archive_run_artifacts.sh --include-worktrees --apply --prune-active-runs
 
-# install the reviewed native v3 owner, then check an exact candidate request
+# locate the already admitted C-SDLC package manuals; this does not install or activate a binary
 ./adl/tools/install_owner_binaries.sh --bin csdlc
 ./adl/tools/release_ceremony.sh --request /absolute/path/to/release-preflight.json
 
@@ -114,7 +114,7 @@ diff -qr "$CSDLC_SKILL_CONTRACT_ROOT/test-generator" "$CODEX_HOME/skills/test-ge
 # Current public CLI checks: bash tools/public_adl/run_cli_ci.sh
 
 # audit root + milestone reviewer-facing docs for current-milestone staleness
-python3 ./adl/tools/check_repo_quality_staleness.py --milestone v0.91.6
+python3 ./adl/tools/check_repo_quality_staleness.py --milestone v0.93.1
 
 # inspect the public coverage contract and exact-commit proof requirements
 # docs/tooling/COVERAGE_AUTHORITY_AND_RELEASE_PROOF.md
@@ -160,7 +160,7 @@ are not the preferred public workflow:
     deployed-copy verification recipe for `$CODEX_HOME/skills`
   - when touching `stp.md`, `sip.md`, or `sor.md`, use the matching editor
     skill explicitly rather than doing ad hoc card edits
-- Active milestone docs: `../../docs/milestones/v0.87/`
+- Active milestone docs: `../../docs/milestones/v0.93.1/`
 - Documentation index: `../../docs/README.md`
 - ADRs: `../../docs/adr/`
 - ADL spec entrypoint: `../../adl-spec/README.md`
