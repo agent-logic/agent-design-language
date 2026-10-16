@@ -1,6 +1,25 @@
 # v0.93.1 TAIL-04 internal source review — interim findings
 
-Status: **NOT_PROVEN for the provisional candidate** (2026-10-15). This is an actual, bounded review of the available source selection and evidence, not the complete internal review of an accepted publication lockset. It does not approve a release, deployment, live launch, or seven-repository build campaign. Final #1238 acceptance remains open until the exact #1236 candidate, predecessor decisions, installed correspondence, and affected interfaces can be reviewed.
+Status: **NOT_PROVEN for final candidate acceptance** (2026-10-15). This is an actual, bounded review of the available source selection and evidence, not the complete internal review of an accepted publication lockset. It does not approve a release, deployment, live launch, or seven-repository build campaign. Final #1238 acceptance remains open until the exact #1236 candidate, predecessor decisions, installed correspondence, public ADL corrections, and affected interfaces can be reviewed.
+
+## Current candidate and finding checkpoint
+
+[TAIL-03 PR #1277](https://github.com/agent-logic/agent-design-language/pull/1277) is green and draft at reviewed documentation head `578715658a9390793bfeef4b480c1cd7dfe22c7b`. Its inventory selects a **review snapshot**, not an accepted release lockset: CodeFriend #101 Linux source `393dd2ee` / artifact `11994981448`, CodeFriend #118 Mac source `43f955e` / artifact `12019981590`, merged website [#37 / PR #38](https://github.com/agent-logic/codefriend.ai/pull/38) source `3ddd6976`, and retained bounded role/edge evidence. The #1232 matrix's 15 original statuses and `NOT_READY_FOR_FINAL_RELEASE_ACCEPTANCE` decision remain unchanged; #1236 gives candidate-bound dispositions without promoting them to release PASS. Seven RD-11 roles still do **not** mean seven changed repositories, reviews, or builds.
+
+The current #1241 preparation register classifies the six original internal/precision findings as follows; the detailed table below remains the **earlier observation at its cited source**, not a second set of currently open findings.
+
+| Original ID | Current bounded disposition |
+| --- | --- |
+| IR-1238-01 | Fixed for the explicit two-platform selection. Linux and Mac have separate source, archive and installed-proof bindings; no common-source or cross-platform byte equivalence is inferred. |
+| IR-1238-02 | The candidate inventory reconciles all 15 dated quality rows. Final quality acceptance remains `changes_required` pending the corrected public ADL source and downstream synthesis. |
+| IR-1238-03 | Runtime/Infrastructure retained edges have original-scope correspondence; Enterprise requires a separate Runtime policy distribution and has no active service claim. Final changed-repository/affected-edge ledger must refresh after public ADL corrections. |
+| IR-1238-04 | Fixed. #1234's selected reviewer-facing handoff and #1269 guidance wave are merged; earlier premerge wording is dated historical evidence. |
+| IR-1238-05 | Selected Linux/Mac archives and undeployed prepare/status/safe-disable/recovery limits are recorded. The same-session diagnostic reviewer read all 17 retained records and nine exact-revision contracts/ledgers with no gap in those checked inputs. Final packet-head readback remains; the later final independent reviewer is unassigned and must have exact private-input access verified at dispatch. A future deployment/stop operator or live rollback is not a gate for this undeployed review. |
+| IR-1238-06 | Merged website #37 repairs the selected hosted-export **source contract** and has independent review, 203 local npm tests, one passing exact-head CI check, and 18 native publication-contract tests. No deployed operation or independent native rendering proof is inferred. |
+
+The independent bounded public ADL review at source `f75f0d3f9c4df85743638b956f2c2a80f3424f38` adds **four open findings**, kept under their original IDs: `ADL-1240-EXT-01` prompt interpolation nondeterminism and `EXT-02` compiler limits applied after recursive validation (P2); `EXT-03` large positive session TTL panic and `EXT-04` stale specification entrypoint (P3). [#1288](https://github.com/agent-logic/agent-design-language/issues/1288) and [#1289](https://github.com/agent-logic/agent-design-language/issues/1289) own the first two corrections. Their eventual merges must trigger only affected public ADL source, proof, interface and claim readback. These findings do not reopen the fixed IR rows or require a seven-repository test campaign.
+
+## Earlier source-review snapshot
 
 ## Candidate and denominator
 
