@@ -1,6 +1,6 @@
 # v0.93.1 TAIL-04 internal source review — interim findings
 
-Status: **NOT_PROVEN for final candidate acceptance** (2026-10-15). This is an actual, bounded review of the available source selection and evidence, not the complete internal review of an accepted publication lockset. It does not approve a release, deployment, live launch, or seven-repository build campaign. The public ADL corrections have merged and passed exact-tree integrated CI; final #1238 acceptance remains open until the exact #1236 candidate, predecessor decisions, installed correspondence, and affected interfaces can be reviewed.
+Status: **historical interim checkpoint, superseded for current internal-review verdict by the [final TAIL-04 report](FINAL_INTERNAL_REVIEW_1238.md)** (2026-10-15). The following `NOT_PROVEN` observations apply to their dated source snapshots. The final report assesses the later merged #1236 packet and exact affected interfaces; neither document approves a release, deployment, live launch or seven-repository build campaign.
 
 ## Current candidate and finding checkpoint
 
