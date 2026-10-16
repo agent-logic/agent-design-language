@@ -315,33 +315,35 @@ fn collect_state_references(value: &Value, references: &mut Vec<String>) {
 }
 
 fn has_cycle(graph: &BTreeMap<String, BTreeSet<String>>) -> bool {
-    fn visit(
-        node: &str,
-        graph: &BTreeMap<String, BTreeSet<String>>,
-        visiting: &mut BTreeSet<String>,
-        visited: &mut BTreeSet<String>,
-    ) -> bool {
-        if visited.contains(node) {
-            return false;
-        }
-        if !visiting.insert(node.to_owned()) {
-            return true;
-        }
-        if graph
-            .get(node)
-            .into_iter()
-            .flatten()
-            .any(|next| visit(next, graph, visiting, visited))
-        {
-            return true;
-        }
-        visiting.remove(node);
-        visited.insert(node.to_owned());
-        false
-    }
     let mut visiting = BTreeSet::new();
     let mut visited = BTreeSet::new();
-    graph
-        .keys()
-        .any(|node| visit(node, graph, &mut visiting, &mut visited))
+    for root in graph.keys() {
+        if visited.contains(root) {
+            continue;
+        }
+        let mut pending = vec![(root.as_str(), false)];
+        while let Some((node, exiting)) = pending.pop() {
+            if exiting {
+                visiting.remove(node);
+                visited.insert(node.to_owned());
+                continue;
+            }
+            if visited.contains(node) {
+                continue;
+            }
+            if !visiting.insert(node.to_owned()) {
+                return true;
+            }
+            pending.push((node, true));
+            for next in graph.get(node).into_iter().flatten().rev() {
+                if visiting.contains(next) {
+                    return true;
+                }
+                if !visited.contains(next) {
+                    pending.push((next.as_str(), false));
+                }
+            }
+        }
+    }
+    false
 }
