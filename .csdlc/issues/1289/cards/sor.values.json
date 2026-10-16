@@ -1,0 +1,15 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 1289,
+  "issue_padded": "1289",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/1289",
+  "title": "[v0.93.1][compiler] Enforce resource limits before semantic validation",
+  "branch": "codex/1289-compiler-limits-before-validation",
+  "version": "1.0.5",
+  "card": "sor",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-1289-compiler-limits-before-validation",
+  "summary": "Enforce public compiler resource limits before semantic validation can recursively traverse typed document inputs or dependency graphs.",
+  "non_goals_inline": "No parser fuzzing, broad compiler refactor, Runtime or provider changes, shared binary replacement, main writes, or remediation of other external findings."
+}

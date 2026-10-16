@@ -144,6 +144,7 @@ pub fn compile_with_limits(
     document: &AdlDocument,
     limits: CompilerLimits,
 ) -> Result<ExecutionPlan, Vec<CompilerDiagnostic>> {
+    check_document_limits(document, limits)?;
     if let Err(diagnostics) = adl_language::validate(document) {
         return Err(language_diagnostics(diagnostics));
     }
@@ -423,13 +424,61 @@ fn insert_edge(
 
 fn check_value_limits(
     value: &Value,
-    depth: usize,
+    initial_depth: usize,
     count: &mut usize,
     limits: CompilerLimits,
     path: &str,
 ) -> Result<(), Vec<CompilerDiagnostic>> {
-    *count += 1;
-    if depth > limits.max_input_depth || *count > limits.max_input_values {
+    let mut pending = vec![(value, initial_depth)];
+    while let Some((value, depth)) = pending.pop() {
+        *count += 1;
+        if depth > limits.max_input_depth || *count > limits.max_input_values {
+            return Err(vec![diagnostic(
+                CompilerDiagnosticCode::LimitExceeded,
+                path,
+                format!(
+                    "input exceeds depth {} or value-count {} limit",
+                    limits.max_input_depth, limits.max_input_values
+                ),
+            )]);
+        }
+        match value {
+            Value::Array(values) => {
+                check_pending_value_budget(*count, pending.len(), values.len(), limits, path)?;
+                pending.extend(
+                    values
+                        .iter()
+                        .rev()
+                        .map(|value| (value, depth.saturating_add(1))),
+                );
+            }
+            Value::Object(values) => {
+                check_pending_value_budget(*count, pending.len(), values.len(), limits, path)?;
+                pending.extend(
+                    values
+                        .values()
+                        .rev()
+                        .map(|value| (value, depth.saturating_add(1))),
+                );
+            }
+            _ => {}
+        }
+    }
+    Ok(())
+}
+
+fn check_pending_value_budget(
+    visited: usize,
+    pending: usize,
+    children: usize,
+    limits: CompilerLimits,
+    path: &str,
+) -> Result<(), Vec<CompilerDiagnostic>> {
+    if visited
+        .checked_add(pending)
+        .and_then(|count| count.checked_add(children))
+        .is_none_or(|count| count > limits.max_input_values)
+    {
         return Err(vec![diagnostic(
             CompilerDiagnosticCode::LimitExceeded,
             path,
@@ -439,18 +488,58 @@ fn check_value_limits(
             ),
         )]);
     }
-    match value {
-        Value::Array(values) => {
-            for value in values {
-                check_value_limits(value, depth + 1, count, limits, path)?;
-            }
+    Ok(())
+}
+
+fn check_document_limits(
+    document: &AdlDocument,
+    limits: CompilerLimits,
+) -> Result<(), Vec<CompilerDiagnostic>> {
+    let mut input_value_count = 0;
+    for value in document.run.inputs.values() {
+        check_value_limits(value, 1, &mut input_value_count, limits, "$.run.inputs")?;
+    }
+    for (name, workflow) in &document.workflows {
+        let path = if document.run.workflow_ref.as_deref() == Some(name.as_str()) {
+            "$.run.workflow".to_owned()
+        } else {
+            format!("$.workflows.{name}")
+        };
+        check_workflow_limits(workflow, &path, &mut input_value_count, limits)?;
+    }
+    if let Some(workflow) = &document.run.workflow {
+        check_workflow_limits(workflow, "$.run.workflow", &mut input_value_count, limits)?;
+    }
+    Ok(())
+}
+
+fn check_workflow_limits(
+    workflow: &Workflow,
+    path: &str,
+    input_value_count: &mut usize,
+    limits: CompilerLimits,
+) -> Result<(), Vec<CompilerDiagnostic>> {
+    if workflow.steps.len() > limits.max_nodes {
+        return Err(vec![diagnostic(
+            CompilerDiagnosticCode::LimitExceeded,
+            path,
+            format!(
+                "workflow has {} nodes; limit is {}",
+                workflow.steps.len(),
+                limits.max_nodes
+            ),
+        )]);
+    }
+    for (index, step) in workflow.steps.iter().enumerate() {
+        for value in step.inputs.values() {
+            check_value_limits(
+                value,
+                1,
+                input_value_count,
+                limits,
+                &format!("{path}.steps[{index}].inputs"),
+            )?;
         }
-        Value::Object(values) => {
-            for value in values.values() {
-                check_value_limits(value, depth + 1, count, limits, path)?;
-            }
-        }
-        _ => {}
     }
     Ok(())
 }
