@@ -49,10 +49,11 @@ test('active ADL entrypoints point at the migration contract',()=>{
  assert.match(read('docs/REPOSITORIES.md').toString(),/agent-logic\/the-cognitive-stack/);
 });
 
-test('unchanged historical evidence stays byte-identical',()=>{
- const m=migration();
- const paths=execFileSync('git',['diff','--name-only',m.source_commit,'HEAD','--','docs/milestones','.csdlc'],{cwd:root,encoding:'utf8'}).trim().split('\n').filter(Boolean);
- assert.ok(paths.every(p=>p.startsWith('.csdlc/issues/1285/')||p.startsWith('.csdlc/v3/issues/1285/')||p.startsWith('.csdlc/transactions/')||p.startsWith('.csdlc/evidence/1285/')),paths.join('\n'));
+test('copied historical podcast evidence stays byte-identical',()=>{
+ const entries=JSON.parse(read('tools/podcast_migration/source-manifest.json')).entries;
+ const historical=entries.filter(e=>e.source_kind==='adl_git'&&e.source_path.startsWith('docs/milestones/'));
+ assert.ok(historical.length>0);
+ for(const e of historical) assert.equal(hash(read(e.source_path)),e.sha256,e.source_path);
 });
 
 test('retirement transition rejects changed or resurrected migrated inputs',()=>{

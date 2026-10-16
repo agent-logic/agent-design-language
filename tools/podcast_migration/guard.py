@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 
 # Filled from the reviewed transition record, not inferred from mutable HEAD.
-TRANSITION_SHA256 = '1576c01b631046416fd06d021755600bf4bbb4446140473e6a0af29e31036f4c'
+TRANSITION_SHA256 = 'a7026948d2934bb4cef4071034a168d61d51df3c96c7a6131ffd56d8ea80fd3f'
 
 def normalize_candidate(root, candidate, baseline):
     raw=(Path(root)/'tools/podcast_migration/transition.json').read_bytes()

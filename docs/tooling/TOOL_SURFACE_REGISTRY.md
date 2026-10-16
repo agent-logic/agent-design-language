@@ -30,7 +30,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 
 - `primary`: 7
 - `supported shim`: 0
-- `internal helper`: 220
+- `internal helper`: 205
 - `historical evidence`: 17
 - `archive candidate`: 0
 - `remove candidate`: 0
@@ -296,5 +296,3 @@ Source skill directories only; installed skill admission is not inventoried here
 - This registry does not approve final deletion of retired wrappers.
 - This registry does not prove active-reference absence for any shim.
 - This registry does not replace the later simplification review and scan issues.
-
-Podcast tools and their original source are maintained in [The Cognitive Stack](https://github.com/agent-logic/the-cognitive-stack/tree/main/adl/tools). Historical milestone tool inventories retain their original scope.
