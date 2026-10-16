@@ -1698,7 +1698,8 @@ mod tests {
             "validation_subprocess",
             &[("subprocess_class", "shell_validation")],
         );
-        std::thread::sleep(std::time::Duration::from_millis(80));
+        let heartbeat_contents = read_log_with_retry(&log_path, "result=heartbeat");
+        assert!(heartbeat_contents.contains("result=heartbeat"));
         heartbeat.completed(&[("exit_code", "0")]);
 
         let contents = read_log_with_retry(&log_path, "result=completed");

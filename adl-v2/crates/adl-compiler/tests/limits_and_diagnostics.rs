@@ -1,7 +1,9 @@
 mod common;
 
 use adl_compiler::{compile, compile_with_limits, CompilerDiagnosticCode, CompilerLimits};
-use adl_language::WorkflowKind;
+use adl_language::{Workflow, WorkflowKind, WorkflowStep};
+use serde_json::{json, Value};
+use std::collections::BTreeMap;
 
 #[test]
 fn node_limit_fails_closed_with_stable_diagnostic() {
@@ -42,6 +44,132 @@ fn input_value_limit_is_aggregate_across_run_and_steps() {
     )
     .unwrap_err();
     assert_eq!(error[0].code, CompilerDiagnosticCode::LimitExceeded);
+}
+
+#[test]
+fn deep_typed_input_is_rejected_before_semantic_validation() {
+    let mut document = common::document(WorkflowKind::Sequential);
+    let mut value = json!("@state:missing");
+    for _ in 0..32 {
+        value = Value::Array(vec![value]);
+    }
+    document.workflows.get_mut("flow").unwrap().steps[0]
+        .inputs
+        .insert("deep".into(), value);
+
+    let error = compile_with_limits(
+        &document,
+        CompilerLimits {
+            max_input_depth: 8,
+            ..CompilerLimits::default()
+        },
+    )
+    .unwrap_err();
+
+    assert_eq!(error[0].code, CompilerDiagnosticCode::LimitExceeded);
+    assert!(error[0].path.contains("steps[0].inputs"));
+}
+
+#[test]
+fn wide_typed_input_is_rejected_before_copying_child_fanout() {
+    let mut document = common::document(WorkflowKind::Sequential);
+    document.run.inputs.insert(
+        "wide".into(),
+        Value::Array((0..1_000).map(|index| json!(index)).collect()),
+    );
+
+    let error = compile_with_limits(
+        &document,
+        CompilerLimits {
+            max_input_values: 2,
+            ..CompilerLimits::default()
+        },
+    )
+    .unwrap_err();
+
+    assert_eq!(error[0].code, CompilerDiagnosticCode::LimitExceeded);
+    assert_eq!(error[0].path, "$.run.inputs");
+}
+
+#[test]
+fn limits_cover_unselected_workflow_declarations() {
+    let mut document = common::document(WorkflowKind::Sequential);
+    let mut value = json!("leaf");
+    for _ in 0..16 {
+        value = Value::Object(serde_json::Map::from_iter([("next".into(), value)]));
+    }
+    let mut unselected = document.workflows["flow"].clone();
+    unselected.steps[0].inputs.insert("deep".into(), value);
+    document.workflows.insert("unselected".into(), unselected);
+
+    let error = compile_with_limits(
+        &document,
+        CompilerLimits {
+            max_input_depth: 8,
+            ..CompilerLimits::default()
+        },
+    )
+    .unwrap_err();
+
+    assert_eq!(error[0].code, CompilerDiagnosticCode::LimitExceeded);
+    assert!(error[0].path.starts_with("$.workflows.unselected"));
+}
+
+#[test]
+fn dependency_chain_over_node_limit_fails_before_validation() {
+    let mut document = common::document(WorkflowKind::Concurrent);
+    document
+        .workflows
+        .insert("flow".into(), dependency_chain(128));
+
+    let error = compile_with_limits(
+        &document,
+        CompilerLimits {
+            max_nodes: 16,
+            ..CompilerLimits::default()
+        },
+    )
+    .unwrap_err();
+
+    assert_eq!(error[0].code, CompilerDiagnosticCode::LimitExceeded);
+    assert_eq!(error[0].path, "$.run.workflow");
+}
+
+#[test]
+fn dependency_chain_within_default_limits_validates_without_recursion() {
+    let mut document = common::document(WorkflowKind::Concurrent);
+    document
+        .workflows
+        .insert("flow".into(), dependency_chain(2_048));
+
+    let plan = compile(&document).unwrap();
+
+    assert_eq!(plan.nodes.len(), 2_048);
+    assert_eq!(plan.edges.len(), 2_047);
+}
+
+fn dependency_chain(length: usize) -> Workflow {
+    let steps = (0..length)
+        .map(|index| WorkflowStep {
+            id: format!("step-{index}"),
+            agent: None,
+            task: "produce".into(),
+            inputs: if index == 0 {
+                BTreeMap::new()
+            } else {
+                BTreeMap::from([(
+                    "source".into(),
+                    json!(format!("@state:state-{}", index - 1)),
+                )])
+            },
+            save_as: Some(format!("state-{index}")),
+        })
+        .collect();
+    Workflow {
+        id: None,
+        kind: WorkflowKind::Concurrent,
+        steps,
+    }
 }
 
 #[test]
