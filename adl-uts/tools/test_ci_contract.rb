@@ -11,7 +11,9 @@ abort 'wrong aggregate command' unless step.fetch('run') == 'python3 tools/publi
 expected = {'PUBLIC_REQUIRED' => '${{ needs.adl_path_policy.outputs.public_adl_validation_required }}',
             'PUBLIC_RESULT' => '${{ needs.public_adl_validation.result }}'}
 expected.each { |key, value| abort "wrong binding #{key}" unless step.fetch('env')[key] == value }
-abort 'UTS package dropped' unless File.read(File.join(root, 'tools/public_adl/run_ci.sh')).include?("  adl-uts\n")
+runner = File.read(File.join(root, 'tools/public_adl/run_ci.sh'))
+abort 'shared public package checks disconnected' unless runner.include?('bash tools/public_adl/run_package_checks.sh')
+abort 'UTS package dropped' unless File.read(File.join(root, 'tools/public_adl/run_package_checks.sh')).include?("  adl-uts\n")
 jobs.fetch('adl_path_policy').fetch('steps').each do |s|
   abort 'premature result gate' if s.fetch('run', '').include?('$PUBLIC_RESULT')
 end

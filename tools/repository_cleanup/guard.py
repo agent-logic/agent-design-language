@@ -3,7 +3,7 @@ import hashlib
 import json
 from pathlib import Path
 
-TRANSITION_SHA256 = 'd15492fcb0201837e0ec00381cf96dff0f37b365efd578ad7379c6bff88620a0'
+TRANSITION_SHA256 = '762c27b2d844ba3f166ea5bf05a1eb65b2f752b7d4e4f341f107b7a9ebf15915'
 
 
 def normalize_candidate(root, candidate, baseline):

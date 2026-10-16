@@ -12,6 +12,7 @@ CHECKS = (
     [sys.executable, '-B', 'tools/repository_cleanup/test_guard.py'],
     [sys.executable, '-B', 'tools/public_adl/test_ci_contract.py'],
     ['bash', 'adl/tools/test_batched_checks_no_codexpr_usage_banner.sh'],
+    ['ruby', 'adl-uts/tools/test_ci_contract.rb'],
 )
 
 
