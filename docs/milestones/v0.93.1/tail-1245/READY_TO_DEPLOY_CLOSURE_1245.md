@@ -1,8 +1,16 @@
 # TAIL-10 ready-to-deploy closure packet (#1245)
 
+## Current closure readiness
+
+Public ADL is frozen at `f75f0d3f9c4df85743638b956f2c2a80f3424f38`, including accepted documentation and cleanup. CodeFriend Mac repair is merged and its separate installed proof is accepted within its declared scope. Retained Runtime/Infrastructure and separate Enterprise policy-edge correspondence is established; no new build campaign is needed. The current #1241 register at `b3914323a8` records three fixed findings and four awaiting final candidate decisions, not missing broad product tests. All selected retained records/contracts are readable by the independent reviewer; finalized packet heads remain to be checked.
+
+Closure is **not yet recorded**: #1236/#1238 must adopt the final website delivery, exact selections and candidate-bound quality/edge decisions; #1241 records their final dispositions; the independently assigned public ADL review and final packet synthesis must return actual results; #1244 consumes final residuals. The final state remains ready to deploy and undeployed, with no live launch, tag or release action implied. Sections below are dated preparation history and are superseded by this current status wherever their pending descriptions differ.
+
+## Historical preparation
+
 Snapshot: 2026-10-14. This is bounded preparation, not an acceptance result. The operator requested all Sprint 4 work in parallel after #1223 merged. PR #1273 merged as `791e44216659a14eeb95c8a05f79e965709b3421` from `129e5017508ac958311cf44553d20fddb997fa34`; #1223 is closed. Native finish/cleanup is asynchronous and is not represented as completed here. No new build, provider call, deployment, tag or release is authorized by this document.
 
-## Current decision
+## Historical decision
 
 **NOT READY FOR MILESTONE CLOSURE.** #1223 source retirement is delivered; the remaining tail outcomes below are pending accepted evidence. This packet prepares the decision without declaring success. The user requires v0.93.1 ready to deploy with its waiting-list mechanism built, but not publicly deployed. Actual launch remains CodeFriend #92 / later authorized work.
 
