@@ -132,11 +132,13 @@ def main() -> None:
     assert lane["run_command"] == "bash adl/tools/batched_checks.sh"
 
     runner = (ROOT / "tools/public_adl/run_ci.sh").read_text()
+    package_runner = (ROOT / "tools/public_adl/run_package_checks.sh").read_text()
     for package in PUBLIC_PACKAGES:
-        assert f"  {package}\n" in runner
-    assert "cargo test --locked" in runner
-    assert "cargo fmt" in runner
-    assert "cargo clippy --locked" in runner
+        assert f"  {package}\n" in package_runner
+    assert "bash tools/public_adl/run_package_checks.sh" in runner
+    assert "cargo test --locked" in package_runner
+    assert "cargo fmt" in package_runner
+    assert "cargo clippy --locked" in package_runner
     assert "cargo test --offline --locked" in runner
     assert "--test public_adl_install_validator" in runner
     assert "/usr/bin/sandbox-exec" in runner

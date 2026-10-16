@@ -1,25 +1,27 @@
-# ADL-Owned CI Step Logs
+# ADL CI evidence and historical step logs
 
 ADL keeps GitHub Actions logs as useful operator context, but important CI
 steps should also produce small ADL-owned log artifacts. This gives reviewers a
 durable fallback when a step fails late, times out, or GitHub's native log view
 is hard to inspect.
 
-## Current Coverage
+## Current public coverage
 
-The first covered critical step is the `adl-coverage` job's `Coverage run and
-summary (json)` step.
+The `public_adl_coverage` job in `.github/workflows/ci.yaml` runs
+`tools/public_adl/coverage.py`. Its always-run upload step retains the
+`public-adl-coverage-<run-id>-<attempt>` artifact for seven days, including
+`result.json`, `executions.json`, per-execution `summary.json`, `coverage.lcov`
+and log files. The `adl-coverage` job aggregates the selected lane's result.
 
-The workflow runs it through:
-
-```bash
-bash tools/run_ci_step_with_log.sh --name "coverage-run-summary-json" --log-root ci-step-logs -- bash tools/run_authoritative_coverage_lane.sh --authority "adl_coverage_always_on" --event-name "$GITHUB_EVENT_NAME"
-```
+The former monorepo coverage wrapper and `adl-coverage-step-logs` artifact are
+historical. The retired `run_authoritative_coverage_lane.sh` is no longer a
+current command. The log-wrapper description below documents its retained
+format; it does not describe the current coverage workflow.
 
 The wrapper preserves the wrapped command's exit code. It does not hide
 coverage failures, skip policy gates, or replace GitHub's normal job status.
 
-## Artifact Shape
+## Historical wrapper artifact shape
 
 Each wrapped step writes a timestamped directory under `adl/ci-step-logs/`:
 
@@ -37,18 +39,18 @@ Each wrapped step writes a timestamped directory under `adl/ci-step-logs/`:
 - redacted command tokens
 - repo-relative log paths when possible
 
-## GitHub Artifact Fallback
+## Current GitHub artifact download
 
-The CI workflow uploads `adl/ci-step-logs/` with `if: always()` whenever the
-coverage lane is required. That means the log artifact should still be
-available when the wrapped coverage command fails.
+The current coverage workflow attempts its artifact upload with `if: always()`.
+If execution failed before producing evidence, there may be no files to upload;
+an upload step is not proof that an artifact exists.
 
 Download path:
 
 1. Open the failed workflow run.
 2. Open `Artifacts`.
-3. Download `adl-coverage-step-logs`.
-4. Inspect `metadata.json`, then `stderr.log`, `stdout.log`, or `combined.log`.
+3. Download `public-adl-coverage-<run-id>-<attempt>` if present.
+4. Inspect `result.json`, `executions.json` and the per-execution logs.
 
 ## Boundaries
 

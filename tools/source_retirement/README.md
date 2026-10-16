@@ -1,5 +1,12 @@
 # Issue 1223 source retirement guard
 
+The completed ledger records **3,407 retirement actions**: 3,405
+execution-baseline deletions and two transient helpers. See
+[`COMBINED_REMAINING_DELTA.json`](../../docs/milestones/v0.93.1/repository-decomposition/rd07-1223/COMBINED_REMAINING_DELTA.json)
+for the final accounting. The staged totals below describe earlier execution
+boundaries; they are not the final total. Subsequent repository changes, including
+the separate podcast migration, do not rewrite those immutable records.
+
 The immutable original register preserves 4,134 ordered identities. The current
 combined ledger classifies those same rows and 22 additional paths separately.
 Conditional proposals never authorize deletion. The executed boundary is 34
