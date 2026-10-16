@@ -1,6 +1,6 @@
 # ADL repository external-review entrypoint
 
-Status: prepared for a bounded **ADL repository review**, substantive public ADL review completed with CHANGES_REQUIRED and not a Sprint 4 release-acceptance result. The latest operator request narrows this preparation to the ADL repository. Unrelated product release work does not prevent preparing or reviewing public ADL source.
+Status: **final independent content synthesis PASS for the bounded ready-to-deploy, undeployed candidate**. [WorkerBee #16's actual report](FINAL_SPRINT4_SYNTHESIS.md) records no new actionable finding and eleven evidence-backed resolutions. Original adverse source review and repair assessment remain retained; native publication, CI, merge and milestone closeout are separate.
 
 ## Exact revision and freeze
 
@@ -74,3 +74,7 @@ Prompt #1288 / PR #1290 has merged as `15485055270e7c1376638010e520b29734abb8ef`
 Final correction integration: compiler PR #1292 merged `a0b4c38d373fdbf53d1866cb9b8d84a2f9507260`; TTL/spec PR #1293 merged `ac2b596915538f3ed9ce418aec5aa7b917c18fd4` at strengthened test head `38761b0805ceff3d2811a2a4e30088b83460c899`. The final merge tree matches the integrated eight-check CI run `38846853808` exactly. All four external repairs are delivered; final packet synthesis remains a separate result. Earlier pending CI/publication statements describe the repair report's original observation time.
 
 Final synthesis handoff correction: WorkerBee #16 is the assigned final reviewer; the original independent agent remains author only of the original source and repair-delta reports. Existing qualification artifact12023458238 includes the five repaired-source package tar archives, all verified against the retained report by root once. Offline consumer proof is PASS; these are not installed executable products. Earlier archive-absence language is superseded by this evidence, with no new qualification campaign.
+
+## Final independent result
+
+WorkerBee #16 assessed product `ac2b596915538f3ed9ce418aec5aa7b917c18fd4`, candidate #1236 `de9f989a8265d407eb6db747667c3280a3d8780e`, internal checkpoint #1238 `db49470a245e6af30637629328bd534b8d24e24a`, this lane's handoff `c5440587b60e707034197180ba769bbe6d3d189f` and register #1241 `48a5ad723c4a31bea28e8e5b5e2c58e56a4618a0`. The report, with only its machine-local link corrected for publication, preserves exact coverage, source-package distinction, original reviewer attribution, controlled policy-archive availability and no-deployment limits. Its content PASS is not a claim the interim #1238 checkpoint is a final internal verdict or that open PRs have merged. No additional test, build, download, hash or whole-source review ran for this report intake.
