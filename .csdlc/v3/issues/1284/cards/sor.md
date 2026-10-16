@@ -21,7 +21,7 @@ Version: 1.0.5
 Title: [v0.93.1] Remove post-split ADL repository cruft after podcast migration
 Branch: codex/1284-post-split-repository-cleanup
 Card Status: ready
-Status: <status>
+Status: IN_PROGRESS
 Generated: <timestamp>
 
 Execution:
@@ -33,12 +33,12 @@ Execution:
 
 ## Summary
 
-After podcast PR1286 integrates, remove post-split ADL cruft while preserving public behavior, historical evidence and current authority.
+Archived 14 completed binary payloads (112224007 bytes) and four obsolete refusal wrappers to verified published Git custody; corrected current documentation; consolidated five-package checks; added exact transition and focused native proof adapter.
 
 ## PVF Lane Truth
 - Initial PVF lane: `<initial_pvf_lane>`
-- Planned PVF lane: `<planned_pvf_lane>`
-- Final PVF lane: `<final_pvf_lane>`
+- Planned PVF lane: `local`
+- Final PVF lane: `local`
 - Lane change reason: `<lane_change_reason>`
 
 ## Issue Metrics Truth
@@ -79,16 +79,16 @@ After podcast PR1286 integrates, remove post-split ADL cruft while preserving pu
 - Additional proof artifacts: `<additional_proof_artifacts>`
 
 ## Actions taken
-- `<actions_taken_line_1>`
-- `<actions_taken_line_2>`
-- `<actions_taken_line_3>`
+- `Verified source blob, mode and restoration before removing 18 archived paths.`
+- `Preserved exact public package command order and fail-fast behavior with fake-Cargo regression checks.`
+- `Recorded independent review of de3a750e and adapter review of caf6df5fcf8cbbac3d9adf5f2b473f2540579eec.`
 
 ## Main Repo Integration (REQUIRED)
-- Main-repo paths updated: `<main_repo_paths_updated>`
-- Worktree-only paths remaining: `<worktree_only_paths_remaining>`
-- Integration state: `<integration_state>`
-- Verification scope: `<verification_scope>`
-- Integration method used: `<integration_method_used>`
+- Main-repo paths updated: `none yet`
+- Worktree-only paths remaining: `All issue changes await publication and merge.`
+- Integration state: `worktree_only`
+- Verification scope: `Bound issue worktree; focused local contracts. Remote CI and merge pending.`
+- Integration method used: `Native publication pending.`
 - Verification performed:
   - `<integration_verification_command>`
     `<integration_verification_effect>`
@@ -107,10 +107,10 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `<validation_command>`
-    `<validation_effect>`
+  - `python3 tools/repository_cleanup/validate.py`
+    `Runs package argv/order/failure, exact archive transition, public CI routing and batch contracts without builds or provider calls.`
 - Results:
-  - `<validation_result>`
+  - `Focused native proof passed; broader #1223 guard remains failed on unchanged pre-existing INTENT_COMMANDS.md identity drift. No broad retirement or coverage success claimed.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
