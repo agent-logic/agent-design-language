@@ -1,8 +1,9 @@
 # Post-split documentation delivery — #1269
 
-Status: all 13 repository documentation PRs are open. This is publication and
-review evidence, not merge, native finish or release acceptance. Do not close the
-cross-repository outcome merely because one slice has green CI.
+Status as of 2026-10-15: all **13 repository documentation PRs are merged**, and
+[ADL #1269](https://github.com/agent-logic/agent-design-language/issues/1269) is
+closed (2026-10-15T17:25:01Z). This is documentation delivery, not final release
+acceptance or a claim that every repository completed native reconciliation.
 
 The operator expanded the original README-only issue to existing AGENTS.md,
 REVIEW.md and directly related onboarding/review guidance. The
@@ -14,7 +15,7 @@ unchanged.
 ## Repository delivery checklist
 
 All rows received bounded independent source/documentation review. Revisions
-identify the content entering each PR. The ADL revision identifies its initial
+identify the historical content entering each PR; merge identities are listed below. The ADL revision identifies its initial
 source-guidance commit; this checklist is reviewed at its containing Git commit
 and the corresponding current PR head, avoiding a self-referential commit hash.
 
@@ -96,6 +97,30 @@ One branch-only UTS push reached the legacy personal origin during discovery;
 no PR or merge occurred there, and that unused branch was retained. No personal
 source changes were imported into the canonical documentation candidates.
 
-Merge, child-issue closure, parent acceptance, native reconciliation where
-applicable and cleanup remain separate follow-up steps. The repository map links
-in child PRs depend on this ADL PR becoming part of `main`.
+All thirteen merges and parent #1269 closure are now observed; the ADL repository
+map is on `main` through PR #1274. Native reconciliation and cleanup where
+applicable remain separate from that delivered documentation outcome. The original
+publication exception above did not authorize these later merges; their separately
+authorized readbacks are recorded below. Four repositories had no CI and used
+explicitly approved review-only merge exceptions; absent checks are not passed tests.
+
+
+## Confirmed merge readback
+
+The authenticated observations retained in the [#1232 assessment at `cd5e9098`](https://github.com/agent-logic/agent-design-language/blob/cd5e9098d9d1a0f65d460e43d1e000f57683a33b/docs/milestones/v0.93.1/quality-gate-1232/EVIDENCE_MATRIX.json), gate `ADL-1269`, supersede the original publication-time open status. These observations do not depend on PR #1280 being merged. Its overall quality decision remains `NOT_READY_FOR_FINAL_RELEASE_ACCEPTANCE`.
+
+| Repository / PR | Merge commit | Merged at (UTC) |
+| --- | --- | --- |
+| [agent-logic/agent-design-language #1274](https://github.com/agent-logic/agent-design-language/pull/1274) | `fa66dfb20ffde07e455f0f9fdce7ef32c3786796` | 2026-10-15T17:24:59Z |
+| [agent-logic/cognitive-sdlc #292](https://github.com/agent-logic/cognitive-sdlc/pull/292) | `d77fff2eef02305f077f885e001ea8300933be1a` | 2026-10-14T19:10:42Z |
+| [agent-logic/agent-logic-runtime #181](https://github.com/agent-logic/agent-logic-runtime/pull/181) | `e13b2b03165c94171b2160d01c90d24d4fab3a98` | 2026-10-14T19:11:33Z |
+| [agent-logic/codefriend #117](https://github.com/agent-logic/codefriend/pull/117) | `69677b4443ecd1472a66150bc33481b7d0b8fbb6` | 2026-10-14T19:12:19Z |
+| [agent-logic/agent-logic-infrastructure #40](https://github.com/agent-logic/agent-logic-infrastructure/pull/40) | `6aa48960dde398cd459b487a9452dc9a7b3c757f` | 2026-10-14T19:32:57Z |
+| [agent-logic/agent-logic-enterprise-security #8](https://github.com/agent-logic/agent-logic-enterprise-security/pull/8) | `51a1c02e1ed273b63b397b3371d0230158a0450c` | 2026-10-14T19:33:04Z |
+| [agent-logic/agent-logic.ai #99](https://github.com/agent-logic/agent-logic.ai/pull/99) | `4756b251b7d144bf4d6c6d25ea8403a49f8288a3` | 2026-10-14T19:33:10Z |
+| [agent-logic/codefriend.ai #36](https://github.com/agent-logic/codefriend.ai/pull/36) | `106d202bc11ef5c2a0f367429770b08b3c869ea4` | 2026-10-14T19:33:16Z |
+| [agent-logic/universal-tool-schema #2](https://github.com/agent-logic/universal-tool-schema/pull/2) | `dea902201e1823c42c928ea0bc9b8bc36c842210` | 2026-10-15T17:20:40Z |
+| [agent-logic/strategic-cognitive-reserve #29](https://github.com/agent-logic/strategic-cognitive-reserve/pull/29) | `f5cf19a986b554035f02a698ee2e1388f05620a4` | 2026-10-14T19:33:22Z |
+| [agent-logic/godel-hadamard-bayes-paper #2](https://github.com/agent-logic/godel-hadamard-bayes-paper/pull/2) | `2ac23cdd95fb76ecd9f9af70ff1e3b78d5286361` | 2026-10-15T17:20:46Z |
+| [agent-logic/cognitive-sdlc-paper #2](https://github.com/agent-logic/cognitive-sdlc-paper/pull/2) | `77f7a19e94f1743dbcbb3f8a5a50fa759f7a8080` | 2026-10-15T17:20:53Z |
+| [agent-logic/general-intelligence-paper-private #2](https://github.com/agent-logic/general-intelligence-paper-private/pull/2) | `536f2cbdc1de0deac6371076c2caf7eebd450992` | 2026-10-15T17:20:59Z |
