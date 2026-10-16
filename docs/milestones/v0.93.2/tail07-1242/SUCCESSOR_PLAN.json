@@ -1927,23 +1927,30 @@
     },
     {
       "id": "ADL-1241",
-      "status": "pending",
-      "required": "Predecessor accepted findings/remediation or explicit deferral and exact residual handoff."
+      "status": "received_findings_dispositioned",
+      "required": "Preserve eleven resolved findings and their bounded scope; no findings deferred into v0.93.2. Final independent release synthesis is separate.",
+      "received_register": "ac0475eb76718689a5f0a2aa0a1f753c91a531dd",
+      "received_counts": {
+        "total": 11,
+        "resolved": 11,
+        "undispositioned": 0
+      },
+      "pending_ids": []
     },
     {
       "id": "ADL-1269",
-      "status": "pending",
-      "required": "README owner delivery; do not duplicate edits."
+      "status": "source_delivery_complete",
+      "required": "All thirteen README PRs merged and parent issue closed; reuse selected documentation in final candidate, no duplicate edits."
     },
     {
       "id": "CodeFriend-101",
-      "status": "pending",
-      "required": "Readable template/rendering owner acceptance and change-impact review before using final candidate."
+      "status": "selected_platform_proof_recorded",
+      "required": "Reuse final1236 selection: Linux393dd2/artifact11994981448 and Mac43f955e/artifact12019981590 have separate archive/source/installed proof; no cross-platform transfer."
     },
     {
       "id": "ADL-1232",
-      "status": "reviewed_not_ready_decision",
-      "required": "Consume quality matrix at ea597506c370f6de3d997fbd46fa3ba2a0150d3f; remaining installed-lockset, CodeFriend101 andADL1269 gaps are explicit. This is not release acceptance."
+      "status": "dated_quality_rows_reconciled",
+      "required": "Final1236 candidate reconciles all fifteen original quality rows; preserve historical NOT_READY and final independent release decision separately."
     }
   ],
   "identity_rules": [
@@ -1957,7 +1964,7 @@
     "Accepted product/template/runtime versions and final lockset must come from final predecessor handoff; none inferred from this roster.",
     "No builds, CI dispatch, providers, deployments, shared tools or product changes."
   ],
-  "canonical_reconciliation_pending": "Canonical1259 graph, wave, specifications, WBS, sprint, vision, proof coverage, feature route and handoff now reconcile67 identities andPY01 deferral. Final1241 dispositions and selected installed-lockset correspondence remain pending.",
+  "canonical_reconciliation_pending": "Canonical1259 package reconciles67 identities andPY01 deferral. Final1236/1241 inputs are incorporated; independent planning review and release synthesis remain separate decisions.",
   "post_retirement_reconciliation": {
     "merge": "791e44216659a14eeb95c8a05f79e965709b3421",
     "pr": 1273,
@@ -1965,5 +1972,27 @@
     "quality_matrix_commit": "ea597506c370f6de3d997fbd46fa3ba2a0150d3f",
     "quality_matrix_sha256": "9c0317b33d5ec8bd0e14ba62012cde326f19d8dbe9f2d1592123da349a96b5aa",
     "boundary": "Source retirement delivered. Final seven-role installed release lockset correspondence remains pending; native closeout is asynchronous."
+  },
+  "final_source_corrections": {
+    "public_adl": "ac2b596915538f3ed9ce418aec5aa7b917c18fd4",
+    "tree": "4806529b7f89a1efe12d75fbb61ae829e94f94cd",
+    "integrated_ci_run": 38846853808,
+    "qualification_artifact": 12023458238,
+    "evidence": "Root reports all eight checks passed on tree-identical integrated source, all four independent external review repairs accepted, no new material findings. This does not replace final candidate and findings decisions."
+  },
+  "final_predecessor_handoff": {
+    "candidate_commit": "1e632116d0e290db1fb7239277fe9e6824c85b1d",
+    "internal_review_commit": "fb583a9ddda48afc9c1f5d245ba592a53abafa97",
+    "findings_commit": "ac0475eb76718689a5f0a2aa0a1f753c91a531dd",
+    "independent_inputs_commit": "a12a6397cc6108c709fa22fa7e8d7cd62c5d0481",
+    "received_findings": 11,
+    "resolved_within_scope": 11,
+    "deferred_to_successor": 0,
+    "limitations": [
+      "Selected policy artifact is retained under controlled access after remote expiry, not publicly downloadable.",
+      "No current installed Runtime, Linux Runtime execution, active Enterprise enforcement, live website operation or public deployment is proved."
+    ],
+    "decision_boundary": "Final independent synthesis must assess required delivery scope against these limits before1245 acceptance. Planning records do not waive required deliverables or open successor execution.",
+    "archive_correction": "Root inspected existing artifact12023458238: all five tar packages are present, report hashes match, and the validator records7consumer/5negative/21UTS/5package passes. Sourcee0b54abf76c2e0c6ed19cde612cb64d354f34766 has exacttree4806529b7f89a1efe12d75fbb61ae829e94f94cd shared with finalac2b5969. The earlier missing-archive statement is superseded; no new download/hash/test was performed by this planning lane. These are source packages, not compiled operational binaries; installed qualification retains its separately recorded scope."
   }
 }
