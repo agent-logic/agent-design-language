@@ -22,7 +22,7 @@ Planned: Runtime v4, citizen governance, private enterprise security and continu
 
 ## What's New In Detail
 
-RV-01–RV-11; GOV-01–GOV-16; WP-S1–WP-S6; CM-01–CM-04; PY-01; integrated governance/security demonstrations. See WBS for single-result boundaries.
+RV-01–RV-11; GOV-01–GOV-16; WP-S1–WP-S6; CM-01–CM-04; integrated governance/security demonstrations. See WBS for single-result boundaries.
 
 ## Upgrade Notes
 

@@ -268,29 +268,6 @@
       "existing_issue": null
     },
     {
-      "wp": "PY-01",
-      "title": "Complete the bounded Python reduction tranche",
-      "repository": "agent-design-language",
-      "depends_on": [
-        "v0.93.1/RD-11",
-        "WP-01"
-      ],
-      "outcome": "Record tracked Python file and LOC counts at milestone start and end across the split repository set, separating moves from reductions; remove or replace one coherent remaining public ADL helper family with live-behavior parity, or record an explicit reviewed no-reduction justification if no suitable family remains. Preserve the no-new-Python policy and enable a zero-Python gate only where the measured footprint supports it.",
-      "acceptance": [
-        "Record tracked Python file and LOC counts at milestone start and end across the split repository set, separating moves from reductions; remove or replace one coherent remaining public ADL helper family with live-behavior parity, or record an explicit reviewed no-reduction justification if no suitable family remains. Preserve the no-new-Python policy and enable a zero-Python gate only where the measured footprint supports it.",
-        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
-      ],
-      "negative_cases": [
-        "Repository move counted as deletion",
-        "Live behavior removed without parity",
-        "Unexplained unchanged footprint"
-      ],
-      "pvf": "installed_integration",
-      "source": "README.md",
-      "sprint": 1,
-      "existing_issue": null
-    },
-    {
       "wp": "GOV-01",
       "title": "Enforce citizen and guest actor boundaries",
       "repository": "agent-logic-runtime",
@@ -937,7 +914,6 @@
       "repository": "agent-logic-runtime",
       "depends_on": [
         "INTEGRATE",
-        "PY-01",
         "GHB-WP12",
         "CF-92"
       ],
@@ -1536,8 +1512,7 @@
           "RV-05",
           "RV-06",
           "RV-07",
-          "RV-08",
-          "PY-01"
+          "RV-08"
         ]
       },
       {
@@ -1626,5 +1601,16 @@
     "CodeFriend-45": "https://github.com/agent-logic/codefriend/issues/45 \u2014 existing launch predecessor",
     "CodeFriend-46": "https://github.com/agent-logic/codefriend/issues/46 \u2014 built waiting-list predecessor",
     "codefriend.ai-21": "https://github.com/agent-logic/codefriend.ai/issues/21 \u2014 website predecessor"
+  },
+  "successor_scope_amendment": {
+    "issue": 1242,
+    "source_issue": 1259,
+    "retained_count": 67,
+    "deferred": [
+      "PY-01",
+      "affect/humour"
+    ],
+    "deferred_definition": "tail07-1242/SUCCESSOR_PLAN.json#deferred",
+    "execution_authorized": false
   }
 }

@@ -16,7 +16,7 @@ Five outcome groups are allocated with no implied fixed duration. Groups 1–4 r
 
 | Group | Outcome | Tasks | Count |
 |---|---|---|---|
-| 1 | Open and qualify Runtime v4; bounded Python reduction | WP-01, RV-01–RV-11, PY-01 | 13 |
+| 1 | Open and qualify Runtime v4 | WP-01, RV-01–RV-11 | 12 |
 | 2 | Governed actors and enterprise security | GOV-01–GOV-16, WP-S1–WP-S6 | 22 |
 | 3 | Citizen continuity and integrated demonstrations | CM-01–CM-04, DEMO-GOV, DEMO-SEC | 6 |
 | 4 | GHB Gate A, Gate B, qualification, and research packet | GHB-SPRINT, GHB-WP00–GHB-WP12 | 14 |
@@ -32,7 +32,7 @@ Maintain CodeFriend Beta 1 continuity through the Runtime upgrade.
 
 ## Planned Scope
 
-68 planned identities: the existing 53 platform candidates, existing CodeFriend #92, plus `GHB-SPRINT` and `GHB-WP00` through `GHB-WP12`. Existing #875 is a separately gated v0.93.1 sidecar and is not counted in 53. Podcast #671 is completed in v0.92.2 (PR #1174).
+67 planned identities: the retained 52 platform candidates, existing CodeFriend #92, plus `GHB-SPRINT` and `GHB-WP00` through `GHB-WP12`. Existing #875 is a separately gated v0.93.1 sidecar and is not counted in 52. Podcast #671 is completed in v0.92.2 (PR #1174).
 
 ## Work Plan
 

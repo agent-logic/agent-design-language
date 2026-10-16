@@ -1,3 +1,5 @@
+> Deferred by #1242: retained historical design, excluded from v0.93.2 execution and QUALIFY. See ../tail07-1242/SUCCESSOR_PLAN.json for complete preserved obligation.
+
 # v0.93.2 Bounded Python reduction
 
 ## Metadata

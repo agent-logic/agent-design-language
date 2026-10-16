@@ -18,7 +18,7 @@ TAIL-01 quality decision → TAIL-02 docs/review handoff → TAIL-03 publication
 
 ## 1. Release Readiness
 
-Require accepted installed lockset, all 68 result dispositions, independent qualification and explicit handoff of any unresolved v0.93.1 #875 disposition.
+Require accepted installed lockset, all 67 result dispositions, independent qualification and explicit handoff of any unresolved v0.93.1 #875 disposition.
 
 ## 2. Branch And Tag Preparation
 
@@ -34,7 +34,7 @@ Read back published identities and validate installation, compatibility, recover
 
 ## 5. Communication
 
-State delivered behavior, unsupported scenarios and remaining risks. Beta 1 launch belongs to v0.93.1; describe this release as a qualified upgrade.
+State delivered behavior, unsupported scenarios and remaining risks. v0.93.1 targets ready-to-deploy qualification; public launch remains separately authorized through CodeFriend #92.
 
 ## Exit Criteria
 

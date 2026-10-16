@@ -16,7 +16,7 @@ Planned and unopened. The operator approved the scope split; this package does n
 | Citizenship, ToM, relationships, delegation, guilds | GOV-01–GOV-16 | DEMO-GOV and INTEGRATE |
 | Enterprise security | WP-S1–WP-S6 | DEMO-SEC and INTEGRATE |
 | Citizen migration/reproduction | CM-01–CM-04 | CM-04 and INTEGRATE |
-| Python reduction | PY-01 | Scoped parity evidence and QUALIFY |
+| Python reduction | PY-01 (deferred) | Preserved in successor handoff; not a v0.93.2 qualification dependency |
 
 ## Boundaries
 
