@@ -4,7 +4,7 @@ Status: prepared for a bounded **ADL repository review**, substantive public ADL
 
 ## Exact revision and freeze
 
-**Frozen ADL product source: `f75f0d3f9c4df85743638b956f2c2a80f3424f38`.** This immutable source revision is separate from the later commit containing this review packet. Review this commit, not a moving branch.
+**Original reviewed ADL product source: `f75f0d3f9c4df85743638b956f2c2a80f3424f38`. Final repaired source: `ac2b596915538f3ed9ce418aec5aa7b917c18fd4`.** Product source revisions are separate from the commit containing this packet. Preserve original coverage and consume the repair delta and [final synthesis inputs](FINAL_SYNTHESIS_INPUTS.md); do not restart the whole review against a moving branch.
 
 The freeze includes #1234 documentation merge `11e62214592612bf48ced201e80a06732dd72f27` (reviewed head `f3943dac7171ba026bd21f31938c0c552b1e18d7`) and #1284 cleanup / PR #1287 (reviewed head `1839d0536790bbd8653776a9cb30820658a05776`). Local Git ancestry checks confirm both the documentation merge and reviewed cleanup head are ancestors of the frozen commit. The coordinator's authenticated native receipt confirms PR #1287 merged at the frozen commit and #1284 closed; all eight checks passed in run `38840558566`. #1234 is merged, closed and natively finished. These are retained owner results, not new tests run by this packet.
 
@@ -64,3 +64,11 @@ The subsequent split-interface access extension verified all 17 selected retaine
 [Independent report](ADL_INDEPENDENT_REVIEW_F75F0D3.md) and [coverage ledger](ADL_REVIEW_COVERAGE.json) preserve the reviewer-authored results for frozen source `f75f0d3`: **CHANGES_REQUIRED, two P2 and two P3 findings**. The report is copied without substantive changes. Its 591-path inventory is not a count of reviewed files. One isolated std-only prompt probe ran; broad tests, builds, CI, network/provider calls and installed execution did not. Private split-interface preflight remains access evidence, not private implementation review. The result is independent-agent coverage, not third-party organizational review or full Sprint 4 acceptance.
 
 #1241 owns the four original finding IDs and dispositions. Repair owners must provide exact commits and focused regression/review evidence; the independent reviewer should assess only the affected repair delta and retained coverage before advancing the product freeze. Do not discard this adverse report or repeat the whole repository campaign.
+
+## Independent repair delta assessment
+
+The original reviewer returned [PASS for all four bounded repair deltas](ADL_REPAIR_DELTA_REVIEW.md), with no new material finding. Exact heads: prompt `ba221958e90a85de74e01600dc33d7efa5d7cfef`; compiler `5e41adf2c63c073df56781ee2b5deba5254fc6d0`; TTL/specification `1a979c83df1a862a42024a4f80e257a99aae89b3`. The reviewer reused prior proof and unchanged coverage, with no additional execution. Original frozen-source CHANGES_REQUIRED report and coverage remain unmodified.
+
+Prompt #1288 / PR #1290 has merged as `15485055270e7c1376638010e520b29734abb8ef`, with all eight CI checks passed and native finish/cleanup complete. Compiler CI and TTL/specification publication were pending at this assessment. The eventual combined ADL source must include all three reviewed repairs; this individual-head PASS does not claim integrated-candidate or Sprint 4 acceptance. Only the affected integration delta needs verification after the remaining merges.
+
+Final correction integration: compiler PR #1292 merged `a0b4c38d373fdbf53d1866cb9b8d84a2f9507260`; TTL/spec PR #1293 merged `ac2b596915538f3ed9ce418aec5aa7b917c18fd4` at strengthened test head `38761b0805ceff3d2811a2a4e30088b83460c899`. The final merge tree matches the integrated eight-check CI run `38846853808` exactly. All four external repairs are delivered; final packet synthesis remains a separate result. Earlier pending CI/publication statements describe the repair report's original observation time.
