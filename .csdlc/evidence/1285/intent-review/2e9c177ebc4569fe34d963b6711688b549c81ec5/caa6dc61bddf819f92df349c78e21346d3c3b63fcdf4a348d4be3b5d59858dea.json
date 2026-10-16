@@ -1,0 +1,52 @@
+{
+  "schema": "csdlc.v3.typed_review_receipt.v1",
+  "repository": "agent-logic/agent-design-language",
+  "issue": 1285,
+  "implementer": "worker-27/root",
+  "reviewer": "worker-27/podcast_migration_review",
+  "reviewed_revision": "2e9c177ebc4569fe34d963b6711688b549c81ec5",
+  "expected_head_sha": "2e9c177ebc4569fe34d963b6711688b549c81ec5",
+  "evidence_digest": "28361153de27d5c26872dc0b05a4615553adccdcfbd6c31f28e86fc49c7425c5",
+  "publication_linkage": {
+    "closing_targets": [
+      "agent-logic/agent-design-language#1285"
+    ],
+    "repository": "agent-logic/agent-design-language",
+    "issue": 1285,
+    "mode": "closing"
+  },
+  "external_review": {
+    "receipt": {
+      "schema": "csdlc.v3.typed_review_receipt.v1",
+      "repository": "agent-logic/agent-design-language",
+      "issue": 1285,
+      "implementer": "worker-27/root",
+      "reviewer": "worker-27/podcast_migration_review",
+      "reviewed_revision": "2e9c177ebc4569fe34d963b6711688b549c81ec5",
+      "expected_head_sha": "2e9c177ebc4569fe34d963b6711688b549c81ec5",
+      "evidence_digest": "28361153de27d5c26872dc0b05a4615553adccdcfbd6c31f28e86fc49c7425c5",
+      "publication_linkage": {
+        "closing_targets": [
+          "agent-logic/agent-design-language#1285"
+        ],
+        "repository": "agent-logic/agent-design-language",
+        "issue": 1285,
+        "mode": "closing"
+      }
+    },
+    "receipt_digest": "5ddceaa7bb55056e10bdd51d75a898d3b174d3dab24e901f3414c0ccedb834e6",
+    "proof_path": ".csdlc/v3/issues/1285/proof.json",
+    "proof_digest": "a4163e1e1b50580c26cfec6e734114e117f118b240bddb5dd1d6083e6dcbcd43",
+    "judgment": {
+      "closing_targets": [
+        "agent-logic/agent-design-language#1285"
+      ],
+      "schema": "csdlc.v3.review_judgment.v1",
+      "implementer": "worker-27/root",
+      "reviewer": "worker-27/podcast_migration_review",
+      "reviewed_revision": "2e9c177ebc4569fe34d963b6711688b549c81ec5",
+      "verdict": "pass",
+      "evidence": "Independent subagent reviewed ADL5bb41c5 then final fix delta ee7ff6607b9566dfe78a6f47cc181fee3ea515e0 and destination13f217d846b305f43943a50cbbdd6ee4292a1aef. Verified521 imported hashes and tracked membership, unchanged feed, complete removal mapping and production coverage, no credential-shaped matches. P1 future unrelated issue false failure fixed by scoped podcast historical checks; P2 generated registry drift fixed and transition repinned. Final verdict approved; no remaining actionable migration findings. Pre-existing full1223 guard failure is recorded and not claimed green. Independent reviewer additionally approved final records-only head2e9c177ebc4569fe34d963b6711688b549c81ec5 after correcting the recorded Python invocations. Product bytes remain unchanged."
+    }
+  }
+}

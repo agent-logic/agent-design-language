@@ -59,11 +59,18 @@ def main():
         assert ledger.read_bytes() == saved
         invoke([*claim_args, '--ttl-secs', '0'], failure='ttl seconds must be greater than zero')
         assert ledger.read_bytes() == saved
+        for ttl in ['9223372036854775807', '9223372036854775']:
+            invoke([*claim_args, '--ttl-secs', ttl], failure='ttl seconds')
+            assert ledger.read_bytes() == saved
         invoke(claim_args, failure='already has active claim')
         assert ledger.read_bytes() == saved
         invoke(['heartbeat', '--claim-id', identity, '--ttl-secs', '0'],
                failure='ttl seconds must be greater than zero')
         assert ledger.read_bytes() == saved
+        for ttl in ['9223372036854775807', '9223372036854775']:
+            invoke(['heartbeat', '--claim-id', identity, '--ttl-secs', ttl],
+                   failure='ttl seconds')
+            assert ledger.read_bytes() == saved
         heartbeat = invoke(['heartbeat', '--claim-id', identity, '--ttl-secs', '7200'])
         assert heartbeat['claim_id'] == identity and heartbeat['mode'] == 'active'
         assert heartbeat['expires_at'] > claim['expires_at']

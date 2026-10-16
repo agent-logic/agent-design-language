@@ -58,6 +58,7 @@ for rel in sorted(set(re.findall(r'adl/tools/([A-Za-z0-9_.-]+\.sh)', source))):
     target.chmod(0o755)
 PY
 mkdir -p "$repo/tools/public_adl"
+cp "$ROOT_DIR/tools/public_adl/run_package_checks.sh" "$repo/tools/public_adl/run_package_checks.sh"
 cat > "$repo/tools/public_adl/run_cli_ci.sh" <<'SH'
 #!/usr/bin/env bash
 exit 0

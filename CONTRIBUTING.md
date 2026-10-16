@@ -1,106 +1,53 @@
-# Contributing to Agent Design Language (ADL)
+# Contributing to Agent Design Language
 
-Thanks for contributing to ADL.
+Start with the [repository map](docs/REPOSITORIES.md). This repository owns public
+language/contracts and CLI dispatch. Runtime implementation, providers, CodeFriend
+and lifecycle tooling belong to their respective owners.
 
-ADL is structured as a language + reference runtime. This document defines the **canonical contribution workflow and governance model for the entire repository**.
+## Choose the surface
 
-If a directory contains its own `CONTRIBUTING.md`, it must defer to this file.
+- Language meaning, schemas and versioning: `adl-spec/`, `adl-schema/` and the
+  relevant public contract package.
+- Public command behavior and installed-owner routing: `adl/`.
+- Public test/coverage policy: `tools/public_adl/` and the current CI workflow.
+- Current guidance: root entrypoints and `docs/`; preserve historical evidence.
 
----
+Read [AGENTS.md](AGENTS.md), the [review guide](REVIEW.md) and any nested guidance
+before editing. Propose a bounded issue with acceptance criteria and validation.
+Use the [native lifecycle](docs/default_workflow.md), keep primary `main` clean,
+and perform tracked work in the registered issue worktree. Create an issue-bound
+session goal before implementation. Never hand-edit generated issue cards.
 
-## Repository Structure (High-Level)
+## Validation
 
-- `/adl-spec` — Language semantics and schema definitions
-- `/adl` — Reference Rust runtime + CLI
-- `/docs` — Milestone docs, ADRs, and release notes
+Choose the smallest meaningful check for the changed surface. For public CLI work:
 
-**Rule of thumb:**
-- If a change affects ADL *meaning* (semantics, versioning, schema intent), propose it in `/adl-spec` first.
-- If a change affects *how ADL executes* (performance, ergonomics, CLI behavior, provider wiring), it belongs in `/adl`.
-
----
-
-## Canonical Workflow
-
-Source-of-truth quick links:
-- `docs/codex_playbook.md`
-- `AGENTS.md`
-- `docs/default_workflow.md`
-- `csdlc-v3/README.md`
-
-Workflow loop:
-
-```
-start → cards → execute → review → finish → merge → cleanup
+```sh
+bash tools/public_adl/run_cli_ci.sh
 ```
 
-Card semantics:
-- All six cards (`SIP`, `STP`, `SPP`, `VPP`, `SRP`, `SOR`) are durable typed projections under `.csdlc/issues/<issue>/cards/`. Preserve tracked issue and review evidence; only scratch artifacts are local-only. Never edit generated Markdown directly.
-- Templates live under `docs/templates/` (versioned).
-- Tasks can be non-code; the same card-based trace applies.
+There is no root Cargo workspace. Other public package changes use their explicit
+manifest and current CI contract. Preserve deterministic, hermetic default tests;
+provider, cloud and installed-product qualification remain separately declared
+proof lanes. Do not build private owner products to validate documentation edits.
 
-Lifecycle entrypoints and request contracts are documented in
-[the default workflow](docs/default_workflow.md). C-SDLC v3 is operational after V3-F/#505 and merged PR #591. Authority requires the native selector and authenticated reconciliation proof against canonical `origin/main`. Use `.adl/bin/native-v3/csdlc`; inspect its help and typed request contracts before invoking a lifecycle route. Missing or stale proof suspends authority. V2 is retained only for an explicitly authorized rollback or bounded transition remediation.
+For documentation, check local paths/anchors, cross-repository targets and command
+arguments against the current manifests and scripts, and run `git diff --check`.
+Record which commands were inspected versus executed. Do not report existing
+qualification as a new test run. Coverage rules and exceptions are defined by the
+current [public coverage tooling](tools/public_adl/coverage.py), not a historical
+percentage quoted in a guide.
 
-Tracked edits begin only after binding and creation of the issue-bound session goal.
+## Review and delivery
 
----
+Obtain independent exact-head review, fix actionable findings, record native
+review and publish through the native owner. PR bodies must close the correct
+tracked issue. Required CI and merge admission precede merge; native `finish`
+then records terminal truth and `clean` separately handles the registered worktree.
+A draft PR or green local check is not completion.
 
-## Determinism and Design Constraints
-
-ADL optimizes for:
-
-- Determinism (resolution, planning, ordering semantics)
-- Traceability (observable, reproducible runs)
-- Schema discipline (explicit versioning, no implicit behavior)
-- Small, auditable diffs
-
-Changes must preserve deterministic semantics unless explicitly version-gated.
-
----
-
-## Testing and Coverage Discipline
-
-Typical local validation from `adl/`:
-
-```bash
-cargo fmt --all -- --check
-cargo clippy --all-targets -- -D warnings
-cargo test
-```
-
-Coverage discipline (v0.6+):
-
-- >=80% coverage per file
-- Exceptions require an owner + linked issue
-- New logic paths must include tests
-- No “coverage-only churn”
-
-Default unit tests must remain hermetic. Integration and live-provider proof requires its declared PVF lane, resource and credential policy, and explicit authorization where required. This guide grants no paid or live execution authority.
-
----
-
-## Documentation Responsibilities
-
-- Root `README.md` is the repo entrypoint.
-- `adl/README.md` is the runtime entrypoint.
-- Milestone work updates `docs/milestones/<version>/`.
-- Architectural decisions must be captured under `docs/adr/`.
-
-Do not duplicate narrative across README files. Prefer link-outs to canonical locations.
-
----
-
-## Security
-
-See `SECURITY.md` for vulnerability disclosure guidance.
-
----
-
-## When in Doubt
-
-Open an issue first.
-
-Propose intent clearly.
-
-Keep changes small, deterministic, and reviewable.
+Keep changes surgical. Preserve licenses, attribution, source custody and historical
+proof. A documentation correction cannot approve a release, alter a security policy
+or establish installed authority. Follow [SECURITY.md](SECURITY.md) for sensitive
+reports and use the [issue tracker](https://github.com/agent-logic/agent-design-language/issues)
+for ordinary defects and proposals.

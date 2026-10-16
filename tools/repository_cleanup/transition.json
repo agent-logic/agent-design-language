@@ -1,0 +1,293 @@
+{
+  "source_commit": "2f26936b9c0ec582471a3f8fbebcce31b471512e",
+  "archive_manifest_sha256": "3ad19987be2de4ffbeabad7747a920deaf47e8cd293e59adafc237ac88df6f4a",
+  "changes": [
+    {
+      "path": ".csdlc/evidence/5820/native/linux/adl-runtime-guardian.gz.part-00",
+      "before": [
+        "100644",
+        "1427b0d3c9711c263c3f7e4a699715ccd971dfd3"
+      ],
+      "after": null
+    },
+    {
+      "path": ".csdlc/evidence/5820/native/linux/adl-runtime-guardian.gz.part-01",
+      "before": [
+        "100644",
+        "98b5a0aaec07ccbf4b748a3af6afe0e9e2e0160d"
+      ],
+      "after": null
+    },
+    {
+      "path": ".csdlc/evidence/5820/native/linux/adl-runtime-guardian.gz.part-02",
+      "before": [
+        "100644",
+        "5c88406b2b86c897632e3bd98502f3bd31260bdf"
+      ],
+      "after": null
+    },
+    {
+      "path": ".csdlc/evidence/5820/native/linux/adl-runtime-guardian.gz.part-03",
+      "before": [
+        "100644",
+        "4c8792f6e26f3738690120b18a6abc6f612789d9"
+      ],
+      "after": null
+    },
+    {
+      "path": ".csdlc/evidence/5820/native/linux/adl-runtime-kernel.gz.part-00",
+      "before": [
+        "100644",
+        "55a30ca757458e6d1ac61548b9321553415720ec"
+      ],
+      "after": null
+    },
+    {
+      "path": ".csdlc/evidence/5820/native/linux/adl-runtime-kernel.gz.part-01",
+      "before": [
+        "100644",
+        "3a9add2743ea03bffb4973a01b3e78d1c3673a93"
+      ],
+      "after": null
+    },
+    {
+      "path": ".csdlc/evidence/5820/native/linux/adl-runtime-kernel.gz.part-02",
+      "before": [
+        "100644",
+        "de781530c6cb3bec64506b305dd30410338e5447"
+      ],
+      "after": null
+    },
+    {
+      "path": ".csdlc/evidence/5820/native/linux/adl-runtime-kernel.gz.part-03",
+      "before": [
+        "100644",
+        "e789127e90ad87530f03ec4e250b854e9d9084c8"
+      ],
+      "after": null
+    },
+    {
+      "path": ".csdlc/evidence/5820/native/linux/adl-runtime-kernel.gz.part-04",
+      "before": [
+        "100644",
+        "6154c5a1675a9f56ef9847304aab76246c13ee7b"
+      ],
+      "after": null
+    },
+    {
+      "path": ".csdlc/evidence/5820/native/macos/adl-runtime-guardian.gz",
+      "before": [
+        "100755",
+        "32f723e8a7cf6b383735bf60fc576abd7a433ecb"
+      ],
+      "after": null
+    },
+    {
+      "path": ".csdlc/evidence/5820/native/macos/adl-runtime-kernel.gz",
+      "before": [
+        "100755",
+        "321a19351bd54dad42c8fd6b116074deb43c0886"
+      ],
+      "after": null
+    },
+    {
+      "path": ".csdlc/evidence/872/conversion-rehearsal/restore/pre-effect-sandbox/csdlc",
+      "before": [
+        "100755",
+        "c642fd7b4321c16cc92e12ec222765734aa8b190"
+      ],
+      "after": null
+    },
+    {
+      "path": ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/local/conversion-rehearsals/conversion-f11db7374a69984b47fccbfa/executable-slot/active",
+      "before": [
+        "100644",
+        "c642fd7b4321c16cc92e12ec222765734aa8b190"
+      ],
+      "after": null
+    },
+    {
+      "path": ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/local/conversion-rehearsals/conversion-f11db7374a69984b47fccbfa/executable-slot/prior",
+      "before": [
+        "100644",
+        "c642fd7b4321c16cc92e12ec222765734aa8b190"
+      ],
+      "after": null
+    },
+    {
+      "path": ".github/workflows/ci.yaml",
+      "before": [
+        "100644",
+        "89092da10a1e4fe7d0ed69e000fcdbd82106d823"
+      ],
+      "after": [
+        "100644",
+        "e870f180a9d71d93d9ace9b8ad265153e62d2489"
+      ]
+    },
+    {
+      "path": "adl-uts/tools/test_ci_contract.rb",
+      "before": [
+        "100644",
+        "57b2a401f4c12a03b32bd06679777f23de489f51"
+      ],
+      "after": [
+        "100644",
+        "7467ce45ec5112b8a83b712255446a78a7d69a71"
+      ]
+    },
+    {
+      "path": "adl/tools/README.md",
+      "before": [
+        "100644",
+        "ac95f79b7fcfa317ebbd978302e6ca78ffe1c539"
+      ],
+      "after": [
+        "100644",
+        "340ce228719f38de9f5bd813cc7d154d7ad7a1e6"
+      ]
+    },
+    {
+      "path": "adl/tools/batched_checks.sh",
+      "before": [
+        "100755",
+        "040d7ebb847d95319ff3b3c2ab677132f253244d"
+      ],
+      "after": [
+        "100755",
+        "60becdebf47080be30f0f80e91b54662f92f841b"
+      ]
+    },
+    {
+      "path": "adl/tools/csdlc_obs_ready_canary.sh",
+      "before": [
+        "100644",
+        "c8feecb35e6272385650961d1e0fab74ee4b7141"
+      ],
+      "after": null
+    },
+    {
+      "path": "adl/tools/generate_tool_surface_registry.py",
+      "before": [
+        "100644",
+        "2a45cf4b0ab657b2a6b447891d8245f9509749eb"
+      ],
+      "after": [
+        "100644",
+        "97e96afd7a24aa3f769dd13f228faef06446b4dd"
+      ]
+    },
+    {
+      "path": "adl/tools/install_aws_remote_validation_tool.sh",
+      "before": [
+        "100755",
+        "7a27c084f58560d4d53818f057ac5d6a591f51e1"
+      ],
+      "after": null
+    },
+    {
+      "path": "adl/tools/run_authoritative_coverage_lane.sh",
+      "before": [
+        "100755",
+        "6200e1a51b524c43569e86a9d7be138b110e77b1"
+      ],
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_batched_checks_no_codexpr_usage_banner.sh",
+      "before": [
+        "100755",
+        "e13d689b4f2d665a66a9a637ed81c6ce90a96573"
+      ],
+      "after": [
+        "100755",
+        "44f714c082b855ebbe797a944082ba8a3ea1d468"
+      ]
+    },
+    {
+      "path": "adl/tools/test_run_authoritative_coverage_lane.sh",
+      "before": [
+        "100755",
+        "6200e1a51b524c43569e86a9d7be138b110e77b1"
+      ],
+      "after": null
+    },
+    {
+      "path": "adl/tools/validation_inventory.py",
+      "before": [
+        "100644",
+        "6ce2752ee3846c0acf31daa587b061df700a414c"
+      ],
+      "after": [
+        "100644",
+        "ff6db6c7f19da171e3fa6ae9e0ffb681e4854fd0"
+      ]
+    },
+    {
+      "path": "docs/tooling/ADL_OWNED_CI_STEP_LOGS.md",
+      "before": [
+        "100644",
+        "310493a2d0c2a91cc5a031eda101ebfb4a28080c"
+      ],
+      "after": [
+        "100644",
+        "9bbe7cd80b799005345c79cc9ce6b4c02fabe13d"
+      ]
+    },
+    {
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "before": [
+        "100644",
+        "1e808c45fbc3b89ea3f78f9e19cb65c893ca7187"
+      ],
+      "after": [
+        "100644",
+        "1598db737a096804a8939281ece208d0aa2c71a7"
+      ]
+    },
+    {
+      "path": "tools/public_adl/run_ci.sh",
+      "before": [
+        "100755",
+        "d0fd8513b85ce6100303e811e243a8da4e070287"
+      ],
+      "after": [
+        "100755",
+        "da55223854b27106e9a2cffc4522dd371e5ef85f"
+      ]
+    },
+    {
+      "path": "tools/public_adl/test_ci_contract.py",
+      "before": [
+        "100755",
+        "fc72ecf7e0a94204c5bee4df870f0615225a306e"
+      ],
+      "after": [
+        "100755",
+        "3bb18d15a2bd21baaa91a2f668fcae6ba260dc6d"
+      ]
+    },
+    {
+      "path": "tools/source_retirement/README.md",
+      "before": [
+        "100644",
+        "5a2b14cb4224bf70cffd55aa1ab6801df447b701"
+      ],
+      "after": [
+        "100644",
+        "ed754a4e80ecb95150937229d24f4d82b36e4e38"
+      ]
+    },
+    {
+      "path": "tools/source_retirement/check.py",
+      "before": [
+        "100644",
+        "1ce0c5e49a53d98bc5ede5dd1a67cd14158df4b3"
+      ],
+      "after": [
+        "100644",
+        "cc6f324d8e85e6e2f3daf4a6537767c38c217ca4"
+      ]
+    }
+  ]
+}
