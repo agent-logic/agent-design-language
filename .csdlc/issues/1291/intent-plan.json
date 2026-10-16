@@ -1,0 +1,60 @@
+{
+  "schema": "csdlc.v3.intent_plan.v1",
+  "slug": "session-ttl-spec-entrypoint",
+  "cards": {
+    "sip": {
+      "summary": "Correct ADL-1240-EXT-03 session TTL panic and EXT-04 stale specification entrypoint in issue1291.",
+      "non_goals_inline": "No compiler/prompt changes, normative language changes, Runtime source, providers/cloud, shared owner replacement, main edits or internal SSD builds."
+    },
+    "stp": {
+      "summary": "Correct ADL-1240-EXT-03 session TTL panic and EXT-04 stale specification entrypoint in issue1291.",
+      "non_goals_inline": "No compiler/prompt changes, normative language changes, Runtime source, providers/cloud, shared owner replacement, main edits or internal SSD builds.",
+      "acceptance_criteria_inline": "Both EXT03/EXT04 resolved without ledger mutation on overflow or changed normative text; reviewed focused proof and green required CI; native finish and clean after merge."
+    },
+    "spp": {
+      "summary": "Correct ADL-1240-EXT-03 session TTL panic and EXT-04 stale specification entrypoint in issue1291.",
+      "non_goals_inline": "No compiler/prompt changes, normative language changes, Runtime source, providers/cloud, shared owner replacement, main edits or internal SSD builds.",
+      "dependencies_inline": "External review findings confirmed; native issue1291 creation reconciled. No dependency on separate compiler/prompt corrective implementation.",
+      "repo_inputs_inline": "adl/src/session_ledger.rs; tools/public_adl/test_public_session.py; adl-spec/README.md; docs/REPOSITORIES.md; external review ADL_INDEPENDENT_REVIEW_F75F0D3.md.",
+      "target_files_surfaces_inline": "adl/src/session_ledger.rs; tools/public_adl/test_public_session.py; adl-spec/README.md; native generated issue1291 cards.",
+      "deliverables_inline": "Checked expiration before mutation; ordinary errors for duration/timestamp overflow; focused unchanged-state regression cases; current public CLI/separate Runtime navigation and explicitly historical milestone framing.",
+      "validation_plan_inline": "Focused session_ledger Rust unit tests and public session CLI persistence/refusal tests; checked duration and timestamp overflow leave in-memory and durable ledger unchanged; documentation ownership/link inspection. Native proof, independent review, required public CLI CI integration separately.",
+      "acceptance_criteria_inline": "Both EXT03/EXT04 resolved without ledger mutation on overflow or changed normative text; reviewed focused proof and green required CI; native finish and clean after merge.",
+      "notes_risks_inline": "PVF local_contract deterministic bounded CPU/filesystem; all cache/targets/scratch FastWork. No installed Runtime acceptance claim; v0.87 milestones retain historical truth."
+    },
+    "vpp": {
+      "summary": "Correct ADL-1240-EXT-03 session TTL panic and EXT-04 stale specification entrypoint in issue1291.",
+      "non_goals_inline": "No compiler/prompt changes, normative language changes, Runtime source, providers/cloud, shared owner replacement, main edits or internal SSD builds.",
+      "validation_plan_inline": "Focused session_ledger Rust unit tests and public session CLI persistence/refusal tests; checked duration and timestamp overflow leave in-memory and durable ledger unchanged; documentation ownership/link inspection. Native proof, independent review, required public CLI CI integration separately.",
+      "planned_pvf_lane": "local",
+      "notes_risks_inline": "PVF local_contract deterministic bounded CPU/filesystem; all cache/targets/scratch FastWork. No installed Runtime acceptance claim; v0.87 milestones retain historical truth."
+    },
+    "srp": {},
+    "sor": {
+      "summary": "Correct ADL-1240-EXT-03 session TTL panic and EXT-04 stale specification entrypoint in issue1291.",
+      "non_goals_inline": "No compiler/prompt changes, normative language changes, Runtime source, providers/cloud, shared owner replacement, main edits or internal SSD builds."
+    }
+  },
+  "validators": [
+    {
+      "id": "session-ledger",
+      "program": "cargo",
+      "args": [
+        "test",
+        "--locked",
+        "--manifest-path",
+        "adl/Cargo.toml",
+        "--lib",
+        "session_ledger::tests"
+      ],
+      "success_marker": "test result: ok.",
+      "timeout_seconds": 300
+    }
+  ],
+  "publication": {
+    "base": "main",
+    "title": "Reject overflowing session TTLs and refresh specification ownership",
+    "body": "Reject unrepresentable session expiration before ledger mutation and cover unchanged-state failures. Correct specification navigation and label old milestone context historical without altering normative draft text.\n\nCloses #1291",
+    "draft": true
+  }
+}

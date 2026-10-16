@@ -3,7 +3,7 @@
 
 This directory is the specification entrypoint for **Agent Design Language (ADL)**. It contains the language-level materials that define ADL as a design and authoring system: normative specification text, schema artifacts, and specification examples.
 
-The specification is intentionally separate from the Rust runtime in `../adl/`. The goal of this directory is to make the language understandable on its own terms: its semantics, invariants, contracts, and design intent.
+The specification is intentionally separate from the public Rust CLI and contracts in `../adl/`. The Runtime implementation is owned by the separate [`agent-logic-runtime`](https://github.com/agent-logic/agent-logic-runtime) repository. The goal of this directory is to make the language understandable on its own terms: its semantics, invariants, contracts, and design intent.
 
 ## Why the Specification Matters
 
@@ -19,20 +19,17 @@ It provides:
 ## Current Status
 
 - Specification status: **ADL 1.0 draft**
-- Current active milestone in the main repo: **v0.87.1**
-- Most recently completed closure milestone in the main repo: **v0.87**
-- Previous closure milestone in the main repo: **v0.86**
 - Current role of this directory: language and schema reference for the evolving ADL design
 
 The specification is still evolving. Clarity, coherence, and explicit contracts take priority over premature stability.
 
-## Recent Milestone Context
+## Historical Milestone Context
 
-- stronger pressure to keep language semantics distinct from the now-active `v0.87.1` runtime-completion execution tail
+The milestone notes below preserve historical context. They do not describe the current repository layout or active milestone.
 
 ### v0.87.1 — Runtime Completion And Review Tail
 
-v0.87.1 is the active implementation-and-review milestone. It is not primarily a spec milestone, but it matters here because it sharpens the boundary between language semantics and runtime-specific proof surfaces.
+v0.87.1 was an implementation-and-review milestone before the repository split. It was not primarily a spec milestone, but it sharpened the boundary between language semantics and runtime-specific proof surfaces.
 
 Highlights relevant to the spec:
 - runtime-completion docs and feature surfaces are now concrete enough that spec text must avoid accidentally claiming runtime-specific behavior as language law
@@ -115,7 +112,8 @@ Historical and repo-wide reference materials live outside `adl-spec/`:
 This directory is for **language semantics, invariants, and design intent**.
 
 Use these boundaries consistently:
-- runtime implementation details belong under `../adl/`
+- public CLI and contract implementation details belong under `../adl/`
+- Runtime implementation details belong in the separate [`agent-logic-runtime`](https://github.com/agent-logic/agent-logic-runtime) repository
 - versioned milestone and release behavior belong under `../docs/milestones/`
 - cross-cutting architectural decisions belong under `../docs/adr/`
 
@@ -154,7 +152,8 @@ Small clarifications, typo fixes, examples, and explanatory notes that do not ch
 For broader project context:
 - root project overview: `../README.md`
 - repository license: `../LICENSE`
-- runtime and CLI guide: `../adl/README.md`
+- public CLI and contracts guide: `../adl/README.md`
+- post-split repository ownership: `../docs/REPOSITORIES.md`
 - documentation index: `../docs/README.md`
 - contributor workflow: `../CONTRIBUTING.md`
 - codex operating procedure: `../docs/codex_playbook.md`
