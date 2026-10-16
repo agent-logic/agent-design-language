@@ -107,7 +107,7 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `node --test tools/test_podcast_migration.mjs; python 3 -B tools/public_adl/test_validation_interfaces.py; python 3 adl/tools/generate_tool_surface_registry.py --check; native csdlc proof 1285`
+  - `node --test tools/test_podcast_migration.mjs; python3 -B tools/public_adl/test_validation_interfaces.py; python3 adl/tools/generate_tool_surface_registry.py --check; native csdlc proof 1285`
     `Five migration and negative cases;12 routing cases; generated registry currency; native validator proof. Destination offline launch/studio/audio-policy synthetic fixtures separately passed.`
 - Results:
   - `Focused checks passed. Full 1223 historical guard fails at unchanged baseline on retained-document drift; not claimed passed. No provider or deployment qualification.`
