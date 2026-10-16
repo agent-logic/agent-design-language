@@ -2,7 +2,7 @@
 
 ## Current disposition summary
 
-Eleven findings received: **all eleven have evidence-backed resolution for the selected, bounded review candidate**. The final disposition table at the end supersedes earlier interim counts. Final independent synthesis, native publication/CI and milestone acceptance remain separate pending decisions; this register does not assert a new repaired-source distributable archive or deployment. Product source is `ac2b596915538f3ed9ce418aec5aa7b917c18fd4`; selected local candidate packet is #1236 `1e632116d0e290db1fb7239277fe9e6824c85b1d`, with internal checkpoint #1238 `fb583a9ddda48afc9c1f5d245ba592a53abafa97`. Local committed inputs are readable; their remote update was in progress when consumed.
+Eleven findings received: **all eleven have evidence-backed resolution for the selected, bounded review candidate**. The final disposition table at the end supersedes earlier interim counts. Final independent synthesis, native publication/CI and milestone acceptance remain separate pending decisions; the existing integrated qualification artifact now supplies verified repaired-source package archives; no installed executable product or deployment is inferred. Product source is `ac2b596915538f3ed9ce418aec5aa7b917c18fd4`; selected local candidate packet is #1236 `1e632116d0e290db1fb7239277fe9e6824c85b1d`, with internal checkpoint #1238 `fb583a9ddda48afc9c1f5d245ba592a53abafa97`. Local committed inputs are readable; their remote update was in progress when consumed.
 
 All earlier sections below, up to “Consolidated retained-evidence dispositions,” are retained historical intake snapshots. Their open counts and present-tense descriptions apply to their stated source snapshots, not current status; they are preserved to show the original findings and subsequent evidence, not to reopen resolved findings.
 
@@ -189,6 +189,20 @@ Inspected the exact #1236/#1238 local commits named above. These are source-boun
 | ADL-1240-EXT-03 | Fixed by reviewed TTL1a979c83 and strengthenedtest38761b08, mergedac2b5969; checked errors precede mutation. |
 | ADL-1240-EXT-04 | Fixed in the same delivered #1291 source: current specification ownership/navigation corrected, normative draft preserved. |
 
-**Denominator: eleven received, eleven resolved within their stated scopes, zero undispositioned received findings.** This is not a claim no further findings can arise. The original independent reviewer must consume this exact register, final source/candidate and internal checkpoint for the bounded synthesis. No findings were deferred into v0.93.2 or dropped from the denominator.
+**Denominator: eleven received, eleven resolved within their stated scopes, zero undispositioned received findings.** This is not a claim no further findings can arise. WorkerBee #16 is assigned the final synthesis and must consume this exact register, final source/candidate and internal checkpoint. The original independent agent authored the source and repair-delta reports, not the new synthesis. No findings were deferred into v0.93.2 or dropped from the denominator.
 
-Remaining release limitations are explicit: final sourceac2b5969 has exact-tree green integrated CI and offline installed-consumer proof, but #1236 does not claim a newly delivered five-package distributable archive; old #1223 archive bytes remain historical. The selected policy artifact is retained under controlled access after remote expiry, not publicly downloadable. Neither source-ready review nor this register proves current installed Runtime, Linux Runtime execution, active Enterprise enforcement, live website operation or public deployment. Final synthesis must assess required delivery scope against these limits before #1245 can record acceptance; this register does not silently waive a required deliverable.
+Remaining release limitations are explicit: the selected policy artifact is retained under controlled access after remote expiry, not publicly downloadable. Neither source-ready review nor this register proves current installed Runtime, Linux Runtime execution, active Enterprise enforcement, live website operation or public deployment. Final synthesis must assess required delivery scope against these limits before #1245 can record acceptance; this register does not silently waive a required deliverable.
+
+## Verified repaired-source package availability correction
+
+The earlier absence statement was an evidence-location gap, now resolved. Root downloaded existing integrated qualification artifact `12023458238` once and verified its five package hashes against the retained report, with all matching. Source `e0b54abf76c2e0c6ed19cde612cb64d354f34766` has the already verified exact tree of accepted source `ac2b596915538f3ed9ce418aec5aa7b917c18fd4`. The retained verifier reports PASS for five packages, seven consumer cases, five negatives and 21 UTS fixtures. These are source-package tar archives used by the offline installed-consumer proof, not installed executable binary products. This lane read the verification receipt; it did not rebuild, retest, download or rehash.
+
+| Package | Bytes | Verified SHA-256 |
+| --- | ---: | --- |
+| adl-schema | 51200 | `50b78dccde2700f43a6b54d06f1c7b7ba6e31334faf1537a73158ff375485f38` |
+| adl-uts | 133120 | `fe49adb45afac766a1c2ec85db705e207898e2e2aa6a41d3791936e2277c976c` |
+| adl-language | 122880 | `e6543baf21d946508b5bac5aacaf88136f457e1e869e777f11076b89f8f84b1a` |
+| adl-compiler | 102400 | `0514a7fe46c01b3710af1ba58d61832e1543b2b42eb9da62f24690b85827529c` |
+| adl-legacy-contracts | 358400 | `1b90d2a2b29fd0947ff3e2125bab73e9c8e8c3021243d7fbc09675b38746694a` |
+
+The original independent reviewer could not be resumed because of the agent thread limit. WorkerBee #16 is performing final independent synthesis with the actual package evidence. Do not attribute that synthesis to `/root/adl_external_reviewer`; its original adverse report and repair assessment remain unchanged. The received eleven-finding denominator and bounded resolutions are unchanged by this availability correction.
