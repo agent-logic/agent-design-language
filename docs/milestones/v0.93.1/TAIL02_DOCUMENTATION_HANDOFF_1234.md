@@ -54,8 +54,8 @@ The reviewer should return a findings-first report with exact file/revision, con
 
 | Owner | Required answer |
 | --- | --- |
-| ADL #1232 / RD-11 | The current assessment accepts #1223/#1269 and explicitly remains NOT_READY for final release. Now that PR #1280 is merged, reconcile the newer #101 correction and exact changed-artifact/interface correspondence without repeating unchanged proof. |
-| ADL #1269 and CodeFriend #101 | The 13 merged documentation PRs and PR #113 correction artifact/gallery identify the available pages and exports. Use the recorded PR #113 merge, preserve visual sampling limits, and select the exact authorized final review packet. |
+| TAIL-03/#1236; #1232 evidence | The merged #1232 assessment accepts #1223/#1269 and explicitly remains NOT_READY for final release. Reconcile the newer #101 correction and exact changed-artifact/interface correspondence without repeating unchanged proof. |
+| TAIL-03/#1236 and TAIL-05/#1240 | The 13 merged documentation PRs and merged PR #113 correction artifact/gallery identify the available pages and exports. Preserve visual sampling limits and select the exact authorized final review packet. |
 | TAIL-03/#1236 | What are the frozen source/artifact/document versions, public/private destinations, access permissions and approved disclosure manifest? |
 | Launch/support owner | What audience, feedback channel, stop path and retention wording are approved for the final reviewer packet? |
 
