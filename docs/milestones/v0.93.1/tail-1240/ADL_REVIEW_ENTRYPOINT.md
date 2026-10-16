@@ -1,6 +1,6 @@
 # ADL repository external-review entrypoint
 
-Status: prepared for a bounded **ADL repository review**, not dispatched and not a Sprint 4 release-acceptance result. The latest operator request narrows this preparation to the ADL repository. Unrelated product release work does not prevent preparing or reviewing public ADL source.
+Status: prepared for a bounded **ADL repository review**, substantive review not started and not a Sprint 4 release-acceptance result. The latest operator request narrows this preparation to the ADL repository. Unrelated product release work does not prevent preparing or reviewing public ADL source.
 
 ## Exact revision and freeze
 
@@ -10,13 +10,13 @@ The freeze includes #1234 documentation merge `11e62214592612bf48ced201e80a06732
 
 The initial #1287 CI failure on a stale UTS test remains historical evidence; the reviewed correction above and successful exact-head checks supersede it. The earlier inspected baseline `2f26936b9c0ec582471a3f8fbebcce31b471512e` is orientation history only. Public ADL source-review preparation can now advance against the freeze without waiting for unrelated website release work.
 
-The #1238 internal report at `1c7246e340740ec23de8642b4bf749db3eabd115` remains an interim NOT_PROVEN release assessment. Final Sprint 4 TAIL-05 synthesis still requires accepted #1236/#1238 inputs and the resolved findings register; freezing public ADL does not satisfy those separate release gates. No reviewer has been dispatched by this packet.
+The #1238 internal report at `1c7246e340740ec23de8642b4bf749db3eabd115` remains an interim NOT_PROVEN release assessment. Final Sprint 4 TAIL-05 synthesis still requires accepted #1236/#1238 inputs and the resolved findings register; freezing public ADL does not satisfy those separate release gates. Reviewer assignment has been limited to the access preflight recorded below; substantive review has not started.
 
 ## Reader order
 
 1. Read `README.md`, `REVIEW.md`, `docs/REPOSITORIES.md`, `CONTRIBUTING.md` and `AGENTS.md` at the selected revision. The public repository owns language/contracts and installed-product routing; it does not own private product implementations.
 2. Read `adl/README.md`, `adl/Cargo.toml`, `adl/src/main.rs` and `adl/src/lib.rs`, then trace actual public dispatch/selection/refusal implementations and corresponding tests. There is no root Cargo workspace: every command uses its explicit package manifest.
-3. Read each public package's README, manifest, source and focused tests: `adl-schema/`, `adl-uts/`, `adl-v2/`, `adl-legacy-contracts/`. Compare the language specification and schemas in `adl-spec/` to parser/model/validation behavior and representative examples. Check retained compatibility boundaries rather than treating old-version paths as automatically defective.
+3. Read each public package's README, manifest, source and focused tests: `adl-schema/`, `adl-uts/`, `adl-legacy-contracts/`. For `adl-v2/`, start with its workspace `Cargo.toml`, then member READMEs/manifests/source under `crates/adl-language/` and `crates/adl-compiler/`; the workspace root has no README or `src/lib.rs`. Compare the language specification and schemas in `adl-spec/` to parser/model/validation behavior and representative examples. Check retained compatibility boundaries rather than treating old-version paths as automatically defective.
 4. Inspect `tools/public_adl/` validation/coverage policy and selected public CI workflows; use `tools/source_retirement/README.md` and #1223 retained correspondence evidence to assess the split. Read current user/operator guidance and source-linked commands; historical milestone/demo records retain their dates and original claims.
 
 ## Included and excluded surfaces
@@ -47,6 +47,12 @@ ADL dispatch readiness requires: a selected immutable ADL commit, the verified c
 
 ## Reviewer and access
 
-Use a fresh independent reviewer outside the ADL change-authoring and #1238 internal-review team, with no inherited implementation conversation. Record actual identity/affiliation and limitations; describe an independent agent honestly, not as an independent third-party organization. No paid provider call or reviewer dispatch is performed by this preparation.
+Use a fresh independent reviewer outside the ADL change-authoring and #1238 internal-review team, with no inherited implementation conversation. Record actual identity/affiliation and limitations; describe an independent agent honestly, not as an independent third-party organization. No paid provider call or substantive review is performed by this preparation.
 
 Public ADL source and public evidence require no new private access grant. Supply existing authorized local evidence only when a concrete interface question needs it; omit credentials, private source unrelated to the question, customer content and operational receipts. The assigned reviewer must identify inaccessible inputs and their effect on coverage rather than requesting blanket access. Verify actual access at assignment. Return findings first with severity, exact file/line, consequence and bounded fix, followed by examined/unexamined paths, source revision, reused/new proof and a verdict limited to ADL review scope.
+
+## Verified public ADL access preflight
+
+Fresh reviewer `OpenAI Codex /root/adl_external_reviewer` recorded ACCESS_PREFLIGHT_ONLY for packet `b282e79796e7016bd0d163bf7b1f4a816f63c0c4` and source `f75f0d3f9c4df85743638b956f2c2a80f3424f38`: all 34 selected packet, source and retained-proof paths were readable through local Git objects. The reviewer had no participation in change authoring, findings disposition or #1238 internal review and received no implementation conversation. It consulted the memory registry for orientation only; no conclusions were drawn. This establishes independent agent role, not third-party organizational independence. The retained coordinator receipt is named `adl-external-reviewer-access.json`.
+
+This was access verification only, with no substantive review, correctness judgment, tests, downloads, hash recomputation, provider calls or release acceptance. The workspace/member path clarification above corrects navigation, not a product finding. Full inventories and final accepted #1236/#1238 inputs were not examined. Private final-release evidence access remains unverified and remains a separate final Sprint 4 synthesis gate; it is not required for the public ADL inputs already checked.
