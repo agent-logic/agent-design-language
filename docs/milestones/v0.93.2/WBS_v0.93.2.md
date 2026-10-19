@@ -6,7 +6,7 @@ Planning template set: 1.1.0. Target: v0.93.2. Planning issue: #922. Accountable
 
 ## Status
 
-Planned and unopened. The operator approved the scope split; this package does not approve execution, provider spend, publication or release.
+Milestone opening authorized on 2026-10-19; [WP-01 #1296](https://github.com/agent-logic/agent-design-language/issues/1296) is in progress in Planning #12. See [opening record](OPENING_1296.md). Downstream execution, provider spend, deployment and release are not authorized by this opening.
 
 ## How To Use
 
@@ -20,7 +20,7 @@ Use version-qualified IDs. The execution graph owns exact dependencies and speci
 
 | ID | Sprint | Single result | Repository |
 |---|---|---|---|
-| WP-01 | 1 | Open the reviewed platform milestone from accepted v0.93.1 handoff | agent-design-language |
+| WP-01 | 1 | Open the reviewed v0.93.2 execution wave | agent-design-language |
 | RV-01 | 1 | Resolve plugin lifecycle design findings | agent-logic-runtime |
 | RV-02 | 1 | Adapt built-in components to the native plugin contract | agent-logic-runtime |
 | RV-03 | 1 | Implement recoverable plugin generation transitions | agent-logic-runtime |
@@ -58,21 +58,36 @@ Use version-qualified IDs. The execution graph owns exact dependencies and speci
 | CM-02 | 3 | Migrate one citizen without conflicting active identity | agent-logic-runtime |
 | CM-03 | 3 | Create a governed descendant with distinct identity | agent-logic-runtime |
 | CM-04 | 3 | Qualify citizen migration and reproduction recovery | agent-logic-runtime |
-| PY-01 | Deferred | Retained for a later milestone; excluded from the 67 active planning identities | agent-design-language |
 | DEMO-GOV | 3 | Run integrated governance demonstrations | agent-logic-runtime |
 | DEMO-SEC | 3 | Run integrated security demonstrations | agent-logic-enterprise-security |
-| INTEGRATE | 4 | Integrate governance with security and plugin operations | agent-logic-runtime |
-| QUALIFY | 4 | Independently qualify the installed milestone | agent-logic-runtime |
-| TAIL-01 | 4 | Quality gate | agent-design-language |
-| TAIL-02 | 4 | Documentation review and external-review handoff | agent-design-language |
-| TAIL-03 | 4 | Publication finalization | agent-design-language |
-| TAIL-04 | 4 | Internal milestone review | agent-design-language |
-| TAIL-05 | 4 | External or third-party review | agent-design-language |
-| TAIL-06 | 4 | Accepted-findings remediation or explicit deferral capture | agent-design-language |
-| TAIL-07 | 4 | Next-milestone planning | agent-design-language |
-| TAIL-08 | 4 | Next-milestone closeout planning | agent-design-language |
-| TAIL-09 | 4 | Next-milestone planning review | agent-design-language |
-| TAIL-10 | 4 | Release ceremony and milestone close | agent-design-language |
+| GHB-SPRINT | 4 | [GHB][Sprint] Deliver governed recursive improvement in the installed Agent Logic Runtime | agent-logic-runtime |
+| GHB-WP00 | 4 | [GHB][WP00] Source-to-caller audit and baseline | agent-logic-runtime |
+| GHB-WP01 | 4 | [GHB][WP01] Normative specification and invariants | agent-design-language |
+| GHB-WP02 | 4 | [GHB][WP02] Schemas and installed contract parity | agent-design-language |
+| GHB-WP03 | 4 | [GHB][WP03] Belief update and experiment selection | agent-logic-runtime |
+| GHB-WP04 | 4 | [GHB][WP04] Candidate generation and archive | agent-logic-runtime |
+| GHB-WP05 | 4 | [GHB][WP05] Isolated body builder and experiment executor | agent-logic-runtime |
+| GHB-WP06 | 4 | [GHB][WP06] Independent evaluator and promotion decision | agent-logic-runtime |
+| GHB-WP07 | 4 | [P1] Complete the governed resident-to-birthday activation path | agent-logic-runtime |
+| GHB-WP08 | 4 | [GHB][WP08] Successor activation and rollback | agent-logic-runtime |
+| GHB-WP09 | 4 | [GHB][WP09] Live GHB resident loop and Gate A | agent-logic-runtime |
+| GHB-WP10 | 4 | [GHB][WP10] Bounded recursive improvement | agent-logic-runtime |
+| GHB-WP11 | 4 | [GHB][WP11] Longitudinal qualification, fleet adoption and Gate B | agent-logic-runtime |
+| GHB-WP12 | 4 | [GHB][WP12] Research evidence and operator documentation | agent-logic-runtime |
+| INTEGRATE | 5 | Integrate governance with security and plugin operations | agent-logic-runtime |
+| QUALIFY | 5 | Independently qualify the installed milestone | agent-logic-runtime |
+| TAIL-01 | 5 | Quality gate | agent-design-language |
+| TAIL-02 | 5 | Documentation review and external-review handoff | agent-design-language |
+| TAIL-03 | 5 | Publication finalization | agent-design-language |
+| TAIL-04 | 5 | Internal milestone review | agent-design-language |
+| TAIL-05 | 5 | External or third-party review | agent-design-language |
+| TAIL-06 | 5 | Accepted-findings remediation or explicit deferral capture | agent-design-language |
+| TAIL-07 | 5 | Next-milestone planning | agent-design-language |
+| TAIL-08 | 5 | Next-milestone closeout planning | agent-design-language |
+| TAIL-09 | 5 | Next-milestone planning review | agent-design-language |
+| TAIL-10 | 5 | Release ceremony and milestone close | agent-design-language |
+| CF-92 | 5 | Deploy and launch the qualified CodeFriend service | codefriend |
+| PY-01 | Deferred | Retained for a later milestone; excluded from the 67 active identities | agent-design-language |
 
 ## Work Packages
 
@@ -104,4 +119,4 @@ The milestone retains the existing platform tracks and adds CodeFriend plus the 
 
 ## #1242 scope reconciliation
 
-Reuse merged #1259; 67 planned identities retain the full approved scope except PY-01. Its complete original definition is preserved in `tail07-1242/SUCCESSOR_PLAN.json`. Affect/humour remain outside v0.93.2; no later milestone is activated here. #1241 final residual dispositions and selected installed lockset correspondence remain pending; source retirement #1223 is merged, not a public deployment.
+Reuse merged #1259; 67 planned identities retain the full approved scope except PY-01. Its complete original definition is preserved in `tail07-1242/SUCCESSOR_PLAN.json`. Affect/humour remain outside v0.93.2; no later milestone is activated here. #1241 final dispositions and selected installed lockset correspondence were accepted in #1245; see [opening record](OPENING_1296.md); source retirement #1223 is merged, not a public deployment.

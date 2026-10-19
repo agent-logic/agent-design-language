@@ -27,3 +27,15 @@ test('v0.93.2 graphs agree on the complete allocated scope', () => {
     for (const dep of ['ADL-1150','CodeFriend-45','CodeFriend-46','codefriend.ai-21']) assert.ok(graph.external_dependencies[dep]);
   }
 });
+
+test('opening WBS covers each allocated identity once and preserves the sprint assignment', () => {
+  const wave = JSON.parse(fs.readFileSync(root + files[0], 'utf8'));
+  const table = fs.readFileSync(root + 'WBS_v0.93.2.md', 'utf8');
+  const rows = [...table.matchAll(/^\| ([A-Z0-9-]+) \| ([1-5]) \|/gm)].map((m) => [m[1], Number(m[2])]);
+  assert.equal(rows.length, 67);
+  assert.equal(new Set(rows.map(([id]) => id)).size, 67);
+  assert.deepEqual(Object.fromEntries(rows), Object.fromEntries(wave.work_packages.map((w) => [w.wp, w.sprint])));
+  assert.deepEqual(wave.opening.execution_authorized, ['WP-01']);
+  assert.equal(wave.opening.downstream_execution_authorized, false);
+  assert.equal(wave.opening.deployment_authorized, false);
+});

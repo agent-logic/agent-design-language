@@ -1,7 +1,7 @@
 {
   "milestone": "v0.93.2",
   "version": "v0.93.2",
-  "status": "approved_scope_draft_not_open",
+  "status": "wp01_open_downstream_not_activated",
   "serialization": "JSON-compatible YAML",
   "work_packages": [
     {
@@ -25,7 +25,9 @@
       "pvf": "planning_contract",
       "source": "README.md",
       "sprint": 1,
-      "existing_issue": null
+      "existing_issue": 1296,
+      "issue_repository": "agent-logic/agent-design-language",
+      "status": "in_progress"
     },
     {
       "wp": "RV-01",
@@ -1492,7 +1494,7 @@
     }
   ],
   "sprint_plan": {
-    "status": "draft_allocated_not_open",
+    "status": "allocated_wp01_open",
     "sprint_count": 5,
     "sizing": "Outcome-based groups; owners and estimates required before activation, not fixed calendar promises.",
     "execution_rule": "Respect dependency acceptance; grouping gives no paid/cloud/publication authority.",
@@ -1612,5 +1614,44 @@
     ],
     "deferred_definition": "tail07-1242/SUCCESSOR_PLAN.json#deferred",
     "execution_authorized": false
-  }
+  },
+  "opening": {
+    "issue": 1296,
+    "repository": "agent-logic/agent-design-language",
+    "authorized_on": "2026-10-19",
+    "owner": "Planning #12",
+    "execution_authorized": [
+      "WP-01"
+    ],
+    "downstream_execution_authorized": false,
+    "deployment_authorized": false,
+    "predecessor_issue": 1230,
+    "predecessor_closure": "closed_with_native_coordination_completed",
+    "acceptance_pr": 1295,
+    "acceptance_merge": "69fae86cde65861cdace95183c2c373dcb09ca01",
+    "record": "OPENING_1296.md"
+  },
+  "existing_issue_routing": [
+    {
+      "wp": "WP-01",
+      "repository": "agent-logic/agent-design-language",
+      "issue": 1296,
+      "state": "OPEN",
+      "disposition": "opening_in_progress"
+    },
+    {
+      "wp": "GHB-WP07",
+      "repository": "agent-logic/agent-logic-runtime",
+      "issue": 112,
+      "state": "CLOSED",
+      "disposition": "reuse_identity_reassess_acceptance_at_dependency_gate"
+    },
+    {
+      "wp": "CF-92",
+      "repository": "agent-logic/codefriend",
+      "issue": 92,
+      "state": "OPEN",
+      "disposition": "reuse_existing_launch_issue_no_deployment_authority"
+    }
+  ]
 }

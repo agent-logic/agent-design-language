@@ -1,7 +1,7 @@
 {
   "schema": "adl.v093.first_pass.v1",
   "milestone": "v0.93.2",
-  "status": "approved_scope_draft_not_open",
+  "status": "wp01_open_downstream_not_activated",
   "planning_issue": 922,
   "opening_requires": [
     "Accepted predecessor closure and exact handoff",
@@ -47,7 +47,6 @@
     "CM-02",
     "CM-03",
     "CM-04",
-    "PY-01",
     "CF-92",
     "GHB Gate A through GHB-WP09",
     "GHB Gate B through GHB-WP11",
@@ -63,8 +62,8 @@
     "agent-logic-enterprise-security": "private"
   },
   "decisions_pending": [
-    "Named owners, effort estimates and activation capacity",
-    "Explicit platform execution and provider/cloud authority"
+    "Downstream named owners, issue identities, effort estimates and activation capacity",
+    "Exact paid/provider/cloud/deployment authority where required"
   ],
   "work_packages": [
     {
@@ -87,7 +86,7 @@
       ],
       "phase": "opening",
       "source": "README.md",
-      "status": "candidate",
+      "status": "in_progress",
       "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
       "pvf": "planning_contract",
       "non_goals": [
@@ -104,7 +103,9 @@
         "milestone": "v0.93",
         "id": "WP-01",
         "kind": "version_specific_gate"
-      }
+      },
+      "existing_issue": 1296,
+      "issue_repository": "agent-logic/agent-design-language"
     },
     {
       "id": "RV-01",
@@ -2641,12 +2642,13 @@
     }
   ],
   "predecessor_reconciliation": {
-    "status": "pending_final_accepted_handoff",
+    "status": "accepted_with_retained_scope_limits",
     "predecessor": "v0.93.1",
-    "no_inferred_acceptance": true
+    "no_inferred_acceptance": true,
+    "evidence": "OPENING_1296.md"
   },
   "sprint_plan": {
-    "status": "draft_allocated_not_open",
+    "status": "allocated_wp01_open",
     "sprint_count": 5,
     "sizing": "Outcome-based groups; owners and estimates required before activation, not fixed calendar promises.",
     "execution_rule": "Respect dependency acceptance; grouping gives no paid/cloud/publication authority.",
@@ -2760,7 +2762,29 @@
     "CodeFriend-46": "https://github.com/agent-logic/codefriend/issues/46 \u2014 built waiting-list predecessor",
     "codefriend.ai-21": "https://github.com/agent-logic/codefriend.ai/issues/21 \u2014 website predecessor"
   },
-  "existing_issue_routing": [],
+  "existing_issue_routing": [
+    {
+      "wp": "WP-01",
+      "repository": "agent-logic/agent-design-language",
+      "issue": 1296,
+      "state": "OPEN",
+      "disposition": "opening_in_progress"
+    },
+    {
+      "wp": "GHB-WP07",
+      "repository": "agent-logic/agent-logic-runtime",
+      "issue": 112,
+      "state": "CLOSED",
+      "disposition": "reuse_identity_reassess_acceptance_at_dependency_gate"
+    },
+    {
+      "wp": "CF-92",
+      "repository": "agent-logic/codefriend",
+      "issue": 92,
+      "state": "OPEN",
+      "disposition": "reuse_existing_launch_issue_no_deployment_authority"
+    }
+  ],
   "counts": {
     "core_work_packages": 67,
     "existing_additional_issues": 0,
@@ -2777,5 +2801,21 @@
     ],
     "deferred_definition": "tail07-1242/SUCCESSOR_PLAN.json#deferred",
     "execution_authorized": false
+  },
+  "opening": {
+    "issue": 1296,
+    "repository": "agent-logic/agent-design-language",
+    "authorized_on": "2026-10-19",
+    "owner": "Planning #12",
+    "execution_authorized": [
+      "WP-01"
+    ],
+    "downstream_execution_authorized": false,
+    "deployment_authorized": false,
+    "predecessor_issue": 1230,
+    "predecessor_closure": "closed_with_native_coordination_completed",
+    "acceptance_pr": 1295,
+    "acceptance_merge": "69fae86cde65861cdace95183c2c373dcb09ca01",
+    "record": "OPENING_1296.md"
   }
 }

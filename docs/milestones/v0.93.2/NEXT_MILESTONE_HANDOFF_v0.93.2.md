@@ -6,7 +6,7 @@ Planning template set: 1.1.0. Target: v0.93.2. Planning issue: #922. Accountable
 
 ## Status
 
-Planned and unopened. The operator approved the scope split; this package does not approve execution, provider spend, publication or release.
+Milestone opening authorized on 2026-10-19; [WP-01 #1296](https://github.com/agent-logic/agent-design-language/issues/1296) is in progress in Planning #12. See [opening record](OPENING_1296.md). Downstream execution, provider spend, deployment and release are not authorized by this opening.
 
 ## Current status
 
@@ -34,4 +34,4 @@ The milestone retains the existing platform tracks and adds CodeFriend plus the 
 
 ## #1242 scope reconciliation
 
-Reuse merged #1259; 67 planned identities retain the full approved scope except PY-01. Its complete original definition is preserved in `tail07-1242/SUCCESSOR_PLAN.json`. Affect/humour remain outside v0.93.2; no later milestone is activated here. #1241 final residual dispositions and selected installed lockset correspondence remain pending; source retirement #1223 is merged, not a public deployment.
+Reuse merged #1259; 67 planned identities retain the full approved scope except PY-01. Its complete original definition is preserved in `tail07-1242/SUCCESSOR_PLAN.json`. Affect/humour remain outside v0.93.2; no later milestone is activated here. #1241 final dispositions and selected installed lockset correspondence were accepted in #1245; see [opening record](OPENING_1296.md); source retirement #1223 is merged, not a public deployment.

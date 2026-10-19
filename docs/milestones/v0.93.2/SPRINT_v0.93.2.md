@@ -6,11 +6,11 @@ Planning template set: 1.1.0. Target: v0.93.2. Planning issue: #922. Accountable
 
 ## Status
 
-Planned and unopened. The operator approved the scope split; this package does not approve execution, provider spend, publication or release.
+Milestone opening authorized on 2026-10-19; [WP-01 #1296](https://github.com/agent-logic/agent-design-language/issues/1296) is in progress in Planning #12. See [opening record](OPENING_1296.md). Downstream execution, provider spend, deployment and release are not authorized by this opening.
 
 ## How To Use
 
-Five outcome groups are allocated with no implied fixed duration. Groups 1–4 retain the platform and CodeFriend sequence; group 5 carries the longer GHB Gate A/Gate B program. Assign owners and capacity before activation.
+Five outcome groups are allocated with no implied fixed duration. Groups 1–3 establish the platform prerequisites; group 4 carries GHB Gate A/Gate B, and group 5 integrates and qualifies the milestone including CodeFriend launch. Assign owners and capacity before activation.
 
 ## Sprint Overview
 

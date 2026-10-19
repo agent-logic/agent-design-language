@@ -15,8 +15,8 @@ EXPECTED = {
     "source_tasks": 83,
     "successor_tasks": [43, 67],
     "version_specific_gates": 13,
-    "negative_fixtures": 24,
-    "execution_opened": False,
+    "negative_fixtures": 27,
+    "execution_opened": True,
 }
 
 

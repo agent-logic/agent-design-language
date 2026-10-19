@@ -6,7 +6,7 @@ Planning template set: 1.1.0. Target: v0.93.2. Planning issue: #922. Accountable
 
 ## Status
 
-Planned and unopened. The operator approved the scope split; this package does not approve execution, provider spend, publication or release.
+Milestone opening authorized on 2026-10-19; [WP-01 #1296](https://github.com/agent-logic/agent-design-language/issues/1296) is in progress in Planning #12. See [opening record](OPENING_1296.md). Downstream execution, provider spend, deployment and release are not authorized by this opening.
 
 ## Purpose
 
@@ -39,7 +39,7 @@ Accepted v0.93.1 handoff and pinned repository lockset are prerequisites: extern
 
 ## Execution boundary
 
-Five proposed delivery groups; no dates or staffing promises. Every task owns one result. Final predecessor residuals, numeric issue mapping, named owners and resources must be reconciled before opening.
+Five allocated delivery groups; no dates or staffing promises. WP-01 owns opening reconciliation. Each downstream task needs its own issue mapping, owner, accepted dependencies and resources before activation.
 
 ## Existing Observatory backlog
 
@@ -56,7 +56,7 @@ The approved scope is the 52 platform candidates retained after deferring PY-01,
 | `agent-logic/agent-design-language` | active owner or dependency; exact work-package routing required before execution |
 | `agent-logic/agent-logic-runtime` | active owner or dependency; exact work-package routing required before execution |
 | `agent-logic/codefriend` | active owner or dependency; exact work-package routing required before execution |
-| `agent-logic/cognitive-sdlc` | no matching open v0.93.2 issue found; observe and reuse only if a mapped dependency is verified |
+| `agent-logic/cognitive-sdlc` | #304 installation-identity repair is a separately requested v0.93.2 follow-up, outside the 67 core identities |
 | `agent-logic/codefriend.ai` | active owner or dependency; exact work-package routing required before execution |
 | `agent-logic/agent-logic-infrastructure` | no matching open v0.93.2 issue found; observe and reuse only if a mapped dependency is verified |
 | `agent-logic/agent-logic-enterprise-security` | active owner or dependency; exact work-package routing required before execution |
@@ -69,4 +69,4 @@ The approved scope is the 52 platform candidates retained after deferring PY-01,
 
 ## #1242 scope reconciliation
 
-Reuse merged #1259; 67 planned identities retain the full approved scope except PY-01. Its complete original definition is preserved in `tail07-1242/SUCCESSOR_PLAN.json`. Affect/humour remain outside v0.93.2; no later milestone is activated here. #1241 final residual dispositions and selected installed lockset correspondence remain pending; source retirement #1223 is merged, not a public deployment.
+Reuse merged #1259; 67 planned identities retain the full approved scope except PY-01. Its complete original definition is preserved in `tail07-1242/SUCCESSOR_PLAN.json`. Affect/humour remain outside v0.93.2; no later milestone is activated here. #1241 final dispositions and selected installed lockset correspondence were accepted in #1245; see [opening record](OPENING_1296.md); source retirement #1223 is merged, not a public deployment.
