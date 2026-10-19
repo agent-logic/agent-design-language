@@ -1,122 +1,70 @@
-# v0.93.2 Work Breakdown Structure
+# v0.93.2 Wbs
 
 ## Metadata
 
-Planning template set: 1.1.0. Target: v0.93.2. Planning issue: #922. Accountable role: milestone owner; named execution owners remain unassigned.
+Planning template set: 1.1.0. Target: v0.93.2. Setup issue: ADL #1296. Owner of planning: Planning #12. Product execution owners remain unassigned.
 
 ## Status
 
-Milestone opening authorized on 2026-10-19; [WP-01 #1296](https://github.com/agent-logic/agent-design-language/issues/1296) is in progress in Planning #12. See [opening record](OPENING_1296.md). Downstream execution, provider spend, deployment and release are not authorized by this opening.
-
-## How To Use
-
-Use version-qualified IDs. The execution graph owns exact dependencies and specifications own acceptance.
+WP-01 #1296 is in progress. Execution is authorized for C-SDLC #296–299 only; other downstream work remains unactivated. No deployment, provider spend, release or Runtime restart is authorized by these documents.
 
 ## WBS Summary
 
-67 planned identities: the retained 52 platform candidates, existing CodeFriend #92, plus `GHB-SPRINT` and `GHB-WP00` through `GHB-WP12`. Existing #875 is a separately gated v0.93.1 sidecar and is not counted in 52. Podcast #671 is completed in v0.92.2 (PR #1174).
-
-## Candidate WP Sequence
-
-| ID | Sprint | Single result | Repository |
-|---|---|---|---|
-| WP-01 | 1 | Open the reviewed v0.93.2 execution wave | agent-design-language |
-| RV-01 | 1 | Resolve plugin lifecycle design findings | agent-logic-runtime |
-| RV-02 | 1 | Adapt built-in components to the native plugin contract | agent-logic-runtime |
-| RV-03 | 1 | Implement recoverable plugin generation transitions | agent-logic-runtime |
-| RV-09 | 1 | Migrate versioned plugin state | agent-logic-runtime |
-| RV-10 | 1 | Reconfigure a plugin atomically | agent-logic-runtime |
-| RV-11 | 1 | Remove a plugin without breaking dependents | agent-logic-runtime |
-| RV-04 | 1 | Run a governed process plugin | agent-logic-runtime |
-| RV-05 | 1 | Run a bounded WASM component plugin | agent-logic-runtime |
-| RV-06 | 1 | Prove cross-adapter module equivalence | agent-logic-runtime |
-| RV-07 | 1 | Move provider instances to plugin configuration | agent-logic-runtime |
-| RV-08 | 1 | Qualify installed plugin recovery and operations | agent-logic-runtime |
-| GOV-01 | 2 | Enforce citizen and guest actor boundaries | agent-logic-runtime |
-| GOV-02 | 2 | Evaluate trace-grounded rights and duties | agent-logic-runtime |
-| GOV-03 | 2 | Apply evidence-backed standing transitions | agent-logic-runtime |
-| GOV-04 | 2 | Produce constitutional review from evidence | agent-logic-runtime |
-| GOV-05 | 2 | Resolve challenges and appeals | agent-logic-runtime |
-| GOV-06 | 2 | Persist governed private ToM updates | agent-logic-runtime |
-| GOV-07 | 2 | Preserve ToM conflict and temporal decay | agent-logic-runtime |
-| GOV-08 | 2 | Persist governed relationship context | agent-logic-runtime |
-| GOV-09 | 2 | Publish challengeable reputation projections | agent-logic-runtime |
-| GOV-10 | 2 | Consume redacted shared social memory | agent-logic-runtime |
-| GOV-11 | 2 | Enforce delegated action authority | agent-logic-runtime |
-| GOV-12 | 2 | Execute governed upstream cognition | agent-logic-runtime |
-| GOV-13 | 2 | Communicate without private inspection | agent-logic-runtime |
-| GOV-14 | 2 | Evaluate bounded social-contract obligations | agent-logic-runtime |
-| GOV-15 | 2 | Operate governed guild membership and action | agent-logic-runtime |
-| GOV-16 | 2 | Produce redacted polis governance health | agent-logic-runtime |
-| WP-S1 | 2 | Enforce the enterprise zero-trust boundary | agent-logic-enterprise-security |
-| WP-S2 | 2 | Enforce per-action and per-message authorization | agent-logic-enterprise-security |
-| WP-S3 | 2 | Enforce key and secret lifecycle | agent-logic-enterprise-security |
-| WP-S4 | 2 | Produce tamper-evident incident evidence | agent-logic-enterprise-security |
-| WP-S5 | 2 | Enforce protected data lifecycle and isolation | agent-logic-enterprise-security |
-| WP-S6 | 2 | Operate a replayable security regression drill | agent-logic-enterprise-security |
-| CM-01 | 3 | Accept citizen migration and descendant identity contracts | agent-logic-runtime |
-| CM-02 | 3 | Migrate one citizen without conflicting active identity | agent-logic-runtime |
-| CM-03 | 3 | Create a governed descendant with distinct identity | agent-logic-runtime |
-| CM-04 | 3 | Qualify citizen migration and reproduction recovery | agent-logic-runtime |
-| DEMO-GOV | 3 | Run integrated governance demonstrations | agent-logic-runtime |
-| DEMO-SEC | 3 | Run integrated security demonstrations | agent-logic-enterprise-security |
-| GHB-SPRINT | 4 | [GHB][Sprint] Deliver governed recursive improvement in the installed Agent Logic Runtime | agent-logic-runtime |
-| GHB-WP00 | 4 | [GHB][WP00] Source-to-caller audit and baseline | agent-logic-runtime |
-| GHB-WP01 | 4 | [GHB][WP01] Normative specification and invariants | agent-design-language |
-| GHB-WP02 | 4 | [GHB][WP02] Schemas and installed contract parity | agent-design-language |
-| GHB-WP03 | 4 | [GHB][WP03] Belief update and experiment selection | agent-logic-runtime |
-| GHB-WP04 | 4 | [GHB][WP04] Candidate generation and archive | agent-logic-runtime |
-| GHB-WP05 | 4 | [GHB][WP05] Isolated body builder and experiment executor | agent-logic-runtime |
-| GHB-WP06 | 4 | [GHB][WP06] Independent evaluator and promotion decision | agent-logic-runtime |
-| GHB-WP07 | 4 | [P1] Complete the governed resident-to-birthday activation path | agent-logic-runtime |
-| GHB-WP08 | 4 | [GHB][WP08] Successor activation and rollback | agent-logic-runtime |
-| GHB-WP09 | 4 | [GHB][WP09] Live GHB resident loop and Gate A | agent-logic-runtime |
-| GHB-WP10 | 4 | [GHB][WP10] Bounded recursive improvement | agent-logic-runtime |
-| GHB-WP11 | 4 | [GHB][WP11] Longitudinal qualification, fleet adoption and Gate B | agent-logic-runtime |
-| GHB-WP12 | 4 | [GHB][WP12] Research evidence and operator documentation | agent-logic-runtime |
-| INTEGRATE | 5 | Integrate governance with security and plugin operations | agent-logic-runtime |
-| QUALIFY | 5 | Independently qualify the installed milestone | agent-logic-runtime |
-| TAIL-01 | 5 | Quality gate | agent-design-language |
-| TAIL-02 | 5 | Documentation review and external-review handoff | agent-design-language |
-| TAIL-03 | 5 | Publication finalization | agent-design-language |
-| TAIL-04 | 5 | Internal milestone review | agent-design-language |
-| TAIL-05 | 5 | External or third-party review | agent-design-language |
-| TAIL-06 | 5 | Accepted-findings remediation or explicit deferral capture | agent-design-language |
-| TAIL-07 | 5 | Next-milestone planning | agent-design-language |
-| TAIL-08 | 5 | Next-milestone closeout planning | agent-design-language |
-| TAIL-09 | 5 | Next-milestone planning review | agent-design-language |
-| TAIL-10 | 5 | Release ceremony and milestone close | agent-design-language |
-| CF-92 | 5 | Deploy and launch the qualified CodeFriend service | codefriend |
-| PY-01 | Deferred | Retained for a later milestone; excluded from the 67 active identities | agent-design-language |
+31 planned identities across five dependency-based sprints. Preserve all 67 earlier identities through [the allocation register](../v0.93.2/REALLOCATION_1296.json). 21 retained identities plus five explicit Beta 1 product packages and four existing C-SDLC improvements plus independent CI #205; 46 platform identities move to v0.93.3.
 
 ## Work Packages
 
-Each row is a single outcome; supporting documentation and tests stay with that outcome. WP-01, INTEGRATE, QUALIFY and TAIL-01–TAIL-10 apply to this release separately from v0.93.1.
+| WP | Sprint | Repository | Outcome |
+| --- | --- | --- | --- |
+| WP-01 | 1 | agent-design-language | Reconcile the approved smaller milestones and losslessly route all prior identities without downstream activation. |
+| CF-B1-01 | 2 | codefriend | Review actual outputs and end-to-end journeys on representative repositories; agree a prioritized gap register and measurable Beta 1 acceptance denominator with the operator. |
+| WP-S1 | 2 | agent-logic-enterprise-security | Define and enforce CodeFriend principal, tenant, repository, service and paired-agent trust boundaries against supported Runtime interfaces; identify any missing primitive as a bounded prerequisite. |
+| CF-B1-02 | 3 | codefriend | Resolve accepted report-quality gaps against the comprehensive-review PDF reference, using Geist; verify supported export formats, evidence links and human readability. |
+| CF-B1-03 | 3 | codefriend | Resolve accepted review correctness, actionable-finding and recovery gaps using the agreed repository denominator. |
+| WP-S2 | 3 | agent-logic-enterprise-security | Enforce per-action and per-message least privilege, bounded delegation and revocation for CodeFriend using supported Runtime contracts; preserve denial reasons. |
+| WP-S3 | 3 | agent-logic-enterprise-security | Current scoped keys work and rotated/revoked keys fail in signed/encrypted message and checkpoint consumers. |
+| WP-S4 | 3 | agent-logic-enterprise-security | Produce tamper-evident, linked and redacted CodeFriend incident evidence accepted by the operator-review consumer; preserve full constitutional-appeal integration for v0.93.3. |
+| WP-S5 | 3 | agent-logic-enterprise-security | Enforce tenant/repository isolation, consent, retention, deletion and redacted CodeFriend exports; preserve citizen and social-memory integration for v0.93.3. |
+| CF-B1-04 | 3 | codefriend | Prove invited login, repository consent, agent pairing where enabled, first review and results, including revocation and recovery. |
+| CF-B1-05 | 3 | codefriend | Resolve accepted resource, diagnostics, retention and support gaps; verify bounded execution and safe disablement on the supported deployment configuration. |
+| WP-S6 | 3 | agent-logic-enterprise-security | One bounded red/blue/purple drill replays a seed per control area and produces mitigation, provenance, threat-board and release-risk evidence. |
+| DEMO-SEC | 3 | agent-logic-enterprise-security | Execute D9-D12 plus per-message ACIP cases against the private provider and installed Runtime. |
+| INTEGRATE | 4 | agent-logic-runtime | Integrate the exact CodeFriend, site, supported Runtime and enterprise-security lockset; prove complete customer journeys and safe disablement without Runtime v4 or GHB. |
+| QUALIFY | 4 | agent-logic-runtime | Independently qualify the exact Beta 1 candidate against the accepted product and security denominator before launch; prior v0.93.1 evidence is reused only where still applicable. |
+| CF-92 | 5 | codefriend | Deploy and launch the separately authorized Beta 1 candidate; verify live onboarding, review/results, waiting list and rollback or safe disablement. |
+| TAIL-01 | 5 | agent-design-language | Verify launch outcomes and all required release evidence before the milestone review tail. |
+| TAIL-02 | 5 | agent-design-language | Deliver the complete documentation review and external-review handoff result over the qualified product lockset, with exact artifact links and truthful approval/deferral status. |
+| TAIL-03 | 5 | agent-design-language | Deliver the complete publication finalization result over the qualified product lockset, with exact artifact links and truthful approval/deferral status. |
+| TAIL-04 | 5 | agent-design-language | Deliver the complete internal milestone review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status. |
+| TAIL-05 | 5 | agent-design-language | Deliver the complete external or third-party review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status. |
+| TAIL-06 | 5 | agent-design-language | Deliver the complete accepted-findings remediation or explicit deferral capture result over the qualified product lockset, with exact artifact links and truthful approval/deferral status. |
+| TAIL-07 | 5 | agent-design-language | Deliver the complete next-milestone planning result over the qualified product lockset, with exact artifact links and truthful approval/deferral status. |
+| TAIL-08 | 5 | agent-design-language | Deliver the complete next-milestone closeout planning result over the qualified product lockset, with exact artifact links and truthful approval/deferral status. |
+| TAIL-09 | 5 | agent-design-language | Deliver the complete next-milestone planning review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status. |
+| TAIL-10 | 5 | agent-design-language | Deliver the complete release ceremony and milestone close result over the qualified product lockset, with exact artifact links and truthful approval/deferral status. |
+
+| CSDLC-296 | 1 | cognitive-sdlc | Preserve edits and historical compatibility while ensuring derived-view drift cannot block valid source publication. |
+| CSDLC-297 | 1 | cognitive-sdlc | Preserve applicable proof/review for title/body-only changes; source, head, configuration and linkage changes retain correct freshness and identity checks. |
+| CSDLC-298 | 1 | cognitive-sdlc | Use ordinary independent candidate review and authenticated package provenance without mutable PR-body attestation or unrelated lifecycle gates. |
+| CSDLC-299 | 1 | cognitive-sdlc | Provide optional safe worktree start and coherent expected-head delivery; confirmed merge is delivery, issue closure is reported separately and cleanup stays optional. |
+
+| CI-205 | 3 | cognitive-sdlc | Complete existing C-SDLC #205: normalize CI using shared conventions and repository-appropriate change-selected checks; remove duplicate proof while preserving required coverage and measuring duration/cost. Paper CI remains out of scope. |
 
 ## Sequencing
 
-Accepted v0.93.1 handoff and pinned repository lockset are prerequisites: external references v0.93.1/RD-11, v0.93.1/RD-09 and v0.93.1/TAIL-10. WP-01 also requires explicit opening authorization. The repository split is consumed, not repeated. Runtime → governance/security → citizen continuity/demos → integration/qualification → release tail.
-
-## Sequencing Notes
-
-Same-sprint dependencies remain ordered; sprint membership is not authority to skip prerequisites. RV-01 produces design-review proof, not downstream implementation proof.
+[Execution graph](EXECUTION_PLAN_v0.93.2.json), [specifications](WP_EXECUTION_SPECIFICATIONS_v0.93.2.yaml), and [issue wave](WP_ISSUE_WAVE_v0.93.2.yaml) carry exact acceptance and dependencies.
 
 ## Acceptance Mapping
 
-RV-08 qualifies installed plugin behavior; DEMO-GOV/DEMO-SEC demonstrate integrated governance/security; CM-04 qualifies continuity. QUALIFY consumes all results and proves qualified ready-to-deploy CodeFriend compatibility.
+Each row maps to the complete acceptance and negative cases in the specifications. Existing issue identities must be reused; new work packages are not yet newly created GitHub issues.
 
 ## Exit Criteria
 
-67 scoped results are mapped once; sidecars and explicit deferrals remain visible separately.
+No omitted identity, duplicate routing or unaccepted dependency.
 
-## v0.93.2 scope integration
+## Approved sidecars
 
-The milestone retains the existing platform tracks and adds CodeFriend plus the approved full GHB program. CodeFriend public launch is routed through existing CodeFriend #92 and still requires exact deployment authorization. GHB requires Gate A, Gate B, and WP12 before milestone qualification; planning approval does not authorize experiments, provider spend, deployment, or issue creation. Runtime-v4 activation/generation and citizen-continuity/CM mechanisms are shared dependencies for GHB-WP07/WP08, not duplicate engines, schedulers, or transaction owners. ADL #1226 remains a deferred assessment.
+The operator explicitly included these two existing issues in v0.93.2. They remain outside the 31 core work packages and numbered sprint counts; total tracked scope is 33 identities. Reuse both issues without duplication. Implementation remains unactivated; inclusion in the plan is not a completion claim. Record each sidecar disposition at milestone review.
 
-## CodeFriend launch allocation
-
-`CF-92` reuses existing CodeFriend #92 with predecessors ADL #1150, CodeFriend #45/#46, and website #21. Acceptance requires an explicitly authorized exact candidate, audience, environment and budget, followed by public-journey and rollback evidence. Planning scope is not deployment authority.
-
-## #1242 scope reconciliation
-
-Reuse merged #1259; 67 planned identities retain the full approved scope except PY-01. Its complete original definition is preserved in `tail07-1242/SUCCESSOR_PLAN.json`. Affect/humour remain outside v0.93.2; no later milestone is activated here. #1241 final dispositions and selected installed lockset correspondence were accepted in #1245; see [opening record](OPENING_1296.md); source retirement #1223 is merged, not a public deployment.
+- [ADL-1275](https://github.com/agent-logic/agent-design-language/issues/1275): Reconcile post-split repository adapters and native lifecycle admission.
+- [CSDLC-304](https://github.com/agent-logic/cognitive-sdlc/issues/304): Preserve C-SDLC installation identity across filesystem remounts.

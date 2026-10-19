@@ -2,40 +2,49 @@
 
 ## Metadata
 
-Planning template set: 1.1.0. Target: v0.93.2. Planning issue: #922. Accountable role: milestone owner; named execution owners remain unassigned.
+Planning template set: 1.1.0. Target: v0.93.2. Setup issue: ADL #1296. Owner of planning: Planning #12. Product execution owners remain unassigned.
 
 ## Status
 
-Milestone opening authorized on 2026-10-19; [WP-01 #1296](https://github.com/agent-logic/agent-design-language/issues/1296) is in progress in Planning #12. See [opening record](OPENING_1296.md). Downstream execution, provider spend, deployment and release are not authorized by this opening.
+WP-01 #1296 is in progress. Execution is authorized for C-SDLC #296–299 only; other downstream work remains unactivated. No deployment, provider spend, release or Runtime restart is authorized by these documents.
 
 ## Required denominator
 
-67 planned identities: the retained 52 platform candidates, existing CodeFriend #92, plus `GHB-SPRINT` and `GHB-WP00` through `GHB-WP12`. Existing #875 is a separately gated v0.93.1 sidecar and is not counted in 52. Podcast #671 is completed in v0.92.2 (PR #1174).
+| Package | Acceptance evidence | Required adverse cases |
+| --- | --- | --- |
+| WP-01 | Reconcile the approved smaller milestones and losslessly route all prior identities without downstream activation. | Unaccepted predecessor; Missing opening approval; Duplicate issue identities |
+| CF-B1-01 | Review actual outputs and end-to-end journeys on representative repositories; agree a prioritized gap register and measurable Beta 1 acceptance denominator with the operator. | Unreproduced defect claimed; Prior qualification substituted for user acceptance |
+| WP-S1 | Define and enforce CodeFriend principal, tenant, repository, service and paired-agent trust boundaries against supported Runtime interfaces; identify any missing primitive as a bounded prerequisite. | Implicit internal trust; Connection treated as permission |
+| CF-B1-02 | Resolve accepted report-quality gaps against the comprehensive-review PDF reference, using Geist; verify supported export formats, evidence links and human readability. | Unreadable export; Broken evidence link; Unsupported format claimed |
+| CF-B1-03 | Resolve accepted review correctness, actionable-finding and recovery gaps using the agreed repository denominator. | Unsupported finding; Silent partial result; Retry duplicates work |
+| WP-S2 | Enforce per-action and per-message least privilege, bounded delegation and revocation for CodeFriend using supported Runtime contracts; preserve denial reasons. | Stale/revoked grant; Malformed/replayed/out-of-order message |
+| WP-S3 | Current scoped keys work and rotated/revoked keys fail in signed/encrypted message and checkpoint consumers. | Wrong-scope key; Secret in output; Revocation ignored |
+| WP-S4 | Produce tamper-evident, linked and redacted CodeFriend incident evidence accepted by the operator-review consumer; preserve full constitutional-appeal integration for v0.93.3. | Tampered event; Raw private-state dump |
+| WP-S5 | Enforce tenant/repository isolation, consent, retention, deletion and redacted CodeFriend exports; preserve citizen and social-memory integration for v0.93.3. | Cross-tenant or cross-repository leak; Unredacted private-data export; Deletion leaves accessible data |
+| CF-B1-04 | Prove invited login, repository consent, agent pairing where enabled, first review and results, including revocation and recovery. | Consent bypass; Revoked pairing accepted; Login loop |
+| CF-B1-05 | Resolve accepted resource, diagnostics, retention and support gaps; verify bounded execution and safe disablement on the supported deployment configuration. | Unbounded resource use; Secret in error; Deletion leaves accessible data |
+| WP-S6 | One bounded red/blue/purple drill replays a seed per control area and produces mitigation, provenance, threat-board and release-risk evidence. | Undeclared target; Non-replayable finding; Unproven mitigation |
+| DEMO-SEC | Execute D9-D12 plus per-message ACIP cases against the private provider and installed Runtime. | Synthetic mechanics claimed as enterprise qualification |
+| INTEGRATE | Integrate the exact CodeFriend, site, supported Runtime and enterprise-security lockset; prove complete customer journeys and safe disablement without Runtime v4 or GHB. | Authority lost across product boundary |
+| QUALIFY | Independently qualify the exact Beta 1 candidate against the accepted product and security denominator before launch; prior v0.93.1 evidence is reused only where still applicable. | Wrong artifact head; Missing negative scenario |
+| CF-92 | Deploy and launch the separately authorized Beta 1 candidate; verify live onboarding, review/results, waiting list and rollback or safe disablement. | Planning allocation treated as deployment authorization; Unqualified candidate or missing predecessor; Public availability inferred from ready-to-deploy evidence |
 
 ## Opening gate
 
-Accepted v0.93.1 handoff and pinned repository lockset are prerequisites: external references v0.93.1/RD-11, v0.93.1/RD-09 and v0.93.1/TAIL-10. WP-01 also requires explicit opening authorization. The repository split is consumed, not repeated.
+WP-01 #1296 is in progress. Execution is authorized for C-SDLC #296–299 only; other downstream work remains unactivated.
 
 ## Product gates
 
-All eleven Runtime outcomes remain required. GOV/WP-S/CM/PY/demo results need task-specific proof. Installed CodeFriend compatibility and rollback are mandatory for this upgrade; they do not reopen the separately accepted v0.93.1 launch.
+CF-B1-01 must establish the accepted Beta 1 denominator; report quality and customer journeys must be assessed directly. WP-S1–S6 must exercise both allow and deny behavior.
 
 ## Independent qualification
 
-QUALIFY runs the admitted integrated denominator on pinned artifacts after INTEGRATE. TAIL-01 records the quality decision, followed by ordered review/remediation and release steps.
+QUALIFY consumes INTEGRATE and must pass before launch or release. Resolve actionable findings with focused proof.
 
 ## Blocking conditions
 
-Missing installed negatives/recovery, privacy leaks, stale authority, consumer breakage, failed rollback, unproven mandatory outcomes or unresolved actionable findings block acceptance. Counts of closed issues do not establish proof.
+Missing scenarios, wrong candidate, unsupported quality claims, unredacted private data or unaccepted security interfaces block product acceptance.
 
 ## Evidence and resources
 
-Retain exact source/artifact versions, scenario counts, expected/observed behavior and reviewer dispositions. Unknown provider effects remain unknown. Live providers, cloud changes and publication require separate authorization.
-
-## v0.93.2 scope integration
-
-The milestone retains the existing platform tracks and adds CodeFriend plus the approved full GHB program. CodeFriend public launch is routed through existing CodeFriend #92 and still requires exact deployment authorization. GHB requires Gate A, Gate B, and WP12 before milestone qualification; planning approval does not authorize experiments, provider spend, deployment, or issue creation. Runtime-v4 activation/generation and citizen-continuity/CM mechanisms are shared dependencies for GHB-WP07/WP08, not duplicate engines, schedulers, or transaction owners. ADL #1226 remains a deferred assessment.
-
-## CodeFriend launch allocation
-
-`CF-92` reuses existing CodeFriend #92 with predecessors ADL #1150, CodeFriend #45/#46, and website #21. Acceptance requires an explicitly authorized exact candidate, audience, environment and budget, followed by public-journey and rollback evidence. Planning scope is not deployment authority.
+Pin candidate versions and configurations; use the smallest proving checks. No broad build or paid-run authorization follows from planning.

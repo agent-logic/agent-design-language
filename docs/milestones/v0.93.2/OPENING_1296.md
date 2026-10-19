@@ -2,7 +2,7 @@
 
 ## Authorization and current state
 
-On 2026-10-19 the operator authorized opening v0.93.2 and starting WP-01, in this session only. [ADL #1296](https://github.com/agent-logic/agent-design-language/issues/1296) is the sole active opening writer, Planning #12. GitHub milestone v0.93.2 is open. The opening change is in progress, not yet independently reviewed or merged. No downstream task, launch, provider spend or release is activated by this record.
+On 2026-10-19 the operator authorized opening v0.93.2 and starting WP-01, in this session only. [ADL #1296](https://github.com/agent-logic/agent-design-language/issues/1296) is the sole active opening writer, Planning #12. GitHub milestone v0.93.2 is open. The opening change is in progress, not yet independently reviewed or merged. The operator subsequently authorized C-SDLC #296–299 first. This record does not claim their implementation has started; no launch, provider spend or release is authorized.
 
 ## Accepted predecessor
 
@@ -12,15 +12,7 @@ Consume the [selected candidate inventory](../v0.93.1/publication-1236/CANDIDATE
 
 ## Scope, sprints and identity reuse
 
-The core denominator remains 67, including the GHB sprint umbrella: sprints 1–5 contain 12, 22, 6, 14 and 13 identities. The issue wave and execution graph are authoritative for allocation; WBS now lists all 67 once. PY-01 remains deferred, and affect/humour remain outside v0.93.2.
-
-| Logical work | Existing issue | Current routing |
-|---|---|---|
-| WP-01 | ADL#1296 | Opening in progress, Planning #12 |
-| GHB-WP07 | Runtime#112 | Closed; reuse identity and examine actual accepted evidence once its GHB/RV/CM gates are met. Closure alone is not v0.93.2 qualification. |
-| CF-92 | CodeFriend #92 | Open; existing launch issue, no deployment authorized |
-
-Remaining unmapped logical tasks are candidates, not silently created issues. Before each starts, resolve repository, exact issue identity, owner, accepted dependencies and resource authorization. Do not duplicate existing issues or start another session.
+The operator approved the smaller-milestone reorganization after the original opening review. [Decision](REORGANIZATION_1296.md) and [lossless allocation](REALLOCATION_1296.json) supersede the earlier 67-identity five-sprint schedule. Current v0.93.2 has 31 identities in five sprints; v0.93.3 is planned only. The original review does not approve this amended scope.
 
 ## Separately requested follow-ups
 
@@ -28,7 +20,7 @@ Remaining unmapped logical tasks are candidates, not silently created issues. Be
 - [Cognitive-SDLC#304](https://github.com/agent-logic/cognitive-sdlc/issues/304): permanent installation identity across remounts; title/scope v0.93.2, created and reconciled. Its repository milestone does not yet exist.
 - [ADL#1226](https://github.com/agent-logic/agent-design-language/issues/1226): deferred Linux sandbox assessment, v0.93.2 or later; not committed to this core wave.
 
-These are visible sidecars, not silent additions to the 67 core denominator. Existing#875 / #1145 / #1150 / #1223 / #1229 / #1269 closed predecessor outcomes retain their own scope. No release acceptance is inferred from this planning record.
+These are visible sidecars, not additions to the 31 core work-package denominator. Existing#875 / #1145 / #1150 / #1223 / #1229 / #1269 closed predecessor outcomes retain their own scope. No release acceptance is inferred from this planning record.
 
 ## Validation and next step
 

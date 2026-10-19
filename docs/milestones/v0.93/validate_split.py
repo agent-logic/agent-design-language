@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""PVF: deterministic docs-only scope/graph proof; no product or release acceptance."""
+"""PVF: historical v0.93 split-baseline proof; current allocations are checked by validate_v0932_planning.test.mjs."""
 import copy
 import json
 from pathlib import Path
@@ -8,7 +8,10 @@ ROOT = Path(__file__).resolve().parent.parent
 VERSIONS = ('v0.93.1', 'v0.93.2')
 
 def read(version, name):
-    return json.loads((ROOT / version / name).read_text())
+    base = ROOT / version
+    if version == 'v0.93.2' and name in {'EXECUTION_PLAN_v0.93.2.json', 'WP_EXECUTION_SPECIFICATIONS_v0.93.2.yaml', 'WP_ISSUE_WAVE_v0.93.2.yaml'}:
+        base = base / 'baseline-before-reorganization'
+    return json.loads((base / name).read_text())
 
 def validate(plans, mapping, inspect_files=True):
     all_rows = {}
