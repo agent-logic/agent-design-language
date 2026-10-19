@@ -29,8 +29,8 @@ WP-01 #1296 is in progress. Execution is authorized for C-SDLC #296–299 only; 
 | CF-B1-05 | 3 | codefriend | Resolve accepted resource, diagnostics, retention and support gaps; verify bounded execution and safe disablement on the supported deployment configuration. |
 | WP-S6 | 3 | agent-logic-enterprise-security | One bounded red/blue/purple drill replays a seed per control area and produces mitigation, provenance, threat-board and release-risk evidence. |
 | DEMO-SEC | 3 | agent-logic-enterprise-security | Execute D9-D12 plus per-message ACIP cases against the private provider and installed Runtime. |
-| INTEGRATE | 4 | agent-logic-runtime | Integrate the exact CodeFriend, site, supported Runtime and enterprise-security lockset; prove complete customer journeys and safe disablement without Runtime v4 or GHB. |
-| QUALIFY | 4 | agent-logic-runtime | Independently qualify the exact Beta 1 candidate against the accepted product and security denominator before launch; prior v0.93.1 evidence is reused only where still applicable. |
+| INTEGRATE | 4 | codefriend | Integrate the exact CodeFriend, site, supported Runtime and enterprise-security lockset; prove complete customer journeys and safe disablement without Runtime v4 or GHB. |
+| QUALIFY | 4 | codefriend | Independently qualify the exact Beta 1 candidate against the accepted product and security denominator before launch; prior v0.93.1 evidence is reused only where still applicable. |
 | CF-92 | 5 | codefriend | Deploy and launch the separately authorized Beta 1 candidate; verify live onboarding, review/results, waiting list and rollback or safe disablement. |
 | TAIL-01 | 5 | agent-design-language | Verify launch outcomes and all required release evidence before the milestone review tail. |
 | TAIL-02 | 5 | agent-design-language | Deliver the complete documentation review and external-review handoff result over the qualified product lockset, with exact artifact links and truthful approval/deferral status. |
