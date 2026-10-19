@@ -239,7 +239,9 @@
         "kind": "operator_approved_product_gap_work"
       },
       "wp": "CF-B1-01",
-      "outcome": "Review actual outputs and end-to-end journeys on representative repositories; agree a prioritized gap register and measurable Beta 1 acceptance denominator with the operator."
+      "outcome": "Review actual outputs and end-to-end journeys on representative repositories; agree a prioritized gap register and measurable Beta 1 acceptance denominator with the operator.",
+      "existing_issue": 120,
+      "issue_repository": "agent-logic/codefriend"
     },
     {
       "title": "Enforce the enterprise zero-trust boundary",
@@ -278,7 +280,9 @@
         "kind": "retained_work"
       },
       "wp": "WP-S1",
-      "outcome": "Define and enforce CodeFriend principal, tenant, repository, service and paired-agent trust boundaries against supported Runtime interfaces; identify any missing primitive as a bounded prerequisite."
+      "outcome": "Define and enforce CodeFriend principal, tenant, repository, service and paired-agent trust boundaries against supported Runtime interfaces; identify any missing primitive as a bounded prerequisite.",
+      "existing_issue": 9,
+      "issue_repository": "agent-logic/agent-logic-enterprise-security"
     },
     {
       "title": "Deliver readable and useful reports and exports",
@@ -316,7 +320,9 @@
         "kind": "operator_approved_product_gap_work"
       },
       "wp": "CF-B1-02",
-      "outcome": "Resolve accepted report-quality gaps against the comprehensive-review PDF reference, using Geist; verify supported export formats, evidence links and human readability."
+      "outcome": "Resolve accepted report-quality gaps against the comprehensive-review PDF reference, using Geist; verify supported export formats, evidence links and human readability.",
+      "existing_issue": 121,
+      "issue_repository": "agent-logic/codefriend"
     },
     {
       "title": "Close review quality and recovery gaps",
@@ -354,7 +360,9 @@
         "kind": "operator_approved_product_gap_work"
       },
       "wp": "CF-B1-03",
-      "outcome": "Resolve accepted review correctness, actionable-finding and recovery gaps using the agreed repository denominator."
+      "outcome": "Resolve accepted review correctness, actionable-finding and recovery gaps using the agreed repository denominator.",
+      "existing_issue": 123,
+      "issue_repository": "agent-logic/codefriend"
     },
     {
       "title": "Enforce per-action and per-message authorization",
@@ -392,7 +400,9 @@
         "kind": "retained_work"
       },
       "wp": "WP-S2",
-      "outcome": "Enforce per-action and per-message least privilege, bounded delegation and revocation for CodeFriend using supported Runtime contracts; preserve denial reasons."
+      "outcome": "Enforce per-action and per-message least privilege, bounded delegation and revocation for CodeFriend using supported Runtime contracts; preserve denial reasons.",
+      "existing_issue": 10,
+      "issue_repository": "agent-logic/agent-logic-enterprise-security"
     },
     {
       "title": "Enforce key and secret lifecycle",
@@ -431,7 +441,9 @@
         "kind": "retained_work"
       },
       "wp": "WP-S3",
-      "outcome": "Current scoped keys work and rotated/revoked keys fail in signed/encrypted message and checkpoint consumers."
+      "outcome": "Current scoped keys work and rotated/revoked keys fail in signed/encrypted message and checkpoint consumers.",
+      "existing_issue": 12,
+      "issue_repository": "agent-logic/agent-logic-enterprise-security"
     },
     {
       "title": "Produce tamper-evident incident evidence",
@@ -469,7 +481,9 @@
         "kind": "retained_work"
       },
       "wp": "WP-S4",
-      "outcome": "Produce tamper-evident, linked and redacted CodeFriend incident evidence accepted by the operator-review consumer; preserve full constitutional-appeal integration for v0.93.3."
+      "outcome": "Produce tamper-evident, linked and redacted CodeFriend incident evidence accepted by the operator-review consumer; preserve full constitutional-appeal integration for v0.93.3.",
+      "existing_issue": 14,
+      "issue_repository": "agent-logic/agent-logic-enterprise-security"
     },
     {
       "title": "Enforce protected data lifecycle and isolation",
@@ -508,7 +522,9 @@
         "kind": "retained_work"
       },
       "wp": "WP-S5",
-      "outcome": "Enforce tenant/repository isolation, consent, retention, deletion and redacted CodeFriend exports; preserve citizen and social-memory integration for v0.93.3."
+      "outcome": "Enforce tenant/repository isolation, consent, retention, deletion and redacted CodeFriend exports; preserve citizen and social-memory integration for v0.93.3.",
+      "existing_issue": 15,
+      "issue_repository": "agent-logic/agent-logic-enterprise-security"
     },
     {
       "title": "Complete the first-review user journey",
@@ -547,7 +563,9 @@
         "kind": "operator_approved_product_gap_work"
       },
       "wp": "CF-B1-04",
-      "outcome": "Prove invited login, repository consent, agent pairing where enabled, first review and results, including revocation and recovery."
+      "outcome": "Prove invited login, repository consent, agent pairing where enabled, first review and results, including revocation and recovery.",
+      "existing_issue": 125,
+      "issue_repository": "agent-logic/codefriend"
     },
     {
       "title": "Complete Beta 1 operational readiness",
@@ -588,7 +606,9 @@
         "kind": "operator_approved_product_gap_work"
       },
       "wp": "CF-B1-05",
-      "outcome": "Resolve accepted resource, diagnostics, retention and support gaps; verify bounded execution and safe disablement on the supported deployment configuration."
+      "outcome": "Resolve accepted resource, diagnostics, retention and support gaps; verify bounded execution and safe disablement on the supported deployment configuration.",
+      "existing_issue": 126,
+      "issue_repository": "agent-logic/codefriend"
     },
     {
       "title": "Operate a replayable security regression drill",
@@ -628,7 +648,9 @@
         "kind": "retained_work"
       },
       "wp": "WP-S6",
-      "outcome": "One bounded red/blue/purple drill replays a seed per control area and produces mitigation, provenance, threat-board and release-risk evidence."
+      "outcome": "One bounded red/blue/purple drill replays a seed per control area and produces mitigation, provenance, threat-board and release-risk evidence.",
+      "existing_issue": 16,
+      "issue_repository": "agent-logic/agent-logic-enterprise-security"
     },
     {
       "title": "Run integrated security demonstrations",
@@ -664,7 +686,9 @@
         "kind": "retained_work"
       },
       "wp": "DEMO-SEC",
-      "outcome": "Execute D9-D12 plus per-message ACIP cases against the private provider and installed Runtime."
+      "outcome": "Execute D9-D12 plus per-message ACIP cases against the private provider and installed Runtime.",
+      "existing_issue": 17,
+      "issue_repository": "agent-logic/agent-logic-enterprise-security"
     },
     {
       "title": "Normalize CI across code and non-paper documentation repositories",
@@ -707,7 +731,7 @@
     },
     {
       "title": "Integrate the CodeFriend Beta 1 candidate and enterprise security",
-      "repository": "agent-logic-runtime",
+      "repository": "codefriend",
       "depends_on": [
         "CF-B1-02",
         "CF-B1-03",
@@ -743,11 +767,13 @@
         "kind": "retained_work"
       },
       "wp": "INTEGRATE",
-      "outcome": "Integrate the exact CodeFriend, site, supported Runtime and enterprise-security lockset; prove complete customer journeys and safe disablement without Runtime v4 or GHB."
+      "outcome": "Integrate the exact CodeFriend, site, supported Runtime and enterprise-security lockset; prove complete customer journeys and safe disablement without Runtime v4 or GHB.",
+      "existing_issue": 127,
+      "issue_repository": "agent-logic/codefriend"
     },
     {
       "title": "Independently qualify the installed milestone",
-      "repository": "agent-logic-runtime",
+      "repository": "codefriend",
       "depends_on": [
         "INTEGRATE"
       ],
@@ -780,7 +806,9 @@
         "kind": "retained_work"
       },
       "wp": "QUALIFY",
-      "outcome": "Independently qualify the exact Beta 1 candidate against the accepted product and security denominator before launch; prior v0.93.1 evidence is reused only where still applicable."
+      "outcome": "Independently qualify the exact Beta 1 candidate against the accepted product and security denominator before launch; prior v0.93.1 evidence is reused only where still applicable.",
+      "existing_issue": 128,
+      "issue_repository": "agent-logic/codefriend"
     },
     {
       "phase": "release",
@@ -822,7 +850,8 @@
       "sprint": 5,
       "existing_issue": 92,
       "wp": "CF-92",
-      "outcome": "Deploy and launch the separately authorized Beta 1 candidate; verify live onboarding, review/results, waiting list and rollback or safe disablement."
+      "outcome": "Deploy and launch the separately authorized Beta 1 candidate; verify live onboarding, review/results, waiting list and rollback or safe disablement.",
+      "issue_repository": "agent-logic/codefriend"
     },
     {
       "title": "Quality gate",
@@ -861,7 +890,9 @@
         "kind": "version_specific_gate"
       },
       "wp": "TAIL-01",
-      "outcome": "Verify launch outcomes and all required release evidence before the milestone review tail."
+      "outcome": "Verify launch outcomes and all required release evidence before the milestone review tail.",
+      "existing_issue": 1303,
+      "issue_repository": "agent-logic/agent-design-language"
     },
     {
       "title": "Documentation review and external-review handoff",
@@ -898,7 +929,9 @@
         "kind": "version_specific_gate"
       },
       "wp": "TAIL-02",
-      "outcome": "Deliver the complete documentation review and external-review handoff result over the qualified product lockset, with exact artifact links and truthful approval/deferral status."
+      "outcome": "Deliver the complete documentation review and external-review handoff result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "existing_issue": 1304,
+      "issue_repository": "agent-logic/agent-design-language"
     },
     {
       "title": "Publication finalization",
@@ -935,7 +968,9 @@
         "kind": "version_specific_gate"
       },
       "wp": "TAIL-03",
-      "outcome": "Deliver the complete publication finalization result over the qualified product lockset, with exact artifact links and truthful approval/deferral status."
+      "outcome": "Deliver the complete publication finalization result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "existing_issue": 1305,
+      "issue_repository": "agent-logic/agent-design-language"
     },
     {
       "title": "Internal milestone review",
@@ -972,7 +1007,9 @@
         "kind": "version_specific_gate"
       },
       "wp": "TAIL-04",
-      "outcome": "Deliver the complete internal milestone review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status."
+      "outcome": "Deliver the complete internal milestone review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "existing_issue": 1306,
+      "issue_repository": "agent-logic/agent-design-language"
     },
     {
       "title": "External or third-party review",
@@ -1009,7 +1046,9 @@
         "kind": "version_specific_gate"
       },
       "wp": "TAIL-05",
-      "outcome": "Deliver the complete external or third-party review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status."
+      "outcome": "Deliver the complete external or third-party review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "existing_issue": 1307,
+      "issue_repository": "agent-logic/agent-design-language"
     },
     {
       "title": "Accepted-findings remediation or explicit deferral capture",
@@ -1046,7 +1085,9 @@
         "kind": "version_specific_gate"
       },
       "wp": "TAIL-06",
-      "outcome": "Deliver the complete accepted-findings remediation or explicit deferral capture result over the qualified product lockset, with exact artifact links and truthful approval/deferral status."
+      "outcome": "Deliver the complete accepted-findings remediation or explicit deferral capture result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "existing_issue": 1308,
+      "issue_repository": "agent-logic/agent-design-language"
     },
     {
       "title": "Next-milestone planning",
@@ -1083,7 +1124,9 @@
         "kind": "version_specific_gate"
       },
       "wp": "TAIL-07",
-      "outcome": "Deliver the complete next-milestone planning result over the qualified product lockset, with exact artifact links and truthful approval/deferral status."
+      "outcome": "Deliver the complete next-milestone planning result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "existing_issue": 1309,
+      "issue_repository": "agent-logic/agent-design-language"
     },
     {
       "title": "Next-milestone closeout planning",
@@ -1120,7 +1163,9 @@
         "kind": "version_specific_gate"
       },
       "wp": "TAIL-08",
-      "outcome": "Deliver the complete next-milestone closeout planning result over the qualified product lockset, with exact artifact links and truthful approval/deferral status."
+      "outcome": "Deliver the complete next-milestone closeout planning result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "existing_issue": 1310,
+      "issue_repository": "agent-logic/agent-design-language"
     },
     {
       "title": "Next-milestone planning review",
@@ -1157,7 +1202,9 @@
         "kind": "version_specific_gate"
       },
       "wp": "TAIL-09",
-      "outcome": "Deliver the complete next-milestone planning review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status."
+      "outcome": "Deliver the complete next-milestone planning review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "existing_issue": 1311,
+      "issue_repository": "agent-logic/agent-design-language"
     },
     {
       "title": "Release ceremony and milestone close",
@@ -1194,7 +1241,9 @@
         "kind": "version_specific_gate"
       },
       "wp": "TAIL-10",
-      "outcome": "Deliver the complete release ceremony and milestone close result over the qualified product lockset, with exact artifact links and truthful approval/deferral status."
+      "outcome": "Deliver the complete release ceremony and milestone close result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "existing_issue": 1312,
+      "issue_repository": "agent-logic/agent-design-language"
     }
   ],
   "sprint_plan": {
@@ -1212,7 +1261,12 @@
           "CSDLC-297",
           "CSDLC-298",
           "CSDLC-299"
-        ]
+        ],
+        "umbrella": {
+          "repository": "agent-logic/agent-design-language",
+          "number": 1298,
+          "url": "https://github.com/agent-logic/agent-design-language/issues/1298"
+        }
       },
       {
         "number": 2,
@@ -1220,7 +1274,12 @@
         "work_packages": [
           "CF-B1-01",
           "WP-S1"
-        ]
+        ],
+        "umbrella": {
+          "repository": "agent-logic/agent-design-language",
+          "number": 1299,
+          "url": "https://github.com/agent-logic/agent-design-language/issues/1299"
+        }
       },
       {
         "number": 3,
@@ -1237,7 +1296,13 @@
           "WP-S6",
           "DEMO-SEC",
           "CI-205"
-        ]
+        ],
+        "umbrella": {
+          "repository": "agent-logic/agent-design-language",
+          "number": 1301,
+          "url": "https://github.com/agent-logic/agent-design-language/issues/1301",
+          "native_reconciliation": "pending; authenticated remote content confirmed; no retry"
+        }
       },
       {
         "number": 4,
@@ -1245,7 +1310,13 @@
         "work_packages": [
           "INTEGRATE",
           "QUALIFY"
-        ]
+        ],
+        "umbrella": {
+          "repository": "agent-logic/agent-design-language",
+          "number": 1302,
+          "url": "https://github.com/agent-logic/agent-design-language/issues/1302",
+          "native_reconciliation": "pending; authenticated remote content confirmed; no retry"
+        }
       },
       {
         "number": 5,
@@ -1262,7 +1333,13 @@
           "TAIL-08",
           "TAIL-09",
           "TAIL-10"
-        ]
+        ],
+        "umbrella": {
+          "repository": "agent-logic/agent-design-language",
+          "number": 1313,
+          "url": "https://github.com/agent-logic/agent-design-language/issues/1313",
+          "native_reconciliation": "pending; authenticated remote content confirmed; no retry"
+        }
       }
     ]
   },
@@ -1285,49 +1362,217 @@
       "repository": "agent-logic/agent-design-language",
       "issue": 1296,
       "state": "OPEN",
-      "disposition": "opening_in_progress"
-    },
-    {
-      "wp": "CF-92",
-      "repository": "agent-logic/codefriend",
-      "issue": 92,
-      "state": "OPEN",
-      "disposition": "reuse_existing_launch_issue_no_deployment_authority"
+      "disposition": "Created or reused; cards deferred until sprint preparation"
     },
     {
       "wp": "CSDLC-296",
       "repository": "agent-logic/cognitive-sdlc",
       "issue": 296,
       "state": "OPEN",
-      "disposition": "reuse existing issue; planning inclusion only; no execution assignment"
+      "disposition": "Created or reused; cards deferred until sprint preparation"
     },
     {
       "wp": "CSDLC-297",
       "repository": "agent-logic/cognitive-sdlc",
       "issue": 297,
       "state": "OPEN",
-      "disposition": "reuse existing issue; planning inclusion only; no execution assignment"
+      "disposition": "Created or reused; cards deferred until sprint preparation"
     },
     {
       "wp": "CSDLC-298",
       "repository": "agent-logic/cognitive-sdlc",
       "issue": 298,
       "state": "OPEN",
-      "disposition": "reuse existing issue; planning inclusion only; no execution assignment"
+      "disposition": "Created or reused; cards deferred until sprint preparation"
     },
     {
       "wp": "CSDLC-299",
       "repository": "agent-logic/cognitive-sdlc",
       "issue": 299,
       "state": "OPEN",
-      "disposition": "reuse existing issue; planning inclusion only; no execution assignment"
+      "disposition": "Created or reused; cards deferred until sprint preparation"
     },
     {
       "wp": "CI-205",
       "repository": "agent-logic/cognitive-sdlc",
       "issue": 205,
       "state": "OPEN",
-      "disposition": "Independent CI track; reuse existing issue; required for milestone completion; not a dependency of #296-299."
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "CF-92",
+      "repository": "agent-logic/codefriend",
+      "issue": 92,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "CF-B1-01",
+      "repository": "agent-logic/codefriend",
+      "issue": 120,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "WP-S1",
+      "repository": "agent-logic/agent-logic-enterprise-security",
+      "issue": 9,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "CF-B1-02",
+      "repository": "agent-logic/codefriend",
+      "issue": 121,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "CF-B1-03",
+      "repository": "agent-logic/codefriend",
+      "issue": 123,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "WP-S2",
+      "repository": "agent-logic/agent-logic-enterprise-security",
+      "issue": 10,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "WP-S3",
+      "repository": "agent-logic/agent-logic-enterprise-security",
+      "issue": 12,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "WP-S4",
+      "repository": "agent-logic/agent-logic-enterprise-security",
+      "issue": 14,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "WP-S5",
+      "repository": "agent-logic/agent-logic-enterprise-security",
+      "issue": 15,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "CF-B1-04",
+      "repository": "agent-logic/codefriend",
+      "issue": 125,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "CF-B1-05",
+      "repository": "agent-logic/codefriend",
+      "issue": 126,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "WP-S6",
+      "repository": "agent-logic/agent-logic-enterprise-security",
+      "issue": 16,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "DEMO-SEC",
+      "repository": "agent-logic/agent-logic-enterprise-security",
+      "issue": 17,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "INTEGRATE",
+      "repository": "agent-logic/codefriend",
+      "issue": 127,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "QUALIFY",
+      "repository": "agent-logic/codefriend",
+      "issue": 128,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "TAIL-01",
+      "repository": "agent-logic/agent-design-language",
+      "issue": 1303,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "TAIL-02",
+      "repository": "agent-logic/agent-design-language",
+      "issue": 1304,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "TAIL-03",
+      "repository": "agent-logic/agent-design-language",
+      "issue": 1305,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "TAIL-04",
+      "repository": "agent-logic/agent-design-language",
+      "issue": 1306,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "TAIL-05",
+      "repository": "agent-logic/agent-design-language",
+      "issue": 1307,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "TAIL-06",
+      "repository": "agent-logic/agent-design-language",
+      "issue": 1308,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "TAIL-07",
+      "repository": "agent-logic/agent-design-language",
+      "issue": 1309,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "TAIL-08",
+      "repository": "agent-logic/agent-design-language",
+      "issue": 1310,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "TAIL-09",
+      "repository": "agent-logic/agent-design-language",
+      "issue": 1311,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "TAIL-10",
+      "repository": "agent-logic/agent-design-language",
+      "issue": 1312,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
     }
   ],
   "opening": {

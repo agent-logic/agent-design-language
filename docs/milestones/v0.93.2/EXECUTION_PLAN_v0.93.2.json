@@ -292,7 +292,9 @@
         "milestone": "v0.93.2",
         "id": "CF-B1-01",
         "kind": "operator_approved_product_gap_work"
-      }
+      },
+      "existing_issue": 120,
+      "issue_repository": "agent-logic/codefriend"
     },
     {
       "id": "WP-S1",
@@ -331,7 +333,9 @@
         "milestone": "v0.93",
         "id": "WP-S1",
         "kind": "retained_work"
-      }
+      },
+      "existing_issue": 9,
+      "issue_repository": "agent-logic/agent-logic-enterprise-security"
     },
     {
       "id": "CF-B1-02",
@@ -369,7 +373,9 @@
         "milestone": "v0.93.2",
         "id": "CF-B1-02",
         "kind": "operator_approved_product_gap_work"
-      }
+      },
+      "existing_issue": 121,
+      "issue_repository": "agent-logic/codefriend"
     },
     {
       "id": "CF-B1-03",
@@ -407,7 +413,9 @@
         "milestone": "v0.93.2",
         "id": "CF-B1-03",
         "kind": "operator_approved_product_gap_work"
-      }
+      },
+      "existing_issue": 123,
+      "issue_repository": "agent-logic/codefriend"
     },
     {
       "id": "WP-S2",
@@ -445,7 +453,9 @@
         "milestone": "v0.93",
         "id": "WP-S2",
         "kind": "retained_work"
-      }
+      },
+      "existing_issue": 10,
+      "issue_repository": "agent-logic/agent-logic-enterprise-security"
     },
     {
       "id": "WP-S3",
@@ -484,7 +494,9 @@
         "milestone": "v0.93",
         "id": "WP-S3",
         "kind": "retained_work"
-      }
+      },
+      "existing_issue": 12,
+      "issue_repository": "agent-logic/agent-logic-enterprise-security"
     },
     {
       "id": "WP-S4",
@@ -522,7 +534,9 @@
         "milestone": "v0.93",
         "id": "WP-S4",
         "kind": "retained_work"
-      }
+      },
+      "existing_issue": 14,
+      "issue_repository": "agent-logic/agent-logic-enterprise-security"
     },
     {
       "id": "WP-S5",
@@ -561,7 +575,9 @@
         "milestone": "v0.93",
         "id": "WP-S5",
         "kind": "retained_work"
-      }
+      },
+      "existing_issue": 15,
+      "issue_repository": "agent-logic/agent-logic-enterprise-security"
     },
     {
       "id": "CF-B1-04",
@@ -600,7 +616,9 @@
         "milestone": "v0.93.2",
         "id": "CF-B1-04",
         "kind": "operator_approved_product_gap_work"
-      }
+      },
+      "existing_issue": 125,
+      "issue_repository": "agent-logic/codefriend"
     },
     {
       "id": "CF-B1-05",
@@ -641,7 +659,9 @@
         "milestone": "v0.93.2",
         "id": "CF-B1-05",
         "kind": "operator_approved_product_gap_work"
-      }
+      },
+      "existing_issue": 126,
+      "issue_repository": "agent-logic/codefriend"
     },
     {
       "id": "WP-S6",
@@ -681,7 +701,9 @@
         "milestone": "v0.93",
         "id": "WP-S6",
         "kind": "retained_work"
-      }
+      },
+      "existing_issue": 16,
+      "issue_repository": "agent-logic/agent-logic-enterprise-security"
     },
     {
       "id": "DEMO-SEC",
@@ -717,7 +739,9 @@
         "milestone": "v0.93",
         "id": "DEMO-SEC",
         "kind": "retained_work"
-      }
+      },
+      "existing_issue": 17,
+      "issue_repository": "agent-logic/agent-logic-enterprise-security"
     },
     {
       "id": "CI-205",
@@ -761,7 +785,7 @@
     {
       "id": "INTEGRATE",
       "title": "Integrate the CodeFriend Beta 1 candidate and enterprise security",
-      "repository": "agent-logic-runtime",
+      "repository": "codefriend",
       "depends_on": [
         "CF-B1-02",
         "CF-B1-03",
@@ -796,12 +820,14 @@
         "milestone": "v0.93",
         "id": "INTEGRATE",
         "kind": "retained_work"
-      }
+      },
+      "existing_issue": 127,
+      "issue_repository": "agent-logic/codefriend"
     },
     {
       "id": "QUALIFY",
       "title": "Independently qualify the installed milestone",
-      "repository": "agent-logic-runtime",
+      "repository": "codefriend",
       "depends_on": [
         "INTEGRATE"
       ],
@@ -833,7 +859,9 @@
         "milestone": "v0.93",
         "id": "QUALIFY",
         "kind": "retained_work"
-      }
+      },
+      "existing_issue": 128,
+      "issue_repository": "agent-logic/codefriend"
     },
     {
       "id": "CF-92",
@@ -875,7 +903,8 @@
       ],
       "source": "features/CODEFRIEND_BETA1_v0.93.2.md",
       "sprint": 5,
-      "existing_issue": 92
+      "existing_issue": 92,
+      "issue_repository": "agent-logic/codefriend"
     },
     {
       "id": "TAIL-01",
@@ -914,7 +943,9 @@
         "milestone": "v0.93",
         "id": "TAIL-01",
         "kind": "version_specific_gate"
-      }
+      },
+      "existing_issue": 1303,
+      "issue_repository": "agent-logic/agent-design-language"
     },
     {
       "id": "TAIL-02",
@@ -951,7 +982,9 @@
         "milestone": "v0.93",
         "id": "TAIL-02",
         "kind": "version_specific_gate"
-      }
+      },
+      "existing_issue": 1304,
+      "issue_repository": "agent-logic/agent-design-language"
     },
     {
       "id": "TAIL-03",
@@ -988,7 +1021,9 @@
         "milestone": "v0.93",
         "id": "TAIL-03",
         "kind": "version_specific_gate"
-      }
+      },
+      "existing_issue": 1305,
+      "issue_repository": "agent-logic/agent-design-language"
     },
     {
       "id": "TAIL-04",
@@ -1025,7 +1060,9 @@
         "milestone": "v0.93",
         "id": "TAIL-04",
         "kind": "version_specific_gate"
-      }
+      },
+      "existing_issue": 1306,
+      "issue_repository": "agent-logic/agent-design-language"
     },
     {
       "id": "TAIL-05",
@@ -1062,7 +1099,9 @@
         "milestone": "v0.93",
         "id": "TAIL-05",
         "kind": "version_specific_gate"
-      }
+      },
+      "existing_issue": 1307,
+      "issue_repository": "agent-logic/agent-design-language"
     },
     {
       "id": "TAIL-06",
@@ -1099,7 +1138,9 @@
         "milestone": "v0.93",
         "id": "TAIL-06",
         "kind": "version_specific_gate"
-      }
+      },
+      "existing_issue": 1308,
+      "issue_repository": "agent-logic/agent-design-language"
     },
     {
       "id": "TAIL-07",
@@ -1136,7 +1177,9 @@
         "milestone": "v0.93",
         "id": "TAIL-07",
         "kind": "version_specific_gate"
-      }
+      },
+      "existing_issue": 1309,
+      "issue_repository": "agent-logic/agent-design-language"
     },
     {
       "id": "TAIL-08",
@@ -1173,7 +1216,9 @@
         "milestone": "v0.93",
         "id": "TAIL-08",
         "kind": "version_specific_gate"
-      }
+      },
+      "existing_issue": 1310,
+      "issue_repository": "agent-logic/agent-design-language"
     },
     {
       "id": "TAIL-09",
@@ -1210,7 +1255,9 @@
         "milestone": "v0.93",
         "id": "TAIL-09",
         "kind": "version_specific_gate"
-      }
+      },
+      "existing_issue": 1311,
+      "issue_repository": "agent-logic/agent-design-language"
     },
     {
       "id": "TAIL-10",
@@ -1247,7 +1294,9 @@
         "milestone": "v0.93",
         "id": "TAIL-10",
         "kind": "version_specific_gate"
-      }
+      },
+      "existing_issue": 1312,
+      "issue_repository": "agent-logic/agent-design-language"
     }
   ],
   "predecessor_reconciliation": {
@@ -1271,7 +1320,12 @@
           "CSDLC-297",
           "CSDLC-298",
           "CSDLC-299"
-        ]
+        ],
+        "umbrella": {
+          "repository": "agent-logic/agent-design-language",
+          "number": 1298,
+          "url": "https://github.com/agent-logic/agent-design-language/issues/1298"
+        }
       },
       {
         "number": 2,
@@ -1279,7 +1333,12 @@
         "work_packages": [
           "CF-B1-01",
           "WP-S1"
-        ]
+        ],
+        "umbrella": {
+          "repository": "agent-logic/agent-design-language",
+          "number": 1299,
+          "url": "https://github.com/agent-logic/agent-design-language/issues/1299"
+        }
       },
       {
         "number": 3,
@@ -1296,7 +1355,13 @@
           "WP-S6",
           "DEMO-SEC",
           "CI-205"
-        ]
+        ],
+        "umbrella": {
+          "repository": "agent-logic/agent-design-language",
+          "number": 1301,
+          "url": "https://github.com/agent-logic/agent-design-language/issues/1301",
+          "native_reconciliation": "pending; authenticated remote content confirmed; no retry"
+        }
       },
       {
         "number": 4,
@@ -1304,7 +1369,13 @@
         "work_packages": [
           "INTEGRATE",
           "QUALIFY"
-        ]
+        ],
+        "umbrella": {
+          "repository": "agent-logic/agent-design-language",
+          "number": 1302,
+          "url": "https://github.com/agent-logic/agent-design-language/issues/1302",
+          "native_reconciliation": "pending; authenticated remote content confirmed; no retry"
+        }
       },
       {
         "number": 5,
@@ -1321,7 +1392,13 @@
           "TAIL-08",
           "TAIL-09",
           "TAIL-10"
-        ]
+        ],
+        "umbrella": {
+          "repository": "agent-logic/agent-design-language",
+          "number": 1313,
+          "url": "https://github.com/agent-logic/agent-design-language/issues/1313",
+          "native_reconciliation": "pending; authenticated remote content confirmed; no retry"
+        }
       }
     ]
   },
@@ -1341,49 +1418,217 @@
       "repository": "agent-logic/agent-design-language",
       "issue": 1296,
       "state": "OPEN",
-      "disposition": "opening_in_progress"
-    },
-    {
-      "wp": "CF-92",
-      "repository": "agent-logic/codefriend",
-      "issue": 92,
-      "state": "OPEN",
-      "disposition": "reuse_existing_launch_issue_no_deployment_authority"
+      "disposition": "Created or reused; cards deferred until sprint preparation"
     },
     {
       "wp": "CSDLC-296",
       "repository": "agent-logic/cognitive-sdlc",
       "issue": 296,
       "state": "OPEN",
-      "disposition": "reuse existing issue; planning inclusion only; no execution assignment"
+      "disposition": "Created or reused; cards deferred until sprint preparation"
     },
     {
       "wp": "CSDLC-297",
       "repository": "agent-logic/cognitive-sdlc",
       "issue": 297,
       "state": "OPEN",
-      "disposition": "reuse existing issue; planning inclusion only; no execution assignment"
+      "disposition": "Created or reused; cards deferred until sprint preparation"
     },
     {
       "wp": "CSDLC-298",
       "repository": "agent-logic/cognitive-sdlc",
       "issue": 298,
       "state": "OPEN",
-      "disposition": "reuse existing issue; planning inclusion only; no execution assignment"
+      "disposition": "Created or reused; cards deferred until sprint preparation"
     },
     {
       "wp": "CSDLC-299",
       "repository": "agent-logic/cognitive-sdlc",
       "issue": 299,
       "state": "OPEN",
-      "disposition": "reuse existing issue; planning inclusion only; no execution assignment"
+      "disposition": "Created or reused; cards deferred until sprint preparation"
     },
     {
       "wp": "CI-205",
       "repository": "agent-logic/cognitive-sdlc",
       "issue": 205,
       "state": "OPEN",
-      "disposition": "Independent CI track; reuse existing issue; required for milestone completion; not a dependency of #296-299."
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "CF-92",
+      "repository": "agent-logic/codefriend",
+      "issue": 92,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "CF-B1-01",
+      "repository": "agent-logic/codefriend",
+      "issue": 120,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "WP-S1",
+      "repository": "agent-logic/agent-logic-enterprise-security",
+      "issue": 9,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "CF-B1-02",
+      "repository": "agent-logic/codefriend",
+      "issue": 121,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "CF-B1-03",
+      "repository": "agent-logic/codefriend",
+      "issue": 123,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "WP-S2",
+      "repository": "agent-logic/agent-logic-enterprise-security",
+      "issue": 10,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "WP-S3",
+      "repository": "agent-logic/agent-logic-enterprise-security",
+      "issue": 12,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "WP-S4",
+      "repository": "agent-logic/agent-logic-enterprise-security",
+      "issue": 14,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "WP-S5",
+      "repository": "agent-logic/agent-logic-enterprise-security",
+      "issue": 15,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "CF-B1-04",
+      "repository": "agent-logic/codefriend",
+      "issue": 125,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "CF-B1-05",
+      "repository": "agent-logic/codefriend",
+      "issue": 126,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "WP-S6",
+      "repository": "agent-logic/agent-logic-enterprise-security",
+      "issue": 16,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "DEMO-SEC",
+      "repository": "agent-logic/agent-logic-enterprise-security",
+      "issue": 17,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "INTEGRATE",
+      "repository": "agent-logic/codefriend",
+      "issue": 127,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "QUALIFY",
+      "repository": "agent-logic/codefriend",
+      "issue": 128,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "TAIL-01",
+      "repository": "agent-logic/agent-design-language",
+      "issue": 1303,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "TAIL-02",
+      "repository": "agent-logic/agent-design-language",
+      "issue": 1304,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "TAIL-03",
+      "repository": "agent-logic/agent-design-language",
+      "issue": 1305,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "TAIL-04",
+      "repository": "agent-logic/agent-design-language",
+      "issue": 1306,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "TAIL-05",
+      "repository": "agent-logic/agent-design-language",
+      "issue": 1307,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "TAIL-06",
+      "repository": "agent-logic/agent-design-language",
+      "issue": 1308,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "TAIL-07",
+      "repository": "agent-logic/agent-design-language",
+      "issue": 1309,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "TAIL-08",
+      "repository": "agent-logic/agent-design-language",
+      "issue": 1310,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "TAIL-09",
+      "repository": "agent-logic/agent-design-language",
+      "issue": 1311,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "TAIL-10",
+      "repository": "agent-logic/agent-design-language",
+      "issue": 1312,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
     }
   ],
   "counts": {

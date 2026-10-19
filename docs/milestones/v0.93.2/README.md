@@ -61,3 +61,7 @@ The operator explicitly included these two existing issues in v0.93.2. They rema
 
 - [ADL-1275](https://github.com/agent-logic/agent-design-language/issues/1275): Reconcile post-split repository adapters and native lifecycle admission.
 - [CSDLC-304](https://github.com/agent-logic/cognitive-sdlc/issues/304): Preserve C-SDLC installation identity across filesystem remounts.
+
+## Created issue index
+
+See [all issues and sprint umbrellas](ISSUES_v0.93.2.md). Cards are deferred until each sprint is prepared.
