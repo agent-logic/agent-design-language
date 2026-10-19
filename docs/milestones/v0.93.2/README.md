@@ -1,20 +1,20 @@
-# v0.93.2 Platform evolution
+# v0.93.2 CodeFriend Beta 1 launch and enterprise security
 
 ## Metadata
 
-Planning template set: 1.1.0. Target: v0.93.2. Planning issue: #922. Accountable role: milestone owner; named execution owners remain unassigned.
+Planning template set: 1.1.0. Target: v0.93.2. Setup issue: ADL #1296. Owner of planning: Planning #12. Product execution owners remain unassigned.
 
 ## Status
 
-Planned and unopened. The operator approved the scope split; this package does not approve execution, provider spend, publication or release.
+WP-01 #1296 is in progress. Execution is authorized for C-SDLC #296–299 only; other downstream work remains unactivated. No deployment, provider spend, release or Runtime restart is authorized by these documents.
 
 ## Purpose
 
-Deliver Runtime v4, governed citizen behavior, enterprise security and citizen continuity after CodeFriend Beta 1 reaches ready-to-deploy qualification in v0.93.1. 67 planned identities: the retained 52 platform candidates, existing CodeFriend #92, plus `GHB-SPRINT` and `GHB-WP00` through `GHB-WP12`. Existing #875 is a separately gated v0.93.1 sidecar and is not counted in 52. Podcast #671 is completed in v0.92.2 (PR #1174).
+CodeFriend Beta 1 launch and enterprise security. 31 planned identities across five dependency-based sprints. Preserve all 67 earlier identities through [the allocation register](../v0.93.2/REALLOCATION_1296.json). 21 retained identities plus five explicit Beta 1 product packages and four existing C-SDLC improvements plus independent CI #205; 46 platform identities move to v0.93.3.
 
 ## Scope
 
-Accepted v0.93.1 handoff and pinned repository lockset are prerequisites: external references v0.93.1/RD-11, v0.93.1/RD-09 and v0.93.1/TAIL-10. WP-01 also requires explicit opening authorization. The repository split is consumed, not repeated. Runtime v4 is not a retroactive Beta 1 launch prerequisite. Preserve the qualified ready-to-deploy CodeFriend interface and qualify upgrade and rollback.
+Python reduction, affect and humour remain deferred outside both allocations. Existing historical evidence is retained. No repository split is repeated; no sibling checkout is required to validate public ADL.
 
 ## Document Map
 
@@ -32,41 +32,36 @@ Accepted v0.93.1 handoff and pinned repository lockset are prerequisites: extern
 - [Wp Execution Readiness](WP_EXECUTION_READINESS_v0.93.2.md)
 - [Adr Plan](ADR_PLAN_v0.93.2.md)
 - [Next Milestone Handoff](NEXT_MILESTONE_HANDOFF_v0.93.2.md)
-- [Feature documents](features/README.md)
-- [Execution graph](EXECUTION_PLAN_v0.93.2.json)
-- [Issue wave](WP_ISSUE_WAVE_v0.93.2.yaml)
-- [Execution specifications](WP_EXECUTION_SPECIFICATIONS_v0.93.2.yaml)
+- [Features](features/README.md)
+
+[Execution graph](EXECUTION_PLAN_v0.93.2.json), [specifications](WP_EXECUTION_SPECIFICATIONS_v0.93.2.yaml), and [issue wave](WP_ISSUE_WAVE_v0.93.2.yaml) carry exact acceptance and dependencies.
 
 ## Execution boundary
 
-Five proposed delivery groups; no dates or staffing promises. Every task owns one result. Final predecessor residuals, numeric issue mapping, named owners and resources must be reconciled before opening.
+WP-01 #1296 is in progress. Execution is authorized for C-SDLC #296–299 only; other downstream work remains unactivated. Owners, accepted dependencies, scoped resources and a tracked issue are required before each implementation begins.
 
-## Existing Observatory backlog
+## Existing C-SDLC improvements
 
-Operator amendment routes existing #1145 (Everyone Observatory) and #875 to v0.93.1, outside both milestones' core counts. Preserve their existing task identities and authority; v0.93.1 owns their scope, dependencies and disposition, without duplicate creation or assumed completion. #875 retains its original gates and is excluded from the core count. #671 is completed in v0.92.2 and has no successor allocation.
+These four existing issues are included in v0.93.2 without duplication. The operator approved the plan and proceeding with C-SDLC #296–299 first. Other work remains unactivated.
 
-## Current scope refresh (2026-10-10)
+- [C-SDLC #296](https://github.com/agent-logic/cognitive-sdlc/issues/296): Use one editable issue source and remove projection-drift gates — planned Sprint 1.
+- [C-SDLC #297](https://github.com/agent-logic/cognitive-sdlc/issues/297): Preserve proof and review across metadata-only edits — planned Sprint 1.
+- [C-SDLC #298](https://github.com/agent-logic/cognitive-sdlc/issues/298): Remove mandatory portable-review attestation and publication receipt gates — planned Sprint 1.
+- [C-SDLC #299](https://github.com/agent-logic/cognitive-sdlc/issues/299): Simplify lifecycle commands with optional start and consolidated delivery — planned Sprint 1.
 
-The approved scope is the 52 platform candidates retained after deferring PY-01, plus CodeFriend launch readiness/deployment planning and the full GHB program. CodeFriend #92 is the existing v0.93.2-or-later launch candidate; deployment still requires exact candidate, audience, environment and budget authorization. ADL #1226 remains a deferred assessment, not committed work.
+#299 depends on #296, #297 and #298. These run first so later work benefits from the simplification; CodeFriend assessment depends on #299. The milestone quality gate includes their completion. Existing #304 remains an additional separately tracked remount-reliability fix; it is not one of these four improvements. CI #205 is included independently, outside this four-issue group. The four issues have no GitHub milestone assigned at this planning snapshot; metadata reconciliation is outstanding.
 
-### Repository disposition
+## Independent CI work
 
-| Repository | v0.93.2 disposition |
-| --- | --- |
-| `agent-logic/agent-design-language` | active owner or dependency; exact work-package routing required before execution |
-| `agent-logic/agent-logic-runtime` | active owner or dependency; exact work-package routing required before execution |
-| `agent-logic/codefriend` | active owner or dependency; exact work-package routing required before execution |
-| `agent-logic/cognitive-sdlc` | no matching open v0.93.2 issue found; observe and reuse only if a mapped dependency is verified |
-| `agent-logic/codefriend.ai` | active owner or dependency; exact work-package routing required before execution |
-| `agent-logic/agent-logic-infrastructure` | no matching open v0.93.2 issue found; observe and reuse only if a mapped dependency is verified |
-| `agent-logic/agent-logic-enterprise-security` | active owner or dependency; exact work-package routing required before execution |
-| `agent-logic/agent-logic.ai` | no matching open v0.93.2 issue found; observe and reuse only if a mapped dependency is verified |
-| `agent-logic/universal-tool-schema` | active owner or dependency; exact work-package routing required before execution |
-| `agent-logic/general-intelligence-paper-private` | no matching open v0.93.2 issue found; observe and reuse only if a mapped dependency is verified |
-| `agent-logic/godel-hadamard-bayes-paper` | active owner or dependency; exact work-package routing required before execution |
-| `agent-logic/cognitive-sdlc-paper` | no matching open v0.93.2 issue found; observe and reuse only if a mapped dependency is verified |
-| `agent-logic/strategic-cognitive-reserve` | no matching open v0.93.2 issue found; observe and reuse only if a mapped dependency is verified |
+[CI-205 / C-SDLC #205](https://github.com/agent-logic/cognitive-sdlc/issues/205) must also complete in v0.93.2. It is an independent Sprint 3 track, not part of or dependent on lifecycle simplification #296–299. It covers CI across code and non-paper documentation repositories; papers remain excluded. The milestone quality gate requires its completion. Its existing v0.93.1 title and unassigned GitHub milestone await metadata reconciliation. No execution is started.
 
-## #1242 scope reconciliation
+## Approved sidecars
 
-Reuse merged #1259; 67 planned identities retain the full approved scope except PY-01. Its complete original definition is preserved in `tail07-1242/SUCCESSOR_PLAN.json`. Affect/humour remain outside v0.93.2; no later milestone is activated here. #1241 final residual dispositions and selected installed lockset correspondence remain pending; source retirement #1223 is merged, not a public deployment.
+The operator explicitly included these two existing issues in v0.93.2. They remain outside the 31 core work packages and numbered sprint counts; total tracked scope is 33 identities. Reuse both issues without duplication. Implementation remains unactivated; inclusion in the plan is not a completion claim. Record each sidecar disposition at milestone review.
+
+- [ADL-1275](https://github.com/agent-logic/agent-design-language/issues/1275): Reconcile post-split repository adapters and native lifecycle admission.
+- [CSDLC-304](https://github.com/agent-logic/cognitive-sdlc/issues/304): Preserve C-SDLC installation identity across filesystem remounts.
+
+## Created issue index
+
+See [all issues and sprint umbrellas](ISSUES_v0.93.2.md). Cards are deferred until each sprint is prepared.

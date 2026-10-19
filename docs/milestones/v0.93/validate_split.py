@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""PVF: deterministic docs-only scope/graph proof; no product or release acceptance."""
+"""PVF: historical v0.93 split-baseline proof; current allocations are checked by validate_v0932_planning.test.mjs."""
 import copy
 import json
 from pathlib import Path
@@ -8,12 +8,15 @@ ROOT = Path(__file__).resolve().parent.parent
 VERSIONS = ('v0.93.1', 'v0.93.2')
 
 def read(version, name):
-    return json.loads((ROOT / version / name).read_text())
+    base = ROOT / version
+    if version == 'v0.93.2' and name in {'EXECUTION_PLAN_v0.93.2.json', 'WP_EXECUTION_SPECIFICATIONS_v0.93.2.yaml', 'WP_ISSUE_WAVE_v0.93.2.yaml'}:
+        base = base / 'baseline-before-reorganization'
+    return json.loads((base / name).read_text())
 
 def validate(plans, mapping, inspect_files=True):
     all_rows = {}
     for version, plan in plans.items():
-        assert plan['status'] == ('sprint_1_preparation_open_execution_not_authorized' if version == 'v0.93.1' else 'approved_scope_draft_not_open')
+        assert plan['status'] == ('sprint_1_preparation_open_execution_not_authorized' if version == 'v0.93.1' else 'wp01_open_downstream_not_activated')
         rows = {w['id']: w for w in plan['work_packages']}
         assert len(rows) == len(plan['work_packages']) == plan['counts']['core_work_packages']
         assert plan['repositories']['codefriend'] == plan['repositories']['codefriend.ai'] == 'private'
@@ -96,7 +99,28 @@ def validate(plans, mapping, inspect_files=True):
     assert first_rows['RD-03']['depends_on'] == first_rows['RD-04']['depends_on'] == ['RD-13']
     assert first['counts']['new_core_issues_to_seed_at_most'] == 28
     assert first['counts']['existing_additional_issues'] == 4
-    assert plans['v0.93.2']['existing_issue_routing'] == []
+    successor = plans['v0.93.2']
+    opening = successor['opening']
+    assert opening['issue'] == 1296 and opening['execution_authorized'] == ['WP-01']
+    assert opening['owner'] == 'Planning #12' and opening['authorized_on'] == '2026-10-19'
+    assert opening['downstream_execution_authorized'] is False
+    assert opening['deployment_authorized'] is False
+    assert opening['predecessor_issue'] == 1230
+    assert opening['predecessor_closure'] == 'closed_with_native_coordination_completed'
+    assert opening['acceptance_merge'] == '69fae86cde65861cdace95183c2c373dcb09ca01'
+    assert [(s['number'],len(s['work_packages'])) for s in successor['sprint_plan']['sprints']] == [(1,12),(2,22),(3,6),(4,14),(5,13)]
+    assert {(r['wp'],r['repository'],r['issue']) for r in successor['existing_issue_routing']} == {
+        ('WP-01','agent-logic/agent-design-language',1296),
+        ('GHB-WP07','agent-logic/agent-logic-runtime',112),
+        ('CF-92','agent-logic/codefriend',92)}
+    assert 'PY-01' not in successor['required_release_tracks']
+    if inspect_files:
+        assert (ROOT / 'v0.93.2' / opening['record']).is_file()
+        for name in ['WP_EXECUTION_SPECIFICATIONS_v0.93.2.yaml','WP_ISSUE_WAVE_v0.93.2.yaml']:
+            mirror = read('v0.93.2',name)
+            assert mirror['opening'] == opening
+            assert mirror['status'] == successor['status']
+            assert mirror['existing_issue_routing'] == successor['existing_issue_routing']
     assert plans['v0.93.2']['counts']['distinct_planned_issue_identities'] == 67
     assert mapping['existing_issue_routing'] == {'v0.93.1':[1148,1149,1150,875,1145],'v0.93.2':[]}
     if inspect_files:
@@ -161,6 +185,9 @@ if __name__ == '__main__':
     reject('template release omitted',lambda p,m:next(w for w in p['v0.93.1']['work_packages'] if w['id']=='CT-03')['depends_on'].remove('CT-09'))
     reject('public private product',lambda p,m:p['v0.93.1']['repositories'].__setitem__('codefriend','public'))
     reject('tail skipped',lambda p,m:next(w for w in p['v0.93.2']['work_packages'] if w['id']=='TAIL-10')['depends_on'].clear())
+    reject('downstream activation without authority',lambda p,m:p['v0.93.2']['opening'].__setitem__('downstream_execution_authorized',True))
+    reject('deployment inferred from opening',lambda p,m:p['v0.93.2']['opening'].__setitem__('deployment_authorized',True))
+    reject('unaccepted predecessor',lambda p,m:p['v0.93.2']['opening'].__setitem__('predecessor_closure','pending'))
     reject('opening falsely asserted',lambda p,m:p['v0.93.2'].__setitem__('status','open'))
     reject('duplicate Sprint 1 identity',lambda p,m:p['v0.93.1']['preparation']['issue_map'].__setitem__('RD-01',1178))
     reject('WP01 closure dependency',lambda p,m:next(w for w in p['v0.93.1']['work_packages'] if w['id']=='RD-01')['dependency_gates'].__setitem__('WP-01','terminal_closure'))
@@ -176,4 +203,4 @@ if __name__ == '__main__':
     reject('Python silently reallocated',lambda p,m:next(r for r in m['source_disposition'] if r['source_id']=='PY-01').__setitem__('destination','v0.93.2'))
     print(json.dumps({'status':'pass','source_tasks':83,
         'successor_tasks':[plans[v]['counts']['core_work_packages'] for v in VERSIONS],
-        'version_specific_gates':13,'negative_fixtures':len(probes),'execution_opened':False},indent=2))
+        'version_specific_gates':13,'negative_fixtures':len(probes),'execution_opened':True},indent=2))

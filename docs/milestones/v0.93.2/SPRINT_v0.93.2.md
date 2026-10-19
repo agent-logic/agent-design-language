@@ -1,75 +1,62 @@
-# v0.93.2 Sprint Plan
+# v0.93.2 Sprint
 
 ## Metadata
 
-Planning template set: 1.1.0. Target: v0.93.2. Planning issue: #922. Accountable role: milestone owner; named execution owners remain unassigned.
+Planning template set: 1.1.0. Target: v0.93.2. Setup issue: ADL #1296. Owner of planning: Planning #12. Product execution owners remain unassigned.
 
 ## Status
 
-Planned and unopened. The operator approved the scope split; this package does not approve execution, provider spend, publication or release.
-
-## How To Use
-
-Five outcome groups are allocated with no implied fixed duration. Groups 1–4 retain the platform and CodeFriend sequence; group 5 carries the longer GHB Gate A/Gate B program. Assign owners and capacity before activation.
+WP-01 #1296 is in progress. Execution is authorized for C-SDLC #296–299 only; other downstream work remains unactivated. No deployment, provider spend, release or Runtime restart is authorized by these documents.
 
 ## Sprint Overview
 
-| Group | Outcome | Tasks | Count |
-|---|---|---|---|
-| 1 | Open and qualify Runtime v4 | WP-01, RV-01–RV-11 | 12 |
-| 2 | Governed actors and enterprise security | GOV-01–GOV-16, WP-S1–WP-S6 | 22 |
-| 3 | Citizen continuity and integrated demonstrations | CM-01–CM-04, DEMO-GOV, DEMO-SEC | 6 |
-| 4 | GHB Gate A, Gate B, qualification, and research packet | GHB-SPRINT, GHB-WP00–GHB-WP12 | 14 |
-| 5 | Final integration, CodeFriend launch, independent qualification, and release tail | INTEGRATE, CF-92, QUALIFY, TAIL-01–TAIL-10 | 13 |
-
-## Sprint Goals
-
-Deliver the complete remaining platform scope on accepted product boundaries.
-
-## Sprint Goal
-
-Maintain CodeFriend Beta 1 continuity through the Runtime upgrade.
-
-## Planned Scope
-
-67 planned identities: the retained 52 platform candidates, existing CodeFriend #92, plus `GHB-SPRINT` and `GHB-WP00` through `GHB-WP12`. Existing #875 is a separately gated v0.93.1 sidecar and is not counted in 52. Podcast #671 is completed in v0.92.2 (PR #1174).
+31 planned identities across five dependency-based sprints. Preserve all 67 earlier identities through [the allocation register](../v0.93.2/REALLOCATION_1296.json). 21 retained identities plus five explicit Beta 1 product packages and four existing C-SDLC improvements plus independent CI #205; 46 platform identities move to v0.93.3.
 
 ## Work Plan
 
-Accepted v0.93.1 handoff and pinned repository lockset are prerequisites: external references v0.93.1/RD-11, v0.93.1/RD-09 and v0.93.1/TAIL-10. WP-01 also requires explicit opening authorization. The repository split is consumed, not repeated. Honor all graph dependencies within and across sprints. All native/process/WASM plugin outcomes remain required.
+### Sprint 1: C-SDLC lifecycle simplification
+
+WP-01, CSDLC-296, CSDLC-297, CSDLC-298, CSDLC-299.
+
+### Sprint 2: Acceptance and security contracts
+
+CF-B1-01, WP-S1.
+
+### Sprint 3: Beta 1 improvements and enterprise security
+
+CF-B1-02, CF-B1-03, WP-S2, WP-S3, WP-S4, WP-S5, CF-B1-04, CF-B1-05, WP-S6, DEMO-SEC, CI-205.
+
+### Sprint 4: Candidate integration and qualification
+
+INTEGRATE, QUALIFY.
+
+### Sprint 5: Authorized launch and release review
+
+CF-92, TAIL-01, TAIL-02, TAIL-03, TAIL-04, TAIL-05, TAIL-06, TAIL-07, TAIL-08, TAIL-09, TAIL-10.
 
 ## Execution Policy
 
-One repository and writing owner per task; use native lifecycle state and exact issue/PR evidence. No extra receipt or review layer is created by this allocation.
-
-## Cadence Expectations
-
-Report accepted outcomes and unresolved failures; stop duplicate repairs and preserve unknown remote effects. Counts are not capacity estimates.
+No calendar promises. Use parallel owners only for independent accepted inputs; do not rerun tests or provider work unnecessarily. Each package has one accountable owner.
 
 ## Risks / Dependencies
 
-A 22-task second wave may need parallel owners. Existing #875 requires its original pilot authorization and qualification. It is not automatically authorized or counted as a core task. #671 completed in v0.92.2.
-
-## Demo / Review Plan
-
-Installed recovery, adversarial and compatibility proof precede independent qualification. Review findings are remediated after reviews, in TAIL-06.
+Security must retain supported-consumer invariants after broad governance moves. A graph change alone does not establish compatibility.
 
 ## Closeout Bar
 
-TAIL-01–TAIL-10 execute in order, including external review, findings disposition and explicit release authorization.
+Accept the sprint outcomes and recorded adverse cases. Administrative cleanup may run asynchronously but cannot substitute for product acceptance.
 
-## Exit Criteria
+## Existing C-SDLC improvements
 
-Each task and sidecar has truthful final disposition, with no launch or qualification claim from planning alone.
+These four existing issues are included in v0.93.2 without duplication. The operator approved the plan and proceeding with C-SDLC #296–299 first. Other work remains unactivated.
 
-## Existing Observatory backlog
+- [C-SDLC #296](https://github.com/agent-logic/cognitive-sdlc/issues/296): Use one editable issue source and remove projection-drift gates — planned Sprint 1.
+- [C-SDLC #297](https://github.com/agent-logic/cognitive-sdlc/issues/297): Preserve proof and review across metadata-only edits — planned Sprint 1.
+- [C-SDLC #298](https://github.com/agent-logic/cognitive-sdlc/issues/298): Remove mandatory portable-review attestation and publication receipt gates — planned Sprint 1.
+- [C-SDLC #299](https://github.com/agent-logic/cognitive-sdlc/issues/299): Simplify lifecycle commands with optional start and consolidated delivery — planned Sprint 1.
 
-Operator amendment routes existing #1145 (Everyone Observatory) and #875 to v0.93.1, outside both milestones' core counts. Preserve their existing task identities and authority; v0.93.1 owns their scope, dependencies and disposition, without duplicate creation or assumed completion. #875 retains its original gates and is excluded from the core count. #671 is completed in v0.92.2 and has no successor allocation.
+#299 depends on #296, #297 and #298. These run first so later work benefits from the simplification; CodeFriend assessment depends on #299. The milestone quality gate includes their completion. Existing #304 remains an additional separately tracked remount-reliability fix; it is not one of these four improvements. CI #205 is included independently, outside this four-issue group. The four issues have no GitHub milestone assigned at this planning snapshot; metadata reconciliation is outstanding.
 
-## v0.93.2 scope integration
+## Independent CI work
 
-The milestone retains the existing platform tracks and adds CodeFriend plus the approved full GHB program. CodeFriend public launch is routed through existing CodeFriend #92 and still requires exact deployment authorization. GHB requires Gate A, Gate B, and WP12 before milestone qualification; planning approval does not authorize experiments, provider spend, deployment, or issue creation. Runtime-v4 activation/generation and citizen-continuity/CM mechanisms are shared dependencies for GHB-WP07/WP08, not duplicate engines, schedulers, or transaction owners. ADL #1226 remains a deferred assessment.
-
-## CodeFriend launch allocation
-
-`CF-92` reuses existing CodeFriend #92 with predecessors ADL #1150, CodeFriend #45/#46, and website #21. Acceptance requires an explicitly authorized exact candidate, audience, environment and budget, followed by public-journey and rollback evidence. Planning scope is not deployment authority.
+[CI-205 / C-SDLC #205](https://github.com/agent-logic/cognitive-sdlc/issues/205) must also complete in v0.93.2. It is an independent Sprint 3 track, not part of or dependent on lifecycle simplification #296–299. It covers CI across code and non-paper documentation repositories; papers remain excluded. The milestone quality gate requires its completion. Its existing v0.93.1 title and unassigned GitHub milestone await metadata reconciliation. No execution is started.

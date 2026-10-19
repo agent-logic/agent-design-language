@@ -2,36 +2,24 @@
 
 ## Metadata
 
-Planning template set: 1.1.0. Target: v0.93.2. Planning issue: #922. Accountable role: milestone owner; named execution owners remain unassigned.
+Planning template set: 1.1.0. Target: v0.93.2. Setup issue: ADL #1296. Owner of planning: Planning #12. Product execution owners remain unassigned.
 
 ## Status
 
-Planned and unopened. The operator approved the scope split; this package does not approve execution, provider spend, publication or release.
+WP-01 #1296 is in progress. Execution is authorized for C-SDLC #296–299 only; other downstream work remains unactivated. No deployment, provider spend, release or Runtime restart is authorized by these documents.
 
 ## Current status
 
-Future handoff contract only; successor version and release approval remain unresolved.
+WP-01 #1296 is in progress. Execution is authorized for C-SDLC #296–299 only; other downstream work remains unactivated.
 
 ## Required contents
 
-Accepted source/artifact lockset; all 67 task dispositions; installed proof denominator; private/public artifact locations; unresolved findings; CodeFriend compatibility/rollback evidence; sidecar dispositions and resource/authority limits.
+The successor receives the accepted CodeFriend/security lockset and 46 preserved platform definitions. v0.93.3 has its own opening, integration, qualification and tail gates.
 
 ## Preparation sequence
 
-TAIL-07 plans the successor, TAIL-08 plans its closeout, TAIL-09 independently reviews the plan, and TAIL-10 performs authorized release and accepted handoff.
+Preserve each existing identity, dependencies and negative cases. Review the successor plan before its separate opening decision.
 
 ## Stop boundary
 
-No successor opening, provider run or publication follows automatically from handoff preparation.
-
-## Existing Observatory backlog
-
-Operator amendment routes existing #1145 (Everyone Observatory) and #875 to v0.93.1, outside both milestones' core counts. Preserve their existing task identities and authority; v0.93.1 owns their scope, dependencies and disposition, without duplicate creation or assumed completion. #875 retains its original gates and is excluded from the core count. #671 is completed in v0.92.2 and has no successor allocation.
-
-## v0.93.2 scope integration
-
-The milestone retains the existing platform tracks and adds CodeFriend plus the approved full GHB program. CodeFriend public launch is routed through existing CodeFriend #92 and still requires exact deployment authorization. GHB requires Gate A, Gate B, and WP12 before milestone qualification; planning approval does not authorize experiments, provider spend, deployment, or issue creation. Runtime-v4 activation/generation and citizen-continuity/CM mechanisms are shared dependencies for GHB-WP07/WP08, not duplicate engines, schedulers, or transaction owners. ADL #1226 remains a deferred assessment.
-
-## #1242 scope reconciliation
-
-Reuse merged #1259; 67 planned identities retain the full approved scope except PY-01. Its complete original definition is preserved in `tail07-1242/SUCCESSOR_PLAN.json`. Affect/humour remain outside v0.93.2; no later milestone is activated here. #1241 final residual dispositions and selected installed lockset correspondence remain pending; source retirement #1223 is merged, not a public deployment.
+No successor activation, deployment or spend follows from this document.

@@ -2,7 +2,7 @@
 """PVF: deterministic public planning contract; bounded local Node/Python, no builds/network.
 
 Release gate: planning consistency only, through the public tooling CI lane.
-Preserves the incoming Node graph test and Python validator's 22 negative fixtures.
+Checks current milestone reallocation and preserves the historical split validator's 27 negative fixtures. Historical counts are not current milestone counts.
 """
 import json
 from pathlib import Path
@@ -15,8 +15,8 @@ EXPECTED = {
     "source_tasks": 83,
     "successor_tasks": [43, 67],
     "version_specific_gates": 13,
-    "negative_fixtures": 24,
-    "execution_opened": False,
+    "negative_fixtures": 27,
+    "execution_opened": True,
 }
 
 

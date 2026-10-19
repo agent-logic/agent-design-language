@@ -2,66 +2,45 @@
 
 ## Metadata
 
-Planning template set: 1.1.0. Target: v0.93.2. Planning issue: #922. Accountable role: milestone owner; named execution owners remain unassigned.
+Planning template set: 1.1.0. Target: v0.93.2. Setup issue: ADL #1296. Owner of planning: Planning #12. Product execution owners remain unassigned.
 
 ## Status
 
-Planned and unopened. The operator approved the scope split; this package does not approve execution, provider spend, publication or release.
+WP-01 #1296 is in progress. Execution is authorized for C-SDLC #296–299 only; other downstream work remains unactivated. No deployment, provider spend, release or Runtime restart is authorized by these documents.
 
 ## Purpose
 
-Define consumer demonstrations required for platform acceptance.
-
-## How To Use
-
-Record actual run counts and failures against a pinned installed lockset.
-
-## Scope
-
-Runtime plugins, governance/security, citizen continuity and qualified ready-to-deploy CodeFriend compatibility.
+Exercise complete consumer outcomes rather than scaffolding.
 
 ## Runtime Preconditions
 
-Accepted v0.93.1 handoff and pinned repository lockset are prerequisites: external references v0.93.1/RD-11, v0.93.1/RD-09 and v0.93.1/TAIL-10. WP-01 also requires explicit opening authorization. The repository split is consumed, not repeated. Per-issue environment, provider and data access authorization must exist before live runs.
+Select exact source/artifact versions and a supported deployment class. Obtain scoped permission before paid or live operations.
 
 ## Demo Coverage Summary
 
-| Track | Owner | Required observation |
-|---|---|---|
-| Plugin lifecycle | RV-08 | Native/process/WASM operation, interrupted upgrade, rollback, state migration, reconfiguration and removal |
-| Governance | DEMO-GOV | Rights/duties, appeal, private social cognition, delegation and guild decisions |
-| Security | DEMO-SEC | Denial, key lifecycle, isolation, incident integrity and replayable adversarial drill |
-| Citizen continuity | CM-04 | Interrupted transfer, no double activation, distinct descendant identity, recovery |
-| CodeFriend compatibility | QUALIFY | Existing review/artifact and recovery journeys across upgrade and rollback |
+| Package | Acceptance evidence | Required adverse cases |
+| --- | --- | --- |
+| WP-01 | Reconcile the approved smaller milestones and losslessly route all prior identities without downstream activation. | Unaccepted predecessor; Missing opening approval; Duplicate issue identities |
+| CF-B1-01 | Review actual outputs and end-to-end journeys on representative repositories; agree a prioritized gap register and measurable Beta 1 acceptance denominator with the operator. | Unreproduced defect claimed; Prior qualification substituted for user acceptance |
+| WP-S1 | Define and enforce CodeFriend principal, tenant, repository, service and paired-agent trust boundaries against supported Runtime interfaces; identify any missing primitive as a bounded prerequisite. | Implicit internal trust; Connection treated as permission |
+| CF-B1-02 | Resolve accepted report-quality gaps against the comprehensive-review PDF reference, using Geist; verify supported export formats, evidence links and human readability. | Unreadable export; Broken evidence link; Unsupported format claimed |
+| CF-B1-03 | Resolve accepted review correctness, actionable-finding and recovery gaps using the agreed repository denominator. | Unsupported finding; Silent partial result; Retry duplicates work |
+| WP-S2 | Enforce per-action and per-message least privilege, bounded delegation and revocation for CodeFriend using supported Runtime contracts; preserve denial reasons. | Stale/revoked grant; Malformed/replayed/out-of-order message |
+| WP-S3 | Current scoped keys work and rotated/revoked keys fail in signed/encrypted message and checkpoint consumers. | Wrong-scope key; Secret in output; Revocation ignored |
+| WP-S4 | Produce tamper-evident, linked and redacted CodeFriend incident evidence accepted by the operator-review consumer; preserve full constitutional-appeal integration for v0.93.3. | Tampered event; Raw private-state dump |
+| WP-S5 | Enforce tenant/repository isolation, consent, retention, deletion and redacted CodeFriend exports; preserve citizen and social-memory integration for v0.93.3. | Cross-tenant or cross-repository leak; Unredacted private-data export; Deletion leaves accessible data |
+| CF-B1-04 | Prove invited login, repository consent, agent pairing where enabled, first review and results, including revocation and recovery. | Consent bypass; Revoked pairing accepted; Login loop |
+| CF-B1-05 | Resolve accepted resource, diagnostics, retention and support gaps; verify bounded execution and safe disablement on the supported deployment configuration. | Unbounded resource use; Secret in error; Deletion leaves accessible data |
+| WP-S6 | One bounded red/blue/purple drill replays a seed per control area and produces mitigation, provenance, threat-board and release-risk evidence. | Undeclared target; Non-replayable finding; Unproven mitigation |
+| DEMO-SEC | Execute D9-D12 plus per-message ACIP cases against the private provider and installed Runtime. | Synthetic mechanics claimed as enterprise qualification |
+| INTEGRATE | Integrate the exact CodeFriend, site, supported Runtime and enterprise-security lockset; prove complete customer journeys and safe disablement without Runtime v4 or GHB. | Authority lost across product boundary |
+| QUALIFY | Independently qualify the exact Beta 1 candidate against the accepted product and security denominator before launch; prior v0.93.1 evidence is reused only where still applicable. | Wrong artifact head; Missing negative scenario |
+| CF-92 | Deploy and launch the separately authorized Beta 1 candidate; verify live onboarding, review/results, waiting list and rollback or safe disablement. | Planning allocation treated as deployment authorization; Unqualified candidate or missing predecessor; Public availability inferred from ready-to-deploy evidence |
 
 ## Coverage Rules
 
-Zero executed scenarios, mocks or export generation do not prove installed consumer acceptance. Keep retained, synthetic and fresh live evidence distinct.
-
-## Demo Details
-
-The execution specifications define per-task negative cases and completion denominator. Use synthetic private-safe inputs first; identify authentic data and authorization separately.
-
-## Cross-Demo Validation
-
-INTEGRATE verifies common contract/artifact identities; QUALIFY reruns affected consumers after changed producers.
-
-## Determinism Evidence
-
-Capture scenario inputs, policy versions, expected decisions and replay behavior; provider variability and unknown effects remain explicit.
-
-## Reviewer Sign-Off Surface
-
-Independent reviewer records exact candidate, observed scenarios, gaps and dispositions. No sign-off exists in this planning packet.
+Record scenario counts, positive/negative/recovery outcomes, failures and skipped cases. Do not call a planned demonstration executed.
 
 ## Exit Criteria
 
-Every admitted scenario is accepted or explicitly disposed without hiding mandatory behavior.
-
-## v0.93.2 scope integration
-
-The milestone retains the existing platform tracks and adds CodeFriend plus the approved full GHB program. CodeFriend public launch is routed through existing CodeFriend #92 and still requires exact deployment authorization. GHB requires Gate A, Gate B, and WP12 before milestone qualification; planning approval does not authorize experiments, provider spend, deployment, or issue creation. Runtime-v4 activation/generation and citizen-continuity/CM mechanisms are shared dependencies for GHB-WP07/WP08, not duplicate engines, schedulers, or transaction owners. ADL #1226 remains a deferred assessment.
-
-## CodeFriend launch allocation
-
-`CF-92` reuses existing CodeFriend #92 with predecessors ADL #1150, CodeFriend #45/#46, and website #21. Acceptance requires an explicitly authorized exact candidate, audience, environment and budget, followed by public-journey and rollback evidence. Planning scope is not deployment authority.
+Every mandatory scenario is accepted or has an explicit operator disposition before release.

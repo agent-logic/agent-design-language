@@ -1,49 +1,37 @@
-# v0.93.2 Release Notes (draft)
+# v0.93.2 Release Notes
 
 ## Metadata
 
-Planning template set: 1.1.0. Target: v0.93.2. Planning issue: #922. Accountable role: milestone owner; named execution owners remain unassigned.
+Planning template set: 1.1.0. Target: v0.93.2. Setup issue: ADL #1296. Owner of planning: Planning #12. Product execution owners remain unassigned.
 
 ## Status
 
-Planned and unopened. The operator approved the scope split; this package does not approve execution, provider spend, publication or release.
-
-## How To Use
-
-Replace planned statements with verified results and exact PR/artifact evidence during TAIL-03; no shipped feature is claimed here.
+WP-01 #1296 is in progress. Execution is authorized for C-SDLC #296–299 only; other downstream work remains unactivated. No deployment, provider spend, release or Runtime restart is authorized by these documents.
 
 ## Summary
 
-Planned platform evolution after v0.93.1 CodeFriend Beta 1.
+Planned: CodeFriend Beta 1 launch and enterprise security. No delivery or release is claimed.
 
 ## Highlights
 
-Planned: Runtime v4, citizen governance, private enterprise security and continuity/reproduction.
-
-## What's New In Detail
-
-RV-01–RV-11; GOV-01–GOV-16; WP-S1–WP-S6; CM-01–CM-04; integrated governance/security demonstrations. See WBS for single-result boundaries.
+31 planned identities across five dependency-based sprints. Preserve all 67 earlier identities through [the allocation register](../v0.93.2/REALLOCATION_1296.json). 21 retained identities plus five explicit Beta 1 product packages and four existing C-SDLC improvements plus independent CI #205; 46 platform identities move to v0.93.3.
 
 ## Upgrade Notes
 
-Consume the accepted v0.93.1 lockset and qualify CodeFriend compatibility, plugin state migration and rollback. Exact versions/instructions await implementation evidence.
+Consume the accepted predecessor lockset; verify any changed compatibility/rollback surface on the release candidate.
 
 ## Known Limitations
 
-No execution evidence, accepted release candidate or named implementation owners is established by this draft. Sidecars retain original gates; no certification/personhood claims.
+WP-01 #1296 is in progress. Execution is authorized for C-SDLC #296–299 only; other downstream work remains unactivated. Python reduction, affect and humour remain deferred outside both allocations. Existing historical evidence is retained. No repository split is repeated; no sibling checkout is required to validate public ADL.
 
 ## Validation Notes
 
-Planning validation cannot substitute for installed runtime, security or consumer qualification. Record actual executed denominator and skips at release.
+Planning proof is not product proof. Populate actual qualification outcomes during execution.
 
 ## What's Next
 
-TAIL-07–TAIL-09 select and review the subsequent milestone; no next version is invented here.
+Planned v0.93.3 owns Runtime v4, broad governance, citizen continuity and GHB.
 
 ## Exit Criteria
 
-Notes agree with actual accepted results and authorized publication destinations.
-
-## v0.93.2 scope integration
-
-The milestone retains the existing platform tracks and adds CodeFriend plus the approved full GHB program. CodeFriend public launch is routed through existing CodeFriend #92 and still requires exact deployment authorization. GHB requires Gate A, Gate B, and WP12 before milestone qualification; planning approval does not authorize experiments, provider spend, deployment, or issue creation. Runtime-v4 activation/generation and citizen-continuity/CM mechanisms are shared dependencies for GHB-WP07/WP08, not duplicate engines, schedulers, or transaction owners. ADL #1226 remains a deferred assessment.
+Replace planned claims only with accepted version-specific evidence.
