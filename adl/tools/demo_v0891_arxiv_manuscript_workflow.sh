@@ -4,8 +4,13 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 OUT_DIR="${1:-$ROOT_DIR/artifacts/v0891/arxiv_manuscript_workflow}"
 
-rm -rf "$OUT_DIR"
-mkdir -p "$OUT_DIR"
+# Parents may be created, but the final output directory must be new.
+# Atomic mkdir refuses existing directories, files and dangling symlinks.
+mkdir -p -- "$(dirname -- "$OUT_DIR")"
+if ! mkdir -- "$OUT_DIR"; then
+  echo "demo output must be a new directory: $OUT_DIR" >&2
+  exit 1
+fi
 
 python3 - "$OUT_DIR" <<'PY'
 import json
@@ -64,7 +69,7 @@ paper_specs = [
             "docs/adr/0008-godel-stage-loop-v08.md",
             "demos/v0.85/adaptive_godel_loop_demo.md",
             "demos/v0.85/godel_hypothesis_engine_demo.md",
-            "adl/src/godel/mod.rs",
+            "docs/explainers/GODEL_AGENTS.md",
         ],
         "section_order": [
             "motivation",
@@ -76,6 +81,7 @@ paper_specs = [
         ],
         "known_gaps": [
             "needs updated examples from the latest convergence artifacts",
+            "public design documents are not proof of execution in the separate Runtime owner",
             "must avoid claiming autonomous recursive self-modification",
         ],
     },

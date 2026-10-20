@@ -75,7 +75,9 @@ impl AdlDoc {
     ///
     /// Security boundary:
     /// - include paths must be relative and cannot traverse via `..`
+    /// - resolved includes must stay within the canonical initial document directory
     /// - include cycles are rejected
+    /// This is static path validation, not protection against concurrent filesystem changes.
     pub fn load_from_file(path: &str) -> Result<Self> {
         let merged = loading::load_yaml_with_includes(Path::new(path), &mut Vec::new())
             .with_context(|| format!("read/merge adl file (with includes): {path}"))?;
