@@ -90,7 +90,8 @@ def main():
                       if item['classification'] == 'active')
         assert invoke(['release', '--claim-id', active['claim_id']],
                       structured=False).startswith('released ')
-        assert not ledger.with_name('ledger.json.lock').exists()
+        assert ledger.with_name('ledger.json.lock').read_bytes() == b'adl.session-ledger.os-lock.v1\n'
+        # The preceding sequential mutations prove reacquisition; the inode persists.
         assert not ledger.with_suffix('.json.tmp').exists()
         malformed = json.loads(ledger.read_text())
         malformed['schema'] = 'unsupported-fixture-schema'

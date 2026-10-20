@@ -1,13 +1,14 @@
 use std::collections::BTreeMap;
 use std::fs;
 use std::fs::OpenOptions;
-use std::io::Write;
+use std::io::{Read, Seek, SeekFrom, Write};
 use std::path::{Path, PathBuf};
 use std::thread;
 use std::time::{Duration as StdDuration, Instant};
 
 use anyhow::{anyhow, Context, Result};
 use chrono::{DateTime, Duration, Utc};
+use fs2::FileExt;
 use serde::{Deserialize, Serialize};
 
 pub const SESSION_LEDGER_SCHEMA: &str = "adl.session_ledger.v1";
@@ -179,14 +180,12 @@ pub struct ClaimInput {
 
 #[derive(Debug)]
 pub struct LedgerLock {
-    path: PathBuf,
+    // Closing the held descriptor releases the OS lock, including on process death.
+    // Never unlink the persistent inode: existing waiters may still hold it open.
+    _file: fs::File,
 }
 
-impl Drop for LedgerLock {
-    fn drop(&mut self) {
-        let _ = fs::remove_file(&self.path);
-    }
-}
+const LOCK_PROTOCOL: &[u8] = b"adl.session-ledger.os-lock.v1\n";
 
 impl SessionLedger {
     pub fn empty(now: DateTime<Utc>) -> Self {
@@ -427,27 +426,56 @@ fn lock_path_for(path: &Path) -> PathBuf {
 }
 
 fn try_acquire_lock_path(lock_path: &Path) -> Result<Option<LedgerLock>> {
-    match OpenOptions::new()
-        .write(true)
-        .create_new(true)
-        .open(lock_path)
-    {
-        Ok(mut file) => {
-            writeln!(
-                file,
-                "pid={} acquired_at={}",
-                std::process::id(),
-                Utc::now().to_rfc3339()
-            )
-            .with_context(|| format!("write session ledger lock {}", lock_path.display()))?;
-            Ok(Some(LedgerLock {
-                path: lock_path.to_path_buf(),
-            }))
+    // Publish a fully initialized inode without replacing an existing lock. A crash
+    // before publication can leave only an unrelated temporary file, never a
+    // permanently ambiguous empty lock. Old create_new clients refuse this path.
+    let mut file = match OpenOptions::new().read(true).write(true).open(lock_path) {
+        Ok(file) => file,
+        Err(err) if err.kind() == std::io::ErrorKind::NotFound => {
+            let parent = lock_path
+                .parent()
+                .filter(|p| !p.as_os_str().is_empty())
+                .unwrap_or(Path::new("."));
+            let mut pending = tempfile::NamedTempFile::new_in(parent)
+                .context("create session lock initialization file")?;
+            pending
+                .write_all(LOCK_PROTOCOL)
+                .context("initialize session lock protocol")?;
+            pending
+                .as_file()
+                .sync_all()
+                .context("sync session lock protocol")?;
+            match pending.persist_noclobber(lock_path) {
+                Ok(file) => file,
+                Err(err) if err.error.kind() == std::io::ErrorKind::AlreadyExists => {
+                    OpenOptions::new()
+                        .read(true)
+                        .write(true)
+                        .open(lock_path)
+                        .context("open concurrently initialized session lock")?
+                }
+                Err(err) => return Err(err.error).context("publish session lock protocol"),
+            }
         }
-        Err(err) if err.kind() == std::io::ErrorKind::AlreadyExists => Ok(None),
-        Err(err) => {
-            Err(err).with_context(|| format!("create session ledger lock {}", lock_path.display()))
-        }
+        Err(err) => return Err(err).context("open session ledger lock"),
+    };
+    file.seek(SeekFrom::Start(0))
+        .context("rewind session lock protocol")?;
+    let mut protocol = Vec::new();
+    (&mut file)
+        .take(LOCK_PROTOCOL.len() as u64 + 1)
+        .read_to_end(&mut protocol)
+        .context("read session lock protocol")?;
+    if protocol != LOCK_PROTOCOL {
+        return Err(anyhow!(
+            "legacy or invalid session lock at {}; stop all old clients before explicitly removing the legacy lock; never remove an active OS lock",
+            lock_path.display()
+        ));
+    }
+    match FileExt::try_lock_exclusive(&file) {
+        Ok(()) => Ok(Some(LedgerLock { _file: file })),
+        Err(err) if err.kind() == std::io::ErrorKind::WouldBlock => Ok(None),
+        Err(err) => Err(err).context("acquire session ledger OS lock"),
     }
 }
 
@@ -913,6 +941,155 @@ mod tests {
             .expect("third lock attempt")
             .expect("lock released");
         let _ = fs::remove_dir_all(path.parent().expect("temp parent"));
+    }
+
+    // PVF local_contract: deterministic owned process/filesystem fixtures, bounded
+    // local CPU/disk, required macOS and Linux public source gate, no network.
+    #[test]
+    fn ledger_lock_child_fixture() {
+        let Ok(path) = std::env::var("ADL_LOCK_TEST_CHILD_LEDGER") else {
+            return;
+        };
+        let path = Path::new(&path);
+        if std::env::var("ADL_LOCK_TEST_CHILD_MODE").unwrap() == "holder" {
+            let _lock = acquire_ledger_lock(path).unwrap();
+            fs::write(path.with_extension("ready"), "ready").unwrap();
+            thread::sleep(StdDuration::from_secs(30));
+        } else {
+            for i in 0..10 {
+                let _lock = acquire_ledger_lock(path).unwrap();
+                let mut ledger = load_ledger(path, now()).unwrap();
+                ledger
+                    .claim(input(u64::from(std::process::id()) * 100 + i), now())
+                    .unwrap();
+                save_ledger(path, &ledger).unwrap();
+            }
+        }
+    }
+
+    fn lock_child(path: &Path, mode: &str) -> std::process::Child {
+        std::process::Command::new(std::env::current_exe().unwrap())
+            .args([
+                "--exact",
+                "session_ledger::tests::ledger_lock_child_fixture",
+                "--nocapture",
+            ])
+            .env("ADL_LOCK_TEST_CHILD_LEDGER", path)
+            .env("ADL_LOCK_TEST_CHILD_MODE", mode)
+            .stdout(std::process::Stdio::null())
+            .spawn()
+            .unwrap()
+    }
+
+    struct OwnedLockChild(std::process::Child);
+    impl Drop for OwnedLockChild {
+        fn drop(&mut self) {
+            let _ = self.0.kill();
+            let _ = self.0.wait();
+        }
+    }
+
+    #[test]
+    fn ledger_lock_recovers_after_holder_is_killed() {
+        let dir = tempfile::tempdir().unwrap();
+        let path = dir.path().join("ledger.json");
+        let mut child = OwnedLockChild(lock_child(&path, "holder"));
+        let started = Instant::now();
+        while !path.with_extension("ready").exists() {
+            assert!(
+                started.elapsed() < StdDuration::from_secs(10),
+                "child did not acquire lock"
+            );
+            assert!(child.0.try_wait().unwrap().is_none(), "child exited early");
+            thread::sleep(StdDuration::from_millis(10));
+        }
+        assert!(try_acquire_ledger_lock(&path).unwrap().is_none());
+        let before = fs::read(lock_path_for(&path)).unwrap();
+        child.0.kill().unwrap();
+        child.0.wait().unwrap();
+        let lock = try_acquire_ledger_lock(&path)
+            .unwrap()
+            .expect("crash releases OS lock");
+        assert_eq!(fs::read(lock_path_for(&path)).unwrap(), before);
+        drop(lock);
+        assert!(try_acquire_ledger_lock(&path).unwrap().is_some());
+    }
+
+    #[test]
+    fn ledger_lock_concurrent_process_writers_preserve_updates() {
+        let dir = tempfile::tempdir().unwrap();
+        let path = dir.path().join("ledger.json");
+        let mut first = OwnedLockChild(lock_child(&path, "writer"));
+        let mut second = OwnedLockChild(lock_child(&path, "writer"));
+        assert!(first.0.wait().unwrap().success());
+        assert!(second.0.wait().unwrap().success());
+        assert_eq!(load_ledger(&path, now()).unwrap().claims.len(), 20);
+    }
+
+    #[test]
+    fn ledger_lock_refuses_legacy_and_preserves_stable_inode() {
+        let dir = tempfile::tempdir().unwrap();
+        let path = dir.path().join("ledger.json");
+        let lock_path = lock_path_for(&path);
+        fs::write(&lock_path, "pid=123 acquired_at=legacy\n").unwrap();
+        assert!(try_acquire_ledger_lock(&path)
+            .unwrap_err()
+            .to_string()
+            .contains("legacy or invalid"));
+        assert_eq!(
+            fs::read_to_string(&lock_path).unwrap(),
+            "pid=123 acquired_at=legacy\n"
+        );
+        // Fixture migration is explicitly quiescent; production does not unlink.
+        fs::remove_file(&lock_path).unwrap();
+        let first = acquire_ledger_lock(&path).unwrap();
+        let waiter = OpenOptions::new()
+            .read(true)
+            .write(true)
+            .open(&lock_path)
+            .unwrap();
+        assert!(FileExt::try_lock_exclusive(&waiter).is_err());
+        assert_eq!(
+            OpenOptions::new()
+                .write(true)
+                .create_new(true)
+                .open(&lock_path)
+                .unwrap_err()
+                .kind(),
+            std::io::ErrorKind::AlreadyExists
+        );
+        drop(first);
+        FileExt::try_lock_exclusive(&waiter).unwrap();
+        assert!(
+            try_acquire_ledger_lock(&path).unwrap().is_none(),
+            "same inode must exclude later opens"
+        );
+        drop(waiter);
+        assert!(try_acquire_ledger_lock(&path).unwrap().is_some());
+    }
+
+    #[test]
+    fn ledger_lock_releases_after_save_failure() {
+        let dir = tempfile::tempdir().unwrap();
+        let path = dir.path().join("ledger.json");
+        fs::create_dir(&path).unwrap();
+        {
+            let _lock = acquire_ledger_lock(&path).unwrap();
+            assert!(save_ledger(&path, &SessionLedger::empty(now())).is_err());
+        }
+        assert!(try_acquire_ledger_lock(&path).unwrap().is_some());
+    }
+
+    #[test]
+    fn ledger_lock_initialization_failure_does_not_publish_partial_lock() {
+        let dir = tempfile::tempdir().unwrap();
+        let parent = dir.path().join("missing");
+        let lock_path = parent.join("ledger.json.lock");
+        assert!(try_acquire_lock_path(&lock_path).is_err());
+        assert!(!lock_path.exists());
+        fs::create_dir(&parent).unwrap();
+        assert!(try_acquire_lock_path(&lock_path).unwrap().is_some());
+        assert_eq!(fs::read(&lock_path).unwrap(), LOCK_PROTOCOL);
     }
 
     #[test]
