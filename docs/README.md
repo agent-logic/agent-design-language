@@ -1,57 +1,40 @@
-# Documentation Index
+# ADL documentation
 
-Current post-split entrypoints: [repository map](REPOSITORIES.md), [contributor onboarding](onboarding.md), [public CLI](../adl/README.md) and [default workflow](default_workflow.md). Milestone reviews below retain their dated scope and do not establish current product acceptance.
+ADL's public repository provides language and contract packages, portable planning
+and a CLI that dispatches product execution to separately installed owners.
 
-This directory is the main documentation entrypoint for ADL milestone records, contributor workflow docs, tooling guides, and architecture references.
+## Start here
 
-Use this index to find the right source of truth quickly.
+- [Project overview and first build](../README.md)
+- [Provider-free example and expected output](../demos/README.md#runnable-from-a-public-clone)
+- [Public contributor onboarding](onboarding.md)
+- [Fork, test and submit a PR](../CONTRIBUTING.md#external-contributors)
+- [Version compatibility and support boundaries](COMPATIBILITY.md)
+- [Build entrypoints and measurement](PUBLIC_BUILD.md)
+- [Roadmap and current milestones](ROADMAP.md)
+- [Security reporting](../SECURITY.md)
 
-## Start Here
+## Language, CLI and libraries
 
-- Completed v0.92 milestone package: `milestones/v0.92/`
-- Retained v0.92 execution record: `milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md`
-- Historical release reference: `v0.91.7`
-- Immediate completed handoff bridge: `milestones/v0.91.8/`
-- Root project overview: `../README.md`
-- Public CLI guide: `../adl/README.md`
-- Language/spec entrypoint: `../adl-spec/README.md`
-- Glossary: `GLOSSARY.md`
-- Default contributor workflow: `default_workflow.md`
+- [Language specification](../adl-spec/README.md): ADL 1.0 draft.
+- [Public CLI](../adl/README.md): planning, process/session tools and owner dispatch.
+- [Schemas](../adl-schema/README.md) and [legacy document contracts](../adl-legacy-contracts/README.md).
+- [UTS tool declarations](specs/uts/README.md) and [ACC contract specifications](specs/acc/README.md).
+- [Repository ownership map](REPOSITORIES.md): implementation and qualification boundaries.
+- [Glossary](GLOSSARY.md) and [design goals](design_goals.md).
 
-## Milestone Documentation
+## Maintainer operations
 
-- Completed milestone package: `milestones/v0.92/`
-- Retained issue wave: `milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml`
-- Quality record: `milestones/v0.92/QUALITY_GATE_v0.92.md`
-- Review entrypoint: `milestones/v0.92/README.md`
-- Canonical v0.92 documentation inventory: `milestones/v0.92/CANONICAL_DOC_INVENTORY_v0.92.md`
-- Third-party review handoff: `milestones/v0.92/review/THIRD_PARTY_REVIEW_HANDOFF_v0.92.md`
-- Historical release package: `milestones/v0.91.7/`
-- Recent stable milestones: `milestones/v0.91.8/`, `milestones/v0.91.7/`, `milestones/v0.91.6/`, `milestones/v0.91.5/`, `milestones/v0.91.4/`, `milestones/v0.91.3/`, `milestones/v0.91.2/`, `milestones/v0.91.1/`, `milestones/v0.90.5/`
-- Earlier milestones: `milestones/v0.75/`, `milestones/v0.7/`, `milestones/v0.6/`
-- Historical milestones: `milestones/v0.5/`, `milestones/v0.4/`, `milestones/v0.3/`, `milestones/v0.2/`
+Internal sessions use [agent guidance](../AGENTS.md), the [native issue workflow](default_workflow.md),
+[review expectations](../REVIEW.md) and the selected owner's [package manuals](csdlc-v3/man/README.md).
+External contributors do not need these private lifecycle tools to submit a PR.
 
-## Core Contributor and Reference Docs
+## Historical engineering records
 
-- Architecture decisions: `adr/`
-- Glossary: `GLOSSARY.md`
-- Default workflow guide: `default_workflow.md`
-- Design goals: `design_goals.md`
-- Codex operating procedure: `codex_playbook.md`
-- Tooling index: `tooling/README.md`
-
-## Demo and Tooling Surfaces
-
-- Canonical demo index: `../demos/README.md`
-- v0.92 demo matrix: `milestones/v0.92/DEMO_MATRIX_v0.92.md`
-- v0.92 feature-proof coverage: `milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md`
-- v0.92 quality record: `milestones/v0.92/QUALITY_GATE_v0.92.md`
-- Retained completed demo matrix: `milestones/v0.91.8/DEMO_MATRIX_v0.91.8.md`
-- Editor/tooling demo surfaces: `tooling/editor/README.md`
-
-## Notes
-
-Milestone docs should be read as bounded engineering records. They distinguish
-what shipped, what was proved, what remains claim-bounded, and what moved to a
-later milestone. `v0.92` is a completed engineering milestone; its retained
-package is the canonical source for its scope, evidence, review, and handoff.
+[Milestone records](milestones/) and [architecture decisions](adr/) retain their
+original dates, implementation scope and proof limits. They are not current
+public command recipes. The [historical demo catalog](../demos/HISTORICAL_INDEX.md)
+retains migrated and retired scenarios; use the current demo index for runnable guidance.
+[Source-retirement evidence](../tools/source_retirement/README.md) preserves custody
+and restoration contracts. Current work and remaining acceptance belong in the
+[roadmap](ROADMAP.md), not an inferred conclusion from old milestone names.

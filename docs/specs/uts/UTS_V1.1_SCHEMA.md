@@ -25,7 +25,7 @@ Authority hierarchy:
 
 Implementation-facing baseline reference:
 
-- [`adl/src/uts.rs`](../../../adl/src/uts.rs)
+- [`adl-uts/src/lib.rs`](../../../adl-uts/src/lib.rs)
 - [`UTS_V1.0_SCHEMA.md`](./UTS_V1.0_SCHEMA.md)
 
 ## Normative Language

@@ -156,7 +156,7 @@ ACC or by runtime policy.
 
 The current implemented baseline lives in:
 
-- [`adl/src/uts.rs`](../../../adl/src/uts.rs)
+- [`adl-uts/src/lib.rs`](../../../adl-uts/src/lib.rs)
 
 Its current field families are:
 

@@ -48,6 +48,16 @@ repositories merely to build the public CLI. Runtime selection uses
 [public selector contract](adl/README.md#selected-product-owners) and the owner's
 artifact instructions rather than supplying an arbitrary executable.
 
+## Try a provider-free example
+
+```sh
+cargo run --locked --manifest-path adl/Cargo.toml --bin adl -- adl/examples/v0-3-fork-join-seq-run.adl.yaml --print-plan
+```
+
+The output lists three steps: two branches followed by a join. This prints a plan;
+it does not call the provider named in the document. See the [expected output](demos/README.md#runnable-from-a-public-clone)
+and [build environment and timings](docs/PUBLIC_BUILD.md).
+
 ## Development and validation
 
 For a public CLI change, the focused validation entrypoint is:
@@ -68,7 +78,9 @@ Runtime installation, provider readiness, CodeFriend release or C-SDLC admission
 - [Contributor onboarding](docs/onboarding.md)
 - [Documentation index](docs/README.md)
 - [Language specification](adl-spec/README.md)
-- [Default issue workflow](docs/default_workflow.md)
+- [Version and compatibility guide](docs/COMPATIBILITY.md)
+- [Roadmap and milestones](docs/ROADMAP.md)
+- [Maintainer issue workflow](docs/default_workflow.md)
 - [Agent instructions](AGENTS.md)
 - [C-SDLC package manuals](docs/csdlc-v3/man/README.md)
 - [Demo and historical proof index](demos/README.md)
