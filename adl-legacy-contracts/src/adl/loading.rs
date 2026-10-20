@@ -7,6 +7,22 @@ pub(super) fn load_yaml_with_includes(path: &Path, stack: &mut Vec<PathBuf>) -> 
     let canonical = path
         .canonicalize()
         .with_context(|| format!("resolve include path: {}", path.display()))?;
+    let root = canonical
+        .parent()
+        .context("initial ADL document has no parent")?;
+    load_yaml_within_root(&canonical, root, stack)
+}
+
+fn load_yaml_within_root(path: &Path, root: &Path, stack: &mut Vec<PathBuf>) -> Result<YamlValue> {
+    let canonical = path
+        .canonicalize()
+        .with_context(|| format!("resolve include path: {}", path.display()))?;
+    if !canonical.starts_with(root) {
+        return Err(anyhow!(
+            "include resolves outside initial document directory: {}",
+            path.display()
+        ));
+    }
     if let Some(idx) = stack.iter().position(|p| p == &canonical) {
         let mut cycle = stack[idx..]
             .iter()
@@ -59,7 +75,7 @@ pub(super) fn load_yaml_with_includes(path: &Path, stack: &mut Vec<PathBuf>) -> 
                     ));
                 }
                 let include_file = base_dir.join(include_path);
-                let include_doc = load_yaml_with_includes(&include_file, stack)?;
+                let include_doc = load_yaml_within_root(&include_file, root, stack)?;
                 let include_map = include_doc.as_mapping().ok_or_else(|| {
                     anyhow!(
                         "included ADL document must be a mapping: {}",

@@ -80,4 +80,16 @@ for leaked_text in \
   fi
 done
 
+# PVF local_contract: deterministic filesystem negatives, owned temp disk, source gate.
+printf 'preserve me\n' > "$OUT_DIR/sentinel"
+if bash "$ROOT_DIR/adl/tools/demo_v090_codebuddy_review_showcase.sh" "$OUT_DIR" >/dev/null 2>&1; then
+  echo "existing output was accepted" >&2; exit 1
+fi
+[[ "$(cat "$OUT_DIR/sentinel")" == "preserve me" ]]
+ln -s "$TMPDIR_ROOT/missing" "$TMPDIR_ROOT/dangling"
+if bash "$ROOT_DIR/adl/tools/demo_v090_codebuddy_review_showcase.sh" "$TMPDIR_ROOT/dangling" >/dev/null 2>&1; then
+  echo "dangling symlink was accepted" >&2; exit 1
+fi
+[[ -L "$TMPDIR_ROOT/dangling" && ! -e "$TMPDIR_ROOT/missing" ]]
+
 echo "demo_v090_codebuddy_review_showcase: ok"
