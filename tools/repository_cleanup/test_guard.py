@@ -29,6 +29,13 @@ class ArchiveGuard(unittest.TestCase):
             return result
         transition = json.loads((root / 'tools/repository_cleanup/transition.json').read_text())
         candidate = tree('HEAD')
+        # Compose the newer exact archive transition before checking the older one,
+        # matching tools/source_retirement/check.py's production order.
+        newer_spec = importlib.util.spec_from_file_location(
+            'public_readiness_guard', root / 'tools/public_readiness_archive/guard.py')
+        newer_guard = importlib.util.module_from_spec(newer_spec)
+        newer_spec.loader.exec_module(newer_guard)
+        candidate = newer_guard.normalize_candidate(root, candidate, tree)
         baseline = tree(transition['source_commit'])
         normalized = guard.normalize_candidate(root, candidate, baseline)
         for row in transition['changes']:
