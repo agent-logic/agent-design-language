@@ -1188,3 +1188,60 @@ run:
         "{err:#}"
     );
 }
+
+// PVF local_contract: deterministic path fixtures; bounded temp disk; public source gate.
+#[cfg(unix)]
+#[test]
+fn load_from_file_enforces_canonical_include_root() {
+    use std::os::unix::fs::symlink;
+    let dir = unique_test_temp_dir("adl-include-root");
+    let root = dir.join("root");
+    std::fs::create_dir_all(root.join("nested")).unwrap();
+    let body = r#"version: "0.1"
+providers:
+  local: {type: ollama}
+agents:
+  a1: {provider: local, model: m}
+tasks:
+  t1:
+    prompt: {user: hi}
+run:
+  workflow:
+    steps:
+      - {agent: a1, task: t1}
+"#;
+    std::fs::write(root.join("body.yaml"), body).unwrap();
+    std::fs::write(dir.join("outside.yaml"), body).unwrap();
+    symlink(dir.join("outside.yaml"), root.join("escape.yaml")).unwrap();
+    symlink(root.join("body.yaml"), root.join("nested/inside.yaml")).unwrap();
+    let entry = root.join("entry.yaml");
+    for include in ["escape.yaml", "nested/escape.yaml"] {
+        if include.starts_with("nested/") {
+            symlink(dir.join("outside.yaml"), root.join(include)).unwrap();
+            std::fs::write(root.join("nested/part.yaml"), "include: [escape.yaml]\n").unwrap();
+            std::fs::write(&entry, "include: [nested/part.yaml]\n").unwrap();
+        } else {
+            std::fs::write(&entry, "include: [escape.yaml]\n").unwrap();
+        }
+        let err = AdlDoc::load_from_file(entry.to_str().unwrap()).unwrap_err();
+        assert!(format!("{err:#}").contains("outside initial document directory"));
+    }
+    // A nested include may resolve elsewhere within the original root.
+    std::fs::write(root.join("nested/part.yaml"), "include: [inside.yaml]\n").unwrap();
+    std::fs::write(&entry, "include: [nested/part.yaml]\n").unwrap();
+    let doc = AdlDoc::load_from_file(entry.to_str().unwrap()).unwrap();
+    assert!(doc.agents.contains_key("a1"));
+    std::fs::write(&entry, "include: [body.yaml, body.yaml]\n").unwrap();
+    assert!(format!(
+        "{:#}",
+        AdlDoc::load_from_file(entry.to_str().unwrap()).unwrap_err()
+    )
+    .contains("duplicate"));
+    std::fs::write(&entry, "include: [entry.yaml]\n").unwrap();
+    assert!(format!(
+        "{:#}",
+        AdlDoc::load_from_file(entry.to_str().unwrap()).unwrap_err()
+    )
+    .contains("include cycle"));
+    std::fs::remove_dir_all(dir).unwrap();
+}

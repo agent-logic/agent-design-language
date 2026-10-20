@@ -19,7 +19,13 @@ case "$OUT_DIR" in
     ;;
 esac
 
-rm -rf "$OUT_DIR"
+# Parents may be created, but the final output directory must be new.
+# Atomic mkdir refuses existing directories, files and dangling symlinks.
+mkdir -p -- "$(dirname -- "$OUT_DIR")"
+if ! mkdir -- "$OUT_DIR"; then
+  echo "demo output must be a new directory: $OUT_DIR" >&2
+  exit 1
+fi
 mkdir -p "$specialist_dir" "$diagram_dir" "$test_dir" "$issue_dir" "$adr_dir" "$fitness_dir"
 
 cat >"$packet_dir/run_manifest.json" <<EOF_JSON
