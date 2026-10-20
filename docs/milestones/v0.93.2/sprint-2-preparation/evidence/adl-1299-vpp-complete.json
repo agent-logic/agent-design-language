@@ -1,0 +1,46 @@
+{
+  "schema": "csdlc.v3.intent_changes.v1",
+  "cards": {
+    "vpp": {
+      "card_status": "ready",
+      "plan_summary": "First inspect source contracts and topology; prepare native plans; validate structure; record all remaining execution gates; submit packet to Planning #12. Stop at reviewed preparation handoff, not sprint completion.",
+      "required_outcome_inline": "Prepare the sequential Sprint 2 execution packet and native six-card plans for CodeFriend #120 then enterprise-security #9, obtain Planning #12 review, and preserve dependency gates.",
+      "deliverables_inline": "Sprint packet with exact child identities, sequence, write sets, acceptance evidence, PVF lanes, stop conditions, ownership handoff, review and activity paths; per-child native preparation and validation receipts.",
+      "acceptance_criteria_inline": "Both child plans are issue-specific and structurally validated; acceptance is unchanged; #299 open blocks #120; #120 acceptance and RD-09 contract gate security #9; Planning #12 review findings are resolved or explicitly retained. Preparation completion does not close Sprint 2.",
+      "dependencies_inline": "ADL #1296 delivered per retained finish receipt. C-SDLC #299 observed OPEN on 2026-10-19; it gates execution, not this preparation. Security #9 additionally depends on accepted CodeFriend #120 and RD-09.",
+      "repo_inputs_inline": "AGENTS.md; docs/REPOSITORIES.md; accepted #1296 planning package; exact GitHub issue bodies for ADL #1299, CodeFriend #120, enterprise-security #9; admitted package workflow manual.",
+      "target_files_surfaces_inline": "Sprint 2 planning packet only; child preparation stored by native owner in Git metadata. No product source edits.",
+      "validation_plan_inline": "PVF planning_contract; deterministic, small local CPU/files, no network proof or product builds. Native validate for each prepared bundle; packet consistency checks; Planning #12 review required before activation.",
+      "non_goals_inline": "No deployment, paid provider/cloud calls, Runtime restart, shared binary replacement, downstream implementation, or v0.93.3 activation. Preserve sole-writer ownership. Worktrees/builds/scratch on FastWork. This session prepares only; later child execution requires accepted dependencies and an assigned owner.",
+      "notes_risks_inline": "Prepared design only; dependency readiness is separate. Planning #12 review pending. No implementation, product validation, publication, merge or closeout claimed.",
+      "validation_size_split": "focused issue lane only; broad release proof out of scope",
+      "parallel_groups_inline": "none; sequential dependency gates",
+      "sprint_goal_ref": "ADL #1299",
+      "issue_goal_ref": "Create issue-bound goal for ADL #1299 / agent-design-language #1299 after execution binding; no child goal exists yet.",
+      "selected_lanes_inline": "PVF planning_contract; deterministic, small local CPU/files, no network proof or product builds. Native validate for each prepared bundle; packet consistency checks; Planning #12 review required before activation.",
+      "validation_commands_inline": "PVF planning_contract; deterministic, small local CPU/files, no network proof or product builds. Native validate for each prepared bundle; packet consistency checks; Planning #12 review required before activation.",
+      "validation_runtime_class": "bounded_local",
+      "stp_card": ".csdlc/issues/1299/cards/stp.md",
+      "initial_pvf_lane": "planning_contract",
+      "expected_proof_cost": "Estimate only; no paid calls; replan if selected evidence exceeds allowance.",
+      "failure_policy": "Fail closed on missing proof, dependency, candidate, scope or resources. Keep failed, blocked, skipped and passed cases separate.",
+      "spp_card": ".csdlc/issues/1299/cards/spp.md",
+      "timestamp": "2026-10-19",
+      "lane_registry_template_set": "1.0.5",
+      "status": "prepared_not_executing",
+      "lane_registry_path": "admitted package resources/docs/csdlc-v3/man/pvf.json",
+      "sip_card": ".csdlc/issues/1299/cards/sip.md",
+      "goal_metrics_rollup_ref": "Sprint 2 activity record; unavailable metrics remain unknown",
+      "validation_family": "planning_contract",
+      "planned_pvf_lane": "planning_contract",
+      "planned_validation_tokens": "3000",
+      "validation_resource_profile": "small local CPU/files; installed security subprocess checks only after artifact admission; no paid or cloud runs",
+      "slug": "sprint2-acceptance-security-readiness",
+      "planned_validation_seconds": "300"
+    }
+  },
+  "amendment": {
+    "class": "proof_validator",
+    "transition_approved": true
+  }
+}

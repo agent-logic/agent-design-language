@@ -1,0 +1,46 @@
+{
+  "observed_at": "2026-10-20T19:59:24.850695+00:00",
+  "run_id": 39485680891,
+  "repository": "agent-logic/codefriend",
+  "head": "2734eff484d25ac76e807209e01e348804eaf9d0",
+  "status": "completed",
+  "conclusion": "success",
+  "jobs": [
+    {
+      "name": "select-tests",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "tests [02/05 fast product contracts]",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "tests [01/05 fast documents and source]",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "tests [05/05 slow native Mac product]",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "tests [03/05 slow Rust unit and CLI]",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "tests [04/05 slow installed product]",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "product-validation",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "scope": "CodeFriend PR132 CI success. Enterprise-security9 full Linux qualification, integrated acceptance and delivery remain separate."
+}

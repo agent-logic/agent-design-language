@@ -1,0 +1,31 @@
+{
+  "reviewer_chat": "01a0f889-1a07-77f0-a2dc-fe1ad6ce632b",
+  "review_turn": "01a15a4d-a0da-7873-ac35-491e8395ce73",
+  "status": "findings_relayed_to_execution_owner",
+  "corrections": [
+    "Permit only operator-approved prerequisite slices before #9; broader issue closure remains downstream",
+    "Include trusted tenant/repository resolver and cross-tenant refusal in first enforcement slice",
+    "Do not make CodeFriend #127 completion a prerequisite; reuse narrow installed callsite proof later",
+    "Full #9 acceptance includes authenticated consumer, durable audit and deletion proof beyond adapter tests",
+    "Run #121 rendering baseline parallel to security, except concrete export security intersections",
+    "Use declared type/format matrix; current25 and planned Journal26 remain distinct",
+    "Measure double-render PDF cost and verify explicit Chromium sandbox configuration",
+    "Repeat affected output checks on final templates; do not reopen delivered #120"
+  ],
+  "preparation_rule": "Only immediate bounded cards prepared; existing design worktree read-only",
+  "rendering_followup": {
+    "status": "earlier design concerns superseded by inspected current #130 sample source",
+    "observed": "Current pipeline renders once by default; second spacing render is optional --explore. Benchmark launch_options explicitly set chromium_sandbox=true.",
+    "evidence": "new130-sample-rendering-observation.json",
+    "remaining": "Production isolation and full output acceptance still require proving validation; #130 remains read-only."
+  },
+  "interim_execution_contract_review": {
+    "review_turn": "01a15a6f-205a-7e41-9b10-e9d134962f0e",
+    "outcome": "No actionable scope or acceptance errors; two clarifications applied",
+    "clarifications": [
+      "Sprint closeout records and routes remaining rendering work; final templates are not a new Sprint 2 predecessor",
+      "Retained measurement JSON including input inventory under umbrella evidence instead of relying only on scratch paths"
+    ],
+    "acceptance_claim": "Interim contract review only; not sprint acceptance"
+  }
+}

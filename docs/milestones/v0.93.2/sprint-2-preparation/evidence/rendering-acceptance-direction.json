@@ -1,0 +1,26 @@
+{
+  "status": "operator_authorized_owner_issue_selection_in_progress",
+  "operator_request": "As part of codefriend acceptance we need to design and validate the CodeFriend document rendering pipeline, especially for PDF. We need to know how long it takes, fix any problems, etc. Also the other doc types.",
+  "source_chat": "01a15657-557f-78c1-a047-60b58ee08e18",
+  "required_work": [
+    "Inspect and design the actual rendering pipeline",
+    "Measure repeatable stage and end-to-end rendering time",
+    "Validate actual output quality, emphasizing PDF",
+    "Cover authoritative document-type catalog and supported export formats",
+    "Fix reproduced problems and repeat measurements and review",
+    "Validate final incoming templates before launch"
+  ],
+  "template_handling": "Current templates support baseline pipeline work; final templates require affected checks to be repeated.",
+  "issue_routing": "Reuse appropriate existing CodeFriend rendering issue after scope inspection; do not reopen completed assessment #120.",
+  "execution_owner": "Worker #30",
+  "planning_rule": "Prepare only the next bounded step; preserve security prerequisite work.",
+  "selected_templates": "New #130 templates only; existing document templates will not be used",
+  "sample_status": "Operator says six examples, incomplete; suitable for pipeline design and sample validation, not final catalog acceptance",
+  "old_renderer_results": "Diagnostic history only; do not count toward new-template acceptance",
+  "sample_review": {
+    "scope": "Visual overview of six non-Journal example PDFs: report, security review, test plan, ADR, repository documentation, diagram packet",
+    "observations": "No obvious clipping or overlap at overview scale; table continuation with few rows and sparse final pages merit variable-content pagination checks",
+    "metadata": "Tagged PDFs; tag semantics/accessibility not verified",
+    "design_worktree_modified": false
+  }
+}

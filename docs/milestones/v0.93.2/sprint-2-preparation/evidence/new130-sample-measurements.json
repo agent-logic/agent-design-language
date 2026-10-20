@@ -1,0 +1,906 @@
+{
+  "identity": {
+    "input_files": {
+      "canvas-source/ADR.dc.html": "e7c74261e5535f5a2bd077140a5849a275a855e7695c2063c3db0ef6705a0338",
+      "canvas-source/DiagramPacket.dc.html": "0bdf5dfd512c89db665bb4ed03e11488e1a000b49eae646117727f8da20e2385",
+      "canvas-source/Documentation.dc.html": "5f3331ae406d6c874e08601afeb0a619a69fe20b8fb10b53733362ca1dba7f53",
+      "canvas-source/Journal.dc.html": "dda32fe342325aab08cb16c18670d59a2740cfc2869d550cb68ae21eb5ad8577",
+      "canvas-source/Main.dc.html": "293ec47189d4c6ea493a758dd3df7b9189c64df8ece819ba838b2d568b99bd2b",
+      "canvas-source/SpecialistReview.dc.html": "a1da8a56063ada1cbbfd36cf4b1045d077dc89dc4b411bc7131ece875fe542d8",
+      "canvas-source/TestPlan.dc.html": "844d06ad97b746573da36c9c99f57f174842fc994360ab7988ae0c216e3a9902",
+      "canvas-source/canvas.json": "5ed2706b7f17b318936cc0e019781f21b87d73d7887ddfa1b293728f3c4cd5f4",
+      "html/assets/codefriend-logo.svg": "c98ce5426a1a21604bb6c985db1acde9e3cda9cb6290e2c646873f1ee067aba6",
+      "html/assets/codefriend-print-compact.css": "fcd825faea62c866909f19ade3c7be6d7fb29bdd0e3406cba880d5aff54852c6",
+      "html/assets/codefriend-print.css": "cf78f3548ff8da4c43f3d541f26cd83c9f0752c2f01610679b338a468abfa316",
+      "html/assets/codefriend-print.js": "9f2850241fb0e892bf98d7ab881bf487bee0b14b7f77b0b2b7dcbe05dbf2d7db",
+      "html/assets/diagrams/scenario-retry.png": "d556cbaa906d1ba01adc9f0f8ee4eea72e0dcf0700aea73eaab562429b224ee2",
+      "html/assets/diagrams/v1-logical.png": "a1974e055eafe0c0110f47ad2fd93a9aca04f3648f46386bb0c41e8563b8de3a",
+      "html/assets/diagrams/v2-development.png": "c36aacf5588e08ac3af4821f29c2eca77b129104071ee5e6992d39256fcdba20",
+      "html/assets/diagrams/v3-process.png": "b3f87e206520ee8fda6b51c8b4d19ff537d7cb2b839b2deede025a6d46c8dc3d",
+      "html/assets/diagrams/v4-physical.png": "f1a22c4aee3108466210881bacecf3cf6ab3e7f9919d1eba457c6a2fd5743fd3",
+      "html/assets/fonts/Inter-Bold.ttf": "f5d5a88dc57af6bc7ce5e3c97cfaef52ccad476172acd50a20655b9921831916",
+      "html/assets/fonts/Inter-Medium.ttf": "0fa0ebc5692e976bbc9d11c031a60de7cfb0d228e615ea86ad7914f1baa7e5c8",
+      "html/assets/fonts/Inter-Regular.ttf": "8ef43320e636fb9e62bd68e24ce0be80c78823739139d6b4c1128421ed6f9d3a",
+      "html/assets/fonts/Inter-SemiBold.ttf": "17c13c3b9574d84827431c8c1593034b12854ac4de51705224a3652b2dd6b252",
+      "html/assets/fonts/OFL.txt": "5f9c7efbecdf4ab9bfb2a7eed0e5ae616e0c7fee78038522d562ec85c857dc4d",
+      "pdf-pipeline/README.md": "e6b8ef4a97d5058f6953ff338ab09df21c334a509f86dcece1f9876ae27d1e9e",
+      "pdf-pipeline/build_html.py": "ea4a5ea524b367d54d9a13c5fba21e4979bcb416ea8f03cc5d4c6608b5af73f3",
+      "pdf-pipeline/build_pdf.py": "a6eb083fd1c5e5915add1e2bc91a230e501b14601a13b4cc05811cd1c5ccb410",
+      "pdf-pipeline/otf2ttf.py": "6f2453dbbec35e733bc7aa1bfa7b39870507523970beaab5bdc5863c16dce21d",
+      "pdf-pipeline/test_isolation.py": "00fbde7386e7af585141c9d1286133e7c3cd0dd4a16b63669ec2f29ff4bcb65d",
+      "markdown/MARKDOWN-CONVENTIONS.md": "57a23d08a201c99573435f55ddef3614442ae4640ea50a60c8b02882ba0ba747",
+      "markdown/docs/adr/0007-idempotency-records-in-postgresql.md": "670a5f08f0c76356629fd0ab46f31d51c39d6b6f0d37d5ad82d0c3ec2378cee5",
+      "markdown/docs/diagrams/README.md": "d731e529f3216bac6af3d8f184e678518b883bfb8e9b2a939b37e298d5147290",
+      "markdown/docs/diagrams/scenario-retry.mmd": "43faa4235f69d790b678fd5be2c657b3cf4432d881655c24c72a19d1093826a2",
+      "markdown/docs/diagrams/v1-logical.mmd": "d6426a2ee0e70d737a520b73842d4c01058078ed17609cbd719d7203888170bd",
+      "markdown/docs/diagrams/v2-development.mmd": "0e94cda958f95f9be01ae8f80a64fcd7be2c51a93b4bd18141f667c2d5e3c4a7",
+      "markdown/docs/diagrams/v3-process.mmd": "f7d287510cf318635e1715e700062bab6ba79d36fbe27858ce082ad8de587b4a",
+      "markdown/docs/diagrams/v4-physical.mmd": "2c260644bcf3115fa16e199cd6d88d3c469609626b83803446311a8d029cda22",
+      "markdown/docs/repository-guide.md": "780723d6a0e52f281e024d7279cce4854c07946ca699044fb979912ce7f86064",
+      "markdown/docs/testing/test-plan-CF-TPL-0027.md": "b9f344285891e4814d3b8909f4e5ea595462eba73f5cdda05368ba90f6a215eb",
+      "markdown/exports/CF-JNL-0011-snapshot-2026-10-20.md": "6c2ee2d768ca4594516290d6bb0ef2fb7686e54878e7ee4c6c02b318740869a2",
+      "markdown/exports/CF-RPT-0142.md": "9b6a10197223c050dae9c40ab86663231b70f0b517fbd5f0cd83234a37613a08",
+      "markdown/exports/CF-SEC-0031.md": "6735d4aee13eefd666a56aeaf3030af02ba22986838380278485be67ada3c528",
+      "markdown/feeds/ledgerline-api.atom.xml": "2f5708d2c132f569f45322a851a171ae601e16a9334ccb2b6cadbdff2c6bbceb",
+      "mermaid-theme/README.md": "3f6ce303c7a1cd78ccb0abd6a01146fa0e0c082cee201b104dbb8533e9c3904f",
+      "mermaid-theme/codefriend-theme.css": "a46c1e78ee4e1bc82966771267c590dfa739c8a55b88eb3caa93e14dcaab20a2",
+      "mermaid-theme/codefriend-theme.json": "9e5117ccbf62988bdb3e6841c23e9d3e36d0745dd0a7391b3b3f343ee5decf5f",
+      "mermaid-theme/examples/1-logical.mmd": "a1ddbad781430d0f471d67e4618ef87f84558a542d94a698e1a82bfcba6b57d6",
+      "mermaid-theme/examples/1-logical.png": "a1974e055eafe0c0110f47ad2fd93a9aca04f3648f46386bb0c41e8563b8de3a",
+      "mermaid-theme/examples/2-development.mmd": "47c46d8a2f95cde6362ee1f40492dce656834941709dbe1518c1189e92f0313b",
+      "mermaid-theme/examples/2-development.png": "c36aacf5588e08ac3af4821f29c2eca77b129104071ee5e6992d39256fcdba20",
+      "mermaid-theme/examples/3-process.mmd": "4a4f390962665ec40d362d943c6ab401ed0611f5238cdeccd870a9a35fbd1e3b",
+      "mermaid-theme/examples/3-process.png": "b3f87e206520ee8fda6b51c8b4d19ff537d7cb2b839b2deede025a6d46c8dc3d",
+      "mermaid-theme/examples/4-physical.mmd": "7b1de3d73668d40c32b51d985ecec22df3c2c6515ae1783677213129bfef3b1a",
+      "mermaid-theme/examples/4-physical.png": "f1a22c4aee3108466210881bacecf3cf6ab3e7f9919d1eba457c6a2fd5743fd3",
+      "mermaid-theme/examples/5-scenario.mmd": "9a524b168a34c4a8a5fd7557408a6109c122d53bd61b7bef149a0443b2f108bf",
+      "mermaid-theme/examples/5-scenario.png": "d556cbaa906d1ba01adc9f0f8ee4eea72e0dcf0700aea73eaab562429b224ee2",
+      "mermaid-theme/finish.py": "22a3e7e9a72c125a6d5e02d13f3bda0b46259ca26ef144c4c9dae384fda9f158"
+    },
+    "input_inventory_sha256": "141056c10179b9ef50d4542ca1c52b7ae9532f5549fe7e4d5d403366fbe88f6c",
+    "playwright": "1.55.0",
+    "chrome_executable_sha256": "ccffd5c5fe77ba3212e07c2c69091f8048b73c396b4647ecaa150e1e01a04954",
+    "harness_sha256": "e25fb3f400607b13d486a9a68845cbc72999d43c8ba50e8a1b85475dc9df320c",
+    "chrome_framework_sha256": "20fde9bb98dd5f5fb4b379da45c8f92fcb4f669e923c7e60a14f8e4329aa2bf9",
+    "chrome_version": "154.0.8037.98",
+    "browser_launch_ms": 524.8672919988167,
+    "launch_options": {
+      "args": [
+        "--disable-background-networking",
+        "--disable-component-update",
+        "--disable-sync",
+        "--disable-default-apps",
+        "--disable-domain-reliability",
+        "--disable-breakpad",
+        "--disable-client-side-phishing-detection",
+        "--no-first-run",
+        "--no-pings",
+        "--dns-prefetch-disable",
+        "--disable-features=NetworkPrediction,OptimizationHints,MediaRouter,Translate,AutofillServerCommunication",
+        "--proxy-server=http://127.0.0.1:9",
+        "--proxy-bypass-list=<-loopback>"
+      ],
+      "chromium_sandbox": true,
+      "executable_path": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+    }
+  },
+  "results": [
+    {
+      "sample": "Main",
+      "document_id": "CF-RPT-0142",
+      "format": "pdf",
+      "iteration": 0,
+      "spacing": "compact",
+      "status": "rendered_pending_visual_review",
+      "output": "CF-RPT-0142-0.pdf",
+      "output_sha256": "fddc1dc1d2f5f314526c32191bb6af79bd3bf2df93119a75d1a76757a8dd7657",
+      "output_bytes": 122571,
+      "context_render_write_close_ms": 306.66087500867434,
+      "stages": [
+        {
+          "stage": "build_html",
+          "ms": 0.3795000084210187
+        },
+        {
+          "stage": "new_page",
+          "ms": 122.99100001109764
+        },
+        {
+          "stage": "goto",
+          "ms": 71.41104098991491
+        },
+        {
+          "stage": "evaluate",
+          "ms": 4.138541989959776
+        },
+        {
+          "stage": "evaluate",
+          "ms": 1.6712090000510216
+        },
+        {
+          "stage": "pdf",
+          "ms": 79.94350002263673
+        },
+        {
+          "stage": "close",
+          "ms": 3.2014159951359034
+        }
+      ]
+    },
+    {
+      "sample": "Main",
+      "document_id": "CF-RPT-0142",
+      "format": "pdf",
+      "iteration": 1,
+      "spacing": "compact",
+      "status": "rendered_pending_visual_review",
+      "output": "CF-RPT-0142-1.pdf",
+      "output_sha256": "fddc1dc1d2f5f314526c32191bb6af79bd3bf2df93119a75d1a76757a8dd7657",
+      "output_bytes": 122571,
+      "context_render_write_close_ms": 205.4553749912884,
+      "stages": [
+        {
+          "stage": "build_html",
+          "ms": 0.2319169871043414
+        },
+        {
+          "stage": "new_page",
+          "ms": 78.23295900016092
+        },
+        {
+          "stage": "goto",
+          "ms": 40.211499988799915
+        },
+        {
+          "stage": "evaluate",
+          "ms": 3.232750023016706
+        },
+        {
+          "stage": "evaluate",
+          "ms": 1.0887499956879765
+        },
+        {
+          "stage": "pdf",
+          "ms": 63.609333999920636
+        },
+        {
+          "stage": "close",
+          "ms": 2.1825419971719384
+        }
+      ]
+    },
+    {
+      "sample": "Main",
+      "document_id": "CF-RPT-0142",
+      "format": "pdf",
+      "iteration": 2,
+      "spacing": "compact",
+      "status": "rendered_pending_visual_review",
+      "output": "CF-RPT-0142-2.pdf",
+      "output_sha256": "6fae5e589b00fd3faf1954f6f691c9b368fa92392e53c648c151a441bf37bb92",
+      "output_bytes": 122571,
+      "context_render_write_close_ms": 197.91270900168456,
+      "stages": [
+        {
+          "stage": "build_html",
+          "ms": 0.21587498486042023
+        },
+        {
+          "stage": "new_page",
+          "ms": 68.31904099090025
+        },
+        {
+          "stage": "goto",
+          "ms": 38.770959014073014
+        },
+        {
+          "stage": "evaluate",
+          "ms": 7.0983330078888685
+        },
+        {
+          "stage": "evaluate",
+          "ms": 1.1452500184532255
+        },
+        {
+          "stage": "pdf",
+          "ms": 63.44695799634792
+        },
+        {
+          "stage": "close",
+          "ms": 2.2476250014733523
+        }
+      ]
+    },
+    {
+      "sample": "SpecialistReview",
+      "document_id": "CF-SEC-0031",
+      "format": "pdf",
+      "iteration": 0,
+      "spacing": "normal",
+      "status": "rendered_pending_visual_review",
+      "output": "CF-SEC-0031-0.pdf",
+      "output_sha256": "4f70adcdc98234d9eb1d2d3143bdaf85eca45961d9b809a4e8450109ce3f81b7",
+      "output_bytes": 119547,
+      "context_render_write_close_ms": 206.29041700158268,
+      "stages": [
+        {
+          "stage": "build_html",
+          "ms": 0.2197079884354025
+        },
+        {
+          "stage": "new_page",
+          "ms": 69.01066697901115
+        },
+        {
+          "stage": "goto",
+          "ms": 45.556124998256564
+        },
+        {
+          "stage": "evaluate",
+          "ms": 3.206708002835512
+        },
+        {
+          "stage": "evaluate",
+          "ms": 1.582541997777298
+        },
+        {
+          "stage": "pdf",
+          "ms": 64.43145801313221
+        },
+        {
+          "stage": "close",
+          "ms": 2.3015000042505562
+        }
+      ]
+    },
+    {
+      "sample": "SpecialistReview",
+      "document_id": "CF-SEC-0031",
+      "format": "pdf",
+      "iteration": 1,
+      "spacing": "normal",
+      "status": "rendered_pending_visual_review",
+      "output": "CF-SEC-0031-1.pdf",
+      "output_sha256": "4f70adcdc98234d9eb1d2d3143bdaf85eca45961d9b809a4e8450109ce3f81b7",
+      "output_bytes": 119547,
+      "context_render_write_close_ms": 199.49479200295173,
+      "stages": [
+        {
+          "stage": "build_html",
+          "ms": 0.2085830201394856
+        },
+        {
+          "stage": "new_page",
+          "ms": 66.7980829894077
+        },
+        {
+          "stage": "goto",
+          "ms": 43.26537498855032
+        },
+        {
+          "stage": "evaluate",
+          "ms": 2.822875016136095
+        },
+        {
+          "stage": "evaluate",
+          "ms": 1.4689999807160348
+        },
+        {
+          "stage": "pdf",
+          "ms": 64.51212501269765
+        },
+        {
+          "stage": "close",
+          "ms": 2.324249973753467
+        }
+      ]
+    },
+    {
+      "sample": "SpecialistReview",
+      "document_id": "CF-SEC-0031",
+      "format": "pdf",
+      "iteration": 2,
+      "spacing": "normal",
+      "status": "rendered_pending_visual_review",
+      "output": "CF-SEC-0031-2.pdf",
+      "output_sha256": "4f70adcdc98234d9eb1d2d3143bdaf85eca45961d9b809a4e8450109ce3f81b7",
+      "output_bytes": 119547,
+      "context_render_write_close_ms": 200.42183398618363,
+      "stages": [
+        {
+          "stage": "build_html",
+          "ms": 0.19758299458771944
+        },
+        {
+          "stage": "new_page",
+          "ms": 67.87304099998437
+        },
+        {
+          "stage": "goto",
+          "ms": 44.78341600042768
+        },
+        {
+          "stage": "evaluate",
+          "ms": 3.365374985150993
+        },
+        {
+          "stage": "evaluate",
+          "ms": 1.1622080055531114
+        },
+        {
+          "stage": "pdf",
+          "ms": 65.17183300456963
+        },
+        {
+          "stage": "close",
+          "ms": 2.171000000089407
+        }
+      ]
+    },
+    {
+      "sample": "Documentation",
+      "document_id": "CF-DOC-0088",
+      "format": "pdf",
+      "iteration": 0,
+      "spacing": "normal",
+      "status": "rendered_pending_visual_review",
+      "output": "CF-DOC-0088-0.pdf",
+      "output_sha256": "e54ddae5c99e73318a1724f4eaea9d5772fa49f92ceb8a39a24577d8682c6a1e",
+      "output_bytes": 99273,
+      "context_render_write_close_ms": 182.5365409895312,
+      "stages": [
+        {
+          "stage": "build_html",
+          "ms": 0.19437502487562597
+        },
+        {
+          "stage": "new_page",
+          "ms": 66.75404199631885
+        },
+        {
+          "stage": "goto",
+          "ms": 29.87725002458319
+        },
+        {
+          "stage": "evaluate",
+          "ms": 3.7962920032441616
+        },
+        {
+          "stage": "evaluate",
+          "ms": 1.3483749935403466
+        },
+        {
+          "stage": "pdf",
+          "ms": 62.49837501673028
+        },
+        {
+          "stage": "close",
+          "ms": 2.351041999645531
+        }
+      ]
+    },
+    {
+      "sample": "Documentation",
+      "document_id": "CF-DOC-0088",
+      "format": "pdf",
+      "iteration": 1,
+      "spacing": "normal",
+      "status": "rendered_pending_visual_review",
+      "output": "CF-DOC-0088-1.pdf",
+      "output_sha256": "4f894c1c33b020aaa946d53e1d0cdd26afed99c402295a1b9ca22f6d6ca33695",
+      "output_bytes": 99273,
+      "context_render_write_close_ms": 194.78737498866394,
+      "stages": [
+        {
+          "stage": "build_html",
+          "ms": 0.20537502132356167
+        },
+        {
+          "stage": "new_page",
+          "ms": 76.58595900284126
+        },
+        {
+          "stage": "goto",
+          "ms": 26.046874991152436
+        },
+        {
+          "stage": "evaluate",
+          "ms": 5.9440839977469295
+        },
+        {
+          "stage": "evaluate",
+          "ms": 2.469625003868714
+        },
+        {
+          "stage": "pdf",
+          "ms": 65.36024998058565
+        },
+        {
+          "stage": "close",
+          "ms": 2.2986670082900673
+        }
+      ]
+    },
+    {
+      "sample": "Documentation",
+      "document_id": "CF-DOC-0088",
+      "format": "pdf",
+      "iteration": 2,
+      "spacing": "normal",
+      "status": "rendered_pending_visual_review",
+      "output": "CF-DOC-0088-2.pdf",
+      "output_sha256": "f3f6d915ce08cd8708725ed9115cb0c6d5fc9bd3d5faea41395df1fd60140f71",
+      "output_bytes": 99273,
+      "context_render_write_close_ms": 193.49245898774825,
+      "stages": [
+        {
+          "stage": "build_html",
+          "ms": 0.19320801948197186
+        },
+        {
+          "stage": "new_page",
+          "ms": 78.14695802517235
+        },
+        {
+          "stage": "goto",
+          "ms": 25.84095799829811
+        },
+        {
+          "stage": "evaluate",
+          "ms": 3.6905420129187405
+        },
+        {
+          "stage": "evaluate",
+          "ms": 1.7244580085389316
+        },
+        {
+          "stage": "pdf",
+          "ms": 61.236083012772724
+        },
+        {
+          "stage": "close",
+          "ms": 2.3212499800138175
+        }
+      ]
+    },
+    {
+      "sample": "ADR",
+      "document_id": "ADR-0007",
+      "format": "pdf",
+      "iteration": 0,
+      "spacing": "normal",
+      "status": "rendered_pending_visual_review",
+      "output": "ADR-0007-0.pdf",
+      "output_sha256": "a11433b006325eaa5140707d72e1c486e31f08b3bf99f8ad60eb5b41154eb0c6",
+      "output_bytes": 83671,
+      "context_render_write_close_ms": 186.66000000666827,
+      "stages": [
+        {
+          "stage": "build_html",
+          "ms": 0.19029100076295435
+        },
+        {
+          "stage": "new_page",
+          "ms": 67.46604200452566
+        },
+        {
+          "stage": "goto",
+          "ms": 33.740750019205734
+        },
+        {
+          "stage": "evaluate",
+          "ms": 5.00216698856093
+        },
+        {
+          "stage": "evaluate",
+          "ms": 1.2829999905079603
+        },
+        {
+          "stage": "pdf",
+          "ms": 59.67687501106411
+        },
+        {
+          "stage": "close",
+          "ms": 2.296833001310006
+        }
+      ]
+    },
+    {
+      "sample": "ADR",
+      "document_id": "ADR-0007",
+      "format": "pdf",
+      "iteration": 1,
+      "spacing": "normal",
+      "status": "rendered_pending_visual_review",
+      "output": "ADR-0007-1.pdf",
+      "output_sha256": "a11433b006325eaa5140707d72e1c486e31f08b3bf99f8ad60eb5b41154eb0c6",
+      "output_bytes": 83671,
+      "context_render_write_close_ms": 190.5777080100961,
+      "stages": [
+        {
+          "stage": "build_html",
+          "ms": 0.17995800590142608
+        },
+        {
+          "stage": "new_page",
+          "ms": 68.65195799036883
+        },
+        {
+          "stage": "goto",
+          "ms": 32.425542012788355
+        },
+        {
+          "stage": "evaluate",
+          "ms": 3.097375010838732
+        },
+        {
+          "stage": "evaluate",
+          "ms": 1.3599160010926425
+        },
+        {
+          "stage": "pdf",
+          "ms": 61.10762499156408
+        },
+        {
+          "stage": "close",
+          "ms": 2.2756670077797025
+        }
+      ]
+    },
+    {
+      "sample": "ADR",
+      "document_id": "ADR-0007",
+      "format": "pdf",
+      "iteration": 2,
+      "spacing": "normal",
+      "status": "rendered_pending_visual_review",
+      "output": "ADR-0007-2.pdf",
+      "output_sha256": "a11433b006325eaa5140707d72e1c486e31f08b3bf99f8ad60eb5b41154eb0c6",
+      "output_bytes": 83671,
+      "context_render_write_close_ms": 192.03541698516347,
+      "stages": [
+        {
+          "stage": "build_html",
+          "ms": 0.1717080012895167
+        },
+        {
+          "stage": "new_page",
+          "ms": 74.1355000063777
+        },
+        {
+          "stage": "goto",
+          "ms": 33.06733298813924
+        },
+        {
+          "stage": "evaluate",
+          "ms": 2.382666018093005
+        },
+        {
+          "stage": "evaluate",
+          "ms": 1.0243750002700835
+        },
+        {
+          "stage": "pdf",
+          "ms": 61.93333398550749
+        },
+        {
+          "stage": "close",
+          "ms": 2.2651670151390135
+        }
+      ]
+    },
+    {
+      "sample": "DiagramPacket",
+      "document_id": "CF-DGM-0019",
+      "format": "pdf",
+      "iteration": 0,
+      "spacing": "normal",
+      "status": "rendered_pending_visual_review",
+      "output": "CF-DGM-0019-0.pdf",
+      "output_sha256": "c5e65a5fb10655596564a67dcb8433c7a7f0309d1af532e88978914f6940578d",
+      "output_bytes": 850480,
+      "context_render_write_close_ms": 441.0856250033248,
+      "stages": [
+        {
+          "stage": "build_html",
+          "ms": 0.2297080063726753
+        },
+        {
+          "stage": "new_page",
+          "ms": 68.8627909985371
+        },
+        {
+          "stage": "goto",
+          "ms": 40.874124999390915
+        },
+        {
+          "stage": "evaluate",
+          "ms": 4.023707995656878
+        },
+        {
+          "stage": "evaluate",
+          "ms": 1.2750830210279673
+        },
+        {
+          "stage": "pdf",
+          "ms": 299.3136669974774
+        },
+        {
+          "stage": "close",
+          "ms": 3.032082982826978
+        }
+      ]
+    },
+    {
+      "sample": "DiagramPacket",
+      "document_id": "CF-DGM-0019",
+      "format": "pdf",
+      "iteration": 1,
+      "spacing": "normal",
+      "status": "rendered_pending_visual_review",
+      "output": "CF-DGM-0019-1.pdf",
+      "output_sha256": "8f99be431257b71e343e236f4b4f0b3c0eda05ac1b7e32fbbb3a7034d2cb0dc6",
+      "output_bytes": 850480,
+      "context_render_write_close_ms": 449.1437500109896,
+      "stages": [
+        {
+          "stage": "build_html",
+          "ms": 0.2313750155735761
+        },
+        {
+          "stage": "new_page",
+          "ms": 71.77266600774601
+        },
+        {
+          "stage": "goto",
+          "ms": 52.52512500737794
+        },
+        {
+          "stage": "evaluate",
+          "ms": 3.632999985711649
+        },
+        {
+          "stage": "evaluate",
+          "ms": 1.515084004495293
+        },
+        {
+          "stage": "pdf",
+          "ms": 297.8800420241896
+        },
+        {
+          "stage": "close",
+          "ms": 2.455416019074619
+        }
+      ]
+    },
+    {
+      "sample": "DiagramPacket",
+      "document_id": "CF-DGM-0019",
+      "format": "pdf",
+      "iteration": 2,
+      "spacing": "normal",
+      "status": "rendered_pending_visual_review",
+      "output": "CF-DGM-0019-2.pdf",
+      "output_sha256": "8f99be431257b71e343e236f4b4f0b3c0eda05ac1b7e32fbbb3a7034d2cb0dc6",
+      "output_bytes": 850480,
+      "context_render_write_close_ms": 431.50562499067746,
+      "stages": [
+        {
+          "stage": "build_html",
+          "ms": 0.23787500686012208
+        },
+        {
+          "stage": "new_page",
+          "ms": 74.20966701465659
+        },
+        {
+          "stage": "goto",
+          "ms": 42.22833301173523
+        },
+        {
+          "stage": "evaluate",
+          "ms": 3.9339590002782643
+        },
+        {
+          "stage": "evaluate",
+          "ms": 2.2267079912126064
+        },
+        {
+          "stage": "pdf",
+          "ms": 287.700541986851
+        },
+        {
+          "stage": "close",
+          "ms": 2.593999990494922
+        }
+      ]
+    },
+    {
+      "sample": "TestPlan",
+      "document_id": "CF-TPL-0027",
+      "format": "pdf",
+      "iteration": 0,
+      "spacing": "normal",
+      "status": "rendered_pending_visual_review",
+      "output": "CF-TPL-0027-0.pdf",
+      "output_sha256": "cf7888f005903aac25e2cd05e9fd6759a77ef40b40965ce761a97911c958757c",
+      "output_bytes": 105425,
+      "context_render_write_close_ms": 182.82062499201857,
+      "stages": [
+        {
+          "stage": "build_html",
+          "ms": 0.2147920022252947
+        },
+        {
+          "stage": "new_page",
+          "ms": 67.69008398987353
+        },
+        {
+          "stage": "goto",
+          "ms": 27.489250001963228
+        },
+        {
+          "stage": "evaluate",
+          "ms": 2.5280829868279397
+        },
+        {
+          "stage": "evaluate",
+          "ms": 1.237875025253743
+        },
+        {
+          "stage": "pdf",
+          "ms": 63.47374999313615
+        },
+        {
+          "stage": "close",
+          "ms": 2.260584005853161
+        }
+      ]
+    },
+    {
+      "sample": "TestPlan",
+      "document_id": "CF-TPL-0027",
+      "format": "pdf",
+      "iteration": 1,
+      "spacing": "normal",
+      "status": "rendered_pending_visual_review",
+      "output": "CF-TPL-0027-1.pdf",
+      "output_sha256": "cf7888f005903aac25e2cd05e9fd6759a77ef40b40965ce761a97911c958757c",
+      "output_bytes": 105425,
+      "context_render_write_close_ms": 183.5927499923855,
+      "stages": [
+        {
+          "stage": "build_html",
+          "ms": 0.2228330122306943
+        },
+        {
+          "stage": "new_page",
+          "ms": 70.67625000490807
+        },
+        {
+          "stage": "goto",
+          "ms": 28.485000017099082
+        },
+        {
+          "stage": "evaluate",
+          "ms": 2.5695000076666474
+        },
+        {
+          "stage": "evaluate",
+          "ms": 1.006917009362951
+        },
+        {
+          "stage": "pdf",
+          "ms": 62.42670799838379
+        },
+        {
+          "stage": "close",
+          "ms": 2.232500002719462
+        }
+      ]
+    },
+    {
+      "sample": "TestPlan",
+      "document_id": "CF-TPL-0027",
+      "format": "pdf",
+      "iteration": 2,
+      "spacing": "normal",
+      "status": "rendered_pending_visual_review",
+      "output": "CF-TPL-0027-2.pdf",
+      "output_sha256": "cf7888f005903aac25e2cd05e9fd6759a77ef40b40965ce761a97911c958757c",
+      "output_bytes": 105425,
+      "context_render_write_close_ms": 183.8949589873664,
+      "stages": [
+        {
+          "stage": "build_html",
+          "ms": 0.19874999998137355
+        },
+        {
+          "stage": "new_page",
+          "ms": 66.44275001599453
+        },
+        {
+          "stage": "goto",
+          "ms": 27.50237498548813
+        },
+        {
+          "stage": "evaluate",
+          "ms": 5.0322920142207295
+        },
+        {
+          "stage": "evaluate",
+          "ms": 1.2148749956395477
+        },
+        {
+          "stage": "pdf",
+          "ms": 62.56137497257441
+        },
+        {
+          "stage": "close",
+          "ms": 2.273916994454339
+        }
+      ]
+    },
+    {
+      "sample": "Main",
+      "format": "html",
+      "status": "built_pending_visual_review",
+      "build_write_ms": 0.26033399626612663,
+      "output_sha256": "5472374ab66d4b2d39da414db8866e4beab918120517cc8936b456ba494279fa"
+    },
+    {
+      "sample": "SpecialistReview",
+      "format": "html",
+      "status": "built_pending_visual_review",
+      "build_write_ms": 0.2238329907413572,
+      "output_sha256": "467870afdd948bf598449047e63443307c114a5a90ff283291e65d4df1143e10"
+    },
+    {
+      "sample": "Documentation",
+      "format": "html",
+      "status": "built_pending_visual_review",
+      "build_write_ms": 0.16870797844603658,
+      "output_sha256": "9ff10432c19dca6d29b2dfcd43c709316513dee9aa4c2c858f6e178e6e3e5c03"
+    },
+    {
+      "sample": "ADR",
+      "format": "html",
+      "status": "built_pending_visual_review",
+      "build_write_ms": 0.1622909912839532,
+      "output_sha256": "2f6b00c1e5e31d61183d8b1439896866e21f6337d0cda692c8681c1e08e67be4"
+    },
+    {
+      "sample": "DiagramPacket",
+      "format": "html",
+      "status": "built_pending_visual_review",
+      "build_write_ms": 0.22024998906999826,
+      "output_sha256": "5dbe73902c8ee90f08f4e1f1e905436e0a9d4ad2bc71216c2541de430b1540f2"
+    },
+    {
+      "sample": "TestPlan",
+      "format": "html",
+      "status": "built_pending_visual_review",
+      "build_write_ms": 0.18170801922678947,
+      "output_sha256": "1148fbad2c525e8d4bbb07e288c9c1c7bbe8be6160f1724bbb96ae9eb104a704"
+    }
+  ],
+  "markdown": "authored source inventory only; no Markdown generation timing claimed",
+  "markdown_inventory": {
+    "markdown/MARKDOWN-CONVENTIONS.md": "57a23d08a201c99573435f55ddef3614442ae4640ea50a60c8b02882ba0ba747",
+    "markdown/docs/adr/0007-idempotency-records-in-postgresql.md": "670a5f08f0c76356629fd0ab46f31d51c39d6b6f0d37d5ad82d0c3ec2378cee5",
+    "markdown/docs/diagrams/README.md": "d731e529f3216bac6af3d8f184e678518b883bfb8e9b2a939b37e298d5147290",
+    "markdown/docs/diagrams/scenario-retry.mmd": "43faa4235f69d790b678fd5be2c657b3cf4432d881655c24c72a19d1093826a2",
+    "markdown/docs/diagrams/v1-logical.mmd": "d6426a2ee0e70d737a520b73842d4c01058078ed17609cbd719d7203888170bd",
+    "markdown/docs/diagrams/v2-development.mmd": "0e94cda958f95f9be01ae8f80a64fcd7be2c51a93b4bd18141f667c2d5e3c4a7",
+    "markdown/docs/diagrams/v3-process.mmd": "f7d287510cf318635e1715e700062bab6ba79d36fbe27858ce082ad8de587b4a",
+    "markdown/docs/diagrams/v4-physical.mmd": "2c260644bcf3115fa16e199cd6d88d3c469609626b83803446311a8d029cda22",
+    "markdown/docs/repository-guide.md": "780723d6a0e52f281e024d7279cce4854c07946ca699044fb979912ce7f86064",
+    "markdown/docs/testing/test-plan-CF-TPL-0027.md": "b9f344285891e4814d3b8909f4e5ea595462eba73f5cdda05368ba90f6a215eb",
+    "markdown/exports/CF-JNL-0011-snapshot-2026-10-20.md": "6c2ee2d768ca4594516290d6bb0ef2fb7686e54878e7ee4c6c02b318740869a2",
+    "markdown/exports/CF-RPT-0142.md": "9b6a10197223c050dae9c40ab86663231b70f0b517fbd5f0cd83234a37613a08",
+    "markdown/exports/CF-SEC-0031.md": "6735d4aee13eefd666a56aeaf3030af02ba22986838380278485be67ada3c528",
+    "markdown/feeds/ledgerline-api.atom.xml": "2f5708d2c132f569f45322a851a171ae601e16a9334ccb2b6cadbdff2c6bbceb"
+  },
+  "boundary": "one browser, fresh context per document; OS caches not flushed; sample pipeline only",
+  "acceptance": "pending visual and structural review; final templates and production integration remain"
+}
