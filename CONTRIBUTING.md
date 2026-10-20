@@ -27,7 +27,9 @@ issue cards, or a maintainer's workstation paths.
 5. Respond to review. Maintainers handle native governance, integration and
    closure; external contributors do not need to generate or edit native cards.
 
-Sensitive reports follow [SECURITY.md](SECURITY.md), not public issue forms.
+Participation follows our [Code of Conduct](CODE_OF_CONDUCT.md). Report conduct
+concerns privately using its contact. Security vulnerabilities follow
+[SECURITY.md](SECURITY.md), not public issue forms.
 
 ## Choose validation
 

@@ -12,6 +12,7 @@ and a CLI that dispatches product execution to separately installed owners.
 - [Version compatibility and support boundaries](COMPATIBILITY.md)
 - [Build entrypoints and measurement](PUBLIC_BUILD.md)
 - [Roadmap and current milestones](ROADMAP.md)
+- [Code of Conduct](../CODE_OF_CONDUCT.md) and private conduct reporting
 - [Security reporting](../SECURITY.md)
 
 ## Language, CLI and libraries

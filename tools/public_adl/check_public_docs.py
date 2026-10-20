@@ -11,7 +11,7 @@ import tempfile
 import unittest
 
 ROOT = Path(__file__).resolve().parents[2]
-DOCS = ['README.md', 'CONTRIBUTING.md', 'REVIEW.md', 'AGENTS.md',
+DOCS = ['README.md', 'CODE_OF_CONDUCT.md', 'CONTRIBUTING.md', 'REVIEW.md', 'AGENTS.md',
         'docs/onboarding.md', 'docs/default_workflow.md', 'docs/README.md',
         'docs/COMPATIBILITY.md', 'docs/PUBLIC_BUILD.md', 'demos/README.md']
 DOCS += ['docs/specs/uts/' + name for name in
