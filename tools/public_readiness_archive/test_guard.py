@@ -1,5 +1,6 @@
 """PVF small/local/deterministic archive-identity regression; issue acceptance gate."""
-import hashlib
+import sys
+sys.dont_write_bytecode = True
 import importlib.util
 import json
 from pathlib import Path
