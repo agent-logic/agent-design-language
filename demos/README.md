@@ -28,6 +28,32 @@ private sibling sources. See [build guidance](../docs/PUBLIC_BUILD.md).
 schema, UTS, language/compiler and legacy-contract libraries. They are developer
 validation, not an installed Runtime demo.
 
+## Offline packet examples
+
+These three public scripts use Bash and Python 3 to generate bounded fixture
+packets. From the repository root, give each script its own new output directory:
+
+```sh
+packet_parent=$(mktemp -d)
+bash adl/tools/demo_v090_codebuddy_review_showcase.sh "$packet_parent/codebuddy"
+bash adl/tools/demo_v090_architecture_document_generation.sh "$packet_parent/architecture"
+bash adl/tools/demo_v0891_arxiv_manuscript_workflow.sh "$packet_parent/arxiv"
+```
+
+The scripts refuse existing output paths, including dangling symlinks. Keep the
+printed temporary parent to inspect the artifacts; choose a new parent for a
+rerun. Do not delete previous output merely to make a rerun succeed.
+
+- CodeBuddy produces a staged `non_proving` review packet.
+- Architecture generation validates the tracked documentation structure and
+  writes a packet manifest. Its proof covers that offline structure only.
+- The arXiv example generates source and manuscript workflow fixtures; it does
+  not submit or publish a paper.
+
+None runs the represented skills, hosted providers, independent reviews or
+separately installed Runtime. The dated packet contents are examples, not current
+product qualification or publication approval.
+
 ## Separately installed owners
 
 Runtime execution, CodeFriend reviews and C-SDLC delivery require independently
@@ -45,10 +71,6 @@ In particular:
 
 - The old v0.86 review-surface script is absent after the split; it is not a
   runnable public-clone example.
-- Architecture document generation currently fails its section validator, and
-  the arXiv fixture's source inventory references a removed Gödel path. Their
-  existing scripts and assertions are retained; neither is advertised as a
-  validated public walkthrough. Safety fixes alone do not repair those proofs.
 - CodeBuddy and other packet generators produce fixture artifacts; they do not
   prove the represented reviews, skills, provider calls or product acceptance.
 - Podcast production belongs to [The Cognitive Stack](https://github.com/agent-logic/the-cognitive-stack);
