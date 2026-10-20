@@ -55,12 +55,13 @@ The two are intentionally related but not interchangeable.
 
 ## Versioned implementation package
 
-The canonical types and validators now live in `adl-uts` 0.1.0; `adl::uts`
-remains a compatibility reexport. Both existing v1 and implemented v1.1
+The canonical types and validators live in `adl-uts` 0.1.0. Public consumers
+import `adl_uts::*`; the public CLI no longer re-exports `adl::uts`. Runtime
+callers should follow their owner package migration guidance. Both existing v1 and implemented v1.1
 **declaration** surfaces are supported, while v1 is still the guaranteed baseline.
 The broader v1.1 proposal is not fully implemented by this packaging change.
 See [package installation and supported semantics](PACKAGE.md) for the precise
-compatibility matrix, production Runtime consumer and required proof.
+compatibility matrix, separate Runtime consumer boundary and required proof.
 
 ## 1. Purpose
 

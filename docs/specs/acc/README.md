@@ -1,5 +1,11 @@
 # ADL Capability Contract (ACC)
 
+Post-split availability: this public repository carries ACC specifications and
+JSON Schemas. Runtime owns the implementation and enforcement; its installation
+and current supported contract must be verified with that owner. References to
+the implemented v1.0 baseline below describe the specification baseline, not
+proof that a Runtime is available or qualified from this public clone.
+
 ## Status
 
 Tracked canonical ACC spec entrypoint.
@@ -7,7 +13,7 @@ Tracked canonical ACC spec entrypoint.
 This directory now uses the following framing:
 
 - `ACC v1.0`
-  - the current implemented ACC baseline
+  - the v1.0 specification baseline
 - `ACC v1.1`
   - the tracked additive evolution target for subsequent code adoption
 
@@ -18,7 +24,7 @@ Primary narrative specification:
 Document authority hierarchy:
 
 - [`ACC_V1.0_SPEC.md`](./ACC_V1.0_SPEC.md) is the normative baseline spec for
-  the current implemented `ACC v1.0` contract
+  the `ACC v1.0` contract baseline
 - [`ACC_V1.1_SPEC.md`](./ACC_V1.1_SPEC.md) is the normative next-version spec
   for the tracked `ACC v1.1` target
 - [`ADL_ACC_SPECIFICATION.md`](./ADL_ACC_SPECIFICATION.md) is the cross-version
@@ -35,7 +41,7 @@ Machine-readable companions:
 
 Implementation-facing baseline reference:
 
-- [`adl/src/acc.rs`](../../../adl/src/acc.rs)
+- [Runtime owner boundary](../../REPOSITORIES.md)
 
 ## 1. Purpose
 
@@ -84,13 +90,13 @@ See also:
 - [`docs/specs/uts/README.md`](../uts/README.md)
 - [`docs/explainers/UTS_AND_ACC.md`](../../explainers/UTS_AND_ACC.md)
 
-## 3. Current Implemented Baseline (`ACC v1.0`)
+## 3. Specification Baseline (`ACC v1.0`)
 
-The current implemented ACC baseline lives in:
+Runtime implementation and current qualification belong to:
 
-- [`adl/src/acc.rs`](../../../adl/src/acc.rs)
+- [Runtime owner boundary](../../REPOSITORIES.md)
 
-That code currently uses:
+The v1.0 specification describes:
 
 - `ACC_SCHEMA_VERSION_V1 = "acc.v1"`
 - `AdlCapabilityContractV1`

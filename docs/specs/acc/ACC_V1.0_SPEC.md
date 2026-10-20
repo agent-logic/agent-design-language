@@ -1,14 +1,19 @@
 # ACC v1.0 Specification
 
+Post-split availability: this public repository carries ACC specifications and
+JSON Schemas. Runtime owns the implementation and enforcement; its installation
+and current supported contract must be verified with that owner. References to
+the implemented v1.0 baseline below describe the specification baseline, not
+proof that a Runtime is available or qualified from this public clone.
+
 ## Status
 
-Tracked formal baseline for the current implemented ADL Capability Contract
-surface.
+Tracked formal baseline for the ADL Capability Contract surface.
 
-This document describes the canonical current `ACC v1.0` baseline as
-implemented in:
+This document describes the `ACC v1.0` baseline. Implementation and current
+qualification belong to:
 
-- [`adl/src/acc.rs`](../../../adl/src/acc.rs)
+- [Runtime owner boundary](../../REPOSITORIES.md)
 
 Matching machine-readable schema:
 
@@ -16,20 +21,20 @@ Matching machine-readable schema:
 
 ## 1. Purpose
 
-`ACC v1.0` captures the current implemented baseline without overclaiming the
+`ACC v1.0` captures the baseline contract without overclaiming the
 additive `v1.1` direction that requires later repo/code adoption.
 
 This spec/schema package is intentionally conservative:
 
-- it matches the current Rust `AdlCapabilityContractV1` shape and validator
-  shape
+- it describes the baseline `AdlCapabilityContractV1` shape and validator
+  requirements
 - it remains JSON-compatible and machine-validatable
 - it keeps UTS/ACC separation explicit
 - it does not treat structural validity as automatic execution authority
 
 The machine-readable JSON Schema captures the current object model plus several
-first-order coherence constraints. The runtime validator in
-[`adl/src/acc.rs`](../../../adl/src/acc.rs) remains the normative source for
+first-order coherence constraints. The Runtime-owned validator, identified through the
+[repository map](../../REPOSITORIES.md), supplies implementation proof for
 deeper semantic checks such as:
 
 - actor / grant / capability identity equality

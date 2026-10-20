@@ -1,35 +1,44 @@
 # Contributor onboarding
 
-Start with the [project README](../README.md), [repository map](REPOSITORIES.md)
-and [contribution guide](../CONTRIBUTING.md). Use this checkout for public ADL
-language/contracts and CLI behavior; use the product owner for Runtime,
-CodeFriend or lifecycle implementation work.
+Start with [ADL's overview](../README.md), then try the public example below.
+External contributors use [fork, branch and PR](../CONTRIBUTING.md#external-contributors).
+Private owner tooling and the maintainer's worktree layout are not prerequisites.
 
-## Reading order
+## First public example
 
-1. [Public CLI guide](../adl/README.md) and [language specification](../adl-spec/README.md).
-2. [Agent rules](../AGENTS.md) and [review expectations](../REVIEW.md).
-3. [Default workflow](default_workflow.md) and [package manual lookup](csdlc-v3/man/README.md).
-4. The changed package's manifest, source and focused validation script.
+Install Git and Rust through rustup. From a public clone:
 
-There is no root Cargo workspace. Rust is pinned in `rust-toolchain.toml`.
-The root README's explicit-manifest help command builds only the public CLI;
-product execution needs its separately qualified owner installation.
+```sh
+cargo run --locked --manifest-path adl/Cargo.toml --bin adl -- adl/examples/v0-3-fork-join-seq-run.adl.yaml --print-plan
+```
 
-## Work and evidence locations
+This loads the document and prints its plan without executing a workflow, starting
+an installed product or calling a model. The [demo index](../demos/README.md)
+shows expected output and separates public examples from installed-owner and
+historical material. Rust/Cargo may download build dependencies on the first run.
 
-Keep primary `main` clean. Native preparation uses resolved Git metadata; native
-binding creates the policy-approved issue worktree. Work there with an issue-bound
-goal and six truthful lifecycle cards. Never create issue artifacts on primary or
-edit generated card Markdown and receipts directly.
+## Reading and changing the project
 
-Current guidance belongs in README, contribution, review and relevant documentation
-entrypoints. Milestone records, past reviews, ADRs and retirement custody retain
-their original meaning. Link to them as historical evidence, not current command
-recipes. Check ignored report directories before citing local-only artifacts as
-portable evidence.
+- [Public CLI](../adl/README.md): command and installed-owner boundaries.
+- [Language specification](../adl-spec/README.md): ADL 1.0 draft design.
+- [Compatibility](COMPATIBILITY.md): CLI, document and contract versions.
+- [Contribution guide](../CONTRIBUTING.md): public fork workflow and checks.
+- [Review guide](../REVIEW.md): evidence and review expectations.
+- [Documentation index](README.md): current guides and retained history.
 
-For docs changes, check paths/links and command-source correspondence, then run
-`git diff --check`. For public CLI changes use `bash tools/public_adl/run_cli_ci.sh`.
-Record actual validation separately from owner qualification, CI, merge and native
-finish. Follow [SECURITY.md](../SECURITY.md) for sensitive reports.
+There is no root Cargo workspace. Select a manifest explicitly; the [build
+entrypoint guide](PUBLIC_BUILD.md) explains the nested workspace decision.
+For docs changes, check links/anchors and command-source correspondence, then
+run `git diff --check`. Do not build private owners for a public docs edit.
+
+## Maintainer sessions
+
+Managed agents and internal maintainers use [AGENTS.md](../AGENTS.md) and the
+[native workflow](default_workflow.md). Native preparation writes Git metadata;
+binding creates the registered issue worktree. Generated cards and receipts are
+not hand-edited. This section applies to the maintainer environment, not an
+external contributor's fork.
+
+Historical milestones, reviews and ADRs retain their dates and original claims.
+Do not promote their commands into current recipes without checking availability.
+For sensitive reports follow [SECURITY.md](../SECURITY.md).

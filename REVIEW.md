@@ -5,6 +5,10 @@ public repository boundary. Begin with [README.md](README.md),
 [the repository map](docs/REPOSITORIES.md), [AGENTS.md](AGENTS.md) and the changed
 package's manifest and validation entrypoints.
 
+External contributors use the [public contribution route](CONTRIBUTING.md#external-contributors).
+The native publication and closeout duties below belong to maintainers and managed
+agent sessions; contributors provide changes and honest validation evidence.
+
 ## Scope and evidence
 
 Public ADL owns language/contracts, portable presentation and installed-product

@@ -1,5 +1,15 @@
 # ADL Agent Guidelines
 
+## Applicability
+
+The native lifecycle and workstation policy below govern Agent Logic maintainers
+and managed agent sessions. External contributors use the public
+[fork-and-PR workflow](CONTRIBUTING.md#external-contributors); they do not need
+private owner tools, native cards or the maintainer worktree root. Maintainers
+perform internal admission and delivery. General scope, evidence and code-quality
+rules still apply to contributed changes. This distinction does not relax native
+authority for internal agents.
+
 ## Repository scope after the split
 
 This repository owns public ADL language/contracts and CLI dispatch. Runtime,

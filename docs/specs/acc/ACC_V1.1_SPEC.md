@@ -1,5 +1,11 @@
 # ACC v1.1 Specification
 
+Post-split availability: this public repository carries ACC specifications and
+JSON Schemas. Runtime owns the implementation and enforcement; its installation
+and current supported contract must be verified with that owner. References to
+the implemented v1.0 baseline below describe the specification baseline, not
+proof that a Runtime is available or qualified from this public clone.
+
 ## Status
 
 Tracked normative next-version specification for the ADL Capability Contract.
@@ -7,8 +13,8 @@ Tracked normative next-version specification for the ADL Capability Contract.
 Status note:
 
 > This document defines the `ACC v1.1` adoption target.
-> The current implemented runtime baseline remains `ACC v1.0` until follow-on
-> code adoption lands.
+> The reference baseline for this specification is `ACC v1.0`. Current Runtime
+> implementation and adoption status require owner evidence.
 
 Matching machine-readable schema:
 
@@ -16,7 +22,7 @@ Matching machine-readable schema:
 
 Implementation-facing baseline reference:
 
-- [`adl/src/acc.rs`](../../../adl/src/acc.rs)
+- [Runtime owner boundary](../../REPOSITORIES.md)
 - [`ACC_V1.0_SPEC.md`](./ACC_V1.0_SPEC.md)
 
 ## Normative Language

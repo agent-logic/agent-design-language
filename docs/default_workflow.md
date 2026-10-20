@@ -1,4 +1,9 @@
-# Default issue workflow
+# Native maintainer issue workflow
+
+This is the internal maintainer/managed-agent workflow. External contributors
+use the [public fork-and-PR route](../CONTRIBUTING.md#external-contributors),
+without installing private lifecycle tooling. Maintainers retain responsibility
+for native admission, review and delivery of accepted contributions.
 
 Use Cognitive-SDLC's authenticated native owner for tracked issue work. Select the
 exact executable returned by successful admission for this repository and use its

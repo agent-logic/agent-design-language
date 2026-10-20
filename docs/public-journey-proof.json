@@ -1,0 +1,46 @@
+{
+  "schema": "adl.public_journey.proof.v1",
+  "baseline_measurement": {
+    "source": "8cf07d2208b24906b93da27f08e3ef184bf49869",
+    "command": [
+      "cargo",
+      "run",
+      "--locked",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "--bin",
+      "adl",
+      "--",
+      "adl/examples/v0-3-fork-join-seq-run.adl.yaml",
+      "--print-plan"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 8.712,
+    "platform": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+    "machine": "arm64",
+    "logical_cpu_count": 14,
+    "rustc": "rustc 1.92.0 (ded5c06cf 2025-12-08)",
+    "clone": "Fresh depth1 HTTPS public clone; clone duration not measured.",
+    "cache": "Empty build target; existing host Cargo registry cache and installed toolchain reused. No hardlinked dependency artifacts or private sibling source. OS cache uncontrolled.",
+    "credential_boundary": "Provider/ADL/AWS overrides removed from child environment; no owner selection.",
+    "claim": "First build plus plan command for this empty target; not a fully cold toolchain/dependency-download benchmark."
+  },
+  "workspace_experiment": {
+    "proposal": "Naive root workspace over existing public members while preserving nested workspace and lockfiles.",
+    "exit_code": 0,
+    "stderr": "",
+    "decision": "Root metadata grouping succeeds, but this creates a new shared resolution/lockfile contract; retain existing per-manifest lockfiles and CI selection in this visitor fix. Root make targets offer the needed convenience without a new dependency topology. A future workspace migration needs reviewed lockfile and CI parity evidence.",
+    "scope": "No production manifests or lockfiles modified; no build executed in probe.",
+    "effective_versions": {
+      "adl": "0.92.1",
+      "adl-legacy-contracts": "0.1.0",
+      "adl-schema": "0.1.0",
+      "adl-uts": "0.1.0",
+      "adl-language": "0.92.1",
+      "adl-compiler": "0.92.1"
+    },
+    "locked_resolution_exit": 101,
+    "locked_resolution_stderr": "Root Cargo.lock needs to be updated but --locked prevents the update."
+  },
+  "boundary": "Baseline command/source proof before W3 docs changes. Current-head public lanes and review are recorded separately; no release/owner qualification."
+}
