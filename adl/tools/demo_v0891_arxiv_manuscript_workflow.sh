@@ -69,7 +69,7 @@ paper_specs = [
             "docs/adr/0008-godel-stage-loop-v08.md",
             "demos/v0.85/adaptive_godel_loop_demo.md",
             "demos/v0.85/godel_hypothesis_engine_demo.md",
-            "adl/src/godel/mod.rs",
+            "docs/explainers/GODEL_AGENTS.md",
         ],
         "section_order": [
             "motivation",
@@ -81,6 +81,7 @@ paper_specs = [
         ],
         "known_gaps": [
             "needs updated examples from the latest convergence artifacts",
+            "public design documents are not proof of execution in the separate Runtime owner",
             "must avoid claiming autonomous recursive self-modification",
         ],
     },

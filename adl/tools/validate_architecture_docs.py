@@ -53,7 +53,7 @@ ARCHITECTURE_SECTIONS = [
     "## Architecture Invariants",
     "## Known Gaps",
     "## Diagram Index",
-    "## ADR Candidates",
+    "## ADR Candidate Provenance",
 ]
 
 AUTOMATION_SECTIONS = [
