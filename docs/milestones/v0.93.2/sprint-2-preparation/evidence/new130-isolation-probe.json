@@ -1,0 +1,19 @@
+{
+  "mermaid_set_content": {
+    "inline_script_executed": true,
+    "blocked_by_test_harness_requests": [
+      "https://probe.invalid/image.png"
+    ],
+    "boundary": "same set_content insertion as snapshot finish.py; extra test-harness route abort and PDF dead proxy prevent actual egress; not a claim of successful network exfiltration"
+  },
+  "pdf_isolation": {
+    "inline_script_executed": false,
+    "script_tag_present": 1
+  },
+  "variable_report": {
+    "render_ms": 220.2968749916181,
+    "pages": 5,
+    "bytes": 227691,
+    "boundary": "synthetic appended table and long token in isolated snapshot; not production field renderer"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.v3.intent_changes.v1",
+  "amendment": {
+    "class": "plan",
+    "transition_approved": true
+  },
+  "cards": {
+    "spp": {
+      "acceptance_criteria_inline": "Both child plans are issue-specific and structurally validated; acceptance is unchanged; #299 is delivered; admitted #299/#304 tooling is required for #120; #120 acceptance and RD-09 contract gate security #9; Planning #12 review findings are resolved or explicitly retained. Preparation completion does not close Sprint 2.",
+      "dependencies_inline": "ADL #1296 delivered per retained finish receipt. C-SDLC #299 delivered in PR #308 at 007f84b4a98ba2c38767f67dadc88a142e1cfa88. Corrected #304 package admission is pending before child binding/card application. Security #9 additionally depends on accepted CodeFriend #120 and RD-09."
+    }
+  }
+}

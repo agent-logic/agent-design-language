@@ -1,0 +1,10 @@
+{
+  "status": "confirmed synthetic probe finding; production input reachability not established",
+  "affected_surface": "#130 mermaid-theme/finish.py:47 SVG inserted using page.set_content",
+  "source_sha256": "22a3e7e9a72c125a6d5e02d13f3bda0b46259ca26ef144c4c9dae384fda9f158",
+  "probe_evidence": "new130-isolation-probe.json",
+  "observation": "Embedded inline script executed and external image request was attempted. Test harness aborted request; successful data exfiltration is not claimed.",
+  "contrast": "PDF pipeline blocked the same inline script.",
+  "recommended_followup_for_template_owner": "Treat SVG as untrusted before browser insertion: disable script execution and block outbound resource requests, or establish an equally restrictive sanitized rendering boundary; add a hostile-SVG regression. Verify caller input provenance in production integration.",
+  "change_boundary": "#130 untouched. Finding reported to Daniel for sharing with Claude; no message to Claude sent."
+}

@@ -1,0 +1,101 @@
+{
+  "schema": "csdlc.v3.intent_plan.v1",
+  "slug": "v0932-beta1-acceptance-assessment",
+  "cards": {
+    "sip": {
+      "card_status": "ready",
+      "plan_summary": "1. After #299 acceptance, bind one FastWork issue worktree and create child goal naming ADL #1299 and CodeFriend #120. 2. Agree representative corpus and candidate with operator and inventory reusable evidence. 3. Inspect actual outputs and journeys, recording provenance and limitations. 4. Prioritize only reproduced gaps and map to existing packages. 5. Obtain operator denominator acceptance and independent exact-head review; publish only with actual proof. Stop for missing candidate/evidence, need for unapproved spend, or materially changed scope.",
+      "required_outcome_inline": "Review actual outputs and end-to-end journeys on representative repositories; agree a prioritized gap register and measurable Beta 1 acceptance denominator with the operator.",
+      "deliverables_inline": "Produce docs/codefriend/beta1/assessment-120/ candidate-and-corpus register, scenario/evidence matrix, prioritized gap register, and operator acceptance decision. Record actual readable reports/exports and login, consent, pairing, first-review, result and recovery journeys from representative repositories. Route accepted gaps to existing #121/#123/#125/#126; do not recreate closed work.",
+      "acceptance_criteria_inline": "Each observed case identifies repository revision, candidate components, scenario, expected/actual result and evidence. Each gap has reproduction, impact, priority, acceptance measure and existing follow-on mapping. Label unexercised paths honestly. Operator agrees corpus, measurable denominator and priorities; independent review checks evidence. Reject unreproduced defects and substitution of prior qualification for user acceptance.",
+      "dependencies_inline": "ADL #1296 accepted opening; C-SDLC #299 must deliver before execution. On 2026-10-19 #299 is OPEN. Operator selection of representative corpus and candidate is the first assessment step, not a fabricated current acceptance.",
+      "repo_inputs_inline": "README.md; docs/codefriend/INSTALLED_CONTENT_JOURNEY.md; current representative report/export artifacts and journey evidence; runtime-dependencies and shared-library-dependencies authenticated manifests; ADL v0.93.2 CodeFriend feature contract; GitHub #120.",
+      "target_files_surfaces_inline": "docs/codefriend/beta1/assessment-120/ and issue-local evidence/cards. Product correctness fixes belong to the accepted follow-on issues, not this assessment.",
+      "validation_plan_inline": "PVF planning_contract for evidence-led assessment per live issue; product_behavior evidence is required to support actual journey claims. Small deterministic artifact/link/schema checks plus bounded inspection of already available outputs. Record candidate, platform, scenario counts and failed/blocked/skipped lanes separately. No broad rebuild, new paid run or release qualification. Operator acceptance is a required human gate, never automated by git diff.",
+      "non_goals_inline": "No deployment, paid provider/cloud calls, Runtime restart, shared binary replacement, downstream implementation, or v0.93.3 activation. Preserve sole-writer ownership. Worktrees/builds/scratch on FastWork. This session prepares only; later child execution requires accepted dependencies and an assigned owner.",
+      "notes_risks_inline": "Prepared design only; dependency readiness is separate. Planning #12 review pending. No implementation, product validation, publication, merge or closeout claimed."
+    },
+    "stp": {
+      "card_status": "ready",
+      "plan_summary": "1. After #299 acceptance, bind one FastWork issue worktree and create child goal naming ADL #1299 and CodeFriend #120. 2. Agree representative corpus and candidate with operator and inventory reusable evidence. 3. Inspect actual outputs and journeys, recording provenance and limitations. 4. Prioritize only reproduced gaps and map to existing packages. 5. Obtain operator denominator acceptance and independent exact-head review; publish only with actual proof. Stop for missing candidate/evidence, need for unapproved spend, or materially changed scope.",
+      "required_outcome_inline": "Review actual outputs and end-to-end journeys on representative repositories; agree a prioritized gap register and measurable Beta 1 acceptance denominator with the operator.",
+      "deliverables_inline": "Produce docs/codefriend/beta1/assessment-120/ candidate-and-corpus register, scenario/evidence matrix, prioritized gap register, and operator acceptance decision. Record actual readable reports/exports and login, consent, pairing, first-review, result and recovery journeys from representative repositories. Route accepted gaps to existing #121/#123/#125/#126; do not recreate closed work.",
+      "acceptance_criteria_inline": "Each observed case identifies repository revision, candidate components, scenario, expected/actual result and evidence. Each gap has reproduction, impact, priority, acceptance measure and existing follow-on mapping. Label unexercised paths honestly. Operator agrees corpus, measurable denominator and priorities; independent review checks evidence. Reject unreproduced defects and substitution of prior qualification for user acceptance.",
+      "dependencies_inline": "ADL #1296 accepted opening; C-SDLC #299 must deliver before execution. On 2026-10-19 #299 is OPEN. Operator selection of representative corpus and candidate is the first assessment step, not a fabricated current acceptance.",
+      "repo_inputs_inline": "README.md; docs/codefriend/INSTALLED_CONTENT_JOURNEY.md; current representative report/export artifacts and journey evidence; runtime-dependencies and shared-library-dependencies authenticated manifests; ADL v0.93.2 CodeFriend feature contract; GitHub #120.",
+      "target_files_surfaces_inline": "docs/codefriend/beta1/assessment-120/ and issue-local evidence/cards. Product correctness fixes belong to the accepted follow-on issues, not this assessment.",
+      "validation_plan_inline": "PVF planning_contract for evidence-led assessment per live issue; product_behavior evidence is required to support actual journey claims. Small deterministic artifact/link/schema checks plus bounded inspection of already available outputs. Record candidate, platform, scenario counts and failed/blocked/skipped lanes separately. No broad rebuild, new paid run or release qualification. Operator acceptance is a required human gate, never automated by git diff.",
+      "non_goals_inline": "No deployment, paid provider/cloud calls, Runtime restart, shared binary replacement, downstream implementation, or v0.93.3 activation. Preserve sole-writer ownership. Worktrees/builds/scratch on FastWork. This session prepares only; later child execution requires accepted dependencies and an assigned owner.",
+      "notes_risks_inline": "Prepared design only; dependency readiness is separate. Planning #12 review pending. No implementation, product validation, publication, merge or closeout claimed."
+    },
+    "spp": {
+      "card_status": "ready",
+      "plan_summary": "1. After #299 acceptance, bind one FastWork issue worktree and create child goal naming ADL #1299 and CodeFriend #120. 2. Agree representative corpus and candidate with operator and inventory reusable evidence. 3. Inspect actual outputs and journeys, recording provenance and limitations. 4. Prioritize only reproduced gaps and map to existing packages. 5. Obtain operator denominator acceptance and independent exact-head review; publish only with actual proof. Stop for missing candidate/evidence, need for unapproved spend, or materially changed scope.",
+      "required_outcome_inline": "Review actual outputs and end-to-end journeys on representative repositories; agree a prioritized gap register and measurable Beta 1 acceptance denominator with the operator.",
+      "deliverables_inline": "Produce docs/codefriend/beta1/assessment-120/ candidate-and-corpus register, scenario/evidence matrix, prioritized gap register, and operator acceptance decision. Record actual readable reports/exports and login, consent, pairing, first-review, result and recovery journeys from representative repositories. Route accepted gaps to existing #121/#123/#125/#126; do not recreate closed work.",
+      "acceptance_criteria_inline": "Each observed case identifies repository revision, candidate components, scenario, expected/actual result and evidence. Each gap has reproduction, impact, priority, acceptance measure and existing follow-on mapping. Label unexercised paths honestly. Operator agrees corpus, measurable denominator and priorities; independent review checks evidence. Reject unreproduced defects and substitution of prior qualification for user acceptance.",
+      "dependencies_inline": "ADL #1296 accepted opening; C-SDLC #299 must deliver before execution. On 2026-10-19 #299 is OPEN. Operator selection of representative corpus and candidate is the first assessment step, not a fabricated current acceptance.",
+      "repo_inputs_inline": "README.md; docs/codefriend/INSTALLED_CONTENT_JOURNEY.md; current representative report/export artifacts and journey evidence; runtime-dependencies and shared-library-dependencies authenticated manifests; ADL v0.93.2 CodeFriend feature contract; GitHub #120.",
+      "target_files_surfaces_inline": "docs/codefriend/beta1/assessment-120/ and issue-local evidence/cards. Product correctness fixes belong to the accepted follow-on issues, not this assessment.",
+      "validation_plan_inline": "PVF planning_contract for evidence-led assessment per live issue; product_behavior evidence is required to support actual journey claims. Small deterministic artifact/link/schema checks plus bounded inspection of already available outputs. Record candidate, platform, scenario counts and failed/blocked/skipped lanes separately. No broad rebuild, new paid run or release qualification. Operator acceptance is a required human gate, never automated by git diff.",
+      "non_goals_inline": "No deployment, paid provider/cloud calls, Runtime restart, shared binary replacement, downstream implementation, or v0.93.3 activation. Preserve sole-writer ownership. Worktrees/builds/scratch on FastWork. This session prepares only; later child execution requires accepted dependencies and an assigned owner.",
+      "notes_risks_inline": "Prepared design only; dependency readiness is separate. Planning #12 review pending. No implementation, product validation, publication, merge or closeout claimed."
+    },
+    "vpp": {
+      "card_status": "ready",
+      "plan_summary": "1. After #299 acceptance, bind one FastWork issue worktree and create child goal naming ADL #1299 and CodeFriend #120. 2. Agree representative corpus and candidate with operator and inventory reusable evidence. 3. Inspect actual outputs and journeys, recording provenance and limitations. 4. Prioritize only reproduced gaps and map to existing packages. 5. Obtain operator denominator acceptance and independent exact-head review; publish only with actual proof. Stop for missing candidate/evidence, need for unapproved spend, or materially changed scope.",
+      "required_outcome_inline": "Review actual outputs and end-to-end journeys on representative repositories; agree a prioritized gap register and measurable Beta 1 acceptance denominator with the operator.",
+      "deliverables_inline": "Produce docs/codefriend/beta1/assessment-120/ candidate-and-corpus register, scenario/evidence matrix, prioritized gap register, and operator acceptance decision. Record actual readable reports/exports and login, consent, pairing, first-review, result and recovery journeys from representative repositories. Route accepted gaps to existing #121/#123/#125/#126; do not recreate closed work.",
+      "acceptance_criteria_inline": "Each observed case identifies repository revision, candidate components, scenario, expected/actual result and evidence. Each gap has reproduction, impact, priority, acceptance measure and existing follow-on mapping. Label unexercised paths honestly. Operator agrees corpus, measurable denominator and priorities; independent review checks evidence. Reject unreproduced defects and substitution of prior qualification for user acceptance.",
+      "dependencies_inline": "ADL #1296 accepted opening; C-SDLC #299 must deliver before execution. On 2026-10-19 #299 is OPEN. Operator selection of representative corpus and candidate is the first assessment step, not a fabricated current acceptance.",
+      "repo_inputs_inline": "README.md; docs/codefriend/INSTALLED_CONTENT_JOURNEY.md; current representative report/export artifacts and journey evidence; runtime-dependencies and shared-library-dependencies authenticated manifests; ADL v0.93.2 CodeFriend feature contract; GitHub #120.",
+      "target_files_surfaces_inline": "docs/codefriend/beta1/assessment-120/ and issue-local evidence/cards. Product correctness fixes belong to the accepted follow-on issues, not this assessment.",
+      "validation_plan_inline": "PVF planning_contract for evidence-led assessment per live issue; product_behavior evidence is required to support actual journey claims. Small deterministic artifact/link/schema checks plus bounded inspection of already available outputs. Record candidate, platform, scenario counts and failed/blocked/skipped lanes separately. No broad rebuild, new paid run or release qualification. Operator acceptance is a required human gate, never automated by git diff.",
+      "non_goals_inline": "No deployment, paid provider/cloud calls, Runtime restart, shared binary replacement, downstream implementation, or v0.93.3 activation. Preserve sole-writer ownership. Worktrees/builds/scratch on FastWork. This session prepares only; later child execution requires accepted dependencies and an assigned owner.",
+      "notes_risks_inline": "Prepared design only; dependency readiness is separate. Planning #12 review pending. No implementation, product validation, publication, merge or closeout claimed."
+    },
+    "sor": {
+      "card_status": "draft",
+      "plan_summary": "Execution has not started. This is the pre-execution outcome scaffold.",
+      "required_outcome_inline": "Review actual outputs and end-to-end journeys on representative repositories; agree a prioritized gap register and measurable Beta 1 acceptance denominator with the operator.",
+      "deliverables_inline": "Produce docs/codefriend/beta1/assessment-120/ candidate-and-corpus register, scenario/evidence matrix, prioritized gap register, and operator acceptance decision. Record actual readable reports/exports and login, consent, pairing, first-review, result and recovery journeys from representative repositories. Route accepted gaps to existing #121/#123/#125/#126; do not recreate closed work.",
+      "acceptance_criteria_inline": "Each observed case identifies repository revision, candidate components, scenario, expected/actual result and evidence. Each gap has reproduction, impact, priority, acceptance measure and existing follow-on mapping. Label unexercised paths honestly. Operator agrees corpus, measurable denominator and priorities; independent review checks evidence. Reject unreproduced defects and substitution of prior qualification for user acceptance.",
+      "dependencies_inline": "ADL #1296 accepted opening; C-SDLC #299 must deliver before execution. On 2026-10-19 #299 is OPEN. Operator selection of representative corpus and candidate is the first assessment step, not a fabricated current acceptance.",
+      "repo_inputs_inline": "README.md; docs/codefriend/INSTALLED_CONTENT_JOURNEY.md; current representative report/export artifacts and journey evidence; runtime-dependencies and shared-library-dependencies authenticated manifests; ADL v0.93.2 CodeFriend feature contract; GitHub #120.",
+      "target_files_surfaces_inline": "docs/codefriend/beta1/assessment-120/ and issue-local evidence/cards. Product correctness fixes belong to the accepted follow-on issues, not this assessment.",
+      "validation_plan_inline": "PVF planning_contract for evidence-led assessment per live issue; product_behavior evidence is required to support actual journey claims. Small deterministic artifact/link/schema checks plus bounded inspection of already available outputs. Record candidate, platform, scenario counts and failed/blocked/skipped lanes separately. No broad rebuild, new paid run or release qualification. Operator acceptance is a required human gate, never automated by git diff.",
+      "non_goals_inline": "No deployment, paid provider/cloud calls, Runtime restart, shared binary replacement, downstream implementation, or v0.93.3 activation. Preserve sole-writer ownership. Worktrees/builds/scratch on FastWork. This session prepares only; later child execution requires accepted dependencies and an assigned owner.",
+      "notes_risks_inline": "No child implementation, product test, independent review, PR, merge, release or finish has occurred in this preparation session."
+    },
+    "srp": {
+      "card_status": "ready",
+      "review_scope": "Review actual outputs and end-to-end journeys on representative repositories; agree a prioritized gap register and measurable Beta 1 acceptance denominator with the operator.",
+      "review_instructions": "Verify issue scope, explicit dependencies, actual evidence, candidate provenance, negative cases and proportional validation. Each observed case identifies repository revision, candidate components, scenario, expected/actual result and evidence. Each gap has reproduction, impact, priority, acceptance measure and existing follow-on mapping. Label unexercised paths honestly. Operator agrees corpus, measurable denominator and priorities; independent review checks evidence. Reject unreproduced defects and substitution of prior qualification for user acceptance.",
+      "review_evidence_requirements": "README.md; docs/codefriend/INSTALLED_CONTENT_JOURNEY.md; current representative report/export artifacts and journey evidence; runtime-dependencies and shared-library-dependencies authenticated manifests; ADL v0.93.2 CodeFriend feature contract; GitHub #120.; exact work-product revision, changed paths, VPP/SOR and retained native receipts.",
+      "reviewer_constraints": "Independent exact-head review before publication. Preparation review by Planning #12 is separate from later implementation review. No duplicate builds, paid calls or invented results.",
+      "refusal_policy": "Reject unsupported readiness, missing required behavior proof, false completion, scope expansion and unresolved actionable findings.",
+      "follow_up_routing": "Return preparation findings to Worker #29 under ADL #1299; implementation findings to the sole child owner; missing owner primitives remain explicit prerequisites.",
+      "review_results": {
+        "status": "not_run"
+      }
+    }
+  },
+  "validators": [
+    {
+      "id": "diff-hygiene",
+      "program": "git",
+      "args": [
+        "diff",
+        "--check"
+      ],
+      "success_marker": "diff hygiene only; does not prove issue acceptance",
+      "timeout_seconds": 30
+    }
+  ],
+  "publication": {
+    "base": "main",
+    "title": "[v0.93.2] Assess Beta 1 against customer acceptance",
+    "body": "Closes #120\n\nReview actual outputs and end-to-end journeys on representative repositories; agree a prioritized gap register and measurable Beta 1 acceptance denominator with the operator.\n\nPublication is permitted only after the full tracked issue outcome is accepted; preparation alone is not completion.",
+    "draft": true
+  }
+}
