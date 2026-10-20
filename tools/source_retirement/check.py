@@ -684,7 +684,12 @@ def run():
     cleanup_guard = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(cleanup_guard)
     cleanup = committed_json(Path('tools/repository_cleanup/transition.json'))
-    cleanup_candidate = cleanup_guard.normalize_candidate(ROOT, candidate, tree(cleanup['source_commit']))
+    # #1325 validates its exact successor removals before historical guards run.
+    spec = importlib.util.spec_from_file_location('public_readiness_archive_guard', ROOT / 'tools/public_readiness_archive/guard.py')
+    readiness_guard = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(readiness_guard)
+    readiness_candidate = readiness_guard.normalize_candidate(ROOT, candidate, tree)
+    cleanup_candidate = cleanup_guard.normalize_candidate(ROOT, readiness_candidate, tree(cleanup['source_commit']))
     spec = importlib.util.spec_from_file_location('podcast_migration_guard', ROOT / 'tools/podcast_migration/guard.py')
     migration_guard = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(migration_guard)
