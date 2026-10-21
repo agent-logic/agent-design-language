@@ -471,6 +471,20 @@ fn evaluate_fixture(fixture: &UtsConformanceFixture) -> UtsConformanceCaseResult
     let parsed = serde_json::from_value::<UniversalToolSchemaV1_1>(fixture.document.clone());
     let (accepted, reason, side_effect_class) = match parsed {
         Ok(schema) => match validate_uts_v1_1(&schema) {
+            // Historical ADL suite includes admission policy; canonical structural
+            // conformance is reported separately and accepts this metadata.
+            Ok(())
+                if schema
+                    .extensions
+                    .values()
+                    .any(crate::extension_declares_required) =>
+            {
+                (
+                    false,
+                    "unsupported_required_extension",
+                    Some(schema.side_effect_class),
+                )
+            }
             Ok(()) => (true, "accepted", Some(schema.side_effect_class)),
             Err(report) => (
                 false,
