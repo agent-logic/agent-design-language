@@ -156,7 +156,7 @@ def main():
         consumer = work / 'consumer'
         (consumer / 'src').mkdir(parents=True)
         dependencies = '\n'.join(f'{name} = {{ version = "={version}", path = "../vendor/{name}" }}' for name, version in versions.items())
-        manifest = '[package]\nname="rd03-independent-consumer"\nversion="0.0.0"\nedition="2021"\n[dependencies]\nserde_json="1"\nserde_yaml="0.9"\njsonschema={version="0.17",default-features=false}\n' + dependencies + '\n'
+        manifest = '[package]\nname="rd03-independent-consumer"\nversion="0.0.0"\nedition="2021"\n[dependencies]\nserde_json="1"\njsonschema={version="0.17",default-features=false}\n' + dependencies + '\n'
         (consumer / 'Cargo.toml').write_text(manifest)
         fixture = vendor / 'adl-language/fixtures/six-primitives.adl.yaml'
         shutil.copyfile(fixture, consumer / 'fixture.yaml')

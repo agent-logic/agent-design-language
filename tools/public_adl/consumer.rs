@@ -8,7 +8,7 @@ fn main() {
                adl_compiler::canonical_plan_bytes(&second).unwrap());
     assert_eq!(adl_compiler::EXECUTION_PLAN_VERSION, "adl.execution-plan.v1");
     cases.push("language-compile-determinism");
-    let legacy: adl_legacy_contracts::adl::AdlDoc = serde_yaml::from_str(source).unwrap();
+    let legacy: adl_legacy_contracts::adl::AdlDoc = adl_legacy_contracts::yaml::from_str(source).unwrap();
     let resolved = adl_legacy_contracts::resolve::resolve_run(&legacy).unwrap();
     assert_eq!(resolved.steps.len(), 1);
     cases.push("legacy-resolution");

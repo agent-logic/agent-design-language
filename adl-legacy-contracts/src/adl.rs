@@ -2,6 +2,7 @@
 //!
 //! This module defines the top-level `AdlDoc` structure and re-exports the
 //! schema-facing types that back ADL YAML loading, validation, and execution.
+use crate::yaml as serde_yaml;
 use anyhow::{Context, Result};
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};

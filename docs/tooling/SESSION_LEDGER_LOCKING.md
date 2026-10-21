@@ -4,8 +4,12 @@ Session occupancy is advisory coordination, not C-SDLC lifecycle authority.
 
 The public CLI keeps a persistent `<ledger-name>.lock` file with the marker
 `adl.session-ledger.os-lock.v1`. Each mutator holds an exclusive OS file lock
-through its read, modification and save. Closing the descriptor, including when
-the process is killed, releases ownership. The file remains in place so all
+through its read, modification and save. Dropping the guard explicitly unlocks
+before closing its descriptor, so a duplicate descriptor cannot extend the
+guard's critical section. Process death releases ownership when the last
+inherited or duplicated descriptor closes. If explicit unlock fails, guard
+destruction still closes its descriptor as a best-effort fallback; outstanding
+duplicates can delay release in that error case. The file remains in place so all
 waiters and later callers use the same inode. **Do not delete a current lock
 file**, even when no process appears to hold it.
 
@@ -30,7 +34,8 @@ The `session_ledger` Rust tests and `tools/public_adl/test_public_session.py`
 are PVF `local_contract`: deterministic owned temporary files and child
 processes, bounded local CPU/disk, no network or providers, required public
 source regression gates. Tests cover live contention, killed holders,
-concurrent read-modify-write updates, stable-inode waiters, legacy refusal and
+concurrent read-modify-write updates, duplicate-descriptor lifetime and stale
+duplicate closure, stable-inode waiters, legacy refusal and
 initialization failure. Public CLI checks verify repeated commands and persistent
 marker truth. Run the public CLI lane on macOS and Linux before claiming both
 platforms; local results alone do not establish CI or release acceptance.

@@ -180,9 +180,19 @@ pub struct ClaimInput {
 
 #[derive(Debug)]
 pub struct LedgerLock {
-    // Closing the held descriptor releases the OS lock, including on process death.
+    // Keep the descriptor open for the guard's lifetime; Drop unlocks explicitly.
     // Never unlink the persistent inode: existing waiters may still hold it open.
     _file: fs::File,
+}
+
+impl Drop for LedgerLock {
+    fn drop(&mut self) {
+        // A duplicate (including an inherited descriptor) can outlive this guard.
+        // Closing our descriptor alone need not release the shared OS lock.
+        // Drop cannot return an unlock error; field destruction still closes our
+        // descriptor as a best-effort fallback, without unlinking the lock inode.
+        let _ = FileExt::unlock(&self._file);
+    }
 }
 
 const LOCK_PROTOCOL: &[u8] = b"adl.session-ledger.os-lock.v1\n";
@@ -945,6 +955,27 @@ mod tests {
 
     // PVF local_contract: deterministic owned process/filesystem fixtures, bounded
     // local CPU/disk, required macOS and Linux public source gate, no network.
+    #[test]
+    fn ledger_lock_release_does_not_wait_for_duplicate_descriptor() {
+        let dir = tempfile::tempdir().unwrap();
+        let path = dir.path().join("ledger.json");
+        let guard = acquire_ledger_lock(&path).unwrap();
+        let duplicate = guard._file.try_clone().unwrap();
+        assert!(try_acquire_ledger_lock(&path).unwrap().is_none());
+
+        drop(guard);
+        let next = try_acquire_ledger_lock(&path)
+            .unwrap()
+            .expect("guard release must not wait for duplicate descriptor close");
+        drop(duplicate);
+        assert!(
+            try_acquire_ledger_lock(&path).unwrap().is_none(),
+            "closing an old duplicate must not release the new guard"
+        );
+        drop(next);
+        assert!(try_acquire_ledger_lock(&path).unwrap().is_some());
+    }
+
     #[test]
     fn ledger_lock_child_fixture() {
         let Ok(path) = std::env::var("ADL_LOCK_TEST_CHILD_LEDGER") else {

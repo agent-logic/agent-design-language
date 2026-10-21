@@ -99,3 +99,11 @@ Route product defects through the [repository map](docs/REPOSITORIES.md).
 Follow [SECURITY.md](SECURITY.md) for sensitive reports. Licensing remains governed
 by the repository's existing license files and package declarations; this refresh
 does not change their terms.
+
+## License
+
+The public packages declaring `MIT OR Apache-2.0` are available under either
+[MIT](LICENSE-MIT) or [Apache-2.0](LICENSE), at your option. Both license texts
+are included in those package directories. Package-specific declarations and
+third-party notices continue to apply; historical Apache-only packages retain
+their existing terms.

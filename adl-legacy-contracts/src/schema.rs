@@ -1,3 +1,4 @@
+use crate::yaml as serde_yaml;
 use anyhow::{anyhow, Context, Result};
 use jsonschema::{Draft, JSONSchema};
 use once_cell::sync::Lazy;
@@ -74,8 +75,9 @@ pub fn validate_adl_yaml(yaml_text: &str) -> Result<()> {
         serde_yaml::from_str(yaml_text).context("parse yaml into Value")?;
 
     // Convert YAML -> JSON Value (jsonschema validates JSON)
-    let json_value: JsonValue =
-        serde_json::to_value(&yaml_value).context("convert yaml value to json value")?;
+    let json_value: JsonValue = yaml_value
+        .to_json()
+        .context("convert yaml value to json value")?;
 
     // Prefer strict top-level schema for user-facing validation.
     let compiled = &*ADL_SCHEMA_STRICT_TOPLEVEL;
