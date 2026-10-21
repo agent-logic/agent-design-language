@@ -196,3 +196,69 @@ pub fn run(validate: impl Fn(&Value, &Value) -> bool) -> Result<Report, String> 
         cases,
     })
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    // PVF local_contract: deterministic CPU-only, required report-integrity
+    // regression. Deliberately broken engines must never yield a passing report.
+    #[test]
+    fn rejecting_engine_records_failed_valid_cases_and_normalization() {
+        let report = run(|_, _| false).unwrap();
+        assert_eq!(report.fixture_count, 23);
+        assert!(!report.passed);
+        assert_eq!(report.resource_pin["resource_version"], "0.1.0-rc.1");
+        assert!(report.cases.iter().all(|case| !case.execution_granted));
+        let stable = report
+            .cases
+            .iter()
+            .find(|case| case.path.ends_with("lifecycle-stable.json"))
+            .unwrap();
+        assert_eq!(stable.binding_valid, Some(true));
+        assert_eq!(stable.normalized_valid, Some(false));
+        assert!(!stable.passed);
+        let unknown = report
+            .cases
+            .iter()
+            .find(|case| case.path.ends_with("lifecycle-unknown.json"))
+            .unwrap();
+        assert_eq!(unknown.binding_valid, Some(false));
+        assert_eq!(unknown.normalized_valid, None);
+        assert!(unknown.passed);
+        let invocation = report
+            .cases
+            .iter()
+            .find(|case| case.path.ends_with("invocation-read-v1_1.json"))
+            .unwrap();
+        assert_eq!(invocation.binding_valid, None);
+        assert_eq!(invocation.normalized_valid, None);
+        assert!(!invocation.passed);
+    }
+
+    // PVF local_contract: reject vacuous success from a permissive schema engine.
+    #[test]
+    fn accepting_engine_cannot_hide_invalid_corpus_cases() {
+        let report = run(|_, _| true).unwrap();
+        assert!(!report.passed);
+        let invalid = report
+            .cases
+            .iter()
+            .find(|case| case.path.ends_with("caller-string.json"))
+            .unwrap();
+        assert!(invalid.schema_valid);
+        assert!(!invalid.passed);
+        let valid = report
+            .cases
+            .iter()
+            .find(|case| case.path.ends_with("extension-required.json"))
+            .unwrap();
+        assert!(valid.passed);
+        assert_eq!(valid.binding_valid, Some(true));
+        assert_eq!(valid.normalized_valid, Some(true));
+        let wire = serde_json::to_value(report).unwrap();
+        assert_eq!(wire["schema"], "adl.uts.canonical-conformance.v1");
+        assert_eq!(wire["cases"].as_array().unwrap().len(), 23);
+        assert_eq!(wire["passed"], false);
+    }
+}

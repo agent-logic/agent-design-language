@@ -81,11 +81,14 @@
       "manifest": "adl-uts/Cargo.toml",
       "selection": [],
       "sources": [
+        "adl-uts/src/canonical.rs",
         "adl-uts/src/conformance.rs",
         "adl-uts/src/lib.rs"
       ],
       "declaration_only": [],
-      "test_sources": []
+      "test_sources": [
+        "adl-uts/tests/declaration_parity.rs"
+      ]
     },
     {
       "name": "adl-language",
