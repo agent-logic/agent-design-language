@@ -89,6 +89,7 @@ fn legacy_scalar_types(text: &str) -> std::borrow::Cow<'_, str> {
 }
 
 mod parsed;
+mod serialized;
 
 pub fn from_str<T: DeserializeOwned>(text: &str) -> Result<T> {
     let normalized = legacy_scalar_types(text);
@@ -111,7 +112,8 @@ pub fn from_slice<T: DeserializeOwned>(bytes: &[u8]) -> Result<T> {
 pub fn to_string<T: Serialize>(value: &T) -> Result<String> {
     let mut options = serde_saphyr::SerializerOptions::default();
     options.tagged_enums = true;
-    Ok(serde_saphyr::to_string_with_options(value, options)?)
+    let value = value.serialize(serialized::Capture)?;
+    serialized::preserve_bang_tag(serde_saphyr::to_string_with_options(&value, options)?)
 }
 pub fn from_value<T: DeserializeOwned>(value: Value) -> Result<T> {
     Ok(T::deserialize(value)?)
@@ -675,13 +677,13 @@ impl<'de> de::VariantAccess<'de> for YamlEnum {
         seed.deserialize(self.1.unwrap_or(Value::Null))
     }
     fn tuple_variant<V: Visitor<'de>>(self, _: usize, v: V) -> Result<V::Value, Self::Error> {
-        self.1.unwrap_or(Value::Null).deserialize_any(v)
+        self.1.unwrap_or(Value::Null).deserialize_seq(v)
     }
     fn struct_variant<V: Visitor<'de>>(
         self,
         _: &'static [&'static str],
         v: V,
     ) -> Result<V::Value, Self::Error> {
-        self.1.unwrap_or(Value::Null).deserialize_any(v)
+        self.1.unwrap_or(Value::Null).deserialize_map(v)
     }
 }

@@ -329,7 +329,7 @@ impl<'de> de::VariantAccess<'de> for NodeEnum {
     fn tuple_variant<V: Visitor<'de>>(self, _: usize, v: V) -> Result<V::Value, Self::Error> {
         self.1
             .unwrap_or(Node::scalar(Value::Null))
-            .deserialize_any(v)
+            .deserialize_seq(v)
     }
     fn struct_variant<V: Visitor<'de>>(
         self,
@@ -338,6 +338,6 @@ impl<'de> de::VariantAccess<'de> for NodeEnum {
     ) -> Result<V::Value, Self::Error> {
         self.1
             .unwrap_or(Node::scalar(Value::Null))
-            .deserialize_any(v)
+            .deserialize_map(v)
     }
 }

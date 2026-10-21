@@ -45,21 +45,26 @@ upstream finite work budgets; these are resource limits, not sandbox claims.
 
 ## Proof and audit
 
-Eleven deterministic compatibility tests pass against both the original backend and
-the replacement. Seven were established before migration; four expanded scalar/collection
+Seventeen deterministic compatibility tests pass against both the original backend and
+the replacement. Seven were established before migration; ten expanded scalar/collection/serialization
 compatibility using an isolated original-backend comparison. They cover scalar types/Unicode, aliases/literal merge keys, duplicate and
 multiple-document rejection, malformed input, i64/u64 limits/nonfinite floats,
 non-string mapping keys, tags/enums, roundtrip, bounded nesting and recursive aliases.
-The migrated legacy suite passes 88 unit + 11 retained-contract + 11 compatibility tests.
+The migrated legacy suite passes 88 unit + 11 retained-contract + 17 compatibility tests.
 Characterization passes 37 tests including HTTP/HTTPS schema refusal, local file schema
 validation and mock-only admission. Typed string spelling, aliases, untagged enum buffering and quoted numeric rejection
-are covered. Independent adapter review found and resolved collection exhaustion,
+are covered. Serialization preserves f32 width, 128-bit integer spelling, enum
+shapes and duplicate emitted map entries. The resolved bang tag uses scanner token
+boundaries to preserve its original verbatim spelling; scalar text is untouched.
+Independent adapter review found and resolved collection exhaustion,
 typed tag/null dispatch and strict struct-mapping gaps. Canonical public/installed validation remains in progress; final exact-head results are recorded
 in the native proof and PR evidence before delivery.
 
 PVF: compatibility tests are deterministic local contract/security regressions with
 bounded CPU/memory/filesystem use, no provider/network calls, required public source
-gate. Installed-consumer proof is a distinct package/installation gate on macOS/Linux.
+gate. The canonical installed-consumer harness uses macOS sandbox-exec. Linux
+installed proof is a separate container supplement using the exact package archives;
+it is not execution of the macOS harness on Linux.
 Registry/advisory observations are timestamped network evidence, not deterministic tests.
 
 The [six-lock audit](evidence/1339/advisory-after.json) accounts for the same CLI,

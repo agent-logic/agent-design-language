@@ -142,12 +142,16 @@
         "adl-legacy-contracts/src/prompt.rs",
         "adl-legacy-contracts/src/resolve.rs",
         "adl-legacy-contracts/src/schema.rs",
-        "adl-legacy-contracts/src/trace_schema_v1.rs"
+        "adl-legacy-contracts/src/trace_schema_v1.rs",
+        "adl-legacy-contracts/src/yaml.rs",
+        "adl-legacy-contracts/src/yaml/parsed.rs",
+        "adl-legacy-contracts/src/yaml/serialized.rs"
       ],
       "declaration_only": [],
       "test_sources": [
         "adl-legacy-contracts/src/adl/tests.rs",
-        "adl-legacy-contracts/tests/retained_contract_edges.rs"
+        "adl-legacy-contracts/tests/retained_contract_edges.rs",
+        "adl-legacy-contracts/tests/yaml_compatibility.rs"
       ]
     }
   ]

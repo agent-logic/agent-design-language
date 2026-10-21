@@ -246,3 +246,213 @@ fn structs_require_mappings() {
     assert!(serde_yaml::from_value::<Fields>(serde_yaml::from_str("[1]").unwrap()).is_err());
     assert!(serde_yaml::from_str::<Fields>("{x: 1}").is_ok());
 }
+
+fn same_typed_result<T>(text: &str, expected: T)
+where
+    T: serde::de::DeserializeOwned + std::fmt::Debug + PartialEq,
+{
+    assert_eq!(
+        serde_yaml::from_str::<T>(text).unwrap_or_else(|e| panic!("{text:?}: {e}")),
+        expected,
+        "direct {text}"
+    );
+    assert_eq!(
+        serde_yaml::from_value::<T>(serde_yaml::from_str(text).unwrap()).unwrap(),
+        expected,
+        "value {text}"
+    );
+}
+
+#[test]
+fn tagged_numeric_widths_retain_range_and_type_checks() {
+    macro_rules! integer_cases {
+        ($($ty:ty),*) => {$({
+            same_typed_result::<$ty>("!N 7", 7);
+            for text in ["!N '7'", "!N 7.5", "!N true"] {
+                assert!(serde_yaml::from_str::<$ty>(text).is_err(), "{text}");
+                assert!(serde_yaml::from_value::<$ty>(serde_yaml::from_str(text).unwrap()).is_err(), "{text}");
+            }
+        })*};
+    }
+    integer_cases!(i8, i16, i32, i64, i128, u8, u16, u32, u64, u128);
+    same_typed_result::<i64>("!N -7", -7);
+    same_typed_result::<f32>("!N 1.5", 1.5);
+    same_typed_result::<f64>("!N -1.5", -1.5);
+    same_typed_result::<bool>("!B true", true);
+    same_typed_result::<char>("!C é", 'é');
+    same_typed_result::<String>("!S café", "café".into());
+    assert!(serde_yaml::from_str::<u8>("256").is_err());
+    assert!(serde_yaml::from_str::<i8>("128").is_err());
+}
+
+#[test]
+fn enum_shapes_options_and_newtypes_roundtrip() {
+    #[derive(Debug, Deserialize, Serialize, PartialEq)]
+    enum Shape {
+        Unit,
+        Pair(u8, String),
+        Record { value: bool },
+    }
+    same_typed_result("Unit", Shape::Unit);
+    same_typed_result("!Unit null", Shape::Unit);
+    same_typed_result("!Pair [7, text]", Shape::Pair(7, "text".into()));
+    same_typed_result("!Record {value: true}", Shape::Record { value: true });
+    for shape in [
+        Shape::Unit,
+        Shape::Pair(7, "text".into()),
+        Shape::Record { value: false },
+    ] {
+        same_typed_result(&serde_yaml::to_string(&shape).unwrap(), shape);
+    }
+    #[derive(Debug, Deserialize, PartialEq)]
+    struct New(u16);
+    #[derive(Debug, Deserialize, PartialEq)]
+    struct Pair(u16, bool);
+    same_typed_result("42", New(42));
+    same_typed_result("[42, true]", Pair(42, true));
+    same_typed_result::<Option<u64>>("null", None);
+    same_typed_result::<Option<u64>>("7", Some(7));
+    #[derive(Debug, Deserialize, PartialEq)]
+    struct Known {
+        value: bool,
+    }
+    same_typed_result(
+        "!Record {value: true, ignored: [1,2]}",
+        Known { value: true },
+    );
+    for bad in [
+        "!Pair [1, text, 3]",
+        "!Pair [1]",
+        "!Record [true]",
+        "Unknown",
+        "17",
+    ] {
+        assert!(serde_yaml::from_str::<Shape>(bad).is_err());
+        assert!(serde_yaml::from_value::<Shape>(serde_yaml::from_str(bad).unwrap()).is_err());
+    }
+    assert!(serde_yaml::from_slice::<Value>(&[0xff]).is_err());
+    assert_eq!(serde_yaml::from_slice::<String>(b"hello").unwrap(), "hello");
+}
+
+#[test]
+fn mapping_keys_use_semantic_equality_and_numeric_hashes() {
+    let value: Value = serde_yaml::from_str(
+        "? {a: 1, b: 2}\n: result\n? .nan\n: nan\n? -0.0\n: zero\n? -7\n: negative\n",
+    )
+    .unwrap();
+    let mapping = value.as_mapping().unwrap();
+    assert_eq!(
+        mapping
+            .get(serde_yaml::from_str::<Value>("{b: 2, a: 1}").unwrap())
+            .unwrap()
+            .as_str(),
+        Some("result")
+    );
+    assert_eq!(
+        mapping
+            .get(serde_yaml::from_str::<Value>(".nan").unwrap())
+            .unwrap()
+            .as_str(),
+        Some("nan")
+    );
+    assert_eq!(
+        mapping
+            .get(serde_yaml::from_str::<Value>("0.0").unwrap())
+            .unwrap()
+            .as_str(),
+        Some("zero")
+    );
+    assert_eq!(
+        mapping
+            .get(serde_yaml::from_str::<Value>("-7").unwrap())
+            .unwrap()
+            .as_str(),
+        Some("negative")
+    );
+    assert!(!mapping.is_empty());
+}
+
+#[test]
+fn serialization_preserves_typed_scalar_and_container_shapes() {
+    macro_rules! numeric_roundtrips {
+        ($($ty:ty),*) => {$({
+            let value: $ty = 7 as $ty;
+            same_typed_result(&serde_yaml::to_string(&value).unwrap(), value);
+        })*};
+    }
+    numeric_roundtrips!(i8, i16, i32, i64, i128, u8, u16, u32, u64, u128, f32, f64);
+    same_typed_result(&serde_yaml::to_string(&-7i64).unwrap(), -7i64);
+    same_typed_result(&serde_yaml::to_string(&'é').unwrap(), 'é');
+    same_typed_result(&serde_yaml::to_string(&Some(7u16)).unwrap(), Some(7u16));
+    same_typed_result(&serde_yaml::to_string(&None::<u16>).unwrap(), None::<u16>);
+    same_typed_result(&serde_yaml::to_string(&(7u16, true)).unwrap(), (7u16, true));
+    #[derive(Debug, Deserialize, Serialize, PartialEq)]
+    struct New(u16);
+    #[derive(Debug, Deserialize, Serialize, PartialEq)]
+    struct Pair(u16, bool);
+    #[derive(Debug, Deserialize, Serialize, PartialEq)]
+    struct Unit;
+    same_typed_result(&serde_yaml::to_string(&New(7)).unwrap(), New(7));
+    same_typed_result(
+        &serde_yaml::to_string(&Pair(7, true)).unwrap(),
+        Pair(7, true),
+    );
+    same_typed_result(&serde_yaml::to_string(&Unit).unwrap(), Unit);
+    #[derive(Debug, Deserialize, Serialize, PartialEq)]
+    struct Fields {
+        label: String,
+        enabled: bool,
+    }
+    let fields = Fields {
+        label: "hello".into(),
+        enabled: true,
+    };
+    same_typed_result(&serde_yaml::to_string(&fields).unwrap(), fields);
+}
+
+#[test]
+fn serialization_retains_wide_integer_and_float_spelling() {
+    assert_eq!(
+        serde_yaml::to_string(&u128::MAX).unwrap().trim(),
+        u128::MAX.to_string()
+    );
+    assert_eq!(
+        serde_yaml::to_string(&i128::MIN).unwrap().trim(),
+        i128::MIN.to_string()
+    );
+    #[derive(Serialize)]
+    enum Empty {
+        #[serde(rename = "")]
+        Value(u8),
+    }
+    assert_eq!(
+        serde_yaml::to_string(&Empty::Value(1)).unwrap(),
+        "!<%21> 1\n"
+    );
+    assert_eq!(serde_yaml::to_string(&0.1f32).unwrap().trim(), "0.1");
+    same_typed_result(&serde_yaml::to_string(&"! 1").unwrap(), "! 1".to_owned());
+    let nested = vec![Empty::Value(1), Empty::Value(2)];
+    let text = serde_yaml::to_string(&nested).unwrap();
+    assert!(text.contains("!<%21> 1"));
+    assert!(text.contains("!<%21> 2"));
+    let parsed: Value = serde_yaml::from_str(&text).unwrap();
+    assert_eq!(parsed.as_sequence().unwrap().len(), 2);
+}
+
+#[test]
+fn duplicate_serialized_keys_are_not_silently_discarded() {
+    struct Duplicate;
+    impl Serialize for Duplicate {
+        fn serialize<S: serde::Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
+            use serde::ser::SerializeMap;
+            let mut map = serializer.serialize_map(Some(2))?;
+            map.serialize_entry("key", &1)?;
+            map.serialize_entry("key", &2)?;
+            map.end()
+        }
+    }
+    let yaml = serde_yaml::to_string(&Duplicate).unwrap();
+    assert!(yaml.contains("key: 1"));
+    assert!(yaml.contains("key: 2"));
+    assert!(serde_yaml::from_str::<Value>(&yaml).is_err());
+}
