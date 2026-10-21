@@ -2,6 +2,7 @@
 //! One test captures stdout from one child of this same test executable; no file writes.
 //! Release proof role: portable validation/refusal and schema diagnostics.
 //! Release gate: required public source validation; packaged-consumer proof is separate.
+use adl_legacy_contracts::yaml as serde_yaml;
 use adl_legacy_contracts::{adl::AdlDoc, prompt, resolve, schema, validate_run_id_path_segment};
 use serde_json::{json, Value};
 

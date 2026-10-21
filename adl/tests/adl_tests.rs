@@ -1,3 +1,4 @@
+use adl_legacy_contracts::yaml as serde_yaml;
 use std::collections::HashMap;
 
 use ::adl_legacy_contracts::adl::{

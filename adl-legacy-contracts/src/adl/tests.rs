@@ -1,6 +1,7 @@
 use super::loading::load_yaml_with_includes;
 use super::validation::{validate_provider, validate_tool};
 use super::*;
+use crate::yaml as serde_yaml;
 use std::time::{SystemTime, UNIX_EPOCH};
 
 #[test]
