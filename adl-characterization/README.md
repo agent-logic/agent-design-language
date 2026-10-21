@@ -27,6 +27,11 @@ process. No credentialed, network, cloud, or AWS provider is invoked.
 
 ## Contract
 
+Schema HTTP/HTTPS resolution is disabled. Fragment and local file references
+remain supported; local file references are not a filesystem sandbox. Manifest
+regression tests cover explicit remote-reference refusal and file-reference
+validation.
+
 The typed YAML manifest is validated by `corpus/v1/schema.json` and then by
 semantic checks. It requires at least three executions per case, exact
 required-behavior coverage, unique identifiers, pinned source and binary
