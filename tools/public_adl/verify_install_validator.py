@@ -50,10 +50,10 @@ def validate_artifacts_and_cases(report, proof_dir):
     expected_cases = {
         "language-compile-determinism", "legacy-resolution", "provider-dto-roundtrip",
         "declaration-endpoint-denials", "uts-three-versioned-schemas",
-        "unsupported-uts-version-denied", "uts-inert-conformance",
+        "unsupported-uts-version-denied", "uts-inert-conformance", "uts-canonical-conformance",
     }
     cases = consumer.get("cases", [])
-    if len(cases) != 7 or set(cases) != expected_cases:
+    if len(cases) != 8 or set(cases) != expected_cases:
         raise ValueError("required consumer cases are missing or duplicated")
     uts = consumer.get("uts_cases", [])
     if (consumer.get("uts_fixture_count") != 21 or len(uts) != 21
@@ -61,6 +61,30 @@ def validate_artifacts_and_cases(report, proof_dir):
             or any(not c.get("id") or c.get("passed") is not True
                    or c.get("execution_granted") is not False for c in uts)):
         raise ValueError("21 distinct inert UTS fixtures must pass")
+    canonical = consumer.get("uts_canonical", {})
+    pin = json.loads((ROOT / "adl-uts/resources-pin.json").read_text())
+    custody = report.get("uts_resources", {})
+    if (custody.get("pin") != pin or custody.get("members_verified") != 33
+            or custody.get("archive_reconstructed") is not True):
+        raise ValueError("installed UTS resource custody missing")
+    manifest = json.loads((ROOT / "adl-uts/resources/conformance/manifest.json").read_text())
+    entries = canonical.get("cases", [])
+    expected = {c["path"]: c for c in manifest["fixtures"]}
+    if (canonical.get("schema") != "adl.uts.canonical-conformance.v1"
+            or canonical.get("resource_pin") != pin
+            or canonical.get("fixture_count") != 23 or canonical.get("passed") is not True
+            or len(entries) != 23 or {c.get("path") for c in entries} != set(expected)):
+        raise ValueError("canonical UTS corpus or resource identity mismatch")
+    for case in entries:
+        fixture = expected[case["path"]]
+        valid = fixture["expected"] != "invalid"
+        declaration = fixture["schema"] != "tool_invocation.v1.1"
+        if (case.get("schema") != fixture["schema"] or case.get("expected") != fixture["expected"]
+                or case.get("schema_valid") is not valid or case.get("passed") is not True
+                or case.get("execution_granted") is not False
+                or case.get("binding_valid") is not (valid if declaration else None)
+                or case.get("normalized_valid") is not (True if declaration and valid else None)):
+            raise ValueError("canonical UTS case validation mismatch")
     negatives = report.get("negative_cases", [])
     expected_negatives = {
         "private-credential-denied", "producer-source-denied", "network-denied",
@@ -70,7 +94,7 @@ def validate_artifacts_and_cases(report, proof_dir):
             or any(c.get("status") != "rejected" or type(c.get("exit_code")) is not int
                    or c["exit_code"] == 0 for c in negatives)):
         raise ValueError("all five classified negative cases must reject")
-    return {"public_packages_consumed": 5, "uts_fixtures_executed": 21,
+    return {"public_packages_consumed": 5, "uts_fixtures_executed": 21, "uts_canonical_fixtures_executed": 23,
             "artifact_hashes": {p["package"]: p["sha256"] for p in packages},
             "dependency_lock_sha256": lock["sha256"]}
 
@@ -129,7 +153,7 @@ def main():
             if (
                 consumer.get("passed") is not True
                 or type(executed) is not int
-                or executed != 7
+                or executed != 8
                 or executed != expected
             ):
                 raise ValueError("consumer scenario denominator did not pass")

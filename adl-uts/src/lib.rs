@@ -1375,3 +1375,6 @@ mod tests {
 
 /// Packaged portable conformance fixtures and report generation.
 pub mod conformance;
+
+/// Pinned upstream schema corpus and declaration parity reporting.
+pub mod canonical;

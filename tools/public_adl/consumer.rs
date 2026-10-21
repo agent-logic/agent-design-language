@@ -31,7 +31,15 @@ fn main() {
     assert!(report.passed);
     assert!(report.fixture_count > 0);
     cases.push("uts-inert-conformance");
-    println!("{}", serde_json::json!({"cases": cases, "expected_cases": 7,
+    let canonical = adl_uts::canonical::run(|schema, value| {
+        // The pinned schemas use keywords supported by this offline Draft7 engine.
+        jsonschema::JSONSchema::options().with_draft(jsonschema::Draft::Draft7)
+            .compile(schema).expect("pinned schema must compile").is_valid(value)
+    }).unwrap();
+    assert_eq!(canonical.fixture_count, 23);
+    assert!(canonical.passed);
+    cases.push("uts-canonical-conformance");
+    println!("{}", serde_json::json!({"cases": cases, "expected_cases": 8,
         "executed_cases": cases.len(), "uts_fixture_count": report.fixture_count,
-        "uts_cases": report.cases, "passed": true}));
+        "uts_cases": report.cases, "uts_canonical": canonical, "passed": true}));
 }
