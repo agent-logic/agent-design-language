@@ -6,7 +6,7 @@ rust-version = "1.92"
 license = "MIT OR Apache-2.0"
 description = "Portable legacy ADL document, planning and wire contracts; Runtime admission remains separate"
 readme = "README.md"
-include = ["src/**", "schemas/**", "fixtures/**", "Cargo.toml", "README.md", "LICENSE"]
+include = ["src/**", "schemas/**", "fixtures/**", "Cargo.toml", "README.md", "LICENSE", "LICENSE-MIT", "LICENSE-APACHE"]
 
 [dependencies]
 anyhow = "1"
