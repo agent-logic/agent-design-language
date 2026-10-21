@@ -1,5 +1,13 @@
 # UTS v1.0 Schema
 
+> Retained historical ADL design reference. The authority/status statements and
+> examples below describe the earlier design and may differ from the adopted
+> contract. For current supported UTS v1/v1.1 semantics, use the
+> [pinned upstream schemas and specifications](README.md#current-authority) and
+> [public package contract](PACKAGE.md). This document is not current normative
+> authority or proof of Runtime execution.
+
+
 ## Status
 
 Tracked formal baseline for the current implemented Universal Tool Schema

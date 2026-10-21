@@ -1,0 +1,16 @@
+{
+  "invocation_id": "inv_001",
+  "caller": {
+    "kind": "agent",
+    "id": "example-agent"
+  },
+  "tool": {
+    "name": "fixture.safe_read",
+    "version": "1.0.0"
+  },
+  "intent": "Read a bounded fixture.",
+  "purpose": "Conformance validation.",
+  "side_effect_expectations": ["none"],
+  "replay_safety": "replay_safe",
+  "observability": "basic"
+}
