@@ -267,17 +267,13 @@
             "terraform state",
             "provider credentials"
           ]
-        },
-        "project_notes": {
-          "subdomain": "scr.agent-logic.ai",
-          "archive_bucket": "agent-logic-strategic-cognitive-reserve",
-          "opticon_host": "opticon.local",
-          "canonical_plan": "docs/ADL_STRATEGIC_COGNITIVE_RESERVE_PLAN.md",
-          "source_issue": "agent-design-language#3868"
         }
       },
       "disposition": "migration_required",
-      "installed_lifecycle": "not_yet_verified"
+      "installed_lifecycle": "not_yet_verified",
+      "omitted_fields": [
+        "adapter.project_notes: unrelated workstation, storage and historical project metadata"
+      ]
     },
     {
       "repository": "agent-logic/godel-hadamard-bayes-paper",

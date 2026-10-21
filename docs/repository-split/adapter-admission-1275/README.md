@@ -230,3 +230,19 @@ commands from tests executed for this issue, retained source worktree policy
 from effective native admission, and historical package provenance from current
 issue-local observations. Missing package and registry evidence stays explicit.
 No absent root descriptor is treated as permission to replace a working context.
+
+## Retained CodeFriend proof and review
+
+The original CodeFriend #118 controller retains its cleanup archive and semantic
+generation 69, `closed_out`, with no pending operation. The archived final native
+proof records 24 passed tests at the PR #119 head. Its successful native review
+receipt references the same proof digest recorded by the cleanup manifest.
+The audit records SHA256 hashes of the inspected files; it has not independently
+recomputed the archive's native BLAKE3 inventory digests. These are retained
+results, not newly executed validation. Original package provenance and
+doctor/status evidence remain unresolved.
+
+Bounded review of the initial evidence packet found one publication-hygiene
+issue: unrelated Reserve workstation/storage project notes. Those fields are
+omitted from the public baseline with an explicit omission marker; canonical
+source revision and adapter routing fields remain recorded.

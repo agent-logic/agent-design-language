@@ -31,9 +31,38 @@
       },
       "remaining": [
         "Identify original admitted package and discovery contract",
-        "Complete applicable earlier lifecycle and doctor/status evidence",
+        "Complete doctor/status evidence",
         "Verify current repository adapter disposition"
-      ]
+      ],
+      "archive": {
+        "manifest_sha256": "6eab43d8baadff1fb7bfce9ac0baedcf09e521e7122db677e7acc0c6876cbef6",
+        "inventory_digest": "6d7de3fcdd0e2583e871ff55dc9aa976fe7fa1e17548b6686f1addfdb1ecf034",
+        "inventory_digest_algorithm": "BLAKE3",
+        "verification": "Retained native manifest inspected; archive BLAKE3 digests not independently recomputed in this audit"
+      },
+      "proof": {
+        "status": "passed",
+        "head": "43f955e674d2d2b8d9c90e5c5d2a09df7e4c788f",
+        "sha256": "30136452840528e85313889f46b554d6572c6dcd98b65dfdfeb0eda7f9aca4d7",
+        "native_manifest_digest": "7b93bc8259dfbb67bbd54678dee33ba5f8a32487fead767afd266b308c3d10fe",
+        "tests_passed": 24,
+        "tests_failed": 0
+      },
+      "review": {
+        "reviewed_revision": "43f955e674d2d2b8d9c90e5c5d2a09df7e4c788f",
+        "receipt_digest": "7e51f365c1354db8c478fb879768dc5dc2b28d902cb636e33b2b70dd5caca7c0",
+        "proof_digest": "7b93bc8259dfbb67bbd54678dee33ba5f8a32487fead767afd266b308c3d10fe",
+        "evidence_sha256": "d5541c335000c2650fd8052b7f5731c5cfe5201421364f83910c129d4a16fe18"
+      },
+      "retained_state": {
+        "version": {
+          "audit": "semantic-audit-v1:6ee42c1f6bf880841c079e1aaa9b34c72328dca2ee1c8ddcd433e3ef85939354",
+          "digest": "semantic-state-v1:f9d1b217ca738b04de7cd6234e14d9de82d14d2c6338d27c5550d2aeae2edaf8",
+          "generation": 69
+        },
+        "phase": "closed_out",
+        "pending": null
+      }
     },
     {
       "repository": "agent-logic/agent-logic-runtime",

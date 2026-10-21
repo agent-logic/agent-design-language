@@ -29,7 +29,7 @@
       "repository": "agent-logic/codefriend",
       "baseline_main": "dc1b843994c5e61791b055b90ce6479f93f2ec1a",
       "disposition": "preserve_working_native_context",
-      "evidence_summary": "Retained118/PR119 exact-head finish and clean receipts verified; remote merge verified. Current discovery/package and earlier lifecycle evidence remain to be completed.",
+      "evidence_summary": "Retained118/PR119 prepare/bind/publication, exact-head proof24/0, linked native review, finish and clean inspected. Native review references same proof digest as cleanup manifest; BLAKE3 archive digest not independently recomputed. Retainedgen69 closed_out/no pending; remote merge verified. Package provenance and doctor/status remain.",
       "acceptance": "incomplete"
     },
     {
