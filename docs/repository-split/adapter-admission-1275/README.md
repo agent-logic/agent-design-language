@@ -246,3 +246,13 @@ Bounded review of the initial evidence packet found one publication-hygiene
 issue: unrelated Reserve workstation/storage project notes. Those fields are
 omitted from the public baseline with an explicit omission marker; canonical
 source revision and adapter routing fields remain recorded.
+
+## Exact installed package resources
+
+[Package evidence](PACKAGE.json) identifies the producer revision, workflow,
+artifact digest and target for package `12369122943`. The executable, paired
+manuals, active registry, all six templates and their structure schemas were
+read and SHA256/size-checked against the retained installation manifest. The
+registry is version 1.0.5 and enumerates SIP, STP, SPP, VPP, SRP and SOR.
+This resource check complements the separate native admission observations; it
+does not select a new binary or attribute this package to an older lifecycle.
