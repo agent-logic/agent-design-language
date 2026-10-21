@@ -1,5 +1,6 @@
 use ::adl_legacy_contracts::adl::AdlDoc;
 use ::adl_legacy_contracts::schema::validate_adl_yaml;
+use adl_legacy_contracts::yaml as serde_yaml;
 
 #[test]
 fn schema_accepts_examples_adl_0_1() {

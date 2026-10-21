@@ -1,3 +1,4 @@
+use adl_legacy_contracts::yaml as serde_yaml;
 use std::collections::{BTreeMap, BTreeSet};
 use std::fs;
 use std::io::Read;

@@ -1,0 +1,13 @@
+{
+  "captured_at": "2026-10-21T02:08:05.201779+00:00",
+  "locks": {
+    "adl/Cargo.lock": "ead8005292b9d79b4596f95074fc67cb4df30ad9de51f0942e03646587e376c5",
+    "adl-legacy-contracts/Cargo.lock": "6bb1cd26bda2f952288792671685e76f961eb5e3cdabf87b76480a29107fcf0e",
+    "adl-schema/Cargo.lock": "01895b114d28fde7844dff7fe5656a332c6d35a3381c4cc4054162b32032fdec",
+    "adl-uts/Cargo.lock": "ff840dadcde03eab4b9243047c42d6c0aa4e56eb808e0b1082196af0b5880bff",
+    "adl-v2/Cargo.lock": "499bebe6660d9cf86761914e120d2bcd23293b1b88fb2f3b5577eb370fd360b3",
+    "adl-characterization/Cargo.lock": "2338d3be520819becf26d29ce61042181bc9cc28278e70ca81fccbbe5afedf4b"
+  },
+  "distinct_registry_versions": 405,
+  "matches": []
+}

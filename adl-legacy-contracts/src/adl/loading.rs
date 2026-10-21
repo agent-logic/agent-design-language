@@ -1,3 +1,4 @@
+use crate::yaml as serde_yaml;
 use anyhow::{anyhow, Context, Result};
 use serde_yaml::{Mapping as YamlMapping, Value as YamlValue};
 use std::fs;
@@ -111,9 +112,10 @@ fn merge_top_level_map(dst: &mut YamlMapping, src: &YamlMapping, src_path: &Path
                         src_path.display()
                     )
                 })?;
-                let dst_entry = dst
-                    .entry(key.clone())
-                    .or_insert_with(|| YamlValue::Mapping(YamlMapping::new()));
+                if !dst.contains_key(key) {
+                    dst.insert(key.clone(), YamlValue::Mapping(YamlMapping::new()));
+                }
+                let dst_entry = dst.get_mut(key).expect("inserted mapping");
                 let dst_map = dst_entry.as_mapping_mut().ok_or_else(|| {
                     anyhow!("top-level '{}' merge target is not a mapping", key_name)
                 })?;
@@ -141,9 +143,10 @@ fn merge_top_level_map(dst: &mut YamlMapping, src: &YamlMapping, src_path: &Path
                         src_path.display()
                     )
                 })?;
-                let dst_entry = dst
-                    .entry(key.clone())
-                    .or_insert_with(|| YamlValue::Sequence(Vec::new()));
+                if !dst.contains_key(key) {
+                    dst.insert(key.clone(), YamlValue::Sequence(Vec::new()));
+                }
+                let dst_entry = dst.get_mut(key).expect("inserted sequence");
                 let dst_seq = dst_entry.as_sequence_mut().ok_or_else(|| {
                     anyhow!("top-level '{}' merge target is not a sequence", key_name)
                 })?;

@@ -1,3 +1,4 @@
+use adl_legacy_contracts::yaml as serde_yaml;
 use std::collections::{BTreeMap, BTreeSet};
 use std::fs;
 use std::path::{Path, PathBuf};
@@ -12,7 +13,7 @@ use crate::model::{Corpus, CORPUS_SCHEMA};
 pub fn load_corpus(path: &Path) -> Result<Corpus> {
     let bytes = fs::read(path).with_context(|| format!("read corpus {}", path.display()))?;
     let yaml: serde_yaml::Value = serde_yaml::from_slice(&bytes).context("parse corpus YAML")?;
-    let json = serde_json::to_value(yaml).context("convert corpus to JSON")?;
+    let json = yaml.to_json().context("convert corpus to JSON")?;
     let schema_path = resolve_sibling(path, schema_path(&json)?)?;
     validate_schema(&json, &schema_path)?;
     let corpus: Corpus = serde_json::from_value(json).context("decode typed corpus")?;
@@ -275,7 +276,7 @@ fn validate_local_mock_run(
         &fs::read(&fixture)
             .with_context(|| format!("read local mock fixture {}", fixture.display()))?,
     )?;
-    let json = serde_json::to_value(yaml)?;
+    let json = yaml.to_json()?;
     let providers = json
         .get("providers")
         .and_then(Value::as_object)
