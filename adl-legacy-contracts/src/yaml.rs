@@ -614,14 +614,16 @@ impl<'de> Deserializer<'de> for Value {
         match self {
             Self::Tagged(_, value) => value.deserialize_seq(v),
             Self::Null => Self::Sequence(Vec::new()).deserialize_any(v),
-            other => other.deserialize_any(v),
+            node @ Self::Sequence(..) => node.deserialize_any(v),
+            _ => Err(de::Error::custom("expected YAML sequence")),
         }
     }
     fn deserialize_map<V: Visitor<'de>>(self, v: V) -> Result<V::Value, Self::Error> {
         match self {
             Self::Tagged(_, value) => value.deserialize_map(v),
             Self::Null => Self::Mapping(Mapping::new()).deserialize_any(v),
-            other => other.deserialize_any(v),
+            node @ Self::Mapping(..) => node.deserialize_any(v),
+            _ => Err(de::Error::custom("expected YAML mapping")),
         }
     }
     fn deserialize_tuple<V: Visitor<'de>>(self, _: usize, v: V) -> Result<V::Value, Self::Error> {

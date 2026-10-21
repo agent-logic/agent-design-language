@@ -234,3 +234,15 @@ fn typed_tags_and_collection_consumption_match_original() {
             .is_empty()
     );
 }
+
+#[test]
+fn structs_require_mappings() {
+    #[derive(Debug, Deserialize)]
+    struct Fields {
+        #[serde(rename = "x")]
+        _x: u8,
+    }
+    assert!(serde_yaml::from_str::<Fields>("[1]").is_err());
+    assert!(serde_yaml::from_value::<Fields>(serde_yaml::from_str("[1]").unwrap()).is_err());
+    assert!(serde_yaml::from_str::<Fields>("{x: 1}").is_ok());
+}
