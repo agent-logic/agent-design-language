@@ -33,6 +33,50 @@ fn canonical_corpus_is_schema_and_semantically_complete() {
     assert_eq!(corpus.coverage.len(), corpus.required_behaviors.len());
 }
 
+// PVF: manifest/local_contract; deterministic, tiny filesystem fixtures;
+// required regression proof. No external services or provider execution.
+#[test]
+fn remote_schema_references_are_refused_without_http_resolution() {
+    let original = fs::read_to_string(corpus_path()).unwrap();
+    for scheme in ["http", "https"] {
+        let (temp, path) = prepare_corpus(&original);
+        let schema = serde_json::json!({
+            "$ref": format!("{scheme}://127.0.0.1:9/schema.json")
+        });
+        fs::write(temp.path().join("schema.json"), schema.to_string()).unwrap();
+        let error = load_corpus(&path).unwrap_err().to_string();
+        assert!(error.contains("schema validation failed"), "{error}");
+        assert!(
+            error.contains("`resolve-http` feature or a custom resolver is required"),
+            "{error}"
+        );
+    }
+}
+
+#[test]
+fn local_file_schema_references_preserve_validation() {
+    let original = fs::read_to_string(corpus_path()).unwrap();
+    let (temp, path) = prepare_corpus(&original);
+    let referenced = temp.path().join("referenced schema #1.json");
+    let local_schema = serde_json::json!({
+        "type": "object",
+        "properties": {"repetitions": {"type": "integer", "minimum": 3}}
+    });
+    fs::write(&referenced, local_schema.to_string()).unwrap();
+    let uri = url::Url::from_file_path(referenced.canonicalize().unwrap()).unwrap();
+    let schema = serde_json::json!({"$ref": uri.as_str()});
+    fs::write(temp.path().join("schema.json"), schema.to_string()).unwrap();
+    assert_eq!(load_corpus(&path).unwrap().cases.len(), 25);
+    fs::write(
+        &path,
+        original.replacen("repetitions: 3", "repetitions: 2", 1),
+    )
+    .unwrap();
+    let error = load_corpus(&path).unwrap_err().to_string();
+    assert!(error.contains("schema validation failed"), "{error}");
+    assert!(error.contains("less than the minimum"), "{error}");
+}
+
 #[test]
 fn fewer_than_three_repetitions_is_rejected() {
     let original = fs::read_to_string(corpus_path()).unwrap();
