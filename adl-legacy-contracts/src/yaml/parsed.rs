@@ -117,8 +117,12 @@ impl<'de> Deserializer<'de> for Node {
     fn deserialize_any<V: Visitor<'de>>(self, v: V) -> Result<V::Value, Self::Error> {
         match self {
             Self::Scalar(value, _, _) => value.deserialize_any(v),
-            Self::Sequence(seq) => v.visit_seq(de::value::SeqDeserializer::new(seq.into_iter())),
-            Self::Mapping(map) => v.visit_map(de::value::MapDeserializer::new(map.into_iter())),
+            Self::Sequence(seq) => {
+                de::value::SeqDeserializer::new(seq.into_iter()).deserialize_any(v)
+            }
+            Self::Mapping(map) => {
+                de::value::MapDeserializer::new(map.into_iter()).deserialize_any(v)
+            }
             Self::Tagged(tag, value) => v.visit_enum(NodeEnum(tag, Some(*value))),
         }
     }
@@ -164,7 +168,134 @@ impl<'de> Deserializer<'de> for Node {
     fn deserialize_char<V: Visitor<'de>>(self, v: V) -> Result<V::Value, Self::Error> {
         self.deserialize_str(v)
     }
-    serde::forward_to_deserialize_any! { bool i8 i16 i32 i64 i128 u8 u16 u32 u64 u128 f32 f64 bytes byte_buf unit unit_struct seq tuple tuple_struct map struct identifier }
+    fn deserialize_bool<V: Visitor<'de>>(self, v: V) -> Result<V::Value, Self::Error> {
+        match self {
+            Self::Tagged(_, value) => value.deserialize_bool(v),
+            other => other.deserialize_any(v),
+        }
+    }
+    fn deserialize_i8<V: Visitor<'de>>(self, v: V) -> Result<V::Value, Self::Error> {
+        match self {
+            Self::Tagged(_, value) => value.deserialize_i8(v),
+            other => other.deserialize_any(v),
+        }
+    }
+    fn deserialize_i16<V: Visitor<'de>>(self, v: V) -> Result<V::Value, Self::Error> {
+        match self {
+            Self::Tagged(_, value) => value.deserialize_i16(v),
+            other => other.deserialize_any(v),
+        }
+    }
+    fn deserialize_i32<V: Visitor<'de>>(self, v: V) -> Result<V::Value, Self::Error> {
+        match self {
+            Self::Tagged(_, value) => value.deserialize_i32(v),
+            other => other.deserialize_any(v),
+        }
+    }
+    fn deserialize_i64<V: Visitor<'de>>(self, v: V) -> Result<V::Value, Self::Error> {
+        match self {
+            Self::Tagged(_, value) => value.deserialize_i64(v),
+            other => other.deserialize_any(v),
+        }
+    }
+    fn deserialize_i128<V: Visitor<'de>>(self, v: V) -> Result<V::Value, Self::Error> {
+        match self {
+            Self::Tagged(_, value) => value.deserialize_i128(v),
+            other => other.deserialize_any(v),
+        }
+    }
+    fn deserialize_u8<V: Visitor<'de>>(self, v: V) -> Result<V::Value, Self::Error> {
+        match self {
+            Self::Tagged(_, value) => value.deserialize_u8(v),
+            other => other.deserialize_any(v),
+        }
+    }
+    fn deserialize_u16<V: Visitor<'de>>(self, v: V) -> Result<V::Value, Self::Error> {
+        match self {
+            Self::Tagged(_, value) => value.deserialize_u16(v),
+            other => other.deserialize_any(v),
+        }
+    }
+    fn deserialize_u32<V: Visitor<'de>>(self, v: V) -> Result<V::Value, Self::Error> {
+        match self {
+            Self::Tagged(_, value) => value.deserialize_u32(v),
+            other => other.deserialize_any(v),
+        }
+    }
+    fn deserialize_u64<V: Visitor<'de>>(self, v: V) -> Result<V::Value, Self::Error> {
+        match self {
+            Self::Tagged(_, value) => value.deserialize_u64(v),
+            other => other.deserialize_any(v),
+        }
+    }
+    fn deserialize_u128<V: Visitor<'de>>(self, v: V) -> Result<V::Value, Self::Error> {
+        match self {
+            Self::Tagged(_, value) => value.deserialize_u128(v),
+            other => other.deserialize_any(v),
+        }
+    }
+    fn deserialize_f32<V: Visitor<'de>>(self, v: V) -> Result<V::Value, Self::Error> {
+        match self {
+            Self::Tagged(_, value) => value.deserialize_f32(v),
+            other => other.deserialize_any(v),
+        }
+    }
+    fn deserialize_f64<V: Visitor<'de>>(self, v: V) -> Result<V::Value, Self::Error> {
+        match self {
+            Self::Tagged(_, value) => value.deserialize_f64(v),
+            other => other.deserialize_any(v),
+        }
+    }
+    fn deserialize_bytes<V: Visitor<'de>>(self, v: V) -> Result<V::Value, Self::Error> {
+        match self {
+            Self::Tagged(_, value) => value.deserialize_bytes(v),
+            other => other.deserialize_any(v),
+        }
+    }
+    fn deserialize_byte_buf<V: Visitor<'de>>(self, v: V) -> Result<V::Value, Self::Error> {
+        match self {
+            Self::Tagged(_, value) => value.deserialize_byte_buf(v),
+            other => other.deserialize_any(v),
+        }
+    }
+    fn deserialize_identifier<V: Visitor<'de>>(self, v: V) -> Result<V::Value, Self::Error> {
+        match self {
+            Self::Tagged(_, value) => value.deserialize_identifier(v),
+            other => other.deserialize_any(v),
+        }
+    }
+    fn deserialize_seq<V: Visitor<'de>>(self, v: V) -> Result<V::Value, Self::Error> {
+        match self {
+            Self::Tagged(_, value) => value.deserialize_seq(v),
+            other => other.deserialize_any(v),
+        }
+    }
+    fn deserialize_map<V: Visitor<'de>>(self, v: V) -> Result<V::Value, Self::Error> {
+        match self {
+            Self::Tagged(_, value) => value.deserialize_map(v),
+            other => other.deserialize_any(v),
+        }
+    }
+    fn deserialize_tuple<V: Visitor<'de>>(self, _: usize, v: V) -> Result<V::Value, Self::Error> {
+        self.deserialize_seq(v)
+    }
+    fn deserialize_tuple_struct<V: Visitor<'de>>(
+        self,
+        _: &'static str,
+        _: usize,
+        v: V,
+    ) -> Result<V::Value, Self::Error> {
+        self.deserialize_seq(v)
+    }
+    fn deserialize_struct<V: Visitor<'de>>(
+        self,
+        _: &'static str,
+        _: &'static [&'static str],
+        v: V,
+    ) -> Result<V::Value, Self::Error> {
+        self.deserialize_map(v)
+    }
+    serde::forward_to_deserialize_any! { unit unit_struct }
 }
 struct NodeEnum(String, Option<Node>);
 impl<'de> de::EnumAccess<'de> for NodeEnum {

@@ -208,3 +208,29 @@ fn typed_strings_keep_scalar_spelling_without_numeric_coercion() {
     let resolved: Value = serde_yaml::from_str("0x10").unwrap();
     assert!(serde_yaml::from_value::<String>(resolved).is_err());
 }
+
+#[test]
+fn typed_tags_and_collection_consumption_match_original() {
+    assert_eq!(serde_yaml::from_str::<u64>("!X 7").unwrap(), 7);
+    assert_eq!(
+        serde_yaml::from_value::<u64>(serde_yaml::from_str("!X 7").unwrap()).unwrap(),
+        7
+    );
+    assert_eq!(
+        serde_yaml::from_str::<Vec<u64>>("!X [1, 2]").unwrap(),
+        [1, 2]
+    );
+    assert!(serde_yaml::from_str::<(u64, u64)>("[1,2,3]").is_err());
+    assert!(
+        serde_yaml::from_value::<(u64, u64)>(serde_yaml::from_str("[1,2,3]").unwrap()).is_err()
+    );
+    assert!(serde_yaml::from_str::<Vec<u64>>("null").is_err());
+    assert!(serde_yaml::from_value::<Vec<u64>>(Value::Null)
+        .unwrap()
+        .is_empty());
+    assert!(
+        serde_yaml::from_value::<std::collections::BTreeMap<String, u64>>(Value::Null)
+            .unwrap()
+            .is_empty()
+    );
+}
