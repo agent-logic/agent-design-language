@@ -1,0 +1,72 @@
+{
+  "schema": "adl.retained_lifecycle_evidence.v1",
+  "issue": 1275,
+  "repositories": [
+    {
+      "repository": "agent-logic/codefriend",
+      "issue": 118,
+      "pull_request": 119,
+      "reviewed_head": "43f955e674d2d2b8d9c90e5c5d2a09df7e4c788f",
+      "merge_commit": "08ddd97c3777510cc0b85068f0e1d06f09d31321",
+      "remote_state_verified": "MERGED",
+      "scope": "retained_terminal_evidence_only",
+      "package_identity": "not_identified_in_these_receipts",
+      "authority_selector_digest": "657d17c7d10d98138f5742b051ad7a67e60041c1a733ccd639e13727850d0374",
+      "finish": {
+        "decision": "terminal_closed_out",
+        "semantic_version": {
+          "generation": 67,
+          "digest": "semantic-state-v1:2e6b5088ec21efd5fe1842dc65a4ab8fdcfed613b0e0babe57b49f2420c3f4f2"
+        },
+        "evidence_sha256": "cbefd7a95488c3d78b3fa03cfcb54470f658e562d7b904cc5e1d77d7ce950b1d"
+      },
+      "clean": {
+        "decision": "removed",
+        "receipt_digest": "8aea81e6f9c0abb881c8a3e73bc69e355a0df19b6e8dea257b604bd089eb5bed",
+        "semantic_version": {
+          "generation": 69,
+          "digest": "semantic-state-v1:f9d1b217ca738b04de7cd6234e14d9de82d14d2c6338d27c5550d2aeae2edaf8"
+        },
+        "evidence_sha256": "5f95385e5f92e4907f23b1b42a49773ff9b59fe6cb56290945659183129ae999"
+      },
+      "remaining": [
+        "Identify original admitted package and discovery contract",
+        "Complete applicable earlier lifecycle and doctor/status evidence",
+        "Verify current repository adapter disposition"
+      ]
+    },
+    {
+      "repository": "agent-logic/agent-logic-runtime",
+      "issue": 112,
+      "pull_request": 136,
+      "reviewed_head": "708eec887731b37e3a687b4058c3040bdc50d685",
+      "merge_commit": "541dc24c885948d9fa352498c5c56e36e15f7a6a",
+      "remote_state_verified": "MERGED",
+      "scope": "retained_terminal_evidence_only",
+      "package_identity": "not_identified_in_these_receipts",
+      "authority_selector_digest": "e5ac35bdf6bf00b1f7957ce32383ec81273bc13b78e6ec63ddf910cfbcadd1d2",
+      "finish": {
+        "decision": "terminal_closed_out",
+        "semantic_version": {
+          "generation": 37,
+          "digest": "semantic-state-v1:e8e75f5a39400c5c3370e24124da4e495e59c9ada91a38cb3f3660e54afd0bb8"
+        },
+        "evidence_sha256": "06d2dc10939258eaee3f1157604d37cab8b926bb3ecf988428f7c3b9aac4d155"
+      },
+      "clean": {
+        "decision": "removed",
+        "receipt_digest": "dfbea0c3b149135a0a6c2f7deaea6790a29e028039230074f6ca940b93abdea6",
+        "semantic_version": {
+          "generation": 39,
+          "digest": "semantic-state-v1:daba51bf8d4111f7621b66d32cf7a906c06bc634f5cb6bd1e36776d2c7fd2942"
+        },
+        "evidence_sha256": "7c5378cc3be905229361167298b7402cac1309ad60ada22ac89676d4686047b7"
+      },
+      "remaining": [
+        "Identify original admitted package and discovery contract",
+        "Complete applicable earlier lifecycle and doctor/status evidence",
+        "Verify current repository adapter disposition"
+      ]
+    }
+  ]
+}

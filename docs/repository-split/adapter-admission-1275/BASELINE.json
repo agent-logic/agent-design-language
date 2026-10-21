@@ -1,0 +1,384 @@
+{
+  "schema": "adl.repository_adapter_audit.v1",
+  "issue": 1275,
+  "observed_date": "2026-10-21",
+  "scope": "13 repositories from documentation delivery 1269",
+  "claim": "Canonical source observation only; not installed admission or lifecycle completion.",
+  "repositories": [
+    {
+      "repository": "agent-logic/agent-design-language",
+      "observed_main": "e2a059086e682ea1cdcb83bacf67ddb1d7780a1e",
+      "adapter_present": false,
+      "adapter": null,
+      "disposition": "inspect_native_context",
+      "installed_lifecycle": "not_yet_verified"
+    },
+    {
+      "repository": "agent-logic/cognitive-sdlc",
+      "observed_main": "e49b411dc33a65bd968e6f5add404822f18341fd",
+      "adapter_present": false,
+      "adapter": null,
+      "disposition": "inspect_native_context",
+      "installed_lifecycle": "not_yet_verified"
+    },
+    {
+      "repository": "agent-logic/agent-logic-runtime",
+      "observed_main": "d6870c05f6867a569c2cfa9e0bff74c358d16449",
+      "adapter_present": false,
+      "adapter": null,
+      "disposition": "inspect_native_context",
+      "installed_lifecycle": "not_yet_verified"
+    },
+    {
+      "repository": "agent-logic/codefriend",
+      "observed_main": "dc1b843994c5e61791b055b90ce6479f93f2ec1a",
+      "adapter_present": false,
+      "adapter": null,
+      "disposition": "inspect_native_context",
+      "installed_lifecycle": "not_yet_verified"
+    },
+    {
+      "repository": "agent-logic/agent-logic-infrastructure",
+      "observed_main": "6aa48960dde398cd459b487a9452dc9a7b3c757f",
+      "adapter_present": false,
+      "adapter": null,
+      "disposition": "inspect_native_context",
+      "installed_lifecycle": "not_yet_verified"
+    },
+    {
+      "repository": "agent-logic/agent-logic-enterprise-security",
+      "observed_main": "06cd3e80d32610f2e360d0824a3195c7f43eb8e5",
+      "adapter_present": false,
+      "adapter": null,
+      "disposition": "inspect_native_context",
+      "installed_lifecycle": "not_yet_verified"
+    },
+    {
+      "repository": "agent-logic/agent-logic.ai",
+      "observed_main": "4756b251b7d144bf4d6c6d25ea8403a49f8288a3",
+      "adapter_present": true,
+      "adapter": {
+        "schema_version": "adl.project.v1",
+        "project_id": "agent-logic-ai",
+        "profile": "demo",
+        "tooling_ref": "agent-design-language@v0.91.5",
+        "min_adl_version": "0.91.5",
+        "prompt_template_registry": "docs/templates/prompts/current.json",
+        "issue_tracker": {
+          "provider": "github",
+          "repo": "agent-logic/agent-logic.ai"
+        },
+        "tooling_discovery": {
+          "env": "ADL_HOME",
+          "repo_relative": null,
+          "sibling_repo": "../agent-design-language",
+          "failure_mode": "fail_with_setup_instructions"
+        },
+        "state_policy": {
+          "issue_authority": "external_repo",
+          "cards_location": "repo_local_ignored_adl",
+          "worktree_location": "external_repo_worktrees",
+          "tracked_public_evidence": true,
+          "local_adl_state_ignored": true
+        },
+        "validation_profile": "demo",
+        "artifact_policy": {
+          "forbid_absolute_host_paths": true,
+          "public_outputs": [
+            "site/",
+            "docs/",
+            "infra/terraform/",
+            "README.md"
+          ],
+          "private_outputs": [
+            ".adl/",
+            "infra/terraform/.terraform/",
+            "infra/terraform/*.tfstate",
+            "infra/terraform/*.tfstate.*",
+            "infra/terraform/tfplan",
+            "private/",
+            "tmp/"
+          ]
+        }
+      },
+      "disposition": "migration_required",
+      "installed_lifecycle": "not_yet_verified"
+    },
+    {
+      "repository": "agent-logic/codefriend.ai",
+      "observed_main": "fc611c090a467a18e501d43826d30539c0befd05",
+      "adapter_present": true,
+      "adapter": {
+        "schema_version": "adl.project.v1",
+        "project_id": "codefriend-ai",
+        "profile": "demo",
+        "tooling_ref": "agent-design-language@v0.91.5",
+        "min_adl_version": "0.91.5",
+        "prompt_template_registry": "docs/templates/prompts/current.json",
+        "issue_tracker": {
+          "provider": "github",
+          "repo": "agent-logic/codefriend.ai"
+        },
+        "tooling_discovery": {
+          "env": "ADL_HOME",
+          "repo_relative": null,
+          "sibling_repo": "../agent-design-language",
+          "failure_mode": "fail_with_setup_instructions"
+        },
+        "state_policy": {
+          "issue_authority": "external_repo",
+          "cards_location": "repo_local_ignored_adl",
+          "worktree_location": "external_repo_worktrees",
+          "tracked_public_evidence": true,
+          "local_adl_state_ignored": true
+        },
+        "validation_profile": "demo",
+        "validation_commands": [
+          {
+            "name": "static_site_boundary",
+            "command": "scripts/verify_site.sh",
+            "requires": [
+              "deployed CloudFront/S3 site",
+              "CODEFRIEND_CLOUDFRONT_DOMAIN_NAME or local Terraform state"
+            ]
+          },
+          {
+            "name": "beta_website_components",
+            "command": "npm test",
+            "requires": [
+              "Node.js >=24",
+              "local deterministic fixtures; no deployed service or paid provider calls"
+            ]
+          }
+        ],
+        "artifact_policy": {
+          "forbid_absolute_host_paths": true,
+          "public_outputs": [
+            "site/",
+            "docs/",
+            "infra/terraform/",
+            ".github/workflows/deploy-site.yml",
+            "scripts/"
+          ],
+          "private_outputs": [
+            ".adl/",
+            "infra/terraform/.terraform/",
+            "infra/terraform/terraform.tfstate",
+            "infra/terraform/terraform.tfstate.*",
+            "crash.log",
+            "crash.*.log"
+          ]
+        }
+      },
+      "disposition": "migration_required",
+      "installed_lifecycle": "not_yet_verified"
+    },
+    {
+      "repository": "agent-logic/universal-tool-schema",
+      "observed_main": "7e60b4d5a6ecbcd386eea82efce26e4e2dae2d9d",
+      "adapter_present": true,
+      "adapter": {
+        "schema_version": "adl.project.v1",
+        "project_id": "universal-tool-schema",
+        "profile": "spec",
+        "tooling_ref": "agent-design-language@v0.91.5",
+        "min_adl_version": "0.91.5",
+        "prompt_template_registry": "docs/templates/prompts/current.json",
+        "issue_tracker": {
+          "provider": "github",
+          "repo": "danielbaustin/universal-tool-schema"
+        },
+        "tooling_discovery": {
+          "env": "ADL_HOME",
+          "repo_relative": null,
+          "sibling_repo": "../agent-design-language",
+          "failure_mode": "fail_with_setup_instructions"
+        },
+        "state_policy": {
+          "issue_authority": "external_repo",
+          "cards_location": "repo_local_ignored_adl",
+          "worktree_location": "external_repo_worktrees",
+          "tracked_public_evidence": true,
+          "local_adl_state_ignored": true
+        },
+        "validation_profile": "spec",
+        "artifact_policy": {
+          "forbid_absolute_host_paths": true,
+          "public_outputs": [
+            "spec_docs",
+            "examples",
+            "conformance_notes"
+          ],
+          "private_outputs": [
+            "scratch_runs",
+            "credentials",
+            "non_public_reviewer_notes"
+          ]
+        }
+      },
+      "disposition": "migration_required",
+      "installed_lifecycle": "not_yet_verified"
+    },
+    {
+      "repository": "agent-logic/strategic-cognitive-reserve",
+      "observed_main": "f5cf19a986b554035f02a698ee2e1388f05620a4",
+      "adapter_present": true,
+      "adapter": {
+        "schema_version": "adl.project.v1",
+        "project_id": "strategic-cognitive-reserve",
+        "profile": "spec",
+        "tooling_ref": "agent-design-language@v0.91.5",
+        "min_adl_version": "0.91.5",
+        "prompt_template_registry": "docs/templates/prompts/current.json",
+        "issue_tracker": {
+          "provider": "github",
+          "repo": "agent-logic/strategic-cognitive-reserve"
+        },
+        "tooling_discovery": {
+          "env": "ADL_HOME",
+          "repo_relative": null,
+          "sibling_repo": "../agent-design-language",
+          "failure_mode": "fail_with_setup_instructions"
+        },
+        "state_policy": {
+          "issue_authority": "external_repo",
+          "cards_location": "repo_local_ignored_adl",
+          "worktree_location": "external_repo_worktrees",
+          "tracked_public_evidence": true,
+          "local_adl_state_ignored": true
+        },
+        "validation_profile": "spec",
+        "artifact_policy": {
+          "forbid_absolute_host_paths": true,
+          "public_outputs": [
+            "README.md",
+            "docs/",
+            "registry/",
+            "site/",
+            "infra/terraform/"
+          ],
+          "private_outputs": [
+            ".adl/",
+            ".worktrees/",
+            ".env",
+            "models/",
+            "weights/",
+            "snapshots/",
+            "terraform state",
+            "provider credentials"
+          ]
+        },
+        "project_notes": {
+          "subdomain": "scr.agent-logic.ai",
+          "archive_bucket": "agent-logic-strategic-cognitive-reserve",
+          "opticon_host": "opticon.local",
+          "canonical_plan": "docs/ADL_STRATEGIC_COGNITIVE_RESERVE_PLAN.md",
+          "source_issue": "agent-design-language#3868"
+        }
+      },
+      "disposition": "migration_required",
+      "installed_lifecycle": "not_yet_verified"
+    },
+    {
+      "repository": "agent-logic/godel-hadamard-bayes-paper",
+      "observed_main": "2ac23cdd95fb76ecd9f9af70ff1e3b78d5286361",
+      "adapter_present": true,
+      "adapter": {
+        "schema_version": "adl.project.v1",
+        "project_id": "godel-hadamard-bayes-paper",
+        "profile": "paper",
+        "tooling_ref": "agent-design-language@v0.91.5",
+        "min_adl_version": "0.91.5",
+        "prompt_template_registry": "docs/templates/prompts/current.json",
+        "issue_tracker": {
+          "provider": "github",
+          "repo": "danielbaustin/godel-hadamard-bayes-paper"
+        },
+        "tooling_discovery": {
+          "env": "ADL_HOME",
+          "repo_relative": null,
+          "sibling_repo": "../agent-design-language",
+          "failure_mode": "fail_with_setup_instructions"
+        },
+        "state_policy": {
+          "issue_authority": "external_repo",
+          "cards_location": "repo_local_ignored_adl",
+          "worktree_location": "external_repo_worktrees",
+          "tracked_public_evidence": true,
+          "local_adl_state_ignored": true
+        },
+        "validation_profile": "paper",
+        "artifact_policy": {
+          "forbid_absolute_host_paths": true,
+          "public_outputs": [
+            "source_packet",
+            "claim_citation_packet",
+            "review_packet",
+            "approved_pdf"
+          ],
+          "private_outputs": [
+            "draft_notes",
+            "local_build",
+            "reviewer_scratch"
+          ]
+        }
+      },
+      "disposition": "migration_required",
+      "installed_lifecycle": "not_yet_verified"
+    },
+    {
+      "repository": "agent-logic/cognitive-sdlc-paper",
+      "observed_main": "77f7a19e94f1743dbcbb3f8a5a50fa759f7a8080",
+      "adapter_present": false,
+      "adapter": null,
+      "disposition": "inspect_native_context",
+      "installed_lifecycle": "not_yet_verified"
+    },
+    {
+      "repository": "agent-logic/general-intelligence-paper-private",
+      "observed_main": "536f2cbdc1de0deac6371076c2caf7eebd450992",
+      "adapter_present": true,
+      "adapter": {
+        "schema_version": "adl.project.v1",
+        "project_id": "general-intelligence-paper",
+        "profile": "paper",
+        "tooling_ref": "agent-design-language@v0.91.5",
+        "min_adl_version": "0.91.5",
+        "prompt_template_registry": "docs/templates/prompts/current.json",
+        "issue_tracker": {
+          "provider": "github",
+          "repo": "danielbaustin/general-intelligence-paper-private"
+        },
+        "tooling_discovery": {
+          "env": "ADL_HOME",
+          "repo_relative": null,
+          "sibling_repo": "../agent-design-language",
+          "failure_mode": "fail_with_setup_instructions"
+        },
+        "state_policy": {
+          "issue_authority": "external_repo",
+          "cards_location": "repo_local_ignored_adl",
+          "worktree_location": "external_repo_worktrees",
+          "tracked_public_evidence": true,
+          "local_adl_state_ignored": true
+        },
+        "validation_profile": "paper",
+        "artifact_policy": {
+          "forbid_absolute_host_paths": true,
+          "public_outputs": [
+            "review_packet",
+            "approved_pdf",
+            "source_package"
+          ],
+          "private_outputs": [
+            "draft_notes",
+            "local_build",
+            "reviewer_scratch"
+          ]
+        }
+      },
+      "disposition": "migration_required",
+      "installed_lifecycle": "not_yet_verified"
+    }
+  ]
+}

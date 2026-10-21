@@ -1,0 +1,99 @@
+{
+  "schema": "adl.repository_adapter_status.v1",
+  "issue": 1275,
+  "scope_count": 13,
+  "all_requirements_satisfied": false,
+  "repositories": [
+    {
+      "repository": "agent-logic/agent-design-language",
+      "baseline_main": "e2a059086e682ea1cdcb83bacf67ddb1d7780a1e",
+      "disposition": "preserve_working_native_context",
+      "evidence_summary": "1275 transition and binding verified under 12369122943; retained1335 finish+clean verified under11786371585. Parent implementation/delivery remains open.",
+      "acceptance": "incomplete"
+    },
+    {
+      "repository": "agent-logic/cognitive-sdlc",
+      "baseline_main": "e49b411dc33a65bd968e6f5add404822f18341fd",
+      "disposition": "preserve_working_native_context",
+      "evidence_summary": "Retained312/317 delivered finish receipts inspected; clean not proved. Closed318 excluded from transition work.",
+      "acceptance": "incomplete"
+    },
+    {
+      "repository": "agent-logic/agent-logic-runtime",
+      "baseline_main": "d6870c05f6867a569c2cfa9e0bff74c358d16449",
+      "disposition": "preserve_owner_context_pending_reconciliation",
+      "evidence_summary": "Retained112/PR136 exact-head finish and clean receipts verified; remote merge verified. Current discovery/package and earlier lifecycle evidence remain. Separate194 reconciliation remains owned under322; no state transition by this task.",
+      "acceptance": "incomplete"
+    },
+    {
+      "repository": "agent-logic/codefriend",
+      "baseline_main": "dc1b843994c5e61791b055b90ce6479f93f2ec1a",
+      "disposition": "preserve_working_native_context",
+      "evidence_summary": "Retained118/PR119 exact-head finish and clean receipts verified; remote merge verified. Current discovery/package and earlier lifecycle evidence remain to be completed.",
+      "acceptance": "incomplete"
+    },
+    {
+      "repository": "agent-logic/agent-logic-infrastructure",
+      "baseline_main": "6aa48960dde398cd459b487a9452dc9a7b3c757f",
+      "disposition": "native_delivery_verified_cleanup_dirty",
+      "evidence_summary": "Supported issue37 package transition completed gen22 to23 with no remote mutation. Authenticated native finish confirms PR38 delivered, issue closed, finish_required false. Cleanup preview refuses cleanup_dirty; worktree/evidence preserved. Current contract and cleanup disposition remain incomplete.",
+      "acceptance": "incomplete"
+    },
+    {
+      "repository": "agent-logic/agent-logic-enterprise-security",
+      "baseline_main": "06cd3e80d32610f2e360d0824a3195c7f43eb8e5",
+      "disposition": "preserve_active_owner_context",
+      "evidence_summary": "Retained9 prepare/bind/doctor/status and delivered finish receipts inspected; PR18 merge verified. Owner confirms executed package12237907988 and Security10 finish; cleanup10 dirty/preserved. Primary policy deletion is intentional operator direction. Active12/14/15/16 preserved.",
+      "acceptance": "incomplete"
+    },
+    {
+      "repository": "agent-logic/agent-logic.ai",
+      "baseline_main": "4756b251b7d144bf4d6c6d25ea8403a49f8288a3",
+      "disposition": "adapter_pr_pending_terminal",
+      "evidence_summary": "Issue 100, PR 101; proof/review/CI passed; terminal delivery pending.",
+      "acceptance": "incomplete"
+    },
+    {
+      "repository": "agent-logic/codefriend.ai",
+      "baseline_main": "fc611c090a467a18e501d43826d30539c0befd05",
+      "disposition": "adapter_pr_pending_terminal",
+      "evidence_summary": "Issue 62, PR 63; proof/review/CI passed; terminal delivery pending.",
+      "acceptance": "incomplete"
+    },
+    {
+      "repository": "agent-logic/universal-tool-schema",
+      "baseline_main": "7e60b4d5a6ecbcd386eea82efce26e4e2dae2d9d",
+      "disposition": "adapter_pr_pending_terminal",
+      "evidence_summary": "Issue 12, PR 13; proof/review/CI passed; terminal delivery pending.",
+      "acceptance": "incomplete"
+    },
+    {
+      "repository": "agent-logic/strategic-cognitive-reserve",
+      "baseline_main": "f5cf19a986b554035f02a698ee2e1388f05620a4",
+      "disposition": "adapter_pr_pending_terminal",
+      "evidence_summary": "Issue 30, PR 31; proof/review/CI passed; terminal delivery pending.",
+      "acceptance": "incomplete"
+    },
+    {
+      "repository": "agent-logic/godel-hadamard-bayes-paper",
+      "baseline_main": "2ac23cdd95fb76ecd9f9af70ff1e3b78d5286361",
+      "disposition": "adapter_pr_pending_terminal",
+      "evidence_summary": "Issue 3, PR 4; proof/review/CI passed; terminal delivery pending.",
+      "acceptance": "incomplete"
+    },
+    {
+      "repository": "agent-logic/cognitive-sdlc-paper",
+      "baseline_main": "77f7a19e94f1743dbcbb3f8a5a50fa759f7a8080",
+      "disposition": "adapter_pr_pending_terminal",
+      "evidence_summary": "Issue3 PR4 native published; proof/review/CI passed; terminal results pending.",
+      "acceptance": "incomplete"
+    },
+    {
+      "repository": "agent-logic/general-intelligence-paper-private",
+      "baseline_main": "536f2cbdc1de0deac6371076c2caf7eebd450992",
+      "disposition": "adapter_pr_pending_terminal",
+      "evidence_summary": "Issue 3, PR 4; proof/review/CI passed; terminal delivery pending.",
+      "acceptance": "incomplete"
+    }
+  ]
+}

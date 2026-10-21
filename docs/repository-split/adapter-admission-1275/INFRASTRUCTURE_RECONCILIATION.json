@@ -1,0 +1,56 @@
+{
+  "schema": "adl.repository_reconciliation.v1",
+  "repository": "agent-logic/agent-logic-infrastructure",
+  "issue": 37,
+  "package_artifact": "12369122943",
+  "transition": {
+    "status": "completed",
+    "expected_version": {
+      "generation": 22,
+      "digest": "semantic-state-v1:1acd8a819e37698a986d53f9017ad6f91d93d4ab138fffddf02ab7ec398d7b65"
+    },
+    "version": {
+      "generation": 23,
+      "digest": "semantic-state-v1:fc148361406b293a381383aa5ca5bdd1ac8c85c5733f63804a4a2072e4838274"
+    },
+    "audit": "semantic-audit-v1:ea02b8d63c133a06321a41d2a27a5296721ff568e93196d4b4829fe1cda85651",
+    "new_authority": "semantic-authority-v1:1349231e9211392853afa75029a9de68d54d7f05123924fe3f928643b9e7b376",
+    "remote_mutation": false
+  },
+  "delivery": {
+    "status": "delivered",
+    "repository": "agent-logic/agent-logic-infrastructure",
+    "pull_request": 38,
+    "head_sha": "227e5fc798837ed596376284a0c267f3ee9e1b04",
+    "issue": 37,
+    "issue_closure": "closed",
+    "finish_required": false,
+    "cleanup": "optional"
+  },
+  "cleanup": {
+    "status": "refused_dirty_preserved",
+    "complete": false
+  },
+  "evidence": [
+    {
+      "name": "infrastructure-transition-discovery-result.json",
+      "sha256": "52a0308dc750cb0e0aa27647f50155ea08d2bde24f9aef2ae64396c65a510c9f"
+    },
+    {
+      "name": "infrastructure-transition-preview.json",
+      "sha256": "bcae8c27f823820f7ec954ed14edcd9f4754ab638eaed392dd43822a0cea21b9"
+    },
+    {
+      "name": "infrastructure-transition-execute.json",
+      "sha256": "0ab15284fc38c3d106960117e306e524239bf3c8dee2f3b0466f9ec9e162e56f"
+    },
+    {
+      "name": "infrastructure-finish-preview.json",
+      "sha256": "2a9f098f9373697d370feef2200fbab8cb68ef751d0f6f8e0ed388079c098eb7"
+    },
+    {
+      "name": "infrastructure-clean-authenticated-preview.json",
+      "sha256": "4008ee916249635e91a2916499040eeedcea5bbb56300e261b4e5fa38b48aecd"
+    }
+  ]
+}
