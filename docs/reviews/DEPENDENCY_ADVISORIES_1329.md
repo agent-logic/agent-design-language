@@ -50,6 +50,19 @@ retention acceptance is pending the owner. No security patch or removal is claim
 
 ## Validation status
 
+### Inherited locking CI blocker
+
+The first PR CI run failed macOS `ledger_lock_blocks_second_mutator` after
+guard drop. The locking source was inherited unchanged from #1324. A new
+deterministic application regression established that an outstanding duplicate
+descriptor extended the close-only guard's OS lock lifetime. Explicit unlock
+on guard drop fixes that defect while preserving the persistent inode and live
+exclusion. The test also proves that closing the old duplicate does not unlock
+a newly acquired guard. All session-ledger tests pass locally after the repair.
+Descriptor inheritance during parallel process creation is a plausible cause
+of the CI timing failure, not an established reconstruction of that failure.
+No sleep, retry or serial-test workaround was added.
+
 The public CLI lane passed, followed by successful final locked graph resolution
 with the original unrelated CLI dependency selections retained. All characterization
 tests passed, including eight manifest tests. The final CLI graph contains the
