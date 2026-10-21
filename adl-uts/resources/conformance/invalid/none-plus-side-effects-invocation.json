@@ -1,0 +1,15 @@
+{
+  "invocation_id": "inv_bad",
+  "caller": {
+    "kind": "agent"
+  },
+  "tool": {
+    "name": "fixture.safe_read",
+    "version": "1.0.0"
+  },
+  "intent": "Read and write at the same time.",
+  "purpose": "Invalid conformance fixture.",
+  "side_effect_expectations": ["none", "external_state"],
+  "replay_safety": "replay_safe",
+  "observability": "basic"
+}

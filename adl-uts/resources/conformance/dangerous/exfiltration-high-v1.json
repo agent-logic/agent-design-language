@@ -1,0 +1,39 @@
+{
+  "schema_version": "uts.v1",
+  "name": "fixture.exfiltrate_secret",
+  "version": "1.0.0",
+  "description": "Dangerous but structurally valid fixture for exfiltration classification.",
+  "input_schema": {
+    "type": "object"
+  },
+  "output_schema": {
+    "type": "object"
+  },
+  "side_effect_class": "exfiltration",
+  "determinism": "bounded_nondeterministic",
+  "replay_safety": "not_replay_safe",
+  "idempotence": "not_idempotent",
+  "resources": [
+    {
+      "resource_type": "network",
+      "scope": "external"
+    }
+  ],
+  "authentication": {
+    "mode": "api_key",
+    "required": true
+  },
+  "data_sensitivity": "secret",
+  "exfiltration_risk": "high",
+  "execution_environment": {
+    "kind": "network",
+    "isolation": "none"
+  },
+  "errors": [
+    {
+      "code": "network_denied",
+      "message": "The network path is blocked.",
+      "retryable": false
+    }
+  ]
+}

@@ -1,7 +1,16 @@
-use schemars::{schema_for, JsonSchema};
+use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 use serde_json::Value as JsonValue;
 use std::collections::{BTreeMap, BTreeSet};
+
+// Optional fields may be absent, but canonical UTS does not accept explicit null.
+fn present_optional<'de, D, T>(deserializer: D) -> Result<Option<T>, D::Error>
+where
+    D: serde::Deserializer<'de>,
+    T: Deserialize<'de>,
+{
+    T::deserialize(deserializer).map(Some)
+}
 
 pub const UTS_SCHEMA_VERSION_V1_0: &str = "uts.v1";
 pub const UTS_SCHEMA_VERSION_V1_1: &str = "uts.v1.1";
@@ -143,18 +152,48 @@ pub enum UtsObservabilityV1 {
     Governance,
 }
 
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
+#[serde(rename_all = "snake_case")]
+pub enum UtsLifecycleV1_1 {
+    Draft,
+    Experimental,
+    Stable,
+    Deprecated,
+    Sunset,
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq, Default)]
 #[serde(deny_unknown_fields)]
 pub struct UtsPlanningMetadataV1 {
-    #[serde(default)]
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        deserialize_with = "present_optional"
+    )]
     pub high_risk: Option<bool>,
-    #[serde(default)]
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        deserialize_with = "present_optional"
+    )]
     pub irreversible: Option<bool>,
-    #[serde(default)]
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        deserialize_with = "present_optional"
+    )]
     pub expensive: Option<bool>,
-    #[serde(default)]
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        deserialize_with = "present_optional"
+    )]
     pub slow: Option<bool>,
-    #[serde(default)]
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        deserialize_with = "present_optional"
+    )]
     pub review_recommended: Option<bool>,
 }
 
@@ -219,12 +258,26 @@ pub struct UniversalToolSchemaV1_1 {
     pub name: String,
     pub version: String,
     pub description: String,
-    #[serde(default)]
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        deserialize_with = "present_optional"
+    )]
+    pub lifecycle: Option<UtsLifecycleV1_1>,
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        deserialize_with = "present_optional"
+    )]
     pub categories: Option<Vec<UtsCategoryV1>>,
     pub input_schema: UtsJsonSchemaFragmentV1,
     pub output_schema: UtsJsonSchemaFragmentV1,
     pub side_effect_class: UtsSideEffectClassV1,
-    #[serde(default)]
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        deserialize_with = "present_optional"
+    )]
     pub side_effects: Option<Vec<UtsSideEffectTagV1>>,
     pub determinism: UtsDeterminismV1,
     pub replay_safety: UtsReplaySafetyV1,
@@ -235,9 +288,17 @@ pub struct UniversalToolSchemaV1_1 {
     pub exfiltration_risk: UtsExfiltrationRiskV1,
     pub execution_environment: UtsExecutionEnvironmentV1,
     pub errors: Vec<UtsErrorModelV1>,
-    #[serde(default)]
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        deserialize_with = "present_optional"
+    )]
     pub observability: Option<UtsObservabilityV1>,
-    #[serde(default)]
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        deserialize_with = "present_optional"
+    )]
     pub planning: Option<UtsPlanningMetadataV1>,
     #[serde(default)]
     pub extensions: BTreeMap<String, JsonValue>,
@@ -307,7 +368,7 @@ fn valid_version(value: &str) -> bool {
 }
 
 fn json_schema_fragment_has_type(value: &UtsJsonSchemaFragmentV1) -> bool {
-    !value.schema_type.trim().is_empty()
+    !value.schema_type.is_empty()
 }
 
 fn valid_token(value: &str) -> bool {
@@ -322,15 +383,14 @@ fn extension_key_allowed(key: &str) -> bool {
     key == normalized
         && valid_token(key)
         && key.starts_with("x-")
+        && key.len() > 2
         && !key.contains("authority")
         && !key.contains("grant")
-        && !key.contains("freedom_gate")
-        && !key.contains("acc")
         && !key.contains("execute")
         && !key.contains("permission")
 }
 
-fn extension_declares_required(value: &JsonValue) -> bool {
+pub fn extension_declares_required(value: &JsonValue) -> bool {
     value
         .as_object()
         .and_then(|object| object.get("required"))
@@ -374,7 +434,7 @@ pub fn validate_uts_v1(schema: &UniversalToolSchemaV1) -> Result<(), UtsValidati
             "version must use numeric major.minor.patch form",
         );
     }
-    if schema.description.trim().len() < 12 {
+    if schema.description.chars().count() < 12 {
         push_error(
             &mut errors,
             "missing_description",
@@ -407,7 +467,7 @@ pub fn validate_uts_v1(schema: &UniversalToolSchemaV1) -> Result<(), UtsValidati
         );
     }
     for resource in &schema.resources {
-        if !valid_token(&resource.resource_type) || resource.scope.trim().is_empty() {
+        if !valid_token(&resource.resource_type) || resource.scope.is_empty() {
             push_error(
                 &mut errors,
                 "invalid_resource",
@@ -446,7 +506,7 @@ pub fn validate_uts_v1(schema: &UniversalToolSchemaV1) -> Result<(), UtsValidati
             "high exfiltration risk must use the exfiltration side-effect class",
         );
     }
-    if schema.execution_environment.isolation.trim().is_empty() {
+    if schema.execution_environment.isolation.is_empty() {
         push_error(
             &mut errors,
             "missing_execution_isolation",
@@ -463,7 +523,7 @@ pub fn validate_uts_v1(schema: &UniversalToolSchemaV1) -> Result<(), UtsValidati
         );
     }
     for error in &schema.errors {
-        if !valid_token(&error.code) || error.message.trim().is_empty() {
+        if !valid_token(&error.code) || error.message.is_empty() {
             push_error(
                 &mut errors,
                 "invalid_error_model",
@@ -473,20 +533,12 @@ pub fn validate_uts_v1(schema: &UniversalToolSchemaV1) -> Result<(), UtsValidati
         }
     }
     for key in schema.extensions.keys() {
-        let value = &schema.extensions[key];
         if !extension_key_allowed(key) {
             push_error(
                 &mut errors,
                 "invalid_extension_key",
                 "extensions",
                 format!("extension key '{key}' is not allowed for UTS v1"),
-            );
-        } else if extension_declares_required(value) {
-            push_error(
-                &mut errors,
-                "unsupported_required_extension",
-                "extensions",
-                format!("extension key '{key}' declares unsupported required behavior"),
             );
         }
     }
@@ -545,15 +597,15 @@ pub fn validate_uts_v1_1(schema: &UniversalToolSchemaV1_1) -> Result<(), UtsVali
             "name must be 3-80 chars, start lowercase, and use lowercase ascii, digits, dash, underscore, or dot",
         );
     }
-    if !valid_version(&schema.version) {
+    if schema.version.is_empty() {
         push_error(
             &mut errors,
             "invalid_version",
             "version",
-            "version must use numeric major.minor.patch form",
+            "version must be non-empty",
         );
     }
-    if schema.description.trim().len() < 12 {
+    if schema.description.chars().count() < 12 {
         push_error(
             &mut errors,
             "missing_description",
@@ -586,7 +638,7 @@ pub fn validate_uts_v1_1(schema: &UniversalToolSchemaV1_1) -> Result<(), UtsVali
         );
     }
     for resource in &schema.resources {
-        if !valid_token(&resource.resource_type) || resource.scope.trim().is_empty() {
+        if resource.resource_type.is_empty() || resource.scope.is_empty() {
             push_error(
                 &mut errors,
                 "invalid_resource",
@@ -596,14 +648,7 @@ pub fn validate_uts_v1_1(schema: &UniversalToolSchemaV1_1) -> Result<(), UtsVali
         }
     }
     if let Some(categories) = &schema.categories {
-        if categories.is_empty() {
-            push_error(
-                &mut errors,
-                "invalid_categories",
-                "categories",
-                "categories must not be empty when present",
-            );
-        } else if unique_count(categories) != categories.len() {
+        if unique_count(categories) != categories.len() {
             push_error(
                 &mut errors,
                 "duplicate_categories",
@@ -666,7 +711,7 @@ pub fn validate_uts_v1_1(schema: &UniversalToolSchemaV1_1) -> Result<(), UtsVali
             "high exfiltration risk must use the exfiltration side-effect class",
         );
     }
-    if schema.execution_environment.isolation.trim().is_empty() {
+    if schema.execution_environment.isolation.is_empty() {
         push_error(
             &mut errors,
             "missing_execution_isolation",
@@ -683,7 +728,7 @@ pub fn validate_uts_v1_1(schema: &UniversalToolSchemaV1_1) -> Result<(), UtsVali
         );
     }
     for error in &schema.errors {
-        if !valid_token(&error.code) || error.message.trim().is_empty() {
+        if error.code.is_empty() || error.message.is_empty() {
             push_error(
                 &mut errors,
                 "invalid_error_model",
@@ -693,20 +738,12 @@ pub fn validate_uts_v1_1(schema: &UniversalToolSchemaV1_1) -> Result<(), UtsVali
         }
     }
     for key in schema.extensions.keys() {
-        let value = &schema.extensions[key];
         if !extension_key_allowed(key) {
             push_error(
                 &mut errors,
                 "invalid_extension_key",
                 "extensions",
                 format!("extension key '{key}' is not allowed for UTS v1.1"),
-            );
-        } else if extension_declares_required(value) {
-            push_error(
-                &mut errors,
-                "unsupported_required_extension",
-                "extensions",
-                format!("extension key '{key}' declares unsupported required behavior"),
             );
         }
     }
@@ -725,6 +762,7 @@ pub fn upgrade_uts_v1_to_v1_1(schema: UniversalToolSchemaV1) -> UniversalToolSch
         name: schema.name,
         version: schema.version,
         description: schema.description,
+        lifecycle: None,
         categories: None,
         input_schema: schema.input_schema,
         output_schema: schema.output_schema,
@@ -752,13 +790,11 @@ impl From<UniversalToolSchemaV1> for UniversalToolSchemaV1_1 {
 }
 
 pub fn uts_v1_1_schema_json() -> JsonValue {
-    serde_json::to_value(schema_for!(UniversalToolSchemaV1_1))
-        .expect("UTS v1.1 schema should serialize")
+    serde_json::from_str(V1_1_SCHEMA_JSON).expect("pinned UTS v1.1 schema")
 }
 
 pub fn uts_v1_schema_json() -> JsonValue {
-    serde_json::to_value(schema_for!(UniversalToolSchemaV1))
-        .expect("UTS v1 schema should serialize")
+    serde_json::from_str(V1_SCHEMA_JSON).expect("pinned UTS v1 schema")
 }
 
 /// Package version, independent of the UTS wire schema version.
@@ -781,7 +817,14 @@ pub fn load_tool_declaration(value: JsonValue) -> Result<UniversalToolSchemaV1_1
             validate_uts_v1(&schema).map_err(|report| {
                 format!("invalid_tool_declaration:{}", report.codes().join(","))
             })?;
-            Ok(upgrade_uts_v1_to_v1_1(schema))
+            let normalized = upgrade_uts_v1_to_v1_1(schema);
+            validate_uts_v1_1(&normalized).map_err(|report| {
+                format!(
+                    "invalid_normalized_tool_declaration:{}",
+                    report.codes().join(",")
+                )
+            })?;
+            Ok(normalized)
         }
         Some(UTS_SCHEMA_VERSION_V1_1) => {
             let schema: UniversalToolSchemaV1_1 = serde_json::from_value(value)
@@ -1011,7 +1054,7 @@ mod tests {
     }
 
     #[test]
-    fn uts_v1_rejects_required_extension_metadata() {
+    fn uts_v1_accepts_required_extension_metadata_without_admission() {
         let mut value = valid_safe_read_json();
         value["extensions"] = json!({
             "x-vendor-required-mode": {
@@ -1021,9 +1064,8 @@ mod tests {
         });
 
         let schema = parse_valid(value);
-        let err = validate_uts_v1(&schema).expect_err("required extension should fail");
-
-        assert!(err.codes().contains(&"unsupported_required_extension"));
+        validate_uts_v1(&schema).expect("required metadata is structurally valid");
+        assert!(schema.extensions.values().any(extension_declares_required));
     }
 
     #[test]
@@ -1333,3 +1375,6 @@ mod tests {
 
 /// Packaged portable conformance fixtures and report generation.
 pub mod conformance;
+
+/// Pinned upstream schema corpus and declaration parity reporting.
+pub mod canonical;

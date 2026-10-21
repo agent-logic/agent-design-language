@@ -40,6 +40,38 @@ def digest(path):
 
 
 
+def verify_uts_resources(package):
+    """Reconstruct the canonical resource tar from the extracted distribution."""
+    pin = json.loads((package / 'resources-pin.json').read_text())
+    root = package / 'resources'
+    files = {}
+    for path in root.rglob('*'):
+        if path.is_symlink():
+            raise ValueError('UTS resource symlink')
+        if path.is_file():
+            files[path.relative_to(root).as_posix()] = path.read_bytes()
+    buffer = io.BytesIO()
+    with tarfile.open(fileobj=buffer, mode='w', format=tarfile.USTAR_FORMAT) as archive:
+        for name, data in sorted(files.items()):
+            entry = tarfile.TarInfo(name)
+            entry.size = len(data)
+            entry.mode = 0o644
+            entry.mtime = 0
+            archive.addfile(entry, io.BytesIO(data))
+    if hashlib.sha256(buffer.getvalue()).hexdigest() != pin['archive_sha256']:
+        raise ValueError('UTS pinned archive reconstruction mismatch')
+    manifest = json.loads(files['RESOURCE_MANIFEST.json'])
+    if (manifest['source_revision'] != pin['source_revision']
+            or manifest['resource_version'] != pin['resource_version']
+            or manifest['source_repository'] != pin['source_repository']):
+        raise ValueError('UTS resource provenance mismatch')
+    for name, data in files.items():
+        if name.startswith('schemas/uts/'):
+            if (package / 'schemas' / name.removeprefix('schemas/uts/')).read_bytes() != data:
+                raise ValueError('UTS embedded schema mirror mismatch')
+    return {'pin': pin, 'members_verified': len(files), 'archive_reconstructed': True}
+
+
 def consumer_sandbox_profile(work, original_home, toolchain, cache, secret, producer_root=ROOT):
     def quote(value):
         return json.dumps(str(value))
@@ -120,10 +152,11 @@ def main():
             artifacts.append({'package': name, 'version': versions[name], 'source': source,
                               'artifact': artifact.name, 'sha256': digest(artifact),
                               'manifest_normalization': 'standalone workspace; existing sibling public dependencies retained'})
+        uts_resources = verify_uts_resources(vendor / 'adl-uts')
         consumer = work / 'consumer'
         (consumer / 'src').mkdir(parents=True)
         dependencies = '\n'.join(f'{name} = {{ version = "={version}", path = "../vendor/{name}" }}' for name, version in versions.items())
-        manifest = '[package]\nname="rd03-independent-consumer"\nversion="0.0.0"\nedition="2021"\n[dependencies]\nserde_json="1"\n' + dependencies + '\n'
+        manifest = '[package]\nname="rd03-independent-consumer"\nversion="0.0.0"\nedition="2021"\n[dependencies]\nserde_json="1"\njsonschema={version="0.17",default-features=false}\n' + dependencies + '\n'
         (consumer / 'Cargo.toml').write_text(manifest)
         fixture = vendor / 'adl-language/fixtures/six-primitives.adl.yaml'
         shutil.copyfile(fixture, consumer / 'fixture.yaml')
@@ -161,7 +194,7 @@ def main():
                               for tool, path in [('cargo', cargo), ('rustc', rustc)]}
         result = isolated([str(cargo), 'run', '--offline', '--locked', '--quiet'])
         consumer_report = json.loads(result.stdout)
-        assert consumer_report['passed'] and consumer_report['executed_cases'] == consumer_report['expected_cases'] == 7
+        assert consumer_report['passed'] and consumer_report['executed_cases'] == consumer_report['expected_cases'] == 8
         assert consumer_report['uts_fixture_count'] == len(consumer_report['uts_cases'])
         assert all(case['passed'] for case in consumer_report['uts_cases'])
         host = next(line.split(': ', 1)[1] for line in isolated([str(rustc), '-vV']).stdout.splitlines() if line.startswith('host: '))
@@ -175,7 +208,7 @@ def main():
         (consumer / 'Cargo.toml').write_text(manifest.replace('adl-schema = { version = "=0.1.0"', 'adl-schema = { version = "=99.0.0"'))
         probes.append(denied_probe('incompatible-package-version', [str(cargo), 'metadata', '--offline', '--format-version', '1'], ['failed to select a version']))
         report = {'schema': 'adl.public.install-proof.v1', 'source_revision': head,
-                  'packages': artifacts, 'consumer': consumer_report,
+                  'packages': artifacts, 'consumer': consumer_report, 'uts_resources': uts_resources,
                   'dependency_lock': {'path': 'consumer.Cargo.lock', 'sha256': digest(output / 'consumer.Cargo.lock')},
                   'toolchain_versions': toolchain_versions,
                   'sandbox': 'macOS sandbox-exec: network, home and producer source denied; toolchain/public registry allowed',

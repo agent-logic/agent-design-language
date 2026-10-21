@@ -1,0 +1,178 @@
+{
+  "conformance_manifest_path": "conformance/manifest.json",
+  "files": [
+    {
+      "path": "LICENSE.md",
+      "sha256": "67dee2a883ca54d0ff338bd864bafe610c3cce5042c56f4e49c1e301f3af20fc",
+      "size": 11346
+    },
+    {
+      "path": "NOTICE",
+      "sha256": "8230ae90dce65eae2c04ccd66334a3667c6387f635ce6d073eaf6eb8bf702ee1",
+      "size": 164
+    },
+    {
+      "path": "conformance/dangerous/exfiltration-high-v1.json",
+      "sha256": "b0b914053461c7695be83979fc39eb0fe6e15b29ca95e2c8bf5314aad23cbfa9",
+      "size": 884
+    },
+    {
+      "path": "conformance/invalid/auth-required-none-v1.json",
+      "sha256": "251f650a258d1bdf5727de54a85869820c20efaa6ad72852d45beb4c9e7d39fe",
+      "size": 858
+    },
+    {
+      "path": "conformance/invalid/auth-required-none-v1_1.json",
+      "sha256": "9d41097c4f65abe5d3e2ee7b5853d5e0fe2404f704de578f53f922d5228348a0",
+      "size": 1034
+    },
+    {
+      "path": "conformance/invalid/high-risk-without-exfiltration-v1_1.json",
+      "sha256": "11ed757fad34bc1f84984a252f078bdec21cd817e660f805dc9bdf0b193cbe88",
+      "size": 1033
+    },
+    {
+      "path": "conformance/invalid/none-plus-side-effects-invocation.json",
+      "sha256": "478b08c1413e9f731d0948431ce6ec224fe938fd4d2549eea869abd09260dc0b",
+      "size": 358
+    },
+    {
+      "path": "conformance/invalid/none-plus-side-effects-v1_1.json",
+      "sha256": "d67cdeb3f259eb3ee57a3e291db36936e811910e6be5d693968eee96fd9e95a1",
+      "size": 1056
+    },
+    {
+      "path": "conformance/manifest.json",
+      "sha256": "3086ffebb30fc801cd52e8ca9429242f1dd5c96466e4a92bec30539c6ba8d962",
+      "size": 4492
+    },
+    {
+      "path": "conformance/reconciliation/caller-string.json",
+      "sha256": "420222efebdbbecd5e60a3234721e05c029f03cda70b7e3293814829b640f445",
+      "size": 484
+    },
+    {
+      "path": "conformance/reconciliation/description-short.json",
+      "sha256": "0652748a295a517238e5627871dab5f5b6cb2e0316f60e6f3c0e798138a7abe8",
+      "size": 1808
+    },
+    {
+      "path": "conformance/reconciliation/errors-empty.json",
+      "sha256": "d6eb2b0c14275d1b8ee9eab361af8e9438f36746bb12e67f003d2154f5734cce",
+      "size": 1745
+    },
+    {
+      "path": "conformance/reconciliation/extension-authority.json",
+      "sha256": "b7b6b4b49dfc92c8659e962436a4c7f75444a5a74d1c7f56eea0f91366d2064e",
+      "size": 1874
+    },
+    {
+      "path": "conformance/reconciliation/extension-required.json",
+      "sha256": "93e5163f6d79af0f18d5f3ea094dcb087a24c90b5201d5835b86e00e01c972ee",
+      "size": 1899
+    },
+    {
+      "path": "conformance/reconciliation/intent-extensible.json",
+      "sha256": "ef885266de777a11ad6b547548ef15002dbb945d41955708702541dd83c8a709",
+      "size": 512
+    },
+    {
+      "path": "conformance/reconciliation/invocation-extension-permission.json",
+      "sha256": "06fc33bc16cf6702ed78f04d0143a083201d5443df538e389b51fd807b4f3d61",
+      "size": 516
+    },
+    {
+      "path": "conformance/reconciliation/legacy-retry.json",
+      "sha256": "d16edfde73ecd1beb44e22d70a77b07be9e65028ea968f32edbdfdc06cc19bc5",
+      "size": 600
+    },
+    {
+      "path": "conformance/reconciliation/legacy-timeout.json",
+      "sha256": "be7f4e22d239856b71fd3efe10f06f80aa6c9bf0a3b26545dbc04b5f38fc0936",
+      "size": 550
+    },
+    {
+      "path": "conformance/reconciliation/lifecycle-stable.json",
+      "sha256": "2d32b4a663f0c7a08e3bbfa110b965636a3b215eb945da65da66e8d828647c51",
+      "size": 1874
+    },
+    {
+      "path": "conformance/reconciliation/lifecycle-unknown.json",
+      "sha256": "1a62674cb61257e55606e1d8782481cfcdd3213480f628aed08efb8a06bfdd3e",
+      "size": 1876
+    },
+    {
+      "path": "conformance/reconciliation/retry-declared-not-authorized.json",
+      "sha256": "422afd23a2aabb84d1fe69819a038b150e2383b8c64a753cdb4bb822a58c38e3",
+      "size": 534
+    },
+    {
+      "path": "conformance/reconciliation/retry-negative.json",
+      "sha256": "0b6c1ad3aeefe11cdade81fedb9dd27613a7e9ec0ce217f2c86207210a91d020",
+      "size": 506
+    },
+    {
+      "path": "conformance/reconciliation/tool-external-name.json",
+      "sha256": "27c8f94024cecbd5ec9505e288607361eab857a6172adc34ae87c65208ffe7ed",
+      "size": 535
+    },
+    {
+      "path": "conformance/valid/invocation-read-v1_1.json",
+      "sha256": "8f3ee76d4e65c0a0335ebd4b3c77fee4bd5d1efdb708042cd093bd0b2a608a16",
+      "size": 353
+    },
+    {
+      "path": "conformance/valid/registry-preview-v1_1.json",
+      "sha256": "04b907efa63fd312ef8ac42d0d08fddb55bd7d01390d4f1349095a43cd1d6f4c",
+      "size": 1689
+    },
+    {
+      "path": "conformance/valid/safe-read-v1.json",
+      "sha256": "f5fd10850d4c73db719f2e1628d7de251887a163f61ceae0b756888038964664",
+      "size": 843
+    },
+    {
+      "path": "docs/specs/CONSUMER_RECONCILIATION.md",
+      "sha256": "ec1b1d6c15aa636f04da34d59c50eed3282c2f11af4b95ddb29fa121d63c5652",
+      "size": 6133
+    },
+    {
+      "path": "docs/specs/UTS_V1.0_SCHEMA.md",
+      "sha256": "1324a41d3b182b83a5d2f2584ef67da224b2b3f6496ce88f0a1765264a24e1a1",
+      "size": 983
+    },
+    {
+      "path": "docs/specs/UTS_V1.1_SCHEMA.md",
+      "sha256": "5dfe2a8ed6edd0129845b71e0b3f3318ca6df0b06fba8089c478155607e585e3",
+      "size": 5697
+    },
+    {
+      "path": "schemas/uts/v1.0/universal_tool_schema.v1.schema.json",
+      "sha256": "e93bd4c5bc8d95b8bd7ed3ee1b57134609ae3e1bd8f6f2e91cf1a2eb75dcbcf6",
+      "size": 4876
+    },
+    {
+      "path": "schemas/uts/v1.1/tool_invocation.v1_1.schema.json",
+      "sha256": "6b92a5ce888535fc70f8afcad841682066fb874c238de27ff445926dc500f157",
+      "size": 2423
+    },
+    {
+      "path": "schemas/uts/v1.1/universal_tool_schema.v1_1.schema.json",
+      "sha256": "d421b38ddeed57952efc240a5f4ffab322df2df654aecd149011e00a4bfcab43",
+      "size": 6470
+    }
+  ],
+  "format_version": "uts.resources.v1",
+  "license_files": [
+    "LICENSE.md",
+    "NOTICE"
+  ],
+  "resource_version": "0.1.0-rc.1",
+  "schema_versions": [
+    "tool_invocation.v1.1",
+    "uts.v1",
+    "uts.v1.1"
+  ],
+  "source_repository": "agent-logic/universal-tool-schema",
+  "source_revision": "09ec2659c8f82365643341d4f66bac85f1bcaf60"
+}

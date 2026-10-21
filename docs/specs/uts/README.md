@@ -1,233 +1,60 @@
 # Universal Tool Schema (UTS)
 
-## Status
-
-Tracked canonical UTS spec entrypoint.
-
-This directory now uses the following framing:
-
-- `UTS v1`
-  - the currently implemented schema surface
-- `UTS v1.1`
-  - an additive evolution path and future standardization direction
-
-Primary narrative specification:
-
-- [`ADL_UNIVERSAL_TOOL_SCHEMA.md`](./ADL_UNIVERSAL_TOOL_SCHEMA.md)
-
-Why a consumer should care:
-
-If your current tool definitions stop at a name, description, and parameter
-schema, UTS gives you a way to also express side effects, replay safety,
-idempotence, data sensitivity, exfiltration risk, and execution posture so a
-runtime can make better decisions before execution rather than after.
-
-Document authority hierarchy:
-
-- [`UTS_V1.1_SCHEMA.md`](./UTS_V1.1_SCHEMA.md) is the normative technical
-  specification for the `v1.1` target
-- [`ADL_UNIVERSAL_TOOL_SCHEMA.md`](./ADL_UNIVERSAL_TOOL_SCHEMA.md) is the
-  narrative companion specification
-- this `README.md` is the entrypoint and orientation surface
-
-If those documents ever disagree, the narrower normative technical spec wins
-over the narrative companion, and the narrative companion wins over the README.
-
-Unless a section explicitly says otherwise, statements in this note should be
-read as describing the current `UTS v1` posture. The guaranteed formal current
-baseline for `UTS v1` is the narrower
-[`UTS_V1.0_SCHEMA.md`](./UTS_V1.0_SCHEMA.md) document plus its matching
-machine-readable JSON Schema. Proposal material for `UTS v1.1` is called out
-separately and must not be treated as guaranteed current runtime behavior.
-
-Machine-readable companions:
-
-- [`adl-spec/schemas/uts/v1.0/universal_tool_schema.v1.schema.json`](../../../adl-spec/schemas/uts/v1.0/universal_tool_schema.v1.schema.json)
-- [`adl-spec/schemas/uts/v1.1/universal_tool_schema.v1_1.schema.json`](../../../adl-spec/schemas/uts/v1.1/universal_tool_schema.v1_1.schema.json)
-- [`adl-spec/schemas/uts/v1.1/tool_invocation.v1_1.schema.json`](../../../adl-spec/schemas/uts/v1.1/tool_invocation.v1_1.schema.json)
-
-Authority/governance companion:
-
-- `UTS` defines schema semantics
-- `ACC` defines runtime authority, approval, and execution governance
-
-The two are intentionally related but not interchangeable.
-
-## Versioned implementation package
-
-The canonical types and validators live in `adl-uts` 0.1.0. Public consumers
-import `adl_uts::*`; the public CLI no longer re-exports `adl::uts`. Runtime
-callers should follow their owner package migration guidance. Both existing v1 and implemented v1.1
-**declaration** surfaces are supported, while v1 is still the guaranteed baseline.
-The broader v1.1 proposal is not fully implemented by this packaging change.
-See [package installation and supported semantics](PACKAGE.md) for the precise
-compatibility matrix, separate Runtime consumer boundary and required proof.
-
-## 1. Purpose
-
-The Universal Tool Schema defines a transport-independent, provider-neutral
-model for describing tools, capabilities, and invocation semantics in agent
-systems.
-
-UTS exists to improve:
-
-- interoperability
-- inspectability
-- replayability
-- observability
-- structured invocation
-
-The goal is not merely to standardize function calling. The goal is to define a
-safer and more reviewable model for capability invocation across heterogeneous
-agent ecosystems.
-
-## 2. Scope
-
-UTS standardizes:
-
-- tool description
-- machine-readable input/output shape
-- side-effect semantics
-- replayability posture
-- observability posture
-- transport-independent capability structure
-
-UTS does not standardize:
-
-- runtime governance policy
-- provider-specific safety systems
-- authorization frameworks
-- orchestration topology
-- agent cognition
-- identity systems
-
-These concerns may be layered above UTS by runtimes or governance frameworks.
-
-UTS validity is therefore narrower than runtime authority:
-
-- `UTS validity != authority`
-- `UTS validity != execution permission`
-- `UTS validity != replay permission`
-
-A tool or invocation may be structurally valid under UTS while still requiring
-runtime review, authorization, or governance before it may execute or replay.
-In ADL terms, that higher-layer decision surface belongs in ACC rather than in
-UTS itself.
-
-## 3. Current Implemented Baseline (`UTS v1`)
-
-The current implemented baseline lives in Rust today at:
-
-- [`adl-uts/src/lib.rs`](../../../adl-uts/src/lib.rs)
-
-That baseline is expressed as `UniversalToolSchemaV1` and validated by
-`validate_uts_v1`.
-
-Its shape is intentionally richer than a minimal function-call schema. The
-current implemented surface already includes:
-
-- `schema_version`
-- `name`
-- `version`
-- `description`
-- `input_schema`
-- `output_schema`
-- `side_effect_class`
-- `determinism`
-- `replay_safety`
-- `idempotence`
-- `resources`
-- `authentication`
-- `data_sensitivity`
-- `exfiltration_risk`
-- `execution_environment`
-- `errors`
-- `extensions`
-
-The authoritative tracked baseline for that shape is:
-
-- [`UTS_V1.0_SCHEMA.md`](./UTS_V1.0_SCHEMA.md)
-- [`universal_tool_schema.v1.schema.json`](../../../adl-spec/schemas/uts/v1.0/universal_tool_schema.v1.schema.json)
-
-## 4. Additive Proposal Direction (`UTS v1.1`)
-
-`UTS v1.1` is the broader additive proposal. Its implemented declaration subset
-is supported by the package; this does not make the entire proposal a Runtime
-wire contract.
-
-The proposal direction does three things:
-
-- keeps schema semantics cleanly separated from runtime authority
-- makes invocation metadata first-class and machine-validatable
-- improves standardization posture through explicit replayability,
-  observability, and version-negotiation semantics
-
-The tracked proposal documents are:
-
-- [`ADL_UNIVERSAL_TOOL_SCHEMA.md`](./ADL_UNIVERSAL_TOOL_SCHEMA.md)
-- [`UTS_V1.1_SCHEMA.md`](./UTS_V1.1_SCHEMA.md)
-- [`universal_tool_schema.v1_1.schema.json`](../../../adl-spec/schemas/uts/v1.1/universal_tool_schema.v1_1.schema.json)
-- [`tool_invocation.v1_1.schema.json`](../../../adl-spec/schemas/uts/v1.1/tool_invocation.v1_1.schema.json)
-
-Proposal examples in the `v1.1` surfaces are illustrative. They are not
-guaranteed `v1` fixtures.
-
-## 5. UTS And ACC
-
-UTS answers:
-
-> What is this tool?
-
-ACC answers:
-
-> Who may use it, under what authority, with what visibility, and with what
-> evidence?
-
-The split is intentional. A model can propose a tool call, and a tool can have
-a valid portable schema, but neither fact grants execution authority.
-
-See also:
-
-- [`docs/explainers/UTS_AND_ACC.md`](../../explainers/UTS_AND_ACC.md)
-
-## 6. Invocation Semantics Versus Approval
-
-Invocation contracts may describe structure and expected execution posture
-without deciding whether execution is allowed.
-
-Invocation contracts therefore remain responsible for expressing:
-
-- invocation intent
-- replayability classification
-- observability posture
-
-Authority, authorization, and governance remain layered runtime concerns.
-
-## 7. Non-Goals
-
-UTS does not attempt to:
-
-- solve alignment
-- define universal governance policy
-- replace authorization systems
-- replace orchestration frameworks
-- define agent cognition
-- define identity continuity
-- guarantee correctness of model outputs
-- guarantee tool safety
-- eliminate the need for runtime governance
-
-This scoped approach is intentional. It supports interoperability and
-incremental adoption without smuggling runtime approval into the schema layer.
-
-## 8. Summary
-
-The key distinction is simple:
-
-- `UTS v1` is the current implemented schema surface
-- `UTS v1.1` is the additive future direction
-- `UTS` defines schema semantics
-- `ACC` defines runtime authority and governance
-
-That separation keeps ADL's governed-tools model reviewable, portable, and
-honest about what schema validity does and does not mean.
+## Current authority
+
+The [Universal Tool Schema owner](https://github.com/agent-logic/universal-tool-schema)
+owns the normative contract. ADL consumes immutable resource `0.1.0-rc.1` from
+source revision `09ec2659c8f82365643341d4f66bac85f1bcaf60`; the full archive hash
+and packaging revision are recorded in the
+[resource pin](../../../adl-uts/resources-pin.json).
+
+Use the pinned machine-readable schemas and companion specifications:
+
+- [UTS v1 declaration schema](../../../adl-uts/resources/schemas/uts/v1.0/universal_tool_schema.v1.schema.json)
+  and [v1 specification](../../../adl-uts/resources/docs/specs/UTS_V1.0_SCHEMA.md).
+- [UTS v1.1 declaration schema](../../../adl-uts/resources/schemas/uts/v1.1/universal_tool_schema.v1_1.schema.json)
+  and [v1.1 specification](../../../adl-uts/resources/docs/specs/UTS_V1.1_SCHEMA.md).
+- [UTS v1.1 invocation schema](../../../adl-uts/resources/schemas/uts/v1.1/tool_invocation.v1_1.schema.json)
+  and [consumer reconciliation rules](../../../adl-uts/resources/docs/specs/CONSUMER_RECONCILIATION.md).
+
+The older local [v1 design](UTS_V1.0_SCHEMA.md),
+[v1.1 proposal](UTS_V1.1_SCHEMA.md), and
+[narrative](ADL_UNIVERSAL_TOOL_SCHEMA.md) are retained design references. Their
+historical authority statements and proposed fields do not override the pinned
+upstream schemas or establish current Runtime behavior.
+
+## Public ADL support
+
+[`adl-uts` 0.1.0](../../../adl-uts/README.md) supports `uts.v1` and `uts.v1.1`
+declarations. `load_tool_declaration` validates the original wire version,
+normalizes v1 into v1.1, then validates the normalized declaration. The loader
+preserves side effects, replay safety, resources and other descriptive metadata.
+UTS v1.1 supports optional lifecycle, categories, side-effect tags, observability
+and planning metadata. Absent optional fields remain absent when serialized;
+explicit null is rejected.
+
+The package embeds the invocation schema and exposes the canonical corpus to an
+offline schema engine. This is structural validation, not an invocation executor.
+Registry binding, caller identity, approval, retry ceilings, deadlines and
+execution policy belong to the separately installed Runtime owner.
+See [package installation and proof boundaries](PACKAGE.md).
+
+## Examples and conformance
+
+These examples are exact copies of pinned canonical fixtures:
+
+- [v1.1 declaration with stable lifecycle](examples/declaration-v1_1.json)
+- [v1.1 invocation metadata](examples/invocation-v1_1.json)
+
+Both are covered by the [23-case canonical corpus](../../../adl-uts/resources/conformance/manifest.json).
+The installed public consumer reports 13 declaration binding/normalization cases
+and ten invocation schema-engine cases. The separate historical ADL suite has
+21 cases and includes consumer admission refusals. Counts and claims must remain
+separate.
+
+A required extension can be structurally valid while unsupported by a consumer.
+Consumers must refuse unsupported required behavior before execution. Lifecycle
+`stable`, retry metadata and other descriptive fields grant no authority.
+
+UTS validity grants neither execution nor replay permission. See the
+[UTS and ACC explainer](../../explainers/UTS_AND_ACC.md) for that distinction.
