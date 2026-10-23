@@ -29,7 +29,19 @@
         "authenticated": true,
         "idempotent_replay": false
       },
-      "terminal_status": "pending_merge_authorization_and_native_finish_clean"
+      "terminal_status": "pending_branch_protection_correction",
+      "merge_blocker": {
+        "reason": "github_merge_ineligible",
+        "observation": "requiresStatusChecks=true, requiredStatusChecks=[]",
+        "existing_green_check": "tests [01/01 fast website]",
+        "operator_approval": "requested; not yet received",
+        "readback_sha256": "91709b8cc39f09e2fa6987ec2ca8026f2dfb2eada104511fea4023e771b5056f"
+      },
+      "publication_metadata_correction": {
+        "status": "completed",
+        "evidence_sha256": "b048ff2feb9422c499d5a0446f395beffb014dd41ed35061738014c961e003d8",
+        "change": "replace Part of relation with ordinary coordination prose; code unchanged"
+      }
     },
     {
       "repository": "agent-logic/codefriend.ai",
@@ -58,7 +70,25 @@
         "authenticated": true,
         "idempotent_replay": false
       },
-      "terminal_status": "pending_merge_authorization_and_native_finish_clean"
+      "terminal_status": "delivered_cleanup_refused",
+      "terminal_delivery": {
+        "status": "delivered",
+        "repository": "agent-logic/codefriend.ai",
+        "pull_request": 63,
+        "head_sha": "a8cb0338e5e1b7cc6c7cedc16d2afa151244c9c2",
+        "issue": 62,
+        "issue_closure": "closed",
+        "finish_required": false,
+        "cleanup": "optional"
+      },
+      "terminal_evidence_sha256": "5c4894161fe25419794a75015b027d18dc04010d79d8d5c8f52b8b800c99d5a5",
+      "cleanup": {
+        "status": "refused",
+        "reason": "cleanup_dirty",
+        "executed": false,
+        "preview_sha256": "73598580bcd2d6c5d3a3a224b0ef86f9d37f1fca62cb2b40342ed5c1da6bb3b8",
+        "disposition": "preserve registered worktree and evidence; cleanup not proved"
+      }
     },
     {
       "repository": "agent-logic/godel-hadamard-bayes-paper",
@@ -84,7 +114,45 @@
         "idempotent_replay": false
       },
       "ci": "passed at recorded head",
-      "terminal_status": "pending explicit merge authorization and native finish/clean"
+      "terminal_status": "delivered_cleanup_refused",
+      "terminal_delivery": {
+        "status": "delivered",
+        "repository": "agent-logic/godel-hadamard-bayes-paper",
+        "pull_request": 4,
+        "head_sha": "ebdcf0b2751c44fb5911a1515648453f95be4aa3",
+        "merge_commit": "a3c6636068688cc4c6b74d9808824707fb59b073",
+        "issue_closure": "closed",
+        "finish_required": false,
+        "cleanup": "optional"
+      },
+      "terminal_evidence_sha256": "3e3cc8c0785e8b1acc11ba502420d801be94d50353945bcd38c7bd7ac2c05104",
+      "merge_receipt": {
+        "schema": "csdlc.v3.github_mutation_receipt.v2",
+        "repository": "agent-logic/godel-hadamard-bayes-paper",
+        "issue": 3,
+        "pull_request": 4,
+        "expected_head_sha": "ebdcf0b2751c44fb5911a1515648453f95be4aa3",
+        "operation_digest": "6168d2006d7fd355b276fa53613a442a19abaea14af8fbed2bc68be237df9f11",
+        "response_digest": "23369229b6eccbac1f2e65c2c3b6884b77cf5ead02f659e1595fb3c2df8158e8",
+        "readback_digest": "e0ad095775cad82149f4b6919168466b403148719a54e61fa551362d5990e993",
+        "intent_digest": "58136d6f75f8b9ef980ddc8edbf135ea3e281f2cbdcead699ccfb630cb5e7308",
+        "reconciliation_digest": "a71e6bf276a5c3166ecedab962b9bab2e5656aeffd83b17229eab859c770aa49",
+        "adapter": "github-api-operational",
+        "authenticated": true,
+        "idempotent_replay": false
+      },
+      "cleanup": {
+        "status": "refused",
+        "reason": "cleanup_dirty",
+        "executed": false,
+        "preview_sha256": "48b757c705ad553d6a507fcf858b629e4aa588b13f1ba3174e95e93bdd619305",
+        "disposition": "preserve registered worktree and evidence; cleanup not proved"
+      },
+      "publication_metadata_correction": {
+        "status": "completed",
+        "evidence_sha256": "b87556e3a6db08cc5bdad5708d47e9b73f2b638cdf00f8c02472554b76dc1a12",
+        "change": "replace Part of relation with ordinary coordination prose; code unchanged"
+      }
     },
     {
       "repository": "agent-logic/general-intelligence-paper-private",
@@ -110,7 +178,45 @@
         "idempotent_replay": false
       },
       "ci": "passed at recorded head",
-      "terminal_status": "pending explicit merge authorization and native finish/clean"
+      "terminal_status": "delivered_cleanup_refused",
+      "terminal_delivery": {
+        "status": "delivered",
+        "repository": "agent-logic/general-intelligence-paper-private",
+        "pull_request": 4,
+        "head_sha": "e38abf8850414fdc550f652d9620a3fdd951908e",
+        "merge_commit": "0ef519de4213882cdda5fe07434a1f30a3216684",
+        "issue_closure": "closed",
+        "finish_required": false,
+        "cleanup": "optional"
+      },
+      "terminal_evidence_sha256": "b1f1f8e4fa658658314b0b12feb766bb7df8cd6409aedf4967725e79ec39c75b",
+      "merge_receipt": {
+        "schema": "csdlc.v3.github_mutation_receipt.v2",
+        "repository": "agent-logic/general-intelligence-paper-private",
+        "issue": 3,
+        "pull_request": 4,
+        "expected_head_sha": "e38abf8850414fdc550f652d9620a3fdd951908e",
+        "operation_digest": "d34bf969509fa9af8adf82578cbc596efbd06a478bf6cbfdc9db59098b8fabf1",
+        "response_digest": "4348713eb69c9b848218d3d76e6c56d200d430409c941dded8252d8bfaebc441",
+        "readback_digest": "e475e1390f69bad5b9d897105bd5860bce4ddcefad2999131ebf3e735217e38e",
+        "intent_digest": "a495307290bf104206c60e4aeedae2f4c31e056a1eb5b204db0a6b9dec9900b7",
+        "reconciliation_digest": "d852aef68ff5fce1c51cec9729db65c283fb5ada38c5f4706e06f5568f1a7399",
+        "adapter": "github-api-operational",
+        "authenticated": true,
+        "idempotent_replay": false
+      },
+      "cleanup": {
+        "status": "refused",
+        "reason": "cleanup_dirty",
+        "executed": false,
+        "preview_sha256": "50750e79debb9e22848398d12a6846fc7093d9593e02a1db151cf5cfeb617dbd",
+        "disposition": "preserve registered worktree and evidence; cleanup not proved"
+      },
+      "publication_metadata_correction": {
+        "status": "completed",
+        "evidence_sha256": "c542d6882b332e17016547ceba5d829fb94d1581b80d22fd8d662fe4e889ca0d",
+        "change": "replace Part of relation with ordinary coordination prose; code unchanged"
+      }
     },
     {
       "repository": "agent-logic/universal-tool-schema",
@@ -136,7 +242,25 @@
         "idempotent_replay": false
       },
       "ci": "passed at recorded head",
-      "terminal_status": "pending explicit merge authorization and native finish/clean"
+      "terminal_status": "delivered_cleanup_refused",
+      "terminal_delivery": {
+        "status": "delivered",
+        "repository": "agent-logic/universal-tool-schema",
+        "pull_request": 13,
+        "head_sha": "149fa7a0db3cc69bcfe059b29ac0abdb93a3777c",
+        "issue": 12,
+        "issue_closure": "closed",
+        "finish_required": false,
+        "cleanup": "optional"
+      },
+      "terminal_evidence_sha256": "975fdd7b2b9eb6adf8916e0a7246b3bd0bdbfe26021993ebbb1d1569ba0bbec5",
+      "cleanup": {
+        "status": "refused",
+        "reason": "cleanup_dirty",
+        "executed": false,
+        "preview_sha256": "81fdd2ea566ac62373a0f34121c5708d095cf7d7292b653cf37f3dcde3c19960",
+        "disposition": "preserve registered worktree and evidence; cleanup not proved"
+      }
     },
     {
       "repository": "agent-logic/strategic-cognitive-reserve",
@@ -162,7 +286,45 @@
         "idempotent_replay": false
       },
       "ci": "passed at recorded head",
-      "terminal_status": "pending merge authorization and native finish/clean"
+      "terminal_status": "delivered_cleanup_refused",
+      "terminal_delivery": {
+        "status": "delivered",
+        "repository": "agent-logic/strategic-cognitive-reserve",
+        "pull_request": 31,
+        "head_sha": "05f0d5cbe1081e1ed789c36e2e65e7cd94ef79f5",
+        "merge_commit": "b3abc7618b8e9bcf4eb64ca53964bbfe7ffa0d41",
+        "issue_closure": "closed",
+        "finish_required": false,
+        "cleanup": "optional"
+      },
+      "terminal_evidence_sha256": "20eb5ef1cc7d9d5f731a5ee10482f6b34f8cada9e27db9ce09a0fb7a75780f65",
+      "merge_receipt": {
+        "schema": "csdlc.v3.github_mutation_receipt.v2",
+        "repository": "agent-logic/strategic-cognitive-reserve",
+        "issue": 30,
+        "pull_request": 31,
+        "expected_head_sha": "05f0d5cbe1081e1ed789c36e2e65e7cd94ef79f5",
+        "operation_digest": "bd03377dfec72dbc9027eec0e71129a979b917eb66f0fa56e3c4de2d24a56c17",
+        "response_digest": "75d7979112ae6289726f8b2aa7f413edb66677e61d174d2ce1484c03d3a1fb43",
+        "readback_digest": "ce97ebb98245c09a037717382dcceb70aee11c90381be6e4740ae586914adf64",
+        "intent_digest": "f2192e37043251d8a0c50fcc878d9a4c9481c2fb8d3b4d7dcfec466467e06b35",
+        "reconciliation_digest": "8e374c2bb266d09093713228cceba0261ec5058a9d67d37ae86822d8571f0b87",
+        "adapter": "github-api-operational",
+        "authenticated": true,
+        "idempotent_replay": false
+      },
+      "cleanup": {
+        "status": "refused",
+        "reason": "cleanup_dirty",
+        "executed": false,
+        "preview_sha256": "7898f783e6332e791c3ee7f28747f191b2613f97ad30844e3e0c353601f7294d",
+        "disposition": "preserve registered worktree and evidence; cleanup not proved"
+      },
+      "publication_metadata_correction": {
+        "status": "completed",
+        "evidence_sha256": "9924d584b55ae9cff217ed64ca2bba099c6a93a12a03b73e941d45afaa218431",
+        "change": "replace Part of relation with ordinary coordination prose; code unchanged"
+      }
     },
     {
       "repository": "agent-logic/cognitive-sdlc-paper",
@@ -188,7 +350,45 @@
         "idempotent_replay": false
       },
       "ci": "passed at recorded head",
-      "terminal_status": "pending merge authorization and native finish/clean"
+      "terminal_status": "delivered_cleanup_refused",
+      "terminal_delivery": {
+        "status": "delivered",
+        "repository": "agent-logic/cognitive-sdlc-paper",
+        "pull_request": 4,
+        "head_sha": "b81158dce4cb5ab0faf04bc9711fb6a30199c4d4",
+        "merge_commit": "fed1e4a29c36fb7f958208a5aa4d0cc4decb262e",
+        "issue_closure": "closed",
+        "finish_required": false,
+        "cleanup": "optional"
+      },
+      "terminal_evidence_sha256": "598c95f07362ee73d9dd8893d7c729b99d06c4e53920d93e152318ae95e67ec9",
+      "merge_receipt": {
+        "schema": "csdlc.v3.github_mutation_receipt.v2",
+        "repository": "agent-logic/cognitive-sdlc-paper",
+        "issue": 3,
+        "pull_request": 4,
+        "expected_head_sha": "b81158dce4cb5ab0faf04bc9711fb6a30199c4d4",
+        "operation_digest": "8e088dc4269e1eb146b2b66f98404850cea4605e2b09148e971189680a966b81",
+        "response_digest": "58fa8d9d3ec4e6d037f96691878b73b6fa22ed7bc1532574ee52d07de57181da",
+        "readback_digest": "721ea8c7bb6710e68c9684c419f4f494a8ee7c396d2cf1abf86f46cd3fef403c",
+        "intent_digest": "986a4b4e847828dbaecf5aaa5fb4ed0d03115c78b69bd85d330fe41cfcabccf7",
+        "reconciliation_digest": "034c5ec459fb5e00a812ac7b9b6c5a0a1b2f1e9359b0bdc0252f56403ce510c7",
+        "adapter": "github-api-operational",
+        "authenticated": true,
+        "idempotent_replay": false
+      },
+      "cleanup": {
+        "status": "refused",
+        "reason": "cleanup_dirty",
+        "executed": false,
+        "preview_sha256": "ee2b4d5c045f2fe0be25d120158b72d903ac44e2f6e6ae2a492ac9ceeefe125b",
+        "disposition": "preserve registered worktree and evidence; cleanup not proved"
+      },
+      "publication_metadata_correction": {
+        "status": "completed",
+        "evidence_sha256": "810b2d9211b47f3b6acc9c24c3c45d0a8dcf4c26a0fe4f95179a8ec8abaf434c",
+        "change": "replace Part of relation with ordinary coordination prose; code unchanged"
+      }
     }
   ]
 }

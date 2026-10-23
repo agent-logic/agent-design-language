@@ -1,8 +1,32 @@
 # Repository adapter and native admission reconciliation — #1275
 
-Status: implementation in progress. The [baseline](BASELINE.json) pins canonical
+Status: six of seven adapter PRs delivered; umbrella acceptance remains incomplete. The [baseline](BASELINE.json) pins canonical
 GitHub main commits for the thirteen repositories from #1269. It does not infer
 installed authority from adapter fields or from the presence of an executable.
+
+## Delivery readback — 2026-10-23
+
+Native terminal readback confirms delivery and issue closure for CodeFriend.ai
+#62/PR #63, UTS #12/PR #13, Reserve #30/PR #31, and organization issue #3/PR #4
+in each of GHB Paper, C-SDLC Paper and General Intelligence Paper. The four latter
+PRs merged during this readback; the first two were already merged. The owner
+reports `finish_required: false` for all six. [DELIVERY.json](DELIVERY.json)
+records exact heads, merge receipts where newly executed, and receipt hashes.
+
+All six read-only cleanup previews returned `cleanup_dirty`. No removal was
+executed; registered worktrees and their native evidence remain intact. Delivery
+is proved, but the requested cleanup proof is still missing.
+
+Website PR #101 remains open at its reviewed head with green CI. Its native
+publication metadata correction succeeded without code changes or repeated
+review. Native merge then refused the branch policy: `requiresStatusChecks` is
+true while `requiredStatusChecks` is empty. Approval to name the existing green
+`tests [01/01 fast website]` check is pending. No merge write occurred.
+
+The implementation sections below retain the earlier proof history. This dated
+readback supersedes their pending-delivery statements. Other outstanding gaps
+remain listed in STATUS.json and CONTRACTS.json; this report does not claim that
+all thirteen repositories meet the full lifecycle acceptance requirements.
 
 ## Findings confirmed on canonical main
 

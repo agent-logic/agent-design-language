@@ -49,50 +49,50 @@
     {
       "repository": "agent-logic/agent-logic.ai",
       "baseline_main": "4756b251b7d144bf4d6c6d25ea8403a49f8288a3",
-      "disposition": "adapter_pr_pending_terminal",
-      "evidence_summary": "Issue 100, PR 101; proof/review/CI passed; terminal delivery pending.",
+      "disposition": "merge_blocked_branch_protection",
+      "evidence_summary": "Issue100 PR101 exact reviewed head remains open/non-draft/clean, CI green. Native metadata correction completed. Merge refused because main requires status checks but names none; approval to require existing CI check requested. Zero native merge writes.",
       "acceptance": "incomplete"
     },
     {
       "repository": "agent-logic/codefriend.ai",
       "baseline_main": "fc611c090a467a18e501d43826d30539c0befd05",
-      "disposition": "adapter_pr_pending_terminal",
-      "evidence_summary": "Issue 62, PR 63; proof/review/CI passed; terminal delivery pending.",
+      "disposition": "native_delivery_verified_cleanup_dirty",
+      "evidence_summary": "Issue 62, PR 63: native authenticated delivery completed at recorded head; issue closed; finish_required false. Read-only cleanup preview returned cleanup_dirty; registered worktree and evidence preserved. Cleanup remains unproved.",
       "acceptance": "incomplete"
     },
     {
       "repository": "agent-logic/universal-tool-schema",
       "baseline_main": "7e60b4d5a6ecbcd386eea82efce26e4e2dae2d9d",
-      "disposition": "adapter_pr_pending_terminal",
-      "evidence_summary": "Issue 12, PR 13; proof/review/CI passed; terminal delivery pending.",
+      "disposition": "native_delivery_verified_cleanup_dirty",
+      "evidence_summary": "Issue 12, PR 13: native authenticated delivery completed at recorded head; issue closed; finish_required false. Read-only cleanup preview returned cleanup_dirty; registered worktree and evidence preserved. Cleanup remains unproved.",
       "acceptance": "incomplete"
     },
     {
       "repository": "agent-logic/strategic-cognitive-reserve",
       "baseline_main": "f5cf19a986b554035f02a698ee2e1388f05620a4",
-      "disposition": "adapter_pr_pending_terminal",
-      "evidence_summary": "Issue 30, PR 31; proof/review/CI passed; terminal delivery pending.",
+      "disposition": "native_delivery_verified_cleanup_dirty",
+      "evidence_summary": "Issue 30, PR 31: native authenticated delivery completed at recorded head; issue closed; finish_required false. Read-only cleanup preview returned cleanup_dirty; registered worktree and evidence preserved. Cleanup remains unproved.",
       "acceptance": "incomplete"
     },
     {
       "repository": "agent-logic/godel-hadamard-bayes-paper",
       "baseline_main": "2ac23cdd95fb76ecd9f9af70ff1e3b78d5286361",
-      "disposition": "adapter_pr_pending_terminal",
-      "evidence_summary": "Issue 3, PR 4; proof/review/CI passed; terminal delivery pending.",
+      "disposition": "native_delivery_verified_cleanup_dirty",
+      "evidence_summary": "Issue 3, PR 4: native authenticated delivery completed at recorded head; issue closed; finish_required false. Read-only cleanup preview returned cleanup_dirty; registered worktree and evidence preserved. Cleanup remains unproved.",
       "acceptance": "incomplete"
     },
     {
       "repository": "agent-logic/cognitive-sdlc-paper",
       "baseline_main": "77f7a19e94f1743dbcbb3f8a5a50fa759f7a8080",
-      "disposition": "adapter_pr_pending_terminal",
-      "evidence_summary": "Issue3 PR4 native published; proof/review/CI passed; terminal results pending.",
+      "disposition": "native_delivery_verified_cleanup_dirty",
+      "evidence_summary": "Issue 3, PR 4: native authenticated delivery completed at recorded head; issue closed; finish_required false. Read-only cleanup preview returned cleanup_dirty; registered worktree and evidence preserved. Cleanup remains unproved.",
       "acceptance": "incomplete"
     },
     {
       "repository": "agent-logic/general-intelligence-paper-private",
       "baseline_main": "536f2cbdc1de0deac6371076c2caf7eebd450992",
-      "disposition": "adapter_pr_pending_terminal",
-      "evidence_summary": "Issue 3, PR 4; proof/review/CI passed; terminal delivery pending.",
+      "disposition": "native_delivery_verified_cleanup_dirty",
+      "evidence_summary": "Issue 3, PR 4: native authenticated delivery completed at recorded head; issue closed; finish_required false. Read-only cleanup preview returned cleanup_dirty; registered worktree and evidence preserved. Cleanup remains unproved.",
       "acceptance": "incomplete"
     }
   ]
