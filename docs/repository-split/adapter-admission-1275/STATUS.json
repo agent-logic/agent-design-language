@@ -35,8 +35,8 @@
     {
       "repository": "agent-logic/agent-logic-infrastructure",
       "baseline_main": "6aa48960dde398cd459b487a9452dc9a7b3c757f",
-      "disposition": "native_delivery_verified_cleanup_dirty",
-      "evidence_summary": "Supported issue37 package transition completed gen22 to23 with no remote mutation. Authenticated native finish confirms PR38 delivered, issue closed, finish_required false. Cleanup preview refuses cleanup_dirty; worktree/evidence preserved. Current contract and cleanup disposition remain incomplete.",
+      "disposition": "native_delivery_verified_cleanup_deferred",
+      "evidence_summary": "Supported issue37 package transition completed gen22 to23 with no remote mutation. Authenticated native finish confirms PR38 delivered, issue closed, finish_required false. Cleanup preview refuses cleanup_dirty; worktree/evidence preserved. Cleanup is explicitly deferred by the operator; remaining contract evidence is tracked separately.",
       "acceptance": "incomplete"
     },
     {
@@ -56,44 +56,51 @@
     {
       "repository": "agent-logic/codefriend.ai",
       "baseline_main": "fc611c090a467a18e501d43826d30539c0befd05",
-      "disposition": "native_delivery_verified_cleanup_dirty",
-      "evidence_summary": "Issue 62, PR 63: native authenticated delivery completed at recorded head; issue closed; finish_required false. Read-only cleanup preview returned cleanup_dirty; registered worktree and evidence preserved. Cleanup remains unproved.",
-      "acceptance": "incomplete"
+      "disposition": "native_delivery_verified_cleanup_deferred",
+      "evidence_summary": "Issue 62, PR 63: native authenticated delivery completed at recorded head; issue closed; finish_required false. Read-only cleanup preview returned cleanup_dirty; registered worktree and evidence preserved. Cleanup remains unproved and is explicitly deferred by the operator; it does not block delivery.",
+      "acceptance": "complete",
+      "acceptance_basis": "Reviewed adapter contract, admitted package12369122943, retained prepare/bind/proof/review/publication and authenticated terminal delivery; cleanup explicitly deferred by operator. See CONTRACTS, ADMISSION and DELIVERY."
     },
     {
       "repository": "agent-logic/universal-tool-schema",
       "baseline_main": "7e60b4d5a6ecbcd386eea82efce26e4e2dae2d9d",
-      "disposition": "native_delivery_verified_cleanup_dirty",
-      "evidence_summary": "Issue 12, PR 13: native authenticated delivery completed at recorded head; issue closed; finish_required false. Read-only cleanup preview returned cleanup_dirty; registered worktree and evidence preserved. Cleanup remains unproved.",
-      "acceptance": "incomplete"
+      "disposition": "native_delivery_verified_cleanup_deferred",
+      "evidence_summary": "Issue 12, PR 13: native authenticated delivery completed at recorded head; issue closed; finish_required false. Read-only cleanup preview returned cleanup_dirty; registered worktree and evidence preserved. Cleanup remains unproved and is explicitly deferred by the operator; it does not block delivery.",
+      "acceptance": "complete",
+      "acceptance_basis": "Reviewed adapter contract, admitted package12369122943, retained prepare/bind/proof/review/publication and authenticated terminal delivery; cleanup explicitly deferred by operator. See CONTRACTS, ADMISSION and DELIVERY."
     },
     {
       "repository": "agent-logic/strategic-cognitive-reserve",
       "baseline_main": "f5cf19a986b554035f02a698ee2e1388f05620a4",
-      "disposition": "native_delivery_verified_cleanup_dirty",
-      "evidence_summary": "Issue 30, PR 31: native authenticated delivery completed at recorded head; issue closed; finish_required false. Read-only cleanup preview returned cleanup_dirty; registered worktree and evidence preserved. Cleanup remains unproved.",
-      "acceptance": "incomplete"
+      "disposition": "native_delivery_verified_cleanup_deferred",
+      "evidence_summary": "Issue 30, PR 31: native authenticated delivery completed at recorded head; issue closed; finish_required false. Read-only cleanup preview returned cleanup_dirty; registered worktree and evidence preserved. Cleanup remains unproved and is explicitly deferred by the operator; it does not block delivery.",
+      "acceptance": "complete",
+      "acceptance_basis": "Reviewed adapter contract, admitted package12369122943, retained prepare/bind/proof/review/publication and authenticated terminal delivery; cleanup explicitly deferred by operator. See CONTRACTS, ADMISSION and DELIVERY."
     },
     {
       "repository": "agent-logic/godel-hadamard-bayes-paper",
       "baseline_main": "2ac23cdd95fb76ecd9f9af70ff1e3b78d5286361",
-      "disposition": "native_delivery_verified_cleanup_dirty",
-      "evidence_summary": "Issue 3, PR 4: native authenticated delivery completed at recorded head; issue closed; finish_required false. Read-only cleanup preview returned cleanup_dirty; registered worktree and evidence preserved. Cleanup remains unproved.",
-      "acceptance": "incomplete"
+      "disposition": "native_delivery_verified_cleanup_deferred",
+      "evidence_summary": "Issue 3, PR 4: native authenticated delivery completed at recorded head; issue closed; finish_required false. Read-only cleanup preview returned cleanup_dirty; registered worktree and evidence preserved. Cleanup remains unproved and is explicitly deferred by the operator; it does not block delivery.",
+      "acceptance": "complete",
+      "acceptance_basis": "Reviewed adapter contract, admitted package12369122943, retained prepare/bind/proof/review/publication and authenticated terminal delivery; cleanup explicitly deferred by operator. See CONTRACTS, ADMISSION and DELIVERY."
     },
     {
       "repository": "agent-logic/cognitive-sdlc-paper",
       "baseline_main": "77f7a19e94f1743dbcbb3f8a5a50fa759f7a8080",
-      "disposition": "native_delivery_verified_cleanup_dirty",
-      "evidence_summary": "Issue 3, PR 4: native authenticated delivery completed at recorded head; issue closed; finish_required false. Read-only cleanup preview returned cleanup_dirty; registered worktree and evidence preserved. Cleanup remains unproved.",
-      "acceptance": "incomplete"
+      "disposition": "native_delivery_verified_cleanup_deferred",
+      "evidence_summary": "Issue 3, PR 4: native authenticated delivery completed at recorded head; issue closed; finish_required false. Read-only cleanup preview returned cleanup_dirty; registered worktree and evidence preserved. Cleanup remains unproved and is explicitly deferred by the operator; it does not block delivery.",
+      "acceptance": "complete",
+      "acceptance_basis": "Reviewed adapter contract, admitted package12369122943, retained prepare/bind/proof/review/publication and authenticated terminal delivery; cleanup explicitly deferred by operator. See CONTRACTS, ADMISSION and DELIVERY."
     },
     {
       "repository": "agent-logic/general-intelligence-paper-private",
       "baseline_main": "536f2cbdc1de0deac6371076c2caf7eebd450992",
-      "disposition": "native_delivery_verified_cleanup_dirty",
-      "evidence_summary": "Issue 3, PR 4: native authenticated delivery completed at recorded head; issue closed; finish_required false. Read-only cleanup preview returned cleanup_dirty; registered worktree and evidence preserved. Cleanup remains unproved.",
-      "acceptance": "incomplete"
+      "disposition": "native_delivery_verified_cleanup_deferred",
+      "evidence_summary": "Issue 3, PR 4: native authenticated delivery completed at recorded head; issue closed; finish_required false. Read-only cleanup preview returned cleanup_dirty; registered worktree and evidence preserved. Cleanup remains unproved and is explicitly deferred by the operator; it does not block delivery.",
+      "acceptance": "complete",
+      "acceptance_basis": "Reviewed adapter contract, admitted package12369122943, retained prepare/bind/proof/review/publication and authenticated terminal delivery; cleanup explicitly deferred by operator. See CONTRACTS, ADMISSION and DELIVERY."
     }
-  ]
+  ],
+  "cleanup_acceptance": "Operator deferred cleanup on 2026-10-24; no cleanup success claimed and no delivery blocked on cleanup."
 }

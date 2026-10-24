@@ -15,7 +15,8 @@ records exact heads, merge receipts where newly executed, and receipt hashes.
 
 All six read-only cleanup previews returned `cleanup_dirty`. No removal was
 executed; registered worktrees and their native evidence remain intact. Delivery
-is proved, but the requested cleanup proof is still missing.
+is proved. On 2026-10-24 the operator explicitly deferred cleanup, so these
+refusals no longer block delivery. No cleanup success is claimed.
 
 Website PR #101 remains open at its reviewed head with green CI. Its native
 publication metadata correction succeeded without code changes or repeated

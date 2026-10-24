@@ -70,7 +70,7 @@
         "authenticated": true,
         "idempotent_replay": false
       },
-      "terminal_status": "delivered_cleanup_refused",
+      "terminal_status": "delivered_cleanup_deferred_by_operator",
       "terminal_delivery": {
         "status": "delivered",
         "repository": "agent-logic/codefriend.ai",
@@ -87,7 +87,7 @@
         "reason": "cleanup_dirty",
         "executed": false,
         "preview_sha256": "73598580bcd2d6c5d3a3a224b0ef86f9d37f1fca62cb2b40342ed5c1da6bb3b8",
-        "disposition": "preserve registered worktree and evidence; cleanup not proved"
+        "disposition": "Operator explicitly deferred cleanup on 2026-10-24; preserve registered worktree and evidence. Not a delivery blocker."
       }
     },
     {
@@ -114,7 +114,7 @@
         "idempotent_replay": false
       },
       "ci": "passed at recorded head",
-      "terminal_status": "delivered_cleanup_refused",
+      "terminal_status": "delivered_cleanup_deferred_by_operator",
       "terminal_delivery": {
         "status": "delivered",
         "repository": "agent-logic/godel-hadamard-bayes-paper",
@@ -146,7 +146,7 @@
         "reason": "cleanup_dirty",
         "executed": false,
         "preview_sha256": "48b757c705ad553d6a507fcf858b629e4aa588b13f1ba3174e95e93bdd619305",
-        "disposition": "preserve registered worktree and evidence; cleanup not proved"
+        "disposition": "Operator explicitly deferred cleanup on 2026-10-24; preserve registered worktree and evidence. Not a delivery blocker."
       },
       "publication_metadata_correction": {
         "status": "completed",
@@ -178,7 +178,7 @@
         "idempotent_replay": false
       },
       "ci": "passed at recorded head",
-      "terminal_status": "delivered_cleanup_refused",
+      "terminal_status": "delivered_cleanup_deferred_by_operator",
       "terminal_delivery": {
         "status": "delivered",
         "repository": "agent-logic/general-intelligence-paper-private",
@@ -210,7 +210,7 @@
         "reason": "cleanup_dirty",
         "executed": false,
         "preview_sha256": "50750e79debb9e22848398d12a6846fc7093d9593e02a1db151cf5cfeb617dbd",
-        "disposition": "preserve registered worktree and evidence; cleanup not proved"
+        "disposition": "Operator explicitly deferred cleanup on 2026-10-24; preserve registered worktree and evidence. Not a delivery blocker."
       },
       "publication_metadata_correction": {
         "status": "completed",
@@ -242,7 +242,7 @@
         "idempotent_replay": false
       },
       "ci": "passed at recorded head",
-      "terminal_status": "delivered_cleanup_refused",
+      "terminal_status": "delivered_cleanup_deferred_by_operator",
       "terminal_delivery": {
         "status": "delivered",
         "repository": "agent-logic/universal-tool-schema",
@@ -259,7 +259,7 @@
         "reason": "cleanup_dirty",
         "executed": false,
         "preview_sha256": "81fdd2ea566ac62373a0f34121c5708d095cf7d7292b653cf37f3dcde3c19960",
-        "disposition": "preserve registered worktree and evidence; cleanup not proved"
+        "disposition": "Operator explicitly deferred cleanup on 2026-10-24; preserve registered worktree and evidence. Not a delivery blocker."
       }
     },
     {
@@ -286,7 +286,7 @@
         "idempotent_replay": false
       },
       "ci": "passed at recorded head",
-      "terminal_status": "delivered_cleanup_refused",
+      "terminal_status": "delivered_cleanup_deferred_by_operator",
       "terminal_delivery": {
         "status": "delivered",
         "repository": "agent-logic/strategic-cognitive-reserve",
@@ -318,7 +318,7 @@
         "reason": "cleanup_dirty",
         "executed": false,
         "preview_sha256": "7898f783e6332e791c3ee7f28747f191b2613f97ad30844e3e0c353601f7294d",
-        "disposition": "preserve registered worktree and evidence; cleanup not proved"
+        "disposition": "Operator explicitly deferred cleanup on 2026-10-24; preserve registered worktree and evidence. Not a delivery blocker."
       },
       "publication_metadata_correction": {
         "status": "completed",
@@ -350,7 +350,7 @@
         "idempotent_replay": false
       },
       "ci": "passed at recorded head",
-      "terminal_status": "delivered_cleanup_refused",
+      "terminal_status": "delivered_cleanup_deferred_by_operator",
       "terminal_delivery": {
         "status": "delivered",
         "repository": "agent-logic/cognitive-sdlc-paper",
@@ -382,7 +382,7 @@
         "reason": "cleanup_dirty",
         "executed": false,
         "preview_sha256": "ee2b4d5c045f2fe0be25d120158b72d903ac44e2f6e6ae2a492ac9ceeefe125b",
-        "disposition": "preserve registered worktree and evidence; cleanup not proved"
+        "disposition": "Operator explicitly deferred cleanup on 2026-10-24; preserve registered worktree and evidence. Not a delivery blocker."
       },
       "publication_metadata_correction": {
         "status": "completed",
