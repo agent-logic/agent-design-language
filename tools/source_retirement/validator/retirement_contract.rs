@@ -1,27 +1,11 @@
-use std::path::Path;
-use std::process::Command;
-
-fn run(script: &str) {
-    let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../..");
-    let output = Command::new("python3")
-        .args(["-B", script])
-        .current_dir(root)
-        .output()
-        .expect("execute retirement validator");
-    assert!(
-        output.status.success(),
-        "retirement validation failed: {}\n{}",
-        String::from_utf8_lossy(&output.stdout),
-        String::from_utf8_lossy(&output.stderr)
-    );
-}
-
+//! PVF local_contract: committed candidate admission, deterministic Git and local
+//! pinned custody archives; requires provisioned historical custody. Local gate.
 #[test]
 fn committed_candidate_retirement_guard() {
-    run("tools/source_retirement/check.py");
-}
-
-#[test]
-fn retirement_negative_cases() {
-    run("tools/source_retirement/test_check.py");
+    let root = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../../..");
+    let report =
+        source_retirement_validator::audit::run(&source_retirement_validator::Repo::new(root))
+            .expect("committed retirement guard");
+    assert_eq!(report["total_removals"], 3407);
+    assert_eq!(report["candidate_rows"], 4134);
 }

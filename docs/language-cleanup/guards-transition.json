@@ -1,0 +1,161 @@
+{
+  "schema": "adl.language_cleanup.successor.v1",
+  "issue": 1350,
+  "source_commit": "d064c65cb1b40994c74c3ddc9d2dc0157a727c73",
+  "removed": [
+    "tools/podcast_migration/guard.py",
+    "tools/public_readiness_archive/guard.py",
+    "tools/public_readiness_archive/test_guard.py",
+    "tools/repository_cleanup/guard.py",
+    "tools/repository_cleanup/test_guard.py",
+    "tools/repository_cleanup/validate.py",
+    "tools/source_retirement/check.py",
+    "tools/source_retirement/test_check.py"
+  ],
+  "changes": [
+    {
+      "path": ".github/workflows/ci.yaml",
+      "before": [
+        "100644",
+        "029f2ea07fd560b6ad5d83f7c3db64a75f5f88b0"
+      ],
+      "after": [
+        "100644",
+        "2d919e024943c5bb045d757130f5ebed6e49f515"
+      ],
+      "before_sha256": "918594b8ca8f9303143bc9eee98c7fead745b56e549f87eb3e158d6eed2109c3"
+    },
+    {
+      "path": "tools/podcast_migration/guard.py",
+      "before": [
+        "100644",
+        "be21652196e6222d69b8346f8736ba962468b1bd"
+      ],
+      "after": null,
+      "before_sha256": "70f15523dca46e8dd8b11ed81f85620507b6b0e4e48f3de0868e3bd7865a5eca"
+    },
+    {
+      "path": "tools/public_readiness_archive/guard.py",
+      "before": [
+        "100644",
+        "cc4eca261877dbaf088bb5f00ffce63801ca4a48"
+      ],
+      "after": null,
+      "before_sha256": "13f6325b6dd91e429512e32ef9853b0188b9a1db61d037c700a53a964c8a52f0"
+    },
+    {
+      "path": "tools/public_readiness_archive/test_guard.py",
+      "before": [
+        "100644",
+        "fe461afc1ff1a41479917602da037a31a35c3c5a"
+      ],
+      "after": null,
+      "before_sha256": "d6786bfd6266bcbfe5e9f6dadf061985eae5a27d968e522091b7d3325babe98d"
+    },
+    {
+      "path": "tools/repository_cleanup/guard.py",
+      "before": [
+        "100644",
+        "7373ce49d7fdf846ec29d3bb74b698047f54ad45"
+      ],
+      "after": null,
+      "before_sha256": "4a25e3e0b03955f5d0320872f4050d3d8f1c58989d8421124236073304f60aa8"
+    },
+    {
+      "path": "tools/repository_cleanup/test_guard.py",
+      "before": [
+        "100644",
+        "0c9729b009ac244460821d399a8859f92d1f5d1f"
+      ],
+      "after": null,
+      "before_sha256": "26a508fc4391aa56a609e5b2a3976c2534a900eccf800d18863b3bb5127ee45d"
+    },
+    {
+      "path": "tools/repository_cleanup/validate.py",
+      "before": [
+        "100644",
+        "8aab8c9215d517a9be1b14037a4d6c40e6f9ef38"
+      ],
+      "after": null,
+      "before_sha256": "41ac4af1f40bbbfc5d16107a2ab19e1dd34cce32f72b33e3a21390595d328e9d"
+    },
+    {
+      "path": "tools/source_retirement/README.md",
+      "before": [
+        "100644",
+        "ed754a4e80ecb95150937229d24f4d82b36e4e38"
+      ],
+      "after": [
+        "100644",
+        "5721a7c7b76215e1dfc58640a6ff0d560b3a1256"
+      ],
+      "before_sha256": "7c5f101f9c37f4246be8c09829cab77d1797435d1283a8476a256e3ce49fdcc0"
+    },
+    {
+      "path": "tools/source_retirement/check.py",
+      "before": [
+        "100644",
+        "3dfa972bb57ce7d26fa1f3986c52623716550cd8"
+      ],
+      "after": null,
+      "before_sha256": "34af75f976b5d25e08720392bb3f8c968733b735522ef29eddd6374829e8a6a6"
+    },
+    {
+      "path": "tools/source_retirement/test_check.py",
+      "before": [
+        "100644",
+        "7a752ed5fbc3e27eade146bac66042a1e424802d"
+      ],
+      "after": null,
+      "before_sha256": "df7177a46bb1ad14cc3601f03395618511f6fe44eb935d345f54e669c0e5fe9b"
+    },
+    {
+      "path": "tools/source_retirement/validator/Cargo.lock",
+      "before": [
+        "100644",
+        "89ffe2b0a61b2cd90eadcd7fd0b4a8dc0396ebbd"
+      ],
+      "after": [
+        "100644",
+        "7fb43d4ad538952eebe4f55bc9159d1af5e47eaa"
+      ],
+      "before_sha256": "5a83a42ced2ba305f55bf4d45e4084b1b80ac439cbe1a9c5dc83cf853fb3d20b"
+    },
+    {
+      "path": "tools/source_retirement/validator/Cargo.toml",
+      "before": [
+        "100644",
+        "f3dcdf5663f9b78e7074575f452a95e6ca5fca8a"
+      ],
+      "after": [
+        "100644",
+        "0de8d22eda066650558095f600df71458a44dd1b"
+      ],
+      "before_sha256": "026b846ca522157ea186ba272f01f71d579b7ac528b0c52febded82a4147fe0c"
+    },
+    {
+      "path": "tools/source_retirement/validator/retirement_contract.rs",
+      "before": [
+        "100644",
+        "c252c0fdfaba376ba1a7f8bf56b594c0a0e3398f"
+      ],
+      "after": [
+        "100644",
+        "2212ed1f5f709c57c74dd5c554db69d927806166"
+      ],
+      "before_sha256": "829376b584209c29136a5b1afdf091bfec04bd6f608249d0e869449861563309"
+    },
+    {
+      "path": "tools/test_podcast_migration.mjs",
+      "before": [
+        "100644",
+        "1993529752be6fb6d41c0292c6bc8fa399537a98"
+      ],
+      "after": [
+        "100644",
+        "663f05f28eb5fd8d13017fc12e59e88041b977c0"
+      ],
+      "before_sha256": "7c28133364d5f7afee27644b53b9c08559d7d8ca0108bd600036c8b08e0e5ece"
+    }
+  ]
+}

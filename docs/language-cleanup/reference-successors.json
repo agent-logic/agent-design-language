@@ -1,0 +1,17 @@
+{
+  "schema": "adl.retirement.reference_successors.v1",
+  "issue": 1350,
+  "entries": [
+    {
+      "path": "docs/repository-split/DOCUMENTATION_INVENTORY_1269.md",
+      "identity": [
+        "100644",
+        "26183a95b6cca7ef5dc66ee108abf2b051f134b9"
+      ],
+      "sha256": "4b8d0a44b247baba288c63203c827e539410b26314b17ffb44ba51d9ea5716f4",
+      "component": "infra/aws/runtime/agent-checkpoint-archive",
+      "classification": "Successor repository documentation inventory, in the agent-logic-infrastructure section; no ADL operational invocation.",
+      "source_commit": "0d3ca24fbcb6bf5ca0a694ffab9c296cc7b51a45"
+    }
+  ]
+}
