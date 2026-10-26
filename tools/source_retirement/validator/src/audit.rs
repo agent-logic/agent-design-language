@@ -212,6 +212,26 @@ pub fn run(repo: &Repo) -> Result<Value> {
             );
             allowed.insert(p.to_owned());
         }
+        let reference_manifest = "docs/language-cleanup/reference-successors.json";
+        let reference_successors =
+            repo.pinned(reference_manifest, constants::REFERENCE_SUCCESSORS_PIN)?;
+        for row in rows(&reference_successors["entries"])? {
+            if row["component"] != *component {
+                continue;
+            }
+            let path = string(&row["path"])?;
+            ensure!(
+                *at(&candidate, path) == row["identity"]
+                    && sha(&repo.bytes(path)?) == row["sha256"],
+                "classified successor reference changed: {path}"
+            );
+            ensure!(
+                *at(&repo.tree(string(&row["source_commit"])?)?, path) == row["identity"],
+                "reference successor provenance changed"
+            );
+            allowed.insert(path.to_owned());
+            allowed.insert(reference_manifest.to_owned());
+        }
         let result = Command::new("git")
             .args([
                 "--no-optional-locks",
