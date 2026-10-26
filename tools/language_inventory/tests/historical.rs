@@ -105,7 +105,8 @@ fn all_historical_dispositions_have_committed_custody_and_no_active_copy() {
     // Preservation is a claim about the retirement delivery, not a permanent
     // freeze of active milestone planning. Check the immutable retirement
     // snapshot while keeping absence/custody checks above on current HEAD.
-    let snapshot = "7a0b018b1e81f6b61310e29f40b8209d13375371";
+    // Pin the actual squash-merged delivery, which remains reachable on main.
+    let snapshot = "d1f3626762f7c222f38dba048319b47c802ad7ac";
     git(&["merge-base", "--is-ancestor", snapshot, "HEAD"]);
     let retired = tree(snapshot);
     for (p, id) in &base {

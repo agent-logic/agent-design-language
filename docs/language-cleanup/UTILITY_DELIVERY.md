@@ -188,3 +188,13 @@ The original shell suite passed. Native packet-truth tests retain its result
 mutation, HTML/CSS/JavaScript checks and add required-file/snippet, claim-field
 and overclaim negatives. All four packet-truth groups and strict Clippy passed.
 No browser execution or gameplay acceptance is inferred from these checks.
+
+## Dependency integration: merged historical retirement
+
+#1347 merged through PR #1360 at `d1f3626762f7c222f38dba048319b47c802ad7ac`.
+The utility branch incorporates that delivery. Its historical preservation test
+now pins this reachable merged snapshot: the pre-merge `7a0b018b` commit is not
+an ancestor after squash merging. The exact original-source custody and current
+HEAD absence checks remain unchanged. This corrects the merge-topology assumption
+without weakening preservation or requiring an abandoned PR commit to remain
+fetchable. Full #1351 transition overlays and acceptance remain pending.
