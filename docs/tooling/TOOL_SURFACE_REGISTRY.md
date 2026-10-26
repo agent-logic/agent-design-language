@@ -30,7 +30,7 @@ bash adl/tools/generate_tool_surface_registry.sh --check
 
 - `primary`: 7
 - `supported shim`: 0
-- `internal helper`: 197
+- `internal helper`: 195
 - `historical evidence`: 14
 - `archive candidate`: 0
 - `remove candidate`: 0
@@ -58,7 +58,6 @@ bash adl/tools/generate_tool_surface_registry.sh --check
 | `adl/tools/README.md` | tool surface | internal helper | Visible tool surface retained for bounded support work. |
 | `adl/tools/archive_run_artifacts.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/batched_checks.sh` | tool surface | primary | Local validation entrypoint; use the current declared public validation contract. |
-| `adl/tools/build_v0917_execution_outlier_analysis.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/check_no_new_legacy_swarm_refs.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/check_no_tracked_adl_issue_record_residue.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/check_release_notes_commands.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
@@ -93,7 +92,6 @@ bash adl/tools/generate_tool_surface_registry.sh --check
 | `adl/tools/polis_status_for_ssm_qts.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/polis_status_for_ssm_windows.ps1` | tool surface | internal helper | Visible tool surface retained for bounded support work. |
 | `adl/tools/preflight_review.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
-| `adl/tools/rd01_repository_audit.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/release_ceremony.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/report_large_rust_modules.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/report_module_navigability.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |

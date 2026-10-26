@@ -303,6 +303,51 @@
       "bytes": 6838,
       "consumer_result": "Retained v0.91.4 runner validates through native command. Inline Python in runner/test remains separate unfinished scope. Modern docs/validation/pvf_lanes.json is a different schema and remains rejected.",
       "proof": "Original runner fixture suite passed; two native schema/CLI groups and strict Clippy passed. Positive integer timeout now rejects Boolean alias. No lane command executed by validator."
+    },
+    {
+      "path": "adl/tools/build_v0917_execution_outlier_analysis.py",
+      "action": "retired",
+      "replacement": null,
+      "command": null,
+      "source_commit": "7b6986179a0642d558f3ca6e1d8f547cb003b735",
+      "before": [
+        "100644",
+        "ebb23780c2446444845d5d0b1d2dafe964394f5d"
+      ],
+      "sha256": "1eac3b4a2010533b32f9b3e3034a791dfea4fd0b7a7c9b7da9d816f1152644ed",
+      "bytes": 10257,
+      "consumer_result": "Historical one-off generator; no current literal path/stem callers outside inventory and historical records. Original reports retained. See PYTHON_USAGE_ASSESSMENT.md and python-usage-assessment.json; no execution-frequency claim.",
+      "proof": "Original bytes match pinned Git object; source removed without regenerating historical outputs. Final transition overlay and independent full-issue acceptance remain pending."
+    },
+    {
+      "path": "adl/tools/rd01_repository_audit.py",
+      "action": "retired",
+      "replacement": null,
+      "command": null,
+      "source_commit": "7b6986179a0642d558f3ca6e1d8f547cb003b735",
+      "before": [
+        "100644",
+        "1fbbd1c27367c7c6fd603325f2a2d1ab62408330"
+      ],
+      "sha256": "8d5c2f9cf4c9fa1a9cf5a7cabf4fbfd3aa36e4b99b7bcf0fc0c3fd2d7e0d7b73",
+      "bytes": 16277,
+      "consumer_result": "Historical one-off generator; no current literal path/stem callers outside inventory and historical records. Original reports retained. See PYTHON_USAGE_ASSESSMENT.md and python-usage-assessment.json; no execution-frequency claim.",
+      "proof": "Original bytes match pinned Git object; source removed without regenerating historical outputs. Final transition overlay and independent full-issue acceptance remain pending."
+    },
+    {
+      "path": "docs/reviews/v0.91.7/internal-review-4645/live-state/build_internal_review_state.py",
+      "action": "retired",
+      "replacement": null,
+      "command": null,
+      "source_commit": "7b6986179a0642d558f3ca6e1d8f547cb003b735",
+      "before": [
+        "100644",
+        "6ced70a4b5921dbf6f733fa869a255beb7d04c92"
+      ],
+      "sha256": "3deedc9f583175636ad16212cf906bbaac446d2ab356da6bbf2187ecd5292ed8",
+      "bytes": 9751,
+      "consumer_result": "Historical one-off generator; no current literal path/stem callers outside inventory and historical records. Original reports retained. See PYTHON_USAGE_ASSESSMENT.md and python-usage-assessment.json; no execution-frequency claim.",
+      "proof": "Original bytes match pinned Git object; source removed without regenerating historical outputs. Final transition overlay and independent full-issue acceptance remain pending."
     }
   ]
 }

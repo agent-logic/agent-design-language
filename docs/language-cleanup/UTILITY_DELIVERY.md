@@ -213,3 +213,14 @@ Strict Clippy passed. The runner fixture suite passed before and after the valid
 its remaining inline Python is separate unfinished scope. The modern
 `docs/validation/pvf_lanes.json` uses a different schema and remains outside this
 retained validator's contract; its rejection is not a regression or passing proof.
+
+## Retired historical generators
+
+Removed the v0.91.7 outlier-analysis builder, RD-01 split-inventory builder and
+#4645 live-state snapshot builder after the retirement-first usage assessment.
+Their historical reports and snapshots remain unchanged. Exact source bytes,
+Git mode/blob and SHA256 are recorded in `utility-dispositions.json`; no source
+archive or replacement generator was added. Generation options were configurable,
+but the discovered consumers were historical records, not current public lanes.
+No execution frequency is inferred from the absence of current lexical callers.
+The full retirement transition overlay and issue acceptance remain pending.
