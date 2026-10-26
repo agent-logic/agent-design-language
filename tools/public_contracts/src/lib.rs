@@ -12,6 +12,7 @@ pub mod prompt_schemas;
 pub mod public_docs;
 pub mod runtime_owner;
 pub mod session;
+pub mod tool_registry;
 pub mod transpiler;
 pub mod uts_install;
 pub mod warm_cache;

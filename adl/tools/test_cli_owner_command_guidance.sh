@@ -9,7 +9,7 @@ required_surfaces=(
   "CONTRIBUTING.md"
   "docs/default_workflow.md"
   "adl/tools/generate_active_command_reference_scan.py"
-  "adl/tools/generate_tool_surface_registry.py"
+  "adl/tools/generate_tool_surface_registry.sh"
   "adl/src/cli/public_dispatch.rs"
   "adl/tools/editor_action.sh"
   "adl/tools/README.md"

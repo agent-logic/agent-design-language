@@ -97,3 +97,20 @@ execution from outside the checkout with empty `PATH`. An independent Node JSON
 parser read all 33 tracked schemas successfully; Python readability is no longer
 claimed as an executed native check. Current instructions use the JSON artifact
 smoke check. Schema artifacts and historical review assignments remain unchanged.
+
+## Completed source slice: source tool registry
+
+The Rust `tool-registry` generator replaces the Python implementation and its
+two directory-inventory tests. Before removal, both original tests passed and
+the complete original/native rendering matched byte-for-byte after substituting
+only the generation-command spelling. Three native groups cover empty nested
+directories, populated directory assets, classification precedence, explicit
+binary-only inventory, counts, skill ownership notes, stale-output refusal and
+historical-file preservation. Strict Clippy and the current CLI owner-guidance
+guard passed. Cargo TOML is now parsed structurally; invalid manifests fail.
+
+The live registry is regenerated from current source, including the new shell
+entrypoint and deleted Python tests. Prior hand-edited rows are reconciled to the
+same generator rules; Rust tests outside `adl/tools` are not mislabeled as tool
+directory entries. The immutable v0.91.5 registry is untouched. Current wrappers
+use the native command; source inventory still grants no installed admission.

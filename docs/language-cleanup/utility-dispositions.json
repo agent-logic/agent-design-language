@@ -123,6 +123,36 @@
       "bytes": 4086,
       "consumer_result": "Both retained prompt guard wrappers use native schema checks; inline active-registry Python replaced by --active-registry. Historical review assignments remain documentary.",
       "proof": "Original checker passed all six version sets before removal. Native focused proof recorded in UTILITY_DELIVERY.md; no lifecycle acceptance claim."
+    },
+    {
+      "path": "adl/tools/generate_tool_surface_registry.py",
+      "action": "replaced",
+      "replacement": "tools/public_contracts/src/tool_registry.rs",
+      "command": "bash adl/tools/generate_tool_surface_registry.sh",
+      "source_commit": "7b6986179a0642d558f3ca6e1d8f547cb003b735",
+      "before": [
+        "100644",
+        "97e96afd7a24aa3f769dd13f228faef06446b4dd"
+      ],
+      "sha256": "825f045fd48428199b4ba807c3f4b7ca149fe0472b6685812d5abf010b260313",
+      "bytes": 12554,
+      "consumer_result": "Native generator and focused contracts replace current wrapper calls and retained guidance references; original historical registry remains unchanged.",
+      "proof": "Both original Python tests passed. Full original/native registry rendering matched byte-for-byte after only the declared generation-command substitution, before Python removal. Three native test groups and strict Clippy passed."
+    },
+    {
+      "path": "adl/tools/test_generate_tool_surface_registry.py",
+      "action": "replaced",
+      "replacement": "tools/public_contracts/tests/tool_registry.rs",
+      "command": "bash adl/tools/generate_tool_surface_registry.sh",
+      "source_commit": "7b6986179a0642d558f3ca6e1d8f547cb003b735",
+      "before": [
+        "100644",
+        "7341fd865452986852342b9edffbeaf55199323d"
+      ],
+      "sha256": "8eeb5ade9b42c6951aeffd886bfd79dd885d54950bbac32408b7e755a537a528",
+      "bytes": 2295,
+      "consumer_result": "Native generator and focused contracts replace current wrapper calls and retained guidance references; original historical registry remains unchanged.",
+      "proof": "Both original Python tests passed. Full original/native registry rendering matched byte-for-byte after only the declared generation-command substitution, before Python removal. Three native test groups and strict Clippy passed."
     }
   ]
 }

@@ -13,6 +13,15 @@ fn main() {
 fn run() -> Result<()> {
     let a: Vec<String> = std::env::args().skip(1).collect();
     let action = a.first().map(String::as_str).unwrap_or("");
+    if action == "tool-registry" {
+        if a.len() > 2 || (a.len() == 2 && a[1] != "--check") {
+            bail!("usage: tool-registry [--check]");
+        }
+        return adl_public_contracts::tool_registry::execute(
+            &adl_public_contracts::root(),
+            a.len() == 2,
+        );
+    }
     if action == "prompt-schemas" {
         return adl_public_contracts::prompt_schemas::cli(&a[1..]);
     }
