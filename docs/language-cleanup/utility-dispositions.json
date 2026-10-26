@@ -513,6 +513,36 @@
       "bytes": 1613,
       "consumer_result": "Historical v0.91.6 suitability or v0.91.4 Polis packet replay family retired with self-tests. No current CI/lane registration or outside executable reference found; module import removed with implementation. Immutable packets retained; owner qualification and current authority rules unchanged.",
       "proof": "Exact Git preimage match; caller scan included stems, Python import and tracked .csdlc shell scripts. Historical output trees unchanged; final whole-issue guard admission pending."
+    },
+    {
+      "path": "adl/tools/validate_polis_status_for_ssm_qts.py",
+      "action": "replaced",
+      "replacement": "adl/tools/validate_polis_status_for_ssm_qts.sh",
+      "command": "bash adl/tools/validate_polis_status_for_ssm_qts.sh",
+      "source_commit": "7b6986179a0642d558f3ca6e1d8f547cb003b735",
+      "before": [
+        "100644",
+        "26d45d600270914c93dce8d969125a458a436fdf"
+      ],
+      "sha256": "d87f66de9ce7a095db94885c0583ded75c31bfcf5979dd80e8295752d730e091",
+      "bytes": 901,
+      "consumer_result": "Existing QTS/Windows conditional lane registrations now invoke shell literal source-fragment checks. No host status execution or owner qualification is inferred.",
+      "proof": "Original source checks passed. Shell successor preserves all required fragments and missing-fragment refusal. Focused deletion mutations recorded in utility delivery."
+    },
+    {
+      "path": "adl/tools/validate_polis_status_for_ssm_windows.py",
+      "action": "replaced",
+      "replacement": "adl/tools/validate_polis_status_for_ssm_windows.sh",
+      "command": "bash adl/tools/validate_polis_status_for_ssm_windows.sh",
+      "source_commit": "7b6986179a0642d558f3ca6e1d8f547cb003b735",
+      "before": [
+        "100644",
+        "342eb699793fcc9bed99079aeeb697a396f1c73e"
+      ],
+      "sha256": "3ff7e7739e6ecefeef63e68e66515090b6f7987a37a17e826a35ad886c9316a8",
+      "bytes": 928,
+      "consumer_result": "Existing QTS/Windows conditional lane registrations now invoke shell literal source-fragment checks. No host status execution or owner qualification is inferred.",
+      "proof": "Original source checks passed. Shell successor preserves all required fragments and missing-fragment refusal. Focused deletion mutations recorded in utility delivery."
     }
   ]
 }

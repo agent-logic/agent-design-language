@@ -262,3 +262,20 @@ removed with its implementation, not left as a broken wrapper. Historical
 packets, current authority rules and separate owner qualification obligations
 remain unchanged. Exact source/test custody is recorded; no replay replacement
 is added. Full guard admission and issue acceptance remain pending.
+
+## Retained QTS and Windows status-source checks
+
+The two registered status-source validators only search for required literal
+fragments. Shell successors preserve those lists, success messages and aggregate
+missing-fragment diagnostics without adding Rust code or executing host/SSM
+operations. The conditional lane registry now names the shell entrypoints.
+Both original Python checks passed. Successors passed two positive checks, all
+21 single-fragment deletion mutations and two missing-file refusals with failing
+Python/Ruby commands ahead of PATH. These are source-shape checks only; they do
+not prove correct JSON escaping, PowerShell execution or actual host status.
+
+The same positive, per-fragment and missing-file cases are retained in
+`tools/public_contracts/tests/status_source.rs`, which invokes the actual shell
+scripts. Its Cargo regression passed and is admitted by the native proof plan.
+Direct Bash validator declarations were refused by the installed allowlist;
+that attempt is preserved in local receipts, not claimed as successful admission.
