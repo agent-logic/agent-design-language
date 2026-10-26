@@ -114,3 +114,22 @@ entrypoint and deleted Python tests. Prior hand-edited rows are reconciled to th
 same generator rules; Rust tests outside `adl/tools` are not mislabeled as tool
 directory entries. The immutable v0.91.5 registry is untouched. Current wrappers
 use the native command; source inventory still grants no installed admission.
+
+## Completed source slice: three retained packet validators
+
+Native `evidence-bundle`, `transition-dag` and `csdlc-demo-proof-contract`
+commands replace the corresponding Python validators. Their shell entrypoints
+accept the same packet-root argument and retain success markers and usage exit
+codes. The native checker reports all missing requirements, preserving the
+proof-contract validator's aggregate diagnostics. It validates packet structure,
+not the truth of historical execution or authenticated lifecycle acceptance.
+
+All three original shell suites passed before removal. Three native groups
+exercise the unchanged tracked packets, independently remove each required file
+and snippet, reject absent roots, and run the CLI with empty `PATH`. The proof
+contract's two additional shell assertions remain explicit native assertions.
+Inline Python fixture mutation is removed from both old negative-test wrappers.
+Strict Clippy passed. Current proof-lane and quality-gate callers use the native
+shell entrypoints; those larger mixed-language lanes remain outside this slice's
+execution claim. Historical packets and their original command records remain
+unchanged. Replays now use `bash adl/tools/validate_<name>_packet.sh <packet-root>`.

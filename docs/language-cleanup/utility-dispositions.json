@@ -153,6 +153,51 @@
       "bytes": 2295,
       "consumer_result": "Native generator and focused contracts replace current wrapper calls and retained guidance references; original historical registry remains unchanged.",
       "proof": "Both original Python tests passed. Full original/native registry rendering matched byte-for-byte after only the declared generation-command substitution, before Python removal. Three native test groups and strict Clippy passed."
+    },
+    {
+      "path": "adl/tools/validate_evidence_bundle_packet.py",
+      "action": "replaced",
+      "replacement": "tools/public_contracts/src/retained_packets.rs",
+      "command": "bash adl/tools/validate_evidence_bundle_packet.sh <packet-root>",
+      "source_commit": "7b6986179a0642d558f3ca6e1d8f547cb003b735",
+      "before": [
+        "100644",
+        "59f19f447fa70bcea5070bdfba813d21ae1f1a73"
+      ],
+      "sha256": "d253eb83a366e73da56e93b504bb6f60ee5b67ded10bb190643a3e496bc58f88",
+      "bytes": 1805,
+      "consumer_result": "Current proof-lane and quality-gate script callers use native shell entrypoints. Native tests replace inline Python mutations; immutable historical proof records retain original commands.",
+      "proof": "Original shell suite passed before removal. Native tests preserve every file and marker requirement, original extra proof-contract assertions, empty/missing roots and CLI usage statuses; direct commands run with empty PATH. Strict Clippy passed."
+    },
+    {
+      "path": "adl/tools/validate_transition_dag_packet.py",
+      "action": "replaced",
+      "replacement": "tools/public_contracts/src/retained_packets.rs",
+      "command": "bash adl/tools/validate_transition_dag_packet.sh <packet-root>",
+      "source_commit": "7b6986179a0642d558f3ca6e1d8f547cb003b735",
+      "before": [
+        "100644",
+        "2cedb9e75b9092761c65a2150b8fced492041e07"
+      ],
+      "sha256": "4c381d4ab23bcabfe455756e6f699bfb69f5c58c61c32aa7fa108aedd9e267c6",
+      "bytes": 1781,
+      "consumer_result": "Current proof-lane and quality-gate script callers use native shell entrypoints. Native tests replace inline Python mutations; immutable historical proof records retain original commands.",
+      "proof": "Original shell suite passed before removal. Native tests preserve every file and marker requirement, original extra proof-contract assertions, empty/missing roots and CLI usage statuses; direct commands run with empty PATH. Strict Clippy passed."
+    },
+    {
+      "path": "adl/tools/validate_csdlc_demo_proof_contract_packet.py",
+      "action": "replaced",
+      "replacement": "tools/public_contracts/src/retained_packets.rs",
+      "command": "bash adl/tools/validate_csdlc_demo_proof_contract_packet.sh <packet-root>",
+      "source_commit": "7b6986179a0642d558f3ca6e1d8f547cb003b735",
+      "before": [
+        "100644",
+        "7853c94fb87f26760158ca23268ac98c43a98470"
+      ],
+      "sha256": "cd35fb676e71780c12f2d31728af0a22d0c1df9c868a854d5acdca2dd5d0db87",
+      "bytes": 1861,
+      "consumer_result": "Current proof-lane and quality-gate script callers use native shell entrypoints. Native tests replace inline Python mutations; immutable historical proof records retain original commands.",
+      "proof": "Original shell suite passed before removal. Native tests preserve every file and marker requirement, original extra proof-contract assertions, empty/missing roots and CLI usage statuses; direct commands run with empty PATH. Strict Clippy passed."
     }
   ]
 }

@@ -10,6 +10,7 @@ pub mod planning_template;
 pub mod portable;
 pub mod prompt_schemas;
 pub mod public_docs;
+pub mod retained_packets;
 pub mod runtime_owner;
 pub mod session;
 pub mod tool_registry;

@@ -13,6 +13,12 @@ fn main() {
 fn run() -> Result<()> {
     let a: Vec<String> = std::env::args().skip(1).collect();
     let action = a.first().map(String::as_str).unwrap_or("");
+    if matches!(
+        action,
+        "evidence-bundle" | "transition-dag" | "csdlc-demo-proof-contract"
+    ) {
+        std::process::exit(adl_public_contracts::retained_packets::cli(action, &a[1..]));
+    }
     if action == "tool-registry" {
         if a.len() > 2 || (a.len() == 2 && a[1] != "--check") {
             bail!("usage: tool-registry [--check]");
