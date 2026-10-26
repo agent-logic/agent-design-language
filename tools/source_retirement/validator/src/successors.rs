@@ -157,5 +157,37 @@ pub fn normalized(repo: &Repo, candidate: &Tree) -> Result<Tree> {
         super::constants::PODCAST_SUCCESSOR_PIN,
     )?;
     let candidate = language(repo, &candidate, &successor)?;
-    podcast(repo, &candidate)
+    let candidate = podcast(repo, &candidate)?;
+    let retained = repo.pinned(
+        "docs/language-cleanup/retained-successor-transition.json",
+        super::constants::RETAINED_SUCCESSOR_PIN,
+    )?;
+    retained_successors(repo, &candidate, &retained)
+}
+
+pub fn retained_successors(repo: &Repo, candidate: &Tree, manifest: &Value) -> Result<Tree> {
+    ensure!(
+        rows(&manifest["removed"])?.is_empty(),
+        "retained reconciliation cannot authorize removal"
+    );
+    let result = language(repo, candidate, manifest)?;
+    let accepted = string(&manifest["accepted_main"])?;
+    for row in rows(&manifest["changes"])? {
+        ensure!(
+            !row["before"].is_null() && !row["after"].is_null(),
+            "retained reconciliation requires modification"
+        );
+        let path = string(&row["path"])?;
+        let commit = string(&row["successor_commit"])?;
+        repo.git(&["merge-base", "--is-ancestor", commit, accepted])?;
+        ensure!(
+            *at(&repo.tree(commit)?, path) == row["after"],
+            "retained successor commit identity mismatch: {path}"
+        );
+        ensure!(
+            sha(&repo.blob(string(&row["after"][1])?)?) == row["after_sha256"],
+            "retained successor bytes changed: {path}"
+        );
+    }
+    Ok(result)
 }

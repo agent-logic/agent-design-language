@@ -20,3 +20,6 @@ pub const LANGUAGE_TRANSITIONS: &[(&str, &str)] = &[
 ];
 pub const PODCAST_SUCCESSOR_PIN: &str =
     "498fbc5e54797e6cbe69da63a380b7ff9311dd382e359106514e1b245b82728e";
+
+pub const RETAINED_SUCCESSOR_PIN: &str =
+    "e547660635d9df48c78a99ada20dc14a435263510a33804e7f8ce2d6e5c247b1";

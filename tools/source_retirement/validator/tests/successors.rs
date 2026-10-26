@@ -110,6 +110,15 @@ fn podcast_original_and_reviewed_readme_successor() {
     let base = r.tree(string(&t["source_commit"]).unwrap()).unwrap();
     let c = candidate(&base, &t);
     assert_eq!(successors::podcast(&r, &c).unwrap(), base);
+    for row in rows(&t["changes"]).unwrap() {
+        let mut altered = c.clone();
+        altered.insert(
+            string(&row["path"]).unwrap().into(),
+            json!(["100644", "0".repeat(40)]),
+        );
+        assert!(successors::transition(&altered, &base, &t).is_err());
+    }
+
     let mut changed = c.clone();
     changed.insert("demos/README.md".into(), json!(["100644", "0".repeat(40)]));
     assert!(successors::podcast(&r, &changed).is_err());
@@ -128,4 +137,50 @@ fn podcast_original_and_reviewed_readme_successor() {
     assert_eq!(successors::podcast(&r, &normalized).unwrap(), base);
     current.insert("demos/README.md".into(), json!(["100644", "0".repeat(40)]));
     assert!(successors::language(&r, &current, &successor).is_err());
+}
+
+#[test]
+fn actual_committed_head_satisfies_successor_admission() {
+    let r = repo();
+    let candidate = r.tree("HEAD").unwrap();
+    let normalized = successors::normalize_language(&r, &candidate).unwrap();
+    let normalized = successors::readiness(&r, &normalized).unwrap();
+    let normalized = successors::cleanup(&r, &normalized).unwrap();
+    let migration = r.json("tools/repository_cleanup/transition.json").unwrap();
+    let base = r
+        .tree(string(&migration["source_commit"]).unwrap())
+        .unwrap();
+    for row in rows(&migration["changes"]).unwrap() {
+        let path = string(&row["path"]).unwrap();
+        assert_eq!(at(&normalized, path), at(&base, path));
+    }
+}
+
+#[test]
+fn retained_successors_are_exact_modifications_not_deletion_authority() {
+    let r = repo();
+    let t = r
+        .pinned(
+            "docs/language-cleanup/retained-successor-transition.json",
+            constants::RETAINED_SUCCESSOR_PIN,
+        )
+        .unwrap();
+    let base = r.tree(string(&t["source_commit"]).unwrap()).unwrap();
+    let current = candidate(&base, &t);
+    assert_eq!(
+        successors::retained_successors(&r, &current, &t).unwrap(),
+        base
+    );
+    let mut changed = current.clone();
+    changed.insert("AGENTS.md".into(), json!(["100644", "0".repeat(40)]));
+    assert!(successors::retained_successors(&r, &changed, &t).is_err());
+    let mut t2 = t.clone();
+    t2["removed"] = json!(["AGENTS.md"]);
+    assert!(successors::retained_successors(&r, &current, &t2).is_err());
+    let mut t2 = t.clone();
+    t2["changes"][0]["successor_commit"] = t["source_commit"].clone();
+    assert!(successors::retained_successors(&r, &current, &t2).is_err());
+    let mut t2 = t.clone();
+    t2["changes"][0]["after_sha256"] = json!("0".repeat(64));
+    assert!(successors::retained_successors(&r, &current, &t2).is_err());
 }

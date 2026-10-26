@@ -1,0 +1,761 @@
+{
+  "schema": "adl.language_cleanup.successor.v1",
+  "issue": 1350,
+  "repairs_issue": 1356,
+  "source_commit": "c0a9983bac18f9bab3a03134b8fe58c8083b95ae",
+  "accepted_main": "d064c65cb1b40994c74c3ddc9d2dc0157a727c73",
+  "boundary": "Exact retained modifications already present in accepted main. Zero deletion authority. Applied only after later cleanup layers restore their historical preimages. Original execution overlay and all historical approval bytes remain unchanged.",
+  "removed": [],
+  "changes": [
+    {
+      "path": "AGENTS.md",
+      "before": [
+        "100644",
+        "753716ffcb683b2db72a29bbbe0f384816efad0e"
+      ],
+      "after": [
+        "100644",
+        "9ea1659f809466c72cc1fce580954f8d6aefb1fb"
+      ],
+      "before_sha256": "45391313066ed8e4b25b61783ae8a422d8702f42f29bdea5599ee57f48916e18",
+      "after_sha256": "c2d7b85942bec580ea92d36818dcc98ba0e29c27d4542ff3d14561c04004e136",
+      "successor_commit": "b67a68316c1cda6558684c519ce5d5e760b1b480",
+      "successor_subject": "Open the public ADL visitor and contributor journey"
+    },
+    {
+      "path": "README.md",
+      "before": [
+        "100644",
+        "93ea3118101bf9b8ddf5fc3fc706d9adf253aeaf"
+      ],
+      "after": [
+        "100644",
+        "049affa6fa6fc83dfc413925dabe9761f0132cec"
+      ],
+      "before_sha256": "f8984b309a2ed1c7d676326c7e6cf98bdcf5467e4816469eef9f2eb0d5c23152",
+      "after_sha256": "39a09db8305394ca9fe1e11ba108273ae75b05e6cfe0fed2519265ed4dd9d47b",
+      "successor_commit": "a8da58e412eae5a69d614407edb717711c581438",
+      "successor_subject": "docs: restore ADL README narrative and current public guidance"
+    },
+    {
+      "path": "adl/src/cli/observability.rs",
+      "before": [
+        "100644",
+        "80f280007f6e62f0f7c12bed19f1aa3ee9a3c51f"
+      ],
+      "after": [
+        "100644",
+        "04e792f16d791ee9d050e5aa8769cdeeacf044af"
+      ],
+      "before_sha256": "0512ca05cfb664dc1a572f66ab93c5f736ad8467589484beedb4846ef6d9132d",
+      "after_sha256": "635560538264ddbf16e4e614237222ba66a34be368b9481276ad26fa0cc71713",
+      "successor_commit": "38761b0805ceff3d2811a2a4e30088b83460c899",
+      "successor_subject": "Stabilize observability heartbeat test"
+    },
+    {
+      "path": "adl/src/session_ledger.rs",
+      "before": [
+        "100644",
+        "cf64b10e1fd3a51cd269aea7a4b59f3eaee51064"
+      ],
+      "after": [
+        "100644",
+        "a1c2c16e8a6bc0f39240b21b0902fe9c4297d63e"
+      ],
+      "before_sha256": "340e99ad367e2b27388eb68b197756bbcafc2a793e5086a5140893023fea3f18",
+      "after_sha256": "b36c62bd90bc3ae1f5d94be07e8c83bf9fbf26da89b3fbaee96fd24d5d3c2a07",
+      "successor_commit": "2939ac96b393d16319051fa68f8b7f42b1f2aa9f",
+      "successor_subject": "Release session guard locks before closing duplicated descriptors"
+    },
+    {
+      "path": "adl/tools/demo_v0891_arxiv_manuscript_workflow.sh",
+      "before": [
+        "100755",
+        "72d1d67a91696a1d71001f3123039087182ca94f"
+      ],
+      "after": [
+        "100755",
+        "fac2277a9e440852318d493b72dd3f0a19883898"
+      ],
+      "before_sha256": "b4c51e372f45c754a733dfe802fa1abcb5d9522852634999a992cb832e87b286",
+      "after_sha256": "c01ff3de5c4b07746db239cb17408d6bb3bfcbc91a989de1d33448542e2d7138",
+      "successor_commit": "5499a34b79c2b5929aa94a74e3e101e465f48b22",
+      "successor_subject": "fix: refresh demo public evidence and ADR heading check"
+    },
+    {
+      "path": "adl/tools/demo_v090_codebuddy_review_showcase.sh",
+      "before": [
+        "100755",
+        "941465a9528d42d04dea460fbfc0b9887f117011"
+      ],
+      "after": [
+        "100755",
+        "4aadec52f37f39c5c7bd87d58b681efdba9d0253"
+      ],
+      "before_sha256": "b9156301b8dd1af0955569819dd9ce2b1d89f0e06b7200d711ba6b05c1b2c8b4",
+      "after_sha256": "e04b10973999bf62d5fb2f1a0947a8aad12aaeeadf344bfc8a5dcc79d3009d30",
+      "successor_commit": "adeab6f8da3751a0aeea63ab5c9aba3530ef51e5",
+      "successor_subject": "fix: preserve demo outputs and enforce public safety boundaries"
+    },
+    {
+      "path": "adl/tools/test_demo_v0891_arxiv_manuscript_workflow.sh",
+      "before": [
+        "100755",
+        "bef7f108eb8a7f5c716e4abc01409676f05f7835"
+      ],
+      "after": [
+        "100755",
+        "db814fa7904ea417dcb8a63fd1525545c6e61436"
+      ],
+      "before_sha256": "8c1a69a116c99710adb52a14e8d6c852be05979d63e843515620ab3952339cee",
+      "after_sha256": "656d81fd98a71324f83c5762878ea53ce8c1d94303789cd813767647e2809d0a",
+      "successor_commit": "adeab6f8da3751a0aeea63ab5c9aba3530ef51e5",
+      "successor_subject": "fix: preserve demo outputs and enforce public safety boundaries"
+    },
+    {
+      "path": "adl/tools/test_demo_v090_codebuddy_review_showcase.sh",
+      "before": [
+        "100755",
+        "dec775cb67a796eb9d10c18fd3127188c9b1d014"
+      ],
+      "after": [
+        "100755",
+        "53071f70a1c6fe72f1d76eb7068d977ad80dd410"
+      ],
+      "before_sha256": "9a5ac8f0dda0ebe236328102bd1bb7e08bdb0e4fcd3e76b5bb771e30e26c2176",
+      "after_sha256": "eadda524edc13207774ea3458b10c404c3275ea1b80a36f68203b88d61f3f186",
+      "successor_commit": "adeab6f8da3751a0aeea63ab5c9aba3530ef51e5",
+      "successor_subject": "fix: preserve demo outputs and enforce public safety boundaries"
+    },
+    {
+      "path": "adl/tools/validate_v0932_planning.test.mjs",
+      "before": [
+        "100644",
+        "5ac0eb35c210569a7122775734afba310d812897"
+      ],
+      "after": [
+        "100644",
+        "4c76e4919eef3fd528b63f31af324e3ec0cdd509"
+      ],
+      "before_sha256": "e09bf22bdc22f070ca87b62fda606b2de9315195d88cad69be4b5dc14d33aff5",
+      "after_sha256": "06f748f2f7b724988b9c3d30b8add7a4fd9d6454c138f921091af7409d206dd5",
+      "successor_commit": "8debedc371ac90cffb5a0de18cb350b62f00c1a4",
+      "successor_subject": "docs: refocus v0.93.2 on Beta 1 and security with tooling first"
+    },
+    {
+      "path": "docs/csdlc-v3/CURRENT_AUTHORITY.md",
+      "before": [
+        "100644",
+        "457e9be63cf34b547736342ef7a7fb98a5ec2a9b"
+      ],
+      "after": [
+        "100644",
+        "62cf2ae89701c59cfc97d059e90843c139ba4f70"
+      ],
+      "before_sha256": "d28f08086f1bd4cd44ed09ae33ffe66ba630bafbcc7ec8bf9f3bba9b1a902af2",
+      "after_sha256": "1e2d6d5d223d0f02d745b6c4c40a76b6ce1ca08f8b20eac98e7aa5de96312dd3",
+      "successor_commit": "2ac6fb7c51c1ef0fd6a2808877fe59d46ed8fec4",
+      "successor_subject": "docs: refresh public ADL guidance after repository split"
+    },
+    {
+      "path": "docs/csdlc-v3/INTENT_COMMANDS.md",
+      "before": [
+        "100644",
+        "6268280198cc419cd14f4facaf074da2d65a5d0e"
+      ],
+      "after": [
+        "100644",
+        "2a0f670e682d7e1340dfb051ce9500cfbad6d523"
+      ],
+      "before_sha256": "6f86d45d30d8b347ce1105ba9013da917153cdfa8a88af594ad1f3c083f60ce9",
+      "after_sha256": "a887ef61e6c6d744eda08f03f607afc120497a7bc350c7dec68ad2c6368330e8",
+      "successor_commit": "2ac6fb7c51c1ef0fd6a2808877fe59d46ed8fec4",
+      "successor_subject": "docs: refresh public ADL guidance after repository split"
+    },
+    {
+      "path": "docs/default_workflow.md",
+      "before": [
+        "100644",
+        "f41fb54c0eb048db3b9dfc12202a166b2726079a"
+      ],
+      "after": [
+        "100644",
+        "6c22fc62d06fe24397db7ad80a6308fac4d2bc22"
+      ],
+      "before_sha256": "31689055a38ceadacb3c52eef4324fdeef6a7c555871492f6984d21cac93ba6e",
+      "after_sha256": "1b930dfde4f72a81af93a39a18211c1fd5e170dc6cbebf12c7fb86f70ec2cc57",
+      "successor_commit": "b67a68316c1cda6558684c519ce5d5e760b1b480",
+      "successor_subject": "Open the public ADL visitor and contributor journey"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/ADR_PLAN_v0.93.2.md",
+      "before": [
+        "100644",
+        "261830407fca8f859a25b0c76d958e9224a8d90a"
+      ],
+      "after": [
+        "100644",
+        "bfc1cc14a2bdb2996e24bed480447ef98b441e5b"
+      ],
+      "before_sha256": "f5add1d6ab38d26be7b0394800791af75faf39db6f7d8c48fdd3f5621a39b183",
+      "after_sha256": "b93c4a0abedd3b4a699d54be9c44b7ae1af4facc1089c86fdfd50c3c6f68bc4a",
+      "successor_commit": "8debedc371ac90cffb5a0de18cb350b62f00c1a4",
+      "successor_subject": "docs: refocus v0.93.2 on Beta 1 and security with tooling first"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/DECISIONS_v0.93.2.md",
+      "before": [
+        "100644",
+        "3475b16757f251eb0550fc225c971bcf4df6f975"
+      ],
+      "after": [
+        "100644",
+        "31e5e1eeff105cc4ba3dd5817e8caf03df34f865"
+      ],
+      "before_sha256": "6a669eba9883aa3caa16f895d197443a5132ea1473cb587d99e6106597345c2d",
+      "after_sha256": "7b28ba33fe7507a264a6593d9c1aef5889622eed127ddf6d8f413c266e2ae2cf",
+      "successor_commit": "8debedc371ac90cffb5a0de18cb350b62f00c1a4",
+      "successor_subject": "docs: refocus v0.93.2 on Beta 1 and security with tooling first"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/DEMO_MATRIX_v0.93.2.md",
+      "before": [
+        "100644",
+        "fe6a2eb775a4699a67519c48d44c54ca2c1aec9e"
+      ],
+      "after": [
+        "100644",
+        "599d3dc7011290f76be2a72e382d40a1b35d5667"
+      ],
+      "before_sha256": "3d5132d53598724a594825ed68bae445b965d008b592fde350ad1579a2b93c6f",
+      "after_sha256": "f0d1e81f955546c04edc32f49a579c8790501b1fdf00b3a35fb0ed8d838b7305",
+      "successor_commit": "8debedc371ac90cffb5a0de18cb350b62f00c1a4",
+      "successor_subject": "docs: refocus v0.93.2 on Beta 1 and security with tooling first"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/DESIGN_v0.93.2.md",
+      "before": [
+        "100644",
+        "1efc67a41c4e037862e913a8cbecf37b4c8842c5"
+      ],
+      "after": [
+        "100644",
+        "2a195ba41f0782b0c03c25ee8c52b9a04b41a73c"
+      ],
+      "before_sha256": "9760181e3c4d0facb1f3fad65c59e8611e3a124383f7a7314c10ad304b9662b7",
+      "after_sha256": "4f982328e91808da1ba9d35dc92c818ca43f46d6fa800415431cc403ec17ef6e",
+      "successor_commit": "8debedc371ac90cffb5a0de18cb350b62f00c1a4",
+      "successor_subject": "docs: refocus v0.93.2 on Beta 1 and security with tooling first"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json",
+      "before": [
+        "100644",
+        "d3dda0ab880dd0556337f94d5c2bd5895093f675"
+      ],
+      "after": [
+        "100644",
+        "a0d3e27a71540bfa7d554c10a74944554d0573e2"
+      ],
+      "before_sha256": "5005ea5f63145872bebd9d347b8d0c4adc277faec26c205d4558155c98d1f65c",
+      "after_sha256": "0daf7b81c8f19a010bf91f12af5ca07facdefc4cea8562fefb8c042ec01970dd",
+      "successor_commit": "913567d72d28365cf36e5035ce62efc2515879df",
+      "successor_subject": "docs: link created v0.93.2 issues and sprint umbrellas"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/FEATURE_PROOF_COVERAGE_v0.93.2.md",
+      "before": [
+        "100644",
+        "97f5ab4b15e81c5ef91a9b210bc38919135c6ecf"
+      ],
+      "after": [
+        "100644",
+        "531e72b98a4f97877fb026b62bb2b99ba7d85f12"
+      ],
+      "before_sha256": "982d826a3289c5bb8d078cc121a64fe65322f9aeb8bcd17075496004321a2091",
+      "after_sha256": "378b70d6864c1b6face83d899360340c548b878ee4312bbb46e7f32f58d2c86e",
+      "successor_commit": "8debedc371ac90cffb5a0de18cb350b62f00c1a4",
+      "successor_subject": "docs: refocus v0.93.2 on Beta 1 and security with tooling first"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/MILESTONE_CHECKLIST_v0.93.2.md",
+      "before": [
+        "100644",
+        "db9f2fb082aca0796a97e9f8d9e6a89dd6ca4047"
+      ],
+      "after": [
+        "100644",
+        "d894427d28c12ffe81a629a58a38521682ee6606"
+      ],
+      "before_sha256": "9ac44aa3d3866df6e535aab7637628ecdf6d01dec3e6180444de8c8b31946ab2",
+      "after_sha256": "0b98560623959647b2418906882351c455f11c117bddc19aafd3d57b50b67112",
+      "successor_commit": "8debedc371ac90cffb5a0de18cb350b62f00c1a4",
+      "successor_subject": "docs: refocus v0.93.2 on Beta 1 and security with tooling first"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/NEXT_MILESTONE_HANDOFF_v0.93.2.md",
+      "before": [
+        "100644",
+        "d33d32247d47a9de7bf7b5862555f54ecc1f9c12"
+      ],
+      "after": [
+        "100644",
+        "cfa8e5a7fd38bb17b3d8e5204746435b44d790c4"
+      ],
+      "before_sha256": "e04b5f2cdbb7fd3d22da1f41110fcbbbc4763d5f6b615c742ccefe922933af50",
+      "after_sha256": "9e42701feafaffd92aa3a27545149b9f8c5af8cd2e740f555951a0f79628fd2f",
+      "successor_commit": "8debedc371ac90cffb5a0de18cb350b62f00c1a4",
+      "successor_subject": "docs: refocus v0.93.2 on Beta 1 and security with tooling first"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/QUALITY_GATE_v0.93.2.md",
+      "before": [
+        "100644",
+        "72c7202b2efe2eaa498a73cc96a93b081b04c603"
+      ],
+      "after": [
+        "100644",
+        "2d04ad58f2ce561452ae7b843f665951932f7ab3"
+      ],
+      "before_sha256": "d107ff259c1f64aae4097611fd59e9922c354df17571af3e843f3d4346dc4869",
+      "after_sha256": "0d9682ddb4b736484d0f06eac459811bd80261c4b7775016bc7589e1b83b4968",
+      "successor_commit": "8debedc371ac90cffb5a0de18cb350b62f00c1a4",
+      "successor_subject": "docs: refocus v0.93.2 on Beta 1 and security with tooling first"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/README.md",
+      "before": [
+        "100644",
+        "f3075e3d13c956172a769a20bda97f9d62a9c0dd"
+      ],
+      "after": [
+        "100644",
+        "906d0cdbda6fef5fbd5bb7c61791fd3a949401f7"
+      ],
+      "before_sha256": "1cdf4aa9df6e3dee7ce7967364d8e4354f481f1039f74ec9d51f790ed2825806",
+      "after_sha256": "3fde259ebe4274fc065dcf551d20324da6f6a5b0c43c05b549fbaed63d03cadb",
+      "successor_commit": "913567d72d28365cf36e5035ce62efc2515879df",
+      "successor_subject": "docs: link created v0.93.2 issues and sprint umbrellas"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/RELEASE_NOTES_v0.93.2.md",
+      "before": [
+        "100644",
+        "3d07ffc4a7875d043e654d4f8b8a1d06ca7ca4cb"
+      ],
+      "after": [
+        "100644",
+        "0b981777bfda9026a4ec7be18bd2e13518e9e8f9"
+      ],
+      "before_sha256": "afd45658b4571df7d91d69e83bae82db52d04587f2896d82eb6332fd5ce03e99",
+      "after_sha256": "5fb980ad5aa87e0eaff07076a3591df173babd3bfef7f1fbd2958d6fd55fd5d8",
+      "successor_commit": "8debedc371ac90cffb5a0de18cb350b62f00c1a4",
+      "successor_subject": "docs: refocus v0.93.2 on Beta 1 and security with tooling first"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/RELEASE_PLAN_v0.93.2.md",
+      "before": [
+        "100644",
+        "d6a392b5fb2edce2d18253e166b5428fccb85802"
+      ],
+      "after": [
+        "100644",
+        "d30aa8e0c9f6fa9442ee6a465030d6aba3126d7f"
+      ],
+      "before_sha256": "85e16a4de3d72ce04418b9ebf168563d1b3dfd5ce13da21bf1bd1fc22eb211e4",
+      "after_sha256": "30fe47409e259d348437a6282a3d1f6ab7a8cf3255b01e048695cc63f9809740",
+      "successor_commit": "8debedc371ac90cffb5a0de18cb350b62f00c1a4",
+      "successor_subject": "docs: refocus v0.93.2 on Beta 1 and security with tooling first"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/SPRINT_v0.93.2.md",
+      "before": [
+        "100644",
+        "3e2dd7fb9e89ddfc5b94af478bd7eeddc6862e9d"
+      ],
+      "after": [
+        "100644",
+        "2dce6eccaa6ca4ce8061180cf45380f59f00dd18"
+      ],
+      "before_sha256": "8ec9605ae93ba91765e113c91f332838e7dc77607f3bc9b8ef2454edfd9fa1c0",
+      "after_sha256": "2340d347dcb9e7d0c50d6a960f4f0a6fc320c8404d2971c64176b11a447a4de8",
+      "successor_commit": "8debedc371ac90cffb5a0de18cb350b62f00c1a4",
+      "successor_subject": "docs: refocus v0.93.2 on Beta 1 and security with tooling first"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/VISION_v0.93.2.md",
+      "before": [
+        "100644",
+        "eb80f408f8f9b68ae00789cdc1ddbfd757676872"
+      ],
+      "after": [
+        "100644",
+        "f41965b3c2ce4cbb911db02472f18315efa40649"
+      ],
+      "before_sha256": "baadbc84b86c58d4b9e21a3bc4eeac800f2c20e69de1e1c3adf10ddb15b12122",
+      "after_sha256": "3fd574bf10489983f016e87f35f58fc42d7a4052c1391756833071620736e5f4",
+      "successor_commit": "8debedc371ac90cffb5a0de18cb350b62f00c1a4",
+      "successor_subject": "docs: refocus v0.93.2 on Beta 1 and security with tooling first"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/WBS_v0.93.2.md",
+      "before": [
+        "100644",
+        "28cef1ffb88f0db1e9ccc3616c98d9ec1d3bbdf2"
+      ],
+      "after": [
+        "100644",
+        "e23ce2f25050555c3c4aa1c40c3be1481f61bcad"
+      ],
+      "before_sha256": "8dea1955192722d824aa2e4ae69ab6cdc6a882e567dd808f7f1c6562be2ca6bc",
+      "after_sha256": "f975d1fa5a57fcbceaca97313c059529bd74d4c9944fb05997a320d4697c66af",
+      "successor_commit": "1c5f164ca8d2eac35b9d1b16a98e136f5021f4b7",
+      "successor_subject": "docs: align integration and qualification WBS owners"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/WP_EXECUTION_READINESS_v0.93.2.md",
+      "before": [
+        "100644",
+        "9fe61924ead9788e82a409b1ef913e140fdb731c"
+      ],
+      "after": [
+        "100644",
+        "333a1ac7234bad827e1e7c619c58e25ca178099d"
+      ],
+      "before_sha256": "1e09b657c01352476946a6d264a76a83a9e90557b4d8882366d73f0d3afa4db4",
+      "after_sha256": "9b49ef04445975c3cd9d19745e1c0a95eb895edf543c60884cffd3600c88adba",
+      "successor_commit": "8debedc371ac90cffb5a0de18cb350b62f00c1a4",
+      "successor_subject": "docs: refocus v0.93.2 on Beta 1 and security with tooling first"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/WP_EXECUTION_SPECIFICATIONS_v0.93.2.yaml",
+      "before": [
+        "100644",
+        "16f4001bc2e88a7e3b6dba514cb5f71bd95642f9"
+      ],
+      "after": [
+        "100644",
+        "3b363859e8b4f2c867934a9a96117be93fbda140"
+      ],
+      "before_sha256": "9f5bdfcbe9046e0df83377c2ddd5871529d163e677cabf35435df3d791225899",
+      "after_sha256": "00ad4d6ad1b4e60306068669767601088381807da11c2d23ad2947a807f936bd",
+      "successor_commit": "913567d72d28365cf36e5035ce62efc2515879df",
+      "successor_subject": "docs: link created v0.93.2 issues and sprint umbrellas"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/WP_ISSUE_WAVE_v0.93.2.yaml",
+      "before": [
+        "100644",
+        "d3c9ca7fee785b33e97616424d15e877c7b0f4f3"
+      ],
+      "after": [
+        "100644",
+        "b50986a1fa7dae3ceafa7e37134c52dfe944580c"
+      ],
+      "before_sha256": "b66ae514e64962ae6e7b25a04f45b44047c5542a1b3f67a0e336730283fb78df",
+      "after_sha256": "ba2c7bd77718714f7e192ea8f5aae179bead9b6f7c0cefed4601e190b1639df5",
+      "successor_commit": "913567d72d28365cf36e5035ce62efc2515879df",
+      "successor_subject": "docs: link created v0.93.2 issues and sprint umbrellas"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/features/CITIZENSHIP_RIGHTS_DUTIES_AND_SOCIAL_CONTRACT_v0.93.2.md",
+      "before": [
+        "100644",
+        "c1f212498739027ba240b7eceeda1a10030de183"
+      ],
+      "after": [
+        "100644",
+        "f4990c3cff0211270ea07072de83a16aebfdfc30"
+      ],
+      "before_sha256": "98d7d2c95fdc1a6c67cd8e834c36addc36fdadbc71d3d0a5c197cf6de2a5d9d1",
+      "after_sha256": "0df15c46c364ddf697ee2bdf3ab2f1bcf827078fbe5681a166e5dcaae2140131",
+      "successor_commit": "8debedc371ac90cffb5a0de18cb350b62f00c1a4",
+      "successor_subject": "docs: refocus v0.93.2 on Beta 1 and security with tooling first"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/features/CODEFRIEND_LAUNCH_v0.93.2.md",
+      "before": [
+        "100644",
+        "eb5afedc8b8e3de6636dd72db5ba082b8e9ff3e9"
+      ],
+      "after": [
+        "100644",
+        "f34d4191e15de835a5c952e534a0c918eaf81472"
+      ],
+      "before_sha256": "7386a2f1eaa45f6e674352393c8747fa93f3f4fde9c9461f692eebe6aba6a149",
+      "after_sha256": "2fabcb2734e09c20dc3fadbc01608419bfbe579fbfe55a902e2031442c08a9a1",
+      "successor_commit": "8debedc371ac90cffb5a0de18cb350b62f00c1a4",
+      "successor_subject": "docs: refocus v0.93.2 on Beta 1 and security with tooling first"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/features/DELEGATION_IAM_STANDING_AND_APPEAL_GOVERNANCE_v0.93.2.md",
+      "before": [
+        "100644",
+        "89eae897150b7b170a27bcd5b254e8f1b811945b"
+      ],
+      "after": [
+        "100644",
+        "c02d9a201beed07c65a5a15444a7a20a861c6a32"
+      ],
+      "before_sha256": "cb2a14aacabe258e49bdc6075b771f9bb028fe347efd6b3b98fc7be01e8f4b98",
+      "after_sha256": "1a353d50d355b5bea0eb806df5672e6495597a20e8114cf1694331643bfcbb99",
+      "successor_commit": "8debedc371ac90cffb5a0de18cb350b62f00c1a4",
+      "successor_subject": "docs: refocus v0.93.2 on Beta 1 and security with tooling first"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/features/ENTERPRISE_SECURITY_v0.93.2.md",
+      "before": [
+        "100644",
+        "a7a6fb641d803f029fac5a87f8be9ac7faf254e5"
+      ],
+      "after": [
+        "100644",
+        "9d4d999d3eb0ad023278a073453fc437260f8267"
+      ],
+      "before_sha256": "9f7e550752e6870f2c8245a5f4b0c6ac5c4ecf94bdf615aeba95895cb0e3eba4",
+      "after_sha256": "7b02786f5eb48e7f7064051fe07b39f42ae09f130ee5ff9819b0beeb96218e67",
+      "successor_commit": "8debedc371ac90cffb5a0de18cb350b62f00c1a4",
+      "successor_subject": "docs: refocus v0.93.2 on Beta 1 and security with tooling first"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/features/GODEL_HADAMARD_BAYES_v0.93.2.md",
+      "before": [
+        "100644",
+        "3307b3784e4d6d90f86c802595c334b55efb9b2d"
+      ],
+      "after": [
+        "100644",
+        "96fe309140a717a04b3400f9ec2b7c265dc10855"
+      ],
+      "before_sha256": "9decff1a55e02b5f5a718f4420f7ee29bd1717f6c72495eed6333e64240f4937",
+      "after_sha256": "dce1e2fd7eeb741b8a89de89d9da2f1a587a602c826d9719a8ce65b4d99a0429",
+      "successor_commit": "8debedc371ac90cffb5a0de18cb350b62f00c1a4",
+      "successor_subject": "docs: refocus v0.93.2 on Beta 1 and security with tooling first"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/features/INTEGRATED_DEMONSTRATIONS_v0.93.2.md",
+      "before": [
+        "100644",
+        "a212c715f8fd3670f9dd2b071e36ea20160ab0d7"
+      ],
+      "after": [
+        "100644",
+        "c1d18cabaed87d085fc008dda76ae3bb2829e189"
+      ],
+      "before_sha256": "a42a6485c1721d40b7b6fdf541b387a39741636ee4133daaba86c925f8ba2b8e",
+      "after_sha256": "8a61d633b73ebe5d2a6a7060bf01483d58e64aa809629ec4f7c52bc9ed3178c8",
+      "successor_commit": "8debedc371ac90cffb5a0de18cb350b62f00c1a4",
+      "successor_subject": "docs: refocus v0.93.2 on Beta 1 and security with tooling first"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/features/PYTHON_REDUCTION_v0.93.2.md",
+      "before": [
+        "100644",
+        "fe96178a83cae03bd361ebe97d27c82c690e35c8"
+      ],
+      "after": [
+        "100644",
+        "f09795edc131a9c6259de57587024a98a61d1211"
+      ],
+      "before_sha256": "b6e9cd620751eae4c4730bd6ab506346a07918f8e4ab25ae0094082976c1c297",
+      "after_sha256": "c01456d48b60b8eb415ff1d53de53517d51be79fd18be262efc1388d3203eee4",
+      "successor_commit": "8debedc371ac90cffb5a0de18cb350b62f00c1a4",
+      "successor_subject": "docs: refocus v0.93.2 on Beta 1 and security with tooling first"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/features/RUNTIME_V4_PLUGIN_SYSTEM_v0.93.2.md",
+      "before": [
+        "100644",
+        "f97b5d9f9814f4f20cafa4dd7b11e1ecb28c98c8"
+      ],
+      "after": [
+        "100644",
+        "3d799a85cebf49c6ab3b2744a2522840bf4f00d8"
+      ],
+      "before_sha256": "075fd2d9f6c41c59e7d792d1a7e7e58674332c1cad5d8b4ab43f57a2d9a28f84",
+      "after_sha256": "28a3a2786215d3712152c2c766f70d98bd997ee3650ecc38cdfcb76a44c9b09a",
+      "successor_commit": "8debedc371ac90cffb5a0de18cb350b62f00c1a4",
+      "successor_subject": "docs: refocus v0.93.2 on Beta 1 and security with tooling first"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/features/SECURITY_WP_S1_ZERO_TRUST_ARCHITECTURE_v0.93.2.md",
+      "before": [
+        "100644",
+        "c4d652a823813111cea702ce547596a535b875a2"
+      ],
+      "after": [
+        "100644",
+        "85887a46cf0abdf0b5c4821a74eee8ad49dd3a3e"
+      ],
+      "before_sha256": "2bbd82b5f0ac49c4e7127326b62a48dbc22a1d5acf98c6ffdb11eccdadf4a053",
+      "after_sha256": "01c5b9e45449d40be3bb1e5fcb1eceb362a0ee13a678a98bd97d30169a6fbdce",
+      "successor_commit": "8debedc371ac90cffb5a0de18cb350b62f00c1a4",
+      "successor_subject": "docs: refocus v0.93.2 on Beta 1 and security with tooling first"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/features/SECURITY_WP_S2_POLICY_ENFORCEMENT_AUTHORIZATION_v0.93.2.md",
+      "before": [
+        "100644",
+        "37c55b42b50c60093c1616044f8d10661815251d"
+      ],
+      "after": [
+        "100644",
+        "c70c21f3b9911f88931c974548f1934033481052"
+      ],
+      "before_sha256": "8e0c07e6361265820c06ddf1f081a881b27065232a04fed9cb305ca1f02e8b45",
+      "after_sha256": "2ba2a29c15068f2ec9d82dea910af63d8d3a49915504813de55fed598af7a356",
+      "successor_commit": "8debedc371ac90cffb5a0de18cb350b62f00c1a4",
+      "successor_subject": "docs: refocus v0.93.2 on Beta 1 and security with tooling first"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/features/SECURITY_WP_S3_SECRETS_KEYS_CRYPTOGRAPHIC_TRUST_v0.93.2.md",
+      "before": [
+        "100644",
+        "5f1f79d03b4bb5466025a1a688dfc9aedff8de51"
+      ],
+      "after": [
+        "100644",
+        "b5cf172412192ef7d4faf9058a3472e2c8cfae97"
+      ],
+      "before_sha256": "31cfa93e6e71492afa399eef4a14a2c8a9d306c1c4da24503e3605aa06ea1c09",
+      "after_sha256": "3036654e1bef1dcb76987224c498944f691e0a34638bab8ae898bda3631794c5",
+      "successor_commit": "8debedc371ac90cffb5a0de18cb350b62f00c1a4",
+      "successor_subject": "docs: refocus v0.93.2 on Beta 1 and security with tooling first"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/features/SECURITY_WP_S4_AUDIT_COMPLIANCE_INCIDENT_EVIDENCE_v0.93.2.md",
+      "before": [
+        "100644",
+        "4a65fca560c26880c7a508f46746ba17b75723a8"
+      ],
+      "after": [
+        "100644",
+        "ed6b2ac405e130ccc454ea30d4e471444e91d341"
+      ],
+      "before_sha256": "527103b1c227a4b0e164828e320091724c55b24c1f71b1d9dafe8b4b4393a5e3",
+      "after_sha256": "194d336755e886f153a140ad4c612cfc06eb2bdf0a1666a6ef1848dc0aafe69f",
+      "successor_commit": "8debedc371ac90cffb5a0de18cb350b62f00c1a4",
+      "successor_subject": "docs: refocus v0.93.2 on Beta 1 and security with tooling first"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/features/SECURITY_WP_S5_ISOLATION_DATA_GOVERNANCE_PRIVACY_v0.93.2.md",
+      "before": [
+        "100644",
+        "7c3ddd4cdac9db49f17e7deb22eea025e378ce1c"
+      ],
+      "after": [
+        "100644",
+        "f83b7fb48caaf3332aa09d55061cc9d77e04b83d"
+      ],
+      "before_sha256": "afcd8ec1a9df1287185f3dd589227120132603fc13952bca3cf238d6e1b3ebd5",
+      "after_sha256": "b47affa3014b551fa40db0c4330bdd4de737159b377305216babe2012a362f88",
+      "successor_commit": "8debedc371ac90cffb5a0de18cb350b62f00c1a4",
+      "successor_subject": "docs: refocus v0.93.2 on Beta 1 and security with tooling first"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/features/SECURITY_WP_S6_SECURITY_OPERATIONS_ADVERSARIAL_PROVENANCE_v0.93.2.md",
+      "before": [
+        "100644",
+        "164e0bc9b78133237f393b93e66f09e23571b8f0"
+      ],
+      "after": [
+        "100644",
+        "028fe8f0f91fd9038f4c34edbc7f6fdc924f47f8"
+      ],
+      "before_sha256": "e5fc7ba6a587989b4671f691da2e28165398446c284e918fdf96cb7efeb513dd",
+      "after_sha256": "ebd69bc5b0964e5457c04e2725a08285d5e05b21ecac4846ee77359297e46bcb",
+      "successor_commit": "8debedc371ac90cffb5a0de18cb350b62f00c1a4",
+      "successor_subject": "docs: refocus v0.93.2 on Beta 1 and security with tooling first"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/features/SOCIAL_RELATIONSHIP_REPUTATION_AND_SHARED_MEMORY_v0.93.2.md",
+      "before": [
+        "100644",
+        "78020f452dabaa2e8f6df1fca911009df512c997"
+      ],
+      "after": [
+        "100644",
+        "316d9981913ea1cbbc9d22d2bde8db7e7b6e0587"
+      ],
+      "before_sha256": "3031fc55e570345d939da9b00dea5337fcb4b2e7418cc067c5793930ac82bb3c",
+      "after_sha256": "f645bca1f868ba051a71852df518291495266a2de7ff59df3ae42763ca1f3858",
+      "successor_commit": "8debedc371ac90cffb5a0de18cb350b62f00c1a4",
+      "successor_subject": "docs: refocus v0.93.2 on Beta 1 and security with tooling first"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/features/THEORY_OF_MIND_AND_SOCIAL_COGNITION_v0.93.2.md",
+      "before": [
+        "100644",
+        "3ec8cd6a3ad94397742919bc49d1ae79ab5ff557"
+      ],
+      "after": [
+        "100644",
+        "86c9c2223c5d45aaf9fe5e05d3df1a8c05db6ef7"
+      ],
+      "before_sha256": "c9a0771663dc50676b56cde80c57342f4293ff93239dc9faaccbc114f8a4ba23",
+      "after_sha256": "43184c8b037bd93a1ac00d5d84f4e0fa97bd22368ba9dbe3df8a9759a7ca2905",
+      "successor_commit": "8debedc371ac90cffb5a0de18cb350b62f00c1a4",
+      "successor_subject": "docs: refocus v0.93.2 on Beta 1 and security with tooling first"
+    },
+    {
+      "path": "docs/milestones/v0.93/validate_split.py",
+      "before": [
+        "100644",
+        "fba1705f1a241988edf9a0ff6e5daa355463ff56"
+      ],
+      "after": [
+        "100644",
+        "8892b7133ea08868cf0ac72894bd36be7dbb0240"
+      ],
+      "before_sha256": "5b11024b1e98827b94c5f5854d483b26ff22d8508d9b04abbc0065491899dc5a",
+      "after_sha256": "c3450bc6228609d0b07bcd9b8746d2bdc916266ecc34d6542bdbf23856fd643f",
+      "successor_commit": "8debedc371ac90cffb5a0de18cb350b62f00c1a4",
+      "successor_subject": "docs: refocus v0.93.2 on Beta 1 and security with tooling first"
+    },
+    {
+      "path": "tools/public_adl/coverage_inventory.json",
+      "before": [
+        "100644",
+        "83e1209f9c0a0952b2457b8fcea00668683b59e9"
+      ],
+      "after": [
+        "100644",
+        "2cd31fe5f614fcf5dc0f1f138f96f751c81597b4"
+      ],
+      "before_sha256": "6b8a2d6545596a2795d8a3d561643b072aaf4be6ca38adc7414f93f19a7d0d58",
+      "after_sha256": "89db44bb2b307fa7cea1ce328704a8788f8bafdb69a1c88583198b2f4e8752ad",
+      "successor_commit": "ef21aacbeb9b5968998557b9284c9e63bef10720",
+      "successor_subject": "test(uts): register coverage and reject false conformance success"
+    },
+    {
+      "path": "tools/public_adl/test_action_pins.py",
+      "before": [
+        "100644",
+        "2dde981211b3aa5d3fa02e4f49a1ea723b36c6db"
+      ],
+      "after": [
+        "100644",
+        "b9d849af83768382fc3b63b1beb23b473cf671c8"
+      ],
+      "before_sha256": "9419e15b2f618d1d54d1454b6c00a2a0812fb33a22b5f4b22b54d63704a20d8c",
+      "after_sha256": "9ae7ac34e255b8676dbdc74613c8880f943b7c2a310895378925f42d9cc15850",
+      "successor_commit": "adeab6f8da3751a0aeea63ab5c9aba3530ef51e5",
+      "successor_subject": "fix: preserve demo outputs and enforce public safety boundaries"
+    },
+    {
+      "path": "tools/public_adl/test_planning_contract.py",
+      "before": [
+        "100644",
+        "7cc2a538117fcbc1388d8f32d62171446074f8ce"
+      ],
+      "after": [
+        "100644",
+        "cb185abd6ee8cc5aa2c3cd68ed288f15a2942d16"
+      ],
+      "before_sha256": "875af683f63755545c170157a0a36c289b27e8964f954762410c1d14d23a1515",
+      "after_sha256": "ac66d2b3887175ea5ccbe90e98aaf488afe81ab587e260ba2d4df06da7825eca",
+      "successor_commit": "8debedc371ac90cffb5a0de18cb350b62f00c1a4",
+      "successor_subject": "docs: refocus v0.93.2 on Beta 1 and security with tooling first"
+    }
+  ]
+}
