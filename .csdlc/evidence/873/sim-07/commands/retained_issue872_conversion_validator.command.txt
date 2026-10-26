@@ -1,1 +1,0 @@
-python3 /Volumes/FastWork/adl-worktrees/adl-review-872-rerun-d23f31bf/adl/tools/validate_issue872_conversion_rehearsal.py --evidence-root /Volumes/FastWork/adl-worktrees/adl-review-872-rerun-d23f31bf/.csdlc/evidence/872/conversion-rehearsal

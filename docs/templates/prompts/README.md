@@ -15,7 +15,7 @@ used by prompt-card structure validation.
 - Registry: `docs/templates/prompts/current.json`
 - Structure schemas: `docs/templates/prompts/1.0.5/schemas/*.structure.json`
 - Implementation owner: Rust tooling owns the canonical template registry,
-  field model, schema extraction, and validation path. Python sprint helpers may
+  field model, schema extraction, and validation path. Consumer tools may
   load schema artifacts, fill templates, or call the Rust-backed validators, but
   they should not become a separate template authority.
 
@@ -60,7 +60,7 @@ structure edits:
 2. run `validate-values`;
 3. render with `render` or `render-all`;
 4. run `validate-structure` on each rendered card;
-5. run `validate-schemas` and the Python schema smoke check when schema
+5. run `validate-schemas` and the native JSON schema smoke check when schema
    artifacts are touched.
 
 When a template family exposes budgeting, readiness, PVF, watcher, estimate,
@@ -95,11 +95,11 @@ csdlc tooling prompt-template \
   --out-dir docs/templates/prompts/1.0.5/schemas
 ```
 
-Then run both Rust and Python-readable schema checks:
+Then run the native structure and JSON artifact checks:
 
 ```sh
 csdlc tooling prompt-template validate-schemas --template-set 1.0.5
-python3 adl/tools/test_prompt_template_structure_schemas.py --template-set 1.0.5
+bash adl/tools/test_prompt_template_structure_schemas.sh --template-set 1.0.5
 ```
 
 If `csdlc` is not already on `PATH`, use the installed repo-owned binary at

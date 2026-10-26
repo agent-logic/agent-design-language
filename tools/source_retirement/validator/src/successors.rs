@@ -36,8 +36,48 @@ pub fn language(repo: &Repo, candidate: &Tree, manifest: &Value) -> Result<Tree>
     );
     Ok(result)
 }
-pub fn normalize_language(repo: &Repo, candidate: &Tree) -> Result<Tree> {
+pub fn csdlc_untracking(repo: &Repo, candidate: &Tree, manifest: &Value) -> Result<Tree> {
+    ensure!(
+        manifest["schema"] == "adl.csdlc_untracking.v1" && manifest["path"] == ".csdlc",
+        "invalid local-state transition scope"
+    );
+    let revision = string(&manifest["source_commit"])?;
+    ensure!(
+        revision.len() == 40 && revision.bytes().all(|b| b.is_ascii_hexdigit()),
+        "immutable source commit required"
+    );
+    repo.git(&["merge-base", "--is-ancestor", revision, "HEAD"])?;
+    ensure!(
+        repo.text(&["rev-parse", &format!("{revision}:.csdlc")])? == string(&manifest["tree_oid"])?,
+        "local-state custody tree mismatch"
+    );
+    ensure!(
+        !candidate
+            .keys()
+            .any(|p| p == ".csdlc" || p.starts_with(".csdlc/")),
+        "local state reintroduced into tracked source"
+    );
+    let historical = repo.tree(revision)?;
+    let entries: Vec<_> = historical
+        .iter()
+        .filter(|(p, _)| p.starts_with(".csdlc/"))
+        .collect();
+    ensure!(
+        !entries.is_empty() && entries.len() == number(&manifest["entry_count"])?,
+        "local-state custody count mismatch"
+    );
     let mut result = candidate.clone();
+    for (path, identity) in entries {
+        result.insert(path.clone(), identity.clone());
+    }
+    Ok(result)
+}
+pub fn normalize_language(repo: &Repo, candidate: &Tree) -> Result<Tree> {
+    let manifest = repo.pinned(
+        "docs/language-cleanup/csdlc-untracking.json",
+        super::constants::CSDLC_UNTRACKING_PIN,
+    )?;
+    let mut result = csdlc_untracking(repo, candidate, &manifest)?;
     for (name, pin) in super::constants::LANGUAGE_TRANSITIONS {
         let manifest = repo.pinned(&format!("docs/language-cleanup/{name}"), pin)?;
         result = language(repo, &result, &manifest)?;

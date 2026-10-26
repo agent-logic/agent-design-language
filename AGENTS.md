@@ -371,7 +371,7 @@ For a normal tracked issue:
   guardrail proof unless tracked runtime behavior changed.
 - Prompt-card generation or repair work should include the focused renderer
   checks that apply to the touched surface: values validation, rendered
-  structure validation, schema parity validation, and the Python-readable schema
+  structure validation, schema parity validation, and the JSON artifact schema
   smoke check when schema artifacts are touched.
 - Logging- or observability-affecting work should also record the smallest
   proving checks for:

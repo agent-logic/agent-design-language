@@ -9,11 +9,11 @@ The original ADL guide and its command recipes remain in Git history and the
 #1223 builder-family rollback archive. Historical instance/image defaults are
 not a current deployment or approved-spend claim.
 
-Public Group-D validation retains the original four builder-input assertions
-through `tools/groupd_validation/run_builder_contracts.py`, with an explicit
-absolute `ADL_INFRASTRUCTURE_SOURCE_ROOT` and ten exact resource hashes.
-The legacy validation lane retains its original setup/import contracts through
-`--suite setup-import`. Missing or changed owner resources fail closed.
+The public Group-D fixture adapter and its legacy setup/import lane were retired
+by #1351. Builder validation belongs to Infrastructure; use the reviewed owner
+instructions linked above. Original adapter bytes and resource identities remain
+in Git custody (`docs/language-cleanup/utility-dispositions.json`). Removing the
+ADL adapter neither reruns nor completes owner qualification.
 
 Four original offline qualification commands passed: four Python test methods
 plus three shell contracts. The setup test uses fake Docker; publish/import

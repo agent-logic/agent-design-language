@@ -7,7 +7,7 @@ The design follows the dependency-artifact hardlinking pattern described in Howa
 ## Tool
 
 ```sh
-python3 adl/tools/warm_rust_dependency_cache.py \
+bash adl/tools/warm_rust_dependency_cache.sh \
   --source-target /path/to/warm/target \
   --dest-target /path/to/issue/worktree/adl/target \
   --manifest-path /path/to/issue/worktree/adl/Cargo.toml \
@@ -66,10 +66,10 @@ ADL_RUST_WARM_CACHE_MANIFEST_PATH=/Users/daniel/git/agent-design-language/.workt
 
 For EC2 or remote builders, warm from the local persistent target cache on that host before running focused validation. Keep the source and destination on the same filesystem so hardlinks work.
 
-The lower-level Python helper remains available for direct dry-run inspection:
+The lower-level native helper remains available for direct dry-run inspection:
 
 ```sh
-python3 adl/tools/warm_rust_dependency_cache.py \
+bash adl/tools/warm_rust_dependency_cache.sh \
   --source-target /path/to/warm/target \
   --dest-target /path/to/issue/worktree/adl/target \
   --manifest-path /path/to/issue/worktree/adl/Cargo.toml \
@@ -94,7 +94,7 @@ helper through:
 The helper has its own focused behavior test:
 
 ```sh
-python3 adl/tools/test_warm_rust_dependency_cache.py
+cargo test --locked --manifest-path tools/public_contracts/Cargo.toml --test warm_cache
 bash adl/tools/test_rust_validation_warm_cache.sh
 ```
 
@@ -108,3 +108,10 @@ This does not replace sccache, remote builders, PVF scheduling,
 validation-manager routing, or any required validation lane. It is a standalone
 worktree warmup primitive that agents and future tooling can call before Rust
 validation to reduce cold-build cost.
+
+The helper is implemented in Rust and invoked through Cargo by both shell
+entrypoints; first use may compile it. It uses a full TOML parser without a
+Python-version fallback. Source symlinks, destination parent escapes and ambiguous
+wildcard workspace membership are refused. Runtime linking failure rolls back
+new links and restores replaced files; an original backup is retained if its
+restoration fails. JSON status always marks warmup as `validation_proof: false`.

@@ -1,9 +1,0 @@
-flowchart LR
-  C["Landed child proof"] --> I["Demo and AEE artifact index"]
-  A["AEE evidence or blocker"] --> I
-  I --> M["Demo matrix"]
-  I --> P["Feature proof coverage"]
-  M --> V["Coverage validator"]
-  P --> V
-  X["Missing, stale, synthetic, or platform-mismatched proof"] --> V
-  V --> G["Accepted row or explicit non-pass"]

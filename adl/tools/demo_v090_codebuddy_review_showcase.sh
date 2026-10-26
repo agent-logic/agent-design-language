@@ -151,7 +151,7 @@ cat >"$packet_dir/repo_inventory.json" <<'EOF_JSON'
     "tests": ["contract tests", "demo validators"],
     "docs": ["demos", "skills docs", "milestone docs"],
     "architecture": ["review packet flow", "skill orchestration"],
-    "dependencies": ["Cargo.toml", "shell/python tooling"]
+    "dependencies": ["Cargo.toml", "shell/Rust tooling"]
   }
 }
 EOF_JSON
@@ -403,7 +403,7 @@ cat >"$specialist_dir/dependencies.md" <<'EOF_MD'
 
 ## Validation
 
-- Commands run: shell and Python validator checks
+- Commands run: shell and Rust validator checks
 - What the commands proved: the default demo path has no network or paid-service dependency
 - Commands not run and why: dependency upgrades are out of scope
 
@@ -533,10 +533,10 @@ cat >"$test_dir/test_gap_report.md" <<'EOF_MD'
 - Linked finding: CB-SEC-001
 - Behavior under test: generated artifacts do not leak private host paths or
   secret-like markers
-- Suggested test location: adl/tools/validate_codebuddy_review_showcase_demo.py
+- Suggested test location: adl/tools/validate_codebuddy_review_showcase_demo.sh
 - Fixture needs: generated demo packet
 - Expected assertion: validator rejects private path and secret marker leakage
-- Validation command: python3 adl/tools/validate_codebuddy_review_showcase_demo.py <artifact-root>
+- Validation command: bash adl/tools/validate_codebuddy_review_showcase_demo.sh <artifact-root>
 - Generation status: generated
 EOF_MD
 
@@ -792,7 +792,7 @@ This packet is intentionally classified as `non_proving` until the staged
 review-quality-evaluator lane from #2070 is implemented and run.
 EOF_MD
 
-python3 "$ROOT_DIR/adl/tools/validate_codebuddy_review_showcase_demo.py" "$OUT_DIR" >/dev/null
+bash "$ROOT_DIR/adl/tools/validate_codebuddy_review_showcase_demo.sh" "$OUT_DIR" >/dev/null
 
 echo "CodeBuddy review showcase demo artifacts:"
 echo "  $artifact_label/run_manifest.json"

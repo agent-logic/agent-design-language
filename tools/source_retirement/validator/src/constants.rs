@@ -2,6 +2,10 @@ pub const IDENTITIES_SHA256: &str =
     "46109ba12c6ed6f7cdc07eda7d916d3638a0093bb860835678f57f0bf5597400";
 pub const LANGUAGE_TRANSITIONS: &[(&str, &str)] = &[
     (
+        "utility-transition.json",
+        "c080dd61ea3f94fbf0400842fe56192eed4151d7e17d25904b90999738010e93",
+    ),
+    (
         "historical-transition.json",
         "b99d0251b8791a67a346931244ec45b7249d9fbe2fb1810cfc334be7edf417d0",
     ),
@@ -30,3 +34,6 @@ pub const RETAINED_SUCCESSOR_PIN: &str =
 
 pub const REFERENCE_SUCCESSORS_PIN: &str =
     "3f2e537cc8e67667b69466b99aaad6f0465b477cd327def176d6473382b73113";
+
+pub const CSDLC_UNTRACKING_PIN: &str =
+    "7775e808d45bf4ebb7b9fe6df0008ea242d6a5984cb1631d06dc155d57fbe7a5";

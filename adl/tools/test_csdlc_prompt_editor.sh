@@ -17,5 +17,5 @@ for retired in adl/src/csdlc_prompt_editor.rs adl/src/csdlc_prompt_editor; do
     exit 1
   }
 done
-python3 "$ROOT/adl/tools/test_prompt_template_structure_schemas.py"
+bash "$ROOT/adl/tools/test_prompt_template_structure_schemas.sh"
 echo "PASS: retained local wrapper absence/schema guards only; no native edit, validation, or lifecycle equivalence claimed"

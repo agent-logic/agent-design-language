@@ -1,15 +1,28 @@
+pub mod adapter_evidence;
 pub mod archive;
 pub mod codefriend;
 pub mod compatibility;
 pub mod distribution;
+pub mod document_packets;
 pub mod install;
 pub mod install_validator;
+pub mod merge_packet;
+pub mod packet_truth;
+pub mod planning_template;
 pub mod portable;
+pub mod prompt_schemas;
 pub mod public_docs;
+pub mod pvf_manifest;
+pub mod pvf_runner;
+pub mod quality_surfaces;
+pub mod release_version;
+pub mod retained_packets;
 pub mod runtime_owner;
 pub mod session;
+pub mod tool_registry;
 pub mod transpiler;
 pub mod uts_install;
+pub mod warm_cache;
 // Native public consumer contracts. Synthetic owner fixtures never imply qualification.
 use anyhow::{bail, Context, Result};
 use serde_json::{json, Value};

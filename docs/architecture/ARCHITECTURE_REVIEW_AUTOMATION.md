@@ -96,7 +96,7 @@ decisions.
 
 ## Suggested CI Gates
 
-- Run `python3 adl/tools/validate_architecture_docs.py` when files under
+- Run `bash adl/tools/validate_architecture_docs.sh` when files under
   `docs/architecture`, `demos/README.md`, or the v0.90 demo matrix change.
 - Run architecture packet validation before review publication.
 - Run diagram renderer checks when renderer dependencies are available.

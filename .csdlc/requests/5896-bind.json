@@ -1,6 +1,0 @@
-{
-  "issue": 5896,
-  "base_branch": "main",
-  "branch": "codex/5896-bound-topology-migration",
-  "worktree": "/Users/daniel/git/agent-design-language/.worktrees/adl-5896-bound-topology-migration"
-}

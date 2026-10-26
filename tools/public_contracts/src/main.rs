@@ -13,6 +13,155 @@ fn main() {
 fn run() -> Result<()> {
     let a: Vec<String> = std::env::args().skip(1).collect();
     let action = a.first().map(String::as_str).unwrap_or("");
+    if matches!(
+        action,
+        "evidence-bundle" | "transition-dag" | "csdlc-demo-proof-contract"
+    ) {
+        std::process::exit(adl_public_contracts::retained_packets::cli(action, &a[1..]));
+    }
+    if matches!(
+        action,
+        "sprint-console" | "first-proof-readiness" | "obsmem-handoff"
+    ) {
+        std::process::exit(adl_public_contracts::packet_truth::cli(action, &a[1..]));
+    }
+    if action == "merge-readiness" {
+        if a.len() != 2 {
+            bail!("usage: merge-readiness <packet-root>");
+        }
+        adl_public_contracts::merge_packet::check(
+            std::path::Path::new(&a[1]),
+            &adl_public_contracts::root(),
+        )?;
+        println!("merge_readiness_packet: PASS root={}", a[1]);
+        return Ok(());
+    }
+    if action == "quality-review-surfaces" {
+        if a.len() != 3 {
+            bail!("usage: quality-review-surfaces <repo-root> <surface>");
+        }
+        adl_public_contracts::quality_surfaces::check(std::path::Path::new(&a[1]), &a[2])?;
+        println!("v0913_quality_gate_review_surfaces: PASS surface={}", a[2]);
+        return Ok(());
+    }
+    if action == "html-game-packet" {
+        if a.len() != 2 {
+            eprintln!("usage: html-game-packet <packet-root>");
+            std::process::exit(2);
+        }
+        adl_public_contracts::packet_truth::html_game(std::path::Path::new(&a[1]))?;
+        println!("five-minute-html-game-packet: PASS");
+        return Ok(());
+    }
+    if action == "pvf-manifest" {
+        if a.len() == 1 {
+            eprintln!("usage: pvf-manifest <manifest.json> [manifest.json ...]");
+            std::process::exit(2);
+        }
+        for path in &a[1..] {
+            let data = serde_json::from_str(&std::fs::read_to_string(path)?)?;
+            adl_public_contracts::pvf_manifest::validate(&data)?;
+            println!("PASS: pvf manifest valid for {path}");
+        }
+        return Ok(());
+    }
+    if action == "release-version-source" {
+        if a.len() != 3 {
+            bail!("usage: release-version-source MANIFEST LOCK");
+        }
+        println!(
+            "{}",
+            adl_public_contracts::release_version::source(
+                &std::fs::read_to_string(&a[1])?,
+                &std::fs::read_to_string(&a[2])?
+            )?
+        );
+        return Ok(());
+    }
+    if action == "release-version-metadata" {
+        if a.len() != 3 {
+            bail!("usage: release-version-metadata EXPECTED METADATA");
+        }
+        println!(
+            "{}",
+            adl_public_contracts::release_version::metadata(
+                &a[1],
+                &std::fs::read_to_string(&a[2])?
+            )?
+        );
+        return Ok(());
+    }
+    if action == "pvf-data" {
+        return adl_public_contracts::pvf_runner::cli(&a[1..]);
+    }
+    if action == "tool-registry" {
+        if a.len() > 2 || (a.len() == 2 && a[1] != "--check") {
+            bail!("usage: tool-registry [--check]");
+        }
+        return adl_public_contracts::tool_registry::execute(
+            &adl_public_contracts::root(),
+            a.len() == 2,
+        );
+    }
+    if action == "prompt-schemas" {
+        return adl_public_contracts::prompt_schemas::cli(&a[1..]);
+    }
+    if action == "architecture-docs" && a.len() <= 3 {
+        let root = a
+            .get(1)
+            .map(PathBuf::from)
+            .unwrap_or(std::env::current_dir()?);
+        adl_public_contracts::document_packets::architecture(
+            &root,
+            a.get(2).map(std::path::Path::new),
+        )?;
+        println!("validate_architecture_docs: ok");
+        return Ok(());
+    }
+    if action == "codebuddy-showcase" {
+        if a.len() != 2 {
+            eprintln!("usage: codebuddy-showcase <artifact-root>");
+            std::process::exit(2);
+        }
+        adl_public_contracts::document_packets::showcase(std::path::Path::new(&a[1]))?;
+        println!("validate_codebuddy_review_showcase_demo: ok");
+        return Ok(());
+    }
+    if matches!(action, "planning-fill" | "planning-validate") {
+        std::process::exit(adl_public_contracts::planning_template::cli(
+            &a[1..],
+            action == "planning-validate",
+        ));
+    }
+    if action == "warm-cache" {
+        std::process::exit(adl_public_contracts::warm_cache::cli(&a[1..]));
+    }
+    if action == "warm-cache-wrapper" && a.len() == 1 {
+        let environment = std::env::vars().collect();
+        let report =
+            adl_public_contracts::warm_cache::wrapper(&adl_public_contracts::root(), &environment)?;
+        if let Some(output) = environment
+            .get("ADL_RUST_WARM_CACHE_OUTPUT")
+            .filter(|s| !s.is_empty())
+        {
+            std::fs::write(output, format!("{report}\n"))?;
+        }
+        println!("{report}");
+        std::process::exit(if report["errors"].as_u64().unwrap_or(0) == 0 {
+            0
+        } else {
+            2
+        });
+    }
+    if action == "adapter-evidence" && a.len() == 1 {
+        let directory =
+            adl_public_contracts::root().join("docs/repository-split/adapter-admission-1275");
+        adl_public_contracts::adapter_evidence::verify(
+            &adl_public_contracts::adapter_evidence::load(&directory)?,
+        )?;
+        println!("adapter evidence consistency: PASS (not lifecycle acceptance)");
+        return Ok(());
+    }
     if a.len() == 1 && matches!(action, "runtime-owner" | "codefriend-owner") {
         let probe = std::env::current_exe()?.with_file_name("adl-owner-probe");
         let result = if action == "runtime-owner" {

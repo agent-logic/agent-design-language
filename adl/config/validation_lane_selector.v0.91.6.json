@@ -387,8 +387,6 @@
         "adl/tools/test_run_validation_manager_nessus_lane.sh",
         "adl/tools/test_validation_manager.sh",
         ".github/workflows/**",
-        "adl/tools/run_ci_step_with_log.sh",
-        "adl/tools/test_run_ci_step_with_log.sh",
         "adl/tools/test_ci_cache_linker_contracts.sh",
         "adl/tools/test_ci_runtime_contracts.sh",
         "adl/tools/rust_cache_env.sh",
@@ -412,8 +410,6 @@
         "adl/tools/test_run_validation_manager_nessus_lane.sh",
         "adl/tools/test_validation_manager.sh",
         ".github/workflows/**",
-        "adl/tools/run_ci_step_with_log.sh",
-        "adl/tools/test_run_ci_step_with_log.sh",
         "adl/tools/test_ci_cache_linker_contracts.sh",
         "adl/tools/test_ci_runtime_contracts.sh",
         "adl/tools/rust_cache_env.sh",
@@ -579,15 +575,15 @@
       "path_selectors": [
         "adl/tools/polis_status_for_ssm.sh",
         "adl/tools/polis_status_for_ssm_qts.sh",
-        "adl/tools/validate_polis_status_for_ssm_qts.py"
+        "adl/tools/validate_polis_status_for_ssm_qts.sh"
       ],
       "path_hints": [
         "adl/tools/polis_status_for_ssm.sh",
         "adl/tools/polis_status_for_ssm_qts.sh",
-        "adl/tools/validate_polis_status_for_ssm_qts.py"
+        "adl/tools/validate_polis_status_for_ssm_qts.sh"
       ],
-      "command": "bash -n adl/tools/polis_status_for_ssm.sh && bash -n adl/tools/polis_status_for_ssm_qts.sh && python3 adl/tools/validate_polis_status_for_ssm_qts.py",
-      "run_command": "bash -n adl/tools/polis_status_for_ssm.sh && bash -n adl/tools/polis_status_for_ssm_qts.sh && python3 adl/tools/validate_polis_status_for_ssm_qts.py",
+      "command": "bash -n adl/tools/polis_status_for_ssm.sh && bash -n adl/tools/polis_status_for_ssm_qts.sh && bash adl/tools/validate_polis_status_for_ssm_qts.sh",
+      "run_command": "bash -n adl/tools/polis_status_for_ssm.sh && bash -n adl/tools/polis_status_for_ssm_qts.sh && bash adl/tools/validate_polis_status_for_ssm_qts.sh",
       "reason": "bounded_ssm_status_wrapper_requires_shell_syntax_validation"
     },
     {
@@ -601,14 +597,14 @@
       ],
       "path_selectors": [
         "adl/tools/polis_status_for_ssm_windows.ps1",
-        "adl/tools/validate_polis_status_for_ssm_windows.py"
+        "adl/tools/validate_polis_status_for_ssm_windows.sh"
       ],
       "path_hints": [
         "adl/tools/polis_status_for_ssm_windows.ps1",
-        "adl/tools/validate_polis_status_for_ssm_windows.py"
+        "adl/tools/validate_polis_status_for_ssm_windows.sh"
       ],
-      "command": "python3 adl/tools/validate_polis_status_for_ssm_windows.py",
-      "run_command": "python3 adl/tools/validate_polis_status_for_ssm_windows.py",
+      "command": "bash adl/tools/validate_polis_status_for_ssm_windows.sh",
+      "run_command": "bash adl/tools/validate_polis_status_for_ssm_windows.sh",
       "reason": "bounded_windows_ssm_status_wrapper_requires_static_contract_validation"
     },
     {
@@ -639,35 +635,6 @@
       "command": "bash adl/tools/run_aws_spot_remote_validation_lane.sh",
       "run_command": "bash adl/tools/run_aws_spot_remote_validation_lane.sh",
       "reason": "aws_remote_validation_tool_surface_requires_focused_tooling_regression_checks"
-    },
-    {
-      "id": "adl_builder_image_tooling",
-      "lane_class": "cli_workflow",
-      "default_surface": "tooling",
-      "owner": "tools",
-      "proof_role": "builder_image_contract",
-      "requirement_ids": [
-        "adl_builder_image_tooling"
-      ],
-      "path_selectors": [
-        "adl/docker/adl-builder/**",
-        "adl/tools/import_adl_builder_image_from_s3_to_ecr.sh",
-        "adl/tools/setup_adl_builder_image.sh",
-        "adl/tools/test_adl_builder_image.sh",
-        "adl/tools/test_import_adl_builder_image_from_s3_to_ecr.sh",
-        "tools/groupd_validation/run_builder_contracts.py"
-      ],
-      "path_hints": [
-        "adl/docker/adl-builder/**",
-        "adl/tools/import_adl_builder_image_from_s3_to_ecr.sh",
-        "adl/tools/setup_adl_builder_image.sh",
-        "adl/tools/test_adl_builder_image.sh",
-        "adl/tools/test_import_adl_builder_image_from_s3_to_ecr.sh",
-        "tools/groupd_validation/run_builder_contracts.py"
-      ],
-      "command": "python3 tools/groupd_validation/run_builder_contracts.py --suite setup-import",
-      "run_command": "python3 tools/groupd_validation/run_builder_contracts.py --suite setup-import",
-      "reason": "builder_image_surface_requires_dockerfile_setup_import_and_policy_contract_checks"
     },
     {
       "id": "wp08_s3_obsmem_archive_policy",
@@ -724,117 +691,6 @@
       "reason": "wp07_csm_api_gateway_bridge_surface_requires_runtime_api_path_account_gate_auth_redaction_and_contract_validation; retained live summary validation runs through adl/tools/validate_v0917_csm_api_gateway_bridge_proof.py"
     },
     {
-      "id": "v0917_soak2_status_contracts",
-      "lane_class": "cli_workflow",
-      "default_surface": "tooling",
-      "owner": "runtime",
-      "proof_role": "runtime_soak_status_contract",
-      "requirement_ids": [
-        "v0917_soak2_status_contracts"
-      ],
-      "path_selectors": [
-        "adl/tools/validate_v0917_soak2_4682_status.sh",
-        "docs/milestones/v0.91.7/review/runtime/soak2_4682/**"
-      ],
-      "path_hints": [
-        "adl/tools/validate_v0917_soak2_4682_status.sh",
-        "docs/milestones/v0.91.7/review/runtime/soak2_4682/**"
-      ],
-      "command": "bash adl/tools/test_select_validation_lanes.sh",
-      "run_command": "bash adl/tools/test_select_validation_lanes.sh",
-      "reason": "v0917_soak2_status_surface_requires_selector_contract_checks; issue-local status validation runs through adl/tools/validate_v0917_soak2_4682_status.sh"
-    },
-    {
-      "id": "v0917_no_sparrow_4909_contracts",
-      "lane_class": "cli_workflow",
-      "default_surface": "tooling",
-      "owner": "runtime",
-      "proof_role": "runtime_observability_slo_contract",
-      "requirement_ids": [
-        "v0917_no_sparrow_4909_contracts"
-      ],
-      "path_selectors": [
-        "adl/tools/validate_v0917_no_sparrow_4909_status.sh",
-        "docs/milestones/v0.91.7/review/runtime/no_sparrow_4909/**"
-      ],
-      "path_hints": [
-        "adl/tools/validate_v0917_no_sparrow_4909_status.sh",
-        "docs/milestones/v0.91.7/review/runtime/no_sparrow_4909/**"
-      ],
-      "command": "bash adl/tools/test_select_validation_lanes.sh",
-      "run_command": "bash adl/tools/test_select_validation_lanes.sh",
-      "reason": "v0917_no_sparrow_surface_requires_selector_contract_checks; issue-local SLO proof validation runs through adl/tools/validate_v0917_no_sparrow_4909_status.sh"
-    },
-    {
-      "id": "v0917_csm_otlp_4904_contracts",
-      "lane_class": "cli_workflow",
-      "default_surface": "tooling",
-      "owner": "runtime",
-      "proof_role": "runtime_otel_export_contract",
-      "requirement_ids": [
-        "v0917_csm_otlp_4904_contracts"
-      ],
-      "path_selectors": [
-        "adl/tools/validate_v0917_csm_otlp_4904_status.sh",
-        "docs/milestones/v0.91.7/review/runtime/csm_otlp_4904/**"
-      ],
-      "path_hints": [
-        "adl/tools/validate_v0917_csm_otlp_4904_status.sh",
-        "docs/milestones/v0.91.7/review/runtime/csm_otlp_4904/**"
-      ],
-      "command": "bash adl/tools/test_select_validation_lanes.sh",
-      "run_command": "bash adl/tools/test_select_validation_lanes.sh",
-      "reason": "v0917_csm_otlp_surface_requires_selector_contract_checks; issue-local runtime proof validation runs through adl/tools/validate_v0917_csm_otlp_4904_status.sh"
-    },
-    {
-      "id": "v0917_csm_continuity_capsule_4910_contracts",
-      "lane_class": "cli_workflow",
-      "default_surface": "runtime",
-      "owner": "runtime",
-      "proof_role": "runtime_persistence_migration_contract",
-      "requirement_ids": [
-        "v0917_csm_continuity_capsule_4910_contracts"
-      ],
-      "path_selectors": [
-        "adl/src/csm_continuity_capsule.rs",
-        "adl/tools/validate_v0917_csm_continuity_capsule_4910_status.sh",
-        "docs/milestones/v0.91.7/review/runtime/csm_continuity_capsule_4910/**"
-      ],
-      "path_hints": [
-        "adl/src/csm_continuity_capsule.rs",
-        "adl/tools/validate_v0917_csm_continuity_capsule_4910_status.sh",
-        "docs/milestones/v0.91.7/review/runtime/csm_continuity_capsule_4910/**"
-      ],
-      "command": "bash adl/tools/validate_v0917_csm_continuity_capsule_4910_status.sh",
-      "run_command": "bash adl/tools/validate_v0917_csm_continuity_capsule_4910_status.sh",
-      "reason": "v0917_csm_continuity_capsule_surface_requires_runtime_persistence_contract_checks"
-    },
-    {
-      "id": "v0917_soak2_matrix_contracts",
-      "lane_class": "cli_workflow",
-      "default_surface": "tooling",
-      "owner": "runtime",
-      "proof_role": "runtime_matrix_contract",
-      "requirement_ids": [
-        "v0917_soak2_matrix_contracts"
-      ],
-      "path_selectors": [
-        "adl/tools/validate_v0917_soak2_matrix.sh",
-        "docs/milestones/v0.91.7/review/runtime/SOAK2_FEATURE_LIST_MATRIX_4843.md",
-        "docs/milestones/v0.91.7/review/runtime/soak2_feature_list_matrix_4843.json",
-        "docs/milestones/v0.91.7/RUNTIME_SOAK_2_EXECUTION_PACKET_v0.91.7.md"
-      ],
-      "path_hints": [
-        "adl/tools/validate_v0917_soak2_matrix.sh",
-        "docs/milestones/v0.91.7/review/runtime/SOAK2_FEATURE_LIST_MATRIX_4843.md",
-        "docs/milestones/v0.91.7/review/runtime/soak2_feature_list_matrix_4843.json",
-        "docs/milestones/v0.91.7/RUNTIME_SOAK_2_EXECUTION_PACKET_v0.91.7.md"
-      ],
-      "command": "bash adl/tools/test_select_validation_lanes.sh",
-      "run_command": "bash adl/tools/test_select_validation_lanes.sh",
-      "reason": "v0917_soak2_matrix_surface_requires_selector_contract_checks; issue-local matrix validation runs through adl/tools/validate_v0917_soak2_matrix.sh"
-    },
-    {
       "id": "validation_lane_selector_contracts",
       "lane_class": "cli_workflow",
       "default_surface": "tooling",
@@ -888,24 +744,26 @@
         "rust_dependency_cache_warmup_contracts"
       ],
       "path_selectors": [
-        "adl/tools/warm_rust_dependency_cache.py",
-        "adl/tools/test_warm_rust_dependency_cache.py",
+        "adl/tools/warm_rust_dependency_cache.sh",
+        "tools/public_contracts/src/warm_cache.rs",
+        "tools/public_contracts/tests/warm_cache.rs",
         "adl/tools/rust_validation_warm_cache.sh",
         "adl/tools/test_rust_validation_warm_cache.sh",
         "adl/tools/run_authoritative_coverage_lane.sh",
         "adl/tools/run_pr_fast_test_lane.sh"
       ],
       "path_hints": [
-        "adl/tools/warm_rust_dependency_cache.py",
-        "adl/tools/test_warm_rust_dependency_cache.py",
+        "adl/tools/warm_rust_dependency_cache.sh",
+        "tools/public_contracts/src/warm_cache.rs",
+        "tools/public_contracts/tests/warm_cache.rs",
         "adl/tools/rust_validation_warm_cache.sh",
         "adl/tools/test_rust_validation_warm_cache.sh",
         "adl/tools/run_authoritative_coverage_lane.sh",
         "adl/tools/run_pr_fast_test_lane.sh"
       ],
-      "command": "python3 -m py_compile adl/tools/warm_rust_dependency_cache.py adl/tools/test_warm_rust_dependency_cache.py && python3 adl/tools/test_warm_rust_dependency_cache.py && bash adl/tools/test_rust_validation_warm_cache.sh && bash adl/tools/test_run_authoritative_coverage_lane.sh",
-      "run_command": "python3 -m py_compile adl/tools/warm_rust_dependency_cache.py adl/tools/test_warm_rust_dependency_cache.py && python3 adl/tools/test_warm_rust_dependency_cache.py && bash adl/tools/test_rust_validation_warm_cache.sh && bash adl/tools/test_run_authoritative_coverage_lane.sh",
-      "reason": "rust_dependency_cache_warmup_surface_requires_python_shell_and_runner_contract_checks"
+      "command": "bash adl/tools/test_rust_validation_warm_cache.sh && bash adl/tools/test_run_authoritative_coverage_lane.sh",
+      "run_command": "bash adl/tools/test_rust_validation_warm_cache.sh && bash adl/tools/test_run_authoritative_coverage_lane.sh",
+      "reason": "rust_dependency_cache_warmup_surface_requires_native_shell_and_runner_contract_checks"
     },
     {
       "id": "provider_benchmark_helper_syntax",

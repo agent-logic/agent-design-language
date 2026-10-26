@@ -1,2 +1,0 @@
-Command: cargo test --manifest-path adl-runtime-kernel/Cargo.toml --doc birthday_continuity
-Result: 1 compile-fail policy-boundary test passed, 0 failed.

@@ -40,7 +40,7 @@ validate_card_lifecycle_contract() {
 }
 
 run_check transition_dag_packet \
-  python3 "$ROOT_DIR/adl/tools/validate_transition_dag_packet.py" \
+  bash "$ROOT_DIR/adl/tools/validate_transition_dag_packet.sh" \
   "$ROOT_DIR/docs/milestones/v0.91.3/review/transition_dag"
 run_check transition_dag_contract \
   bash "$ROOT_DIR/adl/tools/test_transition_dag_packet.sh"
@@ -54,25 +54,25 @@ run_check card_lifecycle_bundle validate_card_lifecycle_bundle
 run_check card_lifecycle_contract validate_card_lifecycle_contract
 
 run_check evidence_bundle_packet \
-  python3 "$ROOT_DIR/adl/tools/validate_evidence_bundle_packet.py" \
+  bash "$ROOT_DIR/adl/tools/validate_evidence_bundle_packet.sh" \
   "$ROOT_DIR/docs/milestones/v0.91.3/review/evidence_bundle"
 run_check evidence_bundle_contract \
   bash "$ROOT_DIR/adl/tools/test_evidence_bundle_packet.sh"
 
 run_check merge_readiness_packet \
-  python3 "$ROOT_DIR/adl/tools/validate_merge_readiness_packet.py" \
+  bash "$ROOT_DIR/adl/tools/validate_merge_readiness_packet.sh" \
   "$ROOT_DIR/docs/milestones/v0.91.3/review/merge_readiness"
 run_check merge_readiness_contract \
   bash "$ROOT_DIR/adl/tools/test_merge_readiness_packet.sh"
 
 run_check obsmem_handoff_packet \
-  python3 "$ROOT_DIR/adl/tools/validate_obsmem_handoff_packet.py" \
+  bash "$ROOT_DIR/adl/tools/validate_obsmem_handoff_packet.sh" \
   "$ROOT_DIR/docs/milestones/v0.91.3/review/obsmem_handoff"
 run_check obsmem_handoff_contract \
   bash "$ROOT_DIR/adl/tools/test_obsmem_handoff_packet.sh"
 
 run_check first_proof_readiness_packet \
-  python3 "$ROOT_DIR/adl/tools/validate_first_proof_readiness_packet.py" \
+  bash "$ROOT_DIR/adl/tools/validate_first_proof_readiness_packet.sh" \
   "$ROOT_DIR/docs/milestones/v0.91.3/review/first_proof_readiness"
 run_check first_proof_readiness_contract \
   bash "$ROOT_DIR/adl/tools/test_first_proof_readiness_packet.sh"
@@ -84,13 +84,13 @@ run_check first_proof_demo_contract \
   bash "$ROOT_DIR/adl/tools/test_first_proof_demo_packet.sh"
 
 run_check five_minute_html_game_packet \
-  python3 "$ROOT_DIR/adl/tools/validate_five_minute_html_game_packet.py" \
+  bash "$ROOT_DIR/adl/tools/validate_five_minute_html_game_packet.sh" \
   "$ROOT_DIR/docs/milestones/v0.91.3/review/five_minute_html_game"
 run_check five_minute_html_game_contract \
   bash "$ROOT_DIR/adl/tools/test_five_minute_html_game_packet.sh"
 
 run_check five_minute_sprint_console_packet \
-  python3 "$ROOT_DIR/adl/tools/validate_five_minute_sprint_console_packet.py" \
+  bash "$ROOT_DIR/adl/tools/validate_five_minute_sprint_console_packet.sh" \
   "$ROOT_DIR/docs/milestones/v0.91.3/review/five_minute_sprint_console"
 run_check five_minute_sprint_console_contract \
   bash "$ROOT_DIR/adl/tools/test_five_minute_sprint_console_packet.sh"
@@ -99,19 +99,19 @@ run_check five_minute_sprint_console_contract \
 run_check podcast_migration_contract node --test "$ROOT_DIR/tools/test_podcast_migration.mjs"
 
 run_check csdlc_demo_proof_contract_packet \
-  python3 "$ROOT_DIR/adl/tools/validate_csdlc_demo_proof_contract_packet.py" \
+  bash "$ROOT_DIR/adl/tools/validate_csdlc_demo_proof_contract_packet.sh" \
   "$ROOT_DIR/docs/milestones/v0.91.3/review/csdlc_demo_proof_contract"
 run_check csdlc_demo_proof_contract_contract \
   bash "$ROOT_DIR/adl/tools/test_csdlc_demo_proof_contract_packet.sh"
 
 run_check quality_gate_doc_surface \
-  python3 "$ROOT_DIR/adl/tools/validate_v0913_quality_gate_review_surfaces.py" \
+  bash "$ROOT_DIR/adl/tools/validate_v0913_quality_gate_review_surfaces.sh" \
   "$ROOT_DIR" quality_gate_doc
 run_check quality_gate_packet_surface \
-  python3 "$ROOT_DIR/adl/tools/validate_v0913_quality_gate_review_surfaces.py" \
+  bash "$ROOT_DIR/adl/tools/validate_v0913_quality_gate_review_surfaces.sh" \
   "$ROOT_DIR" quality_gate_packet
 run_check demo_coverage_surface \
-  python3 "$ROOT_DIR/adl/tools/validate_v0913_quality_gate_review_surfaces.py" \
+  bash "$ROOT_DIR/adl/tools/validate_v0913_quality_gate_review_surfaces.sh" \
   "$ROOT_DIR" demo_coverage
 
 echo "PASS run_v0913_proof_validation_lane"

@@ -21,7 +21,7 @@ fi
 
 (
   cd "$ROOT_DIR"
-  python3 adl/tools/validate_architecture_docs.py >/dev/null
+  bash adl/tools/validate_architecture_docs.sh >/dev/null
 )
 
 cat >"$OUT_DIR/architecture_generation_manifest.json" <<EOF_JSON
@@ -148,7 +148,7 @@ EOF_MD
 
 (
   cd "$ROOT_DIR"
-  python3 adl/tools/validate_architecture_docs.py "$ROOT_DIR" "$OUT_DIR" >/dev/null
+  bash adl/tools/validate_architecture_docs.sh "$ROOT_DIR" "$OUT_DIR" >/dev/null
 )
 
 echo "demo_v090_architecture_document_generation: ok"

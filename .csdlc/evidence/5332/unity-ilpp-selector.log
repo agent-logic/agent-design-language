@@ -1,2 +1,0 @@
-PASS test_select_validation_lanes
-==> docs_diff_check: git diff --check

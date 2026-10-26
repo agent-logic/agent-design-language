@@ -190,18 +190,18 @@ diff -qr adl/tools/skills/test-generator "$CODEX_HOME/skills/test-generator"
 
 ## Historical v0.91.5 packet validation
 
-The three `validate_v0915_*` validators for `openrouter_matrix`,
-`remote_gemma_watcher_probe` and `multi_agent_quality_comparison` validate the
-retained ADL review packets and their repository-relative evidence references.
-They do not repeat the original provider experiments or establish current
-provider readiness. Keep the immutable packets under
-`docs/milestones/v0.91.5/review/` unchanged.
+The offline `openrouter_matrix`, `remote_gemma_watcher_probe` and
+`multi_agent_quality_comparison` validator/test families were retired by #1351.
+They replayed historical packet shape checks and mutated-copy refusals; they
+were not registered in current public CI or either validation lane selector.
+No replacement validator is provided for these completed historical experiments.
+Exact original validators and tests remain recoverable through the Git identities
+in `docs/language-cleanup/utility-dispositions.json`. The immutable packets under
+`docs/milestones/v0.91.5/review/` remain unchanged.
 
-The corresponding three shell tests exercise packet acceptance and mutated-copy
-refusals. `test_v0915_openrouter_matrix.sh` now runs only its original two valid
-packet checks and two negative mutations. Its former credential-dependent live
-runner assertions and three monolithic Cargo selectors remain historical
-obligations in #1223 custody; an offline packet pass does not satisfy them.
-The two quality/watcher test bodies remain unchanged.
+This retirement does not establish current provider readiness or discharge
+private owner qualification obligations. Former credential-dependent live runner
+assertions and monolithic Cargo selectors remain historical obligations in #1223
+custody; offline packet replay never satisfied them.
 
 The legacy provider demo shell family was retired in #1223 with its original assertions in Git and custody. Owner source delivery does not establish new live-provider, transcript, musical-performance or archive acceptance. Retained audio rendering requires an explicit existing source episode through `ADL_HEY_JUDE_AUDIO_SOURCE_DIR`; it does not regenerate an episode through a removed ADL command.

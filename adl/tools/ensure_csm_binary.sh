@@ -32,23 +32,8 @@ while [[ $# -gt 0 ]]; do
     *) printf 'unknown argument: %s\n' "$1" >&2; exit 2 ;;
   esac
 done
-payload="$(python3 - <<'PY'
-import json
-print(json.dumps({
-    "schema": "adl.csm.binary_availability.v1",
-    "status": "failed",
-    "runtime_owner": "csm",
-    "binary": None,
-    "provenance": "source",
-    "action": "retired_source_route",
-    "reason": "ADL source-tree CSM resolution is retired; use the reviewed Infrastructure owner artifact resolver",
-    "profile": None,
-    "source_presence": False,
-    "manifest": "adl/Cargo.toml",
-    "validation_proof": False,
-}, sort_keys=True))
-PY
-)"
+payload='{"action": "retired_source_route", "binary": null, "manifest": "adl/Cargo.toml", "profile": null, "provenance": "source", "reason": "ADL source-tree CSM resolution is retired; use the reviewed Infrastructure owner artifact resolver", "runtime_owner": "csm", "schema": "adl.csm.binary_availability.v1", "source_presence": false, "status": "failed", "validation_proof": false}'
+
 [[ -z "$out" ]] || printf '%s\n' "$payload" >"$out"
 if [[ "$json" == 1 ]]; then
   printf '%s\n' "$payload"

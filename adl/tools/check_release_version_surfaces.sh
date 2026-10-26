@@ -4,54 +4,13 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$ROOT_DIR"
 
-manifest_version="$(
-  python3 - <<'PY'
-import pathlib
-import tomllib
-
-manifest = pathlib.Path("adl/Cargo.toml")
-data = tomllib.loads(manifest.read_text())
-print(data["package"]["version"])
-PY
-)"
-
-lock_version="$(
-  python3 - <<'PY'
-import pathlib
-import tomllib
-
-lock = pathlib.Path("adl/Cargo.lock")
-data = tomllib.loads(lock.read_text())
-for package in data.get("package", []):
-    if package.get("name") == "adl":
-        print(package["version"])
-        break
-else:
-    raise SystemExit("adl package entry missing from Cargo.lock")
-PY
-)"
-
-if [ "$manifest_version" != "$lock_version" ]; then
-  echo "release-version check: adl/Cargo.toml version $manifest_version does not match adl/Cargo.lock package version $lock_version" >&2
-  exit 1
-fi
-
-resolved_version="$(
-  cargo metadata --manifest-path adl/Cargo.toml --no-deps --format-version 1 \
-    | python3 -c 'import json, sys
-data = json.load(sys.stdin)
-for package in data["packages"]:
-    if package["name"] == "adl":
-        print(package["version"])
-        break
-else:
-    raise SystemExit("adl package missing from cargo metadata")'
-)"
-
-if [ "$resolved_version" != "$manifest_version" ]; then
-  echo "release-version check: cargo metadata resolved $resolved_version but manifest says $manifest_version" >&2
-  exit 1
-fi
+native=(cargo run --locked --quiet --manifest-path tools/public_contracts/Cargo.toml --bin adl-public-contracts --)
+manifest_version="$("${native[@]}" release-version-source adl/Cargo.toml adl/Cargo.lock)"
+lock_version="$manifest_version"
+metadata="$(mktemp "${TMPDIR:-/tmp}/adl-release-version.XXXXXX")"
+trap 'rm -f "$metadata"' EXIT
+cargo metadata --manifest-path adl/Cargo.toml --no-deps --format-version 1 >"$metadata"
+"${native[@]}" release-version-metadata "$manifest_version" "$metadata" >/dev/null
 
 cli_version="$(cargo run -q --manifest-path adl/Cargo.toml -- --version)"
 if [ "$cli_version" != "$manifest_version" ]; then

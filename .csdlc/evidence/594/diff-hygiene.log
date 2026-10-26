@@ -1,4 +1,0 @@
-issue=594
-lane=diff-hygiene
-argv=git diff --check
-status=passed
