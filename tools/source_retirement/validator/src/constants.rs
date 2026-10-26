@@ -2,6 +2,10 @@ pub const IDENTITIES_SHA256: &str =
     "46109ba12c6ed6f7cdc07eda7d916d3638a0093bb860835678f57f0bf5597400";
 pub const LANGUAGE_TRANSITIONS: &[(&str, &str)] = &[
     (
+        "utility-transition.json",
+        "1e178a9d622f305c3b48c51da7880d0357df7aba26117aa09551a6bab6ac177d",
+    ),
+    (
         "historical-transition.json",
         "b99d0251b8791a67a346931244ec45b7249d9fbe2fb1810cfc334be7edf417d0",
     ),

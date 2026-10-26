@@ -1,0 +1,1106 @@
+{
+  "schema": "adl.language_cleanup.successor.v1",
+  "issue": 1351,
+  "source_commit": "1da95b799d8bbbfbedab72bd6b6b2c786ea349f3",
+  "status": "operator_requested_checkpoint_not_full_python_retirement",
+  "removed": [
+    "adl/tools/build_v0917_execution_outlier_analysis.py",
+    "adl/tools/fill_planning_template.py",
+    "adl/tools/generate_tool_surface_registry.py",
+    "adl/tools/rd01_repository_audit.py",
+    "adl/tools/run_ci_step_with_log.sh",
+    "adl/tools/test_generate_tool_surface_registry.py",
+    "adl/tools/test_prompt_template_structure_schemas.py",
+    "adl/tools/test_run_ci_step_with_log.sh",
+    "adl/tools/test_software_development_polis_packet.sh",
+    "adl/tools/test_v0915_multi_agent_quality_comparison.sh",
+    "adl/tools/test_v0915_openrouter_matrix.sh",
+    "adl/tools/test_v0915_remote_gemma_watcher_probe.sh",
+    "adl/tools/test_v0916_deepseek_suitability.sh",
+    "adl/tools/test_warm_rust_dependency_cache.py",
+    "adl/tools/validate_architecture_docs.py",
+    "adl/tools/validate_codebuddy_review_showcase_demo.py",
+    "adl/tools/validate_csdlc_demo_proof_contract_packet.py",
+    "adl/tools/validate_evidence_bundle_packet.py",
+    "adl/tools/validate_first_proof_readiness_packet.py",
+    "adl/tools/validate_five_minute_html_game_packet.py",
+    "adl/tools/validate_five_minute_sprint_console_packet.py",
+    "adl/tools/validate_merge_readiness_packet.py",
+    "adl/tools/validate_obsmem_handoff_packet.py",
+    "adl/tools/validate_planning_template.py",
+    "adl/tools/validate_polis_status_for_ssm_qts.py",
+    "adl/tools/validate_polis_status_for_ssm_windows.py",
+    "adl/tools/validate_pvf_manifest.py",
+    "adl/tools/validate_software_development_polis_packet.py",
+    "adl/tools/validate_transition_dag_packet.py",
+    "adl/tools/validate_v0913_quality_gate_review_surfaces.py",
+    "adl/tools/validate_v0915_multi_agent_quality_comparison.py",
+    "adl/tools/validate_v0915_openrouter_matrix.py",
+    "adl/tools/validate_v0915_remote_gemma_watcher_probe.py",
+    "adl/tools/validate_v0916_agent_suitability_panel.py",
+    "adl/tools/validate_v0916_deepseek_suitability.py",
+    "adl/tools/validate_v0917_csm_4890_status.sh",
+    "adl/tools/validate_v0917_csm_continuity_capsule_4910_status.sh",
+    "adl/tools/validate_v0917_csm_governed_notice_4998_status.sh",
+    "adl/tools/validate_v0917_csm_otlp_4904_status.sh",
+    "adl/tools/validate_v0917_csm_service_4903_status.sh",
+    "adl/tools/validate_v0917_no_sparrow_4909_status.sh",
+    "adl/tools/validate_v0917_soak2_4682_status.sh",
+    "adl/tools/validate_v0917_soak2_matrix.sh",
+    "adl/tools/warm_rust_dependency_cache.py",
+    "docs/reviews/v0.91.7/internal-review-4645/live-state/build_internal_review_state.py",
+    "tools/groupd_validation/Cargo.lock",
+    "tools/groupd_validation/Cargo.toml",
+    "tools/groupd_validation/run_builder_contracts.py",
+    "tools/groupd_validation/run_dependency_inventory.py",
+    "tools/groupd_validation/src/lib.rs",
+    "tools/groupd_validation/test_documentation.py",
+    "tools/public_adl/verify_adapter_evidence.py"
+  ],
+  "changes": [
+    {
+      "path": ".gitignore",
+      "before": [
+        "100644",
+        "cdac807640a3e3ce0cadc0f8557d088a6c06e9fa"
+      ],
+      "after": [
+        "100644",
+        "7716752f4e7efe20c34c5f84ae1cbb4d67fb6737"
+      ],
+      "before_sha256": "cfe23d9848e3b97d145a095f3d6158b3b59f3bb411e360528ff77b046fe74016"
+    },
+    {
+      "path": "AGENTS.md",
+      "before": [
+        "100644",
+        "9ea1659f809466c72cc1fce580954f8d6aefb1fb"
+      ],
+      "after": [
+        "100644",
+        "8e07c2db9eb9ab4835082ed513867b891b3ea271"
+      ],
+      "before_sha256": "c2d7b85942bec580ea92d36818dcc98ba0e29c27d4542ff3d14561c04004e136"
+    },
+    {
+      "path": "adl/config/validation_lane_selector.v0.91.6.json",
+      "before": [
+        "100644",
+        "7c71e2bd1e3a1d9182e71ef652ef0e33023f58b3"
+      ],
+      "after": [
+        "100644",
+        "8df0638aa1ea3b1d76f6c8cf7105b7153f9a491d"
+      ],
+      "before_sha256": "90418e5fabf5eb3415387b3832da427c70c745f2ff82773177b039a3465915ce"
+    },
+    {
+      "path": "adl/tools/README.md",
+      "before": [
+        "100644",
+        "340ce228719f38de9f5bd813cc7d154d7ad7a1e6"
+      ],
+      "after": [
+        "100644",
+        "57c2b4baff7df224e9ced57fda638b82ddad3bb4"
+      ],
+      "before_sha256": "51c94e4f7a730b028d4b7c8b5f198b336b5b7966546698e0a80750b69b0d8d91"
+    },
+    {
+      "path": "adl/tools/build_v0917_execution_outlier_analysis.py",
+      "before": [
+        "100644",
+        "ebb23780c2446444845d5d0b1d2dafe964394f5d"
+      ],
+      "after": null,
+      "before_sha256": "1eac3b4a2010533b32f9b3e3034a791dfea4fd0b7a7c9b7da9d816f1152644ed"
+    },
+    {
+      "path": "adl/tools/check_release_version_surfaces.sh",
+      "before": [
+        "100644",
+        "a4de4a3faad0687bb8f0d1e6c4134880da1610d9"
+      ],
+      "after": [
+        "100644",
+        "2a4459c8f2b4ef3e57f8aaf27dfee21208adbaa6"
+      ],
+      "before_sha256": "6374a735f0e598f6335103e776bdd9a8abd4c8aa6f9bb35122fd70273f5c66af"
+    },
+    {
+      "path": "adl/tools/demo_v090_architecture_document_generation.sh",
+      "before": [
+        "100755",
+        "1d1803b3f77441e9b73db3c15aae99321fe21dcb"
+      ],
+      "after": [
+        "100755",
+        "21a7aac419820ccfec977cb506ff0e4a942327b4"
+      ],
+      "before_sha256": "26fcac5d3475586e2c83fa1c9603e0381e4ec40682f7c2013111f06c3850e134"
+    },
+    {
+      "path": "adl/tools/demo_v090_codebuddy_review_showcase.sh",
+      "before": [
+        "100755",
+        "4aadec52f37f39c5c7bd87d58b681efdba9d0253"
+      ],
+      "after": [
+        "100755",
+        "86d6d3f3e5fbaede573049bc94315be9fa7b982d"
+      ],
+      "before_sha256": "e04b10973999bf62d5fb2f1a0947a8aad12aaeeadf344bfc8a5dcc79d3009d30"
+    },
+    {
+      "path": "adl/tools/demo_v0913_quality_gate.sh",
+      "before": [
+        "100755",
+        "34d1285cd725425d286e2aa5d71c2360cb262974"
+      ],
+      "after": [
+        "100755",
+        "be2448c250159b5c6893b778cb276b5797f32355"
+      ],
+      "before_sha256": "f5fa87896ca44c330e5022ed28725177a2fd372ead8517c470f135f7efff46fe"
+    },
+    {
+      "path": "adl/tools/ensure_csm_binary.sh",
+      "before": [
+        "100755",
+        "6d11a0ad18ca64aef90c1ef20c2cef130003574a"
+      ],
+      "after": [
+        "100755",
+        "cd2e1c10ac6e82f527a12d706213d4d840411332"
+      ],
+      "before_sha256": "b794915a755ff89a598bbfaa8ffbdc8c90c8226b110143b010121ba587fbdc85"
+    },
+    {
+      "path": "adl/tools/fill_planning_template.py",
+      "before": [
+        "100755",
+        "1e42feb8a1f88b48ba5043f5fce7eee64388a1aa"
+      ],
+      "after": null,
+      "before_sha256": "7ce4199ff46403015696f21c22de65ba8eaf8661784d2c8b8a9e7689778f0d90"
+    },
+    {
+      "path": "adl/tools/generate_tool_surface_registry.py",
+      "before": [
+        "100644",
+        "97e96afd7a24aa3f769dd13f228faef06446b4dd"
+      ],
+      "after": null,
+      "before_sha256": "825f045fd48428199b4ba807c3f4b7ca149fe0472b6685812d5abf010b260313"
+    },
+    {
+      "path": "adl/tools/rd01_repository_audit.py",
+      "before": [
+        "100644",
+        "1fbbd1c27367c7c6fd603325f2a2d1ab62408330"
+      ],
+      "after": null,
+      "before_sha256": "8d5c2f9cf4c9fa1a9cf5a7cabf4fbfd3aa36e4b99b7bcf0fc0c3fd2d7e0d7b73"
+    },
+    {
+      "path": "adl/tools/run_ci_step_with_log.sh",
+      "before": [
+        "100755",
+        "1d1c2af8650b5b6c6a9f3163bc7a7285c5797550"
+      ],
+      "after": null,
+      "before_sha256": "c5664eba51090e06266c7eb9e80fd93047b6dd41b0fa757a5e9012e06aa3334f"
+    },
+    {
+      "path": "adl/tools/run_pvf_validation_lane.sh",
+      "before": [
+        "100755",
+        "3befec35944f5728a2bd296273b764712fafc267"
+      ],
+      "after": [
+        "100755",
+        "800ad9cb44cc1561108cda88f09a9eb4ce914b54"
+      ],
+      "before_sha256": "3ffa7fb95c6152bb9006ad3deaca2584771e06c44fa148faa61fc4f393c70f71"
+    },
+    {
+      "path": "adl/tools/run_v0913_proof_validation_lane.sh",
+      "before": [
+        "100644",
+        "1f0339bc579ab216d65c12ebcbd8d1bf78b5478f"
+      ],
+      "after": [
+        "100644",
+        "988f7d3d91ea8ae75a0b32463c5543d5111d6f58"
+      ],
+      "before_sha256": "b6cc43d5242d888a725a34c884d0b86382928a184508b31a520c494abf920a7e"
+    },
+    {
+      "path": "adl/tools/rust_validation_warm_cache.sh",
+      "before": [
+        "100755",
+        "ab0953093d9e6b9680d883d1f310f08796fd582c"
+      ],
+      "after": [
+        "100755",
+        "0d89b7099249c5d5580470f18ea5f2f5bd945661"
+      ],
+      "before_sha256": "965c25960e194381c2446138be64da597dc0889fa9708859671c4eda25598937"
+    },
+    {
+      "path": "adl/tools/skills/pr-run/SKILL.md",
+      "before": [
+        "100644",
+        "69421c25acc92b5642cf2c7595e0bde2a332b27d"
+      ],
+      "after": [
+        "100644",
+        "723b8db06e9add14e02bf121ceb1de5d66dc121d"
+      ],
+      "before_sha256": "b36041994be34214b2b7f289d23fab8ebec01fc8242e4e6e16ca7c0e8551969c"
+    },
+    {
+      "path": "adl/tools/test_cli_owner_command_guidance.sh",
+      "before": [
+        "100755",
+        "0e9b0480c8471d56213a61abd540f98f24c18db9"
+      ],
+      "after": [
+        "100755",
+        "47048f5664e34e124017a6bc8409ce3cfe0786b6"
+      ],
+      "before_sha256": "60163415ed2a5d86401826d6cd2628f735a394f62dd9740ddcbc7fc21b8881a1"
+    },
+    {
+      "path": "adl/tools/test_csdlc_demo_proof_contract_packet.sh",
+      "before": [
+        "100644",
+        "1e775cb257315596f0f190d8337c605cba9c03da"
+      ],
+      "after": [
+        "100644",
+        "f9b6113d912ccc5b78d9cc5b2c9078da8c01e13b"
+      ],
+      "before_sha256": "e5fe415dd5cff36607870cf34f6e7f9dab71e768767d1e853602c179ec375aa8"
+    },
+    {
+      "path": "adl/tools/test_csdlc_prompt_editor.sh",
+      "before": [
+        "100755",
+        "10ca4ed5b68c34d4a94cd248106933b310baba4e"
+      ],
+      "after": [
+        "100755",
+        "8d6a627d615fd6d4211b39ff4729bda720ef4ef2"
+      ],
+      "before_sha256": "17d8517f92aad2f65e20be75b94e8f986c8ff6eb79a0f442b1629d195058e417"
+    },
+    {
+      "path": "adl/tools/test_demo_v090_architecture_document_generation.sh",
+      "before": [
+        "100755",
+        "b16fa0786c4aa5b3a774a13255fa9802ba2e55f8"
+      ],
+      "after": [
+        "100755",
+        "71e5eebbf894bc288db598a153320011c4fe72cb"
+      ],
+      "before_sha256": "ff229132f57ffb25e0f9c551f4da964cdf9b8513ac2840732730e0e56c3b1315"
+    },
+    {
+      "path": "adl/tools/test_demo_v090_codebuddy_review_showcase.sh",
+      "before": [
+        "100755",
+        "53071f70a1c6fe72f1d76eb7068d977ad80dd410"
+      ],
+      "after": [
+        "100755",
+        "f53198caf703904387260a92a9af6c278361eb74"
+      ],
+      "before_sha256": "eadda524edc13207774ea3458b10c404c3275ea1b80a36f68203b88d61f3f186"
+    },
+    {
+      "path": "adl/tools/test_ensure_csm_binary.sh",
+      "before": [
+        "100755",
+        "4d7786d26261100aced84489df563e016fa2457c"
+      ],
+      "after": [
+        "100755",
+        "081b57adca60c9af723a1ecf875cadc9b7791067"
+      ],
+      "before_sha256": "f9453c110d4ea8f7938f86cae89d07e0319affdf2fd5bb0970e96ae83895c901"
+    },
+    {
+      "path": "adl/tools/test_evidence_bundle_packet.sh",
+      "before": [
+        "100644",
+        "ffadd3e6a4503acc5687e5496c793f2e2f11ba93"
+      ],
+      "after": [
+        "100644",
+        "c96e0bcf8a960fedd0864e6ce3a343c48bccf006"
+      ],
+      "before_sha256": "5235c2d6c67243f77b1fe292a87f75846213de3780a8988c1f5714686968c1db"
+    },
+    {
+      "path": "adl/tools/test_first_proof_readiness_packet.sh",
+      "before": [
+        "100644",
+        "77f863d109a7f31f55d6aa9ad0f8262f49b2fe97"
+      ],
+      "after": [
+        "100644",
+        "0597225661398530d7cf8431b94a110e841eccea"
+      ],
+      "before_sha256": "020f456e9e1b3db3df1f021d7d9bb8f07433e109ed01b064c9a88573129452c1"
+    },
+    {
+      "path": "adl/tools/test_five_minute_html_game_packet.sh",
+      "before": [
+        "100755",
+        "9950786a36e398c137745ef3f33b766c75f924ba"
+      ],
+      "after": [
+        "100755",
+        "ac09fcc0a24e3beb76a525709807e7627d1d58a2"
+      ],
+      "before_sha256": "88303c9ac97b4174dc0dbbb224cc9e30333fe711c0aba248d1ab64a2a60a4516"
+    },
+    {
+      "path": "adl/tools/test_five_minute_sprint_console_packet.sh",
+      "before": [
+        "100755",
+        "ddffeab4ebdfada0d054019be3f81cc4dc626838"
+      ],
+      "after": [
+        "100755",
+        "fad8cebbb3d2d4d5ab63d2f4262244984992ed9c"
+      ],
+      "before_sha256": "40267b07769a6dd66f79e427db10cd7d92d2bef1a508345e64dc72950fc24e3d"
+    },
+    {
+      "path": "adl/tools/test_generate_tool_surface_registry.py",
+      "before": [
+        "100644",
+        "7341fd865452986852342b9edffbeaf55199323d"
+      ],
+      "after": null,
+      "before_sha256": "8eeb5ade9b42c6951aeffd886bfd79dd885d54950bbac32408b7e755a537a528"
+    },
+    {
+      "path": "adl/tools/test_generate_tool_surface_registry.sh",
+      "before": [
+        "100644",
+        "f758f5846b031f8fb2262531b8b217eb57bd5db9"
+      ],
+      "after": [
+        "100644",
+        "a9b0b031d995fc7c21f9a5fa3a59dfee4122a5e0"
+      ],
+      "before_sha256": "47ef37836bb649e6261c46a39c50f5cadbd263413136b64473e272e65903ea81"
+    },
+    {
+      "path": "adl/tools/test_merge_readiness_packet.sh",
+      "before": [
+        "100644",
+        "6e24d9ba5d06a30ed228dd157c0511daece4ca9f"
+      ],
+      "after": [
+        "100644",
+        "8c60a69e2ad9b6dbc49510beba603259d37520b8"
+      ],
+      "before_sha256": "a27fb539e3552e85169b04db1d7f73cd97dd27633b2180b85ebbe748cb42655c"
+    },
+    {
+      "path": "adl/tools/test_obsmem_handoff_packet.sh",
+      "before": [
+        "100644",
+        "4798b971cdb6619fb6319f6741e688407c14460b"
+      ],
+      "after": [
+        "100644",
+        "d89378d8442877fb615447b5eee39e10a36cb72e"
+      ],
+      "before_sha256": "d59571fa077f89d622d386aaa7c3662f07ab8f8a333f43b86ee79f50a37e2894"
+    },
+    {
+      "path": "adl/tools/test_prompt_template_structure_schemas.py",
+      "before": [
+        "100644",
+        "90db696ac64543eb4f60e82d532ea071ed0867e8"
+      ],
+      "after": null,
+      "before_sha256": "0cee0c6a806b57102ab761993d6aee1bf0c4cb48f4dd1b421bd74bda419caca9"
+    },
+    {
+      "path": "adl/tools/test_run_ci_step_with_log.sh",
+      "before": [
+        "100755",
+        "88b4cd9b496c1470c1da7138fcfe4bfd7724a9ea"
+      ],
+      "after": null,
+      "before_sha256": "236fc252ef66016dfcf3c38e15a679bee11d25ac96219ba437e9a9d681f3daf9"
+    },
+    {
+      "path": "adl/tools/test_run_pvf_validation_lane.sh",
+      "before": [
+        "100755",
+        "7c60b591457ceec5e5089622c0044f06f057a97a"
+      ],
+      "after": [
+        "100755",
+        "df03500660d3841f7037abe9eb5c5d07cdd3b586"
+      ],
+      "before_sha256": "cbad1379fa0014e5998890a09d77d3a120c32ce8a6798a93c476d25ff2744366"
+    },
+    {
+      "path": "adl/tools/test_rust_validation_warm_cache.sh",
+      "before": [
+        "100755",
+        "f96722fd9a43959d84d021e54b102e0df459621b"
+      ],
+      "after": [
+        "100755",
+        "e3fb3a8c7b6a878ed8a426dfdc0b64ddb0485473"
+      ],
+      "before_sha256": "ecde88b1087a14c9edf0e2ffec497679ebcccf45c0cd46ae76f20034552e1583"
+    },
+    {
+      "path": "adl/tools/test_software_development_polis_packet.sh",
+      "before": [
+        "100644",
+        "29ed4363886d38cfb5ad49667add275c0ebe8d14"
+      ],
+      "after": null,
+      "before_sha256": "2bfc2eaa7175a5c8d8d5efdd4ef840239899e0c9f301d79b7ba5a2e8ac421857"
+    },
+    {
+      "path": "adl/tools/test_structured_prompt_validation.sh",
+      "before": [
+        "100755",
+        "e4821e73ad87398279f013ac15c656b38cace659"
+      ],
+      "after": [
+        "100755",
+        "dd54dcf4572004f713163b720f91ab0f1d0e98b1"
+      ],
+      "before_sha256": "3fe45d7f194d78b4e8070ba938e45dc9e99c3d48d1caca01ac1fbb8a3da1bd69"
+    },
+    {
+      "path": "adl/tools/test_transition_dag_packet.sh",
+      "before": [
+        "100644",
+        "ffd528c1a409106cd2c9233f257463d2e5a1b060"
+      ],
+      "after": [
+        "100644",
+        "1ecfbe378ad163d2403e773e400237a29a3d4325"
+      ],
+      "before_sha256": "6f637204c4f81b675dfb6bc1b30d3cc7f81ceecdd5b6893ad78b11eb1d40cc3b"
+    },
+    {
+      "path": "adl/tools/test_v0915_multi_agent_quality_comparison.sh",
+      "before": [
+        "100755",
+        "256312ef8f7f69e408f7400baf983e5d3cc0db01"
+      ],
+      "after": null,
+      "before_sha256": "a230102150e9c03520808c98207cc5bd1bdab97a9b3968ddc7901fee09cc1b01"
+    },
+    {
+      "path": "adl/tools/test_v0915_openrouter_matrix.sh",
+      "before": [
+        "100644",
+        "3d177e226944a3229ca151a91666b9d2e135826d"
+      ],
+      "after": null,
+      "before_sha256": "c48b7c2afc4fbdf9f19824c9c77e211a8841438e79a11481a8f08fd6407e17aa"
+    },
+    {
+      "path": "adl/tools/test_v0915_remote_gemma_watcher_probe.sh",
+      "before": [
+        "100644",
+        "250455d3f71f0e9ad486290cfad004f8f2933bad"
+      ],
+      "after": null,
+      "before_sha256": "04adc5b5ad9e282ab424034362bde8293f3b70db6f73ef42cbb39e490f0c12c5"
+    },
+    {
+      "path": "adl/tools/test_v0916_deepseek_suitability.sh",
+      "before": [
+        "100644",
+        "684f490755de7ba69e28497a2cf1750f95bb0c78"
+      ],
+      "after": null,
+      "before_sha256": "d90449f97dfbfe64b1b9aacf4ddb9462854250c3e431380d900f1966b6c7b981"
+    },
+    {
+      "path": "adl/tools/test_warm_rust_dependency_cache.py",
+      "before": [
+        "100644",
+        "3f52cee5637c86a4dd1e9dae3011fde9f8967dd3"
+      ],
+      "after": null,
+      "before_sha256": "d56cd607ba789529fa78a82f49b54bab8300bb1867bb8426502b865aeee3bbc7"
+    },
+    {
+      "path": "adl/tools/validate_architecture_docs.py",
+      "before": [
+        "100755",
+        "dad56890e3d63bb32d896b95263b0c1ba2674bd2"
+      ],
+      "after": null,
+      "before_sha256": "8814196ba99c8ccbb7425d49c217f3519904b4ef1a9333e0ef17069a1a88d140"
+    },
+    {
+      "path": "adl/tools/validate_codebuddy_review_showcase_demo.py",
+      "before": [
+        "100755",
+        "c2ea66fb32b7f8f06358c036b6238c15c187eeb2"
+      ],
+      "after": null,
+      "before_sha256": "87da4de1a78fa91d35201a10a0e149ef28a4a890ec518a8f7c8251e45ed9da0c"
+    },
+    {
+      "path": "adl/tools/validate_csdlc_demo_proof_contract_packet.py",
+      "before": [
+        "100644",
+        "7853c94fb87f26760158ca23268ac98c43a98470"
+      ],
+      "after": null,
+      "before_sha256": "cd35fb676e71780c12f2d31728af0a22d0c1df9c868a854d5acdca2dd5d0db87"
+    },
+    {
+      "path": "adl/tools/validate_evidence_bundle_packet.py",
+      "before": [
+        "100644",
+        "59f19f447fa70bcea5070bdfba813d21ae1f1a73"
+      ],
+      "after": null,
+      "before_sha256": "d253eb83a366e73da56e93b504bb6f60ee5b67ded10bb190643a3e496bc58f88"
+    },
+    {
+      "path": "adl/tools/validate_first_proof_readiness_packet.py",
+      "before": [
+        "100644",
+        "c9731a9ae8ac2df788b524292cd2d0c7e2eb5006"
+      ],
+      "after": null,
+      "before_sha256": "11768dc33936a4ef2ce8ea59ec6d0df7fe3f74b9ad96c944c27b7274b60daf6d"
+    },
+    {
+      "path": "adl/tools/validate_five_minute_html_game_packet.py",
+      "before": [
+        "100755",
+        "7202a9a47c649defc0afce9dd30b3d49717eccfb"
+      ],
+      "after": null,
+      "before_sha256": "6f73c1607328c61f9e182f575bda6525117e85dab76a03616a051bc1e86e716c"
+    },
+    {
+      "path": "adl/tools/validate_five_minute_sprint_console_packet.py",
+      "before": [
+        "100755",
+        "97b7975cb9121516059367d5f1a18e83e36d56f9"
+      ],
+      "after": null,
+      "before_sha256": "9ff2a1e87392df167cbf884570f691e565a81b841c087008b6e43cdd879ac8d8"
+    },
+    {
+      "path": "adl/tools/validate_merge_readiness_packet.py",
+      "before": [
+        "100644",
+        "6505fcee60109cfec84fd58b8e6880edd3ad1fa5"
+      ],
+      "after": null,
+      "before_sha256": "d7a5637e6f7f5927e5e4f633cc5274d49d62b377b4706b8698e77568cb32e072"
+    },
+    {
+      "path": "adl/tools/validate_obsmem_handoff_packet.py",
+      "before": [
+        "100644",
+        "1f4fff1f4bd8dbd37f06e4cf4abe23bac11d037f"
+      ],
+      "after": null,
+      "before_sha256": "e41984d944866de44ea9cd3cbddd9f81b7e7e642b60edc8365b0b441512810ab"
+    },
+    {
+      "path": "adl/tools/validate_planning_template.py",
+      "before": [
+        "100755",
+        "e6a0edf3a443404166ece2b533507e2cd4da5196"
+      ],
+      "after": null,
+      "before_sha256": "0560a4d5c9cb4082854cbdd44963a0a02e6f4944ae596ccd97c064d61d5231a6"
+    },
+    {
+      "path": "adl/tools/validate_polis_status_for_ssm_qts.py",
+      "before": [
+        "100644",
+        "26d45d600270914c93dce8d969125a458a436fdf"
+      ],
+      "after": null,
+      "before_sha256": "d87f66de9ce7a095db94885c0583ded75c31bfcf5979dd80e8295752d730e091"
+    },
+    {
+      "path": "adl/tools/validate_polis_status_for_ssm_windows.py",
+      "before": [
+        "100644",
+        "342eb699793fcc9bed99079aeeb697a396f1c73e"
+      ],
+      "after": null,
+      "before_sha256": "3ff7e7739e6ecefeef63e68e66515090b6f7987a37a17e826a35ad886c9316a8"
+    },
+    {
+      "path": "adl/tools/validate_pvf_manifest.py",
+      "before": [
+        "100644",
+        "6166e68cf5cb6673324be7ec66241ba350be7ab4"
+      ],
+      "after": null,
+      "before_sha256": "51af6ceb32a65305ecc3f457afdea03e5a1b8f1d3f16ba153a21cec5c838bb3b"
+    },
+    {
+      "path": "adl/tools/validate_software_development_polis_packet.py",
+      "before": [
+        "100644",
+        "07a0db2b4b1c21c79ded5760591d4e69922d2681"
+      ],
+      "after": null,
+      "before_sha256": "bfa84473336fe80f3614651573bc22c256c5377ee76c4b9976f936dff99309de"
+    },
+    {
+      "path": "adl/tools/validate_transition_dag_packet.py",
+      "before": [
+        "100644",
+        "2cedb9e75b9092761c65a2150b8fced492041e07"
+      ],
+      "after": null,
+      "before_sha256": "4c381d4ab23bcabfe455756e6f699bfb69f5c58c61c32aa7fa108aedd9e267c6"
+    },
+    {
+      "path": "adl/tools/validate_v0913_quality_gate_review_surfaces.py",
+      "before": [
+        "100644",
+        "9517e1d763741f7fd35a900d31514da4e1102bdf"
+      ],
+      "after": null,
+      "before_sha256": "1bbe611b7a65bee10e208cca9f13a6a356b029dfcc802729a7052545ad174628"
+    },
+    {
+      "path": "adl/tools/validate_v0915_multi_agent_quality_comparison.py",
+      "before": [
+        "100644",
+        "51c9b8fd9c8f43862243330d253cac2097f1d4ea"
+      ],
+      "after": null,
+      "before_sha256": "6c8216d816bea819e1c882c0c2a2b95ad5579d7d5c2048008b8aa89b1b6d5f68"
+    },
+    {
+      "path": "adl/tools/validate_v0915_openrouter_matrix.py",
+      "before": [
+        "100644",
+        "9e55fa20c46b36ad976ad607589b9af77e1e4958"
+      ],
+      "after": null,
+      "before_sha256": "185c7f4e422d5c07cebb84867ecf0ab827a1c40b5527ce73199b0af5d8b712d7"
+    },
+    {
+      "path": "adl/tools/validate_v0915_remote_gemma_watcher_probe.py",
+      "before": [
+        "100644",
+        "4d7331b3bcb10170a10d0e973efbae51c326c761"
+      ],
+      "after": null,
+      "before_sha256": "1445c697a6a8ad8b468f5b944f530af9d3a10739be75e6da8b40e6327d9a5689"
+    },
+    {
+      "path": "adl/tools/validate_v0916_agent_suitability_panel.py",
+      "before": [
+        "100644",
+        "2a1c3b4fb6a15329bbd0285aac01587b6ad66e82"
+      ],
+      "after": null,
+      "before_sha256": "062fa6b024d99d5315ea2afb3d75974a4bd28c41f47165e764d79eb518e64c2b"
+    },
+    {
+      "path": "adl/tools/validate_v0916_deepseek_suitability.py",
+      "before": [
+        "100644",
+        "c88e9af55f4c83e5054897f467c81565ec889f51"
+      ],
+      "after": null,
+      "before_sha256": "c084a938181b2b391f01b5ab3be09acf9560132bdf42fc28749c8eea869e78ae"
+    },
+    {
+      "path": "adl/tools/validate_v0917_csm_4890_status.sh",
+      "before": [
+        "100755",
+        "103d3e1e35fa16a08cfdf0ab8da88486bd79962a"
+      ],
+      "after": null,
+      "before_sha256": "d9e4f839f424a9c13ddd82917d13c4435429158cc5921f09f0004e6266c5d204"
+    },
+    {
+      "path": "adl/tools/validate_v0917_csm_continuity_capsule_4910_status.sh",
+      "before": [
+        "100755",
+        "bafd22db7b0ac30459443286359b4296a85ea146"
+      ],
+      "after": null,
+      "before_sha256": "df060dfcad582a20284b4dde5da2f7e3a0fe8f5c73ea30a0827559682450992a"
+    },
+    {
+      "path": "adl/tools/validate_v0917_csm_governed_notice_4998_status.sh",
+      "before": [
+        "100644",
+        "5d3f61e8351082476f6ea14273390c69f3e92b44"
+      ],
+      "after": null,
+      "before_sha256": "0007760eec26c4e5558e42746d5519503244e5dd119335f39a9436ca849a1c8c"
+    },
+    {
+      "path": "adl/tools/validate_v0917_csm_otlp_4904_status.sh",
+      "before": [
+        "100755",
+        "ed3430261d8349dcf8cdf79c4eb3804adef1a308"
+      ],
+      "after": null,
+      "before_sha256": "bfbb221ca64c34124bf2f4fcd480d9721ef4fe1c250d2bcacd8467ff01a0418d"
+    },
+    {
+      "path": "adl/tools/validate_v0917_csm_service_4903_status.sh",
+      "before": [
+        "100755",
+        "e829ad746239c32aec9d50077c0c4f43d472a088"
+      ],
+      "after": null,
+      "before_sha256": "e4f98c7b451d458c09c22b3d738bd6495179761587026376d630506e2639e291"
+    },
+    {
+      "path": "adl/tools/validate_v0917_no_sparrow_4909_status.sh",
+      "before": [
+        "100755",
+        "aef117c31981969a80c4cd79bbc79232062b575c"
+      ],
+      "after": null,
+      "before_sha256": "54a4b7ca48bbaf6f6a6ed94c0f9f83cc6896ec3ba77e6c76ece092078adaef6a"
+    },
+    {
+      "path": "adl/tools/validate_v0917_soak2_4682_status.sh",
+      "before": [
+        "100755",
+        "eac10ac91ff140a8736235a33ef01e057e7abb9e"
+      ],
+      "after": null,
+      "before_sha256": "7c1feb5cdd2f44ea13380d3a1aa026f0e60125f6996f0f6a84ac22498db76974"
+    },
+    {
+      "path": "adl/tools/validate_v0917_soak2_matrix.sh",
+      "before": [
+        "100755",
+        "626b3f6f97150039fd4bf4aa118d4c2baccd499d"
+      ],
+      "after": null,
+      "before_sha256": "f7a89db24dc1a51260b5cc883a45f629e25509c2d1dff220c1c3510c4e8d2536"
+    },
+    {
+      "path": "adl/tools/warm_rust_dependency_cache.py",
+      "before": [
+        "100755",
+        "aaf2833a8e5aaa19ead5d3652afdf6ed1a537fe7"
+      ],
+      "after": null,
+      "before_sha256": "67c4237c2ca1d03a7d26d0d83bfbd3d9ceac7f6ab2d0d68325fbd498d01d3271"
+    },
+    {
+      "path": "demos/v0.90/adl_architecture_document_generation_demo.md",
+      "before": [
+        "100644",
+        "6a5be8c0948a5fc2720712de7a35ee27c0bc4506"
+      ],
+      "after": [
+        "100644",
+        "08e9b1681397c1cbe63f0a28c2dbe45979ca5a89"
+      ],
+      "before_sha256": "a026800714a3714e15d768a4a0641c713c9503b74ac0145d8aa114a91f79ed66"
+    },
+    {
+      "path": "docs/architecture/ARCHITECTURE_DOCUMENT_GENERATION_PLAN.md",
+      "before": [
+        "100644",
+        "9e8d04a135e82c78f880122c1a44668cd31bdd08"
+      ],
+      "after": [
+        "100644",
+        "8a87890afbbe62d041f16cf62399307d9fecce60"
+      ],
+      "before_sha256": "fa8dfd17b0db0873a0d28a0c41976d361e9ae5ff1cb21e6596b1e7e3dcecd079"
+    },
+    {
+      "path": "docs/architecture/ARCHITECTURE_REVIEW_AUTOMATION.md",
+      "before": [
+        "100644",
+        "2df54723f26aeed4f2a36cc8fd78272414ac799b"
+      ],
+      "after": [
+        "100644",
+        "be90bc8b14e530c1bba7ceed87712922cab5eb30"
+      ],
+      "before_sha256": "8173a8ceb801d8f17d8c5625792631ba0c1c65ba1348b299b7fc65ddb0e1c2ad"
+    },
+    {
+      "path": "docs/architecture/README.md",
+      "before": [
+        "100644",
+        "31a2f0be3f67a95693e02621a8a84b6ddf365b4e"
+      ],
+      "after": [
+        "100644",
+        "b30f06c06d3600f53172e556f42bde64c6973267"
+      ],
+      "before_sha256": "e38b54fe8a36579d1ace9fe62a050dc66b52484b8b024f1b5752ac0afc31c719"
+    },
+    {
+      "path": "docs/architecture/diagrams/DIAGRAM_PACKET.md",
+      "before": [
+        "100644",
+        "3e76151e9325b4d71e6989caa17107c0d2c9e2f1"
+      ],
+      "after": [
+        "100644",
+        "76d8d6f0f9276795a8a6036afc6a792c599bedfe"
+      ],
+      "before_sha256": "2fcb0a77bf7b30aa3108837f2b3ebc0c75d64829ef3c901df1f16cee9b690370"
+    },
+    {
+      "path": "docs/architecture/diagrams/README.md",
+      "before": [
+        "100644",
+        "461b9fe2b417ca0984f0b70fa33a17bb4e82e481"
+      ],
+      "after": [
+        "100644",
+        "1f4359d542f1878b1d0aba7bfa4491a33016bf24"
+      ],
+      "before_sha256": "947ea5df244fb1061c8cc588d9b49be454e141579362a8e4a780807cd683698a"
+    },
+    {
+      "path": "docs/planning/PROJECT_PLANNING_TEMPLATE_TRANSITION_PLAN.md",
+      "before": [
+        "100644",
+        "32ee2038f131482950d9ec795cea47e52db6dc5b"
+      ],
+      "after": [
+        "100644",
+        "86ca72a8ae72e7426aa4ceb057110bb2863b414e"
+      ],
+      "before_sha256": "e6192dabe7f564f9290aa546a27e3cf77de035029ba128416fd1ab7e9a9f992c"
+    },
+    {
+      "path": "docs/reviews/v0.91.7/internal-review-4645/live-state/build_internal_review_state.py",
+      "before": [
+        "100644",
+        "6ced70a4b5921dbf6f733fa869a255beb7d04c92"
+      ],
+      "after": null,
+      "before_sha256": "3deedc9f583175636ad16212cf906bbaac446d2ab356da6bbf2187ecd5292ed8"
+    },
+    {
+      "path": "docs/templates/planning/README.md",
+      "before": [
+        "100644",
+        "d290b5933abe184a43d9d738f607f0d54a8a6cf9"
+      ],
+      "after": [
+        "100644",
+        "39b263a1ed97a3e23123739fb9940b0791bb017a"
+      ],
+      "before_sha256": "c2b7b9d03e0a409d54a09c712cc206a7ba48a174aa0f3e9478fac07573b9cf36"
+    },
+    {
+      "path": "docs/templates/prompts/README.md",
+      "before": [
+        "100644",
+        "a50c476780a8ed3dc6575c983b9a1f36a53c3ebd"
+      ],
+      "after": [
+        "100644",
+        "288b583d76e8748563df43f2856ee719b696ff35"
+      ],
+      "before_sha256": "34d78b1cd81bf4cf3289a88042000faeef6a108dc86c84fa0d4c214d1c08aa3e"
+    },
+    {
+      "path": "docs/tooling/ADL_BUILDER_IMAGE.md",
+      "before": [
+        "100644",
+        "4e001d9057158e60f54ae372e5e32e16b21c39c2"
+      ],
+      "after": [
+        "100644",
+        "34b210e438e52c535788baa6b3153d78e15470a4"
+      ],
+      "before_sha256": "7ee1ebb6a27b7b9048a960a8e1f9a90c3557e108b115579b5a14040c3ce4cc18"
+    },
+    {
+      "path": "docs/tooling/AWS_SPOT_REMOTE_EXECUTION_HOW_TO.md",
+      "before": [
+        "100644",
+        "4d2adc8027253b6a1b11edec621520a346d7a319"
+      ],
+      "after": [
+        "100644",
+        "d52d14eee6264db32ddb7018bfd95b87e577ad4d"
+      ],
+      "before_sha256": "9518262d9525cc57ade85ac404de8f0fe700c762292646b73965292bc1b55e49"
+    },
+    {
+      "path": "docs/tooling/HARDLINKED_RUST_DEPENDENCY_CACHE.md",
+      "before": [
+        "100644",
+        "815f5b662d2ff7a0a560f84931967d522b7fc9e3"
+      ],
+      "after": [
+        "100644",
+        "5f2329ec29ac0404974cdc197ca96837bb6812b9"
+      ],
+      "before_sha256": "e2f7b71bcdbfbda0fcb40a7da73d63eb19a818729efa2c7c7d04ae184e7bedad"
+    },
+    {
+      "path": "docs/tooling/PROMPT_TEMPLATE_CARD_GENERATION_CHECKLIST.md",
+      "before": [
+        "100644",
+        "df45d705665527931bd119ff841674687467f4a0"
+      ],
+      "after": [
+        "100644",
+        "7f24d26b7769279c0ffe77d8bfcfdfe18e971c87"
+      ],
+      "before_sha256": "ce456f2e274a2a4033b5f6893d45faa1ff20f6dd7df6d8128fd84987cb052307"
+    },
+    {
+      "path": "docs/tooling/PROMPT_TEMPLATE_VALUES_RENDERER_PLAN_v0.91.5.md",
+      "before": [
+        "100644",
+        "dfe831ec89f42af27481ea52eaa073aceed791a7"
+      ],
+      "after": [
+        "100644",
+        "9e1f9f3de2e623c581b47ddcf2d4875f1e0f236f"
+      ],
+      "before_sha256": "12a3c56d4727fb9c3e92d5b4c0d16c195bbb7303bb879985a8629245c5d3af3f"
+    },
+    {
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "before": [
+        "100644",
+        "ac6eaeba63480233a05486921efbd2dfba645bc2"
+      ],
+      "after": [
+        "100644",
+        "4aaa8542b87015dce90416a3a8b948dd28f2b33e"
+      ],
+      "before_sha256": "a8704de669a0c3e6f4da035e7e478e92a08da1e743b7a9086476cffec91aee60"
+    },
+    {
+      "path": "tools/groupd_validation/Cargo.lock",
+      "before": [
+        "100644",
+        "aa6bd241aed380efda6b606c46e814d41d18a7df"
+      ],
+      "after": null,
+      "before_sha256": "0af16cf7b00387d47390d59516636228713658671ab86e71562fbbc069c6bfe6"
+    },
+    {
+      "path": "tools/groupd_validation/Cargo.toml",
+      "before": [
+        "100644",
+        "94ca1c4630c713eb2be3d84adfec3c9926d61960"
+      ],
+      "after": null,
+      "before_sha256": "24cf30ea69437e8f479d6904d0b81062c392f918a571b2a1debb5641ab5d0899"
+    },
+    {
+      "path": "tools/groupd_validation/README.md",
+      "before": [
+        "100644",
+        "615dd3e900291049dbc107017f0115848433615e"
+      ],
+      "after": [
+        "100644",
+        "633663a67e755aec050ea9e22713843e994f18f4"
+      ],
+      "before_sha256": "9a44a1774c0f82c949382acc6b8bdd177b314cde16cbf83b2fac234bc4a57547"
+    },
+    {
+      "path": "tools/groupd_validation/run_builder_contracts.py",
+      "before": [
+        "100644",
+        "47d3dccdaa78ff737ae0fab85849dee15473f34f"
+      ],
+      "after": null,
+      "before_sha256": "126819db7f89fa650ebd800d45fc1509ab7e0d0f11592d8106f7f058a49f4d27"
+    },
+    {
+      "path": "tools/groupd_validation/run_dependency_inventory.py",
+      "before": [
+        "100644",
+        "9efdebbd91b4991832f8a45991c436bfb4e223e2"
+      ],
+      "after": null,
+      "before_sha256": "0c8a5de037d16b105a7658d26c4d4e56b6895a045ac6b6260ab8d4c273c4c618"
+    },
+    {
+      "path": "tools/groupd_validation/src/lib.rs",
+      "before": [
+        "100644",
+        "dac8bcff31c0332ead1dd2d2d7b21a841c8ee40b"
+      ],
+      "after": null,
+      "before_sha256": "b04046a6e7e0fc49912ee839e9f23f6078e852d1422bb2c70cecc1c8d6c95a76"
+    },
+    {
+      "path": "tools/groupd_validation/test_documentation.py",
+      "before": [
+        "100644",
+        "845aadea38f21137fde377a038cb36b159f5c9de"
+      ],
+      "after": null,
+      "before_sha256": "8d3ae9b114204cf934e6bac1e2f820a534e7df9c27beb488f6fb1d2aa09c7205"
+    },
+    {
+      "path": "tools/public_adl/verify_adapter_evidence.py",
+      "before": [
+        "100644",
+        "ff856e5be99d887865e1061f7e8689c3ab2a4e3a"
+      ],
+      "after": null,
+      "before_sha256": "a2a7c820f31158cf9e9380aba8103389afcfc2faf39dc5b7175a6c3b276c5f36"
+    },
+    {
+      "path": "tools/public_contracts/src/lib.rs",
+      "before": [
+        "100644",
+        "e934d88d9167d46104feeeee57c6533391ac6a72"
+      ],
+      "after": [
+        "100644",
+        "082df5b25df89103662368b27e6f07dc543bfb9b"
+      ],
+      "before_sha256": "0240f860c544f4b38075a3c4d2ad0af3b647e944706470ff66767face97f86a6"
+    },
+    {
+      "path": "tools/public_contracts/src/main.rs",
+      "before": [
+        "100644",
+        "7a1c6c4731c4f5bd9d4d5f971cd199d3271522db"
+      ],
+      "after": [
+        "100644",
+        "526c3d7f51ab6575bd71d4efe81f639283a7b1ff"
+      ],
+      "before_sha256": "eea564c497dcc99dd12ff7874f4d8833c184d184857b15a1435b82c2e21f14ed"
+    }
+  ]
+}
