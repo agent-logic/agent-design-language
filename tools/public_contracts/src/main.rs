@@ -91,6 +91,9 @@ fn run() -> Result<()> {
         );
         return Ok(());
     }
+    if action == "pvf-data" {
+        return adl_public_contracts::pvf_runner::cli(&a[1..]);
+    }
     if action == "tool-registry" {
         if a.len() > 2 || (a.len() == 2 && a[1] != "--check") {
             bail!("usage: tool-registry [--check]");

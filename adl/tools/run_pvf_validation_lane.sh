@@ -111,64 +111,14 @@ if ! bash "$ROOT_DIR/adl/tools/validate_pvf_manifest.sh" "$MANIFEST_PATH" >/dev/
   exit 2
 fi
 
-python3 - "$MANIFEST_PATH" "$plan_tsv" <<'PY'
-import json
-import sys
-from pathlib import Path
-
-manifest_path = Path(sys.argv[1])
-plan_path = Path(sys.argv[2])
-manifest = json.loads(manifest_path.read_text())
-lanes = manifest.get("lanes", {})
-
-with plan_path.open("w", encoding="utf-8") as handle:
-    for lane_id, lane in lanes.items():
-        row = [
-            lane_id,
-            lane.get("lane_class", ""),
-            lane.get("release_gate_class", ""),
-            lane.get("default_trigger", ""),
-            "true" if lane.get("requires_worktree", False) else "false",
-            "true" if lane.get("requires_credentials", False) else "false",
-            json.dumps(lane.get("changed_path_hints", []), separators=(",", ":")),
-            lane.get("command", ""),
-        ]
-        handle.write("\t".join(row) + "\n")
-PY
+native_pvf_data() {
+  cargo run --locked --quiet --manifest-path "$ROOT_DIR/tools/public_contracts/Cargo.toml" \
+    --bin adl-public-contracts -- pvf-data "$@"
+}
+native_pvf_data plan "$MANIFEST_PATH" "$plan_tsv"
 
 path_matches_hints() {
-  local hints_json="$1"
-  python3 - "$changed_paths_txt" "$hints_json" <<'PY'
-import json
-import sys
-from fnmatch import fnmatch
-from pathlib import Path
-
-changed = [line.strip() for line in Path(sys.argv[1]).read_text().splitlines() if line.strip()]
-hints = json.loads(sys.argv[2])
-
-if not changed:
-    print("unknown")
-    raise SystemExit(0)
-
-for path in changed:
-    for hint in hints:
-        if path == hint or path.startswith(hint) or fnmatch(path, hint):
-            print("match")
-            raise SystemExit(0)
-
-print("no_match")
-PY
-}
-
-json_escape_file() {
-  python3 - "$1" <<'PY'
-import json
-import sys
-from pathlib import Path
-
-print(json.dumps(Path(sys.argv[1]).read_text()))
-PY
+  native_pvf_data match "$changed_paths_txt" "$1"
 }
 
 declare -a lane_ids=()
@@ -348,63 +298,7 @@ if [ -n "$REPORT_OUT" ]; then
 fi
 
 report_json="$tmpdir/report.json"
-{
-  printf '{\n'
-  printf '  "schema_version": "adl.pvf_run.v1",\n'
-  printf '  "manifest_path": %s,\n' "$(python3 - <<'PY' "$MANIFEST_PATH"
-import json, sys
-print(json.dumps(sys.argv[1]))
-PY
-)"
-  printf '  "mode": %s,\n' "$(python3 - <<'PY' "$MODE"
-import json, sys
-print(json.dumps(sys.argv[1]))
-PY
-)"
-  printf '  "aggregate_status": %s,\n' "$(python3 - <<'PY' "$aggregate_status"
-import json, sys
-print(json.dumps(sys.argv[1]))
-PY
-)"
-  printf '  "lanes": {\n'
-  first=true
-  for lane_id in "${lane_ids[@]}"; do
-    if [ "$first" = true ]; then
-      first=false
-    else
-      printf ',\n'
-    fi
-    lane_output_path="$(lane_file "$lane_id" out)"
-    lane_output_json='""'
-    if [ -n "$lane_output_path" ] && [ -f "$lane_output_path" ]; then
-      lane_output_json="$(json_escape_file "$lane_output_path")"
-    fi
-    printf '    %s: {\n' "$(python3 - <<'PY' "$lane_id"
-import json, sys
-print(json.dumps(sys.argv[1]))
-PY
-)"
-    printf '      "lane_class": %s,\n' "$(python3 - <<'PY' "$(get_lane_value "$lane_id" lane_class)"
-import json, sys
-print(json.dumps(sys.argv[1]))
-PY
-)"
-    printf '      "status": %s,\n' "$(python3 - <<'PY' "$(get_lane_value "$lane_id" status)"
-import json, sys
-print(json.dumps(sys.argv[1]))
-PY
-)"
-    printf '      "reason": %s,\n' "$(python3 - <<'PY' "$(get_lane_value "$lane_id" reason)"
-import json, sys
-print(json.dumps(sys.argv[1]))
-PY
-)"
-    printf '      "output": %s\n' "$lane_output_json"
-    printf '    }'
-  done
-  printf '\n  }\n'
-  printf '}\n'
-} > "$report_json"
+native_pvf_data report "$plan_tsv" "$state_dir" "$MANIFEST_PATH" "$MODE" "$aggregate_status" "$report_json"
 
 if [ -n "$REPORT_OUT" ]; then
   cp "$report_json" "$REPORT_OUT"

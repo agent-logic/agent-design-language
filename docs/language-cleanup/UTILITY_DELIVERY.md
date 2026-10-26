@@ -210,7 +210,7 @@ values must be positive unsigned integers; Boolean aliases are rejected.
 Two native groups cover malformed shapes, missing/unknown fields, class mismatch,
 invalid identifiers, optional-field types and interpreter-free CLI operation.
 Strict Clippy passed. The runner fixture suite passed before and after the validator migration;
-its remaining inline Python is separate unfinished scope. The modern
+its inline Python was subsequently replaced in the retained PVF runner slice below. The modern
 `docs/validation/pvf_lanes.json` uses a different schema and remains outside this
 retained validator's contract; its rejection is not a regression or passing proof.
 
@@ -279,3 +279,22 @@ The same positive, per-fragment and missing-file cases are retained in
 scripts. Its Cargo regression passed and is admitted by the native proof plan.
 Direct Bash validator declarations were refused by the installed allowlist;
 that attempt is preserved in local receipts, not claimed as successful admission.
+
+## Retained PVF runner data processing
+
+The retained PVF runner remains registered in the conditional v0.91.6 lane
+selector. Its inline Python plan construction, changed-path matching and JSON
+report encoding now use native helpers. Lane execution stays in the existing
+shell scheduler. Lane declaration order, glob/prefix matching, credential and
+worktree gates, status precedence and report fields are preserved. Newline/tab/
+carriage-return fields that cannot safely fit its TSV plan are explicitly refused.
+JSON whitespace/key order may change; report field values and scheduling declaration order do
+not. The manifest validator still targets its retained v0.91.4 schema.
+
+The original shell fixture suite passed against the new runner before replacement
+of that suite. Two native groups preserve the original fixture cases, parallel
+starts, plan-only nonexecution, credential refusal/explicit allowance, release
+gate precedence, skipped nonmatching lanes, invalid-manifest refusal, JSON escaping
+and path matching. The actual runner test uses failing interpreter traps. Both
+groups and strict Clippy passed; the shell test entrypoint now runs these native
+regressions. This does not assert execution frequency or qualify private lanes.
