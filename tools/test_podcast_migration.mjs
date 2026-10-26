@@ -53,7 +53,21 @@ test('copied historical podcast evidence stays byte-identical',()=>{
  const entries=JSON.parse(read('tools/podcast_migration/source-manifest.json')).entries;
  const historical=entries.filter(e=>e.source_kind==='adl_git'&&e.source_path.startsWith('docs/milestones/'));
  assert.ok(historical.length>0);
- for(const e of historical) assert.equal(hash(read(e.source_path)),e.sha256,e.source_path);
+ const retirementRaw=read('docs/language-cleanup/historical-retirements.json');
+ assert.equal(hash(retirementRaw),'0e0c4a3b3bd1473c9e5dd65c23d8e11aa0f3a95a1f1aebc0fedcde526702acd9');
+ const retirement=JSON.parse(retirementRaw);
+ const retired=new Map(retirement.entries.map(e=>[e.path,e]));
+ for(const e of historical){
+  const r=retired.get(e.source_path);
+  if(!r){assert.equal(hash(read(e.source_path)),e.sha256,e.source_path);continue;}
+  assert.equal(existsSync(new URL('../'+e.source_path,import.meta.url)),false,e.source_path);
+  assert.equal(r.custody.commit,retirement.source_commit);
+  assert.equal(r.sha256,e.sha256,e.source_path);
+  assert.equal(r.before[0].slice(-3),e.mode.slice(-3));
+  const bytes=execFileSync('git',['show',`${retirement.source_commit}:${e.source_path}`],{cwd:root});
+  assert.equal(hash(bytes),e.sha256,e.source_path);
+ }
+
 });
 
 test('retirement transition rejects changed or resurrected migrated inputs',()=>{

@@ -4,8 +4,9 @@
 This command proves the terminal child cache/ancestry inputs and the presence of
 the retained historical Runtime integration test fixture. This is not current
 Runtime execution or native lifecycle authority. #114 lifecycle/card scope and
-parent-vs-child ownership truth are enforced by the issue-owned preparation
-bundle validator, not by this terminal-chain checker.
+parent-vs-child ownership truth were checked by the retired issue-owned
+preparation validator, preserved at Git revision
+7b6986179a0642d558f3ca6e1d8f547cb003b735. This checker does not establish them.
 """
 
 from __future__ import annotations
@@ -149,7 +150,8 @@ def main() -> None:
                 "proof_boundary": (
                     "historical terminal child cache ancestry and retained test-fixture "
                     "marker presence only, not current Runtime execution; "
-                    "lifecycle/card ownership is validated by "
+                    "historical lifecycle/card ownership validator is preserved at Git "
+                    "7b6986179a0642d558f3ca6e1d8f547cb003b735: "
                     ".csdlc/prepared/issues/114/validate_preparation_bundle.py"
                 ),
                 "terminals": terminals,
