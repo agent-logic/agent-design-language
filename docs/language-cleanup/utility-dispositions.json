@@ -348,6 +348,96 @@
       "bytes": 9751,
       "consumer_result": "Historical one-off generator; no current literal path/stem callers outside inventory and historical records. Original reports retained. See PYTHON_USAGE_ASSESSMENT.md and python-usage-assessment.json; no execution-frequency claim.",
       "proof": "Original bytes match pinned Git object; source removed without regenerating historical outputs. Final transition overlay and independent full-issue acceptance remain pending."
+    },
+    {
+      "path": "adl/tools/validate_v0915_openrouter_matrix.py",
+      "action": "retired",
+      "replacement": null,
+      "command": null,
+      "source_commit": "7b6986179a0642d558f3ca6e1d8f547cb003b735",
+      "before": [
+        "100644",
+        "9e55fa20c46b36ad976ad607589b9af77e1e4958"
+      ],
+      "sha256": "185c7f4e422d5c07cebb84867ecf0ab827a1c40b5527ce73199b0af5d8b712d7",
+      "bytes": 16673,
+      "consumer_result": "Retired v0.91.5 offline provider packet replay family together with its self-tests. No registration in current CI or either lane selector; internal validator references removed together. Historical provider evidence remains unchanged; this does not retire owner qualification obligations.",
+      "proof": "Original exact Git bytes retained by identity; no historical packet regenerated. README now records retirement. Whole-issue transition overlay remains pending."
+    },
+    {
+      "path": "adl/tools/test_v0915_openrouter_matrix.sh",
+      "action": "retired",
+      "replacement": null,
+      "command": null,
+      "source_commit": "7b6986179a0642d558f3ca6e1d8f547cb003b735",
+      "before": [
+        "100644",
+        "3d177e226944a3229ca151a91666b9d2e135826d"
+      ],
+      "sha256": "c48b7c2afc4fbdf9f19824c9c77e211a8841438e79a11481a8f08fd6407e17aa",
+      "bytes": 1832,
+      "consumer_result": "Retired v0.91.5 offline provider packet replay family together with its self-tests. No registration in current CI or either lane selector; internal validator references removed together. Historical provider evidence remains unchanged; this does not retire owner qualification obligations.",
+      "proof": "Original exact Git bytes retained by identity; no historical packet regenerated. README now records retirement. Whole-issue transition overlay remains pending."
+    },
+    {
+      "path": "adl/tools/validate_v0915_remote_gemma_watcher_probe.py",
+      "action": "retired",
+      "replacement": null,
+      "command": null,
+      "source_commit": "7b6986179a0642d558f3ca6e1d8f547cb003b735",
+      "before": [
+        "100644",
+        "4d7331b3bcb10170a10d0e973efbae51c326c761"
+      ],
+      "sha256": "1445c697a6a8ad8b468f5b944f530af9d3a10739be75e6da8b40e6327d9a5689",
+      "bytes": 7498,
+      "consumer_result": "Retired v0.91.5 offline provider packet replay family together with its self-tests. No registration in current CI or either lane selector; internal validator references removed together. Historical provider evidence remains unchanged; this does not retire owner qualification obligations.",
+      "proof": "Original exact Git bytes retained by identity; no historical packet regenerated. README now records retirement. Whole-issue transition overlay remains pending."
+    },
+    {
+      "path": "adl/tools/test_v0915_remote_gemma_watcher_probe.sh",
+      "action": "retired",
+      "replacement": null,
+      "command": null,
+      "source_commit": "7b6986179a0642d558f3ca6e1d8f547cb003b735",
+      "before": [
+        "100644",
+        "250455d3f71f0e9ad486290cfad004f8f2933bad"
+      ],
+      "sha256": "04adc5b5ad9e282ab424034362bde8293f3b70db6f73ef42cbb39e490f0c12c5",
+      "bytes": 4574,
+      "consumer_result": "Retired v0.91.5 offline provider packet replay family together with its self-tests. No registration in current CI or either lane selector; internal validator references removed together. Historical provider evidence remains unchanged; this does not retire owner qualification obligations.",
+      "proof": "Original exact Git bytes retained by identity; no historical packet regenerated. README now records retirement. Whole-issue transition overlay remains pending."
+    },
+    {
+      "path": "adl/tools/validate_v0915_multi_agent_quality_comparison.py",
+      "action": "retired",
+      "replacement": null,
+      "command": null,
+      "source_commit": "7b6986179a0642d558f3ca6e1d8f547cb003b735",
+      "before": [
+        "100644",
+        "51c9b8fd9c8f43862243330d253cac2097f1d4ea"
+      ],
+      "sha256": "6c8216d816bea819e1c882c0c2a2b95ad5579d7d5c2048008b8aa89b1b6d5f68",
+      "bytes": 10904,
+      "consumer_result": "Retired v0.91.5 offline provider packet replay family together with its self-tests. No registration in current CI or either lane selector; internal validator references removed together. Historical provider evidence remains unchanged; this does not retire owner qualification obligations.",
+      "proof": "Original exact Git bytes retained by identity; no historical packet regenerated. README now records retirement. Whole-issue transition overlay remains pending."
+    },
+    {
+      "path": "adl/tools/test_v0915_multi_agent_quality_comparison.sh",
+      "action": "retired",
+      "replacement": null,
+      "command": null,
+      "source_commit": "7b6986179a0642d558f3ca6e1d8f547cb003b735",
+      "before": [
+        "100755",
+        "256312ef8f7f69e408f7400baf983e5d3cc0db01"
+      ],
+      "sha256": "a230102150e9c03520808c98207cc5bd1bdab97a9b3968ddc7901fee09cc1b01",
+      "bytes": 5122,
+      "consumer_result": "Retired v0.91.5 offline provider packet replay family together with its self-tests. No registration in current CI or either lane selector; internal validator references removed together. Historical provider evidence remains unchanged; this does not retire owner qualification obligations.",
+      "proof": "Original exact Git bytes retained by identity; no historical packet regenerated. README now records retirement. Whole-issue transition overlay remains pending."
     }
   ]
 }

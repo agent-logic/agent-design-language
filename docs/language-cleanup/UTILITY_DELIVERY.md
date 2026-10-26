@@ -224,3 +224,14 @@ archive or replacement generator was added. Generation options were configurable
 but the discovered consumers were historical records, not current public lanes.
 No execution frequency is inferred from the absence of current lexical callers.
 The full retirement transition overlay and issue acceptance remain pending.
+
+## Retired historical provider packet replay
+
+Removed the three v0.91.5 OpenRouter/Gemma/comparison Python validators and their
+three shell tests together. Their executable references form a historical replay
+family; neither current CI nor either lane-selector registry selects these tests.
+The tooling README now records retirement, exact source/test custody is retained,
+and the original review packets remain unchanged. This deliberately removes old
+replay capability rather than maintaining new native implementations of completed
+experiments. Owner qualification obligations remain separate and unfulfilled by
+this removal. Full transition admission and issue acceptance remain pending.
