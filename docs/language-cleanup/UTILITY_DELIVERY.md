@@ -3,8 +3,9 @@
 Status: **operator-requested merge checkpoint; full cleanup remains incomplete**.
 The operator requested delivery of the current work before deciding whether to
 continue. This checkpoint leaves 27 tracked Python files, 180 shell scripts,
-zero Ruby files and zero tracked `.csdlc` files. #1351 remains open for the
-remaining utility and inline-interpreter dispositions; #1352 remains pending.
+zero Ruby files and zero tracked `.csdlc` files. #1351 closes with this checkpoint by explicit operator decision. Remaining
+utility and inline-interpreter dispositions are carried under #1352, pending
+the operator's decision after viewing the merged language statistics.
 This is not an interpreter-free acceptance claim. Focused slice checks and
 independent reviews are recorded below. The committed source-retirement guard
 passed; final exact-head native proof, review and CI remain delivery gates.
