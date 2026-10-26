@@ -322,3 +322,13 @@ human diagnostics, help and invalid-option checks, with failing Cargo/CSM/Python
 Ruby commands and fake source overrides. It passed without invoking any trap.
 The shell regression entrypoint now invokes that test through Cargo; only the
 test harness may compile, never the compatibility helper itself.
+
+## Retired unused CI logging wrapper
+
+Removed `run_ci_step_with_log.sh` and its self-test. Tracked stem references
+outside historical/inventory records were confined to that test and path
+selectors in the rejected v0.91.6 manifest; no current workflow or public CI
+entrypoint invokes it. Those stale selectors are removed. Existing CI logging
+and artifact retention are unchanged. Exact original source/test identities
+preserve the retired helper's stdout/stderr capture and redaction behavior for
+historical inspection; no new implementation is added.

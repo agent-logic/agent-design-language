@@ -663,6 +663,36 @@
       "bytes": 4013,
       "consumer_result": "Historical v0.91.7 CSM/Soak2 packet replay. No current CI/public selector registration. Five old lane entries removed together; the v0.91.6 manifest is rejected by current selector private-mode guards. Runtime owner qualification remains separate.",
       "proof": "Exact Git preimage matched; historical packets unchanged. Source scan found only self-references and old-manifest entries outside historical/inventory records."
+    },
+    {
+      "path": "adl/tools/run_ci_step_with_log.sh",
+      "action": "retired",
+      "replacement": null,
+      "command": null,
+      "source_commit": "7b6986179a0642d558f3ca6e1d8f547cb003b735",
+      "before": [
+        "100755",
+        "1d1c2af8650b5b6c6a9f3163bc7a7285c5797550"
+      ],
+      "sha256": "c5664eba51090e06266c7eb9e80fd93047b6dd41b0fa757a5e9012e06aa3334f",
+      "bytes": 4694,
+      "consumer_result": "Unused legacy CI logging wrapper and its self-test retired together. No current workflow/public caller; remaining outside references were path selectors in the rejected v0.91.6 manifest, removed together. Current CI logging/retention remains unchanged.",
+      "proof": "Exact Git custody matched; tracked stem search found only own self-test and old-manifest selectors outside historical/inventory records."
+    },
+    {
+      "path": "adl/tools/test_run_ci_step_with_log.sh",
+      "action": "retired",
+      "replacement": null,
+      "command": null,
+      "source_commit": "7b6986179a0642d558f3ca6e1d8f547cb003b735",
+      "before": [
+        "100755",
+        "88b4cd9b496c1470c1da7138fcfe4bfd7724a9ea"
+      ],
+      "sha256": "236fc252ef66016dfcf3c38e15a679bee11d25ac96219ba437e9a9d681f3daf9",
+      "bytes": 2637,
+      "consumer_result": "Unused legacy CI logging wrapper and its self-test retired together. No current workflow/public caller; remaining outside references were path selectors in the rejected v0.91.6 manifest, removed together. Current CI logging/retention remains unchanged.",
+      "proof": "Exact Git custody matched; tracked stem search found only own self-test and old-manifest selectors outside historical/inventory records."
     }
   ]
 }

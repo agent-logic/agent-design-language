@@ -30,7 +30,7 @@ bash adl/tools/generate_tool_surface_registry.sh --check
 
 - `primary`: 7
 - `supported shim`: 0
-- `internal helper`: 176
+- `internal helper`: 174
 - `historical evidence`: 14
 - `archive candidate`: 0
 - `remove candidate`: 0
@@ -99,7 +99,6 @@ bash adl/tools/generate_tool_surface_registry.sh --check
 | `adl/tools/run_adl_v2_standalone.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_aws_spot_remote_validation_lane.sh` | tool surface | historical evidence | Historical Infrastructure source route retired by #1223; command refuses execution. Original assertions remain in Git and retirement custody; run the reviewed owner route. |
 | `adl/tools/run_cargo_validation.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
-| `adl/tools/run_ci_step_with_log.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_issue509_gcp_drt_d_qualification.sh` | tool surface | historical evidence | Historical Infrastructure source route retired by #1223; command refuses execution. Original assertions remain in Git and retirement custody; run the reviewed owner route. |
 | `adl/tools/run_nessus_remote_validation.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_pr_fast_test_lane.sh` | tool surface | historical evidence | Historical Runtime source-tree route retired by #1223; invocation fails before execution. Original assertions are preserved in Git and retirement custody, not qualified as passing. |
@@ -185,7 +184,6 @@ bash adl/tools/generate_tool_surface_registry.sh --check
 | `adl/tools/test_revision_validation_inventory.py` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_run_aws_spot_ci_profile.sh` | tool surface | historical evidence | Historical Infrastructure source route retired by #1223; command refuses execution. Original assertions remain in Git and retirement custody; run the reviewed owner route. |
 | `adl/tools/test_run_cargo_validation.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_run_ci_step_with_log.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_run_nessus_remote_validation.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_run_pvf_validation_lane.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_run_v0913_proof_validation_lane.sh` | tool surface | internal helper | Focused regression or contract test helper. |
