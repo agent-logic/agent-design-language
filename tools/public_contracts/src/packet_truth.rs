@@ -303,3 +303,115 @@ pub fn cli(kind: &str, args: &[String]) -> i32 {
         }
     }
 }
+
+pub const HTML_FILES: &[&str] = &[
+    "README.md",
+    "FIVE_MINUTE_HTML_GAME_PACKET_v0.91.3.md",
+    "ct_demo_002_starharvest_design_note.md",
+    "ct_demo_002_starharvest_implementation_summary.md",
+    "ct_demo_002_starharvest_qa_checklist.md",
+    "ct_demo_002_starharvest_proof_report.md",
+];
+pub const HTML_SNIPPETS: &[(&str, &[&str])] = &[
+    (
+        "FIVE_MINUTE_HTML_GAME_PACKET_v0.91.3.md",
+        &[
+            "# Five-Minute HTML Game Packet v0.91.3",
+            "Result Vocabulary",
+            "What This Demo Proves",
+            "What This Demo Suggests",
+            "What This Demo Does Not Prove",
+            "Primary Demo Command",
+        ],
+    ),
+    (
+        "ct_demo_002_starharvest_design_note.md",
+        &[
+            "# Starharvest Design Note",
+            "Visual Thesis",
+            "Gameplay Loop",
+            "Scope Cuts",
+        ],
+    ),
+    (
+        "ct_demo_002_starharvest_qa_checklist.md",
+        &[
+            "# Starharvest QA Checklist",
+            "Observed Evidence Status",
+            "Keyboard Control",
+            "Win/loss",
+        ],
+    ),
+    (
+        "ct_demo_002_starharvest_proof_report.md",
+        &[
+            "# Starharvest Proof Report",
+            "`partial`",
+            "What the Demo Proves",
+            "What the Demo Does Not Prove",
+        ],
+    ),
+];
+fn html_field(text: &str, prefix: &str, expected: &str) -> bool {
+    let value = text
+        .lines()
+        .find_map(|s| s.trim().strip_prefix(prefix))
+        .map(str::trim);
+    value.is_some_and(|v| {
+        let v = v
+            .strip_prefix('`')
+            .and_then(|rest| rest.split_once('`').map(|(s, _)| s))
+            .unwrap_or(v);
+        v == expected || v.starts_with(&format!("{expected},"))
+    })
+}
+pub fn html_game(root: &Path) -> Result<()> {
+    files(root, HTML_FILES)?;
+    documents(root, HTML_SNIPPETS)?;
+    let packet = read(root, "FIVE_MINUTE_HTML_GAME_PACKET_v0.91.3.md")?;
+    let proof = read(root, "ct_demo_002_starharvest_proof_report.md")?;
+    let qa = read(root, "ct_demo_002_starharvest_qa_checklist.md")?;
+    let mut lines = proof.lines();
+    let result = if lines.any(|s| s.trim() == "## Result") {
+        lines.map(str::trim).find(|s| !s.is_empty()).map(unquote)
+    } else {
+        None
+    };
+    ensure!(
+        result == Some("partial"),
+        "proof report result must stay `partial` until browser/gameplay proof is fully captured"
+    );
+    for (text, prefix, expected) in [
+        (
+            &packet,
+            "- browser/gameplay proof in captured environment:",
+            "partial",
+        ),
+        (
+            &proof,
+            "- full browser/gameplay proof in captured environment:",
+            "partial",
+        ),
+        (
+            &qa,
+            "- browser load and interactive gameplay behavior in captured environment:",
+            "not run",
+        ),
+        (&qa, "- helper command prints a valid local URL:", "passed"),
+    ] {
+        ensure!(
+            html_field(text, prefix, expected),
+            "{prefix} must record `{expected}`"
+        );
+    }
+    for claim in [
+        "a bounded C-SDLC mini-sprint can produce a real playable browser artifact",
+        "the mini-sprint produced a real playable browser artifact",
+    ] {
+        ensure!(
+            !packet.contains(claim) && !proof.contains(claim),
+            "overclaim retained after downgrade"
+        );
+    }
+    Ok(())
+}

@@ -177,3 +177,14 @@ the immutable map names the older v1 wrapper. The port preserves that refusal.
 Two native groups verify these observed outcomes plus synthetic positive and
 negative markers, links, routes and verdicts. Strict Clippy passed. No successful
 current demo-coverage validation or availability of those old routes is claimed.
+
+## Completed source slice: HTML game packet
+
+The native HTML game packet checker preserves partial browser/gameplay proof,
+explicit not-run interactive QA, passed helper-URL evidence, required artifacts
+and rejection of both original playable-artifact overclaims. Original field
+parsing accepts a quoted first value or an expected value followed by a comma.
+The original shell suite passed. Native packet-truth tests retain its result
+mutation, HTML/CSS/JavaScript checks and add required-file/snippet, claim-field
+and overclaim negatives. All four packet-truth groups and strict Clippy passed.
+No browser execution or gameplay acceptance is inferred from these checks.

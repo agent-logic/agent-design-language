@@ -44,6 +44,15 @@ fn run() -> Result<()> {
         println!("v0913_quality_gate_review_surfaces: PASS surface={}", a[2]);
         return Ok(());
     }
+    if action == "html-game-packet" {
+        if a.len() != 2 {
+            eprintln!("usage: html-game-packet <packet-root>");
+            std::process::exit(2);
+        }
+        adl_public_contracts::packet_truth::html_game(std::path::Path::new(&a[1]))?;
+        println!("five-minute-html-game-packet: PASS");
+        return Ok(());
+    }
     if action == "tool-registry" {
         if a.len() > 2 || (a.len() == 2 && a[1] != "--check") {
             bail!("usage: tool-registry [--check]");

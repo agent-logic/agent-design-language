@@ -273,6 +273,21 @@
       "bytes": 5192,
       "consumer_result": "Quality-gate shell callers use native checker. Historical route strings are documentary assertions only, never executed. Historical map remains unchanged.",
       "proof": "Original quality_gate_doc and quality_gate_packet passed; original demo_coverage failed on Card Lifecycle Integration route. Native tests preserve both passes and that refusal, plus synthetic positive and negative cases. Strict Clippy passed; no passing demo_coverage claim."
+    },
+    {
+      "path": "adl/tools/validate_five_minute_html_game_packet.py",
+      "action": "replaced",
+      "replacement": "tools/public_contracts/src/packet_truth.rs",
+      "command": "bash adl/tools/validate_five_minute_html_game_packet.sh <packet-root>",
+      "source_commit": "7b6986179a0642d558f3ca6e1d8f547cb003b735",
+      "before": [
+        "100755",
+        "7202a9a47c649defc0afce9dd30b3d49717eccfb"
+      ],
+      "sha256": "6f73c1607328c61f9e182f575bda6525117e85dab76a03616a051bc1e86e716c",
+      "bytes": 4797,
+      "consumer_result": "Proof lane uses native shell entrypoint; Rust test wrapper replaces Python compile/inline fixture mutation. Historical demo remains partial, not browser-qualified.",
+      "proof": "Original shell suite and native packet_truth four groups passed; original HTML/CSS/JS checks retained; every required file/snippet, claim and browser evidence field exercised. Strict Clippy passed."
     }
   ]
 }

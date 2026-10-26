@@ -84,7 +84,7 @@ run_check first_proof_demo_contract \
   bash "$ROOT_DIR/adl/tools/test_first_proof_demo_packet.sh"
 
 run_check five_minute_html_game_packet \
-  python3 "$ROOT_DIR/adl/tools/validate_five_minute_html_game_packet.py" \
+  bash "$ROOT_DIR/adl/tools/validate_five_minute_html_game_packet.sh" \
   "$ROOT_DIR/docs/milestones/v0.91.3/review/five_minute_html_game"
 run_check five_minute_html_game_contract \
   bash "$ROOT_DIR/adl/tools/test_five_minute_html_game_packet.sh"

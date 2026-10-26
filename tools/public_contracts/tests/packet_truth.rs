@@ -215,3 +215,81 @@ fn obsmem_handoff_rejects_local_missing_and_mismatched_source_truth() {
         }
     }
 }
+#[test]
+fn html_game_keeps_partial_and_not_run_browser_proof() {
+    let temp = packet("five_minute_html_game");
+    let dir = temp.path();
+    p::html_game(dir).unwrap();
+    check_cli("html-game-packet", dir, 2);
+    let report = dir.join("ct_demo_002_starharvest_proof_report.md");
+    let original = fs::read_to_string(&report).unwrap();
+    fs::write(&report, original.replacen("`partial`", "`passed`", 1)).unwrap();
+    assert!(p::html_game(dir)
+        .unwrap_err()
+        .to_string()
+        .contains("proof report result must stay `partial`"));
+    fs::write(&report, &original).unwrap();
+    for (file, from, to) in [
+        (
+            "FIVE_MINUTE_HTML_GAME_PACKET_v0.91.3.md",
+            "- browser/gameplay proof in captured environment:",
+            "- removed:",
+        ),
+        (
+            "ct_demo_002_starharvest_proof_report.md",
+            "- full browser/gameplay proof in captured environment:",
+            "- removed:",
+        ),
+        (
+            "ct_demo_002_starharvest_qa_checklist.md",
+            "- browser load and interactive gameplay behavior in captured environment:",
+            "- removed:",
+        ),
+        (
+            "ct_demo_002_starharvest_qa_checklist.md",
+            "- helper command prints a valid local URL:",
+            "- removed:",
+        ),
+    ] {
+        let path = dir.join(file);
+        let original = fs::read_to_string(&path).unwrap();
+        assert!(original.contains(from));
+        fs::write(&path, original.replace(from, to)).unwrap();
+        assert!(p::html_game(dir).is_err());
+        fs::write(&path, original).unwrap();
+    }
+    for (file, markers) in p::HTML_SNIPPETS {
+        for marker in *markers {
+            let path = dir.join(file);
+            let original = fs::read_to_string(&path).unwrap();
+            fs::write(&path, original.replace(marker, "REMOVED")).unwrap();
+            assert!(p::html_game(dir).is_err());
+            fs::write(&path, original).unwrap();
+        }
+    }
+    for file in p::HTML_FILES {
+        let path = dir.join(file);
+        let original = fs::read(&path).unwrap();
+        fs::remove_file(&path).unwrap();
+        assert!(p::html_game(dir).is_err());
+        fs::write(path, original).unwrap();
+    }
+    for claim in [
+        "a bounded C-SDLC mini-sprint can produce a real playable browser artifact",
+        "the mini-sprint produced a real playable browser artifact",
+    ] {
+        fs::write(&report, format!("{original}\n{claim}")).unwrap();
+        assert!(p::html_game(dir).is_err());
+    }
+    for (ext, marker) in [
+        ("html", "Starharvest"),
+        ("js", "scoreTarget"),
+        ("css", "pointer-events: none"),
+    ] {
+        assert!(fs::read_to_string(root().join(format!(
+            "demos/v0.91.3/starharvest_five_minute_sprint_demo.{ext}"
+        )))
+        .unwrap()
+        .contains(marker));
+    }
+}
