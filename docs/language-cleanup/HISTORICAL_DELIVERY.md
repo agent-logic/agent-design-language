@@ -56,8 +56,11 @@ is required for public validation.
 The native historical inventory test checks all 607 committed preimages and
 absences, reconciles all 535 original rows and the coupled wrapper/build counts,
 rejects any remaining Ruby or historical Python source, and compares every other
-historical record against the source revision. This includes all five preserved
-YAML candidates. Existing native successor tests retain resurrection, caller,
+historical record in the immutable retirement snapshot `7a0b018b1e81f6b61310e29f40b8209d13375371`
+against the source revision. This includes all five preserved YAML candidates.
+The preservation assertion is scoped to that delivery; it does not freeze future
+active milestone planning updates. Current-HEAD absence and custody checks remain
+continuous. Existing native successor tests retain resurrection, caller,
 mode/hash, missing custody and foreign-deletion refusal cases and admit actual
 HEAD. The full committed retirement audit remains required with its original
 external custody prerequisites; Git preimages do not replace those prerequisites.

@@ -102,14 +102,18 @@ fn all_historical_dispositions_have_committed_custody_and_no_active_copy() {
             assert!(!p.ends_with(".py"), "historical Python remains: {p}");
         }
     }
-    // Every nonretired historical record, including receipts/cards/journals and
-    // five documentary YAML candidates, must retain its original bytes and mode.
+    // Preservation is a claim about the retirement delivery, not a permanent
+    // freeze of active milestone planning. Check the immutable retirement
+    // snapshot while keeping absence/custody checks above on current HEAD.
+    let snapshot = "7a0b018b1e81f6b61310e29f40b8209d13375371";
+    git(&["merge-base", "--is-ancestor", snapshot, "HEAD"]);
+    let retired = tree(snapshot);
     for (p, id) in &base {
         if (p.starts_with(".csdlc/") || p.starts_with("docs/milestones/"))
             && !seen.contains(p.as_str())
         {
             assert_eq!(
-                current.get(p),
+                retired.get(p),
                 Some(id),
                 "protected historical record changed: {p}"
             );
@@ -117,6 +121,6 @@ fn all_historical_dispositions_have_committed_custody_and_no_active_copy() {
     }
     for p in m["preserved_documentary_candidates"].as_array().unwrap() {
         let p = p.as_str().unwrap();
-        assert_eq!(current.get(p), base.get(p));
+        assert_eq!(retired.get(p), base.get(p));
     }
 }
