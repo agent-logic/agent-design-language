@@ -11,6 +11,7 @@ pub mod runtime_owner;
 pub mod session;
 pub mod transpiler;
 pub mod uts_install;
+pub mod warm_cache;
 // Native public consumer contracts. Synthetic owner fixtures never imply qualification.
 use anyhow::{bail, Context, Result};
 use serde_json::{json, Value};

@@ -18,6 +18,36 @@
       "bytes": 5492,
       "consumer_result": "No tracked caller found; standalone report checker remains available as native subcommand. Original report documents unchanged.",
       "proof": "Original Python checker passed before removal; native baseline and positive/negative tests passed. No lifecycle acceptance claim."
+    },
+    {
+      "path": "adl/tools/warm_rust_dependency_cache.py",
+      "action": "replaced",
+      "replacement": "tools/public_contracts/src/warm_cache.rs",
+      "command": "bash adl/tools/warm_rust_dependency_cache.sh",
+      "source_commit": "7b6986179a0642d558f3ca6e1d8f547cb003b735",
+      "before": [
+        "100755",
+        "aaf2833a8e5aaa19ead5d3652afdf6ed1a537fe7"
+      ],
+      "sha256": "67c4237c2ca1d03a7d26d0d83bfbd3d9ceac7f6ab2d0d68325fbd498d01d3271",
+      "bytes": 12543,
+      "consumer_result": "Current shell wrapper, lane selectors, skill guidance and tooling docs use native contracts. Historical review assignment remains documentary.",
+      "proof": "Original five Python tests passed before removal; ten native cases cover selection, replacement, rollback, symlink boundaries, wrapper discovery/output/cross-device skip and interpreter-free CLI exit/JSON contracts."
+    },
+    {
+      "path": "adl/tools/test_warm_rust_dependency_cache.py",
+      "action": "replaced",
+      "replacement": "tools/public_contracts/tests/warm_cache.rs",
+      "command": "bash adl/tools/warm_rust_dependency_cache.sh",
+      "source_commit": "7b6986179a0642d558f3ca6e1d8f547cb003b735",
+      "before": [
+        "100644",
+        "3f52cee5637c86a4dd1e9dae3011fde9f8967dd3"
+      ],
+      "sha256": "d56cd607ba789529fa78a82f49b54bab8300bb1867bb8426502b865aeee3bbc7",
+      "bytes": 12207,
+      "consumer_result": "Current shell wrapper, lane selectors, skill guidance and tooling docs use native contracts. Historical review assignment remains documentary.",
+      "proof": "Original five Python tests passed before removal; ten native cases cover selection, replacement, rollback, symlink boundaries, wrapper discovery/output/cross-device skip and interpreter-free CLI exit/JSON contracts."
     }
   ]
 }

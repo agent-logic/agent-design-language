@@ -247,7 +247,7 @@ the same host, same filesystem, same checkout family, and same toolchain is
 available:
 
 ```bash
-python3 adl/tools/warm_rust_dependency_cache.py \
+bash adl/tools/warm_rust_dependency_cache.sh \
   --source-target <warm-target> \
   --dest-target <issue-worktree>/adl/target \
   --manifest-path <issue-worktree>/adl/Cargo.toml \

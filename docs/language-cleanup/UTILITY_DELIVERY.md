@@ -26,3 +26,24 @@ ambiguity is rejected rather than silently overwritten.
 completed removal. No source payload is archived or embedded. Original #1275
 reports remain unchanged. Remaining utilities, callers, final guard overlays,
 independent review and CI are still required before this issue is delivered.
+
+## Completed source slice: dependency cache warming
+
+The Rust cache helper replaces the implementation and five Python regression
+cases. The original tests passed before removal. Ten native tests preserve
+artifact selection, multiline workspace manifests, dep-info/build exclusions,
+explicit replacement, rollback/restoration, wrapper defaults, JSON/output-file
+behavior and the optional cross-device skip. Direct CLI tests run with empty
+`PATH` and verify successful JSON, runtime failure exit 2 and setup failure exit 1.
+The cross-device case ran on this host using the available second filesystem.
+
+The same-filesystem wrapper and direct dry-run interface remain available at
+`adl/tools/rust_validation_warm_cache.sh` and
+`adl/tools/warm_rust_dependency_cache.sh`. They invoke Rust through Cargo; the
+first use may compile the helper. Warmup remains acceleration, never proof.
+Current lane selectors and documentation point to the native implementation.
+
+Safety corrections are explicit: source artifact/profile symlinks and destination
+parent escapes are refused, wildcard workspace membership requires explicit
+classification, and a failed rollback retains its original backup instead of
+silently deleting it. Full TOML parsing replaces the old Python-version fallback.

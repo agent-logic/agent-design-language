@@ -13,6 +13,26 @@ fn main() {
 fn run() -> Result<()> {
     let a: Vec<String> = std::env::args().skip(1).collect();
     let action = a.first().map(String::as_str).unwrap_or("");
+    if action == "warm-cache" {
+        std::process::exit(adl_public_contracts::warm_cache::cli(&a[1..]));
+    }
+    if action == "warm-cache-wrapper" && a.len() == 1 {
+        let environment = std::env::vars().collect();
+        let report =
+            adl_public_contracts::warm_cache::wrapper(&adl_public_contracts::root(), &environment)?;
+        if let Some(output) = environment
+            .get("ADL_RUST_WARM_CACHE_OUTPUT")
+            .filter(|s| !s.is_empty())
+        {
+            std::fs::write(output, format!("{report}\n"))?;
+        }
+        println!("{report}");
+        std::process::exit(if report["errors"].as_u64().unwrap_or(0) == 0 {
+            0
+        } else {
+            2
+        });
+    }
     if action == "adapter-evidence" && a.len() == 1 {
         let directory =
             adl_public_contracts::root().join("docs/repository-split/adapter-admission-1275");

@@ -208,7 +208,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/test_validate_v0922_runtime_qualification.py` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_validation_inventory.sh` | tool surface | historical evidence | Historical Runtime source-tree route retired by #1223; invocation fails before execution. Original assertions are preserved in Git and retirement custody, not qualified as passing. |
 | `adl/tools/test_validation_manager.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_warm_rust_dependency_cache.py` | tool surface | internal helper | Focused regression or contract test helper. |
+| `tools/public_contracts/tests/warm_cache.rs` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_workflow_guardrails.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_worktree_doctor.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_worktree_prune.sh` | tool surface | internal helper | Focused regression or contract test helper. |
@@ -260,7 +260,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/validation_manager.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/verify_external_git_baseline.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/verify_review_output_provenance.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
-| `adl/tools/warm_rust_dependency_cache.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
+| `adl/tools/warm_rust_dependency_cache.sh` | tool surface | internal helper | Native dependency hardlink warmup with explicit replacement and rollback. |
 | `adl/tools/workflow_guardrails.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/worktree_doctor.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/worktree_prune.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
