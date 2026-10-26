@@ -1,0 +1,196 @@
+{
+  "schema": "adl.retained_lifecycle_evidence.v1",
+  "issue": 1275,
+  "repositories": [
+    {
+      "repository": "agent-logic/codefriend",
+      "issue": 118,
+      "pull_request": 119,
+      "reviewed_head": "43f955e674d2d2b8d9c90e5c5d2a09df7e4c788f",
+      "merge_commit": "08ddd97c3777510cc0b85068f0e1d06f09d31321",
+      "remote_state_verified": "MERGED",
+      "scope": "retained_terminal_evidence_only",
+      "package_identity": [
+        "11873730137",
+        "11919095638"
+      ],
+      "authority_selector_digest": "657d17c7d10d98138f5742b051ad7a67e60041c1a733ccd639e13727850d0374",
+      "finish": {
+        "decision": "terminal_closed_out",
+        "semantic_version": {
+          "generation": 67,
+          "digest": "semantic-state-v1:2e6b5088ec21efd5fe1842dc65a4ab8fdcfed613b0e0babe57b49f2420c3f4f2"
+        },
+        "evidence_sha256": "cbefd7a95488c3d78b3fa03cfcb54470f658e562d7b904cc5e1d77d7ce950b1d"
+      },
+      "clean": {
+        "decision": "removed",
+        "receipt_digest": "8aea81e6f9c0abb881c8a3e73bc69e355a0df19b6e8dea257b604bd089eb5bed",
+        "semantic_version": {
+          "generation": 69,
+          "digest": "semantic-state-v1:f9d1b217ca738b04de7cd6234e14d9de82d14d2c6338d27c5550d2aeae2edaf8"
+        },
+        "evidence_sha256": "5f95385e5f92e4907f23b1b42a49773ff9b59fe6cb56290945659183129ae999"
+      },
+      "remaining": [],
+      "archive": {
+        "manifest_sha256": "6eab43d8baadff1fb7bfce9ac0baedcf09e521e7122db677e7acc0c6876cbef6",
+        "inventory_digest": "6d7de3fcdd0e2583e871ff55dc9aa976fe7fa1e17548b6686f1addfdb1ecf034",
+        "inventory_digest_algorithm": "BLAKE3",
+        "verification": "Retained native manifest inspected; archive BLAKE3 digests not independently recomputed in this audit"
+      },
+      "proof": {
+        "status": "passed",
+        "head": "43f955e674d2d2b8d9c90e5c5d2a09df7e4c788f",
+        "sha256": "30136452840528e85313889f46b554d6572c6dcd98b65dfdfeb0eda7f9aca4d7",
+        "native_manifest_digest": "7b93bc8259dfbb67bbd54678dee33ba5f8a32487fead767afd266b308c3d10fe",
+        "tests_passed": 24,
+        "tests_failed": 0
+      },
+      "review": {
+        "reviewed_revision": "43f955e674d2d2b8d9c90e5c5d2a09df7e4c788f",
+        "receipt_digest": "7e51f365c1354db8c478fb879768dc5dc2b28d902cb636e33b2b70dd5caca7c0",
+        "proof_digest": "7b93bc8259dfbb67bbd54678dee33ba5f8a32487fead767afd266b308c3d10fe",
+        "evidence_sha256": "d5541c335000c2650fd8052b7f5731c5cfe5201421364f83910c129d4a16fe18"
+      },
+      "retained_state": {
+        "version": {
+          "audit": "semantic-audit-v1:6ee42c1f6bf880841c079e1aaa9b34c72328dca2ee1c8ddcd433e3ef85939354",
+          "digest": "semantic-state-v1:f9d1b217ca738b04de7cd6234e14d9de82d14d2c6338d27c5550d2aeae2edaf8",
+          "generation": 69
+        },
+        "phase": "closed_out",
+        "pending": null
+      },
+      "resolution_evidence": "PACKAGE_BINDINGS.json and RETAINED_ACCEPTANCE.json; current126 admission is separate from historical118 delivery."
+    },
+    {
+      "repository": "agent-logic/agent-logic-runtime",
+      "issue": 112,
+      "pull_request": 136,
+      "reviewed_head": "708eec887731b37e3a687b4058c3040bdc50d685",
+      "merge_commit": "541dc24c885948d9fa352498c5c56e36e15f7a6a",
+      "remote_state_verified": "MERGED",
+      "scope": "retained_terminal_evidence_only",
+      "package_identity": [
+        "11668650234",
+        "11678809415",
+        "11771018523"
+      ],
+      "authority_selector_digest": "e5ac35bdf6bf00b1f7957ce32383ec81273bc13b78e6ec63ddf910cfbcadd1d2",
+      "finish": {
+        "decision": "terminal_closed_out",
+        "semantic_version": {
+          "generation": 37,
+          "digest": "semantic-state-v1:e8e75f5a39400c5c3370e24124da4e495e59c9ada91a38cb3f3660e54afd0bb8"
+        },
+        "evidence_sha256": "06d2dc10939258eaee3f1157604d37cab8b926bb3ecf988428f7c3b9aac4d155"
+      },
+      "clean": {
+        "decision": "removed",
+        "receipt_digest": "dfbea0c3b149135a0a6c2f7deaea6790a29e028039230074f6ca940b93abdea6",
+        "semantic_version": {
+          "generation": 39,
+          "digest": "semantic-state-v1:daba51bf8d4111f7621b66d32cf7a906c06bc634f5cb6bd1e36776d2c7fd2942"
+        },
+        "evidence_sha256": "7c5378cc3be905229361167298b7402cac1309ad60ada22ac89676d4686047b7"
+      },
+      "remaining": [
+        "Historical112 proof/review precede its final rebased head; no retroactive exact-head qualification. Complete representative192 supplies adapter lifecycle acceptance."
+      ],
+      "resolution_evidence": "PACKAGE_BINDINGS.json and RETAINED_ACCEPTANCE.json; old11771018523 current installation identity refuses, while current194 package12369122943 is operationally admitted."
+    },
+    {
+      "repository": "agent-logic/agent-design-language",
+      "issue": 1335,
+      "pull_request": 1342,
+      "reviewed_head": "ef21aacbeb9b5968998557b9284c9e63bef10720",
+      "scope": "retained native lifecycle; no new validation execution",
+      "stages": {
+        "prepare": {
+          "status": "completed",
+          "evidence_sha256": "8080155915a5f132d4bb4925eee1803f4f94e03792b7a0cab40b6ae5468d8858",
+          "observed_head": "44d66b99b2be37da393ce094a9748f8736368ee5"
+        },
+        "bind": {
+          "status": "completed",
+          "evidence_sha256": "4edb759b27239639e8d30cb37e2d99d3ce883ef12ad6d210f1fe2765de61dabb",
+          "observed_head": "44d66b99b2be37da393ce094a9748f8736368ee5"
+        },
+        "proof": {
+          "status": "completed",
+          "evidence_sha256": "ae8110b4e6f8bf499f9a8465b94f4efe6b2be91963a9f61f5ec079cd418bdbd7",
+          "observed_head": "ef21aacbeb9b5968998557b9284c9e63bef10720",
+          "validators": [
+            {
+              "id": "uts-declaration-contract",
+              "exit_code": 0,
+              "tests_passed": 35,
+              "tests_failed": 0
+            }
+          ]
+        },
+        "review": {
+          "status": "completed",
+          "evidence_sha256": "922d4428a612e79698bc3e873565176f38e943876694fd1a77fb3371e169bfa3",
+          "observed_head": "ef21aacbeb9b5968998557b9284c9e63bef10720",
+          "receipt_digest": "8b52da80b8379d8f8d7724428b47171bf733f5711d6515a6a2f8e402732a7e81"
+        },
+        "publication": {
+          "status": "completed",
+          "evidence_sha256": "f53a95617fc75077979b9b0373f418a400764725d15e8f4432fcef1d6268f9c5",
+          "observed_head": "ef21aacbeb9b5968998557b9284c9e63bef10720",
+          "receipt": {
+            "schema": "csdlc.v3.github_mutation_receipt.v2",
+            "repository": "agent-logic/agent-design-language",
+            "issue": 1335,
+            "pull_request": 1342,
+            "expected_head_sha": "ef21aacbeb9b5968998557b9284c9e63bef10720",
+            "operation_digest": "ace9c6315cd9a630aad95b37cfe0cd4616a6e2cc8d16d20641e9c71a53ef24ce",
+            "response_digest": "734c4da0267919100bddb1fdb15f3d7cde31d1c4bce60d6948952d2a61e8b269",
+            "readback_digest": "0c8ee12e2aa327cb938df5cf89f6328465df47c4d9702c007977c646e5ee13c5",
+            "intent_digest": "4db98e589799b344c2b8daa3be9130e2d73044d51b03b3cf3c47975542e3a0bd",
+            "reconciliation_digest": "315830e5e0b0f0080c251d0d5f00b2a2f7b5b8b99d339d31fe55251cd353e6ab",
+            "adapter": "github-api-operational",
+            "authenticated": true,
+            "idempotent_replay": false
+          }
+        },
+        "merge": {
+          "status": "completed",
+          "evidence_sha256": "c07e4254a801ec1e3e1bff91fa803f7ec150471ea7b686e7f43e72310bd40375",
+          "observed_head": "ef21aacbeb9b5968998557b9284c9e63bef10720",
+          "receipt": {
+            "schema": "csdlc.v3.github_mutation_receipt.v2",
+            "repository": "agent-logic/agent-design-language",
+            "issue": 1335,
+            "pull_request": 1342,
+            "expected_head_sha": "ef21aacbeb9b5968998557b9284c9e63bef10720",
+            "operation_digest": "a8c2bebe7ad85a54b8acace9dcd3880e14aa47b8d27b577ce01b9c7c93c7d167",
+            "response_digest": "63297b10e8ef650c151c03b3aa44ecf74fd780ba2d7a61cd060a8a90ef862378",
+            "readback_digest": "c4cead1a86b7dd317b52d66d6dcdd5bebc231e019744cdddf3366ccbe1739bec",
+            "intent_digest": "8c59a2dccd4462ce5645e5dbfad297e4d5e7eccd8edb31f6a35d0f799fd80fc1",
+            "reconciliation_digest": "6d657d0cdbf56592340372168257141484dad77853c90d8a637abcc08618cad2",
+            "adapter": "github-api-operational",
+            "authenticated": true,
+            "idempotent_replay": false
+          }
+        },
+        "finish": {
+          "status": "completed",
+          "evidence_sha256": "023a7386a0c54d1d3461fa2cb6a9bce99150849708206f6973c7e9d07857889f",
+          "observed_head": "ef21aacbeb9b5968998557b9284c9e63bef10720",
+          "decision": "terminal_closed_out"
+        },
+        "clean": {
+          "status": "completed",
+          "evidence_sha256": "23dc1c3a60c0c8f38a86ce0475c0721a7b7699444b712d2d22f47b92bcc76fe4",
+          "observed_head": "ef21aacbeb9b5968998557b9284c9e63bef10720",
+          "decision": "removed",
+          "receipt_digest": "cd3e16e088056f3983bb92eff8dbea3c041c85cbc0214fc8963533d0ef5ef74e"
+        }
+      },
+      "boundary": "Prepare/bind identify the initial source head; proof/review/publication/merge/finish/clean identify the final reviewed head. This historical lifecycle does not complete parent1275."
+    }
+  ]
+}

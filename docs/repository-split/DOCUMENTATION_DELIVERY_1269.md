@@ -77,6 +77,16 @@ public-operation/final-export flow. No new product acceptance is claimed.
 
 ## Adapter follow-up and bounded delivery exception
 
+Current disposition — 2026-10-25: the temporary documentation delivery fallback
+is retired for the thirteen repository adapters. The
+[#1275 acceptance packet](adapter-admission-1275/README.md) records seven
+delivered migration lanes and six preserved native contexts, with exact package
+bindings, current read-only admission and retained lifecycle evidence. Cleanup
+is explicitly deferred where it was not already completed. This disposition
+does not claim parent #1275 terminal delivery or product/release acceptance.
+The original exception and readbacks below remain historical evidence and grant
+no new raw-write permission.
+
 [ADL #1275](https://github.com/agent-logic/agent-design-language/issues/1275)
 owns repository-adapter migration and native admission/setup reconciliation.
 Several retained adapters still name ADL source discovery or retired conductors;

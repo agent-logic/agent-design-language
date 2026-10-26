@@ -1,0 +1,925 @@
+{
+  "schema": "adl.retained_adapter_acceptance.v1",
+  "issue": 1275,
+  "observed_date": "2026-10-25",
+  "scope": "Six existing native contexts; seven migrated adapter lanes remain in ADMISSION.json and DELIVERY.json.",
+  "repositories": [
+    {
+      "repository": "agent-logic/agent-design-language",
+      "disposition": "preserve_existing_native_adapter_and_owner_context",
+      "acceptance_scope": "Repository lifecycle adapter capability; separate product/release acceptance is excluded.",
+      "representative_issue": 1335,
+      "pull_request": 1342,
+      "head": "ef21aacbeb9b5968998557b9284c9e63bef10720",
+      "preparation": {
+        "generation": 1,
+        "phase": "ready",
+        "command": "prepare",
+        "authority_digest": "semantic-authority-v1:3e4608ad9235951c3f65f281b1dd89241dde969332227402f86d90d1009c14f8",
+        "commit_sha256": "ff18f6425db178e606fb1ac01544acc63cf0ca50eee35c0243f9b45ed7045891",
+        "package_artifact": "11786371585"
+      },
+      "binding": {
+        "command": "bind",
+        "generation": 4,
+        "head": "44d66b99b2be37da393ce094a9748f8736368ee5",
+        "package_artifact": "11786371585",
+        "outcome": "success",
+        "evidence_digest": "semantic-evidence-v1:0b059b2f783568c813ad782f8cd68cea4c344aa6f0eafc234519f8f8fe170ac6",
+        "evidence_sha256": "39ad6ec63f37f7824be738cb2832007314edbdf63a91866a6915fddcac158774",
+        "commit_sha256": "95e5a49dc71b3547f585f356b43b266c18d27a27c83171336c91baa3ba428a2c",
+        "object_digest_verified": true
+      },
+      "proof": {
+        "command": "record_proof",
+        "generation": 38,
+        "head": "ef21aacbeb9b5968998557b9284c9e63bef10720",
+        "package_artifact": "11786371585",
+        "outcome": "success",
+        "evidence_digest": "semantic-evidence-v1:15f84e035a6d53596b0490a0d048312f0c96f0d22162f96e34235c37cae4528f",
+        "evidence_sha256": "a951ed326c2e657636d8ebf5bec2733709d88b8a042462b0bbdf56577ba197e9",
+        "commit_sha256": "3357bcc36f0c3f1f60069701bd5fae27b4c28181850b979a08e8336113bebed3",
+        "object_digest_verified": true,
+        "validators": [
+          {
+            "id": "uts-declaration-contract",
+            "exit_code": 0,
+            "tests_passed": 35,
+            "tests_failed": 0,
+            "test_report_valid": null
+          }
+        ]
+      },
+      "review": {
+        "command": "record_review_pass",
+        "generation": 40,
+        "head": "ef21aacbeb9b5968998557b9284c9e63bef10720",
+        "package_artifact": "11786371585",
+        "outcome": "success",
+        "evidence_digest": "semantic-evidence-v1:63753b37297757bef94c77ca82e558151ff43f388c6f3589ac30d17dfd116928",
+        "evidence_sha256": "32944398c0879392553e1fa19279b5fcfac6e7fd979a16e7692dafa221c1c481",
+        "commit_sha256": "55911c6b4d29231008a70a3806ce064f599f232bf6da6d9397ffeb1a263e2007",
+        "object_digest_verified": true,
+        "receipt_digest": "8b52da80b8379d8f8d7724428b47171bf733f5711d6515a6a2f8e402732a7e81"
+      },
+      "publication": {
+        "command": "publish",
+        "generation": 42,
+        "head": "ef21aacbeb9b5968998557b9284c9e63bef10720",
+        "package_artifact": "11786371585",
+        "outcome": "success",
+        "evidence_digest": "semantic-evidence-v1:fbd4d2e9c2c41395d2f63ac8fd55ce6552b7500e2c4a4455677bd3658244828c",
+        "evidence_sha256": "75fe22bf5e206b48e731d82af5d7c016c95b2917409629c5b678cb1f8a0bcd47",
+        "commit_sha256": "197b5dce96227d7dc41912b82cdf25aed99628203260e2d510b11866d9506634",
+        "object_digest_verified": true,
+        "receipt": {
+          "schema": "csdlc.v3.github_mutation_receipt.v2",
+          "repository": "agent-logic/agent-design-language",
+          "issue": 1335,
+          "pull_request": 1342,
+          "expected_head_sha": "ef21aacbeb9b5968998557b9284c9e63bef10720",
+          "operation_digest": "ace9c6315cd9a630aad95b37cfe0cd4616a6e2cc8d16d20641e9c71a53ef24ce",
+          "response_digest": "734c4da0267919100bddb1fdb15f3d7cde31d1c4bce60d6948952d2a61e8b269",
+          "readback_digest": "0c8ee12e2aa327cb938df5cf89f6328465df47c4d9702c007977c646e5ee13c5",
+          "intent_digest": "4db98e589799b344c2b8daa3be9130e2d73044d51b03b3cf3c47975542e3a0bd",
+          "reconciliation_digest": "315830e5e0b0f0080c251d0d5f00b2a2f7b5b8b99d339d31fe55251cd353e6ab",
+          "adapter": "github-api-operational",
+          "authenticated": true,
+          "idempotent_replay": false
+        }
+      },
+      "terminal": {
+        "delivery": {
+          "status": "delivered",
+          "repository": "agent-logic/agent-design-language",
+          "issue": 1335,
+          "pull_request": 1342,
+          "head_sha": "ef21aacbeb9b5968998557b9284c9e63bef10720"
+        },
+        "native_finish": {
+          "command": "finish",
+          "generation": 48,
+          "head": "ef21aacbeb9b5968998557b9284c9e63bef10720",
+          "package_artifact": "11786371585",
+          "outcome": "success",
+          "evidence_digest": "semantic-evidence-v1:75465ec7b8136192e29439770d91f3584a93aa45976965725fbce68574120f89",
+          "evidence_sha256": "1d041a81a36db8797251e04d33dbef4f7e6b2860ee3f38351a01e6f24905fe46",
+          "commit_sha256": "976ac8680c18ef8701c95f12831c9eca291b455f2dc61afd482e550f53a97a8c",
+          "object_digest_verified": true
+        }
+      },
+      "cleanup": {
+        "status": "retained_removed",
+        "executed_by_this_session": false,
+        "receipt_digest": "cd3e16e088056f3983bb92eff8dbea3c041c85cbc0214fc8963533d0ef5ef74e",
+        "native_evidence": {
+          "command": "record_cleanup",
+          "generation": 50,
+          "head": "ef21aacbeb9b5968998557b9284c9e63bef10720",
+          "package_artifact": "11786371585",
+          "outcome": "success",
+          "evidence_digest": "semantic-evidence-v1:b077eebe6f279b9f5eb792091427107a8d5b88b3336b56af64673530af6d30d7",
+          "evidence_sha256": "ce60aa2194b0b3bee4aa715c82a1c81447fd25a9073f64148bc7124b3c4712b6",
+          "commit_sha256": "013ec0feda1c8c16a7cad3fb800d90cc645074d9598c8079a99b866762adee57",
+          "object_digest_verified": true
+        }
+      },
+      "current_admission": {
+        "issue": 1275,
+        "status": "completed",
+        "phase": "reviewed",
+        "operational_authority": true,
+        "read_only": true,
+        "performed_mutation": false,
+        "package_artifact": "12369122943",
+        "semantic_version": {
+          "generation": 22,
+          "digest": "semantic-state-v1:0b8c219223651181c8123c84624f0dbccb3f72e911f82543ce9cc5b5fc4a8d1d"
+        },
+        "doctor_findings": [
+          {
+            "status": "passed",
+            "code": "semantic_cards_current",
+            "message": "current semantic card projection is healthy"
+          },
+          {
+            "status": "passed",
+            "code": "binding_live",
+            "message": "exact Git worktree registration is live"
+          }
+        ],
+        "registry_version": "1.0.5",
+        "projection_observation": {
+          "status": "healthy"
+        },
+        "evidence_sha256": "285e8217b2216f0154aa74e43988aa6078f7e49e84539d24239146685000f97a"
+      },
+      "package_binding_evidence": "PACKAGE_BINDINGS.json",
+      "worktree_preference": "Preserve the actual native registered binding; no new mandatory location policy or worktree created by this audit.",
+      "validation_profile": "Retain repository-specific validators; the representative native validators above are retained execution evidence, not new product tests.",
+      "current_admission_boundary": "Read-only status at the named issue/version; does not finish, approve or take over that issue."
+    },
+    {
+      "repository": "agent-logic/cognitive-sdlc",
+      "disposition": "preserve_existing_native_adapter_and_owner_context",
+      "acceptance_scope": "Repository lifecycle adapter capability; separate product/release acceptance is excluded.",
+      "representative_issue": 312,
+      "pull_request": 321,
+      "head": "c5e8f40a713f909a317fd45a95ed141805ae2283",
+      "preparation": {
+        "generation": 1,
+        "phase": "ready",
+        "command": "prepare",
+        "authority_digest": "semantic-authority-v1:1adbc51f94007f505fd7828874a8ac0992e8412cbea6e579ddbd6b847983e779",
+        "commit_sha256": "80c18a7988aeded33fc06c72003041ce8f3660656c5674b5fb425594757620cb",
+        "package_artifact": "12317930748"
+      },
+      "binding": {
+        "command": "bind",
+        "generation": 4,
+        "head": "49ee43c87d3a1e4ac102cbc6b4818b98f9626970",
+        "package_artifact": "12317930748",
+        "outcome": "success",
+        "evidence_digest": "semantic-evidence-v1:90d12ea3f070685a90af19308072a76a980ab2252a0dd3a9f1c2a94f0321b467",
+        "evidence_sha256": "b08ca6c9496f9b976e01687ff504aeb5a8979c49d8622507210bd3ccbbb8266c",
+        "commit_sha256": "98798af3a29327e9f8aceb0f5e6e459933328b315dc7b450ea311902bb25f96c",
+        "object_digest_verified": true
+      },
+      "proof": {
+        "command": "record_proof",
+        "generation": 20,
+        "head": "c5e8f40a713f909a317fd45a95ed141805ae2283",
+        "package_artifact": "12369122943",
+        "outcome": "success",
+        "evidence_digest": "semantic-evidence-v1:5507db335de8bdafd271fe98963277b9e54e1500f7bd7b5d272e116a9bf79fbd",
+        "evidence_sha256": "728c70fb9d2276749683532fe0dd897959a0ecd535f1fb00aa20f8bce9a073f3",
+        "commit_sha256": "2b3f3f9e7e38e20d0ecc32177a5971e1681e0d087822768e1074a83551cd3cdc",
+        "object_digest_verified": true,
+        "validators": [
+          {
+            "id": "scheduling-access-regressions",
+            "exit_code": 0,
+            "tests_passed": 3,
+            "tests_failed": 0,
+            "test_report_valid": true
+          },
+          {
+            "id": "installed-preview-diagnostics",
+            "exit_code": 0,
+            "tests_passed": 1,
+            "tests_failed": 0,
+            "test_report_valid": true
+          }
+        ]
+      },
+      "review": {
+        "command": "record_review_pass",
+        "generation": 22,
+        "head": "c5e8f40a713f909a317fd45a95ed141805ae2283",
+        "package_artifact": "12369122943",
+        "outcome": "success",
+        "evidence_digest": "semantic-evidence-v1:3707e545d855ac324c810c6d8f258d00197d418a4aa6f1d87b41f9173f1f0a80",
+        "evidence_sha256": "04a7cf3dfe167d09e7e4cf53b6022faeb80eeae703827b67dab312f1ea2cc33c",
+        "commit_sha256": "e54e2778b00b23c25f03f1e7ee8aa005ee0772809088a017ea3c6045adf1a690",
+        "object_digest_verified": true,
+        "receipt_digest": "5832ed496bbdc6a0fc4c113700a8f9c346c8bbb623e95ef9e47846c09e441b61"
+      },
+      "publication": {
+        "command": "publish",
+        "generation": 24,
+        "head": "c5e8f40a713f909a317fd45a95ed141805ae2283",
+        "package_artifact": "12369122943",
+        "outcome": "success",
+        "evidence_digest": "semantic-evidence-v1:ff0b73f5a4668fc49ce1ea700c97ef53ccad5d16809f4572d13fa19d4aec53f5",
+        "evidence_sha256": "3ad9fa6e4addca2c0d4fe7065ec208585849e9ecc0631cea918ac4721053e0c1",
+        "commit_sha256": "8ee36c30ff6c3cf2487aba28eb5cdef4e9d439051dc7d69be10420c12a2a2091",
+        "object_digest_verified": true,
+        "receipt": {
+          "schema": "csdlc.v3.github_mutation_receipt.v2",
+          "repository": "agent-logic/cognitive-sdlc",
+          "issue": 312,
+          "pull_request": 321,
+          "expected_head_sha": "c5e8f40a713f909a317fd45a95ed141805ae2283",
+          "operation_digest": "30fad49c286befbf6a7222c591ae6d41a7a1d6c2379e2cb8fddc69a906ab3645",
+          "response_digest": "7b44d3faa8baa188dfd67c6ebd621de8563bf674140dce2e13e3369a4ac94159",
+          "readback_digest": "698bb1e06b2ae31100d0dc881d456286436b694b5bd304569e5a79eaf8cf856c",
+          "intent_digest": "a2d153c8883d9beb23f571d17a56dc84fae1bbea130c49b4f53e3c25fa3c2b13",
+          "reconciliation_digest": "7315e1f140f8f1de8cbf41186ea2671b31b224731d64a8409ee9c54113bffc80",
+          "adapter": "github-api-operational",
+          "authenticated": true,
+          "idempotent_replay": false
+        }
+      },
+      "terminal": {
+        "delivery": {
+          "status": "delivered",
+          "repository": "agent-logic/cognitive-sdlc",
+          "pull_request": 321,
+          "head_sha": "c5e8f40a713f909a317fd45a95ed141805ae2283",
+          "issue": 312,
+          "issue_closure": "closed",
+          "finish_required": false,
+          "cleanup": "optional"
+        },
+        "evidence_sha256": "4d3396fd5a545fffd741afcc6c083751dc6f91a5096af123666c50eea6376aeb"
+      },
+      "cleanup": {
+        "status": "deferred_by_operator",
+        "executed_by_this_session": false
+      },
+      "current_admission": {
+        "issue": 312,
+        "status": "completed",
+        "phase": "merged",
+        "operational_authority": true,
+        "read_only": true,
+        "performed_mutation": false,
+        "package_artifact": "12369122943",
+        "semantic_version": {
+          "generation": 28,
+          "digest": "semantic-state-v1:a8c60c5c2105ec36671a9e330ea14a0daa176c0c773d02aab81f673e346bd5e5"
+        },
+        "doctor_findings": [
+          {
+            "status": "passed",
+            "code": "semantic_cards_current",
+            "message": "current semantic card projection is healthy"
+          },
+          {
+            "status": "passed",
+            "code": "binding_live",
+            "message": "exact Git worktree registration is live"
+          }
+        ],
+        "registry_version": "1.0.5",
+        "projection_observation": {
+          "status": "healthy"
+        },
+        "evidence_sha256": "0a4271ab96bafc3e51ace742d9df6e5910e751f68ee2547a3148087db8dcc0ed"
+      },
+      "package_binding_evidence": "PACKAGE_BINDINGS.json",
+      "worktree_preference": "Preserve the actual native registered binding; no new mandatory location policy or worktree created by this audit.",
+      "validation_profile": "Retain repository-specific validators; the representative native validators above are retained execution evidence, not new product tests.",
+      "current_admission_boundary": "Read-only status at the named issue/version; does not finish, approve or take over that issue."
+    },
+    {
+      "repository": "agent-logic/agent-logic-runtime",
+      "disposition": "preserve_existing_native_adapter_and_owner_context",
+      "acceptance_scope": "Repository lifecycle adapter capability; separate product/release acceptance is excluded.",
+      "representative_issue": 192,
+      "pull_request": 193,
+      "head": "6d3689cc6345bdc8776b0fa84f42b8abea15e3c0",
+      "preparation": {
+        "generation": 1,
+        "phase": "ready",
+        "command": "prepare",
+        "authority_digest": "semantic-authority-v1:eba56d327c81f5759b0489a41e07b0e9e7dac04b6e4147d226719a66d28ab619",
+        "commit_sha256": "add313752262187a6978c086d27c27383197dec539bac75ee8a18f5d5dc9e0fd",
+        "package_artifact": "11786371585"
+      },
+      "binding": {
+        "command": "bind",
+        "generation": 4,
+        "head": "38a0e357e4b50dd81cfb0976750ec8bf14f7f185",
+        "package_artifact": "11786371585",
+        "outcome": "success",
+        "evidence_digest": "semantic-evidence-v1:5b078dae7dd0cbf4444a0f2c5051bceea99c52e81c4b341f60613be234a33351",
+        "evidence_sha256": "c30237800e3aa75f3754f1e290d0c64a67201743cea22e93b0da811818f742c3",
+        "commit_sha256": "4e035c65da65ea142f2f26ee9d0b4448c909c55da63f12f5f5652ece5d1fbe8e",
+        "object_digest_verified": true
+      },
+      "proof": {
+        "command": "record_proof",
+        "generation": 14,
+        "head": "6d3689cc6345bdc8776b0fa84f42b8abea15e3c0",
+        "package_artifact": "11919095638",
+        "outcome": "success",
+        "evidence_digest": "semantic-evidence-v1:8c570e8d169eb07a5e411910727f08f439313f4c9bbca67c347fb385ae928f2c",
+        "evidence_sha256": "957249296b39c722dc1ddd8c2c8e1ddd71ede5adedb1c49722de7d933680f941",
+        "commit_sha256": "bea5a7686fbde3bf31eb5fc5b4e436b1bb8b450eafc3ffcab8296a9e8062a5f2",
+        "object_digest_verified": true,
+        "validators": [
+          {
+            "id": "observatory-ui",
+            "exit_code": 0,
+            "tests_passed": 0,
+            "tests_failed": 0,
+            "test_report_valid": true
+          }
+        ]
+      },
+      "review": {
+        "command": "record_review_pass",
+        "generation": 16,
+        "head": "6d3689cc6345bdc8776b0fa84f42b8abea15e3c0",
+        "package_artifact": "11919095638",
+        "outcome": "success",
+        "evidence_digest": "semantic-evidence-v1:1bf797f35503223cea4f824e5996acaa4070f6f4b7f55c613cc6088ef1e58dee",
+        "evidence_sha256": "ceff395dda296f2d524683ca8387097ca00fc10967c676b932a07d57d264aa74",
+        "commit_sha256": "739cecea959bffbcc07a7e9f22504a0b17e63ddcf848273a957f326048d0d425",
+        "object_digest_verified": true,
+        "receipt_digest": "1b49605f9565859ecccc8bc08a2dbe592e7d32604f3c72cab75b2b23b5a1fa9d"
+      },
+      "publication": {
+        "command": "publish",
+        "generation": 18,
+        "head": "6d3689cc6345bdc8776b0fa84f42b8abea15e3c0",
+        "package_artifact": "11919095638",
+        "outcome": "success",
+        "evidence_digest": "semantic-evidence-v1:05cf8452e3805a3d205be3cc7b40e33b9401fdc8a39d8a918bd16b895e05be14",
+        "evidence_sha256": "2b17c503994b6ef0d4a6a6f8a3ddd1e2af10420b03632853285e452f8215facf",
+        "commit_sha256": "16c902f71f7da082afb6af8118ef473d5a25b9339080d258fdb4e307688a9de8",
+        "object_digest_verified": true,
+        "receipt": {
+          "schema": "csdlc.v3.github_mutation_receipt.v2",
+          "repository": "agent-logic/agent-logic-runtime",
+          "issue": 192,
+          "pull_request": 193,
+          "expected_head_sha": "6d3689cc6345bdc8776b0fa84f42b8abea15e3c0",
+          "operation_digest": "1fc88c1b130ab0df829daf52d27a9f5670c86be3b9214da88fcce84533092696",
+          "response_digest": "d3a48acd42fec10e69bddde0d79b541cfd2cf6ec9ec6444978bddd0d042c7bf0",
+          "readback_digest": "57b8eb18be2fc3ff7556ccd1a272932c9dfb41ef159abd1d6db47a44f8f60719",
+          "intent_digest": "f14928b76fb96dc66a2edd51aba8b206bc43288383a68ca6529b006eaa6696ed",
+          "reconciliation_digest": "9c99f146778ae178341432c125370802aebf8b1a3902ac8285464a682aa2491a",
+          "adapter": "github-api-operational",
+          "authenticated": true,
+          "idempotent_replay": false
+        }
+      },
+      "terminal": {
+        "delivery": {
+          "status": "delivered",
+          "repository": "agent-logic/agent-logic-runtime",
+          "issue": 192,
+          "pull_request": 193,
+          "head_sha": "6d3689cc6345bdc8776b0fa84f42b8abea15e3c0"
+        },
+        "native_finish": {
+          "command": "finish",
+          "generation": 24,
+          "head": "6d3689cc6345bdc8776b0fa84f42b8abea15e3c0",
+          "package_artifact": "11919095638",
+          "outcome": "success",
+          "evidence_digest": "semantic-evidence-v1:a84ac24a827ac8793fba057a5d3daa9b5f47c55f7f52b3020284cf7b10ab9e96",
+          "evidence_sha256": "88e6c6a59a8c576e952311a4de953da6ad4c9f51fca255fa3ce98eb901453020",
+          "commit_sha256": "b5083138c4e49f8d5c398462e393e929afff05a2e429e5681439bff9fc4ed1c1",
+          "object_digest_verified": true
+        }
+      },
+      "cleanup": {
+        "status": "retained_removed",
+        "executed_by_this_session": false,
+        "receipt_digest": "ebd9def6318dc0169f22a6bdd0f764003c76561a70db917ac44f7267f23f674d",
+        "native_evidence": {
+          "command": "record_cleanup",
+          "generation": 26,
+          "head": "6d3689cc6345bdc8776b0fa84f42b8abea15e3c0",
+          "package_artifact": "11919095638",
+          "outcome": "success",
+          "evidence_digest": "semantic-evidence-v1:9783ab4d74265e7cdac27308d1c14f2b6007a47ca6f3ef71346625ac95d7cf88",
+          "evidence_sha256": "bae279830630d976c4b1892ce8eb1abac9bf56f2eabd4c22f1e9ee71ae6f0146",
+          "commit_sha256": "a03a7ac52c771115206f038749b47eaeea54012f21acb38bd157fd67cb244a56",
+          "object_digest_verified": true
+        }
+      },
+      "current_admission": {
+        "issue": 194,
+        "status": "completed",
+        "phase": "bound",
+        "operational_authority": true,
+        "read_only": true,
+        "performed_mutation": false,
+        "package_artifact": "12369122943",
+        "semantic_version": {
+          "generation": 14,
+          "digest": "semantic-state-v1:fe01d547480606eeed7e082d7e8a75263487c00f849b5d6e62f355d4eff90192"
+        },
+        "doctor_findings": [
+          {
+            "status": "passed",
+            "code": "semantic_cards_current",
+            "message": "current semantic card projection is healthy"
+          },
+          {
+            "status": "passed",
+            "code": "binding_live",
+            "message": "exact Git worktree registration is live"
+          }
+        ],
+        "registry_version": "1.0.5",
+        "projection_observation": {
+          "status": "healthy"
+        },
+        "evidence_sha256": "d4403a50c88a0aad8542cdb37e3b5e775b68b876731341246d64373b4b81251e"
+      },
+      "package_binding_evidence": "PACKAGE_BINDINGS.json",
+      "worktree_preference": "Preserve the actual native registered binding; no new mandatory location policy or worktree created by this audit.",
+      "validation_profile": "Retain repository-specific validators; the representative native validators above are retained execution evidence, not new product tests.",
+      "current_admission_boundary": "Read-only status at the named issue/version; does not finish, approve or take over that issue."
+    },
+    {
+      "repository": "agent-logic/codefriend",
+      "disposition": "preserve_existing_native_adapter_and_owner_context",
+      "acceptance_scope": "Repository lifecycle adapter capability; separate product/release acceptance is excluded.",
+      "representative_issue": 118,
+      "pull_request": 119,
+      "head": "43f955e674d2d2b8d9c90e5c5d2a09df7e4c788f",
+      "preparation": {
+        "generation": 1,
+        "phase": "ready",
+        "command": "prepare",
+        "authority_digest": "semantic-authority-v1:a7748f352afaa7f3438da7aa8d9dd163cda442221db01c02dd6c54870d038ff6",
+        "commit_sha256": "f84ba85cf23ae3e85acd5b359222f1ae1aed51383659e58fc3ae7a7e218270b0",
+        "package_artifact": "11873730137"
+      },
+      "binding": {
+        "command": "bind",
+        "generation": 4,
+        "head": "188dd2b701be0a4acce1ec510559fdff119fd4c7",
+        "package_artifact": "11873730137",
+        "outcome": "success",
+        "evidence_digest": "semantic-evidence-v1:b104c3759a842650973e599ce825a8ace95cc372ce8ec3975dd74856fe5d379a",
+        "evidence_sha256": "142c3900019f6e94e188c3b2adb8b10db609b3935e2c55a6ee77234c4fb86181",
+        "commit_sha256": "5b8d6661a8c8a99260e934b0658ca0b019e88c37fb1a8f7fccf1bde78a4b3d28",
+        "object_digest_verified": true
+      },
+      "proof": {
+        "command": "record_proof",
+        "generation": 57,
+        "head": "43f955e674d2d2b8d9c90e5c5d2a09df7e4c788f",
+        "package_artifact": "11919095638",
+        "outcome": "success",
+        "evidence_digest": "semantic-evidence-v1:33e3d5a8fcc378eecab24cc0f18a57cfb10d840efadd2960ac50cee1dbdbca4a",
+        "evidence_sha256": "7e718539424fb89377643df07a4f23a46930e1a8e1a1bf8accc6fa849751a687",
+        "commit_sha256": "c75afa9bff54955d31795a0bcca0af58013474157620498a8a29e7a6c8a69905",
+        "object_digest_verified": true,
+        "validators": [
+          {
+            "id": "product-distribution-contract",
+            "exit_code": 0,
+            "tests_passed": 24,
+            "tests_failed": 0,
+            "test_report_valid": true
+          }
+        ]
+      },
+      "review": {
+        "command": "record_review_pass",
+        "generation": 59,
+        "head": "43f955e674d2d2b8d9c90e5c5d2a09df7e4c788f",
+        "package_artifact": "11919095638",
+        "outcome": "success",
+        "evidence_digest": "semantic-evidence-v1:45e2c9a10ffbf5d54ddadde88564508f454731a080b5159dca83e297c0055486",
+        "evidence_sha256": "d5541c335000c2650fd8052b7f5731c5cfe5201421364f83910c129d4a16fe18",
+        "commit_sha256": "fe4821c2be77c4bcfca3de9d5f56ea97458d9d69b857a51809e0940e7ae424b7",
+        "object_digest_verified": true,
+        "receipt_digest": "7e51f365c1354db8c478fb879768dc5dc2b28d902cb636e33b2b70dd5caca7c0"
+      },
+      "publication": {
+        "command": "publish",
+        "generation": 61,
+        "head": "43f955e674d2d2b8d9c90e5c5d2a09df7e4c788f",
+        "package_artifact": "11919095638",
+        "outcome": "success",
+        "evidence_digest": "semantic-evidence-v1:05f68b6e6e72536d3eca7073d4ef96907816cbf2c404172a966b0bc69a195a6b",
+        "evidence_sha256": "3fea8446662daefd8788d224e30297bb75be5368d781d9b5c7f472e6266bcb05",
+        "commit_sha256": "bf2de34109f0312e2b04df90953fbab39941244311ea900af090a617ba3be071",
+        "object_digest_verified": true,
+        "receipt": {
+          "schema": "csdlc.v3.github_mutation_receipt.v2",
+          "repository": "agent-logic/codefriend",
+          "issue": 118,
+          "pull_request": 119,
+          "expected_head_sha": "43f955e674d2d2b8d9c90e5c5d2a09df7e4c788f",
+          "operation_digest": "c9f0b8614a51c0e5e0469660a070d3f02adcec17198365db7ec876cf6be50e72",
+          "response_digest": "137a32ed69fab205afafb144c9d5a9d5fac3f4c1fc9857ba66bd991232aa891c",
+          "readback_digest": "96c2b5e143413fe6413057e2c0f8a8663f05c6a8a776464d6128f9d13ad44afb",
+          "intent_digest": "662f410cc7c78044625f7b3275b0806c7510a761d9ef13cd699caf7c5fbc0a85",
+          "reconciliation_digest": "6900e35b982702ce2ac577de8879c6be163c86e9b2ded5824750c80f220879ce",
+          "adapter": "github-api-operational",
+          "authenticated": true,
+          "idempotent_replay": false
+        }
+      },
+      "terminal": {
+        "delivery": {
+          "status": "delivered",
+          "repository": "agent-logic/codefriend",
+          "issue": 118,
+          "pull_request": 119,
+          "head_sha": "43f955e674d2d2b8d9c90e5c5d2a09df7e4c788f"
+        },
+        "native_finish": {
+          "command": "finish",
+          "generation": 67,
+          "head": "43f955e674d2d2b8d9c90e5c5d2a09df7e4c788f",
+          "package_artifact": "11919095638",
+          "outcome": "success",
+          "evidence_digest": "semantic-evidence-v1:2aa930e04119541c7e683f76f86825da75698210ebad00498639331228c2fd0e",
+          "evidence_sha256": "049dbecb3c7dbb822c8cfb5234631ea9318467a6486c292204c38ca375e23216",
+          "commit_sha256": "505035737b79c9c59e8fb5e7517116bef4fb5c3584c3b6d6096d69349d7ffdc7",
+          "object_digest_verified": true
+        }
+      },
+      "cleanup": {
+        "status": "retained_removed",
+        "executed_by_this_session": false,
+        "receipt_digest": "8aea81e6f9c0abb881c8a3e73bc69e355a0df19b6e8dea257b604bd089eb5bed",
+        "native_evidence": {
+          "command": "record_cleanup",
+          "generation": 69,
+          "head": "43f955e674d2d2b8d9c90e5c5d2a09df7e4c788f",
+          "package_artifact": "11919095638",
+          "outcome": "success",
+          "evidence_digest": "semantic-evidence-v1:41952432e3945f34745c2a9993587ab784e0801d270ffec295a744795ee315b8",
+          "evidence_sha256": "df9c8f791462c50fda129bebd80b92d5372d8f79fa37c9e13ab6b24307ab197e",
+          "commit_sha256": "8ba2d3a653f246941ad901b4ae33680197eee7914e6e25779ff5789c393aa2e6",
+          "object_digest_verified": true
+        }
+      },
+      "current_admission": {
+        "issue": 126,
+        "status": "completed",
+        "phase": "published",
+        "operational_authority": true,
+        "read_only": true,
+        "performed_mutation": false,
+        "package_artifact": "12369122943",
+        "semantic_version": {
+          "generation": 189,
+          "digest": "semantic-state-v1:751759246eb7fe4f02b3895c41cbac4c4c6d86747463c9efbfe30e48baf05770"
+        },
+        "doctor_findings": [
+          {
+            "status": "passed",
+            "code": "semantic_cards_current",
+            "message": "current semantic card projection is healthy"
+          },
+          {
+            "status": "passed",
+            "code": "binding_live",
+            "message": "exact Git worktree registration is live"
+          }
+        ],
+        "registry_version": "1.0.5",
+        "projection_observation": {
+          "status": "healthy"
+        },
+        "evidence_sha256": "14cae84f69568f25145156e8b047f6f4acc64aadad83ce5a04c13d99046c8ed2"
+      },
+      "package_binding_evidence": "PACKAGE_BINDINGS.json",
+      "worktree_preference": "Preserve the actual native registered binding; no new mandatory location policy or worktree created by this audit.",
+      "validation_profile": "Retain repository-specific validators; the representative native validators above are retained execution evidence, not new product tests.",
+      "current_admission_boundary": "Read-only status at the named issue/version; does not finish, approve or take over that issue."
+    },
+    {
+      "repository": "agent-logic/agent-logic-infrastructure",
+      "disposition": "preserve_existing_native_adapter_and_owner_context",
+      "acceptance_scope": "Repository lifecycle adapter capability; separate product/release acceptance is excluded.",
+      "representative_issue": 37,
+      "pull_request": 38,
+      "head": "227e5fc798837ed596376284a0c267f3ee9e1b04",
+      "preparation": {
+        "generation": 1,
+        "phase": "ready",
+        "command": "prepare",
+        "authority_digest": "semantic-authority-v1:f00eee10a03716a758af8e6df1b753eef90f466ff6bd775688926de7e0462a20",
+        "commit_sha256": "3f9721cd9601fc8eb3ab575e56ce07fa3e8792fca62b51d9723b5a08525a8c7e",
+        "package_artifact": "11786371585"
+      },
+      "binding": {
+        "command": "bind",
+        "generation": 4,
+        "head": "0589ee84d895a472feee4645cf94574ce85a7fe6",
+        "package_artifact": "11786371585",
+        "outcome": "success",
+        "evidence_digest": "semantic-evidence-v1:64861b46adb306b1bd91d818f3e86f731bc486978754cca621286ca1c11e95e6",
+        "evidence_sha256": "fbc3a37d01004ae5986f201f1e72279af82b43c88c8fd08b5a102149cbf8cf8e",
+        "commit_sha256": "c6fb084372d0b83934de6cf42e3ef1e63d973ceb1bf6cb3d023818c794dd7e04",
+        "object_digest_verified": true
+      },
+      "proof": {
+        "command": "record_proof",
+        "generation": 18,
+        "head": "227e5fc798837ed596376284a0c267f3ee9e1b04",
+        "package_artifact": "11786371585",
+        "outcome": "success",
+        "evidence_digest": "semantic-evidence-v1:326c63c607efb7eed861db2a115d0df832bef3312b6114431f7408cf3daf3d3b",
+        "evidence_sha256": "51654d20e3e49ddf931869aaf9abf4598c4f2fca4631ae397f0d3e0664e55fc0",
+        "commit_sha256": "22bf120b796b7cc7fc8a3471728ec630325b24157f3ae2fc09aa6d15d0d183b6",
+        "object_digest_verified": true,
+        "validators": [
+          {
+            "id": "wp08-offline",
+            "exit_code": 0,
+            "tests_passed": 1,
+            "tests_failed": 0,
+            "test_report_valid": null
+          }
+        ]
+      },
+      "review": {
+        "command": "record_review_pass",
+        "generation": 20,
+        "head": "227e5fc798837ed596376284a0c267f3ee9e1b04",
+        "package_artifact": "11786371585",
+        "outcome": "success",
+        "evidence_digest": "semantic-evidence-v1:a824f4ced70421834b3bca5a8533caf16b43ab78c469f4f8b16d44cd2772f845",
+        "evidence_sha256": "7dab1b5c65cfcbf89ab64b7193d705bd3d1a0cb007238b828a00d096253f4388",
+        "commit_sha256": "7c735da1b4a209327e343008c0b872d8753b6445b74ba50e3d41d93ffaaabf9e",
+        "object_digest_verified": true,
+        "receipt_digest": "ec2d3c51ebd09f48379ed0182a5aaf9752bafced9dfe00586d6955f8197aff4e"
+      },
+      "publication": {
+        "command": "publish",
+        "generation": 22,
+        "head": "227e5fc798837ed596376284a0c267f3ee9e1b04",
+        "package_artifact": "11786371585",
+        "outcome": "success",
+        "evidence_digest": "semantic-evidence-v1:1d9045682fa3655827e82dc0d081c5734231d1f2e1f33c733abc227162129254",
+        "evidence_sha256": "aa4ef246d3b14b5f3c8263455d905839f0d893216a65dad0d7876f131f7c4dce",
+        "commit_sha256": "cbb21e012084c1d56786cb50fb9fba5a58df9a426f0885f6bbc64968a2b9eeb5",
+        "object_digest_verified": true,
+        "receipt": {
+          "schema": "csdlc.v3.github_mutation_receipt.v2",
+          "repository": "agent-logic/agent-logic-infrastructure",
+          "issue": 37,
+          "pull_request": 38,
+          "expected_head_sha": "227e5fc798837ed596376284a0c267f3ee9e1b04",
+          "operation_digest": "4e649a044ebe107debd064d126b917096edbdd5aa02100c601cceaa718eae5cd",
+          "response_digest": "be57519d1bcb313f58a68e879b4e7626489f86d18b2dbab0553b81eb36e517e5",
+          "readback_digest": "31216b3488e2d2ff4aacba79e36d205f2acc225dee6614245e6d525aed54ebba",
+          "intent_digest": "f7712c76587fa8bed1f13f502f0816ca1a12987ec82bfd789842167f7618a88b",
+          "reconciliation_digest": "e0140eb24a4c94fdc65bd3c258326ded48e9b0af6f5683464407130c2acb4b3d",
+          "adapter": "github-api-operational",
+          "authenticated": true,
+          "idempotent_replay": false
+        }
+      },
+      "terminal": {
+        "delivery": {
+          "status": "delivered",
+          "repository": "agent-logic/agent-logic-infrastructure",
+          "pull_request": 38,
+          "head_sha": "227e5fc798837ed596376284a0c267f3ee9e1b04",
+          "issue": 37,
+          "issue_closure": "closed",
+          "finish_required": false,
+          "cleanup": "optional"
+        },
+        "source": "INFRASTRUCTURE_RECONCILIATION.json"
+      },
+      "cleanup": {
+        "status": "deferred_by_operator",
+        "executed_by_this_session": false
+      },
+      "current_admission": {
+        "issue": 37,
+        "status": "completed",
+        "phase": "bound",
+        "operational_authority": true,
+        "read_only": true,
+        "performed_mutation": false,
+        "package_artifact": "12369122943",
+        "semantic_version": {
+          "generation": 23,
+          "digest": "semantic-state-v1:fc148361406b293a381383aa5ca5bdd1ac8c85c5733f63804a4a2072e4838274"
+        },
+        "doctor_findings": [
+          {
+            "status": "passed",
+            "code": "semantic_card_projection_drift",
+            "message": "derived card drift is diagnostic; semantic content remains authoritative"
+          },
+          {
+            "status": "passed",
+            "code": "binding_live",
+            "message": "exact Git worktree registration is live"
+          }
+        ],
+        "registry_version": "1.0.5",
+        "projection_observation": {
+          "status": "altered",
+          "paths": [
+            "manifest.json"
+          ]
+        },
+        "evidence_sha256": "69115b94f9c9b3a0d081a56388a88f32bbf618b428010207a75f4bfc9c440b0d"
+      },
+      "package_binding_evidence": "PACKAGE_BINDINGS.json",
+      "worktree_preference": "Preserve the actual native registered binding; no new mandatory location policy or worktree created by this audit.",
+      "validation_profile": "Retain repository-specific validators; the representative native validators above are retained execution evidence, not new product tests.",
+      "current_admission_boundary": "Read-only status at the named issue/version; does not finish, approve or take over that issue."
+    },
+    {
+      "repository": "agent-logic/agent-logic-enterprise-security",
+      "disposition": "preserve_existing_native_adapter_and_owner_context",
+      "acceptance_scope": "Repository lifecycle adapter capability; separate product/release acceptance is excluded.",
+      "representative_issue": 9,
+      "pull_request": 18,
+      "head": "da372408a1035ea4c71d975bf862fe3f1a8bc1f5",
+      "preparation": {
+        "generation": 1,
+        "phase": "ready",
+        "command": "prepare",
+        "authority_digest": "semantic-authority-v1:d8a611138fd6e3edd0d8047a93a96b0e215a5453f775f8e6fc8cc61fbcd5bf34",
+        "commit_sha256": "6b439e18298fee75693b51ebf0ee6ea314e481125288f53601f31500b4531ef0",
+        "package_artifact": "11873730137"
+      },
+      "binding": {
+        "command": "bind",
+        "generation": 5,
+        "head": "bbd5a4665d2e6756644bc78f9a7c5c537a7f540b",
+        "package_artifact": "12237907988",
+        "outcome": "success",
+        "evidence_digest": "semantic-evidence-v1:0c4b22447ba7d7b03ad2570ebedd6a7828b0a8952e594e6ad5ddad2419e7f9d4",
+        "evidence_sha256": "7385d4dabc18a8cd0f02c5f7ed2412dcb917bdbdaef23d47ea6eacef20091378",
+        "commit_sha256": "4aaa39df7e5c8c8bb11649060b5bc592f77d250758c795a4509703f949cb767e",
+        "object_digest_verified": true
+      },
+      "proof": {
+        "command": "record_proof",
+        "generation": 65,
+        "head": "da372408a1035ea4c71d975bf862fe3f1a8bc1f5",
+        "package_artifact": "12237907988",
+        "outcome": "success",
+        "evidence_digest": "semantic-evidence-v1:44387dd447b6220cd945dd25e99c86bb6b2f219a2e5bb681f8e1b969de9d9f43",
+        "evidence_sha256": "170f21045cef13faa05d365bf362d4c49041d6b26fcbfe1f1b67d8f1da46cdb9",
+        "commit_sha256": "77f90af9e674b9eb867aa98e07c4f6d35dc32ed8ee13283d51c61c3c5a8383ba",
+        "object_digest_verified": true,
+        "validators": [
+          {
+            "id": "issue9-source-preflight",
+            "exit_code": 0,
+            "tests_passed": 9,
+            "tests_failed": 0,
+            "test_report_valid": true
+          }
+        ]
+      },
+      "review": {
+        "command": "record_review_pass",
+        "generation": 67,
+        "head": "da372408a1035ea4c71d975bf862fe3f1a8bc1f5",
+        "package_artifact": "12237907988",
+        "outcome": "success",
+        "evidence_digest": "semantic-evidence-v1:a5ec8adf2cc78deed644e3e1cbe6f81566f740135d35017462a17dc496b3716a",
+        "evidence_sha256": "a89e6f2250a309b8fb8efdb5369fd840df4d0a29321d3c061d90b9338df1234b",
+        "commit_sha256": "83e169664ebbf68e69ff50c7044ae623e689545133d2eded11c04ab9d59041f1",
+        "object_digest_verified": true,
+        "receipt_digest": "a971485ae988bd68ec13269387d9c406c1ab98f47fcde799057e05eef562513f"
+      },
+      "publication": {
+        "command": "publish",
+        "generation": 69,
+        "head": "da372408a1035ea4c71d975bf862fe3f1a8bc1f5",
+        "package_artifact": "12237907988",
+        "outcome": "success",
+        "evidence_digest": "semantic-evidence-v1:2d622b23f14c31dfb7151b08ae39db0baa70386d8a20ae7cc0875ca0258a3425",
+        "evidence_sha256": "6bafa2b42912cad3b012e59ae440fbfd920a4047a3b97a6ef8a00ad78a09538f",
+        "commit_sha256": "7222398c9d5a98932068b1cc434629090feede401fa5fe95b923117ec3c95c6b",
+        "object_digest_verified": true,
+        "receipt": {
+          "schema": "csdlc.v3.github_mutation_receipt.v2",
+          "repository": "agent-logic/agent-logic-enterprise-security",
+          "issue": 9,
+          "pull_request": 18,
+          "expected_head_sha": "da372408a1035ea4c71d975bf862fe3f1a8bc1f5",
+          "operation_digest": "908f6708844742d42917082501ce159beba351b61bd3a52c068273fc5b8adf66",
+          "response_digest": "255bfd63472776fdd29634cc5ddf9d55022b6f5995e9e7584918a9b0329b3696",
+          "readback_digest": "0ec036d00b08e27d25d8dd76dba2cdf1b8c6a4ad338b01d8fbd9c66a1014870f",
+          "intent_digest": "e71815b281bdc9f20c8fda50625983ab7a0d5178dc9d99cc586309a70d9b6c24",
+          "reconciliation_digest": "cacfe75644c8a612c1cddd7641781fb64003f2f41bacc1ddd582975eecce32c7",
+          "adapter": "github-api-operational",
+          "authenticated": true,
+          "idempotent_replay": false
+        }
+      },
+      "terminal": {
+        "delivery": {
+          "status": "delivered",
+          "repository": "agent-logic/agent-logic-enterprise-security",
+          "pull_request": 18,
+          "head_sha": "da372408a1035ea4c71d975bf862fe3f1a8bc1f5",
+          "issue": 9,
+          "issue_closure": "closed",
+          "finish_required": false,
+          "cleanup": "optional"
+        },
+        "evidence_sha256": "7034647680cd23bd2e6d2afb954491454feb4f1a6f0fc07490e2bee90faaa992",
+        "source": "retained tracked security-9-terminal-finish.json from ADL sprint-2-preparation evidence"
+      },
+      "cleanup": {
+        "status": "deferred_by_operator",
+        "executed_by_this_session": false
+      },
+      "current_admission": {
+        "issue": 15,
+        "status": "completed",
+        "phase": "reviewed",
+        "operational_authority": true,
+        "read_only": true,
+        "performed_mutation": false,
+        "package_artifact": "12369122943",
+        "semantic_version": {
+          "generation": 60,
+          "digest": "semantic-state-v1:11afc2d31478a7a83e8c3d1452397893fd4923aec744976732efa20916752429"
+        },
+        "doctor_findings": [
+          {
+            "status": "passed",
+            "code": "semantic_cards_current",
+            "message": "current semantic card projection is healthy"
+          },
+          {
+            "status": "passed",
+            "code": "binding_live",
+            "message": "exact Git worktree registration is live"
+          }
+        ],
+        "registry_version": "1.0.5",
+        "projection_observation": {
+          "status": "healthy"
+        },
+        "evidence_sha256": "23c20a5257cdce453520768376da6dc5a428039428ed49188675fe28a1235090"
+      },
+      "package_binding_evidence": "PACKAGE_BINDINGS.json",
+      "worktree_preference": "Preserve the actual native registered binding; no new mandatory location policy or worktree created by this audit.",
+      "validation_profile": "Retain repository-specific validators; the representative native validators above are retained execution evidence, not new product tests.",
+      "current_admission_boundary": "Read-only status at the named issue/version; does not finish, approve or take over that issue."
+    }
+  ],
+  "diagnostics": [
+    {
+      "repository": "agent-logic/codefriend",
+      "issue": 118,
+      "status": "blocked_after_cleanup",
+      "reason": "Old package11919095638 requires missing card projections. Native package authority was admitted. Current126 status under12369122943 is healthy. Do not restore archived cards into primary."
+    },
+    {
+      "repository": "agent-logic/agent-logic-runtime",
+      "issue": 112,
+      "status": "historical_not_used_as_complete_lifecycle",
+      "reason": "Package provenance is identified, but retained proof/review precedes the final rebased head. Old11771018523 installation now refuses identity. Complete exact-head native lifecycle192 is used instead; no retroactive112 proof or current old-package admission claimed."
+    },
+    {
+      "repository": "agent-logic/agent-logic-runtime",
+      "issue": 192,
+      "status": "blocked_after_cleanup",
+      "reason": "Old11919095638 status admits authority but requires removed projections. Retained finish/clean are valid; current194 status under12369122943 is healthy. Runtime194 failed proof/reconciliation remains separately owned; this packet proves no Runtime194 product acceptance."
+    },
+    {
+      "repository": "agent-logic/agent-logic-enterprise-security",
+      "issue": 9,
+      "status": "binding_not_live_after_delivery",
+      "reason": "Native12237907988 status admits authority but reports the removed binding. A fresh finish read refuses binding_stale; retained authenticated delivered finish is used. Current15 admission under12369122943 is healthy. No active Security issue or intentional policy deletion was changed."
+    },
+    {
+      "repository": "agent-logic/agent-logic-infrastructure",
+      "issue": 37,
+      "status": "admitted_with_projection_diagnostic",
+      "reason": "Selected12369122943 treats altered manifest projection as diagnostic and semantic content as authoritative; native status completes with a live binding. Existing transition and delivered finish remain valid; no rebuild or cleanup performed."
+    }
+  ],
+  "boundary": "No shared package, journal, active-owner worktree or remote state changed. No provider, deployment, product installation or release approval is established. Parent1275 proof/review/publication/delivery remain separate."
+}
