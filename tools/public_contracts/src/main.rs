@@ -53,6 +53,18 @@ fn run() -> Result<()> {
         println!("five-minute-html-game-packet: PASS");
         return Ok(());
     }
+    if action == "pvf-manifest" {
+        if a.len() == 1 {
+            eprintln!("usage: pvf-manifest <manifest.json> [manifest.json ...]");
+            std::process::exit(2);
+        }
+        for path in &a[1..] {
+            let data = serde_json::from_str(&std::fs::read_to_string(path)?)?;
+            adl_public_contracts::pvf_manifest::validate(&data)?;
+            println!("PASS: pvf manifest valid for {path}");
+        }
+        return Ok(());
+    }
     if action == "tool-registry" {
         if a.len() > 2 || (a.len() == 2 && a[1] != "--check") {
             bail!("usage: tool-registry [--check]");

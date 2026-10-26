@@ -288,6 +288,21 @@
       "bytes": 4797,
       "consumer_result": "Proof lane uses native shell entrypoint; Rust test wrapper replaces Python compile/inline fixture mutation. Historical demo remains partial, not browser-qualified.",
       "proof": "Original shell suite and native packet_truth four groups passed; original HTML/CSS/JS checks retained; every required file/snippet, claim and browser evidence field exercised. Strict Clippy passed."
+    },
+    {
+      "path": "adl/tools/validate_pvf_manifest.py",
+      "action": "replaced",
+      "replacement": "tools/public_contracts/src/pvf_manifest.rs",
+      "command": "bash adl/tools/validate_pvf_manifest.sh <manifest.json> [manifest.json ...]",
+      "source_commit": "7b6986179a0642d558f3ca6e1d8f547cb003b735",
+      "before": [
+        "100644",
+        "6166e68cf5cb6673324be7ec66241ba350be7ab4"
+      ],
+      "sha256": "51af6ceb32a65305ecc3f457afdea03e5a1b8f1d3f16ba153a21cec5c838bb3b",
+      "bytes": 6838,
+      "consumer_result": "Retained v0.91.4 runner validates through native command. Inline Python in runner/test remains separate unfinished scope. Modern docs/validation/pvf_lanes.json is a different schema and remains rejected.",
+      "proof": "Original runner fixture suite passed; two native schema/CLI groups and strict Clippy passed. Positive integer timeout now rejects Boolean alias. No lane command executed by validator."
     }
   ]
 }

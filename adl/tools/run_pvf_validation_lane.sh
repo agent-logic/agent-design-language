@@ -106,7 +106,7 @@ else
   : > "$changed_paths_txt"
 fi
 
-if ! python3 "$ROOT_DIR/adl/tools/validate_pvf_manifest.py" "$MANIFEST_PATH" >/dev/null; then
+if ! bash "$ROOT_DIR/adl/tools/validate_pvf_manifest.sh" "$MANIFEST_PATH" >/dev/null; then
   echo "run_pvf_validation_lane: manifest contract validation failed: $MANIFEST_PATH" >&2
   exit 2
 fi

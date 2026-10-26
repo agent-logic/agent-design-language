@@ -198,3 +198,18 @@ an ancestor after squash merging. The exact original-source custody and current
 HEAD absence checks remain unchanged. This corrects the merge-topology assumption
 without weakening preservation or requiring an abandoned PR commit to remain
 fetchable. Full #1351 transition overlays and acceptance remain pending.
+
+## Completed source slice: retained PVF manifest validation
+
+The native PVF checker preserves the v0.91.4 manifest schema, exact allowed keys,
+required lane fields, enum domains, lane identifiers, nonempty/unique declared
+classes and equality to actually used lane classes. It accepts multiple files,
+retains usage/failure statuses and never executes declared commands. Timeout
+values must be positive unsigned integers; Boolean aliases are rejected.
+
+Two native groups cover malformed shapes, missing/unknown fields, class mismatch,
+invalid identifiers, optional-field types and interpreter-free CLI operation.
+Strict Clippy passed. The runner fixture suite passed before and after the validator migration;
+its remaining inline Python is separate unfinished scope. The modern
+`docs/validation/pvf_lanes.json` uses a different schema and remains outside this
+retained validator's contract; its rejection is not a regression or passing proof.
