@@ -1,9 +1,0 @@
-flowchart LR
-  D["Landed birthday dependencies"] --> R["Integrated Runtime birthday runner"]
-  R --> P["Positive birthday packet"]
-  R --> N["Not-a-birthday matrix"]
-  P --> V["Packet validator"]
-  N --> V
-  V --> E["Retained proof and reviewer index"]
-  F["Missing, copied, forged, or private input"] --> X["Typed rejection"]
-  X --> E

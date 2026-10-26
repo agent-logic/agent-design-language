@@ -1,3 +1,0 @@
-PASS: strict Clippy proof requires one exact successful structured command
-missing exact manifest command cargo clippy --manifest-path adl-runtime/Cargo.toml --test distributed_lease -- -D warnings
-manifest command failed

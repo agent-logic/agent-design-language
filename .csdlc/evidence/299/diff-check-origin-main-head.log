@@ -1,3 +1,0 @@
-sha=586b24441513f8062b9495eac4fdc70e0b9e9929
-argv=git diff --check origin/main...HEAD
-status=0

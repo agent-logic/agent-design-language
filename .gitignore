@@ -104,3 +104,6 @@ demos/v0.91.6/unity-observatory/Proof/
 docs/records/v*/tasks/issue-*/
 docs/records/v*/CLOSED_ISSUE_RECORD_HYGIENE_*.md
 demos/html-observatory/runtime-log.jsonl
+
+# Local C-SDLC working state; historical records remain in Git history.
+/.csdlc/

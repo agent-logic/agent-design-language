@@ -1,9 +1,0 @@
-{
-  "schema": "csdlc.v3.intent_changes.v1",
-  "publication": {
-    "base": "main",
-    "draft": true,
-    "title": "Record final CF-05 qualification",
-    "body": "Closes #1150\n\nRecords the final CF-05 independent qualification for deployable CodeFriend candidate aa2cca757ba4e6c37cef6c1a6e013d3896cd1de1 (tree 89ca46e84d9f1060c80e47c97704eb9ab369af2a).\n\n- Q01-Q24: 24 PASS / 0 FAIL / 0 INCOMPLETE\n- release-accepted cells: 12/12\n- exact-aa2 Q08: candidate/pass/fail/error exits 0/0/1/2 with parity\n- provider accounting: 126 posts, zero unknown outcomes or replay, conservative USD 64.744 under USD 70\n- Q19: operator accepted 12 HTML + 12 PDF denominator; independent review verified all 24 hashes and 477 pages\n\nThe Linux Vector first execution-group failure remains retained adverse evidence; its compatible repeat satisfies Q06. This PR does not approve public deployment or launch. Native terminal closeout is deferred to the authorized asynchronous follow-up."
-  }
-}
