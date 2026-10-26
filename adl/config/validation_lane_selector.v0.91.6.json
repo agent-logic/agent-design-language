@@ -637,35 +637,6 @@
       "reason": "aws_remote_validation_tool_surface_requires_focused_tooling_regression_checks"
     },
     {
-      "id": "adl_builder_image_tooling",
-      "lane_class": "cli_workflow",
-      "default_surface": "tooling",
-      "owner": "tools",
-      "proof_role": "builder_image_contract",
-      "requirement_ids": [
-        "adl_builder_image_tooling"
-      ],
-      "path_selectors": [
-        "adl/docker/adl-builder/**",
-        "adl/tools/import_adl_builder_image_from_s3_to_ecr.sh",
-        "adl/tools/setup_adl_builder_image.sh",
-        "adl/tools/test_adl_builder_image.sh",
-        "adl/tools/test_import_adl_builder_image_from_s3_to_ecr.sh",
-        "tools/groupd_validation/run_builder_contracts.py"
-      ],
-      "path_hints": [
-        "adl/docker/adl-builder/**",
-        "adl/tools/import_adl_builder_image_from_s3_to_ecr.sh",
-        "adl/tools/setup_adl_builder_image.sh",
-        "adl/tools/test_adl_builder_image.sh",
-        "adl/tools/test_import_adl_builder_image_from_s3_to_ecr.sh",
-        "tools/groupd_validation/run_builder_contracts.py"
-      ],
-      "command": "python3 tools/groupd_validation/run_builder_contracts.py --suite setup-import",
-      "run_command": "python3 tools/groupd_validation/run_builder_contracts.py --suite setup-import",
-      "reason": "builder_image_surface_requires_dockerfile_setup_import_and_policy_contract_checks"
-    },
-    {
       "id": "wp08_s3_obsmem_archive_policy",
       "lane_class": "cli_workflow",
       "default_surface": "tooling",

@@ -693,6 +693,96 @@
       "bytes": 2637,
       "consumer_result": "Unused legacy CI logging wrapper and its self-test retired together. No current workflow/public caller; remaining outside references were path selectors in the rejected v0.91.6 manifest, removed together. Current CI logging/retention remains unchanged.",
       "proof": "Exact Git custody matched; tracked stem search found only own self-test and old-manifest selectors outside historical/inventory records."
+    },
+    {
+      "path": "tools/groupd_validation/Cargo.toml",
+      "action": "retired",
+      "replacement": null,
+      "command": null,
+      "source_commit": "7b6986179a0642d558f3ca6e1d8f547cb003b735",
+      "before": [
+        "100644",
+        "94ca1c4630c713eb2be3d84adfec3c9926d61960"
+      ],
+      "sha256": "24cf30ea69437e8f479d6904d0b81062c392f918a571b2a1debb5641ab5d0899",
+      "bytes": 105,
+      "consumer_result": "Retired historical #1160 aggregate and private-owner fixture adapters. No current public CI or public lane registration. Original README/PVF/fixture retained; builder guides route to existing pinned Infrastructure instructions; obsolete private selector lane removed. Current native CI path/coverage/interface tests remain registered.",
+      "proof": "Exact source snapshot identified and byte matched; tracked callers checked; no claim of new owner qualification or replayed historical test success."
+    },
+    {
+      "path": "tools/groupd_validation/Cargo.lock",
+      "action": "retired",
+      "replacement": null,
+      "command": null,
+      "source_commit": "7b6986179a0642d558f3ca6e1d8f547cb003b735",
+      "before": [
+        "100644",
+        "aa6bd241aed380efda6b606c46e814d41d18a7df"
+      ],
+      "sha256": "0af16cf7b00387d47390d59516636228713658671ab86e71562fbbc069c6bfe6",
+      "bytes": 165,
+      "consumer_result": "Retired historical #1160 aggregate and private-owner fixture adapters. No current public CI or public lane registration. Original README/PVF/fixture retained; builder guides route to existing pinned Infrastructure instructions; obsolete private selector lane removed. Current native CI path/coverage/interface tests remain registered.",
+      "proof": "Exact source snapshot identified and byte matched; tracked callers checked; no claim of new owner qualification or replayed historical test success."
+    },
+    {
+      "path": "tools/groupd_validation/src/lib.rs",
+      "action": "retired",
+      "replacement": null,
+      "command": null,
+      "source_commit": "7b6986179a0642d558f3ca6e1d8f547cb003b735",
+      "before": [
+        "100644",
+        "dac8bcff31c0332ead1dd2d2d7b21a841c8ee40b"
+      ],
+      "sha256": "b04046a6e7e0fc49912ee839e9f23f6078e852d1422bb2c70cecc1c8d6c95a76",
+      "bytes": 2469,
+      "consumer_result": "Retired historical #1160 aggregate and private-owner fixture adapters. No current public CI or public lane registration. Original README/PVF/fixture retained; builder guides route to existing pinned Infrastructure instructions; obsolete private selector lane removed. Current native CI path/coverage/interface tests remain registered.",
+      "proof": "Exact source snapshot identified and byte matched; tracked callers checked; no claim of new owner qualification or replayed historical test success."
+    },
+    {
+      "path": "tools/groupd_validation/run_builder_contracts.py",
+      "action": "retired",
+      "replacement": null,
+      "command": null,
+      "source_commit": "7b6986179a0642d558f3ca6e1d8f547cb003b735",
+      "before": [
+        "100644",
+        "47d3dccdaa78ff737ae0fab85849dee15473f34f"
+      ],
+      "sha256": "126819db7f89fa650ebd800d45fc1509ab7e0d0f11592d8106f7f058a49f4d27",
+      "bytes": 3085,
+      "consumer_result": "Retired historical #1160 aggregate and private-owner fixture adapters. No current public CI or public lane registration. Original README/PVF/fixture retained; builder guides route to existing pinned Infrastructure instructions; obsolete private selector lane removed. Current native CI path/coverage/interface tests remain registered.",
+      "proof": "Exact source snapshot identified and byte matched; tracked callers checked; no claim of new owner qualification or replayed historical test success."
+    },
+    {
+      "path": "tools/groupd_validation/run_dependency_inventory.py",
+      "action": "retired",
+      "replacement": null,
+      "command": null,
+      "source_commit": "7b6986179a0642d558f3ca6e1d8f547cb003b735",
+      "before": [
+        "100644",
+        "9efdebbd91b4991832f8a45991c436bfb4e223e2"
+      ],
+      "sha256": "0c8a5de037d16b105a7658d26c4d4e56b6895a045ac6b6260ab8d4c273c4c618",
+      "bytes": 2428,
+      "consumer_result": "Retired historical #1160 aggregate and private-owner fixture adapters. No current public CI or public lane registration. Original README/PVF/fixture retained; builder guides route to existing pinned Infrastructure instructions; obsolete private selector lane removed. Current native CI path/coverage/interface tests remain registered.",
+      "proof": "Exact source snapshot identified and byte matched; tracked callers checked; no claim of new owner qualification or replayed historical test success."
+    },
+    {
+      "path": "tools/groupd_validation/test_documentation.py",
+      "action": "retired",
+      "replacement": null,
+      "command": null,
+      "source_commit": "7b6986179a0642d558f3ca6e1d8f547cb003b735",
+      "before": [
+        "100644",
+        "845aadea38f21137fde377a038cb36b159f5c9de"
+      ],
+      "sha256": "8d3ae9b114204cf934e6bac1e2f820a534e7df9c27beb488f6fb1d2aa09c7205",
+      "bytes": 2636,
+      "consumer_result": "Retired historical #1160 aggregate and private-owner fixture adapters. No current public CI or public lane registration. Original README/PVF/fixture retained; builder guides route to existing pinned Infrastructure instructions; obsolete private selector lane removed. Current native CI path/coverage/interface tests remain registered.",
+      "proof": "Exact source snapshot identified and byte matched; tracked callers checked; no claim of new owner qualification or replayed historical test success."
     }
   ]
 }

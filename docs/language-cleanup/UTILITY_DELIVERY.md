@@ -332,3 +332,15 @@ entrypoint invokes it. Those stale selectors are removed. Existing CI logging
 and artifact retention are unchanged. Exact original source/test identities
 preserve the retired helper's stdout/stderr capture and redaction behavior for
 historical inspection; no new implementation is added.
+
+## Retired Group-D historical aggregate and owner adapters
+
+Retired the #1160 Cargo aggregate, its manifest/lock and three Python helper/test
+files. No current public CI or public selector invokes the aggregate. Its own
+CI routing test names a shell test already retired; the current CI explicitly
+runs native path/coverage/interface regressions. The builder route was registered
+only in the rejected private v0.91.6 manifest; that entry is removed. Current
+builder guides retain their pinned Infrastructure instruction links and record
+adapter retirement. README/PVF historical evidence and the parser-bounds fixture
+remain; no historical report is regenerated and no owner qualification is claimed.
+This removes public wrappers around private fixtures, not private owner tests.

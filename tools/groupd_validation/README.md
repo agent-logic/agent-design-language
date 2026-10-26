@@ -1,5 +1,15 @@
 # Group D remediation proof (#1160)
 
+Status: historical evidence; executable aggregate retired by #1351. The Cargo
+adapter and three Python helpers are no longer current commands. The remainder
+of this document and `PVF.json` describe the original #1160 proof and later
+source-time owner-adapter qualifications. Exact source/test identities remain in
+`docs/language-cleanup/utility-dispositions.json`; the parser-bounds fixture stays
+available for historical documentation. Current public CI directly selects its
+native path-policy, interface and coverage tests. Private owner validation uses
+the respective owner repository's instructions. No new qualification is claimed.
+
+
 Base: `6d78c1da473f95c4db4e0fa29f4fc2bd1d290106`. This is remediation of
 internal review #919, coordinated by #921, with an explicitly reviewed draft PR
 handoff. It does not rewrite the frozen #918/#919 candidate.
