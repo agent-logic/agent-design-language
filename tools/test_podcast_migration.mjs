@@ -57,20 +57,9 @@ test('copied historical podcast evidence stays byte-identical',()=>{
 });
 
 test('retirement transition rejects changed or resurrected migrated inputs',()=>{
- const script=`import importlib.util,json,subprocess
-from pathlib import Path
-root=Path.cwd()
-spec=importlib.util.spec_from_file_location('guard',root/'tools/podcast_migration/guard.py')
-g=importlib.util.module_from_spec(spec);spec.loader.exec_module(g)
-m=json.loads((root/'tools/podcast_migration/transition.json').read_text())
-base={r['path']:r['before'] for r in m['changes']}
-candidate={r['path']:r['after'] for r in m['changes'] if r['after'] is not None}
-assert g.normalize_candidate(root,candidate,base)==base
-for row in m['changes']:
- bad=dict(candidate);bad[row['path']]=['100644','0'*40]
- try:g.normalize_candidate(root,bad,base)
- except ValueError:pass
- else:raise AssertionError('changed migration input accepted: '+row['path'])
-print('transition negative cases passed')`;
- assert.match(execFileSync('python3',['-B','-c',script],{cwd:root,encoding:'utf8'}),/negative cases passed/);
+ const output=execFileSync('cargo',['test','--locked','--manifest-path',
+  'tools/source_retirement/validator/Cargo.toml','--test','successors',
+  'podcast_original_and_reviewed_readme_successor','--','--exact'],
+  {cwd:root,encoding:'utf8',timeout:60000});
+ assert.match(output,/1 passed; 0 failed/);
 });

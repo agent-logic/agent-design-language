@@ -49,7 +49,7 @@ Runtime artifact acceptance. The earlier 27-of-28 matrix failure remains
 historical evidence alongside the later bounded ALB repair proof. All unrelated
 holds and original inventory identities remain unchanged.
 
-`check.py` reads committed Git objects, including approval packets. It verifies
+The native `source-retirement-validator` reads committed Git objects, including approval packets. It verifies
 original identities, combined counts, disjoint held groups, exact executed deletion
 scope, protected/historical evidence, rollback custody and direct references.
 Dirty files cannot override committed approval inputs.
@@ -74,15 +74,23 @@ Original approvals remain unchanged.
 
 The exact-identity validator rejects unapproved deletion, retained source/mode
 drift, duplicate paths, stale before-identities and absent provenance/custody.
-The original baseline-specific validator remains available as historical logic;
+The original baseline-specific validator remains available in Git history;
 the current run uses the combined ledger and execution overlay instead.
 
 ## Focused validation
 
-Run `python3 -B tools/source_retirement/test_check.py` for deterministic Python
-contract/negative tests (small CPU/disk, no build/network). Run
-`python3 -B tools/source_retirement/check.py` only against the committed candidate;
-an incomplete or changed execution manifest fails closed.
+Run `cargo test --locked --manifest-path tools/source_retirement/validator/Cargo.toml --test contracts`
+for native contract and adversarial cases, including provisioned historical custody.
+Run `cargo test --locked --manifest-path tools/source_retirement/validator/Cargo.toml --test successors`
+for portable successor transition proof (also used by CI).
+Run `cargo run --locked --manifest-path tools/source_retirement/validator/Cargo.toml`
+only against the committed candidate; incomplete or changed execution manifests fail closed.
+Run the same binary with `--cleanup-contracts` for the focused cleanup aggregate.
+The immutable original constants are literal JSON in `reviewed-identities.json`,
+with a SHA256 pin in native source. No interpreter is used. The old unused
+70-removal validator is retained in Git history; the current 3,407-action
+execution-overlay contract is unchanged.
+
 Tests do not establish installed product qualification or deletion authorization.
 
 Provision the historical rollback archive in the resolved Git common directory

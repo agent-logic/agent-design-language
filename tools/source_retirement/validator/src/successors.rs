@@ -1,0 +1,161 @@
+use crate::*;
+pub const CLEANUP_PIN: &str = "762c27b2d844ba3f166ea5bf05a1eb65b2f752b7d4e4f341f107b7a9ebf15915";
+pub const READINESS_PIN: &str = "4b1cc0ef6b60d7cc0ec8b2b9d3354489d0036328dcfa9f1d1e43543ffc7bf560";
+pub const PODCAST_PIN: &str = "a7026948d2934bb4cef4071034a168d61d51df3c96c7a6131ffd56d8ea80fd3f";
+pub fn transition(candidate: &Tree, baseline: &Tree, manifest: &Value) -> Result<Tree> {
+    let mut result = candidate.clone();
+    let mut seen = Paths::new();
+    for row in rows(&manifest["changes"])? {
+        let p = string(&row["path"])?;
+        ensure!(
+            seen.insert(p.to_owned())
+                && row["before"] == *at(baseline, p)
+                && row["after"] == *at(candidate, p),
+            "transition mismatch: {p}"
+        );
+        replace(&mut result, p, &row["before"]);
+    }
+    Ok(result)
+}
+pub fn language(repo: &Repo, candidate: &Tree, manifest: &Value) -> Result<Tree> {
+    let baseline = repo.tree(string(&manifest["source_commit"])?)?;
+    let result = transition(candidate, &baseline, manifest)?;
+    let mut removed = Paths::new();
+    for r in rows(&manifest["changes"])? {
+        ensure!(
+            sha(&repo.blob(string(&r["before"][1])?)?) == r["before_sha256"],
+            "language preimage custody mismatch"
+        );
+        if r["after"].is_null() {
+            removed.insert(string(&r["path"])?.to_owned());
+        }
+    }
+    ensure!(
+        removed == strings(&manifest["removed"])?,
+        "language removal set mismatch"
+    );
+    Ok(result)
+}
+pub fn normalize_language(repo: &Repo, candidate: &Tree) -> Result<Tree> {
+    let mut result = candidate.clone();
+    for (name, pin) in super::constants::LANGUAGE_TRANSITIONS {
+        let manifest = repo.pinned(&format!("docs/language-cleanup/{name}"), pin)?;
+        result = language(repo, &result, &manifest)?;
+    }
+    Ok(result)
+}
+pub fn cleanup(repo: &Repo, candidate: &Tree) -> Result<Tree> {
+    let t = repo.pinned("tools/repository_cleanup/transition.json", CLEANUP_PIN)?;
+    let archive = repo.pinned(
+        "docs/archives/POST_SPLIT_PAYLOADS_1284.json",
+        string(&t["archive_manifest_sha256"])?,
+    )?;
+    ensure!(
+        archive["source_commit"] == t["source_commit"],
+        "cleanup archive source changed"
+    );
+    let entries = rows(&archive["entries"])?;
+    let map = entries
+        .iter()
+        .map(|r| Ok((string(&r["path"])?, r)))
+        .collect::<Result<BTreeMap<_, _>>>()?;
+    ensure!(map.len() == entries.len(), "duplicate archived path");
+    let result = transition(candidate, &repo.tree(string(&t["source_commit"])?)?, &t)?;
+    let mut removed = Paths::new();
+    for r in rows(&t["changes"])? {
+        if r["after"].is_null() {
+            let p = string(&r["path"])?;
+            let e = map
+                .get(p)
+                .context("cleanup removal lacks archive identity")?;
+            ensure!(
+                json!([e["mode"], e["git_blob"]]) == r["before"],
+                "cleanup removal lacks exact archive identity"
+            );
+            removed.insert(p.to_owned());
+        }
+    }
+    ensure!(
+        removed == map.keys().map(|p| p.to_string()).collect(),
+        "archive and cleanup removal sets differ"
+    );
+    Ok(result)
+}
+pub fn readiness(repo: &Repo, candidate: &Tree) -> Result<Tree> {
+    let t = repo.pinned(
+        "tools/public_readiness_archive/transition.json",
+        READINESS_PIN,
+    )?;
+    readiness_manifest(repo, candidate, &t)
+}
+pub fn readiness_manifest(repo: &Repo, candidate: &Tree, t: &Value) -> Result<Tree> {
+    let base = repo.tree(string(&t["source_commit"])?)?;
+    let mut result = candidate.clone();
+    let mut seen = Paths::new();
+    for r in rows(&t["entries"])? {
+        let p = string(&r["path"])?;
+        let id = json!([r["mode"], r["git_blob"]]);
+        ensure!(
+            seen.insert(p.to_owned()) && *at(&base, p) == id && !candidate.contains_key(p),
+            "archive removal identity mismatch: {p}"
+        );
+        let raw = repo.blob(string(&r["git_blob"])?)?;
+        ensure!(
+            raw.len() == number(&r["bytes"])? && sha(&raw) == r["sha256"],
+            "archive preimage custody mismatch"
+        );
+        result.insert(p.to_owned(), id);
+    }
+    let c = &t["caller_change"];
+    let p = string(&c["path"])?;
+    ensure!(
+        *at(&base, p) == c["before"] && *at(candidate, p) == c["after"],
+        "archive guard caller identity mismatch"
+    );
+    replace(&mut result, p, &c["before"]);
+    Ok(result)
+}
+pub fn podcast(repo: &Repo, candidate: &Tree) -> Result<Tree> {
+    let t = repo.pinned("tools/podcast_migration/transition.json", PODCAST_PIN)?;
+    let manifest = repo.pinned(
+        "tools/podcast_migration/source-manifest.json",
+        string(&t["manifest_sha256"])?,
+    )?;
+    let imported = rows(&manifest["entries"])?
+        .iter()
+        .filter(|r| r["source_kind"] == "adl_git")
+        .map(|r| Ok(string(&r["source_path"])?.to_owned()))
+        .collect::<Result<Paths>>()?;
+    let removed = strings(&t["removed"])?;
+    ensure!(
+        removed.len() == rows(&t["removed"])?.len(),
+        "duplicate podcast removal"
+    );
+    let result = transition(candidate, &repo.tree(string(&t["source_commit"])?)?, &t)?;
+    let mut actual = Paths::new();
+    for r in rows(&t["changes"])? {
+        let p = string(&r["path"])?;
+        if r["after"].is_null() {
+            ensure!(
+                removed.contains(p) && imported.contains(p),
+                "podcast removal lacks destination provenance"
+            );
+            actual.insert(p.to_owned());
+        } else {
+            ensure!(!removed.contains(p), "podcast removal still present");
+        }
+    }
+    ensure!(removed == actual, "podcast removal set mismatch");
+    Ok(result)
+}
+pub fn normalized(repo: &Repo, candidate: &Tree) -> Result<Tree> {
+    let candidate = normalize_language(repo, candidate)?;
+    let candidate = readiness(repo, &candidate)?;
+    let candidate = cleanup(repo, &candidate)?;
+    let successor = repo.pinned(
+        "docs/language-cleanup/podcast-successor-transition.json",
+        super::constants::PODCAST_SUCCESSOR_PIN,
+    )?;
+    let candidate = language(repo, &candidate, &successor)?;
+    podcast(repo, &candidate)
+}
