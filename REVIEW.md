@@ -47,7 +47,7 @@ what was inspected, and what remains deferred. Existing test receipts are histor
 or reused evidence unless the candidate was actually tested.
 
 For changes affecting coverage, inspect the current [public coverage inventory](tools/public_adl/coverage_inventory.json)
-and [coverage gate](tools/public_adl/coverage.py). Review denominator and exclusion
+and [coverage gate](tools/ci_contracts/src/coverage.rs). Review denominator and exclusion
 changes, current thresholds and CI/local parity. Documentation-only work does not
 require executing the coverage lane.
 

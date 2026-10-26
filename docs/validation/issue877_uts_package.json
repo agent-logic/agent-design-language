@@ -15,7 +15,7 @@
       "role": "version/type/schema compatibility; existing 18 contract tests relocated without semantic changes"
     },
     {
-      "path": "adl-uts/tools/verify_install.py",
+      "path": "tools/public_contracts/src/uts_install.rs",
       "role": "clean Git package artifact, isolated offline Cargo consumption, schema mirror parity"
     },
     {
@@ -23,7 +23,7 @@
       "role": "production governed dispatch, ACC gate/binding/policy/replay denial before actual readonly adapter effects; 11 scenarios"
     },
     {
-      "path": "adl-uts/tools/test_ci_contract.rb",
+      "path": "tools/ci_contracts/tests/policy.rs",
       "lane": "tooling",
       "role": "actual CI aggregation shell accepts selected success and unselected skip; rejects failed/missing/skipped-required proof; verifies gate declaration scope",
       "determinism": "deterministic local shell",

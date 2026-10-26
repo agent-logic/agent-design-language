@@ -29,10 +29,10 @@ does not itself implement Runtime's lookup or claim runnable installed demos.
 From the repository root:
 
 ```sh
-python3 tools/godel_contract_distribution/package.py verify \
+cargo run --locked --quiet --manifest-path tools/public_contracts/Cargo.toml --bin adl-public-contracts -- godel verify \
   --artifact tools/godel_contract_distribution/adl-godel-contracts-0.8.0.tar.gz \
   --extract "$NEW_INSTALL_ROOT"
-python3 tools/godel_contract_distribution/package.py verify-root --root "$NEW_INSTALL_ROOT"
+cargo run --locked --quiet --manifest-path tools/public_contracts/Cargo.toml --bin adl-public-contracts -- godel verify-root --root "$NEW_INSTALL_ROOT"
 ```
 
 The extractor is create-only and checks the full archive before destination
@@ -43,7 +43,7 @@ extractor contract. Do not use a shared writable extraction parent.
 To reproduce from a Git repository containing the frozen source objects:
 
 ```sh
-python3 tools/godel_contract_distribution/package.py export \
+cargo run --locked --quiet --manifest-path tools/public_contracts/Cargo.toml --bin adl-public-contracts -- godel export \
   --repository "$ADL_SOURCE_REPOSITORY" --output "$NEW_ARCHIVE_PATH"
 ```
 
@@ -53,7 +53,7 @@ archive output. The frozen objects need not be fetched by an installed consumer.
 ## Validation
 
 ```sh
-python3 -B -m unittest discover -s tools/godel_contract_distribution -p 'test_*.py' -v
+cargo test --locked --manifest-path tools/public_contracts/Cargo.toml --test distribution
 ```
 
 PVF: fast deterministic offline data-contract tests; small local temporary

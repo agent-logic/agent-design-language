@@ -74,7 +74,7 @@ than maintaining a separate normative contract.
 ## Public package proof
 
 ```sh
-python3 tools/public_adl/verify_install_validator.py --issue 1335
+cargo run --locked --quiet --manifest-path tools/public_contracts/Cargo.toml --bin adl-public-contracts -- install-validator --issue 1335
 cargo test --locked --manifest-path adl-uts/Cargo.toml
 ```
 

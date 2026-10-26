@@ -9,3 +9,9 @@ publish = false
 [[test]]
 name = "distribution"
 path = "tests/distribution.rs"
+
+[dev-dependencies]
+adl-public-contracts = { path = "../public_contracts" }
+tempfile = "3"
+tar = "0.4"
+flate2 = "1"

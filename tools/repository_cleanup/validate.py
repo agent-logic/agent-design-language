@@ -8,7 +8,7 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[2]
 CHECKS = (
-    [sys.executable, '-B', 'tools/public_adl/test_package_checks.py'],
+    ['cargo', 'test', '--locked', '--manifest-path', 'tools/public_contracts/Cargo.toml', '--test', 'public_helpers'],
     [sys.executable, '-B', 'tools/repository_cleanup/test_guard.py'],
     ['cargo', 'test', '--locked', '--manifest-path', 'tools/ci_contracts/Cargo.toml', '--test', 'workflow'],
     ['bash', 'adl/tools/test_batched_checks_no_codexpr_usage_banner.sh'],

@@ -22,4 +22,4 @@ packages:
 	bash tools/public_adl/run_package_checks.sh
 
 docs:
-	python3 tools/public_adl/check_public_docs.py --self-test
+	cargo run --locked --quiet --manifest-path tools/public_contracts/Cargo.toml --bin adl-public-contracts -- docs --self-test
