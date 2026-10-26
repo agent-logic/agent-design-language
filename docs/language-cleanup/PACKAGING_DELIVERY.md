@@ -51,3 +51,18 @@ Source-retirement's pre-existing podcast transition mismatch is tracked in
 #1356. C-SDLC setup regressions #330/#331 remain separate, unimplemented tooling
 issues; Git/gh delivery uses the operator-authorized fallback and does not claim
 successful native finish or cleanup.
+
+## Local validation
+
+The initial committed candidate passed the 45 portable native tests and the
+separate macOS sandbox test, all 29 compatibility adapter tests, all five archive
+adapter tests, the 52 CI contract tests, strict Clippy, public CLI validation,
+current docs checks, six resume comparisons, separate portable workflow build,
+standalone UTS packaging, offline remote artifact consumption and the five-package
+sandboxed install validator. The latter validated all 8/5/21/23 denominators above.
+
+Independent review found one remaining source-retirement install adapter caller;
+it now invokes the same native validator with issue 1223 and preserves failure
+propagation. A focused CLI regression also pins compatibility refusal exit 2 and
+its stderr event channel. Final candidate validation and CI remain separate from
+these initial local results; no unrun check is represented as passed here.

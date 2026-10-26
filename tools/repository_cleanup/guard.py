@@ -46,7 +46,7 @@ LANGUAGE_TRANSITION_SHA256 = 'cd26e57fd78ae1e354673968d7457584d0642bc7588afde5a5
 
 CI_TRANSITION_SHA256 = '0adf239207ee6bd6ab34ec45542c307c77d572acb1aa31e2d2f27081667b10a1'
 
-PACKAGING_TRANSITION_SHA256 = '33fbd44e1959d892b9faae03ab9c0861af6fbb69f6560988ab33b72df7e512e5'
+PACKAGING_TRANSITION_SHA256 = 'da49bc735d68b7b6d782fec49922b6dfe3908a2668f8154d94508b7cb6dad828'
 
 def normalize_language_cleanup(root, candidate, tree):
     candidate = _normalize_language_transition(root, candidate, tree,

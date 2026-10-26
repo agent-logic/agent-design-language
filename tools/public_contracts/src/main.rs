@@ -2,6 +2,10 @@ use anyhow::{bail, Result};
 use std::path::PathBuf;
 fn main() {
     if let Err(e) = run() {
+        if std::env::args().nth(1).as_deref() == Some("compatibility") {
+            eprintln!("adl_event component=compatibility_lockset outcome=refused reason={e}");
+            std::process::exit(2);
+        }
         eprintln!("{e:#}");
         std::process::exit(1);
     }

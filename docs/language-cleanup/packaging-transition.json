@@ -467,6 +467,18 @@
       "before_sha256": "bae77ddcf185f6fb39fa0734483e36ca88e160cfe93155f93c82ec4dd906b9ca"
     },
     {
+      "path": "tools/source_retirement/validator/installed_public_packages.rs",
+      "before": [
+        "100644",
+        "1025f3bcc40b3935e916614627dec5f47d158662"
+      ],
+      "after": [
+        "100644",
+        "387b737dc71c4b6f72d6cbe8e3772cd771a3fb33"
+      ],
+      "before_sha256": "45c8d86786703926fc51d172389eae64df95b012ab15cb450deeffd4dda12dd7"
+    },
+    {
       "path": "tools/transpiler_distribution/README.md",
       "before": [
         "100644",
