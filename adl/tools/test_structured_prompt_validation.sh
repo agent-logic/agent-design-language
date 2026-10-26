@@ -14,20 +14,7 @@ for retired in validate_structured_prompt.sh lint_prompt_spec.sh; do
   fi
 done
 
-python3 adl/tools/test_prompt_template_structure_schemas.py
-
-# The active registry owns the template version; retained v2 history does not pin it.
-python3 - <<'REGISTRY'
-import json
-from pathlib import Path
-registry = json.loads(Path("docs/templates/prompts/current.json").read_text())
-assert registry["status"] == "active"
-assert registry["csdlc_prompt_template_set"] == registry["semver"]
-assert set(registry["templates"]) == {"sip", "stp", "spp", "vpp", "srp", "sor"}
-for template in registry["templates"].values():
-    assert Path(template["path"]).is_file()
-    assert Path(template["structure_schema_path"]).is_file()
-REGISTRY
+bash adl/tools/test_prompt_template_structure_schemas.sh --active-registry
 rg -q 'csdlc-validate' csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md
 
 echo "PASS: retained local wrapper absence/schema guards only; no native edit, validation, or lifecycle equivalence claimed"

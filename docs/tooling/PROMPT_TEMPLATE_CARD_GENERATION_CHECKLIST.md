@@ -60,11 +60,11 @@ cargo run --manifest-path adl/Cargo.toml -- tooling prompt-template \
   validate-structure --kind sip --input /tmp/csdlc-prompt-cards/sip.md
 ```
 
-Validate tracked schema artifacts and Python readability:
+Validate tracked schema artifacts and JSON readability:
 
 ```sh
 cargo run --manifest-path adl/Cargo.toml -- tooling prompt-template validate-schemas
-python3 adl/tools/test_prompt_template_structure_schemas.py
+bash adl/tools/test_prompt_template_structure_schemas.sh
 ```
 
 ## Required Review Questions
@@ -81,7 +81,7 @@ python3 adl/tools/test_prompt_template_structure_schemas.py
 - Did `validate-values` pass before rendering?
 - Did `validate-structure` pass after rendering?
 - If template structure changed, were structure schemas regenerated and checked
-  by both Rust and Python?
+  by the native structure validator and JSON artifact smoke check?
 - Did any lifecycle-truth repair go through the matching editor skill instead of
   direct Markdown edits?
 

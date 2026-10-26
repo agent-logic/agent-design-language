@@ -79,3 +79,21 @@ No trap was invoked. The complete original required-file/diagram/section lists
 remain native constants. Safety checks now reject ambiguous duplicate skill
 lanes and single-backslash Windows host paths; leak diagnostics identify the
 category without echoing potentially sensitive matched content.
+
+## Completed source slice: prompt schema artifact smoke checks
+
+The native `prompt-schemas` command and shell entrypoint replace the Python smoke
+checker and the inline active-registry assertions in the retained validation
+wrapper. Both wrappers retain their sunset-source absence guards and explicit
+non-lifecycle/non-equivalence claims. The native default checks preserve schema
+identity, version, card kind, template path, parser provenance, array shapes and
+nonempty headings. `--active-registry` also requires active status, matching
+registry versions, exactly six lifecycle cards and existing template/schema files.
+
+The original checker passed all six versions (1.0.0–1.0.5) before removal.
+Three native test groups cover those versions, malformed/missing schemas,
+identity/shape mutations, invalid options, active-registry mutations and CLI
+execution from outside the checkout with empty `PATH`. An independent Node JSON
+parser read all 33 tracked schemas successfully; Python readability is no longer
+claimed as an executed native check. Current instructions use the JSON artifact
+smoke check. Schema artifacts and historical review assignments remain unchanged.

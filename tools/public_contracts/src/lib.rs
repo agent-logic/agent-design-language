@@ -8,6 +8,7 @@ pub mod install;
 pub mod install_validator;
 pub mod planning_template;
 pub mod portable;
+pub mod prompt_schemas;
 pub mod public_docs;
 pub mod runtime_owner;
 pub mod session;

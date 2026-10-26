@@ -13,6 +13,9 @@ fn main() {
 fn run() -> Result<()> {
     let a: Vec<String> = std::env::args().skip(1).collect();
     let action = a.first().map(String::as_str).unwrap_or("");
+    if action == "prompt-schemas" {
+        return adl_public_contracts::prompt_schemas::cli(&a[1..]);
+    }
     if action == "architecture-docs" && a.len() <= 3 {
         let root = a
             .get(1)

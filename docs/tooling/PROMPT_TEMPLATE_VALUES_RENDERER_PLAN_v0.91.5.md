@@ -143,8 +143,9 @@ block shape, unresolved placeholders, and locked template prose where the card
 kind has stable prose. `#3587` promotes that guard to consume versioned
 structure schema artifacts from `docs/templates/prompts/current.json` and uses
 `markdown-rs` AST extraction for headings and fenced blocks. The tracked schema
-artifacts are JSON so a dependency-free Python smoke test can verify registry
-coverage and schema readability outside the Rust implementation.
+artifacts are interoperable JSON. The native artifact smoke check verifies
+registry coverage and schema readability independently of schema extraction;
+consumer JSON parsers can read the same artifacts without a Python prerequisite.
 
 Public artifact hygiene and redaction checks remain separate review/validation
 surfaces unless a later issue binds them directly to the renderer.
@@ -187,7 +188,7 @@ cargo run --manifest-path adl/Cargo.toml -- tooling prompt-template validate-str
 
 cargo run --manifest-path adl/Cargo.toml -- tooling prompt-template validate-schemas
 
-python3 adl/tools/test_prompt_template_structure_schemas.py
+bash adl/tools/test_prompt_template_structure_schemas.sh
 ```
 
 The existing Markdown validator remains in use:

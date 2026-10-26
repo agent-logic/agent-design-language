@@ -107,7 +107,7 @@ pub fn scan(text: &str, google: bool) -> Result<()> {
         r"OPENAI_API_KEY|ANTHROPIC_API_KEY|Bearer\s+[A-Za-z0-9._-]+|sk-[A-Za-z0-9]{8,}",
     )?;
     ensure!(
-        !secret.is_match(text) && !(google && text.contains("GOOGLE_API_KEY")),
+        !(secret.is_match(text) || google && text.contains("GOOGLE_API_KEY")),
         "secret-like marker leaked"
     );
     Ok(())
