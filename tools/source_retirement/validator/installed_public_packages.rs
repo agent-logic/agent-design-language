@@ -4,10 +4,17 @@ use std::process::Command;
 #[test]
 fn installed_public_packages_for_issue_1223() {
     let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../..");
-    let output = Command::new("python3")
+    let output = Command::new("cargo")
         .args([
-            "-B",
-            "tools/public_adl/verify_install_validator.py",
+            "run",
+            "--locked",
+            "--quiet",
+            "--manifest-path",
+            "tools/public_contracts/Cargo.toml",
+            "--bin",
+            "adl-public-contracts",
+            "--",
+            "install-validator",
             "--issue",
             "1223",
         ])

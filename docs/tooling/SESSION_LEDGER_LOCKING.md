@@ -30,7 +30,7 @@ migration action.
 
 ## Validation classification
 
-The `session_ledger` Rust tests and `tools/public_adl/test_public_session.py`
+The `session_ledger` Rust tests and the native `session` contract in `tools/public_contracts`
 are PVF `local_contract`: deterministic owned temporary files and child
 processes, bounded local CPU/disk, no network or providers, required public
 source regression gates. Tests cover live contention, killed holders,

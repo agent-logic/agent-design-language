@@ -1,27 +1,33 @@
-use std::path::Path;
-use std::process::Command;
-
+use std::{path::Path, process::Command};
+// PVF installed consumer qualification: native proof enforces the macOS sandbox.
 #[test]
 fn public_adl_install_validator() {
     let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../..");
-    let output = Command::new("python3")
+    let output = Command::new("cargo")
         .args([
-            "tools/public_adl/verify_install_validator.py",
+            "run",
+            "--locked",
+            "--quiet",
+            "--manifest-path",
+            "tools/public_contracts/Cargo.toml",
+            "--bin",
+            "adl-public-contracts",
+            "--",
+            "install-validator",
             "--issue",
             "1192",
         ])
         .current_dir(root)
         .output()
-        .expect("execute public ADL install validator");
+        .expect("execute native install validator");
     assert!(
         output.status.success(),
-        "public ADL validator failed; evidence result: {}\nstderr: {}",
+        "native validator failed; evidence result: {}\nstderr: {}",
         String::from_utf8_lossy(&output.stdout),
         String::from_utf8_lossy(&output.stderr)
     );
-    let stdout = String::from_utf8(output.stdout).expect("validator stdout is UTF-8 JSON");
     assert!(
-        stdout.contains("\"status\":\"passed\""),
-        "missing pass marker: {stdout}"
+        String::from_utf8_lossy(&output.stdout).contains("\"status\":\"passed\""),
+        "missing pass marker"
     );
 }

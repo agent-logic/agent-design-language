@@ -13,6 +13,8 @@ if [[ "$(uname -s)" != Darwin ]] || [[ ! -x /usr/bin/sandbox-exec ]]; then
   exit 2
 fi
 
+cargo test --locked --manifest-path tools/public_contracts/Cargo.toml
+
 # These five package tests populate only their public registry dependency graph.
 # The installed-consumer proof then runs offline inside the enforced sandbox.
 bash tools/public_adl/run_package_checks.sh

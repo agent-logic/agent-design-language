@@ -8,16 +8,8 @@ metadata="$(mktemp "${TMPDIR:-/tmp}/adl-public-metadata.XXXXXX")"
 trap 'rm -f "$metadata"' EXIT
 host="$(rustc -vV | sed -n 's/^host: //p')"
 cargo metadata --locked --manifest-path adl/Cargo.toml --format-version 1 --filter-platform "$host" >"$metadata"
-python3 - "$metadata" <<'PY'
-import json, sys
-from pathlib import Path
-metadata = json.loads(Path(sys.argv[1]).read_text())
-allowed_local = {'adl', 'adl-schema', 'adl-legacy-contracts'}
-local = {p['name'] for p in metadata['packages'] if p['source'] is None}
-if local != allowed_local:
-    raise SystemExit(f'public CLI local dependency closure changed: {sorted(local)}')
-print('public CLI private dependency count: 0')
-PY
+native=(cargo run --locked --quiet --manifest-path tools/public_contracts/Cargo.toml --bin adl-public-contracts --)
+"${native[@]}" metadata-check --input "$metadata"
 cargo fmt --manifest-path adl/Cargo.toml --package adl -- --check
 cargo clippy --locked --manifest-path adl/Cargo.toml --package adl --lib --bins \
   --test adl_tests --test resolve_tests --test schema_tests --test public_process \
@@ -28,18 +20,13 @@ cargo clippy --locked --manifest-path adl/Cargo.toml --package adl --lib --bins 
 cargo test --locked --manifest-path adl/Cargo.toml --lib --bins \
   --test adl_tests --test resolve_tests --test schema_tests --test public_process \
   --test issue_327_removed_tooling --test public_observation
-binary="$(python3 - "$metadata" <<'PY'
-import json, sys
-from pathlib import Path
-print(Path(json.loads(Path(sys.argv[1]).read_text())['target_directory'])/'debug'/'adl')
-PY
-)"
-python3 tools/public_adl/test_public_runtime_dispatch.py --binary "$binary"
-python3 tools/public_adl/test_public_cli_refusals.py --binary "$binary"
-python3 tools/public_adl/test_public_session.py --binary "$binary"
-ADL_PUBLIC_CLI="$binary" python3 tools/public_adl/test_public_codefriend_dispatch.py
-python3 tools/public_adl/test_runtime_owner.py
-python3 tools/public_adl/test_codefriend_owner.py
+binary="$("${native[@]}" metadata-binary --input "$metadata")"
+for contract in runtime-dispatch cli-refusals session codefriend-dispatch; do
+  "${native[@]}" "$contract" --binary "$binary"
+done
+cargo build --locked --quiet --manifest-path tools/public_contracts/Cargo.toml --bins
+"${native[@]}" runtime-owner
+"${native[@]}" codefriend-owner
 bash adl/tools/test_owner_binary_install.sh
 
 # Version truth consumes the selected public build, never the docs-only job.

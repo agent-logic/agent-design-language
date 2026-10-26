@@ -56,14 +56,14 @@ jobs:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
           HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
-          if [ "$EVENT_NAME" = pull_request ] && git diff --quiet "$BASE_SHA" "$HEAD_SHA" -- tools/godel_contract_distribution .github/workflows/ci.yaml; then
+          if [ "$EVENT_NAME" = pull_request ] && git diff --quiet "$BASE_SHA" "$HEAD_SHA" -- tools/godel_contract_distribution tools/public_contracts .github/workflows/ci.yaml; then
             echo "Gödel distribution unchanged; focused data proof not selected"
             exit 0
           fi
-          python3 -B -m unittest discover -s tools/godel_contract_distribution -p 'test_*.py' -v
-          python3 tools/godel_contract_distribution/package.py verify --artifact tools/godel_contract_distribution/adl-godel-contracts-0.8.0.tar.gz --extract "$RUNNER_TEMP/godel-contracts"
+          cargo test --locked --manifest-path tools/public_contracts/Cargo.toml --test distribution
+          cargo run --locked --quiet --manifest-path tools/public_contracts/Cargo.toml --bin adl-public-contracts -- godel verify --artifact tools/godel_contract_distribution/adl-godel-contracts-0.8.0.tar.gz --extract "$RUNNER_TEMP/godel-contracts"
           cd "$RUNNER_TEMP"
-          python3 "$GITHUB_WORKSPACE/tools/godel_contract_distribution/package.py" verify-root --root "$RUNNER_TEMP/godel-contracts"
+          cargo run --locked --quiet --manifest-path "$GITHUB_WORKSPACE/tools/public_contracts/Cargo.toml" --bin adl-public-contracts -- godel verify-root --root "$RUNNER_TEMP/godel-contracts"
 
       - name: Public selection summary
         env:
@@ -107,7 +107,7 @@ jobs:
         run: |
           cargo test --locked --manifest-path tools/ci_contracts/Cargo.toml --test ci
           cargo test --locked --manifest-path tools/ci_contracts/Cargo.toml --test workflow
-          python3 -B tools/public_adl/test_package_checks.py
+          cargo test --locked --manifest-path tools/public_contracts/Cargo.toml --test public_helpers
           python3 -B tools/repository_cleanup/test_guard.py
           cargo test --locked --manifest-path tools/ci_contracts/Cargo.toml --test actions
           cargo test --locked --manifest-path tools/ci_contracts/Cargo.toml --test interfaces

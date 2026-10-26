@@ -336,25 +336,28 @@ pub fn run(root: &Path, output: &Path, mode: &str, base: Option<&str>) -> Result
         first.extend(strings(&p["selection"])?);
         let mut commands = vec![first];
         if name == "adl" {
-            // #1349 atomically switches these public CLI producer interfaces.
             let binary = work.join("target/debug/adl").to_string_lossy().into_owned();
-            env.insert("ADL_PUBLIC_CLI".into(), binary.clone());
-            for file in [
-                "test_public_runtime_dispatch.py",
-                "test_public_cli_refusals.py",
-                "test_public_session.py",
+            for contract in [
+                "runtime-dispatch",
+                "cli-refusals",
+                "session",
+                "codefriend-dispatch",
             ] {
                 commands.push(vec![
-                    "python3".into(),
-                    format!("tools/public_adl/{file}"),
+                    "cargo".into(),
+                    "run".into(),
+                    "--locked".into(),
+                    "--quiet".into(),
+                    "--manifest-path".into(),
+                    "tools/public_contracts/Cargo.toml".into(),
+                    "--bin".into(),
+                    "adl-public-contracts".into(),
+                    "--".into(),
+                    contract.into(),
                     "--binary".into(),
                     binary.clone(),
                 ]);
             }
-            commands.push(args(&[
-                "python3",
-                "tools/public_adl/test_public_codefriend_dispatch.py",
-            ]));
         }
         let summary = work.join("summary.json").to_string_lossy().into_owned();
         let lcov = work.join("coverage.lcov").to_string_lossy().into_owned();
