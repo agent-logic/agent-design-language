@@ -198,6 +198,7 @@ pub fn run(repo: &Repo) -> Result<Value> {
         }
         for p in [
             "tools/source_retirement/README.md",
+            "tools/source_retirement/validator/src/audit.rs",
             "tools/source_retirement/validator/reviewed-identities.json",
         ] {
             allowed.insert(p.to_owned());

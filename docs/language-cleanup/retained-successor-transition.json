@@ -38,6 +38,51 @@
       "successor_subject": "docs: restore ADL README narrative and current public guidance"
     },
     {
+      "path": "adl-legacy-contracts/Cargo.toml",
+      "before": [
+        "100644",
+        "4bf2f18f5c0b177786446645082391c3444a5638"
+      ],
+      "after": [
+        "100644",
+        "8b85188ea7a28e0e330aec1cdcadc85ac62b1d16"
+      ],
+      "before_sha256": "ccb6061623384cbbe1a33bb6573a8a2eb9b98c01ea9a188f4966d6e57720517a",
+      "after_sha256": "2227f29e942b03c8104cc7d50ce79b0db96988d0bfd566b5521ad2536e8c5515",
+      "successor_commit": "2a6de9d26482795e168eaac67550a535450f6086",
+      "successor_subject": "Replace archived YAML parser with Saphyr and preserve public contracts"
+    },
+    {
+      "path": "adl-schema/Cargo.toml",
+      "before": [
+        "100644",
+        "a0bddb4a83e01f1bed3bc68ac97be10cffb798bd"
+      ],
+      "after": [
+        "100644",
+        "2ce9ec771906e7a553216d17f226195b0414544b"
+      ],
+      "before_sha256": "f9c6f7372f4696618a041ce437fe4fec874e8444d5d34085ae32db8c2589d8aa",
+      "after_sha256": "fa6e532157cf4e3cfb273d42f7240027dae07a63d1003ffed9063931b20a97f0",
+      "successor_commit": "8b6ec7676cac6ba4c35c6b96fcdcce393ab00747",
+      "successor_subject": "docs: supply both declared public package licenses"
+    },
+    {
+      "path": "adl-uts/Cargo.toml",
+      "before": [
+        "100644",
+        "3675186158dc17c8890732c180e566913da139ea"
+      ],
+      "after": [
+        "100644",
+        "f0e5beb95be8c5ae726c4c6f608a7ec4f8e6682c"
+      ],
+      "before_sha256": "ac3ad1ccfd13c12c529d84d55a65d5710103eacc596d368a8c7b38c05e067be9",
+      "after_sha256": "d5bc16d4dc3b7914fe087d3509bf585c5c61e6b0e851af4bd3c7a018cc334c6b",
+      "successor_commit": "0b92a7a692c6f97cf49fb9bcd1b08d356e37caba",
+      "successor_subject": "Merge current main retaining license texts and maintained YAML consumer"
+    },
+    {
       "path": "adl/src/cli/observability.rs",
       "before": [
         "100644",
