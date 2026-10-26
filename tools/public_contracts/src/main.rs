@@ -65,6 +65,32 @@ fn run() -> Result<()> {
         }
         return Ok(());
     }
+    if action == "release-version-source" {
+        if a.len() != 3 {
+            bail!("usage: release-version-source MANIFEST LOCK");
+        }
+        println!(
+            "{}",
+            adl_public_contracts::release_version::source(
+                &std::fs::read_to_string(&a[1])?,
+                &std::fs::read_to_string(&a[2])?
+            )?
+        );
+        return Ok(());
+    }
+    if action == "release-version-metadata" {
+        if a.len() != 3 {
+            bail!("usage: release-version-metadata EXPECTED METADATA");
+        }
+        println!(
+            "{}",
+            adl_public_contracts::release_version::metadata(
+                &a[1],
+                &std::fs::read_to_string(&a[2])?
+            )?
+        );
+        return Ok(());
+    }
     if action == "tool-registry" {
         if a.len() > 2 || (a.len() == 2 && a[1] != "--check") {
             bail!("usage: tool-registry [--check]");

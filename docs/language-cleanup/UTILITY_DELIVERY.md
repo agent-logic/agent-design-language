@@ -235,3 +235,18 @@ and the original review packets remain unchanged. This deliberately removes old
 replay capability rather than maintaining new native implementations of completed
 experiments. Owner qualification obligations remain separate and unfulfilled by
 this removal. Full transition admission and issue acceptance remain pending.
+
+## Current public release-version check
+
+`check_release_version_surfaces.sh` is selected by public CLI validation. Its
+three Python TOML/JSON readers are replaced by native `release-version-source`
+and `release-version-metadata` helpers. Shell retains Cargo execution, temporary
+metadata cleanup and the exact CLI-version comparison. Source/lock disagreement
+still stops before metadata and CLI execution. Missing/malformed data refuses;
+versions must be nonempty strings in the manifest. No dependency was added.
+
+The original shell check passed before editing. The updated actual check passed
+with failing Python/Python3/Ruby commands ahead of PATH, reporting 0.92.1 for
+manifest, lock and CLI. Two focused native test groups cover missing/malformed
+inputs, manifest/lock/metadata drift and empty-PATH helper execution; strict
+Clippy passed. This is version consistency, not a deployed-release claim.

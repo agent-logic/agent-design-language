@@ -14,6 +14,7 @@ pub mod prompt_schemas;
 pub mod public_docs;
 pub mod pvf_manifest;
 pub mod quality_surfaces;
+pub mod release_version;
 pub mod retained_packets;
 pub mod runtime_owner;
 pub mod session;
