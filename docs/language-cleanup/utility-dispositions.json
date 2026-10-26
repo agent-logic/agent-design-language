@@ -258,6 +258,21 @@
       "bytes": 4825,
       "consumer_result": "Native shell validator and Rust test wrapper replace direct and inline Python; current lane/demo callers updated. Historical review records unchanged.",
       "proof": "Original shell suite passed; two native groups preserve snapshot, Markdown, path and source-file checks with interpreter-free CLI. Strict Clippy passed. JSON truth fields no longer accept integer aliases for booleans."
+    },
+    {
+      "path": "adl/tools/validate_v0913_quality_gate_review_surfaces.py",
+      "action": "replaced",
+      "replacement": "tools/public_contracts/src/quality_surfaces.rs",
+      "command": "bash adl/tools/validate_v0913_quality_gate_review_surfaces.sh <repo-root> <surface>",
+      "source_commit": "7b6986179a0642d558f3ca6e1d8f547cb003b735",
+      "before": [
+        "100644",
+        "9517e1d763741f7fd35a900d31514da4e1102bdf"
+      ],
+      "sha256": "1bbe611b7a65bee10e208cca9f13a6a356b029dfcc802729a7052545ad174628",
+      "bytes": 5192,
+      "consumer_result": "Quality-gate shell callers use native checker. Historical route strings are documentary assertions only, never executed. Historical map remains unchanged.",
+      "proof": "Original quality_gate_doc and quality_gate_packet passed; original demo_coverage failed on Card Lifecycle Integration route. Native tests preserve both passes and that refusal, plus synthetic positive and negative cases. Strict Clippy passed; no passing demo_coverage claim."
     }
   ]
 }

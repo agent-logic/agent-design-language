@@ -50,9 +50,9 @@ checks_json+="$(run_check merge_readiness_packet bash "$ROOT_DIR/adl/tools/valid
 checks_json+="$(run_check obsmem_handoff_packet bash "$ROOT_DIR/adl/tools/validate_obsmem_handoff_packet.sh" "$ROOT_DIR/docs/milestones/v0.91.3/review/obsmem_handoff"),"
 checks_json+="$(run_check first_proof_readiness_packet bash "$ROOT_DIR/adl/tools/validate_first_proof_readiness_packet.sh" "$ROOT_DIR/docs/milestones/v0.91.3/review/first_proof_readiness"),"
 checks_json+="$(run_check first_proof_demo_packet python3 "$ROOT_DIR/adl/tools/validate_first_proof_demo_packet.py" "$ROOT_DIR/docs/milestones/v0.91.3/review/first_proof_demo"),"
-checks_json+="$(run_check quality_gate_doc_surface python3 "$ROOT_DIR/adl/tools/validate_v0913_quality_gate_review_surfaces.py" "$ROOT_DIR" quality_gate_doc),"
-checks_json+="$(run_check quality_gate_packet_surface python3 "$ROOT_DIR/adl/tools/validate_v0913_quality_gate_review_surfaces.py" "$ROOT_DIR" quality_gate_packet),"
-checks_json+="$(run_check demo_coverage_surface python3 "$ROOT_DIR/adl/tools/validate_v0913_quality_gate_review_surfaces.py" "$ROOT_DIR" demo_coverage),"
+checks_json+="$(run_check quality_gate_doc_surface bash "$ROOT_DIR/adl/tools/validate_v0913_quality_gate_review_surfaces.sh" "$ROOT_DIR" quality_gate_doc),"
+checks_json+="$(run_check quality_gate_packet_surface bash "$ROOT_DIR/adl/tools/validate_v0913_quality_gate_review_surfaces.sh" "$ROOT_DIR" quality_gate_packet),"
+checks_json+="$(run_check demo_coverage_surface bash "$ROOT_DIR/adl/tools/validate_v0913_quality_gate_review_surfaces.sh" "$ROOT_DIR" demo_coverage),"
 checks_json+="$(run_check demo_matrix_wp11_row grep -Fq '| Sprint 4 quality gate | WP-11 / #3227 |' "$ROOT_DIR/docs/milestones/v0.91.3/DEMO_MATRIX_v0.91.3.md"),"
 if [[ "$RUN_HEAVY" == "1" ]]; then
   checks_json+="$(run_check fmt cargo fmt --manifest-path "$ROOT_DIR/adl/Cargo.toml" --all --check),"

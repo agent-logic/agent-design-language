@@ -166,3 +166,14 @@ Strict Clippy passed. Current shell callers use the native replacement; historic
 records retain original command text. The adjacent quality-review validator has
 a pre-existing demo-map route mismatch (v2 doctor expected, v1 wrapper recorded);
 that observed failure is not claimed as successful validation.
+
+## Completed source slice: quality review surface checker
+
+The native checker retains all three surface inventories, linked-file checks,
+feature/route assertions and missing-feature verdict. Historical command strings
+are documentary comparisons and are never executed. Two original surfaces pass;
+the original demo-coverage check fails because it expects a v2 doctor route while
+the immutable map names the older v1 wrapper. The port preserves that refusal.
+Two native groups verify these observed outcomes plus synthetic positive and
+negative markers, links, routes and verdicts. Strict Clippy passed. No successful
+current demo-coverage validation or availability of those old routes is claimed.

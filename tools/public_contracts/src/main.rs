@@ -36,6 +36,14 @@ fn run() -> Result<()> {
         println!("merge_readiness_packet: PASS root={}", a[1]);
         return Ok(());
     }
+    if action == "quality-review-surfaces" {
+        if a.len() != 3 {
+            bail!("usage: quality-review-surfaces <repo-root> <surface>");
+        }
+        adl_public_contracts::quality_surfaces::check(std::path::Path::new(&a[1]), &a[2])?;
+        println!("v0913_quality_gate_review_surfaces: PASS surface={}", a[2]);
+        return Ok(());
+    }
     if action == "tool-registry" {
         if a.len() > 2 || (a.len() == 2 && a[1] != "--check") {
             bail!("usage: tool-registry [--check]");
