@@ -59,7 +59,7 @@ removing transferred behavior. Never require sibling private checkouts to prove
 public-only acceptance. Historical references to a private owner are not proof
 that a current replacement has been accepted.
 
-## Decisions and unresolved execution gates
+## Replacement contracts and unresolved execution gates
 
 The three script dispositions are deliberate delivery decisions:
 
@@ -74,10 +74,20 @@ The three script dispositions are deliberate delivery decisions:
   retired or accepted by the separate owner. This is a gate, not permission to
   classify all unreferenced scripts as obsolete.
 
+The coverage contract explicitly preserves the 80% changed-file floor and the
+90% aggregate/80% per-file full-run floors. #1348 can retain current CLI test
+interfaces during its migration; #1349 owns the atomic coverage-harness switch
+when those tests become native. The installation contract retains macOS sandbox
+enforcement separately from Ubuntu CI; it does not replace isolation with a
+sanitized environment. These boundaries avoid both a dependency cycle and an
+unowned cross-issue caller.
+
 The complete inventory is suitable for allocating execution, but it is **not a
 bulk deletion authorization**. `retirement_authorized: false` is intentional.
-Each delivery issue must record its actual decision, successor contract and
-current consumer evidence before removal. Explicitly unresolved gates are:
+The inventory links every script to one of 14 concrete replacement contracts,
+recording required outputs, rejection cases, platform scope, baseline test
+surfaces, caller-switch ownership and cross-issue sequencing. Each delivery
+issue must record its actual decision and fresh consumer evidence before removal. Explicitly unresolved gates are:
 
 1. Verify dynamic and external consumers for each retiring entry. Lexical
    candidates are neither exhaustive execution graphs nor proof of dead code.

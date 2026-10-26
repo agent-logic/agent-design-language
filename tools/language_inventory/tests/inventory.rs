@@ -37,6 +37,28 @@ fn identities(v: &Value) -> Result<BTreeMap<String, String>, String> {
     let mut result = BTreeMap::new();
     for row in rows {
         let p = row["path"].as_str().ok_or("missing path")?;
+        let contract_id = row["replacement_contract"]
+            .as_str()
+            .ok_or("missing contract")?;
+        let contract = &v["replacement_contracts"][contract_id];
+        for key in [
+            "outputs",
+            "failure_cases",
+            "platform_scope",
+            "caller_switch",
+            "sequencing",
+        ] {
+            if contract[key].as_str().is_none_or(|s| s.is_empty()) {
+                return Err("incomplete replacement contract".into());
+            }
+        }
+        if contract["baseline_tests"]
+            .as_array()
+            .is_none_or(|a| a.is_empty())
+        {
+            return Err("missing proving surfaces".into());
+        }
+
         let blob = row["git_blob"].as_str().ok_or("missing blob")?;
         if !p.ends_with(".rb") && !p.ends_with(".py") {
             return Err("unexpected extension".into());
@@ -126,6 +148,14 @@ fn every_baseline_script_has_exact_identity_and_custody() {
         assert!(!rows.contains_key(p));
         assert!(!row["matching_lines"].as_array().unwrap().is_empty());
     }
+    for contract in v["replacement_contracts"].as_object().unwrap().values() {
+        for path in contract["baseline_tests"].as_array().unwrap() {
+            assert!(
+                all.contains_key(path.as_str().unwrap()),
+                "missing contract proving surface: {path}"
+            );
+        }
+    }
     for row in v["archives"].as_array().unwrap() {
         assert_eq!(row["git_blob"], all[row["path"].as_str().unwrap()].1);
     }
@@ -148,6 +178,12 @@ fn duplicate_unowned_and_invented_custody_are_rejected() {
     let mut custody = v.clone();
     custody["scripts"][0]["preservation"]["commit"] = "fabricated".into();
     assert_eq!(identities(&custody).unwrap_err(), "custody mismatch");
+    let mut missing_contract = v.clone();
+    missing_contract["scripts"][0]["replacement_contract"] = "absent".into();
+    assert_eq!(
+        identities(&missing_contract).unwrap_err(),
+        "incomplete replacement contract"
+    );
     let mut permission = v;
     permission["scripts"][0]["retirement_authorized"] = true.into();
     assert_eq!(
