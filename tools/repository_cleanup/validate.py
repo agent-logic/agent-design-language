@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """PVF local_contract: deterministic cleanup routing/identity checks; bounded
-local CPU/filesystem, no build/network/provider calls; native proof adapter.
+local CPU/filesystem and focused native contract build; no provider calls.
 """
 from pathlib import Path
 import subprocess
@@ -12,7 +12,7 @@ CHECKS = (
     [sys.executable, '-B', 'tools/repository_cleanup/test_guard.py'],
     [sys.executable, '-B', 'tools/public_adl/test_ci_contract.py'],
     ['bash', 'adl/tools/test_batched_checks_no_codexpr_usage_banner.sh'],
-    ['ruby', 'adl-uts/tools/test_ci_contract.rb'],
+    ['cargo', 'run', '--locked', '--quiet', '--manifest-path', 'tools/ci_contracts/Cargo.toml', '--', 'aggregation-contract'],
 )
 
 

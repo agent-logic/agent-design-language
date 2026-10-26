@@ -47,7 +47,7 @@ jobs:
           bash adl/tools/ci_path_policy.sh --event-name "$EVENT_NAME" --base "$BASE_SHA" --head "${HEAD_SHA:-HEAD}" --github-output "$GITHUB_OUTPUT"
 
       - name: Enforce whole-workflow dispatch policy
-        run: ruby adl/tools/validate_ci_workflow_policy.rb
+        run: cargo run --locked --quiet --manifest-path tools/ci_contracts/Cargo.toml -- workflow-policy
         working-directory: .
 
       - name: Frozen Gödel distribution contracts
@@ -102,7 +102,7 @@ jobs:
       - name: Public planning graph and split contract
         run: python3 -B tools/public_adl/test_planning_contract.py
       - name: UTS selected-result contract
-        run: ruby adl-uts/tools/test_ci_contract.rb
+        run: cargo run --locked --quiet --manifest-path tools/ci_contracts/Cargo.toml -- aggregation-contract
       - name: Public CI routing and refusal contracts
         run: |
           python3 -B -m unittest discover -s tools/public_adl -p 'test_ci_policy.py' -v
@@ -111,7 +111,7 @@ jobs:
           python3 -B tools/repository_cleanup/test_guard.py
           python3 -B tools/public_adl/test_action_pins.py
           python3 -B tools/public_adl/test_validation_interfaces.py
-          ruby adl/tools/validate_ci_workflow_policy.rb
+          cargo run --locked --quiet --manifest-path tools/ci_contracts/Cargo.toml -- workflow-policy
           bash adl/tools/test_ci_runtime_contracts.sh
 
   public_adl_validation:
