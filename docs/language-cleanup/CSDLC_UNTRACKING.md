@@ -11,37 +11,35 @@ Exact preservation anchor:
 - Complete `.csdlc` tree: `cd0207ac5df53290061b272144cea42a331a64db`
 - Recovery: `git show 5dbcadc411b5f50928a54f396cda931395dbdbdb:<original-path>` for an individual historical file.
 
-## Integration dependency found after untracking
+## Corrected authority assessment
 
-The current ADL selector points to
-`csdlc-v3/operator/native-authority-receipt.json`. That receipt names
-`.csdlc/evidence/505/terminal-receipt.json`.
+The initial assessment mistook a historical relocation reader for ordinary
+operational authority. Inspection of the full call path at Cognitive-SDLC source
+`f465963475670002cf27aed07fa3b7d18a3d2fe6` shows `canonical_v3_authority` and
+`context_authority` use installed-tool admission. The hard-coded #505 receipt
+reader is used by `historical_relocation_binding`; it is not the ordinary path.
 
-Read-only inspection of Cognitive-SDLC source at
-`f465963475670002cf27aed07fa3b7d18a3d2fe6`,
-`csdlc-v3/src/authority.rs`, found two concrete requirements:
+The installed executable
+`/Volumes/FastWork/agent-logic-tools/csdlc/11786371585/installed/bin/csdlc`
+was tested with the local `.csdlc/evidence/505/terminal-receipt.json` temporarily
+absent. `validate 1351 --json` completed, reported `operational_authority: true`,
+and passed lifecycle digest and six-card validation. The local receipt was
+restored immediately afterward. The exact output is retained in the issue's
+local metadata as `validate-without-legacy-receipt.json`.
 
-1. The terminal receipt path must equal that exact `.csdlc` path.
-2. `canonical_tracked_bytes` reads the local file and compares its bytes with
-   `git show refs/remotes/origin/main:<path>`.
+No owner code or binary replacement is needed for the observed ordinary route.
+Explicit historical relocation retains its old requirements and is not claimed
+as qualified without its historical inputs. Cognitive-SDLC #330 is untouched.
 
-A fresh checkout of the untracking candidate lacks the local receipt; after
-merging it, canonical main also lacks the tracked receipt. Merely keeping this
-worktree's ignored copy does not solve the post-merge authority dependency.
-This is a source-verified compatibility dependency, not an established installed
-binary regression or an authorization to weaken authority checks.
+## Retirement guard
 
-The owner needs a supported immutable Git-history receipt reference or a durable
-receipt location outside local `.csdlc` state, with matching authenticated selector
-and reconciliation handling. No owner implementation or binary replacement has
-been performed. Cognitive-SDLC #330 remains untouched.
+`csdlc-untracking.json` pins the identical complete directory tree in merged
+commit `1da95b799d8bbbfbedab72bd6b6b2c786ea349f3`, so custody does not depend on
+an unmerged implementation commit. The guard verifies the pinned manifest,
+source ancestry, tree identity, entry count and absence of every tracked
+`.csdlc` path, then restores historical identities only in its in-memory audit
+view. No local file is rewritten. Unrelated changes remain visible to existing
+checks; historical #1347 snapshot assertions remain intact.
 
-The public retirement guard also protects historical `.csdlc` identities. Its
-final exact transition must account for this explicit removal and preservation
-anchor rather than silently excluding the directory from checks. Existing #1347
-preservation tests intentionally inspect their immutable merged snapshot and
-must retain that historical assertion.
-
-Status: untracking complete locally; integration dependency unresolved. Do not
-claim safe post-merge native authority, final guard acceptance or complete #1351
-delivery from the untracking commit alone.
+Status: untracked locally; installed ordinary validation passed without the legacy
+receipt. Full #1351 source retirement admission and delivery remain unfinished.

@@ -1,0 +1,8 @@
+{
+  "schema": "adl.csdlc_untracking.v1",
+  "source_commit": "1da95b799d8bbbfbedab72bd6b6b2c786ea349f3",
+  "tree_oid": "cd0207ac5df53290061b272144cea42a331a64db",
+  "path": ".csdlc",
+  "entry_count": 25524,
+  "authorization": "Operator explicitly requested untrack all of .csdlc; preserve local files and immutable Git history."
+}

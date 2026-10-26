@@ -184,3 +184,37 @@ fn retained_successors_are_exact_modifications_not_deletion_authority() {
     t2["changes"][0]["after_sha256"] = json!("0".repeat(64));
     assert!(successors::retained_successors(&r, &current, &t2).is_err());
 }
+
+#[test]
+fn csdlc_untracking_exact_tree_resurrection_and_foreign_deletion() {
+    let r = repo();
+    let manifest = r
+        .pinned(
+            "docs/language-cleanup/csdlc-untracking.json",
+            constants::CSDLC_UNTRACKING_PIN,
+        )
+        .unwrap();
+    let baseline = r.tree(string(&manifest["source_commit"]).unwrap()).unwrap();
+    let mut candidate = baseline.clone();
+    candidate.retain(|p, _| !p.starts_with(".csdlc/"));
+    assert_eq!(
+        successors::csdlc_untracking(&r, &candidate, &manifest).unwrap(),
+        baseline
+    );
+    let mut drift = candidate.clone();
+    drift.insert(".csdlc/new.json".into(), json!(["100644", "0".repeat(40)]));
+    assert!(successors::csdlc_untracking(&r, &drift, &manifest).is_err());
+    let mut bad = manifest.clone();
+    bad["tree_oid"] = json!("0".repeat(40));
+    assert!(successors::csdlc_untracking(&r, &candidate, &bad).is_err());
+    let mut bad = manifest.clone();
+    bad["entry_count"] = json!(1);
+    assert!(successors::csdlc_untracking(&r, &candidate, &bad).is_err());
+    let mut bad = manifest.clone();
+    bad["path"] = json!("docs");
+    assert!(successors::csdlc_untracking(&r, &candidate, &bad).is_err());
+    candidate.remove("README.md");
+    assert!(!successors::csdlc_untracking(&r, &candidate, &manifest)
+        .unwrap()
+        .contains_key("README.md"));
+}
