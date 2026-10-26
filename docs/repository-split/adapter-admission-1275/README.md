@@ -1,8 +1,57 @@
 # Repository adapter and native admission reconciliation — #1275
 
-Status: all seven adapter PRs delivered; umbrella acceptance remains incomplete. The [baseline](BASELINE.json) pins canonical
-GitHub main commits for the thirteen repositories from #1269. It does not infer
-installed authority from adapter fields or from the presence of an executable.
+Status as of 2026-10-25: adapter capability is accepted for all thirteen
+repositories. All seven migration PRs are delivered; six existing native contexts
+are preserved with exact package provenance, a complete retained lifecycle
+representative and a separate current admission observation. Parent #1275 still
+requires its own current native proof, review, publication and terminal delivery.
+This packet does not claim that delivery or any product/release acceptance.
+
+## Final adapter acceptance — 2026-10-25
+
+[Retained acceptance](RETAINED_ACCEPTANCE.json) covers ADL #1335/PR #1342,
+C-SDLC #312/PR #321, Runtime #192/PR #193, CodeFriend #118/PR #119,
+Infrastructure #37/PR #38 and Enterprise Security #9/PR #18. Each representative
+has native preparation and binding, successful proof and independent review at
+its final head, authenticated publication and delivered finish. Cleanup was
+completed historically where a retained receipt says `removed`; other cleanup
+is explicitly deferred by the operator. This session performs no cleanup.
+
+[Package bindings](PACKAGE_BINDINGS.json) identifies fourteen exact installed
+package bindings across seven retained contexts. Ordered native binding bytes
+and domain-separated BLAKE3 reproduce the recorded semantic authority digests.
+The same packages supply the hashed registry, all six templates and their
+schemas. Completed evidence blobs were also verified against their native
+BLAKE3 object digests. Current package selection is never attributed to an older
+lifecycle by assumption.
+
+Current native status independently admits ADL #1275, C-SDLC #312, Runtime #194,
+CodeFriend #126, Infrastructure #37 and Security #15 under package `12369122943`
+and registry `1.0.5`. Infrastructure's altered card manifest is a diagnostic under
+that owner: semantic content remains authoritative and its binding is live.
+The other five observations have healthy projections. These are read-only
+admission results, not new product validation or completion of the active issues.
+
+The retained Runtime #112 package chain is now identified, but its old proof and
+review precede its final rebased head. It is not used as the complete lifecycle
+representative. Its old terminal package currently refuses installation identity.
+Runtime #192 provides the complete exact-head lifecycle instead. Runtime #194's
+failed proof and separate owner reconciliation gain no acceptance from this audit.
+Old CodeFriend #118 and Runtime #192 status refuses missing projections after
+cleanup; Security #9 reports its removed binding. Their retained delivery remains
+separate from the current admitted owner contexts. No archived cards, shared
+package, journal or active owner's worktree was rewritten to manufacture readiness.
+
+The temporary #1269 documentation delivery fallback is retired for these thirteen
+repository adapters on the strength of the combined seven migration lanes and
+six retained-context rows. Its historical authorization and receipts remain
+unchanged. This retirement grants no new raw-write exception and no release,
+deployment, provider, installation or active-product acceptance.
+
+The dated sections below preserve the preparation and intermediate evidence
+history. This final acceptance section and STATUS.json supersede their pending
+adapter-delivery and missing-package statements; their explicit historical
+limitations remain applicable.
 
 ## Delivery readback — 2026-10-23
 

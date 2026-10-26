@@ -10,7 +10,10 @@
       "merge_commit": "08ddd97c3777510cc0b85068f0e1d06f09d31321",
       "remote_state_verified": "MERGED",
       "scope": "retained_terminal_evidence_only",
-      "package_identity": "not_identified_in_these_receipts",
+      "package_identity": [
+        "11873730137",
+        "11919095638"
+      ],
       "authority_selector_digest": "657d17c7d10d98138f5742b051ad7a67e60041c1a733ccd639e13727850d0374",
       "finish": {
         "decision": "terminal_closed_out",
@@ -29,11 +32,7 @@
         },
         "evidence_sha256": "5f95385e5f92e4907f23b1b42a49773ff9b59fe6cb56290945659183129ae999"
       },
-      "remaining": [
-        "Identify original admitted package and discovery contract",
-        "Complete doctor/status evidence",
-        "Verify current repository adapter disposition"
-      ],
+      "remaining": [],
       "archive": {
         "manifest_sha256": "6eab43d8baadff1fb7bfce9ac0baedcf09e521e7122db677e7acc0c6876cbef6",
         "inventory_digest": "6d7de3fcdd0e2583e871ff55dc9aa976fe7fa1e17548b6686f1addfdb1ecf034",
@@ -62,7 +61,8 @@
         },
         "phase": "closed_out",
         "pending": null
-      }
+      },
+      "resolution_evidence": "PACKAGE_BINDINGS.json and RETAINED_ACCEPTANCE.json; current126 admission is separate from historical118 delivery."
     },
     {
       "repository": "agent-logic/agent-logic-runtime",
@@ -72,7 +72,11 @@
       "merge_commit": "541dc24c885948d9fa352498c5c56e36e15f7a6a",
       "remote_state_verified": "MERGED",
       "scope": "retained_terminal_evidence_only",
-      "package_identity": "not_identified_in_these_receipts",
+      "package_identity": [
+        "11668650234",
+        "11678809415",
+        "11771018523"
+      ],
       "authority_selector_digest": "e5ac35bdf6bf00b1f7957ce32383ec81273bc13b78e6ec63ddf910cfbcadd1d2",
       "finish": {
         "decision": "terminal_closed_out",
@@ -92,10 +96,9 @@
         "evidence_sha256": "7c5378cc3be905229361167298b7402cac1309ad60ada22ac89676d4686047b7"
       },
       "remaining": [
-        "Identify original admitted package and discovery contract",
-        "Complete applicable earlier lifecycle and doctor/status evidence",
-        "Verify current repository adapter disposition"
-      ]
+        "Historical112 proof/review precede its final rebased head; no retroactive exact-head qualification. Complete representative192 supplies adapter lifecycle acceptance."
+      ],
+      "resolution_evidence": "PACKAGE_BINDINGS.json and RETAINED_ACCEPTANCE.json; old11771018523 current installation identity refuses, while current194 package12369122943 is operationally admitted."
     },
     {
       "repository": "agent-logic/agent-design-language",

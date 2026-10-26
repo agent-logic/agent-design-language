@@ -40,6 +40,53 @@ def verify():
     assert package["lifecycle"] == ["SIP", "STP", "SPP", "VPP", "SRP", "SOR"]
     assert all(r["package_artifact"] == package["artifact_id"] for r in admission.values())
     assert all(r["registry_version"] == package["registry_version"] for r in admission.values())
+    if "RETAINED_ACCEPTANCE" in documents:
+        retained = index("RETAINED_ACCEPTANCE")
+        assert not (retained.keys() & admission.keys())
+        assert retained.keys() | admission.keys() == baseline.keys()
+        bindings = {
+            (r["repository"], r["issue"]): r
+            for r in documents["PACKAGE_BINDINGS"]["repositories"]
+        }
+        for repo, row in retained.items():
+            head, issue, pr = row["head"], row["representative_issue"], row["pull_request"]
+            provenance = bindings[(repo, issue)]
+            artifacts = {p["artifact_id"] for p in provenance["packages"]}
+            assert provenance["pending"] is None
+            assert row["preparation"]["phase"] == "ready"
+            assert row["preparation"]["package_artifact"] in artifacts
+            for stage in ("binding", "proof", "review", "publication"):
+                evidence = row[stage]
+                assert evidence["outcome"] == "success"
+                assert evidence["object_digest_verified"] is True
+                assert evidence["package_artifact"] in artifacts
+                if stage != "binding":
+                    assert evidence["head"] == head
+            receipt = row["publication"]["receipt"]
+            assert receipt["authenticated"] is True
+            assert (receipt["repository"], receipt["issue"], receipt["pull_request"], receipt["expected_head_sha"]) == (repo, issue, pr, head)
+            terminal = row["terminal"]["delivery"]
+            assert (terminal["status"], terminal["repository"], terminal["issue"], terminal["pull_request"], terminal["head_sha"]) == ("delivered", repo, issue, pr, head)
+            current = row["current_admission"]
+            assert current["status"] == "completed"
+            assert current["read_only"] and current["operational_authority"]
+            assert current["performed_mutation"] is False
+            assert all(f["status"] == "passed" for f in current["doctor_findings"])
+            assert current["package_artifact"] == package["artifact_id"]
+            assert current["registry_version"] == package["registry_version"]
+            assert row["cleanup"]["status"] in ("retained_removed", "deferred_by_operator")
+    if documents["STATUS"]["all_requirements_satisfied"]:
+        assert "RETAINED_ACCEPTANCE" in documents
+        assert all(r["acceptance"] == "complete" for r in status.values())
+        for repo, row in delivery.items():
+            terminal = row.get("terminal_delivery", row.get("terminal_readback", {}).get("delivery"))
+            assert terminal is not None
+            assert (terminal["status"], terminal["repository"], terminal["pull_request"], terminal["head_sha"]) == ("delivered", repo, row["pull_request"], row["head"])
+            # Merge observations omit issue; the authenticated publication above
+            # binds that identity. Finish observations repeat it when available.
+            if "issue" in terminal:
+                assert terminal["issue"] == row["issue"]
+            assert terminal["issue_closure"] == "closed"
     # An incomplete repository must never be hidden by an aggregate success claim.
     if any(r["acceptance"] != "complete" for r in status.values()):
         assert documents["STATUS"]["all_requirements_satisfied"] is False

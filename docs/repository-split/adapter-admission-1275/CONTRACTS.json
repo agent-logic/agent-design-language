@@ -1,7 +1,7 @@
 {
   "schema": "adl.repository_adapter_contract_inventory.v1",
   "issue": 1275,
-  "claim": "Source contracts and observed package identities; missing fields are unresolved and no product validation is claimed.",
+  "claim": "Source-pinned contracts, exact package provenance, current native admission observations and retained lifecycle evidence. Commands in source contracts are not new product validation; parent delivery and product/release acceptance remain separate.",
   "repositories": [
     {
       "repository": "agent-logic/agent-design-language",
@@ -19,17 +19,20 @@
         "schema": "adl.worktree_policy.v1",
         "required_parent": "machine-specific absolute parent retained in source; not copied as portable setup"
       },
-      "effective_worktree_policy": "verify exact selected package and context; source policy alone is not admission",
+      "effective_worktree_policy": "Preserve actual native registered bindings; destination is explicit caller preference, with no new mandatory location policy imposed by this audit.",
       "validation_profile": "component-scoped source checks; separate installed/product acceptance",
       "validation_commands": [
         "bash tools/public_adl/run_cli_ci.sh"
       ],
       "admitted_package_artifact": "12369122943",
-      "package_evidence_scope": "issue-local observed admission",
-      "unresolved": [
-        "complete exact package/context and registry provenance",
-        "complete applicable lifecycle evidence and cleanup disposition"
-      ]
+      "package_evidence_scope": "Current read-only native observation at the exact issue/version in RETAINED_ACCEPTANCE; historical package chains in PACKAGE_BINDINGS are separately verified.",
+      "unresolved": [],
+      "registry_version": "1.0.5",
+      "representative_issue": 1335,
+      "representative_validation_commands": [
+        "uts-declaration-contract"
+      ],
+      "acceptance_evidence": "RETAINED_ACCEPTANCE.json"
     },
     {
       "repository": "agent-logic/cognitive-sdlc",
@@ -44,17 +47,21 @@
         "source_fallback": false
       },
       "retained_source_worktree_policy": null,
-      "effective_worktree_policy": "verify exact selected package and context; source policy alone is not admission",
+      "effective_worktree_policy": "Preserve actual native registered bindings; destination is explicit caller preference, with no new mandatory location policy imposed by this audit.",
       "validation_profile": "component-scoped source checks; separate installed/product acceptance",
       "validation_commands": [
         "cargo test --locked --manifest-path csdlc-v3/Cargo.toml --test command_manifest"
       ],
-      "admitted_package_artifact": null,
-      "package_evidence_scope": "exact package provenance still missing",
-      "unresolved": [
-        "complete exact package/context and registry provenance",
-        "complete applicable lifecycle evidence and cleanup disposition"
-      ]
+      "admitted_package_artifact": "12369122943",
+      "package_evidence_scope": "Current read-only native observation at the exact issue/version in RETAINED_ACCEPTANCE; historical package chains in PACKAGE_BINDINGS are separately verified.",
+      "unresolved": [],
+      "registry_version": "1.0.5",
+      "representative_issue": 312,
+      "representative_validation_commands": [
+        "scheduling-access-regressions",
+        "installed-preview-diagnostics"
+      ],
+      "acceptance_evidence": "RETAINED_ACCEPTANCE.json"
     },
     {
       "repository": "agent-logic/agent-logic-runtime",
@@ -72,18 +79,21 @@
         "primary_sibling": "agent-logic-runtime-worktrees",
         "schema": "csdlc.worktree_policy.v1"
       },
-      "effective_worktree_policy": "verify exact selected package and context; source policy alone is not admission",
+      "effective_worktree_policy": "Preserve actual native registered bindings; destination is explicit caller preference, with no new mandatory location policy imposed by this audit.",
       "validation_profile": "component-scoped source checks; separate installed/product acceptance",
       "validation_commands": [
         "cargo test --locked --all-features --manifest-path agent-product-support/Cargo.toml",
         "python3 -B -m unittest discover -s tools/packaging -p test_*.py -v"
       ],
-      "admitted_package_artifact": null,
-      "package_evidence_scope": "exact package provenance still missing",
-      "unresolved": [
-        "complete exact package/context and registry provenance",
-        "complete applicable lifecycle evidence and cleanup disposition"
-      ]
+      "admitted_package_artifact": "12369122943",
+      "package_evidence_scope": "Current read-only native observation at the exact issue/version in RETAINED_ACCEPTANCE; historical package chains in PACKAGE_BINDINGS are separately verified.",
+      "unresolved": [],
+      "registry_version": "1.0.5",
+      "representative_issue": 192,
+      "representative_validation_commands": [
+        "observatory-ui"
+      ],
+      "acceptance_evidence": "RETAINED_ACCEPTANCE.json"
     },
     {
       "repository": "agent-logic/codefriend",
@@ -101,18 +111,21 @@
         "primary_sibling": "codefriend-worktrees",
         "schema": "csdlc.worktree_policy.v1"
       },
-      "effective_worktree_policy": "verify exact selected package and context; source policy alone is not admission",
+      "effective_worktree_policy": "Preserve actual native registered bindings; destination is explicit caller preference, with no new mandatory location policy imposed by this audit.",
       "validation_profile": "component-scoped source checks; separate installed/product acceptance",
       "validation_commands": [
         "python3 -m unittest discover -s tools -p test_*.py -v",
         "cargo test --offline --locked -p codefriend --lib"
       ],
-      "admitted_package_artifact": null,
-      "package_evidence_scope": "exact package provenance still missing",
-      "unresolved": [
-        "complete exact package/context and registry provenance",
-        "complete applicable lifecycle evidence and cleanup disposition"
-      ]
+      "admitted_package_artifact": "12369122943",
+      "package_evidence_scope": "Current read-only native observation at the exact issue/version in RETAINED_ACCEPTANCE; historical package chains in PACKAGE_BINDINGS are separately verified.",
+      "unresolved": [],
+      "registry_version": "1.0.5",
+      "representative_issue": 118,
+      "representative_validation_commands": [
+        "product-distribution-contract"
+      ],
+      "acceptance_evidence": "RETAINED_ACCEPTANCE.json"
     },
     {
       "repository": "agent-logic/agent-logic-infrastructure",
@@ -130,17 +143,20 @@
         "primary_sibling": "agent-logic-infrastructure-worktrees",
         "schema": "csdlc.worktree_policy.v1"
       },
-      "effective_worktree_policy": "verify exact selected package and context; source policy alone is not admission",
+      "effective_worktree_policy": "Preserve actual native registered bindings; destination is explicit caller preference, with no new mandatory location policy imposed by this audit.",
       "validation_profile": "component-scoped source checks; separate installed/product acceptance",
       "validation_commands": [
         "python3 -m unittest discover -s tools/artifacts -p test_*.py -v"
       ],
       "admitted_package_artifact": "12369122943",
-      "package_evidence_scope": "issue-local observed admission",
-      "unresolved": [
-        "complete exact package/context and registry provenance",
-        "complete applicable lifecycle evidence and cleanup disposition"
-      ]
+      "package_evidence_scope": "Current read-only native observation at the exact issue/version in RETAINED_ACCEPTANCE; historical package chains in PACKAGE_BINDINGS are separately verified.",
+      "unresolved": [],
+      "registry_version": "1.0.5",
+      "representative_issue": 37,
+      "representative_validation_commands": [
+        "wp08-offline"
+      ],
+      "acceptance_evidence": "RETAINED_ACCEPTANCE.json"
     },
     {
       "repository": "agent-logic/agent-logic-enterprise-security",
@@ -158,17 +174,20 @@
         "primary_sibling": "agent-logic-enterprise-security-worktrees",
         "schema": "csdlc.worktree_policy.v1"
       },
-      "effective_worktree_policy": "owner-confirmed explicit preference; intentional primary policy deletion preserved",
+      "effective_worktree_policy": "Preserve actual native registered bindings; destination is explicit caller preference, with no new mandatory location policy imposed by this audit.",
       "validation_profile": "component-scoped source checks; separate installed/product acceptance",
       "validation_commands": [
         "python3 tools/validate_rd09.py --runtime-interface ARCHIVE --sha256 SHA256"
       ],
-      "admitted_package_artifact": "12237907988",
-      "package_evidence_scope": "retained executed package",
-      "unresolved": [
-        "complete exact package/context and registry provenance",
-        "complete applicable lifecycle evidence and cleanup disposition"
-      ]
+      "admitted_package_artifact": "12369122943",
+      "package_evidence_scope": "Current read-only native observation at the exact issue/version in RETAINED_ACCEPTANCE; historical package chains in PACKAGE_BINDINGS are separately verified.",
+      "unresolved": [],
+      "registry_version": "1.0.5",
+      "representative_issue": 9,
+      "representative_validation_commands": [
+        "issue9-source-preflight"
+      ],
+      "acceptance_evidence": "RETAINED_ACCEPTANCE.json"
     },
     {
       "repository": "agent-logic/agent-logic.ai",
@@ -201,9 +220,8 @@
       ],
       "admitted_package_artifact": "12369122943",
       "registry_version": "1.0.5",
-      "unresolved": [
-        "merge and terminal lifecycle"
-      ]
+      "unresolved": [],
+      "terminal_evidence": "DELIVERY.json; cleanup explicitly deferred by operator"
     },
     {
       "repository": "agent-logic/codefriend.ai",
@@ -252,9 +270,8 @@
       ],
       "admitted_package_artifact": "12369122943",
       "registry_version": "1.0.5",
-      "unresolved": [
-        "merge and terminal lifecycle"
-      ]
+      "unresolved": [],
+      "terminal_evidence": "DELIVERY.json; cleanup explicitly deferred by operator"
     },
     {
       "repository": "agent-logic/universal-tool-schema",
@@ -287,9 +304,8 @@
       ],
       "admitted_package_artifact": "12369122943",
       "registry_version": "1.0.5",
-      "unresolved": [
-        "merge and terminal lifecycle"
-      ]
+      "unresolved": [],
+      "terminal_evidence": "DELIVERY.json; cleanup explicitly deferred by operator"
     },
     {
       "repository": "agent-logic/strategic-cognitive-reserve",
@@ -322,9 +338,8 @@
       ],
       "admitted_package_artifact": "12369122943",
       "registry_version": "1.0.5",
-      "unresolved": [
-        "merge and terminal lifecycle"
-      ]
+      "unresolved": [],
+      "terminal_evidence": "DELIVERY.json; cleanup explicitly deferred by operator"
     },
     {
       "repository": "agent-logic/godel-hadamard-bayes-paper",
@@ -357,9 +372,8 @@
       ],
       "admitted_package_artifact": "12369122943",
       "registry_version": "1.0.5",
-      "unresolved": [
-        "merge and terminal lifecycle"
-      ]
+      "unresolved": [],
+      "terminal_evidence": "DELIVERY.json; cleanup explicitly deferred by operator"
     },
     {
       "repository": "agent-logic/cognitive-sdlc-paper",
@@ -392,9 +406,8 @@
       ],
       "admitted_package_artifact": "12369122943",
       "registry_version": "1.0.5",
-      "unresolved": [
-        "merge and terminal lifecycle"
-      ]
+      "unresolved": [],
+      "terminal_evidence": "DELIVERY.json; cleanup explicitly deferred by operator"
     },
     {
       "repository": "agent-logic/general-intelligence-paper-private",
@@ -427,9 +440,8 @@
       ],
       "admitted_package_artifact": "12369122943",
       "registry_version": "1.0.5",
-      "unresolved": [
-        "merge and terminal lifecycle"
-      ]
+      "unresolved": [],
+      "terminal_evidence": "DELIVERY.json; cleanup explicitly deferred by operator"
     }
   ]
 }

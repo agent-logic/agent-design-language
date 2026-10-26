@@ -1,0 +1,2951 @@
+{
+  "schema": "adl.retained_package_bindings.v1",
+  "issue": 1275,
+  "observed_date": "2026-10-25",
+  "method": "Reproduce installed_tool::context ordered JSON binding, then BLAKE3(semantic-authority-v1 + NUL + binding bytes); require equality with retained semantic authority. Registry and manifest SHA256 checked from the same installed package. No historical package is inferred from current selection.",
+  "source_recipe": {
+    "repository": "agent-logic/cognitive-sdlc",
+    "revision": "57342e9d974a5c1ce880c8e528406fa1080f0582",
+    "files": [
+      "csdlc-v3/src/authority/installed_tool.rs",
+      "csdlc-v3/src/storage/semantic.rs",
+      "csdlc-v3/Cargo.toml"
+    ],
+    "json_order": [
+      "schema",
+      "generation",
+      "operational_authority",
+      "repository",
+      "git_common",
+      "artifact_sha256",
+      "candidate_revision",
+      "target"
+    ],
+    "portability": "Controller path omitted; its SHA256 is retained. Binding-byte SHA256 identifies the exact machine-local reconstruction."
+  },
+  "repositories": [
+    {
+      "repository": "agent-logic/codefriend",
+      "issue": 118,
+      "current_version": {
+        "audit": "semantic-audit-v1:6ee42c1f6bf880841c079e1aaa9b34c72328dca2ee1c8ddcd433e3ef85939354",
+        "digest": "semantic-state-v1:f9d1b217ca738b04de7cd6234e14d9de82d14d2c6338d27c5550d2aeae2edaf8",
+        "generation": 69
+      },
+      "phase": "closed_out",
+      "pending": null,
+      "current_commit_sha256": "8ba2d3a653f246941ad901b4ae33680197eee7914e6e25779ff5789c393aa2e6",
+      "preparation": {
+        "generation": 1,
+        "phase": "ready",
+        "command": "prepare",
+        "authority_digest": "semantic-authority-v1:a7748f352afaa7f3438da7aa8d9dd163cda442221db01c02dd6c54870d038ff6",
+        "commit_sha256": "f84ba85cf23ae3e85acd5b359222f1ae1aed51383659e58fc3ae7a7e218270b0"
+      },
+      "packages": [
+        {
+          "artifact_id": "11873730137",
+          "artifact_sha256": "b454804d3ee124136251b9a40ba4291a37254f9e49967f1007e52b0455fb2472",
+          "artifact_digest_basis": "retained_artifact_zip_sha256",
+          "candidate_revision": "275185a0c0c54727d695cb4c0cfa79f7a8757d82",
+          "target": "aarch64-apple-darwin",
+          "manifest_sha256": "a06100b4b1f6d5379f7164d983b65ee7a93e1a1f70df9fa62bacb32f5872311f",
+          "authority_digest": "semantic-authority-v1:a7748f352afaa7f3438da7aa8d9dd163cda442221db01c02dd6c54870d038ff6",
+          "binding_bytes_sha256": "a0e2c809b56240a81bce89b23852a7c97ae28b2a19cb9db2411c7cc900d2551a",
+          "controller_git_common_sha256": "f61e4bcf9a1db0d76f67fcedf6558a7b5ef9f2b62e10f15e3d0d35feb5de2998",
+          "registry_sha256": "1543d365c8ce8e2826bc1a775857f34030fd64245dd45e7d6c0bbafc705f0e27",
+          "registry_version": "1.0.5",
+          "lifecycle": [
+            "SIP",
+            "STP",
+            "SPP",
+            "VPP",
+            "SRP",
+            "SOR"
+          ],
+          "templates": {
+            "sip": {
+              "path": "docs/templates/prompts/1.0.5/sip.md",
+              "sha256": "1c8389c11bba20e54a51d595555176edeb5c58afb0d7cabadeb5b06513c4c486",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/sip.structure.json",
+              "structure_schema_sha256": "07095fab557706bb673d2814476b83c04416beea64f8ac96ecd3c47a4371704a"
+            },
+            "stp": {
+              "path": "docs/templates/prompts/1.0.5/stp.md",
+              "sha256": "fdcff8221e323ff5c6d98830d6e5461dcecf8b7ea5ac46ba3287654143666a11",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/stp.structure.json",
+              "structure_schema_sha256": "b6ae4e3be0c94f3d24ab51372a2ebb3a49cbf7a103526a1f83b01a9b390c8656"
+            },
+            "spp": {
+              "path": "docs/templates/prompts/1.0.5/spp.md",
+              "sha256": "2d0ec7dd50fe92a719721b9ffb1792c34d83ed19d6145b4294b110ca698c81d2",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/spp.structure.json",
+              "structure_schema_sha256": "fd21331bb45bc743db913daff8b336d3aff3afe361ced9d7460b0e82f5fbf805"
+            },
+            "vpp": {
+              "path": "docs/templates/prompts/1.0.5/vpp.md",
+              "sha256": "053a3be26248aef3b669950fcd51897115ea2bfd8521fc3ab8a16b393525218c",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/vpp.structure.json",
+              "structure_schema_sha256": "33577ceea99f85f2337c1d61bb7552d7358c50169f5066929114718f1de96d7d"
+            },
+            "srp": {
+              "path": "docs/templates/prompts/1.0.5/srp.md",
+              "sha256": "e5b681c4cc77a20464709196979bd8f3c6e6cd3e3246677821731372b2aaf432",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/srp.structure.json",
+              "structure_schema_sha256": "7e98268939f8418108132d318dd6ce6b21e2144275ebb5e15d50b9fa82a75854"
+            },
+            "sor": {
+              "path": "docs/templates/prompts/1.0.5/sor.md",
+              "sha256": "4a1cecd354f1e57ee51c547ef00f0295ac0c1acaab3bdde129303305a1c13092",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/sor.structure.json",
+              "structure_schema_sha256": "7ad244a86295c5fcf238f4a8f0cf05ce983525d25828545866949700a97c9cc2"
+            }
+          },
+          "claim": "Exact retained authority binding matched; this is package provenance, not fresh installation admission."
+        },
+        {
+          "artifact_id": "11919095638",
+          "artifact_sha256": "49237a279226d05c9e41c78bdeaf08a8dd14554ee8c3a99a92d51982455b018d",
+          "artifact_digest_basis": "retained_artifact_zip_sha256",
+          "candidate_revision": "840a0cfbbdcffa9f988037b4f49bfe720a47f295",
+          "target": "aarch64-apple-darwin",
+          "manifest_sha256": "4923f6b5f045f221677d704075ff9e5b81e672538ac4c456169ceeaf3172f5cc",
+          "authority_digest": "semantic-authority-v1:3f0e166bd4048503788fc8870ef751606f5f9540e945f3dc29a774389f102d2a",
+          "binding_bytes_sha256": "25cf357f4a51687ba3220f4b7f25ddba17ff4df0e629d35e59dc66d501c61ca6",
+          "controller_git_common_sha256": "f61e4bcf9a1db0d76f67fcedf6558a7b5ef9f2b62e10f15e3d0d35feb5de2998",
+          "registry_sha256": "1543d365c8ce8e2826bc1a775857f34030fd64245dd45e7d6c0bbafc705f0e27",
+          "registry_version": "1.0.5",
+          "lifecycle": [
+            "SIP",
+            "STP",
+            "SPP",
+            "VPP",
+            "SRP",
+            "SOR"
+          ],
+          "templates": {
+            "sip": {
+              "path": "docs/templates/prompts/1.0.5/sip.md",
+              "sha256": "1c8389c11bba20e54a51d595555176edeb5c58afb0d7cabadeb5b06513c4c486",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/sip.structure.json",
+              "structure_schema_sha256": "07095fab557706bb673d2814476b83c04416beea64f8ac96ecd3c47a4371704a"
+            },
+            "stp": {
+              "path": "docs/templates/prompts/1.0.5/stp.md",
+              "sha256": "fdcff8221e323ff5c6d98830d6e5461dcecf8b7ea5ac46ba3287654143666a11",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/stp.structure.json",
+              "structure_schema_sha256": "b6ae4e3be0c94f3d24ab51372a2ebb3a49cbf7a103526a1f83b01a9b390c8656"
+            },
+            "spp": {
+              "path": "docs/templates/prompts/1.0.5/spp.md",
+              "sha256": "2d0ec7dd50fe92a719721b9ffb1792c34d83ed19d6145b4294b110ca698c81d2",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/spp.structure.json",
+              "structure_schema_sha256": "fd21331bb45bc743db913daff8b336d3aff3afe361ced9d7460b0e82f5fbf805"
+            },
+            "vpp": {
+              "path": "docs/templates/prompts/1.0.5/vpp.md",
+              "sha256": "053a3be26248aef3b669950fcd51897115ea2bfd8521fc3ab8a16b393525218c",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/vpp.structure.json",
+              "structure_schema_sha256": "33577ceea99f85f2337c1d61bb7552d7358c50169f5066929114718f1de96d7d"
+            },
+            "srp": {
+              "path": "docs/templates/prompts/1.0.5/srp.md",
+              "sha256": "e5b681c4cc77a20464709196979bd8f3c6e6cd3e3246677821731372b2aaf432",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/srp.structure.json",
+              "structure_schema_sha256": "7e98268939f8418108132d318dd6ce6b21e2144275ebb5e15d50b9fa82a75854"
+            },
+            "sor": {
+              "path": "docs/templates/prompts/1.0.5/sor.md",
+              "sha256": "4a1cecd354f1e57ee51c547ef00f0295ac0c1acaab3bdde129303305a1c13092",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/sor.structure.json",
+              "structure_schema_sha256": "7ad244a86295c5fcf238f4a8f0cf05ce983525d25828545866949700a97c9cc2"
+            }
+          },
+          "claim": "Exact retained authority binding matched; this is package provenance, not fresh installation admission."
+        }
+      ],
+      "retained_completed_stages": [
+        {
+          "generation": 4,
+          "command": "bind",
+          "phase": "bound",
+          "authority_digest": "semantic-authority-v1:a7748f352afaa7f3438da7aa8d9dd163cda442221db01c02dd6c54870d038ff6",
+          "commit_sha256": "5b8d6661a8c8a99260e934b0658ca0b019e88c37fb1a8f7fccf1bde78a4b3d28",
+          "native_owner": "csdlc-v3-local-bind",
+          "native_identity": "e24333009ce17ca49bdf21c5512052bd78e5224b86fd3964e91b96048acfd59f",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:b104c3759a842650973e599ce825a8ace95cc372ce8ec3975dd74856fe5d379a",
+            "inputs": {
+              "digest": "semantic-input-v1:cb58c88604c586eabcfe021413033a6fa6d5350e86b0d48a1df3bb30fb518dce",
+              "revision": 1
+            },
+            "kind": "bind_receipt",
+            "object": "semantic-evidence-v1-b104c3759a842650973e599ce825a8ace95cc372ce8ec3975dd74856fe5d379a.blob",
+            "source_head": "188dd2b701be0a4acce1ec510559fdff119fd4c7"
+          },
+          "evidence_sha256": "142c3900019f6e94e188c3b2adb8b10db609b3935e2c55a6ee77234c4fb86181",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 18,
+          "command": "record_proof",
+          "phase": "implemented",
+          "authority_digest": "semantic-authority-v1:3f0e166bd4048503788fc8870ef751606f5f9540e945f3dc29a774389f102d2a",
+          "commit_sha256": "5cdc1b6e00bdafcdfd57054cc58fb26e30bb601a91789415e00a5413e36af991",
+          "native_owner": "intent-proof",
+          "native_identity": "973d2d096c6a40a667ab372fbbba4ff59296f2e590c0956957d8960f096ba0b7",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:04f6f1d4b24545a4dc6a90d01a495bc1c7c81e7609217a95254858ad4bd6a3df",
+            "inputs": {
+              "digest": "semantic-input-v1:d00e6197efb70cb7e43ea11bf33c1aba6d4fa1fdbbb3f9cccefa80bc3db4650b",
+              "revision": 14
+            },
+            "kind": "proof_run",
+            "object": "semantic-evidence-v1-04f6f1d4b24545a4dc6a90d01a495bc1c7c81e7609217a95254858ad4bd6a3df.blob",
+            "source_head": "a8beaf2cc3841ec0007d4bda5e3ac91e740f8723"
+          },
+          "evidence_sha256": "435ea723ea687460b10d1325f8bac23ba64a50dea9b24cbdaac6c0d80173a52d",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 20,
+          "command": "record_review_pass",
+          "phase": "reviewed",
+          "authority_digest": "semantic-authority-v1:3f0e166bd4048503788fc8870ef751606f5f9540e945f3dc29a774389f102d2a",
+          "commit_sha256": "aaa859e60936ac98e3607dc7f33cfc25ea1e46d052f1513344db4def3e8f7f83",
+          "native_owner": "external-review",
+          "native_identity": ".csdlc/evidence/118/intent-review/a8beaf2cc3841ec0007d4bda5e3ac91e740f8723/d203e521d928a08c58f80ece6dd4a8077a0c9d3b5fa9a84aae226ee99a2918f2.json:07d523bbcbef98981b2bb8fd7ce203a69eaca6370e453f5fe02d3fdcfb3c45e3",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:65be72fb75da14ed9d3fa6e87ecfe436418580845b612f4a62c97d1e7420eae8",
+            "inputs": {
+              "digest": "semantic-input-v1:d00e6197efb70cb7e43ea11bf33c1aba6d4fa1fdbbb3f9cccefa80bc3db4650b",
+              "revision": 14
+            },
+            "kind": "review_receipt",
+            "object": "semantic-evidence-v1-65be72fb75da14ed9d3fa6e87ecfe436418580845b612f4a62c97d1e7420eae8.blob",
+            "source_head": "a8beaf2cc3841ec0007d4bda5e3ac91e740f8723"
+          },
+          "evidence_sha256": "aa1176b24892964d739410d10e32f7382fd7c980ed1df01c5deef9a8741558c2",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 22,
+          "command": "publish",
+          "phase": "published",
+          "authority_digest": "semantic-authority-v1:3f0e166bd4048503788fc8870ef751606f5f9540e945f3dc29a774389f102d2a",
+          "commit_sha256": "1a8a150a03e73b9ab42faf8efa5a6934691cb5aa09511a4cb754478f5ac6740e",
+          "native_owner": "csdlc-v3-github",
+          "native_identity": "c9665f4d00516167be4bb1c5ffd6e54c934f2c36c42ae3171d908a42b6f2cea3",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:89b442048a757b1e9f14c86e3341f5aab52e49aa5f21b7d404689719ad510441",
+            "inputs": {
+              "digest": "semantic-input-v1:d00e6197efb70cb7e43ea11bf33c1aba6d4fa1fdbbb3f9cccefa80bc3db4650b",
+              "revision": 14
+            },
+            "kind": "github_readback",
+            "object": "semantic-evidence-v1-89b442048a757b1e9f14c86e3341f5aab52e49aa5f21b7d404689719ad510441.blob",
+            "source_head": "a8beaf2cc3841ec0007d4bda5e3ac91e740f8723"
+          },
+          "evidence_sha256": "4af6fcc19a5920eb00d925a30739fd7a43b1d89d1b86ee70e66374354dd81a5a",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 24,
+          "command": "publish",
+          "phase": "published",
+          "authority_digest": "semantic-authority-v1:3f0e166bd4048503788fc8870ef751606f5f9540e945f3dc29a774389f102d2a",
+          "commit_sha256": "ab3e41e6f32a594e5b6b4051848e64d48021ba553a6ea0da00e23fdc891adeb0",
+          "native_owner": "csdlc-v3-github",
+          "native_identity": "a0bba1d2cf4195886cbf5a79cb49a677e60ff8840590eac13355c9ed2e567947",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:bfd46057ac9367255cf269c94fa5f8c709951a28c491a3d5915159dc3b751867",
+            "inputs": {
+              "digest": "semantic-input-v1:d00e6197efb70cb7e43ea11bf33c1aba6d4fa1fdbbb3f9cccefa80bc3db4650b",
+              "revision": 14
+            },
+            "kind": "github_readback",
+            "object": "semantic-evidence-v1-bfd46057ac9367255cf269c94fa5f8c709951a28c491a3d5915159dc3b751867.blob",
+            "source_head": "a8beaf2cc3841ec0007d4bda5e3ac91e740f8723"
+          },
+          "evidence_sha256": "7cf0bc49edc9914e87974af901b6ee5209688c72aa7bcfcb7aadaf3c3356e900",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 28,
+          "command": "record_proof",
+          "phase": "implemented",
+          "authority_digest": "semantic-authority-v1:3f0e166bd4048503788fc8870ef751606f5f9540e945f3dc29a774389f102d2a",
+          "commit_sha256": "bed6aadf47520582451c5c1610fc4271dd92ce52cf6c8cee980053a68ca18c08",
+          "native_owner": "intent-proof",
+          "native_identity": "0a74ae8ae4d32469da7a70b03b1f6a302c48fc1393a0595a29d210c591295429",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:d3013ebea5baa59b0061116cc850edc47d3de94d347fbe15cd1caadb22e8b090",
+            "inputs": {
+              "digest": "semantic-input-v1:7d874aa3e38f274cf19aa3b92f00a03e43a950fd861c28410814add9965bd5ff",
+              "revision": 16
+            },
+            "kind": "proof_run",
+            "object": "semantic-evidence-v1-d3013ebea5baa59b0061116cc850edc47d3de94d347fbe15cd1caadb22e8b090.blob",
+            "source_head": "6ace971af70527e37a93041fb4dec438e74a1ddb"
+          },
+          "evidence_sha256": "14cc829a4a6db7cadf52cd52950d4b19c869fa536c8f9046db46b081fec1fba2",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 30,
+          "command": "record_review_pass",
+          "phase": "reviewed",
+          "authority_digest": "semantic-authority-v1:3f0e166bd4048503788fc8870ef751606f5f9540e945f3dc29a774389f102d2a",
+          "commit_sha256": "f24d44bdfb845552cc2365ff916490120d5a385735e0f6a844b50e26e96d4a01",
+          "native_owner": "external-review",
+          "native_identity": ".csdlc/evidence/118/intent-review/6ace971af70527e37a93041fb4dec438e74a1ddb/ece67a557d8d5b0dc9334164f94c09257ba153f145c36fa4732759e2b326fb59.json:4dbbf4fca6b654ecfeace842a38cc3599569f317a2b4887051848e557c8c2443",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:e80f488b42eb15fba3efc9443e156ba03ab77efb7cc54932adec7ce371a1f485",
+            "inputs": {
+              "digest": "semantic-input-v1:7d874aa3e38f274cf19aa3b92f00a03e43a950fd861c28410814add9965bd5ff",
+              "revision": 16
+            },
+            "kind": "review_receipt",
+            "object": "semantic-evidence-v1-e80f488b42eb15fba3efc9443e156ba03ab77efb7cc54932adec7ce371a1f485.blob",
+            "source_head": "6ace971af70527e37a93041fb4dec438e74a1ddb"
+          },
+          "evidence_sha256": "5438630de41a1560617393e2447b0f75c93e974dfa5fa82f6ca2b06b7eb21c40",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 32,
+          "command": "publish",
+          "phase": "published",
+          "authority_digest": "semantic-authority-v1:3f0e166bd4048503788fc8870ef751606f5f9540e945f3dc29a774389f102d2a",
+          "commit_sha256": "355b888c6d8bbf429b9b49786000f0207222a3d3ca8c103ff677f87d38fa4415",
+          "native_owner": "csdlc-v3-github",
+          "native_identity": "929d853eb43661ab35963aef662d2f81e9d51db71ad3ecd9c56a9d0c639f33a6",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:27edf7a23e33c953ac3e6210767d7806be166de838d1637eb50c6114e53eed72",
+            "inputs": {
+              "digest": "semantic-input-v1:7d874aa3e38f274cf19aa3b92f00a03e43a950fd861c28410814add9965bd5ff",
+              "revision": 16
+            },
+            "kind": "github_readback",
+            "object": "semantic-evidence-v1-27edf7a23e33c953ac3e6210767d7806be166de838d1637eb50c6114e53eed72.blob",
+            "source_head": "6ace971af70527e37a93041fb4dec438e74a1ddb"
+          },
+          "evidence_sha256": "2dbca16aab176cf34c902a69451374d8c2751d1c29a8ef1f56f9f85ebc914248",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 36,
+          "command": "record_proof",
+          "phase": "implemented",
+          "authority_digest": "semantic-authority-v1:3f0e166bd4048503788fc8870ef751606f5f9540e945f3dc29a774389f102d2a",
+          "commit_sha256": "c7cf61e813d92a6f561406aa5d7587ac23d118c271fbf114d57f29c999c4de0e",
+          "native_owner": "intent-proof",
+          "native_identity": "89addccd6a63665ad259c7af356a788789972198ded35d5130c8ca42441ea948",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:97003bbb0c8526a35802a9d3f87f8a0bcfc852c71231b7d150c7b772ea6681b2",
+            "inputs": {
+              "digest": "semantic-input-v1:3db62ad4c0882a50ee29f310936699b93044c753d814d52a7d05cdf74bc4d654",
+              "revision": 18
+            },
+            "kind": "proof_run",
+            "object": "semantic-evidence-v1-97003bbb0c8526a35802a9d3f87f8a0bcfc852c71231b7d150c7b772ea6681b2.blob",
+            "source_head": "43f955e674d2d2b8d9c90e5c5d2a09df7e4c788f"
+          },
+          "evidence_sha256": "4d714833e6a305505de851feee0d83ac9cbf9f890af5f97b17802321c12e1af3",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 38,
+          "command": "record_review_pass",
+          "phase": "reviewed",
+          "authority_digest": "semantic-authority-v1:3f0e166bd4048503788fc8870ef751606f5f9540e945f3dc29a774389f102d2a",
+          "commit_sha256": "4d3b4ec783a3eeda90df4a06e96610bafedfa80656c16063fdd2f12486230297",
+          "native_owner": "external-review",
+          "native_identity": ".csdlc/evidence/118/intent-review/43f955e674d2d2b8d9c90e5c5d2a09df7e4c788f/cf11fb87af09eb7e7b92509d6d731f35b7f33ebe5f0535858d1b0f6260a21783.json:ffff2763d9c6f98652d0ed3ebc4696ab94b790935c0efec96f164bc5856d1be6",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:a57758a31ca3f6fcd059bc619e3ae88d44f3e43e50458e30947089249f4e235f",
+            "inputs": {
+              "digest": "semantic-input-v1:3db62ad4c0882a50ee29f310936699b93044c753d814d52a7d05cdf74bc4d654",
+              "revision": 18
+            },
+            "kind": "review_receipt",
+            "object": "semantic-evidence-v1-a57758a31ca3f6fcd059bc619e3ae88d44f3e43e50458e30947089249f4e235f.blob",
+            "source_head": "43f955e674d2d2b8d9c90e5c5d2a09df7e4c788f"
+          },
+          "evidence_sha256": "8a6e30418247af03fd32334fe1115810d1c60764aafac32f5b5c725106baf8e7",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 40,
+          "command": "publish",
+          "phase": "published",
+          "authority_digest": "semantic-authority-v1:3f0e166bd4048503788fc8870ef751606f5f9540e945f3dc29a774389f102d2a",
+          "commit_sha256": "a839d92f390a73afd4dace8358c715ceb97b5fba01801dac135076009e885632",
+          "native_owner": "csdlc-v3-github",
+          "native_identity": "da5def9ede4e74908aedd98534bd518ce64c0ff298ee1320bea8f94a437d067a",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:e8672fc8b434cfc1095d5c7cd4bf56b74e49dcfe26c78650ea3c3dfe331dead4",
+            "inputs": {
+              "digest": "semantic-input-v1:3db62ad4c0882a50ee29f310936699b93044c753d814d52a7d05cdf74bc4d654",
+              "revision": 18
+            },
+            "kind": "github_readback",
+            "object": "semantic-evidence-v1-e8672fc8b434cfc1095d5c7cd4bf56b74e49dcfe26c78650ea3c3dfe331dead4.blob",
+            "source_head": "43f955e674d2d2b8d9c90e5c5d2a09df7e4c788f"
+          },
+          "evidence_sha256": "5a3049b7a9d6bb2dc5cc0e23202e06bd571497708068b68fda80936f4133cfcd",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 43,
+          "command": "record_proof",
+          "phase": "implemented",
+          "authority_digest": "semantic-authority-v1:3f0e166bd4048503788fc8870ef751606f5f9540e945f3dc29a774389f102d2a",
+          "commit_sha256": "0ec4d9c49c691a75cf68cc2b1d3d66a46ef113f34ba8134d08de71e531e1b940",
+          "native_owner": "intent-proof",
+          "native_identity": "05ec24defc3b9f5700b9992b0a11e86381f9f949d8bc7903bde485cb33afc860",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:12554477bc3ec1297e8c2c7003396aa2896f49ec5da091ed3550fbebe7b15302",
+            "inputs": {
+              "digest": "semantic-input-v1:4cb3e2ff3bccd28b9ce6fbbf864551a2e1567635a478d250d4ee37c77d8566ff",
+              "revision": 19
+            },
+            "kind": "proof_run",
+            "object": "semantic-evidence-v1-12554477bc3ec1297e8c2c7003396aa2896f49ec5da091ed3550fbebe7b15302.blob",
+            "source_head": "43f955e674d2d2b8d9c90e5c5d2a09df7e4c788f"
+          },
+          "evidence_sha256": "c578013e382f5c3569ce62013de406b2f7138841a066f9934657a668d598ba11",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 45,
+          "command": "record_review_pass",
+          "phase": "reviewed",
+          "authority_digest": "semantic-authority-v1:3f0e166bd4048503788fc8870ef751606f5f9540e945f3dc29a774389f102d2a",
+          "commit_sha256": "6bccf1d8b180f4b2ba8dee1e59269df71bab70ed577ff4a402a812237fcd6059",
+          "native_owner": "external-review",
+          "native_identity": ".csdlc/evidence/118/intent-review/43f955e674d2d2b8d9c90e5c5d2a09df7e4c788f/696943a6b31ba8286def0be741a3fde90ce0710262efdbc32bd7e75f71397de4.json:ffff2763d9c6f98652d0ed3ebc4696ab94b790935c0efec96f164bc5856d1be6",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:c1329fa6da3d67ed67ed429a2ca4edec130810cc5088080e0a75fe602b717e8d",
+            "inputs": {
+              "digest": "semantic-input-v1:4cb3e2ff3bccd28b9ce6fbbf864551a2e1567635a478d250d4ee37c77d8566ff",
+              "revision": 19
+            },
+            "kind": "review_receipt",
+            "object": "semantic-evidence-v1-c1329fa6da3d67ed67ed429a2ca4edec130810cc5088080e0a75fe602b717e8d.blob",
+            "source_head": "43f955e674d2d2b8d9c90e5c5d2a09df7e4c788f"
+          },
+          "evidence_sha256": "02b7ab52fc400620d3c9621d2cc490123218daecfdd242e6b104e0789f925367",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 48,
+          "command": "record_proof",
+          "phase": "implemented",
+          "authority_digest": "semantic-authority-v1:3f0e166bd4048503788fc8870ef751606f5f9540e945f3dc29a774389f102d2a",
+          "commit_sha256": "3cfb07990c18ce39faac289e3f1e12f7f0fefc2cb7c4a0f6aa77079145fc6dc1",
+          "native_owner": "intent-proof",
+          "native_identity": "5022d05f7c575537bd89f81350661911993fb0197d2f628d030196bdd42bc5af",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:2eeee6c0bf595d97f1389ce71c101642558dd9f6943e27d644633df9c4e33bc0",
+            "inputs": {
+              "digest": "semantic-input-v1:b8fba16db9b72cc7f5f204998d476f7e46d4c00c5ee75d5d832a1b2cbee7b20b",
+              "revision": 20
+            },
+            "kind": "proof_run",
+            "object": "semantic-evidence-v1-2eeee6c0bf595d97f1389ce71c101642558dd9f6943e27d644633df9c4e33bc0.blob",
+            "source_head": "43f955e674d2d2b8d9c90e5c5d2a09df7e4c788f"
+          },
+          "evidence_sha256": "30f92bb1c6286a2bfd8efacbfcc91a459a66a0b39b92ef5efd75516ca7af5d75",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 50,
+          "command": "record_review_pass",
+          "phase": "reviewed",
+          "authority_digest": "semantic-authority-v1:3f0e166bd4048503788fc8870ef751606f5f9540e945f3dc29a774389f102d2a",
+          "commit_sha256": "6cc6bb52b717c6b4acb652f3d15a019cbda01edc8bf500c8d322dfc459436e13",
+          "native_owner": "external-review",
+          "native_identity": ".csdlc/evidence/118/intent-review/43f955e674d2d2b8d9c90e5c5d2a09df7e4c788f/d0da4690e3f1e21b55229a769b6ed4d09f1a5194778ea812cde93f9088e51edc.json:7e51f365c1354db8c478fb879768dc5dc2b28d902cb636e33b2b70dd5caca7c0",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:a8927f2e9d752c84de601850d94a3ef1bfcf120a26abab2b5659ecff4d6e69d0",
+            "inputs": {
+              "digest": "semantic-input-v1:b8fba16db9b72cc7f5f204998d476f7e46d4c00c5ee75d5d832a1b2cbee7b20b",
+              "revision": 20
+            },
+            "kind": "review_receipt",
+            "object": "semantic-evidence-v1-a8927f2e9d752c84de601850d94a3ef1bfcf120a26abab2b5659ecff4d6e69d0.blob",
+            "source_head": "43f955e674d2d2b8d9c90e5c5d2a09df7e4c788f"
+          },
+          "evidence_sha256": "7919ba40c33589607a46fd9a1b918034d8bf83e7dea546a6758a326538af6d40",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 52,
+          "command": "publish",
+          "phase": "published",
+          "authority_digest": "semantic-authority-v1:3f0e166bd4048503788fc8870ef751606f5f9540e945f3dc29a774389f102d2a",
+          "commit_sha256": "28284246f2e27f6772ec57b247d794a47ae8f8799c5a607d76062b7a5e12aeb2",
+          "native_owner": "csdlc-v3-github",
+          "native_identity": "4efe8e3d92639891648a49e1165a0f1dcddd17461580d9ea3222bd3e9ef7f8da",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:ebe420150c6b9b29fc68a68f0c2d0b4269d9798a41968e214165f01786e67c07",
+            "inputs": {
+              "digest": "semantic-input-v1:b8fba16db9b72cc7f5f204998d476f7e46d4c00c5ee75d5d832a1b2cbee7b20b",
+              "revision": 20
+            },
+            "kind": "github_readback",
+            "object": "semantic-evidence-v1-ebe420150c6b9b29fc68a68f0c2d0b4269d9798a41968e214165f01786e67c07.blob",
+            "source_head": "43f955e674d2d2b8d9c90e5c5d2a09df7e4c788f"
+          },
+          "evidence_sha256": "eaedf6bb274612ce5f494ed90571e637b3cc997d812bebd8f543f567d533bd81",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 54,
+          "command": "mark_merge_ready",
+          "phase": "merge_ready",
+          "authority_digest": "semantic-authority-v1:3f0e166bd4048503788fc8870ef751606f5f9540e945f3dc29a774389f102d2a",
+          "commit_sha256": "1cfe29c9a9cae1fda795c9c8f12b678a73be2fdf1fd3fa9bfe8d415401d8f2bc",
+          "native_owner": "csdlc-v3-github",
+          "native_identity": "8c55474f6eda808f8227c05518e967b5bd3e0d17a6f8d251e2617504139678d8",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:7afdea59f910526c1eb6d76060b615c1ffeb6679a18f36393912059fd5141ab6",
+            "inputs": {
+              "digest": "semantic-input-v1:b8fba16db9b72cc7f5f204998d476f7e46d4c00c5ee75d5d832a1b2cbee7b20b",
+              "revision": 20
+            },
+            "kind": "github_readback",
+            "object": "semantic-evidence-v1-7afdea59f910526c1eb6d76060b615c1ffeb6679a18f36393912059fd5141ab6.blob",
+            "source_head": "43f955e674d2d2b8d9c90e5c5d2a09df7e4c788f"
+          },
+          "evidence_sha256": "bc371108d8c6156b998fb1cf1ce8eb08622aa0f3e0e5a244364f5c12c56fc710",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 57,
+          "command": "record_proof",
+          "phase": "implemented",
+          "authority_digest": "semantic-authority-v1:3f0e166bd4048503788fc8870ef751606f5f9540e945f3dc29a774389f102d2a",
+          "commit_sha256": "c75afa9bff54955d31795a0bcca0af58013474157620498a8a29e7a6c8a69905",
+          "native_owner": "intent-proof",
+          "native_identity": "bb0bf8f573193874d944cdcc30631d5c730099cd83456f021804d7486c1f6757",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:33e3d5a8fcc378eecab24cc0f18a57cfb10d840efadd2960ac50cee1dbdbca4a",
+            "inputs": {
+              "digest": "semantic-input-v1:c314fbd62a2c8083b22cc56a2b96d9e4996a09a67f0c8aaa364723b49f90e819",
+              "revision": 21
+            },
+            "kind": "proof_run",
+            "object": "semantic-evidence-v1-33e3d5a8fcc378eecab24cc0f18a57cfb10d840efadd2960ac50cee1dbdbca4a.blob",
+            "source_head": "43f955e674d2d2b8d9c90e5c5d2a09df7e4c788f"
+          },
+          "evidence_sha256": "7e718539424fb89377643df07a4f23a46930e1a8e1a1bf8accc6fa849751a687",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 59,
+          "command": "record_review_pass",
+          "phase": "reviewed",
+          "authority_digest": "semantic-authority-v1:3f0e166bd4048503788fc8870ef751606f5f9540e945f3dc29a774389f102d2a",
+          "commit_sha256": "fe4821c2be77c4bcfca3de9d5f56ea97458d9d69b857a51809e0940e7ae424b7",
+          "native_owner": "external-review",
+          "native_identity": ".csdlc/evidence/118/intent-review/43f955e674d2d2b8d9c90e5c5d2a09df7e4c788f/fb501debaa7d9b2f6ac07e79c3b11394463cc95acf62195d749dedaf71c35c74.json:7e51f365c1354db8c478fb879768dc5dc2b28d902cb636e33b2b70dd5caca7c0",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:45e2c9a10ffbf5d54ddadde88564508f454731a080b5159dca83e297c0055486",
+            "inputs": {
+              "digest": "semantic-input-v1:c314fbd62a2c8083b22cc56a2b96d9e4996a09a67f0c8aaa364723b49f90e819",
+              "revision": 21
+            },
+            "kind": "review_receipt",
+            "object": "semantic-evidence-v1-45e2c9a10ffbf5d54ddadde88564508f454731a080b5159dca83e297c0055486.blob",
+            "source_head": "43f955e674d2d2b8d9c90e5c5d2a09df7e4c788f"
+          },
+          "evidence_sha256": "d5541c335000c2650fd8052b7f5731c5cfe5201421364f83910c129d4a16fe18",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 61,
+          "command": "publish",
+          "phase": "published",
+          "authority_digest": "semantic-authority-v1:3f0e166bd4048503788fc8870ef751606f5f9540e945f3dc29a774389f102d2a",
+          "commit_sha256": "bf2de34109f0312e2b04df90953fbab39941244311ea900af090a617ba3be071",
+          "native_owner": "csdlc-v3-github",
+          "native_identity": "662f410cc7c78044625f7b3275b0806c7510a761d9ef13cd699caf7c5fbc0a85",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:05f68b6e6e72536d3eca7073d4ef96907816cbf2c404172a966b0bc69a195a6b",
+            "inputs": {
+              "digest": "semantic-input-v1:c314fbd62a2c8083b22cc56a2b96d9e4996a09a67f0c8aaa364723b49f90e819",
+              "revision": 21
+            },
+            "kind": "github_readback",
+            "object": "semantic-evidence-v1-05f68b6e6e72536d3eca7073d4ef96907816cbf2c404172a966b0bc69a195a6b.blob",
+            "source_head": "43f955e674d2d2b8d9c90e5c5d2a09df7e4c788f"
+          },
+          "evidence_sha256": "3fea8446662daefd8788d224e30297bb75be5368d781d9b5c7f472e6266bcb05",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 63,
+          "command": "mark_merge_ready",
+          "phase": "merge_ready",
+          "authority_digest": "semantic-authority-v1:3f0e166bd4048503788fc8870ef751606f5f9540e945f3dc29a774389f102d2a",
+          "commit_sha256": "0396abe026fbe5d17ce88d86b6cdb47ad58547ff480766192324e6751f3162f7",
+          "native_owner": "csdlc-v3-ready-reconciliation",
+          "native_identity": "f8296cebb866c14154010840046fbf906c70dd62b16b9c10b7981dce7271bdec",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:6f2f09995fe07a31dd436bd523e64fee386e6e0841d3463bf16ef75b94faa395",
+            "inputs": {
+              "digest": "semantic-input-v1:c314fbd62a2c8083b22cc56a2b96d9e4996a09a67f0c8aaa364723b49f90e819",
+              "revision": 21
+            },
+            "kind": "github_readback",
+            "object": "semantic-evidence-v1-6f2f09995fe07a31dd436bd523e64fee386e6e0841d3463bf16ef75b94faa395.blob",
+            "source_head": "43f955e674d2d2b8d9c90e5c5d2a09df7e4c788f"
+          },
+          "evidence_sha256": "a8e2ad43a94ca3ff1055c5bc45a5217988666a1d3e4ca4f3ea9a6b758dc1ada2",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 65,
+          "command": "record_merge",
+          "phase": "merged",
+          "authority_digest": "semantic-authority-v1:3f0e166bd4048503788fc8870ef751606f5f9540e945f3dc29a774389f102d2a",
+          "commit_sha256": "d75e11b5ad603ad64c15874926eedcb965a295369a6b95fe8cbf81a2565d3e9b",
+          "native_owner": "csdlc-v3-github",
+          "native_identity": "c22e5452f3d90cb212c1e7e488ed64d3998145b23f4ff518c148e045abe907f3",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:8512054c9ffe47583249b13bc22989c34a217c75f2a33f35402f741414ac7654",
+            "inputs": {
+              "digest": "semantic-input-v1:c314fbd62a2c8083b22cc56a2b96d9e4996a09a67f0c8aaa364723b49f90e819",
+              "revision": 21
+            },
+            "kind": "github_readback",
+            "object": "semantic-evidence-v1-8512054c9ffe47583249b13bc22989c34a217c75f2a33f35402f741414ac7654.blob",
+            "source_head": "43f955e674d2d2b8d9c90e5c5d2a09df7e4c788f"
+          },
+          "evidence_sha256": "f4857aa261908e6bd42272e0e3566395309904617a4eec561dc7d533848b49ac",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 67,
+          "command": "finish",
+          "phase": "closed_out",
+          "authority_digest": "semantic-authority-v1:3f0e166bd4048503788fc8870ef751606f5f9540e945f3dc29a774389f102d2a",
+          "commit_sha256": "505035737b79c9c59e8fb5e7517116bef4fb5c3584c3b6d6096d69349d7ffdc7",
+          "native_owner": "terminal-finish",
+          "native_identity": "2d0a32b6ee8b5e93ca3a7d5267912f11160a68da980f29319b4e880845c4c97c",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:2aa930e04119541c7e683f76f86825da75698210ebad00498639331228c2fd0e",
+            "inputs": {
+              "digest": "semantic-input-v1:c314fbd62a2c8083b22cc56a2b96d9e4996a09a67f0c8aaa364723b49f90e819",
+              "revision": 21
+            },
+            "kind": "github_readback",
+            "object": "semantic-evidence-v1-2aa930e04119541c7e683f76f86825da75698210ebad00498639331228c2fd0e.blob",
+            "source_head": "43f955e674d2d2b8d9c90e5c5d2a09df7e4c788f"
+          },
+          "evidence_sha256": "049dbecb3c7dbb822c8cfb5234631ea9318467a6486c292204c38ca375e23216",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 69,
+          "command": "record_cleanup",
+          "phase": "closed_out",
+          "authority_digest": "semantic-authority-v1:3f0e166bd4048503788fc8870ef751606f5f9540e945f3dc29a774389f102d2a",
+          "commit_sha256": "8ba2d3a653f246941ad901b4ae33680197eee7914e6e25779ff5789c393aa2e6",
+          "native_owner": "terminal-cleanup",
+          "native_identity": "fbc3a75de57d9a0bdaacf2bac2ea3c45b1bb3b2606329d30a05beea4663dc1c2",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:41952432e3945f34745c2a9993587ab784e0801d270ffec295a744795ee315b8",
+            "inputs": {
+              "digest": "semantic-input-v1:c314fbd62a2c8083b22cc56a2b96d9e4996a09a67f0c8aaa364723b49f90e819",
+              "revision": 21
+            },
+            "kind": "cleanup_receipt",
+            "object": "semantic-evidence-v1-41952432e3945f34745c2a9993587ab784e0801d270ffec295a744795ee315b8.blob",
+            "source_head": "43f955e674d2d2b8d9c90e5c5d2a09df7e4c788f"
+          },
+          "evidence_sha256": "df9c8f791462c50fda129bebd80b92d5372d8f79fa37c9e13ab6b24307ab197e",
+          "evidence_object_digest_verified": true
+        }
+      ],
+      "scope": "Read-only package-binding and retained journal inspection; no journal, package or remote mutation."
+    },
+    {
+      "repository": "agent-logic/agent-logic-runtime",
+      "issue": 112,
+      "current_version": {
+        "audit": "semantic-audit-v1:cbecbada7246edfc0caa0e97e863dea2eaa1cf584439ba8e00dc3d4526417fb3",
+        "digest": "semantic-state-v1:daba51bf8d4111f7621b66d32cf7a906c06bc634f5cb6bd1e36776d2c7fd2942",
+        "generation": 39
+      },
+      "phase": "closed_out",
+      "pending": null,
+      "current_commit_sha256": "0d328dee38956745eb7201130a8634d694094078bccceb4fda1d9cdec8002f35",
+      "preparation": {
+        "generation": 1,
+        "phase": "ready",
+        "command": "prepare",
+        "authority_digest": "semantic-authority-v1:9dbd9caad0323636d923e17b9652d2f6e739e132ce8522173ddac1b1e442bc70",
+        "commit_sha256": "42ddf1f034ea88386261b7a1a5141d8485d75fc6c57d1ed3380419cc0547f735"
+      },
+      "packages": [
+        {
+          "artifact_id": "11668650234",
+          "artifact_sha256": "1540ca6416754ee844af4878e813cc00ea8e7c7f71a5ac39a5c2473d7d04ef91",
+          "artifact_digest_basis": "retained_artifact_zip_sha256",
+          "candidate_revision": "fabbc8906ae0bbcf57b69cb58257e9b4b9dd7a0a",
+          "target": "aarch64-apple-darwin",
+          "manifest_sha256": "0386fa26e98707e0b1d20aa26a6415a883e945845640737c727bea1ddfd3b19c",
+          "authority_digest": "semantic-authority-v1:9dbd9caad0323636d923e17b9652d2f6e739e132ce8522173ddac1b1e442bc70",
+          "binding_bytes_sha256": "82c7978f30cc2a3a349950415d94c3eb1251f6acb4ac77c08ec35dba7435b5ba",
+          "controller_git_common_sha256": "aae9fc23e614ad6e867b5fe5574c2a97227f7f02fb913778cd4b299915545344",
+          "registry_sha256": "1543d365c8ce8e2826bc1a775857f34030fd64245dd45e7d6c0bbafc705f0e27",
+          "registry_version": "1.0.5",
+          "lifecycle": [
+            "SIP",
+            "STP",
+            "SPP",
+            "VPP",
+            "SRP",
+            "SOR"
+          ],
+          "templates": {
+            "sip": {
+              "path": "docs/templates/prompts/1.0.5/sip.md",
+              "sha256": "1c8389c11bba20e54a51d595555176edeb5c58afb0d7cabadeb5b06513c4c486",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/sip.structure.json",
+              "structure_schema_sha256": "07095fab557706bb673d2814476b83c04416beea64f8ac96ecd3c47a4371704a"
+            },
+            "stp": {
+              "path": "docs/templates/prompts/1.0.5/stp.md",
+              "sha256": "fdcff8221e323ff5c6d98830d6e5461dcecf8b7ea5ac46ba3287654143666a11",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/stp.structure.json",
+              "structure_schema_sha256": "b6ae4e3be0c94f3d24ab51372a2ebb3a49cbf7a103526a1f83b01a9b390c8656"
+            },
+            "spp": {
+              "path": "docs/templates/prompts/1.0.5/spp.md",
+              "sha256": "2d0ec7dd50fe92a719721b9ffb1792c34d83ed19d6145b4294b110ca698c81d2",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/spp.structure.json",
+              "structure_schema_sha256": "fd21331bb45bc743db913daff8b336d3aff3afe361ced9d7460b0e82f5fbf805"
+            },
+            "vpp": {
+              "path": "docs/templates/prompts/1.0.5/vpp.md",
+              "sha256": "053a3be26248aef3b669950fcd51897115ea2bfd8521fc3ab8a16b393525218c",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/vpp.structure.json",
+              "structure_schema_sha256": "33577ceea99f85f2337c1d61bb7552d7358c50169f5066929114718f1de96d7d"
+            },
+            "srp": {
+              "path": "docs/templates/prompts/1.0.5/srp.md",
+              "sha256": "e5b681c4cc77a20464709196979bd8f3c6e6cd3e3246677821731372b2aaf432",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/srp.structure.json",
+              "structure_schema_sha256": "7e98268939f8418108132d318dd6ce6b21e2144275ebb5e15d50b9fa82a75854"
+            },
+            "sor": {
+              "path": "docs/templates/prompts/1.0.5/sor.md",
+              "sha256": "4a1cecd354f1e57ee51c547ef00f0295ac0c1acaab3bdde129303305a1c13092",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/sor.structure.json",
+              "structure_schema_sha256": "7ad244a86295c5fcf238f4a8f0cf05ce983525d25828545866949700a97c9cc2"
+            }
+          },
+          "claim": "Exact retained authority binding matched; this is package provenance, not fresh installation admission."
+        },
+        {
+          "artifact_id": "11678809415",
+          "artifact_sha256": "8f6720007aa3e03fdc75f91ef93b5d16423582f3eb2e5426fac45c530f243f38",
+          "artifact_digest_basis": "retained_artifact_zip_sha256",
+          "candidate_revision": "65289dda36485a383b16c5376d8949458be1d2d9",
+          "target": "aarch64-apple-darwin",
+          "manifest_sha256": "e4b44be48b706a6787a0241565a70ac02a20e830d45812aebd69fdbbbd898795",
+          "authority_digest": "semantic-authority-v1:3ec927ea18da3ee6177966ca72428aea9d673aba683ee6f1056662165e2c0059",
+          "binding_bytes_sha256": "311b7888b87db578d18102ed71d61d16bf1c17ca7e3220c81f91f458ad6d9523",
+          "controller_git_common_sha256": "aae9fc23e614ad6e867b5fe5574c2a97227f7f02fb913778cd4b299915545344",
+          "registry_sha256": "1543d365c8ce8e2826bc1a775857f34030fd64245dd45e7d6c0bbafc705f0e27",
+          "registry_version": "1.0.5",
+          "lifecycle": [
+            "SIP",
+            "STP",
+            "SPP",
+            "VPP",
+            "SRP",
+            "SOR"
+          ],
+          "templates": {
+            "sip": {
+              "path": "docs/templates/prompts/1.0.5/sip.md",
+              "sha256": "1c8389c11bba20e54a51d595555176edeb5c58afb0d7cabadeb5b06513c4c486",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/sip.structure.json",
+              "structure_schema_sha256": "07095fab557706bb673d2814476b83c04416beea64f8ac96ecd3c47a4371704a"
+            },
+            "stp": {
+              "path": "docs/templates/prompts/1.0.5/stp.md",
+              "sha256": "fdcff8221e323ff5c6d98830d6e5461dcecf8b7ea5ac46ba3287654143666a11",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/stp.structure.json",
+              "structure_schema_sha256": "b6ae4e3be0c94f3d24ab51372a2ebb3a49cbf7a103526a1f83b01a9b390c8656"
+            },
+            "spp": {
+              "path": "docs/templates/prompts/1.0.5/spp.md",
+              "sha256": "2d0ec7dd50fe92a719721b9ffb1792c34d83ed19d6145b4294b110ca698c81d2",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/spp.structure.json",
+              "structure_schema_sha256": "fd21331bb45bc743db913daff8b336d3aff3afe361ced9d7460b0e82f5fbf805"
+            },
+            "vpp": {
+              "path": "docs/templates/prompts/1.0.5/vpp.md",
+              "sha256": "053a3be26248aef3b669950fcd51897115ea2bfd8521fc3ab8a16b393525218c",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/vpp.structure.json",
+              "structure_schema_sha256": "33577ceea99f85f2337c1d61bb7552d7358c50169f5066929114718f1de96d7d"
+            },
+            "srp": {
+              "path": "docs/templates/prompts/1.0.5/srp.md",
+              "sha256": "e5b681c4cc77a20464709196979bd8f3c6e6cd3e3246677821731372b2aaf432",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/srp.structure.json",
+              "structure_schema_sha256": "7e98268939f8418108132d318dd6ce6b21e2144275ebb5e15d50b9fa82a75854"
+            },
+            "sor": {
+              "path": "docs/templates/prompts/1.0.5/sor.md",
+              "sha256": "4a1cecd354f1e57ee51c547ef00f0295ac0c1acaab3bdde129303305a1c13092",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/sor.structure.json",
+              "structure_schema_sha256": "7ad244a86295c5fcf238f4a8f0cf05ce983525d25828545866949700a97c9cc2"
+            }
+          },
+          "claim": "Exact retained authority binding matched; this is package provenance, not fresh installation admission."
+        },
+        {
+          "artifact_id": "11771018523",
+          "artifact_sha256": "76c85a4bb3f62ab5ebabc852ab0bd41e595a47764067c7fc00b661ed26aae1ef",
+          "artifact_digest_basis": "retained_artifact_zip_sha256",
+          "candidate_revision": "4e33951a1b58521a448518b434f2797d3373ef1a",
+          "target": "aarch64-apple-darwin",
+          "manifest_sha256": "5bb6f80307dc94fc98dbd7bb7ffa62b8406371c87fe2c9171b16ec56e757f617",
+          "authority_digest": "semantic-authority-v1:ea940f93a9fec3224b8d6c84064af682b5111f7acc5464e981a848b46083958f",
+          "binding_bytes_sha256": "58faa45aeb25f0ab01aec7524e17a4efb4ca4335f6422d1f18106a3f4a8f54d2",
+          "controller_git_common_sha256": "aae9fc23e614ad6e867b5fe5574c2a97227f7f02fb913778cd4b299915545344",
+          "registry_sha256": "1543d365c8ce8e2826bc1a775857f34030fd64245dd45e7d6c0bbafc705f0e27",
+          "registry_version": "1.0.5",
+          "lifecycle": [
+            "SIP",
+            "STP",
+            "SPP",
+            "VPP",
+            "SRP",
+            "SOR"
+          ],
+          "templates": {
+            "sip": {
+              "path": "docs/templates/prompts/1.0.5/sip.md",
+              "sha256": "1c8389c11bba20e54a51d595555176edeb5c58afb0d7cabadeb5b06513c4c486",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/sip.structure.json",
+              "structure_schema_sha256": "07095fab557706bb673d2814476b83c04416beea64f8ac96ecd3c47a4371704a"
+            },
+            "stp": {
+              "path": "docs/templates/prompts/1.0.5/stp.md",
+              "sha256": "fdcff8221e323ff5c6d98830d6e5461dcecf8b7ea5ac46ba3287654143666a11",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/stp.structure.json",
+              "structure_schema_sha256": "b6ae4e3be0c94f3d24ab51372a2ebb3a49cbf7a103526a1f83b01a9b390c8656"
+            },
+            "spp": {
+              "path": "docs/templates/prompts/1.0.5/spp.md",
+              "sha256": "2d0ec7dd50fe92a719721b9ffb1792c34d83ed19d6145b4294b110ca698c81d2",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/spp.structure.json",
+              "structure_schema_sha256": "fd21331bb45bc743db913daff8b336d3aff3afe361ced9d7460b0e82f5fbf805"
+            },
+            "vpp": {
+              "path": "docs/templates/prompts/1.0.5/vpp.md",
+              "sha256": "053a3be26248aef3b669950fcd51897115ea2bfd8521fc3ab8a16b393525218c",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/vpp.structure.json",
+              "structure_schema_sha256": "33577ceea99f85f2337c1d61bb7552d7358c50169f5066929114718f1de96d7d"
+            },
+            "srp": {
+              "path": "docs/templates/prompts/1.0.5/srp.md",
+              "sha256": "e5b681c4cc77a20464709196979bd8f3c6e6cd3e3246677821731372b2aaf432",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/srp.structure.json",
+              "structure_schema_sha256": "7e98268939f8418108132d318dd6ce6b21e2144275ebb5e15d50b9fa82a75854"
+            },
+            "sor": {
+              "path": "docs/templates/prompts/1.0.5/sor.md",
+              "sha256": "4a1cecd354f1e57ee51c547ef00f0295ac0c1acaab3bdde129303305a1c13092",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/sor.structure.json",
+              "structure_schema_sha256": "7ad244a86295c5fcf238f4a8f0cf05ce983525d25828545866949700a97c9cc2"
+            }
+          },
+          "claim": "Exact retained authority binding matched; this is package provenance, not fresh installation admission."
+        }
+      ],
+      "retained_completed_stages": [
+        {
+          "generation": 4,
+          "command": "bind",
+          "phase": "bound",
+          "authority_digest": "semantic-authority-v1:9dbd9caad0323636d923e17b9652d2f6e739e132ce8522173ddac1b1e442bc70",
+          "commit_sha256": "de475f998d5a213de1487ce7cae9675a2872dc4e3502d01efd86a4e8fc87b649",
+          "native_owner": "csdlc-v3-local-bind",
+          "native_identity": "816c5cd92ee1c9d3b558f748dbec864f59dc035817f8b9771409356624bc2e02",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:798bb9fc255362a0bfef524378146297476a9279be9ae2dd3198708d56b18b25",
+            "inputs": {
+              "digest": "semantic-input-v1:293eca5dca5164ccc064de2f6308e7721d303aa46b4a0264ad6b2748ef695f48",
+              "revision": 1
+            },
+            "kind": "bind_receipt",
+            "object": "semantic-evidence-v1-798bb9fc255362a0bfef524378146297476a9279be9ae2dd3198708d56b18b25.blob",
+            "source_head": "26a4a194b87174edcc351fc853117d08ff94e9cd"
+          },
+          "evidence_sha256": "7be88ab7f69d52dca5f19e9cab0be364a5b8653815f47deb1eb4a894f2add193",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 26,
+          "command": "record_proof",
+          "phase": "implemented",
+          "authority_digest": "semantic-authority-v1:3ec927ea18da3ee6177966ca72428aea9d673aba683ee6f1056662165e2c0059",
+          "commit_sha256": "7d149c963168e54252fa7801f1cbff6c6e8df65598848561ea2730d583c56a4e",
+          "native_owner": "intent-proof",
+          "native_identity": "38b2a0da6d2aed8fd183d8387b5b34c8ee534bc14497eafcc2fa3c359f757164",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:86baf57bd163234c2141d4fae713e0db5f422e4dcf105e17aa4a655566cd63c4",
+            "inputs": {
+              "digest": "semantic-input-v1:fb8f5d7924821a54ba1ec43c36fcf59c7cec8c807d7671ca0605eab8a8ed735e",
+              "revision": 22
+            },
+            "kind": "proof_run",
+            "object": "semantic-evidence-v1-86baf57bd163234c2141d4fae713e0db5f422e4dcf105e17aa4a655566cd63c4.blob",
+            "source_head": "f4c1c7773ac32c10746e17a677b5f3d2a88c3b09"
+          },
+          "evidence_sha256": "aa14b2eeb89b233c9c993051e45663f308868ff3c3c1b1b46aee8cd31c982a18",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 28,
+          "command": "record_review_pass",
+          "phase": "reviewed",
+          "authority_digest": "semantic-authority-v1:3ec927ea18da3ee6177966ca72428aea9d673aba683ee6f1056662165e2c0059",
+          "commit_sha256": "73dcfa831552c2dd3de8684cd5b45a163ed64f19db69b730dae556155cd3c7af",
+          "native_owner": "external-review",
+          "native_identity": ".csdlc/evidence/112/intent-review/f4c1c7773ac32c10746e17a677b5f3d2a88c3b09/db6687fb7fd9c085492ada48b68757e6152dcbd380ab921462445ccf7203ab8c.json:e609a92d4bc81d1d60aa85b58e79ba8f6d9cbf75ca7c2e292861ea1f5e15d587",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:95650767ee4822d38525b3e849682e587852e57417e9c3f8569e84856e093840",
+            "inputs": {
+              "digest": "semantic-input-v1:fb8f5d7924821a54ba1ec43c36fcf59c7cec8c807d7671ca0605eab8a8ed735e",
+              "revision": 22
+            },
+            "kind": "review_receipt",
+            "object": "semantic-evidence-v1-95650767ee4822d38525b3e849682e587852e57417e9c3f8569e84856e093840.blob",
+            "source_head": "f4c1c7773ac32c10746e17a677b5f3d2a88c3b09"
+          },
+          "evidence_sha256": "bbc58e8be8b6e3749bc26403924e4b6d796d8aa4d8845c1d211ca6bd70541407",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 31,
+          "command": "record_proof",
+          "phase": "implemented",
+          "authority_digest": "semantic-authority-v1:3ec927ea18da3ee6177966ca72428aea9d673aba683ee6f1056662165e2c0059",
+          "commit_sha256": "92184a421abf975d2b745aa4a2afbc4bebf5439eddb7bd0e71a2043e8cdf50d8",
+          "native_owner": "intent-proof",
+          "native_identity": "6a45a68907c3b49554aafa5bcb116216e547390c7b0eeb144500d1be6b604002",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:ea7da21829a22a92273344436a316be34c41e782f7eae961c40802208fea47f7",
+            "inputs": {
+              "digest": "semantic-input-v1:6555504ca27784874569abe9cc57a435061362e621e1ec0bd30ea8611bcd9c4d",
+              "revision": 23
+            },
+            "kind": "proof_run",
+            "object": "semantic-evidence-v1-ea7da21829a22a92273344436a316be34c41e782f7eae961c40802208fea47f7.blob",
+            "source_head": "fe5c221f7abb0e3244d32dd321275eb2cda127e7"
+          },
+          "evidence_sha256": "2751e45a038a44ca545cf53f87121aa2a36b595e6d4b8d469a93d356ba62a1f9",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 33,
+          "command": "record_review_pass",
+          "phase": "reviewed",
+          "authority_digest": "semantic-authority-v1:3ec927ea18da3ee6177966ca72428aea9d673aba683ee6f1056662165e2c0059",
+          "commit_sha256": "947bb26d2f4887a0c304a4b3fb889e3c25e432820c455bfe4a8d4d671f549bdb",
+          "native_owner": "external-review",
+          "native_identity": ".csdlc/evidence/112/intent-review/fe5c221f7abb0e3244d32dd321275eb2cda127e7/5c9d10b6a1ea0527abc8b9fce9600cd56be7d27212f5e0c3631a9da0c8ec56cd.json:cd5d2ce814d24b5e2a5e9910b60bd23275b4999a97ef3b764bd682f6da8dfedc",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:33d10f448d93676415c0f06e3074886968f4dc454feacf90831801b5ba19f840",
+            "inputs": {
+              "digest": "semantic-input-v1:6555504ca27784874569abe9cc57a435061362e621e1ec0bd30ea8611bcd9c4d",
+              "revision": 23
+            },
+            "kind": "review_receipt",
+            "object": "semantic-evidence-v1-33d10f448d93676415c0f06e3074886968f4dc454feacf90831801b5ba19f840.blob",
+            "source_head": "fe5c221f7abb0e3244d32dd321275eb2cda127e7"
+          },
+          "evidence_sha256": "c49d1e151eb1261db09ceb040885459064fd16f9258cdcdf2ec3778aace36912",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 37,
+          "command": "finish",
+          "phase": "closed_out",
+          "authority_digest": "semantic-authority-v1:ea940f93a9fec3224b8d6c84064af682b5111f7acc5464e981a848b46083958f",
+          "commit_sha256": "eb9393f9b74daf5920223acb8c2ed21727038986d986b38408025c50d59b3bcc",
+          "native_owner": "terminal-finish",
+          "native_identity": "a108941746011d9899ee231f2f0452462dd84046186fadaa5ea2248410c6740a",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:4bbd594a8b24fcd89a92bbdea0e90eb0b0f167e37fe225481bc6b4d449343bd1",
+            "inputs": {
+              "digest": "semantic-input-v1:f075c14b653e80e8d45130e96c627066fd82a24884c2c35f9ad8f5b35e7ffe2f",
+              "revision": 25
+            },
+            "kind": "github_readback",
+            "object": "semantic-evidence-v1-4bbd594a8b24fcd89a92bbdea0e90eb0b0f167e37fe225481bc6b4d449343bd1.blob",
+            "source_head": "708eec887731b37e3a687b4058c3040bdc50d685"
+          },
+          "evidence_sha256": "47d70a098461fb059f47d5d427dfa0a3ff9f20c8b6590685d2724b7576a0ee56",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 39,
+          "command": "record_cleanup",
+          "phase": "closed_out",
+          "authority_digest": "semantic-authority-v1:ea940f93a9fec3224b8d6c84064af682b5111f7acc5464e981a848b46083958f",
+          "commit_sha256": "0d328dee38956745eb7201130a8634d694094078bccceb4fda1d9cdec8002f35",
+          "native_owner": "terminal-cleanup",
+          "native_identity": "dc48659b04f8de0fbc99bdca31a95eb47e8b70dacc78dc9dab92f90dd3e70ed7",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:148792f66fb99cfaacb228f6f3ae73c090219d5d74a9b5b46cdb32f4a54cc17a",
+            "inputs": {
+              "digest": "semantic-input-v1:f075c14b653e80e8d45130e96c627066fd82a24884c2c35f9ad8f5b35e7ffe2f",
+              "revision": 25
+            },
+            "kind": "cleanup_receipt",
+            "object": "semantic-evidence-v1-148792f66fb99cfaacb228f6f3ae73c090219d5d74a9b5b46cdb32f4a54cc17a.blob",
+            "source_head": "708eec887731b37e3a687b4058c3040bdc50d685"
+          },
+          "evidence_sha256": "f31f6162368c1b5d696ac7ef1699b4ac5113a9950e0e0f28577669e7c34cb225",
+          "evidence_object_digest_verified": true
+        }
+      ],
+      "scope": "Read-only package-binding and retained journal inspection; no journal, package or remote mutation."
+    },
+    {
+      "repository": "agent-logic/agent-logic-runtime",
+      "issue": 192,
+      "current_version": {
+        "audit": "semantic-audit-v1:aff695869a538b2a1293c0cc8d2affbc89f46312a50f50bfb20f122aba8ef98b",
+        "digest": "semantic-state-v1:0e15194c63ff5304f1b1a70450c4005261060484c2d0166e165643def6b6e69b",
+        "generation": 26
+      },
+      "phase": "closed_out",
+      "pending": null,
+      "current_commit_sha256": "a03a7ac52c771115206f038749b47eaeea54012f21acb38bd157fd67cb244a56",
+      "preparation": {
+        "generation": 1,
+        "phase": "ready",
+        "command": "prepare",
+        "authority_digest": "semantic-authority-v1:eba56d327c81f5759b0489a41e07b0e9e7dac04b6e4147d226719a66d28ab619",
+        "commit_sha256": "add313752262187a6978c086d27c27383197dec539bac75ee8a18f5d5dc9e0fd"
+      },
+      "packages": [
+        {
+          "artifact_id": "11786371585",
+          "artifact_sha256": "675fe90599f874aa7b3bf02bf7c3a38b4f9b9b9645011e22c8559ce901f9e1c0",
+          "artifact_digest_basis": "retained_artifact_zip_sha256",
+          "candidate_revision": "a7f0500af1f27eae358b4577c6588097caaff7ac",
+          "target": "aarch64-apple-darwin",
+          "manifest_sha256": "c32ea03236d5605968ffd86613acfb955a2abe919e221300369300c5ee53cc28",
+          "authority_digest": "semantic-authority-v1:eba56d327c81f5759b0489a41e07b0e9e7dac04b6e4147d226719a66d28ab619",
+          "binding_bytes_sha256": "1d2b5f0cea1e96bd70e3ffa5aa8e3c760e526f311c997af4433c1f0a71c4e575",
+          "controller_git_common_sha256": "6efa4a2293cc14d9190eae5f836da61838f8e56370294178eca7b0a0c0621c28",
+          "registry_sha256": "1543d365c8ce8e2826bc1a775857f34030fd64245dd45e7d6c0bbafc705f0e27",
+          "registry_version": "1.0.5",
+          "lifecycle": [
+            "SIP",
+            "STP",
+            "SPP",
+            "VPP",
+            "SRP",
+            "SOR"
+          ],
+          "templates": {
+            "sip": {
+              "path": "docs/templates/prompts/1.0.5/sip.md",
+              "sha256": "1c8389c11bba20e54a51d595555176edeb5c58afb0d7cabadeb5b06513c4c486",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/sip.structure.json",
+              "structure_schema_sha256": "07095fab557706bb673d2814476b83c04416beea64f8ac96ecd3c47a4371704a"
+            },
+            "stp": {
+              "path": "docs/templates/prompts/1.0.5/stp.md",
+              "sha256": "fdcff8221e323ff5c6d98830d6e5461dcecf8b7ea5ac46ba3287654143666a11",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/stp.structure.json",
+              "structure_schema_sha256": "b6ae4e3be0c94f3d24ab51372a2ebb3a49cbf7a103526a1f83b01a9b390c8656"
+            },
+            "spp": {
+              "path": "docs/templates/prompts/1.0.5/spp.md",
+              "sha256": "2d0ec7dd50fe92a719721b9ffb1792c34d83ed19d6145b4294b110ca698c81d2",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/spp.structure.json",
+              "structure_schema_sha256": "fd21331bb45bc743db913daff8b336d3aff3afe361ced9d7460b0e82f5fbf805"
+            },
+            "vpp": {
+              "path": "docs/templates/prompts/1.0.5/vpp.md",
+              "sha256": "053a3be26248aef3b669950fcd51897115ea2bfd8521fc3ab8a16b393525218c",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/vpp.structure.json",
+              "structure_schema_sha256": "33577ceea99f85f2337c1d61bb7552d7358c50169f5066929114718f1de96d7d"
+            },
+            "srp": {
+              "path": "docs/templates/prompts/1.0.5/srp.md",
+              "sha256": "e5b681c4cc77a20464709196979bd8f3c6e6cd3e3246677821731372b2aaf432",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/srp.structure.json",
+              "structure_schema_sha256": "7e98268939f8418108132d318dd6ce6b21e2144275ebb5e15d50b9fa82a75854"
+            },
+            "sor": {
+              "path": "docs/templates/prompts/1.0.5/sor.md",
+              "sha256": "4a1cecd354f1e57ee51c547ef00f0295ac0c1acaab3bdde129303305a1c13092",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/sor.structure.json",
+              "structure_schema_sha256": "7ad244a86295c5fcf238f4a8f0cf05ce983525d25828545866949700a97c9cc2"
+            }
+          },
+          "claim": "Exact retained authority binding matched; this is package provenance, not fresh installation admission."
+        },
+        {
+          "artifact_id": "11919095638",
+          "artifact_sha256": "49237a279226d05c9e41c78bdeaf08a8dd14554ee8c3a99a92d51982455b018d",
+          "artifact_digest_basis": "retained_artifact_zip_sha256",
+          "candidate_revision": "840a0cfbbdcffa9f988037b4f49bfe720a47f295",
+          "target": "aarch64-apple-darwin",
+          "manifest_sha256": "4923f6b5f045f221677d704075ff9e5b81e672538ac4c456169ceeaf3172f5cc",
+          "authority_digest": "semantic-authority-v1:5141bcc7b41d74d5c982ae2b737f313205f14e4275fff26210dce028455a14aa",
+          "binding_bytes_sha256": "64bdd3e3c6fc1667741388b0e15930fef2b61f17bae08f7a4bb04d9d04bdd563",
+          "controller_git_common_sha256": "6efa4a2293cc14d9190eae5f836da61838f8e56370294178eca7b0a0c0621c28",
+          "registry_sha256": "1543d365c8ce8e2826bc1a775857f34030fd64245dd45e7d6c0bbafc705f0e27",
+          "registry_version": "1.0.5",
+          "lifecycle": [
+            "SIP",
+            "STP",
+            "SPP",
+            "VPP",
+            "SRP",
+            "SOR"
+          ],
+          "templates": {
+            "sip": {
+              "path": "docs/templates/prompts/1.0.5/sip.md",
+              "sha256": "1c8389c11bba20e54a51d595555176edeb5c58afb0d7cabadeb5b06513c4c486",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/sip.structure.json",
+              "structure_schema_sha256": "07095fab557706bb673d2814476b83c04416beea64f8ac96ecd3c47a4371704a"
+            },
+            "stp": {
+              "path": "docs/templates/prompts/1.0.5/stp.md",
+              "sha256": "fdcff8221e323ff5c6d98830d6e5461dcecf8b7ea5ac46ba3287654143666a11",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/stp.structure.json",
+              "structure_schema_sha256": "b6ae4e3be0c94f3d24ab51372a2ebb3a49cbf7a103526a1f83b01a9b390c8656"
+            },
+            "spp": {
+              "path": "docs/templates/prompts/1.0.5/spp.md",
+              "sha256": "2d0ec7dd50fe92a719721b9ffb1792c34d83ed19d6145b4294b110ca698c81d2",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/spp.structure.json",
+              "structure_schema_sha256": "fd21331bb45bc743db913daff8b336d3aff3afe361ced9d7460b0e82f5fbf805"
+            },
+            "vpp": {
+              "path": "docs/templates/prompts/1.0.5/vpp.md",
+              "sha256": "053a3be26248aef3b669950fcd51897115ea2bfd8521fc3ab8a16b393525218c",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/vpp.structure.json",
+              "structure_schema_sha256": "33577ceea99f85f2337c1d61bb7552d7358c50169f5066929114718f1de96d7d"
+            },
+            "srp": {
+              "path": "docs/templates/prompts/1.0.5/srp.md",
+              "sha256": "e5b681c4cc77a20464709196979bd8f3c6e6cd3e3246677821731372b2aaf432",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/srp.structure.json",
+              "structure_schema_sha256": "7e98268939f8418108132d318dd6ce6b21e2144275ebb5e15d50b9fa82a75854"
+            },
+            "sor": {
+              "path": "docs/templates/prompts/1.0.5/sor.md",
+              "sha256": "4a1cecd354f1e57ee51c547ef00f0295ac0c1acaab3bdde129303305a1c13092",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/sor.structure.json",
+              "structure_schema_sha256": "7ad244a86295c5fcf238f4a8f0cf05ce983525d25828545866949700a97c9cc2"
+            }
+          },
+          "claim": "Exact retained authority binding matched; this is package provenance, not fresh installation admission."
+        }
+      ],
+      "retained_completed_stages": [
+        {
+          "generation": 4,
+          "command": "bind",
+          "phase": "bound",
+          "authority_digest": "semantic-authority-v1:eba56d327c81f5759b0489a41e07b0e9e7dac04b6e4147d226719a66d28ab619",
+          "commit_sha256": "4e035c65da65ea142f2f26ee9d0b4448c909c55da63f12f5f5652ece5d1fbe8e",
+          "native_owner": "csdlc-v3-local-bind",
+          "native_identity": "e21cc6665e81714e16115d203b35a2d57e8cf7834eb1199e8a397c895eb3a93f",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:5b078dae7dd0cbf4444a0f2c5051bceea99c52e81c4b341f60613be234a33351",
+            "inputs": {
+              "digest": "semantic-input-v1:7446fdc8acc715b8feec583425e5d1b91287ba6df1eaf546e78cd0bdbc39c605",
+              "revision": 1
+            },
+            "kind": "bind_receipt",
+            "object": "semantic-evidence-v1-5b078dae7dd0cbf4444a0f2c5051bceea99c52e81c4b341f60613be234a33351.blob",
+            "source_head": "38a0e357e4b50dd81cfb0976750ec8bf14f7f185"
+          },
+          "evidence_sha256": "c30237800e3aa75f3754f1e290d0c64a67201743cea22e93b0da811818f742c3",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 9,
+          "command": "record_proof",
+          "phase": "implemented",
+          "authority_digest": "semantic-authority-v1:eba56d327c81f5759b0489a41e07b0e9e7dac04b6e4147d226719a66d28ab619",
+          "commit_sha256": "6c62b9d03df51418893dbbd3d225421d07c71ad48292a952fde31d6499205b03",
+          "native_owner": "intent-proof",
+          "native_identity": "65c978dd668aef67aed087777b5865ef9006c5b8ccfedea8776739e8387ff8ce",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:a8cc14a19cd40ffd4c005827dac40a99c725a781f202c3f44fe2602e4d8eaccb",
+            "inputs": {
+              "digest": "semantic-input-v1:5db1a3cff5e85921722af557c24c08fb324e98c47b850725f1bc6bd78afcb574",
+              "revision": 5
+            },
+            "kind": "proof_run",
+            "object": "semantic-evidence-v1-a8cc14a19cd40ffd4c005827dac40a99c725a781f202c3f44fe2602e4d8eaccb.blob",
+            "source_head": "1e41eff618b67debccb017d3ad6be963b4cff437"
+          },
+          "evidence_sha256": "c790243b0c2b3f105940179bc4e647557b5999b15fe6ab3a134901656fff3c04",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 14,
+          "command": "record_proof",
+          "phase": "implemented",
+          "authority_digest": "semantic-authority-v1:5141bcc7b41d74d5c982ae2b737f313205f14e4275fff26210dce028455a14aa",
+          "commit_sha256": "bea5a7686fbde3bf31eb5fc5b4e436b1bb8b450eafc3ffcab8296a9e8062a5f2",
+          "native_owner": "intent-proof",
+          "native_identity": "3584722391488a7a51c0084b566ff8dee5ba15e7c1ce34ef3d7af368605131b8",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:8c570e8d169eb07a5e411910727f08f439313f4c9bbca67c347fb385ae928f2c",
+            "inputs": {
+              "digest": "semantic-input-v1:60f865a4dba9877c4e0ad46335bd1ab1c528a3650e5576bd37c3ff7bab0969fd",
+              "revision": 8
+            },
+            "kind": "proof_run",
+            "object": "semantic-evidence-v1-8c570e8d169eb07a5e411910727f08f439313f4c9bbca67c347fb385ae928f2c.blob",
+            "source_head": "6d3689cc6345bdc8776b0fa84f42b8abea15e3c0"
+          },
+          "evidence_sha256": "957249296b39c722dc1ddd8c2c8e1ddd71ede5adedb1c49722de7d933680f941",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 16,
+          "command": "record_review_pass",
+          "phase": "reviewed",
+          "authority_digest": "semantic-authority-v1:5141bcc7b41d74d5c982ae2b737f313205f14e4275fff26210dce028455a14aa",
+          "commit_sha256": "739cecea959bffbcc07a7e9f22504a0b17e63ddcf848273a957f326048d0d425",
+          "native_owner": "external-review",
+          "native_identity": ".csdlc/evidence/192/intent-review/6d3689cc6345bdc8776b0fa84f42b8abea15e3c0/99d07293eea5ed7891298e0efb9dc67613919462145c675ee9cc9e40bd5c9996.json:1b49605f9565859ecccc8bc08a2dbe592e7d32604f3c72cab75b2b23b5a1fa9d",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:1bf797f35503223cea4f824e5996acaa4070f6f4b7f55c613cc6088ef1e58dee",
+            "inputs": {
+              "digest": "semantic-input-v1:60f865a4dba9877c4e0ad46335bd1ab1c528a3650e5576bd37c3ff7bab0969fd",
+              "revision": 8
+            },
+            "kind": "review_receipt",
+            "object": "semantic-evidence-v1-1bf797f35503223cea4f824e5996acaa4070f6f4b7f55c613cc6088ef1e58dee.blob",
+            "source_head": "6d3689cc6345bdc8776b0fa84f42b8abea15e3c0"
+          },
+          "evidence_sha256": "ceff395dda296f2d524683ca8387097ca00fc10967c676b932a07d57d264aa74",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 18,
+          "command": "publish",
+          "phase": "published",
+          "authority_digest": "semantic-authority-v1:5141bcc7b41d74d5c982ae2b737f313205f14e4275fff26210dce028455a14aa",
+          "commit_sha256": "16c902f71f7da082afb6af8118ef473d5a25b9339080d258fdb4e307688a9de8",
+          "native_owner": "csdlc-v3-github",
+          "native_identity": "f14928b76fb96dc66a2edd51aba8b206bc43288383a68ca6529b006eaa6696ed",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:05cf8452e3805a3d205be3cc7b40e33b9401fdc8a39d8a918bd16b895e05be14",
+            "inputs": {
+              "digest": "semantic-input-v1:60f865a4dba9877c4e0ad46335bd1ab1c528a3650e5576bd37c3ff7bab0969fd",
+              "revision": 8
+            },
+            "kind": "github_readback",
+            "object": "semantic-evidence-v1-05cf8452e3805a3d205be3cc7b40e33b9401fdc8a39d8a918bd16b895e05be14.blob",
+            "source_head": "6d3689cc6345bdc8776b0fa84f42b8abea15e3c0"
+          },
+          "evidence_sha256": "2b17c503994b6ef0d4a6a6f8a3ddd1e2af10420b03632853285e452f8215facf",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 20,
+          "command": "mark_merge_ready",
+          "phase": "merge_ready",
+          "authority_digest": "semantic-authority-v1:5141bcc7b41d74d5c982ae2b737f313205f14e4275fff26210dce028455a14aa",
+          "commit_sha256": "a20a7469378bd37bc7c4e248652b2ce62722724e1bb4867917eff28fef3d5fda",
+          "native_owner": "csdlc-v3-github",
+          "native_identity": "942bc75bd9a022ded6108f76c17cf12869574995c228944e58bf37cf3bd76d81",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:751f046b255a1a955cb8386d0c4c6013beff8861e17531bce6cac0df8850cb3e",
+            "inputs": {
+              "digest": "semantic-input-v1:60f865a4dba9877c4e0ad46335bd1ab1c528a3650e5576bd37c3ff7bab0969fd",
+              "revision": 8
+            },
+            "kind": "github_readback",
+            "object": "semantic-evidence-v1-751f046b255a1a955cb8386d0c4c6013beff8861e17531bce6cac0df8850cb3e.blob",
+            "source_head": "6d3689cc6345bdc8776b0fa84f42b8abea15e3c0"
+          },
+          "evidence_sha256": "67a4449b0a16bf2a70d1af9d492c7804ea3f04e0a3853315b9fcdd02c81cd881",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 22,
+          "command": "record_merge",
+          "phase": "merged",
+          "authority_digest": "semantic-authority-v1:5141bcc7b41d74d5c982ae2b737f313205f14e4275fff26210dce028455a14aa",
+          "commit_sha256": "6f46332c1747f7287c4fb82a39e871083d83d35638fddfb1137b50438e0039a4",
+          "native_owner": "csdlc-v3-github",
+          "native_identity": "30dcfffed365b524212e956e5812ae2d8b7ba5c6172aabe51c821848a2625047",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:7b8bb28bf946e7b6ad2dec1e457e3da0251619bad9fb0b7dee3361fb352adaed",
+            "inputs": {
+              "digest": "semantic-input-v1:60f865a4dba9877c4e0ad46335bd1ab1c528a3650e5576bd37c3ff7bab0969fd",
+              "revision": 8
+            },
+            "kind": "github_readback",
+            "object": "semantic-evidence-v1-7b8bb28bf946e7b6ad2dec1e457e3da0251619bad9fb0b7dee3361fb352adaed.blob",
+            "source_head": "6d3689cc6345bdc8776b0fa84f42b8abea15e3c0"
+          },
+          "evidence_sha256": "9cb66510b7c48c39d4e30aaadf3ef0a61dd09bbfbb1008dd9466420b11d80a59",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 24,
+          "command": "finish",
+          "phase": "closed_out",
+          "authority_digest": "semantic-authority-v1:5141bcc7b41d74d5c982ae2b737f313205f14e4275fff26210dce028455a14aa",
+          "commit_sha256": "b5083138c4e49f8d5c398462e393e929afff05a2e429e5681439bff9fc4ed1c1",
+          "native_owner": "terminal-finish",
+          "native_identity": "645666c4b0e6b8b997224bd24e2edf6d2ddfdf8d6cbfece6d7c8a03b228812c4",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:a84ac24a827ac8793fba057a5d3daa9b5f47c55f7f52b3020284cf7b10ab9e96",
+            "inputs": {
+              "digest": "semantic-input-v1:60f865a4dba9877c4e0ad46335bd1ab1c528a3650e5576bd37c3ff7bab0969fd",
+              "revision": 8
+            },
+            "kind": "github_readback",
+            "object": "semantic-evidence-v1-a84ac24a827ac8793fba057a5d3daa9b5f47c55f7f52b3020284cf7b10ab9e96.blob",
+            "source_head": "6d3689cc6345bdc8776b0fa84f42b8abea15e3c0"
+          },
+          "evidence_sha256": "88e6c6a59a8c576e952311a4de953da6ad4c9f51fca255fa3ce98eb901453020",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 26,
+          "command": "record_cleanup",
+          "phase": "closed_out",
+          "authority_digest": "semantic-authority-v1:5141bcc7b41d74d5c982ae2b737f313205f14e4275fff26210dce028455a14aa",
+          "commit_sha256": "a03a7ac52c771115206f038749b47eaeea54012f21acb38bd157fd67cb244a56",
+          "native_owner": "terminal-cleanup",
+          "native_identity": "c8b3abf29722ae664a6aba82f374933ec5eea9b7f45049b76ec9f88863cbfcf8",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:9783ab4d74265e7cdac27308d1c14f2b6007a47ca6f3ef71346625ac95d7cf88",
+            "inputs": {
+              "digest": "semantic-input-v1:60f865a4dba9877c4e0ad46335bd1ab1c528a3650e5576bd37c3ff7bab0969fd",
+              "revision": 8
+            },
+            "kind": "cleanup_receipt",
+            "object": "semantic-evidence-v1-9783ab4d74265e7cdac27308d1c14f2b6007a47ca6f3ef71346625ac95d7cf88.blob",
+            "source_head": "6d3689cc6345bdc8776b0fa84f42b8abea15e3c0"
+          },
+          "evidence_sha256": "bae279830630d976c4b1892ce8eb1abac9bf56f2eabd4c22f1e9ee71ae6f0146",
+          "evidence_object_digest_verified": true
+        }
+      ],
+      "scope": "Read-only package-binding and retained journal inspection; no journal, package or remote mutation."
+    },
+    {
+      "repository": "agent-logic/cognitive-sdlc",
+      "issue": 312,
+      "current_version": {
+        "audit": "semantic-audit-v1:d591ef12e71b2a1a3d4de79e3809bb3b9c9a711fd7634cc4c05de8aacf67b539",
+        "digest": "semantic-state-v1:a8c60c5c2105ec36671a9e330ea14a0daa176c0c773d02aab81f673e346bd5e5",
+        "generation": 28
+      },
+      "phase": "merged",
+      "pending": null,
+      "current_commit_sha256": "946779d0da58d5503cb15418857070475c821ed7ab9ce799e34d4c06e11d9d88",
+      "preparation": {
+        "generation": 1,
+        "phase": "ready",
+        "command": "prepare",
+        "authority_digest": "semantic-authority-v1:1adbc51f94007f505fd7828874a8ac0992e8412cbea6e579ddbd6b847983e779",
+        "commit_sha256": "80c18a7988aeded33fc06c72003041ce8f3660656c5674b5fb425594757620cb"
+      },
+      "packages": [
+        {
+          "artifact_id": "12317930748",
+          "artifact_sha256": "a04f72b9bc3f6e52f5989675ffba975b63b56b024e3035746122db28eea1b730",
+          "artifact_digest_basis": "retained_artifact_zip_sha256",
+          "candidate_revision": "290d0b05a895ef0dbb7714f81baa0a12a534cd7d",
+          "target": "aarch64-apple-darwin",
+          "manifest_sha256": "ac77cd9a96956ac063a39b29ea2f3e61539517af5e1a38d5dbde21be6c3725c2",
+          "authority_digest": "semantic-authority-v1:1adbc51f94007f505fd7828874a8ac0992e8412cbea6e579ddbd6b847983e779",
+          "binding_bytes_sha256": "9598f7be99fbe7f18a646b5c7cd840d478f1c25d098b70b582c280d3fd35ab0f",
+          "controller_git_common_sha256": "dfab316582e9686ed41bd445d65e0e88da6bb64de1f52982f276338307162227",
+          "registry_sha256": "1543d365c8ce8e2826bc1a775857f34030fd64245dd45e7d6c0bbafc705f0e27",
+          "registry_version": "1.0.5",
+          "lifecycle": [
+            "SIP",
+            "STP",
+            "SPP",
+            "VPP",
+            "SRP",
+            "SOR"
+          ],
+          "templates": {
+            "sip": {
+              "path": "docs/templates/prompts/1.0.5/sip.md",
+              "sha256": "1c8389c11bba20e54a51d595555176edeb5c58afb0d7cabadeb5b06513c4c486",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/sip.structure.json",
+              "structure_schema_sha256": "07095fab557706bb673d2814476b83c04416beea64f8ac96ecd3c47a4371704a"
+            },
+            "stp": {
+              "path": "docs/templates/prompts/1.0.5/stp.md",
+              "sha256": "fdcff8221e323ff5c6d98830d6e5461dcecf8b7ea5ac46ba3287654143666a11",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/stp.structure.json",
+              "structure_schema_sha256": "b6ae4e3be0c94f3d24ab51372a2ebb3a49cbf7a103526a1f83b01a9b390c8656"
+            },
+            "spp": {
+              "path": "docs/templates/prompts/1.0.5/spp.md",
+              "sha256": "2d0ec7dd50fe92a719721b9ffb1792c34d83ed19d6145b4294b110ca698c81d2",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/spp.structure.json",
+              "structure_schema_sha256": "fd21331bb45bc743db913daff8b336d3aff3afe361ced9d7460b0e82f5fbf805"
+            },
+            "vpp": {
+              "path": "docs/templates/prompts/1.0.5/vpp.md",
+              "sha256": "053a3be26248aef3b669950fcd51897115ea2bfd8521fc3ab8a16b393525218c",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/vpp.structure.json",
+              "structure_schema_sha256": "33577ceea99f85f2337c1d61bb7552d7358c50169f5066929114718f1de96d7d"
+            },
+            "srp": {
+              "path": "docs/templates/prompts/1.0.5/srp.md",
+              "sha256": "e5b681c4cc77a20464709196979bd8f3c6e6cd3e3246677821731372b2aaf432",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/srp.structure.json",
+              "structure_schema_sha256": "7e98268939f8418108132d318dd6ce6b21e2144275ebb5e15d50b9fa82a75854"
+            },
+            "sor": {
+              "path": "docs/templates/prompts/1.0.5/sor.md",
+              "sha256": "4a1cecd354f1e57ee51c547ef00f0295ac0c1acaab3bdde129303305a1c13092",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/sor.structure.json",
+              "structure_schema_sha256": "7ad244a86295c5fcf238f4a8f0cf05ce983525d25828545866949700a97c9cc2"
+            }
+          },
+          "claim": "Exact retained authority binding matched; this is package provenance, not fresh installation admission."
+        },
+        {
+          "artifact_id": "12369122943",
+          "artifact_sha256": "4fe30ecb6cd7bd53c2e4cc81801f0d7e6c7c60adff9f193830e113876245439c",
+          "artifact_digest_basis": "retained_artifact_zip_sha256",
+          "candidate_revision": "57342e9d974a5c1ce880c8e528406fa1080f0582",
+          "target": "aarch64-apple-darwin",
+          "manifest_sha256": "76f270ceb43cdd24f41fc37b2952cdfd5e8444b6c378dfe7b337b1f7745e4efe",
+          "authority_digest": "semantic-authority-v1:780c533e085c7b8228065954d609765dc22bcd5c3956edc9d6c81e9c9e93c0bd",
+          "binding_bytes_sha256": "7ffc0b33e84d7d121328b0d0605ce5e667858e33d3637e3c07a10fc3cbf600e5",
+          "controller_git_common_sha256": "dfab316582e9686ed41bd445d65e0e88da6bb64de1f52982f276338307162227",
+          "registry_sha256": "1543d365c8ce8e2826bc1a775857f34030fd64245dd45e7d6c0bbafc705f0e27",
+          "registry_version": "1.0.5",
+          "lifecycle": [
+            "SIP",
+            "STP",
+            "SPP",
+            "VPP",
+            "SRP",
+            "SOR"
+          ],
+          "templates": {
+            "sip": {
+              "path": "docs/templates/prompts/1.0.5/sip.md",
+              "sha256": "1c8389c11bba20e54a51d595555176edeb5c58afb0d7cabadeb5b06513c4c486",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/sip.structure.json",
+              "structure_schema_sha256": "07095fab557706bb673d2814476b83c04416beea64f8ac96ecd3c47a4371704a"
+            },
+            "stp": {
+              "path": "docs/templates/prompts/1.0.5/stp.md",
+              "sha256": "fdcff8221e323ff5c6d98830d6e5461dcecf8b7ea5ac46ba3287654143666a11",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/stp.structure.json",
+              "structure_schema_sha256": "b6ae4e3be0c94f3d24ab51372a2ebb3a49cbf7a103526a1f83b01a9b390c8656"
+            },
+            "spp": {
+              "path": "docs/templates/prompts/1.0.5/spp.md",
+              "sha256": "2d0ec7dd50fe92a719721b9ffb1792c34d83ed19d6145b4294b110ca698c81d2",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/spp.structure.json",
+              "structure_schema_sha256": "fd21331bb45bc743db913daff8b336d3aff3afe361ced9d7460b0e82f5fbf805"
+            },
+            "vpp": {
+              "path": "docs/templates/prompts/1.0.5/vpp.md",
+              "sha256": "053a3be26248aef3b669950fcd51897115ea2bfd8521fc3ab8a16b393525218c",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/vpp.structure.json",
+              "structure_schema_sha256": "33577ceea99f85f2337c1d61bb7552d7358c50169f5066929114718f1de96d7d"
+            },
+            "srp": {
+              "path": "docs/templates/prompts/1.0.5/srp.md",
+              "sha256": "e5b681c4cc77a20464709196979bd8f3c6e6cd3e3246677821731372b2aaf432",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/srp.structure.json",
+              "structure_schema_sha256": "7e98268939f8418108132d318dd6ce6b21e2144275ebb5e15d50b9fa82a75854"
+            },
+            "sor": {
+              "path": "docs/templates/prompts/1.0.5/sor.md",
+              "sha256": "4a1cecd354f1e57ee51c547ef00f0295ac0c1acaab3bdde129303305a1c13092",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/sor.structure.json",
+              "structure_schema_sha256": "7ad244a86295c5fcf238f4a8f0cf05ce983525d25828545866949700a97c9cc2"
+            }
+          },
+          "claim": "Exact retained authority binding matched; this is package provenance, not fresh installation admission."
+        }
+      ],
+      "retained_completed_stages": [
+        {
+          "generation": 4,
+          "command": "bind",
+          "phase": "bound",
+          "authority_digest": "semantic-authority-v1:1adbc51f94007f505fd7828874a8ac0992e8412cbea6e579ddbd6b847983e779",
+          "commit_sha256": "98798af3a29327e9f8aceb0f5e6e459933328b315dc7b450ea311902bb25f96c",
+          "native_owner": "csdlc-v3-local-bind",
+          "native_identity": "3bfbe98ab5d005d9b466484d48e2eaf6ac2213f126848e34a4a537133d4ac6c0",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:90d12ea3f070685a90af19308072a76a980ab2252a0dd3a9f1c2a94f0321b467",
+            "inputs": {
+              "digest": "semantic-input-v1:f95a45d1271071c77125e516ffc255824b5f87d6a3013e290234f00c33ab84e7",
+              "revision": 1
+            },
+            "kind": "bind_receipt",
+            "object": "semantic-evidence-v1-90d12ea3f070685a90af19308072a76a980ab2252a0dd3a9f1c2a94f0321b467.blob",
+            "source_head": "49ee43c87d3a1e4ac102cbc6b4818b98f9626970"
+          },
+          "evidence_sha256": "b08ca6c9496f9b976e01687ff504aeb5a8979c49d8622507210bd3ccbbb8266c",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 10,
+          "command": "record_proof",
+          "phase": "implemented",
+          "authority_digest": "semantic-authority-v1:780c533e085c7b8228065954d609765dc22bcd5c3956edc9d6c81e9c9e93c0bd",
+          "commit_sha256": "e400fc1242e1b1f78ef6270d39b290d44a2ed278f204466b3aaf0796b3b35bba",
+          "native_owner": "intent-proof",
+          "native_identity": "f1be27b5ea355649cedc5e7e9eb19254a82e9feb55a7daf82f2e670e55fb4b26",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:5202627d5bf1f45bfc0690e9300f62fd6e5c8525b315d7e56849dba0873ff713",
+            "inputs": {
+              "digest": "semantic-input-v1:ce11997137b5ce2d2cba209420d74481da9c9eb393153961ffcad7b82464db25",
+              "revision": 6
+            },
+            "kind": "proof_run",
+            "object": "semantic-evidence-v1-5202627d5bf1f45bfc0690e9300f62fd6e5c8525b315d7e56849dba0873ff713.blob",
+            "source_head": "4e30c84640eff089de4421cf43ebeeb90fcd5527"
+          },
+          "evidence_sha256": "56b9bd3397983e9604034a404b00de270cd07021661623ac3304267fec6cc883",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 12,
+          "command": "record_review_pass",
+          "phase": "reviewed",
+          "authority_digest": "semantic-authority-v1:780c533e085c7b8228065954d609765dc22bcd5c3956edc9d6c81e9c9e93c0bd",
+          "commit_sha256": "151f6f6551f2cbed534fad97908bd614927da082b0cf3f77ddde7a7bbb194dbb",
+          "native_owner": "external-review",
+          "native_identity": ".csdlc/evidence/312/intent-review/4e30c84640eff089de4421cf43ebeeb90fcd5527/2d10f4d4a1f99ef6ec9ff827b9c99a206544f6d428eecde61babc863e7f45b51.json:290629400841fd8472c1e7e2d26c3f323eb13f85a30d3170f6b827666e3e1c38",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:e3e36b6b7aef78029381d05b9b773cc559112cfe374364e4cc608b9bb7a4305c",
+            "inputs": {
+              "digest": "semantic-input-v1:ce11997137b5ce2d2cba209420d74481da9c9eb393153961ffcad7b82464db25",
+              "revision": 6
+            },
+            "kind": "review_receipt",
+            "object": "semantic-evidence-v1-e3e36b6b7aef78029381d05b9b773cc559112cfe374364e4cc608b9bb7a4305c.blob",
+            "source_head": "4e30c84640eff089de4421cf43ebeeb90fcd5527"
+          },
+          "evidence_sha256": "ac4a3783a88b5651993e71964e9c7193ca9327af5a0d2fccf28fd24adcb49b03",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 14,
+          "command": "publish",
+          "phase": "published",
+          "authority_digest": "semantic-authority-v1:780c533e085c7b8228065954d609765dc22bcd5c3956edc9d6c81e9c9e93c0bd",
+          "commit_sha256": "0ff5f2856184c0adbc41e2383c9422a57088d6323e21cdc45f8f79753f5b63cc",
+          "native_owner": "csdlc-v3-github",
+          "native_identity": "d0eefb184c7aa88bd21c7846a2173b091ace9e2903370db197b572eded74a59a",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:53cd446c216ab3882b310151df6b799c1f818daea0343b398656b179db94b583",
+            "inputs": {
+              "digest": "semantic-input-v1:ce11997137b5ce2d2cba209420d74481da9c9eb393153961ffcad7b82464db25",
+              "revision": 6
+            },
+            "kind": "github_readback",
+            "object": "semantic-evidence-v1-53cd446c216ab3882b310151df6b799c1f818daea0343b398656b179db94b583.blob",
+            "source_head": "4e30c84640eff089de4421cf43ebeeb90fcd5527"
+          },
+          "evidence_sha256": "e4be0cb752ae977a27d3b9342c226a1a68d1e41a43f12be8a992611c982cb884",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 16,
+          "command": "mark_merge_ready",
+          "phase": "merge_ready",
+          "authority_digest": "semantic-authority-v1:780c533e085c7b8228065954d609765dc22bcd5c3956edc9d6c81e9c9e93c0bd",
+          "commit_sha256": "0ff554b3fa9808da81088912a1d0a30695ec61b06a1efd005f6425ce2be73e06",
+          "native_owner": "csdlc-v3-github",
+          "native_identity": "f946b92d85c436734ef249faf6b5c6b3eff20fc22bf70420e8fccbbe714dfebc",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:76c5d1cc498de5cc05745cb76d3067e8d0d5b12dcac4d86b0430264f305f7c43",
+            "inputs": {
+              "digest": "semantic-input-v1:ce11997137b5ce2d2cba209420d74481da9c9eb393153961ffcad7b82464db25",
+              "revision": 6
+            },
+            "kind": "github_readback",
+            "object": "semantic-evidence-v1-76c5d1cc498de5cc05745cb76d3067e8d0d5b12dcac4d86b0430264f305f7c43.blob",
+            "source_head": "4e30c84640eff089de4421cf43ebeeb90fcd5527"
+          },
+          "evidence_sha256": "fa289b3fd6b352ca863928041af2373233501d32b5a11d13e28eca5a724f8a99",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 20,
+          "command": "record_proof",
+          "phase": "implemented",
+          "authority_digest": "semantic-authority-v1:780c533e085c7b8228065954d609765dc22bcd5c3956edc9d6c81e9c9e93c0bd",
+          "commit_sha256": "2b3f3f9e7e38e20d0ecc32177a5971e1681e0d087822768e1074a83551cd3cdc",
+          "native_owner": "intent-proof",
+          "native_identity": "ce19d7f6ce307d85d2923b59936d76be00f3e5f8b53450b66a73e67e7bc7e023",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:5507db335de8bdafd271fe98963277b9e54e1500f7bd7b5d272e116a9bf79fbd",
+            "inputs": {
+              "digest": "semantic-input-v1:b6ba0ac09cdeeca6c13e56766fabdf4150676d8140dfb9797a5bbcb94a65da70",
+              "revision": 8
+            },
+            "kind": "proof_run",
+            "object": "semantic-evidence-v1-5507db335de8bdafd271fe98963277b9e54e1500f7bd7b5d272e116a9bf79fbd.blob",
+            "source_head": "c5e8f40a713f909a317fd45a95ed141805ae2283"
+          },
+          "evidence_sha256": "728c70fb9d2276749683532fe0dd897959a0ecd535f1fb00aa20f8bce9a073f3",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 22,
+          "command": "record_review_pass",
+          "phase": "reviewed",
+          "authority_digest": "semantic-authority-v1:780c533e085c7b8228065954d609765dc22bcd5c3956edc9d6c81e9c9e93c0bd",
+          "commit_sha256": "e54e2778b00b23c25f03f1e7ee8aa005ee0772809088a017ea3c6045adf1a690",
+          "native_owner": "external-review",
+          "native_identity": ".csdlc/evidence/312/intent-review/c5e8f40a713f909a317fd45a95ed141805ae2283/df52e535c3c630b0fba49b2fa4c6d982a7586a3fdeaf57f9fbb20cd7ac3a7cd1.json:5832ed496bbdc6a0fc4c113700a8f9c346c8bbb623e95ef9e47846c09e441b61",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:3707e545d855ac324c810c6d8f258d00197d418a4aa6f1d87b41f9173f1f0a80",
+            "inputs": {
+              "digest": "semantic-input-v1:b6ba0ac09cdeeca6c13e56766fabdf4150676d8140dfb9797a5bbcb94a65da70",
+              "revision": 8
+            },
+            "kind": "review_receipt",
+            "object": "semantic-evidence-v1-3707e545d855ac324c810c6d8f258d00197d418a4aa6f1d87b41f9173f1f0a80.blob",
+            "source_head": "c5e8f40a713f909a317fd45a95ed141805ae2283"
+          },
+          "evidence_sha256": "04a7cf3dfe167d09e7e4cf53b6022faeb80eeae703827b67dab312f1ea2cc33c",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 24,
+          "command": "publish",
+          "phase": "published",
+          "authority_digest": "semantic-authority-v1:780c533e085c7b8228065954d609765dc22bcd5c3956edc9d6c81e9c9e93c0bd",
+          "commit_sha256": "8ee36c30ff6c3cf2487aba28eb5cdef4e9d439051dc7d69be10420c12a2a2091",
+          "native_owner": "csdlc-v3-github",
+          "native_identity": "a2d153c8883d9beb23f571d17a56dc84fae1bbea130c49b4f53e3c25fa3c2b13",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:ff0b73f5a4668fc49ce1ea700c97ef53ccad5d16809f4572d13fa19d4aec53f5",
+            "inputs": {
+              "digest": "semantic-input-v1:b6ba0ac09cdeeca6c13e56766fabdf4150676d8140dfb9797a5bbcb94a65da70",
+              "revision": 8
+            },
+            "kind": "github_readback",
+            "object": "semantic-evidence-v1-ff0b73f5a4668fc49ce1ea700c97ef53ccad5d16809f4572d13fa19d4aec53f5.blob",
+            "source_head": "c5e8f40a713f909a317fd45a95ed141805ae2283"
+          },
+          "evidence_sha256": "3ad9fa6e4addca2c0d4fe7065ec208585849e9ecc0631cea918ac4721053e0c1",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 26,
+          "command": "mark_merge_ready",
+          "phase": "merge_ready",
+          "authority_digest": "semantic-authority-v1:780c533e085c7b8228065954d609765dc22bcd5c3956edc9d6c81e9c9e93c0bd",
+          "commit_sha256": "5866989f1e3addec23c656ae807fe580f8e4a5090671dd48c29eab1c29f53b67",
+          "native_owner": "csdlc-v3-github",
+          "native_identity": "ecc2919b38cc48215c116325a040cd87e9754151e7c493cdda8d6a8bcdd42755",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:b9bf31e7b5b31f871d901ef451713ad559078633d2991ac981ade8b301c96de6",
+            "inputs": {
+              "digest": "semantic-input-v1:b6ba0ac09cdeeca6c13e56766fabdf4150676d8140dfb9797a5bbcb94a65da70",
+              "revision": 8
+            },
+            "kind": "github_readback",
+            "object": "semantic-evidence-v1-b9bf31e7b5b31f871d901ef451713ad559078633d2991ac981ade8b301c96de6.blob",
+            "source_head": "c5e8f40a713f909a317fd45a95ed141805ae2283"
+          },
+          "evidence_sha256": "707bdf7366d2f95d41ee27da3833f88ee2a9e5f4e08d4f26955b2002cee348e2",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 28,
+          "command": "record_merge",
+          "phase": "merged",
+          "authority_digest": "semantic-authority-v1:780c533e085c7b8228065954d609765dc22bcd5c3956edc9d6c81e9c9e93c0bd",
+          "commit_sha256": "946779d0da58d5503cb15418857070475c821ed7ab9ce799e34d4c06e11d9d88",
+          "native_owner": "csdlc-v3-github",
+          "native_identity": "061d174c18b3821d45401d2b28d01a479c37d0883af91c4710fd582820747ee2",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:0977d6bfceb1d59726cb8fa3fe56155c754f4ed977f2ed4a0e38bb918844d9a9",
+            "inputs": {
+              "digest": "semantic-input-v1:b6ba0ac09cdeeca6c13e56766fabdf4150676d8140dfb9797a5bbcb94a65da70",
+              "revision": 8
+            },
+            "kind": "github_readback",
+            "object": "semantic-evidence-v1-0977d6bfceb1d59726cb8fa3fe56155c754f4ed977f2ed4a0e38bb918844d9a9.blob",
+            "source_head": "c5e8f40a713f909a317fd45a95ed141805ae2283"
+          },
+          "evidence_sha256": "e1dab5ae5a49f266a2169ac97b5ee96d7d3c2c87cbc049ca9f1c8f8508404f81",
+          "evidence_object_digest_verified": true
+        }
+      ],
+      "scope": "Read-only package-binding and retained journal inspection; no journal, package or remote mutation."
+    },
+    {
+      "repository": "agent-logic/agent-design-language",
+      "issue": 1335,
+      "current_version": {
+        "audit": "semantic-audit-v1:928275a47c7aa621f8d08616ad6d02f63215df704295ad7380587ad3a589be51",
+        "digest": "semantic-state-v1:8eed35aa723edac4c2eab261db5b81279691868580d3e177d478222d74e7ccf1",
+        "generation": 50
+      },
+      "phase": "closed_out",
+      "pending": null,
+      "current_commit_sha256": "013ec0feda1c8c16a7cad3fb800d90cc645074d9598c8079a99b866762adee57",
+      "preparation": {
+        "generation": 1,
+        "phase": "ready",
+        "command": "prepare",
+        "authority_digest": "semantic-authority-v1:3e4608ad9235951c3f65f281b1dd89241dde969332227402f86d90d1009c14f8",
+        "commit_sha256": "ff18f6425db178e606fb1ac01544acc63cf0ca50eee35c0243f9b45ed7045891"
+      },
+      "packages": [
+        {
+          "artifact_id": "11786371585",
+          "artifact_sha256": "675fe90599f874aa7b3bf02bf7c3a38b4f9b9b9645011e22c8559ce901f9e1c0",
+          "artifact_digest_basis": "retained_artifact_zip_sha256",
+          "candidate_revision": "a7f0500af1f27eae358b4577c6588097caaff7ac",
+          "target": "aarch64-apple-darwin",
+          "manifest_sha256": "c32ea03236d5605968ffd86613acfb955a2abe919e221300369300c5ee53cc28",
+          "authority_digest": "semantic-authority-v1:3e4608ad9235951c3f65f281b1dd89241dde969332227402f86d90d1009c14f8",
+          "binding_bytes_sha256": "56eb7813b72f551263d009876b2f5299e12dea621a120348be0950642f29f829",
+          "controller_git_common_sha256": "7c57728f9c32fde86868aec84a1994bc92f0dc8cd2156d92f71028c44a71c02a",
+          "registry_sha256": "1543d365c8ce8e2826bc1a775857f34030fd64245dd45e7d6c0bbafc705f0e27",
+          "registry_version": "1.0.5",
+          "lifecycle": [
+            "SIP",
+            "STP",
+            "SPP",
+            "VPP",
+            "SRP",
+            "SOR"
+          ],
+          "templates": {
+            "sip": {
+              "path": "docs/templates/prompts/1.0.5/sip.md",
+              "sha256": "1c8389c11bba20e54a51d595555176edeb5c58afb0d7cabadeb5b06513c4c486",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/sip.structure.json",
+              "structure_schema_sha256": "07095fab557706bb673d2814476b83c04416beea64f8ac96ecd3c47a4371704a"
+            },
+            "stp": {
+              "path": "docs/templates/prompts/1.0.5/stp.md",
+              "sha256": "fdcff8221e323ff5c6d98830d6e5461dcecf8b7ea5ac46ba3287654143666a11",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/stp.structure.json",
+              "structure_schema_sha256": "b6ae4e3be0c94f3d24ab51372a2ebb3a49cbf7a103526a1f83b01a9b390c8656"
+            },
+            "spp": {
+              "path": "docs/templates/prompts/1.0.5/spp.md",
+              "sha256": "2d0ec7dd50fe92a719721b9ffb1792c34d83ed19d6145b4294b110ca698c81d2",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/spp.structure.json",
+              "structure_schema_sha256": "fd21331bb45bc743db913daff8b336d3aff3afe361ced9d7460b0e82f5fbf805"
+            },
+            "vpp": {
+              "path": "docs/templates/prompts/1.0.5/vpp.md",
+              "sha256": "053a3be26248aef3b669950fcd51897115ea2bfd8521fc3ab8a16b393525218c",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/vpp.structure.json",
+              "structure_schema_sha256": "33577ceea99f85f2337c1d61bb7552d7358c50169f5066929114718f1de96d7d"
+            },
+            "srp": {
+              "path": "docs/templates/prompts/1.0.5/srp.md",
+              "sha256": "e5b681c4cc77a20464709196979bd8f3c6e6cd3e3246677821731372b2aaf432",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/srp.structure.json",
+              "structure_schema_sha256": "7e98268939f8418108132d318dd6ce6b21e2144275ebb5e15d50b9fa82a75854"
+            },
+            "sor": {
+              "path": "docs/templates/prompts/1.0.5/sor.md",
+              "sha256": "4a1cecd354f1e57ee51c547ef00f0295ac0c1acaab3bdde129303305a1c13092",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/sor.structure.json",
+              "structure_schema_sha256": "7ad244a86295c5fcf238f4a8f0cf05ce983525d25828545866949700a97c9cc2"
+            }
+          },
+          "claim": "Exact retained authority binding matched; this is package provenance, not fresh installation admission."
+        }
+      ],
+      "retained_completed_stages": [
+        {
+          "generation": 4,
+          "command": "bind",
+          "phase": "bound",
+          "authority_digest": "semantic-authority-v1:3e4608ad9235951c3f65f281b1dd89241dde969332227402f86d90d1009c14f8",
+          "commit_sha256": "95e5a49dc71b3547f585f356b43b266c18d27a27c83171336c91baa3ba428a2c",
+          "native_owner": "csdlc-v3-local-bind",
+          "native_identity": "f3fdf002f105965e45bf9be538846a6481ffd50fcf9568664b9e8317afed540c",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:0b059b2f783568c813ad782f8cd68cea4c344aa6f0eafc234519f8f8fe170ac6",
+            "inputs": {
+              "digest": "semantic-input-v1:83a1f0fb4f0c35dbaf1e76cfb3cddf2320015d37172a54c3b00631792b3e927d",
+              "revision": 1
+            },
+            "kind": "bind_receipt",
+            "object": "semantic-evidence-v1-0b059b2f783568c813ad782f8cd68cea4c344aa6f0eafc234519f8f8fe170ac6.blob",
+            "source_head": "44d66b99b2be37da393ce094a9748f8736368ee5"
+          },
+          "evidence_sha256": "39ad6ec63f37f7824be738cb2832007314edbdf63a91866a6915fddcac158774",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 12,
+          "command": "record_proof",
+          "phase": "implemented",
+          "authority_digest": "semantic-authority-v1:3e4608ad9235951c3f65f281b1dd89241dde969332227402f86d90d1009c14f8",
+          "commit_sha256": "ab50c53a8d0501570d83fe50c4f241ac8f38b0003b42dc5b02987e4c08601250",
+          "native_owner": "intent-proof",
+          "native_identity": "648c6f34e90a502530d6de2f315f34e14600250bc87c29ed7d92250a74d67a70",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:e14d984e456bcf2385e1e9b81c4878bdf42468ab2938291fa6eaa9f04fb53076",
+            "inputs": {
+              "digest": "semantic-input-v1:2dcc0e0674b5b42bcd6871e88bbf40e00c4a5cbfb76475a27da3a039ae8dbec2",
+              "revision": 8
+            },
+            "kind": "proof_run",
+            "object": "semantic-evidence-v1-e14d984e456bcf2385e1e9b81c4878bdf42468ab2938291fa6eaa9f04fb53076.blob",
+            "source_head": "4813ab4c1e65aeaf0b2a565167f701ea5e3ef817"
+          },
+          "evidence_sha256": "5f3d6d733f96d0055d2d98a7fb2b3df9972af83c004133b94be17a0d5089f72f",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 18,
+          "command": "record_proof",
+          "phase": "implemented",
+          "authority_digest": "semantic-authority-v1:3e4608ad9235951c3f65f281b1dd89241dde969332227402f86d90d1009c14f8",
+          "commit_sha256": "fc8001b2d5017f462d71cb7d8fcdb9ba97b34911dc54653266481d9820e41afd",
+          "native_owner": "intent-proof",
+          "native_identity": "f85b37db1b7b2f6797b451cbcaf0323e1ec4a961e8a91ade22245226af576369",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:69a04c42a6536b4b1d4f615b0e4c817c8867d6b20d9e91de41c3d3d7f72d9194",
+            "inputs": {
+              "digest": "semantic-input-v1:30525131dcc75f9465c80d607003501ca8bdd57e27979b1c73547431de38b738",
+              "revision": 12
+            },
+            "kind": "proof_run",
+            "object": "semantic-evidence-v1-69a04c42a6536b4b1d4f615b0e4c817c8867d6b20d9e91de41c3d3d7f72d9194.blob",
+            "source_head": "3443707bc42be304fc85cdd1611edf642625e6d0"
+          },
+          "evidence_sha256": "b7dcf5ecc0f09bcee2eb581d2efcf7b737cfa12df173dc7c129096d62b66cf74",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 21,
+          "command": "record_proof",
+          "phase": "implemented",
+          "authority_digest": "semantic-authority-v1:3e4608ad9235951c3f65f281b1dd89241dde969332227402f86d90d1009c14f8",
+          "commit_sha256": "06e123b158976f5a778752c10d269e1d4a415a2a904f230d6d35803a27212e4c",
+          "native_owner": "intent-proof",
+          "native_identity": "32adb3d0b416c08025d2a291862a6d4356fa25ee2d093a3a09d05d569596e088",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:1696523d609977adaf0de2f717a48ee80468dc0b465c7a2a4720921e685b4d05",
+            "inputs": {
+              "digest": "semantic-input-v1:d728b8c8bc08e0d95dc97c0c86bed89f2b87fd7ef58925c8c3ede8e8752c32e3",
+              "revision": 13
+            },
+            "kind": "proof_run",
+            "object": "semantic-evidence-v1-1696523d609977adaf0de2f717a48ee80468dc0b465c7a2a4720921e685b4d05.blob",
+            "source_head": "3443707bc42be304fc85cdd1611edf642625e6d0"
+          },
+          "evidence_sha256": "59e3331607ee391f18d22967ae0b6bb24199d861da3d7dfe45c617b9fbf55caf",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 23,
+          "command": "record_review_pass",
+          "phase": "reviewed",
+          "authority_digest": "semantic-authority-v1:3e4608ad9235951c3f65f281b1dd89241dde969332227402f86d90d1009c14f8",
+          "commit_sha256": "d13532bd6f51648a2a000315a66141b838909de8aaeccea37fb4b610802bd639",
+          "native_owner": "external-review",
+          "native_identity": ".csdlc/evidence/1335/intent-review/3443707bc42be304fc85cdd1611edf642625e6d0/1378b0235e87b6c32bd9259504bffee4271e46e64a6eeeab1d3240c32f14a7f8.json:bf76bb72d07ce3f286f4effc22f1feb126d208073e9f806a630fb10ca250ef48",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:f959a22ec6ec0990c9d0072a4823e71f302f6fe593fde4474096dec9acdbbc56",
+            "inputs": {
+              "digest": "semantic-input-v1:d728b8c8bc08e0d95dc97c0c86bed89f2b87fd7ef58925c8c3ede8e8752c32e3",
+              "revision": 13
+            },
+            "kind": "review_receipt",
+            "object": "semantic-evidence-v1-f959a22ec6ec0990c9d0072a4823e71f302f6fe593fde4474096dec9acdbbc56.blob",
+            "source_head": "3443707bc42be304fc85cdd1611edf642625e6d0"
+          },
+          "evidence_sha256": "77d06064ffaaff522035759bf5230601aff8f8be8632ed10d11a3fe44fe8338e",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 25,
+          "command": "publish",
+          "phase": "published",
+          "authority_digest": "semantic-authority-v1:3e4608ad9235951c3f65f281b1dd89241dde969332227402f86d90d1009c14f8",
+          "commit_sha256": "1d5518c99ee063d06de6e1d3debe4c9bfcc77a3cf72fa83b0037bf01167ae66e",
+          "native_owner": "csdlc-v3-github",
+          "native_identity": "d30367e13a6023958861800d68a54cd83db7392bedd96f1ab1b494d43a76db68",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:baae6c8f156bd890119195afc53028e45bb1419468f187ac0c8a7082584ab699",
+            "inputs": {
+              "digest": "semantic-input-v1:d728b8c8bc08e0d95dc97c0c86bed89f2b87fd7ef58925c8c3ede8e8752c32e3",
+              "revision": 13
+            },
+            "kind": "github_readback",
+            "object": "semantic-evidence-v1-baae6c8f156bd890119195afc53028e45bb1419468f187ac0c8a7082584ab699.blob",
+            "source_head": "3443707bc42be304fc85cdd1611edf642625e6d0"
+          },
+          "evidence_sha256": "78a1052969f07c2f628e273cb9ecc10dd913d9d9b9fd4d15934e19dfeb5762be",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 27,
+          "command": "mark_merge_ready",
+          "phase": "merge_ready",
+          "authority_digest": "semantic-authority-v1:3e4608ad9235951c3f65f281b1dd89241dde969332227402f86d90d1009c14f8",
+          "commit_sha256": "819279517c38b9de43eced4c53264e2c62bad7652c4f09b717b64d5009720ab0",
+          "native_owner": "csdlc-v3-github",
+          "native_identity": "6faf8532d75532c47906537e0eec8ac554e58405e51ee98b7c5afd903e9855c1",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:6b8ffa9366195d3e55c89308d5a8570165853016fae7d723d6b030b521a2c910",
+            "inputs": {
+              "digest": "semantic-input-v1:d728b8c8bc08e0d95dc97c0c86bed89f2b87fd7ef58925c8c3ede8e8752c32e3",
+              "revision": 13
+            },
+            "kind": "github_readback",
+            "object": "semantic-evidence-v1-6b8ffa9366195d3e55c89308d5a8570165853016fae7d723d6b030b521a2c910.blob",
+            "source_head": "3443707bc42be304fc85cdd1611edf642625e6d0"
+          },
+          "evidence_sha256": "1b6811dafc2b264cd4f4548e30db7687effd51896b2c058d030f574c2e553bad",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 31,
+          "command": "record_proof",
+          "phase": "implemented",
+          "authority_digest": "semantic-authority-v1:3e4608ad9235951c3f65f281b1dd89241dde969332227402f86d90d1009c14f8",
+          "commit_sha256": "f4e2914a86ead75324c9d347b873174d8c3b980e6b5f5f715ef124af14aa5f72",
+          "native_owner": "intent-proof",
+          "native_identity": "f85e2ea0420119a1fe364dab8ae3eb137d5358301465d7e54290102f6a767338",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:6591e4e818d207055cbe36d0b2f95b1c402f1202e4545f274034203fc6098b03",
+            "inputs": {
+              "digest": "semantic-input-v1:98f46fec1ab1dd2d2e0529884a46b05ff6b348dfd70da3da11666bf57261d4f2",
+              "revision": 15
+            },
+            "kind": "proof_run",
+            "object": "semantic-evidence-v1-6591e4e818d207055cbe36d0b2f95b1c402f1202e4545f274034203fc6098b03.blob",
+            "source_head": "0b92a7a692c6f97cf49fb9bcd1b08d356e37caba"
+          },
+          "evidence_sha256": "04a98252c8042bc8cc2bb4614f3974e921f7b80839d88ce8eb622a0cdbb0d9ad",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 33,
+          "command": "record_review_pass",
+          "phase": "reviewed",
+          "authority_digest": "semantic-authority-v1:3e4608ad9235951c3f65f281b1dd89241dde969332227402f86d90d1009c14f8",
+          "commit_sha256": "d54a96a2710005d1df10c4af1dffce9cbabdca0b2038d9e7932d9e8550b0277b",
+          "native_owner": "external-review",
+          "native_identity": ".csdlc/evidence/1335/intent-review/0b92a7a692c6f97cf49fb9bcd1b08d356e37caba/71dc7d6265ac188678793b86d9d7295da44e3a25d9ce5d669f5e7aa6118c9db4.json:5f8fa6fb5dd1c7ca51c4c20485a64971af7ab845a003fb8672d94f09a37b609f",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:4bdc2c4326fb55a471be5a8787be12f7489d2ef1260359bb88330cbff75cce7c",
+            "inputs": {
+              "digest": "semantic-input-v1:98f46fec1ab1dd2d2e0529884a46b05ff6b348dfd70da3da11666bf57261d4f2",
+              "revision": 15
+            },
+            "kind": "review_receipt",
+            "object": "semantic-evidence-v1-4bdc2c4326fb55a471be5a8787be12f7489d2ef1260359bb88330cbff75cce7c.blob",
+            "source_head": "0b92a7a692c6f97cf49fb9bcd1b08d356e37caba"
+          },
+          "evidence_sha256": "27ca225783d5a8080df9f7f3f0f6cee0aea81ddb0a904a38016154c54b424235",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 38,
+          "command": "record_proof",
+          "phase": "implemented",
+          "authority_digest": "semantic-authority-v1:3e4608ad9235951c3f65f281b1dd89241dde969332227402f86d90d1009c14f8",
+          "commit_sha256": "3357bcc36f0c3f1f60069701bd5fae27b4c28181850b979a08e8336113bebed3",
+          "native_owner": "intent-proof",
+          "native_identity": "fcbf4e018d8944534356668169b0876d6ecadf69ff3fdee1ebe43dfd4d5763a6",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:15f84e035a6d53596b0490a0d048312f0c96f0d22162f96e34235c37cae4528f",
+            "inputs": {
+              "digest": "semantic-input-v1:2aa3044c66433a33c9f4db559d8b5092d4c17aafb64149510e6ed6c63a377750",
+              "revision": 18
+            },
+            "kind": "proof_run",
+            "object": "semantic-evidence-v1-15f84e035a6d53596b0490a0d048312f0c96f0d22162f96e34235c37cae4528f.blob",
+            "source_head": "ef21aacbeb9b5968998557b9284c9e63bef10720"
+          },
+          "evidence_sha256": "a951ed326c2e657636d8ebf5bec2733709d88b8a042462b0bbdf56577ba197e9",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 40,
+          "command": "record_review_pass",
+          "phase": "reviewed",
+          "authority_digest": "semantic-authority-v1:3e4608ad9235951c3f65f281b1dd89241dde969332227402f86d90d1009c14f8",
+          "commit_sha256": "55911c6b4d29231008a70a3806ce064f599f232bf6da6d9397ffeb1a263e2007",
+          "native_owner": "external-review",
+          "native_identity": ".csdlc/evidence/1335/intent-review/ef21aacbeb9b5968998557b9284c9e63bef10720/3f59de5610c151c562cf75d16429202043f2f81188e5f9ca6adb5568851c8a6d.json:8b52da80b8379d8f8d7724428b47171bf733f5711d6515a6a2f8e402732a7e81",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:63753b37297757bef94c77ca82e558151ff43f388c6f3589ac30d17dfd116928",
+            "inputs": {
+              "digest": "semantic-input-v1:2aa3044c66433a33c9f4db559d8b5092d4c17aafb64149510e6ed6c63a377750",
+              "revision": 18
+            },
+            "kind": "review_receipt",
+            "object": "semantic-evidence-v1-63753b37297757bef94c77ca82e558151ff43f388c6f3589ac30d17dfd116928.blob",
+            "source_head": "ef21aacbeb9b5968998557b9284c9e63bef10720"
+          },
+          "evidence_sha256": "32944398c0879392553e1fa19279b5fcfac6e7fd979a16e7692dafa221c1c481",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 42,
+          "command": "publish",
+          "phase": "published",
+          "authority_digest": "semantic-authority-v1:3e4608ad9235951c3f65f281b1dd89241dde969332227402f86d90d1009c14f8",
+          "commit_sha256": "197b5dce96227d7dc41912b82cdf25aed99628203260e2d510b11866d9506634",
+          "native_owner": "csdlc-v3-github",
+          "native_identity": "4db98e589799b344c2b8daa3be9130e2d73044d51b03b3cf3c47975542e3a0bd",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:fbd4d2e9c2c41395d2f63ac8fd55ce6552b7500e2c4a4455677bd3658244828c",
+            "inputs": {
+              "digest": "semantic-input-v1:2aa3044c66433a33c9f4db559d8b5092d4c17aafb64149510e6ed6c63a377750",
+              "revision": 18
+            },
+            "kind": "github_readback",
+            "object": "semantic-evidence-v1-fbd4d2e9c2c41395d2f63ac8fd55ce6552b7500e2c4a4455677bd3658244828c.blob",
+            "source_head": "ef21aacbeb9b5968998557b9284c9e63bef10720"
+          },
+          "evidence_sha256": "75fe22bf5e206b48e731d82af5d7c016c95b2917409629c5b678cb1f8a0bcd47",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 44,
+          "command": "mark_merge_ready",
+          "phase": "merge_ready",
+          "authority_digest": "semantic-authority-v1:3e4608ad9235951c3f65f281b1dd89241dde969332227402f86d90d1009c14f8",
+          "commit_sha256": "18caf81aafd026547fc97cdde1cab3123e8c896a5142aedc0d29e3ecd33fc41d",
+          "native_owner": "csdlc-v3-github",
+          "native_identity": "6d2cb30e18c2a7d4e8133246c587b1985fc420abc52b3f2fe50916027d5af504",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:0460da6506fdd143564d06fdf1ddb544a47da6a88723157184bd0687a91d4bec",
+            "inputs": {
+              "digest": "semantic-input-v1:2aa3044c66433a33c9f4db559d8b5092d4c17aafb64149510e6ed6c63a377750",
+              "revision": 18
+            },
+            "kind": "github_readback",
+            "object": "semantic-evidence-v1-0460da6506fdd143564d06fdf1ddb544a47da6a88723157184bd0687a91d4bec.blob",
+            "source_head": "ef21aacbeb9b5968998557b9284c9e63bef10720"
+          },
+          "evidence_sha256": "05535e6de121850abc9ea190ba75352ea9027f7e4a3a6e7c552678377b5f84af",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 46,
+          "command": "record_merge",
+          "phase": "merged",
+          "authority_digest": "semantic-authority-v1:3e4608ad9235951c3f65f281b1dd89241dde969332227402f86d90d1009c14f8",
+          "commit_sha256": "65ee66fabe52bcf4314ee0991e9c3e4c94e3862742920815977316894519a047",
+          "native_owner": "csdlc-v3-github",
+          "native_identity": "8c59a2dccd4462ce5645e5dbfad297e4d5e7eccd8edb31f6a35d0f799fd80fc1",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:ca05888917d55da64e7dd8e1e68fef2af0d5bcb968b8cac0b0ade12931e12a4c",
+            "inputs": {
+              "digest": "semantic-input-v1:2aa3044c66433a33c9f4db559d8b5092d4c17aafb64149510e6ed6c63a377750",
+              "revision": 18
+            },
+            "kind": "github_readback",
+            "object": "semantic-evidence-v1-ca05888917d55da64e7dd8e1e68fef2af0d5bcb968b8cac0b0ade12931e12a4c.blob",
+            "source_head": "ef21aacbeb9b5968998557b9284c9e63bef10720"
+          },
+          "evidence_sha256": "5c017c01f88193ece962271d3734aba5878c62416665e6d9120d0284946ea413",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 48,
+          "command": "finish",
+          "phase": "closed_out",
+          "authority_digest": "semantic-authority-v1:3e4608ad9235951c3f65f281b1dd89241dde969332227402f86d90d1009c14f8",
+          "commit_sha256": "976ac8680c18ef8701c95f12831c9eca291b455f2dc61afd482e550f53a97a8c",
+          "native_owner": "terminal-finish",
+          "native_identity": "1f2398899c483892924c99a1268fc38a445d0340f80f8a8fd205f7546d3c80fa",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:75465ec7b8136192e29439770d91f3584a93aa45976965725fbce68574120f89",
+            "inputs": {
+              "digest": "semantic-input-v1:2aa3044c66433a33c9f4db559d8b5092d4c17aafb64149510e6ed6c63a377750",
+              "revision": 18
+            },
+            "kind": "github_readback",
+            "object": "semantic-evidence-v1-75465ec7b8136192e29439770d91f3584a93aa45976965725fbce68574120f89.blob",
+            "source_head": "ef21aacbeb9b5968998557b9284c9e63bef10720"
+          },
+          "evidence_sha256": "1d041a81a36db8797251e04d33dbef4f7e6b2860ee3f38351a01e6f24905fe46",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 50,
+          "command": "record_cleanup",
+          "phase": "closed_out",
+          "authority_digest": "semantic-authority-v1:3e4608ad9235951c3f65f281b1dd89241dde969332227402f86d90d1009c14f8",
+          "commit_sha256": "013ec0feda1c8c16a7cad3fb800d90cc645074d9598c8079a99b866762adee57",
+          "native_owner": "terminal-cleanup",
+          "native_identity": "00eb65602d8c380cd4b59a0010e3591e115cd26118fd0262977e2306b237f1dd",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:b077eebe6f279b9f5eb792091427107a8d5b88b3336b56af64673530af6d30d7",
+            "inputs": {
+              "digest": "semantic-input-v1:2aa3044c66433a33c9f4db559d8b5092d4c17aafb64149510e6ed6c63a377750",
+              "revision": 18
+            },
+            "kind": "cleanup_receipt",
+            "object": "semantic-evidence-v1-b077eebe6f279b9f5eb792091427107a8d5b88b3336b56af64673530af6d30d7.blob",
+            "source_head": "ef21aacbeb9b5968998557b9284c9e63bef10720"
+          },
+          "evidence_sha256": "ce60aa2194b0b3bee4aa715c82a1c81447fd25a9073f64148bc7124b3c4712b6",
+          "evidence_object_digest_verified": true
+        }
+      ],
+      "scope": "Read-only package-binding and retained journal inspection; no journal, package or remote mutation."
+    },
+    {
+      "repository": "agent-logic/agent-logic-infrastructure",
+      "issue": 37,
+      "current_version": {
+        "audit": "semantic-audit-v1:ea02b8d63c133a06321a41d2a27a5296721ff568e93196d4b4829fe1cda85651",
+        "digest": "semantic-state-v1:fc148361406b293a381383aa5ca5bdd1ac8c85c5733f63804a4a2072e4838274",
+        "generation": 23
+      },
+      "phase": "bound",
+      "pending": null,
+      "current_commit_sha256": "6bd68079c841bac21b3429cc844a5fe651e5c70312dd88163e1598bcd3492c4d",
+      "preparation": {
+        "generation": 1,
+        "phase": "ready",
+        "command": "prepare",
+        "authority_digest": "semantic-authority-v1:f00eee10a03716a758af8e6df1b753eef90f466ff6bd775688926de7e0462a20",
+        "commit_sha256": "3f9721cd9601fc8eb3ab575e56ce07fa3e8792fca62b51d9723b5a08525a8c7e"
+      },
+      "packages": [
+        {
+          "artifact_id": "11786371585",
+          "artifact_sha256": "675fe90599f874aa7b3bf02bf7c3a38b4f9b9b9645011e22c8559ce901f9e1c0",
+          "artifact_digest_basis": "retained_artifact_zip_sha256",
+          "candidate_revision": "a7f0500af1f27eae358b4577c6588097caaff7ac",
+          "target": "aarch64-apple-darwin",
+          "manifest_sha256": "c32ea03236d5605968ffd86613acfb955a2abe919e221300369300c5ee53cc28",
+          "authority_digest": "semantic-authority-v1:f00eee10a03716a758af8e6df1b753eef90f466ff6bd775688926de7e0462a20",
+          "binding_bytes_sha256": "abe39a3d32c04d72657c3e824834788c72aadbca057c63c7d3685398d2681b77",
+          "controller_git_common_sha256": "53b2ddcd90767461149e6680af609d2cecc5f7b464d63d276c8b9e80abfdab52",
+          "registry_sha256": "1543d365c8ce8e2826bc1a775857f34030fd64245dd45e7d6c0bbafc705f0e27",
+          "registry_version": "1.0.5",
+          "lifecycle": [
+            "SIP",
+            "STP",
+            "SPP",
+            "VPP",
+            "SRP",
+            "SOR"
+          ],
+          "templates": {
+            "sip": {
+              "path": "docs/templates/prompts/1.0.5/sip.md",
+              "sha256": "1c8389c11bba20e54a51d595555176edeb5c58afb0d7cabadeb5b06513c4c486",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/sip.structure.json",
+              "structure_schema_sha256": "07095fab557706bb673d2814476b83c04416beea64f8ac96ecd3c47a4371704a"
+            },
+            "stp": {
+              "path": "docs/templates/prompts/1.0.5/stp.md",
+              "sha256": "fdcff8221e323ff5c6d98830d6e5461dcecf8b7ea5ac46ba3287654143666a11",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/stp.structure.json",
+              "structure_schema_sha256": "b6ae4e3be0c94f3d24ab51372a2ebb3a49cbf7a103526a1f83b01a9b390c8656"
+            },
+            "spp": {
+              "path": "docs/templates/prompts/1.0.5/spp.md",
+              "sha256": "2d0ec7dd50fe92a719721b9ffb1792c34d83ed19d6145b4294b110ca698c81d2",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/spp.structure.json",
+              "structure_schema_sha256": "fd21331bb45bc743db913daff8b336d3aff3afe361ced9d7460b0e82f5fbf805"
+            },
+            "vpp": {
+              "path": "docs/templates/prompts/1.0.5/vpp.md",
+              "sha256": "053a3be26248aef3b669950fcd51897115ea2bfd8521fc3ab8a16b393525218c",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/vpp.structure.json",
+              "structure_schema_sha256": "33577ceea99f85f2337c1d61bb7552d7358c50169f5066929114718f1de96d7d"
+            },
+            "srp": {
+              "path": "docs/templates/prompts/1.0.5/srp.md",
+              "sha256": "e5b681c4cc77a20464709196979bd8f3c6e6cd3e3246677821731372b2aaf432",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/srp.structure.json",
+              "structure_schema_sha256": "7e98268939f8418108132d318dd6ce6b21e2144275ebb5e15d50b9fa82a75854"
+            },
+            "sor": {
+              "path": "docs/templates/prompts/1.0.5/sor.md",
+              "sha256": "4a1cecd354f1e57ee51c547ef00f0295ac0c1acaab3bdde129303305a1c13092",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/sor.structure.json",
+              "structure_schema_sha256": "7ad244a86295c5fcf238f4a8f0cf05ce983525d25828545866949700a97c9cc2"
+            }
+          },
+          "claim": "Exact retained authority binding matched; this is package provenance, not fresh installation admission."
+        },
+        {
+          "artifact_id": "12369122943",
+          "artifact_sha256": "4fe30ecb6cd7bd53c2e4cc81801f0d7e6c7c60adff9f193830e113876245439c",
+          "artifact_digest_basis": "retained_artifact_zip_sha256",
+          "candidate_revision": "57342e9d974a5c1ce880c8e528406fa1080f0582",
+          "target": "aarch64-apple-darwin",
+          "manifest_sha256": "76f270ceb43cdd24f41fc37b2952cdfd5e8444b6c378dfe7b337b1f7745e4efe",
+          "authority_digest": "semantic-authority-v1:1349231e9211392853afa75029a9de68d54d7f05123924fe3f928643b9e7b376",
+          "binding_bytes_sha256": "d5a1f05be75d66e4d54b55e161b58ac20e51ab60330b4b7697733fc376759849",
+          "controller_git_common_sha256": "53b2ddcd90767461149e6680af609d2cecc5f7b464d63d276c8b9e80abfdab52",
+          "registry_sha256": "1543d365c8ce8e2826bc1a775857f34030fd64245dd45e7d6c0bbafc705f0e27",
+          "registry_version": "1.0.5",
+          "lifecycle": [
+            "SIP",
+            "STP",
+            "SPP",
+            "VPP",
+            "SRP",
+            "SOR"
+          ],
+          "templates": {
+            "sip": {
+              "path": "docs/templates/prompts/1.0.5/sip.md",
+              "sha256": "1c8389c11bba20e54a51d595555176edeb5c58afb0d7cabadeb5b06513c4c486",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/sip.structure.json",
+              "structure_schema_sha256": "07095fab557706bb673d2814476b83c04416beea64f8ac96ecd3c47a4371704a"
+            },
+            "stp": {
+              "path": "docs/templates/prompts/1.0.5/stp.md",
+              "sha256": "fdcff8221e323ff5c6d98830d6e5461dcecf8b7ea5ac46ba3287654143666a11",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/stp.structure.json",
+              "structure_schema_sha256": "b6ae4e3be0c94f3d24ab51372a2ebb3a49cbf7a103526a1f83b01a9b390c8656"
+            },
+            "spp": {
+              "path": "docs/templates/prompts/1.0.5/spp.md",
+              "sha256": "2d0ec7dd50fe92a719721b9ffb1792c34d83ed19d6145b4294b110ca698c81d2",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/spp.structure.json",
+              "structure_schema_sha256": "fd21331bb45bc743db913daff8b336d3aff3afe361ced9d7460b0e82f5fbf805"
+            },
+            "vpp": {
+              "path": "docs/templates/prompts/1.0.5/vpp.md",
+              "sha256": "053a3be26248aef3b669950fcd51897115ea2bfd8521fc3ab8a16b393525218c",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/vpp.structure.json",
+              "structure_schema_sha256": "33577ceea99f85f2337c1d61bb7552d7358c50169f5066929114718f1de96d7d"
+            },
+            "srp": {
+              "path": "docs/templates/prompts/1.0.5/srp.md",
+              "sha256": "e5b681c4cc77a20464709196979bd8f3c6e6cd3e3246677821731372b2aaf432",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/srp.structure.json",
+              "structure_schema_sha256": "7e98268939f8418108132d318dd6ce6b21e2144275ebb5e15d50b9fa82a75854"
+            },
+            "sor": {
+              "path": "docs/templates/prompts/1.0.5/sor.md",
+              "sha256": "4a1cecd354f1e57ee51c547ef00f0295ac0c1acaab3bdde129303305a1c13092",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/sor.structure.json",
+              "structure_schema_sha256": "7ad244a86295c5fcf238f4a8f0cf05ce983525d25828545866949700a97c9cc2"
+            }
+          },
+          "claim": "Exact retained authority binding matched; this is package provenance, not fresh installation admission."
+        }
+      ],
+      "retained_completed_stages": [
+        {
+          "generation": 4,
+          "command": "bind",
+          "phase": "bound",
+          "authority_digest": "semantic-authority-v1:f00eee10a03716a758af8e6df1b753eef90f466ff6bd775688926de7e0462a20",
+          "commit_sha256": "c6fb084372d0b83934de6cf42e3ef1e63d973ceb1bf6cb3d023818c794dd7e04",
+          "native_owner": "csdlc-v3-local-bind",
+          "native_identity": "e60073c12f91a6ae911ffa2b4aae6e2abfdd74e19c00564e9a09084283c9a4f0",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:64861b46adb306b1bd91d818f3e86f731bc486978754cca621286ca1c11e95e6",
+            "inputs": {
+              "digest": "semantic-input-v1:e0d4588bdc289d251f24134b2fc231657db2365a37c214dfedd0c6b9742d7a6a",
+              "revision": 1
+            },
+            "kind": "bind_receipt",
+            "object": "semantic-evidence-v1-64861b46adb306b1bd91d818f3e86f731bc486978754cca621286ca1c11e95e6.blob",
+            "source_head": "0589ee84d895a472feee4645cf94574ce85a7fe6"
+          },
+          "evidence_sha256": "fbc3a37d01004ae5986f201f1e72279af82b43c88c8fd08b5a102149cbf8cf8e",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 8,
+          "command": "record_proof",
+          "phase": "implemented",
+          "authority_digest": "semantic-authority-v1:f00eee10a03716a758af8e6df1b753eef90f466ff6bd775688926de7e0462a20",
+          "commit_sha256": "83425246b599f8b6887e1af31675592c32592a2d7716db1904ef0d6b5a1d704a",
+          "native_owner": "intent-proof",
+          "native_identity": "366cd108ca771a69517edaf48c5771c4377924bdae9e12ac8dda24a992961b76",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:cd33f94ebaed53d46b98355aaeb6a3d5e522c95fbbe03dcd1bee78e6c6a87d83",
+            "inputs": {
+              "digest": "semantic-input-v1:aab6984afe7dedeb61faaacbee3ddb89306a98f3ee985120c675e7674e419f21",
+              "revision": 4
+            },
+            "kind": "proof_run",
+            "object": "semantic-evidence-v1-cd33f94ebaed53d46b98355aaeb6a3d5e522c95fbbe03dcd1bee78e6c6a87d83.blob",
+            "source_head": "227e5fc798837ed596376284a0c267f3ee9e1b04"
+          },
+          "evidence_sha256": "a756a5c36fd77972bbb9c749ff4f0bea14772d616a36e2b3d31a64b6fc46526c",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 11,
+          "command": "record_proof",
+          "phase": "implemented",
+          "authority_digest": "semantic-authority-v1:f00eee10a03716a758af8e6df1b753eef90f466ff6bd775688926de7e0462a20",
+          "commit_sha256": "f84ad4a13d22a6d6e9a43f562b5dd5f8a28eb6be0b39509fdeb65d4e2fcafbfa",
+          "native_owner": "intent-proof",
+          "native_identity": "091c7663f36ba9b3dc226542f1794f150ec6c4f92faa0530f11442723cddcf95",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:ccff1b46c41f5d6b9b4de42ff1927c8561a5e164763ecbb0b87d1173725428d5",
+            "inputs": {
+              "digest": "semantic-input-v1:6870fbc51a9a25b59b69ac11cd7800512ebd98f6fb96b22437b0543b98166a59",
+              "revision": 5
+            },
+            "kind": "proof_run",
+            "object": "semantic-evidence-v1-ccff1b46c41f5d6b9b4de42ff1927c8561a5e164763ecbb0b87d1173725428d5.blob",
+            "source_head": "227e5fc798837ed596376284a0c267f3ee9e1b04"
+          },
+          "evidence_sha256": "c63ba4b7c3ff0adc633613a1ad39e5b96a11a26347bba29acde9eea32e4b70af",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 13,
+          "command": "record_review_pass",
+          "phase": "reviewed",
+          "authority_digest": "semantic-authority-v1:f00eee10a03716a758af8e6df1b753eef90f466ff6bd775688926de7e0462a20",
+          "commit_sha256": "34157ef58038d4f272ddf5665a341451fe7fd9116460317be854daf53906f66c",
+          "native_owner": "external-review",
+          "native_identity": ".csdlc/evidence/37/intent-review/227e5fc798837ed596376284a0c267f3ee9e1b04/d731b45856247a0123618421ac07712a934cd4c9f232612708769e57f7d9b634.json:ec2d3c51ebd09f48379ed0182a5aaf9752bafced9dfe00586d6955f8197aff4e",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:18301ccb3f325b8115ac1879af078265ede73cc27f78f8a596f3723bc3708c5b",
+            "inputs": {
+              "digest": "semantic-input-v1:6870fbc51a9a25b59b69ac11cd7800512ebd98f6fb96b22437b0543b98166a59",
+              "revision": 5
+            },
+            "kind": "review_receipt",
+            "object": "semantic-evidence-v1-18301ccb3f325b8115ac1879af078265ede73cc27f78f8a596f3723bc3708c5b.blob",
+            "source_head": "227e5fc798837ed596376284a0c267f3ee9e1b04"
+          },
+          "evidence_sha256": "e25a81e1e687e043f46aa8495e46005d9ce4aea6dc0eb31affce0724dcf2c454",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 15,
+          "command": "publish",
+          "phase": "published",
+          "authority_digest": "semantic-authority-v1:f00eee10a03716a758af8e6df1b753eef90f466ff6bd775688926de7e0462a20",
+          "commit_sha256": "f636053fabcc1b0e189875437b6e6e0bd06ad19362bb1909781222d9bb7f14e3",
+          "native_owner": "csdlc-v3-github",
+          "native_identity": "7a7403e7cfd5c37328db3d4d51fe4c753271fa42d3f85d7dddc1389ba505f578",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:ad58eb7ac0245b3c36a2fdc006f9c7674c48c9c481fa819fca6121da59914aed",
+            "inputs": {
+              "digest": "semantic-input-v1:6870fbc51a9a25b59b69ac11cd7800512ebd98f6fb96b22437b0543b98166a59",
+              "revision": 5
+            },
+            "kind": "github_readback",
+            "object": "semantic-evidence-v1-ad58eb7ac0245b3c36a2fdc006f9c7674c48c9c481fa819fca6121da59914aed.blob",
+            "source_head": "227e5fc798837ed596376284a0c267f3ee9e1b04"
+          },
+          "evidence_sha256": "e8fdc4c083fdd5fec0c13ada9acf2546beb4e4a409f3a35729c0299225272750",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 18,
+          "command": "record_proof",
+          "phase": "implemented",
+          "authority_digest": "semantic-authority-v1:f00eee10a03716a758af8e6df1b753eef90f466ff6bd775688926de7e0462a20",
+          "commit_sha256": "22bf120b796b7cc7fc8a3471728ec630325b24157f3ae2fc09aa6d15d0d183b6",
+          "native_owner": "intent-proof",
+          "native_identity": "726adbe09a53635163315b7356ab2a733032ad85e1896386f7720944e543d5f3",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:326c63c607efb7eed861db2a115d0df832bef3312b6114431f7408cf3daf3d3b",
+            "inputs": {
+              "digest": "semantic-input-v1:27ee67ff6c3ca84443abe99fe08de02384364ca9dbe38c8b1b3c6023e869927f",
+              "revision": 6
+            },
+            "kind": "proof_run",
+            "object": "semantic-evidence-v1-326c63c607efb7eed861db2a115d0df832bef3312b6114431f7408cf3daf3d3b.blob",
+            "source_head": "227e5fc798837ed596376284a0c267f3ee9e1b04"
+          },
+          "evidence_sha256": "51654d20e3e49ddf931869aaf9abf4598c4f2fca4631ae397f0d3e0664e55fc0",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 20,
+          "command": "record_review_pass",
+          "phase": "reviewed",
+          "authority_digest": "semantic-authority-v1:f00eee10a03716a758af8e6df1b753eef90f466ff6bd775688926de7e0462a20",
+          "commit_sha256": "7c735da1b4a209327e343008c0b872d8753b6445b74ba50e3d41d93ffaaabf9e",
+          "native_owner": "external-review",
+          "native_identity": ".csdlc/evidence/37/intent-review/227e5fc798837ed596376284a0c267f3ee9e1b04/2ba5412b9e69db7d7ad09efce79655620dfff8ab99a3b0594efedb47b3e89986.json:ec2d3c51ebd09f48379ed0182a5aaf9752bafced9dfe00586d6955f8197aff4e",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:a824f4ced70421834b3bca5a8533caf16b43ab78c469f4f8b16d44cd2772f845",
+            "inputs": {
+              "digest": "semantic-input-v1:27ee67ff6c3ca84443abe99fe08de02384364ca9dbe38c8b1b3c6023e869927f",
+              "revision": 6
+            },
+            "kind": "review_receipt",
+            "object": "semantic-evidence-v1-a824f4ced70421834b3bca5a8533caf16b43ab78c469f4f8b16d44cd2772f845.blob",
+            "source_head": "227e5fc798837ed596376284a0c267f3ee9e1b04"
+          },
+          "evidence_sha256": "7dab1b5c65cfcbf89ab64b7193d705bd3d1a0cb007238b828a00d096253f4388",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 22,
+          "command": "publish",
+          "phase": "published",
+          "authority_digest": "semantic-authority-v1:f00eee10a03716a758af8e6df1b753eef90f466ff6bd775688926de7e0462a20",
+          "commit_sha256": "cbb21e012084c1d56786cb50fb9fba5a58df9a426f0885f6bbc64968a2b9eeb5",
+          "native_owner": "csdlc-v3-github",
+          "native_identity": "f7712c76587fa8bed1f13f502f0816ca1a12987ec82bfd789842167f7618a88b",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:1d9045682fa3655827e82dc0d081c5734231d1f2e1f33c733abc227162129254",
+            "inputs": {
+              "digest": "semantic-input-v1:27ee67ff6c3ca84443abe99fe08de02384364ca9dbe38c8b1b3c6023e869927f",
+              "revision": 6
+            },
+            "kind": "github_readback",
+            "object": "semantic-evidence-v1-1d9045682fa3655827e82dc0d081c5734231d1f2e1f33c733abc227162129254.blob",
+            "source_head": "227e5fc798837ed596376284a0c267f3ee9e1b04"
+          },
+          "evidence_sha256": "aa4ef246d3b14b5f3c8263455d905839f0d893216a65dad0d7876f131f7c4dce",
+          "evidence_object_digest_verified": true
+        }
+      ],
+      "scope": "Read-only package-binding and retained journal inspection; no journal, package or remote mutation."
+    },
+    {
+      "repository": "agent-logic/agent-logic-enterprise-security",
+      "issue": 9,
+      "current_version": {
+        "audit": "semantic-audit-v1:e448f5594c215bcc3886e61dddbead36d1d171b4855dba55e9bffe89986f2ce5",
+        "digest": "semantic-state-v1:35fda97e9c8cff28038f45d9f0616bf0a79a4c8f10944ed8b6451182e42d6e9e",
+        "generation": 73
+      },
+      "phase": "merged",
+      "pending": null,
+      "current_commit_sha256": "0548b108a8ba85f4c69d05459f081ccae1ba1d44c6ef834e307084074d1e0d16",
+      "preparation": {
+        "generation": 1,
+        "phase": "ready",
+        "command": "prepare",
+        "authority_digest": "semantic-authority-v1:d8a611138fd6e3edd0d8047a93a96b0e215a5453f775f8e6fc8cc61fbcd5bf34",
+        "commit_sha256": "6b439e18298fee75693b51ebf0ee6ea314e481125288f53601f31500b4531ef0"
+      },
+      "packages": [
+        {
+          "artifact_id": "11873730137",
+          "artifact_sha256": "b454804d3ee124136251b9a40ba4291a37254f9e49967f1007e52b0455fb2472",
+          "artifact_digest_basis": "retained_artifact_zip_sha256",
+          "candidate_revision": "275185a0c0c54727d695cb4c0cfa79f7a8757d82",
+          "target": "aarch64-apple-darwin",
+          "manifest_sha256": "a06100b4b1f6d5379f7164d983b65ee7a93e1a1f70df9fa62bacb32f5872311f",
+          "authority_digest": "semantic-authority-v1:d8a611138fd6e3edd0d8047a93a96b0e215a5453f775f8e6fc8cc61fbcd5bf34",
+          "binding_bytes_sha256": "c08da7d46e05448b46e54e8daec1049d667e86768059a47a0e2003d1609f4c9f",
+          "controller_git_common_sha256": "16c3fd427164e5bf31f790bed4914460edb95636ef073246cf0f6dae34c8f22b",
+          "registry_sha256": "1543d365c8ce8e2826bc1a775857f34030fd64245dd45e7d6c0bbafc705f0e27",
+          "registry_version": "1.0.5",
+          "lifecycle": [
+            "SIP",
+            "STP",
+            "SPP",
+            "VPP",
+            "SRP",
+            "SOR"
+          ],
+          "templates": {
+            "sip": {
+              "path": "docs/templates/prompts/1.0.5/sip.md",
+              "sha256": "1c8389c11bba20e54a51d595555176edeb5c58afb0d7cabadeb5b06513c4c486",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/sip.structure.json",
+              "structure_schema_sha256": "07095fab557706bb673d2814476b83c04416beea64f8ac96ecd3c47a4371704a"
+            },
+            "stp": {
+              "path": "docs/templates/prompts/1.0.5/stp.md",
+              "sha256": "fdcff8221e323ff5c6d98830d6e5461dcecf8b7ea5ac46ba3287654143666a11",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/stp.structure.json",
+              "structure_schema_sha256": "b6ae4e3be0c94f3d24ab51372a2ebb3a49cbf7a103526a1f83b01a9b390c8656"
+            },
+            "spp": {
+              "path": "docs/templates/prompts/1.0.5/spp.md",
+              "sha256": "2d0ec7dd50fe92a719721b9ffb1792c34d83ed19d6145b4294b110ca698c81d2",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/spp.structure.json",
+              "structure_schema_sha256": "fd21331bb45bc743db913daff8b336d3aff3afe361ced9d7460b0e82f5fbf805"
+            },
+            "vpp": {
+              "path": "docs/templates/prompts/1.0.5/vpp.md",
+              "sha256": "053a3be26248aef3b669950fcd51897115ea2bfd8521fc3ab8a16b393525218c",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/vpp.structure.json",
+              "structure_schema_sha256": "33577ceea99f85f2337c1d61bb7552d7358c50169f5066929114718f1de96d7d"
+            },
+            "srp": {
+              "path": "docs/templates/prompts/1.0.5/srp.md",
+              "sha256": "e5b681c4cc77a20464709196979bd8f3c6e6cd3e3246677821731372b2aaf432",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/srp.structure.json",
+              "structure_schema_sha256": "7e98268939f8418108132d318dd6ce6b21e2144275ebb5e15d50b9fa82a75854"
+            },
+            "sor": {
+              "path": "docs/templates/prompts/1.0.5/sor.md",
+              "sha256": "4a1cecd354f1e57ee51c547ef00f0295ac0c1acaab3bdde129303305a1c13092",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/sor.structure.json",
+              "structure_schema_sha256": "7ad244a86295c5fcf238f4a8f0cf05ce983525d25828545866949700a97c9cc2"
+            }
+          },
+          "claim": "Exact retained authority binding matched; this is package provenance, not fresh installation admission."
+        },
+        {
+          "artifact_id": "12237907988",
+          "artifact_sha256": "1c9336c56d623f181243fb3a5fec47b6dbd8817981d2eb2fcd0c2879b03fe898",
+          "artifact_digest_basis": "retained_artifact_zip_sha256",
+          "candidate_revision": "fe2b80788b1a6edf640fe549482e6f15177f14ea",
+          "target": "aarch64-apple-darwin",
+          "manifest_sha256": "b6ab94ecc33b266b3b3ab99a88290385f92c45321d053cab8709644abb26543d",
+          "authority_digest": "semantic-authority-v1:ace25818973045dee2e33e373040587d950f9c627d7bebf5c2e71369b0f66c23",
+          "binding_bytes_sha256": "13e62d2d2dfef572c5274ceb337d4f569b4358d578ae11243e106f53a9db4891",
+          "controller_git_common_sha256": "16c3fd427164e5bf31f790bed4914460edb95636ef073246cf0f6dae34c8f22b",
+          "registry_sha256": "1543d365c8ce8e2826bc1a775857f34030fd64245dd45e7d6c0bbafc705f0e27",
+          "registry_version": "1.0.5",
+          "lifecycle": [
+            "SIP",
+            "STP",
+            "SPP",
+            "VPP",
+            "SRP",
+            "SOR"
+          ],
+          "templates": {
+            "sip": {
+              "path": "docs/templates/prompts/1.0.5/sip.md",
+              "sha256": "1c8389c11bba20e54a51d595555176edeb5c58afb0d7cabadeb5b06513c4c486",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/sip.structure.json",
+              "structure_schema_sha256": "07095fab557706bb673d2814476b83c04416beea64f8ac96ecd3c47a4371704a"
+            },
+            "stp": {
+              "path": "docs/templates/prompts/1.0.5/stp.md",
+              "sha256": "fdcff8221e323ff5c6d98830d6e5461dcecf8b7ea5ac46ba3287654143666a11",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/stp.structure.json",
+              "structure_schema_sha256": "b6ae4e3be0c94f3d24ab51372a2ebb3a49cbf7a103526a1f83b01a9b390c8656"
+            },
+            "spp": {
+              "path": "docs/templates/prompts/1.0.5/spp.md",
+              "sha256": "2d0ec7dd50fe92a719721b9ffb1792c34d83ed19d6145b4294b110ca698c81d2",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/spp.structure.json",
+              "structure_schema_sha256": "fd21331bb45bc743db913daff8b336d3aff3afe361ced9d7460b0e82f5fbf805"
+            },
+            "vpp": {
+              "path": "docs/templates/prompts/1.0.5/vpp.md",
+              "sha256": "053a3be26248aef3b669950fcd51897115ea2bfd8521fc3ab8a16b393525218c",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/vpp.structure.json",
+              "structure_schema_sha256": "33577ceea99f85f2337c1d61bb7552d7358c50169f5066929114718f1de96d7d"
+            },
+            "srp": {
+              "path": "docs/templates/prompts/1.0.5/srp.md",
+              "sha256": "e5b681c4cc77a20464709196979bd8f3c6e6cd3e3246677821731372b2aaf432",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/srp.structure.json",
+              "structure_schema_sha256": "7e98268939f8418108132d318dd6ce6b21e2144275ebb5e15d50b9fa82a75854"
+            },
+            "sor": {
+              "path": "docs/templates/prompts/1.0.5/sor.md",
+              "sha256": "4a1cecd354f1e57ee51c547ef00f0295ac0c1acaab3bdde129303305a1c13092",
+              "structure_schema_path": "docs/templates/prompts/1.0.5/schemas/sor.structure.json",
+              "structure_schema_sha256": "7ad244a86295c5fcf238f4a8f0cf05ce983525d25828545866949700a97c9cc2"
+            }
+          },
+          "claim": "Exact retained authority binding matched; this is package provenance, not fresh installation admission."
+        }
+      ],
+      "retained_completed_stages": [
+        {
+          "generation": 5,
+          "command": "bind",
+          "phase": "bound",
+          "authority_digest": "semantic-authority-v1:ace25818973045dee2e33e373040587d950f9c627d7bebf5c2e71369b0f66c23",
+          "commit_sha256": "4aaa39df7e5c8c8bb11649060b5bc592f77d250758c795a4509703f949cb767e",
+          "native_owner": "csdlc-v3-local-bind",
+          "native_identity": "1dd360168156d717ffbe30dffdef7516e59c97ed0c5a6b34a495f6af31a68a0a",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:0c4b22447ba7d7b03ad2570ebedd6a7828b0a8952e594e6ad5ddad2419e7f9d4",
+            "inputs": {
+              "digest": "semantic-input-v1:7b709e4807127b370cede481bc63ec6161d5ccc5105b0da5b850605ed4722ae7",
+              "revision": 2
+            },
+            "kind": "bind_receipt",
+            "object": "semantic-evidence-v1-0c4b22447ba7d7b03ad2570ebedd6a7828b0a8952e594e6ad5ddad2419e7f9d4.blob",
+            "source_head": "bbd5a4665d2e6756644bc78f9a7c5c537a7f540b"
+          },
+          "evidence_sha256": "7385d4dabc18a8cd0f02c5f7ed2412dcb917bdbdaef23d47ea6eacef20091378",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 23,
+          "command": "record_proof",
+          "phase": "implemented",
+          "authority_digest": "semantic-authority-v1:ace25818973045dee2e33e373040587d950f9c627d7bebf5c2e71369b0f66c23",
+          "commit_sha256": "bdb82449415aa5b9cf3c7c0909ac98361a343f6eb0f0c6586eca9fa71c63c79d",
+          "native_owner": "intent-proof",
+          "native_identity": "9002b587346cb0ccc31b5e62355dfa19c568b2da47b81e7cf71201963dd8db49",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:a568b1bf3252858ca548a694043ed61090b7334a400df5dee369d0612c9fb472",
+            "inputs": {
+              "digest": "semantic-input-v1:4c68c728543967d98d0a181b8fe959ad703efd476b9accbd08c8fdefd4c79a2e",
+              "revision": 19
+            },
+            "kind": "proof_run",
+            "object": "semantic-evidence-v1-a568b1bf3252858ca548a694043ed61090b7334a400df5dee369d0612c9fb472.blob",
+            "source_head": "d221fe4832c3fa879acc8eb0bfccedda47518a72"
+          },
+          "evidence_sha256": "9d270b9870007953b0ef9d9ff5d745228df59071f979c875dd7e90fb93bbe151",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 25,
+          "command": "record_review_pass",
+          "phase": "reviewed",
+          "authority_digest": "semantic-authority-v1:ace25818973045dee2e33e373040587d950f9c627d7bebf5c2e71369b0f66c23",
+          "commit_sha256": "cc5aa6345351db4d515565d78fe6778af21c6bb3d5294c08aefe678804253e2d",
+          "native_owner": "external-review",
+          "native_identity": ".csdlc/evidence/9/intent-review/d221fe4832c3fa879acc8eb0bfccedda47518a72/aa77ad6997793ea86765d96672829dd8b79ef0dbdb2464b90ca97f1a4e0bc562.json:6b8975e6a4a70c754f6d22573f098a6d1cb4d8e365953370ea771e5238fe6abc",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:51c495d345d972dab7c6f712701341cd46dd778e3647bfde83cf6ef2b256210a",
+            "inputs": {
+              "digest": "semantic-input-v1:4c68c728543967d98d0a181b8fe959ad703efd476b9accbd08c8fdefd4c79a2e",
+              "revision": 19
+            },
+            "kind": "review_receipt",
+            "object": "semantic-evidence-v1-51c495d345d972dab7c6f712701341cd46dd778e3647bfde83cf6ef2b256210a.blob",
+            "source_head": "d221fe4832c3fa879acc8eb0bfccedda47518a72"
+          },
+          "evidence_sha256": "69756f2dda21f16dd9d8828f3da36bcbe0404a24e633da86a37a2d2d59128acf",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 28,
+          "command": "record_issue_mutation",
+          "phase": "bound",
+          "authority_digest": "semantic-authority-v1:ace25818973045dee2e33e373040587d950f9c627d7bebf5c2e71369b0f66c23",
+          "commit_sha256": "a45ded2f005432e98362b09b97c4681d9b973b18e10244bb699bfebfe1b61d9f",
+          "native_owner": "csdlc-v3-github",
+          "native_identity": "345a985b07706e7ea515b3a3f102d4d39450a2ac819cec6aabc55b89f3fd9c38",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:97a75709011aa95203e641ac5c0f0219e15e40ce1e01f86593b52e3876b5b5d7",
+            "inputs": {
+              "digest": "semantic-input-v1:c11dcf69436bf7f1c73719b1b177006b3188e9f6e9629154026cef819783e8c1",
+              "revision": 20
+            },
+            "kind": "github_readback",
+            "object": "semantic-evidence-v1-97a75709011aa95203e641ac5c0f0219e15e40ce1e01f86593b52e3876b5b5d7.blob",
+            "source_head": "d221fe4832c3fa879acc8eb0bfccedda47518a72"
+          },
+          "evidence_sha256": "8651859dc8911559a1529a12666a04a585e983ec379424fc743ccbbf98e6ab7c",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 48,
+          "command": "record_proof",
+          "phase": "implemented",
+          "authority_digest": "semantic-authority-v1:ace25818973045dee2e33e373040587d950f9c627d7bebf5c2e71369b0f66c23",
+          "commit_sha256": "ddb49feff4a5cbf7875cb076a9e307b023888134b0fafc87da1a142b556b005e",
+          "native_owner": "intent-proof",
+          "native_identity": "b669b55f3c42d4cfa2ef1ae8fe430f6aa7b868b33dc0bc9ceb765ae82fefa991",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:fde5aa111fd33736fb6df8d714453ae12d9aeb59f69c32f9287e4b2ca1483d9e",
+            "inputs": {
+              "digest": "semantic-input-v1:e1b22ffde284e70cb0d22ec4d60bfdd65911327f069de0e9f6a5b55fbe7004a0",
+              "revision": 38
+            },
+            "kind": "proof_run",
+            "object": "semantic-evidence-v1-fde5aa111fd33736fb6df8d714453ae12d9aeb59f69c32f9287e4b2ca1483d9e.blob",
+            "source_head": "efbc1e33e114b5c7b32baa78dd234a98cd812acc"
+          },
+          "evidence_sha256": "6d68beaf7cdf1d5d93c90073d718c4be757f08c7de138d65a7d1bfa7641fab4c",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 51,
+          "command": "record_review_pass",
+          "phase": "reviewed",
+          "authority_digest": "semantic-authority-v1:ace25818973045dee2e33e373040587d950f9c627d7bebf5c2e71369b0f66c23",
+          "commit_sha256": "ea59ce5ae142a6c0b72713ef395cc71d1753025a2bf524d3a89c3f7ce38eaf69",
+          "native_owner": "external-review",
+          "native_identity": ".csdlc/evidence/9/intent-review/efbc1e33e114b5c7b32baa78dd234a98cd812acc/f50225b7f93744bd3f225ab48b11a0e1a77a6c53c1d739030d0a02c05fba9fbe.json:582748010b08e903977561127bfc7d4a54565a9d9920f0ab9d7e6e27dd726331",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:fb3dd7490b1eee4d2cde7335c404fe753c75480f95f7ebcd374a7e83094a7523",
+            "inputs": {
+              "digest": "semantic-input-v1:d58920ab62c7d89c0c0a4febd32906d368b4ccab879383f1213714e1159cf4c9",
+              "revision": 39
+            },
+            "kind": "review_receipt",
+            "object": "semantic-evidence-v1-fb3dd7490b1eee4d2cde7335c404fe753c75480f95f7ebcd374a7e83094a7523.blob",
+            "source_head": "efbc1e33e114b5c7b32baa78dd234a98cd812acc"
+          },
+          "evidence_sha256": "973b0d6c00e6de5315ad9686f05a1ab03c7c79f86dcc03870ece52dc7cfa7c26",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 53,
+          "command": "publish",
+          "phase": "published",
+          "authority_digest": "semantic-authority-v1:ace25818973045dee2e33e373040587d950f9c627d7bebf5c2e71369b0f66c23",
+          "commit_sha256": "b353a2c1d3f83a9b50f85f7b9c61286ca010375fdefc3f8d9609eb1c2bc3160f",
+          "native_owner": "csdlc-v3-github",
+          "native_identity": "8153bb587e0ac27a09ea60e2d6e9da0309c447cbd930ff64b39a2cb2b9370015",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:796e35da9220b0d90af25a8bd11da852b80c0b227b42cca0c81a08807aba8646",
+            "inputs": {
+              "digest": "semantic-input-v1:d58920ab62c7d89c0c0a4febd32906d368b4ccab879383f1213714e1159cf4c9",
+              "revision": 39
+            },
+            "kind": "github_readback",
+            "object": "semantic-evidence-v1-796e35da9220b0d90af25a8bd11da852b80c0b227b42cca0c81a08807aba8646.blob",
+            "source_head": "efbc1e33e114b5c7b32baa78dd234a98cd812acc"
+          },
+          "evidence_sha256": "6c61c6148ebc5351658dbd77015876560ac8165ff935000679c1f3e892e91f3f",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 61,
+          "command": "record_proof",
+          "phase": "implemented",
+          "authority_digest": "semantic-authority-v1:ace25818973045dee2e33e373040587d950f9c627d7bebf5c2e71369b0f66c23",
+          "commit_sha256": "f8381609a12dfa2061a645ac4ca533fe8877c1ff776cb08a6063b0bdcbc05ea4",
+          "native_owner": "intent-proof",
+          "native_identity": "bfb5267cd90e09560286141e2bd881334798ec3aaf531b3d46233873ee8e313c",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:50f40312995919661b1ae699e841ab5c05e43d329dd2b968983e534c493b981f",
+            "inputs": {
+              "digest": "semantic-input-v1:2dbd99b5dfa5a1a156c49d251c11157a4cef48b9eec669fc6ce6961963a812d6",
+              "revision": 45
+            },
+            "kind": "proof_run",
+            "object": "semantic-evidence-v1-50f40312995919661b1ae699e841ab5c05e43d329dd2b968983e534c493b981f.blob",
+            "source_head": "da372408a1035ea4c71d975bf862fe3f1a8bc1f5"
+          },
+          "evidence_sha256": "4fd5e4d1e255ed7ae5bfa07b0dec55fcb5dfd3f329977b2e6896918f5c29b23c",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 65,
+          "command": "record_proof",
+          "phase": "implemented",
+          "authority_digest": "semantic-authority-v1:ace25818973045dee2e33e373040587d950f9c627d7bebf5c2e71369b0f66c23",
+          "commit_sha256": "77f90af9e674b9eb867aa98e07c4f6d35dc32ed8ee13283d51c61c3c5a8383ba",
+          "native_owner": "intent-proof",
+          "native_identity": "bc1f7bca02f70cb276c0b38f4423af1d3fa90a045c87fcf098eb6e30b4410392",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:44387dd447b6220cd945dd25e99c86bb6b2f219a2e5bb681f8e1b969de9d9f43",
+            "inputs": {
+              "digest": "semantic-input-v1:e4184a192bc99dfd6a67c483ec2eb588c827fdb528d08cb193839cee6a1a7bc1",
+              "revision": 47
+            },
+            "kind": "proof_run",
+            "object": "semantic-evidence-v1-44387dd447b6220cd945dd25e99c86bb6b2f219a2e5bb681f8e1b969de9d9f43.blob",
+            "source_head": "da372408a1035ea4c71d975bf862fe3f1a8bc1f5"
+          },
+          "evidence_sha256": "170f21045cef13faa05d365bf362d4c49041d6b26fcbfe1f1b67d8f1da46cdb9",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 67,
+          "command": "record_review_pass",
+          "phase": "reviewed",
+          "authority_digest": "semantic-authority-v1:ace25818973045dee2e33e373040587d950f9c627d7bebf5c2e71369b0f66c23",
+          "commit_sha256": "83e169664ebbf68e69ff50c7044ae623e689545133d2eded11c04ab9d59041f1",
+          "native_owner": "external-review",
+          "native_identity": ".csdlc/evidence/9/intent-review/da372408a1035ea4c71d975bf862fe3f1a8bc1f5/d44c3a327d8f3f0dec83643cfb8b454d2ed64e0c78a67f6cf34ba88c8873d1ba.json:a971485ae988bd68ec13269387d9c406c1ab98f47fcde799057e05eef562513f",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:a5ec8adf2cc78deed644e3e1cbe6f81566f740135d35017462a17dc496b3716a",
+            "inputs": {
+              "digest": "semantic-input-v1:e4184a192bc99dfd6a67c483ec2eb588c827fdb528d08cb193839cee6a1a7bc1",
+              "revision": 47
+            },
+            "kind": "review_receipt",
+            "object": "semantic-evidence-v1-a5ec8adf2cc78deed644e3e1cbe6f81566f740135d35017462a17dc496b3716a.blob",
+            "source_head": "da372408a1035ea4c71d975bf862fe3f1a8bc1f5"
+          },
+          "evidence_sha256": "a89e6f2250a309b8fb8efdb5369fd840df4d0a29321d3c061d90b9338df1234b",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 69,
+          "command": "publish",
+          "phase": "published",
+          "authority_digest": "semantic-authority-v1:ace25818973045dee2e33e373040587d950f9c627d7bebf5c2e71369b0f66c23",
+          "commit_sha256": "7222398c9d5a98932068b1cc434629090feede401fa5fe95b923117ec3c95c6b",
+          "native_owner": "csdlc-v3-github",
+          "native_identity": "e71815b281bdc9f20c8fda50625983ab7a0d5178dc9d99cc586309a70d9b6c24",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:2d622b23f14c31dfb7151b08ae39db0baa70386d8a20ae7cc0875ca0258a3425",
+            "inputs": {
+              "digest": "semantic-input-v1:e4184a192bc99dfd6a67c483ec2eb588c827fdb528d08cb193839cee6a1a7bc1",
+              "revision": 47
+            },
+            "kind": "github_readback",
+            "object": "semantic-evidence-v1-2d622b23f14c31dfb7151b08ae39db0baa70386d8a20ae7cc0875ca0258a3425.blob",
+            "source_head": "da372408a1035ea4c71d975bf862fe3f1a8bc1f5"
+          },
+          "evidence_sha256": "6bafa2b42912cad3b012e59ae440fbfd920a4047a3b97a6ef8a00ad78a09538f",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 71,
+          "command": "mark_merge_ready",
+          "phase": "merge_ready",
+          "authority_digest": "semantic-authority-v1:ace25818973045dee2e33e373040587d950f9c627d7bebf5c2e71369b0f66c23",
+          "commit_sha256": "759ebf01ce865667a446bd79ce61595179b397a3f141fc38c75b66352a4784a9",
+          "native_owner": "csdlc-v3-github",
+          "native_identity": "2ddf32f6e3ded0cc1981c476615f43223797c561ec52d90ad529822b9560aacf",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:12b7b5fdc2e3a38fb4056f8985c5dae6946ab4df24765dce48b480f78dfce274",
+            "inputs": {
+              "digest": "semantic-input-v1:e4184a192bc99dfd6a67c483ec2eb588c827fdb528d08cb193839cee6a1a7bc1",
+              "revision": 47
+            },
+            "kind": "github_readback",
+            "object": "semantic-evidence-v1-12b7b5fdc2e3a38fb4056f8985c5dae6946ab4df24765dce48b480f78dfce274.blob",
+            "source_head": "da372408a1035ea4c71d975bf862fe3f1a8bc1f5"
+          },
+          "evidence_sha256": "7ae34dad4f7c2ebb173d5d558e600c738bfc323fc60eb228f39e2019dce295cc",
+          "evidence_object_digest_verified": true
+        },
+        {
+          "generation": 73,
+          "command": "record_merge",
+          "phase": "merged",
+          "authority_digest": "semantic-authority-v1:ace25818973045dee2e33e373040587d950f9c627d7bebf5c2e71369b0f66c23",
+          "commit_sha256": "0548b108a8ba85f4c69d05459f081ccae1ba1d44c6ef834e307084074d1e0d16",
+          "native_owner": "csdlc-v3-github",
+          "native_identity": "c225234cbb5760a068f0df1fd4ec072ed889eb1f71d1673ec2f9030544181dae",
+          "outcome": "success",
+          "evidence": {
+            "digest": "semantic-evidence-v1:f31d714cd2bc7144a7b8e50798191a5b030c28b9a3299ee0505de13b12564e18",
+            "inputs": {
+              "digest": "semantic-input-v1:e4184a192bc99dfd6a67c483ec2eb588c827fdb528d08cb193839cee6a1a7bc1",
+              "revision": 47
+            },
+            "kind": "github_readback",
+            "object": "semantic-evidence-v1-f31d714cd2bc7144a7b8e50798191a5b030c28b9a3299ee0505de13b12564e18.blob",
+            "source_head": "da372408a1035ea4c71d975bf862fe3f1a8bc1f5"
+          },
+          "evidence_sha256": "17c3a08d7da4e0c83725fe577b44307c93abaed7b90f6f8564f3169ce809a7f2",
+          "evidence_object_digest_verified": true
+        }
+      ],
+      "scope": "Read-only package-binding and retained journal inspection; no journal, package or remote mutation."
+    }
+  ],
+  "boundary": "Package provenance and historical stage inspection only. Current admission, source-head continuity, cleanup deferral and parent acceptance remain separately assessed."
+}

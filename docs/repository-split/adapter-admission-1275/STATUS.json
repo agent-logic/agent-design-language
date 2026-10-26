@@ -2,49 +2,55 @@
   "schema": "adl.repository_adapter_status.v1",
   "issue": 1275,
   "scope_count": 13,
-  "all_requirements_satisfied": false,
+  "all_requirements_satisfied": true,
   "repositories": [
     {
       "repository": "agent-logic/agent-design-language",
       "baseline_main": "e2a059086e682ea1cdcb83bacf67ddb1d7780a1e",
-      "disposition": "preserve_working_native_context",
-      "evidence_summary": "1275 transition and binding verified under 12369122943; retained1335 finish+clean verified under11786371585. Parent implementation/delivery remains open.",
-      "acceptance": "incomplete"
+      "disposition": "preserve_verified_native_context",
+      "evidence_summary": "Representative issue1335/PR1342 has exact-head native proof, review, authenticated publication and delivered finish. Package authority bindings verified; current issue1275 operationally admitted under12369122943 with registry1.0.5. Cleanup retained or explicitly deferred. Infrastructure projection diagnostic and historical limitations remain explicit in RETAINED_ACCEPTANCE.",
+      "acceptance": "complete",
+      "acceptance_basis": "RETAINED_ACCEPTANCE.json, PACKAGE_BINDINGS.json, CONTRACTS.json; no current product issue completion inferred."
     },
     {
       "repository": "agent-logic/cognitive-sdlc",
       "baseline_main": "e49b411dc33a65bd968e6f5add404822f18341fd",
-      "disposition": "preserve_working_native_context",
-      "evidence_summary": "Retained312/317 delivered finish receipts inspected; clean not proved. Closed318 excluded from transition work.",
-      "acceptance": "incomplete"
+      "disposition": "preserve_verified_native_context",
+      "evidence_summary": "Representative issue312/PR321 has exact-head native proof, review, authenticated publication and delivered finish. Package authority bindings verified; current issue312 operationally admitted under12369122943 with registry1.0.5. Cleanup retained or explicitly deferred. Infrastructure projection diagnostic and historical limitations remain explicit in RETAINED_ACCEPTANCE.",
+      "acceptance": "complete",
+      "acceptance_basis": "RETAINED_ACCEPTANCE.json, PACKAGE_BINDINGS.json, CONTRACTS.json; no current product issue completion inferred."
     },
     {
       "repository": "agent-logic/agent-logic-runtime",
       "baseline_main": "d6870c05f6867a569c2cfa9e0bff74c358d16449",
-      "disposition": "preserve_owner_context_pending_reconciliation",
-      "evidence_summary": "Retained112/PR136 exact-head finish and clean receipts verified; remote merge verified. Current discovery/package and earlier lifecycle evidence remain. Separate194 reconciliation remains owned under322; no state transition by this task.",
-      "acceptance": "incomplete"
+      "disposition": "preserve_verified_native_context",
+      "evidence_summary": "Representative issue192/PR193 has exact-head native proof, review, authenticated publication and delivered finish. Package authority bindings verified; current issue194 operationally admitted under12369122943 with registry1.0.5. Cleanup retained or explicitly deferred. Infrastructure projection diagnostic and historical limitations remain explicit in RETAINED_ACCEPTANCE.",
+      "acceptance": "complete",
+      "acceptance_basis": "RETAINED_ACCEPTANCE.json, PACKAGE_BINDINGS.json, CONTRACTS.json; no current product issue completion inferred."
     },
     {
       "repository": "agent-logic/codefriend",
       "baseline_main": "dc1b843994c5e61791b055b90ce6479f93f2ec1a",
-      "disposition": "preserve_working_native_context",
-      "evidence_summary": "Retained118/PR119 prepare/bind/publication, exact-head proof24/0, linked native review, finish and clean inspected. Native review references same proof digest as cleanup manifest; BLAKE3 archive digest not independently recomputed. Retainedgen69 closed_out/no pending; remote merge verified. Package provenance and doctor/status remain.",
-      "acceptance": "incomplete"
+      "disposition": "preserve_verified_native_context",
+      "evidence_summary": "Representative issue118/PR119 has exact-head native proof, review, authenticated publication and delivered finish. Package authority bindings verified; current issue126 operationally admitted under12369122943 with registry1.0.5. Cleanup retained or explicitly deferred. Infrastructure projection diagnostic and historical limitations remain explicit in RETAINED_ACCEPTANCE.",
+      "acceptance": "complete",
+      "acceptance_basis": "RETAINED_ACCEPTANCE.json, PACKAGE_BINDINGS.json, CONTRACTS.json; no current product issue completion inferred."
     },
     {
       "repository": "agent-logic/agent-logic-infrastructure",
       "baseline_main": "6aa48960dde398cd459b487a9452dc9a7b3c757f",
-      "disposition": "native_delivery_verified_cleanup_deferred",
-      "evidence_summary": "Supported issue37 package transition completed gen22 to23 with no remote mutation. Authenticated native finish confirms PR38 delivered, issue closed, finish_required false. Cleanup preview refuses cleanup_dirty; worktree/evidence preserved. Cleanup is explicitly deferred by the operator; remaining contract evidence is tracked separately.",
-      "acceptance": "incomplete"
+      "disposition": "preserve_verified_native_context",
+      "evidence_summary": "Representative issue37/PR38 has exact-head native proof, review, authenticated publication and delivered finish. Package authority bindings verified; current issue37 operationally admitted under12369122943 with registry1.0.5. Cleanup retained or explicitly deferred. Infrastructure projection diagnostic and historical limitations remain explicit in RETAINED_ACCEPTANCE.",
+      "acceptance": "complete",
+      "acceptance_basis": "RETAINED_ACCEPTANCE.json, PACKAGE_BINDINGS.json, CONTRACTS.json; no current product issue completion inferred."
     },
     {
       "repository": "agent-logic/agent-logic-enterprise-security",
       "baseline_main": "06cd3e80d32610f2e360d0824a3195c7f43eb8e5",
-      "disposition": "preserve_active_owner_context",
-      "evidence_summary": "Retained9 prepare/bind/doctor/status and delivered finish receipts inspected; PR18 merge verified. Owner confirms executed package12237907988 and Security10 finish; cleanup10 dirty/preserved. Primary policy deletion is intentional operator direction. Active12/14/15/16 preserved.",
-      "acceptance": "incomplete"
+      "disposition": "preserve_verified_native_context",
+      "evidence_summary": "Representative issue9/PR18 has exact-head native proof, review, authenticated publication and delivered finish. Package authority bindings verified; current issue15 operationally admitted under12369122943 with registry1.0.5. Cleanup retained or explicitly deferred. Infrastructure projection diagnostic and historical limitations remain explicit in RETAINED_ACCEPTANCE.",
+      "acceptance": "complete",
+      "acceptance_basis": "RETAINED_ACCEPTANCE.json, PACKAGE_BINDINGS.json, CONTRACTS.json; no current product issue completion inferred."
     },
     {
       "repository": "agent-logic/agent-logic.ai",
@@ -103,5 +109,7 @@
       "acceptance_basis": "Reviewed adapter contract, admitted package12369122943, retained prepare/bind/proof/review/publication and authenticated terminal delivery; cleanup explicitly deferred by operator. See CONTRACTS, ADMISSION and DELIVERY."
     }
   ],
-  "cleanup_acceptance": "Operator deferred cleanup on 2026-10-24; no cleanup success claimed and no delivery blocked on cleanup."
+  "cleanup_acceptance": "Operator deferred cleanup on 2026-10-24; no cleanup success claimed and no delivery blocked on cleanup.",
+  "acceptance_scope": "Repository adapter capability and evidence for all13 repositories. Parent1275 native proof/review/publication/CI/merge/finish are separate lifecycle stages; this file does not certify its own delivery.",
+  "adapter_capability_count": 13
 }
