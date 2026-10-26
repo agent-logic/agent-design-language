@@ -35,7 +35,7 @@ every milestone boundary.
 Run this from repository root:
 
 ```bash
-python3 adl/tools/validate_architecture_docs.py
+bash adl/tools/validate_architecture_docs.sh
 ```
 
 Run the deterministic proof packet:

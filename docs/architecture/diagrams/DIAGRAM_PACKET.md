@@ -5,7 +5,7 @@
 Run source validation:
 
 ```bash
-python3 adl/tools/validate_architecture_docs.py
+bash adl/tools/validate_architecture_docs.sh
 ```
 
 Optional Mermaid rendering, when Mermaid CLI is installed:

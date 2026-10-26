@@ -13,6 +13,33 @@ fn main() {
 fn run() -> Result<()> {
     let a: Vec<String> = std::env::args().skip(1).collect();
     let action = a.first().map(String::as_str).unwrap_or("");
+    if action == "architecture-docs" && a.len() <= 3 {
+        let root = a
+            .get(1)
+            .map(PathBuf::from)
+            .unwrap_or(std::env::current_dir()?);
+        adl_public_contracts::document_packets::architecture(
+            &root,
+            a.get(2).map(std::path::Path::new),
+        )?;
+        println!("validate_architecture_docs: ok");
+        return Ok(());
+    }
+    if action == "codebuddy-showcase" {
+        if a.len() != 2 {
+            eprintln!("usage: codebuddy-showcase <artifact-root>");
+            std::process::exit(2);
+        }
+        adl_public_contracts::document_packets::showcase(std::path::Path::new(&a[1]))?;
+        println!("validate_codebuddy_review_showcase_demo: ok");
+        return Ok(());
+    }
+    if matches!(action, "planning-fill" | "planning-validate") {
+        std::process::exit(adl_public_contracts::planning_template::cli(
+            &a[1..],
+            action == "planning-validate",
+        ));
+    }
     if action == "warm-cache" {
         std::process::exit(adl_public_contracts::warm_cache::cli(&a[1..]));
     }

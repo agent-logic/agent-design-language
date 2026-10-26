@@ -95,7 +95,7 @@ Architecture reviews should use a findings-first format:
 The first validation surface is:
 
 ```bash
-python3 adl/tools/validate_architecture_docs.py
+bash adl/tools/validate_architecture_docs.sh
 ```
 
 The first deterministic proof packet is:

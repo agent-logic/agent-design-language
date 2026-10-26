@@ -44,5 +44,5 @@ artifacts/v090/adl_architecture_document_generation/
 
 ```bash
 bash adl/tools/test_demo_v090_architecture_document_generation.sh
-python3 adl/tools/validate_architecture_docs.py
+bash adl/tools/validate_architecture_docs.sh
 ```

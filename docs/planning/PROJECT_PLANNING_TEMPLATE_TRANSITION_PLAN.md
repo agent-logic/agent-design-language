@@ -94,7 +94,7 @@ Suggested command shape:
 ```bash
 ADL_TMP="${TMPDIR:-/tmp}"
 
-python3 adl/tools/fill_planning_template.py \
+bash adl/tools/fill_planning_template.sh \
   --registry docs/templates/planning/current.json \
   --template readme \
   --values examples/planning/values/minimal.json \
@@ -120,7 +120,7 @@ Suggested command shape:
 ```bash
 ADL_TMP="${TMPDIR:-/tmp}"
 
-python3 adl/tools/validate_planning_template.py \
+bash adl/tools/validate_planning_template.sh \
   --registry docs/templates/planning/current.json \
   --template readme \
   --input "$ADL_TMP/adl-planning-fixture.md"
@@ -134,13 +134,13 @@ REPO="$(pwd)"
 ADL_TMP="${TMPDIR:-/tmp}"
 cd "$ADL_TMP"
 
-python3 "$REPO/adl/tools/fill_planning_template.py" \
+bash "$REPO/adl/tools/fill_planning_template.sh" \
   --registry "$REPO/docs/templates/planning/current.json" \
   --template readme \
   --values "$REPO/docs/templates/planning/fixtures/minimal/readme_values.json" \
   --output "$ADL_TMP/adl-planning-fixture.md"
 
-python3 "$REPO/adl/tools/validate_planning_template.py" \
+bash "$REPO/adl/tools/validate_planning_template.sh" \
   --registry "$REPO/docs/templates/planning/current.json" \
   --template readme \
   --input "$ADL_TMP/adl-planning-fixture.md"

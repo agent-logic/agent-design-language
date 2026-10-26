@@ -80,7 +80,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/editor_action.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/ensure_csm_binary.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/ensure_final_merge_gate.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
-| `adl/tools/fill_planning_template.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
+| `adl/tools/fill_planning_template.sh` | tool surface | internal helper | Native planning draft/structure helper; does not grant review or approval. |
 | `adl/tools/fixtures` | tool surface | internal helper | Directory containing bounded helper assets, scripts, or proof inputs. |
 | `adl/tools/generate_active_command_reference_scan.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/generate_tool_surface_registry.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
@@ -216,8 +216,8 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/tests` | tool surface | internal helper | Directory containing bounded helper assets, scripts, or proof inputs. |
 | `adl/tools/update_latest_reports.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/update_reports_index.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
-| `adl/tools/validate_architecture_docs.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
-| `adl/tools/validate_codebuddy_review_showcase_demo.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
+| `adl/tools/validate_architecture_docs.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
+| `adl/tools/validate_codebuddy_review_showcase_demo.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_csdlc_demo_proof_contract_packet.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_csdlc_v2_supply_chain.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_evidence_bundle_packet.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
@@ -227,7 +227,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/validate_five_minute_sprint_console_packet.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_merge_readiness_packet.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_obsmem_handoff_packet.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
-| `adl/tools/validate_planning_template.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
+| `adl/tools/validate_planning_template.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_polis_status_for_ssm_qts.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_polis_status_for_ssm_windows.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_pvf_manifest.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |

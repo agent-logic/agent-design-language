@@ -47,3 +47,35 @@ Safety corrections are explicit: source artifact/profile symlinks and destinatio
 parent escapes are refused, wildcard workspace membership requires explicit
 classification, and a failed rollback retains its original backup instead of
 silently deleting it. Full TOML parsing replaces the old Python-version fallback.
+
+## Completed source slice: planning draft templates
+
+Native `planning-fill` and `planning-validate` commands replace both Python
+helpers, with shell entrypoints preserving their explicit registry/template/
+values/input/output options. All 11 active templates produced byte-identical
+original/native drafts and passed both structural validators from outside the
+repository before source removal. Six native test groups cover scalar/list/object
+rendering, sorted missing keys, non-overwrite on unresolved values, explicit
+partial drafts, required headings, malformed/inactive/version-mismatched
+registries, missing inputs, absolute paths and symlink escapes. CLI tests run
+with empty `PATH`. Draft generation and structural success retain their explicit
+non-approval/non-lifecycle claim boundaries. Current documentation and registry
+callers are switched; historical review assignments remain documentary evidence.
+
+## Completed source slice: supported architecture and showcase demos
+
+Both supported v0.90 demos retain their generators and packet contents, with
+native validators behind new shell entrypoints. The architecture packet retains
+its structural `proving` label; the showcase remains `non_proving`, with
+publication disabled and the original staged quality-evaluator boundary. These
+labels do not confer private owner or release acceptance. Current commands and
+generated validation instructions now name Rust/shell tooling.
+
+Both original demo suites passed before migration. Four native test groups run
+the actual demos with failing Python/Ruby traps and verify packet existence,
+manifest identities, ordered sections/evidence, publication and staged-lane
+truth, leak refusal, existing-output preservation and dangling-symlink refusal.
+No trap was invoked. The complete original required-file/diagram/section lists
+remain native constants. Safety checks now reject ambiguous duplicate skill
+lanes and single-backslash Windows host paths; leak diagnostics identify the
+category without echoing potentially sensitive matched content.

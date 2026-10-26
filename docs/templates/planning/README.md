@@ -131,7 +131,7 @@ SOR` cards.
 Generate a filled planning draft from explicit JSON values:
 
 ```bash
-python3 adl/tools/fill_planning_template.py \
+bash adl/tools/fill_planning_template.sh \
   --registry docs/templates/planning/current.json \
   --template readme \
   --values docs/templates/planning/fixtures/minimal/readme_values.json \
@@ -141,7 +141,7 @@ python3 adl/tools/fill_planning_template.py \
 Use the planning-template validator to check generated or filled planning docs:
 
 ```bash
-python3 adl/tools/validate_planning_template.py \
+bash adl/tools/validate_planning_template.sh \
   --registry docs/templates/planning/current.json \
   --template readme \
   --input docs/templates/planning/fixtures/minimal/readme_generated.md
@@ -155,13 +155,13 @@ REPO="$(pwd)"
 ADL_TMP="${TMPDIR:-/tmp}"
 cd "$ADL_TMP"
 
-python3 "$REPO/adl/tools/fill_planning_template.py" \
+bash "$REPO/adl/tools/fill_planning_template.sh" \
   --registry "$REPO/docs/templates/planning/current.json" \
   --template readme \
   --values "$REPO/docs/templates/planning/fixtures/minimal/readme_values.json" \
   --output "$ADL_TMP/adl-planning-readme.md"
 
-python3 "$REPO/adl/tools/validate_planning_template.py" \
+bash "$REPO/adl/tools/validate_planning_template.sh" \
   --registry "$REPO/docs/templates/planning/current.json" \
   --template readme \
   --input "$ADL_TMP/adl-planning-readme.md"

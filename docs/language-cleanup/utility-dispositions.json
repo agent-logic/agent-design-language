@@ -48,6 +48,66 @@
       "bytes": 12207,
       "consumer_result": "Current shell wrapper, lane selectors, skill guidance and tooling docs use native contracts. Historical review assignment remains documentary.",
       "proof": "Original five Python tests passed before removal; ten native cases cover selection, replacement, rollback, symlink boundaries, wrapper discovery/output/cross-device skip and interpreter-free CLI exit/JSON contracts."
+    },
+    {
+      "path": "adl/tools/fill_planning_template.py",
+      "action": "replaced",
+      "replacement": "tools/public_contracts/src/planning_template.rs",
+      "command": "bash adl/tools/fill_planning_template.sh",
+      "source_commit": "7b6986179a0642d558f3ca6e1d8f547cb003b735",
+      "before": [
+        "100755",
+        "1e42feb8a1f88b48ba5043f5fce7eee64388a1aa"
+      ],
+      "sha256": "7ce4199ff46403015696f21c22de65ba8eaf8661784d2c8b8a9e7689778f0d90",
+      "bytes": 6115,
+      "consumer_result": "Current planning template README, transition guide and tool registry switched to native shell entrypoints. Historical review assignments retain source-time references.",
+      "proof": "All 11 active templates rendered byte-identically by original and native code and validated by both from outside repository; six native positive/negative test groups pass without interpreters."
+    },
+    {
+      "path": "adl/tools/validate_planning_template.py",
+      "action": "replaced",
+      "replacement": "tools/public_contracts/src/planning_template.rs",
+      "command": "bash adl/tools/validate_planning_template.sh",
+      "source_commit": "7b6986179a0642d558f3ca6e1d8f547cb003b735",
+      "before": [
+        "100755",
+        "e6a0edf3a443404166ece2b533507e2cd4da5196"
+      ],
+      "sha256": "0560a4d5c9cb4082854cbdd44963a0a02e6f4944ae596ccd97c064d61d5231a6",
+      "bytes": 5582,
+      "consumer_result": "Current planning template README, transition guide and tool registry switched to native shell entrypoints. Historical review assignments retain source-time references.",
+      "proof": "All 11 active templates rendered byte-identically by original and native code and validated by both from outside repository; six native positive/negative test groups pass without interpreters."
+    },
+    {
+      "path": "adl/tools/validate_architecture_docs.py",
+      "action": "replaced",
+      "replacement": "tools/public_contracts/src/document_packets.rs",
+      "command": "bash adl/tools/validate_architecture_docs.sh",
+      "source_commit": "7b6986179a0642d558f3ca6e1d8f547cb003b735",
+      "before": [
+        "100755",
+        "dad56890e3d63bb32d896b95263b0c1ba2674bd2"
+      ],
+      "sha256": "8814196ba99c8ccbb7425d49c217f3519904b4ef1a9333e0ef17069a1a88d140",
+      "bytes": 6884,
+      "consumer_result": "Supported demo scripts, test entrypoints, architecture guidance, demo docs and tool registry now use native validators; historical review assignments remain documentary.",
+      "proof": "Both original demo suites passed before migration. Four native test groups execute both supported demos with failing interpreter traps, preserving packet/claim/leak and existing-output/dangling-symlink refusal contracts."
+    },
+    {
+      "path": "adl/tools/validate_codebuddy_review_showcase_demo.py",
+      "action": "replaced",
+      "replacement": "tools/public_contracts/src/document_packets.rs",
+      "command": "bash adl/tools/validate_codebuddy_review_showcase_demo.sh",
+      "source_commit": "7b6986179a0642d558f3ca6e1d8f547cb003b735",
+      "before": [
+        "100755",
+        "c2ea66fb32b7f8f06358c036b6238c15c187eeb2"
+      ],
+      "sha256": "87da4de1a78fa91d35201a10a0e149ef28a4a890ec518a8f7c8251e45ed9da0c",
+      "bytes": 5518,
+      "consumer_result": "Supported demo scripts, test entrypoints, architecture guidance, demo docs and tool registry now use native validators; historical review assignments remain documentary.",
+      "proof": "Both original demo suites passed before migration. Four native test groups execute both supported demos with failing interpreter traps, preserving packet/claim/leak and existing-output/dangling-symlink refusal contracts."
     }
   ]
 }
