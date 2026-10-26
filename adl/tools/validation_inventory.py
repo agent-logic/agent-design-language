@@ -43,8 +43,8 @@ RELEASE_GATE_EXTRA_PATTERNS = (
 )
 COVERAGE_ONLY_PATTERNS = (
     ".github/workflows/nightly-coverage-ratchet.yaml",
-    "tools/public_adl/coverage.py",
-    "tools/public_adl/test_coverage.py",
+    "tools/ci_contracts/src/coverage.rs",
+    "tools/ci_contracts/tests/coverage.rs",
 )
 
 
