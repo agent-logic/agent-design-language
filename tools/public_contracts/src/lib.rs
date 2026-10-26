@@ -1,3 +1,4 @@
+pub mod adapter_evidence;
 pub mod archive;
 pub mod codefriend;
 pub mod compatibility;

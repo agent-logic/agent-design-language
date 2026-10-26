@@ -13,6 +13,15 @@ fn main() {
 fn run() -> Result<()> {
     let a: Vec<String> = std::env::args().skip(1).collect();
     let action = a.first().map(String::as_str).unwrap_or("");
+    if action == "adapter-evidence" && a.len() == 1 {
+        let directory =
+            adl_public_contracts::root().join("docs/repository-split/adapter-admission-1275");
+        adl_public_contracts::adapter_evidence::verify(
+            &adl_public_contracts::adapter_evidence::load(&directory)?,
+        )?;
+        println!("adapter evidence consistency: PASS (not lifecycle acceptance)");
+        return Ok(());
+    }
     if a.len() == 1 && matches!(action, "runtime-owner" | "codefriend-owner") {
         let probe = std::env::current_exe()?.with_file_name("adl-owner-probe");
         let result = if action == "runtime-owner" {

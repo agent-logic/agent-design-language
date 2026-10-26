@@ -1,0 +1,23 @@
+{
+  "schema": "adl.language_cleanup.utility_dispositions.v1",
+  "issue": 1351,
+  "status": "in_progress_not_accepted",
+  "source_commit": "7b6986179a0642d558f3ca6e1d8f547cb003b735",
+  "entries": [
+    {
+      "path": "tools/public_adl/verify_adapter_evidence.py",
+      "action": "replaced",
+      "replacement": "tools/public_contracts/src/adapter_evidence.rs",
+      "command": "cargo run --locked --manifest-path tools/public_contracts/Cargo.toml --bin adl-public-contracts -- adapter-evidence",
+      "source_commit": "7b6986179a0642d558f3ca6e1d8f547cb003b735",
+      "before": [
+        "100644",
+        "ff856e5be99d887865e1061f7e8689c3ab2a4e3a"
+      ],
+      "sha256": "a2a7c820f31158cf9e9380aba8103389afcfc2faf39dc5b7175a6c3b276c5f36",
+      "bytes": 5492,
+      "consumer_result": "No tracked caller found; standalone report checker remains available as native subcommand. Original report documents unchanged.",
+      "proof": "Original Python checker passed before removal; native baseline and positive/negative tests passed. No lifecycle acceptance claim."
+    }
+  ]
+}
