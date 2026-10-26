@@ -298,3 +298,15 @@ gate precedence, skipped nonmatching lanes, invalid-manifest refusal, JSON escap
 and path matching. The actual runner test uses failing interpreter traps. Both
 groups and strict Clippy passed; the shell test entrypoint now runs these native
 regressions. This does not assert execution frequency or qualify private lanes.
+
+## Retired v0.91.7 CSM and Soak2 shell validators
+
+Removed eight old status/matrix shell scripts containing inline Python and their
+five entries in the v0.91.6 lane manifest. The remaining three had no outside
+executable references. Current `select_validation_lanes.py` defaults to the
+public manifest and rejects the old manifest's private validation mode. Thus
+old-manifest registration alone is not a current execution requirement; earlier
+slice notes recording those registrations must not be read as proof of active
+selection. Historical CSM/Soak2 reports remain unchanged and source custody is
+recorded. Live Runtime qualification remains the Runtime owner's responsibility.
+No native replacement for these historical replay checks is added.
