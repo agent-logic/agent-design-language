@@ -6,6 +6,7 @@ pub mod distribution;
 pub mod document_packets;
 pub mod install;
 pub mod install_validator;
+pub mod packet_truth;
 pub mod planning_template;
 pub mod portable;
 pub mod prompt_schemas;

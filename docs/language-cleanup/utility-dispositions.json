@@ -198,6 +198,51 @@
       "bytes": 1861,
       "consumer_result": "Current proof-lane and quality-gate script callers use native shell entrypoints. Native tests replace inline Python mutations; immutable historical proof records retain original commands.",
       "proof": "Original shell suite passed before removal. Native tests preserve every file and marker requirement, original extra proof-contract assertions, empty/missing roots and CLI usage statuses; direct commands run with empty PATH. Strict Clippy passed."
+    },
+    {
+      "path": "adl/tools/validate_five_minute_sprint_console_packet.py",
+      "action": "replaced",
+      "replacement": "tools/public_contracts/src/packet_truth.rs",
+      "command": "bash adl/tools/validate_five_minute_sprint_console_packet.sh <packet-root>",
+      "source_commit": "7b6986179a0642d558f3ca6e1d8f547cb003b735",
+      "before": [
+        "100755",
+        "97b7975cb9121516059367d5f1a18e83e36d56f9"
+      ],
+      "sha256": "9ff2a1e87392df167cbf884570f691e565a81b841c087008b6e43cdd879ac8d8",
+      "bytes": 3637,
+      "consumer_result": "Native shell entrypoints replace current validator callers; test wrappers use Rust and remove inline Python. Historical records unchanged.",
+      "proof": "Original shell suites passed before removal. Three native groups preserve timebox truth, first-proof upstream manifest pins, ObsMem citations and source truth, negative diagnostics, original HTML/CSS/JS checks and CLI usage status. Strict Clippy passed."
+    },
+    {
+      "path": "adl/tools/validate_first_proof_readiness_packet.py",
+      "action": "replaced",
+      "replacement": "tools/public_contracts/src/packet_truth.rs",
+      "command": "bash adl/tools/validate_first_proof_readiness_packet.sh <packet-root>",
+      "source_commit": "7b6986179a0642d558f3ca6e1d8f547cb003b735",
+      "before": [
+        "100644",
+        "c9731a9ae8ac2df788b524292cd2d0c7e2eb5006"
+      ],
+      "sha256": "11768dc33936a4ef2ce8ea59ec6d0df7fe3f74b9ad96c944c27b7274b60daf6d",
+      "bytes": 5261,
+      "consumer_result": "Native shell entrypoints replace current validator callers; test wrappers use Rust and remove inline Python. Historical records unchanged.",
+      "proof": "Original shell suites passed before removal. Three native groups preserve timebox truth, first-proof upstream manifest pins, ObsMem citations and source truth, negative diagnostics, original HTML/CSS/JS checks and CLI usage status. Strict Clippy passed."
+    },
+    {
+      "path": "adl/tools/validate_obsmem_handoff_packet.py",
+      "action": "replaced",
+      "replacement": "tools/public_contracts/src/packet_truth.rs",
+      "command": "bash adl/tools/validate_obsmem_handoff_packet.sh <packet-root>",
+      "source_commit": "7b6986179a0642d558f3ca6e1d8f547cb003b735",
+      "before": [
+        "100644",
+        "1f4fff1f4bd8dbd37f06e4cf4abe23bac11d037f"
+      ],
+      "sha256": "e41984d944866de44ea9cd3cbddd9f81b7e7e642b60edc8365b0b441512810ab",
+      "bytes": 5330,
+      "consumer_result": "Native shell entrypoints replace current validator callers; test wrappers use Rust and remove inline Python. Historical records unchanged.",
+      "proof": "Original shell suites passed before removal. Three native groups preserve timebox truth, first-proof upstream manifest pins, ObsMem citations and source truth, negative diagnostics, original HTML/CSS/JS checks and CLI usage status. Strict Clippy passed."
     }
   ]
 }

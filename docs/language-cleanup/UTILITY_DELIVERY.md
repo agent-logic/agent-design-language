@@ -133,3 +133,20 @@ Strict Clippy passed. Current proof-lane and quality-gate callers use the native
 shell entrypoints; those larger mixed-language lanes remain outside this slice's
 execution claim. Historical packets and their original command records remain
 unchanged. Replays now use `bash adl/tools/validate_<name>_packet.sh <packet-root>`.
+
+## Completed source slice: packet claim and citation boundaries
+
+Native sprint-console, first-proof-readiness and ObsMem handoff validators keep
+the original claim boundaries. The console requires an estimated timebox and
+explicitly partial literal five-minute claim. Readiness requires every upstream
+proof file and all three canonical manifest path identities, without claiming
+execution. ObsMem checks source-record kinds, truth labels, tracked relative
+paths, suffixes, actual source files, citations and nonempty outside-memory data.
+Supporting artifact path validation retains its original syntactic scope.
+
+All three original shell suites passed before removal. Three native groups
+preserve their negative cases and diagnostic substrings, add truth/identity/path
+mutations, and run successful CLIs with empty `PATH`. The console's original
+HTML/CSS/JavaScript assertions remain explicit tests. Strict Clippy passed.
+Current caller commands are updated; broader mixed-language lanes remain
+unexecuted by this slice. Historical proof documents are unchanged.

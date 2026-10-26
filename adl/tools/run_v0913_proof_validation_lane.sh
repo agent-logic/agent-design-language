@@ -66,13 +66,13 @@ run_check merge_readiness_contract \
   bash "$ROOT_DIR/adl/tools/test_merge_readiness_packet.sh"
 
 run_check obsmem_handoff_packet \
-  python3 "$ROOT_DIR/adl/tools/validate_obsmem_handoff_packet.py" \
+  bash "$ROOT_DIR/adl/tools/validate_obsmem_handoff_packet.sh" \
   "$ROOT_DIR/docs/milestones/v0.91.3/review/obsmem_handoff"
 run_check obsmem_handoff_contract \
   bash "$ROOT_DIR/adl/tools/test_obsmem_handoff_packet.sh"
 
 run_check first_proof_readiness_packet \
-  python3 "$ROOT_DIR/adl/tools/validate_first_proof_readiness_packet.py" \
+  bash "$ROOT_DIR/adl/tools/validate_first_proof_readiness_packet.sh" \
   "$ROOT_DIR/docs/milestones/v0.91.3/review/first_proof_readiness"
 run_check first_proof_readiness_contract \
   bash "$ROOT_DIR/adl/tools/test_first_proof_readiness_packet.sh"
@@ -90,7 +90,7 @@ run_check five_minute_html_game_contract \
   bash "$ROOT_DIR/adl/tools/test_five_minute_html_game_packet.sh"
 
 run_check five_minute_sprint_console_packet \
-  python3 "$ROOT_DIR/adl/tools/validate_five_minute_sprint_console_packet.py" \
+  bash "$ROOT_DIR/adl/tools/validate_five_minute_sprint_console_packet.sh" \
   "$ROOT_DIR/docs/milestones/v0.91.3/review/five_minute_sprint_console"
 run_check five_minute_sprint_console_contract \
   bash "$ROOT_DIR/adl/tools/test_five_minute_sprint_console_packet.sh"

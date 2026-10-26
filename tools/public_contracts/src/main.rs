@@ -19,6 +19,12 @@ fn run() -> Result<()> {
     ) {
         std::process::exit(adl_public_contracts::retained_packets::cli(action, &a[1..]));
     }
+    if matches!(
+        action,
+        "sprint-console" | "first-proof-readiness" | "obsmem-handoff"
+    ) {
+        std::process::exit(adl_public_contracts::packet_truth::cli(action, &a[1..]));
+    }
     if action == "tool-registry" {
         if a.len() > 2 || (a.len() == 2 && a[1] != "--check") {
             bail!("usage: tool-registry [--check]");
