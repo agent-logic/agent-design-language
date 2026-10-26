@@ -100,17 +100,17 @@ jobs:
           bash adl/tools/test_ensure_final_merge_gate.sh
           bash adl/tools/check_release_notes_commands.sh
       - name: Public planning graph and split contract
-        run: python3 -B tools/public_adl/test_planning_contract.py
+        run: cargo run --locked --quiet --manifest-path tools/ci_contracts/Cargo.toml -- planning-contract
       - name: UTS selected-result contract
         run: cargo run --locked --quiet --manifest-path tools/ci_contracts/Cargo.toml -- aggregation-contract
       - name: Public CI routing and refusal contracts
         run: |
-          python3 -B -m unittest discover -s tools/public_adl -p 'test_ci_policy.py' -v
-          python3 -B tools/public_adl/test_ci_contract.py
+          cargo test --locked --manifest-path tools/ci_contracts/Cargo.toml --test ci
+          cargo test --locked --manifest-path tools/ci_contracts/Cargo.toml --test workflow
           python3 -B tools/public_adl/test_package_checks.py
           python3 -B tools/repository_cleanup/test_guard.py
-          python3 -B tools/public_adl/test_action_pins.py
-          python3 -B tools/public_adl/test_validation_interfaces.py
+          cargo run --locked --quiet --manifest-path tools/ci_contracts/Cargo.toml -- action-pins
+          cargo test --locked --manifest-path tools/ci_contracts/Cargo.toml --test interfaces
           cargo run --locked --quiet --manifest-path tools/ci_contracts/Cargo.toml -- workflow-policy
           bash adl/tools/test_ci_runtime_contracts.sh
 
@@ -173,11 +173,11 @@ jobs:
           CARGO_PROFILE_DEV_DEBUG: '0'
           CARGO_PROFILE_TEST_DEBUG: '0'
         run: |
-          python3 -B tools/public_adl/test_coverage.py
+          cargo test --locked --manifest-path tools/ci_contracts/Cargo.toml --test coverage
           if [ "$EVENT_NAME" = pull_request ]; then
-            python3 -B tools/public_adl/coverage.py --mode pull_request --base "$BASE_SHA" --output "$COVERAGE_OUTPUT"
+            cargo run --locked --quiet --manifest-path tools/ci_contracts/Cargo.toml -- coverage --mode pull_request --base "$BASE_SHA" --output "$COVERAGE_OUTPUT"
           else
-            python3 -B tools/public_adl/coverage.py --mode full --output "$COVERAGE_OUTPUT"
+            cargo run --locked --quiet --manifest-path tools/ci_contracts/Cargo.toml -- coverage --mode full --output "$COVERAGE_OUTPUT"
           fi
       - name: Retain public coverage evidence
         if: always()
@@ -221,7 +221,7 @@ jobs:
           CONTRACT_RESULT: ${{ needs.adl_tooling_contracts.result }}
           TRANSPILE_REQUIRED: ${{ needs.adl_path_policy.outputs.transpiler_distribution_required }}
           TRANSPILE_RESULT: ${{ needs.transpiler_distribution.result }}
-        run: python3 tools/public_adl/ci_policy.py --aggregate ci
+        run: cargo run --locked --quiet --manifest-path tools/ci_contracts/Cargo.toml -- ci --aggregate ci
 
   adl-coverage:
     name: adl-coverage
@@ -239,4 +239,4 @@ jobs:
           PATH_POLICY_RESULT: ${{ needs.adl_path_policy.result }}
           PUBLIC_REQUIRED: ${{ needs.adl_path_policy.outputs.public_adl_validation_required }}
           PUBLIC_RESULT: ${{ needs.public_adl_coverage.result }}
-        run: python3 tools/public_adl/ci_policy.py --aggregate coverage
+        run: cargo run --locked --quiet --manifest-path tools/ci_contracts/Cargo.toml -- ci --aggregate coverage

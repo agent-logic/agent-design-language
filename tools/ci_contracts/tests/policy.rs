@@ -32,7 +32,6 @@ impl Fixture {
         }
         for p in [
             "rust-toolchain.toml",
-            "tools/public_adl/ci_policy.py",
             "tools/public_adl/run_ci.sh",
             "tools/public_adl/run_package_checks.sh",
         ] {
@@ -197,26 +196,28 @@ fn stable_status_names_and_no_aws_in_public_producers() {
 }
 #[cfg(unix)]
 #[test]
-fn policy_and_aggregation_do_not_execute_ruby() {
+fn policy_and_aggregation_do_not_execute_interpreters() {
     use std::os::unix::fs::PermissionsExt;
     let f = Fixture::new();
     let bin = f.root().join("bin");
     fs::create_dir(&bin).unwrap();
-    let trap = bin.join("ruby");
-    let marker = f.root().join("ruby-called");
-    fs::write(
-        &trap,
-        "#!/bin/sh\nprintf called > \"$RUBY_CALLED\"\nexit 99\n",
-    )
-    .unwrap();
-    fs::set_permissions(&trap, fs::Permissions::from_mode(0o755)).unwrap();
+    let marker = f.root().join("interpreter-called");
+    for program in ["ruby", "python", "python3"] {
+        let trap = bin.join(program);
+        fs::write(
+            &trap,
+            "#!/bin/sh\nprintf called > \"$INTERPRETER_CALLED\"\nexit 99\n",
+        )
+        .unwrap();
+        fs::set_permissions(&trap, fs::Permissions::from_mode(0o755)).unwrap();
+    }
     let path = format!("{}:{}", bin.display(), std::env::var("PATH").unwrap());
     for action in ["workflow-policy", "aggregation-contract"] {
         let o = Command::new(env!("CARGO_BIN_EXE_adl-ci-contracts"))
             .arg(action)
             .arg(f.root())
             .env("PATH", &path)
-            .env("RUBY_CALLED", &marker)
+            .env("INTERPRETER_CALLED", &marker)
             .output()
             .unwrap();
         assert!(o.status.success(), "{}", String::from_utf8_lossy(&o.stderr));

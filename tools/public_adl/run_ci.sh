@@ -4,7 +4,7 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$ROOT"
 
-python3 tools/public_adl/test_ci_contract.py
+cargo test --locked --manifest-path tools/ci_contracts/Cargo.toml --test workflow
 bash tools/public_adl/test_ci_routing.sh
 bash tools/public_adl/run_cli_ci.sh
 

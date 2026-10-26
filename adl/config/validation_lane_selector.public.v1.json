@@ -348,7 +348,7 @@
   },
   "deferred_obligations": {
     "installed_public": "bash tools/public_adl/run_ci.sh requires macOS sandbox-exec; not selected source proof",
-    "coverage": "python3 tools/public_adl/coverage.py --mode full --output <create-only-output>; separate exact-source gate",
+    "coverage": "cargo run --locked --quiet --manifest-path tools/ci_contracts/Cargo.toml -- coverage --mode full --output <create-only-output>; separate exact-source gate",
     "owner_contracts": "Original 4134-row register remains authoritative; unknown/retired paths escalate instead of claiming owner execution."
   }
 }

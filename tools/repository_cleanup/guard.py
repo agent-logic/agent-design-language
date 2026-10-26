@@ -44,11 +44,19 @@ def normalize_candidate(root, candidate, baseline):
 # #1346 exact successor layer. Original #1284/#1325/#1285 manifests stay immutable.
 LANGUAGE_TRANSITION_SHA256 = 'cd26e57fd78ae1e354673968d7457584d0642bc7588afde5a5071b84f727e3d6'
 
+CI_TRANSITION_SHA256 = '62672a15aad1b45ca37578bcd5141eb63a60074ab444a15ab8fed4b1004a1a2b'
+
 def normalize_language_cleanup(root, candidate, tree):
+    candidate = _normalize_language_transition(root, candidate, tree,
+        'ci-transition.json', CI_TRANSITION_SHA256)
+    return _normalize_language_transition(root, candidate, tree,
+        'ruby-transition.json', LANGUAGE_TRANSITION_SHA256)
+
+def _normalize_language_transition(root, candidate, tree, manifest, expected):
     import subprocess
     root = Path(root)
-    raw = (root / 'docs/language-cleanup/ruby-transition.json').read_bytes()
-    if hashlib.sha256(raw).hexdigest() != LANGUAGE_TRANSITION_SHA256:
+    raw = (root / 'docs/language-cleanup' / manifest).read_bytes()
+    if hashlib.sha256(raw).hexdigest() != expected:
         raise ValueError('language transition identity changed')
     transition = json.loads(raw)
     baseline = tree(transition['source_commit'])

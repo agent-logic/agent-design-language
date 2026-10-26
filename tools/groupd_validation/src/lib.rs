@@ -26,6 +26,27 @@ mod tests {
             String::from_utf8_lossy(&result.stderr)
         );
     }
+    fn native_test(name: &str) {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        let output = Command::new("cargo")
+            .args([
+                "test",
+                "--locked",
+                "--manifest-path",
+                "tools/ci_contracts/Cargo.toml",
+                "--test",
+                name,
+            ])
+            .current_dir(root)
+            .output()
+            .unwrap();
+        assert!(
+            output.status.success(),
+            "{}\n{}",
+            String::from_utf8_lossy(&output.stdout),
+            String::from_utf8_lossy(&output.stderr)
+        );
+    }
     #[test]
     fn dependency_inventory() {
         run(
@@ -39,7 +60,10 @@ mod tests {
     }
     #[test]
     fn builder_inputs() {
-        run("python3", "tools/groupd_validation/run_builder_contracts.py");
+        run(
+            "python3",
+            "tools/groupd_validation/run_builder_contracts.py",
+        );
     }
     #[test]
     fn ci_routing() {
@@ -49,10 +73,10 @@ mod tests {
     // Their 24 original assertions are not counted as ADL adapter executions.
     #[test]
     fn lane_selector() {
-        run("python3", "tools/public_adl/test_validation_interfaces.py");
+        native_test("interfaces");
     }
     #[test]
     fn public_coverage_contract() {
-        run("python3", "tools/public_adl/test_coverage.py");
+        native_test("coverage");
     }
 }

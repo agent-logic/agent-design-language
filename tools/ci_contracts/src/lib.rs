@@ -1,6 +1,10 @@
+pub mod actions;
+pub mod ci;
+pub mod coverage;
+pub mod planning;
 use regex::Regex;
 use serde_json::{json, Value};
-use std::{collections::BTreeMap, fs, path::Path, process::Command};
+use std::{collections::BTreeMap, fs, path::Path};
 
 pub const RUST: &str = "1.92.0";
 fn read(p: &Path) -> Result<String, String> {
@@ -197,20 +201,7 @@ pub fn workflow_policy(root: &Path) -> Result<Value, String> {
             }
         }
     }
-    // Transitional selector interface belongs to #1348; no Ruby is used here.
-    let output = Command::new("python3")
-        .arg(root.join("tools/public_adl/ci_policy.py"))
-        .args(["--event-name", "workflow_dispatch"])
-        .output()
-        .map_err(|e| e.to_string())?;
-    if !output.status.success() {
-        errors.push("public CI selector did not execute successfully".into());
-    }
-    let stdout = String::from_utf8_lossy(&output.stdout);
-    let outputs: BTreeMap<_, _> = stdout
-        .lines()
-        .filter_map(|l| l.trim().split_once('='))
-        .collect();
+    let outputs = ci::select("workflow_dispatch", &[]);
     for (key, value) in [
         ("automatic_pr_entrypoint", "ci"),
         ("optional_workflows_status", "deferred"),
@@ -222,7 +213,7 @@ pub fn workflow_policy(root: &Path) -> Result<Value, String> {
             "source_branch_concurrency_cancel_in_progress",
         ),
     ] {
-        if outputs.get(key) != Some(&value) {
+        if outputs.get(key).map(String::as_str) != Some(value) {
             errors.push(format!("public CI selector: missing {key}={value}"));
         }
     }
@@ -248,7 +239,7 @@ pub fn aggregation_contract(root: &Path) -> Result<(), String> {
         })
         .ok_or("aggregate step missing")?;
     let run = step["run"].as_str().ok_or("aggregate command missing")?;
-    if run != "python3 tools/public_adl/ci_policy.py --aggregate ci" {
+    if run != "cargo run --locked --quiet --manifest-path tools/ci_contracts/Cargo.toml -- ci --aggregate ci" {
         return Err("wrong aggregate command".into());
     }
     for (k, val) in [
@@ -286,20 +277,21 @@ pub fn aggregation_contract(root: &Path) -> Result<(), String> {
         ("false", "skipped", true),
         ("false", "success", false),
     ] {
-        let o = Command::new("bash")
-            .args(["-euc", run])
-            .current_dir(root)
-            .envs([
+        let observed = ci::aggregate(
+            "ci",
+            &[
                 ("PATH_POLICY_RESULT", "success"),
                 ("CONTRACT_RESULT", "success"),
                 ("TRANSPILE_REQUIRED", "false"),
                 ("TRANSPILE_RESULT", "skipped"),
                 ("PUBLIC_REQUIRED", required),
                 ("PUBLIC_RESULT", result),
-            ])
-            .output()
-            .map_err(|e| e.to_string())?;
-        if o.status.success() != expected {
+            ]
+            .into_iter()
+            .map(|(k, v)| (k.to_owned(), v.to_owned()))
+            .collect(),
+        );
+        if observed.is_ok() != expected {
             return Err(format!("gate mismatch {required}/{result}"));
         }
     }

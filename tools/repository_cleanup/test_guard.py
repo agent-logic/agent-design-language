@@ -60,25 +60,25 @@ class ArchiveGuard(unittest.TestCase):
                             guard.LANGUAGE_TRANSITION_SHA256)
             install(transition)
             with patch('subprocess.check_output', return_value=b'original'):
-                normalized = guard.normalize_language_cleanup(root, candidate, lambda _: baseline)
+                normalized = guard._normalize_language_transition(root, candidate, lambda _: baseline, "ruby-transition.json", guard.LANGUAGE_TRANSITION_SHA256)
                 self.assertEqual(normalized, {**baseline, 'unrelated': candidate['unrelated']})
                 for bad in [{**candidate, 'old.rb': baseline['old.rb']},
                             {**candidate, 'caller': ['100755', 'changed']}]:
                     with self.assertRaisesRegex(ValueError, 'transition mismatch'):
-                        guard.normalize_language_cleanup(root, bad, lambda _: baseline)
+                        guard._normalize_language_transition(root, bad, lambda _: baseline, "ruby-transition.json", guard.LANGUAGE_TRANSITION_SHA256)
                 manifest.write_text(manifest.read_text() + '\n')
                 with self.assertRaisesRegex(ValueError, 'identity changed'):
-                    guard.normalize_language_cleanup(root, candidate, lambda _: baseline)
+                    guard._normalize_language_transition(root, candidate, lambda _: baseline, "ruby-transition.json", guard.LANGUAGE_TRANSITION_SHA256)
                 install({**transition, 'changes': transition['changes'] * 2})
                 with self.assertRaisesRegex(ValueError, 'transition mismatch'):
-                    guard.normalize_language_cleanup(root, candidate, lambda _: baseline)
+                    guard._normalize_language_transition(root, candidate, lambda _: baseline, "ruby-transition.json", guard.LANGUAGE_TRANSITION_SHA256)
                 install({**transition, 'removed': []})
                 with self.assertRaisesRegex(ValueError, 'removal set mismatch'):
-                    guard.normalize_language_cleanup(root, candidate, lambda _: baseline)
+                    guard._normalize_language_transition(root, candidate, lambda _: baseline, "ruby-transition.json", guard.LANGUAGE_TRANSITION_SHA256)
                 install(transition)
             with patch('subprocess.check_output', return_value=b'wrong preimage'):
                 with self.assertRaisesRegex(ValueError, 'custody mismatch'):
-                    guard.normalize_language_cleanup(root, candidate, lambda _: baseline)
+                    guard._normalize_language_transition(root, candidate, lambda _: baseline, "ruby-transition.json", guard.LANGUAGE_TRANSITION_SHA256)
 
     def test_exact_admission_and_rejection(self):
         baseline = {'payload': ['100644', 'old'], 'runner': ['100755', 'before']}
