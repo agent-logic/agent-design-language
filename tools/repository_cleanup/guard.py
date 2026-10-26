@@ -44,7 +44,7 @@ def normalize_candidate(root, candidate, baseline):
 # #1346 exact successor layer. Original #1284/#1325/#1285 manifests stay immutable.
 LANGUAGE_TRANSITION_SHA256 = 'cd26e57fd78ae1e354673968d7457584d0642bc7588afde5a5071b84f727e3d6'
 
-CI_TRANSITION_SHA256 = '62672a15aad1b45ca37578bcd5141eb63a60074ab444a15ab8fed4b1004a1a2b'
+CI_TRANSITION_SHA256 = '0adf239207ee6bd6ab34ec45542c307c77d572acb1aa31e2d2f27081667b10a1'
 
 def normalize_language_cleanup(root, candidate, tree):
     candidate = _normalize_language_transition(root, candidate, tree,

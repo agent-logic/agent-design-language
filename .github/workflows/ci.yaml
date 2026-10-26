@@ -109,7 +109,7 @@ jobs:
           cargo test --locked --manifest-path tools/ci_contracts/Cargo.toml --test workflow
           python3 -B tools/public_adl/test_package_checks.py
           python3 -B tools/repository_cleanup/test_guard.py
-          cargo run --locked --quiet --manifest-path tools/ci_contracts/Cargo.toml -- action-pins
+          cargo test --locked --manifest-path tools/ci_contracts/Cargo.toml --test actions
           cargo test --locked --manifest-path tools/ci_contracts/Cargo.toml --test interfaces
           cargo run --locked --quiet --manifest-path tools/ci_contracts/Cargo.toml -- workflow-policy
           bash adl/tools/test_ci_runtime_contracts.sh

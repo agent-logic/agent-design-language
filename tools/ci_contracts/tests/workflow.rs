@@ -72,6 +72,9 @@ fn public_ci_wiring() {
 
     let workflow = read(".github/workflows/ci.yaml");
     let guards = block(&workflow, "adl_tooling_contracts");
+    assert!(guards.contains(
+        "cargo test --locked --manifest-path tools/ci_contracts/Cargo.toml --test actions"
+    ));
     for name in ["test_pr_closing_linkage.sh", "check_pr_closing_linkage.sh"] {
         assert!(!guards.contains(&format!("adl/tools/{name}")));
     }
