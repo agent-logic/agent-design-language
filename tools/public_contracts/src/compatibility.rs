@@ -555,7 +555,7 @@ pub fn verify(
             missing.push(format!("{role}: selected distribution"));
         } else {
             let a = &selected["asset_identity"];
-            let member = a.get("member").map(|m| {
+            let member = a.get("member").filter(|m| !m.is_null()).map(|m| {
                 (
                     m["path"].as_str().unwrap_or("").to_owned(),
                     m["sha256"].as_str().unwrap_or("").to_owned(),

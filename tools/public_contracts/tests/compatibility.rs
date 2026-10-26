@@ -272,6 +272,13 @@ fn whole_bundle_overlap() {
         .unwrap()
         .remove("member");
     f.refused("whole bundle overlaps");
+    // An explicit null member has the same whole-bundle meaning in a candidate.
+    f.lock["state"] = "candidate".into();
+    for row in f.lock["roles"].as_array_mut().unwrap() {
+        row["platforms"] = json!([]);
+    }
+    f.lock["roles"][0]["selected"]["asset_identity"]["member"] = Value::Null;
+    f.refused("whole bundle overlaps");
 }
 #[test]
 fn every_concrete_interface_required() {
