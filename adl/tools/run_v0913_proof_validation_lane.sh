@@ -105,13 +105,13 @@ run_check csdlc_demo_proof_contract_contract \
   bash "$ROOT_DIR/adl/tools/test_csdlc_demo_proof_contract_packet.sh"
 
 run_check quality_gate_doc_surface \
-  python3 "$ROOT_DIR/adl/tools/validate_v0913_quality_gate_review_surfaces.py" \
+  bash "$ROOT_DIR/adl/tools/validate_v0913_quality_gate_review_surfaces.sh" \
   "$ROOT_DIR" quality_gate_doc
 run_check quality_gate_packet_surface \
-  python3 "$ROOT_DIR/adl/tools/validate_v0913_quality_gate_review_surfaces.py" \
+  bash "$ROOT_DIR/adl/tools/validate_v0913_quality_gate_review_surfaces.sh" \
   "$ROOT_DIR" quality_gate_packet
 run_check demo_coverage_surface \
-  python3 "$ROOT_DIR/adl/tools/validate_v0913_quality_gate_review_surfaces.py" \
+  bash "$ROOT_DIR/adl/tools/validate_v0913_quality_gate_review_surfaces.sh" \
   "$ROOT_DIR" demo_coverage
 
 echo "PASS run_v0913_proof_validation_lane"

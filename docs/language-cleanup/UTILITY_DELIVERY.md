@@ -1,9 +1,13 @@
 # Remaining utility migration (#1351)
 
-Status: **in progress; not accepted or ready for publication**. Native issue
-preparation and FastWork binding succeeded. The issue remains responsible for all
-60 baseline Python paths, the later #1275 adapter checker, and executable inline
-payloads. No exception or completion-by-omission is accepted.
+Status: **operator-requested merge checkpoint; full cleanup remains incomplete**.
+The operator requested delivery of the current work before deciding whether to
+continue. This checkpoint leaves 27 tracked Python files, 180 shell scripts,
+zero Ruby files and zero tracked `.csdlc` files. #1351 remains open for the
+remaining utility and inline-interpreter dispositions; #1352 remains pending.
+This is not an interpreter-free acceptance claim. Focused slice checks and
+independent reviews are recorded below. The committed source-retirement guard
+passed; final exact-head native proof, review and CI remain delivery gates.
 
 ## Completed source slice: adapter report consistency
 
