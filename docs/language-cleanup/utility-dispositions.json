@@ -438,6 +438,81 @@
       "bytes": 5122,
       "consumer_result": "Retired v0.91.5 offline provider packet replay family together with its self-tests. No registration in current CI or either lane selector; internal validator references removed together. Historical provider evidence remains unchanged; this does not retire owner qualification obligations.",
       "proof": "Original exact Git bytes retained by identity; no historical packet regenerated. README now records retirement. Whole-issue transition overlay remains pending."
+    },
+    {
+      "path": "adl/tools/validate_v0916_agent_suitability_panel.py",
+      "action": "retired",
+      "replacement": null,
+      "command": null,
+      "source_commit": "7b6986179a0642d558f3ca6e1d8f547cb003b735",
+      "before": [
+        "100644",
+        "2a1c3b4fb6a15329bbd0285aac01587b6ad66e82"
+      ],
+      "sha256": "062fa6b024d99d5315ea2afb3d75974a4bd28c41f47165e764d79eb518e64c2b",
+      "bytes": 116,
+      "consumer_result": "Historical v0.91.6 suitability or v0.91.4 Polis packet replay family retired with self-tests. No current CI/lane registration or outside executable reference found; module import removed with implementation. Immutable packets retained; owner qualification and current authority rules unchanged.",
+      "proof": "Exact Git preimage match; caller scan included stems, Python import and tracked .csdlc shell scripts. Historical output trees unchanged; final whole-issue guard admission pending."
+    },
+    {
+      "path": "adl/tools/validate_v0916_deepseek_suitability.py",
+      "action": "retired",
+      "replacement": null,
+      "command": null,
+      "source_commit": "7b6986179a0642d558f3ca6e1d8f547cb003b735",
+      "before": [
+        "100644",
+        "c88e9af55f4c83e5054897f467c81565ec889f51"
+      ],
+      "sha256": "c084a938181b2b391f01b5ab3be09acf9560132bdf42fc28749c8eea869e78ae",
+      "bytes": 3661,
+      "consumer_result": "Historical v0.91.6 suitability or v0.91.4 Polis packet replay family retired with self-tests. No current CI/lane registration or outside executable reference found; module import removed with implementation. Immutable packets retained; owner qualification and current authority rules unchanged.",
+      "proof": "Exact Git preimage match; caller scan included stems, Python import and tracked .csdlc shell scripts. Historical output trees unchanged; final whole-issue guard admission pending."
+    },
+    {
+      "path": "adl/tools/test_v0916_deepseek_suitability.sh",
+      "action": "retired",
+      "replacement": null,
+      "command": null,
+      "source_commit": "7b6986179a0642d558f3ca6e1d8f547cb003b735",
+      "before": [
+        "100644",
+        "684f490755de7ba69e28497a2cf1750f95bb0c78"
+      ],
+      "sha256": "d90449f97dfbfe64b1b9aacf4ddb9462854250c3e431380d900f1966b6c7b981",
+      "bytes": 1265,
+      "consumer_result": "Historical v0.91.6 suitability or v0.91.4 Polis packet replay family retired with self-tests. No current CI/lane registration or outside executable reference found; module import removed with implementation. Immutable packets retained; owner qualification and current authority rules unchanged.",
+      "proof": "Exact Git preimage match; caller scan included stems, Python import and tracked .csdlc shell scripts. Historical output trees unchanged; final whole-issue guard admission pending."
+    },
+    {
+      "path": "adl/tools/validate_software_development_polis_packet.py",
+      "action": "retired",
+      "replacement": null,
+      "command": null,
+      "source_commit": "7b6986179a0642d558f3ca6e1d8f547cb003b735",
+      "before": [
+        "100644",
+        "07a0db2b4b1c21c79ded5760591d4e69922d2681"
+      ],
+      "sha256": "bfa84473336fe80f3614651573bc22c256c5377ee76c4b9976f936dff99309de",
+      "bytes": 7548,
+      "consumer_result": "Historical v0.91.6 suitability or v0.91.4 Polis packet replay family retired with self-tests. No current CI/lane registration or outside executable reference found; module import removed with implementation. Immutable packets retained; owner qualification and current authority rules unchanged.",
+      "proof": "Exact Git preimage match; caller scan included stems, Python import and tracked .csdlc shell scripts. Historical output trees unchanged; final whole-issue guard admission pending."
+    },
+    {
+      "path": "adl/tools/test_software_development_polis_packet.sh",
+      "action": "retired",
+      "replacement": null,
+      "command": null,
+      "source_commit": "7b6986179a0642d558f3ca6e1d8f547cb003b735",
+      "before": [
+        "100644",
+        "29ed4363886d38cfb5ad49667add275c0ebe8d14"
+      ],
+      "sha256": "2bfc2eaa7175a5c8d8d5efdd4ef840239899e0c9f301d79b7ba5a2e8ac421857",
+      "bytes": 1613,
+      "consumer_result": "Historical v0.91.6 suitability or v0.91.4 Polis packet replay family retired with self-tests. No current CI/lane registration or outside executable reference found; module import removed with implementation. Immutable packets retained; owner qualification and current authority rules unchanged.",
+      "proof": "Exact Git preimage match; caller scan included stems, Python import and tracked .csdlc shell scripts. Historical output trees unchanged; final whole-issue guard admission pending."
     }
   ]
 }

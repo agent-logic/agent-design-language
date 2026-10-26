@@ -250,3 +250,15 @@ with failing Python/Python3/Ruby commands ahead of PATH, reporting 0.92.1 for
 manifest, lock and CLI. Two focused native test groups cover missing/malformed
 inputs, manifest/lock/metadata drift and empty-PATH helper execution; strict
 Clippy passed. This is version consistency, not a deployed-release claim.
+
+## Retired historical suitability and Polis replay
+
+Removed the v0.91.6 DeepSeek suitability validator, its import alias and shell
+test, plus the v0.91.4 Software Development Polis packet validator and shell
+test. Outside historical/inventory records, references were confined to each
+family. Current CI and lane selectors contain no registrations, and a scan of
+tracked `.csdlc` shell scripts found no stem references. The import alias was
+removed with its implementation, not left as a broken wrapper. Historical
+packets, current authority rules and separate owner qualification obligations
+remain unchanged. Exact source/test custody is recorded; no replay replacement
+is added. Full guard admission and issue acceptance remain pending.
