@@ -310,3 +310,15 @@ slice notes recording those registrations must not be read as proof of active
 selection. Historical CSM/Soak2 reports remain unchanged and source custody is
 recorded. Live Runtime qualification remains the Runtime owner's responsibility.
 No native replacement for these historical replay checks is added.
+
+## Static retired CSM diagnostic
+
+`ensure_csm_binary.sh` remains an explicit compatibility refusal. Its fixed JSON
+payload now uses a literal string, eliminating Python serialization without
+changing output bytes or accepted arguments. No runtime implementation, lookup
+or build is restored. The original nine-case test passed before editing.
+The native regression invokes the actual shell helper and preserves JSON/file/
+human diagnostics, help and invalid-option checks, with failing Cargo/CSM/Python/
+Ruby commands and fake source overrides. It passed without invoking any trap.
+The shell regression entrypoint now invokes that test through Cargo; only the
+test harness may compile, never the compatibility helper itself.
