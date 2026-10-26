@@ -9,6 +9,7 @@ from pathlib import Path
 import subprocess
 import tempfile
 import unittest
+from unittest.mock import patch
 
 spec = importlib.util.spec_from_file_location('guard', Path(__file__).with_name('guard.py'))
 guard = importlib.util.module_from_spec(spec)
@@ -28,7 +29,7 @@ class ArchiveGuard(unittest.TestCase):
                     result[path.decode()] = [mode, blob]
             return result
         transition = json.loads((root / 'tools/repository_cleanup/transition.json').read_text())
-        candidate = tree('HEAD')
+        candidate = guard.normalize_language_cleanup(root, tree('HEAD'), tree)
         # Compose the newer exact archive transition before checking the older one,
         # matching tools/source_retirement/check.py's production order.
         newer_spec = importlib.util.spec_from_file_location(
@@ -40,6 +41,44 @@ class ArchiveGuard(unittest.TestCase):
         normalized = guard.normalize_candidate(root, candidate, baseline)
         for row in transition['changes']:
             self.assertEqual(normalized[row['path']], baseline[row['path']])
+
+    def test_language_transition_refuses_drift(self):
+        baseline = {'old.rb': ['100644', 'old'], 'caller': ['100755', 'before']}
+        candidate = {'caller': ['100755', 'after'], 'unrelated': ['100644', 'drift']}
+        transition = {'source_commit': 'source', 'removed': ['old.rb'], 'changes': [
+            {'path': path, 'before': before, 'after': candidate.get(path),
+             'before_sha256': hashlib.sha256(b'original').hexdigest()}
+            for path, before in baseline.items()]}
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            manifest = root / 'docs/language-cleanup/ruby-transition.json'
+            manifest.parent.mkdir(parents=True)
+            def install(value):
+                manifest.write_text(json.dumps(value))
+                guard.LANGUAGE_TRANSITION_SHA256 = hashlib.sha256(manifest.read_bytes()).hexdigest()
+            self.addCleanup(setattr, guard, 'LANGUAGE_TRANSITION_SHA256',
+                            guard.LANGUAGE_TRANSITION_SHA256)
+            install(transition)
+            with patch('subprocess.check_output', return_value=b'original'):
+                normalized = guard.normalize_language_cleanup(root, candidate, lambda _: baseline)
+                self.assertEqual(normalized, {**baseline, 'unrelated': candidate['unrelated']})
+                for bad in [{**candidate, 'old.rb': baseline['old.rb']},
+                            {**candidate, 'caller': ['100755', 'changed']}]:
+                    with self.assertRaisesRegex(ValueError, 'transition mismatch'):
+                        guard.normalize_language_cleanup(root, bad, lambda _: baseline)
+                manifest.write_text(manifest.read_text() + '\n')
+                with self.assertRaisesRegex(ValueError, 'identity changed'):
+                    guard.normalize_language_cleanup(root, candidate, lambda _: baseline)
+                install({**transition, 'changes': transition['changes'] * 2})
+                with self.assertRaisesRegex(ValueError, 'transition mismatch'):
+                    guard.normalize_language_cleanup(root, candidate, lambda _: baseline)
+                install({**transition, 'removed': []})
+                with self.assertRaisesRegex(ValueError, 'removal set mismatch'):
+                    guard.normalize_language_cleanup(root, candidate, lambda _: baseline)
+                install(transition)
+            with patch('subprocess.check_output', return_value=b'wrong preimage'):
+                with self.assertRaisesRegex(ValueError, 'custody mismatch'):
+                    guard.normalize_language_cleanup(root, candidate, lambda _: baseline)
 
     def test_exact_admission_and_rejection(self):
         baseline = {'payload': ['100644', 'old'], 'runner': ['100755', 'before']}

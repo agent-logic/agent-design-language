@@ -1,0 +1,139 @@
+{
+  "changes": [
+    {
+      "after": [
+        "100644",
+        "cb90f8ef19a3be9c1c09839d172747b9f19ac15e"
+      ],
+      "before": [
+        "100644",
+        "e870f180a9d71d93d9ace9b8ad265153e62d2489"
+      ],
+      "before_sha256": "3d2200013edd2426c386299ba5174cc331c51edd1343e3ecba178a2d9f391a78",
+      "path": ".github/workflows/ci.yaml"
+    },
+    {
+      "after": null,
+      "before": [
+        "100644",
+        "7467ce45ec5112b8a83b712255446a78a7d69a71"
+      ],
+      "before_sha256": "209cb8d4bb0298a3ffb516ba19a5088b912b058925e55ef899915dbe817292da",
+      "path": "adl-uts/tools/test_ci_contract.rb"
+    },
+    {
+      "after": null,
+      "before": [
+        "100755",
+        "3e34ce7c9832cd00924446ca72b85c5279c34722"
+      ],
+      "before_sha256": "17c50d9643a34a0d097341ba15ca6e74761c5b64f58f48f24f8d491517f66cf2",
+      "path": "adl/tools/release/build_retained_proof_gap_denominator.rb"
+    },
+    {
+      "after": null,
+      "before": [
+        "100755",
+        "9b0fd8f6f92059d509fe227faaafdfde4ad3b2ba"
+      ],
+      "before_sha256": "84e891f947788a04142f618ca686ed499ac96758eff212e928f994f9ec9b2fa9",
+      "path": "adl/tools/release/test_retained_proof_gap_denominator.sh"
+    },
+    {
+      "after": [
+        "100755",
+        "000c8fa13a32101ea7cbe1a2b10624656aecce7e"
+      ],
+      "before": [
+        "100755",
+        "95bfc281293d32b23d75c8c41ae205f94e58e28a"
+      ],
+      "before_sha256": "0b15475f1dfa53dd680e35d7ee84cd0317171d2fe51355f460129831c4dbebd2",
+      "path": "adl/tools/test_ci_runtime_contracts.sh"
+    },
+    {
+      "after": null,
+      "before": [
+        "100755",
+        "9ca5460ebfeefc6bf86a9b3f99144782d9c9fad9"
+      ],
+      "before_sha256": "bd9c19e8b847226de7810b9c874ca12c237ac70bb78e0f6872dd757d5738c308",
+      "path": "adl/tools/test_validate_v092_runtime_native_receipts.sh"
+    },
+    {
+      "after": null,
+      "before": [
+        "100644",
+        "610f155b53ab08cc467ca1eae46dc060b202ccfa"
+      ],
+      "before_sha256": "c00f9d2349afb700a74f070240ca6ca912b96ec08ccfb6f08ff86a6bcb975720",
+      "path": "adl/tools/test_workspace_coverage_deadline.rb"
+    },
+    {
+      "after": null,
+      "before": [
+        "100644",
+        "318d56a5566d28ad86574b9de018a80221fd8cad"
+      ],
+      "before_sha256": "3f49293999d251bb91d3ab5745d2bba8c27ca667a2a369f8731b47bc735b562d",
+      "path": "adl/tools/validate_ci_workflow_policy.rb"
+    },
+    {
+      "after": null,
+      "before": [
+        "100755",
+        "3dc8fa928f8e0615c25601499c2599151c1632c4"
+      ],
+      "before_sha256": "8e16044c4e770f5dbc86f89dbe92415d998083eb8512f7d3a75aeab43e85a9cd",
+      "path": "adl/tools/validate_v092_runtime_native_receipts.rb"
+    },
+    {
+      "after": [
+        "100644",
+        "ac6eaeba63480233a05486921efbd2dfba645bc2"
+      ],
+      "before": [
+        "100644",
+        "1598db737a096804a8939281ece208d0aa2c71a7"
+      ],
+      "before_sha256": "5833d23a912d3247142d228a88c763a5dd04c75dee45d8f2a8d5ab5fe4921f25",
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+    },
+    {
+      "after": [
+        "100644",
+        "42c9ca2ded80d55cb7306f9bb8f45f84d75d5ec9"
+      ],
+      "before": [
+        "100644",
+        "8df8dedd644e30521aa9649792ef651e6ab3c141"
+      ],
+      "before_sha256": "72668f4433e3e02a15771e2f50a39659e589dd0471842dc91ea51b137dfabd3f",
+      "path": "tools/repository_cleanup/validate.py"
+    },
+    {
+      "after": [
+        "100644",
+        "3dfa972bb57ce7d26fa1f3986c52623716550cd8"
+      ],
+      "before": [
+        "100644",
+        "4a25f51c7a8825a8e3288db941121425fea2add6"
+      ],
+      "before_sha256": "59bb3bdcf168a8c4e02b2a2c305cb6a621f07e580c4f376f57a8a38cf8d9d386",
+      "path": "tools/source_retirement/check.py"
+    }
+  ],
+  "issue": 1346,
+  "removed": [
+    "adl-uts/tools/test_ci_contract.rb",
+    "adl/tools/release/build_retained_proof_gap_denominator.rb",
+    "adl/tools/release/test_retained_proof_gap_denominator.sh",
+    "adl/tools/test_validate_v092_runtime_native_receipts.sh",
+    "adl/tools/test_workspace_coverage_deadline.rb",
+    "adl/tools/validate_ci_workflow_policy.rb",
+    "adl/tools/validate_v092_runtime_native_receipts.rb"
+  ],
+  "schema": "adl.language_cleanup.transition.v1",
+  "source_commit": "15c7bb73ad725355bc3b0103fcba252712fd3919"
+}
