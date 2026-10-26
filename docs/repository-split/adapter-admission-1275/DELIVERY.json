@@ -29,18 +29,30 @@
         "authenticated": true,
         "idempotent_replay": false
       },
-      "terminal_status": "pending_branch_protection_correction",
-      "merge_blocker": {
-        "reason": "github_merge_ineligible",
-        "observation": "requiresStatusChecks=true, requiredStatusChecks=[]",
-        "existing_green_check": "tests [01/01 fast website]",
-        "operator_approval": "requested; not yet received",
-        "readback_sha256": "91709b8cc39f09e2fa6987ec2ca8026f2dfb2eada104511fea4023e771b5056f"
-      },
+      "terminal_status": "delivered",
       "publication_metadata_correction": {
         "status": "completed",
         "evidence_sha256": "b048ff2feb9422c499d5a0446f395beffb014dd41ed35061738014c961e003d8",
         "change": "replace Part of relation with ordinary coordination prose; code unchanged"
+      },
+      "terminal_readback": {
+        "observed_date": "2026-10-25",
+        "delivery": {
+          "status": "delivered",
+          "repository": "agent-logic/agent-logic.ai",
+          "pull_request": 101,
+          "head_sha": "e30187fd6ab1c16f37066ff6fcfb73838f4b7c6a",
+          "issue": 100,
+          "issue_closure": "closed",
+          "finish_required": false,
+          "cleanup": "optional"
+        },
+        "evidence_sha256": "0e5ef9ff54e375c4a5926d6db3330b3fd362f97c5fdbc15a6c05b9ff9e1385d0",
+        "scope": "Authenticated native read-only terminal observation; no policy or merge mutation by Worker35."
+      },
+      "cleanup": {
+        "status": "deferred_by_operator",
+        "executed": false
       }
     },
     {

@@ -49,9 +49,10 @@
     {
       "repository": "agent-logic/agent-logic.ai",
       "baseline_main": "4756b251b7d144bf4d6c6d25ea8403a49f8288a3",
-      "disposition": "merge_blocked_branch_protection",
-      "evidence_summary": "Issue100 PR101 exact reviewed head remains open/non-draft/clean, CI green. Native metadata correction completed. Merge refused because main requires status checks but names none; approval to require existing CI check requested. Zero native merge writes.",
-      "acceptance": "incomplete"
+      "disposition": "native_delivery_verified_cleanup_deferred",
+      "evidence_summary": "Native readback on 2026-10-25 confirms PR101 delivered at reviewed head e30187fd6ab1c16f37066ff6fcfb73838f4b7c6a, issue100 closed and finish_required false. Cleanup deferred by operator.",
+      "acceptance": "complete",
+      "acceptance_basis": "Reviewed adapter contract, admitted package12369122943, prepare/bind/proof/review/publication and authenticated terminal readback; cleanup deferred. See CONTRACTS, ADMISSION and DELIVERY."
     },
     {
       "repository": "agent-logic/codefriend.ai",

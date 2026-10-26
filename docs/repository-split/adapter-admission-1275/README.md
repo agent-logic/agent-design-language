@@ -1,6 +1,6 @@
 # Repository adapter and native admission reconciliation — #1275
 
-Status: six of seven adapter PRs delivered; umbrella acceptance remains incomplete. The [baseline](BASELINE.json) pins canonical
+Status: all seven adapter PRs delivered; umbrella acceptance remains incomplete. The [baseline](BASELINE.json) pins canonical
 GitHub main commits for the thirteen repositories from #1269. It does not infer
 installed authority from adapter fields or from the presence of an executable.
 
@@ -18,11 +18,12 @@ executed; registered worktrees and their native evidence remain intact. Delivery
 is proved. On 2026-10-24 the operator explicitly deferred cleanup, so these
 refusals no longer block delivery. No cleanup success is claimed.
 
-Website PR #101 remains open at its reviewed head with green CI. Its native
-publication metadata correction succeeded without code changes or repeated
-review. Native merge then refused the branch policy: `requiresStatusChecks` is
-true while `requiredStatusChecks` is empty. Approval to name the existing green
-`tests [01/01 fast website]` check is pending. No merge write occurred.
+Native readback on 2026-10-25 confirms website PR #101 delivered at reviewed
+head `e30187fd6ab1c16f37066ff6fcfb73838f4b7c6a`, issue #100 closed and
+`finish_required: false`. This session observed the completed remote changes
+and did not replay policy or merge writes.
+Cleanup remains explicitly deferred. All seven adapter PRs are now delivered;
+retained-context acceptance gaps below remain separate.
 
 The implementation sections below retain the earlier proof history. This dated
 readback supersedes their pending-delivery statements. Other outstanding gaps
