@@ -150,3 +150,19 @@ mutations, and run successful CLIs with empty `PATH`. The console's original
 HTML/CSS/JavaScript assertions remain explicit tests. Strict Clippy passed.
 Current caller commands are updated; broader mixed-language lanes remain
 unexecuted by this slice. Historical proof documents are unchanged.
+
+## Completed source slice: retained merge-readiness packet
+
+The native merge-readiness checker preserves the required file/section inventory,
+fixed historical snapshot identities, safe relative path checks, evidence/review
+file existence and Markdown/snapshot consistency. SOR existence remains outside
+this historical validator's original contract. This never authorizes a live
+merge. Integer aliases for JSON Boolean truth fields are now rejected.
+
+The original shell suite passed. Two native groups cover missing files/markers,
+every required snapshot key, stale PR state, malformed JSON, Markdown drift,
+unsafe paths, missing proof files and interpreter-free CLI success/usage failure.
+Strict Clippy passed. Current shell callers use the native replacement; historical
+records retain original command text. The adjacent quality-review validator has
+a pre-existing demo-map route mismatch (v2 doctor expected, v1 wrapper recorded);
+that observed failure is not claimed as successful validation.

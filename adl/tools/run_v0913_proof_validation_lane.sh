@@ -60,7 +60,7 @@ run_check evidence_bundle_contract \
   bash "$ROOT_DIR/adl/tools/test_evidence_bundle_packet.sh"
 
 run_check merge_readiness_packet \
-  python3 "$ROOT_DIR/adl/tools/validate_merge_readiness_packet.py" \
+  bash "$ROOT_DIR/adl/tools/validate_merge_readiness_packet.sh" \
   "$ROOT_DIR/docs/milestones/v0.91.3/review/merge_readiness"
 run_check merge_readiness_contract \
   bash "$ROOT_DIR/adl/tools/test_merge_readiness_packet.sh"

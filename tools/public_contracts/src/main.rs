@@ -25,6 +25,17 @@ fn run() -> Result<()> {
     ) {
         std::process::exit(adl_public_contracts::packet_truth::cli(action, &a[1..]));
     }
+    if action == "merge-readiness" {
+        if a.len() != 2 {
+            bail!("usage: merge-readiness <packet-root>");
+        }
+        adl_public_contracts::merge_packet::check(
+            std::path::Path::new(&a[1]),
+            &adl_public_contracts::root(),
+        )?;
+        println!("merge_readiness_packet: PASS root={}", a[1]);
+        return Ok(());
+    }
     if action == "tool-registry" {
         if a.len() > 2 || (a.len() == 2 && a[1] != "--check") {
             bail!("usage: tool-registry [--check]");

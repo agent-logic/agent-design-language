@@ -243,6 +243,21 @@
       "bytes": 5330,
       "consumer_result": "Native shell entrypoints replace current validator callers; test wrappers use Rust and remove inline Python. Historical records unchanged.",
       "proof": "Original shell suites passed before removal. Three native groups preserve timebox truth, first-proof upstream manifest pins, ObsMem citations and source truth, negative diagnostics, original HTML/CSS/JS checks and CLI usage status. Strict Clippy passed."
+    },
+    {
+      "path": "adl/tools/validate_merge_readiness_packet.py",
+      "action": "replaced",
+      "replacement": "tools/public_contracts/src/merge_packet.rs",
+      "command": "bash adl/tools/validate_merge_readiness_packet.sh <packet-root>",
+      "source_commit": "7b6986179a0642d558f3ca6e1d8f547cb003b735",
+      "before": [
+        "100644",
+        "6505fcee60109cfec84fd58b8e6880edd3ad1fa5"
+      ],
+      "sha256": "d7a5637e6f7f5927e5e4f633cc5274d49d62b377b4706b8698e77568cb32e072",
+      "bytes": 4825,
+      "consumer_result": "Native shell validator and Rust test wrapper replace direct and inline Python; current lane/demo callers updated. Historical review records unchanged.",
+      "proof": "Original shell suite passed; two native groups preserve snapshot, Markdown, path and source-file checks with interpreter-free CLI. Strict Clippy passed. JSON truth fields no longer accept integer aliases for booleans."
     }
   ]
 }
