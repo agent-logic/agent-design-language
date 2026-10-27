@@ -191,7 +191,8 @@ pub fn podcast(repo: &Repo, candidate: &Tree) -> Result<Tree> {
     Ok(result)
 }
 pub fn normalized(repo: &Repo, candidate: &Tree) -> Result<Tree> {
-    let candidate = retired_runtime_design(repo, candidate)?;
+    let candidate = runtime_owner_cleanup(repo, candidate)?;
+    let candidate = retired_runtime_design(repo, &candidate)?;
     let candidate = retired_characterization(repo, &candidate)?;
     let candidate = obsolete_v2_tools(repo, &candidate)?;
     let candidate = retired_authority(repo, &candidate)?;
@@ -357,5 +358,12 @@ pub fn retired_runtime_design(repo: &Repo, candidate: &Tree) -> Result<Tree> {
     repo.git(&["merge-base", "--is-ancestor", revision, "HEAD"])?;
     let expected: Paths = ["design/issue-111.md", "design/issue-111.mmd"].into_iter().map(str::to_owned).collect();
     ensure!(expected == strings(&manifest["removed"])?, "Runtime design retirement scope mismatch");
+    language(repo, candidate, &manifest)
+}
+
+pub fn runtime_owner_cleanup(repo: &Repo, candidate: &Tree) -> Result<Tree> {
+    let manifest = repo.pinned("docs/archives/RUNTIME_OWNER_1383.json", "b18a0eff6da146d968a08dc41b1ae7c6b3f62e24030be5d55fb3a6b999ed730f")?;
+    repo.git(&["merge-base", "--is-ancestor", string(&manifest["source_commit"])?, "HEAD"])?;
+    ensure!(strings(&manifest["removed"])?.len() == 12, "Runtime owner inventory mismatch");
     language(repo, candidate, &manifest)
 }

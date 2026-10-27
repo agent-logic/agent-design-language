@@ -95,9 +95,11 @@ If you want the stricter v0.90.2 multi-agent repo-review proof packet:
 
 If you want the v0.90.2 Paper Sonata manuscript review/revision proof packet:
 
-```bash
-python3 tools/runtime_contracts/run_paper_sonata.py expansion ./artifacts/paper-sonata-expansion
-```
+The expansion producer belongs to Infrastructure and consumes the Runtime-owned
+Paper Sonata fixture packet. The recorded Infrastructure snapshot does not bundle
+those fixtures, so this index supplies no standalone replay command. Recover the
+original assembly adapter and exact owner inputs through
+[the custody record](../docs/archives/RUNTIME_OWNER_1383.json).
 
 If you want the CodeBuddy multi-agent review showcase packet:
 
@@ -305,8 +307,9 @@ deterministic, but it validates a stronger review contract than the original
 v0.89 demo: specialist boundaries, findings-first synthesis, explicit
 non-findings, residual risk, publication gates, and no merge-approval claims.
 
-Use `python3 tools/runtime_contracts/run_paper_sonata.py expansion ./artifacts/paper-sonata-expansion` for the bounded Paper
-Sonata manuscript review/revision proof packet. It preserves the delivered
+The historical bounded Paper Sonata manuscript review/revision packet requires
+Infrastructure producers plus Runtime-owned fixtures; it is not a standalone
+Infrastructure checkout command. See [custody](../docs/archives/RUNTIME_OWNER_1383.json). It preserves the delivered
 v0.88/v0.89 baseline while adding source/draft/review/revision separation,
 addressed revision requests, and an explicit no-submission publication gate.
 
