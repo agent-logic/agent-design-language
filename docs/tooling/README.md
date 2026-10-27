@@ -272,3 +272,15 @@ this transfer does not validate that runtime behavior.
 - The [burst summary template](https://github.com/agent-logic/cognitive-sdlc/blob/d316340c212800ff523f957b1bf290db68d8efad/docs/skill-distributions/planning-utilities/original/adl/tools/BURST_FINAL_SUMMARY_TEMPLATE.md) is archived planning evidence; it is not a current lifecycle command.
 - [Browser route diagnostics](https://github.com/agent-logic/agent-logic-infrastructure/blob/ed02d55985482a0dbb1469951d36efef931b63e2/adl/tools/diagnose_browser_routes.py) are maintained in Infrastructure. Application lookup, executable version checks and optional HTTP/headless probes do not prove browser interaction. This source transfer did not run those probes.
 - [Git main synchronization](https://github.com/agent-logic/cognitive-sdlc/blob/d316340c212800ff523f957b1bf290db68d8efad/adl/tools/fix_git_main_sync.sh) now requires an explicit authenticated installed resource root and delegates to the owner's [Git administration helper](https://github.com/agent-logic/cognitive-sdlc/blob/d316340c212800ff523f957b1bf290db68d8efad/tools/git_main_sync.py). It changes Git state and is not native lifecycle reconciliation. The old ADL checkout/fetch/fast-forward wrapper is retired; no Git operation or equivalence test was performed for this transfer.
+
+## Cloud operations ownership
+
+Cloud accounts, resource inventories, billing, deployment and Terraform runbooks
+are maintained by [Infrastructure](https://github.com/agent-logic/agent-logic-infrastructure/tree/main/docs/operations/cloud).
+The [retirement inventory](../archives/OWNER_CLEANUP_1385.json) records exact
+historical ADL copies and inspected owner identities. Old resource inventory
+entries are not claims about current cloud state.
+
+Portable validation request/result contracts, frozen distribution checks, local
+validation management and public status helpers remain ADL build consumers.
+They do not grant cloud spend, deployment or owner qualification authority.
