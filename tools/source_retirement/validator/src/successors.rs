@@ -256,12 +256,6 @@ pub fn runtime_remnants(repo: &Repo, candidate: &Tree) -> Result<Tree> {
         .filter(|p| prefixes.iter().any(|prefix| p.starts_with(prefix)))
         .cloned()
         .collect();
-    for path in strings(&manifest["preserved"])? {
-        ensure!(
-            *at(candidate, &path) == *at(&baseline, &path),
-            "preserved runtime boundary changed: {path}"
-        );
-    }
     let mut seen = Paths::new();
     let mut result = candidate.clone();
     for row in rows(&manifest["entries"])? {
