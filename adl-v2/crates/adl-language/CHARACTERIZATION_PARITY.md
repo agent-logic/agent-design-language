@@ -1,7 +1,8 @@
 # Characterization parity map
 
-The reviewed `adl-characterization/corpus/v1/fixtures` corpus from #5337 is
-mapped to WP-04 as follows. The automated map lives in
+The package-local `fixtures/` copied from the reviewed #5337 corpus are
+mapped to WP-04 as follows. The retired standalone corpus is preserved through
+[Git custody](../../../docs/archives/ADL_CHARACTERIZATION_1378.json). The automated map lives in
 `tests/characterization_parity.rs`.
 
 | Fixtures | WP-04 outcome |
