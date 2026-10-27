@@ -143,6 +143,7 @@ fn podcast_original_and_reviewed_readme_successor() {
 fn actual_committed_head_satisfies_successor_admission() {
     let r = repo();
     let candidate = r.tree("HEAD").unwrap();
+    let candidate = successors::owner_cleanup_1386(&r, &candidate).unwrap();
     let candidate = successors::runtime_owner_cleanup(&r, &candidate).unwrap();
     let candidate = successors::retired_runtime_design(&r, &candidate).unwrap();
     let candidate = successors::retired_characterization(&r, &candidate).unwrap();

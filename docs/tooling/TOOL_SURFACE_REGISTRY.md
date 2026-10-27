@@ -128,7 +128,6 @@ bash adl/tools/generate_tool_surface_registry.sh --check
 | `adl/tools/test_cli_owner_command_guidance.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_cli_wrapper_migration_contract.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_closeout_completed_issue_wave.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_codefriend_fitness_ci_artifacts.py` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_completed_output_validation.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_csdlc_demo_proof_contract_packet.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_csdlc_prompt_editor.sh` | tool surface | internal helper | Focused regression or contract test helper. |

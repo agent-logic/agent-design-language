@@ -191,7 +191,8 @@ pub fn podcast(repo: &Repo, candidate: &Tree) -> Result<Tree> {
     Ok(result)
 }
 pub fn normalized(repo: &Repo, candidate: &Tree) -> Result<Tree> {
-    let candidate = runtime_owner_cleanup(repo, candidate)?;
+    let candidate = owner_cleanup_1386(repo, candidate)?;
+    let candidate = runtime_owner_cleanup(repo, &candidate)?;
     let candidate = retired_runtime_design(repo, &candidate)?;
     let candidate = retired_characterization(repo, &candidate)?;
     let candidate = obsolete_v2_tools(repo, &candidate)?;
@@ -366,4 +367,11 @@ pub fn runtime_owner_cleanup(repo: &Repo, candidate: &Tree) -> Result<Tree> {
     repo.git(&["merge-base", "--is-ancestor", string(&manifest["source_commit"])?, "HEAD"])?;
     ensure!(strings(&manifest["removed"])?.len() == 12, "Runtime owner inventory mismatch");
     language(repo, candidate, &manifest)
+}
+
+pub fn owner_cleanup_1386(repo: &Repo, candidate: &Tree) -> Result<Tree> {
+ let manifest = repo.pinned("docs/archives/OWNER_CLEANUP_1386.json", "a2f02c79b78a80d5796bf5299324a80695a4be003c54abaef01797a4fc0a164e")?;
+ repo.git(&["merge-base", "--is-ancestor", string(&manifest["source_commit"])?, "HEAD"])?;
+ ensure!(strings(&manifest["removed"])?.len() == 2, "owner cleanup inventory mismatch");
+ language(repo, candidate, &manifest)
 }
