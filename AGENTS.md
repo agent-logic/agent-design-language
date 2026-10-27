@@ -23,8 +23,9 @@ Historical milestone and review records retain their original scope.
 The v1 C-SDLC command wrappers, `pr.sh` lifecycle wrappers, prompt-template
 wrappers, and `csdlc-import` binary are sunset. PR #591 merged the explicit
 operator-reviewed V3-F/#505 cutover on 2026-09-07. C-SDLC v3 is now the
-operational authority when its canonical native selector and authenticated
-reconciliation receipt validate; missing or stale proof suspends authority.
+operational authority through the authenticated installed C-SDLC owner package.
+Its integrity, repository binding and retained lifecycle evidence must validate;
+historical project selectors and cutover receipts are not ordinary authority.
 Typed v2 may be used only for an explicitly authorized rollback or bounded
 transition remediation such as issue #725. The final
 coexistence inventory explicitly records `v1_sunset`; historical Gate 10A-C
@@ -244,9 +245,9 @@ These rules are mandatory for ADL issue work.
 
 ### C-SDLC post-cutover authority
 
-- Generation authority is `csdlc-v3/operator/authority-selector.json`, validated
-  with its native receipt, terminal reconciliation, and Git objects against
-  canonical `origin/main` bytes.
+- Ordinary authority comes from the authenticated installed C-SDLC owner package
+  and its repository binding. Historical #505 selector/receipt evidence remains
+  recoverable from published Git history; it is not a tracked project grant.
 - Gate 10A-D2 and the former v2 selector are historical pre-cutover evidence.
 - Explicitly authorized rollback or transition-remediation work may still use
   the retained typed v2 contracts without making v2 the default authority.

@@ -550,7 +550,7 @@ fn historical_runtime_retirement_preserves_custody_and_rejects_drift() {
     let mut changed_consumer = candidate.clone();
     changed_consumer.remove("adl-characterization/corpus/v2/shadow.yaml");
     reject(successors::runtime_remnants(&repo, &changed_consumer));
-    for kept in ["README.md", "adl/src/cli/runtime_owner.rs", "csdlc-v3/operator/authority-selector.json", "csdlc-v3/operator/native-authority-receipt.json", "csdlc-v3/operator/native-authority-pr-observation.json"] {
+    for kept in ["README.md", "adl/src/cli/runtime_owner.rs"] {
         assert_eq!(candidate[kept], historical[kept]);
     }
 }
@@ -559,6 +559,7 @@ fn historical_runtime_retirement_preserves_custody_and_rejects_drift() {
 fn local_adl_state_is_untracked_with_recoverable_preimages() {
     let repo = repo();
     let candidate = repo.tree("HEAD").unwrap();
+    let candidate = successors::retired_authority(&repo, &candidate).unwrap();
     let historical = successors::local_adl_state(&repo, &candidate).unwrap();
     let path = ".adl/worktree-policy.json";
     assert!(historical.contains_key(path));
@@ -568,5 +569,18 @@ fn local_adl_state_is_untracked_with_recoverable_preimages() {
     let mut added = candidate.clone();
     added.insert(".adl/new-state.json".into(), historical[path].clone());
     reject(successors::local_adl_state(&repo, &added));
+    assert_eq!(candidate["README.md"], historical["README.md"]);
+}
+
+#[test]
+fn retired_project_authority_has_exact_historical_custody() {
+    let repo = repo();
+    let candidate = repo.tree("HEAD").unwrap();
+    let historical = successors::retired_authority(&repo, &candidate).unwrap();
+    let path = "csdlc-v3/operator/authority-selector.json";
+    assert!(historical.contains_key(path));
+    let mut restored = candidate.clone();
+    restored.insert(path.into(), historical[path].clone());
+    reject(successors::retired_authority(&repo, &restored));
     assert_eq!(candidate["README.md"], historical["README.md"]);
 }

@@ -197,9 +197,9 @@ than editing rendered Markdown directly:
 .adl/bin/native-v3/csdlc validate --request <validate-request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>
 ```
 
-Resolve authority through `csdlc-v3/operator/authority-selector.json` and its
-authenticated receipt before selecting the native v3 owner. Missing or stale
-proof suspends authority; it does not authorize fallback to v2. Cargo target
+Resolve authority through the authenticated installed native v3 owner package
+and its repository binding. Missing or stale integrity or lifecycle evidence
+suspends authority; it does not authorize fallback to v2. Cargo target
 directories are build caches, not operational authority. Retained v2 commands
 may be used only for an explicitly authorized rollback or bounded transition
 remediation.
