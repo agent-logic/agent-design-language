@@ -21,6 +21,7 @@ work packages.
 - `canonical_json` / `canonical_bytes`: deterministic source-model output.
 - `json_schema`: generated Draft 2020-12-compatible schema value.
 
-The characterization parity test consumes the reviewed #5337 corpus directly
-and records why compiler-, CLI-, execution-, and signing-owned cases are not
-WP-04 language claims.
+The characterization parity test consumes the package-local `fixtures/` copied
+from the reviewed #5337 corpus. It records why compiler-, CLI-, execution-, and
+signing-owned cases are not WP-04 language claims. The retired standalone
+harness remains recoverable through [its custody record](../../../docs/archives/ADL_CHARACTERIZATION_1378.json).

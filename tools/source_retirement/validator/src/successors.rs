@@ -191,7 +191,8 @@ pub fn podcast(repo: &Repo, candidate: &Tree) -> Result<Tree> {
     Ok(result)
 }
 pub fn normalized(repo: &Repo, candidate: &Tree) -> Result<Tree> {
-    let candidate = obsolete_v2_tools(repo, candidate)?;
+    let candidate = retired_characterization(repo, candidate)?;
+    let candidate = obsolete_v2_tools(repo, &candidate)?;
     let candidate = retired_authority(repo, &candidate)?;
     let candidate = local_adl_state(repo, &candidate)?;
     let candidate = runtime_remnants(repo, &candidate)?;
@@ -333,5 +334,17 @@ pub fn obsolete_v2_tools(repo: &Repo, candidate: &Tree) -> Result<Tree> {
     repo.git(&["merge-base", "--is-ancestor", revision, "HEAD"])?;
     let expected: Paths = ["adl-v2/tools/install-adl-v2.sh", "adl-v2/tools/prove-rollback.sh", "adl-v2/tools/run-soak.sh"].into_iter().map(str::to_owned).collect();
     ensure!(expected == strings(&manifest["removed"])?, "obsolete v2 tool scope mismatch");
+    language(repo, candidate, &manifest)
+}
+
+/// Recover the pinned characterization corpus and old consumers for historical audits.
+pub fn retired_characterization(repo: &Repo, candidate: &Tree) -> Result<Tree> {
+    let manifest = repo.pinned("docs/archives/ADL_CHARACTERIZATION_1378.json", "7cdc80a93da0e1d7148d142a61dc005cf3ad451b4e4dde24ba41763345527bfa")?;
+    let revision = string(&manifest["source_commit"])?;
+    repo.git(&["merge-base", "--is-ancestor", revision, "HEAD"])?;
+    let baseline = repo.tree(revision)?;
+    let expected: Paths = baseline.keys().filter(|p| p.starts_with("adl-characterization/")).cloned().collect();
+    ensure!(expected.len() == 191 && expected == strings(&manifest["removed"])?, "characterization custody scope mismatch");
+    ensure!(!candidate.keys().any(|p| p == "adl-characterization" || p.starts_with("adl-characterization/")), "retired characterization reintroduced");
     language(repo, candidate, &manifest)
 }

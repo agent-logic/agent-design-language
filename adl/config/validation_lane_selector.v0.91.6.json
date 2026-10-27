@@ -76,27 +76,6 @@
   },
   "lanes": [
     {
-      "id": "adl_characterization_standalone",
-      "lane_class": "rust_unit",
-      "default_surface": "tooling",
-      "owner": "adl-characterization",
-      "proof_role": "standalone_regression",
-      "resource_class": "small",
-      "determinism_posture": "deterministic",
-      "requirement_ids": [
-        "adl_characterization_standalone"
-      ],
-      "path_selectors": [
-        "adl-characterization/**"
-      ],
-      "path_hints": [
-        "adl-characterization/**"
-      ],
-      "command": "bash adl/tools/run_cargo_validation.sh cargo test --locked --manifest-path adl-characterization/Cargo.toml && bash adl/tools/run_cargo_validation.sh cargo fmt --manifest-path adl-characterization/Cargo.toml --all -- --check && bash adl/tools/run_cargo_validation.sh cargo clippy --locked --manifest-path adl-characterization/Cargo.toml --all-targets -- -D warnings",
-      "run_command": "bash adl/tools/run_cargo_validation.sh cargo test --locked --manifest-path adl-characterization/Cargo.toml && bash adl/tools/run_cargo_validation.sh cargo fmt --manifest-path adl-characterization/Cargo.toml --all -- --check && bash adl/tools/run_cargo_validation.sh cargo clippy --locked --manifest-path adl-characterization/Cargo.toml --all-targets -- -D warnings",
-      "reason": "independent_cargo_root_requires_locked_focused_suite"
-    },
-    {
       "id": "adl_resilience_standalone",
       "lane_class": "rust_unit",
       "default_surface": "tooling",
