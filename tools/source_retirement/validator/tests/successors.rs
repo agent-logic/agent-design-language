@@ -143,6 +143,7 @@ fn podcast_original_and_reviewed_readme_successor() {
 fn actual_committed_head_satisfies_successor_admission() {
     let r = repo();
     let candidate = r.tree("HEAD").unwrap();
+    let candidate = successors::runtime_remnants(&r, &candidate).unwrap();
     let normalized = successors::normalize_language(&r, &candidate).unwrap();
     let normalized = successors::readiness(&r, &normalized).unwrap();
     let normalized = successors::cleanup(&r, &normalized).unwrap();
