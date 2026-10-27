@@ -178,3 +178,56 @@ fn nightly_wiring() {
     assert!(workflow.contains("if-no-files-found: error"));
     assert!(workflow.contains("-- coverage-report"));
 }
+
+#[test]
+fn codecov_reuses_public_reports_with_scoped_authentication() {
+    // PVF local_contract: deterministic workflow security and report-selection proof;
+    // bounded CPU, no provider calls; required CI wiring gate.
+    for (path, job, report) in [
+        (
+            ".github/workflows/ci.yaml",
+            "public_adl_coverage",
+            "public-adl-coverage",
+        ),
+        (
+            ".github/workflows/nightly-coverage-ratchet.yaml",
+            "nightly-coverage-ratchet",
+            "nightly-public-coverage",
+        ),
+    ] {
+        let workflow: serde_yaml::Value = serde_yaml::from_str(&read(path)).unwrap();
+        assert!(workflow["permissions"]["id-token"].is_null());
+        let coverage = &workflow["jobs"][job];
+        assert_eq!(coverage["permissions"]["contents"].as_str(), Some("read"));
+        assert_eq!(coverage["permissions"]["id-token"].as_str(), Some("write"));
+        let steps = coverage["steps"].as_sequence().unwrap();
+        let uploads: Vec<_> = steps
+            .iter()
+            .filter(|s| {
+                s["uses"]
+                    .as_str()
+                    .is_some_and(|v| v.starts_with("codecov/codecov-action@"))
+            })
+            .collect();
+        assert_eq!(uploads.len(), 1);
+        let upload = uploads[0];
+        assert_eq!(upload["with"]["use_oidc"].as_bool(), Some(true));
+        assert_eq!(upload["with"]["disable_search"].as_bool(), Some(true));
+        assert_eq!(upload["with"]["fail_ci_if_error"].as_bool(), Some(true));
+        assert!(upload["with"]["override_commit"].is_null());
+        assert!(upload["with"]["override_branch"].is_null());
+        let files: Vec<_> = upload["with"]["files"]
+            .as_str()
+            .unwrap()
+            .split(',')
+            .collect();
+        assert_eq!(files.len(), 6);
+        assert!(files.iter().all(
+            |p| p.starts_with(&format!("${{{{ runner.temp }}}}/{report}/"))
+                && p.ends_with("/coverage.lcov")
+        ));
+        if job == "public_adl_coverage" {
+            assert_eq!(upload["if"].as_str(), Some("github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository"));
+        }
+    }
+}

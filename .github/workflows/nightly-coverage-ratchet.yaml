@@ -10,6 +10,9 @@ permissions:
 jobs:
   nightly-coverage-ratchet:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
     env:
       COVERAGE_OUTPUT: ${{ runner.temp }}/nightly-public-coverage
       CARGO_PROFILE_DEV_DEBUG: '0'
@@ -44,6 +47,15 @@ jobs:
       - name: Measure retained public source
         id: coverage
         run: cargo run --locked --quiet --manifest-path tools/ci_contracts/Cargo.toml -- coverage --mode full --output "$COVERAGE_OUTPUT"
+
+      - name: Upload public coverage to Codecov
+        uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
+        with:
+          use_oidc: true
+          disable_search: true
+          files: ${{ runner.temp }}/nightly-public-coverage/adl/coverage.lcov,${{ runner.temp }}/nightly-public-coverage/adl-schema/coverage.lcov,${{ runner.temp }}/nightly-public-coverage/adl-uts/coverage.lcov,${{ runner.temp }}/nightly-public-coverage/adl-language/coverage.lcov,${{ runner.temp }}/nightly-public-coverage/adl-compiler/coverage.lcov,${{ runner.temp }}/nightly-public-coverage/adl-legacy-contracts/coverage.lcov
+          flags: public-adl
+          fail_ci_if_error: true
 
       - name: Build nightly report
         if: always()

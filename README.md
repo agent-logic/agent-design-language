@@ -10,14 +10,11 @@ contracts and CLI; execution belongs to separately installed product owners.
 See the [repository map](docs/REPOSITORIES.md) for Runtime, CodeFriend and
 Cognitive-SDLC ownership.
 
-[![adl-ci](https://github.com/agent-logic/agent-design-language/actions/workflows/ci.yaml/badge.svg)](https://github.com/agent-logic/agent-design-language/actions/workflows/ci.yaml)
-[![coverage: public CI](https://img.shields.io/badge/coverage-public%20CI-blue)](https://github.com/agent-logic/agent-design-language/actions/workflows/ci.yaml)
+[![adl-ci](https://github.com/agent-logic/agent-design-language/actions/workflows/ci.yaml/badge.svg?event=pull_request)](https://github.com/agent-logic/agent-design-language/actions/workflows/ci.yaml)
+[![coverage](https://codecov.io/gh/agent-logic/agent-design-language/graph/badge.svg?branch=main)](https://app.codecov.io/gh/agent-logic/agent-design-language/tree/main)
 ![Milestone](https://img.shields.io/badge/milestone-v0.93.2%20active%20development-blue)
 
 Homepage: [agent-logic.ai](https://agent-logic.ai)
-
-Coverage reports are retained by the public CI coverage job; the coverage badge
-links to those runs and does not claim a coverage percentage.
 
 ![ADL deterministic cognitive architecture overview](docs/assets/ADL-overview.png)
 

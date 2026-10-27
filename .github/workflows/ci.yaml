@@ -155,6 +155,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      id-token: write
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
@@ -180,6 +181,15 @@ jobs:
           else
             cargo run --locked --quiet --manifest-path tools/ci_contracts/Cargo.toml -- coverage --mode full --output "$COVERAGE_OUTPUT"
           fi
+      - name: Upload public coverage to Codecov
+        if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+        uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
+        with:
+          use_oidc: true
+          disable_search: true
+          files: ${{ runner.temp }}/public-adl-coverage/adl/coverage.lcov,${{ runner.temp }}/public-adl-coverage/adl-schema/coverage.lcov,${{ runner.temp }}/public-adl-coverage/adl-uts/coverage.lcov,${{ runner.temp }}/public-adl-coverage/adl-language/coverage.lcov,${{ runner.temp }}/public-adl-coverage/adl-compiler/coverage.lcov,${{ runner.temp }}/public-adl-coverage/adl-legacy-contracts/coverage.lcov
+          flags: public-adl
+          fail_ci_if_error: true
       - name: Retain public coverage evidence
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
