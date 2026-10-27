@@ -227,8 +227,7 @@ status references. Historical milestone documents remain available unchanged.
 ## Project Status
 
 - Current delivery plan: [v0.93.2](docs/milestones/v0.93.2/README.md).
-- Public `adl` package version: `0.92.1`, as declared in [adl/Cargo.toml](adl/Cargo.toml).
-  Package versions and cross-repository milestone numbers are distinct.
+- Public `adl` package version: `0.93.2`, as declared in [adl/Cargo.toml](adl/Cargo.toml).
 - Primary implementation language: Rust.
 - Public scope: ADL language, schemas, tool contracts and CLI dispatch.
 - Runtime, CodeFriend and Cognitive-SDLC implementations and qualification belong
