@@ -547,6 +547,9 @@ fn historical_runtime_retirement_preserves_custody_and_rejects_drift() {
     let mut new_source = candidate.clone();
     new_source.insert("csdlc-v2/unreviewed.rs".into(), historical[path].clone());
     reject(successors::runtime_remnants(&repo, &new_source));
+    let mut changed_authority = candidate.clone();
+    changed_authority.remove("csdlc-v3/operator/authority-selector.json");
+    reject(successors::runtime_remnants(&repo, &changed_authority));
     let mut changed_consumer = candidate.clone();
     changed_consumer.remove("adl-characterization/corpus/v2/shadow.yaml");
     reject(successors::runtime_remnants(&repo, &changed_consumer));

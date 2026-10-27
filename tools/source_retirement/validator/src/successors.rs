@@ -1,6 +1,6 @@
 use crate::*;
 pub const RUNTIME_REMNANTS_PIN: &str =
-    "6f1927cc92a5f68342802a09e320e65d3ab856f0ee0fbbbaad909c8845eebb8b";
+    "323599a131098ee4367adfbade76454db9b00d64c70d9abef813f5c1278c3f13";
 pub const CLEANUP_PIN: &str = "762c27b2d844ba3f166ea5bf05a1eb65b2f752b7d4e4f341f107b7a9ebf15915";
 pub const READINESS_PIN: &str = "4b1cc0ef6b60d7cc0ec8b2b9d3354489d0036328dcfa9f1d1e43543ffc7bf560";
 pub const PODCAST_PIN: &str = "a7026948d2934bb4cef4071034a168d61d51df3c96c7a6131ffd56d8ea80fd3f";
@@ -256,6 +256,12 @@ pub fn runtime_remnants(repo: &Repo, candidate: &Tree) -> Result<Tree> {
         .filter(|p| prefixes.iter().any(|prefix| p.starts_with(prefix)))
         .cloned()
         .collect();
+    for path in strings(&manifest["preserved"])? {
+        ensure!(
+            *at(candidate, &path) == *at(&baseline, &path),
+            "preserved runtime boundary changed: {path}"
+        );
+    }
     let mut seen = Paths::new();
     let mut result = candidate.clone();
     for row in rows(&manifest["entries"])? {

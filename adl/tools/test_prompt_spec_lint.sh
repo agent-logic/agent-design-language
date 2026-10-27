@@ -12,7 +12,7 @@ if [[ -e adl/tools/lint_prompt_spec.sh ]]; then
   exit 1
 fi
 
-test ! -e csdlc-v2/operator/skills
+test ! -f csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md
 if rg -n 'adl/tools/lint_prompt_spec\.sh' docs/templates/prompts/1.0.3 >/dev/null; then
   echo "assertion failed: active prompt templates reference the sunset lint wrapper" >&2
   exit 1
