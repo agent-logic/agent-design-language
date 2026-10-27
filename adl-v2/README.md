@@ -16,3 +16,8 @@ Exact published Git preimages and hashes are recorded in the
 and the earlier [adapter archive transition](../tools/public_readiness_archive/transition.json).
 Historical characterization decisions now link to immutable source revisions.
 These archived packages are not supported workspace members or installed products.
+
+The obsolete installer, rollback and soak scripts for the retired `adl-v2` binary
+have also been removed. Their original bytes and modes remain recoverable through
+[the tools retirement manifest](../docs/archives/ADL_V2_TOOLS_1376.json).
+The language and compiler packages and their workspace manifests are unchanged.

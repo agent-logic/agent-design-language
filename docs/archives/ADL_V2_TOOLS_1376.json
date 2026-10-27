@@ -1,0 +1,64 @@
+{
+  "schema": "adl.obsolete_v2_tools_retirement.v1",
+  "issue": 1376,
+  "source_commit": "3df8494012b4b26fb7962f4498145a2506e21a7a",
+  "boundary": "Retire only the obsolete installer, rollback and soak scripts. Published Git preserves original executable modes and bytes; language/compiler packages and workspace manifests are unchanged. Historical milestone references retain their source-time meaning.",
+  "removed": [
+    "adl-v2/tools/install-adl-v2.sh",
+    "adl-v2/tools/prove-rollback.sh",
+    "adl-v2/tools/run-soak.sh"
+  ],
+  "changes": [
+    {
+      "path": "adl-v2/tools/install-adl-v2.sh",
+      "before": [
+        "100755",
+        "09598b341e4d3bdde9ba27296bf4e3165ce7a9f4"
+      ],
+      "before_sha256": "9d659952758c41b79ae600fba3bd61d907e874bae1f2c1ddbf5b82a4c2c222dd",
+      "after": null
+    },
+    {
+      "path": "adl-v2/tools/prove-rollback.sh",
+      "before": [
+        "100755",
+        "5925780140a419e76f5f37fb74127817f3b21d26"
+      ],
+      "before_sha256": "96895f7afac4bcbc80f2c561462f29e366474fed80e0c3ead7ce19c4db6fca01",
+      "after": null
+    },
+    {
+      "path": "adl-v2/tools/run-soak.sh",
+      "before": [
+        "100755",
+        "f1c103d1b054a51612a44b8038397c3c9cb75b72"
+      ],
+      "before_sha256": "737803dbf8519b66a0c81f4c85c886477875a2473da8d814104da01233736d37",
+      "after": null
+    },
+    {
+      "path": "adl-v2/README.md",
+      "before": [
+        "100644",
+        "4165961cf2c7755d78ae9169301cb8dd7214dbca"
+      ],
+      "before_sha256": "b17945dcf9d75ee65234d5ad84f41801a355fb57d60e9cf65f153c6edc5ddf19",
+      "after": [
+        "100644",
+        "3724f80fb739a5f05d98d7202b12bbaab0559e99"
+      ]
+    },
+    {
+      "path": "docs/tooling/worktree_governance.md",
+      "before": [
+        "100644",
+        "04eeb0d04a7306550024ba0f86cb44d263ed36a8"
+      ],
+      "before_sha256": "bded45427582be124b9cd296fa1fb6defcfa150672e80ffa9090de2d6ee12a98",
+      "after": [
+        "100644",
+        "f1b695beaa60f82918de2f21b03e5f335584e26d"
+      ]
+    }
+  ]
+}

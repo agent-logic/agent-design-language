@@ -191,7 +191,8 @@ pub fn podcast(repo: &Repo, candidate: &Tree) -> Result<Tree> {
     Ok(result)
 }
 pub fn normalized(repo: &Repo, candidate: &Tree) -> Result<Tree> {
-    let candidate = retired_authority(repo, candidate)?;
+    let candidate = obsolete_v2_tools(repo, candidate)?;
+    let candidate = retired_authority(repo, &candidate)?;
     let candidate = local_adl_state(repo, &candidate)?;
     let candidate = runtime_remnants(repo, &candidate)?;
     let candidate = normalize_language(repo, &candidate)?;
@@ -322,5 +323,15 @@ pub fn retired_authority(repo: &Repo, candidate: &Tree) -> Result<Tree> {
     let baseline = repo.tree(revision)?;
     let expected: Paths = baseline.keys().filter(|p| p.starts_with("csdlc-v3/operator/")).cloned().collect();
     ensure!(expected == strings(&manifest["removed"])? && expected.len() == 3, "authority retirement inventory mismatch");
+    language(repo, candidate, &manifest)
+}
+
+/// Restore exact historical script and documentary inputs for the retirement audit.
+pub fn obsolete_v2_tools(repo: &Repo, candidate: &Tree) -> Result<Tree> {
+    let manifest = repo.pinned("docs/archives/ADL_V2_TOOLS_1376.json", "ed539c6dc83aa42a6dca627ad74be9b00c686d2feec070d3a7fa9c7adb9be39e")?;
+    let revision = string(&manifest["source_commit"])?;
+    repo.git(&["merge-base", "--is-ancestor", revision, "HEAD"])?;
+    let expected: Paths = ["adl-v2/tools/install-adl-v2.sh", "adl-v2/tools/prove-rollback.sh", "adl-v2/tools/run-soak.sh"].into_iter().map(str::to_owned).collect();
+    ensure!(expected == strings(&manifest["removed"])?, "obsolete v2 tool scope mismatch");
     language(repo, candidate, &manifest)
 }
