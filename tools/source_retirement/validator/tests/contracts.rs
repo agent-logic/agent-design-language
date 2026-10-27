@@ -537,6 +537,7 @@ fn archive_member_mode_bytes_and_scope() {
 fn historical_runtime_retirement_preserves_custody_and_rejects_drift() {
     let repo = repo();
     let candidate = repo.tree("HEAD").unwrap();
+    let candidate = successors::owner_cleanup_1384(&repo, &candidate).unwrap();
     let candidate = successors::owner_cleanup_1385(&repo, &candidate).unwrap();
     let candidate = successors::owner_cleanup_1386(&repo, &candidate).unwrap();
     let candidate = successors::runtime_owner_cleanup(&repo, &candidate).unwrap();
@@ -565,6 +566,7 @@ fn historical_runtime_retirement_preserves_custody_and_rejects_drift() {
 fn local_adl_state_is_untracked_with_recoverable_preimages() {
     let repo = repo();
     let candidate = repo.tree("HEAD").unwrap();
+    let candidate = successors::owner_cleanup_1384(&repo, &candidate).unwrap();
     let candidate = successors::owner_cleanup_1385(&repo, &candidate).unwrap();
     let candidate = successors::owner_cleanup_1386(&repo, &candidate).unwrap();
     let candidate = successors::runtime_owner_cleanup(&repo, &candidate).unwrap();
@@ -588,6 +590,7 @@ fn local_adl_state_is_untracked_with_recoverable_preimages() {
 fn retired_project_authority_has_exact_historical_custody() {
     let repo = repo();
     let candidate = repo.tree("HEAD").unwrap();
+    let candidate = successors::owner_cleanup_1384(&repo, &candidate).unwrap();
     let candidate = successors::owner_cleanup_1385(&repo, &candidate).unwrap();
     let candidate = successors::owner_cleanup_1386(&repo, &candidate).unwrap();
     let candidate = successors::runtime_owner_cleanup(&repo, &candidate).unwrap();
@@ -607,6 +610,7 @@ fn retired_project_authority_has_exact_historical_custody() {
 fn obsolete_v2_scripts_have_custody_and_cannot_be_restored() {
     let repo = repo();
     let candidate = repo.tree("HEAD").unwrap();
+    let candidate = successors::owner_cleanup_1384(&repo, &candidate).unwrap();
     let candidate = successors::owner_cleanup_1385(&repo, &candidate).unwrap();
     let candidate = successors::owner_cleanup_1386(&repo, &candidate).unwrap();
     let candidate = successors::runtime_owner_cleanup(&repo, &candidate).unwrap();
@@ -629,6 +633,7 @@ fn obsolete_v2_scripts_have_custody_and_cannot_be_restored() {
 fn characterization_retirement_preserves_corpus_and_rejects_resurrection() {
     let repo = repo();
     let candidate = repo.tree("HEAD").unwrap();
+    let candidate = successors::owner_cleanup_1384(&repo, &candidate).unwrap();
     let candidate = successors::owner_cleanup_1385(&repo, &candidate).unwrap();
     let candidate = successors::owner_cleanup_1386(&repo, &candidate).unwrap();
     let candidate = successors::runtime_owner_cleanup(&repo, &candidate).unwrap();
@@ -658,6 +663,7 @@ fn characterization_retirement_preserves_corpus_and_rejects_resurrection() {
 fn retired_runtime_design_has_exact_custody_without_wider_deletion() {
     let repo = repo();
     let candidate = repo.tree("HEAD").unwrap();
+    let candidate = successors::owner_cleanup_1384(&repo, &candidate).unwrap();
     let candidate = successors::owner_cleanup_1385(&repo, &candidate).unwrap();
     let candidate = successors::owner_cleanup_1386(&repo, &candidate).unwrap();
     let candidate = successors::runtime_owner_cleanup(&repo, &candidate).unwrap();
@@ -678,6 +684,7 @@ fn retired_runtime_design_has_exact_custody_without_wider_deletion() {
 #[test]
 fn runtime_owner_cleanup_preserves_custody_and_rejects_consumer_drift() {
  let repo = repo(); let candidate = repo.tree("HEAD").unwrap();
+    let candidate = successors::owner_cleanup_1384(&repo, &candidate).unwrap();
     let candidate = successors::owner_cleanup_1385(&repo, &candidate).unwrap();
  let candidate = successors::owner_cleanup_1386(&repo, &candidate).unwrap();
  let historical = successors::runtime_owner_cleanup(&repo, &candidate).unwrap();
@@ -694,6 +701,7 @@ fn runtime_owner_cleanup_preserves_custody_and_rejects_consumer_drift() {
 #[test]
 fn cleanup_1386_rejects_restoration_and_consumer_loss() {
  let repo = repo(); let candidate = repo.tree("HEAD").unwrap();
+    let candidate = successors::owner_cleanup_1384(&repo, &candidate).unwrap();
     let candidate = successors::owner_cleanup_1385(&repo, &candidate).unwrap();
  let historical = successors::owner_cleanup_1386(&repo, &candidate).unwrap();
  let mut restored = candidate.clone(); restored.insert("adl/tools/test_codefriend_fitness_ci_artifacts.py".into(), historical["adl/tools/test_codefriend_fitness_ci_artifacts.py"].clone());
@@ -705,9 +713,20 @@ fn cleanup_1386_rejects_restoration_and_consumer_loss() {
 #[test]
 fn cleanup_1385_rejects_restoration_and_consumer_loss() {
  let repo = repo(); let candidate = repo.tree("HEAD").unwrap();
+    let candidate = successors::owner_cleanup_1384(&repo, &candidate).unwrap();
  let historical = successors::owner_cleanup_1385(&repo, &candidate).unwrap();
  let mut restored = candidate.clone(); restored.insert("docs/operations/cloud/aws/access-billing/AWS_ACCESS_BILLING_BASELINE.md".into(), historical["docs/operations/cloud/aws/access-billing/AWS_ACCESS_BILLING_BASELINE.md"].clone());
  reject(successors::owner_cleanup_1385(&repo, &restored));
  let mut lost = candidate.clone(); lost.remove("docs/tooling/README.md"); reject(successors::owner_cleanup_1385(&repo, &lost));
+ for p in ["adl-uts/Cargo.toml", "adl-v2/crates/adl-language/Cargo.toml", "adl-v2/crates/adl-compiler/Cargo.toml", "adl/src/cli/runtime_owner.rs"] { assert_eq!(candidate[p], historical[p]); }
+}
+
+#[test]
+fn cleanup_1384_rejects_restoration_and_consumer_loss() {
+ let repo = repo(); let candidate = repo.tree("HEAD").unwrap();
+ let historical = successors::owner_cleanup_1384(&repo, &candidate).unwrap();
+ let mut restored = candidate.clone(); restored.insert("docs/architecture/csdlc-v2/CSDLC_V1_BASELINE_AND_V2_BUDGETS.md".into(), historical["docs/architecture/csdlc-v2/CSDLC_V1_BASELINE_AND_V2_BUDGETS.md"].clone());
+ reject(successors::owner_cleanup_1384(&repo, &restored));
+ let mut lost = candidate.clone(); lost.remove("docs/tooling/TOOL_SURFACE_REGISTRY.md"); reject(successors::owner_cleanup_1384(&repo, &lost));
  for p in ["adl-uts/Cargo.toml", "adl-v2/crates/adl-language/Cargo.toml", "adl-v2/crates/adl-compiler/Cargo.toml", "adl/src/cli/runtime_owner.rs"] { assert_eq!(candidate[p], historical[p]); }
 }

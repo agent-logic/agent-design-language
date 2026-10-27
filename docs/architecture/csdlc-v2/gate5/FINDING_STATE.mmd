@@ -1,9 +1,0 @@
-stateDiagram-v2
-  [*] --> Open: finding recorded
-  Open --> Fixed: in-scope fix + revision
-  Open --> AcceptedRisk: explicit bounded risk
-  Open --> OutOfScope: route retained
-  Fixed --> [*]
-  AcceptedRisk --> [*]
-  OutOfScope --> [*]
-  Open --> BlockPublication: actionable unresolved

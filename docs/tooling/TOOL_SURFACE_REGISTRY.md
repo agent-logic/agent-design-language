@@ -131,7 +131,6 @@ bash adl/tools/generate_tool_surface_registry.sh --check
 | `adl/tools/test_completed_output_validation.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_csdlc_demo_proof_contract_packet.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_csdlc_prompt_editor.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_csdlc_v2_supply_chain.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_operator_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v0891_arxiv_manuscript_workflow.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_demo_v0902_arxiv_writer_field_test.sh` | tool surface | internal helper | Focused regression or contract test helper. |
@@ -206,7 +205,6 @@ bash adl/tools/generate_tool_surface_registry.sh --check
 | `adl/tools/validate_architecture_docs.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_codebuddy_review_showcase_demo.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_csdlc_demo_proof_contract_packet.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
-| `adl/tools/validate_csdlc_v2_supply_chain.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_evidence_bundle_packet.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_first_proof_demo_packet.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/validate_first_proof_readiness_packet.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |

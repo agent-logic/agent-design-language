@@ -46,3 +46,13 @@ bash adl/tools/demo_v090_architecture_document_generation.sh
 
 The proof packet writes ignored reviewer artifacts under
 `artifacts/v090/adl_architecture_document_generation/`.
+
+## C-SDLC ownership and historical designs
+
+C-SDLC lifecycle implementation and qualification belong to
+[Cognitive-SDLC](https://github.com/agent-logic/cognitive-sdlc).
+The retired v2 clean-room architecture, gate packets and source-era supply-chain
+scripts remain recoverable through [exact Git custody](../archives/OWNER_CLEANUP_1384.json).
+Use [current authority](../csdlc-v3/CURRENT_AUTHORITY.md) and the authenticated
+installed package manuals for current operations. Historical v2 instructions do
+not grant current authority.
