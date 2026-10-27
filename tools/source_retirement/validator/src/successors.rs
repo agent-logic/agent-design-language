@@ -191,7 +191,8 @@ pub fn podcast(repo: &Repo, candidate: &Tree) -> Result<Tree> {
     Ok(result)
 }
 pub fn normalized(repo: &Repo, candidate: &Tree) -> Result<Tree> {
-    let candidate = retired_characterization(repo, candidate)?;
+    let candidate = retired_runtime_design(repo, candidate)?;
+    let candidate = retired_characterization(repo, &candidate)?;
     let candidate = obsolete_v2_tools(repo, &candidate)?;
     let candidate = retired_authority(repo, &candidate)?;
     let candidate = local_adl_state(repo, &candidate)?;
@@ -346,5 +347,15 @@ pub fn retired_characterization(repo: &Repo, candidate: &Tree) -> Result<Tree> {
     let expected: Paths = baseline.keys().filter(|p| p.starts_with("adl-characterization/")).cloned().collect();
     ensure!(expected.len() == 191 && expected == strings(&manifest["removed"])?, "characterization custody scope mismatch");
     ensure!(!candidate.keys().any(|p| p == "adl-characterization" || p.starts_with("adl-characterization/")), "retired characterization reintroduced");
+    language(repo, candidate, &manifest)
+}
+
+/// Recover the two historical Runtime design records without restoring operational authority.
+pub fn retired_runtime_design(repo: &Repo, candidate: &Tree) -> Result<Tree> {
+    let manifest = repo.pinned("docs/archives/RUNTIME_DESIGN_1379.json", "33e2ebc37d28d3c7de23a6b2d6677a9a4f4dbde88204ca8ffc46afe98ded698b")?;
+    let revision = string(&manifest["source_commit"])?;
+    repo.git(&["merge-base", "--is-ancestor", revision, "HEAD"])?;
+    let expected: Paths = ["design/issue-111.md", "design/issue-111.mmd"].into_iter().map(str::to_owned).collect();
+    ensure!(expected == strings(&manifest["removed"])?, "Runtime design retirement scope mismatch");
     language(repo, candidate, &manifest)
 }

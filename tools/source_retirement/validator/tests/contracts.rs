@@ -537,6 +537,7 @@ fn archive_member_mode_bytes_and_scope() {
 fn historical_runtime_retirement_preserves_custody_and_rejects_drift() {
     let repo = repo();
     let candidate = repo.tree("HEAD").unwrap();
+    let candidate = successors::retired_runtime_design(&repo, &candidate).unwrap();
     let candidate = successors::retired_characterization(&repo, &candidate).unwrap();
     let candidate = successors::obsolete_v2_tools(&repo, &candidate).unwrap();
     let historical = successors::runtime_remnants(&repo, &candidate).unwrap();
@@ -561,6 +562,7 @@ fn historical_runtime_retirement_preserves_custody_and_rejects_drift() {
 fn local_adl_state_is_untracked_with_recoverable_preimages() {
     let repo = repo();
     let candidate = repo.tree("HEAD").unwrap();
+    let candidate = successors::retired_runtime_design(&repo, &candidate).unwrap();
     let candidate = successors::retired_characterization(&repo, &candidate).unwrap();
     let candidate = successors::obsolete_v2_tools(&repo, &candidate).unwrap();
     let candidate = successors::retired_authority(&repo, &candidate).unwrap();
@@ -580,6 +582,7 @@ fn local_adl_state_is_untracked_with_recoverable_preimages() {
 fn retired_project_authority_has_exact_historical_custody() {
     let repo = repo();
     let candidate = repo.tree("HEAD").unwrap();
+    let candidate = successors::retired_runtime_design(&repo, &candidate).unwrap();
     let candidate = successors::retired_characterization(&repo, &candidate).unwrap();
     let candidate = successors::obsolete_v2_tools(&repo, &candidate).unwrap();
     let historical = successors::retired_authority(&repo, &candidate).unwrap();
@@ -595,6 +598,7 @@ fn retired_project_authority_has_exact_historical_custody() {
 fn obsolete_v2_scripts_have_custody_and_cannot_be_restored() {
     let repo = repo();
     let candidate = repo.tree("HEAD").unwrap();
+    let candidate = successors::retired_runtime_design(&repo, &candidate).unwrap();
     let candidate = successors::retired_characterization(&repo, &candidate).unwrap();
     let historical = successors::obsolete_v2_tools(&repo, &candidate).unwrap();
     for path in ["adl-v2/tools/install-adl-v2.sh", "adl-v2/tools/prove-rollback.sh", "adl-v2/tools/run-soak.sh"] {
@@ -613,6 +617,7 @@ fn obsolete_v2_scripts_have_custody_and_cannot_be_restored() {
 fn characterization_retirement_preserves_corpus_and_rejects_resurrection() {
     let repo = repo();
     let candidate = repo.tree("HEAD").unwrap();
+    let candidate = successors::retired_runtime_design(&repo, &candidate).unwrap();
     let historical = successors::retired_characterization(&repo, &candidate).unwrap();
     for path in ["adl-characterization/src/shadow.rs", "adl-characterization/observations/v1/verification.json", "adl-characterization/corpus/v2/shadow.yaml"] {
         assert!(!candidate.contains_key(path));
@@ -632,4 +637,22 @@ fn characterization_retirement_preserves_corpus_and_rejects_resurrection() {
             assert_eq!(Some(identity), historical.get(path));
         }
     }
+}
+
+#[test]
+fn retired_runtime_design_has_exact_custody_without_wider_deletion() {
+    let repo = repo();
+    let candidate = repo.tree("HEAD").unwrap();
+    let historical = successors::retired_runtime_design(&repo, &candidate).unwrap();
+    for path in ["design/issue-111.md", "design/issue-111.mmd"] {
+        assert!(!candidate.contains_key(path));
+        assert!(historical.contains_key(path));
+        let mut restored = candidate.clone();
+        restored.insert(path.into(), historical[path].clone());
+        reject(successors::retired_runtime_design(&repo, &restored));
+    }
+    let mut unrelated = candidate.clone();
+    unrelated.remove("README.md");
+    assert!(!successors::retired_runtime_design(&repo, &unrelated).unwrap().contains_key("README.md"));
+    assert_eq!(candidate["adl-v2/crates/adl-language/src/lib.rs"], historical["adl-v2/crates/adl-language/src/lib.rs"]);
 }
