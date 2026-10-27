@@ -1,0 +1,54 @@
+{
+  "schema": "adl.local_state_untracking.v1",
+  "issue": 1372,
+  "source_commit": "ad869c3f04a0f233fc77640bcba9755d42459d85",
+  "boundary": "Untrack .adl only; local files remain. Published Git objects preserve original bytes and modes. Documentation changes remove the tracked workstation policy requirement.",
+  "removed": [
+    ".adl/docs/TBD/resilience/RUNTIME_V3_LAUNCH_AND_OBSERVATORY_RECOVERY_PLAN.md",
+    ".adl/worktree-policy.json"
+  ],
+  "changes": [
+    {
+      "path": ".adl/docs/TBD/resilience/RUNTIME_V3_LAUNCH_AND_OBSERVATORY_RECOVERY_PLAN.md",
+      "before": [
+        "100644",
+        "5479ae14394cc8349f8e532da478404eb14a55b4"
+      ],
+      "before_sha256": "0f9b949b92a663ccc4865ab65e84a02bc8fe9255c6054f45c7172564d895caaa",
+      "after": null
+    },
+    {
+      "path": ".adl/worktree-policy.json",
+      "before": [
+        "100644",
+        "4ed8820c35574e6d134e5d3aed8e5488328d3f2d"
+      ],
+      "before_sha256": "17a9f5b7d2f6bb1b9e27e870bbafb5447c653e6eeff846fcbedc60a9691a29f8",
+      "after": null
+    },
+    {
+      "path": "AGENTS.md",
+      "before": [
+        "100644",
+        "8e07c2db9eb9ab4835082ed513867b891b3ea271"
+      ],
+      "before_sha256": "ac035edc33cd43bdedfb6e6c21657f7934c1b37847cdd77b3174b36b122c4077",
+      "after": [
+        "100644",
+        "91e1debc5564e5fb34993f92dd16ada7a08dc3bd"
+      ]
+    },
+    {
+      "path": "docs/tooling/SESSION_COORDINATION_AND_ROOT_CHECKOUT_POLICY.md",
+      "before": [
+        "100644",
+        "057b22223f9b5f9eb3c83de49210e96df9074299"
+      ],
+      "before_sha256": "6432c01643774bc6b8f72dcd05a785e90cf757ef2f364c027920866be9099311",
+      "after": [
+        "100644",
+        "16874bfe215f6a0e394aa6a7eee6a62f853e9ce9"
+      ]
+    }
+  ]
+}

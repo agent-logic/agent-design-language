@@ -191,7 +191,8 @@ pub fn podcast(repo: &Repo, candidate: &Tree) -> Result<Tree> {
     Ok(result)
 }
 pub fn normalized(repo: &Repo, candidate: &Tree) -> Result<Tree> {
-    let candidate = runtime_remnants(repo, candidate)?;
+    let candidate = local_adl_state(repo, candidate)?;
+    let candidate = runtime_remnants(repo, &candidate)?;
     let candidate = normalize_language(repo, &candidate)?;
     let candidate = readiness(repo, &candidate)?;
     let candidate = cleanup(repo, &candidate)?;
@@ -294,4 +295,19 @@ pub fn runtime_remnants(repo: &Repo, candidate: &Tree) -> Result<Tree> {
         replace(&mut result, path, &row["before"]);
     }
     Ok(result)
+}
+
+/// Restore exact historical audit inputs without tracking local workstation state.
+pub fn local_adl_state(repo: &Repo, candidate: &Tree) -> Result<Tree> {
+    let manifest = repo.pinned("docs/archives/ADL_LOCAL_STATE_1372.json", "00054e9f353c1520b78a1b48dc5f6dc7d3cd1c2f1e785cf80039a566b43b096a")?;
+    let revision = string(&manifest["source_commit"])?;
+    repo.git(&["merge-base", "--is-ancestor", revision, "HEAD"])?;
+    ensure!(
+        !candidate.keys().any(|p| p == ".adl" || p.starts_with(".adl/")),
+        "local .adl state must remain untracked"
+    );
+    let baseline = repo.tree(revision)?;
+    let expected: Paths = baseline.keys().filter(|p| p.starts_with(".adl/")).cloned().collect();
+    ensure!(expected == strings(&manifest["removed"])? && !expected.is_empty(), "local .adl inventory mismatch");
+    language(repo, candidate, &manifest)
 }
