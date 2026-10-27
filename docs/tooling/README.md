@@ -223,22 +223,14 @@ regression tests. The `v0.87` bounded cleanup retired:
 - `demo_v0_4.sh`
 - `pr_smoke.sh`
 
-## Runtime provider-neutral local contract
+## Runtime proof ownership
 
-The provider-neutral birthday sources and their historical trace/matrix resources
-are owned by `agent-logic-runtime`. The retained explicit validation lane requires
-`ADL_PROVIDER_NEUTRAL_SOURCE_ROOT` to select the reviewed Runtime source root:
-
-```bash
-ADL_PROVIDER_NEUTRAL_SOURCE_ROOT="/absolute/path/to/agent-logic-runtime" \
-  python3 tools/runtime_contracts/run_provider_neutral_proof.py
-```
-
-The adapter verifies all four resource identities before invoking the original
-local-proof test. This exercises local ACIP and feed serialization; the recorded
-qualification ran in an isolated container. The route grants no paid-provider,
-hosted Observatory, HTTPS, or native admission claim.
-Existing positive/Observatory matrices and traces remain historical owner evidence.
+Runtime-specific provider-neutral, gateway and lifecycle proofs run in
+[agent-logic-runtime](https://github.com/agent-logic/agent-logic-runtime).
+Paper Sonata expansion belongs to Infrastructure. ADL retains public dispatch
+and consumer-contract coverage; owner proof execution is separate.
+The [retirement record](../archives/RUNTIME_OWNER_1383.json) preserves exact
+source identities, verified owner resources and historical recovery instructions.
 
 ## Runtime operator guide custody
 

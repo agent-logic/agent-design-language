@@ -1,0 +1,255 @@
+{
+  "schema": "adl.runtime_owner_retirement.v1",
+  "issue": 1383,
+  "source_commit": "ef64451ed94941c5775804a58f1b799de66dd4f0",
+  "removed": [
+    "tools/runtime_contracts/run_provider_neutral_proof.py",
+    "tools/runtime_contracts/run_paper_sonata.py",
+    "adl/tools/run_runtime_gateway_owner_contract.py",
+    "docs/tooling/RUNTIME_GATEWAY_OWNER_CONTRACT.md",
+    "docs/runtime-v3/PROVIDER_NEUTRAL_LIFECYCLE.md",
+    "docs/runtime-v3/fixtures/issue855/HOSTED_LIVE02_FAILED.json",
+    "docs/runtime-v3/fixtures/issue855/INSTALLED_PROOF_DRAFT_RUN08.json",
+    "docs/runtime-v3/fixtures/issue855/INSTALLED_PROOF_RUN09.json",
+    "docs/runtime-v3/fixtures/issue855/INSTALLED_PROOF_RUN10.json",
+    "docs/runtime-v3/fixtures/issue967/EXACT_HEAD_HOSTED_ACCEPTANCE_PROOF.json",
+    "docs/runtime-v3/fixtures/issue967/EXACT_HEAD_ZERO_PAID_PROOF.json",
+    "docs/runtime-v3/fixtures/issue990/MANAGED_RESTART_PROOF.json"
+  ],
+  "changes": [
+    {
+      "path": "tools/runtime_contracts/run_provider_neutral_proof.py",
+      "before": [
+        "100644",
+        "0d433c57427175ca7c6c22d2cc0324750bec6ba4"
+      ],
+      "before_sha256": "d741fdd687b182e4756de40bd3c1d11a33d5425dd5f2dbd879b332a04f4e1092",
+      "after": null
+    },
+    {
+      "path": "tools/runtime_contracts/run_paper_sonata.py",
+      "before": [
+        "100644",
+        "31ed04980cc1f2f5c9ad60608934bd6cf780b975"
+      ],
+      "before_sha256": "2fc5c0044bf232de033b5026a3910b738d95fb429a759f3f5b7a8f61516a7704",
+      "after": null
+    },
+    {
+      "path": "adl/tools/run_runtime_gateway_owner_contract.py",
+      "before": [
+        "100644",
+        "f6610f8d3a76600636891ba4d01100847259ef37"
+      ],
+      "before_sha256": "032eca9c424f6fa22692fa2d5516dc3ff264dabbb28fc73de6a1f5e70f927941",
+      "after": null
+    },
+    {
+      "path": "docs/tooling/RUNTIME_GATEWAY_OWNER_CONTRACT.md",
+      "before": [
+        "100644",
+        "dfe33121cf6ab98d53b2dc061df70a99d06dd825"
+      ],
+      "before_sha256": "6e862e5f7df2115ab08c5be2599373370f00069a5c8e15c802c815a874356795",
+      "after": null
+    },
+    {
+      "path": "docs/runtime-v3/PROVIDER_NEUTRAL_LIFECYCLE.md",
+      "before": [
+        "100644",
+        "20eeb8801bc74b3738643fca288044aea4d54f13"
+      ],
+      "before_sha256": "638ab70a2395bb9c73617e52922fac268e37d21c3fac59b025e1a8cf1c28c164",
+      "after": null
+    },
+    {
+      "path": "docs/runtime-v3/fixtures/issue855/HOSTED_LIVE02_FAILED.json",
+      "before": [
+        "100644",
+        "5f8458ff05440665c769bcfebe230a676dbe802f"
+      ],
+      "before_sha256": "93c2316a31c1047c8f22b0451dff7702ac3f66a6256c39fbea1d61610dd4aa2e",
+      "after": null
+    },
+    {
+      "path": "docs/runtime-v3/fixtures/issue855/INSTALLED_PROOF_DRAFT_RUN08.json",
+      "before": [
+        "100644",
+        "5e2b548223be2f17a30ef7d633e5b0045b8a8145"
+      ],
+      "before_sha256": "74f2d58aef3714982caf71cd0b353df01f7ea260b709501b2204e46e80ec712b",
+      "after": null
+    },
+    {
+      "path": "docs/runtime-v3/fixtures/issue855/INSTALLED_PROOF_RUN09.json",
+      "before": [
+        "100644",
+        "debc4f29b5fcec0cf22d578f20f79925e2092b7a"
+      ],
+      "before_sha256": "aa4c22b11ad5a53a8f14c333c3ab15382cd2af55c3e9df176465f1cb52102529",
+      "after": null
+    },
+    {
+      "path": "docs/runtime-v3/fixtures/issue855/INSTALLED_PROOF_RUN10.json",
+      "before": [
+        "100644",
+        "54fc8f8beb602d1db076b3da1191c68df01ad8c5"
+      ],
+      "before_sha256": "709c971e7d4df76964c6e5c053b03f5bf3fc7b14d9e72616df30704137fd20e5",
+      "after": null
+    },
+    {
+      "path": "docs/runtime-v3/fixtures/issue967/EXACT_HEAD_HOSTED_ACCEPTANCE_PROOF.json",
+      "before": [
+        "100644",
+        "e4b48a45bcc5528bbc0c00be531aa9aa66c248f7"
+      ],
+      "before_sha256": "adbc0f71e87c6518edc85610585b0b80f0ca3844b0d11f5d14afe2e58b1f6772",
+      "after": null
+    },
+    {
+      "path": "docs/runtime-v3/fixtures/issue967/EXACT_HEAD_ZERO_PAID_PROOF.json",
+      "before": [
+        "100644",
+        "f507412b6eddb7e87edcf3066178950f56c55fd2"
+      ],
+      "before_sha256": "8989819d987a829f8801a85f741f7624b8ec22deea742bed70f7151456fde83f",
+      "after": null
+    },
+    {
+      "path": "docs/runtime-v3/fixtures/issue990/MANAGED_RESTART_PROOF.json",
+      "before": [
+        "100644",
+        "0a08d6ae16dfba67bf05087e1bb1a4316fce88d1"
+      ],
+      "before_sha256": "d9e9cac86c6434fd6eaa91e18d00720642d937ca05c062aafc15ba48fad0b7ed",
+      "after": null
+    },
+    {
+      "path": "adl/config/validation_lane_selector.v0.91.6.json",
+      "before": [
+        "100644",
+        "ad7ae449e3c785f84d1df901eb9cebc0748f6897"
+      ],
+      "before_sha256": "20d325ff5116ba9ff756ecf9d3ea27c998ef48d1e348c2520dbb4095c9043db0",
+      "after": [
+        "100644",
+        "0d669ebcc6debd7d9498668cb1457bb986250420"
+      ]
+    },
+    {
+      "path": "docs/tooling/README.md",
+      "before": [
+        "100644",
+        "76d0d440266d76a5bea87b770dc8e06d1334bfb6"
+      ],
+      "before_sha256": "cdf816f9702d822eaa644f14da35e48ac42b4418cdb844cc3d7a10bbc39fa1d2",
+      "after": [
+        "100644",
+        "9231f89dc9a745b50108e8fa6f46be3a60323a8d"
+      ]
+    },
+    {
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "before": [
+        "100644",
+        "4aaa8542b87015dce90416a3a8b948dd28f2b33e"
+      ],
+      "before_sha256": "b8e13a2a996d89b2c259f04288eead08b80f67a9035de391e398fc21f598e671",
+      "after": [
+        "100644",
+        "a8358e256477aca04a776c2eb7a286009e50629c"
+      ]
+    },
+    {
+      "path": "demos/HISTORICAL_INDEX.md",
+      "before": [
+        "100644",
+        "50c58d85e6e85fe608a516033035c85647852a25"
+      ],
+      "before_sha256": "8dd55bd3a294bdc7f92e93b9fef5e1047a50cae9b65c12955a7f5cfb5e5d8797",
+      "after": [
+        "100644",
+        "a210de0edf95c44cc4ef1633186a27bc66ade000"
+      ]
+    }
+  ],
+  "owner_resources": [
+    {
+      "path": "docs/runtime-v3/PROVIDER_NEUTRAL_LIFECYCLE.md",
+      "owner_revision": "08006533dd76d227ae4216ed52d8a3362f954ac5",
+      "sha256": "638ab70a2395bb9c73617e52922fac268e37d21c3fac59b025e1a8cf1c28c164"
+    },
+    {
+      "path": "docs/runtime-v3/fixtures/issue855/HOSTED_LIVE02_FAILED.json",
+      "owner_revision": "08006533dd76d227ae4216ed52d8a3362f954ac5",
+      "sha256": "93c2316a31c1047c8f22b0451dff7702ac3f66a6256c39fbea1d61610dd4aa2e"
+    },
+    {
+      "path": "docs/runtime-v3/fixtures/issue855/INSTALLED_PROOF_DRAFT_RUN08.json",
+      "owner_revision": "08006533dd76d227ae4216ed52d8a3362f954ac5",
+      "sha256": "74f2d58aef3714982caf71cd0b353df01f7ea260b709501b2204e46e80ec712b"
+    },
+    {
+      "path": "docs/runtime-v3/fixtures/issue855/INSTALLED_PROOF_RUN09.json",
+      "owner_revision": "08006533dd76d227ae4216ed52d8a3362f954ac5",
+      "sha256": "aa4c22b11ad5a53a8f14c333c3ab15382cd2af55c3e9df176465f1cb52102529"
+    },
+    {
+      "path": "docs/runtime-v3/fixtures/issue855/INSTALLED_PROOF_RUN10.json",
+      "owner_revision": "08006533dd76d227ae4216ed52d8a3362f954ac5",
+      "sha256": "709c971e7d4df76964c6e5c053b03f5bf3fc7b14d9e72616df30704137fd20e5"
+    },
+    {
+      "path": "docs/runtime-v3/fixtures/issue967/EXACT_HEAD_HOSTED_ACCEPTANCE_PROOF.json",
+      "owner_revision": "08006533dd76d227ae4216ed52d8a3362f954ac5",
+      "sha256": "adbc0f71e87c6518edc85610585b0b80f0ca3844b0d11f5d14afe2e58b1f6772"
+    },
+    {
+      "path": "docs/runtime-v3/fixtures/issue967/EXACT_HEAD_ZERO_PAID_PROOF.json",
+      "owner_revision": "08006533dd76d227ae4216ed52d8a3362f954ac5",
+      "sha256": "8989819d987a829f8801a85f741f7624b8ec22deea742bed70f7151456fde83f"
+    },
+    {
+      "path": "docs/runtime-v3/fixtures/issue990/MANAGED_RESTART_PROOF.json",
+      "owner_revision": "08006533dd76d227ae4216ed52d8a3362f954ac5",
+      "sha256": "d9e9cac86c6434fd6eaa91e18d00720642d937ca05c062aafc15ba48fad0b7ed"
+    },
+    {
+      "path": "adl/tools/test_v092_provider_neutral_proof.sh",
+      "owner_revision": "08006533dd76d227ae4216ed52d8a3362f954ac5",
+      "sha256": "c88773fd2c035b7328a783e1c84d2421344cbcec64ad33991ffe6eb37ae52784"
+    },
+    {
+      "path": "adl/tools/demo_v088_paper_sonata.sh",
+      "owner_revision": "08006533dd76d227ae4216ed52d8a3362f954ac5",
+      "sha256": "32e7c6df82943fef5b22089a5a541b22451473a80d39d9aaf3519ab507e71561"
+    },
+    {
+      "path": "adl/tools/test_run_v0917_csm_api_gateway_bridge_proof.sh",
+      "owner_revision": "08006533dd76d227ae4216ed52d8a3362f954ac5",
+      "sha256": "3ec45e8dc970ba6f22e85aca40d34c9e0e27dec42ffa8c41a3305288479735dc"
+    },
+    {
+      "path": "adl/tools/demo_v0902_paper_sonata_expansion.sh",
+      "owner_repository": "agent-logic/agent-logic-infrastructure",
+      "owner_revision": "5cd48811ef8cdf4df169476c87e14b37b38c5eb9",
+      "sha256": "4177332568b41ba79af7ae62821f6b769868457b4959d387e95860f8772bb3f1"
+    },
+    {
+      "path": "adl/tools/test_demo_v0902_paper_sonata_expansion.sh",
+      "owner_repository": "agent-logic/agent-logic-infrastructure",
+      "owner_revision": "5cd48811ef8cdf4df169476c87e14b37b38c5eb9",
+      "sha256": "9ccf7bf652c6c2e5e58ad48f197a80887044625b212f0aeac88dc692bd91d26a"
+    },
+    {
+      "path": "adl/tools/validate_v0902_paper_sonata_expansion.py",
+      "owner_repository": "agent-logic/agent-logic-infrastructure",
+      "owner_revision": "5cd48811ef8cdf4df169476c87e14b37b38c5eb9",
+      "sha256": "8b958b13513eca1e9b9c1d0887073e16ff34d96bdd4964a71d085e76c589d3e6"
+    }
+  ],
+  "disposition": "Named ADL-only wrappers retired; original proof entrypoints retained by their owners. All docs/runtime-v3 bytes match Runtime snapshot. Public dispatch, adl-uts and language/compiler packages kept unchanged. Other dated milestone/demo records retained as historical evidence; no blanket demo deletion.",
+  "recovery": "git show SOURCE_COMMIT:PATH retrieves exact bytes; git ls-tree records original mode. Restore only in an isolated issue branch. Existing published history is preserved; #1382 must migrate these identities before any future rewrite.",
+  "validation": "PVF focused_contract: hermetic custody and successor regression, small CPU/disk; required public CI integration; owner resource inspection is custody evidence, not re-execution of owner acceptance."
+}

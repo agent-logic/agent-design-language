@@ -96,7 +96,7 @@ If you want the stricter v0.90.2 multi-agent repo-review proof packet:
 If you want the v0.90.2 Paper Sonata manuscript review/revision proof packet:
 
 ```bash
-python3 tools/runtime_contracts/run_paper_sonata.py expansion ./artifacts/paper-sonata-expansion
+(cd "${ADL_INFRASTRUCTURE_SOURCE_ROOT:?select reviewed Infrastructure checkout}" && bash adl/tools/demo_v0902_paper_sonata_expansion.sh ./artifacts/paper-sonata-expansion)
 ```
 
 If you want the CodeBuddy multi-agent review showcase packet:
@@ -305,7 +305,7 @@ deterministic, but it validates a stronger review contract than the original
 v0.89 demo: specialist boundaries, findings-first synthesis, explicit
 non-findings, residual risk, publication gates, and no merge-approval claims.
 
-Use `python3 tools/runtime_contracts/run_paper_sonata.py expansion ./artifacts/paper-sonata-expansion` for the bounded Paper
+Use `(cd "${ADL_INFRASTRUCTURE_SOURCE_ROOT:?select reviewed Infrastructure checkout}" && bash adl/tools/demo_v0902_paper_sonata_expansion.sh ./artifacts/paper-sonata-expansion)` for the bounded Paper
 Sonata manuscript review/revision proof packet. It preserves the delivered
 v0.88/v0.89 baseline while adding source/draft/review/revision separation,
 addressed revision requests, and an explicit no-submission publication gate.

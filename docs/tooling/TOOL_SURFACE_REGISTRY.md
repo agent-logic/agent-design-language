@@ -104,7 +104,6 @@ bash adl/tools/generate_tool_surface_registry.sh --check
 | `adl/tools/run_pr_fast_test_lane.sh` | tool surface | historical evidence | Historical Runtime source-tree route retired by #1223; invocation fails before execution. Original assertions are preserved in Git and retirement custody, not qualified as passing. |
 | `adl/tools/run_pvf_ci_release_policy_fixture.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_pvf_validation_lane.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
-| `adl/tools/run_runtime_gateway_owner_contract.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_v0913_proof_validation_lane.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_v0914_multi_agent_workcell_proof.sh` | tool surface | historical evidence | Historical model-backed v0.91.4 workcell rehearsal; retained manifest and review artifacts do not qualify a new execution, including its provider-active dry-run path. |
 | `adl/tools/run_validation_manager_nessus_lane.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |

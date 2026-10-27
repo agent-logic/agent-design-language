@@ -484,36 +484,6 @@
       "reason": "podcast_static_demo_surface_requires_diff_hygiene_and_demo_smoke"
     },
     {
-      "id": "provider_neutral_multi_agent_proof",
-      "lane_class": "cli_workflow",
-      "default_surface": "tooling",
-      "owner": "runtime",
-      "resource_class": "small",
-      "proof_role": "demo_contract",
-      "requirement_ids": [
-        "provider_neutral_multi_agent_proof"
-      ],
-      "path_selectors": [
-        "adl/tools/demo_v092_provider_neutral_birthday.sh",
-        "adl/tools/serve_v092_provider_neutral_observatory_api.py",
-        "adl/tools/test_v092_provider_neutral_proof.sh",
-        "adl/tools/validate_v092_provider_neutral_proof.py",
-        "demos/v0.92/provider-neutral-birthday/**",
-        "tools/runtime_contracts/run_provider_neutral_proof.py"
-      ],
-      "path_hints": [
-        "adl/tools/demo_v092_provider_neutral_birthday.sh",
-        "adl/tools/serve_v092_provider_neutral_observatory_api.py",
-        "adl/tools/test_v092_provider_neutral_proof.sh",
-        "adl/tools/validate_v092_provider_neutral_proof.py",
-        "demos/v0.92/provider-neutral-birthday/",
-        "tools/runtime_contracts/run_provider_neutral_proof.py"
-      ],
-      "command": "python3 tools/runtime_contracts/run_provider_neutral_proof.py",
-      "run_command": "python3 tools/runtime_contracts/run_provider_neutral_proof.py",
-      "reason": "provider_neutral_multi_agent_proof_surface_requires_focused_demo_packet_validation"
-    },
-    {
       "id": "wp08_local_polis_ssm_proof",
       "lane_class": "runtime_integration",
       "default_surface": "runtime",
@@ -641,33 +611,6 @@
       "command": "bash adl/tools/test_setup_wp08_s3_obsmem_archive_policy.sh",
       "run_command": "bash adl/tools/test_setup_wp08_s3_obsmem_archive_policy.sh",
       "reason": "wp08_s3_obsmem_archive_policy_setup_requires_wrapper_contract_checks; issue-local retained live summary validation runs through adl/tools/validate_wp08_s3_obsmem_archive_policy.py"
-    },
-    {
-      "id": "wp07_csm_api_gateway_bridge_proof",
-      "lane_class": "cli_workflow",
-      "default_surface": "runtime",
-      "owner": "runtime",
-      "proof_role": "runtime_cloud_control_contract",
-      "requirement_ids": [
-        "wp07_csm_api_gateway_bridge_proof"
-      ],
-      "path_selectors": [
-        "adl/src/csm_api_gateway_bridge.rs",
-        "adl/tools/test_run_v0917_csm_api_gateway_bridge_proof.sh",
-        "adl/tools/run_runtime_gateway_owner_contract.py",
-        "adl/tools/validate_v0917_csm_api_gateway_bridge_proof.py",
-        "docs/milestones/v0.91.7/review/runtime/csm_api_gateway_bridge_5039/**"
-      ],
-      "path_hints": [
-        "adl/src/csm_api_gateway_bridge.rs",
-        "adl/tools/test_run_v0917_csm_api_gateway_bridge_proof.sh",
-        "adl/tools/run_runtime_gateway_owner_contract.py",
-        "adl/tools/validate_v0917_csm_api_gateway_bridge_proof.py",
-        "docs/milestones/v0.91.7/review/runtime/csm_api_gateway_bridge_5039/**"
-      ],
-      "command": "python3 adl/tools/run_runtime_gateway_owner_contract.py",
-      "run_command": "python3 adl/tools/run_runtime_gateway_owner_contract.py",
-      "reason": "wp07_csm_api_gateway_bridge_surface_requires_runtime_api_path_account_gate_auth_redaction_and_contract_validation; retained live summary validation runs through adl/tools/validate_v0917_csm_api_gateway_bridge_proof.py"
     },
     {
       "id": "validation_lane_selector_contracts",
