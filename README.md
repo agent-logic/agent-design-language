@@ -144,224 +144,70 @@ sibling source checkouts are not required to build the public CLI.
 
 ## Recent Demos And Proofs
 
-The following are retained monorepo proof entrypoints and historical records.
-For currently runnable public examples, start with the [demo index](demos/README.md).
-Historical runtime commands below are shown as provenance, not public-clone
-recipes; use the Runtime owner's current installation and demo instructions.
+Start with the [current demo index](demos/README.md). The public CLI can resolve
+and print a workflow plan without credentials, provider calls or private source:
 
-Start with the completed v0.91.4 C-SDLC release evidence lane:
-
-- [v0.91.4 README](docs/milestones/v0.91.4/README.md)
-- [v0.91.4 sprint plan](docs/milestones/v0.91.4/SPRINT_v0.91.4.md)
-- [v0.91.4 demo matrix](docs/milestones/v0.91.4/DEMO_MATRIX_v0.91.4.md)
-- [v0.91.4 release evidence](docs/milestones/v0.91.4/RELEASE_EVIDENCE_v0.91.4.md)
-
-Historical v0.91 cognitive-being flagship proof-bundle command:
-
-```bash
-cargo run --manifest-path adl/Cargo.toml -- runtime-v2 cognitive-being-flagship-demo --out artifacts/v091/demo-d13-cognitive-being-flagship
+```sh
+cargo run --locked --manifest-path adl/Cargo.toml --bin adl -- adl/examples/v0-3-fork-join-seq-run.adl.yaml --print-plan
 ```
 
-Historical v0.90.5 governed-tools flagship command:
+The example resolves two branches and a join; it does not execute their tasks.
+The demo index includes the expected output and three offline packet examples:
+CodeBuddy review, architecture documentation and an arXiv manuscript workflow.
+These generate bounded fixtures, not completed product reviews or publication.
 
-```bash
-cargo run --manifest-path adl/Cargo.toml -- demo demo-v0905-governed-tools-flagship --run --trace --out artifacts/v0905/flagship-demo --no-open
+Current public proof entrypoints are:
+
+- [Public CLI checks](tools/public_adl/run_cli_ci.sh): dependency boundaries,
+  CLI dispatch/refusals, public contract tests and package/CLI version consistency.
+- [Public package checks](tools/public_adl/run_package_checks.sh): schemas, UTS,
+  language/compiler and legacy-contract libraries.
+- [Public build guide](docs/PUBLIC_BUILD.md): supported build and validation setup.
+
+Run the checks from the repository root:
+
+```sh
+bash tools/public_adl/run_cli_ci.sh
+bash tools/public_adl/run_package_checks.sh
 ```
 
-Historical v0.89.1 adversarial self-attack command:
-
-```bash
-cargo run --manifest-path adl/Cargo.toml -- demo demo-h-v0891-adversarial-self-attack --run --trace --out .adl/reports/adversarial-demo --no-open
-```
-
-Review the v0.91
-ChatGPT + Gemini + Claude triad conversation in the retained
-[v0.91 demo matrix](docs/milestones/v0.91/DEMO_MATRIX_v0.91.md).
-The original monorepo issue was #2764; its private tracker is not a public prerequisite.
+These checks validate public source contracts. Installed Runtime, CodeFriend and
+C-SDLC acceptance belongs to the [respective owners](docs/REPOSITORIES.md).
+For older demonstrations and dated proof records, see the
+[historical demo catalog](demos/HISTORICAL_INDEX.md).
 
 ## Recent Milestones
 
 ### v0.93.2 - Current Delivery Plan
 
 The current cross-repository plan focuses on CodeFriend Beta 1 and enterprise
-security. Implementation, integration, installed qualification, review and
-launch acceptance remain separate outcomes.
+security. The public ADL package version is `0.93.2`; this version bump does not
+by itself declare the milestone complete or authorize a product launch.
 
-- [v0.93.2 overview](docs/milestones/v0.93.2/README.md)
-- [v0.93.2 sprint plan](docs/milestones/v0.93.2/SPRINT_v0.93.2.md)
-- [v0.93.2 release criteria](docs/milestones/v0.93.2/RELEASE_PLAN_v0.93.2.md)
-- [Current roadmap and milestone status](docs/ROADMAP.md)
+- [Overview](docs/milestones/v0.93.2/README.md)
+- [Sprint plan](docs/milestones/v0.93.2/SPRINT_v0.93.2.md)
+- [Release criteria](docs/milestones/v0.93.2/RELEASE_PLAN_v0.93.2.md)
 
-The sections below preserve earlier milestone history and its original scope.
-Their version numbers and completion statements describe those dated records,
-not the current public package or an installed product release.
+### v0.93.1 - Repository Split And Delivery Evidence
 
+The retained milestone records cover the repository split and cross-repository
+delivery work. Its publication candidate is dated evidence, not proof that every
+current product has been qualified or deployed.
 
-### v0.92 - Historical Development Milestone
+- [Overview](docs/milestones/v0.93.1/README.md)
+- [Publication candidate](docs/milestones/v0.93.1/publication-1236/RELEASE_NOTES_CANDIDATE.md)
 
-v0.92 opened the foundation, runtime, observatory, identity, resilience and
-release-proof lanes. Its retained plans record their original dependency gates;
-use the current roadmap for successor ownership and remaining work. Historical
-activation does not establish implementation or release approval.
+### v0.93 - Deferred Planning Baseline
 
-Start here:
+The original v0.93 scope was subsequently split. Use the successor allocation
+register for current ownership rather than treating the old candidate list as
+an active delivery commitment.
 
-- [v0.92 README](docs/milestones/v0.92/README.md)
-- [v0.92 sprint plan](docs/milestones/v0.92/SPRINT_v0.92.md)
-- [v0.92 issue wave](docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml)
-- [v0.92 execution readiness](docs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md)
-- [v0.92 feature-proof coverage](docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md)
-- [v0.92 milestone checklist](docs/milestones/v0.92/MILESTONE_CHECKLIST_v0.92.md)
+- [Historical planning overview](docs/milestones/v0.93/README.md)
+- [Successor allocation register](docs/milestones/v0.93.2/REALLOCATION_1296.json)
 
-### v0.91.8 - Retained Handoff Bridge
-
-v0.91.7 is now published as the [ADL v0.91.7 release record](docs/milestones/v0.91.7/README.md)
-and remains the implementation/readiness tranche that fed the v0.91.8 bridge.
-v0.91.8 completed its retained review and handoff bridge. The integrated quality gate merged at
-`2e9d2dd7c` and records 67 audited issue outcomes, 0 unacceptable outcomes,
-and passing ADL v2, Runtime v3, and C-SDLC v2 focused/integrated lanes. The
-subsequent documentation, internal and external review, remediation,
-revalidation, v0.92 handoff, and release-ceremony issues are closed. These
-retained records supply upstream evidence for v0.92; they do not prove any
-planned v0.92 outcome complete.
-
-Start here:
-
-- [v0.91.8 README](docs/milestones/v0.91.8/README.md)
-- [v0.91.8 sprint plan](docs/milestones/v0.91.8/SPRINT_PLAN_v0.91.8.md)
-- [v0.91.8 issue wave](docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml)
-- [v0.91.8 parallel plan](docs/milestones/v0.91.8/PARALLEL_EXECUTION_PLAN_v0.91.8.md)
-- [v0.91.8 WP-16 quality gate](docs/milestones/v0.91.8/evidence/wp16/QUALITY_GATE.md)
-- [v0.91.8 issue outcome audit](docs/milestones/v0.91.8/evidence/wp16/ISSUE_OUTCOME_AUDIT.md)
-- [v0.91.8 to v0.92 handoff](docs/milestones/v0.91.8/NEXT_MILESTONE_HANDOFF_v0.91.8.md)
-Historical v0.91.7 evidence:
-- [v0.91.7 README](docs/milestones/v0.91.7/README.md)
-- [v0.91.7 sprint plan](docs/milestones/v0.91.7/SPRINT_PLAN_v0.91.7.md)
-- [v0.91.7 issue wave](docs/milestones/v0.91.7/WP_ISSUE_WAVE_v0.91.7.yaml)
-- [v0.91.7 feature-doc index](docs/milestones/v0.91.7/FEATURE_DOCS_v0.91.7.md)
-- [v0.91.7 sprint-review register](docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md)
-
-### v0.91.6 - Completed First Bridge Tranche
-
-v0.91.6 is the completed first pre-v0.92 bridge/readiness tranche. Its retained
-handoff and release-tail evidence are inputs to v0.91.7; they are historical
-records rather than the current review entrypoint.
-
-Start here:
-
-- [v0.91.6 README](docs/milestones/v0.91.6/README.md)
-- [v0.91.6 sprint plan](docs/milestones/v0.91.6/SPRINT_PLAN_v0.91.6.md)
-- [v0.91.6 issue wave](docs/milestones/v0.91.6/WP_ISSUE_WAVE_v0.91.6.yaml)
-- [v0.91.6 feature-doc index](docs/milestones/v0.91.6/FEATURE_DOCS_v0.91.6.md)
-
-### v0.91.5 - Previous Bridge Package And Release-Tail Input
-
-v0.91.5 remains the immediate upstream bridge package between the C-SDLC
-rollout closeout and the v0.92 first-birthday milestone. It carried
-multi-agent stabilization, provider/model breadth, public prompt records, demo
-readiness, AEE completion routing, and activation testing so v0.91.6 and
-v0.91.7 could open from a cleaner operational base.
-
-Start here:
-
-- [v0.91.5 README](docs/milestones/v0.91.5/README.md)
-- [v0.91.5 sprint plan](docs/milestones/v0.91.5/SPRINT_v0.91.5.md)
-- [v0.91.5 issue wave](docs/milestones/v0.91.5/WP_ISSUE_WAVE_v0.91.5.yaml)
-- [v0.92 activation test map](docs/milestones/v0.91.5/V092_ACTIVATION_TEST_MAP_v0.91.5.md)
-
-### v0.91.4 - Completed Cognitive SDLC Default-Operation Milestone
-
-v0.91.4 is complete as the Cognitive SDLC completion and hardening milestone.
-Its issue wave closed through Sprint 4 release ceremony, and the crate version
-is `0.91.4`. The milestone turns the v0.91.3 first slice into default
-operating practice:
-validator/doctor/conductor/editor alignment, signed trace and ObsMem handoff
-hardening, five-minute-sprint repeatability, validation-tail/PVF work, and
-bounded sidecar evidence for CodeFriend and WildClawBench.
-
-Start here:
-
-- [v0.91.4 README](docs/milestones/v0.91.4/README.md)
-- [v0.91.4 issue wave](docs/milestones/v0.91.4/WP_ISSUE_WAVE_v0.91.4.yaml)
-- [v0.91.4 sprint plan](docs/milestones/v0.91.4/SPRINT_v0.91.4.md)
-- [v0.91.4 demo matrix](docs/milestones/v0.91.4/DEMO_MATRIX_v0.91.4.md)
-- [v0.91.4 quality gate](docs/milestones/v0.91.4/QUALITY_GATE_v0.91.4.md)
-- [v0.91.4 release evidence](docs/milestones/v0.91.4/RELEASE_EVIDENCE_v0.91.4.md)
-
-### v0.91.3 - Completed Cognitive SDLC First-Slice Milestone
-
-v0.91.3 is complete. It proved one bounded Cognitive State Transition with
-tracked cards, transition evidence, review synthesis, merge-readiness truth,
-ObsMem handoff, and a reviewer-facing first-proof/demo package. It does not
-claim full C-SDLC default operation; v0.91.4 owns repeatability, enforcement,
-signed trace proof, validation-tail hardening, and default adoption for future
-software-development issues.
-
-### v0.91.2 - Completed Tooling, Evaluation, Productization, And Workflow Pressure Release
-
-v0.91.2 is complete. It closed the UTS + ACC benchmark, runtime/test-cycle
-recovery, CodeFriend productization, Workspace bridge, modernization,
-publication packet, rustdoc/doc cleanup, repo-visibility follow-on, and
-workflow-guardrail pressure-release band. Its release-tail review, remediation,
-next-milestone planning, and ceremony work prepared v0.91.3 and v0.91.4.
-
-### v0.91.1 - Completed Inhabited Runtime Readiness Milestone
-
-v0.91.1 is complete. The core implementation, review, next-milestone handoff,
-final next-milestone review-pass wave, and release ceremony package landed
-before v0.91.2 opened.
-
-It ended with an observatory-visible agent runtime proof inside the CSM
-boundary: lifecycle state, citizen standing/state, memory/identity
-architecture, Theory of Mind, capability testing, intelligence metrics,
-governed learning, secure ACIP/A2A hardening, and an agent-shaped runtime run
-that remains explicit about non-claims for birthday, identity continuity, and
-external federation.
-
-Start here:
-
-- [v0.91.1 README](docs/milestones/v0.91.1/README.md)
-- [v0.91.1 issue wave](docs/milestones/v0.91.1/WP_ISSUE_WAVE_v0.91.1.yaml)
-- [v0.91.1 execution readiness](docs/milestones/v0.91.1/WP_EXECUTION_READINESS_v0.91.1.md)
-- [v0.91.1 release readiness](docs/milestones/v0.91.1/RELEASE_READINESS_v0.91.1.md)
-
-### v0.91 - Released Moral Governance And Cognitive-Being Milestone
-
-v0.91 is the completed `0.91.0` milestone. Its core line landed
-the moral governance, wellbeing, kindness, humor, affect, cultivated
-intelligence, structured planning, SRP, and secure intra-polis Agent Comms
-band. Internal review, third-party review, accepted-finding remediation,
-next-milestone handoff, release ceremony, tag, and release publication are
-complete.
-
-Start here:
-
-- [v0.91 README](docs/milestones/v0.91/README.md)
-- [v0.91 feature index](docs/milestones/v0.91/features/README.md)
-- [v0.91 release plan](docs/milestones/v0.91/RELEASE_PLAN_v0.91.md)
-- [v0.91 release readiness](docs/milestones/v0.91/RELEASE_READINESS_v0.91.md)
-
-### v0.90.5 - Completed Governed Tools v1.0
-
-v0.90.5 is the completed Governed Tools v1.0 milestone. It landed:
-Universal Tool Schema, ADL Capability Contract, deterministic registry and
-compiler surfaces, governed execution policy, trace/replay/redaction evidence,
-dangerous negative proofs, model compatibility work, and the first ACIP/Comms
-integration slice.
-
-Start here:
-
-- [v0.90.5 release readiness](docs/milestones/v0.90.5/RELEASE_READINESS_v0.90.5.md)
-- [v0.90.5 release evidence](docs/milestones/v0.90.5/RELEASE_EVIDENCE_v0.90.5.md)
-- [v0.90.5 release notes](docs/milestones/v0.90.5/RELEASE_NOTES_v0.90.5.md)
-
-### v0.90.4 - Completed Citizen Economics And Contract Market
-
-v0.90.4 is the completed bounded citizen-economics and contract-market
-milestone. It made contract schema, bid schema, evaluation, lifecycle,
-transition authority, external counterparty boundaries, delegation, and one
-bounded contract-market proof legible without claiming payment rails or
-production markets.
+See the [roadmap and milestone index](docs/ROADMAP.md) for the full history and
+status references. Historical milestone documents remain available unchanged.
 
 ## Documentation Map
 
