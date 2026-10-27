@@ -1,0 +1,88 @@
+{
+  "schema": "adl.csdlc_authority_retirement.v1",
+  "issue": 1373,
+  "source_commit": "5fc149517ab09d29f8b4bdc71e47527f8ef2cfe6",
+  "boundary": "Retire historical project authority records; ordinary authority already belongs to the installed owner package. Published Git preserves historical recovery inputs.",
+  "removed": [
+    "csdlc-v3/operator/authority-selector.json",
+    "csdlc-v3/operator/native-authority-pr-observation.json",
+    "csdlc-v3/operator/native-authority-receipt.json"
+  ],
+  "changes": [
+    {
+      "path": "csdlc-v3/operator/authority-selector.json",
+      "before": [
+        "100644",
+        "7918c4a7a85ec8334a18cb2eef1de397e05024af"
+      ],
+      "before_sha256": "c6edf9870c7b944148ea41cf151d6d4706d90e8916585d243526b8a13ec70050",
+      "after": null
+    },
+    {
+      "path": "csdlc-v3/operator/native-authority-pr-observation.json",
+      "before": [
+        "100644",
+        "cc13ba1e9afc0f7cd9fa68b46fff847ba4b1858c"
+      ],
+      "before_sha256": "2fdc3fc5568181a252ec81a098beb4572a754668f7675a332ec405cb82dcc344",
+      "after": null
+    },
+    {
+      "path": "csdlc-v3/operator/native-authority-receipt.json",
+      "before": [
+        "100644",
+        "28a16774fd74239a5b74485ace6b60e53c299582"
+      ],
+      "before_sha256": "663001f9abe69efd6eba5553f545382717accc6d4cce69fce6ce77ec51c1ebbb",
+      "after": null
+    },
+    {
+      "path": "AGENTS.md",
+      "before": [
+        "100644",
+        "91e1debc5564e5fb34993f92dd16ada7a08dc3bd"
+      ],
+      "before_sha256": "31b43e75699599785230ccff6ad96ab56f9f15b45ed313366ac9ca7a38f063ff",
+      "after": [
+        "100644",
+        "022362c9ea5ba6e8de1cf5570f4f6f5ef6e4f1cc"
+      ]
+    },
+    {
+      "path": "docs/csdlc-v3/CURRENT_AUTHORITY.md",
+      "before": [
+        "100644",
+        "62cf2ae89701c59cfc97d059e90843c139ba4f70"
+      ],
+      "before_sha256": "1e2d6d5d223d0f02d745b6c4c40a76b6ce1ca08f8b20eac98e7aa5de96312dd3",
+      "after": [
+        "100644",
+        "95d8917e93daad270b0b2ae57ca8b8d76a806bac"
+      ]
+    },
+    {
+      "path": "adl/tools/skills/docs/OPERATIONAL_SKILLS_GUIDE.md",
+      "before": [
+        "100644",
+        "c3a14788f4d5bd71195565ae20eafc35a383b3e5"
+      ],
+      "before_sha256": "06431ea7b8a582d3951aaf87884235c4439aea260424eb04e21b1954952389e9",
+      "after": [
+        "100644",
+        "bfc1ac8f161f23c2a9e63357735197cc8519b1f0"
+      ]
+    },
+    {
+      "path": "docs/tooling/ACTIVE_BOOT_PATHS.md",
+      "before": [
+        "100644",
+        "138588d52a053ead0ee771912a4679d77ef16479"
+      ],
+      "before_sha256": "32bf21a7f1172c0d0771420e67420618b931c11792f4d9556b62d597eee35669",
+      "after": [
+        "100644",
+        "819cf31b28dcd45a0f2427828fd6c11b0838cc8d"
+      ]
+    }
+  ]
+}

@@ -1,25 +1,29 @@
 # Current C-SDLC authority
 
-C-SDLC v3 is operational after #505 / PR #591. Operational authority requires
-validation of the canonical `csdlc-v3/operator/authority-selector.json`, its
-native authenticated receipt, terminal reconciliation and Git objects against
-`origin/main`. Missing or stale proof suspends authority; prose and manifests
-cannot grant it. Use `.adl/bin/native-v3/csdlc` and the declared typed requests.
+C-SDLC v3 ordinary authority comes from the authenticated installed owner package
+and its repository binding. The owner verifies package integrity and retained
+lifecycle evidence. Project-local selectors and historical #505 cutover receipts
+are not consulted by ordinary admission. Use the exact executable returned by
+installation/admission and its paired manuals; a source build or this document
+cannot establish authority.
 
-Native `issue`, `edit`, `validate`, `doctor` and `bind` own local preparation;
-`github-issue` and `github-pr` own remote operations; `review` precedes `publish`;
-`finish` establishes terminal truth and `clean` separately guards cleanup.
-Authorized exact-head PR merge uses the native `github-pr` `pull_request_merge`
-request documented in [Native pull-request merge](PULL_REQUEST_MERGE.md). It
-requires authenticated review/policy/check admission and durable reconciliation;
-`finish --observe-github` then observes terminal truth without a second mutation.
-`proof` and `install` are guarded native operational routes; their typed request
-and authority checks determine whether an invocation may mutate. `shadow` and
-`soak` retain historical inspection contracts with execution retired. Explicit
-`local` construction inspection is non-operational; operational routes fail closed
-when their authority context is unavailable and do not fall back to it.
-V2 is permitted only for an explicitly authorized rollback or bounded transition
-remediation, never as an automatic fallback for missing v3 proof.
+The historical ADL-side operator records have recoverable published Git identities
+in [the retirement manifest](../archives/CSDLC_AUTHORITY_1373.json). Historical
+relocation/recovery evidence remains historical; do not recreate it as a project
+grant or bypass installed-package checks.
+
+`csdlc prepare ISSUE --plan FILE` and `csdlc start ISSUE --plan FILE` prepare fresh
+issues. `bind`, `edit`, `validate`, `doctor` and `proof` operate on bound issue
+context. Independent `review` precedes `publish`. Under operator authorization,
+`deliver ISSUE --approval REFERENCE --execute` checks the final reviewed head,
+required checks and mergeability, then merges and reconciles delivery. Successful
+`delivery.status=delivered` with `finish_required=false` is complete; optional
+cleanup is separate maintenance. Remote effects with unknown outcomes require
+native recovery before retrying. The installed command's help and paired manual
+are the authority for supported options.
+
+No automatic v2 fallback is permitted when installed authority is unavailable.
+Explicit rollback or transition remediation remains a separately bounded action.
 
 ## Command discovery and result interpretation
 
@@ -44,12 +48,11 @@ transactions. Recovery-required state must remain visible for an explicit
 mutation/recovery route. This diagnostic guarantee does not extend to every
 command grouped with local preparation, such as `issue`, `edit` or `bind`.
 
-## Candidate issue intent interface
+## Issue intent interface
 
-The [#869 issue intent guide](INTENT_COMMANDS.md) documents the candidate
-ordinary commands and shared advanced request contract. Existing native request
-routes remain available. Candidate source and isolated validation do not upgrade
-the active operator binary or authorize sprint activation.
+The [issue intent guide](INTENT_COMMANDS.md) records the ordinary command model.
+Consult the installed package manuals for its exact supported version. Candidate
+source and isolated validation do not upgrade the active executable.
 
 ## Historical evidence
 
@@ -69,8 +72,8 @@ From that owner checkout, its source-level command is
 `cargo test --manifest-path csdlc-v3/Cargo.toml --test command_manifest`.
 The private manifest is no longer present in public ADL; public documentation
 changes use focused link, path and contract checks rather than rebuilding an owner.
-The authority-surface checks validate canonical selector/receipt truth, current
-policy and metadata, and actual CLI help. Negative cases introduce obsolete
+Authority checks belong to the owner package and validate installed integrity,
+repository binding, retained evidence and actual command behavior. Negative cases introduce obsolete
 policy/help wording and require rejection. Historical records are excluded from
 the current-routing scan and checked for preservation in the issue review.
 PVF: deterministic local contract proof; small CPU and local Git/subprocess;

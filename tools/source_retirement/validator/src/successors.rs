@@ -191,7 +191,8 @@ pub fn podcast(repo: &Repo, candidate: &Tree) -> Result<Tree> {
     Ok(result)
 }
 pub fn normalized(repo: &Repo, candidate: &Tree) -> Result<Tree> {
-    let candidate = local_adl_state(repo, candidate)?;
+    let candidate = retired_authority(repo, candidate)?;
+    let candidate = local_adl_state(repo, &candidate)?;
     let candidate = runtime_remnants(repo, &candidate)?;
     let candidate = normalize_language(repo, &candidate)?;
     let candidate = readiness(repo, &candidate)?;
@@ -309,5 +310,17 @@ pub fn local_adl_state(repo: &Repo, candidate: &Tree) -> Result<Tree> {
     let baseline = repo.tree(revision)?;
     let expected: Paths = baseline.keys().filter(|p| p.starts_with(".adl/")).cloned().collect();
     ensure!(expected == strings(&manifest["removed"])? && !expected.is_empty(), "local .adl inventory mismatch");
+    language(repo, candidate, &manifest)
+}
+
+/// Preserve historical cutover evidence without retaining it as project authority.
+pub fn retired_authority(repo: &Repo, candidate: &Tree) -> Result<Tree> {
+    let manifest = repo.pinned("docs/archives/CSDLC_AUTHORITY_1373.json", "7dd84e53950d847fd13655e11ec57dcf509ffa2ce22c7869aeffa64ad0a42337")?;
+    let revision = string(&manifest["source_commit"])?;
+    repo.git(&["merge-base", "--is-ancestor", revision, "HEAD"])?;
+    ensure!(!candidate.keys().any(|p| p.starts_with("csdlc-v3/operator/")), "retired project authority reintroduced");
+    let baseline = repo.tree(revision)?;
+    let expected: Paths = baseline.keys().filter(|p| p.starts_with("csdlc-v3/operator/")).cloned().collect();
+    ensure!(expected == strings(&manifest["removed"])? && expected.len() == 3, "authority retirement inventory mismatch");
     language(repo, candidate, &manifest)
 }
