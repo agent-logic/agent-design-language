@@ -2,6 +2,10 @@ pub const IDENTITIES_SHA256: &str =
     "46109ba12c6ed6f7cdc07eda7d916d3638a0093bb860835678f57f0bf5597400";
 pub const LANGUAGE_TRANSITIONS: &[(&str, &str)] = &[
     (
+        "codecov-transition.json",
+        "588fbdec531bd76622eac63916b4302efe67e82b820d9ece640f7671a804d1ba",
+    ),
+    (
         "utility-transition.json",
         "c080dd61ea3f94fbf0400842fe56192eed4151d7e17d25904b90999738010e93",
     ),
