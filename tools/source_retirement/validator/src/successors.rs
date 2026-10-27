@@ -299,7 +299,7 @@ pub fn runtime_remnants(repo: &Repo, candidate: &Tree) -> Result<Tree> {
 
 /// Restore exact historical audit inputs without tracking local workstation state.
 pub fn local_adl_state(repo: &Repo, candidate: &Tree) -> Result<Tree> {
-    let manifest = repo.pinned("docs/archives/ADL_LOCAL_STATE_1372.json", "00054e9f353c1520b78a1b48dc5f6dc7d3cd1c2f1e785cf80039a566b43b096a")?;
+    let manifest = repo.pinned("docs/archives/ADL_LOCAL_STATE_1372.json", "4dc49dddf1433c7a415e7e400589bd1b907b6e64daeb96f29179ef0768a2fbde")?;
     let revision = string(&manifest["source_commit"])?;
     repo.git(&["merge-base", "--is-ancestor", revision, "HEAD"])?;
     ensure!(

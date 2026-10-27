@@ -9,10 +9,10 @@ evidence and recovery records.
 
 - **Primary checkout:** the normal repository root, kept clean on `main` for
   inspection and native preparation; no issue implementation artifacts there.
-- **Managed issue worktrees:** new bindings use the `required_parent` in
-  [`.adl/worktree-policy.json`](../../.adl/worktree-policy.json), currently
-  `/Volumes/FastWork/adl-worktrees`. Native `csdlc bind ISSUE` creates or confirms
-  the registered issue branch/worktree; current paths commonly use
+- **Managed issue worktrees:** use local configuration for placement; FastWork
+  is the preference on this workstation, not a tracked location requirement.
+  Native `csdlc bind ISSUE` creates or confirms the registered issue branch/worktree;
+  current paths commonly use
   `adl-issue-<issue>-<slug>`. Resolve the binding rather than guessing a path.
 - **Historical namespaces:** `.worktrees/adl-wp-*`, `.worktrees/adl-lane-*` and
   external `$HOME/git/adl-wp-*` / `adl-lane-*` remain retained history, not the
@@ -84,7 +84,7 @@ none of those conditions.
 local `main` ancestry and dirty state. It does not authenticate native terminal
 receipts. Both it and [`worktree_prune.sh`](../../adl/tools/worktree_prune.sh)
 accept `--managed-root`; their default remains `<repo>/.worktrees` and does not
-read `.adl/worktree-policy.json`. Supply the **primary** repository explicitly:
+read workstation-local placement preferences. Supply the **primary** repository explicitly:
 
 ```bash
 # Read-only classification; the explicit root changes the scan, not authority.

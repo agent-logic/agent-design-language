@@ -49,6 +49,18 @@
         "100644",
         "16874bfe215f6a0e394aa6a7eee6a62f853e9ce9"
       ]
+    },
+    {
+      "path": "docs/tooling/worktree_governance.md",
+      "before": [
+        "100644",
+        "4ace484e876ae6acc084b03a3baaaaa06b29b87b"
+      ],
+      "before_sha256": "e8a94138f6510e028937332f950f726ad94910398d5daf1bd006a03f5c6808e9",
+      "after": [
+        "100644",
+        "04eeb0d04a7306550024ba0f86cb44d263ed36a8"
+      ]
     }
   ]
 }
