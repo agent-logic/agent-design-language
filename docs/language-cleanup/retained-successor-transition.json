@@ -15,12 +15,12 @@
       ],
       "after": [
         "100644",
-        "8e07c2db9eb9ab4835082ed513867b891b3ea271"
+        "9ea1659f809466c72cc1fce580954f8d6aefb1fb"
       ],
       "before_sha256": "45391313066ed8e4b25b61783ae8a422d8702f42f29bdea5599ee57f48916e18",
-      "after_sha256": "ac035edc33cd43bdedfb6e6c21657f7934c1b37847cdd77b3174b36b122c4077",
-      "successor_commit": "f6355912ea698d71475fbde98586502617e2e73c",
-      "successor_subject": "Replace Python prompt schema smoke checks with native contracts"
+      "after_sha256": "c2d7b85942bec580ea92d36818dcc98ba0e29c27d4542ff3d14561c04004e136",
+      "successor_commit": "b67a68316c1cda6558684c519ce5d5e760b1b480",
+      "successor_subject": "Open the public ADL visitor and contributor journey"
     },
     {
       "path": "README.md",
@@ -135,12 +135,12 @@
       ],
       "after": [
         "100755",
-        "86d6d3f3e5fbaede573049bc94315be9fa7b982d"
+        "4aadec52f37f39c5c7bd87d58b681efdba9d0253"
       ],
       "before_sha256": "b9156301b8dd1af0955569819dd9ce2b1d89f0e06b7200d711ba6b05c1b2c8b4",
-      "after_sha256": "d1588d08e9213d9212eacf2b7d714298cad0f175bd39014ade385e5a0b4faa89",
-      "successor_commit": "db9798bd54648597e3018613300dee1ed84b69e1",
-      "successor_subject": "Replace planning and supported demo Python validators with native contracts"
+      "after_sha256": "e04b10973999bf62d5fb2f1a0947a8aad12aaeeadf344bfc8a5dcc79d3009d30",
+      "successor_commit": "adeab6f8da3751a0aeea63ab5c9aba3530ef51e5",
+      "successor_subject": "fix: preserve demo outputs and enforce public safety boundaries"
     },
     {
       "path": "adl/tools/test_demo_v0891_arxiv_manuscript_workflow.sh",
@@ -165,12 +165,12 @@
       ],
       "after": [
         "100755",
-        "f53198caf703904387260a92a9af6c278361eb74"
+        "53071f70a1c6fe72f1d76eb7068d977ad80dd410"
       ],
       "before_sha256": "9a5ac8f0dda0ebe236328102bd1bb7e08bdb0e4fcd3e76b5bb771e30e26c2176",
-      "after_sha256": "14b6eb6bceaa2c16937b71e3e957dd8d6976d36cdf20b6777d44a14b0aa571d7",
-      "successor_commit": "db9798bd54648597e3018613300dee1ed84b69e1",
-      "successor_subject": "Replace planning and supported demo Python validators with native contracts"
+      "after_sha256": "eadda524edc13207774ea3458b10c404c3275ea1b80a36f68203b88d61f3f186",
+      "successor_commit": "adeab6f8da3751a0aeea63ab5c9aba3530ef51e5",
+      "successor_subject": "fix: preserve demo outputs and enforce public safety boundaries"
     },
     {
       "path": "adl/tools/validate_v0932_planning.test.mjs",
