@@ -554,3 +554,19 @@ fn historical_runtime_retirement_preserves_custody_and_rejects_drift() {
         assert_eq!(candidate[kept], historical[kept]);
     }
 }
+
+#[test]
+fn local_adl_state_is_untracked_with_recoverable_preimages() {
+    let repo = repo();
+    let candidate = repo.tree("HEAD").unwrap();
+    let historical = successors::local_adl_state(&repo, &candidate).unwrap();
+    let path = ".adl/worktree-policy.json";
+    assert!(historical.contains_key(path));
+    let mut restored = candidate.clone();
+    restored.insert(path.into(), historical[path].clone());
+    reject(successors::local_adl_state(&repo, &restored));
+    let mut added = candidate.clone();
+    added.insert(".adl/new-state.json".into(), historical[path].clone());
+    reject(successors::local_adl_state(&repo, &added));
+    assert_eq!(candidate["README.md"], historical["README.md"]);
+}

@@ -53,7 +53,7 @@ Disallowed primary-checkout uses:
 Native v3 preparation state, edit completion receipts, locks and retained bind
 identity live below the resolved primary Git directory at `csdlc-v3/local`.
 The primary working tree is inspection-only. Native bind transfers cards to
-`.csdlc/issues/<issue>` in the exact registered FastWork issue worktree;
+`.csdlc/issues/<issue>` in the exact registered issue worktree;
 subsequent primary preparation and edits for that issue are rejected.
 
 Primary native finish requests must target

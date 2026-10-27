@@ -3,7 +3,7 @@
   "issue": 1350,
   "repairs_issue": 1356,
   "source_commit": "c0a9983bac18f9bab3a03134b8fe58c8083b95ae",
-  "accepted_main": "0bf0ef5d167d0f479b8125a1a907221811ac262f",
+  "accepted_main": "ad869c3f04a0f233fc77640bcba9755d42459d85",
   "boundary": "Exact retained modifications already present in accepted main. Zero deletion authority. Applied only after later cleanup layers restore their historical preimages. Original execution overlay and all historical approval bytes remain unchanged.",
   "removed": [],
   "changes": [
@@ -30,12 +30,12 @@
       ],
       "after": [
         "100644",
-        "bf721378f69fcff765b4a93c870e711727d394a5"
+        "f609e4ad0ea9d081d1086941998685474b185173"
       ],
       "before_sha256": "f8984b309a2ed1c7d676326c7e6cf98bdcf5467e4816469eef9f2eb0d5c23152",
-      "after_sha256": "8cc3f7e72f39918788996f65bfcd65974301165568f1fd0156f6399411a6a798",
-      "successor_commit": "0bd03d25ea1ad1af9d97499c5698aba010694e69",
-      "successor_subject": "Correct README Project Status to ADL 0.93.2"
+      "after_sha256": "614c3164346dbdf6f93ca94ead55afceb831f769607520233a93a6c944064fe3",
+      "successor_commit": "f0a9a8e73bf7e651c8da3d804f862e125c0c5407",
+      "successor_subject": "Restore Codecov uploads and live public repository badges"
     },
     {
       "path": "adl-legacy-contracts/Cargo.toml",
