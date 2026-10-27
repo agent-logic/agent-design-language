@@ -9,9 +9,9 @@ candidate_selector_sha256: 236e9873d0be4c578bbb7761b9df7228c4f3bb06cef28bcdf5bad
 decisions:
   cli-contract:
     owner_issue: 5345
-    authority: adl-v2/crates/adl-cli/src/main.rs
+    authority: https://github.com/agent-logic/agent-design-language/blob/0bf0ef5d167d0f479b8125a1a907221811ac262f/adl-v2/crates/adl-cli/src/main.rs
     rationale: ADL v2 deliberately uses an explicit subcommand CLI and versioned JSON envelopes.
-    replacement_proof: adl-v2/crates/adl-cli/tests/cli.rs
+    replacement_proof: https://github.com/agent-logic/agent-design-language/blob/0bf0ef5d167d0f479b8125a1a907221811ac262f/adl-v2/crates/adl-cli/tests/cli.rs
     risk: Operators must use the v2 command contract rather than legacy positional flags.
     reviewer: WP-10 exact-revision review
     rollback_impact: Keep the v1 executable selected if a consumer has not migrated its command shape.
@@ -41,17 +41,17 @@ decisions:
     rollback_impact: Keep the v1 executable selected for consumers coupled to legacy diagnostics.
   engine-contract:
     owner_issue: 5340
-    authority: adl-v2/crates/adl-engine/README.md
+    authority: https://github.com/agent-logic/agent-design-language/blob/0bf0ef5d167d0f479b8125a1a907221811ac262f/adl-v2/crates/adl-engine/README.md
     rationale: ADL v2 run returns the deterministic engine contract and snapshot instead of a legacy local-mock summary.
-    replacement_proof: adl-v2/crates/adl-engine/tests/compiler_fixture_mapping.rs
+    replacement_proof: https://github.com/agent-logic/agent-design-language/blob/0bf0ef5d167d0f479b8125a1a907221811ac262f/adl-v2/crates/adl-engine/tests/compiler_fixture_mapping.rs
     risk: Consumers must migrate from summary text to the engine result envelope.
     reviewer: WP-06 exact-revision review
     rollback_impact: Keep the v1 executable selected for legacy run-summary consumers.
   records-contract:
     owner_issue: 5345
-    authority: adl-v2/crates/adl-records/README.md
+    authority: https://github.com/agent-logic/agent-design-language/blob/0bf0ef5d167d0f479b8125a1a907221811ac262f/adl-v2/crates/adl-records/README.md
     rationale: ADL v2 signs typed records with hexadecimal keys and verifies the inner signed envelope.
-    replacement_proof: adl-v2/crates/adl-records/tests/tamper_channel.rs
+    replacement_proof: https://github.com/agent-logic/agent-design-language/blob/0bf0ef5d167d0f479b8125a1a907221811ac262f/adl-v2/crates/adl-records/tests/tamper_channel.rs
     risk: Document-level legacy signatures are not interchangeable with typed record envelopes.
     reviewer: WP-10 exact-revision review
     rollback_impact: Keep the v1 executable selected for legacy signed-document workflows.

@@ -532,3 +532,25 @@ fn archive_member_mode_bytes_and_scope() {
     reject(a.exact(&path, &pin, &Paths::new()));
     reject(a.load(&path, &"0".repeat(64)));
 }
+
+#[test]
+fn historical_runtime_retirement_preserves_custody_and_rejects_drift() {
+    let repo = repo();
+    let candidate = repo.tree("HEAD").unwrap();
+    let historical = successors::runtime_remnants(&repo, &candidate).unwrap();
+    let path = "infra/runtime-v3/runtime-init.toml";
+    assert!(!candidate.contains_key(path));
+    assert!(historical.contains_key(path));
+    let mut restored = candidate.clone();
+    restored.insert(path.into(), historical[path].clone());
+    reject(successors::runtime_remnants(&repo, &restored));
+    let mut new_source = candidate.clone();
+    new_source.insert("csdlc-v2/unreviewed.rs".into(), historical[path].clone());
+    reject(successors::runtime_remnants(&repo, &new_source));
+    let mut changed_consumer = candidate.clone();
+    changed_consumer.remove("adl-characterization/corpus/v2/shadow.yaml");
+    reject(successors::runtime_remnants(&repo, &changed_consumer));
+    for kept in ["README.md", "adl/src/cli/runtime_owner.rs", "csdlc-v3/operator/authority-selector.json", "csdlc-v3/operator/native-authority-receipt.json", "csdlc-v3/operator/native-authority-pr-observation.json"] {
+        assert_eq!(candidate[kept], historical[kept]);
+    }
+}

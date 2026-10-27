@@ -1,4 +1,6 @@
 use crate::*;
+pub const RUNTIME_REMNANTS_PIN: &str =
+    "6f1927cc92a5f68342802a09e320e65d3ab856f0ee0fbbbaad909c8845eebb8b";
 pub const CLEANUP_PIN: &str = "762c27b2d844ba3f166ea5bf05a1eb65b2f752b7d4e4f341f107b7a9ebf15915";
 pub const READINESS_PIN: &str = "4b1cc0ef6b60d7cc0ec8b2b9d3354489d0036328dcfa9f1d1e43543ffc7bf560";
 pub const PODCAST_PIN: &str = "a7026948d2934bb4cef4071034a168d61d51df3c96c7a6131ffd56d8ea80fd3f";
@@ -189,7 +191,8 @@ pub fn podcast(repo: &Repo, candidate: &Tree) -> Result<Tree> {
     Ok(result)
 }
 pub fn normalized(repo: &Repo, candidate: &Tree) -> Result<Tree> {
-    let candidate = normalize_language(repo, candidate)?;
+    let candidate = runtime_remnants(repo, candidate)?;
+    let candidate = normalize_language(repo, &candidate)?;
     let candidate = readiness(repo, &candidate)?;
     let candidate = cleanup(repo, &candidate)?;
     let successor = repo.pinned(
@@ -228,6 +231,67 @@ pub fn retained_successors(repo: &Repo, candidate: &Tree, manifest: &Value) -> R
             sha(&repo.blob(string(&row["after"][1])?)?) == row["after_sha256"],
             "retained successor bytes changed: {path}"
         );
+    }
+    Ok(result)
+}
+
+/// Reconstruct the historical audit view only after verifying exact retired custody.
+pub fn runtime_remnants(repo: &Repo, candidate: &Tree) -> Result<Tree> {
+    let manifest = repo.pinned(
+        "docs/archives/RUNTIME_REMNANTS_1370.json",
+        RUNTIME_REMNANTS_PIN,
+    )?;
+    let revision = string(&manifest["source_commit"])?;
+    repo.git(&["merge-base", "--is-ancestor", revision, "HEAD"])?;
+    let baseline = repo.tree(revision)?;
+    let prefixes = [
+        "adl-v2/crates/adl-engine/",
+        "adl-v2/crates/adl-cli/",
+        "adl-v2/crates/adl-records/",
+        "csdlc-v2/",
+        "infra/runtime-v3/",
+    ];
+    let expected: Paths = baseline
+        .keys()
+        .filter(|p| prefixes.iter().any(|prefix| p.starts_with(prefix)))
+        .cloned()
+        .collect();
+    let mut seen = Paths::new();
+    let mut result = candidate.clone();
+    for row in rows(&manifest["entries"])? {
+        let path = string(&row["path"])?;
+        let id = json!([row["mode"], row["git_blob"]]);
+        ensure!(
+            seen.insert(path.to_owned())
+                && expected.contains(path)
+                && *at(&baseline, path) == id
+                && !candidate.contains_key(path),
+            "runtime retirement identity mismatch: {path}"
+        );
+        let raw = repo.blob(string(&row["git_blob"])?)?;
+        ensure!(
+            raw.len() == number(&row["bytes"])? && sha(&raw) == row["sha256"],
+            "runtime retirement custody mismatch"
+        );
+        result.insert(path.to_owned(), id);
+    }
+    ensure!(
+        seen == expected && !seen.is_empty(),
+        "runtime retirement inventory incomplete"
+    );
+    ensure!(
+        !candidate
+            .keys()
+            .any(|p| prefixes.iter().any(|prefix| p.starts_with(prefix))),
+        "retired source reintroduced"
+    );
+    for row in rows(&manifest["consumer_changes"])? {
+        let path = string(&row["path"])?;
+        ensure!(
+            *at(&baseline, path) == row["before"] && *at(candidate, path) == row["after"],
+            "retirement consumer drift: {path}"
+        );
+        replace(&mut result, path, &row["before"]);
     }
     Ok(result)
 }

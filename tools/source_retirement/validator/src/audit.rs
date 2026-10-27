@@ -198,6 +198,7 @@ pub fn run(repo: &Repo) -> Result<Value> {
         }
         for p in [
             "tools/source_retirement/README.md",
+            "docs/archives/RUNTIME_REMNANTS_1370.json",
             "tools/source_retirement/validator/src/audit.rs",
             "tools/source_retirement/validator/reviewed-identities.json",
         ] {
@@ -206,7 +207,7 @@ pub fn run(repo: &Repo) -> Result<Value> {
         if component == "infra/aws/runtime/agent-checkpoint-archive" {
             let p = "infra/runtime-v3/runtime-init.toml";
             ensure!(
-                repo.text(&["show", &format!("HEAD:{p}")])?
+                String::from_utf8(repo.blob(string(&at(&historical, p)[1])?)?)?
                     .contains("agent-logic-infrastructure"),
                 "successor comment missing"
             );

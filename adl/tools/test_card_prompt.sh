@@ -24,6 +24,6 @@ for template in registry["templates"].values():
     assert Path(template["path"]).is_file()
     assert Path(template["structure_schema_path"]).is_file()
 REGISTRY
-rg -q 'csdlc-edit' csdlc-v2/operator/skills/csdlc-v2-card-editor/SKILL.md
+test ! -e csdlc-v2/operator/skills
 
 echo "PASS: retained local wrapper absence/schema guards only; no native edit, validation, or lifecycle equivalence claimed"

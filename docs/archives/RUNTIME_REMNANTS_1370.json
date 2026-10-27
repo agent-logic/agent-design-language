@@ -1,0 +1,464 @@
+{
+  "schema": "adl.historical_runtime_retirement.v1",
+  "issue": 1370,
+  "source_commit": "0bf0ef5d167d0f479b8125a1a907221811ac262f",
+  "custody": "Published ancestor Git objects; git show SOURCE_COMMIT:PATH. No history rewrite.",
+  "entries": [
+    {
+      "path": "adl-v2/crates/adl-cli/Cargo.toml",
+      "mode": "100644",
+      "git_blob": "fd5b3c6749aef6725f868eab3e02fdbfd5d31418",
+      "bytes": 740,
+      "sha256": "678c4a74cbcf36db22dbc61b05c5d2bc6db555a9d222371d68bc65f6666a100a"
+    },
+    {
+      "path": "adl-v2/crates/adl-cli/src/main.rs",
+      "mode": "100644",
+      "git_blob": "02764f2d47db83539bac75cb1865579edb76b988",
+      "bytes": 14300,
+      "sha256": "fc5c9e647b2abaa03a90312d09a713e44a14e751e1df3efda5a5faa79c165e4f"
+    },
+    {
+      "path": "adl-v2/crates/adl-cli/tests/cli.rs",
+      "mode": "100644",
+      "git_blob": "6dccc5a2ef4b128498cc737e4367cfbc0bd06827",
+      "bytes": 5432,
+      "sha256": "8336f2daa43903b03b57328aa6b05b273b79866358628f0ee552ff63b978fbd4"
+    },
+    {
+      "path": "adl-v2/crates/adl-engine/Cargo.lock",
+      "mode": "100644",
+      "git_blob": "49b5233f77f9519b2082783ec7ba3eaca115718c",
+      "bytes": 8429,
+      "sha256": "51fa3e6a34320014b45e4a1544bdb79052b55c03238d0dff9bca8eacafb590f2"
+    },
+    {
+      "path": "adl-v2/crates/adl-engine/Cargo.toml",
+      "mode": "100644",
+      "git_blob": "74ec094d576daeef0c00fdd9caa7125dc79c8848",
+      "bytes": 569,
+      "sha256": "ae0b75f7f3e3f647707ca741537476ba9942cb71c3d2b90d6c3d60f42d9c207b"
+    },
+    {
+      "path": "adl-v2/crates/adl-engine/README.md",
+      "mode": "100644",
+      "git_blob": "3fae431ff89bc3fa503e04b3e7b874526f4fd3f0",
+      "bytes": 1836,
+      "sha256": "c6e95e0093fdf2fad9b85a13f4e238bd20a2c8b9449eca9b636830c711d12f91"
+    },
+    {
+      "path": "adl-v2/crates/adl-engine/src/engine.rs",
+      "mode": "100644",
+      "git_blob": "523d54cc5ce18e8f2e263c863e6b537adc32fbc5",
+      "bytes": 89435,
+      "sha256": "0c63e26680a3b38644f8d8f956ef95f78c9a467da86a61b4760578c8e3a9c886"
+    },
+    {
+      "path": "adl-v2/crates/adl-engine/src/lib.rs",
+      "mode": "100644",
+      "git_blob": "9bc649ff13a12d68251cfb4abebaf061e7243ff3",
+      "bytes": 677,
+      "sha256": "650e528e85cd47a2b893650a4fefdfdf862e8d87375ed9ef381ba88496b33be4"
+    },
+    {
+      "path": "adl-v2/crates/adl-engine/src/model.rs",
+      "mode": "100644",
+      "git_blob": "c50f1e9cbc06240114eedf037a7c58c1d3e0f27e",
+      "bytes": 12080,
+      "sha256": "dee576ddc3ab567e0a31fa99fa728d23bbf5269e2608883b5e810b625af247a5"
+    },
+    {
+      "path": "adl-v2/crates/adl-engine/tests/bounded_schedule.rs",
+      "mode": "100644",
+      "git_blob": "b0695c57bc7df42e406aa1f4a63b5dc1df743910",
+      "bytes": 17764,
+      "sha256": "dd30f16efa87212ad124b5ae92ea463f3ded6dacf3153d7c81f92dc86fe3c230"
+    },
+    {
+      "path": "adl-v2/crates/adl-engine/tests/common/mod.rs",
+      "mode": "100644",
+      "git_blob": "443d8a4ebd4c2414a48582739f7f1e28d49fa3b9",
+      "bytes": 7132,
+      "sha256": "c6964de7dba7be1ff9fae52d18dd0d8987884c039befb98d472cc8f80dca260b"
+    },
+    {
+      "path": "adl-v2/crates/adl-engine/tests/compiler_fixture_mapping.rs",
+      "mode": "100644",
+      "git_blob": "c254696d2cc503e4b219e894fe8b0be7b3c1b030",
+      "bytes": 10621,
+      "sha256": "78807dff41faee4ad13ef3db7b3ca471a34dfb8ca4a6bedafe638f9cf36d313d"
+    },
+    {
+      "path": "adl-v2/crates/adl-engine/tests/failure_resume.rs",
+      "mode": "100644",
+      "git_blob": "7fba80b50525edc9415c4ec6077d32a68e2ec9ad",
+      "bytes": 22486,
+      "sha256": "b263acb6e0ab67c233e3205f94de8ca88a8b3d3f1a65787783f90c56d71a3b72"
+    },
+    {
+      "path": "adl-v2/crates/adl-engine/tests/fresh_process_driver.rs",
+      "mode": "100644",
+      "git_blob": "9278d4e66202385bd7d1e218e159d6d0cfb28c90",
+      "bytes": 1155,
+      "sha256": "0f01762795dc12d4e7fafea0014397b801edea43b35ab9776f14f5dc2d4ed65a"
+    },
+    {
+      "path": "adl-v2/crates/adl-engine/tests/port_contracts.rs",
+      "mode": "100644",
+      "git_blob": "abc5fa43caa44d3742574c2d70386146d591a548",
+      "bytes": 8478,
+      "sha256": "e70c195752392df815e94d375c4602ac2979dda3610a0e8010d734d18e77d388"
+    },
+    {
+      "path": "adl-v2/crates/adl-records/Cargo.lock",
+      "mode": "100644",
+      "git_blob": "8ad5142c909df65093c3b6b9b2d8ccbd56c8857a",
+      "bytes": 31515,
+      "sha256": "d646bbdf0b26ec23a5095d0402dc304295cbbed7fcd60d846e43e5f24164b790"
+    },
+    {
+      "path": "adl-v2/crates/adl-records/Cargo.toml",
+      "mode": "100644",
+      "git_blob": "8aa9eb3bbafcf8b106aa216678675aa718012a3e",
+      "bytes": 718,
+      "sha256": "a15ac0478479bbd1610df493eb9e291581ed49658b5cb5f592445d7cf859b797"
+    },
+    {
+      "path": "adl-v2/crates/adl-records/README.md",
+      "mode": "100644",
+      "git_blob": "0af7f7ed709895fd50857b042aa6db2c3a7981ee",
+      "bytes": 461,
+      "sha256": "b7b87a1d77b57a8f97dfe8227898eeff7e01485f75221594b7dda2a875c835ec"
+    },
+    {
+      "path": "adl-v2/crates/adl-records/examples/generate_schema.rs",
+      "mode": "100644",
+      "git_blob": "e97ad3326cbbad74bf628414dd9630f2acd2f8cc",
+      "bytes": 510,
+      "sha256": "b0fea30a0be592a07e6ddb0660bfce540a61a6a2f290631437545df9bc3af288"
+    },
+    {
+      "path": "adl-v2/crates/adl-records/schema/adl-records.schema.json",
+      "mode": "100644",
+      "git_blob": "76d04ce06d0e7b344c42ead814da48a559bc0dc0",
+      "bytes": 13246,
+      "sha256": "1715a158c3ee4a6abe339b3d14e6d34ed657cd6adc2ef641cb7d9a8901b899e0"
+    },
+    {
+      "path": "adl-v2/crates/adl-records/src/canonical.rs",
+      "mode": "100644",
+      "git_blob": "0d03b794864f4ff81333cdcdb63c36899d09777a",
+      "bytes": 4179,
+      "sha256": "1a28833fd08404324091e05a7b03282e4d7c2115f2a0ebc2161c79bd72d09dba"
+    },
+    {
+      "path": "adl-v2/crates/adl-records/src/error.rs",
+      "mode": "100644",
+      "git_blob": "5e6986d7d7fad9636d08a7efdc0dea5a8e3ad9f8",
+      "bytes": 756,
+      "sha256": "0cfb0f1da754953cc565f82150aa499c38838633cefefda13fa8ae80d7e341df"
+    },
+    {
+      "path": "adl-v2/crates/adl-records/src/lib.rs",
+      "mode": "100644",
+      "git_blob": "2ede086c989782c6e73ee948b7c0091de2a08f07",
+      "bytes": 650,
+      "sha256": "a9e0e829f043f36edadf77ece5702806bb05b23d13d9e7d74889bb26e7e2c202"
+    },
+    {
+      "path": "adl-v2/crates/adl-records/src/model.rs",
+      "mode": "100644",
+      "git_blob": "2377f145c6e37582f31ebc74ccd753342854ae9b",
+      "bytes": 6857,
+      "sha256": "d2bfb258822134cd1c78aab622de6f3c137225f30d11d561f7df107f2e5f86f6"
+    },
+    {
+      "path": "adl-v2/crates/adl-records/src/signing.rs",
+      "mode": "100644",
+      "git_blob": "9343ff2352fcf79298dd6ac505fb8e528d7fda3c",
+      "bytes": 6451,
+      "sha256": "1ca2024971486e72f287fadb1c1d2c70bc12b82162adaa43be46bb8cfd682078"
+    },
+    {
+      "path": "adl-v2/crates/adl-records/src/strict_json.rs",
+      "mode": "100644",
+      "git_blob": "b7c8b0adfc197223ad2ceab4d8c4e89fe5247a1a",
+      "bytes": 4986,
+      "sha256": "5429af8b437143c9eff32ddbac0d199da8d62f86b4aaefe3467ea6545cadc6e2"
+    },
+    {
+      "path": "adl-v2/crates/adl-records/src/trust.rs",
+      "mode": "100644",
+      "git_blob": "b2f15a1abf821b485fe9ac98fc0b61d83c8cc3a9",
+      "bytes": 8777,
+      "sha256": "f144d87235e176d9d99d4820314e0f2586637076b85b91cca42a903edb5ee5dd"
+    },
+    {
+      "path": "adl-v2/crates/adl-records/tests/fresh_process_driver.rs",
+      "mode": "100644",
+      "git_blob": "5df89e14b3e7927ada1d5847bfbf8558bf4cf11a",
+      "bytes": 2705,
+      "sha256": "11e0c7b0ad7203613e1d635ce85ce9edd67b2dd4e36c503212c05fb951acc60d"
+    },
+    {
+      "path": "adl-v2/crates/adl-records/tests/records.rs",
+      "mode": "100644",
+      "git_blob": "44bee7ab2150dc45de606af57a81e317301ea6c7",
+      "bytes": 16001,
+      "sha256": "f937643fd473b05e17aa9b75d322087cc457702e2ca3c82053efecad10088d53"
+    },
+    {
+      "path": "adl-v2/crates/adl-records/tests/tamper_channel.rs",
+      "mode": "100644",
+      "git_blob": "69e27a3fced6e96dc1c2421994be759936ac6d57",
+      "bytes": 9858,
+      "sha256": "1aeac4ad41f00f7080a35034c4cf89518630c17f79cb1ce068ca950f99b14c67"
+    },
+    {
+      "path": "csdlc-v2/operator/SKILLS.md",
+      "mode": "100644",
+      "git_blob": "9d3aada75443d4b9619bf4d8ffd98746a7370a4f",
+      "bytes": 1585,
+      "sha256": "ccd08da0f2d1564661dbbc0ccd97f6b1fa015d0d68bc207b579e24b4df839ae5"
+    },
+    {
+      "path": "csdlc-v2/operator/coexistence.json",
+      "mode": "100644",
+      "git_blob": "9cae93095991097681e5a58a6cabef21f52645b3",
+      "bytes": 857,
+      "sha256": "6c9bcd562486f72c872ebbf69e1a2e57dae0dd866a70728081d9c9ba833d150c"
+    },
+    {
+      "path": "csdlc-v2/operator/cutover-request.json",
+      "mode": "100644",
+      "git_blob": "fc7c3c4a795046292173fde53d5f302fbcfdba58",
+      "bytes": 303,
+      "sha256": "c655533ad0acb2de1f198855a176b37555f6f5b4866a99941af8da18f51e1209"
+    },
+    {
+      "path": "csdlc-v2/operator/eligibility-request.json",
+      "mode": "100644",
+      "git_blob": "826cd503a101a4fa717b7981c3b3db15397b0fdf",
+      "bytes": 1443,
+      "sha256": "acbb45096832c5ae7b3d1fe95e8cc5123242b0ac0ac3d77ff31a47a554516897"
+    },
+    {
+      "path": "csdlc-v2/operator/examples/shepherd/operator_required.json",
+      "mode": "100644",
+      "git_blob": "26cf67e8c7fc8b7e57590cc97e4345a4d4b2c8f0",
+      "bytes": 149,
+      "sha256": "65f5bfebbafc86e5c594bdf233f70300e1e84671ef41e5d548b5044fbf42ba49"
+    },
+    {
+      "path": "csdlc-v2/operator/examples/shepherd/ready.json",
+      "mode": "100644",
+      "git_blob": "2dbe54abc45678af77103f57be2df2b5e6dac9fd",
+      "bytes": 154,
+      "sha256": "e06870c43e4438a1fedfd3529773241781fbe520960ecf9e1ddd90639865a712"
+    },
+    {
+      "path": "csdlc-v2/operator/examples/shepherd/repair_required.json",
+      "mode": "100644",
+      "git_blob": "4c35b29a96cfe56ddbed3916446d24c9d22fa569",
+      "bytes": 149,
+      "sha256": "40e787ddda59f179fb326f3f80722872d0ffd8dcf758d10f63ed287683479b87"
+    },
+    {
+      "path": "csdlc-v2/operator/examples/shepherd/retryable.json",
+      "mode": "100644",
+      "git_blob": "04c12ecb53040321068ddfa88bbe42859ea39f73",
+      "bytes": 149,
+      "sha256": "1ab9e497a7633ea14dc529c5d166d04e08225096b0fe43f5977194d1db38b5fb"
+    },
+    {
+      "path": "csdlc-v2/operator/examples/shepherd/waiting.json",
+      "mode": "100644",
+      "git_blob": "15613ea22794f01ffff17df11925d56b6d05a518",
+      "bytes": 145,
+      "sha256": "a838785dc22be481b075ced9d70f9d4ec7d3ef4e6bea936e9eb53cafb42d6022"
+    },
+    {
+      "path": "csdlc-v2/operator/generation-selector.json",
+      "mode": "100644",
+      "git_blob": "83b92c7e2b531fb96580774056c15505ebb0d2b7",
+      "bytes": 325,
+      "sha256": "7febf37ad5c9ccac2564c32c47d61cd16993cd60d9d10a8a80e29a302aa1699c"
+    },
+    {
+      "path": "csdlc-v2/operator/native-card-shape.json",
+      "mode": "100644",
+      "git_blob": "7e6689dfcfa76038842fda8d78df783166a401ac",
+      "bytes": 831,
+      "sha256": "42cb1ca91cc06664d59303c3ead6db9bbb6d8b0d40ce31b58a8c08c1c0ca9ea7"
+    },
+    {
+      "path": "csdlc-v2/operator/owner-source-set.json",
+      "mode": "100644",
+      "git_blob": "d539e8d0abbc63ed6fa4862fab44d3268ad86203",
+      "bytes": 352,
+      "sha256": "87269933ff33177837e806d35f2210d17c12f6fa078efbded9bba70171c056ee"
+    },
+    {
+      "path": "csdlc-v2/operator/pre-switch-proof.json",
+      "mode": "100644",
+      "git_blob": "95a862527500f8269a4d794d81f0eea95dcd5657",
+      "bytes": 769,
+      "sha256": "2e85000a9e781b4c973d86274cd9cf1c9a50119bb18a9901778e3e82b036fc70"
+    },
+    {
+      "path": "csdlc-v2/operator/skills.json",
+      "mode": "100644",
+      "git_blob": "d65889443fe4ec1a0e61b891661d0d037e964269",
+      "bytes": 5751,
+      "sha256": "a7ff39422ab2914d20f87ab68befcbf018bcac82b57a2a9587b987ecad7631f6"
+    },
+    {
+      "path": "csdlc-v2/operator/skills/csdlc-v2-bind/SKILL.md",
+      "mode": "100644",
+      "git_blob": "6a33d0789d59b33283ec206351a76b24a3098b07",
+      "bytes": 834,
+      "sha256": "e2079ec7e12b428ace6e814028567fe3e8d878fc93b55b13bc38e4053b307190"
+    },
+    {
+      "path": "csdlc-v2/operator/skills/csdlc-v2-card-editor/SKILL.md",
+      "mode": "100644",
+      "git_blob": "87380454a5d84fbb0e2a052147b5c5cc0e2bfd70",
+      "bytes": 459,
+      "sha256": "992f2f4d5e54f0535daeb7af9cba0df291d2a150989a69cfc6faf1499d3b09f6"
+    },
+    {
+      "path": "csdlc-v2/operator/skills/csdlc-v2-clean/SKILL.md",
+      "mode": "100644",
+      "git_blob": "28bfa32353e55cfb8a5b07a6dd992930b1286680",
+      "bytes": 1420,
+      "sha256": "9e58f6214aa9667b9a6ef753fc0687f8747d725cc7769df874228bb5be3ac110"
+    },
+    {
+      "path": "csdlc-v2/operator/skills/csdlc-v2-doctor/SKILL.md",
+      "mode": "100644",
+      "git_blob": "7889a11b1cc3643b9aea1d3d260bd79bdf09285b",
+      "bytes": 724,
+      "sha256": "3e107828e637bfa6c5b066837461b4a06a66ee60be99dc66c19bbb92a2e9ad49"
+    },
+    {
+      "path": "csdlc-v2/operator/skills/csdlc-v2-finish/SKILL.md",
+      "mode": "100644",
+      "git_blob": "46585c0b63eac38a84d8c2a83f2bea89ac27f94b",
+      "bytes": 1803,
+      "sha256": "add71912cd9ad6033b4a8614fe29edaab67d6976ca49c358c8fded9872254d29"
+    },
+    {
+      "path": "csdlc-v2/operator/skills/csdlc-v2-github/SKILL.md",
+      "mode": "100644",
+      "git_blob": "65ebfaad45457ad4323acb12f550cd07df0e5f8c",
+      "bytes": 2225,
+      "sha256": "64afbb935986078509217784e30246df113444392a773722d014107d252cd24d"
+    },
+    {
+      "path": "csdlc-v2/operator/skills/csdlc-v2-init/SKILL.md",
+      "mode": "100644",
+      "git_blob": "92e0f98d3998cb7aceba198de64cf46954238f66",
+      "bytes": 2376,
+      "sha256": "f5be48f47a7aa2078fb3be42897b4060486d57322473c04a5399c85ac4182a62"
+    },
+    {
+      "path": "csdlc-v2/operator/skills/csdlc-v2-publish/SKILL.md",
+      "mode": "100644",
+      "git_blob": "dfd835a67446c7086ede3b43cc63aa8f43f3f00a",
+      "bytes": 1850,
+      "sha256": "78f27300343247363aa771956662f3ce31e3b70068b78a9b7fea72e3d79f6801"
+    },
+    {
+      "path": "csdlc-v2/operator/skills/csdlc-v2-review/SKILL.md",
+      "mode": "100644",
+      "git_blob": "3a2669fddca2cb43ea3beb17a2c449e9278ac89c",
+      "bytes": 2373,
+      "sha256": "83d7f6dc068910756027c8daa6f7dddbc67f92113c54c3a63f6bd8824f168ecd"
+    },
+    {
+      "path": "csdlc-v2/operator/skills/csdlc-v2-shepherd/SKILL.md",
+      "mode": "100644",
+      "git_blob": "eb0f2a8e2e6a1576e99016caa2f66b0b0215b648",
+      "bytes": 476,
+      "sha256": "9fa92a9c8908f6b6035870637346b879be9f0c986e5996989f0120069bf348dc"
+    },
+    {
+      "path": "csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md",
+      "mode": "100644",
+      "git_blob": "75a0245059db60e77afde94e02377fb9d2fe327b",
+      "bytes": 1500,
+      "sha256": "2ddf3fcc53ab53809559d5608984fa2f6e99f341fe02f429e124aaefeac48e7d"
+    },
+    {
+      "path": "infra/runtime-v3/runtime-init.toml",
+      "mode": "100644",
+      "git_blob": "ef3cde01157e47e62236ee2701373e2560602d22",
+      "bytes": 5320,
+      "sha256": "c5b7636e0193140d571fb4256e433d58ed591a40d10fa1b9f38e83ed79ae4af4"
+    }
+  ],
+  "preserved": [
+    "README.md",
+    "adl/src/cli/runtime_owner.rs",
+    "csdlc-v3/operator/authority-selector.json",
+    "csdlc-v3/operator/native-authority-receipt.json",
+    "csdlc-v3/operator/native-authority-pr-observation.json"
+  ],
+  "consumer_changes": [
+    {
+      "path": "adl-characterization/corpus/v2/shadow.yaml",
+      "before": [
+        "100644",
+        "0e93372dfea14525893953e31a55b95b65b56fd4"
+      ],
+      "after": [
+        "100644",
+        "737e0d116bc1b66f2e8aaefbc52e4df9f284b0e0"
+      ]
+    },
+    {
+      "path": "adl-v2/README.md",
+      "before": [
+        "100644",
+        "55c980b412577f8bf9505363442de73240b3c1a6"
+      ],
+      "after": [
+        "100644",
+        "4165961cf2c7755d78ae9169301cb8dd7214dbca"
+      ]
+    },
+    {
+      "path": "adl/tools/test_card_prompt.sh",
+      "before": [
+        "100755",
+        "d373040d89f3edc505c9d6b592b324d708c0f11e"
+      ],
+      "after": [
+        "100755",
+        "98ed7041a9e403c25524a8314ebceba6fc411f53"
+      ]
+    },
+    {
+      "path": "adl/tools/test_prompt_spec_lint.sh",
+      "before": [
+        "100755",
+        "b594a3dcd1335a6a19a28683a2fd8a593f8c96df"
+      ],
+      "after": [
+        "100755",
+        "9375b8b9def66e867debc3f56e68cbe8b1e24d67"
+      ]
+    },
+    {
+      "path": "adl/tools/test_structured_prompt_validation.sh",
+      "before": [
+        "100755",
+        "dd54dcf4572004f713163b720f91ab0f1d0e98b1"
+      ],
+      "after": [
+        "100755",
+        "733fca6dc9d0fb93380b5f6425e25357d325ee9f"
+      ]
+    }
+  ]
+}
