@@ -362,7 +362,7 @@ pub fn retired_runtime_design(repo: &Repo, candidate: &Tree) -> Result<Tree> {
 }
 
 pub fn runtime_owner_cleanup(repo: &Repo, candidate: &Tree) -> Result<Tree> {
-    let manifest = repo.pinned("docs/archives/RUNTIME_OWNER_1383.json", "de0a4962d5bf42124e02f27ad307f99c63ddf60a461715e7f3f9c3f279ce7e2c")?;
+    let manifest = repo.pinned("docs/archives/RUNTIME_OWNER_1383.json", "b18a0eff6da146d968a08dc41b1ae7c6b3f62e24030be5d55fb3a6b999ed730f")?;
     repo.git(&["merge-base", "--is-ancestor", string(&manifest["source_commit"])?, "HEAD"])?;
     ensure!(strings(&manifest["removed"])?.len() == 12, "Runtime owner inventory mismatch");
     language(repo, candidate, &manifest)

@@ -170,7 +170,7 @@
       "before_sha256": "8dd55bd3a294bdc7f92e93b9fef5e1047a50cae9b65c12955a7f5cfb5e5d8797",
       "after": [
         "100644",
-        "a210de0edf95c44cc4ef1633186a27bc66ade000"
+        "20635052d80f77029b3c976c86487b942418c5db"
       ]
     }
   ],
@@ -251,5 +251,6 @@
   ],
   "disposition": "Named ADL-only wrappers retired; original proof entrypoints retained by their owners. All docs/runtime-v3 bytes match Runtime snapshot. Public dispatch, adl-uts and language/compiler packages kept unchanged. Other dated milestone/demo records retained as historical evidence; no blanket demo deletion.",
   "recovery": "git show SOURCE_COMMIT:PATH retrieves exact bytes; git ls-tree records original mode. Restore only in an isolated issue branch. Existing published history is preserved; #1382 must migrate these identities before any future rewrite.",
-  "validation": "PVF focused_contract: hermetic custody and successor regression, small CPU/disk; required public CI integration; owner resource inspection is custody evidence, not re-execution of owner acceptance."
+  "validation": "PVF focused_contract: hermetic custody and successor regression, small CPU/disk; required public CI integration; owner resource inspection is custody evidence, not re-execution of owner acceptance.",
+  "paper_expansion_status": "Historical composite replay, not currently a standalone owner checkout command. Infrastructure owns producer; Runtime owns six fixtures. Original adapter and exact inputs remain recoverable. No supported public ADL behavior depends on this historical replay."
 }
