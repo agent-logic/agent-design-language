@@ -672,6 +672,7 @@ fn retired_runtime_design_has_exact_custody_without_wider_deletion() {
 #[test]
 fn runtime_owner_cleanup_preserves_custody_and_rejects_consumer_drift() {
  let repo = repo(); let candidate = repo.tree("HEAD").unwrap();
+ let candidate = successors::owner_cleanup_1386(&repo, &candidate).unwrap();
  let historical = successors::runtime_owner_cleanup(&repo, &candidate).unwrap();
  for path in ["tools/runtime_contracts/run_provider_neutral_proof.py", "docs/runtime-v3/PROVIDER_NEUTRAL_LIFECYCLE.md"] {
   assert!(!candidate.contains_key(path));
