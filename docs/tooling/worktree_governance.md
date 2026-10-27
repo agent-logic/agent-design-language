@@ -152,9 +152,9 @@ contents to reclaim another path.
 The [developer fast lane](DEVELOPER_THROUGHPUT_FAST_LANE.md) describes FastWork-required
 placement for worktrees, `TMPDIR` and build output; placement is not purge authority.
 Its v2 lifecycle wording is historical and subordinate to current v3 policy.
-Likewise the [historical ADL v2 installer](../../adl-v2/tools/install-adl-v2.sh)
-uses `CARGO_TARGET_DIR` or `/Volumes/FastWork/adl-v2/target` but installs binaries
-and receipts separately; it does not define current worktree governance.
+The obsolete ADL v2 installer, rollback and soak scripts have been retired.
+Their [published Git custody](../archives/ADL_V2_TOOLS_1376.json) preserves the
+historical procedures; they do not define current worktree governance.
 
 Unity Observatory and Celestial Rescue were discontinued in #1223. Their source and
 original procedures remain in Git and the retirement custody archive; editor proof
