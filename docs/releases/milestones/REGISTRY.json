@@ -1,0 +1,179 @@
+{
+  "schema": "adl.milestone_release_registry.v1",
+  "repository": "agent-logic/agent-design-language",
+  "canonical_cutover": "v0.92.0",
+  "legacy_repository": "danielbaustin/agent-design-language",
+  "legacy_releases": "unchanged",
+  "record_semantics": "Historical milestone record tags identify the compact reconciliation record, not an old software build. Original source commits/trees remain exact archive identities. Package versions are independent of engineering milestone names.",
+  "records": [
+    {
+      "milestone": "v0.92.0",
+      "package_version": "0.92.0",
+      "original_source_commit": "f0a011a5c59d46c763d669f69a10308b3f870ba4",
+      "original_source_tree": "e36b23606b9cf3f0a8eca8e3dcae9e0c201306f6",
+      "outcome": "engineering_complete",
+      "historical_source_archive": "agent-design-language/1382/approved-cli-20261027-74976e8b",
+      "notes": "docs/releases/milestones/v0.92.0.md",
+      "required_issues": [
+        307,
+        319
+      ],
+      "approved_open_backlog_carryovers": [
+        84,
+        251,
+        269,
+        1226
+      ],
+      "deployment_claimed": false,
+      "historical_evidence": [
+        {
+          "revision": "f0a011a5c59d46c763d669f69a10308b3f870ba4",
+          "path": ".csdlc/evidence/307/issue-319-final-ceremony-receipt.json",
+          "sha256": "3a3aa32dabb300a59f117da0ad9b469d5e13e2d1f6a4768a01b7892da2fc55d2"
+        },
+        {
+          "revision": "f0a011a5c59d46c763d669f69a10308b3f870ba4",
+          "path": "docs/milestones/v0.92/review/sprint_307/README.md",
+          "sha256": "1911878a15b09944518e4951067399801857d92842cd825f3f128040f27b9262"
+        }
+      ],
+      "proof_links": [
+        "https://github.com/agent-logic/agent-design-language/pull/479",
+        "https://github.com/agent-logic/agent-design-language/pull/481"
+      ],
+      "release_role": "historical_milestone_record",
+      "release_tag": "v0.92.0",
+      "release_url": "https://github.com/agent-logic/agent-design-language/releases/tag/v0.92.0"
+    },
+    {
+      "milestone": "v0.92.1",
+      "package_version": "0.92.1",
+      "original_source_commit": "c9cdb2f13ff77a06dcc79ad4e4c332f444b2e14f",
+      "original_source_tree": "653f87a7601466c8a4f52c0433ae0cc4c9650b00",
+      "outcome": "published_software_release",
+      "historical_source_archive": "agent-design-language/1382/approved-cli-20261027-74976e8b",
+      "notes": "docs/releases/milestones/v0.92.1.md",
+      "required_issues": [
+        522,
+        525,
+        526
+      ],
+      "approved_open_backlog_carryovers": [
+        84,
+        251,
+        269,
+        1226
+      ],
+      "deployment_claimed": false,
+      "historical_evidence": [],
+      "proof_links": [
+        "https://github.com/agent-logic/agent-design-language/releases/tag/v0.92.1"
+      ],
+      "release_role": "existing_software_release",
+      "release_tag": "v0.92.1",
+      "public_tag_commit": "12a6c9f971284b42ebdcd588eef1499c7717cf4d",
+      "release_id": 387308409,
+      "published_at": "2026-09-11T20:12:57Z",
+      "release_url": "https://github.com/agent-logic/agent-design-language/releases/tag/v0.92.1"
+    },
+    {
+      "milestone": "v0.92.2",
+      "package_version": "0.92.1",
+      "original_source_commit": "248f00e359e412f6bc0061ac88be9ff374e3a212",
+      "original_source_tree": "4c794391969133fdb39e48dfcf08067175e2ab4c",
+      "outcome": "administrative_close_with_deferred_qualification",
+      "historical_source_archive": "agent-design-language/1382/approved-cli-20261027-74976e8b",
+      "notes": "docs/releases/milestones/v0.92.2.md",
+      "required_issues": [
+        922,
+        923,
+        924,
+        925,
+        937
+      ],
+      "approved_open_backlog_carryovers": [
+        84,
+        251,
+        269,
+        1226
+      ],
+      "deployment_claimed": false,
+      "historical_evidence": [
+        {
+          "revision": "248f00e359e412f6bc0061ac88be9ff374e3a212",
+          "path": "docs/milestones/v0.92.2/evidence/issue-925/CLOSEOUT_MANIFEST.json",
+          "sha256": "af27669be86dab87bcab18056f2cd0394f065fca19f1ef610d0353597ca30ae9"
+        },
+        {
+          "revision": "248f00e359e412f6bc0061ac88be9ff374e3a212",
+          "path": "docs/milestones/v0.92.2/evidence/issue-925/RELEASE_DECISION.md",
+          "sha256": "11fae71c61ff9fed2ead6e574fd334f41f75c3e0b78f5a23dd92e11b857913b0"
+        }
+      ],
+      "proof_links": [
+        "https://github.com/agent-logic/agent-design-language/issues/925",
+        "https://github.com/agent-logic/agent-design-language/pull/1177",
+        "https://github.com/agent-logic/agent-design-language/pull/1157"
+      ],
+      "release_role": "historical_milestone_record",
+      "release_tag": "v0.92.2",
+      "release_url": "https://github.com/agent-logic/agent-design-language/releases/tag/v0.92.2"
+    },
+    {
+      "milestone": "v0.93.1",
+      "package_version": "0.92.1",
+      "original_source_commit": "69fae86cde65861cdace95183c2c373dcb09ca01",
+      "original_source_tree": "cd3f06cf3b067bb2fbccde030d0a7602582a2822",
+      "outcome": "ready_to_deploy_undeployed",
+      "historical_source_archive": "agent-design-language/1382/approved-cli-20261027-74976e8b",
+      "notes": "docs/releases/milestones/v0.93.1.md",
+      "required_issues": [
+        1230,
+        1232,
+        1234,
+        1236,
+        1238,
+        1240,
+        1241,
+        1242,
+        1243,
+        1244,
+        1245
+      ],
+      "approved_open_backlog_carryovers": [
+        84,
+        251,
+        269,
+        1226
+      ],
+      "deployment_claimed": false,
+      "historical_evidence": [
+        {
+          "revision": "69fae86cde65861cdace95183c2c373dcb09ca01",
+          "path": "docs/milestones/v0.93.1/tail-1245/READY_TO_DEPLOY_CLOSURE_1245.md",
+          "sha256": "cda338f27928e4836ac0b38621a67a5206f90b861c0258617cefbbb00e7ebcbb"
+        }
+      ],
+      "proof_links": [
+        "https://github.com/agent-logic/agent-design-language/issues/1245",
+        "https://github.com/agent-logic/agent-design-language/pull/1295",
+        "https://github.com/agent-logic/agent-design-language/issues/1230"
+      ],
+      "release_role": "historical_milestone_record",
+      "release_tag": "v0.93.1",
+      "qualified_source_commit": "ac2b596915538f3ed9ce418aec5aa7b917c18fd4",
+      "qualified_source_tree": "4806529b7f89a1efe12d75fbb61ae829e94f94cd",
+      "cross_repository_required_issues": [
+        "agent-logic/codefriend#47"
+      ],
+      "release_url": "https://github.com/agent-logic/agent-design-language/releases/tag/v0.93.1"
+    }
+  ],
+  "active_or_planned_not_complete": [
+    "v0.93",
+    "v0.93.2",
+    "v0.93.3"
+  ],
+  "operator_backlog_disposition": "2026-10-27: #84, #251, #269 and #1226 remain in backlog unchanged. #1352 explicitly deferred open to v0.93.3.",
+  "observation_contract": "Registry source/evidence identities are immutable expectations. Published release records and attached checksums/readback receipts establish actual publication; repository metadata alone is not a delivery receipt."
+}
