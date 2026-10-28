@@ -110,7 +110,7 @@ jobs:
           cargo test --locked --manifest-path tools/public_contracts/Cargo.toml --test public_helpers
           cargo test --locked --manifest-path tools/source_retirement/validator/Cargo.toml --test public_boundary
           cargo test --locked --manifest-path tools/source_retirement/validator/Cargo.toml --test contracts portable::
-          cargo test --locked --manifest-path tools/language_inventory/Cargo.toml
+          cargo test --locked --manifest-path tools/language_inventory/Cargo.toml --test inventory portable::
           cargo test --locked --manifest-path tools/ci_contracts/Cargo.toml --test actions
           cargo test --locked --manifest-path tools/ci_contracts/Cargo.toml --test interfaces
           cargo run --locked --quiet --manifest-path tools/ci_contracts/Cargo.toml -- workflow-policy

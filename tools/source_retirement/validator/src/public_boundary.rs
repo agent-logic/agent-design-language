@@ -33,6 +33,16 @@ pub fn validate(tree: &Tree, policy: &Value, manifests: &BTreeMap<String, Vec<u8
             }
         }
     }
+    ensure!(
+        !tree.keys().any(|p| p.ends_with(".rb")),
+        "retired Ruby source restored"
+    );
+    ensure!(
+        !tree
+            .keys()
+            .any(|p| p.starts_with("docs/milestones/") && p.ends_with(".py")),
+        "historical Python source restored"
+    );
     let pins = policy["manifest_sha256"]
         .as_object()
         .context("manifest pins")?;

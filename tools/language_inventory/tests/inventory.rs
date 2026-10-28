@@ -165,29 +165,34 @@ fn every_baseline_script_has_exact_identity_and_custody() {
         .unwrap()
         .is_empty());
 }
-#[test]
-fn duplicate_unowned_and_invented_custody_are_rejected() {
-    let v = inventory();
-    let mut duplicate = v.clone();
-    let first = duplicate["scripts"][0].clone();
-    duplicate["scripts"].as_array_mut().unwrap().push(first);
-    assert_eq!(identities(&duplicate).unwrap_err(), "duplicate path");
-    let mut unowned = v.clone();
-    unowned["scripts"][0]["delivery_issue"] = 0.into();
-    assert_eq!(identities(&unowned).unwrap_err(), "unassigned delivery");
-    let mut custody = v.clone();
-    custody["scripts"][0]["preservation"]["commit"] = "fabricated".into();
-    assert_eq!(identities(&custody).unwrap_err(), "custody mismatch");
-    let mut missing_contract = v.clone();
-    missing_contract["scripts"][0]["replacement_contract"] = "absent".into();
-    assert_eq!(
-        identities(&missing_contract).unwrap_err(),
-        "incomplete replacement contract"
-    );
-    let mut permission = v;
-    permission["scripts"][0]["retirement_authorized"] = true.into();
-    assert_eq!(
-        identities(&permission).unwrap_err(),
-        "unsupported retirement permission"
-    );
+
+// PVF local_contract: fixture-only inventory refusals; no historical objects.
+mod portable {
+    use super::*;
+    #[test]
+    fn duplicate_unowned_and_invented_custody_are_rejected() {
+        let v = inventory();
+        let mut duplicate = v.clone();
+        let first = duplicate["scripts"][0].clone();
+        duplicate["scripts"].as_array_mut().unwrap().push(first);
+        assert_eq!(identities(&duplicate).unwrap_err(), "duplicate path");
+        let mut unowned = v.clone();
+        unowned["scripts"][0]["delivery_issue"] = 0.into();
+        assert_eq!(identities(&unowned).unwrap_err(), "unassigned delivery");
+        let mut custody = v.clone();
+        custody["scripts"][0]["preservation"]["commit"] = "fabricated".into();
+        assert_eq!(identities(&custody).unwrap_err(), "custody mismatch");
+        let mut missing_contract = v.clone();
+        missing_contract["scripts"][0]["replacement_contract"] = "absent".into();
+        assert_eq!(
+            identities(&missing_contract).unwrap_err(),
+            "incomplete replacement contract"
+        );
+        let mut permission = v;
+        permission["scripts"][0]["retirement_authorized"] = true.into();
+        assert_eq!(
+            identities(&permission).unwrap_err(),
+            "unsupported retirement permission"
+        );
+    }
 }

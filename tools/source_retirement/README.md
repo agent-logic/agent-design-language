@@ -393,3 +393,10 @@ its separately archived custody files. They intentionally require the original
 Git graph and are not public CI dependencies after a compact-history cutover.
 Neither a missing old object nor a missing custody file counts as audit success.
 See [the archive and cutover contract](../../docs/archives/PUBLIC_HISTORY_1382.md).
+
+The public language-inventory lane runs its `inventory portable::` negative
+contracts; its full `historical` and `inventory` targets remain archive audits.
+Current-HEAD boundary checks also reject new Ruby and historical milestone
+Python source. Missing ancestry is never accepted as proof: the naming guard
+uses an explicit source-tree comparison for unrelated history roots and fails
+if Git cannot observe the requested trees.

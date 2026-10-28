@@ -25,7 +25,12 @@ fn current_committed_public_boundary() {
 fn refuses_resurrection_protected_loss_and_provenance_tamper() {
     let (tree, policy, manifests) = fixture();
     public_boundary::validate(&tree, &policy, &manifests).unwrap();
-    for path in ["old-owner.rs", "runtime-v3/new.rs"] {
+    for path in [
+        "old-owner.rs",
+        "runtime-v3/new.rs",
+        "new.rb",
+        "docs/milestones/future/new.py",
+    ] {
         let mut changed = tree.clone();
         changed.insert(path.into(), json!(["100644", "new"]));
         assert!(public_boundary::validate(&changed, &policy, &manifests).is_err());
