@@ -1,0 +1,70 @@
+{
+  "schema": "adl.rd01.inventory.v1",
+  "baseline": "f69019c24a9b61511e912c93f95442f96fa66d92",
+  "tracked_paths": 31813,
+  "source_path": "adl/tools/rd01_repository_audit.py",
+  "git_modes": {
+    "100644": 30969,
+    "100755": 844
+  },
+  "symlinks": 0,
+  "submodule_commits": 0,
+  "ownership": {
+    "unresolved": 9466,
+    "historical-evidence": 21857,
+    "runtime": 274,
+    "public-adl": 11,
+    "codefriend": 8,
+    "csdlc": 197
+  },
+  "categories": {
+    "maintained": {
+      "paths": 7875,
+      "bytes": 188466387,
+      "text_lines": 1377384
+    },
+    "test": {
+      "paths": 924,
+      "bytes": 9053629,
+      "text_lines": 237937
+    },
+    "generated": {
+      "paths": 23,
+      "bytes": 938012,
+      "text_lines": 37891
+    },
+    "evidence": {
+      "paths": 22991,
+      "bytes": 228696108,
+      "text_lines": 1953556
+    }
+  },
+  "manifests": 211,
+  "manifest_statuses": {
+    "parsed": 27,
+    "recognized_unparsed": 184
+  },
+  "dependency_edges": 310,
+  "reference_policy": "paths and matching line numbers only; no source text or credential values",
+  "limitations": [
+    "Ownership and size categories are heuristic candidates, not RD-02 decisions.",
+    "Generated content outside named directories/suffixes can be classified maintained; test modules embedded in production files are not split.",
+    "References are lexical candidates, not proof of functional coupling.",
+    "Cargo dependency declarations are parsed; recognized Node/Python/Terraform manifests are explicitly unresolved, not zero-dependency claims. Workflow/shell dependency semantics require separate audit.",
+    "No builds, release, deployment or operational independence established."
+  ],
+  "reports": {
+    "dependencies.json": {
+      "bytes": 146134,
+      "sha256": "adbcefa86874d5860a89afdf07c89d09bd8245a98438b42628bac265224866b0"
+    },
+    "inventory.jsonl.gz": {
+      "bytes": 1211072,
+      "sha256": "3d8df45d5d8d56798cf085abc7478b4a6f20e6094d9d62ed1b459fca0e3b119f"
+    },
+    "references.jsonl.gz": {
+      "bytes": 217585,
+      "sha256": "f0e4098e5c09393db614dd7a8d251ceb2ea4e5f4a65816f36b8cd4077291f496"
+    }
+  }
+}

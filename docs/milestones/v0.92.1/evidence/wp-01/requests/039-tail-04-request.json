@@ -1,0 +1,27 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "action": "issue_create",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:TAIL-04:create",
+  "token_file": null,
+  "issue": null,
+  "pull_request": null,
+  "title": "[v0.92.1][TAIL-04] Internal review",
+  "body": "## Outcome\n\nProduce one internal findings register for the exact milestone candidate.\n\n## Primary deliverable\n\nOne internal findings register bound to the exact milestone candidate.\n\n## Verification result\n\nThe review denominator is complete and every finding has exact evidence, severity, and revision identity.\n\n## Unit boundary\n\nIssue completion is exactly one internal findings register; individual findings do not close independently.\n\n## Dependencies\n\n- TAIL-03: #519\n\n## Retained predecessor scope\n\n- None; this is new v0.92.1 work.\n\n## Acceptance criteria\n\n- [ ] All acceptance surfaces are reviewed\n- [ ] Findings bind exact files revisions and severity\n\n## Owned paths\n\n- `docs/milestones/v0.92.1/evidence/release/tail-04/**`\n\n## PVF lanes\n\n- `review-denominator`\n- `finding-schema`\n- `exact-revision`\n\n## Stop conditions\n\n- Candidate changes during review\n\n## Non-goals\n\n- Fixing findings\n- External review\n\n## Canonical planning identity\n\n- Planned ID: `TAIL-04`\n- Canonical title: `[v0.92.1][TAIL-04] Internal review`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#TAIL-04`\n",
+  "labels": [
+    "area:review",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "assignees": [
+
+  ],
+  "milestone": 1,
+  "state": null,
+  "comment_body": null,
+  "required_checks": [
+
+  ],
+  "require_review": false,
+  "linked_issue": null
+}

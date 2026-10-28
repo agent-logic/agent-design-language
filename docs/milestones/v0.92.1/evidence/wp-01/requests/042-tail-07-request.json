@@ -1,0 +1,27 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "action": "issue_create",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:TAIL-07:create",
+  "token_file": null,
+  "issue": null,
+  "pull_request": null,
+  "title": "[v0.92.1][TAIL-07] Next-milestone planning",
+  "body": "## Outcome\n\nProduce one complete v0.92.2 CodeFriend Beta 1 planning package.\n\n## Primary deliverable\n\nOne complete bounded v0.92.2 CodeFriend Beta 1 planning package.\n\n## Verification result\n\nThe successor denominator, deferred routing, Beta 1 exit bar, and v0.95 target checks pass.\n\n## Unit boundary\n\nIssue completion is exactly one successor planning package; planned work is not executed or independently closed here.\n\n## Dependencies\n\n- TAIL-06: #522\n\n## Retained predecessor scope\n\n- #190\n\n## Acceptance criteria\n\n- [ ] The successor scope is bounded\n- [ ] CodeFriend Beta 1 and v0.95 integration target are explicit\n- [ ] Deferred work is routed\n\n## Owned paths\n\n- `docs/milestones/v0.92.2/**`\n- `docs/planning/ADL_FEATURE_LIST.md`\n\n## PVF lanes\n\n- `successor-denominator`\n- `deferred-routing`\n- `beta-target`\n\n## Stop conditions\n\n- Successor ownership is ambiguous\n\n## Non-goals\n\n- Creating successor execution issues\n- Implementing CodeFriend\n\n## Canonical planning identity\n\n- Planned ID: `TAIL-07`\n- Canonical title: `[v0.92.1][TAIL-07] Next-milestone planning`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#TAIL-07`\n",
+  "labels": [
+    "area:docs",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "assignees": [
+
+  ],
+  "milestone": 1,
+  "state": null,
+  "comment_body": null,
+  "required_checks": [
+
+  ],
+  "require_review": false,
+  "linked_issue": null
+}

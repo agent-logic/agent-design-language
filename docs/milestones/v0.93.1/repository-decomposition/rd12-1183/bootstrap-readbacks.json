@@ -1,0 +1,609 @@
+{
+  "schema": "rd12.bootstrap_readback.v1",
+  "observed_at": "2026-09-26T03:18:58.961654+00:00",
+  "transport": "authenticated GitHub REST API via existing gh CLI; approved repository administration only",
+  "authenticated_actor": "danielbaustin",
+  "organization_default_repository_permission": "read",
+  "repositories": [
+    {
+      "id": 1388430141,
+      "full_name": "agent-logic/cognitive-sdlc",
+      "private": true,
+      "archived": false,
+      "default_branch": "main",
+      "has_issues": true,
+      "allow_merge_commit": true,
+      "allow_auto_merge": false,
+      "delete_branch_on_merge": false,
+      "main": {
+        "name": "main",
+        "sha": "e2691c960e30238bb0b4204a9f08ff153606f81a",
+        "protected": true
+      },
+      "owner": {
+        "login": "danielbaustin",
+        "permission": "admin",
+        "role_name": "admin"
+      },
+      "ruleset": {
+        "id": 24031143,
+        "name": "main-protection",
+        "target": "branch",
+        "enforcement": "active",
+        "bypass_actors": [],
+        "conditions": {
+          "ref_name": {
+            "exclude": [],
+            "include": [
+              "~DEFAULT_BRANCH"
+            ]
+          }
+        },
+        "rules": [
+          {
+            "type": "deletion"
+          },
+          {
+            "type": "non_fast_forward"
+          },
+          {
+            "type": "pull_request",
+            "parameters": {
+              "required_approving_review_count": 0,
+              "dismiss_stale_reviews_on_push": false,
+              "required_reviewers": [],
+              "require_code_owner_review": false,
+              "dismissal_restriction": {
+                "enabled": false,
+                "allowed_actors": []
+              },
+              "require_last_push_approval": false,
+              "required_review_thread_resolution": false,
+              "require_extra_approval_for_unattributed_changes": true,
+              "allowed_merge_methods": [
+                "merge",
+                "squash",
+                "rebase"
+              ]
+            }
+          }
+        ]
+      },
+      "effective_rules": [
+        {
+          "type": "deletion",
+          "ruleset_source_type": "Repository",
+          "ruleset_source": "agent-logic/cognitive-sdlc",
+          "ruleset_id": 24031143
+        },
+        {
+          "type": "non_fast_forward",
+          "ruleset_source_type": "Repository",
+          "ruleset_source": "agent-logic/cognitive-sdlc",
+          "ruleset_id": 24031143
+        },
+        {
+          "type": "pull_request",
+          "parameters": {
+            "required_approving_review_count": 0,
+            "dismiss_stale_reviews_on_push": false,
+            "required_reviewers": [],
+            "require_code_owner_review": false,
+            "dismissal_restriction": {
+              "enabled": false,
+              "allowed_actors": []
+            },
+            "require_last_push_approval": false,
+            "required_review_thread_resolution": false,
+            "require_extra_approval_for_unattributed_changes": true,
+            "allowed_merge_methods": [
+              "merge",
+              "squash",
+              "rebase"
+            ]
+          },
+          "ruleset_source_type": "Repository",
+          "ruleset_source": "agent-logic/cognitive-sdlc",
+          "ruleset_id": 24031143
+        }
+      ],
+      "workflow_permissions": {
+        "default_workflow_permissions": "read",
+        "can_approve_pull_request_reviews": false
+      },
+      "workflow_count": 0,
+      "required_checks_disposition": "staged_with_source_workflow_import; no product readiness claim",
+      "native_csdlc_authority": "not_installed",
+      "response_sha256": {
+        "created-readback": "77a033d1526455da9ddad3a629756319dbc281d883603b062b973e2475ae95f4",
+        "main-readback": "c0f2131ef2010e3722deb8dcc3524325f08bcf43269a5568a1860bfe4f289d3c",
+        "owner-permission-readback": "26d515bfd9131ecae7c1a50c0cfd105d9a7288d2581da1d5e7279fef7d0d2981",
+        "ruleset-readback": "f49d67b1cf21caa107d287e9c19ce7da325caac5f23bd3fed7b51fda1fd1eaf5",
+        "effective-rules-readback": "0f5e8ac2c9c1da8e765f396d1f339ee8d8e992d84a7fa640ac0eebc852c3d0a8",
+        "workflow-permissions-readback": "f6e178fc1e56cf43900da383f85398b61de9ae61c6b8433116c1856605745924",
+        "workflows-readback": "51da78a4f28ec83978198558b5be95ebec25c44ab19561c168a975e203f0a785"
+      }
+    },
+    {
+      "id": 1388431804,
+      "full_name": "agent-logic/agent-logic-runtime",
+      "private": true,
+      "archived": false,
+      "default_branch": "main",
+      "has_issues": true,
+      "allow_merge_commit": true,
+      "allow_auto_merge": false,
+      "delete_branch_on_merge": false,
+      "main": {
+        "name": "main",
+        "sha": "8f1593e47708c29ec0034d74c4e1234cae77169f",
+        "protected": true
+      },
+      "owner": {
+        "login": "danielbaustin",
+        "permission": "admin",
+        "role_name": "admin"
+      },
+      "ruleset": {
+        "id": 24031176,
+        "name": "main-protection",
+        "target": "branch",
+        "enforcement": "active",
+        "bypass_actors": [],
+        "conditions": {
+          "ref_name": {
+            "exclude": [],
+            "include": [
+              "~DEFAULT_BRANCH"
+            ]
+          }
+        },
+        "rules": [
+          {
+            "type": "deletion"
+          },
+          {
+            "type": "non_fast_forward"
+          },
+          {
+            "type": "pull_request",
+            "parameters": {
+              "required_approving_review_count": 0,
+              "dismiss_stale_reviews_on_push": false,
+              "required_reviewers": [],
+              "require_code_owner_review": false,
+              "dismissal_restriction": {
+                "enabled": false,
+                "allowed_actors": []
+              },
+              "require_last_push_approval": false,
+              "required_review_thread_resolution": false,
+              "require_extra_approval_for_unattributed_changes": true,
+              "allowed_merge_methods": [
+                "merge",
+                "squash",
+                "rebase"
+              ]
+            }
+          }
+        ]
+      },
+      "effective_rules": [
+        {
+          "type": "deletion",
+          "ruleset_source_type": "Repository",
+          "ruleset_source": "agent-logic/agent-logic-runtime",
+          "ruleset_id": 24031176
+        },
+        {
+          "type": "non_fast_forward",
+          "ruleset_source_type": "Repository",
+          "ruleset_source": "agent-logic/agent-logic-runtime",
+          "ruleset_id": 24031176
+        },
+        {
+          "type": "pull_request",
+          "parameters": {
+            "required_approving_review_count": 0,
+            "dismiss_stale_reviews_on_push": false,
+            "required_reviewers": [],
+            "require_code_owner_review": false,
+            "dismissal_restriction": {
+              "enabled": false,
+              "allowed_actors": []
+            },
+            "require_last_push_approval": false,
+            "required_review_thread_resolution": false,
+            "require_extra_approval_for_unattributed_changes": true,
+            "allowed_merge_methods": [
+              "merge",
+              "squash",
+              "rebase"
+            ]
+          },
+          "ruleset_source_type": "Repository",
+          "ruleset_source": "agent-logic/agent-logic-runtime",
+          "ruleset_id": 24031176
+        }
+      ],
+      "workflow_permissions": {
+        "default_workflow_permissions": "read",
+        "can_approve_pull_request_reviews": false
+      },
+      "workflow_count": 0,
+      "required_checks_disposition": "staged_with_source_workflow_import; no product readiness claim",
+      "native_csdlc_authority": "not_installed",
+      "response_sha256": {
+        "created-readback": "02704b731f0c0bd7fcf3e0d8cbdbc60155e1ef986012a760a3549ee40b7b7f9a",
+        "main-readback": "52ba2b9074ff58e4f73dcf48c24507245613128117db71d34f709546a99aaa15",
+        "owner-permission-readback": "26d515bfd9131ecae7c1a50c0cfd105d9a7288d2581da1d5e7279fef7d0d2981",
+        "ruleset-readback": "3190b5452e3477385d783f5888e887bd4e1d3329934d75c7ea69ca437ea64822",
+        "effective-rules-readback": "5857d44767abccad177c7c161955e7afa0b46985c59fa886ed0956bcd4c505df",
+        "workflow-permissions-readback": "f6e178fc1e56cf43900da383f85398b61de9ae61c6b8433116c1856605745924",
+        "workflows-readback": "51da78a4f28ec83978198558b5be95ebec25c44ab19561c168a975e203f0a785"
+      }
+    },
+    {
+      "id": 1388432185,
+      "full_name": "agent-logic/codefriend",
+      "private": true,
+      "archived": false,
+      "default_branch": "main",
+      "has_issues": true,
+      "allow_merge_commit": true,
+      "allow_auto_merge": false,
+      "delete_branch_on_merge": false,
+      "main": {
+        "name": "main",
+        "sha": "04aefb248d6ceff68ccd4f2acc42b2a172622f99",
+        "protected": true
+      },
+      "owner": {
+        "login": "danielbaustin",
+        "permission": "admin",
+        "role_name": "admin"
+      },
+      "ruleset": {
+        "id": 24031179,
+        "name": "main-protection",
+        "target": "branch",
+        "enforcement": "active",
+        "bypass_actors": [],
+        "conditions": {
+          "ref_name": {
+            "exclude": [],
+            "include": [
+              "~DEFAULT_BRANCH"
+            ]
+          }
+        },
+        "rules": [
+          {
+            "type": "deletion"
+          },
+          {
+            "type": "non_fast_forward"
+          },
+          {
+            "type": "pull_request",
+            "parameters": {
+              "required_approving_review_count": 0,
+              "dismiss_stale_reviews_on_push": false,
+              "required_reviewers": [],
+              "require_code_owner_review": false,
+              "dismissal_restriction": {
+                "enabled": false,
+                "allowed_actors": []
+              },
+              "require_last_push_approval": false,
+              "required_review_thread_resolution": false,
+              "require_extra_approval_for_unattributed_changes": true,
+              "allowed_merge_methods": [
+                "merge",
+                "squash",
+                "rebase"
+              ]
+            }
+          }
+        ]
+      },
+      "effective_rules": [
+        {
+          "type": "deletion",
+          "ruleset_source_type": "Repository",
+          "ruleset_source": "agent-logic/codefriend",
+          "ruleset_id": 24031179
+        },
+        {
+          "type": "non_fast_forward",
+          "ruleset_source_type": "Repository",
+          "ruleset_source": "agent-logic/codefriend",
+          "ruleset_id": 24031179
+        },
+        {
+          "type": "pull_request",
+          "parameters": {
+            "required_approving_review_count": 0,
+            "dismiss_stale_reviews_on_push": false,
+            "required_reviewers": [],
+            "require_code_owner_review": false,
+            "dismissal_restriction": {
+              "enabled": false,
+              "allowed_actors": []
+            },
+            "require_last_push_approval": false,
+            "required_review_thread_resolution": false,
+            "require_extra_approval_for_unattributed_changes": true,
+            "allowed_merge_methods": [
+              "merge",
+              "squash",
+              "rebase"
+            ]
+          },
+          "ruleset_source_type": "Repository",
+          "ruleset_source": "agent-logic/codefriend",
+          "ruleset_id": 24031179
+        }
+      ],
+      "workflow_permissions": {
+        "default_workflow_permissions": "read",
+        "can_approve_pull_request_reviews": false
+      },
+      "workflow_count": 0,
+      "required_checks_disposition": "staged_with_source_workflow_import; no product readiness claim",
+      "native_csdlc_authority": "not_installed",
+      "response_sha256": {
+        "created-readback": "809f0c3d7582e4db8bd3bfa65da8cac63ef34504acb4ef33557f25d1276b5152",
+        "main-readback": "a7437dd5c0fb3c81966a4d2fe723fe768d851d49ce3aa82ad726f5043facfa62",
+        "owner-permission-readback": "26d515bfd9131ecae7c1a50c0cfd105d9a7288d2581da1d5e7279fef7d0d2981",
+        "ruleset-readback": "8758db0d2292b25be3043793e2a0c992bd26c3224a9705b1a9d1998dd7f64fdc",
+        "effective-rules-readback": "6bbca1d272fbf70d341c4169e92df49f51df889bfb2c3c167f7b8023ed371412",
+        "workflow-permissions-readback": "f6e178fc1e56cf43900da383f85398b61de9ae61c6b8433116c1856605745924",
+        "workflows-readback": "51da78a4f28ec83978198558b5be95ebec25c44ab19561c168a975e203f0a785"
+      }
+    },
+    {
+      "id": 1388432287,
+      "full_name": "agent-logic/agent-logic-infrastructure",
+      "private": true,
+      "archived": false,
+      "default_branch": "main",
+      "has_issues": true,
+      "allow_merge_commit": true,
+      "allow_auto_merge": false,
+      "delete_branch_on_merge": false,
+      "main": {
+        "name": "main",
+        "sha": "09d92a45081eb8f4a1bc38ad318523b5eccbe70a",
+        "protected": true
+      },
+      "owner": {
+        "login": "danielbaustin",
+        "permission": "admin",
+        "role_name": "admin"
+      },
+      "ruleset": {
+        "id": 24031182,
+        "name": "main-protection",
+        "target": "branch",
+        "enforcement": "active",
+        "bypass_actors": [],
+        "conditions": {
+          "ref_name": {
+            "exclude": [],
+            "include": [
+              "~DEFAULT_BRANCH"
+            ]
+          }
+        },
+        "rules": [
+          {
+            "type": "deletion"
+          },
+          {
+            "type": "non_fast_forward"
+          },
+          {
+            "type": "pull_request",
+            "parameters": {
+              "required_approving_review_count": 0,
+              "dismiss_stale_reviews_on_push": false,
+              "required_reviewers": [],
+              "require_code_owner_review": false,
+              "dismissal_restriction": {
+                "enabled": false,
+                "allowed_actors": []
+              },
+              "require_last_push_approval": false,
+              "required_review_thread_resolution": false,
+              "require_extra_approval_for_unattributed_changes": true,
+              "allowed_merge_methods": [
+                "merge",
+                "squash",
+                "rebase"
+              ]
+            }
+          }
+        ]
+      },
+      "effective_rules": [
+        {
+          "type": "deletion",
+          "ruleset_source_type": "Repository",
+          "ruleset_source": "agent-logic/agent-logic-infrastructure",
+          "ruleset_id": 24031182
+        },
+        {
+          "type": "non_fast_forward",
+          "ruleset_source_type": "Repository",
+          "ruleset_source": "agent-logic/agent-logic-infrastructure",
+          "ruleset_id": 24031182
+        },
+        {
+          "type": "pull_request",
+          "parameters": {
+            "required_approving_review_count": 0,
+            "dismiss_stale_reviews_on_push": false,
+            "required_reviewers": [],
+            "require_code_owner_review": false,
+            "dismissal_restriction": {
+              "enabled": false,
+              "allowed_actors": []
+            },
+            "require_last_push_approval": false,
+            "required_review_thread_resolution": false,
+            "require_extra_approval_for_unattributed_changes": true,
+            "allowed_merge_methods": [
+              "merge",
+              "squash",
+              "rebase"
+            ]
+          },
+          "ruleset_source_type": "Repository",
+          "ruleset_source": "agent-logic/agent-logic-infrastructure",
+          "ruleset_id": 24031182
+        }
+      ],
+      "workflow_permissions": {
+        "default_workflow_permissions": "read",
+        "can_approve_pull_request_reviews": false
+      },
+      "workflow_count": 0,
+      "required_checks_disposition": "staged_with_source_workflow_import; no product readiness claim",
+      "native_csdlc_authority": "not_installed",
+      "response_sha256": {
+        "created-readback": "7d9f4b3984c98d7613ea533a37f1670f023dc58826697f1f57db171a8c6e6cef",
+        "main-readback": "6882834a00be6f8ee4e76cd25848f672fa7d9e1ff949079871eaa977a96a4a11",
+        "owner-permission-readback": "26d515bfd9131ecae7c1a50c0cfd105d9a7288d2581da1d5e7279fef7d0d2981",
+        "ruleset-readback": "4a942df89c5d2d1aa702f10ba8014939951fe369c68f28da3fe04b31b400a83c",
+        "effective-rules-readback": "253aa564ad57c15acee73d810f437702f8f79261550ffd72e4bde157e6600de2",
+        "workflow-permissions-readback": "f6e178fc1e56cf43900da383f85398b61de9ae61c6b8433116c1856605745924",
+        "workflows-readback": "51da78a4f28ec83978198558b5be95ebec25c44ab19561c168a975e203f0a785"
+      }
+    },
+    {
+      "id": 1388432552,
+      "full_name": "agent-logic/agent-logic-enterprise-security",
+      "private": true,
+      "archived": false,
+      "default_branch": "main",
+      "has_issues": true,
+      "allow_merge_commit": true,
+      "allow_auto_merge": false,
+      "delete_branch_on_merge": false,
+      "main": {
+        "name": "main",
+        "sha": "8f84b3c72469499f7d0415e269e8a29e4ae182c6",
+        "protected": true
+      },
+      "owner": {
+        "login": "danielbaustin",
+        "permission": "admin",
+        "role_name": "admin"
+      },
+      "ruleset": {
+        "id": 24031184,
+        "name": "main-protection",
+        "target": "branch",
+        "enforcement": "active",
+        "bypass_actors": [],
+        "conditions": {
+          "ref_name": {
+            "exclude": [],
+            "include": [
+              "~DEFAULT_BRANCH"
+            ]
+          }
+        },
+        "rules": [
+          {
+            "type": "deletion"
+          },
+          {
+            "type": "non_fast_forward"
+          },
+          {
+            "type": "pull_request",
+            "parameters": {
+              "required_approving_review_count": 0,
+              "dismiss_stale_reviews_on_push": false,
+              "required_reviewers": [],
+              "require_code_owner_review": false,
+              "dismissal_restriction": {
+                "enabled": false,
+                "allowed_actors": []
+              },
+              "require_last_push_approval": false,
+              "required_review_thread_resolution": false,
+              "require_extra_approval_for_unattributed_changes": true,
+              "allowed_merge_methods": [
+                "merge",
+                "squash",
+                "rebase"
+              ]
+            }
+          }
+        ]
+      },
+      "effective_rules": [
+        {
+          "type": "deletion",
+          "ruleset_source_type": "Repository",
+          "ruleset_source": "agent-logic/agent-logic-enterprise-security",
+          "ruleset_id": 24031184
+        },
+        {
+          "type": "non_fast_forward",
+          "ruleset_source_type": "Repository",
+          "ruleset_source": "agent-logic/agent-logic-enterprise-security",
+          "ruleset_id": 24031184
+        },
+        {
+          "type": "pull_request",
+          "parameters": {
+            "required_approving_review_count": 0,
+            "dismiss_stale_reviews_on_push": false,
+            "required_reviewers": [],
+            "require_code_owner_review": false,
+            "dismissal_restriction": {
+              "enabled": false,
+              "allowed_actors": []
+            },
+            "require_last_push_approval": false,
+            "required_review_thread_resolution": false,
+            "require_extra_approval_for_unattributed_changes": true,
+            "allowed_merge_methods": [
+              "merge",
+              "squash",
+              "rebase"
+            ]
+          },
+          "ruleset_source_type": "Repository",
+          "ruleset_source": "agent-logic/agent-logic-enterprise-security",
+          "ruleset_id": 24031184
+        }
+      ],
+      "workflow_permissions": {
+        "default_workflow_permissions": "read",
+        "can_approve_pull_request_reviews": false
+      },
+      "workflow_count": 0,
+      "required_checks_disposition": "staged_with_source_workflow_import; no product readiness claim",
+      "native_csdlc_authority": "not_installed",
+      "response_sha256": {
+        "created-readback": "44cfad730a7b9aa2f64330f2ef9d396ca198a00c64239fd130654a6704141727",
+        "main-readback": "ac76efe12e5da539f404772d1162fd4ce2e08bd66ac9275309d6421612d014a6",
+        "owner-permission-readback": "26d515bfd9131ecae7c1a50c0cfd105d9a7288d2581da1d5e7279fef7d0d2981",
+        "ruleset-readback": "fe50a9d5f1adf36b6e793cc47582d929ff97592a169b593a18ef2bd5018d44a5",
+        "effective-rules-readback": "329862807f8c0aca8956d5ee8f648b077fab67d42c29a37d55dfbbc6969bf499",
+        "workflow-permissions-readback": "f6e178fc1e56cf43900da383f85398b61de9ae61c6b8433116c1856605745924",
+        "workflows-readback": "51da78a4f28ec83978198558b5be95ebec25c44ab19561c168a975e203f0a785"
+      }
+    }
+  ],
+  "limits": [
+    "No destination native C-SDLC authority, templates or worktree policy installed",
+    "No product workflow or private artifact download qualification",
+    "Negative cases alter captured evidence only; no adverse live mutation"
+  ]
+}

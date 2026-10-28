@@ -1,0 +1,72 @@
+[
+  {
+    "path": "adl/Cargo.lock",
+    "sha256": "123314b17f7398ca2fbf030a6a06c9b8227e594100805f136f34e8937c4147de",
+    "packages": 653,
+    "sources": [
+      "registry+https://github.com/rust-lang/crates.io-index"
+    ],
+    "registry_without_checksum": [],
+    "observation": "All package records parsed; registry integrity and nonregistry-source census checked. Not a vulnerability or source audit."
+  },
+  {
+    "path": "adl-runtime/Cargo.lock",
+    "sha256": "5c2b9e8c324ce33655053af633e83c1ca3299d6b5d2f3b1ee914e3b1aaf79a9b",
+    "packages": 436,
+    "sources": [
+      "registry+https://github.com/rust-lang/crates.io-index"
+    ],
+    "registry_without_checksum": [],
+    "observation": "All package records parsed; registry integrity and nonregistry-source census checked. Not a vulnerability or source audit."
+  },
+  {
+    "path": "adl-runtime-kernel/Cargo.lock",
+    "sha256": "b8f41140b94d19acdd8e45ae4d01bb200b2d96f0adb54665deac9a7d96995483",
+    "packages": 361,
+    "sources": [
+      "registry+https://github.com/rust-lang/crates.io-index"
+    ],
+    "registry_without_checksum": [],
+    "observation": "All package records parsed; registry integrity and nonregistry-source census checked. Not a vulnerability or source audit."
+  },
+  {
+    "path": "adl-provider-core/Cargo.lock",
+    "sha256": "8179b1e533084136250da25ce1b2d542c284e6c1b18ed9461e7d32f90fe5f9d4",
+    "packages": 235,
+    "sources": [
+      "registry+https://github.com/rust-lang/crates.io-index"
+    ],
+    "registry_without_checksum": [],
+    "observation": "All package records parsed; registry integrity and nonregistry-source census checked. Not a vulnerability or source audit."
+  },
+  {
+    "path": "adl-uts/Cargo.lock",
+    "sha256": "ff840dadcde03eab4b9243047c42d6c0aa4e56eb808e0b1082196af0b5880bff",
+    "packages": 17,
+    "sources": [
+      "registry+https://github.com/rust-lang/crates.io-index"
+    ],
+    "registry_without_checksum": [],
+    "observation": "All package records parsed; registry integrity and nonregistry-source census checked. Not a vulnerability or source audit."
+  },
+  {
+    "path": "csdlc-v3/Cargo.lock",
+    "sha256": "b58fa79befddfd40733809f2ea2c9b4f2210388bec5fb60ce8b8b870898a5b6f",
+    "packages": 36,
+    "sources": [
+      "registry+https://github.com/rust-lang/crates.io-index"
+    ],
+    "registry_without_checksum": [],
+    "observation": "All package records parsed; registry integrity and nonregistry-source census checked. Not a vulnerability or source audit."
+  },
+  {
+    "path": "adl-v2/Cargo.lock",
+    "sha256": "425cb95bf55c686b309fcd885f61768ffc08f7b9282d16f3dc959772e46740b6",
+    "packages": 448,
+    "sources": [
+      "registry+https://github.com/rust-lang/crates.io-index"
+    ],
+    "registry_without_checksum": [],
+    "observation": "All package records parsed; registry integrity and nonregistry-source census checked. Not a vulnerability or source audit."
+  }
+]

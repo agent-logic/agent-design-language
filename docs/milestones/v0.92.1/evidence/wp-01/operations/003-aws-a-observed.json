@@ -1,0 +1,52 @@
+{
+  "schema": "adl.v0921.wp01.operation-observed.v1",
+  "kind": "child_create",
+  "planned_id": "AWS-A",
+  "issue": 484,
+  "title": "[v0.92.1][AWS-A] AWS resource ownership inventory",
+  "labels": [
+    "area:runtime",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "milestone": 1,
+  "state": "open",
+  "dependencies": {
+  },
+  "body_sha256": "2ef3762f0231d5c4d363e252c660401b43ff5ba802a812ee0f62a6792e9e2992",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:AWS-A:create",
+  "request_fingerprint": "5114a70f6c3d8220c459f690b153a2c32363f7d9572a76decb7fc8171f04ec01",
+  "planning_digest": "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251",
+  "specification_sha256": "f768024586bd25c4d2c9e97c5abdd1c455ac735816628322c117c36d92c274df",
+  "live_response": {
+    "action": "issue_create",
+    "comment_id": null,
+    "issue": {
+      "assignees": [
+
+      ],
+      "body": "## Outcome\n\nProduce one accepted all-region AWS resource ownership inventory.\n\n## Primary deliverable\n\nOne accepted AWS resource inventory with an owner and lifecycle disposition for every discovered resource.\n\n## Verification result\n\nRead-only account, region, service, state-backend, tag, billing, and retained-evidence censuses reconcile without an unclassified omission.\n\n## Unit boundary\n\nIssue completion is exactly one accepted ownership inventory; discovery probes are evidence inputs and no resource mutation is performed.\n\n## Dependencies\n\n- None.\n\n## Retained predecessor scope\n\n- None; this is new v0.92.1 work.\n\n## Acceptance criteria\n\n- [ ] The approved business account and regions are exact\n- [ ] Every discovered resource has an owner or frozen-unknown disposition\n- [ ] Website Terraform and issue evidence remain separately classified\n- [ ] EBS and other retained assets are not inferred disposable\n\n## Owned paths\n\n- `docs/operations/cloud/aws/inventory/**`\n- `docs/milestones/v0.92.1/evidence/cloud/aws-a/**`\n\n## PVF lanes\n\n- `account-identity`\n- `all-region-inventory`\n- `ownership-denominator`\n- `state-owner-census`\n- `redaction`\n\n## Stop conditions\n\n- Account or region is ambiguous\n- A resource owner cannot be classified\n- Discovery would require mutation\n\n## Non-goals\n\n- Resource import\n- Cleanup\n- Terraform apply\n\n## Canonical planning identity\n\n- Planned ID: `AWS-A`\n- Canonical title: `[v0.92.1][AWS-A] AWS resource ownership inventory`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#AWS-A`\n<!-- csdlc-github-operation:v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:AWS-A:create -->\n",
+      "closed_at": null,
+      "created_at": "2026-08-26T02:35:35Z",
+      "labels": [
+        "track:roadmap",
+        "type:task",
+        "area:runtime",
+        "version:v0.92.1"
+      ],
+      "marker_present": true,
+      "milestone": 1,
+      "number": 484,
+      "repository": "agent-logic/agent-design-language",
+      "schema": "csdlc.github_issue.v1",
+      "state": "open",
+      "title": "[v0.92.1][AWS-A] AWS resource ownership inventory"
+    },
+    "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:AWS-A:create",
+    "pr_state": null,
+    "reconciled": true,
+    "repository": "agent-logic/agent-design-language",
+    "schema": "csdlc.github_action_result.v1"
+  }
+}

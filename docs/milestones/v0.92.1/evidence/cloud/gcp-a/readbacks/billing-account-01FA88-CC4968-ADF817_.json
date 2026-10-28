@@ -1,0 +1,8 @@
+{
+  "currencyCode": "USD",
+  "displayName": "My Billing Account",
+  "masterBillingAccount": "",
+  "name": "billingAccounts/01FA88-CC4968-ADF817",
+  "open": true,
+  "parent": "organizations/321515087273"
+}

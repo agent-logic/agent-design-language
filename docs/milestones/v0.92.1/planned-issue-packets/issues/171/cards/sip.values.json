@@ -1,0 +1,35 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 171,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-10A] Implement Local Issue And Bind Commands",
+    "slug": "v3-10a-implement-local-issue-and-bind-commands",
+    "version": "v0.92.1",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Deliver issue initialization, observation, and topology-bound execution context over the kernel and transaction store.",
+      "required_outcome": "branch-worktree ownership and bind recovery journeys is produced at an exact revision and independently reproducible.",
+      "declared_scope": [
+        "`issue init/show/status`, `bind`, repository and issue selection, topology collision checks, typed request/result schemas, and human/JSON presentation."
+      ],
+      "authority_boundary": [
+        "Issue V3-10A owns only its declared repository paths and named external operation/evidence boundary.",
+        "Dependencies remain read-only inputs until terminal evidence satisfies the declared gate.",
+        "The issue may not absorb remediation owned by another work package without an explicit issue-graph revision."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Never write tracked changes on main",
+        "Bind only after typed doctor reports ready",
+        "Do not cross dependency or stop gates",
+        "Keep evidence producer-derived and exact-revision bound"
+      ]
+    }
+  }
+}

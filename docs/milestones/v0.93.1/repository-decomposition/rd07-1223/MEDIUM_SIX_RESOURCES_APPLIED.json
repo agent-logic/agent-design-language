@@ -1,0 +1,420 @@
+{
+  "schema": "adl1223.medium_six_retirement_proposal.v1",
+  "status": "applied_local_reversible_implementation",
+  "execution_authorized": false,
+  "source_head": "085c852a687c65478039a48c0044cef0b8fdda03",
+  "removed_count": 6,
+  "rows": [
+    {
+      "id": "RD07-1592",
+      "path": "adl/tools/skills/docs/MEDIUM_ARTICLE_WRITER_SKILL_INPUT_SCHEMA.md",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "5bae52f6528ea88cbc91fa3a9e5d9296e40c795d"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Retained ADL callers redirect to packaged owner skill resources",
+        "Behavioral script assertions preserved in separately bounded owner repair packet"
+      ],
+      "successor_mapping": {
+        "mapping": "unmapped",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "REVIEWED_SKILL_OWNER_TRANSFERS.json",
+        "packet_sha256": "533b7ff42008e116789ff31034d28082d1b7bea7c320bf061cd1e4919b77dab4",
+        "proposal": "owner path/example-root adaptation only",
+        "successor": {
+          "owner": "runtime",
+          "path": "adl/tools/skills/docs/MEDIUM_ARTICLE_WRITER_SKILL_INPUT_SCHEMA.md",
+          "mode": "100644",
+          "blob": "b6ca06aea68c48ff704aede3d5b791363005e907",
+          "head": "5afeac36e54f0b96de7cbd0233443ae9a9351067",
+          "original_blob_matches": false,
+          "kind": "owner_surface_requires_semantic_review"
+        }
+      }
+    },
+    {
+      "id": "RD07-1662",
+      "path": "adl/tools/skills/medium-article-writer/SKILL.md",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "7f94b4ce382a0ea324efe07e3e8ec8b0cdfe8bea"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/skills/medium-article-writer/SKILL.md"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1663",
+      "path": "adl/tools/skills/medium-article-writer/adl-skill.yaml",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "589a9ac333356e2e6df9e48fd782ba5fa0cf2e05"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/skills/medium-article-writer/adl-skill.yaml"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1664",
+      "path": "adl/tools/skills/medium-article-writer/agents/openai.yaml",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "ed53834d50680080b8eb2f5dfc7c6d9bbae86945"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/skills/medium-article-writer/agents/openai.yaml"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1665",
+      "path": "adl/tools/skills/medium-article-writer/references/medium-writing-playbook.md",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "49e0c586bf4f797f9865bbf17fbe70eae7047443"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/skills/medium-article-writer/references/medium-writing-playbook.md"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1666",
+      "path": "adl/tools/skills/medium-article-writer/references/output-contract.md",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "40717038c004333c3588dbac3013fe81e01fd4b0"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/skills/medium-article-writer/references/output-contract.md"
+        ]
+      }
+    }
+  ],
+  "files": [
+    {
+      "path": "adl/tools/skills/docs/MEDIUM_ARTICLE_WRITER_SKILL_INPUT_SCHEMA.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "5bae52f6528ea88cbc91fa3a9e5d9296e40c795d",
+        "sha256": "552c507a2166867dd3107bcd3b666cd6b4a8428886520096b76c475589a4c7a8"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/medium-article-writer/SKILL.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "7f94b4ce382a0ea324efe07e3e8ec8b0cdfe8bea",
+        "sha256": "1d882a06c45b77af6587569a9928c22b018b5b79c437c0e3e7847421b2319c6f"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/medium-article-writer/adl-skill.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "589a9ac333356e2e6df9e48fd782ba5fa0cf2e05",
+        "sha256": "a886670d52210e0f71169b6d8790d62195b305905c7c283f2cada03d3ad97dda"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/medium-article-writer/agents/openai.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "ed53834d50680080b8eb2f5dfc7c6d9bbae86945",
+        "sha256": "bd0e45acb2a4fdd7ae469fd087475b60d8fa123570822950e203318d2e21068e"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/medium-article-writer/references/medium-writing-playbook.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "49e0c586bf4f797f9865bbf17fbe70eae7047443",
+        "sha256": "edd8209ed4398f157313875c32a19c616012b43c102f5138c297ea70d5469278"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/medium-article-writer/references/output-contract.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "40717038c004333c3588dbac3013fe81e01fd4b0",
+        "sha256": "55755f7a612ffd0296094def6c994fea9d018fb0b27bd4d826b6d973f40fd0fe"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_medium_article_writer_skill_contracts.sh",
+      "action": "modify",
+      "before": {
+        "mode": "100755",
+        "blob": "6dc6dfe80191d07c1792f77f2659e82fef12784b",
+        "sha256": "62f0a70639ab6d9b96c12d70c53f203fbc5a4fd56de83f4d5cb777907379c765"
+      },
+      "after": {
+        "mode": "100755",
+        "blob": "4f3667c41fa1be4087d15210c3931d053a691cf0",
+        "sha256": "b6e4652161886a184d2ecdef99cd4b865b43baa9dbbe9313f6e0267e695a662e"
+      }
+    },
+    {
+      "path": "adl/tools/skills/docs/OPERATIONAL_SKILLS_GUIDE.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "aa072f0f6077e82b6122848ade8a2bb226b03e65",
+        "sha256": "fb6668048ed9563507b3da3e8cfff3a1027f5a15457ff2df9baade25d9870d1d"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "4c727676265d7809fe0821edd7e2323cff789c90",
+        "sha256": "dbb703326f57f13799385256c3554bb139e1f3f29f8c8c724c8041770d53d850"
+      }
+    },
+    {
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "3f826d0600527c83cf848073823f14f7a06a0454",
+        "sha256": "ba6c1d25188c951f887e781005a04a036ba975e5b613dc5b97fd734ad7d04766"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "2a955f686bd472190763a092fe71d1fa4777a468",
+        "sha256": "e2f78b51704abdfc94893101b9a0c01205f00e76a3dec89f3dc2377346a619c5"
+      }
+    }
+  ],
+  "owner_revision": "cadb48e496cf27a6011cd31752894438b772ae9c",
+  "qualified_resources": [
+    {
+      "path": "adl/tools/skills/docs/MEDIUM_ARTICLE_WRITER_SKILL_INPUT_SCHEMA.md",
+      "sha256": "22e7983f8ccb20c980a9c34fe7825d409083fa11f2e508ae80d10739c72d4b35",
+      "original_bytes_equal": false
+    },
+    {
+      "path": "adl/tools/skills/medium-article-writer/SKILL.md",
+      "sha256": "1d882a06c45b77af6587569a9928c22b018b5b79c437c0e3e7847421b2319c6f",
+      "original_bytes_equal": true
+    },
+    {
+      "path": "adl/tools/skills/medium-article-writer/adl-skill.yaml",
+      "sha256": "a886670d52210e0f71169b6d8790d62195b305905c7c283f2cada03d3ad97dda",
+      "original_bytes_equal": true
+    },
+    {
+      "path": "adl/tools/skills/medium-article-writer/agents/openai.yaml",
+      "sha256": "bd0e45acb2a4fdd7ae469fd087475b60d8fa123570822950e203318d2e21068e",
+      "original_bytes_equal": true
+    },
+    {
+      "path": "adl/tools/skills/medium-article-writer/references/medium-writing-playbook.md",
+      "sha256": "edd8209ed4398f157313875c32a19c616012b43c102f5138c297ea70d5469278",
+      "original_bytes_equal": true
+    },
+    {
+      "path": "adl/tools/skills/medium-article-writer/references/output-contract.md",
+      "sha256": "55755f7a612ffd0296094def6c994fea9d018fb0b27bd4d826b6d973f40fd0fe",
+      "original_bytes_equal": true
+    }
+  ],
+  "qualification": {
+    "original_contract_exit": 0,
+    "elapsed_seconds": 0.1219,
+    "limits": "Isolated source-resource fixture with unchanged original test and frontmatter validator; no installed package, lifecycle, provider or publication acceptance.",
+    "schema_delta": "Only two example host paths changed from /Users/daniel/git/agent-design-language to /absolute/runtime-checkout; five tested skill resources byte-exact. Original test checks schema reference, not full schema behavior.",
+    "original_test_supplied_not_delivered": true
+  },
+  "evidence": [
+    {
+      "path": "/Volumes/FastWork/adl-worktrees/adl-issue-1223-1223-coherent-source-retirement/docs/milestones/v0.93.1/repository-decomposition/rd07-1223/MEDIUM_ORIGINAL_RESOURCE_QUALIFICATION.json",
+      "sha256": "520bfbc09a60cd969863a0c2030edf4ab3bb9d399b4c28e408a6b441715a21ee"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/medium-original-resource-qualification/original-contract.log",
+      "sha256": "def56b51a8ec8e1d32762bfdc7b03e4cb4c8edd36f220969222093199bb3bfc1"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/medium-original-resource-qualification/result.json",
+      "sha256": "407a15a9fe34dcf38cf8021a27d478ee9e914a302aec7faadcffc22cf84d23e3"
+    }
+  ],
+  "custody": {
+    "path": "/Volumes/FastWork/c1223/medium-six-preparation-r2/current-and-original-preimages.tar",
+    "sha256": "df85be48b73bb7006da5ee3b1075b31acce77628de6b442afd74d2230fe24702",
+    "members": "9 current preimages plus6 original preimages"
+  },
+  "patch": {
+    "path": "/Volumes/FastWork/c1223/medium-six-preparation-r2/medium-six-and-callers.patch",
+    "sha256": "3550e0360628cd4a31d8a44522bac03f4da6932e0a94a2b38cdb837dc504da7f"
+  },
+  "caller_closure": [
+    "Retained original2032 assertions and local frontmatter validator unchanged; explicit six-hash owner-root preflight replaces local skill-root assignment.",
+    "Operational guide routes resources to exact Runtime source; full-layout installer remains explicitly external and all assertions retained.",
+    "Medium demo/tests consume separate fixture/example, not skill resources; remain untouched and unqualified by this source contract.",
+    "Registry generated from complete actual tracked tool mirror with exact six resources excluded; expected one skill row disappears."
+  ],
+  "required_before_apply": [
+    "Independent review and focused missing/relative/changed/valid input preflight proof; no repeated original test necessary.",
+    "Root compose registry with any concurrent source removals."
+  ],
+  "excluded": {
+    "arxiv": "Five skill resources/schema/test remain: no genuine unchanged original arXiv contract receipt joined in this task. Presence alone not accepted.",
+    "planning_editor": "Skill family and schema already transferred to original-v1 archive; current original test explicitly selects CSDLC_HISTORICAL_SKILLS_ROOT. No remaining local family to remove."
+  },
+  "issue": 1223,
+  "review": {
+    "reviewer": "review_1223_historical_retention",
+    "result": "PASS",
+    "scope": "six qualifiedresources,exact custody,unchanged original2032 assertions,pinned input routing"
+  },
+  "routing_validation": {
+    "path": "/Volumes/FastWork/c1223/medium-six-preparation-r2/preflight-execution/RESULT.json",
+    "sha256": "4340fbf1cf1d8bbb055230bb38d86e0bc4f6417309313a79599dc193825f25f5",
+    "result": {
+      "status": "PASS",
+      "cases": [
+        {
+          "case": "missing",
+          "exit": 1,
+          "passed": true,
+          "stdout": "",
+          "stderr": "Select absolute ADL_MEDIUM_SKILL_SOURCE_ROOT for the qualified Runtime resources\n"
+        },
+        {
+          "case": "relative",
+          "exit": 1,
+          "passed": true,
+          "stdout": "",
+          "stderr": "Select absolute ADL_MEDIUM_SKILL_SOURCE_ROOT for the qualified Runtime resources\n"
+        },
+        {
+          "case": "absent_root",
+          "exit": 1,
+          "passed": true,
+          "stdout": "",
+          "stderr": "Qualified Medium resource missing or changed: adl/tools/skills/docs/MEDIUM_ARTICLE_WRITER_SKILL_INPUT_SCHEMA.md\n"
+        },
+        {
+          "case": "missing_member",
+          "exit": 1,
+          "passed": true,
+          "stdout": "",
+          "stderr": "Qualified Medium resource missing or changed: adl/tools/skills/docs/MEDIUM_ARTICLE_WRITER_SKILL_INPUT_SCHEMA.md\n"
+        },
+        {
+          "case": "wrong_bytes",
+          "exit": 1,
+          "passed": true,
+          "stdout": "",
+          "stderr": "Qualified Medium resource missing or changed: adl/tools/skills/docs/MEDIUM_ARTICLE_WRITER_SKILL_INPUT_SCHEMA.md\n"
+        },
+        {
+          "case": "wrong_mode",
+          "exit": 1,
+          "passed": true,
+          "stdout": "",
+          "stderr": "Qualified Medium resource missing or changed: adl/tools/skills/docs/MEDIUM_ARTICLE_WRITER_SKILL_INPUT_SCHEMA.md\n"
+        },
+        {
+          "case": "valid",
+          "exit": 0,
+          "passed": true,
+          "stdout": "PREFIX_OK:/Volumes/FastWork/c1223/medium-six-preparation-r2/preflight-execution/owner with spaces/adl/tools/skills\n",
+          "stderr": ""
+        }
+      ],
+      "original_assertion_body_equal": true,
+      "denominator": "7 exact-prefix input-routing cases; zero original2032 reruns",
+      "prefix_sha256": "649b66e6d2ba57290f603dc08507745f36aa4146935682d7ddeb3f1d5769642d"
+    },
+    "pvf": {
+      "lane_class": "fast_unit",
+      "proof_role": "caller_input_routing",
+      "determinism": "pinned files with inert prefix marker",
+      "resource_profile": "Python/Bash/Git temporary fixture; no network/provider/build",
+      "release_gate": false
+    }
+  }
+}

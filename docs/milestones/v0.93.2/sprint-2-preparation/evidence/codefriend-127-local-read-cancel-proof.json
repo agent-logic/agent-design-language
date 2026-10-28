@@ -1,0 +1,23 @@
+{
+  "scope": "Expanded local candidate service proof, not installed Linux or full security acceptance",
+  "test": "enterprise_submit_uses_runtime_and_denials_have_zero_backend_effects",
+  "source_sha256": "5c11f80562b974cc62f031200e39d6abeca2046e61809d9a1ad6617815992b28",
+  "source_state": "uncommitted integration after be0f26b",
+  "execution_log": "codefriend-127-local-read-cancel-proof.log",
+  "result": "1 executed integration test passed, zero ignored",
+  "verified_assertions": [
+    "Valid inspect and result read succeed",
+    "Replayed inspect and out-of-order result read return403",
+    "Actual control-socket policy updates cause tenant reassignment/revocation/role denial to return403 without result payload",
+    "Restored policy permits result read",
+    "Backend dispatch count remains1 across reads and policy changes",
+    "Out-of-order cancellation creates no cancel marker",
+    "Valid next cancellation creates marker and returns cancel_requested"
+  ],
+  "remaining": [
+    "Publication/export/content enforcement",
+    "Audit/redaction/deletion integration",
+    "Installed Linux acceptance",
+    "Final independent review and native delivery"
+  ]
+}

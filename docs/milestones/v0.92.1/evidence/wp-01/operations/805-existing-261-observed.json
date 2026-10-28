@@ -1,0 +1,20 @@
+{
+  "schema": "adl.v0921.wp01.operation-observed.v1",
+  "kind": "existing_verify",
+  "issue": 261,
+  "planning_digest": "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251",
+  "live_issue": {
+    "number": 261,
+    "title": "[v0.92.1][podcast][51.a] Finalize show identity, artwork, rights, metadata, and mailbox readiness",
+    "body": "Split from #51. Part of #51.\n\n## Outcome\n\nProduce one operator-approved, collision-reviewed podcast show identity packet with final artwork, rights provenance, consistent show metadata, and a company-controlled mailbox readiness proof. This child establishes launch inputs only; it does not host media, publish a feed, submit to directories, or launch publicly.\n\n## Scope\n\n- Final title, subtitle, description, author, category, language, explicit-content status, copyright, cadence, and intended public website URL.\n- Name-conflict review and explicit operator decision; do not assume any candidate name is available.\n- Final square show artwork plus source, license, rights, dimensions, color-space, format, and digest record.\n- Company-controlled podcast mailbox readiness and redacted ownership-verification receipt.\n- One canonical metadata manifest for downstream hosting and directory-preflight consumers.\n\n## Acceptance Criteria\n\n1. The operator approves the collision-reviewed show identity and intended launch metadata.\n2. Artwork satisfies declared directory constraints and has a retained source/rights record and digest.\n3. The company-controlled mailbox can receive ownership-verification mail.\n4. No personal address, credential, token, recovery code, or verification code is committed or retained in public evidence.\n5. Metadata and artwork inputs are internally consistent, reviewable, and explicitly versioned.\n6. Exact-head review has no unresolved actionable findings.\n\n## Dependencies\n\n- Part of #51.\n- Operator approval of the final show identity.\n- Company-controlled mailbox ownership remains an operator/external-system gate.\n\n## Non-Goals\n\n- No production hosting, RSS feed, enclosure publication, or playback proof.\n- No Apple, Spotify, Amazon, or YouTube account action or directory submission.\n- No public launch.\n- No episode writing, recording, mastering, or publication.\n\n## Graph\n\n`split_from: #51`; `part_of: #51`; prerequisite for the hosting/feed child and directory-preflight child.\n\n<!-- csdlc-github-operation:v092-decompose-p51-c1-v1 -->\n",
+    "state": "open",
+    "labels": [
+      "area:demo",
+      "track:roadmap",
+      "type:task",
+      "version:v0.92.1"
+    ],
+    "milestone": 1,
+    "milestone_title": "v0.92.1"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "checks": [
+    "no_absolute_host_paths",
+    "no_secret_like_literals",
+    "sha256_recorded"
+  ],
+  "files": [
+    {
+      "bytes": 1096,
+      "path": "evidence_index.json",
+      "sha256": "922011bd3b10066a7ec50d231e4210169ac1976cfb5df12fc50c1f8f8a2c31ec"
+    },
+    {
+      "bytes": 546,
+      "path": "reviewer_walkthrough.md",
+      "sha256": "b199d7b4fec86e2c68ae08098c980ccb748293d052fbac03a9ec894dd4c10e8f"
+    },
+    {
+      "bytes": 527,
+      "path": "README.md",
+      "sha256": "cb8db253c8b20351396efde833aa85c924265ba476713b0aa94da277326609f2"
+    },
+    {
+      "bytes": 5150,
+      "path": "acip_websocket_transport_proof.json",
+      "sha256": "f67442ce1418715bc296d4efe5a3f247d3aac4b06ed347a1e9cc7b2c4dafa8bb"
+    }
+  ],
+  "findings": [],
+  "passed": true,
+  "schema_version": "wp12.acip.websocket_transport.artifact_safety_scan.v1",
+  "self_scan_boundary": "audit/artifact_safety_scan.json is written after this scan is computed; rerunning the proof regenerates and rechecks the source artifacts deterministically."
+}

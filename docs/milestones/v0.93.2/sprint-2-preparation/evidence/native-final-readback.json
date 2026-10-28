@@ -1,0 +1,68 @@
+{
+  "owner": "/Volumes/FastWork/csdlc-304/isolated-install/cognitive-sdlc/.adl/packages/12237907988/installed/bin/csdlc",
+  "children": [
+    {
+      "issue": 120,
+      "worktree": "/Volumes/FastWork/codefriend-worktrees/adl-issue-120-v0932-beta1-acceptance-assessment",
+      "head": "08ddd97c3777510cc0b85068f0e1d06f09d31321",
+      "native_validation": "completed",
+      "active_cards": ".csdlc/v3/issues/120/cards",
+      "remaining_placeholders": {
+        "sip": [],
+        "stp": [],
+        "spp": [],
+        "vpp": [],
+        "srp": [
+          "findings",
+          "outcome",
+          "review_notes",
+          "reviewer",
+          "sip_card",
+          "slug",
+          "sor_card",
+          "spp_card",
+          "stp_card",
+          "timestamp",
+          "vpp_card"
+        ],
+        "sor": []
+      },
+      "srp_review_results": {
+        "status": "not_run"
+      }
+    },
+    {
+      "issue": 9,
+      "worktree": "/Volumes/FastWork/agent-logic-enterprise-security-worktrees/adl-issue-9-v0932-codefriend-zero-trust-contract",
+      "head": "51a1c02e1ed273b63b397b3371d0230158a0450c",
+      "native_validation": "completed",
+      "active_cards": ".csdlc/v3/issues/9/cards",
+      "remaining_placeholders": {
+        "sip": [],
+        "stp": [],
+        "spp": [],
+        "vpp": [],
+        "srp": [
+          "findings",
+          "outcome",
+          "review_notes",
+          "reviewer",
+          "sip_card",
+          "slug",
+          "sor_card",
+          "spp_card",
+          "stp_card",
+          "timestamp",
+          "vpp_card"
+        ],
+        "sor": []
+      },
+      "srp_review_results": {
+        "status": "not_run"
+      }
+    }
+  ],
+  "product_execution": "not_started",
+  "final_review": "PASS",
+  "review_turn": "01a157e3-f5c9-7ea1-9fdf-23a89418b996"
+}

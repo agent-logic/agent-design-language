@@ -1,0 +1,19 @@
+{
+  "bindings": [
+    {
+      "members": [
+        "user:daniel@agent-logic.ai"
+      ],
+      "role": "roles/owner"
+    },
+    {
+      "members": [
+        "group:gcp-hybrid-connectivity-admins@agent-logic.ai",
+        "group:gcp-organization-admins@agent-logic.ai"
+      ],
+      "role": "roles/secretmanager.admin"
+    }
+  ],
+  "etag": "BwZZl1wLM6M=",
+  "version": 1
+}

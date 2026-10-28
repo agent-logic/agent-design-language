@@ -1,0 +1,107 @@
+{
+  "scope": "read-only byte comparison; normalization in memory only; original PDF files untouched",
+  "groups": {
+    "Main": [
+      {
+        "output": "CF-RPT-0142-0.pdf",
+        "sha256": "fddc1dc1d2f5f314526c32191bb6af79bd3bf2df93119a75d1a76757a8dd7657",
+        "timestamp_normalized_sha256": "f91ea5e20f273131ad512b9526fd16e8322fd2da8c77f2d480821d4be4ce7ef9"
+      },
+      {
+        "output": "CF-RPT-0142-1.pdf",
+        "sha256": "fddc1dc1d2f5f314526c32191bb6af79bd3bf2df93119a75d1a76757a8dd7657",
+        "timestamp_normalized_sha256": "f91ea5e20f273131ad512b9526fd16e8322fd2da8c77f2d480821d4be4ce7ef9"
+      },
+      {
+        "output": "CF-RPT-0142-2.pdf",
+        "sha256": "6fae5e589b00fd3faf1954f6f691c9b368fa92392e53c648c151a441bf37bb92",
+        "timestamp_normalized_sha256": "f91ea5e20f273131ad512b9526fd16e8322fd2da8c77f2d480821d4be4ce7ef9"
+      }
+    ],
+    "SpecialistReview": [
+      {
+        "output": "CF-SEC-0031-0.pdf",
+        "sha256": "4f70adcdc98234d9eb1d2d3143bdaf85eca45961d9b809a4e8450109ce3f81b7",
+        "timestamp_normalized_sha256": "bf7a9c84b8519af5a8462b82422a6019928ee25b30fb564455adc8d848f9d02e"
+      },
+      {
+        "output": "CF-SEC-0031-1.pdf",
+        "sha256": "4f70adcdc98234d9eb1d2d3143bdaf85eca45961d9b809a4e8450109ce3f81b7",
+        "timestamp_normalized_sha256": "bf7a9c84b8519af5a8462b82422a6019928ee25b30fb564455adc8d848f9d02e"
+      },
+      {
+        "output": "CF-SEC-0031-2.pdf",
+        "sha256": "4f70adcdc98234d9eb1d2d3143bdaf85eca45961d9b809a4e8450109ce3f81b7",
+        "timestamp_normalized_sha256": "bf7a9c84b8519af5a8462b82422a6019928ee25b30fb564455adc8d848f9d02e"
+      }
+    ],
+    "Documentation": [
+      {
+        "output": "CF-DOC-0088-0.pdf",
+        "sha256": "e54ddae5c99e73318a1724f4eaea9d5772fa49f92ceb8a39a24577d8682c6a1e",
+        "timestamp_normalized_sha256": "14f7166045e7061aeff1324cafb3f91c590178b44012f9f21b7b4412a7571ecc"
+      },
+      {
+        "output": "CF-DOC-0088-1.pdf",
+        "sha256": "4f894c1c33b020aaa946d53e1d0cdd26afed99c402295a1b9ca22f6d6ca33695",
+        "timestamp_normalized_sha256": "14f7166045e7061aeff1324cafb3f91c590178b44012f9f21b7b4412a7571ecc"
+      },
+      {
+        "output": "CF-DOC-0088-2.pdf",
+        "sha256": "f3f6d915ce08cd8708725ed9115cb0c6d5fc9bd3d5faea41395df1fd60140f71",
+        "timestamp_normalized_sha256": "296f39abacf591870051ea1a025adaea93055c0cf3c888dfd5c37da014830e7e"
+      }
+    ],
+    "ADR": [
+      {
+        "output": "ADR-0007-0.pdf",
+        "sha256": "a11433b006325eaa5140707d72e1c486e31f08b3bf99f8ad60eb5b41154eb0c6",
+        "timestamp_normalized_sha256": "37a0ee9be7c7cae8d9fad2ca0ca6ed16e09abb8b45423800fe555be70df6e92d"
+      },
+      {
+        "output": "ADR-0007-1.pdf",
+        "sha256": "a11433b006325eaa5140707d72e1c486e31f08b3bf99f8ad60eb5b41154eb0c6",
+        "timestamp_normalized_sha256": "37a0ee9be7c7cae8d9fad2ca0ca6ed16e09abb8b45423800fe555be70df6e92d"
+      },
+      {
+        "output": "ADR-0007-2.pdf",
+        "sha256": "a11433b006325eaa5140707d72e1c486e31f08b3bf99f8ad60eb5b41154eb0c6",
+        "timestamp_normalized_sha256": "37a0ee9be7c7cae8d9fad2ca0ca6ed16e09abb8b45423800fe555be70df6e92d"
+      }
+    ],
+    "DiagramPacket": [
+      {
+        "output": "CF-DGM-0019-0.pdf",
+        "sha256": "c5e65a5fb10655596564a67dcb8433c7a7f0309d1af532e88978914f6940578d",
+        "timestamp_normalized_sha256": "54b8a0fcd13508c169c05aa00adfce9606bc7787573633d5e2c598291e786a88"
+      },
+      {
+        "output": "CF-DGM-0019-1.pdf",
+        "sha256": "8f99be431257b71e343e236f4b4f0b3c0eda05ac1b7e32fbbb3a7034d2cb0dc6",
+        "timestamp_normalized_sha256": "54b8a0fcd13508c169c05aa00adfce9606bc7787573633d5e2c598291e786a88"
+      },
+      {
+        "output": "CF-DGM-0019-2.pdf",
+        "sha256": "8f99be431257b71e343e236f4b4f0b3c0eda05ac1b7e32fbbb3a7034d2cb0dc6",
+        "timestamp_normalized_sha256": "54b8a0fcd13508c169c05aa00adfce9606bc7787573633d5e2c598291e786a88"
+      }
+    ],
+    "TestPlan": [
+      {
+        "output": "CF-TPL-0027-0.pdf",
+        "sha256": "cf7888f005903aac25e2cd05e9fd6759a77ef40b40965ce761a97911c958757c",
+        "timestamp_normalized_sha256": "e16593148bccebd571344778c86827ab23dd1b8eac99af012859d4599ef99adb"
+      },
+      {
+        "output": "CF-TPL-0027-1.pdf",
+        "sha256": "cf7888f005903aac25e2cd05e9fd6759a77ef40b40965ce761a97911c958757c",
+        "timestamp_normalized_sha256": "e16593148bccebd571344778c86827ab23dd1b8eac99af012859d4599ef99adb"
+      },
+      {
+        "output": "CF-TPL-0027-2.pdf",
+        "sha256": "cf7888f005903aac25e2cd05e9fd6759a77ef40b40965ce761a97911c958757c",
+        "timestamp_normalized_sha256": "e16593148bccebd571344778c86827ab23dd1b8eac99af012859d4599ef99adb"
+      }
+    ]
+  }
+}

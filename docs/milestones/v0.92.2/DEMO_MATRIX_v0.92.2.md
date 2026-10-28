@@ -1,0 +1,48 @@
+# v0.92.2 Demo Matrix
+
+## Current qualification disposition
+
+Issue #915 is closed as `NOT_PLANNED`: its retained independent qualification is
+incomplete and explicitly deferred, not a qualification pass. Under the approved
+#922 successor split, producer repairs #1148 and #1149 precede independent
+qualification #1150 in v0.93.1, before Beta 1 launch. Runtime v4 belongs to
+v0.93.2. The original demonstration requirements and historical evidence below
+remain intact; release acceptance is not established by issue closure or this
+documentation correction.
+
+Current routing is grounded in #916 commit
+`36ec0814683d0c8cc136bc9af27a0163ed506460` and #922 commit
+`fc6a80c362d6c1e63766bef263cd2dccacd2dc0b`. Those owner fixes are credited;
+this overlay does not rewrite their historical review packets.
+
+Status: demonstration acceptance matrix. Local component checks are recorded in [post-merge verification](evidence/issue-916/POSTMERGE_VERIFICATION.json); this matrix does not relabel them as executed independent demonstrations. D9/D10 and the full #915 qualification remain incomplete and explicitly deferred to the v0.93.1 successor sequence above.
+
+| Demo | User-visible proof | Primary WP | Non-claim |
+|---|---|---|---|
+| D1 Guided first run | Configure a repository review and inspect run state | CF-SHELL | Does not prove all provider combinations |
+| D2 Portable ingestion | Equivalent local, GitHub, and CI inputs form one packet contract | CF-ADAPTER, CF-ADAPTER-GITHUB, CF-ADAPTER-CI | Does not prove Jira/Linear/Slack |
+| D3 Evidence safety | Stable identity, provenance, redaction, and retention behavior | CF-EVIDENCE | Does not prove absence of every possible secret |
+| D4 Architecture explanation | Boundary, coupling, drift, blast-radius, quanta, and rationale findings link to evidence | CF-COG, CF-COG-DRIFT, CF-COG-IMPACT, CF-COG-RATIONALE | Does not claim architectural correctness by score alone |
+| D5 Fitness gate | A passing and failing architecture invariant run locally and in CI | CF-GOV, CF-GOV-CI | Does not replace human architecture judgment |
+| D6 Review perspectives | Four attributed perspectives synthesize into findings and action plans | CF-REVIEW, CF-SYNTHESIS, CF-REMEDIATE, CF-TESTPLAN | Does not authorize autonomous fixes |
+| D7 Second run | Added, resolved, and changed findings are compared stably | CF-MEMORY | Does not promise indefinite schema compatibility |
+| D8 Governed outputs | Operator approves equivalent Markdown, HTML, and PDF reports | CF-UX, CF-RENDER-MD, CF-RENDER-HTML, CF-RENDER-PDF | Does not prove public multi-tenant deployment |
+| D9 ADL self-review | Complete bounded Beta 1 review of ADL | CF-PROOF | Does not certify the entire repository defect-free |
+| D10 External OSS review | Complete bounded review of one licensed open-source repository | CF-PROOF | Does not establish customer-scale generality |
+| D11 Integrated failure | Provider/input/renderer failure remains explicit and non-proving | CF-INTEGRATE | Does not simulate every infrastructure failure |
+| D12 Static Observatory sidecar | Open the exact deployed Observatory revision over HTTPS and connect it to the Runtime over WSS | OBS-S3 | Proves one bounded static edge deployment, not customer-scale or multi-tenant hosting |
+| D13 ADR traceability | Select milestone decisions and trace each ADR to sources, alternatives, consequences, status, owner, and supersession | ARCH-ADR | Does not accept a candidate ADR or prove its implementation |
+
+## Existing issue demonstrations
+
+| Demo | Owner | Proof | Non-claim |
+|---|---|---|---|
+| D14 Canonical peer addressing predecessor | v0.92.1 #718 | Consume reviewed merged proof that two ordinary agents exchange governed model-generated replies by canonical name | Do not rerun or recreate #718 as v0.92.2 work |
+| D15 Capability orientation predecessor | v0.92.1 #717 | Consume reviewed merged proof that an admitted test agent receives the capability map and exact receipt before first turn | Orientation grants no authority; do not recreate #717 |
+| D16 Live-only Observatory | #720 | Startup/navigation cannot expose retained historical telemetry as live | Historical evidence remains intact |
+
+## Complete-task acceptance
+
+Every implementation owner named above must exercise its real consumer, success and failure paths under [atomic task contracts](ATOMIC_TASK_CONTRACTS_v0.92.2.md). Final integration does not complete unfinished upstream features. Provider-neutral lifecycle is owned by RT-PROVIDER/#855; validated editable definitions remain PLAT-PROVIDER. QUAL-EVIDENCE joins the complete criterion-specific results without absorbing their repairs.
+
+CF-INTEGRATE supplies the installed candidate before CF-PROOF independently executes D9/D10 qualification. D1-D8 exercise the real product consumers, not fixtures alone; D11 retains explicit integrated failure evidence. TAIL-01 requires both integration and independent qualification results.

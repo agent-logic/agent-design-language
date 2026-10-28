@@ -1,0 +1,39 @@
+{
+  "schema": "adl.v0921.reconciliation_review.v1",
+  "reviewer": "subagent:/root/review_748_repairs",
+  "result": "pass",
+  "scope": "Eight incremental evidence corrections only; not the full issue517 assessment or release.",
+  "findings": [],
+  "reviewed_files": [
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/README.md",
+      "sha256": "4cc542adb7fe6dfecac49bc89307dfea9040011e8a027a292f6640d0d3fa2518"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/authority.json",
+      "sha256": "67708c1fdc63b00a82929aad8c77a13c9e4774106ad213dfdbb103bf06b346f5"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/corrections.json",
+      "sha256": "d6976e993d5aeae1a3a641c682ef2c8c478a791709b54c84847173165e0d9c8c"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/validate.py",
+      "sha256": "125729e44cf8af8eed5210e3bf382a4829d5a0d07d1f4eb86023beae29a8a94f"
+    }
+  ],
+  "verified": [
+    "Four accepted amendments and four successor-proven mappings",
+    "393-row historical inventory preserved",
+    "Authority bodies match saved GitHub evidence",
+    "Candidate and reviewed evidence blobs match; successor ancestry valid",
+    "No-mock replacement obligation retained and guarded",
+    "Operational backlog not presented as proven; accessibility and state claims bounded"
+  ],
+  "validation": {
+    "positive": "passed",
+    "negative_cases": 6,
+    "negative_result": "passed"
+  },
+  "full_assessment_status": "in_progress"
+}

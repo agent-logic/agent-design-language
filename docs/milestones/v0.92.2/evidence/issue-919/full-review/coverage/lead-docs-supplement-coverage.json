@@ -1,0 +1,474 @@
+{
+  "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+  "reviewer": "review919_code",
+  "independence": "Same specialist as code and architecture; separate supplement, not an additional independent reviewer. Parent full-guide coverage is not claimed here.",
+  "rows": [
+    {
+      "id": "F05817",
+      "path": "docs/codefriend/ARCHITECTURE.md",
+      "status": "A",
+      "review_status": "targeted_parser_contract_review",
+      "observation": "Only parser-bound paragraphs independently checked here; parent owns full-guide coverage. DOC-SUP-001 confirms stale current instructions against rust_parse.rs and RUST_PARSER_BOUNDS.md."
+    },
+    {
+      "id": "F05818",
+      "path": "docs/codefriend/ARCHITECTURE_DRIFT.md",
+      "status": "A",
+      "review_status": "full_document_review",
+      "observation": "Reviewed entire guide against prior frozen CodeFriend production/CLI inspection; commands, limitations and proof boundaries checked."
+    },
+    {
+      "id": "F05819",
+      "path": "docs/codefriend/ARCHITECTURE_INSTALLED_PROOF.json",
+      "status": "A",
+      "review_status": "structured_claims_and_provenance_review",
+      "observation": "Read semantic proof/inventory claims and limitations; object/evidence arrays classified mechanically for relative paths, digest/source identity shape and untrusted provenance (72 records across six proof packets). Historical execution not rerun and external source bytes not rehashed."
+    },
+    {
+      "id": "F05820",
+      "path": "docs/codefriend/ARCHITECTURE_PROOF_INVENTORY.json",
+      "status": "A",
+      "review_status": "structured_claims_and_provenance_review",
+      "observation": "Read semantic proof/inventory claims and limitations; object/evidence arrays classified mechanically for relative paths, digest/source identity shape and untrusted provenance (72 records across six proof packets). Historical execution not rerun and external source bytes not rehashed."
+    },
+    {
+      "id": "F05821",
+      "path": "docs/codefriend/ARCHITECTURE_RATIONALE.md",
+      "status": "A",
+      "review_status": "full_document_review",
+      "observation": "Reviewed entire guide against prior frozen CodeFriend production/CLI inspection; commands, limitations and proof boundaries checked."
+    },
+    {
+      "id": "F05822",
+      "path": "docs/codefriend/CHANGE_IMPACT.md",
+      "status": "A",
+      "review_status": "full_document_review",
+      "observation": "Reviewed entire guide against prior frozen CodeFriend production/CLI inspection; commands, limitations and proof boundaries checked."
+    },
+    {
+      "id": "F05824",
+      "path": "docs/codefriend/EVIDENCE_BOOTSTRAP_PROOF.json",
+      "status": "A",
+      "review_status": "structured_claims_and_provenance_review",
+      "observation": "Read semantic proof/inventory claims and limitations; object/evidence arrays classified mechanically for relative paths, digest/source identity shape and untrusted provenance (72 records across six proof packets). Historical execution not rerun and external source bytes not rehashed."
+    },
+    {
+      "id": "F05825",
+      "path": "docs/codefriend/EVIDENCE_CORE.md",
+      "status": "A",
+      "review_status": "full_document_review",
+      "observation": "Reviewed entire guide against prior frozen CodeFriend production/CLI inspection; commands, limitations and proof boundaries checked."
+    },
+    {
+      "id": "F05826",
+      "path": "docs/codefriend/EVIDENCE_INSTALLED_PROOF.json",
+      "status": "A",
+      "review_status": "structured_claims_and_provenance_review",
+      "observation": "Read semantic proof/inventory claims and limitations; object/evidence arrays classified mechanically for relative paths, digest/source identity shape and untrusted provenance (72 records across six proof packets). Historical execution not rerun and external source bytes not rehashed."
+    },
+    {
+      "id": "F05827",
+      "path": "docs/codefriend/EVIDENCE_PROOF_INVENTORY.json",
+      "status": "A",
+      "review_status": "structured_claims_and_provenance_review",
+      "observation": "Read semantic proof/inventory claims and limitations; object/evidence arrays classified mechanically for relative paths, digest/source identity shape and untrusted provenance (72 records across six proof packets). Historical execution not rerun and external source bytes not rehashed."
+    },
+    {
+      "id": "F05831",
+      "path": "docs/codefriend/HTML_EXPORT.md",
+      "status": "A",
+      "review_status": "full_document_review",
+      "observation": "Reviewed entire guide against prior frozen CodeFriend production/CLI inspection; commands, limitations and proof boundaries checked."
+    },
+    {
+      "id": "F05832",
+      "path": "docs/codefriend/LOCAL_AGENT.md",
+      "status": "A",
+      "review_status": "full_document_review",
+      "observation": "Reviewed entire guide against prior frozen CodeFriend production/CLI inspection; commands, limitations and proof boundaries checked."
+    },
+    {
+      "id": "F05833",
+      "path": "docs/codefriend/LOCAL_FITNESS.md",
+      "status": "A",
+      "review_status": "targeted_parser_contract_review",
+      "observation": "Only parser-bound paragraphs independently checked here; parent owns full-guide coverage. DOC-SUP-001 confirms stale current instructions against rust_parse.rs and RUST_PARSER_BOUNDS.md."
+    },
+    {
+      "id": "F05834",
+      "path": "docs/codefriend/LOCAL_FITNESS_INSTALLED_PROOF.json",
+      "status": "A",
+      "review_status": "structured_claims_and_provenance_review",
+      "observation": "Read semantic proof/inventory claims and limitations; object/evidence arrays classified mechanically for relative paths, digest/source identity shape and untrusted provenance (72 records across six proof packets). Historical execution not rerun and external source bytes not rehashed."
+    },
+    {
+      "id": "F05835",
+      "path": "docs/codefriend/LOCAL_FITNESS_PROOF_INVENTORY.json",
+      "status": "A",
+      "review_status": "structured_claims_and_provenance_review",
+      "observation": "Read semantic proof/inventory claims and limitations; object/evidence arrays classified mechanically for relative paths, digest/source identity shape and untrusted provenance (72 records across six proof packets). Historical execution not rerun and external source bytes not rehashed."
+    },
+    {
+      "id": "F05836",
+      "path": "docs/codefriend/LOCAL_INGESTION.md",
+      "status": "A",
+      "review_status": "full_document_review",
+      "observation": "Reviewed entire guide against prior frozen CodeFriend production/CLI inspection; commands, limitations and proof boundaries checked."
+    },
+    {
+      "id": "F05837",
+      "path": "docs/codefriend/LOCAL_INGESTION_PROOF.json",
+      "status": "A",
+      "review_status": "structured_claims_and_provenance_review",
+      "observation": "Read semantic proof/inventory claims and limitations; object/evidence arrays classified mechanically for relative paths, digest/source identity shape and untrusted provenance (72 records across six proof packets). Historical execution not rerun and external source bytes not rehashed."
+    },
+    {
+      "id": "F05838",
+      "path": "docs/codefriend/LOCAL_INGESTION_REPAIR_PROOF.json",
+      "status": "A",
+      "review_status": "structured_claims_and_provenance_review",
+      "observation": "Read semantic proof/inventory claims and limitations; object/evidence arrays classified mechanically for relative paths, digest/source identity shape and untrusted provenance (72 records across six proof packets). Historical execution not rerun and external source bytes not rehashed."
+    },
+    {
+      "id": "F05839",
+      "path": "docs/codefriend/LOCAL_INGESTION_STREAMING_PROOF.json",
+      "status": "A",
+      "review_status": "structured_claims_and_provenance_review",
+      "observation": "Read semantic proof/inventory claims and limitations; object/evidence arrays classified mechanically for relative paths, digest/source identity shape and untrusted provenance (72 records across six proof packets). Historical execution not rerun and external source bytes not rehashed."
+    },
+    {
+      "id": "F05840",
+      "path": "docs/codefriend/LOCAL_INGESTION_TOML_PROOF.json",
+      "status": "A",
+      "review_status": "structured_claims_and_provenance_review",
+      "observation": "Read semantic proof/inventory claims and limitations; object/evidence arrays classified mechanically for relative paths, digest/source identity shape and untrusted provenance (72 records across six proof packets). Historical execution not rerun and external source bytes not rehashed."
+    },
+    {
+      "id": "F05841",
+      "path": "docs/codefriend/MARKDOWN_EXPORT.md",
+      "status": "A",
+      "review_status": "full_document_review",
+      "observation": "Reviewed entire guide against prior frozen CodeFriend production/CLI inspection; commands, limitations and proof boundaries checked."
+    },
+    {
+      "id": "F05843",
+      "path": "docs/codefriend/MEMORY_COMPARISON_PROOF_INVENTORY.json",
+      "status": "A",
+      "review_status": "structured_claims_and_provenance_review",
+      "observation": "Read semantic proof/inventory claims and limitations; object/evidence arrays classified mechanically for relative paths, digest/source identity shape and untrusted provenance (72 records across six proof packets). Historical execution not rerun and external source bytes not rehashed."
+    },
+    {
+      "id": "F05844",
+      "path": "docs/codefriend/MEMORY_INSTALLED_PROOF.json",
+      "status": "A",
+      "review_status": "structured_claims_and_provenance_review",
+      "observation": "Read semantic proof/inventory claims and limitations; object/evidence arrays classified mechanically for relative paths, digest/source identity shape and untrusted provenance (72 records across six proof packets). Historical execution not rerun and external source bytes not rehashed."
+    },
+    {
+      "id": "F05846",
+      "path": "docs/codefriend/PDF_EXPORT.md",
+      "status": "A",
+      "review_status": "full_document_review",
+      "observation": "Reviewed entire guide against prior frozen CodeFriend production/CLI inspection; commands, limitations and proof boundaries checked."
+    },
+    {
+      "id": "F05848",
+      "path": "docs/codefriend/RUST_PARSER_BOUNDS.md",
+      "status": "A",
+      "review_status": "full_document_review",
+      "observation": "Reviewed entire guide against prior frozen CodeFriend production/CLI inspection; commands, limitations and proof boundaries checked."
+    },
+    {
+      "id": "F05851",
+      "path": "docs/codefriend/fixtures/vector-scope.json",
+      "status": "A",
+      "review_status": "structured_claims_and_provenance_review",
+      "observation": "Read semantic proof/inventory claims and limitations; object/evidence arrays classified mechanically for relative paths, digest/source identity shape and untrusted provenance (72 records across six proof packets). Historical execution not rerun and external source bytes not rehashed."
+    },
+    {
+      "id": "F06094",
+      "path": "docs/milestones/v0.93/CONSTITUTIONAL_CITIZENSHIP_AND_POLIS_GOVERNANCE_PLAN_v0.93.md",
+      "status": "M",
+      "review_status": "all_changed_hunks_and_context_review",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred."
+    },
+    {
+      "id": "F06095",
+      "path": "docs/milestones/v0.93/DECISIONS_v0.93.md",
+      "status": "M",
+      "review_status": "all_changed_hunks_and_context_review",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred."
+    },
+    {
+      "id": "F06096",
+      "path": "docs/milestones/v0.93/DEMO_MATRIX_v0.93.md",
+      "status": "M",
+      "review_status": "all_changed_hunks_and_context_review",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred."
+    },
+    {
+      "id": "F06097",
+      "path": "docs/milestones/v0.93/DESIGN_v0.93.md",
+      "status": "M",
+      "review_status": "all_changed_hunks_and_context_review",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred."
+    },
+    {
+      "id": "F06098",
+      "path": "docs/milestones/v0.93/EXECUTION_PLAN_v0.93.json",
+      "status": "A",
+      "review_status": "structured_document_semantic_review",
+      "observation": "Parsed all records and reviewed unique semantic fields; graph/spec/wave 64-WP parity and acyclic dependency identities checked. Historical planning-review records classified as retained claims, not fresh execution; template-validation 24 nested results internally consistent."
+    },
+    {
+      "id": "F06099",
+      "path": "docs/milestones/v0.93/MILESTONE_CHECKLIST_v0.93.md",
+      "status": "M",
+      "review_status": "all_changed_hunks_and_context_review",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred."
+    },
+    {
+      "id": "F06100",
+      "path": "docs/milestones/v0.93/NEXT_MILESTONE_HANDOFF_v0.93.md",
+      "status": "A",
+      "review_status": "new_document_full_review",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred."
+    },
+    {
+      "id": "F06101",
+      "path": "docs/milestones/v0.93/PLANNED_ISSUE_CATALOG_v0.93.md",
+      "status": "A",
+      "review_status": "new_document_full_review",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred."
+    },
+    {
+      "id": "F06102",
+      "path": "docs/milestones/v0.93/QUALITY_GATE_v0.93.md",
+      "status": "A",
+      "review_status": "new_document_full_review",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred."
+    },
+    {
+      "id": "F06103",
+      "path": "docs/milestones/v0.93/README.md",
+      "status": "M",
+      "review_status": "all_changed_hunks_and_context_review",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred."
+    },
+    {
+      "id": "F06104",
+      "path": "docs/milestones/v0.93/RELEASE_NOTES_v0.93.md",
+      "status": "M",
+      "review_status": "all_changed_hunks_and_context_review",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred."
+    },
+    {
+      "id": "F06105",
+      "path": "docs/milestones/v0.93/RELEASE_PLAN_v0.93.md",
+      "status": "M",
+      "review_status": "all_changed_hunks_and_context_review",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred."
+    },
+    {
+      "id": "F06106",
+      "path": "docs/milestones/v0.93/REPOSITORY_MIGRATION_v0.93.md",
+      "status": "A",
+      "review_status": "new_document_full_review",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred."
+    },
+    {
+      "id": "F06107",
+      "path": "docs/milestones/v0.93/SPRINT_v0.93.md",
+      "status": "M",
+      "review_status": "all_changed_hunks_and_context_review",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred."
+    },
+    {
+      "id": "F06108",
+      "path": "docs/milestones/v0.93/TBD_SCHEDULING_RECONCILIATION_v0.93.md",
+      "status": "A",
+      "review_status": "new_document_full_review",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred."
+    },
+    {
+      "id": "F06109",
+      "path": "docs/milestones/v0.93/VISION_v0.93.md",
+      "status": "M",
+      "review_status": "all_changed_hunks_and_context_review",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred."
+    },
+    {
+      "id": "F06110",
+      "path": "docs/milestones/v0.93/WBS_v0.93.md",
+      "status": "M",
+      "review_status": "all_changed_hunks_and_context_review",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred."
+    },
+    {
+      "id": "F06111",
+      "path": "docs/milestones/v0.93/WP_EXECUTION_READINESS_v0.93.md",
+      "status": "A",
+      "review_status": "new_document_full_review",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred."
+    },
+    {
+      "id": "F06112",
+      "path": "docs/milestones/v0.93/WP_EXECUTION_SPECIFICATIONS_v0.93.yaml",
+      "status": "A",
+      "review_status": "structured_document_semantic_review",
+      "observation": "Parsed all records and reviewed unique semantic fields; graph/spec/wave 64-WP parity and acyclic dependency identities checked. Historical planning-review records classified as retained claims, not fresh execution; template-validation 24 nested results internally consistent."
+    },
+    {
+      "id": "F06113",
+      "path": "docs/milestones/v0.93/WP_ISSUE_WAVE_v0.93.yaml",
+      "status": "M",
+      "review_status": "structured_document_semantic_review",
+      "observation": "Parsed all records and reviewed unique semantic fields; graph/spec/wave 64-WP parity and acyclic dependency identities checked. Historical planning-review records classified as retained claims, not fresh execution; template-validation 24 nested results internally consistent."
+    },
+    {
+      "id": "F06114",
+      "path": "docs/milestones/v0.93/features/CITIZENSHIP_RIGHTS_DUTIES_AND_SOCIAL_CONTRACT_v0.93.md",
+      "status": "M",
+      "review_status": "all_changed_hunks_and_context_review",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred."
+    },
+    {
+      "id": "F06115",
+      "path": "docs/milestones/v0.93/features/CODEFRIEND_LAUNCH_v0.93.md",
+      "status": "A",
+      "review_status": "new_document_full_review",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred."
+    },
+    {
+      "id": "F06116",
+      "path": "docs/milestones/v0.93/features/DELEGATION_IAM_STANDING_AND_APPEAL_GOVERNANCE_v0.93.md",
+      "status": "M",
+      "review_status": "all_changed_hunks_and_context_review",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred."
+    },
+    {
+      "id": "F06117",
+      "path": "docs/milestones/v0.93/features/ENTERPRISE_SECURITY_v0.93.md",
+      "status": "M",
+      "review_status": "all_changed_hunks_and_context_review",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred."
+    },
+    {
+      "id": "F06118",
+      "path": "docs/milestones/v0.93/features/GUILDS_AND_COLLECTIVE_ORGANIZATION_v0.93.md",
+      "status": "M",
+      "review_status": "all_changed_hunks_and_context_review",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred."
+    },
+    {
+      "id": "F06119",
+      "path": "docs/milestones/v0.93/features/README.md",
+      "status": "M",
+      "review_status": "all_changed_hunks_and_context_review",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred."
+    },
+    {
+      "id": "F06120",
+      "path": "docs/milestones/v0.93/features/RUNTIME_V4_PLUGIN_SYSTEM_v0.93.md",
+      "status": "A",
+      "review_status": "new_document_full_review",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred."
+    },
+    {
+      "id": "F06121",
+      "path": "docs/milestones/v0.93/features/SECURITY_WP_S1_ZERO_TRUST_ARCHITECTURE_v0.93.md",
+      "status": "M",
+      "review_status": "all_changed_hunks_and_context_review",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred."
+    },
+    {
+      "id": "F06122",
+      "path": "docs/milestones/v0.93/features/SECURITY_WP_S2_POLICY_ENFORCEMENT_AUTHORIZATION_v0.93.md",
+      "status": "M",
+      "review_status": "all_changed_hunks_and_context_review",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred."
+    },
+    {
+      "id": "F06123",
+      "path": "docs/milestones/v0.93/features/SECURITY_WP_S3_SECRETS_KEYS_CRYPTOGRAPHIC_TRUST_v0.93.md",
+      "status": "M",
+      "review_status": "all_changed_hunks_and_context_review",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred."
+    },
+    {
+      "id": "F06124",
+      "path": "docs/milestones/v0.93/features/SECURITY_WP_S4_AUDIT_COMPLIANCE_INCIDENT_EVIDENCE_v0.93.md",
+      "status": "M",
+      "review_status": "all_changed_hunks_and_context_review",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred."
+    },
+    {
+      "id": "F06125",
+      "path": "docs/milestones/v0.93/features/SECURITY_WP_S5_ISOLATION_DATA_GOVERNANCE_PRIVACY_v0.93.md",
+      "status": "M",
+      "review_status": "all_changed_hunks_and_context_review",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred."
+    },
+    {
+      "id": "F06126",
+      "path": "docs/milestones/v0.93/features/SECURITY_WP_S6_SECURITY_OPERATIONS_ADVERSARIAL_PROVENANCE_v0.93.md",
+      "status": "M",
+      "review_status": "all_changed_hunks_and_context_review",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred."
+    },
+    {
+      "id": "F06127",
+      "path": "docs/milestones/v0.93/features/SOCIAL_RELATIONSHIP_REPUTATION_AND_SHARED_MEMORY_v0.93.md",
+      "status": "M",
+      "review_status": "all_changed_hunks_and_context_review",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred."
+    },
+    {
+      "id": "F06128",
+      "path": "docs/milestones/v0.93/features/THEORY_OF_MIND_AND_SOCIAL_COGNITION_v0.93.md",
+      "status": "M",
+      "review_status": "all_changed_hunks_and_context_review",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred."
+    },
+    {
+      "id": "F06129",
+      "path": "docs/milestones/v0.93/planning-review/REVIEW.md",
+      "status": "A",
+      "review_status": "new_document_full_review",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred."
+    },
+    {
+      "id": "F06130",
+      "path": "docs/milestones/v0.93/planning-review/SOURCE_INVENTORY.md",
+      "status": "A",
+      "review_status": "new_document_full_review",
+      "observation": "Reviewed successor routing, planning versus implementation authority, scope gates, acceptance/negative cases and handoff truth; future implementation not inferred."
+    },
+    {
+      "id": "F06131",
+      "path": "docs/milestones/v0.93/planning-review/baseline-inventory.json",
+      "status": "A",
+      "review_status": "structured_document_semantic_review",
+      "observation": "Parsed all records and reviewed unique semantic fields; graph/spec/wave 64-WP parity and acyclic dependency identities checked. Historical planning-review records classified as retained claims, not fresh execution; template-validation 24 nested results internally consistent."
+    },
+    {
+      "id": "F06132",
+      "path": "docs/milestones/v0.93/planning-review/tbd-allocation-inventory.json",
+      "status": "A",
+      "review_status": "structured_document_semantic_review",
+      "observation": "Parsed all records and reviewed unique semantic fields; graph/spec/wave 64-WP parity and acyclic dependency identities checked. Historical planning-review records classified as retained claims, not fresh execution; template-validation 24 nested results internally consistent."
+    },
+    {
+      "id": "F06133",
+      "path": "docs/milestones/v0.93/planning-review/template-validation.json",
+      "status": "A",
+      "review_status": "structured_document_semantic_review",
+      "observation": "Parsed all records and reviewed unique semantic fields; graph/spec/wave 64-WP parity and acyclic dependency identities checked. Historical planning-review records classified as retained claims, not fresh execution; template-validation 24 nested results internally consistent."
+    }
+  ],
+  "limitations": [
+    "External/private TBD and Drive sources were not reopened; tracked allocation claims only.",
+    "Historical proof records were not rerun; hash shapes do not establish original execution.",
+    "Unchanged baseline prose outside relevant changed context was not exhaustively rereviewed."
+  ]
+}

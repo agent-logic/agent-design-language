@@ -1,0 +1,15 @@
+flowchart LR
+  PROFILE["Permanent agent-logic-admin profile"] --> ID["Business AWS account identity gate"]
+  ID -->|"wrong account"| STOP["STOP: no AWS mutation"]
+  ID -->|"verified"| BASELINE["Route53/ACM/SES/S3/CloudFront/\ncompute/IAM/monitoring/backups/budgets baseline"]
+  BASELINE --> PHASE["One bounded migration phase"]
+  ACM["ACM or public CA\nno self-signed production TLS"] --> PHASE
+  PHASE --> LIVE["External service checks"]
+  LIVE --> ROLLBACK["Rehearse phase rollback"]
+  ROLLBACK --> CLEANUP["Delete temporary resources\nprovider absence readback"]
+  CLEANUP --> DECIDE{"Phase proof complete?"}
+  DECIDE -->|"yes, more phases"| PHASE
+  DECIDE -->|"yes, denominator complete"| MANIFEST["Company-account migration manifest"]
+  DECIDE -->|"no"| RESTORE["Restore previous service posture"]
+  RESTORE --> CLEANUP
+  MANIFEST --> REVIEW["Independent account/TLS/rollback/cleanup review"]

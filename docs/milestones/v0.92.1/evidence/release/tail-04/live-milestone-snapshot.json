@@ -1,0 +1,982 @@
+{
+  "schema": "adl.v0921.live_milestone_snapshot.v1",
+  "repository": "agent-logic/agent-design-language",
+  "milestone": "v0.92.1",
+  "pagination_complete": true,
+  "next_cursor": null,
+  "query_limit": null,
+  "issues": [
+    {
+      "number": 51,
+      "title": "[v0.92.1][podcast][coordination] Coordinate gated podcast publication and directory-submission children",
+      "state": "CLOSED",
+      "pull_requests": [
+
+      ]
+    },
+    {
+      "number": 84,
+      "title": "[backlog][Observatory] Complete live Unity Observatory Runtime v3 integration",
+      "state": "OPEN",
+      "pull_requests": [
+
+      ]
+    },
+    {
+      "number": 122,
+      "title": "[v0.92.1][Observatory] Deploy public exposure with Route53 and ACM",
+      "state": "CLOSED",
+      "pull_requests": [
+        553
+      ]
+    },
+    {
+      "number": 146,
+      "title": "[v0.92][planning] Establish the v0.92.1 corporate foundation, C-SDLC v3, and distributed Runtime qualification milestone",
+      "state": "CLOSED",
+      "pull_requests": [
+        148,
+        206
+      ]
+    },
+    {
+      "number": 251,
+      "title": "[backlog][Runtime] Support TLS 1.2 on public Axum HTTPS/WSS for Unity",
+      "state": "OPEN",
+      "pull_requests": [
+
+      ]
+    },
+    {
+      "number": 261,
+      "title": "[v0.92.1][podcast][51.a] Finalize show identity, artwork, rights, metadata, and mailbox readiness",
+      "state": "CLOSED",
+      "pull_requests": [
+        611
+      ]
+    },
+    {
+      "number": 262,
+      "title": "[v0.92.1][podcast][51.b] Publish and validate production hosting, RSS, enclosures, and playback",
+      "state": "CLOSED",
+      "pull_requests": [
+        618
+      ]
+    },
+    {
+      "number": 263,
+      "title": "[v0.92.1][podcast][51.c] Prepare directory submission runbooks and operator preflight",
+      "state": "CLOSED",
+      "pull_requests": [
+        626
+      ]
+    },
+    {
+      "number": 264,
+      "title": "[v0.92.1][podcast][51.d] Execute directory submissions only after explicit operator authorization",
+      "state": "CLOSED",
+      "pull_requests": [
+        649
+      ]
+    },
+    {
+      "number": 342,
+      "title": "[v0.92.1][WP-24A] Podcast Studio first ten episodes",
+      "state": "CLOSED",
+      "pull_requests": [
+        586
+      ]
+    },
+    {
+      "number": 345,
+      "title": "[v0.92.1][Sidecar] Harden and retain the AWS GPU Shepherd proof runner",
+      "state": "CLOSED",
+      "pull_requests": [
+        593
+      ]
+    },
+    {
+      "number": 387,
+      "title": "[v0.92][C-SDLC][defect] Support implemented-phase card truth repair before publication",
+      "state": "CLOSED",
+      "pull_requests": [
+        389
+      ]
+    },
+    {
+      "number": 480,
+      "title": "[v0.92.1][WP-01] Open the v0.92.1 milestone and create the execution wave",
+      "state": "CLOSED",
+      "pull_requests": [
+        527
+      ]
+    },
+    {
+      "number": 482,
+      "title": "[v0.92.1][CORP-A] Critical-asset schedule",
+      "state": "CLOSED",
+      "pull_requests": [
+        545
+      ]
+    },
+    {
+      "number": 483,
+      "title": "[v0.92.1][CORP-B] Corporate account custody register",
+      "state": "CLOSED",
+      "pull_requests": [
+        562
+      ]
+    },
+    {
+      "number": 484,
+      "title": "[v0.92.1][AWS-A] AWS resource ownership inventory",
+      "state": "CLOSED",
+      "pull_requests": [
+        556
+      ]
+    },
+    {
+      "number": 485,
+      "title": "[v0.92.1][AWS-B] AWS access and billing baseline",
+      "state": "CLOSED",
+      "pull_requests": [
+        564
+      ]
+    },
+    {
+      "number": 486,
+      "title": "[v0.92.1][AWS-C] AWS Terraform bootstrap",
+      "state": "CLOSED",
+      "pull_requests": [
+        567
+      ]
+    },
+    {
+      "number": 487,
+      "title": "[v0.92.1][AWS-D] AWS audit and security baseline",
+      "state": "CLOSED",
+      "pull_requests": [
+        574
+      ]
+    },
+    {
+      "number": 488,
+      "title": "[v0.92.1][AWS-E] AWS resource adoption register",
+      "state": "CLOSED",
+      "pull_requests": [
+        576
+      ]
+    },
+    {
+      "number": 489,
+      "title": "[v0.92.1][AWS-F] AWS Runtime platform modules",
+      "state": "CLOSED",
+      "pull_requests": [
+        577
+      ]
+    },
+    {
+      "number": 490,
+      "title": "[v0.92.1][GCP-A] GCP hierarchy and cost decision",
+      "state": "CLOSED",
+      "pull_requests": [
+        566
+      ]
+    },
+    {
+      "number": 491,
+      "title": "[v0.92.1][GCP-B] GCP Terraform bootstrap",
+      "state": "CLOSED",
+      "pull_requests": [
+        575
+      ]
+    },
+    {
+      "number": 492,
+      "title": "[v0.92.1][GCP-C] GCP organization and billing baseline",
+      "state": "CLOSED",
+      "pull_requests": [
+        580
+      ]
+    },
+    {
+      "number": 493,
+      "title": "[v0.92.1][GCP-D] GCP private platform foundation",
+      "state": "CLOSED",
+      "pull_requests": [
+        587
+      ]
+    },
+    {
+      "number": 494,
+      "title": "[v0.92.1][GCP-E] GCP GPU readiness smoke test",
+      "state": "CLOSED",
+      "pull_requests": [
+        595
+      ]
+    },
+    {
+      "number": 495,
+      "title": "[v0.92.1][XCL-01] Cross-cloud Runtime Terraform conversion",
+      "state": "CLOSED",
+      "pull_requests": [
+        590
+      ]
+    },
+    {
+      "number": 496,
+      "title": "[v0.92.1][AWS-G] AWS CloudFormation retirement decision",
+      "state": "CLOSED",
+      "pull_requests": [
+        599
+      ]
+    },
+    {
+      "number": 497,
+      "title": "[v0.92.1][CORP-C] Corporate IP-transfer acceptance",
+      "state": "CLOSED",
+      "pull_requests": [
+
+      ]
+    },
+    {
+      "number": 498,
+      "title": "[v0.92.1][CORP-D] Corporate diligence acceptance",
+      "state": "CLOSED",
+      "pull_requests": [
+        637
+      ]
+    },
+    {
+      "number": 499,
+      "title": "[v0.92.1][RUST-01] Resilience owner-boundary refactoring",
+      "state": "CLOSED",
+      "pull_requests": [
+        547
+      ]
+    },
+    {
+      "number": 500,
+      "title": "[v0.92.1][V3-A] C-SDLC v3 contract and construction decision",
+      "state": "CLOSED",
+      "pull_requests": [
+        565
+      ]
+    },
+    {
+      "number": 501,
+      "title": "[v0.92.1][V3-B] C-SDLC v3 foundation",
+      "state": "CLOSED",
+      "pull_requests": [
+        568
+      ]
+    },
+    {
+      "number": 502,
+      "title": "[v0.92.1][V3-C] C-SDLC v3 lifecycle kernel",
+      "state": "CLOSED",
+      "pull_requests": [
+        572
+      ]
+    },
+    {
+      "number": 503,
+      "title": "[v0.92.1][V3-D] C-SDLC v3 local preparation workflow",
+      "state": "CLOSED",
+      "pull_requests": [
+        581
+      ]
+    },
+    {
+      "number": 504,
+      "title": "[v0.92.1][V3-E] C-SDLC v3 remote delivery workflow",
+      "state": "CLOSED",
+      "pull_requests": [
+        588
+      ]
+    },
+    {
+      "number": 505,
+      "title": "[v0.92.1][V3-F] C-SDLC v3 authority-transition decision",
+      "state": "CLOSED",
+      "pull_requests": [
+        591
+      ]
+    },
+    {
+      "number": 506,
+      "title": "[v0.92.1][DRT-A] Distributed qualification contract",
+      "state": "CLOSED",
+      "pull_requests": [
+        616
+      ]
+    },
+    {
+      "number": 507,
+      "title": "[v0.92.1][DRT-B] Six-resident UTS qualification",
+      "state": "CLOSED",
+      "pull_requests": [
+        619
+      ]
+    },
+    {
+      "number": 508,
+      "title": "[v0.92.1][DRT-C] Final distributed Runtime qualification",
+      "state": "CLOSED",
+      "pull_requests": [
+        623
+      ]
+    },
+    {
+      "number": 509,
+      "title": "[v0.92.1][DRT-D] GCP portability qualification",
+      "state": "CLOSED",
+      "pull_requests": [
+        652
+      ]
+    },
+    {
+      "number": 510,
+      "title": "[v0.92.1][HOT-01] Axum configuration hot reload",
+      "state": "CLOSED",
+      "pull_requests": [
+        546
+      ]
+    },
+    {
+      "number": 511,
+      "title": "[v0.92.1][OBS-A] Observatory experience design",
+      "state": "CLOSED",
+      "pull_requests": [
+
+      ]
+    },
+    {
+      "number": 512,
+      "title": "[v0.92.1][OBS-B] Observatory redesign implementation",
+      "state": "CLOSED",
+      "pull_requests": [
+        719
+      ]
+    },
+    {
+      "number": 513,
+      "title": "[v0.92.1][DEC-01] Runtime v2/v3 authority separation",
+      "state": "CLOSED",
+      "pull_requests": [
+        557
+      ]
+    },
+    {
+      "number": 514,
+      "title": "[v0.92.1][PROV-A] Shared provider inference profiles",
+      "state": "CLOSED",
+      "pull_requests": [
+        549
+      ]
+    },
+    {
+      "number": 515,
+      "title": "[v0.92.1][PROV-B] Local-model shadow execution",
+      "state": "CLOSED",
+      "pull_requests": [
+        621
+      ]
+    },
+    {
+      "number": 516,
+      "title": "[v0.92.1][INT-01] Release-tail admission",
+      "state": "CLOSED",
+      "pull_requests": [
+        737
+      ]
+    },
+    {
+      "number": 517,
+      "title": "[v0.92.1][TAIL-01] Quality gate",
+      "state": "CLOSED",
+      "pull_requests": [
+        748,
+        752
+      ]
+    },
+    {
+      "number": 518,
+      "title": "[v0.92.1][TAIL-02] Documentation review and external-review handoff",
+      "state": "CLOSED",
+      "pull_requests": [
+        753
+      ]
+    },
+    {
+      "number": 519,
+      "title": "[v0.92.1][TAIL-03] Publication finalization",
+      "state": "CLOSED",
+      "pull_requests": [
+        756
+      ]
+    },
+    {
+      "number": 520,
+      "title": "[v0.92.1][TAIL-04] Internal review",
+      "state": "OPEN",
+      "pull_requests": [
+
+      ]
+    },
+    {
+      "number": 521,
+      "title": "[v0.92.1][TAIL-05] External / third-party review",
+      "state": "OPEN",
+      "pull_requests": [
+
+      ]
+    },
+    {
+      "number": 522,
+      "title": "[v0.92.1][TAIL-06] Review findings remediation",
+      "state": "OPEN",
+      "pull_requests": [
+
+      ]
+    },
+    {
+      "number": 523,
+      "title": "[v0.92.1][TAIL-07] Next-milestone planning",
+      "state": "CLOSED",
+      "pull_requests": [
+        743
+      ]
+    },
+    {
+      "number": 524,
+      "title": "[v0.92.1][TAIL-08] Next-milestone closeout plan",
+      "state": "OPEN",
+      "pull_requests": [
+
+      ]
+    },
+    {
+      "number": 525,
+      "title": "[v0.92.1][TAIL-09] Next milestone review pass",
+      "state": "OPEN",
+      "pull_requests": [
+
+      ]
+    },
+    {
+      "number": 526,
+      "title": "[v0.92.1][TAIL-10] Release ceremony",
+      "state": "OPEN",
+      "pull_requests": [
+
+      ]
+    },
+    {
+      "number": 528,
+      "title": "[v0.92.1][PROV-C] Vertex AI Gemini provider transport",
+      "state": "CLOSED",
+      "pull_requests": [
+        603
+      ]
+    },
+    {
+      "number": 529,
+      "title": "[v0.92.1][Sprint 1] Independent foundations",
+      "state": "CLOSED",
+      "pull_requests": [
+
+      ]
+    },
+    {
+      "number": 530,
+      "title": "[v0.92.1][Sprint 2] Parallel cloud foundations",
+      "state": "CLOSED",
+      "pull_requests": [
+
+      ]
+    },
+    {
+      "number": 531,
+      "title": "[v0.92.1][Sprint 3] Cloud convergence",
+      "state": "CLOSED",
+      "pull_requests": [
+        600
+      ]
+    },
+    {
+      "number": 532,
+      "title": "[v0.92.1][Sprint 4] Corporate acceptance",
+      "state": "CLOSED",
+      "pull_requests": [
+
+      ]
+    },
+    {
+      "number": 533,
+      "title": "[v0.92.1][Sprint 5] C-SDLC v3 foundation",
+      "state": "CLOSED",
+      "pull_requests": [
+
+      ]
+    },
+    {
+      "number": 534,
+      "title": "[v0.92.1][Sprint 6] C-SDLC v3 delivery and cutover",
+      "state": "CLOSED",
+      "pull_requests": [
+        715
+      ]
+    },
+    {
+      "number": 535,
+      "title": "[v0.92.1][Sprint 7] Distributed Runtime qualification",
+      "state": "CLOSED",
+      "pull_requests": [
+
+      ]
+    },
+    {
+      "number": 536,
+      "title": "[v0.92.1][Sprint 8] Podcast and Observatory",
+      "state": "CLOSED",
+      "pull_requests": [
+        729
+      ]
+    },
+    {
+      "number": 537,
+      "title": "[v0.92.1][Sprint 9] Provider comparison and convergence",
+      "state": "CLOSED",
+      "pull_requests": [
+
+      ]
+    },
+    {
+      "number": 538,
+      "title": "[v0.92.1][Sprint 10] Release qualification, review and release",
+      "state": "OPEN",
+      "pull_requests": [
+
+      ]
+    },
+    {
+      "number": 539,
+      "title": "[v0.92.1][Sprint 11] Handoff and release",
+      "state": "CLOSED",
+      "pull_requests": [
+
+      ]
+    },
+    {
+      "number": 544,
+      "title": "[v0.92.1][C-SDLC][defect] Prevent bootstrap state on the primary main checkout",
+      "state": "CLOSED",
+      "pull_requests": [
+        548
+      ]
+    },
+    {
+      "number": 558,
+      "title": "[v0.92.1][shared-gate] Stabilize governed learner replication coverage proof",
+      "state": "CLOSED",
+      "pull_requests": [
+        559
+      ]
+    },
+    {
+      "number": 560,
+      "title": "[v0.92.1][shared-gate] Stabilize runtime_v2 unified kernel workspace coverage timeouts",
+      "state": "CLOSED",
+      "pull_requests": [
+        561
+      ]
+    },
+    {
+      "number": 563,
+      "title": "[v0.92.1][C-SDLC] Fail closed on stale owner binaries before primary-checkout mutation",
+      "state": "CLOSED",
+      "pull_requests": [
+        569
+      ]
+    },
+    {
+      "number": 592,
+      "title": "[v0.92.1][runtime][gcp] Configure Polis to use Vertex AI",
+      "state": "CLOSED",
+      "pull_requests": [
+        650
+      ]
+    },
+    {
+      "number": 617,
+      "title": "[v0.92.1][Runtime API] Expose canonical agent names in roster and detail responses",
+      "state": "CLOSED",
+      "pull_requests": [
+        636
+      ]
+    },
+    {
+      "number": 656,
+      "title": "[v0.92.1][Runtime] Install CSM, Guardian, and kernel as one atomic generation",
+      "state": "CLOSED",
+      "pull_requests": [
+        658
+      ]
+    },
+    {
+      "number": 659,
+      "title": "[v0.92.1][Runtime] Replace brittle fixed reload deadlines with configurable convergence",
+      "state": "CLOSED",
+      "pull_requests": [
+        676
+      ]
+    },
+    {
+      "number": 660,
+      "title": "[v0.92.1][podcast][emergency] Remove unintended public /podcast/ exposure and keep show under _preview",
+      "state": "CLOSED",
+      "pull_requests": [
+        664
+      ]
+    },
+    {
+      "number": 661,
+      "title": "[v0.92.1][Runtime] Route Shepherd conversation replies through its configured provider",
+      "state": "CLOSED",
+      "pull_requests": [
+        666
+      ]
+    },
+    {
+      "number": 662,
+      "title": "[v0.92.1][Runtime] Prove governed agent-to-agent initiation",
+      "state": "CLOSED",
+      "pull_requests": [
+        668
+      ]
+    },
+    {
+      "number": 665,
+      "title": "[v0.92.1][C-SDLC v2][defect] Recover verified emergency branches into typed lifecycle",
+      "state": "CLOSED",
+      "pull_requests": [
+        673
+      ]
+    },
+    {
+      "number": 671,
+      "title": "[backlog][podcast][51.d follow-up] Register The Cognitive Stack after approval",
+      "state": "OPEN",
+      "pull_requests": [
+
+      ]
+    },
+    {
+      "number": 693,
+      "title": "[v0.92.1][Runtime][bug] Make A2A action selection reliable for model-backed agents",
+      "state": "CLOSED",
+      "pull_requests": [
+        696
+      ]
+    },
+    {
+      "number": 708,
+      "title": "[v0.92.1][Runtime] Inject versioned Polis welcome package into admitted agent context",
+      "state": "CLOSED",
+      "pull_requests": [
+        709
+      ]
+    },
+    {
+      "number": 717,
+      "title": "[v0.92.1][Runtime] Teach admitted agents about Polis modules and capabilities",
+      "state": "CLOSED",
+      "pull_requests": [
+        800
+      ]
+    },
+    {
+      "number": 718,
+      "title": "[v0.92.1][Runtime] Route agent-to-agent communication by canonical agent name",
+      "state": "CLOSED",
+      "pull_requests": [
+        809
+      ]
+    },
+    {
+      "number": 727,
+      "title": "[v0.92.1][AWS-D-R] Apply and prove the audit/security account foundation",
+      "state": "CLOSED",
+      "pull_requests": [
+        733
+      ]
+    },
+    {
+      "number": 728,
+      "title": "[v0.92.1][AWS-F-R] Prove disposable Runtime deployment and zero residue",
+      "state": "CLOSED",
+      "pull_requests": [
+        736
+      ]
+    },
+    {
+      "number": 730,
+      "title": "[v0.92.1][GCP-B1] Replace static-key bootstrap with impersonation and prove recoverable remote state",
+      "state": "CLOSED",
+      "pull_requests": [
+        738
+      ]
+    },
+    {
+      "number": 731,
+      "title": "[v0.92.1][GCP-D1] Deploy the bounded private foundation and prove non-GPU workload disposal",
+      "state": "CLOSED",
+      "pull_requests": [
+        739,
+        742
+      ]
+    },
+    {
+      "number": 740,
+      "title": "[v0.92.1][GCP-B1][corrective] Repair #730 credential retention, authorization binding, legacy-key disposition, and Terraform-backend proof",
+      "state": "CLOSED",
+      "pull_requests": [
+        741
+      ]
+    },
+    {
+      "number": 744,
+      "title": "[v0.92.2][tooling] Recover native v3 issue-create intents after credential preflight failure",
+      "state": "CLOSED",
+      "pull_requests": [
+        781
+      ]
+    },
+    {
+      "number": 745,
+      "title": "[v0.92.1][docs] Complete ADR plan and architecture decision dispositions",
+      "state": "CLOSED",
+      "pull_requests": [
+        747
+      ]
+    },
+    {
+      "number": 757,
+      "title": "[v0.92.1][TAIL-06.01][runtime] Make dynamic-agent removal crash-consistent",
+      "state": "CLOSED",
+      "pull_requests": [
+        782
+      ]
+    },
+    {
+      "number": 758,
+      "title": "[v0.92.1][TAIL-06.02][runtime] Persist and recover admission-triggered A2A initiation",
+      "state": "CLOSED",
+      "pull_requests": [
+        805
+      ]
+    },
+    {
+      "number": 759,
+      "title": "[v0.92.1][TAIL-06.03][runtime] Isolate dynamic-agent health task failures",
+      "state": "CLOSED",
+      "pull_requests": [
+        779
+      ]
+    },
+    {
+      "number": 760,
+      "title": "[v0.92.1][TAIL-06.04][csdlc] Align current C-SDLC v3 authority surfaces",
+      "state": "CLOSED",
+      "pull_requests": [
+        773
+      ]
+    },
+    {
+      "number": 761,
+      "title": "[v0.92.1][TAIL-06.05][review] Build complete per-lane review denominators",
+      "state": "CLOSED",
+      "pull_requests": [
+        777
+      ]
+    },
+    {
+      "number": 762,
+      "title": "[v0.92.1][TAIL-06.06][csdlc] Bind proof and install routes to issue worktrees",
+      "state": "CLOSED",
+      "pull_requests": [
+        783
+      ]
+    },
+    {
+      "number": 763,
+      "title": "[v0.92.1][TAIL-06.07][csdlc] Repair detached-head cutover and rollback tests",
+      "state": "CLOSED",
+      "pull_requests": [
+        774
+      ]
+    },
+    {
+      "number": 764,
+      "title": "[v0.92.1][TAIL-06.08][quality] Close retained candidate-bound proof gaps",
+      "state": "CLOSED",
+      "pull_requests": [
+        780
+      ]
+    },
+    {
+      "number": 765,
+      "title": "[v0.92.1][TAIL-06.09][architecture] Bound XCL Terraform provider majors",
+      "state": "CLOSED",
+      "pull_requests": [
+        775
+      ]
+    },
+    {
+      "number": 766,
+      "title": "[v0.92.1][TAIL-06.10][tooling] Pin the required Rust CI toolchain",
+      "state": "CLOSED",
+      "pull_requests": [
+        787
+      ]
+    },
+    {
+      "number": 767,
+      "title": "[v0.92.1][TAIL-06.11][release] Project current status into release documents",
+      "state": "CLOSED",
+      "pull_requests": [
+        785
+      ]
+    },
+    {
+      "number": 768,
+      "title": "[v0.92.1][TAIL-06.12][docs] Make the TAIL-02 reproduction route candidate-safe",
+      "state": "CLOSED",
+      "pull_requests": [
+        793
+      ]
+    },
+    {
+      "number": 769,
+      "title": "[v0.92.1][TAIL-06.13][security] Redaction-scan the complete publication manifest",
+      "state": "CLOSED",
+      "pull_requests": [
+        798
+      ]
+    },
+    {
+      "number": 770,
+      "title": "[v0.92.1][TAIL-06.14][security] Require SSH recovery for public Spot Runtime",
+      "state": "CLOSED",
+      "pull_requests": [
+        796
+      ]
+    },
+    {
+      "number": 771,
+      "title": "[v0.92.1][TAIL-06.15][review] Refresh exact-head proof for V3-F",
+      "state": "CLOSED",
+      "pull_requests": [
+        801
+      ]
+    },
+    {
+      "number": 772,
+      "title": "[v0.92.1][TAIL-06.16][security] Prove GCP-B audit and log posture",
+      "state": "CLOSED",
+      "pull_requests": [
+        807
+      ]
+    },
+    {
+      "number": 776,
+      "title": "[v0.92.1][TAIL-06.17][csdlc] Resolve structure schemas beside versioned templates",
+      "state": "CLOSED",
+      "pull_requests": [
+        790
+      ]
+    },
+    {
+      "number": 814,
+      "title": "[v0.92.1][TAIL-06.09][runtime] Repair greeting recovery identity and local-model boundary",
+      "state": "OPEN",
+      "pull_requests": [
+
+      ]
+    },
+    {
+      "number": 815,
+      "title": "[v0.92.1][TAIL-06.10][security] Authenticate AWS and GCP mutation authorization",
+      "state": "OPEN",
+      "pull_requests": [
+
+      ]
+    },
+    {
+      "number": 816,
+      "title": "[v0.92.1][TAIL-06.11][quality] Repair redaction and hot-reload validation integrity",
+      "state": "OPEN",
+      "pull_requests": [
+
+      ]
+    },
+    {
+      "number": 817,
+      "title": "[v0.92.1][TAIL-06.12][release] Refresh candidate proof and canonical release truth",
+      "state": "OPEN",
+      "pull_requests": [
+
+      ]
+    },
+    {
+      "number": 818,
+      "title": "[v0.92.1][TAIL-06.08a][quality] Close corporate Runtime retained proof gaps",
+      "state": "OPEN",
+      "pull_requests": [
+
+      ]
+    },
+    {
+      "number": 819,
+      "title": "[v0.92.1][TAIL-06.08b][quality] Close C-SDLC v3 retained proof gaps",
+      "state": "OPEN",
+      "pull_requests": [
+
+      ]
+    },
+    {
+      "number": 820,
+      "title": "[v0.92.1][TAIL-06.08c][quality] Close distributed Runtime retained proof gaps",
+      "state": "OPEN",
+      "pull_requests": [
+
+      ]
+    },
+    {
+      "number": 821,
+      "title": "[v0.92.1][TAIL-06.08d][quality] Re-prove current TAIL-01 quality-gate obligations",
+      "state": "OPEN",
+      "pull_requests": [
+
+      ]
+    }
+  ],
+  "pull_requests": [
+
+  ],
+  "api_receipt": {
+    "transport": "github_graphql",
+    "page_size": 100,
+    "page_count": 125,
+    "issue_page_count": 2,
+    "closing_reference_page_count": 119,
+    "pull_request_page_count": 4,
+    "final_has_next_page": false,
+    "retrieved_at": "2026-09-09T20:43:45Z",
+    "query": "query($owner:String!, $name:String!, $cursor:String) {\n  repository(owner:$owner, name:$name) {\n    issues(first:100, after:$cursor, filterBy:{milestoneNumber:\"1\"}) {\n      nodes { number title state }\n      pageInfo { hasNextPage endCursor }\n    }\n  }\n}\n\nquery($owner:String!, $name:String!, $issueNumber:Int!, $cursor:String) {\n  repository(owner:$owner, name:$name) {\n    issue(number:$issueNumber) {\n      closedByPullRequestsReferences(first:100, after:$cursor) {\n        nodes { number }\n        pageInfo { hasNextPage endCursor }\n      }\n    }\n  }\n}\n\nquery($owner:String!, $name:String!, $cursor:String) {\n  repository(owner:$owner, name:$name) {\n    pullRequests(first:100, after:$cursor, orderBy:{field:CREATED_AT,direction:ASC}) {\n      nodes { number title state mergedAt url milestone { title } }\n      pageInfo { hasNextPage endCursor }\n    }\n  }\n}\n",
+    "query_sha256": "3b8dbc7c77287e4333de57b8e38767efe010be445d5b628c0a1b0e81abd5d85d",
+    "response_path": "docs/milestones/v0.92.1/evidence/release/tail-04/live-milestone-response.json",
+    "response_sha256": "8e0d774beb63d8cfdfe5537af17124e0bb7103e40de6a657f69651eac7333611"
+  }
+}

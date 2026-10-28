@@ -1,0 +1,43 @@
+[
+  {
+    "config": {
+      "authentication": {},
+      "documentation": {
+        "summary": "This API is a prerequisite for leveraging Artifact Analysis scanning\ncapabilities in Artifact Registry.\n\nIn addition, the Container Analysis API is an implementation of the Grafeas\nAPI, which enables storing, querying, and retrieval of critical metadata\nabout all of your software artifacts."
+      },
+      "monitoring": {},
+      "name": "containeranalysis.googleapis.com",
+      "quota": {},
+      "title": "Container Analysis API",
+      "usage": {
+        "requirements": [
+          "serviceusage.googleapis.com/tos/cloud"
+        ]
+      }
+    },
+    "name": "projects/267805532261/services/containeranalysis.googleapis.com",
+    "parent": "projects/267805532261",
+    "state": "ENABLED"
+  },
+  {
+    "config": {
+      "authentication": {},
+      "documentation": {
+        "summary": "Stores sensitive data such as API keys, passwords, and certificates. Provides convenience while improving security.\n"
+      },
+      "monitoring": {},
+      "name": "secretmanager.googleapis.com",
+      "quota": {},
+      "title": "Secret Manager API",
+      "usage": {
+        "requirements": [
+          "serviceusage.googleapis.com/tos/cloud",
+          "serviceusage.googleapis.com/billing-enabled"
+        ]
+      }
+    },
+    "name": "projects/267805532261/services/secretmanager.googleapis.com",
+    "parent": "projects/267805532261",
+    "state": "ENABLED"
+  }
+]

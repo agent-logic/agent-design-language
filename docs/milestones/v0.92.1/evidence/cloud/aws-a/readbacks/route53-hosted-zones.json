@@ -1,0 +1,14 @@
+{
+    "HostedZones": [
+        {
+            "Id": "/hostedzone/Z02742802Q0LW6PL6HQ2D",
+            "Name": "csm.agent-logic.ai.",
+            "CallerReference": "terraform-20260826172237028200000001",
+            "Config": {
+                "Comment": "Managed by Terraform",
+                "PrivateZone": false
+            },
+            "ResourceRecordSetCount": 10
+        }
+    ]
+}

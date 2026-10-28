@@ -1,0 +1,137 @@
+{
+    "CertificateSummaryList": [
+        {
+            "CertificateArn": "arn:aws:acm:us-east-1:713332525889:certificate/ef1ec35d-59b2-4d9e-98ee-372bb4d548c2",
+            "DomainName": "codefriend.ai",
+            "SubjectAlternativeNameSummaries": [
+                "codefriend.ai",
+                "www.codefriend.ai"
+            ],
+            "HasAdditionalSubjectAlternativeNames": false,
+            "Status": "ISSUED",
+            "Type": "AMAZON_ISSUED",
+            "KeyAlgorithm": "RSA-2048",
+            "KeyUsages": [
+                "DIGITAL_SIGNATURE",
+                "KEY_ENCIPHERMENT"
+            ],
+            "ExtendedKeyUsages": [
+                "TLS_WEB_SERVER_AUTHENTICATION"
+            ],
+            "ExportOption": "DISABLED",
+            "InUse": true,
+            "Exported": false,
+            "RenewalEligibility": "ELIGIBLE",
+            "NotBefore": "2026-07-02T17:00:00-07:00",
+            "NotAfter": "2027-01-16T15:59:59-08:00",
+            "CreatedAt": "2026-07-03T14:18:46.727000-07:00",
+            "IssuedAt": "2026-07-03T14:19:35.480000-07:00"
+        },
+        {
+            "CertificateArn": "arn:aws:acm:us-east-1:713332525889:certificate/7c009d44-95a2-4d10-8822-f129be6b1a8d",
+            "DomainName": "agent-logic.ai",
+            "SubjectAlternativeNameSummaries": [
+                "agent-logic.ai"
+            ],
+            "HasAdditionalSubjectAlternativeNames": false,
+            "Status": "ISSUED",
+            "Type": "AMAZON_ISSUED",
+            "KeyAlgorithm": "RSA-2048",
+            "KeyUsages": [
+                "DIGITAL_SIGNATURE",
+                "KEY_ENCIPHERMENT"
+            ],
+            "ExtendedKeyUsages": [
+                "TLS_WEB_SERVER_AUTHENTICATION"
+            ],
+            "ExportOption": "DISABLED",
+            "InUse": false,
+            "Exported": false,
+            "RenewalEligibility": "INELIGIBLE",
+            "NotBefore": "2026-07-02T17:00:00-07:00",
+            "NotAfter": "2027-01-16T15:59:59-08:00",
+            "CreatedAt": "2026-07-03T15:42:18.934000-07:00",
+            "IssuedAt": "2026-07-03T15:42:51.142000-07:00"
+        },
+        {
+            "CertificateArn": "arn:aws:acm:us-east-1:713332525889:certificate/3c389c89-1f6d-4292-ae95-a006738690f0",
+            "DomainName": "agent-logic.ai",
+            "SubjectAlternativeNameSummaries": [
+                "agent-logic.ai",
+                "www.agent-logic.ai"
+            ],
+            "HasAdditionalSubjectAlternativeNames": false,
+            "Status": "ISSUED",
+            "Type": "AMAZON_ISSUED",
+            "KeyAlgorithm": "RSA-2048",
+            "KeyUsages": [
+                "DIGITAL_SIGNATURE",
+                "KEY_ENCIPHERMENT"
+            ],
+            "ExtendedKeyUsages": [
+                "TLS_WEB_SERVER_AUTHENTICATION"
+            ],
+            "ExportOption": "DISABLED",
+            "InUse": true,
+            "Exported": false,
+            "RenewalEligibility": "ELIGIBLE",
+            "NotBefore": "2026-07-20T17:00:00-07:00",
+            "NotAfter": "2027-02-03T15:59:59-08:00",
+            "CreatedAt": "2026-07-21T11:13:41.947000-07:00",
+            "IssuedAt": "2026-07-21T11:14:14.976000-07:00"
+        },
+        {
+            "CertificateArn": "arn:aws:acm:us-east-1:713332525889:certificate/0ac1c6fe-cea1-4d89-ba12-0b1eaecbb5fe",
+            "DomainName": "agent-logic.ai",
+            "SubjectAlternativeNameSummaries": [
+                "agent-logic.ai",
+                "*.agent-logic.ai"
+            ],
+            "HasAdditionalSubjectAlternativeNames": false,
+            "Status": "ISSUED",
+            "Type": "AMAZON_ISSUED",
+            "KeyAlgorithm": "RSA-2048",
+            "KeyUsages": [
+                "DIGITAL_SIGNATURE",
+                "KEY_ENCIPHERMENT"
+            ],
+            "ExtendedKeyUsages": [
+                "TLS_WEB_SERVER_AUTHENTICATION"
+            ],
+            "ExportOption": "DISABLED",
+            "InUse": false,
+            "Exported": false,
+            "RenewalEligibility": "INELIGIBLE",
+            "NotBefore": "2026-08-25T17:00:00-07:00",
+            "NotAfter": "2027-03-11T15:59:59-08:00",
+            "CreatedAt": "2026-08-26T10:10:28.637000-07:00",
+            "IssuedAt": "2026-08-26T10:10:45.293000-07:00"
+        },
+        {
+            "CertificateArn": "arn:aws:acm:us-east-1:713332525889:certificate/387dacdd-c6ee-43e1-9ab4-c2a2e7c250a1",
+            "DomainName": "*.wuji.dev.csm.agent-logic.ai",
+            "SubjectAlternativeNameSummaries": [
+                "*.wuji.dev.csm.agent-logic.ai"
+            ],
+            "HasAdditionalSubjectAlternativeNames": false,
+            "Status": "ISSUED",
+            "Type": "AMAZON_ISSUED",
+            "KeyAlgorithm": "RSA-2048",
+            "KeyUsages": [
+                "DIGITAL_SIGNATURE",
+                "KEY_ENCIPHERMENT"
+            ],
+            "ExtendedKeyUsages": [
+                "TLS_WEB_SERVER_AUTHENTICATION"
+            ],
+            "ExportOption": "DISABLED",
+            "InUse": true,
+            "Exported": false,
+            "RenewalEligibility": "ELIGIBLE",
+            "NotBefore": "2026-08-25T17:00:00-07:00",
+            "NotAfter": "2027-03-11T15:59:59-08:00",
+            "CreatedAt": "2026-08-26T10:17:57.265000-07:00",
+            "IssuedAt": "2026-08-26T10:20:22.524000-07:00"
+        }
+    ]
+}

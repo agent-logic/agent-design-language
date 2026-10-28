@@ -1,0 +1,78 @@
+{
+  "schema": "adl.csm.continuity_fire_drill_report.v1",
+  "format_version": "csm.continuity-capsule.v1",
+  "runtime_owner": "csm",
+  "agent_instance_id": "csm-continuity-4910",
+  "target_host": "local",
+  "status": "passed",
+  "started_at": "2026-07-06T11:09:13.329624+00:00",
+  "completed_at": "2026-07-06T11:09:13.348122+00:00",
+  "cadence_policy": {
+    "schema": "adl.csm.continuity_fire_drill_cadence.v1",
+    "selected": "pre-v0.92",
+    "daily": "operator may run a non-mutating local drill against the newest retained capsule",
+    "per_release": "release candidates must retain a drill report or an evidence-backed blocker",
+    "pre_v0_92": "pre-v0.92 runtime-coherence gate consumes the latest successful drill report",
+    "manual": "operator-triggered drill is allowed whenever recovery evidence is stale or suspicious"
+  },
+  "source_bundle_ref": "../current-capsule",
+  "manifest_ref": "../current-capsule/continuity_capsule_manifest.json",
+  "stage": {
+    "status": "staged",
+    "elapsed_ms": 4,
+    "report_ref": "stage/stage_report.json",
+    "staged_state_ref": "stage/staged_state/"
+  },
+  "restore": {
+    "status": "restored",
+    "elapsed_ms": 4,
+    "report_ref": "restored-runtime/restore_report.json",
+    "restored_spec_ref": "restored-runtime/agent.yaml",
+    "restored_state_ref": "restored-runtime/state/"
+  },
+  "rto_rpo_measurement": {
+    "rto_ms": 8,
+    "rpo_scope": "selected_continuity_capsule_point_in_time",
+    "checkpoint_ref": "state/continuity_checkpoint.json",
+    "replay_manifest_ref": "state/continuity_replay_manifest.json"
+  },
+  "negative_cases": [
+    {
+      "case_id": "missing_artifact",
+      "status": "failed_as_expected",
+      "expected_error_contains": "missing bundle artifact",
+      "observed_error": "continuity capsule stage missing bundle artifact state/status.json"
+    },
+    {
+      "case_id": "corrupted_manifest",
+      "status": "failed_as_expected",
+      "expected_error_contains": "failed parsing",
+      "observed_error": "failed parsing docs/milestones/v0.91.7/review/runtime/csm_restore_fire_drill_4919/drill/negative/corrupted_manifest/bundle/continuity_capsule_manifest.json"
+    }
+  ],
+  "safety": {
+    "mutates_live_runtime_state": false,
+    "drill_output_owned_by": "csm continuity drill --out",
+    "production_cutover": "not_attempted"
+  },
+  "observability": {
+    "schema": "adl.csm.continuity_fire_drill_observability.v1",
+    "event_command": "csm",
+    "event_stages": [
+      "continuity_fire_drill",
+      "continuity_capsule_stage",
+      "continuity_capsule_restore"
+    ],
+    "otel_service_name": "csm-runtime-daemon",
+    "retained_refs": [
+      "fire_drill_report.json",
+      "stage/stage_report.json",
+      "restored-runtime/restore_report.json"
+    ]
+  },
+  "non_claims": [
+    "not_production_traffic_failover",
+    "not_secret_material_restore",
+    "not_multi_region_disaster_recovery"
+  ]
+}

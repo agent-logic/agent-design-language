@@ -1,0 +1,21 @@
+{
+    "StackSummaries": [
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:713332525889:stack/adl-ebs-unattached-age-alert/c7192a10-a0a1-11f1-8445-0a1da76cb771",
+            "StackName": "adl-ebs-unattached-age-alert",
+            "TemplateDescription": "Alert when an unattached EBS volume has remained unused for more than five days.",
+            "CreationTime": "2026-08-25T16:26:51.627000+00:00",
+            "LastUpdatedTime": "2026-08-25T16:26:57.065000+00:00",
+            "StackStatus": "CREATE_COMPLETE",
+            "DriftInformation": {
+                "StackDriftStatus": "NOT_CHECKED"
+            },
+            "LastOperations": [
+                {
+                    "OperationType": "CREATE_STACK",
+                    "OperationId": "f4bce06c-e3ed-421b-8fc5-648af66778f9"
+                }
+            ]
+        }
+    ]
+}

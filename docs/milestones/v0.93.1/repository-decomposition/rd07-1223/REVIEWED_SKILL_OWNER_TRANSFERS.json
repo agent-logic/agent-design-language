@@ -1,0 +1,888 @@
+{
+  "schema": "adl1223.reviewed_skill_owner_transfer.v1",
+  "scope_count": 30,
+  "owner_heads": {
+    "csdlc": "b3dc3d7dd8f89e38a3ff410be3bf0c9045d4b3ca",
+    "runtime": "5afeac36e54f0b96de7cbd0233443ae9a9351067",
+    "codefriend": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed"
+  },
+  "review": "Independent full-diff source review:19exactCF,8CFpath-onlydocs,1portableplanneradaptation,2Runtime schema path-only; caller qualification remains separate.",
+  "rows": [
+    {
+      "id": "RD07-1576",
+      "path": "adl/tools/skills/diagram-author/references/renderer-setup.md",
+      "original_blob": "82c3f6956559550a7af510cf0640544ed323686e",
+      "family": "review_and_authoring_skill_contracts",
+      "matches": [
+        {
+          "owner": "codefriend",
+          "path": "review-skills/diagram-author/references/renderer-setup.md",
+          "mode": "100644",
+          "blob": "acb33a764ce9e203e413556e78880624f5e1ad38",
+          "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+          "original_blob_matches": false,
+          "kind": "owner_surface_requires_semantic_review"
+        }
+      ],
+      "disposition": "conditional_correspondence_only",
+      "deletion_authorized": false,
+      "reviewed_successor": {
+        "owner": "codefriend",
+        "path": "review-skills/diagram-author/references/renderer-setup.md",
+        "mode": "100644",
+        "blob": "acb33a764ce9e203e413556e78880624f5e1ad38",
+        "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+        "original_blob_matches": false,
+        "kind": "owner_surface_requires_semantic_review"
+      },
+      "review_conclusion": "owner path/example-root adaptation only"
+    },
+    {
+      "id": "RD07-1577",
+      "path": "adl/tools/skills/diagram-author/scripts/render_diagrams.sh",
+      "original_blob": "e1dd32b2a1ee5404a497b8b2ad80516dbe7475e3",
+      "family": "review_and_authoring_skill_contracts",
+      "matches": [
+        {
+          "owner": "codefriend",
+          "path": "review-skills/diagram-author/scripts/render_diagrams.sh",
+          "mode": "100755",
+          "blob": "e1dd32b2a1ee5404a497b8b2ad80516dbe7475e3",
+          "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+          "original_blob_matches": true,
+          "kind": "owner_surface_requires_semantic_review"
+        }
+      ],
+      "disposition": "conditional_correspondence_only",
+      "deletion_authorized": false,
+      "reviewed_successor": {
+        "owner": "codefriend",
+        "path": "review-skills/diagram-author/scripts/render_diagrams.sh",
+        "mode": "100755",
+        "blob": "e1dd32b2a1ee5404a497b8b2ad80516dbe7475e3",
+        "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+        "original_blob_matches": true,
+        "kind": "owner_surface_requires_semantic_review"
+      },
+      "review_conclusion": "exact original bytes"
+    },
+    {
+      "id": "RD07-1579",
+      "path": "adl/tools/skills/docs/ADR_CURATOR_SKILL_INPUT_SCHEMA.md",
+      "original_blob": "c92726970c59b090bb5d1738c254b0f9f19d2a39",
+      "family": "review_and_authoring_skill_contracts",
+      "matches": [
+        {
+          "owner": "codefriend",
+          "path": "review-skills/contracts/248f00e3/ADR_CURATOR_SKILL_INPUT_SCHEMA.md",
+          "mode": "100644",
+          "blob": "c92726970c59b090bb5d1738c254b0f9f19d2a39",
+          "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+          "original_blob_matches": true,
+          "kind": "owner_surface_requires_semantic_review"
+        }
+      ],
+      "disposition": "conditional_correspondence_only",
+      "deletion_authorized": false,
+      "reviewed_successor": {
+        "owner": "codefriend",
+        "path": "review-skills/contracts/248f00e3/ADR_CURATOR_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "c92726970c59b090bb5d1738c254b0f9f19d2a39",
+        "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+        "original_blob_matches": true,
+        "kind": "owner_surface_requires_semantic_review"
+      },
+      "review_conclusion": "exact original bytes"
+    },
+    {
+      "id": "RD07-1580",
+      "path": "adl/tools/skills/docs/ARCHITECTURE_DIAGRAM_REVIEWER_SKILL_INPUT_SCHEMA.md",
+      "original_blob": "909b743a3e4cd312f0b8af1ef6eff659139fb228",
+      "family": "review_and_authoring_skill_contracts",
+      "matches": [
+        {
+          "owner": "codefriend",
+          "path": "review-skills/contracts/248f00e3/ARCHITECTURE_DIAGRAM_REVIEWER_SKILL_INPUT_SCHEMA.md",
+          "mode": "100644",
+          "blob": "909b743a3e4cd312f0b8af1ef6eff659139fb228",
+          "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+          "original_blob_matches": true,
+          "kind": "owner_surface_requires_semantic_review"
+        }
+      ],
+      "disposition": "conditional_correspondence_only",
+      "deletion_authorized": false,
+      "reviewed_successor": {
+        "owner": "codefriend",
+        "path": "review-skills/contracts/248f00e3/ARCHITECTURE_DIAGRAM_REVIEWER_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "909b743a3e4cd312f0b8af1ef6eff659139fb228",
+        "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+        "original_blob_matches": true,
+        "kind": "owner_surface_requires_semantic_review"
+      },
+      "review_conclusion": "exact original bytes"
+    },
+    {
+      "id": "RD07-1581",
+      "path": "adl/tools/skills/docs/ARCHITECTURE_FITNESS_FUNCTION_AUTHOR_SKILL_INPUT_SCHEMA.md",
+      "original_blob": "3f25e0f3f2e03f2d1602dac6460ee6249d24c90a",
+      "family": "review_and_authoring_skill_contracts",
+      "matches": [
+        {
+          "owner": "codefriend",
+          "path": "review-skills/contracts/248f00e3/ARCHITECTURE_FITNESS_FUNCTION_AUTHOR_SKILL_INPUT_SCHEMA.md",
+          "mode": "100644",
+          "blob": "3f25e0f3f2e03f2d1602dac6460ee6249d24c90a",
+          "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+          "original_blob_matches": true,
+          "kind": "owner_surface_requires_semantic_review"
+        }
+      ],
+      "disposition": "conditional_correspondence_only",
+      "deletion_authorized": false,
+      "reviewed_successor": {
+        "owner": "codefriend",
+        "path": "review-skills/contracts/248f00e3/ARCHITECTURE_FITNESS_FUNCTION_AUTHOR_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "3f25e0f3f2e03f2d1602dac6460ee6249d24c90a",
+        "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+        "original_blob_matches": true,
+        "kind": "owner_surface_requires_semantic_review"
+      },
+      "review_conclusion": "exact original bytes"
+    },
+    {
+      "id": "RD07-1582",
+      "path": "adl/tools/skills/docs/ARXIV_PAPER_WRITER_SKILL_INPUT_SCHEMA.md",
+      "original_blob": "ecd1800f3a9e6475fb12f4aa8d820e0893e0489f",
+      "family": "review_and_authoring_skill_contracts",
+      "matches": [
+        {
+          "owner": "runtime",
+          "path": "adl/tools/skills/docs/ARXIV_PAPER_WRITER_SKILL_INPUT_SCHEMA.md",
+          "mode": "100644",
+          "blob": "7447ae975a892734f4aef5969319265698307430",
+          "head": "5afeac36e54f0b96de7cbd0233443ae9a9351067",
+          "original_blob_matches": false,
+          "kind": "owner_surface_requires_semantic_review"
+        }
+      ],
+      "disposition": "conditional_correspondence_only",
+      "deletion_authorized": false,
+      "reviewed_successor": {
+        "owner": "runtime",
+        "path": "adl/tools/skills/docs/ARXIV_PAPER_WRITER_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "7447ae975a892734f4aef5969319265698307430",
+        "head": "5afeac36e54f0b96de7cbd0233443ae9a9351067",
+        "original_blob_matches": false,
+        "kind": "owner_surface_requires_semantic_review"
+      },
+      "review_conclusion": "owner path/example-root adaptation only"
+    },
+    {
+      "id": "RD07-1585",
+      "path": "adl/tools/skills/docs/DIAGRAM_AUTHOR_SKILL_INPUT_SCHEMA.md",
+      "original_blob": "1eb731879c9c6f2c9f23dbb73b17c1b6ba5c2b41",
+      "family": "review_and_authoring_skill_contracts",
+      "matches": [
+        {
+          "owner": "codefriend",
+          "path": "review-skills/contracts/248f00e3/DIAGRAM_AUTHOR_SKILL_INPUT_SCHEMA.md",
+          "mode": "100644",
+          "blob": "674c2b936b7fe0c58523afec9c07a3cda76238d6",
+          "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+          "original_blob_matches": false,
+          "kind": "owner_surface_requires_semantic_review"
+        }
+      ],
+      "disposition": "conditional_correspondence_only",
+      "deletion_authorized": false,
+      "reviewed_successor": {
+        "owner": "codefriend",
+        "path": "review-skills/contracts/248f00e3/DIAGRAM_AUTHOR_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "674c2b936b7fe0c58523afec9c07a3cda76238d6",
+        "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+        "original_blob_matches": false,
+        "kind": "owner_surface_requires_semantic_review"
+      },
+      "review_conclusion": "owner path/example-root adaptation only"
+    },
+    {
+      "id": "RD07-1587",
+      "path": "adl/tools/skills/docs/FINDING_TO_ISSUE_PLANNER_SKILL_INPUT_SCHEMA.md",
+      "original_blob": "327c2178aaf40cb4335db1786a4aa9bd8b0d0832",
+      "family": "review_and_authoring_skill_contracts",
+      "matches": [
+        {
+          "owner": "codefriend",
+          "path": "review-skills/contracts/248f00e3/FINDING_TO_ISSUE_PLANNER_SKILL_INPUT_SCHEMA.md",
+          "mode": "100644",
+          "blob": "327c2178aaf40cb4335db1786a4aa9bd8b0d0832",
+          "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+          "original_blob_matches": true,
+          "kind": "owner_surface_requires_semantic_review"
+        }
+      ],
+      "disposition": "conditional_correspondence_only",
+      "deletion_authorized": false,
+      "reviewed_successor": {
+        "owner": "codefriend",
+        "path": "review-skills/contracts/248f00e3/FINDING_TO_ISSUE_PLANNER_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "327c2178aaf40cb4335db1786a4aa9bd8b0d0832",
+        "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+        "original_blob_matches": true,
+        "kind": "owner_surface_requires_semantic_review"
+      },
+      "review_conclusion": "exact original bytes"
+    },
+    {
+      "id": "RD07-1592",
+      "path": "adl/tools/skills/docs/MEDIUM_ARTICLE_WRITER_SKILL_INPUT_SCHEMA.md",
+      "original_blob": "5bae52f6528ea88cbc91fa3a9e5d9296e40c795d",
+      "family": "review_and_authoring_skill_contracts",
+      "matches": [
+        {
+          "owner": "runtime",
+          "path": "adl/tools/skills/docs/MEDIUM_ARTICLE_WRITER_SKILL_INPUT_SCHEMA.md",
+          "mode": "100644",
+          "blob": "b6ca06aea68c48ff704aede3d5b791363005e907",
+          "head": "5afeac36e54f0b96de7cbd0233443ae9a9351067",
+          "original_blob_matches": false,
+          "kind": "owner_surface_requires_semantic_review"
+        }
+      ],
+      "disposition": "conditional_correspondence_only",
+      "deletion_authorized": false,
+      "reviewed_successor": {
+        "owner": "runtime",
+        "path": "adl/tools/skills/docs/MEDIUM_ARTICLE_WRITER_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "b6ca06aea68c48ff704aede3d5b791363005e907",
+        "head": "5afeac36e54f0b96de7cbd0233443ae9a9351067",
+        "original_blob_matches": false,
+        "kind": "owner_surface_requires_semantic_review"
+      },
+      "review_conclusion": "owner path/example-root adaptation only"
+    },
+    {
+      "id": "RD07-1593",
+      "path": "adl/tools/skills/docs/MULTI_AGENT_REPO_REVIEW_SKILL_SUITE.md",
+      "original_blob": "9f49bd71b38f3ca4985db316bd780bcef243e27d",
+      "family": "review_and_authoring_skill_contracts",
+      "matches": [
+        {
+          "owner": "codefriend",
+          "path": "review-skills/contracts/248f00e3/MULTI_AGENT_REPO_REVIEW_SKILL_SUITE.md",
+          "mode": "100644",
+          "blob": "9f49bd71b38f3ca4985db316bd780bcef243e27d",
+          "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+          "original_blob_matches": true,
+          "kind": "owner_surface_requires_semantic_review"
+        }
+      ],
+      "disposition": "conditional_correspondence_only",
+      "deletion_authorized": false,
+      "reviewed_successor": {
+        "owner": "codefriend",
+        "path": "review-skills/contracts/248f00e3/MULTI_AGENT_REPO_REVIEW_SKILL_SUITE.md",
+        "mode": "100644",
+        "blob": "9f49bd71b38f3ca4985db316bd780bcef243e27d",
+        "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+        "original_blob_matches": true,
+        "kind": "owner_surface_requires_semantic_review"
+      },
+      "review_conclusion": "exact original bytes"
+    },
+    {
+      "id": "RD07-1597",
+      "path": "adl/tools/skills/docs/PRODUCT_REPORT_WRITER_SKILL_INPUT_SCHEMA.md",
+      "original_blob": "09fbc9a0a2365699835fca8f5afc27620682b78e",
+      "family": "review_and_authoring_skill_contracts",
+      "matches": [
+        {
+          "owner": "codefriend",
+          "path": "review-skills/contracts/248f00e3/PRODUCT_REPORT_WRITER_SKILL_INPUT_SCHEMA.md",
+          "mode": "100644",
+          "blob": "09fbc9a0a2365699835fca8f5afc27620682b78e",
+          "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+          "original_blob_matches": true,
+          "kind": "owner_surface_requires_semantic_review"
+        }
+      ],
+      "disposition": "conditional_correspondence_only",
+      "deletion_authorized": false,
+      "reviewed_successor": {
+        "owner": "codefriend",
+        "path": "review-skills/contracts/248f00e3/PRODUCT_REPORT_WRITER_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "09fbc9a0a2365699835fca8f5afc27620682b78e",
+        "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+        "original_blob_matches": true,
+        "kind": "owner_surface_requires_semantic_review"
+      },
+      "review_conclusion": "exact original bytes"
+    },
+    {
+      "id": "RD07-1606",
+      "path": "adl/tools/skills/docs/REDACTION_AND_EVIDENCE_AUDITOR_SKILL_INPUT_SCHEMA.md",
+      "original_blob": "a21a546c54bdaab90fdd76dfee9cffef46676a0a",
+      "family": "review_and_authoring_skill_contracts",
+      "matches": [
+        {
+          "owner": "codefriend",
+          "path": "review-skills/contracts/248f00e3/REDACTION_AND_EVIDENCE_AUDITOR_SKILL_INPUT_SCHEMA.md",
+          "mode": "100644",
+          "blob": "a21a546c54bdaab90fdd76dfee9cffef46676a0a",
+          "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+          "original_blob_matches": true,
+          "kind": "owner_surface_requires_semantic_review"
+        }
+      ],
+      "disposition": "conditional_correspondence_only",
+      "deletion_authorized": false,
+      "reviewed_successor": {
+        "owner": "codefriend",
+        "path": "review-skills/contracts/248f00e3/REDACTION_AND_EVIDENCE_AUDITOR_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "a21a546c54bdaab90fdd76dfee9cffef46676a0a",
+        "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+        "original_blob_matches": true,
+        "kind": "owner_surface_requires_semantic_review"
+      },
+      "review_conclusion": "exact original bytes"
+    },
+    {
+      "id": "RD07-1609",
+      "path": "adl/tools/skills/docs/REPO_ARCHITECTURE_REVIEW_SKILL_INPUT_SCHEMA.md",
+      "original_blob": "c7595f19de07ed845bee50c054af5baa51927bd1",
+      "family": "review_and_authoring_skill_contracts",
+      "matches": [
+        {
+          "owner": "codefriend",
+          "path": "review-skills/contracts/248f00e3/REPO_ARCHITECTURE_REVIEW_SKILL_INPUT_SCHEMA.md",
+          "mode": "100644",
+          "blob": "c7595f19de07ed845bee50c054af5baa51927bd1",
+          "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+          "original_blob_matches": true,
+          "kind": "owner_surface_requires_semantic_review"
+        }
+      ],
+      "disposition": "conditional_correspondence_only",
+      "deletion_authorized": false,
+      "reviewed_successor": {
+        "owner": "codefriend",
+        "path": "review-skills/contracts/248f00e3/REPO_ARCHITECTURE_REVIEW_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "c7595f19de07ed845bee50c054af5baa51927bd1",
+        "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+        "original_blob_matches": true,
+        "kind": "owner_surface_requires_semantic_review"
+      },
+      "review_conclusion": "exact original bytes"
+    },
+    {
+      "id": "RD07-1610",
+      "path": "adl/tools/skills/docs/REPO_CODE_REVIEW_SKILL_INPUT_SCHEMA.md",
+      "original_blob": "ba9b6f27f0f5cc64093b7eb0355208d79f85753b",
+      "family": "review_and_authoring_skill_contracts",
+      "matches": [
+        {
+          "owner": "codefriend",
+          "path": "review-skills/contracts/248f00e3/REPO_CODE_REVIEW_SKILL_INPUT_SCHEMA.md",
+          "mode": "100644",
+          "blob": "be6462e0e510ec7a381abd0291ab8d383b729a78",
+          "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+          "original_blob_matches": false,
+          "kind": "owner_surface_requires_semantic_review"
+        }
+      ],
+      "disposition": "conditional_correspondence_only",
+      "deletion_authorized": false,
+      "reviewed_successor": {
+        "owner": "codefriend",
+        "path": "review-skills/contracts/248f00e3/REPO_CODE_REVIEW_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "be6462e0e510ec7a381abd0291ab8d383b729a78",
+        "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+        "original_blob_matches": false,
+        "kind": "owner_surface_requires_semantic_review"
+      },
+      "review_conclusion": "owner path/example-root adaptation only"
+    },
+    {
+      "id": "RD07-1611",
+      "path": "adl/tools/skills/docs/REPO_DEPENDENCY_REVIEW_SKILL_INPUT_SCHEMA.md",
+      "original_blob": "9a616189a2f68421c1c53c2fba6fe86fc27b7947",
+      "family": "review_and_authoring_skill_contracts",
+      "matches": [
+        {
+          "owner": "codefriend",
+          "path": "review-skills/contracts/248f00e3/REPO_DEPENDENCY_REVIEW_SKILL_INPUT_SCHEMA.md",
+          "mode": "100644",
+          "blob": "9a616189a2f68421c1c53c2fba6fe86fc27b7947",
+          "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+          "original_blob_matches": true,
+          "kind": "owner_surface_requires_semantic_review"
+        }
+      ],
+      "disposition": "conditional_correspondence_only",
+      "deletion_authorized": false,
+      "reviewed_successor": {
+        "owner": "codefriend",
+        "path": "review-skills/contracts/248f00e3/REPO_DEPENDENCY_REVIEW_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "9a616189a2f68421c1c53c2fba6fe86fc27b7947",
+        "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+        "original_blob_matches": true,
+        "kind": "owner_surface_requires_semantic_review"
+      },
+      "review_conclusion": "exact original bytes"
+    },
+    {
+      "id": "RD07-1612",
+      "path": "adl/tools/skills/docs/REPO_DIAGRAM_PLANNER_SKILL_INPUT_SCHEMA.md",
+      "original_blob": "2110dbfae6610c95b960b0b3ec8ba7d6984b5b73",
+      "family": "review_and_authoring_skill_contracts",
+      "matches": [
+        {
+          "owner": "codefriend",
+          "path": "review-skills/contracts/248f00e3/REPO_DIAGRAM_PLANNER_SKILL_INPUT_SCHEMA.md",
+          "mode": "100644",
+          "blob": "2110dbfae6610c95b960b0b3ec8ba7d6984b5b73",
+          "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+          "original_blob_matches": true,
+          "kind": "owner_surface_requires_semantic_review"
+        }
+      ],
+      "disposition": "conditional_correspondence_only",
+      "deletion_authorized": false,
+      "reviewed_successor": {
+        "owner": "codefriend",
+        "path": "review-skills/contracts/248f00e3/REPO_DIAGRAM_PLANNER_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "2110dbfae6610c95b960b0b3ec8ba7d6984b5b73",
+        "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+        "original_blob_matches": true,
+        "kind": "owner_surface_requires_semantic_review"
+      },
+      "review_conclusion": "exact original bytes"
+    },
+    {
+      "id": "RD07-1613",
+      "path": "adl/tools/skills/docs/REPO_PACKET_BUILDER_SKILL_INPUT_SCHEMA.md",
+      "original_blob": "07e954f335347f4de9523d56c43b4cfbaeed7f68",
+      "family": "review_and_authoring_skill_contracts",
+      "matches": [
+        {
+          "owner": "codefriend",
+          "path": "review-skills/contracts/248f00e3/REPO_PACKET_BUILDER_SKILL_INPUT_SCHEMA.md",
+          "mode": "100644",
+          "blob": "07e954f335347f4de9523d56c43b4cfbaeed7f68",
+          "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+          "original_blob_matches": true,
+          "kind": "owner_surface_requires_semantic_review"
+        }
+      ],
+      "disposition": "conditional_correspondence_only",
+      "deletion_authorized": false,
+      "reviewed_successor": {
+        "owner": "codefriend",
+        "path": "review-skills/contracts/248f00e3/REPO_PACKET_BUILDER_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "07e954f335347f4de9523d56c43b4cfbaeed7f68",
+        "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+        "original_blob_matches": true,
+        "kind": "owner_surface_requires_semantic_review"
+      },
+      "review_conclusion": "exact original bytes"
+    },
+    {
+      "id": "RD07-1614",
+      "path": "adl/tools/skills/docs/REPO_REVIEW_CODE_SKILL_INPUT_SCHEMA.md",
+      "original_blob": "9a12bedefeb82f9e3f75fd593fce8f0d8f090e1b",
+      "family": "review_and_authoring_skill_contracts",
+      "matches": [
+        {
+          "owner": "codefriend",
+          "path": "review-skills/contracts/248f00e3/REPO_REVIEW_CODE_SKILL_INPUT_SCHEMA.md",
+          "mode": "100644",
+          "blob": "af3be6a0ce6ed5718a6fc4088f94bd3659b8c236",
+          "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+          "original_blob_matches": false,
+          "kind": "owner_surface_requires_semantic_review"
+        }
+      ],
+      "disposition": "conditional_correspondence_only",
+      "deletion_authorized": false,
+      "reviewed_successor": {
+        "owner": "codefriend",
+        "path": "review-skills/contracts/248f00e3/REPO_REVIEW_CODE_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "af3be6a0ce6ed5718a6fc4088f94bd3659b8c236",
+        "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+        "original_blob_matches": false,
+        "kind": "owner_surface_requires_semantic_review"
+      },
+      "review_conclusion": "owner path/example-root adaptation only"
+    },
+    {
+      "id": "RD07-1615",
+      "path": "adl/tools/skills/docs/REPO_REVIEW_DOCS_SKILL_INPUT_SCHEMA.md",
+      "original_blob": "d8ea7cfd6c0a87a4affb4dbbd9fc623ab2573730",
+      "family": "review_and_authoring_skill_contracts",
+      "matches": [
+        {
+          "owner": "codefriend",
+          "path": "review-skills/contracts/248f00e3/REPO_REVIEW_DOCS_SKILL_INPUT_SCHEMA.md",
+          "mode": "100644",
+          "blob": "d82366e3f9d83eda191e0c129df46b8cca2d4e1d",
+          "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+          "original_blob_matches": false,
+          "kind": "owner_surface_requires_semantic_review"
+        }
+      ],
+      "disposition": "conditional_correspondence_only",
+      "deletion_authorized": false,
+      "reviewed_successor": {
+        "owner": "codefriend",
+        "path": "review-skills/contracts/248f00e3/REPO_REVIEW_DOCS_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "d82366e3f9d83eda191e0c129df46b8cca2d4e1d",
+        "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+        "original_blob_matches": false,
+        "kind": "owner_surface_requires_semantic_review"
+      },
+      "review_conclusion": "owner path/example-root adaptation only"
+    },
+    {
+      "id": "RD07-1616",
+      "path": "adl/tools/skills/docs/REPO_REVIEW_SECURITY_SKILL_INPUT_SCHEMA.md",
+      "original_blob": "f942978bc6b1fc8b52193f5e9ab39219c3b47ba9",
+      "family": "review_and_authoring_skill_contracts",
+      "matches": [
+        {
+          "owner": "codefriend",
+          "path": "review-skills/contracts/248f00e3/REPO_REVIEW_SECURITY_SKILL_INPUT_SCHEMA.md",
+          "mode": "100644",
+          "blob": "1280b73a5ad19def90e9322e3fe52ebcf4586fef",
+          "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+          "original_blob_matches": false,
+          "kind": "owner_surface_requires_semantic_review"
+        }
+      ],
+      "disposition": "conditional_correspondence_only",
+      "deletion_authorized": false,
+      "reviewed_successor": {
+        "owner": "codefriend",
+        "path": "review-skills/contracts/248f00e3/REPO_REVIEW_SECURITY_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "1280b73a5ad19def90e9322e3fe52ebcf4586fef",
+        "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+        "original_blob_matches": false,
+        "kind": "owner_surface_requires_semantic_review"
+      },
+      "review_conclusion": "owner path/example-root adaptation only"
+    },
+    {
+      "id": "RD07-1617",
+      "path": "adl/tools/skills/docs/REPO_REVIEW_SYNTHESIS_SKILL_INPUT_SCHEMA.md",
+      "original_blob": "5ce99cf52034a569c8d734e89f6b3264c13fdfef",
+      "family": "review_and_authoring_skill_contracts",
+      "matches": [
+        {
+          "owner": "codefriend",
+          "path": "review-skills/contracts/248f00e3/REPO_REVIEW_SYNTHESIS_SKILL_INPUT_SCHEMA.md",
+          "mode": "100644",
+          "blob": "0f2568fc28862092e4af975fa0521188a742e686",
+          "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+          "original_blob_matches": false,
+          "kind": "owner_surface_requires_semantic_review"
+        }
+      ],
+      "disposition": "conditional_correspondence_only",
+      "deletion_authorized": false,
+      "reviewed_successor": {
+        "owner": "codefriend",
+        "path": "review-skills/contracts/248f00e3/REPO_REVIEW_SYNTHESIS_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "0f2568fc28862092e4af975fa0521188a742e686",
+        "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+        "original_blob_matches": false,
+        "kind": "owner_surface_requires_semantic_review"
+      },
+      "review_conclusion": "owner path/example-root adaptation only"
+    },
+    {
+      "id": "RD07-1618",
+      "path": "adl/tools/skills/docs/REPO_REVIEW_TESTS_SKILL_INPUT_SCHEMA.md",
+      "original_blob": "a8e680ccdc79259a711981f8eadbb47b4f62b8f4",
+      "family": "review_and_authoring_skill_contracts",
+      "matches": [
+        {
+          "owner": "codefriend",
+          "path": "review-skills/contracts/248f00e3/REPO_REVIEW_TESTS_SKILL_INPUT_SCHEMA.md",
+          "mode": "100644",
+          "blob": "5bb95edbd0d4dbc821e12ea3a0dcedcb8fff74b1",
+          "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+          "original_blob_matches": false,
+          "kind": "owner_surface_requires_semantic_review"
+        }
+      ],
+      "disposition": "conditional_correspondence_only",
+      "deletion_authorized": false,
+      "reviewed_successor": {
+        "owner": "codefriend",
+        "path": "review-skills/contracts/248f00e3/REPO_REVIEW_TESTS_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "5bb95edbd0d4dbc821e12ea3a0dcedcb8fff74b1",
+        "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+        "original_blob_matches": false,
+        "kind": "owner_surface_requires_semantic_review"
+      },
+      "review_conclusion": "owner path/example-root adaptation only"
+    },
+    {
+      "id": "RD07-1620",
+      "path": "adl/tools/skills/docs/REVIEW_QUALITY_EVALUATOR_SKILL_INPUT_SCHEMA.md",
+      "original_blob": "0e91e8e8f3d3f9c20c2add83bea07be4696da916",
+      "family": "review_and_authoring_skill_contracts",
+      "matches": [
+        {
+          "owner": "codefriend",
+          "path": "review-skills/contracts/248f00e3/REVIEW_QUALITY_EVALUATOR_SKILL_INPUT_SCHEMA.md",
+          "mode": "100644",
+          "blob": "0e91e8e8f3d3f9c20c2add83bea07be4696da916",
+          "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+          "original_blob_matches": true,
+          "kind": "owner_surface_requires_semantic_review"
+        }
+      ],
+      "disposition": "conditional_correspondence_only",
+      "deletion_authorized": false,
+      "reviewed_successor": {
+        "owner": "codefriend",
+        "path": "review-skills/contracts/248f00e3/REVIEW_QUALITY_EVALUATOR_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "0e91e8e8f3d3f9c20c2add83bea07be4696da916",
+        "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+        "original_blob_matches": true,
+        "kind": "owner_surface_requires_semantic_review"
+      },
+      "review_conclusion": "exact original bytes"
+    },
+    {
+      "id": "RD07-1621",
+      "path": "adl/tools/skills/docs/REVIEW_READINESS_CLEANUP_SKILL_INPUT_SCHEMA.md",
+      "original_blob": "fb9dc584563109438f9fd576d80f7029ac10ef8a",
+      "family": "review_and_authoring_skill_contracts",
+      "matches": [
+        {
+          "owner": "codefriend",
+          "path": "review-skills/contracts/248f00e3/REVIEW_READINESS_CLEANUP_SKILL_INPUT_SCHEMA.md",
+          "mode": "100644",
+          "blob": "fb9dc584563109438f9fd576d80f7029ac10ef8a",
+          "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+          "original_blob_matches": true,
+          "kind": "owner_surface_requires_semantic_review"
+        }
+      ],
+      "disposition": "conditional_correspondence_only",
+      "deletion_authorized": false,
+      "reviewed_successor": {
+        "owner": "codefriend",
+        "path": "review-skills/contracts/248f00e3/REVIEW_READINESS_CLEANUP_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "fb9dc584563109438f9fd576d80f7029ac10ef8a",
+        "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+        "original_blob_matches": true,
+        "kind": "owner_surface_requires_semantic_review"
+      },
+      "review_conclusion": "exact original bytes"
+    },
+    {
+      "id": "RD07-1622",
+      "path": "adl/tools/skills/docs/REVIEW_TO_TEST_PLANNER_SKILL_INPUT_SCHEMA.md",
+      "original_blob": "1f67f6f365576077a9316deb779a60f2ee4f1778",
+      "family": "review_and_authoring_skill_contracts",
+      "matches": [
+        {
+          "owner": "codefriend",
+          "path": "review-skills/contracts/248f00e3/REVIEW_TO_TEST_PLANNER_SKILL_INPUT_SCHEMA.md",
+          "mode": "100644",
+          "blob": "1f67f6f365576077a9316deb779a60f2ee4f1778",
+          "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+          "original_blob_matches": true,
+          "kind": "owner_surface_requires_semantic_review"
+        }
+      ],
+      "disposition": "conditional_correspondence_only",
+      "deletion_authorized": false,
+      "reviewed_successor": {
+        "owner": "codefriend",
+        "path": "review-skills/contracts/248f00e3/REVIEW_TO_TEST_PLANNER_SKILL_INPUT_SCHEMA.md",
+        "mode": "100644",
+        "blob": "1f67f6f365576077a9316deb779a60f2ee4f1778",
+        "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+        "original_blob_matches": true,
+        "kind": "owner_surface_requires_semantic_review"
+      },
+      "review_conclusion": "exact original bytes"
+    },
+    {
+      "id": "RD07-1639",
+      "path": "adl/tools/skills/finding-to-issue-planner/scripts/plan_review_issues.py",
+      "original_blob": "20c2a5849a2bbdc4348dfd8fc2ddef35792513c5",
+      "family": "review_and_authoring_skill_contracts",
+      "matches": [
+        {
+          "owner": "codefriend",
+          "path": "review-skills/finding-to-issue-planner/scripts/plan_review_issues.py",
+          "mode": "100755",
+          "blob": "20c2a5849a2bbdc4348dfd8fc2ddef35792513c5",
+          "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+          "original_blob_matches": true,
+          "kind": "owner_surface_requires_semantic_review"
+        }
+      ],
+      "disposition": "conditional_correspondence_only",
+      "deletion_authorized": false,
+      "reviewed_successor": {
+        "owner": "codefriend",
+        "path": "review-skills/finding-to-issue-planner/scripts/plan_review_issues.py",
+        "mode": "100755",
+        "blob": "20c2a5849a2bbdc4348dfd8fc2ddef35792513c5",
+        "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+        "original_blob_matches": true,
+        "kind": "owner_surface_requires_semantic_review"
+      },
+      "review_conclusion": "exact original bytes"
+    },
+    {
+      "id": "RD07-1760",
+      "path": "adl/tools/skills/repo-dependency-review/scripts/prepare_dependency_review.py",
+      "original_blob": "cdd3fa1b8556ffd3d90692942d1a1f2588a85a5e",
+      "family": "review_and_authoring_skill_contracts",
+      "matches": [
+        {
+          "owner": "codefriend",
+          "path": "review-skills/repo-dependency-review/scripts/prepare_dependency_review.py",
+          "mode": "100755",
+          "blob": "cdd3fa1b8556ffd3d90692942d1a1f2588a85a5e",
+          "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+          "original_blob_matches": true,
+          "kind": "owner_surface_requires_semantic_review"
+        }
+      ],
+      "disposition": "conditional_correspondence_only",
+      "deletion_authorized": false,
+      "reviewed_successor": {
+        "owner": "codefriend",
+        "path": "review-skills/repo-dependency-review/scripts/prepare_dependency_review.py",
+        "mode": "100755",
+        "blob": "cdd3fa1b8556ffd3d90692942d1a1f2588a85a5e",
+        "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+        "original_blob_matches": true,
+        "kind": "owner_surface_requires_semantic_review"
+      },
+      "review_conclusion": "exact original bytes"
+    },
+    {
+      "id": "RD07-1767",
+      "path": "adl/tools/skills/repo-diagram-planner/scripts/plan_repo_diagrams.py",
+      "original_blob": "b55d37f52ba4a9ec562619e3ab11e40c45ca86af",
+      "family": "review_and_authoring_skill_contracts",
+      "matches": [
+        {
+          "owner": "codefriend",
+          "path": "review-skills/repo-diagram-planner/scripts/plan_repo_diagrams.py",
+          "mode": "100755",
+          "blob": "b55d37f52ba4a9ec562619e3ab11e40c45ca86af",
+          "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+          "original_blob_matches": true,
+          "kind": "owner_surface_requires_semantic_review"
+        }
+      ],
+      "disposition": "conditional_correspondence_only",
+      "deletion_authorized": false,
+      "reviewed_successor": {
+        "owner": "codefriend",
+        "path": "review-skills/repo-diagram-planner/scripts/plan_repo_diagrams.py",
+        "mode": "100755",
+        "blob": "b55d37f52ba4a9ec562619e3ab11e40c45ca86af",
+        "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+        "original_blob_matches": true,
+        "kind": "owner_surface_requires_semantic_review"
+      },
+      "review_conclusion": "exact original bytes"
+    },
+    {
+      "id": "RD07-1821",
+      "path": "adl/tools/skills/review-readiness-cleanup/scripts/inspect_review_readiness.py",
+      "original_blob": "c801c4f1aecbeea741065e87857882c7652db8f9",
+      "family": "review_and_authoring_skill_contracts",
+      "matches": [
+        {
+          "owner": "codefriend",
+          "path": "review-skills/review-readiness-cleanup/scripts/inspect_review_readiness.py",
+          "mode": "100755",
+          "blob": "c801c4f1aecbeea741065e87857882c7652db8f9",
+          "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+          "original_blob_matches": true,
+          "kind": "owner_surface_requires_semantic_review"
+        }
+      ],
+      "disposition": "conditional_correspondence_only",
+      "deletion_authorized": false,
+      "reviewed_successor": {
+        "owner": "codefriend",
+        "path": "review-skills/review-readiness-cleanup/scripts/inspect_review_readiness.py",
+        "mode": "100755",
+        "blob": "c801c4f1aecbeea741065e87857882c7652db8f9",
+        "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+        "original_blob_matches": true,
+        "kind": "owner_surface_requires_semantic_review"
+      },
+      "review_conclusion": "exact original bytes"
+    },
+    {
+      "id": "RD07-1827",
+      "path": "adl/tools/skills/review-to-test-planner/scripts/plan_review_tests.py",
+      "original_blob": "fd7aa83f2594d6f60a81274829625e7a763c37b4",
+      "family": "review_and_authoring_skill_contracts",
+      "matches": [
+        {
+          "owner": "codefriend",
+          "path": "review-skills/review-to-test-planner/scripts/plan_review_tests.py",
+          "mode": "100755",
+          "blob": "e973c79f0a8e19468d54f7164fa285f6d9f4f0e3",
+          "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+          "original_blob_matches": false,
+          "kind": "owner_surface_requires_semantic_review"
+        }
+      ],
+      "disposition": "conditional_correspondence_only",
+      "deletion_authorized": false,
+      "reviewed_successor": {
+        "owner": "codefriend",
+        "path": "review-skills/review-to-test-planner/scripts/plan_review_tests.py",
+        "mode": "100755",
+        "blob": "e973c79f0a8e19468d54f7164fa285f6d9f4f0e3",
+        "head": "e1b2f1aab193773b90286e2e2a3dd0d1a5998fed",
+        "original_blob_matches": false,
+        "kind": "owner_surface_requires_semantic_review"
+      },
+      "review_conclusion": "portable generated component/validation placeholder adaptation"
+    }
+  ],
+  "execution_authorized": false,
+  "remaining_obligations": [
+    "Retained ADL callers redirect to packaged owner skill resources",
+    "Behavioral script assertions preserved in separately bounded owner repair packet",
+    "Historical archived copies and unmapped helpers remain held"
+  ]
+}

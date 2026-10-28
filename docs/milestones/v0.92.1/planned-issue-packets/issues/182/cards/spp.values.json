@@ -1,0 +1,119 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 182,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][DRT-02] Prove deterministic ACIP authority and replay conformance",
+    "slug": "drt-02-prove-deterministic-acip-authority-and-replay-conformance",
+    "version": "v0.92.1",
+    "generation": 5
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 3,
+      "summary": "Build a deterministic ACIP conformance corpus and independent replay verifier: freeze canonical vectors, exercise every semantic mutation and ordering failure, compare exact digests, and stop before distributed provisioning.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Freeze the supported ACIP message-family denominator and canonical positive vectors, including identity, authority, permit, causation, correlation, sequence, term, polis, and payload bindings.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Generate mutation vectors for every bound field plus duplicate, reordered, stale, malformed, unsigned, wrong-domain, and cross-polis cases, each with one typed expected outcome.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Run encode-decode-reencode and mutation conformance through the production ACIP implementation, retaining byte digests and typed outcomes rather than assertion labels or aggregate pass counts.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Replay the retained input corpus in an independent process with no hidden mutable state and compare message, committed-outcome, and receipt digests exactly.",
+          "acceptance_ids": [
+            "AC-4"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S5",
+          "action": "Run the issue validator and focused conformance lane; fail on any noncanonical round trip, unbound semantic field, missing mutation class, nondeterministic outcome, or digest divergence.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S6",
+          "action": "Complete independent exact-head review and publish the deterministic corpus and verifier without provisioning a cluster or replacing ACIP.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "adl-runtime/tests/v0921_acip_conformance.rs",
+        "adl/tools/v0921/drt-02/**",
+        ".csdlc/issues/182/**",
+        ".csdlc/prepared/issues/182/**",
+        ".csdlc/evidence/182/**",
+        ".csdlc/prepared/issues/182/validate-outcome.rb",
+        "adl/tools/v0921/drt-02/validate.sh"
+      ],
+      "invariants": [
+        "Issue DRT-02 owns only its declared repository paths and named external operation/evidence boundary.",
+        "Dependencies remain read-only inputs until terminal evidence satisfies the declared gate.",
+        "The issue may not absorb remediation owned by another work package without an explicit issue-graph revision.",
+        "No unsupported completion, legal, production, or release claim",
+        "No mutation outside exact owned paths"
+      ],
+      "risks": [
+        "A passing artifact could overstate production, legal, or release authority.",
+        "Path or external-account overlap could collide with another active issue.",
+        "Evidence could become stale if it is not tied to exact revisions and producer outcomes."
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 43200,
+        "total_tokens": 140000,
+        "validation_seconds": 7200
+      },
+      "stop_conditions": [
+        "A semantic field is authenticated but not canonically bound",
+        "A noncanonical representation round-trips to a different value",
+        "Replay requires hidden mutable state",
+        "Typed doctor is not ready",
+        "A required dependency is nonterminal",
+        "An owned-path collision is discovered"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/182/design.md",
+      "design_digest": "55239ffadec60fcac4f8100954b7a69326b7ffafae8544a5c0ce4a4951d0ec12",
+      "diagram_ref": ".csdlc/prepared/issues/182/diagram.mmd",
+      "diagram_digest": "0ddca25810a69ca5b537ae13cd4097e757cd49ccdefb01d5abfcb25a25e01620"
+    }
+  }
+}

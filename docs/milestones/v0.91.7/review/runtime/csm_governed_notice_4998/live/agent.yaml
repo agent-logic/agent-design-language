@@ -1,0 +1,24 @@
+schema: adl.long_lived_agent_spec.v1
+agent_instance_id: csm-governed-notice-4998
+display_name: CSM Governed Notice 4998
+state_root: state
+workflow:
+  kind: unsupported_adapter
+  name: governed_notice_failure_probe
+  run_args: {}
+heartbeat:
+  interval_secs: 1
+  max_cycles: 3
+  stale_lease_after_secs: 60
+safety:
+  allow_network: false
+  allow_broker: false
+  allow_filesystem_writes_outside_state_root: false
+  allow_real_world_side_effects: false
+  require_public_artifact_sanitization: true
+  financial_advice: false
+  max_cycle_runtime_secs: 60
+  max_consecutive_failures: 5
+memory:
+  namespace: runtime/csm/governed-notice/4998
+  write_policy: append_only

@@ -1,0 +1,23 @@
+{
+  "original_id": "RD07-1237",
+  "path": "adl/tools/archive_run_artifacts.sh",
+  "current_identity": {
+    "mode": "100755",
+    "blob": "da8fc40b37e3ef82d43bb5b68734b6367f39e210"
+  },
+  "disposition": "retain unchanged ADL public local run/report archive utility",
+  "review": {
+    "reviewer": "Planning #12 and Reviewer217",
+    "audit_sha256": "86f4e07de7e710a37940f6f5f90246768610285dcf9979e737e92ff0fb0aac0a",
+    "decision": "ADL local evidence/history utility remains useful independently of retired private implementation; Runtime150 standalone copy does not require removing this ADL utility."
+  },
+  "scope": "Source identity and justified retention only; no invocation, prune, force, lifecycle authority or executable qualification claimed.",
+  "caller_boundary": {
+    "retained_readme": "RD07-1233",
+    "archive_test": "RD07-1908 remains present; its proposed removal must be reconciled with retained utility before any removal. Runtime owner proof alone does not retire ADL consumer coverage.",
+    "other_callers": [
+      "RD07-1456 and RD07-2171 keep their separate existing dispositions; retention does not qualify or authorize deleting those callers."
+    ]
+  },
+  "changes": "No source edits or command execution."
+}

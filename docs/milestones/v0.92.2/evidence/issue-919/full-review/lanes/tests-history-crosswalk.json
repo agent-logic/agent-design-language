@@ -1,0 +1,30 @@
+{
+  "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+  "rows": [
+    {
+      "id": "D520-TEST-001",
+      "outcome": "addressed_in_current_source_not_freshly_executed",
+      "path": "adl-runtime/tests/config_reload.rs",
+      "lines": [
+        235,
+        293,
+        329,
+        353
+      ],
+      "evidence": "Both cancellation tests synchronize on production pending_candidate and one observation, then require pending_cancellations=1. Production status emitted at actual pending/take transitions in adl-runtime-kernel/src/config_reload.rs465-490. Revert test controls virtual time; unreadable test waits actual watcher status. Current test no longer passes if transient never observed."
+    },
+    {
+      "id": "D520-SEC-003",
+      "outcome": "addressed_structure_and_focused_checker_proof_full_projection_run_not_repeated",
+      "path": ".csdlc/prepared/issues/512/validate-obs-b-redaction.sh",
+      "evidence": "Full script read. Calls production project_v1 test and requires emitted nonempty projection, validates schema and privacy, enumerates exact declared UI/evidence manifest, checks clean sensitive fields and11 negative cases. Current manifest independently passed29 paths; clean fixture passed; four fresh hostile cases rejected. distributed_projection.rs469-610 inspected including real projection and nonempty nodes/placements plus identifier redaction. This is no longer a grep of planning bootstrap. Do not infer universal secret safety."
+    },
+    {
+      "id": "D520-SEC-004",
+      "outcome": "addressed_fresh_offline_regressions_passed",
+      "path": "adl-runtime/tests/shepherd_local_model.rs",
+      "evidence": "Full source read. Structural loopback HTTP authority validation before real-model configuration rejects userinfo and remote hosts; Python runner rejects redirects. Exact helper/runner and two standalone offline tests extracted without behavioral changes, compiled rustc --test,2passed0failed. Real GPU/model smoke not run; no installed model claim."
+    }
+  ],
+  "proof": "tests-history/results.json"
+}

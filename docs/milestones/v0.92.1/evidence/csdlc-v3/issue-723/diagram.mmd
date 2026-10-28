@@ -1,0 +1,7 @@
+flowchart LR
+  A[Typed child command] --> B[stdout or typed stderr]
+  B --> C[Normalize exact document]
+  C --> D[Parity and mismatch checks]
+  E[Install request] --> F[Typed #505 approval]
+  F --> G[Exact head and digest checks]
+  G --> H[Authorized install]

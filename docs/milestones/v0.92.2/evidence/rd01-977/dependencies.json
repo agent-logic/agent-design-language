@@ -1,0 +1,4628 @@
+{
+  "baseline": "f69019c24a9b61511e912c93f95442f96fa66d92",
+  "scope": "all tracked Cargo.toml declarations, including target/workspace/patch; no Cargo resolution or independence proof",
+  "manifests": [
+    {
+      "path": ".csdlc/prepared/issues/467/terminal-digest-verifier/Cargo.toml",
+      "status": "parsed",
+      "package": "issue467-terminal-digest-verifier",
+      "workspace_members": []
+    },
+    {
+      "path": ".csdlc/prepared/issues/522/blake3-file/Cargo.toml",
+      "status": "parsed",
+      "package": "issue522-blake3-file",
+      "workspace_members": []
+    },
+    {
+      "path": ".csdlc/prepared/issues/5340/source-authority-validator/Cargo.toml",
+      "status": "parsed",
+      "package": "adl-wp5340-source-authority-validator",
+      "workspace_members": []
+    },
+    {
+      "path": ".csdlc/prepared/issues/5347/receipt-verifier/Cargo.toml",
+      "status": "parsed",
+      "package": "wp13-receipt-verifier",
+      "workspace_members": []
+    },
+    {
+      "path": ".csdlc/prepared/issues/740/backend-canary/main.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "adl-characterization/Cargo.toml",
+      "status": "parsed",
+      "package": "adl-characterization",
+      "workspace_members": []
+    },
+    {
+      "path": "adl-provider-core/Cargo.toml",
+      "status": "parsed",
+      "package": "adl-provider-core",
+      "workspace_members": []
+    },
+    {
+      "path": "adl-resilience/Cargo.toml",
+      "status": "parsed",
+      "package": "adl-resilience",
+      "workspace_members": []
+    },
+    {
+      "path": "adl-runtime-kernel/Cargo.toml",
+      "status": "parsed",
+      "package": "adl-runtime-kernel",
+      "workspace_members": []
+    },
+    {
+      "path": "adl-runtime/Cargo.toml",
+      "status": "parsed",
+      "package": "adl-runtime",
+      "workspace_members": []
+    },
+    {
+      "path": "adl-uts/Cargo.toml",
+      "status": "parsed",
+      "package": "adl-uts",
+      "workspace_members": []
+    },
+    {
+      "path": "adl-v2/Cargo.toml",
+      "status": "parsed",
+      "package": null,
+      "workspace_members": [
+        "crates/adl-adapters",
+        "crates/adl-language",
+        "crates/adl-compiler",
+        "crates/adl-engine",
+        "crates/adl-records",
+        "crates/adl-runtime-v3-adapter",
+        "crates/adl-cli",
+        "crates/adl-workcell-conductor",
+        "crates/adl-workcell-convergence",
+        "crates/adl-workcell-task-adapter"
+      ]
+    },
+    {
+      "path": "adl-v2/crates/adl-adapters/Cargo.toml",
+      "status": "parsed",
+      "package": "adl-adapters",
+      "workspace_members": []
+    },
+    {
+      "path": "adl-v2/crates/adl-cli/Cargo.toml",
+      "status": "parsed",
+      "package": "adl-cli",
+      "workspace_members": []
+    },
+    {
+      "path": "adl-v2/crates/adl-compiler/Cargo.toml",
+      "status": "parsed",
+      "package": "adl-compiler",
+      "workspace_members": []
+    },
+    {
+      "path": "adl-v2/crates/adl-engine/Cargo.toml",
+      "status": "parsed",
+      "package": "adl-engine",
+      "workspace_members": []
+    },
+    {
+      "path": "adl-v2/crates/adl-language/Cargo.toml",
+      "status": "parsed",
+      "package": "adl-language",
+      "workspace_members": []
+    },
+    {
+      "path": "adl-v2/crates/adl-records/Cargo.toml",
+      "status": "parsed",
+      "package": "adl-records",
+      "workspace_members": []
+    },
+    {
+      "path": "adl-v2/crates/adl-runtime-v3-adapter/Cargo.toml",
+      "status": "parsed",
+      "package": "adl-runtime-v3-adapter",
+      "workspace_members": []
+    },
+    {
+      "path": "adl-v2/crates/adl-workcell-conductor/Cargo.toml",
+      "status": "parsed",
+      "package": "adl-workcell-conductor",
+      "workspace_members": []
+    },
+    {
+      "path": "adl-v2/crates/adl-workcell-convergence/Cargo.toml",
+      "status": "parsed",
+      "package": "adl-workcell-convergence",
+      "workspace_members": []
+    },
+    {
+      "path": "adl-v2/crates/adl-workcell-task-adapter/Cargo.toml",
+      "status": "parsed",
+      "package": "adl-workcell-task-adapter",
+      "workspace_members": []
+    },
+    {
+      "path": "adl/Cargo.toml",
+      "status": "parsed",
+      "package": "adl",
+      "workspace_members": []
+    },
+    {
+      "path": "csdlc-v2/Cargo.toml",
+      "status": "parsed",
+      "package": "csdlc-v2",
+      "workspace_members": []
+    },
+    {
+      "path": "csdlc-v3/Cargo.toml",
+      "status": "parsed",
+      "package": "csdlc-v3",
+      "workspace_members": []
+    },
+    {
+      "path": "demos/podcast/episode-packages/001-meet-the-ai-coworkers/package.json",
+      "family": "node",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "demos/podcast/episode-packages/002-can-an-ai-be-a-good-teammate/package.json",
+      "family": "node",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "demos/podcast/episode-packages/003-the-promise-and-weirdness-of-talking-to-machines/package.json",
+      "family": "node",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "demos/podcast/episode-packages/004-what-should-we-let-ai-do-for-us/package.json",
+      "family": "node",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "demos/podcast/episode-packages/005-can-ai-help-us-think-better/package.json",
+      "family": "node",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "demos/podcast/episode-packages/006-the-new-creative-room/package.json",
+      "family": "node",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "demos/podcast/episode-packages/007-trust-receipts-and-proof/package.json",
+      "family": "node",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "demos/podcast/episode-packages/008-local-ai-vs-cloud-ai/package.json",
+      "family": "node",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "demos/podcast/episode-packages/009-when-ai-gets-stuck/package.json",
+      "family": "node",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "demos/podcast/episode-packages/010-what-does-a-weekly-ai-studio-look-like/package.json",
+      "family": "node",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "demos/transpiler_demo/Cargo.toml",
+      "status": "parsed",
+      "package": "transpiler_demo",
+      "workspace_members": []
+    },
+    {
+      "path": "infra/aws/account-foundation/.terraform.lock.hcl",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/account-foundation/main.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/account-foundation/outputs.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/account-foundation/variables.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/account-foundation/versions.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/bootstrap/.terraform.lock.hcl",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/bootstrap/main.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/bootstrap/outputs.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/bootstrap/variables.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/bootstrap/versions.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/csm-public-edge/.terraform.lock.hcl",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/csm-public-edge/locals.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/csm-public-edge/main.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/csm-public-edge/outputs.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/csm-public-edge/variables.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/csm-public-edge/versions.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/csm-runtime-alb/.terraform.lock.hcl",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/csm-runtime-alb/locals.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/csm-runtime-alb/main.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/csm-runtime-alb/outputs.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/csm-runtime-alb/variables.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/csm-runtime-alb/versions.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/csm-runtime-health/.terraform.lock.hcl",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/csm-runtime-health/locals.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/csm-runtime-health/main.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/csm-runtime-health/outputs.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/csm-runtime-health/variables.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/csm-runtime-health/versions.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/csm-runtime-spot/.terraform.lock.hcl",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/csm-runtime-spot/locals.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/csm-runtime-spot/main.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/csm-runtime-spot/outputs.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/csm-runtime-spot/variables.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/csm-runtime-spot/versions.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/modules/csm-runtime-alb/main.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/modules/csm-runtime-alb/outputs.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/modules/csm-runtime-alb/variables.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/modules/csm-runtime-spot/main.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/modules/csm-runtime-spot/outputs.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/modules/csm-runtime-spot/variables.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/observatory/.terraform.lock.hcl",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/observatory/locals.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/observatory/main.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/observatory/outputs.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/observatory/variables.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/observatory/versions.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/runtime/agent-checkpoint-archive/.terraform.lock.hcl",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/runtime/agent-checkpoint-archive/locals.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/runtime/agent-checkpoint-archive/main.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/runtime/agent-checkpoint-archive/outputs.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/runtime/agent-checkpoint-archive/variables.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/runtime/agent-checkpoint-archive/versions.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/runtime/alb-origin/.terraform.lock.hcl",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/runtime/alb-origin/locals.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/runtime/alb-origin/main.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/runtime/alb-origin/outputs.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/runtime/alb-origin/variables.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/runtime/alb-origin/versions.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/runtime/gpu-proof/.terraform.lock.hcl",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/runtime/gpu-proof/main.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/runtime/gpu-proof/outputs.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/runtime/gpu-proof/variables.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/runtime/gpu-proof/versions.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/runtime/gpu-proof/warm-storage/.terraform.lock.hcl",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/runtime/gpu-proof/warm-storage/main.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/runtime/gpu-proof/warm-storage/outputs.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/runtime/gpu-proof/warm-storage/preparation/.terraform.lock.hcl",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/runtime/gpu-proof/warm-storage/preparation/main.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/runtime/gpu-proof/warm-storage/preparation/outputs.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/runtime/gpu-proof/warm-storage/preparation/variables.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/runtime/gpu-proof/warm-storage/preparation/versions.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/runtime/gpu-proof/warm-storage/variables.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/runtime/gpu-proof/warm-storage/versions.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/runtime/log-archive/.terraform.lock.hcl",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/runtime/log-archive/locals.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/runtime/log-archive/main.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/runtime/log-archive/outputs.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/runtime/log-archive/variables.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/runtime/log-archive/versions.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/runtime/modules/private-runtime-node/main.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/runtime/modules/private-runtime-node/outputs.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/runtime/modules/private-runtime-node/variables.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/runtime/modules/private-runtime-node/versions.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/runtime/private-node/.terraform.lock.hcl",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/runtime/private-node/locals.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/runtime/private-node/main.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/runtime/private-node/outputs.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/runtime/private-node/variables.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/runtime/private-node/versions.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/runtime/xcl-01/.terraform.lock.hcl",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/runtime/xcl-01/main.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/runtime/xcl-01/outputs.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/runtime/xcl-01/variables.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/aws/runtime/xcl-01/versions.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/ddns/.terraform.lock.hcl",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/ddns/iam.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/ddns/lambda.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/ddns/locals.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/ddns/outputs.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/ddns/providers.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/ddns/route53.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/ddns/ssm.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/ddns/variables.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/ddns/versions.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/bootstrap/.terraform.lock.hcl",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/bootstrap/main.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/bootstrap/outputs.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/bootstrap/provider.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/bootstrap/variables.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/bootstrap/versions.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/organization/.terraform.lock.hcl",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/organization/main.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/organization/outputs.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/organization/provider.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/organization/variables.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/organization/versions.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/platform/.terraform.lock.hcl",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/platform/main.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/platform/outputs.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/platform/provider.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/platform/variables.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/platform/versions.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/workloads/drt-d-six-resident/.terraform.lock.hcl",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/workloads/drt-d-six-resident/main.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/workloads/drt-d-six-resident/outputs.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/workloads/drt-d-six-resident/provider.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/workloads/drt-d-six-resident/variables.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/workloads/drt-d-six-resident/versions.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/workloads/gpu-smoke-instance/.terraform.lock.hcl",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/workloads/gpu-smoke-instance/main.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/workloads/gpu-smoke-instance/outputs.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/workloads/gpu-smoke-instance/provider.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/workloads/gpu-smoke-instance/variables.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/workloads/gpu-smoke-instance/versions.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/workloads/gpu-smoke-support/.terraform.lock.hcl",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/workloads/gpu-smoke-support/main.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/workloads/gpu-smoke-support/outputs.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/workloads/gpu-smoke-support/provider.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/workloads/gpu-smoke-support/variables.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/workloads/gpu-smoke-support/versions.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/workloads/modules/gpu-smoke-instance/main.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/workloads/modules/gpu-smoke-instance/outputs.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/workloads/modules/gpu-smoke-instance/variables.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/workloads/modules/gpu-smoke-instance/versions.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/workloads/modules/gpu-smoke-support/main.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/workloads/modules/gpu-smoke-support/outputs.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/workloads/modules/gpu-smoke-support/variables.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/workloads/modules/gpu-smoke-support/versions.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/workloads/modules/two-node-ollama-runtime/.terraform.lock.hcl",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/workloads/modules/two-node-ollama-runtime/main.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/workloads/modules/two-node-ollama-runtime/outputs.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/workloads/modules/two-node-ollama-runtime/variables.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/workloads/modules/two-node-ollama-runtime/versions.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/workloads/warm-polis/.terraform.lock.hcl",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/workloads/warm-polis/main.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/workloads/warm-polis/outputs.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/workloads/warm-polis/preparation/.terraform.lock.hcl",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/workloads/warm-polis/preparation/main.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/workloads/warm-polis/preparation/outputs.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/workloads/warm-polis/preparation/variables.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/workloads/warm-polis/preparation/versions.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/workloads/warm-polis/snapshot-catalog/.terraform.lock.hcl",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/workloads/warm-polis/snapshot-catalog/main.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/workloads/warm-polis/snapshot-catalog/outputs.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/workloads/warm-polis/snapshot-catalog/variables.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/workloads/warm-polis/snapshot-catalog/versions.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/workloads/warm-polis/variables.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/workloads/warm-polis/versions.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/workloads/xcl-01/.terraform.lock.hcl",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/workloads/xcl-01/main.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/workloads/xcl-01/outputs.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/workloads/xcl-01/variables.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "infra/gcp/workloads/xcl-01/versions.tf",
+      "family": "terraform",
+      "status": "recognized_unparsed",
+      "edge_status": "unresolved",
+      "decision_owner": "RD-02",
+      "decision_deadline": "before extraction",
+      "rationale": "Static recognition only; dependency resolution and module/lock semantics require owner audit"
+    },
+    {
+      "path": "tools/aws_remote_validation/Cargo.toml",
+      "status": "parsed",
+      "package": "adl-aws-remote-validation-tool",
+      "workspace_members": []
+    },
+    {
+      "path": "tools/remote_validation/Cargo.toml",
+      "status": "parsed",
+      "package": "adl-remote-validation",
+      "workspace_members": []
+    }
+  ],
+  "edges": [
+    {
+      "manifest": ".csdlc/prepared/issues/467/terminal-digest-verifier/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "blake3",
+      "package": "blake3",
+      "source": "registry",
+      "version": "=1.8.5",
+      "optional": false
+    },
+    {
+      "manifest": ".csdlc/prepared/issues/467/terminal-digest-verifier/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "serde",
+      "package": "serde",
+      "source": "registry",
+      "version": "=1.0.228",
+      "optional": false
+    },
+    {
+      "manifest": ".csdlc/prepared/issues/467/terminal-digest-verifier/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "serde_json",
+      "package": "serde_json",
+      "source": "registry",
+      "version": "=1.0.150",
+      "optional": false
+    },
+    {
+      "manifest": ".csdlc/prepared/issues/522/blake3-file/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "blake3",
+      "package": "blake3",
+      "source": "registry",
+      "version": "=1.8.5",
+      "optional": false
+    },
+    {
+      "manifest": ".csdlc/prepared/issues/5340/source-authority-validator/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "syn",
+      "package": "syn",
+      "source": "registry",
+      "version": "=2.0.118",
+      "optional": false
+    },
+    {
+      "manifest": ".csdlc/prepared/issues/5347/receipt-verifier/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "blake3",
+      "package": "blake3",
+      "source": "registry",
+      "version": "=1.8.5",
+      "optional": false
+    },
+    {
+      "manifest": ".csdlc/prepared/issues/5347/receipt-verifier/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "csdlc-v2",
+      "package": "csdlc-v2",
+      "source": "path",
+      "declared_path": "../../../../../csdlc-v2",
+      "optional": false
+    },
+    {
+      "manifest": ".csdlc/prepared/issues/5347/receipt-verifier/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "serde_json",
+      "package": "serde_json",
+      "source": "registry",
+      "version": "=1.0.150",
+      "optional": false
+    },
+    {
+      "manifest": "adl-characterization/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "anyhow",
+      "package": "anyhow",
+      "source": "registry",
+      "version": "1.0",
+      "optional": false
+    },
+    {
+      "manifest": "adl-characterization/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "base64",
+      "package": "base64",
+      "source": "registry",
+      "version": "0.22",
+      "optional": false
+    },
+    {
+      "manifest": "adl-characterization/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "clap",
+      "package": "clap",
+      "source": "registry",
+      "version": "4.5",
+      "optional": false
+    },
+    {
+      "manifest": "adl-characterization/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "ed25519-dalek",
+      "package": "ed25519-dalek",
+      "source": "registry",
+      "version": "2.1",
+      "optional": false
+    },
+    {
+      "manifest": "adl-characterization/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "jsonschema",
+      "package": "jsonschema",
+      "source": "registry",
+      "version": "0.17",
+      "optional": false
+    },
+    {
+      "manifest": "adl-characterization/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "serde",
+      "package": "serde",
+      "source": "registry",
+      "version": "1.0",
+      "optional": false
+    },
+    {
+      "manifest": "adl-characterization/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "serde_json",
+      "package": "serde_json",
+      "source": "registry",
+      "version": "1.0",
+      "optional": false
+    },
+    {
+      "manifest": "adl-characterization/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "serde_yaml",
+      "package": "serde_yaml",
+      "source": "registry",
+      "version": "0.9",
+      "optional": false
+    },
+    {
+      "manifest": "adl-characterization/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "sha2",
+      "package": "sha2",
+      "source": "registry",
+      "version": "0.10",
+      "optional": false
+    },
+    {
+      "manifest": "adl-characterization/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "tempfile",
+      "package": "tempfile",
+      "source": "registry",
+      "version": "3.20",
+      "optional": false
+    },
+    {
+      "manifest": "adl-characterization/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "thiserror",
+      "package": "thiserror",
+      "source": "registry",
+      "version": "2.0",
+      "optional": false
+    },
+    {
+      "manifest": "adl-characterization/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "wait-timeout",
+      "package": "wait-timeout",
+      "source": "registry",
+      "version": "0.2",
+      "optional": false
+    },
+    {
+      "manifest": "adl-characterization/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "walkdir",
+      "package": "walkdir",
+      "source": "registry",
+      "version": "2.5",
+      "optional": false
+    },
+    {
+      "manifest": "adl-characterization/Cargo.toml",
+      "scope": "dev-dependencies",
+      "dependency": "assert_cmd",
+      "package": "assert_cmd",
+      "source": "registry",
+      "version": "2.0",
+      "optional": false
+    },
+    {
+      "manifest": "adl-characterization/Cargo.toml",
+      "scope": "dev-dependencies",
+      "dependency": "predicates",
+      "package": "predicates",
+      "source": "registry",
+      "version": "3.1",
+      "optional": false
+    },
+    {
+      "manifest": "adl-provider-core/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "anyhow",
+      "package": "anyhow",
+      "source": "registry",
+      "version": "1.0",
+      "optional": false
+    },
+    {
+      "manifest": "adl-provider-core/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "serde",
+      "package": "serde",
+      "source": "registry",
+      "version": "1",
+      "optional": false
+    },
+    {
+      "manifest": "adl-provider-core/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "serde_json",
+      "package": "serde_json",
+      "source": "registry",
+      "version": "1",
+      "optional": false
+    },
+    {
+      "manifest": "adl-provider-core/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "serde_yaml",
+      "package": "serde_yaml",
+      "source": "registry",
+      "version": "0.9",
+      "optional": false
+    },
+    {
+      "manifest": "adl-provider-core/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "schemars",
+      "package": "schemars",
+      "source": "registry",
+      "version": "0.8",
+      "optional": false
+    },
+    {
+      "manifest": "adl-provider-core/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "sha2",
+      "package": "sha2",
+      "source": "registry",
+      "version": "0.10",
+      "optional": false
+    },
+    {
+      "manifest": "adl-provider-core/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "reqwest",
+      "package": "reqwest",
+      "source": "registry",
+      "version": "0.12",
+      "optional": false
+    },
+    {
+      "manifest": "adl-provider-core/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "aws-config",
+      "package": "aws-config",
+      "source": "registry",
+      "version": "1",
+      "optional": false
+    },
+    {
+      "manifest": "adl-provider-core/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "aws-types",
+      "package": "aws-types",
+      "source": "registry",
+      "version": "1",
+      "optional": false
+    },
+    {
+      "manifest": "adl-provider-core/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "libc",
+      "package": "libc",
+      "source": "registry",
+      "version": "0.2",
+      "optional": false
+    },
+    {
+      "manifest": "adl-provider-core/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "aws-sdk-bedrockruntime",
+      "package": "aws-sdk-bedrockruntime",
+      "source": "registry",
+      "version": "1",
+      "optional": false
+    },
+    {
+      "manifest": "adl-provider-core/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "aws-sdk-sts",
+      "package": "aws-sdk-sts",
+      "source": "registry",
+      "version": "1",
+      "optional": false
+    },
+    {
+      "manifest": "adl-provider-core/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "fs2",
+      "package": "fs2",
+      "source": "registry",
+      "version": "0.4",
+      "optional": false
+    },
+    {
+      "manifest": "adl-provider-core/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "tokio",
+      "package": "tokio",
+      "source": "registry",
+      "version": "1",
+      "optional": false
+    },
+    {
+      "manifest": "adl-provider-core/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "zeroize",
+      "package": "zeroize",
+      "source": "registry",
+      "version": "1",
+      "optional": false
+    },
+    {
+      "manifest": "adl-provider-core/Cargo.toml",
+      "scope": "dev-dependencies",
+      "dependency": "tiny_http",
+      "package": "tiny_http",
+      "source": "registry",
+      "version": "0.12",
+      "optional": false
+    },
+    {
+      "manifest": "adl-provider-core/Cargo.toml",
+      "scope": "dev-dependencies",
+      "dependency": "tempfile",
+      "package": "tempfile",
+      "source": "registry",
+      "version": "3",
+      "optional": false
+    },
+    {
+      "manifest": "adl-resilience/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "schemars",
+      "package": "schemars",
+      "source": "registry",
+      "version": "0.8",
+      "optional": false
+    },
+    {
+      "manifest": "adl-resilience/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "serde",
+      "package": "serde",
+      "source": "registry",
+      "version": "1",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime-kernel/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "adl-provider-core",
+      "package": "adl-provider-core",
+      "source": "path",
+      "declared_path": "../adl-provider-core",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime-kernel/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "fs2",
+      "package": "fs2",
+      "source": "registry",
+      "version": "0.4",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime-kernel/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "async-trait",
+      "package": "async-trait",
+      "source": "registry",
+      "version": "0.1",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime-kernel/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "axum",
+      "package": "axum",
+      "source": "registry",
+      "version": "0.8",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime-kernel/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "axum-server",
+      "package": "axum-server",
+      "source": "registry",
+      "version": "0.8",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime-kernel/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "base64",
+      "package": "base64",
+      "source": "registry",
+      "version": "0.22",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime-kernel/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "blake3",
+      "package": "blake3",
+      "source": "registry",
+      "version": "1",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime-kernel/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "ed25519-dalek",
+      "package": "ed25519-dalek",
+      "source": "registry",
+      "version": "3",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime-kernel/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "futures",
+      "package": "futures",
+      "source": "registry",
+      "version": "0.3",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime-kernel/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "hex",
+      "package": "hex",
+      "source": "registry",
+      "version": "0.4",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime-kernel/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "lru",
+      "package": "lru",
+      "source": "registry",
+      "version": "0.16",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime-kernel/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "petgraph",
+      "package": "petgraph",
+      "source": "registry",
+      "version": "0.7",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime-kernel/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "prost",
+      "package": "prost",
+      "source": "registry",
+      "version": "0.13",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime-kernel/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "redb",
+      "package": "redb",
+      "source": "registry",
+      "version": "4.1",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime-kernel/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "rsntp",
+      "package": "rsntp",
+      "source": "registry",
+      "version": "4.1.2",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime-kernel/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "rustls",
+      "package": "rustls",
+      "source": "registry",
+      "version": "=0.23.43",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime-kernel/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "rustls-pemfile",
+      "package": "rustls-pemfile",
+      "source": "registry",
+      "version": "2.2",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime-kernel/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "semver",
+      "package": "semver",
+      "source": "registry",
+      "version": "1",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime-kernel/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "serde",
+      "package": "serde",
+      "source": "registry",
+      "version": "1.0",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime-kernel/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "serde_json",
+      "package": "serde_json",
+      "source": "registry",
+      "version": "1.0",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime-kernel/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "serde_jcs",
+      "package": "serde_jcs",
+      "source": "registry",
+      "version": "0.2",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime-kernel/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "sha2",
+      "package": "sha2",
+      "source": "registry",
+      "version": "0.10",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime-kernel/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "socket2",
+      "package": "socket2",
+      "source": "registry",
+      "version": "0.6",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime-kernel/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "sysinfo",
+      "package": "sysinfo",
+      "source": "registry",
+      "version": "0.38.4",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime-kernel/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "thiserror",
+      "package": "thiserror",
+      "source": "registry",
+      "version": "1.0",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime-kernel/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "time",
+      "package": "time",
+      "source": "registry",
+      "version": "0.3",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime-kernel/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "tokio",
+      "package": "tokio",
+      "source": "registry",
+      "version": "1",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime-kernel/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "tokio-rustls",
+      "package": "tokio-rustls",
+      "source": "registry",
+      "version": "0.26",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime-kernel/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "tokio-util",
+      "package": "tokio-util",
+      "source": "registry",
+      "version": "0.7",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime-kernel/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "toml",
+      "package": "toml",
+      "source": "registry",
+      "version": "0.9",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime-kernel/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "tracing",
+      "package": "tracing",
+      "source": "registry",
+      "version": "0.1",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime-kernel/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "tracing-subscriber",
+      "package": "tracing-subscriber",
+      "source": "registry",
+      "version": "0.3",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime-kernel/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "tempfile",
+      "package": "tempfile",
+      "source": "registry",
+      "version": "3",
+      "optional": true
+    },
+    {
+      "manifest": "adl-runtime-kernel/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "utoipa-swagger-ui",
+      "package": "utoipa-swagger-ui",
+      "source": "registry",
+      "version": "9.0.2",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime-kernel/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "uuid",
+      "package": "uuid",
+      "source": "registry",
+      "version": "1",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime-kernel/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "x509-parser",
+      "package": "x509-parser",
+      "source": "registry",
+      "version": "0.18.1",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime-kernel/Cargo.toml",
+      "scope": "target.cfg(unix).dependencies",
+      "dependency": "libc",
+      "package": "libc",
+      "source": "registry",
+      "version": "0.2",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime-kernel/Cargo.toml",
+      "scope": "target.cfg(windows).dependencies",
+      "dependency": "windows-sys",
+      "package": "windows-sys",
+      "source": "registry",
+      "version": "0.61.2",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime-kernel/Cargo.toml",
+      "scope": "dev-dependencies",
+      "dependency": "anyhow",
+      "package": "anyhow",
+      "source": "registry",
+      "version": "1.0",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime-kernel/Cargo.toml",
+      "scope": "dev-dependencies",
+      "dependency": "tokio",
+      "package": "tokio",
+      "source": "registry",
+      "version": "1",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime-kernel/Cargo.toml",
+      "scope": "dev-dependencies",
+      "dependency": "rand",
+      "package": "rand",
+      "source": "registry",
+      "version": "0.8",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime-kernel/Cargo.toml",
+      "scope": "dev-dependencies",
+      "dependency": "rcgen",
+      "package": "rcgen",
+      "source": "registry",
+      "version": "0.14",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime-kernel/Cargo.toml",
+      "scope": "dev-dependencies",
+      "dependency": "subtle",
+      "package": "subtle",
+      "source": "registry",
+      "version": "2.6",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime-kernel/Cargo.toml",
+      "scope": "dev-dependencies",
+      "dependency": "tempfile",
+      "package": "tempfile",
+      "source": "registry",
+      "version": "3",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime-kernel/Cargo.toml",
+      "scope": "dev-dependencies",
+      "dependency": "tokio-tungstenite",
+      "package": "tokio-tungstenite",
+      "source": "registry",
+      "version": "0.29",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "adl-resilience",
+      "package": "adl-resilience",
+      "source": "path",
+      "declared_path": "../adl-resilience",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "adl-runtime-kernel",
+      "package": "adl-runtime-kernel",
+      "source": "path",
+      "declared_path": "../adl-runtime-kernel",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "axum",
+      "package": "axum",
+      "source": "registry",
+      "version": "0.8",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "axum-server",
+      "package": "axum-server",
+      "source": "registry",
+      "version": "0.8",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "base64",
+      "package": "base64",
+      "source": "registry",
+      "version": "0.22",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "ed25519-dalek",
+      "package": "ed25519-dalek",
+      "source": "registry",
+      "version": "3",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "fs2",
+      "package": "fs2",
+      "source": "registry",
+      "version": "0.4",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "futures",
+      "package": "futures",
+      "source": "registry",
+      "version": "0.3",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "hex",
+      "package": "hex",
+      "source": "registry",
+      "version": "0.4",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "hmac",
+      "package": "hmac",
+      "source": "registry",
+      "version": "0.12",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "openraft",
+      "package": "openraft",
+      "source": "registry",
+      "version": "=0.9.21",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "quinn",
+      "package": "quinn",
+      "source": "registry",
+      "version": "=0.11.11",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "rand",
+      "package": "rand",
+      "source": "registry",
+      "version": "0.8",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "redb",
+      "package": "redb",
+      "source": "registry",
+      "version": "4.1",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "secrecy",
+      "package": "secrecy",
+      "source": "registry",
+      "version": "0.8",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "serde",
+      "package": "serde",
+      "source": "registry",
+      "version": "1.0",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "serde_json",
+      "package": "serde_json",
+      "source": "registry",
+      "version": "1.0",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "sha2",
+      "package": "sha2",
+      "source": "registry",
+      "version": "0.10",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "serde_jcs",
+      "package": "serde_jcs",
+      "source": "registry",
+      "version": "0.2",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "subtle",
+      "package": "subtle",
+      "source": "registry",
+      "version": "2.6",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "prost",
+      "package": "prost",
+      "source": "registry",
+      "version": "=0.13.5",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "rustls",
+      "package": "rustls",
+      "source": "registry",
+      "version": "=0.23.43",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "sysinfo",
+      "package": "sysinfo",
+      "source": "registry",
+      "version": "0.38.4",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "tokio",
+      "package": "tokio",
+      "source": "registry",
+      "version": "1",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "tokio-rustls",
+      "package": "tokio-rustls",
+      "source": "registry",
+      "version": "0.26",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "tokio-util",
+      "package": "tokio-util",
+      "source": "registry",
+      "version": "0.7",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "toml",
+      "package": "toml",
+      "source": "registry",
+      "version": "0.9",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "time",
+      "package": "time",
+      "source": "registry",
+      "version": "0.3",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "libc",
+      "package": "libc",
+      "source": "registry",
+      "version": "0.2",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "x509-parser",
+      "package": "x509-parser",
+      "source": "registry",
+      "version": "0.18.1",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime/Cargo.toml",
+      "scope": "target.cfg(windows).dependencies",
+      "dependency": "windows-sys",
+      "package": "windows-sys",
+      "source": "registry",
+      "version": "0.61.2",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime/Cargo.toml",
+      "scope": "dev-dependencies",
+      "dependency": "rcgen",
+      "package": "rcgen",
+      "source": "registry",
+      "version": "0.14",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime/Cargo.toml",
+      "scope": "dev-dependencies",
+      "dependency": "tempfile",
+      "package": "tempfile",
+      "source": "registry",
+      "version": "3",
+      "optional": false
+    },
+    {
+      "manifest": "adl-runtime/Cargo.toml",
+      "scope": "dev-dependencies",
+      "dependency": "tokio-tungstenite",
+      "package": "tokio-tungstenite",
+      "source": "registry",
+      "version": "0.29",
+      "optional": false
+    },
+    {
+      "manifest": "adl-uts/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "serde",
+      "package": "serde",
+      "source": "registry",
+      "version": "1.0",
+      "optional": false
+    },
+    {
+      "manifest": "adl-uts/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "serde_json",
+      "package": "serde_json",
+      "source": "registry",
+      "version": "1.0",
+      "optional": false
+    },
+    {
+      "manifest": "adl-uts/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "schemars",
+      "package": "schemars",
+      "source": "registry",
+      "version": "0.8",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-adapters/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "adl-engine",
+      "package": "adl-engine",
+      "source": "path",
+      "declared_path": "../adl-engine",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-adapters/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "adl-records",
+      "package": "adl-records",
+      "source": "path",
+      "declared_path": "../adl-records",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-adapters/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "reqwest",
+      "package": "reqwest",
+      "source": "registry",
+      "version": "=0.13.4",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-adapters/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "secrecy",
+      "package": "secrecy",
+      "source": "registry",
+      "version": "=0.10.3",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-adapters/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "serde",
+      "package": "serde",
+      "source": "registry",
+      "version": "=1.0.229",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-adapters/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "serde_json",
+      "package": "serde_json",
+      "source": "registry",
+      "version": "=1.0.151",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-adapters/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "tokio",
+      "package": "tokio",
+      "source": "registry",
+      "version": "=1.53.1",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-adapters/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "url",
+      "package": "url",
+      "source": "registry",
+      "version": "=2.5.8",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-adapters/Cargo.toml",
+      "scope": "dev-dependencies",
+      "dependency": "wiremock",
+      "package": "wiremock",
+      "source": "registry",
+      "version": "=0.6.5",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-cli/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "adl-compiler",
+      "package": "adl-compiler",
+      "source": "path",
+      "declared_path": "../adl-compiler",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-cli/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "adl-engine",
+      "package": "adl-engine",
+      "source": "path",
+      "declared_path": "../adl-engine",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-cli/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "adl-language",
+      "package": "adl-language",
+      "source": "path",
+      "declared_path": "../adl-language",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-cli/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "adl-records",
+      "package": "adl-records",
+      "source": "path",
+      "declared_path": "../adl-records",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-cli/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "clap",
+      "package": "clap",
+      "source": "registry",
+      "version": "4.6.1",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-cli/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "ed25519-dalek",
+      "package": "ed25519-dalek",
+      "source": "registry",
+      "version": "=2.2.0",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-cli/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "fs2",
+      "package": "fs2",
+      "source": "registry",
+      "version": "0.4.3",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-cli/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "hex",
+      "package": "hex",
+      "source": "registry",
+      "version": "=0.4.3",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-cli/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "serde",
+      "package": "serde",
+      "source": "registry",
+      "version": "1.0.228",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-cli/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "serde_json",
+      "package": "serde_json",
+      "source": "registry",
+      "version": "1.0.150",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-cli/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "sha2",
+      "package": "sha2",
+      "source": "registry",
+      "version": "0.10.9",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-cli/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "tempfile",
+      "package": "tempfile",
+      "source": "registry",
+      "version": "3.27.0",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-compiler/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "adl-language",
+      "package": "adl-language",
+      "source": "path",
+      "declared_path": "../adl-language",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-compiler/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "hex",
+      "package": "hex",
+      "source": "registry",
+      "version": "=0.4.3",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-compiler/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "serde",
+      "package": "serde",
+      "source": "registry",
+      "version": "=1.0.229",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-compiler/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "serde_json",
+      "package": "serde_json",
+      "source": "registry",
+      "version": "=1.0.151",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-compiler/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "sha2",
+      "package": "sha2",
+      "source": "registry",
+      "version": "=0.10.9",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-engine/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "adl-compiler",
+      "package": "adl-compiler",
+      "source": "path",
+      "declared_path": "../adl-compiler",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-engine/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "hex",
+      "package": "hex",
+      "source": "registry",
+      "version": "=0.4.3",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-engine/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "serde",
+      "package": "serde",
+      "source": "registry",
+      "version": "=1.0.229",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-engine/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "serde_json",
+      "package": "serde_json",
+      "source": "registry",
+      "version": "=1.0.151",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-engine/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "sha2",
+      "package": "sha2",
+      "source": "registry",
+      "version": "=0.10.9",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-engine/Cargo.toml",
+      "scope": "dev-dependencies",
+      "dependency": "adl-language",
+      "package": "adl-language",
+      "source": "path",
+      "declared_path": "../adl-language",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-language/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "schemars",
+      "package": "schemars",
+      "source": "registry",
+      "version": "=1.2.1",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-language/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "serde",
+      "package": "serde",
+      "source": "registry",
+      "version": "=1.0.229",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-language/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "serde_json",
+      "package": "serde_json",
+      "source": "registry",
+      "version": "=1.0.151",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-language/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "yaml_serde",
+      "package": "yaml_serde",
+      "source": "registry",
+      "version": "=0.10.4",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-language/Cargo.toml",
+      "scope": "dev-dependencies",
+      "dependency": "jsonschema",
+      "package": "jsonschema",
+      "source": "registry",
+      "version": "=0.48.2",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-records/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "ed25519-dalek",
+      "package": "ed25519-dalek",
+      "source": "registry",
+      "version": "=2.2.0",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-records/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "hex",
+      "package": "hex",
+      "source": "registry",
+      "version": "=0.4.3",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-records/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "schemars",
+      "package": "schemars",
+      "source": "registry",
+      "version": "=1.2.1",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-records/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "serde",
+      "package": "serde",
+      "source": "registry",
+      "version": "=1.0.229",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-records/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "serde_json",
+      "package": "serde_json",
+      "source": "registry",
+      "version": "=1.0.151",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-records/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "sha2",
+      "package": "sha2",
+      "source": "registry",
+      "version": "=0.10.9",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-records/Cargo.toml",
+      "scope": "dev-dependencies",
+      "dependency": "jsonschema",
+      "package": "jsonschema",
+      "source": "registry",
+      "version": "=0.48.2",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-runtime-v3-adapter/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "adl-engine",
+      "package": "adl-engine",
+      "source": "path",
+      "declared_path": "../adl-engine",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-runtime-v3-adapter/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "adl-records",
+      "package": "adl-records",
+      "source": "path",
+      "declared_path": "../adl-records",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-runtime-v3-adapter/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "adl-runtime-kernel",
+      "package": "adl-runtime-kernel",
+      "source": "path",
+      "declared_path": "../../../adl-runtime-kernel",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-runtime-v3-adapter/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "serde_json",
+      "package": "serde_json",
+      "source": "registry",
+      "version": "=1.0.151",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-runtime-v3-adapter/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "sha2",
+      "package": "sha2",
+      "source": "registry",
+      "version": "=0.10.9",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-runtime-v3-adapter/Cargo.toml",
+      "scope": "dev-dependencies",
+      "dependency": "ed25519-dalek",
+      "package": "ed25519-dalek",
+      "source": "registry",
+      "version": "=2.2.0",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-runtime-v3-adapter/Cargo.toml",
+      "scope": "dev-dependencies",
+      "dependency": "tokio",
+      "package": "tokio",
+      "source": "registry",
+      "version": "=1.53.1",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-workcell-conductor/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "blake3",
+      "package": "blake3",
+      "source": "registry",
+      "version": "=1.8.5",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-workcell-conductor/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "petgraph",
+      "package": "petgraph",
+      "source": "registry",
+      "version": "=0.8.3",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-workcell-conductor/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "serde",
+      "package": "serde",
+      "source": "registry",
+      "version": "=1.0.229",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-workcell-conductor/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "serde_json",
+      "package": "serde_json",
+      "source": "registry",
+      "version": "=1.0.151",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-workcell-conductor/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "thiserror",
+      "package": "thiserror",
+      "source": "registry",
+      "version": "=2.0.18",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-workcell-convergence/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "adl-workcell-conductor",
+      "package": "adl-workcell-conductor",
+      "source": "path",
+      "declared_path": "../adl-workcell-conductor",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-workcell-convergence/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "blake3",
+      "package": "blake3",
+      "source": "registry",
+      "version": "=1.8.5",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-workcell-convergence/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "serde",
+      "package": "serde",
+      "source": "registry",
+      "version": "=1.0.229",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-workcell-convergence/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "serde_json",
+      "package": "serde_json",
+      "source": "registry",
+      "version": "=1.0.151",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-workcell-convergence/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "thiserror",
+      "package": "thiserror",
+      "source": "registry",
+      "version": "=2.0.18",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-workcell-task-adapter/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "blake3",
+      "package": "blake3",
+      "source": "registry",
+      "version": "=1.8.5",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-workcell-task-adapter/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "futures",
+      "package": "futures",
+      "source": "registry",
+      "version": "=0.3.33",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-workcell-task-adapter/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "serde",
+      "package": "serde",
+      "source": "registry",
+      "version": "=1.0.229",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-workcell-task-adapter/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "serde_json",
+      "package": "serde_json",
+      "source": "registry",
+      "version": "=1.0.151",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-workcell-task-adapter/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "thiserror",
+      "package": "thiserror",
+      "source": "registry",
+      "version": "=2.0.18",
+      "optional": false
+    },
+    {
+      "manifest": "adl-v2/crates/adl-workcell-task-adapter/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "tokio",
+      "package": "tokio",
+      "source": "registry",
+      "version": "=1.53.1",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "adl-provider-core",
+      "package": "adl-provider-core",
+      "source": "path",
+      "declared_path": "../adl-provider-core",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "adl-uts",
+      "package": "adl-uts",
+      "source": "path",
+      "declared_path": "../adl-uts",
+      "version": "=0.1.0",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "adl-runtime",
+      "package": "adl-runtime",
+      "source": "path",
+      "declared_path": "../adl-runtime",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "adl-runtime-kernel",
+      "package": "adl-runtime-kernel",
+      "source": "path",
+      "declared_path": "../adl-runtime-kernel",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "clap",
+      "package": "clap",
+      "source": "registry",
+      "version": "4.5",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "once_cell",
+      "package": "once_cell",
+      "source": "registry",
+      "version": "1.19",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "serde",
+      "package": "serde",
+      "source": "registry",
+      "version": "1.0",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "serde_yaml",
+      "package": "serde_yaml",
+      "source": "registry",
+      "version": "0.9",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "serde_json",
+      "package": "serde_json",
+      "source": "registry",
+      "version": "1.0",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "toml",
+      "package": "toml",
+      "source": "registry",
+      "version": "0.7",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "serde_jcs",
+      "package": "serde_jcs",
+      "source": "registry",
+      "version": "0.2",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "hex",
+      "package": "hex",
+      "source": "registry",
+      "version": "0.4",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "blake3",
+      "package": "blake3",
+      "source": "registry",
+      "version": "1",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "markdown",
+      "package": "markdown",
+      "source": "registry",
+      "version": "1.0.0",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "chrono",
+      "package": "chrono",
+      "source": "registry",
+      "version": "0.4",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "chrono-tz",
+      "package": "chrono-tz",
+      "source": "registry",
+      "version": "0.10",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "libc",
+      "package": "libc",
+      "source": "registry",
+      "version": "0.2",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "fs2",
+      "package": "fs2",
+      "source": "registry",
+      "version": "0.4",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "anyhow",
+      "package": "anyhow",
+      "source": "registry",
+      "version": "1.0",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "thiserror",
+      "package": "thiserror",
+      "source": "registry",
+      "version": "1.0",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "tracing",
+      "package": "tracing",
+      "source": "registry",
+      "version": "0.1",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "tracing-subscriber",
+      "package": "tracing-subscriber",
+      "source": "registry",
+      "version": "0.3",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "reqwest",
+      "package": "reqwest",
+      "source": "registry",
+      "version": "0.12",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "aws-config",
+      "package": "aws-config",
+      "source": "registry",
+      "version": "1",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "aws-sdk-budgets",
+      "package": "aws-sdk-budgets",
+      "source": "registry",
+      "version": "1",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "aws-sdk-bedrockruntime",
+      "package": "aws-sdk-bedrockruntime",
+      "source": "registry",
+      "version": "1",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "aws-sdk-costexplorer",
+      "package": "aws-sdk-costexplorer",
+      "source": "registry",
+      "version": "1",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "aws-sdk-cloudwatchlogs",
+      "package": "aws-sdk-cloudwatchlogs",
+      "source": "registry",
+      "version": "1",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "aws-sdk-ec2",
+      "package": "aws-sdk-ec2",
+      "source": "registry",
+      "version": "1",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "aws-sdk-eventbridge",
+      "package": "aws-sdk-eventbridge",
+      "source": "registry",
+      "version": "1",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "aws-sdk-iam",
+      "package": "aws-sdk-iam",
+      "source": "registry",
+      "version": "1",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "aws-sdk-lambda",
+      "package": "aws-sdk-lambda",
+      "source": "registry",
+      "version": "1",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "aws-sdk-servicequotas",
+      "package": "aws-sdk-servicequotas",
+      "source": "registry",
+      "version": "1",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "aws-sdk-sns",
+      "package": "aws-sdk-sns",
+      "source": "registry",
+      "version": "1",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "aws-sdk-ssm",
+      "package": "aws-sdk-ssm",
+      "source": "registry",
+      "version": "1",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "aws-sdk-sts",
+      "package": "aws-sdk-sts",
+      "source": "registry",
+      "version": "1",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "google-workspace",
+      "package": "google-workspace",
+      "source": "registry",
+      "version": "0.22.5",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "yup-oauth2",
+      "package": "yup-oauth2",
+      "source": "registry",
+      "version": "12",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "async-trait",
+      "package": "async-trait",
+      "source": "registry",
+      "version": "0.1",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "dirs",
+      "package": "dirs",
+      "source": "registry",
+      "version": "5",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "mime_guess2",
+      "package": "mime_guess2",
+      "source": "registry",
+      "version": "2.3.1",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "futures-util",
+      "package": "futures-util",
+      "source": "registry",
+      "version": "0.3.31",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "octocrab",
+      "package": "octocrab",
+      "source": "registry",
+      "version": "0.53",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "rustls",
+      "package": "rustls",
+      "source": "registry",
+      "version": "0.23",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "tokio",
+      "package": "tokio",
+      "source": "registry",
+      "version": "1",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "tokio-util",
+      "package": "tokio-util",
+      "source": "registry",
+      "version": "0.7",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "tokio-tungstenite",
+      "package": "tokio-tungstenite",
+      "source": "registry",
+      "version": "0.24",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "axum",
+      "package": "axum",
+      "source": "registry",
+      "version": "0.7",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "tower",
+      "package": "tower",
+      "source": "registry",
+      "version": "0.5",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "hyper",
+      "package": "hyper",
+      "source": "registry",
+      "version": "1",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "schemars",
+      "package": "schemars",
+      "source": "registry",
+      "version": "0.8",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "jsonschema",
+      "package": "jsonschema",
+      "source": "registry",
+      "version": "0.17",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "base64",
+      "package": "base64",
+      "source": "registry",
+      "version": "0.22",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "ed25519-dalek",
+      "package": "ed25519-dalek",
+      "source": "registry",
+      "version": "2.1",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "p256",
+      "package": "p256",
+      "source": "registry",
+      "version": "0.13",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "rand",
+      "package": "rand",
+      "source": "registry",
+      "version": "0.8",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "tiny_http",
+      "package": "tiny_http",
+      "source": "registry",
+      "version": "0.12",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "sha2",
+      "package": "sha2",
+      "source": "registry",
+      "version": "0.10",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "sha1",
+      "package": "sha1",
+      "source": "registry",
+      "version": "0.10",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "zeroize",
+      "package": "zeroize",
+      "source": "registry",
+      "version": "1",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "deadpool",
+      "package": "deadpool",
+      "source": "registry",
+      "version": "0.13.0",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "ntp-daemon",
+      "package": "ntp-daemon",
+      "source": "registry",
+      "version": "0.3.7",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "rsntp",
+      "package": "rsntp",
+      "source": "registry",
+      "version": "4.1.2",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dev-dependencies",
+      "dependency": "adl-runtime-kernel",
+      "package": "adl-runtime-kernel",
+      "source": "path",
+      "declared_path": "../adl-runtime-kernel",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dev-dependencies",
+      "dependency": "loom",
+      "package": "loom",
+      "source": "registry",
+      "version": "0.7",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dev-dependencies",
+      "dependency": "aws-smithy-http-client",
+      "package": "aws-smithy-http-client",
+      "source": "registry",
+      "version": "1",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dev-dependencies",
+      "dependency": "aws-smithy-runtime-api",
+      "package": "aws-smithy-runtime-api",
+      "source": "registry",
+      "version": "1",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dev-dependencies",
+      "dependency": "aws-smithy-types",
+      "package": "aws-smithy-types",
+      "source": "registry",
+      "version": "1",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dev-dependencies",
+      "dependency": "http",
+      "package": "http",
+      "source": "registry",
+      "version": "1",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dev-dependencies",
+      "dependency": "rcgen",
+      "package": "rcgen",
+      "source": "registry",
+      "version": "0.14",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dev-dependencies",
+      "dependency": "tempfile",
+      "package": "tempfile",
+      "source": "registry",
+      "version": "3",
+      "optional": false
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "scope": "dev-dependencies",
+      "dependency": "x509-parser",
+      "package": "x509-parser",
+      "source": "registry",
+      "version": "0.18.1",
+      "optional": false
+    },
+    {
+      "manifest": "csdlc-v2/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "adl-resilience",
+      "package": "adl-resilience",
+      "source": "path",
+      "declared_path": "../adl-resilience",
+      "optional": false
+    },
+    {
+      "manifest": "csdlc-v2/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "blake3",
+      "package": "blake3",
+      "source": "registry",
+      "version": "1",
+      "optional": false
+    },
+    {
+      "manifest": "csdlc-v2/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "clap",
+      "package": "clap",
+      "source": "registry",
+      "version": "4.5",
+      "optional": false
+    },
+    {
+      "manifest": "csdlc-v2/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "fs2",
+      "package": "fs2",
+      "source": "registry",
+      "version": "0.4",
+      "optional": false
+    },
+    {
+      "manifest": "csdlc-v2/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "markdown",
+      "package": "markdown",
+      "source": "registry",
+      "version": "1.0.0",
+      "optional": false
+    },
+    {
+      "manifest": "csdlc-v2/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "schemars",
+      "package": "schemars",
+      "source": "registry",
+      "version": "0.8",
+      "optional": false
+    },
+    {
+      "manifest": "csdlc-v2/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "serde",
+      "package": "serde",
+      "source": "registry",
+      "version": "1",
+      "optional": false
+    },
+    {
+      "manifest": "csdlc-v2/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "serde_json",
+      "package": "serde_json",
+      "source": "registry",
+      "version": "1",
+      "optional": false
+    },
+    {
+      "manifest": "csdlc-v2/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "sha2",
+      "package": "sha2",
+      "source": "registry",
+      "version": "0.10",
+      "optional": false
+    },
+    {
+      "manifest": "csdlc-v2/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "strum",
+      "package": "strum",
+      "source": "registry",
+      "version": "0.27",
+      "optional": false
+    },
+    {
+      "manifest": "csdlc-v2/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "thiserror",
+      "package": "thiserror",
+      "source": "registry",
+      "version": "2",
+      "optional": false
+    },
+    {
+      "manifest": "csdlc-v2/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "time",
+      "package": "time",
+      "source": "registry",
+      "version": "0.3",
+      "optional": false
+    },
+    {
+      "manifest": "csdlc-v2/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "libc",
+      "package": "libc",
+      "source": "registry",
+      "version": "0.2",
+      "optional": false
+    },
+    {
+      "manifest": "csdlc-v2/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "octocrab",
+      "package": "octocrab",
+      "source": "registry",
+      "version": "0.53",
+      "optional": false
+    },
+    {
+      "manifest": "csdlc-v2/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "tokio",
+      "package": "tokio",
+      "source": "registry",
+      "version": "1",
+      "optional": false
+    },
+    {
+      "manifest": "csdlc-v2/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "url",
+      "package": "url",
+      "source": "registry",
+      "version": "2",
+      "optional": false
+    },
+    {
+      "manifest": "csdlc-v2/Cargo.toml",
+      "scope": "dev-dependencies",
+      "dependency": "tempfile",
+      "package": "tempfile",
+      "source": "registry",
+      "version": "3",
+      "optional": false
+    },
+    {
+      "manifest": "csdlc-v3/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "blake3",
+      "package": "blake3",
+      "source": "registry",
+      "version": "1",
+      "optional": false
+    },
+    {
+      "manifest": "csdlc-v3/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "fs2",
+      "package": "fs2",
+      "source": "registry",
+      "version": "0.4",
+      "optional": false
+    },
+    {
+      "manifest": "csdlc-v3/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "markdown",
+      "package": "markdown",
+      "source": "registry",
+      "version": "1.0.0",
+      "optional": false
+    },
+    {
+      "manifest": "csdlc-v3/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "serde",
+      "package": "serde",
+      "source": "registry",
+      "version": "1",
+      "optional": false
+    },
+    {
+      "manifest": "csdlc-v3/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "serde_json",
+      "package": "serde_json",
+      "source": "registry",
+      "version": "1",
+      "optional": false
+    },
+    {
+      "manifest": "csdlc-v3/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "toml",
+      "package": "toml",
+      "source": "registry",
+      "version": "0.8",
+      "optional": false
+    },
+    {
+      "manifest": "demos/transpiler_demo/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "serde",
+      "package": "serde",
+      "source": "registry",
+      "version": "1.0",
+      "optional": false
+    },
+    {
+      "manifest": "demos/transpiler_demo/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "serde_json",
+      "package": "serde_json",
+      "source": "registry",
+      "version": "1.0",
+      "optional": false
+    },
+    {
+      "manifest": "tools/aws_remote_validation/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "anyhow",
+      "package": "anyhow",
+      "source": "registry",
+      "version": "1.0",
+      "optional": false
+    },
+    {
+      "manifest": "tools/aws_remote_validation/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "async-trait",
+      "package": "async-trait",
+      "source": "registry",
+      "version": "0.1",
+      "optional": false
+    },
+    {
+      "manifest": "tools/aws_remote_validation/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "base64",
+      "package": "base64",
+      "source": "registry",
+      "version": "0.22",
+      "optional": false
+    },
+    {
+      "manifest": "tools/aws_remote_validation/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "aws-config",
+      "package": "aws-config",
+      "source": "registry",
+      "version": "1",
+      "optional": false
+    },
+    {
+      "manifest": "tools/aws_remote_validation/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "aws-sdk-budgets",
+      "package": "aws-sdk-budgets",
+      "source": "registry",
+      "version": "1",
+      "optional": false
+    },
+    {
+      "manifest": "tools/aws_remote_validation/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "aws-sdk-costexplorer",
+      "package": "aws-sdk-costexplorer",
+      "source": "registry",
+      "version": "1",
+      "optional": false
+    },
+    {
+      "manifest": "tools/aws_remote_validation/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "aws-sdk-ec2",
+      "package": "aws-sdk-ec2",
+      "source": "registry",
+      "version": "1",
+      "optional": false
+    },
+    {
+      "manifest": "tools/aws_remote_validation/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "aws-sdk-iam",
+      "package": "aws-sdk-iam",
+      "source": "registry",
+      "version": "1",
+      "optional": false
+    },
+    {
+      "manifest": "tools/aws_remote_validation/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "aws-sdk-servicequotas",
+      "package": "aws-sdk-servicequotas",
+      "source": "registry",
+      "version": "1",
+      "optional": false
+    },
+    {
+      "manifest": "tools/aws_remote_validation/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "aws-sdk-ssm",
+      "package": "aws-sdk-ssm",
+      "source": "registry",
+      "version": "1",
+      "optional": false
+    },
+    {
+      "manifest": "tools/aws_remote_validation/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "aws-sdk-sts",
+      "package": "aws-sdk-sts",
+      "source": "registry",
+      "version": "1",
+      "optional": false
+    },
+    {
+      "manifest": "tools/aws_remote_validation/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "chrono",
+      "package": "chrono",
+      "source": "registry",
+      "version": "0.4",
+      "optional": false
+    },
+    {
+      "manifest": "tools/aws_remote_validation/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "flate2",
+      "package": "flate2",
+      "source": "registry",
+      "version": "1.0",
+      "optional": false
+    },
+    {
+      "manifest": "tools/aws_remote_validation/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "ip_network",
+      "package": "ip_network",
+      "source": "registry",
+      "version": "0.4.1",
+      "optional": false
+    },
+    {
+      "manifest": "tools/aws_remote_validation/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "once_cell",
+      "package": "once_cell",
+      "source": "registry",
+      "version": "1.19",
+      "optional": false
+    },
+    {
+      "manifest": "tools/aws_remote_validation/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "serde",
+      "package": "serde",
+      "source": "registry",
+      "version": "1.0",
+      "optional": false
+    },
+    {
+      "manifest": "tools/aws_remote_validation/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "serde_json",
+      "package": "serde_json",
+      "source": "registry",
+      "version": "1.0",
+      "optional": false
+    },
+    {
+      "manifest": "tools/aws_remote_validation/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "sha2",
+      "package": "sha2",
+      "source": "registry",
+      "version": "0.10",
+      "optional": false
+    },
+    {
+      "manifest": "tools/aws_remote_validation/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "tokio",
+      "package": "tokio",
+      "source": "registry",
+      "version": "1",
+      "optional": false
+    },
+    {
+      "manifest": "tools/remote_validation/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "serde",
+      "package": "serde",
+      "source": "registry",
+      "version": "1.0",
+      "optional": false
+    },
+    {
+      "manifest": "tools/remote_validation/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "serde_json",
+      "package": "serde_json",
+      "source": "registry",
+      "version": "1.0",
+      "optional": false
+    },
+    {
+      "manifest": "tools/remote_validation/Cargo.toml",
+      "scope": "dependencies",
+      "dependency": "sha2",
+      "package": "sha2",
+      "source": "registry",
+      "version": "0.10",
+      "optional": false
+    }
+  ]
+}

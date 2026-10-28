@@ -1,0 +1,304 @@
+{
+  "schema": "adl.v0922.quality_decision.v1",
+  "issue": 916,
+  "sprint": 937,
+  "status": "in_progress",
+  "decision": "not_proven",
+  "observed_at": "2026-09-22T03:29:54.654792+00:00",
+  "audit_baseline": "a26e9e56e3f0de58954fc9628870aaa5edd60301",
+  "accepted_release_candidate": null,
+  "installed_binary_digests": null,
+  "accepted_artifact_manifest_digest": null,
+  "operator_authority": "September 21 instruction: open Sprint 11 and start #916 gap analysis while stragglers finish. Analysis may overlap; final acceptance remains evidence-gated.",
+  "gates": [
+    {
+      "id": "Q01",
+      "requirement": "Canonical planning and issue-routing parity",
+      "status": "pass",
+      "evidence": [
+        "planning-validation-reconciled.json"
+      ],
+      "limitation": "69 work packages and 298 negative fixtures pass after scope-preserving contract reconciliation; independent bounded review passed."
+    },
+    {
+      "id": "Q02",
+      "requirement": "Local/GitHub/CI portable ingestion",
+      "status": "not_proven",
+      "evidence": [
+        "TASK_LEDGER.json"
+      ],
+      "limitation": "Opening audit has not established acceptance on a single installed release candidate."
+    },
+    {
+      "id": "Q03",
+      "requirement": "Identity/provenance/redaction/retention",
+      "status": "not_proven",
+      "evidence": [
+        "TASK_LEDGER.json"
+      ],
+      "limitation": "Opening audit has not established acceptance on a single installed release candidate."
+    },
+    {
+      "id": "Q04",
+      "requirement": "Explainable architecture",
+      "status": "not_proven",
+      "evidence": [
+        "TASK_LEDGER.json"
+      ],
+      "limitation": "Opening audit has not established acceptance on a single installed release candidate."
+    },
+    {
+      "id": "Q05",
+      "requirement": "Deterministic fitness and judgment separation",
+      "status": "not_proven",
+      "evidence": [
+        "TASK_LEDGER.json"
+      ],
+      "limitation": "Opening audit has not established acceptance on a single installed release candidate."
+    },
+    {
+      "id": "Q06",
+      "requirement": "Four attributed review perspectives and synthesis",
+      "status": "not_proven",
+      "evidence": [
+        "TASK_LEDGER.json"
+      ],
+      "limitation": "Opening audit has not established acceptance on a single installed release candidate."
+    },
+    {
+      "id": "Q07",
+      "requirement": "Bounded remediation and test plans",
+      "status": "not_proven",
+      "evidence": [
+        "TASK_LEDGER.json"
+      ],
+      "limitation": "Opening audit has not established acceptance on a single installed release candidate."
+    },
+    {
+      "id": "Q08",
+      "requirement": "Second-run comparison",
+      "status": "not_proven",
+      "evidence": [
+        "TASK_LEDGER.json"
+      ],
+      "limitation": "Opening audit has not established acceptance on a single installed release candidate."
+    },
+    {
+      "id": "Q09",
+      "requirement": "Approved Markdown/HTML/PDF claim parity",
+      "status": "not_proven",
+      "evidence": [
+        "TASK_LEDGER.json"
+      ],
+      "limitation": "Opening audit has not established acceptance on a single installed release candidate."
+    },
+    {
+      "id": "Q10",
+      "requirement": "Privacy/legal/manifests",
+      "status": "not_proven",
+      "evidence": [
+        "TASK_LEDGER.json"
+      ],
+      "limitation": "Opening audit has not established acceptance on a single installed release candidate."
+    },
+    {
+      "id": "Q11",
+      "requirement": "Independent ADL and external repository qualification",
+      "status": "not_proven",
+      "evidence": [
+        "TASK_LEDGER.json"
+      ],
+      "limitation": "Opening audit has not established acceptance on a single installed release candidate."
+    },
+    {
+      "id": "Q12",
+      "requirement": "Integrated success/failure and no unresolved P1",
+      "status": "not_proven",
+      "evidence": [
+        "TASK_LEDGER.json"
+      ],
+      "limitation": "Opening audit has not established acceptance on a single installed release candidate."
+    }
+  ],
+  "findings": [
+    {
+      "id": "916-G01",
+      "severity": "P2",
+      "kind": "docs_drift",
+      "bucket": "stale_release_readiness_docs",
+      "summary": "CF-INTEGRATE and CF-PROOF execution specifications omit accepted website-mode and invitation/isolation evidence present in the atomic contracts.",
+      "evidence": [
+        "../../WP_EXECUTION_SPECIFICATIONS_v0.92.2.yaml",
+        "../../ATOMIC_TASK_CONTRACTS_v0.92.2.json"
+      ],
+      "required_action": "Align the specification with the stronger accepted contract; do not weaken acceptance.",
+      "disposition": "resolved_locally_pending_integration",
+      "resolution": "Execution specification now matches the accepted atomic contracts; validator and independent bounded review pass."
+    },
+    {
+      "id": "916-G02",
+      "severity": "P1",
+      "kind": "missing_evidence",
+      "bucket": "release_blockers",
+      "summary": "Independent #915 qualification has not supplied accepted final candidate evidence.",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/issues/915",
+        "SPRINT10_DEFERRAL.json"
+      ],
+      "required_action": "Record exact follow-on issue identities and native closeout evidence from #915/#936. Preserve incomplete qualification; enforce accepted remaining qualification before v0.93 Beta1 launch.",
+      "disposition": "operator_authorized_defer_to_v093_before_beta1_launch",
+      "release_scope_note": "Original qualification blocker is explicitly deferred for v0.92.2 closeout; remains a Beta1 launch blocker. Disposition is not product proof or an automatic Q11/Q12 pass."
+    },
+    {
+      "id": "916-G03",
+      "severity": "P2",
+      "kind": "missing_evidence",
+      "bucket": "durable_proof_gaps",
+      "summary": "Closed task state and merge ancestry have not yet been reconciled with source-specific proof, installed identities and claim freshness.",
+      "evidence": [
+        "TASK_LEDGER.json",
+        "../../FEATURE_PROOF_COVERAGE_v0.92.2.md"
+      ],
+      "required_action": "Inspect producer artifacts against their exact acceptance criteria and record accepted, failed, deferred or not-proven per obligation."
+    },
+    {
+      "id": "916-G04",
+      "severity": "P2",
+      "kind": "missing_evidence",
+      "bucket": "durable_proof_gaps",
+      "summary": "Runtime criterion replay admits four rows but cannot reopen the #852 execution archive from the #916 checkout.",
+      "evidence": [
+        "runtime-admission-recheck.json",
+        "../../evidence/qual-evidence-902/qualification-manifest.json",
+        "runtime-admission-recovered.json"
+      ],
+      "required_action": "Preserve retention reference; no implementation fix required.",
+      "scope": "Declared issue-local path, common evidence roots for #902/#852, registered producer worktrees, and #902 merge tree checked; broader backup stores not yet checked.",
+      "disposition": "resolved_retained_evidence_recovered",
+      "resolution": "Exact SHA-256 archive found under Git-local archived-worktree-residue/v0922-closeout-20260916/902, copied to issue-local replay path without changing original; existing admission now passes all five rows."
+    },
+    {
+      "id": "916-G05",
+      "severity": "P2",
+      "kind": "implementation_gap",
+      "bucket": "routed_work",
+      "summary": "Live PAIR processes are running, but the probed local proxy has no available active node/model inventory.",
+      "evidence": [
+        "PAIR_HEALTH.json",
+        "PAIR_HEALTH_RECHECK.json"
+      ],
+      "required_action": "No remaining blocker from the observed proxy-discovery failure; preserve inference qualification separately.",
+      "limitation": "Observed local default proxy only. Historical REPAIR decision is separate. Remote unauthenticated403 is not a failure verdict; this is not proof that every possible PAIR route is unusable.",
+      "disposition": "resolved_live_endpoint_recheck",
+      "resolution": "After operator repair, all three previously failing proxy endpoints return HTTP200; inventory reports19 models. No inference was exercised."
+    }
+  ],
+  "stragglers": [
+    {
+      "issue": 915,
+      "state": "CLOSED",
+      "role": "independent product qualification",
+      "delivery_status": "qualification_incomplete_deferred",
+      "status_source": "SPRINT10_DEFERRAL.json authenticated closure; #922 approved split routes successors to v0.93.1.",
+      "state_reason": "NOT_PLANNED",
+      "successor_issues": [
+        1148,
+        1149,
+        1150
+      ],
+      "destination_milestone": "v0.93.1"
+    },
+    {
+      "issue": 1132,
+      "state": "CLOSED",
+      "role": "website cycle-to-Journey integration",
+      "delivery_status": "merged_integration",
+      "status_source": "Authenticated merge readbacks: ADL1137/1138 and CodeFriend.ai18; independent915 qualification separate."
+    },
+    {
+      "issue": 1133,
+      "state": "CLOSED",
+      "role": "native cycle-to-Journey/publication integration",
+      "delivery_status": "merged_integration",
+      "status_source": "Authenticated merge readbacks: ADL1137/1138 and CodeFriend.ai18; independent915 qualification separate."
+    }
+  ],
+  "denominators": {
+    "tasks": 69,
+    "planning_results": 7,
+    "quality_gates": 12,
+    "early_prerequisites": 24,
+    "closed_early_prerequisites": 23,
+    "pending_early_prerequisites": 1
+  },
+  "nonclaims": [
+    "No release approval",
+    "No provider or deployment execution",
+    "No blanket acceptance from closed issues or green CI",
+    "OBS-S3 and ARCH-ADR remain final TAIL-10 acceptance obligations",
+    "No child after 916 accepted by this audit"
+  ],
+  "next_actions": [
+    "Carry incomplete #915 qualification through #1148 and #1149 producer corrections and #1150 independent qualification in v0.93.1 before Beta1 launch; do not wait for a new #915 result or claim qualification PASS.",
+    "Reconcile accepted candidate/manifest digests and final twelve quality-gate results; do not substitute component tests for real-provider qualification"
+  ],
+  "producer_audit": {
+    "evidence_index": "PRODUCER_EVIDENCE_INDEX.json",
+    "codefriend_identities": "CODEFRIEND_PROOF_IDENTITIES.json",
+    "runtime_replay": {
+      "passed_rows": 5,
+      "unavailable_rows": 0,
+      "report": "runtime-admission-recovered.json",
+      "scope": "Five criterion-specific historical producer results admitted; no integrated release-candidate acceptance."
+    },
+    "operator_accepted_drafting_scope": [
+      912,
+      913
+    ],
+    "prerequisite_acceptance": "PREREQUISITE_ACCEPTANCE.json",
+    "prerequisite_audit_counts": {
+      "criterion_evidence_admitted": 5,
+      "historical_record_inspected": 17,
+      "operator_accepted_bounded_handoff": 2
+    },
+    "live_verification": "LIVE_VERIFICATION.json",
+    "postmerge_verification": "POSTMERGE_VERIFICATION.json"
+  },
+  "sprint10_closeout_refresh": {
+    "observed_at": "2026-09-22T17:48:38.466820+00:00",
+    "evidence": "SPRINT10_CLOSEOUT_REFRESH.json",
+    "integration_issue_state": "CLOSED",
+    "qualification_issue_state": "OPEN",
+    "sprint_issue_state": "OPEN",
+    "repair_issue": 1144,
+    "repair_pr": 1146,
+    "repair_head": "a200a199fc07df1a60b165cf46c4366a20971b6e",
+    "repair_pr_state": "OPEN",
+    "acceptance": "not_proven",
+    "next_gate": "Consume accepted exact repaired candidate and independent #915 qualification; then reconcile source-specific acceptance and sprint closing ancestry."
+  },
+  "producer_hash_recheck": {
+    "evidence": "PRODUCER_HASH_RECHECK.json",
+    "prerequisites": 24,
+    "artifacts": 84,
+    "matches": 84,
+    "mismatches": 0,
+    "unavailable": 0,
+    "claim": "Retained byte identity only; not final installed-candidate acceptance."
+  },
+  "qualification_repair_merge": {
+    "evidence": "QUALIFICATION_REPAIR_MERGE.json",
+    "repair_pr_state": "MERGED",
+    "qualification_issue_state": "OPEN",
+    "decision": "not_proven"
+  },
+  "sprint10_scope_disposition": {
+    "evidence": "SPRINT10_DEFERRAL.json",
+    "status": "operator_authorized_deferral",
+    "original_qualification": "incomplete",
+    "follow_on_routing": "v0.93.1 issues #1148, #1149, #1150",
+    "final_quality_decision": "not_proven",
+    "closure": "#915 and #936 CLOSED/NOT_PLANNED; native superseded closeout succeeded"
+  },
+  "producer_scope_audit": "PRODUCER_SCOPE_AUDIT.md"
+}

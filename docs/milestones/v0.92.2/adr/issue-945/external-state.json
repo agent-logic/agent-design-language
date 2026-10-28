@@ -1,0 +1,356 @@
+{
+  "observed_at": "2026-09-17T01:18:00.675715+00:00",
+  "boundary": "Tracker state only, not source-specific acceptance or approval",
+  "issues": [
+    {
+      "number": 720,
+      "state": "CLOSED",
+      "title": "[v0.92.2][Observatory] Remove retained-mode demo hazards"
+    },
+    {
+      "number": 848,
+      "state": "CLOSED",
+      "title": "[v0.92.2][planning] Decide repository decomposition and public/private product boundaries"
+    },
+    {
+      "number": 849,
+      "state": "CLOSED",
+      "title": "[v0.92.2][C-SDLC v3][P2] Preserve publication linkage during native PR merge"
+    },
+    {
+      "number": 852,
+      "state": "CLOSED",
+      "title": "[v0.92.2][runtime] Emit correlated canonical ingress failure events"
+    },
+    {
+      "number": 854,
+      "state": "CLOSED",
+      "title": "[v0.92.2][runtime][cost] Stop metered cloud inference health-probe loops"
+    },
+    {
+      "number": 855,
+      "state": "CLOSED",
+      "title": "[v0.92.2][RT-PROVIDER] Provider-neutral dynamic agent lifecycle"
+    },
+    {
+      "number": 861,
+      "state": "CLOSED",
+      "title": "[v0.92.2][C-SDLC v3][docs] Write complete operator man pages"
+    },
+    {
+      "number": 862,
+      "state": "CLOSED",
+      "title": "[v0.92.2][C-SDLC v3][refactor] Decompose the local command owner"
+    },
+    {
+      "number": 864,
+      "state": "CLOSED",
+      "title": "[v0.92.2][WP-01][planning] Publish and open the CodeFriend Beta 1 execution wave"
+    },
+    {
+      "number": 866,
+      "state": "OPEN",
+      "title": "[v0.92.2][SIM-UMBRELLA] Coordinate the first C-SDLC simplification sprint"
+    },
+    {
+      "number": 867,
+      "state": "CLOSED",
+      "title": "[v0.92.2][SIM-01] Make diagnostics observably read-only"
+    },
+    {
+      "number": 868,
+      "state": "CLOSED",
+      "title": "[v0.92.2][SIM-02] One current installed command contract"
+    },
+    {
+      "number": 869,
+      "state": "CLOSED",
+      "title": "[v0.92.2][SIM-03] Execute the supported installed intent-command inventory"
+    },
+    {
+      "number": 870,
+      "state": "CLOSED",
+      "title": "[v0.92.2][SIM-04] Route operational mutations through one semantic transaction owner"
+    },
+    {
+      "number": 871,
+      "state": "CLOSED",
+      "title": "[v0.92.2][SIM-05] Derived cards and precise evidence invalidation"
+    },
+    {
+      "number": 872,
+      "state": "CLOSED",
+      "title": "[v0.92.2][SIM-06] Deliver one safe conversion rehearsal"
+    },
+    {
+      "number": 873,
+      "state": "OPEN",
+      "title": "[v0.92.2][SIM-07] Produce one independent transition qualification"
+    },
+    {
+      "number": 874,
+      "state": "OPEN",
+      "title": "[v0.92.2][SIM-08] Produce one transition operations packet"
+    },
+    {
+      "number": 875,
+      "state": "OPEN",
+      "title": "[v0.92.2][SIM-09] Run one authorized consecutive-issue pilot"
+    },
+    {
+      "number": 876,
+      "state": "CLOSED",
+      "title": "[v0.92.2][PLAT-PROVIDER] Consume validated editable provider definitions"
+    },
+    {
+      "number": 877,
+      "state": "CLOSED",
+      "title": "[v0.92.2][PLAT-UTS] Install a versioned UTS package consumed by Runtime tool dispatch"
+    },
+    {
+      "number": 878,
+      "state": "CLOSED",
+      "title": "[v0.92.2][CF-ADAPTER] Ingest a local checkout into a portable repository packet"
+    },
+    {
+      "number": 879,
+      "state": "CLOSED",
+      "title": "[v0.92.2][CF-ADAPTER-GITHUB] Ingest a pinned GitHub revision or PR into a repository packet"
+    },
+    {
+      "number": 880,
+      "state": "CLOSED",
+      "title": "[v0.92.2][CF-ADAPTER-CI] Ingest CI repository inputs into a repository packet"
+    },
+    {
+      "number": 881,
+      "state": "CLOSED",
+      "title": "[v0.92.2][CF-EVIDENCE] Admit and retain governed evidence through the production adapter"
+    },
+    {
+      "number": 882,
+      "state": "CLOSED",
+      "title": "[v0.92.2][CF-COG] Report repository dependency and boundary structure"
+    },
+    {
+      "number": 883,
+      "state": "CLOSED",
+      "title": "[v0.92.2][CF-COG-IMPACT] Report the impact of a scoped repository change"
+    },
+    {
+      "number": 884,
+      "state": "CLOSED",
+      "title": "[v0.92.2][CF-COG-RATIONALE] Explain architectural quanta against recorded rationale"
+    },
+    {
+      "number": 885,
+      "state": "CLOSED",
+      "title": "[v0.92.2][CF-MEMORY] Stable second-run comparison and longitudinal review memory"
+    },
+    {
+      "number": 886,
+      "state": "CLOSED",
+      "title": "[v0.92.2][CF-COG-DRIFT] Report architecture drift between compatible revisions"
+    },
+    {
+      "number": 887,
+      "state": "CLOSED",
+      "title": "[v0.92.2][CF-GOV] Execute local architecture fitness functions"
+    },
+    {
+      "number": 888,
+      "state": "CLOSED",
+      "title": "[v0.92.2][CF-GOV-CI] Execute architecture fitness functions as a CI gate"
+    },
+    {
+      "number": 889,
+      "state": "CLOSED",
+      "title": "[v0.92.2][PLAT-MEMORY] Retrieve a compatible prior CodeFriend review through Memory Palace"
+    },
+    {
+      "number": 890,
+      "state": "CLOSED",
+      "title": "[v0.92.2][CF-REVIEW] Execute isolated four-perspective repository review"
+    },
+    {
+      "number": 891,
+      "state": "CLOSED",
+      "title": "[v0.92.2][CF-SHELL] Operate a real repository review through the installed CodeFriend shell"
+    },
+    {
+      "number": 892,
+      "state": "CLOSED",
+      "title": "[v0.92.2][CF-SYNTHESIS] Synthesize completed review perspectives"
+    },
+    {
+      "number": 893,
+      "state": "CLOSED",
+      "title": "[v0.92.2][CF-REMEDIATE] Generate a bounded remediation plan from review findings"
+    },
+    {
+      "number": 894,
+      "state": "CLOSED",
+      "title": "[v0.92.2][CF-TESTPLAN] Generate a bounded test plan from review findings"
+    },
+    {
+      "number": 895,
+      "state": "CLOSED",
+      "title": "[v0.92.2][CF-UX] Enforce exact-artifact publication approval"
+    },
+    {
+      "number": 896,
+      "state": "CLOSED",
+      "title": "[v0.92.2][CF-RENDER-MD] Render an approved review as Markdown"
+    },
+    {
+      "number": 897,
+      "state": "CLOSED",
+      "title": "[v0.92.2][CF-RENDER-HTML] Render an approved review as HTML"
+    },
+    {
+      "number": 898,
+      "state": "OPEN",
+      "title": "[v0.92.2][CF-RENDER-PDF] Render an approved review as a verified PDF"
+    },
+    {
+      "number": 899,
+      "state": "CLOSED",
+      "title": "[v0.92.2][QUAL-INVENTORY] Measure the registered before and after validation inventory"
+    },
+    {
+      "number": 900,
+      "state": "CLOSED",
+      "title": "[v0.92.2][QUAL-RESIDENT] Execute resident workload and signed restore qualification"
+    },
+    {
+      "number": 901,
+      "state": "CLOSED",
+      "title": "[v0.92.2][QUAL-PROVIDER] Execute real provider failure and recovery qualification"
+    },
+    {
+      "number": 902,
+      "state": "CLOSED",
+      "title": "[v0.92.2][QUAL-EVIDENCE] Validate criterion-bound Runtime qualification evidence"
+    },
+    {
+      "number": 903,
+      "state": "CLOSED",
+      "title": "[v0.92.2][PLAT-MLX] Bounded MLX and Apple Metal provider adapter"
+    },
+    {
+      "number": 904,
+      "state": "CLOSED",
+      "title": "[v0.92.2][PLAT-PAIR] NVIDIA PAIR multi-node local-inference experiment"
+    },
+    {
+      "number": 905,
+      "state": "CLOSED",
+      "title": "[v0.92.2][SPEC-RETEST] Speculative-decoding requalification"
+    },
+    {
+      "number": 906,
+      "state": "CLOSED",
+      "title": "[v0.92.2][PLAT-RUST] Complete one selected production Rust responsibility refactor"
+    },
+    {
+      "number": 907,
+      "state": "CLOSED",
+      "title": "[v0.92.2][CSDLC-REMOTE] Decompose the remote C-SDLC command owner"
+    },
+    {
+      "number": 908,
+      "state": "CLOSED",
+      "title": "[v0.92.2][OPS-AWS] Produce one current AWS inventory packet from the #484 baseline"
+    },
+    {
+      "number": 909,
+      "state": "CLOSED",
+      "title": "[v0.92.2][OPS-GCP] Produce one apply-ready company GCP move-in execution packet"
+    },
+    {
+      "number": 910,
+      "state": "CLOSED",
+      "title": "[v0.92.2][OBS-S3] Deploy the existing Observatory S3 and CloudFront sidecar"
+    },
+    {
+      "number": 911,
+      "state": "CLOSED",
+      "title": "[v0.92.2][ARCH-ADR] Generate and reconcile the ADRs required by v0.92.2"
+    },
+    {
+      "number": 912,
+      "state": "OPEN",
+      "title": "[v0.92.2][PUB-MEDIUM] Write one complete selected Medium article manuscript"
+    },
+    {
+      "number": 913,
+      "state": "OPEN",
+      "title": "[v0.92.2][PUB-CSDLC] Complete one named C-SDLC manuscript revision"
+    },
+    {
+      "number": 914,
+      "state": "OPEN",
+      "title": "[v0.92.2][CF-INTEGRATE] Connect the complete installed CodeFriend Beta 1 journey"
+    },
+    {
+      "number": 915,
+      "state": "OPEN",
+      "title": "[v0.92.2][CF-PROOF] Execute independent installed Beta 1 qualification on ADL and an external repository"
+    },
+    {
+      "number": 916,
+      "state": "OPEN",
+      "title": "[v0.92.2][TAIL-01] Quality gate"
+    },
+    {
+      "number": 917,
+      "state": "OPEN",
+      "title": "[v0.92.2][TAIL-02] Documentation review and external-review handoff"
+    },
+    {
+      "number": 918,
+      "state": "OPEN",
+      "title": "[v0.92.2][TAIL-03] Publication finalization"
+    },
+    {
+      "number": 919,
+      "state": "OPEN",
+      "title": "[v0.92.2][TAIL-04] Internal milestone review"
+    },
+    {
+      "number": 920,
+      "state": "OPEN",
+      "title": "[v0.92.2][TAIL-05] External or third-party review"
+    },
+    {
+      "number": 921,
+      "state": "OPEN",
+      "title": "[v0.92.2][TAIL-06] Accepted-findings remediation or explicit deferral capture"
+    },
+    {
+      "number": 922,
+      "state": "OPEN",
+      "title": "[v0.92.2][TAIL-07] Next-milestone planning"
+    },
+    {
+      "number": 923,
+      "state": "OPEN",
+      "title": "[v0.92.2][TAIL-08] Next-milestone closeout planning"
+    },
+    {
+      "number": 924,
+      "state": "OPEN",
+      "title": "[v0.92.2][TAIL-09] Next-milestone planning review"
+    },
+    {
+      "number": 925,
+      "state": "OPEN",
+      "title": "[v0.92.2][TAIL-10] Release ceremony and milestone close"
+    },
+    {
+      "number": 945,
+      "state": "OPEN",
+      "title": "[v0.92.2][ARCH-ADR] Reconcile proposed ADRs with implementation and obtain decision approval"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+Generating public/private rsa key pair.
+Your identification has been saved in <worktree-git-common>/csdlc-v2/gcp-e/ssh-key
+Your public key has been saved in <worktree-git-common>/csdlc-v2/gcp-e/ssh-key
+The key fingerprint is:
+SHA256:yekN5FHeo/oeS1ZWZekAedaFXRU0DG5LVgQXJhEl5qk daniel@wuji.local
+The key's randomart image is:
++---[RSA 3072]----+
+|          ..oO@&&|
+|         o o++O*o|
+|        o . =B+  |
+|       + + .=o.. |
+|        S .Eo.   |
+|       . + o     |
+|        o =      |
+|         + o     |
+|         .+      |
++----[SHA256]-----+

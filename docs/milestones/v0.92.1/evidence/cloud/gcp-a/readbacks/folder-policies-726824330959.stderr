@@ -1,0 +1,13 @@
+ERROR: (gcloud.org-policies.list) [daniel@agent-logic.ai] does not have permission to access folders instance [726824330959] (or it may not exist): Organization Policy API has not been used in project cs-poc-cha8mmii0xk0iaw5vpf8mxf before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/orgpolicy.googleapis.com/overview?project=cs-poc-cha8mmii0xk0iaw5vpf8mxf then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry. This command is authenticated as daniel@agent-logic.ai which is the active account specified by the [core/account] property.
+Organization Policy API has not been used in project cs-poc-cha8mmii0xk0iaw5vpf8mxf before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/orgpolicy.googleapis.com/overview?project=cs-poc-cha8mmii0xk0iaw5vpf8mxf then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry.
+Google developers console API activation
+https://console.developers.google.com/apis/api/orgpolicy.googleapis.com/overview?project=cs-poc-cha8mmii0xk0iaw5vpf8mxf
+- '@type': type.googleapis.com/google.rpc.ErrorInfo
+  domain: googleapis.com
+  metadata:
+    activationUrl: https://console.developers.google.com/apis/api/orgpolicy.googleapis.com/overview?project=cs-poc-cha8mmii0xk0iaw5vpf8mxf
+    consumer: projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf
+    containerInfo: cs-poc-cha8mmii0xk0iaw5vpf8mxf
+    service: orgpolicy.googleapis.com
+    serviceTitle: Organization Policy API
+  reason: SERVICE_DISABLED

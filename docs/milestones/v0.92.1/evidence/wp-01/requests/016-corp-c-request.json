@@ -1,0 +1,27 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "action": "issue_create",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:CORP-C:create",
+  "token_file": null,
+  "issue": null,
+  "pull_request": null,
+  "title": "[v0.92.1][CORP-C] Corporate operational-control transfer",
+  "body": "## Outcome\n\nProduce one accepted corporate operational-control transfer record for the complete control-plane denominator.\n\n## Primary deliverable\n\nOne accepted control-plane transfer record covering every named operational authority.\n\n## Verification result\n\nCorporate-owner, business-account, deployment, availability, recovery, and rollback readbacks pass for the complete control-plane denominator.\n\n## Unit boundary\n\nIssue completion is exactly one corporate control-transfer acceptance decision; individual control-plane transfers and readbacks are denominator rows, not separately closeable results.\n\n## Dependencies\n\n- CORP-A: #482\n- CORP-B: #483\n- AWS-G: #496\n- GCP-D: #493\n\n## Retained predecessor scope\n\n- #157\n- #158\n- #159\n\n## Acceptance criteria\n\n- [ ] Each control plane has corporate owner and rollback\n- [ ] AWS uses the approved business account\n- [ ] Terraform and CI authority are company-controlled\n- [ ] Availability and recovery readbacks pass\n\n## Owned paths\n\n- `docs/operations/corporate/control-transfer/**`\n- `infra/**`\n- `.github/workflows/**`\n- `docs/milestones/v0.92.1/evidence/corporate/corp-c/**`\n\n## PVF lanes\n\n- `control-plane-readback`\n- `aws-business-account`\n- `deployment-rollback`\n- `secret-redaction`\n\n## Stop conditions\n\n- Rollback is unavailable\n- Personal billing remains authoritative\n- A production mutation lacks operator authorization\n\n## Non-goals\n\n- Unreviewed production cutover\n- Credential disclosure\n\n## Canonical planning identity\n\n- Planned ID: `CORP-C`\n- Canonical title: `[v0.92.1][CORP-C] Corporate operational-control transfer`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#CORP-C`\n",
+  "labels": [
+    "area:runtime",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "assignees": [
+
+  ],
+  "milestone": 1,
+  "state": null,
+  "comment_body": null,
+  "required_checks": [
+
+  ],
+  "require_review": false,
+  "linked_issue": null
+}

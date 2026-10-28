@@ -1,0 +1,14 @@
+{
+  "opening_authority": {
+    "issue": 864,
+    "pr": 865,
+    "merge": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+    "first_parent": "7bf940d8bec630bcb15384970414bca867f1799e",
+    "source": "ATOMIC_TASK_CONTRACTS_v0.92.2.json review_source and WP-01 live merged closing reference"
+  },
+  "previous_release": "c9cdb2f13ff77a06dcc79ad4e4c332f444b2e14f",
+  "review_diff_base": "c9cdb2f13ff77a06dcc79ad4e4c332f444b2e14f",
+  "opening_ancestor_candidate": true,
+  "release_ancestor_opening": true,
+  "rationale": "Use previous release as deliberately broader comparison while retaining exact WP-01 opening authority. This includes predecessor work before WP-01 required by reused milestone obligations; no opening-to-candidate deletion omitted. Candidate functional scope remains all69tasks plus integration surfaces."
+}

@@ -1,0 +1,53 @@
+{
+  "schema": "adl.v0921.wp01.operation-observed.v1",
+  "kind": "child_create",
+  "planned_id": "V3-F",
+  "issue": 505,
+  "title": "[v0.92.1][V3-F] C-SDLC v3 authority-transition decision",
+  "labels": [
+    "area:csdlc",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "milestone": 1,
+  "state": "open",
+  "dependencies": {
+    "V3-E": 504
+  },
+  "body_sha256": "92ffda4b2fa18606f739db140b1ff4d6e473530df9a96e4f57058263ec9ca0a1",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:V3-F:create",
+  "request_fingerprint": "181ddabf74367dc7af8862622585dd07bb67f2106ebb474c754b9e5f9f29e6c6",
+  "planning_digest": "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251",
+  "specification_sha256": "b654a090cd839712efcaa2e6e95cc3062499bdb16be2b611c9b53e7e072b37c8",
+  "live_response": {
+    "action": "issue_create",
+    "comment_id": null,
+    "issue": {
+      "assignees": [
+
+      ],
+      "body": "## Outcome\n\nProduce one operator-reviewed C-SDLC v3 authority-transition decision.\n\n## Primary deliverable\n\nOne operator-reviewed C-SDLC v3 authority-transition decision.\n\n## Verification result\n\nOne decision record binds requirements 179 and 180, parity, canary rollback, observation evidence, and the explicit operator disposition.\n\n## Unit boundary\n\nIssue completion is exactly one authority-transition decision; parity, canary, and observation are evidence inputs and do not close independently.\n\n## Dependencies\n\n- V3-E: #504\n\n## Retained predecessor scope\n\n- #179\n- #180\n\n## Acceptance criteria\n\n- [ ] Requirements 179 and 180 are mapped\n- [ ] v2-v3 parity is measured\n- [ ] Canary rollback is exercised\n- [ ] Cutover and retirement require operator approval\n\n## Owned paths\n\n- `csdlc-v3/tests/parity/**`\n- `docs/tooling/csdlc-v3/**`\n- `docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/**`\n\n## PVF lanes\n\n- `parity-matrix`\n- `migration-canary`\n- `rollback`\n- `observation-window`\n\n## Stop conditions\n\n- Parity is incomplete\n- Rollback fails\n- Operator cutover approval is absent\n\n## Non-goals\n\n- Silent v2 retirement\n- Unsupported-platform claims\n\n## Canonical planning identity\n\n- Planned ID: `V3-F`\n- Canonical title: `[v0.92.1][V3-F] C-SDLC v3 authority-transition decision`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#V3-F`\n<!-- csdlc-github-operation:v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:V3-F:create -->\n",
+      "closed_at": null,
+      "created_at": "2026-08-26T03:04:20Z",
+      "labels": [
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1",
+        "area:csdlc"
+      ],
+      "marker_present": true,
+      "milestone": 1,
+      "number": 505,
+      "repository": "agent-logic/agent-design-language",
+      "schema": "csdlc.github_issue.v1",
+      "state": "open",
+      "title": "[v0.92.1][V3-F] C-SDLC v3 authority-transition decision"
+    },
+    "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:V3-F:create",
+    "pr_state": null,
+    "reconciled": true,
+    "repository": "agent-logic/agent-design-language",
+    "schema": "csdlc.github_action_result.v1"
+  }
+}

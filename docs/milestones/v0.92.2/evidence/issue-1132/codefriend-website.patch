@@ -1,0 +1,792 @@
+From f695c18cbdb8f14a73396d8e78049fdc9d3f17a5 Mon Sep 17 00:00:00 2001
+From: "Daniel B. Austin" <daniel@danielaustin.org>
+Date: Mon, 21 Sep 2026 19:55:07 -0700
+Subject: [PATCH 1/4] fix(beta): connect cycle reviews to Journey controls
+
+---
+ app/agents.mjs                   |  4 ++-
+ app/cycle-result.mjs             | 45 ++++++++++++++++++------
+ app/http.mjs                     |  4 +--
+ app/journey.mjs                  |  7 ++--
+ app/local-journey.mjs            |  5 +--
+ app/local-publication.mjs        |  7 ++--
+ app/public/app.js                | 18 ++++++++--
+ app/public/index.html            |  2 +-
+ app/review-admission.mjs         |  2 +-
+ app/review-wire.mjs              | 11 ++++++
+ app/runs.mjs                     |  2 +-
+ app/selected-review.mjs          | 29 ++++++++++++++++
+ tests/cycle-journey.test.mjs     | 59 ++++++++++++++++++++++++++++++++
+ tests/cycle-result-fixture.mjs   |  4 +--
+ tests/fixtures/cycle-journey.mjs | 20 +++++++++++
+ tests/local-journey.test.mjs     |  2 +-
+ tests/local-publication.test.mjs |  4 +--
+ tests/workspace-ui.test.mjs      | 19 ++++++++++
+ 18 files changed, 213 insertions(+), 31 deletions(-)
+ create mode 100644 app/review-wire.mjs
+ create mode 100644 app/selected-review.mjs
+ create mode 100644 tests/cycle-journey.test.mjs
+ create mode 100644 tests/fixtures/cycle-journey.mjs
+
+diff --git a/app/agents.mjs b/app/agents.mjs
+index 3d90be8..26bc09a 100644
+--- a/app/agents.mjs
++++ b/app/agents.mjs
+@@ -1,3 +1,4 @@
++import { selectedReview } from './selected-review.mjs';
+ import { successfulReview } from './review-coverage.mjs';
+ import { randomBytes, createHash } from 'node:crypto';
+ import { blake3 } from '@noble/hashes/blake3.js';
+@@ -168,10 +169,11 @@ export class Agents {
+     const agent = await this.require(token);
+     const run = this.store.get('run', id, agent.subject);
+     if (!run || run.id !== id || run.subject !== agent.subject || run.agentId !== agent.id || run.mode !== 'local') throw new RunError('run_not_found');
++    let review;try {review=selectedReview(run);} catch {throw new RunError('agent_receipt_unavailable');}
+     if (run.status !== 'complete' || run.cancelRequested || !Number.isSafeInteger(run.expiresAt) ||
+         run.expiresAt <= this.clock() || run.expiresAt > agent.expiresAt ||
+         !isDigest(run.agentReportDigest) || !isDigest(run.receivedDigest) || !isDigest(run.consentDigest) ||
+-        !successfulReview(run.result) || run.result.run_id !== id) throw new RunError('agent_receipt_unavailable');
++        !review || (!run.cycle && run.result.run_id !== id)) throw new RunError('agent_receipt_unavailable');
+     // Observe only the already accepted upload. Keep the legacy upload ACK shape
+     // unchanged: installed agents reject unknown ACK fields.
+     return { schema: 'codefriend.agent_report_receipt.v1', subject: agent.subject, agent_id: agent.id,
+diff --git a/app/cycle-result.mjs b/app/cycle-result.mjs
+index 571e264..1d22182 100644
+--- a/app/cycle-result.mjs
++++ b/app/cycle-result.mjs
+@@ -1,3 +1,4 @@
++import {ordered,orderedReviewResult} from './review-wire.mjs';
+ import {validateAdmission} from './review-admission.mjs';
+ import { blake3 } from '@noble/hashes/blake3.js';
+ import { cycleRequest } from './cycle-plan.mjs';
+@@ -14,7 +15,7 @@ const cleanText = (value, limit) => typeof value === 'string' && Buffer.byteLeng
+ 
+ 
+ function validateManifest(manifest, identity, activity, plan) {
+-  const keys=['schema','run_id','activity','activity_contract','prompt_contract','repository','revision','packet_id','admission_digest','scope_digest','testing','evidence','source_mutation_authority','publication_authority','input_digest'];
++  const keys=['schema','run_id','activity','activity_contract','prompt_contract','repository','revision','packet_id','admission_digest','scope_digest','testing',...(Object.hasOwn(manifest??{},'known_repository_paths')?['known_repository_paths']:[]),'evidence','source_mutation_authority','publication_authority','input_digest'];
+   if (!exact(manifest,keys) || manifest.schema !== 'codefriend.activity_input_manifest.v1' || manifest.run_id !== identity.runId ||
+       manifest.activity !== activity || manifest.activity_contract !== 'codefriend.activity.v1' ||
+       manifest.prompt_contract !== (activity === 'review' ? 'codefriend.four_perspective_review_prompt.v1' : 'codefriend.activity_prompt.v1') ||
+@@ -28,22 +29,30 @@ function validateManifest(manifest, identity, activity, plan) {
+         return !exact(item,['evidence_id','path','content_digest']) || !digest(item.evidence_id) || !path(item.path) || !digest(item.content_digest) ||
+           !admitted || item.evidence_id!==admitted.id || item.content_digest!==admitted.content_digest || list.slice(0,index).some(previous => previous.path === item.path);
+       })) throw new Error('cycle_result_identity_mismatch');
+-  const unsigned={...manifest,input_digest:''};
++  if(Object.hasOwn(manifest,'known_repository_paths') && JSON.stringify(manifest.known_repository_paths)!==JSON.stringify(identity.knownPaths)) throw new Error('cycle_result_identity_mismatch');
++  const unsigned={...ordered(manifest,keys),testing:manifest.testing===null?null:ordered(manifest.testing,['mode','target']),evidence:manifest.evidence.map(e=>ordered(e,['evidence_id','path','content_digest'])),input_digest:''};
+   if (nativeDigest(unsigned) !== manifest.input_digest) throw new Error('cycle_result_identity_mismatch');
+ }
+ 
+-function validateOutput(output, activity, admitted) {
++function validateOutput(output, activity, admitted, knownPaths) {
+   if (!exact(output,['schema','artifacts','gaps','measured_coverage_percent']) || output.schema !== 'codefriend.activity_output.v1' ||
+       output.measured_coverage_percent !== null || !Array.isArray(output.artifacts) || output.artifacts.length > 32 ||
+       !Array.isArray(output.gaps) || output.gaps.length > 128) throw new Error('cycle_result_identity_mismatch');
+   const kinds={documentation:'documentation',diagrams:'mermaid_diagram',tests:'test'};
+   const seen=new Set(); let bytes=0;
+   for(const artifact of output.artifacts){
+-    if(!exact(artifact,['path','kind','content','evidence_paths','limitations']) || !path(artifact.path) || seen.has(artifact.path) ||
++    if(!exact(artifact,['path','kind',...(Object.hasOwn(artifact??{},'disposition')?['disposition','unsupported_claims','render_manifest']:[]),'content','evidence_paths','limitations']) || !path(artifact.path) || seen.has(artifact.path) ||
+        artifact.kind !== kinds[activity] || !cleanText(artifact.content,128*1024) ||
+        activity === 'diagrams' && (!artifact.path.endsWith('.mmd') || !/^[A-Za-z]/.test(artifact.content.trimStart())) ||
+        !Array.isArray(artifact.evidence_paths) || artifact.evidence_paths.length<1 || artifact.evidence_paths.some((entry,index,list)=>!admitted.has(entry) || index && list[index-1] >= entry) ||
+        !Array.isArray(artifact.limitations) || artifact.limitations.length>32 || artifact.limitations.some(value=>!cleanText(value,8192))) throw new Error('cycle_result_identity_mismatch');
++    if(Object.hasOwn(artifact,'disposition')){
++      if(!['create','update'].includes(artifact.disposition) || artifact.disposition==='create'&&knownPaths.includes(artifact.path) ||
++         artifact.disposition==='update'&&!knownPaths.includes(artifact.path)&&!artifact.limitations.includes('path existence outside admitted packet is unverified') ||
++         !Array.isArray(artifact.unsupported_claims)||artifact.unsupported_claims.length>32||artifact.unsupported_claims.some(v=>!cleanText(v,8192))) throw new Error('cycle_result_identity_mismatch');
++      const r=artifact.render_manifest;
++      if(activity==='diagrams' ? !exact(r,['schema','source_path','output_path','format','renderer'])||r.schema!=='codefriend.mermaid_render_manifest.v1'||r.source_path!==artifact.path||r.output_path!==artifact.path.slice(0,-4)+'.svg'||r.format!=='svg'||r.renderer!=='mmdc' : r!==null) throw new Error('cycle_result_identity_mismatch');
++    }
+     seen.add(artifact.path); bytes+=Buffer.byteLength(artifact.content); if(bytes>1024*1024) throw new Error('cycle_result_identity_mismatch');
+   }
+   for(const gap of output.gaps) if(!exact(gap,['category','title','rationale','evidence_paths','limitations']) || gap.category!==activity ||
+@@ -55,7 +64,7 @@ function validateOutput(output, activity, admitted) {
+ function localIdentity(result, gatewayLanes, operationId) {
+   if (!Array.isArray(gatewayLanes) || gatewayLanes.length !== 1) throw new Error('cycle_result_identity_mismatch');
+   const lane=gatewayLanes[0], model=lane?.model_identity;
+-  if (!exact(lane,['lane','candidate_revision','model_identity']) || lane.lane!=='cycle' ||
++  if (!exact(lane,['lane','candidate_revision','model_identity',...(Object.hasOwn(lane,'request_digest')?['request_digest']:[])]) || lane.lane!=='cycle' ||
+       typeof lane.candidate_revision!=='string' || !/^[a-f0-9]{40}$/.test(lane.candidate_revision) ||
+       !model || typeof model!=='object' || Array.isArray(model) ||
+       !['provider','runtime_surface','provider_model_id'].every(key=>typeof model[key]==='string' && model[key].length>0 && model[key].length<=256 && !/[\x00-\x20\x7f]/.test(model[key]))) {
+@@ -66,14 +75,22 @@ function localIdentity(result, gatewayLanes, operationId) {
+ }
+ 
+ export function validateCycleResult(run, result, context = {}) {
+-  const plan=cycleRequest(run.cycle), keys=['schema','plan','admission','run_id','repository','revision','packet_id','admission_digest','scope_digest','plan_digest','completion','activities','review','failures'];
++  const plan=cycleRequest(run.cycle), keys=['schema','plan','admission','run_id','repository','revision','packet_id','admission_digest','scope_digest','plan_digest','completion','activities','review','failures',...(Object.hasOwn(result??{},'execution')?['execution']:[])];
+   const identity=run.mode==='local' ? localIdentity(result,context.gatewayLanes,context.operationId) :
+     { runId:run.id, revision:run.revision, packetId:run.packetId, providerRoute:run.providerRoute };
+   if(!exact(result,keys) || result.schema!=='codefriend.update_cycle_result.v1' || result.run_id!==identity.runId || result.repository!==plan.repository ||
+     result.revision!==identity.revision || result.packet_id!==identity.packetId || !digest(result.admission_digest) || !digest(result.scope_digest) ||
+-    JSON.stringify(result.plan)!==JSON.stringify(plan) || result.plan_digest!==nativeDigest(plan) || !Array.isArray(result.activities) || result.activities.length!==plan.activities.length ||
++    JSON.stringify(orderedPlan(result.plan))!==JSON.stringify(plan) || result.plan_digest!==nativeDigest(plan) || !Array.isArray(result.activities) || result.activities.length!==plan.activities.length ||
+     !Array.isArray(result.failures)) throw new Error('cycle_result_identity_mismatch');
++  if(result.execution){
++    const e=result.execution, lane=context.gatewayLanes?.[0], model=e.model_identity;
++    if(!exact(e,['candidate_revision','request_digest','model_identity']) || !/^[a-f0-9]{40}$/.test(e.candidate_revision) || !digest(e.request_digest) ||
++       !model || `${model.provider}:${model.runtime_surface}:${model.provider_model_id}`!==identity.providerRoute ||
++       (run.mode==='local' ? e.candidate_revision!==lane?.candidate_revision || e.request_digest!==lane?.request_digest || JSON.stringify(canonical(e.model_identity))!==JSON.stringify(canonical(lane?.model_identity)) :
++        e.candidate_revision!==run.gatewayCandidateRevision || e.request_digest!==run.gatewayRequestDigest)) throw new Error('cycle_result_identity_mismatch');
++  }
+   validateAdmission(result.admission,result,plan);
++  identity.knownPaths=[...new Set(result.admission.packet.objects.map(o=>o.path))].sort();
+   identity.admissionDigest=result.admission_digest;
+   identity.scopeDigest=result.scope_digest;
+   identity.evidence=new Map(result.admission.evidence.map(item=>[item.path,item]));
+@@ -88,10 +105,10 @@ export function validateCycleResult(run, result, context = {}) {
+       failures.push(`${activity}_failed`);
+       if(item.output!==null || item.output_digest!==null || item.review_result_digest!==null || !cleanText(item.failure,8192)) throw new Error('cycle_result_identity_mismatch');
+     } else if(activity==='review'){
+-      if(item.output!==null || item.output_digest!==null || item.failure!==null || !digest(item.review_result_digest) || !result.review || nativeDigest(result.review)!==item.review_result_digest) throw new Error('cycle_result_identity_mismatch');
++      if(item.output!==null || item.output_digest!==null || item.failure!==null || !digest(item.review_result_digest) || !result.review || nativeDigest(result.execution?orderedReviewResult(result.review):result.review)!==item.review_result_digest) throw new Error('cycle_result_identity_mismatch');
+     } else {
+-      validateOutput(item.output,activity,admitted);
+-      if(item.output_digest!==nativeDigest(item.output) || item.review_result_digest!==null || item.failure!==null) throw new Error('cycle_result_identity_mismatch');
++      validateOutput(item.output,activity,admitted,identity.knownPaths);
++      if(item.output_digest!==nativeDigest(orderedOutput(item.output)) || item.review_result_digest!==null || item.failure!==null) throw new Error('cycle_result_identity_mismatch');
+     }
+   }
+   const reviewActivity=result.activities.find(item=>item.activity==='review');
+@@ -104,3 +121,11 @@ export function validateCycleResult(run, result, context = {}) {
+   }
+   return result;
+ }
++
++const canonical=v=>Array.isArray(v)?v.map(canonical):v&&typeof v==='object'?Object.fromEntries(Object.keys(v).sort().map(k=>[k,canonical(v[k])])):v;
++const orderedPlan=p=>({...ordered(p,['schema','repository','activities','testing']),testing:p.testing===null?null:ordered(p.testing,['mode','target'])});
++function orderedOutput(o){return {schema:o.schema,artifacts:o.artifacts.map(a=>{
++ const modern=Object.hasOwn(a,'disposition');
++ const v=ordered(a,['path','kind',...(modern?['disposition']:[]),'content','evidence_paths',...(modern?['unsupported_claims']:[]),'limitations',...(modern?['render_manifest']:[])]);
++ if(modern&&v.render_manifest)v.render_manifest=ordered(v.render_manifest,['schema','source_path','output_path','format','renderer']);return v;
++}),gaps:o.gaps.map(g=>ordered(g,['category','title','rationale','evidence_paths','limitations'])),measured_coverage_percent:o.measured_coverage_percent};}
+diff --git a/app/http.mjs b/app/http.mjs
+index 5e4096e..2e3e531 100644
+--- a/app/http.mjs
++++ b/app/http.mjs
+@@ -1,3 +1,4 @@
++import {reviewAvailable} from './selected-review.mjs';
+ import { createServer } from 'node:http';
+ import { createHash } from 'node:crypto';
+ import { AuthError } from './oauth.mjs';
+@@ -129,7 +130,7 @@ export function application({ origin, oauth, sessions, runs, store, agents, repo
+         sessions.revoke(token); response.setHeader('Set-Cookie', sessionCookie(cookieName, '', 0)); json(200, { signedOut: true }); return;
+       }
+       if (method === 'GET' && url.pathname === '/api/runs') {
+-        json(200, store.list('run', user.subject).map(run => { const value = runs.get(user.subject, run.id); const { result, cycleResult, ...summary } = value; return summary; })); return;
++        json(200, store.list('run', user.subject).map(run => { const value = runs.get(user.subject, run.id); const { result, cycleResult, ...summary } = value; return {...summary,journeyAvailable:reviewAvailable(value)}; })); return;
+       }
+       if (method === 'GET' && url.pathname === '/api/repositories') {
+         json(200, repositories ? repositories.list(user.subject) : repositoryPortfolio(store.list('run', user.subject).map(run => runs.get(user.subject, run.id)))); return;
+@@ -157,7 +158,6 @@ export function application({ origin, oauth, sessions, runs, store, agents, repo
+       if (journey) {
+         const [,id,action,artifact]=journey;
+         const journeyRun=runs.get(user.subject,id);
+-        if(journeyRun.cycle) throw new RunError('journey_unavailable');
+         const owner=journeyRun.mode==='local'?localJourneys:journeys;
+         const authorize=async()=>{
+           const current=controlled || await sessions.require(token,{mutation:method!=='GET',origin:request.headers.origin,csrf:request.headers['x-csrf-token']});
+diff --git a/app/journey.mjs b/app/journey.mjs
+index 602b5f0..c3bbd53 100644
+--- a/app/journey.mjs
++++ b/app/journey.mjs
+@@ -1,3 +1,4 @@
++import { selectedReview } from './selected-review.mjs';
+ import { successfulReview, orderedReviewRun } from './review-coverage.mjs';
+ import { blake3 } from '@noble/hashes/blake3.js';
+ import { createHash } from 'node:crypto';
+@@ -51,6 +52,7 @@ export class Journeys {
+     require(!seen.has(id) && seen.size<32,'journey_baseline_cycle');seen.add(id);
+     const run=this.runs.get(subject,id);
+     require(run.mode==='hosted' && run.status==='complete' && !run.cancelRequested && run.expiresAt>this.clock(),'journey_requires_complete_hosted_run');
++    if(run.cycle) selectedReview(run);
+     const retained=this.store.get('journey',id,subject);
+     if(retained) require(retained.pin.expiresAt>this.clock(),'journey_retention_expired');
+     if(retained?.baseline) {
+@@ -64,11 +66,12 @@ export class Journeys {
+     let run=await this.live(subject,id,authorize);
+     const op=await this.runs.gateway.inspect(subject,id); run=await this.live(subject,id,authorize); this.runs.verify(run,op);
+     require(op.status==='complete' && /^[a-f0-9]{40}$/.test(op.candidate_revision) && Number.isSafeInteger(op.expires_at) && op.expires_at>this.clock());
+-    let result=run.result;
++    let result=run.cycle?run.cycleResult:run.result;
+     if (!result) { result=await this.runs.gateway.result(subject,id); run=await this.live(subject,id,authorize); }
++    result=selectedReview(run.cycle?{...run,cycleResult:result}:{...run,result});
+     const admission=result?.review_record?.admission;
+     require(successfulReview(result) && result.run_id===id && digest(admission?.digest) && admission.packet?.packet_id===run.packetId && admission.packet.revision===run.revision && digest(admission.packet.scope_digest) && admission.expires_at>this.clock());
+-    const pin={candidate:op.candidate_revision,admission:admission.digest,packet:run.packetId,revision:run.revision,scope:admission.packet.scope_digest,repository:admission.packet.repository,expiresAt:Math.min(run.expiresAt,op.expires_at,admission.expires_at)};
++    const pin={...(run.cycle?{cycle:run.id,review:result.run_id,reviewRecord:result.review_record.run.id,reviewGeneration:run.reviewGeneration??"legacy",execution:run.cycleResult?.execution??null}:{}),candidate:op.candidate_revision,admission:admission.digest,packet:run.packetId,revision:run.revision,scope:admission.packet.scope_digest,repository:admission.packet.repository,expiresAt:Math.min(run.expiresAt,op.expires_at,admission.expires_at)};
+     const saved=this.store.get('journey',id,subject);
+     if(saved) require(JSON.stringify(saved.pin)===JSON.stringify(pin));
+     return {pin,admission,record:result.review_record};
+diff --git a/app/local-journey.mjs b/app/local-journey.mjs
+index 6e6c0f0..1982845 100644
+--- a/app/local-journey.mjs
++++ b/app/local-journey.mjs
+@@ -1,3 +1,4 @@
++import { selectedReview, originalAgentReport } from './selected-review.mjs';
+ import { privacyReviewComplete } from './review-coverage.mjs';
+ import { randomBytes, createHash } from 'node:crypto';
+ import { RunError } from './runs.mjs';
+@@ -22,7 +23,7 @@ export class LocalJourneys {
+     const run=this.store.get('run',runId,subject), agent=run && this.store.get('agent',run.agentId,subject);
+     fail(run?.subject===subject && run.id===runId && run.mode==='local','run_not_found');
+     fail(agent?.subject===subject && !agent.revoked && agent.expiresAt>this.clock(),'agent_denied');
+-    fail(run.status==='complete' && !run.cancelRequested && Number.isSafeInteger(run.expiresAt) && run.expiresAt>this.clock() && run.expiresAt<=agent.expiresAt && (run.result?.completion==='complete'||privacyReviewComplete(run.result)) && [run.agentReportDigest,run.receivedDigest,run.consentDigest].every(digest),'journey_owner_unavailable');
++    fail(run.status==='complete' && !run.cancelRequested && Number.isSafeInteger(run.expiresAt) && run.expiresAt>this.clock() && run.expiresAt<=agent.expiresAt && Boolean(selectedReview(run)) && [run.agentReportDigest,run.receivedDigest,run.consentDigest].every(digest),'journey_owner_unavailable');
+     const ownership=this.store.get('local-journey-owner',runId,subject);
+     if(ownership?.baseline){const other=this.current(subject,ownership.baseline.run_id,seen).run;fail(equal(this.pin(other),ownership.baseline),'journey_baseline_unavailable');}
+     return {run,agent};
+@@ -89,7 +90,7 @@ export class LocalJourneys {
+   }
+   async control(token,jobId){const agent=await this.agents.require(token);const job=this.store.get('local-journey',jobId,agent.subject);fail(job?.binding.agent_id===agent.id,'journey_not_found');this.check(job);return this.wire(job);}
+   async poll(token){const agent=await this.agents.require(token);const jobs=this.store.journeyJobs(agent.subject).filter(j=>j.binding.agent_id===agent.id && j.pending && !j.revoked && j.binding.expires_at>this.clock()).sort((a,b)=>Number(a.observation)-Number(b.observation));for(const job of jobs){const full=this.store.get('local-journey',job.binding.job_id,agent.subject);try{this.check(full);}catch(error){if(!(error instanceof RunError))throw error;this.store.update('local-journey',job.binding.job_id,agent.subject,current=>({...current,pending:false,revoked:true,request:null,result:null}));continue;}return {job:await this.control(token,job.binding.job_id)};}return {job:null};}
+-  context(job,run){return {schema:'codefriend.agent_journey_verifier_context.v1',job:this.wire(job),report:{schema:'codefriend.local_agent.v1',agent_id:run.agentId,subject:run.subject,run_id:run.id,consent_digest:run.consentDigest,execution_location:'local_agent',gateway_lanes:run.gatewayLanes,status:'complete',expires_at:run.expiresAt,result:run.result,digest:run.agentReportDigest},receipt:{schema:'codefriend.agent_report_receipt.v1',...this.pin(run)},previous:job.result,now:this.clock()};}
++  context(job,run){return {schema:'codefriend.agent_journey_verifier_context.v1',job:this.wire(job),report:originalAgentReport(run),receipt:{schema:'codefriend.agent_report_receipt.v1',...this.pin(run)},previous:job.result,now:this.clock()};}
+   async submit(token,jobId,value){
+     bounded(value);const wire=await this.control(token,jobId);let job=this.store.get('local-journey',jobId,wire.binding.subject);const run=this.check(job);
+     fail(value?.schema===`codefriend.agent_journey_result.v${job.binding.schema==='codefriend.agent_journey_job.v2'?2:1}` && equal(value.binding,job.binding) && value.agent_candidate_revision===job.permitted_agent_candidate && digest(value.digest) && Number.isSafeInteger(value.checkpoint_sequence));
+diff --git a/app/local-publication.mjs b/app/local-publication.mjs
+index 3f22d1e..bca7a0f 100644
+--- a/app/local-publication.mjs
++++ b/app/local-publication.mjs
+@@ -1,3 +1,4 @@
++import { selectedReview, originalAgentReport } from './selected-review.mjs';
+ import { privacyReviewComplete } from './review-coverage.mjs';
+ import { randomBytes, createHash } from 'node:crypto';
+ import { blake3 } from '@noble/hashes/blake3.js';
+@@ -33,7 +34,7 @@ export class LocalPublications {
+     if (!agent || agent.subject !== subject || agent.revoked || agent.expiresAt <= this.clock()) throw new RunError('agent_denied');
+     require(run.status === 'complete' && !run.cancelRequested && Number.isSafeInteger(run.expiresAt) && run.expiresAt > this.clock() &&
+       run.expiresAt <= agent.expiresAt && digest(run.agentReportDigest) && digest(run.receivedDigest) && digest(run.consentDigest) &&
+-      (run.result?.completion === 'complete'||privacyReviewComplete(run.result)));
++      Boolean(selectedReview(run)));
+     return { run, agent };
+   }
+   bindingMatches(job, run, agent) {
+@@ -163,9 +164,7 @@ export class LocalPublications {
+     // The native verifier must validate full provenance, challenge/decision head,
+     // renderer manifest and each output against this exact website reservation.
+     const run = this.store.get('run',job.binding.run_id,job.binding.subject);
+-    const report = { schema: 'codefriend.local_agent.v1', agent_id: job.binding.agent_id, subject: job.binding.subject,
+-      run_id: job.binding.run_id, consent_digest: job.binding.consent_digest, execution_location: 'local_agent',
+-      gateway_lanes: run.gatewayLanes, status: 'complete', expires_at: run.expiresAt, result: run.result, digest: run.agentReportDigest };
++    const report = originalAgentReport(run);
+     await this.verify(value, { schema: 'codefriend.agent_publication_verifier_context.v1', binding: job.binding, report, decision: job.decision, prepared: job.prepared, now: this.clock() });
+     await this.control(token,id); // asynchronous native verification may cross revocation/expiry
+     job = this.store.get('local-publication',id,observed.binding.subject);
+diff --git a/app/public/app.js b/app/public/app.js
+index 08d7f9e..1de190a 100644
+--- a/app/public/app.js
++++ b/app/public/app.js
+@@ -97,11 +97,25 @@ function showRepository(repository) {
+   }
+ }
+ $('close-repository').addEventListener('click',()=>{ $('repository-detail').hidden=true; $('portfolio').hidden=false; $('portfolio-summary').hidden=false; });
++function journeyUnavailable(run) {
++  if(run.status!=='complete'||run.cancelRequested||run.expiresAt<=Date.now()/1000) return 'Architecture checks require a completed, retained review.';
++  if(run.journeyAvailable===true) return '';
++  const cycle=run.cycleResult, review=run.cycle?cycle?.review:run.result;
++  if(run.cycle && !cycle) return 'Load the cycle result to check architecture availability.';
++  if(run.cycle && (cycle.completion!=='complete'||cycle.failures?.length)) return 'Architecture checks are unavailable for a failed cycle.';
++  if(!review) return 'This cycle has no completed review for architecture checks.';
++  if(run.cycle && !cycle.execution) return 'This historical cycle lacks the execution binding required for architecture checks.';
++  if(!['codefriend.four_perspective_review_run.v1','codefriend.four_perspective_review_run.v2','codefriend.four_perspective_review_run.v3'].includes(review.schema) ||
++     review.failures?.length || !(review.completion==='complete'||review.review_record?.run?.coverage?.execution==='complete')) return 'This review generation or incomplete execution does not support architecture checks.';
++  return '';
++}
+ function display(run) {
+   selectedRun=run;
+-  $('journey').hidden = run.status !== 'complete' || Boolean(run.cycle || run.cycleResult);
++  const unavailable=journeyUnavailable(run);
++  $('journey-unavailable').textContent=unavailable;
++  $('journey').hidden=Boolean(unavailable);
+   $('journey-baseline').replaceChildren();
+-  for(const candidate of availableRuns.filter(r=>!r.cycle && r.id!==run.id && r.mode===run.mode && r.status==='complete' && r.expiresAt>Date.now()/1000 && (run.mode!=='local'||r.agentId===run.agentId))){const option=document.createElement('option');option.value=candidate.id;option.textContent=candidate.id.slice(0,12);$('journey-baseline').append(option);}
++  for(const candidate of availableRuns.filter(r=>!journeyUnavailable(r) && r.id!==run.id && r.mode===run.mode && r.status==='complete' && r.expiresAt>Date.now()/1000 && (run.mode!=='local'||r.agentId===run.agentId))){const option=document.createElement('option');option.value=candidate.id;option.textContent=candidate.id.slice(0,12);$('journey-baseline').append(option);}
+   if ($('journey').hidden) clearJourney();
+   artifactExpiresAt = run.expiresAt; publicationMode = run.mode;
+   $('run-mode').textContent = run.mode === 'local' ? 'LOCAL UPDATE CYCLE' : 'SERVER UPDATE CYCLE';
+diff --git a/app/public/index.html b/app/public/index.html
+index cceb908..c1ba2ad 100644
+--- a/app/public/index.html
++++ b/app/public/index.html
+@@ -9,7 +9,7 @@
+ <div id="hosted-fields"><label for="packet">Source packet</label><input id="packet" type="file" accept="application/json,.json"><p class="muted">Select a privacy-filtered CodeFriend source packet generated by the CLI. The server validates its scope and source identity before model access.</p></div>
+ <div id="local-fields" hidden><label for="agent">Paired agent</label><select id="agent"></select><button id="pair" type="button">Start this cycle and pair an agent</button><button id="revoke" type="button">Revoke selected agent</button><output id="pair-code"></output><p class="muted">Starting this local cycle wakes its private workspace before creating the pairing code. Save the code to a private file and start the installed agent with your local consent file; its consent digest appears here after polling.</p><label for="expires">Local consent expires at</label><input id="expires" type="datetime-local"><p class="muted">Use the expiry in your local consent file. It must be within the next hour.</p></div>
+ <div class="consent"><label><input type="checkbox" id="model-consent" required> I allow selected source evidence to be sent to Agent Logic’s model service and configured provider.</label><label><input type="checkbox" id="result-consent" required> I allow this cycle’s results and selected source evidence to be retained in this workspace. External publication requires separate approval.</label><p class="muted">Hosted result retention: one hour. Local retention ends no later than your consent expiry. The repository record keeps bounded status and history without retaining source evidence. Cancellation stops further work; it cannot undo a provider call already in flight.</p></div><button class="primary" type="submit">Start a new update cycle</button></form></div>
+-<div id="detail" hidden><div class="heading"><div><p class="eyebrow" id="run-mode"></p><h2 id="run-status"></h2></div><button id="cancel">Cancel cycle</button></div><p class="muted" id="run-id"></p><button id="load-result">Inspect result</button><section id="findings" aria-label="Review findings"></section><details><summary>Source evidence and repository record</summary><pre id="result"></pre></details><section id="publication" hidden aria-label="Native publication decision"><label for="publication-format">Publication format</label><select id="publication-format"><option value="markdown">Markdown</option><option value="html">HTML</option><option value="pdf">PDF</option></select><button id="prepare-publication">Prepare exact publication</button><button id="observe-publication">Check decision status</button><pre id="publication-challenge"></pre><button class="primary" id="approve" hidden>Approve exact publication</button><button id="withhold" hidden>Withhold publication</button><button id="render-publication" hidden>Render approved export</button><div id="publication-downloads"></div></section><p id="approval"></p><section id="journey" hidden aria-label="Architecture and policy checks"><h3>Architecture and policy checks</h3><p class="muted">Check Rust, Java, Python, and JavaScript source structure and imports using your policy files. Coverage is partial: reports identify unresolved relationships and unsupported analysis. These checks add stages to this review without repeating the model review.</p>
++<div id="detail" hidden><div class="heading"><div><p class="eyebrow" id="run-mode"></p><h2 id="run-status"></h2></div><button id="cancel">Cancel cycle</button></div><p class="muted" id="run-id"></p><button id="load-result">Inspect result</button><section id="findings" aria-label="Review findings"></section><details><summary>Source evidence and repository record</summary><pre id="result"></pre></details><section id="publication" hidden aria-label="Native publication decision"><label for="publication-format">Publication format</label><select id="publication-format"><option value="markdown">Markdown</option><option value="html">HTML</option><option value="pdf">PDF</option></select><button id="prepare-publication">Prepare exact publication</button><button id="observe-publication">Check decision status</button><pre id="publication-challenge"></pre><button class="primary" id="approve" hidden>Approve exact publication</button><button id="withhold" hidden>Withhold publication</button><button id="render-publication" hidden>Render approved export</button><div id="publication-downloads"></div></section><p id="approval"></p><p id="journey-unavailable" role="status"></p><section id="journey" hidden aria-label="Architecture and policy checks"><h3>Architecture and policy checks</h3><p class="muted">Check Rust, Java, Python, and JavaScript source structure and imports using your policy files. Coverage is partial: reports identify unresolved relationships and unsupported analysis. These checks add stages to this review without repeating the model review.</p>
+ <form id="journey-prepare-form"><label for="boundary-policy">Boundary policy (JSON)</label><input id="boundary-policy" type="file" accept="application/json,.json" required><label for="fitness-policy">Fitness policy (JSON)</label><input id="fitness-policy" type="file" accept="application/json,.json" required><button id="prepare-journey">Run policy checks</button></form>
+ <button id="observe-journey">Check stage status</button><p id="journey-status" role="status"></p><ul id="journey-stages"></ul><label for="journey-artifact">Stage evidence</label><select id="journey-artifact"><option value="structure">Architecture</option><option value="fitness">Policy checks</option><option value="impact">Impact</option><option value="rationale">Rationale</option><option value="drift">Baseline comparison</option><option value="palace_comparison">Memory comparison</option></select><button id="load-journey-artifact">Inspect stage evidence</button><pre id="journey-artifact-result"></pre>
+ <label for="journey-baseline">Earlier completed review</label><select id="journey-baseline"></select><button id="compare-drift">Compare architecture</button><button id="compare-palace">Compare review memory</button><button id="attach-journey-publication" hidden>Attach verified export to review stages</button>
+diff --git a/app/review-admission.mjs b/app/review-admission.mjs
+index 1ba1060..e9d83be 100644
+--- a/app/review-admission.mjs
++++ b/app/review-admission.mjs
+@@ -44,7 +44,7 @@ const orderedPacket = value => ({
+   completeness:value.completeness,packet_id:value.packet_id,
+ });
+ const orderedEvidence = value => Object.fromEntries(evidenceKeys.map(key=>[key,value[key]]));
+-const orderedAdmission = value => ({schema:value.schema,packet:orderedPacket(value.packet),evidence:value.evidence.map(orderedEvidence),
++export const orderedAdmission = value => ({schema:value.schema,packet:orderedPacket(value.packet),evidence:value.evidence.map(orderedEvidence),
+   retention:{seconds:value.retention.seconds},admitted_at:value.admitted_at,expires_at:value.expires_at,digest:value.digest});
+ const objectId = (value,format) => typeof value==='string' && /^[a-f0-9]+$/.test(value) && value.length===(format==='sha1'?40:64);
+ const gitBlob = (content,format) => {
+diff --git a/app/review-wire.mjs b/app/review-wire.mjs
+new file mode 100644
+index 0000000..764c827
+--- /dev/null
++++ b/app/review-wire.mjs
+@@ -0,0 +1,11 @@
++// Native serde order for hashing an already validated review transported as JSON.
++import {orderedAdmission} from './review-admission.mjs';
++import {orderedReviewRun} from './review-coverage.mjs';
++export const ordered=(value,keys)=>Object.fromEntries(keys.map(key=>[key,value[key]]));
++export function orderedReviewResult(value){
++ const record=value.review_record;
++ const findings=record.findings.map(f=>({...ordered(f,['schema','id','repository','perspective','rule','semantic_anchor','title','severity','rationale','confidence','evidence','inference','scope_digest','limitations']),confidence:ordered(f.confidence,f.confidence.state==='known'?['state','percent']:['state'])}));
++ return {schema:value.schema,run_id:value.run_id,completion:value.completion,
++   review_record:{admission:orderedAdmission(record.admission),run:orderedReviewRun(record.run),findings},
++   lane_results:value.lane_results.map(l=>ordered(l,['schema','run_id','lane','lane_contract','input_manifest_ref','input_digest','provider_status','provider_route','output_digest','finding_ids',...(Object.hasOwn(l,'assessment_ids')?['assessment_ids']:[]),'failure'])),failures:value.failures};
++}
+diff --git a/app/runs.mjs b/app/runs.mjs
+index 1e1455d..dac3e01 100644
+--- a/app/runs.mjs
++++ b/app/runs.mjs
+@@ -70,7 +70,7 @@ export class Runs {
+         operation.operation_id !== run.id || operation.subject !== run.subject || operation.mode !== 'hosted' ||
+         operation.packet_id !== run.packetId || operation.source_revision !== run.revision ||
+         operation.candidate_revision !== run.gatewayCandidateRevision || operation.candidate_revision !== this.candidateRevision ||
+-        operation.model_identity !== null || !strongDigest(operation.request_digest) ||
++        (!run.cycle && operation.model_identity !== null) || (run.cycle && operation.model_identity !== null && `${operation.model_identity?.provider}:${operation.model_identity?.runtime_surface}:${operation.model_identity?.provider_model_id}`!==run.providerRoute) || !strongDigest(operation.request_digest) ||
+         (run.gatewayRequestDigest !== null && operation.request_digest !== run.gatewayRequestDigest) ||
+         !Number.isSafeInteger(operation.expires_at) || operation.expires_at <= this.clock() ||
+         (run.gatewayExpiresAt !== null && operation.expires_at !== run.gatewayExpiresAt) ||
+diff --git a/app/selected-review.mjs b/app/selected-review.mjs
+new file mode 100644
+index 0000000..f96c8ed
+--- /dev/null
++++ b/app/selected-review.mjs
+@@ -0,0 +1,29 @@
++// Shared downstream selection. The enclosing cycle stays the authority; never
++// rewrite its nested review to masquerade as a legacy top-level result.
++import { successfulReview } from './review-coverage.mjs';
++import { validateCycleResult } from './cycle-result.mjs';
++import { cycleOperationId } from './cycle-plan.mjs';
++import { RunError } from './runs.mjs';
++export function selectedReview(run) {
++  if(!run.cycle){
++    if(!successfulReview(run.result)) throw new RunError('journey_review_unavailable');
++    return run.result;
++  }
++  const cycle=run.cycleResult;
++  if(!cycle) throw new RunError('journey_cycle_result_unavailable');
++  if(cycle.completion!=='complete'||cycle.failures?.length) throw new RunError('journey_cycle_failed');
++  if(!cycle.review) throw new RunError('journey_cycle_review_missing');
++  if(!cycle.execution) throw new RunError('journey_cycle_execution_unavailable');
++  try { validateCycleResult(run,cycle,run.mode==='local'?{gatewayLanes:run.gatewayLanes,operationId:cycleOperationId(run.agentId,run.id,run.cycle)}:{}); }
++  catch { throw new RunError('journey_cycle_identity_mismatch'); }
++  if(!successfulReview(cycle.review)) throw new RunError('journey_review_unavailable');
++  return cycle.review;
++}
++export function originalAgentReport(run) {
++  return {schema:'codefriend.local_agent.v1',agent_id:run.agentId,subject:run.subject,run_id:run.id,
++    consent_digest:run.consentDigest,execution_location:'local_agent',gateway_lanes:run.gatewayLanes,
++    status:'complete',expires_at:run.expiresAt,result:run.result,
++    ...(run.cycle?{cycle_result:run.cycleResult}:{}),digest:run.agentReportDigest};
++}
++
++export function reviewAvailable(run){try{return Boolean(selectedReview(run));}catch{return false;}}
+diff --git a/tests/cycle-journey.test.mjs b/tests/cycle-journey.test.mjs
+new file mode 100644
+index 0000000..ef9e320
+--- /dev/null
++++ b/tests/cycle-journey.test.mjs
+@@ -0,0 +1,59 @@
++// PVF: deterministic website owner/HTTP component proof; native proof is separate.
++// Local SQLite and loopback only. Required regression, no provider or #915 claim.
++import test from 'node:test';
++import assert from 'node:assert/strict';
++import {mkdtempSync,rmSync} from 'node:fs';
++import {tmpdir} from 'node:os';
++import {join} from 'node:path';
++import {once} from 'node:events';
++import {Store} from '../app/store.mjs';
++import {Runs} from '../app/runs.mjs';
++import {Journeys} from '../app/journey.mjs';
++import {LocalJourneys} from '../app/local-journey.mjs';
++import {selectedReview,originalAgentReport} from '../app/selected-review.mjs';
++import {application} from '../app/http.mjs';
++import {cycleRun} from './fixtures/cycle-journey.mjs';
++process.umask(0o077);
++const authorize=async()=>{};
++const policies={boundary_policy:{schema:'codefriend.structure.v1',crate_root:'lib.rs',manifest_path:null,layers:{'lib.rs':'core'},allowed:[],coupling_threshold:2},fitness_policy:{schema:'codefriend.fitness.v1',rules:[{id:'no_network',kind:'forbidden_declared_use',source_path:'lib.rs',forbidden_prefix:'reqwest'}]}};
++const sorted=v=>Array.isArray(v)?v.map(sorted):v&&typeof v==='object'?Object.fromEntries(Object.keys(v).sort().map(k=>[k,sorted(v[k])])):v;
++function fixture(mode='hosted',partial=false){
++ const dir=mkdtempSync(join(tmpdir(),'cycle-journey-')),store=new Store(join(dir,'state.sqlite')),run=cycleRun({mode,partial}),calls=[];
++ store.insert('run',run.id,run.subject,run);
++ const a=run.cycleResult.admission,done=['acquisition','admission','structure','fitness','review'];
++ const stages=['acquisition','admission','structure','fitness','impact','rationale','drift','review','publication_markdown','publication_html','publication_pdf','palace_comparison','approval_markdown','approval_html','approval_pdf','markdown','html','pdf'];
++ const manifest={schema:'codefriend.journey.v1',candidate_revision:run.gatewayCandidateRevision,candidate_clean:true,repository:a.packet.repository,revision:run.revision,packet_id:run.packetId,admission_digest:a.digest,scope_digest:a.packet.scope_digest,status:'pending',stages:Object.fromEntries(stages.map(k=>[k,{status:done.includes(k)?'complete':'pending',reason:null,artifact:done.includes(k)?`${k}.json`:null,digest:done.includes(k)?'f'.repeat(64):null}]))};
++ const gateway={inspect:async()=>({operation_id:run.id,subject:run.subject,mode:'hosted',status:'complete',packet_id:run.packetId,source_revision:run.revision,candidate_revision:run.gatewayCandidateRevision,request_digest:run.gatewayRequestDigest,model_identity:run.cycleResult.execution.model_identity,expires_at:160}),journeyPrepare:async()=>{calls.push('prepare');throw Error('lost reply');},journeyStatus:async()=>structuredClone(manifest)};
++ const runs=new Runs({store,gateway,candidateRevision:run.gatewayCandidateRevision,providerRoute:run.providerRoute,clock:()=>100});
++ return {store,run,calls,runs,journeys:new Journeys({store,runs,clock:()=>100}),close(){store.close();rmSync(dir,{recursive:true,force:true});}};
++}
++for(const partial of [false,true])test(`hosted cycle HTTP preparation retains review and never redispatches (${partial?'partial':'complete'} coverage)`,async()=>{
++ const f=fixture('hosted',partial);const server=application({origin:'https://beta.test',store:f.store,runs:f.runs,sessions:{require:async()=>({subject:'alice'})}});
++ try{server.listen(0,'127.0.0.1');await once(server,'listening');const url=`http://127.0.0.1:${server.address().port}/api/runs/${f.run.id}/journey`;
++ for(let i=0;i<2;i++){const response=await fetch(url,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(policies)});assert.equal(response.status,200,await response.clone().text());}
++ const summary=await (await fetch(url.replace(/\/cycle1\/journey$/,''))).json();assert.equal(summary[0].journeyAvailable,true);assert.equal(Object.hasOwn(summary[0],'cycleResult'),false);
++ assert.deepEqual(f.calls,['prepare']);assert.equal(f.store.get('run',f.run.id,'alice').result,null);
++ assert.equal(f.store.get('journey',f.run.id,'alice').pin.reviewRecord,f.run.cycleResult.review.review_record.run.id);
++ }finally{server.closeAllConnections();await new Promise(r=>server.close(r));f.close();}
++});
++test('cycle selection survives native JSON key ordering and rejects changed outer/inner authority',()=>{
++ for(const mode of ['hosted','local']){
++ const run=cycleRun({mode,partial:true});assert.equal(selectedReview(sorted(run)).run_id,run.cycleResult.run_id);
++ for(const change of [r=>r.cycleResult.run_id='other',r=>r.cycleResult.review.run_id='other',r=>r.cycleResult.execution.candidate_revision='f'.repeat(40),r=>r.cycleResult.execution.request_digest='e'.repeat(64),r=>r.cycleResult.admission_digest='f'.repeat(64),r=>r.reviewGeneration=undefined,r=>r.cycleResult.review.lane_results[0].provider_route='other']){
++ const bad=structuredClone(run);change(bad);assert.throws(()=>selectedReview(bad));}
++ for(const [change,reason] of [[r=>r.cycleResult.review=null,/review_missing/],[r=>r.cycleResult.completion='failed',/cycle_failed/],[r=>delete r.cycleResult.execution,/execution_unavailable/]]){const bad=structuredClone(run);change(bad);assert.throws(()=>selectedReview(bad),reason);}
++ }
++});
++test('local cycle relay preserves original report, one effect, agent isolation and baseline rejection',async()=>{
++ const f=fixture('local',true);try{
++ f.store.insert('agent','agent1','alice',{id:'agent1',subject:'alice',revoked:false,expiresAt:200});
++ const local=new LocalJourneys({store:f.store,agents:{invited:async()=>true},candidate:'c'.repeat(40),clock:()=>100});
++ const job=await local.request('alice',f.run.id,{stage:'prepare',...policies},authorize);
++ assert.deepEqual(await local.request('alice',f.run.id,{stage:'prepare',...policies},authorize),job);
++ const context=local.context({...f.store.get('local-journey',job.binding.job_id,'alice'),result:null},f.run);
++ assert.deepEqual(context.report,originalAgentReport(f.run));assert.equal(context.report.result,null);assert.equal(context.report.cycle_result.run_id,f.run.cycleResult.run_id);
++ await assert.rejects(local.request('bob',f.run.id,{stage:'status'},authorize),/run_not_found/);
++ await assert.rejects(local.request('alice',f.run.id,{stage:'drift',baseline_run:'missing'},authorize));
++ f.store.update('run',f.run.id,'alice',r=>({...r,cancelRequested:true}));assert.throws(()=>local.check(f.store.get('local-journey',job.binding.job_id,'alice')));
++ }finally{f.close();}
++});
+diff --git a/tests/cycle-result-fixture.mjs b/tests/cycle-result-fixture.mjs
+index 770dba5..15e6b64 100644
+--- a/tests/cycle-result-fixture.mjs
++++ b/tests/cycle-result-fixture.mjs
+@@ -5,9 +5,9 @@ import { assessmentReview } from './fixtures/assessment-review.mjs';
+ 
+ const hash = value => Buffer.from(blake3(Buffer.from(JSON.stringify(value)))).toString('hex');
+ 
+-export function cycleResultFixture(run, { runId = run.id, providerRoute = run.providerRoute, fail = null } = {}) {
++export function cycleResultFixture(run, { runId = run.id, providerRoute = run.providerRoute, fail = null, originalAdmission = null } = {}) {
+   const plan=cycleRequest(run.cycle), revision=run.revision ?? 'a'.repeat(40);
+-  const admission=nativeAdmission({repository:plan.repository,revision}),packet=admission.packet,evidence=admission.evidence[0];
++  const admission=originalAdmission??nativeAdmission({repository:plan.repository,revision}),packet=admission.packet,evidence=admission.evidence[0];
+   const packetId=packet.packet_id,scopeDigest=packet.scope_digest;
+   const activities=plan.activities.map(activity=>{
+     const manifest={schema:'codefriend.activity_input_manifest.v1',run_id:runId,activity,activity_contract:'codefriend.activity.v1',
+diff --git a/tests/fixtures/cycle-journey.mjs b/tests/fixtures/cycle-journey.mjs
+new file mode 100644
+index 0000000..652d7be
+--- /dev/null
++++ b/tests/fixtures/cycle-journey.mjs
+@@ -0,0 +1,20 @@
++import {normalizeCyclePlan,cycleOperationId} from '../../app/cycle-plan.mjs';
++import {orderedReviewResult} from '../../app/review-wire.mjs';
++import {nativeAdmission,hash} from './native-admission.mjs';
++import {cycleResultFixture} from '../cycle-result-fixture.mjs';
++export function cycleRun({id='cycle1',mode='hosted',partial=false}={}){
++ const repository='https://github.com/example/repository',model={provider_kind:'openai',provider:'fixture',model_ref:'fixture/exact',provider_model_id:'model-v1',runtime_surface:'hosted_api',identity_strength:'provider_asserted',observed_at:'unix:100'};
++ const admission=nativeAdmission({repository,path:'lib.rs',content:'pub fn answer() {}',partial});
++ const run={id,subject:'alice',agentId:'agent1',mode,status:'complete',cancelRequested:false,expiresAt:160,revision:admission.packet.revision,packetId:admission.packet.packet_id,
++  cycle:normalizeCyclePlan({repository,activities:['review'],testing:null}),reviewGeneration:'assessments',result:null,providerRoute:'fixture:hosted_api:model-v1',gatewayCandidateRevision:'c'.repeat(40),gatewayRequestDigest:'d'.repeat(64),gatewayExpiresAt:160,
++  consentDigest:'a'.repeat(64),agentReportDigest:'b'.repeat(64),receivedDigest:'e'.repeat(64)};
++ const inner=mode==='local'?cycleOperationId(run.agentId,id,run.cycle):id;
++ const cycle=cycleResultFixture(run,{runId:inner,originalAdmission:admission});
++ for(const a of cycle.activities){const m=a.input_manifest;const {evidence,source_mutation_authority,publication_authority,input_digest,...prefix}=m;
++  a.input_manifest={...prefix,known_repository_paths:admission.packet.objects.map(o=>o.path).sort(),evidence,source_mutation_authority,publication_authority,input_digest:''};a.input_manifest.input_digest=hash(a.input_manifest);
++  if(a.activity==='review')a.review_result_digest=hash(orderedReviewResult(cycle.review));
++ }
++ cycle.execution={candidate_revision:run.gatewayCandidateRevision,request_digest:run.gatewayRequestDigest,model_identity:model};
++ run.gatewayLanes=[{lane:'cycle',candidate_revision:run.gatewayCandidateRevision,model_identity:model,request_digest:run.gatewayRequestDigest}];
++ run.cycleResult=cycle;return run;
++}
+diff --git a/tests/local-journey.test.mjs b/tests/local-journey.test.mjs
+index cc2dc12..c4540e1 100644
+--- a/tests/local-journey.test.mjs
++++ b/tests/local-journey.test.mjs
+@@ -15,7 +15,7 @@ async function fixture(verify=async()=>{}){
+  const agents=new Agents({store,origin:'https://beta.example.test',clock:()=>now,invited:async()=>true,credentials:{issue:async()=> 'm'.repeat(43),revoke:async()=>{}}});
+  const pairs=[];for(const subject of ['alice','alice','bob']){const c=await agents.code(subject);pairs.push(await agents.pair({schema:'codefriend.local_agent.v1',code:c.code}));}
+  const pair=pairs[0];await agents.poll(pair.agent_token,{schema:pair.schema,agent_id:pair.agent_id,consent_digest:d('a')});
+- const run=await agents.start('alice',pair.agent_id,d('a'),1600);store.update('run',run.id,'alice',r=>({...r,status:'complete',result:{completion:'complete'},gatewayLanes:[],agentReportDigest:d('b'),receivedDigest:d('c')}));
++ const run=await agents.start('alice',pair.agent_id,d('a'),1600);store.update('run',run.id,'alice',r=>({...r,status:'complete',result:{schema:'codefriend.four_perspective_review_run.v1',completion:'complete'},gatewayLanes:[],agentReportDigest:d('b'),receivedDigest:d('c')}));
+  const local=new LocalJourneys({store,agents,verify,candidate:'e'.repeat(40),clock:()=>now});
+  return {store,agents,local,pair,pairs,run,setTime:v=>now=v,close(){store.close();rmSync(dir,{recursive:true,force:true});}};
+ }
+diff --git a/tests/local-publication.test.mjs b/tests/local-publication.test.mjs
+index 861c46e..0f682e7 100644
+--- a/tests/local-publication.test.mjs
++++ b/tests/local-publication.test.mjs
+@@ -25,7 +25,7 @@ async function fixture(options={}) {
+   const [pair]=pairs;
+   await agents.poll(pair.agent_token,{schema:pair.schema,agent_id:pair.agent_id,consent_digest:d('a')});
+   const run=await agents.start('alice',pair.agent_id,d('a'),1600);
+-  store.update('run',run.id,'alice',r=>({...r,status:'complete',result:{completion:'complete'},gatewayLanes:[],agentReportDigest:d('b'),receivedDigest:d('c')}));
++  store.update('run',run.id,'alice',r=>({...r,status:'complete',result:{schema:'codefriend.four_perspective_review_run.v1',completion:'complete'},gatewayLanes:[],agentReportDigest:d('b'),receivedDigest:d('c')}));
+   const calls=[];
+   const verify=options.noVerifier?undefined:async(value,context)=> {
+     calls.push(structuredClone({value,context}));
+@@ -80,7 +80,7 @@ test('distinct native stages, explicit decisions, exact redelivery, three format
+     assert.equal(f.calls[0].context.report.digest,d('b'));
+     assert.equal(f.calls[0].context.report.run_id,f.run.id);
+     assert.deepEqual(f.calls[0].context.report.gateway_lanes,[]);
+-    assert.deepEqual(f.calls[0].context.report.result,{completion:'complete'});
++    assert.deepEqual(f.calls[0].context.report.result,{schema:'codefriend.four_perspective_review_run.v1',completion:'complete'});
+     assert.equal(f.calls.length,6);assert.deepEqual(await f.local.poll(f.pair.agent_token),{job:null});
+   }finally{f.close();}
+ });
+diff --git a/tests/workspace-ui.test.mjs b/tests/workspace-ui.test.mjs
+index 8e728ae..a074134 100644
+--- a/tests/workspace-ui.test.mjs
++++ b/tests/workspace-ui.test.mjs
+@@ -153,3 +153,22 @@ test('assessment cycles distinguish positive observations and unresolved questio
+     assert.match(output,/Review finished with incomplete source coverage/);
+   }finally{page.restore();}
+ });
++
++// #1132: DOM visibility and an actual browser preparation request for a cycle.
++test('review-bearing cycle exposes Journey controls and sends policy request',async()=>{
++ const {cycleRun}=await import('./fixtures/cycle-journey.mjs');const run=cycleRun({partial:true});run.expiresAt=Date.now()/1000+300;
++ const calls=[];const repository={id:'github.com/example/repository',name:'example/repository',url:'https://github.com/example/repository',cycles:1,activities:['review'],alerts:{},journal:[{runId:run.id,at:20,status:'complete',activities:['review']}]};
++ const page=await workspace([repository],{},async(path,options={})=>{
++  calls.push([path,options.method||'GET',options.body]);
++  const value=path==='/api/session'?{subject:'alice',csrf:'fixture',expiresAt:Date.now()/1000+300}:path==='/api/repositories'?[repository]:path==='/api/runs'?[{...run,result:undefined,cycleResult:undefined,journeyAvailable:true},{...run,id:'baseline-cycle',result:undefined,cycleResult:undefined,journeyAvailable:true}]:path.includes('/journey')?{status:'not_prepared',manifest:null,attempts:{}}:path.includes(`/api/runs/${run.id}`)?run:[];
++  return new Response(JSON.stringify(value),{status:200,headers:{'Content-Type':'application/json'}});
++ });
++ try{
++  await new Promise(r=>setTimeout(r,20));page.document.querySelector('#runs button').click();await new Promise(r=>setTimeout(r,20));
++  assert.equal(page.document.querySelector('#journey').hidden,false);assert.equal(page.document.querySelector('#journey-unavailable').textContent,'');
++  assert.equal(page.document.querySelector('#journey-baseline option').value,'baseline-cycle');
++  for(const [id,value] of [['boundary-policy',{schema:'codefriend.structure.v1'}],['fitness-policy',{schema:'codefriend.fitness.v1'}]])Object.defineProperty(page.document.querySelector(`#${id}`),'files',{value:[{size:20,text:async()=>JSON.stringify(value)}]});
++  page.document.querySelector('#journey-prepare-form').dispatchEvent(new page.window.Event('submit',{cancelable:true}));await new Promise(r=>setTimeout(r,20));
++  assert.ok(calls.some(([path,method])=>path===`/api/runs/${run.id}/journey`&&method==='POST'));
++ }finally{page.restore();}
++});
+
+From bd5d18ce1d614400d6c00ff93f0f1200818356f1 Mon Sep 17 00:00:00 2001
+From: "Daniel B. Austin" <daniel@danielaustin.org>
+Date: Mon, 21 Sep 2026 20:23:13 -0700
+Subject: [PATCH 2/4] fix: forward original cycle review evidence through model
+ proxy
+
+---
+ app/agents.mjs             |  2 +-
+ app/http.mjs               |  2 +-
+ tests/application.test.mjs | 50 ++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 52 insertions(+), 2 deletions(-)
+
+diff --git a/app/agents.mjs b/app/agents.mjs
+index 26bc09a..2c511e5 100644
+--- a/app/agents.mjs
++++ b/app/agents.mjs
+@@ -114,7 +114,7 @@ export class Agents {
+       const reserved = this.store.get('model-operation', id, agent.subject);
+       if (!reserved || reserved.agentId !== agent.id || reserved.runId !== owner.run.id) throw new RunError('model_run_denied');
+       if (!((method === 'GET' && !path.endsWith('/cancel')) || (method === 'POST' && path.endsWith('/cancel')))) throw new RunError('method_denied');
+-      if (path.endsWith('/result') && (owner.run.cancelRequested || !['running','complete'].includes(owner.run.status))) throw new RunError('model_run_denied');
++      if ((path.endsWith('/result') || path.endsWith('/review-evidence')) && (owner.run.cancelRequested || !['running','complete'].includes(owner.run.status))) throw new RunError('model_run_denied');
+     }
+     return owner;
+   }
+diff --git a/app/http.mjs b/app/http.mjs
+index 2e3e531..c9c03ed 100644
+--- a/app/http.mjs
++++ b/app/http.mjs
+@@ -67,7 +67,7 @@ export function application({ origin, oauth, sessions, runs, store, agents, repo
+       if (method === 'GET' && url.pathname === '/beta' && workspace) {
+         response.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' }); response.end(workspace); return;
+       }
+-      if (credentials && modelGateway && /^\/v1\/operations(?:\/[A-Za-z0-9_-]{1,80}(?:\/(?:cancel|result))?)?$/.test(url.pathname)) {
++      if (credentials && modelGateway && /^\/v1\/operations(?:\/[A-Za-z0-9_-]{1,80}(?:\/(?:cancel|result|review-evidence))?)?$/.test(url.pathname)) {
+         const bearer = /^Bearer ([A-Za-z0-9_-]{43})$/.exec(request.headers.authorization || '')?.[1];
+         const identity = await credentials.validate(bearer, 'local_model');
+         if (!['POST','GET'].includes(method)) throw new RunError('method_denied');
+diff --git a/tests/application.test.mjs b/tests/application.test.mjs
+index 6283c14..7eb2357 100644
+--- a/tests/application.test.mjs
++++ b/tests/application.test.mjs
+@@ -168,3 +168,53 @@ test('HTTP ownership isolates two sessions across run reads, approvals, cancella
+     }
+   } finally { server.closeAllConnections(); await new Promise(resolve => server.close(resolve)); store.close(); rmSync(dir, { recursive: true, force: true }); }
+ });
++
++// PVF: deterministic authorization component proof; fixed clock, SQLite and
++// loopback HTTP. Existing runtime release gate; no provider or deployment proof.
++test('cycle review evidence proxy preserves reservation, cancellation and agent authority', async () => {
++  const { cycleOperationId } = await import('../app/cycle-plan.mjs');
++  const dir=mkdtempSync(join(tmpdir(),'review-proxy-')),store=new Store(join(dir,'db.sqlite'));
++  const origin='https://beta.example.test',clock=()=>1000,invited=async()=>true;
++  const credentials=new Credentials({store,invited,clock,path:join(dir,'credentials.json')});
++  const agents=new Agents({store,credentials,invited,origin,clock});
++  const calls=[];
++  const server=application({origin,store,agents,credentials,modelGateway:async(token,method,path)=>{calls.push({method,path});return {schema:'fixture.original_review',operation:path.split('/')[3]};}});
++  server.listen(0,'127.0.0.1');await once(server,'listening');
++  const base=`http://127.0.0.1:${server.address().port}`;
++  const pair=async()=>agents.pair({schema:'codefriend.local_agent.v1',code:(await agents.code('github_123')).code});
++  async function request(token,path,method='GET',body){
++    const r=await fetch(base+path,{method,headers:{Authorization:`Bearer ${token}`,'Content-Type':'application/json'},body:body===undefined?undefined:JSON.stringify(body)});
++    return {status:r.status,body:await r.json()};
++  }
++  try {
++    const owner=await pair(),other=await pair();
++    const poll={schema:owner.schema,agent_id:owner.agent_id,consent_digest:'a'.repeat(64)};
++    await agents.poll(owner.agent_token,poll);
++    const run=await agents.start(owner.subject,owner.agent_id,poll.consent_digest,1100,{repository:'https://github.com/agent-logic/codefriend.ai',activities:['review'],testing:null});
++    const command=(await agents.poll(owner.agent_token,poll)).command;
++    const op=cycleOperationId(owner.agent_id,run.id,run.cycle),path=`/v1/operations/${op}/review-evidence`;
++    assert.notEqual((await request(owner.model_token,path)).status,200); // Not reserved.
++    assert.equal(calls.length,0);
++    assert.equal((await request(owner.model_token,'/v1/operations','POST',{operation_id:op,mode:'local_model',lane:null,cycle:command.cycle,review_generation:command.review_generation})).status,200);
++    for(const status of ['running','complete']) {
++      store.update('run',run.id,owner.subject,r=>({...r,status}));
++      const response=await request(owner.model_token,path);
++      assert.equal(response.status,200);assert.equal(response.body.operation,op);
++    }
++    const count=calls.length;
++    for(const [token,target,method] of [[other.model_token,path,'GET'],[owner.agent_token,path,'GET'],[owner.model_token,path,'POST'],[owner.model_token,`/v1/operations/${run.id}/review-evidence`,'GET']]) {
++      assert.notEqual((await request(token,target,method)).status,200);
++    }
++    for(const status of ['cancel_requested','cancelled','expired','interrupted']) {
++      store.update('run',run.id,owner.subject,r=>({...r,status}));
++      assert.notEqual((await request(owner.model_token,path)).status,200);
++    }
++    store.update('run',run.id,owner.subject,r=>({...r,status:'complete',cancelRequested:true}));
++    assert.notEqual((await request(owner.model_token,path)).status,200);
++    store.update('run',run.id,owner.subject,r=>({...r,cancelRequested:false}));
++    await agents.revoke(owner.agent_token);
++    assert.notEqual((await request(owner.model_token,path)).status,200);
++    assert.equal(calls.length,count); // Denials never reach gateway.
++    assert.deepEqual(calls.slice(1),[{method:'GET',path},{method:'GET',path}]);
++  } finally {server.closeAllConnections();await new Promise(r=>server.close(r));store.close();rmSync(dir,{recursive:true,force:true});}
++});
+
+From 452fcfad350c13dcc0ab59357c3153825348b509 Mon Sep 17 00:00:00 2001
+From: "Daniel B. Austin" <daniel@danielaustin.org>
+Date: Mon, 21 Sep 2026 20:24:30 -0700
+Subject: [PATCH 3/4] fix: recheck review evidence authority after gateway
+ response
+
+---
+ app/http.mjs               |  1 +
+ tests/application.test.mjs | 16 +++++++++++++---
+ 2 files changed, 14 insertions(+), 3 deletions(-)
+
+diff --git a/app/http.mjs b/app/http.mjs
+index c9c03ed..e2aa8a2 100644
+--- a/app/http.mjs
++++ b/app/http.mjs
+@@ -77,6 +77,7 @@ export function application({ origin, oauth, sessions, runs, store, agents, repo
+         if (method === 'POST' && url.pathname === '/v1/operations') hostControl?.admit();
+         agents.authorizeModel(identity, method, url.pathname, body);
+         const value = await modelGateway(bearer, method, url.pathname, body);
++        if (method === 'GET' && url.pathname.endsWith('/review-evidence')) agents.authorizeModel(identity, method, url.pathname, body);
+         await credentials.validate(bearer, 'local_model');
+         const owner = store.get('agent', identity.owner, identity.subject);
+         if (!owner || owner.revoked) throw new RunError('agent_denied');
+diff --git a/tests/application.test.mjs b/tests/application.test.mjs
+index 7eb2357..28e230f 100644
+--- a/tests/application.test.mjs
++++ b/tests/application.test.mjs
+@@ -177,8 +177,8 @@ test('cycle review evidence proxy preserves reservation, cancellation and agent
+   const origin='https://beta.example.test',clock=()=>1000,invited=async()=>true;
+   const credentials=new Credentials({store,invited,clock,path:join(dir,'credentials.json')});
+   const agents=new Agents({store,credentials,invited,origin,clock});
+-  const calls=[];
+-  const server=application({origin,store,agents,credentials,modelGateway:async(token,method,path)=>{calls.push({method,path});return {schema:'fixture.original_review',operation:path.split('/')[3]};}});
++  const calls=[];let duringReply=async()=>{};
++  const server=application({origin,store,agents,credentials,modelGateway:async(token,method,path)=>{calls.push({method,path});await duringReply();return {schema:'fixture.original_review',operation:path.split('/')[3]};}});
+   server.listen(0,'127.0.0.1');await once(server,'listening');
+   const base=`http://127.0.0.1:${server.address().port}`;
+   const pair=async()=>agents.pair({schema:'codefriend.local_agent.v1',code:(await agents.code('github_123')).code});
+@@ -201,6 +201,16 @@ test('cycle review evidence proxy preserves reservation, cancellation and agent
+       const response=await request(owner.model_token,path);
+       assert.equal(response.status,200);assert.equal(response.body.operation,op);
+     }
++    for(const mutation of [r=>({...r,cancelRequested:true}),r=>({...r,expiresAt:999}),r=>({...r,status:'interrupted'})]) {
++      let release,entered;
++      const arrived=new Promise(r=>{entered=r});
++      duringReply=()=>{entered();return new Promise(r=>{release=r});};
++      const pending=request(owner.model_token,path);await arrived;
++      store.update('run',run.id,owner.subject,mutation);release();
++      assert.notEqual((await pending).status,200);
++      store.update('run',run.id,owner.subject,r=>({...r,cancelRequested:false,expiresAt:1100,status:'complete'}));
++    }
++    duringReply=async()=>{};
+     const count=calls.length;
+     for(const [token,target,method] of [[other.model_token,path,'GET'],[owner.agent_token,path,'GET'],[owner.model_token,path,'POST'],[owner.model_token,`/v1/operations/${run.id}/review-evidence`,'GET']]) {
+       assert.notEqual((await request(token,target,method)).status,200);
+@@ -215,6 +225,6 @@ test('cycle review evidence proxy preserves reservation, cancellation and agent
+     await agents.revoke(owner.agent_token);
+     assert.notEqual((await request(owner.model_token,path)).status,200);
+     assert.equal(calls.length,count); // Denials never reach gateway.
+-    assert.deepEqual(calls.slice(1),[{method:'GET',path},{method:'GET',path}]);
++    assert.deepEqual(calls.slice(1),Array.from({length:5},()=>({method:'GET',path})));
+   } finally {server.closeAllConnections();await new Promise(r=>server.close(r));store.close();rmSync(dir,{recursive:true,force:true});}
+ });
+
+From 0f7a5ba379b756419f4f72bf39dca5f4bee6e809 Mon Sep 17 00:00:00 2001
+From: "Daniel B. Austin" <daniel@danielaustin.org>
+Date: Mon, 21 Sep 2026 20:25:19 -0700
+Subject: [PATCH 4/4] fix: reauthorize evidence after final asynchronous
+ credential check
+
+---
+ app/http.mjs               | 2 +-
+ tests/application.test.mjs | 9 +++++++--
+ 2 files changed, 8 insertions(+), 3 deletions(-)
+
+diff --git a/app/http.mjs b/app/http.mjs
+index e2aa8a2..ef42924 100644
+--- a/app/http.mjs
++++ b/app/http.mjs
+@@ -77,10 +77,10 @@ export function application({ origin, oauth, sessions, runs, store, agents, repo
+         if (method === 'POST' && url.pathname === '/v1/operations') hostControl?.admit();
+         agents.authorizeModel(identity, method, url.pathname, body);
+         const value = await modelGateway(bearer, method, url.pathname, body);
+-        if (method === 'GET' && url.pathname.endsWith('/review-evidence')) agents.authorizeModel(identity, method, url.pathname, body);
+         await credentials.validate(bearer, 'local_model');
+         const owner = store.get('agent', identity.owner, identity.subject);
+         if (!owner || owner.revoked) throw new RunError('agent_denied');
++        if (method === 'GET' && url.pathname.endsWith('/review-evidence')) agents.authorizeModel(identity, method, url.pathname, body);
+         json(200, value); return;
+       }
+       if (agents && method === 'POST' && url.pathname === '/v1/agent/pair') {
+diff --git a/tests/application.test.mjs b/tests/application.test.mjs
+index 28e230f..8e2b7c5 100644
+--- a/tests/application.test.mjs
++++ b/tests/application.test.mjs
+@@ -174,7 +174,8 @@ test('HTTP ownership isolates two sessions across run reads, approvals, cancella
+ test('cycle review evidence proxy preserves reservation, cancellation and agent authority', async () => {
+   const { cycleOperationId } = await import('../app/cycle-plan.mjs');
+   const dir=mkdtempSync(join(tmpdir(),'review-proxy-')),store=new Store(join(dir,'db.sqlite'));
+-  const origin='https://beta.example.test',clock=()=>1000,invited=async()=>true;
++  let duringInvite=async()=>{};
++  const origin='https://beta.example.test',clock=()=>1000,invited=async()=>{await duringInvite();return true;};
+   const credentials=new Credentials({store,invited,clock,path:join(dir,'credentials.json')});
+   const agents=new Agents({store,credentials,invited,origin,clock});
+   const calls=[];let duringReply=async()=>{};
+@@ -210,6 +211,10 @@ test('cycle review evidence proxy preserves reservation, cancellation and agent
+       assert.notEqual((await pending).status,200);
+       store.update('run',run.id,owner.subject,r=>({...r,cancelRequested:false,expiresAt:1100,status:'complete'}));
+     }
++    duringReply=async()=>{duringInvite=async()=>{store.update('run',run.id,owner.subject,r=>({...r,cancelRequested:true}));};};
++    assert.notEqual((await request(owner.model_token,path)).status,200);
++    duringInvite=async()=>{};
++    store.update('run',run.id,owner.subject,r=>({...r,cancelRequested:false}));
+     duringReply=async()=>{};
+     const count=calls.length;
+     for(const [token,target,method] of [[other.model_token,path,'GET'],[owner.agent_token,path,'GET'],[owner.model_token,path,'POST'],[owner.model_token,`/v1/operations/${run.id}/review-evidence`,'GET']]) {
+@@ -225,6 +230,6 @@ test('cycle review evidence proxy preserves reservation, cancellation and agent
+     await agents.revoke(owner.agent_token);
+     assert.notEqual((await request(owner.model_token,path)).status,200);
+     assert.equal(calls.length,count); // Denials never reach gateway.
+-    assert.deepEqual(calls.slice(1),Array.from({length:5},()=>({method:'GET',path})));
++    assert.deepEqual(calls.slice(1),Array.from({length:6},()=>({method:'GET',path})));
+   } finally {server.closeAllConnections();await new Promise(r=>server.close(r));store.close();rmSync(dir,{recursive:true,force:true});}
+ });

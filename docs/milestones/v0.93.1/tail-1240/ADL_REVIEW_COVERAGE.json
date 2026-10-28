@@ -1,0 +1,76 @@
+{
+  "source_commit": "f75f0d3f9c4df85743638b956f2c2a80f3424f38",
+  "packet_commits": [
+    "b282e79796e7016bd0d163bf7b1f4a816f63c0c4",
+    "cf395fea7bcf87bbab9d901df6bf7250d4ec2997"
+  ],
+  "reviewer": "OpenAI Codex /root/adl_external_reviewer",
+  "verdict": "CHANGES_REQUIRED",
+  "findings": [
+    {
+      "id": "ADL-1240-EXT-01",
+      "priority": "P2",
+      "file": "adl-legacy-contracts/src/prompt.rs",
+      "line": 24,
+      "proof": "exact-function isolated dynamic reproduction"
+    },
+    {
+      "id": "ADL-1240-EXT-02",
+      "priority": "P2",
+      "file": "adl-v2/crates/adl-compiler/src/lib.rs",
+      "line": 147,
+      "proof": "static call-order and recursive traversal; no stress execution"
+    },
+    {
+      "id": "ADL-1240-EXT-03",
+      "priority": "P3",
+      "file": "adl/src/session_ledger.rs",
+      "line": 278,
+      "proof": "static input-to-locked-dependency panic trace"
+    },
+    {
+      "id": "ADL-1240-EXT-04",
+      "priority": "P3",
+      "file": "adl-spec/README.md",
+      "line": 22,
+      "proof": "frozen entrypoint contradiction"
+    }
+  ],
+  "coverage_groups": [
+    {
+      "area": "CLI",
+      "depth": "dispatcher, owner selectors, workflow/resume parsers and display fully read; session/process implementation and tests sampled"
+    },
+    {
+      "area": "Public packages",
+      "depth": "all five manifests; schema declarations/model identity; UTS core semantic validators; language model/parser/validator/canonical; compiler implementation fully read; legacy loader/prompt and resolution/validation sampled"
+    },
+    {
+      "area": "CI",
+      "depth": "ci.yaml, nightly workflow, ci_policy.py, run_ci/run_cli_ci/run_package_checks, coverage producer/inventory and installer proof producer inspected; test contracts sampled; transpiler job implementation not reviewed"
+    },
+    {
+      "area": "Docs",
+      "depth": "root README/REVIEW and CLI README, repositories, onboarding, default workflow, manuals, process-status guidance, specification README/contracts/core concepts/normative determinism; broader docs historical corpus not reviewed"
+    },
+    {
+      "area": "Retained evidence",
+      "depth": "FINAL_VALIDATION and FINAL_SOURCE_CORRESPONDENCE inspected; exact scoped Git delta inspected; split-interface evidence remains access-preflight coverage, not new private implementation review"
+    }
+  ],
+  "new_execution": [
+    "std-only exact-function prompt determinism probe (rustc 1.92.0); two unique outputs across 256 maps"
+  ],
+  "not_executed": [
+    "repository builds",
+    "package tests",
+    "CI",
+    "provider calls",
+    "network",
+    "archive download or hashing",
+    "installed product execution"
+  ],
+  "inventory_paths": 591,
+  "inventory_is_not_reviewed_path_count": true,
+  "release_acceptance": false
+}

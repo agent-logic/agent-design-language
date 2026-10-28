@@ -1,0 +1,28 @@
+issue: 5135
+disposition: approved_with_runtime_owner_lane_proof
+reviewer_or_review_mode: bounded runtime owner-lane review after broad runtime-surface escalation
+focused_validation_run: bash adl/tools/run_owner_validation_lane.sh runtime
+janitor_coverage_validation_run: "ADL_PR_FAST_COVERAGE_TEST_THREADS=1 ADL_PR_FAST_COVERAGE_WARM_CACHE_OUTPUT=warm-cache.json bash adl/tools/run_pr_fast_coverage_lane.sh --filter-expression 'test(csm_runtime_api) or test(csm_godel_snapshot) or test(csm_shepherd_agent) or test(long_lived_agent) or test(csm_service)'"
+residual_ci_proof_required_before_merge: required
+changed_release_gate_surfaces:
+  - adl/src/csm_api_gateway_bridge.rs
+  - adl/src/csm_godel_snapshot.rs
+  - adl/src/csm_runtime_api.rs
+  - adl/src/csm_shepherd_agent.rs
+  - adl/src/lib.rs
+  - adl/src/long_lived_agent.rs
+  - adl/tests/cli_smoke/agent.rs
+  - adl/tools/check_coverage_impact.sh
+  - adl/tools/test_check_coverage_impact.sh
+evidence:
+  - "Local broad runtime owner lane passed: bash adl/tools/run_owner_validation_lane.sh runtime."
+  - "Focused runtime API lane passed: cargo test --manifest-path adl/Cargo.toml csm_runtime_api -- --nocapture."
+  - "Embedded CSM runtime API smoke passed with /shepherd coverage."
+  - "API Gateway bridge proof passed after adding GET /shepherd to the fixture route inventory."
+  - "Coverage-impact mapping now classifies adl/src/csm_api_gateway_bridge.rs, adl/src/csm_godel_snapshot.rs, and adl/src/csm_shepherd_agent.rs under csm_runtime_agent."
+  - "Local PR-fast coverage impact proof passed once with the repaired expression: 176 selected tests passed."
+  - "A later repeat hit one selected runtime smoke failure; the same smoke passed when isolated under the coverage target, so post-push CI remains the authoritative integration proof."
+  - "SRP and SOR prompt contracts validated after review-result and broad-proof updates."
+non_claims:
+  - "This disposition does not claim the post-janitor pushed CI rerun has completed."
+  - "This disposition does not claim issue #5135 is merged or closed."

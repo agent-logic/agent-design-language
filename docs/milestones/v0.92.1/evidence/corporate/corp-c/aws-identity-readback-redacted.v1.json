@@ -1,0 +1,41 @@
+{
+  "schema": "adl.corporate.corp_c.aws_identity_readback_redacted.v1",
+  "issue": 497,
+  "repository": "agent-logic/agent-design-language",
+  "created_at_utc": "2026-09-02T01:09:48Z",
+  "command": [
+    "aws",
+    "sts",
+    "get-caller-identity",
+    "--profile",
+    "agent-logic-admin",
+    "--output",
+    "json"
+  ],
+  "profile": "agent-logic-admin",
+  "mutation": false,
+  "credential_material_captured": false,
+  "account_sha256": "b05e1f4379b5c7457d1de357e21447526ecf418ed47176ead2868d0a2d6589c9",
+  "arn_sha256": "272868f4c01d7120d436554d4bc3e45a9951cd70114a5e39ab66375d29e0de62",
+  "user_id_sha256": "f51eca20d9c0df8567d47828dbd5f5cc9305822517decf930708b406c61df3c1",
+  "account_id_redacted": true,
+  "arn_redacted": true,
+  "user_id_redacted": true,
+  "classification": "readback_pass",
+  "retained_hash_matches": [
+    {
+      "path": "docs/milestones/v0.91.7/review/build_throughput/remote_validation_4603/live_run_summary.json",
+      "sha256": "7e8d3be28de188cdc10194a419f80e467e9249cf81016385eff6b144f6f935a8",
+      "field": "account_id_sha256"
+    },
+    {
+      "path": "docs/milestones/v0.91.7/review/build_throughput/remote_validation_4603/live_run_summary_retry10_agentlogic.json",
+      "sha256": "939dbb5a299981a95c2d0d72826aa91804bb0df7669855bd1c7bada60325191a",
+      "field": "account_id_sha256"
+    }
+  ],
+  "limits": [
+    "This readback proves the local AWS profile resolved to the same redacted account hash retained by prior Agent Logic AWS evidence.",
+    "This readback does not prove billing custody, root/contact recovery, IAM Identity Center, break-glass availability, hosted-zone transfer, or deployment rollback readiness."
+  ]
+}

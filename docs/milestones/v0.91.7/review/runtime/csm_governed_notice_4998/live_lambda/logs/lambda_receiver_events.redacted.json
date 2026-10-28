@@ -1,0 +1,96 @@
+{
+    "events": [
+        {
+            "logStreamName": "2026/07/07/[$LATEST]2c5bd6edc319482a921487f718727477",
+            "timestamp": 1783389325362,
+            "message": "INIT_START Runtime Version: python:3.12.mainlinev2.v11\tRuntime Version ARN: <aws-arn-redacted>",
+            "ingestionTime": 1783389333144,
+            "eventId": "39770910934677388760236835062148124194269001351620722688"
+        },
+        {
+            "logStreamName": "2026/07/07/[$LATEST]2c5bd6edc319482a921487f718727477",
+            "timestamp": 1783389325446,
+            "message": "START RequestId: 2646e070-06f7-4203-915a-26d91d0c40a2 Version: $LATEST\n",
+            "ingestionTime": 1783389333144,
+            "eventId": "39770910936550651356913407406037124529171463718123077633"
+        },
+        {
+            "logStreamName": "2026/07/07/[$LATEST]2c5bd6edc319482a921487f718727477",
+            "timestamp": 1783389325446,
+            "message": "[INFO]\t2026-07-07T01:55:25.446Z\t2646e070-06f7-4203-915a-26d91d0c40a2\t{\"notice_id\": null, \"notice_kind\": null, \"projection_level\": null, \"receiver\": \"adl-csm-notice-receiver-4998\", \"request_id\": \"2646e070-06f7-4203-915a-26d91d0c40a2\", \"runtime_id\": null, \"schema\": \"adl.csm_notice_receiver.receipt.v1\", \"severity\": null, \"signal_kind\": null, \"trigger\": null}\n",
+            "ingestionTime": 1783389333144,
+            "eventId": "39770910936550651356913407406037124529171463718123077634"
+        },
+        {
+            "logStreamName": "2026/07/07/[$LATEST]2c5bd6edc319482a921487f718727477",
+            "timestamp": 1783389325448,
+            "message": "END RequestId: 2646e070-06f7-4203-915a-26d91d0c40a2\n",
+            "ingestionTime": 1783389333144,
+            "eventId": "39770910936595252847310468652320195965716760441135038467"
+        },
+        {
+            "logStreamName": "2026/07/07/[$LATEST]2c5bd6edc319482a921487f718727477",
+            "timestamp": 1783389325448,
+            "message": "REPORT RequestId: 2646e070-06f7-4203-915a-26d91d0c40a2\tDuration: 2.09 ms\tBilled Duration: 83 ms\tMemory Size: 128 MB\tMax Memory Used: 37 MB\tInit Duration: 80.19 ms\t\n",
+            "ingestionTime": 1783389333144,
+            "eventId": "39770910936595252847310468652320195965716760441135038468"
+        },
+        {
+            "logStreamName": "2026/07/07/[$LATEST]2c5bd6edc319482a921487f718727477",
+            "timestamp": 1783389327928,
+            "message": "START RequestId: 077e4e9f-78d6-450a-86e8-f6b60b0f235b Version: $LATEST\n",
+            "ingestionTime": 1783389333144,
+            "eventId": "39770910991901100939666414043328777281884696975966470149"
+        },
+        {
+            "logStreamName": "2026/07/07/[$LATEST]2c5bd6edc319482a921487f718727477",
+            "timestamp": 1783389327929,
+            "message": "[INFO]\t2026-07-07T01:55:27.929Z\t077e4e9f-78d6-450a-86e8-f6b60b0f235b\t{\"notice_id\": null, \"notice_kind\": null, \"projection_level\": null, \"receiver\": \"adl-csm-notice-receiver-4998\", \"request_id\": \"077e4e9f-78d6-450a-86e8-f6b60b0f235b\", \"runtime_id\": null, \"schema\": \"adl.csm_notice_receiver.receipt.v1\", \"severity\": null, \"signal_kind\": null, \"trigger\": null}\n",
+            "ingestionTime": 1783389333144,
+            "eventId": "39770910991923401684864944666470313000157345337472450566"
+        },
+        {
+            "logStreamName": "2026/07/07/[$LATEST]2c5bd6edc319482a921487f718727477",
+            "timestamp": 1783389327936,
+            "message": "END RequestId: 077e4e9f-78d6-450a-86e8-f6b60b0f235b\n",
+            "ingestionTime": 1783389333144,
+            "eventId": "39770910992079506901254659028461063028065883868014313479"
+        },
+        {
+            "logStreamName": "2026/07/07/[$LATEST]2c5bd6edc319482a921487f718727477",
+            "timestamp": 1783389327936,
+            "message": "REPORT RequestId: 077e4e9f-78d6-450a-86e8-f6b60b0f235b\tDuration: 1.77 ms\tBilled Duration: 2 ms\tMemory Size: 128 MB\tMax Memory Used: 37 MB\t\n",
+            "ingestionTime": 1783389333144,
+            "eventId": "39770910992079506901254659028461063028065883868014313480"
+        },
+        {
+            "logStreamName": "2026/07/07/[$LATEST]2c5bd6edc319482a921487f718727477",
+            "timestamp": 1783389328745,
+            "message": "START RequestId: 7b7898cb-1170-4d31-b316-75ed23a96f8c Version: $LATEST\n",
+            "ingestionTime": 1783389333144,
+            "eventId": "39770911010120809766865933149963459110638408326352470025"
+        },
+        {
+            "logStreamName": "2026/07/07/[$LATEST]2c5bd6edc319482a921487f718727477",
+            "timestamp": 1783389328745,
+            "message": "[INFO]\t2026-07-07T01:55:28.745Z\t7b7898cb-1170-4d31-b316-75ed23a96f8c\t{\"notice_id\": null, \"notice_kind\": null, \"projection_level\": null, \"receiver\": \"adl-csm-notice-receiver-4998\", \"request_id\": \"7b7898cb-1170-4d31-b316-75ed23a96f8c\", \"runtime_id\": null, \"schema\": \"adl.csm_notice_receiver.receipt.v1\", \"severity\": null, \"signal_kind\": null, \"trigger\": null}\n",
+            "ingestionTime": 1783389333144,
+            "eventId": "39770911010120809766865933149963459110638408326352470026"
+        },
+        {
+            "logStreamName": "2026/07/07/[$LATEST]2c5bd6edc319482a921487f718727477",
+            "timestamp": 1783389328756,
+            "message": "END RequestId: 7b7898cb-1170-4d31-b316-75ed23a96f8c\n",
+            "ingestionTime": 1783389333144,
+            "eventId": "39770911010366117964049770004520352011637540302918254603"
+        },
+        {
+            "logStreamName": "2026/07/07/[$LATEST]2c5bd6edc319482a921487f718727477",
+            "timestamp": 1783389328756,
+            "message": "REPORT RequestId: 7b7898cb-1170-4d31-b316-75ed23a96f8c\tDuration: 1.52 ms\tBilled Duration: 2 ms\tMemory Size: 128 MB\tMax Memory Used: 37 MB\t\n",
+            "ingestionTime": 1783389333144,
+            "eventId": "39770911010366117964049770004520352011637540302918254604"
+        }
+    ],
+    "searchedLogStreams": []
+}

@@ -1,0 +1,29 @@
+issue: 5028
+disposition: publish_with_focused_validation
+reviewer_or_review_mode: bounded_pre_pr_subagent_review
+focused_validation_run: >-
+  cargo fmt --manifest-path adl/Cargo.toml --all -- --check;
+  cargo test --manifest-path adl/Cargo.toml
+  render_issue_prompt_from_body_normalizes_missing_lifecycle_source_sections;
+  git diff --check;
+  bash adl/tools/validate_structured_prompt.sh --type srp --input
+  .adl/v0.91.7/tasks/issue-5028__v0-91-7-tools-cards-enforce-required-source-prompt-sections-during-bootstrap/srp.md;
+  bash adl/tools/validate_structured_prompt.sh --type sor --input
+  .adl/v0.91.7/tasks/issue-5028__v0-91-7-tools-cards-enforce-required-source-prompt-sections-during-bootstrap/sor.md
+residual_ci_proof_required_before_merge: >-
+  GitHub CI remains required before merge. This disposition only acknowledges
+  the validation manager slow-lane escalation for pr_cmd source-prompt
+  materialization surfaces after focused regression, formatting, card, and
+  whitespace proof passed locally.
+changed_release_gate_surfaces:
+  - adl/src/cli/pr_cmd_cards/prompt.rs
+  - adl/src/cli/tests/pr_cmd_inline/basics.rs
+notes:
+  - >-
+    The change is a narrow source-prompt normalization guard. The focused
+    regression covers a #4900-style authored-front-matter issue body missing
+    required source-prompt sections plus a fenced-heading false-positive case.
+  - >-
+    The local filtered Rust test still fans out across many binary targets; the
+    SOR records this as validation_misclassification variance for existing
+    build-throughput follow-up work.

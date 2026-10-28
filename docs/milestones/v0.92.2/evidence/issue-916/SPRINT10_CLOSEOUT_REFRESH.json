@@ -1,0 +1,231 @@
+{
+  "observed_at": "2026-09-22T17:48:38.466820+00:00",
+  "issues": {
+    "914": {
+      "number": 914,
+      "state": "CLOSED",
+      "title": "[v0.92.2][CF-INTEGRATE] Connect the complete installed CodeFriend Beta 1 journey",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/914"
+    },
+    "915": {
+      "number": 915,
+      "state": "OPEN",
+      "title": "[v0.92.2][CF-PROOF] Execute independent installed Beta 1 qualification on ADL and an external repository",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/915"
+    },
+    "936": {
+      "number": 936,
+      "state": "OPEN",
+      "title": "[v0.92.2][Sprint 10] Installed integration and independent qualification",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/936"
+    },
+    "1144": {
+      "number": 1144,
+      "state": "OPEN",
+      "title": "[v0.92.2][CodeFriend] Present verbatim source for quote-only review prompts",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/1144"
+    }
+  },
+  "repair_pr": {
+    "headRefOid": "a200a199fc07df1a60b165cf46c4366a20971b6e",
+    "mergedAt": null,
+    "number": 1146,
+    "state": "OPEN",
+    "statusCheckRollup": [
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-09-22T17:44:33Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/agent-logic/agent-design-language/actions/runs/35762452684/job/106864142701",
+        "name": "adl-path-policy",
+        "startedAt": "2026-09-22T17:44:11Z",
+        "status": "COMPLETED",
+        "workflowName": "ci"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-09-22T17:44:33Z",
+        "conclusion": "SKIPPED",
+        "detailsUrl": "https://github.com/agent-logic/agent-design-language/actions/runs/35762452684/job/106864297149",
+        "name": "csdlc-v2-standalone",
+        "startedAt": "2026-09-22T17:44:34Z",
+        "status": "COMPLETED",
+        "workflowName": "ci"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-09-22T17:44:33Z",
+        "conclusion": "SKIPPED",
+        "detailsUrl": "https://github.com/agent-logic/agent-design-language/actions/runs/35762452684/job/106864296298",
+        "name": "csdlc-v3-standalone",
+        "startedAt": "2026-09-22T17:44:34Z",
+        "status": "COMPLETED",
+        "workflowName": "ci"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-09-22T17:44:33Z",
+        "conclusion": "SKIPPED",
+        "detailsUrl": "https://github.com/agent-logic/agent-design-language/actions/runs/35762452684/job/106864297298",
+        "name": "adl-v2-standalone",
+        "startedAt": "2026-09-22T17:44:34Z",
+        "status": "COMPLETED",
+        "workflowName": "ci"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "0001-01-01T00:00:00Z",
+        "conclusion": "",
+        "detailsUrl": "https://github.com/agent-logic/agent-design-language/actions/runs/35762452684/job/106864295445",
+        "name": "adl-tooling-contracts",
+        "startedAt": "2026-09-22T17:44:37Z",
+        "status": "IN_PROGRESS",
+        "workflowName": "ci"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-09-22T17:44:33Z",
+        "conclusion": "SKIPPED",
+        "detailsUrl": "https://github.com/agent-logic/agent-design-language/actions/runs/35762452684/job/106864296808",
+        "name": "adl-runtime-v3-fast",
+        "startedAt": "2026-09-22T17:44:34Z",
+        "status": "COMPLETED",
+        "workflowName": "ci"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-09-22T17:45:24Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/agent-logic/agent-design-language/actions/runs/35762452684/job/106864295420",
+        "name": "adl-provider-core",
+        "startedAt": "2026-09-22T17:44:36Z",
+        "status": "COMPLETED",
+        "workflowName": "ci"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "0001-01-01T00:00:00Z",
+        "conclusion": "",
+        "detailsUrl": "https://github.com/agent-logic/agent-design-language/actions/runs/35762452684/job/106864295883",
+        "name": "codefriend_fitness_ci / installed-product",
+        "startedAt": "2026-09-22T17:44:36Z",
+        "status": "IN_PROGRESS",
+        "workflowName": "ci"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "0001-01-01T00:00:00Z",
+        "conclusion": "",
+        "detailsUrl": "https://github.com/agent-logic/agent-design-language/actions/runs/35762452684/job/106864295843",
+        "name": "codefriend_host_candidate / linux-amd64",
+        "startedAt": "2026-09-22T17:44:37Z",
+        "status": "IN_PROGRESS",
+        "workflowName": "ci"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "0001-01-01T00:00:00Z",
+        "conclusion": "",
+        "detailsUrl": "https://github.com/agent-logic/agent-design-language/actions/runs/35762452684/job/106864295334",
+        "name": "codefriend-ci-acquisition",
+        "startedAt": "2026-09-22T17:44:35Z",
+        "status": "IN_PROGRESS",
+        "workflowName": "ci"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-09-22T17:45:23Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/agent-logic/agent-design-language/actions/runs/35762452684/job/106864295559",
+        "name": "adl-uts-package",
+        "startedAt": "2026-09-22T17:44:36Z",
+        "status": "COMPLETED",
+        "workflowName": "ci"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-09-22T17:48:05Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/agent-logic/agent-design-language/actions/runs/35762452684/job/106864295301",
+        "name": "adl-rust-fmt-clippy",
+        "startedAt": "2026-09-22T17:44:38Z",
+        "status": "COMPLETED",
+        "workflowName": "ci"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "0001-01-01T00:00:00Z",
+        "conclusion": "",
+        "detailsUrl": "https://github.com/agent-logic/agent-design-language/actions/runs/35762452684/job/106864295382",
+        "name": "adl-rust-tests",
+        "startedAt": "2026-09-22T17:44:36Z",
+        "status": "IN_PROGRESS",
+        "workflowName": "ci"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-09-22T17:44:33Z",
+        "conclusion": "SKIPPED",
+        "detailsUrl": "https://github.com/agent-logic/agent-design-language/actions/runs/35762452684/job/106864297159",
+        "name": "adl-demo-proof",
+        "startedAt": "2026-09-22T17:44:34Z",
+        "status": "COMPLETED",
+        "workflowName": "ci"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-09-22T17:44:33Z",
+        "conclusion": "SKIPPED",
+        "detailsUrl": "https://github.com/agent-logic/agent-design-language/actions/runs/35762452684/job/106864297273",
+        "name": "adl-spot-ci-and-coverage",
+        "startedAt": "2026-09-22T17:44:34Z",
+        "status": "COMPLETED",
+        "workflowName": "ci"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-09-22T17:44:33Z",
+        "conclusion": "SKIPPED",
+        "detailsUrl": "https://github.com/agent-logic/agent-design-language/actions/runs/35762452684/job/106864297027",
+        "name": "adl-slow-proof",
+        "startedAt": "2026-09-22T17:44:34Z",
+        "status": "COMPLETED",
+        "workflowName": "ci"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "0001-01-01T00:00:00Z",
+        "conclusion": "",
+        "detailsUrl": "https://github.com/agent-logic/agent-design-language/actions/runs/35762452684/job/106864295502",
+        "name": "adl-coverage-runtime-hosted",
+        "startedAt": "2026-09-22T17:44:37Z",
+        "status": "IN_PROGRESS",
+        "workflowName": "ci"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-09-22T17:44:33Z",
+        "conclusion": "SKIPPED",
+        "detailsUrl": "https://github.com/agent-logic/agent-design-language/actions/runs/35762452684/job/106864297204",
+        "name": "adl-coverage-workspace-fast-hosted",
+        "startedAt": "2026-09-22T17:44:34Z",
+        "status": "COMPLETED",
+        "workflowName": "ci"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "0001-01-01T00:00:00Z",
+        "conclusion": "",
+        "detailsUrl": "https://github.com/agent-logic/agent-design-language/actions/runs/35762452684/job/106864295542",
+        "name": "adl-coverage-workspace-hosted",
+        "startedAt": "2026-09-22T17:44:37Z",
+        "status": "IN_PROGRESS",
+        "workflowName": "ci"
+      }
+    ],
+    "url": "https://github.com/agent-logic/agent-design-language/pull/1146"
+  },
+  "quality_decision": "not_proven",
+  "scope": "Authenticated tracker and repair status; no fresh installed qualification or full producer re-audit.",
+  "sprint_closeout": "https://github.com/agent-logic/agent-design-language/issues/936#issuecomment-5781237846"
+}

@@ -1,0 +1,249 @@
+{
+  "schema": "adl1223.csm-wrapper-external-fixture-result.v1",
+  "owner_merge": "a5838b0748cd6fb13b8d30afb02da1088167c9fe",
+  "results": [
+    {
+      "family": "aws_signal_integration",
+      "rows": [
+        "RD07-1520",
+        "RD07-2103",
+        "RD07-2246"
+      ],
+      "argv": [
+        "docker",
+        "--context",
+        "colima-split-build",
+        "create",
+        "--pull",
+        "never",
+        "--name",
+        "issue1223-wrapper-aws-signal-integration-r2",
+        "--network",
+        "none",
+        "--workdir",
+        "/workspace",
+        "--env",
+        "TMPDIR=/tmp",
+        "--env",
+        "PYTHONDONTWRITEBYTECODE=1",
+        "rust@sha256:e90e846de4124376164ddfbaab4b0774c7bdeef5e738866295e5a90a34a307a2",
+        "bash",
+        "adl/tools/test_run_wp08_aws_signal_integration_live_proof.sh"
+      ],
+      "inputs": [
+        {
+          "path": "adl/tools/run_wp08_aws_signal_integration_live_proof.sh",
+          "source": "owner",
+          "sha256": "6c86f5e71c7af951aff9faa1d60a3e52fc3615e2bc4437bf1d56355738a06c00",
+          "git_blob": "18638bea3d26cbad073d56d2691b6126830a867f"
+        },
+        {
+          "path": "adl/tools/test_run_wp08_aws_signal_integration_live_proof.sh",
+          "source": "adl",
+          "sha256": "7048c6e9dd667f0635772bc535967ce9a6fcf67f1ba4328b46d5a6f5389ab664",
+          "git_blob": "e05e5fde4f295e755f9b6d7ef43d5d9412bdb85e"
+        },
+        {
+          "path": "adl/tools/validate_wp08_aws_signal_integration_live_proof.py",
+          "source": "owner",
+          "sha256": "ce90fdc4cd3f568385f578a683622f04544928286b3739720730eb4dd2ae2043",
+          "git_blob": "e3eb4d4490512ae787b379856de84e75a4cb48ed"
+        }
+      ],
+      "resolver_double_sha256": "41553ae02fec14bacc09645a43f6917da27213171c5f3f1d5fd18d4e6200757a",
+      "exit_code": 0,
+      "elapsed_seconds": 0.1856,
+      "stdout_sha256": "d6b737fc0203d348bb3835a0a51b1b4094128244593be5a1d70e072119fbf0b8",
+      "stderr_sha256": "74db381ecb10ee67e13d32f3745c2042b595acbfe5d615bfef59c979308a8f4e",
+      "inputs_unchanged": true,
+      "container": "issue1223-wrapper-aws-signal-integration-r2",
+      "prior_attempt": "Bind mount refused before container/test start;exit125 preserved in result.json.",
+      "storage": "Docker socket/VM managed under /Volumes/FastWork/c1223/home/split-build; fixture copied into isolated container, no host bind.",
+      "network": "none"
+    },
+    {
+      "family": "acip_sns",
+      "rows": [
+        "RD07-1519",
+        "RD07-2245"
+      ],
+      "argv": [
+        "docker",
+        "--context",
+        "colima-split-build",
+        "create",
+        "--pull",
+        "never",
+        "--name",
+        "issue1223-wrapper-acip-sns-r2",
+        "--network",
+        "none",
+        "--workdir",
+        "/workspace",
+        "--env",
+        "TMPDIR=/tmp",
+        "--env",
+        "PYTHONDONTWRITEBYTECODE=1",
+        "rust@sha256:e90e846de4124376164ddfbaab4b0774c7bdeef5e738866295e5a90a34a307a2",
+        "bash",
+        "adl/tools/test_run_wp08_acip_sns_live_proof.sh"
+      ],
+      "inputs": [
+        {
+          "path": "adl/tools/run_wp08_acip_sns_live_proof.sh",
+          "source": "owner",
+          "sha256": "4ce1e92319165f89c14a886995208d9a3e2ddf6d467a00ceb8fa2311e42a8377",
+          "git_blob": "c62aef7e99d3e7fdddf14630ddd51a5fd74724a8"
+        },
+        {
+          "path": "adl/tools/test_run_wp08_acip_sns_live_proof.sh",
+          "source": "adl",
+          "sha256": "4bc52558b5a8b4f4749807a4ecbd2be2f9da4c32689664540025a2be30be8a56",
+          "git_blob": "7daf42fbf36b0df08b23f77d7f5d7db5f2c2601d"
+        },
+        {
+          "path": "adl/tools/validate_wp08_acip_sns_live_proof.py",
+          "source": "owner",
+          "sha256": "5c93e73e85318ce79dd02a463917b0a04c2f555fc51fdc8dea89eb70d4558570",
+          "git_blob": "ac58055a24a488ff80bb18567fd7bc561ce0404f"
+        }
+      ],
+      "resolver_double_sha256": "41553ae02fec14bacc09645a43f6917da27213171c5f3f1d5fd18d4e6200757a",
+      "exit_code": 0,
+      "elapsed_seconds": 0.1702,
+      "stdout_sha256": "08ef954cd2c995eb9b4991d1b262caa0c062a65b6a09300dae2bd7bf29f3cefb",
+      "stderr_sha256": "74db381ecb10ee67e13d32f3745c2042b595acbfe5d615bfef59c979308a8f4e",
+      "inputs_unchanged": true,
+      "container": "issue1223-wrapper-acip-sns-r2",
+      "prior_attempt": "Bind mount refused before container/test start;exit125 preserved in result.json.",
+      "storage": "Docker socket/VM managed under /Volumes/FastWork/c1223/home/split-build; fixture copied into isolated container, no host bind.",
+      "network": "none"
+    },
+    {
+      "family": "heartbeat",
+      "rows": [
+        "RD07-1522"
+      ],
+      "argv": [
+        "docker",
+        "--context",
+        "colima-split-build",
+        "create",
+        "--pull",
+        "never",
+        "--name",
+        "issue1223-wrapper-heartbeat-r2",
+        "--network",
+        "none",
+        "--workdir",
+        "/workspace",
+        "--env",
+        "TMPDIR=/tmp",
+        "--env",
+        "PYTHONDONTWRITEBYTECODE=1",
+        "rust@sha256:e90e846de4124376164ddfbaab4b0774c7bdeef5e738866295e5a90a34a307a2",
+        "bash",
+        "adl/tools/test_run_wp08_heartbeat_live_proof.sh"
+      ],
+      "inputs": [
+        {
+          "path": "adl/tools/run_wp08_heartbeat_live_proof.sh",
+          "source": "owner",
+          "sha256": "0519f511be61770fde08f87491395c72e4fbbebee48f09bdff7e07c285c3b733",
+          "git_blob": "4db98db7407e07cc4f9f1bb02fe740833e95da8f"
+        },
+        {
+          "path": "adl/tools/test_run_wp08_heartbeat_live_proof.sh",
+          "source": "adl",
+          "sha256": "5477f4887128bc23b2aca87e2b1e6b5564c50576c4fddc2f044398990cf2a9db",
+          "git_blob": "03499d244506b7777ff82bf083552b7e42615e22"
+        },
+        {
+          "path": "adl/tools/validate_wp08_heartbeat_live_proof.py",
+          "source": "adl",
+          "sha256": "d751fb1fea55d047c80c1fda345bb1f8c36e2746ff1d82f687a730c213d6a980",
+          "git_blob": "b66427548a30ae4fc4f8ab8d7546e76d334a8079"
+        }
+      ],
+      "resolver_double_sha256": "41553ae02fec14bacc09645a43f6917da27213171c5f3f1d5fd18d4e6200757a",
+      "exit_code": 0,
+      "elapsed_seconds": 0.1706,
+      "stdout_sha256": "539e136f84f7d138c0d74465ff4c720551fe77deb10528d865cb14442a138bee",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "inputs_unchanged": true,
+      "container": "issue1223-wrapper-heartbeat-r2",
+      "prior_attempt": "Bind mount refused before container/test start;exit125 preserved in result.json.",
+      "storage": "Docker socket/VM managed under /Volumes/FastWork/c1223/home/split-build; fixture copied into isolated container, no host bind.",
+      "network": "none"
+    },
+    {
+      "family": "polis_storage",
+      "rows": [
+        "RD07-1525"
+      ],
+      "argv": [
+        "docker",
+        "--context",
+        "colima-split-build",
+        "create",
+        "--pull",
+        "never",
+        "--name",
+        "issue1223-wrapper-polis-storage-r2",
+        "--network",
+        "none",
+        "--workdir",
+        "/workspace",
+        "--env",
+        "TMPDIR=/tmp",
+        "--env",
+        "PYTHONDONTWRITEBYTECODE=1",
+        "rust@sha256:e90e846de4124376164ddfbaab4b0774c7bdeef5e738866295e5a90a34a307a2",
+        "bash",
+        "adl/tools/test_run_wp08_polis_storage_live_proof.sh"
+      ],
+      "inputs": [
+        {
+          "path": "adl/tools/run_wp08_polis_storage_live_proof.sh",
+          "source": "owner",
+          "sha256": "4d033ae5708a90c3371a0ca1e866ce15a49b1138ad4a68b3301264a4b660ae66",
+          "git_blob": "2a957e214bc8bb8b40236e110b1101405cef8985"
+        },
+        {
+          "path": "adl/tools/test_run_wp08_polis_storage_live_proof.sh",
+          "source": "adl",
+          "sha256": "f2a7b4a7f13d236d894eeaee1429d3a143e3e05d1914aed7620565b43d4009fe",
+          "git_blob": "a29daf54895043167820d15af5f40714eefcf37a"
+        },
+        {
+          "path": "adl/tools/validate_wp08_polis_storage_live_proof.py",
+          "source": "adl",
+          "sha256": "b6357401a3d4a3f817ae85cbb3c8bbeebf34834af0dde958974e97ea6cd617c8",
+          "git_blob": "36625bb40de978adb640b559e2dfee9b19a2f4a2"
+        }
+      ],
+      "resolver_double_sha256": "41553ae02fec14bacc09645a43f6917da27213171c5f3f1d5fd18d4e6200757a",
+      "exit_code": 0,
+      "elapsed_seconds": 0.1514,
+      "stdout_sha256": "6ca469d76848da8e07e0033202e5b04a5ae1a6c8be43f0f6d0f6c874a0401c23",
+      "stderr_sha256": "74db381ecb10ee67e13d32f3745c2042b595acbfe5d615bfef59c979308a8f4e",
+      "inputs_unchanged": true,
+      "container": "issue1223-wrapper-polis-storage-r2",
+      "prior_attempt": "Bind mount refused before container/test start;exit125 preserved in result.json.",
+      "storage": "Docker socket/VM managed under /Volumes/FastWork/c1223/home/split-build; fixture copied into isolated container, no host bind.",
+      "network": "none"
+    }
+  ],
+  "scope": "Original tests and owner runner bytes unchanged; explicit resolver double. Missing original validators supplied externally, not owner delivery. No liveAWS/CSM/provider/installed acceptance.",
+  "genuine_resolution_proof": {
+    "path": "/Volumes/FastWork/c1223/csm-availability-caller-gap/GENUINE_RESOLVER_RESULT.json",
+    "scope": "Previously executed three genuine default/explicit/mismatch cases; independent of this fixture. Do not rerun or infer wrapper/live acceptance from it."
+  },
+  "execution_authorized": false,
+  "reviewer": "review_1223_applied_components",
+  "required_before_retirement": [
+    "Reconcile original ADL callers and source retirement together.",
+    "Externally supplied missing validators and tests remain an explicit owner-support dependency; do not claim owner delivery.",
+    "Preserve separate genuine resolver3case evidence and liveAWS/CSM nonclaims."
+  ]
+}

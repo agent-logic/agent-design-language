@@ -1,0 +1,97 @@
+{
+  "issue": 4914,
+  "red_team_fixtures": [
+    {
+      "attempt": "tamper continuity capsule manifest and snapshot segment",
+      "executed_control": "serde_json_manifest_parse_guard",
+      "expected_blue_response": "capsule_stage_rejected",
+      "id": "malformed_snapshot",
+      "observed_result": "rejected_malformed_snapshot:EOF_while_parsing_an_object_at_line_1_column_1"
+    },
+    {
+      "attempt": "request resume while invariant evidence is blocking",
+      "executed_control": "runtime_v2_security_boundary_proof_contract",
+      "expected_blue_response": "resume_refused",
+      "id": "unauthorized_control_command",
+      "observed_result": "resume_refused_with_blocking_invariant_present"
+    },
+    {
+      "attempt": "submit forged telemetry field with control characters and secret marker",
+      "executed_control": "csm_security_event_sanitizer",
+      "expected_blue_response": "telemetry_payload_sanitized",
+      "id": "telemetry_injection",
+      "observed_result": "telemetry_payload_sanitized_without_secret_retention"
+    },
+    {
+      "attempt": "add api_key and host-private path fields to retained artifact",
+      "executed_control": "portable_artifact_redaction_scan",
+      "expected_blue_response": "artifact_redaction_refused",
+      "id": "credential_path_leakage",
+      "observed_result": "artifact_refused:credential-like_key"
+    },
+    {
+      "attempt": "change replay manifest hash and DAG lineage reference",
+      "executed_control": "replay_manifest_hash_guard",
+      "expected_blue_response": "replay_guard_rejected",
+      "id": "replay_tampering",
+      "observed_result": "replay_tampering_rejected_hash_mismatch"
+    },
+    {
+      "attempt": "call cloud hook without approved account proof or operator token",
+      "executed_control": "cloud_hook_local_admission_guard",
+      "expected_blue_response": "cloud_hook_denied_locally",
+      "id": "cloud_hook_denial",
+      "observed_result": "cloud_hook_denied:missing_approved_account_proof_or_operator_token"
+    }
+  ],
+  "rules_of_engagement": {
+    "destructive_cloud_actions_allowed": false,
+    "host_private_paths_allowed": false,
+    "real_secrets_allowed": false
+  },
+  "schema": "adl.wp12.csm_cav_red_blue_fixtures.v1",
+  "threat_scenarios": [
+    {
+      "attacker_goal": "force restore from corrupted bundle",
+      "blue_team_control": "capsule staging integrity guard",
+      "destructive_actions": false,
+      "id": "malformed_snapshot",
+      "target_surface": "snapshot/freeze-dry bundle"
+    },
+    {
+      "attacker_goal": "resume without fresh invariant pass",
+      "blue_team_control": "runtime-v2 security boundary refusal",
+      "destructive_actions": false,
+      "id": "unauthorized_control_command",
+      "target_surface": "operator control boundary"
+    },
+    {
+      "attacker_goal": "inject untrusted telemetry fields",
+      "blue_team_control": "schema-bound security event classifier",
+      "destructive_actions": false,
+      "id": "telemetry_injection",
+      "target_surface": "OTel/log export"
+    },
+    {
+      "attacker_goal": "exfiltrate credential-like keys or host paths",
+      "blue_team_control": "portable artifact redaction scan",
+      "destructive_actions": false,
+      "id": "credential_path_leakage",
+      "target_surface": "provider secrets and local paths"
+    },
+    {
+      "attacker_goal": "alter replay manifest or DAG evidence",
+      "blue_team_control": "hash and lineage replay guard",
+      "destructive_actions": false,
+      "id": "replay_tampering",
+      "target_surface": "agent/DAG execution replay"
+    },
+    {
+      "attacker_goal": "force unauthenticated cloud-control mutation",
+      "blue_team_control": "local denial without AWS mutation",
+      "destructive_actions": false,
+      "id": "cloud_hook_denial",
+      "target_surface": "AWS hooks"
+    }
+  ]
+}

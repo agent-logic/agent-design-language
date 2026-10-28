@@ -1,0 +1,42 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 189,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][INT-02] Prepare release candidate rollback and ceremony",
+    "slug": "int-02-prepare-release-candidate-rollback-and-ceremony",
+    "version": "v0.92.1",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Implement only INT-02 within its exact owned paths and authority boundary.",
+      "deliverables": [
+        "Exact release-candidate manifest and signed-off checklist.",
+        "Executed rollback rehearsal and operator ceremony runbook with abort evidence."
+      ],
+      "acceptance_criteria": [
+        "Every release artifact, source revision, schema, evidence bundle, and external dependency is pinned.",
+        "Rollback is rehearsed from the candidate without data loss, dual authority, or hidden personal credentials.",
+        "Named company authority, observers, timing, abort triggers, communication, and post-release verification are recorded.",
+        "No release action occurs until the final operator authorization."
+      ],
+      "dependencies": [
+        "INT-01: issue #188"
+      ],
+      "repo_inputs": [
+        "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml#int-02",
+        "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml",
+        "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml"
+      ],
+      "non_goals": [
+        "Publishing without authorization",
+        "Changing accepted lane outputs",
+        "Treating a written rollback plan as rehearsal"
+      ]
+    }
+  }
+}

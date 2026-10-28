@@ -1,0 +1,10 @@
+{
+  "schema": "adl.v0921.wp01.operation-intent.v1",
+  "kind": "child_create",
+  "planned_id": "PROV-A",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:PROV-A:create",
+  "request_fingerprint": "f35f53785fa59199209f10ec1599ef7448a8e636467d3524661339376d4f9acc",
+  "planning_digest": "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251",
+  "dependencies": {
+  }
+}

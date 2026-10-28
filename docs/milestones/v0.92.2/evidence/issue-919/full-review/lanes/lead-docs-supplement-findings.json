@@ -1,0 +1,37 @@
+{
+  "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+  "status": "complete_changes_required",
+  "findings": [
+    {
+      "id": "DOC-SUP-001",
+      "severity": "P3",
+      "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+      "title": "Update operational Rust parser limits in architecture and fitness guides",
+      "path": "docs/codefriend/ARCHITECTURE.md",
+      "line": 74,
+      "related_locations": [
+        {
+          "path": "docs/codefriend/LOCAL_FITNESS.md",
+          "line": 37
+        },
+        {
+          "path": "adl/src/codefriend/rust_parse.rs",
+          "line": 10
+        },
+        {
+          "path": "docs/codefriend/RUST_PARSER_BOUNDS.md",
+          "line": 1
+        }
+      ],
+      "trigger": "An operator uses the architecture or local-fitness guide to choose admitted Rust files or interpret a parser-budget failure.",
+      "impact": "Both current guides say 32 KiB and 128 lexical units, including comments/literals, while the shared parser admits 400 KiB and 32768 tokens with depth/path limits and opaque comments/literals. Users can unnecessarily split or exclude ordinary files and misdiagnose which budget actually failed. The allocation-free wording also fails to describe the worker-stack resource boundary.",
+      "evidence": "Direct comparison of ARCHITECTURE.md74-79 and LOCAL_FITNESS.md37-41 with rust_parse.rs10-18 and RUST_PARSER_BOUNDS.md; deterministic source/document mismatch, no execution required.",
+      "remediation": "Replace obsolete limit paragraphs with the current bounds and a link to RUST_PARSER_BOUNDS.md. Preserve historical proof records as historical evidence.",
+      "owner": "#921 CodeFriend documentation owner",
+      "acceptance_relevance": "Current operator-documentation accuracy; no future-v0.93 implementation requirement is inferred.",
+      "acceptance": [],
+      "lane": "docs",
+      "disposition": "open"
+    }
+  ]
+}

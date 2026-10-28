@@ -1,0 +1,130 @@
+{
+  "schema": "adl.source_retirement.legacy_runtime_parity.v1",
+  "issue": 1223,
+  "legacy_build": "cargo build --locked --offline --manifest-path adl/Cargo.toml --bin adl; passed9m34s; onejob; FastWork target",
+  "legacy_source": "83fa3f508f code baseline plus later documentation-only commits before binary build",
+  "comparison": {
+    "status": "known_help_difference",
+    "archive": "ab6dd32d9a5bba7b754f74a0321e466150154578cc819803e93ef1ebcc57d3f6",
+    "cases": [
+      {
+        "case": "plan",
+        "passed": true,
+        "runtime_exit": 0,
+        "legacy_exit": 0
+      },
+      {
+        "case": "prompts",
+        "passed": true,
+        "runtime_exit": 0,
+        "legacy_exit": 0
+      },
+      {
+        "case": "missing-run",
+        "passed": true,
+        "runtime_exit": 1,
+        "legacy_exit": 1
+      },
+      {
+        "case": "resume-missing-id",
+        "passed": false,
+        "runtime_exit": 2,
+        "legacy_exit": 2
+      },
+      {
+        "case": "resume-unknown",
+        "passed": true,
+        "runtime_exit": 1,
+        "legacy_exit": 1
+      },
+      {
+        "case": "keygen-invalid",
+        "passed": true,
+        "runtime_exit": 2,
+        "legacy_exit": 2
+      },
+      {
+        "case": "keygen",
+        "passed": true,
+        "runtime_exit": 0,
+        "legacy_exit": 0
+      },
+      {
+        "case": "sign",
+        "passed": true,
+        "runtime_exit": 0,
+        "legacy_exit": 0
+      },
+      {
+        "case": "verify",
+        "passed": true,
+        "runtime_exit": 0,
+        "legacy_exit": 0
+      },
+      {
+        "case": "verify-tampered",
+        "passed": true,
+        "runtime_exit": 1,
+        "legacy_exit": 1
+      },
+      {
+        "case": "mock-run",
+        "passed": true,
+        "runtime_exit": 0,
+        "legacy_exit": 0
+      }
+    ],
+    "observability": "disabled for functional parity only; logging checked separately",
+    "limits": "Legacy macOS ADL versus preserved Linux Runtime results; fixture-root paths normalized only; successful resume separate",
+    "mock_provider_only": true,
+    "production_changed": false
+  },
+  "resolution": "Preserve legacy resume parser and help in public facade; six exact baseline diagnostic/help comparisons passed. Real dispatch wiring not yet changed.",
+  "remaining": [
+    "CodeFriend legacy command comparison",
+    "owner dispatch and manifest partition"
+  ],
+  "successful_resume_and_logging": {
+    "status": "functional_pass",
+    "lanes": {
+      "legacy": {
+        "pause": {
+          "exit": 0,
+          "status": "paused"
+        },
+        "resume": {
+          "exit": 0,
+          "status": "success"
+        }
+      }
+    },
+    "logging_comparison": [
+      {
+        "stage": "pause",
+        "stream": "stdout",
+        "equal": true,
+        "diff": ""
+      },
+      {
+        "stage": "pause",
+        "stream": "stderr",
+        "equal": false,
+        "diff": "--- legacy\n+++ Runtime\n@@ -1,4 +1,4 @@\n-adl_event schema=adl.observability.event.v1 command=adl stage=dispatch result=started subcommand=paused.yaml\n+adl_event schema=adl.observability.event.v1 command=adl-runtime stage=dispatch result=started subcommand=run\n RUN start <wall-time> run_id=hitl-resume-subcommand workflow=workflow\n STEP start (+<elapsed>ms) s1 provider=local\n STEP done (+<elapsed>ms) s1 ok duration_ms=<elapsed>\n"
+      },
+      {
+        "stage": "resume",
+        "stream": "stdout",
+        "equal": true,
+        "diff": ""
+      },
+      {
+        "stage": "resume",
+        "stream": "stderr",
+        "equal": false,
+        "diff": "--- legacy\n+++ Runtime\n@@ -1,4 +1,4 @@\n-adl_event schema=adl.observability.event.v1 command=adl stage=dispatch result=started subcommand=resume\n+adl_event schema=adl.observability.event.v1 command=adl-runtime stage=dispatch result=started subcommand=resume\n RUN resume <wall-time> run_id=hitl-resume-subcommand workflow=workflow\n RESUME step=s1 action=skip reason=completed_artifact_verified\n RESUME step=s2 action=skip reason=completed_artifact_verified\n"
+      }
+    ],
+    "normalization": "exact fixture-root paths, wall timestamps, elapsed milliseconds only"
+  },
+  "dispatch_logging_decision": "Preserve public ADL dispatch event and retain truthful Runtime owner event during delegation; inherited stdout/stderr, no output filtering or silent suppression."
+}

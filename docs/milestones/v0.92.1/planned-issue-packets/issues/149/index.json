@@ -1,0 +1,102 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 149,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "0b9e9a2641e75c8e2c477773ca146c2348f796a925232c43e7d061ce9d731d47",
+  "phase": "initialized",
+  "generation": 5,
+  "digest": "83392e32954aff08d9fe197593c26fc9e92d977f3142e1d123f5e1619ae84bdf",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/149/design.md",
+  "diagram_path": ".csdlc/prepared/issues/149/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "subagent:019fed4b-5813-7f33-b7db-a3e87741bfc1",
+      "revision": "0761a79e6b2170ca001322d1e3fd6f6e7f2406977868b41aae7d513d85b03ad6"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "5a4410087f2085cfa201ba42923476a38929831a1e9c5b5588840981c3b2f2eb",
+      "rendered_digest": "d951e7098547bfda0bc3e9e7db0f3138552b4f9b0f6fdc3a21511b45497bffce",
+      "ast_digest": "93c31d7436d511d1527549b8b9d74821e7726363534695d0ab1e460713798121"
+    },
+    "stp": {
+      "values_digest": "49c6b16ccc74b7c0e2dc1788a45041ad183ff9a532f11d86cbf3348419d53d9e",
+      "rendered_digest": "aa163816e423c523a9af5487c3f62803ba3d81e993f9e1c4fcbf013ff999410a",
+      "ast_digest": "7e41508194f4434b4811f023610db28b150b767d8434eed60f8d86eb6da41940"
+    },
+    "spp": {
+      "values_digest": "3da54d31be78cda5ae06a11affedca2ba16ba901c38a399a041e38497a94958f",
+      "rendered_digest": "432252ec538b1035e85bbb20a4209a91331f753cded8bee734f314117e3d4443",
+      "ast_digest": "96f534990990bcc5de4fc68a807d250c83ef3aa105435693240d1e5501c83807"
+    },
+    "vpp": {
+      "values_digest": "5e39befe553c7ac62ff8e2b9f8224a031d8420457e183c995fc4ff69dfc695b3",
+      "rendered_digest": "1e39f06ef0c2832782b8b9f7c774814435df6dc631501a42f3b2e63b1b29a627",
+      "ast_digest": "d860115c0bc5a0c3ebeafd79a7fb16ca87b6d5872a6cba0f7c779d7f602f0fe4"
+    },
+    "srp": {
+      "values_digest": "f46448c76e042d22142f14758f403a93c048d3d280860c966cfbe238614d16f6",
+      "rendered_digest": "485b16a7ecb9b8cc1986695cb5febc115d5037491a7915799b2bd668e5bff340",
+      "ast_digest": "61ee6ff0cebc652b1a6fee703c1bbfc0714fc59fe7321028e4101ac4aa42f36f"
+    },
+    "sor": {
+      "values_digest": "94b42355d8c0076bfe0321116c464318ad71dc2923b0be7fb4fbd059bb54c609",
+      "rendered_digest": "6816ddf4e8ea744462cb7dbf5527a8beeefcdb9bd3fab5ae4330c211bf92000b",
+      "ast_digest": "df1392bb0f81e3002b272ed7e8b374dcc0e2d0d42107e360416619c40d42540d"
+    }
+  },
+  "transitions": [],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:146-v0921-wave-preparation",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:146-umbrella-review-remediation",
+      "reason": "Finalize the issue-specific umbrella plan through the typed semantic editor without approving its design.",
+      "operation": "{\"operation\":\"set_field\",\"field\":\"plan_summary\",\"value\":\"Coordinate the eight corporate-transfer children through their legal, custody, control, infrastructure, and diligence gates while preserving child ownership and deriving lane closure from exact terminal records. Fail closed on missing terminal, producer, ancestry, dependency, cleanup, or path-ownership proof.\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:146-umbrella-review-remediation",
+      "reason": "Activate the now-authored issue-specific fail-closed umbrella validator while leaving design approval pending.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"corp-u-coordination\",\"proof_role\":\"Validate exact child denominator, readiness, dependency, terminal, and no-product-ownership truth.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/149/validate-outcome.rb\"],\"parallel_group\":\"corp-u-coordination\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "subagent:019fed4b-5813-7f33-b7db-a3e87741bfc1",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:146-typed-readiness-remediation",
+      "reason": "Declare the executable issue validator as an exact owned target required by the typed issue-specific denominator gate.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/milestones/v0.92.1/evidence/umbrellas/corp-u/**\",\".csdlc/prepared/issues/149/**\",\".csdlc/issues/149/**\",\".csdlc/evidence/149/**\",\".csdlc/prepared/issues/149/validate-outcome.rb\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "subagent:019fed4b-5813-7f33-b7db-a3e87741bfc1",
+      "reason": "reapprove stale initialized issue design",
+      "operation": "approve_design"
+    }
+  ]
+}

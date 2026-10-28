@@ -1,0 +1,13 @@
+{
+  "total": 80,
+  "lifecycle_locks": 80,
+  "cargo_manifests": 0,
+  "first_paths": [
+    ".csdlc/evidence/872/conversion-rehearsal/snapshots/current-observations/970/git-common/csdlc-v3/semantic/issues/970/state.lock",
+    ".csdlc/evidence/872/conversion-rehearsal/snapshots/current-observations/981/git-common/csdlc-v3/semantic/issues/981/state.lock",
+    ".csdlc/evidence/872/conversion-rehearsal/snapshots/negative-observations/970/git-common/csdlc-v3/semantic/issues/970/state.lock",
+    ".csdlc/evidence/872/conversion-rehearsal/snapshots/negative-observations/970/semantic/state.lock",
+    ".csdlc/evidence/872/conversion-rehearsal/snapshots/negative-observations/981/git-common/csdlc-v3/semantic/issues/981/state.lock"
+  ],
+  "source": "locally installed skill scaffold generated from complete packet; output is not trusted coverage"
+}

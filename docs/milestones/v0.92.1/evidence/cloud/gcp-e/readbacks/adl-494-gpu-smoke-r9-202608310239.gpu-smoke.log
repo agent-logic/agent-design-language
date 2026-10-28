@@ -1,0 +1,14 @@
+issue=494
+run_id=adl-494-gpu-smoke-r9-202608310239
+machine_type=g2-standard-4
+accelerator_type=nvidia-l4
+accelerator_count=1
+model_name=gpu-smoke-local
+started_at=2026-08-31T02:20:24Z
+NVIDIA L4, 580.173.02, 23034 MiB, 22564 MiB
+               total        used        free      shared  buff/cache   available
+Mem:            15Gi       448Mi        14Gi       0.0Ki       523Mi        14Gi
+Swap:             0B          0B          0B
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/root        97G   17G   80G  18% /
+finished_at=2026-08-31T02:20:24Z

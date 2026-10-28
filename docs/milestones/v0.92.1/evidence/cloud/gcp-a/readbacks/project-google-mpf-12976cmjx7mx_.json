@@ -1,0 +1,14 @@
+{
+  "configuredCapabilities": [
+    "folders/726824330959/capabilities/app-management"
+  ],
+  "createTime": "2026-08-22T00:29:05.086Z",
+  "lifecycleState": "ACTIVE",
+  "name": "Proof of Concept-mp",
+  "parent": {
+    "id": "726824330959",
+    "type": "folder"
+  },
+  "projectId": "google-mpf-12976cmjx7mx",
+  "projectNumber": "1087465034372"
+}

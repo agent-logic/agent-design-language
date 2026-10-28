@@ -1,0 +1,2381 @@
+{
+  "schema": "adl.v0922.producer_evidence_index.v1",
+  "issue": 916,
+  "scope": "57 closed task merge diffs, including retained historical Git objects",
+  "limitation": "Discovery and byte identity only; absent candidates do not establish absent proof. No historical result promoted to current candidate acceptance. Historical evidence candidates are filtered by filename; this is not an exhaustive retained-evidence census.",
+  "producers": [
+    {
+      "task": "WP-01",
+      "issue": 864,
+      "is_916_prerequisite": false,
+      "candidate_evidence": [
+        {
+          "path": ".csdlc/evidence/864/existing-issue-launch-review/postcreation-review-before-sprint-assignment.json",
+          "source_commit": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+          "sha256": "8892ed5288018105d6f1de647656f63405b93164e30df661e67605f921d98910",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/864/existing-issue-launch-review/postcreation-review.json",
+          "source_commit": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+          "sha256": "fa60269923194ad5dca26e3a4a62b5edc4be60b13d79ef3bf7f34ed46b3155a3",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/864/final-validation.json",
+          "source_commit": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+          "sha256": "7c7102a4e501ab907bb70e9f6ae6831efc7222482e0ce1b620a4caf60d1ae98a",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/864/milestone-live-inventory.json",
+          "source_commit": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+          "sha256": "c6998e54ea95d94dd66d608d4c80247f2cb7e59972114bb8b4b66b2a9b4205bb",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/864/native-scope-validation.json",
+          "source_commit": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+          "sha256": "40fa87e03cbdc1f093ec44177836f082b9c03fa066d41c4e0bc13daf5b78b1a7",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/864/review-remediation/README.md",
+          "source_commit": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+          "sha256": "d63e0c71f3387d7bc90ad5d7b6056b7c6b8eab0fa09b4dc90eb5e3818f6de3d6",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/864/sprint01-launch/README.md",
+          "source_commit": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+          "sha256": "020ba6c7a1bc3b38a4f856632ef4d3f27901c5b6dd46f23d3146c5b27052f038",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/864/sprint01-launch/drafts/command-inventory.md",
+          "source_commit": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+          "sha256": "9dc4c6384d08fa73971f97e48718a26ae442fc1f7e749305d90c0c0a9b84eea7",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/864/sprint01-launch/postcreation-review-initial.json",
+          "source_commit": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+          "sha256": "284d9b37011a0b2df98c32dd62a5a1878287500c8ae4d306147cdc88d518232c",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/864/sprint01-launch/postcreation-review.json",
+          "source_commit": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+          "sha256": "ac4657bdc89b49587dd2e011acebdfbf6ff693a53a79040de3e13f7781d80ab7",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/864/sprint01-launch/precreation-review.json",
+          "source_commit": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+          "sha256": "89e4fb9fa7b3c593d3637c028e0355546c314ff3b9f9a9864897e475f077e605",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/864/sprint02-launch/postcreation-review.json",
+          "source_commit": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+          "sha256": "24727e12bd4b8da22ab76b7ef6db1ef84ee36eaad722a14f18dad655b7e9ab01",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/864/sprint02-launch/precreation-review.json",
+          "source_commit": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+          "sha256": "7896a02c1ceec1490a6df84738a8017a7b7b6a054cb64d6f8baf85fe5c9f3fbb",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/864/sprint03-launch/postcreation-review.json",
+          "source_commit": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+          "sha256": "7d240f5570e031319c32d1c4308fbcbe2bf4043de2c734869ba524bd9d09b312",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/864/sprint03-launch/precreation-review.json",
+          "source_commit": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+          "sha256": "91ed66d4cdbe0786d73e7eae095ea6884e2c4d6b1a824869ba14b34b269abd00",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/864/sprint04-launch/drafts/CF-REVIEW.md",
+          "source_commit": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+          "sha256": "f8d3e197c6c1de184bb5979b3a9a435594ec7ac14e3872be0ea782364ad4b0ec",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/864/sprint04-launch/native/CF-REVIEW-attempt-0.json",
+          "source_commit": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+          "sha256": "75bc1597d2685a19d9d0c2b760ab6340fce53e6f469f0fb8f20a56b89dd1d48c",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/864/sprint04-launch/native/CF-REVIEW-attempt-1.json",
+          "source_commit": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+          "sha256": "6a43b67fa76e5899559ccc5d98e87e8853db7d661a8850b64d19dcc377ec824d",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/864/sprint04-launch/native/CF-REVIEW-attempt-2.json",
+          "source_commit": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+          "sha256": "6a43b67fa76e5899559ccc5d98e87e8853db7d661a8850b64d19dcc377ec824d",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/864/sprint04-launch/native/CF-REVIEW-create.json",
+          "source_commit": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+          "sha256": "b753c5387bf120c01a7a5993d60f4c98ffbb76965505e55777f27b35217427f2",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/864/sprint04-launch/postcreation-review.json",
+          "source_commit": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+          "sha256": "2f504332fcc38e42a5bc9531cf11abc94795d5d435f8857dab46432ca2b69845",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/864/sprint04-launch/precreation-review.json",
+          "source_commit": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+          "sha256": "cfbaaf463dc6a313b13f418cc35c99719f87278dfbee2e14dde591fa4f981092",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/864/sprint05-launch/drafts/QUAL-INVENTORY.md",
+          "source_commit": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+          "sha256": "8dc99e52c04a9fbf55f597e76f878c40fb9a1be93cbd06d371e58532b70a6dcc",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/864/sprint05-launch/native/QUAL-INVENTORY-attempt-0.json",
+          "source_commit": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+          "sha256": "115e6e62443db599782a86f255b78f9b48e026c511f4101105a555939cfe9a55",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/864/sprint05-launch/native/QUAL-INVENTORY-create.json",
+          "source_commit": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+          "sha256": "43902c7efcdeb1b003a98a7c9abba39fcd152ca1da4ee48a9e4bc991bbb06ac9",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/864/sprint05-launch/postcreation-review.json",
+          "source_commit": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+          "sha256": "2514aa75e7b46afd77c3ef31615e5149028cc5f6b45c92486c3d460787ba35ce",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/864/sprint05-launch/precreation-review.json",
+          "source_commit": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+          "sha256": "4d098d054999a4af17201fee5ef3876cd710981af31fc6b7f3e27d2d700cb534",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/864/sprint06-launch/postcreation-review.json",
+          "source_commit": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+          "sha256": "0dce3a6b600968f3b9d82bcf99a6852fc8f1276b4c82b4969729bc3b5c5f0c63",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/864/sprint06-launch/precreation-review.json",
+          "source_commit": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+          "sha256": "56c2ae2eb15461b0b909d3ad4c9e49bbbb05a35cebc436c630508b0e10cb05a4",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/864/sprint07-launch/postcreation-review.json",
+          "source_commit": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+          "sha256": "39f9a4a0d89d713b068a7170d9a71df9731ec313de35bdd76b86bf8b72d50375",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/864/sprint07-launch/precreation-review.json",
+          "source_commit": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+          "sha256": "e05cd62caea05a4eda1e18817782b2e1463ec3a5cec60811a21e9654e6051652",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/864/sprint08-launch/postcreation-review.json",
+          "source_commit": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+          "sha256": "92793907d78ae265583b797dd687aa41af33ef5b15a462cabd3997a699c9376b",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/864/sprint08-launch/precreation-review.json",
+          "source_commit": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+          "sha256": "338a9601e40d4351b5b3c2baafd1b4c9d1135180c1accfda42ba743f4b66acb0",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/864/sprint09-launch/postcreation-review.json",
+          "source_commit": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+          "sha256": "fda28f2f96e0eeec68c9a32ab9579f7f09f285220b3c12b6ac8d4de9121cd373",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/864/sprint09-launch/precreation-review.json",
+          "source_commit": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+          "sha256": "3f93489fef3a11a7ca97c5d64db8f1e1299c4a20a80bd209270a82dbfa06105f",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/864/sprint10-launch/drafts/CF-PROOF.md",
+          "source_commit": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+          "sha256": "f24b5b247ec260cab1956ca78982307d0bd409654116003ba81ef60e9133749c",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/864/sprint10-launch/native/CF-PROOF-attempt-0.json",
+          "source_commit": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+          "sha256": "e914f1fb2b89203ff816abd7e4d4c62b7dff15065175c4472d32b51de32fd86f",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/864/sprint10-launch/native/CF-PROOF-attempt-1.json",
+          "source_commit": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+          "sha256": "2c972980adc36bfe2a28be7fca29c548a6bb80de22f08df8d13675a99edbd715",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/864/sprint10-launch/native/CF-PROOF-attempt-2.json",
+          "source_commit": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+          "sha256": "2c972980adc36bfe2a28be7fca29c548a6bb80de22f08df8d13675a99edbd715",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/864/sprint10-launch/native/CF-PROOF-create.json",
+          "source_commit": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+          "sha256": "9302980e4cbaa1690f4a84c1d16d4c884d56b706bbe7ad56433ea47825c80100",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/864/sprint10-launch/postcreation-review.json",
+          "source_commit": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+          "sha256": "691d130ac70299fac58ac951f2b250983d2ecae60ecf2af5d548edce0e5a1298",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/864/sprint10-launch/precreation-review.json",
+          "source_commit": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+          "sha256": "5674128651ce2b48e04ff61ee159fbda1b14964e2e74f9922dc5db929286b485",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/864/sprint11-launch/postcreation-review.json",
+          "source_commit": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+          "sha256": "26cb99dfcbf495bf992d2ef1d74454f05b72cf1777571f9388daafe8469d3053",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/864/sprint11-launch/precreation-review.json",
+          "source_commit": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+          "sha256": "240420c6dc535f6d480bce0e19743df422a6106bec80b776f0e4e73a60ea3d5d",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/864/task-scope-revision/README.md",
+          "source_commit": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+          "sha256": "2e1970cbbe6001b261e7acd5062d79090ffa96353fce5abc2c32edc20a463816",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/CANONICAL_DOC_INVENTORY_v0.92.2.md",
+          "source_commit": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+          "sha256": "147e493412ac98a3d185d091c408f8b47ca8fdded95efb6359a53d7519e66caa",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/DECISIONS_v0.92.2.md",
+          "source_commit": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+          "sha256": "29ed98171739b7eccb6c7adc9085eefd43ce9172db8913665180578c311ef460",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/FEATURE_PROOF_COVERAGE_v0.92.2.md",
+          "source_commit": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+          "sha256": "1ea1f28356244b1a5de721383ad3e89b66942736266d229c73b8457e812c9393",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/NEXT_MILESTONE_HANDOFF_v0.92.2.md",
+          "source_commit": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+          "sha256": "bc26ad1515bbde0ab6f3bfaaaa8c2ef9b4618fc8463fa7949daa67b6b94fd4e2",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/README.md",
+          "source_commit": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+          "sha256": "218bdcfd224af1032cd3acea29b74674aa1a769bfd09e29023a4b9b51c51d7f9",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/features/BETA1_QUALIFICATION_v0.92.2.md",
+          "source_commit": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+          "sha256": "22eb3ab6ca4540559844717d6e0017eddc34f0d19c13c16d8a24c4562c2dbbf6",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/features/EVIDENCE_CORE_v0.92.2.md",
+          "source_commit": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+          "sha256": "c52e82a2dcd3dc11a16eddd1b6f372fa8ce52c283a8a661366dc189718b59278",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/features/README.md",
+          "source_commit": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+          "sha256": "af754868f0b07ceea283ac0b39375ed938d9ab4544f31918b95fdb00c25d2239",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        }
+      ],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "CSDLC-MAN",
+      "issue": 861,
+      "is_916_prerequisite": true,
+      "candidate_evidence": [
+        {
+          "path": ".csdlc/evidence/861/PROOF.md",
+          "source_commit": "dd3464513f38a884e8f720eea6a8d56abddd49d8",
+          "sha256": "b4a987a772efefcf55e0b3852b0bb018137fe27ffda2379a7f518d92ec04446a",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/861/source-manifest.json",
+          "source_commit": "dd3464513f38a884e8f720eea6a8d56abddd49d8",
+          "sha256": "fd2c3176b2789f81e8eda325103328c9a56d33dd79a9a4a8578ced2ca641a893",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/861/validation/linux-results.json",
+          "source_commit": "dd3464513f38a884e8f720eea6a8d56abddd49d8",
+          "sha256": "5b915d886283077676ed217b5c4474c74d62b84457b2da776d3092d4fccf7a70",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/861/validation/local-results.json",
+          "source_commit": "dd3464513f38a884e8f720eea6a8d56abddd49d8",
+          "sha256": "3a73b402811d81f23f3dbabb07bdbb91c7e7532eb88d95d97c8892f11e66bd23",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/csdlc-v3/man/README.md",
+          "source_commit": "dd3464513f38a884e8f720eea6a8d56abddd49d8",
+          "sha256": "d2779d45e4839ed2e98511375875b744cbc259251d31cd8a59d9c6a64858bb23",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/csdlc-v3/man/examples/proof.json",
+          "source_commit": "dd3464513f38a884e8f720eea6a8d56abddd49d8",
+          "sha256": "96e54189a04add1c31cf85dcea0de0e457ca53bfaf5da1845b3597d68fe47d9a",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/csdlc-v3/man/inventory.json",
+          "source_commit": "dd3464513f38a884e8f720eea6a8d56abddd49d8",
+          "sha256": "523569a9f6c14c755bf95792b85dd28eec2049abfe54853d3cb17e2d176b5679",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        }
+      ],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "SIM-UMBRELLA",
+      "issue": 866,
+      "is_916_prerequisite": true,
+      "candidate_evidence": [],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "SIM-01",
+      "issue": 867,
+      "is_916_prerequisite": false,
+      "candidate_evidence": [
+        {
+          "path": ".csdlc/evidence/867/proof/README.md",
+          "source_commit": "5fa19bda03ee44c76b2b17fbdcf9bf208586c8f5",
+          "sha256": "6f29860a27fe094d393c118f7ad17e0f5c4253b8a1f776e33d38c1de4c9b3d99",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/867/proof/ci-repair/README.md",
+          "source_commit": "5fa19bda03ee44c76b2b17fbdcf9bf208586c8f5",
+          "sha256": "01bb8a932a85ef8b7db4ad9ace218d46b40ac70f09d8c4308f6e56ad6cd738c8",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/867/proof/curl-config/README.md",
+          "source_commit": "5fa19bda03ee44c76b2b17fbdcf9bf208586c8f5",
+          "sha256": "88e302c579cd1fa301f409dc391e5803f86e54d4cc8649b73ac64e45ca774dec",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/867/proof/release-fixture/README.md",
+          "source_commit": "5fa19bda03ee44c76b2b17fbdcf9bf208586c8f5",
+          "sha256": "328a258c30083e5fe3310a3c33cd4ed7d124dc1bd355eca5198dee3e975dd7a5",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/867/proof/release-inputs/README.md",
+          "source_commit": "5fa19bda03ee44c76b2b17fbdcf9bf208586c8f5",
+          "sha256": "9ae7e26c52ab45137b1e80bb58b3ab095e618568db06f364b518a73da212d895",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/867/proof/source-review.json",
+          "source_commit": "5fa19bda03ee44c76b2b17fbdcf9bf208586c8f5",
+          "sha256": "8e3af6a4b4d0870f7f73bcbf45bc534c40002c066a6f4b1977ef9e19bd607c07",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        }
+      ],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "SIM-02",
+      "issue": 868,
+      "is_916_prerequisite": false,
+      "candidate_evidence": [],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "SIM-03",
+      "issue": 869,
+      "is_916_prerequisite": false,
+      "candidate_evidence": [
+        {
+          "path": "docs/csdlc-v3/man/README.md",
+          "source_commit": "bf198d2d7609626c7dc4a9ff8cbfaa3f08229b11",
+          "sha256": "e866dbaa9ebdeab69f68ebc71335a7779c2f53f6a320768ac63761bfb434fffc",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/csdlc-v3/man/inventory.json",
+          "source_commit": "bf198d2d7609626c7dc4a9ff8cbfaa3f08229b11",
+          "sha256": "c41ceff361726c982e42696e3cff2da53f9002ac32a25fdef3f1492899c37344",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        }
+      ],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "SIM-04",
+      "issue": 870,
+      "is_916_prerequisite": false,
+      "candidate_evidence": [
+        {
+          "path": "docs/csdlc-v3/PROOF_WORKTREE_BINDING.md",
+          "source_commit": "41f6132aa0bff2ec264a00276d237b936bc5006d",
+          "sha256": "35beb7003b69c0c7af4b1a29dcff5e6a3e816e3ff8debc50effdf7386a04a3d8",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/csdlc-v3/man/README.md",
+          "source_commit": "41f6132aa0bff2ec264a00276d237b936bc5006d",
+          "sha256": "d701707de22fdf156fe8df07d789beb43468fae0ca598b30a0564f856a503094",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/csdlc-v3/man/inventory.json",
+          "source_commit": "41f6132aa0bff2ec264a00276d237b936bc5006d",
+          "sha256": "38729fa300a263dfa45c9592fa82a07653e1aa7ef54107086d33421d681a8b0b",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        }
+      ],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "SIM-05",
+      "issue": 871,
+      "is_916_prerequisite": false,
+      "candidate_evidence": [
+        {
+          "path": "docs/csdlc-v3/man/README.md",
+          "source_commit": "88a074b0109fddffc0562f6028300e2dbbd3cd07",
+          "sha256": "b766ea99a3100848a14e8551ee1edaed1ea33c79da4b2dee402a576d7373bccd",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/csdlc-v3/man/inventory.json",
+          "source_commit": "88a074b0109fddffc0562f6028300e2dbbd3cd07",
+          "sha256": "35499903d90e08d17aca038bc41a068233729a17cfa8f71b8d468e6cba1a02a2",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        }
+      ],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "SIM-06",
+      "issue": 872,
+      "is_916_prerequisite": false,
+      "candidate_evidence": [
+        {
+          "path": ".csdlc/evidence/872/conversion-rehearsal/manifest.json",
+          "source_commit": "40b756aeea5eaac10b5dc4940614ded13ae21275",
+          "sha256": "ed47bb8ec18565b5476f140b7c0b50510c4b2c906e531d5629328bb3e8fecd16",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/872/conversion-rehearsal/redaction-report.json",
+          "source_commit": "40b756aeea5eaac10b5dc4940614ded13ae21275",
+          "sha256": "07aa26cf67778a6a23f1b1a35f35b8faea049aef140a3f1b43912a1d9524c5cd",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/872/conversion-rehearsal/restore/pre-effect-sandbox/source/113/recovery-evidence/manifest.json",
+          "source_commit": "40b756aeea5eaac10b5dc4940614ded13ae21275",
+          "sha256": "673aee9eb538c8849e4e9bbaf165fa0294f0262f0c05cf1cb39ac2637c864535",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/872/conversion-rehearsal/restore/pre-effect-sandbox/source/113/recovery-evidence/roster-live-proof.json",
+          "source_commit": "40b756aeea5eaac10b5dc4940614ded13ae21275",
+          "sha256": "abf1975d7a7ab94880b7ca7b14dcc3cd5ccb6a6e201a35a1fc62daee9910b86b",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/872/conversion-rehearsal/restore/pre-effect-sandbox/source/517/dirty-inventory.json",
+          "source_commit": "40b756aeea5eaac10b5dc4940614ded13ae21275",
+          "sha256": "0a29c5f1bfd321137adf0b7bc0d656fcc49bc9bcd5da87526a8ba78120699373",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/872/conversion-rehearsal/scenarios/old_schema_diagnostic/linked-status.json",
+          "source_commit": "40b756aeea5eaac10b5dc4940614ded13ae21275",
+          "sha256": "111e70f77c137d7885df9405fe2f7c2c163fa98c637ad2450574e64535ff65d2",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/872/conversion-rehearsal/scenarios/old_schema_diagnostic/primary-status.json",
+          "source_commit": "40b756aeea5eaac10b5dc4940614ded13ae21275",
+          "sha256": "021f4bcc79131f653e71c07c57154b0f0c1364c9a721723fb50e21b33bb5e298",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/872/conversion-rehearsal/snapshots/current-observations/970/projection/cards/manifest.json",
+          "source_commit": "40b756aeea5eaac10b5dc4940614ded13ae21275",
+          "sha256": "ce6072377c2e14fc9ed912e020a5773e002ad2ff0567c7aa7048d6d560b99710",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/local/conversion-rehearsals/conversion-f11db7374a69984b47fccbfa/restore/source/113/recovery-evidence/manifest.json",
+          "source_commit": "40b756aeea5eaac10b5dc4940614ded13ae21275",
+          "sha256": "673aee9eb538c8849e4e9bbaf165fa0294f0262f0c05cf1cb39ac2637c864535",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/local/conversion-rehearsals/conversion-f11db7374a69984b47fccbfa/restore/source/113/recovery-evidence/roster-live-proof.json",
+          "source_commit": "40b756aeea5eaac10b5dc4940614ded13ae21275",
+          "sha256": "abf1975d7a7ab94880b7ca7b14dcc3cd5ccb6a6e201a35a1fc62daee9910b86b",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/local/conversion-rehearsals/conversion-f11db7374a69984b47fccbfa/restore/source/517/dirty-inventory.json",
+          "source_commit": "40b756aeea5eaac10b5dc4940614ded13ae21275",
+          "sha256": "0a29c5f1bfd321137adf0b7bc0d656fcc49bc9bcd5da87526a8ba78120699373",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/local/conversion-rehearsals/conversion-f11db7374a69984b47fccbfa/staging/113/recovery-evidence/manifest.json",
+          "source_commit": "40b756aeea5eaac10b5dc4940614ded13ae21275",
+          "sha256": "673aee9eb538c8849e4e9bbaf165fa0294f0262f0c05cf1cb39ac2637c864535",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/local/conversion-rehearsals/conversion-f11db7374a69984b47fccbfa/staging/113/recovery-evidence/roster-live-proof.json",
+          "source_commit": "40b756aeea5eaac10b5dc4940614ded13ae21275",
+          "sha256": "abf1975d7a7ab94880b7ca7b14dcc3cd5ccb6a6e201a35a1fc62daee9910b86b",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/local/conversion-rehearsals/conversion-f11db7374a69984b47fccbfa/staging/517/dirty-inventory.json",
+          "source_commit": "40b756aeea5eaac10b5dc4940614ded13ae21275",
+          "sha256": "0a29c5f1bfd321137adf0b7bc0d656fcc49bc9bcd5da87526a8ba78120699373",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/local/issues/113/recovery-evidence/manifest.json",
+          "source_commit": "40b756aeea5eaac10b5dc4940614ded13ae21275",
+          "sha256": "673aee9eb538c8849e4e9bbaf165fa0294f0262f0c05cf1cb39ac2637c864535",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/local/issues/113/recovery-evidence/roster-live-proof.json",
+          "source_commit": "40b756aeea5eaac10b5dc4940614ded13ae21275",
+          "sha256": "abf1975d7a7ab94880b7ca7b14dcc3cd5ccb6a6e201a35a1fc62daee9910b86b",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/local/issues/517/dirty-inventory.json",
+          "source_commit": "40b756aeea5eaac10b5dc4940614ded13ae21275",
+          "sha256": "0a29c5f1bfd321137adf0b7bc0d656fcc49bc9bcd5da87526a8ba78120699373",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/local/projections/113/cards/manifest.json",
+          "source_commit": "40b756aeea5eaac10b5dc4940614ded13ae21275",
+          "sha256": "40082327886e63ff046890360d300e84c3a56ddb407255f98ca295ebe7d459b0",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/local/projections/122/cards/manifest.json",
+          "source_commit": "40b756aeea5eaac10b5dc4940614ded13ae21275",
+          "sha256": "96f42ca010b8555c5df92b51f8996835a0ca6744935767c2239681b4ed5a80d1",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/local/projections/3/cards/manifest.json",
+          "source_commit": "40b756aeea5eaac10b5dc4940614ded13ae21275",
+          "sha256": "9b97e2a0e2a2d46430ca5d2f48c6e83874a4b78c6bf5edfa6c89ad1ef354a677",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/local/projections/497/cards/manifest.json",
+          "source_commit": "40b756aeea5eaac10b5dc4940614ded13ae21275",
+          "sha256": "9d2a6daa389e4f7ac82760bc387c0a657a6950cae03b88e726a0dbd2221f921e",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/local/projections/505/cards/manifest.json",
+          "source_commit": "40b756aeea5eaac10b5dc4940614ded13ae21275",
+          "sha256": "d3bd7f5b07c6728f23daca5a843b8c075d90d30f6f0fc5ecee4024d1a1a44ee9",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/local/projections/511/cards/manifest.json",
+          "source_commit": "40b756aeea5eaac10b5dc4940614ded13ae21275",
+          "sha256": "89721d0b045ab1ff190569e853f2b718a85265bdfe1b3499c5f8c16db7d1a5ce",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/local/projections/517/cards/manifest.json",
+          "source_commit": "40b756aeea5eaac10b5dc4940614ded13ae21275",
+          "sha256": "5e9907659bd6f1318fe0533727b33cdc6e15544c9a0d2e57771e1839f0001f1a",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/local/projections/970/cards/manifest.json",
+          "source_commit": "40b756aeea5eaac10b5dc4940614ded13ae21275",
+          "sha256": "ce6072377c2e14fc9ed912e020a5773e002ad2ff0567c7aa7048d6d560b99710",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/872/conversion-rehearsal/snapshots/source/113/recovery-evidence/manifest.json",
+          "source_commit": "40b756aeea5eaac10b5dc4940614ded13ae21275",
+          "sha256": "673aee9eb538c8849e4e9bbaf165fa0294f0262f0c05cf1cb39ac2637c864535",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/872/conversion-rehearsal/snapshots/source/113/recovery-evidence/roster-live-proof.json",
+          "source_commit": "40b756aeea5eaac10b5dc4940614ded13ae21275",
+          "sha256": "abf1975d7a7ab94880b7ca7b14dcc3cd5ccb6a6e201a35a1fc62daee9910b86b",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/872/conversion-rehearsal/snapshots/source/517/dirty-inventory.json",
+          "source_commit": "40b756aeea5eaac10b5dc4940614ded13ae21275",
+          "sha256": "0a29c5f1bfd321137adf0b7bc0d656fcc49bc9bcd5da87526a8ba78120699373",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/conversion-rehearsal-872/README.md",
+          "source_commit": "40b756aeea5eaac10b5dc4940614ded13ae21275",
+          "sha256": "811d54e646157704a14b3daf948397f49b5cf1283342e28818280e43d585638c",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/conversion-rehearsal-872/pvf-manifest.json",
+          "source_commit": "40b756aeea5eaac10b5dc4940614ded13ae21275",
+          "sha256": "30014e45464e984373a4330ed76b8a64e6362c5a1efca2f1b98f78829724b557",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        }
+      ],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "SIM-07",
+      "issue": 873,
+      "is_916_prerequisite": false,
+      "candidate_evidence": [
+        {
+          "path": ".csdlc/evidence/873/sim-07/README.md",
+          "source_commit": "e9d2429bd20eedf33b5efacf1d0c0c5128993e3e",
+          "sha256": "d4717cd3c26609ad52e8edde5262a01d691a3eabacf442bef35f24c8492998bc",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/873/sim-07/corpus-manifest.json",
+          "source_commit": "e9d2429bd20eedf33b5efacf1d0c0c5128993e3e",
+          "sha256": "ec941660ed4780fdec17999471fddcc5c28c3a040953aa523c289ebec600e817",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/873/sim-07/measurements/retry-reduction/run-status.json",
+          "source_commit": "e9d2429bd20eedf33b5efacf1d0c0c5128993e3e",
+          "sha256": "e6f9037d3ebdf5444f9753be1b2afa79eeade7b9cd802bc140b81a66c95a68a6",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/873/sim-07/qualification-decision.json",
+          "source_commit": "e9d2429bd20eedf33b5efacf1d0c0c5128993e3e",
+          "sha256": "ce9ea4f55c05f65af185f197988d6e51ef82c7f81419b15f196d2c138970178c",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/873/sim-07/remediation-status.json",
+          "source_commit": "e9d2429bd20eedf33b5efacf1d0c0c5128993e3e",
+          "sha256": "4326be8b134f6c390523a6e05acb39f9811189f3c15d3aa82a93789e6bb445bb",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/873/sim-07/results/command_manifest.result.json",
+          "source_commit": "e9d2429bd20eedf33b5efacf1d0c0c5128993e3e",
+          "sha256": "3fdb4a1e01dc4c0dd410aa95374679436f468a2a6fa07eda30cc9e19c41d86ea",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/873/sim-07/results/proof_parity_install_commands.result.json",
+          "source_commit": "e9d2429bd20eedf33b5efacf1d0c0c5128993e3e",
+          "sha256": "38d0e784bfc03d01d442b0768e1827f38b2aeace47bd8b9e5053ac1da56fba98",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/873/sim-07/results/proof_worktree_binding.result.json",
+          "source_commit": "e9d2429bd20eedf33b5efacf1d0c0c5128993e3e",
+          "sha256": "404ac0fcf187187c984a5de43624b3c38c1b40f05eb0675dd77ef9cbce7e4578",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/873/sim-07/results/semantic_local_proof.result.json",
+          "source_commit": "e9d2429bd20eedf33b5efacf1d0c0c5128993e3e",
+          "sha256": "ba7c6f9430b88b47001087d4b46925f35db3f5be1ae6214418493adc473aeb19",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/873/sim-07/results/semantic_remote_review.result.json",
+          "source_commit": "e9d2429bd20eedf33b5efacf1d0c0c5128993e3e",
+          "sha256": "b56806b43b7e7cf60eda87652552880feda18f15b4aa3cb9dafbab684695d996",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        }
+      ],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "SIM-08",
+      "issue": 874,
+      "is_916_prerequisite": false,
+      "candidate_evidence": [
+        {
+          "path": ".csdlc/evidence/874/sim-08/validation.json",
+          "source_commit": "904f650644217004fb3e16ac31586064f5e7b78f",
+          "sha256": "7b88f0aa17e2ce80a2bd5f9b6f34c9ccf0c81c1ff335df7b33620a41cf4d53e8",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        }
+      ],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "ARCH-SPLIT",
+      "issue": 848,
+      "is_916_prerequisite": true,
+      "candidate_evidence": [
+        {
+          "path": "docs/milestones/v0.92.2/repository-decomposition/source-inventory.json",
+          "source_commit": "b5219c8bb742ba5c42ff2c2def299cd03bacd76f",
+          "sha256": "52cd9afe91fe849a69da38cc3d43a284326ad10e37eeff87694308cc351ef7dc",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        }
+      ],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "RT-COST",
+      "issue": 854,
+      "is_916_prerequisite": true,
+      "candidate_evidence": [],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "RT-PROVIDER",
+      "issue": 855,
+      "is_916_prerequisite": false,
+      "candidate_evidence": [
+        {
+          "path": ".csdlc/evidence/855/publication-draft/review-evidence.json",
+          "source_commit": "cfd865bda539529372ca6e9954102b158410d6dc",
+          "sha256": "b3a0ad1035b19d8c3f52e8c97f90375c615711b8eb01303cf14920344a430908",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/855/publication-draft/typed-review-receipt.json",
+          "source_commit": "cfd865bda539529372ca6e9954102b158410d6dc",
+          "sha256": "e5da0dfbadc1f93a9cbdeff35fc7f5d88105d1824cd84e2c0ae7169aec09946e",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/855/publication-merge/review-evidence.json",
+          "source_commit": "cfd865bda539529372ca6e9954102b158410d6dc",
+          "sha256": "49217aa75ea6fbbce33c47b6b8cca837052cd25d76f22fb15b39fc699dfa205c",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/855/publication-merge/review-request.json",
+          "source_commit": "cfd865bda539529372ca6e9954102b158410d6dc",
+          "sha256": "2dbfd3cc0baa9afd94e1277ea1a56966eb40bd3a441eba54247323d6adb25156",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/855/publication-merge/typed-review-receipt.json",
+          "source_commit": "cfd865bda539529372ca6e9954102b158410d6dc",
+          "sha256": "e177307d7c8f31d220c81323e4af47dfe3993eb4a7e8558d890309b133c68bf3",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/855/publication-remediation/review-evidence.json",
+          "source_commit": "cfd865bda539529372ca6e9954102b158410d6dc",
+          "sha256": "5fbf82cea8990f034b83fbca793520595715312f8242c6db4ae477af3f6a8756",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/855/publication-remediation/review-request.json",
+          "source_commit": "cfd865bda539529372ca6e9954102b158410d6dc",
+          "sha256": "2f330f622b5e9a8b7f2e10655597c2161f80a07465cab75f07c1c6ad2492df07",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/855/publication-remediation/typed-review-receipt.json",
+          "source_commit": "cfd865bda539529372ca6e9954102b158410d6dc",
+          "sha256": "b712e2372252a90cb7a28f4324bad505e9ea0d7fd79ed017a04d86b7d288bb84",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/runtime-v3/fixtures/issue855/INSTALLED_PROOF_DRAFT_RUN08.json",
+          "source_commit": "cfd865bda539529372ca6e9954102b158410d6dc",
+          "sha256": "74f2d58aef3714982caf71cd0b353df01f7ea260b709501b2204e46e80ec712b",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/runtime-v3/fixtures/issue855/INSTALLED_PROOF_RUN09.json",
+          "source_commit": "cfd865bda539529372ca6e9954102b158410d6dc",
+          "sha256": "aa4c22b11ad5a53a8f14c333c3ab15382cd2af55c3e9df176465f1cb52102529",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/runtime-v3/fixtures/issue855/INSTALLED_PROOF_RUN10.json",
+          "source_commit": "cfd865bda539529372ca6e9954102b158410d6dc",
+          "sha256": "709c971e7d4df76964c6e5c053b03f5bf3fc7b14d9e72616df30704137fd20e5",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        }
+      ],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "PLAT-PROVIDER",
+      "issue": 876,
+      "is_916_prerequisite": false,
+      "candidate_evidence": [
+        {
+          "path": ".csdlc/evidence/876/IMPLEMENTATION_PROOF.md",
+          "source_commit": "b6d110c84e11253b392d0bb078f2fb33a36b9a0c",
+          "sha256": "c67fc3e303f7844988dfb4bc200bc040ea404d975ee9df526fabf8ad4e06d5b6",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/876/REVIEW.md",
+          "source_commit": "b6d110c84e11253b392d0bb078f2fb33a36b9a0c",
+          "sha256": "2affd728ecd473f0000784696c7c72bd8ef06a4c85e4a3b64694f7e4fdb1244d",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/876/card-review-correction-edit.json",
+          "source_commit": "b6d110c84e11253b392d0bb078f2fb33a36b9a0c",
+          "sha256": "3b72483e01777d6abc1cd2354b02ea1964493aa21266819aafe260e69cfcdfef",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/876/card-review-correction-validate.json",
+          "source_commit": "b6d110c84e11253b392d0bb078f2fb33a36b9a0c",
+          "sha256": "90e879f94c26e2825b9f9b2ee05edf38c4095d2216f4ab06becf6d7f58215d7a",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/876/concrete-validation-edit.json",
+          "source_commit": "b6d110c84e11253b392d0bb078f2fb33a36b9a0c",
+          "sha256": "ffb8adb8ea81fe5797520a72243f63ecf48cb8d5b51b7265fcd54fbd91aef469",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/876/concrete-validation-validate.json",
+          "source_commit": "b6d110c84e11253b392d0bb078f2fb33a36b9a0c",
+          "sha256": "fec5a97c7627c2314be6f067829de4a84848abf54fb45ec728c947bfbb82ef12",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/876/declared-field-review-edit.json",
+          "source_commit": "b6d110c84e11253b392d0bb078f2fb33a36b9a0c",
+          "sha256": "7aab30d19a1c40f64845c32c19dbbc4d837b786a3029706a1f7caf516921021a",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/876/declared-field-review-validate.json",
+          "source_commit": "b6d110c84e11253b392d0bb078f2fb33a36b9a0c",
+          "sha256": "e12eb1418359145b8ab1216997718d387adaaae95cb6c3d1f38b971647255279",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/876/pre-review-edit.json",
+          "source_commit": "b6d110c84e11253b392d0bb078f2fb33a36b9a0c",
+          "sha256": "b8dc073993d2d08d746c3c57a9e9fac4700f2e8f07f738de45a0de761ff5746e",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/876/pre-review-validate.json",
+          "source_commit": "b6d110c84e11253b392d0bb078f2fb33a36b9a0c",
+          "sha256": "615d7b173b50679089b74b787d6e0d02014d38c361bda0ada6d7b00a9fdc4f89",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/876/proof-edit.json",
+          "source_commit": "b6d110c84e11253b392d0bb078f2fb33a36b9a0c",
+          "sha256": "d90f272b2da995c5b0b7b4a38c23ff784c5d6f8f148a20d3e0da1f2c4db13e89",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/876/proof-validate.json",
+          "source_commit": "b6d110c84e11253b392d0bb078f2fb33a36b9a0c",
+          "sha256": "c35968034f1853f21987c1afdf06058d567b8fae1c44299dfe588dca649d5470",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/876/url-alias-plan-validation.json",
+          "source_commit": "b6d110c84e11253b392d0bb078f2fb33a36b9a0c",
+          "sha256": "884a70760c0ec8036151f01162dea058b01d105782a587bd08d3102754a70a75",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/876/url-alias-result-validation.json",
+          "source_commit": "b6d110c84e11253b392d0bb078f2fb33a36b9a0c",
+          "sha256": "3d5b1857ec81e5cf013c73662edf3abdc76fc0e500c9605e6b66e68dc002e567",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/876/url-alias-reviewed-edit.json",
+          "source_commit": "b6d110c84e11253b392d0bb078f2fb33a36b9a0c",
+          "sha256": "b45c8cc4dc82e3584749b18a9118c89ce7e688dfcce9c826eee11611a3b378c3",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/876/url-alias-reviewed-validate.json",
+          "source_commit": "b6d110c84e11253b392d0bb078f2fb33a36b9a0c",
+          "sha256": "b8cf12881dc44d59782b95b41323a4232394460d6884e94c55a2b8131a2511ad",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        }
+      ],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "PLAT-UTS",
+      "issue": 877,
+      "is_916_prerequisite": true,
+      "candidate_evidence": [
+        {
+          "path": ".csdlc/evidence/877/REVIEW.md",
+          "source_commit": "15c476fe497ad975cabe4c73f729930d20a302d9",
+          "sha256": "9f8e40fcffb0fcbb41e5b8bbb1f788ba7ecf459c5e4160be2fe8b1ea08609eab",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/877/install-proof.json",
+          "source_commit": "15c476fe497ad975cabe4c73f729930d20a302d9",
+          "sha256": "9691820d032d3374ba2397ca0c96f86e4a0aaf73786d5a6dc80448e5fe59799a",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/877/install-repeat-proof.json",
+          "source_commit": "15c476fe497ad975cabe4c73f729930d20a302d9",
+          "sha256": "521355d2095e2536e38cf1851c64570f2cb43fd24aa4fc591df6cd89eecc4f5d",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/specs/uts/README.md",
+          "source_commit": "15c476fe497ad975cabe4c73f729930d20a302d9",
+          "sha256": "aac57d648507c28b1b94cb7035a20e41964af7123792e8d72709439a2361e363",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/validation/issue877_uts_package.json",
+          "source_commit": "15c476fe497ad975cabe4c73f729930d20a302d9",
+          "sha256": "30c7f8f7374d6967519a55534ee9e66d7ff6ba72ad999631b60297e978c0adcc",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        }
+      ],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "CF-ADAPTER",
+      "issue": 878,
+      "is_916_prerequisite": false,
+      "candidate_evidence": [
+        {
+          "path": "docs/codefriend/LOCAL_INGESTION_PROOF.json",
+          "source_commit": "b9b16707f0bf3b95138fd4019f208734c7522ec6",
+          "sha256": "b058256d19dbf3622313589f9173831928538606b4dbb2ae6c8d99eeeb729ded",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/codefriend/LOCAL_INGESTION_REPAIR_PROOF.json",
+          "source_commit": "b9b16707f0bf3b95138fd4019f208734c7522ec6",
+          "sha256": "6b18c9a6f5ff42a6f71369491f3268c26ea4fb4affc3d693a0518f3cd1c44682",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/codefriend/LOCAL_INGESTION_STREAMING_PROOF.json",
+          "source_commit": "b9b16707f0bf3b95138fd4019f208734c7522ec6",
+          "sha256": "7f959647bea03b0a38ec4f447d190deb7cb114d422a85ad41674fab6714f451e",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/codefriend/LOCAL_INGESTION_TOML_PROOF.json",
+          "source_commit": "b9b16707f0bf3b95138fd4019f208734c7522ec6",
+          "sha256": "282a9e5af3bcd18f625e9bc9ac308d4030b38f732ea97f13b96c6639194d8420",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        }
+      ],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "CF-ADAPTER-GITHUB",
+      "issue": 879,
+      "is_916_prerequisite": false,
+      "candidate_evidence": [
+        {
+          "path": ".csdlc/evidence/879/MERGE_REVIEW.md",
+          "source_commit": "79325e981a446c7967bbf9b1ee9b320292c0904a",
+          "sha256": "f4d3ab6cf41909a37311a36240c17bf8bbbc2cc6ed84b58d3c1039e81456b15f",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/879/PROOF.json",
+          "source_commit": "79325e981a446c7967bbf9b1ee9b320292c0904a",
+          "sha256": "f6c64ceb08092afaf89288ce09564b3be27c5d5f30b0eb19e89e0e46815a3e6c",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/879/REVIEW.md",
+          "source_commit": "79325e981a446c7967bbf9b1ee9b320292c0904a",
+          "sha256": "6f53271dddbd95cd6dd42097bce54229a80302500f1b45a3ff0808504120bd26",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        }
+      ],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "CF-ADAPTER-CI",
+      "issue": 880,
+      "is_916_prerequisite": false,
+      "candidate_evidence": [
+        {
+          "path": ".csdlc/evidence/880/IMPLEMENTATION_PROOF.md",
+          "source_commit": "7e07eade5c2f4f5807cd4a0fd6d2339f68a30b09",
+          "sha256": "e97e0c716bb887f168ca05544acfae4be85b03ca477c3dcdd410dd8d88df18a2",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/880/MERGE_REVIEW.md",
+          "source_commit": "7e07eade5c2f4f5807cd4a0fd6d2339f68a30b09",
+          "sha256": "44c910e5e3d0adef6e9076b7bdec83048af517ffd120649a3d500321bd294227",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/880/proof-cards-edit.json",
+          "source_commit": "7e07eade5c2f4f5807cd4a0fd6d2339f68a30b09",
+          "sha256": "760cab0d796222601826d3f5427051d10b2c7137ef8676a94b2288781b37b1e0",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/880/reviewed-edit.json",
+          "source_commit": "7e07eade5c2f4f5807cd4a0fd6d2339f68a30b09",
+          "sha256": "be4093df3c09b74868d801e83b794f0662ad0b09307a966ba9a3440dc16a24ba",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/880/reviewed-validate.json",
+          "source_commit": "7e07eade5c2f4f5807cd4a0fd6d2339f68a30b09",
+          "sha256": "b79e922a867dd4b8ea17b976a3bfd97b0db1834f06f3d29e969ecf484be87fce",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        }
+      ],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "CF-EVIDENCE",
+      "issue": 881,
+      "is_916_prerequisite": false,
+      "candidate_evidence": [
+        {
+          "path": "docs/codefriend/EVIDENCE_BOOTSTRAP_PROOF.json",
+          "source_commit": "41aa503e80a31250ce8d1df05c46d16d99c843bf",
+          "sha256": "7f7f262150893954893051bb921dc7296fc7a49777832b5e91034a12138d39e1",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/codefriend/EVIDENCE_CORE.md",
+          "source_commit": "41aa503e80a31250ce8d1df05c46d16d99c843bf",
+          "sha256": "82e1dc1ec4c3415ce0b1557b1011265add2c44d33b79f0d188550477482a8e28",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/codefriend/EVIDENCE_INSTALLED_PROOF.json",
+          "source_commit": "41aa503e80a31250ce8d1df05c46d16d99c843bf",
+          "sha256": "5059912ea323a5046128d588bbdf929f75f87328678fd444bde1abee72ad9998",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/codefriend/EVIDENCE_PROOF_INVENTORY.json",
+          "source_commit": "41aa503e80a31250ce8d1df05c46d16d99c843bf",
+          "sha256": "b4d59288c000842fc2b5bb2b9a4b268f4bc40273065332f26cbcd8830d568a36",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        }
+      ],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "CF-COG",
+      "issue": 882,
+      "is_916_prerequisite": false,
+      "candidate_evidence": [
+        {
+          "path": ".csdlc/evidence/882/LOCAL_PROOF.json",
+          "source_commit": "1e839cad09df3a4b45fa53fa39539b911a78e3d4",
+          "sha256": "fa107e9989e23e02f18074c5dd2b9d51b99a8c37b406ab9076536071414e7a6d",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/codefriend/ARCHITECTURE_INSTALLED_PROOF.json",
+          "source_commit": "1e839cad09df3a4b45fa53fa39539b911a78e3d4",
+          "sha256": "a452f673fdd649f63e3d89254a6b7fb5917438f1264da600ebe701daba8a7daf",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/codefriend/ARCHITECTURE_PROOF_INVENTORY.json",
+          "source_commit": "1e839cad09df3a4b45fa53fa39539b911a78e3d4",
+          "sha256": "53db7da454f18fd8a6d66b438f40a7248603700a53fc643a4d3de972d46030d9",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        }
+      ],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "CF-COG-IMPACT",
+      "issue": 883,
+      "is_916_prerequisite": false,
+      "candidate_evidence": [
+        {
+          "path": ".csdlc/evidence/883/LOCAL_PROOF.json",
+          "source_commit": "2301d1d8e4537a615be6c0900e061a2ec2fe4f3a",
+          "sha256": "de7eaf33766006eca2534aa7918a986366bfb82b3f93087a7ebe77c5321f2c60",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/883/review/implementation-review.json",
+          "source_commit": "2301d1d8e4537a615be6c0900e061a2ec2fe4f3a",
+          "sha256": "094d6eb80fcdcb4241536e72eba2230fcfbaa94b52b013016b17c21e3c9b58e1",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        }
+      ],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "CF-COG-RATIONALE",
+      "issue": 884,
+      "is_916_prerequisite": false,
+      "candidate_evidence": [
+        {
+          "path": ".csdlc/evidence/884/LOCAL_PROOF.json",
+          "source_commit": "61e83cf425b26299466ff21916c266d3864c8d82",
+          "sha256": "6e55b45344902d5e8ef00375b6c8ebe66e93850001194381208446dbd0d9375f",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/884/review/implementation-review.json",
+          "source_commit": "61e83cf425b26299466ff21916c266d3864c8d82",
+          "sha256": "0e0ff485ac6083e6fb224052d40f418367672e3fd2442c994c050f170354e223",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        }
+      ],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "CF-MEMORY",
+      "issue": 885,
+      "is_916_prerequisite": false,
+      "candidate_evidence": [
+        {
+          "path": ".csdlc/evidence/885/INTEGRATION_PROOF.json",
+          "source_commit": "7e586a34d6a6ee7e2103ca8d004bc0848a839e31",
+          "sha256": "671c9ba01bc9b3ee0a474ad7083c826bb695a9c1c5d9a78bbf9ef6ab86301987",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/885/LOCAL_PROOF.json",
+          "source_commit": "7e586a34d6a6ee7e2103ca8d004bc0848a839e31",
+          "sha256": "67bb3705efbea8b59351c7e734a7ebe7698b9eb9923f37d2b79d04ef88f9f227",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/codefriend/MEMORY_COMPARISON_PROOF_INVENTORY.json",
+          "source_commit": "7e586a34d6a6ee7e2103ca8d004bc0848a839e31",
+          "sha256": "b797c9bd4c420532bbd3f1ce001df19cef6badf6135cbd5a028c12834df37f75",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/codefriend/MEMORY_INSTALLED_PROOF.json",
+          "source_commit": "7e586a34d6a6ee7e2103ca8d004bc0848a839e31",
+          "sha256": "6d7175d5b82ca5aa38178a4666c8081b0730f150b01425d81fb45349406cf5b7",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        }
+      ],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "CF-COG-DRIFT",
+      "issue": 886,
+      "is_916_prerequisite": false,
+      "candidate_evidence": [
+        {
+          "path": ".csdlc/evidence/886/INTEGRATION2_PROOF.json",
+          "source_commit": "85727e1046da975cf0c650ab7ab0728efd32d569",
+          "sha256": "4c70238646e44ac975398ad20392c2852dafdb5a10ad4b4a763d664687c80426",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/886/INTEGRATION_PROOF.json",
+          "source_commit": "85727e1046da975cf0c650ab7ab0728efd32d569",
+          "sha256": "8ffca407cb9a668539bd630b33e30138a655d0f7284ebd596731a58556cb5de2",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/886/LOCAL_PROOF.json",
+          "source_commit": "85727e1046da975cf0c650ab7ab0728efd32d569",
+          "sha256": "e12f84a070c433d42d5455f66e638a5952a584efa86e4908fd54dfd8cc20122a",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/886/review/independent-review.json",
+          "source_commit": "85727e1046da975cf0c650ab7ab0728efd32d569",
+          "sha256": "9a3771cf75aef5b2f920e99fd957abf2c0f3be82ae073275d1dc15e2534de370",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/886/review/integration-review.json",
+          "source_commit": "85727e1046da975cf0c650ab7ab0728efd32d569",
+          "sha256": "729ed22830042a5b92103671512aea78d9396a201cc8150fe7a05533c3bd90d0",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        }
+      ],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "CF-GOV",
+      "issue": 887,
+      "is_916_prerequisite": false,
+      "candidate_evidence": [
+        {
+          "path": ".csdlc/evidence/887/LOCAL_PROOF.json",
+          "source_commit": "49ca9f2fcf785a2f8e6b75676279db4f0936f925",
+          "sha256": "840bcb4c31e25c3ad10694a6f2f265d4d18b3456504741419107e020383049b8",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/887/MAIN_987_INTEGRATION_PROOF.json",
+          "source_commit": "49ca9f2fcf785a2f8e6b75676279db4f0936f925",
+          "sha256": "8cd510712e4994214ce8e647bd87a5e072bbffbe821ca1034bae350ee5dac05b",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/codefriend/LOCAL_FITNESS_INSTALLED_PROOF.json",
+          "source_commit": "49ca9f2fcf785a2f8e6b75676279db4f0936f925",
+          "sha256": "e8624c5a924b88bce99fdd2738f8c391085aa3c4f16ca761d1b7b044e345407c",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/codefriend/LOCAL_FITNESS_PROOF_INVENTORY.json",
+          "source_commit": "49ca9f2fcf785a2f8e6b75676279db4f0936f925",
+          "sha256": "1c880486b9cf316f52077313a7b63ce731105fbb8e1a8810237531908b0df976",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        }
+      ],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "CF-GOV-CI",
+      "issue": 888,
+      "is_916_prerequisite": false,
+      "candidate_evidence": [
+        {
+          "path": ".csdlc/evidence/888/HOSTED_PROOF.json",
+          "source_commit": "05719245014b84d548657a868b98aed3db0b662e",
+          "sha256": "e88e11209953b35a96d0008c46af01ecc4cb4a1e3f6a48deab0a839b6bd254b3",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/888/LOCAL_PROOF.json",
+          "source_commit": "05719245014b84d548657a868b98aed3db0b662e",
+          "sha256": "52d8bacab108b4c84e6699c81842d4fc7bd171dffb43e54c2004ca8f28874a23",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        }
+      ],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "PLAT-MEMORY",
+      "issue": 889,
+      "is_916_prerequisite": false,
+      "candidate_evidence": [
+        {
+          "path": ".csdlc/evidence/889/LOCAL_PROOF.json",
+          "source_commit": "e59590b51229addb6d4cddcf6d6f731005dee7ec",
+          "sha256": "9a56fd08dd42a03d5debf096d97627074bf8b4e9e7412049d47d3b7f873156cb",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        }
+      ],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "CF-REVIEW",
+      "issue": 890,
+      "is_916_prerequisite": false,
+      "candidate_evidence": [],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "CF-SHELL",
+      "issue": 891,
+      "is_916_prerequisite": false,
+      "candidate_evidence": [
+        {
+          "path": ".csdlc/evidence/891/real-provider-shell-proof/operator-shell-openai-small-fixture/attempts/1/review/review-record.json",
+          "source_commit": "21f13c8a9921028ebb140eba069dd37681573fc8",
+          "sha256": "067aca39f69ec0e0c2fded7d8cb99408c759062df972224d8aa94a45856b9d56",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        }
+      ],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "CF-SYNTHESIS",
+      "issue": 892,
+      "is_916_prerequisite": false,
+      "candidate_evidence": [
+        {
+          "path": ".csdlc/evidence/892/predecessor-openai-r5-synthesis/manifest.json",
+          "source_commit": "ced79b611d319bf93392985ff0ec3b790314795e",
+          "sha256": "abe0d06cf6f8d2783632ea1840817af07328f2ed5b6e4bebc17fff0c1735d526",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/892/predecessor-openai-r5-synthesis/review-record.json",
+          "source_commit": "ced79b611d319bf93392985ff0ec3b790314795e",
+          "sha256": "89718aeede510d176cd338b9489cc7a3eae9e07610660fe48c9adaee53c54da4",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        }
+      ],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "CF-REMEDIATE",
+      "issue": 893,
+      "is_916_prerequisite": false,
+      "candidate_evidence": [],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "CF-TESTPLAN",
+      "issue": 894,
+      "is_916_prerequisite": false,
+      "candidate_evidence": [],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "CF-UX",
+      "issue": 895,
+      "is_916_prerequisite": false,
+      "candidate_evidence": [],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "CF-RENDER-MD",
+      "issue": 896,
+      "is_916_prerequisite": false,
+      "candidate_evidence": [
+        {
+          "path": ".csdlc/evidence/896/installed-markdown-render-r2/PROOF.md",
+          "source_commit": "7c09a6526714e562ef8a458652b289ad0e7b63b2",
+          "sha256": "71beea9d98b4e37f72fb10eb8c55fa28f45f9e32a3550e300f9bf665b5d63052",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/896/installed-markdown-render-r2/manifest.json",
+          "source_commit": "7c09a6526714e562ef8a458652b289ad0e7b63b2",
+          "sha256": "5701a5fb5875e663f2091dca7d7a5f1e4f20dd1a02da1fdb670e69fdec96125c",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/896/installed-markdown-render-r2/report.md",
+          "source_commit": "7c09a6526714e562ef8a458652b289ad0e7b63b2",
+          "sha256": "518e23144709cbec39b54f78721a2d101d18c24e67391cf892dc2c992e8ae926",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/896/installed-markdown-render-r3/PROOF.md",
+          "source_commit": "7c09a6526714e562ef8a458652b289ad0e7b63b2",
+          "sha256": "7957cd635242ca6808d8e36790458519477867668c91153b124f1a11276a072f",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/896/installed-markdown-render-r3/manifest.json",
+          "source_commit": "7c09a6526714e562ef8a458652b289ad0e7b63b2",
+          "sha256": "82d890ecad12f7724084ff91f64ba63a4c38146364dd85ff0f1e4071db2f5ac3",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/896/installed-markdown-render-r3/report.md",
+          "source_commit": "7c09a6526714e562ef8a458652b289ad0e7b63b2",
+          "sha256": "d952435a0f834a8dcff2d01031bb9998c80bf95caa2372ff79b70c0b8746f4ee",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/896/installed-markdown-render/PROOF.md",
+          "source_commit": "7c09a6526714e562ef8a458652b289ad0e7b63b2",
+          "sha256": "f9a4208bc6d2a1e418def881821012400327bb24691fdea792e4524ecf1f639c",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/896/installed-markdown-render/manifest.json",
+          "source_commit": "7c09a6526714e562ef8a458652b289ad0e7b63b2",
+          "sha256": "26207172ec079fea92e8c06f54570a0881c86ccec937c867a0f6db3d2d3af9f8",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/896/installed-markdown-render/report.md",
+          "source_commit": "7c09a6526714e562ef8a458652b289ad0e7b63b2",
+          "sha256": "f4afe6871b1c8427fd2fcbce48c21fbe640d4f1a585926cad64c90bc4f8ab349",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        }
+      ],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "CF-RENDER-HTML",
+      "issue": 897,
+      "is_916_prerequisite": false,
+      "candidate_evidence": [
+        {
+          "path": ".csdlc/evidence/897/installed-html-render/PROOF.md",
+          "source_commit": "485f95cfbe7808caabe8fd4e4bef37128e555c95",
+          "sha256": "0b30418ca143d14b0b1c47a23b69ff443ad009c6690c4f0e84e25cb05c9318ad",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/897/installed-html-render/manifest.json",
+          "source_commit": "485f95cfbe7808caabe8fd4e4bef37128e555c95",
+          "sha256": "ffff7ae208f38640d453878e52d81e7c9a51fd2035e0076eb0149a31c96516c6",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        }
+      ],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "CF-RENDER-PDF",
+      "issue": 898,
+      "is_916_prerequisite": false,
+      "candidate_evidence": [
+        {
+          "path": ".csdlc/evidence/898/pdf-qualification-markdown-semantics/manifest.json",
+          "source_commit": "034ccc2b9068c21833483931c4b3d71b257d85d3",
+          "sha256": "7fa5ee79569b65b1938f28db08e70a85502178dd278d5ea52e86a3e1affd742f",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/898/pdf-qualification/manifest.json",
+          "source_commit": "034ccc2b9068c21833483931c4b3d71b257d85d3",
+          "sha256": "c846fa62ba7b7007f9b846e832ea21f1c84d90c06f3dc98c643694f96c6a7075",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        }
+      ],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "QUAL-RUNTIME",
+      "issue": 852,
+      "is_916_prerequisite": true,
+      "candidate_evidence": [
+        {
+          "path": "docs/milestones/v0.92.2/evidence/qual-runtime-852/README.md",
+          "source_commit": "ee8635aea3b1de928ea397be246320c696b57095",
+          "sha256": "f0d4b980f6752c4c3aee326e999204ab424c37c557dac014fcb67174f740b59d",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/qual-runtime-852/validation.json",
+          "source_commit": "ee8635aea3b1de928ea397be246320c696b57095",
+          "sha256": "07892d3ea946dd001b19958e469ff572fd43712c509687d80cfcd77900060cd2",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        }
+      ],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "QUAL-INVENTORY",
+      "issue": 899,
+      "is_916_prerequisite": true,
+      "candidate_evidence": [
+        {
+          "path": "docs/milestones/v0.92.2/evidence/qual-inventory-899/README.md",
+          "source_commit": "b124cfbd79de94103bc1e2f895ceb973273a7079",
+          "sha256": "e4dc5908fe8e0d3ea371d570b30405fab99c17a68b3cbda3add85bf585cc01cd",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/qual-inventory-899/bundles.json",
+          "source_commit": "b124cfbd79de94103bc1e2f895ceb973273a7079",
+          "sha256": "725dddf3928d4455e2f95d6bc913e0209cd2706291de5f1e8f6be46fb1ba51aa",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/qual-inventory-899/comparison.json",
+          "source_commit": "b124cfbd79de94103bc1e2f895ceb973273a7079",
+          "sha256": "c82d122ca7f41ea5bf4152e6c736cea28bee65d953616d154c4e53c1cd3222c7",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/qual-inventory-899/existing-inventory-regression.json",
+          "source_commit": "b124cfbd79de94103bc1e2f895ceb973273a7079",
+          "sha256": "4a33f4404a88d5bb37eae63961b6ae533771eb259ab7d9ee0dff3294d9f15b2f",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/qual-inventory-899/proof-profile.json",
+          "source_commit": "b124cfbd79de94103bc1e2f895ceb973273a7079",
+          "sha256": "d02479c0f20bd211ec870fb769332411a89531a79f38881a62d121e04eac1504",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        }
+      ],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "QUAL-RESIDENT",
+      "issue": 900,
+      "is_916_prerequisite": true,
+      "candidate_evidence": [
+        {
+          "path": "docs/milestones/v0.92.2/evidence/qual-resident-900/README.md",
+          "source_commit": "b13069dd71d1ccd70083c4018c777f8e56daafd6",
+          "sha256": "51daa8c030c3ab34bf0c9a98f91a159b9c823ffbd92ed54ad655d7ff702b7496",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/qual-resident-900/test-manifest.json",
+          "source_commit": "b13069dd71d1ccd70083c4018c777f8e56daafd6",
+          "sha256": "d134519fe5fa57b53c30439f5219592e4ff1a6bb601d98b839f0824ec1a4ed54",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/qual-resident-900/validation.json",
+          "source_commit": "b13069dd71d1ccd70083c4018c777f8e56daafd6",
+          "sha256": "92dd5a7f2a69d52b2eecd651f8728413045ef30b24772c73b0a9fbb782183295",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        }
+      ],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "QUAL-PROVIDER",
+      "issue": 901,
+      "is_916_prerequisite": true,
+      "candidate_evidence": [
+        {
+          "path": "docs/milestones/v0.92.2/evidence/qual-provider-901/README.md",
+          "source_commit": "f69019c24a9b61511e912c93f95442f96fa66d92",
+          "sha256": "8b7bbaf39c613b958b9694139ef79c65c5df6699a139b75de8721b752a6eec8f",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/qual-provider-901/qualification-report.json",
+          "source_commit": "f69019c24a9b61511e912c93f95442f96fa66d92",
+          "sha256": "b5a8cfbd941b07efc3baab1e133f7a11da69b4f56b19608479a4013b397d1a32",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/qual-provider-901/runtime-qualification-report.json",
+          "source_commit": "f69019c24a9b61511e912c93f95442f96fa66d92",
+          "sha256": "e31299a7e44ee27715ac9c76252a857a1b9c3d87d86ac23fa6181af157470e22",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        }
+      ],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "QUAL-EVIDENCE",
+      "issue": 902,
+      "is_916_prerequisite": true,
+      "candidate_evidence": [
+        {
+          "path": "docs/milestones/v0.92.2/evidence/qual-evidence-902/README.md",
+          "source_commit": "551a7b6e2790c512bd316b917d134570f297e3ed",
+          "sha256": "1b51333f54447c37d70b0ef6328b167d29617c32f36be72ed3fd18576b10266a",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/qual-evidence-902/qualification-manifest.json",
+          "source_commit": "551a7b6e2790c512bd316b917d134570f297e3ed",
+          "sha256": "4e0721a51e096d8247cf4bbac67608f57f26ebb566028af8a4eb94bb70cd55db",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/qual-evidence-902/test-manifest.json",
+          "source_commit": "551a7b6e2790c512bd316b917d134570f297e3ed",
+          "sha256": "582f5e47b853c625c3341aa5f6531855a2d246b630e5f6ea3369b39835754288",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/qual-evidence-902/validation.json",
+          "source_commit": "551a7b6e2790c512bd316b917d134570f297e3ed",
+          "sha256": "ca45cfebaacf14e3327f745cd3f7f6f14a08e5f142765c9fa8acdb91787e0501",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        }
+      ],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "PLAT-MLX",
+      "issue": 903,
+      "is_916_prerequisite": true,
+      "candidate_evidence": [
+        {
+          "path": ".csdlc/evidence/903/COMPARISON_STATUS.md",
+          "source_commit": "6aaf316996d68726d38a20ae5f3cef4f81ce1412",
+          "sha256": "70e3bff2f198ea37eb25ca60ba518b10d881be5b791875522ad4d6502e73d9d2",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/903/README.md",
+          "source_commit": "6aaf316996d68726d38a20ae5f3cef4f81ce1412",
+          "sha256": "97a3446c6108f6a0989387f0e46d405b9f9a68dd83f3ba27629525440bfb1d7b",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/903/local-validation.json",
+          "source_commit": "6aaf316996d68726d38a20ae5f3cef4f81ce1412",
+          "sha256": "5d89a2f87623503b46b20c5539899c76f2120e51da7964b23e8773b7b07b097c",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/903/source-review.json",
+          "source_commit": "6aaf316996d68726d38a20ae5f3cef4f81ce1412",
+          "sha256": "22341e3814fbaffb8eef3fb64c6aeb91b1d9d6ea6e477baf6d81849edbe1e178",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        }
+      ],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "PLAT-PAIR",
+      "issue": 904,
+      "is_916_prerequisite": true,
+      "candidate_evidence": [
+        {
+          "path": ".csdlc/evidence/904/DECISION.md",
+          "source_commit": "b7cbd784e5ed2dd750a09f1656de611f13d4ca86",
+          "sha256": "987e051a6fa6494817e39509814c6d5eceec69faf9311f94e12a1044177518b9",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/904/EXPERIMENT_REPORT.md",
+          "source_commit": "b7cbd784e5ed2dd750a09f1656de611f13d4ca86",
+          "sha256": "03c3695b211ac096010b26c19fdaa18ecbf855e8e9f1c747267b6fc21cf50f7a",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/904/IMPLEMENTATION_STATUS.md",
+          "source_commit": "b7cbd784e5ed2dd750a09f1656de611f13d4ca86",
+          "sha256": "c51f04217b000b5301f3706f814bd7c52ab71532c5898df8db85d861012e52bc",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/904/MEASUREMENTS.json",
+          "source_commit": "b7cbd784e5ed2dd750a09f1656de611f13d4ca86",
+          "sha256": "dadcab74652122d014372b9e355e57b5a030db7e34111109a51ebc8393fb79c8",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/904/RESULTS.json",
+          "source_commit": "b7cbd784e5ed2dd750a09f1656de611f13d4ca86",
+          "sha256": "52d82066b3aae51b9d15ea36add7b02f3d7caa859b16f1ab658b8e34b9d4f7fd",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/904/SUPPLEMENTAL_RESULTS.json",
+          "source_commit": "b7cbd784e5ed2dd750a09f1656de611f13d4ca86",
+          "sha256": "34fa4929afbab574918fc55c54f33af2ff05786c2e833b8700111b3fdb65e496",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        }
+      ],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "SPEC-RETEST",
+      "issue": 905,
+      "is_916_prerequisite": true,
+      "candidate_evidence": [
+        {
+          "path": ".csdlc/evidence/905/PR1004_REVIEW_REMEDIATION.json",
+          "source_commit": "8a6fdb694f0e49bf72062d01830eb66ffa15d8e2",
+          "sha256": "2bbc9ea9a6ff6ed55230010b996486d846e6afa6477efed9e63d41b6973426e8",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/905/RETEST_STATUS.md",
+          "source_commit": "8a6fdb694f0e49bf72062d01830eb66ffa15d8e2",
+          "sha256": "6453ff96019fa9adb62498e0cfd6339f17f3a44fa6e539fa352a911f32062528",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/905/pr1004-review-followup-edit.json",
+          "source_commit": "8a6fdb694f0e49bf72062d01830eb66ffa15d8e2",
+          "sha256": "869ea319a2f876c76b928ac0dce1ff47fef19ffd028bf044dff58974bebceb68",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/905/pr1004-review-followup-validate.json",
+          "source_commit": "8a6fdb694f0e49bf72062d01830eb66ffa15d8e2",
+          "sha256": "d43c9d3439b9dfacc2e3da8510058bd63e78aa0fd3d98b1781321b12b7084424",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/905/pr1004-review-remediation-edit.json",
+          "source_commit": "8a6fdb694f0e49bf72062d01830eb66ffa15d8e2",
+          "sha256": "bd36186d6d26110d54d4b9652e8ade3f5e371822f279215ac5f029a86c8b455e",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/905/pr1004-review-remediation-validate.json",
+          "source_commit": "8a6fdb694f0e49bf72062d01830eb66ffa15d8e2",
+          "sha256": "d8c1ead45c2a42de644d23225a8b7ceef1d7ca180e5b03abd4d8fbf1673719d8",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/905/pr1004-review-second-remediation-edit.json",
+          "source_commit": "8a6fdb694f0e49bf72062d01830eb66ffa15d8e2",
+          "sha256": "e7728a2b1b9ff4ff809ed2b11a3365a437cb62dbc6390f9a2aece432f7ea1a08",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/905/pr1004-review-second-remediation-validate.json",
+          "source_commit": "8a6fdb694f0e49bf72062d01830eb66ffa15d8e2",
+          "sha256": "eef4cd27ecb338061603c99844919e3d78f916985a894d299efda0cbd8663d42",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/905/pr1004-review-third-remediation-edit.json",
+          "source_commit": "8a6fdb694f0e49bf72062d01830eb66ffa15d8e2",
+          "sha256": "9e5c57c11b6b2a69b6476d7aaff2a216eac66ecc855633c8999594b0b1de7e5f",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/905/pr1004-review-third-remediation-validate.json",
+          "source_commit": "8a6fdb694f0e49bf72062d01830eb66ffa15d8e2",
+          "sha256": "e9610ba2be47e9a40551af7e21b606b2fd74ed86e97a9b5fcc7d229793a21431",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/905/pr1004-review-truth-wording-edit.json",
+          "source_commit": "8a6fdb694f0e49bf72062d01830eb66ffa15d8e2",
+          "sha256": "6d4a1e0f5a8d591c13ec631cc4d17847c6508f0fedf148e80b5b342435ab99f3",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/905/pr1004-review-truth-wording-validate.json",
+          "source_commit": "8a6fdb694f0e49bf72062d01830eb66ffa15d8e2",
+          "sha256": "66eb7e40faa120047137ec3be6e66b49ed962f5faffafda3784ac8eedaf38012",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/905/review-remediation-edit.json",
+          "source_commit": "8a6fdb694f0e49bf72062d01830eb66ffa15d8e2",
+          "sha256": "f4adb9dbad6f6ef084d40fac0dd83bcd6580b10245623fd2853fc5c0301e5ebd",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/905/review-remediation-validate.json",
+          "source_commit": "8a6fdb694f0e49bf72062d01830eb66ffa15d8e2",
+          "sha256": "aed7456b2cc7e64c0c1518c07ab94f9b15ad89cc71ea7d2fe1d6745788d41a98",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/905/review-truth-cleanup-edit.json",
+          "source_commit": "8a6fdb694f0e49bf72062d01830eb66ffa15d8e2",
+          "sha256": "5ca431992b3d8618c654dfaf7e19888d38f03470ec238a2d5442997fd666f6a8",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/905/review-truth-cleanup-validate.json",
+          "source_commit": "8a6fdb694f0e49bf72062d01830eb66ffa15d8e2",
+          "sha256": "a3cf16ea2cc4f90ff77b862aed1b3285103f6d4b9dfc295d86c9aeda948cec75",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/905/reviewed-edit.json",
+          "source_commit": "8a6fdb694f0e49bf72062d01830eb66ffa15d8e2",
+          "sha256": "4c794c697b9a670de8fba999d1000c9e7486dff4cabc25b07c0a2c7b30795c84",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/905/reviewed-validate.json",
+          "source_commit": "8a6fdb694f0e49bf72062d01830eb66ffa15d8e2",
+          "sha256": "bb7dee49424020c80f97d11ac86e9e86f5bf046dbd52c1640f77b5a818715af4",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        }
+      ],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "CSDLC-MERGE",
+      "issue": 849,
+      "is_916_prerequisite": true,
+      "candidate_evidence": [
+        {
+          "path": ".csdlc/evidence/849/VALIDATION.md",
+          "source_commit": "b70ea9b9a12f642b46c71284f8df744ebaca2e7f",
+          "sha256": "25cbb2239c4f8f368e31c4c48c374c7e3189b13602a9084b89def53a076e5ddb",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/csdlc-v3/man/inventory.json",
+          "source_commit": "b70ea9b9a12f642b46c71284f8df744ebaca2e7f",
+          "sha256": "027af0691221b5b2aa0fb79515512b336f4fbe3495b4310f9b665b92afb67ced",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/MERGE_LINKAGE_849.md",
+          "source_commit": "b70ea9b9a12f642b46c71284f8df744ebaca2e7f",
+          "sha256": "f981a3558e9342adc4d2e8395da5e4676c2ba8b00fe26827ae9e20b2c6f4cfe4",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        }
+      ],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "CSDLC-DECOMPOSE",
+      "issue": 862,
+      "is_916_prerequisite": true,
+      "candidate_evidence": [
+        {
+          "path": ".csdlc/evidence/862/decomposition-inventory.md",
+          "source_commit": "0b27711fb2678aa4ed59eddd42360122f45b6780",
+          "sha256": "8ba8d960cf81ec20f278370e8a4115f72092a877ccc6e39f5a3ebd9b17a8008e",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        }
+      ],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "PLAT-RUST",
+      "issue": 906,
+      "is_916_prerequisite": true,
+      "candidate_evidence": [
+        {
+          "path": ".csdlc/evidence/906/process-parser-inventory.md",
+          "source_commit": "364f5ad264ef22217707fbb126a8a4a3549dfd6c",
+          "sha256": "0099ba59d09875acb2b50c29fee0ab6a6e16a41fdb32fe97257e3b2cd3b5c2cb",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        }
+      ],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "CSDLC-REMOTE",
+      "issue": 907,
+      "is_916_prerequisite": true,
+      "candidate_evidence": [
+        {
+          "path": ".csdlc/evidence/907/decomposition-inventory.md",
+          "source_commit": "b054a2510c13f39e7d869534087d58a9b94d204d",
+          "sha256": "ffb4ac77d4a733060f981ff03083f58ee6b0acffe603a51662fa92e47219ccee",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/csdlc-v3/man/inventory.json",
+          "source_commit": "b054a2510c13f39e7d869534087d58a9b94d204d",
+          "sha256": "8858373c3653ddc39d375e64a98d1fcc87888b645cdfbeb0a631320b1abb8ff6",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        }
+      ],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "OBS-LIVE",
+      "issue": 720,
+      "is_916_prerequisite": true,
+      "candidate_evidence": [
+        {
+          "path": ".csdlc/evidence/720/VALIDATION.md",
+          "source_commit": "9c583cec78d396527798e592082595f316c67ce2",
+          "sha256": "78d30029758950cb72df26ce2cc6d91d0c71d4c5d4b5c17388730b44bc4157ab",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        }
+      ],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "OPS-AWS",
+      "issue": 908,
+      "is_916_prerequisite": true,
+      "candidate_evidence": [
+        {
+          "path": ".csdlc/evidence/908/README.md",
+          "source_commit": "2c09eca135808fb6385a6613f7317088b01ffeab",
+          "sha256": "a4846dc48940df44e4b36d484b7205aa7a954b44511f66098254449f9ec9b738",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/908/VALIDATION.json",
+          "source_commit": "2c09eca135808fb6385a6613f7317088b01ffeab",
+          "sha256": "3754335cb3669123f9a0038e700b3b0bdec044fc5667b3b6dead1d3e44defb65",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/908/inventory.json",
+          "source_commit": "2c09eca135808fb6385a6613f7317088b01ffeab",
+          "sha256": "4fa57faa69bdbe5b75698641d73dcf32129a3941a82029f10465a4a830f8125c",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/operations/cloud/aws/inventory/README.md",
+          "source_commit": "2c09eca135808fb6385a6613f7317088b01ffeab",
+          "sha256": "e23ca05ccc590302a97bd08b76717c6727faa2d806879b4a125a6ecfa93742a0",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        }
+      ],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "OPS-GCP",
+      "issue": 909,
+      "is_916_prerequisite": true,
+      "candidate_evidence": [
+        {
+          "path": ".csdlc/evidence/909/VALIDATION.json",
+          "source_commit": "52027fe7b6a5b84379f338378aaed4e658cfa7ea",
+          "sha256": "864e0e23a3f6cf83c4651fa75ee3d5cc3ab4bfb3671e363b7e8fc05653b1f0f4",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/909/live-inventory.json",
+          "source_commit": "52027fe7b6a5b84379f338378aaed4e658cfa7ea",
+          "sha256": "9d4b7def7e3bd15faaa65422654998b27571d824d10d9e2ab869f3889beb6f63",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/909/source-inventory.json",
+          "source_commit": "52027fe7b6a5b84379f338378aaed4e658cfa7ea",
+          "sha256": "29f4d008b1b0979ecf041ecb990300a4f6c8a1638133163449d7b64e1782533d",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        }
+      ],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "OBS-S3",
+      "issue": 910,
+      "is_916_prerequisite": false,
+      "candidate_evidence": [
+        {
+          "path": ".csdlc/evidence/910/browser-proof.json",
+          "source_commit": "7ba22ac49359d621dcf704db0874aa54c0207796",
+          "sha256": "bb48dcb6e175cc06f14f99d8a7b7b403fdee8d4ed6d9935f4a6632a66948d38d",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/910/upload-invalidation.json",
+          "source_commit": "7ba22ac49359d621dcf704db0874aa54c0207796",
+          "sha256": "d5e63af99a9953ad451e6020639d7ba3fa031a56496153e034c04f327eabdadf",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": ".csdlc/evidence/910/upload-manifest.json",
+          "source_commit": "7ba22ac49359d621dcf704db0874aa54c0207796",
+          "sha256": "7574777fda324c68caf2e3b30a4e5be85c7a856d2489ae85c6dfdba67db23467",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        }
+      ],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "ARCH-ADR",
+      "issue": 911,
+      "is_916_prerequisite": false,
+      "candidate_evidence": [
+        {
+          "path": "docs/architecture/adr/README.md",
+          "source_commit": "35a22b49113f688cac412ae469270ae10812d33a",
+          "sha256": "e1333ddba0f5ccc819a6642b46967b85954dddd0436cff2a5347d53e8592b143",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/architecture/adr/issue-911/README.md",
+          "source_commit": "35a22b49113f688cac412ae469270ae10812d33a",
+          "sha256": "11d7fc991b7755a2718920ae822fb756318fe39700f381aa9128797169e08577",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/adr/issue-911/README.md",
+          "source_commit": "35a22b49113f688cac412ae469270ae10812d33a",
+          "sha256": "4ba55428f2f7ec8a6485d5a482dbabb372ef678c423674a48e0c58fcb6aa7818",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/adr/issue-911/decision-dispositions.md",
+          "source_commit": "35a22b49113f688cac412ae469270ae10812d33a",
+          "sha256": "368ffce569f469d169c38be206851bd7858871d14de61037fdea382f4a757dc8",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/adr/issue-911/decision-inventory.json",
+          "source_commit": "35a22b49113f688cac412ae469270ae10812d33a",
+          "sha256": "33fb393515b73c20c412df493e0c89126573e8ec7d17583290f73390f1018eeb",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/adr/issue-911/decision-inventory.md",
+          "source_commit": "35a22b49113f688cac412ae469270ae10812d33a",
+          "sha256": "f2e66c33bc5332bec043ae9d5a15c869db0d2e55ebf6afe106d1e5188f771934",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/adr/issue-911/inventory-review.md",
+          "source_commit": "35a22b49113f688cac412ae469270ae10812d33a",
+          "sha256": "84397a5d012adb96f4d44a45e2afa76a690c2d96773142ada15f2f63327fc2da",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        }
+      ],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "PUB-MEDIUM",
+      "issue": 912,
+      "is_916_prerequisite": true,
+      "candidate_evidence": [
+        {
+          "path": "docs/milestones/v0.92/publication/articles/README.md",
+          "source_commit": "2c3663f6a59190fcd5f2f42a193d371f7e2bcb55",
+          "sha256": "e51fd01a73335158010f625731f452afcb347626af68c59c74cf2a9a3f793965",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        },
+        {
+          "path": "docs/milestones/v0.92/publication/articles/medium-2026-09/README.md",
+          "source_commit": "2c3663f6a59190fcd5f2f42a193d371f7e2bcb55",
+          "sha256": "5be62dc88a9b7c38a3c8b6d8d9e5a72fc7a7c7682764e9ce8000039e40cbd4ac",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        }
+      ],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "PUB-CSDLC",
+      "issue": 913,
+      "is_916_prerequisite": true,
+      "candidate_evidence": [
+        {
+          "path": "docs/milestones/v0.92.2/cognitive-sdlc/REVISION_4_REVIEW_HANDOFF.md",
+          "source_commit": "584d0093425f7098493d3a2243b8bb9f4cdf5b6c",
+          "sha256": "c1d3398c0a504327f8f9cabaebf0e06cbe710f867ccc4d8e5d78bfd5db6bb28c",
+          "available_at_audit_checkout": true,
+          "content_acceptance": "not_audited"
+        }
+      ],
+      "acceptance": "not_proven"
+    },
+    {
+      "task": "CF-INTEGRATE",
+      "issue": 914,
+      "is_916_prerequisite": true,
+      "candidate_evidence": [],
+      "acceptance": "not_proven"
+    }
+  ]
+}

@@ -1,0 +1,981 @@
+{
+  "schema": "adl.v0921.internal_review_lane.v1",
+  "lane": "dependency",
+  "candidate_sha": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+  "denominator_refs": [
+    "FILE-04495",
+    "FILE-04497",
+    "FILE-04533",
+    "FILE-04569",
+    "FILE-04570",
+    "FILE-04748",
+    "FILE-04749",
+    "FILE-04802",
+    "FILE-04803",
+    "FILE-04804",
+    "FILE-04805",
+    "FILE-04806",
+    "FILE-04807",
+    "FILE-04808",
+    "FILE-04809",
+    "FILE-04810",
+    "FILE-04811",
+    "FILE-04835",
+    "FILE-05853",
+    "FILE-05861",
+    "FILE-05868",
+    "FILE-05876",
+    "FILE-05885",
+    "FILE-05893",
+    "FILE-05912",
+    "FILE-05923",
+    "FILE-05932",
+    "FILE-05941",
+    "FILE-05950",
+    "FILE-05953",
+    "FILE-05965",
+    "FILE-05976",
+    "FILE-05984",
+    "FILE-05991",
+    "FILE-06001",
+    "FILE-06009",
+    "FILE-06018",
+    "FILE-06027",
+    "FILE-06033",
+    "FILE-06048",
+    "FILE-06054",
+    "FILE-06059",
+    "FILE-06070",
+    "FILE-06086",
+    "FILE-06097",
+    "FILE-06098"
+  ],
+  "observations": [
+    {
+      "ref": "FILE-04495",
+      "evidence": {
+        "subject_id": "FILE-04495",
+        "path": "adl-characterization/Cargo.toml",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "10129a49beb39c23bdd795e333905493aa43797b42ac6b80de4369ac0185e4c6",
+        "locator": {
+          "path": "adl-characterization/Cargo.toml",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact dependency blob (34 lines, 720 bytes): 25 dependency/value declarations, 0 locked sources, 0 checksums, 2 path bindings; source pinning and local-path scope were reviewed. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:adl-characterization/Cargo.toml@sha256:10129a49beb39c23bdd795e333905493aa43797b42ac6b80de4369ac0185e4c6"
+      }
+    },
+    {
+      "ref": "FILE-04497",
+      "evidence": {
+        "subject_id": "FILE-04497",
+        "path": "adl-runtime-kernel/Cargo.toml",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "b3bfb6061d46ee3104ea14cca36b455013319e6aae1d5d71ef4ac78b4c7ef91a",
+        "locator": {
+          "path": "adl-runtime-kernel/Cargo.toml",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact dependency blob (72 lines, 2058 bytes): 52 dependency/value declarations, 0 locked sources, 0 checksums, 2 path bindings; source pinning and local-path scope were reviewed. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:adl-runtime-kernel/Cargo.toml@sha256:b3bfb6061d46ee3104ea14cca36b455013319e6aae1d5d71ef4ac78b4c7ef91a"
+      }
+    },
+    {
+      "ref": "FILE-04533",
+      "evidence": {
+        "subject_id": "FILE-04533",
+        "path": "adl-runtime/Cargo.toml",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "2af165a7ae8c4afbf87ba5cbf04dd8c064f80a29843366fbaa514055b3519a14",
+        "locator": {
+          "path": "adl-runtime/Cargo.toml",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact dependency blob (76 lines, 2203 bytes): 49 dependency/value declarations, 0 locked sources, 0 checksums, 6 path bindings; source pinning and local-path scope were reviewed. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:adl-runtime/Cargo.toml@sha256:2af165a7ae8c4afbf87ba5cbf04dd8c064f80a29843366fbaa514055b3519a14"
+      }
+    },
+    {
+      "ref": "FILE-04569",
+      "evidence": {
+        "subject_id": "FILE-04569",
+        "path": "adl/Cargo.lock",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "9a8934830b656a57fc895c58d64c41c02996800c604cfc3ff8c81b75616d9e0a",
+        "locator": {
+          "path": "adl/Cargo.lock",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact dependency blob (6643 lines, 160408 bytes): 2425 dependency/value declarations, 604 locked sources, 604 checksums, 0 path bindings; source pinning and local-path scope were reviewed. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:adl/Cargo.lock@sha256:9a8934830b656a57fc895c58d64c41c02996800c604cfc3ff8c81b75616d9e0a"
+      }
+    },
+    {
+      "ref": "FILE-04570",
+      "evidence": {
+        "subject_id": "FILE-04570",
+        "path": "adl/Cargo.toml",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "e2f77aab905de401412922975ac0760646e219d7577a9be51dc386e07d1847bc",
+        "locator": {
+          "path": "adl/Cargo.toml",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact dependency blob (172 lines, 4065 bytes): 99 dependency/value declarations, 0 locked sources, 0 checksums, 15 path bindings; source pinning and local-path scope were reviewed. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:adl/Cargo.toml@sha256:e2f77aab905de401412922975ac0760646e219d7577a9be51dc386e07d1847bc"
+      }
+    },
+    {
+      "ref": "FILE-04748",
+      "evidence": {
+        "subject_id": "FILE-04748",
+        "path": "csdlc-v3/Cargo.lock",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "0cff1313fed2ac6f2514908cd88d2e113c63ba384c4569a24f412e1a6304ced4",
+        "locator": {
+          "path": "csdlc-v3/Cargo.lock",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact dependency blob (248 lines, 6576 bytes): 119 dependency/value declarations, 29 locked sources, 29 checksums, 0 path bindings; source pinning and local-path scope were reviewed. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:csdlc-v3/Cargo.lock@sha256:0cff1313fed2ac6f2514908cd88d2e113c63ba384c4569a24f412e1a6304ced4"
+      }
+    },
+    {
+      "ref": "FILE-04749",
+      "evidence": {
+        "subject_id": "FILE-04749",
+        "path": "csdlc-v3/Cargo.toml",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "050d1e40130e3368314f90c91a47a42cc5cc817ec4673a4dbde890bfa6d1a530",
+        "locator": {
+          "path": "csdlc-v3/Cargo.toml",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact dependency blob (22 lines, 475 bytes): 15 dependency/value declarations, 0 locked sources, 0 checksums, 2 path bindings; source pinning and local-path scope were reviewed. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:csdlc-v3/Cargo.toml@sha256:050d1e40130e3368314f90c91a47a42cc5cc817ec4673a4dbde890bfa6d1a530"
+      }
+    },
+    {
+      "ref": "FILE-04802",
+      "evidence": {
+        "subject_id": "FILE-04802",
+        "path": "demos/podcast/episode-packages/001-meet-the-ai-coworkers/package.json",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "37dabfdccd5c82b71b3b63f49bd40aeee533414c30b2baea32ea5c7fb5cb19f3",
+        "locator": {
+          "path": "demos/podcast/episode-packages/001-meet-the-ai-coworkers/package.json",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact retained blob (14 lines, 786 bytes): valid JSON dict with 12 top-level entries; declared format, redaction markers, and authority/proof claims were checked. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:demos/podcast/episode-packages/001-meet-the-ai-coworkers/package.json@sha256:37dabfdccd5c82b71b3b63f49bd40aeee533414c30b2baea32ea5c7fb5cb19f3"
+      }
+    },
+    {
+      "ref": "FILE-04803",
+      "evidence": {
+        "subject_id": "FILE-04803",
+        "path": "demos/podcast/episode-packages/002-can-an-ai-be-a-good-teammate/package.json",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "80d41ee5028e6953c1ba32c4f093448a22c3ce65ac8844468f121b0b0b721f00",
+        "locator": {
+          "path": "demos/podcast/episode-packages/002-can-an-ai-be-a-good-teammate/package.json",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact retained blob (14 lines, 778 bytes): valid JSON dict with 12 top-level entries; declared format, redaction markers, and authority/proof claims were checked. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:demos/podcast/episode-packages/002-can-an-ai-be-a-good-teammate/package.json@sha256:80d41ee5028e6953c1ba32c4f093448a22c3ce65ac8844468f121b0b0b721f00"
+      }
+    },
+    {
+      "ref": "FILE-04804",
+      "evidence": {
+        "subject_id": "FILE-04804",
+        "path": "demos/podcast/episode-packages/003-the-promise-and-weirdness-of-talking-to-machines/package.json",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "247ae2c5f435d30260712beb4126afe702b3299bcaddfbc46933e3c82307bb60",
+        "locator": {
+          "path": "demos/podcast/episode-packages/003-the-promise-and-weirdness-of-talking-to-machines/package.json",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact retained blob (14 lines, 846 bytes): valid JSON dict with 12 top-level entries; declared format, redaction markers, and authority/proof claims were checked. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:demos/podcast/episode-packages/003-the-promise-and-weirdness-of-talking-to-machines/package.json@sha256:247ae2c5f435d30260712beb4126afe702b3299bcaddfbc46933e3c82307bb60"
+      }
+    },
+    {
+      "ref": "FILE-04805",
+      "evidence": {
+        "subject_id": "FILE-04805",
+        "path": "demos/podcast/episode-packages/004-what-should-we-let-ai-do-for-us/package.json",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "2788925d813d758284ff8929657c51d1fa5aed44deef7c52dba9e8e2e587b702",
+        "locator": {
+          "path": "demos/podcast/episode-packages/004-what-should-we-let-ai-do-for-us/package.json",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact retained blob (14 lines, 817 bytes): valid JSON dict with 12 top-level entries; declared format, redaction markers, and authority/proof claims were checked. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:demos/podcast/episode-packages/004-what-should-we-let-ai-do-for-us/package.json@sha256:2788925d813d758284ff8929657c51d1fa5aed44deef7c52dba9e8e2e587b702"
+      }
+    },
+    {
+      "ref": "FILE-04806",
+      "evidence": {
+        "subject_id": "FILE-04806",
+        "path": "demos/podcast/episode-packages/005-can-ai-help-us-think-better/package.json",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "e4a30517241998d7448efe52c2f403482234e8175a0c07b922f58511336a9a9d",
+        "locator": {
+          "path": "demos/podcast/episode-packages/005-can-ai-help-us-think-better/package.json",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact retained blob (14 lines, 828 bytes): valid JSON dict with 12 top-level entries; declared format, redaction markers, and authority/proof claims were checked. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:demos/podcast/episode-packages/005-can-ai-help-us-think-better/package.json@sha256:e4a30517241998d7448efe52c2f403482234e8175a0c07b922f58511336a9a9d"
+      }
+    },
+    {
+      "ref": "FILE-04807",
+      "evidence": {
+        "subject_id": "FILE-04807",
+        "path": "demos/podcast/episode-packages/006-the-new-creative-room/package.json",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "b2a50ff02641ad80edf26040569fabdac48ad19f42dc4629811ae7ce56714c68",
+        "locator": {
+          "path": "demos/podcast/episode-packages/006-the-new-creative-room/package.json",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact retained blob (14 lines, 804 bytes): valid JSON dict with 12 top-level entries; declared format, redaction markers, and authority/proof claims were checked. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:demos/podcast/episode-packages/006-the-new-creative-room/package.json@sha256:b2a50ff02641ad80edf26040569fabdac48ad19f42dc4629811ae7ce56714c68"
+      }
+    },
+    {
+      "ref": "FILE-04808",
+      "evidence": {
+        "subject_id": "FILE-04808",
+        "path": "demos/podcast/episode-packages/007-trust-receipts-and-proof/package.json",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "4631758c96310bccfaccbfe0440199b2f68a3c7fb8fd286a6a4f606dceed9a3f",
+        "locator": {
+          "path": "demos/podcast/episode-packages/007-trust-receipts-and-proof/package.json",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact retained blob (14 lines, 779 bytes): valid JSON dict with 12 top-level entries; declared format, redaction markers, and authority/proof claims were checked. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:demos/podcast/episode-packages/007-trust-receipts-and-proof/package.json@sha256:4631758c96310bccfaccbfe0440199b2f68a3c7fb8fd286a6a4f606dceed9a3f"
+      }
+    },
+    {
+      "ref": "FILE-04809",
+      "evidence": {
+        "subject_id": "FILE-04809",
+        "path": "demos/podcast/episode-packages/008-local-ai-vs-cloud-ai/package.json",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "a6ebd724a831fa712902fe885e13d570d0ab62cc7428aed167c1dd85ac884b86",
+        "locator": {
+          "path": "demos/podcast/episode-packages/008-local-ai-vs-cloud-ai/package.json",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact retained blob (14 lines, 826 bytes): valid JSON dict with 12 top-level entries; declared format, redaction markers, and authority/proof claims were checked. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:demos/podcast/episode-packages/008-local-ai-vs-cloud-ai/package.json@sha256:a6ebd724a831fa712902fe885e13d570d0ab62cc7428aed167c1dd85ac884b86"
+      }
+    },
+    {
+      "ref": "FILE-04810",
+      "evidence": {
+        "subject_id": "FILE-04810",
+        "path": "demos/podcast/episode-packages/009-when-ai-gets-stuck/package.json",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "74c890b2d128af4879eab50ac6815dd7d003abfefa4b67ad3fea7f78b7d25181",
+        "locator": {
+          "path": "demos/podcast/episode-packages/009-when-ai-gets-stuck/package.json",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact retained blob (14 lines, 808 bytes): valid JSON dict with 12 top-level entries; declared format, redaction markers, and authority/proof claims were checked. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:demos/podcast/episode-packages/009-when-ai-gets-stuck/package.json@sha256:74c890b2d128af4879eab50ac6815dd7d003abfefa4b67ad3fea7f78b7d25181"
+      }
+    },
+    {
+      "ref": "FILE-04811",
+      "evidence": {
+        "subject_id": "FILE-04811",
+        "path": "demos/podcast/episode-packages/010-what-does-a-weekly-ai-studio-look-like/package.json",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "5d61042edf878bacb49fb97e52702f389af7a289774388ac3eb566f38c2d3292",
+        "locator": {
+          "path": "demos/podcast/episode-packages/010-what-does-a-weekly-ai-studio-look-like/package.json",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact retained blob (14 lines, 840 bytes): valid JSON dict with 12 top-level entries; declared format, redaction markers, and authority/proof claims were checked. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:demos/podcast/episode-packages/010-what-does-a-weekly-ai-studio-look-like/package.json@sha256:5d61042edf878bacb49fb97e52702f389af7a289774388ac3eb566f38c2d3292"
+      }
+    },
+    {
+      "ref": "FILE-04835",
+      "evidence": {
+        "subject_id": "FILE-04835",
+        "path": "demos/transpiler_demo/Cargo.toml",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "93f30c9388cbc2812670e17ef6d2fcc6a89633eef9c3e7d024a2e9afb0dc4e90",
+        "locator": {
+          "path": "demos/transpiler_demo/Cargo.toml",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact dependency blob (9 lines, 178 bytes): 6 dependency/value declarations, 0 locked sources, 0 checksums, 0 path bindings; source pinning and local-path scope were reviewed. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:demos/transpiler_demo/Cargo.toml@sha256:93f30c9388cbc2812670e17ef6d2fcc6a89633eef9c3e7d024a2e9afb0dc4e90"
+      }
+    },
+    {
+      "ref": "FILE-05853",
+      "evidence": {
+        "subject_id": "FILE-05853",
+        "path": "infra/aws/account-foundation/.terraform.lock.hcl",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "b464e6d63af5687548f2727a2c4fca1e0c22e3b0d0ea9f4c1b151cf5f59a87cc",
+        "locator": {
+          "path": "infra/aws/account-foundation/.terraform.lock.hcl",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact candidate blob (25 lines, 1409 bytes); syntax markers, authority boundaries, and retained claims were reviewed for this assigned surface. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:infra/aws/account-foundation/.terraform.lock.hcl@sha256:b464e6d63af5687548f2727a2c4fca1e0c22e3b0d0ea9f4c1b151cf5f59a87cc"
+      }
+    },
+    {
+      "ref": "FILE-05861",
+      "evidence": {
+        "subject_id": "FILE-05861",
+        "path": "infra/aws/bootstrap/.terraform.lock.hcl",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "5f753c99e33ab4c4a9de6b2096b69c61561dbe80945c43b1c5c6f2f039ffbdf1",
+        "locator": {
+          "path": "infra/aws/bootstrap/.terraform.lock.hcl",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact candidate blob (25 lines, 1407 bytes); syntax markers, authority boundaries, and retained claims were reviewed for this assigned surface. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:infra/aws/bootstrap/.terraform.lock.hcl@sha256:5f753c99e33ab4c4a9de6b2096b69c61561dbe80945c43b1c5c6f2f039ffbdf1"
+      }
+    },
+    {
+      "ref": "FILE-05868",
+      "evidence": {
+        "subject_id": "FILE-05868",
+        "path": "infra/aws/csm-public-edge/.terraform.lock.hcl",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "f678275ddf36104cbfeb4dd68014e754598dede8dd45c7b7e5fe0dfe4fb37558",
+        "locator": {
+          "path": "infra/aws/csm-public-edge/.terraform.lock.hcl",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact candidate blob (25 lines, 1419 bytes); syntax markers, authority boundaries, and retained claims were reviewed for this assigned surface. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:infra/aws/csm-public-edge/.terraform.lock.hcl@sha256:f678275ddf36104cbfeb4dd68014e754598dede8dd45c7b7e5fe0dfe4fb37558"
+      }
+    },
+    {
+      "ref": "FILE-05876",
+      "evidence": {
+        "subject_id": "FILE-05876",
+        "path": "infra/aws/csm-runtime-alb/.terraform.lock.hcl",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "f678275ddf36104cbfeb4dd68014e754598dede8dd45c7b7e5fe0dfe4fb37558",
+        "locator": {
+          "path": "infra/aws/csm-runtime-alb/.terraform.lock.hcl",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact candidate blob (25 lines, 1419 bytes); syntax markers, authority boundaries, and retained claims were reviewed for this assigned surface. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:infra/aws/csm-runtime-alb/.terraform.lock.hcl@sha256:f678275ddf36104cbfeb4dd68014e754598dede8dd45c7b7e5fe0dfe4fb37558"
+      }
+    },
+    {
+      "ref": "FILE-05885",
+      "evidence": {
+        "subject_id": "FILE-05885",
+        "path": "infra/aws/csm-runtime-health/.terraform.lock.hcl",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "f678275ddf36104cbfeb4dd68014e754598dede8dd45c7b7e5fe0dfe4fb37558",
+        "locator": {
+          "path": "infra/aws/csm-runtime-health/.terraform.lock.hcl",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact candidate blob (25 lines, 1419 bytes); syntax markers, authority boundaries, and retained claims were reviewed for this assigned surface. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:infra/aws/csm-runtime-health/.terraform.lock.hcl@sha256:f678275ddf36104cbfeb4dd68014e754598dede8dd45c7b7e5fe0dfe4fb37558"
+      }
+    },
+    {
+      "ref": "FILE-05893",
+      "evidence": {
+        "subject_id": "FILE-05893",
+        "path": "infra/aws/csm-runtime-spot/.terraform.lock.hcl",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "f678275ddf36104cbfeb4dd68014e754598dede8dd45c7b7e5fe0dfe4fb37558",
+        "locator": {
+          "path": "infra/aws/csm-runtime-spot/.terraform.lock.hcl",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact candidate blob (25 lines, 1419 bytes); syntax markers, authority boundaries, and retained claims were reviewed for this assigned surface. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:infra/aws/csm-runtime-spot/.terraform.lock.hcl@sha256:f678275ddf36104cbfeb4dd68014e754598dede8dd45c7b7e5fe0dfe4fb37558"
+      }
+    },
+    {
+      "ref": "FILE-05912",
+      "evidence": {
+        "subject_id": "FILE-05912",
+        "path": "infra/aws/observatory/.terraform.lock.hcl",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "5f753c99e33ab4c4a9de6b2096b69c61561dbe80945c43b1c5c6f2f039ffbdf1",
+        "locator": {
+          "path": "infra/aws/observatory/.terraform.lock.hcl",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact candidate blob (25 lines, 1407 bytes); syntax markers, authority boundaries, and retained claims were reviewed for this assigned surface. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:infra/aws/observatory/.terraform.lock.hcl@sha256:5f753c99e33ab4c4a9de6b2096b69c61561dbe80945c43b1c5c6f2f039ffbdf1"
+      }
+    },
+    {
+      "ref": "FILE-05923",
+      "evidence": {
+        "subject_id": "FILE-05923",
+        "path": "infra/aws/runtime/agent-checkpoint-archive/.terraform.lock.hcl",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "f678275ddf36104cbfeb4dd68014e754598dede8dd45c7b7e5fe0dfe4fb37558",
+        "locator": {
+          "path": "infra/aws/runtime/agent-checkpoint-archive/.terraform.lock.hcl",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact candidate blob (25 lines, 1419 bytes); syntax markers, authority boundaries, and retained claims were reviewed for this assigned surface. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:infra/aws/runtime/agent-checkpoint-archive/.terraform.lock.hcl@sha256:f678275ddf36104cbfeb4dd68014e754598dede8dd45c7b7e5fe0dfe4fb37558"
+      }
+    },
+    {
+      "ref": "FILE-05932",
+      "evidence": {
+        "subject_id": "FILE-05932",
+        "path": "infra/aws/runtime/alb-origin/.terraform.lock.hcl",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "f678275ddf36104cbfeb4dd68014e754598dede8dd45c7b7e5fe0dfe4fb37558",
+        "locator": {
+          "path": "infra/aws/runtime/alb-origin/.terraform.lock.hcl",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact candidate blob (25 lines, 1419 bytes); syntax markers, authority boundaries, and retained claims were reviewed for this assigned surface. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:infra/aws/runtime/alb-origin/.terraform.lock.hcl@sha256:f678275ddf36104cbfeb4dd68014e754598dede8dd45c7b7e5fe0dfe4fb37558"
+      }
+    },
+    {
+      "ref": "FILE-05941",
+      "evidence": {
+        "subject_id": "FILE-05941",
+        "path": "infra/aws/runtime/gpu-proof/.terraform.lock.hcl",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "60beaf076cbd9fdc214251b5c0758a1cf7b91581b8db294cfe442d063589c65f",
+        "locator": {
+          "path": "infra/aws/runtime/gpu-proof/.terraform.lock.hcl",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact candidate blob (26 lines, 1481 bytes); syntax markers, authority boundaries, and retained claims were reviewed for this assigned surface. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:infra/aws/runtime/gpu-proof/.terraform.lock.hcl@sha256:60beaf076cbd9fdc214251b5c0758a1cf7b91581b8db294cfe442d063589c65f"
+      }
+    },
+    {
+      "ref": "FILE-05950",
+      "evidence": {
+        "subject_id": "FILE-05950",
+        "path": "infra/aws/runtime/gpu-proof/warm-storage/.terraform.lock.hcl",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "60beaf076cbd9fdc214251b5c0758a1cf7b91581b8db294cfe442d063589c65f",
+        "locator": {
+          "path": "infra/aws/runtime/gpu-proof/warm-storage/.terraform.lock.hcl",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact candidate blob (26 lines, 1481 bytes); syntax markers, authority boundaries, and retained claims were reviewed for this assigned surface. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:infra/aws/runtime/gpu-proof/warm-storage/.terraform.lock.hcl@sha256:60beaf076cbd9fdc214251b5c0758a1cf7b91581b8db294cfe442d063589c65f"
+      }
+    },
+    {
+      "ref": "FILE-05953",
+      "evidence": {
+        "subject_id": "FILE-05953",
+        "path": "infra/aws/runtime/gpu-proof/warm-storage/preparation/.terraform.lock.hcl",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "60beaf076cbd9fdc214251b5c0758a1cf7b91581b8db294cfe442d063589c65f",
+        "locator": {
+          "path": "infra/aws/runtime/gpu-proof/warm-storage/preparation/.terraform.lock.hcl",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact candidate blob (26 lines, 1481 bytes); syntax markers, authority boundaries, and retained claims were reviewed for this assigned surface. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:infra/aws/runtime/gpu-proof/warm-storage/preparation/.terraform.lock.hcl@sha256:60beaf076cbd9fdc214251b5c0758a1cf7b91581b8db294cfe442d063589c65f"
+      }
+    },
+    {
+      "ref": "FILE-05965",
+      "evidence": {
+        "subject_id": "FILE-05965",
+        "path": "infra/aws/runtime/log-archive/.terraform.lock.hcl",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "f678275ddf36104cbfeb4dd68014e754598dede8dd45c7b7e5fe0dfe4fb37558",
+        "locator": {
+          "path": "infra/aws/runtime/log-archive/.terraform.lock.hcl",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact candidate blob (25 lines, 1419 bytes); syntax markers, authority boundaries, and retained claims were reviewed for this assigned surface. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:infra/aws/runtime/log-archive/.terraform.lock.hcl@sha256:f678275ddf36104cbfeb4dd68014e754598dede8dd45c7b7e5fe0dfe4fb37558"
+      }
+    },
+    {
+      "ref": "FILE-05976",
+      "evidence": {
+        "subject_id": "FILE-05976",
+        "path": "infra/aws/runtime/private-node/.terraform.lock.hcl",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "f678275ddf36104cbfeb4dd68014e754598dede8dd45c7b7e5fe0dfe4fb37558",
+        "locator": {
+          "path": "infra/aws/runtime/private-node/.terraform.lock.hcl",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact candidate blob (25 lines, 1419 bytes); syntax markers, authority boundaries, and retained claims were reviewed for this assigned surface. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:infra/aws/runtime/private-node/.terraform.lock.hcl@sha256:f678275ddf36104cbfeb4dd68014e754598dede8dd45c7b7e5fe0dfe4fb37558"
+      }
+    },
+    {
+      "ref": "FILE-05984",
+      "evidence": {
+        "subject_id": "FILE-05984",
+        "path": "infra/aws/runtime/xcl-01/.terraform.lock.hcl",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "d55d40d81869fb9e468991352beee2498336a53af2820ff31d700f173086f576",
+        "locator": {
+          "path": "infra/aws/runtime/xcl-01/.terraform.lock.hcl",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact candidate blob (26 lines, 1492 bytes); syntax markers, authority boundaries, and retained claims were reviewed for this assigned surface. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:infra/aws/runtime/xcl-01/.terraform.lock.hcl@sha256:d55d40d81869fb9e468991352beee2498336a53af2820ff31d700f173086f576"
+      }
+    },
+    {
+      "ref": "FILE-05991",
+      "evidence": {
+        "subject_id": "FILE-05991",
+        "path": "infra/gcp/bootstrap/.terraform.lock.hcl",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "f893effefb1da5c524026e8d2988e832a0cf0c59b33076b4579a67d05daeb4b9",
+        "locator": {
+          "path": "infra/gcp/bootstrap/.terraform.lock.hcl",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact candidate blob (22 lines, 1184 bytes); syntax markers, authority boundaries, and retained claims were reviewed for this assigned surface. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:infra/gcp/bootstrap/.terraform.lock.hcl@sha256:f893effefb1da5c524026e8d2988e832a0cf0c59b33076b4579a67d05daeb4b9"
+      }
+    },
+    {
+      "ref": "FILE-06001",
+      "evidence": {
+        "subject_id": "FILE-06001",
+        "path": "infra/gcp/organization/.terraform.lock.hcl",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "f893effefb1da5c524026e8d2988e832a0cf0c59b33076b4579a67d05daeb4b9",
+        "locator": {
+          "path": "infra/gcp/organization/.terraform.lock.hcl",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact candidate blob (22 lines, 1184 bytes); syntax markers, authority boundaries, and retained claims were reviewed for this assigned surface. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:infra/gcp/organization/.terraform.lock.hcl@sha256:f893effefb1da5c524026e8d2988e832a0cf0c59b33076b4579a67d05daeb4b9"
+      }
+    },
+    {
+      "ref": "FILE-06009",
+      "evidence": {
+        "subject_id": "FILE-06009",
+        "path": "infra/gcp/platform/.terraform.lock.hcl",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "f893effefb1da5c524026e8d2988e832a0cf0c59b33076b4579a67d05daeb4b9",
+        "locator": {
+          "path": "infra/gcp/platform/.terraform.lock.hcl",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact candidate blob (22 lines, 1184 bytes); syntax markers, authority boundaries, and retained claims were reviewed for this assigned surface. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:infra/gcp/platform/.terraform.lock.hcl@sha256:f893effefb1da5c524026e8d2988e832a0cf0c59b33076b4579a67d05daeb4b9"
+      }
+    },
+    {
+      "ref": "FILE-06018",
+      "evidence": {
+        "subject_id": "FILE-06018",
+        "path": "infra/gcp/workloads/drt-d-six-resident/.terraform.lock.hcl",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "69f01a6038aa438a094d96ea66875ea6f274a67ccfaaba2d171d6cbc878c0862",
+        "locator": {
+          "path": "infra/gcp/workloads/drt-d-six-resident/.terraform.lock.hcl",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact candidate blob (22 lines, 1183 bytes); syntax markers, authority boundaries, and retained claims were reviewed for this assigned surface. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:infra/gcp/workloads/drt-d-six-resident/.terraform.lock.hcl@sha256:69f01a6038aa438a094d96ea66875ea6f274a67ccfaaba2d171d6cbc878c0862"
+      }
+    },
+    {
+      "ref": "FILE-06027",
+      "evidence": {
+        "subject_id": "FILE-06027",
+        "path": "infra/gcp/workloads/gpu-smoke-instance/.terraform.lock.hcl",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "d6dc637be9920b8f45d0415d7c0598ceb5fe536ac003ece4ce34d156dd04c71c",
+        "locator": {
+          "path": "infra/gcp/workloads/gpu-smoke-instance/.terraform.lock.hcl",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact candidate blob (22 lines, 1183 bytes); syntax markers, authority boundaries, and retained claims were reviewed for this assigned surface. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:infra/gcp/workloads/gpu-smoke-instance/.terraform.lock.hcl@sha256:d6dc637be9920b8f45d0415d7c0598ceb5fe536ac003ece4ce34d156dd04c71c"
+      }
+    },
+    {
+      "ref": "FILE-06033",
+      "evidence": {
+        "subject_id": "FILE-06033",
+        "path": "infra/gcp/workloads/gpu-smoke-support/.terraform.lock.hcl",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "d6dc637be9920b8f45d0415d7c0598ceb5fe536ac003ece4ce34d156dd04c71c",
+        "locator": {
+          "path": "infra/gcp/workloads/gpu-smoke-support/.terraform.lock.hcl",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact candidate blob (22 lines, 1183 bytes); syntax markers, authority boundaries, and retained claims were reviewed for this assigned surface. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:infra/gcp/workloads/gpu-smoke-support/.terraform.lock.hcl@sha256:d6dc637be9920b8f45d0415d7c0598ceb5fe536ac003ece4ce34d156dd04c71c"
+      }
+    },
+    {
+      "ref": "FILE-06048",
+      "evidence": {
+        "subject_id": "FILE-06048",
+        "path": "infra/gcp/workloads/modules/two-node-ollama-runtime/.terraform.lock.hcl",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "69f01a6038aa438a094d96ea66875ea6f274a67ccfaaba2d171d6cbc878c0862",
+        "locator": {
+          "path": "infra/gcp/workloads/modules/two-node-ollama-runtime/.terraform.lock.hcl",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact candidate blob (22 lines, 1183 bytes); syntax markers, authority boundaries, and retained claims were reviewed for this assigned surface. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:infra/gcp/workloads/modules/two-node-ollama-runtime/.terraform.lock.hcl@sha256:69f01a6038aa438a094d96ea66875ea6f274a67ccfaaba2d171d6cbc878c0862"
+      }
+    },
+    {
+      "ref": "FILE-06054",
+      "evidence": {
+        "subject_id": "FILE-06054",
+        "path": "infra/gcp/workloads/warm-polis/.terraform.lock.hcl",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "69f01a6038aa438a094d96ea66875ea6f274a67ccfaaba2d171d6cbc878c0862",
+        "locator": {
+          "path": "infra/gcp/workloads/warm-polis/.terraform.lock.hcl",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact candidate blob (22 lines, 1183 bytes); syntax markers, authority boundaries, and retained claims were reviewed for this assigned surface. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:infra/gcp/workloads/warm-polis/.terraform.lock.hcl@sha256:69f01a6038aa438a094d96ea66875ea6f274a67ccfaaba2d171d6cbc878c0862"
+      }
+    },
+    {
+      "ref": "FILE-06059",
+      "evidence": {
+        "subject_id": "FILE-06059",
+        "path": "infra/gcp/workloads/warm-polis/preparation/.terraform.lock.hcl",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "69f01a6038aa438a094d96ea66875ea6f274a67ccfaaba2d171d6cbc878c0862",
+        "locator": {
+          "path": "infra/gcp/workloads/warm-polis/preparation/.terraform.lock.hcl",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact candidate blob (22 lines, 1183 bytes); syntax markers, authority boundaries, and retained claims were reviewed for this assigned surface. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:infra/gcp/workloads/warm-polis/preparation/.terraform.lock.hcl@sha256:69f01a6038aa438a094d96ea66875ea6f274a67ccfaaba2d171d6cbc878c0862"
+      }
+    },
+    {
+      "ref": "FILE-06070",
+      "evidence": {
+        "subject_id": "FILE-06070",
+        "path": "infra/gcp/workloads/warm-polis/snapshot-catalog/.terraform.lock.hcl",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "69f01a6038aa438a094d96ea66875ea6f274a67ccfaaba2d171d6cbc878c0862",
+        "locator": {
+          "path": "infra/gcp/workloads/warm-polis/snapshot-catalog/.terraform.lock.hcl",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact candidate blob (22 lines, 1183 bytes); syntax markers, authority boundaries, and retained claims were reviewed for this assigned surface. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:infra/gcp/workloads/warm-polis/snapshot-catalog/.terraform.lock.hcl@sha256:69f01a6038aa438a094d96ea66875ea6f274a67ccfaaba2d171d6cbc878c0862"
+      }
+    },
+    {
+      "ref": "FILE-06086",
+      "evidence": {
+        "subject_id": "FILE-06086",
+        "path": "infra/gcp/workloads/xcl-01/.terraform.lock.hcl",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "1922baabaf123c998785cdd5ef9e23a15373622448d14bc5d213733e14f86f0b",
+        "locator": {
+          "path": "infra/gcp/workloads/xcl-01/.terraform.lock.hcl",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact candidate blob (22 lines, 1194 bytes); syntax markers, authority boundaries, and retained claims were reviewed for this assigned surface. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:infra/gcp/workloads/xcl-01/.terraform.lock.hcl@sha256:1922baabaf123c998785cdd5ef9e23a15373622448d14bc5d213733e14f86f0b"
+      }
+    },
+    {
+      "ref": "FILE-06097",
+      "evidence": {
+        "subject_id": "FILE-06097",
+        "path": "tools/aws_remote_validation/Cargo.toml",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "a99c28520b9ff4bf7e177ffd5b1470b4d51038841380c39214acffe1da7cf8a2",
+        "locator": {
+          "path": "tools/aws_remote_validation/Cargo.toml",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact dependency blob (32 lines, 828 bytes): 27 dependency/value declarations, 0 locked sources, 0 checksums, 1 path bindings; source pinning and local-path scope were reviewed. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:tools/aws_remote_validation/Cargo.toml@sha256:a99c28520b9ff4bf7e177ffd5b1470b4d51038841380c39214acffe1da7cf8a2"
+      }
+    },
+    {
+      "ref": "FILE-06098",
+      "evidence": {
+        "subject_id": "FILE-06098",
+        "path": "tools/remote_validation/Cargo.toml",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "9c44040e313c698063eb9746a7e042e332b87c1b75d1479f8fe899b9d4af8604",
+        "locator": {
+          "path": "tools/remote_validation/Cargo.toml",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact dependency blob (16 lines, 391 bytes): 11 dependency/value declarations, 0 locked sources, 0 checksums, 1 path bindings; source pinning and local-path scope were reviewed. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:tools/remote_validation/Cargo.toml@sha256:9c44040e313c698063eb9746a7e042e332b87c1b75d1479f8fe899b9d4af8604"
+      }
+    }
+  ],
+  "findings": [
+
+  ],
+  "reviewer": "subagent:/root/fix_815_cloud_auth",
+  "review_method": "Read every assigned frozen-candidate blob with git show, verified its SHA-256 against the denominator inventory, parsed or structurally counted its format-specific authority surfaces, and terminally mapped each assigned acceptance criterion against the exact finding register. No live cloud mutation was performed.",
+  "completed_at": "2026-09-09T21:39:53Z"
+}

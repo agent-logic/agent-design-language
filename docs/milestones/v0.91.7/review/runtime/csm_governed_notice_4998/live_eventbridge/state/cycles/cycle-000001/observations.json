@@ -1,0 +1,26 @@
+{
+  "agent_instance_id": "csm-governed-notice-4998-eventbridge",
+  "cycle_id": "cycle-000001",
+  "facts": [
+    {
+      "as_of": "cycle-000001",
+      "key": "workflow.kind",
+      "value": "unsupported_adapter"
+    },
+    {
+      "as_of": "cycle-000001",
+      "key": "workflow.ref",
+      "value": "governed_notice_eventbridge_failure_probe"
+    }
+  ],
+  "observed_at": "2026-07-07T02:04:09.228555Z",
+  "schema": "adl.long_lived_agent_observations.v1",
+  "sources": [
+    {
+      "artifact_ref": "../../agent_spec.locked.json",
+      "kind": "locked_supervisor_spec",
+      "source_id": "agent_spec",
+      "trust_level": "operator_configured"
+    }
+  ]
+}

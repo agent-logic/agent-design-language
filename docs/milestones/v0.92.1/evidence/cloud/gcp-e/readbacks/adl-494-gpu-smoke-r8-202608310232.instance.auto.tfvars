@@ -1,0 +1,12 @@
+project_id = "cs-poc-cha8mmii0xk0iaw5vpf8mxf"
+region = "us-central1"
+zone = "us-central1-a"
+run_id = "adl-494-gpu-smoke-r8-202608310232"
+support_id = "adl-494-gpu-smoke"
+subnet_name = "default"
+machine_type = "g2-standard-4"
+accelerator_type = "nvidia-l4"
+accelerator_count = 1
+max_budget_usd = 20
+ttl_expires_at = "2026-08-31T06:14:11Z"
+service_account_email = "adl-494-gpu-smoke-gpu@cs-poc-cha8mmii0xk0iaw5vpf8mxf.iam.gserviceaccount.com"

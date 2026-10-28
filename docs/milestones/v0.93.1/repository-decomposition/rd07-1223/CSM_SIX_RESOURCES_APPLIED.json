@@ -1,0 +1,493 @@
+{
+  "schema": "adl1223.csm_six_original_fixture_retirement.v1",
+  "status": "applied_local_reversible_implementation",
+  "execution_authorized": false,
+  "source_head": "4abc29798955d5b87c98454939d68856d7f52eb1",
+  "files": [
+    {
+      "id": "RD07-1942",
+      "path": "adl/tools/test_csm_operator_command_packets.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "d317e667110c39517ff4c34d913c40dde18f01e0",
+        "sha256": "2c53d0cdfe21af0f2b23ae9baa93d8e696795a35af69a2c48758ad97dc33ac12"
+      },
+      "after": null,
+      "original_identity": {
+        "mode": "100755",
+        "blob": "d317e667110c39517ff4c34d913c40dde18f01e0"
+      },
+      "owner_revision": "025850d265cbd1a55b28a8e9b238b2fe0bfcaf1d",
+      "owner_identity": {
+        "mode": "100755",
+        "blob": "d317e667110c39517ff4c34d913c40dde18f01e0",
+        "sha256": "2c53d0cdfe21af0f2b23ae9baa93d8e696795a35af69a2c48758ad97dc33ac12"
+      }
+    },
+    {
+      "id": "RD07-1943",
+      "path": "adl/tools/test_csm_visibility_packet.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "e9befaff22fbe47ee1199cf99058b9c3dad540cd",
+        "sha256": "81f70a88895cbe1f5c99737b76ea7a0217dcea7d982bfd65f3c59ce749c4a3a0"
+      },
+      "after": null,
+      "original_identity": {
+        "mode": "100755",
+        "blob": "e9befaff22fbe47ee1199cf99058b9c3dad540cd"
+      },
+      "owner_revision": "025850d265cbd1a55b28a8e9b238b2fe0bfcaf1d",
+      "owner_identity": {
+        "mode": "100755",
+        "blob": "e9befaff22fbe47ee1199cf99058b9c3dad540cd",
+        "sha256": "81f70a88895cbe1f5c99737b76ea7a0217dcea7d982bfd65f3c59ce749c4a3a0"
+      }
+    },
+    {
+      "id": "RD07-1984",
+      "path": "adl/tools/test_demo_v0901_csm_observatory_static_console.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "0c78519fab0e230588956a5fd32e33c8eb54b0e8",
+        "sha256": "a2a2968ad7d50b6e02bbfac8ba9589d1269dfd27ec79951a86e388f32ad4c8a1"
+      },
+      "after": null,
+      "original_identity": {
+        "mode": "100755",
+        "blob": "0c78519fab0e230588956a5fd32e33c8eb54b0e8"
+      },
+      "owner_revision": "025850d265cbd1a55b28a8e9b238b2fe0bfcaf1d",
+      "owner_identity": {
+        "mode": "100755",
+        "blob": "0c78519fab0e230588956a5fd32e33c8eb54b0e8",
+        "sha256": "a2a2968ad7d50b6e02bbfac8ba9589d1269dfd27ec79951a86e388f32ad4c8a1"
+      }
+    },
+    {
+      "id": "RD07-2178",
+      "path": "adl/tools/validate_csm_operator_command_packets.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "ce4a706fb43a87e8d64e3bb39b1bfd59b799b1bb",
+        "sha256": "d6b1d970e0a9d2cfff0c2698c9343a3399d8e72a83ae659e04210c96b731aa18"
+      },
+      "after": null,
+      "original_identity": {
+        "mode": "100755",
+        "blob": "ce4a706fb43a87e8d64e3bb39b1bfd59b799b1bb"
+      },
+      "owner_revision": "025850d265cbd1a55b28a8e9b238b2fe0bfcaf1d",
+      "owner_identity": {
+        "mode": "100755",
+        "blob": "ce4a706fb43a87e8d64e3bb39b1bfd59b799b1bb",
+        "sha256": "d6b1d970e0a9d2cfff0c2698c9343a3399d8e72a83ae659e04210c96b731aa18"
+      }
+    },
+    {
+      "id": "RD07-2181",
+      "path": "adl/tools/validate_csm_static_console.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "bd5d1933b8ab8b460d619599d45fd1d96dadc731",
+        "sha256": "43ddfd94dfce4033b46e8e85a373c29137aa449206be308968394d1243e099a5"
+      },
+      "after": null,
+      "original_identity": {
+        "mode": "100644",
+        "blob": "bd5d1933b8ab8b460d619599d45fd1d96dadc731"
+      },
+      "owner_revision": "025850d265cbd1a55b28a8e9b238b2fe0bfcaf1d",
+      "owner_identity": {
+        "mode": "100644",
+        "blob": "bd5d1933b8ab8b460d619599d45fd1d96dadc731",
+        "sha256": "43ddfd94dfce4033b46e8e85a373c29137aa449206be308968394d1243e099a5"
+      }
+    },
+    {
+      "id": "RD07-2182",
+      "path": "adl/tools/validate_csm_visibility_packet.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "c227f48a9a7e1fbefad623b655bb416dc3ddcc5b",
+        "sha256": "dc96475f3d505d840e0126f6c2d9d83025f2fd862525f490d3d6a041ba6c40ad"
+      },
+      "after": null,
+      "original_identity": {
+        "mode": "100755",
+        "blob": "c227f48a9a7e1fbefad623b655bb416dc3ddcc5b"
+      },
+      "owner_revision": "025850d265cbd1a55b28a8e9b238b2fe0bfcaf1d",
+      "owner_identity": {
+        "mode": "100755",
+        "blob": "c227f48a9a7e1fbefad623b655bb416dc3ddcc5b",
+        "sha256": "dc96475f3d505d840e0126f6c2d9d83025f2fd862525f490d3d6a041ba6c40ad"
+      }
+    },
+    {
+      "path": "adl/tools/test_demo_v0904_csm_observatory_governed_prototype.sh",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "30b74dc34e2e2c366e3d6b73dabe8c15b308fbd6",
+        "sha256": "1c48873d45f728e171b1197a4d489f1c82f14d17b9eca16a833719673626805d"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "37728175c7bfd66075ec7aacdebd4e9767628497",
+        "sha256": "9b9ea44a7ee93de4b8359af7f6295a3622d3d2935d6e6c55b6e5a39765ca02ff"
+      }
+    },
+    {
+      "path": "adl/tools/test_demo_v0901_csm_observatory_operator_report.sh",
+      "action": "modify",
+      "before": {
+        "mode": "100755",
+        "blob": "90995304a0c669ba5a2384fcea4db5fab59b21f4",
+        "sha256": "0bdf8d654bbbbabb9efe4930babb3342ac02f5a4f9ca09db8aa8dbd49c3077bf"
+      },
+      "after": {
+        "mode": "100755",
+        "blob": "b40ecbbfa0edc0def53a059ae9879099d6c9f95f",
+        "sha256": "970d72887a1735cd2e9b1b515646e1994eb3539967dda3025bf08103f03bb6d9"
+      }
+    },
+    {
+      "path": "docs/tooling/README.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "3c2bcee0f612245a175aaf8c31344f4ff852140c",
+        "sha256": "5b16f9c5c0cbdbc5b23e4ce7fa7386e93e9919dfcd5fa20acf270fa8dd77314f"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "f8ffa6cb74c2fd92053f03556da9d9a6a26af444",
+        "sha256": "f04e773be9bec23e8577062b2b6d80911881f513088318839fe3109a28a8a88f"
+      }
+    },
+    {
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "45f1e3f270733cf9ad6573f740728eb062bd9e34",
+        "sha256": "37aeac762a7ada6c1e18e5445c8aa399adec69d95e48829ec73c8566e39edc4d"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "3f826d0600527c83cf848073823f14f7a06a0454",
+        "sha256": "ba6c1d25188c951f887e781005a04a036ba975e5b613dc5b97fd734ad7d04766"
+      }
+    },
+    {
+      "path": "tools/csm_contracts/validate_visibility.py",
+      "action": "add",
+      "before": null,
+      "after": {
+        "mode": "100644",
+        "blob": "5b8102485e1e3f27e918570f32a9485f0b390005",
+        "sha256": "3db4b6597c7b723c35588af062ca12238e1c35fc29707d3464af418633e83cb5"
+      }
+    }
+  ],
+  "removed_count": 6,
+  "modified_count": 4,
+  "added_count": 1,
+  "custody": {
+    "path": "/Volumes/FastWork/c1223/csm-six-retirement/current-and-original-preimages.tar",
+    "sha256": "6933cc2f95ad88c17f92760df16ec5f9fb32cf589fe36f889417fbf921daa8f7",
+    "layout": "current/ ten preimages; original/ six captured original identities"
+  },
+  "qualification": {
+    "result": {
+      "status": "PASS",
+      "cases": [
+        {
+          "script": "test_csm_operator_command_packets.sh",
+          "command": [
+            "/usr/bin/sandbox-exec",
+            "-f",
+            "/Volumes/FastWork/c1223/csm-four-original-plan/execution-r2/profile.sb",
+            "/bin/bash",
+            "adl/tools/test_csm_operator_command_packets.sh"
+          ],
+          "exit": 0,
+          "timeout": false,
+          "seconds": 0.1661239169916371,
+          "stdout_sha256": "f08b37a3510fae8039fdcfb26384bf4d78bd0a0656448774a5cb04f916e143fc",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "passed": true
+        },
+        {
+          "script": "test_csm_visibility_packet.sh",
+          "command": [
+            "/usr/bin/sandbox-exec",
+            "-f",
+            "/Volumes/FastWork/c1223/csm-four-original-plan/execution-r2/profile.sb",
+            "/bin/bash",
+            "adl/tools/test_csm_visibility_packet.sh"
+          ],
+          "exit": 0,
+          "timeout": false,
+          "seconds": 0.12001645899727009,
+          "stdout_sha256": "217d5217c62d67f7ecc4aa97eacb0ce8c249dc2d9a3a7fb8701fb1d6890d5ee4",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "passed": true
+        },
+        {
+          "script": "test_demo_v0901_csm_observatory_static_console.sh",
+          "command": [
+            "/usr/bin/sandbox-exec",
+            "-f",
+            "/Volumes/FastWork/c1223/csm-four-original-plan/execution-r2/profile.sb",
+            "/bin/bash",
+            "adl/tools/test_demo_v0901_csm_observatory_static_console.sh"
+          ],
+          "exit": 0,
+          "timeout": false,
+          "seconds": 0.21131250000325963,
+          "stdout_sha256": "7317200096eca9c92595a81076c925f0dba493e53b27f8b7bb685702bed7aee9",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "passed": true
+        }
+      ],
+      "source_before_after_exact": true,
+      "denominator": {
+        "original_test_scripts": 3,
+        "Infrastructure_inputs": 6,
+        "authentic_external_ADL_inputs": 11,
+        "original_literal_grep_assertions": 33,
+        "note": "Grep counts are not total validator assertions. Original loops, JSON parses, leakage checks and Node semantic assertions remain unmodified; no synthetic total case count."
+      },
+      "external_resource_boundary": "11 frozen original ADL248f Git inputs are supplied explicitly to unchanged owner consumers; they are absent inspected Infrastructure revision; these are schema/document/HTML/JS/JSON test data only, not executable dependencies. Successful composed fixture proof cannot claim owner ships those inputs, standalone owner installation, real UI/runtime behavior, or complete CSM8 qualification. No resources invented or assertions weakened.",
+      "excluded": {
+        "RD07-1983": "Original operator-report test requires operational renderer adl/tools/render_csm_observatory_report.py, absent Infrastructure. Do not graft this producer and claim owner qualification. Full original render/diff/py_compile assertions remain required after source delivery.",
+        "retained_caller": "test_demo_v0904_csm_observatory_governed_prototype.sh calls visibility validator; qualification is not removal approval until this real consumer is repaired or retired coherently.",
+        "RD07-1364": "demo_v0901_csm_observatory.sh calls cargo run public monorepo adl csm observatory. Excluded: no build or binary substitution permitted. Runtime141 positive receipt may separately support this after exact correspondence; three fixtures do not prove it."
+      }
+    },
+    "preflight": {
+      "status": "PASS",
+      "observations": [
+        {
+          "probe": "udp_connect",
+          "address": "127.0.0.1",
+          "denied": true,
+          "errno": 1
+        },
+        {
+          "probe": "udp_connect",
+          "address": "198.51.100.1",
+          "denied": true,
+          "errno": 1
+        },
+        {
+          "probe": "outside_write",
+          "denied": true,
+          "errno": 1,
+          "path": "/Volumes/FastWork/c1223/csm-four-original-plan/outside-write-probe"
+        },
+        {
+          "probe": "inside_write",
+          "allowed": true
+        }
+      ]
+    },
+    "owner_revision": "025850d265cbd1a55b28a8e9b238b2fe0bfcaf1d",
+    "unchanged_original_scripts": true,
+    "unchanged_assertions": true,
+    "input_closure": "Six owner executable inputs plus eleven frozen248f ADL fixture data inputs; no missing executable dependency grafted. All17 original bytes/modes verified before/after.",
+    "host_network": "sandbox deny all; mandatory localhost/external UDP connect and outside-write refusal observed EPERM",
+    "retries": "R1 failed sandbox setup with zero originals; parent-reviewed R2 launched identical sandbox outside nested tool sandbox; each original ran once.",
+    "excluded": {
+      "RD07-1983": "Original operator-report test requires operational renderer adl/tools/render_csm_observatory_report.py, absent Infrastructure. Do not graft this producer and claim owner qualification. Full original render/diff/py_compile assertions remain required after source delivery.",
+      "retained_caller": "test_demo_v0904_csm_observatory_governed_prototype.sh calls visibility validator; qualification is not removal approval until this real consumer is repaired or retired coherently.",
+      "RD07-1364": "demo_v0901_csm_observatory.sh calls cargo run public monorepo adl csm observatory. Excluded: no build or binary substitution permitted. Runtime141 positive receipt may separately support this after exact correspondence; three fixtures do not prove it."
+    }
+  },
+  "evidence": [
+    {
+      "path": "/Volumes/FastWork/c1223/csm-four-original-plan/PLAN-r2.json",
+      "sha256": "6be3b730464d89b53091f230222d80a34f508dc3051e71fef7e2ba54aab4104c"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/csm-four-original-plan/execute-r2.py",
+      "sha256": "c9565e445e998b952f0191367390134a477d5e0a152e8992b981bf4e44508f34"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/csm-four-original-plan/isolation_preflight.py",
+      "sha256": "385f3669f3d7074922f9dafda7a55bf71ef6a0c4a6785ae960907276e1d0a921"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/csm-four-original-plan/PINS-r2.json",
+      "sha256": "130d89129b33f97663b1f9f9e22fa5e8ea54a54801aafb890fb433015eaa14d4"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/csm-four-original-plan/SETUP_FAILURE.json",
+      "sha256": "9c97406a61b45e8bcc096769e1d7a577deb9b49958e0c9ef22432911af2faf91"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/csm-four-original-plan/execution/RESULT.json",
+      "sha256": "bb2873a1b104ba1ae512f47c5ab0345f969f7b50f68d590642f4700c112b41b9"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/csm-four-original-plan/execution/preflight.stderr",
+      "sha256": "d34a4e4359a4dc36526cf5b363da32f7b7594a3a09eea17cbdfd6425b052d93e"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/csm-four-original-plan/execution-r2/RESULT.json",
+      "sha256": "1dce2f245560191a559cf2e3e5ec58d729aa4260481baf2d40baeda4de1204d0"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/csm-four-original-plan/execution-r2/inputs.json",
+      "sha256": "21d76aec7e8aedb2c9d7ec32ec55d514c95826c463e614eef1328a5240328296"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/csm-four-original-plan/execution-r2/inside-write-probe",
+      "sha256": "9f80e1e1e37b97f57c069e7a17ddf28cb19b17ebf73720b7a757a2e5df4c03f5"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/csm-four-original-plan/execution-r2/preflight.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/csm-four-original-plan/execution-r2/preflight.stdout",
+      "sha256": "4a1bfad676cb3443fe8cf37313a655bf2b0f65f31def4bf450d2c5fb8843b69d"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/csm-four-original-plan/execution-r2/profile.sb",
+      "sha256": "ca060bc7f44b88a6a6a5b132cfe7cf02ff98ad17a4a263ef038167ecc9dc9a4c"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/csm-four-original-plan/execution-r2/test_csm_operator_command_packets.sh.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/csm-four-original-plan/execution-r2/test_csm_operator_command_packets.sh.stdout",
+      "sha256": "f08b37a3510fae8039fdcfb26384bf4d78bd0a0656448774a5cb04f916e143fc"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/csm-four-original-plan/execution-r2/test_csm_visibility_packet.sh.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/csm-four-original-plan/execution-r2/test_csm_visibility_packet.sh.stdout",
+      "sha256": "217d5217c62d67f7ecc4aa97eacb0ce8c249dc2d9a3a7fb8701fb1d6890d5ee4"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/csm-four-original-plan/execution-r2/test_demo_v0901_csm_observatory_static_console.sh.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/csm-four-original-plan/execution-r2/test_demo_v0901_csm_observatory_static_console.sh.stdout",
+      "sha256": "7317200096eca9c92595a81076c925f0dba493e53b27f8b7bb685702bed7aee9"
+    }
+  ],
+  "caller_repairs": [
+    "Retained v0904 governed-console and v0901 report original assertions remain unchanged; only visibility validator execution path changes to exact pinned owner adapter plus early check before original temporary/output work.",
+    "Adapter requires explicit absolute ADL_CSM_VALIDATOR_SOURCE_ROOT and exact SHA/mode; same Python argv, stdout/stderr and exit propagation through execv. No local fallback or manufactured pass.",
+    "Registry loses exactly6 script rows; parent must regenerate actual registry."
+  ],
+  "limits": [
+    "Composed fixture qualification only; eleven external data inputs are not claimed owner delivery.",
+    "Missing report renderer and Cargo demo remain unresolved; no live browser/Runtime/CSM/cloud/model execution.",
+    "33 literal grep assertions are only one part of original test coverage, not total validator cases."
+  ],
+  "adapter_validation": {
+    "status": "not_executed_pending_review",
+    "lane": "local deterministic mocked dispatch/refusal",
+    "proof_role": "new routing behavior only; no repeated original tests",
+    "release_gate": false,
+    "planned_cases": [
+      "missing root refusal before exec",
+      "relative root refusal",
+      "absent validator refusal",
+      "changed bytes refusal",
+      "changed mode refusal",
+      "valid check-inputs no exec",
+      "exact source dispatch preserves packet argv",
+      "OSError readable refusal"
+    ]
+  },
+  "patch": {
+    "path": "/Volumes/FastWork/c1223/csm-six-retirement/csm-six.patch",
+    "sha256": "d40a546fa2fcde96cb94ce7bd48768e04a48d5ec7ff37a7c264484734523b902"
+  },
+  "required_before_application": [
+    "Independent exact source/proof/custody/caller review",
+    "Focused mocked adapter proof after review authorization",
+    "Parent scoped application"
+  ],
+  "issue": 1223,
+  "review": {
+    "reviewer": "review_1223_public_facade",
+    "result": "PASS",
+    "scope": "six source removals/custody; exact owner inputs plus authentic external test fixtures; active caller assertions preserved with explicit root selection"
+  },
+  "adapter_validation_result": {
+    "path": "/Volumes/FastWork/c1223/csm-six-retirement/ROUTING_RESULT.json",
+    "sha256": "ffdde05b74922c0a5c99cb95548fda9ef0d32d4e81f05706b0e129d707119f6e",
+    "result": {
+      "status": "PASS",
+      "cases": [
+        {
+          "case": "missing root",
+          "status": "PASS",
+          "owner_execution": "mocked"
+        },
+        {
+          "case": "relative root",
+          "status": "PASS",
+          "owner_execution": "mocked"
+        },
+        {
+          "case": "absent owner",
+          "status": "PASS",
+          "owner_execution": "mocked"
+        },
+        {
+          "case": "changed bytes",
+          "status": "PASS",
+          "owner_execution": "mocked"
+        },
+        {
+          "case": "changed mode",
+          "status": "PASS",
+          "owner_execution": "mocked"
+        },
+        {
+          "case": "valid preflight",
+          "status": "PASS",
+          "owner_execution": "mocked"
+        },
+        {
+          "case": "exact dispatch",
+          "status": "PASS",
+          "owner_execution": "mocked"
+        },
+        {
+          "case": "unreadable source",
+          "status": "PASS",
+          "owner_execution": "mocked"
+        }
+      ],
+      "adapter_sha256": "3db4b6597c7b723c35588af062ca12238e1c35fc29707d3464af418633e83cb5",
+      "scope": "Local deterministic mocked routing/refusal; no owner validator, original test, product or provider execution",
+      "release_gate": false
+    },
+    "pvf": {
+      "lane_class": "local_focused_contract",
+      "proof_role": "routing_and_refusal",
+      "determinism": "deterministic_mocked_exec",
+      "resource_profile": "python_standard_library_no_network",
+      "release_gate": false
+    }
+  }
+}

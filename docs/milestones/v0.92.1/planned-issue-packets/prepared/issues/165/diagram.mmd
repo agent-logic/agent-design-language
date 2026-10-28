@@ -1,0 +1,13 @@
+flowchart TD
+  CMD["One command invocation"] --> APP["App"]
+  APP --> CFG["typed config"]
+  APP --> ERR["typed errors"]
+  APP --> CANCEL["root cancellation"]
+  APP --> SYNC["sync once-result services"]
+  APP --> ASYNC["async single-flight services"]
+  ASYNC --> CREDS["lazy credentials"]
+  ASYNC --> NET["lazy GitHub client"]
+  CANCEL --> TASKS["joined Tokio tasks"]
+  CANCEL --> CHILDREN["terminated and waited children"]
+  APP --> OUT["machine stdout"]
+  APP --> TRACE["redacted stderr tracing"]

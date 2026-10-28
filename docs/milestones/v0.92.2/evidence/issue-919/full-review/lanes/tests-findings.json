@@ -1,0 +1,91 @@
+[
+  {
+    "id": "TESTS-001",
+    "severity": "P2",
+    "type": "false_positive_regression_proof",
+    "title": "Bind live-region assertions to each transcript element",
+    "path": "demos/html-observatory/tests/accessibility_responsive.test.mjs",
+    "line": 51,
+    "trigger": "Remove aria-live from both transcript elements while other live regions remain.",
+    "impact": "Accessibility proof still reports PASS, permitting loss of announced conversation/room updates to escape this regression gate. Current candidate attributes are present; no current UI failure is asserted.",
+    "proof": "tests-accessibility-negative-repro.json: isolated exact candidate copy with two attribute removals exits0 and prints accessibility/responsive proof PASS. Regex crosses tags via [\\s\\S]*.",
+    "remediation": "Parse actual element attributes or query both transcript nodes in DOM; include a negative case removing each attribute independently.",
+    "owner": "#921 / Observatory test owner",
+    "acceptance_refs": [
+      "supplemental WP-18C.07a accessibility/responsive proof; not a new core denominator"
+    ],
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+    "disposition": "open"
+  },
+  {
+    "id": "TESTS-002",
+    "severity": "P2",
+    "type": "false_positive_regression_proof",
+    "title": "Assert cancellation completes before the probe timeout",
+    "path": "adl-runtime-kernel/tests/shepherd.rs",
+    "line": 1359,
+    "trigger": "A recovery regression ignores cancellation during a pending probe and observes shutdown only after its 600-second timeout.",
+    "impact": "Paused Tokio time automatically advances; the test can pass after 600 virtual seconds and cannot prove its stated prompt-shutdown invariant. Current production select has cancellation; no present 600s production delay is asserted.",
+    "proof": "tests-virtual-time-repro/result.json: 1 test passes while explicitly measuring 600 seconds. Isolated counterexample using pinned Tokio 1.49, original yield/cancel/await oracle; not a mutation of the production crate.",
+    "remediation": "Measure tokio::time::Instant around cancellation and assert a small virtual-time bound, or wrap JoinHandle in a timeout far shorter than 600s. Prove mutation removing cancellation fails.",
+    "owner": "#921 / Runtime shepherd test owner",
+    "acceptance_refs": [
+      "#854 lifetime recovery shutdown proof"
+    ],
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+    "disposition": "open"
+  },
+  {
+    "id": "SYN-006",
+    "severity": "P1",
+    "type": "historical_unresolved_ci_ownership",
+    "title": "Three independent Cargo graphs still lack change-triggered CI ownership",
+    "path": "adl/tools/ci_path_policy.sh",
+    "line": 1772,
+    "trigger": "A PR changes only adl-characterization/**, adl-resilience/**, or tools/remote_validation/**.",
+    "impact": "No selected package-local build/test/format/Clippy owner; required CI may remain green without testing changed graph. adl-resilience as another crate dependency does not execute its own package tests.",
+    "proof": "Fresh frozen selector runs for each root in tests-history/syn006-routing.json: exit 0, aggregate_status skipped, lanes {}, pr_publication_sufficient false. ci.yaml manifest commands omit all three; fallback policy 1690\u20131788 omits them. Original historical P1 docs/reviews/v0.92/internal-review-5846/SYNTHESIS.md:69\u201377.",
+    "remediation": "Add explicit selector and CI owners with locked package-local validation and positive path-routing regression cases for each root.",
+    "owner": "#921 / CI validation owner",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+    "disposition": "open",
+    "historical_severity_preserved": true
+  },
+  {
+    "id": "TESTS-003",
+    "severity": "P2",
+    "type": "fail_open_experiment_identity_proof",
+    "title": "Reject unknown base-blob identities before asserting same-model comparison",
+    "path": "adl/tools/issue905_runtime_speculative_retest.py",
+    "line": 348,
+    "trigger": "Ollama /api/show omits modelfile or returns a FROM expression that does not match the Unix sha256 path regex for both variants.",
+    "impact": "Both base_blob_sha256 values become null and compare equal; the report then unconditionally declares same_base_blob=true. Missing weight identity is promoted to proof, allowing a speculative benchmark to claim a controlled same-weight comparison without observing it. No claim that the retained #905 run used differing weights.",
+    "proof": "tests-905-identity-negative.json: unmodified AST-extracted model_identity evaluated offline with two different FROM aliases and manifest digests; both null blob IDs pass every model-identity equality field. Source lines 133-144 permit null, 347-354 admit it, 427 emits true.",
+    "remediation": "Require two nonempty valid base-blob digests before equality; reject unsupported metadata with an explicit non-proving outcome. Add missing/malformed FROM negative cases.",
+    "owner": "#921 / #905 experiment proof owner",
+    "acceptance_refs": [
+      "#905 controlled baseline/speculative model identity"
+    ],
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+    "disposition": "open"
+  },
+  {
+    "id": "TEST-TRANS-001",
+    "severity": "P3",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+    "path": "csdlc-v3/tests/transactions.rs",
+    "line": 2815,
+    "end_line": 2829,
+    "title": "Reader concurrency test can fail solely because the writer finishes first",
+    "trigger": "The scheduler runs the writer through all twelve commits before the parent reaches its first while-condition, or permits the reader only Busy observations until the writer finishes.",
+    "impact": "The final observed > 0 assertion fails even when every commit and observation is coherent, making a purported deterministic local gate scheduler-dependent.",
+    "evidence": "The writer has no handshake with the reader; the parent reads only while !writer.is_finished() and then requires at least one successful Current observation. Joining the writer and checking final generation does not guarantee any loop iteration.",
+    "reproduction": "Static schedule analysis of lines 2777-2831; no executable reproduction or test execution performed.",
+    "owner": "C-SDLC transaction test maintainers",
+    "acceptance_relevance": "Reliability of required deterministic semantic Gate A validation; not evidence of production state corruption.",
+    "recommendation": "Coordinate at least one reader observation with the writer using an explicit handshake, then assert coherent observations and final generation without depending on scheduler fairness.",
+    "proof": "Static schedule analysis of lines 2777-2831; no executable reproduction or test execution performed. The writer has no handshake with the reader; the parent reads only while !writer.is_finished() and then requires at least one successful Current observation. Joining the writer and checking final generation does not guarantee any loop iteration.",
+    "remediation": "Coordinate at least one reader observation with the writer using an explicit handshake, then assert coherent observations and final generation without depending on scheduler fairness.",
+    "disposition": "open"
+  }
+]

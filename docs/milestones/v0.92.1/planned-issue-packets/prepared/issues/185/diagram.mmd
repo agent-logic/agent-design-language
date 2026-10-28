@@ -1,0 +1,8 @@
+flowchart LR
+  I["Separated voter, agent, Shepherd, operator, Observatory identities"] --> T["Approved TLS / private mTLS trust"]
+  T --> P["Permit and capability gates"]
+  P --> N["Forged / stale / wrong-domain / cross-polis negatives"]
+  T --> A["Pre-auth REST and WSS disclosure checks"]
+  P --> F["Provider timeout, stall, malformed output, partial failure"]
+  N & A & F --> R["Typed denial and invariant receipts"]
+  R --> V["Exact matrix and certificate-chain validator"]

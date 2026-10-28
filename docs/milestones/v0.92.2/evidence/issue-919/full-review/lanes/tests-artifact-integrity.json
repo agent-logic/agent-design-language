@@ -1,0 +1,34 @@
+{
+  "kind": "artifact_integrity_only",
+  "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+  "parsed_artifacts": [
+    "tests-coverage.json",
+    "tests-findings.json",
+    "tests-csdlc-additional-coverage.json",
+    "tests-fixture-cohorts.json",
+    "tests-history-crosswalk.json",
+    "demos-coverage.json",
+    "demos-findings.json",
+    "demos-acceptance.json",
+    "adr-coverage.json",
+    "adr-findings.json",
+    "tests-transactions-addendum.json"
+  ],
+  "finding_line_bounds_valid": [
+    "TESTS-001",
+    "TESTS-002",
+    "SYN-006",
+    "TESTS-003",
+    "DEMOS-001",
+    "TEST-TRANS-001"
+  ],
+  "test_coverage_unique_paths": 853,
+  "test_counts": {
+    "changed_hunks_inspected": 22,
+    "source_inspected": 195,
+    "cross_lane_inspected": 30,
+    "fixture_cohort_classified": 606
+  },
+  "additional_unique_paths": 22,
+  "claim": "JSON parse, uniqueness and reference bounds only; not source or behavioral proof."
+}

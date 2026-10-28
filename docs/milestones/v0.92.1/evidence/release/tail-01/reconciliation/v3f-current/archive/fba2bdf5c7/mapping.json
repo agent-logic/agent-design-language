@@ -1,0 +1,76 @@
+{
+  "schema": "adl.v3f.current_mapping.v1",
+  "issue": 771,
+  "source_sha": "fba2bdf5c7168faa9dcd2d957c121e33a63c0fd6",
+  "status": "blocked_on_substantive_review",
+  "receipt_sha256": {
+    "assignment.json": "a2ddf191a4f68c8a44329fc25a35c59c2455f54927aa8c531a4325dc2ce54bcb",
+    "review.json": "45fb38c5d4d9260ff94df7f5f25d30e515c3c9cc70608290fcdf906b1927cd38",
+    "suite.json": "d0383aae088d9bd76cdae51ccaa0e403ec4e97b037b5ecc3b0d6afd9c92a3c0f",
+    "historical-fixture.diff": "65e9c351fa0e12caadd8cb593fa114ffc38615321315409d55c41c45b59c757f"
+  },
+  "historical_exceptions_sha256": "c68666f42cd971a514cd011ec63cf2aade52443db068edb9f12e0c1f2044f1b2",
+  "historical_census_sha256": "fbbb546e2ed39b659c0d5fb79cd89ed4a8d5bc0f39df80093c31d1afbe96ff52",
+  "rows": [
+    {
+      "id": "V3-F-ac-1",
+      "criterion_text_digest": "ae6ae51426f7f2d553c8774aa41a1b227099ae82eafd65cf91a7da2eaab2475f",
+      "source_sha": "fba2bdf5c7168faa9dcd2d957c121e33a63c0fd6",
+      "fixture_blob": "d583e6468c08ea296f92658a917350b7570f1586",
+      "review": "review.json",
+      "suite": "suite.json",
+      "disposition": "blocked_on_substantive_review"
+    },
+    {
+      "id": "V3-F-ac-2",
+      "criterion_text_digest": "d5300cdb50374f90a61869ad0cef589665b965736df64d82ffba6f503eb8674a",
+      "source_sha": "fba2bdf5c7168faa9dcd2d957c121e33a63c0fd6",
+      "fixture_blob": "d583e6468c08ea296f92658a917350b7570f1586",
+      "review": "review.json",
+      "suite": "suite.json",
+      "disposition": "blocked_on_substantive_review"
+    },
+    {
+      "id": "V3-F-ac-3",
+      "criterion_text_digest": "1d54eed76b4cd45ef37a11f2fe31ea0dfee0f27385085377ec2be9764ad94307",
+      "source_sha": "fba2bdf5c7168faa9dcd2d957c121e33a63c0fd6",
+      "fixture_blob": "d583e6468c08ea296f92658a917350b7570f1586",
+      "review": "review.json",
+      "suite": "suite.json",
+      "disposition": "blocked_on_substantive_review"
+    },
+    {
+      "id": "V3-F-ac-4",
+      "criterion_text_digest": "42ce5c60c11cc93ef31f6dce7d49dcdfbe57b51a25d620a69e34123c0a8d45fa",
+      "source_sha": "fba2bdf5c7168faa9dcd2d957c121e33a63c0fd6",
+      "fixture_blob": "d583e6468c08ea296f92658a917350b7570f1586",
+      "review": "review.json",
+      "suite": "suite.json",
+      "disposition": "blocked_on_substantive_review"
+    }
+  ],
+  "preserved_corp_a": [
+    {
+      "row_id": "CORP-A:CORP-A-ac-1",
+      "criterion_text_digest": "dcfba0727c2d81928d75f6b3a1b6c0cdd7ddcdd76e063068f4fad3fabae2038f",
+      "historical_result": "non_proving",
+      "reconciliation_class": "review_freshness_resolved",
+      "mapping_file": "retained-corporate-runtime.json"
+    },
+    {
+      "row_id": "CORP-A:CORP-A-ac-2",
+      "criterion_text_digest": "a18411b2faf1a9ffbc54fd8870ee7d1babfeb3d1bb02441e0671f0dde0ceceee",
+      "historical_result": "non_proving",
+      "reconciliation_class": "review_freshness_resolved",
+      "mapping_file": "retained-corporate-runtime.json"
+    },
+    {
+      "row_id": "CORP-A:CORP-A-ac-3",
+      "criterion_text_digest": "091e9f774e4317433dcf2316608634336f44a1e31dce5d68deb3aa457f1d3f4c",
+      "historical_result": "non_proving",
+      "reconciliation_class": "review_freshness_resolved",
+      "mapping_file": "retained-corporate-runtime.json"
+    }
+  ],
+  "release_authorized": false
+}

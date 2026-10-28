@@ -1,0 +1,127 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 159,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][CORP-07] Move Terraform CI deployment and runbook authority",
+    "slug": "corp-07-move-terraform-ci-deployment-and-runbook-authority",
+    "version": "v0.92.1",
+    "generation": 4
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 3,
+      "summary": "Place Terraform state and deployment authority under company custody, use short-lived least-privilege CI identity, and prove a clean operator can deploy and roll back using complete redacted runbooks.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Require terminal CORP-05 and CORP-06, inventory Terraform state/locks, deployment environments, OIDC roles, workflow permissions, secret names, and rollback owners.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Move or verify state and lock custody under company authority, exercise readback and contention, and prove recovery without founder-local state or credentials.",
+          "acceptance_ids": [
+            "AC-1"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Configure and inspect company-controlled OIDC or equivalent short-lived deployment identity against the reviewed least-privilege permission set.",
+          "acceptance_ids": [
+            "AC-2"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Author deployment and rollback runbooks with prerequisites, one command per operation, expected outputs, cleanup, monitoring, and escalation while naming secrets only.",
+          "acceptance_ids": [
+            "AC-4"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S5",
+          "action": "Have an authorized clean operator execute plan/apply/deploy and rollback from the runbooks with no unrecorded manual step or personal credential.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S6",
+          "action": "Capture state, lock, identity, deployment, rollback, and cleanup receipts; fail on personal dependencies, excess permissions, ambiguous state custody, or non-executable rollback.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S7",
+          "action": "Complete exact-head review and publish the redacted authority manifest and proven runbooks after restoring the approved production posture.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "docs/milestones/v0.92.1/evidence/corporate/corp-07/**",
+        "docs/operations/corporate/corp-07/**",
+        ".csdlc/issues/159/**",
+        ".csdlc/prepared/issues/159/**",
+        ".csdlc/evidence/159/**",
+        ".csdlc/prepared/issues/159/validate-outcome.rb"
+      ],
+      "invariants": [
+        "Issue CORP-07 owns only its declared repository paths and named external operation/evidence boundary.",
+        "Dependencies remain read-only inputs until terminal evidence satisfies the declared gate.",
+        "The issue may not absorb remediation owned by another work package without an explicit issue-graph revision.",
+        "No unsupported completion, legal, production, or release claim",
+        "No mutation outside exact owned paths"
+      ],
+      "risks": [
+        "A passing artifact could overstate production, legal, or release authority.",
+        "Path or external-account overlap could collide with another active issue.",
+        "Evidence could become stale if it is not tied to exact revisions and producer outcomes."
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "State custody is ambiguous",
+        "Deployment requires personal credentials",
+        "Rollback is not executable",
+        "Workflow permissions exceed the reviewed role",
+        "Typed doctor is not ready",
+        "A required dependency is nonterminal",
+        "An owned-path collision is discovered"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/159/design.md",
+      "design_digest": "c3e8424e5ed527d29bc0a9d0c99e52be56cc3b302dcab078e4f165d42d1eab8e",
+      "diagram_ref": ".csdlc/prepared/issues/159/diagram.mmd",
+      "diagram_digest": "1dd1f8237eb8d26f191cd9661c41ca3bb4f4eb1126dbe0d28b0d4874e71254ce"
+    }
+  }
+}

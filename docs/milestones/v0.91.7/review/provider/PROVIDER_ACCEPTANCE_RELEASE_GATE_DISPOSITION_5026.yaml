@@ -1,0 +1,31 @@
+issue: 5026
+disposition: publish_with_runtime_owner_lane_proof
+reviewer_or_review_mode: pre_pr_bounded_provider_acceptance_review
+focused_validation_run: "bash adl/tools/run_owner_validation_lane.sh runtime --build"
+residual_ci_proof_required_before_merge: "GitHub adl-ci and adl-coverage must complete green on the published PR head before merge."
+changed_release_gate_surfaces:
+  - adl/src/cli/mod.rs
+  - adl/src/cli/provider_cmd.rs
+  - adl/src/cli/usage.rs
+  - adl/src/provider/http_family.rs
+  - adl/src/provider/http_family/tests.rs
+  - adl/src/provider/mod.rs
+  - adl/src/provider/profiles.rs
+  - adl/src/provider_adapter.rs
+  - adl/src/provider_substrate.rs
+  - adl/tests/provider_tests/http_family.rs
+  - adl/tests/provider_tests/profiles.rs
+validation_truth:
+  provider_acceptance_matrix: pass
+  z_ai_live_smoke: pass
+  z_ai_uts_panel: pass_11_of_11_regular_and_11_of_11_uts_only
+  bedrock_nova_pro_live_smoke: pass
+  bedrock_nova_pro_uts_panel: pass_11_of_11_regular_and_11_of_11_uts_only
+  runtime_owner_lane: pass
+  full_nextest_attempt: failed_outside_provider_surface
+residual_risks:
+  - "The explicit full-nextest attempt compiled and started 20450 tests, then failed on two CSM local-service smoke tests that passed in focused rerun. That indicates a full-lane service-test isolation concern outside this provider acceptance change."
+  - "The provider PR must still rely on GitHub CI for integrated PR-head proof before merge."
+non_claims:
+  - "This disposition does not claim the full-nextest attempt passed."
+  - "This disposition does not close the CSM local-service full-lane isolation concern."

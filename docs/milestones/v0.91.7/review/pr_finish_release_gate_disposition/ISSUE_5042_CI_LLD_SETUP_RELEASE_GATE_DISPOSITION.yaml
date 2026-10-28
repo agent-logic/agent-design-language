@@ -1,0 +1,11 @@
+issue: 5042
+disposition: approved_with_residual_ci
+changed_release_gate_surfaces:
+  - .github/workflows/ci.yaml
+reviewer_or_review_mode: bounded CI release-gate review for PR finish lld setup repair
+focused_validation_run: bash adl/tools/test_ci_cache_linker_contracts.sh && bash adl/tools/test_setup_required_coverage_toolchain.sh
+residual_ci_proof_required_before_merge: required
+notes:
+  - The workflow change routes the CI lld install step through the shared setup helper.
+  - Local proof covers workflow contract text and helper behavior for Chrome and Microsoft apt source quarantine.
+  - GitHub adl-ci and adl-coverage remain required before merge.

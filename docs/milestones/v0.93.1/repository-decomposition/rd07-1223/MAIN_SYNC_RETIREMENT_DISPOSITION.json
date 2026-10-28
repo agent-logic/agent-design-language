@@ -1,0 +1,45 @@
+{
+  "schema": "adl.rd07.main-sync-retirement.v1",
+  "rows": [
+    {
+      "id": "RD07-1394",
+      "path": "adl/tools/fix_git_main_sync_preserve_local_adl.sh",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
+      "source_sha256": "b48c2e276f22b4d99d1181fdceeaf335ca685c268f762f820673a460793a674e"
+    },
+    {
+      "id": "RD07-2008",
+      "path": "adl/tools/test_fix_git_main_sync_preserves_local_adl_cards.sh",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
+      "source_sha256": "e44e3747d088f31d09f79c22752b0ee9ccde345a92400a588df43c74fb53a499"
+    },
+    {
+      "id": "RD07-1933",
+      "path": "adl/tools/test_closeout_completed_issue_wave.sh",
+      "proposed_action": "retain_public_source_or_fixture",
+      "source_sha256": "623dcfbbcc50ca54325b6459e10d90b4d07a45b154d41ddf11a770b43b4be67e"
+    }
+  ],
+  "reason": "Retire obsolete card-restoring main-sync behavior with its demanding test; retain wave-helper absence and current native terminal/cleanup guidance checks against repository policy. No live sync or old helper equivalence claimed.",
+  "caller_repairs_required": [
+    "Registry and generator output coherence",
+    "Conditional owner validation aggregate coherent retirement",
+    "Preserve independent2370csdlc-v2/tests/gate_terminal_authority_deletion.rs obligation: reads main-sync source to reject old csdlc-closeout/csdlc-merge strings. Its entire historical source-family disposition remains independent.",
+    "Active command scanner negative-test exclusion retained for1933"
+  ],
+  "required_before_retirement": [
+    "All caller and historical Rust source-family obligations reconciled",
+    "Scoped exact retirement decision"
+  ],
+  "validation": {
+    "command": "bash adl/tools/test_closeout_completed_issue_wave.sh",
+    "result": "PASS",
+    "scope": "Source guidance and obsolete-helper absence only; no native lifecycle execution"
+  },
+  "independent_review": {
+    "reviewer": "review_1223_historical_retention",
+    "result": "Caller repair and3dispositions approved; additional2370directread explicitly preserved"
+  },
+  "bug_record": "MAIN_SYNC_HELPER_BUG.json",
+  "execution_authorized": false
+}

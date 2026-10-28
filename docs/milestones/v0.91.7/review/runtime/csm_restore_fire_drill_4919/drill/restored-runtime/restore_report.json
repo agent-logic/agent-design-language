@@ -1,0 +1,43 @@
+{
+  "schema": "adl.csm.continuity_capsule_restore_report.v1",
+  "format_version": "csm.continuity-capsule.v1",
+  "runtime_owner": "csm",
+  "agent_instance_id": "csm-continuity-4910",
+  "target_host": "local",
+  "status": "restored",
+  "restored_spec_ref": "agent.yaml",
+  "restored_state_ref": "state/",
+  "manifest_ref": "continuity_capsule_manifest.json",
+  "artifact_count": 18,
+  "rebind_policy": {
+    "schema": "adl.csm.continuity_capsule_rebind_policy.v1",
+    "target_host": "local",
+    "identity": "preserve_agent_instance_id_and_locked_spec",
+    "capabilities": "re-evaluate_on_target_control_plane",
+    "provider_auth": "excluded_from_bundle_rebind_from_target_provider_environment",
+    "paths": "bundle_relative_refs_only",
+    "provider_bindings": "historical_bindings_retained_new_bindings_required_after_stage",
+    "aws": {
+      "default_profile": "agent-logic-admin",
+      "live_ec2_transfer": "blocked_without_operator_authorization"
+    }
+  },
+  "observability": {
+    "schema": "adl.csm.continuity_capsule_observability.v1",
+    "operation": "restore",
+    "event_command": "csm",
+    "event_stages": [
+      "continuity_capsule_restore"
+    ],
+    "otel_service_name": "csm-runtime-daemon",
+    "retained_refs": [
+      "operator_events.jsonl",
+      "restore_report.json"
+    ]
+  },
+  "non_claims": [
+    "not_secret_material_restore",
+    "not_provider_auth_restore",
+    "not_multi_region_disaster_recovery"
+  ]
+}

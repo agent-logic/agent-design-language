@@ -1,0 +1,152 @@
+{
+  "schema_version": "acip.runtime_stream.websocket_transport_proof.v1",
+  "proof_id": "wp12-acip-websocket-transport-path-v1",
+  "selected_substrate": "websocket",
+  "selected_crate": "tokio-tungstenite",
+  "carrier_kind": "websocket_transport_path",
+  "endpoint_binding": "loopback_ephemeral_tcp",
+  "access_policy": {
+    "policy_id": "wp12_acip_websocket_transport_policy",
+    "allowed_sender_prefixes": [
+      "planner.",
+      "agent."
+    ],
+    "denied_sender_prefixes": [
+      "external.",
+      "untrusted."
+    ],
+    "allowed_recipient_ids": [
+      "runtime.agent"
+    ],
+    "required_trace_requirement": "summary",
+    "authority_expansion_allowed": false
+  },
+  "positive_case": {
+    "case_name": "positive_delivery",
+    "status": "delivered",
+    "request_message_id": "msg-runtime-stream-0001",
+    "response_message_id": "msg-runtime-stream-0001-reply",
+    "error_substring": null,
+    "lifecycle_events": [
+      "websocket_server_bound",
+      "websocket_handshake_accepted",
+      "client_frame_sent",
+      "client_response_received",
+      "server_response_validated"
+    ]
+  },
+  "negative_cases": [
+    {
+      "case_name": "reconnect_after_disconnect",
+      "category": "reconnect",
+      "fail_closed": true,
+      "retry_allowed": true,
+      "expected_error_substring": "reconnect_requires_new_handshake_and_revalidation",
+      "authority_expansion_allowed": false
+    },
+    {
+      "case_name": "malformed_message",
+      "category": "malformed",
+      "fail_closed": true,
+      "retry_allowed": false,
+      "expected_error_substring": "key must be a string at line 1 column 2",
+      "authority_expansion_allowed": false
+    },
+    {
+      "case_name": "peer_close_before_response",
+      "category": "close",
+      "fail_closed": true,
+      "retry_allowed": true,
+      "expected_error_substring": "closed_before_response",
+      "authority_expansion_allowed": false
+    },
+    {
+      "case_name": "response_timeout",
+      "category": "timeout",
+      "fail_closed": true,
+      "retry_allowed": true,
+      "expected_error_substring": "timed out waiting for response",
+      "authority_expansion_allowed": false
+    },
+    {
+      "case_name": "auth_policy_denial",
+      "category": "auth_policy_denial",
+      "fail_closed": true,
+      "retry_allowed": false,
+      "expected_error_substring": "caller_class_denied",
+      "authority_expansion_allowed": false
+    }
+  ],
+  "failure_cases": [
+    {
+      "case_name": "malformed_message",
+      "status": "failed_closed",
+      "request_message_id": null,
+      "response_message_id": null,
+      "error_substring": "parse ACIP WebSocket transport request frame: key must be a string at line 1 column 2",
+      "lifecycle_events": [
+        "websocket_server_bound",
+        "websocket_handshake_accepted",
+        "client_frame_sent",
+        "server_failed_closed"
+      ]
+    },
+    {
+      "case_name": "auth_policy_denial",
+      "status": "failed_closed",
+      "request_message_id": "msg-runtime-stream-denied-0001",
+      "response_message_id": null,
+      "error_substring": "caller_class_denied_by_websocket_transport_policy",
+      "lifecycle_events": [
+        "websocket_server_bound",
+        "websocket_handshake_accepted",
+        "client_frame_sent",
+        "server_failed_closed"
+      ]
+    },
+    {
+      "case_name": "peer_close_before_response",
+      "status": "failed_closed",
+      "request_message_id": null,
+      "response_message_id": null,
+      "error_substring": "closed_before_response: read ACIP WebSocket transport client frame: WebSocket protocol error: Connection reset without closing handshake: Connection reset without closing handshake",
+      "lifecycle_events": [
+        "websocket_server_bound",
+        "websocket_handshake_accepted",
+        "client_closed_before_request",
+        "server_failed_closed"
+      ]
+    },
+    {
+      "case_name": "response_timeout",
+      "status": "failed_closed",
+      "request_message_id": null,
+      "response_message_id": null,
+      "error_substring": "timed out waiting for response: deadline has elapsed",
+      "lifecycle_events": [
+        "websocket_server_bound",
+        "websocket_handshake_accepted",
+        "client_idle_until_server_timeout",
+        "server_failed_closed"
+      ]
+    }
+  ],
+  "lifecycle_events": [
+    "websocket_server_bound",
+    "positive_delivery_validated",
+    "fail_closed_cases_validated"
+  ],
+  "integration_refs": [
+    "#4658",
+    "#4659",
+    "#4900",
+    "docs/milestones/v0.91.7/review/runtime/ACIP_RUNTIME_STREAM_SUBSTRATE_4900.md",
+    "docs/milestones/v0.91.7/review/runtime/WP12_ACIP_WEBSOCKET_TRANSPORT_4659.md"
+  ],
+  "non_claims": [
+    "This decision does not implement protobuf wire encoding.",
+    "This decision does not prove production WebSocket authentication, TLS, reconnect scheduling, or cross-polis transport.",
+    "This decision does not bypass ACIP access rules, Freedom Gate decisions, trace, replay, or policy boundaries.",
+    "This proof exercises loopback WebSocket transport path behavior; production authentication, TLS termination, and cross-polis networking remain outside #4659."
+  ]
+}

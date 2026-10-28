@@ -1,0 +1,52 @@
+# v0.92.2 Planning Decisions
+
+## Current disposition — September 21 review
+
+The original planning/creation observations below are retained history. Podcast #671 was restored to v0.92.2 and closed with launch issue #1169 through PR #1174; Apple and Spotify publication is complete. SIM-09 pilot #875 remains deferred to v0.93; any original sidecar or 82-membership statement is not a current membership count. The 69-row core roster remains an immutable identity denominator, with #875 explicitly deferred. [#916 evidence](evidence/issue-916/GAP_ANALYSIS.md) records current observed results; #915 independent qualification is incomplete and explicitly deferred; #916 is accepted for handoff with product qualification still `not_proven`. Successor repairs #1148/#1149 precede qualification #1150 in v0.93.1. This overlay does not waive acceptance or finish successor planning.
+
+Status: proposed decisions for milestone execution.
+
+| ID | Decision | Consequence |
+|---|---|---|
+| CF-D01 | v0.92.2 is the complete CodeFriend Beta 1 milestone. | Beta 1 is not spread across the older v0.93-v0.95 alpha schedule. |
+| CF-D02 | All tools consume shared provider contracts. | CodeFriend-specific provider forks are rejected. |
+| CF-D03 | Evidence identity, provenance, redaction, and retention precede report generation. | Unsupported or unsafe evidence fails closed. |
+| CF-D04 | Four review perspectives remain distinct before synthesis. | Synthesis cannot erase perspective ownership or severity rationale. |
+| CF-D05 | Publication and repository mutation remain human-controlled. | Beta 1 proposes actions and artifacts but does not autonomously edit source. |
+| CF-D06 | Longitudinal comparison is part of Beta 1. | Stable identity and schema compatibility are release requirements. |
+| CF-D07 | ADL self-review plus one bounded external open-source review are acceptance proofs. | Synthetic-only demos are insufficient. |
+| CF-D08 | The canonical ten-step release tail is preserved. | Closeout bookkeeping remains asynchronous and does not gate unrelated implementation. |
+| CF-D09 | No calendar deadline is encoded. | Readiness is evidence-based, not date-based. |
+| CF-D10 | ATE and Runtime v4 remain separately planned. | Their absence does not block Beta 1 unless an admitted dependency proves otherwise. |
+| CF-D11 | The operator explicitly admitted one bounded MLX/Apple Metal provider adapter to v0.92.2. | PLAT-MLX is separate from provider-definition work, follows PLAT-PROVIDER, and makes no general local-model claim. |
+| CF-D12 | Completed issue #484 is the baseline AWS ownership inventory, not work to repeat. | OPS-AWS produces a current delta, stale-item disposition, and maintenance runbook without recreating #484. |
+
+None of these decisions claims implementation, review approval, or release readiness.
+
+## #523 planning corrections
+
+- CF-D13: CF-EVIDENCE owns the shared finding/run contract and conformance fixtures before parallel consumers.
+- CF-D14: Pre-synthesis lane outputs are isolated; synthesis preserves disagreement.
+- CF-D15: Candidate-changing remediation refreshes affected artifacts, proof and internal/external review before release.
+- CF-D16: Existing #720, #848, #849, #852, #854, #855, #861, #862, and conductor #864 are reused. #848 is the ARCH-SPLIT decision row and does not authorize split implementation. Operator direction on 2026-09-09 promoted #717/#718 into v0.92.1; v0.92.2 consumes their merged results as predecessors and does not recreate them. Other backlog is excluded.
+- CF-D17: Local CLI with artifact browsing in this repository is the bounded product design candidate; shared ADL contracts are consumed, not forked. WP-01 accepts or explicitly revises it before new-wave execution.
+- CF-D18: The declared release-gating support set converges at the milestone quality gate; only actual product prerequisites block integration. Independently deliverable required issues such as OBS-S3 and ARCH-ADR retain their own acceptance outside the early TAIL-01 gate and must satisfy TAIL-10 completion dependencies.
+- CF-D19: The operator admitted the bounded NVIDIA PAIR experiment as PLAT-PAIR after PLAT-PROVIDER; it is an experiment with a retained decision, not a production-provider claim.
+- CF-D20: The operator admitted the company GCP move-in reconciliation as OPS-GCP after WP-01; it is read-only planning and inventory work that consumes merged v0.92.1 foundations and does not repeat six-resident qualification or authorize cloud mutation.
+- CF-D21: The operator admitted OBS-S3 as a non-product-gating deployment sidecar. It consumes the completed #679/merged PR #685 Terraform design, waits for OBS-LIVE, uses the Agent Logic business AWS account, and does not authorize customer-scale hosting or an apply during #525.
+- CF-D22: The operator admitted ARCH-ADR as a distinct milestone work package. ARCH-ADR is now #911; it generates and reconciles the ADR set needed by v0.92.2 without implementing decisions or treating candidate prose as accepted authority.
+
+These corrections do not accept ADRs, create issues, apply cloud infrastructure, approve Beta implementation, or complete #524/#525.
+
+## #864 operator-requested task correction
+
+- CF-D23: Split all eight mixed task families as defined by the [atomic task contracts](ATOMIC_TASK_CONTRACTS_v0.92.2.md). The original correction contained 69 tasks, nine existing bindings and 60 prospective identities and created no children. The first sprint then created #866–#875. The operator subsequently authorized every remaining batch; final accounting is 69 assigned core identities and zero unassigned tasks without changing scope.
+- CF-D24: Each implementation closes on one complete production behavior with success and failure proof. The eleven tightened contracts reject schemas, scaffolds, unspecified slices, outline-only writing and zero-scenario qualification.
+- CF-D25: Retain all seven planning tasks: WP-01, ARCH-SPLIT, OPS-GCP, ARCH-ADR, SIM-08, TAIL-07 and TAIL-08. Each finishes its named result without claiming Beta implementation.
+- CF-D26: Preserve existing issue identities: #855 owns RT-PROVIDER lifecycle, #852 owns QUAL-RUNTIME failure-event repair, and #862 owns local CSDLC-DECOMPOSE. Their separately scoped successors now have distinct native-created identities in the final launch map; creation is not execution proof.
+
+These are planning corrections authorized by the operator, not execution, ADR acceptance or publication approval. The canonical ten-step order is unchanged; TAIL-10 additionally requires OBS-S3 and ARCH-ADR completion and acceptance.
+
+## Creation and sidecar direction
+
+Podcast #671 was restored to v0.92.2 and closed with launch issue #1169 through PR #1174; Apple and Spotify publication is complete. SIM-09 pilot #875 remains deferred to v0.93. Both retain their original identities and authorization requirements. The historical 69-task creation roster is preserved for traceability; it is not a live milestone-membership count. The original sidecar admission and 82-membership census are creation-time history, not current scope.

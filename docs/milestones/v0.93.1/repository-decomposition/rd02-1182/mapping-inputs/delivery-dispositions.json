@@ -1,0 +1,4805 @@
+{
+  "source_revision": "682be6b8babb69f73c5e9fef8580f1b3c88966d5",
+  "status": "proposed technical decisions",
+  "paths": [
+    {
+      "path": ".github/GITHUB_METADATA.md",
+      "owner": "agent-design-language",
+      "disposition": "maintained",
+      "rationale": "Original repository tracker metadata; destination adapter configuration separately generated.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": ".github/codefriend-fitness-policy.json",
+      "owner": "codefriend",
+      "disposition": "maintained",
+      "rationale": "CodeFriend-specific workflow/policy; infrastructure supplies shared runner services.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": ".github/workflows/aws-codefriend-build.yaml",
+      "owner": "codefriend",
+      "disposition": "maintained",
+      "rationale": "CodeFriend-specific workflow/policy; infrastructure supplies shared runner services.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": ".github/workflows/aws-spot-remote-validation.yaml",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": ".github/workflows/ci.yaml",
+      "owner": "agent-design-language",
+      "disposition": "split_before_export",
+      "rationale": "Original monorepo workflow custodian; product jobs must split with source and real check identities.",
+      "component_splits": [
+        {
+          "owner": "agent-design-language",
+          "component": "portable conformance jobs"
+        },
+        {
+          "owner": "cognitive-sdlc",
+          "component": "native lifecycle validation"
+        },
+        {
+          "owner": "agent-logic-runtime",
+          "component": "Runtime tests and coverage"
+        },
+        {
+          "owner": "codefriend",
+          "component": "review/host/acquisition tests"
+        },
+        {
+          "owner": "agent-logic-infrastructure",
+          "component": "shared runner/artifact machinery"
+        }
+      ],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": ".github/workflows/codefriend-fitness.yml",
+      "owner": "codefriend",
+      "disposition": "maintained",
+      "rationale": "CodeFriend-specific workflow/policy; infrastructure supplies shared runner services.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": ".github/workflows/codefriend-host-candidate.yml",
+      "owner": "codefriend",
+      "disposition": "maintained",
+      "rationale": "CodeFriend-specific workflow/policy; infrastructure supplies shared runner services.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": ".github/workflows/nightly-coverage-ratchet.yaml",
+      "owner": "agent-design-language",
+      "disposition": "split_before_export",
+      "rationale": "Original monorepo workflow custodian; product jobs must split with source and real check identities.",
+      "component_splits": [
+        {
+          "owner": "agent-design-language",
+          "component": "portable conformance jobs"
+        },
+        {
+          "owner": "cognitive-sdlc",
+          "component": "native lifecycle validation"
+        },
+        {
+          "owner": "agent-logic-runtime",
+          "component": "Runtime tests and coverage"
+        },
+        {
+          "owner": "codefriend",
+          "component": "review/host/acquisition tests"
+        },
+        {
+          "owner": "agent-logic-infrastructure",
+          "component": "shared runner/artifact machinery"
+        }
+      ],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": ".github/workflows/wp04-native-distributed.yml",
+      "owner": "agent-logic-runtime",
+      "disposition": "maintained",
+      "rationale": "Runtime producer proof workflow; carry versioned tool/fixture dependencies.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": ".github/workflows/wp08-native-birthday.yml",
+      "owner": "agent-logic-runtime",
+      "disposition": "maintained",
+      "rationale": "Runtime producer proof workflow; carry versioned tool/fixture dependencies.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": ".github/workflows/wp09-native-birthday-identity.yml",
+      "owner": "agent-logic-runtime",
+      "disposition": "maintained",
+      "rationale": "Runtime producer proof workflow; carry versioned tool/fixture dependencies.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": ".github/workflows/wp10-native-birthday-continuity.yml",
+      "owner": "agent-logic-runtime",
+      "disposition": "maintained",
+      "rationale": "Runtime producer proof workflow; carry versioned tool/fixture dependencies.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": ".github/workflows/wp11-native-memory-palace.yml",
+      "owner": "agent-logic-runtime",
+      "disposition": "maintained",
+      "rationale": "Runtime producer proof workflow; carry versioned tool/fixture dependencies.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": ".github/workflows/wp12-native-capability-envelope.yml",
+      "owner": "agent-logic-runtime",
+      "disposition": "maintained",
+      "rationale": "Runtime producer proof workflow; carry versioned tool/fixture dependencies.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": ".github/workflows/wp13-authority-repair.yml",
+      "owner": "agent-logic-runtime",
+      "disposition": "maintained",
+      "rationale": "Runtime producer proof workflow; carry versioned tool/fixture dependencies.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": ".github/workflows/wp13-native-cognitive-profile.yml",
+      "owner": "agent-logic-runtime",
+      "disposition": "maintained",
+      "rationale": "Runtime producer proof workflow; carry versioned tool/fixture dependencies.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": ".github/workflows/wp13a-native-adaptive-learning.yml",
+      "owner": "agent-logic-runtime",
+      "disposition": "maintained",
+      "rationale": "Runtime producer proof workflow; carry versioned tool/fixture dependencies.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": ".github/workflows/wp14-native-acip.yml",
+      "owner": "agent-logic-runtime",
+      "disposition": "maintained",
+      "rationale": "Runtime producer proof workflow; carry versioned tool/fixture dependencies.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": ".github/workflows/wp14-production-acip-repair.yml",
+      "owner": "agent-logic-runtime",
+      "disposition": "maintained",
+      "rationale": "Runtime producer proof workflow; carry versioned tool/fixture dependencies.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": ".github/workflows/wp14-retained-native-proof.yml",
+      "owner": "agent-logic-runtime",
+      "disposition": "maintained",
+      "rationale": "Runtime producer proof workflow; carry versioned tool/fixture dependencies.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": ".github/workflows/wp15-native-birth-witness.yml",
+      "owner": "agent-logic-runtime",
+      "disposition": "maintained",
+      "rationale": "Runtime producer proof workflow; carry versioned tool/fixture dependencies.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/account-foundation/.terraform.lock.hcl",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/account-foundation/README.md",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/account-foundation/backend.hcl.example",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/account-foundation/main.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/account-foundation/outputs.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/account-foundation/terraform.tfvars.example",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/account-foundation/variables.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/account-foundation/versions.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/bootstrap/.terraform.lock.hcl",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/bootstrap/README.md",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/bootstrap/backend.hcl.example",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/bootstrap/main.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/bootstrap/outputs.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/bootstrap/variables.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/bootstrap/versions.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/csm-public-edge/.terraform.lock.hcl",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/csm-public-edge/README.md",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/csm-public-edge/locals.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/csm-public-edge/main.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/csm-public-edge/outputs.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/csm-public-edge/terraform.tfvars.example",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/csm-public-edge/variables.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/csm-public-edge/versions.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/csm-runtime-alb/.terraform.lock.hcl",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/csm-runtime-alb/README.md",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/csm-runtime-alb/locals.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/csm-runtime-alb/main.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/csm-runtime-alb/outputs.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/csm-runtime-alb/terraform.tfvars.example",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/csm-runtime-alb/variables.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/csm-runtime-alb/versions.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/csm-runtime-health/.gitignore",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/csm-runtime-health/.terraform.lock.hcl",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/csm-runtime-health/README.md",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/csm-runtime-health/locals.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/csm-runtime-health/main.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/csm-runtime-health/outputs.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/csm-runtime-health/shepherd.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/csm-runtime-health/terraform.tfvars.example",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/csm-runtime-health/variables.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/csm-runtime-health/versions.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/csm-runtime-spot/.terraform.lock.hcl",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/csm-runtime-spot/README.md",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/csm-runtime-spot/locals.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/csm-runtime-spot/main.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/csm-runtime-spot/outputs.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/csm-runtime-spot/terraform.tfvars.example",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/csm-runtime-spot/tests/recovery.tftest.hcl",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/csm-runtime-spot/tests/run_contract.sh",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/csm-runtime-spot/tests/run_live_proof.sh",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/csm-runtime-spot/tests/test_live_proof.py",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/csm-runtime-spot/variables.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/csm-runtime-spot/versions.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/modules/csm-runtime-alb/main.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/modules/csm-runtime-alb/outputs.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/modules/csm-runtime-alb/variables.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/modules/csm-runtime-spot/main.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/modules/csm-runtime-spot/outputs.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/modules/csm-runtime-spot/variables.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/observatory/.gitignore",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/observatory/.terraform.lock.hcl",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/observatory/README.md",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/observatory/locals.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/observatory/main.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/observatory/outputs.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/observatory/readback.sh",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/observatory/terraform.tfvars.example",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/observatory/variables.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/observatory/versions.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/README.md",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/agent-checkpoint-archive/.gitignore",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/agent-checkpoint-archive/.terraform.lock.hcl",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/agent-checkpoint-archive/README.md",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/agent-checkpoint-archive/locals.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/agent-checkpoint-archive/main.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/agent-checkpoint-archive/outputs.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/agent-checkpoint-archive/terraform.tfvars.example",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/agent-checkpoint-archive/validate.sh",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/agent-checkpoint-archive/variables.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/agent-checkpoint-archive/versions.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/alb-origin/.terraform.lock.hcl",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/alb-origin/aws-f-runtime-alb-origin.backend.hcl.example",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/alb-origin/locals.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/alb-origin/main.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/alb-origin/outputs.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/alb-origin/terraform.tfvars.example",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/alb-origin/variables.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/alb-origin/versions.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/gpu-proof/.gitignore",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/gpu-proof/.terraform.lock.hcl",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/gpu-proof/main.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/gpu-proof/outputs.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/gpu-proof/terraform.tfvars.example",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/gpu-proof/tests/issue607_warm.tftest.hcl",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/gpu-proof/variables.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/gpu-proof/versions.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/gpu-proof/warm-gpu-user-data.sh.tftpl",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/gpu-proof/warm-runtime-user-data.sh.tftpl",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "split_before_export",
+      "rationale": "Infrastructure is source-file integration custodian only; embedded Runtime configuration/Guardian/resident qualification has Runtime implementation owner and must separate before export.",
+      "component_splits": [
+        {
+          "owner": "agent-logic-infrastructure",
+          "component": "host metadata, mounts, artifact composition/transport, cloud deadline and resource lifecycle"
+        },
+        {
+          "owner": "agent-logic-runtime",
+          "component": "Runtime init schema/security policy, Guardian launch/lock lifecycle, resident cycle and qualification criteria"
+        }
+      ],
+      "evidence": [
+        "infra/aws/runtime/gpu-proof/warm-runtime-user-data.sh.tftpl:72-80,117"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/gpu-proof/warm-storage/.terraform.lock.hcl",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/gpu-proof/warm-storage/main.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/gpu-proof/warm-storage/outputs.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/gpu-proof/warm-storage/preparation/.terraform.lock.hcl",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/gpu-proof/warm-storage/preparation/gpu-user-data.sh.tftpl",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/gpu-proof/warm-storage/preparation/main.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/gpu-proof/warm-storage/preparation/outputs.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/gpu-proof/warm-storage/preparation/runtime-user-data.sh.tftpl",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/gpu-proof/warm-storage/preparation/tests/issue607_preparation.tftest.hcl",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/gpu-proof/warm-storage/preparation/variables.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/gpu-proof/warm-storage/preparation/versions.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/gpu-proof/warm-storage/tests/issue607_storage.tftest.hcl",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/gpu-proof/warm-storage/variables.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/gpu-proof/warm-storage/versions.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/log-archive/.gitignore",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/log-archive/.terraform.lock.hcl",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/log-archive/archive_contract.tftest.hcl",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/log-archive/locals.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/log-archive/main.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/log-archive/outputs.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/log-archive/variables.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/log-archive/versions.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/modules/private-runtime-node/main.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/modules/private-runtime-node/outputs.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/modules/private-runtime-node/variables.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/modules/private-runtime-node/versions.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/private-node/.terraform.lock.hcl",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/private-node/aws-f-runtime-private-node.backend.hcl.example",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/private-node/locals.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/private-node/main.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/private-node/outputs.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/private-node/terraform.tfvars.example",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/private-node/variables.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/private-node/versions.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/xcl-01/.terraform.lock.hcl",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/xcl-01/README.md",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/xcl-01/main.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/xcl-01/outputs.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/xcl-01/variables.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/aws/runtime/xcl-01/versions.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/ddns/.terraform.lock.hcl",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/ddns/README.md",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/ddns/client/com.agentlogic.wuji-ddns.plist",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/ddns/client/install_wuji_ddns_launchd.sh",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/ddns/client/wuji_ddns_update.sh",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/ddns/iam.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/ddns/lambda.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/ddns/lambda/handler.py",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/ddns/locals.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/ddns/outputs.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/ddns/providers.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/ddns/route53.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/ddns/ssm.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/ddns/tests/test_handler.py",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/ddns/variables.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/ddns/versions.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/bootstrap/.gitignore",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/bootstrap/.terraform.lock.hcl",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/bootstrap/README.md",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/bootstrap/backend.tf.example",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/bootstrap/main.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/bootstrap/outputs.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/bootstrap/provider.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/bootstrap/terraform.tfvars.example",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/bootstrap/variables.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/bootstrap/versions.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/organization/.gitignore",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/organization/.terraform.lock.hcl",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/organization/README.md",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/organization/main.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/organization/outputs.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/organization/provider.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/organization/variables.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/organization/versions.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/platform/.gitignore",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/platform/.terraform.lock.hcl",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/platform/backend.tf.example",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/platform/main.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/platform/outputs.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/platform/provider.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/platform/terraform.tfvars.example",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/platform/variables.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/platform/versions.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/drt-d-six-resident/.gitignore",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/drt-d-six-resident/.terraform.lock.hcl",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/drt-d-six-resident/main.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/drt-d-six-resident/outputs.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/drt-d-six-resident/provider.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/drt-d-six-resident/startup-ollama.sh",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/drt-d-six-resident/startup-runtime.sh",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "split_before_export",
+      "rationale": "Infrastructure is source-file integration custodian only; embedded Runtime configuration/Guardian/resident qualification has Runtime implementation owner and must separate before export.",
+      "component_splits": [
+        {
+          "owner": "agent-logic-infrastructure",
+          "component": "host metadata, mounts, artifact composition/transport, cloud deadline and resource lifecycle"
+        },
+        {
+          "owner": "agent-logic-runtime",
+          "component": "Runtime init schema/security policy, Guardian launch/lock lifecycle, resident cycle and qualification criteria"
+        }
+      ],
+      "evidence": [
+        "infra/gcp/workloads/drt-d-six-resident/startup-runtime.sh",
+        "infra/runtime-portable/runtime-workload-contract.v1.json"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/drt-d-six-resident/terraform.tfvars.example",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/drt-d-six-resident/variables.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/drt-d-six-resident/versions.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/gpu-smoke-instance/.terraform.lock.hcl",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/gpu-smoke-instance/main.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/gpu-smoke-instance/outputs.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/gpu-smoke-instance/provider.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/gpu-smoke-instance/variables.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/gpu-smoke-instance/versions.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/gpu-smoke-support/.terraform.lock.hcl",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/gpu-smoke-support/main.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/gpu-smoke-support/outputs.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/gpu-smoke-support/provider.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/gpu-smoke-support/variables.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/gpu-smoke-support/versions.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/modules/gpu-smoke-instance/main.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/modules/gpu-smoke-instance/outputs.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/modules/gpu-smoke-instance/variables.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/modules/gpu-smoke-instance/versions.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/modules/gpu-smoke-support/main.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/modules/gpu-smoke-support/outputs.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/modules/gpu-smoke-support/variables.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/modules/gpu-smoke-support/versions.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/modules/two-node-ollama-runtime/.gitignore",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/modules/two-node-ollama-runtime/.terraform.lock.hcl",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/modules/two-node-ollama-runtime/main.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/modules/two-node-ollama-runtime/outputs.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/modules/two-node-ollama-runtime/tests/issue509_launch_contract.tftest.hcl",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/modules/two-node-ollama-runtime/variables.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/modules/two-node-ollama-runtime/versions.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/warm-polis/.terraform.lock.hcl",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/warm-polis/README.md",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/warm-polis/deadline-guard.sh",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/warm-polis/main.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/warm-polis/outputs.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/warm-polis/preparation/.terraform.lock.hcl",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/warm-polis/preparation/main.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/warm-polis/preparation/outputs.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/warm-polis/preparation/seal-disk.sh",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/warm-polis/preparation/tests/issue663_preparation.tftest.hcl",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/warm-polis/preparation/variables.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/warm-polis/preparation/versions.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/warm-polis/prepare-runtime-bundle.sh",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "split_before_export",
+      "rationale": "Infrastructure is source-file integration custodian only; embedded Runtime configuration/Guardian/resident qualification has Runtime implementation owner and must separate before export.",
+      "component_splits": [
+        {
+          "owner": "agent-logic-infrastructure",
+          "component": "host metadata, mounts, artifact composition/transport, cloud deadline and resource lifecycle"
+        },
+        {
+          "owner": "agent-logic-runtime",
+          "component": "Runtime init schema/security policy, Guardian launch/lock lifecycle, resident cycle and qualification criteria"
+        }
+      ],
+      "evidence": [
+        "infra/gcp/workloads/warm-polis/prepare-runtime-bundle.sh",
+        "infra/runtime-portable/runtime-workload-contract.v1.json"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/warm-polis/prepare-snapshot-generation.sh",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/warm-polis/retire-snapshot-generation.sh",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/warm-polis/run-live-snapshot-launch.sh",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "split_before_export",
+      "rationale": "Infrastructure is source-file integration custodian only; embedded Runtime configuration/Guardian/resident qualification has Runtime implementation owner and must separate before export.",
+      "component_splits": [
+        {
+          "owner": "agent-logic-infrastructure",
+          "component": "host metadata, mounts, artifact composition/transport, cloud deadline and resource lifecycle"
+        },
+        {
+          "owner": "agent-logic-runtime",
+          "component": "Runtime init schema/security policy, Guardian launch/lock lifecycle, resident cycle and qualification criteria"
+        }
+      ],
+      "evidence": [
+        "infra/gcp/workloads/warm-polis/run-live-snapshot-launch.sh",
+        "infra/runtime-portable/runtime-workload-contract.v1.json"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/warm-polis/snapshot-catalog/.terraform.lock.hcl",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/warm-polis/snapshot-catalog/main.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/warm-polis/snapshot-catalog/outputs.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/warm-polis/snapshot-catalog/tests/issue663_snapshot_catalog.tftest.hcl",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/warm-polis/snapshot-catalog/variables.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/warm-polis/snapshot-catalog/verify-snapshots.sh",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/warm-polis/snapshot-catalog/versions.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/warm-polis/startup-ollama.sh",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/warm-polis/startup-runtime.sh",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "split_before_export",
+      "rationale": "Infrastructure is source-file integration custodian only; embedded Runtime configuration/Guardian/resident qualification has Runtime implementation owner and must separate before export.",
+      "component_splits": [
+        {
+          "owner": "agent-logic-infrastructure",
+          "component": "host metadata, mounts, artifact composition/transport, cloud deadline and resource lifecycle"
+        },
+        {
+          "owner": "agent-logic-runtime",
+          "component": "Runtime init schema/security policy, Guardian launch/lock lifecycle, resident cycle and qualification criteria"
+        }
+      ],
+      "evidence": [
+        "infra/gcp/workloads/warm-polis/startup-runtime.sh",
+        "infra/runtime-portable/runtime-workload-contract.v1.json"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/warm-polis/tests/issue663_warm_polis.tftest.hcl",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/warm-polis/tests/validate-deadline-guard.sh",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/warm-polis/tests/validate-live-residual-inventory.sh",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/warm-polis/tests/validate-snapshot-retirement.sh",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/warm-polis/tests/validate-warm-start-policy.sh",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/warm-polis/variables.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/warm-polis/versions.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/xcl-01/.terraform.lock.hcl",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/xcl-01/README.md",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/xcl-01/main.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/xcl-01/outputs.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/xcl-01/variables.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/gcp/workloads/xcl-01/versions.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/runtime-portable/README.md",
+      "owner": "agent-logic-runtime",
+      "disposition": "maintained",
+      "rationale": "Runtime-owned configuration/workload behavioral contract consumed by infrastructure deployment.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/runtime-portable/runtime-workload-contract.v1.json",
+      "owner": "agent-logic-runtime",
+      "disposition": "maintained",
+      "rationale": "Runtime-owned configuration/workload behavioral contract consumed by infrastructure deployment.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/runtime-v3/agents/ember.axioma.yaml",
+      "owner": "agent-logic-runtime",
+      "disposition": "maintained",
+      "rationale": "Runtime-owned configuration/workload behavioral contract consumed by infrastructure deployment.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/runtime-v3/runtime-api-5665.toml",
+      "owner": "agent-logic-runtime",
+      "disposition": "maintained",
+      "rationale": "Runtime-owned configuration/workload behavioral contract consumed by infrastructure deployment.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "infra/runtime-v3/runtime-init.toml",
+      "owner": "agent-logic-runtime",
+      "disposition": "maintained",
+      "rationale": "Runtime-owned configuration/workload behavioral contract consumed by infrastructure deployment.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "tools/aws_remote_validation/BOOTSTRAP_IDENTITIES.md",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "tools/aws_remote_validation/Cargo.lock",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "tools/aws_remote_validation/Cargo.toml",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "tools/aws_remote_validation/scripts/remote_validation_runner.sh",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "tools/aws_remote_validation/scripts/ssh_debug_control.sh",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "tools/aws_remote_validation/scripts/test_verified_bootstrap.py",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "tools/aws_remote_validation/scripts/verified_bootstrap.pvf.json",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "tools/aws_remote_validation/scripts/verified_bootstrap.py",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "tools/aws_remote_validation/src/aws_remote_validation.rs",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "tools/aws_remote_validation/src/bin/adl_aws_remote_validation.rs",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "tools/aws_remote_validation/src/cli/observability.rs",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "tools/aws_remote_validation/tests/portable_adapter.rs",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Shared deployment/validation infrastructure; products supply pinned artifacts and service contracts.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "tools/codefriend_host/README.md",
+      "owner": "codefriend",
+      "disposition": "split_before_export",
+      "rationale": "CodeFriend custodian for mixed host docs/validation; extraction produces product-specific sections with one owner each.",
+      "component_splits": [
+        {
+          "owner": "codefriend",
+          "component": "product gateway/agent and idle control behavior"
+        },
+        {
+          "owner": "codefriend.ai",
+          "component": "site ingress/session launch contract"
+        },
+        {
+          "owner": "agent-logic-infrastructure",
+          "component": "host composition/artifact assembly"
+        }
+      ],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "tools/codefriend_host/ci/README.md",
+      "owner": "codefriend",
+      "disposition": "split_before_export",
+      "rationale": "CodeFriend custodian for mixed host docs/validation; extraction produces product-specific sections with one owner each.",
+      "component_splits": [
+        {
+          "owner": "codefriend",
+          "component": "product gateway/agent and idle control behavior"
+        },
+        {
+          "owner": "codefriend.ai",
+          "component": "site ingress/session launch contract"
+        },
+        {
+          "owner": "agent-logic-infrastructure",
+          "component": "host composition/artifact assembly"
+        }
+      ],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "tools/codefriend_host/ci/interrupted-report.json",
+      "owner": "codefriend",
+      "disposition": "maintained",
+      "rationale": "CodeFriend product host/control/report behavior and companion validation.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "tools/codefriend_host/ci/manifest.py",
+      "owner": "codefriend",
+      "disposition": "maintained",
+      "rationale": "CodeFriend product host/control/report behavior and companion validation.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "tools/codefriend_host/ci/smoke.py",
+      "owner": "codefriend",
+      "disposition": "maintained",
+      "rationale": "CodeFriend product host/control/report behavior and companion validation.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "tools/codefriend_host/ci/test_manifest.py",
+      "owner": "codefriend",
+      "disposition": "maintained",
+      "rationale": "CodeFriend product host/control/report behavior and companion validation.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "tools/codefriend_host/ci/validation.json",
+      "owner": "codefriend",
+      "disposition": "split_before_export",
+      "rationale": "CodeFriend custodian for mixed host docs/validation; extraction produces product-specific sections with one owner each.",
+      "component_splits": [
+        {
+          "owner": "codefriend",
+          "component": "product gateway/agent and idle control behavior"
+        },
+        {
+          "owner": "codefriend.ai",
+          "component": "site ingress/session launch contract"
+        },
+        {
+          "owner": "agent-logic-infrastructure",
+          "component": "host composition/artifact assembly"
+        }
+      ],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "tools/codefriend_host/idle_stop.py",
+      "owner": "codefriend",
+      "disposition": "maintained",
+      "rationale": "CodeFriend product host/control/report behavior and companion validation.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "tools/codefriend_host/initialize_registry.py",
+      "owner": "codefriend",
+      "disposition": "maintained",
+      "rationale": "CodeFriend product host/control/report behavior and companion validation.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "tools/codefriend_host/probe_linux_control.py",
+      "owner": "codefriend",
+      "disposition": "maintained",
+      "rationale": "CodeFriend product host/control/report behavior and companion validation.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "tools/codefriend_host/proxy/README.md",
+      "owner": "codefriend.ai",
+      "disposition": "maintained",
+      "rationale": "Site-specific authenticated ingress and website launch contract; nginx forwards all routes to website, never direct gateway.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "tools/codefriend_host/proxy/nginx.conf",
+      "owner": "codefriend.ai",
+      "disposition": "maintained",
+      "rationale": "Site-specific authenticated ingress and website launch contract; nginx forwards all routes to website, never direct gateway.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "tools/codefriend_host/release/README.md",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Infrastructure owns host resource composition and artifact assembly; consume pinned CF/website artifacts without sibling source.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "tools/codefriend_host/release/assemble.py",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Infrastructure owns host resource composition and artifact assembly; consume pinned CF/website artifacts without sibling source.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "tools/codefriend_host/release/test_assemble.py",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Infrastructure owns host resource composition and artifact assembly; consume pinned CF/website artifacts without sibling source.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "tools/codefriend_host/release/validation.json",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Infrastructure owns host resource composition and artifact assembly; consume pinned CF/website artifacts without sibling source.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "tools/codefriend_host/release/verify_packet.py",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Infrastructure owns host resource composition and artifact assembly; consume pinned CF/website artifacts without sibling source.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "tools/codefriend_host/systemd/codefriend-gateway.service",
+      "owner": "codefriend",
+      "disposition": "maintained",
+      "rationale": "CodeFriend product host/control/report behavior and companion validation.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "tools/codefriend_host/systemd/codefriend-idle-stop.service",
+      "owner": "codefriend",
+      "disposition": "maintained",
+      "rationale": "CodeFriend product host/control/report behavior and companion validation.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "tools/codefriend_host/systemd/codefriend-idle-stop.timer",
+      "owner": "codefriend",
+      "disposition": "maintained",
+      "rationale": "CodeFriend product host/control/report behavior and companion validation.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "tools/codefriend_host/systemd/codefriend-website.service",
+      "owner": "codefriend.ai",
+      "disposition": "maintained",
+      "rationale": "Site-specific authenticated ingress and website launch contract; nginx forwards all routes to website, never direct gateway.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "tools/codefriend_host/terraform/.gitignore",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Infrastructure owns host resource composition and artifact assembly; consume pinned CF/website artifacts without sibling source.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "tools/codefriend_host/terraform/.terraform.lock.hcl",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Infrastructure owns host resource composition and artifact assembly; consume pinned CF/website artifacts without sibling source.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "tools/codefriend_host/terraform/main.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Infrastructure owns host resource composition and artifact assembly; consume pinned CF/website artifacts without sibling source.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "tools/codefriend_host/terraform/variables.tf",
+      "owner": "agent-logic-infrastructure",
+      "disposition": "maintained",
+      "rationale": "Infrastructure owns host resource composition and artifact assembly; consume pinned CF/website artifacts without sibling source.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "tools/codefriend_host/test_idle_stop.py",
+      "owner": "codefriend",
+      "disposition": "maintained",
+      "rationale": "CodeFriend product host/control/report behavior and companion validation.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "tools/codefriend_host/test_initialize_registry.py",
+      "owner": "codefriend",
+      "disposition": "maintained",
+      "rationale": "CodeFriend product host/control/report behavior and companion validation.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "tools/codefriend_host/test_linux_transport.py",
+      "owner": "codefriend",
+      "disposition": "maintained",
+      "rationale": "CodeFriend product host/control/report behavior and companion validation.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "tools/codefriend_host/validation.json",
+      "owner": "codefriend",
+      "disposition": "split_before_export",
+      "rationale": "CodeFriend custodian for mixed host docs/validation; extraction produces product-specific sections with one owner each.",
+      "component_splits": [
+        {
+          "owner": "codefriend",
+          "component": "product gateway/agent and idle control behavior"
+        },
+        {
+          "owner": "codefriend.ai",
+          "component": "site ingress/session launch contract"
+        },
+        {
+          "owner": "agent-logic-infrastructure",
+          "component": "host composition/artifact assembly"
+        }
+      ],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "tools/groupd_validation/Cargo.lock",
+      "owner": "agent-design-language",
+      "disposition": "retain_history",
+      "rationale": "Cross-product frozen remediation proof, retained in original ADL custody; not a new active shared test owner.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "tools/groupd_validation/Cargo.toml",
+      "owner": "agent-design-language",
+      "disposition": "retain_history",
+      "rationale": "Cross-product frozen remediation proof, retained in original ADL custody; not a new active shared test owner.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "tools/groupd_validation/PVF.json",
+      "owner": "agent-design-language",
+      "disposition": "retain_history",
+      "rationale": "Cross-product frozen remediation proof, retained in original ADL custody; not a new active shared test owner.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "tools/groupd_validation/README.md",
+      "owner": "agent-design-language",
+      "disposition": "retain_history",
+      "rationale": "Cross-product frozen remediation proof, retained in original ADL custody; not a new active shared test owner.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "tools/groupd_validation/src/lib.rs",
+      "owner": "agent-design-language",
+      "disposition": "retain_history",
+      "rationale": "Cross-product frozen remediation proof, retained in original ADL custody; not a new active shared test owner.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "tools/groupd_validation/test_documentation.py",
+      "owner": "agent-design-language",
+      "disposition": "retain_history",
+      "rationale": "Cross-product frozen remediation proof, retained in original ADL custody; not a new active shared test owner.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "tools/remote_validation/Cargo.lock",
+      "owner": "agent-design-language",
+      "disposition": "maintained",
+      "rationale": "Portable bounded validation request/result contract; serde/json/hash only, no private Runtime dependency.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "tools/remote_validation/Cargo.toml",
+      "owner": "agent-design-language",
+      "disposition": "maintained",
+      "rationale": "Portable bounded validation request/result contract; serde/json/hash only, no private Runtime dependency.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "tools/remote_validation/src/bin/adl-remote-validation.rs",
+      "owner": "agent-design-language",
+      "disposition": "maintained",
+      "rationale": "Portable bounded validation request/result contract; serde/json/hash only, no private Runtime dependency.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "tools/remote_validation/src/lib.rs",
+      "owner": "agent-design-language",
+      "disposition": "maintained",
+      "rationale": "Portable bounded validation request/result contract; serde/json/hash only, no private Runtime dependency.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    },
+    {
+      "path": "tools/remote_validation/tests/contract.rs",
+      "owner": "agent-design-language",
+      "disposition": "maintained",
+      "rationale": "Portable bounded validation request/result contract; serde/json/hash only, no private Runtime dependency.",
+      "component_splits": [],
+      "evidence": [
+        "RD01 D-DELIVERY census",
+        "tools/codefriend_host/proxy/nginx.conf",
+        "tools/remote_validation/Cargo.toml",
+        "infra/runtime-portable/README.md",
+        "tools/groupd_validation/README.md"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "schema": "adl.v0921.wp01.operation-intent.v1",
+  "kind": "child_create",
+  "planned_id": "DRT-B",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:DRT-B:create",
+  "request_fingerprint": "5c2e5396c1e2731eae5af48974bab769ee6d2073fb775d87105cf7cd866a517c",
+  "planning_digest": "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251",
+  "dependencies": {
+    "DRT-A": 506,
+    "issue-345": 345
+  }
+}

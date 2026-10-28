@@ -1,0 +1,27 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "action": "issue_create",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:HOT-01:create",
+  "token_file": null,
+  "issue": null,
+  "pull_request": null,
+  "title": "[v0.92.1][HOT-01] Axum configuration hot reload",
+  "body": "## Outcome\n\nProduce one production-ready Axum hot-reload implementation.\n\n## Primary deliverable\n\nOne production-ready Axum hot-reload implementation with last-known-good retention.\n\n## Verification result\n\nValid reload, invalid retention, debounce, concurrent-read, and watcher-shutdown tests pass.\n\n## Unit boundary\n\nIssue completion is exactly one production-ready hot-reload implementation; behavioral cases are proof inputs.\n\n## Dependencies\n\n- WP-01: #480\n\n## Retained predecessor scope\n\n- None; this is new v0.92.1 work.\n\n## Acceptance criteria\n\n- [ ] Reads use atomically swappable state\n- [ ] Invalid updates preserve the last valid configuration\n- [ ] File events are debounced\n- [ ] Concurrent requests observe complete configurations only\n\n## Owned paths\n\n- `adl-runtime/src/config_reload.rs`\n- `adl-runtime/tests/config_reload.rs`\n- `docs/runtime/config-hot-reload.md`\n\n## PVF lanes\n\n- `valid-reload`\n- `invalid-retention`\n- `debounce`\n- `concurrent-read`\n- `watcher-shutdown`\n\n## Stop conditions\n\n- Reload requires process restart\n- Partial configuration can become visible\n\n## Non-goals\n\n- Database pool replacement\n- HTML template reload\n- Admin mutation API\n\n## Canonical planning identity\n\n- Planned ID: `HOT-01`\n- Canonical title: `[v0.92.1][HOT-01] Axum configuration hot reload`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#HOT-01`\n",
+  "labels": [
+    "area:runtime",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "assignees": [
+
+  ],
+  "milestone": 1,
+  "state": null,
+  "comment_body": null,
+  "required_checks": [
+
+  ],
+  "require_review": false,
+  "linked_issue": null
+}

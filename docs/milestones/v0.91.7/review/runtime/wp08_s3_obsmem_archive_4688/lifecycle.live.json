@@ -1,0 +1,35 @@
+{
+    "TransitionDefaultMinimumObjectSize": "all_storage_classes_128K",
+    "Rules": [
+        {
+            "ID": "adl-wp08-community-memory-archive-tiering",
+            "Filter": {
+                "Prefix": "community-memory/"
+            },
+            "Status": "Enabled",
+            "Transitions": [
+                {
+                    "Days": 90,
+                    "StorageClass": "GLACIER_IR"
+                },
+                {
+                    "Days": 365,
+                    "StorageClass": "DEEP_ARCHIVE"
+                }
+            ],
+            "NoncurrentVersionTransitions": [
+                {
+                    "NoncurrentDays": 30,
+                    "StorageClass": "GLACIER_IR"
+                },
+                {
+                    "NoncurrentDays": 180,
+                    "StorageClass": "DEEP_ARCHIVE"
+                }
+            ],
+            "AbortIncompleteMultipartUpload": {
+                "DaysAfterInitiation": 7
+            }
+        }
+    ]
+}

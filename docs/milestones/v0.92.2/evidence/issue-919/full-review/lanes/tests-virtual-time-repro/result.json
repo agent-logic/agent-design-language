@@ -1,0 +1,6 @@
+{
+  "exit": 0,
+  "stdout": "\nrunning 1 test\noriginal oracle passes despite shutdown delay=600 seconds\ntest original_oracle_accepts_a_600_second_shutdown_delay ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n\nrunning 0 tests\n\ntest result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n",
+  "stderr": "    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.01s\n     Running unittests src/lib.rs (retained-local-review/lanes/tests-virtual-time-repro/target/debug/deps/review919_virtual_time_negative-55f729acba76bf6f)\n   Doc-tests review919_virtual_time_negative\n",
+  "scope": "Isolated counterexample to original oracle; not modified product execution"
+}

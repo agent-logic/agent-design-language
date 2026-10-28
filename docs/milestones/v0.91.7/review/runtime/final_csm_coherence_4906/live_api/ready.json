@@ -1,0 +1,7 @@
+{
+  "agent_instance_id": "main-csm-runtime",
+  "blocking_reasons": [],
+  "ready": "ready",
+  "runtime_owner": "csm",
+  "schema": "adl.csm.runtime_api.ready.v1"
+}

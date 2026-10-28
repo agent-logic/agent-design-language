@@ -1,0 +1,197 @@
+{
+  "blocking_or_partial_evidence": [
+    "Explicit blocker or high-priority finding marker found in evidence."
+  ],
+  "evidence_families": {
+    "demo_proof_evidence": {
+      "paths": [
+        "ADR_PLAN_v0.92.1.md",
+        "CANONICAL_DOC_INVENTORY_v0.92.1.md",
+        "DECISIONS_v0.92.1.md",
+        "DEMO_MATRIX_v0.92.1.md",
+        "DESIGN_v0.92.1.md",
+        "DISTRIBUTED_TEST_PLAN_CONSULTATION.md",
+        "FEATURE_PROOF_COVERAGE_v0.92.1.md",
+        "MILESTONE_CHECKLIST_v0.92.1.md",
+        "QUALITY_GATE_v0.92.1.md",
+        "README.md",
+        "RELEASE_NOTES_v0.92.1.md",
+        "SPRINT_v0.92.1.md",
+        "VISION_v0.92.1.md",
+        "WBS_v0.92.1.md",
+        "WP_EXECUTION_READINESS_v0.92.1.md",
+        "WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
+        "WP_PREMATURE_ISSUE_RETIREMENT_v0.92.1.yaml",
+        "evidence/cloud/aws-a/readbacks/global-tagged-resources.json",
+        "evidence/cloud/aws-a/readbacks/regions/us-west-2-security-groups.json",
+        "evidence/cloud/aws-b/README.md"
+      ],
+      "signals": [
+        "| Observatory projection and authenticity | Update existing deferred record | [ADR 0069](../../architecture/adr/0069-observatory-governed-runtime-consumer-boundary.md) retains its ",
+        "retained evidence of review and semantic-proof debt. Neither curation nor",
+        "| Execution specifications | [WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml](WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml) | Lane outcomes and proof contracts |",
+        "| Feature/proof coverage | [FEATURE_PROOF_COVERAGE_v0.92.1.md](FEATURE_PROOF_COVERAGE_v0.92.1.md) | Feature-to-proof ownership |",
+        "6. **Observatory data is authentic.** Invented, mocked, or status-only authority is prohibited from release proof.",
+        "12. **Runtime generations are separated before v4.** DEC-01 owns v2/v3 authority separation and compatibility proof; Runtime v4 stays deferred to a later milestone."
+      ],
+      "status": "present"
+    },
+    "issue_pr_evidence": {
+      "paths": [
+        "ADR_PLAN_v0.92.1.md",
+        "CANONICAL_DOC_INVENTORY_v0.92.1.md",
+        "DECISIONS_v0.92.1.md",
+        "DEMO_MATRIX_v0.92.1.md",
+        "DESIGN_v0.92.1.md",
+        "DISTRIBUTED_TEST_PLAN_CONSULTATION.md",
+        "FEATURE_PROOF_COVERAGE_v0.92.1.md",
+        "MILESTONE_CHECKLIST_v0.92.1.md",
+        "NEXT_MILESTONE_HANDOFF_v0.92.1.md",
+        "PLANNED_ISSUE_CATALOG_v0.92.1.md",
+        "QUALITY_GATE_v0.92.1.md",
+        "README.md",
+        "RELEASE_NOTES_v0.92.1.md",
+        "RELEASE_PLAN_v0.92.1.md",
+        "SPRINT_v0.92.1.md",
+        "VISION_v0.92.1.md",
+        "WBS_v0.92.1.md",
+        "WP_EXECUTION_READINESS_v0.92.1.md",
+        "WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
+        "WP_ISSUE_WAVE_v0.92.1.yaml"
+      ],
+      "signals": [
+        "- Observatory projection and authenticity boundaries",
+        "- provider inference-profile ownership and the boundary between authoritative execution and local-model shadow comparison",
+        "Status: planning candidate. This inventory proves package completeness; it does not create issues, approve execution, or claim release readiness.",
+        "| Work breakdown | [WBS_v0.92.1.md](WBS_v0.92.1.md) | Work-package decomposition |",
+        "2. **The original six lanes remain intact, with three explicit additions.** Runtime v2/v3 decoupling, provider inference profiles, and the GCP six-resident sidecar are first-class ",
+        "3. **Planning reconciliation does not execute the wave.** #316 may reconcile v0.92.1 and v0.92.2 planning truth, but it creates no execution issue and claims no implementation."
+      ],
+      "status": "present"
+    },
+    "remediation_evidence": {
+      "paths": [
+        "CANONICAL_DOC_INVENTORY_v0.92.1.md",
+        "DECISIONS_v0.92.1.md",
+        "DEMO_MATRIX_v0.92.1.md",
+        "DISTRIBUTED_TEST_PLAN_CONSULTATION.md",
+        "FEATURE_PROOF_COVERAGE_v0.92.1.md",
+        "MILESTONE_CHECKLIST_v0.92.1.md",
+        "NEXT_MILESTONE_HANDOFF_v0.92.1.md",
+        "PLANNED_ISSUE_CATALOG_v0.92.1.md",
+        "QUALITY_GATE_v0.92.1.md",
+        "README.md",
+        "RELEASE_NOTES_v0.92.1.md",
+        "RELEASE_PLAN_v0.92.1.md",
+        "SPRINT_v0.92.1.md",
+        "WBS_v0.92.1.md",
+        "WP_EXECUTION_READINESS_v0.92.1.md",
+        "WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
+        "WP_ISSUE_WAVE_v0.92.1.yaml",
+        "WP_PREMATURE_ISSUE_RETIREMENT_v0.92.1.yaml",
+        "evidence/cloud/aws-d/ISSUE_727_LIVE_APPLY_RUNBOOK.md",
+        "evidence/cloud/aws-d/ISSUE_727_OPERATOR_AUTHORIZATION.template.json"
+      ],
+      "signals": [
+        "## Release Closeout Review Denominator",
+        "its review packet. Missing evidence remains an open finding. Final handoff",
+        "1. **Repository authority first.** #432's reviewed implementation is merged and ancestral before the milestone operator creates WP-01 or an execution root consumes it. Administrati",
+        "11. **The release tail follows the established ten-step standard.** Quality, docs/release truth, publication finalization, internal review, external review, remediation/preflight, ",
+        "All 393 inventoried rows have exactly one disposition. Of 366 historically required rows, 143 criteria were explicitly removed by merged operator-reviewed PRs, leaving 223 requirem",
+        "## Findings And Disposition"
+      ],
+      "status": "present"
+    },
+    "review_evidence": {
+      "paths": [
+        "ADR_PLAN_v0.92.1.md",
+        "CANONICAL_DOC_INVENTORY_v0.92.1.md",
+        "DECISIONS_v0.92.1.md",
+        "DEMO_MATRIX_v0.92.1.md",
+        "DESIGN_v0.92.1.md",
+        "DISTRIBUTED_TEST_PLAN_CONSULTATION.md",
+        "FEATURE_PROOF_COVERAGE_v0.92.1.md",
+        "MILESTONE_CHECKLIST_v0.92.1.md",
+        "NEXT_MILESTONE_HANDOFF_v0.92.1.md",
+        "PLANNED_ISSUE_CATALOG_v0.92.1.md",
+        "QUALITY_GATE_v0.92.1.md",
+        "README.md",
+        "RELEASE_NOTES_v0.92.1.md",
+        "RELEASE_PLAN_v0.92.1.md",
+        "SPRINT_v0.92.1.md",
+        "WBS_v0.92.1.md",
+        "WP_EXECUTION_READINESS_v0.92.1.md",
+        "WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
+        "WP_ISSUE_WAVE_v0.92.1.yaml",
+        "WP_PREMATURE_ISSUE_RETIREMENT_v0.92.1.yaml"
+      ],
+      "signals": [
+        "| GCP portability differences | No new accepted-difference ADR established; deferred | The [GCP feature](features/GCP_SIX_RESIDENT_QUALIFICATION_v0.92.1.md) preserves the AWS contr",
+        "The [release-tail gap report](evidence/integration/gap_analysis_report.md) is",
+        "The original creation specification below is retained as planning history. WP-01/#480 created the execution wave; `evidence/wp-01/final-creation-receipt.json` is the exact creation",
+        "## Release Closeout Review Denominator",
+        "1. **Repository authority first.** #432's reviewed implementation is merged and ancestral before the milestone operator creates WP-01 or an execution root consumes it. Administrati",
+        "11. **The release tail follows the established ten-step standard.** Quality, docs/release truth, publication finalization, internal review, external review, remediation/preflight, "
+      ],
+      "status": "present"
+    },
+    "validation_evidence": {
+      "paths": [
+        "ADR_PLAN_v0.92.1.md",
+        "CANONICAL_DOC_INVENTORY_v0.92.1.md",
+        "DECISIONS_v0.92.1.md",
+        "DEMO_MATRIX_v0.92.1.md",
+        "DESIGN_v0.92.1.md",
+        "DISTRIBUTED_TEST_PLAN_CONSULTATION.md",
+        "FEATURE_PROOF_COVERAGE_v0.92.1.md",
+        "MILESTONE_CHECKLIST_v0.92.1.md",
+        "NEXT_MILESTONE_HANDOFF_v0.92.1.md",
+        "PLANNED_ISSUE_CATALOG_v0.92.1.md",
+        "QUALITY_GATE_v0.92.1.md",
+        "README.md",
+        "RELEASE_NOTES_v0.92.1.md",
+        "RELEASE_PLAN_v0.92.1.md",
+        "SPRINT_v0.92.1.md",
+        "WBS_v0.92.1.md",
+        "WP_EXECUTION_READINESS_v0.92.1.md",
+        "WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
+        "WP_ISSUE_WAVE_v0.92.1.yaml",
+        "WP_PREMATURE_ISSUE_RETIREMENT_v0.92.1.yaml"
+      ],
+      "signals": [
+        "Create or update ADRs only for durable architectural decisions:",
+        "- hot-reload atomicity, validation, and stateful-resource exclusions",
+        "| Decisions | [DECISIONS_v0.92.1.md](DECISIONS_v0.92.1.md) | Planning decisions and non-claims |",
+        "| Issue wave | [WP_ISSUE_WAVE_v0.92.1.yaml](WP_ISSUE_WAVE_v0.92.1.yaml) | Machine-readable package dependencies |",
+        "# Decisions \u2014 v0.92.1",
+        "2. **The original six lanes remain intact, with three explicit additions.** Runtime v2/v3 decoupling, provider inference profiles, and the GCP six-resident sidecar are first-class "
+      ],
+      "status": "present"
+    }
+  },
+  "milestone": "v0.92.1",
+  "non_claims": [
+    "This report does not approve the release.",
+    "This report does not publish release notes.",
+    "This report does not create tags, merge PRs, or close issues.",
+    "This report does not prove absent evidence is failed implementation."
+  ],
+  "residual_risks": [
+    "Explicit blocker or high-priority finding marker found in evidence."
+  ],
+  "run_id": "issue-526-preparation",
+  "safety_flags": {
+    "closed_issues": false,
+    "created_tags": false,
+    "merged_prs": false,
+    "mutated_repository": false,
+    "published_release_notes": false,
+    "release_approved": false
+  },
+  "schema": "adl.release_evidence_report.v1",
+  "status": "blocked",
+  "summary": "Release evidence assembled for review.",
+  "validation_commands": [
+    "python3 adl/tools/skills/release-evidence/scripts/assemble_release_evidence.py --milestone <version> --milestone-root docs/milestones/<version> --out <artifact-root> --run-id <run-id>"
+  ]
+}

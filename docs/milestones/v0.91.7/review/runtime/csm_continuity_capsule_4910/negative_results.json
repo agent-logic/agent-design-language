@@ -1,0 +1,68 @@
+{
+  "schema": "adl.csm.continuity_capsule_4910_negative_results.v1",
+  "cases": [
+    {
+      "name": "version_mismatch",
+      "status": "failed_as_expected",
+      "returncode": 1,
+      "expected_reason": "unsupported continuity capsule format version",
+      "stderr_matched": true
+    },
+    {
+      "name": "missing_file",
+      "status": "failed_as_expected",
+      "returncode": 1,
+      "expected_reason": "custody retained artifact missing",
+      "stderr_matched": true
+    },
+    {
+      "name": "missing_custody_manifest",
+      "status": "failed_as_expected",
+      "returncode": 1,
+      "expected_reason": "custody manifest missing bundle artifact",
+      "stderr_matched": true
+    },
+    {
+      "name": "custody_signature_tamper",
+      "status": "failed_as_expected",
+      "returncode": 1,
+      "expected_reason": "invalid base64 custody signature",
+      "stderr_matched": true
+    },
+    {
+      "name": "custody_untrusted_public_key",
+      "status": "failed_as_expected",
+      "returncode": 1,
+      "expected_reason": "public key does not match trusted verification key",
+      "stderr_matched": true
+    },
+    {
+      "name": "path_leakage",
+      "status": "failed_as_expected",
+      "returncode": 1,
+      "expected_reason": "host-private absolute path",
+      "stderr_matched": true
+    },
+    {
+      "name": "credential_leakage",
+      "status": "failed_as_expected",
+      "returncode": 1,
+      "expected_reason": "credential-like key",
+      "stderr_matched": true
+    },
+    {
+      "name": "corrupted_manifest",
+      "status": "failed_as_expected",
+      "returncode": 1,
+      "expected_reason": "failed parsing",
+      "stderr_matched": true
+    },
+    {
+      "name": "unsupported_target_host",
+      "status": "failed_as_expected",
+      "returncode": 1,
+      "expected_reason": "unsupported continuity capsule target host",
+      "stderr_matched": true
+    }
+  ]
+}

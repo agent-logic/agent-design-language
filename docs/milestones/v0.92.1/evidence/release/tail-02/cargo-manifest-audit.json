@@ -1,0 +1,598 @@
+{
+  "schema": "adl.tail02.cargo_manifest_audit.v1",
+  "manifest_count": 24,
+  "local_dependency_count": 20,
+  "status": "pass",
+  "manifests": [
+    {
+      "manifest": ".csdlc/prepared/issues/467/terminal-digest-verifier/Cargo.toml",
+      "sha256": "0e70dd533a9798da5fe9a7584d51be1cb22881c5e64a34196f37d5bdb8b2c9f7",
+      "package": "issue467-terminal-digest-verifier",
+      "effective_version": "0.1.0",
+      "declared_version": "0.1.0",
+      "workspace_root": ".csdlc/prepared/issues/467/terminal-digest-verifier",
+      "workspace_member_manifests": [
+        ".csdlc/prepared/issues/467/terminal-digest-verifier/Cargo.toml"
+      ],
+      "local_dependencies": [],
+      "cargo_metadata": "passed_offline_locked_no_deps"
+    },
+    {
+      "manifest": ".csdlc/prepared/issues/5340/source-authority-validator/Cargo.toml",
+      "sha256": "bd1363e1dc52aaf9eae16ca9fe180ed4e5521f44547c79f289faa0b5f6983696",
+      "package": "adl-wp5340-source-authority-validator",
+      "effective_version": "0.1.0",
+      "declared_version": "0.1.0",
+      "workspace_root": ".csdlc/prepared/issues/5340/source-authority-validator",
+      "workspace_member_manifests": [
+        ".csdlc/prepared/issues/5340/source-authority-validator/Cargo.toml"
+      ],
+      "local_dependencies": [],
+      "cargo_metadata": "passed_offline_locked_no_deps"
+    },
+    {
+      "manifest": ".csdlc/prepared/issues/5347/receipt-verifier/Cargo.toml",
+      "sha256": "f9be55b1ec0e4213343db23f9f36d7fffcf199e33b9277966b33345431838c06",
+      "package": "wp13-receipt-verifier",
+      "effective_version": "0.1.0",
+      "declared_version": "0.1.0",
+      "workspace_root": ".csdlc/prepared/issues/5347/receipt-verifier",
+      "workspace_member_manifests": [
+        ".csdlc/prepared/issues/5347/receipt-verifier/Cargo.toml"
+      ],
+      "local_dependencies": [
+        {
+          "section": "dependencies.csdlc-v2",
+          "target_manifest": "csdlc-v2/Cargo.toml",
+          "package": "csdlc-v2",
+          "version_requirement": null,
+          "requested_features": []
+        }
+      ],
+      "cargo_metadata": "passed_offline_locked_no_deps"
+    },
+    {
+      "manifest": "adl-characterization/Cargo.toml",
+      "sha256": "b90d657077139ca372725d6441b1dd5cc0e15fa138759e3305f5ca52b2cc5d06",
+      "package": "adl-characterization",
+      "effective_version": "0.92.0",
+      "declared_version": "0.92.0",
+      "workspace_root": "adl-characterization",
+      "workspace_member_manifests": [
+        "adl-characterization/Cargo.toml"
+      ],
+      "local_dependencies": [],
+      "cargo_metadata": "passed_offline_locked_no_deps"
+    },
+    {
+      "manifest": "adl-resilience/Cargo.toml",
+      "sha256": "050c7333893824dedb0b7b6615ebc199c36e9d163b35ec8a4db7aa70aa0edb8d",
+      "package": "adl-resilience",
+      "effective_version": "0.92.0",
+      "declared_version": "0.92.0",
+      "workspace_root": "adl-resilience",
+      "workspace_member_manifests": [
+        "adl-resilience/Cargo.toml"
+      ],
+      "local_dependencies": [],
+      "cargo_metadata": "passed_offline_locked_no_deps"
+    },
+    {
+      "manifest": "adl-runtime-kernel/Cargo.toml",
+      "sha256": "5e68fd95a1db418ba6b5ed8324b34898a87da253638b8c1756536ba0e09305bf",
+      "package": "adl-runtime-kernel",
+      "effective_version": "0.92.0",
+      "declared_version": "0.92.0",
+      "workspace_root": "adl-runtime-kernel",
+      "workspace_member_manifests": [
+        "adl-runtime-kernel/Cargo.toml"
+      ],
+      "local_dependencies": [],
+      "cargo_metadata": "passed_offline_locked_no_deps"
+    },
+    {
+      "manifest": "adl-runtime/Cargo.toml",
+      "sha256": "37020209ed38f3f38ed59d1e24e6dc19e8fb48372592b1d7d59d90414e9b60e5",
+      "package": "adl-runtime",
+      "effective_version": "0.92.0",
+      "declared_version": "0.92.0",
+      "workspace_root": "adl-runtime",
+      "workspace_member_manifests": [
+        "adl-runtime/Cargo.toml"
+      ],
+      "local_dependencies": [
+        {
+          "section": "dependencies.adl-resilience",
+          "target_manifest": "adl-resilience/Cargo.toml",
+          "package": "adl-resilience",
+          "version_requirement": null,
+          "requested_features": []
+        },
+        {
+          "section": "dependencies.adl-runtime-kernel",
+          "target_manifest": "adl-runtime-kernel/Cargo.toml",
+          "package": "adl-runtime-kernel",
+          "version_requirement": null,
+          "requested_features": []
+        }
+      ],
+      "cargo_metadata": "passed_offline_locked_no_deps"
+    },
+    {
+      "manifest": "adl-v2/Cargo.toml",
+      "sha256": "9e8b3040de43b4f5dcf7895593bc83a331b0b802e8f5ab0d1b00813b46330d6a",
+      "package": null,
+      "effective_version": null,
+      "declared_version": null,
+      "workspace_root": "adl-v2",
+      "workspace_member_manifests": [
+        "adl-v2/crates/adl-adapters/Cargo.toml",
+        "adl-v2/crates/adl-cli/Cargo.toml",
+        "adl-v2/crates/adl-compiler/Cargo.toml",
+        "adl-v2/crates/adl-engine/Cargo.toml",
+        "adl-v2/crates/adl-language/Cargo.toml",
+        "adl-v2/crates/adl-records/Cargo.toml",
+        "adl-v2/crates/adl-runtime-v3-adapter/Cargo.toml",
+        "adl-v2/crates/adl-workcell-conductor/Cargo.toml",
+        "adl-v2/crates/adl-workcell-convergence/Cargo.toml",
+        "adl-v2/crates/adl-workcell-task-adapter/Cargo.toml"
+      ],
+      "local_dependencies": [],
+      "cargo_metadata": "passed_offline_locked_no_deps"
+    },
+    {
+      "manifest": "adl-v2/crates/adl-adapters/Cargo.toml",
+      "sha256": "648cd0c878d11de836ef1ca08d2d6d615df8b4355f38f6cc66c15942c7731774",
+      "package": "adl-adapters",
+      "effective_version": "0.92.0",
+      "declared_version": {
+        "workspace": true
+      },
+      "workspace_root": "adl-v2",
+      "workspace_member_manifests": [
+        "adl-v2/crates/adl-adapters/Cargo.toml",
+        "adl-v2/crates/adl-cli/Cargo.toml",
+        "adl-v2/crates/adl-compiler/Cargo.toml",
+        "adl-v2/crates/adl-engine/Cargo.toml",
+        "adl-v2/crates/adl-language/Cargo.toml",
+        "adl-v2/crates/adl-records/Cargo.toml",
+        "adl-v2/crates/adl-runtime-v3-adapter/Cargo.toml",
+        "adl-v2/crates/adl-workcell-conductor/Cargo.toml",
+        "adl-v2/crates/adl-workcell-convergence/Cargo.toml",
+        "adl-v2/crates/adl-workcell-task-adapter/Cargo.toml"
+      ],
+      "local_dependencies": [
+        {
+          "section": "dependencies.adl-engine",
+          "target_manifest": "adl-v2/crates/adl-engine/Cargo.toml",
+          "package": "adl-engine",
+          "version_requirement": null,
+          "requested_features": []
+        },
+        {
+          "section": "dependencies.adl-records",
+          "target_manifest": "adl-v2/crates/adl-records/Cargo.toml",
+          "package": "adl-records",
+          "version_requirement": null,
+          "requested_features": []
+        }
+      ],
+      "cargo_metadata": "passed_offline_locked_no_deps"
+    },
+    {
+      "manifest": "adl-v2/crates/adl-cli/Cargo.toml",
+      "sha256": "678c4a74cbcf36db22dbc61b05c5d2bc6db555a9d222371d68bc65f6666a100a",
+      "package": "adl-cli",
+      "effective_version": "0.92.0",
+      "declared_version": {
+        "workspace": true
+      },
+      "workspace_root": "adl-v2",
+      "workspace_member_manifests": [
+        "adl-v2/crates/adl-adapters/Cargo.toml",
+        "adl-v2/crates/adl-cli/Cargo.toml",
+        "adl-v2/crates/adl-compiler/Cargo.toml",
+        "adl-v2/crates/adl-engine/Cargo.toml",
+        "adl-v2/crates/adl-language/Cargo.toml",
+        "adl-v2/crates/adl-records/Cargo.toml",
+        "adl-v2/crates/adl-runtime-v3-adapter/Cargo.toml",
+        "adl-v2/crates/adl-workcell-conductor/Cargo.toml",
+        "adl-v2/crates/adl-workcell-convergence/Cargo.toml",
+        "adl-v2/crates/adl-workcell-task-adapter/Cargo.toml"
+      ],
+      "local_dependencies": [
+        {
+          "section": "dependencies.adl-compiler",
+          "target_manifest": "adl-v2/crates/adl-compiler/Cargo.toml",
+          "package": "adl-compiler",
+          "version_requirement": null,
+          "requested_features": []
+        },
+        {
+          "section": "dependencies.adl-engine",
+          "target_manifest": "adl-v2/crates/adl-engine/Cargo.toml",
+          "package": "adl-engine",
+          "version_requirement": null,
+          "requested_features": []
+        },
+        {
+          "section": "dependencies.adl-language",
+          "target_manifest": "adl-v2/crates/adl-language/Cargo.toml",
+          "package": "adl-language",
+          "version_requirement": null,
+          "requested_features": []
+        },
+        {
+          "section": "dependencies.adl-records",
+          "target_manifest": "adl-v2/crates/adl-records/Cargo.toml",
+          "package": "adl-records",
+          "version_requirement": null,
+          "requested_features": []
+        }
+      ],
+      "cargo_metadata": "passed_offline_locked_no_deps"
+    },
+    {
+      "manifest": "adl-v2/crates/adl-compiler/Cargo.toml",
+      "sha256": "e49db4c58e3f9557fc672ef2058122cc99fff6c6b0ee0bb70b54d2dd4b7f1c89",
+      "package": "adl-compiler",
+      "effective_version": "0.92.0",
+      "declared_version": {
+        "workspace": true
+      },
+      "workspace_root": "adl-v2",
+      "workspace_member_manifests": [
+        "adl-v2/crates/adl-adapters/Cargo.toml",
+        "adl-v2/crates/adl-cli/Cargo.toml",
+        "adl-v2/crates/adl-compiler/Cargo.toml",
+        "adl-v2/crates/adl-engine/Cargo.toml",
+        "adl-v2/crates/adl-language/Cargo.toml",
+        "adl-v2/crates/adl-records/Cargo.toml",
+        "adl-v2/crates/adl-runtime-v3-adapter/Cargo.toml",
+        "adl-v2/crates/adl-workcell-conductor/Cargo.toml",
+        "adl-v2/crates/adl-workcell-convergence/Cargo.toml",
+        "adl-v2/crates/adl-workcell-task-adapter/Cargo.toml"
+      ],
+      "local_dependencies": [
+        {
+          "section": "dependencies.adl-language",
+          "target_manifest": "adl-v2/crates/adl-language/Cargo.toml",
+          "package": "adl-language",
+          "version_requirement": null,
+          "requested_features": []
+        }
+      ],
+      "cargo_metadata": "passed_offline_locked_no_deps"
+    },
+    {
+      "manifest": "adl-v2/crates/adl-engine/Cargo.toml",
+      "sha256": "ae0b75f7f3e3f647707ca741537476ba9942cb71c3d2b90d6c3d60f42d9c207b",
+      "package": "adl-engine",
+      "effective_version": "0.92.0",
+      "declared_version": {
+        "workspace": true
+      },
+      "workspace_root": "adl-v2",
+      "workspace_member_manifests": [
+        "adl-v2/crates/adl-adapters/Cargo.toml",
+        "adl-v2/crates/adl-cli/Cargo.toml",
+        "adl-v2/crates/adl-compiler/Cargo.toml",
+        "adl-v2/crates/adl-engine/Cargo.toml",
+        "adl-v2/crates/adl-language/Cargo.toml",
+        "adl-v2/crates/adl-records/Cargo.toml",
+        "adl-v2/crates/adl-runtime-v3-adapter/Cargo.toml",
+        "adl-v2/crates/adl-workcell-conductor/Cargo.toml",
+        "adl-v2/crates/adl-workcell-convergence/Cargo.toml",
+        "adl-v2/crates/adl-workcell-task-adapter/Cargo.toml"
+      ],
+      "local_dependencies": [
+        {
+          "section": "dependencies.adl-compiler",
+          "target_manifest": "adl-v2/crates/adl-compiler/Cargo.toml",
+          "package": "adl-compiler",
+          "version_requirement": null,
+          "requested_features": []
+        },
+        {
+          "section": "dev-dependencies.adl-language",
+          "target_manifest": "adl-v2/crates/adl-language/Cargo.toml",
+          "package": "adl-language",
+          "version_requirement": null,
+          "requested_features": []
+        }
+      ],
+      "cargo_metadata": "passed_offline_locked_no_deps"
+    },
+    {
+      "manifest": "adl-v2/crates/adl-language/Cargo.toml",
+      "sha256": "6a5e09bfee391ec7bfc619f36a63c1184da4c88488a538c0b09f5dcae5f9ec24",
+      "package": "adl-language",
+      "effective_version": "0.92.0",
+      "declared_version": {
+        "workspace": true
+      },
+      "workspace_root": "adl-v2",
+      "workspace_member_manifests": [
+        "adl-v2/crates/adl-adapters/Cargo.toml",
+        "adl-v2/crates/adl-cli/Cargo.toml",
+        "adl-v2/crates/adl-compiler/Cargo.toml",
+        "adl-v2/crates/adl-engine/Cargo.toml",
+        "adl-v2/crates/adl-language/Cargo.toml",
+        "adl-v2/crates/adl-records/Cargo.toml",
+        "adl-v2/crates/adl-runtime-v3-adapter/Cargo.toml",
+        "adl-v2/crates/adl-workcell-conductor/Cargo.toml",
+        "adl-v2/crates/adl-workcell-convergence/Cargo.toml",
+        "adl-v2/crates/adl-workcell-task-adapter/Cargo.toml"
+      ],
+      "local_dependencies": [],
+      "cargo_metadata": "passed_offline_locked_no_deps"
+    },
+    {
+      "manifest": "adl-v2/crates/adl-records/Cargo.toml",
+      "sha256": "a15ac0478479bbd1610df493eb9e291581ed49658b5cb5f592445d7cf859b797",
+      "package": "adl-records",
+      "effective_version": "0.92.0",
+      "declared_version": {
+        "workspace": true
+      },
+      "workspace_root": "adl-v2",
+      "workspace_member_manifests": [
+        "adl-v2/crates/adl-adapters/Cargo.toml",
+        "adl-v2/crates/adl-cli/Cargo.toml",
+        "adl-v2/crates/adl-compiler/Cargo.toml",
+        "adl-v2/crates/adl-engine/Cargo.toml",
+        "adl-v2/crates/adl-language/Cargo.toml",
+        "adl-v2/crates/adl-records/Cargo.toml",
+        "adl-v2/crates/adl-runtime-v3-adapter/Cargo.toml",
+        "adl-v2/crates/adl-workcell-conductor/Cargo.toml",
+        "adl-v2/crates/adl-workcell-convergence/Cargo.toml",
+        "adl-v2/crates/adl-workcell-task-adapter/Cargo.toml"
+      ],
+      "local_dependencies": [],
+      "cargo_metadata": "passed_offline_locked_no_deps"
+    },
+    {
+      "manifest": "adl-v2/crates/adl-runtime-v3-adapter/Cargo.toml",
+      "sha256": "fe3a5695f9b457ea1e007d52979a824881f0081d9ad27be9c737e21640ddea31",
+      "package": "adl-runtime-v3-adapter",
+      "effective_version": "0.92.0",
+      "declared_version": {
+        "workspace": true
+      },
+      "workspace_root": "adl-v2",
+      "workspace_member_manifests": [
+        "adl-v2/crates/adl-adapters/Cargo.toml",
+        "adl-v2/crates/adl-cli/Cargo.toml",
+        "adl-v2/crates/adl-compiler/Cargo.toml",
+        "adl-v2/crates/adl-engine/Cargo.toml",
+        "adl-v2/crates/adl-language/Cargo.toml",
+        "adl-v2/crates/adl-records/Cargo.toml",
+        "adl-v2/crates/adl-runtime-v3-adapter/Cargo.toml",
+        "adl-v2/crates/adl-workcell-conductor/Cargo.toml",
+        "adl-v2/crates/adl-workcell-convergence/Cargo.toml",
+        "adl-v2/crates/adl-workcell-task-adapter/Cargo.toml"
+      ],
+      "local_dependencies": [
+        {
+          "section": "dependencies.adl-engine",
+          "target_manifest": "adl-v2/crates/adl-engine/Cargo.toml",
+          "package": "adl-engine",
+          "version_requirement": null,
+          "requested_features": []
+        },
+        {
+          "section": "dependencies.adl-records",
+          "target_manifest": "adl-v2/crates/adl-records/Cargo.toml",
+          "package": "adl-records",
+          "version_requirement": null,
+          "requested_features": []
+        },
+        {
+          "section": "dependencies.adl-runtime-kernel",
+          "target_manifest": "adl-runtime-kernel/Cargo.toml",
+          "package": "adl-runtime-kernel",
+          "version_requirement": null,
+          "requested_features": []
+        }
+      ],
+      "cargo_metadata": "passed_offline_locked_no_deps"
+    },
+    {
+      "manifest": "adl-v2/crates/adl-workcell-conductor/Cargo.toml",
+      "sha256": "ab51a0b64d98fc1f133a21140e8089a6b4ce7ee63dfd8310878b9eb8e23a3dbb",
+      "package": "adl-workcell-conductor",
+      "effective_version": "0.92.0",
+      "declared_version": {
+        "workspace": true
+      },
+      "workspace_root": "adl-v2",
+      "workspace_member_manifests": [
+        "adl-v2/crates/adl-adapters/Cargo.toml",
+        "adl-v2/crates/adl-cli/Cargo.toml",
+        "adl-v2/crates/adl-compiler/Cargo.toml",
+        "adl-v2/crates/adl-engine/Cargo.toml",
+        "adl-v2/crates/adl-language/Cargo.toml",
+        "adl-v2/crates/adl-records/Cargo.toml",
+        "adl-v2/crates/adl-runtime-v3-adapter/Cargo.toml",
+        "adl-v2/crates/adl-workcell-conductor/Cargo.toml",
+        "adl-v2/crates/adl-workcell-convergence/Cargo.toml",
+        "adl-v2/crates/adl-workcell-task-adapter/Cargo.toml"
+      ],
+      "local_dependencies": [],
+      "cargo_metadata": "passed_offline_locked_no_deps"
+    },
+    {
+      "manifest": "adl-v2/crates/adl-workcell-convergence/Cargo.toml",
+      "sha256": "81c7000664dfd1f4fc0ae741150570277e6a518868f8537bdadcb72e80eec990",
+      "package": "adl-workcell-convergence",
+      "effective_version": "0.92.0",
+      "declared_version": {
+        "workspace": true
+      },
+      "workspace_root": "adl-v2",
+      "workspace_member_manifests": [
+        "adl-v2/crates/adl-adapters/Cargo.toml",
+        "adl-v2/crates/adl-cli/Cargo.toml",
+        "adl-v2/crates/adl-compiler/Cargo.toml",
+        "adl-v2/crates/adl-engine/Cargo.toml",
+        "adl-v2/crates/adl-language/Cargo.toml",
+        "adl-v2/crates/adl-records/Cargo.toml",
+        "adl-v2/crates/adl-runtime-v3-adapter/Cargo.toml",
+        "adl-v2/crates/adl-workcell-conductor/Cargo.toml",
+        "adl-v2/crates/adl-workcell-convergence/Cargo.toml",
+        "adl-v2/crates/adl-workcell-task-adapter/Cargo.toml"
+      ],
+      "local_dependencies": [
+        {
+          "section": "dependencies.adl-workcell-conductor",
+          "target_manifest": "adl-v2/crates/adl-workcell-conductor/Cargo.toml",
+          "package": "adl-workcell-conductor",
+          "version_requirement": null,
+          "requested_features": []
+        }
+      ],
+      "cargo_metadata": "passed_offline_locked_no_deps"
+    },
+    {
+      "manifest": "adl-v2/crates/adl-workcell-task-adapter/Cargo.toml",
+      "sha256": "3b0680e59e40438277e2710e28bdff5801e6bcc2e9bb53a5e0abdf3e2d7dcf44",
+      "package": "adl-workcell-task-adapter",
+      "effective_version": "0.92.0",
+      "declared_version": {
+        "workspace": true
+      },
+      "workspace_root": "adl-v2",
+      "workspace_member_manifests": [
+        "adl-v2/crates/adl-adapters/Cargo.toml",
+        "adl-v2/crates/adl-cli/Cargo.toml",
+        "adl-v2/crates/adl-compiler/Cargo.toml",
+        "adl-v2/crates/adl-engine/Cargo.toml",
+        "adl-v2/crates/adl-language/Cargo.toml",
+        "adl-v2/crates/adl-records/Cargo.toml",
+        "adl-v2/crates/adl-runtime-v3-adapter/Cargo.toml",
+        "adl-v2/crates/adl-workcell-conductor/Cargo.toml",
+        "adl-v2/crates/adl-workcell-convergence/Cargo.toml",
+        "adl-v2/crates/adl-workcell-task-adapter/Cargo.toml"
+      ],
+      "local_dependencies": [],
+      "cargo_metadata": "passed_offline_locked_no_deps"
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "sha256": "2450cf5270067e4fd9b44e3cd7fef4da113ca40e19e2e1b7f13d40befaab70a8",
+      "package": "adl",
+      "effective_version": "0.92.0",
+      "declared_version": "0.92.0",
+      "workspace_root": "adl",
+      "workspace_member_manifests": [
+        "adl/Cargo.toml"
+      ],
+      "local_dependencies": [
+        {
+          "section": "dependencies.adl-runtime",
+          "target_manifest": "adl-runtime/Cargo.toml",
+          "package": "adl-runtime",
+          "version_requirement": null,
+          "requested_features": []
+        },
+        {
+          "section": "dependencies.adl-runtime-kernel",
+          "target_manifest": "adl-runtime-kernel/Cargo.toml",
+          "package": "adl-runtime-kernel",
+          "version_requirement": null,
+          "requested_features": []
+        },
+        {
+          "section": "dev-dependencies.adl-runtime-kernel",
+          "target_manifest": "adl-runtime-kernel/Cargo.toml",
+          "package": "adl-runtime-kernel",
+          "version_requirement": null,
+          "requested_features": [
+            "test-support"
+          ]
+        }
+      ],
+      "cargo_metadata": "passed_offline_locked_no_deps"
+    },
+    {
+      "manifest": "csdlc-v2/Cargo.toml",
+      "sha256": "812c7699e167ed158cc19cc6fad3a263b843f0b7967f6e505b92f5952c30ce79",
+      "package": "csdlc-v2",
+      "effective_version": "0.92.0",
+      "declared_version": "0.92.0",
+      "workspace_root": "csdlc-v2",
+      "workspace_member_manifests": [
+        "csdlc-v2/Cargo.toml"
+      ],
+      "local_dependencies": [
+        {
+          "section": "dependencies.adl-resilience",
+          "target_manifest": "adl-resilience/Cargo.toml",
+          "package": "adl-resilience",
+          "version_requirement": null,
+          "requested_features": []
+        }
+      ],
+      "cargo_metadata": "passed_offline_locked_no_deps"
+    },
+    {
+      "manifest": "csdlc-v3/Cargo.toml",
+      "sha256": "d990abeeacc461f7eda316e3c29e9eb84873a234b4c8bddbe273c1f381251f68",
+      "package": "csdlc-v3",
+      "effective_version": "0.1.0",
+      "declared_version": "0.1.0",
+      "workspace_root": "csdlc-v3",
+      "workspace_member_manifests": [
+        "csdlc-v3/Cargo.toml"
+      ],
+      "local_dependencies": [],
+      "cargo_metadata": "passed_offline_locked_no_deps"
+    },
+    {
+      "manifest": "demos/transpiler_demo/Cargo.toml",
+      "sha256": "c8c9413faa8fcd535dc5e4106fa94801aa11e0cbb8769c117150427ce0e1ca2b",
+      "package": "transpiler_demo",
+      "effective_version": "0.8.0",
+      "declared_version": "0.8.0",
+      "workspace_root": "demos/transpiler_demo",
+      "workspace_member_manifests": [
+        "demos/transpiler_demo/Cargo.toml"
+      ],
+      "local_dependencies": [],
+      "cargo_metadata": "passed_offline_locked_no_deps"
+    },
+    {
+      "manifest": "tools/aws_remote_validation/Cargo.toml",
+      "sha256": "46bf4fcbaea922ced95d95c8ba1e78503457fc4643878a80b7ec189eb4d97df1",
+      "package": "adl-aws-remote-validation-tool",
+      "effective_version": "0.91.8",
+      "declared_version": "0.91.8",
+      "workspace_root": "tools/aws_remote_validation",
+      "workspace_member_manifests": [
+        "tools/aws_remote_validation/Cargo.toml"
+      ],
+      "local_dependencies": [],
+      "cargo_metadata": "passed_offline_locked_no_deps"
+    },
+    {
+      "manifest": "tools/remote_validation/Cargo.toml",
+      "sha256": "1fdf0a85f5747092e96b8699db8d44c1392ae57c801b2bc5f8a074611a445fdc",
+      "package": "adl-remote-validation",
+      "effective_version": "0.92.0",
+      "declared_version": "0.92.0",
+      "workspace_root": "tools/remote_validation",
+      "workspace_member_manifests": [
+        "tools/remote_validation/Cargo.toml"
+      ],
+      "local_dependencies": [],
+      "cargo_metadata": "passed_offline_locked_no_deps"
+    }
+  ],
+  "proof_scope": "Tracked TOML parsing, Cargo workspace/package/version metadata, local dependency manifest identity and requested local features.",
+  "limits": [
+    "No compilation, dependency fetch or vulnerability audit.",
+    "No full dependency resolution or lockfile reproducibility claim: metadata uses --no-deps.",
+    "No release-version approval or automatic version bump. Different package versions remain explicit release-owner decisions.",
+    "Not final milestone acceptance; issue 517 passing reviewed merge remains required."
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "schema": "adl.v0921.quality_gate_candidate_remediations.v1",
+  "candidate": "bf159eb416950dfa3399933829726a7b7e71f897",
+  "entries": [
+    {
+      "criterion_ids": ["AWS-D-ac-1", "AWS-D-ac-2", "AWS-D-ac-3"],
+      "remediation_issue": 727,
+      "issue_state": "closed",
+      "pull_request": 733,
+      "pull_request_state": "merged",
+      "merge_mode": "merge_commit",
+      "head_revision": "04d998cb51d77f88fa4007832f11cc9e16f03558",
+      "merge_revision": "8d45f4dc6a3ab8d6c474da9e82e613e85a420ea0",
+      "reviewed_revision": "f6c30b020de6faf5c84a967f097d37d3892cafaa",
+      "artifacts": [
+        {
+          "path": "infra/aws/account-foundation/main.tf",
+          "candidate_blob": "f7ccc6309ad09cdfb8878ba5342ed874ee87fd6e",
+          "reviewed_blob": "f7ccc6309ad09cdfb8878ba5342ed874ee87fd6e"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/cloud/aws-d/ISSUE_727_REDACTED_LIVE_APPLY_PROOF.md",
+          "candidate_blob": "1759ae4b4ea3b4fcc119fe653945ce39b54fda00",
+          "reviewed_blob": "1759ae4b4ea3b4fcc119fe653945ce39b54fda00"
+        }
+      ]
+    },
+    {
+      "criterion_ids": ["GCP-B-ac-2"],
+      "remediation_issue": 730,
+      "issue_state": "closed",
+      "pull_request": 738,
+      "pull_request_state": "merged",
+      "merge_mode": "squash",
+      "head_revision": "305547e0519c3a92174bc33e20f11d948a99e016",
+      "merge_revision": "44aa83bd168f4bf037e1d159aac70b966827db2b",
+      "reviewed_revision": "d855b73438a8bac361c9716a17b41dd64a3c1370",
+      "artifacts": [
+        {
+          "path": "infra/gcp/bootstrap/provider.tf",
+          "candidate_blob": "85182f95cb4e58384fb5759a36bef763b2cbca36",
+          "reviewed_blob": "85182f95cb4e58384fb5759a36bef763b2cbca36"
+        },
+        {
+          "path": ".csdlc/evidence/730/live-proof.redacted.json",
+          "candidate_blob": "fe3fa030f50176baf2f32c88fd96d56c3e9742b3",
+          "reviewed_blob": "fe3fa030f50176baf2f32c88fd96d56c3e9742b3"
+        }
+      ]
+    }
+  ]
+}

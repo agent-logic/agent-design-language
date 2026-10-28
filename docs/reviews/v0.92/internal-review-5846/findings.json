@@ -1,0 +1,349 @@
+{
+  "schema": "adl.internal_review.findings.v1",
+  "target_sha": "c6792e54df1db5969fa28c59b6dfe4c714ed5559",
+  "specialists": [
+    {
+      "lane": "architecture",
+      "reviewer_identity": "codex:/root",
+      "report_path": "docs/reviews/v0.92/internal-review-5846/specialists/architecture.md",
+      "report_sha256": "d9481630befaf1e36fcd58c7a2991bab20a9b90a4812171d5f97f15bf0b77ac5",
+      "target_sha": "c6792e54df1db5969fa28c59b6dfe4c714ed5559",
+      "finding_count": 1
+    },
+    {
+      "lane": "code",
+      "reviewer_identity": "Codex code specialist /root/review_313_code",
+      "report_path": "docs/reviews/v0.92/internal-review-5846/specialists/code.md",
+      "report_sha256": "b800a5245ed4d8efd96ec2a7f7f541bed48962af36a1e301e2ad3e3eff39dccc",
+      "target_sha": "c6792e54df1db5969fa28c59b6dfe4c714ed5559",
+      "finding_count": 2
+    },
+    {
+      "lane": "dependencies",
+      "reviewer_identity": "Codex dependency specialist /root/review_313_tests",
+      "report_path": "docs/reviews/v0.92/internal-review-5846/specialists/dependencies.md",
+      "report_sha256": "86b0ae2c27b46ed034b921f4567e5f2ca446b4f5fa57178901bd7ade972b2bed",
+      "target_sha": "c6792e54df1db5969fa28c59b6dfe4c714ed5559",
+      "finding_count": 4
+    },
+    {
+      "lane": "docs",
+      "reviewer_identity": "Codex documentation specialist /root/review_313_code",
+      "report_path": "docs/reviews/v0.92/internal-review-5846/specialists/docs.md",
+      "report_sha256": "9e56c9fbbfe71f9f19879a48577ce443b8e9c3d3ef9d0fadc260b7e8acdb5d5e",
+      "target_sha": "c6792e54df1db5969fa28c59b6dfe4c714ed5559",
+      "finding_count": 4
+    },
+    {
+      "lane": "security",
+      "reviewer_identity": "Codex security specialist review_313_security",
+      "report_path": "docs/reviews/v0.92/internal-review-5846/specialists/security.md",
+      "report_sha256": "2a333cfa2bff1f55580eb1bbb9582f04a4d06a37fa0cbbfc9783ae91a7a65202",
+      "target_sha": "c6792e54df1db5969fa28c59b6dfe4c714ed5559",
+      "finding_count": 2
+    },
+    {
+      "lane": "tests",
+      "reviewer_identity": "Codex test/PVF/CI specialist /root/review_313_tests",
+      "report_path": "docs/reviews/v0.92/internal-review-5846/specialists/tests.md",
+      "report_sha256": "d6f4c468697dfda229c991888f32000ca8021d9483a721d42933ff938d2d7955",
+      "target_sha": "c6792e54df1db5969fa28c59b6dfe4c714ed5559",
+      "finding_count": 2
+    },
+    {
+      "lane": "lifecycle",
+      "reviewer_identity": "Codex lifecycle/evidence specialist review_313_security",
+      "report_path": "docs/reviews/v0.92/internal-review-5846/specialists/lifecycle.md",
+      "report_sha256": "bfe7d96cf7b7888816be63114f5494333208195ca2b237f8dceb03f450bf1bf8",
+      "target_sha": "c6792e54df1db5969fa28c59b6dfe4c714ed5559",
+      "finding_count": 1
+    },
+    {
+      "lane": "demos",
+      "reviewer_identity": "Codex demo/integration specialist /root/review_313_code",
+      "report_path": "docs/reviews/v0.92/internal-review-5846/specialists/demos.md",
+      "report_sha256": "1ccaf315273b0ab42f9f1b57773fc6c09cc2c89395c3221ad18150bf30affdd0",
+      "target_sha": "c6792e54df1db5969fa28c59b6dfe4c714ed5559",
+      "finding_count": 2
+    },
+    {
+      "lane": "release_publication",
+      "reviewer_identity": "codex:/root",
+      "report_path": "docs/reviews/v0.92/internal-review-5846/specialists/release_publication.md",
+      "report_sha256": "807356ad07328ea54e8e409aa992a8af85048ce9fd4e1f285dea31efcbcd755d",
+      "target_sha": "c6792e54df1db5969fa28c59b6dfe4c714ed5559",
+      "finding_count": 2
+    }
+  ],
+  "findings": [
+    {
+      "id": "ARCH-001",
+      "severity": "P1",
+      "evidence": "docs/milestones/v0.92/QUALITY_GATE_v0.92.md:8",
+      "invariant": "All canonical review and release entrypoints must project one superseding quality-gate authority and blocker count.",
+      "reproduction_or_proof_gap": "Compare the current blocked-result instructions and retained #312 validation with the #467 zero-blocker corrective appendix.",
+      "recommendation": "Propagate one immutable #467 result across every entrypoint and retain #311 only as historical provenance.",
+      "owner": "WP-27 documentation/release truth",
+      "disposition": "open",
+      "source_lane": "architecture"
+    },
+    {
+      "id": "CODE-001",
+      "severity": "P1",
+      "evidence": "adl/tools/skills/repo-packet-builder/scripts/build_repo_packet.py:276",
+      "invariant": "Every required specialist lane must receive a nonempty material exact-target denominator.",
+      "reproduction_or_proof_gap": "The original code lane contained 30 lifecycle locks and the original tests lane was empty because evidence was globally truncated before lane derivation.",
+      "recommendation": "Build and cap evidence per lane and fail on non-material or empty required lanes.",
+      "owner": "repo-packet-builder tooling owner",
+      "disposition": "resolved",
+      "source_lane": "code"
+    },
+    {
+      "id": "CODE-002",
+      "severity": "P2",
+      "evidence": "adl/tools/skills/repo-packet-builder/scripts/build_repo_packet.py:260",
+      "invariant": "Packet topology metadata must distinguish a Git worktree from the primary checkout using Git authority rather than directory naming.",
+      "reproduction_or_proof_gap": "Disputed: the primary checkout was the packet source and the issue worktree was the output only, so is_worktree false was truthful and this run did not exercise the detector concern.",
+      "recommendation": "Do not route this as a proven WP-25 defect; investigate Git common-dir and git-dir identity separately only if a real issue-worktree source reproduces it.",
+      "owner": "repo-packet-builder tooling owner",
+      "disposition": "disputed",
+      "source_lane": "code"
+    },
+    {
+      "id": "DEP-001",
+      "severity": "P1",
+      "evidence": "tools/aws_remote_validation/scripts/remote_validation_runner.sh:221",
+      "invariant": "Every executable bootstrap input used for authoritative remote proof must be immutable and integrity-verified before execution.",
+      "reproduction_or_proof_gap": "GitHub latest, arbitrary tarball URLs, mutable S3 keys, and rustup are installed without required digest, signature, or VersionId verification.",
+      "recommendation": "Pin source/version/architecture and verify SHA-256 or signature plus S3 VersionId before extraction; retain provenance.",
+      "owner": "AWS remote-validation/toolchain owner",
+      "disposition": "open",
+      "source_lane": "dependencies"
+    },
+    {
+      "id": "DEP-002",
+      "severity": "P1",
+      "evidence": "adl/docker/adl-builder/Dockerfile:1",
+      "invariant": "Rebuilding the same builder contract must resolve the same reviewed base and toolchain bytes.",
+      "reproduction_or_proof_gap": "The base tag, apt resolution, Rust stable, rustup, AWS CLI, sccache, and cargo-llvm-cov are mutable or incompletely verified.",
+      "recommendation": "Pin base/toolchain identities, verify direct downloads, and retain a resolved image manifest.",
+      "owner": "builder-image/release-engineering owner",
+      "disposition": "open",
+      "source_lane": "dependencies"
+    },
+    {
+      "id": "DEP-003",
+      "severity": "P2",
+      "evidence": ".github/workflows/ci.yaml:386",
+      "invariant": "Every independently locked Cargo graph must have change-triggered locked build and test ownership.",
+      "reproduction_or_proof_gap": "Package-only changes under adl-characterization, adl-resilience, or tools/remote_validation select no package-local Rust lane.",
+      "recommendation": "Add explicit selectors, package-local validation, and routing fixtures.",
+      "owner": "CI/PVF and package owners",
+      "disposition": "duplicate",
+      "source_lane": "dependencies"
+    },
+    {
+      "id": "DEP-004",
+      "severity": "P2",
+      "evidence": "docs/reviews/v0.92/internal-review-5846/evidence_index.json:1",
+      "invariant": "Dependency review scaffolding must route ecosystem manifests and bootstrap surfaces, not lifecycle sentinels.",
+      "reproduction_or_proof_gap": "The scaffold still consumes stale evidence-index lifecycle locks despite the repaired 61-path dependency assignment.",
+      "recommendation": "Consume the repaired assignment, classify by ecosystem context, and reject index/assignment disagreement.",
+      "owner": "review-packet/dependency tooling owner",
+      "disposition": "open",
+      "source_lane": "dependencies"
+    },
+    {
+      "id": "DOC-001",
+      "severity": "P1",
+      "evidence": ".csdlc/evidence/312/validation.json:1",
+      "invariant": "Retained validation must agree with the canonical current gate result at the exact target.",
+      "reproduction_or_proof_gap": "Retained validation says blocked with 33 rows and unlock false while the packet validator passes and #467 entrypoints say zero blockers.",
+      "recommendation": "Regenerate exact-target validation and bind it to the canonical #467 authority.",
+      "owner": "WP-27 documentation/release truth",
+      "disposition": "duplicate",
+      "source_lane": "docs"
+    },
+    {
+      "id": "DOC-002",
+      "severity": "P1",
+      "evidence": "docs/milestones/v0.92/MILESTONE_CHECKLIST_v0.92.md:14",
+      "invariant": "Engineering-complete claims must be backed by reconciled engineering acceptance and security evidence.",
+      "reproduction_or_proof_gap": "The checklist asserts completion while dependency, lifecycle, validation, demo, feature-proof, and security engineering rows remain unchecked.",
+      "recommendation": "Reconcile engineering rows to retained proof or narrow the completion claim; leave downstream release-tail rows pending.",
+      "owner": "milestone/release evidence owner",
+      "disposition": "open",
+      "source_lane": "docs"
+    },
+    {
+      "id": "DOC-003",
+      "severity": "P2",
+      "evidence": "docs/milestones/v0.92/QUALITY_GATE_v0.92.md:8",
+      "invariant": "Current canonical documents must not instruct reviewers to preserve a superseded gate state.",
+      "reproduction_or_proof_gap": "Current text preserves the blocked result while the corrective appendix says #467 supersedes it with zero blockers.",
+      "recommendation": "Label blocked #311 state historical and project one current #467 result.",
+      "owner": "WP-27 documentation/release truth",
+      "disposition": "duplicate",
+      "source_lane": "docs"
+    },
+    {
+      "id": "DOC-004",
+      "severity": "P2",
+      "evidence": "docs/milestones/v0.92/review/THIRD_PARTY_REVIEW_HANDOFF_v0.92.md:100",
+      "invariant": "A documented diff-hygiene command must inspect the immutable candidate range even after merge.",
+      "reproduction_or_proof_gap": "origin/main and HEAD both resolve to the merged target, making the triple-dot command an empty check.",
+      "recommendation": "Name an immutable base-to-target range and add a negative whitespace fixture.",
+      "owner": "WP-27 documentation owner",
+      "disposition": "open",
+      "source_lane": "docs"
+    },
+    {
+      "id": "SEC-001",
+      "severity": "P1",
+      "evidence": "docs/milestones/v0.92/MILESTONE_CHECKLIST_v0.92.md:83",
+      "invariant": "ACIP and transport-security release claims require exact positive and denial proof or an explicit non-claim.",
+      "reproduction_or_proof_gap": "Feature coverage says implemented with evidence while ACIP transport and security claim-boundary gates remain unchecked.",
+      "recommendation": "Link exact retained positive and denial evidence or retain the non-claim before release/publication.",
+      "owner": "security and release-evidence owner",
+      "disposition": "open",
+      "source_lane": "security"
+    },
+    {
+      "id": "SEC-002",
+      "severity": "P1",
+      "evidence": "docs/reviews/v0.92/internal-review-5846/packet_assignment_recheck.md:1",
+      "invariant": "The required security lane must have a material exact-target trust-boundary denominator.",
+      "reproduction_or_proof_gap": "The original assignment contained lifecycle locks only; the deterministic replacement now assigns 1756 security paths and passed recheck.",
+      "recommendation": "Preserve the repaired assignment and separately fix the generic packet builder.",
+      "owner": "issue-313 packet owner",
+      "disposition": "resolved",
+      "source_lane": "security"
+    },
+    {
+      "id": "TEST-001",
+      "severity": "P1",
+      "evidence": ".github/workflows/ci.yaml:386",
+      "invariant": "Package-only changes must trigger compilation and tests for each independent Cargo graph.",
+      "reproduction_or_proof_gap": "No route owns adl-characterization, adl-resilience, or tools/remote_validation even though their local suites pass.",
+      "recommendation": "Add selectors, package lanes, and routing contract tests.",
+      "owner": "CI/PVF and package owners",
+      "disposition": "open",
+      "source_lane": "tests"
+    },
+    {
+      "id": "TEST-002",
+      "severity": "P2",
+      "evidence": "docs/reviews/v0.92/internal-review-5846/packet_assignment_recheck.md:1",
+      "invariant": "A required test specialist lane must never have an empty denominator.",
+      "reproduction_or_proof_gap": "The original assignment had tests empty; the deterministic replacement assigns 834 test paths and passed recheck.",
+      "recommendation": "Preserve the repaired assignment and add generic fail-closed packet coverage.",
+      "owner": "issue-313 packet owner",
+      "disposition": "resolved",
+      "source_lane": "tests"
+    },
+    {
+      "id": "LIFE-001",
+      "severity": "P2",
+      "evidence": ".csdlc/issues/313/cards/stp.md:1",
+      "invariant": "Prerequisite terminal authority must have one typed interpretation across derived receipts and doctor projections.",
+      "reproduction_or_proof_gap": "Merged/closed receipts, GitHub, ancestry, and cleanup support terminal state while doctor reports published-phase blocking findings.",
+      "recommendation": "Obtain a typed terminal read recognizing derived receipts or encode why doctor is inapplicable after terminalization.",
+      "owner": "typed C-SDLC lifecycle owner",
+      "disposition": "open",
+      "source_lane": "lifecycle"
+    },
+    {
+      "id": "DEMO-001",
+      "severity": "P1",
+      "evidence": "adl/tools/validate_v092_demo_proof_coverage.py:12",
+      "invariant": "The declared D9 validator must accept the canonical status vocabulary and reach all positive and negative checks.",
+      "reproduction_or_proof_gap": "D9 and its harness fail immediately because implemented_with_evidence is unsupported.",
+      "recommendation": "Define one shared vocabulary and rerun the positive and complete negative harness at one exact head.",
+      "owner": "WP-20 proof-register owner",
+      "disposition": "open",
+      "source_lane": "demos"
+    },
+    {
+      "id": "DEMO-002",
+      "severity": "P1",
+      "evidence": "docs/milestones/v0.92/DEMO_MATRIX_v0.92.md:35",
+      "invariant": "Matrix, coverage, ledger, and artifact index must agree and route every claimed demo to immutable proof.",
+      "reproduction_or_proof_gap": "Nine rows remain pending/blocked without commands while coverage claims corrective implemented evidence.",
+      "recommendation": "Hydrate or truthfully downgrade every row and retain exact revisions, positive/negative artifacts, review, and command.",
+      "owner": "WP-20 proof-register owner",
+      "disposition": "open",
+      "source_lane": "demos"
+    },
+    {
+      "id": "REL-001",
+      "severity": "P1",
+      "evidence": ".csdlc/evidence/312/validation.json:1",
+      "invariant": "Release evidence must derive one deterministic gate result.",
+      "reproduction_or_proof_gap": "Retained blocked authority conflicts with the zero-blocker corrective authority.",
+      "recommendation": "Resolve under one canonical #467 projection before release or external review.",
+      "owner": "WP-27 documentation/release truth",
+      "disposition": "duplicate",
+      "source_lane": "release_publication"
+    },
+    {
+      "id": "REL-002",
+      "severity": "P1",
+      "evidence": "docs/milestones/v0.92/MILESTONE_CHECKLIST_v0.92.md:101",
+      "invariant": "Release and publication completion must remain blocked until required review, remediation, evidence alignment, and ceremony gates close.",
+      "reproduction_or_proof_gap": "The checklist and assembled release evidence retain explicit open release-tail gates.",
+      "recommendation": "Keep release blocked and resolve each later-stage gate through its declared owner.",
+      "owner": "release-tail owners",
+      "disposition": "open",
+      "source_lane": "release_publication"
+    }
+  ],
+  "duplicates": [
+    {
+      "canonical_id": "ARCH-001",
+      "duplicate_ids": [
+        "DOC-001",
+        "DOC-003",
+        "REL-001"
+      ],
+      "rationale": "All four report the same incompatible current-versus-superseded quality-gate authority projection."
+    },
+    {
+      "canonical_id": "TEST-001",
+      "duplicate_ids": [
+        "DEP-003"
+      ],
+      "rationale": "Both report missing change-triggered ownership for the same three independent Cargo graphs; P1 is preserved."
+    },
+    {
+      "canonical_id": "CODE-001",
+      "duplicate_ids": [
+        "SEC-002",
+        "TEST-002"
+      ],
+      "rationale": "All arise from the original non-material or empty specialist assignment denominator and are resolved for this packet by one deterministic replacement."
+    }
+  ],
+  "disagreements": [
+    {
+      "finding_ids": [
+        "ARCH-001",
+        "DOC-001",
+        "REL-001"
+      ],
+      "rationale": "Some reports characterize the handoff itself as blocked, while its current prose points to #467; the proven disagreement is across the total canonical surface, especially retained validation and stale current-tense documents."
+    },
+    {
+      "finding_ids": [
+        "DOC-002",
+        "REL-002"
+      ],
+      "rationale": "Unchecked engineering/security acceptance rows challenge engineering-complete claims, while unfinished internal/external review and ceremony are expected downstream release-tail state and do not by themselves disprove engineering completion."
+    },
+    {
+      "finding_ids": [
+        "LIFE-001"
+      ],
+      "rationale": "The specialist classified this as ambiguous warning rather than P0-P3; the validator requires P0-P3, so the machine projection uses P2 without changing the report's explicit ambiguity or promoting it to a release-blocking claim."
+    }
+  ]
+}

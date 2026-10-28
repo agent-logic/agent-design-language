@@ -1,0 +1,39 @@
+{
+  "schema": "adl.long_lived_agent_spec.v1",
+  "agent_instance_id": "wp08-heartbeat-4684",
+  "display_name": "WP08 Heartbeat 4684",
+  "state_root": "state/wp08-4684-live-20260706T082608Z",
+  "workflow": {
+    "kind": "demo_adapter",
+    "name": "wp08_heartbeat_live_proof",
+    "path": null,
+    "run_args": {
+      "provider_id": "local_fixture",
+      "model": "none"
+    }
+  },
+  "heartbeat": {
+    "interval_secs": 1,
+    "max_cycles": 1,
+    "stale_lease_after_secs": 60
+  },
+  "checkpoint": {
+    "interval_secs": null,
+    "allow_agent_requested": false,
+    "min_request_interval_secs": null
+  },
+  "safety": {
+    "allow_network": false,
+    "allow_broker": false,
+    "allow_filesystem_writes_outside_state_root": false,
+    "allow_real_world_side_effects": false,
+    "require_public_artifact_sanitization": true,
+    "financial_advice": false,
+    "max_cycle_runtime_secs": 60,
+    "max_consecutive_failures": 1
+  },
+  "memory": {
+    "namespace": "runtime/wp08/heartbeat/4684",
+    "write_policy": "append_only"
+  }
+}

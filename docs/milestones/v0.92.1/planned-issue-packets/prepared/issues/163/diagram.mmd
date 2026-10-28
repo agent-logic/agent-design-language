@@ -1,0 +1,12 @@
+flowchart LR
+  M["V3-02 measured primitives"] --> VERIFY["Digest and measurement verification"]
+  VERIFY --> LINUX["Linux commit contract"]
+  VERIFY --> MAC["macOS commit contract"]
+  VERIFY --> WIN{"Windows equivalent proof?"}
+  WIN -->|yes| WM["Mutation enabled"]
+  WIN -->|no| WR["Fail-closed read-only"]
+  LINUX --> ADR["Authorized Decision 11"]
+  MAC --> ADR
+  WM --> ADR
+  WR --> ADR
+  ADR --> STORE["Unlock V3-08"]

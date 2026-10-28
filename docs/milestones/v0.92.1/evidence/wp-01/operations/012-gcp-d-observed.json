@@ -1,0 +1,53 @@
+{
+  "schema": "adl.v0921.wp01.operation-observed.v1",
+  "kind": "child_create",
+  "planned_id": "GCP-D",
+  "issue": 493,
+  "title": "[v0.92.1][GCP-D] GCP private platform foundation",
+  "labels": [
+    "area:runtime",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "milestone": 1,
+  "state": "open",
+  "dependencies": {
+    "GCP-C": 492
+  },
+  "body_sha256": "a63ff4b880c502a5ce60559d011fc07614a5affcd8aab55473f21348a7570fab",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:GCP-D:create",
+  "request_fingerprint": "631cecb5a84ac82b092a7cd14440ade4a2665942414a27f9e4c05b5734de1039",
+  "planning_digest": "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251",
+  "specification_sha256": "baf4130dc79dbb0bd5b899789f208372416253bbe517ea2b3a1dd4a09e45371f",
+  "live_response": {
+    "action": "issue_create",
+    "comment_id": null,
+    "issue": {
+      "assignees": [
+
+      ],
+      "body": "## Outcome\n\nProduce one private GCP platform foundation for disposable workloads.\n\n## Primary deliverable\n\nOne private GCP platform foundation providing approved operator access, storage classes, telemetry, and zero-residue disposal.\n\n## Verification result\n\nVPC, subnet, IAP and OS Login, egress, firewall, artifact/model/evidence storage, logging, metric, label, watchdog, and disposable non-GPU workload checks pass.\n\n## Unit boundary\n\nIssue completion is exactly one private platform foundation; network storage observability and disposable-workload components cannot close independently.\n\n## Dependencies\n\n- GCP-C: #492\n\n## Retained predecessor scope\n\n- None; this is new v0.92.1 work.\n\n## Acceptance criteria\n\n- [ ] No unintended public route address or ingress exists\n- [ ] Human and workload identities are separate\n- [ ] State artifacts models continuity evidence and logs have separate owners\n- [ ] A disposable non-GPU workload is destroyed with zero residue\n\n## Owned paths\n\n- `infra/gcp/platform/**`\n- `docs/operations/cloud/gcp/platform-foundation/**`\n- `docs/milestones/v0.92.1/evidence/cloud/gcp-d/**`\n\n## PVF lanes\n\n- `private-network`\n- `operator-access`\n- `data-class-boundaries`\n- `telemetry-and-watchdog`\n- `disposable-workload-cleanup`\n\n## Stop conditions\n\n- Public exposure appears\n- Required IAM is broad or key-based\n- Cleanup selectors are incomplete\n\n## Non-goals\n\n- GPU qualification\n- Production traffic\n- Shared-VPC expansion\n\n## Canonical planning identity\n\n- Planned ID: `GCP-D`\n- Canonical title: `[v0.92.1][GCP-D] GCP private platform foundation`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#GCP-D`\n<!-- csdlc-github-operation:v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:GCP-D:create -->\n",
+      "closed_at": null,
+      "created_at": "2026-08-26T02:50:03Z",
+      "labels": [
+        "track:roadmap",
+        "type:task",
+        "area:runtime",
+        "version:v0.92.1"
+      ],
+      "marker_present": true,
+      "milestone": 1,
+      "number": 493,
+      "repository": "agent-logic/agent-design-language",
+      "schema": "csdlc.github_issue.v1",
+      "state": "open",
+      "title": "[v0.92.1][GCP-D] GCP private platform foundation"
+    },
+    "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:GCP-D:create",
+    "pr_state": null,
+    "reconciled": true,
+    "repository": "agent-logic/agent-design-language",
+    "schema": "csdlc.github_action_result.v1"
+  }
+}

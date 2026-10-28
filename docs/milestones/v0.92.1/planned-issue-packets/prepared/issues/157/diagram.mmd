@@ -1,0 +1,15 @@
+flowchart LR
+  GATES["Terminal CORP-03 and CORP-04"] --> ALLOW["Seven-repository allowlist\nand visibility matrix"]
+  SOURCE["Founder repositories\nread-only source authority"] --> COPY["Copy-first transfer"]
+  ALLOW --> COPY
+  COPY --> PARITY["Immutable-ref, owner,\nand visibility readback"]
+  EXCLUDED["asksifu and Horust\nno-touch set"] --> NEGATIVE["No-change readback"]
+  DOMAIN["Domains, brands, vendors"] --> CONTROL["Company administrative control"]
+  INTEGRATIONS["Apps, webhooks, packages,\nPages, OIDC, references"] --> CONTROL
+  PARITY --> MANIFEST["Administrative-control manifest"]
+  NEGATIVE --> MANIFEST
+  CONTROL --> MANIFEST
+  MANIFEST --> REVIEW{"All dispositions verified?"}
+  REVIEW -->|"yes"| HANDOFF["CORP-05 control proof"]
+  REVIEW -->|"conflict, visibility drift, or excluded change"| ROLLBACK["STOP/ROLLBACK: preserve source\nno deletion or destructive history edit"]
+  ROLLBACK --> SOURCE

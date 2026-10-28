@@ -1,0 +1,23 @@
+{
+  "observed_at": "2026-10-20T19:09:58.281094+00:00",
+  "worktree": "/Volumes/FastWork/codefriend-worktrees/adl-issue-127-v0932-security-prerequisite-callsite",
+  "committed_head": "27c5f7e74d284b5b1eee19a27b9712965a52db83",
+  "candidate_state": "uncommitted deletion and audit-route additions under active sole-writer Worker 30",
+  "source_sha256": {
+    "crates/codefriend/src/codefriend/server/deletion.rs": "6fceacf359d1512c4457780ef4717306449039168729f5b4cef1d3f1964d63c1",
+    "crates/codefriend/src/codefriend/server/audit_access.rs": "69f04a088f7972d0d366af43a831034d994aea5169e500b632d8695051e1f964",
+    "crates/codefriend/src/codefriend/server/boundary/admission.rs": "5cba658a9b3e627ab98488b1b0a00d3c7ff9c3e1fab82a18f1dc41c3c20932eb"
+  },
+  "proof": "3 local deterministic deletion unit tests passed",
+  "covered": [
+    "shared lease excludes deletion and exclusive lease excludes reads",
+    "bounded inventory failure reports partial and retains content-denial marker",
+    "declared content tree removed while metadata retained; symlink target preserved"
+  ],
+  "limitations": [
+    "Not installed Linux consumer proof",
+    "Service audit/deletion integration still under validation",
+    "Not full enterprise-security 9 acceptance"
+  ],
+  "log": "codefriend-127-deletion-unit-proof.log"
+}

@@ -1,0 +1,50 @@
+{
+  "schema": "adl.corporate.corp_c.account_authority_readback.v1",
+  "issue": 497,
+  "repository": "agent-logic/agent-design-language",
+  "created_at": "2026-09-01",
+  "authority_boundary": "Repository-safe readback and classification only. No credential values, account secrets, private legal records, billing instruments, or provider mutation are captured in this packet.",
+  "provider_checks": [
+    {
+      "provider": "aws",
+      "profile": "agent-logic-admin",
+      "classification": "partial_readback",
+      "evidence_source": "docs/milestones/v0.92.1/evidence/corporate/corp-c/aws-identity-readback-redacted.v1.json",
+      "evidence_sha256": "64f6cbc7dd5014e821f64761292436172d089781e48127e0f845cd480bcce434",
+      "business_account_required": true,
+      "mutation": false,
+      "credential_material_captured": false,
+      "notes": "The redacted STS receipt proves the local agent-logic-admin profile resolves to the same account hash retained by prior Agent Logic AWS evidence. It does not prove billing custody, root/contact recovery, IAM Identity Center, break-glass availability, hosted-zone control, or deployment rollback readiness."
+    },
+    {
+      "provider": "github",
+      "profile": "agent-logic/agent-design-language",
+      "classification": "blocked_missing_live_readback",
+      "evidence_source": "CORP-B follow-up register rows for source_control and ci_cd",
+      "business_account_required": true,
+      "mutation": false,
+      "credential_material_captured": false,
+      "notes": "Organization owners, billing plan owner, MFA, recovery contacts, environments, required reviewers, runner authority, and emergency workflow-disable procedure remain follow-up readbacks."
+    },
+    {
+      "provider": "dns_certificate",
+      "profile": "corporate-operator-role",
+      "classification": "blocked_missing_live_readback",
+      "evidence_source": "CORP-B follow-up register rows for production_domains, dns_route53, and certificates",
+      "business_account_required": true,
+      "mutation": false,
+      "credential_material_captured": false,
+      "notes": "Hosted-zone moves, DNS updates, and certificate renewal ownership checks require explicit operator authorization and rollback evidence before mutation."
+    },
+    {
+      "provider": "private_custody",
+      "profile": "business-operations-role",
+      "classification": "blocked_missing_private_receipt",
+      "evidence_source": "CORP-A redacted custody receipts and CORP-B private-custody follow-up rows",
+      "business_account_required": true,
+      "mutation": false,
+      "credential_material_captured": false,
+      "notes": "Vault, recovery-factor, payment-method, executed-instrument, and counsel-controlled diligence custody remain private/off-repo surfaces represented only by redacted receipt identifiers."
+    }
+  ]
+}

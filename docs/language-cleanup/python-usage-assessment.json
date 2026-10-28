@@ -1,0 +1,1074 @@
+{
+  "schema": "adl.python_usage_assessment.v1",
+  "source_commit": "d050007654dacdbfc78b20ec0354ad2c73ecfac3",
+  "method": "Tracked-file literal basename references; candidates are not proven executable calls. Dynamic construction can evade this scan. Working tree includes unfinished PVF edits.",
+  "frequency": "Not measured. No developer execution telemetry or CI log sampling performed.",
+  "files": [
+    {
+      "path": "adl/tools/build_v0917_execution_outlier_analysis.py",
+      "current_reference_candidates": [],
+      "historical_references": [
+        "docs/milestones/v0.91.5/TOOL_SURFACE_REGISTRY_3734.md",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/mixed-generation-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/tool-runtime-infra-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CURRENT_CRATE_BOUNDARIES.json",
+        "docs/reviews/v0.92/internal-review-5846/specialist_assignments.json"
+      ],
+      "inventory_or_retirement_references": [
+        "docs/language-cleanup/inventory.json",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ]
+    },
+    {
+      "path": "adl/tools/check_repo_quality_staleness.py",
+      "current_reference_candidates": [
+        "adl/tools/README.md",
+        "adl/tools/test_check_repo_quality_staleness.sh"
+      ],
+      "historical_references": [
+        "docs/milestones/v0.91.5/TOOL_SURFACE_REGISTRY_3734.md",
+        "docs/milestones/v0.91.6/RELEASE_PLAN_v0.91.6.md",
+        "docs/milestones/v0.91.6/REVIEW_AND_VALIDATION_CHECKLIST_v0.91.6.md",
+        "docs/milestones/v0.91.6/review/REPO_QUALITY_STALENESS_REMEDIATION_3925.md",
+        "docs/milestones/v0.91.6/review/V0916_WP12_QUALITY_GATE_3977.md",
+        "docs/milestones/v0.91.6/review/V0916_WP13_DOCS_REVIEW_ALIGNMENT_3978.md",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/mixed-generation-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/COMBINED_REMAINING_DELTA.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CURRENT_SUCCESSOR_ROWS.jsonl",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/DISPOSITION_REGISTER.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/REMAINING_COMPONENT_DECISIONS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/REPO_QUALITY_RETAINED_PAIR.json",
+        "docs/reviews/v0.92/internal-review-5846/specialist_assignments.json"
+      ],
+      "inventory_or_retirement_references": [
+        "docs/language-cleanup/inventory.json",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ]
+    },
+    {
+      "path": "adl/tools/compute_ccc_v0.py",
+      "current_reference_candidates": [
+        "adl/tools/test_ccc_v0_instrumentation.sh",
+        "demos/v0.90.3/ccc_v0/ccc_v0_report.md",
+        "docs/tooling/ccc_v0.md"
+      ],
+      "historical_references": [
+        "docs/milestones/v0.91.5/TOOL_SURFACE_REGISTRY_3734.md",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/mixed-generation-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/tool-residual-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/tool-runtime-infra-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CCC_HISTORICAL_FIXTURE_RETENTION.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CCC_TWO_PUBLIC_RETENTION.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/COMBINED_REMAINING_DELTA.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CURRENT_SUCCESSOR_ROWS.jsonl",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/DISPOSITION_REGISTER.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/REMAINING_COMPONENT_DECISIONS.json",
+        "docs/reviews/v0.92/internal-review-5846/specialist_assignments.json"
+      ],
+      "inventory_or_retirement_references": [
+        "docs/language-cleanup/inventory.json",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ]
+    },
+    {
+      "path": "adl/tools/demo_v0913_first_proof_demo.py",
+      "current_reference_candidates": [
+        "adl/tools/test_first_proof_demo_packet.sh",
+        "adl/tools/validate_first_proof_demo_packet.py",
+        "tools/public_contracts/src/quality_surfaces.rs"
+      ],
+      "historical_references": [
+        "docs/milestones/v0.91.3/DEMO_MATRIX_v0.91.3.md",
+        "docs/milestones/v0.91.3/FEATURE_PROOF_COVERAGE_v0.91.3.md",
+        "docs/milestones/v0.91.3/features/FIVE_MINUTE_SPRINT_FIRST_PROOF.md",
+        "docs/milestones/v0.91.3/review/csdlc_demo_showcase/C_SDLC_DEMO_SHOWCASE_PACKET_v0.91.3.md",
+        "docs/milestones/v0.91.3/review/demo_coverage/ct_demo_006_feature_demo_map.md",
+        "docs/milestones/v0.91.3/review/first_proof_demo/FIRST_PROOF_DEMO_PACKET_v0.91.3.md",
+        "docs/milestones/v0.91.3/review/first_proof_demo/README.md",
+        "docs/milestones/v0.91.3/review/first_proof_demo/ct_demo_001_first_proof_metrics.json",
+        "docs/milestones/v0.91.3/review/first_proof_demo/ct_demo_001_first_proof_report.md",
+        "docs/milestones/v0.91.5/TOOL_SURFACE_REGISTRY_3734.md",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/mixed-generation-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/COMBINED_REMAINING_DELTA.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CSDLC_UNMAPPED_TOOLS_DISPOSITIONS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CURRENT_CONSUMER_FINDINGS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CURRENT_SUCCESSOR_ROWS.jsonl",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/DISPOSITION_REGISTER.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/REMAINING_COMPONENT_DECISIONS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/V0913_PUBLIC_HISTORICAL_RETENTION.json",
+        "docs/reviews/v0.92/internal-review-5846/specialist_assignments.json"
+      ],
+      "inventory_or_retirement_references": [
+        "docs/language-cleanup/inventory.json",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ]
+    },
+    {
+      "path": "adl/tools/generate_active_command_reference_scan.py",
+      "current_reference_candidates": [
+        "adl/tools/test_cli_owner_command_guidance.sh",
+        "adl/tools/test_generate_active_command_reference_scan.sh",
+        "docs/tooling/ACTIVE_COMMAND_REFERENCE_SCAN.md"
+      ],
+      "historical_references": [
+        ".csdlc/issues/5558/audit.jsonl",
+        ".csdlc/issues/5558/index.json",
+        ".csdlc/issues/5791/audit.jsonl",
+        ".csdlc/issues/5791/index.json",
+        "docs/milestones/v0.91.5/ACTIVE_COMMAND_REFERENCE_SCAN_3735.md",
+        "docs/milestones/v0.91.5/TOOL_SURFACE_REGISTRY_3734.md",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/mixed-generation-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/COMBINED_REMAINING_DELTA.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CSDLC_DOCUMENT_DISPOSITIONS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CSDLC_TOOL_FAMILY_BOUNDARIES.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CSDLC_UNMAPPED_TOOLS_DISPOSITIONS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CURRENT_CONSUMER_FINDINGS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CURRENT_SUCCESSOR_ROWS.jsonl",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/DISPOSITION_REGISTER.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/EXECUTION_OVERLAY.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/LEGACY_CARD_WRAPPER_SEVEN_APPLIED.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/PRODUCT_DOCUMENT_DISPOSITIONS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/REMAINING_COMPONENT_DECISIONS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/RETIRED_PROMPT_EDITOR_CHECKER.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/TOOL_REGISTRY_CONSUMER_REPAIR.json",
+        "docs/reviews/v0.91.8/internal-review-5791/FINDINGS_REGISTER.md",
+        "docs/reviews/v0.92/internal-review-5846/specialist_assignments.json"
+      ],
+      "inventory_or_retirement_references": [
+        "docs/language-cleanup/inventory.json",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ]
+    },
+    {
+      "path": "adl/tools/rd01_repository_audit.py",
+      "current_reference_candidates": [],
+      "historical_references": [
+        ".csdlc/issues/977/cards/sip.values.json",
+        ".csdlc/issues/977/cards/sor.md",
+        ".csdlc/issues/977/cards/sor.values.json",
+        ".csdlc/issues/977/cards/spp.values.json",
+        ".csdlc/issues/977/cards/stp.values.json",
+        ".csdlc/issues/977/cards/vpp.values.json",
+        "docs/milestones/v0.92.2/evidence/issue-919/full-review/assignments.json",
+        "docs/milestones/v0.92.2/evidence/issue-919/full-review/changed-paths.json",
+        "docs/milestones/v0.92.2/evidence/issue-919/full-review/coverage/security-coverage.json",
+        "docs/milestones/v0.92.2/evidence/rd01-977/summary.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/mixed-generation-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/ACTIVE_19_TOOL_DISPOSITIONS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/COMBINED_REMAINING_DELTA.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CSDLC_CUTOVER_CALLERS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CURRENT_CONSUMER_FINDINGS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CURRENT_SUCCESSOR_ROWS.jsonl",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/DISPOSITION_REGISTER.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/REMAINING_COMPONENT_DECISIONS.json"
+      ],
+      "inventory_or_retirement_references": [
+        "docs/language-cleanup/inventory.json",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ]
+    },
+    {
+      "path": "adl/tools/revision_validation_inventory.py",
+      "current_reference_candidates": [
+        "adl/tools/test_revision_validation_inventory.py"
+      ],
+      "historical_references": [
+        "docs/milestones/v0.92.2/evidence/issue-919/full-review/assignments.json",
+        "docs/milestones/v0.92.2/evidence/issue-919/full-review/changed-paths.json",
+        "docs/milestones/v0.92.2/evidence/issue-919/full-review/coverage/security-coverage.json",
+        "docs/milestones/v0.92.2/evidence/issue-919/full-review/coverage/tests-coverage.json",
+        "docs/milestones/v0.92.2/evidence/issue-919/full-review/lanes/tests-coverage.json",
+        "docs/milestones/v0.92.2/evidence/qual-inventory-899/README.md",
+        "docs/milestones/v0.92.2/evidence/qual-inventory-899/proof-profile.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/mixed-generation-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/COMBINED_REMAINING_DELTA.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CSDLC_TOOL_FAMILY_BOUNDARIES.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CSDLC_UNMAPPED_TOOLS_DISPOSITIONS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CURRENT_CONSUMER_FINDINGS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CURRENT_SUCCESSOR_ROWS.jsonl",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/DISPOSITION_REGISTER.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/REMAINING_COMPONENT_DECISIONS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/REVISION_INVENTORY_HISTORICAL_RETENTION.json"
+      ],
+      "inventory_or_retirement_references": [
+        "docs/language-cleanup/inventory.json",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ]
+    },
+    {
+      "path": "adl/tools/run_runtime_gateway_owner_contract.py",
+      "current_reference_candidates": [
+        "adl/config/validation_lane_selector.v0.91.6.json",
+        "docs/tooling/RUNTIME_GATEWAY_OWNER_CONTRACT.md"
+      ],
+      "historical_references": [
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CSM_BRIDGE_ONE_HISTORICAL_APPLIED.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/EXECUTION_OVERLAY.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/RUNTIME_GATEWAY_GENERATION_APPLIED.json"
+      ],
+      "inventory_or_retirement_references": [
+        "docs/language-cleanup/inventory.json",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ]
+    },
+    {
+      "path": "adl/tools/select_validation_lanes.py",
+      "current_reference_candidates": [
+        "adl/config/validation_lane_selector.v0.91.6.json",
+        "adl/tools/select_validation_lanes.sh"
+      ],
+      "historical_references": [
+        ".csdlc/issues/5330/cards/sip.md",
+        ".csdlc/issues/5330/cards/sip.values.json",
+        ".csdlc/issues/5330/cards/stp.md",
+        ".csdlc/issues/5330/cards/stp.values.json",
+        ".csdlc/prepared/issues/5330/bind-request.json",
+        ".csdlc/prepared/issues/5330/bootstrap-request.json",
+        "docs/milestones/v0.91.5/TOOL_SURFACE_REGISTRY_3734.md",
+        "docs/milestones/v0.91.6/features/VPP_VALIDATION_PLANNING_AND_PVF_LANE_REGISTRY_v0.91.6.md",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/mixed-generation-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/tool-residual-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/tool-runtime-infra-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/COMBINED_REMAINING_DELTA.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CSDLC_OTHER_CONSUMER_DISPOSITIONS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CSDLC_TOOL_FAMILY_BOUNDARIES.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CSDLC_UNMAPPED_TOOLS_DISPOSITIONS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CURRENT_CONSUMER_FINDINGS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CURRENT_SUCCESSOR_ROWS.jsonl",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/DISPOSITION_REGISTER.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/EXECUTION_OVERLAY.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/HISTORICAL_V2_SUPPLY_CHAIN_RETENTION.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/PENDING_PUBLIC_CUTOVER_HOLD_CROSSWALK.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/PUBLIC_CUTOVER_APPLIED.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/PUBLIC_MANIFEST_RETIREMENT_GUARD_PROPOSAL.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/REMAINING_COMPONENT_DECISIONS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/VALIDATION_ROUTING_DISPOSITIONS.json",
+        "docs/reviews/v0.92/internal-review-5846/specialist_assignments.json"
+      ],
+      "inventory_or_retirement_references": [
+        "docs/language-cleanup/inventory.json",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ]
+    },
+    {
+      "path": "adl/tools/skills/pr-stack-manager/scripts/analyze_pr_stack.py",
+      "current_reference_candidates": [
+        "adl/tools/skills/docs/OPERATIONAL_SKILLS_GUIDE.md"
+      ],
+      "historical_references": [
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/mixed-generation-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/COMBINED_REMAINING_DELTA.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CSDLC_TOOL_FAMILY_BOUNDARIES.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CSDLC_UNMAPPED_TOOLS_DISPOSITIONS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CURRENT_CONSUMER_FINDINGS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CURRENT_SUCCESSOR_ROWS.jsonl",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/DISPOSITION_REGISTER.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/REMAINING_COMPONENT_DECISIONS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/SKILL_HELPER_RETIREMENT_DISPOSITION.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/SKILL_OPERATIONAL_HOLD_MAPPING.json",
+        "docs/reviews/v0.92/internal-review-5846/specialist_assignments.json"
+      ],
+      "inventory_or_retirement_references": [
+        "docs/language-cleanup/inventory.json"
+      ]
+    },
+    {
+      "path": "adl/tools/skills/records-hygiene/scripts/analyze_records_hygiene.py",
+      "current_reference_candidates": [
+        "adl/tools/skills/docs/OPERATIONAL_SKILLS_GUIDE.md",
+        "adl/tools/test_records_hygiene_skill_contracts.sh"
+      ],
+      "historical_references": [
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/mixed-generation-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/COMBINED_REMAINING_DELTA.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CSDLC_TOOL_FAMILY_BOUNDARIES.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CSDLC_UNMAPPED_TOOLS_DISPOSITIONS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CURRENT_SUCCESSOR_ROWS.jsonl",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/DISPOSITION_REGISTER.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/REMAINING_COMPONENT_DECISIONS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/SKILL_HELPER_RETIREMENT_DISPOSITION.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/SKILL_OPERATIONAL_HOLD_MAPPING.json",
+        "docs/reviews/v0.92/internal-review-5846/specialist_assignments.json"
+      ],
+      "inventory_or_retirement_references": [
+        "docs/language-cleanup/inventory.json"
+      ]
+    },
+    {
+      "path": "adl/tools/test_codefriend_fitness_ci_artifacts.py",
+      "current_reference_candidates": [],
+      "historical_references": [
+        "docs/milestones/v0.92.2/evidence/issue-919/full-review/assignments.json",
+        "docs/milestones/v0.92.2/evidence/issue-919/full-review/changed-paths.json",
+        "docs/milestones/v0.92.2/evidence/issue-919/full-review/coverage/security-coverage.json",
+        "docs/milestones/v0.92.2/evidence/issue-919/full-review/coverage/tests-coverage.json",
+        "docs/milestones/v0.92.2/evidence/issue-919/full-review/lanes/tests-coverage.json",
+        "docs/milestones/v0.92.2/evidence/issue-919/full-review/lanes/tests-local-proof.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/mixed-generation-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CODEFRIEND_27_DISPOSITION_PROPOSAL.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CODEFRIEND_FITNESS_FAMILY_APPLIED.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/COMBINED_REMAINING_DELTA.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CURRENT_CONSUMER_FINDINGS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CURRENT_SUCCESSOR_ROWS.jsonl",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/DISPOSITION_REGISTER.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/EXECUTION_OVERLAY.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/REMAINING_COMPONENT_DECISIONS.json"
+      ],
+      "inventory_or_retirement_references": [
+        "docs/language-cleanup/inventory.json",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ]
+    },
+    {
+      "path": "adl/tools/test_revision_validation_inventory.py",
+      "current_reference_candidates": [],
+      "historical_references": [
+        "docs/milestones/v0.92.2/evidence/issue-919/full-review/assignments.json",
+        "docs/milestones/v0.92.2/evidence/issue-919/full-review/changed-paths.json",
+        "docs/milestones/v0.92.2/evidence/issue-919/full-review/coverage/security-coverage.json",
+        "docs/milestones/v0.92.2/evidence/issue-919/full-review/coverage/tests-coverage.json",
+        "docs/milestones/v0.92.2/evidence/issue-919/full-review/lanes/tests-coverage.json",
+        "docs/milestones/v0.92.2/evidence/qual-inventory-899/README.md",
+        "docs/milestones/v0.92.2/evidence/qual-inventory-899/proof-profile.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/mixed-generation-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/COMBINED_REMAINING_DELTA.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CSDLC_TOOL_FAMILY_BOUNDARIES.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CSDLC_UNMAPPED_TOOLS_DISPOSITIONS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CURRENT_CONSUMER_FINDINGS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CURRENT_SUCCESSOR_ROWS.jsonl",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/DISPOSITION_REGISTER.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/REMAINING_COMPONENT_DECISIONS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/REVISION_INVENTORY_HISTORICAL_RETENTION.json"
+      ],
+      "inventory_or_retirement_references": [
+        "docs/language-cleanup/inventory.json",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ]
+    },
+    {
+      "path": "adl/tools/test_validate_v0922_runtime_qualification.py",
+      "current_reference_candidates": [],
+      "historical_references": [
+        ".csdlc/issues/902/cards/sip.md",
+        ".csdlc/issues/902/cards/sip.values.json",
+        ".csdlc/issues/902/cards/sor.md",
+        ".csdlc/issues/902/cards/sor.values.json",
+        ".csdlc/issues/902/cards/spp.md",
+        ".csdlc/issues/902/cards/spp.values.json",
+        ".csdlc/issues/902/cards/stp.md",
+        ".csdlc/issues/902/cards/stp.values.json",
+        ".csdlc/issues/902/cards/vpp.md",
+        ".csdlc/issues/902/cards/vpp.values.json",
+        "docs/milestones/v0.92.2/evidence/issue-919/full-review/assignments.json",
+        "docs/milestones/v0.92.2/evidence/issue-919/full-review/changed-paths.json",
+        "docs/milestones/v0.92.2/evidence/issue-919/full-review/coverage/security-coverage.json",
+        "docs/milestones/v0.92.2/evidence/issue-919/full-review/coverage/tests-coverage.json",
+        "docs/milestones/v0.92.2/evidence/issue-919/full-review/lanes/tests-coverage.json",
+        "docs/milestones/v0.92.2/evidence/qual-evidence-902/README.md",
+        "docs/milestones/v0.92.2/evidence/qual-evidence-902/test-manifest.json",
+        "docs/milestones/v0.92.2/evidence/qual-evidence-902/validation.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/mixed-generation-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/COMBINED_REMAINING_DELTA.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CSDLC_TOOL_FAMILY_BOUNDARIES.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CSDLC_UNMAPPED_TOOLS_DISPOSITIONS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CURRENT_CONSUMER_FINDINGS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CURRENT_SUCCESSOR_ROWS.jsonl",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/DISPOSITION_REGISTER.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/REMAINING_COMPONENT_DECISIONS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/RUNTIME_QUALIFICATION_VALIDATOR_HISTORICAL_RETENTION.json"
+      ],
+      "inventory_or_retirement_references": [
+        "docs/language-cleanup/inventory.json",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ]
+    },
+    {
+      "path": "adl/tools/validate_first_proof_demo_packet.py",
+      "current_reference_candidates": [
+        "adl/tools/demo_v0913_quality_gate.sh",
+        "adl/tools/run_v0913_proof_validation_lane.sh",
+        "adl/tools/test_first_proof_demo_packet.sh"
+      ],
+      "historical_references": [
+        "docs/milestones/v0.91.3/review/first_proof_demo/FIRST_PROOF_DEMO_PACKET_v0.91.3.md",
+        "docs/milestones/v0.91.3/review/first_proof_demo/README.md",
+        "docs/milestones/v0.91.5/TOOL_SURFACE_REGISTRY_3734.md",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/mixed-generation-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/tool-runtime-infra-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CSDLC_UNMAPPED_TOOLS_DISPOSITIONS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CURRENT_CONSUMER_FINDINGS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CURRENT_CRATE_BOUNDARIES.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/V0913_GATE_CONSUMER_CLOSURE.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/V0913_PUBLIC_HISTORICAL_RETENTION.json",
+        "docs/reviews/v0.92/internal-review-5846/specialist_assignments.json"
+      ],
+      "inventory_or_retirement_references": [
+        "docs/language-cleanup/inventory.json",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ]
+    },
+    {
+      "path": "adl/tools/validate_polis_status_for_ssm_qts.py",
+      "current_reference_candidates": [
+        "adl/config/validation_lane_selector.v0.91.6.json"
+      ],
+      "historical_references": [
+        "docs/milestones/v0.91.5/TOOL_SURFACE_REGISTRY_3734.md",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/mixed-generation-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/tool-runtime-infra-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/COMBINED_REMAINING_DELTA.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CURRENT_SUCCESSOR_ROWS.jsonl",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/DISPOSITION_REGISTER.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/POLIS_LOCAL_SUPPORT_FIVE_RETENTION.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/REMAINING_COMPONENT_DECISIONS.json",
+        "docs/reviews/v0.92/internal-review-5846/specialist_assignments.json"
+      ],
+      "inventory_or_retirement_references": [
+        "docs/language-cleanup/inventory.json",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ]
+    },
+    {
+      "path": "adl/tools/validate_polis_status_for_ssm_windows.py",
+      "current_reference_candidates": [
+        "adl/config/validation_lane_selector.v0.91.6.json"
+      ],
+      "historical_references": [
+        "docs/milestones/v0.91.5/TOOL_SURFACE_REGISTRY_3734.md",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/mixed-generation-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/tool-runtime-infra-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/COMBINED_REMAINING_DELTA.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CURRENT_SUCCESSOR_ROWS.jsonl",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/DISPOSITION_REGISTER.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/POLIS_LOCAL_SUPPORT_FIVE_RETENTION.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/REMAINING_COMPONENT_DECISIONS.json",
+        "docs/reviews/v0.92/internal-review-5846/specialist_assignments.json"
+      ],
+      "inventory_or_retirement_references": [
+        "docs/language-cleanup/inventory.json",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ]
+    },
+    {
+      "path": "adl/tools/validate_software_development_polis_packet.py",
+      "current_reference_candidates": [
+        "adl/tools/test_software_development_polis_packet.sh"
+      ],
+      "historical_references": [
+        "docs/milestones/v0.91.4/review/software_development_polis/README.md",
+        "docs/milestones/v0.91.4/review/software_development_polis/SOFTWARE_DEVELOPMENT_POLIS_PROOF_PACKET_v0.91.4.md",
+        "docs/milestones/v0.91.4/review/software_development_polis/fixtures/actor_standing_allowed.json",
+        "docs/milestones/v0.91.5/TOOL_SURFACE_REGISTRY_3734.md",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/mixed-generation-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/tool-runtime-infra-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/COMBINED_REMAINING_DELTA.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CURRENT_SUCCESSOR_ROWS.jsonl",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/DISPOSITION_REGISTER.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/REMAINING_COMPONENT_DECISIONS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/SOFTWARE_DEVELOPMENT_POLIS_RETAINED_PAIR_R2.json",
+        "docs/reviews/v0.92/internal-review-5846/specialist_assignments.json"
+      ],
+      "inventory_or_retirement_references": [
+        "docs/language-cleanup/inventory.json",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ]
+    },
+    {
+      "path": "adl/tools/validate_v0915_multi_agent_quality_comparison.py",
+      "current_reference_candidates": [
+        "adl/tools/test_v0915_multi_agent_quality_comparison.sh"
+      ],
+      "historical_references": [
+        "docs/milestones/v0.91.5/TOOL_SURFACE_REGISTRY_3734.md",
+        "docs/milestones/v0.91.5/review/multi_agent_quality_comparison/MULTI_AGENT_QUALITY_COMPARISON_2026-06-15.md",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/mixed-generation-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/tool-residual-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/tool-runtime-infra-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/COMBINED_REMAINING_DELTA.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CURRENT_SUCCESSOR_ROWS.jsonl",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/DISPOSITION_REGISTER.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/PROVIDER_SUITABILITY_SEVEN_HISTORICAL_APPLIED.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/REMAINING_COMPONENT_DECISIONS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/V0915_HISTORICAL_VALIDATION_APPLIED.json",
+        "docs/reviews/v0.92/internal-review-5846/specialist_assignments.json"
+      ],
+      "inventory_or_retirement_references": [
+        "docs/language-cleanup/inventory.json",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ]
+    },
+    {
+      "path": "adl/tools/validate_v0915_openrouter_matrix.py",
+      "current_reference_candidates": [
+        "adl/tools/test_v0915_openrouter_matrix.sh",
+        "adl/tools/validate_v0915_multi_agent_quality_comparison.py"
+      ],
+      "historical_references": [
+        "docs/milestones/v0.91.5/TOOL_SURFACE_REGISTRY_3734.md",
+        "docs/milestones/v0.91.5/review/internal_review/V0915_SECOND_INTERNAL_REVIEW_FINDINGS_REGISTER_2026-06-17.md",
+        "docs/milestones/v0.91.5/review/openrouter_matrix/OPENROUTER_MATRIX_PROOF_2026-06-14.md",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/mixed-generation-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/tool-runtime-infra-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/COMBINED_REMAINING_DELTA.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CURRENT_SUCCESSOR_ROWS.jsonl",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/DISPOSITION_REGISTER.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/PROVIDER_SUITABILITY_SEVEN_HISTORICAL_APPLIED.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/REMAINING_COMPONENT_DECISIONS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/V0915_HISTORICAL_VALIDATION_APPLIED.json",
+        "docs/reviews/v0.92/internal-review-5846/specialist_assignments.json"
+      ],
+      "inventory_or_retirement_references": [
+        "docs/language-cleanup/inventory.json",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ]
+    },
+    {
+      "path": "adl/tools/validate_v0915_remote_gemma_watcher_probe.py",
+      "current_reference_candidates": [
+        "adl/tools/test_v0915_remote_gemma_watcher_probe.sh",
+        "adl/tools/validate_v0915_multi_agent_quality_comparison.py"
+      ],
+      "historical_references": [
+        "docs/milestones/v0.91.5/TOOL_SURFACE_REGISTRY_3734.md",
+        "docs/milestones/v0.91.5/review/remote_gemma_watcher/REMOTE_GEMMA_WATCHER_PROOF_2026-06-15.md",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/mixed-generation-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/tool-runtime-infra-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/COMBINED_REMAINING_DELTA.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CURRENT_SUCCESSOR_ROWS.jsonl",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/DISPOSITION_REGISTER.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/PROVIDER_SUITABILITY_SEVEN_HISTORICAL_APPLIED.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/REMAINING_COMPONENT_DECISIONS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/V0915_HISTORICAL_VALIDATION_APPLIED.json",
+        "docs/reviews/v0.92/internal-review-5846/specialist_assignments.json"
+      ],
+      "inventory_or_retirement_references": [
+        "docs/language-cleanup/inventory.json",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ]
+    },
+    {
+      "path": "adl/tools/validate_v0916_agent_suitability_panel.py",
+      "current_reference_candidates": [
+        "adl/tools/test_v0916_deepseek_suitability.sh"
+      ],
+      "historical_references": [
+        "docs/milestones/v0.91.5/TOOL_SURFACE_REGISTRY_3734.md",
+        "docs/milestones/v0.91.6/review/provider/CURRENT_MODEL_SUITABILITY_MINI_SPRINT_CLOSEOUT_4158.md",
+        "docs/milestones/v0.91.6/review/provider/CURRENT_MODEL_SUITABILITY_MINI_SPRINT_REVIEW_4158.md",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/mixed-generation-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/tool-runtime-infra-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/COMBINED_REMAINING_DELTA.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CURRENT_SUCCESSOR_ROWS.jsonl",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/DEEPSEEK_HISTORICAL_VALIDATION_APPLIED.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/DISPOSITION_REGISTER.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/PROVIDER_SUITABILITY_SEVEN_HISTORICAL_APPLIED.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/REMAINING_COMPONENT_DECISIONS.json",
+        "docs/reviews/v0.92/internal-review-5846/specialist_assignments.json"
+      ],
+      "inventory_or_retirement_references": [
+        "docs/language-cleanup/inventory.json",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ]
+    },
+    {
+      "path": "adl/tools/validate_v0916_deepseek_suitability.py",
+      "current_reference_candidates": [],
+      "historical_references": [
+        "docs/milestones/v0.91.5/TOOL_SURFACE_REGISTRY_3734.md",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/mixed-generation-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/tool-runtime-infra-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/COMBINED_REMAINING_DELTA.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CURRENT_SUCCESSOR_ROWS.jsonl",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/DEEPSEEK_HISTORICAL_VALIDATION_APPLIED.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/DISPOSITION_REGISTER.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/PROVIDER_SUITABILITY_SEVEN_HISTORICAL_APPLIED.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/REMAINING_COMPONENT_DECISIONS.json",
+        "docs/reviews/v0.92/internal-review-5846/specialist_assignments.json"
+      ],
+      "inventory_or_retirement_references": [
+        "docs/language-cleanup/inventory.json",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ]
+    },
+    {
+      "path": "adl/tools/validate_v0917_csm_api_gateway_bridge_proof.py",
+      "current_reference_candidates": [
+        "adl/config/validation_lane_selector.v0.91.6.json",
+        "adl/tools/run_runtime_gateway_owner_contract.py"
+      ],
+      "historical_references": [
+        "docs/milestones/v0.91.5/TOOL_SURFACE_REGISTRY_3734.md",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/mixed-generation-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/tool-runtime-infra-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/COMBINED_REMAINING_DELTA.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CSM_NINE_PACKET_VALIDATOR_RETENTION.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CURRENT_SUCCESSOR_ROWS.jsonl",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/DISPOSITION_REGISTER.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/REMAINING_COMPONENT_DECISIONS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/RUNTIME_GATEWAY_GENERATION_APPLIED.json",
+        "docs/reviews/v0.92/internal-review-5846/specialist_assignments.json"
+      ],
+      "inventory_or_retirement_references": [
+        "docs/language-cleanup/inventory.json",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ]
+    },
+    {
+      "path": "adl/tools/validate_v0922_runtime_qualification.py",
+      "current_reference_candidates": [
+        "adl/tools/test_validate_v0922_runtime_qualification.py"
+      ],
+      "historical_references": [
+        ".csdlc/evidence/864/sprint05-launch/drafts/QUAL-EVIDENCE.md",
+        ".csdlc/evidence/864/sprint05-launch/issues.json",
+        ".csdlc/evidence/864/sprint05-launch/readbacks.json",
+        ".csdlc/issues/902/cards/sip.md",
+        ".csdlc/issues/902/cards/sip.values.json",
+        ".csdlc/issues/902/cards/sor.md",
+        ".csdlc/issues/902/cards/sor.values.json",
+        ".csdlc/issues/902/cards/spp.md",
+        ".csdlc/issues/902/cards/spp.values.json",
+        ".csdlc/issues/902/cards/stp.md",
+        ".csdlc/issues/902/cards/stp.values.json",
+        ".csdlc/issues/902/cards/vpp.md",
+        ".csdlc/issues/902/cards/vpp.values.json",
+        "docs/milestones/v0.92.2/evidence/issue-919/full-review/assignments.json",
+        "docs/milestones/v0.92.2/evidence/issue-919/full-review/changed-paths.json",
+        "docs/milestones/v0.92.2/evidence/issue-919/full-review/coverage/security-coverage.json",
+        "docs/milestones/v0.92.2/evidence/issue-919/full-review/coverage/tests-coverage.json",
+        "docs/milestones/v0.92.2/evidence/issue-919/full-review/lanes/tests-coverage.json",
+        "docs/milestones/v0.92.2/evidence/qual-evidence-902/README.md",
+        "docs/milestones/v0.92.2/evidence/qual-evidence-902/test-manifest.json",
+        "docs/milestones/v0.92.2/evidence/qual-evidence-902/validation.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/mixed-generation-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/ACTIVE_19_TOOL_DISPOSITIONS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/COMBINED_REMAINING_DELTA.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CSDLC_CUTOVER_CALLERS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CSDLC_TOOL_FAMILY_BOUNDARIES.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CSDLC_UNMAPPED_TOOLS_DISPOSITIONS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CURRENT_CONSUMER_FINDINGS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CURRENT_SUCCESSOR_ROWS.jsonl",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/DISPOSITION_REGISTER.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/REMAINING_COMPONENT_DECISIONS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/RUNTIME_QUALIFICATION_VALIDATOR_HISTORICAL_RETENTION.json"
+      ],
+      "inventory_or_retirement_references": [
+        "docs/language-cleanup/inventory.json",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ]
+    },
+    {
+      "path": "adl/tools/validate_v092_demo_proof_coverage.py",
+      "current_reference_candidates": [
+        "adl/tools/test_v092_demo_proof_coverage.sh"
+      ],
+      "historical_references": [
+        ".csdlc/evidence/317/github-raw/issue-308.json",
+        ".csdlc/evidence/5854/live-gates-source.json",
+        ".csdlc/evidence/5860/V092_CHILD_READINESS_MATRIX.md",
+        ".csdlc/evidence/5860/live-issue-bodies/5840.md",
+        ".csdlc/issues/308/audit.jsonl",
+        ".csdlc/issues/308/cards/sip.md",
+        ".csdlc/issues/308/cards/sip.values.json",
+        ".csdlc/issues/308/cards/sor.md",
+        ".csdlc/issues/308/cards/sor.values.json",
+        ".csdlc/issues/308/cards/spp.values.json",
+        ".csdlc/issues/308/cards/srp.md",
+        ".csdlc/issues/308/cards/srp.values.json",
+        ".csdlc/issues/308/cards/stp.md",
+        ".csdlc/issues/308/cards/stp.values.json",
+        ".csdlc/issues/308/cards/vpp.md",
+        ".csdlc/issues/308/cards/vpp.values.json",
+        ".csdlc/issues/308/index.json",
+        ".csdlc/issues/5840/audit.jsonl",
+        ".csdlc/issues/5840/cards/sip.md",
+        ".csdlc/issues/5840/cards/sip.values.json",
+        ".csdlc/issues/5840/cards/spp.values.json",
+        ".csdlc/issues/5840/index.json",
+        ".csdlc/prepared/issues/308/design.md",
+        ".csdlc/prepared/issues/5840/design.md",
+        ".csdlc/prepared/issues/5840/readiness-spec.json",
+        "docs/milestones/v0.92/DEMO_MATRIX_v0.92.md",
+        "docs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md",
+        "docs/milestones/v0.92/review/V092_DEMO_AEE_ARTIFACT_INDEX.md",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/mixed-generation-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/COMBINED_REMAINING_DELTA.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CSDLC_TOOL_FAMILY_BOUNDARIES.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CSDLC_UNMAPPED_TOOLS_DISPOSITIONS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CURRENT_CONSUMER_FINDINGS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CURRENT_SUCCESSOR_ROWS.jsonl",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/DISPOSITION_REGISTER.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/HISTORICAL_DEMO_COVERAGE_RETENTION.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/REMAINING_COMPONENT_DECISIONS.json",
+        "docs/reviews/v0.92/internal-review-5846/SYNTHESIS.md",
+        "docs/reviews/v0.92/internal-review-5846/findings.json",
+        "docs/reviews/v0.92/internal-review-5846/specialist_assignments.json",
+        "docs/reviews/v0.92/internal-review-5846/specialists/demos.md",
+        "docs/reviews/v0.92/remediation-5848/disposition-register.json"
+      ],
+      "inventory_or_retirement_references": [
+        "docs/language-cleanup/inventory.json",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ]
+    },
+    {
+      "path": "adl/tools/validate_v092_durable_history_parent_integration.py",
+      "current_reference_candidates": [],
+      "historical_references": [
+        ".csdlc/issues/114/audit.jsonl",
+        ".csdlc/issues/114/cards/sor.md",
+        ".csdlc/issues/114/cards/sor.values.json",
+        ".csdlc/issues/114/cards/srp.md",
+        ".csdlc/issues/114/cards/srp.values.json",
+        ".csdlc/issues/114/cards/stp.md",
+        ".csdlc/issues/114/cards/stp.values.json",
+        ".csdlc/issues/114/cards/vpp.md",
+        ".csdlc/issues/114/cards/vpp.values.json",
+        ".csdlc/issues/114/index.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/mixed-generation-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/COMBINED_REMAINING_DELTA.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CSDLC_TOOL_FAMILY_BOUNDARIES.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CSDLC_UNMAPPED_TOOLS_DISPOSITIONS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CURRENT_CONSUMER_FINDINGS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CURRENT_SUCCESSOR_ROWS.jsonl",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/DISPOSITION_REGISTER.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/EXECUTION_OVERLAY.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/REMAINING_COMPONENT_DECISIONS.json",
+        "docs/reviews/v0.92/internal-review-5846/specialist_assignments.json"
+      ],
+      "inventory_or_retirement_references": [
+        "docs/language-cleanup/historical-retirements.json",
+        "docs/language-cleanup/historical-transition.json",
+        "docs/language-cleanup/inventory.json",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ]
+    },
+    {
+      "path": "adl/tools/validation_inventory.py",
+      "current_reference_candidates": [
+        "adl/config/validation_lane_selector.public.v1.json",
+        "adl/config/validation_lane_selector.v0.91.6.json",
+        "adl/tools/test_revision_validation_inventory.py",
+        "adl/tools/test_validation_manager.sh",
+        "adl/tools/validation_inventory.sh",
+        "tools/repository_cleanup/transition.json"
+      ],
+      "historical_references": [
+        ".csdlc/evidence/309/reference-edge-manifest.json",
+        ".csdlc/evidence/864/sprint05-launch/drafts/QUAL-INVENTORY.md",
+        ".csdlc/evidence/864/sprint05-launch/issues.json",
+        ".csdlc/evidence/864/sprint05-launch/readbacks.json",
+        "docs/milestones/v0.91.5/TOOL_SURFACE_REGISTRY_3734.md",
+        "docs/milestones/v0.91.6/review/V0916_VALIDATION_MANAGER_TEST_TAX_MINI_SPRINT_REVIEW_4212.md",
+        "docs/milestones/v0.92.2/evidence/issue-919/full-review/assignments.json",
+        "docs/milestones/v0.92.2/evidence/issue-919/full-review/changed-paths.json",
+        "docs/milestones/v0.92.2/evidence/issue-919/full-review/coverage/security-coverage.json",
+        "docs/milestones/v0.92.2/evidence/issue-919/full-review/coverage/tests-coverage.json",
+        "docs/milestones/v0.92.2/evidence/issue-919/full-review/lanes/tests-coverage.json",
+        "docs/milestones/v0.92.2/evidence/qual-inventory-899/README.md",
+        "docs/milestones/v0.92.2/evidence/qual-inventory-899/proof-profile.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/mixed-generation-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/COMBINED_REMAINING_DELTA.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/COVERAGE_RESIDUE_SEVEN_APPLIED.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/COVERAGE_THIRTEEN_APPLIED.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CSDLC_OTHER_CONSUMER_DISPOSITIONS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CSDLC_TOOL_FAMILY_BOUNDARIES.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CSDLC_UNMAPPED_TOOLS_DISPOSITIONS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CURRENT_CONSUMER_FINDINGS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CURRENT_SUCCESSOR_ROWS.jsonl",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/DISPOSITION_REGISTER.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/EXECUTION_OVERLAY.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/HISTORICAL_V2_SUPPLY_CHAIN_RETENTION.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/OWNER_AGGREGATE_RETIREMENT_APPLIED.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/PENDING_PUBLIC_CUTOVER_HOLD_CROSSWALK.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/PUBLIC_CUTOVER_APPLIED.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/REMAINING_COMPONENT_DECISIONS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/REVISION_INVENTORY_HISTORICAL_RETENTION.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/RUNTIME_SOURCE_FAMILY_APPLIED.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/VALIDATION_ROUTING_DISPOSITIONS.json",
+        "docs/reviews/v0.92/internal-review-5846/specialist_assignments.json"
+      ],
+      "inventory_or_retirement_references": [
+        "docs/language-cleanup/ci-transition.json",
+        "docs/language-cleanup/inventory.json",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ]
+    },
+    {
+      "path": "adl/tools/validation_manager.py",
+      "current_reference_candidates": [
+        "adl/config/validation_lane_selector.v0.91.6.json",
+        "adl/tools/test_validation_manager.sh",
+        "adl/tools/validation_manager.sh",
+        "docs/tooling/BUILD_ACTION_LOGS.md",
+        "docs/tooling/README.md"
+      ],
+      "historical_references": [
+        ".csdlc/5407-validation.json",
+        ".csdlc/evidence/309/reference-edge-manifest.json",
+        ".csdlc/issues/226/cards/stp.md",
+        ".csdlc/issues/226/cards/stp.values.json",
+        ".csdlc/issues/5407/audit.jsonl",
+        ".csdlc/issues/5407/cards/sor.md",
+        ".csdlc/issues/5407/cards/sor.values.json",
+        ".csdlc/issues/5407/cards/vpp.md",
+        ".csdlc/issues/5407/cards/vpp.values.json",
+        ".csdlc/issues/5407/evidence/logging-scope-truth.log",
+        ".csdlc/issues/5407/index.json",
+        ".csdlc/issues/5407/retained/design.md",
+        "docs/milestones/v0.91.5/TOOL_SURFACE_REGISTRY_3734.md",
+        "docs/milestones/v0.91.6/features/VPP_VALIDATION_PLANNING_AND_PVF_LANE_REGISTRY_v0.91.6.md",
+        "docs/milestones/v0.91.6/review/ADL_CI_VALIDATION_COST_REVIEW_4322.md",
+        "docs/milestones/v0.91.6/review/V0916_VALIDATION_MANAGER_TEST_TAX_MINI_SPRINT_REVIEW_4212.md",
+        "docs/milestones/v0.91.6/review/build_throughput/NESSUS_REMOTE_VALIDATION_LANE_4553.md",
+        "docs/milestones/v0.91.7/review/build_throughput/REMOTE_BUILDER_OPERATIONAL_PROOF_4679.md",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/mixed-generation-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/APPROVED_COMPONENT_DELTA.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/COMBINED_REMAINING_DELTA.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CSDLC_OTHER_CONSUMER_DISPOSITIONS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CSDLC_TOOL_FAMILY_BOUNDARIES.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CSDLC_UNMAPPED_TOOLS_DISPOSITIONS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CSM_MANUAL_CALLER_RECONCILIATION.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CURRENT_CONSUMER_FINDINGS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CURRENT_CONSUMER_FINDINGS.md",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CURRENT_SUCCESSOR_ROWS.jsonl",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/DISPOSITION_REGISTER.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/EXECUTION_OVERLAY.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/HISTORICAL_SLOW_THREE_APPLIED.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/NESSUS_TRANSPORT_RETENTION.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/PENDING_PUBLIC_CUTOVER_HOLD_CROSSWALK.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/PRODUCT_DOCUMENT_DISPOSITIONS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/PUBLIC_CUTOVER_APPLIED.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/PUBLIC_MANAGER_RETIREMENT_REPAIR.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/PUBLIC_MANIFEST_RETIREMENT_GUARD_PROPOSAL.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/PUBLIC_OWNER_CALLER_REPAIR.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/REMAINING_COMPONENT_DECISIONS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/VALIDATION_ROUTING_DISPOSITIONS.json",
+        "docs/reviews/v0.91.7/remaining-sprints-5403/TOOLS_RELIABILITY_REVIEW_5036.md",
+        "docs/reviews/v0.91.7/tools-5407/DESIGN.md",
+        "docs/reviews/v0.91.7/tools-5407/TOOLS_RELIABILITY_CLOSEOUT_5036.md",
+        "docs/reviews/v0.92/internal-review-5846/specialist_assignments.json"
+      ],
+      "inventory_or_retirement_references": [
+        "docs/language-cleanup/inventory.json",
+        "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+      ]
+    },
+    {
+      "path": "demos/fixtures/aptitude_atlas_repo_review/target_repo_validator.py",
+      "current_reference_candidates": [
+        "demos/fixtures/aptitude_atlas_repo_review/fixture_definition.md",
+        "demos/fixtures/aptitude_atlas_repo_review/validation_protocol.py",
+        "demos/v0.90/aptitude_atlas_repo_review_aptitude_demo.md"
+      ],
+      "historical_references": [
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/demo-root-dispositions.json",
+        "docs/reviews/v0.92/internal-review-5846/specialist_assignments.json"
+      ],
+      "inventory_or_retirement_references": [
+        "docs/language-cleanup/inventory.json"
+      ]
+    },
+    {
+      "path": "demos/fixtures/aptitude_atlas_repo_review/validation_protocol.py",
+      "current_reference_candidates": [
+        "demos/v0.90/aptitude_atlas_repo_review_aptitude_demo.md"
+      ],
+      "historical_references": [
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/demo-root-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/COMBINED_REMAINING_DELTA.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CURRENT_SUCCESSOR_ROWS.jsonl",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/DISPOSITION_REGISTER.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/EXECUTION_OVERLAY.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/REMAINING_COMPONENT_DECISIONS.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/RUNTIME_200_DISPOSITION_PROPOSAL.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/RUNTIME_CONTRACT_MARKET_APPLIED.json",
+        "docs/reviews/v0.92/internal-review-5846/specialist_assignments.json"
+      ],
+      "inventory_or_retirement_references": [
+        "docs/language-cleanup/inventory.json",
+        "tools/source_retirement/validator/reviewed-identities.json"
+      ]
+    },
+    {
+      "path": "docs/repository-setup/1314/scaffold/tools/check_repository.py",
+      "current_reference_candidates": [
+        "docs/repository-setup/1314/readiness.json",
+        "docs/repository-setup/1314/scaffold/.github/workflows/check.yml",
+        "docs/repository-setup/1314/scaffold/AGENTS.md",
+        "docs/repository-setup/1314/scaffold/CONTRIBUTING.md",
+        "docs/repository-setup/1314/scaffold/README.md",
+        "docs/repository-setup/1314/validate-scaffold.test.mjs",
+        "docs/repository-setup/1315/readiness.json",
+        "docs/repository-setup/1315/scaffold/.github/workflows/check.yml",
+        "docs/repository-setup/1315/scaffold/AGENTS.md",
+        "docs/repository-setup/1315/scaffold/CONTRIBUTING.md",
+        "docs/repository-setup/1315/scaffold/README.md",
+        "docs/repository-setup/1315/validate-scaffold.test.mjs"
+      ],
+      "historical_references": [],
+      "inventory_or_retirement_references": [
+        "docs/language-cleanup/inventory.json"
+      ]
+    },
+    {
+      "path": "docs/repository-setup/1315/scaffold/tools/check_repository.py",
+      "current_reference_candidates": [
+        "docs/repository-setup/1314/readiness.json",
+        "docs/repository-setup/1314/scaffold/.github/workflows/check.yml",
+        "docs/repository-setup/1314/scaffold/AGENTS.md",
+        "docs/repository-setup/1314/scaffold/CONTRIBUTING.md",
+        "docs/repository-setup/1314/scaffold/README.md",
+        "docs/repository-setup/1314/validate-scaffold.test.mjs",
+        "docs/repository-setup/1315/readiness.json",
+        "docs/repository-setup/1315/scaffold/.github/workflows/check.yml",
+        "docs/repository-setup/1315/scaffold/AGENTS.md",
+        "docs/repository-setup/1315/scaffold/CONTRIBUTING.md",
+        "docs/repository-setup/1315/scaffold/README.md",
+        "docs/repository-setup/1315/validate-scaffold.test.mjs"
+      ],
+      "historical_references": [],
+      "inventory_or_retirement_references": [
+        "docs/language-cleanup/inventory.json"
+      ]
+    },
+    {
+      "path": "docs/reviews/v0.91.7/internal-review-4645/live-state/build_internal_review_state.py",
+      "current_reference_candidates": [],
+      "historical_references": [
+        "docs/milestones/v0.92.2/evidence/issue-919/full-review/history-inventory.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+        "docs/reviews/v0.92/internal-review-5846/specialist_assignments.json"
+      ],
+      "inventory_or_retirement_references": [
+        "docs/language-cleanup/inventory.json"
+      ]
+    },
+    {
+      "path": "tools/csm_contracts/validate_visibility.py",
+      "current_reference_candidates": [
+        "docs/tooling/README.md"
+      ],
+      "historical_references": [
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CSM_OBSERVATORY_TWENTY_FIVE_APPLIED.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CSM_SIX_RESOURCES_APPLIED.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/EXECUTION_OVERLAY.json"
+      ],
+      "inventory_or_retirement_references": [
+        "docs/language-cleanup/inventory.json"
+      ]
+    },
+    {
+      "path": "tools/groupd_validation/run_builder_contracts.py",
+      "current_reference_candidates": [
+        "adl/config/validation_lane_selector.v0.91.6.json",
+        "docs/tooling/ADL_BUILDER_IMAGE.md",
+        "docs/tooling/AWS_SPOT_REMOTE_EXECUTION_HOW_TO.md",
+        "tools/groupd_validation/README.md",
+        "tools/groupd_validation/src/lib.rs"
+      ],
+      "historical_references": [
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/BUILDER_FAMILY_APPLIED.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/EXECUTION_OVERLAY.json"
+      ],
+      "inventory_or_retirement_references": [
+        "docs/language-cleanup/inventory.json"
+      ]
+    },
+    {
+      "path": "tools/groupd_validation/run_dependency_inventory.py",
+      "current_reference_candidates": [
+        "tools/groupd_validation/src/lib.rs"
+      ],
+      "historical_references": [
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/AWS_REMOTE_FAMILY_APPLIED.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/EXECUTION_OVERLAY.json"
+      ],
+      "inventory_or_retirement_references": [
+        "docs/language-cleanup/inventory.json"
+      ]
+    },
+    {
+      "path": "tools/groupd_validation/test_documentation.py",
+      "current_reference_candidates": [
+        "tools/groupd_validation/README.md",
+        "tools/groupd_validation/src/lib.rs"
+      ],
+      "historical_references": [
+        "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/delivery-dispositions.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CODEFRIEND_DOCUMENT_FAMILY_APPLIED.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CODEFRIEND_FAMILY_APPLIED.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/COMBINED_REMAINING_DELTA.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/EXECUTION_OVERLAY.json"
+      ],
+      "inventory_or_retirement_references": [
+        "docs/language-cleanup/inventory.json"
+      ]
+    },
+    {
+      "path": "tools/runtime_contracts/run_paper_sonata.py",
+      "current_reference_candidates": [
+        "demos/HISTORICAL_INDEX.md"
+      ],
+      "historical_references": [
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/EXECUTION_OVERLAY.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/PAPER_SONATA_THIRTEEN_APPLIED_APPLIED.json"
+      ],
+      "inventory_or_retirement_references": [
+        "docs/language-cleanup/inventory.json"
+      ]
+    },
+    {
+      "path": "tools/runtime_contracts/run_provider_neutral_proof.py",
+      "current_reference_candidates": [
+        "adl/config/validation_lane_selector.v0.91.6.json",
+        "docs/tooling/README.md"
+      ],
+      "historical_references": [
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/EXECUTION_OVERLAY.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/PROVIDER_NEUTRAL_TWELVE_APPLIED.json"
+      ],
+      "inventory_or_retirement_references": [
+        "docs/language-cleanup/inventory.json"
+      ]
+    },
+    {
+      "path": "tools/sprint_contracts/run_owner_correspondence.py",
+      "current_reference_candidates": [
+        "adl/tools/test_install_adl_operational_skills.sh",
+        "adl/tools/test_validation_manager.sh"
+      ],
+      "historical_references": [
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/EXECUTION_OVERLAY.json",
+        "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/SPRINT_CONDUCTOR_FAMILY_APPLIED.json"
+      ],
+      "inventory_or_retirement_references": [
+        "docs/language-cleanup/inventory.json"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1006 @@
+{
+    "events": [
+        {
+            "timestamp": 1783358299392,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000086\",\"heartbeat_seq\":344,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:18:19.392541Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000086:344\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358300564
+        },
+        {
+            "timestamp": 1783358299392,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000086\",\"heartbeat_seq\":345,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:18:19.392541Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000086:345\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358300980
+        },
+        {
+            "timestamp": 1783358301714,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000087\",\"heartbeat_seq\":346,\"status\":\"heartbeat\",\"timestamp\":\"2026-07-06T17:18:21.714453Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000087:346\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"running_cycle\",\"elapsed_ms\":1,\"next_cycle_hint\":\"cycle_in_progress\",\"stop_requested\":false,\"lease_state\":\"active\"}}",
+            "ingestionTime": 1783358301959
+        },
+        {
+            "timestamp": 1783358302092,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000087\",\"heartbeat_seq\":347,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:18:22.092769Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000087:347\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358304246
+        },
+        {
+            "timestamp": 1783358306506,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000087\",\"heartbeat_seq\":348,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:18:26.506105Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000087:348\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358310436
+        },
+        {
+            "timestamp": 1783358306506,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000087\",\"heartbeat_seq\":349,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:18:26.506105Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000087:349\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358310767
+        },
+        {
+            "timestamp": 1783358311401,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000088\",\"heartbeat_seq\":350,\"status\":\"heartbeat\",\"timestamp\":\"2026-07-06T17:18:31.401376Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000088:350\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"running_cycle\",\"elapsed_ms\":1,\"next_cycle_hint\":\"cycle_in_progress\",\"stop_requested\":false,\"lease_state\":\"active\"}}",
+            "ingestionTime": 1783358311719
+        },
+        {
+            "timestamp": 1783358311859,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000088\",\"heartbeat_seq\":351,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:18:31.859272Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000088:351\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358312210
+        },
+        {
+            "timestamp": 1783358314452,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000088\",\"heartbeat_seq\":352,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:18:34.452743Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000088:352\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358314780
+        },
+        {
+            "timestamp": 1783358314452,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000088\",\"heartbeat_seq\":353,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:18:34.452743Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000088:353\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358315074
+        },
+        {
+            "timestamp": 1783358315683,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000089\",\"heartbeat_seq\":354,\"status\":\"heartbeat\",\"timestamp\":\"2026-07-06T17:18:35.683108Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000089:354\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"running_cycle\",\"elapsed_ms\":2,\"next_cycle_hint\":\"cycle_in_progress\",\"stop_requested\":false,\"lease_state\":\"active\"}}",
+            "ingestionTime": 1783358315943
+        },
+        {
+            "timestamp": 1783358316074,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000089\",\"heartbeat_seq\":355,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:18:36.074794Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000089:355\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358316276
+        },
+        {
+            "timestamp": 1783358318563,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000089\",\"heartbeat_seq\":356,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:18:38.563813Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000089:356\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358318728
+        },
+        {
+            "timestamp": 1783358318563,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000089\",\"heartbeat_seq\":357,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:18:38.563813Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000089:357\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358319077
+        },
+        {
+            "timestamp": 1783358319678,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000090\",\"heartbeat_seq\":358,\"status\":\"heartbeat\",\"timestamp\":\"2026-07-06T17:18:39.678334Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000090:358\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"running_cycle\",\"elapsed_ms\":2,\"next_cycle_hint\":\"cycle_in_progress\",\"stop_requested\":false,\"lease_state\":\"active\"}}",
+            "ingestionTime": 1783358319846
+        },
+        {
+            "timestamp": 1783358319971,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000090\",\"heartbeat_seq\":359,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:18:39.971489Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000090:359\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358320175
+        },
+        {
+            "timestamp": 1783358322405,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000090\",\"heartbeat_seq\":360,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:18:42.405222Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000090:360\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358322570
+        },
+        {
+            "timestamp": 1783358322405,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000090\",\"heartbeat_seq\":361,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:18:42.405222Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000090:361\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358322891
+        },
+        {
+            "timestamp": 1783358323655,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000091\",\"heartbeat_seq\":362,\"status\":\"heartbeat\",\"timestamp\":\"2026-07-06T17:18:43.655253Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000091:362\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"running_cycle\",\"elapsed_ms\":2,\"next_cycle_hint\":\"cycle_in_progress\",\"stop_requested\":false,\"lease_state\":\"active\"}}",
+            "ingestionTime": 1783358323841
+        },
+        {
+            "timestamp": 1783358323970,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000091\",\"heartbeat_seq\":363,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:18:43.970013Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000091:363\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358324141
+        },
+        {
+            "timestamp": 1783358326419,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000091\",\"heartbeat_seq\":364,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:18:46.419825Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000091:364\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358326591
+        },
+        {
+            "timestamp": 1783358326419,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000091\",\"heartbeat_seq\":365,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:18:46.419825Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000091:365\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358326937
+        },
+        {
+            "timestamp": 1783358327595,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000092\",\"heartbeat_seq\":366,\"status\":\"heartbeat\",\"timestamp\":\"2026-07-06T17:18:47.595924Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000092:366\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"running_cycle\",\"elapsed_ms\":2,\"next_cycle_hint\":\"cycle_in_progress\",\"stop_requested\":false,\"lease_state\":\"active\"}}",
+            "ingestionTime": 1783358327759
+        },
+        {
+            "timestamp": 1783358327887,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000092\",\"heartbeat_seq\":367,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:18:47.887916Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000092:367\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358328174
+        },
+        {
+            "timestamp": 1783358330437,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000092\",\"heartbeat_seq\":368,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:18:50.437792Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000092:368\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358330644
+        },
+        {
+            "timestamp": 1783358330437,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000092\",\"heartbeat_seq\":369,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:18:50.437792Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000092:369\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358330998
+        },
+        {
+            "timestamp": 1783358331641,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000093\",\"heartbeat_seq\":370,\"status\":\"heartbeat\",\"timestamp\":\"2026-07-06T17:18:51.641051Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000093:370\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"running_cycle\",\"elapsed_ms\":2,\"next_cycle_hint\":\"cycle_in_progress\",\"stop_requested\":false,\"lease_state\":\"active\"}}",
+            "ingestionTime": 1783358331811
+        },
+        {
+            "timestamp": 1783358331945,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000093\",\"heartbeat_seq\":371,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:18:51.945394Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000093:371\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358332365
+        },
+        {
+            "timestamp": 1783358334579,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000093\",\"heartbeat_seq\":372,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:18:54.579348Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000093:372\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358334860
+        },
+        {
+            "timestamp": 1783358334579,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000093\",\"heartbeat_seq\":373,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:18:54.579348Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000093:373\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358335166
+        },
+        {
+            "timestamp": 1783358335755,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000094\",\"heartbeat_seq\":374,\"status\":\"heartbeat\",\"timestamp\":\"2026-07-06T17:18:55.755455Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000094:374\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"running_cycle\",\"elapsed_ms\":2,\"next_cycle_hint\":\"cycle_in_progress\",\"stop_requested\":false,\"lease_state\":\"active\"}}",
+            "ingestionTime": 1783358335919
+        },
+        {
+            "timestamp": 1783358336042,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000094\",\"heartbeat_seq\":375,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:18:56.042593Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000094:375\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358336216
+        },
+        {
+            "timestamp": 1783358338461,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000094\",\"heartbeat_seq\":376,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:18:58.461188Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000094:376\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358338727
+        },
+        {
+            "timestamp": 1783358338461,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000094\",\"heartbeat_seq\":377,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:18:58.461188Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000094:377\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358339038
+        },
+        {
+            "timestamp": 1783358339593,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000095\",\"heartbeat_seq\":378,\"status\":\"heartbeat\",\"timestamp\":\"2026-07-06T17:18:59.593081Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000095:378\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"running_cycle\",\"elapsed_ms\":2,\"next_cycle_hint\":\"cycle_in_progress\",\"stop_requested\":false,\"lease_state\":\"active\"}}",
+            "ingestionTime": 1783358339757
+        },
+        {
+            "timestamp": 1783358339874,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000095\",\"heartbeat_seq\":379,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:18:59.874605Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000095:379\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358340079
+        },
+        {
+            "timestamp": 1783358342298,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000095\",\"heartbeat_seq\":380,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:19:02.298195Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000095:380\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358342476
+        },
+        {
+            "timestamp": 1783358342298,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000095\",\"heartbeat_seq\":381,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:19:02.298195Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000095:381\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358342844
+        },
+        {
+            "timestamp": 1783358343430,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000096\",\"heartbeat_seq\":382,\"status\":\"heartbeat\",\"timestamp\":\"2026-07-06T17:19:03.430398Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000096:382\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"running_cycle\",\"elapsed_ms\":2,\"next_cycle_hint\":\"cycle_in_progress\",\"stop_requested\":false,\"lease_state\":\"active\"}}",
+            "ingestionTime": 1783358343664
+        },
+        {
+            "timestamp": 1783358343789,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000096\",\"heartbeat_seq\":383,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:19:03.789311Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000096:383\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358343959
+        },
+        {
+            "timestamp": 1783358346202,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000096\",\"heartbeat_seq\":384,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:19:06.202265Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000096:384\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358346502
+        },
+        {
+            "timestamp": 1783358346202,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000096\",\"heartbeat_seq\":385,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:19:06.202265Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000096:385\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358346863
+        },
+        {
+            "timestamp": 1783358347481,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000097\",\"heartbeat_seq\":386,\"status\":\"heartbeat\",\"timestamp\":\"2026-07-06T17:19:07.481188Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000097:386\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"running_cycle\",\"elapsed_ms\":2,\"next_cycle_hint\":\"cycle_in_progress\",\"stop_requested\":false,\"lease_state\":\"active\"}}",
+            "ingestionTime": 1783358347647
+        },
+        {
+            "timestamp": 1783358347774,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000097\",\"heartbeat_seq\":387,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:19:07.774167Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000097:387\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358347949
+        },
+        {
+            "timestamp": 1783358350168,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000097\",\"heartbeat_seq\":388,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:19:10.168105Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000097:388\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358357713
+        },
+        {
+            "timestamp": 1783358350168,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000097\",\"heartbeat_seq\":389,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:19:10.168105Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000097:389\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358358055
+        },
+        {
+            "timestamp": 1783358358752,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000098\",\"heartbeat_seq\":390,\"status\":\"heartbeat\",\"timestamp\":\"2026-07-06T17:19:18.752646Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000098:390\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"running_cycle\",\"elapsed_ms\":3,\"next_cycle_hint\":\"cycle_in_progress\",\"stop_requested\":false,\"lease_state\":\"active\"}}",
+            "ingestionTime": 1783358358956
+        },
+        {
+            "timestamp": 1783358359078,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000098\",\"heartbeat_seq\":391,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:19:19.078627Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000098:391\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358359277
+        },
+        {
+            "timestamp": 1783358361547,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000098\",\"heartbeat_seq\":392,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:19:21.547168Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000098:392\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358361711
+        },
+        {
+            "timestamp": 1783358361547,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000098\",\"heartbeat_seq\":393,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:19:21.547168Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000098:393\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358362074
+        },
+        {
+            "timestamp": 1783358362674,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000099\",\"heartbeat_seq\":394,\"status\":\"heartbeat\",\"timestamp\":\"2026-07-06T17:19:22.674564Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000099:394\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"running_cycle\",\"elapsed_ms\":2,\"next_cycle_hint\":\"cycle_in_progress\",\"stop_requested\":false,\"lease_state\":\"active\"}}",
+            "ingestionTime": 1783358362847
+        },
+        {
+            "timestamp": 1783358362976,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000099\",\"heartbeat_seq\":395,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:19:22.976034Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000099:395\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358363161
+        },
+        {
+            "timestamp": 1783358365402,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000099\",\"heartbeat_seq\":396,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:19:25.402886Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000099:396\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358365582
+        },
+        {
+            "timestamp": 1783358365402,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000099\",\"heartbeat_seq\":397,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:19:25.402886Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000099:397\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358365899
+        },
+        {
+            "timestamp": 1783358366510,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000100\",\"heartbeat_seq\":398,\"status\":\"heartbeat\",\"timestamp\":\"2026-07-06T17:19:26.510454Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000100:398\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"running_cycle\",\"elapsed_ms\":2,\"next_cycle_hint\":\"cycle_in_progress\",\"stop_requested\":false,\"lease_state\":\"active\"}}",
+            "ingestionTime": 1783358366738
+        },
+        {
+            "timestamp": 1783358366871,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000100\",\"heartbeat_seq\":399,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:19:26.871444Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000100:399\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358367039
+        },
+        {
+            "timestamp": 1783358369278,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000100\",\"heartbeat_seq\":400,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:19:29.278452Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000100:400\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358369491
+        },
+        {
+            "timestamp": 1783358369278,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000100\",\"heartbeat_seq\":401,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:19:29.278452Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000100:401\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358369884
+        },
+        {
+            "timestamp": 1783358370763,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000101\",\"heartbeat_seq\":402,\"status\":\"heartbeat\",\"timestamp\":\"2026-07-06T17:19:30.763040Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000101:402\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"running_cycle\",\"elapsed_ms\":2,\"next_cycle_hint\":\"cycle_in_progress\",\"stop_requested\":false,\"lease_state\":\"active\"}}",
+            "ingestionTime": 1783358370977
+        },
+        {
+            "timestamp": 1783358371105,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000101\",\"heartbeat_seq\":403,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:19:31.105843Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000101:403\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358371452
+        },
+        {
+            "timestamp": 1783358373695,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000101\",\"heartbeat_seq\":404,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:19:33.695636Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000101:404\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358373863
+        },
+        {
+            "timestamp": 1783358373695,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000101\",\"heartbeat_seq\":405,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:19:33.695636Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000101:405\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358374178
+        },
+        {
+            "timestamp": 1783358374782,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000102\",\"heartbeat_seq\":406,\"status\":\"heartbeat\",\"timestamp\":\"2026-07-06T17:19:34.782569Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000102:406\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"running_cycle\",\"elapsed_ms\":2,\"next_cycle_hint\":\"cycle_in_progress\",\"stop_requested\":false,\"lease_state\":\"active\"}}",
+            "ingestionTime": 1783358374944
+        },
+        {
+            "timestamp": 1783358375111,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000102\",\"heartbeat_seq\":407,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:19:35.111723Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000102:407\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358375420
+        },
+        {
+            "timestamp": 1783358377666,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000102\",\"heartbeat_seq\":408,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:19:37.666634Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000102:408\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358377832
+        },
+        {
+            "timestamp": 1783358377666,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000102\",\"heartbeat_seq\":409,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:19:37.666634Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000102:409\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358378122
+        },
+        {
+            "timestamp": 1783358378786,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000103\",\"heartbeat_seq\":410,\"status\":\"heartbeat\",\"timestamp\":\"2026-07-06T17:19:38.786727Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000103:410\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"running_cycle\",\"elapsed_ms\":2,\"next_cycle_hint\":\"cycle_in_progress\",\"stop_requested\":false,\"lease_state\":\"active\"}}",
+            "ingestionTime": 1783358378953
+        },
+        {
+            "timestamp": 1783358379090,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000103\",\"heartbeat_seq\":411,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:19:39.090914Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000103:411\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358379463
+        },
+        {
+            "timestamp": 1783358381725,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000103\",\"heartbeat_seq\":412,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:19:41.725975Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000103:412\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358382081
+        },
+        {
+            "timestamp": 1783358381725,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000103\",\"heartbeat_seq\":413,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:19:41.725975Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000103:413\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358382486
+        },
+        {
+            "timestamp": 1783358383174,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000104\",\"heartbeat_seq\":414,\"status\":\"heartbeat\",\"timestamp\":\"2026-07-06T17:19:43.174028Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000104:414\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"running_cycle\",\"elapsed_ms\":2,\"next_cycle_hint\":\"cycle_in_progress\",\"stop_requested\":false,\"lease_state\":\"active\"}}",
+            "ingestionTime": 1783358383505
+        },
+        {
+            "timestamp": 1783358383644,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000104\",\"heartbeat_seq\":415,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:19:43.644024Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000104:415\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358383826
+        },
+        {
+            "timestamp": 1783358386058,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000104\",\"heartbeat_seq\":416,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:19:46.058108Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000104:416\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358386223
+        },
+        {
+            "timestamp": 1783358386058,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000104\",\"heartbeat_seq\":417,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:19:46.058108Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000104:417\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358386511
+        },
+        {
+            "timestamp": 1783358387186,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000105\",\"heartbeat_seq\":418,\"status\":\"heartbeat\",\"timestamp\":\"2026-07-06T17:19:47.186882Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000105:418\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"running_cycle\",\"elapsed_ms\":2,\"next_cycle_hint\":\"cycle_in_progress\",\"stop_requested\":false,\"lease_state\":\"active\"}}",
+            "ingestionTime": 1783358387349
+        },
+        {
+            "timestamp": 1783358387477,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000105\",\"heartbeat_seq\":419,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:19:47.477112Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000105:419\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358387705
+        },
+        {
+            "timestamp": 1783358389940,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000105\",\"heartbeat_seq\":420,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:19:49.940188Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000105:420\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358390201
+        },
+        {
+            "timestamp": 1783358389940,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000105\",\"heartbeat_seq\":421,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:19:49.940188Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000105:421\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358390622
+        },
+        {
+            "timestamp": 1783358391310,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000106\",\"heartbeat_seq\":422,\"status\":\"heartbeat\",\"timestamp\":\"2026-07-06T17:19:51.310085Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000106:422\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"running_cycle\",\"elapsed_ms\":2,\"next_cycle_hint\":\"cycle_in_progress\",\"stop_requested\":false,\"lease_state\":\"active\"}}",
+            "ingestionTime": 1783358391476
+        },
+        {
+            "timestamp": 1783358391604,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000106\",\"heartbeat_seq\":423,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:19:51.604813Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000106:423\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358391769
+        },
+        {
+            "timestamp": 1783358394055,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000106\",\"heartbeat_seq\":424,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:19:54.055722Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000106:424\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358394224
+        },
+        {
+            "timestamp": 1783358394055,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000106\",\"heartbeat_seq\":425,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:19:54.055722Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000106:425\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358394571
+        },
+        {
+            "timestamp": 1783358395201,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000107\",\"heartbeat_seq\":426,\"status\":\"heartbeat\",\"timestamp\":\"2026-07-06T17:19:55.201214Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000107:426\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"running_cycle\",\"elapsed_ms\":2,\"next_cycle_hint\":\"cycle_in_progress\",\"stop_requested\":false,\"lease_state\":\"active\"}}",
+            "ingestionTime": 1783358395364
+        },
+        {
+            "timestamp": 1783358395494,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000107\",\"heartbeat_seq\":427,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:19:55.494114Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000107:427\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358395660
+        },
+        {
+            "timestamp": 1783358397909,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000107\",\"heartbeat_seq\":428,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:19:57.909116Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000107:428\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358398131
+        },
+        {
+            "timestamp": 1783358397909,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000107\",\"heartbeat_seq\":429,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:19:57.909116Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000107:429\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358398541
+        },
+        {
+            "timestamp": 1783358399165,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000108\",\"heartbeat_seq\":430,\"status\":\"heartbeat\",\"timestamp\":\"2026-07-06T17:19:59.165571Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000108:430\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"running_cycle\",\"elapsed_ms\":2,\"next_cycle_hint\":\"cycle_in_progress\",\"stop_requested\":false,\"lease_state\":\"active\"}}",
+            "ingestionTime": 1783358399337
+        },
+        {
+            "timestamp": 1783358399472,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000108\",\"heartbeat_seq\":431,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:19:59.472547Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000108:431\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358399629
+        },
+        {
+            "timestamp": 1783358401937,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000108\",\"heartbeat_seq\":432,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:20:01.937309Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000108:432\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358402129
+        },
+        {
+            "timestamp": 1783358401937,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000108\",\"heartbeat_seq\":433,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:20:01.937309Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000108:433\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358402487
+        },
+        {
+            "timestamp": 1783358403228,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000109\",\"heartbeat_seq\":434,\"status\":\"heartbeat\",\"timestamp\":\"2026-07-06T17:20:03.228868Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000109:434\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"running_cycle\",\"elapsed_ms\":2,\"next_cycle_hint\":\"cycle_in_progress\",\"stop_requested\":false,\"lease_state\":\"active\"}}",
+            "ingestionTime": 1783358403495
+        },
+        {
+            "timestamp": 1783358403628,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000109\",\"heartbeat_seq\":435,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:20:03.628029Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000109:435\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358403958
+        },
+        {
+            "timestamp": 1783358406180,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000109\",\"heartbeat_seq\":436,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:20:06.180236Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000109:436\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358406340
+        },
+        {
+            "timestamp": 1783358406180,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000109\",\"heartbeat_seq\":437,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:20:06.180236Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000109:437\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358406664
+        },
+        {
+            "timestamp": 1783358407450,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000110\",\"heartbeat_seq\":438,\"status\":\"heartbeat\",\"timestamp\":\"2026-07-06T17:20:07.450223Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000110:438\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"running_cycle\",\"elapsed_ms\":2,\"next_cycle_hint\":\"cycle_in_progress\",\"stop_requested\":false,\"lease_state\":\"active\"}}",
+            "ingestionTime": 1783358407731
+        },
+        {
+            "timestamp": 1783358407851,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000110\",\"heartbeat_seq\":439,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:20:07.851158Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000110:439\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358408141
+        },
+        {
+            "timestamp": 1783358410371,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000110\",\"heartbeat_seq\":440,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:20:10.371722Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000110:440\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358410528
+        },
+        {
+            "timestamp": 1783358410371,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000110\",\"heartbeat_seq\":441,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:20:10.371722Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000110:441\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358410869
+        },
+        {
+            "timestamp": 1783358411449,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000111\",\"heartbeat_seq\":442,\"status\":\"heartbeat\",\"timestamp\":\"2026-07-06T17:20:11.449298Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000111:442\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"running_cycle\",\"elapsed_ms\":2,\"next_cycle_hint\":\"cycle_in_progress\",\"stop_requested\":false,\"lease_state\":\"active\"}}",
+            "ingestionTime": 1783358411827
+        },
+        {
+            "timestamp": 1783358411951,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000111\",\"heartbeat_seq\":443,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:20:11.951526Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000111:443\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358412180
+        },
+        {
+            "timestamp": 1783358414481,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000111\",\"heartbeat_seq\":444,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:20:14.481202Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000111:444\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358414645
+        },
+        {
+            "timestamp": 1783358414481,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000111\",\"heartbeat_seq\":445,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:20:14.481202Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000111:445\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358414964
+        },
+        {
+            "timestamp": 1783358415565,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000112\",\"heartbeat_seq\":446,\"status\":\"heartbeat\",\"timestamp\":\"2026-07-06T17:20:15.565743Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000112:446\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"running_cycle\",\"elapsed_ms\":2,\"next_cycle_hint\":\"cycle_in_progress\",\"stop_requested\":false,\"lease_state\":\"active\"}}",
+            "ingestionTime": 1783358416197
+        },
+        {
+            "timestamp": 1783358416332,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000112\",\"heartbeat_seq\":447,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:20:16.332702Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000112:447\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358416594
+        },
+        {
+            "timestamp": 1783358418811,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000112\",\"heartbeat_seq\":448,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:20:18.811721Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000112:448\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358418979
+        },
+        {
+            "timestamp": 1783358418811,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000112\",\"heartbeat_seq\":449,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:20:18.811721Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000112:449\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358419288
+        },
+        {
+            "timestamp": 1783358419979,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000113\",\"heartbeat_seq\":450,\"status\":\"heartbeat\",\"timestamp\":\"2026-07-06T17:20:19.979278Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000113:450\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"running_cycle\",\"elapsed_ms\":2,\"next_cycle_hint\":\"cycle_in_progress\",\"stop_requested\":false,\"lease_state\":\"active\"}}",
+            "ingestionTime": 1783358420215
+        },
+        {
+            "timestamp": 1783358420341,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000113\",\"heartbeat_seq\":451,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:20:20.341147Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000113:451\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358420557
+        },
+        {
+            "timestamp": 1783358422769,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000113\",\"heartbeat_seq\":452,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:20:22.769480Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000113:452\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358422937
+        },
+        {
+            "timestamp": 1783358422769,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000113\",\"heartbeat_seq\":453,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:20:22.769480Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000113:453\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358423212
+        },
+        {
+            "timestamp": 1783358423828,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000114\",\"heartbeat_seq\":454,\"status\":\"heartbeat\",\"timestamp\":\"2026-07-06T17:20:23.828108Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000114:454\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"running_cycle\",\"elapsed_ms\":2,\"next_cycle_hint\":\"cycle_in_progress\",\"stop_requested\":false,\"lease_state\":\"active\"}}",
+            "ingestionTime": 1783358423991
+        },
+        {
+            "timestamp": 1783358424115,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000114\",\"heartbeat_seq\":455,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:20:24.115703Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000114:455\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358424270
+        },
+        {
+            "timestamp": 1783358426546,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000114\",\"heartbeat_seq\":456,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:20:26.546742Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000114:456\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358426716
+        },
+        {
+            "timestamp": 1783358426546,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000114\",\"heartbeat_seq\":457,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:20:26.546742Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000114:457\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358427074
+        },
+        {
+            "timestamp": 1783358427631,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000115\",\"heartbeat_seq\":458,\"status\":\"heartbeat\",\"timestamp\":\"2026-07-06T17:20:27.631749Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000115:458\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"running_cycle\",\"elapsed_ms\":2,\"next_cycle_hint\":\"cycle_in_progress\",\"stop_requested\":false,\"lease_state\":\"active\"}}",
+            "ingestionTime": 1783358427804
+        },
+        {
+            "timestamp": 1783358427927,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000115\",\"heartbeat_seq\":459,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:20:27.927334Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000115:459\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358428158
+        },
+        {
+            "timestamp": 1783358430379,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000115\",\"heartbeat_seq\":460,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:20:30.379884Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000115:460\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358430682
+        },
+        {
+            "timestamp": 1783358430379,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000115\",\"heartbeat_seq\":461,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:20:30.379884Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000115:461\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358431072
+        },
+        {
+            "timestamp": 1783358431732,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000116\",\"heartbeat_seq\":462,\"status\":\"heartbeat\",\"timestamp\":\"2026-07-06T17:20:31.732567Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000116:462\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"running_cycle\",\"elapsed_ms\":2,\"next_cycle_hint\":\"cycle_in_progress\",\"stop_requested\":false,\"lease_state\":\"active\"}}",
+            "ingestionTime": 1783358431903
+        },
+        {
+            "timestamp": 1783358432025,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000116\",\"heartbeat_seq\":463,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:20:32.025131Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000116:463\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358432255
+        },
+        {
+            "timestamp": 1783358434470,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000116\",\"heartbeat_seq\":464,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:20:34.470756Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000116:464\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358434628
+        },
+        {
+            "timestamp": 1783358434470,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000116\",\"heartbeat_seq\":465,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:20:34.470756Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000116:465\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358434981
+        },
+        {
+            "timestamp": 1783358435544,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000117\",\"heartbeat_seq\":466,\"status\":\"heartbeat\",\"timestamp\":\"2026-07-06T17:20:35.544729Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000117:466\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"running_cycle\",\"elapsed_ms\":2,\"next_cycle_hint\":\"cycle_in_progress\",\"stop_requested\":false,\"lease_state\":\"active\"}}",
+            "ingestionTime": 1783358435716
+        },
+        {
+            "timestamp": 1783358435841,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000117\",\"heartbeat_seq\":467,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:20:35.841085Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000117:467\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358436031
+        },
+        {
+            "timestamp": 1783358438263,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000117\",\"heartbeat_seq\":468,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:20:38.263586Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000117:468\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358438479
+        },
+        {
+            "timestamp": 1783358438263,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000117\",\"heartbeat_seq\":469,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:20:38.263586Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000117:469\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358438885
+        },
+        {
+            "timestamp": 1783358439457,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000118\",\"heartbeat_seq\":470,\"status\":\"heartbeat\",\"timestamp\":\"2026-07-06T17:20:39.457424Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000118:470\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"running_cycle\",\"elapsed_ms\":2,\"next_cycle_hint\":\"cycle_in_progress\",\"stop_requested\":false,\"lease_state\":\"active\"}}",
+            "ingestionTime": 1783358439700
+        },
+        {
+            "timestamp": 1783358439821,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000118\",\"heartbeat_seq\":471,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:20:39.821045Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000118:471\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358439989
+        },
+        {
+            "timestamp": 1783358442292,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000118\",\"heartbeat_seq\":472,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:20:42.292221Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000118:472\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358442462
+        },
+        {
+            "timestamp": 1783358442292,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000118\",\"heartbeat_seq\":473,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:20:42.292221Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000118:473\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358442863
+        },
+        {
+            "timestamp": 1783358443436,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000119\",\"heartbeat_seq\":474,\"status\":\"heartbeat\",\"timestamp\":\"2026-07-06T17:20:43.436326Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000119:474\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"running_cycle\",\"elapsed_ms\":2,\"next_cycle_hint\":\"cycle_in_progress\",\"stop_requested\":false,\"lease_state\":\"active\"}}",
+            "ingestionTime": 1783358443619
+        },
+        {
+            "timestamp": 1783358443742,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000119\",\"heartbeat_seq\":475,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:20:43.742535Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000119:475\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358443928
+        },
+        {
+            "timestamp": 1783358446141,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000119\",\"heartbeat_seq\":476,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:20:46.141493Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000119:476\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358446307
+        },
+        {
+            "timestamp": 1783358446141,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000119\",\"heartbeat_seq\":477,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:20:46.141493Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000119:477\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358446623
+        },
+        {
+            "timestamp": 1783358447217,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000120\",\"heartbeat_seq\":478,\"status\":\"heartbeat\",\"timestamp\":\"2026-07-06T17:20:47.217944Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000120:478\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"running_cycle\",\"elapsed_ms\":2,\"next_cycle_hint\":\"cycle_in_progress\",\"stop_requested\":false,\"lease_state\":\"active\"}}",
+            "ingestionTime": 1783358447463
+        },
+        {
+            "timestamp": 1783358447585,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000120\",\"heartbeat_seq\":479,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:20:47.585454Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000120:479\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358447755
+        },
+        {
+            "timestamp": 1783358449976,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000120\",\"heartbeat_seq\":480,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:20:49.976032Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000120:480\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358450212
+        },
+        {
+            "timestamp": 1783358449976,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000120\",\"heartbeat_seq\":481,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:20:49.976032Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000120:481\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358450567
+        },
+        {
+            "timestamp": 1783358451178,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000121\",\"heartbeat_seq\":482,\"status\":\"heartbeat\",\"timestamp\":\"2026-07-06T17:20:51.178958Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000121:482\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"running_cycle\",\"elapsed_ms\":2,\"next_cycle_hint\":\"cycle_in_progress\",\"stop_requested\":false,\"lease_state\":\"active\"}}",
+            "ingestionTime": 1783358451431
+        },
+        {
+            "timestamp": 1783358451557,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000121\",\"heartbeat_seq\":483,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:20:51.557352Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000121:483\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358451753
+        },
+        {
+            "timestamp": 1783358453977,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000121\",\"heartbeat_seq\":484,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:20:53.977092Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000121:484\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358454136
+        },
+        {
+            "timestamp": 1783358453977,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000121\",\"heartbeat_seq\":485,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:20:53.977092Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000121:485\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358454490
+        },
+        {
+            "timestamp": 1783358455098,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000122\",\"heartbeat_seq\":486,\"status\":\"heartbeat\",\"timestamp\":\"2026-07-06T17:20:55.098798Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000122:486\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"running_cycle\",\"elapsed_ms\":2,\"next_cycle_hint\":\"cycle_in_progress\",\"stop_requested\":false,\"lease_state\":\"active\"}}",
+            "ingestionTime": 1783358455327
+        },
+        {
+            "timestamp": 1783358455468,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000122\",\"heartbeat_seq\":487,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:20:55.468324Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000122:487\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358455867
+        },
+        {
+            "timestamp": 1783358458087,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000122\",\"heartbeat_seq\":488,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:20:58.087909Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000122:488\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358458259
+        },
+        {
+            "timestamp": 1783358458087,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000122\",\"heartbeat_seq\":489,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:20:58.087909Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000122:489\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358458564
+        },
+        {
+            "timestamp": 1783358459141,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000123\",\"heartbeat_seq\":490,\"status\":\"heartbeat\",\"timestamp\":\"2026-07-06T17:20:59.141757Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000123:490\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"running_cycle\",\"elapsed_ms\":2,\"next_cycle_hint\":\"cycle_in_progress\",\"stop_requested\":false,\"lease_state\":\"active\"}}",
+            "ingestionTime": 1783358459332
+        },
+        {
+            "timestamp": 1783358459452,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000123\",\"heartbeat_seq\":491,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:20:59.452329Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000123:491\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358459618
+        },
+        {
+            "timestamp": 1783358461874,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000123\",\"heartbeat_seq\":492,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:21:01.874964Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000123:492\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358462036
+        },
+        {
+            "timestamp": 1783358461874,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000123\",\"heartbeat_seq\":493,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:21:01.874964Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000123:493\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358462490
+        },
+        {
+            "timestamp": 1783358463072,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000124\",\"heartbeat_seq\":494,\"status\":\"heartbeat\",\"timestamp\":\"2026-07-06T17:21:03.072671Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000124:494\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"running_cycle\",\"elapsed_ms\":2,\"next_cycle_hint\":\"cycle_in_progress\",\"stop_requested\":false,\"lease_state\":\"active\"}}",
+            "ingestionTime": 1783358463300
+        },
+        {
+            "timestamp": 1783358463433,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000124\",\"heartbeat_seq\":495,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:21:03.433195Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000124:495\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358463602
+        },
+        {
+            "timestamp": 1783358465887,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000124\",\"heartbeat_seq\":496,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:21:05.887697Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000124:496\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358466110
+        },
+        {
+            "timestamp": 1783358465887,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000124\",\"heartbeat_seq\":497,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:21:05.887697Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000124:497\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358466547
+        },
+        {
+            "timestamp": 1783358467138,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000125\",\"heartbeat_seq\":498,\"status\":\"heartbeat\",\"timestamp\":\"2026-07-06T17:21:07.138006Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000125:498\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"running_cycle\",\"elapsed_ms\":2,\"next_cycle_hint\":\"cycle_in_progress\",\"stop_requested\":false,\"lease_state\":\"active\"}}",
+            "ingestionTime": 1783358467390
+        },
+        {
+            "timestamp": 1783358467512,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000125\",\"heartbeat_seq\":499,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:21:07.512370Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000125:499\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358467674
+        },
+        {
+            "timestamp": 1783358469896,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000125\",\"heartbeat_seq\":500,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:21:09.896535Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000125:500\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358470109
+        },
+        {
+            "timestamp": 1783358469896,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000125\",\"heartbeat_seq\":501,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:21:09.896535Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000125:501\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358470393
+        },
+        {
+            "timestamp": 1783358471046,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000126\",\"heartbeat_seq\":502,\"status\":\"heartbeat\",\"timestamp\":\"2026-07-06T17:21:11.046431Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000126:502\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"running_cycle\",\"elapsed_ms\":2,\"next_cycle_hint\":\"cycle_in_progress\",\"stop_requested\":false,\"lease_state\":\"active\"}}",
+            "ingestionTime": 1783358471208
+        },
+        {
+            "timestamp": 1783358471331,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000126\",\"heartbeat_seq\":503,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:21:11.331358Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000126:503\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358471701
+        },
+        {
+            "timestamp": 1783358473927,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000126\",\"heartbeat_seq\":504,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:21:13.927447Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000126:504\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358474096
+        },
+        {
+            "timestamp": 1783358473927,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000126\",\"heartbeat_seq\":505,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:21:13.927447Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000126:505\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358474505
+        },
+        {
+            "timestamp": 1783358475067,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000127\",\"heartbeat_seq\":506,\"status\":\"heartbeat\",\"timestamp\":\"2026-07-06T17:21:15.067839Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000127:506\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"running_cycle\",\"elapsed_ms\":2,\"next_cycle_hint\":\"cycle_in_progress\",\"stop_requested\":false,\"lease_state\":\"active\"}}",
+            "ingestionTime": 1783358475300
+        },
+        {
+            "timestamp": 1783358475448,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000127\",\"heartbeat_seq\":507,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:21:15.448833Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000127:507\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358475814
+        },
+        {
+            "timestamp": 1783358478057,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000127\",\"heartbeat_seq\":508,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:21:18.057241Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000127:508\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358478223
+        },
+        {
+            "timestamp": 1783358478057,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000127\",\"heartbeat_seq\":509,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:21:18.057241Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000127:509\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358478500
+        },
+        {
+            "timestamp": 1783358479065,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000128\",\"heartbeat_seq\":510,\"status\":\"heartbeat\",\"timestamp\":\"2026-07-06T17:21:19.065625Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000128:510\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"running_cycle\",\"elapsed_ms\":2,\"next_cycle_hint\":\"cycle_in_progress\",\"stop_requested\":false,\"lease_state\":\"active\"}}",
+            "ingestionTime": 1783358479245
+        },
+        {
+            "timestamp": 1783358479374,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000128\",\"heartbeat_seq\":511,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:21:19.374195Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000128:511\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358479546
+        },
+        {
+            "timestamp": 1783358481769,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000128\",\"heartbeat_seq\":512,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:21:21.769242Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000128:512\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358482185
+        },
+        {
+            "timestamp": 1783358481769,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000128\",\"heartbeat_seq\":513,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:21:21.769242Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000128:513\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358482734
+        },
+        {
+            "timestamp": 1783358483313,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000129\",\"heartbeat_seq\":514,\"status\":\"heartbeat\",\"timestamp\":\"2026-07-06T17:21:23.313124Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000129:514\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"running_cycle\",\"elapsed_ms\":3,\"next_cycle_hint\":\"cycle_in_progress\",\"stop_requested\":false,\"lease_state\":\"active\"}}",
+            "ingestionTime": 1783358483466
+        },
+        {
+            "timestamp": 1783358483586,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000129\",\"heartbeat_seq\":515,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:21:23.586615Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000129:515\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358483774
+        },
+        {
+            "timestamp": 1783358486004,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000129\",\"heartbeat_seq\":516,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:21:26.004232Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000129:516\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358486268
+        },
+        {
+            "timestamp": 1783358486004,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000129\",\"heartbeat_seq\":517,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:21:26.004232Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000129:517\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358486627
+        },
+        {
+            "timestamp": 1783358487618,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000130\",\"heartbeat_seq\":518,\"status\":\"heartbeat\",\"timestamp\":\"2026-07-06T17:21:27.618899Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000130:518\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"running_cycle\",\"elapsed_ms\":3,\"next_cycle_hint\":\"cycle_in_progress\",\"stop_requested\":false,\"lease_state\":\"active\"}}",
+            "ingestionTime": 1783358487840
+        },
+        {
+            "timestamp": 1783358488013,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000130\",\"heartbeat_seq\":519,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:21:28.013745Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000130:519\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358488178
+        },
+        {
+            "timestamp": 1783358490543,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000130\",\"heartbeat_seq\":520,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:21:30.543938Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000130:520\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358490714
+        },
+        {
+            "timestamp": 1783358490543,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000130\",\"heartbeat_seq\":521,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:21:30.543938Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000130:521\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358491092
+        },
+        {
+            "timestamp": 1783358492520,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000131\",\"heartbeat_seq\":522,\"status\":\"heartbeat\",\"timestamp\":\"2026-07-06T17:21:32.520870Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000131:522\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"running_cycle\",\"elapsed_ms\":3,\"next_cycle_hint\":\"cycle_in_progress\",\"stop_requested\":false,\"lease_state\":\"active\"}}",
+            "ingestionTime": 1783358492697
+        },
+        {
+            "timestamp": 1783358492880,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000131\",\"heartbeat_seq\":523,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:21:32.880890Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000131:523\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358493247
+        },
+        {
+            "timestamp": 1783358495573,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000131\",\"heartbeat_seq\":524,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:21:35.573044Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000131:524\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358495888
+        },
+        {
+            "timestamp": 1783358495573,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000131\",\"heartbeat_seq\":525,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:21:35.573044Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000131:525\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358496285
+        },
+        {
+            "timestamp": 1783358496987,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000132\",\"heartbeat_seq\":526,\"status\":\"heartbeat\",\"timestamp\":\"2026-07-06T17:21:36.987803Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000132:526\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"running_cycle\",\"elapsed_ms\":3,\"next_cycle_hint\":\"cycle_in_progress\",\"stop_requested\":false,\"lease_state\":\"active\"}}",
+            "ingestionTime": 1783358497157
+        },
+        {
+            "timestamp": 1783358497411,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000132\",\"heartbeat_seq\":527,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:21:37.411858Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000132:527\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358497581
+        },
+        {
+            "timestamp": 1783358499893,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000132\",\"heartbeat_seq\":528,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:21:39.893362Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000132:528\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358500075
+        },
+        {
+            "timestamp": 1783358499893,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000132\",\"heartbeat_seq\":529,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:21:39.893362Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000132:529\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358500475
+        },
+        {
+            "timestamp": 1783358501067,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000133\",\"heartbeat_seq\":530,\"status\":\"heartbeat\",\"timestamp\":\"2026-07-06T17:21:41.067975Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000133:530\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"running_cycle\",\"elapsed_ms\":2,\"next_cycle_hint\":\"cycle_in_progress\",\"stop_requested\":false,\"lease_state\":\"active\"}}",
+            "ingestionTime": 1783358501258
+        },
+        {
+            "timestamp": 1783358501384,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000133\",\"heartbeat_seq\":531,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:21:41.384203Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000133:531\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358501579
+        },
+        {
+            "timestamp": 1783358503797,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000133\",\"heartbeat_seq\":532,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:21:43.797208Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000133:532\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358504059
+        },
+        {
+            "timestamp": 1783358503797,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000133\",\"heartbeat_seq\":533,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:21:43.797208Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000133:533\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358504452
+        },
+        {
+            "timestamp": 1783358505273,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000134\",\"heartbeat_seq\":534,\"status\":\"heartbeat\",\"timestamp\":\"2026-07-06T17:21:45.273712Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000134:534\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"running_cycle\",\"elapsed_ms\":2,\"next_cycle_hint\":\"cycle_in_progress\",\"stop_requested\":false,\"lease_state\":\"active\"}}",
+            "ingestionTime": 1783358505442
+        },
+        {
+            "timestamp": 1783358505580,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000134\",\"heartbeat_seq\":535,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:21:45.580197Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000134:535\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358505765
+        },
+        {
+            "timestamp": 1783358508047,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000134\",\"heartbeat_seq\":536,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:21:48.047882Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000134:536\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358508291
+        },
+        {
+            "timestamp": 1783358508047,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000134\",\"heartbeat_seq\":537,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:21:48.047882Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000134:537\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358508600
+        },
+        {
+            "timestamp": 1783358509540,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000135\",\"heartbeat_seq\":538,\"status\":\"heartbeat\",\"timestamp\":\"2026-07-06T17:21:49.540386Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000135:538\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"running_cycle\",\"elapsed_ms\":3,\"next_cycle_hint\":\"cycle_in_progress\",\"stop_requested\":false,\"lease_state\":\"active\"}}",
+            "ingestionTime": 1783358509864
+        },
+        {
+            "timestamp": 1783358510076,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000135\",\"heartbeat_seq\":539,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:21:50.076413Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000135:539\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358510253
+        },
+        {
+            "timestamp": 1783358512633,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000135\",\"heartbeat_seq\":540,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:21:52.633393Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000135:540\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358512885
+        },
+        {
+            "timestamp": 1783358512633,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000135\",\"heartbeat_seq\":541,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:21:52.633393Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000135:541\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358513333
+        },
+        {
+            "timestamp": 1783358514052,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000136\",\"heartbeat_seq\":542,\"status\":\"heartbeat\",\"timestamp\":\"2026-07-06T17:21:54.052441Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000136:542\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"running_cycle\",\"elapsed_ms\":3,\"next_cycle_hint\":\"cycle_in_progress\",\"stop_requested\":false,\"lease_state\":\"active\"}}",
+            "ingestionTime": 1783358514216
+        },
+        {
+            "timestamp": 1783358514364,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"csm-liveness-4976-full\",\"agent_id\":\"csm_liveness_4976_full_probe\",\"cycle_id\":\"cycle-000136\",\"heartbeat_seq\":543,\"status\":\"completed\",\"timestamp\":\"2026-07-06T17:21:54.364203Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:csm-liveness-4976-full:cycle-000136:543\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783358514571
+        }
+    ],
+    "nextForwardToken": "f/39770223826461678323604245194046738143267175318516006912/s",
+    "nextBackwardToken": "b/39770219032425881505079126953111759442918294261435727872/s"
+}

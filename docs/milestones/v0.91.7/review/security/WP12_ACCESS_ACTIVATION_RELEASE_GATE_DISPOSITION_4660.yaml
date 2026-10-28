@@ -1,0 +1,27 @@
+schema_version: adl.release_gate_disposition.v1
+issue: 4660
+decision: publishable_with_focused_local_proof_and_required_ci_before_merge
+reviewer_or_review_mode: pre_pr_subagent_review_plus_focused_access_gate_validation
+changed_release_gate_surfaces:
+  - docs/milestones/v0.92/MILESTONE_CHECKLIST_v0.92.md
+  - docs/milestones/v0.92/FIRST_BIRTHDAY_LAUNCH_PACKET_v0.92.md
+  - docs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md
+focused_validation_run: >
+  Focused local proof passed after review fixes and rebase: python3
+  adl/tools/validate_wp12_access_activation_gate_4660.py --access-gate
+  docs/milestones/v0.91.7/review/security/wp12_access_activation_gate_4660.json
+  --parent-gate
+  docs/milestones/v0.91.7/review/security/wp12_security_cav_gate_4656.json;
+  python3 -m json.tool for both gate JSON files; bash
+  adl/tools/validate_structured_prompt.sh for SPP, VPP, SRP, and SOR; git diff
+  --check.
+residual_ci_proof_required_before_merge: >
+  GitHub PR checks must pass before merge. The release-facing v0.92 checklist
+  touch is a claim-boundary pointer to the #4660 gate, not release evidence by
+  itself. If required checks fail or remain pending, route the PR through
+  watcher/shepherd or pr-janitor before merge.
+notes:
+  - This disposition is scoped to the release-gate surface reported by pr finish for the v0.92 milestone checklist.
+  - The #4660 gate preserves fail-closed activation semantics and does not claim final v0.92 readiness.
+  - Pre-PR subagent review found lifecycle-card truth drift and stale SRP review truth; both were fixed and revalidated before publication.
+  - Live WebSocket runtime API integration remains backlog-only until promoted; no new issue was opened.

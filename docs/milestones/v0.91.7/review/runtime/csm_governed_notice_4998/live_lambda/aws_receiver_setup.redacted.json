@@ -1,0 +1,16 @@
+{
+  "schema": "adl.csm_notice_receiver.aws_setup.v1",
+  "issue": 4998,
+  "status": "configured",
+  "aws_profile": "agent-logic-admin",
+  "aws_region": "us-west-2",
+  "aws_account_hash": "b05e1f4379b5c745",
+  "lambda_function": "adl-csm-notice-receiver-4998",
+  "function_url_sha256": "11ab3e7ece4ae32d",
+  "url_retained": false,
+  "redaction": {
+    "raw_account_id_recorded": false,
+    "function_url_recorded": false,
+    "credentials_recorded": false
+  }
+}

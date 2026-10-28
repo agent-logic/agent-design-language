@@ -1,0 +1,31 @@
+{
+  "schema": "adl.long_lived_agent_continuity_checkpoint.v1",
+  "agent_instance_id": "csm-continuity-4910",
+  "captured_at": "2026-07-10T21:22:06.757861Z",
+  "checkpoint_reason": "daemon_partial_checkpoint",
+  "state": "idle",
+  "stop_requested": false,
+  "latest_cycle_id": "cycle-000002",
+  "latest_cycle_status": "success",
+  "completed_cycle_count": 2,
+  "consecutive_failure_count": 0,
+  "continuity_kind": "pre_v0_92_handle",
+  "continuity_ref": "continuity.json",
+  "status_ref": "status.json",
+  "cycle_ledger_ref": "cycle_ledger.jsonl",
+  "lease_ref": null,
+  "lease_state": "clear",
+  "restore_basis": {
+    "ledger_entry_count": 2,
+    "max_cycle_number": 2,
+    "expected_next_cycle_id": "cycle-000003"
+  },
+  "godel_agent_snapshot_diff": {
+    "write_kind": "diff",
+    "artifact_ref": "godel_snapshots/diffs/csm-continuity-4910-diff-000003.json",
+    "chain_ref": "godel_snapshots/godel_agent_snapshot_chain.json",
+    "last_known_good_ref": "godel_snapshots/diffs/csm-continuity-4910-diff-000003.json",
+    "last_known_good_sha256": "acb2807805ca6b321af0c0ffd130eb570952e0c58e63f99352eb61ac68fc0e14",
+    "validation_status": "passed"
+  }
+}

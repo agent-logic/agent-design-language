@@ -1,0 +1,932 @@
+{
+  "schema": "adl.v0922.documentation_handoff.v1",
+  "issue": 917,
+  "acceptance": "assessment_handoff",
+  "operator_authority": "Work on917 now; bounded documentation work overlaps pending916 acceptance without waiving it.",
+  "sources": {
+    "native_main": "2b047c8dc34e133ee1353ec265507a17c523e06f",
+    "website_main": "a45e339c13b24716edbd3fadf29dddff36ffe02e",
+    "inherited_916_checkpoint": "374ecc2a1237094e031ecb5f6d82853ea72ab819"
+  },
+  "documents": [
+    {
+      "path": ".csdlc/evidence/864/all-issue-launch.json",
+      "sha256": "79058c4453bfcd0e53678db9de35eef0e9e5722c51ba4f9d751498bf25fb086a"
+    },
+    {
+      "path": ".csdlc/prepared/issues/467/terminal-digest-verifier/Cargo.toml",
+      "sha256": "0e70dd533a9798da5fe9a7584d51be1cb22881c5e64a34196f37d5bdb8b2c9f7"
+    },
+    {
+      "path": ".csdlc/prepared/issues/518/audit-cargo-manifests.py",
+      "sha256": "c3bae692ae82d0478cb345a741af51ba7ac50a9c8438d00de11505cae036f107"
+    },
+    {
+      "path": ".csdlc/prepared/issues/522/blake3-file/Cargo.toml",
+      "sha256": "c400f1c73c285dc8e0fd5f386ee685d75fc41ac62f9f0a12554b3a16e8ba7d1c"
+    },
+    {
+      "path": ".csdlc/prepared/issues/5340/source-authority-validator/Cargo.toml",
+      "sha256": "bd1363e1dc52aaf9eae16ca9fe180ed4e5521f44547c79f289faa0b5f6983696"
+    },
+    {
+      "path": ".csdlc/prepared/issues/5347/receipt-verifier/Cargo.toml",
+      "sha256": "f9be55b1ec0e4213343db23f9f36d7fffcf199e33b9277966b33345431838c06"
+    },
+    {
+      "path": "adl-characterization/Cargo.toml",
+      "sha256": "2f388368476cf4e3f9afafe1cddb2f932139a2bbc365da04e8b315c101c715f8"
+    },
+    {
+      "path": "adl-provider-core/Cargo.toml",
+      "sha256": "6e3c93e19a3d4a31c3b713f316c26e166c874445f70b7b34ca408e83a906e5a5"
+    },
+    {
+      "path": "adl-resilience/Cargo.toml",
+      "sha256": "95de576c2de0bed2b89f48bf8b241a6cfe01d050eff87d447496447133758f7d"
+    },
+    {
+      "path": "adl-runtime-kernel/Cargo.toml",
+      "sha256": "5082907993a8c1868414d35ea0357cdbae2029d778e2e4da73c2399c0b023db2"
+    },
+    {
+      "path": "adl-runtime/Cargo.toml",
+      "sha256": "d4d8dbc0cb3ff4086add7cec2001999a383fdaa75d342155219f4b41edf0ed04"
+    },
+    {
+      "path": "adl-uts/Cargo.toml",
+      "sha256": "c29cc8fea34996ee70ea64c0d1185a8c99efceb8840818f63e436831fa273cac"
+    },
+    {
+      "path": "adl-v2/Cargo.toml",
+      "sha256": "50c77da79b86e11c7bad90245e7674732cf0b4fe8730ad8c46751173543e2ed8"
+    },
+    {
+      "path": "adl-v2/crates/adl-adapters/Cargo.toml",
+      "sha256": "648cd0c878d11de836ef1ca08d2d6d615df8b4355f38f6cc66c15942c7731774"
+    },
+    {
+      "path": "adl-v2/crates/adl-cli/Cargo.toml",
+      "sha256": "678c4a74cbcf36db22dbc61b05c5d2bc6db555a9d222371d68bc65f6666a100a"
+    },
+    {
+      "path": "adl-v2/crates/adl-compiler/Cargo.toml",
+      "sha256": "e49db4c58e3f9557fc672ef2058122cc99fff6c6b0ee0bb70b54d2dd4b7f1c89"
+    },
+    {
+      "path": "adl-v2/crates/adl-engine/Cargo.toml",
+      "sha256": "ae0b75f7f3e3f647707ca741537476ba9942cb71c3d2b90d6c3d60f42d9c207b"
+    },
+    {
+      "path": "adl-v2/crates/adl-language/Cargo.toml",
+      "sha256": "6a5e09bfee391ec7bfc619f36a63c1184da4c88488a538c0b09f5dcae5f9ec24"
+    },
+    {
+      "path": "adl-v2/crates/adl-records/Cargo.toml",
+      "sha256": "a15ac0478479bbd1610df493eb9e291581ed49658b5cb5f592445d7cf859b797"
+    },
+    {
+      "path": "adl-v2/crates/adl-runtime-v3-adapter/Cargo.toml",
+      "sha256": "fe3a5695f9b457ea1e007d52979a824881f0081d9ad27be9c737e21640ddea31"
+    },
+    {
+      "path": "adl-v2/crates/adl-workcell-conductor/Cargo.toml",
+      "sha256": "ab51a0b64d98fc1f133a21140e8089a6b4ce7ee63dfd8310878b9eb8e23a3dbb"
+    },
+    {
+      "path": "adl-v2/crates/adl-workcell-convergence/Cargo.toml",
+      "sha256": "81c7000664dfd1f4fc0ae741150570277e6a518868f8537bdadcb72e80eec990"
+    },
+    {
+      "path": "adl-v2/crates/adl-workcell-task-adapter/Cargo.toml",
+      "sha256": "3b0680e59e40438277e2710e28bdff5801e6bcc2e9bb53a5e0abdf3e2d7dcf44"
+    },
+    {
+      "path": "adl/Cargo.toml",
+      "sha256": "c546f8e9f4e5d8568c1c2c64c85d4169a89dd6061e35900458fcd8fde4c7ead4"
+    },
+    {
+      "path": "csdlc-v2/Cargo.toml",
+      "sha256": "a4947407dc0ce43a9ecdbb67ce0faebcba34a467c80be65506af71b5b1eaa73d"
+    },
+    {
+      "path": "csdlc-v3/Cargo.toml",
+      "sha256": "8ab0d39857af75aad2782b9325258964712fc89106c3b0b984468edc9cc48e8d"
+    },
+    {
+      "path": "demos/transpiler_demo/Cargo.toml",
+      "sha256": "93f30c9388cbc2812670e17ef6d2fcc6a89633eef9c3e7d024a2e9afb0dc4e90"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/ADOPTED_DESIGN_CONTRACTS_v0.92.2.md",
+      "sha256": "8cc5ae0a8468abfa59684aac39bacef41cd2f37b1631d757d870821e5e6107e1"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/ADR_PLAN_v0.92.2.md",
+      "sha256": "ee4d1322cb56e042cbe8a6e7f2676709eabbbb6d943734df69c639605abaa13e"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/ATOMIC_TASK_CONTRACTS_v0.92.2.json",
+      "sha256": "b1b5b751a7b3f7e3a22408d706e68835d29d080818bd818e2d9215c84a6be759"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/ATOMIC_TASK_CONTRACTS_v0.92.2.md",
+      "sha256": "a87a4d2e6f8cfd3e2d9b379cfe3aeeb26f279e951515e4bfb82bdcdae7fbfd23"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/CANONICAL_DOC_INVENTORY_v0.92.2.md",
+      "sha256": "a9054152aed4ee0da4a118d7550ed460b2c10115165dee0bcfe2107a0ea978c1"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/CREATION_SELECTIONS_v0.92.2.md",
+      "sha256": "4ae6b38a46534d5fd58b6761a4a747e447fe0057412cd298b6daad2c0d00ff96"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/DECISIONS_v0.92.2.md",
+      "sha256": "ded3780361b3fd09025807cd02a54b99e5b033e6c4041a55d7da35e34d0ca7f7"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/DEMO_MATRIX_v0.92.2.md",
+      "sha256": "5a8277994dbd17e753446ca1300e5d8babf94969e48c145d8e33fe76df643d75"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/DESIGN_v0.92.2.md",
+      "sha256": "dbb4bbe97a1bf6e499e34cb81a6cf37f37cd25f791785f46e3374f00aade904a"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/EXISTING_ISSUE_RECONCILIATION_v0.92.2.md",
+      "sha256": "7a279dbe8ff30a608b83be7024ab068b5ab9eb733df9fe3c3285d3b4d52902be"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/FEATURE_PROOF_COVERAGE_v0.92.2.md",
+      "sha256": "836a15369bda9ffe55b0e706cebf70d9722e9da460cdfe2a0cddfa1ad3141ad3"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/ISSUE_CREATION_BATCHES_v0.92.2.json",
+      "sha256": "5c6f82b2a38b5f803c34dfbfdc047613a2ab4adbd93a3239c9ec89f62b39eb30"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/MILESTONE_CHECKLIST_v0.92.2.md",
+      "sha256": "cdf03fadcf4fd6e8ee6711682cdc447de2236572ac9a1473e1c82e7eed0eddfb"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/NEXT_MILESTONE_HANDOFF_v0.92.2.md",
+      "sha256": "e58609351c5539dd28b3bf0d796b392bf499340e357b1a5e11adb95f3e8d84a3"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/PLANNED_ISSUE_CATALOG_v0.92.2.md",
+      "sha256": "6e49c64b3ef5ed0a0d3684016f6c28051724cda1c6c9302185c8ac639d8a0918"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/QUALITY_GATE_v0.92.2.md",
+      "sha256": "0fe1aa1b5f19ccc41296752bf178ff0dc2a5d0036356c84a80f3637de741f9e8"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/README.md",
+      "sha256": "b902499e05b69bc1c2add7b69c46e5beabf36602d1230f50fdbc7555dd2e5759"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/RELEASE_NOTES_v0.92.2.md",
+      "sha256": "3b2d6565351ae2a3200110f67cc1aa71d8c6eaffdead525a295db75ad3cd053a"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/RELEASE_PLAN_v0.92.2.md",
+      "sha256": "4206adc6dbc15947116537d457728304dad0fbf18b60b61f0f864fc7a8ada2b5"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/SPRINT_v0.92.2.md",
+      "sha256": "7d7ca33674bc816675643e78bced72f96fc168fba9ecc9d266c35d0e91b154e1"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/TBD_SCHEDULING_RECONCILIATION_v0.92.2.md",
+      "sha256": "e96f814928a24d02eec064f6a09566978c038857d39ba706415abf80c65db62a"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/TBD_SOURCE_AUDIT_MANIFEST_v0.92.2.txt",
+      "sha256": "a940782ae2104a9d70d170d9af9df920e356b9b0bb8be59be5038f964837844e"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/VISION_v0.92.2.md",
+      "sha256": "dcb42ef4e4e4f6417181946a97dcba0a72d4889fa3165e35dadb1a298d37e746"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/WBS_v0.92.2.md",
+      "sha256": "9a85f0480867d8055c26507f1518fb0560df2ea649c95a305968750572ccfd65"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/WP_EXECUTION_READINESS_v0.92.2.md",
+      "sha256": "1a3cb5785170df81eb9ee5f870cd867e2682685cd2136a2f58d699d6132baf30"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/WP_EXECUTION_SPECIFICATIONS_v0.92.2.yaml",
+      "sha256": "46a341cf7d576f02b40696e4360e97e02d8041c475e426991c226e5c17445347"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/WP_ISSUE_WAVE_v0.92.2.yaml",
+      "sha256": "56a8c264e14d0e13bfec8d726e529119e8c2e9d6c0999b4e6d542183484b221e"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/adr/issue-911/README.md",
+      "sha256": "d4ce87e374d409746f88928f96609d2375e86cb9aa5b726c6dd3c2572fe6eccf"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/adr/issue-911/decision-dispositions.md",
+      "sha256": "4ccc37ec4d5613b220d93cc07658ceab94d2c56bc0b32c5012e2984bdccd139c"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/adr/issue-911/decision-inventory.md",
+      "sha256": "5a2e399c45fd33a3648f362daf776421e4634f115ad0c6d4c95c3cdc5c74adf6"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/adr/issue-911/inventory-review.md",
+      "sha256": "84397a5d012adb96f4d44a45e2afa76a690c2d96773142ada15f2f63327fc2da"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/adr/issue-911/review.md",
+      "sha256": "ec53310f9ad0fa79a14598c282b6a13df699c8c399d0b26e6caf2d94e42dcabf"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/adr/issue-911/supersession-map.md",
+      "sha256": "e32acaa9f726c49fd5f6449a75ffd28edc31fe814d5bfee72716c06c4d37818a"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/adr/issue-911/validate_packet.py",
+      "sha256": "316f964918f885311bc53954a3c3717af9128e99e9c311a77768891839ef45d2"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/adr/issue-945/BETA1_DELIVERY.md",
+      "sha256": "c1ef116a0951e53a66a87532f263053d5c6c1fef0b4d8c341b03ce199b77855f"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/adr/issue-945/README.md",
+      "sha256": "25953bc9d49fbca55600e81b1af7808c21a21df61277c7db08c0dbd3bcf83027"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/adr/issue-945/candidate-content.json",
+      "sha256": "517d800b0c2fdc91e4aadd8f5b64597c87211cc70fdf561605d9d361b19510e2"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/adr/issue-945/validate_packet.py",
+      "sha256": "7790b5d7b76c66a62255331decd341335232b4fd24f9879b9219b0cb5edd43d2"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md",
+      "sha256": "0cefde9f9723d6f8b2cf756689a6f571f3f52a33a3f329d5fd3b56ee5dcf7a60"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/cognitive-sdlc/REVISION_4_REVIEW_HANDOFF.md",
+      "sha256": "aede5300b59ded852efe3260f15a674e23da5ac53bb0d2b200e81adb4b423367"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/cognitive-sdlc/issue-1064/REMOVAL_PLAN.md",
+      "sha256": "9c1e09d39cf363f133b2085446848b21030346112f2d4953ae6377b41e8d40a0"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/cognitive-sdlc/source-promotion-manifest.json",
+      "sha256": "3fbc0459099c84bbd6406b931725ebaf3f0be7c949a9c1450becb6d08cb533e6"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/cognitive-sdlc/statistical-review-2026-09-08/METHODS.md",
+      "sha256": "4d9992e4b6d59dcc5c3e26e1dcbfaf515990c1620771f0950760a4815116cb6b"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/cognitive-sdlc/statistical-review-2026-09-08/RECOMMENDATIONS.md",
+      "sha256": "0d96810e0feb84ebae82b444c36d1c78085b9aeb47320be4f4f85e87d6f2cff3"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/cognitive-sdlc/statistical-review-2026-09-08/REPORT.md",
+      "sha256": "272def2fbbb686e92b2034a5a4cb12e1667c097e6322a3c5b62871043c9bda09"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/MERGE_LINKAGE_849.md",
+      "sha256": "f981a3558e9342adc4d2e8395da5e4676c2ba8b00fe26827ae9e20b2c6f4cfe4"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/conversion-rehearsal-872/README.md",
+      "sha256": "811d54e646157704a14b3daf948397f49b5cf1283342e28818280e43d585638c"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-1109/README.md",
+      "sha256": "40c4854d978ffcfbf6fed3482722d17e1dbbd8f9a192f18f51600255c5cb545d"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-1129/README.md",
+      "sha256": "2483d75b1ccda9c9b8d7b56fe1eeb1cfc83fe7c8dba1b89a39d0753c919dc6aa"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-1132/README.md",
+      "sha256": "f5b7f6880647146c1f8c7b3fd75dc2d801db0b06f6f04715f14d78f976b8d291"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-523/README.md",
+      "sha256": "57e229fd8f2247f723f6d3fac998701f0e72141f7344ed7251229d545b9c210c"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-523/simplification-addition.md",
+      "sha256": "1aec7dbde885d9c0b75bb2b29ff530b59363dcd413351b5380b1f51de03d1153"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-916/GAP_ANALYSIS.md",
+      "sha256": "17fecf9abb02eefb578a2b571febbba36776a35ddecf99edeba877ff05bb129c"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-916/PAIR_HEALTH_RECHECK.json",
+      "sha256": "16589414ef91095df0cebcf5e745d97245bbd648663f6d60918689d0753a9f31"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-916/POSTMERGE_VERIFICATION.json",
+      "sha256": "e1b060a7b93908b2ed5b774fa3e8ebde0a971b4140ccb076b2fb99e0e90a76c4"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-916/PREREQUISITE_ACCEPTANCE.json",
+      "sha256": "cbbd16ee061067594324917a24597bbcfe75c68448297d7cebb6b947aecc3920"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-916/PRODUCER_HASH_RECHECK.json",
+      "sha256": "4ab04f646b818a7a0fd3b4ba69c7df67e3ecb1688d773dcfeb92068d3a2e0b0f"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-916/PRODUCER_SCOPE_AUDIT.md",
+      "sha256": "a6b625f2b659bfc78a0dc26419e1320120b5855282a275d9156751db88abdd98"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-916/QUALIFICATION_REPAIR_MERGE.json",
+      "sha256": "d164b5c0533ada7fd45ed509a41708385aa5ff3e30f1e44946e5e4be612d27f7"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-916/QUALITY_DECISION.json",
+      "sha256": "15f63116d4aae5e4449ab0c06870f2b78bd3145306184b551f15f6e09dcb8b99"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-916/SPRINT10_CLOSEOUT_REFRESH.json",
+      "sha256": "c3ca6737b808648c0b8eb53a5ca9c90d8f89d6b9a5d261405f584679f3c44e51"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-916/SPRINT10_DEFERRAL.json",
+      "sha256": "58fb5bc937fcc2ee8975ec9a52a55a3597730b5d5edc80266227747a40784a51"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-916/TASK_LEDGER.json",
+      "sha256": "d6299f221d39112a02c9d379a935de586aa147106d62006936f620c533f2623d"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-916/validation/Cargo.toml",
+      "sha256": "4f9f9abfeac8d8bcd18d663cfb3ddaced6cb4e6fd1a1321391d5debf8644b61d"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-917/CARGO_MANIFEST_AUDIT.json",
+      "sha256": "36c71074b909007969d9f08a4e2390eaa7e5613ea6ac4b0901bf5691ed9ae6d4"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-917/CARGO_MANIFEST_REVIEW.md",
+      "sha256": "57270eb41cd0e6b22c387dc208b26da60b151b67fc9f1182e492639ff7f7f39b"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-917/HANDOFF.md",
+      "sha256": "d67bfd8aa35571ebeddf529cd41c03512cd1b0642a8dcc520d866db6f50b207b"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-917/validate_handoff.py",
+      "sha256": "75bf524b358326d7b89bc9e6677b379d714f1e8d08152245cbdf50d43534fcf8"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-917/validation/Cargo.lock",
+      "sha256": "9481b46cf19e07bfa7e04e95a59e4e6cb9910ae35583a59ac37735f4ab8969bb"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-917/validation/Cargo.toml",
+      "sha256": "4b2ef6d6e73d9aa633701741dd7de9d9cd8cb49a51607b22d44c184d04f2a4aa"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-917/validation/PVF.json",
+      "sha256": "e10dc9eafe019474156e8c630e4efad763c545bf6f5ab77a6194dfcd8cbbbcab"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-917/validation/check.py",
+      "sha256": "6db86e57c523d7a751a13df75ebb47e1f8516affa4c37da100d64b9fce8e5daf"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-917/validation/src/lib.rs",
+      "sha256": "360de819de55df66184572752ed289590d22541620bc2a89a92af200c801feba"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/qual-evidence-902/README.md",
+      "sha256": "1b51333f54447c37d70b0ef6328b167d29617c32f36be72ed3fd18576b10266a"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/qual-inventory-899/README.md",
+      "sha256": "e4dc5908fe8e0d3ea371d570b30405fab99c17a68b3cbda3add85bf585cc01cd"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/qual-provider-901/README.md",
+      "sha256": "8b7bbaf39c613b958b9694139ef79c65c5df6699a139b75de8721b752a6eec8f"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/qual-resident-900/README.md",
+      "sha256": "51daa8c030c3ab34bf0c9a98f91a159b9c823ffbd92ed54ad655d7ff702b7496"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/qual-runtime-852/README.md",
+      "sha256": "f0d4b980f6752c4c3aee326e999204ab424c37c557dac014fcb67174f740b59d"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/features/ARCHITECTURE_COGNITION_v0.92.2.md",
+      "sha256": "30fce69671a4876b067201d873bf07dcc60c248e4d5c6ee8019e5c0754348ae4"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/features/BETA1_QUALIFICATION_v0.92.2.md",
+      "sha256": "b62858141b4657d7611339b756133d36ca8c8a4ad434e2868764dd56dcf2c149"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/features/EVIDENCE_CORE_v0.92.2.md",
+      "sha256": "2aa7fda7d19c7ecee1c6e7a436c415b2fbde73493f63f5e54732dabeb17ba4f0"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/features/EXECUTABLE_GOVERNANCE_v0.92.2.md",
+      "sha256": "2b927f0d5f06cd91f101e8cb920e4be9419ce607e5f2ab62f7ce6c4556407f9b"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/features/GOVERNED_PUBLICATION_v0.92.2.md",
+      "sha256": "6ebc6e4f385a43eb9f07e124482e2dbbdaef42820fa3f76098e5cd409f32c8f9"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/features/LONGITUDINAL_REVIEW_MEMORY_v0.92.2.md",
+      "sha256": "d3719804414633a6cfb7c002247c93d8b037d530488848fdc94cdff0ead87baa"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/features/MULTI_PERSPECTIVE_REVIEW_v0.92.2.md",
+      "sha256": "442e3487dc6f07bd4f3f66a7afa27e6fd72ef836ac17b92dac271768fd57ace1"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/features/PORTABLE_ADAPTER_V2_v0.92.2.md",
+      "sha256": "d0b094f91c863358de8848ef79d14de1308d1709f64af7dff3b571831c83c3cf"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/features/PRODUCT_SHELL_AND_OPERATOR_CONTROLS_v0.92.2.md",
+      "sha256": "c7dda4cc6b29883dc670981b180019031835bfcd9123f99c9fc4a67a3ec4c546"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/features/README.md",
+      "sha256": "f769edd671379634bf12c8e90e7fbd1a87d180e1028a7b2c69c40b6b56f83172"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/features/SUPPORTING_PLATFORM_TRACKS_v0.92.2.md",
+      "sha256": "d2447d602b6e01b659f1fcf1004a30c226806da3968686f59e0aa72c7fdbc033"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/repository-decomposition/CLAUDE_REVIEW_1.md",
+      "sha256": "0ae4079249186f32e72ecf5893363cd0d0180adb577ee78e46511a27a496a20c"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/repository-decomposition/CLAUDE_REVIEW_2.md",
+      "sha256": "d8dadc61f5ef2e9737bbb57fcabf6f27c21ce1d4ca918becbc0a502b5ac18654"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/repository-decomposition/FINDINGS.md",
+      "sha256": "dc89c3019fac30552a0e80984356a893e377445545fe6c79a92b4fae27da946f"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/repository-decomposition/GEMINI_REVIEW_1.md",
+      "sha256": "c4d5ebf933e4f304d74b3ebd68eb85e55f544ea588cb865b3802e7a5304eaac2"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/repository-decomposition/PLAN.md",
+      "sha256": "198ac09dc30c30730397f3c8a6a993d0fc9f63c9acfd69dd86cffcc474ece5c4"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/repository-decomposition/REVIEWED_PLAN_848.md",
+      "sha256": "eb7d86d423c5f623ead5593d6ccec9c9383da6223900b32a320b32fd3b320926"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/repository-decomposition/rd01-977/AUDIT.md",
+      "sha256": "f4ad650d4077bd9e240e13ae9560a74703f4340474d585baf4c465a691e238a8"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/repository-decomposition/rd01-977/REVIEW.md",
+      "sha256": "5d4add1369c7d16926e1eb40ba3df86e7134f026cc82bba8edcbcbbc3d17fe59"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/validate_atomic_tasks.py",
+      "sha256": "c4e8759bb9fbcd0a53f5664cba66d8c1a059c596c791fb5251d6368b5c0d343f"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/validate_launch_bindings.py",
+      "sha256": "65e37d636ddcc269c0d02af4274e2d587ae28dd2c1c90e6416d61cdb6c169b13"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/validate_planning.py",
+      "sha256": "42116a694b6d2fac976b77be38ac5e2952ba343f7af462312d230d20dad33451"
+    },
+    {
+      "path": "tools/aws_remote_validation/Cargo.toml",
+      "sha256": "a99c28520b9ff4bf7e177ffd5b1470b4d51038841380c39214acffe1da7cf8a2"
+    },
+    {
+      "path": "tools/remote_validation/Cargo.toml",
+      "sha256": "c9903f60b2bb4185b4aa400d474f347521936540bbc6d7cf9eded6ed79fa7536"
+    }
+  ],
+  "tasks": [
+    {
+      "task": "WP-01",
+      "issue": 864,
+      "evidence_category": "planning_result"
+    },
+    {
+      "task": "CSDLC-MAN",
+      "issue": 861,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "SIM-UMBRELLA",
+      "issue": 866,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "SIM-01",
+      "issue": 867,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "SIM-02",
+      "issue": 868,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "SIM-03",
+      "issue": 869,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "SIM-04",
+      "issue": 870,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "SIM-05",
+      "issue": 871,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "SIM-06",
+      "issue": 872,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "SIM-07",
+      "issue": 873,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "SIM-08",
+      "issue": 874,
+      "evidence_category": "planning_result"
+    },
+    {
+      "task": "SIM-09",
+      "issue": 875,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "ARCH-SPLIT",
+      "issue": 848,
+      "evidence_category": "planning_result"
+    },
+    {
+      "task": "RT-COST",
+      "issue": 854,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "RT-PROVIDER",
+      "issue": 855,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "PLAT-PROVIDER",
+      "issue": 876,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "PLAT-UTS",
+      "issue": 877,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "CF-ADAPTER",
+      "issue": 878,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "CF-ADAPTER-GITHUB",
+      "issue": 879,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "CF-ADAPTER-CI",
+      "issue": 880,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "CF-EVIDENCE",
+      "issue": 881,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "CF-COG",
+      "issue": 882,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "CF-COG-IMPACT",
+      "issue": 883,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "CF-COG-RATIONALE",
+      "issue": 884,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "CF-MEMORY",
+      "issue": 885,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "CF-COG-DRIFT",
+      "issue": 886,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "CF-GOV",
+      "issue": 887,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "CF-GOV-CI",
+      "issue": 888,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "PLAT-MEMORY",
+      "issue": 889,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "CF-REVIEW",
+      "issue": 890,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "CF-SHELL",
+      "issue": 891,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "CF-SYNTHESIS",
+      "issue": 892,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "CF-REMEDIATE",
+      "issue": 893,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "CF-TESTPLAN",
+      "issue": 894,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "CF-UX",
+      "issue": 895,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "CF-RENDER-MD",
+      "issue": 896,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "CF-RENDER-HTML",
+      "issue": 897,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "CF-RENDER-PDF",
+      "issue": 898,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "QUAL-RUNTIME",
+      "issue": 852,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "QUAL-INVENTORY",
+      "issue": 899,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "QUAL-RESIDENT",
+      "issue": 900,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "QUAL-PROVIDER",
+      "issue": 901,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "QUAL-EVIDENCE",
+      "issue": 902,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "PLAT-MLX",
+      "issue": 903,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "PLAT-PAIR",
+      "issue": 904,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "SPEC-RETEST",
+      "issue": 905,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "CSDLC-MERGE",
+      "issue": 849,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "CSDLC-DECOMPOSE",
+      "issue": 862,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "PLAT-RUST",
+      "issue": 906,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "CSDLC-REMOTE",
+      "issue": 907,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "OBS-LIVE",
+      "issue": 720,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "OPS-AWS",
+      "issue": 908,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "OPS-GCP",
+      "issue": 909,
+      "evidence_category": "planning_result"
+    },
+    {
+      "task": "OBS-S3",
+      "issue": 910,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "ARCH-ADR",
+      "issue": 911,
+      "evidence_category": "planning_result"
+    },
+    {
+      "task": "PUB-MEDIUM",
+      "issue": 912,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "PUB-CSDLC",
+      "issue": 913,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "CF-INTEGRATE",
+      "issue": 914,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "CF-PROOF",
+      "issue": 915,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "TAIL-01",
+      "issue": 916,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "TAIL-02",
+      "issue": 917,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "TAIL-03",
+      "issue": 918,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "TAIL-04",
+      "issue": 919,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "TAIL-05",
+      "issue": 920,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "TAIL-06",
+      "issue": 921,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "TAIL-07",
+      "issue": 922,
+      "evidence_category": "planning_result"
+    },
+    {
+      "task": "TAIL-08",
+      "issue": 923,
+      "evidence_category": "planning_result"
+    },
+    {
+      "task": "TAIL-09",
+      "issue": 924,
+      "evidence_category": "non_planning_result"
+    },
+    {
+      "task": "TAIL-10",
+      "issue": 925,
+      "evidence_category": "non_planning_result"
+    }
+  ],
+  "prerequisites": [
+    720,
+    848,
+    849,
+    852,
+    854,
+    861,
+    862,
+    866,
+    877,
+    899,
+    900,
+    901,
+    902,
+    903,
+    904,
+    905,
+    906,
+    907,
+    908,
+    909,
+    912,
+    913,
+    914,
+    915
+  ],
+  "privacy": "No private manuscript/provider raw data included. Authorized custody required for protected replay.",
+  "pvf": {
+    "lane": "docs_only",
+    "role": "handoff_integrity",
+    "determinism": "local bytes and identities",
+    "resources": "local Python/filesystem; no network",
+    "release_gate": "required document validation; not release authorization"
+  },
+  "routing_observation": {
+    "date": "2026-09-23",
+    "predecessor_revision": "be804668a896cff4b770c38b8224c9d31ec7850c",
+    "predecessor_pr": 1151,
+    "predecessor_accepted": false,
+    "successor_milestone": "v0.93.1",
+    "successor_issues": [
+      1148,
+      1149,
+      1150
+    ],
+    "scope": "Authenticated live issue/PR observation and exact upstream quality decision; retained inherited evidence is unchanged."
+  },
+  "assessment_acceptance": {
+    "issue": 916,
+    "pull_request": 1151,
+    "merge_commit": "374ecc2a1237094e031ecb5f6d82853ea72ab819",
+    "scope": "quality assessment accepted for external-review handoff",
+    "quality_decision": "not_proven",
+    "release_authorized": false,
+    "operator_authority": "User authorized integration through external review; Planning11 delegated exact PR1152 and1153 merge authorization and confirmed adverse-assessment acceptance."
+  }
+}

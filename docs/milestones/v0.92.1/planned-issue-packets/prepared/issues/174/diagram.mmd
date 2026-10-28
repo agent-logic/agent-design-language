@@ -1,0 +1,12 @@
+flowchart TD
+  PLAN["approved PVF DAG"] --> SCHED["bounded scheduler scope"]
+  SCHED --> TASKS["joined Tokio tasks"]
+  SCHED --> REG["OS child registry"]
+  CANCEL["root cancellation"] --> TASKS
+  CANCEL --> REG
+  REG --> TERM["terminate / kill / wait / drain"]
+  TASKS --> RESULT["typed lane outcomes"]
+  TERM --> RESULT
+  RESULT --> STREAM["capped stream accounting"]
+  STREAM --> EVIDENCE["tamper-evident evidence"]
+  EVIDENCE --> NOAUTH["no lifecycle authority"]

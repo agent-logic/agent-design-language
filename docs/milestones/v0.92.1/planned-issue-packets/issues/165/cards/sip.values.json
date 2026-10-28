@@ -1,0 +1,35 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 165,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-04] Implement Application Context And Shared Services",
+    "slug": "v3-04-implement-application-context-and-shared-services",
+    "version": "v0.92.1",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Implement the invocation-scoped dependency container and common I/O, configuration, error, cancellation, and observability services.",
+      "required_outcome": "dependency boundaries cancellation streams and typed error contracts is produced at an exact revision and independently reproducible.",
+      "declared_scope": [
+        "`App`, lazy sync/async initialization, streams, TTY and prompting, configuration precedence, credential references, cancellation token, tracing, redaction, operation IDs, OS signal handling, error-to-exit mapping, and test constructors."
+      ],
+      "authority_boundary": [
+        "Issue V3-04 owns only its declared repository paths and named external operation/evidence boundary.",
+        "Dependencies remain read-only inputs until terminal evidence satisfies the declared gate.",
+        "The issue may not absorb remediation owned by another work package without an explicit issue-graph revision."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Never write tracked changes on main",
+        "Bind only after typed doctor reports ready",
+        "Do not cross dependency or stop gates",
+        "Keep evidence producer-derived and exact-revision bound"
+      ]
+    }
+  }
+}

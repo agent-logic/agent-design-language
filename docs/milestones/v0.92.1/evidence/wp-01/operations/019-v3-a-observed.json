@@ -1,0 +1,52 @@
+{
+  "schema": "adl.v0921.wp01.operation-observed.v1",
+  "kind": "child_create",
+  "planned_id": "V3-A",
+  "issue": 500,
+  "title": "[v0.92.1][V3-A] C-SDLC v3 contract and construction decision",
+  "labels": [
+    "area:csdlc",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "milestone": 1,
+  "state": "open",
+  "dependencies": {
+  },
+  "body_sha256": "94f1b1f3ce401b17a1f69d5fa53a01c8f0a366e417aefa0de646066fdf4b0a7b",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:V3-A:create",
+  "request_fingerprint": "e2701e3bd09549967719300d6c01f230c3ddcf3ca9a9efeb77e43bf4015fef36",
+  "planning_digest": "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251",
+  "specification_sha256": "aff314a5b4bf1eb3a830eb66fbe2b8b30f671d886ae8eb53d3c5318c04dd7a28",
+  "live_response": {
+    "action": "issue_create",
+    "comment_id": null,
+    "issue": {
+      "assignees": [
+
+      ],
+      "body": "## Outcome\n\nProduce one reviewed C-SDLC v3 contract and construction-decision packet.\n\n## Primary deliverable\n\nOne reviewed C-SDLC v3 contract and construction decision packet.\n\n## Verification result\n\nContract, predecessor-coverage, architecture-boundary, and rollback checks pass for requirements 161 through 163.\n\n## Unit boundary\n\nIssue completion is exactly acceptance of one v3 contract and construction decision; its checks are evidence inputs.\n\n## Dependencies\n\n- None.\n\n## Retained predecessor scope\n\n- #161\n- #162\n- #163\n\n## Acceptance criteria\n\n- [ ] The v3 authority boundary and compatibility posture are explicit\n- [ ] Requirements 161 through 163 are mapped exactly\n- [ ] Construction and rollback decisions are reviewable\n\n## Owned paths\n\n- `docs/csdlc-v3/**`\n- `csdlc-v3/Cargo.toml`\n- `csdlc-v3/src/lib.rs`\n\n## PVF lanes\n\n- `contract-schema`\n- `predecessor-coverage`\n- `architecture-boundary`\n- `diff-hygiene`\n\n## Stop conditions\n\n- The v2 coexistence boundary is ambiguous\n- A predecessor requirement is unmapped\n\n## Non-goals\n\n- Authority cutover\n- v2 retirement\n\n## Canonical planning identity\n\n- Planned ID: `V3-A`\n- Canonical title: `[v0.92.1][V3-A] C-SDLC v3 contract and construction decision`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#V3-A`\n<!-- csdlc-github-operation:v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:V3-A:create -->\n",
+      "closed_at": null,
+      "created_at": "2026-08-26T02:57:19Z",
+      "labels": [
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1",
+        "area:csdlc"
+      ],
+      "marker_present": true,
+      "milestone": 1,
+      "number": 500,
+      "repository": "agent-logic/agent-design-language",
+      "schema": "csdlc.github_issue.v1",
+      "state": "open",
+      "title": "[v0.92.1][V3-A] C-SDLC v3 contract and construction decision"
+    },
+    "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:V3-A:create",
+    "pr_state": null,
+    "reconciled": true,
+    "repository": "agent-logic/agent-design-language",
+    "schema": "csdlc.github_action_result.v1"
+  }
+}

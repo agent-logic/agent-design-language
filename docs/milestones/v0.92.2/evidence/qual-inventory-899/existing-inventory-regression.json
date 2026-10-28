@@ -1,0 +1,13 @@
+{
+  "schema": "adl.tooling_regression.v1",
+  "issue": 899,
+  "command": "TMPDIR=<issue-owned-fixtures> bash adl/tools/test_validation_inventory.sh",
+  "exit_code": 1,
+  "finding": "Existing regression assertion requires adl/src/bin/adl_pr_finish.rs to appear with owner csdlc after v1 binary retirement. That tracked path is absent. Companion does not modify existing inventory tool or test.",
+  "proof": {
+    "test_script_blob": "856cfa2cf022de4276a1a3d88c37654dc40664ed",
+    "inventory_tool_blob": "5fa45a5179b8f2cb1ae25c150ddca21708e91943",
+    "retired_path_tracked": false
+  },
+  "disposition": "separate inherited tooling regression; not evidence that companion tests passed or failed"
+}

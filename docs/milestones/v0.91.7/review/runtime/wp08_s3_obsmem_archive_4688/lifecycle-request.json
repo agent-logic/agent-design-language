@@ -1,0 +1,18 @@
+{
+  "Rules": [
+    {
+      "ID": "adl-wp08-community-memory-archive-tiering",
+      "Status": "Enabled",
+      "Filter": {"Prefix": "community-memory/"},
+      "Transitions": [
+        {"Days": 90, "StorageClass": "GLACIER_IR"},
+        {"Days": 365, "StorageClass": "DEEP_ARCHIVE"}
+      ],
+      "NoncurrentVersionTransitions": [
+        {"NoncurrentDays": 30, "StorageClass": "GLACIER_IR"},
+        {"NoncurrentDays": 180, "StorageClass": "DEEP_ARCHIVE"}
+      ],
+      "AbortIncompleteMultipartUpload": {"DaysAfterInitiation": 7}
+    }
+  ]
+}

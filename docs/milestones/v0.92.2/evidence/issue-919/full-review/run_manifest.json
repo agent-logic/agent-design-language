@@ -1,0 +1,32 @@
+{
+  "run_id": "919-full-nine-lane-review",
+  "repo_name": "agent-logic/agent-design-language",
+  "repo_ref": "5c4a6149771c637f3c805985b86231077965eab4",
+  "website_ref": "a45e339c13b24716edbd3fadf29dddff36ffe02e",
+  "review_mode": "frozen-source-and-retained-evidence",
+  "privacy_mode": "public_candidate",
+  "publication_allowed": true,
+  "status": "review_complete_changes_required",
+  "required_roles": [
+    "code",
+    "security",
+    "tests",
+    "architecture",
+    "dependencies",
+    "provider",
+    "docs",
+    "demos",
+    "evidence"
+  ],
+  "finding_counts": {
+    "P1": 4,
+    "P2": 20,
+    "P3": 3
+  },
+  "non_claims": [
+    "No release or qualification approval",
+    "No completed remediation claim",
+    "No live cloud/provider/deployment qualification"
+  ],
+  "publication_scope": "Internal review report and evidence only; excludes release/product/cloud/deployment authorization"
+}

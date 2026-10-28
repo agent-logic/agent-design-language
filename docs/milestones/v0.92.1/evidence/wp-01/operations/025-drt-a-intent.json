@@ -1,0 +1,10 @@
+{
+  "schema": "adl.v0921.wp01.operation-intent.v1",
+  "kind": "child_create",
+  "planned_id": "DRT-A",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:DRT-A:create",
+  "request_fingerprint": "885bb45a4dcc28c3bd9c2f484cc6a9a16e44fa198a4a013b6d657c8b1e2e1625",
+  "planning_digest": "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251",
+  "dependencies": {
+  }
+}

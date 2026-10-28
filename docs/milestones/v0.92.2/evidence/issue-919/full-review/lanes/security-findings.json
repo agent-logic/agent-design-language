@@ -1,0 +1,90 @@
+{
+  "schema": "review919.security_findings.v1",
+  "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+  "findings": [
+    {
+      "id": "SEC-001",
+      "severity": "P2",
+      "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+      "path": "csdlc-v3/src/adapters/mod.rs",
+      "line": 754,
+      "title": "Disable implicit curl configuration for credentialed mutations",
+      "trigger": "A default curl configuration contains output, trace, proxy, or an additional URL when a native GitHub mutation dispatches.",
+      "impact": "The operational transport invokes curl without -q. Clearing HOME does not disable curl default configuration lookup (the same source explicitly acknowledges account-database fallback for read-only transport). Undeclared configuration can write response/trace files or alter destinations while the selected GitHub credential and mutation body are present.",
+      "evidence": [
+        "operational argv at lines751-781 has no -q",
+        "run_process at840-850 appends private --config without disabling default config",
+        "read-only run_observational_curl at869-875 explicitly adds -q",
+        "security-probes/transport_probe.rs"
+      ],
+      "reproduction_status": "executed exact extracted run_process against real curl, isolated synthetic CURL_HOME wrapper, file:// payload; unexpected output created. -q negative control suppresses write. No live mutation or credential used.",
+      "remediation": "Use -q as curl first argument for operational as well as observational invocations; add operational-path regression with isolated default config and effect sentinel.",
+      "owner": "#921 / C-SDLC GitHub adapter owner",
+      "acceptance_relevance": "Native C-SDLC deterministic effects and credential-scoped GitHub writes; security lane credential/unsafe-IO acceptance.",
+      "disposition": "open"
+    },
+    {
+      "id": "SEC-002",
+      "severity": "P2",
+      "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+      "path": "csdlc-v3/src/adapters/mod.rs",
+      "line": 360,
+      "title": "Redact credentialed mutation output before truncation",
+      "trigger": "A credentialed child emits its credential across the retained-output cutoff, for example diagnostic output from curl with header tracing enabled.",
+      "impact": "run_process calls process_output, which truncates stdout/stderr, before RealProcessAdapter applies full-value replacement. A truncated credential prefix no longer matches the full credential and survives in returned diagnostics. Read-only curl already implements the correct order.",
+      "evidence": [
+        "lines360-366",
+        "lines955-968",
+        "security-probes/transport_probe.rs"
+      ],
+      "reproduction_status": "executed exact extracted functions with synthetic GITHUB_TOKEN and8-byte output limit; redacted result still equals first8bytes of synthetic secret. No actual secret accessed.",
+      "remediation": "Redact raw child output before either stream is truncated for every credentialed adapter, and retain a cutoff-inside-secret regression.",
+      "owner": "#921 / C-SDLC adapter owner",
+      "acceptance_relevance": "Credential privacy and diagnostic redaction; bounded output must not weaken credential removal.",
+      "disposition": "open"
+    },
+    {
+      "id": "SEC-003",
+      "severity": "P2",
+      "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+      "path": "adl/src/codefriend/publication/relay.rs",
+      "line": 240,
+      "title": "Verify PDF content rather than trusting resealed relay metadata",
+      "trigger": "After a valid approved prepared stage, a local paired relay changes terminal PDF bytes to arbitrary bytes beginning %PDF- and recomputes export/report/manifest/stage hashes, retaining valid decision and review identity fields.",
+      "impact": "verify_stage reaches verify_rendered, whose PDF branch checks only the prefix and hash-shaped semantic/font fields. pdf::validate_manifest validates metadata identities but never ties PDF content or semantic_digest to the approved report. common only establishes self-consistent caller hashes. An unrelated or malformed PDF can therefore be reported as complete; the external_resources=false claim is also not inspected against bytes. Markdown/HTML branches reconstruct expected content and reject this substitution.",
+      "evidence": [
+        "agent/publication.rs:958-1098 public verifier call path",
+        "publication/relay.rs:237-260",
+        "publication/pdf.rs:562-606"
+      ],
+      "reproduction_status": "static complete call-path analysis; malicious PDF terminal-stage production invocation not executed. No claim of observed exploitation.",
+      "remediation": "Bind returned PDF to trusted renderer evidence or validate its actual allowed structure and expected approved semantics; negative-test substituted PDF with all unkeyed hashes recomputed. Do not treat digest self-consistency as content provenance.",
+      "owner": "#921 / CodeFriend publication-relay owner",
+      "acceptance_relevance": "Approved exact bytes, provenance, privacy and PDF publication parity.",
+      "disposition": "open"
+    },
+    {
+      "id": "SEC-004",
+      "severity": "P2",
+      "candidate": "a45e339c13b24716edbd3fadf29dddff36ffe02e",
+      "repository": "codefriend.ai",
+      "path": "app/http.mjs",
+      "line": 147,
+      "title": "Recheck browser authorization after reading a mutation body",
+      "trigger": "An authenticated browser begins POST /api/runs, logs out or expires while the body is still arriving, then completes the body.",
+      "impact": "The route retains user from the initial session check and dispatches the hosted review after revocation. Publication decision/render routes have the same pre-body authorization pattern. Gateway subject credentials do not bind the revoked browser session. Journey routes already reauthorize after asynchronous boundaries.",
+      "evidence": [
+        "app/http.mjs:121-123 initial authorization",
+        "app/http.mjs:147-155 body wait then dispatch",
+        "app/http.mjs:190-197 publication body waits",
+        "app/session.mjs:16-27 fresh revocation checks",
+        "security-probes/session_probe.mjs"
+      ],
+      "reproduction_status": "Executed actual frozen website application and Sessions on loopback with in-memory store and recording hosted adapter. Headers authenticate, session revoked before body completes, response 202 and one dispatch; fresh Sessions.require rejects. Unused crypto/parser imports replaced by throwing stubs, never called. No provider or external network.",
+      "remediation": "Centralize fresh authorization immediately after awaited body reads and before effect dispatch; recheck before releasing sensitive responses. Apply browser-session checks consistently across publication and run routes, retaining HMAC service identity handling separately.",
+      "owner": "#921 / CodeFriend website HTTP owner",
+      "acceptance_relevance": "CF hosted/local publication and paid review admission must respect current browser authority. Website source identity differs from ADL candidate and is an explicitly added review extension.",
+      "disposition": "open"
+    }
+  ]
+}

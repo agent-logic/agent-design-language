@@ -1,0 +1,50 @@
+{
+  "schema": "adl.pvf_lanes.v1",
+  "contract_version": "vpp.lane.v1",
+  "description": "Canonical lane-registry reference used by generated VPP cards. Detailed executable lane selection remains in adl/config/validation_lane_selector.v0.91.6.json.",
+  "source_registry": "adl/config/validation_lane_selector.v0.91.6.json",
+  "lanes": [
+    {
+      "id": "prompt_template",
+      "owner": "csdlc",
+      "proof_role": "prompt_template_contract",
+      "default_validation": "bash adl/tools/test_prompt_template_workflow_integration.sh"
+    },
+    {
+      "id": "tooling",
+      "owner": "tools",
+      "proof_role": "tooling_regression",
+      "default_validation": "bash adl/tools/run_owner_validation_lane.sh csdlc"
+    },
+    {
+      "id": "docs_only",
+      "owner": "docs",
+      "proof_role": "diff_hygiene",
+      "default_validation": "git diff --check"
+    },
+    {
+      "id": "owner_binary",
+      "owner": "tools",
+      "proof_role": "owner_binary_contract",
+      "default_validation": "bash adl/tools/test_owner_binary_install.sh"
+    },
+    {
+      "id": "runtime",
+      "owner": "runtime",
+      "proof_role": "runtime_regression",
+      "default_validation": "bash adl/tools/run_owner_validation_lane.sh runtime"
+    },
+    {
+      "id": "provider",
+      "owner": "provider",
+      "proof_role": "provider_regression",
+      "default_validation": "provider-specific acceptance proof"
+    },
+    {
+      "id": "needs_planning_lane_assignment",
+      "owner": "unassigned",
+      "proof_role": "fail_closed_planning_required",
+      "default_validation": "select a concrete validation lane before execution"
+    }
+  ]
+}

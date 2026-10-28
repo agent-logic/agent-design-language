@@ -1,0 +1,19 @@
+flowchart TD
+  CONTRACT["DRT-01 qualification contract"] --> ACIP["DRT-02 deterministic ACIP and replay"]
+  PROD["External gate: terminal #142 production Runtime"] --> WUJI
+  ACIP --> WUJI["DRT-03 Wuji three-voter proof"]
+  subgraph LOCAL["Wuji topology"]
+    V1["Voter 1"]
+    V2["Voter 2"]
+    V3["Voter 3"]
+    AGENTS["Three governed agents"]
+    SHEPHERD["One non-voting Shepherd"]
+    OBS["One Observatory lease owner"]
+  end
+  WUJI --> LOCAL
+  WUJI --> HYBRID["DRT-04 Wuji plus two private AWS AZs"]
+  HYBRID --> SECURITY["DRT-05 identity, TLS, capability, provider failure"]
+  HYBRID --> OBSERVATORY["DRT-06 coherent Observatory evidence"]
+  SECURITY --> SOAK["DRT-07 soak, replay, resource cleanup, synthesis"]
+  OBSERVATORY --> SOAK
+  SOAK --> LEDGER["Exact revisions, fault receipts, replay digests, zero leaked resources"]

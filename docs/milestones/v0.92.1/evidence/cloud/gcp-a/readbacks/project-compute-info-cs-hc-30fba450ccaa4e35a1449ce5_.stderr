@@ -1,0 +1,13 @@
+ERROR: (gcloud.compute.project-info.describe) [daniel@agent-logic.ai] does not have permission to access projects instance [cs-hc-30fba450ccaa4e35a1449ce5] (or it may not exist): Compute Engine API has not been used in project cs-hc-30fba450ccaa4e35a1449ce5 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/compute.googleapis.com/overview?project=cs-hc-30fba450ccaa4e35a1449ce5 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry. This command is authenticated as daniel@agent-logic.ai which is the active account specified by the [core/account] property.
+Compute Engine API has not been used in project cs-hc-30fba450ccaa4e35a1449ce5 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/compute.googleapis.com/overview?project=cs-hc-30fba450ccaa4e35a1449ce5 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry.
+Google developers console API activation
+https://console.developers.google.com/apis/api/compute.googleapis.com/overview?project=cs-hc-30fba450ccaa4e35a1449ce5
+- '@type': type.googleapis.com/google.rpc.ErrorInfo
+  domain: googleapis.com
+  metadata:
+    activationUrl: https://console.developers.google.com/apis/api/compute.googleapis.com/overview?project=cs-hc-30fba450ccaa4e35a1449ce5
+    consumer: projects/cs-hc-30fba450ccaa4e35a1449ce5
+    containerInfo: cs-hc-30fba450ccaa4e35a1449ce5
+    service: compute.googleapis.com
+    serviceTitle: Compute Engine API
+  reason: SERVICE_DISABLED

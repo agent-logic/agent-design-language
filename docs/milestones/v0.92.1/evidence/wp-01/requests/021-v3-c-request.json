@@ -1,0 +1,27 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "action": "issue_create",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:V3-C:create",
+  "token_file": null,
+  "issue": null,
+  "pull_request": null,
+  "title": "[v0.92.1][V3-C] C-SDLC v3 lifecycle kernel",
+  "body": "## Outcome\n\nProduce one transactional C-SDLC v3 lifecycle-kernel slice.\n\n## Primary deliverable\n\nOne transactional C-SDLC v3 lifecycle-kernel slice with recovery and typed adapters.\n\n## Verification result\n\nTransition, failure-injection, and recovery-replay tests pass for requirements 168 through 170.\n\n## Unit boundary\n\nIssue completion is exactly delivery of one transactional lifecycle-kernel slice; storage and adapters are inseparable implementation parts.\n\n## Dependencies\n\n- V3-B: #501\n\n## Retained predecessor scope\n\n- #168\n- #169\n- #170\n\n## Acceptance criteria\n\n- [ ] Transitions are capability-checked and atomic\n- [ ] Recovery preserves audit provenance\n- [ ] Requirements 168 through 170 pass failure-injection tests\n\n## Owned paths\n\n- `csdlc-v3/src/lifecycle/**`\n- `csdlc-v3/src/storage/**`\n- `csdlc-v3/src/adapters/**`\n- `csdlc-v3/tests/transactions/**`\n\n## PVF lanes\n\n- `transition-matrix`\n- `transaction-failure`\n- `recovery-replay`\n- `strict-clippy`\n\n## Stop conditions\n\n- Partial writes can acquire authority\n- Recovery loses provenance\n\n## Non-goals\n\n- Publication\n- v2 migration\n\n## Canonical planning identity\n\n- Planned ID: `V3-C`\n- Canonical title: `[v0.92.1][V3-C] C-SDLC v3 lifecycle kernel`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#V3-C`\n",
+  "labels": [
+    "area:csdlc",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "assignees": [
+
+  ],
+  "milestone": 1,
+  "state": null,
+  "comment_body": null,
+  "required_checks": [
+
+  ],
+  "require_review": false,
+  "linked_issue": null
+}

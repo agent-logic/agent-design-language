@@ -1,0 +1,65 @@
+{
+  "schema": "adl.v0921.wp01.operation-observed.v1",
+  "kind": "child_create",
+  "planned_id": "INT-01",
+  "issue": 516,
+  "title": "[v0.92.1][INT-01] Release-tail admission",
+  "labels": [
+    "area:quality",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "milestone": 1,
+  "state": "open",
+  "dependencies": {
+    "CORP-D": 498,
+    "AWS-G": 496,
+    "GCP-E": 494,
+    "XCL-01": 495,
+    "RUST-01": 499,
+    "V3-F": 505,
+    "DRT-C": 508,
+    "DRT-D": 509,
+    "issue-51": 51,
+    "HOT-01": 510,
+    "OBS-B": 512,
+    "DEC-01": 513,
+    "PROV-B": 515
+  },
+  "body_sha256": "bdc832e0b4ace9e6dd800162becd510a6f5771a1c1eb61fc3db1b1de48abfc75",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:INT-01:create",
+  "request_fingerprint": "c793a5e31145d72b541544aec097965c3eb72d6918b08ecb1cdc11c1f7a43e84",
+  "planning_digest": "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251",
+  "specification_sha256": "2a0e65a2f3508f81624b3eb93fce40c8abc86fc0e7587be027df7cd21b503dd5",
+  "live_response": {
+    "action": "issue_create",
+    "comment_id": null,
+    "issue": {
+      "assignees": [
+
+      ],
+      "body": "## Outcome\n\nProduce one immutable release-tail admission record for the converged milestone candidate.\n\n## Primary deliverable\n\nOne immutable release-tail admission record indexing every reviewed-green ancestral execution root.\n\n## Verification result\n\nThe admission validator reports the exact root denominator, revisions, artifacts, ancestry, and zero unresolved collisions.\n\n## Unit boundary\n\nIssue completion is exactly one admission decision; lane receipts are evidence inputs and lane remediation remains separately owned.\n\n## Dependencies\n\n- CORP-D: #498\n- AWS-G: #496\n- GCP-E: #494\n- XCL-01: #495\n- RUST-01: #499\n- V3-F: #505\n- DRT-C: #508\n- DRT-D: #509\n- issue-51: #51\n- HOT-01: #510\n- OBS-B: #512\n- DEC-01: #513\n- PROV-B: #515\n\n## Retained predecessor scope\n\n- None; this is new v0.92.1 work.\n\n## Acceptance criteria\n\n- [ ] Every lane is reviewed merged and ancestral\n- [ ] Exact revisions and artifacts are indexed\n- [ ] Cross-lane collisions are resolved by owners\n\n## Owned paths\n\n- `docs/milestones/v0.92.1/evidence/integration/**`\n- `docs/milestones/v0.92.1/DEMO_MATRIX_v0.92.1.md`\n\n## PVF lanes\n\n- `merged-authority-census`\n- `ancestry`\n- `artifact-index`\n- `collision-check`\n\n## Stop conditions\n\n- Any lane lacks reviewed merged authority\n- Evidence revisions disagree\n\n## Non-goals\n\n- Implementing child fixes\n- Release approval\n\n## Canonical planning identity\n\n- Planned ID: `INT-01`\n- Canonical title: `[v0.92.1][INT-01] Release-tail admission`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#INT-01`\n<!-- csdlc-github-operation:v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:INT-01:create -->\n",
+      "closed_at": null,
+      "created_at": "2026-08-26T03:22:56Z",
+      "labels": [
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1",
+        "area:quality"
+      ],
+      "marker_present": true,
+      "milestone": 1,
+      "number": 516,
+      "repository": "agent-logic/agent-design-language",
+      "schema": "csdlc.github_issue.v1",
+      "state": "open",
+      "title": "[v0.92.1][INT-01] Release-tail admission"
+    },
+    "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:INT-01:create",
+    "pr_state": null,
+    "reconciled": true,
+    "repository": "agent-logic/agent-design-language",
+    "schema": "csdlc.github_action_result.v1"
+  }
+}

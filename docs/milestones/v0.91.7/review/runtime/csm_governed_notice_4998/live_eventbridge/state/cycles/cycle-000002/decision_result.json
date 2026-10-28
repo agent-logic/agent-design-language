@@ -1,0 +1,17 @@
+{
+  "agent_instance_id": "csm-governed-notice-4998-eventbridge",
+  "cycle_id": "cycle-000002",
+  "decision": {
+    "action": "blocked",
+    "paper_only": true,
+    "summary": "Cycle blocked before workflow execution because the configured contract failed required guardrails.",
+    "workflow_ref": "governed_notice_eventbridge_failure_probe"
+  },
+  "not_financial_advice": true,
+  "provider": {
+    "model": null,
+    "source": "unsupported_adapter"
+  },
+  "schema": "adl.long_lived_agent_decision_result.v1",
+  "status": "rejected"
+}

@@ -1,0 +1,12 @@
+flowchart LR
+  V2["v2 normalized behavior"] --> PARITY["shadow parity matrix"]
+  V3["v3 normalized behavior"] --> PARITY
+  PARITY --> FENCE["archive v2 snapshot + writer fence"]
+  FENCE --> CANARY["v3-only canary cohort"]
+  DEFECTS["known v2 defect register"] --> CANARY
+  CANARY --> DELTA["freeze + final delta"]
+  DELTA --> REVIEW["independent exact-head review"]
+  REVIEW --> APPROVE["explicit operator approval"]
+  APPROVE --> SELECTOR["single selector cutover"]
+  SELECTOR --> AUDIT["post-cutover authority audit"]
+  AUDIT --> ROLLBACK["time-bounded read-only rollback surface"]

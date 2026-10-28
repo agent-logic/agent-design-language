@@ -1,0 +1,13 @@
+{
+  "schema": "adl.v0921.wp01.operation-intent.v1",
+  "kind": "child_create",
+  "planned_id": "CORP-D",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:CORP-D:create",
+  "request_fingerprint": "d7f574f9489a3f40aa471941ca9de420645f2ca8306d27d56692983a1876e942",
+  "planning_digest": "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251",
+  "dependencies": {
+    "CORP-A": 482,
+    "CORP-B": 483,
+    "CORP-C": 497
+  }
+}

@@ -1,0 +1,201 @@
+{
+  "schema": "adl.v0921.wp01.sprint-umbrella-membership-update.v1",
+  "repository": "agent-logic/agent-design-language",
+  "conductor_issue": 480,
+  "membership_version": 3,
+  "change_reason": "Add explicit monotonic membership versioning and portable typed update authority.",
+  "umbrellas": [
+    {
+      "sprint": 1,
+      "name": "Independent foundations",
+      "issue": 529,
+      "title": "[v0.92.1][Sprint 1] Independent foundations",
+      "members": [
+        482,
+        483,
+        510,
+        513,
+        514,
+        499
+      ],
+      "membership_version": 3,
+      "change_reason": "Add explicit monotonic membership versioning and portable typed update authority.",
+      "operation_key": "v0921-wp01:sprint-1:membership-v3-update",
+      "result_sha256": "28de524a4a5edffaf4361a00cba17a6534cacd975c3b994b9df9e79ac46f2d51"
+    },
+    {
+      "sprint": 2,
+      "name": "Parallel cloud foundations",
+      "issue": 530,
+      "title": "[v0.92.1][Sprint 2] Parallel cloud foundations",
+      "members": [
+        484,
+        485,
+        486,
+        487,
+        488,
+        490,
+        491,
+        492,
+        493,
+        122,
+        251,
+        84,
+        345
+      ],
+      "membership_version": 3,
+      "change_reason": "Add explicit monotonic membership versioning and portable typed update authority.",
+      "operation_key": "v0921-wp01:sprint-2:membership-v3-update",
+      "result_sha256": "b273f38aedf710108345f8fc981bf5823336c5a3ba16bb5f06b171534a0ea7e9"
+    },
+    {
+      "sprint": 3,
+      "name": "Cloud convergence",
+      "issue": 531,
+      "title": "[v0.92.1][Sprint 3] Cloud convergence",
+      "members": [
+        495,
+        489,
+        496,
+        494
+      ],
+      "membership_version": 3,
+      "change_reason": "Add explicit monotonic membership versioning and portable typed update authority.",
+      "operation_key": "v0921-wp01:sprint-3:membership-v3-update",
+      "result_sha256": "7c3e8b2c5e1bd471607ec48ebc7899f175e6057008800fe5f1b3fb46d1cd80ff"
+    },
+    {
+      "sprint": 4,
+      "name": "Corporate acceptance",
+      "issue": 532,
+      "title": "[v0.92.1][Sprint 4] Corporate acceptance",
+      "members": [
+        497,
+        498
+      ],
+      "membership_version": 3,
+      "change_reason": "Add explicit monotonic membership versioning and portable typed update authority.",
+      "operation_key": "v0921-wp01:sprint-4:membership-v3-update",
+      "result_sha256": "12d8ab83cd88abebc3c21bc0a7dc9ad18082a7fc612ba134df3eea72b4c29cae"
+    },
+    {
+      "sprint": 5,
+      "name": "C-SDLC v3 foundation",
+      "issue": 533,
+      "title": "[v0.92.1][Sprint 5] C-SDLC v3 foundation",
+      "members": [
+        500,
+        501,
+        502
+      ],
+      "membership_version": 3,
+      "change_reason": "Add explicit monotonic membership versioning and portable typed update authority.",
+      "operation_key": "v0921-wp01:sprint-5:membership-v3-update",
+      "result_sha256": "beec8ee79c7d914979962455f56b8af1242fb641e3cb17d95cd327ddf130f33c"
+    },
+    {
+      "sprint": 6,
+      "name": "C-SDLC v3 delivery and cutover",
+      "issue": 534,
+      "title": "[v0.92.1][Sprint 6] C-SDLC v3 delivery and cutover",
+      "members": [
+        503,
+        504,
+        505
+      ],
+      "membership_version": 3,
+      "change_reason": "Add explicit monotonic membership versioning and portable typed update authority.",
+      "operation_key": "v0921-wp01:sprint-6:membership-v3-update",
+      "result_sha256": "c89c3a347b35598ef9da6825c1df902b98532863886ed14531d0aa1865298c40"
+    },
+    {
+      "sprint": 7,
+      "name": "Distributed Runtime qualification",
+      "issue": 535,
+      "title": "[v0.92.1][Sprint 7] Distributed Runtime qualification",
+      "members": [
+        506,
+        345,
+        507,
+        508,
+        509
+      ],
+      "membership_version": 3,
+      "change_reason": "Add explicit monotonic membership versioning and portable typed update authority.",
+      "operation_key": "v0921-wp01:sprint-7:membership-v3-update",
+      "result_sha256": "ea6328517e6b71cafd96f7804970299e0585d3c73cea6462ff66402672c256bc"
+    },
+    {
+      "sprint": 8,
+      "name": "Product lanes",
+      "issue": 536,
+      "title": "[v0.92.1][Sprint 8] Product lanes",
+      "members": [
+        51,
+        261,
+        262,
+        263,
+        264,
+        342,
+        511,
+        251,
+        122,
+        345,
+        84,
+        512
+      ],
+      "membership_version": 3,
+      "change_reason": "Add explicit monotonic membership versioning and portable typed update authority.",
+      "operation_key": "v0921-wp01:sprint-8:membership-v3-update",
+      "result_sha256": "be0c20061d167e8e6c011eaf1f6930c2b60fa6010d143d438b9d52037550c13d"
+    },
+    {
+      "sprint": 9,
+      "name": "Provider comparison and convergence",
+      "issue": 537,
+      "title": "[v0.92.1][Sprint 9] Provider comparison and convergence",
+      "members": [
+        515,
+        516,
+        517,
+        518,
+        519
+      ],
+      "membership_version": 3,
+      "change_reason": "Add explicit monotonic membership versioning and portable typed update authority.",
+      "operation_key": "v0921-wp01:sprint-9:membership-v3-update",
+      "result_sha256": "df1086431e474002e9016131fa36ba5312a7fe2801a0f3eaf797d38d7e599c88"
+    },
+    {
+      "sprint": 10,
+      "name": "Review and remediation",
+      "issue": 538,
+      "title": "[v0.92.1][Sprint 10] Review and remediation",
+      "members": [
+        520,
+        521,
+        522
+      ],
+      "membership_version": 3,
+      "change_reason": "Add explicit monotonic membership versioning and portable typed update authority.",
+      "operation_key": "v0921-wp01:sprint-10:membership-v3-update",
+      "result_sha256": "2815aa10e20f57954f7c48dde43874ad49c83f8d478ebb7494ece99347ece995"
+    },
+    {
+      "sprint": 11,
+      "name": "Handoff and release",
+      "issue": 539,
+      "title": "[v0.92.1][Sprint 11] Handoff and release",
+      "members": [
+        523,
+        524,
+        525,
+        526
+      ],
+      "membership_version": 3,
+      "change_reason": "Add explicit monotonic membership versioning and portable typed update authority.",
+      "operation_key": "v0921-wp01:sprint-11:membership-v3-update",
+      "result_sha256": "cece973c92217e5cb14c9f1ef6c155c7d6a76e5fe37d91a25fdb987af62ba82b"
+    }
+  ]
+}

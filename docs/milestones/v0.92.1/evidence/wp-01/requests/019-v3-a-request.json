@@ -1,0 +1,27 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "action": "issue_create",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:V3-A:create",
+  "token_file": null,
+  "issue": null,
+  "pull_request": null,
+  "title": "[v0.92.1][V3-A] C-SDLC v3 contract and construction decision",
+  "body": "## Outcome\n\nProduce one reviewed C-SDLC v3 contract and construction-decision packet.\n\n## Primary deliverable\n\nOne reviewed C-SDLC v3 contract and construction decision packet.\n\n## Verification result\n\nContract, predecessor-coverage, architecture-boundary, and rollback checks pass for requirements 161 through 163.\n\n## Unit boundary\n\nIssue completion is exactly acceptance of one v3 contract and construction decision; its checks are evidence inputs.\n\n## Dependencies\n\n- None.\n\n## Retained predecessor scope\n\n- #161\n- #162\n- #163\n\n## Acceptance criteria\n\n- [ ] The v3 authority boundary and compatibility posture are explicit\n- [ ] Requirements 161 through 163 are mapped exactly\n- [ ] Construction and rollback decisions are reviewable\n\n## Owned paths\n\n- `docs/csdlc-v3/**`\n- `csdlc-v3/Cargo.toml`\n- `csdlc-v3/src/lib.rs`\n\n## PVF lanes\n\n- `contract-schema`\n- `predecessor-coverage`\n- `architecture-boundary`\n- `diff-hygiene`\n\n## Stop conditions\n\n- The v2 coexistence boundary is ambiguous\n- A predecessor requirement is unmapped\n\n## Non-goals\n\n- Authority cutover\n- v2 retirement\n\n## Canonical planning identity\n\n- Planned ID: `V3-A`\n- Canonical title: `[v0.92.1][V3-A] C-SDLC v3 contract and construction decision`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#V3-A`\n",
+  "labels": [
+    "area:csdlc",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "assignees": [
+
+  ],
+  "milestone": 1,
+  "state": null,
+  "comment_body": null,
+  "required_checks": [
+
+  ],
+  "require_review": false,
+  "linked_issue": null
+}

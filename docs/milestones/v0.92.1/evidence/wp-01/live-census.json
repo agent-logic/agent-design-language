@@ -1,0 +1,3915 @@
+{
+  "schema": "adl.v0921.wp01.live-census.v1",
+  "planning_digest": "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251",
+  "issues": [
+    {
+      "number": 526,
+      "title": "[v0.92.1][TAIL-10] Release ceremony",
+      "state": "open",
+      "labels": [
+        "area:release",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "02f579216b80fc01ac74a9164c6fb45e7e9a76215e701612d786f80b7dc85e3d"
+    },
+    {
+      "number": 525,
+      "title": "[v0.92.1][TAIL-09] Next milestone review pass",
+      "state": "open",
+      "labels": [
+        "area:review",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "d821033f70949d124561707a2c0695e5658b3840c624193a6fbe4d2d60bb25b6"
+    },
+    {
+      "number": 524,
+      "title": "[v0.92.1][TAIL-08] Next-milestone closeout plan",
+      "state": "open",
+      "labels": [
+        "area:docs",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "dee18baa7b49045d468368d4214903945428c817d92acfd846ab6f52b4cadfe0"
+    },
+    {
+      "number": 523,
+      "title": "[v0.92.1][TAIL-07] Next-milestone planning",
+      "state": "open",
+      "labels": [
+        "area:docs",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "f53832c263ed388906088613e36db322bc5079c4c394228282907dd3ba9ecc86"
+    },
+    {
+      "number": 522,
+      "title": "[v0.92.1][TAIL-06] Review findings remediation",
+      "state": "open",
+      "labels": [
+        "area:quality",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "8368a0f1a7017bc1046468d6322d3ed672edd054dbef5a1fd67f895988029de8"
+    },
+    {
+      "number": 521,
+      "title": "[v0.92.1][TAIL-05] External / third-party review",
+      "state": "open",
+      "labels": [
+        "area:review",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "034fc1f00f203864deab59bf1e85202974ec271e49c64eee8c423446c56a4bf9"
+    },
+    {
+      "number": 520,
+      "title": "[v0.92.1][TAIL-04] Internal review",
+      "state": "open",
+      "labels": [
+        "area:review",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "4782d75d2a230bf999a01eb4fee5d95da5b111521937f08e99f1c38c43116c57"
+    },
+    {
+      "number": 519,
+      "title": "[v0.92.1][TAIL-03] Publication finalization",
+      "state": "open",
+      "labels": [
+        "area:docs",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "fd818a37b51e4a7760f88890fce73daa5e5bbf66bc4cc67f09b3c4e9c34d2baf"
+    },
+    {
+      "number": 518,
+      "title": "[v0.92.1][TAIL-02] Documentation review and external-review handoff",
+      "state": "open",
+      "labels": [
+        "area:docs",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "2649eb38c9bdd0a4bae00e3b5501fae234d636cdde9d4321bf2937aa57d6e4b6"
+    },
+    {
+      "number": 517,
+      "title": "[v0.92.1][TAIL-01] Quality gate",
+      "state": "open",
+      "labels": [
+        "area:quality",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "be7b38e2ee5fd0886edcefb308c6d44fb822da753189cefdcc157f008a8cf5bc"
+    },
+    {
+      "number": 516,
+      "title": "[v0.92.1][INT-01] Release-tail admission",
+      "state": "open",
+      "labels": [
+        "area:quality",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "bdc832e0b4ace9e6dd800162becd510a6f5771a1c1eb61fc3db1b1de48abfc75"
+    },
+    {
+      "number": 515,
+      "title": "[v0.92.1][PROV-B] Local-model shadow execution",
+      "state": "open",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "94861a193268444082f684539bc8859a24ed5d4419d45630b2f4bad6d1905a84"
+    },
+    {
+      "number": 514,
+      "title": "[v0.92.1][PROV-A] Shared provider inference profiles",
+      "state": "open",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "aec50362715ab239688f9d0002efd0ed59454697bc715f1f172bd2c9d4ec0e62"
+    },
+    {
+      "number": 513,
+      "title": "[v0.92.1][DEC-01] Runtime v2/v3 authority separation",
+      "state": "open",
+      "labels": [
+        "area:architecture",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "92458007b306be853b0973959e3ef351f4e143df555d3e54148cb68f01996acb"
+    },
+    {
+      "number": 512,
+      "title": "[v0.92.1][OBS-B] Observatory redesign implementation",
+      "state": "open",
+      "labels": [
+        "area:observatory",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "b2027abd7c47f16f561a7111f16793150053a3352392ee5adf5e5c6e7d5196f6"
+    },
+    {
+      "number": 511,
+      "title": "[v0.92.1][OBS-A] Observatory experience design",
+      "state": "open",
+      "labels": [
+        "area:observatory",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "802c05ebc9d3cdbde52df18fa4256c692b145d2c67c96fcbb0cde3d3164910fb"
+    },
+    {
+      "number": 510,
+      "title": "[v0.92.1][HOT-01] Axum configuration hot reload",
+      "state": "open",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "4565074b5422e3011f118a95055dc59f5743b4ad0d13fc6fd5d6ef342e5baf1e"
+    },
+    {
+      "number": 509,
+      "title": "[v0.92.1][DRT-D] GCP portability qualification",
+      "state": "open",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "cd4bae179aa18920cc8b7c65570eec54316307fa0a99e3faa8ba8fe1a13cd763"
+    },
+    {
+      "number": 508,
+      "title": "[v0.92.1][DRT-C] Final distributed Runtime qualification",
+      "state": "open",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "a64395c689d98db3d722a1be6ba4a81a4f1d29b89d5c57d98bb8d5d4b2354a17"
+    },
+    {
+      "number": 507,
+      "title": "[v0.92.1][DRT-B] Six-resident UTS qualification",
+      "state": "open",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "77163546d5d26e5f99f7f2b219e72dd4d4de9446bfa40c96f3eeb56a363e6382"
+    },
+    {
+      "number": 506,
+      "title": "[v0.92.1][DRT-A] Distributed qualification contract",
+      "state": "open",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "d2a4c2092dfb84c360aa1b0a15ac227055828de30fa5bc6322281689df594f0d"
+    },
+    {
+      "number": 505,
+      "title": "[v0.92.1][V3-F] C-SDLC v3 authority-transition decision",
+      "state": "open",
+      "labels": [
+        "area:csdlc",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "92ffda4b2fa18606f739db140b1ff4d6e473530df9a96e4f57058263ec9ca0a1"
+    },
+    {
+      "number": 504,
+      "title": "[v0.92.1][V3-E] C-SDLC v3 remote delivery workflow",
+      "state": "open",
+      "labels": [
+        "area:csdlc",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "b6df78a98899b7d4d6e62076b025cb2fd0ebb7eb0b5ccf9741abfd7591f7c0fe"
+    },
+    {
+      "number": 503,
+      "title": "[v0.92.1][V3-D] C-SDLC v3 local preparation workflow",
+      "state": "open",
+      "labels": [
+        "area:csdlc",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "b11ae93ba2da32c15a534742a1ddd972d1b6a6994c240821c54ad9be45e5b1fd"
+    },
+    {
+      "number": 502,
+      "title": "[v0.92.1][V3-C] C-SDLC v3 lifecycle kernel",
+      "state": "open",
+      "labels": [
+        "area:csdlc",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "4b12807e615bd7055ced149d274bcb62a8e86b36a90d288f3cf5533590ca8cb7"
+    },
+    {
+      "number": 501,
+      "title": "[v0.92.1][V3-B] C-SDLC v3 foundation",
+      "state": "open",
+      "labels": [
+        "area:csdlc",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "819051a4dfde6e01440592f6c8528152cf573fad294211a29d95d4f2b044cee3"
+    },
+    {
+      "number": 500,
+      "title": "[v0.92.1][V3-A] C-SDLC v3 contract and construction decision",
+      "state": "open",
+      "labels": [
+        "area:csdlc",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "94f1b1f3ce401b17a1f69d5fa53a01c8f0a366e417aefa0de646066fdf4b0a7b"
+    },
+    {
+      "number": 499,
+      "title": "[v0.92.1][RUST-01] Resilience owner-boundary refactoring",
+      "state": "open",
+      "labels": [
+        "area:architecture",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "a6043672fac5efb43d0ac0f643422f0f625ac731e46f78bc10e0ae3a029339e5"
+    },
+    {
+      "number": 498,
+      "title": "[v0.92.1][CORP-D] Corporate diligence acceptance",
+      "state": "open",
+      "labels": [
+        "area:security",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "5ed99c97c1b5338af76f2d728a669f0d0bd27f12b63f766ed040b9640255be83"
+    },
+    {
+      "number": 497,
+      "title": "[v0.92.1][CORP-C] Corporate operational-control transfer",
+      "state": "open",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "144175d24944e985963a17755b5445563667e1f8bde941c18ec545d350462210"
+    },
+    {
+      "number": 496,
+      "title": "[v0.92.1][AWS-G] AWS CloudFormation retirement decision",
+      "state": "open",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "753e13741490acd8209fa9167f0d492190d0460faffe0a15a6951dfafa6cafb0"
+    },
+    {
+      "number": 495,
+      "title": "[v0.92.1][XCL-01] Cross-cloud Runtime Terraform conversion",
+      "state": "open",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "2e937f317f2bb2d2c5212e2714061b7490d0be8acb28d6736899b76463934bd9"
+    },
+    {
+      "number": 494,
+      "title": "[v0.92.1][GCP-E] GCP GPU readiness smoke test",
+      "state": "open",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "6a26fecc25ceb4d11ea391fbec661b6075b337f0fd5f519ae1c572508684e7a6"
+    },
+    {
+      "number": 493,
+      "title": "[v0.92.1][GCP-D] GCP private platform foundation",
+      "state": "open",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "a63ff4b880c502a5ce60559d011fc07614a5affcd8aab55473f21348a7570fab"
+    },
+    {
+      "number": 492,
+      "title": "[v0.92.1][GCP-C] GCP organization and billing baseline",
+      "state": "open",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "a1bf2ee2720092fba9d254282b64fc37cf1c206db334169f89ade94940e769ae"
+    },
+    {
+      "number": 491,
+      "title": "[v0.92.1][GCP-B] GCP Terraform bootstrap",
+      "state": "open",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "1600cbcae0bb9841151f1a9d7638e30a380df35cd75a8860f13faec159fb4185"
+    },
+    {
+      "number": 490,
+      "title": "[v0.92.1][GCP-A] GCP hierarchy and cost decision",
+      "state": "open",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "c6ddd7755ac8a6b99de2f18d4046821db692b396dceb10ce555f2a2719a52650"
+    },
+    {
+      "number": 489,
+      "title": "[v0.92.1][AWS-F] AWS Runtime platform modules",
+      "state": "open",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "aa8bcdf27704777622a8e78f13f4321e94c4ac6451279b0b5333578135add187"
+    },
+    {
+      "number": 488,
+      "title": "[v0.92.1][AWS-E] AWS resource adoption register",
+      "state": "open",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "863b6ffd59ab2567f392a67f6d9e92e234b8d33c6b85d8385fa44d0260e30ad6"
+    },
+    {
+      "number": 487,
+      "title": "[v0.92.1][AWS-D] AWS audit and security baseline",
+      "state": "open",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "fc348488525589c0f36c16eed31673e10c23b629ea724166f75701b5366145b5"
+    },
+    {
+      "number": 486,
+      "title": "[v0.92.1][AWS-C] AWS Terraform bootstrap",
+      "state": "open",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "d9d97ddbf8385188b400b0a91865ff924151285ad3cfabfd1b1d2d233da2c71a"
+    },
+    {
+      "number": 485,
+      "title": "[v0.92.1][AWS-B] AWS access and billing baseline",
+      "state": "open",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "4c1bf5fd6a9efa586b17e330513639d7abe01ba5454b8d280513d3b40a85862b"
+    },
+    {
+      "number": 484,
+      "title": "[v0.92.1][AWS-A] AWS resource ownership inventory",
+      "state": "open",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "2ef3762f0231d5c4d363e252c660401b43ff5ba802a812ee0f62a6792e9e2992"
+    },
+    {
+      "number": 483,
+      "title": "[v0.92.1][CORP-B] Corporate account custody register",
+      "state": "open",
+      "labels": [
+        "area:security",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "d61cbe6e73811f24c5e67e3c4676bdbf290293e5029eec6d7ca33767590778ef"
+    },
+    {
+      "number": 482,
+      "title": "[v0.92.1][CORP-A] Critical-asset schedule",
+      "state": "open",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "fce7f0d242bba48032f7bc2f01d3c00c217b23ef6cabefe12e6caf734cf5f444"
+    },
+    {
+      "number": 480,
+      "title": "[v0.92.1][WP-01] Open the v0.92.1 milestone and create the execution wave",
+      "state": "open",
+      "labels": [
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "7958f0aec209419b143301e1f929788ed48edf6c4ee12a883a6884aabe08bea0"
+    },
+    {
+      "number": 476,
+      "title": "[v0.92][WP-27] Reconcile post-merge review truth",
+      "state": "closed",
+      "labels": [
+        "type:defect",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "7d10c02e19fc630c5472dd3628e702ecbaccfe25af33fdab52b7a3ad0bad2236"
+    },
+    {
+      "number": 471,
+      "title": "[Runtime v3] Make kernel wiring, contracts, and supervision authoritative",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "ac7f5cca49ddc43dd6d38a3fa8af49af929b45c0163e2a3d827774a4df75332a"
+    },
+    {
+      "number": 467,
+      "title": "[v0.92][WP-22A] Repair quality-gate evidence hydration and release-credit semantics",
+      "state": "closed",
+      "labels": [
+        "area:review",
+        "type:task",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "dd8b0a7e91822289c737c22a105f13c99c289a1f4cdb9bcd3939537800fc5166"
+    },
+    {
+      "number": 461,
+      "title": "[v0.92][Runtime Security] Make lifecycle TLS authority config-only",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "0eddee5e76ef52e6b574e920b8c57ff86a62ef1c89bc95ce755e65ebed82f05e"
+    },
+    {
+      "number": 457,
+      "title": "[v0.92.1][planning] Refine C-SDLC v3 authority and PVF contracts",
+      "state": "closed",
+      "labels": [
+        "area:tooling",
+        "documentation",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "cf9b9918a25083f84f6c805ff29d69a491519a7963800feaf1d67a4d391bc55d"
+    },
+    {
+      "number": 454,
+      "title": "[Tooling] Bridge fresh subagent review identity into typed design approval",
+      "state": "closed",
+      "labels": [
+
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "f973cc851a14a1342d193aa3ed1874a0a588c4909dd5eb0b91cee4b18789bbdd"
+    },
+    {
+      "number": 452,
+      "title": "[v0.92][C-SDLC][defect] Fix csdlc-install regular-file selector false rejection",
+      "state": "closed",
+      "labels": [
+        "area:tooling",
+        "track:roadmap",
+        "type:defect",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "50709b2f2ffdda508e7013565f72895b08e1b86c01c7eb572a2993290df18a19"
+    },
+    {
+      "number": 451,
+      "title": "[v0.92][Runtime] Compose the production birthday and witness activation path",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "e00f054d76a94fcd5d1f373cad7cf319e21f67ce66e947c25c9de2729c50628e"
+    },
+    {
+      "number": 450,
+      "title": "[v0.92][Runtime] Converge Memory Palace production authority",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "78e76dc0eee34ccb05794eb0cde4c9a4cd2f0551e57b9d45a3de1448316eeca6"
+    },
+    {
+      "number": 449,
+      "title": "[v0.92][Runtime] Wire governed Adaptive Learning into resident execution",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "0009e5b5d2f7544e4a321b5c75a608820832ad938acdc6a35d2e88bc03cbb553"
+    },
+    {
+      "number": 448,
+      "title": "[v0.92][Runtime] Wire capability envelopes and governed cognitive profiles into resident cycles",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "fd885f182155dd4003de5e2cabfc006fc9a5fd6f1828c81ec909b155a82c984d"
+    },
+    {
+      "number": 446,
+      "title": "[v0.92][Runtime] Wire ACC-governed tool execution into resident-agent cycles",
+      "state": "closed",
+      "labels": [
+
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "8add8339407745eace5892197b98ef0b4ddc1b7d98c9e3b9cc74b9a6f839a818"
+    },
+    {
+      "number": 443,
+      "title": "[v0.92][ci] Route #341 provider-neutral proof through focused validation",
+      "state": "closed",
+      "labels": [
+        "area:quality",
+        "area:tooling",
+        "type:defect",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "a42b1da012765cf759482a6f87fe9a5cb5d102184b55c738df19994fd466f60d"
+    },
+    {
+      "number": 439,
+      "title": "[v0.92.1][handoff] Seed v0.92.2 CodeFriend Beta 1 planning",
+      "state": "closed",
+      "labels": [
+        "area:review",
+        "track:roadmap",
+        "type:planning",
+        "version:v0.92.1"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "e7515dbeabd6d72487073adb14eb8db4f669c4ce12ec0be0135568d039555272"
+    },
+    {
+      "number": 438,
+      "title": "[v0.92.1][integration] Review and release the six-lane milestone",
+      "state": "closed",
+      "labels": [
+        "area:review",
+        "track:roadmap",
+        "type:planning",
+        "version:v0.92.1"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "821168658e07c3094b277be68ee1d172d2054120d63ed50aec56cb5ed9dfac2f"
+    },
+    {
+      "number": 437,
+      "title": "[v0.92.1][observatory] Redesign Observatory around authentic Runtime authority",
+      "state": "closed",
+      "labels": [
+        "area:observatory",
+        "track:roadmap",
+        "type:planning",
+        "version:v0.92.1"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "2dc771dbf11f89d9121aac18130bada229931fe8212bf0da750539b0f3a4a569"
+    },
+    {
+      "number": 436,
+      "title": "[v0.92.1][runtime] Add validated Axum configuration hot reload",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:planning",
+        "version:v0.92.1"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "7da52431477a68054d6da751e40df8ae573a11455b816357c9c5269766ff64f6"
+    },
+    {
+      "number": 435,
+      "title": "[v0.92.1][runtime] Qualify distributed multi-agent Runtime with governed UTS work",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:planning",
+        "version:v0.92.1"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "8eebf1b390e8763220f0d6e31a12202481bb3efd7fa55ce3e207da7b1d66b0b1"
+    },
+    {
+      "number": 434,
+      "title": "[v0.92.1][C-SDLC v3] Reconcile closed design packets into the executable v3 program",
+      "state": "closed",
+      "labels": [
+        "area:tooling",
+        "track:roadmap",
+        "type:planning",
+        "version:v0.92.1"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "5c15a357dc8a9a67472b80bd8720d2112d2f474e02f68e31c91c2b2e35ff44f9"
+    },
+    {
+      "number": 433,
+      "title": "[v0.92.1][corporate] Complete remaining corporate and IP operational transfers",
+      "state": "closed",
+      "labels": [
+        "area:security",
+        "track:roadmap",
+        "type:planning",
+        "version:v0.92.1"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "85f9ce8b8299323dae4f38418c17e27ff67295b4481a0bd33175e5dae4e81a91"
+    },
+    {
+      "number": 432,
+      "title": "[v0.92.1][repository] Remove all tracked .adl paths and relocate required policy authority",
+      "state": "closed",
+      "labels": [
+        "area:docs",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "b62dc801b5b9139b255e665d582e51cc5c16ec28201d7481eb2114a14fe2d7b5"
+    },
+    {
+      "number": 431,
+      "title": "[v0.92.1][planning] Publish six-lane integration milestone package",
+      "state": "closed",
+      "labels": [
+        "area:docs",
+        "area:review",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "31bf9109737b8f6ccd7261643e7ee2aa3742baa08fd88b02d49bdd972a800ac1"
+    },
+    {
+      "number": 426,
+      "title": "[v0.92][runtime-v3][20.c1] Add Linux service control to CSMctl",
+      "state": "closed",
+      "labels": [
+
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "dc8ca4339c27b7e786b2f5bdbe075f0b9000c26bec2716801786351710cf948e"
+    },
+    {
+      "number": 425,
+      "title": "[v0.92][C-SDLC][defect] Recover recordless already-merged closeout authority",
+      "state": "closed",
+      "labels": [
+        "area:tooling",
+        "track:roadmap",
+        "type:defect",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "41b4e3b7a5a473a99e80a58f624865e8c73f32da3221f9b65e79b75b129772a5"
+    },
+    {
+      "number": 421,
+      "title": "[v0.92][C-SDLC][defect] Accept intentional deletion deliverables during readiness validation",
+      "state": "closed",
+      "labels": [
+        "area:tooling",
+        "track:roadmap",
+        "type:defect",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "a8add0280c8874ab8d6a749f3b7c5305de2943763a389162a60cf94fce6f7d81"
+    },
+    {
+      "number": 418,
+      "title": "[v0.92][C-SDLC policy] Permit audited gh break-glass during confirmed typed regressions",
+      "state": "closed",
+      "labels": [
+
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "3021b4a86e5166387f14d49a1b75d5f76f1c9eae0342e3cc41f350330fc07a14"
+    },
+    {
+      "number": 417,
+      "title": "[v0.92][C-SDLC][defect] Permit authored design refresh after implemented recovery repairs",
+      "state": "closed",
+      "labels": [
+        "area:tooling",
+        "type:bug",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "3667977bb3e8a761dab08c64b2e8f9122d222996b72144ab4bdd7d1d2fab6b14"
+    },
+    {
+      "number": 415,
+      "title": "[v0.92][AWS tooling][defect] Retain exact remote builder preflight failure diagnostics",
+      "state": "closed",
+      "labels": [
+        "area:tooling",
+        "track:roadmap",
+        "type:defect",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "2cfe10218372fbea4ad74af0932f646ea47c881d754af56063a36528b68fcddb"
+    },
+    {
+      "number": 414,
+      "title": "[v0.92][runtime-v3][integration] Wire resident Shepherd continuity into Spot reclamation",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "d8afe53505580111fc257defa8162347955c432b02ffe8bddcb9e19ffb9e5993"
+    },
+    {
+      "number": 407,
+      "title": "[tooling][csdlc-v2] Implemented-phase SIP recovery cannot repair review-blocking goal truth",
+      "state": "closed",
+      "labels": [
+        "area:tools",
+        "bug",
+        "csdlc-v2"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "c3b3a7f6752ab3cb4c06dd2f48f32fd4f545363adcb90480025db38502851d6d"
+    },
+    {
+      "number": 404,
+      "title": "[tooling][csdlc-v2] Implemented-phase STP recovery cannot repair repo inputs",
+      "state": "closed",
+      "labels": [
+
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "a5cb36228cf2f1e10c1695d42cd49be3e1aafad5dec074699fc55086739ddf84"
+    },
+    {
+      "number": 401,
+      "title": "[C-SDLC v2][defect] Permit implemented-phase STP dependency truth repair after review recovery",
+      "state": "closed",
+      "labels": [
+        "area:tooling",
+        "track:roadmap",
+        "type:defect",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "d6e6a9e4e7a5b57e5446c22cdb3653890f48175bcc18307cce618477a63e64e6"
+    },
+    {
+      "number": 400,
+      "title": "[tooling][csdlc-v2] Implemented-phase card recovery cannot repair review-blocking SPP/STP truth",
+      "state": "closed",
+      "labels": [
+        "area:tools",
+        "bug",
+        "csdlc-v2"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "354204b40a1e8151544a2b80055d83f1424b90ee09a49ea8ea1ffa33266c2a09"
+    },
+    {
+      "number": 388,
+      "title": "[C-SDLC v2][defect] Permit implemented-phase VPP/SOR/SPP truth repair for WP-18C parent closeout",
+      "state": "closed",
+      "labels": [
+        "area:csdlc",
+        "type:bug",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "907a7af00013faa35cc5e2262fbb1cc9c62c252ac7e15db6bc8b759868b409b1"
+    },
+    {
+      "number": 387,
+      "title": "[v0.92][C-SDLC][defect] Support implemented-phase card truth repair before publication",
+      "state": "closed",
+      "labels": [
+        "area:tooling",
+        "track:roadmap",
+        "type:defect",
+        "version:v0.92",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "022e92954262f3bd461440d2c4e2a20e1abe62b8638e83c8e1c92b4860322339"
+    },
+    {
+      "number": 374,
+      "title": "[v0.92][runtime-v3][20.b2] Add Vector/log-stagnation recovery receipts",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:feature",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "73d9dc885eb7e96eb09643cf76149f137fe995d71e4588e6f4dc4d9fab2e51cf"
+    },
+    {
+      "number": 373,
+      "title": "[v0.92][runtime-v3][20.b1] Add dependency-degradation recovery receipts",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:feature",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "70286362388435df019c4fbc08c425ec4270c1c7acde9b384247f56db4183940"
+    },
+    {
+      "number": 369,
+      "title": "[v0.92][C-SDLC][defect] Recover false design approval on bound issues",
+      "state": "closed",
+      "labels": [
+        "area:tooling",
+        "track:roadmap",
+        "type:defect",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "85893732fd1623b9e4030adf91c5b6896b46574dc737606a66f197431fa84170"
+    },
+    {
+      "number": 367,
+      "title": "[v0.92][WP-04.16b3.1b][defect] Bind sealed child projections to one authority lineage",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:defect",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "1947a53f9dc2aae47cb47a4f9ad77716ad5e317b3d3b67bc6d565ea311ec18cb"
+    },
+    {
+      "number": 365,
+      "title": "[v0.92][WP-04.16b3.1b][defect] Seal committed child eligibility projections for integrated proof",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:defect",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "c4bbab3bbd790cde1bbbf8c6f2ef7207ec73a81043607dd5dcb815e54888c31d"
+    },
+    {
+      "number": 363,
+      "title": "[C-SDLC v2][defect] Permit sequenced implemented plan-summary repair after review recovery",
+      "state": "closed",
+      "labels": [
+        "area:tooling",
+        "type:defect",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "8be04115164eda455c94333abc4cbef7548e12c25bafafd33ff1870f8bf15359"
+    },
+    {
+      "number": 360,
+      "title": "[v0.92][WP-04.16b3.1b][defect] Add authentic distinct Observatory transition fixture builder",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:defect",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "b98a5e85560d23f6acac453a783c9ee61a2557950867be5c7aa43aeed274bf6d"
+    },
+    {
+      "number": 358,
+      "title": "[v0.92][WP-04.16b3.1b][defect] Seal Observatory transition intent and full canonical time",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:defect",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "7da52238744271a9f7c78977c9108f0d4c89efffd2bf19fbcc7de4882d5b1be8"
+    },
+    {
+      "number": 356,
+      "title": "[v0.92][WP-04.16b3.1b][defect] Expose minimal sealed Observatory projection accessors",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:defect",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "49737c091436756ccb5091b0cebd51ed21777a970b93c605b245da316c8b9e09"
+    },
+    {
+      "number": 353,
+      "title": "[v0.92][C-SDLC v2][defect] Anchor republished review evidence to the publication commit",
+      "state": "closed",
+      "labels": [
+        "area:tooling",
+        "track:roadmap",
+        "type:defect",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "60361ef4955f3c156f3ca03b4066bcd8ca446a59b6ac272c3d3fff8e96542eac"
+    },
+    {
+      "number": 350,
+      "title": "[v0.92][WP-04.16b3.1b][defect] Expose sealed authenticated Observatory authority projection",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:defect",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "2671b1012ebf4750e4ec5213d7abcf3839b1b472afa4a68caf04477f035f8644"
+    },
+    {
+      "number": 349,
+      "title": "[v0.92][C-SDLC v2][defect] Keep deferred-validator admission consistent across ready transition",
+      "state": "closed",
+      "labels": [
+        "area:tooling",
+        "track:roadmap",
+        "type:defect",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "7ab0d13469dd19be1497417472e2e8c7462d365eb346e47f05a33a117ecd516a"
+    },
+    {
+      "number": 345,
+      "title": "[v0.92.1][Sidecar] Harden and retain the AWS GPU Shepherd proof runner",
+      "state": "open",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "8b213b5f18fd1ba01948e9c0999fc0705152beb12db41b9ac17f7abd62c77958"
+    },
+    {
+      "number": 344,
+      "title": "[v0.92][WP-04-IMP][umbrella] Execute distributed Guardian child wave",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:feature",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "182cae3e52de6518132f4326d8236276a6690760be79087c170558d11727387b"
+    },
+    {
+      "number": 343,
+      "title": "[v0.92][sprint] Demonstration, handoff, and publication",
+      "state": "closed",
+      "labels": [
+        "area:review",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "74cfde3d195852cd9771c4cbf337e439b85bf3beb99f65a8c86f1f62e513f293"
+    },
+    {
+      "number": 342,
+      "title": "[v0.92.1][WP-24A] Podcast Studio first ten episodes",
+      "state": "open",
+      "labels": [
+        "area:authoring",
+        "track:roadmap",
+        "type:docs",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "859e1925fcbe8a2cad2645ceeaeb275d0f2873309806a9403b436ceaca618bd3"
+    },
+    {
+      "number": 341,
+      "title": "[v0.92][WP-18B] Provider-neutral multi-agent proof",
+      "state": "closed",
+      "labels": [
+        "area:tools",
+        "track:roadmap",
+        "type:tooling",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "0a072060f43294874aa2873c5e5d93a254f27a9bad08689ba9a3d3a6f5fb8df3"
+    },
+    {
+      "number": 340,
+      "title": "[v0.92][WP-18A] HTML Observatory Runtime restart integration",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "192d7205f22e0c3c5a7243ece18575ca0be7cf4d80417970695317cd51ae2e35"
+    },
+    {
+      "number": 331,
+      "title": "[v0.92][C-SDLC][defect] Support initialized code-repository declaration for legacy issue authority",
+      "state": "closed",
+      "labels": [
+        "area:tooling",
+        "track:roadmap",
+        "type:defect",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "76649d77f5a9a76f090acfb6ca7065b0d141f6f02f1e97afa46d6f04cd9ba1b7"
+    },
+    {
+      "number": 330,
+      "title": "[C-SDLC][defect] Bridge-fed projection cleanup invalidates recovery validation and fails closed-race invariant",
+      "state": "closed",
+      "labels": [
+        "bug",
+        "csdlc-v2"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "506f5709e6a950d3c49081f340226c2d12bb99b8ff83adab173569ea04490ebf"
+    },
+    {
+      "number": 327,
+      "title": "[v0.92][C-SDLC][defect] Restore strict Clippy after v1 tooling removal",
+      "state": "closed",
+      "labels": [
+        "area:tooling",
+        "track:roadmap",
+        "type:defect",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "bb07523c3596ac4f087d0491d9687371b8ad4a6808c4df2df3521a8961b99e06"
+    },
+    {
+      "number": 323,
+      "title": "[v0.92][tools] Add typed bound issue identity/repository migration for split-authority recovery",
+      "state": "closed",
+      "labels": [
+        "area:tools",
+        "type:bug",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "22821f2be1e901c0690d4d38fd31a1bc6a42c98b37e036639a2ca3c1b11f0002"
+    },
+    {
+      "number": 322,
+      "title": "[v0.92][Sprint 6][tools] Repair adl-review compatibility routing",
+      "state": "closed",
+      "labels": [
+        "area:tools",
+        "type:bug",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "295559a45718270c82e3de963f30b41dd9f5fffe390412105756a86c118088c0"
+    },
+    {
+      "number": 319,
+      "title": "[v0.92][WP-30] Release ceremony",
+      "state": "closed",
+      "labels": [
+        "area:release",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "76f115bd1e5136307b32681afb5d0014dfab94f727148cbc07e72ebafde9ed71"
+    },
+    {
+      "number": 318,
+      "title": "[v0.92][WP-29] Next milestone review pass",
+      "state": "closed",
+      "labels": [
+        "area:docs",
+        "track:roadmap",
+        "type:docs",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "fa565ea442d5864ea5bb0f992f2d05ed91fef49714050e67678979096bcf9428"
+    },
+    {
+      "number": 317,
+      "title": "[v0.92][WP-28A] Next-milestone closeout plan",
+      "state": "closed",
+      "labels": [
+        "area:docs",
+        "track:roadmap",
+        "type:docs",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "51586d7c2f974cbf0198fc9f7a40aa209635ebb9280779aacebf8ce6040cea39"
+    },
+    {
+      "number": 316,
+      "title": "[v0.92][WP-28] Reconcile v0.92.1 next-milestone planning",
+      "state": "closed",
+      "labels": [
+        "area:docs",
+        "track:roadmap",
+        "type:docs",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "1edd4187b37dbcb652ba6f9a84de94b35ba6f65b2a9febd80623b23cc707dc53"
+    },
+    {
+      "number": 315,
+      "title": "[v0.92][WP-27] Review findings remediation",
+      "state": "closed",
+      "labels": [
+        "area:review",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "cd388bc24b862c0d8c2e7f21be5abf5299262a6507016bdfb9f1548574cb278c"
+    },
+    {
+      "number": 314,
+      "title": "[v0.92][WP-26] External / third-party review",
+      "state": "closed",
+      "labels": [
+        "area:review",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "d1d1ebf89b8693232861ce6ab6b2541416c615a446100bcb5199b5be34bc8949"
+    },
+    {
+      "number": 313,
+      "title": "[v0.92][WP-25] Internal review",
+      "state": "closed",
+      "labels": [
+        "area:review",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "3eac6085a8eea1e9545b1b2d8bbd5cf79eb80ef6bd06cd85fc3184611d27e690"
+    },
+    {
+      "number": 312,
+      "title": "[v0.92][WP-23] Documentation review and external-review handoff",
+      "state": "closed",
+      "labels": [
+        "area:docs",
+        "track:roadmap",
+        "type:docs",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "616ae624b420b7398f2584f5bd4a1dc068e117885de18463b4bc7fd69a57a91d"
+    },
+    {
+      "number": 311,
+      "title": "[v0.92][WP-22] Quality gate",
+      "state": "closed",
+      "labels": [
+        "area:review",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "48d8248c66bfc1d7cd35a5b8a0f8a8798bc524b9eded089d92e0f880a094ce19"
+    },
+    {
+      "number": 310,
+      "title": "[v0.92][WP-21A] Rust refactoring and maintainability pass",
+      "state": "closed",
+      "labels": [
+        "area:quality",
+        "track:roadmap",
+        "type:chore",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "73cb641a575f1feb4f67cf144275294c2359514f80c6e1a8242de0be38b26aad"
+    },
+    {
+      "number": 309,
+      "title": "[v0.92][WP-21] Repository-wide code reduction cleanup",
+      "state": "closed",
+      "labels": [
+        "area:architecture",
+        "area:quality",
+        "area:runtime",
+        "type:task",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "257102c4c8fdb948dbd589d77807da49b2fa5468fbe48819f69f3342cff1ad91"
+    },
+    {
+      "number": 308,
+      "title": "[v0.92][WP-20] Demo matrix, AEE proof, and proof coverage",
+      "state": "closed",
+      "labels": [
+        "area:demo",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "5355773048370941a3f51a533df81edd3bbfe368853b544d295144f960e653fd"
+    },
+    {
+      "number": 307,
+      "title": "[v0.92][sprint] Quality and release tail",
+      "state": "closed",
+      "labels": [
+        "area:review",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "4ca96b3add79696485dfc82b7071071bc9df687cc789195eecac0741eda82a56"
+    },
+    {
+      "number": 306,
+      "title": "[v0.92][C-SDLC][defect] Prevent publication metadata tail from blocking exact-clean finish",
+      "state": "closed",
+      "labels": [
+        "area:tooling",
+        "track:roadmap",
+        "type:defect",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "644b8c40f11534ed9b9b9aeedec42f0e784b8f44d49b9b284645a1f74ec5d7cb"
+    },
+    {
+      "number": 301,
+      "title": "[v0.92][C-SDLC][defect] Persist provenance for title-only issue updates",
+      "state": "closed",
+      "labels": [
+        "area:tooling",
+        "track:roadmap",
+        "type:defect",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "994926ac6038880874dbf0307a89e3d6fbc655f68f194e75ffcc892966f9a11d"
+    },
+    {
+      "number": 300,
+      "title": "[v0.92][C-SDLC][297.c][test] Prove projection recovery crash, topology, race, and idempotency behavior",
+      "state": "closed",
+      "labels": [
+        "area:tooling",
+        "type:test",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "6311104c884e28ee22d5540f084ef14d321c2788efd676f9980860293b5e37f0"
+    },
+    {
+      "number": 299,
+      "title": "[v0.92][C-SDLC][297.b][defect] Implement exact-authority archived-projection cleanup",
+      "state": "closed",
+      "labels": [
+        "area:tooling",
+        "type:defect",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "d9c5fefc20f69e17394f4d32c10f4e33ba23e1a72cd3b2ccf2f83d7b54f25646"
+    },
+    {
+      "number": 298,
+      "title": "[v0.92][C-SDLC][297.a][defect] Implement anchored classification and resumable recovery ledger",
+      "state": "closed",
+      "labels": [
+        "area:tooling",
+        "type:defect",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "69042bdfe5c71c81f211353fdc587f5169e9e0e27571c602a494b3502a1a215b"
+    },
+    {
+      "number": 297,
+      "title": "[v0.92][C-SDLC][297][coordination] Coordinate preserved failed-projection recovery",
+      "state": "closed",
+      "labels": [
+        "area:tooling",
+        "type:defect",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "e063563a55c3d2bb19f2d102186ad67bab246820fee181384dad860e1a993d0f"
+    },
+    {
+      "number": 296,
+      "title": "[v0.92][C-SDLC][defect] Support typed authored-design refresh after implemented review recovery",
+      "state": "closed",
+      "labels": [
+        "area:tooling",
+        "type:defect",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "c3ccb815d7d6c879a0c04b901d7ef109b86667d29bac6997a973ca4be5f477b3"
+    },
+    {
+      "number": 295,
+      "title": "[v0.92][CI][coverage][defect] Classify mechanical compile-fallout without weakening changed-source coverage",
+      "state": "closed",
+      "labels": [
+        "area:tooling",
+        "track:roadmap",
+        "type:defect",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "31bc05a067b5b1bf52fe9b2d1ac5386f7f02796dfef59728c78d928382afaf7a"
+    },
+    {
+      "number": 294,
+      "title": "[v0.92][C-SDLC][defect] Recover initialized design identity and artifact paths before bind",
+      "state": "closed",
+      "labels": [
+        "area:tooling",
+        "track:roadmap",
+        "type:defect",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "bc25c1cb6bd70c10696a4d57c217d4b589babac6fb28d96cb24c9338108886f0"
+    },
+    {
+      "number": 293,
+      "title": "[v0.92][planning][docs] Write the milestone execution and recovery runbook",
+      "state": "closed",
+      "labels": [
+        "area:docs",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "5a27368757212eb0cb00f8d93720b1a495ea68f832c24dc64ff6889eb9a91911"
+    },
+    {
+      "number": 292,
+      "title": "[v0.92][C-SDLC][defect] Repair implemented card identity after issue decomposition",
+      "state": "closed",
+      "labels": [
+        "area:tooling",
+        "track:roadmap",
+        "type:defect",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "83138280b8a9fbd0336b40f9cb6676d050c983792c5af37836f4340f93bee693"
+    },
+    {
+      "number": 291,
+      "title": "[v0.92][C-SDLC][defect] Recover initialized decomposed issue cards without rewriting history",
+      "state": "closed",
+      "labels": [
+        "area:tooling",
+        "track:roadmap",
+        "type:defect",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "8d81210ab1e68ee8e211eb0551e7f367573bb3826a6e16b29674a3377d60b02a"
+    },
+    {
+      "number": 288,
+      "title": "[v0.92][ADR][207.f] Serialize final ADR index, plan, manifest, and review packet",
+      "state": "closed",
+      "labels": [
+        "documentation",
+        "type:planning",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "6299d5faff6524b0ff7b596e6e5292e6f7da12cd625c48816d82b25015e47fad"
+    },
+    {
+      "number": 287,
+      "title": "[v0.92][ADR 0071][207.e] Reconcile provider-neutral multi-agent evidence",
+      "state": "closed",
+      "labels": [
+        "documentation",
+        "type:planning",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "a87c88059e886b596383332d8dced9320ab9a2650156d070f21f558fe1b0ddef"
+    },
+    {
+      "number": 286,
+      "title": "[v0.92][ADR 0069][207.d] Reconcile Observatory governed Runtime consumer evidence",
+      "state": "closed",
+      "labels": [
+        "documentation",
+        "type:planning",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "93289a64515a65d5896728e595769957217459928d391521496f0fae18138ae1"
+    },
+    {
+      "number": 285,
+      "title": "[v0.92][ADR 0068][207.c] Reconcile birthday-to-governance handoff evidence",
+      "state": "closed",
+      "labels": [
+        "documentation",
+        "type:planning",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "a47a9ac3253cc166703c533faa8e900d4ebc5a7c83ddc85a69c7d4226d0964f7"
+    },
+    {
+      "number": 284,
+      "title": "[v0.92][ADR 0066][207.b] Reconcile distributed Guardian authority evidence",
+      "state": "closed",
+      "labels": [
+        "documentation",
+        "type:planning",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "1820e6c5258fab59b92cc4eeb93d8ae210bf5f23ca2b30f4f562b4b7b1c6e936"
+    },
+    {
+      "number": 283,
+      "title": "[v0.92][ADR 0065][207.a] Reconcile terminal ACIP schema catalog evidence",
+      "state": "closed",
+      "labels": [
+        "documentation",
+        "type:planning",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "34491a74ad926b0dc144f98e49f18df768710e93cbeeebb550eca475e7061bbc"
+    },
+    {
+      "number": 282,
+      "title": "[v0.92][WP-18C.07d][117.d] Assemble exact-revision production Polis interface qualification",
+      "state": "closed",
+      "labels": [
+        "area:review",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "15d63f8bb97b89f96b0eff9310b707dc2f9866cbe6ff280e5d8b811ecf8c8789"
+    },
+    {
+      "number": 281,
+      "title": "[v0.92][WP-18C.07c][117.c] Prove Observatory security, privacy, and adversarial behavior",
+      "state": "closed",
+      "labels": [
+        "area:review",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "f3090cc9a0ed321d588e752de5fd9923341f56f6969e664d7c471627305ac98f"
+    },
+    {
+      "number": 280,
+      "title": "[v0.92][WP-18C.07b][117.b] Prove large-Polis performance and recovery behavior",
+      "state": "closed",
+      "labels": [
+        "area:review",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "024bf931d20e9b1b6586ac1634de6eed9cc3b5103a50fdb0e0041f43be3c7543"
+    },
+    {
+      "number": 279,
+      "title": "[v0.92][WP-18C.07a][117.a] Prove Observatory accessibility and responsive UX",
+      "state": "closed",
+      "labels": [
+        "area:review",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "75a9cde0e33716473a47502af595850663cabefaceef9bafc30278eca2f1890e"
+    },
+    {
+      "number": 278,
+      "title": "[v0.92][WP-18C.04c][114.c] Expose re-authorized conversation history APIs and restore Observatory transcripts",
+      "state": "closed",
+      "labels": [
+        "area:storage",
+        "track:roadmap",
+        "type:feature",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "bda12373789ce6e615354366abfb52a244dc23f811442e895a5a4d95cca29a31"
+    },
+    {
+      "number": 277,
+      "title": "[v0.92][WP-18C.04b][114.b] Persist conversation watermarks, idempotency, replay, and receipts",
+      "state": "closed",
+      "labels": [
+        "area:storage",
+        "track:roadmap",
+        "type:feature",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "a237675a2d51399ef9e518aac4fcaa375be13b8ff04e56df8c1b50b6e06e0314"
+    },
+    {
+      "number": 276,
+      "title": "[v0.92][WP-18C.04a][114.a] Implement durable conversation journal foundation",
+      "state": "closed",
+      "labels": [
+        "area:storage",
+        "track:roadmap",
+        "type:feature",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "02b202f7aabd4eacd5c66bbde804bb8306af6ddc6174cfff5d411d389c68f6f6"
+    },
+    {
+      "number": 275,
+      "title": "[v0.92][WP-04.16b3.1b][205.d] Prove integrated serving-authority behavior",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:test",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "61f8ab03f8106205317fff752b3f64db63135ab4cf5587700fc0b29d00a8d63c"
+    },
+    {
+      "number": 274,
+      "title": "[v0.92][WP-04.16b3.1b][205.c] Add Observatory quorum serving authority",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:feature",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "19a9ea53e0886a62b75b26e48197b813825ce8ae4cc461c60c560cc1e6fe4475"
+    },
+    {
+      "number": 273,
+      "title": "[v0.92][WP-04.16b3.1b][205.b] Add Shepherd serving-eligibility authority",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:feature",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "7d69145ba20a0345c8069f1f4b33ce2161a91aa4e1ec5e79894673017c2acb26"
+    },
+    {
+      "number": 272,
+      "title": "[v0.92][WP-04.16b3.1b][205.a] Build durable serving-authority foundation",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:feature",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "877f0315246a5519067273b11e613cfe71587f26c0b0941c5847fcd86dcc5446"
+    },
+    {
+      "number": 271,
+      "title": "[v0.92][WP-18C.02d][112.d] Integrate Layer 8 authority and delivery states into Observatory",
+      "state": "closed",
+      "labels": [
+        "area:demo",
+        "track:roadmap",
+        "type:feature",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "3312c5d32fe7620c50ea557ff5c214cc255b6b952349995d5dc4e0c961e75314"
+    },
+    {
+      "number": 270,
+      "title": "[v0.92][WP-18C.02c][112.c] Define and serve trusted recipient-acknowledgement Runtime API protocol",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:feature",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "e55f1b7919523193c092e3de90ef90286a92f653202d1897225a08ac18e5b52c"
+    },
+    {
+      "number": 269,
+      "title": "[backlog][runtime-v3][20.d] Optional separately authorized release qualification and policy recommendation",
+      "state": "open",
+      "labels": [
+        "area:runtime",
+        "track:backlog",
+        "type:task"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "d52edeb6929c03e5145935f29fcc21953fab30d5ea13ca2a5bf2ce4a7a5388b7"
+    },
+    {
+      "number": 268,
+      "title": "[v0.92][runtime-v3][20.c] Run six-hour Agent Logic Spot qualification only after operator and cost authorization",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "ae6d64fafae2a805b7ffb3c1c064b65143c905c386161a77fe359652ff1bff14"
+    },
+    {
+      "number": 267,
+      "title": "[v0.92][runtime-v3][20.b] Integrate production workload and short qualification harness",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:feature",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "26972c9e8d7d4fda790f6faa9efd477755a039c2408420254e120895852d3df3"
+    },
+    {
+      "number": 266,
+      "title": "[v0.92][runtime-v3][20.a] Implement bounded soak tooling and deterministic contracts",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:tooling",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "e55ab3a04cc8c958ee85f1b570bf0c7b5800dc94c32dd24bf2def413314dbfbf"
+    },
+    {
+      "number": 265,
+      "title": "[v0.92][WP-18C.02b][112.b] Enforce Layer 8 authority at Runtime kernel conversation ingress",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:feature",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "bca8086fdc80940902100287c94f03eac82ac9b0704a1926899a0cf41aad4472"
+    },
+    {
+      "number": 264,
+      "title": "[v0.92.1][podcast][51.d] Execute directory submissions only after explicit operator authorization",
+      "state": "open",
+      "labels": [
+        "area:demo",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "22cc01430eec602a23db66442d426c6a5cd1701abf32583cf63516964562b0b4"
+    },
+    {
+      "number": 263,
+      "title": "[v0.92.1][podcast][51.c] Prepare directory submission runbooks and operator preflight",
+      "state": "open",
+      "labels": [
+        "area:demo",
+        "track:roadmap",
+        "type:docs",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "f9d0458b26041e0c119a1b4fdc653155153f5917ed70a9fcedc4bc33aad97807"
+    },
+    {
+      "number": 262,
+      "title": "[v0.92.1][podcast][51.b] Publish and validate production hosting, RSS, enclosures, and playback",
+      "state": "open",
+      "labels": [
+        "area:demo",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "3923a57224018d848bad4d7e8ec3db7f918af02b474f6501d94c5f4d7bb34ddf"
+    },
+    {
+      "number": 261,
+      "title": "[v0.92.1][podcast][51.a] Finalize show identity, artwork, rights, metadata, and mailbox readiness",
+      "state": "open",
+      "labels": [
+        "area:demo",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "a620b8de08d17e692fc3c23c76557b4ece5a7199fd7e5dfa995056808abf5b4f"
+    },
+    {
+      "number": 260,
+      "title": "[v0.92][WP-04.16b3.1a][203.c] Migrate distributed Runtime callers to authority adapters",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:feature",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "4fabd571525fe85acf6e9baa1cd006a52d02f2e5547a267b91811d39f56819f9"
+    },
+    {
+      "number": 259,
+      "title": "[v0.92][WP-04.16b3.1a][203.b] Bind governed transport to authority adapters",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:feature",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "98d3db59e45a5c7f6c1b71f06dfaef8cacce2ac7cf03b76b8ac844a6182c581e"
+    },
+    {
+      "number": 258,
+      "title": "[v0.92][WP-04.16b3.1a][203.a] Seal authority store boundary",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:feature",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "148f938dbd997b37b61759c900b4c85e2755c44f59297e6c16afe7e3eb61ec19"
+    },
+    {
+      "number": 257,
+      "title": "[v0.92][csdlc-v2][closeout] Reconcile residual closed-merged terminal truth",
+      "state": "closed",
+      "labels": [
+        "area:quality",
+        "area:tools",
+        "track:roadmap",
+        "type:bug",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "7fed158ae4bb75bfa61d2cf7ce441b31d6ca0e53ea95d8be4cd639f07c0599d9"
+    },
+    {
+      "number": 256,
+      "title": "[v0.92][WP-18] Birthday demo after Observatory sprint",
+      "state": "closed",
+      "labels": [
+        "area:demo",
+        "track:roadmap",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "14e50e6a32cb179a9008778b51bdeceb13503b18a0b8f805ddd9126259b1e0bb"
+    },
+    {
+      "number": 254,
+      "title": "[v0.92][CI] Stop hosted coverage aggregate from recompiling Rust",
+      "state": "closed",
+      "labels": [
+
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "592f6d066cfcff9c0ce08870f085c7a17ffbceaac6e88f82c93a91bdaea9b00d"
+    },
+    {
+      "number": 252,
+      "title": "Runtime: eliminate hosted Guardian executable spawn flake",
+      "state": "closed",
+      "labels": [
+
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "d23e135ad5ca08ab11efd30f25aa25a66faaebf8053e0cf165a32117bc541177"
+    },
+    {
+      "number": 251,
+      "title": "[v0.92.1][Runtime] Support TLS 1.2 on public Axum HTTPS/WSS for Unity",
+      "state": "open",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:bug",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "9a922be2175e34d96720e2e247ed943e01d301617eb594341197c09d340186ef"
+    },
+    {
+      "number": 248,
+      "title": "[v0.92][Runtime v3] Make process-backend output-limit and timeout precedence deterministic",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "type:bug",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "89365c97e78802dea30691914cca6a4f1cd9f9ae6ececf093a025d101b6e0886"
+    },
+    {
+      "number": 246,
+      "title": "[v0.92][Operations] Archive local Codex transcripts to FastWork and enforce worktree placement",
+      "state": "closed",
+      "labels": [
+        "area:tools",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "9e06a124f952880a9dcba9c579424e18b5027e85b45664e47aeafc1e2823c88e"
+    },
+    {
+      "number": 244,
+      "title": "Stabilize Runtime conversation cleanup-race admission and deadline semantics",
+      "state": "closed",
+      "labels": [
+
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "8e7b838b4271921adda83891aa7659b46e9d3282783285effc523094cd58a08c"
+    },
+    {
+      "number": 239,
+      "title": "[C-SDLC v2] Reconcile terminal envelopes across publication metadata-only heads",
+      "state": "closed",
+      "labels": [
+
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "5a78121b0592447f1c4d623c041066c46ee751b8bdc85360b73f569a7cea76a6"
+    },
+    {
+      "number": 237,
+      "title": "Reconcile Birthday continuity binding across capability and cognitive authorities",
+      "state": "closed",
+      "labels": [
+        "bug",
+        "csdlc:v2"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "513bf3c131f0e0d20c049a4c5b01709057a23b82e18b14f9c97acbb0d7c81d3d"
+    },
+    {
+      "number": 234,
+      "title": "[v0.92][tooling][CI] Prevent unrelated workflow fanout and isolate expensive proof",
+      "state": "closed",
+      "labels": [
+        "area:tooling",
+        "type:defect"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "06a206b559b0b2fc35301c68a8a99dc53067bd6e80bf364391580fb80bc3533e"
+    },
+    {
+      "number": 226,
+      "title": "[v0.92][tooling][coverage] Route focused Observatory validation without optional jobs",
+      "state": "closed",
+      "labels": [
+        "area:tooling",
+        "closeout:no-pr-approved",
+        "type:defect"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "503b50ac42925db1e634e8152fbf6c51b978abea37adbb217282b63d77706c61"
+    },
+    {
+      "number": 225,
+      "title": "[v0.92][C-SDLC v2] Permit bounded card correction after review recovery",
+      "state": "closed",
+      "labels": [
+        "type:bug",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "d7eadbb984066940bfcb842b6db1d0274facce9801cfc148247052c65735b3f0"
+    },
+    {
+      "number": 217,
+      "title": "[v0.92][WP-14 follow-up] Retain native proof and make post-merge validation squash-safe",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:bug",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "d6209ba2595065c4d13b65aa381e3d7289299189e2ae0e2550e642986e9803da"
+    },
+    {
+      "number": 216,
+      "title": "[v0.92][docs] Refresh TBD inventory and milestone-routing truth",
+      "state": "closed",
+      "labels": [
+        "documentation",
+        "type:task",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "aadd6fdc91ffa323a3d974f2108567a654ca955541fe7c262a77093b723fc01f"
+    },
+    {
+      "number": 214,
+      "title": "[v0.92][WP-04.16a follow-up] Reconcile umbrella workspace lockfile after secure Raft merge",
+      "state": "closed",
+      "labels": [
+        "area:tooling",
+        "type:bug",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "1171006799d03334192b65f7ea5b512dd84e31969c8dafb30bd3dca96c470b52"
+    },
+    {
+      "number": 213,
+      "title": "[v0.92][C-SDLC v2][blocker] Support truthful initialized-phase acceptance and plan-step repair",
+      "state": "closed",
+      "labels": [
+        "area:tooling",
+        "track:roadmap",
+        "type:bug",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "b253f44e5957cab46879592eca1840f8a16af17c24c63f3f0496b5b7dc801531"
+    },
+    {
+      "number": 211,
+      "title": "[v0.92][WP-04.16b3.3] Execute quorum-approved recovery workflow",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:feature",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "65210f33062f1f20fbaea6340b9497775ed2b3082982b8ba45180df4b9bbef59"
+    },
+    {
+      "number": 210,
+      "title": "[v0.92][WP-04.16b3.1d] Stream authenticated continuity bundles between voters",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:feature",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "5068e408f825dedec6ecf86e7901851f78e4271cdc33e5e87bf11d4d8a95144a"
+    },
+    {
+      "number": 209,
+      "title": "[v0.92][WP-14 follow-up] Repair production ACIP dispatch, replay isolation, and public contract",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:bug",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "771d09a1264304b8cb67bf210c8f0c8abbd89e6f6777ae0422c60ca7636d31b8"
+    },
+    {
+      "number": 208,
+      "title": "[v0.92][WP-04.16b3.1c] Add authenticated Guardian-kernel continuity bridge",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:feature",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "7025719619a4e9ac9e818ac05a07b89bdc447dfd74c184c2791e92a619002359"
+    },
+    {
+      "number": 207,
+      "title": "[v0.92][ADR][coordination] Coordinate deferred ADR proof gates before internal review",
+      "state": "closed",
+      "labels": [
+        "documentation",
+        "type:planning",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "2767c7fd3255511c62f06f5bff979e3e5834fc269a2578d4dac19b672cefc3fc"
+    },
+    {
+      "number": 205,
+      "title": "[v0.92][WP-04.16b3.1b][coordination] Coordinate Shepherd and Observatory serving-eligibility authority",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:feature",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "b09c61bddb9316c134e72c70f785a0099251823c4105e5f02da483790a306ef7"
+    },
+    {
+      "number": 204,
+      "title": "[v0.92][WP-04.16b3.2] Execute quorum-approved migration workflow",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:feature",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "ec4c5884ed400628faa76c3a62293dcd0a0083f618887499a7c4749f52325547"
+    },
+    {
+      "number": 203,
+      "title": "[v0.92][WP-04.16b3.1a][coordination] Coordinate identity, lease, and fencing authority slices",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:feature",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "d21d59b3a990f5fb405e64e3b67b494997a1b02d02fa83d5bb98ada64942b5fb"
+    },
+    {
+      "number": 202,
+      "title": "[v0.92][WP-04.16b1.5] Extend authenticated Raft transport to governed learners",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:feature",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "1e6ef2db23d736c722f2032632a3a0ddf80148e0c91f729fc555c1c1be077339"
+    },
+    {
+      "number": 201,
+      "title": "[v0.92][WP-04.16b1] Establish the quorum-committed authority protocol",
+      "state": "closed",
+      "labels": [
+
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "86542cbe3cb6527904f4851d36ff002cd6ef6ffeadbaf7ce2b691db6549aa9eb"
+    },
+    {
+      "number": 200,
+      "title": "[v0.92][WP-04.16b3] Add crash-safe authority reconciliation barrier",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:feature",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "4e629238474175d9b8bb51a20b0f5a62b51d462c88294709f59a16c71a161084"
+    },
+    {
+      "number": 199,
+      "title": "[v0.92][WP-04.16b2] Govern learner, joint, and final voter membership transitions",
+      "state": "closed",
+      "labels": [
+
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "f8893bb101ffe5dc46b645215e480d7e5ec954f061d946c9d3acb0062fdcf264"
+    },
+    {
+      "number": 194,
+      "title": "[v0.92][WP-04.16d] Qualify private Wuji-AWS recovery with fail-safe cleanup",
+      "state": "closed",
+      "labels": [
+
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "80d5e847a165fe7a72247693dd617efdf90467619e1800d0522dd6de7cd56818"
+    },
+    {
+      "number": 193,
+      "title": "[v0.92][WP-04.16c] Bridge Runtime continuity through migration and recovery authority",
+      "state": "closed",
+      "labels": [
+
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "a2a0bda7e30ab1c1cc7f3264fa8ad10cbef17506065302c033c0738ffb826504"
+    },
+    {
+      "number": 192,
+      "title": "[v0.92][WP-04.16b][superseded] Bind Raft commits to distributed authority and membership",
+      "state": "closed",
+      "labels": [
+
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "2f68fd04a1ae3b31cf76f19451b7036dbdd00bf93e20eb1fe25c1c0c5566e494"
+    },
+    {
+      "number": 191,
+      "title": "[v0.92][WP-04.16a] Secure and durably persist three-voter OpenRaft transport",
+      "state": "closed",
+      "labels": [
+
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "eee60cd534f866a97e458ae7b3affc24a395d63fc8427eda50bae1b8353e7cf9"
+    },
+    {
+      "number": 190,
+      "title": "[v0.92.1][INT-03] Publish next-milestone and deferred retirement handoff",
+      "state": "closed",
+      "labels": [
+        "area:review",
+        "documentation",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "ab2345e85f9805ca27419a85a585f283e54794a2a0e4eef5a97236a122076896"
+    },
+    {
+      "number": 189,
+      "title": "[v0.92.1][INT-02] Prepare release candidate rollback and ceremony",
+      "state": "closed",
+      "labels": [
+        "area:review",
+        "documentation",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "52a111129cc07f28f7d6e47ecd90fad8fc2dce64a755305d45ca0c3a7122c2c1"
+    },
+    {
+      "number": 188,
+      "title": "[v0.92.1][INT-01] Run integrated independent review and remediation",
+      "state": "closed",
+      "labels": [
+        "area:review",
+        "documentation",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "9627473a4034bff2f129d51ec659428ef422dd89a644e29304e0fe26d7035faa"
+    },
+    {
+      "number": 187,
+      "title": "[v0.92.1][DRT-07] Complete soak replay resource cleanup and synthesis",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "18a35b44a78d2254cd2fdc771e53d1c4d4575d06cf55933457f60d45956923f9"
+    },
+    {
+      "number": 186,
+      "title": "[v0.92.1][DRT-06] Validate Observatory coherent evidence",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "12c9d2506888be28a46a9242f5303fb5864fbc14ebb969e02fa8d538a572c876"
+    },
+    {
+      "number": 185,
+      "title": "[v0.92.1][DRT-05] Qualify identity authority TLS capabilities and provider failure",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "b50abc2390ae7aa3c9243ada4266d680173a7527feb75c427cd4ff4f8d2b47bd"
+    },
+    {
+      "number": 184,
+      "title": "[v0.92.1][DRT-04] Run hybrid Wuji and AWS continuity proof",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "5f448c6da8a10e61414461222d3d4fae5456b118849b2a4f308c3a7801fe9a75"
+    },
+    {
+      "number": 183,
+      "title": "[v0.92.1][DRT-03] Run Wuji three-voter multi-agent production proof",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "91b10cee3519a60be783a57e2c4cfcfbe9726c6a53b23089c28797a94937d505"
+    },
+    {
+      "number": 182,
+      "title": "[v0.92.1][DRT-02] Prove deterministic ACIP authority and replay conformance",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "f109b6223f583ba99a369f18b5cfbf6c122b60dd75b0a26a7ba08c8e77f1e646"
+    },
+    {
+      "number": 181,
+      "title": "[v0.92.1][DRT-01] Freeze distributed qualification contract",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "ff83784e5aee078f1a7636c7a18edb44125f61344395f22bc1a8cfbf2fc2f4ef"
+    },
+    {
+      "number": 180,
+      "title": "[v0.92.1][V3-R01] Retire V2 After The Rollback Window",
+      "state": "closed",
+      "labels": [
+        "area:tooling",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "596b526eb2483e8ecc4f7a70711bf6c68c73c55211a95b43f9cba62d1f894afd"
+    },
+    {
+      "number": 179,
+      "title": "[v0.92.1][V3-16] Prove Parity, Run Canary Migration, And Cut Over Authority",
+      "state": "closed",
+      "labels": [
+        "area:tooling",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "7d117be7ccb1631100af4d1a902e42bca03a632ec33e1887cb98b66cd9777316"
+    },
+    {
+      "number": 178,
+      "title": "[v0.92.1][V3-15] Implement Finish And Cleanup",
+      "state": "closed",
+      "labels": [
+        "area:tooling",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "dac4d339dbefa45abe7b949fbffe1b11ffb3952de213fd3f323d942a45236438"
+    },
+    {
+      "number": 177,
+      "title": "[v0.92.1][V3-14] Implement PR Mutation And Foreground Watch",
+      "state": "closed",
+      "labels": [
+        "area:tooling",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "bb592689b47df2c6c3540a4f4eac72d9c4564b66d448261dd1169cefcfeec34a"
+    },
+    {
+      "number": 176,
+      "title": "[v0.92.1][V3-13] Implement GitHub Adapter And Read-Only Observation",
+      "state": "closed",
+      "labels": [
+        "area:tooling",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "b42e49eb7d8fc7121dd8ddfa27393840598c898bdf4dd1a8e8c3ab386157f546"
+    },
+    {
+      "number": 175,
+      "title": "[v0.92.1][V3-12] Implement Exact Review And Publication Gates",
+      "state": "closed",
+      "labels": [
+        "area:tooling",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "0da623683add181e58260ee1a1a642629ac35b7ce71784d8a7725357465a264f"
+    },
+    {
+      "number": 174,
+      "title": "[v0.92.1][V3-11B] Implement PVF Execution And Evidence",
+      "state": "closed",
+      "labels": [
+        "area:tooling",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "f280633608e05f5b27910d3a81386af3151f1205dce317b5051d68bb5d895af4"
+    },
+    {
+      "number": 173,
+      "title": "[v0.92.1][V3-11A] Implement PVF Planning Domain",
+      "state": "closed",
+      "labels": [
+        "area:tooling",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "56ceaac12e31261bbd56c133116a8995f2dad6b088fcb1b1cff0242733902cb3"
+    },
+    {
+      "number": 172,
+      "title": "[v0.92.1][V3-10B] Implement Card And Doctor Commands",
+      "state": "closed",
+      "labels": [
+        "area:tooling",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "ea344f541e31aa5dc5b389a81409e3737c28a17a2ea3eafbcfaacd10f2c127f0"
+    },
+    {
+      "number": 171,
+      "title": "[v0.92.1][V3-10A] Implement Local Issue And Bind Commands",
+      "state": "closed",
+      "labels": [
+        "area:tooling",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "e8c78fb73368c2652307b397a7403678584b615dd168383b39a82d36fe831040"
+    },
+    {
+      "number": 170,
+      "title": "[v0.92.1][V3-09] Implement Typed Git, Process, And Credential Adapters",
+      "state": "closed",
+      "labels": [
+        "area:tooling",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "5578be1dff3343394b466cabb6931a136478424c151a51ac2016a278ea3a89a8"
+    },
+    {
+      "number": 169,
+      "title": "[v0.92.1][V3-08] Implement Transaction Storage And Recovery",
+      "state": "closed",
+      "labels": [
+        "area:tooling",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "662ae47f1b88567c55f3dc491b12699d762834e6ac84c8b35fd562641925fd86"
+    },
+    {
+      "number": 168,
+      "title": "[v0.92.1][V3-07] Implement The Pure Lifecycle Kernel",
+      "state": "closed",
+      "labels": [
+        "area:tooling",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "48cebdb1f51f3960703d78e2c859906201f021c5e5aef82d1ac7af4998e51b4d"
+    },
+    {
+      "number": 167,
+      "title": "[v0.92.1][V3-06] Implement Canonical State And Card Projections",
+      "state": "closed",
+      "labels": [
+        "area:tooling",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "4757df16f2655f298345cf59fa88fe8440aa51531469318d7f16c8b37506f088"
+    },
+    {
+      "number": 166,
+      "title": "[v0.92.1][V3-05] Implement Repository Context And Read-Only V2 Import",
+      "state": "closed",
+      "labels": [
+        "area:tooling",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "8fb9fdca51b0abc9f499fc6da852b53fc94247286f2ae0dda45552f1eb15c437"
+    },
+    {
+      "number": 165,
+      "title": "[v0.92.1][V3-04] Implement Application Context And Shared Services",
+      "state": "closed",
+      "labels": [
+        "area:tooling",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "9f94fd3a15218eb450160778af92504a25eb4f95f622d573d5ea8028cd92eea6"
+    },
+    {
+      "number": 164,
+      "title": "[v0.92.1][V3-03] Build The Single-Binary Foundation",
+      "state": "closed",
+      "labels": [
+        "area:tooling",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "17d925b16ad550ff86160b2a0cd72fd3d11fb245628aa5b05da3766ff6ea5204"
+    },
+    {
+      "number": 163,
+      "title": "[v0.92.1][V3-D11] Approve platform commit matrix and Windows posture",
+      "state": "closed",
+      "labels": [
+        "area:tooling",
+        "documentation",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "59da548eba41b5a26c4a47e87954bbbb89e762b00e4e20b93a3a1f157effd02e"
+    },
+    {
+      "number": 162,
+      "title": "[v0.92.1][V3-02] Prove The Rust Construction Slice",
+      "state": "closed",
+      "labels": [
+        "area:tooling",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "5975e93df180b295a99f218a8e35bd41e02d9bc17d1ff8527ee26833de021563"
+    },
+    {
+      "number": 161,
+      "title": "[v0.92.1][V3-01] Freeze Product Contract And Retained Invariants",
+      "state": "closed",
+      "labels": [
+        "area:tooling",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "33d746b3a09dbe7b34cbcf2bb0a8d8f1c3a5f1bfa13218769db4d0c2a3670656"
+    },
+    {
+      "number": 160,
+      "title": "[v0.92.1][CORP-08] Close corporate chain-of-title and diligence package",
+      "state": "closed",
+      "labels": [
+        "area:security",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "9ddff5c4ed0f8335f7f67cb40f0cc1d34c3cd5060e096a5e55edd588a2045321"
+    },
+    {
+      "number": 159,
+      "title": "[v0.92.1][CORP-07] Move Terraform CI deployment and runbook authority",
+      "state": "closed",
+      "labels": [
+        "area:security",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "bed40fc306ff0b391723498ee280462a537a468b279f22ccac4efc1df9c184e7"
+    },
+    {
+      "number": 158,
+      "title": "[v0.92.1][CORP-06] Migrate AWS production infrastructure",
+      "state": "closed",
+      "labels": [
+        "area:security",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "37fbe5930d6f2fbbe60de350830932d281188c6cad067ab4e66e149f89376bf9"
+    },
+    {
+      "number": 157,
+      "title": "[v0.92.1][CORP-05] Transfer repository domain brand and vendor control",
+      "state": "closed",
+      "labels": [
+        "area:security",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "1aa73088505a4212e925f0b1e7491b57c980146b2494dd05b45cabacc72bc0d9"
+    },
+    {
+      "number": 156,
+      "title": "[v0.92.1][CORP-04] Establish company billing recovery MFA and vault custody",
+      "state": "closed",
+      "labels": [
+        "area:security",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "c828b0a8a4f9636c28ea45a26f404d3c50799e2f558b332f77f8f020de9fdc92"
+    },
+    {
+      "number": 155,
+      "title": "[v0.92.1][CORP-03] Resolve provenance licensing and trademark dispositions",
+      "state": "closed",
+      "labels": [
+        "area:security",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "4dba4a56db8e9501c666fb1d37e752aacfbf57e0941737f03590b66be1248de1"
+    },
+    {
+      "number": 154,
+      "title": "[v0.92.1][CORP-02] Execute counsel-reviewed IP assignment and corporate acceptance",
+      "state": "closed",
+      "labels": [
+        "area:security",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "37cca4e4fc9039164ef2f16185990f3918faf6871d5be274b52ffdaa2dab8ba5"
+    },
+    {
+      "number": 153,
+      "title": "[v0.92.1][CORP-01] Freeze critical asset and account inventory",
+      "state": "closed",
+      "labels": [
+        "area:security",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "b290bb3fdec1bd97aad6950dbb4b5c9bc4e44e1df63047d1503fbec50249c8f8"
+    },
+    {
+      "number": 152,
+      "title": "[v0.92.1][sprint] Integrated review and release",
+      "state": "closed",
+      "labels": [
+        "track:roadmap",
+        "type:planning",
+        "version:v0.92.1"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "d18e4e3a06a3b898ebe89c114e83ab6d19188dc78e7b3a855024a5cd3316791a"
+    },
+    {
+      "number": 151,
+      "title": "[v0.92.1][sprint] Distributed multi-agent Runtime qualification",
+      "state": "closed",
+      "labels": [
+        "track:roadmap",
+        "type:planning",
+        "version:v0.92.1"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "c17f8724b5d06c27c96ee85b891f42eddbda91095b2d8219cc6df9eb7f21ce75"
+    },
+    {
+      "number": 150,
+      "title": "[v0.92.1][sprint] C-SDLC v3 implementation",
+      "state": "closed",
+      "labels": [
+        "track:roadmap",
+        "type:planning",
+        "version:v0.92.1"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "7e777998d21a5fb419672190b5d0b7be1de32f568579abe794d734656dd78772"
+    },
+    {
+      "number": 149,
+      "title": "[v0.92.1][sprint] Corporate and IP transfer",
+      "state": "closed",
+      "labels": [
+        "track:roadmap",
+        "type:planning",
+        "version:v0.92.1"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "522e93f848e8565caff220fe656dedd79b06a1a8619d20471c71edf48af102b2"
+    },
+    {
+      "number": 146,
+      "title": "[v0.92][planning] Establish the v0.92.1 corporate foundation, C-SDLC v3, and distributed Runtime qualification milestone",
+      "state": "closed",
+      "labels": [
+        "documentation",
+        "track:roadmap",
+        "type:planning",
+        "version:v0.92"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "9e64f178bf4519477c8760b00d538436406ed71752d2510bf58dec328736cfa9"
+    },
+    {
+      "number": 144,
+      "title": "[v0.92][WP-13][defect] Anchor cognitive-profile authority and verify full revision lineage",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:bug",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "dfda774309ddffe12fa615e95bcbdaded6d495fa44db4d59baa0edf5fa4cffb4"
+    },
+    {
+      "number": 143,
+      "title": "[v0.92][ADR] Author and review the milestone architecture decision record set",
+      "state": "closed",
+      "labels": [
+        "documentation",
+        "type:planning",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "c7fc2945b5c720e542bd5139d85de27f974d6fc3e9e57962004f132777074290"
+    },
+    {
+      "number": 142,
+      "title": "[v0.92][runtime] Operationalize distributed Runtime and polis Observatory across Wuji and AWS",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:feature",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "06cea39646b72d55174c06481a49999572bdef7e7da5cc458419adf12b0587f6"
+    },
+    {
+      "number": 141,
+      "title": "[v0.92][WP-04.07][defect] Reconcile PR #120 terminal truth and strict Clippy proof",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "type:bug",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "4ac5b284eb5f5e766ab3ab3b8725edaef21e936ee668f1f12381865bf2717280"
+    },
+    {
+      "number": 137,
+      "title": "[v0.92][WP-04.16] Register three-platform distributed native proof workflow",
+      "state": "closed",
+      "labels": [
+
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "7b7519b4f9fc4e6857abda2899756b063e91dccdb7788ec135aa5fdbaf66228e"
+    },
+    {
+      "number": 133,
+      "title": "[v0.92][WP-04.15] Expose revisioned redacted authority snapshots",
+      "state": "closed",
+      "labels": [
+
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "b2cd965e2e29b402b799b3fcbb102c681739c578c56386d19c7dc82ee10c35e9"
+    },
+    {
+      "number": 132,
+      "title": "[v0.92][WP-04.15] Expose revisioned redacted authority snapshots",
+      "state": "closed",
+      "labels": [
+
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "345ea9507ee83d8da748269c6274fdc005996565317ec3fea529766acbb35e17"
+    },
+    {
+      "number": 122,
+      "title": "[v0.92.1][Observatory] Deploy public exposure with Route53 and ACM",
+      "state": "open",
+      "labels": [
+        "area:observatory",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "e94050da821db1597acbeeda053d52ca2d7408d47c72b94e26bfe0c90e2cbbdc"
+    },
+    {
+      "number": 121,
+      "title": "[v0.92][WP-04.07][defect] Support quorum fencing and restart-safe lease epochs",
+      "state": "closed",
+      "labels": [
+
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "3c1acac2e098bc0288e2c810d9126d6e6e3085110ff307c70451d47c04e6db80"
+    },
+    {
+      "number": 117,
+      "title": "[v0.92][WP-18C.07][coordination] Coordinate production Polis interface qualification",
+      "state": "closed",
+      "labels": [
+        "area:review",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "42279dae76ce8be9843c491fc0d1083b09fc00c14679670ff5f7d0e820b811c6"
+    },
+    {
+      "number": 116,
+      "title": "[v0.92][WP-18C.06] Build the operator attention inbox and intervention workflow",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:feature",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "7903d490940288d95a5ef5d9f3254598c7d1a867b0b2e162f79c05e87bb3a306"
+    },
+    {
+      "number": 115,
+      "title": "[v0.92][WP-18C.05] Implement governed multi-agent rooms and message routing",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:feature",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "c084bba56d1865c8a7d7b102bed48835f72718255e48707d30a31877fe947546"
+    },
+    {
+      "number": 114,
+      "title": "[v0.92][WP-18C.04][coordination] Coordinate durable conversation history, continuity, and receipts",
+      "state": "closed",
+      "labels": [
+        "area:storage",
+        "track:roadmap",
+        "type:feature",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "a997f2288e56a1a0e65035aa8a8f83031522136babdcf7f0f017b941adb69956"
+    },
+    {
+      "number": 113,
+      "title": "[v0.92][WP-18C.03] Complete the live Polis roster and agent presence model",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:feature",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "569fd266c972485f997df815b8bb3f0d5d3c3bbe373fcfee5ff5f8d4e4a190af"
+    },
+    {
+      "number": 112,
+      "title": "[v0.92][WP-18C.02a][112.a] Define shared Layer 8 signed authority core",
+      "state": "closed",
+      "labels": [
+        "area:security",
+        "track:roadmap",
+        "type:feature",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "0e1178566b6b37a372da7215b966c24ae9bc99d820a8bb44bef1c562180b9d46"
+    },
+    {
+      "number": 111,
+      "title": "[v0.92][WP-18C.01] Implement canonical human-agent conversation sessions",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:feature",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "d2d006d62ffe55efbfda2d7d8f89137c5cc22f9be4025f9d6b1d2d6efa2e9d9f"
+    },
+    {
+      "number": 110,
+      "title": "[v0.92][WP-18C][umbrella] Establish Observatory as the living Polis interface",
+      "state": "closed",
+      "labels": [
+        "area:demo",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "f1209449bdb844474e39cac2c769b8aa1da5dc22ca67d39ac30eebebcd04ac62"
+    },
+    {
+      "number": 109,
+      "title": "[v0.92][C-SDLC] Use fresh sessions for standard SRP review",
+      "state": "closed",
+      "labels": [
+        "area:tools",
+        "track:roadmap",
+        "type:feature",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "1512a3999d45019c7128279e2fe09cf571a95fa8e12f9a75a266a2c6d314e4a6"
+    },
+    {
+      "number": 101,
+      "title": "[v0.92][tools] Prevent connector and raw-gh fallback for C-SDLC GitHub writes",
+      "state": "closed",
+      "labels": [
+
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "f11121c3e57ba13e1ec212b286c4f86a6b08e7d743d8781e3d5e400a4ef173c4"
+    },
+    {
+      "number": 100,
+      "title": "[v0.92][publication] Recover the 10 Medium launch article drafts to Google Drive",
+      "state": "closed",
+      "labels": [
+
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "39fbd587396a114576e320afef0513fffe3b289a810eff43c0dc4be1c7b3a0c8"
+    },
+    {
+      "number": 96,
+      "title": "[v0.92][C-SDLC v2][blocker] Reconcile umbrella receipts with v3 source-evidence topology",
+      "state": "closed",
+      "labels": [
+        "area:tooling",
+        "track:roadmap",
+        "type:bug",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "e5eab3f69a89ee75fa87dd452a6ed536ce9935ff0305012cb0d52f598d933af0"
+    },
+    {
+      "number": 92,
+      "title": "[v0.92][runtime-v3] Unify TLS/mTLS and retire self-signed Runtime certificates",
+      "state": "closed",
+      "labels": [
+
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "5ccd4ecc45b6930f2d5491223ebc5c7450685cd119e8fb7ba24983c4ef3e3983"
+    },
+    {
+      "number": 90,
+      "title": "[v0.92][C-SDLC v2] Support split-repository publication for pre-code_repository bound records",
+      "state": "closed",
+      "labels": [
+        "bug",
+        "csdlc-v2"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "617bdf303b01f690f29812e074ea207a12903710b82cec43aefc7ed86dff3857"
+    },
+    {
+      "number": 87,
+      "title": "[v0.92][runtime][ci] Fix ACIP minor-version strict Clippy failure",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:bug",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "4565e9476d2e9651f735014730b8641887e40b8c1b701130247257a35c0da5ba"
+    },
+    {
+      "number": 84,
+      "title": "[v0.92.1][Observatory] Complete live Unity Observatory Runtime v3 integration",
+      "state": "open",
+      "labels": [
+        "area:observatory",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "044f67590bac43d355059a0704cb19d617955345d4b6af57df044a0b18a2f6f7"
+    },
+    {
+      "number": 83,
+      "title": "[v0.92][WP-18A-HTML] Decompose Observatory integration into WP-18C",
+      "state": "closed",
+      "labels": [
+        "area:demo",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "b4eb608448fdc782accd6fd7eebbf0aa8fc81d1fc5b0fb2a0701ebbe6abf4259"
+    },
+    {
+      "number": 79,
+      "title": "[v0.92][C-SDLC v2][blocker] Permit bind-safe deferred new module and test targets",
+      "state": "closed",
+      "labels": [
+        "area:tooling",
+        "track:roadmap",
+        "type:bug",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "57edc6830069aadfc69c1cf43c436f9dac283163ec9a6ab6191de23b9c877dcf"
+    },
+    {
+      "number": 78,
+      "title": "[C-SDLC v2] Add typed STP deliverable correction after review recovery",
+      "state": "closed",
+      "labels": [
+        "area:tooling",
+        "type:bug"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "6159a5772eae2deaf0cb7c50a96c0c4bc750b14154575d9a39b4c65898133e00"
+    },
+    {
+      "number": 75,
+      "title": "C-SDLC v2 publish cannot represent non-closing incremental parent checkpoints",
+      "state": "closed",
+      "labels": [
+
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "015a0098e19d8f5fa70430027a046f61730c6a6d1dcd4ef741dceb2478c289b1"
+    },
+    {
+      "number": 74,
+      "title": "C-SDLC v2 bind is blocked by unrelated stale worktree records",
+      "state": "closed",
+      "labels": [
+
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "66de5a474235257a6cbefec370f673a37fb692bb2ba71b42f510bff78b265612"
+    },
+    {
+      "number": 73,
+      "title": "[planning][C-SDLC v3] Complete and independently review the Rust architecture and implementation issue plan",
+      "state": "closed",
+      "labels": [
+        "area:tooling",
+        "track:roadmap",
+        "type:planning"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "baf2f4a14d0fd3c6b1caf13ba9531ea142cd20c536d6bf51a6769b77b79a2b33"
+    },
+    {
+      "number": 66,
+      "title": "[v0.92][Provider] Add first-class Deepgram speech provider",
+      "state": "closed",
+      "labels": [
+        "area:tools",
+        "enhancement",
+        "track:backlog",
+        "type:task",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "77a79f2095ed245af6cc68b762619d2be13ad1526bdfc702f79abadd9eb2fbb5"
+    },
+    {
+      "number": 63,
+      "title": "C-SDLC editor cannot correct SIP scope after implemented review finding",
+      "state": "closed",
+      "labels": [
+        "area:tools",
+        "type:bug",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "0c8572895af4b32b87fea9a2a6088d342b0bb73cae35b43a191c6af882ebf6e8"
+    },
+    {
+      "number": 61,
+      "title": "C-SDLC bind topology scan misresolves historical worktree dot records",
+      "state": "closed",
+      "labels": [
+        "area:tools",
+        "type:bug",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "63e9442a5bed124dd4836d2920ee6cb59cabf7c59b58ba8771156a50d31cb0bf"
+    },
+    {
+      "number": 59,
+      "title": "[v0.92][Codex goals] Allow replacing a blocked goal when work is redirected",
+      "state": "closed",
+      "labels": [
+        "closeout:no-pr-approved"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "9eac4873d59c7b7a7ae3162f7f80aa7d28a92b87cb7d4311d3274137dd175baf"
+    },
+    {
+      "number": 56,
+      "title": "[v0.92][podcast] Rename the existing podcast preview to Cognitive Spacetime",
+      "state": "closed",
+      "labels": [
+
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "51b1140aab7c8120c05928d0c891b9d24f04bf02e235cc0385c5eaf03cc99a3d"
+    },
+    {
+      "number": 55,
+      "title": "[defect][ci][coverage] Route hosted coverage aggregation to the 16-core runner",
+      "state": "closed",
+      "labels": [
+
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "2532740bdfa727579af72a2e7e8690953315c131793c5fbeb6d3dd6c3a13b146"
+    },
+    {
+      "number": 53,
+      "title": "C-SDLC v2 execution-proof receipts cannot bind a committed evidence head without self-reference",
+      "state": "closed",
+      "labels": [
+
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "8003fd37961a881e31393ba07ceef947b1dff82257c1fe28a5266d812da4f072"
+    },
+    {
+      "number": 51,
+      "title": "[v0.92.1][podcast][coordination] Coordinate gated podcast publication and directory-submission children",
+      "state": "open",
+      "labels": [
+        "area:demo",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1"
+      ],
+      "milestone": 1,
+      "milestone_title": "v0.92.1",
+      "body_sha256": "3d1a83460faeca165f7f757bfabe8c1a1f5f4f3e3a8d5bc1faa086dd9e1a0d20"
+    },
+    {
+      "number": 47,
+      "title": "[C-SDLC v2][validation] Make named Rust test selectors target only their declared lane",
+      "state": "closed",
+      "labels": [
+        "area:tools",
+        "track:backlog",
+        "type:bug"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "34f36fcb59a3153a0dff8f6d19f5add88865d9d58f8851f2be084c9d71c3dffc"
+    },
+    {
+      "number": 45,
+      "title": "[C-SDLC v2] Make doctor honor split issue and code repository authority",
+      "state": "closed",
+      "labels": [
+
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "fff49606f4a141c5a237829b0cdc79a226ac4c4be6ebbfa94f99bb178c49db89"
+    },
+    {
+      "number": 41,
+      "title": "[C-SDLC v2][GitHub] Classify missing issue reads with actionable repository/404 diagnostics",
+      "state": "closed",
+      "labels": [
+
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "9ba4dfefeedc8ef2e67ec0afcbbc402d155e8cb49e52b7b7489e519869f708bf"
+    },
+    {
+      "number": 35,
+      "title": "[tooling] Codex background task dispatch hangs without returning ownership",
+      "state": "closed",
+      "labels": [
+
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "20cc09e4056f98cd5534780703e8dfb93b811dd92b3328a48457b5f1de05b3f5"
+    },
+    {
+      "number": 32,
+      "title": "[CI][runners] Make larger-runner eligibility branch-independent and observable",
+      "state": "closed",
+      "labels": [
+        "track:roadmap",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "a13dd12c9275eb7cebf3409684a2a8f0c63144a648717da6f01d4652008778c2"
+    },
+    {
+      "number": 27,
+      "title": "Native receipt validator has an impossible artifact-role denominator",
+      "state": "closed",
+      "labels": [
+
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "514f5ca06c563ea40af0f8986891377cffc1086d81aa57c9778cee959c11480d"
+    },
+    {
+      "number": 26,
+      "title": "AWS Spot lane live logging fails when /dev/fd process substitution is unavailable",
+      "state": "closed",
+      "labels": [
+
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "9e9bfa8ad1289bdb411ac43a92d67786a040d72236f8f106739bfc565a0ac3f0"
+    },
+    {
+      "number": 22,
+      "title": "Include pinned Ruby runtime in the immutable AWS Spot builder image",
+      "state": "closed",
+      "labels": [
+
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "dea094034e7daf11ee2f800b507198175ce0b41693cf37ad56e215892a36aed4"
+    },
+    {
+      "number": 20,
+      "title": "[v0.92][runtime-v3][soak][coordination] Coordinate bounded soak qualification children",
+      "state": "closed",
+      "labels": [
+        "area:runtime",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "f4cbc68315dbf592ae4f0eb73a72d6867304f52026268c093a5f7f79cfa6e2dd"
+    },
+    {
+      "number": 19,
+      "title": "[v0.92][WP-24A deployment] Deploy the podcast page to the preview URL",
+      "state": "closed",
+      "labels": [
+        "area:demo",
+        "track:roadmap",
+        "type:task",
+        "version:v0.92"
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "63690ba8bd37ebe82921a3f1d0eaa4a4b45ba4379f4fffcf2c9ad533397bdaae"
+    },
+    {
+      "number": 18,
+      "title": "C-SDLC schema commands should exit cleanly when stdout closes",
+      "state": "closed",
+      "labels": [
+
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "83a36b4540756ce3292acc5c1766259f10f266afb674f19ec066fefd9256b9f2"
+    },
+    {
+      "number": 17,
+      "title": "C-SDLC doctor should reject repository drift and non-executable owned-path plans",
+      "state": "closed",
+      "labels": [
+
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "88056e22b41227cfe782e1ef111fc74aca29a7322a5acd4dc1dbcc7e47f30ff2"
+    },
+    {
+      "number": 13,
+      "title": "[CI][WP-02A regression] Do not launch optional workspace coverage producers",
+      "state": "closed",
+      "labels": [
+
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "eb6f7056dadd377807eb72a0fc226c4ac3a081fc368ca26c1ecc64761c07502a"
+    },
+    {
+      "number": 10,
+      "title": "[v0.92][WP-24] Ten-article launch series",
+      "state": "closed",
+      "labels": [
+
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "d2feb7aba09a786b8fd03da66f6a509965ec8bef50ede97b302c10637ae1e0f5"
+    },
+    {
+      "number": 6,
+      "title": "[v0.92][repository migration] Migrate the ADL issue tracker to the canonical Agent Logic repository",
+      "state": "closed",
+      "labels": [
+
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "bc69986f9bda2ef85f019f7043922768558f128d59e57b28faf48a4b023131bf"
+    },
+    {
+      "number": 3,
+      "title": "[v0.92][C-SDLC v2] Support canonical PRs closing preserved legacy issues",
+      "state": "closed",
+      "labels": [
+
+      ],
+      "milestone": null,
+      "milestone_title": null,
+      "body_sha256": "1a3749f8b9f49177d07fbffa933e479f05ba10323faaeb2dfefda5989f0aaba9"
+    }
+  ]
+}

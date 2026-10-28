@@ -1,0 +1,214 @@
+{
+  "schema": "adl.csm.continuity_capsule.v1",
+  "format_version": "csm.continuity-capsule.v1",
+  "runtime_owner": "csm",
+  "created_at": "2026-07-06T11:02:23.317774+00:00",
+  "agent_instance_id": "csm-continuity-4910",
+  "source_host": "wuji",
+  "target_host": "local",
+  "manifest_ref": "continuity_capsule_manifest.json",
+  "state_root_ref": "state/",
+  "artifacts": [
+    {
+      "role": "runtime_identity",
+      "source_ref": "agent_spec.locked.json",
+      "bundle_ref": "state/agent_spec.locked.json",
+      "sha256": "2b69a0e36672c6b772d07f6bc5e629c4d87f96e140a88a0c3ca85476d0bd8833",
+      "bytes": 911,
+      "required": true
+    },
+    {
+      "role": "recoverable_status",
+      "source_ref": "status.json",
+      "bundle_ref": "state/status.json",
+      "sha256": "6b3072a0f9847a6144f789ffc4526cf5b80f5e87cc7d953db0800d6badc785b1",
+      "bytes": 699,
+      "required": true
+    },
+    {
+      "role": "daemon_status",
+      "source_ref": "daemon_status.json",
+      "bundle_ref": "state/daemon_status.json",
+      "sha256": "26ca638d712bf4d0cbb6703e27bbf283f9349a38b425960f9aec0b9b26297cd3",
+      "bytes": 2249,
+      "required": true
+    },
+    {
+      "role": "continuity",
+      "source_ref": "continuity.json",
+      "bundle_ref": "state/continuity.json",
+      "sha256": "db227f27533de7b2eb96e282da7a715887177491a795b1c3b28add4cd4765041",
+      "bytes": 695,
+      "required": true
+    },
+    {
+      "role": "continuity_checkpoint",
+      "source_ref": "continuity_checkpoint.json",
+      "bundle_ref": "state/continuity_checkpoint.json",
+      "sha256": "b14fd28bcd7e06f879e93aa81fa07b1f55aadcdd6254631be2d7d6fbcca61b97",
+      "bytes": 722,
+      "required": true
+    },
+    {
+      "role": "continuity_replay_manifest",
+      "source_ref": "continuity_replay_manifest.json",
+      "bundle_ref": "state/continuity_replay_manifest.json",
+      "sha256": "972f091d3e1914be1dfbbaa8fa8ac2d895a0fc09145e2df5fe142ec06acd5f29",
+      "bytes": 1116,
+      "required": true
+    },
+    {
+      "role": "dag_run_ledger",
+      "source_ref": "cycle_ledger.jsonl",
+      "bundle_ref": "state/cycle_ledger.jsonl",
+      "sha256": "54bff3bd9b09af4600aa4b68dfa3d8b2ff5164fb09199e5ab735964241e58299",
+      "bytes": 532,
+      "required": true
+    },
+    {
+      "role": "memory_index",
+      "source_ref": "memory_index.json",
+      "bundle_ref": "state/memory_index.json",
+      "sha256": "15fedcbcc911dbe19725ea6a01e99dbe8bef284f594775a6bee96044fc8c8725",
+      "bytes": 247,
+      "required": true
+    },
+    {
+      "role": "provider_binding_history",
+      "source_ref": "provider_binding_history.jsonl",
+      "bundle_ref": "state/provider_binding_history.jsonl",
+      "sha256": "5398be9c1f9a3f361147b815aa838c4cf8697e503ac4a740c77a82d7ae982eb7",
+      "bytes": 274,
+      "required": true
+    },
+    {
+      "role": "observability_tail",
+      "source_ref": "operator_events.jsonl",
+      "bundle_ref": "state/operator_events.jsonl",
+      "sha256": "f485ce3ff930465f07c1223ef15b617eead28725645808096dc6146018958d27",
+      "bytes": 13252,
+      "required": true
+    },
+    {
+      "role": "cycle_artifacts",
+      "source_ref": "cycles/cycle-000001/cycle_manifest.json",
+      "bundle_ref": "state/cycles/cycle-000001/cycle_manifest.json",
+      "sha256": "adfa9cb4536c3491cfc556ea5ea54aca5f744c5a77ec323473af193a472d057c",
+      "bytes": 1224,
+      "required": false
+    },
+    {
+      "role": "cycle_artifacts",
+      "source_ref": "cycles/cycle-000001/cycle_summary.md",
+      "bundle_ref": "state/cycles/cycle-000001/cycle_summary.md",
+      "sha256": "5a6b0c660e9bef0990bc480b789def067baf17123993aaee8f49494ee6f6b65e",
+      "bytes": 428,
+      "required": false
+    },
+    {
+      "role": "cycle_artifacts",
+      "source_ref": "cycles/cycle-000001/decision_request.json",
+      "bundle_ref": "state/cycles/cycle-000001/decision_request.json",
+      "sha256": "3f5855d949436a71a61e5385990e54d9c3e771638a917a4a508db8955d851cd2",
+      "bytes": 447,
+      "required": false
+    },
+    {
+      "role": "cycle_artifacts",
+      "source_ref": "cycles/cycle-000001/decision_result.json",
+      "bundle_ref": "state/cycles/cycle-000001/decision_result.json",
+      "sha256": "20880bec2be04364315d957f0a6d5cd4643543e8295315a19189cd4c26e03107",
+      "bytes": 495,
+      "required": false
+    },
+    {
+      "role": "cycle_artifacts",
+      "source_ref": "cycles/cycle-000001/guardrail_report.json",
+      "bundle_ref": "state/cycles/cycle-000001/guardrail_report.json",
+      "sha256": "857c253069d180c33d7968a379830de4f840a90b192e22188e5d9a239689afd4",
+      "bytes": 2034,
+      "required": false
+    },
+    {
+      "role": "cycle_artifacts",
+      "source_ref": "cycles/cycle-000001/memory_writes.jsonl",
+      "bundle_ref": "state/cycles/cycle-000001/memory_writes.jsonl",
+      "sha256": "d93b527edae2d0bc63ea6e50bb1bfc185e86d1b25054ff92fab8a5883d64501a",
+      "bytes": 335,
+      "required": false
+    },
+    {
+      "role": "cycle_artifacts",
+      "source_ref": "cycles/cycle-000001/observations.json",
+      "bundle_ref": "state/cycles/cycle-000001/observations.json",
+      "sha256": "0f2fb0389aea27f5feec5325ae937ed09d9c7ffd0269518cf6141865e9186ecf",
+      "bytes": 626,
+      "required": false
+    },
+    {
+      "role": "cycle_artifacts",
+      "source_ref": "cycles/cycle-000001/run_ref.json",
+      "bundle_ref": "state/cycles/cycle-000001/run_ref.json",
+      "sha256": "ad663dd7af141577c57c789273064cf64454ac1b4bebfda2c9de4fa4051c9126",
+      "bytes": 185,
+      "required": false
+    }
+  ],
+  "binary_segments": [
+    {
+      "role": "continuity_checkpoint_snapshot",
+      "source_ref": "continuity_checkpoint.json",
+      "segment_ref": "segments/continuity_checkpoint.snapshot.segment",
+      "sha256": "457251a141556992ac9a39898a9ac9ed2835876c9fed278d40adbd394be5375b",
+      "payload_sha256": "b14fd28bcd7e06f879e93aa81fa07b1f55aadcdd6254631be2d7d6fbcca61b97",
+      "bytes": 1571,
+      "schema": "adl.csm.snapshot_segment.v1",
+      "format_version": "csm.snapshot-segment.v1",
+      "hash_address": "sha256:457251a141556992ac9a39898a9ac9ed2835876c9fed278d40adbd394be5375b",
+      "required": true
+    }
+  ],
+  "rebind_policy": {
+    "schema": "adl.csm.continuity_capsule_rebind_policy.v1",
+    "target_host": "local",
+    "identity": "preserve_agent_instance_id_and_locked_spec",
+    "capabilities": "re-evaluate_on_target_control_plane",
+    "provider_auth": "excluded_from_bundle_rebind_from_target_provider_environment",
+    "paths": "bundle_relative_refs_only",
+    "provider_bindings": "historical_bindings_retained_new_bindings_required_after_stage",
+    "aws": {
+      "default_profile": "agent-logic-admin",
+      "live_ec2_transfer": "blocked_without_operator_authorization"
+    }
+  },
+  "observability": {
+    "schema": "adl.csm.continuity_capsule_observability.v1",
+    "operation": "capture",
+    "event_command": "csm",
+    "event_stages": [
+      "continuity_capsule_capture",
+      "continuity_capsule_stage"
+    ],
+    "otel_service_name": "csm-runtime-daemon",
+    "retained_refs": [
+      "operator_events.jsonl",
+      "continuity_capsule_manifest.json",
+      "stage_report.json"
+    ]
+  },
+  "future_readability": {
+    "schema_stability": "format_version_required",
+    "reader_guarantee": "future readers must reject unknown major versions",
+    "portable_paths": "bundle_relative_refs_only",
+    "binary_segment_policy": {
+      "format_version": "csm.snapshot-segment.v1",
+      "manifest_linkage": "binary segments are hash-addressed from this JSON manifest",
+      "protobuf_decision": "evaluated in issue #4933; deferred until codegen/toolchain ownership is explicit"
+    }
+  },
+  "non_claims": [
+    "not_live_multi_region_disaster_recovery",
+    "not_secret_material_capture",
+    "not_live_ec2_transfer_without_operator_authorization"
+  ]
+}

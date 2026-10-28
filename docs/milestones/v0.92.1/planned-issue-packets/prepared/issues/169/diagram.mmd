@@ -1,0 +1,13 @@
+flowchart TD
+  INPUT["authorized mutation"] --> LOCK["transaction lock"]
+  LOCK --> CAS["generation/digest CAS"]
+  CAS --> STAGE["stage state + intent"]
+  STAGE --> SYNC["file and parent sync"]
+  SYNC --> COMMIT["atomic state.json replace"]
+  COMMIT --> PROJECT["replace cards/evidence/audit views"]
+  PROJECT -->|failure| REPAIR["repair required"]
+  INTENT["durable remote intent"] --> EFFECT["remote effect"]
+  EFFECT --> READBACK["exact readback"]
+  READBACK --> COMMIT
+  OBSERVE["state + staging + intents"] --> CLASSIFY["pure recovery classifier"]
+  CLASSIFY --> LOCK

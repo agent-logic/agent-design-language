@@ -1,0 +1,35 @@
+# Feature Docs - v0.90.1
+
+## Implementation-Facing Features
+
+| Feature Doc | Purpose | WPs / Issues |
+| --- | --- | --- |
+| `features/RUNTIME_V2_FOUNDATION_PROTOTYPE.md` | end-to-end prototype boundary and proof packet | WP-05-WP-12 |
+| `features/MANIFOLD_AND_SNAPSHOT_CONTRACT.md` | manifold root, snapshot, and rehydration contract | WP-05, WP-08 |
+| `features/KERNEL_SERVICES_AND_CONTROL_PLANE.md` | kernel service loop, scheduling, admission, operator control | WP-06, WP-10 |
+| `features/PROVISIONAL_CITIZEN_LIFECYCLE.md` | provisional citizen record and lifecycle state machine | WP-07 |
+| `features/INVARIANT_AND_SECURITY_BOUNDARY.md` | invariant violation artifacts and one security-boundary proof | WP-09, WP-11 |
+| `features/CSM_OBSERVATORY_VISIBILITY_PACKET.md` | CSM visibility packet contract for Observatory console, reports, CLI, and operator-command follow-ons | #2188 |
+| `demos/v0.90.1/csm_observatory_static_console.md` | read-only static Observatory console prototype derived from the visibility packet | #2189 |
+| `features/CSM_OBSERVATORY_OPERATOR_REPORT.md` | deterministic operator/reviewer report generated from the CSM visibility packet | #2190 |
+| `demos/v0.90.1/csm_observatory_cli_demo.md` | command-driven Observatory demo bundle for packet/report/console-reference proof | #2191 |
+| `features/CSM_OBSERVATORY_OPERATOR_COMMAND_PACKETS.md` | safe command packet contract for future Observatory pause/resume/snapshot/annotate/shepherd interactions without UI state mutation | #2192 |
+
+## Compression-Enabling Process Work
+
+| Work Surface | Purpose | WPs / Issues |
+| --- | --- | --- |
+| WP issue-wave template and generator alignment | make v0.90.1 and v0.90.2 issue waves cheaper and less error-prone | WP-02 / #2142 |
+| Worktree-first workflow hardening | prevent tracked root-checkout drift during compressed execution | WP-03 / #2143 |
+| `features/COMPRESSION_ERA_EXECUTION_POLICY.md` | align skills, explicit-only subagents, validation profiles, and SOR evidence | WP-04 / #2144 |
+| `RELEASE_READINESS_v0.90.1.md` | record release readiness before ceremony | WP-17 / #2157 |
+| `V091_V092_HANDOFF_v0.90.1.md` | preserve v0.91 and v0.92 boundaries before closeout | WP-18 / #2158 |
+| `RELEASE_EVIDENCE_v0.90.1.md` | assemble the final proof trail without release-tail archaeology | WP-19 / #2159 |
+
+## Context / Idea Docs
+
+| Idea Doc | Purpose | Boundary |
+| --- | --- | --- |
+| `ideas/RUNTIME_V2_ROADMAP_CONTEXT.md` | explain v0.90.1 between v0.90 and v0.91/v0.92 | context only |
+| `ideas/POLIS_DEFENSE_CONTEXT.md` | preserve security insight without distorting CSM thesis | context only |
+| `ideas/LATER_BIRTHDAY_AND_IDENTITY_BOUNDARY.md` | preserve v0.92 birthday boundary | context only |

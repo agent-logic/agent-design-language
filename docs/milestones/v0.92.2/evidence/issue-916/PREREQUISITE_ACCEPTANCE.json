@@ -1,0 +1,660 @@
+{
+  "issue": 916,
+  "prerequisites": [
+    {
+      "issue": 861,
+      "task": "CSDLC-MAN",
+      "audit_status": "historical_record_inspected",
+      "observation": "Manual proof reports 30 installed pages, 26 root-help commands and 207 request fields; macOS/Linux fixture installation is not live owner activation.",
+      "evidence_candidates": [
+        {
+          "path": ".csdlc/evidence/861/PROOF.md",
+          "source_commit": "dd3464513f38a884e8f720eea6a8d56abddd49d8",
+          "sha256": "b4a987a772efefcf55e0b3852b0bb018137fe27ffda2379a7f518d92ec04446a"
+        },
+        {
+          "path": ".csdlc/evidence/861/source-manifest.json",
+          "source_commit": "dd3464513f38a884e8f720eea6a8d56abddd49d8",
+          "sha256": "fd2c3176b2789f81e8eda325103328c9a56d33dd79a9a4a8578ced2ca641a893"
+        },
+        {
+          "path": ".csdlc/evidence/861/validation/linux-results.json",
+          "source_commit": "dd3464513f38a884e8f720eea6a8d56abddd49d8",
+          "sha256": "5b915d886283077676ed217b5c4474c74d62b84457b2da776d3092d4fccf7a70"
+        },
+        {
+          "path": ".csdlc/evidence/861/validation/local-results.json",
+          "source_commit": "dd3464513f38a884e8f720eea6a8d56abddd49d8",
+          "sha256": "3a73b402811d81f23f3dbabb07bdbb91c7e7532eb88d95d97c8892f11e66bd23"
+        },
+        {
+          "path": "docs/csdlc-v3/man/README.md",
+          "source_commit": "dd3464513f38a884e8f720eea6a8d56abddd49d8",
+          "sha256": "d2779d45e4839ed2e98511375875b744cbc259251d31cd8a59d9c6a64858bb23"
+        },
+        {
+          "path": "docs/csdlc-v3/man/examples/proof.json",
+          "source_commit": "dd3464513f38a884e8f720eea6a8d56abddd49d8",
+          "sha256": "96e54189a04add1c31cf85dcea0de0e457ca53bfaf5da1845b3597d68fe47d9a"
+        },
+        {
+          "path": "docs/csdlc-v3/man/inventory.json",
+          "source_commit": "dd3464513f38a884e8f720eea6a8d56abddd49d8",
+          "sha256": "523569a9f6c14c755bf95792b85dd28eec2049abfe54853d3cb17e2d176b5679"
+        }
+      ],
+      "final_candidate_acceptance": "not_proven"
+    },
+    {
+      "issue": 866,
+      "task": "SIM-UMBRELLA",
+      "audit_status": "historical_record_inspected",
+      "observation": "Live issue body contains coordination-only completion metadata for eight children. #875 is explicitly deferred to v0.93; no 30-journey pilot proof is inferred.",
+      "evidence_candidates": [],
+      "final_candidate_acceptance": "not_proven"
+    },
+    {
+      "issue": 848,
+      "task": "ARCH-SPLIT",
+      "audit_status": "historical_record_inspected",
+      "observation": "Planning review dispositions resolve the rollback-support boundary and retain incomplete first review without inferring approval. Planning acceptance does not establish extracted independent builds.",
+      "evidence_candidates": [
+        {
+          "path": "docs/milestones/v0.92.2/repository-decomposition/source-inventory.json",
+          "source_commit": "b5219c8bb742ba5c42ff2c2def299cd03bacd76f",
+          "sha256": "52cd9afe91fe849a69da38cc3d43a284326ad10e37eeff87694308cc351ef7dc"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/repository-decomposition/FINDINGS.md",
+          "sha256": "dc89c3019fac30552a0e80984356a893e377445545fe6c79a92b4fae27da946f"
+        }
+      ],
+      "final_candidate_acceptance": "not_proven"
+    },
+    {
+      "issue": 854,
+      "task": "RT-COST",
+      "audit_status": "historical_record_inspected",
+      "observation": "Monitoring documentation describes counting-fixture proof: one startup inference, no calls over 100 polling rounds / 400 virtual seconds, then failure/recovery and another idle window. These are fixture observations, not billing readbacks.",
+      "evidence_candidates": [
+        {
+          "path": "docs/runtime/RESIDENT_PROVIDER_MONITORING.md",
+          "sha256": "f146fa85b8a358352fa39e03d3ca00f2183e3282b1f7b583b21cc9ae6c87ffc5"
+        }
+      ],
+      "final_candidate_acceptance": "not_proven"
+    },
+    {
+      "issue": 877,
+      "task": "PLAT-UTS",
+      "audit_status": "historical_record_inspected",
+      "observation": "Retained install receipt binds adl-uts 0.1.0 and isolated extracted-artifact consumption. Runtime dispatch acceptance remains a separate proof obligation.",
+      "evidence_candidates": [
+        {
+          "path": ".csdlc/evidence/877/REVIEW.md",
+          "source_commit": "15c476fe497ad975cabe4c73f729930d20a302d9",
+          "sha256": "9f8e40fcffb0fcbb41e5b8bbb1f788ba7ecf459c5e4160be2fe8b1ea08609eab"
+        },
+        {
+          "path": ".csdlc/evidence/877/install-proof.json",
+          "source_commit": "15c476fe497ad975cabe4c73f729930d20a302d9",
+          "sha256": "9691820d032d3374ba2397ca0c96f86e4a0aaf73786d5a6dc80448e5fe59799a"
+        },
+        {
+          "path": ".csdlc/evidence/877/install-repeat-proof.json",
+          "source_commit": "15c476fe497ad975cabe4c73f729930d20a302d9",
+          "sha256": "521355d2095e2536e38cf1851c64570f2cb43fd24aa4fc591df6cd89eecc4f5d"
+        },
+        {
+          "path": "docs/specs/uts/README.md",
+          "source_commit": "15c476fe497ad975cabe4c73f729930d20a302d9",
+          "sha256": "aac57d648507c28b1b94cb7035a20e41964af7123792e8d72709439a2361e363"
+        },
+        {
+          "path": "docs/validation/issue877_uts_package.json",
+          "source_commit": "15c476fe497ad975cabe4c73f729930d20a302d9",
+          "sha256": "30c7f8f7374d6967519a55534ee9e66d7ff6ba72ad999631b60297e978c0adcc"
+        }
+      ],
+      "final_candidate_acceptance": "not_proven"
+    },
+    {
+      "issue": 852,
+      "task": "QUAL-RUNTIME",
+      "audit_status": "criterion_evidence_admitted",
+      "observation": "Existing criterion consumer reopened and admitted protected producer artifacts; see successful five-row replay.",
+      "evidence_candidates": [
+        {
+          "path": "docs/milestones/v0.92.2/evidence/qual-runtime-852/README.md",
+          "source_commit": "ee8635aea3b1de928ea397be246320c696b57095",
+          "sha256": "f0d4b980f6752c4c3aee326e999204ab424c37c557dac014fcb67174f740b59d"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/qual-runtime-852/validation.json",
+          "source_commit": "ee8635aea3b1de928ea397be246320c696b57095",
+          "sha256": "07892d3ea946dd001b19958e469ff572fd43712c509687d80cfcd77900060cd2"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/issue-916/runtime-admission-recovered.json",
+          "sha256": "1a7f947a2feab3e2bd9a83173b185ca9b4d4b5f141819cd96b90dd4548e0afdc"
+        }
+      ],
+      "final_candidate_acceptance": "not_proven"
+    },
+    {
+      "issue": 899,
+      "task": "QUAL-INVENTORY",
+      "audit_status": "criterion_evidence_admitted",
+      "observation": "Existing criterion consumer reopened and admitted protected producer artifacts; see successful five-row replay.",
+      "evidence_candidates": [
+        {
+          "path": "docs/milestones/v0.92.2/evidence/qual-inventory-899/README.md",
+          "source_commit": "b124cfbd79de94103bc1e2f895ceb973273a7079",
+          "sha256": "e4dc5908fe8e0d3ea371d570b30405fab99c17a68b3cbda3add85bf585cc01cd"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/qual-inventory-899/bundles.json",
+          "source_commit": "b124cfbd79de94103bc1e2f895ceb973273a7079",
+          "sha256": "725dddf3928d4455e2f95d6bc913e0209cd2706291de5f1e8f6be46fb1ba51aa"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/qual-inventory-899/comparison.json",
+          "source_commit": "b124cfbd79de94103bc1e2f895ceb973273a7079",
+          "sha256": "c82d122ca7f41ea5bf4152e6c736cea28bee65d953616d154c4e53c1cd3222c7"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/qual-inventory-899/existing-inventory-regression.json",
+          "source_commit": "b124cfbd79de94103bc1e2f895ceb973273a7079",
+          "sha256": "4a33f4404a88d5bb37eae63961b6ae533771eb259ab7d9ee0dff3294d9f15b2f"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/qual-inventory-899/proof-profile.json",
+          "source_commit": "b124cfbd79de94103bc1e2f895ceb973273a7079",
+          "sha256": "d02479c0f20bd211ec870fb769332411a89531a79f38881a62d121e04eac1504"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/issue-916/runtime-admission-recovered.json",
+          "sha256": "1a7f947a2feab3e2bd9a83173b185ca9b4d4b5f141819cd96b90dd4548e0afdc"
+        }
+      ],
+      "final_candidate_acceptance": "not_proven"
+    },
+    {
+      "issue": 900,
+      "task": "QUAL-RESIDENT",
+      "audit_status": "criterion_evidence_admitted",
+      "observation": "Existing criterion consumer reopened and admitted protected producer artifacts; see successful five-row replay.",
+      "evidence_candidates": [
+        {
+          "path": "docs/milestones/v0.92.2/evidence/qual-resident-900/README.md",
+          "source_commit": "b13069dd71d1ccd70083c4018c777f8e56daafd6",
+          "sha256": "51daa8c030c3ab34bf0c9a98f91a159b9c823ffbd92ed54ad655d7ff702b7496"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/qual-resident-900/test-manifest.json",
+          "source_commit": "b13069dd71d1ccd70083c4018c777f8e56daafd6",
+          "sha256": "d134519fe5fa57b53c30439f5219592e4ff1a6bb601d98b839f0824ec1a4ed54"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/qual-resident-900/validation.json",
+          "source_commit": "b13069dd71d1ccd70083c4018c777f8e56daafd6",
+          "sha256": "92dd5a7f2a69d52b2eecd651f8728413045ef30b24772c73b0a9fbb782183295"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/issue-916/runtime-admission-recovered.json",
+          "sha256": "1a7f947a2feab3e2bd9a83173b185ca9b4d4b5f141819cd96b90dd4548e0afdc"
+        }
+      ],
+      "final_candidate_acceptance": "not_proven"
+    },
+    {
+      "issue": 901,
+      "task": "QUAL-PROVIDER",
+      "audit_status": "criterion_evidence_admitted",
+      "observation": "Existing criterion consumer reopened and admitted protected producer artifacts; see successful five-row replay.",
+      "evidence_candidates": [
+        {
+          "path": "docs/milestones/v0.92.2/evidence/qual-provider-901/README.md",
+          "source_commit": "f69019c24a9b61511e912c93f95442f96fa66d92",
+          "sha256": "8b7bbaf39c613b958b9694139ef79c65c5df6699a139b75de8721b752a6eec8f"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/qual-provider-901/qualification-report.json",
+          "source_commit": "f69019c24a9b61511e912c93f95442f96fa66d92",
+          "sha256": "b5a8cfbd941b07efc3baab1e133f7a11da69b4f56b19608479a4013b397d1a32"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/qual-provider-901/runtime-qualification-report.json",
+          "source_commit": "f69019c24a9b61511e912c93f95442f96fa66d92",
+          "sha256": "e31299a7e44ee27715ac9c76252a857a1b9c3d87d86ac23fa6181af157470e22"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/issue-916/runtime-admission-recovered.json",
+          "sha256": "1a7f947a2feab3e2bd9a83173b185ca9b4d4b5f141819cd96b90dd4548e0afdc"
+        }
+      ],
+      "final_candidate_acceptance": "not_proven"
+    },
+    {
+      "issue": 902,
+      "task": "QUAL-EVIDENCE",
+      "audit_status": "criterion_evidence_admitted",
+      "observation": "Existing criterion consumer reopened and admitted protected producer artifacts; see successful five-row replay.",
+      "evidence_candidates": [
+        {
+          "path": "docs/milestones/v0.92.2/evidence/qual-evidence-902/README.md",
+          "source_commit": "551a7b6e2790c512bd316b917d134570f297e3ed",
+          "sha256": "1b51333f54447c37d70b0ef6328b167d29617c32f36be72ed3fd18576b10266a"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/qual-evidence-902/qualification-manifest.json",
+          "source_commit": "551a7b6e2790c512bd316b917d134570f297e3ed",
+          "sha256": "4e0721a51e096d8247cf4bbac67608f57f26ebb566028af8a4eb94bb70cd55db"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/qual-evidence-902/test-manifest.json",
+          "source_commit": "551a7b6e2790c512bd316b917d134570f297e3ed",
+          "sha256": "582f5e47b853c625c3341aa5f6531855a2d246b630e5f6ea3369b39835754288"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/qual-evidence-902/validation.json",
+          "source_commit": "551a7b6e2790c512bd316b917d134570f297e3ed",
+          "sha256": "ca45cfebaacf14e3327f745cd3f7f6f14a08e5f142765c9fa8acdb91787e0501"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/issue-916/runtime-admission-recovered.json",
+          "sha256": "1a7f947a2feab3e2bd9a83173b185ca9b4d4b5f141819cd96b90dd4548e0afdc"
+        }
+      ],
+      "final_candidate_acceptance": "not_proven"
+    },
+    {
+      "issue": 903,
+      "task": "PLAT-MLX",
+      "audit_status": "historical_record_inspected",
+      "observation": "Actual-hardware receipt reports one passing canonical Runtime MLX smoke. Successful matched review comparison and review-speed advantage remain unproved; comparison is supplemental, not adapter completion.",
+      "evidence_candidates": [
+        {
+          "path": ".csdlc/evidence/903/COMPARISON_STATUS.md",
+          "source_commit": "6aaf316996d68726d38a20ae5f3cef4f81ce1412",
+          "sha256": "70e3bff2f198ea37eb25ca60ba518b10d881be5b791875522ad4d6502e73d9d2"
+        },
+        {
+          "path": ".csdlc/evidence/903/README.md",
+          "source_commit": "6aaf316996d68726d38a20ae5f3cef4f81ce1412",
+          "sha256": "97a3446c6108f6a0989387f0e46d405b9f9a68dd83f3ba27629525440bfb1d7b"
+        },
+        {
+          "path": ".csdlc/evidence/903/local-validation.json",
+          "source_commit": "6aaf316996d68726d38a20ae5f3cef4f81ce1412",
+          "sha256": "5d89a2f87623503b46b20c5539899c76f2120e51da7964b23e8773b7b07b097c"
+        },
+        {
+          "path": ".csdlc/evidence/903/source-review.json",
+          "source_commit": "6aaf316996d68726d38a20ae5f3cef4f81ce1412",
+          "sha256": "22341e3814fbaffb8eef3fb64c6aeb91b1d9d6ea6e477baf6d81849edbe1e178"
+        }
+      ],
+      "final_candidate_acceptance": "not_proven"
+    },
+    {
+      "issue": 904,
+      "task": "PLAT-PAIR",
+      "audit_status": "historical_record_inspected",
+      "observation": "PAIR delivered a REPAIR decision. Report records 72 correct requests across baseline/raw/Runtime and node loss; production readiness, pooled VRAM and isolated router speedup are not claimed.",
+      "evidence_candidates": [
+        {
+          "path": ".csdlc/evidence/904/DECISION.md",
+          "source_commit": "b7cbd784e5ed2dd750a09f1656de611f13d4ca86",
+          "sha256": "987e051a6fa6494817e39509814c6d5eceec69faf9311f94e12a1044177518b9"
+        },
+        {
+          "path": ".csdlc/evidence/904/EXPERIMENT_REPORT.md",
+          "source_commit": "b7cbd784e5ed2dd750a09f1656de611f13d4ca86",
+          "sha256": "03c3695b211ac096010b26c19fdaa18ecbf855e8e9f1c747267b6fc21cf50f7a"
+        },
+        {
+          "path": ".csdlc/evidence/904/IMPLEMENTATION_STATUS.md",
+          "source_commit": "b7cbd784e5ed2dd750a09f1656de611f13d4ca86",
+          "sha256": "c51f04217b000b5301f3706f814bd7c52ab71532c5898df8db85d861012e52bc"
+        },
+        {
+          "path": ".csdlc/evidence/904/MEASUREMENTS.json",
+          "source_commit": "b7cbd784e5ed2dd750a09f1656de611f13d4ca86",
+          "sha256": "dadcab74652122d014372b9e355e57b5a030db7e34111109a51ebc8393fb79c8"
+        },
+        {
+          "path": ".csdlc/evidence/904/RESULTS.json",
+          "source_commit": "b7cbd784e5ed2dd750a09f1656de611f13d4ca86",
+          "sha256": "52d82066b3aae51b9d15ea36add7b02f3d7caa859b16f1ab658b8e34b9d4f7fd"
+        },
+        {
+          "path": ".csdlc/evidence/904/SUPPLEMENTAL_RESULTS.json",
+          "source_commit": "b7cbd784e5ed2dd750a09f1656de611f13d4ca86",
+          "sha256": "34fa4929afbab574918fc55c54f33af2ff05786c2e833b8700111b3fdb65e496"
+        }
+      ],
+      "final_candidate_acceptance": "not_proven"
+    },
+    {
+      "issue": 905,
+      "task": "SPEC-RETEST",
+      "audit_status": "historical_record_inspected",
+      "observation": "Eight output-equivalent paired conversations do not establish performance benefit: three of four end-to-end blocks lost. repair_inconclusive is a completed decision, not successful acceleration.",
+      "evidence_candidates": [
+        {
+          "path": ".csdlc/evidence/905/PR1004_REVIEW_REMEDIATION.json",
+          "source_commit": "8a6fdb694f0e49bf72062d01830eb66ffa15d8e2",
+          "sha256": "2bbc9ea9a6ff6ed55230010b996486d846e6afa6477efed9e63d41b6973426e8"
+        },
+        {
+          "path": ".csdlc/evidence/905/RETEST_STATUS.md",
+          "source_commit": "8a6fdb694f0e49bf72062d01830eb66ffa15d8e2",
+          "sha256": "6453ff96019fa9adb62498e0cfd6339f17f3a44fa6e539fa352a911f32062528"
+        },
+        {
+          "path": ".csdlc/evidence/905/pr1004-review-followup-edit.json",
+          "source_commit": "8a6fdb694f0e49bf72062d01830eb66ffa15d8e2",
+          "sha256": "869ea319a2f876c76b928ac0dce1ff47fef19ffd028bf044dff58974bebceb68"
+        },
+        {
+          "path": ".csdlc/evidence/905/pr1004-review-followup-validate.json",
+          "source_commit": "8a6fdb694f0e49bf72062d01830eb66ffa15d8e2",
+          "sha256": "d43c9d3439b9dfacc2e3da8510058bd63e78aa0fd3d98b1781321b12b7084424"
+        },
+        {
+          "path": ".csdlc/evidence/905/pr1004-review-remediation-edit.json",
+          "source_commit": "8a6fdb694f0e49bf72062d01830eb66ffa15d8e2",
+          "sha256": "bd36186d6d26110d54d4b9652e8ade3f5e371822f279215ac5f029a86c8b455e"
+        },
+        {
+          "path": ".csdlc/evidence/905/pr1004-review-remediation-validate.json",
+          "source_commit": "8a6fdb694f0e49bf72062d01830eb66ffa15d8e2",
+          "sha256": "d8c1ead45c2a42de644d23225a8b7ceef1d7ca180e5b03abd4d8fbf1673719d8"
+        },
+        {
+          "path": ".csdlc/evidence/905/pr1004-review-second-remediation-edit.json",
+          "source_commit": "8a6fdb694f0e49bf72062d01830eb66ffa15d8e2",
+          "sha256": "e7728a2b1b9ff4ff809ed2b11a3365a437cb62dbc6390f9a2aece432f7ea1a08"
+        },
+        {
+          "path": ".csdlc/evidence/905/pr1004-review-second-remediation-validate.json",
+          "source_commit": "8a6fdb694f0e49bf72062d01830eb66ffa15d8e2",
+          "sha256": "eef4cd27ecb338061603c99844919e3d78f916985a894d299efda0cbd8663d42"
+        },
+        {
+          "path": ".csdlc/evidence/905/pr1004-review-third-remediation-edit.json",
+          "source_commit": "8a6fdb694f0e49bf72062d01830eb66ffa15d8e2",
+          "sha256": "9e5c57c11b6b2a69b6476d7aaff2a216eac66ecc855633c8999594b0b1de7e5f"
+        },
+        {
+          "path": ".csdlc/evidence/905/pr1004-review-third-remediation-validate.json",
+          "source_commit": "8a6fdb694f0e49bf72062d01830eb66ffa15d8e2",
+          "sha256": "e9610ba2be47e9a40551af7e21b606b2fd74ed86e97a9b5fcc7d229793a21431"
+        },
+        {
+          "path": ".csdlc/evidence/905/pr1004-review-truth-wording-edit.json",
+          "source_commit": "8a6fdb694f0e49bf72062d01830eb66ffa15d8e2",
+          "sha256": "6d4a1e0f5a8d591c13ec631cc4d17847c6508f0fedf148e80b5b342435ab99f3"
+        },
+        {
+          "path": ".csdlc/evidence/905/pr1004-review-truth-wording-validate.json",
+          "source_commit": "8a6fdb694f0e49bf72062d01830eb66ffa15d8e2",
+          "sha256": "66eb7e40faa120047137ec3be6e66b49ed962f5faffafda3784ac8eedaf38012"
+        },
+        {
+          "path": ".csdlc/evidence/905/review-remediation-edit.json",
+          "source_commit": "8a6fdb694f0e49bf72062d01830eb66ffa15d8e2",
+          "sha256": "f4adb9dbad6f6ef084d40fac0dd83bcd6580b10245623fd2853fc5c0301e5ebd"
+        },
+        {
+          "path": ".csdlc/evidence/905/review-remediation-validate.json",
+          "source_commit": "8a6fdb694f0e49bf72062d01830eb66ffa15d8e2",
+          "sha256": "aed7456b2cc7e64c0c1518c07ab94f9b15ad89cc71ea7d2fe1d6745788d41a98"
+        },
+        {
+          "path": ".csdlc/evidence/905/review-truth-cleanup-edit.json",
+          "source_commit": "8a6fdb694f0e49bf72062d01830eb66ffa15d8e2",
+          "sha256": "5ca431992b3d8618c654dfaf7e19888d38f03470ec238a2d5442997fd666f6a8"
+        },
+        {
+          "path": ".csdlc/evidence/905/review-truth-cleanup-validate.json",
+          "source_commit": "8a6fdb694f0e49bf72062d01830eb66ffa15d8e2",
+          "sha256": "a3cf16ea2cc4f90ff77b862aed1b3285103f6d4b9dfc295d86c9aeda948cec75"
+        },
+        {
+          "path": ".csdlc/evidence/905/reviewed-edit.json",
+          "source_commit": "8a6fdb694f0e49bf72062d01830eb66ffa15d8e2",
+          "sha256": "4c794c697b9a670de8fba999d1000c9e7486dff4cabc25b07c0a2c7b30795c84"
+        },
+        {
+          "path": ".csdlc/evidence/905/reviewed-validate.json",
+          "source_commit": "8a6fdb694f0e49bf72062d01830eb66ffa15d8e2",
+          "sha256": "bb7dee49424020c80f97d11ac86e9e86f5bf046dbd52c1640f77b5a818715af4"
+        }
+      ],
+      "final_candidate_acceptance": "not_proven"
+    },
+    {
+      "issue": 849,
+      "task": "CSDLC-MERGE",
+      "audit_status": "historical_record_inspected",
+      "observation": "Retained validation reports 16 focused merge tests and independent bounded review. Full all-target suite failed on then-existing release inventory omission; diagnostic 253-test run explicitly skipped that test. Preserve partial status; do not infer current failure from historical evidence.",
+      "evidence_candidates": [
+        {
+          "path": ".csdlc/evidence/849/VALIDATION.md",
+          "source_commit": "b70ea9b9a12f642b46c71284f8df744ebaca2e7f",
+          "sha256": "25cbb2239c4f8f368e31c4c48c374c7e3189b13602a9084b89def53a076e5ddb"
+        },
+        {
+          "path": "docs/csdlc-v3/man/inventory.json",
+          "source_commit": "b70ea9b9a12f642b46c71284f8df744ebaca2e7f",
+          "sha256": "027af0691221b5b2aa0fb79515512b336f4fbe3495b4310f9b665b92afb67ced"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/MERGE_LINKAGE_849.md",
+          "source_commit": "b70ea9b9a12f642b46c71284f8df744ebaca2e7f",
+          "sha256": "f981a3558e9342adc4d2e8395da5e4676c2ba8b00fe26827ae9e20b2c6f4cfe4"
+        },
+        {
+          "path": "docs/milestones/v0.92.2/evidence/MERGE_LINKAGE_849.md",
+          "sha256": "f981a3558e9342adc4d2e8395da5e4676c2ba8b00fe26827ae9e20b2c6f4cfe4"
+        }
+      ],
+      "final_candidate_acceptance": "not_proven"
+    },
+    {
+      "issue": 862,
+      "task": "CSDLC-DECOMPOSE",
+      "audit_status": "historical_record_inspected",
+      "observation": "Source inventory records 152 passing focused regressions; broader lane stopped at the then-existing 1.0.3/1.0.5 template mismatch. Do not label the broad lane passed.",
+      "evidence_candidates": [
+        {
+          "path": ".csdlc/evidence/862/decomposition-inventory.md",
+          "source_commit": "0b27711fb2678aa4ed59eddd42360122f45b6780",
+          "sha256": "8ba8d960cf81ec20f278370e8a4115f72092a877ccc6e39f5a3ebd9b17a8008e"
+        }
+      ],
+      "final_candidate_acceptance": "not_proven"
+    },
+    {
+      "issue": 906,
+      "task": "PLAT-RUST",
+      "audit_status": "historical_record_inspected",
+      "observation": "Recursive inventory records 482 to 651 total lines and 431 to 462 production lines while the parent owner shrinks. Simplification is typed ownership/branch reduction, not total source reduction.",
+      "evidence_candidates": [
+        {
+          "path": ".csdlc/evidence/906/process-parser-inventory.md",
+          "source_commit": "364f5ad264ef22217707fbb126a8a4a3549dfd6c",
+          "sha256": "0099ba59d09875acb2b50c29fee0ab6a6e16a41fdb32fe97257e3b2cd3b5c2cb"
+        }
+      ],
+      "final_candidate_acceptance": "not_proven"
+    },
+    {
+      "issue": 907,
+      "task": "CSDLC-REMOTE",
+      "audit_status": "historical_record_inspected",
+      "observation": "Remote inventory records retained test files, explicit module boundaries and focused parity counts; broad current-candidate parity is not re-executed here.",
+      "evidence_candidates": [
+        {
+          "path": ".csdlc/evidence/907/decomposition-inventory.md",
+          "source_commit": "b054a2510c13f39e7d869534087d58a9b94d204d",
+          "sha256": "ffb4ac77d4a733060f981ff03083f58ee6b0acffe603a51662fa92e47219ccee"
+        },
+        {
+          "path": "docs/csdlc-v3/man/inventory.json",
+          "source_commit": "b054a2510c13f39e7d869534087d58a9b94d204d",
+          "sha256": "8858373c3653ddc39d375e64a98d1fcc87888b645cdfbeb0a631320b1abb8ff6"
+        }
+      ],
+      "final_candidate_acceptance": "not_proven"
+    },
+    {
+      "issue": 720,
+      "task": "OBS-LIVE",
+      "audit_status": "historical_record_inspected",
+      "observation": "Live-only UI proof uses intercepted browser networking. Local behavior regression is not deployed HTTPS/WSS connectivity.",
+      "evidence_candidates": [
+        {
+          "path": ".csdlc/evidence/720/VALIDATION.md",
+          "source_commit": "9c583cec78d396527798e592082595f316c67ce2",
+          "sha256": "78d30029758950cb72df26ce2cc6d91d0c71d4c5d4b5c17388730b44bc4157ab"
+        }
+      ],
+      "final_candidate_acceptance": "not_proven"
+    },
+    {
+      "issue": 908,
+      "task": "OPS-AWS",
+      "audit_status": "historical_record_inspected",
+      "observation": "Retained inventory validation and independent review report 13 passing checks and unchanged historical baselines. This is historical inventory acceptance, not a fresh cloud readback.",
+      "evidence_candidates": [
+        {
+          "path": ".csdlc/evidence/908/README.md",
+          "source_commit": "2c09eca135808fb6385a6613f7317088b01ffeab",
+          "sha256": "a4846dc48940df44e4b36d484b7205aa7a954b44511f66098254449f9ec9b738"
+        },
+        {
+          "path": ".csdlc/evidence/908/VALIDATION.json",
+          "source_commit": "2c09eca135808fb6385a6613f7317088b01ffeab",
+          "sha256": "3754335cb3669123f9a0038e700b3b0bdec044fc5667b3b6dead1d3e44defb65"
+        },
+        {
+          "path": ".csdlc/evidence/908/inventory.json",
+          "source_commit": "2c09eca135808fb6385a6613f7317088b01ffeab",
+          "sha256": "4fa57faa69bdbe5b75698641d73dcf32129a3941a82029f10465a4a830f8125c"
+        },
+        {
+          "path": "docs/operations/cloud/aws/inventory/README.md",
+          "source_commit": "2c09eca135808fb6385a6613f7317088b01ffeab",
+          "sha256": "e23ca05ccc590302a97bd08b76717c6727faa2d806879b4a125a6ecfa93742a0"
+        }
+      ],
+      "final_candidate_acceptance": "not_proven"
+    },
+    {
+      "issue": 909,
+      "task": "OPS-GCP",
+      "audit_status": "historical_record_inspected",
+      "observation": "Planning packet reports source hashes, 20 policy readbacks, final review pass and planning_complete=true; apply_ready=false and no cloud mutation remain explicit.",
+      "evidence_candidates": [
+        {
+          "path": ".csdlc/evidence/909/VALIDATION.json",
+          "source_commit": "52027fe7b6a5b84379f338378aaed4e658cfa7ea",
+          "sha256": "864e0e23a3f6cf83c4651fa75ee3d5cc3ab4bfb3671e363b7e8fc05653b1f0f4"
+        },
+        {
+          "path": ".csdlc/evidence/909/live-inventory.json",
+          "source_commit": "52027fe7b6a5b84379f338378aaed4e658cfa7ea",
+          "sha256": "9d4b7def7e3bd15faaa65422654998b27571d824d10d9e2ab869f3889beb6f63"
+        },
+        {
+          "path": ".csdlc/evidence/909/source-inventory.json",
+          "source_commit": "52027fe7b6a5b84379f338378aaed4e658cfa7ea",
+          "sha256": "29f4d008b1b0979ecf041ecb990300a4f6c8a1638133163449d7b64e1782533d"
+        }
+      ],
+      "final_candidate_acceptance": "not_proven"
+    },
+    {
+      "issue": 912,
+      "task": "PUB-MEDIUM",
+      "audit_status": "operator_accepted_bounded_handoff",
+      "observation": "Operator accepted thirteen article drafts and deferred further editing/publication; repository README records matching review copies.",
+      "evidence_candidates": [
+        {
+          "path": "docs/milestones/v0.92/publication/articles/README.md",
+          "source_commit": "2c3663f6a59190fcd5f2f42a193d371f7e2bcb55",
+          "sha256": "e51fd01a73335158010f625731f452afcb347626af68c59c74cf2a9a3f793965"
+        },
+        {
+          "path": "docs/milestones/v0.92/publication/articles/medium-2026-09/README.md",
+          "source_commit": "2c3663f6a59190fcd5f2f42a193d371f7e2bcb55",
+          "sha256": "5be62dc88a9b7c38a3c8b6d8d9e5a72fc7a7c7682764e9ce8000039e40cbd4ac"
+        }
+      ],
+      "final_candidate_acceptance": "not_proven"
+    },
+    {
+      "issue": 913,
+      "task": "PUB-CSDLC",
+      "audit_status": "operator_accepted_bounded_handoff",
+      "observation": "Operator accepted revision-4 PDF review handoff. Sanitized record binds 22 pages, 396563 bytes and PDF SHA-256; further editing/citation review remains deferred.",
+      "evidence_candidates": [
+        {
+          "path": "docs/milestones/v0.92.2/cognitive-sdlc/REVISION_4_REVIEW_HANDOFF.md",
+          "source_commit": "584d0093425f7098493d3a2243b8bb9f4cdf5b6c",
+          "sha256": "c1d3398c0a504327f8f9cabaebf0e06cbe710f867ccc4d8e5d78bfd5db6bb28c"
+        }
+      ],
+      "final_candidate_acceptance": "not_proven"
+    },
+    {
+      "issue": 914,
+      "task": "CF-INTEGRATE",
+      "audit_status": "historical_record_inspected",
+      "observation": "Merged integration implementation is not sufficient for final acceptance while follow-up deliveries remain in PR and #915 independent exact-candidate qualification is pending.",
+      "evidence_candidates": [],
+      "final_candidate_acceptance": "not_proven"
+    },
+    {
+      "issue": 915,
+      "task": "CF-PROOF",
+      "audit_status": "historical_record_inspected",
+      "observation": "Only outstanding independent qualification issue; live tracker remains OPEN with no new comments at this observation.",
+      "evidence_candidates": [],
+      "final_candidate_acceptance": "not_proven"
+    }
+  ],
+  "denominator": 24,
+  "scope": "Historical records, operator scope decisions and five-row Runtime admission. Evidence candidates are not all content-reviewed. Final integrated candidate qualification remains pending.",
+  "live_pr_observations": [
+    {
+      "pr": 1137,
+      "state": "MERGED",
+      "head": "8e2d85e8655cef7e0ae36ddbacc13df3fdc95d8c",
+      "merge_commit": "1646f791da0c72850baed16e835922b354170606",
+      "merged_at": "2026-09-22T04:18:41Z"
+    },
+    {
+      "pr": 1138,
+      "state": "MERGED",
+      "head": "5cf0bdedc9bc1236df52550d4d9a27ff794d1266",
+      "merge_commit": "2b047c8dc34e133ee1353ec265507a17c523e06f",
+      "merged_at": "2026-09-22T04:23:51Z"
+    }
+  ],
+  "content_audit_counts": {
+    "criterion_evidence_admitted": 5,
+    "historical_record_inspected": 17,
+    "operator_accepted_bounded_handoff": 2
+  },
+  "live_pr_observed_at": "2026-09-22T04:27:13.680990+00:00",
+  "website_integration": {
+    "repository": "agent-logic/codefriend.ai",
+    "pr": 18,
+    "state": "MERGED",
+    "merge_commit": "a45e339c13b24716edbd3fadf29dddff36ffe02e"
+  }
+}

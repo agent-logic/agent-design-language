@@ -1,0 +1,14 @@
+{
+  "schema": "adl.v0921.wp01.operation-intent.v1",
+  "kind": "child_create",
+  "planned_id": "CORP-C",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:CORP-C:create",
+  "request_fingerprint": "701b2d5191ece60044d2954aa84f47a706cfa020e0db7d48c3662ce6ea20d88b",
+  "planning_digest": "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251",
+  "dependencies": {
+    "CORP-A": 482,
+    "CORP-B": 483,
+    "AWS-G": 496,
+    "GCP-D": 493
+  }
+}

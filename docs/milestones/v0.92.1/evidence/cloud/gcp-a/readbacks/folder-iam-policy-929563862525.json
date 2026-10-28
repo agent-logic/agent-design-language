@@ -1,0 +1,18 @@
+{
+  "bindings": [
+    {
+      "members": [
+        "user:daniel@agent-logic.ai"
+      ],
+      "role": "roles/resourcemanager.folderAdmin"
+    },
+    {
+      "members": [
+        "user:daniel@agent-logic.ai"
+      ],
+      "role": "roles/resourcemanager.folderEditor"
+    }
+  ],
+  "etag": "BwZZl1uBFiE=",
+  "version": 1
+}

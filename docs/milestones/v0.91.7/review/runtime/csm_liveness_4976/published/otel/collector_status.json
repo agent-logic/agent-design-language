@@ -1,0 +1,7 @@
+{
+  "schema": "adl.csm.full_test.otlp_collector.v1",
+  "state": "listening",
+  "endpoint": "<loopback>",
+  "received_request_count": 1271,
+  "updated_at": 1783358547.195241
+}

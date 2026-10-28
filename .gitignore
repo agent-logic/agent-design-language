@@ -1,0 +1,109 @@
+adl/issues.csv
+adl/.local/
+# Internal ADL workspace state stays local; publish canonical docs/templates under docs/.
+.adl/
+.csdlc/locks/
+.csdlc/local/
+.DS_Store
+__pycache__/
+*.pyc
+
+# Local demo/build artifacts (do not commit)
+out/
+target/
+artifacts/
+issue-*.sh
+*.profraw
+*.profdata
+demos/v0.91.6/unity-observatory/Library/
+demos/v0.91.6/unity-observatory/Logs/
+demos/v0.91.6/unity-observatory/Temp/
+demos/v0.91.6/unity-observatory/UserSettings/
+demos/v0.91.6/unity-observatory/.agents/
+demos/v0.91.6/unity-observatory/.codex/
+demos/v0.91.6/unity-observatory/mono_crash.*.json
+demos/v0.91.6/unity-observatory/Assets/Creepy_Cat.meta
+demos/v0.91.6/unity-observatory/Assets/Creepy_Cat/
+demos/v0.91.6/unity-observatory/Assets/ScifiOfficeLite.meta
+demos/v0.91.6/unity-observatory/Assets/ScifiOfficeLite/
+demos/v0.91.6/unity-observatory/Assets/Sci-Fi Styled Modular Pack.meta
+demos/v0.91.6/unity-observatory/Assets/Sci-Fi Styled Modular Pack/
+demos/v0.91.6/unity-observatory/Assets/Plugins.meta
+demos/v0.91.6/unity-observatory/Assets/Plugins/NuGet.meta
+demos/v0.91.6/unity-observatory/Assets/Plugins/NuGet/
+demos/v0.91.6/unity-observatory/Proof/
+infra/aws/csm-public-edge/.terraform/
+infra/aws/csm-public-edge/tfplan
+infra/aws/csm-public-edge/terraform.tfstate
+infra/aws/csm-public-edge/terraform.tfstate.backup
+infra/aws/csm-public-edge/*.auto.tfvars
+infra/aws/csm-public-edge/*.tfvars
+infra/aws/csm-public-edge/*.tfplan
+!infra/aws/csm-public-edge/terraform.tfvars.example
+infra/aws/account-foundation/.terraform/
+infra/aws/account-foundation/tfplan
+infra/aws/account-foundation/terraform.tfstate
+infra/aws/account-foundation/terraform.tfstate.d/
+infra/aws/account-foundation/terraform.tfstate.backup
+infra/aws/account-foundation/terraform.tfstate.*.backup
+infra/aws/account-foundation/*.auto.tfvars
+infra/aws/account-foundation/*.tfvars
+infra/aws/account-foundation/*.tfplan
+!infra/aws/account-foundation/terraform.tfvars.example
+infra/aws/csm-runtime-spot/.terraform/
+infra/aws/csm-runtime-spot/terraform.tfstate
+infra/aws/csm-runtime-spot/terraform.tfstate.backup
+infra/aws/csm-runtime-spot/terraform.tfstate.*.backup
+infra/aws/csm-runtime-spot/*.auto.tfvars
+infra/aws/csm-runtime-spot/*.tfvars
+infra/aws/csm-runtime-spot/*.tfplan
+!infra/aws/csm-runtime-spot/terraform.tfvars.example
+infra/aws/csm-runtime-alb/.terraform/
+infra/aws/csm-runtime-alb/terraform.tfstate
+infra/aws/csm-runtime-alb/terraform.tfstate.backup
+infra/aws/csm-runtime-alb/terraform.tfstate.*.backup
+infra/aws/csm-runtime-alb/*.auto.tfvars
+infra/aws/csm-runtime-alb/*.tfvars
+infra/aws/csm-runtime-alb/*.tfplan
+!infra/aws/csm-runtime-alb/terraform.tfvars.example
+infra/aws/runtime/alb-origin/.terraform/
+infra/aws/runtime/alb-origin/terraform.tfstate
+infra/aws/runtime/alb-origin/terraform.tfstate.backup
+infra/aws/runtime/alb-origin/terraform.tfstate.*.backup
+infra/aws/runtime/alb-origin/*.auto.tfvars
+infra/aws/runtime/alb-origin/*.tfvars
+infra/aws/runtime/alb-origin/*.tfplan
+!infra/aws/runtime/alb-origin/terraform.tfvars.example
+infra/aws/runtime/private-node/.terraform/
+infra/aws/runtime/private-node/terraform.tfstate
+infra/aws/runtime/private-node/terraform.tfstate.backup
+infra/aws/runtime/private-node/terraform.tfstate.*.backup
+infra/aws/runtime/private-node/*.auto.tfvars
+infra/aws/runtime/private-node/*.tfvars
+infra/aws/runtime/private-node/*.tfplan
+!infra/aws/runtime/private-node/terraform.tfvars.example
+infra/gcp/workloads/warm-polis/**/.terraform/
+infra/gcp/workloads/warm-polis/**/terraform.tfstate
+infra/gcp/workloads/warm-polis/**/terraform.tfstate.*
+infra/gcp/workloads/warm-polis/**/*.tfvars
+!infra/gcp/workloads/warm-polis/**/*.tfvars.example
+
+# Unity observatory local proof inputs. These are operator-provisioned or
+# generated proof/tooling payloads unless a later issue approves a specific
+# license/storage/subset route.
+demos/v0.91.6/unity-observatory/Assets/Creepy_Cat/
+demos/v0.91.6/unity-observatory/Assets/ScifiOfficeLite/
+demos/v0.91.6/unity-observatory/Assets/Sci-Fi Styled Modular Pack/
+demos/v0.91.6/unity-observatory/Assets/Plugins/NuGet/
+demos/v0.91.6/unity-observatory/Proof/
+
+# Local worktrees (generated)
+.worktrees/
+
+# Issue SORs are canonical in .adl task bundles, not under docs/records issue mirrors.
+docs/records/v*/tasks/issue-*/
+docs/records/v*/CLOSED_ISSUE_RECORD_HYGIENE_*.md
+demos/html-observatory/runtime-log.jsonl
+
+# Local C-SDLC working state; historical records remain in Git history.
+/.csdlc/

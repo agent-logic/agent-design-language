@@ -1,0 +1,60 @@
+{
+  "agent_instance_id": "main-csm-runtime",
+  "backpressure": {
+    "ref": "csm_backpressure_state.json",
+    "safe_fail_action": {
+      "action": "preserve_minimal_checkpoint_bundle",
+      "recovery_manifest_ref": "csm_low_disk_recovery_manifest.json",
+      "status": "recovered"
+    },
+    "schema": "adl.csm.backpressure_state.v1",
+    "status": "serialized",
+    "storage_pressure": {
+      "available_bytes": "[redacted]",
+      "disk_floor_bytes": 34359738368,
+      "health": "storage_ok",
+      "operation": "operator_recovery_after_generated_target_cleanup",
+      "policy": "recovered_after_required_runtime_state_write_preflight",
+      "state": "ok",
+      "target_ref": "."
+    },
+    "summary": {
+      "deferred_count": 0,
+      "health": "storage_ok",
+      "optional_artifact_deletion": "generated_target_dirs_only",
+      "required_state_silently_dropped": false,
+      "shed_count": 0
+    }
+  },
+  "checkpoint": {
+    "age_secs": 2,
+    "checkpoint_ref": "continuity_checkpoint.json",
+    "last_checkpoint_at": "2026-07-10T10:14:50.058448Z",
+    "status": "fresh"
+  },
+  "daemon_liveness": {
+    "last_event": "child_exit",
+    "state": "running",
+    "status": "observed",
+    "supervisor_pid_liveness": "live_pid",
+    "updated_at": "2026-07-10T10:14:50.058448Z"
+  },
+  "otel": {
+    "log": {
+      "bytes": 148129698,
+      "ref": "ADL_OTEL_LOG",
+      "status": "retained"
+    },
+    "status": {
+      "ref": "ADL_OTEL_STATUS",
+      "safe_fail_action": null,
+      "schema": "adl.otel.monitor_status.v1",
+      "status": "serialized",
+      "storage_pressure": null,
+      "summary": null
+    }
+  },
+  "runtime_owner": "csm",
+  "schema": "adl.csm.runtime_api.health.v1",
+  "status": "healthy"
+}

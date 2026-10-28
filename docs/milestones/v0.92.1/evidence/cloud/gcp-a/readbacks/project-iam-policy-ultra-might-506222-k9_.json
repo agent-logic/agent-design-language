@@ -1,0 +1,18 @@
+{
+  "bindings": [
+    {
+      "members": [
+        "serviceAccount:service-459014982840@gcp-sa-cloudaicompanion.iam.gserviceaccount.com"
+      ],
+      "role": "roles/cloudaicompanion.serviceAgent"
+    },
+    {
+      "members": [
+        "user:daniel@agent-logic.ai"
+      ],
+      "role": "roles/owner"
+    }
+  ],
+  "etag": "BwZZluilvUU=",
+  "version": 1
+}

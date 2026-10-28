@@ -1,0 +1,17 @@
+{
+  "kind": "coordinator_opening_checkpoint",
+  "issue": 1178,
+  "acceptance": "Sprint 1 preparation accepted for bounded RD-01 start; not terminal WP-01 acceptance",
+  "authorization": "User: Merge it. How do we parallelize sprint 1? Then: use other sessions and subagents, go ahead carefully.",
+  "integrated_revision": "08236f86026f2e317e7f405bb0381b782a1417b9",
+  "frozen_predecessor_revision": "248f00e359e412f6bc0061ac88be9ff374e3a212",
+  "predecessor_basis": "Final v0.92.2 first-parent merge #1157, after #1177 closure, before Sprint1 preparation repairs. Audit later preparation changes separately.",
+  "wp01_terminal_state": "OPEN",
+  "evidence": {
+    "independent/FOLLOWUP_REVIEW.md": "007b6b722718bacefedd2f159181f95c5dbef2199b1e252ebc4e08c73a4d0ed0",
+    "planning-repair/review-final.json": "dcb2d60a15f4abdf5bff1f8abaebe9d8ff5858594c5273004f79a9f1208bbdde",
+    "planning-repair/merge-final-result.json": "34e48043087085739157fa0b62982d30b225050c408606ec08d6c762979f7c75",
+    "final-native-readiness.json": "d310a81f499e6d2362ab2736472168d73f5c3d838081692aadb2580c78f5fce6"
+  },
+  "limitation": "Preparation acceptance only. RD01 owner must resolve #977 baseline, execution cards and proving validation. No extraction qualification claimed."
+}

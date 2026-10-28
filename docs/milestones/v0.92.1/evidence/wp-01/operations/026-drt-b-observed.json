@@ -1,0 +1,54 @@
+{
+  "schema": "adl.v0921.wp01.operation-observed.v1",
+  "kind": "child_create",
+  "planned_id": "DRT-B",
+  "issue": 507,
+  "title": "[v0.92.1][DRT-B] Six-resident UTS qualification",
+  "labels": [
+    "area:runtime",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "milestone": 1,
+  "state": "open",
+  "dependencies": {
+    "DRT-A": 506,
+    "issue-345": 345
+  },
+  "body_sha256": "77163546d5d26e5f99f7f2b219e72dd4d4de9446bfa40c96f3eeb56a363e6382",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:DRT-B:create",
+  "request_fingerprint": "5c2e5396c1e2731eae5af48974bab769ee6d2073fb775d87105cf7cd866a517c",
+  "planning_digest": "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251",
+  "specification_sha256": "f730d5b5c0a61201cc0b276de287dc21221647f0a3739d166a9fad0bf27db7bc",
+  "live_response": {
+    "action": "issue_create",
+    "comment_id": null,
+    "issue": {
+      "assignees": [
+
+      ],
+      "body": "## Outcome\n\nProduce one six-resident UTS continuity and reclamation qualification packet.\n\n## Primary deliverable\n\nOne retained six-resident UTS continuity and reclamation qualification packet.\n\n## Verification result\n\nSix distinct residents complete assigned work and exact dehydrate, restore, cost, and cleanup checks pass for requirements 183 and 184.\n\n## Unit boundary\n\nIssue completion is exactly one six-resident qualification decision; workload and continuity checks are evidence inputs.\n\n## Dependencies\n\n- DRT-A: #506\n- issue-345: #345\n\n## Retained predecessor scope\n\n- #183\n- #184\n\n## Acceptance criteria\n\n- [ ] Requirements 183 and 184 are mapped\n- [ ] Six distinct residents complete assigned UTS work\n- [ ] Dehydrate and restore preserve exact population\n- [ ] GPU evidence waits for reviewed merged 345 authority\n\n## Owned paths\n\n- `adl-runtime/src/qualification/**`\n- `adl-runtime-kernel/src/**`\n- `adl/tools/run_issue268_**`\n- `docs/milestones/v0.92.1/evidence/runtime/drt-b/**`\n\n## PVF lanes\n\n- `six-resident-uts`\n- `continuity-reclamation`\n- `spot-cost-and-cleanup`\n- `resource-envelope`\n\n## Stop conditions\n\n- Issue 345 is not reviewed and merged when GPU proof is required\n- Population or lineage drifts\n- Paid launch lacks authorization\n\n## Non-goals\n\n- Executing issue 269\n- Inventing a new continuity system\n\n## Canonical planning identity\n\n- Planned ID: `DRT-B`\n- Canonical title: `[v0.92.1][DRT-B] Six-resident UTS qualification`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#DRT-B`\n<!-- csdlc-github-operation:v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:DRT-B:create -->\n",
+      "closed_at": null,
+      "created_at": "2026-08-26T03:07:24Z",
+      "labels": [
+        "track:roadmap",
+        "type:task",
+        "area:runtime",
+        "version:v0.92.1"
+      ],
+      "marker_present": true,
+      "milestone": 1,
+      "number": 507,
+      "repository": "agent-logic/agent-design-language",
+      "schema": "csdlc.github_issue.v1",
+      "state": "open",
+      "title": "[v0.92.1][DRT-B] Six-resident UTS qualification"
+    },
+    "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:DRT-B:create",
+    "pr_state": null,
+    "reconciled": true,
+    "repository": "agent-logic/agent-design-language",
+    "schema": "csdlc.github_action_result.v1"
+  }
+}

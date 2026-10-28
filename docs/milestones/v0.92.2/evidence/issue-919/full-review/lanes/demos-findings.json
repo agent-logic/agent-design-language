@@ -1,0 +1,20 @@
+[
+  {
+    "id": "DEMOS-001",
+    "severity": "P3",
+    "title": "Label the PDF Cargo test as source-built CLI proof",
+    "path": "docs/codefriend/PDF_EXPORT.md",
+    "line": 46,
+    "trigger": "Operator follows the documented focused installed lane command at line49.",
+    "impact": "The test unconditionally executes CARGO_BIN_EXE_adl, so passing results say nothing about an installed binary or its provenance; documentation overstates this command as installed proof. Separate retained PDF output qualification remains valid for its declared artifact.",
+    "proof": "adl/tests/codefriend_render_pdf.rs:183 uses Command::new(env!(\"CARGO_BIN_EXE_adl\")); no installed-binary override. Reviewed source and actual retained PDF output separately.",
+    "remediation": "Call this source-built CLI/component proof, and document a separate selected-installed-binary invocation if installed acceptance is required.",
+    "owner": "#921 / CodeFriend export documentation owner",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+    "acceptance_refs": [
+      "CF-RENDER-PDF-A01",
+      "CF-INTEGRATE-A06"
+    ],
+    "disposition": "open"
+  }
+]

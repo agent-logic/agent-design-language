@@ -1,0 +1,64 @@
+# GCP-A read-only decision readback command manifest
+
+- issue: #490
+- output_dir: docs/milestones/v0.92.1/evidence/cloud/gcp-a/readbacks
+- commands:
+  - gcloud auth list --filter=status:ACTIVE --format=json
+  - gcloud config list --format=json
+  - gcloud projects list --format=json
+  - gcloud billing accounts list --format=json
+  - gcloud organizations list --format=json
+  - gcloud compute regions list --format=json
+  - gcloud compute project-info describe --format=json
+  - gcloud billing accounts describe 01FA88-CC4968-ADF817 --format=json
+  - gcloud resource-manager folders list --organization=321515087273 --format=json
+  - gcloud organizations get-iam-policy 321515087273 --format=json
+  - gcloud org-policies list --organization=321515087273 --format=json
+  - gcloud resource-manager folders get-iam-policy 726824330959 --format=json
+  - gcloud org-policies list --folder=726824330959 --format=json
+  - gcloud resource-manager folders get-iam-policy 929563862525 --format=json
+  - gcloud org-policies list --folder=929563862525 --format=json
+  - gcloud projects describe google-mpf-12976cmjx7mx --format=json
+  - gcloud billing projects describe google-mpf-12976cmjx7mx --format=json
+  - gcloud projects get-iam-policy google-mpf-12976cmjx7mx --format=json
+  - gcloud org-policies list --project=google-mpf-12976cmjx7mx --format=json
+  - gcloud services list --enabled --project=google-mpf-12976cmjx7mx --format=json
+  - gcloud compute project-info describe --project=google-mpf-12976cmjx7mx --format=json
+  - gcloud compute networks list --project=google-mpf-12976cmjx7mx --format=json
+  - gcloud projects describe cs-poc-cha8mmii0xk0iaw5vpf8mxf --format=json
+  - gcloud billing projects describe cs-poc-cha8mmii0xk0iaw5vpf8mxf --format=json
+  - gcloud projects get-iam-policy cs-poc-cha8mmii0xk0iaw5vpf8mxf --format=json
+  - gcloud org-policies list --project=cs-poc-cha8mmii0xk0iaw5vpf8mxf --format=json
+  - gcloud services list --enabled --project=cs-poc-cha8mmii0xk0iaw5vpf8mxf --format=json
+  - gcloud compute project-info describe --project=cs-poc-cha8mmii0xk0iaw5vpf8mxf --format=json
+  - gcloud compute networks list --project=cs-poc-cha8mmii0xk0iaw5vpf8mxf --format=json
+  - gcloud projects describe cs-host-377d41e71a824f92802120 --format=json
+  - gcloud billing projects describe cs-host-377d41e71a824f92802120 --format=json
+  - gcloud projects get-iam-policy cs-host-377d41e71a824f92802120 --format=json
+  - gcloud org-policies list --project=cs-host-377d41e71a824f92802120 --format=json
+  - gcloud services list --enabled --project=cs-host-377d41e71a824f92802120 --format=json
+  - gcloud compute project-info describe --project=cs-host-377d41e71a824f92802120 --format=json
+  - gcloud compute networks list --project=cs-host-377d41e71a824f92802120 --format=json
+  - gcloud projects describe cs-hc-30fba450ccaa4e35a1449ce5 --format=json
+  - gcloud billing projects describe cs-hc-30fba450ccaa4e35a1449ce5 --format=json
+  - gcloud projects get-iam-policy cs-hc-30fba450ccaa4e35a1449ce5 --format=json
+  - gcloud org-policies list --project=cs-hc-30fba450ccaa4e35a1449ce5 --format=json
+  - gcloud services list --enabled --project=cs-hc-30fba450ccaa4e35a1449ce5 --format=json
+  - gcloud compute project-info describe --project=cs-hc-30fba450ccaa4e35a1449ce5 --format=json
+  - gcloud compute networks list --project=cs-hc-30fba450ccaa4e35a1449ce5 --format=json
+  - gcloud projects describe ultra-might-506222-k9 --format=json
+  - gcloud billing projects describe ultra-might-506222-k9 --format=json
+  - gcloud projects get-iam-policy ultra-might-506222-k9 --format=json
+  - gcloud org-policies list --project=ultra-might-506222-k9 --format=json
+  - gcloud services list --enabled --project=ultra-might-506222-k9 --format=json
+  - gcloud compute project-info describe --project=ultra-might-506222-k9 --format=json
+  - gcloud compute networks list --project=ultra-might-506222-k9 --format=json
+  - gcloud projects describe adl-drive-mirror-2026 --format=json
+  - gcloud billing projects describe adl-drive-mirror-2026 --format=json
+  - gcloud projects get-iam-policy adl-drive-mirror-2026 --format=json
+  - gcloud org-policies list --project=adl-drive-mirror-2026 --format=json
+  - gcloud services list --enabled --project=adl-drive-mirror-2026 --format=json
+  - gcloud compute project-info describe --project=adl-drive-mirror-2026 --format=json
+  - gcloud compute networks list --project=adl-drive-mirror-2026 --format=json
+
+All commands above are read-only list, describe, get, or config/auth readback calls. Failures are recorded as read_failed JSON surfaces and do not trigger mutation.

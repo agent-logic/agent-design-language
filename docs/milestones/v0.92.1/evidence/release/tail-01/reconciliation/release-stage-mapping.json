@@ -1,0 +1,147 @@
+{
+  "schema": "adl.v0921.quality_gate_stage_mapping.v1",
+  "candidate": "bf159eb416950dfa3399933829726a7b7e71f897",
+  "source": "docs/milestones/v0.92.1/evidence/integration/release-tail-admission.json",
+  "authority": [
+    {
+      "path": "docs/milestones/v0.92.1/RELEASE_PLAN_v0.92.1.md",
+      "candidate_blob": "77d8ce2e10c25bd35cbcf800c778bfe15f705d30",
+      "sha256": "025aa23557882e069102033d6f5d9ad6fb786a2b39ca2a401d437cd0738c486e"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/SPRINT_v0.92.1.md",
+      "candidate_blob": "5509f5f4d34fb91b85014ea3f6bc13024f98902b",
+      "sha256": "42449d0215b0ea4c60ade07d3e6e08017b379c2a9747a9e6b6401041a2cf2391"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/WBS_v0.92.1.md",
+      "candidate_blob": "ac8b5b81e082f4c86c95599fc4bcd53afaa7eaef",
+      "sha256": "3c4fc3cd06fdef963c739c03d2b3b2f3a158fca1cbf90226b91f7c33a9cfc8ce"
+    }
+  ],
+  "review_status": "pending",
+  "rows": [
+    {
+      "row_id": "TAIL-01:retained-188-ac-1",
+      "criterion_id": "retained-188-ac-1",
+      "criterion_text_digest": "e7fba2ffb7e41ef5e4e124ce97c1151f7d26dd20c0d5f387b381c349c4bb0831",
+      "criterion": "CORP-08, V3-16, and DRT-07 are terminal and exact revisions are ancestral to the review revision.",
+      "proposed_result": "current_gate_obligation",
+      "required_at_stage": "TAIL-01",
+      "owner_issue": 517,
+      "rationale": "The canonical release plan explicitly routes #188 to convergence and quality admission. Keep this criterion required at TAIL-01; do not exclude it merely because its assessment is performed here."
+    },
+    {
+      "row_id": "TAIL-01:retained-188-ac-2",
+      "criterion_id": "retained-188-ac-2",
+      "criterion_text_digest": "7be23d5ca21e9ca702200136c470aae393f22b48203a026dffc495067d985074",
+      "criterion": "Every required lane artifact and quality gate is independently recomputed or explicitly rejected.",
+      "proposed_result": "current_gate_obligation",
+      "required_at_stage": "TAIL-01",
+      "owner_issue": 517,
+      "rationale": "The canonical release plan explicitly routes #188 to convergence and quality admission. Keep this criterion required at TAIL-01; do not exclude it merely because its assessment is performed here."
+    },
+    {
+      "row_id": "TAIL-01:retained-188-ac-3",
+      "criterion_id": "retained-188-ac-3",
+      "criterion_text_digest": "6200b85a7deb245c892668756bb301ce3d882402d67cca857d20c6115983232c",
+      "criterion": "All P1/P2 findings receive verified terminal dispositions before recommendation.",
+      "proposed_result": "current_gate_obligation",
+      "required_at_stage": "TAIL-01",
+      "owner_issue": 517,
+      "rationale": "The canonical release plan explicitly routes #188 to convergence and quality admission. Keep this criterion required at TAIL-01; do not exclude it merely because its assessment is performed here."
+    },
+    {
+      "row_id": "TAIL-01:retained-188-ac-4",
+      "criterion_id": "retained-188-ac-4",
+      "criterion_text_digest": "3d073ef1e4834070e5329992ecaabe7a900c2d4de957b0ff01f45624509dc914",
+      "criterion": "The review does not treat one lane's success as evidence for another lane.",
+      "proposed_result": "current_gate_obligation",
+      "required_at_stage": "TAIL-01",
+      "owner_issue": 517,
+      "rationale": "The canonical release plan explicitly routes #188 to convergence and quality admission. Keep this criterion required at TAIL-01; do not exclude it merely because its assessment is performed here."
+    },
+    {
+      "row_id": "TAIL-07:retained-190-ac-1",
+      "criterion_id": "retained-190-ac-1",
+      "criterion_text_digest": "193343a3c92198dd04ba85451f282d05e8059897683498751afb7f5f5e9cba50",
+      "criterion": "The handoff cites exact terminal release evidence and every accepted residual risk.",
+      "proposed_result": "not_applicable_at_quality_gate",
+      "required_at_stage": "TAIL-07",
+      "owner_issue": 523,
+      "rationale": "The canonical release plan explicitly routes predecessor #190 to successor planning. It remains a release obligation at that stage and is not implementation proof or a prerequisite for completing the earlier TAIL-01 assessment."
+    },
+    {
+      "row_id": "TAIL-07:retained-190-ac-2",
+      "criterion_id": "retained-190-ac-2",
+      "criterion_text_digest": "b3c4d15be8923f5c3025234d818c8274cf94cfbacbe84fa93f20e6dd84fbda47",
+      "criterion": "Deferred work retains owners, dependencies, proof requirements, and routing without being presented as complete.",
+      "proposed_result": "not_applicable_at_quality_gate",
+      "required_at_stage": "TAIL-07",
+      "owner_issue": 523,
+      "rationale": "The canonical release plan explicitly routes predecessor #190 to successor planning. It remains a release obligation at that stage and is not implementation proof or a prerequisite for completing the earlier TAIL-01 assessment."
+    },
+    {
+      "row_id": "TAIL-07:retained-190-ac-3",
+      "criterion_id": "retained-190-ac-3",
+      "criterion_text_digest": "1d25ba049d45e6e8e2f3ec088a45f60d5b4b09b990fec2a8da7d1a0572a8ad68",
+      "criterion": "V3-R01 remains ineligible until rollback expiry, stability metrics, historical readability, and explicit operator approval all pass.",
+      "proposed_result": "not_applicable_at_quality_gate",
+      "required_at_stage": "TAIL-07",
+      "owner_issue": 523,
+      "rationale": "The canonical release plan explicitly routes predecessor #190 to successor planning. It remains a release obligation at that stage and is not implementation proof or a prerequisite for completing the earlier TAIL-01 assessment."
+    },
+    {
+      "row_id": "TAIL-07:retained-190-ac-4",
+      "criterion_id": "retained-190-ac-4",
+      "criterion_text_digest": "86fcfeb9d06cfd78791257a346338b4c2fa773579e300995954556363ee915d9",
+      "criterion": "The downstream milestone can consume the packet without relying on chat or machine-local state.",
+      "proposed_result": "not_applicable_at_quality_gate",
+      "required_at_stage": "TAIL-07",
+      "owner_issue": 523,
+      "rationale": "The canonical release plan explicitly routes predecessor #190 to successor planning. It remains a release obligation at that stage and is not implementation proof or a prerequisite for completing the earlier TAIL-01 assessment."
+    },
+    {
+      "row_id": "TAIL-10:retained-189-ac-1",
+      "criterion_id": "retained-189-ac-1",
+      "criterion_text_digest": "88ba3c2a56a6c016c6cf2460c974f3b2a15df90edb70e317a92a70e37f1420a8",
+      "criterion": "Every release artifact, source revision, schema, evidence bundle, and external dependency is pinned.",
+      "proposed_result": "not_applicable_at_quality_gate",
+      "required_at_stage": "TAIL-10",
+      "owner_issue": 526,
+      "rationale": "The canonical release plan explicitly routes predecessor #189 to final ceremony. It remains a release obligation at that stage and is not implementation proof or a prerequisite for completing the earlier TAIL-01 assessment."
+    },
+    {
+      "row_id": "TAIL-10:retained-189-ac-2",
+      "criterion_id": "retained-189-ac-2",
+      "criterion_text_digest": "26ceae10fda9f59b425dbf5c487d7629509669e8306f4b0c70920651fbb40f62",
+      "criterion": "Rollback is rehearsed from the candidate without data loss, dual authority, or hidden personal credentials.",
+      "proposed_result": "not_applicable_at_quality_gate",
+      "required_at_stage": "TAIL-10",
+      "owner_issue": 526,
+      "rationale": "The canonical release plan explicitly routes predecessor #189 to final ceremony. It remains a release obligation at that stage and is not implementation proof or a prerequisite for completing the earlier TAIL-01 assessment."
+    },
+    {
+      "row_id": "TAIL-10:retained-189-ac-3",
+      "criterion_id": "retained-189-ac-3",
+      "criterion_text_digest": "385f329b3ebb163883a88cf77e093b8b371143b68eaccb9072c3f438c0274f17",
+      "criterion": "Named company authority, observers, timing, abort triggers, communication, and post-release verification are recorded.",
+      "proposed_result": "not_applicable_at_quality_gate",
+      "required_at_stage": "TAIL-10",
+      "owner_issue": 526,
+      "rationale": "The canonical release plan explicitly routes predecessor #189 to final ceremony. It remains a release obligation at that stage and is not implementation proof or a prerequisite for completing the earlier TAIL-01 assessment."
+    },
+    {
+      "row_id": "TAIL-10:retained-189-ac-4",
+      "criterion_id": "retained-189-ac-4",
+      "criterion_text_digest": "c2dc196889373cb5101f9d79171d6ab1f2754356b2bce57d44873485d64b4e07",
+      "criterion": "No release action occurs until the final operator authorization.",
+      "proposed_result": "not_applicable_at_quality_gate",
+      "required_at_stage": "TAIL-10",
+      "owner_issue": 526,
+      "rationale": "The canonical release plan explicitly routes predecessor #189 to final ceremony. It remains a release obligation at that stage and is not implementation proof or a prerequisite for completing the earlier TAIL-01 assessment."
+    }
+  ],
+  "count_correction": "Eight successor-planning/ceremony rows belong to their later stages; the four #188 convergence/quality rows remain current obligations. The earlier suggestion that all twelve were circular prerequisites was too broad.",
+  "invariant": "No predecessor criterion is deleted or declared delivered by stage routing."
+}

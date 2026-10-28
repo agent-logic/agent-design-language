@@ -1,0 +1,93 @@
+# v0.92.2 Milestone Checklist
+
+## Final closeout disposition
+
+All internal-review findings were fixed. The external review attempt failed; #921 is closed at the operator's direction. [#925 records the final milestone decision](evidence/issue-925/RELEASE_DECISION.md): integrate the remaining tail, close v0.92.2, then wait15minutes before opening v0.93.1 with the repository split first. Product qualification remains explicitly deferred to #1148/#1149/#1150; no new software release/tag is claimed. The retained review-time observations below keep their original source meaning. Actual milestone closure is established by authenticated final readback, not this plan.
+
+Status: release acceptance checklist; unchecked requirements are not completed by issue closure. #915 independent qualification is incomplete and explicitly deferred; #916 is accepted for handoff with product qualification still `not_proven`. Successor repairs #1148/#1149 precede qualification #1150 in v0.93.1. The [handoff](evidence/issue-917/HANDOFF.md) records observed work without treating closed issues or local test counts as release approval.
+
+## Opening
+
+- [ ] Canonical package complete and reviewed
+- [ ] Operator authorizes issue creation
+- [ ] Number-free IDs mapped once to canonical issues
+- [ ] Dependencies and parallel lanes preserved
+- [ ] All 69 core issue identities are created and every creation-batch review passes before implementation
+- [ ] Sidecar #671 is separately accounted for without adding it to the core startup gate or graph
+
+## Product
+
+- [ ] Shell, onboarding, and operator controls complete
+- [ ] Adapter v2 supports local, GitHub, and CI inputs
+- [ ] Evidence identity, provenance, redaction, and retention complete
+- [ ] Architecture cognition exit bar complete
+- [ ] Fitness functions and CI integration complete
+- [ ] Four review perspectives and synthesis complete
+- [ ] Remediation and test planning complete
+- [ ] Longitudinal second-run comparison complete
+- [ ] Human publication controls complete
+- [ ] Markdown, HTML, and PDF outputs complete
+- [ ] Documentation, examples, and fixtures complete
+- [ ] Static Observatory sidecar deployed and verified from the existing #679/PR #685 Terraform design
+- [ ] Required milestone ADR set generated, source-grounded, status-explicit, and reconciled
+
+## Proof
+
+- [ ] ADL self-review retained
+- [ ] One bounded licensed external OSS review retained
+- [ ] Integrated failure matrix retained
+- [ ] Feature/proof coverage reconciled
+- [ ] No unresolved P1 finding
+
+## Release Tail
+
+- [ ] TAIL-01 quality gate
+- [ ] TAIL-02 documentation review and external-review handoff
+- [ ] TAIL-03 publication finalization
+- [ ] TAIL-04 internal review
+- [ ] TAIL-05 external review
+- [ ] TAIL-06 remediation or explicit deferral
+- [ ] TAIL-07 successor planning
+- [ ] TAIL-08 successor closeout planning
+- [ ] TAIL-09 successor planning review
+- [ ] TAIL-10 ceremony and milestone close
+
+Individual issue closeout remains asynchronous and does not block otherwise ready work.
+
+## Reconciliation and final-candidate checks
+
+- [ ] All 69 canonical work-package rows reconcile exactly across the catalog, WBS, issue wave, execution specifications, canonical issue mapping, and merged/reviewed truth
+- [ ] All 69 rows retain one distinct primary result in the atomic-result register; supporting artifacts and tests remain implementation/proof of that result rather than hidden independent work
+- [ ] All 69 assigned core issues appear exactly once: nine preexisting bindings and 60 newly created identities, with zero unassigned rows
+- [ ] #848 is reconciled as the ARCH-SPLIT decision row, not split-implementation authority; v0.92.1 #717/#718 remain predecessor inputs
+- [ ] Shared finding/run contract merged before its parallel consumers
+- [ ] Independent perspective inputs and retained disagreement proven
+- [ ] Every declared release-gating supporting track converged at TAIL-01; OBS-S3 and ARCH-ADR remain independently accepted required issues outside the early TAIL-01 gate and must satisfy TAIL-10 completion dependencies
+- [ ] Any changed candidate received refreshed artifacts, affected proof and current internal/external review
+- [ ] Release candidate and manifest exactly match the reviewed and approved digests
+
+## Successor planning accounting
+
+- [ ] TAIL-07/08 refreshed the tracked TBD reconciliation against the current local inventory
+- [ ] Every newly discovered active source is admitted, completed provenance, routed to an existing issue or milestone, or explicitly backlog/deferred
+- [ ] Polis Music Studio remains a visible unadmitted candidate unless separately authorized
+- [ ] PLAT-PAIR and OPS-GCP retain their admitted source paths, bounded outcomes, and non-goals
+- [ ] OBS-S3 remains a bounded static deployment of #679/PR #685 rather than customer-scale hosting, and ARCH-ADR does not silently accept candidate decisions
+- [ ] v0.92.1 cloud plans remain existing-work/provenance inputs rather than duplicate successor rows
+- [ ] Runtime v4 remains routed to v0.93
+- [ ] No evidence packet, review output, or local concept silently expands the v0.92.2 denominator
+
+## Complete implementation admission
+
+- [ ] All eight family splits and eleven tightened contracts match the atomic-task manifest.
+- [ ] Each implementation has a real consumer and nonzero success/failure proof; no schema, scaffold or authored packet substitutes for execution.
+- [ ] All seven planning tasks are retained and finish their own declared results.
+- [ ] Existing #852/#855/#862 scope reconciliation is recorded before their execution.
+
+## Final required-work accounting
+
+- [ ] CF-INTEGRATE delivered the installed candidate before independent CF-PROOF qualification.
+- [ ] TAIL-01 consumed both integration and qualification results.
+- [ ] TAIL-10 reconciles completion of every required row, including OBS-S3 and ARCH-ADR under their own acceptance, without making either an early integration or TAIL-01 dependency.
+
+TAIL-10 waits for TAIL-09, OBS-S3 and ARCH-ADR. Final acceptance separately verifies authenticated Observatory deployment and the completed, source-grounded ADR set with explicit decision status. These obligations do not block CF-INTEGRATE or the early TAIL-01 quality gate, and do not change the canonical ten-step sequence.

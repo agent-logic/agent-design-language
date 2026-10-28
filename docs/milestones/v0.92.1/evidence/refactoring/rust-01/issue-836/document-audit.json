@@ -1,0 +1,186 @@
+{
+  "schema": "adl.rust_size_doc_audit.v1",
+  "issue": 836,
+  "scope": "Current release overview, design, decisions, WBS, checklist, quality, coverage, release plan, Rust feature and status evidence; retained historical cards excluded and interpreted in README.",
+  "method": "Read each declared surface and inspect Rust/size claims; SHA-256 pins exact audited bytes. This is a bounded human semantic audit, not behavior proof.",
+  "documents": [
+    {
+      "path": "docs/milestones/v0.92.1/README.md",
+      "sha256": "fbc50e0b07da90b88a22e25474b5f8354bae80d8fb5975701331c8a7a815b6c3",
+      "relevant_lines": [
+        {
+          "line": 3,
+          "text": "v0.92.1 converts the remaining v0.92 planning residue into a bounded, parallel execution program. The package also promotes the separately authored AWS and GCP move-in plans, a cross-cloud Terraform conversion, a bounded Rust resilience refactor, Runtime v2/v3 decoupling, provider inference profiles, and the GCP six-resident qualification sidecar."
+        },
+        {
+          "line": 24,
+          "text": "13. **Rust resilience refactoring** \u2014 perform one behavior-preserving owner-boundary extraction with no arbitrary LoC quota."
+        }
+      ],
+      "audit_result": "No unsupported overall code-reduction claim; behavior/owner-boundary scope and no quota preserved."
+    },
+    {
+      "path": "docs/milestones/v0.92.1/DESIGN_v0.92.1.md",
+      "sha256": "f2a4ef78e5ee2b8e6d242953706015e47a7e60d5029c917e31526a8252d49a01",
+      "relevant_lines": [
+        {
+          "line": 5,
+          "text": "`#432 + reviewed planning-package merge -> WP-01 eligible -> operator declares v0.92.1 ready -> operator creates number-free WP-01 -> {Corporate and IP, AWS move-in, GCP move-in, cross-cloud Terraform, Rust resilience refactor, C-SDLC v3, Distributed Runtime, Podcast, hot reload, Observatory, Runtime v2/v3 decoupling, provider profiles}`. Explicit convergence edges are `AWS-E + GCP-D -> XCL-01 -> AWS-G`, `DRT-C + GCP-E + XCL-01 -> DRT-D`, and `PROV-A -> PROV-B`. Closed #431 is provenance only and cannot open the wave."
+        },
+        {
+          "line": 24,
+          "text": "- RUST-01 owns one behavior-preserving resilience boundary refactor with no mandatory LoC target."
+        }
+      ],
+      "audit_result": "No unsupported overall code-reduction claim; behavior/owner-boundary scope and no quota preserved."
+    },
+    {
+      "path": "docs/milestones/v0.92.1/DECISIONS_v0.92.1.md",
+      "sha256": "46b50da7ef745bff9d6692bd0fead704ddfcce4a778d4b0eeaf34d31e6ce32b5",
+      "relevant_lines": [
+        {
+          "line": 19,
+          "text": "17. **Rust refactoring is bounded by behavior, not LoC.** RUST-01 owns only the resilience owner-boundary slice, measures validation impact, and has no deletion or line-reduction quota."
+        }
+      ],
+      "audit_result": "No unsupported overall code-reduction claim; behavior/owner-boundary scope and no quota preserved."
+    },
+    {
+      "path": "docs/milestones/v0.92.1/WBS_v0.92.1.md",
+      "sha256": "86e98264b2bfe34877ce7f35a05f2df694a0420361784cef310b417426269833",
+      "relevant_lines": [
+        {
+          "line": 11,
+          "text": "| RUST-01 | Resilience owner-boundary refactoring | One behavior-preserving resilience module-family extraction narrows ownership and validation impact without a LoC quota |"
+        }
+      ],
+      "audit_result": "No unsupported overall code-reduction claim; behavior/owner-boundary scope and no quota preserved."
+    },
+    {
+      "path": "docs/milestones/v0.92.1/MILESTONE_CHECKLIST_v0.92.1.md",
+      "sha256": "87baf02bbe181b782374fb48cf950ad1dad3252526c41f0c898468c26d9b17ce",
+      "relevant_lines": [
+        {
+          "line": 27,
+          "text": "| RUST | Rust resilience refactoring | implemented | blocked | blocked | blocked |"
+        },
+        {
+          "line": 59,
+          "text": "| C10 | RUST-01 completes one behavior-preserving resilience owner-boundary refactor without a LoC quota | implemented | Implementation or governed delivery exists; complete candidate review/proof remains blocked as specified in the lane evidence. [Evidence](evidence/release/current-status/EVIDENCE_MAP.md#rust) | [#522](https://github.com/agent-logic/agent-design-language/issues/522) |"
+        }
+      ],
+      "audit_result": "No unsupported overall code-reduction claim; behavior/owner-boundary scope and no quota preserved."
+    },
+    {
+      "path": "docs/milestones/v0.92.1/QUALITY_GATE_v0.92.1.md",
+      "sha256": "6afd895c2ddf5154fa34df779d8a9514161bf53edc92b697d8ec2ee9d96e4067",
+      "relevant_lines": [
+        {
+          "line": 9,
+          "text": "- Rust resilience owner-boundary refactoring"
+        },
+        {
+          "line": 27,
+          "text": "AWS-A through AWS-G and GCP-A through GCP-E must each prove their single declared result. XCL-01 must prove the exact CloudFormation-template denominator, provider-neutral contract, explicit provider implementations, parity, rollback, and zero-residue cleanup before AWS-G may accept retirement. RUST-01 must prove behavior/API parity and truthful validation-impact measurement without a LoC quota."
+        }
+      ],
+      "audit_result": "No unsupported overall code-reduction claim; behavior/owner-boundary scope and no quota preserved."
+    },
+    {
+      "path": "docs/milestones/v0.92.1/FEATURE_PROOF_COVERAGE_v0.92.1.md",
+      "sha256": "c5d50600043867f7e074fe7cf1806209e83864b55404338a6d56b40b158badd3",
+      "relevant_lines": [
+        {
+          "line": 27,
+          "text": "| RUST | Rust resilience refactoring | implemented | blocked | blocked | blocked |"
+        },
+        {
+          "line": 97,
+          "text": "### Rust resilience refactoring"
+        },
+        {
+          "line": 99,
+          "text": "Resilience owner-boundary refactoring and retained behavior checks supplied by #499. Toolchain remediation #766 is closed; #814 owns the remaining Runtime model-boundary repair. No LoC acceptance rule applies. Remaining ownership: [#522](https://github.com/agent-logic/agent-design-language/issues/522), [#814](https://github.com/agent-logic/agent-design-language/issues/814)."
+        },
+        {
+          "line": 119,
+          "text": "| Rust resilience refactoring | API and behavior parity, fault/trace/retry/timeout/cancellation proof, module ownership, and exact validation-impact comparison; no LoC quota |"
+        }
+      ],
+      "audit_result": "No unsupported overall code-reduction claim; behavior/owner-boundary scope and no quota preserved."
+    },
+    {
+      "path": "docs/milestones/v0.92.1/RELEASE_PLAN_v0.92.1.md",
+      "sha256": "08b035237ad017430b91ce9b959874324fa140dde63390ebe009f214d5e3bcf7",
+      "relevant_lines": [
+        {
+          "line": 3,
+          "text": "Release proceeds through repository authority, planning publication, all issue-wave roots, integration convergence, and the exact canonical tail: TAIL-01 Quality gate; TAIL-02 Documentation review and external-review handoff; TAIL-03 Publication finalization; TAIL-04 Internal review; TAIL-05 External / third-party review; TAIL-06 Review findings remediation; TAIL-07 Next-milestone planning; TAIL-08 Next-milestone closeout plan; TAIL-09 Next milestone review pass; and TAIL-10 Release ceremony. AWS-01, GCP-01, XCL-01, RUST-01, DEC-01, PROV-A/PROV-B, and DRT-D are explicit gates; paid lanes remain operator-gated, and no portability or cloud move-in claim is made without their reviewed evidence."
+        }
+      ],
+      "audit_result": "No unsupported overall code-reduction claim; behavior/owner-boundary scope and no quota preserved."
+    },
+    {
+      "path": "docs/milestones/v0.92.1/features/RUST_RESILIENCE_REFACTORING_v0.92.1.md",
+      "sha256": "9cbad3885d13f3a2004ae85b499095b13c3f3c6212743f57991432f79290c4da",
+      "relevant_lines": [
+        {
+          "line": 1,
+          "text": "# Rust Resilience Owner-Boundary Refactoring"
+        },
+        {
+          "line": 3,
+          "text": "RUST-01 is one behavior-preserving refactoring slice over the current `adl/src/resilience.rs` ownership surface. It extracts cohesive resilience owners into an explicit module family while preserving supported APIs, failure taxonomy, retries, timeouts, cancellation, traces, and focused behavioral proof."
+        },
+        {
+          "line": 5,
+          "text": "The goal is a narrower change and validation-impact surface, not file splitting for appearance and not a mandatory line-count reduction. The issue records the exact pre/post module and validation denominators, keeps every test PVF-classified, and stops if the work requires behavior changes or expands into unrelated Rust surfaces."
+        },
+        {
+          "line": 7,
+          "text": "Repository-wide refactoring, Runtime v4, aesthetic cleanup, and arbitrary LoC targets are excluded."
+        },
+        {
+          "line": 11,
+          "text": "RUST-01 deliberately owns only the resilience owner-boundary slice. The other independently finishable recommendations from the retained Rust review remain outside this issue and are routed to the v0.93 planning intake rather than hidden inside one refactoring issue:"
+        },
+        {
+          "line": 16,
+          "text": "| Enum derive normalization | Deferred | v0.93 planning intake | Mechanical derive work is independent of resilience ownership and should carry its own API and serialization review. |"
+        },
+        {
+          "line": 19,
+          "text": "| Canonical JSON signing | Deferred | v0.93 planning intake | Signing canonicalization is an authority and compatibility change, not a resilience refactor. |"
+        },
+        {
+          "line": 26,
+          "text": "The [recursive source audit](../evidence/refactoring/rust-01/issue-836/README.md) compares the exact pre-refactor and merged revisions. The complete resilience family grew from 5,278 to 5,995 physical lines (+717); the 64-line facade reflects decomposition, not overall code reduction. Added/deleted lines, unchanged files and possible relocations are reported separately. This measurement is not behavior or validation-impact proof, and it introduces no LoC quota."
+        }
+      ],
+      "audit_result": "No unsupported overall code-reduction claim; behavior/owner-boundary scope and no quota preserved."
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/current-status/EVIDENCE_MAP.md",
+      "sha256": "dae088dab2ae439b5fd57679e3f7ad7faec3c1e2467221a9df499c9e38d020ea",
+      "relevant_lines": [
+        {
+          "line": 440,
+          "text": "**Rust resilience refactoring** \u2014 delivery `implemented`, proof `blocked`, demo `blocked`, release `blocked`."
+        },
+        {
+          "line": 442,
+          "text": "Resilience owner-boundary refactoring and retained behavior checks supplied by #499."
+        },
+        {
+          "line": 448,
+          "text": "### RUST-01 \u2014 [#499](https://github.com/agent-logic/agent-design-language/issues/499)"
+        },
+        {
+          "line": 454,
+          "text": "- [adl/src/resilience.rs](https://github.com/agent-logic/agent-design-language/blob/80e5961a7537f833ce676bb244fd574da4504a29/adl/src/resilience.rs)"
+        }
+      ],
+      "audit_result": "No unsupported overall code-reduction claim; behavior/owner-boundary scope and no quota preserved."
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "schema": "adl.v0918.wp01_execution_readiness.v1",
+  "issue": 5594,
+  "sprint_umbrella": 5595,
+  "status": "in_progress",
+  "historical_planning_sources": [5335, 5383, 5489],
+  "writable_actor_cap": 4,
+  "integration_queue": "single",
+  "opening_wave": [
+    {"issue": 5336, "action": "recover_stale_worktree_authority", "implementation_ready": false},
+    {"issue": 5337, "action": "prepare_typed_cards", "implementation_ready": false},
+    {"issue": 5358, "action": "prepare_acceptance_cards", "implementation_ready": false},
+    {"issue": 5361, "action": "prepare_acceptance_cards", "implementation_ready": false}
+  ],
+  "nested_umbrellas": [
+    {"issue": 5497, "children": [5499, 5498, 5500, 5502, 5501]},
+    {"issue": 5361, "children": [5591, 5592, 5589, 5590]},
+    {"issue": 5384, "children": [5358, 5361, 5352, 4758, 4759, 4760, 4761, 4762, 4763, 5007, 4739, 4741, 5332, 5107]}
+  ],
+  "runtime_v3_parity": {
+    "first": [5591],
+    "after_parity_a": [5592, 5589, 5590],
+    "concurrent_execution_requires_disjoint_protected_paths": true
+  },
+  "independent_acceptance_defects": [5540, 5541, 5548, 5558],
+  "operational_sidecars": [5587],
+  "serialized_gates": ["review", "publication", "merge", "post_merge_validation", "terminal_closeout", "release_tail"],
+  "non_claims": ["implementation_ready", "runtime_v2_deletion", "v092_activation", "release_ready", "aws_required"]
+}

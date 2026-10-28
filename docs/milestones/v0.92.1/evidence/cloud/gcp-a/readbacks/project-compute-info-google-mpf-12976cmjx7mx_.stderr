@@ -1,0 +1,13 @@
+ERROR: (gcloud.compute.project-info.describe) [daniel@agent-logic.ai] does not have permission to access projects instance [google-mpf-12976cmjx7mx] (or it may not exist): Compute Engine API has not been used in project google-mpf-12976cmjx7mx before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/compute.googleapis.com/overview?project=google-mpf-12976cmjx7mx then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry. This command is authenticated as daniel@agent-logic.ai which is the active account specified by the [core/account] property.
+Compute Engine API has not been used in project google-mpf-12976cmjx7mx before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/compute.googleapis.com/overview?project=google-mpf-12976cmjx7mx then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry.
+Google developers console API activation
+https://console.developers.google.com/apis/api/compute.googleapis.com/overview?project=google-mpf-12976cmjx7mx
+- '@type': type.googleapis.com/google.rpc.ErrorInfo
+  domain: googleapis.com
+  metadata:
+    activationUrl: https://console.developers.google.com/apis/api/compute.googleapis.com/overview?project=google-mpf-12976cmjx7mx
+    consumer: projects/google-mpf-12976cmjx7mx
+    containerInfo: google-mpf-12976cmjx7mx
+    service: compute.googleapis.com
+    serviceTitle: Compute Engine API
+  reason: SERVICE_DISABLED

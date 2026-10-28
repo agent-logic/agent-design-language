@@ -1,0 +1,35 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 184,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][DRT-04] Run hybrid Wuji and AWS continuity proof",
+    "slug": "drt-04-run-hybrid-wuji-and-aws-continuity-proof",
+    "version": "v0.92.1",
+    "generation": 5
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Prove continuity, fencing, healing, and halt behavior across Wuji and two private AWS availability zones.",
+      "required_outcome": "two private AZs authenticated transport independently materialized snapshots Wuji isolation AWS-only quorum continuity fencing healing halt and per-phase cleanup is produced at an exact revision and independently reproducible.",
+      "declared_scope": [
+        "One Wuji voter, two private AWS voters in separate AZs, authenticated private transport, independent snapshots, isolation, AWS-only quorum, asymmetric partition, healing, stale-owner fencing, and cleanup."
+      ],
+      "authority_boundary": [
+        "Issue DRT-04 owns only its declared repository paths and named external operation/evidence boundary.",
+        "Dependencies remain read-only inputs until terminal evidence satisfies the declared gate.",
+        "The issue may not absorb remediation owned by another work package without an explicit issue-graph revision."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Never write tracked changes on main",
+        "Bind only after typed doctor reports ready",
+        "Do not cross dependency or stop gates",
+        "Keep evidence producer-derived and exact-revision bound"
+      ]
+    }
+  }
+}

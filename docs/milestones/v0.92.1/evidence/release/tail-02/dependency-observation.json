@@ -1,0 +1,79 @@
+{
+  "schema": "adl.tail02.dependency_observation.v1",
+  "observed_date": "2026-09-08",
+  "issue": 517,
+  "issue_state": "CLOSED",
+  "pull_request": 748,
+  "pull_request_state": "MERGED",
+  "pull_request_head": "09e120c0496441215b33a6ccd51c07f2beb98dc1",
+  "aggregate_ci": "SUCCESS",
+  "aggregate_coverage": "SUCCESS",
+  "quality_gate": "blocked",
+  "downstream_release_unlock": false,
+  "source_path": "docs/milestones/v0.92.1/evidence/release/tail-01/blockers.json",
+  "source_blob_sha256": "ede57e98659a924ae3176b35cff90daf99876b4de96586254ecafd582eb79390",
+  "source_url": "https://github.com/agent-logic/agent-design-language/blob/e734438b5fdba099ed607e0604254430ddd7d091/docs/milestones/v0.92.1/evidence/release/tail-01/blockers.json",
+  "unresolved": [
+    {
+      "id": "execution-exact-head-review-gaps",
+      "severity": "P1",
+      "classification": "product_blocker",
+      "summary": "2 executed issues retain substantive post-review changes without current exact-head review.",
+      "disposition": "open",
+      "owner": "release evidence maintainers",
+      "affected_row_count": 7
+    },
+    {
+      "id": "consolidated-live-spec-sync-debt",
+      "severity": "P2",
+      "classification": "proof_debt",
+      "summary": "Live criteria for WP-01, GCP-E, HOT-01, OBS-B are equivalent or stronger expansions of the spec, except OBS-B moves backlog authority to canonical planning and adds no-mock proof; synchronize the records.",
+      "disposition": "follow_up",
+      "owner": "release planning maintainers",
+      "affected_row_count": 4
+    },
+    {
+      "id": "semantic-criterion-proof-gaps",
+      "severity": "P2",
+      "classification": "proof_debt",
+      "summary": "11 current planned criteria lack candidate-bound proof or explicit amendment authority.",
+      "disposition": "follow_up",
+      "owner": "release evidence maintainers",
+      "affected_row_count": 11
+    },
+    {
+      "id": "retained-predecessor-criterion-proof-gaps",
+      "severity": "P1",
+      "classification": "product_blocker",
+      "summary": "Retained predecessor criteria have no criterion-level mapping to candidate-bound successor evidence.",
+      "disposition": "open",
+      "owner": "release evidence maintainers",
+      "affected_row_count": 227
+    },
+    {
+      "id": "consolidated-owned-path-resolution-proof-debt",
+      "severity": "P2",
+      "classification": "proof_debt",
+      "summary": "Shared paths lack explicit owner sign-off; no final-content requirement loss was demonstrated.",
+      "disposition": "follow_up",
+      "owner": "release evidence maintainers",
+      "affected_row_count": 3
+    }
+  ],
+  "scope_boundary": "The unresolved list preserves PR748 historical classifications. PR752 completes their accounting; use reconciliation for current dispositions. No dependency blocks the documentation handoff.",
+  "merge_commit": "e734438b5fdba099ed607e0604254430ddd7d091",
+  "merged_at": "2026-09-09T01:09:08Z",
+  "reconciliation": {
+    "pull_request": 752,
+    "merge_commit": "7b66e5159c0bbccac3725832a8f876f5b820152d",
+    "accounting_status": "complete",
+    "historical_non_proving_rows_accounted": 245,
+    "exception_groups_accounted": 5,
+    "unowned_accounting_rows": 0,
+    "unowned_exception_groups": 0,
+    "pending_accounting_issue_creations": 0,
+    "release_authorized": false,
+    "source_path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/exception-dispositions.json",
+    "source_sha256": "1d1a403b0c89a3bed7faf7620f15deab90532744e32437b537ff5f03dcf0ce4f"
+  }
+}

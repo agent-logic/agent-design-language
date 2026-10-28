@@ -1,0 +1,53 @@
+{
+  "schema": "adl.v0921.wp01.operation-observed.v1",
+  "kind": "child_create",
+  "planned_id": "AWS-D",
+  "issue": 487,
+  "title": "[v0.92.1][AWS-D] AWS audit and security baseline",
+  "labels": [
+    "area:runtime",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "milestone": 1,
+  "state": "open",
+  "dependencies": {
+    "AWS-C": 486
+  },
+  "body_sha256": "fc348488525589c0f36c16eed31673e10c23b629ea724166f75701b5366145b5",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:AWS-D:create",
+  "request_fingerprint": "4d479c219a0c93678e48f4aafed9760ebc4eca003772d9ac3cf6f405cacdee3c",
+  "planning_digest": "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251",
+  "specification_sha256": "00c0bd009550925a611b1bc1d563160f13cca5b937325bca210bfcda9c90948c",
+  "live_response": {
+    "action": "issue_create",
+    "comment_id": null,
+    "issue": {
+      "assignees": [
+
+      ],
+      "body": "## Outcome\n\nProduce one operational AWS audit and security baseline.\n\n## Primary deliverable\n\nOne operational audit and security baseline with owned retention and findings destinations.\n\n## Verification result\n\nCloudTrail, configuration, detection, access-analysis, encryption, logging, alert, retention, and redaction readbacks pass for the exact account foundation.\n\n## Unit boundary\n\nIssue completion is exactly one operational audit-and-security baseline; individual services are implementation parts and cannot close independently.\n\n## Dependencies\n\n- AWS-C: #486\n\n## Retained predecessor scope\n\n- None; this is new v0.92.1 work.\n\n## Acceptance criteria\n\n- [ ] Account changes are durably observable\n- [ ] Security findings have an owner and destination\n- [ ] Retention and encryption are explicit\n- [ ] Sensitive values are excluded from retained proof\n\n## Owned paths\n\n- `infra/aws/account-foundation/**`\n- `docs/operations/cloud/aws/audit-security/**`\n- `docs/milestones/v0.92.1/evidence/cloud/aws-d/**`\n\n## PVF lanes\n\n- `audit-coverage`\n- `detection-readback`\n- `retention`\n- `alert-routing`\n- `redaction`\n\n## Stop conditions\n\n- Audit gaps remain unexplained\n- Findings lack ownership\n- Logging creates uncontrolled cost\n\n## Non-goals\n\n- Multi-account rollout\n- Application security redesign\n\n## Canonical planning identity\n\n- Planned ID: `AWS-D`\n- Canonical title: `[v0.92.1][AWS-D] AWS audit and security baseline`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#AWS-D`\n<!-- csdlc-github-operation:v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:AWS-D:create -->\n",
+      "closed_at": null,
+      "created_at": "2026-08-26T02:45:48Z",
+      "labels": [
+        "track:roadmap",
+        "type:task",
+        "area:runtime",
+        "version:v0.92.1"
+      ],
+      "marker_present": true,
+      "milestone": 1,
+      "number": 487,
+      "repository": "agent-logic/agent-design-language",
+      "schema": "csdlc.github_issue.v1",
+      "state": "open",
+      "title": "[v0.92.1][AWS-D] AWS audit and security baseline"
+    },
+    "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:AWS-D:create",
+    "pr_state": null,
+    "reconciled": true,
+    "repository": "agent-logic/agent-design-language",
+    "schema": "csdlc.github_action_result.v1"
+  }
+}

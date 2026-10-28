@@ -1,0 +1,30 @@
+{
+    "CertificateSummaryList": [
+        {
+            "CertificateArn": "arn:aws:acm:us-west-2:713332525889:certificate/8ba373ca-c226-4de3-bfb5-9da44c28f338",
+            "DomainName": "origin-smoke.wuji.dev.csm.agent-logic.ai",
+            "SubjectAlternativeNameSummaries": [
+                "origin-smoke.wuji.dev.csm.agent-logic.ai"
+            ],
+            "HasAdditionalSubjectAlternativeNames": false,
+            "Status": "ISSUED",
+            "Type": "AMAZON_ISSUED",
+            "KeyAlgorithm": "RSA-2048",
+            "KeyUsages": [
+                "DIGITAL_SIGNATURE",
+                "KEY_ENCIPHERMENT"
+            ],
+            "ExtendedKeyUsages": [
+                "TLS_WEB_SERVER_AUTHENTICATION"
+            ],
+            "ExportOption": "DISABLED",
+            "InUse": false,
+            "Exported": false,
+            "RenewalEligibility": "INELIGIBLE",
+            "NotBefore": "2026-08-25T17:00:00-07:00",
+            "NotAfter": "2027-03-11T15:59:59-08:00",
+            "CreatedAt": "2026-08-26T11:00:30.799000-07:00",
+            "IssuedAt": "2026-08-26T11:00:52.048000-07:00"
+        }
+    ]
+}

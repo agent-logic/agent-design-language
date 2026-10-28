@@ -1,0 +1,27 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "action": "issue_create",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:TAIL-09:create",
+  "token_file": null,
+  "issue": null,
+  "pull_request": null,
+  "title": "[v0.92.1][TAIL-09] Next milestone review pass",
+  "body": "## Outcome\n\nProduce one independent exact-revision v0.92.2 planning review report.\n\n## Primary deliverable\n\nOne independent exact-revision v0.92.2 planning review report.\n\n## Verification result\n\nThe complete planning denominator is reviewed and every finding has an evidence-backed disposition.\n\n## Unit boundary\n\nIssue completion is exactly one independent planning review report; findings are rows within that report.\n\n## Dependencies\n\n- TAIL-08: #524\n\n## Retained predecessor scope\n\n- None; this is new v0.92.1 work.\n\n## Acceptance criteria\n\n- [ ] Review binds exact planning revision\n- [ ] All findings have disposition before handoff\n\n## Owned paths\n\n- `docs/milestones/v0.92.1/evidence/release/tail-09/**`\n\n## PVF lanes\n\n- `planning-review-denominator`\n- `exact-revision`\n- `finding-disposition`\n\n## Stop conditions\n\n- Successor plan changes during review\n\n## Non-goals\n\n- Creating v0.92.2 issues\n- Approving current release\n\n## Canonical planning identity\n\n- Planned ID: `TAIL-09`\n- Canonical title: `[v0.92.1][TAIL-09] Next milestone review pass`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#TAIL-09`\n",
+  "labels": [
+    "area:review",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "assignees": [
+
+  ],
+  "milestone": 1,
+  "state": null,
+  "comment_body": null,
+  "required_checks": [
+
+  ],
+  "require_review": false,
+  "linked_issue": null
+}

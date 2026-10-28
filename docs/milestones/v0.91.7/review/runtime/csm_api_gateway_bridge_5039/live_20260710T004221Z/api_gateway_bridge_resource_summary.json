@@ -1,0 +1,31 @@
+{
+  "api_gateway": {
+    "api_id_hash": "f6a0963d9ca57433",
+    "api_name": "adl-csm-5039-polis-api",
+    "route": "$default",
+    "stage": "prod"
+  },
+  "aws_account_hash": "b05e1f4379b5c745",
+  "aws_profile": "agent-logic-admin",
+  "aws_region": "us-west-2",
+  "eventbridge": {
+    "bus": "adl-csm",
+    "rule_name": "adl-csm-api-gateway-bridge-5039"
+  },
+  "ingress_model": "one_api_gateway_api_per_polis",
+  "issue": 5039,
+  "lambda": {
+    "function_name": "adl-csm-5039-api-gateway-bridge",
+    "loopback_runtime_port": "19998",
+    "ssm_instance_hash": "10e0b23a3927baf9"
+  },
+  "polis_id": "csm-liveness-4976-full",
+  "redaction": {
+    "operator_token_recorded": false,
+    "raw_account_id_recorded": false,
+    "raw_api_id_recorded": false,
+    "raw_instance_id_recorded": false
+  },
+  "run_id": "wp07-5039-20260710T004221Z",
+  "schema": "adl.csm.api_gateway_bridge_resource.v1"
+}

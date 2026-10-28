@@ -1,0 +1,54 @@
+{
+  "schema": "adl.v0921.wp01.operation-observed.v1",
+  "kind": "child_create",
+  "planned_id": "AWS-F",
+  "issue": 489,
+  "title": "[v0.92.1][AWS-F] AWS Runtime platform modules",
+  "labels": [
+    "area:runtime",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "milestone": 1,
+  "state": "open",
+  "dependencies": {
+    "AWS-E": 488,
+    "issue-122": 122
+  },
+  "body_sha256": "aa8bcdf27704777622a8e78f13f4321e94c4ac6451279b0b5333578135add187",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:AWS-F:create",
+  "request_fingerprint": "8548eff62304aa526eb424350417dfe9a99cca0c35e8f1b1073b4cf4bebf3aec",
+  "planning_digest": "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251",
+  "specification_sha256": "2d59356f7d6fdd4e12a41a7a9cbfb4a4cbf5e7d4eea84e065a00032110f78a94",
+  "live_response": {
+    "action": "issue_create",
+    "comment_id": null,
+    "issue": {
+      "assignees": [
+
+      ],
+      "body": "## Outcome\n\nProduce one reviewed AWS Runtime platform-module set.\n\n## Primary deliverable\n\nOne reviewed Terraform module set for private Runtime network, edge, build, and independently scalable node groups.\n\n## Verification result\n\nSaved-plan, private-connectivity, exact Runtime artifact, cost, observability, rollback, and zero-residue disposable-deployment checks pass without production traffic.\n\n## Unit boundary\n\nIssue completion is exactly one reviewed Runtime platform-module set; module components and the disposable proving deployment are implementation parts and evidence inputs.\n\n## Dependencies\n\n- AWS-E: #488\n- issue-122: #122\n\n## Retained predecessor scope\n\n- None; this is new v0.92.1 work.\n\n## Acceptance criteria\n\n- [ ] Runtime hosts have no direct public ingress\n- [ ] Shared edge network build and node states remain separated\n- [ ] Existing issue 122 owns public Route53 and ACM exposure\n- [ ] Disposable deployment and cleanup bind the exact modules\n\n## Owned paths\n\n- `infra/aws/runtime/**`\n- `docs/operations/cloud/aws/runtime-platform/**`\n- `docs/milestones/v0.92.1/evidence/cloud/aws-f/**`\n\n## PVF lanes\n\n- `saved-plan`\n- `private-connectivity`\n- `runtime-artifact`\n- `cost-and-deadline`\n- `observability`\n- `cleanup-zero`\n\n## Stop conditions\n\n- Issue 122 authority is contradicted\n- Public ingress appears unexpectedly\n- Production traffic would be required\n\n## Non-goals\n\n- Production cutover\n- Domain transfer\n- Runtime behavior fork\n\n## Canonical planning identity\n\n- Planned ID: `AWS-F`\n- Canonical title: `[v0.92.1][AWS-F] AWS Runtime platform modules`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#AWS-F`\n<!-- csdlc-github-operation:v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:AWS-F:create -->\n",
+      "closed_at": null,
+      "created_at": "2026-08-26T02:47:08Z",
+      "labels": [
+        "track:roadmap",
+        "type:task",
+        "area:runtime",
+        "version:v0.92.1"
+      ],
+      "marker_present": true,
+      "milestone": 1,
+      "number": 489,
+      "repository": "agent-logic/agent-design-language",
+      "schema": "csdlc.github_issue.v1",
+      "state": "open",
+      "title": "[v0.92.1][AWS-F] AWS Runtime platform modules"
+    },
+    "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:AWS-F:create",
+    "pr_state": null,
+    "reconciled": true,
+    "repository": "agent-logic/agent-design-language",
+    "schema": "csdlc.github_action_result.v1"
+  }
+}

@@ -1,0 +1,13 @@
+flowchart LR
+  C["V3-01 frozen contracts"] --> CLI["Thin CLI spike"]
+  CLI --> APP["Invocation App"]
+  APP --> DOMAIN["Pure lifecycle domain"]
+  APP --> FAKE["Strict fake adapters"]
+  DOMAIN --> REC["Review/recover/correct/re-review journey"]
+  FAKE --> GAP["GitHub capability-gap inventory"]
+  APP --> COMMIT["Platform commit prototypes"]
+  CLI --> MEASURE["Ten quantitative thresholds"]
+  REC --> DECIDE["Promote or discard"]
+  GAP --> DECIDE
+  COMMIT --> D11["V3-D11 recommendation only"]
+  MEASURE --> DECIDE

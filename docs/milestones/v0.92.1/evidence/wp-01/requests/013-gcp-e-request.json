@@ -1,0 +1,27 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "action": "issue_create",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:GCP-E:create",
+  "token_file": null,
+  "issue": null,
+  "pull_request": null,
+  "title": "[v0.92.1][GCP-E] GCP GPU readiness smoke test",
+  "body": "## Outcome\n\nProduce one bounded GCP GPU readiness decision.\n\n## Primary deliverable\n\nOne bounded On-Demand L4 smoke-test qualification packet with exact inputs, cost, telemetry, and zero-resource cleanup.\n\n## Verification result\n\nExact image driver CUDA Ollama model and machine identities, GPU detection, inference, headroom, telemetry, deadline, cost, and independent cleanup checks pass under separate paid-launch authorization.\n\n## Unit boundary\n\nIssue completion is exactly one GPU readiness decision; launch and cleanup are evidence inputs and do not authorize six-resident qualification.\n\n## Dependencies\n\n- GCP-D: #493\n\n## Retained predecessor scope\n\n- None; this is new v0.92.1 work.\n\n## Acceptance criteria\n\n- [ ] Paid launch has separate authorization and a USD 20 ceiling\n- [ ] Exact inputs and hardware are retained\n- [ ] GPU inference and headroom are proven\n- [ ] All owned resources are independently absent afterward\n\n## Owned paths\n\n- `infra/gcp/workloads/gpu-smoke/**`\n- `docs/milestones/v0.92.1/evidence/cloud/gcp-e/**`\n\n## PVF lanes\n\n- `paid-authority`\n- `exact-inputs`\n- `gpu-inference`\n- `telemetry-and-cost`\n- `cleanup-zero`\n\n## Stop conditions\n\n- Paid authorization is absent\n- Quota or capacity cannot satisfy the exact shape\n- Cleanup cannot be proven\n\n## Non-goals\n\n- Six-resident qualification\n- Spot substitution\n- Production deployment\n\n## Canonical planning identity\n\n- Planned ID: `GCP-E`\n- Canonical title: `[v0.92.1][GCP-E] GCP GPU readiness smoke test`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#GCP-E`\n",
+  "labels": [
+    "area:runtime",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "assignees": [
+
+  ],
+  "milestone": 1,
+  "state": null,
+  "comment_body": null,
+  "required_checks": [
+
+  ],
+  "require_review": false,
+  "linked_issue": null
+}

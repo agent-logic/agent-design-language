@@ -1,0 +1,411 @@
+{
+  "schema": "adl.issue901.provider_recovery_qualification.v1",
+  "generated_at": "2026-09-13T01:33:04.698149+00:00",
+  "source_revision": "c6651bb59fc117f10abc9e613d0042f567759ee8",
+  "adapter": {
+    "path": "adl/target/debug/adl-provider-adapter",
+    "sha256": "d4decf7ced9fdea7309030248fd74d6ef8bf9484f76439bb44bb9e38318e435f"
+  },
+  "provider": {
+    "kind": "task_owned_local_openai_compatible_llama_server",
+    "binary": "llama-server",
+    "sha256": "bbf46451828a74e113000e82b9c5345f83815cfbc3a922241232f929ddbabda0",
+    "version": "llama.cpp build 10434 (7e4c0a968)",
+    "model": "gemma:2b",
+    "model_file_sha256": "c1864a5eb19305c40519da12cc543519e48a0697ecd30e15d5ac228644957d12"
+  },
+  "resource_authority": "operator-approved task-owned local macOS; no paid/cloud calls or shared service mutation",
+  "provider_incarnations": [
+    {
+      "label": "loss",
+      "pid": 8653,
+      "started_at": "2026-09-13T01:32:28.627377+00:00"
+    },
+    {
+      "label": "timeout",
+      "pid": 8668,
+      "started_at": "2026-09-13T01:32:41.032019+00:00"
+    },
+    {
+      "label": "interruption",
+      "pid": 8670,
+      "started_at": "2026-09-13T01:32:52.172548+00:00"
+    },
+    {
+      "label": "recovery",
+      "pid": 8672,
+      "started_at": "2026-09-13T01:33:03.211312+00:00"
+    }
+  ],
+  "scenarios": {
+    "loss": {
+      "request_ref": "loss-request.json",
+      "result_ref": "loss-result.json",
+      "run_log_ref": "loss-adapter.jsonl",
+      "stdout_ref": "loss-stdout.log",
+      "stderr_ref": "loss-stderr.log",
+      "adapter_returncode": 0,
+      "wall_elapsed_ms": 10320,
+      "result": {
+        "schema_version": "provider_communication.v1",
+        "route": {
+          "provider_kind": "local",
+          "provider": "openai",
+          "runtime_surface": "hosted_api",
+          "provider_model_id": "gemma:2b",
+          "endpoint_ref": "http://127.0.0.1:64971/v1/responses",
+          "credential_ref": "env:ADL_ISSUE901_LOCAL_KEY",
+          "source_registry": "issue901.task_owned_local"
+        },
+        "model_identity": {
+          "provider_kind": "local",
+          "provider": "openai",
+          "model_ref": "gemma:2b",
+          "provider_model_id": "gemma:2b",
+          "runtime_surface": "hosted_api",
+          "identity_strength": "tag_only",
+          "observed_at": "issue901-preflight",
+          "source_registry": "issue901.task_owned_local"
+        },
+        "attempts": [
+          {
+            "attempt_index": 1,
+            "started_at": "unix:1789263150",
+            "duration_ms": 10280,
+            "status": "error",
+            "retryable": false,
+            "failure": {
+              "kind": "unknown",
+              "retryable": false,
+              "message": "error sending request for url (http://127.0.0.1:64971/v1/responses)",
+              "provider_error_excerpt": "error sending request for url (http://127.0.0.1:64971/v1/responses)"
+            }
+          }
+        ],
+        "final_status": "failed",
+        "duration_ms": 10282,
+        "request_id": "issue901-loss",
+        "failure": {
+          "kind": "unknown",
+          "retryable": false
+        },
+        "artifact_ref": ".csdlc/evidence/901/live-run-09/loss-result.json",
+        "trace_ref": "provider_adapter.circuit_breaker",
+        "output_text_present": false,
+        "output_text_sha256": null
+      },
+      "artifacts": {
+        "request": {
+          "ref": "loss-request.json",
+          "sha256": "c55452f8895fd66f8c21037a1692ffa3a8dde12fd1910e973729e69d0ba05119",
+          "bytes": 1061
+        },
+        "result": {
+          "ref": "loss-result.json",
+          "sha256": "1d2ebe5b6bba7af750c76899a90493bf71c7df1ecf1cb3c56467d6ffa10e915f",
+          "bytes": 1589
+        },
+        "log": {
+          "ref": "loss-adapter.jsonl",
+          "sha256": "e075164f2e7276af8048c1c6a8dc0b6b3cd26170742edb5b04b7b2b7c4426e00",
+          "bytes": 2168
+        },
+        "stdout": {
+          "ref": "loss-stdout.log",
+          "sha256": "3b6f06b024dc4dcf4733ebd90f482a22bf18e3d2d114f3bb08646a3f5d946df6",
+          "bytes": 432
+        },
+        "stderr": {
+          "ref": "loss-stderr.log",
+          "sha256": "a3fae93470dce0c749eac83022f428ba404d0c1a58f1534d106a9312ec950096",
+          "bytes": 1086
+        }
+      },
+      "request_id": "issue901-loss",
+      "generate_forwarded": true,
+      "owned_provider_pid": 8653,
+      "owned_provider_returncode": -9,
+      "provider_signal_sent_at": "2026-09-13T01:32:30.968856+00:00"
+    },
+    "timeout": {
+      "request_ref": "timeout-request.json",
+      "result_ref": "timeout-result.json",
+      "run_log_ref": "timeout-adapter.jsonl",
+      "stdout_ref": "timeout-stdout.log",
+      "stderr_ref": "timeout-stderr.log",
+      "adapter_returncode": 0,
+      "wall_elapsed_ms": 331,
+      "result": {
+        "schema_version": "provider_communication.v1",
+        "route": {
+          "provider_kind": "local",
+          "provider": "openai",
+          "runtime_surface": "hosted_api",
+          "provider_model_id": "gemma:2b",
+          "endpoint_ref": "http://127.0.0.1:64971/v1/responses",
+          "credential_ref": "env:ADL_ISSUE901_LOCAL_KEY",
+          "source_registry": "issue901.task_owned_local"
+        },
+        "model_identity": {
+          "provider_kind": "local",
+          "provider": "openai",
+          "model_ref": "gemma:2b",
+          "provider_model_id": "gemma:2b",
+          "runtime_surface": "hosted_api",
+          "identity_strength": "tag_only",
+          "observed_at": "issue901-preflight",
+          "source_registry": "issue901.task_owned_local"
+        },
+        "attempts": [
+          {
+            "attempt_index": 1,
+            "started_at": "unix:1789263161",
+            "duration_ms": 283,
+            "status": "timeout",
+            "retryable": false,
+            "failure": {
+              "kind": "provider_timeout",
+              "retryable": false,
+              "message": "provider timeout",
+              "provider_error_excerpt": "provider timeout"
+            }
+          }
+        ],
+        "final_status": "failed",
+        "duration_ms": 283,
+        "request_id": "issue901-timeout",
+        "failure": {
+          "kind": "provider_timeout",
+          "retryable": false
+        },
+        "artifact_ref": ".csdlc/evidence/901/live-run-09/timeout-result.json",
+        "trace_ref": "provider_adapter.circuit_breaker",
+        "output_text_present": false,
+        "output_text_sha256": null
+      },
+      "artifacts": {
+        "request": {
+          "ref": "timeout-request.json",
+          "sha256": "0d97b14e876c4f634b9e446deffe2a8b97069eee7043ed2dac663d8a920c8089",
+          "bytes": 1067
+        },
+        "result": {
+          "ref": "timeout-result.json",
+          "sha256": "40d850e58af9aca8300a5b0e1881ecc4a33e818ee3eac88337ef6baa49ff1469",
+          "bytes": 1407
+        },
+        "log": {
+          "ref": "timeout-adapter.jsonl",
+          "sha256": "bbc9a5acbd465cd8927a242326d03fc07e676f7d46c53548e9ddc46416e28250",
+          "bytes": 2231
+        },
+        "stdout": {
+          "ref": "timeout-stdout.log",
+          "sha256": "256ba4cd8fe2b5c8fae877a8e979d4617c31faf991af60a3134d37c0cf34f1fe",
+          "bytes": 441
+        },
+        "stderr": {
+          "ref": "timeout-stderr.log",
+          "sha256": "f6251a82bafa5cea3d2acb64a73c2efa18a32cf54915584e479b21fb1a0b61c6",
+          "bytes": 593
+        }
+      },
+      "request_id": "issue901-timeout",
+      "generate_forwarded": true,
+      "timeout_ms": 150,
+      "owned_provider_pid": 8668
+    },
+    "interruption": {
+      "request_ref": "interruption-request.json",
+      "result_ref": null,
+      "run_log_ref": "interruption-adapter.jsonl",
+      "stdout_ref": "interruption-stdout.log",
+      "stderr_ref": "interruption-stderr.log",
+      "adapter_returncode": -15,
+      "wall_elapsed_ms": 131,
+      "result": null,
+      "artifacts": {
+        "request": {
+          "ref": "interruption-request.json",
+          "sha256": "ec165ab4e18739bee7421004d056fd8ec3f1cdbcd9a6e56beb1e94fbe62865d7",
+          "bytes": 1085
+        },
+        "log": {
+          "ref": "interruption-adapter.jsonl",
+          "sha256": "6fd99b99315265684cd765b585a3062194fa751a14d3ae79ab44611eca56ea07",
+          "bytes": 839
+        },
+        "stdout": {
+          "ref": "interruption-stdout.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "stderr": {
+          "ref": "interruption-stderr.log",
+          "sha256": "fee6c2898d31e4daa80bad3043d10fe4f92f269c3f9854ff57a481fd0c23c0cb",
+          "bytes": 255
+        }
+      },
+      "request_id": "issue901-interruption",
+      "generate_forwarded": true,
+      "owned_provider_pid": 8670,
+      "adapter_signal_sent_at": "2026-09-13T01:32:53.159073+00:00"
+    },
+    "recovery": {
+      "request_ref": "recovery-request.json",
+      "result_ref": "recovery-result.json",
+      "run_log_ref": "recovery-adapter.jsonl",
+      "stdout_ref": "recovery-stdout.log",
+      "stderr_ref": "recovery-stderr.log",
+      "adapter_returncode": 0,
+      "wall_elapsed_ms": 388,
+      "result": {
+        "schema_version": "provider_communication.v1",
+        "route": {
+          "provider_kind": "local",
+          "provider": "openai",
+          "runtime_surface": "hosted_api",
+          "provider_model_id": "gemma:2b",
+          "endpoint_ref": "http://127.0.0.1:64971/v1/responses",
+          "credential_ref": "env:ADL_ISSUE901_LOCAL_KEY",
+          "source_registry": "issue901.task_owned_local"
+        },
+        "model_identity": {
+          "provider_kind": "local",
+          "provider": "openai",
+          "model_ref": "gemma:2b",
+          "provider_model_id": "gemma:2b",
+          "runtime_surface": "hosted_api",
+          "identity_strength": "tag_only",
+          "observed_at": "issue901-preflight",
+          "source_registry": "issue901.task_owned_local"
+        },
+        "attempts": [
+          {
+            "attempt_index": 1,
+            "started_at": "unix:1789263184",
+            "duration_ms": 330,
+            "status": "ok",
+            "retryable": false,
+            "http_status": 200,
+            "raw_response_excerpt": "[redacted provider text len=44]"
+          }
+        ],
+        "final_status": "ok",
+        "duration_ms": 330,
+        "request_id": "issue901-recovery",
+        "output_text_excerpt": "[redacted provider text len=44]",
+        "artifact_ref": ".csdlc/evidence/901/live-run-09/recovery-result.json",
+        "trace_ref": "provider_adapter.circuit_breaker",
+        "output_text_present": true,
+        "output_text_sha256": "3fc0d93d5a96a4d0a4f3f8ca222fd953bfc16adaa2bfcb9d7a87888bf8f6bcf4"
+      },
+      "artifacts": {
+        "request": {
+          "ref": "recovery-request.json",
+          "sha256": "d285caf35045a49b13d685272da92b9ba8e2548085968c030e54563dbc3b92da",
+          "bytes": 1071
+        },
+        "result": {
+          "ref": "recovery-result.json",
+          "sha256": "bb6dc17507cdeff9f60be9c2e1cb2f411ecf947121c210ccb936737c8a8fa0a6",
+          "bytes": 1272
+        },
+        "log": {
+          "ref": "recovery-adapter.jsonl",
+          "sha256": "9ba1fb0706e45ef2e2b0cf9fa7d366630147ead65544504bc18aeebff5ef3170",
+          "bytes": 2166
+        },
+        "stdout": {
+          "ref": "recovery-stdout.log",
+          "sha256": "75143d3e37b45afc6f03bbfb23bcf787d2e8197d73ffb6b18972c2bd979ca3b9",
+          "bytes": 444
+        },
+        "stderr": {
+          "ref": "recovery-stderr.log",
+          "sha256": "6938c7b3e69811e734de97187622a54c728a3792513ba164b708485d50f4cf8a",
+          "bytes": 535
+        }
+      },
+      "request_id": "issue901-recovery",
+      "generate_forwarded": true,
+      "owned_provider_pid": 8672
+    }
+  },
+  "proxy_records": [
+    {
+      "method": "POST",
+      "path": "/v1/responses",
+      "body_sha256": "583e3b7447b65f77da3588cd1ff1dbfb73da53d96c48dcd78467a955e0c3842b",
+      "body_bytes": 133,
+      "forwarded_at": "2026-09-13T01:32:30.858416+00:00",
+      "upstream_port": 64970,
+      "completed_at": "2026-09-13T01:32:41.011604+00:00",
+      "upstream_status": null,
+      "upstream_error": "RemoteDisconnected",
+      "request_id": "issue901-loss"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/responses",
+      "body_sha256": "d320015694f0c6bf961afc65be679701beed1b197a7e223fe78146d30d14a0a4",
+      "body_bytes": 135,
+      "forwarded_at": "2026-09-13T01:32:41.920516+00:00",
+      "upstream_port": 64970,
+      "completed_at": "2026-09-13T01:32:52.152506+00:00",
+      "upstream_status": null,
+      "upstream_error": "RemoteDisconnected",
+      "request_id": "issue901-timeout"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/responses",
+      "body_sha256": "a9f5635be10d9d4097ea0a1cf28731042ee96d4aec21a4d723a74577fb79d70b",
+      "body_bytes": 141,
+      "forwarded_at": "2026-09-13T01:32:53.158802+00:00",
+      "upstream_port": 64970,
+      "completed_at": "2026-09-13T01:33:03.196198+00:00",
+      "upstream_status": null,
+      "upstream_error": "RemoteDisconnected",
+      "request_id": "issue901-interruption"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/responses",
+      "body_sha256": "9c7bee67d41d8ec6e13cadc468a53aaefcdce2dfe35b3b8ecb5576df2f1a6d46",
+      "body_bytes": 134,
+      "forwarded_at": "2026-09-13T01:33:04.195902+00:00",
+      "upstream_port": 64970,
+      "completed_at": "2026-09-13T01:33:04.401485+00:00",
+      "upstream_status": 200,
+      "upstream_error": null,
+      "request_id": "issue901-recovery"
+    }
+  ],
+  "inference_request_body_sha256": [
+    "583e3b7447b65f77da3588cd1ff1dbfb73da53d96c48dcd78467a955e0c3842b",
+    "d320015694f0c6bf961afc65be679701beed1b197a7e223fe78146d30d14a0a4",
+    "a9f5635be10d9d4097ea0a1cf28731042ee96d4aec21a4d723a74577fb79d70b",
+    "9c7bee67d41d8ec6e13cadc468a53aaefcdce2dfe35b3b8ecb5576df2f1a6d46"
+  ],
+  "caller_failure_flags": false,
+  "reference_trace_only": false,
+  "test_classification": {
+    "lane": "provider",
+    "proof_role": "production-adapter effect and recovery qualification",
+    "determinism": "bounded live local provider effects; deterministic report validation negatives",
+    "resource_profile": "task-owned CPU llama-server and adapter process groups, loopback, local disk",
+    "release_gate": "required issue gate"
+  },
+  "execution_observation_artifact": {
+    "ref": "execution-observations.json",
+    "sha256": "37552269b34c87065679a34812ec29dd2a49b4df0879e279fc21997e3b4aa376",
+    "bytes": 4526
+  },
+  "validation": {
+    "status": "passed",
+    "errors": [],
+    "scenario_count": 4
+  },
+  "publication_boundary": "Portable receipt: prompts and model output omitted; private raw run retained in the issue worktree."
+}

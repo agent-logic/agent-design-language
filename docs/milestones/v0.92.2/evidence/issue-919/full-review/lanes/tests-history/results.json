@@ -1,0 +1,54 @@
+[
+  {
+    "argv": [
+      "rustc",
+      "--edition=2021",
+      "--test",
+      "retained-local-review/lanes/tests-history/local_origin.rs",
+      "-o",
+      "retained-local-review/lanes/tests-history/local_origin_test"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "warning: unused imports: `collections::BTreeMap` and `fs`\n --> retained-local-review/lanes/tests-history/local_origin.rs:2:5\n  |\n2 |     collections::BTreeMap,\n  |     ^^^^^^^^^^^^^^^^^^^^^\n3 |     fs,\n  |     ^^\n  |\n  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default\n\nwarning: 1 warning emitted\n\n"
+  },
+  {
+    "argv": [
+      "retained-local-review/lanes/tests-history/local_origin_test"
+    ],
+    "exit_code": 0,
+    "stdout": "\nrunning 2 tests\ntest local_model_origin_accepts_only_structural_loopback_http_origins ... ok\ntest local_model_runner_denies_redirects ... ok\n\ntest result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.00s\n\n",
+    "stderr": ""
+  },
+  {
+    "case": "OBS-B clean fixture",
+    "exit_code": 0,
+    "stderr": ""
+  },
+  {
+    "case": "payload",
+    "exit_code": 1,
+    "stderr": "publication_json_rejected:unredacted_provider_payload:/provider_payload\n"
+  },
+  {
+    "case": "duplicate",
+    "exit_code": 1,
+    "stderr": "publication_json_rejected:duplicate_key:prompt\n"
+  },
+  {
+    "case": "path",
+    "exit_code": 1,
+    "stderr": "publication_json_rejected:machine_local_path:/safe\n"
+  },
+  {
+    "case": "credential",
+    "exit_code": 1,
+    "stderr": "publication_json_rejected:bearer_token:/safe\n"
+  },
+  {
+    "case": "OBS-B current publication manifest",
+    "exit_code": 0,
+    "stdout": "manifest_integrity:pass:29\n",
+    "stderr": ""
+  }
+]

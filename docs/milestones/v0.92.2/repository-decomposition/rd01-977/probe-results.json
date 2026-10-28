@@ -1,0 +1,509 @@
+{
+  "source_revision": "f69019c24a9b61511e912c93f95442f96fa66d92",
+  "network": "Cargo offline; no provider or publication effects",
+  "isolation": "Git archive source subsets; empty HOME, external trusted Rust toolchain and cached Cargo dependencies. Not an OS network sandbox; cache configuration not independently hermetic.",
+  "probes": [
+    {
+      "id": "csdlc-v3-metadata",
+      "component": "csdlc-v3",
+      "argv": [
+        "cargo",
+        "metadata",
+        "--offline",
+        "--no-deps",
+        "--format-version",
+        "1",
+        "--manifest-path",
+        "csdlc-v3/Cargo.toml"
+      ],
+      "status": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.029,
+      "log": ".adl/runs/977/csdlc-v3-metadata.log",
+      "tail": "Cargo manifest metadata only; --no-deps does not resolve or build dependencies.",
+      "log_sha256": "509519145655864a190767ec93dbf7ac59be32e71704391aacdc73be22dc19a7",
+      "test_results": []
+    },
+    {
+      "id": "adl-metadata",
+      "component": "adl",
+      "argv": [
+        "cargo",
+        "metadata",
+        "--offline",
+        "--no-deps",
+        "--format-version",
+        "1",
+        "--manifest-path",
+        "adl/Cargo.toml"
+      ],
+      "status": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.025,
+      "log": ".adl/runs/977/adl-metadata.log",
+      "tail": "Cargo manifest metadata only; --no-deps does not resolve or build dependencies.",
+      "log_sha256": "a7c2248859e7dcb153fc3cc3e8545d3519ac3aece6340ced83d090212db2fa87",
+      "test_results": []
+    },
+    {
+      "id": "adl-runtime-metadata",
+      "component": "adl-runtime",
+      "argv": [
+        "cargo",
+        "metadata",
+        "--offline",
+        "--no-deps",
+        "--format-version",
+        "1",
+        "--manifest-path",
+        "adl-runtime/Cargo.toml"
+      ],
+      "status": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.026,
+      "log": ".adl/runs/977/adl-runtime-metadata.log",
+      "tail": "Cargo manifest metadata only; --no-deps does not resolve or build dependencies.",
+      "log_sha256": "19c527b6264f9579e2acdd6e39c072a6f2176d675407dd56340f9f21139b41d8",
+      "test_results": []
+    },
+    {
+      "id": "adl-runtime-kernel-metadata",
+      "component": "adl-runtime-kernel",
+      "argv": [
+        "cargo",
+        "metadata",
+        "--offline",
+        "--no-deps",
+        "--format-version",
+        "1",
+        "--manifest-path",
+        "adl-runtime-kernel/Cargo.toml"
+      ],
+      "status": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.026,
+      "log": ".adl/runs/977/adl-runtime-kernel-metadata.log",
+      "tail": "Cargo manifest metadata only; --no-deps does not resolve or build dependencies.",
+      "log_sha256": "ece2245d74da114f6632642bf93518e100ae73e4b7a27cc75bddbafad5bc1dae",
+      "test_results": []
+    },
+    {
+      "id": "adl-provider-core-metadata",
+      "component": "adl-provider-core",
+      "argv": [
+        "cargo",
+        "metadata",
+        "--offline",
+        "--no-deps",
+        "--format-version",
+        "1",
+        "--manifest-path",
+        "adl-provider-core/Cargo.toml"
+      ],
+      "status": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.025,
+      "log": ".adl/runs/977/adl-provider-core-metadata.log",
+      "tail": "Cargo manifest metadata only; --no-deps does not resolve or build dependencies.",
+      "log_sha256": "f650768ac46ca816e1b22a2bcaf05c663069327061c276cec2039469b5ff9610",
+      "test_results": []
+    },
+    {
+      "id": "adl-uts-metadata",
+      "component": "adl-uts",
+      "argv": [
+        "cargo",
+        "metadata",
+        "--offline",
+        "--no-deps",
+        "--format-version",
+        "1",
+        "--manifest-path",
+        "adl-uts/Cargo.toml"
+      ],
+      "status": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.025,
+      "log": ".adl/runs/977/adl-uts-metadata.log",
+      "tail": "Cargo manifest metadata only; --no-deps does not resolve or build dependencies.",
+      "log_sha256": "b05eeeb8df3aac6f487c35987cf076048456bd9ee48949aa8b62a95f1b533a3a",
+      "test_results": []
+    },
+    {
+      "id": "csdlc-v2-metadata",
+      "component": "csdlc-v2",
+      "argv": [
+        "cargo",
+        "metadata",
+        "--offline",
+        "--no-deps",
+        "--format-version",
+        "1",
+        "--manifest-path",
+        "csdlc-v2/Cargo.toml"
+      ],
+      "status": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.026,
+      "log": ".adl/runs/977/csdlc-v2-metadata.log",
+      "tail": "Cargo manifest metadata only; --no-deps does not resolve or build dependencies.",
+      "log_sha256": "2217c103784a77f1f66ea79fa287d1afaae018722176bedf2ea7db31f9aa80dc",
+      "test_results": []
+    },
+    {
+      "id": "adl-v2-metadata",
+      "component": "adl-v2",
+      "argv": [
+        "cargo",
+        "metadata",
+        "--offline",
+        "--no-deps",
+        "--format-version",
+        "1",
+        "--manifest-path",
+        "adl-v2/Cargo.toml"
+      ],
+      "status": "failed",
+      "exit_code": 101,
+      "elapsed_seconds": 0.028,
+      "log": ".adl/runs/977/adl-v2-metadata.log",
+      "tail": "error: failed to load manifest for workspace member `<audit-worktree>/.adl/runs/977/adl-v2/adl-v2/crates/adl-runtime-v3-adapter`\nreferenced by workspace at `<audit-worktree>/.adl/runs/977/adl-v2/adl-v2/Cargo.toml`\n\nCaused by:\n  failed to load manifest for dependency `adl-runtime-kernel`\n\nCaused by:\n  failed to read `<audit-worktree>/.adl/runs/977/adl-v2/adl-runtime-kernel/Cargo.toml`\n\nCaused by:\n  No such file or directory (os error 2)\n",
+      "log_sha256": "5a9e4e23e6cee4fb1e2b635f66b252240ae11c68713270b9fa666b5493066746",
+      "test_results": []
+    },
+    {
+      "id": "csdlc-build-cold",
+      "component": "csdlc-v3",
+      "argv": [
+        "cargo",
+        "build",
+        "--locked",
+        "--offline",
+        "--manifest-path",
+        "csdlc-v3/Cargo.toml"
+      ],
+      "status": "failed",
+      "exit_code": 101,
+      "elapsed_seconds": 6.534,
+      "log": ".adl/runs/977/csdlc-build-cold.log",
+      "tail": "0.107\n   Compiling unicode-ident v1.0.24\n   Compiling quote v1.0.47\n   Compiling serde_core v1.0.229\n   Compiling serde v1.0.229\n   Compiling find-msvc-tools v0.1.11\n   Compiling shlex v2.0.1\n   Compiling hashbrown v0.17.1\n   Compiling equivalent v1.0.2\n   Compiling zmij v1.0.23\n   Compiling libc v0.2.189\n   Compiling serde_json v1.0.151\n   Compiling toml_write v0.1.2\n   Compiling winnow v0.7.15\n   Compiling cfg-if v1.0.4\n   Compiling itoa v1.0.18\n   Compiling cc v1.4.4\n   Compiling constant_time_eq v0.4.2\n   Compiling memchr v2.8.3\n   Compiling unicode-id v0.3.6\n   Compiling arrayvec v0.7.8\n   Compiling markdown v1.0.0\n   Compiling indexmap v2.14.0\n   Compiling fs2 v0.4.3\n   Compiling syn v3.0.4\n   Compiling blake3 v1.8.7\n   Compiling serde_derive v1.0.229\n   Compiling serde_spanned v0.6.9\n   Compiling toml_datetime v0.6.11\n   Compiling toml_edit v0.22.27\n   Compiling toml v0.8.23\n   Compiling csdlc-v3 v0.1.0 (<audit-worktree>/.adl/runs/977/csdlc-v3/csdlc-v3)\nerror: couldn't read `src/commands/../../../docs/csdlc-v3/v3-command-manifest.json`: No such file or directory (os error 2)\n  --> src/commands/contract.rs:12:30\n   |\n12 |           serde_json::from_str(include_str!(\n   |  ______________________________^\n13 | |             \"../../../docs/csdlc-v3/v3-command-manifest.json\"\n14 | |         ))\n   | |_________^\n\nerror: could not compile `csdlc-v3` (lib) due to 1 previous error\n",
+      "log_sha256": "a52e69dd035f46dec009bb46a9b47c8ddf30efad6e816ea1c2d3a6ce2c0ecc80",
+      "test_results": []
+    },
+    {
+      "id": "csdlc-build-warm",
+      "component": "csdlc-v3",
+      "argv": [
+        "cargo",
+        "build",
+        "--locked",
+        "--offline",
+        "--manifest-path",
+        "csdlc-v3/Cargo.toml"
+      ],
+      "status": "failed",
+      "exit_code": 101,
+      "elapsed_seconds": 4.336,
+      "log": ".adl/runs/977/csdlc-build-warm.log",
+      "tail": "   Compiling csdlc-v3 v0.1.0 (<audit-worktree>/.adl/runs/977/csdlc-v3/csdlc-v3)\nerror: couldn't read `src/commands/../../../docs/csdlc-v3/v3-command-manifest.json`: No such file or directory (os error 2)\n  --> src/commands/contract.rs:12:30\n   |\n12 |           serde_json::from_str(include_str!(\n   |  ______________________________^\n13 | |             \"../../../docs/csdlc-v3/v3-command-manifest.json\"\n14 | |         ))\n   | |_________^\n\nerror: could not compile `csdlc-v3` (lib) due to 1 previous error\n",
+      "log_sha256": "02c3be816f2ec3ec9bddd95addeb0c1ec051094c415becb1f0da98145af883dd",
+      "test_results": []
+    },
+    {
+      "id": "csdlc-unit",
+      "component": "csdlc-v3",
+      "argv": [
+        "cargo",
+        "test",
+        "--locked",
+        "--offline",
+        "--manifest-path",
+        "csdlc-v3/Cargo.toml",
+        "--lib"
+      ],
+      "status": "failed",
+      "exit_code": 101,
+      "elapsed_seconds": 4.877,
+      "log": ".adl/runs/977/csdlc-unit.log",
+      "tail": "   Compiling csdlc-v3 v0.1.0 (<audit-worktree>/.adl/runs/977/csdlc-v3/csdlc-v3)\nerror: couldn't read `src/commands/remote/../../../../docs/csdlc-v3/issue-edit.schema.json`: No such file or directory (os error 2)\n    --> src/commands/remote/tests.rs:2246:58\n     |\n2246 |       let schema: serde_json::Value = serde_json::from_str(include_str!(\n     |  __________________________________________________________^\n2247 | |         \"../../../../docs/csdlc-v3/issue-edit.schema.json\"\n2248 | |     ))\n     | |_____^\n\nerror: couldn't read `src/commands/../../../docs/csdlc-v3/v3-command-manifest.json`: No such file or directory (os error 2)\n  --> src/commands/contract.rs:12:30\n   |\n12 |           serde_json::from_str(include_str!(\n   |  ______________________________^\n13 | |             \"../../../docs/csdlc-v3/v3-command-manifest.json\"\n14 | |         ))\n   | |_________^\n\nerror: could not compile `csdlc-v3` (lib test) due to 2 previous errors\n",
+      "log_sha256": "9935146616fb4845e504c9f45990379eb9f631b50176fe8295e44eacf2c4d232",
+      "test_results": []
+    },
+    {
+      "id": "csdlc-package",
+      "component": "csdlc-v3",
+      "argv": [
+        "cargo",
+        "package",
+        "--offline",
+        "--allow-dirty",
+        "--no-verify",
+        "--manifest-path",
+        "csdlc-v3/Cargo.toml"
+      ],
+      "status": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.247,
+      "log": ".adl/runs/977/csdlc-package.log",
+      "tail": "warning: manifest has no documentation, homepage or repository\n  |\n  = note: see https://doc.rust-lang.org/cargo/reference/manifest.html#package-metadata for more info\n   Packaging csdlc-v3 v0.1.0 (<audit-worktree>/.adl/runs/977/csdlc-v3/csdlc-v3)\n    Packaged 87 files, 2.1MiB (397.3KiB compressed)\n",
+      "log_sha256": "c04eaaf17a298a7a79d526d67ba9c9123d4f6476be2162083f9b6f6d5142b13c",
+      "test_results": []
+    },
+    {
+      "id": "csdlc-publish-dry-run",
+      "component": "csdlc-v3",
+      "argv": [
+        "cargo",
+        "publish",
+        "--dry-run",
+        "--offline",
+        "--allow-dirty",
+        "--manifest-path",
+        "csdlc-v3/Cargo.toml"
+      ],
+      "status": "failed",
+      "exit_code": 101,
+      "elapsed_seconds": 0.035,
+      "log": ".adl/runs/977/csdlc-publish-dry-run.log",
+      "tail": "error: attempting to make an HTTP request, but --offline was specified\n",
+      "log_sha256": "681796d50824a6fad34f47e3ac772f4b0a9753561e63c622b8e429db448dcc33",
+      "test_results": []
+    },
+    {
+      "id": "adl-build",
+      "component": "adl",
+      "argv": [
+        "cargo",
+        "check",
+        "--offline",
+        "--manifest-path",
+        "adl/Cargo.toml"
+      ],
+      "status": "failed",
+      "exit_code": 101,
+      "elapsed_seconds": 0.044,
+      "log": ".adl/runs/977/adl-build.log",
+      "tail": "error: failed to get `adl-provider-core` as a dependency of package `adl v0.92.1 (<audit-worktree>/.adl/runs/977/adl/adl)`\n\nCaused by:\n  failed to load source for dependency `adl-provider-core`\n\nCaused by:\n  Unable to update <audit-worktree>/.adl/runs/977/adl/adl-provider-core\n\nCaused by:\n  failed to read `<audit-worktree>/.adl/runs/977/adl/adl-provider-core/Cargo.toml`\n\nCaused by:\n  No such file or directory (os error 2)\n",
+      "log_sha256": "3b9a1c0e5fb57ddedf34d05aa04d2b11cd263f74f3781768ed09d7e07bb088a4",
+      "test_results": []
+    },
+    {
+      "id": "runtime-build",
+      "component": "adl-runtime",
+      "argv": [
+        "cargo",
+        "check",
+        "--offline",
+        "--manifest-path",
+        "adl-runtime/Cargo.toml"
+      ],
+      "status": "failed",
+      "exit_code": 101,
+      "elapsed_seconds": 0.038,
+      "log": ".adl/runs/977/runtime-build.log",
+      "tail": "error: failed to get `adl-resilience` as a dependency of package `adl-runtime v0.92.1 (<audit-worktree>/.adl/runs/977/adl-runtime/adl-runtime)`\n\nCaused by:\n  failed to load source for dependency `adl-resilience`\n\nCaused by:\n  Unable to update <audit-worktree>/.adl/runs/977/adl-runtime/adl-resilience\n\nCaused by:\n  failed to read `<audit-worktree>/.adl/runs/977/adl-runtime/adl-resilience/Cargo.toml`\n\nCaused by:\n  No such file or directory (os error 2)\n",
+      "log_sha256": "d2c6a272ee3f133a19729b5d97c8b52777cc1fdcdce1b955e47e20fbe5b92cb8",
+      "test_results": []
+    },
+    {
+      "id": "uts-test",
+      "component": "adl-uts",
+      "argv": [
+        "cargo",
+        "test",
+        "--offline",
+        "--manifest-path",
+        "adl-uts/Cargo.toml",
+        "--lib"
+      ],
+      "status": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 7.64,
+      "log": ".adl/runs/977/uts-test.log",
+      "tail": "t tests::uts_v1_rejects_missing_error_model ... ok\ntest tests::uts_v1_rejects_required_authentication_without_mode ... ok\ntest tests::uts_v1_rejects_mixed_case_authority_extensions ... ok\ntest tests::uts_v1_accepts_oauth_wire_spelling_and_optional_extension_metadata ... ok\ntest tests::uts_v1_1_rejects_contradictory_side_effect_tags ... ok\ntest tests::uts_v1_invalid_examples_fail_for_intended_reasons ... ok\ntest tests::uts_v1_rejects_authority_grant_extensions ... ok\ntest tests::uts_v1_rejects_required_extension_metadata ... ok\ntest tests::packaged_loader_rejects_unknown_versions_and_malformed_declarations ... ok\ntest tests::uts_v1_rejects_unknown_runtime_authority_fields ... ok\ntest tests::uts_v1_1_schema_generation_exposes_additive_surface ... ok\ntest tests::uts_v1_rejects_untyped_nested_schema_fragments_at_deserialize_boundary ... ok\ntest tests::uts_v1_schema_generation_requires_typed_nested_schema_fragments ... ok\ntest tests::packaged_loader_accepts_supported_versions_without_semantic_drift ... ok\ntest tests::uts_v1_validation_reports_semantic_error_families ... ok\ntest tests::uts_v1_valid_safe_read_example_passes ... ok\ntest tests::uts_v1_schema_generation_exposes_required_surface ... ok\ntest tests::uts_v1_valid_exfiltration_description_passes_without_execution_authority ... ok\n\ntest result: ok. 20 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n",
+      "log_sha256": "76d90a40e6cbc0bc5d92f08218515f427eff62cf04f51228955e83056fc98c23",
+      "test_results": [
+        {
+          "passed": 20,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0
+        }
+      ]
+    },
+    {
+      "id": "provider-core-test",
+      "component": "adl-provider-core",
+      "argv": [
+        "cargo",
+        "test",
+        "--offline",
+        "--manifest-path",
+        "adl-provider-core/Cargo.toml",
+        "--lib"
+      ],
+      "status": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 22.918,
+      "log": ".adl/runs/977/provider-core-test.log",
+      "tail": "router_provider_complete_records_chat_completion_request ... ok\ntest provider_substrate::tests::provider_substrate_separates_http_vendor_and_transport ... ok\ntest provider_substrate::tests::provider_substrate_preserves_expanded_vendor_and_model_identity ... ok\ntest provider_substrate::tests::provider_substrate_uses_http_transport_for_ollama_with_endpoint ... ok\ntest provider::http_family::tests::openrouter_provider_rejects_missing_credentials_and_bad_response_shape ... ok\ntest provider::mlx::tests::response_shape_model_and_nonempty_text_fail_closed ... ok\ntest provider::http_family::tests::zai_provider_rejects_missing_credentials_and_bad_response_shape ... ok\ntest provider::http_family::tests::zai_provider_sends_chat_completion_request_and_records_sanitized_artifact ... ok\ntest provider::local::tests::runtime_cli_buffers_success_bounds_output_and_redacts_stderr ... ok\ntest provider::runtime_limits::tests::authentication_capture_bounds_time_output_and_redacts_errors ... ok\ntest provider::local::tests::runtime_cli_deadline_covers_stalled_stdin_larger_than_pipe_capacity ... ok\ntest provider::local::tests::runtime_cli_kills_descendants_after_the_group_leader_exits_and_reaps_leader ... ok\ntest provider::mlx::tests::timeout_settles_client_call_without_claiming_server_cancellation ... ok\n\ntest result: ok. 107 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.02s\n\n",
+      "log_sha256": "3f6bd66f6ecb986052075fa602aca1245544a454f3ee12ab8f67a184e2366490",
+      "test_results": [
+        {
+          "passed": 107,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0
+        }
+      ]
+    },
+    {
+      "id": "csdlc-owned-bundle-build",
+      "component": "csdlc-v3",
+      "argv": [
+        "cargo",
+        "build",
+        "--locked",
+        "--offline",
+        "--manifest-path",
+        "csdlc-v3/Cargo.toml"
+      ],
+      "status": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 6.546,
+      "log": ".adl/runs/977/csdlc-owned-bundle-build.log",
+      "tail": "   Compiling csdlc-v3 v0.1.0 (<audit-worktree>/.adl/runs/977/csdlc-v3/csdlc-v3)\n    Finished `dev` profile [unoptimized + debuginfo] target(s) in 6.48s\n",
+      "log_sha256": "64d70ac640bc9661959253982fbc7283a66d8d0f27cf70b38cdd463b3a71e921",
+      "test_results": []
+    },
+    {
+      "id": "csdlc-owned-bundle-unit",
+      "component": "csdlc-v3",
+      "argv": [
+        "cargo",
+        "test",
+        "--locked",
+        "--offline",
+        "--manifest-path",
+        "csdlc-v3/Cargo.toml",
+        "--lib"
+      ],
+      "status": "failed",
+      "exit_code": 101,
+      "elapsed_seconds": 15.292,
+      "log": ".adl/runs/977/csdlc-owned-bundle-unit.log",
+      "tail": "ive_matrix_rejects_before_intent_and_dispatch ... ok\ntest storage::semantic::protocol::tests::indeterminate_proof_abandonment_rejects_non_bare_or_untruthful_resolution ... ok\ntest commands::remote::tests::merge_cases::merge_eligibility_negative_matrix_never_writes_intent_or_dispatches ... ok\ntest commands::remote::tests::merge_cases::merge_linkage_url_part_of_directives_reject_before_intent_and_dispatch ... ok\n\nfailures:\n\n---- authority::tests::checked_in_authority_artifacts_activate_in_post_merge_equivalent_clone stdout ----\n\nthread 'authority::tests::checked_in_authority_artifacts_activate_in_post_merge_equivalent_clone' (17055361) panicked at src/authority.rs:293:9:\nclone source repository: Output { status: ExitStatus(unix_wait_status(32768)), stdout: \"\", stderr: \"fatal: repository '<audit-worktree>/.adl/runs/977/csdlc-v3' does not exist\\n\" }\nnote: run with `RUST_BACKTRACE=1` environment variable to display a backtrace\n\n---- tests::contract_schema stdout ----\n\nthread 'tests::contract_schema' (17058773) panicked at src/lib.rs:143:9:\nassertion `left == right` failed\n  left: \"suspended\"\n right: \"csdlc-v3\"\n\n\nfailures:\n    authority::tests::checked_in_authority_artifacts_activate_in_post_merge_equivalent_clone\n    tests::contract_schema\n\ntest result: FAILED. 122 passed; 2 failed; 0 ignored; 0 measured; 0 filtered out; finished in 10.11s\n\nerror: test failed, to rerun pass `--lib`\n",
+      "log_sha256": "733c996b2b87deb861e0498c0e80a02ae3fcef2dced8e8a7ed2dd03e557d4f37",
+      "test_results": [
+        {
+          "passed": 122,
+          "failed": 2,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0
+        }
+      ]
+    },
+    {
+      "id": "csdlc-owned-bundle-warm",
+      "component": "csdlc-v3",
+      "argv": [
+        "cargo",
+        "build",
+        "--locked",
+        "--offline",
+        "--manifest-path",
+        "csdlc-v3/Cargo.toml"
+      ],
+      "status": "passed",
+      "exit_code": 0,
+      "elapsed_seconds": 0.043,
+      "log": ".adl/runs/977/csdlc-owned-bundle-warm.log",
+      "tail": "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.01s\n",
+      "log_sha256": "6d77f64dfc8c5325b90fdbe05d8be367bdd578bcccec24f275c5ffee7d03dd6e",
+      "test_results": []
+    },
+    {
+      "id": "adl-package",
+      "component": "adl",
+      "argv": [
+        "cargo",
+        "package",
+        "--offline",
+        "--allow-dirty",
+        "--no-verify",
+        "--manifest-path",
+        "adl/Cargo.toml"
+      ],
+      "status": "failed",
+      "exit_code": 101,
+      "elapsed_seconds": 0.031,
+      "log": ".adl/runs/977/adl-package.log",
+      "tail": "error: failed to get `adl-provider-core` as a dependency of package `adl v0.92.1 (<audit-worktree>/.adl/runs/977/adl/adl)`\n\nCaused by:\n  failed to load source for dependency `adl-provider-core`\n\nCaused by:\n  Unable to update <audit-worktree>/.adl/runs/977/adl/adl-provider-core\n\nCaused by:\n  failed to read `<audit-worktree>/.adl/runs/977/adl/adl-provider-core/Cargo.toml`\n\nCaused by:\n  No such file or directory (os error 2)\n",
+      "log_sha256": "3b9a1c0e5fb57ddedf34d05aa04d2b11cd263f74f3781768ed09d7e07bb088a4",
+      "test_results": []
+    },
+    {
+      "id": "adl-runtime-package",
+      "component": "adl-runtime",
+      "argv": [
+        "cargo",
+        "package",
+        "--offline",
+        "--allow-dirty",
+        "--no-verify",
+        "--manifest-path",
+        "adl-runtime/Cargo.toml"
+      ],
+      "status": "failed",
+      "exit_code": 101,
+      "elapsed_seconds": 0.029,
+      "log": ".adl/runs/977/adl-runtime-package.log",
+      "tail": "error: failed to get `adl-resilience` as a dependency of package `adl-runtime v0.92.1 (<audit-worktree>/.adl/runs/977/adl-runtime/adl-runtime)`\n\nCaused by:\n  failed to load source for dependency `adl-resilience`\n\nCaused by:\n  Unable to update <audit-worktree>/.adl/runs/977/adl-runtime/adl-resilience\n\nCaused by:\n  failed to read `<audit-worktree>/.adl/runs/977/adl-runtime/adl-resilience/Cargo.toml`\n\nCaused by:\n  No such file or directory (os error 2)\n",
+      "log_sha256": "d2c6a272ee3f133a19729b5d97c8b52777cc1fdcdce1b955e47e20fbe5b92cb8",
+      "test_results": []
+    },
+    {
+      "id": "adl-runtime-kernel-package",
+      "component": "adl-runtime-kernel",
+      "argv": [
+        "cargo",
+        "package",
+        "--offline",
+        "--allow-dirty",
+        "--no-verify",
+        "--manifest-path",
+        "adl-runtime-kernel/Cargo.toml"
+      ],
+      "status": "failed",
+      "exit_code": 101,
+      "elapsed_seconds": 0.029,
+      "log": ".adl/runs/977/adl-runtime-kernel-package.log",
+      "tail": "error: failed to get `adl-provider-core` as a dependency of package `adl-runtime-kernel v0.92.1 (<audit-worktree>/.adl/runs/977/adl-runtime-kernel/adl-runtime-kernel)`\n\nCaused by:\n  failed to load source for dependency `adl-provider-core`\n\nCaused by:\n  Unable to update <audit-worktree>/.adl/runs/977/adl-runtime-kernel/adl-provider-core\n\nCaused by:\n  failed to read `<audit-worktree>/.adl/runs/977/adl-runtime-kernel/adl-provider-core/Cargo.toml`\n\nCaused by:\n  No such file or directory (os error 2)\n",
+      "log_sha256": "ce43e5f293184aa87450ae67e0d89e79a772f796632da34b255f7f798db10841",
+      "test_results": []
+    },
+    {
+      "id": "csdlc-v2-package",
+      "component": "csdlc-v2",
+      "argv": [
+        "cargo",
+        "package",
+        "--offline",
+        "--allow-dirty",
+        "--no-verify",
+        "--manifest-path",
+        "csdlc-v2/Cargo.toml"
+      ],
+      "status": "failed",
+      "exit_code": 101,
+      "elapsed_seconds": 0.028,
+      "log": ".adl/runs/977/csdlc-v2-package.log",
+      "tail": "error: failed to get `adl-resilience` as a dependency of package `csdlc-v2 v0.92.1 (<audit-worktree>/.adl/runs/977/csdlc-v2/csdlc-v2)`\n\nCaused by:\n  failed to load source for dependency `adl-resilience`\n\nCaused by:\n  Unable to update <audit-worktree>/.adl/runs/977/csdlc-v2/adl-resilience\n\nCaused by:\n  failed to read `<audit-worktree>/.adl/runs/977/csdlc-v2/adl-resilience/Cargo.toml`\n\nCaused by:\n  No such file or directory (os error 2)\n",
+      "log_sha256": "cbcde6ad3a41f35d520bbb80b8db2db37cf92f6f19d8ca16c9af2c7838a50a34",
+      "test_results": []
+    }
+  ]
+}

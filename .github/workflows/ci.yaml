@@ -1,0 +1,254 @@
+name: ci
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - labeled
+      - unlabeled
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.repository }}:${{ github.workflow }}:${{ github.event.pull_request.base.ref || github.ref_name }}:${{ github.event.pull_request.head.repo.id || github.repository_id }}:${{ github.event.pull_request.head.ref || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  adl_path_policy:
+    name: adl-path-policy
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      public_adl_validation_required: ${{ steps.path-policy.outputs.public_adl_validation_required }}
+      ci_contracts_required: ${{ steps.path-policy.outputs.ci_contracts_required }}
+      reason: ${{ steps.path-policy.outputs.reason }}
+      automatic_pr_entrypoint: ${{ steps.path-policy.outputs.automatic_pr_entrypoint }}
+      optional_workflows_status: ${{ steps.path-policy.outputs.optional_workflows_status }}
+      optional_workflows_reason: ${{ steps.path-policy.outputs.optional_workflows_reason }}
+      soak_workflows_status: ${{ steps.path-policy.outputs.soak_workflows_status }}
+      duplicate_head_status: ${{ steps.path-policy.outputs.duplicate_head_status }}
+      duplicate_head_reason: ${{ steps.path-policy.outputs.duplicate_head_reason }}
+      transpiler_distribution_required: ${{ steps.path-policy.outputs.transpiler_distribution_required }}
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          fetch-depth: 0
+
+      - name: Classify changed paths
+        id: path-policy
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          bash adl/tools/ci_path_policy.sh --event-name "$EVENT_NAME" --base "$BASE_SHA" --head "${HEAD_SHA:-HEAD}" --github-output "$GITHUB_OUTPUT"
+
+      - name: Enforce whole-workflow dispatch policy
+        run: cargo run --locked --quiet --manifest-path tools/ci_contracts/Cargo.toml -- workflow-policy
+        working-directory: .
+
+      - name: Frozen Gödel distribution contracts
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          if [ "$EVENT_NAME" = pull_request ] && git diff --quiet "$BASE_SHA" "$HEAD_SHA" -- tools/godel_contract_distribution tools/public_contracts .github/workflows/ci.yaml; then
+            echo "Gödel distribution unchanged; focused data proof not selected"
+            exit 0
+          fi
+          cargo test --locked --manifest-path tools/public_contracts/Cargo.toml --test distribution
+          cargo run --locked --quiet --manifest-path tools/public_contracts/Cargo.toml --bin adl-public-contracts -- godel verify --artifact tools/godel_contract_distribution/adl-godel-contracts-0.8.0.tar.gz --extract "$RUNNER_TEMP/godel-contracts"
+          cd "$RUNNER_TEMP"
+          cargo run --locked --quiet --manifest-path "$GITHUB_WORKSPACE/tools/public_contracts/Cargo.toml" --bin adl-public-contracts -- godel verify-root --root "$RUNNER_TEMP/godel-contracts"
+
+      - name: Public selection summary
+        env:
+          PUBLIC_REQUIRED: ${{ steps.path-policy.outputs.public_adl_validation_required }}
+          TRANSPILE_REQUIRED: ${{ steps.path-policy.outputs.transpiler_distribution_required }}
+          REASON: ${{ steps.path-policy.outputs.reason }}
+        run: |
+          {
+            echo "## Public ADL validation"
+            echo "Public packages, CLI, installed consumer and coverage selected: $PUBLIC_REQUIRED"
+            echo "Installed transpiler selected: $TRANSPILE_REQUIRED"
+            echo "Selection reason: $REASON"
+            echo "Repository contracts are required for every change."
+            echo "Owner and manual qualification remain separate obligations; these jobs do not claim them."
+            echo "Concurrency policy cancels obsolete revisions; cancellation is not asserted as observed."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  adl_tooling_contracts:
+    name: adl-tooling-contracts
+    needs: adl_path_policy
+    if: needs.adl_path_policy.outputs.ci_contracts_required == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          fetch-depth: 0
+      - name: Repository release and PR guardrails
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          bash adl/tools/check_no_new_legacy_swarm_refs.sh
+          bash adl/tools/test_ensure_final_merge_gate.sh
+          bash adl/tools/check_release_notes_commands.sh
+      - name: Public planning graph and split contract
+        run: cargo run --locked --quiet --manifest-path tools/ci_contracts/Cargo.toml -- planning-contract
+      - name: UTS selected-result contract
+        run: cargo run --locked --quiet --manifest-path tools/ci_contracts/Cargo.toml -- aggregation-contract
+      - name: Public CI routing and refusal contracts
+        run: |
+          cargo test --locked --manifest-path tools/ci_contracts/Cargo.toml --test ci
+          cargo test --locked --manifest-path tools/ci_contracts/Cargo.toml --test workflow
+          cargo test --locked --manifest-path tools/public_contracts/Cargo.toml --test public_helpers
+          cargo test --locked --manifest-path tools/source_retirement/validator/Cargo.toml --test public_boundary
+          cargo test --locked --manifest-path tools/source_retirement/validator/Cargo.toml --test contracts portable::
+          cargo test --locked --manifest-path tools/language_inventory/Cargo.toml
+          cargo test --locked --manifest-path tools/ci_contracts/Cargo.toml --test actions
+          cargo test --locked --manifest-path tools/ci_contracts/Cargo.toml --test interfaces
+          cargo run --locked --quiet --manifest-path tools/ci_contracts/Cargo.toml -- workflow-policy
+          bash adl/tools/test_ci_runtime_contracts.sh
+
+  public_adl_validation:
+    name: public-adl-validation
+    needs: adl_path_policy
+    if: needs.adl_path_policy.outputs.public_adl_validation_required == 'true'
+    runs-on: macos-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          fetch-depth: 0
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@631a55b12751854ce901bb631d5902ceb48146f7 # 1.92.0
+        with:
+          toolchain: 1.92.0
+          components: rustfmt, clippy
+      - name: Five public packages and installed consumer proof
+        env:
+          CARGO_TARGET_DIR: ${{ runner.temp }}/public-adl-target
+          ADL_PUBLIC_ADL_PROOF_ROOT: ${{ runner.temp }}/public-adl-proof
+        run: |
+          python3 -c 'import sys; assert sys.version_info >= (3, 12), sys.version'
+          bash tools/public_adl/run_ci.sh
+      - name: Retain public ADL qualification evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: public-adl-qualification-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/public-adl-proof/1192/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 7
+
+  public_adl_coverage:
+    name: public-adl-coverage
+    needs: adl_path_policy
+    if: needs.adl_path_policy.outputs.public_adl_validation_required == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          fetch-depth: 0
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@631a55b12751854ce901bb631d5902ceb48146f7 # 1.92.0
+        with:
+          toolchain: 1.92.0
+          components: llvm-tools-preview
+      - name: Install pinned coverage producer
+        run: cargo install cargo-llvm-cov --locked --version 0.8.2
+      - name: Measure retained public source
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          COVERAGE_OUTPUT: ${{ runner.temp }}/public-adl-coverage
+          CARGO_PROFILE_DEV_DEBUG: '0'
+          CARGO_PROFILE_TEST_DEBUG: '0'
+        run: |
+          cargo test --locked --manifest-path tools/ci_contracts/Cargo.toml --test coverage
+          if [ "$EVENT_NAME" = pull_request ]; then
+            cargo run --locked --quiet --manifest-path tools/ci_contracts/Cargo.toml -- coverage --mode pull_request --base "$BASE_SHA" --output "$COVERAGE_OUTPUT"
+          else
+            cargo run --locked --quiet --manifest-path tools/ci_contracts/Cargo.toml -- coverage --mode full --output "$COVERAGE_OUTPUT"
+          fi
+      - name: Upload public coverage to Codecov
+        if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+        uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
+        with:
+          use_oidc: true
+          disable_search: true
+          files: ${{ runner.temp }}/public-adl-coverage/adl/coverage.lcov,${{ runner.temp }}/public-adl-coverage/adl-schema/coverage.lcov,${{ runner.temp }}/public-adl-coverage/adl-uts/coverage.lcov,${{ runner.temp }}/public-adl-coverage/adl-language/coverage.lcov,${{ runner.temp }}/public-adl-coverage/adl-compiler/coverage.lcov,${{ runner.temp }}/public-adl-coverage/adl-legacy-contracts/coverage.lcov
+          flags: public-adl
+          fail_ci_if_error: true
+      - name: Retain public coverage evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: public-adl-coverage-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/public-adl-coverage/result.json
+            ${{ runner.temp }}/public-adl-coverage/executions.json
+            ${{ runner.temp }}/public-adl-coverage/*/summary.json
+            ${{ runner.temp }}/public-adl-coverage/*/coverage.lcov
+            ${{ runner.temp }}/public-adl-coverage/*/*.log
+          if-no-files-found: error
+          retention-days: 7
+
+  transpiler_distribution:
+    needs: adl_path_policy
+    if: needs.adl_path_policy.outputs.transpiler_distribution_required == 'true'
+    permissions:
+      contents: read
+    uses: ./.github/workflows/transpiler-distribution.yml
+
+  adl-ci:
+    name: adl-ci
+    if: always()
+    needs:
+      - adl_path_policy
+      - public_adl_validation
+      - adl_tooling_contracts
+      - transpiler_distribution
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - name: Require every selected public lane
+        env:
+          PATH_POLICY_RESULT: ${{ needs.adl_path_policy.result }}
+          PUBLIC_REQUIRED: ${{ needs.adl_path_policy.outputs.public_adl_validation_required }}
+          PUBLIC_RESULT: ${{ needs.public_adl_validation.result }}
+          CONTRACT_RESULT: ${{ needs.adl_tooling_contracts.result }}
+          TRANSPILE_REQUIRED: ${{ needs.adl_path_policy.outputs.transpiler_distribution_required }}
+          TRANSPILE_RESULT: ${{ needs.transpiler_distribution.result }}
+        run: cargo run --locked --quiet --manifest-path tools/ci_contracts/Cargo.toml -- ci --aggregate ci
+
+  adl-coverage:
+    name: adl-coverage
+    if: always()
+    needs:
+      - adl_path_policy
+      - public_adl_coverage
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - name: Require every selected public lane
+        env:
+          PATH_POLICY_RESULT: ${{ needs.adl_path_policy.result }}
+          PUBLIC_REQUIRED: ${{ needs.adl_path_policy.outputs.public_adl_validation_required }}
+          PUBLIC_RESULT: ${{ needs.public_adl_coverage.result }}
+        run: cargo run --locked --quiet --manifest-path tools/ci_contracts/Cargo.toml -- ci --aggregate coverage

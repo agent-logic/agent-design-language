@@ -1,0 +1,63 @@
+{
+    "Buckets": [
+        {
+            "Name": "adl-aws-remote-tool-cache-agentlogic",
+            "CreationDate": "2026-07-01T17:06:21+00:00",
+            "BucketArn": "arn:aws:s3:::adl-aws-remote-tool-cache-agentlogic"
+        },
+        {
+            "Name": "adl-aws-remote-validation-cache-713332525889-us-west-2",
+            "CreationDate": "2026-07-01T21:49:22+00:00",
+            "BucketArn": "arn:aws:s3:::adl-aws-remote-validation-cache-713332525889-us-west-2"
+        },
+        {
+            "Name": "adl-codefriend-build-cache",
+            "CreationDate": "2026-07-04T08:06:57+00:00",
+            "BucketArn": "arn:aws:s3:::adl-codefriend-build-cache"
+        },
+        {
+            "Name": "adl-shepherd-model-artifacts-b05e1f4379b5c745-us-west-2",
+            "CreationDate": "2026-08-08T19:30:18+00:00",
+            "BucketArn": "arn:aws:s3:::adl-shepherd-model-artifacts-b05e1f4379b5c745-us-west-2"
+        },
+        {
+            "Name": "adl-wp08-obsmem-community-archive-b05e1f4379b5c745-us-west-2",
+            "CreationDate": "2026-07-06T17:36:03+00:00",
+            "BucketArn": "arn:aws:s3:::adl-wp08-obsmem-community-archive-b05e1f4379b5c745-us-west-2"
+        },
+        {
+            "Name": "agent-logic-ai-origin-agentlogic",
+            "CreationDate": "2026-07-03T22:46:55+00:00",
+            "BucketArn": "arn:aws:s3:::agent-logic-ai-origin-agentlogic"
+        },
+        {
+            "Name": "agent-logic-podcast-archive-agentlogic",
+            "CreationDate": "2026-08-08T19:32:06+00:00",
+            "BucketArn": "arn:aws:s3:::agent-logic-podcast-archive-agentlogic"
+        },
+        {
+            "Name": "agent-logic-strategic-cognitive-reserve-agentlogic",
+            "CreationDate": "2026-06-30T18:52:20+00:00",
+            "BucketArn": "arn:aws:s3:::agent-logic-strategic-cognitive-reserve-agentlogic"
+        },
+        {
+            "Name": "codefriend-ai-origin-agentlogic",
+            "CreationDate": "2026-07-03T21:23:36+00:00",
+            "BucketArn": "arn:aws:s3:::codefriend-ai-origin-agentlogic"
+        },
+        {
+            "Name": "csm-wuji-dev-observatory-assets",
+            "CreationDate": "2026-08-26T17:29:39+00:00",
+            "BucketArn": "arn:aws:s3:::csm-wuji-dev-observatory-assets"
+        },
+        {
+            "Name": "scr-agent-logic-ai-origin-agentlogic",
+            "CreationDate": "2026-06-30T18:52:19+00:00",
+            "BucketArn": "arn:aws:s3:::scr-agent-logic-ai-origin-agentlogic"
+        }
+    ],
+    "Owner": {
+        "ID": "42e2fe3b0637a9bf62e4ce3ddfb0cb4132100db3597ad18935b68351321bbe5b"
+    },
+    "Prefix": null
+}

@@ -1,0 +1,45 @@
+{
+  "status": "reviewed_retained_historical_validator",
+  "proof": {
+    "status": "PASS",
+    "exit_code": 0,
+    "elapsed_seconds": 0.166,
+    "inputs": [
+      {
+        "path": "adl/tools/validate_v0922_runtime_qualification.py",
+        "sha256": "07fde21e8872daa82029d42a0adb81d38f5dd79396fe9b5a562e5f96647fbe98",
+        "blob": "025bdfc55d9deeea407858a98405b6e1126095e9"
+      },
+      {
+        "path": "adl/tools/test_validate_v0922_runtime_qualification.py",
+        "sha256": "6d05740888f7a066edb00adeac0430b9b41e744cd5ae557a8460d658a8dba66e",
+        "blob": "63629c8b88773c008ec58d7ecbc391758bbe6576"
+      }
+    ],
+    "scope": "Original synthetic receipt/archive admission tests only, isolatedFastWork. No realprovider/native/runtime execution or historicalcriteria acceptance."
+  },
+  "review": {
+    "status": "PASS",
+    "ids": [
+      "RD07-2154",
+      "RD07-2232"
+    ],
+    "review_scope": "Original historical validator/test pair retention only",
+    "checks": [
+      "Original 13-test unittest stderr ends OK",
+      "Reviewed all test methods, including 18 negative subcases",
+      "Original helper and test bytes equal recorded Git blobs",
+      "Synthetic receipt/archive validation; no current runtime execution"
+    ],
+    "test_rerun": false,
+    "findings": [],
+    "not_claimed": [
+      "Current Runtime qualification",
+      "Native lifecycle acceptance",
+      "Source retirement authorization"
+    ]
+  },
+  "scope": "Historical validator tests only; not current Runtime execution or acceptance.",
+  "source_modified": false,
+  "retirement_authorized": false
+}

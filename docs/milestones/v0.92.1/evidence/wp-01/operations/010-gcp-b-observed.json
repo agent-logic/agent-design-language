@@ -1,0 +1,53 @@
+{
+  "schema": "adl.v0921.wp01.operation-observed.v1",
+  "kind": "child_create",
+  "planned_id": "GCP-B",
+  "issue": 491,
+  "title": "[v0.92.1][GCP-B] GCP Terraform bootstrap",
+  "labels": [
+    "area:runtime",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "milestone": 1,
+  "state": "open",
+  "dependencies": {
+    "GCP-A": 490
+  },
+  "body_sha256": "1600cbcae0bb9841151f1a9d7638e30a380df35cd75a8860f13faec159fb4185",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:GCP-B:create",
+  "request_fingerprint": "3852f6c7fcc179000de913a6a4aeacd67508a18fc4601dea5d669375b9af8651",
+  "planning_digest": "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251",
+  "specification_sha256": "656c739357746f29fe33af1dff9a18d0f196fffb01531572c40b8624ec85efe0",
+  "live_response": {
+    "action": "issue_create",
+    "comment_id": null,
+    "issue": {
+      "assignees": [
+
+      ],
+      "body": "## Outcome\n\nProduce one recoverable GCP Terraform bootstrap.\n\n## Primary deliverable\n\nOne recoverable GCP state project backend and deployment-identity bootstrap.\n\n## Verification result\n\nRemote state, locking, recovery, provider pins, impersonation, saved-plan review, break-glass, and local-state removal checks pass.\n\n## Unit boundary\n\nIssue completion is exactly one recoverable Terraform bootstrap; state creation and migration are internal steps.\n\n## Dependencies\n\n- GCP-A: #490\n\n## Retained predecessor scope\n\n- None; this is new v0.92.1 work.\n\n## Acceptance criteria\n\n- [ ] State is versioned private recoverable and auditable\n- [ ] Deployment uses short-lived impersonation\n- [ ] Provider and module versions are pinned\n- [ ] Local bootstrap state is removed recoverably\n\n## Owned paths\n\n- `infra/gcp/bootstrap/**`\n- `docs/operations/cloud/gcp/terraform-bootstrap/**`\n- `docs/milestones/v0.92.1/evidence/cloud/gcp-b/**`\n\n## PVF lanes\n\n- `backend-identity`\n- `state-recovery`\n- `impersonation`\n- `provider-pin`\n- `local-state-cleanup`\n\n## Stop conditions\n\n- State recovery fails\n- Static service-account keys are required\n- Reviewed plan identity drifts\n\n## Non-goals\n\n- Runtime deployment\n- Production hierarchy\n- AWS changes\n\n## Canonical planning identity\n\n- Planned ID: `GCP-B`\n- Canonical title: `[v0.92.1][GCP-B] GCP Terraform bootstrap`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#GCP-B`\n<!-- csdlc-github-operation:v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:GCP-B:create -->\n",
+      "closed_at": null,
+      "created_at": "2026-08-26T02:48:33Z",
+      "labels": [
+        "track:roadmap",
+        "type:task",
+        "area:runtime",
+        "version:v0.92.1"
+      ],
+      "marker_present": true,
+      "milestone": 1,
+      "number": 491,
+      "repository": "agent-logic/agent-design-language",
+      "schema": "csdlc.github_issue.v1",
+      "state": "open",
+      "title": "[v0.92.1][GCP-B] GCP Terraform bootstrap"
+    },
+    "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:GCP-B:create",
+    "pr_state": null,
+    "reconciled": true,
+    "repository": "agent-logic/agent-design-language",
+    "schema": "csdlc.github_action_result.v1"
+  }
+}

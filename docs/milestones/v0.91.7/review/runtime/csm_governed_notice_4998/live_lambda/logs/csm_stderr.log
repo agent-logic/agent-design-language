@@ -1,0 +1,2 @@
+Error: daemon bounded test supervisor failure exhausted
+  0: cycle_blocked: cycle cycle-000002 failed required guardrails; see docs/milestones/v0.91.7/review/runtime/csm_governed_notice_4998/live_lambda/state/cycles/cycle-000002/guardrail_report.json

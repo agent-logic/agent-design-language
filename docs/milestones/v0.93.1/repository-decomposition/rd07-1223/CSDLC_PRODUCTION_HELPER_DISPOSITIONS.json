@@ -1,0 +1,271 @@
+{
+  "source_head": "5c5a2e929e75f7af07612e6faaf3bfae7ad3a2bd",
+  "scope": "Five bounded source helper decisions; excerpt review for conversion driver, full source for other helpers",
+  "rows": [
+    {
+      "id": "RD07-1239",
+      "path": "adl/tools/attach_pr_janitor.sh",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "20899fca98124e2063abead86a3c98bdc232b5f7"
+      },
+      "proposed_disposition": "hold_exact_janitor_launcher_consumer",
+      "source_finding": "Full source runs copy installer, writes janitor schema/prompt/logs, spawns codex exec once with inspect-only input. It is not the already-retired post-merge attachment wrapper.",
+      "remaining_repair": "Choose explicit retirement of this launcher or adapt installed passive pr-janitor resource/installer paths; preserve one-pass inspect-only checks, adl-ci/adl-coverage and no inference. No agent process execution.",
+      "callers": [
+        {
+          "path": "docs/records/v0.87.1/legacy-issue-records/v0.87.1/tasks/issue-1595__v0-87-1-tools-auto-attach-pr-janitor-on-pr-open/sor.md",
+          "line": 34,
+          "text": "- `adl/tools/attach_pr_janitor.sh`"
+        },
+        {
+          "path": "docs/records/v0.87.1/legacy-issue-records/v0.87.1/tasks/issue-1595__v0-87-1-tools-auto-attach-pr-janitor-on-pr-open/sor.md",
+          "line": 40,
+          "text": "- Added `adl/tools/attach_pr_janitor.sh` as the concrete launcher that installs the operational skills, writes a validated janitor payload, and starts one bounded Codex janitor pass in the background."
+        },
+        {
+          "path": "docs/records/v0.87.1/legacy-issue-records/v0.87.1/tasks/issue-1595__v0-87-1-tools-auto-attach-pr-janitor-on-pr-open/sor.md",
+          "line": 133,
+          "text": "- Primary proof surface: `adl/tools/attach_pr_janitor.sh` plus the finish-path Rust tests."
+        }
+      ],
+      "deletion_authorized": false,
+      "execution_claimed": false
+    },
+    {
+      "id": "RD07-1403",
+      "path": "adl/tools/install_csdlc_man_pages.sh",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "6adbd02f4ffa240803599a712e61326a116e6e2a"
+      },
+      "proposed_disposition": "hold_installed_manual_producer_boundary",
+      "source_finding": "Full source copies docs/csdlc-v3/man/man1 to explicit stable bin path; refuses symlink directories/pages, preserves equal bytes, stages rename and mode0644.",
+      "remaining_repair": "Owner package manual must replace source-copy consumer; identify install_owner_binaries caller and preserve installed manual bytes/provenance checks. Do not replace shared binary for docs lookup.",
+      "callers": [
+        {
+          "path": "adl/tools/install_owner_binaries.sh",
+          "line": 96,
+          "text": "    bash \"$ROOT_DIR/adl/tools/install_csdlc_man_pages.sh\" --stable-bin-dir \"$STABLE_BIN_DIR\""
+        },
+        {
+          "path": "adl/tools/test_owner_binary_install.sh",
+          "line": 394,
+          "text": "cp \"$ROOT_DIR/adl/tools/install_csdlc_man_pages.sh\" \"$repo/adl/tools/\""
+        },
+        {
+          "path": "docs/csdlc-v3/man/README.md",
+          "line": 29,
+          "text": "bash adl/tools/install_csdlc_man_pages.sh --stable-bin-dir ./target/man-install"
+        },
+        {
+          "path": "docs/csdlc-v3/man/test_install.sh",
+          "line": 10,
+          "text": "cp \"$ROOT/adl/tools/install_owner_binaries.sh\" \"$ROOT/adl/tools/install_csdlc_man_pages.sh\" \"$REPO/adl/tools/\""
+        }
+      ],
+      "deletion_authorized": false,
+      "execution_claimed": false
+    },
+    {
+      "id": "RD07-1443",
+      "path": "adl/tools/normalize_adl_cards.sh",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "3e4998218aeaf348b9c1db55b69ef0d5192f0b0c"
+      },
+      "proposed_disposition": "proposed_historical_retirement_with_caller_repair",
+      "source_finding": "Legacy v0.87.1 normalizer directly renders Markdown bootstrap SOR and rewrites old task trees; current instructions route card edits through native semantic editor.",
+      "remaining_repair": "Retire writer and companion test_normalize_adl_cards.sh only with explicit historical disposition and caller repair. Preserve originals as evidence; do not port direct live-card writer.",
+      "callers": [
+        {
+          "path": "adl/tools/README.md",
+          "line": 14,
+          "text": "- `normalize_adl_cards.sh`: repairs `.adl/cards/<issue>/` compatibility links and materializes missing bootstrap `sor.md` files for existing task bundles."
+        },
+        {
+          "path": "adl/tools/README.md",
+          "line": 58,
+          "text": "bash adl/tools/normalize_adl_cards.sh --root \"$(pwd)\" --version v0.87.1"
+        },
+        {
+          "path": "adl/tools/test_normalize_adl_cards.sh",
+          "line": 12,
+          "text": "cp \"$ROOT_DIR/adl/tools/normalize_adl_cards.sh\" \"$REPO/adl/tools/normalize_adl_cards.sh\""
+        },
+        {
+          "path": "adl/tools/test_normalize_adl_cards.sh",
+          "line": 13,
+          "text": "chmod +x \"$REPO/adl/tools/normalize_adl_cards.sh\""
+        },
+        {
+          "path": "adl/tools/test_normalize_adl_cards.sh",
+          "line": 67,
+          "text": "  bash adl/tools/normalize_adl_cards.sh --root \"$REPO\" >/dev/null"
+        }
+      ],
+      "deletion_authorized": false,
+      "execution_claimed": false
+    },
+    {
+      "id": "RD07-1297",
+      "path": "adl/tools/csdlc-conversion-rehearsal",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "557711032425158e884bf41f1c4a5818d71a8a55"
+      },
+      "proposed_disposition": "hold_conversion_rehearsal_family",
+      "source_finding": "Thin wrapper calls run_issue872_conversion_rehearsal.py directly.",
+      "remaining_repair": "Transfer or preserve together with1491/2152/2191/2192, exact authentic input closure and manifest. Isolated fixture rehearsal does not establish live native conversion.",
+      "callers": [
+        {
+          "path": "adl/tools/run_issue872_conversion_rehearsal.py",
+          "line": 596,
+          "text": "    marker = fixture / \".csdlc-conversion-rehearsal.json\""
+        },
+        {
+          "path": "adl/tools/run_issue872_conversion_rehearsal.py",
+          "line": 1148,
+          "text": "        \"issue\": 872, \"generated_by\": \"csdlc-conversion-rehearsal\", \"machine_derived\": True,"
+        },
+        {
+          "path": "adl/tools/validate_issue872_conversion_rehearsal.py",
+          "line": 1077,
+          "text": "    require(summary.get(\"generated_by\") == \"csdlc-conversion-rehearsal\","
+        },
+        {
+          "path": "csdlc-v3/Cargo.toml",
+          "line": 18,
+          "text": "name = \"csdlc-conversion-rehearsal\""
+        },
+        {
+          "path": "csdlc-v3/src/bin/csdlc_conversion_rehearsal.rs",
+          "line": 64,
+          "text": "        _ => Err(\"usage: csdlc-conversion-rehearsal convert|relocate-current|operation-evidence|restore-pre-effect --request FILE | status|validate --git-common PATH --repository OWNER/REPO --issue N\".to_owned()),"
+        },
+        {
+          "path": "csdlc-v3/src/commands/proof/intent.rs",
+          "line": 2152,
+          "text": "            Path::new(\"csdlc-conversion-rehearsal-a1b2c3.d\"),"
+        },
+        {
+          "path": "csdlc-v3/src/commands/proof/intent.rs",
+          "line": 2168,
+          "text": "            Path::new(\"target/debug/csdlc-conversion-rehearsal\"),"
+        },
+        {
+          "path": "csdlc-v3/tests/copied_current_observation_relocation.rs",
+          "line": 40,
+          "text": "        let observed = Command::new(env!(\"CARGO_BIN_EXE_csdlc-conversion-rehearsal\"))"
+        },
+        {
+          "path": "csdlc-v3/tests/copied_current_observation_relocation.rs",
+          "line": 369,
+          "text": "    Command::new(env!(\"CARGO_BIN_EXE_csdlc-conversion-rehearsal\"))"
+        },
+        {
+          "path": "csdlc-v3/tests/copied_record_conversion_admission.rs",
+          "line": 167,
+          "text": "    let mut child = Command::new(env!(\"CARGO_BIN_EXE_csdlc-conversion-rehearsal\"))"
+        },
+        {
+          "path": "csdlc-v3/tests/copied_record_conversion_admission.rs",
+          "line": 223,
+          "text": "    let mut child = Command::new(env!(\"CARGO_BIN_EXE_csdlc-conversion-rehearsal\"))"
+        },
+        {
+          "path": "csdlc-v3/tests/copied_record_conversion_admission.rs",
+          "line": 269,
+          "text": "    let child = Command::new(env!(\"CARGO_BIN_EXE_csdlc-conversion-rehearsal\"))"
+        },
+        {
+          "path": "csdlc-v3/tests/copied_record_conversion_admission.rs",
+          "line": 515,
+          "text": "    let observed = Command::new(env!(\"CARGO_BIN_EXE_csdlc-conversion-rehearsal\"))"
+        },
+        {
+          "path": "csdlc-v3/tests/copied_record_conversion_admission.rs",
+          "line": 665,
+          "text": "    Command::new(env!(\"CARGO_BIN_EXE_csdlc-conversion-rehearsal\"))"
+        },
+        {
+          "path": "csdlc-v3/tests/copied_record_conversion_admission.rs",
+          "line": 673,
+          "text": "    Command::new(env!(\"CARGO_BIN_EXE_csdlc-conversion-rehearsal\"))"
+        },
+        {
+          "path": "csdlc-v3/tests/copied_record_conversion_admission.rs",
+          "line": 839,
+          "text": "            \"prior_executable_path\": env!(\"CARGO_BIN_EXE_csdlc-conversion-rehearsal\"),"
+        },
+        {
+          "path": "csdlc-v3/tests/copied_record_conversion_admission.rs",
+          "line": 840,
+          "text": "            \"prior_executable_blake3\": blake3::hash(&fs::read(env!(\"CARGO_BIN_EXE_csdlc-conversion-rehearsal\")).unwrap()).to_hex().to_string(),"
+        },
+        {
+          "path": "csdlc-v3/tests/copied_record_conversion_fault_recovery.rs",
+          "line": 153,
+          "text": "    Command::new(env!(\"CARGO_BIN_EXE_csdlc-conversion-rehearsal\"))"
+        },
+        {
+          "path": "csdlc-v3/tests/copied_record_conversion_fault_recovery.rs",
+          "line": 350,
+          "text": "            env!(\"CARGO_BIN_EXE_csdlc-conversion-rehearsal\"),"
+        },
+        {
+          "path": "csdlc-v3/tests/copied_record_conversion_rehearsal.rs",
+          "line": 252,
+          "text": "    let smoke = Command::new(env!(\"CARGO_BIN_EXE_csdlc-conversion-rehearsal\"))"
+        },
+        {
+          "path": "csdlc-v3/tests/copied_record_conversion_rehearsal.rs",
+          "line": 562,
+          "text": "        &fixture.0.join(\".csdlc-conversion-rehearsal.json\"),"
+        },
+        {
+          "path": "csdlc-v3/tests/copied_record_conversion_rehearsal.rs",
+          "line": 692,
+          "text": "    let production_owner = fixture.0.join(\"csdlc-conversion-rehearsal\");"
+        },
+        {
+          "path": "csdlc-v3/tests/copied_record_conversion_rehearsal.rs",
+          "line": 695,
+          "text": "        env!(\"CARGO_BIN_EXE_csdlc-conversion-rehearsal\"),"
+        },
+        {
+          "path": "csdlc-v3/tests/copied_record_conversion_rehearsal.rs",
+          "line": 933,
+          "text": "    let run = Command::new(repo.join(\"adl/tools/csdlc-conversion-rehearsal\"))"
+        },
+        {
+          "path": "csdlc-v3/tests/installed_intent_commands.rs",
+          "line": 6387,
+          "text": "    let converted = Command::new(env!(\"CARGO_BIN_EXE_csdlc-conversion-rehearsal\"))"
+        }
+      ],
+      "deletion_authorized": false,
+      "execution_claimed": false
+    },
+    {
+      "id": "RD07-1491",
+      "path": "adl/tools/run_issue872_conversion_rehearsal.py",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "bdd77f17ddf75da284dd679f3114d2fb1a210f11"
+      },
+      "proposed_disposition": "hold_conversion_rehearsal_family",
+      "source_finding": "Source defines seven phases, twelve scenarios and fifteen fault points, durable fixture writes, source/executable restore guards and imported generation9 verifier.",
+      "remaining_repair": "Keep complete exact scenario/fault denominator with authentic generation9 fixture and validators; existing pre-effect sandbox evidence deletion is unrelated preexisting work and must not be staged.",
+      "callers": [
+        {
+          "path": "adl/tools/csdlc-conversion-rehearsal",
+          "line": 5,
+          "text": "exec python3 \"$tool_dir/run_issue872_conversion_rehearsal.py\" \"$@\""
+        }
+      ],
+      "deletion_authorized": false,
+      "execution_claimed": false
+    }
+  ]
+}

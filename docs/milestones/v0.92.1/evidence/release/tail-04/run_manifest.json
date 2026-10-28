@@ -1,0 +1,59 @@
+{
+  "schema": "adl.v0921.internal_review_run.v1",
+  "run_id": "tail-04-fb6cbc7f619d",
+  "repository": "agent-logic/agent-design-language",
+  "base_sha": "f0a011a5c59d46c763d669f69a10308b3f870ba4",
+  "candidate_sha": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+  "candidate_source": "origin_main_after_review_gates",
+  "candidate_merge_sha": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+  "opening_authority": {
+    "issue": 480,
+    "pull_request": 527,
+    "merge_sha": "001c270beda2b35b60e0be04f3c3bd331a156c48",
+    "base_sha": "f0a011a5c59d46c763d669f69a10308b3f870ba4"
+  },
+  "review_gate_observations": [
+    {
+      "issue": 718,
+      "pull_request": 809,
+      "issue_state": "CLOSED",
+      "pr_state": "MERGED",
+      "head_sha": "bfe203f4c5e963711c6de6ded85de2d93235fe4e",
+      "merge_sha": "d6697012598c94ce3c53b70e998733d3e242b839",
+      "merged_at": "2026-09-09T19:16:40Z",
+      "issue_closed_at": "2026-09-09T19:16:41Z"
+    },
+    {
+      "issue": 758,
+      "pull_request": 805,
+      "issue_state": "CLOSED",
+      "pr_state": "MERGED",
+      "head_sha": "d453299053afb6812974edefa9ecbe9e87edaad9",
+      "merge_sha": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+      "merged_at": "2026-09-09T19:49:39Z",
+      "issue_closed_at": "2026-09-09T19:49:40Z"
+    }
+  ],
+  "execution_spec_sha256": "93f71af622e362f943c586d54ecbe5b4494670aad3f0edc3f94b60fc68013b83",
+  "changed_path_count": 6098,
+  "canonical_surface_count": 791,
+  "milestone_issue_count": 119,
+  "milestone_pull_request_count": 0,
+  "acceptance_surface_count": 176,
+  "publication_allowed": false,
+  "skills_used": [
+    "sprint-review",
+    "repo-packet-builder",
+    "gap-analysis",
+    "repo-review-code",
+    "repo-review-tests",
+    "repo-review-security",
+    "repo-review-docs",
+    "repo-architecture-review",
+    "repo-dependency-review",
+    "repo-review-synthesis",
+    "redaction-and-evidence-auditor",
+    "review-quality-evaluator",
+    "finding-to-issue-planner"
+  ]
+}

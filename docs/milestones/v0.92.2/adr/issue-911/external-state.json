@@ -1,0 +1,23 @@
+{
+  "848": {
+    "number": 848,
+    "state": "OPEN",
+    "title": "[v0.92.2][planning] Decide repository decomposition and public/private product boundaries",
+    "url": "https://github.com/agent-logic/agent-design-language/issues/848"
+  },
+  "910": {
+    "number": 910,
+    "state": "OPEN",
+    "title": "[v0.92.2][OBS-S3] Deploy the existing Observatory S3 and CloudFront sidecar",
+    "url": "https://github.com/agent-logic/agent-design-language/issues/910"
+  },
+  "685": {
+    "mergeCommit": {
+      "oid": "76e288a289fe4d792de6dfc11e212bc42850b968"
+    },
+    "mergedAt": "2026-09-05T18:38:04Z",
+    "state": "MERGED",
+    "url": "https://github.com/agent-logic/agent-design-language/pull/685"
+  },
+  "observed_at": "2026-09-12T00:37:01.258596+00:00"
+}

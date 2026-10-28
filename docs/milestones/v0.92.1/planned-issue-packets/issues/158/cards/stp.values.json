@@ -1,0 +1,42 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 158,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][CORP-06] Migrate AWS production infrastructure",
+    "slug": "corp-06-migrate-aws-production-infrastructure",
+    "version": "v0.92.1",
+    "generation": 4
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Implement only CORP-06 within its exact owned paths and authority boundary.",
+      "deliverables": [
+        "Service-by-service infrastructure migration manifest and company-account readback.",
+        "Cutover and rollback receipts for DNS, certificates, email, storage, delivery, monitoring, and workloads."
+      ],
+      "acceptance_criteria": [
+        "Every AWS operation verifies the approved Agent Logic business account and uses the permanent business profile.",
+        "Public TLS uses ACM or another publicly trusted issuer; production paths contain no self-signed certificate.",
+        "DNS, email, storage, CDN, workload, monitoring, backup, budget, and rollback checks pass from company authority.",
+        "Temporary resources are inventoried, tagged, bounded, and deleted with provider readback after each phase."
+      ],
+      "dependencies": [
+        "CORP-04: issue #156"
+      ],
+      "repo_inputs": [
+        "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml#corp-06",
+        "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml",
+        "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml"
+      ],
+      "non_goals": [
+        "Using the founder personal AWS account",
+        "Introducing a second permanent IAM profile",
+        "Leaving temporary resources running after failure"
+      ]
+    }
+  }
+}

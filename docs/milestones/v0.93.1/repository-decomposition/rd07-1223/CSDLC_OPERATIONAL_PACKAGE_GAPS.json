@@ -1,0 +1,45 @@
+{
+  "schema": "adl1223.csdlc_operational_package_gap.v1",
+  "candidate": "79d6430a89edb350fe1012889650a6b4776912d0",
+  "manifest_sha256": "7b77b42b8d5139f6f9cd81e71703c8c859c27d80e9b3c001d1e1b66e424bd249",
+  "rows": [
+    {
+      "source": {
+        "git_blob": "acd3bc623294e70833eaa6c73e34d5c9a062a911",
+        "mode": "100755",
+        "path": "docs/skill-distributions/original-contracts/validation/fixtures/test_native_transport_fixture.py",
+        "sha256": "0697dad34e0553734b471477db5e0a54c6199d4078327710986642030b8733c2",
+        "size": 2455
+      },
+      "payload": {
+        "mode": 420,
+        "path": "resources/docs/skill-distributions/original-contracts/validation/fixtures/test_native_transport_fixture.py",
+        "sha256": "0697dad34e0553734b471477db5e0a54c6199d4078327710986642030b8733c2",
+        "size": 2455
+      }
+    },
+    {
+      "source": {
+        "git_blob": "c76c208399902654cf113b81d7e1c9a309ffbfac",
+        "mode": "100755",
+        "path": "adl/tools/demo_v0911_multiagent_podcast_audio.sh",
+        "sha256": "3cfd34d25e9664dad2bdd7af34c668c926830579b2655900b4c66dbd84318b73",
+        "size": 25605
+      },
+      "payload": null
+    }
+  ],
+  "cause": "tools/package_owner.py reads explicit tools/owner-resource-policy.json, not all source inventory members or source executable modes.",
+  "requested_repair": [
+    "Declare existing native transport fixture in executable_paths; source is already100755.",
+    "Include existing audio wrapper in package paths and executable_paths.",
+    "Keep source bytes/original proof denominators unchanged and add focused packaging assertions for both direct consumers."
+  ],
+  "existing_evidence": "Reports/closeout/boundaries passed; lifecycle failure preserved before bootstrap; historical installer136of138 and audio12 reuse remain separate provisional-candidate evidence.",
+  "new_runs_required_after_delivery": [
+    "Only failed lifecycle component against genuine corrected delivery.",
+    "Actual completed current bundle copy/symlink original installer proof after all admitted producer inputs and reviewedmanifest; no blanket conductor rerun."
+  ],
+  "native_mutation": false,
+  "source_edits_performed": false
+}

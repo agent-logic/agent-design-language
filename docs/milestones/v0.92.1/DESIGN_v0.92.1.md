@@ -1,0 +1,34 @@
+# Design — v0.92.1
+
+## Topology
+
+`#432 + reviewed planning-package merge -> WP-01 eligible -> operator declares v0.92.1 ready -> operator creates number-free WP-01 -> {Corporate and IP, AWS move-in, GCP move-in, cross-cloud Terraform, Rust resilience refactor, C-SDLC v3, Distributed Runtime, Podcast, hot reload, Observatory, Runtime v2/v3 decoupling, provider profiles}`. Explicit convergence edges are `AWS-E + GCP-D -> XCL-01 -> AWS-G`, `DRT-C + GCP-E + XCL-01 -> DRT-D`, and `PROV-A -> PROV-B`. Closed #431 is provenance only and cannot open the wave.
+
+The roots are parallel after the shared opening gates except for the explicit cloud-conversion, DRT-D, and PROV-B edges. Cross-lane dependencies must be explicit issue edges, never assumed from document order.
+
+Within those lanes, #122 public exposure, #345 GPU Shepherd hardening and OBS-A retain their owned scope. OBS-B/#512 consumes OBS-A/#511 and authentic Runtime projections. #84 Unity and #251 TLS 1.2 are operator-deferred backlog and are not OBS-B gates. GPU-backed distributed qualification retains its required #345 proof.
+
+## Lane contracts
+
+- Corporate and IP produces reviewed transfer, rights, account, and governance records without exposing private material.
+- C-SDLC v3 consumes the tracked architecture source and delivers typed slices with migration and rollback proof.
+- Distributed multi-agent Runtime uses authentic resident agents, governed UTS work, continuity, and evidence-bound qualification.
+- Podcast separates operator decisions and external publication authority from repository preparation.
+- Axum configuration hot reload uses parse-validate-swap, last-known-good retention, debounced watching, and observable failure without process restart.
+- Observatory redesign consumes stable Runtime authority APIs, renders no invented data, and includes keyboard, screen-reader, reduced-motion, empty, degraded, and recovery states.
+- Runtime decoupling assigns every v2/v3 source, manifest, import, export, test, and compatibility surface to exactly one authority, with executable migration and rollback proof.
+- Provider profiles give all tools one bounded provider contract; Ollama materialization is deterministic and shadow output never acquires mutation authority.
+- GCP qualification replays the six-resident contract as a provider-portability sidecar after DRT-C; it neither replaces AWS qualification nor authorizes issue #269.
+- AWS and GCP move-in are separate ordered foundation lanes. Existing #122/#251/#84/#345 remain existing issues and are never recreated.
+- XCL-01 owns the exact cross-cloud Terraform conversion; AWS-G alone decides later CloudFormation retirement.
+- RUST-01 owns one behavior-preserving resilience boundary refactor with no mandatory LoC target.
+
+INT-01 consumes all named roots. Historical #188 informs convergence and quality admission, #190 informs successor planning, and #189 is reserved for the final ceremony.
+
+## Rebaseline rule
+
+Runtime v4 is not silently included. If it changes authority APIs used by Distributed Runtime or Observatory work, affected issues stop, record the exact incompatibility, and replan against the new canonical interface.
+
+## Successor rule
+
+CodeFriend Beta 1 is planned for v0.92.2. v0.92.1 may produce prerequisites, but it must not claim the beta itself.

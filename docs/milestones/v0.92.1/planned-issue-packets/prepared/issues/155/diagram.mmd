@@ -1,0 +1,17 @@
+flowchart LR
+  DENOM["Terminal CORP-01\nfrozen asset denominator"] --> CLASSIFY["Source/model/data/media/\nbrand asset classification"]
+  GIT["Git history and manifests"] --> SOURCES["Authoritative evidence set"]
+  TERMS["Provider terms, licenses,\ncontributor records"] --> SOURCES
+  CUSTODY["Company evidence custody\npublic references and digests only"] --> SOURCES
+  CLASSIFY --> MATRIX["Provenance and licensing matrix"]
+  SOURCES --> MATRIX
+  MATRIX --> DISPOSITION{"Use-rights disposition"}
+  DISPOSITION -->|"verified"| ELIGIBLE["Transfer/release eligible"]
+  DISPOSITION -->|"restricted or unresolved"| EXCLUDE["Excluded and remediation-owned"]
+  DISPOSITION -->|"legal judgment required"| COUNSEL["Counsel review boundary"]
+  COUNSEL -->|"pending"| EXCLUDE
+  ELIGIBLE --> PROOF["Source-digest and denominator proof"]
+  EXCLUDE --> PROOF
+  PROOF --> REVIEW["Independent factual/redaction review"]
+  REVIEW -->|"missing provenance or unverifiable terms"| STOP["STOP: preserve blocked disposition"]
+  STOP --> ROLLBACK["No rights mutation occurred\nrollback is retained exclusion"]

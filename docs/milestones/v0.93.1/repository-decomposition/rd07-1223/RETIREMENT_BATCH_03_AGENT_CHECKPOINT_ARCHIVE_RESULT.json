@@ -1,0 +1,36 @@
+{
+  "schema": "adl.rd07.retirement_batch_result.v1",
+  "issue": 1223,
+  "batch": "03-agent-checkpoint-archive",
+  "status": "applied_after_independent_review",
+  "reviewed_manifest_sha256": "d082e6bd93d5f83abc2f3307795091348b1ef4688a73a8f63d8ea5f75ee726a7",
+  "source_revision": "979b073bf02645cb0679911fbcf006ea6fb43b55",
+  "removed_component": "infra/aws/runtime/agent-checkpoint-archive",
+  "removed_paths": 10,
+  "reference_repairs": 1,
+  "component_absent_after_apply": true,
+  "retained_reference_classification": {
+    "repaired_live_reference_files": 1,
+    "historical_evidence_inventory_or_inert_fixture_files": 35,
+    "classification": "The retained Runtime example now identifies the successor repository; all remaining exact path references are immutable records or the inert issue-520 changed-path fixture."
+  },
+  "preservation": {
+    "archive_sha256": "12205043566913435c25ea414b1fd9148b46727821f7bfefd5d452cfe47a1c17",
+    "original_revision": "248f00e359e412f6bc0061ac88be9ff374e3a212",
+    "batch_restore_paths_verified": 10,
+    "batch_restore_mismatches": 0
+  },
+  "focused_checks": {
+    "manifest_json_parse": "pass",
+    "exact_deletion_count": "pass",
+    "component_absent": "pass",
+    "retained_reference_allowlist": "pass",
+    "toml_semantic_sha256_before": "5a928c917dd0521f85c620d7642936d31863665f914a02510934555eb5d33c29",
+    "toml_semantic_sha256_after": "5a928c917dd0521f85c620d7642936d31863665f914a02510934555eb5d33c29",
+    "git_diff_check": "pass"
+  },
+  "deferred": [
+    "final public ADL qualification at the committed retirement candidate",
+    "native exact-head review and publication"
+  ]
+}

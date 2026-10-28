@@ -1,0 +1,140 @@
+{
+  "schema": "adl.corporate.corp_c.control_plane_denominator.v1",
+  "issue": 497,
+  "repository": "agent-logic/agent-design-language",
+  "created_at": "2026-09-01",
+  "status": "accepted_with_sidecar_operational_hardening",
+  "authority_boundary": "This record distinguishes #497 corporate IP-transfer acceptance from broader post-move-in operational control-plane hardening. The hardening rows remain truthful evidence, but are routed to sidecar issue #624 and do not block #497.",
+  "live_issue_acceptance": [
+    "Each control plane has corporate owner and rollback.",
+    "AWS uses the approved business account.",
+    "Terraform and CI authority are company-controlled.",
+    "Availability and recovery readbacks pass."
+  ],
+  "rows": [
+    {
+      "id": "corp-c-source-control",
+      "surface": "GitHub organization and repository source-control authority",
+      "required_by_497": false,
+      "sidecar_issue": 624,
+      "owner_readback": "partial",
+      "rollback_readback": "partial",
+      "availability_readback": "partial",
+      "recovery_readback": "missing",
+      "classification": "sidecar_partial_readback",
+      "evidence_ref": "docs/milestones/v0.92.1/evidence/corporate/corp-c/github-ci-authority-readback.v1.json records the agent-logic org, default-branch ruleset, required checks, and repo authority. Corporate recovery/admin continuity beyond a single observed admin remains unproven."
+    },
+    {
+      "id": "corp-c-ci-cd",
+      "surface": "GitHub Actions, release automation, environments, runner authority, and emergency workflow-disable procedure",
+      "required_by_497": false,
+      "sidecar_issue": 624,
+      "owner_readback": "partial",
+      "rollback_readback": "partial",
+      "availability_readback": "partial",
+      "recovery_readback": "missing",
+      "classification": "sidecar_partial_readback",
+      "evidence_ref": "docs/milestones/v0.92.1/evidence/corporate/corp-c/github-ci-authority-readback.v1.json and live-control-plane-readonly-probe.v1.json record active Actions, required CI checks, CI variables, the adl-spot-ci environment, visible CodeBuild projects, and GitHub-AWS roles. Actions allowed_actions policy, environment protection, disabled AWS workflows, and emergency-disable recovery remain unproven."
+    },
+    {
+      "id": "corp-c-production-domains",
+      "surface": "Production domain registrations and web-property control",
+      "required_by_497": false,
+      "sidecar_issue": 624,
+      "owner_readback": "partial",
+      "rollback_readback": "missing",
+      "availability_readback": "missing",
+      "recovery_readback": "missing",
+      "classification": "sidecar_partial_readback",
+      "evidence_ref": "docs/operations/corporate/account-custody/corporate-custody-register.v1.json records five registrations moved, but registrar recovery, hosted-zone timing, and rollback remain unproven."
+    },
+    {
+      "id": "corp-c-dns-route53",
+      "surface": "Route53 hosted zones, DNS delegation, and rollback-control transfer",
+      "required_by_497": false,
+      "sidecar_issue": 624,
+      "owner_readback": "partial",
+      "rollback_readback": "missing",
+      "availability_readback": "missing",
+      "recovery_readback": "missing",
+      "classification": "sidecar_partial_readback",
+      "evidence_ref": "docs/milestones/v0.92.1/evidence/corporate/corp-c/dns-cert-deployment-readback.v1.json records a visible matching public Route53 hosted zone and records; registrar delegation, change-freeze, rollback, and recovery remain unproven."
+    },
+    {
+      "id": "corp-c-certificates",
+      "surface": "TLS certificate inventory, renewal ownership, and revocation/reissue rollback",
+      "required_by_497": false,
+      "sidecar_issue": 624,
+      "owner_readback": "partial",
+      "rollback_readback": "missing",
+      "availability_readback": "partial",
+      "recovery_readback": "missing",
+      "classification": "sidecar_partial_readback",
+      "evidence_ref": "docs/milestones/v0.92.1/evidence/corporate/corp-c/dns-cert-deployment-readback.v1.json records visible issued ACM certificates and DNS validation success; renewal ownership, revocation/reissue rollback, and recovery remain unproven for the complete certificate denominator."
+    },
+    {
+      "id": "corp-c-aws-business-account",
+      "surface": "Agent Logic AWS business-account targeting",
+      "required_by_497": false,
+      "sidecar_issue": 624,
+      "owner_readback": "partial",
+      "rollback_readback": "missing",
+      "availability_readback": "partial",
+      "recovery_readback": "missing",
+      "classification": "sidecar_partial_readback",
+      "evidence_ref": "docs/milestones/v0.92.1/evidence/corporate/corp-c/aws-identity-readback-redacted.v1.json proves profile-to-retained-account-hash; live-control-plane-readonly-probe.v1.json adds visible Route53/ACM/CodeBuild/IAM inventory; aws-account-control-readback.v1.json records current IAM/account-control/audit posture. Billing/root/contact/IAM Identity Center/recovery/break-glass remain unproven, and CloudTrail/AWS Config/Access Analyzer are absent."
+    },
+    {
+      "id": "corp-c-terraform-authority",
+      "surface": "Terraform source, state/backend authority, and provider deployment authority",
+      "required_by_497": true,
+      "owner_readback": "partial",
+      "rollback_readback": "partial",
+      "availability_readback": "partial",
+      "recovery_readback": "partial",
+      "classification": "partial_readback",
+      "evidence_ref": "docs/milestones/v0.92.1/evidence/corporate/corp-c/live-control-plane-readonly-probe.v1.json records the AWS-C bootstrap apply and post-apply S3/DynamoDB/IAM readbacks. The account-foundation and runtime backend examples now point at the bootstrap-derived backend shape; downstream live roots still require reviewed backend config substitution and issue-scoped plan/apply/rollback evidence before deployment acceptance."
+    },
+    {
+      "id": "corp-c-deployment-operations",
+      "surface": "Deployment roles, rollback authority, incident audit logging, and emergency access",
+      "required_by_497": false,
+      "sidecar_issue": 624,
+      "owner_readback": "partial",
+      "rollback_readback": "missing",
+      "availability_readback": "partial",
+      "recovery_readback": "missing",
+      "classification": "sidecar_partial_readback",
+      "evidence_ref": "docs/milestones/v0.92.1/evidence/corporate/corp-c/dns-cert-deployment-readback.v1.json records HTTPS 200 for agent-logic.ai and codefriend.ai, and records origin-smoke Runtime health as unresolved; live-control-plane-readonly-probe.v1.json records visible deployment/validation IAM roles and CodeBuild projects. Runtime deployment availability, rollback authority, incident logging, emergency access, and recovery drill remain unproven."
+    },
+    {
+      "id": "corp-c-private-custody",
+      "surface": "Vault, recovery factors, payment method, executed instruments, and counsel-controlled diligence material",
+      "required_by_497": false,
+      "sidecar_issue": 624,
+      "owner_readback": "missing_redacted_receipt",
+      "rollback_readback": "not_applicable",
+      "availability_readback": "missing",
+      "recovery_readback": "missing",
+      "classification": "sidecar_missing_private_receipt",
+      "evidence_ref": "docs/operations/corporate/account-custody/corporate-custody-register.v1.json service row corp-b-private-custody records follow_up_required."
+    }
+  ],
+  "sidecar_gates": [
+    "GitHub organization, repository, Actions, environment, runner, required-reviewer, billing, MFA, recovery, and emergency-disable readbacks.",
+    "Route53 hosted-zone ownership, delegation, change-freeze, rollback, and DNS recovery readbacks.",
+    "Certificate inventory, renewal owner, revocation/reissue, and recovery readbacks.",
+    "AWS billing, root/contact, IAM Identity Center, audit/break-glass, and recovery readbacks beyond profile identity, account-level MFA, and inventory visibility; CloudTrail, AWS Config, and Access Analyzer are absent in the current readback.",
+    "Downstream Terraform account-foundation and runtime roots still need reviewed backend config substitution from AWS-C outputs and issue-scoped plan/apply/rollback evidence before deployment acceptance.",
+    "Deployment role, rollback authority, incident audit logging, emergency access, and recovery drill readbacks.",
+    "Private custody redacted receipt proving company-controlled vault and non-single-founder recovery."
+  ],
+  "mutation_authority": {
+    "new_mutation_performed_by_497": true,
+    "new_mutation_authorized": true,
+    "authorized_actions": [
+      "corp-c-aws-c-terraform-bootstrap-apply"
+    ],
+    "blocked_if_mutation_required": true
+  }
+}

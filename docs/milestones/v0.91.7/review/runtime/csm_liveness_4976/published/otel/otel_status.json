@@ -1,0 +1,19 @@
+{
+  "event_count": 1271,
+  "exporter": {
+    "endpoint": "<configured>",
+    "endpoint_configured": true,
+    "error": null,
+    "http_status": 200,
+    "protocol": "otlp_http_json",
+    "schema": "adl.otel.exporter_status.v1",
+    "status": "success",
+    "updated_at": "2026-07-06T17:22:26.689665+00:00"
+  },
+  "last_event": "csm.child_exit",
+  "last_result": "completed",
+  "last_span_id": "daemon:child_exit:0",
+  "last_trace_id": "agent.csm-liveness-4976-full.daemon",
+  "schema": "adl.otel.monitor_status.v1",
+  "updated_at": "2026-07-06T17:22:26.689654+00:00"
+}

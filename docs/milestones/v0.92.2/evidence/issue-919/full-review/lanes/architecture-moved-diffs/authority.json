@@ -1,0 +1,41 @@
+{
+  "path": "csdlc-v3/src/commands/remote/authority.rs",
+  "baseline_path": "csdlc-v3/src/commands/remote/mod.rs",
+  "exact_moved_blocks": [
+    {
+      "baseline_start": 1015,
+      "candidate_start": 9,
+      "count": 13
+    },
+    {
+      "baseline_start": 1505,
+      "candidate_start": 25,
+      "count": 8
+    },
+    {
+      "baseline_start": 1514,
+      "candidate_start": 34,
+      "count": 52
+    },
+    {
+      "baseline_start": 1571,
+      "candidate_start": 87,
+      "count": 33
+    }
+  ],
+  "unmatched_lines": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    22,
+    23,
+    24,
+    33,
+    86
+  ]
+}

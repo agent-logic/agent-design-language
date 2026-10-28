@@ -1,0 +1,19 @@
+flowchart LR
+  C1["CORP-01 denominator"] --> RECONCILE["Critical asset/service completion matrix"]
+  C2["CORP-02 private-custody receipts"] --> RECONCILE
+  C3["CORP-03 provenance dispositions"] --> RECONCILE
+  C4["CORP-04 custody proof"] --> RECONCILE
+  C5["CORP-05 control proof"] --> RECONCILE
+  C6["CORP-06 infrastructure proof"] --> RECONCILE
+  C7["CORP-07 deployment authority proof"] --> RECONCILE
+  PRIVATE["Private instruments and credentials\ncompany custody outside repository"] --> CUSTODY["Private custody identifiers and digests"]
+  RECONCILE --> PUBLIC["Redacted diligence index"]
+  CUSTODY --> PUBLIC
+  APPROVAL["Counsel and corporate authority receipts"] --> PUBLIC
+  PUBLIC --> VERIFY["Independent digest/redaction/approval review"]
+  VERIFY --> GATE{"Any unresolved critical exception?"}
+  GATE -->|"yes"| BLOCK["Corporate release gate BLOCKED"]
+  GATE -->|"no"| READY["Truthful diligence-ready recommendation"]
+  BLOCK --> REMEDIATE["Explicit authority-owned remediation\nno prose waiver"]
+  READY --> FINAL["Corporate authority decision\nno automatic release mutation"]
+  FINAL --> ROLLBACK["Rollback boundary: withdraw recommendation;\nprivate custody and source evidence remain unchanged"]

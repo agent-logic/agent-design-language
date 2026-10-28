@@ -1,0 +1,53 @@
+{
+  "schema": "adl.v0921.wp01.operation-observed.v1",
+  "kind": "child_create",
+  "planned_id": "TAIL-10",
+  "issue": 526,
+  "title": "[v0.92.1][TAIL-10] Release ceremony",
+  "labels": [
+    "area:release",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "milestone": 1,
+  "state": "open",
+  "dependencies": {
+    "TAIL-09": 525
+  },
+  "body_sha256": "02f579216b80fc01ac74a9164c6fb45e7e9a76215e701612d786f80b7dc85e3d",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:TAIL-10:create",
+  "request_fingerprint": "50b83901377820ed0dcf9c0cdb6237d8ed643ceb59cec780c6fa4fc983ef7c2d",
+  "planning_digest": "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251",
+  "specification_sha256": "1cc0657cdedfd49250ecd56d9623cd966db847791363685dc5158bed63178050",
+  "live_response": {
+    "action": "issue_create",
+    "comment_id": null,
+    "issue": {
+      "assignees": [
+
+      ],
+      "body": "## Outcome\n\nProduce one release-ceremony receipt for the exact operator-approved milestone candidate.\n\n## Primary deliverable\n\nOne release-ceremony receipt binding the approved candidate, notes, tag, and release identity.\n\n## Verification result\n\nLive readback proves the notes, tag, and release resolve to the exact approved candidate and operator authorization.\n\n## Unit boundary\n\nIssue completion is exactly one release-ceremony receipt; preparation and asynchronous bookkeeping are external inputs or follow-up work.\n\n## Dependencies\n\n- TAIL-09: #525\n\n## Retained predecessor scope\n\n- #189\n\n## Acceptance criteria\n\n- [ ] All prior tail issues have reviewed-green ancestral merges\n- [ ] Notes tag and release bind the exact candidate\n- [ ] Operator authorization is retained\n\n## Owned paths\n\n- `docs/milestones/v0.92.1/evidence/release/tail-10/**`\n- `docs/milestones/v0.92.1/RELEASE_NOTES_v0.92.1.md`\n\n## PVF lanes\n\n- `tail-merge-census`\n- `tag-and-release-readback`\n- `notes-parity`\n\n## Stop conditions\n\n- Operator authorization is absent\n- Any prior tail issue lacks a reviewed-green ancestral merge\n\n## Non-goals\n\n- Unreviewed merge\n- Administrative finish or cleanup\n- Post-release feature work\n\n## Canonical planning identity\n\n- Planned ID: `TAIL-10`\n- Canonical title: `[v0.92.1][TAIL-10] Release ceremony`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#TAIL-10`\n<!-- csdlc-github-operation:v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:TAIL-10:create -->\n",
+      "closed_at": null,
+      "created_at": "2026-08-26T03:44:41Z",
+      "labels": [
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1",
+        "area:release"
+      ],
+      "marker_present": true,
+      "milestone": 1,
+      "number": 526,
+      "repository": "agent-logic/agent-design-language",
+      "schema": "csdlc.github_issue.v1",
+      "state": "open",
+      "title": "[v0.92.1][TAIL-10] Release ceremony"
+    },
+    "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:TAIL-10:create",
+    "pr_state": null,
+    "reconciled": true,
+    "repository": "agent-logic/agent-design-language",
+    "schema": "csdlc.github_action_result.v1"
+  }
+}

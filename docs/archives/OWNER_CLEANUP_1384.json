@@ -1,0 +1,1213 @@
+{
+  "removed": [
+    "docs/architecture/csdlc-v2/CSDLC_V1_BASELINE_AND_V2_BUDGETS.md",
+    "docs/architecture/csdlc-v2/CSDLC_V2_GATE1_RECOMMENDATION.md",
+    "docs/architecture/csdlc-v2/CSDLC_V2_GATE1_VALIDATION.md",
+    "docs/architecture/csdlc-v2/csdlc_v2_block_diagram.mmd",
+    "docs/architecture/csdlc-v2/csdlc_v2_block_diagram.png",
+    "docs/architecture/csdlc-v2/csdlc_v2_block_diagram.svg",
+    "docs/architecture/csdlc-v2/csdlc_v2_card_contracts.v1.json",
+    "docs/architecture/csdlc-v2/csdlc_v2_contracts_and_cots.v1.json",
+    "docs/architecture/csdlc-v2/csdlc_v2_public_contracts.v1.json",
+    "docs/architecture/csdlc-v2/csdlc_v2_retained_behavior.v1.json",
+    "docs/architecture/csdlc-v2/gate10a/COEXISTENCE.mmd",
+    "docs/architecture/csdlc-v2/gate10a/DESIGN.md",
+    "docs/architecture/csdlc-v2/gate10b/DESIGN.md",
+    "docs/architecture/csdlc-v2/gate10b/PRE_SWITCH_EVIDENCE.json",
+    "docs/architecture/csdlc-v2/gate10b/PRE_SWITCH_PROOF.mmd",
+    "docs/architecture/csdlc-v2/gate10c/CUTOVER.mmd",
+    "docs/architecture/csdlc-v2/gate10c/CUTOVER_EVIDENCE.json",
+    "docs/architecture/csdlc-v2/gate10c/DESIGN.md",
+    "docs/architecture/csdlc-v2/gate10d1/DESIGN.md",
+    "docs/architecture/csdlc-v2/gate10d1/ELIGIBILITY.mmd",
+    "docs/architecture/csdlc-v2/gate10d1/ELIGIBILITY_EVIDENCE.json",
+    "docs/architecture/csdlc-v2/gate10d2/ACCELERATED_OPERATOR_DECISION.md",
+    "docs/architecture/csdlc-v2/gate10d2/CAPABILITY_MATRIX.json",
+    "docs/architecture/csdlc-v2/gate10d2/DELETION_EVIDENCE.json",
+    "docs/architecture/csdlc-v2/gate10d2/DESIGN.md",
+    "docs/architecture/csdlc-v2/gate10d2/DIAGRAM.mmd",
+    "docs/architecture/csdlc-v2/gate10d2/ELIGIBILITY_DECISION.json",
+    "docs/architecture/csdlc-v2/gate10d2/FINAL_ELIGIBILITY_RECHECK.json",
+    "docs/architecture/csdlc-v2/gate10d2/PARITY_EVIDENCE.json",
+    "docs/architecture/csdlc-v2/gate10d2/SIZE_EVIDENCE.json",
+    "docs/architecture/csdlc-v2/gate10d3/DESIGN.md",
+    "docs/architecture/csdlc-v2/gate10d3/DIAGRAM.mmd",
+    "docs/architecture/csdlc-v2/gate10d4/DESIGN.md",
+    "docs/architecture/csdlc-v2/gate10d4/DIAGRAM.mmd",
+    "docs/architecture/csdlc-v2/gate2/GATE2_STATE_ENGINE_DESIGN.md",
+    "docs/architecture/csdlc-v2/gate2/GATE2_VALIDATION.md",
+    "docs/architecture/csdlc-v2/gate2/gate2_lifecycle.mmd",
+    "docs/architecture/csdlc-v2/gate2/gate2_lifecycle.png",
+    "docs/architecture/csdlc-v2/gate2/gate2_lifecycle.svg",
+    "docs/architecture/csdlc-v2/gate2/gate2_state_and_transaction.mmd",
+    "docs/architecture/csdlc-v2/gate2/gate2_state_and_transaction.png",
+    "docs/architecture/csdlc-v2/gate2/gate2_state_and_transaction.svg",
+    "docs/architecture/csdlc-v2/gate3/DESIGN.md",
+    "docs/architecture/csdlc-v2/gate3/FLOWS.mmd",
+    "docs/architecture/csdlc-v2/gate3/SEQUENCES.md",
+    "docs/architecture/csdlc-v2/gate4/DESIGN.md",
+    "docs/architecture/csdlc-v2/gate4/PVF_DAG.mmd",
+    "docs/architecture/csdlc-v2/gate4/SCHEDULER_SHEPHERD.mmd",
+    "docs/architecture/csdlc-v2/gate4/SHEPHERD_STATE.mmd",
+    "docs/architecture/csdlc-v2/gate5/DESIGN.md",
+    "docs/architecture/csdlc-v2/gate5/FINDING_STATE.mmd",
+    "docs/architecture/csdlc-v2/gate5/REVIEW_FLOW.mmd",
+    "docs/architecture/csdlc-v2/gate5/REVISION_INVALIDATION.mmd",
+    "docs/architecture/csdlc-v2/gate6/GATE6_PUBLICATION_DESIGN.md",
+    "docs/architecture/csdlc-v2/gate6/publication-flow.mmd",
+    "docs/architecture/csdlc-v2/gate7/GATE7_READINESS_CLOSEOUT_DESIGN.md",
+    "docs/architecture/csdlc-v2/gate7/readiness-closeout.mmd",
+    "docs/architecture/csdlc-v2/gate8/GATE8_IMPORT_SHADOW_DESIGN.md",
+    "docs/architecture/csdlc-v2/gate8/import-parity.mmd",
+    "docs/architecture/csdlc-v2/gate9/CUTOVER_DECISION.json",
+    "docs/architecture/csdlc-v2/gate9/CUTOVER_DECISION.md",
+    "docs/architecture/csdlc-v2/gate9/DESIGN.md",
+    "docs/architecture/csdlc-v2/gate9/ROLLOUT_DECISION.mmd",
+    "docs/architecture/csdlc-v2/gate9/ROLLOUT_DECISION.png",
+    "docs/architecture/csdlc-v2/gate9/ROLLOUT_DECISION.svg",
+    "docs/architecture/csdlc-v2/gate9/SOAK_MATRIX.md",
+    "docs/architecture/csdlc-v2/gate9/VALIDATION.md",
+    "docs/architecture/csdlc-v2/gate9/samples/docs-only/design.md",
+    "docs/architecture/csdlc-v2/gate9/samples/docs-only/diagram.mmd",
+    "docs/architecture/csdlc-v2/gate9/samples/docs-only/legacy-observation.json",
+    "docs/architecture/csdlc-v2/gate9/samples/docs-only/packet.json",
+    "docs/architecture/csdlc-v2/gate9/samples/docs-only/sip.md",
+    "docs/architecture/csdlc-v2/gate9/samples/docs-only/sor.md",
+    "docs/architecture/csdlc-v2/gate9/samples/docs-only/spp.md",
+    "docs/architecture/csdlc-v2/gate9/samples/docs-only/srp.md",
+    "docs/architecture/csdlc-v2/gate9/samples/docs-only/stp.md",
+    "docs/architecture/csdlc-v2/gate9/samples/docs-only/vpp.md",
+    "docs/architecture/csdlc-v2/gate9/samples/generation-selector.json",
+    "docs/architecture/csdlc-v2/gate9/samples/hostile-recovery/design.md",
+    "docs/architecture/csdlc-v2/gate9/samples/hostile-recovery/diagram.mmd",
+    "docs/architecture/csdlc-v2/gate9/samples/hostile-recovery/legacy-observation.json",
+    "docs/architecture/csdlc-v2/gate9/samples/hostile-recovery/packet.json",
+    "docs/architecture/csdlc-v2/gate9/samples/hostile-recovery/sip.md",
+    "docs/architecture/csdlc-v2/gate9/samples/hostile-recovery/sor.md",
+    "docs/architecture/csdlc-v2/gate9/samples/hostile-recovery/spp.md",
+    "docs/architecture/csdlc-v2/gate9/samples/hostile-recovery/srp.md",
+    "docs/architecture/csdlc-v2/gate9/samples/hostile-recovery/stp.md",
+    "docs/architecture/csdlc-v2/gate9/samples/hostile-recovery/vpp.md",
+    "docs/architecture/csdlc-v2/gate9/samples/small-rust/design.md",
+    "docs/architecture/csdlc-v2/gate9/samples/small-rust/diagram.mmd",
+    "docs/architecture/csdlc-v2/gate9/samples/small-rust/legacy-observation.json",
+    "docs/architecture/csdlc-v2/gate9/samples/small-rust/packet.json",
+    "docs/architecture/csdlc-v2/gate9/samples/small-rust/sip.md",
+    "docs/architecture/csdlc-v2/gate9/samples/small-rust/sor.md",
+    "docs/architecture/csdlc-v2/gate9/samples/small-rust/spp.md",
+    "docs/architecture/csdlc-v2/gate9/samples/small-rust/srp.md",
+    "docs/architecture/csdlc-v2/gate9/samples/small-rust/stp.md",
+    "docs/architecture/csdlc-v2/gate9/samples/small-rust/vpp.md",
+    "docs/architecture/csdlc-v2/gate9/soak-evidence-input.json",
+    "docs/architecture/csdlc-v2/wp01/5353/DESIGN.md",
+    "docs/architecture/csdlc-v2/wp01/5353/DIAGRAM.mmd",
+    "docs/architecture/CSDLC_V2_CLEAN_ROOM_ARCHITECTURE.md",
+    "adl/tools/test_csdlc_v2_supply_chain.sh",
+    "adl/tools/validate_csdlc_v2_supply_chain.sh"
+  ],
+  "modified": [
+    "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+    "docs/architecture/README.md"
+  ],
+  "prior": "owner_cleanup_1385",
+  "owner_repository": "agent-logic/cognitive-sdlc",
+  "owner_resources": [
+    {
+      "path": "docs/architecture/csdlc-v2/csdlc_v2_retained_behavior.v1.json",
+      "owner_revision": "39f34c4a447bc25a8b91aaff60eca7a6789f5098",
+      "sha256": "f66f12fc373a21db9789488063cabb8ebfd48a305463648d82f0fe6979acfdf5"
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate10b/PRE_SWITCH_EVIDENCE.json",
+      "owner_revision": "39f34c4a447bc25a8b91aaff60eca7a6789f5098",
+      "sha256": "77d52aab61bf75279b88d9eaddc0ccf6adca4c99b6ed367bc8c06f9ff9354f3a"
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate10c/CUTOVER_EVIDENCE.json",
+      "owner_revision": "39f34c4a447bc25a8b91aaff60eca7a6789f5098",
+      "sha256": "74ac0b1c1bd38ced4de9551702f902b870f2c45170eabb41a133447a35250f3c"
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate10d2/PARITY_EVIDENCE.json",
+      "owner_revision": "39f34c4a447bc25a8b91aaff60eca7a6789f5098",
+      "sha256": "721666cf29866727a9c1013121c317eaa0a415f7580726940c91eca4a7d6c4e4"
+    }
+  ],
+  "historical_only_in_adl_snapshot": [
+    "docs/architecture/csdlc-v2/CSDLC_V1_BASELINE_AND_V2_BUDGETS.md",
+    "docs/architecture/csdlc-v2/CSDLC_V2_GATE1_RECOMMENDATION.md",
+    "docs/architecture/csdlc-v2/CSDLC_V2_GATE1_VALIDATION.md",
+    "docs/architecture/csdlc-v2/csdlc_v2_block_diagram.mmd",
+    "docs/architecture/csdlc-v2/csdlc_v2_block_diagram.png",
+    "docs/architecture/csdlc-v2/csdlc_v2_block_diagram.svg",
+    "docs/architecture/csdlc-v2/csdlc_v2_card_contracts.v1.json",
+    "docs/architecture/csdlc-v2/csdlc_v2_contracts_and_cots.v1.json",
+    "docs/architecture/csdlc-v2/csdlc_v2_public_contracts.v1.json",
+    "docs/architecture/csdlc-v2/gate10a/COEXISTENCE.mmd",
+    "docs/architecture/csdlc-v2/gate10a/DESIGN.md",
+    "docs/architecture/csdlc-v2/gate10b/DESIGN.md",
+    "docs/architecture/csdlc-v2/gate10b/PRE_SWITCH_PROOF.mmd",
+    "docs/architecture/csdlc-v2/gate10c/CUTOVER.mmd",
+    "docs/architecture/csdlc-v2/gate10c/DESIGN.md",
+    "docs/architecture/csdlc-v2/gate10d1/DESIGN.md",
+    "docs/architecture/csdlc-v2/gate10d1/ELIGIBILITY.mmd",
+    "docs/architecture/csdlc-v2/gate10d1/ELIGIBILITY_EVIDENCE.json",
+    "docs/architecture/csdlc-v2/gate10d2/ACCELERATED_OPERATOR_DECISION.md",
+    "docs/architecture/csdlc-v2/gate10d2/CAPABILITY_MATRIX.json",
+    "docs/architecture/csdlc-v2/gate10d2/DELETION_EVIDENCE.json",
+    "docs/architecture/csdlc-v2/gate10d2/DESIGN.md",
+    "docs/architecture/csdlc-v2/gate10d2/DIAGRAM.mmd",
+    "docs/architecture/csdlc-v2/gate10d2/ELIGIBILITY_DECISION.json",
+    "docs/architecture/csdlc-v2/gate10d2/FINAL_ELIGIBILITY_RECHECK.json",
+    "docs/architecture/csdlc-v2/gate10d2/SIZE_EVIDENCE.json",
+    "docs/architecture/csdlc-v2/gate10d3/DESIGN.md",
+    "docs/architecture/csdlc-v2/gate10d3/DIAGRAM.mmd",
+    "docs/architecture/csdlc-v2/gate10d4/DESIGN.md",
+    "docs/architecture/csdlc-v2/gate10d4/DIAGRAM.mmd",
+    "docs/architecture/csdlc-v2/gate2/GATE2_STATE_ENGINE_DESIGN.md",
+    "docs/architecture/csdlc-v2/gate2/GATE2_VALIDATION.md",
+    "docs/architecture/csdlc-v2/gate2/gate2_lifecycle.mmd",
+    "docs/architecture/csdlc-v2/gate2/gate2_lifecycle.png",
+    "docs/architecture/csdlc-v2/gate2/gate2_lifecycle.svg",
+    "docs/architecture/csdlc-v2/gate2/gate2_state_and_transaction.mmd",
+    "docs/architecture/csdlc-v2/gate2/gate2_state_and_transaction.png",
+    "docs/architecture/csdlc-v2/gate2/gate2_state_and_transaction.svg",
+    "docs/architecture/csdlc-v2/gate3/DESIGN.md",
+    "docs/architecture/csdlc-v2/gate3/FLOWS.mmd",
+    "docs/architecture/csdlc-v2/gate3/SEQUENCES.md",
+    "docs/architecture/csdlc-v2/gate4/DESIGN.md",
+    "docs/architecture/csdlc-v2/gate4/PVF_DAG.mmd",
+    "docs/architecture/csdlc-v2/gate4/SCHEDULER_SHEPHERD.mmd",
+    "docs/architecture/csdlc-v2/gate4/SHEPHERD_STATE.mmd",
+    "docs/architecture/csdlc-v2/gate5/DESIGN.md",
+    "docs/architecture/csdlc-v2/gate5/FINDING_STATE.mmd",
+    "docs/architecture/csdlc-v2/gate5/REVIEW_FLOW.mmd",
+    "docs/architecture/csdlc-v2/gate5/REVISION_INVALIDATION.mmd",
+    "docs/architecture/csdlc-v2/gate6/GATE6_PUBLICATION_DESIGN.md",
+    "docs/architecture/csdlc-v2/gate6/publication-flow.mmd",
+    "docs/architecture/csdlc-v2/gate7/GATE7_READINESS_CLOSEOUT_DESIGN.md",
+    "docs/architecture/csdlc-v2/gate7/readiness-closeout.mmd",
+    "docs/architecture/csdlc-v2/gate8/GATE8_IMPORT_SHADOW_DESIGN.md",
+    "docs/architecture/csdlc-v2/gate8/import-parity.mmd",
+    "docs/architecture/csdlc-v2/gate9/CUTOVER_DECISION.json",
+    "docs/architecture/csdlc-v2/gate9/CUTOVER_DECISION.md",
+    "docs/architecture/csdlc-v2/gate9/DESIGN.md",
+    "docs/architecture/csdlc-v2/gate9/ROLLOUT_DECISION.mmd",
+    "docs/architecture/csdlc-v2/gate9/ROLLOUT_DECISION.png",
+    "docs/architecture/csdlc-v2/gate9/ROLLOUT_DECISION.svg",
+    "docs/architecture/csdlc-v2/gate9/SOAK_MATRIX.md",
+    "docs/architecture/csdlc-v2/gate9/VALIDATION.md",
+    "docs/architecture/csdlc-v2/gate9/samples/docs-only/design.md",
+    "docs/architecture/csdlc-v2/gate9/samples/docs-only/diagram.mmd",
+    "docs/architecture/csdlc-v2/gate9/samples/docs-only/legacy-observation.json",
+    "docs/architecture/csdlc-v2/gate9/samples/docs-only/packet.json",
+    "docs/architecture/csdlc-v2/gate9/samples/docs-only/sip.md",
+    "docs/architecture/csdlc-v2/gate9/samples/docs-only/sor.md",
+    "docs/architecture/csdlc-v2/gate9/samples/docs-only/spp.md",
+    "docs/architecture/csdlc-v2/gate9/samples/docs-only/srp.md",
+    "docs/architecture/csdlc-v2/gate9/samples/docs-only/stp.md",
+    "docs/architecture/csdlc-v2/gate9/samples/docs-only/vpp.md",
+    "docs/architecture/csdlc-v2/gate9/samples/generation-selector.json",
+    "docs/architecture/csdlc-v2/gate9/samples/hostile-recovery/design.md",
+    "docs/architecture/csdlc-v2/gate9/samples/hostile-recovery/diagram.mmd",
+    "docs/architecture/csdlc-v2/gate9/samples/hostile-recovery/legacy-observation.json",
+    "docs/architecture/csdlc-v2/gate9/samples/hostile-recovery/packet.json",
+    "docs/architecture/csdlc-v2/gate9/samples/hostile-recovery/sip.md",
+    "docs/architecture/csdlc-v2/gate9/samples/hostile-recovery/sor.md",
+    "docs/architecture/csdlc-v2/gate9/samples/hostile-recovery/spp.md",
+    "docs/architecture/csdlc-v2/gate9/samples/hostile-recovery/srp.md",
+    "docs/architecture/csdlc-v2/gate9/samples/hostile-recovery/stp.md",
+    "docs/architecture/csdlc-v2/gate9/samples/hostile-recovery/vpp.md",
+    "docs/architecture/csdlc-v2/gate9/samples/small-rust/design.md",
+    "docs/architecture/csdlc-v2/gate9/samples/small-rust/diagram.mmd",
+    "docs/architecture/csdlc-v2/gate9/samples/small-rust/legacy-observation.json",
+    "docs/architecture/csdlc-v2/gate9/samples/small-rust/packet.json",
+    "docs/architecture/csdlc-v2/gate9/samples/small-rust/sip.md",
+    "docs/architecture/csdlc-v2/gate9/samples/small-rust/sor.md",
+    "docs/architecture/csdlc-v2/gate9/samples/small-rust/spp.md",
+    "docs/architecture/csdlc-v2/gate9/samples/small-rust/srp.md",
+    "docs/architecture/csdlc-v2/gate9/samples/small-rust/stp.md",
+    "docs/architecture/csdlc-v2/gate9/samples/small-rust/vpp.md",
+    "docs/architecture/csdlc-v2/gate9/soak-evidence-input.json",
+    "docs/architecture/csdlc-v2/wp01/5353/DESIGN.md",
+    "docs/architecture/csdlc-v2/wp01/5353/DIAGRAM.mmd",
+    "docs/architecture/CSDLC_V2_CLEAN_ROOM_ARCHITECTURE.md",
+    "adl/tools/test_csdlc_v2_supply_chain.sh",
+    "adl/tools/validate_csdlc_v2_supply_chain.sh"
+  ],
+  "dispositions": {
+    "v2_design_and_gate_packet": "Retire obsolete owner construction/qualification records. Exact ADL bytes remain recoverable; any owner copies inspected are separately identified, not assumed equivalent.",
+    "v2_supply_chain_scripts": "Retire two historical source-era scripts requiring removed csdlc-v2 tree; no current public CI/manifests invoke them.",
+    "docs/templates/prompts": "Keep public consumer schema/template snapshots: tools/public_contracts/src/prompt_schemas.rs validates them; not lifecycle execution authority. Active native owner rendering uses authenticated package. Removing these requires an explicit public-contract replacement, not unsafe deletion.",
+    "current_native_guidance_and_manual_lookup": "Keep CURRENT_AUTHORITY, package lookup/refusal tests, native user command guidance and public envelope schemas as ADL maintainer/CLI integration.",
+    "editor_action_and_skill_contract_helpers": "Keep copy-only native command adapter and generic public contract consumers; no v1 lifecycle restored.",
+    "historical_milestone_ADR_records": "Keep dated records pending #1382; references retain source-time meaning and resolve through pinned source Git custody."
+  },
+  "schema": "adl.owner_cleanup.v1",
+  "issue": 1384,
+  "source_commit": "42bff685a688992ca463f9a2c29c640083f36eb2",
+  "changes": [
+    {
+      "path": "docs/architecture/csdlc-v2/CSDLC_V1_BASELINE_AND_V2_BUDGETS.md",
+      "before": [
+        "100644",
+        "997a1d0ab87de861fbc9328299f0785eb132efe3"
+      ],
+      "before_sha256": "250b52089369b1d5e0acf1724c69546c7cdcaeeb248215c76e0ceb91134bfb17",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/CSDLC_V2_GATE1_RECOMMENDATION.md",
+      "before": [
+        "100644",
+        "e18f53ac160c7195cfbc2713c782350b0ffccfaf"
+      ],
+      "before_sha256": "e8598ae7a032be294ea9aa2d7e4aafc8f41deb89b6610f105d588a36876930a7",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/CSDLC_V2_GATE1_VALIDATION.md",
+      "before": [
+        "100644",
+        "e0d43604ba76298472fff238cb878f4540d5d2ee"
+      ],
+      "before_sha256": "ee01f6999eb0137e4475842f6f3975643fa4796f56f7565d69146a2fb09d4068",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/csdlc_v2_block_diagram.mmd",
+      "before": [
+        "100644",
+        "36dcc7bbf93d83f7f0cc120b76c70c0c53f39bd2"
+      ],
+      "before_sha256": "96d302cc8d1b99b2f02ee8614a28faf05779f4c35f5b2177c15684d3ff2fd6a8",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/csdlc_v2_block_diagram.png",
+      "before": [
+        "100644",
+        "b2f190df941eb78ac0be6309b4617b60d9df4047"
+      ],
+      "before_sha256": "b5a58ce3d1773bb3e85994fabd550b08ff0b1a168067697ea2c3e8395a32e7fa",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/csdlc_v2_block_diagram.svg",
+      "before": [
+        "100644",
+        "49931d6bac12c7bd4cf344e46719744e9fae795e"
+      ],
+      "before_sha256": "30591dc853ecc40f7185a4e1c2c472d2d6486ad8298458aba50523f7fc8c8abc",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/csdlc_v2_card_contracts.v1.json",
+      "before": [
+        "100644",
+        "46e26306289b902f8029cdea85ceaf6a92bf056a"
+      ],
+      "before_sha256": "cc74889685289cceec183d50b73caa8af5f426c2a88882cd1a058122eb0f0ac4",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/csdlc_v2_contracts_and_cots.v1.json",
+      "before": [
+        "100644",
+        "568de24d9fe89700edc50bc9ef78107d9de647fa"
+      ],
+      "before_sha256": "0b03e143b3b94586b44b11a45795f73919268dad4755981960ddf4b202dc58fb",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/csdlc_v2_public_contracts.v1.json",
+      "before": [
+        "100644",
+        "ff5c8165c0ca501dc0fb99c4744a3bea74acec0e"
+      ],
+      "before_sha256": "59170752e7435aa51ef4020cb09a92de0df55ef3ff520163d1a9f920b0bdbd2b",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/csdlc_v2_retained_behavior.v1.json",
+      "before": [
+        "100644",
+        "d90122433baef132e18eb488d7ecf554ac77500b"
+      ],
+      "before_sha256": "f66f12fc373a21db9789488063cabb8ebfd48a305463648d82f0fe6979acfdf5",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate10a/COEXISTENCE.mmd",
+      "before": [
+        "100644",
+        "962b0ed1048264ebe3821c8abd604e6d0e9c6c6a"
+      ],
+      "before_sha256": "7574b9bb713e661e53fd3eef294a9ead49d46cd02b45b5b769554078acb1f4d0",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate10a/DESIGN.md",
+      "before": [
+        "100644",
+        "22d6f56900a7d51f2aaf2f8458d9a61ce3e0a6b9"
+      ],
+      "before_sha256": "74f2d1af90d8b9ef09e646e7cc6ace09fe959ccf36b5b27e048582d7d49c6b2d",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate10b/DESIGN.md",
+      "before": [
+        "100644",
+        "2de379464ddde904c0da93e6ed48fb2d23990bc6"
+      ],
+      "before_sha256": "dcf6c80340a728150ff0b8aeaa5b2ae80c8a84643c772e6d8d5a672769b38049",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate10b/PRE_SWITCH_EVIDENCE.json",
+      "before": [
+        "100644",
+        "e97a5077af2fd492305305c8e016c029421f4b94"
+      ],
+      "before_sha256": "77d52aab61bf75279b88d9eaddc0ccf6adca4c99b6ed367bc8c06f9ff9354f3a",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate10b/PRE_SWITCH_PROOF.mmd",
+      "before": [
+        "100644",
+        "a30d8248d9b67286aa92c3bcfc13911fab4d657d"
+      ],
+      "before_sha256": "1870e7fd19a883daf81bf7ef3106b1023471f51c9b3f141c6b00f2245ae28514",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate10c/CUTOVER.mmd",
+      "before": [
+        "100644",
+        "71d22885e7e5f6300cef25c0bc351026cd81980f"
+      ],
+      "before_sha256": "a3d03a9211ca636ade1431abe5266005a0ebce700b4b1b199bd7e4ca49a99154",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate10c/CUTOVER_EVIDENCE.json",
+      "before": [
+        "100644",
+        "ac038cc19beb772c33b33871133abaae3e4f678d"
+      ],
+      "before_sha256": "74ac0b1c1bd38ced4de9551702f902b870f2c45170eabb41a133447a35250f3c",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate10c/DESIGN.md",
+      "before": [
+        "100644",
+        "bea253f149b3d331a29178884780692b4c544102"
+      ],
+      "before_sha256": "d42fa2d4ddb0dc67d3a9ae1eb68a0cc365f6035f57f25ec07a764c882b4a462b",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate10d1/DESIGN.md",
+      "before": [
+        "100644",
+        "36798d287b718841c74687ebd1f25919fa923447"
+      ],
+      "before_sha256": "3ff4c21f0a95a0f871e497eeb2c0e96ebe0dfda57a45ee384055e92f1b14e2d7",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate10d1/ELIGIBILITY.mmd",
+      "before": [
+        "100644",
+        "8bcfb6bf8ba362ccaf3a589d869b3ce74e399e23"
+      ],
+      "before_sha256": "3974c92db83535f04195a4dbcfd4a98ff31eb117a0e3cc9c0a0a5594b1cc0117",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate10d1/ELIGIBILITY_EVIDENCE.json",
+      "before": [
+        "100644",
+        "64375d935e9500ab87cd30b277a67e8718e153ac"
+      ],
+      "before_sha256": "06bf9862d631d4d45b44c21974c6c454dbaa9ae21e8df8a113bb9bff1a359852",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate10d2/ACCELERATED_OPERATOR_DECISION.md",
+      "before": [
+        "100644",
+        "94b852d5eef9ecd7dff20aefbd02850598958353"
+      ],
+      "before_sha256": "953de7fa737c7c304962db632756b219f9f629685d3e28fb64972e182d30f01e",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate10d2/CAPABILITY_MATRIX.json",
+      "before": [
+        "100644",
+        "9f6618730cc4b5ac0c4cbff7be37bcda5b8989c4"
+      ],
+      "before_sha256": "d9d866b0d52891e4c71bae4e84fe063d6bdd0bf40e6849ffd69eee696fdb77f3",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate10d2/DELETION_EVIDENCE.json",
+      "before": [
+        "100644",
+        "3b5a8a32ace15674cff75037a969061775504f73"
+      ],
+      "before_sha256": "fa9fb2cd55d820d920598628bc93d94c088e3d5d3d2375132170ba001a73c385",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate10d2/DESIGN.md",
+      "before": [
+        "100644",
+        "b1d213dce11afcacf8907bb44cfdd91d752eb615"
+      ],
+      "before_sha256": "0f0aa375c34769033cc9562d8d384786b356743102ac3b176e65013658e855da",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate10d2/DIAGRAM.mmd",
+      "before": [
+        "100644",
+        "0c1deeee07bf02a835e6a6e3c46ea893b581b1c5"
+      ],
+      "before_sha256": "50d2bfb6f6fff8333c64aeacfd7ebc101d741e48a3277f99fdf82a4dcc388e6c",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate10d2/ELIGIBILITY_DECISION.json",
+      "before": [
+        "100644",
+        "a6520ed3ba6a25169df1a2fe530d9c9d277fe184"
+      ],
+      "before_sha256": "d06deb839e0f86a417a870a89374a68836580d199c731de5b0b2bd361c331adc",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate10d2/FINAL_ELIGIBILITY_RECHECK.json",
+      "before": [
+        "100644",
+        "df9bbb2fc71bdd490516d1ba9a3a6e8b1a317104"
+      ],
+      "before_sha256": "e886bf6a3b8ffd843d82a809f2b8307f2b2172caad9987f4a7de8b33fde49fc5",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate10d2/PARITY_EVIDENCE.json",
+      "before": [
+        "100644",
+        "f07312abb3756cf0850d0fe0062cd053593466de"
+      ],
+      "before_sha256": "721666cf29866727a9c1013121c317eaa0a415f7580726940c91eca4a7d6c4e4",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate10d2/SIZE_EVIDENCE.json",
+      "before": [
+        "100644",
+        "34da8dfdd9ce295d9624baba758a5e66134e50a2"
+      ],
+      "before_sha256": "acdec2dec75aafdab5faec2269994ac5a175356b061ef19572d489a7c162d346",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate10d3/DESIGN.md",
+      "before": [
+        "100644",
+        "5b2fa40f9ec8079569d2e83b6fe6de5212e7bacb"
+      ],
+      "before_sha256": "1cc68ed37337ebdecc712e616a8edefd1e48131a4675e262ec6b02cbcc047f38",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate10d3/DIAGRAM.mmd",
+      "before": [
+        "100644",
+        "73a4e065af1354400533cfc1de63749a25b51d7a"
+      ],
+      "before_sha256": "a1c903c10cbf01f4d1da66ad6386a652531924775d530098a72f245cfe67935b",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate10d4/DESIGN.md",
+      "before": [
+        "100644",
+        "a8475ac4edcd3931d52a7e0e21af3204a2d78462"
+      ],
+      "before_sha256": "b280f80ad7fb32ecdc2bf9774d7b94b02112aae3abe7c7f1b87946216df2aef5",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate10d4/DIAGRAM.mmd",
+      "before": [
+        "100644",
+        "df46039fcc6b3cbdae8b542fb659aa0a1aff057a"
+      ],
+      "before_sha256": "df7ebf2228eac23750bef49e54afc85e419067f79d4346e2fcc71ddac77e2a57",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate2/GATE2_STATE_ENGINE_DESIGN.md",
+      "before": [
+        "100644",
+        "b91f2cebdaf3a050a66de53be9ddb4ec632e7d18"
+      ],
+      "before_sha256": "5b8ca7fadd656c1721a77fca382e2c11bc86bc589a6717c5b8782411873ff6f1",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate2/GATE2_VALIDATION.md",
+      "before": [
+        "100644",
+        "a69758c3b8e238d5cb2129bace40899e204ea635"
+      ],
+      "before_sha256": "70b690ff9e5138e49c7d89f04052ccf1bd0365081a50b370af73ad0e15d250b5",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate2/gate2_lifecycle.mmd",
+      "before": [
+        "100644",
+        "e023f523ae2462788f3f3e66f0e1206b6b3fe063"
+      ],
+      "before_sha256": "57ac8c33838bb64f0168b6266c2d5605fafc8a1993c307fca0ff85df65d8a046",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate2/gate2_lifecycle.png",
+      "before": [
+        "100644",
+        "2d98f100054c13026ee66b3f9f37bf8fb7653dbf"
+      ],
+      "before_sha256": "411d94fa7f9ba8b18b30f2551dc7aaa91c1e2b90c6bc82eadb8e3834db9c6be6",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate2/gate2_lifecycle.svg",
+      "before": [
+        "100644",
+        "1cee0b5923b6b7bbd459d0b25434d77ad85cbfe8"
+      ],
+      "before_sha256": "eaedd362bb9180577ef4f12523a438f47e2bfb8cb2dc3270bd5d64841ba966e0",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate2/gate2_state_and_transaction.mmd",
+      "before": [
+        "100644",
+        "ca3f24649990979610f0f39f578efed711f75c62"
+      ],
+      "before_sha256": "234effce38b426009d84b8a1c3d8eba06a92dbe0debefdd6d4427c250a25b6cf",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate2/gate2_state_and_transaction.png",
+      "before": [
+        "100644",
+        "33c028120f7acd64a511bfa925282bcd351c3873"
+      ],
+      "before_sha256": "c97648d7c71ec3cab8ae5b087661ef1cfba663fcdf690d0e94ea2ae1f0cc88e6",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate2/gate2_state_and_transaction.svg",
+      "before": [
+        "100644",
+        "ec25e7438986c0b77f58f7351da4544d2f4cc388"
+      ],
+      "before_sha256": "46055594b662f11202682781114f2d74bcfcfcd76815404cbd5d6340f791a35a",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate3/DESIGN.md",
+      "before": [
+        "100644",
+        "ace81d5918147ab8fcdc86b09654f6e51d6e665c"
+      ],
+      "before_sha256": "4be8cf2735a01bbea4925540de8847e5792638525915cb60be2d08d3925e2d02",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate3/FLOWS.mmd",
+      "before": [
+        "100644",
+        "3af36013200757b1c847bf12fcdd34d42a15f104"
+      ],
+      "before_sha256": "d0aa5f1b95593ecbd5d721768192ca20290e136feb75a5006d6fb7143b8cdc2e",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate3/SEQUENCES.md",
+      "before": [
+        "100644",
+        "565da2c680aef571e75a6c837b1eeeecc38525a1"
+      ],
+      "before_sha256": "27f3c8c343f29843908adee2e8f22e2bff522c41451ab1514a6ffddc83efe511",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate4/DESIGN.md",
+      "before": [
+        "100644",
+        "55a2e1e451a24d19d546c911150e086218003df6"
+      ],
+      "before_sha256": "975b4b274b38bfb502a11062799929fd61c901da359e52717df230e6496c946b",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate4/PVF_DAG.mmd",
+      "before": [
+        "100644",
+        "54e75d1546fcc6decad043c23bef025621b780aa"
+      ],
+      "before_sha256": "8272474e79e50084cbcecb54ee322b2bd3e8ba87bf213622fa0996c76a7016ad",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate4/SCHEDULER_SHEPHERD.mmd",
+      "before": [
+        "100644",
+        "dddc64daa3989630840260ee977b0755b730280f"
+      ],
+      "before_sha256": "2172937af68aca71d776c862226c416ebb5aee6372b907944005b3abf7efad4c",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate4/SHEPHERD_STATE.mmd",
+      "before": [
+        "100644",
+        "ad7ed66d1f08c8fdf26a3012247bdd50e2b42404"
+      ],
+      "before_sha256": "8135e3ff324dff1a813f1c35608c8e82880df6fa9dd92659f4e082d6ed1300e3",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate5/DESIGN.md",
+      "before": [
+        "100644",
+        "aff4969e5a22f42e6fcebedd55dbd4107ac4e0e9"
+      ],
+      "before_sha256": "eabb8916b7fca8e34d23960cb6ec9d0029d29cbf05a312c58cc2d4d799a19c72",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate5/FINDING_STATE.mmd",
+      "before": [
+        "100644",
+        "cfa375b92ebd2d376bec1dd7ab2d11f89c8bdad8"
+      ],
+      "before_sha256": "a8f83023697b8e8ec667b723ecec9674d536554ed7daf69d96d887b8bf07ee75",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate5/REVIEW_FLOW.mmd",
+      "before": [
+        "100644",
+        "1fd38f58cfe9ccba1b73c8097bd1256a41888b3b"
+      ],
+      "before_sha256": "a127570b9a9182c46baaf42830cc75c019f32ba3e6da06fdcd6ed13eecef7684",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate5/REVISION_INVALIDATION.mmd",
+      "before": [
+        "100644",
+        "b200c58eec9834953b059262ab39ca968d719695"
+      ],
+      "before_sha256": "cac8b3ef0a040017d187aff4a4e44858ed825574eae5e6cd566078303b1ceb59",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate6/GATE6_PUBLICATION_DESIGN.md",
+      "before": [
+        "100644",
+        "0c861a776195410a34320d99e53bde353a4d0198"
+      ],
+      "before_sha256": "fed4079f728a1c984b0f1776a1e3d2a1114f8dc87caa8042fadc2f4a8b04f119",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate6/publication-flow.mmd",
+      "before": [
+        "100644",
+        "5e43525576415bccd6253ca7e45dd3016c160cb2"
+      ],
+      "before_sha256": "3f3dc3759dbbd235cc9c3993c87a93674718ba0d171ed0a061cc4359c2a5e484",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate7/GATE7_READINESS_CLOSEOUT_DESIGN.md",
+      "before": [
+        "100644",
+        "d8a8e9bb8b6cc50f4130d4339b07a0dc6d1eb668"
+      ],
+      "before_sha256": "58bd76e451ef9c92e7aa5f45bbb869d853a7568c1d3bd93ddece5cf21364731c",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate7/readiness-closeout.mmd",
+      "before": [
+        "100644",
+        "c04cd82112d305d81cca1ae895055010cb715497"
+      ],
+      "before_sha256": "556d82d68c02e86c2ad4d09c19e87f14da5449e650c0ccc1fbdb761a40853924",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate8/GATE8_IMPORT_SHADOW_DESIGN.md",
+      "before": [
+        "100644",
+        "96c3d77c9bc853a9ae3539f89dbc21787deaf57a"
+      ],
+      "before_sha256": "28d1701ec4b42f3ee791cf86b9133eb10a28401aa83dd2da7993c3e5c6b55c3a",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate8/import-parity.mmd",
+      "before": [
+        "100644",
+        "d7856894217b1b736ec958c6102aeb77a93698c8"
+      ],
+      "before_sha256": "473b2a6727885707e91f9ef4e2cfc3ca9366f76f9d405d5b912d90dccf1216ac",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate9/CUTOVER_DECISION.json",
+      "before": [
+        "100644",
+        "18fb725abca98e881b7e1de7e0cb58a508b8e109"
+      ],
+      "before_sha256": "0a50e9e46d162fec755d8e61daf9c8c19b589bff07ccb2415c14594a38acd04b",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate9/CUTOVER_DECISION.md",
+      "before": [
+        "100644",
+        "e8896ed0a19d7e09ea986108e43afd17fd3c6689"
+      ],
+      "before_sha256": "1909edc4d9095fc8c3aa8133364d36901e337e5c112c5fd3ee4aa118102ca1c4",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate9/DESIGN.md",
+      "before": [
+        "100644",
+        "fd4b25755dca6b073985c51d649b2c135cc5977c"
+      ],
+      "before_sha256": "6d7f492adb9543d613082f1944fe9a7d8dfa19061f713a122e8e735394f20694",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate9/ROLLOUT_DECISION.mmd",
+      "before": [
+        "100644",
+        "0b6df772b8805e6dd660cfef315fac1043539ed7"
+      ],
+      "before_sha256": "8291decb0d744e418fe7b5150591fbc2786b62b8182e9e86b7f1cba8d030f0e1",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate9/ROLLOUT_DECISION.png",
+      "before": [
+        "100644",
+        "7ef30eb71457d118c06ebe028f85612f26ee925b"
+      ],
+      "before_sha256": "e29ab611d2b5a36ffadbb1f37e13ac75999851f037e424eefe4bdc5c953ab49f",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate9/ROLLOUT_DECISION.svg",
+      "before": [
+        "100644",
+        "7835c2754b0f7ac97afdca4f2704505d667bd06c"
+      ],
+      "before_sha256": "c3f9b1519272c2893ab90247db59fc3a86221c4a2a51bcc61dd4b4df56ac8e12",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate9/SOAK_MATRIX.md",
+      "before": [
+        "100644",
+        "87152b22ad209b100cc59cfb9d904a516077bff0"
+      ],
+      "before_sha256": "a960139f3a5fa071cfafed1883d5196e2102244d721ba506d52426778e760b90",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate9/VALIDATION.md",
+      "before": [
+        "100644",
+        "545c0e82b9ac2cad5b17261c84f05914ba8ae877"
+      ],
+      "before_sha256": "b2e97bb40c21d8a6051675127e17ddcf64625036a765c30a4bd1b81c1bcd24a2",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate9/samples/docs-only/design.md",
+      "before": [
+        "100644",
+        "388ac8d5ce262a9d25ffd578895e161e8329b1dc"
+      ],
+      "before_sha256": "f929285032cb21db88020da3b5836200fc57bb509f0d3cc39298dada145ae4e9",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate9/samples/docs-only/diagram.mmd",
+      "before": [
+        "100644",
+        "80311b6b56d732cef7a9b5ef7ace29c6ff4f3cef"
+      ],
+      "before_sha256": "a6fcdb9a9f0017703dc995d43d5758a6db37dc250ad5f69fd125498fd24ec129",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate9/samples/docs-only/legacy-observation.json",
+      "before": [
+        "100644",
+        "7b1fa022935599fdfb8804980d2e2943a99fe3e6"
+      ],
+      "before_sha256": "efada95c39542725ae718c251344577dc973c5c10c989a6e0b8f3a819248387c",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate9/samples/docs-only/packet.json",
+      "before": [
+        "100644",
+        "b96e54c6fe0b8077eba3c085520a00fec588d8eb"
+      ],
+      "before_sha256": "27ec3e436bb42ff80c9f9c49c491c271cc38aa113e9da4f998ac34631ac351e4",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate9/samples/docs-only/sip.md",
+      "before": [
+        "100644",
+        "9af8565f4226588bba2040c25c6a5d46434de52d"
+      ],
+      "before_sha256": "90c0bd274312d71954d59349e697e125fc8356cc8dfdfd0cb4ec5f9020524596",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate9/samples/docs-only/sor.md",
+      "before": [
+        "100644",
+        "ee9a4e47620b94bdd1a012f503c4c75c702afad5"
+      ],
+      "before_sha256": "532f9a9c313374b9051c2bfef85f3788a527d3f8ca93d755445dc72c0a13d9aa",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate9/samples/docs-only/spp.md",
+      "before": [
+        "100644",
+        "76fb954a3e2c033eb35de468fb23fadab083b7d5"
+      ],
+      "before_sha256": "f2a13678a58e60d86827af8efe484f74d447cec67579d658076d07189f14ae8b",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate9/samples/docs-only/srp.md",
+      "before": [
+        "100644",
+        "da0316586b79db959aac46d9d5da6b8447809fde"
+      ],
+      "before_sha256": "5ccafb95046279eb041c84616a90b4a756e00b5ef5340b3276407d336c72e984",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate9/samples/docs-only/stp.md",
+      "before": [
+        "100644",
+        "50e8a3c367cc9ed409a4a0cada8ca8dd4fe24457"
+      ],
+      "before_sha256": "dae85ba80507dfd2ffac9c3be2aba38ad981dd47d3b144143445b81a5d5df14c",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate9/samples/docs-only/vpp.md",
+      "before": [
+        "100644",
+        "6fd7a6f02b58cffd0ef674396268206896722ad6"
+      ],
+      "before_sha256": "ef5b8c4a10352d7b5f577ba45e452d76d0ede8a6e7f776b067642963631e17a1",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate9/samples/generation-selector.json",
+      "before": [
+        "100644",
+        "cf1642d89abfa7e61cc188fd5900e0f6d4699489"
+      ],
+      "before_sha256": "b47a3ce981aef20aae40d19609abaaba46b880c855b934b5ff6945a49ad957cb",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate9/samples/hostile-recovery/design.md",
+      "before": [
+        "100644",
+        "d2d69faff859113d95f83da0859004db87641b11"
+      ],
+      "before_sha256": "522a6462dfa86ec619f21b91a7fc0c6918712aac4e4dac6294f93ce77527ea74",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate9/samples/hostile-recovery/diagram.mmd",
+      "before": [
+        "100644",
+        "f2c0201aa2561435c7d890987eb13d8dfe0119a1"
+      ],
+      "before_sha256": "14c6beaf62b90ae5b4d614d6bf80a94912c4106c52a05766515bb96b2265d272",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate9/samples/hostile-recovery/legacy-observation.json",
+      "before": [
+        "100644",
+        "c651530cb647ac4bd38af02535d5406664cd3753"
+      ],
+      "before_sha256": "2a6f17bd4311250eebff194b0676db8ac122c0a7b13d6353802edaddff903fe9",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate9/samples/hostile-recovery/packet.json",
+      "before": [
+        "100644",
+        "c5e792769e0e6f7529516f7cbcc4e649a1194e81"
+      ],
+      "before_sha256": "2573820c5e48a1ffe5bfc2a62956bf1c976c2b1440eafbc298b0ed687db0c139",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate9/samples/hostile-recovery/sip.md",
+      "before": [
+        "100644",
+        "2ecd297599857f0526b391c99177d35cfa7504bb"
+      ],
+      "before_sha256": "228d9a0d2c19c2c96e5c253ae77bd673959ceb4ecc5dfbc72cc052ec785c4a98",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate9/samples/hostile-recovery/sor.md",
+      "before": [
+        "100644",
+        "d9188ded30c52ac1e48283c978f11796f3048923"
+      ],
+      "before_sha256": "bddfd58e495224d4029cef4d7f27fd5b13c7b29fee5f7b2c8899615421a3faae",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate9/samples/hostile-recovery/spp.md",
+      "before": [
+        "100644",
+        "4a571d07f56def54ed4bf530e2ae58f0c6da8ba9"
+      ],
+      "before_sha256": "8e04cc5e50f8a312d206e2cf2d274cab9b911482bbfbd340cbabe86adaac534b",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate9/samples/hostile-recovery/srp.md",
+      "before": [
+        "100644",
+        "eb243dd52d2cb8edfc86a004ffd0ef588164b5dd"
+      ],
+      "before_sha256": "bc8953eb916aff40d0e22cc0dfe6d55cf6489aac2a1e250ae44f845643807780",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate9/samples/hostile-recovery/stp.md",
+      "before": [
+        "100644",
+        "b82c01bcd2bacc1ee7c4f32d3651c1383877672b"
+      ],
+      "before_sha256": "025f76ff2142123bde0b5835c377ac924020cd84202d096bf643af4f4d5a462e",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate9/samples/hostile-recovery/vpp.md",
+      "before": [
+        "100644",
+        "7eb0c541c153b62bccbdaffc147899ebc5294056"
+      ],
+      "before_sha256": "cbe6d1c4ec0578ba177d15d592c8ca2c82a1c79ce99631ad441d23987b0d4394",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate9/samples/small-rust/design.md",
+      "before": [
+        "100644",
+        "ed4aad49d18d132bc8159c6acca6d6fe322c5d95"
+      ],
+      "before_sha256": "45211dc20719a5a7a7e5463e6965a4c9fc92a3548ea7bc21fa886b333298e4f1",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate9/samples/small-rust/diagram.mmd",
+      "before": [
+        "100644",
+        "859a7478e3e6841e4de04b650fa405aa881103a5"
+      ],
+      "before_sha256": "1d937e2bb0c157b5addd9073a2eae7e7d8d6e7a8a9d420f02c94d54477217ed0",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate9/samples/small-rust/legacy-observation.json",
+      "before": [
+        "100644",
+        "956d4b99c0ab7537d338b4d655e42d609ded8643"
+      ],
+      "before_sha256": "375c8a29df025fdbfa23113ee1da124527ef8155056b0a2f45a69ade5623eac3",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate9/samples/small-rust/packet.json",
+      "before": [
+        "100644",
+        "566a56cee8d19def96c73c2fcd8812c9cf516517"
+      ],
+      "before_sha256": "9bb702be4217eaf5e810b8d4a647fb33df7cd2e5fd9879c37d3b758374c33d0a",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate9/samples/small-rust/sip.md",
+      "before": [
+        "100644",
+        "989c401c10bd70b8a3c8fe8c3a80ae623dffd082"
+      ],
+      "before_sha256": "7d8efb658b2e106fcb37b030bff3c7ef3f0424ab9251475e04543e263a3f30ef",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate9/samples/small-rust/sor.md",
+      "before": [
+        "100644",
+        "59097c4af51d06921a9ae10f34357eac502bc2cf"
+      ],
+      "before_sha256": "29889112f658f4c9e76dead90f7ed53145bace8293d793c64312c46fc8d23ff3",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate9/samples/small-rust/spp.md",
+      "before": [
+        "100644",
+        "e33d66857d302247aed149561cdf3b7d3efe8b6d"
+      ],
+      "before_sha256": "0699d9f44c4b2d817c2b6ff9a032f2ac91f52ae6ce35c0ed613421ade82d5ee6",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate9/samples/small-rust/srp.md",
+      "before": [
+        "100644",
+        "1dfcbff66d4751845b224418e3510f4324fb7879"
+      ],
+      "before_sha256": "bfd25cef7e5769232dcfbc4331098b5bc068da69dc101252b6bbe7caa6107c64",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate9/samples/small-rust/stp.md",
+      "before": [
+        "100644",
+        "08a1e509ca84c357a84495f5cf13bc461dfafabc"
+      ],
+      "before_sha256": "1e2b6c84b00cd2358ca8a46088ef43f1872bc0a55ef4085f9a9783583c0e6ef7",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate9/samples/small-rust/vpp.md",
+      "before": [
+        "100644",
+        "cfead24ab029db8d7a9c4549378fc0856c7a6ee3"
+      ],
+      "before_sha256": "df1bb9225c72c994b6ed8e991cc607bef2c1898eca1ae19142497d7008a2752e",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/gate9/soak-evidence-input.json",
+      "before": [
+        "100644",
+        "d8f7ab2647da65dee893b8c2c21f8ce4f0aaf567"
+      ],
+      "before_sha256": "43e1325bddc8772b6ee4862034630f34f85e3bd406cda98cdc6d5d7585cc2a79",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/wp01/5353/DESIGN.md",
+      "before": [
+        "100644",
+        "a591535ceab1241ed0c69a37210f8265356e6901"
+      ],
+      "before_sha256": "98351f3161166ca68e214c060d999b6732574f26d552899353c4807f6952f38a",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/csdlc-v2/wp01/5353/DIAGRAM.mmd",
+      "before": [
+        "100644",
+        "251834aa35e3c41cfdb133fb77c43df250570726"
+      ],
+      "before_sha256": "8bc407b467081ddabb842dff4f3eb4497aa0f5ebe552d24797eb35617985b24c",
+      "after": null
+    },
+    {
+      "path": "docs/architecture/CSDLC_V2_CLEAN_ROOM_ARCHITECTURE.md",
+      "before": [
+        "100644",
+        "234579a5e9c7a013a01f56b24521a36ca2630e15"
+      ],
+      "before_sha256": "14e6edaa80ba0411e0b41be80196c78edb4a4bbc1017cdcbf76c63d6cb4ea2cd",
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_csdlc_v2_supply_chain.sh",
+      "before": [
+        "100755",
+        "8f20480489246bd672313862ff465bb6918334ad"
+      ],
+      "before_sha256": "c4e338d0963f71782497a070d87e51ad90dab6e6fe3278ee053c1d9cc698c321",
+      "after": null
+    },
+    {
+      "path": "adl/tools/validate_csdlc_v2_supply_chain.sh",
+      "before": [
+        "100755",
+        "079434446b536326df86e4034f209e1706406abc"
+      ],
+      "before_sha256": "c7b6bbc9802a42c6330f46d0810358b9097ad0b40c08f540588de005315418d1",
+      "after": null
+    },
+    {
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "before": [
+        "100644",
+        "1546d31f51716e904209a732dc80b3f0fae02be4"
+      ],
+      "before_sha256": "5e56037b72ea16058be6fd2085ebcdfc81c8f9ff58ed332451159b01c8f28a1e",
+      "after": [
+        "100644",
+        "9b790af105590a54ab407d807e926a75da006c45"
+      ]
+    },
+    {
+      "path": "docs/architecture/README.md",
+      "before": [
+        "100644",
+        "b30f06c06d3600f53172e556f42bde64c6973267"
+      ],
+      "before_sha256": "0aa0f0a4127891b6cce76e378b2b003cd913a660a01091e46c9edc552204d451",
+      "after": [
+        "100644",
+        "8869ec74d0e10caf0c39b8dc8d58e028ef980350"
+      ]
+    }
+  ],
+  "recovery": "Recover exact bytes with git show SOURCE_COMMIT:PATH and mode with git ls-tree. Published history is preserved. Coordinate #1382 before any rewrite.",
+  "validation": "PVF focused_contract; deterministic custody and successor regression; small local CPU/disk; public CI integration required. Owner inspection is custody evidence, not owner execution acceptance."
+}

@@ -1,0 +1,65 @@
+{
+  "artifact_classes": [
+    {
+      "artifact_kind": "checkpoint",
+      "durability_class": "critical_runtime_state",
+      "integrity": "sha256_manifest_plus_s3_metadata",
+      "restore_required": true,
+      "retention": "365d_minimum_governance_retention"
+    },
+    {
+      "artifact_kind": "event_log",
+      "durability_class": "audit_replay_evidence",
+      "integrity": "append_order_manifest_plus_sha256",
+      "restore_required": true,
+      "retention": "365d_minimum_governance_retention"
+    },
+    {
+      "artifact_kind": "snapshot",
+      "durability_class": "critical_runtime_state",
+      "integrity": "sha256_manifest_plus_s3_version_id",
+      "restore_required": true,
+      "retention": "365d_minimum_governance_retention"
+    },
+    {
+      "artifact_kind": "diff",
+      "durability_class": "replay_delta",
+      "integrity": "sha256_manifest_plus_parent_snapshot_ref",
+      "restore_required": true,
+      "retention": "365d_minimum_governance_retention"
+    },
+    {
+      "artifact_kind": "freeze_dry_bundle",
+      "durability_class": "survival_contract_bundle",
+      "integrity": "bundle_manifest_sha256_plus_member_hashes",
+      "restore_required": true,
+      "retention": "365d_minimum_governance_retention"
+    },
+    {
+      "artifact_kind": "security_evidence",
+      "durability_class": "governance_audit_evidence",
+      "integrity": "sha256_manifest_and_redacted_summary",
+      "restore_required": true,
+      "retention": "365d_minimum_governance_retention"
+    }
+  ],
+  "backend": {
+    "bucket_name": "adl-wp08-obsmem-community-archive-b05e1f4379b5c745-us-west-2",
+    "controls": [
+      "versioning",
+      "object_lock_governance_retention",
+      "sse_s3_encryption",
+      "public_access_block",
+      "lifecycle_transition_policy"
+    ],
+    "durability_posture": "vendor_11_nines_per_object_non_12_nines_claim",
+    "kind": "aws_s3",
+    "prefix": "community-memory/"
+  },
+  "issue": 4913,
+  "non_claims": [
+    "single-region S3 Standard is not recorded as mathematical 12-nines durability",
+    "taxonomy does not make public access acceptable for any Polis state artifact"
+  ],
+  "schema": "adl.csm.polis_artifact_durability_taxonomy.v1"
+}

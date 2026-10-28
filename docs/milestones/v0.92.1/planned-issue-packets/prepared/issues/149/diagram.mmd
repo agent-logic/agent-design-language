@@ -1,0 +1,16 @@
+flowchart TD
+  SETUP["#146 milestone setup"] --> FREEZE["CORP-01 asset and account freeze"]
+  FREEZE --> RIGHTS["CORP-02 IP assignment"]
+  FREEZE --> PROVENANCE["CORP-03 provenance and licensing"]
+  FREEZE --> CUSTODY["CORP-04 billing, MFA, recovery, vault"]
+  PROVENANCE --> CONTROL["CORP-05 repository, domain, brand, vendor control"]
+  CUSTODY --> CONTROL
+  CUSTODY --> AWS["CORP-06 AWS production migration"]
+  CONTROL --> OPS["CORP-07 Terraform, CI, deployment, runbooks"]
+  AWS --> OPS
+  RIGHTS --> DILIGENCE["CORP-08 chain-of-title and diligence"]
+  PROVENANCE --> DILIGENCE
+  CONTROL --> DILIGENCE
+  OPS --> DILIGENCE
+  DILIGENCE --> LEDGER["Exact terminal ledger and artifact digests"]
+  LEDGER --> REVIEW["Independent exact-head umbrella review"]

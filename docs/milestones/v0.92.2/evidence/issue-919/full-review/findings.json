@@ -1,0 +1,703 @@
+[
+  {
+    "id": "DEP-002",
+    "severity": "P1",
+    "lane": "dependencies",
+    "reviewer": "lead",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+    "title": "Builder reconstruction still resolves mutable and unverified executable inputs",
+    "path": "adl/docker/adl-builder/Dockerfile",
+    "line_start": 1,
+    "trigger": "Rebuild the canonical builder from the same committed Dockerfile at a later date",
+    "impact": "Ubuntu tag, Rust stable/rustup and unchecked AWSCLI/sccache/llvm-cov downloads may change outside reviewed source identity. Resolving a built image digest protects consumption, not reconstruction provenance. This is historical SYN-005 verified still present in current source.",
+    "remediation": "Pin base/toolchain and verify direct downloads; retain resolved build input identities.",
+    "prior_finding": {
+      "review": "v0.92 #313",
+      "id": "SYN-005",
+      "severity": "P1"
+    },
+    "reproduction_status": "current source callpath inspection; no executable download or cloud operation",
+    "owner": "#921 coordinating dependency/build tooling owner",
+    "acceptance_refs": [
+      "PLAT-RUST",
+      "OPS-AWS",
+      "TAIL-04"
+    ],
+    "disposition": "open",
+    "kind": "retained_product_defect",
+    "source_artifact": "lanes/dependencies-findings.json",
+    "source_role": "dependencies"
+  },
+  {
+    "id": "DEP-003",
+    "severity": "P1",
+    "lane": "dependencies",
+    "reviewer": "lead",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+    "title": "Raw-host remote validation still installs unverified tool archives",
+    "path": "tools/aws_remote_validation/scripts/remote_validation_runner.sh",
+    "line_start": 230,
+    "trigger": "Run raw-host remote validation with a missing tool so prebuilt fallback paths are reached",
+    "impact": "Latest release URL or mutable S3/tarball bytes are extracted and installed without independent checksum/signature/version identity. Version output does not establish approved bytes. Containerized routes may avoid this branch; no live exploitation or cloud execution was attempted.",
+    "remediation": "Require exact approved version, digest and S3 VersionId where used; verify before extraction/execution.",
+    "prior_finding": {
+      "review": "v0.92 #313",
+      "id": "SYN-004",
+      "severity": "P1"
+    },
+    "reproduction_status": "current source callpath inspection; no executable download or cloud operation",
+    "owner": "#921 coordinating dependency/build tooling owner",
+    "acceptance_refs": [
+      "PLAT-RUST",
+      "OPS-AWS",
+      "TAIL-04"
+    ],
+    "disposition": "open",
+    "kind": "retained_product_defect",
+    "source_artifact": "lanes/dependencies-findings.json",
+    "source_role": "dependencies"
+  },
+  {
+    "id": "INTEGRATION-001",
+    "severity": "P1",
+    "title": "Frozen website rejects the native current assessment contract",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+    "website_candidate": "a45e339c13b24716edbd3fadf29dddff36ffe02e",
+    "source_lane": "code",
+    "path": "app/review-assessments.mjs",
+    "line": 64,
+    "repository": "agent-logic/codefriend.ai",
+    "expected": "The website snapshot named by the candidate must consume current native assessment results for its supported review-bearing cycles.",
+    "observed": "Native review/lanes.rs3 selects codefriend.review_lane.v4; runner539-547 emits it. Website validateAssessmentReview only admits all lane_versions == codefriend.review_lane.v2 and independently requires v2 on each lane. Runs.recordResult invokes cycle validation, which invokes this validator.",
+    "trigger": "A review-bearing cycle completes using the current native assessment producer and the frozen website consumer.",
+    "impact": "The successfully computed review cannot be accepted or continued through the website; hosted assessment cycles fail with result_identity_mismatch/assessment_review_invalid. Local cycle verification shares the same incompatible consumer. No live deployment failure is asserted.",
+    "recommendation": "Update website versioned validator/prompt-digest/gap handling to native supported generations, preserve historical v2 identities, and bind native-emitted v4 complete/partial/invalid records in a cross-repository interop test.",
+    "proof": "Actual website validator accepts its legacy fixture and rejects the same resealed record declaring native current v4; current producer and consumer callpaths independently source-confirmed.",
+    "limitations": "Version-gate fixture is not a complete native v4 emission. No paid/live run. Source mismatch is deterministic regardless of later v4 prompt/digest checks.",
+    "route": "#921 with CodeFriend website/native integration owner; coordinate frozen source pair before #918 refresh",
+    "status": "open",
+    "source_artifact": "lanes/integration-findings.json",
+    "source_role": "integration"
+  },
+  {
+    "id": "SYN-006",
+    "severity": "P1",
+    "type": "historical_unresolved_ci_ownership",
+    "title": "Three independent Cargo graphs still lack change-triggered CI ownership",
+    "path": "adl/tools/ci_path_policy.sh",
+    "line": 1772,
+    "trigger": "A PR changes only adl-characterization/**, adl-resilience/**, or tools/remote_validation/**.",
+    "impact": "No selected package-local build/test/format/Clippy owner; required CI may remain green without testing changed graph. adl-resilience as another crate dependency does not execute its own package tests.",
+    "proof": "Fresh frozen selector runs for each root in tests-history/syn006-routing.json: exit 0, aggregate_status skipped, lanes {}, pr_publication_sufficient false. ci.yaml manifest commands omit all three; fallback policy 1690\u20131788 omits them. Original historical P1 docs/reviews/v0.92/internal-review-5846/SYNTHESIS.md:69\u201377.",
+    "remediation": "Add explicit selector and CI owners with locked package-local validation and positive path-routing regression cases for each root.",
+    "owner": "#921 / CI validation owner",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+    "disposition": "open",
+    "historical_severity_preserved": true,
+    "source_artifact": "lanes/tests-findings.json",
+    "source_role": "tests"
+  },
+  {
+    "id": "ARCH-001",
+    "severity": "P2",
+    "title": "Connect retained semantic journal activation to the installed recovery owner",
+    "path": "csdlc-v3/src/application/intent/mod.rs",
+    "line": 301,
+    "related_locations": [
+      "csdlc-v3/src/storage/semantic.rs:2737",
+      "csdlc-v3/src/storage/semantic/journal_recovery.rs:39",
+      "csdlc-v3/src/application/intent/local.rs:1324",
+      "csdlc-v3/src/application/intent/context.rs:523"
+    ],
+    "role": "architecture",
+    "boundary": "CLI/application recovery to durable semantic commit owner",
+    "trigger": "A process dies after immutable next-generation intent and commit are durable, before current.json activation; current.next may or may not exist.",
+    "impact": "All semantic operations stop on RecoveryRequired. The installed recover path has no native-approved way to activate the exact fully retained commit, despite a storage recovery implementation. Operators must modify storage or build custom recovery tooling.",
+    "evidence": "activate() creates intent, commit, current.next then renames. observe_issue translates an unactivated intent/current.next to RecoveryRequired. Router chains effect/projection recovery only; these accept Current/ProjectionRepairRequired. Repository-wide callsite search finds describe_journal_recovery and execute_journal_recovery only in their unit tests. JournalRecoveryApproval constructor is explicitly production dead_code. Checked legacy fallback commands/local/intent.rs193-250: without a legacy transaction it reports expected_noop, leaving semantic state unchanged. Checked native doctor routing and installed-manual source: no alternate semantic journal activation route. Storage creation journal has equivalent unused native approval constructor; kept under same bridge remediation.",
+    "reproduction": "Source trace plus inspected exact-activation unit test retained_commit_activation_is_exact_observational_and_replayable; no executed CLI crash fixture in this lane.",
+    "remediation": "Expose authenticated exact preview/execute journal activation before business-effect recovery, enforce authority/topology/freshness and retain immutable bytes. Add installed-entrypoint crash regression. Inspect equivalent creation journal bridge.",
+    "owner": "SIM-04 native intent/recovery owner",
+    "acceptance": [
+      "SIM-04-A01",
+      "SIM-04-A05"
+    ],
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+    "disposition": "open",
+    "source_artifact": "lanes/architecture-findings.json",
+    "source_role": "architecture"
+  },
+  {
+    "id": "ARCH-002",
+    "severity": "P2",
+    "title": "Verify or resume the complete bind staging copy before activating it",
+    "path": "csdlc-v3/src/commands/local/transactions.rs",
+    "line": 441,
+    "related_locations": [
+      "csdlc-v3/src/commands/local/transactions.rs:111",
+      "csdlc-v3/src/commands/local/transactions.rs:478",
+      "csdlc-v3/src/commands/local/transactions.rs:501",
+      "csdlc-v3/src/application/intent/local.rs:1519"
+    ],
+    "role": "architecture",
+    "boundary": "Legacy native bind transaction copy/activation and semantic recovery bridge",
+    "trigger": "Interrupt native bind during recursive copy_local_issue_tree(source_stage,target_stage), after target_stage is created but before all files are copied. Resume the supported recover path with source stage and backup intact.",
+    "impact": "commit_bind_local_transaction treats existence of target_stage as completed copying, renames its partial tree to canonical issue root, writes completion and primary binding, then deletes complete source stage and backup. Subsequent integrity checks cannot reconstruct missing compatibility files from native transaction evidence and the issue can become stuck; native completion claims a fully bound image it never verified.",
+    "evidence": "Copy helper creates destination before looping files; recovery skips copy whenever destination exists and verifies neither complete inventory nor expected lifecycle digest before target rename/cleanup. The semantic recovery wrapper calls that native operation before rereading integrity, so a later rejection does not preserve deleted source images.",
+    "reproduction": "Static exact source trace through partial directory-copy crash window and supported public recovery wrapper. No executed crash harness in this lane.",
+    "provenance": "Preexisting behavior in baseline commands/local/mod.rs1740-1744 moved into this module; uncovered in complete candidate review, not introduced by module split.",
+    "remediation": "Authenticate a complete staged image against retained expected digest/inventory before activation and before source cleanup. Repair or resume only the exact incomplete staging copy under lock; preserve source images until complete target readback succeeds. Add interruption test inside copy, not only after copy returns.",
+    "owner": "SIM-04 native bind/recovery owner",
+    "acceptance": [
+      "SIM-04-A01",
+      "SIM-04-A05"
+    ],
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+    "disposition": "open",
+    "source_artifact": "lanes/architecture-findings.json",
+    "source_role": "architecture"
+  },
+  {
+    "id": "ARCH-003",
+    "severity": "P2",
+    "title": "Recover a reserved finish when no terminal receipt was written",
+    "path": "csdlc-v3/src/application/intent/terminal.rs",
+    "line": 1378,
+    "related_locations": [
+      "csdlc-v3/src/application/intent/terminal.rs:1359",
+      "csdlc-v3/src/application/intent/terminal.rs:1423",
+      "csdlc-v3/src/application/intent/mod.rs:301",
+      "csdlc-v3/src/commands/terminal.rs:1286"
+    ],
+    "role": "architecture",
+    "boundary": "Semantic terminal reservation to native terminal writer and public recovery",
+    "trigger": "Process dies after a Finish or FinishWithoutPr semantic reservation has committed but before the terminal receipt is written; also covers state written but receipt not yet written. GitHub closeout remains authenticated and unchanged.",
+    "impact": "Exact finish replay requires the absent receipt in AlreadyPending and fails intent_terminal_pending_readback_required. Public recover has no Finish owner, so the healthy semantic pointer retains an operation that cannot complete through supported commands, blocking terminal completion and clean.",
+    "evidence": "Finish stages read-only authenticated observation, reserves effect, then invokes native persistence. AlreadyPending only reads and attaches an existing receipt. recover dispatch has no terminal finish branch; its only terminal route reconciles absent cleanup. Native persist_terminal_finish already compares retained state and immutable receipt identity and writes state then receipt, but replay never reaches it in this window.",
+    "reproduction": "Static public-entrypoint callgraph and exact durable crash-window analysis; no executed CLI crash reproduction. Distinct from ARCH-001: current semantic pointer is healthy and has a pending business effect, not an unactivated journal.",
+    "remediation": "Add an exact preview/reconciliation path for pending Finish/FinishWithoutPr that authenticates the original terminal decision and safely completes missing native state/receipt through its idempotent owner, then attaches the result. Test interruption both after reservation and between state/receipt writes.",
+    "owner": "SIM-04 terminal finish/recovery owner",
+    "acceptance": [
+      "SIM-04-A01",
+      "SIM-04-A05"
+    ],
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+    "disposition": "open",
+    "source_artifact": "lanes/architecture-findings.json",
+    "source_role": "architecture"
+  },
+  {
+    "id": "CODE-001",
+    "severity": "P2",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+    "title": "Preserve source whitespace in exact citation exports",
+    "path": "adl/src/codefriend/publication/markdown.rs",
+    "line": 978,
+    "related_locations": [
+      {
+        "path": "adl/src/codefriend/publication/markdown.rs",
+        "line": 772
+      },
+      {
+        "path": "adl/src/codefriend/publication/html.rs",
+        "line": 613
+      },
+      {
+        "path": "adl/src/codefriend/publication/html.rs",
+        "line": 414
+      },
+      {
+        "path": "adl/src/codefriend/publication/pdf.rs",
+        "line": 532
+      }
+    ],
+    "trigger": "A valid verified assessment citation contains line breaks, CRLF, tabs or indentation-sensitive code.",
+    "impact": "The fields explicitly labeled Exact source excerpt replace newline/CR/tab with spaces in Markdown and HTML. PDF derives from that Markdown and further collapses spaces. Consumers cannot copy or inspect the verified excerpt faithfully; Python/block and string-literal semantics can change while source byte offsets still name the original bytes.",
+    "evidence": "Exact extracted production text helpers reproduced with benign Python quote: if authorized:\\n\\tdelete_records()\\nreturn ok -> one-line excerpt. Source call sites pass VerifiedCitation::quote through field/markdown_text and field/html_text.",
+    "reproduction": {
+      "status": "reproduced_helper_logic",
+      "source": "lanes/code-excerpt-repro.rs",
+      "limitation": "Standalone Rust harness extracts production helper bodies; privacy guard stubbed false for benign fixture. Does not run full renderer, approval chain or live service."
+    },
+    "remediation": "Use a dedicated escaped verbatim source block for citations in Markdown/HTML and preserve line structure in PDF; verify exported multiline/tabs/CRLF quotes against the original admitted bytes or an explicitly documented visible encoding.",
+    "owner": "#921 CodeFriend renderer owner",
+    "acceptance": [
+      "CF-RENDER-MD-A03",
+      "CF-RENDER-MD-A04",
+      "CF-RENDER-HTML-A02",
+      "CF-RENDER-HTML-A04",
+      "CF-RENDER-PDF-A02",
+      "CF-RENDER-PDF-A04"
+    ],
+    "lane": "code",
+    "disposition": "open",
+    "source_artifact": "lanes/code-findings.json",
+    "source_role": "code"
+  },
+  {
+    "id": "CODE-002",
+    "severity": "P2",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+    "title": "Reject retry while the original shell attempt is still running",
+    "path": "adl/src/codefriend/operator/mod.rs",
+    "line": 235,
+    "related_locations": [
+      {
+        "path": "adl/src/codefriend/operator/mod.rs",
+        "line": 155
+      },
+      {
+        "path": "adl/src/codefriend/operator/mod.rs",
+        "line": 167
+      },
+      {
+        "path": "adl/src/codefriend/operator/mod.rs",
+        "line": 117
+      }
+    ],
+    "trigger": "Invoke review shell retry from another terminal while shell start has persisted Incomplete and is still waiting for a provider response; do not cancel first.",
+    "impact": "active_attempt_settled treats Incomplete as settled, allowing active_attempt to advance. The original evidence Store lock makes the new attempt fail store_busy; shell now points at failed attempt 2 while attempt 1 continues. A subsequent cancel writes attempts/2/cancel-request.json, not attempt 1's watched path. Original completion also cannot repair overall status because run_attempt only updates it when active_attempt equals its own attempt.",
+    "evidence": "Exact extracted settlement predicate returns true for Incomplete with neither run.json nor settlement.json. Followed retry, run_from_store Store lifetime, cancel_review and late run_attempt completion paths. Existing tests cover immediate retry after Cancelled but not directly during Incomplete.",
+    "reproduction": {
+      "status": "reproduced_guard_with_source_traced_consequence",
+      "source": "lanes/code-retry-repro.rs",
+      "limitation": "No provider calls, no full concurrent installed CLI execution; harness invokes extracted predicate over lightweight matching state types."
+    },
+    "remediation": "Require a terminal, retained settlement before changing active_attempt; serialize/recheck shell state across retry/cancel/completion. Regression should hold first provider call, request retry directly, reject it, then verify cancellation still targets attempt 1.",
+    "owner": "#921 CodeFriend operator shell owner",
+    "acceptance": [
+      "CF-SHELL-A02",
+      "CF-SHELL-A04",
+      "CF-SHELL-A07"
+    ],
+    "lane": "code",
+    "disposition": "open",
+    "source_artifact": "lanes/code-findings.json",
+    "source_role": "code"
+  },
+  {
+    "id": "DEP-001",
+    "severity": "P2",
+    "lane": "dependencies",
+    "reviewer": "lead",
+    "repository": "agent-logic/codefriend.ai",
+    "candidate": "a45e339c13b24716edbd3fadf29dddff36ffe02e",
+    "adl_candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+    "title": "Privileged website deployment executes mutable action tags",
+    "path": ".github/workflows/deploy-site.yml",
+    "line_start": 30,
+    "line_end": 33,
+    "trigger": "A new main deployment or manual dispatch after an upstream v4 tag moves",
+    "impact": "The same reviewed website revision can execute different third-party code with OIDC ability to assume the site deploy role. IAM grants object writes/deletes and CloudFront invalidation, so mutable action identity can bypass source review for a privileged deployment. No upstream compromise is alleged.",
+    "evidence": [
+      "website-source/.github/workflows/deploy-site.yml",
+      "website-source/infra/terraform/iam_oidc.tf"
+    ],
+    "reproduction_status": "static configuration and IAM trust-path inspection",
+    "remediation": "Pin checkout and AWS credential action to reviewed immutable commit SHAs; update them by reviewed changes. Restrict id-token permission to the deploy job.",
+    "owner": "#921 coordinating codefriend.ai deployment owner",
+    "acceptance_refs": [
+      "CF-INTEGRATE",
+      "TAIL-03"
+    ],
+    "disposition": "open",
+    "scope_note": "Existing integration-snapshot weakness; not asserted newly introduced by ADL diff.",
+    "source_artifact": "lanes/dependencies-findings.json",
+    "source_role": "dependencies"
+  },
+  {
+    "id": "DEP-004",
+    "severity": "P2",
+    "lane": "dependencies",
+    "reviewer": "lead",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+    "title": "Dependency scaffold fills its bounded map with lifecycle locks",
+    "path": "external-skills/repo-dependency-review/scripts/prepare_dependency_review.py",
+    "line_start": 1,
+    "trigger": "Generate dependency scaffold from the frozen complete repository packet",
+    "impact": "The generated map contains80 lifecycle lock paths and no Cargo manifest/lock. Trusting this as coverage would omit actual dependencies. The current review replaced it with explicit manifest/lock inventory; generic tooling defect remains.",
+    "remediation": "Use ecosystem-aware dependency classifiers, explicit lane assignments and reject empty material dependency denominators.",
+    "prior_finding": {
+      "review": "v0.92 #313",
+      "id": "SYN-007",
+      "severity": "P2"
+    },
+    "reproduction_status": "executed scaffold generation",
+    "owner": "#921 coordinating dependency/build tooling owner",
+    "acceptance_refs": [
+      "PLAT-RUST",
+      "OPS-AWS",
+      "TAIL-04"
+    ],
+    "disposition": "open",
+    "kind": "review_infrastructure",
+    "source_artifact": "lanes/dependencies-findings.json",
+    "source_role": "dependencies"
+  },
+  {
+    "id": "DOC-001",
+    "severity": "P2",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+    "path": "docs/milestones/v0.92.2/README.md",
+    "line": 3,
+    "title": "Route pending qualification to its approved v0.93 successors",
+    "trigger": "A reviewer/operator follows current milestone status and acceptance ownership for incomplete Beta1 qualification.",
+    "impact": "Current status headers still describe #915 as pending, while retained SPRINT10_DEFERRAL records it CLOSED/NOT_PLANNED and routes remaining qualification to #1148/#1149/#1150 in v0.93. Current overlays and feature acceptance still send readers to the closed predecessor and imply its completion blocks this milestone rather than preserving the approved deferral and prelaunch gate.",
+    "evidence": [
+      "README.md:3",
+      "DEMO_MATRIX_v0.92.2.md:3",
+      "FEATURE_PROOF_COVERAGE_v0.92.2.md:8",
+      "RELEASE_PLAN_v0.92.2.md:3",
+      "NEXT_MILESTONE_HANDOFF_v0.92.2.md:5",
+      "evidence/issue-916/SPRINT10_DEFERRAL.json: operator_authorized_deferral and follow_on_issues",
+      "evidence/issue-917/HANDOFF.md: Current qualification handoff"
+    ],
+    "remediation": "Update current status/owner overlays consistently to incomplete and deferred, preserving original #915 historical requirements and the #1150 pre-Beta1-launch qualification gate. Do not relabel as PASS or rewrite historical evidence.",
+    "owner": "#921 / milestone documentation and #917 handoff owner",
+    "validation": "Independent static source comparison; no live tracker query. Frozen candidate contains both contradictory claims.",
+    "acceptance_relevance": "Accurate current release gate and successor routing.",
+    "disposition": "open",
+    "source_artifact": "lanes/docs-findings.json",
+    "source_role": "docs"
+  },
+  {
+    "id": "DOC-002",
+    "severity": "P2",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+    "path": "docs/csdlc-v3/NO_PR_CLOSEOUT.md",
+    "line": 16,
+    "title": "Remove native-only timestamps from the semantic disposition example",
+    "trigger": "Operator follows the current documented command and JSON construction procedure.",
+    "impact": "The documented finish ISSUE --disposition JSON includes two timestamp fields rejected by the strict semantic Disposition parser, so copying the sole example produces intent_finish_disposition_invalid instead of terminal reconciliation.",
+    "evidence": [
+      "application/intent/terminal.rs:1162-1171 deny_unknown_fields permits four fields",
+      "application/intent/terminal.rs:1196-1197 derives authenticated timestamps",
+      "docs/csdlc-v3/INTENT_COMMANDS.md Explicit no-PR terminal disposition"
+    ],
+    "remediation": "Remove caller timestamps and explain they are authenticated internally; validate the exact documented object against the semantic parser.",
+    "owner": "#921 / C-SDLC operator documentation owner",
+    "validation": "Static exact parser/schema comparison; no lifecycle command executed. Generated roff parity passed for all34 pages.",
+    "acceptance_relevance": "Executable operator and closeout instructions.",
+    "disposition": "open",
+    "source_artifact": "lanes/docs-findings.json",
+    "source_role": "docs"
+  },
+  {
+    "id": "DOC-003",
+    "severity": "P2",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+    "path": "docs/csdlc-v3/man/manual.json",
+    "line": 1700,
+    "title": "Use semantic plan and change schemas in the operator walkthrough",
+    "trigger": "Operator follows the current documented command and JSON construction procedure.",
+    "impact": "The installed workflow shows prepare --plan and edit --changes but immediately directs the operator to construct LocalPreparationRequest and design-edit.card_updates with expected_lifecycle_digest. These are retired/native-owner shapes; semantic commands require intent_plan and strict intent_changes with cards/amendment. Following the fresh-user walkthrough cannot initialize/edit the issue as described.",
+    "evidence": [
+      "manual.json:1699-1701",
+      "application/intent/local.rs:175-200 Changes deny_unknown_fields",
+      "docs/csdlc-v3/INTENT_COMMANDS.md Plan and edit content"
+    ],
+    "remediation": "Rewrite workflow step1 around current semantic plan/changes examples; retain native request details only under clearly separate compatibility reference. Regenerate roff and check executable schema parity.",
+    "owner": "#921 / C-SDLC operator documentation owner",
+    "validation": "Static exact parser/schema comparison; no lifecycle command executed. Generated roff parity passed for all34 pages.",
+    "acceptance_relevance": "Executable operator and closeout instructions.",
+    "disposition": "open",
+    "source_artifact": "lanes/docs-findings.json",
+    "source_role": "docs"
+  },
+  {
+    "id": "DOC-004",
+    "severity": "P2",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+    "path": "docs/csdlc-v3/intent-request.schema.json",
+    "line": 289,
+    "title": "Include validator replacement in the published intent schema",
+    "trigger": "A schema-driven client validates the documented semantic edit containing validators, or prepares a supported python3/git/manual-review declaration.",
+    "impact": "The changes definition rejects validators as an unknown property and its oneOf only permits cards or publication. The plan definition additionally requires program=cargo. Supported requests accepted by native source and documented in INTENT_COMMANDS are therefore rejected by the published machine-readable contract.",
+    "evidence": [
+      "csdlc-v3/src/application/intent/local.rs:175-210 accepts validators as exactly one edit surface",
+      "docs/csdlc-v3/INTENT_COMMANDS.md:123-127 supported declarations;331 replacement validators",
+      "intent-request.schema.json:224 cargo const;289 additionalProperties=false"
+    ],
+    "remediation": "Bring the schema into parity with every supported intent content variant; add positive parity checks for validator replacement and admitted non-cargo declarations alongside negative guards.",
+    "owner": "#921 / C-SDLC contract owner",
+    "validation": "Static comparison of exact candidate schema, native deserializer and current guide; no lifecycle execution.",
+    "acceptance_relevance": "Machine-readable operator contract and amendment recovery.",
+    "disposition": "open",
+    "source_artifact": "lanes/docs-findings.json",
+    "source_role": "docs"
+  },
+  {
+    "id": "PRV-001",
+    "severity": "P2",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+    "path": "adl-runtime-kernel/src/control.rs",
+    "line": 6712,
+    "title": "Join resident health using the declared model reference",
+    "trigger": "A live-admitted resident uses a model_ref distinct from provider_model_id, for example a Bedrock profile, and completes inference successfully.",
+    "impact": "Admission stores the native provider_model_id in sample.model (5540), while dispatch and ProviderUsage retain the declared model_ref (3857; assembly accounting). The supervisor compares them directly, cannot find successful inference, repeatedly classifies the resident inference_unverified and cannot close an incident through verified recovery. The small health endpoint already chooses provider_binding.model_ref at6608-6613.",
+    "evidence": [
+      "control.rs:5539-5541",
+      "control.rs:3855-3860",
+      "assembly.rs:1430-1464",
+      "control.rs:6709-6749",
+      "control.rs:6605-6613"
+    ],
+    "validation": "Static complete data-flow check. No executable test, live endpoint, credential access or cloud operation.",
+    "remediation": "Use one stable binding identity for accounting and health joins, including provider_binding.model_ref where available. Add a regression with differing model_ref/native ID proving successful inference clears the same resident incident before and after roster refresh.",
+    "owner": "#921 / Runtime resident health and provider registry owner",
+    "acceptance_relevance": "Correct health/status and shepherd recovery for aliased provider models.",
+    "disposition": "open",
+    "source_artifact": "lanes/provider-findings.json",
+    "source_role": "provider"
+  },
+  {
+    "id": "PRV-002",
+    "severity": "P2",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+    "path": "adl-provider-core/src/http_family.rs",
+    "line": 153,
+    "title": "Bound successful provider response bytes before aggregation",
+    "trigger": "A configured HTTP-family provider returns a successful but oversized JSON/text response, including large unused fields, during canonical Runtime inference.",
+    "impact": "The shared helpers call Response.json/text without a byte bound. Runtime registry builds this executor directly; its optional demo wrapper checks only extracted output after the whole response has already been allocated and parsed. A malformed or faulty provider can consume Runtime memory far beyond the nominal 4 MiB output limit, threatening other residents and shepherd availability. The legacy Runtime adapter has a predecode bound that the new registry route does not inherit.",
+    "evidence": [
+      "http_family.rs:90-95 client builder constrains redirects/retries but not body bytes",
+      "http_family.rs:147-170 shared success helpers",
+      "http_family.rs:2593-2597 generic JSON path",
+      "registry.rs:833-834 canonical executor construction",
+      "registry.rs:398-417 optional wrapper",
+      "registry.rs:526-534 post-aggregation extracted output validation"
+    ],
+    "validation": "Source-confirmed complete call-path review only. No oversized response probe or executable reproduction performed.",
+    "remediation": "Apply a bounded response reader before decoding every Runtime HTTP success body, including unused JSON fields; keep timeout and decoded-output bounds as separate controls. Add local bounded regressions for content-length and chunked oversized bodies.",
+    "owner": "#921 / provider-core and Runtime registry owner",
+    "acceptance_relevance": "Bounded provider execution and isolation of resident failures from whole-Runtime availability.",
+    "disposition": "open",
+    "source_artifact": "lanes/provider-findings.json",
+    "source_role": "provider"
+  },
+  {
+    "id": "SEC-001",
+    "severity": "P2",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+    "path": "csdlc-v3/src/adapters/mod.rs",
+    "line": 754,
+    "title": "Disable implicit curl configuration for credentialed mutations",
+    "trigger": "A default curl configuration contains output, trace, proxy, or an additional URL when a native GitHub mutation dispatches.",
+    "impact": "The operational transport invokes curl without -q. Clearing HOME does not disable curl default configuration lookup (the same source explicitly acknowledges account-database fallback for read-only transport). Undeclared configuration can write response/trace files or alter destinations while the selected GitHub credential and mutation body are present.",
+    "evidence": [
+      "operational argv at lines751-781 has no -q",
+      "run_process at840-850 appends private --config without disabling default config",
+      "read-only run_observational_curl at869-875 explicitly adds -q",
+      "security-probes/transport_probe.rs"
+    ],
+    "reproduction_status": "executed exact extracted run_process against real curl, isolated synthetic CURL_HOME wrapper, file:// payload; unexpected output created. -q negative control suppresses write. No live mutation or credential used.",
+    "remediation": "Use -q as curl first argument for operational as well as observational invocations; add operational-path regression with isolated default config and effect sentinel.",
+    "owner": "#921 / C-SDLC GitHub adapter owner",
+    "acceptance_relevance": "Native C-SDLC deterministic effects and credential-scoped GitHub writes; security lane credential/unsafe-IO acceptance.",
+    "disposition": "open",
+    "source_artifact": "lanes/security-findings.json",
+    "source_role": "security"
+  },
+  {
+    "id": "SEC-002",
+    "severity": "P2",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+    "path": "csdlc-v3/src/adapters/mod.rs",
+    "line": 360,
+    "title": "Redact credentialed mutation output before truncation",
+    "trigger": "A credentialed child emits its credential across the retained-output cutoff, for example diagnostic output from curl with header tracing enabled.",
+    "impact": "run_process calls process_output, which truncates stdout/stderr, before RealProcessAdapter applies full-value replacement. A truncated credential prefix no longer matches the full credential and survives in returned diagnostics. Read-only curl already implements the correct order.",
+    "evidence": [
+      "lines360-366",
+      "lines955-968",
+      "security-probes/transport_probe.rs"
+    ],
+    "reproduction_status": "executed exact extracted functions with synthetic GITHUB_TOKEN and8-byte output limit; redacted result still equals first8bytes of synthetic secret. No actual secret accessed.",
+    "remediation": "Redact raw child output before either stream is truncated for every credentialed adapter, and retain a cutoff-inside-secret regression.",
+    "owner": "#921 / C-SDLC adapter owner",
+    "acceptance_relevance": "Credential privacy and diagnostic redaction; bounded output must not weaken credential removal.",
+    "disposition": "open",
+    "source_artifact": "lanes/security-findings.json",
+    "source_role": "security"
+  },
+  {
+    "id": "SEC-003",
+    "severity": "P2",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+    "path": "adl/src/codefriend/publication/relay.rs",
+    "line": 240,
+    "title": "Verify PDF content rather than trusting resealed relay metadata",
+    "trigger": "After a valid approved prepared stage, a local paired relay changes terminal PDF bytes to arbitrary bytes beginning %PDF- and recomputes export/report/manifest/stage hashes, retaining valid decision and review identity fields.",
+    "impact": "verify_stage reaches verify_rendered, whose PDF branch checks only the prefix and hash-shaped semantic/font fields. pdf::validate_manifest validates metadata identities but never ties PDF content or semantic_digest to the approved report. common only establishes self-consistent caller hashes. An unrelated or malformed PDF can therefore be reported as complete; the external_resources=false claim is also not inspected against bytes. Markdown/HTML branches reconstruct expected content and reject this substitution.",
+    "evidence": [
+      "agent/publication.rs:958-1098 public verifier call path",
+      "publication/relay.rs:237-260",
+      "publication/pdf.rs:562-606"
+    ],
+    "reproduction_status": "static complete call-path analysis; malicious PDF terminal-stage production invocation not executed. No claim of observed exploitation.",
+    "remediation": "Bind returned PDF to trusted renderer evidence or validate its actual allowed structure and expected approved semantics; negative-test substituted PDF with all unkeyed hashes recomputed. Do not treat digest self-consistency as content provenance.",
+    "owner": "#921 / CodeFriend publication-relay owner",
+    "acceptance_relevance": "Approved exact bytes, provenance, privacy and PDF publication parity.",
+    "disposition": "open",
+    "source_artifact": "lanes/security-findings.json",
+    "source_role": "security"
+  },
+  {
+    "id": "SEC-004",
+    "severity": "P2",
+    "candidate": "a45e339c13b24716edbd3fadf29dddff36ffe02e",
+    "repository": "codefriend.ai",
+    "path": "app/http.mjs",
+    "line": 147,
+    "title": "Recheck browser authorization after reading a mutation body",
+    "trigger": "An authenticated browser begins POST /api/runs, logs out or expires while the body is still arriving, then completes the body.",
+    "impact": "The route retains user from the initial session check and dispatches the hosted review after revocation. Publication decision/render routes have the same pre-body authorization pattern. Gateway subject credentials do not bind the revoked browser session. Journey routes already reauthorize after asynchronous boundaries.",
+    "evidence": [
+      "app/http.mjs:121-123 initial authorization",
+      "app/http.mjs:147-155 body wait then dispatch",
+      "app/http.mjs:190-197 publication body waits",
+      "app/session.mjs:16-27 fresh revocation checks",
+      "security-probes/session_probe.mjs"
+    ],
+    "reproduction_status": "Executed actual frozen website application and Sessions on loopback with in-memory store and recording hosted adapter. Headers authenticate, session revoked before body completes, response 202 and one dispatch; fresh Sessions.require rejects. Unused crypto/parser imports replaced by throwing stubs, never called. No provider or external network.",
+    "remediation": "Centralize fresh authorization immediately after awaited body reads and before effect dispatch; recheck before releasing sensitive responses. Apply browser-session checks consistently across publication and run routes, retaining HMAC service identity handling separately.",
+    "owner": "#921 / CodeFriend website HTTP owner",
+    "acceptance_relevance": "CF hosted/local publication and paid review admission must respect current browser authority. Website source identity differs from ADL candidate and is an explicitly added review extension.",
+    "disposition": "open",
+    "source_artifact": "lanes/security-findings.json",
+    "source_role": "security"
+  },
+  {
+    "id": "TESTS-001",
+    "severity": "P2",
+    "type": "false_positive_regression_proof",
+    "title": "Bind live-region assertions to each transcript element",
+    "path": "demos/html-observatory/tests/accessibility_responsive.test.mjs",
+    "line": 51,
+    "trigger": "Remove aria-live from both transcript elements while other live regions remain.",
+    "impact": "Accessibility proof still reports PASS, permitting loss of announced conversation/room updates to escape this regression gate. Current candidate attributes are present; no current UI failure is asserted.",
+    "proof": "tests-accessibility-negative-repro.json: isolated exact candidate copy with two attribute removals exits0 and prints accessibility/responsive proof PASS. Regex crosses tags via [\\s\\S]*.",
+    "remediation": "Parse actual element attributes or query both transcript nodes in DOM; include a negative case removing each attribute independently.",
+    "owner": "#921 / Observatory test owner",
+    "acceptance_refs": [
+      "supplemental WP-18C.07a accessibility/responsive proof; not a new core denominator"
+    ],
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+    "disposition": "open",
+    "source_artifact": "lanes/tests-findings.json",
+    "source_role": "tests"
+  },
+  {
+    "id": "TESTS-002",
+    "severity": "P2",
+    "type": "false_positive_regression_proof",
+    "title": "Assert cancellation completes before the probe timeout",
+    "path": "adl-runtime-kernel/tests/shepherd.rs",
+    "line": 1359,
+    "trigger": "A recovery regression ignores cancellation during a pending probe and observes shutdown only after its 600-second timeout.",
+    "impact": "Paused Tokio time automatically advances; the test can pass after 600 virtual seconds and cannot prove its stated prompt-shutdown invariant. Current production select has cancellation; no present 600s production delay is asserted.",
+    "proof": "tests-virtual-time-repro/result.json: 1 test passes while explicitly measuring 600 seconds. Isolated counterexample using pinned Tokio 1.49, original yield/cancel/await oracle; not a mutation of the production crate.",
+    "remediation": "Measure tokio::time::Instant around cancellation and assert a small virtual-time bound, or wrap JoinHandle in a timeout far shorter than 600s. Prove mutation removing cancellation fails.",
+    "owner": "#921 / Runtime shepherd test owner",
+    "acceptance_refs": [
+      "#854 lifetime recovery shutdown proof"
+    ],
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+    "disposition": "open",
+    "source_artifact": "lanes/tests-findings.json",
+    "source_role": "tests"
+  },
+  {
+    "id": "TESTS-003",
+    "severity": "P2",
+    "type": "fail_open_experiment_identity_proof",
+    "title": "Reject unknown base-blob identities before asserting same-model comparison",
+    "path": "adl/tools/issue905_runtime_speculative_retest.py",
+    "line": 348,
+    "trigger": "Ollama /api/show omits modelfile or returns a FROM expression that does not match the Unix sha256 path regex for both variants.",
+    "impact": "Both base_blob_sha256 values become null and compare equal; the report then unconditionally declares same_base_blob=true. Missing weight identity is promoted to proof, allowing a speculative benchmark to claim a controlled same-weight comparison without observing it. No claim that the retained #905 run used differing weights.",
+    "proof": "tests-905-identity-negative.json: unmodified AST-extracted model_identity evaluated offline with two different FROM aliases and manifest digests; both null blob IDs pass every model-identity equality field. Source lines 133-144 permit null, 347-354 admit it, 427 emits true.",
+    "remediation": "Require two nonempty valid base-blob digests before equality; reject unsupported metadata with an explicit non-proving outcome. Add missing/malformed FROM negative cases.",
+    "owner": "#921 / #905 experiment proof owner",
+    "acceptance_refs": [
+      "#905 controlled baseline/speculative model identity"
+    ],
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+    "disposition": "open",
+    "source_artifact": "lanes/tests-findings.json",
+    "source_role": "tests"
+  },
+  {
+    "id": "DEMOS-001",
+    "severity": "P3",
+    "title": "Label the PDF Cargo test as source-built CLI proof",
+    "path": "docs/codefriend/PDF_EXPORT.md",
+    "line": 46,
+    "trigger": "Operator follows the documented focused installed lane command at line49.",
+    "impact": "The test unconditionally executes CARGO_BIN_EXE_adl, so passing results say nothing about an installed binary or its provenance; documentation overstates this command as installed proof. Separate retained PDF output qualification remains valid for its declared artifact.",
+    "proof": "adl/tests/codefriend_render_pdf.rs:183 uses Command::new(env!(\"CARGO_BIN_EXE_adl\")); no installed-binary override. Reviewed source and actual retained PDF output separately.",
+    "remediation": "Call this source-built CLI/component proof, and document a separate selected-installed-binary invocation if installed acceptance is required.",
+    "owner": "#921 / CodeFriend export documentation owner",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+    "acceptance_refs": [
+      "CF-RENDER-PDF-A01",
+      "CF-INTEGRATE-A06"
+    ],
+    "disposition": "open",
+    "source_artifact": "lanes/demos-findings.json",
+    "source_role": "demos"
+  },
+  {
+    "id": "DOC-SUP-001",
+    "severity": "P3",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+    "title": "Update operational Rust parser limits in architecture and fitness guides",
+    "path": "docs/codefriend/ARCHITECTURE.md",
+    "line": 74,
+    "related_locations": [
+      {
+        "path": "docs/codefriend/LOCAL_FITNESS.md",
+        "line": 37
+      },
+      {
+        "path": "adl/src/codefriend/rust_parse.rs",
+        "line": 10
+      },
+      {
+        "path": "docs/codefriend/RUST_PARSER_BOUNDS.md",
+        "line": 1
+      }
+    ],
+    "trigger": "An operator uses the architecture or local-fitness guide to choose admitted Rust files or interpret a parser-budget failure.",
+    "impact": "Both current guides say 32 KiB and 128 lexical units, including comments/literals, while the shared parser admits 400 KiB and 32768 tokens with depth/path limits and opaque comments/literals. Users can unnecessarily split or exclude ordinary files and misdiagnose which budget actually failed. The allocation-free wording also fails to describe the worker-stack resource boundary.",
+    "evidence": "Direct comparison of ARCHITECTURE.md74-79 and LOCAL_FITNESS.md37-41 with rust_parse.rs10-18 and RUST_PARSER_BOUNDS.md; deterministic source/document mismatch, no execution required.",
+    "remediation": "Replace obsolete limit paragraphs with the current bounds and a link to RUST_PARSER_BOUNDS.md. Preserve historical proof records as historical evidence.",
+    "owner": "#921 CodeFriend documentation owner",
+    "acceptance_relevance": "Current operator-documentation accuracy; no future-v0.93 implementation requirement is inferred.",
+    "acceptance": [],
+    "lane": "docs",
+    "disposition": "open",
+    "source_artifact": "lanes/lead-docs-supplement-findings.json",
+    "source_role": "docs"
+  },
+  {
+    "id": "TEST-TRANS-001",
+    "severity": "P3",
+    "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+    "path": "csdlc-v3/tests/transactions.rs",
+    "line": 2815,
+    "end_line": 2829,
+    "title": "Reader concurrency test can fail solely because the writer finishes first",
+    "trigger": "The scheduler runs the writer through all twelve commits before the parent reaches its first while-condition, or permits the reader only Busy observations until the writer finishes.",
+    "impact": "The final observed > 0 assertion fails even when every commit and observation is coherent, making a purported deterministic local gate scheduler-dependent.",
+    "evidence": "The writer has no handshake with the reader; the parent reads only while !writer.is_finished() and then requires at least one successful Current observation. Joining the writer and checking final generation does not guarantee any loop iteration.",
+    "reproduction": "Static schedule analysis of lines 2777-2831; no executable reproduction or test execution performed.",
+    "owner": "C-SDLC transaction test maintainers",
+    "acceptance_relevance": "Reliability of required deterministic semantic Gate A validation; not evidence of production state corruption.",
+    "recommendation": "Coordinate at least one reader observation with the writer using an explicit handshake, then assert coherent observations and final generation without depending on scheduler fairness.",
+    "proof": "Static schedule analysis of lines 2777-2831; no executable reproduction or test execution performed. The writer has no handshake with the reader; the parent reads only while !writer.is_finished() and then requires at least one successful Current observation. Joining the writer and checking final generation does not guarantee any loop iteration.",
+    "remediation": "Coordinate at least one reader observation with the writer using an explicit handshake, then assert coherent observations and final generation without depending on scheduler fairness.",
+    "disposition": "open",
+    "source_artifact": "lanes/tests-findings.json",
+    "source_role": "tests"
+  }
+]

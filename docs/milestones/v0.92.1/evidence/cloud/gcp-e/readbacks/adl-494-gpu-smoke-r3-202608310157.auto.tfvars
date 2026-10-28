@@ -1,0 +1,11 @@
+project_id = "cs-poc-cha8mmii0xk0iaw5vpf8mxf"
+region = "us-west1"
+zone = "us-west1-a"
+run_id = "adl-494-gpu-smoke-r3-202608310157"
+network_name = "default"
+subnet_name = "default"
+machine_type = "g2-standard-4"
+accelerator_type = "nvidia-l4"
+accelerator_count = 1
+max_budget_usd = 20
+ttl_expires_at = "2026-08-31T05:54:16Z"

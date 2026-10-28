@@ -1,0 +1,343 @@
+{
+  "schema": "adl.terminal_closeout_accounting.v1",
+  "pull_request": 750,
+  "url": "https://github.com/agent-logic/agent-design-language/pull/750",
+  "reviewed_head": "04ec64b1ff27d1a228b951510a6ab05ed2203b00",
+  "merge_commit": "f61deb36d5eccb4a3e391510bbea4bb6f2d51216",
+  "merged_at": "2026-09-09T01:39:02Z",
+  "reported_closed_merged_denominator_missing_count": 0,
+  "added_terminal_records": [
+    {
+      "issue": 146,
+      "artifacts": [
+        {
+          "path": ".csdlc/evidence/146/terminal-receipt.json",
+          "sha256": "8fdac599e2881d2bf3027120c98c19add1893c05cc7f12c0f593628648fe42e3",
+          "record": {
+            "schema": "csdlc.v3.terminal_receipt.v1",
+            "repository": "agent-logic/agent-design-language",
+            "issue": 146,
+            "pull_request": 206,
+            "head_sha": "b9bfd3b5ee4337ac5e25be6ae3f8b3840ed8ba24",
+            "disposition": "closed_out",
+            "state_digest": "145d534f27d955e2deb66db38951a3dd2d8e618d2f0f4cd651270594b85ee1c3"
+          }
+        },
+        {
+          "path": ".csdlc/v3/issues/146/terminal.json",
+          "sha256": "4fef178567ea99462dc6be45387f01ccc1793501fa06370c7beda17f92fcdfbe",
+          "record": {
+            "schema": "csdlc.v3.terminal_state.v1",
+            "repository": "agent-logic/agent-design-language",
+            "issue": 146,
+            "pull_request": 206,
+            "head_sha": "b9bfd3b5ee4337ac5e25be6ae3f8b3840ed8ba24",
+            "disposition": "closed_out"
+          }
+        }
+      ]
+    },
+    {
+      "issue": 516,
+      "artifacts": [
+        {
+          "path": ".csdlc/evidence/516/terminal-receipt.json",
+          "sha256": "a0d3d6716d54a70b50d8bb7aed756854d3f2c06a3c8e57bdc38e060959601c45",
+          "record": {
+            "schema": "csdlc.v3.terminal_receipt.v1",
+            "repository": "agent-logic/agent-design-language",
+            "issue": 516,
+            "pull_request": 737,
+            "head_sha": "ba92be3834b8380d39ce35343a316c2d50b597f8",
+            "disposition": "closed_out",
+            "state_digest": "7c8cbe6a9b684020a86e5262e6af00c3d5fa623358752d9c98b4bdd4feb41f57"
+          }
+        },
+        {
+          "path": ".csdlc/v3/issues/516/terminal.json",
+          "sha256": "7cba017ebb3dc14874e7f204b2cfcf0ae8305bbf2b59c57bddb580879a4e0f83",
+          "record": {
+            "schema": "csdlc.v3.terminal_state.v1",
+            "repository": "agent-logic/agent-design-language",
+            "issue": 516,
+            "pull_request": 737,
+            "head_sha": "ba92be3834b8380d39ce35343a316c2d50b597f8",
+            "disposition": "closed_out"
+          }
+        }
+      ]
+    },
+    {
+      "issue": 523,
+      "artifacts": [
+        {
+          "path": ".csdlc/evidence/523/terminal-receipt.json",
+          "sha256": "3c8ed92449f985bd7e03074b37512208556f0024fce7f337f44c147da8d1b1b6",
+          "record": {
+            "schema": "csdlc.v3.terminal_receipt.v1",
+            "repository": "agent-logic/agent-design-language",
+            "issue": 523,
+            "pull_request": 743,
+            "head_sha": "9d9306ba9073b9e8225f9f38fc8daf7ea393c5a8",
+            "disposition": "closed_out",
+            "state_digest": "ee24d3a0a5d1f1bbada5b569c4c1bb3051e7138b1bcda7a0129866458ba675f1"
+          }
+        },
+        {
+          "path": ".csdlc/v3/issues/523/terminal.json",
+          "sha256": "8d226cbb7b461f9aba6a93e34254c21cae21633d84d1760dce92eb75d59e6872",
+          "record": {
+            "schema": "csdlc.v3.terminal_state.v1",
+            "repository": "agent-logic/agent-design-language",
+            "issue": 523,
+            "pull_request": 743,
+            "head_sha": "9d9306ba9073b9e8225f9f38fc8daf7ea393c5a8",
+            "disposition": "closed_out"
+          }
+        }
+      ]
+    },
+    {
+      "issue": 536,
+      "artifacts": [
+        {
+          "path": ".csdlc/evidence/536/terminal-receipt.json",
+          "sha256": "19309285fbec032ba9460458f19a54e784f3ebd555e022949a927b4f2f68ae52",
+          "record": {
+            "schema": "csdlc.v3.terminal_receipt.v1",
+            "repository": "agent-logic/agent-design-language",
+            "issue": 536,
+            "pull_request": 729,
+            "head_sha": "6d7e63f4317c5c683ab4d349c521e096c368adc7",
+            "disposition": "closed_out",
+            "state_digest": "e8da6ff8b2660cd36bf40d857a7e7ce1920863dcd5c4c2dd6b86c3f1f4a0847f"
+          }
+        },
+        {
+          "path": ".csdlc/v3/issues/536/terminal.json",
+          "sha256": "66ae60e5b05d208f9e0d96ffbbf9176ee52d8d5d2f39e428fc2d6989f63b78d6",
+          "record": {
+            "schema": "csdlc.v3.terminal_state.v1",
+            "repository": "agent-logic/agent-design-language",
+            "issue": 536,
+            "pull_request": 729,
+            "head_sha": "6d7e63f4317c5c683ab4d349c521e096c368adc7",
+            "disposition": "closed_out"
+          }
+        }
+      ]
+    },
+    {
+      "issue": 662,
+      "artifacts": [
+        {
+          "path": ".csdlc/evidence/662/terminal-receipt.json",
+          "sha256": "09f025af998bd1b4f38e975ac91de018b990d68254815218afe7ddc771cdd8a2",
+          "record": {
+            "schema": "csdlc.v3.terminal_receipt.v1",
+            "repository": "agent-logic/agent-design-language",
+            "issue": 662,
+            "pull_request": 668,
+            "head_sha": "f2d09fa64efed868b043809387efe573eee54941",
+            "disposition": "closed_out",
+            "state_digest": "d3aa89eadcdaec497ab9441487af62ca36440de3d61fceb9ab436ed63fef7d13"
+          }
+        },
+        {
+          "path": ".csdlc/v3/issues/662/terminal.json",
+          "sha256": "2cdf3e36eec0f952f6177a81c1e73d53ef524b523359c005f8c02ebdb895ca96",
+          "record": {
+            "schema": "csdlc.v3.terminal_state.v1",
+            "repository": "agent-logic/agent-design-language",
+            "issue": 662,
+            "pull_request": 668,
+            "head_sha": "f2d09fa64efed868b043809387efe573eee54941",
+            "disposition": "closed_out"
+          }
+        }
+      ]
+    },
+    {
+      "issue": 727,
+      "artifacts": [
+        {
+          "path": ".csdlc/evidence/727/terminal-receipt.json",
+          "sha256": "7cfdcc55ba82d5cbf20023dede9c7d7099848947d62e3d9f5da337ef3595d854",
+          "record": {
+            "schema": "csdlc.v3.terminal_receipt.v1",
+            "repository": "agent-logic/agent-design-language",
+            "issue": 727,
+            "pull_request": 733,
+            "head_sha": "04d998cb51d77f88fa4007832f11cc9e16f03558",
+            "disposition": "closed_out",
+            "state_digest": "aa43689762c0115252b17358d299b481fd9b465d64af9d74f540ba74973546ec"
+          }
+        },
+        {
+          "path": ".csdlc/v3/issues/727/terminal.json",
+          "sha256": "0fa64d95d0a0ad1deeb762d4e5d1446c91c36096f82b7ad5009309dcdb2bba99",
+          "record": {
+            "schema": "csdlc.v3.terminal_state.v1",
+            "repository": "agent-logic/agent-design-language",
+            "issue": 727,
+            "pull_request": 733,
+            "head_sha": "04d998cb51d77f88fa4007832f11cc9e16f03558",
+            "disposition": "closed_out"
+          }
+        }
+      ]
+    },
+    {
+      "issue": 728,
+      "artifacts": [
+        {
+          "path": ".csdlc/evidence/728/terminal-receipt.json",
+          "sha256": "ed774362be6e35a474022391ec9a4c1ceab9e80ffcbe1376083b18ff3ca40311",
+          "record": {
+            "schema": "csdlc.v3.terminal_receipt.v1",
+            "repository": "agent-logic/agent-design-language",
+            "issue": 728,
+            "pull_request": 736,
+            "head_sha": "a598ed6376795b2ad9109817df5e41f1136142e6",
+            "disposition": "closed_out",
+            "state_digest": "f5344ab33769119e19b7fbc0d0e8b7043f8352b659e878e95c2bff9d85f6dc50"
+          }
+        },
+        {
+          "path": ".csdlc/v3/issues/728/terminal.json",
+          "sha256": "06865492d44041b845ab1ef1c464325adeb2f7b8f62792d1ffe20a742edb7355",
+          "record": {
+            "schema": "csdlc.v3.terminal_state.v1",
+            "repository": "agent-logic/agent-design-language",
+            "issue": 728,
+            "pull_request": 736,
+            "head_sha": "a598ed6376795b2ad9109817df5e41f1136142e6",
+            "disposition": "closed_out"
+          }
+        }
+      ]
+    },
+    {
+      "issue": 730,
+      "artifacts": [
+        {
+          "path": ".csdlc/evidence/730/terminal-receipt.json",
+          "sha256": "ca2de2ccaa5b489cf8a6234d34b016a6416b5dc7d1a8bf12571fddd564607bd4",
+          "record": {
+            "schema": "csdlc.v3.terminal_receipt.v1",
+            "repository": "agent-logic/agent-design-language",
+            "issue": 730,
+            "pull_request": 738,
+            "head_sha": "305547e0519c3a92174bc33e20f11d948a99e016",
+            "disposition": "closed_out",
+            "state_digest": "1418142b57f8d07be257cddc2e3a27c5f7d6de4aa4c775dcd57bcfcda9c71891"
+          }
+        },
+        {
+          "path": ".csdlc/v3/issues/730/terminal.json",
+          "sha256": "3781e71d17e22e83db908f3d33542340e87ebcd4043e86ff49d06bb4524e9ed6",
+          "record": {
+            "schema": "csdlc.v3.terminal_state.v1",
+            "repository": "agent-logic/agent-design-language",
+            "issue": 730,
+            "pull_request": 738,
+            "head_sha": "305547e0519c3a92174bc33e20f11d948a99e016",
+            "disposition": "closed_out"
+          }
+        }
+      ]
+    },
+    {
+      "issue": 731,
+      "artifacts": [
+        {
+          "path": ".csdlc/evidence/731/terminal-receipt.json",
+          "sha256": "b44c0f1eb2de7f02f4c0b2e7687378a6566e828d6e33af8b2d56d3f08070d83a",
+          "record": {
+            "schema": "csdlc.v3.terminal_receipt.v1",
+            "repository": "agent-logic/agent-design-language",
+            "issue": 731,
+            "pull_request": 742,
+            "head_sha": "e71cc7065964be6127e5f7b353a48b3fe11d4673",
+            "disposition": "closed_out",
+            "state_digest": "d6776d10c6bf157cf3da5b9f0374437ab1f2600d393820008cb2c4cfd318568c"
+          }
+        },
+        {
+          "path": ".csdlc/v3/issues/731/terminal.json",
+          "sha256": "dc2bcd2e8f7999f2bcb0629207100f88bddd37a503ddd210d34641d1bdbc980a",
+          "record": {
+            "schema": "csdlc.v3.terminal_state.v1",
+            "repository": "agent-logic/agent-design-language",
+            "issue": 731,
+            "pull_request": 742,
+            "head_sha": "e71cc7065964be6127e5f7b353a48b3fe11d4673",
+            "disposition": "closed_out"
+          }
+        }
+      ]
+    },
+    {
+      "issue": 740,
+      "artifacts": [
+        {
+          "path": ".csdlc/evidence/740/terminal-receipt.json",
+          "sha256": "722811e68c3de248229c63502fbeb373a7e9895a018280f886d10301ddbaebcb",
+          "record": {
+            "schema": "csdlc.v3.terminal_receipt.v1",
+            "repository": "agent-logic/agent-design-language",
+            "issue": 740,
+            "pull_request": 741,
+            "head_sha": "54b4a2dc2b853d72e4189c12e2c235901fc14bde",
+            "disposition": "closed_out",
+            "state_digest": "40fd346f10325f85ef271f698ec5ce7b349479302333559719d725ae661a9382"
+          }
+        },
+        {
+          "path": ".csdlc/v3/issues/740/terminal.json",
+          "sha256": "4571887f05490fe4ad798076218f4d5d4aa03870d4aad7416650bb14de593c40",
+          "record": {
+            "schema": "csdlc.v3.terminal_state.v1",
+            "repository": "agent-logic/agent-design-language",
+            "issue": 740,
+            "pull_request": 741,
+            "head_sha": "54b4a2dc2b853d72e4189c12e2c235901fc14bde",
+            "disposition": "closed_out"
+          }
+        }
+      ]
+    },
+    {
+      "issue": 745,
+      "artifacts": [
+        {
+          "path": ".csdlc/evidence/745/terminal-receipt.json",
+          "sha256": "958c20d0eb37f8c0a3605574b5540b44da8beac71ff4b2736367fe6f4bfe86b3",
+          "record": {
+            "schema": "csdlc.v3.terminal_receipt.v1",
+            "repository": "agent-logic/agent-design-language",
+            "issue": 745,
+            "pull_request": 747,
+            "head_sha": "2b4cbeb761be77f1b318a978b5334eeb214afa1c",
+            "disposition": "closed_out",
+            "state_digest": "706d95ab2501d00d54dd99b5990590e06035ba3d0296800f9d61b90a8134e994"
+          }
+        },
+        {
+          "path": ".csdlc/v3/issues/745/terminal.json",
+          "sha256": "060b70532aae0e3ed3a40fbcc878546e717fa071b060e51dbbb8e34ae8508738",
+          "record": {
+            "schema": "csdlc.v3.terminal_state.v1",
+            "repository": "agent-logic/agent-design-language",
+            "issue": 745,
+            "pull_request": 747,
+            "head_sha": "2b4cbeb761be77f1b318a978b5334eeb214afa1c",
+            "disposition": "closed_out"
+          }
+        }
+      ]
+    }
+  ],
+  "accounting_effect": "These eleven missing terminal closeouts are resolved. Do not reopen or create implementation work merely because earlier gate evidence lacked their terminal records.",
+  "evidence_boundary": "Terminal lifecycle completion is recorded separately from criterion-specific execution evidence. Historical candidate and assessments remain unchanged."
+}

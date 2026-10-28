@@ -1,0 +1,186 @@
+{
+  "schema": "csdlc.v3.issue1064.journey_comparison.v1",
+  "baseline_revision": "e9d2429bd20eedf33b5efacf1d0c0c5128993e3e",
+  "candidate_status": "uncommitted isolated candidate; requalification required at final revision",
+  "fixture_kind": "synthetic deterministic full delivery; authentic source census is separately recorded",
+  "results": {
+    "baseline": {
+      "attempts": 17,
+      "reviews": 2,
+      "failures": 1,
+      "elapsed_millis": 71133,
+      "remote_effects": 3,
+      "completed": true,
+      "git_read_invocations": 3149,
+      "authority_blob_reads": 711,
+      "canonical_authority_file_reads": 948,
+      "supplied_review_leaf_fields": [
+        14,
+        14
+      ],
+      "commands": [
+        {
+          "command": "prepare",
+          "exit_code": 0,
+          "elapsed_millis": 2604
+        },
+        {
+          "command": "bind",
+          "exit_code": 0,
+          "elapsed_millis": 3958
+        },
+        {
+          "command": "edit",
+          "exit_code": 2,
+          "elapsed_millis": 558
+        },
+        {
+          "command": "rebuild",
+          "exit_code": 0,
+          "elapsed_millis": 1051
+        },
+        {
+          "command": "edit",
+          "exit_code": 0,
+          "elapsed_millis": 3620
+        },
+        {
+          "command": "bind",
+          "exit_code": 0,
+          "elapsed_millis": 2737
+        },
+        {
+          "command": "proof",
+          "exit_code": 0,
+          "elapsed_millis": 5044
+        },
+        {
+          "command": "review",
+          "exit_code": 0,
+          "elapsed_millis": 6128
+        },
+        {
+          "command": "edit",
+          "exit_code": 0,
+          "elapsed_millis": 2980
+        },
+        {
+          "command": "proof",
+          "exit_code": 0,
+          "elapsed_millis": 5346
+        },
+        {
+          "command": "review",
+          "exit_code": 0,
+          "elapsed_millis": 7413
+        },
+        {
+          "command": "publish",
+          "exit_code": 0,
+          "elapsed_millis": 6129
+        },
+        {
+          "command": "github-pr",
+          "exit_code": 0,
+          "elapsed_millis": 7069
+        },
+        {
+          "command": "github-pr",
+          "exit_code": 0,
+          "elapsed_millis": 8309
+        },
+        {
+          "command": "finish",
+          "exit_code": 0,
+          "elapsed_millis": 3674
+        },
+        {
+          "command": "clean",
+          "exit_code": 0,
+          "elapsed_millis": 779
+        },
+        {
+          "command": "clean",
+          "exit_code": 0,
+          "elapsed_millis": 3734
+        }
+      ]
+    },
+    "candidate": {
+      "attempts": 12,
+      "reviews": 1,
+      "failures": 0,
+      "elapsed_millis": 30935,
+      "remote_effects": 3,
+      "completed": true,
+      "git_read_invocations": 2241,
+      "authority_blob_reads": 507,
+      "canonical_authority_file_reads": 676,
+      "supplied_review_leaf_fields": [
+        6
+      ],
+      "commands": [
+        {
+          "command": "prepare",
+          "exit_code": 0,
+          "elapsed_millis": 1127
+        },
+        {
+          "command": "bind",
+          "exit_code": 0,
+          "elapsed_millis": 2210
+        },
+        {
+          "command": "edit",
+          "exit_code": 0,
+          "elapsed_millis": 2663
+        },
+        {
+          "command": "proof",
+          "exit_code": 0,
+          "elapsed_millis": 2840
+        },
+        {
+          "command": "review",
+          "exit_code": 0,
+          "elapsed_millis": 3952
+        },
+        {
+          "command": "edit",
+          "exit_code": 0,
+          "elapsed_millis": 1440
+        },
+        {
+          "command": "publish",
+          "exit_code": 0,
+          "elapsed_millis": 3602
+        },
+        {
+          "command": "github-pr",
+          "exit_code": 0,
+          "elapsed_millis": 3857
+        },
+        {
+          "command": "github-pr",
+          "exit_code": 0,
+          "elapsed_millis": 4248
+        },
+        {
+          "command": "finish",
+          "exit_code": 0,
+          "elapsed_millis": 2083
+        },
+        {
+          "command": "clean",
+          "exit_code": 0,
+          "elapsed_millis": 509
+        },
+        {
+          "command": "clean",
+          "exit_code": 0,
+          "elapsed_millis": 2404
+        }
+      ]
+    }
+  }
+}

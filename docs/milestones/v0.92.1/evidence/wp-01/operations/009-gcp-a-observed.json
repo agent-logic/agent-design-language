@@ -1,0 +1,52 @@
+{
+  "schema": "adl.v0921.wp01.operation-observed.v1",
+  "kind": "child_create",
+  "planned_id": "GCP-A",
+  "issue": 490,
+  "title": "[v0.92.1][GCP-A] GCP hierarchy and cost decision",
+  "labels": [
+    "area:runtime",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "milestone": 1,
+  "state": "open",
+  "dependencies": {
+  },
+  "body_sha256": "c6ddd7755ac8a6b99de2f18d4046821db692b396dceb10ce555f2a2719a52650",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:GCP-A:create",
+  "request_fingerprint": "5e52258edb7d6cd4e6774ad6187cbec7016d7f7e15f12f7e6933c5566f625bc7",
+  "planning_digest": "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251",
+  "specification_sha256": "b31df4b3950e9e706b8487a13a89d500c7c01d3c4abac70bd7563e1d5f6f8863",
+  "live_response": {
+    "action": "issue_create",
+    "comment_id": null,
+    "issue": {
+      "assignees": [
+
+      ],
+      "body": "## Outcome\n\nProduce one accepted GCP hierarchy and cost-envelope decision.\n\n## Primary deliverable\n\nOne accepted decision register binding organization, folders, projects, billing, region, quota, naming, data residency, and the first workload cost envelope.\n\n## Verification result\n\nRead-only hierarchy, billing, API, IAM, policy, network, quota, credit-expiry, and current-resource observations reconcile to the decision register.\n\n## Unit boundary\n\nIssue completion is exactly one accepted hierarchy-and-cost decision; discovery observations are evidence inputs and no cloud mutation is performed.\n\n## Dependencies\n\n- None.\n\n## Retained predecessor scope\n\n- None; this is new v0.92.1 work.\n\n## Acceptance criteria\n\n- [ ] Organization folder project billing and region are exact\n- [ ] POC and long-term ownership are explicit\n- [ ] The first workload has a hard cost ceiling\n- [ ] Quota is not treated as capacity\n\n## Owned paths\n\n- `docs/operations/cloud/gcp/decisions/**`\n- `docs/milestones/v0.92.1/evidence/cloud/gcp-a/**`\n\n## PVF lanes\n\n- `hierarchy-readback`\n- `billing-and-credit`\n- `iam-policy-census`\n- `quota-capacity`\n- `decision-denominator`\n\n## Stop conditions\n\n- Identity or billing is ambiguous\n- Credit expiry is unknown\n- A decision would require mutation\n\n## Non-goals\n\n- API enablement\n- Project creation\n- Paid launch\n\n## Canonical planning identity\n\n- Planned ID: `GCP-A`\n- Canonical title: `[v0.92.1][GCP-A] GCP hierarchy and cost decision`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#GCP-A`\n<!-- csdlc-github-operation:v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:GCP-A:create -->\n",
+      "closed_at": null,
+      "created_at": "2026-08-26T02:47:53Z",
+      "labels": [
+        "track:roadmap",
+        "type:task",
+        "area:runtime",
+        "version:v0.92.1"
+      ],
+      "marker_present": true,
+      "milestone": 1,
+      "number": 490,
+      "repository": "agent-logic/agent-design-language",
+      "schema": "csdlc.github_issue.v1",
+      "state": "open",
+      "title": "[v0.92.1][GCP-A] GCP hierarchy and cost decision"
+    },
+    "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:GCP-A:create",
+    "pr_state": null,
+    "reconciled": true,
+    "repository": "agent-logic/agent-design-language",
+    "schema": "csdlc.github_action_result.v1"
+  }
+}

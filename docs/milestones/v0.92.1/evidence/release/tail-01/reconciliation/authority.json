@@ -1,0 +1,31 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "records": [
+    {
+      "id": "issue-483-amendment",
+      "issue": 483,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/483#issuecomment-5554770090",
+      "author": "danielbaustin",
+      "created_at": "2026-09-05T21:03:53Z",
+      "body": "Operator scope clarification: #483 is accepted as the read-only custody register pass. Its remaining operational work is explicitly non-gating and now has concrete unscheduled backlog authority:\n\n- #703 \u2014 GitHub organization custody and recovery\n- #702 \u2014 GitHub CI authority and emergency controls\n- #701 \u2014 domain custody and DNS delegation recovery\n- #699 \u2014 certificate renewal and recovery authority\n- #698 \u2014 AWS business-account audit and recovery guardrails\n- #700 \u2014 deployment authority and rollback recovery\n- #704 \u2014 private vault custody and non-single-factor recovery (including the related email, brand/private-instrument, and assignment-custody residuals)\n\nAll seven are labeled `track:backlog`, have no milestone, and grant no live administrative or infrastructure mutation authority.\n\n<!-- csdlc-github-operation:corp-b-readonly-backlog-routing-v1 -->\n",
+      "body_sha256": "647edefee9a560d3ff8a3d3abf88889de5b2e973990f5118cd60964c96a50ab8"
+    },
+    {
+      "id": "issue-511-amendment",
+      "issue": 511,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/511#issuecomment-5554002940",
+      "author": "danielbaustin",
+      "created_at": "2026-09-05T18:46:43Z",
+      "body": "Closed as absorbed into #512. The Observatory experience-design contract is now embodied by the #512 executable implementation, markup, interaction states, accessibility contracts, and focused review surface; a separate #511 implementation path or PR would duplicate that work.\n\nThe inherited OBS-A requirements remain explicit in #512: stable information contracts for every final view; designed and proven empty, degraded, recovery, and revoked states; keyboard and screen-reader flows; and source-grounded Runtime fields with no invented authority. The consolidated review handoff is retained in the #512 worktree at `.csdlc/evidence/512/CLAUDE_REVIEW_HANDOFF.md`, and Claude is currently remediating its findings.\n\nThis no-PR closure records scope absorption only. It does not claim #512 is complete, reviewed, merged, or ready to close. #512 remains the active delivery issue and must pass its focused identity, roster-ordering, accessibility, recovery, documentation, exact-browser, and fresh exact-head review gates before completion.\n\n<!-- csdlc-github-operation:issue-511-absorption-closeout-comment-v1 -->\n",
+      "body_sha256": "1fa565177d5686266d3dd6a5fd14c2b24036ef0b24704cfc83ba19b185856c4e"
+    },
+    {
+      "id": "issue-512-amendment",
+      "issue": 512,
+      "url": "https://github.com/agent-logic/agent-design-language/issues/512",
+      "body": "## Outcome\n\nProduce one implemented Observatory redesign backed by authentic Runtime projections.\n\n## Primary deliverable\n\nOne implemented Observatory redesign consuming authentic Runtime projections.\n\n## Verification result\n\nExact browser, accessibility, redaction, recovery, and authentic Runtime-route checks pass.\n\n## Unit boundary\n\nIssue completion is exactly one implemented Observatory redesign; browser and authority cases are proof inputs.\n\n## Dependencies\n\n- OBS-A: #511\n- Sprint 8 coordination: #536\n\nIssue #84 is independent backlog work and is not a dependency or execution gate for #512.\n\n## Acceptance criteria\n\n- [ ] OBS-A contracts are implemented\n- [ ] Runtime projections are source-grounded\n- [ ] Accessibility and recovery cases pass\n- [ ] No mock substitutes for the required Runtime route\n\n## Owned paths\n\n- `demos/html-observatory/app.js`\n- `demos/html-observatory/styles.css`\n- `adl/tools/validate_layer8_authority_observatory_ui.sh`\n- `docs/milestones/v0.92.1/evidence/observatory/obs-b/**`\n\n## PVF lanes\n\n- `authentic-runtime-route`\n- `exact-browser-cases`\n- `accessibility`\n- `redaction`\n- `recovery`\n\n## Stop conditions\n\n- Issue #511 is not reviewed and terminal\n- A mock substitutes for the required Runtime route\n\n## Non-goals\n\n- TLS 1.2 implementation owned by issue #251\n- Public exposure owned by issue #122\n- Unity integration owned by independent backlog issue #84\n\n<!-- csdlc-github-operation:v0921-sprint8:512-remove-84-gate-v1 -->\n",
+      "body_sha256": "e7e81534fecd4771a25fa5524630f97678f97564e7cee0b399cd91e0ba709c02",
+      "operation_marker": "v0921-sprint8:512-remove-84-gate-v1"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "agent_instance_id": "csm-governed-notice-4998-lambda",
+  "artifacts": {
+    "csm_adl_run_status": null,
+    "cycle_summary": "cycle_summary.md",
+    "decision_request": "decision_request.json",
+    "decision_result": "decision_result.json",
+    "guardrail_report": "guardrail_report.json",
+    "memory_writes": "memory_writes.jsonl",
+    "observations": "observations.json",
+    "run_ref": "run_ref.json"
+  },
+  "completed_at": "2026-07-07T01:55:26.498030Z",
+  "csm_runtime": {
+    "adl_role": "tooling_control_plane",
+    "aee": "integrated",
+    "chronosense": "integrated",
+    "resilience_middleware": "integrated",
+    "runtime_owner": "csm",
+    "scheduler_watcher": "integrated"
+  },
+  "cycle_id": "cycle-000002",
+  "input_hash": "sha256:f9d021e91b38ae1db1774c0cf2ad2dc1b870d8483923cd7a55018f3494dee776",
+  "next_cycle_hint": "sleep_until_next_heartbeat",
+  "not_financial_advice": true,
+  "output_hash": "sha256:a235a495716fa14c561d5ef45f9c7c6f7d61636048c1b6bee02aef7628e225d3",
+  "previous_cycle_id": "cycle-000001",
+  "schema": "adl.long_lived_agent_cycle_manifest.v1",
+  "started_at": "2026-07-07T01:55:26.495321Z",
+  "status": "blocked",
+  "workflow_kind": "unsupported_adapter",
+  "workflow_ref": "governed_notice_lambda_failure_probe"
+}

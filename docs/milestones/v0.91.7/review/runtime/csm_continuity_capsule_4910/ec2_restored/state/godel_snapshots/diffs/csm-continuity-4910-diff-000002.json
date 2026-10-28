@@ -1,0 +1,73 @@
+{
+  "schema": "adl.csm.godel_agent_diff.v1",
+  "format_version": "godel-agent-state.v1",
+  "agent_instance_id": "csm-continuity-4910",
+  "diff_id": "csm-continuity-4910-diff-000002",
+  "diff_ref": "godel_snapshots/diffs/csm-continuity-4910-diff-000002.json",
+  "base_snapshot_ref": "godel_snapshots/snapshots/csm-continuity-4910-snapshot-000001.json",
+  "base_snapshot_sha256": "37f511b0ae6e5fd55a731a60c9befe3318ca9e032538e52ab782d750059a1207",
+  "previous_diff_ref": "godel_snapshots/diffs/csm-continuity-4910-diff-000001.json",
+  "previous_diff_sha256": "6ad2e8bda629ba94c0e78996e2e30ecb53297f8991147d41c645985e294fecbe",
+  "captured_at": "2026-07-10T21:22:06.720562Z",
+  "protocol": {
+    "format_version": "godel-agent-state.v1",
+    "compatible_read_versions": [
+      "godel-agent-state.v1"
+    ],
+    "migration_policy": "same-major v1 readers are compatible; v2+ requires explicit migration before recovery",
+    "cadence_policy": {
+      "trigger": "csm_continuity_checkpoint",
+      "checkpoint_interval_secs": 1,
+      "min_agent_request_interval_secs": 30,
+      "writes_base_snapshot_when_chain_missing": true,
+      "writes_diff_after_valid_base": true
+    },
+    "backpressure_policy": {
+      "csm_queue": "snapshot_diff",
+      "policy": "defer_latest_only_under_backpressure",
+      "failure_mode": "fail_checkpoint_validation_if_chain_cannot_validate",
+      "low_disk_behavior": "preserve last-known-good pointer; do not advance chain on interrupted write"
+    }
+  },
+  "state_projection": {
+    "agent_instance_id": "csm-continuity-4910",
+    "display_name": "CSM Continuity Capsule 4910 Proof Agent",
+    "workflow_kind": "demo_adapter",
+    "workflow_name": "csm_continuity_capsule_4910_probe",
+    "workflow_path_ref": null,
+    "declared_capabilities": [
+      "csm_continuity_checkpoint",
+      "godel_snapshot_diff_v1",
+      "workflow_kind:demo_adapter",
+      "memory_refs_projected_without_payloads"
+    ],
+    "active_run_position": {
+      "state": "idle",
+      "latest_cycle_id": "cycle-000002",
+      "latest_cycle_status": "success",
+      "completed_cycle_count": 2,
+      "consecutive_failure_count": 0,
+      "stop_requested": false,
+      "lease_state": "clear"
+    },
+    "memory_refs": [
+      "smoke/csm-continuity-4910"
+    ],
+    "local_deltas": [
+      "checkpoint_reason:status_refreshed",
+      "status_state:Idle"
+    ],
+    "recovery_hints": [
+      "resume_from_validated_last_known_good_pointer"
+    ]
+  },
+  "delta_summary": [
+    "checkpoint_reason:status_refreshed",
+    "latest_cycle_id:cycle-000002",
+    "latest_cycle_status:success",
+    "completed_cycle_count:2"
+  ],
+  "continuity_checkpoint_ref": "continuity_checkpoint.json",
+  "continuity_replay_manifest_ref": "continuity_replay_manifest.json",
+  "content_sha256": "f954f1a3106fc718609a3c839c93f3c23aa5ca6d3f171733cf69befb18278697"
+}

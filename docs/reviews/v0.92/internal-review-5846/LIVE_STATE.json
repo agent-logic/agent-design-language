@@ -1,0 +1,55 @@
+{
+  "schema": "adl.internal_review.live_state.v1",
+  "captured_at": "2026-08-25T01:47:33Z",
+  "repository": "agent-logic/agent-design-language",
+  "target_sha": "c6792e54df1db5969fa28c59b6dfe4c714ed5559",
+  "issues": {
+    "307": {
+      "state": "OPEN",
+      "body_sha256": "a84f19ec1d800f1a6171cd47958f7cda1ca5cce947c22c1defd6e1a769f67561",
+      "graph_check": "#312 -> #313 -> #314 -> #315"
+    },
+    "313": {
+      "state": "OPEN",
+      "body_sha256": "3eac6085a8eea1e9545b1b2d8bbd5cf79eb80ef6bd06cd85fc3184611d27e690",
+      "dependencies": [
+        312,
+        10
+      ],
+      "deferred_non_blocking": [
+        342
+      ]
+    },
+    "342": {
+      "state": "OPEN",
+      "body_sha256": "859e1925fcbe8a2cad2645ceeaeb275d0f2873309806a9403b436ceaca618bd3",
+      "milestone": "v0.92.1"
+    },
+    "315": {
+      "state": "OPEN",
+      "body_sha256": "cd388bc24b862c0d8c2e7f21be5abf5299262a6507016bdfb9f1548574cb278c",
+      "work_package": "WP-27",
+      "legacy_predecessor": 5848
+    }
+  },
+  "terminal_dependencies": {
+    "312": {
+      "disposition": "merged",
+      "issue_state": "closed_by_merged_pr",
+      "merge_sha": "c6792e54df1db5969fa28c59b6dfe4c714ed5559",
+      "terminal_digest": "2880fb976e0df9f548d0a6bdbfb182ace4e71351429e2fef4eaf157a8db50470",
+      "source": "live_github_historical_reconciliation"
+    },
+    "10": {
+      "disposition": "merged",
+      "issue_state": "closed_by_merged_pr",
+      "merge_sha": "b4f23892fa5c7b23816c8c38903ed4c73395afde",
+      "terminal_digest": "a0c279ee5d7261e94875c98e8d540b28612dfff7dc9308896f3c704e19896a14",
+      "source": "live_github_historical_reconciliation"
+    }
+  },
+  "dependency_worktrees_absent": [
+    312,
+    10
+  ]
+}

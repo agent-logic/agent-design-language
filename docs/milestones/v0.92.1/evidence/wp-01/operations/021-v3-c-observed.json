@@ -1,0 +1,53 @@
+{
+  "schema": "adl.v0921.wp01.operation-observed.v1",
+  "kind": "child_create",
+  "planned_id": "V3-C",
+  "issue": 502,
+  "title": "[v0.92.1][V3-C] C-SDLC v3 lifecycle kernel",
+  "labels": [
+    "area:csdlc",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "milestone": 1,
+  "state": "open",
+  "dependencies": {
+    "V3-B": 501
+  },
+  "body_sha256": "4b12807e615bd7055ced149d274bcb62a8e86b36a90d288f3cf5533590ca8cb7",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:V3-C:create",
+  "request_fingerprint": "e41162b3b0500e518b38d0aef96f6c895fbb62c27fcad9be3d0c05c7e037ad0f",
+  "planning_digest": "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251",
+  "specification_sha256": "d9d56b6ecf21ec95d4f52a211d3ff4491202deff5d1e5a12fb12d75019528c33",
+  "live_response": {
+    "action": "issue_create",
+    "comment_id": null,
+    "issue": {
+      "assignees": [
+
+      ],
+      "body": "## Outcome\n\nProduce one transactional C-SDLC v3 lifecycle-kernel slice.\n\n## Primary deliverable\n\nOne transactional C-SDLC v3 lifecycle-kernel slice with recovery and typed adapters.\n\n## Verification result\n\nTransition, failure-injection, and recovery-replay tests pass for requirements 168 through 170.\n\n## Unit boundary\n\nIssue completion is exactly delivery of one transactional lifecycle-kernel slice; storage and adapters are inseparable implementation parts.\n\n## Dependencies\n\n- V3-B: #501\n\n## Retained predecessor scope\n\n- #168\n- #169\n- #170\n\n## Acceptance criteria\n\n- [ ] Transitions are capability-checked and atomic\n- [ ] Recovery preserves audit provenance\n- [ ] Requirements 168 through 170 pass failure-injection tests\n\n## Owned paths\n\n- `csdlc-v3/src/lifecycle/**`\n- `csdlc-v3/src/storage/**`\n- `csdlc-v3/src/adapters/**`\n- `csdlc-v3/tests/transactions/**`\n\n## PVF lanes\n\n- `transition-matrix`\n- `transaction-failure`\n- `recovery-replay`\n- `strict-clippy`\n\n## Stop conditions\n\n- Partial writes can acquire authority\n- Recovery loses provenance\n\n## Non-goals\n\n- Publication\n- v2 migration\n\n## Canonical planning identity\n\n- Planned ID: `V3-C`\n- Canonical title: `[v0.92.1][V3-C] C-SDLC v3 lifecycle kernel`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#V3-C`\n<!-- csdlc-github-operation:v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:V3-C:create -->\n",
+      "closed_at": null,
+      "created_at": "2026-08-26T03:00:04Z",
+      "labels": [
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1",
+        "area:csdlc"
+      ],
+      "marker_present": true,
+      "milestone": 1,
+      "number": 502,
+      "repository": "agent-logic/agent-design-language",
+      "schema": "csdlc.github_issue.v1",
+      "state": "open",
+      "title": "[v0.92.1][V3-C] C-SDLC v3 lifecycle kernel"
+    },
+    "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:V3-C:create",
+    "pr_state": null,
+    "reconciled": true,
+    "repository": "agent-logic/agent-design-language",
+    "schema": "csdlc.github_action_result.v1"
+  }
+}

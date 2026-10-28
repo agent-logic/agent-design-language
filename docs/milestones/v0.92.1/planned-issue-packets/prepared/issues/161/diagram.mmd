@@ -1,0 +1,13 @@
+flowchart LR
+  SRC["Accepted v3 architecture"] --> INV["Retained v2 invariant register"]
+  SRC --> CMD["Command and output contracts"]
+  SRC --> CAP["Field/operation capability matrix"]
+  BASE["Measured v2 bundle at f1c01499"] --> SIZE["10x block / 80% warning"]
+  CAP --> HELP["Help, kernel, doctor, tests"]
+  CMD --> LINK["Closing | PartOf linkage"]
+  CMD --> JQ["In-process supported jq subset"]
+  INV --> GATE["V3-02 start gate"]
+  SIZE --> GATE
+  LINK --> GATE
+  JQ --> GATE
+  GATE --> REVIEW["Independent contract review"]

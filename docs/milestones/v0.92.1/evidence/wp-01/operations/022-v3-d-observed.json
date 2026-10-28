@@ -1,0 +1,53 @@
+{
+  "schema": "adl.v0921.wp01.operation-observed.v1",
+  "kind": "child_create",
+  "planned_id": "V3-D",
+  "issue": 503,
+  "title": "[v0.92.1][V3-D] C-SDLC v3 local preparation workflow",
+  "labels": [
+    "area:csdlc",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "milestone": 1,
+  "state": "open",
+  "dependencies": {
+    "V3-C": 502
+  },
+  "body_sha256": "b11ae93ba2da32c15a534742a1ddd972d1b6a6994c240821c54ad9be45e5b1fd",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:V3-D:create",
+  "request_fingerprint": "3ddd1fc1db11293b29040e56d735194824815f797cb79981b9f51f1342a6f316",
+  "planning_digest": "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251",
+  "specification_sha256": "613f11c779abba59bbba4f5bf7b193bb19c17f95cbc4a897e8d2c11a53e42335",
+  "live_response": {
+    "action": "issue_create",
+    "comment_id": null,
+    "issue": {
+      "assignees": [
+
+      ],
+      "body": "## Outcome\n\nProduce one end-to-end C-SDLC v3 local preparation workflow.\n\n## Primary deliverable\n\nOne end-to-end local preparation workflow from issue input to a doctor-validated PVF plan.\n\n## Verification result\n\nOne workflow test proves an issue input reaches a doctor-validated PVF plan under typed state for requirements 171 through 173.\n\n## Unit boundary\n\nIssue completion is exactly one local preparation workflow; individual commands are internal steps and cannot close independently.\n\n## Dependencies\n\n- V3-C: #502\n\n## Retained predecessor scope\n\n- #171\n- #172\n- #173\n\n## Acceptance criteria\n\n- [ ] Commands consume typed contracts\n- [ ] Bind enforces registered topology\n- [ ] Cards render from the active registry\n- [ ] Requirements 171 through 173 have CLI proof\n\n## Owned paths\n\n- `csdlc-v3/src/commands/local/**`\n- `csdlc-v3/tests/local_commands/**`\n- `docs/templates/prompts/**`\n\n## PVF lanes\n\n- `cli-contract`\n- `bind-topology`\n- `card-roundtrip`\n- `doctor-findings`\n\n## Stop conditions\n\n- A command bypasses typed state\n- Generated cards require hand edits\n\n## Non-goals\n\n- PVF execution\n- GitHub writes\n\n## Canonical planning identity\n\n- Planned ID: `V3-D`\n- Canonical title: `[v0.92.1][V3-D] C-SDLC v3 local preparation workflow`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#V3-D`\n<!-- csdlc-github-operation:v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:V3-D:create -->\n",
+      "closed_at": null,
+      "created_at": "2026-08-26T03:01:24Z",
+      "labels": [
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1",
+        "area:csdlc"
+      ],
+      "marker_present": true,
+      "milestone": 1,
+      "number": 503,
+      "repository": "agent-logic/agent-design-language",
+      "schema": "csdlc.github_issue.v1",
+      "state": "open",
+      "title": "[v0.92.1][V3-D] C-SDLC v3 local preparation workflow"
+    },
+    "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:V3-D:create",
+    "pr_state": null,
+    "reconciled": true,
+    "repository": "agent-logic/agent-design-language",
+    "schema": "csdlc.github_action_result.v1"
+  }
+}

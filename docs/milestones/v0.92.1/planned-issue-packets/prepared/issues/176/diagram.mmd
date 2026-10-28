@@ -1,0 +1,12 @@
+flowchart LR
+  DOMAIN["domain ports"] --> TRAIT["typed GitHub trait"]
+  TRAIT --> OCTO["Octocrab typed endpoints"]
+  TRAIT --> RAW["reviewed typed raw requests"]
+  OCTO --> NORM["normalized observations"]
+  RAW --> NORM
+  NORM --> ISSUE["qualified issue state/reason/time"]
+  NORM --> PR["PR/mergeability"]
+  NORM --> CHECK["checks at exact head SHA"]
+  NORM --> PRINCIPAL["authenticated reviewer principal"]
+  NORM --> STATUS["read-only status commands"]
+  STATUS --> NOAUTH["no mutation or publication authority"]

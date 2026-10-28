@@ -1,0 +1,15 @@
+stateDiagram-v2
+  [*] --> Initialized
+  Initialized --> Ready
+  Ready --> Bound
+  Bound --> Implemented
+  Implemented --> Reviewed
+  Reviewed --> Published
+  Published --> MergeReady
+  MergeReady --> Merged
+  Merged --> ClosedOut
+  Reviewed --> Implemented: review recover + atomic invalidation
+  Published --> Implemented: review recover + atomic invalidation
+  MergeReady --> Implemented: review recover + atomic invalidation
+  Merged --> Merged: recovery rejected
+  ClosedOut --> ClosedOut: recovery rejected

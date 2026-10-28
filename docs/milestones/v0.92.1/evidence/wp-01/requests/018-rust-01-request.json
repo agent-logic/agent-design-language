@@ -1,0 +1,27 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "action": "issue_create",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:RUST-01:create",
+  "token_file": null,
+  "issue": null,
+  "pull_request": null,
+  "title": "[v0.92.1][RUST-01] Resilience owner-boundary refactoring",
+  "body": "## Outcome\n\nProduce one behavior-preserving resilience owner-boundary refactoring slice.\n\n## Primary deliverable\n\nOne refactored resilience module family with explicit owner boundaries and a narrower change-validation surface.\n\n## Verification result\n\nBaseline API, positive, negative, fault, trace, retry, timeout, cancellation, formatting, Clippy, and exact diff checks pass while the tracked validation-impact denominator is reduced or truthfully unchanged.\n\n## Unit boundary\n\nIssue completion is exactly one behavior-preserving resilience owner-boundary refactor; module extraction and test relocation are internal steps and line movement is not a separate result.\n\n## Dependencies\n\n- WP-01: #480\n\n## Retained predecessor scope\n\n- None; this is new v0.92.1 work.\n\n## Acceptance criteria\n\n- [ ] Supported resilience behavior and public API remain compatible\n- [ ] Each extracted module has one coherent owner\n- [ ] Tests remain behavior-focused and PVF-classified\n- [ ] Validation-impact change is measured exactly\n- [ ] No line-count reduction quota is imposed\n\n## Owned paths\n\n- `adl/src/resilience.rs`\n- `adl/src/resilience/**`\n- `adl/tests/**`\n- `docs/milestones/v0.92.1/evidence/refactoring/rust-01/**`\n\n## PVF lanes\n\n- `api-parity`\n- `resilience-positive-negative`\n- `fault-and-trace`\n- `retry-timeout-cancellation`\n- `validation-impact`\n- `fmt-clippy`\n\n## Stop conditions\n\n- Behavior changes are required\n- Ownership becomes more ambiguous\n- Tests are weakened or merely moved\n- Refactoring expands into unrelated Rust surfaces\n\n## Non-goals\n\n- Repository-wide refactoring\n- Mandatory LoC reduction\n- Runtime v4\n- Aesthetic file splitting\n\n## Canonical planning identity\n\n- Planned ID: `RUST-01`\n- Canonical title: `[v0.92.1][RUST-01] Resilience owner-boundary refactoring`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#RUST-01`\n",
+  "labels": [
+    "area:architecture",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "assignees": [
+
+  ],
+  "milestone": 1,
+  "state": null,
+  "comment_body": null,
+  "required_checks": [
+
+  ],
+  "require_review": false,
+  "linked_issue": null
+}

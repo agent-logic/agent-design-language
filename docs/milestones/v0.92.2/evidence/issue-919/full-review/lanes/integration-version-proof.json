@@ -1,0 +1,8 @@
+{
+  "legacy_v2_accepted": true,
+  "current_v4_version_declaration_rejected": true,
+  "error": "assessment_review_invalid",
+  "native_version": "codefriend.review_lane.v4",
+  "consumer_version": "codefriend.review_lane.v2",
+  "scope": "Actual consumer gate, resealed fixture; source-confirmed native producer. No end-to-end native-emitted or live test."
+}

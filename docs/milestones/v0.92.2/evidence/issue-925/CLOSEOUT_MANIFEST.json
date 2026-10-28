@@ -1,0 +1,50 @@
+{
+  "schema": "adl.closeout_manifest.v1",
+  "input_revision": "6f1d3bf47a12533e0af7093743c635d6b770ca07",
+  "operator_instruction": "Close v0.92.2 and start next milestone after a15minute break. All internal-review findings fixed; external review attempt failed.",
+  "decision": "administrative_milestone_close_after_tail_integration",
+  "software_release": "not_performed",
+  "external_review": "failed_attempt",
+  "product_qualification": "deferred_to_1148_1149_1150",
+  "pending_merge_issues": [
+    922,
+    923,
+    924,
+    925,
+    937
+  ],
+  "files": [
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-925/RELEASE_DECISION.md",
+      "sha256": "11fae71c61ff9fed2ead6e574fd334f41f75c3e0b78f5a23dd92e11b857913b0"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-925/ISSUE_DISPOSITIONS.json",
+      "sha256": "5907d4dbadb909ec1969afe0c4859ab1527813b12e735a32256bc65ac9cf9567"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-925/ADL_v0.92.2_Activation_Gate_Assessment.pdf",
+      "sha256": "30a5dd91f38508a6f32f06a364ece249427056f059947d2fd8d84b06284d0cdf"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-924/REVIEWED_MANIFEST.json",
+      "sha256": "2d856b50b03586733006ade2456a68aead6cac09e4cd03de9f03c12f497f7fef"
+    },
+    {
+      "path": ".csdlc/evidence/910/browser-proof.json",
+      "sha256": "bb48dcb6e175cc06f14f99d8a7b7b403fdee8d4ed6d9935f4a6632a66948d38d"
+    },
+    {
+      "path": ".csdlc/evidence/910/deployed-posture.json",
+      "sha256": "2e841975f68a9888cb2afb20c388e98573d2706dbfbb9ebb9e4820d63c1d7aa8"
+    },
+    {
+      "path": ".csdlc/evidence/910/upload-invalidation.json",
+      "sha256": "d5e63af99a9953ad451e6020639d7ba3fa031a56496153e034c04f327eabdadf"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/adr/issue-945/README.md",
+      "sha256": "a01603eb5e5959e8c5dcc2117c8e3f33a8ec280be55b9801ce00d6c947159286"
+    }
+  ]
+}

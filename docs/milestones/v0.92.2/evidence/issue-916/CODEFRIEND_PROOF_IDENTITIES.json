@@ -1,0 +1,136 @@
+{
+  "issue": 916,
+  "records": [
+    {
+      "path": "docs/codefriend/ARCHITECTURE_INSTALLED_PROOF.json",
+      "sha256": "a452f673fdd649f63e3d89254a6b7fb5917438f1264da600ebe701daba8a7daf",
+      "issue": 882,
+      "schema": "codefriend.structure_installed_proof.v1",
+      "binary_sha256": "521b78a0b812cd0873447fbd8975e0ed6f27e2204aef2b59cc1f0da656cfd59b",
+      "installation_provenance": "42e782b1a883bd433274527377d4a119703be4270b335e29213d3412d0005aeb",
+      "reported_scenario_count": 9,
+      "qualification_status": "historical_producer_record; not accepted release candidate"
+    },
+    {
+      "path": "docs/codefriend/ARCHITECTURE_PROOF_INVENTORY.json",
+      "sha256": "53db7da454f18fd8a6d66b438f40a7248603700a53fc643a4d3de972d46030d9",
+      "issue": 882,
+      "schema": "codefriend.architecture_proof_inventory.v1",
+      "binary_sha256": null,
+      "installation_provenance": null,
+      "reported_scenario_count": null,
+      "qualification_status": "historical_producer_record; not accepted release candidate"
+    },
+    {
+      "path": "docs/codefriend/EVIDENCE_BOOTSTRAP_PROOF.json",
+      "sha256": "7f7f262150893954893051bb921dc7296fc7a49777832b5e91034a12138d39e1",
+      "issue": 881,
+      "schema": "codefriend.evidence_installed_proof.v1",
+      "binary_sha256": "27bd213ac10b0f5b65ab3d10a854484dd2d72234a5d64fee6edffc2a40a0e537",
+      "installation_provenance": "de963e280a246d9057ad88d15e892013dcb579cad18a24172c9adf1e43b8e067",
+      "reported_scenario_count": null,
+      "qualification_status": "historical_producer_record; not accepted release candidate"
+    },
+    {
+      "path": "docs/codefriend/EVIDENCE_INSTALLED_PROOF.json",
+      "sha256": "5059912ea323a5046128d588bbdf929f75f87328678fd444bde1abee72ad9998",
+      "issue": 881,
+      "schema": "codefriend.evidence_installed_proof.v1",
+      "binary_sha256": "59a9ef09925a85f9d65a4c09627c6e0ae2805225381c1c3cd0fc0c5de9f2bc21",
+      "installation_provenance": "38c0714e7d584b8eda81087392b949250eac9e286e7b3632506ff8d228fd5ddf",
+      "reported_scenario_count": null,
+      "qualification_status": "historical_producer_record; not accepted release candidate"
+    },
+    {
+      "path": "docs/codefriend/EVIDENCE_PROOF_INVENTORY.json",
+      "sha256": "b4d59288c000842fc2b5bb2b9a4b268f4bc40273065332f26cbcd8830d568a36",
+      "issue": 881,
+      "schema": "codefriend.evidence_proof_inventory.v1",
+      "binary_sha256": null,
+      "installation_provenance": null,
+      "reported_scenario_count": null,
+      "qualification_status": "historical_producer_record; not accepted release candidate"
+    },
+    {
+      "path": "docs/codefriend/LOCAL_FITNESS_INSTALLED_PROOF.json",
+      "sha256": "e8624c5a924b88bce99fdd2738f8c391085aa3c4f16ca761d1b7b044e345407c",
+      "issue": 887,
+      "schema": "codefriend.fitness_installed_proof.v1",
+      "binary_sha256": "f2e99f355d5a7dec03665f790c41a2c43c8d8a6de0229b736c980dfd5e33cff8",
+      "installation_provenance": "9e32259fb1ccc921bc1eb4c3b70513646bf7afbfa24d13546375605564410be3",
+      "reported_scenario_count": 3,
+      "qualification_status": "historical_producer_record; not accepted release candidate"
+    },
+    {
+      "path": "docs/codefriend/LOCAL_FITNESS_PROOF_INVENTORY.json",
+      "sha256": "1c880486b9cf316f52077313a7b63ce731105fbb8e1a8810237531908b0df976",
+      "issue": 887,
+      "schema": "codefriend.fitness_proof_inventory.v1",
+      "binary_sha256": null,
+      "installation_provenance": null,
+      "reported_scenario_count": null,
+      "qualification_status": "historical_producer_record; not accepted release candidate"
+    },
+    {
+      "path": "docs/codefriend/LOCAL_INGESTION_PROOF.json",
+      "sha256": "b058256d19dbf3622313589f9173831928538606b4dbb2ae6c8d99eeeb729ded",
+      "issue": 878,
+      "schema": "codefriend.local_ingestion_proof.v1",
+      "binary_sha256": "f96bcaed55b0b1e310cae88d4f8ee31f060f1670de4d00826f582cd3a2c74227",
+      "installation_provenance": "4411b06ac63903f55e696272777b937a87ec1e1e6618ec48fb096c9e8b9f8ee4",
+      "reported_scenario_count": null,
+      "qualification_status": "historical_producer_record; not accepted release candidate"
+    },
+    {
+      "path": "docs/codefriend/LOCAL_INGESTION_REPAIR_PROOF.json",
+      "sha256": "6b18c9a6f5ff42a6f71369491f3268c26ea4fb4affc3d693a0518f3cd1c44682",
+      "issue": 878,
+      "schema": "codefriend.local_ingestion_proof.v1",
+      "binary_sha256": "a689b458ed82dd83275a13c7d9f74b580e0ffc527652613d7bc268227d46a290",
+      "installation_provenance": "86d3d37768b5927ec39199b3b3e718eb39a78ffc6bc0cac324723924290ff0d2",
+      "reported_scenario_count": null,
+      "qualification_status": "historical_producer_record; not accepted release candidate"
+    },
+    {
+      "path": "docs/codefriend/LOCAL_INGESTION_STREAMING_PROOF.json",
+      "sha256": "7f959647bea03b0a38ec4f447d190deb7cb114d422a85ad41674fab6714f451e",
+      "issue": 878,
+      "schema": "codefriend.local_ingestion_proof.v1",
+      "binary_sha256": "f401e6818f5d2fdc9259dbea7d988df38d8ce276332f9385a237ccc28b377273",
+      "installation_provenance": "adbc71f70e1aa58376ecbd7eacf6fbdebd4a6dc9cf8de0d352caef68672054d4",
+      "reported_scenario_count": null,
+      "qualification_status": "historical_producer_record; not accepted release candidate"
+    },
+    {
+      "path": "docs/codefriend/LOCAL_INGESTION_TOML_PROOF.json",
+      "sha256": "282a9e5af3bcd18f625e9bc9ac308d4030b38f732ea97f13b96c6639194d8420",
+      "issue": 878,
+      "schema": "codefriend.local_ingestion_proof.v1",
+      "binary_sha256": "3cf19f7725cf30edddfa9814e4f2bc769327e251fbe4e1204f5a8450c8597150",
+      "installation_provenance": "c2c3ed0f6ddd5eaa695c3d8bf7353de48e6b779458701f996f01b686a9e8691f",
+      "reported_scenario_count": null,
+      "qualification_status": "historical_producer_record; not accepted release candidate"
+    },
+    {
+      "path": "docs/codefriend/MEMORY_COMPARISON_PROOF_INVENTORY.json",
+      "sha256": "b797c9bd4c420532bbd3f1ce001df19cef6badf6135cbd5a028c12834df37f75",
+      "issue": 885,
+      "schema": "codefriend.memory_comparison_proof_inventory.v1",
+      "binary_sha256": null,
+      "installation_provenance": null,
+      "reported_scenario_count": null,
+      "qualification_status": "historical_producer_record; not accepted release candidate"
+    },
+    {
+      "path": "docs/codefriend/MEMORY_INSTALLED_PROOF.json",
+      "sha256": "6d7175d5b82ca5aa38178a4666c8081b0730f150b01425d81fb45349406cf5b7",
+      "issue": 885,
+      "schema": "codefriend.memory_installed_proof.v1",
+      "binary_sha256": "560663e1968b335adffdb5d62e2faca0f641e1417c13dfbbff0f31e0990959ac",
+      "installation_provenance": "4fb59962f31cf99a1dcd37230042eb1f2aa187d7a49f735ac92a3d055dbc887e",
+      "reported_scenario_count": 8,
+      "qualification_status": "historical_producer_record; not accepted release candidate"
+    }
+  ],
+  "nonclaim": "Artifact identity inspection only; source scenarios were not rerun and binary differences alone are not defects."
+}

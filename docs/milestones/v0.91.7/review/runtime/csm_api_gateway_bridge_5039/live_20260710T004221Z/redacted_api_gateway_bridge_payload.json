@@ -1,0 +1,47 @@
+{
+  "agent_instance_id": "csm-liveness-4976-full",
+  "bridge_mode": "aws_api_gateway_to_authorized_loopback_runtime_api",
+  "direct_public_daemon_bind": false,
+  "embedded_daemon_api": "loopback_only",
+  "negative_case_policy": {
+    "degraded_csm_state": "api_gateway_degraded_csm_state",
+    "malformed_request": "api_gateway_malformed_request",
+    "missing_token": "api_gateway_authorization_denied",
+    "throttling": "api_gateway_throttled",
+    "upstream_failure": "api_gateway_upstream_failure"
+  },
+  "polis_ingress": {
+    "ingress_model": "one_api_gateway_api_per_polis",
+    "per_polis_api": true,
+    "polis_id": "csm-liveness-4976-full",
+    "route_target": "authorized_api_gateway_to_csm_loopback_runtime_api"
+  },
+  "redaction": {
+    "absolute_host_paths": "not_returned",
+    "cloud_account_identifiers": "not_returned",
+    "secret_material": "not_returned"
+  },
+  "required_runtime_routes": [
+    "/status",
+    "/health",
+    "/ready",
+    "/metrics",
+    "/events",
+    "/api-gateway-bridge"
+  ],
+  "retained_bridge_summary": {
+    "artifact_owned_by": "csm_runtime_api",
+    "ingress_model": "one_api_gateway_api_per_polis",
+    "polis_id_hash": null,
+    "ref": "api_gateway_bridge_summary.json",
+    "runtime_api_path": "/api-gateway-bridge",
+    "runtime_identity_verified": null,
+    "runtime_owner": "csm",
+    "schema": null,
+    "status": "missing"
+  },
+  "runtime_api_path": "/api-gateway-bridge",
+  "runtime_owner": "csm",
+  "schema": "adl.csm.runtime_api.api_gateway_bridge.v1",
+  "status": "available"
+}

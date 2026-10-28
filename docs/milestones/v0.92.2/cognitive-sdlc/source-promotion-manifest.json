@@ -1,0 +1,89 @@
+{
+  "source_root": ".adl/docs/TBD/cognitive-sdlc",
+  "promotion_issue": 523,
+  "pull_request": 743,
+  "files": [
+    {
+      "source": "C_SDLC_V3_SIMPLIFICATION_PLAN.md",
+      "sha256": "58e60a792ef6e9e5c93165905d6c53718bbc31edd781380a51098fc975582cc3"
+    },
+    {
+      "source": "statistical-review-2026-09-08/REPORT.md",
+      "sha256": "c864702e97714a829d478044155059c229d6b3c54af5fc086e03f1d70b2c913a"
+    },
+    {
+      "source": "statistical-review-2026-09-08/METHODS.md",
+      "sha256": "9dfaab1a19a851cb835999e4083a6382a345efb650deff078e584e01512fd0d3"
+    },
+    {
+      "source": "statistical-review-2026-09-08/RECOMMENDATIONS.md",
+      "sha256": "e40f78a388f0ed4d00d7071b85e09c2d3f72e1c7cf66247a920cd7b0610731f6"
+    },
+    {
+      "source": "statistical-review-2026-09-08/results/issues.csv",
+      "sha256": "5d6a585a45a5ec0f3098a8227670ea63f972fbf2cddd0e434ce737e4eada79d6",
+      "disposition": "local study data retained; not published with plan"
+    },
+    {
+      "source": "statistical-review-2026-09-08/results/retained_issue_audits.csv",
+      "sha256": "09f12e825d9c8c645f6ca3973e9d927137784bb3013d0028c67f5356898e2c41",
+      "disposition": "local study data retained; not published with plan"
+    },
+    {
+      "source": "statistical-review-2026-09-08/results/summary.json",
+      "sha256": "49c02f80f6b88363e34b70c6fd3da971dabb7364a77228031e081b470efe2950",
+      "disposition": "local study data retained; not published with plan"
+    },
+    {
+      "source": "statistical-review-2026-09-08/results/linked_delivery_intervals.csv",
+      "sha256": "395bbdcefd4a1e528061d237c88ec913b68b01e196fd1ea0d38990039331ec31",
+      "disposition": "local study data retained; not published with plan"
+    },
+    {
+      "source": "statistical-review-2026-09-08/results/uncertainty.json",
+      "sha256": "802ab74c91917c615e8a8d1e79143d3c5a1642ea01972ad19d705a12d00b450c",
+      "disposition": "local study data retained; not published with plan"
+    },
+    {
+      "source": "statistical-review-2026-09-08/results/migration_routes.json",
+      "sha256": "2fca5101da32189f22950b9032bbf0e09a1852f6af2aa1798e2fa7850d7019fe",
+      "disposition": "local study data retained; not published with plan"
+    },
+    {
+      "source": "statistical-review-2026-09-08/results/extended.json",
+      "sha256": "d1957238ce7f8c10aad7f2c65a80f012b811f2157e08313a46488398ffd3249f",
+      "disposition": "local study data retained; not published with plan"
+    },
+    {
+      "source": "statistical-review-2026-09-08/results/command_stages.csv",
+      "sha256": "b5856cc74e208567b5421447017108227ecfbde17c8dd804d48e995ad4ca0b29",
+      "disposition": "local study data retained; not published with plan"
+    },
+    {
+      "source": "statistical-review-2026-09-08/results/retry_bursts.csv",
+      "sha256": "d1b313e63064f75c2a56e276702165bf3431eb99ad46e461c338b26c8ffc30b3",
+      "disposition": "local study data retained; not published with plan"
+    },
+    {
+      "source": "statistical-review-2026-09-08/figures/command-friction.png",
+      "sha256": "eca4b0af693d4244cc799912a2afd98f63875b30dfe7926941acba253a1e3843",
+      "disposition": "promoted study figure"
+    },
+    {
+      "source": "statistical-review-2026-09-08/figures/delivery-intervals.png",
+      "sha256": "3e2f5bae35728be380e7c3d9b9bf10b62239d9b01e820c56412a3ceda6212c72",
+      "disposition": "promoted study figure"
+    },
+    {
+      "source": "statistical-review-2026-09-08/figures/review-recovery.png",
+      "sha256": "85a731f91aa9cf65e64aea0cd77a673bd847c79ef51f00cf106cfd7429f17efd",
+      "disposition": "promoted study figure"
+    },
+    {
+      "source": "statistical-review-2026-09-08/figures/corrective-demand.png",
+      "sha256": "53dc5169ee5baa64abc74e9fa920d732db50850ae8594ad3e05459a070ade536",
+      "disposition": "promoted study figure"
+    }
+  ],
+  "note": "Source originals preserved. Tracked copies normalize promotion status and relative references. Statistical results are retained study observations, not independently recomputed here."
+}

@@ -1,0 +1,136 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 167,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-06] Implement Canonical State And Card Projections",
+    "slug": "v3-06-implement-canonical-state-and-card-projections",
+    "version": "v0.92.1",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 2,
+      "summary": "Define state.json as the sole versioned authority and deterministically project all six cards, audit view, evidence indexes, optional placeholders, and drift diagnostics from canonical state plus declared immutable inputs.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Define the versioned aggregate, enums, embedded audit events, no-pruning policy, digest profile, and schema evolution rejection behavior.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Encode the per-card/per-phase required/optional field table and one declared unset placeholder for all six lifecycle cards.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-4"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Implement deterministic card, audit.jsonl, and evidence-index projection builders without reading rendered Markdown as authority.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-3",
+            "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Implement projection digest comparison, typed drift diagnosis, and repair from canonical state only.",
+          "acceptance_ids": [
+            "AC-6"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S5",
+          "action": "Build golden fixtures for every card/phase, unknown schema/enum, missing required field, optional unset field, and deterministic rerender.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S6",
+          "action": "Retain compatibility results and stop on nondeterminism, undeclared authority, unknown-field loss, or Markdown input.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S7",
+          "action": "Remove projection scratch output, retain only golden fixtures, and prove repair leaves canonical state unchanged while regenerated views match their digests.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "csdlc-v3/src/state/**",
+        "csdlc-v3/src/cards/**",
+        "csdlc-v3/schemas/state/**",
+        "csdlc-v3/tests/state/**",
+        ".csdlc/issues/167/**",
+        ".csdlc/prepared/issues/167/**",
+        ".csdlc/evidence/167/**",
+        ".csdlc/prepared/issues/167/validate-outcome.rb"
+      ],
+      "invariants": [
+        "Issue V3-06 owns only its declared repository paths and named external operation/evidence boundary.",
+        "Dependencies remain read-only inputs until terminal evidence satisfies the declared gate.",
+        "The issue may not absorb remediation owned by another work package without an explicit issue-graph revision.",
+        "No unsupported completion, legal, production, or release claim",
+        "No mutation outside exact owned paths"
+      ],
+      "risks": [
+        "A passing artifact could overstate production, legal, or release authority.",
+        "Path or external-account overlap could collide with another active issue.",
+        "Evidence could become stale if it is not tied to exact revisions and producer outcomes."
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "A card requires undeclared authority, rendering is nondeterministic, or state evolution can silently discard unknown fields.",
+        "Typed doctor is not ready",
+        "A required dependency is nonterminal",
+        "An owned-path collision is discovered"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/167/design.md",
+      "design_digest": "5cec1e498369a92d7eef058df4781f11045bfa54b33e95525e01df797a8f2749",
+      "diagram_ref": ".csdlc/prepared/issues/167/diagram.mmd",
+      "diagram_digest": "c10773ec4da687d9a9a3bd17ff61e1eec0119a2cab7b44477a6eddfa17ededb9"
+    }
+  }
+}

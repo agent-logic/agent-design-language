@@ -1,0 +1,24 @@
+{
+  "schema": "adl.provider.local_model_shadow_comparison.v1",
+  "issue": 515,
+  "status": "redacted_fixture_evidence",
+  "authority_input_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+  "shadow_input_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+  "comparison_rule_set": "prov_b_exact_input_digest_v1",
+  "authority_channel": "authoritative",
+  "shadow_channel": "shadow",
+  "authority_outcome_class": "completed",
+  "shadow_observation_class": "completed",
+  "redaction": {
+    "policy": "provider_shadow_redaction_v1",
+    "prompt_redacted": true,
+    "output_redacted": true,
+    "credential_material_redacted": true,
+    "host_paths_redacted": true
+  },
+  "non_authority_claims": [
+    "shadow output is evidence only",
+    "authoritative result remains the only accepted result",
+    "shadow failure cannot replace or mask authoritative failure"
+  ]
+}

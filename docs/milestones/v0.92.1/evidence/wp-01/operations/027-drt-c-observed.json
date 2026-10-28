@@ -1,0 +1,53 @@
+{
+  "schema": "adl.v0921.wp01.operation-observed.v1",
+  "kind": "child_create",
+  "planned_id": "DRT-C",
+  "issue": 508,
+  "title": "[v0.92.1][DRT-C] Final distributed Runtime qualification",
+  "labels": [
+    "area:runtime",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "milestone": 1,
+  "state": "open",
+  "dependencies": {
+    "DRT-B": 507
+  },
+  "body_sha256": "a64395c689d98db3d722a1be6ba4a81a4f1d29b89d5c57d98bb8d5d4b2354a17",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:DRT-C:create",
+  "request_fingerprint": "230aef46513f80ab6e7e12f587988158825a63d75a047e0b1ebf9ed48544c7a8",
+  "planning_digest": "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251",
+  "specification_sha256": "4b47139f9bbc7482166dc8af75ed6f5a6569da35cd0b697facd9ff54ae6f528d",
+  "live_response": {
+    "action": "issue_create",
+    "comment_id": null,
+    "issue": {
+      "assignees": [
+
+      ],
+      "body": "## Outcome\n\nProduce one final distributed Runtime qualification decision.\n\n## Primary deliverable\n\nOne final distributed Runtime qualification decision for requirements 185 through 187.\n\n## Verification result\n\nOne qualification decision binds failure, authentic Observatory, bounded-soak, and cleanup-zero evidence for the exact Runtime revision.\n\n## Unit boundary\n\nIssue completion is exactly one final qualification decision; failure, Observatory, soak, and cleanup are evidence inputs and cannot close independently.\n\n## Dependencies\n\n- DRT-B: #507\n\n## Retained predecessor scope\n\n- #185\n- #186\n- #187\n\n## Acceptance criteria\n\n- [ ] Requirements 185 through 187 are mapped\n- [ ] Identity provider and transport failures fail closed\n- [ ] Observatory evidence is authentic\n- [ ] Soak cleanup and synthesis bind exact revisions\n\n## Owned paths\n\n- `adl-runtime/tests/distributed_failure/**`\n- `demos/html-observatory/**`\n- `docs/milestones/v0.92.1/evidence/runtime/drt-c/**`\n\n## PVF lanes\n\n- `failure-matrix`\n- `observatory-evidence`\n- `bounded-soak`\n- `cleanup-zero`\n- `synthesis`\n\n## Stop conditions\n\n- Residual cloud resources remain\n- Evidence cannot be traced to Runtime output\n\n## Non-goals\n\n- Observatory product redesign\n- Unbounded soak\n\n## Canonical planning identity\n\n- Planned ID: `DRT-C`\n- Canonical title: `[v0.92.1][DRT-C] Final distributed Runtime qualification`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#DRT-C`\n<!-- csdlc-github-operation:v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:DRT-C:create -->\n",
+      "closed_at": null,
+      "created_at": "2026-08-26T03:08:50Z",
+      "labels": [
+        "track:roadmap",
+        "type:task",
+        "area:runtime",
+        "version:v0.92.1"
+      ],
+      "marker_present": true,
+      "milestone": 1,
+      "number": 508,
+      "repository": "agent-logic/agent-design-language",
+      "schema": "csdlc.github_issue.v1",
+      "state": "open",
+      "title": "[v0.92.1][DRT-C] Final distributed Runtime qualification"
+    },
+    "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:DRT-C:create",
+    "pr_state": null,
+    "reconciled": true,
+    "repository": "agent-logic/agent-design-language",
+    "schema": "csdlc.github_action_result.v1"
+  }
+}

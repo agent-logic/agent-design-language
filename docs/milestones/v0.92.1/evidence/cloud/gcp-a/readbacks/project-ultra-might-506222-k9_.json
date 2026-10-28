@@ -1,0 +1,11 @@
+{
+  "createTime": "2026-08-21T22:47:37.715Z",
+  "lifecycleState": "ACTIVE",
+  "name": "My First Project",
+  "parent": {
+    "id": "321515087273",
+    "type": "organization"
+  },
+  "projectId": "ultra-might-506222-k9",
+  "projectNumber": "459014982840"
+}

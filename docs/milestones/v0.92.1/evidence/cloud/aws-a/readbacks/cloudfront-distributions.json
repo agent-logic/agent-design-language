@@ -1,0 +1,807 @@
+{
+    "DistributionList": {
+        "Items": [
+            {
+                "Id": "E1QMUEXPA12TDK",
+                "ARN": "arn:aws:cloudfront::713332525889:distribution/E1QMUEXPA12TDK",
+                "ETag": "E1F83G8C2ARO7P",
+                "Status": "Deployed",
+                "LastModifiedTime": "2026-07-03T22:00:48.590000+00:00",
+                "DomainName": "d1v61pwq1vbzs3.cloudfront.net",
+                "Aliases": {
+                    "Quantity": 2,
+                    "Items": [
+                        "codefriend.ai",
+                        "www.codefriend.ai"
+                    ]
+                },
+                "Origins": {
+                    "Quantity": 1,
+                    "Items": [
+                        {
+                            "Id": "s3-origin",
+                            "DomainName": "codefriend-ai-origin-agentlogic.s3.us-west-2.amazonaws.com",
+                            "OriginPath": "",
+                            "CustomHeaders": {
+                                "Quantity": 0
+                            },
+                            "S3OriginConfig": {
+                                "OriginAccessIdentity": "",
+                                "OriginReadTimeout": 30
+                            },
+                            "ConnectionAttempts": 3,
+                            "ConnectionTimeout": 10,
+                            "OriginShield": {
+                                "Enabled": false
+                            },
+                            "OriginAccessControlId": "E1AID8LK97GOO"
+                        }
+                    ]
+                },
+                "OriginGroups": {
+                    "Quantity": 0
+                },
+                "DefaultCacheBehavior": {
+                    "TargetOriginId": "s3-origin",
+                    "TrustedSigners": {
+                        "Enabled": false,
+                        "Quantity": 0
+                    },
+                    "TrustedKeyGroups": {
+                        "Enabled": false,
+                        "Quantity": 0
+                    },
+                    "ViewerProtocolPolicy": "redirect-to-https",
+                    "AllowedMethods": {
+                        "Quantity": 2,
+                        "Items": [
+                            "HEAD",
+                            "GET"
+                        ],
+                        "CachedMethods": {
+                            "Quantity": 2,
+                            "Items": [
+                                "HEAD",
+                                "GET"
+                            ]
+                        }
+                    },
+                    "SmoothStreaming": false,
+                    "Compress": true,
+                    "LambdaFunctionAssociations": {
+                        "Quantity": 0
+                    },
+                    "FunctionAssociations": {
+                        "Quantity": 0
+                    },
+                    "FieldLevelEncryptionId": "",
+                    "CachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
+                    "ResponseHeadersPolicyId": "4c36d016-4c36-4bec-9127-c92194bc0de6",
+                    "GrpcConfig": {
+                        "Enabled": false
+                    }
+                },
+                "CacheBehaviors": {
+                    "Quantity": 0
+                },
+                "CustomErrorResponses": {
+                    "Quantity": 0
+                },
+                "Comment": "CodeFriend website",
+                "PriceClass": "PriceClass_100",
+                "Enabled": true,
+                "ViewerCertificate": {
+                    "CloudFrontDefaultCertificate": false,
+                    "ACMCertificateArn": "arn:aws:acm:us-east-1:713332525889:certificate/ef1ec35d-59b2-4d9e-98ee-372bb4d548c2",
+                    "SSLSupportMethod": "sni-only",
+                    "MinimumProtocolVersion": "TLSv1.2_2021",
+                    "Certificate": "arn:aws:acm:us-east-1:713332525889:certificate/ef1ec35d-59b2-4d9e-98ee-372bb4d548c2",
+                    "CertificateSource": "acm"
+                },
+                "Restrictions": {
+                    "GeoRestriction": {
+                        "RestrictionType": "none",
+                        "Quantity": 0
+                    }
+                },
+                "WebACLId": "",
+                "HttpVersion": "HTTP2",
+                "IsIPV6Enabled": true,
+                "AliasICPRecordals": [
+                    {
+                        "CNAME": "codefriend.ai",
+                        "ICPRecordalStatus": "APPROVED"
+                    },
+                    {
+                        "CNAME": "www.codefriend.ai",
+                        "ICPRecordalStatus": "APPROVED"
+                    }
+                ],
+                "Staging": false,
+                "ConnectionMode": "direct"
+            },
+            {
+                "Id": "E3C29FMX32KDDU",
+                "ARN": "arn:aws:cloudfront::713332525889:distribution/E3C29FMX32KDDU",
+                "ETag": "E1F83G8C2ARO7P",
+                "Status": "Deployed",
+                "LastModifiedTime": "2026-08-06T18:09:50.987000+00:00",
+                "DomainName": "d2qrxfb6umtd1a.cloudfront.net",
+                "Aliases": {
+                    "Quantity": 2,
+                    "Items": [
+                        "agent-logic.ai",
+                        "www.agent-logic.ai"
+                    ]
+                },
+                "Origins": {
+                    "Quantity": 1,
+                    "Items": [
+                        {
+                            "Id": "s3-origin",
+                            "DomainName": "agent-logic-ai-origin-agentlogic.s3.us-west-2.amazonaws.com",
+                            "OriginPath": "",
+                            "CustomHeaders": {
+                                "Quantity": 0
+                            },
+                            "S3OriginConfig": {
+                                "OriginAccessIdentity": "",
+                                "OriginReadTimeout": 30
+                            },
+                            "ConnectionAttempts": 3,
+                            "ConnectionTimeout": 10,
+                            "OriginShield": {
+                                "Enabled": false
+                            },
+                            "OriginAccessControlId": "E1ZH5VN4VWRM2X"
+                        }
+                    ]
+                },
+                "OriginGroups": {
+                    "Quantity": 0
+                },
+                "DefaultCacheBehavior": {
+                    "TargetOriginId": "s3-origin",
+                    "TrustedSigners": {
+                        "Enabled": false,
+                        "Quantity": 0
+                    },
+                    "TrustedKeyGroups": {
+                        "Enabled": false,
+                        "Quantity": 0
+                    },
+                    "ViewerProtocolPolicy": "redirect-to-https",
+                    "AllowedMethods": {
+                        "Quantity": 2,
+                        "Items": [
+                            "HEAD",
+                            "GET"
+                        ],
+                        "CachedMethods": {
+                            "Quantity": 2,
+                            "Items": [
+                                "HEAD",
+                                "GET"
+                            ]
+                        }
+                    },
+                    "SmoothStreaming": false,
+                    "Compress": true,
+                    "LambdaFunctionAssociations": {
+                        "Quantity": 0
+                    },
+                    "FunctionAssociations": {
+                        "Quantity": 0
+                    },
+                    "FieldLevelEncryptionId": "",
+                    "CachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
+                    "ResponseHeadersPolicyId": "d1532e46-2e4a-494f-87e1-971f8d9e4092",
+                    "GrpcConfig": {
+                        "Enabled": false
+                    }
+                },
+                "CacheBehaviors": {
+                    "Quantity": 1,
+                    "Items": [
+                        {
+                            "PathPattern": "_preview/sm-7e91c4a8d2f6b03c/*",
+                            "TargetOriginId": "s3-origin",
+                            "TrustedSigners": {
+                                "Enabled": false,
+                                "Quantity": 0
+                            },
+                            "TrustedKeyGroups": {
+                                "Enabled": false,
+                                "Quantity": 0
+                            },
+                            "ViewerProtocolPolicy": "redirect-to-https",
+                            "AllowedMethods": {
+                                "Quantity": 2,
+                                "Items": [
+                                    "HEAD",
+                                    "GET"
+                                ],
+                                "CachedMethods": {
+                                    "Quantity": 2,
+                                    "Items": [
+                                        "HEAD",
+                                        "GET"
+                                    ]
+                                }
+                            },
+                            "SmoothStreaming": false,
+                            "Compress": true,
+                            "LambdaFunctionAssociations": {
+                                "Quantity": 0
+                            },
+                            "FunctionAssociations": {
+                                "Quantity": 0
+                            },
+                            "FieldLevelEncryptionId": "",
+                            "CachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
+                            "ResponseHeadersPolicyId": "7a898224-c47b-4521-8400-5dc519d4d20c",
+                            "GrpcConfig": {
+                                "Enabled": false
+                            }
+                        }
+                    ]
+                },
+                "CustomErrorResponses": {
+                    "Quantity": 0
+                },
+                "Comment": "Agent Logic website",
+                "PriceClass": "PriceClass_100",
+                "Enabled": true,
+                "ViewerCertificate": {
+                    "CloudFrontDefaultCertificate": false,
+                    "ACMCertificateArn": "arn:aws:acm:us-east-1:713332525889:certificate/3c389c89-1f6d-4292-ae95-a006738690f0",
+                    "SSLSupportMethod": "sni-only",
+                    "MinimumProtocolVersion": "TLSv1.2_2021",
+                    "Certificate": "arn:aws:acm:us-east-1:713332525889:certificate/3c389c89-1f6d-4292-ae95-a006738690f0",
+                    "CertificateSource": "acm"
+                },
+                "Restrictions": {
+                    "GeoRestriction": {
+                        "RestrictionType": "none",
+                        "Quantity": 0
+                    }
+                },
+                "WebACLId": "",
+                "HttpVersion": "HTTP2",
+                "IsIPV6Enabled": true,
+                "AliasICPRecordals": [
+                    {
+                        "CNAME": "www.agent-logic.ai",
+                        "ICPRecordalStatus": "APPROVED"
+                    },
+                    {
+                        "CNAME": "agent-logic.ai",
+                        "ICPRecordalStatus": "APPROVED"
+                    }
+                ],
+                "Staging": false,
+                "ConnectionMode": "direct"
+            },
+            {
+                "Id": "E34IBPFTBM0242",
+                "ARN": "arn:aws:cloudfront::713332525889:distribution/E34IBPFTBM0242",
+                "ETag": "E23ZP02F085DFQ",
+                "Status": "Deployed",
+                "LastModifiedTime": "2026-08-08T19:24:26.391000+00:00",
+                "DomainName": "dqyy7yagafimc.cloudfront.net",
+                "Aliases": {
+                    "Quantity": 0
+                },
+                "Origins": {
+                    "Quantity": 1,
+                    "Items": [
+                        {
+                            "Id": "podcast-s3-origin",
+                            "DomainName": "agent-logic-podcast-archive-agentlogic.s3.us-west-2.amazonaws.com",
+                            "OriginPath": "/public",
+                            "CustomHeaders": {
+                                "Quantity": 0
+                            },
+                            "S3OriginConfig": {
+                                "OriginAccessIdentity": "",
+                                "OriginReadTimeout": 30
+                            },
+                            "ConnectionAttempts": 3,
+                            "ConnectionTimeout": 10,
+                            "OriginShield": {
+                                "Enabled": false
+                            },
+                            "OriginAccessControlId": "E1K62WYR1DVOXQ"
+                        }
+                    ]
+                },
+                "OriginGroups": {
+                    "Quantity": 0
+                },
+                "DefaultCacheBehavior": {
+                    "TargetOriginId": "podcast-s3-origin",
+                    "TrustedSigners": {
+                        "Enabled": false,
+                        "Quantity": 0
+                    },
+                    "TrustedKeyGroups": {
+                        "Enabled": false,
+                        "Quantity": 0
+                    },
+                    "ViewerProtocolPolicy": "redirect-to-https",
+                    "AllowedMethods": {
+                        "Quantity": 3,
+                        "Items": [
+                            "HEAD",
+                            "GET",
+                            "OPTIONS"
+                        ],
+                        "CachedMethods": {
+                            "Quantity": 3,
+                            "Items": [
+                                "HEAD",
+                                "GET",
+                                "OPTIONS"
+                            ]
+                        }
+                    },
+                    "SmoothStreaming": false,
+                    "Compress": true,
+                    "LambdaFunctionAssociations": {
+                        "Quantity": 0
+                    },
+                    "FunctionAssociations": {
+                        "Quantity": 0
+                    },
+                    "FieldLevelEncryptionId": "",
+                    "CachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
+                    "GrpcConfig": {
+                        "Enabled": false
+                    }
+                },
+                "CacheBehaviors": {
+                    "Quantity": 0
+                },
+                "CustomErrorResponses": {
+                    "Quantity": 0
+                },
+                "Comment": "Cognitive Spacetime podcast public media distribution",
+                "PriceClass": "PriceClass_100",
+                "Enabled": true,
+                "ViewerCertificate": {
+                    "CloudFrontDefaultCertificate": true,
+                    "SSLSupportMethod": "vip",
+                    "MinimumProtocolVersion": "TLSv1",
+                    "CertificateSource": "cloudfront"
+                },
+                "Restrictions": {
+                    "GeoRestriction": {
+                        "RestrictionType": "none",
+                        "Quantity": 0
+                    }
+                },
+                "WebACLId": "",
+                "HttpVersion": "HTTP2and3",
+                "IsIPV6Enabled": true,
+                "Staging": false,
+                "ConnectionMode": "direct"
+            },
+            {
+                "Id": "E33B60VD3JG6BI",
+                "ARN": "arn:aws:cloudfront::713332525889:distribution/E33B60VD3JG6BI",
+                "ETag": "E23ZP02F085DFQ",
+                "Status": "Deployed",
+                "LastModifiedTime": "2026-08-26T17:26:32.276000+00:00",
+                "DomainName": "d2rj6kchzz22y5.cloudfront.net",
+                "Aliases": {
+                    "Quantity": 1,
+                    "Items": [
+                        "api.wuji.dev.csm.agent-logic.ai"
+                    ]
+                },
+                "Origins": {
+                    "Quantity": 1,
+                    "Items": [
+                        {
+                            "Id": "csm-wuji-dev-runtime-http-api",
+                            "DomainName": "tb485bn6j4.execute-api.us-west-2.amazonaws.com",
+                            "OriginPath": "",
+                            "CustomHeaders": {
+                                "Quantity": 0
+                            },
+                            "CustomOriginConfig": {
+                                "HTTPPort": 80,
+                                "HTTPSPort": 443,
+                                "OriginProtocolPolicy": "https-only",
+                                "OriginSslProtocols": {
+                                    "Quantity": 1,
+                                    "Items": [
+                                        "TLSv1.2"
+                                    ]
+                                },
+                                "OriginReadTimeout": 30,
+                                "OriginKeepaliveTimeout": 5
+                            },
+                            "ConnectionAttempts": 3,
+                            "ConnectionTimeout": 10,
+                            "OriginShield": {
+                                "Enabled": false
+                            },
+                            "OriginAccessControlId": ""
+                        }
+                    ]
+                },
+                "OriginGroups": {
+                    "Quantity": 0
+                },
+                "DefaultCacheBehavior": {
+                    "TargetOriginId": "csm-wuji-dev-runtime-http-api",
+                    "TrustedSigners": {
+                        "Enabled": false,
+                        "Quantity": 0
+                    },
+                    "TrustedKeyGroups": {
+                        "Enabled": false,
+                        "Quantity": 0
+                    },
+                    "ViewerProtocolPolicy": "https-only",
+                    "AllowedMethods": {
+                        "Quantity": 7,
+                        "Items": [
+                            "HEAD",
+                            "DELETE",
+                            "POST",
+                            "GET",
+                            "OPTIONS",
+                            "PUT",
+                            "PATCH"
+                        ],
+                        "CachedMethods": {
+                            "Quantity": 2,
+                            "Items": [
+                                "HEAD",
+                                "GET"
+                            ]
+                        }
+                    },
+                    "SmoothStreaming": false,
+                    "Compress": false,
+                    "LambdaFunctionAssociations": {
+                        "Quantity": 0
+                    },
+                    "FunctionAssociations": {
+                        "Quantity": 0
+                    },
+                    "FieldLevelEncryptionId": "",
+                    "CachePolicyId": "4135ea2d-6df8-44a3-9df3-4b5a84be39ad",
+                    "OriginRequestPolicyId": "b689b0a8-53d0-40ab-baf2-68738e2966ac",
+                    "GrpcConfig": {
+                        "Enabled": false
+                    }
+                },
+                "CacheBehaviors": {
+                    "Quantity": 0
+                },
+                "CustomErrorResponses": {
+                    "Quantity": 0
+                },
+                "Comment": "csm-wuji-dev Runtime HTTP API edge",
+                "PriceClass": "PriceClass_All",
+                "Enabled": true,
+                "ViewerCertificate": {
+                    "CloudFrontDefaultCertificate": false,
+                    "ACMCertificateArn": "arn:aws:acm:us-east-1:713332525889:certificate/387dacdd-c6ee-43e1-9ab4-c2a2e7c250a1",
+                    "SSLSupportMethod": "sni-only",
+                    "MinimumProtocolVersion": "TLSv1.2_2021",
+                    "Certificate": "arn:aws:acm:us-east-1:713332525889:certificate/387dacdd-c6ee-43e1-9ab4-c2a2e7c250a1",
+                    "CertificateSource": "acm"
+                },
+                "Restrictions": {
+                    "GeoRestriction": {
+                        "RestrictionType": "none",
+                        "Quantity": 0
+                    }
+                },
+                "WebACLId": "arn:aws:wafv2:us-east-1:713332525889:global/webacl/csm-wuji-dev-edge/80536c14-4cde-4122-b50e-018dd6812c54",
+                "HttpVersion": "HTTP2",
+                "IsIPV6Enabled": false,
+                "AliasICPRecordals": [
+                    {
+                        "CNAME": "api.wuji.dev.csm.agent-logic.ai",
+                        "ICPRecordalStatus": "APPROVED"
+                    }
+                ],
+                "Staging": false,
+                "ConnectionMode": "direct"
+            },
+            {
+                "Id": "E2P8CMPYZNLKVX",
+                "ARN": "arn:aws:cloudfront::713332525889:distribution/E2P8CMPYZNLKVX",
+                "ETag": "E23ZP02F085DFQ",
+                "Status": "Deployed",
+                "LastModifiedTime": "2026-08-26T17:26:32.315000+00:00",
+                "DomainName": "dnpwjw41tm26s.cloudfront.net",
+                "Aliases": {
+                    "Quantity": 1,
+                    "Items": [
+                        "wss.wuji.dev.csm.agent-logic.ai"
+                    ]
+                },
+                "Origins": {
+                    "Quantity": 1,
+                    "Items": [
+                        {
+                            "Id": "csm-wuji-dev-runtime-wss",
+                            "DomainName": "wuji.dev.csm.agent-logic.ai",
+                            "OriginPath": "",
+                            "CustomHeaders": {
+                                "Quantity": 1,
+                                "Items": [
+                                    {
+                                        "HeaderName": "X-CSM-Public-Host",
+                                        "HeaderValue": "wss.wuji.dev.csm.agent-logic.ai"
+                                    }
+                                ]
+                            },
+                            "CustomOriginConfig": {
+                                "HTTPPort": 80,
+                                "HTTPSPort": 443,
+                                "OriginProtocolPolicy": "https-only",
+                                "OriginSslProtocols": {
+                                    "Quantity": 1,
+                                    "Items": [
+                                        "TLSv1.2"
+                                    ]
+                                },
+                                "OriginReadTimeout": 30,
+                                "OriginKeepaliveTimeout": 5
+                            },
+                            "ConnectionAttempts": 3,
+                            "ConnectionTimeout": 10,
+                            "OriginShield": {
+                                "Enabled": false
+                            },
+                            "OriginAccessControlId": ""
+                        }
+                    ]
+                },
+                "OriginGroups": {
+                    "Quantity": 0
+                },
+                "DefaultCacheBehavior": {
+                    "TargetOriginId": "csm-wuji-dev-runtime-wss",
+                    "TrustedSigners": {
+                        "Enabled": false,
+                        "Quantity": 0
+                    },
+                    "TrustedKeyGroups": {
+                        "Enabled": false,
+                        "Quantity": 0
+                    },
+                    "ViewerProtocolPolicy": "https-only",
+                    "AllowedMethods": {
+                        "Quantity": 3,
+                        "Items": [
+                            "HEAD",
+                            "GET",
+                            "OPTIONS"
+                        ],
+                        "CachedMethods": {
+                            "Quantity": 2,
+                            "Items": [
+                                "HEAD",
+                                "GET"
+                            ]
+                        }
+                    },
+                    "SmoothStreaming": false,
+                    "Compress": false,
+                    "LambdaFunctionAssociations": {
+                        "Quantity": 0
+                    },
+                    "FunctionAssociations": {
+                        "Quantity": 0
+                    },
+                    "FieldLevelEncryptionId": "",
+                    "CachePolicyId": "4135ea2d-6df8-44a3-9df3-4b5a84be39ad",
+                    "OriginRequestPolicyId": "973b5053-82c8-459f-8bb7-4a27234e99d5",
+                    "GrpcConfig": {
+                        "Enabled": false
+                    }
+                },
+                "CacheBehaviors": {
+                    "Quantity": 1,
+                    "Items": [
+                        {
+                            "PathPattern": "/v1/observatory/ws*",
+                            "TargetOriginId": "csm-wuji-dev-runtime-wss",
+                            "TrustedSigners": {
+                                "Enabled": false,
+                                "Quantity": 0
+                            },
+                            "TrustedKeyGroups": {
+                                "Enabled": false,
+                                "Quantity": 0
+                            },
+                            "ViewerProtocolPolicy": "https-only",
+                            "AllowedMethods": {
+                                "Quantity": 3,
+                                "Items": [
+                                    "HEAD",
+                                    "GET",
+                                    "OPTIONS"
+                                ],
+                                "CachedMethods": {
+                                    "Quantity": 2,
+                                    "Items": [
+                                        "HEAD",
+                                        "GET"
+                                    ]
+                                }
+                            },
+                            "SmoothStreaming": false,
+                            "Compress": false,
+                            "LambdaFunctionAssociations": {
+                                "Quantity": 0
+                            },
+                            "FunctionAssociations": {
+                                "Quantity": 0
+                            },
+                            "FieldLevelEncryptionId": "",
+                            "CachePolicyId": "4135ea2d-6df8-44a3-9df3-4b5a84be39ad",
+                            "OriginRequestPolicyId": "973b5053-82c8-459f-8bb7-4a27234e99d5",
+                            "GrpcConfig": {
+                                "Enabled": false
+                            }
+                        }
+                    ]
+                },
+                "CustomErrorResponses": {
+                    "Quantity": 0
+                },
+                "Comment": "csm-wuji-dev Runtime WSS realtime edge",
+                "PriceClass": "PriceClass_All",
+                "Enabled": true,
+                "ViewerCertificate": {
+                    "CloudFrontDefaultCertificate": false,
+                    "ACMCertificateArn": "arn:aws:acm:us-east-1:713332525889:certificate/387dacdd-c6ee-43e1-9ab4-c2a2e7c250a1",
+                    "SSLSupportMethod": "sni-only",
+                    "MinimumProtocolVersion": "TLSv1.2_2021",
+                    "Certificate": "arn:aws:acm:us-east-1:713332525889:certificate/387dacdd-c6ee-43e1-9ab4-c2a2e7c250a1",
+                    "CertificateSource": "acm"
+                },
+                "Restrictions": {
+                    "GeoRestriction": {
+                        "RestrictionType": "none",
+                        "Quantity": 0
+                    }
+                },
+                "WebACLId": "arn:aws:wafv2:us-east-1:713332525889:global/webacl/csm-wuji-dev-edge/80536c14-4cde-4122-b50e-018dd6812c54",
+                "HttpVersion": "HTTP2",
+                "IsIPV6Enabled": false,
+                "AliasICPRecordals": [
+                    {
+                        "CNAME": "wss.wuji.dev.csm.agent-logic.ai",
+                        "ICPRecordalStatus": "APPROVED"
+                    }
+                ],
+                "Staging": false,
+                "ConnectionMode": "direct"
+            },
+            {
+                "Id": "E2A4Y69MBQG519",
+                "ARN": "arn:aws:cloudfront::713332525889:distribution/E2A4Y69MBQG519",
+                "ETag": "E23ZP02F085DFQ",
+                "Status": "Deployed",
+                "LastModifiedTime": "2026-08-26T17:26:33.008000+00:00",
+                "DomainName": "d31sm5j4e5rraf.cloudfront.net",
+                "Aliases": {
+                    "Quantity": 1,
+                    "Items": [
+                        "observatory.wuji.dev.csm.agent-logic.ai"
+                    ]
+                },
+                "Origins": {
+                    "Quantity": 1,
+                    "Items": [
+                        {
+                            "Id": "csm-wuji-dev-observatory-s3",
+                            "DomainName": "csm-wuji-dev-observatory-assets.s3.us-west-2.amazonaws.com",
+                            "OriginPath": "",
+                            "CustomHeaders": {
+                                "Quantity": 0
+                            },
+                            "S3OriginConfig": {
+                                "OriginAccessIdentity": "",
+                                "OriginReadTimeout": 30
+                            },
+                            "ConnectionAttempts": 3,
+                            "ConnectionTimeout": 10,
+                            "OriginShield": {
+                                "Enabled": false
+                            },
+                            "OriginAccessControlId": "E1FSXJY6UDBGFJ"
+                        }
+                    ]
+                },
+                "OriginGroups": {
+                    "Quantity": 0
+                },
+                "DefaultCacheBehavior": {
+                    "TargetOriginId": "csm-wuji-dev-observatory-s3",
+                    "TrustedSigners": {
+                        "Enabled": false,
+                        "Quantity": 0
+                    },
+                    "TrustedKeyGroups": {
+                        "Enabled": false,
+                        "Quantity": 0
+                    },
+                    "ViewerProtocolPolicy": "redirect-to-https",
+                    "AllowedMethods": {
+                        "Quantity": 3,
+                        "Items": [
+                            "HEAD",
+                            "GET",
+                            "OPTIONS"
+                        ],
+                        "CachedMethods": {
+                            "Quantity": 2,
+                            "Items": [
+                                "HEAD",
+                                "GET"
+                            ]
+                        }
+                    },
+                    "SmoothStreaming": false,
+                    "Compress": true,
+                    "LambdaFunctionAssociations": {
+                        "Quantity": 0
+                    },
+                    "FunctionAssociations": {
+                        "Quantity": 0
+                    },
+                    "FieldLevelEncryptionId": "",
+                    "CachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
+                    "GrpcConfig": {
+                        "Enabled": false
+                    }
+                },
+                "CacheBehaviors": {
+                    "Quantity": 0
+                },
+                "CustomErrorResponses": {
+                    "Quantity": 0
+                },
+                "Comment": "csm-wuji-dev Observatory static edge",
+                "PriceClass": "PriceClass_All",
+                "Enabled": true,
+                "ViewerCertificate": {
+                    "CloudFrontDefaultCertificate": false,
+                    "ACMCertificateArn": "arn:aws:acm:us-east-1:713332525889:certificate/387dacdd-c6ee-43e1-9ab4-c2a2e7c250a1",
+                    "SSLSupportMethod": "sni-only",
+                    "MinimumProtocolVersion": "TLSv1.2_2021",
+                    "Certificate": "arn:aws:acm:us-east-1:713332525889:certificate/387dacdd-c6ee-43e1-9ab4-c2a2e7c250a1",
+                    "CertificateSource": "acm"
+                },
+                "Restrictions": {
+                    "GeoRestriction": {
+                        "RestrictionType": "none",
+                        "Quantity": 0
+                    }
+                },
+                "WebACLId": "arn:aws:wafv2:us-east-1:713332525889:global/webacl/csm-wuji-dev-edge/80536c14-4cde-4122-b50e-018dd6812c54",
+                "HttpVersion": "HTTP2",
+                "IsIPV6Enabled": false,
+                "AliasICPRecordals": [
+                    {
+                        "CNAME": "observatory.wuji.dev.csm.agent-logic.ai",
+                        "ICPRecordalStatus": "APPROVED"
+                    }
+                ],
+                "Staging": false,
+                "ConnectionMode": "direct"
+            }
+        ]
+    }
+}

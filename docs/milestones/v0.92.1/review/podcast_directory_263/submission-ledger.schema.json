@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "agent_logic.podcast.submission_ledger.v1",
+  "title": "Podcast Directory Submission Ledger",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "show", "feed_url", "entries"],
+  "properties": {
+    "schema": { "const": "agent_logic.podcast.submission_ledger.v1" },
+    "show": { "const": "The Cognitive Stack" },
+    "feed_url": { "const": "https://agent-logic.ai/podcast/feed.xml" },
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["provider", "owner", "submitted_at_utc", "status", "canonical_url_or_id", "evidence", "follow_up"],
+        "properties": {
+          "provider": { "enum": ["apple_podcasts", "spotify_for_creators", "amazon_music_for_podcasters", "youtube_rss_ingestion"] },
+          "owner": { "type": "string", "minLength": 1 },
+          "submitted_at_utc": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$" },
+          "status": { "enum": ["not_started", "submitted", "verification_pending", "pending_review", "active", "rejected", "blocked", "private_or_scheduled"] },
+          "canonical_url_or_id": { "type": ["string", "null"] },
+          "evidence": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["redacted_summary", "secret_material_retained"],
+            "properties": {
+              "redacted_summary": { "type": "string", "minLength": 1 },
+              "secret_material_retained": { "const": false }
+            }
+          },
+          "follow_up": { "type": ["string", "null"] }
+        }
+      }
+    }
+  }
+}

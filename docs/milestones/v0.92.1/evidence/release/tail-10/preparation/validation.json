@@ -1,0 +1,20 @@
+{
+  "schema": "adl.issue526.preparation_validation.v1",
+  "native_cards": "six-card validation passed",
+  "source_hashes": "seven source hashes verified against worktree and preparation Git revision",
+  "tail_census": "nine unique issues, seven closed and two open; eight linked merge commits ancestral to preparation base",
+  "projection_check": {
+    "command": "python3 .csdlc/prepared/issues/835/project_release.py --check",
+    "status": "pass",
+    "rows": 393,
+    "approved_removals": 143,
+    "negative_cases": 14,
+    "release_decision": "blocked"
+  },
+  "independent_review": {
+    "reviewer": "review_526_preparation",
+    "scope": "five-file preparation packet and cited source/live readback",
+    "result": "no actionable findings; no ceremony approval"
+  },
+  "ceremony_executed": false
+}

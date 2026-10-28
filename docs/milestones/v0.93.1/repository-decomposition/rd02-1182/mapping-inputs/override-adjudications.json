@@ -1,0 +1,188 @@
+{
+  "status": "preparation_only",
+  "source_revision": "682be6b8babb69f73c5e9fef8580f1b3c88966d5",
+  "paths": [
+    {
+      "path": "adl/tools/test_repo_review_contract.sh",
+      "resolution": {
+        "path": "adl/tools/test_repo_review_contract.sh",
+        "owner": "codefriend",
+        "owner_role": "component_owner",
+        "disposition": "maintained",
+        "rationale": "Repository-review report contract for repo-code-review findings, scope and action plans, distinct from C-SDLC card_review_output provenance.",
+        "component_splits": [],
+        "source_evidence": [
+          {
+            "path": "adl/tools/test_repo_review_contract.sh",
+            "git_object": "b35276ab2083d4675aa44216eef2a1815316171f",
+            "lines": [
+              6,
+              7,
+              8,
+              10,
+              12,
+              13,
+              17
+            ]
+          }
+        ],
+        "gaps": [
+          "Replace legacy monolithic adl/Cargo.toml fallback with independent installed review command resolution."
+        ],
+        "export_authorized": false
+      },
+      "input_owners": {
+        "tool-runtime-infra-dispositions.json": "codefriend",
+        "tool-skill-dispositions.json": "cognitive-sdlc"
+      },
+      "status": "proposed_adjudication"
+    },
+    {
+      "path": "adl/tools/test_review_output_provenance.sh",
+      "resolution": {
+        "path": "adl/tools/test_review_output_provenance.sh",
+        "owner": "cognitive-sdlc",
+        "owner_role": "component_owner",
+        "disposition": "maintained",
+        "rationale": "Validates card_review_output.v1 issue/card reviewer provenance, aligned with C-SDLC fixture ownership.",
+        "component_splits": [],
+        "source_evidence": [
+          {
+            "path": "adl/tools/test_review_output_provenance.sh",
+            "git_object": "e5aa0fcda6d01a826a267b8fc9a88693259f42c2",
+            "lines": [
+              6,
+              7,
+              8,
+              10,
+              12,
+              13,
+              17
+            ]
+          }
+        ],
+        "gaps": [
+          "Replace legacy monolithic adl/Cargo.toml command fallback with supported independent C-SDLC installed command resolution."
+        ],
+        "export_authorized": false,
+        "review_disposition": "Corrected following independent review-tools.md; re-review pending"
+      },
+      "input_owners": {
+        "tool-runtime-infra-dispositions.json": "cognitive-sdlc",
+        "tool-skill-dispositions.json": "cognitive-sdlc"
+      },
+      "status": "proposed_adjudication"
+    },
+    {
+      "path": "adl/tools/validate_first_proof_readiness_packet.py",
+      "resolution": {
+        "path": "adl/tools/validate_first_proof_readiness_packet.py",
+        "owner": "cognitive-sdlc",
+        "owner_role": "component_owner",
+        "disposition": "maintained",
+        "rationale": "C-SDLC owns readiness validation of transition/card/evidence/merge-gate paths. This script checks existence and exact manifest path fields; it does not implement Runtime memory semantics.",
+        "component_splits": [],
+        "source_evidence": [
+          {
+            "path": "adl/tools/validate_first_proof_readiness_packet.py",
+            "git_object": "c9731a9ae8ac2df788b524292cd2d0c7e2eb5006",
+            "lines": [
+              3,
+              8,
+              11,
+              24,
+              25,
+              30,
+              37,
+              61,
+              74,
+              80,
+              92,
+              112
+            ]
+          }
+        ],
+        "gaps": [
+          "Replace fixed original milestone/source-root discovery with admitted evidence inputs before independent installation."
+        ],
+        "export_authorized": false,
+        "consumer_dependencies": [
+          {
+            "owner": "agent-logic-runtime",
+            "contract": "Externally owned observability-memory handoff evidence, referenced by the C-SDLC readiness packet; no implementation extraction from this validator."
+          },
+          {
+            "owner": "agent-design-language",
+            "contract": "Immutable original milestone evidence custody."
+          }
+        ]
+      },
+      "input_owners": {
+        "tool-runtime-infra-dispositions.json": "agent-design-language",
+        "tool-skill-dispositions.json": "cognitive-sdlc"
+      },
+      "status": "proposed_adjudication"
+    },
+    {
+      "path": "adl/tools/verify_repo_review_contract.sh",
+      "resolution": {
+        "path": "adl/tools/verify_repo_review_contract.sh",
+        "owner": "codefriend",
+        "owner_role": "component_owner",
+        "disposition": "maintained",
+        "rationale": "Repository-review report contract for repo-code-review findings, scope and action plans, distinct from C-SDLC card_review_output provenance.",
+        "component_splits": [],
+        "source_evidence": [
+          {
+            "path": "adl/tools/verify_repo_review_contract.sh",
+            "git_object": "3ed912c21d931f23590f6b5edbd02d0a0efcbcda",
+            "lines": [
+              29,
+              31
+            ]
+          }
+        ],
+        "gaps": [
+          "Replace legacy monolithic adl/Cargo.toml fallback with independent installed review command resolution."
+        ],
+        "export_authorized": false
+      },
+      "input_owners": {
+        "tool-runtime-infra-dispositions.json": "codefriend",
+        "tool-skill-dispositions.json": "cognitive-sdlc"
+      },
+      "status": "proposed_adjudication"
+    },
+    {
+      "path": "adl/tools/verify_review_output_provenance.sh",
+      "resolution": {
+        "path": "adl/tools/verify_review_output_provenance.sh",
+        "owner": "cognitive-sdlc",
+        "owner_role": "component_owner",
+        "disposition": "maintained",
+        "rationale": "Validates card_review_output.v1 issue/card reviewer provenance, aligned with C-SDLC fixture ownership.",
+        "component_splits": [],
+        "source_evidence": [
+          {
+            "path": "adl/tools/verify_review_output_provenance.sh",
+            "git_object": "67430ef095c1ccc8999c56d72a475a3e388c4d8b",
+            "lines": [
+              29,
+              31
+            ]
+          }
+        ],
+        "gaps": [
+          "Replace legacy monolithic adl/Cargo.toml command fallback with supported independent C-SDLC installed command resolution."
+        ],
+        "export_authorized": false,
+        "review_disposition": "Corrected following independent review-tools.md; re-review pending"
+      },
+      "input_owners": {
+        "tool-runtime-infra-dispositions.json": "cognitive-sdlc",
+        "tool-skill-dispositions.json": "cognitive-sdlc"
+      },
+      "status": "proposed_adjudication"
+    }
+  ]
+}

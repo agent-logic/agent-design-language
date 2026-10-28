@@ -1,0 +1,606 @@
+{
+  "schema": "adl.v0921.source_finding_census.v2",
+  "ledger_candidate_sha": "7871cbc8593a202b305b645c89f9757b66112f68",
+  "source_bindings": {
+    "520": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+    "521": null
+  },
+  "reports": [
+    {
+      "issue": 520,
+      "pull_request": 831,
+      "merge_sha": "e058412611eff0975148ba9ed8e40bbd20ecb985",
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/findings.json",
+      "sha256": "9dd57d38d85db5d2a6519d7ae52a5fa59d7dd55f8419775111985576dc078b92",
+      "packet_manifest_path": "docs/milestones/v0.92.1/evidence/release/tail-04/packet-manifest.json",
+      "packet_manifest_sha256": "2d10e48b015109bd5054bf43c02233efd8cb18a30ecf3a9ba260c4ed9198213f",
+      "binding": "exact_revision",
+      "reviewed_revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+      "finding_ids": [
+        "D520-RET-001",
+        "D520-V3F-001",
+        "D520-REL-001",
+        "D520-DOC-003",
+        "D520-DOC-004",
+        "D520-EVID-001",
+        "D520-EVID-002",
+        "D520-RUNTIME-001",
+        "D520-RUNTIME-002",
+        "D520-SEC-001",
+        "D520-SEC-002",
+        "D520-SEC-003",
+        "D520-SEC-004",
+        "D520-TEST-001"
+      ],
+      "finding_digests": {
+        "D520-RET-001": "0098180685b845e5c5ec347ddfaa25443bf04e41ba8ed0b8e538fd79637dcb98",
+        "D520-V3F-001": "e263e17679da3e0c3ec7e90818f875640846a8aa92cd5b8ebe15525898077891",
+        "D520-REL-001": "b97645c635b147b9bc34273dbc33f9afdbe0e283443fbcae430bffd6828b23f1",
+        "D520-DOC-003": "0a54ef51d9240589d50cc793f70f54cf6b1cb3f2f58854c928e2a3e4c92e3f13",
+        "D520-DOC-004": "889d4a848873266417976338f99cb794835525f4cc92d3316d2806ab2f9bde32",
+        "D520-EVID-001": "32f72ffe1605ef2ca9e1bbe4e91e1e141ed8d859f88e8f57cc5aaa78860dc9b1",
+        "D520-EVID-002": "9d5f291c84f3f02ba7408667fc474f8186429fe1c4ef0ca00e4d9aa550cff0f3",
+        "D520-RUNTIME-001": "7b3b070063f5aea9c7604483bc385ee8b225ef6e7bfe1486667bdd28f8d4d0df",
+        "D520-RUNTIME-002": "03bdf6e06f0df410a2be1c8c394daea4ca119602ae4df3faeac3be405f2f9226",
+        "D520-SEC-001": "79db785ccfb87706c0de7a61274febfb9fe76e34d17df7b92d740b4580e08e77",
+        "D520-SEC-002": "75097cc324e30e0168f8667d68b2e439cea9adaec83fff345d6ef880f565167e",
+        "D520-SEC-003": "125dec50114922d759aed657d61642154f466508cc047b96b8132186e0adc5ab",
+        "D520-SEC-004": "923991f9ee7fba1e97577258d68d0c0316d587aa559ebe39f09a3c1fc41a22d5",
+        "D520-TEST-001": "c80c7f962ff8a06d8b6167718fac633732679cf4a7c9c315f04223d92193aa15"
+      }
+    },
+    {
+      "issue": 521,
+      "pull_request": 850,
+      "merge_sha": "9c7e57d412d61898bd44ab00d53e31afbb779e5c",
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-05/findings.json",
+      "sha256": "f39a52eef6398b77141d76dd3b1dd87d21aa1e92333fd1032ff977d4446d31c0",
+      "packet_manifest_path": "docs/milestones/v0.92.1/evidence/release/tail-05/packet-manifest.json",
+      "packet_manifest_sha256": "1425937f2326e04b743018d479e324dcd50becfbb3660cd4bf8e374761bbfdce",
+      "binding": "missing_revision",
+      "reviewed_revision": null,
+      "finding_ids": [
+        "TPR-001",
+        "TPR-002",
+        "TPR-003",
+        "TPR-004",
+        "TPR-005"
+      ],
+      "finding_digests": {
+        "TPR-001": "8b95e87fa43834b526183156157bf3b7533aca02bb0aee9ad32aa80bf36e65e7",
+        "TPR-002": "f43b1a855652aa822203340afd3ee12f835fb9fe810265af55a5019ca105daaa",
+        "TPR-003": "0ed0c8d1e037162e350b7a24d6ecefa85b0cc4086a9ec47c24eadc9820579eba",
+        "TPR-004": "6d28f815b6fd8703e48b8a82fcef3639cc454b82d364800a3e49ab6cebbf1e06",
+        "TPR-005": "8f3f30e95587b13e30def77135e3d6013d2fe5612d9532691d626557ca0354fb"
+      }
+    }
+  ],
+  "findings": [
+    {
+      "id": "D520-RET-001",
+      "severity": "P1",
+      "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+      "status": "open",
+      "title": "The retained-proof denominator still contains 198 unproved required rows",
+      "impact": "The release can be mistaken for ready even though required product behavior remains unproved across C-SDLC v3, corporate Runtime, distributed Runtime, and the current quality gate.",
+      "source_lane": "retained_evidence",
+      "owner": "#818, #819, #820, and #821 under #522",
+      "affected_acceptance_refs": [
+        "TAIL-01:AC-1",
+        "TAIL-01:AC-2"
+      ],
+      "locator": {
+        "path": "docs/milestones/v0.92.1/evidence/release/tail-06/issue-764/retained-proof-gap-denominator.json",
+        "line": 26
+      },
+      "evidence": {
+        "subject_id": "D520-RET-001",
+        "path": "docs/milestones/v0.92.1/evidence/release/tail-06/issue-764/retained-proof-gap-denominator.json",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "8c363c98887f90fdd7084896d594270eeca3c0d73e515c41c7179239f7b1e9df",
+        "locator": {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-06/issue-764/retained-proof-gap-denominator.json",
+          "line": 26
+        }
+      },
+      "detail": "The packet records 143 non_proving rows, 51 source-supported rows without execution proof, and four current gate obligations. Its passing test proves only that the 198-row denominator is counted and routed; it does not supply the missing behavioral proof or a governed amendment.",
+      "denominator_refs": [
+        "FILE-05344",
+        "FILE-05348",
+        "CANON-0359"
+      ]
+    },
+    {
+      "id": "D520-V3F-001",
+      "severity": "P1",
+      "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+      "status": "open",
+      "title": "V3-F exact-head proof is stale at the frozen release candidate",
+      "impact": "The candidate lacks current proof for the C-SDLC v3 parity, rollback, cutover, and operator-approval acceptance surface.",
+      "source_lane": "retained_evidence",
+      "owner": "#817 under #522",
+      "affected_acceptance_refs": [
+        "V3-F:AC-1",
+        "V3-F:AC-2",
+        "V3-F:AC-3",
+        "V3-F:AC-4",
+        "TAIL-06:AC-2"
+      ],
+      "locator": {
+        "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/mapping.json",
+        "line": 4
+      },
+      "evidence": {
+        "subject_id": "D520-V3F-001",
+        "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/mapping.json",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "993b438accbb09b0afe5ee22dfa866de7a4fb191f4b8aedc51e67ab878eb2e43",
+        "locator": {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/mapping.json",
+          "line": 4
+        }
+      },
+      "detail": "The mapping claims current proof at source 4d641e9, but later candidate changes touched the authenticated C-SDLC surface. The retained validator exits with current_source_drift at candidate fb6cbc7f.",
+      "denominator_refs": [
+        "FILE-05397"
+      ]
+    },
+    {
+      "id": "D520-REL-001",
+      "severity": "P1",
+      "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+      "status": "open",
+      "title": "The canonical current release-status projection is stale and invalid",
+      "impact": "Operators receive an outdated release decision and closed remediations appear as open debt; the projection's advertised validator fails on source drift.",
+      "source_lane": "documentation",
+      "owner": "#817 under #522",
+      "affected_acceptance_refs": [
+        "TAIL-04:AC-1",
+        "TAIL-04:AC-2",
+        "TAIL-06:AC-1"
+      ],
+      "locator": {
+        "path": "docs/milestones/v0.92.1/evidence/release/current-status/EVIDENCE_MAP.md",
+        "line": 3
+      },
+      "evidence": {
+        "subject_id": "D520-REL-001",
+        "path": "docs/milestones/v0.92.1/evidence/release/current-status/EVIDENCE_MAP.md",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "39d6f7578ff1f96ba00ecc147958eeab67c28abd7444b3a84f3751c51422daf5",
+        "locator": {
+          "path": "docs/milestones/v0.92.1/evidence/release/current-status/EVIDENCE_MAP.md",
+          "line": 3
+        }
+      },
+      "detail": "The projection is bound to 11a3fe88 rather than fb6cbc7f and still presents now-closed findings including #758 and #759 as current debt. Running current-status/validate.py reports six current_source_drift failures.",
+      "denominator_refs": [
+        "FILE-05337"
+      ]
+    },
+    {
+      "id": "D520-DOC-003",
+      "severity": "P2",
+      "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+      "status": "open",
+      "title": "Issue 519 lifecycle cards contradict its completed publication state",
+      "impact": "Durable lifecycle truth reports draft, pre-phase, open, unmerged, and not-started states for a final merged publication candidate.",
+      "source_lane": "documentation",
+      "owner": "#817 under #522",
+      "affected_acceptance_refs": [
+        "TAIL-03:AC-1",
+        "TAIL-03:AC-2"
+      ],
+      "locator": {
+        "path": ".csdlc/issues/519/cards/sor.md",
+        "line": 11
+      },
+      "evidence": {
+        "subject_id": "D520-DOC-003",
+        "path": ".csdlc/issues/519/cards/sor.md",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "b87e8bc55514f92526608b737870ab5c0cbe69d039a07659bc95645a826ac24e",
+        "locator": {
+          "path": ".csdlc/issues/519/cards/sor.md",
+          "line": 11
+        }
+      },
+      "detail": "The final candidate packet records a closed issue and merged PR, while SRP remains draft and SOR remains pre_phase, pr_open, not_merged, and not_started. Repair must preserve post-merge card immutability and reconcile terminal truth through the authorized projection/receipt path.",
+      "denominator_refs": [
+        "FILE-01647",
+        "FILE-01651"
+      ]
+    },
+    {
+      "id": "D520-DOC-004",
+      "severity": "P2",
+      "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+      "status": "open",
+      "title": "Feature-proof coverage contains fourteen corrupted ownership-link suffixes",
+      "impact": "Canonical release documentation exposes malformed ownership links and the current validator fails to detect the corruption.",
+      "source_lane": "documentation",
+      "owner": "#817 under #522",
+      "affected_acceptance_refs": [
+        "TAIL-04:AC-1",
+        "TAIL-04:AC-2"
+      ],
+      "locator": {
+        "path": "docs/milestones/v0.92.1/FEATURE_PROOF_COVERAGE_v0.92.1.md",
+        "line": 47
+      },
+      "evidence": {
+        "subject_id": "D520-DOC-004",
+        "path": "docs/milestones/v0.92.1/FEATURE_PROOF_COVERAGE_v0.92.1.md",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "ebda3c03d84f7b971b8cc1b47727f8370bad7f99ecffb40f5ab9a40fc3237857",
+        "locator": {
+          "path": "docs/milestones/v0.92.1/FEATURE_PROOF_COVERAGE_v0.92.1.md",
+          "line": 47
+        }
+      },
+      "detail": "Fourteen rows append a stray .com/agent-logic/... suffix after otherwise valid Markdown links at lines 47 through 99. The release documentation validator does not reject this external-link tail corruption.",
+      "denominator_refs": [
+        "FILE-04875",
+        "CANON-0298"
+      ]
+    },
+    {
+      "id": "D520-EVID-001",
+      "severity": "P3",
+      "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+      "status": "open",
+      "title": "Eighteen GCP-E JSON readbacks are emitted as YAML",
+      "impact": "Downstream evidence consumers cannot safely parse retained files according to their declared .json format.",
+      "source_lane": "provider_cloud",
+      "owner": "#817 under #522",
+      "affected_acceptance_refs": [
+        "GCP-E:AC-2",
+        "TAIL-04:AC-1",
+        "TAIL-04:AC-2"
+      ],
+      "locator": {
+        "path": "docs/milestones/v0.92.1/evidence/cloud/gcp-e/run-gcp-e-l4-smoke.sh",
+        "line": 83
+      },
+      "evidence": {
+        "subject_id": "D520-EVID-001",
+        "path": "docs/milestones/v0.92.1/evidence/cloud/gcp-e/run-gcp-e-l4-smoke.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "898117f84f8452779a015e7e74936059859b721ae728e20494a6bcb9834dfff1",
+        "locator": {
+          "path": "docs/milestones/v0.92.1/evidence/cloud/gcp-e/run-gcp-e-l4-smoke.sh",
+          "line": 83
+        }
+      },
+      "detail": "The accelerator-type and machine-type gcloud describe commands omit --format=json, so eighteen retained files with .json names contain YAML.",
+      "denominator_refs": [
+        "FILE-05256"
+      ]
+    },
+    {
+      "id": "D520-EVID-002",
+      "severity": "P3",
+      "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+      "status": "open",
+      "title": "Four retained cloud failure artifacts are zero-byte files named JSON",
+      "impact": "Evidence inventories advertise parseable JSON where no structured failure record exists.",
+      "source_lane": "retained_evidence",
+      "owner": "#817 under #522",
+      "affected_acceptance_refs": [
+        "TAIL-04:AC-1",
+        "TAIL-04:AC-2"
+      ],
+      "locator": {
+        "command": "test ! -s .csdlc/evidence/730/preapply-bucket-describe.json"
+      },
+      "evidence": {
+        "subject_id": "D520-EVID-002",
+        "path": ".csdlc/evidence/730/preapply-bucket-describe.json",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "locator": {
+          "command": "test ! -s .csdlc/evidence/730/preapply-bucket-describe.json"
+        }
+      },
+      "detail": "Four failed-command artifacts under issues 730 and 731 are empty. They need explicit structured failure envelopes or a truthful non-JSON naming and manifest disposition.",
+      "denominator_refs": [
+        "FILE-00577",
+        "FILE-00595",
+        "FILE-00614",
+        "FILE-00616"
+      ]
+    },
+    {
+      "id": "D520-RUNTIME-001",
+      "severity": "P1",
+      "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+      "status": "open",
+      "title": "Max-attempt greeting recovery exceeds its retry bound and can poison the durable store",
+      "impact": "A crash after the final attempt claim can dispatch an unauthorized extra provider operation and then prevent the Runtime from starting because it rejects state that it wrote itself.",
+      "source_lane": "code",
+      "owner": "#814 under #522",
+      "affected_acceptance_refs": [
+        "RUST-01:AC-1",
+        "RUST-01:AC-3"
+      ],
+      "locator": {
+        "path": "adl-runtime-kernel/src/control.rs",
+        "line": 2478
+      },
+      "evidence": {
+        "subject_id": "D520-RUNTIME-001",
+        "path": "adl-runtime-kernel/src/control.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "d0cd5367770ebc2e55102a0d93f6112c5ac323ab6da4147b1047fc73b9f4a027",
+        "locator": {
+          "path": "adl-runtime-kernel/src/control.rs",
+          "line": 2478
+        }
+      },
+      "detail": "Recovery unconditionally increments attempts. A record already at max_attempts becomes max_attempts plus one, dispatches again, and is rejected by valid_for on the next reopen. No test injects a crash immediately after the maximum-attempt claim.",
+      "denominator_refs": [
+        "FILE-04507"
+      ]
+    },
+    {
+      "id": "D520-RUNTIME-002",
+      "severity": "P2",
+      "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+      "status": "open",
+      "title": "Greeting retries replace the stable ledger work identity with attempt-specific IDs",
+      "impact": "Outbox, result, transcript, audit, and deduplication identities can diverge across retries, fragmenting the durable idempotency contract.",
+      "source_lane": "code",
+      "owner": "#814 under #522",
+      "affected_acceptance_refs": [
+        "RUST-01:AC-1",
+        "RUST-01:AC-3"
+      ],
+      "locator": {
+        "path": "adl-runtime-kernel/src/control.rs",
+        "line": 2423
+      },
+      "evidence": {
+        "subject_id": "D520-RUNTIME-002",
+        "path": "adl-runtime-kernel/src/control.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "d0cd5367770ebc2e55102a0d93f6112c5ac323ab6da4147b1047fc73b9f4a027",
+        "locator": {
+          "path": "adl-runtime-kernel/src/control.rs",
+          "line": 2423
+        }
+      },
+      "detail": "The retry path changes work_id to <stable-key>-attempt-N and refresh propagates that changed value into initiation and ledger metadata. The existing stable-work-key test asserts only the durable record, not the delivered result or ledger-visible identity.",
+      "denominator_refs": [
+        "FILE-04507"
+      ]
+    },
+    {
+      "id": "D520-SEC-001",
+      "severity": "P1",
+      "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+      "status": "open",
+      "title": "GCP mutation approval is self-asserted by the local mutation principal",
+      "impact": "A process with repository write access and existing gcloud permissions can forge approval and incur cloud mutations or spend without operator consent.",
+      "source_lane": "security",
+      "owner": "#815 under #522",
+      "affected_acceptance_refs": [
+        "GCP-D:AC-1",
+        "GCP-D:AC-2",
+        "GCP-D:AC-3",
+        "GCP-D:AC-4",
+        "TAIL-10:AC-3"
+      ],
+      "locator": {
+        "path": ".csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh",
+        "line": 17
+      },
+      "evidence": {
+        "subject_id": "D520-SEC-001",
+        "path": ".csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "79fcc17ddf34fdc1bf2b88640c744c0755d70825a28d178387d5fce48331dbd9",
+        "locator": {
+          "path": ".csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh",
+          "line": 17
+        }
+      },
+      "detail": "The validator accepts a locally written status=approved plus timestamps without authenticating an operator, signature, MAC, immutable receipt, or out-of-band principal. The negative suite itself manufactures an accepted approved packet.",
+      "denominator_refs": [
+        "FILE-04354"
+      ]
+    },
+    {
+      "id": "D520-SEC-002",
+      "severity": "P2",
+      "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+      "status": "open",
+      "title": "AWS authorization is not cryptographically bound to the saved Terraform plan",
+      "impact": "Readiness can attest operator approval and resource bounds for different bytes than Terraform eventually applies.",
+      "source_lane": "security",
+      "owner": "#815 under #522",
+      "affected_acceptance_refs": [
+        "AWS-D:AC-1",
+        "AWS-D:AC-2",
+        "AWS-D:AC-3",
+        "TAIL-10:AC-3"
+      ],
+      "locator": {
+        "path": ".csdlc/prepared/issues/727/validate-issue-727-authorization-envelope.sh",
+        "line": 92
+      },
+      "evidence": {
+        "subject_id": "D520-SEC-002",
+        "path": ".csdlc/prepared/issues/727/validate-issue-727-authorization-envelope.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "c233d93087926cd445766d1b6dc5b63d35cd04c1a474f1b460060d23d61e6d65",
+        "locator": {
+          "path": ".csdlc/prepared/issues/727/validate-issue-727-authorization-envelope.sh",
+          "line": 92
+        }
+      },
+      "detail": "The validator trusts self-declared account verification and authorized_by fields and compares the claimed digest only with a separately mutable text file; it never hashes the saved tfplan bytes or binds the inspected plan JSON to that binary plan.",
+      "denominator_refs": [
+        "FILE-04296"
+      ]
+    },
+    {
+      "id": "D520-SEC-003",
+      "severity": "P2",
+      "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+      "status": "open",
+      "title": "The OBS-B redaction validation lane is vacuous",
+      "impact": "The named privacy lane can pass while Runtime projections or retained evidence contain actual credentials or provider payloads.",
+      "source_lane": "security",
+      "owner": "#816 under #522",
+      "affected_acceptance_refs": [
+        "OBS-B:AC-2"
+      ],
+      "locator": {
+        "path": ".csdlc/prepared/issues/512/validate-obs-b-redaction.sh",
+        "line": 1
+      },
+      "evidence": {
+        "subject_id": "D520-SEC-003",
+        "path": ".csdlc/prepared/issues/512/validate-obs-b-redaction.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "a12948ee1cc779c3073723dac59473a01b4394d7dd478ed529be1b34fcbb85d4",
+        "locator": {
+          "path": ".csdlc/prepared/issues/512/validate-obs-b-redaction.sh",
+          "line": 1
+        }
+      },
+      "detail": "The script only greps a planning bootstrap request for the word redacted. It does not inspect any projected Runtime payload, UI asset, retained evidence, or negative fixture.",
+      "denominator_refs": [
+        "FILE-03417"
+      ]
+    },
+    {
+      "id": "D520-SEC-004",
+      "severity": "P2",
+      "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+      "status": "open",
+      "title": "The real-local Shepherd proof accepts off-host Ollama URLs",
+      "impact": "A malicious or mistyped environment value can exfiltrate prompts and return forged model digest and GPU-residency evidence.",
+      "source_lane": "tests",
+      "owner": "#814 under #522",
+      "affected_acceptance_refs": [
+        "RUST-01:AC-1",
+        "RUST-01:AC-3"
+      ],
+      "locator": {
+        "path": "adl-runtime/tests/shepherd_local_model.rs",
+        "line": 16
+      },
+      "evidence": {
+        "subject_id": "D520-SEC-004",
+        "path": "adl-runtime/tests/shepherd_local_model.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "4b1d2e1bed937cbd8ee754aacf2c1a27ec3ee458829046001a95c2708b373e88",
+        "locator": {
+          "path": "adl-runtime/tests/shepherd_local_model.rs",
+          "line": 16
+        }
+      },
+      "detail": "A starts_with(http://localhost:) check accepts http://localhost:11434@attacker.example, whose parsed hostname is attacker.example. The generated runner then sends the prompt off-host and trusts the remote /api/ps response.",
+      "denominator_refs": [
+        "FILE-04566"
+      ]
+    },
+    {
+      "id": "D520-TEST-001",
+      "severity": "P2",
+      "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+      "status": "open",
+      "title": "Hot-reload cancellation tests can pass without observing a pending reload",
+      "impact": "The suite can report cancellation behavior as proven even when the watcher never observed the transient write, while fixed sleeps remain scheduler-sensitive in CI.",
+      "source_lane": "tests",
+      "owner": "#816 under #522",
+      "affected_acceptance_refs": [
+        "HOT-01:AC-2",
+        "HOT-01:AC-3"
+      ],
+      "locator": {
+        "path": "adl-runtime/tests/config_reload.rs",
+        "line": 182
+      },
+      "evidence": {
+        "subject_id": "D520-TEST-001",
+        "path": "adl-runtime/tests/config_reload.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "922107fbfffb3c0e9cb0ccbc5fe87bb96c088520df43f19ab9f7cc74bdedbbe9",
+        "locator": {
+          "path": "adl-runtime/tests/config_reload.rs",
+          "line": 182
+        }
+      },
+      "detail": "Both tests sleep for 15ms after a transient write and revert or delete without synchronizing on watcher receipt or pending-debounce state. Generation staying zero therefore passes both the exercised and never-observed cases.",
+      "denominator_refs": [
+        "FILE-04548"
+      ]
+    },
+    {
+      "id": "TPR-001",
+      "severity": "P1",
+      "status": "blocking",
+      "title": "Assignment cannot be bound because no candidate SHA was supplied",
+      "evidence": "Third-party review page 1: candidate identity was absent and the reviewer had no Git access to infer or monitor a revision.",
+      "impact": "No finding or verdict can be bound to immutable reviewed bytes.",
+      "remediation": "Supply the finalized immutable candidate SHA and rerun the independent review at that exact revision.",
+      "remediation_issue": 833
+    },
+    {
+      "id": "TPR-002",
+      "severity": "P1",
+      "status": "blocking",
+      "title": "Required predecessor #520 was not finalized and had changes required",
+      "evidence": "Third-party review pages 1-2: the supplied #520 summary retained 14 findings and five P1 findings with remediation #814-#821 still open.",
+      "impact": "TAIL-05 could not review a finalized predecessor or discharge already-open internal findings.",
+      "remediation": "Complete the internal remediation wave, finalize #520, and reconcile the exact merged predecessor.",
+      "remediation_issue": 834
+    },
+    {
+      "id": "TPR-003",
+      "severity": "P1",
+      "status": "blocking",
+      "title": "Every release-gating row in the milestone projection was blocked",
+      "evidence": "Third-party review page 2: all 14 feature rows and TAIL-05, TAIL-06, and TAIL-10 were blocked, with 198 remediation rows unproved.",
+      "impact": "The requested closeout contradicted the milestone's own release projection.",
+      "remediation": "Recompute the complete release projection only after all remediation proof is current.",
+      "remediation_issue": 835
+    },
+    {
+      "id": "TPR-004",
+      "severity": "P2",
+      "status": "open",
+      "title": "Code-reduction claim was not verifiable and visible decrease included decomposition",
+      "evidence": "Third-party review page 2: top-level-only measurements counted moved code as reduction and could not distinguish deletion from relocation.",
+      "impact": "The recorded metric could prove neither reduction nor its absence.",
+      "remediation": "Publish a recursive before/after measurement with commands and separate deleted from relocated lines.",
+      "remediation_issue": 836
+    },
+    {
+      "id": "TPR-005",
+      "severity": "P2",
+      "status": "open",
+      "title": "Triple control-plane coexistence persisted without a current boot-path map",
+      "evidence": "Third-party review pages 2-3: csdlc-v2, csdlc-v3, and legacy adl surfaces coexisted alongside runtime generations without a per-subsystem execution map.",
+      "impact": "A fix can land in one generation while the active path continues using another.",
+      "remediation": "Publish the active per-subsystem boot-path table and retire superseded guidance against parity evidence.",
+      "remediation_issue": 837
+    }
+  ]
+}

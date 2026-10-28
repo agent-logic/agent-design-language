@@ -1,0 +1,42 @@
+[
+  {
+    "package": "serde-saphyr",
+    "version": "2.0.0",
+    "checksum": "a253edfdea34032da21af84e16fcc94f4c7a6ba237f9f3bc2dbf43cea8535c44",
+    "published_at": "2026-10-13T15:11:53.735115Z",
+    "license": "MIT OR Apache-2.0",
+    "rust_version": "1.89",
+    "yanked": false,
+    "repository": "https://github.com/bourumir-wyngs/serde-saphyr",
+    "source_revision": "e3a4566ef2692f6b9c906a103f6841441a1924ba",
+    "published_by": null,
+    "trustpub_data": {
+      "provider": "github",
+      "repository": "bourumir-wyngs/serde-saphyr",
+      "run_id": "38388050210",
+      "sha": "e3a4566ef2692f6b9c906a103f6841441a1924ba"
+    },
+    "commit_message": "Clarified borrowing usage and fixed borrowing test.",
+    "source_forbids_unsafe": true
+  },
+  {
+    "package": "granit-parser",
+    "version": "2.0.0",
+    "checksum": "da55feca5d1625466bae068f9fd4b87892caeae70c3fe671ddb0f50d41aebf37",
+    "published_at": "2026-10-13T09:17:05.935265Z",
+    "license": "MIT OR Apache-2.0",
+    "rust_version": "1.81.0",
+    "yanked": false,
+    "repository": "https://github.com/bourumir-wyngs/granit-parser",
+    "source_revision": "d2bde4f175c206405d5a33a048c5041eccb59bf8",
+    "published_by": null,
+    "trustpub_data": {
+      "provider": "github",
+      "repository": "bourumir-wyngs/granit-parser",
+      "run_id": "38374747267",
+      "sha": "d2bde4f175c206405d5a33a048c5041eccb59bf8"
+    },
+    "commit_message": "More tests and another corner case found we tied to strict_identation:  With `strict_indentation` enabled, keep explicit-key tab indentation checks active across anchor\n                                                                         and tag properties, including intervening comments. A key such as `?\\t&a\\n\\tkey\\n: value\\n`\n                                                                         is rejected in strict mode because its content line lacks the required space indentation after\n                                                                         the anchor. The default relaxed mode preserves its acceptance of this input.",
+    "source_forbids_unsafe": true
+  }
+]

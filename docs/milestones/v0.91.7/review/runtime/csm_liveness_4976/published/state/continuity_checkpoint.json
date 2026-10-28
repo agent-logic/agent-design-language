@@ -1,0 +1,23 @@
+{
+  "agent_instance_id": "csm-liveness-4976-full",
+  "captured_at": "2026-07-06T17:22:07.202583Z",
+  "checkpoint_reason": "cycle_completed",
+  "completed_cycle_count": 139,
+  "consecutive_failure_count": 0,
+  "continuity_kind": "pre_v0_92_handle",
+  "continuity_ref": "continuity.json",
+  "cycle_ledger_ref": "cycle_ledger.jsonl",
+  "latest_cycle_id": "cycle-000139",
+  "latest_cycle_status": "success",
+  "lease_ref": null,
+  "lease_state": "clear",
+  "restore_basis": {
+    "expected_next_cycle_id": "cycle-000140",
+    "ledger_entry_count": 139,
+    "max_cycle_number": 139
+  },
+  "schema": "adl.long_lived_agent_continuity_checkpoint.v1",
+  "state": "idle",
+  "status_ref": "status.json",
+  "stop_requested": false
+}

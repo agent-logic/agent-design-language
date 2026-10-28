@@ -1,0 +1,55 @@
+{
+  "schema": "adl.v0921.wp01.operation-observed.v1",
+  "kind": "child_create",
+  "planned_id": "DRT-D",
+  "issue": 509,
+  "title": "[v0.92.1][DRT-D] GCP portability qualification",
+  "labels": [
+    "area:runtime",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "milestone": 1,
+  "state": "open",
+  "dependencies": {
+    "DRT-C": 508,
+    "GCP-E": 494,
+    "XCL-01": 495
+  },
+  "body_sha256": "cd4bae179aa18920cc8b7c65570eec54316307fa0a99e3faa8ba8fe1a13cd763",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:DRT-D:create",
+  "request_fingerprint": "6079dd71c73211a7630c24bdc6d0f436c74b65181fd969884dd5d849128678b4",
+  "planning_digest": "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251",
+  "specification_sha256": "5a5f1d34a211044ed7f62a3cd8cfa714310b30a7a0ff3ca6c36b1e3d225c7c91",
+  "live_response": {
+    "action": "issue_create",
+    "comment_id": null,
+    "issue": {
+      "assignees": [
+
+      ],
+      "body": "## Outcome\n\nProduce one optional GCP six-resident portability qualification packet.\n\n## Primary deliverable\n\nOne optional GCP six-resident portability qualification packet.\n\n## Verification result\n\nIdentity, workload, continuity, cost, and cleanup-zero checks pass without altering AWS qualification authority.\n\n## Unit boundary\n\nIssue completion is exactly one optional GCP portability qualification decision; run checks are evidence inputs.\n\n## Dependencies\n\n- DRT-C: #508\n- GCP-E: #494\n- XCL-01: #495\n\n## Retained predecessor scope\n\n- None; this is new v0.92.1 work.\n\n## Acceptance criteria\n\n- [ ] Six identities and lineage remain exact\n- [ ] GCP account project billing and credentials are separately governed\n- [ ] Cost and cleanup receipts are retained\n- [ ] No resources remain\n\n## Owned paths\n\n- `adl-runtime/tests/**`\n- `docs/milestones/v0.92.1/evidence/runtime/drt-d/**`\n\n## PVF lanes\n\n- `gcp-identity`\n- `six-resident-workload`\n- `continuity`\n- `cost`\n- `cleanup-zero`\n\n## Stop conditions\n\n- Paid-run authorization is absent\n- Provider identity is ambiguous\n- Cleanup cannot be proven\n\n## Non-goals\n\n- Replacing AWS qualification\n- Executing issue 269\n\n## Canonical planning identity\n\n- Planned ID: `DRT-D`\n- Canonical title: `[v0.92.1][DRT-D] GCP portability qualification`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#DRT-D`\n<!-- csdlc-github-operation:v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:DRT-D:create -->\n",
+      "closed_at": null,
+      "created_at": "2026-08-26T03:10:20Z",
+      "labels": [
+        "track:roadmap",
+        "type:task",
+        "area:runtime",
+        "version:v0.92.1"
+      ],
+      "marker_present": true,
+      "milestone": 1,
+      "number": 509,
+      "repository": "agent-logic/agent-design-language",
+      "schema": "csdlc.github_issue.v1",
+      "state": "open",
+      "title": "[v0.92.1][DRT-D] GCP portability qualification"
+    },
+    "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:DRT-D:create",
+    "pr_state": null,
+    "reconciled": true,
+    "repository": "agent-logic/agent-design-language",
+    "schema": "csdlc.github_action_result.v1"
+  }
+}

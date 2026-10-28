@@ -1,0 +1,22 @@
+{
+  "schema": "adl.v0921.issue833_terminal_reconciliation.v1",
+  "issue": 833,
+  "outcome": "terminal_reconciled",
+  "closed_at": "2026-09-11T19:44:35Z",
+  "dependency": {
+    "issue": 856,
+    "pull_request": 858,
+    "head_sha": "f4ea095afda84c32adbb100cce423092a1141c36",
+    "merge_sha": "c58001391924622b5fbb0417441bb45a03f0cb59",
+    "merged_at": "2026-09-11T19:41:53Z"
+  },
+  "native_terminal_state": {
+    "path": "docs/milestones/v0.92.1/evidence/release/tail-06/833-native-terminal-state.json",
+    "sha256": "7738677a5b2230e40f3564059a1c935d6907c3cb5e999f66d50c9514192ef129",
+    "blake3": "2aaafa9a3a114025cd46e7fdc7e5a61e92a882d63db1d52faa125568ba4f5c7e"
+  },
+  "native_terminal_receipt": {
+    "path": "docs/milestones/v0.92.1/evidence/release/tail-06/833-native-terminal-receipt.json",
+    "sha256": "585185071dd9b7cf2b2884511923cf49fc885159c17cfbd6c0e6ce5fd05fb868"
+  }
+}

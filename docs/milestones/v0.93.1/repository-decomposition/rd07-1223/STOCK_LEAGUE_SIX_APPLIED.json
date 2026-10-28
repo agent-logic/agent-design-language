@@ -1,0 +1,362 @@
+{
+  "schema": "adl1223.stock_league_six_proposal.v1",
+  "status": "applied_local_reversible_implementation",
+  "source_head": "aee9a5551ded34bd385ba6543182f956f0b39545",
+  "removed_count": 6,
+  "rows": [
+    {
+      "id": "RD07-1353",
+      "path": "adl/tools/demo_v0891_long_lived_stock_league.sh",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "d0be27834bf930ac3b716089d9bc0b8a510ae94c"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/demo_v0891_long_lived_stock_league.sh"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1892",
+      "path": "adl/tools/stock_league_demo.py",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "fd95392ad538705c065c1b2837492a356e7c0283"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/stock_league_demo.py"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1973",
+      "path": "adl/tools/test_demo_v0891_long_lived_stock_league.sh",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "bb9aec1f2eadd02ea7693ad72e59b55dccd273d0"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/test_demo_v0891_long_lived_stock_league.sh"
+        ]
+      }
+    },
+    {
+      "id": "RD07-3156",
+      "path": "demos/fixtures/long_lived_stock_league/market_fixture.json",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-other-consumers",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "2b8933d296299525941ee13219bb0ceed03766ea"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "coherent component and caller cutover",
+        "qualified owner adoption; exact source correspondence alone is insufficient"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "demos/fixtures/long_lived_stock_league/market_fixture.json"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_200_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
+        "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+        "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      }
+    },
+    {
+      "id": "RD07-3157",
+      "path": "demos/fixtures/long_lived_stock_league/model_roster_fixture.json",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-other-consumers",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "4371afdefa64e13a5875d0882cff70d556aa3c72"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "coherent component and caller cutover",
+        "qualified owner adoption; exact source correspondence alone is insufficient"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "demos/fixtures/long_lived_stock_league/model_roster_fixture.json"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_200_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
+        "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+        "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      }
+    },
+    {
+      "id": "RD07-3203",
+      "path": "demos/v0.89.1/long_lived_stock_league_demo.md",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-other-consumers",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "86c3bc51812bc1d23492bc776d485a0a57578636"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "coherent component and caller cutover",
+        "qualified owner adoption; exact source correspondence alone is insufficient"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "demos/v0.89.1/long_lived_stock_league_demo.md"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_200_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
+        "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+        "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      }
+    }
+  ],
+  "files": [
+    {
+      "path": "adl/tools/demo_v0891_long_lived_stock_league.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "d0be27834bf930ac3b716089d9bc0b8a510ae94c",
+        "sha256": "40d2f537434187e45032be37f62a37ea39979b4a9a712e6c41a47935c0b64bab"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/stock_league_demo.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "fd95392ad538705c065c1b2837492a356e7c0283",
+        "sha256": "fcb4e6afce4068fa5324ab85dadc6df7d57916ef6256c16a9eee267ef0486d1b"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_demo_v0891_long_lived_stock_league.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "bb9aec1f2eadd02ea7693ad72e59b55dccd273d0",
+        "sha256": "0b5c6024183e109c25b2137e2e29cd68de9935b5e113631da1df693b38e94e81"
+      },
+      "after": null
+    },
+    {
+      "path": "demos/fixtures/long_lived_stock_league/market_fixture.json",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "2b8933d296299525941ee13219bb0ceed03766ea",
+        "sha256": "86fe5d60c1e22c76af9ed51ea62708cfbff44dc4d3893c4ec6e7c500623dbdaa"
+      },
+      "after": null
+    },
+    {
+      "path": "demos/fixtures/long_lived_stock_league/model_roster_fixture.json",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "4371afdefa64e13a5875d0882cff70d556aa3c72",
+        "sha256": "0be25f2c9c7f807b1be64b4cab2f9c0385ca7137790ab4471aad91e2fcb5577d"
+      },
+      "after": null
+    },
+    {
+      "path": "demos/v0.89.1/long_lived_stock_league_demo.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "86c3bc51812bc1d23492bc776d485a0a57578636",
+        "sha256": "c6c941535d8e1dcdbe2a1f24ea5cee5ba245d0e55d4de5ef692cd5d129162fb9"
+      },
+      "after": null
+    },
+    {
+      "path": "demos/README.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "41c7fdf620f72a4d36ad72fe309aeb95082ab16b",
+        "sha256": "5b22aad0839c1093958d2d6c858413cfe1180e5d36fd4bfa8f7422d9e24c0373"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "9a17d3829d30024ddd5c28d365b4b1a6b98d1cc3",
+        "sha256": "dd688e0206b788b405ab26b43008322e5114217c2a9a09c189b0d57bca1652f7"
+      }
+    },
+    {
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "d70cbedd205f5115fb665676eecb3d4fbf19f825",
+        "sha256": "dbe0d01c4a905bd75b4815b4d6e2f97eef62a21d65f552303e2e2418751a1844"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "5cd8c5ad3b3150577f1749a594c553644af3a3ae",
+        "sha256": "c0dc4b59a88500bba1221b911a915908e079c105b146af9c6b1a77c366f3c1d1"
+      }
+    }
+  ],
+  "qualified_owner": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+  "owner_inputs": [
+    {
+      "path": "adl/tools/demo_v0891_long_lived_stock_league.sh",
+      "owner_git": "100755 blob d0be27834bf930ac3b716089d9bc0b8a510ae94c\tadl/tools/demo_v0891_long_lived_stock_league.sh",
+      "sha256": "40d2f537434187e45032be37f62a37ea39979b4a9a712e6c41a47935c0b64bab"
+    },
+    {
+      "path": "adl/tools/stock_league_demo.py",
+      "owner_git": "100755 blob fd95392ad538705c065c1b2837492a356e7c0283\tadl/tools/stock_league_demo.py",
+      "sha256": "fcb4e6afce4068fa5324ab85dadc6df7d57916ef6256c16a9eee267ef0486d1b"
+    },
+    {
+      "path": "adl/tools/test_demo_v0891_long_lived_stock_league.sh",
+      "owner_git": "100755 blob bb9aec1f2eadd02ea7693ad72e59b55dccd273d0\tadl/tools/test_demo_v0891_long_lived_stock_league.sh",
+      "sha256": "0b5c6024183e109c25b2137e2e29cd68de9935b5e113631da1df693b38e94e81"
+    },
+    {
+      "path": "demos/fixtures/long_lived_stock_league/market_fixture.json",
+      "owner_git": "100644 blob 2b8933d296299525941ee13219bb0ceed03766ea\tdemos/fixtures/long_lived_stock_league/market_fixture.json",
+      "sha256": "86fe5d60c1e22c76af9ed51ea62708cfbff44dc4d3893c4ec6e7c500623dbdaa"
+    },
+    {
+      "path": "demos/fixtures/long_lived_stock_league/model_roster_fixture.json",
+      "owner_git": "100644 blob 4371afdefa64e13a5875d0882cff70d556aa3c72\tdemos/fixtures/long_lived_stock_league/model_roster_fixture.json",
+      "sha256": "0be25f2c9c7f807b1be64b4cab2f9c0385ca7137790ab4471aad91e2fcb5577d"
+    },
+    {
+      "path": "demos/v0.89.1/long_lived_stock_league_demo.md",
+      "owner_git": "100644 blob 86c3bc51812bc1d23492bc776d485a0a57578636\tdemos/v0.89.1/long_lived_stock_league_demo.md",
+      "sha256": "c6c941535d8e1dcdbe2a1f24ea5cee5ba245d0e55d4de5ef692cd5d129162fb9"
+    }
+  ],
+  "qualification": {
+    "original_bash_scripts": 1,
+    "python_assertion_expressions": 22,
+    "shell_grep_assertions": 3,
+    "dynamic_assertion_note": "Two Python assertion expressions execute for every generated file; fixed expression count is not dynamic invocation count.",
+    "status": "PASS",
+    "evidence": {
+      "PLAN.json": {
+        "path": "/Volumes/FastWork/c1223/runtime-stock-league-six-plan/PLAN.json",
+        "sha256": "97399502ea89bb318e5ad2327614de62dbb3748888a9a88a66c2d5e00d01139d"
+      },
+      "execution/RESULT.json": {
+        "path": "/Volumes/FastWork/c1223/runtime-stock-league-six-plan/execution/RESULT.json",
+        "sha256": "447c0aecbcec1114b8ad95820501ef1f6dbf04a187b2903dea858befebcb8cce"
+      },
+      "execution/output/result.json": {
+        "path": "/Volumes/FastWork/c1223/runtime-stock-league-six-plan/execution/output/result.json",
+        "sha256": "508221b30edbdfe630e4d575b054290fe1d171ecc0ada18bd3b8a480022380ef"
+      },
+      "execution/output/stdout.log": {
+        "path": "/Volumes/FastWork/c1223/runtime-stock-league-six-plan/execution/output/stdout.log",
+        "sha256": "703ea31db003fface0f42811a022ef7c72f9c0ca59295d905243aa21d56b1076"
+      },
+      "execution/output/stderr.log": {
+        "path": "/Volumes/FastWork/c1223/runtime-stock-league-six-plan/execution/output/stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution/CONTAINER.json": {
+        "path": "/Volumes/FastWork/c1223/runtime-stock-league-six-plan/execution/CONTAINER.json",
+        "sha256": "127128edfdb585f8268d8710634de52f864e71353579f528441524a661b9ecc4"
+      },
+      "execution/IMAGE.json": {
+        "path": "/Volumes/FastWork/c1223/runtime-stock-league-six-plan/execution/IMAGE.json",
+        "sha256": "c180ed63b9018b422a2f26b7bee228bb3c81017aa53ceb91293ad389bfe4bcf0"
+      }
+    }
+  },
+  "custody": {
+    "path": "/Volumes/FastWork/c1223/runtime-stock-league-six-plan/retirement/current-and-original-preimages.tar",
+    "sha256": "311b07ee0af9248ab12e070d7031659274fc991fd6e6869337b6df773f74ec9e",
+    "current_members": 8,
+    "original_members": 6,
+    "original_revision": "248f00e359e412f6bc0061ac88be9ff374e3a212"
+  },
+  "caller_repairs": [
+    "Demos index routes to exact qualified Runtime guide; retained v0.90 guide and Rust fixture remain separate.",
+    "Actual generator prospective registry removes three tool entries only; root regenerates actual registry after composition.",
+    "Remaining review/milestone records are immutable historical source references, not executable callers."
+  ],
+  "limits": [
+    "No live Ollama discovery, provider/model, broker, cloud, native runtime or Rust execution qualified.",
+    "Only fixture replay original test passed; no acceptance credited to adjacent v0.90 Rust stock-league family.",
+    "Original4134+22 denominator unchanged; six original rows only, no hold resolutions.",
+    "Execution top-level receipt retains prospective PLAN wording; actual inner result and status establish the one completed original execution."
+  ],
+  "required_before_apply": [
+    "Independent review of exact source/custody/caller delta.",
+    "Root actual registry regeneration must match reviewed composed afterimage."
+  ],
+  "patch": {
+    "path": "/Volumes/FastWork/c1223/runtime-stock-league-six-plan/retirement/six-and-callers.patch",
+    "sha256": "ed57755b313cbd27f059d7ebab693c3f922c3decdad48b8598ea627c91e8b805"
+  },
+  "issue": 1223,
+  "review": {
+    "reviewer": "review_1223_public_facade",
+    "result": "PASS",
+    "scope": "six exact owner source resources;unchanged original fixture test execution;14custody members;active callerclosure andexactregistry/navigation"
+  }
+}

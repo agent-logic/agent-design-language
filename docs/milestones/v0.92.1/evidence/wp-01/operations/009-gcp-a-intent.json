@@ -1,0 +1,10 @@
+{
+  "schema": "adl.v0921.wp01.operation-intent.v1",
+  "kind": "child_create",
+  "planned_id": "GCP-A",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:GCP-A:create",
+  "request_fingerprint": "5e52258edb7d6cd4e6774ad6187cbec7016d7f7e15f12f7e6933c5566f625bc7",
+  "planning_digest": "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251",
+  "dependencies": {
+  }
+}

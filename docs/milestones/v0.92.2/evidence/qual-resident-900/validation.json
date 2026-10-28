@@ -1,0 +1,105 @@
+{
+  "schema": "adl.issue900.public_qualification_summary.v1",
+  "issue": 900,
+  "status": "passed_locally_pending_ci_and_independent_review",
+  "execution_profile": {
+    "authorization": "operator-approved bounded local production-provider qualification",
+    "host": "Mac16,11 Apple M4 Pro",
+    "memory_gib": 64,
+    "ollama_url": "loopback task-owned port 11436",
+    "context_tokens": 32768,
+    "num_predict": 1024,
+    "temperature": 0,
+    "max_loaded_models": 1,
+    "max_parallel_requests": 1,
+    "gpu_placement": "cpu_forced_llama_arg_device_none",
+    "existing_model_blobs_only": true,
+    "task_owned_service_stopped": true,
+    "remote_or_paid_calls": 0
+  },
+  "positive": {
+    "resident_count": 6,
+    "distinct_role_count": 6,
+    "pre_workloads_executed": 6,
+    "completed_case_replays_denied": 6,
+    "post_restore_workloads_executed": 6,
+    "pending_case_count": 0,
+    "continuity_generation": 1,
+    "continuation_verified": true,
+    "signed_population_sha256": "0ffbadf67f1a7d1bcdc7e3cee9d7a3d6955f4bcbeac1c20848f63502db786af9",
+    "materialized_plan_sha256": "7d66aa9b9060406c7a696c675c97199425138aca6211c937248ab46ee3281533",
+    "completed_uts_state_sha256": "85b978bd16939b448c20c5dbf5520763f8e30c4bd935ebdd9f2a64bd26b932b3",
+    "dehydration_receipt_sha256": "2daac6690a48ca75de34f4e5db56ad7fd0ba29b78657ed0651f106f11330c879",
+    "restore_receipt_sha256": "ed6182d3c00da9a21a28fc2dac8a93427128f0766cfec7f378a90f04b9dd9695",
+    "completion_receipt_sha256": "c2dfe8cd06d391ffbe912b00d8698c7c3be8b4c852e2bbe6852e0fad441b07e8",
+    "private_qualification_receipt_sha256": "8f23e15543f724be1403387ce80fb3421d3e944cb67729996d9f7372fb0c23e7",
+    "producer_source_revision": "f76f0600154e2863d71f2d822311432612e881e0",
+    "runtime_binary_sha256": "be76b57d48ded840ed1b2e8f30cb368f48dd2dd83c463dbed3b5c5803c2e1549",
+    "csm_binary_sha256": "12b0077ae67b6b17837258c4f534ecf58dd32622b66c18dd8679fd40fd34ea5d",
+    "provider_id": "local_ollama",
+    "provider_results_and_effects_bound": true,
+    "workload_execution_count": 12,
+    "distinct_workload_view_count": 6,
+    "distinct_pre_effect_count": 6,
+    "distinct_post_effect_count": 6,
+    "role_workload_bindings": {
+      "issue268-shepherd-controller": {
+        "pre_view": "resident_population",
+        "post_view": "resident_population",
+        "pre_effect_sha256": "sha256:ee5c4ff1d0f079ff9466baa680403ec643954042f2f139631cf77d60c621d82b",
+        "post_effect_sha256": "sha256:ee5c4ff1d0f079ff9466baa680403ec643954042f2f139631cf77d60c621d82b"
+      },
+      "issue268-planner": {
+        "pre_view": "checkpoint_readiness",
+        "post_view": "checkpoint_readiness",
+        "pre_effect_sha256": "sha256:14c8718b09d36ebad0edb4121b5e536af805397325cb973e5ffc45cc6d001096",
+        "post_effect_sha256": "sha256:5e2f91c59be875151f06df5cf70a4f9b92d02a7d8e58f21f7b40c777d7c5a191"
+      },
+      "issue268-tool-executor": {
+        "pre_view": "tool_capability",
+        "post_view": "tool_capability",
+        "pre_effect_sha256": "sha256:987a6209e21d310270b5fcada3809a2bf90c40c2220718c4747f632053e34354",
+        "post_effect_sha256": "sha256:987a6209e21d310270b5fcada3809a2bf90c40c2220718c4747f632053e34354"
+      },
+      "issue268-runtime-observer": {
+        "pre_view": "runtime_redaction",
+        "post_view": "runtime_redaction",
+        "pre_effect_sha256": "sha256:1d311cf58988f159b1b5d57b6caaa9c4177d2ae490430eac58ee36f9ee14db5c",
+        "post_effect_sha256": "sha256:1d311cf58988f159b1b5d57b6caaa9c4177d2ae490430eac58ee36f9ee14db5c"
+      },
+      "issue268-recovery-custodian": {
+        "pre_view": "continuity_lineage",
+        "post_view": "continuity_lineage",
+        "pre_effect_sha256": "sha256:0fce4da74d7ede9b4d1c3feef33887acd6c725a5416a2f39718fbb3dbce8cdf9",
+        "post_effect_sha256": "sha256:d2201537814c92443188ef0fd6aba004564b1b0f2b2fde6bf07983c300b250f0"
+      },
+      "issue268-reviewer-escalation": {
+        "pre_view": "review_audit",
+        "post_view": "review_audit",
+        "pre_effect_sha256": "sha256:f0a828fd62857913ea99779ad76602aa370acc6b28b046b8c4478aa332ba6cf0",
+        "post_effect_sha256": "sha256:010517c4eb13967f8d26443e4b2bbdea0cda97df27e36d3cb75584f2418e3a07"
+      }
+    }
+  },
+  "negative": {
+    "scenario_count": 7,
+    "scenarios": [
+      "changed_signature",
+      "changed_payload",
+      "removed_resident",
+      "substituted_provider",
+      "substituted_configuration",
+      "substituted_lineage",
+      "stale_snapshot"
+    ],
+    "all_restore_denied": true,
+    "all_admission_closed_after": true,
+    "all_no_inappropriate_effect": true,
+    "private_summary_sha256": "e3203f5392287e8220c8d2126383a40f11a1d8a22c0075a43aa3ea45b62923e4"
+  },
+  "limitations": [
+    "The local substitute does not establish r7i.2xlarge capacity or remote-host performance.",
+    "The Ollama adapter leaves Qwen thinking behavior to the server default; provider parameter execution is tracked by issue 970.",
+    "CI and exact-head independent review are pending."
+  ]
+}

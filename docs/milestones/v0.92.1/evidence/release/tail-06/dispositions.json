@@ -1,0 +1,820 @@
+{
+  "schema": "adl.v0921.finding_dispositions.v3",
+  "dispositions": [
+    {
+      "kind": "fixed_with_deferred_proof",
+      "source_finding_ids": [
+        "D520-RET-001"
+      ],
+      "resolution": "Retained corporate, C-SDLC v3, distributed Runtime, and final-gate evidence were reconciled without promoting residual proof gaps.",
+      "release_consequence": "The listed source finding is dispositioned without promoting separately declared residual proof gaps to passes.",
+      "residuals": [
+        {
+          "id": "MERGE-LINKAGE-001",
+          "owner_issue": 849,
+          "target_milestone": "v0.92.2",
+          "status": "operator_deferred",
+          "proof_rows": 4,
+          "rationale": "Publication-linkage proof remains explicitly deferred; it is not a behavioral pass.",
+          "release_consequence": "The four affected criteria remain unproved in v0.92.1.",
+          "operator_authorization": {
+            "source": "github_issue",
+            "issue": 849,
+            "url": "https://github.com/agent-logic/agent-design-language/issues/849",
+            "author": "danielbaustin",
+            "created_at": "2026-09-11T16:27:11Z",
+            "body_sha256": "9563d1ee06aaae8e846fe1a5cf7f1100fcf039b01a0e2c3483e83c8a850645af",
+            "required_scope": "Operator explicitly allocated this repair to **v0.92.2**"
+          }
+        },
+        {
+          "id": "EXECUTABLE-PROOF-ROWS",
+          "owner_issue": 852,
+          "target_milestone": "v0.92.2",
+          "status": "operator_deferred",
+          "proof_rows": 5,
+          "rationale": "Five evidence-linkage rows were moved by operator decision from superseded #851.",
+          "release_consequence": "The five rows remain unproved and must not be represented as passes.",
+          "operator_authorization": {
+            "source": "github_issue",
+            "issue": 852,
+            "url": "https://github.com/agent-logic/agent-design-language/issues/852",
+            "author": "danielbaustin",
+            "created_at": "2026-09-11T17:21:51Z",
+            "body_sha256": "d488e04785ca797701f69fcde12f8bfc4111a38c1f071c2eb872f25a14ef1c4b",
+            "required_scope": "Deferred from #851 by operator instruction"
+          }
+        },
+        {
+          "id": "PROOF-INSUFFICIENT-ROWS",
+          "owner_issue": 852,
+          "target_milestone": "v0.92.2",
+          "status": "operator_deferred",
+          "proof_rows": 7,
+          "rationale": "Five cloud-control and two execution-proof rows lack sufficient proof.",
+          "release_consequence": "The seven rows remain limitations, not behavioral passes.",
+          "operator_authorization": {
+            "source": "github_issue",
+            "issue": 852,
+            "url": "https://github.com/agent-logic/agent-design-language/issues/852",
+            "author": "danielbaustin",
+            "created_at": "2026-09-11T17:21:51Z",
+            "body_sha256": "d488e04785ca797701f69fcde12f8bfc4111a38c1f071c2eb872f25a14ef1c4b",
+            "required_scope": "separate five cloud-control and two execution-proof gaps"
+          }
+        }
+      ],
+      "remediations": [
+        {
+          "issue": 818,
+          "pull_request": 832,
+          "head_sha": "2c9623f82759811e05fe51558303fa198af7a84c",
+          "merge_sha": "64a99fd71b9770e15cb0dc393d669450d3a5f5b4",
+          "artifacts": [
+            {
+              "path": ".csdlc/evidence/818/retained-corporate-runtime/reconciliation.json",
+              "sha256": "bbd0b884f7673bfafa8007d027ff24b392a61de0ac1b0c1d00d866e5723f9de9"
+            }
+          ],
+          "review": {
+            "basis": "reviewed_subject_digest",
+            "reviewer": "subagent:review_522_prefinal",
+            "reviewed_sha": "43924a99eca915ab11d1442fb0e24970066db4d1",
+            "observed_pr_head_sha": "43924a99eca915ab11d1442fb0e24970066db4d1",
+            "reviewed_content_sha256": "7a0022e400c0442526005ab7bf3dc7075ffba8a8b0b28e2ee0c656fe9403871f",
+            "observed_at": "2026-09-11T19:53:28Z",
+            "outcome": "passed",
+            "findings": [
+
+            ],
+            "blockers": [
+
+            ],
+            "report_path": "docs/milestones/v0.92.1/evidence/release/tail-06/candidate-review.json",
+            "sha256": "531e6bd980afce6040983001327291a4c019b8e70bc093acb27015c34f6a20b3"
+          },
+          "validation": [
+            {
+              "basis": "executed_candidate",
+              "evidence": "docs/milestones/v0.92.1/evidence/release/tail-06/candidate-validation.json",
+              "sha256": "ae31f9f9e8e0c36e79e23dba44f7569650e705d0542b37f97a0de20d9e1f6f57",
+              "outcome": "passed"
+            }
+          ]
+        },
+        {
+          "issue": 819,
+          "pull_request": 827,
+          "head_sha": "32581b03b57135167e789c6fe9b74b1a63cf929c",
+          "merge_sha": "1e9b543e40e0e4c980878384d64ab368717b0091",
+          "artifacts": [
+            {
+              "path": ".csdlc/evidence/819/retained-v3/reconciliation.json",
+              "sha256": "3553d99285a70cc1827b9a5569f0a4a737ec11d64a96048cad962539e709e3c8"
+            }
+          ],
+          "review": {
+            "basis": "reviewed_subject_digest",
+            "reviewer": "subagent:review_522_prefinal",
+            "reviewed_sha": "43924a99eca915ab11d1442fb0e24970066db4d1",
+            "observed_pr_head_sha": "43924a99eca915ab11d1442fb0e24970066db4d1",
+            "reviewed_content_sha256": "7a0022e400c0442526005ab7bf3dc7075ffba8a8b0b28e2ee0c656fe9403871f",
+            "observed_at": "2026-09-11T19:53:28Z",
+            "outcome": "passed",
+            "findings": [
+
+            ],
+            "blockers": [
+
+            ],
+            "report_path": "docs/milestones/v0.92.1/evidence/release/tail-06/candidate-review.json",
+            "sha256": "531e6bd980afce6040983001327291a4c019b8e70bc093acb27015c34f6a20b3"
+          },
+          "validation": [
+            {
+              "basis": "executed_candidate",
+              "evidence": "docs/milestones/v0.92.1/evidence/release/tail-06/candidate-validation.json",
+              "sha256": "ae31f9f9e8e0c36e79e23dba44f7569650e705d0542b37f97a0de20d9e1f6f57",
+              "outcome": "passed"
+            }
+          ]
+        },
+        {
+          "issue": 820,
+          "pull_request": 828,
+          "head_sha": "d7eb57913913f780d7dc0a965629202c76ec32a8",
+          "merge_sha": "803047812d09984a6df09cbb1e2cf0957c29d547",
+          "artifacts": [
+            {
+              "path": ".csdlc/evidence/820/distributed-runtime/reconciliation.json",
+              "sha256": "6a9cfb7e1ad5a815f9dda50cbf0ef4c52b98e86ac631f6cbdbb3f03cd61057cb"
+            }
+          ],
+          "review": {
+            "basis": "reviewed_subject_digest",
+            "reviewer": "subagent:review_522_prefinal",
+            "reviewed_sha": "43924a99eca915ab11d1442fb0e24970066db4d1",
+            "observed_pr_head_sha": "43924a99eca915ab11d1442fb0e24970066db4d1",
+            "reviewed_content_sha256": "7a0022e400c0442526005ab7bf3dc7075ffba8a8b0b28e2ee0c656fe9403871f",
+            "observed_at": "2026-09-11T19:53:28Z",
+            "outcome": "passed",
+            "findings": [
+
+            ],
+            "blockers": [
+
+            ],
+            "report_path": "docs/milestones/v0.92.1/evidence/release/tail-06/candidate-review.json",
+            "sha256": "531e6bd980afce6040983001327291a4c019b8e70bc093acb27015c34f6a20b3"
+          },
+          "validation": [
+            {
+              "basis": "executed_candidate",
+              "evidence": "docs/milestones/v0.92.1/evidence/release/tail-06/candidate-validation.json",
+              "sha256": "ae31f9f9e8e0c36e79e23dba44f7569650e705d0542b37f97a0de20d9e1f6f57",
+              "outcome": "passed"
+            }
+          ]
+        },
+        {
+          "issue": 821,
+          "pull_request": 829,
+          "head_sha": "8b408532b450ee6f6f5015b24ba7297140e08a55",
+          "merge_sha": "44e05e694a6e8c6b74f3cc012946bd77c9442df2",
+          "artifacts": [
+            {
+              "path": "docs/milestones/v0.92.1/evidence/release/tail-06/issue-821/preparation.json",
+              "sha256": "3974b08b948d63c133701cb73b536411d9e94657589945885556097a5df43358"
+            }
+          ],
+          "review": {
+            "basis": "reviewed_subject_digest",
+            "reviewer": "subagent:review_522_prefinal",
+            "reviewed_sha": "43924a99eca915ab11d1442fb0e24970066db4d1",
+            "observed_pr_head_sha": "43924a99eca915ab11d1442fb0e24970066db4d1",
+            "reviewed_content_sha256": "7a0022e400c0442526005ab7bf3dc7075ffba8a8b0b28e2ee0c656fe9403871f",
+            "observed_at": "2026-09-11T19:53:28Z",
+            "outcome": "passed",
+            "findings": [
+
+            ],
+            "blockers": [
+
+            ],
+            "report_path": "docs/milestones/v0.92.1/evidence/release/tail-06/candidate-review.json",
+            "sha256": "531e6bd980afce6040983001327291a4c019b8e70bc093acb27015c34f6a20b3"
+          },
+          "validation": [
+            {
+              "basis": "executed_candidate",
+              "evidence": "docs/milestones/v0.92.1/evidence/release/tail-06/candidate-validation.json",
+              "sha256": "ae31f9f9e8e0c36e79e23dba44f7569650e705d0542b37f97a0de20d9e1f6f57",
+              "outcome": "passed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "fixed",
+      "source_finding_ids": [
+        "D520-V3F-001"
+      ],
+      "resolution": "Current v3 release truth and retained ready-intent recovery are present.",
+      "release_consequence": "The listed source finding is dispositioned without promoting separately declared residual proof gaps to passes.",
+      "remediations": [
+        {
+          "issue": 817,
+          "pull_request": 826,
+          "head_sha": "c25c7639593958eb0eb4b90d0fc21a815d5e078d",
+          "merge_sha": "add8f48867e55be9256244767758abba6f348091",
+          "artifacts": [
+            {
+              "path": ".csdlc/prepared/issues/817/validate-release-truth.py",
+              "sha256": "ddceb469a951d96d8e259a5e065f4b61d027b4cc11bcedcf4725c5f98b36a1e2"
+            }
+          ],
+          "review": {
+            "basis": "reviewed_subject_digest",
+            "reviewer": "subagent:review_522_prefinal",
+            "reviewed_sha": "43924a99eca915ab11d1442fb0e24970066db4d1",
+            "observed_pr_head_sha": "43924a99eca915ab11d1442fb0e24970066db4d1",
+            "reviewed_content_sha256": "7a0022e400c0442526005ab7bf3dc7075ffba8a8b0b28e2ee0c656fe9403871f",
+            "observed_at": "2026-09-11T19:53:28Z",
+            "outcome": "passed",
+            "findings": [
+
+            ],
+            "blockers": [
+
+            ],
+            "report_path": "docs/milestones/v0.92.1/evidence/release/tail-06/candidate-review.json",
+            "sha256": "531e6bd980afce6040983001327291a4c019b8e70bc093acb27015c34f6a20b3"
+          },
+          "validation": [
+            {
+              "basis": "executed_candidate",
+              "evidence": "docs/milestones/v0.92.1/evidence/release/tail-06/candidate-validation.json",
+              "sha256": "ae31f9f9e8e0c36e79e23dba44f7569650e705d0542b37f97a0de20d9e1f6f57",
+              "outcome": "passed"
+            }
+          ]
+        },
+        {
+          "issue": 843,
+          "pull_request": 845,
+          "head_sha": "34fce6d29c7d7ad368c36421512328598743dc5d",
+          "merge_sha": "1baac6f32947dbf6d81ffa48a2d0026cd5f4a7b2",
+          "artifacts": [
+            {
+              "path": ".csdlc/prepared/issues/824/validate-pr-ready-reconciliation.sh",
+              "sha256": "26a3b4f9dd563d8f1f13f7dddade94fa4c613a8480abbc03a7beeebcfe23e642"
+            }
+          ],
+          "review": {
+            "basis": "reviewed_subject_digest",
+            "reviewer": "subagent:review_522_prefinal",
+            "reviewed_sha": "43924a99eca915ab11d1442fb0e24970066db4d1",
+            "observed_pr_head_sha": "43924a99eca915ab11d1442fb0e24970066db4d1",
+            "reviewed_content_sha256": "7a0022e400c0442526005ab7bf3dc7075ffba8a8b0b28e2ee0c656fe9403871f",
+            "observed_at": "2026-09-11T19:53:28Z",
+            "outcome": "passed",
+            "findings": [
+
+            ],
+            "blockers": [
+
+            ],
+            "report_path": "docs/milestones/v0.92.1/evidence/release/tail-06/candidate-review.json",
+            "sha256": "531e6bd980afce6040983001327291a4c019b8e70bc093acb27015c34f6a20b3"
+          },
+          "validation": [
+            {
+              "basis": "executed_candidate",
+              "evidence": "docs/milestones/v0.92.1/evidence/release/tail-06/candidate-validation.json",
+              "sha256": "ae31f9f9e8e0c36e79e23dba44f7569650e705d0542b37f97a0de20d9e1f6f57",
+              "outcome": "passed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "fixed",
+      "source_finding_ids": [
+        "D520-REL-001",
+        "D520-DOC-003",
+        "D520-DOC-004",
+        "D520-EVID-001",
+        "D520-EVID-002"
+      ],
+      "resolution": "Canonical release documentation and evidence truth were refreshed.",
+      "release_consequence": "The listed source finding is dispositioned without promoting separately declared residual proof gaps to passes.",
+      "remediations": [
+        {
+          "issue": 817,
+          "pull_request": 826,
+          "head_sha": "c25c7639593958eb0eb4b90d0fc21a815d5e078d",
+          "merge_sha": "add8f48867e55be9256244767758abba6f348091",
+          "artifacts": [
+            {
+              "path": ".csdlc/prepared/issues/817/validate-release-truth.py",
+              "sha256": "ddceb469a951d96d8e259a5e065f4b61d027b4cc11bcedcf4725c5f98b36a1e2"
+            }
+          ],
+          "review": {
+            "basis": "reviewed_subject_digest",
+            "reviewer": "subagent:review_522_prefinal",
+            "reviewed_sha": "43924a99eca915ab11d1442fb0e24970066db4d1",
+            "observed_pr_head_sha": "43924a99eca915ab11d1442fb0e24970066db4d1",
+            "reviewed_content_sha256": "7a0022e400c0442526005ab7bf3dc7075ffba8a8b0b28e2ee0c656fe9403871f",
+            "observed_at": "2026-09-11T19:53:28Z",
+            "outcome": "passed",
+            "findings": [
+
+            ],
+            "blockers": [
+
+            ],
+            "report_path": "docs/milestones/v0.92.1/evidence/release/tail-06/candidate-review.json",
+            "sha256": "531e6bd980afce6040983001327291a4c019b8e70bc093acb27015c34f6a20b3"
+          },
+          "validation": [
+            {
+              "basis": "executed_candidate",
+              "evidence": "docs/milestones/v0.92.1/evidence/release/tail-06/candidate-validation.json",
+              "sha256": "ae31f9f9e8e0c36e79e23dba44f7569650e705d0542b37f97a0de20d9e1f6f57",
+              "outcome": "passed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "fixed",
+      "source_finding_ids": [
+        "D520-RUNTIME-001",
+        "D520-RUNTIME-002",
+        "D520-SEC-004"
+      ],
+      "resolution": "Runtime identity, local-model boundary, origin, and redirect behavior were repaired.",
+      "release_consequence": "The listed source finding is dispositioned without promoting separately declared residual proof gaps to passes.",
+      "remediations": [
+        {
+          "issue": 814,
+          "pull_request": 822,
+          "head_sha": "184f5479146cf76c278e5a00c70d41c278f1671c",
+          "merge_sha": "025893137021c963e752f53935268e7d8834d1ac",
+          "artifacts": [
+            {
+              "path": "adl-runtime-kernel/src/control.rs",
+              "sha256": "a8dba095d562fa1a5e515fba54c53410e3a309e5bf61a1e0e38a554a701a179f"
+            },
+            {
+              "path": "adl-runtime/tests/shepherd_local_model.rs",
+              "sha256": "226ac7f15833eb190a5123241560f2f5ba256ff138047a57538acff1ee81d90b"
+            }
+          ],
+          "review": {
+            "basis": "reviewed_subject_digest",
+            "reviewer": "subagent:review_522_prefinal",
+            "reviewed_sha": "43924a99eca915ab11d1442fb0e24970066db4d1",
+            "observed_pr_head_sha": "43924a99eca915ab11d1442fb0e24970066db4d1",
+            "reviewed_content_sha256": "7a0022e400c0442526005ab7bf3dc7075ffba8a8b0b28e2ee0c656fe9403871f",
+            "observed_at": "2026-09-11T19:53:28Z",
+            "outcome": "passed",
+            "findings": [
+
+            ],
+            "blockers": [
+
+            ],
+            "report_path": "docs/milestones/v0.92.1/evidence/release/tail-06/candidate-review.json",
+            "sha256": "531e6bd980afce6040983001327291a4c019b8e70bc093acb27015c34f6a20b3"
+          },
+          "validation": [
+            {
+              "basis": "executed_candidate",
+              "evidence": "docs/milestones/v0.92.1/evidence/release/tail-06/candidate-validation.json",
+              "sha256": "ae31f9f9e8e0c36e79e23dba44f7569650e705d0542b37f97a0de20d9e1f6f57",
+              "outcome": "passed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "fixed",
+      "source_finding_ids": [
+        "D520-SEC-001",
+        "D520-SEC-002"
+      ],
+      "resolution": "Cloud mutation authorization and replay boundaries were repaired.",
+      "release_consequence": "The listed source finding is dispositioned without promoting separately declared residual proof gaps to passes.",
+      "remediations": [
+        {
+          "issue": 815,
+          "pull_request": 825,
+          "head_sha": "c3e8ce91ecf4ae02a34611dc7225b84843087c1f",
+          "merge_sha": "8e51b1b15c8257a6522cda041e4aed4eb3348016",
+          "artifacts": [
+            {
+              "path": ".csdlc/prepared/issues/815/test_cloud_authorization.py",
+              "sha256": "57e70508eb80de7534859cde04fde2373f8f96bd789942576b9e99bf8ffd3415"
+            }
+          ],
+          "review": {
+            "basis": "reviewed_subject_digest",
+            "reviewer": "subagent:review_522_prefinal",
+            "reviewed_sha": "43924a99eca915ab11d1442fb0e24970066db4d1",
+            "observed_pr_head_sha": "43924a99eca915ab11d1442fb0e24970066db4d1",
+            "reviewed_content_sha256": "7a0022e400c0442526005ab7bf3dc7075ffba8a8b0b28e2ee0c656fe9403871f",
+            "observed_at": "2026-09-11T19:53:28Z",
+            "outcome": "passed",
+            "findings": [
+
+            ],
+            "blockers": [
+
+            ],
+            "report_path": "docs/milestones/v0.92.1/evidence/release/tail-06/candidate-review.json",
+            "sha256": "531e6bd980afce6040983001327291a4c019b8e70bc093acb27015c34f6a20b3"
+          },
+          "validation": [
+            {
+              "basis": "executed_candidate",
+              "evidence": "docs/milestones/v0.92.1/evidence/release/tail-06/candidate-validation.json",
+              "sha256": "ae31f9f9e8e0c36e79e23dba44f7569650e705d0542b37f97a0de20d9e1f6f57",
+              "outcome": "passed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "fixed",
+      "source_finding_ids": [
+        "D520-SEC-003",
+        "D520-TEST-001"
+      ],
+      "resolution": "Redaction and hot-reload proof were made executable and non-vacuous.",
+      "release_consequence": "The listed source finding is dispositioned without promoting separately declared residual proof gaps to passes.",
+      "remediations": [
+        {
+          "issue": 816,
+          "pull_request": 823,
+          "head_sha": "edc2e0646d9e80dbff1f1d13281afb4aa8ba5eb6",
+          "merge_sha": "5981d90e71808b70a801520d86bd4e648a56d0a6",
+          "artifacts": [
+            {
+              "path": ".csdlc/prepared/issues/816/validate-publication-manifest.py",
+              "sha256": "123000b0f40b2adad7c9d02b2672706938b28838230cf9d4992a2b7345a63410"
+            },
+            {
+              "path": "adl-runtime/tests/config_reload.rs",
+              "sha256": "e944c99daff441390d92860a5bed5a6a13add80d3f409cac7c53b15771fedb40"
+            }
+          ],
+          "review": {
+            "basis": "reviewed_subject_digest",
+            "reviewer": "subagent:review_522_prefinal",
+            "reviewed_sha": "43924a99eca915ab11d1442fb0e24970066db4d1",
+            "observed_pr_head_sha": "43924a99eca915ab11d1442fb0e24970066db4d1",
+            "reviewed_content_sha256": "7a0022e400c0442526005ab7bf3dc7075ffba8a8b0b28e2ee0c656fe9403871f",
+            "observed_at": "2026-09-11T19:53:28Z",
+            "outcome": "passed",
+            "findings": [
+
+            ],
+            "blockers": [
+
+            ],
+            "report_path": "docs/milestones/v0.92.1/evidence/release/tail-06/candidate-review.json",
+            "sha256": "531e6bd980afce6040983001327291a4c019b8e70bc093acb27015c34f6a20b3"
+          },
+          "validation": [
+            {
+              "basis": "executed_candidate",
+              "evidence": "docs/milestones/v0.92.1/evidence/release/tail-06/candidate-validation.json",
+              "sha256": "ae31f9f9e8e0c36e79e23dba44f7569650e705d0542b37f97a0de20d9e1f6f57",
+              "outcome": "passed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "fixed",
+      "source_finding_ids": [
+        "TPR-001",
+        "D833-REPORT-001",
+        "D833-REPORT-003",
+        "D833-EXEC-001"
+      ],
+      "resolution": "The immutable review, executable denominator, historical-state clarification, and narrow candidate-current supersession are retained by PR #853.",
+      "release_consequence": "The listed source finding is dispositioned without promoting separately declared residual proof gaps to passes.",
+      "remediations": [
+        {
+          "issue": 833,
+          "pull_request": 853,
+          "head_sha": "2dfd01343816beb5cac6df2f644141be973f6fc2",
+          "merge_sha": "99700441767c43aa69e379b7b59f0f2a2c82d879",
+          "artifacts": [
+            {
+              "path": "docs/milestones/v0.92.1/evidence/release/tail-05/V0921_EXTERNAL_REVIEW_REPORT.md",
+              "sha256": "aa3ba0ab36869740c0ee1bb83adb0937545a6d7c1cf9ea576e6f76d6483cebae"
+            },
+            {
+              "path": "docs/milestones/v0.92.1/evidence/release/tail-05/V0921_EXECUTABLE_REVIEW_ADDENDUM.md",
+              "sha256": "d9f8a945306de01fe279e8a8987a38859fbdfabbd70501c5d1cbbd740a160974"
+            },
+            {
+              "path": "docs/milestones/v0.92.1/evidence/release/tail-05/V0921_EXTERNAL_REVIEW_REMEDIATION.md",
+              "sha256": "58e588135b2af04d72b43b5b335e5c224efcec0a8ed074e6923decea8b156e01"
+            },
+            {
+              "path": "docs/milestones/v0.92.1/evidence/release/tail-05/V0921_EXECUTABLE_REVIEW_LEDGER.md",
+              "sha256": "a99e99426272844f49c1f54a1fee3b9b5033ece481963c52ecea6cc601328181"
+            },
+            {
+              "path": "docs/milestones/v0.92.1/evidence/release/tail-05/ISSUE_834_CANDIDATE_REVALIDATION.md",
+              "sha256": "1cc0bd087904b46da79ac6fdfec9959f62a2afe384a2e4af9d642d9465cb9345"
+            }
+          ],
+          "review": {
+            "basis": "reviewed_subject_digest",
+            "reviewer": "subagent:review_522_prefinal",
+            "reviewed_sha": "43924a99eca915ab11d1442fb0e24970066db4d1",
+            "observed_pr_head_sha": "43924a99eca915ab11d1442fb0e24970066db4d1",
+            "reviewed_content_sha256": "7a0022e400c0442526005ab7bf3dc7075ffba8a8b0b28e2ee0c656fe9403871f",
+            "observed_at": "2026-09-11T19:53:28Z",
+            "outcome": "passed",
+            "findings": [
+
+            ],
+            "blockers": [
+
+            ],
+            "report_path": "docs/milestones/v0.92.1/evidence/release/tail-06/candidate-review.json",
+            "sha256": "531e6bd980afce6040983001327291a4c019b8e70bc093acb27015c34f6a20b3"
+          },
+          "validation": [
+            {
+              "basis": "executed_candidate",
+              "evidence": "docs/milestones/v0.92.1/evidence/release/tail-06/candidate-validation.json",
+              "sha256": "ae31f9f9e8e0c36e79e23dba44f7569650e705d0542b37f97a0de20d9e1f6f57",
+              "outcome": "passed"
+            }
+          ],
+          "closure_kind": "native_review_close",
+          "closure_dependency_issue": 522
+        }
+      ]
+    },
+    {
+      "kind": "fixed",
+      "source_finding_ids": [
+        "TPR-002",
+        "D833-REPORT-002",
+        "D833-EXEC-003"
+      ],
+      "resolution": "The finalized predecessor was explicitly revalidated at the immutable review candidate.",
+      "release_consequence": "The listed source finding is dispositioned without promoting separately declared residual proof gaps to passes.",
+      "remediations": [
+        {
+          "issue": 834,
+          "pull_request": 841,
+          "head_sha": "c67132fc6f9dce47f886c99638fd422f8e11befb",
+          "merge_sha": "651afac35cc3f793263c59760f35b53b52234fbd",
+          "artifacts": [
+            {
+              "path": "docs/milestones/v0.92.1/evidence/release/tail-06/issue-834/reconciliation.json",
+              "sha256": "8517cca2dec454962f1b5ca16f91d31d37c4faad1c8bd5d14384a0af46c0f276"
+            }
+          ],
+          "review": {
+            "basis": "reviewed_subject_digest",
+            "reviewer": "subagent:review_522_prefinal",
+            "reviewed_sha": "43924a99eca915ab11d1442fb0e24970066db4d1",
+            "observed_pr_head_sha": "43924a99eca915ab11d1442fb0e24970066db4d1",
+            "reviewed_content_sha256": "7a0022e400c0442526005ab7bf3dc7075ffba8a8b0b28e2ee0c656fe9403871f",
+            "observed_at": "2026-09-11T19:53:28Z",
+            "outcome": "passed",
+            "findings": [
+
+            ],
+            "blockers": [
+
+            ],
+            "report_path": "docs/milestones/v0.92.1/evidence/release/tail-06/candidate-review.json",
+            "sha256": "531e6bd980afce6040983001327291a4c019b8e70bc093acb27015c34f6a20b3"
+          },
+          "validation": [
+            {
+              "basis": "executed_candidate",
+              "evidence": "docs/milestones/v0.92.1/evidence/release/tail-06/candidate-validation.json",
+              "sha256": "ae31f9f9e8e0c36e79e23dba44f7569650e705d0542b37f97a0de20d9e1f6f57",
+              "outcome": "passed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "fixed",
+      "source_finding_ids": [
+        "TPR-003"
+      ],
+      "resolution": "The release projection remains fail-closed and does not request closure on blocked rows.",
+      "release_consequence": "The listed source finding is dispositioned without promoting separately declared residual proof gaps to passes.",
+      "remediations": [
+        {
+          "issue": 835,
+          "pull_request": 840,
+          "head_sha": "9df88b1c4366174bc41984ee3e8d7cc81bf32105",
+          "merge_sha": "6242f0528eaaccba657c911a20352dd43536f73b",
+          "artifacts": [
+            {
+              "path": "docs/milestones/v0.92.1/evidence/release/current-status/status.json",
+              "sha256": "193c1560ea0e543710b9df6fd6e26a977eb659613ebbf783491a6d795b05e069"
+            }
+          ],
+          "review": {
+            "basis": "reviewed_subject_digest",
+            "reviewer": "subagent:review_522_prefinal",
+            "reviewed_sha": "43924a99eca915ab11d1442fb0e24970066db4d1",
+            "observed_pr_head_sha": "43924a99eca915ab11d1442fb0e24970066db4d1",
+            "reviewed_content_sha256": "7a0022e400c0442526005ab7bf3dc7075ffba8a8b0b28e2ee0c656fe9403871f",
+            "observed_at": "2026-09-11T19:53:28Z",
+            "outcome": "passed",
+            "findings": [
+
+            ],
+            "blockers": [
+
+            ],
+            "report_path": "docs/milestones/v0.92.1/evidence/release/tail-06/candidate-review.json",
+            "sha256": "531e6bd980afce6040983001327291a4c019b8e70bc093acb27015c34f6a20b3"
+          },
+          "validation": [
+            {
+              "basis": "executed_candidate",
+              "evidence": "docs/milestones/v0.92.1/evidence/release/tail-06/candidate-validation.json",
+              "sha256": "ae31f9f9e8e0c36e79e23dba44f7569650e705d0542b37f97a0de20d9e1f6f57",
+              "outcome": "passed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "fixed",
+      "source_finding_ids": [
+        "TPR-004"
+      ],
+      "resolution": "Recursive Rust measurement and adversarial fixtures are retained.",
+      "release_consequence": "The listed source finding is dispositioned without promoting separately declared residual proof gaps to passes.",
+      "remediations": [
+        {
+          "issue": 836,
+          "pull_request": 839,
+          "head_sha": "3f266c5455404e9365599414f72d3e5daa224bb2",
+          "merge_sha": "c3e59d4b03fa8b3e5eec75964436072cc715b7de",
+          "artifacts": [
+            {
+              "path": "docs/milestones/v0.92.1/evidence/refactoring/rust-01/issue-836/measurement.json",
+              "sha256": "241834ff92f543a0f2b05981bed4fcde73b51280650f3e5508cd2d9df0a4b3e2"
+            }
+          ],
+          "review": {
+            "basis": "reviewed_subject_digest",
+            "reviewer": "subagent:review_522_prefinal",
+            "reviewed_sha": "43924a99eca915ab11d1442fb0e24970066db4d1",
+            "observed_pr_head_sha": "43924a99eca915ab11d1442fb0e24970066db4d1",
+            "reviewed_content_sha256": "7a0022e400c0442526005ab7bf3dc7075ffba8a8b0b28e2ee0c656fe9403871f",
+            "observed_at": "2026-09-11T19:53:28Z",
+            "outcome": "passed",
+            "findings": [
+
+            ],
+            "blockers": [
+
+            ],
+            "report_path": "docs/milestones/v0.92.1/evidence/release/tail-06/candidate-review.json",
+            "sha256": "531e6bd980afce6040983001327291a4c019b8e70bc093acb27015c34f6a20b3"
+          },
+          "validation": [
+            {
+              "basis": "executed_candidate",
+              "evidence": "docs/milestones/v0.92.1/evidence/release/tail-06/candidate-validation.json",
+              "sha256": "ae31f9f9e8e0c36e79e23dba44f7569650e705d0542b37f97a0de20d9e1f6f57",
+              "outcome": "passed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "fixed",
+      "source_finding_ids": [
+        "TPR-005"
+      ],
+      "resolution": "Active boot paths and retired command surfaces are explicit and tested.",
+      "release_consequence": "The listed source finding is dispositioned without promoting separately declared residual proof gaps to passes.",
+      "remediations": [
+        {
+          "issue": 837,
+          "pull_request": 842,
+          "head_sha": "9e3b1a1b87c8fad27d5a95accc3f4972df43f12f",
+          "merge_sha": "fc7bf2418c3023087c0c6dbc7170e38eb2770a60",
+          "artifacts": [
+            {
+              "path": "csdlc-v3/tests/command_manifest.rs",
+              "sha256": "691653bb13b345b758aca85d70e1e11f5919e4a15e0ed191078c7132ff1a6987"
+            }
+          ],
+          "review": {
+            "basis": "reviewed_subject_digest",
+            "reviewer": "subagent:review_522_prefinal",
+            "reviewed_sha": "43924a99eca915ab11d1442fb0e24970066db4d1",
+            "observed_pr_head_sha": "43924a99eca915ab11d1442fb0e24970066db4d1",
+            "reviewed_content_sha256": "7a0022e400c0442526005ab7bf3dc7075ffba8a8b0b28e2ee0c656fe9403871f",
+            "observed_at": "2026-09-11T19:53:28Z",
+            "outcome": "passed",
+            "findings": [
+
+            ],
+            "blockers": [
+
+            ],
+            "report_path": "docs/milestones/v0.92.1/evidence/release/tail-06/candidate-review.json",
+            "sha256": "531e6bd980afce6040983001327291a4c019b8e70bc093acb27015c34f6a20b3"
+          },
+          "validation": [
+            {
+              "basis": "executed_candidate",
+              "evidence": "docs/milestones/v0.92.1/evidence/release/tail-06/candidate-validation.json",
+              "sha256": "ae31f9f9e8e0c36e79e23dba44f7569650e705d0542b37f97a0de20d9e1f6f57",
+              "outcome": "passed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "fixed",
+      "source_finding_ids": [
+        "D833-EXEC-002"
+      ],
+      "resolution": "Release versions, native-v3 preflight, workspace lock parity, and retained registry compatibility were repaired.",
+      "release_consequence": "The listed source finding is dispositioned without promoting separately declared residual proof gaps to passes.",
+      "remediations": [
+        {
+          "issue": 856,
+          "pull_request": 858,
+          "head_sha": "f4ea095afda84c32adbb100cce423092a1141c36",
+          "merge_sha": "c58001391924622b5fbb0417441bb45a03f0cb59",
+          "artifacts": [
+            {
+              "path": ".csdlc/evidence/856/VALIDATION.md",
+              "sha256": "60de6ace25ba741337728596bd26ac9f291dfbfa687d2b5bf816fe1ca9ba50e4"
+            },
+            {
+              "path": "docs/csdlc-v3/RELEASE_PREFLIGHT.md",
+              "sha256": "1e39d666c0ac5cf7fcdc52faa25b27f19a37e7e710ea1f33478dc7126f4ff495"
+            },
+            {
+              "path": "csdlc-v2/tests/gate9.rs",
+              "sha256": "9406ec980dd27b92160ae997bd32b745ec4ef132ea7e16e008f57c990c64c970"
+            }
+          ],
+          "review": {
+            "basis": "reviewed_subject_digest",
+            "reviewer": "subagent:review_522_prefinal",
+            "reviewed_sha": "43924a99eca915ab11d1442fb0e24970066db4d1",
+            "observed_pr_head_sha": "43924a99eca915ab11d1442fb0e24970066db4d1",
+            "reviewed_content_sha256": "7a0022e400c0442526005ab7bf3dc7075ffba8a8b0b28e2ee0c656fe9403871f",
+            "observed_at": "2026-09-11T19:53:28Z",
+            "outcome": "passed",
+            "findings": [
+
+            ],
+            "blockers": [
+
+            ],
+            "report_path": "docs/milestones/v0.92.1/evidence/release/tail-06/candidate-review.json",
+            "sha256": "531e6bd980afce6040983001327291a4c019b8e70bc093acb27015c34f6a20b3"
+          },
+          "validation": [
+            {
+              "basis": "executed_candidate",
+              "evidence": "docs/milestones/v0.92.1/evidence/release/tail-06/candidate-validation.json",
+              "sha256": "ae31f9f9e8e0c36e79e23dba44f7569650e705d0542b37f97a0de20d9e1f6f57",
+              "outcome": "passed"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

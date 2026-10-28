@@ -1,0 +1,27 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "action": "issue_update",
+  "operation_key": "v0921-wp01:sprint-8:membership-v2-update",
+  "token_file": null,
+  "issue": 536,
+  "pull_request": null,
+  "title": "[v0.92.1][Sprint 8] Product lanes",
+  "body": "## Outcome\n\nCoordinate Sprint 8 — Product lanes as one bounded execution wave without absorbing child implementation.\n\n## Initial child membership baseline\n\n- #51\n- #261\n- #262\n- #263\n- #264\n- #342\n- #511\n- #251\n- #122\n- #345\n- #84\n- #512\n\n## Change protocol\n\n- This roster is the opening baseline, not a permanent freeze.\n- The milestone operator may add, remove, split, or reroute work through a typed issue update that records the reason and rechecks dependencies.\n- Every update must preserve one bounded result per child and must not silently drop unfinished work.\n\n## Completion gate\n\n- Every child in the current declared roster has an independently reviewed, green merge into `main` and its merge commit is ancestral to the sprint closing revision.\n- Blocked or deferred children retain an explicit operator-approved disposition; the umbrella never fabricates completion.\n- Typed finish and worktree cleanup are asynchronous and never gate another issue.\n\n## Concrete result\n\nOne reviewable Sprint 8 result records the current roster version, dispositions, reviewed merge heads, green checks, merge commits, and ancestry.\n\n## Non-goals\n\n- Implementing child work inside this umbrella.\n- Serializing children that have no declared dependency.\n- Treating closeout or cleanup as an execution dependency.\n\n<!-- csdlc-github-operation:v0921-wp01:sprint-8:create -->\n",
+  "labels": [
+    "area:runtime",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "assignees": [
+
+  ],
+  "milestone": 1,
+  "state": null,
+  "comment_body": null,
+  "required_checks": [
+
+  ],
+  "require_review": false,
+  "linked_issue": null
+}

@@ -1,0 +1,706 @@
+{
+  "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+  "status": "changed_production_and_remote_test_scope_complete",
+  "scope": "67 changed csdlc-v3 source paths: full changed production and relevant callpaths; moved baseline blocks explicitly provenance-accounted, selective unchanged embedded tests. Integration tests tracked separately.",
+  "paths": [
+    {
+      "path": "csdlc-v3/src/adapters/mod.rs",
+      "line_count": 1703,
+      "status": "all_changed_hunks_reviewed",
+      "reviewed_ranges": [],
+      "observation": "Complete base-to-candidate diff with5context reviewed, including changed embedded tests. Production source reviewed for authority and intent routing, truthful output, validator binding, installation witness and exact partial-install recovery."
+    },
+    {
+      "path": "csdlc-v3/src/application/intent/administrative.rs",
+      "line_count": 428,
+      "status": "production_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          428
+        ]
+      ],
+      "observation": "Full production source inspected for native ownership, authority checks, copy/stage/commit/recovery ordering and semantic bridge. ARCH-002 retained for partial bind copy."
+    },
+    {
+      "path": "csdlc-v3/src/application/intent/context.rs",
+      "line_count": 1095,
+      "status": "production_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          1095
+        ]
+      ],
+      "observation": "Production boundary and state flow inspected; remaining embedded tests selectively read, not full test coverage. Semantic journals, exact replay, freshness, outcome and projection boundary accounted for."
+    },
+    {
+      "path": "csdlc-v3/src/application/intent/install.rs",
+      "line_count": 325,
+      "status": "production_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          325
+        ]
+      ],
+      "observation": "Full production source inspected for native ownership, authority checks, copy/stage/commit/recovery ordering and semantic bridge. ARCH-002 retained for partial bind copy."
+    },
+    {
+      "path": "csdlc-v3/src/application/intent/local.rs",
+      "line_count": 2600,
+      "status": "production_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          2600
+        ]
+      ],
+      "observation": "Full source reviewed: native semantic reservation, fresh identity, attachment, retained outcome recovery, projection reconstruction, proof and review abandonment, and publication/merge admission. ARCH-001 journal activation gap remains. Ordinary failed proof replay policy under investigation."
+    },
+    {
+      "path": "csdlc-v3/src/application/intent/mod.rs",
+      "line_count": 364,
+      "status": "production_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          364
+        ]
+      ],
+      "observation": "Architecture and native recovery boundary inspected; ARCH-001 covers absent journal activation bridge."
+    },
+    {
+      "path": "csdlc-v3/src/application/intent/remote.rs",
+      "line_count": 1519,
+      "status": "production_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          1519
+        ]
+      ],
+      "observation": "Full source reviewed: native semantic reservation, fresh identity, attachment, retained outcome recovery, projection reconstruction, proof and review abandonment, and publication/merge admission. ARCH-001 journal activation gap remains. Ordinary failed proof replay policy under investigation."
+    },
+    {
+      "path": "csdlc-v3/src/application/intent/terminal.rs",
+      "line_count": 1689,
+      "status": "production_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          1689
+        ]
+      ],
+      "observation": "Full production: finish exact merged readback, terminal receipt reconciliation, cleanup archive and absent-target disposition, semantic reserve/attach paths. Pending Finish missing-receipt crash window under investigation."
+    },
+    {
+      "path": "csdlc-v3/src/application/mod.rs",
+      "line_count": 741,
+      "status": "all_changed_hunks_reviewed",
+      "reviewed_ranges": [],
+      "observation": "Full base-to-candidate diff with eight lines context inspected; projection derivation and namespace guard callpaths crosschecked in semantic/application modules. Unrelated unchanged source not claimed."
+    },
+    {
+      "path": "csdlc-v3/src/authority.rs",
+      "line_count": 434,
+      "status": "all_changed_hunks_reviewed",
+      "reviewed_ranges": [],
+      "observation": "Full base-to-candidate diff with eight lines context inspected; projection derivation and namespace guard callpaths crosschecked in semantic/application modules. Unrelated unchanged source not claimed."
+    },
+    {
+      "path": "csdlc-v3/src/bin/csdlc_conversion_rehearsal.rs",
+      "line_count": 87,
+      "status": "production_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          87
+        ]
+      ],
+      "observation": "Full rehearsal CLI entrypoint reviewed."
+    },
+    {
+      "path": "csdlc-v3/src/bin/csdlc_transition.rs",
+      "line_count": 55,
+      "status": "production_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          55
+        ]
+      ],
+      "observation": "Full CLI entrypoint reviewed."
+    },
+    {
+      "path": "csdlc-v3/src/commands/contract.rs",
+      "line_count": 137,
+      "status": "production_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          137
+        ]
+      ],
+      "observation": "Architecture and native recovery boundary inspected; ARCH-001 covers absent journal activation bridge."
+    },
+    {
+      "path": "csdlc-v3/src/commands/local/binding.rs",
+      "line_count": 141,
+      "status": "production_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          141
+        ]
+      ],
+      "observation": "Full production source inspected for native ownership, authority checks, copy/stage/commit/recovery ordering and semantic bridge. ARCH-002 retained for partial bind copy."
+    },
+    {
+      "path": "csdlc-v3/src/commands/local/cards.rs",
+      "line_count": 372,
+      "status": "production_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          372
+        ]
+      ],
+      "observation": "Full production source inspected for native ownership, authority checks, copy/stage/commit/recovery ordering and semantic bridge. ARCH-002 retained for partial bind copy."
+    },
+    {
+      "path": "csdlc-v3/src/commands/local/context.rs",
+      "line_count": 463,
+      "status": "production_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          463
+        ]
+      ],
+      "observation": "Full production source inspected for native ownership, authority checks, copy/stage/commit/recovery ordering and semantic bridge. ARCH-002 retained for partial bind copy."
+    },
+    {
+      "path": "csdlc-v3/src/commands/local/failpoints.rs",
+      "line_count": 8,
+      "status": "production_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          8
+        ]
+      ],
+      "observation": "Full production source inspected for native ownership, authority checks, copy/stage/commit/recovery ordering and semantic bridge. ARCH-002 retained for partial bind copy."
+    },
+    {
+      "path": "csdlc-v3/src/commands/local/filesystem.rs",
+      "line_count": 71,
+      "status": "production_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          71
+        ]
+      ],
+      "observation": "Full production source inspected for native ownership, authority checks, copy/stage/commit/recovery ordering and semantic bridge. ARCH-002 retained for partial bind copy."
+    },
+    {
+      "path": "csdlc-v3/src/commands/local/intent.rs",
+      "line_count": 1053,
+      "status": "production_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          1053
+        ]
+      ],
+      "observation": "Full source read: native prepare/recover and durable legacy-adoption guardian fences; typed registry and nonauthoritative planning routing."
+    },
+    {
+      "path": "csdlc-v3/src/commands/local/issue.rs",
+      "line_count": 101,
+      "status": "production_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          101
+        ]
+      ],
+      "observation": "Full production source inspected for native ownership, authority checks, copy/stage/commit/recovery ordering and semantic bridge. ARCH-002 retained for partial bind copy."
+    },
+    {
+      "path": "csdlc-v3/src/commands/local/lifecycle.rs",
+      "line_count": 275,
+      "status": "production_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          275
+        ]
+      ],
+      "observation": "Full production source inspected for native ownership, authority checks, copy/stage/commit/recovery ordering and semantic bridge. ARCH-002 retained for partial bind copy."
+    },
+    {
+      "path": "csdlc-v3/src/commands/local/mod.rs",
+      "line_count": 344,
+      "status": "production_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          344
+        ]
+      ],
+      "observation": "Architecture and native recovery boundary inspected; ARCH-001 covers absent journal activation bridge."
+    },
+    {
+      "path": "csdlc-v3/src/commands/local/planning.rs",
+      "line_count": 594,
+      "status": "production_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          594
+        ]
+      ],
+      "observation": "Full source read: native prepare/recover and durable legacy-adoption guardian fences; typed registry and nonauthoritative planning routing."
+    },
+    {
+      "path": "csdlc-v3/src/commands/local/results.rs",
+      "line_count": 27,
+      "status": "production_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          27
+        ]
+      ],
+      "observation": "Full production source inspected for native ownership, authority checks, copy/stage/commit/recovery ordering and semantic bridge. ARCH-002 retained for partial bind copy."
+    },
+    {
+      "path": "csdlc-v3/src/commands/local/routing.rs",
+      "line_count": 247,
+      "status": "production_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          247
+        ]
+      ],
+      "observation": "Production boundary and state flow inspected; remaining embedded tests selectively read, not full test coverage. Semantic journals, exact replay, freshness, outcome and projection boundary accounted for."
+    },
+    {
+      "path": "csdlc-v3/src/commands/local/storage.rs",
+      "line_count": 80,
+      "status": "production_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          80
+        ]
+      ],
+      "observation": "Full production source inspected for native ownership, authority checks, copy/stage/commit/recovery ordering and semantic bridge. ARCH-002 retained for partial bind copy."
+    },
+    {
+      "path": "csdlc-v3/src/commands/local/transactions.rs",
+      "line_count": 607,
+      "status": "production_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          607
+        ]
+      ],
+      "observation": "Full production source inspected for native ownership, authority checks, copy/stage/commit/recovery ordering and semantic bridge. ARCH-002 retained for partial bind copy."
+    },
+    {
+      "path": "csdlc-v3/src/commands/local/worktree.rs",
+      "line_count": 190,
+      "status": "production_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          190
+        ]
+      ],
+      "observation": "Full production source inspected for native ownership, authority checks, copy/stage/commit/recovery ordering and semantic bridge. ARCH-002 retained for partial bind copy."
+    },
+    {
+      "path": "csdlc-v3/src/commands/mod.rs",
+      "line_count": 12,
+      "status": "all_changed_hunks_reviewed",
+      "reviewed_ranges": [],
+      "observation": "Full base-to-candidate diff with eight lines context inspected; projection derivation and namespace guard callpaths crosschecked in semantic/application modules. Unrelated unchanged source not claimed."
+    },
+    {
+      "path": "csdlc-v3/src/commands/proof.rs",
+      "line_count": 2719,
+      "status": "all_changed_hunks_reviewed",
+      "reviewed_ranges": [],
+      "observation": "Complete base-to-candidate diff with5context reviewed, including changed embedded tests. Production source reviewed for authority and intent routing, truthful output, validator binding, installation witness and exact partial-install recovery."
+    },
+    {
+      "path": "csdlc-v3/src/commands/proof/intent.rs",
+      "line_count": 1830,
+      "status": "production_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          1830
+        ]
+      ],
+      "observation": "Full source and embedded tests read: narrow Cargo argument admission, candidate/input fingerprints, process-group cancellation and bounded capture, compiler dependency provenance, actual nonzero test counts and retained-proof verification."
+    },
+    {
+      "path": "csdlc-v3/src/commands/release.rs",
+      "line_count": 344,
+      "status": "all_changed_hunks_reviewed",
+      "reviewed_ranges": [],
+      "observation": "Full base-to-candidate diff with eight lines context inspected; projection derivation and namespace guard callpaths crosschecked in semantic/application modules. Unrelated unchanged source not claimed."
+    },
+    {
+      "path": "csdlc-v3/src/commands/remote/authority.rs",
+      "line_count": 119,
+      "status": "all_changed_hunks_reviewed_with_move_provenance",
+      "reviewed_ranges": [],
+      "observation": "All lines not in exact baseline moved blocks plus five lines context reviewed. Exact byte-line move blocks retained in architecture-moved-diffs/authority.json; unchanged moved blocks are provenance-accounted, not manually rereviewed. New boundary imports/visibility and changed contracts inspected."
+    },
+    {
+      "path": "csdlc-v3/src/commands/remote/coordination.rs",
+      "line_count": 299,
+      "status": "production_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          299
+        ]
+      ],
+      "observation": "Full production source reviewed: native identity, request admission, resolved target, authenticated readback, original-vs-retry ownership and immutable receipt relationships."
+    },
+    {
+      "path": "csdlc-v3/src/commands/remote/coordination/tests.rs",
+      "line_count": 458,
+      "status": "full_source_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          458
+        ]
+      ],
+      "observation": "All tests and fixture adapter inspected: exact child completion, negative identity/linkage/evidence matrices, parent predispatch reread, no mutation and canonical contract installation."
+    },
+    {
+      "path": "csdlc-v3/src/commands/remote/delivery.rs",
+      "line_count": 380,
+      "status": "all_changed_hunks_reviewed_with_move_provenance",
+      "reviewed_ranges": [],
+      "observation": "All lines not in exact baseline moved blocks plus five lines context reviewed. Exact byte-line move blocks retained in architecture-moved-diffs/delivery.json; unchanged moved blocks are provenance-accounted, not manually rereviewed. New boundary imports/visibility and changed contracts inspected."
+    },
+    {
+      "path": "csdlc-v3/src/commands/remote/intent.rs",
+      "line_count": 960,
+      "status": "production_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          960
+        ]
+      ],
+      "observation": "Full intent owner: retained pending inventory, current proof/review identity and external judgment retention, publication target/replay admission, exact mutable PR observation, repository creation authority and uncertainty evidence."
+    },
+    {
+      "path": "csdlc-v3/src/commands/remote/merge.rs",
+      "line_count": 951,
+      "status": "all_changed_hunks_reviewed",
+      "reviewed_ranges": [],
+      "observation": "Complete base-to-candidate diff with5context reviewed incl embedded changed tests; staging/native-dispatch split, lock release, original intent, never-dispatched eligibility and qualified merge reconciliation traced through application/intent/remote owner."
+    },
+    {
+      "path": "csdlc-v3/src/commands/remote/merge_linkage.rs",
+      "line_count": 242,
+      "status": "production_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          242
+        ]
+      ],
+      "observation": "Full production source reviewed: native identity, request admission, resolved target, authenticated readback, original-vs-retry ownership and immutable receipt relationships."
+    },
+    {
+      "path": "csdlc-v3/src/commands/remote/mod.rs",
+      "line_count": 58,
+      "status": "production_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          58
+        ]
+      ],
+      "observation": "Architecture and native recovery boundary inspected; ARCH-001 covers absent journal activation bridge."
+    },
+    {
+      "path": "csdlc-v3/src/commands/remote/model.rs",
+      "line_count": 602,
+      "status": "all_changed_hunks_reviewed_with_move_provenance",
+      "reviewed_ranges": [],
+      "observation": "All lines not in exact baseline moved blocks plus five lines context reviewed. Exact byte-line move blocks retained in architecture-moved-diffs/model.json; unchanged moved blocks are provenance-accounted, not manually rereviewed. New boundary imports/visibility and changed contracts inspected."
+    },
+    {
+      "path": "csdlc-v3/src/commands/remote/mutation.rs",
+      "line_count": 999,
+      "status": "production_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          999
+        ]
+      ],
+      "observation": "Full production source reviewed: native identity, request admission, resolved target, authenticated readback, original-vs-retry ownership and immutable receipt relationships."
+    },
+    {
+      "path": "csdlc-v3/src/commands/remote/publication.rs",
+      "line_count": 915,
+      "status": "all_changed_hunks_reviewed_with_move_provenance",
+      "reviewed_ranges": [],
+      "observation": "Every unmatched moved-baseline line plus5context read; provenance in architecture-moved-diffs/publication.json. Pending effects versus observational publication admission, reviewed qualified linkage and metadata guard inspected."
+    },
+    {
+      "path": "csdlc-v3/src/commands/remote/routing.rs",
+      "line_count": 91,
+      "status": "all_changed_hunks_reviewed_with_move_provenance",
+      "reviewed_ranges": [],
+      "observation": "All lines not in exact baseline moved blocks plus five lines context reviewed. Exact byte-line move blocks retained in architecture-moved-diffs/routing.json; unchanged moved blocks are provenance-accounted, not manually rereviewed. New boundary imports/visibility and changed contracts inspected."
+    },
+    {
+      "path": "csdlc-v3/src/commands/remote/storage.rs",
+      "line_count": 758,
+      "status": "production_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          758
+        ]
+      ],
+      "observation": "Full source reviewed: immutable remote receipts and intents, one-shot recovery budget, rejected recovery reservation, settled historical identity and native original request reconstruction."
+    },
+    {
+      "path": "csdlc-v3/src/commands/remote/support.rs",
+      "line_count": 159,
+      "status": "all_changed_hunks_reviewed_with_move_provenance",
+      "reviewed_ranges": [],
+      "observation": "All lines not in exact baseline moved blocks plus five lines context reviewed. Exact byte-line move blocks retained in architecture-moved-diffs/support.json; unchanged moved blocks are provenance-accounted, not manually rereviewed. New boundary imports/visibility and changed contracts inspected."
+    },
+    {
+      "path": "csdlc-v3/src/commands/remote/target.rs",
+      "line_count": 252,
+      "status": "production_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          252
+        ]
+      ],
+      "observation": "Full production source reviewed: native identity, request admission, resolved target, authenticated readback, original-vs-retry ownership and immutable receipt relationships."
+    },
+    {
+      "path": "csdlc-v3/src/commands/remote/tests.rs",
+      "line_count": 3298,
+      "status": "all_changed_hunks_reviewed",
+      "reviewed_ranges": [],
+      "observation": "Every changed hunk and assertion context inspected: exact publication/finish target selection, ready tamper guard, PR create recovery allowance and retained request normalization."
+    },
+    {
+      "path": "csdlc-v3/src/commands/remote/tests/merge_cases.rs",
+      "line_count": 1042,
+      "status": "all_changed_hunks_reviewed",
+      "reviewed_ranges": [],
+      "observation": "Every changed hunk and assertion context inspected: never-dispatched merge admission, dispatch marker race under lock, split repository/mode linkage, exact result replay and authenticated terminal handoff."
+    },
+    {
+      "path": "csdlc-v3/src/commands/remote/transport.rs",
+      "line_count": 999,
+      "status": "all_changed_hunks_reviewed_with_move_provenance",
+      "reviewed_ranges": [],
+      "observation": "All lines not in exact baseline moved blocks plus five lines context reviewed. Exact byte-line move blocks retained in architecture-moved-diffs/transport.json; unchanged moved blocks are provenance-accounted, not manually rereviewed. New boundary imports/visibility and changed contracts inspected."
+    },
+    {
+      "path": "csdlc-v3/src/commands/result.rs",
+      "line_count": 268,
+      "status": "production_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          268
+        ]
+      ],
+      "observation": "Architecture and native recovery boundary inspected; ARCH-001 covers absent journal activation bridge."
+    },
+    {
+      "path": "csdlc-v3/src/commands/terminal.rs",
+      "line_count": 3169,
+      "status": "all_changed_hunks_reviewed",
+      "reviewed_ranges": [],
+      "observation": "Every changed hunk plus assertion context, and unchanged persist_terminal_finish1140\u20131300 inspected for ARCH-003 native write ordering and replay guards."
+    },
+    {
+      "path": "csdlc-v3/src/commands/terminal/intent_archive.rs",
+      "line_count": 943,
+      "status": "full_source_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          943
+        ]
+      ],
+      "observation": "All production and embedded tests inspected: generated namespace eligibility, tracked/staged preservation, immutable archive, exact cleanup preview, partial removal readback and missing worktree recovery."
+    },
+    {
+      "path": "csdlc-v3/src/conversion.rs",
+      "line_count": 3005,
+      "status": "full_source_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          3005
+        ]
+      ],
+      "observation": "Full conversion and relocation source including embedded tests inspected: canonical Git topology, source/card identity, copied staged digest, native writer guardian lifetime, per-effect checkpoints, pre-effect restore refusal, exact projection reconstruction and relocation provenance. No new actionable defect beyond recorded recovery bridge gaps."
+    },
+    {
+      "path": "csdlc-v3/src/lib.rs",
+      "line_count": 220,
+      "status": "all_changed_hunks_reviewed",
+      "reviewed_ranges": [],
+      "observation": "Full base-to-candidate diff with eight lines context inspected; projection derivation and namespace guard callpaths crosschecked in semantic/application modules. Unrelated unchanged source not claimed."
+    },
+    {
+      "path": "csdlc-v3/src/lifecycle/mod.rs",
+      "line_count": 354,
+      "status": "all_changed_hunks_reviewed",
+      "reviewed_ranges": [],
+      "observation": "Full base-to-candidate diff with eight lines context inspected; projection derivation and namespace guard callpaths crosschecked in semantic/application modules. Unrelated unchanged source not claimed."
+    },
+    {
+      "path": "csdlc-v3/src/lifecycle/semantic.rs",
+      "line_count": 946,
+      "status": "production_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          607
+        ]
+      ],
+      "observation": "Production boundary and state flow inspected; remaining embedded tests selectively read, not full test coverage. Semantic journals, exact replay, freshness, outcome and projection boundary accounted for."
+    },
+    {
+      "path": "csdlc-v3/src/main.rs",
+      "line_count": 1255,
+      "status": "all_changed_hunks_reviewed",
+      "reviewed_ranges": [],
+      "observation": "Complete base-to-candidate diff with5context reviewed, including changed embedded tests. Production source reviewed for authority and intent routing, truthful output, validator binding, installation witness and exact partial-install recovery."
+    },
+    {
+      "path": "csdlc-v3/src/storage/codec.rs",
+      "line_count": 81,
+      "status": "production_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          81
+        ]
+      ],
+      "observation": "Production boundary and state flow inspected; remaining embedded tests selectively read, not full test coverage. Semantic journals, exact replay, freshness, outcome and projection boundary accounted for."
+    },
+    {
+      "path": "csdlc-v3/src/storage/mod.rs",
+      "line_count": 911,
+      "status": "all_changed_hunks_reviewed",
+      "reviewed_ranges": [],
+      "observation": "Full base-to-candidate diff with eight lines context inspected; projection derivation and namespace guard callpaths crosschecked in semantic/application modules. Unrelated unchanged source not claimed."
+    },
+    {
+      "path": "csdlc-v3/src/storage/semantic.rs",
+      "line_count": 2961,
+      "status": "production_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          2841
+        ]
+      ],
+      "observation": "Production boundary and state flow inspected; remaining embedded tests selectively read, not full test coverage. Semantic journals, exact replay, freshness, outcome and projection boundary accounted for."
+    },
+    {
+      "path": "csdlc-v3/src/storage/semantic/journal_recovery.rs",
+      "line_count": 308,
+      "status": "production_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          308
+        ]
+      ],
+      "observation": "Architecture and native recovery boundary inspected; ARCH-001 covers absent journal activation bridge."
+    },
+    {
+      "path": "csdlc-v3/src/storage/semantic/protocol.rs",
+      "line_count": 2446,
+      "status": "production_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          1320
+        ]
+      ],
+      "observation": "Production boundary and state flow inspected; remaining embedded tests selectively read, not full test coverage. Semantic journals, exact replay, freshness, outcome and projection boundary accounted for."
+    },
+    {
+      "path": "csdlc-v3/src/storage/semantic/protocol/creation.rs",
+      "line_count": 1187,
+      "status": "production_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          895
+        ]
+      ],
+      "observation": "Production boundary and state flow inspected; remaining embedded tests selectively read, not full test coverage. Semantic journals, exact replay, freshness, outcome and projection boundary accounted for."
+    },
+    {
+      "path": "csdlc-v3/src/transition.rs",
+      "line_count": 2445,
+      "status": "production_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          1776
+        ]
+      ],
+      "observation": "Full production review: immutable transition requests, guardian locks, admission, resumable conversion/provenance/restore and fresh resume; historical removal fixes preserved."
+    },
+    {
+      "path": "csdlc-v3/src/transition/history.rs",
+      "line_count": 1131,
+      "status": "production_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          745
+        ]
+      ],
+      "observation": "Full production through retained disposition discovery; fixture setup read through745. Exact topology and closed/merged identity gates inspected."
+    },
+    {
+      "path": "csdlc-v3/src/transition/history/legacy.rs",
+      "line_count": 400,
+      "status": "production_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          400
+        ]
+      ],
+      "observation": "Full source including historical receipt canonicalization/digest and authored topology tests."
+    }
+  ]
+}

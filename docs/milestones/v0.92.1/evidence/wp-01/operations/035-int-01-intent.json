@@ -1,0 +1,23 @@
+{
+  "schema": "adl.v0921.wp01.operation-intent.v1",
+  "kind": "child_create",
+  "planned_id": "INT-01",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:INT-01:create",
+  "request_fingerprint": "c793a5e31145d72b541544aec097965c3eb72d6918b08ecb1cdc11c1f7a43e84",
+  "planning_digest": "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251",
+  "dependencies": {
+    "CORP-D": 498,
+    "AWS-G": 496,
+    "GCP-E": 494,
+    "XCL-01": 495,
+    "RUST-01": 499,
+    "V3-F": 505,
+    "DRT-C": 508,
+    "DRT-D": 509,
+    "issue-51": 51,
+    "HOT-01": 510,
+    "OBS-B": 512,
+    "DEC-01": 513,
+    "PROV-B": 515
+  }
+}

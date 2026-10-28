@@ -1,0 +1,41 @@
+{
+  "schema": "adl1223.sprint_readme_mode_correction.v1",
+  "issue": 1223,
+  "status": "applied_local_reversible_implementation",
+  "source_head": "e131de500a7f09f4bdc9c80f9d1dfad0706f4ba4",
+  "removed_count": 0,
+  "files": [
+    {
+      "path": "tools/sprint_contracts/README.md",
+      "action": "modify",
+      "before": {
+        "mode": "100755",
+        "blob": "165ef76f94ccc0017ef7c943ab49b879a926c323",
+        "sha256": "5be36fc74d8e671716c57f492d9a7705f2db2f8bf93013ffa755bdc7df693c26"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "165ef76f94ccc0017ef7c943ab49b879a926c323",
+        "sha256": "5be36fc74d8e671716c57f492d9a7705f2db2f8bf93013ffa755bdc7df693c26"
+      }
+    }
+  ],
+  "custody": {
+    "path": "/Volumes/FastWork/c1223/sprint-six-readme-mode-correction/preimage.tar",
+    "sha256": "6583a0556055bc01a35ca2b1836afd98cbeab1356c4910ca4339c1cc27b2c51c",
+    "members": 1
+  },
+  "patch": {
+    "path": "/Volumes/FastWork/c1223/sprint-six-readme-mode-correction/mode-only.patch",
+    "sha256": "7e74418514c8ce2101eee6b1bccab6e4cf8eb4beeb8dd2f3c422702555c6a017"
+  },
+  "basis": "README is documentation, not an executable. Preserve exact content blob and correct only100755 to100644. Prior Sprint6 source commit and packet remain historical.",
+  "limits": [
+    "Zero removals/contentchange; no tests or newqualification."
+  ],
+  "review": {
+    "reviewer": "review_1223_historical_retention",
+    "result": "PASS",
+    "scope": "Modeonly/exactunchangedblob/custody"
+  }
+}

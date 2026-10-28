@@ -1,0 +1,27 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "action": "issue_create",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:GCP-A:create",
+  "token_file": null,
+  "issue": null,
+  "pull_request": null,
+  "title": "[v0.92.1][GCP-A] GCP hierarchy and cost decision",
+  "body": "## Outcome\n\nProduce one accepted GCP hierarchy and cost-envelope decision.\n\n## Primary deliverable\n\nOne accepted decision register binding organization, folders, projects, billing, region, quota, naming, data residency, and the first workload cost envelope.\n\n## Verification result\n\nRead-only hierarchy, billing, API, IAM, policy, network, quota, credit-expiry, and current-resource observations reconcile to the decision register.\n\n## Unit boundary\n\nIssue completion is exactly one accepted hierarchy-and-cost decision; discovery observations are evidence inputs and no cloud mutation is performed.\n\n## Dependencies\n\n- None.\n\n## Retained predecessor scope\n\n- None; this is new v0.92.1 work.\n\n## Acceptance criteria\n\n- [ ] Organization folder project billing and region are exact\n- [ ] POC and long-term ownership are explicit\n- [ ] The first workload has a hard cost ceiling\n- [ ] Quota is not treated as capacity\n\n## Owned paths\n\n- `docs/operations/cloud/gcp/decisions/**`\n- `docs/milestones/v0.92.1/evidence/cloud/gcp-a/**`\n\n## PVF lanes\n\n- `hierarchy-readback`\n- `billing-and-credit`\n- `iam-policy-census`\n- `quota-capacity`\n- `decision-denominator`\n\n## Stop conditions\n\n- Identity or billing is ambiguous\n- Credit expiry is unknown\n- A decision would require mutation\n\n## Non-goals\n\n- API enablement\n- Project creation\n- Paid launch\n\n## Canonical planning identity\n\n- Planned ID: `GCP-A`\n- Canonical title: `[v0.92.1][GCP-A] GCP hierarchy and cost decision`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#GCP-A`\n",
+  "labels": [
+    "area:runtime",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "assignees": [
+
+  ],
+  "milestone": 1,
+  "state": null,
+  "comment_body": null,
+  "required_checks": [
+
+  ],
+  "require_review": false,
+  "linked_issue": null
+}

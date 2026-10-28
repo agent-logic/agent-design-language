@@ -1,0 +1,211 @@
+{
+  "schema": "adl.v0921.remediation_review_subject.v1",
+  "source_finding_count": 25,
+  "dispositions": [
+    {
+      "kind": "fixed_with_deferred_proof",
+      "source_finding_ids": [
+        "D520-RET-001"
+      ],
+      "resolution": "Retained corporate, C-SDLC v3, distributed Runtime, and final-gate evidence were reconciled without promoting residual proof gaps.",
+      "release_consequence": "The listed source finding is dispositioned without promoting separately declared residual proof gaps to passes.",
+      "remediation_issues": [
+        818,
+        819,
+        820,
+        821
+      ],
+      "residuals": [
+        {
+          "id": "MERGE-LINKAGE-001",
+          "owner_issue": 849,
+          "target_milestone": "v0.92.2",
+          "status": "operator_deferred",
+          "proof_rows": 4,
+          "rationale": "Publication-linkage proof remains explicitly deferred; it is not a behavioral pass.",
+          "release_consequence": "The four affected criteria remain unproved in v0.92.1.",
+          "operator_authorization": {
+            "source": "github_issue",
+            "issue": 849,
+            "url": "https://github.com/agent-logic/agent-design-language/issues/849",
+            "author": "danielbaustin",
+            "created_at": "2026-09-11T16:27:11Z",
+            "body_sha256": "9563d1ee06aaae8e846fe1a5cf7f1100fcf039b01a0e2c3483e83c8a850645af",
+            "required_scope": "Operator explicitly allocated this repair to **v0.92.2**"
+          }
+        },
+        {
+          "id": "EXECUTABLE-PROOF-ROWS",
+          "owner_issue": 852,
+          "target_milestone": "v0.92.2",
+          "status": "operator_deferred",
+          "proof_rows": 5,
+          "rationale": "Five evidence-linkage rows were moved by operator decision from superseded #851.",
+          "release_consequence": "The five rows remain unproved and must not be represented as passes.",
+          "operator_authorization": {
+            "source": "github_issue",
+            "issue": 852,
+            "url": "https://github.com/agent-logic/agent-design-language/issues/852",
+            "author": "danielbaustin",
+            "created_at": "2026-09-11T17:21:51Z",
+            "body_sha256": "d488e04785ca797701f69fcde12f8bfc4111a38c1f071c2eb872f25a14ef1c4b",
+            "required_scope": "Deferred from #851 by operator instruction"
+          }
+        },
+        {
+          "id": "PROOF-INSUFFICIENT-ROWS",
+          "owner_issue": 852,
+          "target_milestone": "v0.92.2",
+          "status": "operator_deferred",
+          "proof_rows": 7,
+          "rationale": "Five cloud-control and two execution-proof rows lack sufficient proof.",
+          "release_consequence": "The seven rows remain limitations, not behavioral passes.",
+          "operator_authorization": {
+            "source": "github_issue",
+            "issue": 852,
+            "url": "https://github.com/agent-logic/agent-design-language/issues/852",
+            "author": "danielbaustin",
+            "created_at": "2026-09-11T17:21:51Z",
+            "body_sha256": "d488e04785ca797701f69fcde12f8bfc4111a38c1f071c2eb872f25a14ef1c4b",
+            "required_scope": "separate five cloud-control and two execution-proof gaps"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "fixed",
+      "source_finding_ids": [
+        "D520-V3F-001"
+      ],
+      "resolution": "Current v3 release truth and retained ready-intent recovery are present.",
+      "release_consequence": "The listed source finding is dispositioned without promoting separately declared residual proof gaps to passes.",
+      "remediation_issues": [
+        817,
+        843
+      ]
+    },
+    {
+      "kind": "fixed",
+      "source_finding_ids": [
+        "D520-REL-001",
+        "D520-DOC-003",
+        "D520-DOC-004",
+        "D520-EVID-001",
+        "D520-EVID-002"
+      ],
+      "resolution": "Canonical release documentation and evidence truth were refreshed.",
+      "release_consequence": "The listed source finding is dispositioned without promoting separately declared residual proof gaps to passes.",
+      "remediation_issues": [
+        817
+      ]
+    },
+    {
+      "kind": "fixed",
+      "source_finding_ids": [
+        "D520-RUNTIME-001",
+        "D520-RUNTIME-002",
+        "D520-SEC-004"
+      ],
+      "resolution": "Runtime identity, local-model boundary, origin, and redirect behavior were repaired.",
+      "release_consequence": "The listed source finding is dispositioned without promoting separately declared residual proof gaps to passes.",
+      "remediation_issues": [
+        814
+      ]
+    },
+    {
+      "kind": "fixed",
+      "source_finding_ids": [
+        "D520-SEC-001",
+        "D520-SEC-002"
+      ],
+      "resolution": "Cloud mutation authorization and replay boundaries were repaired.",
+      "release_consequence": "The listed source finding is dispositioned without promoting separately declared residual proof gaps to passes.",
+      "remediation_issues": [
+        815
+      ]
+    },
+    {
+      "kind": "fixed",
+      "source_finding_ids": [
+        "D520-SEC-003",
+        "D520-TEST-001"
+      ],
+      "resolution": "Redaction and hot-reload proof were made executable and non-vacuous.",
+      "release_consequence": "The listed source finding is dispositioned without promoting separately declared residual proof gaps to passes.",
+      "remediation_issues": [
+        816
+      ]
+    },
+    {
+      "kind": "fixed",
+      "source_finding_ids": [
+        "TPR-001",
+        "D833-REPORT-001",
+        "D833-REPORT-003",
+        "D833-EXEC-001"
+      ],
+      "resolution": "The immutable review, executable denominator, historical-state clarification, and narrow candidate-current supersession are retained by PR #853.",
+      "release_consequence": "The listed source finding is dispositioned without promoting separately declared residual proof gaps to passes.",
+      "remediation_issues": [
+        833
+      ]
+    },
+    {
+      "kind": "fixed",
+      "source_finding_ids": [
+        "TPR-002",
+        "D833-REPORT-002",
+        "D833-EXEC-003"
+      ],
+      "resolution": "The finalized predecessor was explicitly revalidated at the immutable review candidate.",
+      "release_consequence": "The listed source finding is dispositioned without promoting separately declared residual proof gaps to passes.",
+      "remediation_issues": [
+        834
+      ]
+    },
+    {
+      "kind": "fixed",
+      "source_finding_ids": [
+        "TPR-003"
+      ],
+      "resolution": "The release projection remains fail-closed and does not request closure on blocked rows.",
+      "release_consequence": "The listed source finding is dispositioned without promoting separately declared residual proof gaps to passes.",
+      "remediation_issues": [
+        835
+      ]
+    },
+    {
+      "kind": "fixed",
+      "source_finding_ids": [
+        "TPR-004"
+      ],
+      "resolution": "Recursive Rust measurement and adversarial fixtures are retained.",
+      "release_consequence": "The listed source finding is dispositioned without promoting separately declared residual proof gaps to passes.",
+      "remediation_issues": [
+        836
+      ]
+    },
+    {
+      "kind": "fixed",
+      "source_finding_ids": [
+        "TPR-005"
+      ],
+      "resolution": "Active boot paths and retired command surfaces are explicit and tested.",
+      "release_consequence": "The listed source finding is dispositioned without promoting separately declared residual proof gaps to passes.",
+      "remediation_issues": [
+        837
+      ]
+    },
+    {
+      "kind": "fixed",
+      "source_finding_ids": [
+        "D833-EXEC-002"
+      ],
+      "resolution": "Release versions, native-v3 preflight, workspace lock parity, and retained registry compatibility were repaired.",
+      "release_consequence": "The listed source finding is dispositioned without promoting separately declared residual proof gaps to passes.",
+      "remediation_issues": [
+        856
+      ]
+    }
+  ]
+}

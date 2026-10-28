@@ -1,0 +1,25 @@
+{
+  "schema": "adl.v3f.detached_suite.v1",
+  "source_sha": "8a597a5cb9d27a575f27ea7041b516608b162e36",
+  "argv": [
+    "cargo",
+    "test",
+    "--locked",
+    "--manifest-path",
+    "csdlc-v3/Cargo.toml"
+  ],
+  "started_at": "2026-09-09T18:29:50.165073+00:00",
+  "duration_seconds": 32.251,
+  "exit_code": 101,
+  "passed": 133,
+  "failed": 1,
+  "detached": true,
+  "clean_before": true,
+  "clean_after": true,
+  "head_after": "8a597a5cb9d27a575f27ea7041b516608b162e36",
+  "external_target": true,
+  "log": "suite.log",
+  "log_sha256": "056b75e8aa4f87154f9946bfa61cecce986106849203297eefc8081386c81ac6",
+  "rustc": "rustc 1.92.0 (ded5c06cf 2025-12-08)",
+  "checkout_method": "Clean detached linked proof checkout on internal disk with Git object alternates; identical source bytes and unmodified test command. Earlier disk-full and primary-clone topology failures retained separately."
+}

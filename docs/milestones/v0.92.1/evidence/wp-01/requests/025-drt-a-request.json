@@ -1,0 +1,27 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "action": "issue_create",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:DRT-A:create",
+  "token_file": null,
+  "issue": null,
+  "pull_request": null,
+  "title": "[v0.92.1][DRT-A] Distributed qualification contract",
+  "body": "## Outcome\n\nProduce one deterministic distributed-qualification and ACIP replay contract.\n\n## Primary deliverable\n\nOne deterministic distributed-qualification and ACIP replay contract.\n\n## Verification result\n\nIdentity, authority, duplicate-denial, and replay-conformance tests pass for requirements 181 and 182.\n\n## Unit boundary\n\nIssue completion is exactly acceptance of one distributed-qualification contract; conformance checks are evidence inputs.\n\n## Dependencies\n\n- None.\n\n## Retained predecessor scope\n\n- #181\n- #182\n\n## Acceptance criteria\n\n- [ ] Requirements 181 and 182 are mapped\n- [ ] Identity and authority are deterministic\n- [ ] Duplicate denial and replay receipts are exact\n\n## Owned paths\n\n- `adl-runtime/src/qualification/**`\n- `adl-runtime/tests/distributed_contract/**`\n- `docs/milestones/v0.92.1/evidence/runtime/drt-a/**`\n\n## PVF lanes\n\n- `qualification-contract`\n- `acip-authority`\n- `replay-conformance`\n- `negative-matrix`\n\n## Stop conditions\n\n- Identity provenance is synthetic\n- Replay can change authority\n\n## Non-goals\n\n- Paid AWS execution\n- Observatory redesign\n\n## Canonical planning identity\n\n- Planned ID: `DRT-A`\n- Canonical title: `[v0.92.1][DRT-A] Distributed qualification contract`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#DRT-A`\n",
+  "labels": [
+    "area:runtime",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "assignees": [
+
+  ],
+  "milestone": 1,
+  "state": null,
+  "comment_body": null,
+  "required_checks": [
+
+  ],
+  "require_review": false,
+  "linked_issue": null
+}

@@ -1,0 +1,1449 @@
+{
+    "SecurityGroups": [
+        {
+            "GroupId": "sg-01a98c8e210b62c85",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "-1",
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ],
+            "Tags": [
+                {
+                    "Key": "adl:issue",
+                    "Value": "4603"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-4603-adl-aws-remote-20260701214930"
+                },
+                {
+                    "Key": "adl:run_id",
+                    "Value": "adl-aws-remote-20260701214930"
+                }
+            ],
+            "VpcId": "vpc-07dc67492b4aee743",
+            "SecurityGroupArn": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-01a98c8e210b62c85",
+            "OwnerId": "713332525889",
+            "GroupName": "adl-aws-remote-validation-sg-4603-adl-aws-remote-20260701214930",
+            "Description": "ADL temporary remote validation security group",
+            "IpPermissions": []
+        },
+        {
+            "GroupId": "sg-003d8cb7246067499",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "-1",
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ],
+            "Tags": [
+                {
+                    "Key": "adl:run_id",
+                    "Value": "adl-wp-5419-gha-29632596016-1-adl-ci-and-coverage"
+                },
+                {
+                    "Key": "adl:issue",
+                    "Value": "5419"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-5419-adl-wp-5419-gha-29632596016-1-adl-ci-and-coverage"
+                }
+            ],
+            "VpcId": "vpc-07dc67492b4aee743",
+            "SecurityGroupArn": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-003d8cb7246067499",
+            "OwnerId": "713332525889",
+            "GroupName": "adl-aws-remote-validation-sg-5419-adl-wp-5419-gha-29632596016-1-adl-ci-and-coverage",
+            "Description": "ADL temporary remote validation security group",
+            "IpPermissions": [
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": 22,
+                    "ToPort": 22,
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "Description": "ADL SSH debug access",
+                            "CidrIp": "172.214.99.3/32"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ]
+        },
+        {
+            "GroupId": "sg-0010f099186c8f9eb",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "-1",
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ],
+            "Tags": [
+                {
+                    "Key": "adl:run_id",
+                    "Value": "adl-wp-5419-gha-29470867446-1-adl-ci-and-coverage"
+                },
+                {
+                    "Key": "adl:issue",
+                    "Value": "5419"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-5419-adl-wp-5419-gha-29470867446-1-adl-ci-and-coverage"
+                }
+            ],
+            "VpcId": "vpc-07dc67492b4aee743",
+            "SecurityGroupArn": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-0010f099186c8f9eb",
+            "OwnerId": "713332525889",
+            "GroupName": "adl-aws-remote-validation-sg-5419-adl-wp-5419-gha-29470867446-1-adl-ci-and-coverage",
+            "Description": "ADL temporary remote validation security group",
+            "IpPermissions": [
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": 22,
+                    "ToPort": 22,
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "Description": "ADL SSH debug access",
+                            "CidrIp": "47.146.81.109/32"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ]
+        },
+        {
+            "GroupId": "sg-011d94b6aa33d5239",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "-1",
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ],
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-5243-adl-wp-5243-gha-29191264648-1"
+                },
+                {
+                    "Key": "adl:run_id",
+                    "Value": "adl-wp-5243-gha-29191264648-1"
+                },
+                {
+                    "Key": "adl:issue",
+                    "Value": "5243"
+                }
+            ],
+            "VpcId": "vpc-07dc67492b4aee743",
+            "SecurityGroupArn": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-011d94b6aa33d5239",
+            "OwnerId": "713332525889",
+            "GroupName": "adl-aws-remote-validation-sg-5243-adl-wp-5243-gha-29191264648-1",
+            "Description": "ADL temporary remote validation security group",
+            "IpPermissions": [
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": 22,
+                    "ToPort": 22,
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "Description": "ADL SSH debug access",
+                            "CidrIp": "104.209.11.208/32"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ]
+        },
+        {
+            "GroupId": "sg-046ff6902fb0f8cc0",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "-1",
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ],
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-4603-adl-aws-remote-20260630182718"
+                },
+                {
+                    "Key": "adl:issue",
+                    "Value": "4603"
+                },
+                {
+                    "Key": "adl:run_id",
+                    "Value": "adl-aws-remote-20260630182718"
+                }
+            ],
+            "VpcId": "vpc-07dc67492b4aee743",
+            "SecurityGroupArn": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-046ff6902fb0f8cc0",
+            "OwnerId": "713332525889",
+            "GroupName": "adl-aws-remote-validation-sg-4603-adl-aws-remote-20260630182718",
+            "Description": "ADL temporary remote validation security group",
+            "IpPermissions": []
+        },
+        {
+            "GroupId": "sg-0ef287ea7be2cbdf7",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "-1",
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ],
+            "Tags": [
+                {
+                    "Key": "adl:run_id",
+                    "Value": "issue268-six-hour-r7i-20260820-38"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-268-issue268-six-hour-r7i-20260820-38"
+                },
+                {
+                    "Key": "adl:issue",
+                    "Value": "268"
+                }
+            ],
+            "VpcId": "vpc-07dc67492b4aee743",
+            "SecurityGroupArn": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-0ef287ea7be2cbdf7",
+            "OwnerId": "713332525889",
+            "GroupName": "adl-aws-remote-validation-sg-268-issue268-six-hour-r7i-20260820-38",
+            "Description": "ADL temporary remote validation security group",
+            "IpPermissions": [
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": 22,
+                    "ToPort": 22,
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "Description": "ADL SSH debug access",
+                            "CidrIp": "47.146.81.109/32"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ]
+        },
+        {
+            "GroupId": "sg-0d790aabae60b5d7a",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "-1",
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ],
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-5344-adl-wp-5344-linux-79262133a739"
+                },
+                {
+                    "Key": "adl:run_id",
+                    "Value": "adl-wp-5344-linux-79262133a739"
+                },
+                {
+                    "Key": "adl:issue",
+                    "Value": "5344"
+                }
+            ],
+            "VpcId": "vpc-07dc67492b4aee743",
+            "SecurityGroupArn": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-0d790aabae60b5d7a",
+            "OwnerId": "713332525889",
+            "GroupName": "adl-aws-remote-validation-sg-5344-adl-wp-5344-linux-79262133a739",
+            "Description": "ADL temporary remote validation security group",
+            "IpPermissions": [
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": 22,
+                    "ToPort": 22,
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "Description": "ADL SSH debug access",
+                            "CidrIp": "47.146.81.109/32"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ]
+        },
+        {
+            "GroupId": "sg-0535963eaec330b12",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "-1",
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ],
+            "Tags": [
+                {
+                    "Key": "adl:issue",
+                    "Value": "5344"
+                },
+                {
+                    "Key": "adl:run_id",
+                    "Value": "adl-wp-5344-linux-0c3d5e093e"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-5344-adl-wp-5344-linux-0c3d5e093e"
+                }
+            ],
+            "VpcId": "vpc-07dc67492b4aee743",
+            "SecurityGroupArn": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-0535963eaec330b12",
+            "OwnerId": "713332525889",
+            "GroupName": "adl-aws-remote-validation-sg-5344-adl-wp-5344-linux-0c3d5e093e",
+            "Description": "ADL temporary remote validation security group",
+            "IpPermissions": [
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": 22,
+                    "ToPort": 22,
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "Description": "ADL SSH debug access",
+                            "CidrIp": "47.146.81.109/32"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ]
+        },
+        {
+            "GroupId": "sg-0d8e37e4f26741263",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "-1",
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ],
+            "Tags": [
+                {
+                    "Key": "adl:issue",
+                    "Value": "4603"
+                },
+                {
+                    "Key": "adl:run_id",
+                    "Value": "adl-aws-remote-20260701215953"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-4603-adl-aws-remote-20260701215953"
+                }
+            ],
+            "VpcId": "vpc-07dc67492b4aee743",
+            "SecurityGroupArn": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-0d8e37e4f26741263",
+            "OwnerId": "713332525889",
+            "GroupName": "adl-aws-remote-validation-sg-4603-adl-aws-remote-20260701215953",
+            "Description": "ADL temporary remote validation security group",
+            "IpPermissions": [
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": 22,
+                    "ToPort": 22,
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "Description": "ADL SSH debug access",
+                            "CidrIp": "47.146.81.109/32"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ]
+        },
+        {
+            "GroupId": "sg-041f08aeea5391e02",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "-1",
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ],
+            "Tags": [
+                {
+                    "Key": "adl:run_id",
+                    "Value": "issue268-six-hour-r7i-20260819-22"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-268-issue268-six-hour-r7i-20260819-22"
+                },
+                {
+                    "Key": "adl:issue",
+                    "Value": "268"
+                }
+            ],
+            "VpcId": "vpc-07dc67492b4aee743",
+            "SecurityGroupArn": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-041f08aeea5391e02",
+            "OwnerId": "713332525889",
+            "GroupName": "adl-aws-remote-validation-sg-268-issue268-six-hour-r7i-20260819-22",
+            "Description": "ADL temporary remote validation security group",
+            "IpPermissions": [
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": 22,
+                    "ToPort": 22,
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "Description": "ADL SSH debug access",
+                            "CidrIp": "47.146.81.109/32"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ]
+        },
+        {
+            "GroupId": "sg-0833ffb665cedaf0d",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "-1",
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ],
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-4603-adl-aws-remote-20260701220919"
+                },
+                {
+                    "Key": "adl:issue",
+                    "Value": "4603"
+                },
+                {
+                    "Key": "adl:run_id",
+                    "Value": "adl-aws-remote-20260701220919"
+                }
+            ],
+            "VpcId": "vpc-07dc67492b4aee743",
+            "SecurityGroupArn": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-0833ffb665cedaf0d",
+            "OwnerId": "713332525889",
+            "GroupName": "adl-aws-remote-validation-sg-4603-adl-aws-remote-20260701220919",
+            "Description": "ADL temporary remote validation security group",
+            "IpPermissions": [
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": 22,
+                    "ToPort": 22,
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "Description": "ADL SSH debug access",
+                            "CidrIp": "47.146.81.109/32"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ]
+        },
+        {
+            "GroupId": "sg-0e230571cdd126919",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "-1",
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ],
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-4603-adl-aws-remote-20260630182225"
+                },
+                {
+                    "Key": "adl:issue",
+                    "Value": "4603"
+                },
+                {
+                    "Key": "adl:run_id",
+                    "Value": "adl-aws-remote-20260630182225"
+                }
+            ],
+            "VpcId": "vpc-07dc67492b4aee743",
+            "SecurityGroupArn": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-0e230571cdd126919",
+            "OwnerId": "713332525889",
+            "GroupName": "adl-aws-remote-validation-sg-4603-adl-aws-remote-20260630182225",
+            "Description": "ADL temporary remote validation security group",
+            "IpPermissions": []
+        },
+        {
+            "GroupId": "sg-01df232252551f607",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "-1",
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ],
+            "Tags": [
+                {
+                    "Key": "adl:issue",
+                    "Value": "4921"
+                },
+                {
+                    "Key": "adl:run_id",
+                    "Value": "adl-wp07-4921-spot-20260706"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-4921-adl-wp07-4921-spot-20260706"
+                }
+            ],
+            "VpcId": "vpc-07dc67492b4aee743",
+            "SecurityGroupArn": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-01df232252551f607",
+            "OwnerId": "713332525889",
+            "GroupName": "adl-aws-remote-validation-sg-4921-adl-wp07-4921-spot-20260706",
+            "Description": "ADL temporary remote validation security group",
+            "IpPermissions": [
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": 22,
+                    "ToPort": 22,
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "Description": "ADL SSH debug access",
+                            "CidrIp": "47.146.81.109/32"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ]
+        },
+        {
+            "GroupId": "sg-05df85829752c6cd6",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "-1",
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ],
+            "Tags": [
+                {
+                    "Key": "adl:run_id",
+                    "Value": "adl-aws-remote-20260630185900"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-4603-adl-aws-remote-20260630185900"
+                },
+                {
+                    "Key": "adl:issue",
+                    "Value": "4603"
+                }
+            ],
+            "VpcId": "vpc-07dc67492b4aee743",
+            "SecurityGroupArn": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-05df85829752c6cd6",
+            "OwnerId": "713332525889",
+            "GroupName": "adl-aws-remote-validation-sg-4603-adl-aws-remote-20260630185900",
+            "Description": "ADL temporary remote validation security group",
+            "IpPermissions": []
+        },
+        {
+            "GroupId": "sg-0a271b4781cd616e8",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "-1",
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ],
+            "Tags": [
+                {
+                    "Key": "adl:issue",
+                    "Value": "4603"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-4603-adl-aws-remote-20260701164941"
+                },
+                {
+                    "Key": "adl:run_id",
+                    "Value": "adl-aws-remote-20260701164941"
+                }
+            ],
+            "VpcId": "vpc-07dc67492b4aee743",
+            "SecurityGroupArn": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-0a271b4781cd616e8",
+            "OwnerId": "713332525889",
+            "GroupName": "adl-aws-remote-validation-sg-4603-adl-aws-remote-20260701164941",
+            "Description": "ADL temporary remote validation security group",
+            "IpPermissions": []
+        },
+        {
+            "GroupId": "sg-0c5c2cdb816a3ee36",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "-1",
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ],
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-5344-adl-wp-5344-linux-lifecycle-4a38aa40a"
+                },
+                {
+                    "Key": "adl:issue",
+                    "Value": "5344"
+                },
+                {
+                    "Key": "adl:run_id",
+                    "Value": "adl-wp-5344-linux-lifecycle-4a38aa40a"
+                }
+            ],
+            "VpcId": "vpc-07dc67492b4aee743",
+            "SecurityGroupArn": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-0c5c2cdb816a3ee36",
+            "OwnerId": "713332525889",
+            "GroupName": "adl-aws-remote-validation-sg-5344-adl-wp-5344-linux-lifecycle-4a38aa40a",
+            "Description": "ADL temporary remote validation security group",
+            "IpPermissions": [
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": 22,
+                    "ToPort": 22,
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "Description": "ADL SSH debug access",
+                            "CidrIp": "47.146.81.109/32"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ]
+        },
+        {
+            "GroupId": "sg-08ea8f565ec5d4985",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "-1",
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ],
+            "Tags": [
+                {
+                    "Key": "adl:run_id",
+                    "Value": "adl-wp-5191-aws-spot-20260712094354"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-5191-adl-wp-5191-aws-spot-20260712094354"
+                },
+                {
+                    "Key": "adl:issue",
+                    "Value": "5191"
+                }
+            ],
+            "VpcId": "vpc-07dc67492b4aee743",
+            "SecurityGroupArn": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-08ea8f565ec5d4985",
+            "OwnerId": "713332525889",
+            "GroupName": "adl-aws-remote-validation-sg-5191-adl-wp-5191-aws-spot-20260712094354",
+            "Description": "ADL temporary remote validation security group",
+            "IpPermissions": [
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": 22,
+                    "ToPort": 22,
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "Description": "ADL SSH debug access",
+                            "CidrIp": "57.154.13.243/32"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ]
+        },
+        {
+            "GroupId": "sg-0b7ccf07b35efa40f",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "-1",
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ],
+            "Tags": [
+                {
+                    "Key": "adl:issue",
+                    "Value": "5419"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-5419-adl-wp-5419-gha-29477416287-1-adl-ci-and-coverage"
+                },
+                {
+                    "Key": "adl:run_id",
+                    "Value": "adl-wp-5419-gha-29477416287-1-adl-ci-and-coverage"
+                }
+            ],
+            "VpcId": "vpc-07dc67492b4aee743",
+            "SecurityGroupArn": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-0b7ccf07b35efa40f",
+            "OwnerId": "713332525889",
+            "GroupName": "adl-aws-remote-validation-sg-5419-adl-wp-5419-gha-29477416287-1-adl-ci-and-coverage",
+            "Description": "ADL temporary remote validation security group",
+            "IpPermissions": [
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": 22,
+                    "ToPort": 22,
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "Description": "ADL SSH debug access",
+                            "CidrIp": "47.146.81.109/32"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ]
+        },
+        {
+            "GroupId": "sg-0d4b1eb7765fd8ff3",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "-1",
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ],
+            "Tags": [
+                {
+                    "Key": "adl:run_id",
+                    "Value": "adl-aws-remote-20260701220739"
+                },
+                {
+                    "Key": "adl:issue",
+                    "Value": "4603"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-4603-adl-aws-remote-20260701220739"
+                }
+            ],
+            "VpcId": "vpc-07dc67492b4aee743",
+            "SecurityGroupArn": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-0d4b1eb7765fd8ff3",
+            "OwnerId": "713332525889",
+            "GroupName": "adl-aws-remote-validation-sg-4603-adl-aws-remote-20260701220739",
+            "Description": "ADL temporary remote validation security group",
+            "IpPermissions": [
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": 22,
+                    "ToPort": 22,
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "Description": "ADL SSH debug access",
+                            "CidrIp": "47.146.81.109/32"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ]
+        },
+        {
+            "GroupId": "sg-09cfab23732c43a4d",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "-1",
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [
+                        {
+                            "CidrIpv6": "::/0"
+                        }
+                    ],
+                    "PrefixListIds": []
+                }
+            ],
+            "Tags": [
+                {
+                    "Key": "Project",
+                    "Value": "strategic-cognitive-reserve"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "scr-archive-relay-sg"
+                }
+            ],
+            "VpcId": "vpc-07dc67492b4aee743",
+            "SecurityGroupArn": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-09cfab23732c43a4d",
+            "OwnerId": "713332525889",
+            "GroupName": "scr-archive-relay-sg",
+            "Description": "SCR relay egress-only access",
+            "IpPermissions": []
+        },
+        {
+            "GroupId": "sg-0108df7bb1ab37ffd",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "-1",
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ],
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-268-issue268-six-hour-r7i-20260819-27"
+                },
+                {
+                    "Key": "adl:issue",
+                    "Value": "268"
+                },
+                {
+                    "Key": "adl:run_id",
+                    "Value": "issue268-six-hour-r7i-20260819-27"
+                }
+            ],
+            "VpcId": "vpc-07dc67492b4aee743",
+            "SecurityGroupArn": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-0108df7bb1ab37ffd",
+            "OwnerId": "713332525889",
+            "GroupName": "adl-aws-remote-validation-sg-268-issue268-six-hour-r7i-20260819-27",
+            "Description": "ADL temporary remote validation security group",
+            "IpPermissions": [
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": 22,
+                    "ToPort": 22,
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "Description": "ADL SSH debug access",
+                            "CidrIp": "47.146.81.109/32"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ]
+        },
+        {
+            "GroupId": "sg-0e1c37b8b950925aa",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "-1",
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ],
+            "Tags": [
+                {
+                    "Key": "adl:issue",
+                    "Value": "4603"
+                },
+                {
+                    "Key": "adl:run_id",
+                    "Value": "adl-aws-remote-20260630183142"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-4603-adl-aws-remote-20260630183142"
+                }
+            ],
+            "VpcId": "vpc-07dc67492b4aee743",
+            "SecurityGroupArn": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-0e1c37b8b950925aa",
+            "OwnerId": "713332525889",
+            "GroupName": "adl-aws-remote-validation-sg-4603-adl-aws-remote-20260630183142",
+            "Description": "ADL temporary remote validation security group",
+            "IpPermissions": []
+        },
+        {
+            "GroupId": "sg-063bdaf36c2e3b0d2",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "-1",
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ],
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-4603-adl-aws-remote-20260630193243"
+                },
+                {
+                    "Key": "adl:run_id",
+                    "Value": "adl-aws-remote-20260630193243"
+                },
+                {
+                    "Key": "adl:issue",
+                    "Value": "4603"
+                }
+            ],
+            "VpcId": "vpc-07dc67492b4aee743",
+            "SecurityGroupArn": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-063bdaf36c2e3b0d2",
+            "OwnerId": "713332525889",
+            "GroupName": "adl-aws-remote-validation-sg-4603-adl-aws-remote-20260630193243",
+            "Description": "ADL temporary remote validation security group",
+            "IpPermissions": []
+        },
+        {
+            "GroupId": "sg-03bf9803b091d0bfb",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "-1",
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ],
+            "Tags": [
+                {
+                    "Key": "adl:run_id",
+                    "Value": "adl-wp-5344-linux-lifecycle-222ff2b16"
+                },
+                {
+                    "Key": "adl:issue",
+                    "Value": "5344"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-5344-adl-wp-5344-linux-lifecycle-222ff2b16"
+                }
+            ],
+            "VpcId": "vpc-07dc67492b4aee743",
+            "SecurityGroupArn": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-03bf9803b091d0bfb",
+            "OwnerId": "713332525889",
+            "GroupName": "adl-aws-remote-validation-sg-5344-adl-wp-5344-linux-lifecycle-222ff2b16",
+            "Description": "ADL temporary remote validation security group",
+            "IpPermissions": [
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": 22,
+                    "ToPort": 22,
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "Description": "ADL SSH debug access",
+                            "CidrIp": "47.146.81.109/32"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ]
+        },
+        {
+            "GroupId": "sg-03e9677b1cb483f25",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "-1",
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ],
+            "Tags": [
+                {
+                    "Key": "adl:run_id",
+                    "Value": "adl-wp-5243-gha-29322484555-1-adl-ci-and-coverage"
+                },
+                {
+                    "Key": "adl:issue",
+                    "Value": "5243"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-5243-adl-wp-5243-gha-29322484555-1-adl-ci-and-coverage"
+                }
+            ],
+            "VpcId": "vpc-07dc67492b4aee743",
+            "SecurityGroupArn": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-03e9677b1cb483f25",
+            "OwnerId": "713332525889",
+            "GroupName": "adl-aws-remote-validation-sg-5243-adl-wp-5243-gha-29322484555-1-adl-ci-and-coverage",
+            "Description": "ADL temporary remote validation security group",
+            "IpPermissions": [
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": 22,
+                    "ToPort": 22,
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "Description": "ADL SSH debug access",
+                            "CidrIp": "47.146.81.109/32"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ]
+        },
+        {
+            "GroupId": "sg-09571038c2d412bb2",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "-1",
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ],
+            "Tags": [
+                {
+                    "Key": "adl:issue",
+                    "Value": "5243"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-5243-adl-wp-5243-gha-29321998194-1-adl-ci-and-coverage"
+                },
+                {
+                    "Key": "adl:run_id",
+                    "Value": "adl-wp-5243-gha-29321998194-1-adl-ci-and-coverage"
+                }
+            ],
+            "VpcId": "vpc-07dc67492b4aee743",
+            "SecurityGroupArn": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-09571038c2d412bb2",
+            "OwnerId": "713332525889",
+            "GroupName": "adl-aws-remote-validation-sg-5243-adl-wp-5243-gha-29321998194-1-adl-ci-and-coverage",
+            "Description": "ADL temporary remote validation security group",
+            "IpPermissions": [
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": 22,
+                    "ToPort": 22,
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "Description": "ADL SSH debug access",
+                            "CidrIp": "47.146.81.109/32"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ]
+        },
+        {
+            "GroupId": "sg-052e1b4273335e5f7",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "-1",
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ],
+            "Tags": [
+                {
+                    "Key": "Purpose",
+                    "Value": "aws-remote-validation-debug"
+                },
+                {
+                    "Key": "ManagedBy",
+                    "Value": "adl"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-debug"
+                }
+            ],
+            "VpcId": "vpc-07dc67492b4aee743",
+            "SecurityGroupArn": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-052e1b4273335e5f7",
+            "OwnerId": "713332525889",
+            "GroupName": "adl-aws-remote-validation-debug",
+            "Description": "ADL reusable SSH debug access for remote validation builders",
+            "IpPermissions": [
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": 22,
+                    "ToPort": 22,
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "Description": "Codex dynamic IP SSH debug",
+                            "CidrIp": "47.146.81.109/32"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ]
+        },
+        {
+            "GroupId": "sg-09fc52684a96ead6a",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "-1",
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ],
+            "Tags": [
+                {
+                    "Key": "adl:run_id",
+                    "Value": "issue-5191-proof-1b-c7ff02695"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-5191-issue-5191-proof-1b-c7ff02695"
+                },
+                {
+                    "Key": "adl:issue",
+                    "Value": "5191"
+                }
+            ],
+            "VpcId": "vpc-07dc67492b4aee743",
+            "SecurityGroupArn": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-09fc52684a96ead6a",
+            "OwnerId": "713332525889",
+            "GroupName": "adl-aws-remote-validation-sg-5191-issue-5191-proof-1b-c7ff02695",
+            "Description": "ADL temporary remote validation security group",
+            "IpPermissions": [
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": 22,
+                    "ToPort": 22,
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "Description": "ADL SSH debug access",
+                            "CidrIp": "47.146.81.109/32"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ]
+        },
+        {
+            "GroupId": "sg-01474cd05a7109f1d",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "-1",
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ],
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-5574-adl-wp-5574-gha-29700301599-1-adl-ci-and-coverage"
+                },
+                {
+                    "Key": "adl:issue",
+                    "Value": "5574"
+                },
+                {
+                    "Key": "adl:run_id",
+                    "Value": "adl-wp-5574-gha-29700301599-1-adl-ci-and-coverage"
+                }
+            ],
+            "VpcId": "vpc-07dc67492b4aee743",
+            "SecurityGroupArn": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-01474cd05a7109f1d",
+            "OwnerId": "713332525889",
+            "GroupName": "adl-aws-remote-validation-sg-5574-adl-wp-5574-gha-29700301599-1-adl-ci-and-coverage",
+            "Description": "ADL temporary remote validation security group",
+            "IpPermissions": [
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": 22,
+                    "ToPort": 22,
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "Description": "ADL SSH debug access",
+                            "CidrIp": "172.174.223.100/32"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ]
+        },
+        {
+            "GroupId": "sg-0f71e25c9b6b29862",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "-1",
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ],
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-4603-adl-aws-remote-20260701220612"
+                },
+                {
+                    "Key": "adl:run_id",
+                    "Value": "adl-aws-remote-20260701220612"
+                },
+                {
+                    "Key": "adl:issue",
+                    "Value": "4603"
+                }
+            ],
+            "VpcId": "vpc-07dc67492b4aee743",
+            "SecurityGroupArn": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-0f71e25c9b6b29862",
+            "OwnerId": "713332525889",
+            "GroupName": "adl-aws-remote-validation-sg-4603-adl-aws-remote-20260701220612",
+            "Description": "ADL temporary remote validation security group",
+            "IpPermissions": [
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": 22,
+                    "ToPort": 22,
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "Description": "ADL SSH debug access",
+                            "CidrIp": "47.146.81.109/32"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ]
+        },
+        {
+            "GroupId": "sg-01a09aea28b8e4127",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "-1",
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ],
+            "VpcId": "vpc-07dc67492b4aee743",
+            "SecurityGroupArn": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-01a09aea28b8e4127",
+            "OwnerId": "713332525889",
+            "GroupName": "default",
+            "Description": "default VPC security group",
+            "IpPermissions": [
+                {
+                    "IpProtocol": "-1",
+                    "UserIdGroupPairs": [
+                        {
+                            "UserId": "713332525889",
+                            "GroupId": "sg-01a09aea28b8e4127"
+                        }
+                    ],
+                    "IpRanges": [],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ]
+        }
+    ]
+}

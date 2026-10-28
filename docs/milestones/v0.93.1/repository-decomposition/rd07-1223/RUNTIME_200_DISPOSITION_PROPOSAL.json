@@ -1,0 +1,3021 @@
+{
+  "original_inventory_count": 4134,
+  "scope_rows": 200,
+  "runtime_revision": "315abf70358828a8f4d452532ebd995fb4178389",
+  "status": "source_grounded_proposal_not_deletion_authority",
+  "execution_performed": false,
+  "counts": {
+    "transfer_historical_workflow_and_explicit_unexecuted_scenario_obligations": 13,
+    "conditional_owner_transfer_preserving_family_and_consumers": 177,
+    "accept_version_only_owner_delta_subject_to_component_qualification": 2,
+    "hold_for_observatory_behavior_reconciliation": 5,
+    "transfer_updated_demo_instructions_with_existing_manual_obligation": 3
+  },
+  "nonclaims": [
+    "No new retirement approved",
+    "Source correspondence is not installed qualification",
+    "No manual demos or browser scenarios were executed"
+  ],
+  "rows": [
+    {
+      "id": "RD07-0008",
+      "path": ".github/workflows/wp04-native-distributed.yml",
+      "identity": {
+        "mode": "100644",
+        "blob": "b47313be98f854122449ff86594bd4fbf4c7fdbc"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "docs/ci/historical-workflows/wp04-native-distributed.yml"
+      ],
+      "group": "historical_workflow",
+      "proposal": "transfer_historical_workflow_and_explicit_unexecuted_scenario_obligations",
+      "reason": "Owner archives exact original workflow bytes; archival does not establish runnable CI or replacement scenario proof."
+    },
+    {
+      "id": "RD07-0009",
+      "path": ".github/workflows/wp08-native-birthday.yml",
+      "identity": {
+        "mode": "100644",
+        "blob": "8e2837dedf6db391bf54e6e181278fb233e00479"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "docs/ci/historical-workflows/wp08-native-birthday.yml"
+      ],
+      "group": "historical_workflow",
+      "proposal": "transfer_historical_workflow_and_explicit_unexecuted_scenario_obligations",
+      "reason": "Owner archives exact original workflow bytes; archival does not establish runnable CI or replacement scenario proof."
+    },
+    {
+      "id": "RD07-0010",
+      "path": ".github/workflows/wp09-native-birthday-identity.yml",
+      "identity": {
+        "mode": "100644",
+        "blob": "9258e78c5d53d643d618fd0bac7703f555d3906f"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "docs/ci/historical-workflows/wp09-native-birthday-identity.yml"
+      ],
+      "group": "historical_workflow",
+      "proposal": "transfer_historical_workflow_and_explicit_unexecuted_scenario_obligations",
+      "reason": "Owner archives exact original workflow bytes; archival does not establish runnable CI or replacement scenario proof."
+    },
+    {
+      "id": "RD07-0011",
+      "path": ".github/workflows/wp10-native-birthday-continuity.yml",
+      "identity": {
+        "mode": "100644",
+        "blob": "75115f85af56144bfadbaeac71e4c596dc444ca8"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "docs/ci/historical-workflows/wp10-native-birthday-continuity.yml"
+      ],
+      "group": "historical_workflow",
+      "proposal": "transfer_historical_workflow_and_explicit_unexecuted_scenario_obligations",
+      "reason": "Owner archives exact original workflow bytes; archival does not establish runnable CI or replacement scenario proof."
+    },
+    {
+      "id": "RD07-0012",
+      "path": ".github/workflows/wp11-native-memory-palace.yml",
+      "identity": {
+        "mode": "100644",
+        "blob": "1664a271ed4b4e7843c1fecb2a6e9f210de20fa3"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "docs/ci/historical-workflows/wp11-native-memory-palace.yml"
+      ],
+      "group": "historical_workflow",
+      "proposal": "transfer_historical_workflow_and_explicit_unexecuted_scenario_obligations",
+      "reason": "Owner archives exact original workflow bytes; archival does not establish runnable CI or replacement scenario proof."
+    },
+    {
+      "id": "RD07-0013",
+      "path": ".github/workflows/wp12-native-capability-envelope.yml",
+      "identity": {
+        "mode": "100644",
+        "blob": "882ddec98d2c6139fd9d51c154e5a4b67a9aaeff"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "docs/ci/historical-workflows/wp12-native-capability-envelope.yml"
+      ],
+      "group": "historical_workflow",
+      "proposal": "transfer_historical_workflow_and_explicit_unexecuted_scenario_obligations",
+      "reason": "Owner archives exact original workflow bytes; archival does not establish runnable CI or replacement scenario proof."
+    },
+    {
+      "id": "RD07-0014",
+      "path": ".github/workflows/wp13-authority-repair.yml",
+      "identity": {
+        "mode": "100644",
+        "blob": "54892448d56e0e1c48eeafeb4b41ea7c8a9b5162"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "docs/ci/historical-workflows/wp13-authority-repair.yml"
+      ],
+      "group": "historical_workflow",
+      "proposal": "transfer_historical_workflow_and_explicit_unexecuted_scenario_obligations",
+      "reason": "Owner archives exact original workflow bytes; archival does not establish runnable CI or replacement scenario proof."
+    },
+    {
+      "id": "RD07-0015",
+      "path": ".github/workflows/wp13-native-cognitive-profile.yml",
+      "identity": {
+        "mode": "100644",
+        "blob": "18f3ebd167e34403889020d51bf7c493bae03e48"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "docs/ci/historical-workflows/wp13-native-cognitive-profile.yml"
+      ],
+      "group": "historical_workflow",
+      "proposal": "transfer_historical_workflow_and_explicit_unexecuted_scenario_obligations",
+      "reason": "Owner archives exact original workflow bytes; archival does not establish runnable CI or replacement scenario proof."
+    },
+    {
+      "id": "RD07-0016",
+      "path": ".github/workflows/wp13a-native-adaptive-learning.yml",
+      "identity": {
+        "mode": "100644",
+        "blob": "6399df163cc1d6f210c4aa6d6da1c5bcb841843b"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "docs/ci/historical-workflows/wp13a-native-adaptive-learning.yml"
+      ],
+      "group": "historical_workflow",
+      "proposal": "transfer_historical_workflow_and_explicit_unexecuted_scenario_obligations",
+      "reason": "Owner archives exact original workflow bytes; archival does not establish runnable CI or replacement scenario proof."
+    },
+    {
+      "id": "RD07-0017",
+      "path": ".github/workflows/wp14-native-acip.yml",
+      "identity": {
+        "mode": "100644",
+        "blob": "4eb0ff0f6a00138a402fbb0ac9ac0acd37f59461"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "docs/ci/historical-workflows/wp14-native-acip.yml"
+      ],
+      "group": "historical_workflow",
+      "proposal": "transfer_historical_workflow_and_explicit_unexecuted_scenario_obligations",
+      "reason": "Owner archives exact original workflow bytes; archival does not establish runnable CI or replacement scenario proof."
+    },
+    {
+      "id": "RD07-0018",
+      "path": ".github/workflows/wp14-production-acip-repair.yml",
+      "identity": {
+        "mode": "100644",
+        "blob": "1ed0bbca257e34db7fc80d60b21ed1ed5cfb2687"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "docs/ci/historical-workflows/wp14-production-acip-repair.yml"
+      ],
+      "group": "historical_workflow",
+      "proposal": "transfer_historical_workflow_and_explicit_unexecuted_scenario_obligations",
+      "reason": "Owner archives exact original workflow bytes; archival does not establish runnable CI or replacement scenario proof."
+    },
+    {
+      "id": "RD07-0019",
+      "path": ".github/workflows/wp14-retained-native-proof.yml",
+      "identity": {
+        "mode": "100644",
+        "blob": "d3be5c5464b91ab460abdbb03eab0110ddf90706"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "docs/ci/historical-workflows/wp14-retained-native-proof.yml"
+      ],
+      "group": "historical_workflow",
+      "proposal": "transfer_historical_workflow_and_explicit_unexecuted_scenario_obligations",
+      "reason": "Owner archives exact original workflow bytes; archival does not establish runnable CI or replacement scenario proof."
+    },
+    {
+      "id": "RD07-0020",
+      "path": ".github/workflows/wp15-native-birth-witness.yml",
+      "identity": {
+        "mode": "100644",
+        "blob": "2cdc2f60e68f3cecf3826cb1e2fe8fab194299ac"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "docs/ci/historical-workflows/wp15-native-birth-witness.yml"
+      ],
+      "group": "historical_workflow",
+      "proposal": "transfer_historical_workflow_and_explicit_unexecuted_scenario_obligations",
+      "reason": "Owner archives exact original workflow bytes; archival does not establish runnable CI or replacement scenario proof."
+    },
+    {
+      "id": "RD07-0021",
+      "path": "CSMctl",
+      "identity": {
+        "mode": "100755",
+        "blob": "ee820de5ec70ac2302ddea0eae37347a035f17f0"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "CSMctl"
+      ],
+      "group": "other",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-0040",
+      "path": "adl-resilience/Cargo.lock",
+      "identity": {
+        "mode": "100644",
+        "blob": "95854d01a5b7438a6eb3764a95dbe8b152778495"
+      },
+      "source_status": "changed_same_path",
+      "successor_paths": [
+        "adl-resilience/Cargo.lock"
+      ],
+      "group": "other",
+      "proposal": "accept_version_only_owner_delta_subject_to_component_qualification",
+      "reason": "Compared complete Git blobs: sole change is package version 0.92.1 to 0.93.1."
+    },
+    {
+      "id": "RD07-0041",
+      "path": "adl-resilience/Cargo.toml",
+      "identity": {
+        "mode": "100644",
+        "blob": "43dee0bfe7ae17c7008897d5cdfe793aa69b4d85"
+      },
+      "source_status": "changed_same_path",
+      "successor_paths": [
+        "adl-resilience/Cargo.toml"
+      ],
+      "group": "other",
+      "proposal": "accept_version_only_owner_delta_subject_to_component_qualification",
+      "reason": "Compared complete Git blobs: sole change is package version 0.92.1 to 0.93.1."
+    },
+    {
+      "id": "RD07-0042",
+      "path": "adl-resilience/src/lib.rs",
+      "identity": {
+        "mode": "100644",
+        "blob": "5f200c14c75c8079844bdacac6e6ce182c44a912"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "adl-resilience/src/lib.rs"
+      ],
+      "group": "other",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-0325",
+      "path": "adl/README.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "cf0dbdfe2310cb2605e838fd7175806d01f10d9a"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "adl/README.md"
+      ],
+      "group": "other",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-0326",
+      "path": "adl/config/mechanical_coverage_fallout.v1.json",
+      "identity": {
+        "mode": "100644",
+        "blob": "52a81fb7a3612842e40cfae7bfb7aa119b806ef7"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "adl/config/mechanical_coverage_fallout.v1.json"
+      ],
+      "group": "other",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-0391",
+      "path": "adl/identity/identity_profile.v1.json",
+      "identity": {
+        "mode": "100644",
+        "blob": "0a57539dff567fbfd3f2cbd1ae6dae37d13e1916"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "adl/identity/identity_profile.v1.json"
+      ],
+      "group": "other",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-0392",
+      "path": "adl/schemas/csm_operator_command_packet.v1.schema.json",
+      "identity": {
+        "mode": "100644",
+        "blob": "9829b1f8d2bc422f305a43d9c687add58ccdbd61"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "adl/schemas/csm_operator_command_packet.v1.schema.json"
+      ],
+      "group": "other",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-0393",
+      "path": "adl/schemas/csm_visibility_packet.v1.schema.json",
+      "identity": {
+        "mode": "100644",
+        "blob": "42e9badfe545425e48571aeaf9a78e4874e09a07"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "adl/schemas/csm_visibility_packet.v1.schema.json"
+      ],
+      "group": "other",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3112",
+      "path": "demos/aee-recovery/README.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "d5ce6fec4dee0455787471ebc0b476d3235ec843"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/aee-recovery/README.md"
+      ],
+      "group": "other",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3113",
+      "path": "demos/aee-recovery/retry-budget.overlay.json",
+      "identity": {
+        "mode": "100644",
+        "blob": "12651540a9dd37f1946bc787a7e9971a7888ebd3"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/aee-recovery/retry-budget.overlay.json"
+      ],
+      "group": "other",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3114",
+      "path": "demos/fixtures/ccc_v0/clean_framed_docs_task.json",
+      "identity": {
+        "mode": "100644",
+        "blob": "e7f6ac338104a60d0ef5c08d8726319664ca34cd"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/fixtures/ccc_v0/clean_framed_docs_task.json"
+      ],
+      "group": "fixtures",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3115",
+      "path": "demos/fixtures/ccc_v0/search_heavy_implementation_task.json",
+      "identity": {
+        "mode": "100644",
+        "blob": "c58cc40bf5360e51ed07b0bdc152ea8df9df20a9"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/fixtures/ccc_v0/search_heavy_implementation_task.json"
+      ],
+      "group": "fixtures",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3116",
+      "path": "demos/fixtures/ccc_v0/validation_churn_task.json",
+      "identity": {
+        "mode": "100644",
+        "blob": "4a199144a88daad16a29c3db011cb678d40fc243"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/fixtures/ccc_v0/validation_churn_task.json"
+      ],
+      "group": "fixtures",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3117",
+      "path": "demos/fixtures/ccc_v0_invalid/missing_required_counter.json",
+      "identity": {
+        "mode": "100644",
+        "blob": "c570c2b34d083094dd4c26bac547a0dd972e6fd8"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/fixtures/ccc_v0_invalid/missing_required_counter.json"
+      ],
+      "group": "fixtures",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3122",
+      "path": "demos/fixtures/contract_market/acceptance_transition.json",
+      "identity": {
+        "mode": "100644",
+        "blob": "cfeab14b3087deee3ae70da7db5aa5410d08d52d"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/fixtures/contract_market/acceptance_transition.json"
+      ],
+      "group": "fixtures",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3123",
+      "path": "demos/fixtures/contract_market/award_transition.json",
+      "identity": {
+        "mode": "100644",
+        "blob": "a72cafea9f3c50e4f55f24879bc052bbfff80796"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/fixtures/contract_market/award_transition.json"
+      ],
+      "group": "fixtures",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3124",
+      "path": "demos/fixtures/contract_market/bid_alpha.json",
+      "identity": {
+        "mode": "100644",
+        "blob": "349a7b4dfdc335c2bea8878edbc675905529b99e"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/fixtures/contract_market/bid_alpha.json"
+      ],
+      "group": "fixtures",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3125",
+      "path": "demos/fixtures/contract_market/bid_beta.json",
+      "identity": {
+        "mode": "100644",
+        "blob": "127c661a55b0aa25b5f69a8f3987a631edbbf872"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/fixtures/contract_market/bid_beta.json"
+      ],
+      "group": "fixtures",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3126",
+      "path": "demos/fixtures/contract_market/completion_event.json",
+      "identity": {
+        "mode": "100644",
+        "blob": "e7f074b701cf948a9510a8f21a39f2dd9f273bca"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/fixtures/contract_market/completion_event.json"
+      ],
+      "group": "fixtures",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3127",
+      "path": "demos/fixtures/contract_market/delegated_output.json",
+      "identity": {
+        "mode": "100644",
+        "blob": "9c6584ba0256cb99bfae5066daa0e9abef786c7f"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/fixtures/contract_market/delegated_output.json"
+      ],
+      "group": "fixtures",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3128",
+      "path": "demos/fixtures/contract_market/demo_manifest.json",
+      "identity": {
+        "mode": "100644",
+        "blob": "d97647554fd0f0f634ad73963b46610f1333998f"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/fixtures/contract_market/demo_manifest.json"
+      ],
+      "group": "fixtures",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3129",
+      "path": "demos/fixtures/contract_market/evaluation.json",
+      "identity": {
+        "mode": "100644",
+        "blob": "3913707973eaa93103394d16a6d3754ef4649af6"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/fixtures/contract_market/evaluation.json"
+      ],
+      "group": "fixtures",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3130",
+      "path": "demos/fixtures/contract_market/fixture_definition.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "e25b4e93a15edbb50a6c444d097500bce23c7d47"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/fixtures/contract_market/fixture_definition.md"
+      ],
+      "group": "fixtures",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3131",
+      "path": "demos/fixtures/contract_market/packet_manifest.json",
+      "identity": {
+        "mode": "100644",
+        "blob": "a8055610697290c437ddc2574349ea6f11cea84a"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/fixtures/contract_market/packet_manifest.json"
+      ],
+      "group": "fixtures",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3132",
+      "path": "demos/fixtures/contract_market/parent_contract.json",
+      "identity": {
+        "mode": "100644",
+        "blob": "0910933c9158fd6d7ef77a02c0c1a2b4e7430740"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/fixtures/contract_market/parent_contract.json"
+      ],
+      "group": "fixtures",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3133",
+      "path": "demos/fixtures/contract_market/parent_integration_output.json",
+      "identity": {
+        "mode": "100644",
+        "blob": "71e0c4c9180dd79cf14fe2b11466554833bb9c44"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/fixtures/contract_market/parent_integration_output.json"
+      ],
+      "group": "fixtures",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3134",
+      "path": "demos/fixtures/contract_market/review_summary_example.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "ee576ffd6a8990fb83961890f8eb19720fa76240"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/fixtures/contract_market/review_summary_example.md"
+      ],
+      "group": "fixtures",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3135",
+      "path": "demos/fixtures/contract_market/review_summary_schema.json",
+      "identity": {
+        "mode": "100644",
+        "blob": "688bfc9c0d72161b55fb5b529b0fa8548f8a5f48"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/fixtures/contract_market/review_summary_schema.json"
+      ],
+      "group": "fixtures",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3136",
+      "path": "demos/fixtures/contract_market/review_summary_seed.json",
+      "identity": {
+        "mode": "100644",
+        "blob": "579bbc343cf7aef3281e2e599adffdd9b0d751b8"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/fixtures/contract_market/review_summary_seed.json"
+      ],
+      "group": "fixtures",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3137",
+      "path": "demos/fixtures/contract_market/subcontract.json",
+      "identity": {
+        "mode": "100644",
+        "blob": "a7143c7eec628db9ef7f4d9c9357a02ce24bfb9f"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/fixtures/contract_market/subcontract.json"
+      ],
+      "group": "fixtures",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3138",
+      "path": "demos/fixtures/contract_market/tool_requirement_fixture.json",
+      "identity": {
+        "mode": "100644",
+        "blob": "336e9c22d2dc42f01950b83f21b9899a63b22f3f"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/fixtures/contract_market/tool_requirement_fixture.json"
+      ],
+      "group": "fixtures",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3139",
+      "path": "demos/fixtures/contract_market/trace_bundle.json",
+      "identity": {
+        "mode": "100644",
+        "blob": "c80c607cc24e79516003b3c87b6414818a80d8e1"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/fixtures/contract_market/trace_bundle.json"
+      ],
+      "group": "fixtures",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3140",
+      "path": "demos/fixtures/contract_market/validation_protocol.py",
+      "identity": {
+        "mode": "100644",
+        "blob": "dbfbdc1137646f6175f30a57b99c6556b49f0c9b"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/fixtures/contract_market/validation_protocol.py"
+      ],
+      "group": "fixtures",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3141",
+      "path": "demos/fixtures/contract_market_invalid/fixture_definition.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "99270328c801736caf75f9a300b40de2bdd71e97"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/fixtures/contract_market_invalid/fixture_definition.md"
+      ],
+      "group": "fixtures",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3142",
+      "path": "demos/fixtures/contract_market_invalid/invalid_bid_tool_grant.json",
+      "identity": {
+        "mode": "100644",
+        "blob": "b6a4accf80650d708e8798cfbd8c49ee94d8f652"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/fixtures/contract_market_invalid/invalid_bid_tool_grant.json"
+      ],
+      "group": "fixtures",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3143",
+      "path": "demos/fixtures/contract_market_invalid/invalid_completion_missing_artifacts.json",
+      "identity": {
+        "mode": "100644",
+        "blob": "cabc94e27e1d10077a9d9f349bd753203d0b652b"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/fixtures/contract_market_invalid/invalid_completion_missing_artifacts.json"
+      ],
+      "group": "fixtures",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3144",
+      "path": "demos/fixtures/contract_market_invalid/invalid_packet_manifest.json",
+      "identity": {
+        "mode": "100644",
+        "blob": "3fada0d7f79038a000bf49ab903441add20f087c"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/fixtures/contract_market_invalid/invalid_packet_manifest.json"
+      ],
+      "group": "fixtures",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3145",
+      "path": "demos/fixtures/csm_observatory/proto-csm-01-operator-command-packets.json",
+      "identity": {
+        "mode": "100644",
+        "blob": "d42355b4f8cd27a7aaae5b46c59ec411202e866f"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/fixtures/csm_observatory/proto-csm-01-operator-command-packets.json"
+      ],
+      "group": "fixtures",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3146",
+      "path": "demos/fixtures/csm_observatory/proto-csm-01-operator-event.json",
+      "identity": {
+        "mode": "100644",
+        "blob": "96465b3ee96a5e76ea8a0836423d6e3e4d89e9a8"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/fixtures/csm_observatory/proto-csm-01-operator-event.json"
+      ],
+      "group": "fixtures",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3147",
+      "path": "demos/fixtures/csm_observatory/proto-csm-01-visibility-packet.json",
+      "identity": {
+        "mode": "100644",
+        "blob": "247cc041b1694b9574a0b4d3f0a208200c2fe36d"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/fixtures/csm_observatory/proto-csm-01-visibility-packet.json"
+      ],
+      "group": "fixtures",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3148",
+      "path": "demos/fixtures/csm_observatory/proto-csm-02-governed-observatory-packet.json",
+      "identity": {
+        "mode": "100644",
+        "blob": "809fddb58132c3f0a38a1ae0556145a47b129b8c"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/fixtures/csm_observatory/proto-csm-02-governed-observatory-packet.json"
+      ],
+      "group": "fixtures",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3149",
+      "path": "demos/fixtures/csm_run/proto-csm-01-run-packet.json",
+      "identity": {
+        "mode": "100644",
+        "blob": "a89ad2d4b542ab1862b480bb5391a996cae49553"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/fixtures/csm_run/proto-csm-01-run-packet.json"
+      ],
+      "group": "fixtures",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3150",
+      "path": "demos/fixtures/five_agent_hey_jude/mvave_chocolate_rehearsal_events.json",
+      "identity": {
+        "mode": "100644",
+        "blob": "39741a2b4fb9efdb306568182d7f51abbd5d717e"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/fixtures/five_agent_hey_jude/mvave_chocolate_rehearsal_events.json"
+      ],
+      "group": "fixtures",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3151",
+      "path": "demos/fixtures/gemini_in_the_loop/invalid_response.json",
+      "identity": {
+        "mode": "100644",
+        "blob": "52b23ca9d0e041f396c66c2d54b3a114d0e0a9fc"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/fixtures/gemini_in_the_loop/invalid_response.json"
+      ],
+      "group": "fixtures",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3152",
+      "path": "demos/fixtures/gemini_in_the_loop/review_packet.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "beef42f6d7029fb3162ac189efa3d0bb45b87feb"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/fixtures/gemini_in_the_loop/review_packet.md"
+      ],
+      "group": "fixtures",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3153",
+      "path": "demos/fixtures/gemini_in_the_loop/valid_response.json",
+      "identity": {
+        "mode": "100644",
+        "blob": "820022a23eb22d96697bfbc0d07ba5ecf3bcf2c6"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/fixtures/gemini_in_the_loop/valid_response.json"
+      ],
+      "group": "fixtures",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3156",
+      "path": "demos/fixtures/long_lived_stock_league/market_fixture.json",
+      "identity": {
+        "mode": "100644",
+        "blob": "2b8933d296299525941ee13219bb0ceed03766ea"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/fixtures/long_lived_stock_league/market_fixture.json"
+      ],
+      "group": "fixtures",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3157",
+      "path": "demos/fixtures/long_lived_stock_league/model_roster_fixture.json",
+      "identity": {
+        "mode": "100644",
+        "blob": "4371afdefa64e13a5875d0882cff70d556aa3c72"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/fixtures/long_lived_stock_league/model_roster_fixture.json"
+      ],
+      "group": "fixtures",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3158",
+      "path": "demos/fixtures/medium_article_writing/v0-89-medium-article-brief.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "7dac079d4aecd3ccc65b4d7b343f910c6775571e"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/fixtures/medium_article_writing/v0-89-medium-article-brief.md"
+      ],
+      "group": "fixtures",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3159",
+      "path": "demos/fixtures/paper_sonata/citations_seed.json",
+      "identity": {
+        "mode": "100644",
+        "blob": "fea6198804dd3b85fdc72f1b5e5ce1606d0946dc"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/fixtures/paper_sonata/citations_seed.json"
+      ],
+      "group": "fixtures",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3160",
+      "path": "demos/fixtures/paper_sonata/experiment_results.json",
+      "identity": {
+        "mode": "100644",
+        "blob": "e0f1e45e7261c6159ca8965ae614177238c500ae"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/fixtures/paper_sonata/experiment_results.json"
+      ],
+      "group": "fixtures",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3161",
+      "path": "demos/fixtures/paper_sonata/idea_summary.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "c9b3a96490ab538f75e857bd69baa7d57521857e"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/fixtures/paper_sonata/idea_summary.md"
+      ],
+      "group": "fixtures",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3162",
+      "path": "demos/fixtures/paper_sonata/lab_notes.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "457d1912b26c11613bb2cb95ecba8f2b3c8e2baa"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/fixtures/paper_sonata/lab_notes.md"
+      ],
+      "group": "fixtures",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3163",
+      "path": "demos/fixtures/paper_sonata/paper_constraints.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "81842b2c1416aaa1c2a1c15365a186dd1f551531"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/fixtures/paper_sonata/paper_constraints.md"
+      ],
+      "group": "fixtures",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3164",
+      "path": "demos/fixtures/paper_sonata/target_venue.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "f92ea28d1f05a3ac08e90d4b1d7577ef18a1f144"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/fixtures/paper_sonata/target_venue.md"
+      ],
+      "group": "fixtures",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3165",
+      "path": "demos/fixtures/stock_league/season_001_fixture.json",
+      "identity": {
+        "mode": "100644",
+        "blob": "f80bb763180ea26e1320f91961596a0d79c8b728"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/fixtures/stock_league/season_001_fixture.json"
+      ],
+      "group": "fixtures",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3166",
+      "path": "demos/html-observatory/README.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "71060962401f08038af33c5145c49ef0251732b7"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/html-observatory/README.md"
+      ],
+      "group": "observatory",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3167",
+      "path": "demos/html-observatory/app.js",
+      "identity": {
+        "mode": "100644",
+        "blob": "ef20c83383ec526c90771384f56d6f71a374f6fe"
+      },
+      "source_status": "changed_same_path",
+      "successor_paths": [
+        "demos/html-observatory/app.js"
+      ],
+      "group": "observatory",
+      "proposal": "hold_for_observatory_behavior_reconciliation",
+      "reason": "Successor adds journal work but removes original room selection/mobile controls and incident tests; cannot treat as equivalent replacement."
+    },
+    {
+      "id": "RD07-3168",
+      "path": "demos/html-observatory/index.html",
+      "identity": {
+        "mode": "100644",
+        "blob": "0a9b71c62aae369fec43401b5af668b0612f2359"
+      },
+      "source_status": "changed_same_path",
+      "successor_paths": [
+        "demos/html-observatory/index.html"
+      ],
+      "group": "observatory",
+      "proposal": "hold_for_observatory_behavior_reconciliation",
+      "reason": "Successor adds journal work but removes original room selection/mobile controls and incident tests; cannot treat as equivalent replacement."
+    },
+    {
+      "id": "RD07-3169",
+      "path": "demos/html-observatory/runtime-v3.config.json",
+      "identity": {
+        "mode": "100644",
+        "blob": "c79c748760edd2c91cece8bbbe05d25ca25f4b6d"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/html-observatory/runtime-v3.config.json"
+      ],
+      "group": "observatory",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3170",
+      "path": "demos/html-observatory/styles.css",
+      "identity": {
+        "mode": "100644",
+        "blob": "da6ed61260135c92013dd570f9da8f4c3a107235"
+      },
+      "source_status": "changed_same_path",
+      "successor_paths": [
+        "demos/html-observatory/styles.css"
+      ],
+      "group": "observatory",
+      "proposal": "hold_for_observatory_behavior_reconciliation",
+      "reason": "Successor adds journal work but removes original room selection/mobile controls and incident tests; cannot treat as equivalent replacement."
+    },
+    {
+      "id": "RD07-3171",
+      "path": "demos/html-observatory/tests/accessibility_responsive.test.mjs",
+      "identity": {
+        "mode": "100644",
+        "blob": "9af6fedb41769b856b8844fcf91b5c527260d3bc"
+      },
+      "source_status": "changed_same_path",
+      "successor_paths": [
+        "demos/html-observatory/tests/accessibility_responsive.test.mjs"
+      ],
+      "group": "observatory",
+      "proposal": "hold_for_observatory_behavior_reconciliation",
+      "reason": "Successor adds journal work but removes original room selection/mobile controls and incident tests; cannot treat as equivalent replacement."
+    },
+    {
+      "id": "RD07-3172",
+      "path": "demos/html-observatory/tests/agent_continuity.test.mjs",
+      "identity": {
+        "mode": "100644",
+        "blob": "349d279e7fd2ee7c711c549872007cad413f0a78"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/html-observatory/tests/agent_continuity.test.mjs"
+      ],
+      "group": "observatory",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3173",
+      "path": "demos/html-observatory/tests/agent_orientation.test.mjs",
+      "identity": {
+        "mode": "100644",
+        "blob": "9710ec9bbbbfbc18e5fd1e9751e82f9f9a6776e3"
+      },
+      "source_status": "changed_same_path",
+      "successor_paths": [
+        "demos/html-observatory/tests/agent_orientation.test.mjs"
+      ],
+      "group": "observatory",
+      "proposal": "hold_for_observatory_behavior_reconciliation",
+      "reason": "Successor adds journal work but removes original room selection/mobile controls and incident tests; cannot treat as equivalent replacement."
+    },
+    {
+      "id": "RD07-3174",
+      "path": "demos/html-observatory/tests/agent_to_agent_activity.test.mjs",
+      "identity": {
+        "mode": "100644",
+        "blob": "92f03c5995aa7924fec2569121902bfb4964439e"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/html-observatory/tests/agent_to_agent_activity.test.mjs"
+      ],
+      "group": "observatory",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3175",
+      "path": "demos/html-observatory/tests/conversation_sessions.test.mjs",
+      "identity": {
+        "mode": "100644",
+        "blob": "fa5e7db3e9534bed0b0d8f4b6001c2e95422c685"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/html-observatory/tests/conversation_sessions.test.mjs"
+      ],
+      "group": "observatory",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3176",
+      "path": "demos/html-observatory/tests/large_polis_performance_recovery.test.mjs",
+      "identity": {
+        "mode": "100644",
+        "blob": "47da29641863836a4a1d1c1d624486e073f478ed"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/html-observatory/tests/large_polis_performance_recovery.test.mjs"
+      ],
+      "group": "observatory",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3178",
+      "path": "demos/html-observatory/tests/live_only.test.mjs",
+      "identity": {
+        "mode": "100644",
+        "blob": "40550367b483a4f0a7e423c0b2a916b770b114ea"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/html-observatory/tests/live_only.test.mjs"
+      ],
+      "group": "observatory",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3179",
+      "path": "demos/html-observatory/tests/operator_attention_inbox.test.mjs",
+      "identity": {
+        "mode": "100644",
+        "blob": "d3c90d7ceb8230641e5a76fdb50be51ef4523441"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/html-observatory/tests/operator_attention_inbox.test.mjs"
+      ],
+      "group": "observatory",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3180",
+      "path": "demos/html-observatory/tests/polis_identity.test.mjs",
+      "identity": {
+        "mode": "100644",
+        "blob": "9c63cfc5fa7a12c88f62ebd690a9293839750590"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/html-observatory/tests/polis_identity.test.mjs"
+      ],
+      "group": "observatory",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3181",
+      "path": "demos/html-observatory/tests/security_privacy_adversarial.test.mjs",
+      "identity": {
+        "mode": "100644",
+        "blob": "b9496d7b4b254e59a1eabdc3b9803cdea2892548"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/html-observatory/tests/security_privacy_adversarial.test.mjs"
+      ],
+      "group": "observatory",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3182",
+      "path": "demos/html-observatory/tests/system_clock_cache.test.mjs",
+      "identity": {
+        "mode": "100644",
+        "blob": "d81c3bc311506ba632e5074f5796e57b7740c712"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/html-observatory/tests/system_clock_cache.test.mjs"
+      ],
+      "group": "observatory",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3183",
+      "path": "demos/v0.8/godel_failure_hypothesis_experiment.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "f130bb44ddc1a153fecc9042ccaea76d97838e8e"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.8/godel_failure_hypothesis_experiment.md"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3184",
+      "path": "demos/v0.85/adaptive_godel_loop_demo.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "87279fb4d4388e7fb736091ab1de0911bb8f166d"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.85/adaptive_godel_loop_demo.md"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3185",
+      "path": "demos/v0.85/affect_engine_demo.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "1d778e0a8a7a824d522a5217e9aeb1c5099f59f0"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.85/affect_engine_demo.md"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3186",
+      "path": "demos/v0.85/affect_godel_vertical_slice_demo.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "8a46470bc35d2669b3659b82be2a50915100b41b"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.85/affect_godel_vertical_slice_demo.md"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3187",
+      "path": "demos/v0.85/cross_workflow_learning_demo.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "4928962959a9185b3c9506a04dcd1357b4b96a21"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.85/cross_workflow_learning_demo.md"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3188",
+      "path": "demos/v0.85/experiment_prioritization_demo.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "c1f00af0727bdd7698ec3205cbbff371ee6ef75c"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.85/experiment_prioritization_demo.md"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3189",
+      "path": "demos/v0.85/godel_hypothesis_engine_demo.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "042d339d532198125e24a6dcc66bb81606ce7964"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.85/godel_hypothesis_engine_demo.md"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3191",
+      "path": "demos/v0.85/promotion_eval_loop_demo.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "5188fd1c51cd457ad0fcfcb7253313076d74693b"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.85/promotion_eval_loop_demo.md"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3192",
+      "path": "demos/v0.85/reasoning_graph_affect_demo.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "2ee4e5b54475cbbaa57e593f1b5cffc8bd97bca0"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.85/reasoning_graph_affect_demo.md"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3193",
+      "path": "demos/v0.85/steering_queue_checkpoint_demo.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "d7afa6e00f447a17d11214da4447d60241432c9d"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.85/steering_queue_checkpoint_demo.md"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3194",
+      "path": "demos/v0.85/steering_queue_checkpoint_patch.json",
+      "identity": {
+        "mode": "100644",
+        "blob": "8760180271af30415307efc432716371adffe6fb"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.85/steering_queue_checkpoint_patch.json"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3195",
+      "path": "demos/v0.87.1/claude_chatgpt_multi_agent_discussion_demo.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "0ebbf4fc2ffd56fda674ad7f5f99067a4894b025"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.87.1/claude_chatgpt_multi_agent_discussion_demo.md"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3197",
+      "path": "demos/v0.87.1/real_chatgpt_claude_multi_agent_discussion_demo.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "76a68959d96e570d55109c578f5322e25a1994bc"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.87.1/real_chatgpt_claude_multi_agent_discussion_demo.md"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3198",
+      "path": "demos/v0.88/real_chatgpt_claude_multi_agent_discussion_demo.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "e95cbd3459ade84d5fffea574a997944b26703c8"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.88/real_chatgpt_claude_multi_agent_discussion_demo.md"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3199",
+      "path": "demos/v0.89.1/arxiv_manuscript_workflow_demo.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "81da210796445f6e473455186c1f996d9e5645b8"
+      },
+      "source_status": "changed_same_path",
+      "successor_paths": [
+        "demos/v0.89.1/arxiv_manuscript_workflow_demo.md"
+      ],
+      "group": "versioned_demo",
+      "proposal": "transfer_updated_demo_instructions_with_existing_manual_obligation",
+      "reason": "Instructions explicitly select owner binaries or pinned source inputs and narrow claims; installed/demo execution remains separate."
+    },
+    {
+      "id": "RD07-3200",
+      "path": "demos/v0.89.1/deep_agents_comparative_wave_follow_on_demo.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "7c8866a66e483ec6e38852f3353be9cbe5a3d5d3"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.89.1/deep_agents_comparative_wave_follow_on_demo.md"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3201",
+      "path": "demos/v0.89.1/five_agent_hey_jude_midi_demo.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "3dc009673dde9b400ffd5d956f2bc5d21b872b62"
+      },
+      "source_status": "changed_same_path",
+      "successor_paths": [
+        "demos/v0.89.1/five_agent_hey_jude_midi_demo.md"
+      ],
+      "group": "versioned_demo",
+      "proposal": "transfer_updated_demo_instructions_with_existing_manual_obligation",
+      "reason": "Instructions explicitly select owner binaries or pinned source inputs and narrow claims; installed/demo execution remains separate."
+    },
+    {
+      "id": "RD07-3202",
+      "path": "demos/v0.89.1/gemini_provider_harmony_roundtable_demo.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "2d59ecd1840fa89f9a2f752d594a571a903158ca"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.89.1/gemini_provider_harmony_roundtable_demo.md"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3203",
+      "path": "demos/v0.89.1/long_lived_stock_league_demo.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "86c3bc51812bc1d23492bc776d485a0a57578636"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.89.1/long_lived_stock_league_demo.md"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3204",
+      "path": "demos/v0.89/deep_agents_comparative_wave_demo.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "0d25dc10b6970f193ca8bba66757060ebdce8599"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.89/deep_agents_comparative_wave_demo.md"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3205",
+      "path": "demos/v0.89/gemini_in_the_loop_demo.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "ba2cf6d42d861d910b5861437ff1e86a11b20b1d"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.89/gemini_in_the_loop_demo.md"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3206",
+      "path": "demos/v0.89/gemini_provider_harmony_and_economics_demo.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "250234571194535fce8ad63fc32c5b43f3abb157"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.89/gemini_provider_harmony_and_economics_demo.md"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3208",
+      "path": "demos/v0.89/medium_article_writing_demo.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "2444759587312a9ec5be1eebcecb39176ae9353c"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.89/medium_article_writing_demo.md"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3210",
+      "path": "demos/v0.89/paper_sonata_demo_refresh.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "a946e08594845c2dbacbd4eaf7114d774b5bd496"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.89/paper_sonata_demo_refresh.md"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3211",
+      "path": "demos/v0.90.1/csm_observatory_cli_demo.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "0633ff3be23109662057b993af9e4efab082975d"
+      },
+      "source_status": "changed_same_path",
+      "successor_paths": [
+        "demos/v0.90.1/csm_observatory_cli_demo.md"
+      ],
+      "group": "versioned_demo",
+      "proposal": "transfer_updated_demo_instructions_with_existing_manual_obligation",
+      "reason": "Instructions explicitly select owner binaries or pinned source inputs and narrow claims; installed/demo execution remains separate."
+    },
+    {
+      "id": "RD07-3212",
+      "path": "demos/v0.90.1/csm_observatory_operator_report.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "b2af416228c652af3f9ca15887f3cd085611ddd1"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.90.1/csm_observatory_operator_report.md"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3213",
+      "path": "demos/v0.90.1/csm_observatory_static_console.css",
+      "identity": {
+        "mode": "100644",
+        "blob": "e38efa245579703f613f30a5cc42bfe316a16c90"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.90.1/csm_observatory_static_console.css"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3214",
+      "path": "demos/v0.90.1/csm_observatory_static_console.html",
+      "identity": {
+        "mode": "100644",
+        "blob": "aa6e66bcf14650414922831366b53e98920230b2"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.90.1/csm_observatory_static_console.html"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3215",
+      "path": "demos/v0.90.1/csm_observatory_static_console.js",
+      "identity": {
+        "mode": "100644",
+        "blob": "15497213168e5bfcc3a95ad410aa6dcf1436a694"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.90.1/csm_observatory_static_console.js"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3216",
+      "path": "demos/v0.90.1/csm_observatory_static_console.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "bc0222102de6bcd26d0b9e612fdc9bede734be1e"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.90.1/csm_observatory_static_console.md"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3217",
+      "path": "demos/v0.90.1/runtime_v2_foundation_demo.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "826067f1ec1e2abaa52551221fc407ff5c78f53e"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.90.1/runtime_v2_foundation_demo.md"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3218",
+      "path": "demos/v0.90.2/arxiv_writer_field_test_demo.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "edf0bff4b73abb4b60ea4966d99cb4f20f046c2c"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.90.2/arxiv_writer_field_test_demo.md"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3220",
+      "path": "demos/v0.90.2/paper_sonata_expansion_demo.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "20e40b1501018fe6986f39d637037c86cbf297e0"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.90.2/paper_sonata_expansion_demo.md"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3221",
+      "path": "demos/v0.90.3/ccc_v0/ccc_v0_report.json",
+      "identity": {
+        "mode": "100644",
+        "blob": "2b7b9a8e338d61a9fdeed81cd20ec9c1d7efd12f"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.90.3/ccc_v0/ccc_v0_report.json"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3222",
+      "path": "demos/v0.90.3/ccc_v0/ccc_v0_report.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "728d71e2413c3479a41da129a8feb44c6c08be52"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.90.3/ccc_v0/ccc_v0_report.md"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3223",
+      "path": "demos/v0.90.4/csm_observatory_governed_prototype.css",
+      "identity": {
+        "mode": "100644",
+        "blob": "23f7f0fc7f79b1e2f603b8a2ddc9999ad64ccbe2"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.90.4/csm_observatory_governed_prototype.css"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3224",
+      "path": "demos/v0.90.4/csm_observatory_governed_prototype.html",
+      "identity": {
+        "mode": "100644",
+        "blob": "0cea4596385afe410594c5edacfcbbc8b3ef0fdb"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.90.4/csm_observatory_governed_prototype.html"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3225",
+      "path": "demos/v0.90.4/csm_observatory_governed_prototype.js",
+      "identity": {
+        "mode": "100644",
+        "blob": "a8444da2f7aee4691b6dc2717663bb54bcf23d5c"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.90.4/csm_observatory_governed_prototype.js"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3226",
+      "path": "demos/v0.90.4/csm_observatory_governed_prototype.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "890d9d39fe690bf991546fc5532504afe99a120c"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.90.4/csm_observatory_governed_prototype.md"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3228",
+      "path": "demos/v0.90/long_lived_stock_league_demo.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "3c15d8a88b313a1e67a3ae4293b2fcd34301d8e4"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.90/long_lived_stock_league_demo.md"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3229",
+      "path": "demos/v0.90/stock_league_demo_extensions.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "d6366fb844615d4ca4f3e5b71037efab9d2d4bdd"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.90/stock_league_demo_extensions.md"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3230",
+      "path": "demos/v0.91.1/five_agent_hey_jude_audio_demo.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "b4a82dfb9cdf54ce9ea94536546a1e090f35e668"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.1/five_agent_hey_jude_audio_demo.md"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3231",
+      "path": "demos/v0.91.1/multiagent_podcast_audio_demo.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "610a31fc169d78bcde86fcbcbbc2a9b28a86e6e4"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.1/multiagent_podcast_audio_demo.md"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3232",
+      "path": "demos/v0.91.1/multiagent_podcast_episode_contract.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "70c06ad5691d5775f438698e1179c5cc590f45d6"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.1/multiagent_podcast_episode_contract.md"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3233",
+      "path": "demos/v0.91.1/multiagent_podcast_pilot_demo.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "4904d4b35fcaa1ceae3617a0d74b69906fecfecb"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.1/multiagent_podcast_pilot_demo.md"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3269",
+      "path": "demos/v0.91.6/unity-observatory/Assets/Editor.meta",
+      "identity": {
+        "mode": "100644",
+        "blob": "a13433b318027fc14d141be182e286e5ce4cc39e"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.6/unity-observatory/Assets/Editor.meta"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3270",
+      "path": "demos/v0.91.6/unity-observatory/Assets/Editor/UnityObservatoryBatchValidator.cs",
+      "identity": {
+        "mode": "100644",
+        "blob": "417fc5da3be465b5273ffb9f7960281807195494"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.6/unity-observatory/Assets/Editor/UnityObservatoryBatchValidator.cs"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3271",
+      "path": "demos/v0.91.6/unity-observatory/Assets/Editor/UnityObservatoryBatchValidator.cs.meta",
+      "identity": {
+        "mode": "100644",
+        "blob": "23f0c88cb85bf3991bf395a22e1a205bdb36ee46"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.6/unity-observatory/Assets/Editor/UnityObservatoryBatchValidator.cs.meta"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3272",
+      "path": "demos/v0.91.6/unity-observatory/Assets/Editor/UnityObservatoryCompatibilityVerifier.cs",
+      "identity": {
+        "mode": "100644",
+        "blob": "2c87d2ea48c052d7639d720524ee7928b2c66055"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.6/unity-observatory/Assets/Editor/UnityObservatoryCompatibilityVerifier.cs"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3273",
+      "path": "demos/v0.91.6/unity-observatory/Assets/Editor/UnityObservatoryCompatibilityVerifier.cs.meta",
+      "identity": {
+        "mode": "100644",
+        "blob": "6040349487bea1a3dc1419854786b475901ff5a7"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.6/unity-observatory/Assets/Editor/UnityObservatoryCompatibilityVerifier.cs.meta"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3274",
+      "path": "demos/v0.91.6/unity-observatory/Assets/Editor/UnityObservatoryFlagshipStageBuilder.cs",
+      "identity": {
+        "mode": "100644",
+        "blob": "2e3e91a62bae845e7dd60d7a5cd14e5a6383bf4d"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.6/unity-observatory/Assets/Editor/UnityObservatoryFlagshipStageBuilder.cs"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3275",
+      "path": "demos/v0.91.6/unity-observatory/Assets/Editor/UnityObservatoryFlagshipStageBuilder.cs.meta",
+      "identity": {
+        "mode": "100644",
+        "blob": "4e8724757d0241c0a9849040136a37b770b854fc"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.6/unity-observatory/Assets/Editor/UnityObservatoryFlagshipStageBuilder.cs.meta"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3276",
+      "path": "demos/v0.91.6/unity-observatory/Assets/Resources.meta",
+      "identity": {
+        "mode": "100644",
+        "blob": "fb216c9b24e8756d906721d69c9b37ae4eaaa1b7"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.6/unity-observatory/Assets/Resources.meta"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3277",
+      "path": "demos/v0.91.6/unity-observatory/Assets/Resources/ObservatoryShellRuntime.uss",
+      "identity": {
+        "mode": "100644",
+        "blob": "4fa4c92a8d2087ff3467eead046942d2bd77184e"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.6/unity-observatory/Assets/Resources/ObservatoryShellRuntime.uss"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3278",
+      "path": "demos/v0.91.6/unity-observatory/Assets/Resources/ObservatoryShellRuntime.uss.meta",
+      "identity": {
+        "mode": "100644",
+        "blob": "dfdfa0ccb9a4a78dc93616b9b48c40b52363f35c"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.6/unity-observatory/Assets/Resources/ObservatoryShellRuntime.uss.meta"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3279",
+      "path": "demos/v0.91.6/unity-observatory/Assets/Resources/UnityDefaultRuntimeTheme.tss",
+      "identity": {
+        "mode": "100644",
+        "blob": "ab006fd4abc1e6919cb66558cbba058456eb9ae7"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.6/unity-observatory/Assets/Resources/UnityDefaultRuntimeTheme.tss"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3280",
+      "path": "demos/v0.91.6/unity-observatory/Assets/Resources/UnityDefaultRuntimeTheme.tss.meta",
+      "identity": {
+        "mode": "100644",
+        "blob": "fb5d98555df48cb05cc8b04a39343fb575131bc4"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.6/unity-observatory/Assets/Resources/UnityDefaultRuntimeTheme.tss.meta"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3281",
+      "path": "demos/v0.91.6/unity-observatory/Assets/Resources/observatory_contract.json",
+      "identity": {
+        "mode": "100644",
+        "blob": "36920948e2655ece47fdfb2de6c720ef377ca9a9"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.6/unity-observatory/Assets/Resources/observatory_contract.json"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3282",
+      "path": "demos/v0.91.6/unity-observatory/Assets/Resources/observatory_contract.json.meta",
+      "identity": {
+        "mode": "100644",
+        "blob": "ecbac1b4023e11a361cff9a3242c9693d3b1515f"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.6/unity-observatory/Assets/Resources/observatory_contract.json.meta"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3283",
+      "path": "demos/v0.91.6/unity-observatory/Assets/Scenes.meta",
+      "identity": {
+        "mode": "100644",
+        "blob": "8acdbbffabecd763402cc0ee3467c0890d7b0648"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.6/unity-observatory/Assets/Scenes.meta"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3284",
+      "path": "demos/v0.91.6/unity-observatory/Assets/Scenes/FlagshipObservatoryStage.unity",
+      "identity": {
+        "mode": "100644",
+        "blob": "6ddeb2e18505e1e9af8b2ac09d1a18123d55bad8"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.6/unity-observatory/Assets/Scenes/FlagshipObservatoryStage.unity"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3285",
+      "path": "demos/v0.91.6/unity-observatory/Assets/Scenes/FlagshipObservatoryStage.unity.meta",
+      "identity": {
+        "mode": "100644",
+        "blob": "d44b74c40f90f06ea729f339187b2ce2e94acc4c"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.6/unity-observatory/Assets/Scenes/FlagshipObservatoryStage.unity.meta"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3286",
+      "path": "demos/v0.91.6/unity-observatory/Assets/Scenes/UnityObservatory.unity",
+      "identity": {
+        "mode": "100644",
+        "blob": "a02affec004acd40239a24345ceb295db747b407"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.6/unity-observatory/Assets/Scenes/UnityObservatory.unity"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3287",
+      "path": "demos/v0.91.6/unity-observatory/Assets/Scenes/UnityObservatory.unity.meta",
+      "identity": {
+        "mode": "100644",
+        "blob": "e68bd93f3a5d091819cbd25b8d46b83b04b5ff6b"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.6/unity-observatory/Assets/Scenes/UnityObservatory.unity.meta"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3288",
+      "path": "demos/v0.91.6/unity-observatory/Assets/Scripts.meta",
+      "identity": {
+        "mode": "100644",
+        "blob": "aea1beb9ac1d5df7b8cb3df2eeb6a492b3158bfc"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.6/unity-observatory/Assets/Scripts.meta"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3289",
+      "path": "demos/v0.91.6/unity-observatory/Assets/Scripts/UnityObservatoryBootstrap.cs",
+      "identity": {
+        "mode": "100644",
+        "blob": "d10f3c83f232cffc25be20e7624ce089ef8b21d9"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.6/unity-observatory/Assets/Scripts/UnityObservatoryBootstrap.cs"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3290",
+      "path": "demos/v0.91.6/unity-observatory/Assets/Scripts/UnityObservatoryBootstrap.cs.meta",
+      "identity": {
+        "mode": "100644",
+        "blob": "a37a3d53325fbc57593c036ab01fc51908f282c8"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.6/unity-observatory/Assets/Scripts/UnityObservatoryBootstrap.cs.meta"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3291",
+      "path": "demos/v0.91.6/unity-observatory/Assets/Scripts/UnityObservatoryShellController.cs",
+      "identity": {
+        "mode": "100644",
+        "blob": "515ce438f2c514e59bc47e553fd1ca5a1834a2bd"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.6/unity-observatory/Assets/Scripts/UnityObservatoryShellController.cs"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3292",
+      "path": "demos/v0.91.6/unity-observatory/Assets/Scripts/UnityObservatoryShellController.cs.meta",
+      "identity": {
+        "mode": "100644",
+        "blob": "194d34fb1ace61729bab37eba35a2ec1157b1a30"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.6/unity-observatory/Assets/Scripts/UnityObservatoryShellController.cs.meta"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3293",
+      "path": "demos/v0.91.6/unity-observatory/Assets/UI.meta",
+      "identity": {
+        "mode": "100644",
+        "blob": "f45676904b0d377b0c6506f299368bec837ab5b0"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.6/unity-observatory/Assets/UI.meta"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3294",
+      "path": "demos/v0.91.6/unity-observatory/Assets/UI/ObservatoryShell.uss",
+      "identity": {
+        "mode": "100644",
+        "blob": "409374355e9089b8abe98c1c3d993d9bcdb4db80"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.6/unity-observatory/Assets/UI/ObservatoryShell.uss"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3295",
+      "path": "demos/v0.91.6/unity-observatory/Assets/UI/ObservatoryShell.uss.meta",
+      "identity": {
+        "mode": "100644",
+        "blob": "d04e045dda2c22e51b12fc6b483a00a4a04815c7"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.6/unity-observatory/Assets/UI/ObservatoryShell.uss.meta"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3296",
+      "path": "demos/v0.91.6/unity-observatory/Assets/UI/ObservatoryShell.uxml",
+      "identity": {
+        "mode": "100644",
+        "blob": "bf16e09a7bd6366640ce9e04f082136767dd8b9a"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.6/unity-observatory/Assets/UI/ObservatoryShell.uxml"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3297",
+      "path": "demos/v0.91.6/unity-observatory/Assets/UI/ObservatoryShell.uxml.meta",
+      "identity": {
+        "mode": "100644",
+        "blob": "bc4c3b82c0dffebdf20f019e44bdbc810be886e4"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.6/unity-observatory/Assets/UI/ObservatoryShell.uxml.meta"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3298",
+      "path": "demos/v0.91.6/unity-observatory/PROOF_PACKET.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "ef1882516dd23015a02d7510e182e31c527b02ef"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.6/unity-observatory/PROOF_PACKET.md"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3299",
+      "path": "demos/v0.91.6/unity-observatory/Packages/manifest.json",
+      "identity": {
+        "mode": "100644",
+        "blob": "6db009ab3a7504bf78fa4face200bc2da2a016c8"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.6/unity-observatory/Packages/manifest.json"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3300",
+      "path": "demos/v0.91.6/unity-observatory/Packages/packages-lock.json",
+      "identity": {
+        "mode": "100644",
+        "blob": "c8c9d2e2edb901761024ee2e61bf84f750af7676"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.6/unity-observatory/Packages/packages-lock.json"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3301",
+      "path": "demos/v0.91.6/unity-observatory/ProjectSettings/AudioManager.asset",
+      "identity": {
+        "mode": "100644",
+        "blob": "50b4625b0374d5aa81daeb6320a5f4443d5efc9a"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.6/unity-observatory/ProjectSettings/AudioManager.asset"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3302",
+      "path": "demos/v0.91.6/unity-observatory/ProjectSettings/ClusterInputManager.asset",
+      "identity": {
+        "mode": "100644",
+        "blob": "e7886b266a005f4d9d80f2fef8d1649dcfd3ed2b"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.6/unity-observatory/ProjectSettings/ClusterInputManager.asset"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3303",
+      "path": "demos/v0.91.6/unity-observatory/ProjectSettings/DynamicsManager.asset",
+      "identity": {
+        "mode": "100644",
+        "blob": "3c102d1130c320dfb3ac45fb0c994ca124d6ef93"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.6/unity-observatory/ProjectSettings/DynamicsManager.asset"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3304",
+      "path": "demos/v0.91.6/unity-observatory/ProjectSettings/EditorBuildSettings.asset",
+      "identity": {
+        "mode": "100644",
+        "blob": "56f897780561ba09425aa0acc99e80c453a3ad3c"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.6/unity-observatory/ProjectSettings/EditorBuildSettings.asset"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3305",
+      "path": "demos/v0.91.6/unity-observatory/ProjectSettings/EditorSettings.asset",
+      "identity": {
+        "mode": "100644",
+        "blob": "08066118971d30f944b2b2562d8a7c92172a820a"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.6/unity-observatory/ProjectSettings/EditorSettings.asset"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3306",
+      "path": "demos/v0.91.6/unity-observatory/ProjectSettings/GraphicsSettings.asset",
+      "identity": {
+        "mode": "100644",
+        "blob": "b34982f50f6aea9f2666313f0bd45da388c52764"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.6/unity-observatory/ProjectSettings/GraphicsSettings.asset"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3307",
+      "path": "demos/v0.91.6/unity-observatory/ProjectSettings/InputManager.asset",
+      "identity": {
+        "mode": "100644",
+        "blob": "8068b2058b089f9973b15f83648e58cd238688f0"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.6/unity-observatory/ProjectSettings/InputManager.asset"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3308",
+      "path": "demos/v0.91.6/unity-observatory/ProjectSettings/MemorySettings.asset",
+      "identity": {
+        "mode": "100644",
+        "blob": "434c340ec490825b06a69702ca95d77b052b2ada"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.6/unity-observatory/ProjectSettings/MemorySettings.asset"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3309",
+      "path": "demos/v0.91.6/unity-observatory/ProjectSettings/MultiplayerManager.asset",
+      "identity": {
+        "mode": "100644",
+        "blob": "2a936644e0d87339f17484efc93de6f0de5774b1"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.6/unity-observatory/ProjectSettings/MultiplayerManager.asset"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3310",
+      "path": "demos/v0.91.6/unity-observatory/ProjectSettings/NavMeshAreas.asset",
+      "identity": {
+        "mode": "100644",
+        "blob": "2e2e36968e36401ed2c4cf0f4d545e3d38ad25e9"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.6/unity-observatory/ProjectSettings/NavMeshAreas.asset"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3311",
+      "path": "demos/v0.91.6/unity-observatory/ProjectSettings/PackageManagerSettings.asset",
+      "identity": {
+        "mode": "100644",
+        "blob": "e053c536a7256449c53cbcf60d26f17001d05efe"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.6/unity-observatory/ProjectSettings/PackageManagerSettings.asset"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3312",
+      "path": "demos/v0.91.6/unity-observatory/ProjectSettings/Physics2DSettings.asset",
+      "identity": {
+        "mode": "100644",
+        "blob": "14f419f848295ffdd17e5907883c0c833486285c"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.6/unity-observatory/ProjectSettings/Physics2DSettings.asset"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3313",
+      "path": "demos/v0.91.6/unity-observatory/ProjectSettings/PhysicsCoreProjectSettings2D.asset",
+      "identity": {
+        "mode": "100644",
+        "blob": "049c7454b5cb1220c8440514c5628548672a661e"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.6/unity-observatory/ProjectSettings/PhysicsCoreProjectSettings2D.asset"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3314",
+      "path": "demos/v0.91.6/unity-observatory/ProjectSettings/PresetManager.asset",
+      "identity": {
+        "mode": "100644",
+        "blob": "67a94daefe2e6bce3ec73546ad7cda94f702ad22"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.6/unity-observatory/ProjectSettings/PresetManager.asset"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3315",
+      "path": "demos/v0.91.6/unity-observatory/ProjectSettings/ProjectSettings.asset",
+      "identity": {
+        "mode": "100644",
+        "blob": "e8b520701e3584c8186e1200e71bf5d33beab1e8"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.6/unity-observatory/ProjectSettings/ProjectSettings.asset"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3316",
+      "path": "demos/v0.91.6/unity-observatory/ProjectSettings/ProjectVersion.txt",
+      "identity": {
+        "mode": "100644",
+        "blob": "ebb0abf3343ad3bddf64f1d7d3f86d2760840480"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.6/unity-observatory/ProjectSettings/ProjectVersion.txt"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3317",
+      "path": "demos/v0.91.6/unity-observatory/ProjectSettings/QualitySettings.asset",
+      "identity": {
+        "mode": "100644",
+        "blob": "64f8abaf15b65739baa144aa04ab955160ea4ad3"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.6/unity-observatory/ProjectSettings/QualitySettings.asset"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3318",
+      "path": "demos/v0.91.6/unity-observatory/ProjectSettings/TagManager.asset",
+      "identity": {
+        "mode": "100644",
+        "blob": "6abf33d85028220e7832b659c2085a7b49dc21a2"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.6/unity-observatory/ProjectSettings/TagManager.asset"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3319",
+      "path": "demos/v0.91.6/unity-observatory/ProjectSettings/TimeManager.asset",
+      "identity": {
+        "mode": "100644",
+        "blob": "2e23a1f42187cc2b6b25e899a7caaede6e8a0bd1"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.6/unity-observatory/ProjectSettings/TimeManager.asset"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3320",
+      "path": "demos/v0.91.6/unity-observatory/ProjectSettings/UnityConnectSettings.asset",
+      "identity": {
+        "mode": "100644",
+        "blob": "5ef56984d721f3673bc862fc972f5ea9c06132d4"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.6/unity-observatory/ProjectSettings/UnityConnectSettings.asset"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3321",
+      "path": "demos/v0.91.6/unity-observatory/ProjectSettings/VFXManager.asset",
+      "identity": {
+        "mode": "100644",
+        "blob": "56783bbf189349f69ba739d235355a5c2ae8ca42"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.6/unity-observatory/ProjectSettings/VFXManager.asset"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3322",
+      "path": "demos/v0.91.6/unity-observatory/ProjectSettings/VersionControlSettings.asset",
+      "identity": {
+        "mode": "100644",
+        "blob": "979fd8eca84fae8dac89c1021ef6049be95ee5f6"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.6/unity-observatory/ProjectSettings/VersionControlSettings.asset"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3323",
+      "path": "demos/v0.91.6/unity-observatory/README.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "8bbe343e16ec5fe2a768a52d95fd995739bf1356"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91.6/unity-observatory/README.md"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3324",
+      "path": "demos/v0.91/chatgpt_gemini_claude_review_panel_demo.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "26b662d2941e6776dd6c0d80269323f5ba0d7812"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91/chatgpt_gemini_claude_review_panel_demo.md"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3325",
+      "path": "demos/v0.91/chatgpt_gemini_claude_triad_conversation_demo.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "00eb4c522daeffff32732e9d587d343b908e529b"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91/chatgpt_gemini_claude_triad_conversation_demo.md"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3326",
+      "path": "demos/v0.91/chatgpt_gemini_direct_conversation_demo.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "320d33b725c1a975c6c7428d8ce4844922508989"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91/chatgpt_gemini_direct_conversation_demo.md"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3327",
+      "path": "demos/v0.91/chatgpt_gemini_task_handoff_demo.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "8a17deb8d330e32d1f51d5411010b1f8f83eb1ad"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91/chatgpt_gemini_task_handoff_demo.md"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3328",
+      "path": "demos/v0.91/cognitive_being_flagship_demo.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "43a5118dd0781982651b0d4c3ec95ccde7be2b55"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.91/cognitive_being_flagship_demo.md"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3329",
+      "path": "demos/v0.92/provider-neutral-birthday/README.md",
+      "identity": {
+        "mode": "100644",
+        "blob": "6ebae7b5887f67de4188e95d6599bbaadd5e34af"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.92/provider-neutral-birthday/README.md"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3330",
+      "path": "demos/v0.92/provider-neutral-birthday/acip-trace-local-proof.json",
+      "identity": {
+        "mode": "100644",
+        "blob": "8efef6b1051c407c94dee11a53fd7a19e98eb1a3"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.92/provider-neutral-birthday/acip-trace-local-proof.json"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3331",
+      "path": "demos/v0.92/provider-neutral-birthday/acip-trace-observatory.json",
+      "identity": {
+        "mode": "100644",
+        "blob": "2f69e235f12166867ac2da60bceb571a2e3bb647"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.92/provider-neutral-birthday/acip-trace-observatory.json"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3332",
+      "path": "demos/v0.92/provider-neutral-birthday/acip-trace-positive.json",
+      "identity": {
+        "mode": "100644",
+        "blob": "e86e9eadd3503ab641319658814b970efa05c67a"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.92/provider-neutral-birthday/acip-trace-positive.json"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3333",
+      "path": "demos/v0.92/provider-neutral-birthday/proof-matrix-local-proof.json",
+      "identity": {
+        "mode": "100644",
+        "blob": "a8889ab878f9889cddb02aad7bd6ae97d867d55c"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.92/provider-neutral-birthday/proof-matrix-local-proof.json"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3334",
+      "path": "demos/v0.92/provider-neutral-birthday/proof-matrix-observatory.json",
+      "identity": {
+        "mode": "100644",
+        "blob": "0d61bf463352a28cfe793aef3346cc73b42ce426"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.92/provider-neutral-birthday/proof-matrix-observatory.json"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3335",
+      "path": "demos/v0.92/provider-neutral-birthday/proof-matrix-positive.json",
+      "identity": {
+        "mode": "100644",
+        "blob": "4f04cb0d94eb885940bc85b9ebefb95248a271a4"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.92/provider-neutral-birthday/proof-matrix-positive.json"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-3336",
+      "path": "demos/v0.92/provider-neutral-birthday/proof-matrix.json",
+      "identity": {
+        "mode": "100644",
+        "blob": "a8889ab878f9889cddb02aad7bd6ae97d867d55c"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "demos/v0.92/provider-neutral-birthday/proof-matrix.json"
+      ],
+      "group": "versioned_demo",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    },
+    {
+      "id": "RD07-4093",
+      "path": "start_CSM.sh",
+      "identity": {
+        "mode": "100755",
+        "blob": "e9d7efd277cf12d74bd49059115cc105d541da7d"
+      },
+      "source_status": "exact_owner_source",
+      "successor_paths": [
+        "start_CSM.sh"
+      ],
+      "group": "other",
+      "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+      "reason": "Exact original mode/blob is present in Runtime; preserve coherent fixtures/demo families and manual obligations; active consumer cutover and existing component qualification still required."
+    }
+  ]
+}

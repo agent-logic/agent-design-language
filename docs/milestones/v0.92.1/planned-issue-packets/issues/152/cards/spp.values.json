@@ -1,0 +1,94 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 152,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][INT-U] Integrated review and release",
+    "slug": "int-u-integrated-review-and-release",
+    "version": "v0.92.1",
+    "generation": 5
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 3,
+      "summary": "Coordinate integrated review and release only after CORP-08, V3-16, and DRT-07 are terminal, routing all findings before release-candidate and final evidence work. Fail closed on missing terminal, producer, ancestry, dependency, cleanup, or path-ownership proof.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Verify exact terminal revisions, ancestry, reviews, and proof inventories for CORP-08, V3-16, and DRT-07; confirm all three INT child packets and owned paths before releasing INT-01.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Run INT-01 independent integrated review, route every actionable finding to an owning lane, and block INT-02 until all required dispositions and residual risks are recorded at exact revisions.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Run INT-02 release-candidate inventory and rollback rehearsal, then release INT-03 only after terminal proof; recompute artifact digests, ancestry, review authority, and rollback evidence rather than trusting summary flags.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Verify all three INT children terminal, prove the umbrella touched coordination surfaces only, retain the final cross-lane evidence index, obtain exact-head review, and publish without asserting release authority beyond the issue contract.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-4"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "docs/milestones/v0.92.1/evidence/umbrellas/int-u/**",
+        ".csdlc/prepared/issues/152/**",
+        ".csdlc/issues/152/**",
+        ".csdlc/evidence/152/**",
+        ".csdlc/prepared/issues/152/validate-outcome.rb"
+      ],
+      "invariants": [
+        "The umbrella may coordinate and synthesize but cannot modify child-owned product paths.",
+        "Children retain exclusive implementation and review ownership.",
+        "No unsupported completion, legal, production, or release claim",
+        "No mutation outside exact owned paths"
+      ],
+      "risks": [
+        "Umbrella scope could absorb child work",
+        "A stale status could start a child early"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "A child lacks complete readiness",
+        "A dependency or serialization gate is ambiguous",
+        "Coordination would require a product-path edit",
+        "Typed doctor is not ready",
+        "A required dependency is nonterminal",
+        "An owned-path collision is discovered"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/152/design.md",
+      "design_digest": "2a9b03e60dfd150de8fd7b4ad8a7ddb906a3f443d587d3f843bb3447b9103f43",
+      "diagram_ref": ".csdlc/prepared/issues/152/diagram.mmd",
+      "diagram_digest": "437c752b8ff80c3fcdfc37236dd6dee3ba2e6e7c8ae0e8620fef37461d7199ba"
+    }
+  }
+}

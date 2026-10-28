@@ -1,0 +1,41 @@
+{
+  "schema": "adl.v0921.wp01.sprint-umbrella-membership-readback.v1",
+  "repository": "agent-logic/agent-design-language",
+  "conductor_issue": 480,
+  "recorded_by": "worker-6",
+  "recorded_date": "2026-09-01",
+  "transport": "typed-v2 csdlc-github-issue",
+  "raw_gh_used": false,
+  "source_requests": [
+    ".csdlc/prepared/issues/505/read-live-issue-533.json",
+    ".csdlc/prepared/issues/505/read-live-issue-534.json"
+  ],
+  "umbrellas": [
+    {
+      "sprint": 5,
+      "issue": 533,
+      "state": "open",
+      "membership_version": 4,
+      "members": [
+        500,
+        501,
+        502
+      ],
+      "evidence": "Live issue #533 body declares membership version 4 with children #500, #501, and #502. It was reopened after sprint-review failure."
+    },
+    {
+      "sprint": 6,
+      "issue": 534,
+      "state": "open",
+      "membership_version": 5,
+      "members": [
+        503,
+        504,
+        505,
+        570
+      ],
+      "evidence": "Live issue #534 body declares membership version 5 and includes #570 as the explicit docs and skill cutover-readiness gate."
+    }
+  ],
+  "cutover_gate": "Sprint 6 remains open; V3-F/#505 must not approve cutover while reopened failed children or #596 remain unresolved."
+}

@@ -1,0 +1,10 @@
+flowchart LR
+  ARGS["explicit args"] --> RESOLVE["RepositoryContext resolver"]
+  TOPO["canonical Git topology"] --> RESOLVE
+  REMOTE["qualified remote identity"] --> RESOLVE
+  RESOLVE --> ID["one canonical repo/issue identity"]
+  V2["v2 cards/index/state"] --> IMPORT["read-only v2 importer"]
+  IMPORT --> NORMAL["normalized parity output"]
+  IMPORT --> UNKNOWN["unsupported field report"]
+  UNKNOWN --> BLOCK["BlockedUnsupportedFields"]
+  NORMAL -->|never writes| REPORT["compatibility report"]

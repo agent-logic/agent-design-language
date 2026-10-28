@@ -1,0 +1,88 @@
+{
+  "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+  "status": "completed_assigned_source_review_changes_required",
+  "findings": [
+    {
+      "id": "ARCH-001",
+      "severity": "P2",
+      "title": "Connect retained semantic journal activation to the installed recovery owner",
+      "path": "csdlc-v3/src/application/intent/mod.rs",
+      "line": 301,
+      "related_locations": [
+        "csdlc-v3/src/storage/semantic.rs:2737",
+        "csdlc-v3/src/storage/semantic/journal_recovery.rs:39",
+        "csdlc-v3/src/application/intent/local.rs:1324",
+        "csdlc-v3/src/application/intent/context.rs:523"
+      ],
+      "role": "architecture",
+      "boundary": "CLI/application recovery to durable semantic commit owner",
+      "trigger": "A process dies after immutable next-generation intent and commit are durable, before current.json activation; current.next may or may not exist.",
+      "impact": "All semantic operations stop on RecoveryRequired. The installed recover path has no native-approved way to activate the exact fully retained commit, despite a storage recovery implementation. Operators must modify storage or build custom recovery tooling.",
+      "evidence": "activate() creates intent, commit, current.next then renames. observe_issue translates an unactivated intent/current.next to RecoveryRequired. Router chains effect/projection recovery only; these accept Current/ProjectionRepairRequired. Repository-wide callsite search finds describe_journal_recovery and execute_journal_recovery only in their unit tests. JournalRecoveryApproval constructor is explicitly production dead_code. Checked legacy fallback commands/local/intent.rs193-250: without a legacy transaction it reports expected_noop, leaving semantic state unchanged. Checked native doctor routing and installed-manual source: no alternate semantic journal activation route. Storage creation journal has equivalent unused native approval constructor; kept under same bridge remediation.",
+      "reproduction": "Source trace plus inspected exact-activation unit test retained_commit_activation_is_exact_observational_and_replayable; no executed CLI crash fixture in this lane.",
+      "remediation": "Expose authenticated exact preview/execute journal activation before business-effect recovery, enforce authority/topology/freshness and retain immutable bytes. Add installed-entrypoint crash regression. Inspect equivalent creation journal bridge.",
+      "owner": "SIM-04 native intent/recovery owner",
+      "acceptance": [
+        "SIM-04-A01",
+        "SIM-04-A05"
+      ],
+      "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+      "disposition": "open"
+    },
+    {
+      "id": "ARCH-002",
+      "severity": "P2",
+      "title": "Verify or resume the complete bind staging copy before activating it",
+      "path": "csdlc-v3/src/commands/local/transactions.rs",
+      "line": 441,
+      "related_locations": [
+        "csdlc-v3/src/commands/local/transactions.rs:111",
+        "csdlc-v3/src/commands/local/transactions.rs:478",
+        "csdlc-v3/src/commands/local/transactions.rs:501",
+        "csdlc-v3/src/application/intent/local.rs:1519"
+      ],
+      "role": "architecture",
+      "boundary": "Legacy native bind transaction copy/activation and semantic recovery bridge",
+      "trigger": "Interrupt native bind during recursive copy_local_issue_tree(source_stage,target_stage), after target_stage is created but before all files are copied. Resume the supported recover path with source stage and backup intact.",
+      "impact": "commit_bind_local_transaction treats existence of target_stage as completed copying, renames its partial tree to canonical issue root, writes completion and primary binding, then deletes complete source stage and backup. Subsequent integrity checks cannot reconstruct missing compatibility files from native transaction evidence and the issue can become stuck; native completion claims a fully bound image it never verified.",
+      "evidence": "Copy helper creates destination before looping files; recovery skips copy whenever destination exists and verifies neither complete inventory nor expected lifecycle digest before target rename/cleanup. The semantic recovery wrapper calls that native operation before rereading integrity, so a later rejection does not preserve deleted source images.",
+      "reproduction": "Static exact source trace through partial directory-copy crash window and supported public recovery wrapper. No executed crash harness in this lane.",
+      "provenance": "Preexisting behavior in baseline commands/local/mod.rs1740-1744 moved into this module; uncovered in complete candidate review, not introduced by module split.",
+      "remediation": "Authenticate a complete staged image against retained expected digest/inventory before activation and before source cleanup. Repair or resume only the exact incomplete staging copy under lock; preserve source images until complete target readback succeeds. Add interruption test inside copy, not only after copy returns.",
+      "owner": "SIM-04 native bind/recovery owner",
+      "acceptance": [
+        "SIM-04-A01",
+        "SIM-04-A05"
+      ],
+      "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+      "disposition": "open"
+    },
+    {
+      "id": "ARCH-003",
+      "severity": "P2",
+      "title": "Recover a reserved finish when no terminal receipt was written",
+      "path": "csdlc-v3/src/application/intent/terminal.rs",
+      "line": 1378,
+      "related_locations": [
+        "csdlc-v3/src/application/intent/terminal.rs:1359",
+        "csdlc-v3/src/application/intent/terminal.rs:1423",
+        "csdlc-v3/src/application/intent/mod.rs:301",
+        "csdlc-v3/src/commands/terminal.rs:1286"
+      ],
+      "role": "architecture",
+      "boundary": "Semantic terminal reservation to native terminal writer and public recovery",
+      "trigger": "Process dies after a Finish or FinishWithoutPr semantic reservation has committed but before the terminal receipt is written; also covers state written but receipt not yet written. GitHub closeout remains authenticated and unchanged.",
+      "impact": "Exact finish replay requires the absent receipt in AlreadyPending and fails intent_terminal_pending_readback_required. Public recover has no Finish owner, so the healthy semantic pointer retains an operation that cannot complete through supported commands, blocking terminal completion and clean.",
+      "evidence": "Finish stages read-only authenticated observation, reserves effect, then invokes native persistence. AlreadyPending only reads and attaches an existing receipt. recover dispatch has no terminal finish branch; its only terminal route reconciles absent cleanup. Native persist_terminal_finish already compares retained state and immutable receipt identity and writes state then receipt, but replay never reaches it in this window.",
+      "reproduction": "Static public-entrypoint callgraph and exact durable crash-window analysis; no executed CLI crash reproduction. Distinct from ARCH-001: current semantic pointer is healthy and has a pending business effect, not an unactivated journal.",
+      "remediation": "Add an exact preview/reconciliation path for pending Finish/FinishWithoutPr that authenticates the original terminal decision and safely completes missing native state/receipt through its idempotent owner, then attaches the result. Test interruption both after reservation and between state/receipt writes.",
+      "owner": "SIM-04 terminal finish/recovery owner",
+      "acceptance": [
+        "SIM-04-A01",
+        "SIM-04-A05"
+      ],
+      "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+      "disposition": "open"
+    }
+  ]
+}

@@ -1,0 +1,344 @@
+{
+  "schema": "rd02.cutover_contract.v1",
+  "status": "proposed_not_accepted",
+  "source_revision": "682be6b8babb69f73c5e9fef8580f1b3c88966d5",
+  "execution_gate": {
+    "requires": "PR1198 merged and RD01 accepted",
+    "observed_satisfied": true,
+    "merge_commit": "48b4cc15e8cbe29654ec6d485594149c8bb82682",
+    "native_finish": "terminal_closed_out",
+    "native_generation": 35,
+    "effects_unknown": false
+  },
+  "repositories": [
+    {
+      "name": "cognitive-sdlc",
+      "visibility": "private",
+      "identity_approval": "operator-approved via coordinator",
+      "creation_authorized": false
+    },
+    {
+      "name": "agent-logic-runtime",
+      "visibility": "private",
+      "identity_approval": "operator-approved via coordinator",
+      "creation_authorized": false
+    },
+    {
+      "name": "codefriend",
+      "visibility": "private",
+      "identity_approval": "operator-approved via coordinator",
+      "creation_authorized": false
+    },
+    {
+      "name": "agent-logic-infrastructure",
+      "visibility": "private",
+      "identity_approval": "operator-approved via coordinator",
+      "creation_authorized": false
+    },
+    {
+      "name": "agent-logic-enterprise-security",
+      "visibility": "private",
+      "identity_approval": "operator-approved via coordinator",
+      "creation_authorized": false
+    },
+    {
+      "name": "agent-design-language",
+      "visibility": "public",
+      "identity_approval": "existing unchanged",
+      "creation_authorized": false
+    },
+    {
+      "name": "codefriend.ai",
+      "visibility": "private",
+      "identity_approval": "existing unchanged",
+      "creation_authorized": false
+    }
+  ],
+  "pending_operator_policy": {
+    "inherited_organization_member_read": "pending",
+    "access_evidence_rollback_approver": "Daniel proposed; pending",
+    "artifact_delivery": "Private GitHub Releases; producer-write and consumer-read proposed; pending",
+    "source_license_history_preservation": "Preserve existing licenses and original evidence/history in place; pending consolidated acceptance"
+  },
+  "artifact_contracts": [
+    {
+      "id": "public-adl",
+      "single_implementation_owner": "agent-design-language",
+      "consumers": [
+        "cognitive-sdlc",
+        "agent-logic-runtime",
+        "codefriend"
+      ],
+      "contents": "Portable language, compiler, schema and conformance packages",
+      "invariant": "Public distribution must build and install without private credentials or sibling source.",
+      "release_writer": "Producer repository authorized release workflow; exact principal must be verified at bootstrap",
+      "consumer_access": "Authenticated read for private assets; never public fallback",
+      "identity_fields": [
+        "source_commit",
+        "asset_identity",
+        "sha256",
+        "package_version",
+        "dependency_lock",
+        "build_provenance",
+        "supported_consumer_versions"
+      ],
+      "mutable_latest_allowed": false,
+      "signature_claim": "Only claim a signature when verified supported signing evidence exists; digest alone is not a signature",
+      "rollback": "Retain prior accepted lockset and artifacts until independent installed consumers pass; operator rollback authority pending",
+      "qualified": false,
+      "consumer_usage": {
+        "cognitive-sdlc": "runtime_or_build",
+        "agent-logic-runtime": "runtime_or_build",
+        "codefriend": "runtime_or_build"
+      }
+    },
+    {
+      "id": "csdlc-owner",
+      "single_implementation_owner": "cognitive-sdlc",
+      "consumers": [
+        "agent-design-language",
+        "agent-logic-runtime",
+        "codefriend",
+        "agent-logic-infrastructure",
+        "agent-logic-enterprise-security",
+        "codefriend.ai"
+      ],
+      "contents": "Installed native owner with command manifest, current templates/schemas, configured worktree policy, manuals and provenance",
+      "invariant": "Preserve native authenticated state and copied-record recovery; no automatic v2 fallback.",
+      "release_writer": "Producer repository authorized release workflow; exact principal must be verified at bootstrap",
+      "consumer_access": "Authenticated read for private assets; never public fallback",
+      "identity_fields": [
+        "source_commit",
+        "asset_identity",
+        "sha256",
+        "package_version",
+        "dependency_lock",
+        "build_provenance",
+        "supported_consumer_versions"
+      ],
+      "mutable_latest_allowed": false,
+      "signature_claim": "Only claim a signature when verified supported signing evidence exists; digest alone is not a signature",
+      "rollback": "Retain prior accepted lockset and artifacts until independent installed consumers pass; operator rollback authority pending",
+      "qualified": false,
+      "consumer_usage": {
+        "agent-design-language": "development_tool",
+        "agent-logic-runtime": "development_tool",
+        "codefriend": "development_tool",
+        "agent-logic-infrastructure": "development_tool",
+        "agent-logic-enterprise-security": "development_tool",
+        "codefriend.ai": "development_tool"
+      },
+      "public_consumer_limit": "Optional contributor lifecycle tooling only; public ADL build, test, package and conformance must succeed without this private tool or its credentials."
+    },
+    {
+      "id": "runtime",
+      "single_implementation_owner": "agent-logic-runtime",
+      "consumers": [
+        "codefriend",
+        "agent-logic-infrastructure"
+      ],
+      "contents": "Runtime/provider service and versioned client contracts, Memory Palace and Observatory",
+      "invariant": "One generic memory/provider implementation; consumer product interpretation remains consumer-owned.",
+      "release_writer": "Producer repository authorized release workflow; exact principal must be verified at bootstrap",
+      "consumer_access": "Authenticated read for private assets; never public fallback",
+      "identity_fields": [
+        "source_commit",
+        "asset_identity",
+        "sha256",
+        "package_version",
+        "dependency_lock",
+        "build_provenance",
+        "supported_consumer_versions"
+      ],
+      "mutable_latest_allowed": false,
+      "signature_claim": "Only claim a signature when verified supported signing evidence exists; digest alone is not a signature",
+      "rollback": "Retain prior accepted lockset and artifacts until independent installed consumers pass; operator rollback authority pending",
+      "qualified": false,
+      "consumer_usage": {
+        "codefriend": "runtime_or_build",
+        "agent-logic-infrastructure": "runtime_or_build"
+      }
+    },
+    {
+      "id": "resilience",
+      "single_implementation_owner": "agent-logic-runtime",
+      "consumers": [
+        "cognitive-sdlc"
+      ],
+      "contents": "Dependency-light pinned resilience package for Runtime and retained C-SDLC v2",
+      "invariant": "Must install without the Runtime application or a sibling checkout.",
+      "release_writer": "Producer repository authorized release workflow; exact principal must be verified at bootstrap",
+      "consumer_access": "Authenticated read for private assets; never public fallback",
+      "identity_fields": [
+        "source_commit",
+        "asset_identity",
+        "sha256",
+        "package_version",
+        "dependency_lock",
+        "build_provenance",
+        "supported_consumer_versions"
+      ],
+      "mutable_latest_allowed": false,
+      "signature_claim": "Only claim a signature when verified supported signing evidence exists; digest alone is not a signature",
+      "rollback": "Retain prior accepted lockset and artifacts until independent installed consumers pass; operator rollback authority pending",
+      "qualified": false,
+      "consumer_usage": {
+        "cognitive-sdlc": "runtime_or_build"
+      }
+    },
+    {
+      "id": "codefriend-service",
+      "single_implementation_owner": "codefriend",
+      "consumers": [
+        "codefriend.ai",
+        "agent-logic-infrastructure"
+      ],
+      "contents": "Review service, CLI and installed local agent",
+      "invariant": "Website uses versioned service API; infrastructure consumes release artifacts, not product authority.",
+      "release_writer": "Producer repository authorized release workflow; exact principal must be verified at bootstrap",
+      "consumer_access": "Authenticated read for private assets; never public fallback",
+      "identity_fields": [
+        "source_commit",
+        "asset_identity",
+        "sha256",
+        "package_version",
+        "dependency_lock",
+        "build_provenance",
+        "supported_consumer_versions"
+      ],
+      "mutable_latest_allowed": false,
+      "signature_claim": "Only claim a signature when verified supported signing evidence exists; digest alone is not a signature",
+      "rollback": "Retain prior accepted lockset and artifacts until independent installed consumers pass; operator rollback authority pending",
+      "qualified": false,
+      "consumer_usage": {
+        "codefriend.ai": "runtime_or_build",
+        "agent-logic-infrastructure": "runtime_or_build"
+      }
+    },
+    {
+      "id": "website",
+      "single_implementation_owner": "codefriend.ai",
+      "consumers": [
+        "agent-logic-infrastructure"
+      ],
+      "contents": "Website bundle and site-specific application/proxy contracts",
+      "invariant": "Preserve website sign-in boundary and existing deployment authority.",
+      "release_writer": "Producer repository authorized release workflow; exact principal must be verified at bootstrap",
+      "consumer_access": "Authenticated read for private assets; never public fallback",
+      "identity_fields": [
+        "source_commit",
+        "asset_identity",
+        "sha256",
+        "package_version",
+        "dependency_lock",
+        "build_provenance",
+        "supported_consumer_versions"
+      ],
+      "mutable_latest_allowed": false,
+      "signature_claim": "Only claim a signature when verified supported signing evidence exists; digest alone is not a signature",
+      "rollback": "Retain prior accepted lockset and artifacts until independent installed consumers pass; operator rollback authority pending",
+      "qualified": false,
+      "consumer_usage": {
+        "agent-logic-infrastructure": "runtime_or_build"
+      }
+    },
+    {
+      "id": "delivery",
+      "single_implementation_owner": "agent-logic-infrastructure",
+      "consumers": [
+        "cognitive-sdlc",
+        "agent-logic-runtime",
+        "codefriend",
+        "codefriend.ai",
+        "agent-logic-enterprise-security"
+      ],
+      "contents": "Reusable artifact assembly and deployment mechanisms",
+      "invariant": "Product launch, admission, threshold and qualification semantics remain producer-owned.",
+      "release_writer": "Producer repository authorized release workflow; exact principal must be verified at bootstrap",
+      "consumer_access": "Authenticated read for private assets; never public fallback",
+      "identity_fields": [
+        "source_commit",
+        "asset_identity",
+        "sha256",
+        "package_version",
+        "dependency_lock",
+        "build_provenance",
+        "supported_consumer_versions"
+      ],
+      "mutable_latest_allowed": false,
+      "signature_claim": "Only claim a signature when verified supported signing evidence exists; digest alone is not a signature",
+      "rollback": "Retain prior accepted lockset and artifacts until independent installed consumers pass; operator rollback authority pending",
+      "qualified": false,
+      "consumer_usage": {
+        "cognitive-sdlc": "runtime_or_build",
+        "agent-logic-runtime": "runtime_or_build",
+        "codefriend": "runtime_or_build",
+        "codefriend.ai": "runtime_or_build",
+        "agent-logic-enterprise-security": "runtime_or_build"
+      }
+    },
+    {
+      "id": "enterprise-policy",
+      "single_implementation_owner": "agent-logic-enterprise-security",
+      "consumers": [
+        "agent-logic-runtime"
+      ],
+      "contents": "Optional versioned policy/backend adapter",
+      "invariant": "May narrow Runtime grants only; invalid or unavailable configured adapters cannot broaden authority. No backend implementation claimed.",
+      "release_writer": "Producer repository authorized release workflow; exact principal must be verified at bootstrap",
+      "consumer_access": "Authenticated read for private assets; never public fallback",
+      "identity_fields": [
+        "source_commit",
+        "asset_identity",
+        "sha256",
+        "package_version",
+        "dependency_lock",
+        "build_provenance",
+        "supported_consumer_versions"
+      ],
+      "mutable_latest_allowed": false,
+      "signature_claim": "Only claim a signature when verified supported signing evidence exists; digest alone is not a signature",
+      "rollback": "Retain prior accepted lockset and artifacts until independent installed consumers pass; operator rollback authority pending",
+      "qualified": false,
+      "implementation_evidence": "No existing enterprise backend implementation or enterprise-owned implementation component has been demonstrated by this census. This is a future adapter boundary and destination identity, not an implemented artifact.",
+      "distribution_status": "future_contract_only_not_available",
+      "consumer_usage": {
+        "agent-logic-runtime": "runtime_or_build"
+      }
+    }
+  ],
+  "boundaries": [
+    "No actual repository bootstrap, access change, source export, deployment, provider run or shared owner-binary replacement.",
+    "One implementation per component; explicit consumers do not become duplicate owners.",
+    "Original ADL history custody is not permission to maintain a second implementation.",
+    "Current command behavior and authority remain; no language generation switch or retained-v2 retirement inferred.",
+    "Independent extraction and installed acceptance remain downstream proof, not census assertions."
+  ],
+  "source_inputs": {
+    "frozen_revision": "248f00e359e412f6bc0061ac88be9ff374e3a212",
+    "opening_revision": "08236f86026f2e317e7f405bb0381b782a1417b9",
+    "rd01_candidate": "682be6b8babb69f73c5e9fef8580f1b3c88966d5",
+    "census": "../rd01-1181/census.jsonl.gz",
+    "opening_delta": "../rd01-1181/delta-opening.jsonl.gz"
+  },
+  "policy_acceptance": {
+    "status": "pending",
+    "approved_decisions": [],
+    "approval_reference": null
+  },
+  "qualification_scope": "Technical contract and complete source mapping; no bootstrap, installed product, release or final policy acceptance.",
+  "technical_review_findings": [
+    {
+      "id": "public-provider-schema-boundary",
+      "disposition": "corrected",
+      "mapping": "mapping-inputs/provider-boundary-dispositions.json",
+      "limitation": "Independent portable packaging and Runtime-side admission proof remain downstream."
+    },
+    {
+      "id": "host-specific-source-excerpts",
+      "disposition": "explicitly_redacted",
+      "mapping": "mapping-audit.json",
+      "limitation": "Original source blob references preserved; omitted excerpts do not change original historical files."
+    }
+  ]
+}

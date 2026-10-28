@@ -1,0 +1,257 @@
+{
+  "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+  "paths": [
+    {
+      "path": "csdlc-v3/tests/installed_amendment_classification.rs",
+      "status": "full_source_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          140
+        ]
+      ],
+      "observation": "Four misclassified/unapproved amendments require specific failure codes and unchanged semantic/projection/transaction byte inventories.",
+      "executed": false
+    },
+    {
+      "path": "csdlc-v3/tests/installed_intent_timeout.rs",
+      "status": "full_source_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          309
+        ]
+      ],
+      "observation": "Real scoped child process group and held loopback socket; assertions require readiness, distinct timeout/cancel status, actual time bounds, cleanup, temporary-root deletion and redaction. Synthetic token; no execution in this review.",
+      "executed": false
+    },
+    {
+      "path": "csdlc-v3/tests/v093_planning_package.rs",
+      "status": "full_source_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          196
+        ]
+      ],
+      "observation": "Dependency DAG and RD11 ancestry, release task inclusion, public/private boundary and plan/spec/wave parity; five tests with negative mutations; planning-only.",
+      "executed": false
+    },
+    {
+      "path": "csdlc-v3/tests/support/attempt_corpus.rs",
+      "status": "full_source_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          270
+        ]
+      ],
+      "observation": "Started attempt persisted before subprocess; failed spawn/collection retained; unsuccessful outputs default failed until caller classification; synthetic clock explicitly separate from actual duration; inventory outside output.",
+      "executed": false
+    },
+    {
+      "path": "csdlc-v3/tests/installed_prepared_start_measurement.rs",
+      "status": "full_source_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          391
+        ]
+      ],
+      "observation": "Ignored manual baseline digest-checked measurement, alternating order and explicit warm-host scope; partial samples only persisted after completed measure call, so not a full failed-attempt pilot ledger; no such pilot claim is made here.",
+      "executed": false
+    },
+    {
+      "path": "csdlc-v3/tests/command_manifest.rs",
+      "status": "complete_changed_hunks_reviewed",
+      "reviewed_ranges": [],
+      "observation": "All changed hunks: current command/alias/authority denominator; retired writers; schema enum/descriptor parity and three administrative emit requests checked typed and byte-observational.",
+      "executed": false
+    },
+    {
+      "path": "csdlc-v3/tests/real_issue_canary.rs",
+      "status": "complete_changed_hunks_reviewed",
+      "reviewed_ranges": [],
+      "observation": "All changed hunks: expected legacy/path-policy denials now structured stdout; live discovery error restricted; historical direct writer routes denied, pr-state remains observation.",
+      "executed": false
+    },
+    {
+      "path": "csdlc-v3/tests/remote_publication_commands.rs",
+      "status": "complete_changed_hunks_reviewed",
+      "reviewed_ranges": [],
+      "observation": "All changed hunks: retained pr-state proof separated from retired writers; new receipt field; credential missing output/none effects asserted.",
+      "executed": false
+    },
+    {
+      "path": "csdlc-v3/tests/release_preflight.rs",
+      "status": "complete_changed_hunks_reviewed",
+      "reviewed_ranges": [],
+      "observation": "All changed hunks: historical release manifests reconstructed as synthetic metadata, fresh unlisted manifest/lock negatives; primary/linked exact Git byte inventory and gate corruption tests.",
+      "executed": false
+    },
+    {
+      "path": "csdlc-v3/tests/installed_predecessor_dispositions.rs",
+      "status": "full_source_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          469
+        ]
+      ],
+      "observation": "Retired generic writer denial requires no state/remote effects; synthetic authority preparation; actual installed cutover/rollback and after-effect recovery with byteidentity, read-only preview and exact replay assertions.",
+      "executed": false
+    },
+    {
+      "path": "csdlc-v3/tests/operator_man_pages.rs",
+      "status": "full_source_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          532
+        ]
+      ],
+      "observation": "Complete command/option/request inventory parity and generated-manual check; negative missing/invented option/command fixtures; examples deserialize and fail closed where authentication absent; isolated cleanup receipt location exercise. Parser parity is lexical, not semantic parser completeness.",
+      "executed": false
+    },
+    {
+      "path": "csdlc-v3/tests/support/predecessor_fixture.rs",
+      "status": "full_source_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          447
+        ]
+      ],
+      "observation": "Synthetic historical approval/readiness/native receipt prerequisites correctly identified as fixture-only; copies actual Cargo-built executable; isolated git selectors and rollback commit. Not a fresh qualification receipt or live authorization.",
+      "executed": false
+    },
+    {
+      "path": "csdlc-v3/tests/installed_command_contract.rs",
+      "status": "full_source_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          648
+        ]
+      ],
+      "observation": "Full command/alias parity and discovery, malformed input/no fallback, expected binary bytes independently reject stale or self-consistently forged installation digest, byte-observational legacy writer traps.",
+      "executed": false
+    },
+    {
+      "path": "csdlc-v3/tests/support/intent_fixture.rs",
+      "status": "full_source_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          793
+        ]
+      ],
+      "observation": "Byte-exact actual executable copy; isolated Git and synthetic authority/remote endpoint fixtures; request/effect ledgers and secret guard; clean interruption synchronized by observer gate, scoped child cleanup. Fixture is not live qualification.",
+      "executed": false
+    },
+    {
+      "path": "csdlc-v3/tests/semantic_card_projections.rs",
+      "status": "full_source_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          598
+        ]
+      ],
+      "observation": "Six direct semantic/library tests: deterministic six-card projection, no invented lifecycle pass, altered/missing/interrupted observation byte preservation, stale version rejection, newest projection recovery, three corrupt prior staging forms rejected.",
+      "executed": false
+    },
+    {
+      "path": "csdlc-v3/tests/copied_record_conversion_fault_recovery.rs",
+      "status": "full_source_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          498
+        ]
+      ],
+      "observation": "Thirty before/after durability faults across fifteen boundaries; abrupt subprocess versus ordinary error, durable fence and same-operation recovery, append-prefix retention, exact one generation/commit and remote-effect bound. Isolated copied records and actual Cargo converter; not physical power loss.",
+      "executed": false
+    },
+    {
+      "path": "csdlc-v3/tests/copied_record_conversion_admission.rs",
+      "status": "full_source_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          926
+        ]
+      ],
+      "observation": "Full admission negatives (identity/topology/card kind/late invalid record), eight native locks checked while converter blocked at authenticated checkpoint, partial and stale acknowledgements, durable restore-before-effect and refusal-after-effect plus exactly one uncertainty reconciliation. Actual separate converter in isolated Git; no live mutation.",
+      "executed": false
+    },
+    {
+      "path": "csdlc-v3/tests/copied_record_conversion_rehearsal.rs",
+      "status": "full_source_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          1011
+        ]
+      ],
+      "observation": "Full ignored release gate requires accepted old owner and validated generation9 input; 14 files/eight normalization substitutions, negative malformed/forged/zero evidence, actual installed prepare/bind generates auxiliary observation with synthetic curl, seven roles/twelve scenarios/thirty faults. Fault-filter return explicitly classified fault_probe_completed; not full proof. Hardcoded FastWork location and Unix tools consistent declared local qualification scope; no execution.",
+      "executed": false
+    },
+    {
+      "path": "csdlc-v3/tests/installed_coordination_completion.rs",
+      "status": "full_source_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          871
+        ]
+      ],
+      "observation": "Synthetic authenticated parent/child observations; installed completion preserves exact prose and trailing/whitespace bytes, exact replay has one PATCH, changed child/evidence blocks uncertainty retry, guarded legacy-only contract install, native no-PR receipt and cleanup requirements. Remote effect counters distinguish attempted transport from actual effects. No live GitHub claim.",
+      "executed": false
+    },
+    {
+      "path": "csdlc-v3/tests/local_commands.rs",
+      "status": "complete_changed_hunks_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          110
+        ],
+        [
+          795,
+          1020
+        ]
+      ],
+      "observation": "All changed hunks plus fixture context: retired CLI constructor fallback replaced with explicit library model, operational-context denial and no mutation; authenticated existing-state CAS tested separately. Deleted legacy bind crash test is not current public recovery proof; cross-credit ARCH-001/002 rather than duplicate finding.",
+      "executed": false
+    },
+    {
+      "path": "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs",
+      "status": "complete_changed_hunks_reviewed",
+      "reviewed_ranges": [
+        [
+          1785,
+          1875
+        ]
+      ],
+      "observation": "All changed hunks plus fixture context: checkpoint PR distinguishes non-closing from double closing history, cutover/rollback exact effect readback, explicit reconciliation checkout diverges from primary then wrong-head negative. Synthetic adapters and direct owner tests; not installed Finish pending-window proof (ARCH-003).",
+      "executed": false
+    },
+    {
+      "path": "csdlc-v3/tests/operational_cli_commands.rs",
+      "status": "complete_changed_hunks_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          252
+        ],
+        [
+          550,
+          815
+        ]
+      ],
+      "observation": "All changed hunks, truncated diff middle reread from current source550\u2013815, plus full setup1\u2013252. Primary/linked healthy/missing/corrupt diagnostic inventories and registrations unchanged; fake read-only remote rejects mutation paths and checks sentinel redaction; legacy writers retired before dispatch. Shepherd five owner states mapped to common envelope; helper status/process-status distinction explicit. Dead pending branch not counted as a pending-state proof; broader recovery gap covered ARCH findings.",
+      "executed": false
+    }
+  ]
+}

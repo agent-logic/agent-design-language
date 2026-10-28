@@ -1,0 +1,11 @@
+flowchart TD
+  OBS["exact GitHub observation"] --> LINK{"published linkage"}
+  LINK -->|PartOf merged| CHECKPOINT["checkpoint receipt"]
+  CHECKPOINT --> INVALIDATE["invalidate review/publication"]
+  INVALIDATE --> IMPLEMENTED["return to implemented"]
+  LINK -->|Closing merged| TERMINAL["terminal receipt"]
+  LINK -->|ambiguous| OPERATOR["operator required"]
+  TERMINAL --> CLOSED["committed closed_out"]
+  CLOSED --> PREVIEW["cleanup preview"]
+  PREVIEW --> PATH["exact canonical registered path"]
+  PATH --> REMOVE["separate cleanup mutation"]

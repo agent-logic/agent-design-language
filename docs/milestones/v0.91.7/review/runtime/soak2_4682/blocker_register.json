@@ -1,0 +1,76 @@
+{
+  "schema": "adl.v0917.runtime_soak2.blocker_register.v1",
+  "issue": 4880,
+  "supersedes_attempt_issue": 4682,
+  "umbrella_issue": 4634,
+  "status": "blockers_present_after_final_rerun",
+  "blockers": [
+    {
+      "id": "runtime-aws-signal-bridge-not-run",
+      "owner_issue": 4684,
+      "owner_pr": null,
+      "classification": "partially_resolved_heartbeat_live_proven",
+      "evidence": "#4684 added the live heartbeat publisher and retained AWS_PROFILE=agent-logic-admin CloudWatch Logs proof. SNS, SSM, archive, and full bridge proof remain owned by sibling WP-08 issues.",
+      "evidence_refs": [
+        "docs/milestones/v0.91.7/RUNTIME_SOAK_2_EXECUTION_PACKET_v0.91.7.md",
+        "docs/milestones/v0.91.7/review/runtime/soak2_4682/soak2_execution_status_4682.json",
+        "docs/milestones/v0.91.7/review/runtime/wp08_heartbeat_4684/live_heartbeat_summary.json"
+      ],
+      "v092_impact": "Heartbeat no longer blocks runtime AWS/signal bridge claims by itself; full bridge claims still depend on #4685, #4686, #4687, and #4688."
+    },
+    {
+      "id": "unity-live-consumption-not-run",
+      "owner_issue": 4689,
+      "owner_pr": null,
+      "classification": "blocked_with_evidence",
+      "evidence": "The runtime-owned Observatory visibility packet and Unity contract were generated, but no Unity editor live-consumption command ran in #4880.",
+      "evidence_refs": [
+        "docs/milestones/v0.91.7/review/runtime/soak2_4682/agent_lifecycle/runtime_v2/observatory/visibility_packet.json",
+        "docs/milestones/v0.91.7/review/runtime/soak2_4682/agent_lifecycle/runtime_v2/observatory/unity_observatory_contract.json"
+      ],
+      "v092_impact": "Blocks live Observatory/Unity consumption claims unless the operator approves a v0.92 non-claim or routes it to Soak 3."
+    },
+    {
+      "id": "wp12-acip-a2a-activation-residual",
+      "owner_issue": 4660,
+      "owner_pr": null,
+      "classification": "blocked_with_evidence",
+      "evidence": "The AEE/memory runner retained local ACIP positive, denied, malformed, and failed-delivery cases, but WP-12 protocol/access-rule activation remains outside the #4880 WP-07 rerun.",
+      "evidence_refs": [
+        "docs/milestones/v0.91.7/review/runtime/soak2_4682/aee_memory/runtime_acip_aee_memory_proof.json"
+      ],
+      "v092_impact": "Blocks ACIP/A2A activation claims unless the operator approves a v0.92 non-claim or routes it to Soak 3."
+    },
+    {
+      "id": "runtime-v2-capability-envelope-static-proof-only",
+      "owner_issue": 4696,
+      "owner_pr": null,
+      "classification": "blocked_with_evidence",
+      "evidence": "The runtime-v2 operator-controls owner binary emitted a static contract report, but the packet records generated_at_utc as not_started and is not fresh integrated capability-envelope proof.",
+      "evidence_refs": [
+        "docs/milestones/v0.91.7/review/runtime/soak2_4682/capability_envelope/operator_control_report.json"
+      ],
+      "v092_impact": "Blocks fresh capability-envelope claims unless the operator approves a v0.92 non-claim or routes it to Soak 3."
+    },
+    {
+      "id": "runtime-v2-security-cav-static-proof-only",
+      "owner_issue": 4657,
+      "owner_pr": null,
+      "classification": "blocked_with_evidence",
+      "evidence": "The runtime-v2 security-boundary owner binary emitted a static fail-closed packet, but the packet records generated_at_utc as not_started and is not fresh integrated security/CAV proof.",
+      "evidence_refs": [
+        "docs/milestones/v0.91.7/review/runtime/soak2_4682/security_cav_boundary/proof_packet.json"
+      ],
+      "v092_impact": "Blocks fresh security/CAV activation claims unless the operator approves a v0.92 non-claim or routes it to Soak 3."
+    }
+  ],
+  "invalid_or_replaced_commands": [
+    {
+      "id": "matrix-security-cargo-command-invalid",
+      "command": "cargo test --manifest-path adl/Cargo.toml runtime_v2 security -- --nocapture",
+      "classification": "matrix_command_defect_replaced_by_owner_binary",
+      "replacement_command": "adl/target/debug/adl runtime-v2 security-boundary --out docs/milestones/v0.91.7/review/runtime/soak2_4682/security_cav_boundary/proof_packet.json",
+      "evidence_ref": "docs/milestones/v0.91.7/review/runtime/soak2_4682/security_cav_boundary/proof_packet.json"
+    }
+  ]
+}

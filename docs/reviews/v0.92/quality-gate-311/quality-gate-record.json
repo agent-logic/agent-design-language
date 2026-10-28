@@ -1,0 +1,16 @@
+{
+  "schema": "adl.v0.92.quality_gate_record.v1",
+  "issue": 311,
+  "evaluation_base_sha": "a06c34774ad88ea8c56a00533f0fcef810fa7441",
+  "candidate_source_sha": "9b43fc535e864155b7c97b0e1b266c0787875bde",
+  "candidate_source_tree": "181093683ad06a62f5b6fc2469791f685cc11ce3",
+  "matrix_sha256": "05fc542d34e2d4019c0a987e0cde101cfafa75570c5131acc5cdf0573c825949",
+  "validator_sha256": "56145114c9282901451180d5056120499a257a04a5bfb51afef62f2cb3cf2e25",
+  "feature_rows": 13,
+  "critical_path_rows": 20,
+  "accepted_rows": 0,
+  "blocked_rows": 33,
+  "result": "blocked",
+  "downstream_unlock": false,
+  "non_claim": "WP-22 structural execution completed; v0.92 release quality did not pass."
+}

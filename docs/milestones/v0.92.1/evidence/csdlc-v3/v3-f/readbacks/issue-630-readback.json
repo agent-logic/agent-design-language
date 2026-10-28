@@ -1,0 +1,28 @@
+{
+  "action": "issue_read",
+  "comment_id": null,
+  "issue": {
+    "assignees": [],
+    "body": "Part of #625. Depends on V3-H.1 and the GitHub/publication lane.\n\n## Outcome\n\nImplement and test v3 terminal truth, safe cleanup, and cutover decision routes under the one `csdlc` binary.\n\n## Command routes\n\n- `csdlc finish`\n- `csdlc clean`\n- `csdlc cutover`\n\n## Acceptance criteria\n\n- Finish derives terminal truth from authenticated live PR/issue state.\n- Cleanup derives worktree authority from actual Git worktree registration, not caller booleans or self-derived digests.\n- Cleanup preserves distinct states: absent, unregistered, dirty, live, already removed, removable, and removed.\n- Cutover records explicit operator approval, rollback evidence, selected binary provenance, and fail-closed rollback/undo boundaries.\n- Tests include positive terminal closeout, stale/nonmerged/part-of denial, dirty/live worktree denial, symlink/path escape denial, and rollback refusal cases.\n- No v2 source changes.\n\n## Non-goals\n\n- Do not perform the #505 cutover from this child issue.\n- Do not merge or close #505.\n\n<!-- csdlc-github-operation:worker-6-v0921-v3h-child-terminal-cleanup-cutover-20260902 -->",
+    "closed_at": "2026-09-04T03:38:36Z",
+    "created_at": "2026-09-02T06:48:36Z",
+    "labels": [
+      "track:roadmap",
+      "type:task",
+      "version:v0.92.1",
+      "area:csdlc"
+    ],
+    "marker_present": false,
+    "milestone": null,
+    "number": 630,
+    "repository": "agent-logic/agent-design-language",
+    "schema": "csdlc.github_issue.v1",
+    "state": "closed",
+    "title": "[v0.92.1][V3-H.4] Implement v3 finish, cleanup, and cutover routes"
+  },
+  "operation_key": null,
+  "pr_state": null,
+  "reconciled": true,
+  "repository": "agent-logic/agent-design-language",
+  "schema": "csdlc.github_action_result.v1"
+}

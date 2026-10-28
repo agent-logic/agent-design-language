@@ -1,0 +1,86 @@
+{
+  "status": "reviewed_retained_historical_fixture_closure",
+  "original_inputs": [
+    {
+      "path": "adl/tools/worktree_doctor.sh",
+      "blob": "4af4d71aa33b2d275e352d16dabccd5242aaa0a8",
+      "exact_bytes": true
+    },
+    {
+      "path": "adl/tools/worktree_prune.sh",
+      "blob": "c7de1436b28a2fc0403ae4f765a48c48f49fe198",
+      "exact_bytes": true
+    },
+    {
+      "path": "adl/tools/test_worktree_doctor.sh",
+      "blob": "f0520fffe90414cb60b2055bff467843130153ac",
+      "exact_bytes": true
+    },
+    {
+      "path": "adl/tools/test_worktree_prune.sh",
+      "blob": "a1e1ae54d1f46a6ea2e55aab2a3e505a7ac575c2",
+      "exact_bytes": true
+    }
+  ],
+  "prior_invalid_environment_result": {
+    "status": "FAIL",
+    "inputs": [
+      {
+        "path": "adl/tools/worktree_doctor.sh",
+        "blob": "4af4d71aa33b2d275e352d16dabccd5242aaa0a8",
+        "exact_bytes": true
+      },
+      {
+        "path": "adl/tools/worktree_prune.sh",
+        "blob": "c7de1436b28a2fc0403ae4f765a48c48f49fe198",
+        "exact_bytes": true
+      },
+      {
+        "path": "adl/tools/test_worktree_doctor.sh",
+        "blob": "f0520fffe90414cb60b2055bff467843130153ac",
+        "exact_bytes": true
+      },
+      {
+        "path": "adl/tools/test_worktree_prune.sh",
+        "blob": "a1e1ae54d1f46a6ea2e55aab2a3e505a7ac575c2",
+        "exact_bytes": true
+      }
+    ],
+    "results": [
+      {
+        "test": "test_worktree_doctor.sh",
+        "exit": 0,
+        "seconds": 1.0290889579919167
+      },
+      {
+        "test": "test_worktree_prune.sh",
+        "exit": 1,
+        "seconds": 0.8578591250116006
+      }
+    ],
+    "scope": "Unchanged original four-file fixture closure; all worktree creates/removes confined to disposable FastWork fixture repositories, private HOME and Git configuration, explicit fake issue-state file, no credentials/network/native authority. Not qualification of actual native cleanup or authorization for real workspace deletion."
+  },
+  "corrected_result": {
+    "status": "PASS",
+    "results": [
+      {
+        "test": "test_worktree_doctor.sh",
+        "exit": 0,
+        "seconds": 0.8711829999956535,
+        "stderr_bytes": 0
+      },
+      {
+        "test": "test_worktree_prune.sh",
+        "exit": 0,
+        "seconds": 1.719983917006175,
+        "stderr_bytes": 0
+      }
+    ],
+    "harness_correction": "Original source unchanged. Real mktemp now gets explicit FastWork pathname template; rg available by symlink. No gh in PATH. First invalid environment result preserved in parent RESULT.json.",
+    "scope": "Disposable fixture Git only; not native cleanup qualification."
+  },
+  "review": "Verified all four original source blobs against isolated executed source and current worktree; read both full tests and both successful stdout markers. Doctor includes six classifications and two prune dry-run assertions. Prune covers bounded removal, open/dirty preservation, reports and opt-in scratch fixtures.",
+  "boundary": "Retain unchanged historical Git utilities and original tests. This is not native clean authority, installed-owner A07/A08 equivalence, or permission to invoke these helpers on real workspaces.",
+  "stderr_empty": true,
+  "retirement_authorized": false
+}

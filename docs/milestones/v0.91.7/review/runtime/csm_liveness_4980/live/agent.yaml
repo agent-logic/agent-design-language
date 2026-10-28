@@ -1,0 +1,26 @@
+schema: adl.long_lived_agent_spec.v1
+agent_instance_id: csm-live-4980
+display_name: CSM Live 4980
+state_root: state
+workflow:
+  kind: demo_adapter
+  name: wp07_csm_live_4980
+  run_args:
+    provider_id: local_ollama
+    model: gemma4:latest
+heartbeat:
+  interval_secs: 1
+  max_cycles: 1000000
+  stale_lease_after_secs: 60
+safety:
+  allow_network: false
+  allow_broker: false
+  allow_filesystem_writes_outside_state_root: false
+  allow_real_world_side_effects: false
+  require_public_artifact_sanitization: true
+  financial_advice: false
+  max_cycle_runtime_secs: 120
+  max_consecutive_failures: 5
+memory:
+  namespace: wp07/csm-live-4980
+  write_policy: append_only

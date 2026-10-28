@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ADL Milestone Compression Dashboard</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <main class="app-shell">
+    <aside class="rail">
+      <div class="rail-block rail-brand">
+        <p class="rail-kicker">ADL Tooling</p>
+        <h1>Milestone Compression Dashboard</h1>
+        <p class="rail-copy">
+          A read-only cockpit for milestone issue-wave posture, evidence drift, review gates, and next safe operator action.
+        </p>
+      </div>
+
+      <div class="rail-block">
+        <p class="rail-label">Current milestone</p>
+        <div id="milestone-chip" class="milestone-chip"></div>
+        <dl class="meta-list" id="meta-list"></dl>
+      </div>
+
+      <div class="rail-block">
+        <p class="rail-label">Read-only boundary</p>
+        <ul id="boundary-list" class="bands-list"></ul>
+      </div>
+
+      <div class="rail-block">
+        <p class="rail-label">Next operator action</p>
+        <ul id="next-actions" class="next-actions"></ul>
+      </div>
+    </aside>
+
+    <section class="workspace">
+      <header class="workspace-header">
+        <div>
+          <p class="section-kicker">Compression visibility</p>
+          <h2 id="headline"></h2>
+        </div>
+        <p id="lede" class="lede"></p>
+      </header>
+
+      <section class="signal-grid" id="signal-grid" aria-label="Milestone signals"></section>
+
+      <section class="detail-grid">
+        <article class="surface">
+          <div class="surface-head">
+            <div>
+              <p class="section-kicker">Snapshot freshness</p>
+              <h3>Unknown and stale-state handling</h3>
+            </div>
+          </div>
+          <ul id="freshness-list" class="watchlist"></ul>
+        </article>
+
+        <article class="surface">
+          <div class="surface-head">
+            <div>
+              <p class="section-kicker">PR and check state</p>
+              <h3>Live posture snapshot</h3>
+            </div>
+          </div>
+          <div id="pr-check-list" class="issues-list"></div>
+        </article>
+      </section>
+
+      <section class="surface workcell-surface">
+        <div class="surface-head">
+          <div>
+            <p class="section-kicker">Workcell operator view</p>
+            <h3>Read-only C-SDLC workcell and Runtime Observatory posture</h3>
+          </div>
+          <div id="workcell-status" class="status-badge"></div>
+        </div>
+        <div id="workcell-summary" class="workcell-summary"></div>
+        <div class="workcell-grid">
+          <div>
+            <p class="rail-label">Ownership and dependencies</p>
+            <div id="workcell-dependencies" class="issues-list"></div>
+          </div>
+          <div>
+            <p class="rail-label">Agent topology</p>
+            <div id="workcell-agents" class="issues-list"></div>
+          </div>
+          <div>
+            <p class="rail-label">Freshness and authority</p>
+            <div id="workcell-authority" class="issues-list"></div>
+          </div>
+        </div>
+        <div class="runtime-strip">
+          <div>
+            <p class="rail-label">Runtime Observatory</p>
+            <p id="runtime-live-status" class="runtime-status"></p>
+          </div>
+          <div id="runtime-observatory-list" class="runtime-observatory-list"></div>
+        </div>
+      </section>
+
+      <section class="hero-grid">
+        <article class="surface metric-surface">
+          <div class="surface-head">
+            <div>
+              <p class="section-kicker">Issue wave</p>
+              <h3>Execution snapshot</h3>
+            </div>
+            <div id="status-badge" class="status-badge"></div>
+          </div>
+          <div class="metric-stack" id="metric-stack"></div>
+          <div class="progress-shell">
+            <div class="progress-label-row">
+              <span>Closed WP issues</span>
+              <strong id="progress-copy"></strong>
+            </div>
+            <div class="progress-track">
+              <div id="progress-bar" class="progress-bar"></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="surface watch-surface">
+          <div class="surface-head">
+            <div>
+              <p class="section-kicker">Evidence posture</p>
+              <h3>Watchlist</h3>
+            </div>
+          </div>
+          <ul id="watchlist" class="watchlist"></ul>
+        </article>
+      </section>
+
+      <section class="surface">
+        <div class="surface-head">
+          <div>
+            <p class="section-kicker">Compression lanes</p>
+            <h3>Milestone flow</h3>
+          </div>
+        </div>
+        <div id="lane-grid" class="sprint-grid"></div>
+      </section>
+
+      <section class="surface">
+        <div class="surface-head">
+          <div>
+            <p class="section-kicker">Work packages</p>
+            <h3>Issue-wave state and next action</h3>
+          </div>
+          <div class="toolbar">
+            <div id="status-filters" class="chip-group"></div>
+            <div id="lane-filters" class="chip-group"></div>
+          </div>
+        </div>
+        <div class="table-head">
+          <span>Work package</span>
+          <span>Status</span>
+          <span>Issue / PR</span>
+          <span>Validation</span>
+          <span>Checks</span>
+          <span>Next action</span>
+        </div>
+        <div id="wp-list" class="wp-list"></div>
+      </section>
+
+      <section class="detail-grid">
+        <article class="surface">
+          <div class="surface-head">
+            <div>
+              <p class="section-kicker">Review-tail gates</p>
+              <h3>Not yet releasable</h3>
+            </div>
+          </div>
+          <div id="review-tail-list" class="issues-list"></div>
+        </article>
+
+        <article class="surface">
+          <div class="surface-head">
+            <div>
+              <p class="section-kicker">Authority</p>
+              <h3>Canonical source surfaces</h3>
+            </div>
+          </div>
+          <div id="authority-list" class="docs-list"></div>
+        </article>
+
+        <article class="surface">
+          <div class="surface-head">
+            <div>
+              <p class="section-kicker">Validation profile</p>
+              <h3>Compression-safe checks</h3>
+            </div>
+          </div>
+          <div id="validation-list" class="review-list"></div>
+        </article>
+      </section>
+
+      <section class="detail-grid">
+        <article class="surface">
+          <div class="surface-head">
+            <div>
+              <p class="section-kicker">Release blockers</p>
+              <h3>Not green until resolved</h3>
+            </div>
+          </div>
+          <ul id="release-blockers" class="watchlist blocker-list"></ul>
+        </article>
+
+        <article class="surface">
+          <div class="surface-head">
+            <div>
+              <p class="section-kicker">Deferred scope</p>
+              <h3>Guarded findings and non-claims</h3>
+            </div>
+          </div>
+          <div id="deferred-findings" class="issues-list"></div>
+        </article>
+      </section>
+    </section>
+  </main>
+
+  <!-- Historical dataset only; active reviewer entry surface is docs/milestones/v0.90.5/RELEASE_READINESS_v0.90.5.md -->
+  <script src="./data/v0.90.4.js"></script>
+  <script src="./dashboard.js"></script>
+</body>
+</html>

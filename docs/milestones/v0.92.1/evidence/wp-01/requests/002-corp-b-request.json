@@ -1,0 +1,27 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "action": "issue_create",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:CORP-B:create",
+  "token_file": null,
+  "issue": null,
+  "pull_request": null,
+  "title": "[v0.92.1][CORP-B] Corporate account custody register",
+  "body": "## Outcome\n\nProduce one accepted company-control custody register for the complete critical-service denominator.\n\n## Primary deliverable\n\nOne company-control custody register for every critical service.\n\n## Verification result\n\nReadback and recovery exercises prove corporate administration, billing, MFA, vault, and audited break-glass control for every registered service.\n\n## Unit boundary\n\nIssue completion is exactly acceptance of the one custody register; service readbacks are evidence inputs, not separately closeable results.\n\n## Dependencies\n\n- CORP-A: #482\n\n## Retained predecessor scope\n\n- #156\n\n## Acceptance criteria\n\n- [ ] Every critical service has corporate administration and billing custody\n- [ ] Recovery does not depend on one personal factor\n- [ ] Break-glass use is bounded and audited\n\n## Owned paths\n\n- `docs/operations/corporate/account-custody/**`\n- `docs/milestones/v0.92.1/evidence/corporate/corp-b/**`\n\n## PVF lanes\n\n- `service-denominator`\n- `custody-readback`\n- `recovery-exercise`\n- `redaction`\n\n## Stop conditions\n\n- A service remains founder-only\n- Recovery cannot be exercised\n- Credentials would enter evidence\n\n## Non-goals\n\n- Weakening MFA\n- Publishing credentials\n\n## Canonical planning identity\n\n- Planned ID: `CORP-B`\n- Canonical title: `[v0.92.1][CORP-B] Corporate account custody register`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#CORP-B`\n",
+  "labels": [
+    "area:security",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "assignees": [
+
+  ],
+  "milestone": 1,
+  "state": null,
+  "comment_body": null,
+  "required_checks": [
+
+  ],
+  "require_review": false,
+  "linked_issue": null
+}

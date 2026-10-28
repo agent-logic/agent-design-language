@@ -1,0 +1,12 @@
+{
+  "bindings": [
+    {
+      "members": [
+        "user:daniel@agent-logic.ai"
+      ],
+      "role": "roles/owner"
+    }
+  ],
+  "etag": "BwZYMD7fXcY=",
+  "version": 1
+}

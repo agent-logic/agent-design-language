@@ -1,0 +1,12 @@
+{
+  "schema": "adl.groupd.validation.v1",
+  "issue": 1160,
+  "lane_class": "contract_regression",
+  "proof_role": "required focused prepublication remediation proof",
+  "determinism": "local deterministic synthetic inputs; historical Git replay optional when objects absent",
+  "resources": "small CPU/filesystem fixtures; dependency-free Cargo adapter",
+  "release_gate": "required for issue1160 publication, not independent product qualification",
+  "network_or_cloud": false,
+  "artifact": "README.md",
+  "command": "cargo test --locked --offline --manifest-path tools/groupd_validation/Cargo.toml"
+}

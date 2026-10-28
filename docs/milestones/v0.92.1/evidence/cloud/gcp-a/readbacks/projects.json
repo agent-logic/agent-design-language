@@ -1,0 +1,79 @@
+[
+  {
+    "configuredCapabilities": [
+      "folders/726824330959/capabilities/app-management"
+    ],
+    "createTime": "2026-08-22T00:29:05.086Z",
+    "lifecycleState": "ACTIVE",
+    "name": "Proof of Concept-mp",
+    "parent": {
+      "id": "726824330959",
+      "type": "folder"
+    },
+    "projectId": "google-mpf-12976cmjx7mx",
+    "projectNumber": "1087465034372"
+  },
+  {
+    "createTime": "2026-08-22T00:27:04.538Z",
+    "lifecycleState": "ACTIVE",
+    "name": "Agent Logic Shared Services",
+    "parent": {
+      "id": "726824330959",
+      "type": "folder"
+    },
+    "projectId": "cs-poc-cha8mmii0xk0iaw5vpf8mxf",
+    "projectNumber": "1034406986020"
+  },
+  {
+    "createTime": "2026-08-21T23:54:35.835Z",
+    "labels": {
+      "gcp-onboarding-component": "cs-host-project",
+      "gcp-onboarding-host-project-org-id": "321515087273"
+    },
+    "lifecycleState": "ACTIVE",
+    "name": "Cloud Setup Host Project",
+    "parent": {
+      "id": "929563862525",
+      "type": "folder"
+    },
+    "projectId": "cs-host-377d41e71a824f92802120",
+    "projectNumber": "27581932047"
+  },
+  {
+    "createTime": "2026-08-21T23:54:34.638Z",
+    "labels": {
+      "gcp-onboarding-component": "cs-hc-project",
+      "gcp-onboarding-hc-project-org-id": "321515087273"
+    },
+    "lifecycleState": "ACTIVE",
+    "name": "Hybrid Connectivity Project",
+    "parent": {
+      "id": "929563862525",
+      "type": "folder"
+    },
+    "projectId": "cs-hc-30fba450ccaa4e35a1449ce5",
+    "projectNumber": "267805532261"
+  },
+  {
+    "createTime": "2026-08-21T22:47:37.715Z",
+    "lifecycleState": "ACTIVE",
+    "name": "My First Project",
+    "parent": {
+      "id": "321515087273",
+      "type": "organization"
+    },
+    "projectId": "ultra-might-506222-k9",
+    "projectNumber": "459014982840"
+  },
+  {
+    "createTime": "2026-08-04T03:28:10.946Z",
+    "lifecycleState": "ACTIVE",
+    "name": "ADL Google Drive Mirror",
+    "parent": {
+      "id": "321515087273",
+      "type": "organization"
+    },
+    "projectId": "adl-drive-mirror-2026",
+    "projectNumber": "389384019510"
+  }
+]

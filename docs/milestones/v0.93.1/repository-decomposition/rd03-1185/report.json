@@ -1,0 +1,293 @@
+{
+  "schema": "adl.public.install-proof.v1",
+  "source_revision": "5a1cfe4fd2d1af78438f4aa49d6bc6f5e21a1245",
+  "packages": [
+    {
+      "package": "adl-schema",
+      "version": "0.1.0",
+      "source": "adl-schema",
+      "artifact": "adl-schema-0.1.0.tar",
+      "sha256": "59b160ba52a136489a24cba80e2b9ab1bd4db70d66455cded29fae71a40010f7",
+      "manifest_normalization": "standalone workspace; existing sibling public dependencies retained"
+    },
+    {
+      "package": "adl-uts",
+      "version": "0.1.0",
+      "source": "adl-uts",
+      "artifact": "adl-uts-0.1.0.tar",
+      "sha256": "048545366aa4691a7102aba22ae774f214f3882760bce752d3d5d2f5377c0026",
+      "manifest_normalization": "standalone workspace; existing sibling public dependencies retained"
+    },
+    {
+      "package": "adl-language",
+      "version": "0.92.1",
+      "source": "adl-v2/crates/adl-language",
+      "artifact": "adl-language-0.92.1.tar",
+      "sha256": "32ee997b0ab5ec326cfb8b9c2759d00377febdc9da1f71ab91c2e9b6bd58d01c",
+      "manifest_normalization": "standalone workspace; existing sibling public dependencies retained"
+    },
+    {
+      "package": "adl-compiler",
+      "version": "0.92.1",
+      "source": "adl-v2/crates/adl-compiler",
+      "artifact": "adl-compiler-0.92.1.tar",
+      "sha256": "b029bcaf5cd658989d66299710c89749f151e48170a1f180410687907ebe4d7f",
+      "manifest_normalization": "standalone workspace; existing sibling public dependencies retained"
+    },
+    {
+      "package": "adl-legacy-contracts",
+      "version": "0.1.0",
+      "source": "adl-legacy-contracts",
+      "artifact": "adl-legacy-contracts-0.1.0.tar",
+      "sha256": "0af06ee11000ebebc0efc2e24e3c0ef1c330a225dd2e8844a278f7f0cce634d3",
+      "manifest_normalization": "standalone workspace; existing sibling public dependencies retained"
+    }
+  ],
+  "consumer": {
+    "cases": [
+      "language-compile-determinism",
+      "legacy-resolution",
+      "provider-dto-roundtrip",
+      "declaration-endpoint-denials",
+      "uts-three-versioned-schemas",
+      "unsupported-uts-version-denied",
+      "uts-inert-conformance"
+    ],
+    "executed_cases": 7,
+    "expected_cases": 7,
+    "passed": true,
+    "uts_cases": [
+      {
+        "accepted": true,
+        "execution_granted": false,
+        "group": "valid",
+        "id": "valid.safe_read",
+        "passed": true,
+        "reason": "accepted",
+        "side_effect_class": "read"
+      },
+      {
+        "accepted": true,
+        "execution_granted": false,
+        "group": "valid",
+        "id": "valid.local_write",
+        "passed": true,
+        "reason": "accepted",
+        "side_effect_class": "local_write"
+      },
+      {
+        "accepted": true,
+        "execution_granted": false,
+        "group": "valid",
+        "id": "valid.external_read",
+        "passed": true,
+        "reason": "accepted",
+        "side_effect_class": "external_read"
+      },
+      {
+        "accepted": true,
+        "execution_granted": false,
+        "group": "valid",
+        "id": "valid.external_write",
+        "passed": true,
+        "reason": "accepted",
+        "side_effect_class": "external_write"
+      },
+      {
+        "accepted": true,
+        "execution_granted": false,
+        "group": "valid",
+        "id": "valid.destructive",
+        "passed": true,
+        "reason": "accepted",
+        "side_effect_class": "destructive"
+      },
+      {
+        "accepted": true,
+        "execution_granted": false,
+        "group": "valid",
+        "id": "valid.process",
+        "passed": true,
+        "reason": "accepted",
+        "side_effect_class": "process"
+      },
+      {
+        "accepted": true,
+        "execution_granted": false,
+        "group": "valid",
+        "id": "valid.network",
+        "passed": true,
+        "reason": "accepted",
+        "side_effect_class": "network"
+      },
+      {
+        "accepted": true,
+        "execution_granted": false,
+        "group": "valid",
+        "id": "valid.exfiltration",
+        "passed": true,
+        "reason": "accepted",
+        "side_effect_class": "exfiltration"
+      },
+      {
+        "accepted": false,
+        "execution_granted": false,
+        "group": "invalid",
+        "id": "invalid.missing_semantics",
+        "passed": true,
+        "reason": "missing_semantics",
+        "side_effect_class": null
+      },
+      {
+        "accepted": false,
+        "execution_granted": false,
+        "group": "invalid",
+        "id": "invalid.missing_security_metadata",
+        "passed": true,
+        "reason": "missing_security_metadata",
+        "side_effect_class": null
+      },
+      {
+        "accepted": false,
+        "execution_granted": false,
+        "group": "invalid",
+        "id": "invalid.malformed_schema",
+        "passed": true,
+        "reason": "invalid_input_schema",
+        "side_effect_class": null
+      },
+      {
+        "accepted": false,
+        "execution_granted": false,
+        "group": "invalid",
+        "id": "invalid.ambiguous_side_effects",
+        "passed": true,
+        "reason": "ambiguous_side_effects",
+        "side_effect_class": "network"
+      },
+      {
+        "accepted": false,
+        "execution_granted": false,
+        "group": "invalid",
+        "id": "invalid.unsafe_extension",
+        "passed": true,
+        "reason": "invalid_extension_key",
+        "side_effect_class": "read"
+      },
+      {
+        "accepted": false,
+        "execution_granted": false,
+        "group": "invalid",
+        "id": "invalid.incompatible_version",
+        "passed": true,
+        "reason": "unsupported_schema_version",
+        "side_effect_class": "read"
+      },
+      {
+        "accepted": true,
+        "execution_granted": false,
+        "group": "extension",
+        "id": "extension.optional_vendor_metadata",
+        "passed": true,
+        "reason": "accepted",
+        "side_effect_class": "read"
+      },
+      {
+        "accepted": false,
+        "execution_granted": false,
+        "group": "extension",
+        "id": "extension.unsupported_required_extension",
+        "passed": true,
+        "reason": "unsupported_required_extension",
+        "side_effect_class": "read"
+      },
+      {
+        "accepted": false,
+        "execution_granted": false,
+        "group": "extension",
+        "id": "extension.reserved_authority_extension",
+        "passed": true,
+        "reason": "invalid_extension_key",
+        "side_effect_class": "read"
+      },
+      {
+        "accepted": true,
+        "execution_granted": false,
+        "group": "dangerous",
+        "id": "dangerous.destructive_denied",
+        "passed": true,
+        "reason": "accepted",
+        "side_effect_class": "destructive"
+      },
+      {
+        "accepted": true,
+        "execution_granted": false,
+        "group": "dangerous",
+        "id": "dangerous.process_denied",
+        "passed": true,
+        "reason": "accepted",
+        "side_effect_class": "process"
+      },
+      {
+        "accepted": true,
+        "execution_granted": false,
+        "group": "dangerous",
+        "id": "dangerous.network_denied",
+        "passed": true,
+        "reason": "accepted",
+        "side_effect_class": "network"
+      },
+      {
+        "accepted": true,
+        "execution_granted": false,
+        "group": "dangerous",
+        "id": "dangerous.exfiltration_denied",
+        "passed": true,
+        "reason": "accepted",
+        "side_effect_class": "exfiltration"
+      }
+    ],
+    "uts_fixture_count": 21
+  },
+  "dependency_lock": {
+    "path": "consumer.Cargo.lock",
+    "sha256": "48d0e670282c0b8683b77ce635b93cd6775a9ae7ad886dc34725555e5ea41eea"
+  },
+  "toolchain_versions": {
+    "cargo": "cargo 1.92.0 (344c4567c 2025-10-21)",
+    "rustc": "rustc 1.92.0 (ded5c06cf 2025-12-08)"
+  },
+  "sandbox": "macOS sandbox-exec: network, home and producer source denied; toolchain/public registry allowed",
+  "negative_cases": [
+    {
+      "case": "private-credential-denied",
+      "status": "rejected",
+      "exit_code": 1
+    },
+    {
+      "case": "producer-source-denied",
+      "status": "rejected",
+      "exit_code": 1
+    },
+    {
+      "case": "network-denied",
+      "status": "rejected",
+      "exit_code": 1
+    },
+    {
+      "case": "sibling-producer-dependency-denied",
+      "status": "rejected",
+      "exit_code": 101
+    },
+    {
+      "case": "incompatible-package-version",
+      "status": "rejected",
+      "exit_code": 101
+    }
+  ],
+  "negative_expected": 5,
+  "negative_executed": 5,
+  "public_packages_consumed": 5,
+  "execution_authority_claimed": false,
+  "registry_publication_claimed": false
+}

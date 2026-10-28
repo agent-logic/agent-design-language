@@ -1,0 +1,135 @@
+[
+  {
+    "manifest": "adl/Cargo.toml",
+    "argv": [
+      "cargo",
+      "metadata",
+      "--offline",
+      "--locked",
+      "--no-deps",
+      "--format-version",
+      "1",
+      "--manifest-path",
+      "adl/Cargo.toml"
+    ],
+    "exit": 0,
+    "packages": 1,
+    "stderr": "",
+    "lock_unchanged": true,
+    "meaning": "Manifest metadata only; not a build, transitive resolution or MSRV proof"
+  },
+  {
+    "manifest": "adl-runtime/Cargo.toml",
+    "argv": [
+      "cargo",
+      "metadata",
+      "--offline",
+      "--locked",
+      "--no-deps",
+      "--format-version",
+      "1",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml"
+    ],
+    "exit": 0,
+    "packages": 1,
+    "stderr": "",
+    "lock_unchanged": true,
+    "meaning": "Manifest metadata only; not a build, transitive resolution or MSRV proof"
+  },
+  {
+    "manifest": "adl-runtime-kernel/Cargo.toml",
+    "argv": [
+      "cargo",
+      "metadata",
+      "--offline",
+      "--locked",
+      "--no-deps",
+      "--format-version",
+      "1",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml"
+    ],
+    "exit": 0,
+    "packages": 1,
+    "stderr": "",
+    "lock_unchanged": true,
+    "meaning": "Manifest metadata only; not a build, transitive resolution or MSRV proof"
+  },
+  {
+    "manifest": "adl-provider-core/Cargo.toml",
+    "argv": [
+      "cargo",
+      "metadata",
+      "--offline",
+      "--locked",
+      "--no-deps",
+      "--format-version",
+      "1",
+      "--manifest-path",
+      "adl-provider-core/Cargo.toml"
+    ],
+    "exit": 0,
+    "packages": 1,
+    "stderr": "",
+    "lock_unchanged": true,
+    "meaning": "Manifest metadata only; not a build, transitive resolution or MSRV proof"
+  },
+  {
+    "manifest": "adl-uts/Cargo.toml",
+    "argv": [
+      "cargo",
+      "metadata",
+      "--offline",
+      "--locked",
+      "--no-deps",
+      "--format-version",
+      "1",
+      "--manifest-path",
+      "adl-uts/Cargo.toml"
+    ],
+    "exit": 0,
+    "packages": 1,
+    "stderr": "",
+    "lock_unchanged": true,
+    "meaning": "Manifest metadata only; not a build, transitive resolution or MSRV proof"
+  },
+  {
+    "manifest": "csdlc-v3/Cargo.toml",
+    "argv": [
+      "cargo",
+      "metadata",
+      "--offline",
+      "--locked",
+      "--no-deps",
+      "--format-version",
+      "1",
+      "--manifest-path",
+      "csdlc-v3/Cargo.toml"
+    ],
+    "exit": 0,
+    "packages": 1,
+    "stderr": "",
+    "lock_unchanged": true,
+    "meaning": "Manifest metadata only; not a build, transitive resolution or MSRV proof"
+  },
+  {
+    "manifest": "adl-v2/Cargo.toml",
+    "argv": [
+      "cargo",
+      "metadata",
+      "--offline",
+      "--locked",
+      "--no-deps",
+      "--format-version",
+      "1",
+      "--manifest-path",
+      "adl-v2/Cargo.toml"
+    ],
+    "exit": 0,
+    "packages": 10,
+    "stderr": "",
+    "lock_unchanged": true,
+    "meaning": "Manifest metadata only; not a build, transitive resolution or MSRV proof"
+  }
+]

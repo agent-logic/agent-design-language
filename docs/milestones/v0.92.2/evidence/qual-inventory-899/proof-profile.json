@@ -1,0 +1,18 @@
+{
+  "schema": "adl.issue_proof_profile.v1",
+  "issue": 899,
+  "lane": "tooling",
+  "proof_role": "exact-revision Cargo inventory and evidence integrity",
+  "determinism": "fixture tests deterministic; actual inventories pinned to Git commits, package, default features, Rust 1.92.0 and recorded host",
+  "resources": "local CPU, Git, Python, Rust compiler and issue-owned target directory; no cloud or provider calls",
+  "release_gate": "required issue acceptance; no runtime qualification or release approval",
+  "surfaces": [
+    "adl/tools/test_revision_validation_inventory.py",
+    "actual Cargo discovery/build/list at both immutable revisions",
+    "verification of both complete transcript bundles",
+    "comparison of registered targets and enumerated cases"
+  ],
+  "test_bodies": "not_run; test harness enumeration only",
+  "excluded": "non-adl packages, benches/examples, non-default feature cases; metadata still reports excluded target registrations",
+  "review": "independent exact-head and exact-result review required"
+}

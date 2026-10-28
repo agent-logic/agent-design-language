@@ -1,0 +1,567 @@
+{
+  "schema": "review919.provider_coverage.v1",
+  "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+  "status": "allowed_static_scope_complete_changes_required_cloud_unreviewed",
+  "rows": [
+    {
+      "id": "F04687",
+      "status": "A",
+      "path": "adl-provider-core/Cargo.lock",
+      "review_status": "cross_lane_dependency_review",
+      "observation": "Manifest and lockfile review delegated to lead dependency lane; this lane makes no independent full dependency assurance claim."
+    },
+    {
+      "id": "F04688",
+      "status": "A",
+      "path": "adl-provider-core/Cargo.toml",
+      "review_status": "cross_lane_dependency_review",
+      "observation": "Manifest and lockfile review delegated to lead dependency lane; this lane makes no independent full dependency assurance claim."
+    },
+    {
+      "id": "F04689",
+      "status": "A",
+      "path": "adl-provider-core/PROOF_INVENTORY.md",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full source read; commands point to leaf and ADL suites separately; live/vendor/installed boundaries explicit; proof counts retained as historical supplied runs, not current execution. Static only; no execution."
+    },
+    {
+      "id": "F04690",
+      "status": "A",
+      "path": "adl-provider-core/src/candidate.rs",
+      "review_status": "complete_source_static",
+      "observation": "Full source including embedded tests inspected for configuration admission, bounded execution, cancellation/accounting or health state as applicable. No execution. See provider report observations."
+    },
+    {
+      "id": "F04691",
+      "status": "A",
+      "path": "adl-provider-core/src/deepgram.rs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full move-aware changed hunks provider-move-deepgram.rs.diff 1-18; source 1-180. Only import adaptation and explicit TLS/no-redirect client changed; retained speech implementation unchanged."
+    },
+    {
+      "id": "F04692",
+      "status": "A",
+      "path": "adl-provider-core/src/http_family.rs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full move-aware changed hunks provider-move-http_family.rs.diff 1-1522; supporting original helpers 1-212 and 1650-1820. Canonical controls forwarded, native response/failure mapping, bounded metadata/Bedrock handling, per-runtime retry/time bounds. Unchanged full provider family internals not independently reread."
+    },
+    {
+      "id": "F04693",
+      "status": "A",
+      "path": "adl-provider-core/src/http_family/config.rs",
+      "review_status": "complete_source_static",
+      "observation": "Full source including embedded tests inspected for configuration admission, bounded execution, cancellation/accounting or health state as applicable. No execution. See provider report observations."
+    },
+    {
+      "id": "F04694",
+      "status": "A",
+      "path": "adl-provider-core/src/http_family/tests.rs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full move-aware test diff 1-643: bound ephemeral socket directly, model-neutral Converse, exact controls, provider failure categories, local transport matrix and metadata/no-generation assertions; static only."
+    },
+    {
+      "id": "F04695",
+      "status": "A",
+      "path": "adl-provider-core/src/lib.rs",
+      "review_status": "complete_source_static",
+      "observation": "Full source including embedded tests inspected for configuration admission, bounded execution, cancellation/accounting or health state as applicable. No execution. See provider report observations."
+    },
+    {
+      "id": "F04696",
+      "status": "A",
+      "path": "adl-provider-core/src/local.rs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Complete changed hunks and immediate context inspected; source outside hunks not claimed fully reviewed. Changed hunks and immediate context inspected; extracted local/profile module compared against its original base location. "
+    },
+    {
+      "id": "F04697",
+      "status": "A",
+      "path": "adl-provider-core/src/model_identity.rs",
+      "review_status": "complete_source_static",
+      "observation": "Full source including embedded tests inspected for configuration admission, bounded execution, cancellation/accounting or health state as applicable. No execution. See provider report observations."
+    },
+    {
+      "id": "F04698",
+      "status": "A",
+      "path": "adl-provider-core/src/profiles.rs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Complete changed hunks and immediate context inspected; source outside hunks not claimed fully reviewed. Changed hunks and immediate context inspected; extracted local/profile module compared against its original base location. "
+    },
+    {
+      "id": "F04699",
+      "status": "A",
+      "path": "adl-provider-core/src/provider.rs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Complete move-aware diff 1-1019 read; factory and failure classification, retained tests and extraction boundary inspected. Static only; no execution."
+    },
+    {
+      "id": "F04700",
+      "status": "A",
+      "path": "adl-provider-core/src/provider/mlx.rs",
+      "review_status": "complete_source_static",
+      "observation": "Full source including embedded tests inspected for configuration admission, bounded execution, cancellation/accounting or health state as applicable. No execution. See provider report observations."
+    },
+    {
+      "id": "F04701",
+      "status": "A",
+      "path": "adl-provider-core/src/provider/mlx/tests.rs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full source 1-242: local model/protocol bounds and transport failure tests; no execution. Static review only; not executed."
+    },
+    {
+      "id": "F04702",
+      "status": "A",
+      "path": "adl-provider-core/src/provider_substrate.rs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Complete move-aware diff 1-1465 read; codec-consumed canonical controls, strict types/ranges, stable fingerprint, output cap minimum, profile equivalence and model identity inspected. Static only; no execution."
+    },
+    {
+      "id": "F04703",
+      "status": "A",
+      "path": "adl-provider-core/src/registry.rs",
+      "review_status": "complete_source_static",
+      "observation": "Full source including embedded tests inspected for configuration admission, bounded execution, cancellation/accounting or health state as applicable. No execution. See provider report observations."
+    },
+    {
+      "id": "F04704",
+      "status": "A",
+      "path": "adl-provider-core/src/runtime_limits.rs",
+      "review_status": "complete_source_static",
+      "observation": "Full source including embedded tests inspected for configuration admission, bounded execution, cancellation/accounting or health state as applicable. No execution. See provider report observations."
+    },
+    {
+      "id": "F04705",
+      "status": "A",
+      "path": "adl-provider-core/src/spec.rs",
+      "review_status": "complete_source_static",
+      "observation": "Full source including embedded tests inspected for configuration admission, bounded execution, cancellation/accounting or health state as applicable. No execution. See provider report observations."
+    },
+    {
+      "id": "F04706",
+      "status": "M",
+      "path": "adl-runtime-kernel/Cargo.lock",
+      "review_status": "cross_lane_dependency_review",
+      "observation": "Manifest and lockfile review delegated to lead dependency lane; this lane makes no independent full dependency assurance claim."
+    },
+    {
+      "id": "F04707",
+      "status": "M",
+      "path": "adl-runtime-kernel/Cargo.toml",
+      "review_status": "cross_lane_dependency_review",
+      "observation": "Manifest and lockfile review delegated to lead dependency lane; this lane makes no independent full dependency assurance claim."
+    },
+    {
+      "id": "F04708",
+      "status": "M",
+      "path": "adl-runtime-kernel/src/agent_roster.rs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Complete changed hunks and immediate context inspected; source outside hunks not claimed fully reviewed. Changed hunks and immediate context inspected; extracted local/profile module compared against its original base location. "
+    },
+    {
+      "id": "F04709",
+      "status": "M",
+      "path": "adl-runtime-kernel/src/assembly.rs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunks reread 1-end: declared binding accounting, health-context injection outside durable work identity, fatal dispatch failures, normalized governed action output, plain-text continuation and help projection."
+    },
+    {
+      "id": "F04710",
+      "status": "M",
+      "path": "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunks: shared candidate/admission transaction, fallback provider watcher, independent dynamic-health sweeps, revision-scoped resident recovery, response/alert workers tied to API shutdown and diagnostics."
+    },
+    {
+      "id": "F04711",
+      "status": "M",
+      "path": "adl-runtime-kernel/src/config.rs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Complete changed hunks and immediate context inspected; source outside hunks not claimed fully reviewed. Changed hunks and immediate context inspected; extracted local/profile module compared against its original base location. "
+    },
+    {
+      "id": "F04712",
+      "status": "M",
+      "path": "adl-runtime-kernel/src/config_reload.rs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Complete changed hunks and immediate context inspected; source outside hunks not claimed fully reviewed. Changed hunks and immediate context inspected; extracted local/profile module compared against its original base location. "
+    },
+    {
+      "id": "F04713",
+      "status": "M",
+      "path": "adl-runtime-kernel/src/control.rs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunks provider-control.diff 1-end read across bounded chunks; supporting data flows cited in PRV-001. Reviews lifecycle persistence, identity migration, bounded welcome retries, requested actions, provider accounting and health. Embedded tests checked; no execution."
+    },
+    {
+      "id": "F04714",
+      "status": "M",
+      "path": "adl-runtime-kernel/src/control/feeds.rs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunks: runtime component samples expire into unreachable, bindings projected and incident feed added. Static only; no execution."
+    },
+    {
+      "id": "F04715",
+      "status": "A",
+      "path": "adl-runtime-kernel/src/control/provider_registry_tests.rs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full source 1-908. Lifecycle, immutable named definitions, no inference on admission/status, cancellation, budget caps, metadata interleaving, retained rejected generation and provider/admission transaction assertions. Fixtures use identical model_ref/native ID; PRV-001 alias join case absent. Static only; no execution."
+    },
+    {
+      "id": "F04716",
+      "status": "A",
+      "path": "adl-runtime-kernel/src/control/response_auth_tests.rs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full source 1-163; closed empty action shape, fixed audit fields, canonical continuation and explicit help tests. Static only; no execution."
+    },
+    {
+      "id": "F04717",
+      "status": "M",
+      "path": "adl-runtime-kernel/src/conversation_sessions_tests.rs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Complete changed hunks: failure/success exact correlation and event count, WSS projection, stable public failure categories and secret-canary omission. Static only; no execution."
+    },
+    {
+      "id": "F04718",
+      "status": "M",
+      "path": "adl-runtime-kernel/src/ingress.rs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunks: allowlisted provider failure codes, failed event emission and explicit boolean request_help projection. Static only; no execution."
+    },
+    {
+      "id": "F04719",
+      "status": "M",
+      "path": "adl-runtime-kernel/src/lib.rs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunks: exports new provider/health modules. Static only; no execution."
+    },
+    {
+      "id": "F04720",
+      "status": "M",
+      "path": "adl-runtime-kernel/src/memory_palace_authority.rs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunks: prepare clones lineage until final provision succeeds; source-level state atomicity observation only, not fresh authority security assurance. Static only; no execution."
+    },
+    {
+      "id": "F04721",
+      "status": "M",
+      "path": "adl-runtime-kernel/src/observability.rs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunks: cursor progression replaces repeated full-log scans; catch-up avoids prematurely changing liveness. Static only; no execution."
+    },
+    {
+      "id": "F04722",
+      "status": "M",
+      "path": "adl-runtime-kernel/src/observability/master_log.rs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunks including tests: 64KiB per poll, 256KiB record bound; complete-line max sequence, captured snapshot limit, inode/size/anchor reset. Static only; no execution."
+    },
+    {
+      "id": "F04723",
+      "status": "M",
+      "path": "adl-runtime-kernel/src/private_state.rs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunk: Clone enables speculative lineage validation. Static only; no execution."
+    },
+    {
+      "id": "F04724",
+      "status": "A",
+      "path": "adl-runtime-kernel/src/provider_registry.rs",
+      "review_status": "complete_source_static",
+      "observation": "Full source including embedded tests inspected for configuration admission, bounded execution, cancellation/accounting or health state as applicable. No execution. See provider report observations."
+    },
+    {
+      "id": "F04725",
+      "status": "A",
+      "path": "adl-runtime-kernel/src/provider_usage.rs",
+      "review_status": "complete_source_static",
+      "observation": "Full source including embedded tests inspected for configuration admission, bounded execution, cancellation/accounting or health state as applicable. No execution. See provider report observations."
+    },
+    {
+      "id": "F04726",
+      "status": "A",
+      "path": "adl-runtime-kernel/src/resident_health.rs",
+      "review_status": "complete_source_static",
+      "observation": "Full source including embedded tests inspected for configuration admission, bounded execution, cancellation/accounting or health state as applicable. No execution. See provider report observations."
+    },
+    {
+      "id": "F04727",
+      "status": "M",
+      "path": "adl-runtime-kernel/src/resident_shepherd.rs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Complete changed hunks and immediate context inspected; source outside hunks not claimed fully reviewed. Changed hunks and immediate context inspected; extracted local/profile module compared against its original base location. "
+    },
+    {
+      "id": "F04728",
+      "status": "M",
+      "path": "adl-runtime-kernel/src/telemetry.rs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunks: shared registry/accounting and fixed domain failure event. Static only; no execution."
+    },
+    {
+      "id": "F04729",
+      "status": "M",
+      "path": "adl-runtime-kernel/tests/agent_roster.rs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunks: provider_binding None fixture adaptation. Static only; no execution."
+    },
+    {
+      "id": "F04730",
+      "status": "M",
+      "path": "adl-runtime-kernel/tests/configuration.rs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunks: primary shepherd rejects gateway and remote Ollama configuration. Static only; no execution."
+    },
+    {
+      "id": "F04731",
+      "status": "M",
+      "path": "adl-runtime-kernel/tests/contracts.rs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunks and supporting 350-420: leaf provider dependency exception keeps canonical path and denies aliases/inheritance. Static only; no execution."
+    },
+    {
+      "id": "F04732",
+      "status": "M",
+      "path": "adl-runtime-kernel/tests/control.rs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunks: incident feed field and optional provider binding fixture adaptation. Static only; no execution."
+    },
+    {
+      "id": "F04733",
+      "status": "M",
+      "path": "adl-runtime-kernel/tests/observability.rs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunks: bounded local failing S3 fixture verifies actual request and progress before success; narrows Vector log. Static only; no execution."
+    },
+    {
+      "id": "F04734",
+      "status": "M",
+      "path": "adl-runtime-kernel/tests/openapi_contract.rs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunks: registry admission schema, redacted projection fields and canonical name action routes. Static only; no execution."
+    },
+    {
+      "id": "F04735",
+      "status": "M",
+      "path": "adl-runtime-kernel/tests/shepherd.rs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunks: metadata preflight fixtures; virtual-time idle no-inference, backoff, pending cancellation, invalidation race, freshness and retired-binding fencing. Static review only; not executed."
+    },
+    {
+      "id": "F04736",
+      "status": "M",
+      "path": "adl-runtime/Cargo.lock",
+      "review_status": "cross_lane_dependency_review",
+      "observation": "Manifest and lockfile review delegated to lead dependency lane; this lane makes no independent full dependency assurance claim."
+    },
+    {
+      "id": "F04737",
+      "status": "M",
+      "path": "adl-runtime/Cargo.toml",
+      "review_status": "cross_lane_dependency_review",
+      "observation": "Manifest and lockfile review delegated to lead dependency lane; this lane makes no independent full dependency assurance claim."
+    },
+    {
+      "id": "F04738",
+      "status": "M",
+      "path": "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunks: explicit AWS-LC crypto implementation with safe protocol defaults retained. Static only; no execution."
+    },
+    {
+      "id": "F04739",
+      "status": "M",
+      "path": "adl-runtime/src/distributed/authority_protocol_contract_tests.rs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunks: digest byte XOR guarantees mutation distinct from original; no fresh execution. Static only; no execution."
+    },
+    {
+      "id": "F04740",
+      "status": "M",
+      "path": "adl-runtime/src/memory_palace.rs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunks: strict locked latest read rejects stale/missing pointer without repair; positive/recovery/negative assertions retained. Static only; no execution."
+    },
+    {
+      "id": "F04741",
+      "status": "M",
+      "path": "adl-runtime/tests/config_reload.rs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunks: atomic file publishing; causal candidate observation with explicit virtual time replaces real-time debounce races. Static only; no execution."
+    },
+    {
+      "id": "F04742",
+      "status": "M",
+      "path": "adl-runtime/tests/kernel_continuity_client.rs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunks: explicit AWS-LC crypto builder retains TLS1.3 and client/server role/issuer negative assertions. Static only; no execution."
+    },
+    {
+      "id": "F04861",
+      "status": "A",
+      "path": "adl/src/execute/tests/provider_definitions.rs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full source 1-226: request-arrival synchronization, old/new immutable snapshots and exact requests, atomic paired definitions, invalid candidate retention, no reload probe requests. Static review only; not executed."
+    },
+    {
+      "id": "F04867",
+      "status": "D",
+      "path": "adl/src/provider/deepgram.rs",
+      "review_status": "complete_move_delta_static",
+      "observation": "Full move-aware delta compared against corresponding adl-provider-core module. Extraction deletion is not missing implementation; unchanged internals not claimed reread wholesale."
+    },
+    {
+      "id": "F04868",
+      "status": "D",
+      "path": "adl/src/provider/http_family.rs",
+      "review_status": "complete_move_delta_static",
+      "observation": "Full move-aware delta compared against corresponding adl-provider-core module. Extraction deletion is not missing implementation; unchanged internals not claimed reread wholesale."
+    },
+    {
+      "id": "F04869",
+      "status": "D",
+      "path": "adl/src/provider/http_family/config.rs",
+      "review_status": "complete_move_delta_static",
+      "observation": "Full move-aware delta compared against corresponding adl-provider-core module. Extraction deletion is not missing implementation; unchanged internals not claimed reread wholesale."
+    },
+    {
+      "id": "F04870",
+      "status": "D",
+      "path": "adl/src/provider/http_family/tests.rs",
+      "review_status": "complete_move_delta_static",
+      "observation": "Full move-aware delta compared against corresponding adl-provider-core module. Extraction deletion is not missing implementation; unchanged internals not claimed reread wholesale."
+    },
+    {
+      "id": "F04871",
+      "status": "D",
+      "path": "adl/src/provider/local.rs",
+      "review_status": "complete_move_delta_static",
+      "observation": "Full move-aware delta compared against corresponding adl-provider-core module. Extraction deletion is not missing implementation; unchanged internals not claimed reread wholesale."
+    },
+    {
+      "id": "F04872",
+      "status": "M",
+      "path": "adl/src/provider/mod.rs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Facade additions and complete move-aware provider.rs delta inspected; retained unchanged ADL document tests not reread wholesale. Static only; no execution."
+    },
+    {
+      "id": "F04873",
+      "status": "M",
+      "path": "adl/src/provider/profiles.rs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Complete new facade source 1-37 plus complete moved profile diff 1-353; expansion ownership retained. Static only; no execution."
+    },
+    {
+      "id": "F04874",
+      "status": "M",
+      "path": "adl/src/provider/reload.rs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Source 1-360 plus complete changed hunks including final tests; all-or-nothing candidate rejection preserves generation/digest, references not resolved during admission. Static only; no execution."
+    },
+    {
+      "id": "F04875",
+      "status": "M",
+      "path": "adl/src/provider_adapter.rs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunks (diff 1-end): mode-bound no-retry CodeFriend dispatch; unknown-effect propagation even persistence failure; bounded decoded HTTP/Bedrock body; metadata bounds; model-neutral Converse; runtime-vs-active timeout contracts and retained tests. Source review only, no cloud verification."
+    },
+    {
+      "id": "F04876",
+      "status": "M",
+      "path": "adl/src/provider_substrate.rs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Complete new facade source 1-89 and moved substrate diff 1-1465; compatibility manifest test retained. Static only; no execution."
+    },
+    {
+      "id": "F06165",
+      "status": "A",
+      "path": "infra/aws/csm-runtime-health/shepherd.tf",
+      "review_status": "not_reviewed_restricted_cloud_scope",
+      "observation": "Lead narrowed continuation after tool-side restriction; cloud assurance excluded, no restricted probe retried. No clean disposition implied."
+    },
+    {
+      "id": "F06166",
+      "status": "M",
+      "path": "infra/aws/csm-runtime-health/variables.tf",
+      "review_status": "not_reviewed_restricted_cloud_scope",
+      "observation": "Lead narrowed continuation after tool-side restriction; cloud assurance excluded, no restricted probe retried. No clean disposition implied."
+    },
+    {
+      "id": "F04860",
+      "status": "M",
+      "path": "adl/src/execute/tests.rs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunks: adds provider_definitions module. Static review only; not executed."
+    },
+    {
+      "id": "F04864",
+      "status": "M",
+      "path": "adl/src/long_lived_agent/tests.rs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunks: shutdown barrier requires status-sink acknowledgment; ACC executed receipt includes tool and argument/effect hashes. Static review only; not executed."
+    },
+    {
+      "id": "F04922",
+      "status": "A",
+      "path": "adl/tests/csm_runtime_v3_generation.rs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full source 1-39: managed lifecycle help and invalid start/candidate rejection before service mutation. Static review only; not executed."
+    },
+    {
+      "id": "F04986",
+      "status": "A",
+      "path": "adl/tests/mlx_provider.rs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full source 1-284: profile/platform contract, ignored explicit pinned live workflow, deterministic loopback executor proof; live gate explicitly excludes resident-kernel routing/server cancellation. Static review only; not executed."
+    },
+    {
+      "id": "F04987",
+      "status": "A",
+      "path": "adl/tests/pair_provider.rs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full source 1-250: concurrent workflow shape, ignored operator-attended pinned sidecar/corpus gate, exact output and content-redacted receipt; serving node not proven. Static review only; not executed."
+    },
+    {
+      "id": "F04988",
+      "status": "M",
+      "path": "adl/tests/production_birthday_runtime.rs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunks: fixture receives executed tool and argument/effect hashes. Static review only; not executed."
+    },
+    {
+      "id": "F04989",
+      "status": "M",
+      "path": "adl/tests/provider_moonshot_kimi_k3.rs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunks: error-chain assertion retains reasoning-effort contract. Static review only; not executed."
+    },
+    {
+      "id": "F04990",
+      "status": "M",
+      "path": "adl/tests/provider_tests/construction.rs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunks: local CLI rejects unsupported/noncanonical temperature controls. Static review only; not executed."
+    },
+    {
+      "id": "F04991",
+      "status": "M",
+      "path": "adl/tests/provider_tests/http_family.rs",
+      "review_status": "complete_changed_hunks_static",
+      "observation": "Full changed hunks: canonical scalar validation and error-chain assertions. Static review only; not executed."
+    }
+  ],
+  "scope_revision": "Parent restricted continuation to static Runtime/provider reliability/configuration/test consistency. Cloud assurance and exploit/auth probes excluded; no restricted probe retried.",
+  "historical_runtime_checks": "D520-RUNTIME-001/002: inspected control.rs 2685 guard plus 10444-10656 retained regression assertions: interrupted final attempt remains terminal, stable logical work identity persists through retry while attempts reach 2 and internal attempt identities do not enter canonical ingress.",
+  "limitations": [
+    "No executable tests, builds, credentials, endpoint calls or cloud operations in provider lane.",
+    "Lead-reported prior tool restriction preserved; no retry/bypass; AWS/GCP authenticated plan-byte assurance D520-SEC001/002 unreviewed.",
+    "Move-aware deltas cover changed behavior; unchanged legacy internals not claimed exhaustive reread."
+  ],
+  "counts": {
+    "cross_lane_dependency_review": 6,
+    "complete_changed_hunks_static": 54,
+    "complete_source_static": 11,
+    "complete_move_delta_static": 5,
+    "not_reviewed_restricted_cloud_scope": 2
+  }
+}

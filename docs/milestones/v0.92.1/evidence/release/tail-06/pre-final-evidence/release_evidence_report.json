@@ -1,0 +1,105 @@
+{
+  "schema": "adl.release_evidence_report.v1",
+  "run_id": "tail-06-pre-final-20260911",
+  "milestone": "v0.92.1",
+  "status": "blocked",
+  "summary": "The original source denominator remains 19 findings: 14 internal and five external. #833 review evidence is merged by PR #853 and adds six review observations that the final ledger must disposition separately. #851 was superseded by v0.92.2 issue #852. #856 / PR #858 remains the release-version and native-v3 preflight blocker.",
+  "evidence_families": [
+    {
+      "family": "accepted_review_findings",
+      "status": "complete_denominator",
+      "evidence": "14 D520 findings plus TPR-001 through TPR-005; no extra proof-gap rows are counted as findings."
+    },
+    {
+      "family": "historical_pass_reassessment",
+      "status": "partial",
+      "evidence": "121 rows reviewed: 87 retained bounded evidence, 17 current bounded C-SDLC proof, 12 insufficient proof, two qualified, and three accepted amendments. The 12 insufficient rows are classified as five evidence-linkage rows routed together to #851, five cloud-control gaps, and two execution-proof gaps.",
+      "source_sha": "a32cc903e12375690613b8a4bf003e985390a221",
+      "handoff_sha256": "8e8b6c0538afd120274af414636066171e8cd2e05d6fd4af9f120b33fbc1f492"
+    },
+    {
+      "family": "current_csdlc_reassessment",
+      "status": "partial",
+      "evidence": "51 rows reviewed at the merged #844 baseline: 47 bounded accepted and four rejected due to MERGE-LINKAGE-001.",
+      "source_sha": "25498d7709cb5fe13242aac81988ecdb344db968",
+      "handoff_sha256": "f28a8e65af65b8d743cb5cc29c7babc92a93624099b237582a234d6e6e9b91ff"
+    },
+    {
+      "family": "historical_external_review",
+      "status": "terminal",
+      "evidence": "#521 is closed by merged PR #850. The PR retains the failed non-proving five-finding report, passed exact-head review at 6cd97a2bb67d70a9ee6860962e1b2790662a187f, and has a native v3 terminal receipt for that exact head."
+    },
+    {
+      "family": "immutable_candidate_review",
+      "status": "merged_findings",
+      "evidence": "PR #853 merged the failed external report, executable addendum, and remediation projection for candidate 9c7e57d412d61898bd44ab00d53e31afbb779e5c. The report returned three findings and the addendum returned three additional findings; all six remain inputs to the final #522 disposition record.",
+      "candidate_sha": "9c7e57d412d61898bd44ab00d53e31afbb779e5c",
+      "review_pull_request": 853,
+      "review_merge_sha": "99700441767c43aa69e379b7b59f0f2a2c82d879"
+    }
+  ],
+  "blocking_or_partial_evidence": [
+    "#833 remains administratively open because its closure boundary waits for the complete #522 ledger; its review evidence is merged in PR #853.",
+    "#851 was closed as superseded after the operator moved its five evidence-linkage rows and Runtime failure-event work to v0.92.2 issue #852; this is not a v0.92.1 pass.",
+    "#856 / PR #858 must reconcile release versions and prove the native-v3 fail-closed ceremony preflight.",
+    "Five cloud-control and two execution-proof historical gaps remain explicitly insufficient; they are proof gaps, not additional external-review findings.",
+    "Four current C-SDLC release criteria remain unproved because of MERGE-LINKAGE-001."
+  ],
+  "non_claims": [
+    "This packet preserves the original 19 source findings separately from the six observations returned by #833; neither set may be omitted.",
+    "Merged #833 review evidence does not approve the release.",
+    "Deferring #849 does not prove the affected behavior.",
+    "This packet does not approve or publish v0.92.1."
+  ],
+  "residual_risks": [
+    {
+      "id": "MERGE-LINKAGE-001",
+      "issue": 849,
+      "target_milestone": "v0.92.2",
+      "disposition": "operator_deferred",
+      "release_consequence": "Preserve as an explicit limitation; do not treat four affected v0.92.1 criteria as behaviorally passed."
+    },
+    {
+      "id": "historical-proof-insufficiency",
+      "count": 12,
+      "disposition": "classified",
+      "subgroups": [
+        {
+          "kind": "evidence_linkage",
+          "count": 5,
+          "owner_issue": 852,
+          "superseded_issue": 851,
+          "status": "operator_deferred_v0.92.2",
+          "rows": ["RUST-01-ac-4", "DRT-B-ac-2", "DRT-B-ac-3", "DRT-C-ac-2", "DRT-C-ac-3"]
+        },
+        {
+          "kind": "cloud_control",
+          "count": 5,
+          "status": "insufficient_proof",
+          "rows": ["AWS-B-ac-1", "AWS-B-ac-3", "AWS-B-ac-4", "GCP-C-ac-1", "GCP-C-ac-3"]
+        },
+        {
+          "kind": "execution_proof",
+          "count": 2,
+          "status": "insufficient_proof",
+          "rows": ["AWS-F-ac-4", "DRT-C-ac-4"]
+        }
+      ],
+      "release_consequence": "Preserve the five rows deferred to #852 and the seven remaining proof gaps without turning any of the 12 rows into invented findings in the original #520/#521 census."
+    }
+  ],
+  "validation_commands": [
+    "ruby .csdlc/prepared/issues/522/test-production-validator.rb",
+    "ruby .csdlc/prepared/issues/522/validate-remediation-ledger.rb all",
+    "git diff --check origin/main...HEAD"
+  ],
+  "safety_flags": {
+    "release_approved": false,
+    "published_release_notes": false,
+    "created_tags": false,
+    "merged_prs": false,
+    "closed_issues": false,
+    "mutated_repository": true,
+    "repository_mutation_scope": "Issue #522 ledger, validator, lifecycle, and evidence files in the bound FastWork worktree only."
+  }
+}

@@ -1,0 +1,80 @@
+name: nightly-coverage-ratchet
+
+# Explicit manual qualification; this workflow has no scheduled trigger.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  nightly-coverage-ratchet:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      COVERAGE_OUTPUT: ${{ runner.temp }}/nightly-public-coverage
+      CARGO_PROFILE_DEV_DEBUG: '0'
+      CARGO_PROFILE_TEST_DEBUG: '0'
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          fetch-depth: 0
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@631a55b12751854ce901bb631d5902ceb48146f7 # stable
+        with:
+          components: rustfmt, clippy, llvm-tools-preview
+
+      - name: Install pinned coverage producer
+        run: cargo install cargo-llvm-cov --locked --version 0.8.2
+
+      - name: Run public quality gates
+        run: |
+          set -euo pipefail
+          cargo fmt --manifest-path adl/Cargo.toml --package adl -- --check
+          cargo clippy --locked --manifest-path adl/Cargo.toml --package adl --lib --bins \
+            --test adl_tests --test resolve_tests --test schema_tests --test public_process \
+            --test issue_327_removed_tooling --test public_observation -- -D warnings
+          cargo test --locked --manifest-path adl/Cargo.toml --package adl --doc
+          for manifest in adl-schema/Cargo.toml adl-uts/Cargo.toml adl-v2/crates/adl-language/Cargo.toml adl-v2/crates/adl-compiler/Cargo.toml adl-legacy-contracts/Cargo.toml; do
+            cargo fmt --manifest-path "$manifest" -- --check
+            cargo clippy --locked --manifest-path "$manifest" --all-targets -- -D warnings
+            cargo test --locked --manifest-path "$manifest" --doc
+          done
+
+      - name: Measure retained public source
+        id: coverage
+        run: cargo run --locked --quiet --manifest-path tools/ci_contracts/Cargo.toml -- coverage --mode full --output "$COVERAGE_OUTPUT"
+
+      - name: Upload public coverage to Codecov
+        uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
+        with:
+          use_oidc: true
+          disable_search: true
+          files: ${{ runner.temp }}/nightly-public-coverage/adl/coverage.lcov,${{ runner.temp }}/nightly-public-coverage/adl-schema/coverage.lcov,${{ runner.temp }}/nightly-public-coverage/adl-uts/coverage.lcov,${{ runner.temp }}/nightly-public-coverage/adl-language/coverage.lcov,${{ runner.temp }}/nightly-public-coverage/adl-compiler/coverage.lcov,${{ runner.temp }}/nightly-public-coverage/adl-legacy-contracts/coverage.lcov
+          flags: public-adl
+          fail_ci_if_error: true
+
+      - name: Build nightly report
+        if: always()
+        env:
+          COVERAGE_OUTCOME: ${{ steps.coverage.outcome }}
+        run: |
+          cargo run --locked --quiet --manifest-path tools/ci_contracts/Cargo.toml -- coverage-report
+
+      - name: Retain nightly coverage evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: nightly-coverage-ratchet-report
+          path: |
+            ${{ runner.temp }}/nightly-public-coverage-report.md
+            ${{ runner.temp }}/nightly-public-coverage/result.json
+            ${{ runner.temp }}/nightly-public-coverage/executions.json
+            ${{ runner.temp }}/nightly-public-coverage/*/summary.json
+            ${{ runner.temp }}/nightly-public-coverage/*/coverage.lcov
+            ${{ runner.temp }}/nightly-public-coverage/*/*.log
+          if-no-files-found: error
+          retention-days: 7

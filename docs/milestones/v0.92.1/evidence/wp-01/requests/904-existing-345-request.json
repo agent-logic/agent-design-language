@@ -1,0 +1,27 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "action": "issue_update",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:existing-345:route",
+  "token_file": null,
+  "issue": 345,
+  "pull_request": null,
+  "title": "[v0.92.1][Sidecar] Harden and retain the AWS GPU Shepherd proof runner",
+  "body": "Canonical successor for [danielbaustin/agent-design-language#5907](https://github.com/danielbaustin/agent-design-language/issues/5907).\n\n## Migration semantics\n\n- `replaces`: danielbaustin/agent-design-language#5907 as active current-repository issue authority.\n- The archived source body is preserved below without claiming implementation, review, publication, merge, or terminal progress.\n- Continue all future planning and lifecycle work only on this current-repository successor.\n\n## Archived source issue body\n\n## Purpose\n\nPreserve and complete the AWS GPU Shepherd proof work formerly carried in PR\n`agent-logic/agent-design-language#72` without widening the local-only contract\nof #5795.\n\nThis is a separate optional remote-proof lane. It does not replace or gate the\nrequired local Chrome -> Observatory -> governed Runtime -> Shepherd acceptance\npath in #5795.\n\n## Recoverable Source\n\nThe initial implementation is retained in commit\n`7a26886c47962e71c128489f5176a045ae8e9a64` on branch\n`codex/5795-local-gemma-mlx-shepherd`, primarily:\n\n- `adl/tools/run_wp5795_aws_gpu_proof.sh`\n- `.csdlc/evidence/5795/foundation/aws-gpu-preflight.json`\n- `.csdlc/evidence/5795/foundation/aws-deadline-reaper.json`\n- `.csdlc/evidence/5795/foundation/aws-lock-collision.json`\n- related AWS proof receipts in `.csdlc/evidence/5795/`\n\nRecover this work from Git history; do not keep it inside the final #5795 diff.\n\n## Independent Sequence\n\n1. WP-14 #5832 freezes the protocol contract.\n2. #5795 completes the governed local Shepherd and browser round trip.\n3. This issue consumes the terminal local adapter contract and runs the optional\n   AWS GPU portability proof.\n\nPreparation that touches only this issue's future owned paths may proceed\nindependently. Paid AWS execution and final proof must use the terminal #5795\nadapter revision. This issue has its own worktree, branch, PR, focused proof,\nreview, and closeout. It must not share mutable worktree state with either\n#5832 or #5795.\n\n## Required Outcome\n\nProvide a bounded, repeatable AWS GPU proof runner for the Shepherd model\nadapter using the approved Agent Logic business AWS account and permanent\noperator-provisioned IAM profile.\n\n## Acceptance Criteria\n\n- The AWS runner is a single reusable project command with explicit launch,\n  exact-revision, proof, and cleanup predicates.\n- It uses the approved Agent Logic AWS profile and verifies the resolved\n  business account before mutation.\n- It requires an explicitly named no-ingress security group and verifies the\n  effective ingress contract before launch.\n- It verifies the exact expected instance profile, role, and required policy\n  contract rather than accepting any attached role.\n- It proves model-backed Shepherd execution at the requested repository\n  revision and retains machine-readable evidence.\n- It terminates the instance and associated temporary resources on success,\n  failure, interruption, and deadline expiry.\n- It records cost-relevant runtime and instance details without exposing\n  credentials or secrets.\n- Focused negative proofs cover lock collision, invalid IAM/security-group\n  configuration, stale revision, and cleanup failure.\n- Documentation clearly states this is an optional remote proof and is not part\n  of #5795's local-only acceptance contract.\n\n## Non-Goals\n\n- Changing #5795's local-only acceptance criteria.\n- Making AWS a required runtime dependency or production inference fallback.\n- Creating IAM profiles, roles, or security groups inside the runner.\n- Using the personal/default AWS account.\n\n<!-- csdlc-github-operation:issue-migration.danielbaustin-agent-design-language.5907.v1 -->\n\n\n## Canonical current-repository routing\n\nThis issue replaces legacy #5907. Current birthday-demo consumer authority is #256. Paid AWS execution remains separately gated by the approved Agent Logic business account, terminal adapter inputs, and explicit operator authority.\n\n<!-- csdlc-github-operation:issue-migration-routing-345-birthday-consumer-v1 -->\n",
+  "labels": [
+    "area:runtime",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "assignees": [
+
+  ],
+  "milestone": 1,
+  "state": null,
+  "comment_body": null,
+  "required_checks": [
+
+  ],
+  "require_review": false,
+  "linked_issue": null
+}

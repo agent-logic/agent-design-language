@@ -1,0 +1,71 @@
+{
+  "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+  "paths": [
+    {
+      "path": "csdlc-v3/tests/semantic_terminal_cleanup.rs",
+      "status": "full_source_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          316
+        ]
+      ],
+      "observation": "Both full installed regression bodies reviewed: no-PR finish successful replay and clean interruption after first source removal, semantic operation identity preservation, stale tracked generated projection cleanup. Does not test interruption after Finish reservation before native receipt, so does not contradict ARCH-003. No tests executed."
+    },
+    {
+      "path": "csdlc-v3/tests/installed_recovery_scope.rs",
+      "status": "full_source_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          114
+        ]
+      ],
+      "observation": "Full body reviewed: issue-zero uncertain creation excluded from both equal/different-head issue status/recover, original operation replay uses one remote effect. Inventory observers assert unchanged state. No tests executed."
+    },
+    {
+      "path": "csdlc-v3/tests/semantic_remote_review.rs",
+      "status": "full_source_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          101
+        ]
+      ],
+      "observation": "All variant scope and zero/PR rejection tests reviewed; explicitly unit-only no authentication/installed proof. No tests executed."
+    },
+    {
+      "path": "csdlc-v3/tests/support/baseline_journeys.rs",
+      "status": "full_source_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          93
+        ]
+      ],
+      "observation": "Full failure-accounting source: spawn/parse/collector exceptions preserved as failed/censored with denominator assertions; retired direct-writer baseline explicitly not current proof. No tests executed."
+    },
+    {
+      "path": "csdlc-v3/tests/support/installed_contract.rs",
+      "status": "full_source_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          79
+        ]
+      ],
+      "observation": "Full isolated exact-byte executable copying, scrubbed Git fixture creation, recursive state inventory and fixture-owned cleanup reviewed. No tests executed."
+    },
+    {
+      "path": "csdlc-v3/tests/support/observation.rs",
+      "status": "full_source_reviewed",
+      "reviewed_ranges": [
+        [
+          1,
+          33
+        ]
+      ],
+      "observation": "Full recursive symlink/file/directory inventory and fixture installed-copy helper read. Not validation of installed version or freshness on its own. No tests executed."
+    }
+  ]
+}

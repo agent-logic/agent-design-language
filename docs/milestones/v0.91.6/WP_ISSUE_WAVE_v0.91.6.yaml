@@ -1,0 +1,197 @@
+milestone: v0.91.6
+version: v0.91.6
+status: promoted_issue_wave_release_tail_active
+created_by_issue: 3800
+source_bridge_ledger: docs/milestones/v0.91.5/PRE_V092_BRIDGE_FEATURE_DOC_LEDGER_v0.91.5.md
+notes:
+  - "Promoted wave; WP-01 opened concrete issues and rendered C-SDLC cards."
+  - "Do not claim v0.92 activation readiness from this seed."
+  - "Keep v0.91.7 residuals explicit."
+  - "Keep #3902 visible as v0.91.6 account/setup planning, not v0.92 activation proof."
+  - "Keep CodeFriend v1 / adapter v2 and guild routes visible without treating them as first-tranche activation proof."
+  - "Keep runtime Soak #1 visible as the v0.91.6 post-Tokio walking-skeleton proof, and Soak #2/#3 visible as the v0.91.7 full feature-list readiness gate before v0.92."
+  - "Current release-tail truth: WP-11 #3976 and WP-12 #3977 are closed/merged; WP-13 #3978 is the docs/review alignment pass; WP-14A #4582 is the active internal-review owner; #4604 is the release-tail sprint umbrella."
+work_packages:
+  - wp: WP-01
+    title: v0.91.6 planning promotion and issue-wave readiness
+    outcome: Open the concrete v0.91.6 issue wave and card bundles from this candidate package.
+    depends_on:
+      - "#3778"
+      - "#3800"
+    deliverables:
+      - "Opened GitHub issue wave"
+      - "SIP/STP/SPP/SRP/SOR cards for each opened issue"
+  - wp: WP-02
+    title: Resilience, persistence, and sleep/wake feature doc
+    outcome: Define resilience and continuity proof boundaries before v0.92.
+    depends_on:
+      - "WP-01"
+    deliverables:
+      - "RESILIENCE_PERSISTENCE_SLEEP_WAKE_v0.91.6.md"
+  - wp: WP-03
+    title: Logging/tooling proof-loop reliability
+    outcome: Route validation split, observability, PR proof-loop reliability, and issues #3802-#3805.
+    depends_on:
+      - "WP-01"
+    deliverables:
+      - "TOOLING_PROOF_LOOP_RELIABILITY_v0.91.6.md"
+  - wp: WP-04
+    title: Public prompt records export and redaction
+    outcome: Define export, redaction, validation, indexing, evidence, and security review boundaries.
+    depends_on:
+      - "WP-01"
+    deliverables:
+      - "PUBLIC_PROMPT_RECORDS_EXPORT_v0.91.6.md"
+  - wp: WP-05
+    title: Provider/model reliability and multi-agent readiness
+    outcome: Define model-role suitability and reliability proof limits, including Gemma.
+    depends_on:
+      - "WP-01"
+    deliverables:
+      - "PROVIDER_MODEL_RELIABILITY_v0.91.6.md"
+  - wp: WP-06
+    title: ACIP/A2A/provider communications decisions
+    outcome: Decide or route schema catalog, access rules, JSON projection, protobuf, WebSocket, and provider communications.
+    depends_on:
+      - "WP-01"
+      - "WP-07"
+    deliverables:
+      - "ACIP_A2A_PROVIDER_COMMUNICATIONS_v0.91.6.md"
+  - wp: WP-07
+    title: Security bridge readiness and CAV
+    outcome: Define activation-path security, CAV, provider trust, prompt-record security, ACIP security, and malformed-output checks.
+    depends_on:
+      - "WP-01"
+    deliverables:
+      - "SECURITY_BRIDGE_AND_CAV_v0.91.6.md"
+  - wp: WP-08
+    title: Identity/continuity and capability-selector bridge
+    outcome: Connect capability evidence, identity continuity, and resilience without starting Aptitude Atlas.
+    depends_on:
+      - "WP-02"
+      - "WP-05"
+    deliverables:
+      - "IDENTITY_CONTINUITY_CAPABILITY_SELECTOR_BRIDGE_v0.91.6.md"
+  - wp: WP-09
+    title: Observatory/Unity consumption classification
+    outcome: Classify demo and Observatory surfaces as proof, rehearsal, substrate, blocked, or deferred.
+    depends_on:
+      - "WP-01"
+    deliverables:
+      - "OBSERVATORY_UNITY_CONSUMPTION_CLASSIFICATION_v0.91.6.md"
+  - wp: WP-10
+    title: AEE, Memory/ObsMem, and ACP accounting
+    outcome: Account for AEE completion boundaries, Memory/ObsMem handoff, Memory Palace planning state, and ACP/cognitive profile scope before v0.92.
+    depends_on:
+      - "WP-01"
+      - "WP-02"
+      - "WP-05"
+    deliverables:
+      - "AEE_MEMORY_ACP_BRIDGE_ACCOUNTING_v0.91.6.md"
+  - wp: WP-11
+    title: Demo/proof convergence
+    issue: "#3976"
+    outcome: Consume bridge proof and demo surfaces so the release tail has a coherent proof matrix.
+    depends_on:
+      - "WP-02"
+      - "WP-03"
+      - "WP-04"
+      - "WP-05"
+      - "WP-06"
+      - "WP-07"
+      - "WP-08"
+      - "WP-09"
+      - "WP-10"
+    deliverables:
+      - "DEMO_MATRIX_v0.91.6.md"
+      - "FEATURE_DOCS_v0.91.6.md proof convergence update"
+  - wp: WP-12
+    title: Quality gate
+    issue: "#3977"
+    outcome: Consume WP-11 and repo-quality/staleness truth, route blockers, and clear docs/review alignment only when evidence supports it.
+    depends_on:
+      - "WP-11"
+    deliverables:
+      - "V0916_WP12_QUALITY_GATE_3977.md"
+  - wp: WP-13
+    title: Docs and review-surface alignment
+    issue: "#3978"
+    outcome: Align README, changelog, milestone planning docs, release docs, feature-list references, and review entrypoints before internal review.
+    depends_on:
+      - "WP-12"
+    deliverables:
+      - "WP-13 docs/review alignment packet"
+  - wp: WP-14A
+    title: Internal review and pre-v0.92 burn-down checklist
+    issue: "#4582"
+    outcome: Run findings-first internal review and burn-down classification; closed #3979 remains retained source/planning evidence only.
+    depends_on:
+      - "WP-13"
+    deliverables:
+      - "Internal review findings"
+      - "Internal review synthesis"
+      - "Remediation queue"
+      - "Pre-v0.92 burn-down checklist"
+  - wp: WP-15
+    title: External review
+    issue: "#3980"
+    outcome: Run external/third-party review after the internal review packet is ready.
+    depends_on:
+      - "WP-14A"
+    deliverables:
+      - "External review packet"
+  - wp: WP-16
+    title: Review findings remediation and final preflight
+    issue: "#3981"
+    outcome: Fix or route review findings and prove final preflight readiness.
+    depends_on:
+      - "WP-15"
+    deliverables:
+      - "Remediation PRs"
+      - "Final preflight packet"
+  - wp: WP-17
+    title: Next milestone planning and v0.91.7 handoff
+    issue: "#3982"
+    outcome: Ensure v0.91.7 starts from reviewed residuals and handoff truth.
+    depends_on:
+      - "WP-16"
+    deliverables:
+      - "v0.91.7 handoff/planning packet"
+  - wp: WP-18
+    title: Next milestone review pass
+    issue: "#3983"
+    outcome: Review the next milestone plan before ceremony.
+    depends_on:
+      - "WP-17"
+    deliverables:
+      - "Next-milestone review packet"
+  - wp: WP-19
+    title: Release ceremony
+    issue: "#3984"
+    outcome: Run final ceremony only after review, remediation, and handoff truth settle.
+    depends_on:
+      - "WP-18"
+    deliverables:
+      - "Release evidence"
+      - "Release closeout truth"
+companion_planning:
+  - issue: "#3902"
+    title: Create agent-logic.ai AWS account
+    outcome: Record account setup, AWS credits/application guidance, account-bound Terraform posture, and hosting/security boundaries without exposing sensitive offer identifiers; setup is complete and AWS Activate review plus private credit visibility remain post-close external follow-up.
+    milestone_route: v0.91.6
+    activation_surface: false
+  - issue: feature-list-route
+    title: Preserve CodeFriend v1 / portable adapter v2 route
+    outcome: Keep CodeFriend v1 plus adapter v2 scheduled after v0.92 and before v0.95 without pulling product implementation into v0.91.6.
+    milestone_route: post-v0.92-pre-v0.95
+    activation_surface: false
+  - issue: feature-list-route
+    title: Preserve guilds MVP governance route
+    outcome: Keep guilds visible as MVP-scoped governance work through the v0.93 feature route and v0.95 consumption without pulling governance implementation into v0.91.6 or v0.92.
+    milestone_route: v0.93-to-v0.95
+    activation_surface: false
+  - issue: "#4185"
+    title: Plan integrated runtime soak sprint
+    outcome: Define Soak #1 as the v0.91.6 post-Tokio walking-skeleton proof and Soak #2 as the v0.91.7 full feature-list integration proof, with Soak #3 only if needed before v0.92.
+    milestone_route: soak-1-v0.91.6-soak-2-or-3-v0.91.7-before-v0.92
+    activation_surface: false

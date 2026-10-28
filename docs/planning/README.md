@@ -1,0 +1,107 @@
+# ADL Planning Docs
+
+This directory contains tracked, cross-milestone planning documents that should
+survive individual milestone closeout.
+
+Use this directory for living planning surfaces that are updated as each
+milestone completes.
+
+These docs are durable planning truth, not the live execution/control-plane
+surface for a currently running milestone. For active issue-wave, sprint, and
+release-state truth, start in the relevant `docs/milestones/<version>/`
+package.
+
+Active planning docs:
+
+- `ADL_FEATURE_LIST.md` - full feature list, current status, implemented gaps,
+  and target completion milestones through `v0.95`
+- `FEATURE_DOC_PRODUCTION_MINI_SPRINT_v0.91.5.md` - setup packet for the
+  feature-doc production mini-sprint and issue wave from `v0.91.5` through
+  `v0.95`
+- `V093_V095_MVP_FEATURE_DOC_PLAN_v0.91.5.md` - split-ready production plan
+  for v0.93 governance/security/guilds, v0.94 secure execution/trust/trace,
+  CodeFriend v1 and adapter v2, semantic Rust refactoring, v0.95 convergence,
+  and post-v0.95 boundaries
+- `TBD_PLAN_ALLOCATION_v0.91.2_TO_v0.95.md` - tracked allocation map from the
+  local-only `.adl/docs/TBD/` planning corpus to milestone execution homes,
+  archive/provenance buckets, or explicit deferred status through `v0.95`
+- `TBD_CLEANUP_DISPOSITION_v0.91.2_3150.md` - cleanup disposition from issue
+  `#3150`, including local-only TBD hygiene decisions that should not be
+  promoted into tracked docs merely to make deletion visible
+- `PYTHON_ELIMINATION_STAGED_PLAN.md` - cross-milestone staged reduction plan
+  for retiring tracked Python without turning the roadmap into a stop-the-world
+  rewrite
+- `ROADMAP_RUNTIME_V2_AND_BIRTHDAY_BOUNDARY.md` - cross-milestone Runtime v2,
+  v0.91 moral/emotional, and v0.92 birthday boundary roadmap
+- `POST_V095_ADL_CSM_LOGISTIC_SPLIT_PLAN.md` - planned post-`v0.95`
+  repository split strategy for keeping ADL stable enough to use while a
+  split-off repo carries the fast-moving innovation lane with regular mergeback
+- `ACCOUNT_SWITCH_HANDOFF_2026-05-22.md` - cross-account continuity handoff for
+  preserving v0.91.3/v0.91.4 context, active issue/PR state, and workflow
+  guardrails while account credits are low
+- `DESIGN_TIME_CARD_COMPLETION_PLAN.md` - process plan for making `SIP`, `STP`,
+  and `SPP` complete and reviewable before issue execution, while preserving
+  runtime truth boundaries for `SRP` and `SOR`
+- `C_SDLC_PROMPT_TEMPLATE_EDITOR_TRANSITION_PLAN.md` - transition plan for
+  moving C-SDLC cards onto versioned prompt templates, Rust-owned field
+  validation, browser-assisted human review, and tracked durable prompt records
+- `PR_CONTROL_PLANE_DECRUFT_COMPATIBILITY_CUT_PLAN.md` - plan-only cut-line
+  for retiring obsolete PR/card compatibility paths in `v0.92` after a reviewed
+  migration window, while preserving historical records as readable audit
+  artifacts
+- `codefriend/` - single tracked home for current CodeFriend planning,
+  including product setup, naming migration, source inventory, and links back to
+  historical milestone proof
+
+Planning provenance docs:
+
+- `ADL_LOGISTIC_SPLIT.md` - tracked provenance copy of the original logistic
+  split thesis that feeds the post-`v0.95` repository split plan
+- `DEEP_AGENTS_COMPARATIVE_WAVE.md` - delivered/provenance planning note for
+  the comparative wave that fed later bounded demos and remains useful only if
+  a new public-positioning issue is opened
+- `GEMINI_PROVIDER_HARMONY_AND_ECONOMICS_DEMO.md` -
+  delivered/provenance planning note for provider-harmony demo work that fed
+  later bounded Gemini demos and remains useful only if a new provider-routing
+  issue is opened
+- `NEXT_MILESTONE_DEMO_CANDIDATES.md` - closed candidate ledger; currently
+  records delivered or deferred demo candidates rather than active next-sprint
+  commitments
+- `NEXT_MILESTONE_POSITIONING_CANDIDATES.md` - closed candidate ledger;
+  currently records delivered or deferred positioning candidates rather than
+  active next-sprint commitments
+- `DOC_CLEANUP_RECONCILIATION_1762.md` - historical cleanup reconciliation for
+  issue `1762`; keep as provenance, not as live cleanup backlog
+
+## How To Read This Directory
+
+- Use this directory when the question is cross-milestone strategy, sequencing,
+  or long-horizon allocation.
+- Use milestone packages when the question is "what is active, proving, or
+  closing right now?"
+- Use local `.adl/docs/TBD/` only for local planning/control surfaces that have
+  not yet been promoted into tracked repo truth.
+
+## Directory Boundaries
+
+This directory is for living cross-milestone planning and a very small amount
+of tracked planning provenance. It should stay small and intentional.
+
+Use milestone directories for shipped or active milestone records, including
+feature contracts, ideas/backgrounders, demo matrices, release notes, and WBS
+files for a specific version.
+
+Use `docs/records/` for historical task mirrors and closeout records that are
+kept for auditability but are not active planning surfaces.
+
+Use `docs/tooling/` for tool, editor, demo, and workflow-facing guides that
+remain useful outside a single milestone.
+
+Do not use this directory as a dumping ground for retired drafts, generated
+review traces, temporary files, or local workspace artifacts. Those should
+either be moved into a milestone archive, kept under local-only `.adl/`
+workspace state, or removed as generated cruft.
+
+When a planning doc stops being an active candidate, update this README in the
+same PR that changes its status. Do not leave old "next milestone" language
+behind after the candidate has landed, moved to backlog, or become provenance.

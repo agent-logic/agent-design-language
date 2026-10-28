@@ -1,0 +1,12 @@
+flowchart LR
+  ARGV["argv"] --> CLAP["Clap parser"]
+  INPUT["typed --input"] --> CLAP
+  CLAP --> DISPATCH["Command dispatch"]
+  DISPATCH --> LIB["csdlc-v3 library"]
+  LIB --> HUMAN["human stdout"]
+  LIB --> JSON["versioned JSON stdout"]
+  LIB --> DIAG["diagnostics stderr"]
+  JSON --> JQ["approved in-process jq subset"]
+  JSON --> TEMPLATE["restricted in-process templates"]
+  CLAP --> HELP["generated help/docs/completions"]
+  LIB --> BIN["one provenance-bound csdlc binary"]

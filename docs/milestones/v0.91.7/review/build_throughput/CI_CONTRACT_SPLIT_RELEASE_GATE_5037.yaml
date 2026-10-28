@@ -1,0 +1,25 @@
+schema_version: adl.release_gate_disposition.v1
+issue: 5037
+decision: publishable_with_focused_local_proof_and_required_ci_before_merge
+reviewer_or_review_mode: pre_pr_subagent_review_plus_focused_local_ci_policy_validation
+changed_release_gate_surfaces:
+  - .github/workflows/ci.yaml
+focused_validation_run: >
+  Focused local proof passed after review fixes and rebase: bash -n
+  adl/tools/ci_path_policy.sh adl/tools/test_ci_path_policy.sh
+  adl/tools/test_ci_runtime_contracts.sh; bash
+  adl/tools/test_ci_runtime_contracts.sh; bash adl/tools/test_ci_path_policy.sh;
+  bash adl/tools/validate_structured_prompt.sh --type sor --phase run --input
+  .adl/v0.91.7/tasks/issue-5037__v0-91-7-tools-ci-make-pr-ci-and-coverage-lanes-materially-faster/sor.md;
+  git diff --check.
+residual_ci_proof_required_before_merge: >
+  GitHub PR checks must pass before merge. This issue changes ordinary PR CI
+  routing, so adl-ci and adl-coverage evidence must be observed on the PR. If
+  either check fails or remains pending, route the PR to pr-janitor and keep
+  watcher/shepherd ownership attached until the failure, pending state, or
+  operator-approved blocker is recorded truthfully.
+notes:
+  - This disposition is scoped to the CI workflow release-gate surface reported by pr finish.
+  - The implementation preserves full/fail-closed contract-family gates and narrows only focused PR policy surfaces.
+  - The required pre-PR subagent review found two P1 issues; both were fixed before this disposition was written.
+  - Actual GitHub Actions wall-clock improvement is not claimed locally and must be confirmed from PR CI evidence.

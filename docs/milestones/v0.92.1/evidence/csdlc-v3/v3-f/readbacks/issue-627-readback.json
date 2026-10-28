@@ -1,0 +1,28 @@
+{
+  "action": "issue_read",
+  "comment_id": null,
+  "issue": {
+    "assignees": [],
+    "body": "Part of #625.\n\n## Outcome\n\nLock the command replacement denominator and expose the v3 one-binary CLI shell needed before #505 can close.\n\n## Scope\n\n- Define the 21 current v2 installed binary denominator.\n- Mark the two already-covered v3 construction surfaces (`foundation` and `local`).\n- Define the remaining 19 command-equivalent routes and their mapping into one `csdlc` binary.\n- Add a machine-readable command-surface manifest and CLI help/proof tests.\n- Ensure unsupported live-authority routes fail closed until their implementation issues land.\n\n## Acceptance criteria\n\n- One machine-readable v3 command denominator exists and is reviewed.\n- `csdlc --help` exposes the one-binary shape.\n- Tests prove every denominator route is present or explicitly fail-closed.\n- The mapping distinguishes command-surface presence from live authority.\n- No v2 source changes.\n\n## Non-goals\n\n- Do not implement every command's full behavior in this issue.\n- Do not merge or close #505.\n- Do not route live lifecycle work through v3 before cutover.\n\n<!-- csdlc-github-operation:worker-6-v0921-v3h-child-command-denominator-20260902 -->",
+    "closed_at": "2026-09-02T19:10:59Z",
+    "created_at": "2026-09-02T06:48:17Z",
+    "labels": [
+      "track:roadmap",
+      "type:task",
+      "version:v0.92.1",
+      "area:csdlc"
+    ],
+    "marker_present": false,
+    "milestone": null,
+    "number": 627,
+    "repository": "agent-logic/agent-design-language",
+    "schema": "csdlc.github_issue.v1",
+    "state": "closed",
+    "title": "[v0.92.1][V3-H.1] Define v3 command denominator and one-binary CLI shell"
+  },
+  "operation_key": null,
+  "pr_state": null,
+  "reconciled": true,
+  "repository": "agent-logic/agent-design-language",
+  "schema": "csdlc.github_action_result.v1"
+}

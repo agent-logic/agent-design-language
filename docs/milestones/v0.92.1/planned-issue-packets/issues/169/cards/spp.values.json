@@ -1,0 +1,140 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 169,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-08] Implement Transaction Storage And Recovery",
+    "slug": "v3-08-implement-transaction-storage-and-recovery",
+    "version": "v0.92.1",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 2,
+      "summary": "Implement one crash-consistent transaction store where state.json atomic replacement is the sole commit point, projections follow state, durable remote intents precede effects, and platform-specific recovery never guesses.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Verify terminal V3-D11 and implement the approved per-platform commit/capability matrix, including fail-closed Windows mutation where unproven.",
+          "acceptance_ids": [
+            "AC-8",
+            "AC-9"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Implement lock, generation/digest CAS, staging, file/parent sync, and atomic state.json replacement in store/transaction.rs.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-4",
+            "AC-10"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Implement state-first projection replacement and explicit repair-required results without rollback or projection authority.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Implement durable pre-network intents, exact remote readback reconciliation, competing-mutation blocking, and state consumption of resolved outcomes.",
+          "acceptance_ids": [
+            "AC-6",
+            "AC-7"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S5",
+          "action": "Implement pure recovery classification/plan building and execute every repair through the transaction API.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-5",
+            "AC-7"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S6",
+          "action": "Run interruption, stale-writer, projection-failure, intent, platform-capability, native-platform, and concurrency fault matrices; stop on guessed recovery.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7",
+            "AC-8",
+            "AC-9",
+            "AC-10"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S7",
+          "action": "Release transaction locks, reconcile or explicitly retain every durable intent, remove staging files only through classified recovery, and prove no ambiguous partial state remains.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7",
+            "AC-8",
+            "AC-9",
+            "AC-10"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "csdlc-v3/src/store/**",
+        "csdlc-v3/src/recovery/**",
+        "csdlc-v3/tests/store/**",
+        ".csdlc/issues/169/**",
+        ".csdlc/prepared/issues/169/**",
+        ".csdlc/evidence/169/**",
+        ".csdlc/prepared/issues/169/validate-outcome.rb"
+      ],
+      "invariants": [
+        "Issue V3-08 owns only its declared repository paths and named external operation/evidence boundary.",
+        "Dependencies remain read-only inputs until terminal evidence satisfies the declared gate.",
+        "The issue may not absorb remediation owned by another work package without an explicit issue-graph revision.",
+        "No unsupported completion, legal, production, or release claim",
+        "No mutation outside exact owned paths"
+      ],
+      "risks": [
+        "A passing artifact could overstate production, legal, or release authority.",
+        "Path or external-account overlap could collide with another active issue.",
+        "Evidence could become stale if it is not tied to exact revisions and producer outcomes."
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "Recovery requires guessing, a partial projection becomes authority, remote mutation enters a local transaction, or platform semantics cannot satisfy the declared commit guarantee.",
+        "Typed doctor is not ready",
+        "A required dependency is nonterminal",
+        "An owned-path collision is discovered"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/169/design.md",
+      "design_digest": "a72005025ab0716d422041ddd12876cb896d5d406e8421beb1f05b146592ddeb",
+      "diagram_ref": ".csdlc/prepared/issues/169/diagram.mmd",
+      "diagram_digest": "231177475f465bbbefdbe21cc55a4d9197996dd13f368b1b47d4017213b492f6"
+    }
+  }
+}

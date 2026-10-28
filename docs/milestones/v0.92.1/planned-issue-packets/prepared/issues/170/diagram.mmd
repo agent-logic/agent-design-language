@@ -1,0 +1,11 @@
+flowchart LR
+  DOMAIN["domain request"] --> GIT["typed Git adapter"]
+  DOMAIN --> PROC["typed ProcessRunner"]
+  DOMAIN --> CRED["credential resolver"]
+  GIT --> ARGV["approved argv only"]
+  PROC --> ARGV
+  CRED --> SCOPE["single child/provider scope"]
+  ARGV --> RESULT["status/stdout/stderr/timeout/cancel/truncation"]
+  CANCEL["root cancellation"] --> TERM["terminate, kill, wait, drain"]
+  TERM --> RESULT
+  RESULT --> REDACT["redacted typed observation"]

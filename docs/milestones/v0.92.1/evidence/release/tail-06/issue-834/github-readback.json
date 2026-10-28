@@ -1,0 +1,436 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "observed_at": "2026-09-11T02:52:29.885689+00:00",
+  "issues": [
+    {
+      "closedAt": "2026-09-11T02:04:53Z",
+      "closedByPullRequestsReferences": [
+        {
+          "id": "PR_kwDOTvc2y88AAAABDFOhvw",
+          "number": 831,
+          "repository": {
+            "id": "R_kgDOTvc2yw",
+            "name": "agent-design-language",
+            "owner": {
+              "id": "O_kgDOD6435A",
+              "login": "agent-logic"
+            }
+          },
+          "url": "https://github.com/agent-logic/agent-design-language/pull/831"
+        }
+      ],
+      "number": 520,
+      "state": "CLOSED",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/520"
+    },
+    {
+      "closedAt": "2026-09-10T22:16:36Z",
+      "closedByPullRequestsReferences": [
+        {
+          "id": "PR_kwDOTvc2y88AAAABC5l2yg",
+          "number": 822,
+          "repository": {
+            "id": "R_kgDOTvc2yw",
+            "name": "agent-design-language",
+            "owner": {
+              "id": "O_kgDOD6435A",
+              "login": "agent-logic"
+            }
+          },
+          "url": "https://github.com/agent-logic/agent-design-language/pull/822"
+        }
+      ],
+      "number": 814,
+      "state": "CLOSED",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/814"
+    },
+    {
+      "closedAt": "2026-09-10T22:17:52Z",
+      "closedByPullRequestsReferences": [
+        {
+          "id": "PR_kwDOTvc2y88AAAABC5stfQ",
+          "number": 825,
+          "repository": {
+            "id": "R_kgDOTvc2yw",
+            "name": "agent-design-language",
+            "owner": {
+              "id": "O_kgDOD6435A",
+              "login": "agent-logic"
+            }
+          },
+          "url": "https://github.com/agent-logic/agent-design-language/pull/825"
+        }
+      ],
+      "number": 815,
+      "state": "CLOSED",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/815"
+    },
+    {
+      "closedAt": "2026-09-10T22:18:17Z",
+      "closedByPullRequestsReferences": [
+        {
+          "id": "PR_kwDOTvc2y88AAAABC5qPAg",
+          "number": 823,
+          "repository": {
+            "id": "R_kgDOTvc2yw",
+            "name": "agent-design-language",
+            "owner": {
+              "id": "O_kgDOD6435A",
+              "login": "agent-logic"
+            }
+          },
+          "url": "https://github.com/agent-logic/agent-design-language/pull/823"
+        }
+      ],
+      "number": 816,
+      "state": "CLOSED",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/816"
+    },
+    {
+      "closedAt": "2026-09-10T22:18:59Z",
+      "closedByPullRequestsReferences": [
+        {
+          "id": "PR_kwDOTvc2y88AAAABC6RSAQ",
+          "number": 826,
+          "repository": {
+            "id": "R_kgDOTvc2yw",
+            "name": "agent-design-language",
+            "owner": {
+              "id": "O_kgDOD6435A",
+              "login": "agent-logic"
+            }
+          },
+          "url": "https://github.com/agent-logic/agent-design-language/pull/826"
+        }
+      ],
+      "number": 817,
+      "state": "CLOSED",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/817"
+    },
+    {
+      "closedAt": "2026-09-11T02:32:38Z",
+      "closedByPullRequestsReferences": [
+        {
+          "id": "PR_kwDOTvc2y88AAAABDFZG6w",
+          "number": 832,
+          "repository": {
+            "id": "R_kgDOTvc2yw",
+            "name": "agent-design-language",
+            "owner": {
+              "id": "O_kgDOD6435A",
+              "login": "agent-logic"
+            }
+          },
+          "url": "https://github.com/agent-logic/agent-design-language/pull/832"
+        }
+      ],
+      "number": 818,
+      "state": "CLOSED",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/818"
+    },
+    {
+      "closedAt": "2026-09-10T22:17:16Z",
+      "closedByPullRequestsReferences": [
+        {
+          "id": "PR_kwDOTvc2y88AAAABC6coRA",
+          "number": 827,
+          "repository": {
+            "id": "R_kgDOTvc2yw",
+            "name": "agent-design-language",
+            "owner": {
+              "id": "O_kgDOD6435A",
+              "login": "agent-logic"
+            }
+          },
+          "url": "https://github.com/agent-logic/agent-design-language/pull/827"
+        }
+      ],
+      "number": 819,
+      "state": "CLOSED",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/819"
+    },
+    {
+      "closedAt": "2026-09-11T01:54:02Z",
+      "closedByPullRequestsReferences": [
+        {
+          "id": "PR_kwDOTvc2y88AAAABDEGvVA",
+          "number": 828,
+          "repository": {
+            "id": "R_kgDOTvc2yw",
+            "name": "agent-design-language",
+            "owner": {
+              "id": "O_kgDOD6435A",
+              "login": "agent-logic"
+            }
+          },
+          "url": "https://github.com/agent-logic/agent-design-language/pull/828"
+        }
+      ],
+      "number": 820,
+      "state": "CLOSED",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/820"
+    },
+    {
+      "closedAt": "2026-09-11T01:54:32Z",
+      "closedByPullRequestsReferences": [
+        {
+          "id": "PR_kwDOTvc2y88AAAABDEHB9A",
+          "number": 829,
+          "repository": {
+            "id": "R_kgDOTvc2yw",
+            "name": "agent-design-language",
+            "owner": {
+              "id": "O_kgDOD6435A",
+              "login": "agent-logic"
+            }
+          },
+          "url": "https://github.com/agent-logic/agent-design-language/pull/829"
+        }
+      ],
+      "number": 821,
+      "state": "CLOSED",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/821"
+    },
+    {
+      "closedAt": null,
+      "closedByPullRequestsReferences": [],
+      "number": 833,
+      "state": "OPEN",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/833"
+    },
+    {
+      "closedAt": null,
+      "closedByPullRequestsReferences": [],
+      "number": 835,
+      "state": "OPEN",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/835"
+    }
+  ],
+  "pull_requests": [
+    {
+      "body": "Closes #520\n\nCompletes the full second internal review of the immutable post-#718/post-#758 candidate. The nine-lane packet covers 6,098 changed paths, 119 milestone issues, 176 acceptance surfaces, and 7,184 assigned review references. It retains 14 accepted candidate-product findings, all routed under #522, without waivers or false release approval.\n\nPacket remediation resolved every exact-head finding: independent certification, exact 74-artifact manifest coverage, packet-wide path portability including bare root-home paths, truthful lifecycle counts, and 20 fail-closed negative cases.\n\nValidation: full exact-candidate validator PASS; 20/20 production negative fixtures PASS; all packet JSON parses; manifest digests and coverage PASS; diff hygiene PASS. Independent exact-head review PASS at b4e4139a933941e198511541290ae192ee27f25c with no actionable packet findings.\n\n<!-- csdlc-v3-operation:b62cff391e3cfbd76b66ed8b0c5430ec98dacb90a6629cfc0a2a953c0ee375e9 -->",
+      "closingIssuesReferences": [
+        {
+          "id": "I_kwDOTvc2y88AAAABORrH1w",
+          "number": 520,
+          "repository": {
+            "id": "R_kgDOTvc2yw",
+            "name": "agent-design-language",
+            "owner": {
+              "id": "O_kgDOD6435A",
+              "login": "agent-logic"
+            }
+          },
+          "url": "https://github.com/agent-logic/agent-design-language/issues/520"
+        }
+      ],
+      "mergeCommit": {
+        "oid": "e058412611eff0975148ba9ed8e40bbd20ecb985"
+      },
+      "mergedAt": "2026-09-11T02:04:52Z",
+      "number": 831,
+      "state": "MERGED",
+      "url": "https://github.com/agent-logic/agent-design-language/pull/831"
+    },
+    {
+      "body": "Repair crash recovery so admission greetings retain one stable logical provider identity while retry transport uses a private attempt identity. Fail closed at the configured attempt ceiling and preserve terminal durable truth.\n\nHarden Shepherd local-model admission to exact loopback HTTP origins, refuse redirects, and prove redirect denial against an executed source/target fixture. Focused Runtime tests, strict clippy, formatting, diff hygiene, and the Runtime owner lane pass. Independent exact-head rereview passed after both initial P2 findings were resolved.\n\nCloses #814\n\n<!-- csdlc-v3-operation:c8761390da131fee0bdb2121fb3d29a9d9b596247a592a00ab371d3e811c40fd -->",
+      "closingIssuesReferences": [
+        {
+          "id": "I_kwDOTvc2y88AAAABQiH0Xw",
+          "number": 814,
+          "repository": {
+            "id": "R_kgDOTvc2yw",
+            "name": "agent-design-language",
+            "owner": {
+              "id": "O_kgDOD6435A",
+              "login": "agent-logic"
+            }
+          },
+          "url": "https://github.com/agent-logic/agent-design-language/issues/814"
+        }
+      ],
+      "mergeCommit": {
+        "oid": "025893137021c963e752f53935268e7d8834d1ac"
+      },
+      "mergedAt": "2026-09-10T22:16:35Z",
+      "number": 822,
+      "state": "MERGED",
+      "url": "https://github.com/agent-logic/agent-design-language/pull/822"
+    },
+    {
+      "body": "Closes #815\n\nPart of #522\n\nRepairs D520-SEC-001 and D520-SEC-002 by requiring detached operator signatures, binding authorization to exact Terraform plan bytes and derived JSON projections, freezing verified GCP mutation inputs against replacement, enforcing system-clock expiry, and checking exact AWS account/GCP project replay boundaries.\n\nValidation: cloud-authorization positive proof; forged/unsigned approval, plan and sidecar mutation, projection drift, expiry, and account/project replay negatives; read-only GCP/AWS proof; Python compilation, shell syntax, and diff hygiene. No paid cloud mutation was performed.\n\nIndependent exact-head review: PASS at c3e8ce91ecf4ae02a34611dc7225b84843087c1f with no actionable findings.\n\n<!-- csdlc-v3-operation:0ce2c2352e1a71e1e82a2246cdd9114b78c410d8998e63ec66190b958226624d -->",
+      "closingIssuesReferences": [
+        {
+          "id": "I_kwDOTvc2y88AAAABQiIWEw",
+          "number": 815,
+          "repository": {
+            "id": "R_kgDOTvc2yw",
+            "name": "agent-design-language",
+            "owner": {
+              "id": "O_kgDOD6435A",
+              "login": "agent-logic"
+            }
+          },
+          "url": "https://github.com/agent-logic/agent-design-language/issues/815"
+        }
+      ],
+      "mergeCommit": {
+        "oid": "8e51b1b15c8257a6522cda041e4aed4eb3348016"
+      },
+      "mergedAt": "2026-09-10T22:17:51Z",
+      "number": 825,
+      "state": "MERGED",
+      "url": "https://github.com/agent-logic/agent-design-language/pull/825"
+    },
+    {
+      "body": "Closes #816\n\nPart of #522\n\nRepairs D520-SEC-003 by validating production-derived Runtime JSON plus every declared UI/evidence publication, structurally rejecting duplicate keys and unredacted sensitive fields. Repairs D520-TEST-001 by synchronizing hot-reload cancellation tests on observed pending and cancellation state instead of timing sleeps.\n\nValidation: OBS-B production/manifest proof with 10 negative classes; 8 Runtime config-reload integration tests; 2 kernel config-reload unit tests; repeated causal cancellation runs; strict clippy, fmt, Python compile, diff hygiene, and native six-card validation.\n\nIndependent exact-head review: PASS at f6b93fd399cd54f40d3ae442aca4614c0810c84a with no P0-P3 findings.\n\n<!-- csdlc-v3-operation:b7b44016b42bfab41590c13c1c272dbe6677d422f9368dc3868d715bd70939d8 -->",
+      "closingIssuesReferences": [
+        {
+          "id": "I_kwDOTvc2y88AAAABQiI4CA",
+          "number": 816,
+          "repository": {
+            "id": "R_kgDOTvc2yw",
+            "name": "agent-design-language",
+            "owner": {
+              "id": "O_kgDOD6435A",
+              "login": "agent-logic"
+            }
+          },
+          "url": "https://github.com/agent-logic/agent-design-language/issues/816"
+        }
+      ],
+      "mergeCommit": {
+        "oid": "5981d90e71808b70a801520d86bd4e648a56d0a6"
+      },
+      "mergedAt": "2026-09-10T22:18:16Z",
+      "number": 823,
+      "state": "MERGED",
+      "url": "https://github.com/agent-logic/agent-design-language/pull/823"
+    },
+    {
+      "body": "Closes #817\n\nPart of #522\n\nRepairs D520-V3F-001, D520-REL-001, D520-DOC-003, D520-DOC-004, D520-EVID-001, and D520-EVID-002 with candidate-bound V3-F proof, live canonical status, authenticated #519 terminal projection, corrected ownership links, valid retained GCP-E JSON, and byte-bound structured failure evidence.\n\nValidation: release-truth positive, 10 negative cases, and live GitHub readback; current-status positive and 9 negatives; V3-F positive and 15 negatives; detached locked suite 211/211; native six-card validation; Python compilation and diff/path hygiene. No paid cloud mutation was performed.\n\nIndependent exact-head review: PASS at c25c7639593958eb0eb4b90d0fc21a815d5e078d with no actionable findings.\n\n<!-- csdlc-v3-operation:0295753400ec51d417d0d50ad73125c18baef0930a9a2155cea31600b863af83 -->",
+      "closingIssuesReferences": [
+        {
+          "id": "I_kwDOTvc2y88AAAABQiJf1A",
+          "number": 817,
+          "repository": {
+            "id": "R_kgDOTvc2yw",
+            "name": "agent-design-language",
+            "owner": {
+              "id": "O_kgDOD6435A",
+              "login": "agent-logic"
+            }
+          },
+          "url": "https://github.com/agent-logic/agent-design-language/issues/817"
+        }
+      ],
+      "mergeCommit": {
+        "oid": "add8f48867e55be9256244767758abba6f348091"
+      },
+      "mergedAt": "2026-09-10T22:18:57Z",
+      "number": 826,
+      "state": "MERGED",
+      "url": "https://github.com/agent-logic/agent-design-language/pull/826"
+    },
+    {
+      "body": "Closes #818\n\nPart of #522\n\n## Outcome\n\nReconciles exactly the 17 corporate/Runtime rows from the #764 D520-RET-001 denominator against frozen candidate `add8f48867e55be9256244767758abba6f348091`. All 17 source rows are non-proving, so each carries a closed-schema, canonical-digest proposal to remove only that exact criterion from the v0.92.1 retained release gate.\n\n## Truth boundary\n\n- No row is promoted to a behavioral pass.\n- Source artifacts, ownership, issue closure, and PR closure are context only, never execution proof.\n- No private instrument, counsel advice, signature, credential, or provider state was inspected.\n- All 17 removal proposals remain `pending_operator_review`.\n- `release_ready` remains `false` before merge.\n- Merging this PR approves only the exact proposal objects and digests reviewed here; it does not claim the associated product behavior was implemented or removed.\n\n## Validation\n\n- 17/17 rows unique and reconciled: 17 exact removal proposals, 0 behavioral passes, 0 unclassified\n- closed proposal, row, evidence, and packet schemas validated\n- candidate source SHA-256 and Git blob identities rederived\n- byte-for-byte deterministic receipt replay passed\n- 22/22 adversarial packet and authority mutations rejected\n- native six-card validation passed at generation 6 / digest `ea4c5c6dbd75e73e9683bb528df439a7f8ba50e18c638543ffeb7fa5cbe8a813`\n- independent exact-head review passed at `2c9623f82759811e05fe51558303fa198af7a84c`\n\n\n<!-- csdlc-v3-operation:743f5895f9078bfb2f2579f554352c97fc7c027f5a4f27c48bbacc27685052a3 -->",
+      "closingIssuesReferences": [
+        {
+          "id": "I_kwDOTvc2y88AAAABQiJjAw",
+          "number": 818,
+          "repository": {
+            "id": "R_kgDOTvc2yw",
+            "name": "agent-design-language",
+            "owner": {
+              "id": "O_kgDOD6435A",
+              "login": "agent-logic"
+            }
+          },
+          "url": "https://github.com/agent-logic/agent-design-language/issues/818"
+        }
+      ],
+      "mergeCommit": {
+        "oid": "64a99fd71b9770e15cb0dc393d669450d3a5f5b4"
+      },
+      "mergedAt": "2026-09-11T02:32:37Z",
+      "number": 832,
+      "state": "MERGED",
+      "url": "https://github.com/agent-logic/agent-design-language/pull/832"
+    },
+    {
+      "body": "Closes #819\n\nPart of #522\n\n## Outcome\n\nReconciles all 152 retained C-SDLC v3 review rows against frozen candidate `fb6cbc7f619daa54f901fd2d12f480add682ace3`. The 51 source-supported rows are joined to complete candidate execution and exact candidate evidence. Each of the remaining 101 non-proving rows carries a criterion-specific, digest-bound proposal to remove only that criterion from the v0.92.1 retained release gate.\n\n## Truth boundary\n\n- No non-proving row is promoted to a behavioral pass.\n- The 101 removal proposals remain `pending_operator_review`.\n- `release_ready` remains `false` before merge.\n- Merging this PR is explicit operator approval of the exact proposal digests; it does not claim the associated product behavior was implemented or removed.\n\n## Validation\n\n- 152/152 rows unique and reconciled: 51 candidate-executed, 101 exact removal proposals, 0 unclassified\n- complete 211-test C-SDLC v3 suite passed\n- all-target C-SDLC v3 clippy passed\n- current V3-A contract validator passed\n- 18/18 adversarial receipt and authority mutations rejected\n- native six-card validation passed at generation 11 / digest `b3a4982498b2991d3aee1ac455a0c3b0a5b10aaa12bbbe69edc60f22810460df`\n- independent exact-head review passed at `32581b03b57135167e789c6fe9b74b1a63cf929c`\n\n\n<!-- csdlc-v3-operation:46f1f9db35a6cf2dc04d0dea051445cb5247d074ad3741ac34043e82f8abbd0b -->",
+      "closingIssuesReferences": [
+        {
+          "id": "I_kwDOTvc2y88AAAABQiJpgA",
+          "number": 819,
+          "repository": {
+            "id": "R_kgDOTvc2yw",
+            "name": "agent-design-language",
+            "owner": {
+              "id": "O_kgDOD6435A",
+              "login": "agent-logic"
+            }
+          },
+          "url": "https://github.com/agent-logic/agent-design-language/issues/819"
+        }
+      ],
+      "mergeCommit": {
+        "oid": "1e9b543e40e0e4c980878384d64ab368717b0091"
+      },
+      "mergedAt": "2026-09-10T22:17:15Z",
+      "number": 827,
+      "state": "MERGED",
+      "url": "https://github.com/agent-logic/agent-design-language/pull/827"
+    },
+    {
+      "body": "Closes #820\n\nPart of #522\n\n## Outcome\n\nReconciles exactly the 25 DRT-prefixed non-proving rows from the #764 retained-proof denominator against frozen candidate `fb6cbc7f619daa54f901fd2d12f480add682ace3`. Candidate-bound execution confirms the retained fixture contract, and every row carries a criterion-specific, digest-bound proposal to remove only that criterion from the v0.92.1 retained release gate.\n\n## Truth boundary\n\n- No row is promoted to a behavioral pass.\n- All 25 removal proposals remain `pending_operator_review`.\n- `release_ready` remains `false` before merge.\n- Merging this PR approves the exact proposal digests only; it does not claim live multi-node, cloud, partition, soak, security, replay, or cleanup behavior.\n\n## Validation\n\n- 25/25 unique DRT rows reconciled; zero missing or duplicated\n- focused distributed contract and failure suites passed\n- positive reconciliation validator passed\n- 13 adversarial mutations rejected, including coordinated governance-semantic mutations\n- diff and absolute-path hygiene passed\n- independent exact-head review passed at `d7eb57913913f780d7dc0a965629202c76ec32a8`\n\n\n<!-- csdlc-v3-operation:9a8fde1d919d96c4318b060c6c9ffb673c353997e9174106301c68174d858e79 -->",
+      "closingIssuesReferences": [
+        {
+          "id": "I_kwDOTvc2y88AAAABQiJtdA",
+          "number": 820,
+          "repository": {
+            "id": "R_kgDOTvc2yw",
+            "name": "agent-design-language",
+            "owner": {
+              "id": "O_kgDOD6435A",
+              "login": "agent-logic"
+            }
+          },
+          "url": "https://github.com/agent-logic/agent-design-language/issues/820"
+        }
+      ],
+      "mergeCommit": {
+        "oid": "803047812d09984a6df09cbb1e2cf0957c29d547"
+      },
+      "mergedAt": "2026-09-11T01:54:01Z",
+      "number": 828,
+      "state": "MERGED",
+      "url": "https://github.com/agent-logic/agent-design-language/pull/828"
+    },
+    {
+      "body": "Draft: final quality-gate proof is in progress. Do not merge until the outstanding requirements below are satisfied.\n\nPrepare the exact four TAIL-01 current-gate rows and the second review's 12 P1/P2 finding inputs. Record merged prerequisite identities, criterion digests, and source freshness. Keep 51 executed C-SDLC criteria separate from 101 operator-approved criterion removals.\n\nCompleted: native binding and six-card validation; four-row identity checks; retained gate, corrections and #819 receipt validators; independent preparation review at 8b408532b450ee6f6f5015b24ba7297140e08a55. Main remains unchanged. These checks are preparation evidence, not final release proof.\n\nRemaining before ready: integrate #818 and #820 proof; pin final remediation candidate; refresh changed proof surfaces; independently recompute required lanes; reconcile all four obligations and P1/P2 dispositions; obtain final exact-head review and required CI.\n\nCloses #821\n\nPart of #522\n\n\n<!-- csdlc-v3-operation:e39130d2d9db028cc7ebd742362da60d5b118be169bb4614a56ff1f0bc722f2b -->",
+      "closingIssuesReferences": [
+        {
+          "id": "I_kwDOTvc2y88AAAABQiJz1Q",
+          "number": 821,
+          "repository": {
+            "id": "R_kgDOTvc2yw",
+            "name": "agent-design-language",
+            "owner": {
+              "id": "O_kgDOD6435A",
+              "login": "agent-logic"
+            }
+          },
+          "url": "https://github.com/agent-logic/agent-design-language/issues/821"
+        }
+      ],
+      "mergeCommit": {
+        "oid": "44e05e694a6e8c6b74f3cc012946bd77c9442df2"
+      },
+      "mergedAt": "2026-09-11T01:54:31Z",
+      "number": 829,
+      "state": "MERGED",
+      "url": "https://github.com/agent-logic/agent-design-language/pull/829"
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "schema": "adl.quality_gate_exception_accounting.v1",
+  "issue": 517,
+  "historical_candidate": "bf159eb416950dfa3399933829726a7b7e71f897",
+  "original_grouped_exception_count": 5,
+  "unowned_exception_count": 0,
+  "exceptions": [
+    {
+      "id": "execution-exact-head-review-gaps",
+      "historical_classification": "product_blocker",
+      "historical_affected_row_count": 7,
+      "accounting_owner_issue": 517,
+      "accounting_disposition": "reviewed_delta",
+      "rationale": "Reviewed the bounded post-review changes for482 and505; seven rows retain exact source and reviewer evidence.",
+      "evidence": [
+        "retained-corporate-runtime.json",
+        "current-exceptions.json"
+      ]
+    },
+    {
+      "id": "consolidated-live-spec-sync-debt",
+      "historical_classification": "proof_debt",
+      "historical_affected_row_count": 4,
+      "accounting_owner_issue": 517,
+      "accounting_disposition": "synchronized",
+      "rationale": "WP-01, GCP-E, HOT-01 and OBS-B canonical specifications synchronized to captured accepted issue requirements.",
+      "evidence": [
+        "current-exceptions.json"
+      ]
+    },
+    {
+      "id": "semantic-criterion-proof-gaps",
+      "historical_classification": "proof_debt",
+      "historical_affected_row_count": 11,
+      "accounting_owner_issue": 517,
+      "accounting_disposition": "criterion_accounted",
+      "rationale": "All eleven rows have specific evidence/amendment/limitation dispositions. GCP audit-log sufficiency remains explicitly limited; accepted491/740 scope and completed740 terminal remain linked, without a new implementation assumption.",
+      "evidence": [
+        "corrections.json",
+        "current-exceptions.json",
+        "ownership.json"
+      ]
+    },
+    {
+      "id": "retained-predecessor-criterion-proof-gaps",
+      "historical_classification": "product_blocker",
+      "historical_affected_row_count": 227,
+      "accounting_owner_issue": 517,
+      "accounting_disposition": "successor_accounted",
+      "rationale": "All227 retained rows are individually mapped to accepted successor scope, evidence and stage disposition. Closed predecessors are not reopened. Direct execution sufficiency remains distinct from complete accounting.",
+      "evidence": [
+        "retained-corporate-runtime.json",
+        "retained-v3.json",
+        "release-stage-mapping.json",
+        "ownership.json"
+      ]
+    },
+    {
+      "id": "consolidated-owned-path-resolution-proof-debt",
+      "historical_classification": "proof_debt",
+      "historical_affected_row_count": 3,
+      "accounting_owner_issue": 517,
+      "accounting_disposition": "reviewed_content_resolution",
+      "rationale": "Independent bounded review resolved the three shared-path overlaps against final content and exact successor changes; no original owner signoff is fabricated.",
+      "evidence": [
+        "current-exceptions.json"
+      ]
+    }
+  ],
+  "release_authorized": false,
+  "boundary": "These resolve the documentation accounting for the five historical exception groups; no criterion is promoted merely by having an owner or terminal receipt."
+}

@@ -1,0 +1,66 @@
+{
+  "schema": "adl.issue517.accounting_validation.v1",
+  "scope": "Docs accounting only; no native implementation changes.",
+  "results": [
+    {
+      "check": "historical_gate",
+      "result": "pass",
+      "inventory": 393,
+      "required": 366,
+      "negative_cases": 11
+    },
+    {
+      "check": "initial_corrections",
+      "result": "pass",
+      "rows": 8,
+      "negative_cases": 6
+    },
+    {
+      "check": "complete_census_and_ownership",
+      "result": "pass",
+      "rows": 245,
+      "unowned_rows": 0,
+      "unowned_exception_groups": 0,
+      "negative_cases": 7
+    },
+    {
+      "check": "terminal750_exact_merged_artifacts",
+      "result": "pass",
+      "artifacts": 22
+    },
+    {
+      "check": "canonical_yaml_captured_required_fields",
+      "result": "pass",
+      "normalization": "Strip only surrounding Markdown backticks from path and lane list entries."
+    },
+    {
+      "check": "typed_six_cards",
+      "result": "pass",
+      "generation": 14
+    },
+    {
+      "check": "diff_whitespace",
+      "result": "pass"
+    }
+  ],
+  "release_authorized": false,
+  "boundary": "These checks validate accounting and document consistency; they are not new operational execution or release proof.",
+  "input_sha256": {
+    "ownership.json": "124d0e9d35beb824c9edc174b6d9a4ed36717f57f5b8662b18a0e1dad1c8cd2a",
+    "retained-v3.json": "75ecf4a1eac0fbb065386720623540a7bd86407f57cb77ce3d8778d8a243d4de",
+    "authority.json": "67708c1fdc63b00a82929aad8c77a13c9e4774106ad213dfdbb103bf06b346f5",
+    "accounting-closeout.md": "2d6a7b0906dcde1d4e72fc45c58373a8105a8633cc5091f014a5ea293d14daa7",
+    "remaining-execution-work.md": "9913fc7ed4acf49f897838be083a400cdcb885e2fdc5b5ad7d4fbcca5c0586be",
+    "summarize.py": "f8b822bd12b31b95f66fe79a232df74314d3a9695b41dffc0adebf0559935c48",
+    "README.md": "a00cbddc7a6b344089c2f5702a9c87b7792e7e160032e988a161b78258db9201",
+    "census.json": "fbbb546e2ed39b659c0d5fb79cd89ed4a8d5bc0f39df80093c31d1afbe96ff52",
+    "validate.py": "6d99d346baf0fa3913f622c0a290795709c56b9797b512d2d21f4849ab8ab3b8",
+    "corrections.json": "d6976e993d5aeae1a3a641c682ef2c8c478a791709b54c84847173165e0d9c8c",
+    "release-stage-mapping.json": "dcb4d6fc325d310c48ebddb7c02c4d91f0d76685bdf7ec8a472f48698e5e56f4",
+    "exception-dispositions.json": "1d1a403b0c89a3bed7faf7620f15deab90532744e32437b537ff5f03dcf0ce4f",
+    "current-exceptions.json": "c68666f42cd971a514cd011ec63cf2aade52443db068edb9f12e0c1f2044f1b2",
+    "review.json": "0905e655cea86b6ba2ba84aec466f1f82ca5d6be30ea4ebdbbac405ab3d90a90",
+    "retained-corporate-runtime.json": "fa9a8f5623196c66e46c876e5ae2ed3fa766f854f6c74c9dbf4cf0c1d2d9d027",
+    "terminal-closeout-750.json": "7f89071f4baaed5e9a6993e1cdca0d0c416677c718e65b5f497611d95057e5ed"
+  }
+}

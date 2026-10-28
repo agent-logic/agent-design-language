@@ -1,0 +1,37 @@
+{
+  "schema": "adl.v0921.internal_review_summary.v1",
+  "candidate_sha": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+  "outcome": "findings",
+  "observations": [
+    {
+      "subject_id": "SUMMARY-VALIDATION-RESULTS-CODE",
+      "result": "finding",
+      "detail": "code specialist completed its exact assignment with outcome findings.",
+      "evidence": {
+        "subject_id": "SUMMARY-VALIDATION-RESULTS-CODE",
+        "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/code-review.json",
+        "source": "packet",
+        "sha256": "42c0817020d95c66175e31ffb899ea1d8c31fc207021d32fbdd930800a396860",
+        "locator": {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/code-review.json",
+          "line": 1
+        }
+      }
+    },
+    {
+      "subject_id": "SUMMARY-VALIDATION-RESULTS-TESTS",
+      "result": "finding",
+      "detail": "tests specialist completed its exact assignment with outcome findings.",
+      "evidence": {
+        "subject_id": "SUMMARY-VALIDATION-RESULTS-TESTS",
+        "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/tests-review.json",
+        "source": "packet",
+        "sha256": "b0611d39e64dad893b2c8714b9148ad0772f86e9617a84e8563d8ea57062b213",
+        "locator": {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/tests-review.json",
+          "line": 1
+        }
+      }
+    }
+  ]
+}

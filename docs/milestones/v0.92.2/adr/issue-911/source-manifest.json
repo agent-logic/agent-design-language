@@ -1,0 +1,111 @@
+{
+  "schema": "issue911.source_manifest.v1",
+  "revision": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+  "sources": [
+    {
+      "path": ".csdlc/evidence/864/all-issue-launch.json",
+      "sha256": "79058c4453bfcd0e53678db9de35eef0e9e5722c51ba4f9d751498bf25fb086a",
+      "bytes": 9513
+    },
+    {
+      "path": "docs/adr/0004-provider-profiles.md",
+      "sha256": "4d44f976e4df2b709b26ce8360bc76bfd925250c54ccb7ae930007c683a0364c",
+      "bytes": 4488
+    },
+    {
+      "path": "docs/adr/0020-universal-tool-schema-portable-tool-description-standard.md",
+      "sha256": "1b812b2d4d790697a9d30ab71c5724626895f93ffe9bced7e9323cffcd99e305",
+      "bytes": 4029
+    },
+    {
+      "path": "docs/adr/0021-adl-capability-contract-runtime-authority-boundary.md",
+      "sha256": "b718eddbc15994cc73968f98433bae23fd423c29843e0f180ea67c6d22330037",
+      "bytes": 3408
+    },
+    {
+      "path": "docs/adr/0025-codefriend-review-packet-product-boundary.md",
+      "sha256": "b2011e222cfe853d047354f27e42262268a26cc0ea51c3aabb39d90ecb7aa524",
+      "bytes": 2754
+    },
+    {
+      "path": "docs/adr/0041-provider-model-suitability-boundary-v2.md",
+      "sha256": "17b9274a9175c87f6ec170fe64a26547726dbd5b8ac6832a118bf0c75c35303c",
+      "bytes": 4127
+    },
+    {
+      "path": "docs/adr/0048-runtime-observability-and-otel-boundary.md",
+      "sha256": "dd9eea5593fa369f36ccb16cefc748605c802c1a45bf0543a15a1c3222006ed0",
+      "bytes": 1670
+    },
+    {
+      "path": "docs/adr/0054-runtime-v3-guardian-owned-kernel-and-api-boundary.md",
+      "sha256": "be18ed5287898f1c568e41435fb7c3b4a5ec6d02cdb0119cc5a505d2aba41d9a",
+      "bytes": 2698
+    },
+    {
+      "path": "docs/adr/0058-memory-palace-context-handoff-architecture.md",
+      "sha256": "a695929e484d3e42a765881b84e03133824dcd769224430bd213f7d88d3b4def",
+      "bytes": 7508
+    },
+    {
+      "path": "docs/architecture/adr/0069-observatory-governed-runtime-consumer-boundary.md",
+      "sha256": "a1a096ed4230af1d7f3485bc3b481269494febc9c4bf76aba804d14a84543370",
+      "bytes": 2778
+    },
+    {
+      "path": "docs/architecture/adr/0072-csdlc-v3-native-authority.md",
+      "sha256": "ec0c2629db1cd4c3c984d63671dabda15314d1dd3f5033c8aeac45dd25b2e143",
+      "bytes": 3683
+    },
+    {
+      "path": "docs/architecture/adr/0075-provider-profile-and-shadow-authority.md",
+      "sha256": "7fa061e8f1683bad53b356f553647d7d78043f32dc2723adff8033c196c2d445",
+      "bytes": 3774
+    },
+    {
+      "path": "docs/csdlc-v3/CURRENT_AUTHORITY.md",
+      "sha256": "10898cda4df3f87d0a86b863ef0104d43de5c3de7e5f47094b9832d1f32e1859",
+      "bytes": 2324
+    },
+    {
+      "path": "docs/milestones/v0.92.2/ADOPTED_DESIGN_CONTRACTS_v0.92.2.md",
+      "sha256": "8806e26bba1cad5c4e0953828b3a11b31ac22466b7ad06e93cf2fee0a909f3f4",
+      "bytes": 7013
+    },
+    {
+      "path": "docs/milestones/v0.92.2/ADR_PLAN_v0.92.2.md",
+      "sha256": "33530c2e681e48b1e2b1d18090fcb9699f07754dc4172f37a698df6b5d704cba",
+      "bytes": 2599
+    },
+    {
+      "path": "docs/milestones/v0.92.2/ATOMIC_TASK_CONTRACTS_v0.92.2.json",
+      "sha256": "84f5422d36c15243772ffd53f9b1e7707afb76fd7a8bf5e9bd1e4ec05c784a15",
+      "bytes": 49912
+    },
+    {
+      "path": "docs/milestones/v0.92.2/CREATION_SELECTIONS_v0.92.2.md",
+      "sha256": "b2cf40769f1ae6fdfa9306dce55a0ca293064ca1bbe2d6c5769371eabe6c7768",
+      "bytes": 9334
+    },
+    {
+      "path": "docs/milestones/v0.92.2/DECISIONS_v0.92.2.md",
+      "sha256": "29ed98171739b7eccb6c7adc9085eefd43ce9172db8913665180578c311ef460",
+      "bytes": 6107
+    },
+    {
+      "path": "docs/milestones/v0.92.2/WP_ISSUE_WAVE_v0.92.2.yaml",
+      "sha256": "56a8c264e14d0e13bfec8d726e529119e8c2e9d6c0999b4e6d542183484b221e",
+      "bytes": 34330
+    },
+    {
+      "path": "docs/milestones/v0.92.2/cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md",
+      "sha256": "825dac656e22af3424b60a18d4d327680779d094af92d0d87aa090fb25b0dd43",
+      "bytes": 31661
+    },
+    {
+      "path": "infra/aws/observatory/README.md",
+      "sha256": "ca975736a5c29e4450a81b2c6511cd47738d32eff4f54965af7e8a64981c7549",
+      "bytes": 2942
+    }
+  ]
+}

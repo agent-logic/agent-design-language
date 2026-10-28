@@ -1,0 +1,11 @@
+{
+  "schema": "adl.v0921.wp01.operation-intent.v1",
+  "kind": "child_create",
+  "planned_id": "DEC-01",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:DEC-01:create",
+  "request_fingerprint": "04d7b349cb0d2b92dc5e2109a4e88564dd010f6f9bbf8b9e7db1384e6f3fc260",
+  "planning_digest": "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251",
+  "dependencies": {
+    "WP-01": 480
+  }
+}

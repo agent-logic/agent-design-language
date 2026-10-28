@@ -1,0 +1,10 @@
+{
+  "candidate_revision": "fa1f16322083ae13b4980bdd733442918da39b56",
+  "candidate_plan_sha256": "56c45939c6477ffae3e4ba89191aa8ef60a0889ec144c842962cb9bf43ddc6c6",
+  "claude_model": "claude-fable-5",
+  "claude_prompt_sha256": "1699fd55383710aa4d74cd0ca118ddaf5dba3c6ff70ba396bf57c26df257914c",
+  "gemini_model": "gemini-3.8-flash",
+  "gemini_prompt_sha256": "bf8aafa8cc2696133b20fde73e057534af7f7be68fc4332398753102dbeec14f",
+  "gemini_finish_reason": "STOP",
+  "scope": "External planning reviews only; operator decision and full RD-01 audit not performed."
+}

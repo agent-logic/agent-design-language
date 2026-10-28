@@ -1,0 +1,447 @@
+{
+  "schema": "adl.repository_adapter_contract_inventory.v1",
+  "issue": 1275,
+  "claim": "Source-pinned contracts, exact package provenance, current native admission observations and retained lifecycle evidence. Commands in source contracts are not new product validation; parent delivery and product/release acceptance remain separate.",
+  "repositories": [
+    {
+      "repository": "agent-logic/agent-design-language",
+      "source_revision": "e2a059086e682ea1cdcb83bacf67ddb1d7780a1e",
+      "source_basis": "canonical_main_baseline",
+      "root_adapter": null,
+      "readme_sha256": "ce02d2a0c6d2a2aa40b14675729fa17fc499419aa35b97bddb9bc56f44f5c206",
+      "discovery": {
+        "mode": "reuse_existing_native_context",
+        "owner": "agent-logic/cognitive-sdlc",
+        "manual_and_templates": "paired resources of the exact admitted package",
+        "source_fallback": false
+      },
+      "retained_source_worktree_policy": {
+        "schema": "adl.worktree_policy.v1",
+        "required_parent": "machine-specific absolute parent retained in source; not copied as portable setup"
+      },
+      "effective_worktree_policy": "Preserve actual native registered bindings; destination is explicit caller preference, with no new mandatory location policy imposed by this audit.",
+      "validation_profile": "component-scoped source checks; separate installed/product acceptance",
+      "validation_commands": [
+        "bash tools/public_adl/run_cli_ci.sh"
+      ],
+      "admitted_package_artifact": "12369122943",
+      "package_evidence_scope": "Current read-only native observation at the exact issue/version in RETAINED_ACCEPTANCE; historical package chains in PACKAGE_BINDINGS are separately verified.",
+      "unresolved": [],
+      "registry_version": "1.0.5",
+      "representative_issue": 1335,
+      "representative_validation_commands": [
+        "uts-declaration-contract"
+      ],
+      "acceptance_evidence": "RETAINED_ACCEPTANCE.json"
+    },
+    {
+      "repository": "agent-logic/cognitive-sdlc",
+      "source_revision": "e49b411dc33a65bd968e6f5add404822f18341fd",
+      "source_basis": "canonical_main_baseline",
+      "root_adapter": null,
+      "readme_sha256": "fd6051e5842c457b1eaa7c08f291614d93a882b1d4649247bfc03a9bb1ef4330",
+      "discovery": {
+        "mode": "reuse_existing_native_context",
+        "owner": "agent-logic/cognitive-sdlc",
+        "manual_and_templates": "paired resources of the exact admitted package",
+        "source_fallback": false
+      },
+      "retained_source_worktree_policy": null,
+      "effective_worktree_policy": "Preserve actual native registered bindings; destination is explicit caller preference, with no new mandatory location policy imposed by this audit.",
+      "validation_profile": "component-scoped source checks; separate installed/product acceptance",
+      "validation_commands": [
+        "cargo test --locked --manifest-path csdlc-v3/Cargo.toml --test command_manifest"
+      ],
+      "admitted_package_artifact": "12369122943",
+      "package_evidence_scope": "Current read-only native observation at the exact issue/version in RETAINED_ACCEPTANCE; historical package chains in PACKAGE_BINDINGS are separately verified.",
+      "unresolved": [],
+      "registry_version": "1.0.5",
+      "representative_issue": 312,
+      "representative_validation_commands": [
+        "scheduling-access-regressions",
+        "installed-preview-diagnostics"
+      ],
+      "acceptance_evidence": "RETAINED_ACCEPTANCE.json"
+    },
+    {
+      "repository": "agent-logic/agent-logic-runtime",
+      "source_revision": "d6870c05f6867a569c2cfa9e0bff74c358d16449",
+      "source_basis": "canonical_main_baseline",
+      "root_adapter": null,
+      "readme_sha256": "140a1c425e17867d3abcee675f195282195475e64ddc19a175f0da49a8dc162e",
+      "discovery": {
+        "mode": "reuse_existing_native_context",
+        "owner": "agent-logic/cognitive-sdlc",
+        "manual_and_templates": "paired resources of the exact admitted package",
+        "source_fallback": false
+      },
+      "retained_source_worktree_policy": {
+        "primary_sibling": "agent-logic-runtime-worktrees",
+        "schema": "csdlc.worktree_policy.v1"
+      },
+      "effective_worktree_policy": "Preserve actual native registered bindings; destination is explicit caller preference, with no new mandatory location policy imposed by this audit.",
+      "validation_profile": "component-scoped source checks; separate installed/product acceptance",
+      "validation_commands": [
+        "cargo test --locked --all-features --manifest-path agent-product-support/Cargo.toml",
+        "python3 -B -m unittest discover -s tools/packaging -p test_*.py -v"
+      ],
+      "admitted_package_artifact": "12369122943",
+      "package_evidence_scope": "Current read-only native observation at the exact issue/version in RETAINED_ACCEPTANCE; historical package chains in PACKAGE_BINDINGS are separately verified.",
+      "unresolved": [],
+      "registry_version": "1.0.5",
+      "representative_issue": 192,
+      "representative_validation_commands": [
+        "observatory-ui"
+      ],
+      "acceptance_evidence": "RETAINED_ACCEPTANCE.json"
+    },
+    {
+      "repository": "agent-logic/codefriend",
+      "source_revision": "dc1b843994c5e61791b055b90ce6479f93f2ec1a",
+      "source_basis": "canonical_main_baseline",
+      "root_adapter": null,
+      "readme_sha256": "d4972f4055c483229124893db50dff2166fbe0a067629b32187e6584b015f88b",
+      "discovery": {
+        "mode": "reuse_existing_native_context",
+        "owner": "agent-logic/cognitive-sdlc",
+        "manual_and_templates": "paired resources of the exact admitted package",
+        "source_fallback": false
+      },
+      "retained_source_worktree_policy": {
+        "primary_sibling": "codefriend-worktrees",
+        "schema": "csdlc.worktree_policy.v1"
+      },
+      "effective_worktree_policy": "Preserve actual native registered bindings; destination is explicit caller preference, with no new mandatory location policy imposed by this audit.",
+      "validation_profile": "component-scoped source checks; separate installed/product acceptance",
+      "validation_commands": [
+        "python3 -m unittest discover -s tools -p test_*.py -v",
+        "cargo test --offline --locked -p codefriend --lib"
+      ],
+      "admitted_package_artifact": "12369122943",
+      "package_evidence_scope": "Current read-only native observation at the exact issue/version in RETAINED_ACCEPTANCE; historical package chains in PACKAGE_BINDINGS are separately verified.",
+      "unresolved": [],
+      "registry_version": "1.0.5",
+      "representative_issue": 118,
+      "representative_validation_commands": [
+        "product-distribution-contract"
+      ],
+      "acceptance_evidence": "RETAINED_ACCEPTANCE.json"
+    },
+    {
+      "repository": "agent-logic/agent-logic-infrastructure",
+      "source_revision": "6aa48960dde398cd459b487a9452dc9a7b3c757f",
+      "source_basis": "canonical_main_baseline",
+      "root_adapter": null,
+      "readme_sha256": "cd1f6f6e19d2074b91450bfa8c99666212a8b2c71f2dd455c5bc3fd0398bf99d",
+      "discovery": {
+        "mode": "reuse_existing_native_context",
+        "owner": "agent-logic/cognitive-sdlc",
+        "manual_and_templates": "paired resources of the exact admitted package",
+        "source_fallback": false
+      },
+      "retained_source_worktree_policy": {
+        "primary_sibling": "agent-logic-infrastructure-worktrees",
+        "schema": "csdlc.worktree_policy.v1"
+      },
+      "effective_worktree_policy": "Preserve actual native registered bindings; destination is explicit caller preference, with no new mandatory location policy imposed by this audit.",
+      "validation_profile": "component-scoped source checks; separate installed/product acceptance",
+      "validation_commands": [
+        "python3 -m unittest discover -s tools/artifacts -p test_*.py -v"
+      ],
+      "admitted_package_artifact": "12369122943",
+      "package_evidence_scope": "Current read-only native observation at the exact issue/version in RETAINED_ACCEPTANCE; historical package chains in PACKAGE_BINDINGS are separately verified.",
+      "unresolved": [],
+      "registry_version": "1.0.5",
+      "representative_issue": 37,
+      "representative_validation_commands": [
+        "wp08-offline"
+      ],
+      "acceptance_evidence": "RETAINED_ACCEPTANCE.json"
+    },
+    {
+      "repository": "agent-logic/agent-logic-enterprise-security",
+      "source_revision": "06cd3e80d32610f2e360d0824a3195c7f43eb8e5",
+      "source_basis": "canonical_main_baseline",
+      "root_adapter": null,
+      "readme_sha256": "75b0a69d17959030c0958ffab765e15165bc1a0bc5c76f05ecbdd23334c891ea",
+      "discovery": {
+        "mode": "reuse_existing_native_context",
+        "owner": "agent-logic/cognitive-sdlc",
+        "manual_and_templates": "paired resources of the exact admitted package",
+        "source_fallback": false
+      },
+      "retained_source_worktree_policy": {
+        "primary_sibling": "agent-logic-enterprise-security-worktrees",
+        "schema": "csdlc.worktree_policy.v1"
+      },
+      "effective_worktree_policy": "Preserve actual native registered bindings; destination is explicit caller preference, with no new mandatory location policy imposed by this audit.",
+      "validation_profile": "component-scoped source checks; separate installed/product acceptance",
+      "validation_commands": [
+        "python3 tools/validate_rd09.py --runtime-interface ARCHIVE --sha256 SHA256"
+      ],
+      "admitted_package_artifact": "12369122943",
+      "package_evidence_scope": "Current read-only native observation at the exact issue/version in RETAINED_ACCEPTANCE; historical package chains in PACKAGE_BINDINGS are separately verified.",
+      "unresolved": [],
+      "registry_version": "1.0.5",
+      "representative_issue": 9,
+      "representative_validation_commands": [
+        "issue9-source-preflight"
+      ],
+      "acceptance_evidence": "RETAINED_ACCEPTANCE.json"
+    },
+    {
+      "repository": "agent-logic/agent-logic.ai",
+      "source_revision": "e30187fd6ab1c16f37066ff6fcfb73838f4b7c6a",
+      "source_basis": "reviewed_adapter_candidate",
+      "root_adapter": "adl_project.json",
+      "descriptor_sha256": "a77a011cd27e1bf4ed522a95ef3ae78ce10cf4671de78fba6a8198ddda550a0d",
+      "discovery": {
+        "owner": "agent-logic/cognitive-sdlc",
+        "executable_env": "CSDLC_EXECUTABLE",
+        "launcher": "tools/native_csdlc.py",
+        "package_resources": "installed/resources",
+        "template_registry": "docs/templates/prompts/current.json",
+        "manual": "docs/csdlc-v3/man",
+        "failure_mode": "refuse_without_source_fallback",
+        "authority": "native_owner_verification_required"
+      },
+      "worktree_contract": "explicit_caller_preference",
+      "validation_profile": "demo",
+      "validation_commands": [
+        {
+          "name": "native_adapter_contract",
+          "command": "python3 -B tools/test_native_csdlc.py --self-test",
+          "requires": [
+            "Python 3",
+            "Git",
+            "local deterministic fixtures; no installed package or network required"
+          ]
+        }
+      ],
+      "admitted_package_artifact": "12369122943",
+      "registry_version": "1.0.5",
+      "unresolved": [],
+      "terminal_evidence": "DELIVERY.json; cleanup explicitly deferred by operator"
+    },
+    {
+      "repository": "agent-logic/codefriend.ai",
+      "source_revision": "a8cb0338e5e1b7cc6c7cedc16d2afa151244c9c2",
+      "source_basis": "reviewed_adapter_candidate",
+      "root_adapter": "adl_project.json",
+      "descriptor_sha256": "db201f7a95ca23944a866eff601884bf86bfade17d5bf5b3e19772a7d096f22b",
+      "discovery": {
+        "owner": "agent-logic/cognitive-sdlc",
+        "executable_env": "CSDLC_EXECUTABLE",
+        "launcher": "tools/native_csdlc.py",
+        "package_resources": "installed/resources",
+        "template_registry": "docs/templates/prompts/current.json",
+        "manual": "docs/csdlc-v3/man",
+        "failure_mode": "refuse_without_source_fallback",
+        "authority": "native_owner_verification_required"
+      },
+      "worktree_contract": "explicit_caller_preference",
+      "validation_profile": "demo",
+      "validation_commands": [
+        {
+          "name": "static_site_boundary",
+          "command": "scripts/verify_site.sh",
+          "requires": [
+            "deployed CloudFront/S3 site",
+            "CODEFRIEND_CLOUDFRONT_DOMAIN_NAME or local Terraform state"
+          ]
+        },
+        {
+          "name": "beta_website_components",
+          "command": "npm test",
+          "requires": [
+            "Node.js >=24",
+            "local deterministic fixtures; no deployed service or paid provider calls"
+          ]
+        },
+        {
+          "name": "native_adapter_contract",
+          "command": "python3 -B tools/test_native_csdlc.py --self-test",
+          "requires": [
+            "Python 3",
+            "Git",
+            "local deterministic fixtures; no installed package or network required"
+          ]
+        }
+      ],
+      "admitted_package_artifact": "12369122943",
+      "registry_version": "1.0.5",
+      "unresolved": [],
+      "terminal_evidence": "DELIVERY.json; cleanup explicitly deferred by operator"
+    },
+    {
+      "repository": "agent-logic/universal-tool-schema",
+      "source_revision": "149fa7a0db3cc69bcfe059b29ac0abdb93a3777c",
+      "source_basis": "reviewed_adapter_candidate",
+      "root_adapter": "adl_project.json",
+      "descriptor_sha256": "17ceee80abe63ea8efb13a0b851afec59c73a6cb1c1f788ac14465ec0bd205c2",
+      "discovery": {
+        "owner": "agent-logic/cognitive-sdlc",
+        "executable_env": "CSDLC_EXECUTABLE",
+        "launcher": "tools/native_csdlc.py",
+        "package_resources": "installed/resources",
+        "template_registry": "docs/templates/prompts/current.json",
+        "manual": "docs/csdlc-v3/man",
+        "failure_mode": "refuse_without_source_fallback",
+        "authority": "native_owner_verification_required"
+      },
+      "worktree_contract": "explicit_caller_preference",
+      "validation_profile": "spec",
+      "validation_commands": [
+        {
+          "name": "native_adapter_contract",
+          "command": "python3 -B tools/test_native_csdlc.py --self-test",
+          "requires": [
+            "Python 3",
+            "Git",
+            "local deterministic fixtures; no installed package or network required"
+          ]
+        }
+      ],
+      "admitted_package_artifact": "12369122943",
+      "registry_version": "1.0.5",
+      "unresolved": [],
+      "terminal_evidence": "DELIVERY.json; cleanup explicitly deferred by operator"
+    },
+    {
+      "repository": "agent-logic/strategic-cognitive-reserve",
+      "source_revision": "05f0d5cbe1081e1ed789c36e2e65e7cd94ef79f5",
+      "source_basis": "reviewed_adapter_candidate",
+      "root_adapter": "adl_project.json",
+      "descriptor_sha256": "3a9dff6e81ac5414c0a39faadbc2079bb5f8f8c5ea6a3809bbcee6cc064c571c",
+      "discovery": {
+        "owner": "agent-logic/cognitive-sdlc",
+        "executable_env": "CSDLC_EXECUTABLE",
+        "launcher": "tools/native_csdlc.py",
+        "package_resources": "installed/resources",
+        "template_registry": "docs/templates/prompts/current.json",
+        "manual": "docs/csdlc-v3/man",
+        "failure_mode": "refuse_without_source_fallback",
+        "authority": "native_owner_verification_required"
+      },
+      "worktree_contract": "explicit_caller_preference",
+      "validation_profile": "spec",
+      "validation_commands": [
+        {
+          "name": "native_adapter_contract",
+          "command": "python3 -B tools/test_native_csdlc.py --self-test",
+          "requires": [
+            "Python 3",
+            "Git",
+            "local deterministic fixtures; no installed package or network required"
+          ]
+        }
+      ],
+      "admitted_package_artifact": "12369122943",
+      "registry_version": "1.0.5",
+      "unresolved": [],
+      "terminal_evidence": "DELIVERY.json; cleanup explicitly deferred by operator"
+    },
+    {
+      "repository": "agent-logic/godel-hadamard-bayes-paper",
+      "source_revision": "ebdcf0b2751c44fb5911a1515648453f95be4aa3",
+      "source_basis": "reviewed_adapter_candidate",
+      "root_adapter": "adl_project.json",
+      "descriptor_sha256": "c87faedd5efbd9f3ec4a6920d26e6ec46dbd7e7d65c0a8e1d2183c61941c2b5d",
+      "discovery": {
+        "owner": "agent-logic/cognitive-sdlc",
+        "executable_env": "CSDLC_EXECUTABLE",
+        "launcher": "tools/native_csdlc.py",
+        "package_resources": "installed/resources",
+        "template_registry": "docs/templates/prompts/current.json",
+        "manual": "docs/csdlc-v3/man",
+        "failure_mode": "refuse_without_source_fallback",
+        "authority": "native_owner_verification_required"
+      },
+      "worktree_contract": "explicit_caller_preference",
+      "validation_profile": "paper",
+      "validation_commands": [
+        {
+          "name": "native_adapter_contract",
+          "command": "python3 -B tools/test_native_csdlc.py --self-test",
+          "requires": [
+            "Python 3",
+            "Git",
+            "local deterministic fixtures; no installed package or network required"
+          ]
+        }
+      ],
+      "admitted_package_artifact": "12369122943",
+      "registry_version": "1.0.5",
+      "unresolved": [],
+      "terminal_evidence": "DELIVERY.json; cleanup explicitly deferred by operator"
+    },
+    {
+      "repository": "agent-logic/cognitive-sdlc-paper",
+      "source_revision": "b81158dce4cb5ab0faf04bc9711fb6a30199c4d4",
+      "source_basis": "reviewed_adapter_candidate",
+      "root_adapter": "adl_project.json",
+      "descriptor_sha256": "9a970f122310791f7bbdfa51131eb7aa42b4a389d3d29c7afd13b85aba4195be",
+      "discovery": {
+        "owner": "agent-logic/cognitive-sdlc",
+        "executable_env": "CSDLC_EXECUTABLE",
+        "launcher": "tools/native_csdlc.py",
+        "package_resources": "installed/resources",
+        "template_registry": "docs/templates/prompts/current.json",
+        "manual": "docs/csdlc-v3/man",
+        "failure_mode": "refuse_without_source_fallback",
+        "authority": "native_owner_verification_required"
+      },
+      "worktree_contract": "explicit_caller_preference",
+      "validation_profile": "paper",
+      "validation_commands": [
+        {
+          "name": "native_adapter_contract",
+          "command": "python3 -B tools/test_native_csdlc.py --self-test",
+          "requires": [
+            "Python 3",
+            "Git",
+            "local deterministic fixtures; no installed package or network required"
+          ]
+        }
+      ],
+      "admitted_package_artifact": "12369122943",
+      "registry_version": "1.0.5",
+      "unresolved": [],
+      "terminal_evidence": "DELIVERY.json; cleanup explicitly deferred by operator"
+    },
+    {
+      "repository": "agent-logic/general-intelligence-paper-private",
+      "source_revision": "e38abf8850414fdc550f652d9620a3fdd951908e",
+      "source_basis": "reviewed_adapter_candidate",
+      "root_adapter": "adl_project.json",
+      "descriptor_sha256": "e48661bfadb096ed15e2bd84632ed8a9a2a9b0ccf4823b3125979cf8580f9be3",
+      "discovery": {
+        "owner": "agent-logic/cognitive-sdlc",
+        "executable_env": "CSDLC_EXECUTABLE",
+        "launcher": "tools/native_csdlc.py",
+        "package_resources": "installed/resources",
+        "template_registry": "docs/templates/prompts/current.json",
+        "manual": "docs/csdlc-v3/man",
+        "failure_mode": "refuse_without_source_fallback",
+        "authority": "native_owner_verification_required"
+      },
+      "worktree_contract": "explicit_caller_preference",
+      "validation_profile": "paper",
+      "validation_commands": [
+        {
+          "name": "native_adapter_contract",
+          "command": "python3 -B tools/test_native_csdlc.py --self-test",
+          "requires": [
+            "Python 3",
+            "Git",
+            "local deterministic fixtures; no installed package or network required"
+          ]
+        }
+      ],
+      "admitted_package_artifact": "12369122943",
+      "registry_version": "1.0.5",
+      "unresolved": [],
+      "terminal_evidence": "DELIVERY.json; cleanup explicitly deferred by operator"
+    }
+  ]
+}

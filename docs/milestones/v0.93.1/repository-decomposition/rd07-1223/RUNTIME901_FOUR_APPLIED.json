@@ -1,0 +1,311 @@
+{
+  "schema": "adl1223.runtime901_four_retirement.v1",
+  "status": "applied",
+  "source_head": "2f5d82d136f1160612a03fe989ebdb2b7ff68964",
+  "removed_count": 4,
+  "rows": [
+    {
+      "id": "RD07-1493",
+      "path": "adl/tools/run_issue901_provider_recovery_qualification.py",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "72a4161f1ca2bbf054a5f04b0cbefe0e009b718c"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/run_issue901_provider_recovery_qualification.py"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1494",
+      "path": "adl/tools/run_issue901_runtime_recovery_qualification.py",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "33226c5b92d4e6a770d8945ab0b927335b91d9fa"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/run_issue901_runtime_recovery_qualification.py"
+        ]
+      }
+    },
+    {
+      "id": "RD07-2091",
+      "path": "adl/tools/test_run_issue901_provider_recovery_qualification.py",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "9cddf6d9c31bc392c43d472348c7cd9964906f50"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/test_run_issue901_provider_recovery_qualification.py"
+        ]
+      }
+    },
+    {
+      "id": "RD07-2092",
+      "path": "adl/tools/test_run_issue901_runtime_recovery_qualification.py",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "a2b9d59a5918bec796c8812aeedd6f6bf09538d5"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/test_run_issue901_runtime_recovery_qualification.py"
+        ]
+      }
+    }
+  ],
+  "files": [
+    {
+      "path": "adl/tools/run_issue901_provider_recovery_qualification.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "72a4161f1ca2bbf054a5f04b0cbefe0e009b718c",
+        "sha256": "e0215787763e0f21700296a0487845f5e16350a084fc4a3642da847a3f5e2e2e"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/run_issue901_runtime_recovery_qualification.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "33226c5b92d4e6a770d8945ab0b927335b91d9fa",
+        "sha256": "b14c8ca78e354b50559385c3491cc2d07ba3792bcc9f86659aa041bbf3f3ef84"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_run_issue901_provider_recovery_qualification.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "9cddf6d9c31bc392c43d472348c7cd9964906f50",
+        "sha256": "9ff4da17623d74b9af8b8346a4487a38325ebf27b058bf5a02ff7464ca03d5be"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_run_issue901_runtime_recovery_qualification.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "a2b9d59a5918bec796c8812aeedd6f6bf09538d5",
+        "sha256": "87f9546331a2cd984e9c29f87c5e9072b240cbaacc607e1f608bbbcca0f8a454"
+      },
+      "after": null
+    },
+    {
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "33da844921382059b613a3b377f6e6b32fa6a703",
+        "sha256": "e43049a75f9124adde032ff4aa7b06553bcd9dafaed91d816e29972f41170a5e"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "89c804b3313f921aa6ae53a74d716e0c709e8f86",
+        "sha256": "928eeb3146d3bf719e86d47ac50554a8c5ae74a4f30077e29552246da70eeb00"
+      }
+    }
+  ],
+  "owner_revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+  "owner_inputs": [
+    {
+      "path": "adl/tools/run_issue901_provider_recovery_qualification.py",
+      "owner_revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "owner_mode": "100644",
+      "mode": "100644",
+      "blob": "72a4161f1ca2bbf054a5f04b0cbefe0e009b718c",
+      "sha256": "e0215787763e0f21700296a0487845f5e16350a084fc4a3642da847a3f5e2e2e",
+      "current_exact": true
+    },
+    {
+      "path": "adl/tools/run_issue901_runtime_recovery_qualification.py",
+      "owner_revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "owner_mode": "100644",
+      "mode": "100644",
+      "blob": "33226c5b92d4e6a770d8945ab0b927335b91d9fa",
+      "sha256": "b14c8ca78e354b50559385c3491cc2d07ba3792bcc9f86659aa041bbf3f3ef84",
+      "current_exact": true
+    },
+    {
+      "path": "adl/tools/test_run_issue901_provider_recovery_qualification.py",
+      "owner_revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "owner_mode": "100644",
+      "mode": "100644",
+      "blob": "9cddf6d9c31bc392c43d472348c7cd9964906f50",
+      "sha256": "9ff4da17623d74b9af8b8346a4487a38325ebf27b058bf5a02ff7464ca03d5be",
+      "current_exact": true
+    },
+    {
+      "path": "adl/tools/test_run_issue901_runtime_recovery_qualification.py",
+      "owner_revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "owner_mode": "100644",
+      "mode": "100644",
+      "blob": "a2b9d59a5918bec796c8812aeedd6f6bf09538d5",
+      "sha256": "87f9546331a2cd984e9c29f87c5e9072b240cbaacc607e1f608bbbcca0f8a454",
+      "current_exact": true
+    }
+  ],
+  "qualification": {
+    "status": "PASS",
+    "original_scripts_executed": 2,
+    "tests": [
+      {
+        "argv": [
+          "python3",
+          "-B",
+          "adl/tools/test_run_issue901_provider_recovery_qualification.py"
+        ],
+        "exit_code": 0,
+        "timeout": false,
+        "seconds": 0.22259532799944282,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "899892e2594934277080bcaa2a70a3db8deed5bef4650c715af411a66f20fd5f",
+        "source_after_exact": true
+      },
+      {
+        "argv": [
+          "python3",
+          "-B",
+          "adl/tools/test_run_issue901_runtime_recovery_qualification.py"
+        ],
+        "exit_code": 0,
+        "timeout": false,
+        "seconds": 0.2239021799978218,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "c6b9b1f09add0403cc07e90bfdf272129b1ddfa2f8f7675ea8218862f2516371",
+        "source_after_exact": true
+      }
+    ],
+    "source_before_exact": true,
+    "source_before_after_exact": true,
+    "denominators": {
+      "original_scripts": 2,
+      "original_unittest_methods": 25,
+      "provider_report_methods": 19,
+      "runtime_report_methods": 6,
+      "product_processes": 0
+    },
+    "scope": "Original25 report validation methods across2 scripts; synthetic artifacts only, no actual Runtime/provider loss/recovery or installed/native qualification."
+  },
+  "actual_unittest_result": "Two original scripts:19 provider-report methods and6 Runtime-report methods,25 total; both OK, no skips/timeouts. Synthetic raw-artifact integrity tests only; no production loss/recovery execution.",
+  "evidence": [
+    {
+      "path": "/Volumes/FastWork/c1223/runtime901-four-original-plan/PLAN.json",
+      "sha256": "fb5c723ef90e30f68f7712857fe7ef87c6f541506931789590e78ec5ec34dca4"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime901-four-original-plan/EXECUTION_PINS.json",
+      "sha256": "476e32fe94dded7e222f1e53c1d789b11b791aacb22bc2d749deacdae880e3d0"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime901-four-original-plan/current-owner-custody.tar",
+      "sha256": "b2e1283db45e4488be4baf8f6de5d4e377f59031132daf2c4109d49992d81af5"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime901-four-original-plan/execution/RESULT.json",
+      "sha256": "b534a55ec80f2e5641642231bb2a4c5d9ac35621d7bafed8a7dc0a2dd7a36f58"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime901-four-original-plan/execution/output/result.json",
+      "sha256": "e30fd02559c65d359128ae4adbca4a3c87ffcd4bd5c1da1cc6ef65266317b0a2"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime901-four-original-plan/execution/output/case-1/stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime901-four-original-plan/execution/output/case-1/stderr",
+      "sha256": "899892e2594934277080bcaa2a70a3db8deed5bef4650c715af411a66f20fd5f"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime901-four-original-plan/execution/output/case-2/stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime901-four-original-plan/execution/output/case-2/stderr",
+      "sha256": "c6b9b1f09add0403cc07e90bfdf272129b1ddfa2f8f7675ea8218862f2516371"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime901-four-original-plan/execution/CONTAINER.json",
+      "sha256": "47fe235523b41c418181f1a7f36446fd33fea3a2d0b21cbd6967c381a767bb27"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime901-four-original-plan/retirement/CALLERS.txt",
+      "sha256": "76b017b673d7d9c4ae2bb7578e21a2c4c6b290518a3bfa84f876fab9217f1c31"
+    }
+  ],
+  "custody": {
+    "path": "/Volumes/FastWork/c1223/runtime901-four-original-plan/retirement/current-and-original-preimages.tar",
+    "sha256": "ad2379eec35c345642b3a5c0f56894a8a8644644362412ac90eb38d32a2289b2",
+    "current_members": 5,
+    "original_members": 4
+  },
+  "patch": {
+    "path": "/Volumes/FastWork/c1223/runtime901-four-original-plan/retirement/runtime901-four-and-registry.patch",
+    "sha256": "d8d2825326df95fb7b30a0cbcca096ff9f579487a30f51644f8a89c48f011cbb"
+  },
+  "caller_closure": "Only active source callers are paired tests and runtime producer importing provider producer, removed coherently. No current publicCI/selector consumer found. Actualregistry regeneration removes exactly4toolrows, preserving Demo3 source commit2f5d82d. Historical issue901 records unchanged.",
+  "limits": [
+    "Report validation and synthetic raw-artifact integrity only; no actual provider/runtime loss/recovery, installed/native acceptance or service execution.",
+    "All four files exact owner7d0 and current ADL; no original assertion changes.",
+    "Production runner dependencies on lifecycle helper and installed binaries remain in Runtime owner; source unit acceptance does not satisfy live qualification.",
+    "No original rerun or shared source edits by proposal."
+  ],
+  "review": {
+    "status": "PASS",
+    "reviewer": "/root/review_1223_historical_retention",
+    "proposal_sha256": "f1f24ee1e82d3fcc5738d7520977137fc0b1432e9574b5081600a83acf35290d",
+    "scope": "Exact four owner sources, actual19+6 original tests, current/original custody and paired caller closure; no live recovery acceptance."
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "D-HISTORY": {
+    "owner": "RD-02 #1182",
+    "blocks": "affected extraction; not this audit acceptance",
+    "question": "Set one evidence custodian, immutable retention/privacy/archive and cross-repository link policy; historical records are not an active software destination.",
+    "evidence": [
+      "docs/milestones/v0.93.1/REPOSITORY_MIGRATION_v0.93.1.md",
+      "docs/milestones/v0.92.2/repository-decomposition/rd01-977/AUDIT.md"
+    ]
+  },
+  "D-DELIVERY": {
+    "owner": "RD-02 #1182",
+    "blocks": "affected extraction; not this audit acceptance",
+    "question": "Assign product-specific versus reusable CI/install/deploy/host components individually, with pinned artifacts, credential-scope owners and rollback; website delivery stays website-owned.",
+    "evidence": [
+      "tools/codefriend_host/release/assemble.py",
+      ".github/workflows/ci.yaml",
+      "adl/tools/install_owner_binaries.sh"
+    ]
+  },
+  "D-DEMOS": {
+    "owner": "RD-02 #1182",
+    "blocks": "affected extraction; not this audit acceptance",
+    "question": "Assign each demo and its runner/fixtures/manual to its actual product; preserve podcast/editorial and historical proof ownership separately; RD08 verifies later, no copied implementation.",
+    "evidence": [
+      "demos/README.md",
+      "docs/milestones/v0.93.1/REPOSITORY_MIGRATION_v0.93.1.md"
+    ]
+  },
+  "D-DOCS": {
+    "owner": "RD-02 #1182",
+    "blocks": "affected extraction; not this audit acceptance",
+    "question": "Review mixed documentation, schemas, templates and architecture decisions by actual consumer; separate current product manuals from retained evidence and portable templates.",
+    "evidence": [
+      "docs/README.md",
+      "docs/templates/prompts/current.json"
+    ]
+  },
+  "D-GENERATION": {
+    "owner": "RD-02 #1182",
+    "blocks": "affected extraction; not this audit acceptance",
+    "question": "Decide public language/engine versus Runtime adapter in adl-v2, shared resilience distribution, retained CSDLCv2 rollback and characterization ownership; do not retire by directory name.",
+    "evidence": [
+      "adl-v2/Cargo.toml",
+      "adl-resilience/Cargo.toml",
+      "csdlc-v2/Cargo.toml"
+    ]
+  },
+  "D-MIXED-ADL": {
+    "owner": "RD-02 #1182",
+    "blocks": "affected extraction; not this audit acceptance",
+    "question": "Split mixed ADL source/build/CLI/tests/tools by actual consumers: Runtime baseline enforcement and memory/provider services, portable ADL contracts, CodeFriend consumers and enterprise policy. Name one implementation owner per extracted component.",
+    "evidence": [
+      "adl/Cargo.toml",
+      "adl/src/lib.rs",
+      "adl/src/memory_palace.rs",
+      "adl/src/runtime_v2/mod.rs"
+    ]
+  },
+  "D-ROOT": {
+    "owner": "RD-02 #1182",
+    "blocks": "affected extraction; not this audit acceptance",
+    "question": "Assign repository-wide root governance, examples and remaining assets explicitly; ownership cannot be inferred from filename or lack of a product directory.",
+    "evidence": [
+      "AGENTS.md",
+      "README.md"
+    ]
+  }
+}

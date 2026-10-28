@@ -1,0 +1,19 @@
+flowchart LR
+  SRC["Promoted corporate source\nasset classes"] --> ENUM["CORP-01 inventory\nstable asset IDs"]
+  FOUNDER["Founder-controlled accounts\nread-only observations"] --> ENUM
+  COMPANY["Agent Logic authority\ntarget owner and custodian roles"] --> ENUM
+  ENUM --> REGISTER["Redacted asset register\ncontrol, recovery, dependency"]
+  ENUM --> EXCLUSIONS["Approved exclusions\nnot-applicable dispositions"]
+  REGISTER --> PROOF["Digest-bound denominator\nand inventory-export receipts"]
+  EXCLUSIONS --> PROOF
+  PROOF --> REVIEW["Independent review\nno secret/private fields"]
+  REVIEW -->|"accepted"| FREEZE["Frozen CORP-01 denominator\ninput to CORP-02/03/04"]
+  REVIEW -->|"missing custody or class"| STOP["STOP: no transfer or\ncredential rotation"]
+  STOP --> REGISTER
+
+  subgraph BOUNDARY["Repository boundary"]
+    REGISTER
+    EXCLUSIONS
+    PROOF
+    REVIEW
+  end

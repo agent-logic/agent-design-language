@@ -1,0 +1,45 @@
+{
+  "schema": "adl.language_cleanup.successor.v1",
+  "issue": 1368,
+  "source_commit": "0bf0ef5d167d0f479b8125a1a907221811ac262f",
+  "status": "restore_public_codecov_upload_without_source_removal",
+  "removed": [],
+  "changes": [
+    {
+      "path": ".github/workflows/ci.yaml",
+      "before": [
+        "100644",
+        "7a017b2138b89d9aaeaf138432543e75db881b8d"
+      ],
+      "after": [
+        "100644",
+        "23ae9a73fb7224cf0c745fba1634ab7f3d0ce46d"
+      ],
+      "before_sha256": "67d8b795ed51438bb830111330de684f52534842908b0a5d15fa5f87a4793d1d"
+    },
+    {
+      "path": ".github/workflows/nightly-coverage-ratchet.yaml",
+      "before": [
+        "100644",
+        "52df005c8da0ce03ca6d028dda4f4c3d82ee57a2"
+      ],
+      "after": [
+        "100644",
+        "9abcc8a5e5b54ef466c6f3f9d6f2422995a98754"
+      ],
+      "before_sha256": "59e9a939ac4e147507f37f55a94a7fb648bf4e3ab7c7b78d22e5dd169ddd98fc"
+    },
+    {
+      "path": "tools/ci_contracts/tests/workflow.rs",
+      "before": [
+        "100644",
+        "7ba01aa5538d2073cdd3179a89125914924e8182"
+      ],
+      "after": [
+        "100644",
+        "6ec17ab4ee23a500c09fae2aa14c06aceb5ca7d3"
+      ],
+      "before_sha256": "81371b44c67fda2d826ba08ac7fbf9c54e877d56719f92bb7d4d9865e95df26b"
+    }
+  ]
+}

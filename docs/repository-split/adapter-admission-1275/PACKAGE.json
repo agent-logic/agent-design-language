@@ -1,0 +1,106 @@
+{
+  "schema": "adl.adapter_package_evidence.v1",
+  "artifact_id": "12369122943",
+  "artifact_sha256": "4fe30ecb6cd7bd53c2e4cc81801f0d7e6c7c60adff9f193830e113876245439c",
+  "producer": {
+    "repository": "agent-logic/cognitive-sdlc",
+    "repository_id": 1388430141,
+    "candidate_revision": "57342e9d974a5c1ce880c8e528406fa1080f0582",
+    "target": "aarch64-apple-darwin",
+    "workflow_run_id": 39650892595,
+    "workflow_attempt": 1,
+    "source_inventory_sha256": "1207b6b4ea9c5bab539f0c5b33fc8e4bed2eb4d8fdaccc4c3431cc4240700d7a"
+  },
+  "registry_version": "1.0.5",
+  "lifecycle": [
+    "SIP",
+    "STP",
+    "SPP",
+    "VPP",
+    "SRP",
+    "SOR"
+  ],
+  "checked_payload": [
+    {
+      "path": "bin/csdlc",
+      "sha256": "edb17bb75c5e4c00c5739bffd999a4cda06a17df4aab4183560b84c29c4a0d2f",
+      "size": 12302240
+    },
+    {
+      "path": "resources/docs/templates/prompts/current.json",
+      "sha256": "1543d365c8ce8e2826bc1a775857f34030fd64245dd45e7d6c0bbafc705f0e27",
+      "size": 2340
+    },
+    {
+      "path": "resources/docs/csdlc-v3/man/man1/csdlc.1",
+      "sha256": "4f283ed800aeb07512773efcc4b8fbfb60b67b0519da2d7ed89a7984cd235234",
+      "size": 10653
+    },
+    {
+      "path": "resources/docs/csdlc-v3/man/man1/csdlc-workflow.1",
+      "sha256": "7433d1c570a520e0fb1da1fce9dd7f3729c98700e2181ce626e61b81b70b9080",
+      "size": 13154
+    },
+    {
+      "path": "resources/docs/templates/prompts/1.0.5/sip.md",
+      "sha256": "1c8389c11bba20e54a51d595555176edeb5c58afb0d7cabadeb5b06513c4c486",
+      "size": 4740
+    },
+    {
+      "path": "resources/docs/templates/prompts/1.0.5/schemas/sip.structure.json",
+      "sha256": "07095fab557706bb673d2814476b83c04416beea64f8ac96ecd3c47a4371704a",
+      "size": 13434
+    },
+    {
+      "path": "resources/docs/templates/prompts/1.0.5/stp.md",
+      "sha256": "fdcff8221e323ff5c6d98830d6e5461dcecf8b7ea5ac46ba3287654143666a11",
+      "size": 1154
+    },
+    {
+      "path": "resources/docs/templates/prompts/1.0.5/schemas/stp.structure.json",
+      "sha256": "b6ae4e3be0c94f3d24ab51372a2ebb3a49cbf7a103526a1f83b01a9b390c8656",
+      "size": 4731
+    },
+    {
+      "path": "resources/docs/templates/prompts/1.0.5/spp.md",
+      "sha256": "2d0ec7dd50fe92a719721b9ffb1792c34d83ed19d6145b4294b110ca698c81d2",
+      "size": 7578
+    },
+    {
+      "path": "resources/docs/templates/prompts/1.0.5/schemas/spp.structure.json",
+      "sha256": "fd21331bb45bc743db913daff8b336d3aff3afe361ced9d7460b0e82f5fbf805",
+      "size": 9860
+    },
+    {
+      "path": "resources/docs/templates/prompts/1.0.5/vpp.md",
+      "sha256": "053a3be26248aef3b669950fcd51897115ea2bfd8521fc3ab8a16b393525218c",
+      "size": 2935
+    },
+    {
+      "path": "resources/docs/templates/prompts/1.0.5/schemas/vpp.structure.json",
+      "sha256": "33577ceea99f85f2337c1d61bb7552d7358c50169f5066929114718f1de96d7d",
+      "size": 7782
+    },
+    {
+      "path": "resources/docs/templates/prompts/1.0.5/srp.md",
+      "sha256": "e5b681c4cc77a20464709196979bd8f3c6e6cd3e3246677821731372b2aaf432",
+      "size": 3090
+    },
+    {
+      "path": "resources/docs/templates/prompts/1.0.5/schemas/srp.structure.json",
+      "sha256": "7e98268939f8418108132d318dd6ce6b21e2144275ebb5e15d50b9fa82a75854",
+      "size": 7874
+    },
+    {
+      "path": "resources/docs/templates/prompts/1.0.5/sor.md",
+      "sha256": "4a1cecd354f1e57ee51c547ef00f0295ac0c1acaab3bdde129303305a1c13092",
+      "size": 7738
+    },
+    {
+      "path": "resources/docs/templates/prompts/1.0.5/schemas/sor.structure.json",
+      "sha256": "7ad244a86295c5fcf238f4a8f0cf05ce983525d25828545866949700a97c9cc2",
+      "size": 12364
+    }
+  ],
+  "claim": "Executable, paired manuals, registry, all six templates and structure schemas match retained authenticated installation manifest. Repository admission is separately established by native observations; this check does not activate or replace a package."
+}

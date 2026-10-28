@@ -1,0 +1,87 @@
+{
+  "schema": "adl1223.csdlc_lifecycle_component_qualification.v1",
+  "status": "passed_component_only",
+  "candidate": "92779b3a8376182b691aad45258435ffb9c095f0",
+  "artifact": 11808226974,
+  "package_sha256": "e5baef313d2f95b81d10da804f993645678ba1d6f0d31cbdef433e0814ebeda2",
+  "package_manifest_sha256": "5ddd5a1222db3eca837d7867ce91c3ebb6c5883b03bf8c1edd580c1922598cd9",
+  "result": {
+    "command": [
+      "python3",
+      "-B",
+      "/Volumes/FastWork/c1223/csdlc250-admission/component-resources/resources/docs/skill-distributions/original-contracts/validation/check_conductor_correspondence.py",
+      "--scripts-dir",
+      "/Volumes/FastWork/c1223/evidence/cognitive-sdlc/operational-92779b3/scripts",
+      "--out",
+      "/Volumes/FastWork/c1223/evidence/cognitive-sdlc/operational-92779b3/lifecycle",
+      "--component",
+      "lifecycle"
+    ],
+    "exit": 0,
+    "seconds": 4.228412042008131,
+    "native_admission": false,
+    "owner_binary_executed": false
+  },
+  "mapped_original_result": {
+    "source_only": true,
+    "native_execution_proven": false,
+    "bootstrap_original_field_assertions": 15,
+    "truth_original_assertion_lines": 20,
+    "classification_original_assertion_lines": 13,
+    "retired_transport_restored": false,
+    "full_original_acceptance": false
+  },
+  "evidence": [
+    {
+      "path": "INPUT.json",
+      "sha256": "f7acd828e386a7ca1b1de26f315c61739dcefc44578f03b8a83163ddcffca481",
+      "size": 11654
+    },
+    {
+      "path": "RESULT.json",
+      "sha256": "ec3906e4636483e843f124ce3f95c6a70e8fd4922daf6d985581abef6db1f05f",
+      "size": 562
+    },
+    {
+      "path": "lifecycle.stdout",
+      "sha256": "baafc42c3712ad708dd358d0dc6dd374149f9d340674625d4218b225871a5f03",
+      "size": 2782
+    },
+    {
+      "path": "lifecycle.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "path": "lifecycle/result.json",
+      "sha256": "4a40ab7eee85af1d2c945128e4dcbd7225bc8715bef90d8c6c08dabeac4b3301",
+      "size": 3252
+    },
+    {
+      "path": "lifecycle/lifecycle.stdout",
+      "sha256": "359c4ce7cbada1eecbd89014cc5df464f8983c4ddab5ae05a0e2c94ec222fb2b",
+      "size": 256
+    },
+    {
+      "path": "lifecycle/lifecycle.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "path": "lifecycle/lifecycle/MAPPED_ORIGINAL_RESULT.json",
+      "sha256": "136db6e08e63cdb22089f8224a7c175376df5dc13fad86639f4553fe89b1f950",
+      "size": 272
+    }
+  ],
+  "scope": "One previously failed lifecycle component. Twenty composed producer script bytes unchanged from prior run; only authentic delivered fixture executable mode repaired. No previously passed components rerun.",
+  "prior_failure": "CSDLC_OPERATIONAL_COMPONENT_QUALIFICATION.json and CSDLC_OPERATIONAL_PACKAGE_GAPS.json retain prior PermissionError and missing audio delivery evidence. New genuine package contains audio wrapper and fixture0755, but this run tests only lifecycle.",
+  "boundaries": {
+    "native_transport_double": true,
+    "native_admission": false,
+    "native_execution_proven": false,
+    "full_original_acceptance": false,
+    "source_retirement_authorized": false,
+    "historical_assertion_denominator_changed": false
+  },
+  "review": "Pending Planning #12 bounded evidence review before tracked adoption."
+}

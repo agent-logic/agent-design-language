@@ -1,0 +1,20 @@
+[
+  {
+    "configuredCapabilities": [
+      "folders/726824330959/capabilities/app-management"
+    ],
+    "createTime": "2026-08-22T00:27:00.926Z",
+    "displayName": "Proof of Concept",
+    "lifecycleState": "ACTIVE",
+    "managementProject": "projects/google-mpf-12976cmjx7mx",
+    "name": "folders/726824330959",
+    "parent": "organizations/321515087273"
+  },
+  {
+    "createTime": "2026-08-21T23:54:30.416Z",
+    "displayName": "gcp-internal-cloud-setup",
+    "lifecycleState": "ACTIVE",
+    "name": "folders/929563862525",
+    "parent": "organizations/321515087273"
+  }
+]

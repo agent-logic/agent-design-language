@@ -1,0 +1,263 @@
+# PR Init Invocation Template
+
+## Purpose
+
+This is the canonical caller-facing template for invoking the `pr-init` skill.
+
+Use it when you want to:
+- create and bootstrap a new tracked issue
+- bootstrap an existing tracked issue
+- invoke `pr-init` from Codex CLI, a sub-agent, or a future wrapper without reconstructing the payload from loose prose
+
+This template is a caller artifact. It does not replace the underlying schema in:
+- `adl/tools/skills/docs/PR_INIT_SKILL_INPUT_SCHEMA.md`
+
+## Template Rules
+
+- Keep the payload valid against `pr_init.v1`.
+- Use repo-root-stable paths in examples.
+- Make the stop boundary explicit.
+- Do not imply branch creation, worktree creation, or implementation work in this template.
+- Carry exactly one issue target per invocation.
+
+## Canonical Invocation Envelope
+
+Copy this shape and replace the placeholder values.
+
+```yaml
+Use $pr-init at <repo-root>/adl/tools/skills/pr-init/SKILL.md with this validated input:
+
+skill_input_schema: pr_init.v1
+mode: create_and_bootstrap | bootstrap_existing_issue
+repo_root: <repo-root>
+
+issue:
+  number: null | <issue number>
+  title: null | "[v0.87][tools] Example issue"
+  slug: null | "example-issue"
+  version: null | "v0.87"
+  labels: "track:roadmap,type:task,area:tools" | "<explicit repo-standard labels>"
+  body: null | "<inline issue body>"
+  body_file: null | "path/to/body.md"
+
+policy:
+  version_source: explicit | infer
+  label_source: explicit | infer | normalize
+  body_source: authored | generated | infer
+  allow_slug_derivation: true | false
+  stop_after_bootstrap: true
+```
+
+## Mode Notes
+
+### `create_and_bootstrap`
+
+Use when a new GitHub issue must be created.
+
+Minimum practical payload:
+- `mode: create_and_bootstrap`
+- `repo_root`
+- `issue.title`
+- `issue.labels`
+- `policy.stop_after_bootstrap: true`
+
+Typical choices:
+- `issue.number: null`
+- `policy.body_source: generated` when you want the control plane to generate the first readable body
+- `policy.label_source: explicit` for tracked issue creation
+
+Use `issue.version` for the issue's active lifecycle/control-plane band, not
+necessarily the future milestone named by the work product. For example, an
+active `v0.91.2` issue that authors `v0.91.3` milestone docs should usually use
+`issue.version: "v0.91.2"` and a `version:v0.91.2` label, while naming the
+future documentation target in the title, body, deliverables, and acceptance
+criteria.
+
+If you provide an authored issue body with `issue.body` or `issue.body_file`,
+start from the scaffold below. The create path validates authored bodies against
+the source-prompt contract before it calls GitHub, so missing sections should be
+fixed in one pass instead of discovered one at a time.
+
+## Canonical Authored Issue Body Scaffold
+
+Use this shape for direct authored issue bodies passed to `pr create --body`,
+`pr create --body-file`, or `pr-init` `issue.body` / `issue.body_file`.
+
+```markdown
+## Summary
+
+Describe the bounded issue in one short paragraph.
+
+## Goal
+
+State the user-facing or operator-facing goal.
+
+## Required Outcome
+
+State the concrete outcome that must be true when this issue is complete.
+
+## Deliverables
+
+- List the expected code, docs, tests, demos, or records.
+
+## Acceptance Criteria
+
+- List the observable checks that prove the issue is complete.
+
+## Repo Inputs
+
+- List the files, docs, tools, or issue references that bound the work.
+
+## Dependencies
+
+- List blocking or related issues, or `none`.
+
+## Demo Expectations
+
+- State required demos or `none`.
+
+## Non-goals
+
+- List explicit out-of-scope work.
+
+## Issue-Graph Notes
+
+- Record dependency, split, supersession, or milestone-routing notes.
+
+## Notes
+
+- Add implementation notes, risks, or operator context.
+
+## Tooling Notes
+
+- Add workflow, validation, or closeout notes for the ADL control plane.
+```
+
+### `bootstrap_existing_issue`
+
+Use when the GitHub issue already exists and only the local bootstrap surfaces must be created or reconciled.
+
+Minimum practical payload:
+- `mode: bootstrap_existing_issue`
+- `repo_root`
+- `issue.number`
+- `policy.stop_after_bootstrap: true`
+
+Typical choices:
+- `issue.title: null`
+- `issue.labels: null`
+- `issue.body: null`
+- `issue.body_file: null`
+
+## Example: New Issue Bootstrap
+
+```yaml
+Use $pr-init at <repo-root>/adl/tools/skills/pr-init/SKILL.md with this validated input:
+
+skill_input_schema: pr_init.v1
+mode: create_and_bootstrap
+repo_root: <repo-root>
+issue:
+  number: null
+  title: "[v0.87][tools] Example issue"
+  slug: "v0-87-tools-example-issue"
+  version: "v0.87"
+  labels: "track:roadmap,type:task,area:tools"
+  body: null
+  body_file: null
+policy:
+  version_source: explicit
+  label_source: explicit
+  body_source: generated
+  allow_slug_derivation: false
+  stop_after_bootstrap: true
+```
+
+## Example: Existing Issue Bootstrap
+
+```yaml
+Use $pr-init at <repo-root>/adl/tools/skills/pr-init/SKILL.md with this validated input:
+
+skill_input_schema: pr_init.v1
+mode: bootstrap_existing_issue
+repo_root: <repo-root>
+issue:
+  number: 1374
+  title: null
+  slug: "v0-87-tools-add-structured-issue-bootstrap-invocation-template-for-codex-and-subagents"
+  version: "v0.87"
+  labels: null
+  body: null
+  body_file: null
+policy:
+  version_source: explicit
+  label_source: infer
+  body_source: infer
+  allow_slug_derivation: false
+  stop_after_bootstrap: true
+```
+
+## Stop Boundary
+
+This template is only for `pr-init`.
+
+It must stop after:
+- issue creation or resolution
+- source-prompt creation
+- root bundle creation
+- bootstrap validation
+
+The created bundle includes an initial `SPP`. That `SPP` is not a generic
+placeholder: it should be a deterministic design-time execution-plan draft
+generated from the source issue prompt, dependencies, deliverables, acceptance
+criteria, validation expectations, and non-goals. It should not claim human or
+subagent review merely because the generator produced it. Before execution
+starts, the plan must pass design-time review or editor repair and be marked
+`reviewed` or `approved`. Runtime agents must update it before continuing if
+the real execution sequence changes.
+
+It must not continue into:
+- qualitative card review
+- branch creation
+- worktree creation
+- `pr run`
+- implementation
+- `pr finish`
+
+## Multi-Issue Bootstrap Rule
+
+If you need many issues bootstrapped:
+
+- do not batch many issues into one `pr-init` invocation
+- create one validated payload per issue
+- prefer one sub-agent per issue when running in parallel
+- aggregate the per-issue results outside the skill
+
+This keeps completion semantics clear and avoids one long-running sub-agent
+being mistaken for a partial or hung bootstrap when several issues are created
+successfully.
+
+If one sub-agent times out or returns early:
+
+- treat that issue as a per-issue `partial` bootstrap result
+- inspect which surfaces exist for that issue
+- re-run only that issue’s `pr-init` invocation rather than repeating the whole batch
+
+## Caller Checklist
+
+Before invocation, confirm:
+- `repo_root` is absolute
+- the mode is correct for the task
+- exactly one mode contract is satisfied
+- at most one of `issue.body` and `issue.body_file` is set
+- `policy.stop_after_bootstrap` is `true`
+- any omitted slug/version are allowed to be inferred by policy
+- `create_and_bootstrap` includes explicit repo-standard labels
+- `create_and_bootstrap` uses `policy.label_source: explicit`
+
+## Related Docs
+
+- `adl/tools/skills/docs/PR_INIT_SKILL_INPUT_SCHEMA.md`
+- `adl/tools/skills/pr-init/SKILL.md`
+- `adl/tools/skills/pr-init/adl-skill.yaml`
+- `adl/tools/skills/docs/OPERATIONAL_SKILLS_GUIDE.md`

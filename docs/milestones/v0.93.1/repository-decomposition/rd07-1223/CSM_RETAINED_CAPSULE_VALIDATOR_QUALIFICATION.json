@@ -1,0 +1,26 @@
+{
+  "schema": "adl.rd07.csm-retained-capsule-validator.v1",
+  "rows": [
+    "RD07-2224"
+  ],
+  "disposition": "Conditional owner transfer with original retained-packet validation.",
+  "result": {
+    "path": "/Volumes/FastWork/c1223/csm-capsule-retained-packet-validation/result.json",
+    "sha256": "26e14bb0461d004ed2fb71444bf5b410c6560ab9d5bdcc2a70648e2b0e1ff1f9"
+  },
+  "inputs": {
+    "path": "/Volumes/FastWork/c1223/csm-capsule-retained-packet-validation/inputs.json",
+    "sha256": "dcea7d13af1fb3a3fedf71c4802a55e0a304f5c8c0535886e835c3c89b1d45b8"
+  },
+  "original_input_count": 144,
+  "pass": true,
+  "inputs_unchanged": true,
+  "network": "none",
+  "scope": "Unchanged original validator on authentic retained4910 packet, including actual OpenSSL signature verification, manifest/custody/hash checks and original positive/negative status assertions.",
+  "limits": [
+    "No new CSM daemon, capture, stage, restore, provider or AWS execution.",
+    "Historical remote summary validation is not fresh cloud acceptance.",
+    "1514 local CSM protocol and all active callers remain independent obligations."
+  ],
+  "execution_authorized": false
+}

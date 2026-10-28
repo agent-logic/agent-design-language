@@ -1,0 +1,84 @@
+{
+  "schema": "review919.remediation_groups.v1",
+  "recorded_at": "2026-09-23T17:14:43.451485+00:00",
+  "authorization": "User requested 3\u20134 grouped issues and outreach to other sessions to fix all findings.",
+  "maximum_aggregate_issues": 4,
+  "review_candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+  "withdrawn": [
+    "CODE-003"
+  ],
+  "groups": [
+    {
+      "group": "A",
+      "owner_title": "Planning #7.3",
+      "thread_id": "01a0ab7a-7450-73b0-9764-43fadcd88f33",
+      "scope": "C-SDLC recovery and operator contracts",
+      "finding_ids": [
+        "ARCH-001",
+        "ARCH-002",
+        "ARCH-003",
+        "SEC-001",
+        "SEC-002",
+        "DOC-002",
+        "DOC-003",
+        "DOC-004",
+        "TEST-TRANS-001"
+      ],
+      "status": "issue_created_authenticated_reconciled_owner_accepted",
+      "issue": 1161
+    },
+    {
+      "group": "B",
+      "owner_title": "Planning #5 GPT-6",
+      "thread_id": "01a08204-283a-7e01-b482-2f1cc743d664",
+      "scope": "CodeFriend and website interoperability/integrity",
+      "finding_ids": [
+        "INTEGRATION-001",
+        "CODE-001",
+        "CODE-002",
+        "SEC-003",
+        "SEC-004",
+        "DEP-001",
+        "DEMOS-001"
+      ],
+      "status": "issue_created_owner_accepted_implementation_underway",
+      "issue": 1162
+    },
+    {
+      "group": "C",
+      "owner_title": "Worker #9",
+      "thread_id": "01a0924d-fbc0-7d21-b1ec-965c8a9562a4",
+      "scope": "Runtime/provider health and regression proof",
+      "finding_ids": [
+        "PRV-001",
+        "PRV-002",
+        "TESTS-001",
+        "TESTS-002",
+        "TESTS-003"
+      ],
+      "status": "issue_created_authenticated_reconciled_owner_accepted",
+      "issue": 1159
+    },
+    {
+      "group": "D",
+      "owner_title": "Worker #10",
+      "thread_id": "01a0924e-4813-7101-ac5c-a1a9ac80f4f8",
+      "scope": "Reproducible validation and release evidence",
+      "finding_ids": [
+        "DEP-002",
+        "DEP-003",
+        "DEP-004",
+        "SYN-006",
+        "DOC-001",
+        "DOC-SUP-001"
+      ],
+      "status": "issue_created_authenticated_reconciled_owner_accepted",
+      "issue": 1160
+    }
+  ],
+  "limitations": [
+    "Issue creation and owner acceptance are established; fixes, reviewed PRs and convergence remain separately verified.",
+    "All27 frozen findings mapped exactly once to four groups.",
+    "No merge or deployment authorized."
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+  "mutation": "Removed aria-live from both transcript elements only",
+  "mutations": 2,
+  "exit": 0,
+  "stdout": "WP-18C.07a Observatory accessibility/responsive proof: PASS\n",
+  "stderr": ""
+}

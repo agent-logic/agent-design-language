@@ -1,0 +1,53 @@
+{
+  "schema": "adl.v0921.wp01.operation-observed.v1",
+  "kind": "child_create",
+  "planned_id": "RUST-01",
+  "issue": 499,
+  "title": "[v0.92.1][RUST-01] Resilience owner-boundary refactoring",
+  "labels": [
+    "area:architecture",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "milestone": 1,
+  "state": "open",
+  "dependencies": {
+    "WP-01": 480
+  },
+  "body_sha256": "a6043672fac5efb43d0ac0f643422f0f625ac731e46f78bc10e0ae3a029339e5",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:RUST-01:create",
+  "request_fingerprint": "2c0338db75166efb8fe1a9962dbd929ce88c4aced5f441fa3ac0456264b8e812",
+  "planning_digest": "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251",
+  "specification_sha256": "28d50e87fdbf39994a923d2741afcf9c5beadf53b36870ff9553b7a1a3b8f333",
+  "live_response": {
+    "action": "issue_create",
+    "comment_id": null,
+    "issue": {
+      "assignees": [
+
+      ],
+      "body": "## Outcome\n\nProduce one behavior-preserving resilience owner-boundary refactoring slice.\n\n## Primary deliverable\n\nOne refactored resilience module family with explicit owner boundaries and a narrower change-validation surface.\n\n## Verification result\n\nBaseline API, positive, negative, fault, trace, retry, timeout, cancellation, formatting, Clippy, and exact diff checks pass while the tracked validation-impact denominator is reduced or truthfully unchanged.\n\n## Unit boundary\n\nIssue completion is exactly one behavior-preserving resilience owner-boundary refactor; module extraction and test relocation are internal steps and line movement is not a separate result.\n\n## Dependencies\n\n- WP-01: #480\n\n## Retained predecessor scope\n\n- None; this is new v0.92.1 work.\n\n## Acceptance criteria\n\n- [ ] Supported resilience behavior and public API remain compatible\n- [ ] Each extracted module has one coherent owner\n- [ ] Tests remain behavior-focused and PVF-classified\n- [ ] Validation-impact change is measured exactly\n- [ ] No line-count reduction quota is imposed\n\n## Owned paths\n\n- `adl/src/resilience.rs`\n- `adl/src/resilience/**`\n- `adl/tests/**`\n- `docs/milestones/v0.92.1/evidence/refactoring/rust-01/**`\n\n## PVF lanes\n\n- `api-parity`\n- `resilience-positive-negative`\n- `fault-and-trace`\n- `retry-timeout-cancellation`\n- `validation-impact`\n- `fmt-clippy`\n\n## Stop conditions\n\n- Behavior changes are required\n- Ownership becomes more ambiguous\n- Tests are weakened or merely moved\n- Refactoring expands into unrelated Rust surfaces\n\n## Non-goals\n\n- Repository-wide refactoring\n- Mandatory LoC reduction\n- Runtime v4\n- Aesthetic file splitting\n\n## Canonical planning identity\n\n- Planned ID: `RUST-01`\n- Canonical title: `[v0.92.1][RUST-01] Resilience owner-boundary refactoring`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#RUST-01`\n<!-- csdlc-github-operation:v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:RUST-01:create -->\n",
+      "closed_at": null,
+      "created_at": "2026-08-26T02:56:02Z",
+      "labels": [
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1",
+        "area:architecture"
+      ],
+      "marker_present": true,
+      "milestone": 1,
+      "number": 499,
+      "repository": "agent-logic/agent-design-language",
+      "schema": "csdlc.github_issue.v1",
+      "state": "open",
+      "title": "[v0.92.1][RUST-01] Resilience owner-boundary refactoring"
+    },
+    "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:RUST-01:create",
+    "pr_state": null,
+    "reconciled": true,
+    "repository": "agent-logic/agent-design-language",
+    "schema": "csdlc.github_action_result.v1"
+  }
+}

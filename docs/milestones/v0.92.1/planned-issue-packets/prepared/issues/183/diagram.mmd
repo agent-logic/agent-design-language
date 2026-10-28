@@ -1,0 +1,20 @@
+flowchart TB
+  G["Terminal #142 merge and retained proof"] --> L["Production launch gate"]
+  L --> V1["Wuji voter 1"]
+  L --> V2["Wuji voter 2"]
+  L --> V3["Wuji voter 3"]
+  V1 & V2 & V3 --> Q3["3-voter quorum commits governed work"]
+  A1["Governed agent 1"] & A2["Governed agent 2"] & A3["Governed agent 3"] --> Q3
+  S["Non-voting Shepherd"] --> A1 & A2 & A3
+  Q3 --> O1["Observatory lease owner"]
+  Q3 --> Q2["Remove voter: 2-voter quorum continues"]
+  Q2 --> Q1["Remove voter: 1-voter mutation denied"]
+  O1 --> EX["Old lease expires"]
+  EX --> O2["Successor Observatory binds"]
+  EX --> DENY["Stale-owner writes denied"]
+  Q2 --> SNAP["Snapshot and committed-state digest"]
+  SNAP --> STOP["Stop voter"]
+  STOP --> RESTART["Restart from independent state root"]
+  RESTART --> CONT["Agent identity and state continuity"]
+  CONT --> REPLAY["Independent replay digest parity"]
+  Q1 & DENY & REPLAY --> CLEAN["Stop all voters, agents, Shepherd, Observatory; verify ports and processes clean"]

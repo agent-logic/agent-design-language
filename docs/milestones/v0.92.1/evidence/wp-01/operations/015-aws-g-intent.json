@@ -1,0 +1,12 @@
+{
+  "schema": "adl.v0921.wp01.operation-intent.v1",
+  "kind": "child_create",
+  "planned_id": "AWS-G",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:AWS-G:create",
+  "request_fingerprint": "03b4d3df30d400541896a5f74b3ef9e2d6ea043778457f1087b014ff4300a753",
+  "planning_digest": "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251",
+  "dependencies": {
+    "AWS-F": 489,
+    "XCL-01": 495
+  }
+}

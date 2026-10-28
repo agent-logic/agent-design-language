@@ -1,0 +1,15 @@
+{
+  "createTime": "2026-08-21T23:54:34.638Z",
+  "labels": {
+    "gcp-onboarding-component": "cs-hc-project",
+    "gcp-onboarding-hc-project-org-id": "321515087273"
+  },
+  "lifecycleState": "ACTIVE",
+  "name": "Hybrid Connectivity Project",
+  "parent": {
+    "id": "929563862525",
+    "type": "folder"
+  },
+  "projectId": "cs-hc-30fba450ccaa4e35a1449ce5",
+  "projectNumber": "267805532261"
+}

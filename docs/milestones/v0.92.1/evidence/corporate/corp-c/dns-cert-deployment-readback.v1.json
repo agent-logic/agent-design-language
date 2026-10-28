@@ -1,0 +1,101 @@
+{
+  "schema": "adl.corporate.corp_c.dns_cert_deployment_readback.v1",
+  "issue": 497,
+  "repository": "agent-logic/agent-design-language",
+  "observed_at": "2026-09-02",
+  "profile": "agent-logic-admin",
+  "mutation": false,
+  "credential_material_captured": false,
+  "route53": {
+    "status": "partial_readback",
+    "zone_name": "csm.agent-logic.ai.",
+    "zone_id_sha256": "sha256:2fa85cd782cb6d3d67038f80fe93663cefb1d9b6ad4af0c4e2295d9f060b926b",
+    "private_zone": false,
+    "record_count": 10,
+    "record_summary": [
+      {
+        "name": "csm.agent-logic.ai.",
+        "type": "NS",
+        "ttl": 172800,
+        "value_count": 4
+      },
+      {
+        "name": "csm.agent-logic.ai.",
+        "type": "SOA",
+        "ttl": 900,
+        "value_count": 1
+      },
+      {
+        "name": "wuji.dev.csm.agent-logic.ai.",
+        "type": "CNAME",
+        "ttl": 60,
+        "value_count": 1
+      },
+      {
+        "name": "api.wuji.dev.csm.agent-logic.ai.",
+        "type": "A",
+        "alias": true
+      },
+      {
+        "name": "observatory.wuji.dev.csm.agent-logic.ai.",
+        "type": "A",
+        "alias": true
+      },
+      {
+        "name": "wss.wuji.dev.csm.agent-logic.ai.",
+        "type": "A",
+        "alias": true
+      }
+    ],
+    "remaining_blocker": "Hosted-zone and record visibility pass for csm.agent-logic.ai, but registrar delegation, rollback/change-freeze procedure, and DNS recovery drill are not yet proven."
+  },
+  "acm": {
+    "status": "partial_readback",
+    "issued_matching_certificate_count": 6,
+    "regions": [
+      "us-west-2",
+      "us-east-1"
+    ],
+    "domains": [
+      "origin-smoke.wuji.dev.csm.agent-logic.ai",
+      "codefriend.ai",
+      "agent-logic.ai",
+      "*.wuji.dev.csm.agent-logic.ai"
+    ],
+    "in_use_certificate_count": 3,
+    "dns_validation_success_observed": true,
+    "eligible_for_renewal_count": 3,
+    "ineligible_for_renewal_count": 3,
+    "remaining_blocker": "Issued certificate and DNS-validation readbacks are visible, but renewal ownership, revocation/reissue rollback, and recovery drill are not yet proven for the complete certificate denominator."
+  },
+  "https_availability": {
+    "status": "partial_readback",
+    "endpoints": [
+      {
+        "url": "https://agent-logic.ai/",
+        "result": "pass",
+        "status_line": "HTTP/2 200"
+      },
+      {
+        "url": "https://codefriend.ai/",
+        "result": "pass",
+        "status_line": "HTTP/2 200"
+      },
+      {
+        "url": "https://origin-smoke.wuji.dev.csm.agent-logic.ai/v1/health",
+        "result": "fail",
+        "failure": "could_not_resolve_host"
+      }
+    ],
+    "remaining_blocker": "Public web availability passes for agent-logic.ai and codefriend.ai, but the Runtime origin-smoke health endpoint is not resolvable and no deployment rollback/recovery drill has passed."
+  },
+  "commands": [
+    "aws route53 list-hosted-zones --profile agent-logic-admin --output json",
+    "aws route53 list-resource-record-sets --hosted-zone-id <redacted> --profile agent-logic-admin --output json",
+    "aws acm list-certificates/describe-certificate --profile agent-logic-admin --region us-west-2/us-east-1 --output json",
+    "curl -I --max-time 15 https://agent-logic.ai/",
+    "curl -I --max-time 15 https://codefriend.ai/",
+    "curl -I --max-time 15 https://origin-smoke.wuji.dev.csm.agent-logic.ai/v1/health"
+  ],
+  "issue_ready_to_close": false
+}

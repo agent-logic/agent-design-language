@@ -1,0 +1,45 @@
+{
+  "schema": "adl.v0921.remediation_packet_manifest.v1",
+  "entries": [
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-06/833-native-terminal-receipt.json",
+      "sha256": "585185071dd9b7cf2b2884511923cf49fc885159c17cfbd6c0e6ce5fd05fb868"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-06/833-native-terminal-state.json",
+      "sha256": "7738677a5b2230e40f3564059a1c935d6907c3cb5e999f66d50c9514192ef129"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-06/833-terminal-reconciliation.json",
+      "sha256": "72bb77d9babecdc6c4e6bed532585a2091c2cb556b37fa29b05c4b9360a1190e"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-06/candidate-review.json",
+      "sha256": "531e6bd980afce6040983001327291a4c019b8e70bc093acb27015c34f6a20b3"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-06/candidate-validation.json",
+      "sha256": "ae31f9f9e8e0c36e79e23dba44f7569650e705d0542b37f97a0de20d9e1f6f57"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-06/dispositions.json",
+      "sha256": "44558894f55fd4b803e426fd0e758804077e710b238e6082f2f0651f05895dc3"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-06/release-blockers.json",
+      "sha256": "9bd8093cfb909d6f8f03da360d8e7839f3a2ac9f2b00d35426711caa65433648"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-06/returned-findings.json",
+      "sha256": "3cf692ebda0e24cc3c5a9e63fc96df9c5100be320c6fc857c43fd27bd3b1a1c8"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-06/review-subject.json",
+      "sha256": "7a0022e400c0442526005ab7bf3dc7075ffba8a8b0b28e2ee0c656fe9403871f"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-06/source-findings.json",
+      "sha256": "012c617b34fb46c437f8404737e5241906daa7b1b9f506e3a3d601de3f652e18"
+    }
+  ]
+}

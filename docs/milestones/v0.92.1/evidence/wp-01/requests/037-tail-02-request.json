@@ -1,0 +1,27 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "action": "issue_create",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:TAIL-02:create",
+  "token_file": null,
+  "issue": null,
+  "pull_request": null,
+  "title": "[v0.92.1][TAIL-02] Documentation review and external-review handoff",
+  "body": "## Outcome\n\nProduce one exact-revision documentation review and external-review handoff packet.\n\n## Primary deliverable\n\nOne exact-revision documentation review packet with a context-free external-review handoff.\n\n## Verification result\n\nThe canonical document denominator, links, claims, and handoff checks pass for the exact candidate.\n\n## Unit boundary\n\nIssue completion is exactly one documentation-review handoff packet; document checks are evidence inputs.\n\n## Dependencies\n\n- TAIL-01: #517\n\n## Retained predecessor scope\n\n- None; this is new v0.92.1 work.\n\n## Acceptance criteria\n\n- [ ] All canonical docs agree\n- [ ] Links and claims are source-grounded\n- [ ] Residual risks are explicit\n\n## Owned paths\n\n- `docs/milestones/v0.92.1/**`\n- `docs/planning/ADL_FEATURE_LIST.md`\n\n## PVF lanes\n\n- `canonical-doc-inventory`\n- `link-check`\n- `claim-audit`\n- `diff-hygiene`\n\n## Stop conditions\n\n- A release claim lacks evidence\n\n## Non-goals\n\n- Product implementation\n- Publication\n\n## Canonical planning identity\n\n- Planned ID: `TAIL-02`\n- Canonical title: `[v0.92.1][TAIL-02] Documentation review and external-review handoff`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#TAIL-02`\n",
+  "labels": [
+    "area:docs",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "assignees": [
+
+  ],
+  "milestone": 1,
+  "state": null,
+  "comment_body": null,
+  "required_checks": [
+
+  ],
+  "require_review": false,
+  "linked_issue": null
+}

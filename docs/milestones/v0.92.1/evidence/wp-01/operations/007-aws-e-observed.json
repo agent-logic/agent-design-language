@@ -1,0 +1,53 @@
+{
+  "schema": "adl.v0921.wp01.operation-observed.v1",
+  "kind": "child_create",
+  "planned_id": "AWS-E",
+  "issue": 488,
+  "title": "[v0.92.1][AWS-E] AWS resource adoption register",
+  "labels": [
+    "area:runtime",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "milestone": 1,
+  "state": "open",
+  "dependencies": {
+    "AWS-D": 487
+  },
+  "body_sha256": "863b6ffd59ab2567f392a67f6d9e92e234b8d33c6b85d8385fa44d0260e30ad6",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:AWS-E:create",
+  "request_fingerprint": "78a64f58e0294a272f2a984e8319de702568c964496041d52113c44c69bfac6f",
+  "planning_digest": "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251",
+  "specification_sha256": "845dccae526b2d9e6f2f049ec81e89784eb13da1bb38a15a9adbe3b6e6fd0a15",
+  "live_response": {
+    "action": "issue_create",
+    "comment_id": null,
+    "issue": {
+      "assignees": [
+
+      ],
+      "body": "## Outcome\n\nProduce one accepted AWS resource adoption register reconciled with live state.\n\n## Primary deliverable\n\nOne accepted adoption register mapping every durable resource to retain, import, replace, retire-later, ephemeral, or frozen-unknown ownership.\n\n## Verification result\n\nLive inventory, Terraform, CloudFormation, scripts, tags, lifecycle, retention, and deletion-authority checks agree with no dual-managed resource.\n\n## Unit boundary\n\nIssue completion is exactly one accepted adoption register; imports, tagging changes, and authorized cleanup are internal or follow-up actions and cannot substitute for the register.\n\n## Dependencies\n\n- AWS-D: #487\n\n## Retained predecessor scope\n\n- None; this is new v0.92.1 work.\n\n## Acceptance criteria\n\n- [ ] Every durable resource has one management authority\n- [ ] Website and historical evidence ownership is preserved\n- [ ] Cleanup requires exact non-use retention recovery and deletion authority\n- [ ] Live and declared state agree\n\n## Owned paths\n\n- `docs/operations/cloud/aws/adoption/**`\n- `infra/aws/**`\n- `docs/milestones/v0.92.1/evidence/cloud/aws-e/**`\n\n## PVF lanes\n\n- `live-state-reconciliation`\n- `authority-exclusivity`\n- `retention-and-deletion`\n- `tag-and-lifecycle`\n- `rollback`\n\n## Stop conditions\n\n- A resource may belong to website or retained evidence\n- Dual management is possible\n- Deletion authority is missing\n\n## Non-goals\n\n- Speculative cleanup\n- Website rewrite\n- CloudFormation retirement\n\n## Canonical planning identity\n\n- Planned ID: `AWS-E`\n- Canonical title: `[v0.92.1][AWS-E] AWS resource adoption register`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#AWS-E`\n<!-- csdlc-github-operation:v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:AWS-E:create -->\n",
+      "closed_at": null,
+      "created_at": "2026-08-26T02:46:27Z",
+      "labels": [
+        "track:roadmap",
+        "type:task",
+        "area:runtime",
+        "version:v0.92.1"
+      ],
+      "marker_present": true,
+      "milestone": 1,
+      "number": 488,
+      "repository": "agent-logic/agent-design-language",
+      "schema": "csdlc.github_issue.v1",
+      "state": "open",
+      "title": "[v0.92.1][AWS-E] AWS resource adoption register"
+    },
+    "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:AWS-E:create",
+    "pr_state": null,
+    "reconciled": true,
+    "repository": "agent-logic/agent-design-language",
+    "schema": "csdlc.github_action_result.v1"
+  }
+}

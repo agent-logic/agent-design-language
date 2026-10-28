@@ -1,0 +1,70 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 163,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-D11] Approve platform commit matrix and Windows posture",
+    "slug": "v3-d11-approve-platform-commit-matrix-and-windows-posture",
+    "version": "v0.92.1",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "v3-d11-outcome-contract",
+          "proof_role": "Recompute every acceptance criterion from issue-owned artifacts and producer-derived evidence.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 600,
+          "budget_tokens": 4000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/163/validate-outcome.rb"
+          ],
+          "parallel_group": "v3-d11-outcome-contract",
+          "defer_reason": "The issue-delivered validator is authored with the implementation and must pass before review."
+        },
+        {
+          "lane": "v3-d11-diff-hygiene",
+          "proof_role": "Reject whitespace and malformed-diff defects before exact-head review.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 500,
+          "argv": [
+            "git",
+            "diff",
+            "--check",
+            "origin/main...HEAD"
+          ],
+          "parallel_group": "v3-d11-diff-hygiene",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on dependency drift, path collision, authority ambiguity, missing producer evidence, validation failure, or unresolved review finding.",
+      "design_ref": ".csdlc/prepared/issues/163/design.md",
+      "design_digest": "79e453f4d8954bd04fdc1030dd62a46c4efe8245e90c41430cdf562146482382",
+      "diagram_ref": ".csdlc/prepared/issues/163/diagram.mmd",
+      "diagram_digest": "0598f78fe61173e7eff49f118b25237b9a44620b0c972494a6873cd2ca098d22"
+    }
+  }
+}

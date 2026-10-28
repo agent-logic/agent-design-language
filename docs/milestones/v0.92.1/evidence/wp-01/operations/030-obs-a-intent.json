@@ -1,0 +1,10 @@
+{
+  "schema": "adl.v0921.wp01.operation-intent.v1",
+  "kind": "child_create",
+  "planned_id": "OBS-A",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:OBS-A:create",
+  "request_fingerprint": "7da2b09398d4d1fbad1e4aa25a12f2771741542d10f8c783c0952e6cfca265e4",
+  "planning_digest": "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251",
+  "dependencies": {
+  }
+}

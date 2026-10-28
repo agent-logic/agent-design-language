@@ -1,0 +1,2929 @@
+# Operational Skills Guide
+
+> Medium writer resources belong to [Runtime at the qualified source](https://github.com/agent-logic/agent-logic-runtime/tree/cadb48e496cf27a6011cd31752894438b772ae9c/adl/tools/skills/medium-article-writer). Select that complete source checkout with `ADL_MEDIUM_SKILL_SOURCE_ROOT` for the retained original contract test. The six pinned resources passed the unchanged original source contract; this is not installed, provider, publication, or demo acceptance. The full-layout installer retains its separate `ADL_OPERATIONAL_SKILLS_SOURCE_ROOT` input.
+
+> The remaining pr-finish, pr-closeout and sprint-review resource copies now belong to the authenticated Cognitive-SDLC distribution under `resources/adl/tools/skills/`. Sprint-review remains a findings-first review contract; its relocation does not retire review obligations. Finish/closeout input schemas and output inventories remain owner reporting contracts, not native wire formats. Read the owner `pr-finish/references/compatibility-v1.md` and `pr-closeout/references/compatibility-v1.md`: legacy root-card copying, automatic branch deletion and typed-v2 publication are not supported replacements for native review/publish/finish/clean. Original installer tests retain their explicitly selected complete historical fixture and every original assertion; mapped copy/symlink resource proof is not full native or installer acceptance.
+
+> CodeFriend input-schema and suite documents are now supplied under the authenticated review-skill distribution's `review-skills/contracts/248f00e3/` directory. The former `adl/tools/skills/docs/` paths below are historical source references. Original-layout contract adapters select their complete historical input root explicitly; they do not read removed local schemas. Owner path/example normalization changes documentation locations, not schema requirements.
+
+> The original-v1 lifecycle skill records (milestone/planning, PR stages, card editors, stack/records helpers and sprint-conductor metadata) are historical custody in the admitted Cognitive-SDLC package under `resources/docs/skill-distributions/active-lifecycle/original-v1/adl/tools/skills`. They are not current native skill replacements or authority. Select that authenticated complete historical layout with `CSDLC_HISTORICAL_SKILLS_ROOT` for original contract checks; full installer/records tests retain their separate `ADL_OPERATIONAL_SKILLS_SOURCE_ROOT` requirement. Current lifecycle commands follow `docs/csdlc-v3/CURRENT_AUTHORITY.md` and the selected owner manual. Do not install the partial ADL tree as a complete skill distribution.
+
+> The twelve C-SDLC skill families retired from this checkout by #1223 are owned by the authenticated installed C-SDLC package: demo-operator, documentation-specialist, gap-analysis, issue-folding, issue-splitter, issue-watcher, portable-contract-normalizer, refactoring-helper, release-evidence, review-comment-triage, test-generator and use-case-writer. For the ten direct resource contract scripts, set `CSDLC_SKILL_CONTRACT_ROOT` to the verified package's absolute `resources/adl/tools/skills` directory. The documentation-specialist and use-case-writer contracts instead require `ADL_OPERATIONAL_SKILLS_SOURCE_ROOT` selecting an authentic complete original layout, because they retain full-layout installer assertions. A directory path alone does not authenticate its contents. These scripts preserve the original assertions and refuse a missing or relative root. The former source layout below is historical where explicitly marked; it is not current installation authority.
+
+> CodeFriend review-skill sources now belong to [the CodeFriend owner](https://github.com/agent-logic/codefriend/tree/e93a457ad6325017627a66a2abe31a3376fa28fd/review-skills). Select its authenticated installed distribution for operational use. Retained original-layout tests require explicitly selected authentic historical fixtures; the partial ADL skill tree is not a complete installer input.
+
+## Purpose
+
+This document explains the operational skills in the tracked PR tooling
+substrate, what each skill does, when to use it, how to invoke it, and where it
+stops.
+
+It is an operator guide for humans, Codex, and ADL wrappers that need one place
+to understand the current skill family without reading every bundle from
+scratch.
+
+## Current Skill Set
+
+The historical monorepo skill inventory is (ownership now follows the split owner distributions):
+
+- `adl-milestone-creator`
+- `adr-curator`
+- `architecture-diagram-reviewer`
+- `architecture-fitness-function-author`
+- `arxiv-paper-writer`
+- `demo-operator`
+- `diagram-author`
+- `documentation-specialist`
+- `finding-to-issue-planner`
+- `gap-analysis`
+- `issue-folding`
+- `issue-splitter`
+- `issue-watcher`
+- `medium-article-writer`
+- `planning-doc-editor`
+- `portable-contract-normalizer`
+- `pr-closeout`
+- `pr-finish`
+- `pr-init`
+- `pr-janitor`
+- `pr-ready`
+- `pr-run`
+- `pr-stack-manager`
+- `product-report-writer`
+- `redaction-and-evidence-auditor`
+- `release-evidence`
+- `review-readiness-cleanup`
+- `review-comment-triage`
+- `refactoring-helper`
+- `repo-architecture-review`
+- `repo-code-review`
+- `repo-dependency-review`
+- `repo-diagram-planner`
+- `repo-packet-builder`
+- `repo-review-code`
+- `repo-review-docs`
+- `repo-review-security`
+- `repo-review-synthesis`
+- `repo-review-tests`
+- `records-hygiene`
+- `review-quality-evaluator`
+- `review-to-test-planner`
+- `spp-editor`
+- `srp-editor`
+- `sip-editor`
+- `sor-editor`
+- `sprint-conductor`
+- `sprint-review`
+- `stp-editor`
+- `test-generator`
+- `use-case-writer`
+- native v3 lifecycle routes
+
+## Workflow Shape
+
+The normal workflow is:
+
+0. `csdlc doctor` to determine current state before selecting the typed lifecycle route
+1. `pr-init`
+2. qualitative card review
+3. `pr-ready`
+4. `pr-run`
+5. create the issue-bound session goal for the tracked session before implementation begins
+6. `pr-finish`
+7. `issue-watcher`
+   - healthy PR waiting states remain active shepherding work and stay owned in watch state until merge, blocker emergence, or explicit closure settles
+8. `pr-janitor`
+   - actionable PR blockers route here for bounded remediation
+   - the repo finish path may auto-attach the janitor hook after PR publication when blocker monitoring is needed
+9. truthful `update_goal` terminal state, then `pr-closeout` after the PR outcome or explicit non-PR closure disposition is settled
+   - default tracked implementation goals stay active until their declared terminal boundary is satisfied
+   - handoff-only completion is reserved for goals that explicitly declare that narrower boundary
+
+Closeout-wait prep lane:
+
+- while one issue is in `pr_waiting`, `janitor_active`, or
+  `merged_needs_closeout`, a separate prep-scout lane may inspect and classify
+  the next issue from clean root `main`
+- this is a preparation-only lane using native v3 readiness inspection, not a
+  second execution lane
+- the lane may use repo-native issue inspection and readiness commands, but it
+  must stop before `pr run`, implementation binding, or PR publication
+- if preparation would require mutation and no first-class prep-only repo-native
+  surface exists, record `needs_operator` or a tooling gap instead of
+  normalizing a manual fallback
+
+See:
+
+- `docs/tooling/PREP_SCOUT_NEXT_ISSUE_READINESS_LANE.md`
+- `docs/tooling/SESSION_COORDINATION_AND_ROOT_CHECKOUT_POLICY.md`
+
+The first-class issue-lifecycle shepherd contract above those phases lives at:
+
+- `docs/tooling/ISSUE_LIFECYCLE_SHEPHERD_CONTRACT.md`
+
+The native v3 command surface for that contract is:
+
+- `csdlc shepherd --request <shepherd-request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>`
+
+`repo-code-review` is cross-cutting rather than phase-specific.
+`test-generator` is a bounded helper skill for focused tests for a concrete issue, diff, file, or worktree.
+`demo-operator` is a bounded helper skill for running one named demo and classifying the proof result consistently.
+`release-evidence` is a bounded helper skill for assembling milestone release proof surfaces into a reviewable evidence packet without approving, publishing, tagging, merging, or closing anything.
+`medium-article-writer` is a bounded helper skill for turning one concrete article brief into a reviewer-friendly Medium packet without publishing.
+`arxiv-paper-writer` is a bounded helper skill for turning one concrete scholarly source packet into a reviewer-friendly arXiv-style manuscript packet without submitting, publishing, or inventing citations.
+`diagram-author` is a bounded helper skill for turning one source packet, issue, code slice, or doc surface into a reviewable diagram-as-code packet with explicit backend selection, optional SVG/PNG rendering, and truth boundaries.
+Native v3 lifecycle routes own orchestration phases directly.
+`sprint-conductor` is a sprint orchestrator that sequences one local current
+issue while coordinating broader sprint intent through a declared Sprint
+Execution Packet, then finishes with sprint review and closeout. SEP can record
+safe parallel lanes for separate workers or sessions; it is not itself a claim
+that the current helper scripts automate multi-active issue execution.
+When SEP routing starts or resumes a live child issue session, the sprint
+handoff should carry the same issue-bound session-goal requirement directly
+instead of relying on a separate manual reminder. For SEP-routed child work,
+the minimum goal surface is the sprint issue number when present, the child
+issue number, and the bounded session objective.
+The sprint umbrella's own goal field is descriptive coordination context, not
+the active Codex session goal during child implementation, unless a later issue
+proves explicit nested-goal support.
+`adl-milestone-creator` is a bounded milestone setup helper for creating full milestone packages, bridge milestones, issue-routing truth, feature/proof coverage, and downstream handoff docs without relying on session memory.
+`issue-folding` is a bounded issue-disposition helper for classifying duplicate, superseded, absorbed, already-satisfied, obsolete, or still-actionable issues before closeout.
+`issue-splitter` is a bounded issue-scope helper for deciding whether one issue should stay intact, split now, defer splitting, or stop for operator review.
+`issue-watcher` is a bounded wait-window helper for watching one issue, PR, branch, or dependency gate and routing blockers without mutating state.
+The issue-lifecycle shepherd contract defines the shared ownership model above
+native v3 doctor/bind/review/publish routes, `issue-watcher`, `pr-janitor`,
+and `pr-closeout` so healthy waiting states and merged-needs-closeout states do
+not disappear into session memory.
+`pr-stack-manager` is a bounded stack-topology helper for ancestry, base alignment, and dependency-order analysis.
+`review-comment-triage` is a bounded review-feedback helper for classifying PR comments before implementation.
+`review-readiness-cleanup` is a bounded review-cycle preflight helper for classifying safe cleanup, blockers, skipped surfaces, and follow-on needs before formal review starts.
+`planning-doc-editor` is a bounded planning-document editor for milestone/project docs that need placeholder cleanup, required-section repair, status-truth normalization, template-contract alignment, or portable-path cleanup without editing lifecycle cards.
+`portable-contract-normalizer` is a bounded portability helper for detecting machine-local assumptions and applying only explicitly approved safe mechanical normalization.
+
+Tracked issue sessions should create an explicit issue-bound session goal after
+readiness/bind succeeds and before implementation starts. The minimum goal
+surface is the issue number plus the bounded session objective. Current repo
+workflow guidance treats this as a Codex/session discipline rather than a
+proven ADL runtime-enforced contract, so helper scripts may warn about the
+requirement but must not claim they can verify live goal state unless a later
+issue proves that integration. A truthful `complete` update may represent a
+session handoff into normal review/wait state after PR publication when that
+handoff was the declared bounded session objective; it does not imply the whole
+issue is merged or closed.
+When the session is started through sprint orchestration, keep the same timing
+rule and make the goal content SEP-aware: include sprint issue context when
+present, the child issue number, and the bounded child-session objective.
+
+The PR lifecycle skills share the CI runtime interpretation policy in
+`adl/tools/skills/docs/CI_RUNTIME_POLICY_GUIDE.md`. Stable PR check names
+(`adl-ci` and `adl-coverage`) remain required, but skills must distinguish a
+docs-only path-policy skip from full runtime validation, failed-closed
+classification, and release/main full-validation evidence.
+
+The five card editor skills are helper skills:
+- `spp-editor` for truthful `spp.md` planning cleanup that preserves the
+  manual sample schema and markdown shape
+- `srp-editor` for truthful `srp.md` review-prompt cleanup that preserves
+  review policy, review results, finding dispositions, and residual risk
+- `stp-editor` for bounded `stp.md` cleanup
+- `sip-editor` for truthful `sip.md` cleanup
+- `sor-editor` for truthful `sor.md` cleanup
+
+For new or fully re-rendered prompt cards, use typed semantic requests rather
+than editing rendered Markdown directly:
+
+```bash
+.adl/bin/native-v3/csdlc edit <issue> --changes <changes.json>
+.adl/bin/native-v3/csdlc validate --request <validate-request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>
+```
+
+Resolve authority through the authenticated installed native v3 owner package
+and its repository binding. Missing or stale integrity or lifecycle evidence
+suspends authority; it does not authorize fallback to v2. Cargo target
+directories are build caches, not operational authority. Retained v2 commands
+may be used only for an explicitly authorized rollback or bounded transition
+remediation.
+
+For docs-only, milestone-truth, or workflow-doc issues, prefer the
+`docs-bounded` fast path described later in this guide instead of reflexively
+running broad Rust or runtime validation when no executable behavior changed.
+
+The editor skills remain authoritative for lifecycle-truth normalization:
+branch/worktree truth, issue-specific readiness, review results, validation
+claims, integration state, and closeout truth. They should not be used as a
+reason to hand-write locked template prose or bypass schema validation when a
+values-rendered card path is available.
+
+`sprint-conductor` is a bounded orchestration helper rather than an editor
+skill. It coordinates one sprint issue across an explicit child issue wave
+using the existing lifecycle/editor stack, then assembles sprint review and
+sprint closeout evidence.
+`sprint-review` is a bounded findings-first review composition skill for one completed sprint, mini-sprint, issue wave, or release-tail bundle. It composes existing review, gap-analysis, evidence, and synthesis skills without approving merge, approving closure, or performing remediation. Sprint umbrellas should carry a Sprint Execution
+Packet from `docs/templates/sprints/1.0.0/sprint_execution_packet.md` or equivalent
+issue-body sections that name execution mode, dependency order, safe parallel
+lanes, serial gates, PVF notes, review bar, closeout bar, and residual routing.
+Current helper scripts still model one local current issue; parallel lanes are
+operator/subagent/session coordination surfaces until a later implementation
+proves automated multi-active lane execution.
+Some legacy sprint-conductor helper scripts still call raw `gh` internally for
+truth checks, issue creation context, or closure while the public issue wrapper
+is list/search/view-only. Treat repo-native octocrab-backed issue mutation as
+the desired direction, but do not claim those helper internals are fully
+migrated until a later issue proves it.
+It includes deterministic sprint-state helpers, supports a bounded
+review-subagent exception when policy enables it, and should be installed or
+synced into the active Codex skills directory before live use.
+
+## Where The Skills Live
+
+Tracked skill bundles live under:
+
+- `adl/tools/skills`
+
+Each skill bundle typically contains:
+
+- `SKILL.md`
+  - Codex-facing trigger metadata and operating instructions
+- `adl-skill.yaml`
+  - ADL execution contract, boundaries, outputs, and machine-facing policy
+- `references/*.md`
+  - playbooks and output contracts
+- `docs/*.md`
+  - input-schema docs and operator-facing reference docs like this one
+
+Installed Codex skill bundles live under:
+
+- `$CODEX_HOME/skills`
+
+For the historical full-layout compatibility installer, explicitly select a complete reviewed `ADL_OPERATIONAL_SKILLS_SOURCE_ROOT`. The partial ADL tree is not an installation input:
+
+```bash
+bash adl/tools/install_adl_operational_skills.sh
+```
+
+To install that explicitly selected complete distribution as symlinks instead of copies:
+
+```bash
+ADL_OPERATIONAL_SKILLS_INSTALL_MODE=symlink bash adl/tools/install_adl_operational_skills.sh
+```
+
+To exercise the original installation assertions without mutating your real Codex home, explicitly select an authentic complete original `ADL_OPERATIONAL_SKILLS_SOURCE_ROOT`. This is historical contract proof, not full current owner acceptance:
+
+```bash
+bash adl/tools/test_install_adl_operational_skills.sh
+```
+
+To compare a deployed copy with authenticated installed owner resources, select
+`CSDLC_SKILL_CONTRACT_ROOT` as described above and compare the two directories:
+
+```bash
+diff -qr "$CSDLC_SKILL_CONTRACT_ROOT/test-generator" "$CODEX_HOME/skills/test-generator"
+```
+
+Replace `test-generator` with the skill being checked. No output means the
+deployed copy matches the selected owner resource bytes.
+
+## General Invocation Pattern
+
+For deterministic use, prefer structured invocation over loose prose.
+
+The general pattern is:
+
+```yaml
+Use $<skill-name> at <repo-root>/adl/tools/skills/<skill-name>/SKILL.md with this validated input:
+skill_input_schema: <schema-id>
+mode: <mode>
+repo_root: <repo-root>
+target:
+  ...
+policy:
+  ...
+```
+
+For `pr-init`, the payload uses `issue:` instead of `target:`.
+
+## Canonical Issue Inspection Surface
+
+Use the Rust-owned issue inspection commands before execution, review, or
+closeout when you need live GitHub issue truth without falling back to raw
+`gh issue` commands.
+
+Live GitHub issue operations require one shared GitHub token source in the ADL
+command environment. Supported sources are `GITHUB_TOKEN`, `GH_TOKEN`,
+`ADL_GITHUB_TOKEN_FILE`, and `ADL_GITHUB_TOKEN_KEYCHAIN_SERVICE`. The keychain
+source uses the macOS `security find-generic-password` command; keychain users
+may also set `ADL_GITHUB_TOKEN_KEYCHAIN_ACCOUNT`. Load or configure the source
+without echoing token material. If the token is missing, stop and fix the ADL
+command environment; do not use direct `gh` or connector issue calls as a
+fallback.
+
+Preferred commands:
+
+```bash
+csdlc github-issue <issue> --operation <issue-operation.json> --execute
+```
+
+Use typed issue mutation commands for covered issue setup and repair paths.
+Direct `gh issue create/comment/edit` use should be treated as helper migration
+debt, not as the normal ADL sprint setup path.
+
+Use this surface when:
+
+- confirming that an issue exists before `pr-init` or `pr-run`
+- checking live title, labels, milestone, closure, or URL truth during review
+  or closeout
+- reproducing milestone queue or closeout checks that previously depended on
+  `gh issue list` or `gh issue view`
+- creating, commenting on, or updating issue metadata during bounded sprint
+  setup and tooling work
+
+Pair it with:
+
+- `csdlc doctor --request <doctor-request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>` for structural execution
+  readiness and drift diagnosis
+
+Typed GitHub observation does not replace lifecycle truth. `csdlc doctor`, the
+editor skills, and the remaining native v3 lifecycle routes still own readiness,
+card truth, PR publication, janitor work, and closeout.
+
+### `issue-watcher`
+
+Use `issue-watcher` when:
+
+- one issue, PR, branch, or dependency gate should be observed during a wait window
+- the operator needs a clear ready, pending, blocked, merged, closed, or action-required classification
+- PR blockers should be routed to `pr-janitor` rather than repaired inside the watcher
+
+Do not use it for:
+
+- implementation work
+- CI repair
+- issue or PR mutation
+- merge, closeout, or long-running scheduler behavior
+
+Structured schema:
+
+- `${CSDLC_SKILL_CONTRACT_ROOT}/docs/ISSUE_WATCHER_SKILL_INPUT_SCHEMA.md`
+- schema id: `issue_watcher.v1`
+
+Supported modes:
+
+- `watch_issue`
+- `watch_pr`
+- `watch_pr_url`
+- `watch_branch`
+- `watch_dependency_gate`
+
+Expected output includes:
+
+- target identity
+- observed issue/PR/check/merge state
+- dependency state
+- recommended handoff skill or operator action
+- actions taken and actions recommended
+
+It must stop before mutating issue, PR, branch, card, or implementation state.
+
+## Core Model
+
+The current automation model is:
+
+- `csdlc doctor` inspects current issue state before the matching typed lifecycle or editor operation runs
+- `pr-init` creates or initializes the issue and root bundle
+- qualitative card review happens separately
+- `pr-ready` is the readiness phase
+- the canonical machine-readable diagnostic surface is doctor JSON
+- `pr-run` consumes doctor-backed readiness and performs bounded execution
+- `pr-janitor` watches a PR in flight and handles bounded blocker remediation
+- explicit `pr-closeout` remains the current proved default after merge or
+  explicit closed/completed state, unless a later issue re-establishes an
+  automated watcher lane with proof
+- the repo-native finish flow may attach the janitor hook automatically after PR publication
+- `pr-finish` handles truthful closeout/publication
+- `pr-closeout` handles post-merge or post-closure local finalization
+- `pr-closeout` also covers truthful no-PR closure dispositions like superseded, duplicate, or docs-only-closed issues
+- editor skills may be called by lifecycle skills when the blocker is card-local rather than lifecycle-orchestration state
+- `docs/tooling/ISSUE_LIFECYCLE_SHEPHERD_CONTRACT.md` defines the shared
+  cross-phase shepherd states, transition rules, and non-authority boundary
+  above the bounded lifecycle skills
+
+The conductor should be especially useful when:
+- initial workflow steps are only partially complete
+- the operator wants one bounded entrypoint
+- skill/subagent policy should be applied explicitly instead of by memory
+
+Use `adl-milestone-creator` when the operator asks to create a milestone,
+bridge milestone, next-milestone package, milestone split, setup wave, or issue
+reallocation package. It should create or consume one setup issue, require
+versioned prompt cards, bind work to a worktree, produce the full milestone
+planning package, preserve moved-vs-abandoned issue truth, run focused
+docs/YAML/link validation, and stop before merge or release approval.
+
+## Compression-Era Execution Policy
+
+The v0.90.1 compression lane makes the current operating policy explicit before
+Runtime v2 coding starts. The tracked milestone policy note is:
+
+- `docs/milestones/v0.90.1/features/COMPRESSION_ERA_EXECUTION_POLICY.md`
+
+Default policy:
+
+- resolve the installed generation and use the typed binary for the selected
+  lifecycle phase
+- use the named lifecycle skill for the selected phase rather than ad hoc git
+  or PR surgery
+- keep the primary checkout on clean `main`; tracked implementation and repair
+  edits happen in the bound issue worktree
+- use `stp-editor`, `sip-editor`, `spp-editor`, `srp-editor`, or `sor-editor`
+  when those cards need normalization
+- attach `pr-janitor` after PR publication for check, conflict, and review
+  monitoring
+- record policy compliance, validation profile, commands, and any bypasses in
+  the SOR
+
+Subagents are phase-aware, not automatic for every edit. Use them when the
+operator policy or selected phase requires a watcher or bounded delegated
+subtask. A subagent handoff must include the target issue or PR, branch or
+worktree, allowed scope, stop boundary, and a reminder not to merge, close,
+reset, recreate branches, or widen issue scope without explicit operator
+direction.
+
+Forked subagents inherit the parent session's model and should not be given an
+explicit model override in full-history or forked-context review handoffs. When
+a stronger or cheaper model is required for a bounded review, start the parent
+session on that model before forking, or use a non-forked minimal-context
+handoff only when the task does not require full thread history. If a subagent
+spawn fails with an explicit-model or model-override error, retry once without
+the model override and record the inherited-model assumption in the handoff or
+review notes.
+
+Issue classification comes before validation selection.
+
+Classify the issue using the narrowest truthful class:
+
+- `docs-only`
+  - README, changelog, milestone docs, planning docs, review handoffs,
+    backlog docs, feature lists, ADR text, rustdoc-only updates, and similar
+    repo-documentation changes with no runtime behavior change
+- `milestone-package-truth`
+  - WBS, wave YAML, checklist, release readiness, issue-wave truth, and other
+    tracked milestone package alignment work
+- `workflow-docs`
+  - execution policy, operational skill docs, templates, and process guidance
+- `tooling-focused`
+  - PR tooling, scripts, validators, generators, lifecycle helpers, and other
+    bounded non-runtime code or shell work
+- `rust-focused`
+  - bounded Rust source or schema-affecting implementation work
+- `demo-focused`
+  - proof/demo scripts, demo surfaces, and demo matrix execution work
+- `review-remediation`
+  - bounded fixes for specific internal or third-party review findings
+- `release-tail`
+  - trackers, gap analysis, closeout, review-truth alignment, and ceremony
+    preparation
+
+Validation should match the changed surface:
+
+- `docs-bounded`: docs-only edits; check referenced paths, host-path or
+  credential-marker leakage, and any available Markdown or prompt contracts
+- `tooling-focused`: PR tooling, scripts, or workflow behavior; run focused
+  unit or shell tests plus formatting or linting when applicable
+- `rust-focused`: bounded Rust source changes; run targeted Rust tests and
+  formatting, with clippy when API or control-flow behavior changes
+- `repo-native-finish`: PR publication; rely on `pr-finish` default validation
+  plus output-card contract validation
+- `janitor-focused`: failed PR checks or conflicts; reproduce the smallest
+  failing check and validate the bounded repair
+
+When repo-native tooling provides a validation-manager profile, lifecycle and
+editor skills should carry its split truth forward:
+
+- record the selected `validation_split.fast_lane` in PR/SOR evidence when it
+  explains why ordinary PR validation is sufficient
+- record each `validation_split.slow_families` entry as executed, explicitly
+  deferred, or routed to its owning slow-proof/release surface
+- preserve fail-closed manager results; a fast lane is not publication proof
+  when `fail_closed.required=true`, `pr_publication_sufficient=false`, or
+  `escalation.required=true`
+- do not describe slow-family proof as merely skipped when the manager provides
+  a named family, command, and owner
+
+Default mapping:
+
+- `docs-only` -> `docs-bounded`
+- `milestone-package-truth` -> `docs-bounded`
+- `workflow-docs` -> `docs-bounded` unless tracked tooling behavior changed
+- `tooling-focused` -> `tooling-focused`
+- `rust-focused` -> `rust-focused`
+- `demo-focused` -> focused demo or proof command plus any narrow supporting
+  tooling or Rust checks required by the changed surface
+- `review-remediation` -> the smallest validation that proves the named finding
+  is fixed
+- `release-tail` -> docs, guardrail, tracker, gap, closeout, and review-truth
+  checks rather than the full Rust cycle unless a tracked code change demands
+  more
+
+Full local validation is not the default. It is required when:
+
+- the changed surface is broad or ambiguous
+- the issue changes shared runtime or schema behavior
+- the path-policy or local classifier fails closed
+- the user explicitly requests the larger validation scope
+- focused validation fails and broader diagnosis is needed
+
+Compression reduces redundant waiting and oversized local validation. It does
+not remove human review, output-card truth, or the requirement to prove the
+changed surface.
+
+## Worktree-First Invariant
+
+The ADL workflow uses one primary checkout and issue-scoped worktrees.
+
+- The primary checkout stays on clean main and is used for root-level inspection, issue bootstrap, and issue-mode binding commands.
+- Tracked implementation, validation fixes, finish staging, and janitor repairs happen in the issue worktree after the issue is bound.
+- A bound worktree path reported by doctor or conductor evidence is first-class lifecycle state and must be preserved in follow-on handoffs.
+- `pr-run` may bind or reuse a worktree from the primary checkout only when main has no tracked changes.
+- Ignored local `.adl` planning, review, and routing notes may remain local-only in the primary checkout, but that exception does not permit tracked edits on main.
+- `pr-finish` must publish from the bound issue worktree when the issue branch is checked out there.
+- `pr-janitor` repairs the existing PR branch/worktree; it must not recreate work from primary main.
+
+Before a session starts or resumes tracked issue work, it should check
+`git status --short --branch` and `git worktree list --porcelain` from the
+primary checkout. If root is on a feature branch or has tracked changes, route
+that as `unsafe_root_checkout_execution`: use native v3 doctor/bind evidence
+when available, use only the narrowest manual
+fallback needed to preserve work in an issue worktree, restore the primary
+checkout to clean `main`, and leave a short broadcast note in the relevant
+issue, PR, sprint packet, or closeout record. The durable policy is
+`docs/tooling/SESSION_COORDINATION_AND_ROOT_CHECKOUT_POLICY.md`.
+
+Canonical blocker names:
+- `unsafe_root_checkout_execution`
+- `mismatched_publication_surface`
+- `rebind_to_issue_worktree_required`
+
+## Native v3 lifecycle routing
+
+### Purpose
+
+The authenticated canonical selector plus `csdlc doctor` are the typed front
+door for lifecycle routing.
+
+It:
+
+- inspects the current issue/workflow state
+- selects the next correct lifecycle or editor skill
+- applies skill/editor/subagent policy
+- records workflow-compliance facts
+- writes one bounded routing artifact
+- may invoke one bounded downstream skill subtask when explicit dispatch mode is enabled
+- stops without absorbing the selected skill's underlying work
+
+### When To Use It
+
+Use native v3 lifecycle routing when:
+
+- the next correct ADL skill is not obvious from the current state
+- the issue may need to resume from partially completed early steps
+- the operator wants one bounded entrypoint that still respects the modular skill family
+
+Do not use it for:
+
+- directly executing implementation work
+- replacing the lifecycle skills
+- bypassing editor skills
+- broad multi-issue orchestration
+
+### Required Inputs
+
+Minimum:
+
+- `repo_root`
+- one of:
+  - `target.issue_number`
+  - `target.task_bundle_path`
+  - `target.branch`
+  - `target.worktree_path`
+  - `target.pr_number`
+- explicit routing `mode`
+- explicit `policy`
+- optional `observed_state.subagent_assigned`
+
+`target.pr_number` is the required target identifier for `route_pr`; other
+routing modes may use any one concrete target identifier from the list above.
+
+Structured schema:
+
+- `adl/tools/skills/docs/WORKFLOW_CONDUCTOR_SKILL_INPUT_SCHEMA.md`
+- schema id: native v3 `csdlc doctor` output
+
+### Example Invocation
+
+```yaml
+Run `csdlc doctor --request <doctor-request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>` before selecting a typed lifecycle operation.
+
+skill_input_schema: csdlc_doctor.v2
+mode: route_issue
+repo_root: <repo-root>
+target:
+  issue_number: 1647
+  slug: add-lightweight-lifecycle-routing-skill
+  version: v0.88
+  source_prompt_path: .adl/v0.88/bodies/issue-1647-add-lightweight-lifecycle-routing-skill.md
+policy:
+  skills_required: true
+  card_editor_skills_required: true
+  subagent_requirement: required
+  bypass_without_explicit_blocker: false
+  allow_phase_inference: true
+  stop_after_routing: true
+observed_state:
+  subagent_assigned: true
+```
+
+### Typical Uses
+
+- after issue bootstrap, when the operator wants the repo to detect whether `pr-ready`, `pr-run`, or an editor skill is next
+- when the issue should resume from partially completed early steps rather than restart from bootstrap
+- when explicit skill/subagent policy should be enforced consistently
+- when the operator wants a written routing artifact under `.adl/reviews/` instead of ephemeral console output
+
+### Caller Notes
+
+- native v3 lifecycle routing is deliberately explicit
+- it should route into `pr-*` or editor skills rather than reimplementing them
+- it is the best place to apply the execution-policy ideas for required skills, card editors, and subagents
+- it should return explicit `continue`, `ask_operator`, or `stop` handoff intent rather than leaving escalation implicit
+- the legacy executable route is retired for C-SDLC work; validate the
+  authenticated selector and invoke the matching native v3 route directly
+
+`ready` and `preflight` are compatibility aliases that may still exist in repo
+surfaces, but doctor JSON is the canonical structured automation surface.
+
+## Helper Card Editors
+
+These are not top-level lifecycle phases. They are narrow helper skills used to
+reduce recurring card failures:
+
+- `stp-editor`
+  - tightens goal, scope, acceptance criteria, and validation wording in
+    `stp.md`
+  - does not create execution state or author result claims
+- `sip-editor`
+  - normalizes truthful lifecycle state in `sip.md`
+  - does not create the branch/worktree itself or claim execution completion
+- `spp-editor`
+  - normalizes truthful planning state in `spp.md`
+  - does not turn planning into execution history or widen issue scope
+- `srp-editor`
+  - normalizes review policy, review results, findings, dispositions, and
+    residual risk in `srp.md`
+  - does not invent review evidence or resolve findings without proof
+- `sor-editor`
+  - normalizes truthful execution and integration state in `sor.md`
+  - does not invent validation or publish the PR itself
+
+Use them when the problem is primarily the card surface, not the wider
+lifecycle step.
+
+## How To Use The Editor Skills
+
+The editor skills are best used as small helper passes, not as standalone issue
+orchestration.
+
+Use this rule of thumb:
+
+- if the issue or branch state itself is wrong, use the lifecycle skill
+- if the card is the thing that is wrong, use the matching editor skill
+
+Current operator rule:
+
+- if you are treating an `stp.md`, `sip.md`, or `sor.md` as ready/final, run the
+  matching editor skill explicitly rather than relying on ad hoc manual card
+  edits
+
+Practical mapping:
+
+- use `stp-editor` when the task card is vague, contradictory, or not
+  execution-ready
+- use `sip-editor` when lifecycle truth is wrong in the input card, especially
+  branch/worktree state, target surfaces, or validation-plan drift
+- use `sor-editor` when the output card is blocking finish because the summary,
+  integration wording, or validation claims are not truthful
+
+Good patterns:
+
+- `pr-init` finishes, then `stp-editor` and/or `sip-editor` clean the new root
+  cards before qualitative review
+- `pr-ready` diagnoses drift, then hands a card-local problem to
+  `stp-editor` or `sip-editor`
+- `pr-run` does the implementation, then uses `sor-editor` to normalize the
+  in-flight execution record
+- `pr-finish` uses `sor-editor` only when the finish blocker is output-card
+  truthfulness
+- after merge or intentional closure is confirmed, `pr-closeout` finalizes the
+  cards and prunes the worktree
+- a merged PR should be treated as `merged_needs_closeout`, not as already
+  closed out; the next lifecycle phase is still `pr-closeout`
+- if the issue closed without a PR because it was superseded, duplicated, or
+  intentionally resolved without code publication, `pr-closeout` records that
+  disposition and the relevant follow-on links before pruning
+
+Bad patterns:
+
+- using `stp-editor` to change issue scope
+- using `sip-editor` to create a branch or worktree
+- using `sor-editor` to invent validation that was never run
+- using any editor skill as a substitute for `pr-init`, `pr-ready`, `pr-run`,
+  or `pr-finish`
+
+### Quick Selector
+
+If the failure looks like this, use:
+
+- “the STP is sloppy / contradictory / not clear enough”: `stp-editor`
+- “the SIP says the wrong branch, wrong lifecycle phase, or wrong targets”:
+  `sip-editor`
+- “the SOR still has placeholders or overclaims validation/integration”:
+  `sor-editor`
+
+If you are unsure, run `pr-ready` first. If `pr-ready` says the blocker is
+card-local, then hand off to the relevant editor.
+
+### What To Supply To An Editor Skill
+
+Keep editor invocations narrow. The more they look like a bounded patch request
+against one card, the better they behave.
+
+Always provide:
+
+- `repo_root`
+- the one card path being edited
+- the lifecycle phase or integration state when that truth matters
+- any concrete evidence the editor needs to stay truthful
+
+Good supporting evidence:
+
+- the source issue prompt path
+- the issue number
+- the bound branch and worktree path when the issue is already running
+- the exact commands actually run
+- the exact tracked paths changed
+- review comments or finish errors that explain what is wrong
+
+Avoid vague prompts like:
+
+- “clean this card up”
+- “make this ready”
+- “fix whatever is wrong”
+
+Prefer prompts like:
+
+- “normalize the SIP to truthful `run_bound` state for issue `1419`”
+- “normalize the SOR so validation claims match the commands actually run”
+- “tighten the STP acceptance criteria without changing issue scope”
+
+### What Success Looks Like
+
+Each editor should leave the card:
+
+- structurally valid
+- free of placeholders and enum-menu leakage
+- truthful about lifecycle state
+- aligned with the linked issue prompt
+- bounded to the card surface it owns
+
+The editors should not:
+
+- invent new repo state
+- silently widen issue scope
+- claim work happened when it did not
+- replace the need for the lifecycle skills
+
+### Common Recipes
+
+Recipe: bootstrap then qualitative cleanup
+
+1. Run `pr-init`.
+2. Inspect the new root cards.
+3. If the STP is vague, run `stp-editor`.
+4. If the SIP has pre-run truth drift, run `sip-editor`.
+5. Then do qualitative review or move into `pr-ready`.
+
+Recipe: readiness blocked by card drift
+
+1. Run `pr-ready`.
+2. If the repo state is fine but the card is wrong:
+   - use `stp-editor` for STP wording/scope/acceptance-criteria problems
+   - use `sip-editor` for lifecycle-truth or target-surface problems
+3. Re-run `pr-ready`.
+
+Recipe: execution completed, output record still messy
+
+1. Run `pr-run` and complete the actual work.
+2. If the SOR has placeholders or overstated validation/integration claims, run
+   `sor-editor`.
+3. Revalidate the SOR.
+4. Continue to `pr-finish`.
+
+Recipe: finish blocked by card wording
+
+1. Run `pr-finish`.
+2. If finish says the output card is inconsistent or incomplete, do not widen
+   back into implementation.
+3. Use `sor-editor` with the actual executed commands and changed paths.
+4. Re-run `pr-finish`.
+
+### Editor Output Expectations
+
+In practice, you should expect each editor to tell you:
+
+- which card it edited
+- what kind of truth or structure problem it corrected
+- what it refused to change
+- whether another lifecycle step should run next
+
+That makes the editors easy to chain without letting them silently absorb
+workflow control.
+
+## Skill Details
+
+## `pr-init`
+
+### Purpose
+
+`pr-init` owns bounded issue initialization.
+
+It:
+
+- creates a new GitHub issue or resolves an existing one
+- generates the canonical local source prompt
+- seeds the root `stp.md`, `sip.md`, and `sor.md`
+- validates that the bootstrap surfaces exist and are mechanically complete
+- stops before branch/worktree creation or implementation
+- handles exactly one issue target per invocation
+
+### When To Use It
+
+Use `pr-init` when:
+
+- the issue does not exist yet and must be created and bootstrapped
+- the issue already exists but its root bundle must be initialized
+- the task should stop after mechanical initialization
+
+Do not use it for:
+
+- qualitative rewriting of `stp.md` or `sip.md`
+- execution work
+- PR monitoring
+- finish/closeout
+
+### Required Inputs
+
+Minimum:
+
+- `repo_root`
+- one of:
+  - `issue.number`
+  - `issue.title`
+- for new tracked issues, explicit `issue.labels`
+
+Structured schema:
+
+- `adl/tools/skills/docs/PR_INIT_SKILL_INPUT_SCHEMA.md`
+- schema id: `pr_init.v1`
+
+### Supported Modes
+
+- `create_and_bootstrap`
+- `bootstrap_existing_issue`
+
+### Preferred Commands
+
+- `csdlc github-issue <coordination-issue> --operation <issue-create-operation.json> --execute`
+- `csdlc prepare <issue> --plan <plan.json>`
+
+For `create_and_bootstrap`, the expected machine-safe path is:
+
+- pass explicit repo-standard labels
+- create the issue
+- verify the created issue actually carries those labels
+- only then continue with source-prompt and root-bundle bootstrap
+
+### Output And Stop Boundary
+
+Expected output includes:
+
+- issue number and URL
+- source prompt path
+- root bundle path
+- `stp.md`, `sip.md`, `sor.md` paths
+- validation result
+- handoff state for qualitative review
+- if bootstrap is interrupted after issue creation, a `partial` result that names the created issue and the exact missing bundle surfaces
+
+It must stop before:
+
+- qualitative card review
+- branch creation
+- worktree creation
+- implementation
+
+### Multi-Issue Bootstrap Pattern
+
+If you are bootstrapping many issues:
+
+- use one `pr-init` invocation per issue
+- prefer one sub-agent per issue when parallelizing
+- wait for one structured `pr-init` result per issue
+- aggregate those per-issue results outside the skill
+
+Do not ask one long-running `pr-init` invocation to bootstrap many issues as a
+single batch.
+
+### Example Invocation
+
+Canonical template:
+- `docs/templates/PR_INIT_INVOCATION_TEMPLATE.md`
+
+For authored issue bodies, use the canonical authored issue body scaffold in
+that template before calling `pr create --body`, `pr create --body-file`, or
+`pr-init` with `issue.body` / `issue.body_file`. The create path validates all
+required source-prompt sections up front and reports the complete missing
+section set in one failure.
+
+```yaml
+Use $pr-init at <repo-root>/adl/tools/skills/pr-init/SKILL.md with this validated input:
+
+skill_input_schema: pr_init.v1
+mode: create_and_bootstrap
+repo_root: <repo-root>
+issue:
+  number: null
+  title: "[v0.87][tools] Example issue"
+  slug: "example-issue"
+  version: "v0.87"
+  labels: "track:roadmap,type:task,area:tools"
+  body: null
+  body_file: null
+policy:
+  version_source: explicit
+  label_source: explicit
+  body_source: generated
+  allow_slug_derivation: false
+  stop_after_bootstrap: true
+```
+
+## `pr-ready`
+
+### Purpose
+
+`pr-ready` is the readiness and drift-diagnosis skill.
+
+It answers two separate questions:
+
+- is this issue structurally ready to execute?
+- is it allowed to begin right now under current preflight policy?
+
+Those answers must be reported separately.
+
+### When To Use It
+
+Use `pr-ready` when:
+
+- you want to diagnose whether an issue, bundle, branch, or worktree is ready
+- you want a doctor-style check before execution
+- you want preflight state reported without collapsing it into structural status
+
+Do not use it for:
+
+- initial bootstrap when the root bundle does not exist
+- qualitative card review
+- implementation work
+- broad repository cleanup
+
+### Required Inputs
+
+Minimum:
+
+- `repo_root`
+- one of:
+  - `target.issue_number`
+  - `target.task_bundle_path`
+  - `target.branch`
+  - `target.worktree_path`
+
+Structured schema:
+
+- `adl/tools/skills/docs/PR_READY_SKILL_INPUT_SCHEMA.md`
+- schema id: `pr_ready.v1`
+
+### Supported Modes
+
+- `diagnose_issue`
+- `diagnose_task_bundle`
+- `diagnose_branch`
+- `diagnose_worktree`
+
+### Preferred Commands
+
+Preferred diagnostic order:
+
+- `csdlc doctor --request <doctor-request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>`
+
+Use direct inspection only when the repo-native doctor/readiness surfaces are
+unavailable or unusable.
+
+### Output And Stop Boundary
+
+Expected output includes:
+
+- overall status
+- `execution_readiness`
+- `preflight_status`
+- findings
+- actions taken
+- actions recommended
+- validation performed
+- handoff state
+
+It must stop before:
+
+- qualitative card review
+- bootstrap creation
+- implementation
+- finish/closeout
+
+### Example Invocation
+
+```yaml
+Use $pr-ready at <repo-root>/adl/tools/skills/pr-ready/SKILL.md with this validated input:
+
+skill_input_schema: pr_ready.v1
+mode: diagnose_issue
+repo_root: <repo-root>
+target:
+  issue_number: 1299
+  task_bundle_path: null
+  branch: null
+  worktree_path: null
+  slug: null
+  version: "v0.87"
+  source_prompt_path: null
+  stp_path: null
+  sip_path: null
+  sor_path: null
+  expected_pr_state: null
+policy:
+  repair_mode: inspect_only
+  allow_target_inference: true
+  include_preflight_checks: true
+  include_worktree_checks: true
+  stop_after_diagnosis: true
+```
+
+## `pr-run`
+
+### Purpose
+
+`pr-run` is the execution skill.
+
+It:
+
+- confirms doctor-backed readiness
+- creates or reuses the execution branch and worktree at execution time
+- performs the bounded implementation work
+- runs truthful validation
+- updates the execution record
+- stops before janitoring or finish
+
+### When To Use It
+
+Use `pr-run` when:
+
+- the issue is already initialized
+- readiness has been checked or can be checked immediately before execution
+- you want to execute the actual issue work
+
+Do not use it for:
+
+- initial bootstrap from scratch
+- standalone qualitative card review
+- post-PR monitoring
+- merge/closeout
+
+### Required Inputs
+
+Minimum:
+
+- `repo_root`
+- one of:
+  - `target.issue_number`
+  - `target.task_bundle_path`
+  - `target.branch`
+  - `target.worktree_path`
+
+Structured schema:
+
+- `adl/tools/skills/docs/PR_RUN_SKILL_INPUT_SCHEMA.md`
+- schema id: `pr_run.v1`
+
+### Supported Modes
+
+- `run_issue`
+- `run_task_bundle`
+- `run_branch`
+- `run_worktree`
+
+### Preferred Commands
+
+Preferred execution order:
+
+- `csdlc doctor --request <doctor-request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>`
+- `csdlc bind <issue>`
+
+### Output And Stop Boundary
+
+Expected output includes:
+
+- status
+- target
+- binding state
+- materialization state
+- actions taken
+- validation performed
+- handoff state
+
+It must stop before:
+
+- `pr-janitor`
+- `pr-finish`
+- merge
+
+### Example Invocation
+
+```yaml
+Use $pr-run at <repo-root>/adl/tools/skills/pr-run/SKILL.md with this validated input:
+
+skill_input_schema: pr_run.v1
+mode: run_issue
+repo_root: <repo-root>
+target:
+  issue_number: 1299
+  task_bundle_path: null
+  branch: null
+  worktree_path: null
+  slug: null
+  version: "v0.87"
+  source_prompt_path: null
+  stp_path: null
+  sip_path: null
+  sor_path: null
+  expected_pr_state: null
+policy:
+  require_doctor_check: true
+  allow_preflight_override: false
+  allow_binding_create: true
+  allow_binding_reuse: true
+  validation_mode: standard
+  stop_after_execution: true
+```
+
+## `pr-janitor`
+
+### Purpose
+
+`pr-janitor` watches a PR that is already in flight.
+
+It:
+
+- inspects PR status
+- diagnoses failed checks, conflicts, and review blockers
+- distinguishes healthy, action-required, and blocked states
+- may apply bounded blocker-driven fixes when policy allows
+- records explicit `repair_outcome`
+- stops before silent merge or scope expansion
+
+This is the most judgment-heavy operational skill in the set.
+
+### When To Use It
+
+Use `pr-janitor` when:
+
+- a draft or active PR already exists
+- the user wants help with CI failures
+- the user wants help with conflicts or review blockers
+- the task is monitoring or narrow blocker remediation
+
+Use typed `csdlc-shepherd` and `csdlc-pr-state` requests when a session needs
+the repo-native command surface to classify the PR tail before handing off to
+the `pr-janitor` skill. The command is a compatibility wrapper over the
+shepherd classifier and preserves the no-`gh` transport path.
+
+Do not use it for:
+
+- initial issue setup
+- new implementation from scratch when no PR exists
+- silent finish/merge
+
+### Required Inputs
+
+Minimum:
+
+- `repo_root`
+- one of:
+  - `target.pr_number`
+  - `target.pr_url`
+  - `target.branch`
+  - `target.issue_number`
+
+Structured schema:
+
+- `adl/tools/skills/docs/PR_JANITOR_SKILL_INPUT_SCHEMA.md`
+- schema id: `pr_janitor.v1`
+
+### Supported Modes
+
+- `watch_pr`
+- `watch_pr_url`
+- `watch_branch_pr`
+- `watch_issue_pr`
+
+### Preferred Model
+
+Prefer a stronger model such as `gpt-5.4`.
+
+### Output And Stop Boundary
+
+Expected output includes:
+
+- status
+- target
+- checks summary
+- conflict status
+- repair outcome
+- actions taken
+- actions recommended
+- review required
+- handoff state
+
+It must stop before:
+
+- silent merge
+- silent closeout
+- unreviewed scope expansion
+
+### Example Invocation
+
+```yaml
+Use $pr-janitor at <repo-root>/adl/tools/skills/pr-janitor/SKILL.md with this validated input:
+
+skill_input_schema: pr_janitor.v1
+mode: watch_pr
+repo_root: <repo-root>
+target:
+  pr_number: 1338
+  pr_url: null
+  branch: null
+  issue_number: null
+  expected_checks:
+    - adl-ci
+    - adl-coverage
+  expected_pr_state: draft
+  review_standard: standard
+policy:
+  repair_mode: inspect_only
+  allow_pr_inference: false
+  monitor_checks: true
+  monitor_conflicts: true
+  monitor_review_state: true
+  stop_after_janitor_pass: true
+```
+
+## `pr-finish`
+
+### Purpose
+
+`pr-finish` owns truthful closeout and publication.
+
+It:
+
+- finalizes the issue execution record
+- performs closeout/publication checks
+- prepares the branch and artifact state for review or merge
+- records the handoff into PR shepherding rather than treating publication as
+  natural issue completion
+- records final status truthfully
+
+### When To Use It
+
+Use `pr-finish` when:
+
+- execution work is complete
+- the output record is ready to be finalized
+- the PR or branch is moving into reviewable closeout state
+
+Do not use it for:
+
+- initial bootstrap
+- readiness diagnosis
+- implementation
+- post-closeout PR monitoring
+
+### Required Inputs
+
+Use the tracked finish schema and skill contract:
+
+- `adl/tools/skills/docs/PR_FINISH_SKILL_INPUT_SCHEMA.md`
+- `adl/tools/skills/pr-finish/SKILL.md`
+
+### Output And Stop Boundary
+
+`pr-finish` is the closeout/publication boundary. It should not reopen broad
+implementation work or silently replace `pr-janitor`.
+
+## `pr-closeout`
+
+### Purpose
+
+`pr-closeout` owns truthful local finalization after a PR is merged or
+intentionally closed.
+
+It:
+
+- verifies the final PR/issue closure state
+- records that PR shepherding has settled and only local closeout remains
+- finalizes STP, SIP, and SOR truth
+- reconciles root/worktree card state when needed
+- confirms no required artifacts remain only in the worktree
+- prunes the worktree safely
+
+### When To Use It
+
+Use `pr-closeout` when:
+
+- the PR outcome is already known
+- publication and review are over
+- the remaining work is local workflow truth and cleanup
+- a PR has merged and the issue now needs truthful local finalization
+
+Do not use it for:
+
+- publishing or updating a draft PR
+- CI triage while a PR is still in flight
+- new implementation work
+- repo-wide archival chores
+
+### Required Inputs
+
+Minimum:
+
+- `repo_root`
+- one of:
+  - `target.issue_number`
+  - `target.pr_number`
+  - `target.worktree_path`
+- explicit `policy.closure_outcome`
+
+Structured schema:
+
+- `adl/tools/skills/docs/PR_CLOSEOUT_SKILL_INPUT_SCHEMA.md`
+- schema id: `pr_closeout.v1`
+
+### Example Invocation
+
+```yaml
+Use $pr-closeout at <repo-root>/adl/tools/skills/pr-closeout/SKILL.md with this validated input:
+
+skill_input_schema: pr_closeout.v1
+mode: closeout_issue
+repo_root: <repo-root>
+target:
+  issue_number: 1443
+  pr_number: 1433
+  branch: codex/1443-v0-87-1-tools-add-post-merge-issue-closeout-skill-for-pr-workflow
+  worktree_path: <repo-root>/.worktrees/adl-wp-<issue>
+  root_stp_path: .adl/v0.87.1/tasks/issue-1443__v0-87-1-tools-add-post-merge-issue-closeout-skill-for-pr-workflow/stp.md
+  root_sip_path: .adl/v0.87.1/tasks/issue-1443__v0-87-1-tools-add-post-merge-issue-closeout-skill-for-pr-workflow/sip.md
+  root_sor_path: .adl/v0.87.1/tasks/issue-1443__v0-87-1-tools-add-post-merge-issue-closeout-skill-for-pr-workflow/sor.md
+  wt_stp_path: .adl/v0.87.1/tasks/issue-1443__v0-87-1-tools-add-post-merge-issue-closeout-skill-for-pr-workflow/stp.md
+  wt_sip_path: .adl/v0.87.1/tasks/issue-1443__v0-87-1-tools-add-post-merge-issue-closeout-skill-for-pr-workflow/sip.md
+  wt_sor_path: .adl/v0.87.1/tasks/issue-1443__v0-87-1-tools-add-post-merge-issue-closeout-skill-for-pr-workflow/sor.md
+policy:
+  closure_outcome: merged
+  sync_root_bundle: true
+  prune_worktree: true
+  delete_local_branch: false
+  stop_after_closeout: true
+```
+
+### Typical Uses
+
+- after `pr-janitor` confirms the PR has merged and there are no remaining
+  blocker states
+- when typed doctor reports `merged_needs_closeout` and routes directly to
+  `pr-closeout`
+- after an intentionally closed PR where the issue still needs final truthful
+  local cleanup
+- when the cards are complete but the worktree and root bundle still need final
+  reconciliation
+
+### Merged-Issue Hygiene
+
+Close out each settled issue through explicit typed `csdlc finish` and
+`csdlc clean` requests. Milestone or main-sync helpers must not infer
+terminal observations, reuse another issue's authority, or batch lifecycle
+mutations through shell. Use `csdlc doctor` for issue-local diagnosis and
+retain the typed terminal receipt before considering the issue closed out.
+
+### Caller Notes
+
+- `pr-finish` should not absorb this phase
+- `pr-janitor` may recommend this phase once the PR outcome is settled
+- use `stp-editor`, `sip-editor`, or `sor-editor` only when the closeout
+  blocker is card-local rather than closure-state ambiguity
+
+## `records-hygiene`
+
+### Purpose
+
+`records-hygiene` is a focused workflow-maintenance skill for ADL task-record truth.
+
+It scans STP, SIP, and SOR for stale or contradictory lifecycle fields, PR/worktree
+claims, placeholder leakage, and integration wording drift, then returns a bounded
+machine-readable artifact.
+
+### When To Use It
+
+- before `pr-finish` or `pr-closeout` when records look stale,
+- when the issue has already been run and the output card claims look inconsistent,
+- when a concrete issue, task bundle, branch, or worktree target needs bounded hygiene.
+
+### Required Inputs
+
+Minimum:
+
+- `repo_root`
+- one of:
+  - `issue_number`
+  - `task_bundle_path`
+  - `branch`
+  - `worktree_path`
+
+Structured schema:
+
+- `adl/tools/skills/docs/RECORDS_HYGIENE_SKILL_INPUT_SCHEMA.md`
+- schema id: `records_hygiene.v1`
+
+### Typical Handoff
+
+Use `records-hygiene` when hygiene can be resolved by safe record repair.
+If the issue is ambiguous, unresolved, or not mechanically safe, use the output
+recommendations as a follow-on issue queue item and avoid scope expansion.
+
+Deterministic local analyzer:
+
+```bash
+python3 adl/tools/skills/records-hygiene/scripts/analyze_records_hygiene.py <target>
+```
+
+## `pr-stack-manager`
+
+### Purpose
+
+`pr-stack-manager` is a focused stack-maintenance skill for ADL issue branches
+and PR stacks. It inspects branch ancestry, expected PR bases, dependency
+edges, and merge-order risks without silently rebasing, retargeting, or merging.
+
+### When To Use It
+
+- when a dependent PR may have a stale base,
+- when merge order is unclear,
+- when stack truth in an issue record disagrees with GitHub or local git state,
+- before executing or finishing a PR that depends on another open PR.
+
+Structured schema:
+
+- `adl/tools/skills/docs/PR_STACK_MANAGER_SKILL_INPUT_SCHEMA.md`
+- schema id: `pr_stack_manager.v1`
+
+Deterministic fixture analyzer:
+
+```bash
+python3 adl/tools/skills/pr-stack-manager/scripts/analyze_pr_stack.py <stack-packet>
+```
+
+### Typical Handoff
+
+Use `pr-stack-manager` for stack analysis and planning. Hand off PR-specific CI,
+conflict, or review blockers to `pr-janitor`. Do not perform branch mutation
+unless the operator explicitly authorizes a bounded stack action.
+
+## `review-comment-triage`
+
+### Purpose
+
+`review-comment-triage` classifies PR review comments into a bounded execution
+plan while preserving comment identity, file and line context, links,
+uncertainty, and current-issue scope.
+
+### When To Use It
+
+- before addressing mixed review feedback,
+- when comments may be stale, already fixed, or outside the current issue,
+- when review feedback needs follow-on issue planning rather than direct fixes.
+
+Structured schema:
+
+- `${CSDLC_SKILL_CONTRACT_ROOT}/docs/REVIEW_COMMENT_TRIAGE_SKILL_INPUT_SCHEMA.md`
+- schema id: `review_comment_triage.v1`
+
+Deterministic fixture analyzer:
+
+```bash
+python3 "${CSDLC_SKILL_CONTRACT_ROOT}/review-comment-triage/scripts/triage_review_comments.py" <payload-path>
+```
+
+### Typical Handoff
+
+Use `pr-janitor` for actionable current-PR items, `github:gh-address-comments`
+for thread-resolution work, and `finding-to-issue-planner` when comments should
+become follow-on issue candidates.
+
+## `review-readiness-cleanup`
+
+### Purpose
+
+`review-readiness-cleanup` inspects review packets, review plans, finding
+registers, demo or proof registers, and milestone review docs before formal
+review starts.
+
+It classifies structure-level readiness cleanup without changing substantive
+findings or approving review readiness.
+
+### When To Use It
+
+Use it when:
+
+- a review cycle is about to start and packet drift should be caught first
+- stale markers, missing metadata, or skipped surfaces may create false blockers
+- blockers and follow-on cleanup need to be separated before internal or external review
+
+Do not use it for:
+
+- running the review itself
+- remediating findings or rewriting severity
+- publishing reports or approving review readiness
+
+Structured schema:
+
+- `adl/tools/skills/docs/REVIEW_READINESS_CLEANUP_SKILL_INPUT_SCHEMA.md`
+- schema id: `review_readiness_cleanup.v1`
+
+Deterministic fixture analyzer:
+
+```bash
+python3 adl/tools/skills/review-readiness-cleanup/scripts/inspect_review_readiness.py --review-root <path> --out <artifact-root> --run-id <run-id>
+```
+
+### Typical Handoff
+
+Use `documentation-specialist` for approved mechanical cleanup, `gap-analysis`
+for scope-vs-evidence uncertainty, `finding-to-issue-planner` for follow-on
+issue candidates, and `review-quality-evaluator` for packet quality gates.
+
+## `issue-folding`
+
+### Purpose
+
+`issue-folding` classifies one bounded issue packet to decide whether it should
+stay actionable or close as duplicate, superseded, absorbed, already satisfied,
+or obsolete work.
+
+It preserves linked issue or PR references and recommends the truthful closeout
+handoff without claiming that closure already happened.
+
+### When To Use It
+
+Use it when:
+
+- an issue appears to be already covered by other work
+- closeout might be a no-op rather than a fresh implementation path
+- issue-graph references should be preserved before closure
+
+Do not use it for:
+
+- performing the closeout itself
+- implementing the absorbed work
+- broad tracker cleanup without one bounded issue target
+
+Structured schema:
+
+- `${CSDLC_SKILL_CONTRACT_ROOT}/docs/ISSUE_FOLDING_SKILL_INPUT_SCHEMA.md`
+- schema id: `issue_folding.v1`
+
+Deterministic fixture analyzer:
+
+```bash
+python3 "${CSDLC_SKILL_CONTRACT_ROOT}/issue-folding/scripts/classify_issue_folding.py" --task-bundle <path> --source-prompt <path> --out <artifact-root> --run-id <run-id>
+```
+
+### Typical Handoff
+
+Use normal issue execution for still-actionable issues, `pr-closeout` for
+evidence-backed foldable outcomes, and operator review when disposition signals
+conflict.
+
+## `issue-splitter`
+
+### Purpose
+
+`issue-splitter` inspects one bounded issue packet and decides whether the issue
+should stay intact, split into follow-on work now, defer splitting, or stop for
+operator review.
+
+It preserves concern-bucket rationale, proposed follow-ons, and issue-graph
+links without mutating the tracker.
+
+### When To Use It
+
+Use it when:
+
+- an issue mixes multiple concern families or follow-on hints
+- scope drift should be turned into explicit split planning
+- current-scope narrowing should be reasoned about before touching cards
+
+Do not use it for:
+
+- automatic issue creation
+- silent card rewrites
+- broad milestone decomposition
+
+Structured schema:
+
+- `${CSDLC_SKILL_CONTRACT_ROOT}/docs/ISSUE_SPLITTER_SKILL_INPUT_SCHEMA.md`
+- schema id: `issue_splitter.v1`
+
+Deterministic fixture analyzer:
+
+```bash
+python3 "${CSDLC_SKILL_CONTRACT_ROOT}/issue-splitter/scripts/plan_issue_split.py" --task-bundle <path> --source-prompt <path> --out <artifact-root> --run-id <run-id>
+```
+
+### Typical Handoff
+
+Use normal issue execution when the issue should stay intact,
+`finding-to-issue-planner` or approved issue-creation flow for split-now or
+defer outcomes, and operator review when the packet contains conflicting split
+signals.
+
+## `portable-contract-normalizer`
+
+### Purpose
+
+`portable-contract-normalizer` scans bounded repo contracts, tests, packets, and
+validation surfaces for machine-local assumptions such as absolute host paths,
+brittle worktree names, temp paths, stale hard-coded contract references, and
+environment-specific assertions.
+
+It separates safe mechanical normalization from findings that require design
+decisions.
+
+### When To Use It
+
+Use it when:
+
+- contract tests or review packets may contain local machine assumptions
+- a PR has portability drift from hard-coded paths or worktree names
+- safe fixture normalization should be separated from design-decision findings
+
+Do not use it for:
+
+- unbounded repository rewrites
+- hiding legitimate host-specific evidence
+- semantic test redesign
+- customer or review packet mutation without explicit permission
+
+Structured schema:
+
+- `${CSDLC_SKILL_CONTRACT_ROOT}/docs/PORTABLE_CONTRACT_NORMALIZER_SKILL_INPUT_SCHEMA.md`
+- schema id: `portable_contract_normalizer.v1`
+
+Deterministic fixture analyzer:
+
+```bash
+python3 "${CSDLC_SKILL_CONTRACT_ROOT}/portable-contract-normalizer/scripts/normalize_portable_contracts.py" --root <path> --out <artifact-root> --run-id <run-id>
+```
+
+### Typical Handoff
+
+Use `documentation-specialist` for approved fixture text cleanup,
+`gap-analysis` when portability claims need evidence comparison, and focused
+remediation issues when a finding requires design decisions.
+
+## `spp-editor`
+
+### Purpose
+
+`spp-editor` is the bounded helper skill for `spp.md`.
+
+It:
+
+- preserves the canonical manual `SPP` schema shape used by the first v0.91
+  samples
+- supports design-time `SPP` plans generated during issue bootstrap from the
+  source issue prompt, dependencies, deliverables, acceptance criteria,
+  validation expectations, and non-goals
+- keeps `SPP` as a planning artifact rather than an execution log
+- validates `codex_plan` status values and planning-truth boundaries
+- tightens dependencies, assumptions, test strategy, and stop conditions
+- stops before lifecycle orchestration or implementation
+
+### When To Use It
+
+Use `spp-editor` when:
+
+- the `SPP` has stale plan structure or weak source references
+- the design-time `SPP` needs review tightening before execution
+- the `SPP` drifts away from the canonical manual sample shape
+- `codex_plan` values drift outside `pending`, `in_progress`, or `completed`
+- a planning artifact starts to read like an execution log
+
+Do not use it for:
+
+- creating branches/worktrees
+- claiming implementation results without evidence
+- rewriting `STP`, `SIP`, or `SOR` content
+
+### Required Inputs
+
+Minimum:
+
+- `repo_root`
+- `target.spp_path`
+
+Structured schema:
+
+- `adl/tools/skills/docs/SPP_EDITOR_SKILL_INPUT_SCHEMA.md`
+- schema id: `spp_editor.v1`
+
+### Example Invocation
+
+```yaml
+Use $spp-editor at <repo-root>/adl/tools/skills/spp-editor/SKILL.md with this validated input:
+
+skill_input_schema: spp_editor.v1
+mode: tighten_for_review
+repo_root: <repo-root>
+target:
+  spp_path: .adl/v0.91/tasks/issue-2701__example/spp.md
+  issue_number: 2701
+  source_prompt_path: .adl/v0.91/bodies/issue-2701-example.md
+policy:
+  preserve_planning_truth: true
+  stop_after_edit: true
+  allow_execution_claims_without_evidence: false
+```
+
+### Output
+
+The structured result should identify:
+
+- which `SPP` path was edited
+- whether planning truth and `codex_plan` statuses were normalized
+- any remaining blockers that should stop readiness or execution
+
+## `srp-editor`
+
+### Purpose
+
+`srp-editor` is the bounded helper skill for `srp.md`.
+
+It:
+
+- preserves `SRP` as Structured Review Prompt, not just legacy Structured
+  Review Policy
+- keeps review instructions, review scope, findings, dispositions, and residual
+  risk together in the same card
+- normalizes review-result truth after bounded human or subagent review
+- stops before implementation, publication, merge, or output-card authoring
+
+### When To Use It
+
+Use `srp-editor` when:
+
+- the `SRP` is missing, stale, or still policy-only scaffolding
+- review results need to be recorded after a bounded review
+- findings, dispositions, or residual risk are incomplete or overstated
+- doctor/card lifecycle evidence reports incomplete SRP truth
+
+Do not use it for:
+
+- inventing review results or claiming no findings without a review
+- resolving findings without evidence
+- rewriting `STP`, `SIP`, `SPP`, or `SOR` content
+
+### Required Inputs
+
+Minimum:
+
+- `repo_root`
+- `target.srp_path`
+
+Structured schema:
+
+- `adl/tools/skills/docs/SRP_EDITOR_SKILL_INPUT_SCHEMA.md`
+- schema id: `srp_editor.v1`
+
+### Example Invocation
+
+```yaml
+Use $srp-editor at <repo-root>/adl/tools/skills/srp-editor/SKILL.md with this validated input:
+
+skill_input_schema: srp_editor.v1
+mode: record_review_results
+repo_root: <repo-root>
+target:
+  srp_path: .adl/v0.91.2/tasks/issue-3066__example/srp.md
+  issue_number: 3066
+  source_prompt_path: .adl/v0.91.2/bodies/issue-3066-example.md
+evidence:
+  review_performed: true
+  reviewer: bounded-review-subagent
+  review_artifact_paths:
+    - .adl/reviews/issue-3066-review.md
+  findings: []
+policy:
+  preserve_review_policy: true
+  preserve_review_result_truth: true
+  stop_after_edit: true
+  allow_review_claims_without_evidence: false
+```
+
+### Output
+
+The structured result should identify:
+
+- which `SRP` path was edited
+- whether Structured Review Prompt semantics were normalized
+- whether review results, findings, dispositions, and residual risk are
+  truthful
+- any remaining blockers that should stop finish or require implementation
+  repair
+
+## `stp-editor`
+
+### Purpose
+
+`stp-editor` is the bounded helper skill for `stp.md`.
+
+It:
+
+- tightens goal, required outcome, acceptance criteria, and scope wording
+- removes placeholders and contradictory planning text
+- keeps the STP aligned with the source issue prompt
+- stops before SIP/SOR editing or lifecycle orchestration
+
+### When To Use It
+
+Use `stp-editor` when:
+
+- the STP is structurally weak or hard to execute from
+- acceptance criteria or validation wording need tightening
+- the blocker is card-local rather than workflow-orchestration state
+
+Do not use it for:
+
+- creating branches/worktrees
+- claiming execution results
+- rewriting SIP or SOR content
+
+### Required Inputs
+
+Minimum:
+
+- `repo_root`
+- `target.stp_path`
+
+Structured schema:
+
+- `adl/tools/skills/docs/STP_EDITOR_SKILL_INPUT_SCHEMA.md`
+- schema id: `stp_editor.v1`
+
+### Example Invocation
+
+```yaml
+Use $stp-editor at <repo-root>/adl/tools/skills/stp-editor/SKILL.md with this validated input:
+
+skill_input_schema: stp_editor.v1
+mode: tighten_for_review
+repo_root: <repo-root>
+target:
+  stp_path: .adl/v0.87.1/tasks/issue-1419__v0-87-1-tools-add-dedicated-card-editor-skills-for-stp-sip-and-sor-surfaces/stp.md
+  issue_number: 1419
+  source_prompt_path: .adl/v0.87.1/bodies/issue-1419-v0-87-1-tools-add-dedicated-card-editor-skills-for-stp-sip-and-sor-surfaces.md
+policy:
+  preserve_issue_intent: true
+  stop_after_edit: true
+  allow_scope_reframing: false
+```
+
+### Typical Uses
+
+- after `pr-init`, when the root STP exists but still needs qualitative cleanup
+- after review feedback that says the task scope or acceptance criteria are
+  unclear
+- before `pr-ready`, when the STP is the only thing preventing a clean
+  readiness pass
+
+### Caller Notes
+
+- `pr-init` may hand off here after mechanical bootstrap
+- `pr-ready` may hand off here when the issue is structurally fine but the STP
+  text is not
+- `pr-run` should only hand off here if STP wording drift is blocking correct
+  execution understanding
+
+## `sip-editor`
+
+### Purpose
+
+`sip-editor` is the bounded helper skill for `sip.md`.
+
+It:
+
+- normalizes truthful lifecycle state
+- fixes branch/worktree drift in the card
+- tightens target surfaces and validation-plan wording
+- stops before implementation or output-card authoring
+
+### When To Use It
+
+Use `sip-editor` when:
+
+- a SIP is blocking `pr-ready` or `pr-run`
+- the card reflects the wrong lifecycle phase
+- placeholders or stale execution assumptions need cleanup
+
+Do not use it for:
+
+- creating the branch/worktree itself
+- claiming finished work
+- writing the final output record
+
+### Required Inputs
+
+Minimum:
+
+- `repo_root`
+- `target.sip_path`
+
+Structured schema:
+
+- `adl/tools/skills/docs/SIP_EDITOR_SKILL_INPUT_SCHEMA.md`
+- schema id: `sip_editor.v1`
+
+### Example Invocation
+
+```yaml
+Use $sip-editor at <repo-root>/adl/tools/skills/sip-editor/SKILL.md with this validated input:
+
+skill_input_schema: sip_editor.v1
+mode: repair_lifecycle_drift
+repo_root: <repo-root>
+target:
+  sip_path: .adl/v0.87.1/tasks/issue-1419__v0-87-1-tools-add-dedicated-card-editor-skills-for-stp-sip-and-sor-surfaces/sip.md
+  issue_number: 1419
+  branch: codex/1419-v0-87-1-tools-add-dedicated-card-editor-skills-for-stp-sip-and-sor-surfaces
+  worktree_path: <repo-root>/.worktrees/adl-wp-<issue>
+  source_prompt_path: .adl/v0.87.1/bodies/issue-1419-v0-87-1-tools-add-dedicated-card-editor-skills-for-stp-sip-and-sor-surfaces.md
+policy:
+  lifecycle_state: run_bound
+  preserve_issue_intent: true
+  stop_after_edit: true
+```
+
+### Typical Uses
+
+- after `pr-init`, to convert a mechanically seeded SIP into truthful pre-run
+  state
+- during `pr-ready`, when the issue is ready except for card drift
+- during `pr-run`, when the worktree exists but the SIP still claims the wrong
+  branch, phase, or target surfaces
+
+### Caller Notes
+
+- `pr-init` can hand off here for truthful pre-run normalization
+- `pr-ready` should prefer this skill when the blocker is SIP truth, not repo
+  state
+- `pr-run` can use this to repair run-bound SIP drift, but should not widen
+  into STP or SOR editing from here
+
+## `sor-editor`
+
+### Purpose
+
+`sor-editor` is the bounded helper skill for `sor.md`.
+
+It:
+
+- normalizes truthful execution and integration wording
+- removes placeholders and enum-menu leakage
+- aligns validation claims with checks actually run
+- stops before PR publication or merge
+
+### When To Use It
+
+Use `sor-editor` when:
+
+- the output card is blocking `pr-finish`
+- the integration wording overstates branch/main/PR reality
+- validation claims need to be normalized to actual evidence
+
+Do not use it for:
+
+- inventing missing validation
+- merging or publishing the PR itself
+- widening issue scope
+
+### Required Inputs
+
+Minimum:
+
+- `repo_root`
+- `target.sor_path`
+
+Structured schema:
+
+- `adl/tools/skills/docs/SOR_EDITOR_SKILL_INPUT_SCHEMA.md`
+- schema id: `sor_editor.v1`
+
+### Example Invocation
+
+```yaml
+Use $sor-editor at <repo-root>/adl/tools/skills/sor-editor/SKILL.md with this validated input:
+
+skill_input_schema: sor_editor.v1
+mode: prepare_for_finish
+repo_root: <repo-root>
+target:
+  sor_path: .adl/v0.87.1/tasks/issue-1419__v0-87-1-tools-add-dedicated-card-editor-skills-for-stp-sip-and-sor-surfaces/sor.md
+  issue_number: 1419
+  branch: codex/1419-v0-87-1-tools-add-dedicated-card-editor-skills-for-stp-sip-and-sor-surfaces
+  worktree_path: <repo-root>/.worktrees/adl-wp-<issue>
+  pr_number: null
+evidence:
+  commands_run:
+    - bash adl/tools/test_card_editor_skill_contracts.sh
+  changed_paths:
+    - adl/tools/skills/stp-editor/SKILL.md
+    - adl/tools/skills/sip-editor/SKILL.md
+    - adl/tools/skills/sor-editor/SKILL.md
+policy:
+  integration_state: worktree_only
+  preserve_issue_intent: true
+  stop_after_edit: true
+```
+
+### Typical Uses
+
+- near the end of `pr-run`, when the execution record exists but is not yet
+  truthful enough for finish
+- during `pr-finish`, when publication is blocked by output-card wording rather
+  than actual branch state
+- after review comments that call out placeholders, wrong integration wording,
+  or validation overclaims
+
+### Caller Notes
+
+- `pr-run` should use this for truthful in-flight output-card cleanup
+- `pr-finish` should use this when the finish blocker is card truth and nothing
+  else
+- if the problem is missing validation evidence rather than wording, run the
+  missing validation first and only then come back to `sor-editor`
+
+## `repo-code-review`
+
+### Purpose
+
+`repo-code-review` performs a findings-first review of a repository or large
+slice of a repository.
+
+It is not a phase skill. It is a cross-cutting review tool.
+
+### When To Use It
+
+Use it when:
+
+- you want an internal review before third-party review
+- you want release-readiness or risk assessment
+- you want findings across code, config, manifests, tests, and large files
+
+Do not use it for:
+
+- implementation
+- issue bootstrap
+- PR execution
+- PR monitoring
+
+### Required Inputs
+
+Minimum:
+
+- `repo_root`
+- structured invocation should use `skill_input_schema: repo_code_review.v1`
+
+Optional:
+
+- `target_path`
+- `branch`
+- `diff_base`
+- `changed_paths`
+- `review_depth`
+
+### Input Schema
+
+Canonical schema:
+
+- `adl/tools/skills/docs/REPO_CODE_REVIEW_SKILL_INPUT_SCHEMA.md`
+
+Schema id:
+
+- `repo_code_review.v1`
+
+Structured invocation shape:
+
+```yaml
+skill_input_schema: repo_code_review.v1
+mode: review_repository | review_path | review_branch | review_diff
+repo_root: /absolute/path
+target:
+  target_path: <path or null>
+  branch: <string or null>
+  diff_base: <string or null>
+  changed_paths:
+    - <path>
+policy:
+  review_depth: quick | standard | deep
+  include_generated_code: true | false
+  write_review_artifact: true | false
+  stop_after_review: true
+```
+
+### Review Standard
+
+The review must cover:
+
+- executable code first
+- top-level manifests and dependency/build config
+- tests around risky surfaces
+- lower-severity but real issues such as diagnostics drift, path leaks,
+  portability hazards, and overlarge files
+
+### Output And Stop Boundary
+
+Expected output includes:
+
+- findings
+- assumptions
+- coverage summary
+- validation performed
+- `manifest_and_config_reviewed`
+
+This skill is findings-only and must not edit code.
+
+### Example Invocation
+
+```yaml
+Use $repo-code-review at <repo-root>/adl/tools/skills/repo-code-review/SKILL.md with:
+skill_input_schema: repo_code_review.v1
+mode: review_repository
+repo_root: <repo-root>
+target:
+  target_path: null
+  branch: null
+  diff_base: null
+  changed_paths: []
+policy:
+  review_depth: standard
+  include_generated_code: false
+  write_review_artifact: true
+  stop_after_review: true
+Review the executable codebase first, include manifests and build configuration, run targeted local tests only when bounded and relevant, and write the review to .adl/reviews/<timestamp>-repo-review.md.
+```
+
+## `test-generator`
+
+### Purpose
+
+`test-generator` writes or updates focused tests for one concrete target surface.
+
+It is a bounded helper skill, not a lifecycle phase.
+
+### When To Use It
+
+Use it when:
+
+- a concrete issue, diff, path, or worktree needs focused tests
+- a review comment asks for missing tests
+- one bounded regression, edge case, or failure path needs test backfill
+
+Do not use it for:
+
+- broad implementation work
+- vague repo-wide testing strategy
+- PR publication or janitoring
+
+### Required Inputs
+
+Minimum:
+
+- `repo_root`
+- structured invocation should use `skill_input_schema: test_generator.v1`
+- one of:
+  - `target.issue_number`
+  - `target.diff_base`
+  - `target.target_path`
+  - `target.worktree_path`
+
+### Input Schema
+
+Canonical schema:
+
+- `${CSDLC_SKILL_CONTRACT_ROOT}/docs/TEST_GENERATOR_SKILL_INPUT_SCHEMA.md`
+
+Schema id:
+
+- `test_generator.v1`
+
+Structured invocation shape:
+
+```yaml
+skill_input_schema: test_generator.v1
+mode: generate_for_issue | generate_for_diff | generate_for_path | generate_for_worktree
+repo_root: /absolute/path
+target:
+  issue_number: <u32 or null>
+  diff_base: <string or null>
+  target_path: <path or null>
+  worktree_path: <path or null>
+  changed_paths:
+    - <path>
+  target_behavior: <string or null>
+policy:
+  test_depth: focused | moderate
+  allow_new_test_files: true | false
+  allow_fixture_updates: true | false
+  validation_mode: targeted | dry_run | none
+  stop_after_generation: true
+```
+
+### Output And Stop Boundary
+
+Expected output includes:
+
+- target
+- test plan
+- changes made
+- validation performed
+- residual risk
+
+The skill may write tests, fixtures, snapshots, and narrowly related test helpers.
+It must stop before broader implementation, janitoring, or finish.
+
+### Example Invocation
+
+```yaml
+Use $test-generator at ${CSDLC_SKILL_CONTRACT_ROOT}/test-generator/SKILL.md with:
+skill_input_schema: test_generator.v1
+mode: generate_for_issue
+repo_root: <repo-root>
+target:
+  issue_number: 1769
+  diff_base: null
+  target_path: null
+  worktree_path: null
+  changed_paths:
+    - adl/src/provider.rs
+  target_behavior: split-provider-refactor-keeps-provider-tests-bounded
+policy:
+  test_depth: focused
+  allow_new_test_files: true
+  allow_fixture_updates: true
+  validation_mode: targeted
+  stop_after_generation: true
+Generate the smallest truthful test surface for the concrete target and stop after bounded test-writing work.
+```
+
+## `demo-operator`
+
+### Purpose
+
+`demo-operator` runs one named demo in a bounded way and classifies the result as proving, non-proving, skipped, or failed.
+
+It is a bounded helper skill, not a lifecycle phase.
+
+### When To Use It
+
+Use it when:
+
+- one named demo should be executed consistently
+- the operator wants a reviewable proof classification artifact
+- the demo outcome should be recorded without ad hoc explanation
+
+Do not use it for:
+
+- implementing or rewriting the demo itself
+- release-evidence package assembly
+- broad milestone closeout
+
+### Required Inputs
+
+Minimum:
+
+- `repo_root`
+- structured invocation should use `skill_input_schema: demo_operator.v1`
+- one of:
+  - `target.demo_name`
+  - `target.demo_command`
+  - `target.demo_doc_path`
+
+### Input Schema
+
+Canonical schema:
+
+- `${CSDLC_SKILL_CONTRACT_ROOT}/docs/DEMO_OPERATOR_SKILL_INPUT_SCHEMA.md`
+
+Schema id:
+
+- `demo_operator.v1`
+
+Structured invocation shape:
+
+```yaml
+skill_input_schema: demo_operator.v1
+mode: operate_named_demo | operate_demo_command | operate_demo_doc
+repo_root: /absolute/path
+target:
+  demo_name: <string or null>
+  demo_command: <string or null>
+  demo_doc_path: <path or null>
+  artifact_root: <path or null>
+  expected_artifacts:
+    - <path>
+policy:
+  classification_mode: strict | standard
+  allow_live_provider: true | false
+  validation_mode: dry_run | bounded_live | none
+  stop_after_operation: true
+```
+
+### Output And Stop Boundary
+
+Expected output includes:
+
+- target
+- prerequisites
+- execution
+- classification
+- follow-up
+
+The skill may run one bounded demo surface and write one artifact.
+It must stop before demo implementation, release-evidence assembly, or unrelated cleanup.
+
+### Example Invocation
+
+This historical Gemma example now belongs to the Cognitive-SDLC owner checkout.
+Resolve `repo_root` there before using the relative command; the ADL source
+command was retired by #1223. The example does not authorize a live model run.
+
+```yaml
+Use $demo-operator at ${CSDLC_SKILL_CONTRACT_ROOT}/demo-operator/SKILL.md with:
+skill_input_schema: demo_operator.v1
+mode: operate_named_demo
+repo_root: <cognitive-sdlc-owner-root>
+target:
+  demo_name: gemma4_issue_clerk
+  demo_command: bash adl/tools/demo_v089_gemma4_issue_clerk.sh --dry-run
+  demo_doc_path: demos/v0.89/gemma4_issue_clerk_demo.md
+  artifact_root: null
+  expected_artifacts:
+    - artifacts/v089/gemma4_issue_clerk/demo_manifest.json
+policy:
+  classification_mode: strict
+  allow_live_provider: false
+  validation_mode: dry_run
+  stop_after_operation: true
+Run the named demo in a bounded way, classify the result, and stop.
+```
+
+## `release-evidence`
+
+### Purpose
+
+`release-evidence` assembles one milestone release-evidence packet from existing
+issue, PR, demo, proof, review, remediation, validation, non-claim, and
+residual-risk records.
+
+It is an evidence packaging helper, not a release authority.
+
+### When To Use It
+
+Use it when:
+
+- a milestone needs one reviewable release proof surface
+- internal or external review needs issue, PR, demo, review, remediation, and validation evidence in one place
+- release closeout preparation needs explicit non-claims and residual risks
+
+Do not use it for:
+
+- release approval or release ceremony decisions
+- PR merge, issue closure, tag creation, or publication
+- demo execution or remediation implementation
+
+### Required Inputs
+
+Minimum:
+
+- `milestone`
+- structured invocation should use `skill_input_schema: release_evidence.v1`
+- `evidence.milestone_root`
+- `policy.stop_before_release_approval: true`
+- `policy.stop_before_mutation: true`
+
+### Input Schema
+
+Canonical schema:
+
+- `${CSDLC_SKILL_CONTRACT_ROOT}/docs/RELEASE_EVIDENCE_SKILL_INPUT_SCHEMA.md`
+
+Schema id:
+
+- `release_evidence.v1`
+
+Structured invocation shape:
+
+```yaml
+skill_input_schema: release_evidence.v1
+mode: assemble_milestone_evidence
+milestone: v0.90.2
+evidence:
+  milestone_root: docs/milestones/v0.90.2
+  review_roots:
+    - .adl/reviews/v0.90.2/internal-review
+  demo_roots:
+    - artifacts/v0.90.2
+policy:
+  write_evidence_artifact: true
+  include_open_issues: true
+  require_review_records: true
+  require_validation_commands: true
+  stop_before_release_approval: true
+  stop_before_mutation: true
+```
+
+### Output And Stop Boundary
+
+Expected output includes:
+
+- ready, partial, blocked, or not-run classification
+- evidence families and source paths
+- blocking or partial evidence
+- non-claims
+- residual risks
+- validation commands
+- safety flags
+
+The skill may write a Markdown and JSON evidence artifact. It must stop before
+release approval, publication, tag creation, PR merge, issue closure, demo
+execution, or remediation.
+
+## `arxiv-paper-writer`
+
+This resource family is owned by Runtime. Select the reviewed Runtime checkout
+with `ADL_ARXIV_SKILL_SOURCE_ROOT`; the retained ADL contract test verifies all
+six resource hashes before checking the original assertions with the shared ADL
+frontmatter validator. This is source-resource proof, not installed drafting or
+arXiv submission acceptance. The full-layout installer retains its separate
+`ADL_OPERATIONAL_SKILLS_SOURCE_ROOT` input and original bundle assertions.
+
+
+### Purpose
+
+`arxiv-paper-writer` drafts or reviews one arXiv-style manuscript packet from a
+bounded scholarly source packet.
+
+It is a bounded helper skill, not a publication or literature-search workflow.
+
+### When To Use It
+
+Use it when:
+
+- a concrete source packet should become a manuscript outline, abstract, section
+  draft, full packet, citation-gap report, or claim-boundary report
+- the operator wants source-backed scholarly drafting with explicit citation and
+  claim guardrails
+- the output should stop before arXiv submission or publication
+
+Do not use it for:
+
+- arXiv submission
+- live literature search or citation harvesting
+- inventing citations, author details, benchmark results, or novelty claims
+- broad research planning without a concrete source packet
+
+### Required Inputs
+
+Minimum:
+
+- `repo_root`
+- structured invocation should use `skill_input_schema: arxiv_paper_writer.v1`
+- one of:
+  - `target.source_packet_path`
+  - `target.source_packet_text`
+  - `target.demo_doc_path`
+
+### Input Schema
+
+Canonical schema:
+
+- `$ADL_ARXIV_SKILL_SOURCE_ROOT/adl/tools/skills/docs/ARXIV_PAPER_WRITER_SKILL_INPUT_SCHEMA.md`
+
+Schema id:
+
+- `arxiv_paper_writer.v1`
+
+Structured invocation shape:
+
+```yaml
+skill_input_schema: arxiv_paper_writer.v1
+mode: draft_from_source_packet | draft_section | review_claims_and_citations | revise_from_review_notes
+repo_root: /absolute/path
+target:
+  source_packet_path: <path or null>
+  source_packet_text: <string or null>
+  demo_doc_path: <path or null>
+  review_notes_path: <path or null>
+  artifact_root: <path or null>
+  paper_title: <string or null>
+  paper_domain: <string or null>
+  target_sections:
+    - <section name>
+  known_citations:
+    - <citation supplied by the source packet>
+  forbidden_claims:
+    - <string>
+  author_approval_state: unknown | draft_reviewed | approved_for_submission
+policy:
+  citation_policy: source_packet_only | mark_gaps
+  claim_policy: strict_source_bound | mark_unsupported
+  validation_mode: artifact_only | demo_aligned | none
+  stop_before_submission: true
+```
+
+### Output And Stop Boundary
+
+Expected output includes:
+
+- target source packet
+- manuscript packet contents
+- claim-boundary report
+- citation-gap report
+- submission boundary
+- follow-up recommendation
+
+The skill may write one bounded manuscript or review artifact.
+It must stop before submission, publication, author approval claims, or
+unbounded research.
+
+### Example Invocation
+
+```yaml
+Use $arxiv-paper-writer at <selected-runtime-root>/adl/tools/skills/arxiv-paper-writer/SKILL.md with:
+skill_input_schema: arxiv_paper_writer.v1
+mode: draft_from_source_packet
+repo_root: <repo-root>
+target:
+  source_packet_path: demos/v0.89.1/arxiv_manuscript_workflow_demo.md
+  source_packet_text: null
+  demo_doc_path: demos/v0.89.1/arxiv_manuscript_workflow_demo.md
+  review_notes_path: null
+  artifact_root: null
+  paper_title: Agent Design Language manuscript packet
+  paper_domain: agentic software engineering
+  target_sections:
+    - abstract
+    - introduction
+    - limitations
+  known_citations: []
+  forbidden_claims:
+    - submitted to arXiv
+    - peer reviewed
+    - benchmark superiority without evidence
+  author_approval_state: unknown
+policy:
+  citation_policy: mark_gaps
+  claim_policy: mark_unsupported
+  validation_mode: artifact_only
+  stop_before_submission: true
+Draft the bounded packet, surface citation and claim gaps, and stop before submission.
+```
+
+## `diagram-author`
+
+### Purpose
+
+`diagram-author` creates or revises one source-grounded diagram packet from a
+bounded brief, issue, code slice, doc packet, or review surface.
+
+It is a bounded helper skill for diagram-as-code and model-as-code work, not a
+general architecture approval workflow.
+
+### When To Use It
+
+Use it when:
+
+- a source packet should become a Mermaid, D2, PlantUML, Structurizr DSL, or
+  markdown-outline diagram packet
+- the operator needs a diagram type/backend recommendation before drawing
+- the output should preserve assumptions, unknowns, and render instructions
+- the diagram should be reviewable as text before publication or rendering
+- local renderers should produce SVG or PNG artifacts without uploading to an
+  external service
+
+Do not use it for:
+
+- inventing architecture, data flow, dependencies, or runtime behavior
+- treating UML as the default when a simpler diagram communicates better
+- publishing diagrams to external platforms without separate approval
+- replacing architecture, security, or implementation review
+
+### Required Inputs
+
+Minimum:
+
+- `repo_root`
+- structured invocation should use `skill_input_schema: diagram_author.v1`
+- one of:
+  - `target.source_packet_path`
+  - `target.source_packet_text`
+  - `target.issue_number`
+  - `target.code_path`
+  - `target.doc_path`
+
+### Input Schema
+
+Canonical schema:
+
+- `adl/tools/skills/docs/DIAGRAM_AUTHOR_SKILL_INPUT_SCHEMA.md`
+
+Schema id:
+
+- `diagram_author.v1`
+
+Structured invocation shape:
+
+```yaml
+skill_input_schema: diagram_author.v1
+mode: draft_from_source_packet | draft_from_issue | draft_from_code | review_or_revise_diagram
+repo_root: /absolute/path
+target:
+  source_packet_path: <path or null>
+  source_packet_text: <string or null>
+  issue_number: <integer or null>
+  code_path: <path or null>
+  doc_path: <path or null>
+  diagram_path: <path or null>
+  artifact_root: <path or null>
+  diagram_goal: explain | prove | compare | debug | document | review | unknown
+  audience: engineer | reviewer | user | stakeholder | unknown
+  preferred_backend: mermaid | d2 | plantuml | structurizr | auto
+  required_diagram_family: flowchart | sequence | state | dependency | data_flow | c4 | uml | concept_map | auto
+  forbidden_assumptions:
+    - <string>
+policy:
+  backend_policy: auto_select | prefer_requested | require_requested
+  truth_policy: strict_source_bound | mark_assumptions
+  render_policy: source_only | render_if_tool_available | render_required
+  validation_mode: syntax_only | render_check | artifact_only | none
+  output_formats:
+    - svg
+    - png
+  stop_before_publication: true
+```
+
+### Output And Stop Boundary
+
+Expected output includes:
+
+- target source packet or issue/code/doc surface
+- selected diagram family and backend
+- diagram source or a markdown outline when evidence is insufficient
+- rendered SVG/PNG artifacts when rendering is requested and tools are present
+- assumptions and unknowns
+- render/validation instructions
+- publication boundary
+- follow-up recommendation
+
+The skill may write one bounded diagram packet, diagram source artifact, or
+rendered local artifact packet. Use `adl/tools/skills/diagram-author/scripts/render_diagrams.sh`
+for SVG/PNG generation. Prefer Mermaid when the diagram needs to render inline
+in GitHub, PRs, issues, docs, or Codex chat. Prefer SVG as the durable rendered
+asset and PNG only for raster-only consumers.
+Use `adl/tools/skills/diagram-author/references/renderer-setup.md` for local
+renderer installation, browser-cache handling, sandbox caveats, and Rust-native
+renderer follow-up options.
+It must stop before external publication, broad architecture redesign, or
+unsupported visual claims.
+
+### Example Invocation
+
+```yaml
+Use $diagram-author at <repo-root>/adl/tools/skills/diagram-author/SKILL.md with:
+skill_input_schema: diagram_author.v1
+mode: draft_from_issue
+repo_root: <repo-root>
+target:
+  source_packet_path: null
+  source_packet_text: null
+  issue_number: 2041
+  code_path: null
+  doc_path: null
+  diagram_path: null
+  artifact_root: .adl/reviews
+  diagram_goal: document
+  audience: engineer
+  preferred_backend: auto
+  required_diagram_family: auto
+  forbidden_assumptions:
+    - hidden runtime behavior
+policy:
+  backend_policy: auto_select
+  truth_policy: mark_assumptions
+  render_policy: render_if_tool_available
+  validation_mode: render_check
+  output_formats:
+    - svg
+  stop_before_publication: true
+Create the bounded diagram packet, explain backend choice, and stop before publication.
+```
+
+## Choosing The Right Skill
+
+Use this quick selector:
+
+- need to create or initialize the issue and root bundle:
+  - `pr-init`
+- need to check whether the issue is structurally ready:
+  - `pr-ready`
+- need to actually execute the issue work:
+  - `pr-run`
+- need to monitor or remediate an in-flight PR:
+  - `pr-janitor`
+- need to finalize closeout/publication:
+  - `pr-finish`
+- need to write focused regression or edge-case tests for one concrete target:
+  - `test-generator`
+- need to run one named demo and classify the proof result:
+  - `demo-operator`
+- need to assemble milestone release proof surfaces:
+  - `release-evidence`
+- need to finalize local issue state after merge/closure:
+  - `pr-closeout`
+- need to classify whether an issue should close as duplicate, superseded, absorbed, already satisfied, or obsolete work:
+  - `issue-folding`
+- need to decide whether one issue should stay intact or split into follow-on work:
+  - `issue-splitter`
+- need to clean drifted lifecycle records before closeout or janitor handoff:
+  - `records-hygiene`
+- need to inspect stacked PR topology or stale branch bases:
+  - `pr-stack-manager`
+- need to classify PR review comments before implementation:
+  - `review-comment-triage`
+- need to preflight review packets before a formal review cycle:
+  - `review-readiness-cleanup`
+- need to detect machine-local assumptions in bounded contract surfaces:
+  - `portable-contract-normalizer`
+- need a broad findings-first code review:
+  - `repo-code-review`
+- need source-backed arXiv-style manuscript drafting or citation-gap review:
+  - `arxiv-paper-writer`
+
+## Common Failure Modes
+
+The most common mistakes are:
+
+- using `pr-run` before `pr-init`
+- treating preflight as the same thing as structural readiness
+- skipping doctor JSON and going straight to manual inspection
+- letting `pr-janitor` expand into broad new implementation
+- using loose prose instead of a validated structured input object
+
+## Recommended Default Chain
+
+For a standard issue lifecycle:
+
+1. run `pr-init`
+2. perform qualitative STP/SIP review
+3. run `pr-ready`
+4. run `pr-run`
+5. run `pr-finish` for truthful closeout/publication and draft-PR preparation
+6. run `pr-janitor` as needed while the PR is in flight
+7. run `pr-closeout` after the PR outcome or explicit non-PR closure disposition is settled
+
+For repo-wide review:
+
+1. run `repo-code-review`
+2. turn findings into issue work or follow-up PRs
+
+## Complete Skill Documentation Matrix
+
+Every first-class skill bundle must have a documented disposition for five
+surfaces:
+
+- `SKILL.md`: Codex-facing trigger and operating instructions
+- `adl-skill.yaml`: machine-readable admission and boundary contract
+- input schema: `adl/tools/skills/docs/<SKILL>_SKILL_INPUT_SCHEMA.md`
+- output contract: `references/output-contract.md` or an explicitly named
+  equivalent
+- install verification: covered by `test_install_adl_operational_skills.sh`
+
+| Skill | Input Schema | Output Contract | Primary Stop Boundary |
+| --- | --- | --- | --- |
+| `adr-curator` | `ADR_CURATOR_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | ADR candidate drafting only |
+| `architecture-diagram-reviewer` | `ARCHITECTURE_DIAGRAM_REVIEWER_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | diagram review only |
+| `architecture-fitness-function-author` | `ARCHITECTURE_FITNESS_FUNCTION_AUTHOR_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | fitness-function plan only |
+| `arxiv-paper-writer` | `ARXIV_PAPER_WRITER_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | manuscript packet only |
+| `demo-operator` | `DEMO_OPERATOR_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | one demo operation |
+| `diagram-author` | `DIAGRAM_AUTHOR_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | local diagram packet only |
+| `documentation-specialist` | `DOCUMENTATION_SPECIALIST_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | bounded docs write, audit, or handoff |
+| `finding-to-issue-planner` | `FINDING_TO_ISSUE_PLANNER_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | issue candidates only |
+| `gap-analysis` | `GAP_ANALYSIS_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | gap report only |
+| `issue-folding` | `ISSUE_FOLDING_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | issue disposition classification only |
+| `issue-splitter` | `ISSUE_SPLITTER_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | issue split planning only |
+| `medium-article-writer` (Runtime owner source) | `MEDIUM_ARTICLE_WRITER_SKILL_INPUT_SCHEMA.md` (owner source) | `references/output-contract.md` | article packet only |
+| `portable-contract-normalizer` | `PORTABLE_CONTRACT_NORMALIZER_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | bounded portability scan or explicit safe normalization only |
+| `pr-closeout` | `PR_CLOSEOUT_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | local closeout only |
+| `pr-finish` | `PR_FINISH_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | PR publication/update only |
+| `pr-init` | `PR_INIT_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | issue bootstrap only |
+| `pr-janitor` | `PR_JANITOR_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | in-flight PR monitoring or bounded repair |
+| `pr-ready` | `PR_READY_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | readiness diagnosis only |
+| `pr-run` | `PR_RUN_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | bounded issue execution only |
+| `pr-stack-manager` | `PR_STACK_MANAGER_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | stack topology analysis or bounded stack plan only |
+| `product-report-writer` | `PRODUCT_REPORT_WRITER_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | product report packet only |
+| `redaction-and-evidence-auditor` | `REDACTION_AND_EVIDENCE_AUDITOR_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | safety audit only |
+| `release-evidence` | `RELEASE_EVIDENCE_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | release evidence packet only |
+| `review-comment-triage` | `REVIEW_COMMENT_TRIAGE_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | review-comment triage only |
+| `review-readiness-cleanup` | `REVIEW_READINESS_CLEANUP_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | review readiness cleanup classification only |
+| `refactoring-helper` | `REFACTORING_HELPER_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | refactor plan only |
+| `repo-architecture-review` | `REPO_ARCHITECTURE_REVIEW_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | architecture findings only |
+| `repo-code-review` | `REPO_CODE_REVIEW_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | findings-first code review only |
+| `repo-dependency-review` | `REPO_DEPENDENCY_REVIEW_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | dependency findings only |
+| `repo-diagram-planner` | `REPO_DIAGRAM_PLANNER_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | diagram briefs only |
+| `repo-packet-builder` | `REPO_PACKET_BUILDER_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | review packet construction only |
+| `repo-review-code` | `REPO_REVIEW_CODE_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | code/correctness findings only |
+| `repo-review-docs` | `REPO_REVIEW_DOCS_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | docs findings only |
+| `repo-review-security` | `REPO_REVIEW_SECURITY_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | security findings only |
+| `repo-review-synthesis` | `REPO_REVIEW_SYNTHESIS_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | severity-preserving synthesis only |
+| `repo-review-tests` | `REPO_REVIEW_TESTS_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | test-quality findings only |
+| `records-hygiene` | `RECORDS_HYGIENE_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | hygiene findings and follow-on recommendations only |
+| `review-quality-evaluator` | `REVIEW_QUALITY_EVALUATOR_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | review-quality evaluation only |
+| `review-to-test-planner` | `REVIEW_TO_TEST_PLANNER_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | test-generation handoff plan only |
+| `spp-editor` | `SPP_EDITOR_SKILL_INPUT_SCHEMA.md` | card-editor shared contract | SPP normalization only |
+| `srp-editor` | `SRP_EDITOR_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | SRP review truth normalization only |
+| `sip-editor` | `SIP_EDITOR_SKILL_INPUT_SCHEMA.md` | card-editor shared contract | SIP normalization only |
+| `sor-editor` | `SOR_EDITOR_SKILL_INPUT_SCHEMA.md` | card-editor shared contract | SOR normalization only |
+| `stp-editor` | `STP_EDITOR_SKILL_INPUT_SCHEMA.md` | card-editor shared contract | STP normalization only |
+| `test-generator` | `TEST_GENERATOR_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | focused test generation only |
+| `use-case-writer` | `USE_CASE_WRITER_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | use-case packet only |
+| native v3 lifecycle | `csdlc doctor` output | typed request contracts | route one bounded lifecycle operation |
+
+The card-editor skills share the contract coverage in
+`adl/tools/test_card_editor_skill_contracts.sh`; they do not each need a
+separate output-contract file unless their output model diverges.
+
+The `repo-review-code`, `repo-review-docs`, `repo-review-security`,
+`repo-review-synthesis`, and `repo-review-tests` specialist contracts are
+checked together by
+`adl/tools/test_multi_agent_repo_review_specialist_skill_contracts.sh`.
+
+The retired `adl/tools/test_skill_documentation_completeness.sh` is preserved in
+retirement custody as a historical monorepo-layout fixture. The [historical disposition](../../../../docs/milestones/v0.93.1/repository-decomposition/rd07-1223/SKILL_COMPLETENESS_HISTORICAL_DISPOSITION.json)
+preserves all 51 skill families and 205 inputs, including the missing Sprint
+Review schema; it does not record a full completeness pass. Each current skill
+owner must verify its declared inventory, manifests, schemas, output contracts,
+guide coverage, and installation contract against its own layout. Preserve
+explicit shared-contract exceptions and unresolved inputs; individual transferred
+resource checks do not establish complete owner coverage.
+
+## Historical original-layout diff recipe
+
+The original monorepo documentation contract requires this exact recipe. It is
+retained as historical evidence only; the source directory has been retired. Use
+the explicit authenticated owner resource comparison above for current copies.
+
+```bash
+# Historical only; not executable against the split ADL checkout.
+diff -qr adl/tools/skills/test-generator "$CODEX_HOME/skills/test-generator"
+```

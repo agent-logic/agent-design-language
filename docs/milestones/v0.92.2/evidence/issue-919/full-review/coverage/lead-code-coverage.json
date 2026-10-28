@@ -1,0 +1,72 @@
+[
+  {
+    "path": "adl/src/adl/types.rs",
+    "scope": "changed_hunks",
+    "observation": "ProviderSpec extraction preserves re-export API; target provider module owned by provider lane.",
+    "reviewer": "lead",
+    "findings": []
+  },
+  {
+    "path": "adl/src/adl/validation.rs",
+    "scope": "changed_hunks",
+    "observation": "MLX admitted alongside existing adapter classes; detailed capability validation remains provider-owned.",
+    "reviewer": "lead",
+    "findings": []
+  },
+  {
+    "path": "adl/src/cli/mod.rs",
+    "scope": "changed_hunks",
+    "observation": "CF dispatch and explicit FitnessExit downcast preserve outcome exit status; no issue in changed routing.",
+    "reviewer": "lead",
+    "findings": []
+  },
+  {
+    "path": "adl/src/cli/usage.rs",
+    "scope": "changed_hunks",
+    "observation": "CF command documentation additions are usage only; actual routes independently reviewed.",
+    "reviewer": "lead",
+    "findings": []
+  },
+  {
+    "path": "adl/src/lib.rs",
+    "scope": "changed_hunks",
+    "observation": "Adds CF module export; no behavior beyond module linkage.",
+    "reviewer": "lead",
+    "findings": []
+  },
+  {
+    "path": "adl/src/cli/observability.rs",
+    "scope": "changed_hunks_plus_append_to_otel_log",
+    "observation": "Synchronous receipt combines append and status update; status failure propagates, receipt not mutable snapshot; concurrent replacement regression meaningful.",
+    "reviewer": "lead",
+    "findings": []
+  },
+  {
+    "path": "adl/src/cli/process_cmd.rs",
+    "scope": "changed_hunks_plus_production",
+    "observation": "Parser moved into args with same classification caller; production read through285; bounded PID file and loopback probes preserve behavior.",
+    "reviewer": "lead",
+    "findings": []
+  },
+  {
+    "path": "adl/src/cli/process_cmd/args.rs",
+    "scope": "full_source",
+    "observation": "Full313lines; discriminant conflict retains repeated same-kind last-value semantics, final host applied irrespective option order; tests exercise malformed/conflicting boundaries.",
+    "reviewer": "lead",
+    "findings": []
+  },
+  {
+    "path": "adl-uts/src/lib.rs",
+    "scope": "full_production_and_changed_tests",
+    "observation": "Extraction compared to prior adl/src/uts.rs; added loader validates before normalization, unknown versions fail. Production1-795 reviewed; existing tests not newly rerun.",
+    "reviewer": "lead",
+    "findings": []
+  },
+  {
+    "path": "adl/src/uts.rs",
+    "scope": "extraction_comparison",
+    "observation": "Compatibility re-export of canonical adl_uts; underlying version handling inspected.",
+    "reviewer": "lead",
+    "findings": []
+  }
+]

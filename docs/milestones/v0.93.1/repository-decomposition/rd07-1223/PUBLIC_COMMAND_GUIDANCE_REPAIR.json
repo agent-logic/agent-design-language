@@ -1,0 +1,24 @@
+{
+  "schema": "adl.rd07.command-guidance-repair.v1",
+  "proposed_action": "retain_public_source_or_fixture",
+  "reason": "Retain current ADL native-authority guidance protection after private product source transfer.",
+  "changes": [
+    "Remove only1292/1293/1308/1322 obsolete producer references from both arrays.",
+    "Use actual public_dispatch.rs entrypoint while retaining dynamic tracked CLI discovery.",
+    "Preserve every forbidden pattern and required native command.",
+    "Missing retained surface now explicitly fails before rg."
+  ],
+  "validation": {
+    "command": "bash adl/tools/test_cli_owner_command_guidance.sh",
+    "result": "PASS",
+    "scope": "Source-guidance contract only; no lifecycle execution."
+  },
+  "reviewer": "review_1223_public_facade",
+  "required_before_retirement": [
+    "Retain guard and public guidance producers."
+  ],
+  "row": "RD07-1931",
+  "path": "adl/tools/test_cli_owner_command_guidance.sh",
+  "source_sha256": "60163415ed2a5d86401826d6cd2628f735a394f62dd9740ddcbc7fc21b8881a1",
+  "execution_authorized": false
+}

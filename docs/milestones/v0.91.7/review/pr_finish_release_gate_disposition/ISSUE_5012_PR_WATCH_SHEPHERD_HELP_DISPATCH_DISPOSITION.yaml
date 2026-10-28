@@ -1,0 +1,25 @@
+schema_version: adl.release_gate_disposition.v1
+issue: 5012
+decision: publishable_with_focused_local_proof_and_required_ci_before_merge
+reviewer_or_review_mode: pre_pr_subagent_review_plus_focused_local_tooling_validation
+changed_release_gate_surfaces:
+  - adl/src/cli/pr_cmd.rs
+  - adl/src/cli/tests/pr_cmd_inline/basics.rs
+focused_validation_run: >
+  Focused local proof passed after review and rebase: cargo fmt
+  --manifest-path adl/Cargo.toml; cargo test --manifest-path adl/Cargo.toml
+  --bin adl cli::pr_cmd::tests::basics::real_pr_dispatch_rejects_missing_and_unknown_subcommands
+  -- --exact --nocapture; cargo build --manifest-path adl/Cargo.toml
+  --bin adl; direct adl pr watch/shepherd --help and help checks; missing
+  issue-number negative checks for watch and shepherd; bash adl/tools/pr.sh
+  watch/shepherd --help wrapper checks; SRP and SOR structured prompt
+  validation; git diff --check.
+residual_ci_proof_required_before_merge: >
+  GitHub PR checks must pass before merge. If adl-ci, coverage, or validation
+  manager checks fail, route the PR to pr-janitor and keep the watcher/shepherd
+  tail attached until the failed check is resolved or an operator-approved
+  blocker is recorded.
+notes:
+  - This issue changes PR lifecycle command dispatch and therefore triggers the slow PR-command release-gate posture.
+  - The disposition is scoped to help dispatch for adl pr watch and adl pr shepherd, preserving normal missing issue-number failures.
+  - A broad cargo test attempt initially failed because the issue worktree target directory exhausted local disk; the generated target directory was removed and focused proof was rerun successfully.

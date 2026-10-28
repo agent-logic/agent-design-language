@@ -1,0 +1,110 @@
+{
+  "candidate": "5c4a6149771c637f3c805985b86231077965eab4",
+  "counts": {
+    "packet": 11,
+    "frozen_candidate": 9
+  },
+  "rows": [
+    {
+      "ref": "lanes/docs-report.md",
+      "criterion_reference_count": 111,
+      "resolution": "packet"
+    },
+    {
+      "ref": "lanes/tests-report.md",
+      "criterion_reference_count": 106,
+      "resolution": "packet"
+    },
+    {
+      "ref": "lanes/lead-code-coverage.json",
+      "criterion_reference_count": 28,
+      "resolution": "packet"
+    },
+    {
+      "ref": "lanes/code-report.md",
+      "criterion_reference_count": 78,
+      "resolution": "packet"
+    },
+    {
+      "ref": "lanes/website-test-proof.json",
+      "criterion_reference_count": 78,
+      "resolution": "packet"
+    },
+    {
+      "ref": "adl/tests/codefriend_ux.rs",
+      "criterion_reference_count": 5,
+      "resolution": "frozen_candidate"
+    },
+    {
+      "ref": "adl/tests/codefriend_integration.rs",
+      "criterion_reference_count": 5,
+      "resolution": "frozen_candidate"
+    },
+    {
+      "ref": "lanes/demos-artifacts/verification.json",
+      "criterion_reference_count": 12,
+      "resolution": "packet"
+    },
+    {
+      "ref": "coverage/tests-coverage.json",
+      "criterion_reference_count": 12,
+      "resolution": "packet"
+    },
+    {
+      "ref": "docs/milestones/v0.92.2/DEMO_MATRIX_v0.92.2.md",
+      "criterion_reference_count": 23,
+      "resolution": "frozen_candidate"
+    },
+    {
+      "ref": "docs/milestones/v0.92.2/evidence/issue-916/POSTMERGE_VERIFICATION.json",
+      "criterion_reference_count": 49,
+      "resolution": "frozen_candidate"
+    },
+    {
+      "ref": "docs/milestones/v0.92.2/evidence/issue-918/PUBLICATION_MANIFEST.json",
+      "criterion_reference_count": 52,
+      "resolution": "frozen_candidate"
+    },
+    {
+      "ref": "docs/milestones/v0.92.2/evidence/issue-916/PREREQUISITE_ACCEPTANCE.json",
+      "criterion_reference_count": 135,
+      "resolution": "frozen_candidate"
+    },
+    {
+      "ref": "docs/milestones/v0.92.2/evidence/issue-916/SPRINT10_DEFERRAL.json",
+      "criterion_reference_count": 13,
+      "resolution": "frozen_candidate"
+    },
+    {
+      "ref": "lanes/provider-report.md",
+      "criterion_reference_count": 59,
+      "resolution": "packet"
+    },
+    {
+      "ref": "lanes/adr-report.md",
+      "criterion_reference_count": 11,
+      "resolution": "packet"
+    },
+    {
+      "ref": "lanes/adr-coverage.json",
+      "criterion_reference_count": 11,
+      "resolution": "packet"
+    },
+    {
+      "ref": "lanes/architecture-report.md",
+      "criterion_reference_count": 83,
+      "resolution": "packet"
+    },
+    {
+      "ref": "docs/milestones/v0.92.2/evidence/issue-916/PRODUCER_SCOPE_AUDIT.md",
+      "criterion_reference_count": 38,
+      "resolution": "frozen_candidate"
+    },
+    {
+      "ref": "docs/milestones/v0.92.2/evidence/issue-916/QUALITY_DECISION.json",
+      "criterion_reference_count": 29,
+      "resolution": "frozen_candidate"
+    }
+  ],
+  "claim": "Reference existence, not criterion execution or semantic acceptance"
+}

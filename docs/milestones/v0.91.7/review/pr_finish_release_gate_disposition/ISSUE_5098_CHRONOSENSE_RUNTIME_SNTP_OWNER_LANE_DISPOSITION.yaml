@@ -1,0 +1,19 @@
+schema_version: adl.release_gate_disposition.v1
+issue: 5098
+disposition: approved_with_runtime_owner_lane_proof
+changed_release_gate_surfaces:
+  - adl/Cargo.toml
+  - adl/src/chronosense.rs
+  - adl/src/chronosense/service.rs
+  - adl/src/chronosense/tests.rs
+  - adl/src/csm_networking.rs
+  - adl/src/csm_runtime_api.rs
+  - adl/src/long_lived_agent.rs
+reviewer_or_review_mode: bounded runtime owner-lane review
+focused_validation_run: bash adl/tools/run_owner_validation_lane.sh runtime
+residual_ci_proof_required_before_merge: required
+notes:
+  - "Validation manager escalated #5098 because the CSM Chronosense runtime change spans multiple shared Rust runtime surfaces."
+  - "Local owner proof passed: bash adl/tools/run_owner_validation_lane.sh runtime."
+  - "Focused proof also covered Chronosense tests, CSM networking registry, csm/adl binary build, live 127.0.0.1:19997 runtime API readiness, and /chronosense synced SNTP status."
+  - "GitHub PR checks remain required before merge."

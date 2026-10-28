@@ -1,0 +1,56 @@
+{
+  "scope": "CodeFriend #121 preliminary measurement of six read-only #130 samples",
+  "source_measurements": "/private/tmp/worker30-new130-baseline/measurements.json",
+  "measurements_sha256": "712ca5f72b15c17c3db5f32c928235489b6510c6823f5eaa149c9941ca538506",
+  "input_inventory_sha256": "141056c10179b9ef50d4542ca1c52b7ae9532f5549fe7e4d5d403366fbe88f6c",
+  "browser_launch_ms": 524.8672919988167,
+  "pdf_runs": 18,
+  "median_document_ms": {
+    "CF-RPT-0142": 205.455,
+    "CF-SEC-0031": 200.422,
+    "CF-DOC-0088": 193.492,
+    "ADR-0007": 190.578,
+    "CF-DGM-0019": 441.086,
+    "CF-TPL-0027": 183.593
+  },
+  "measurement_boundary": "one browser, fresh context per document; OS caches not flushed; sample pipeline only",
+  "pdf_structural_observation": {
+    "iteration": 0,
+    "all_six_open": true,
+    "tagged": true,
+    "page_size": "US Letter",
+    "pages": {
+      "CF-RPT-0142": 4,
+      "CF-SEC-0031": 4,
+      "CF-DOC-0088": 3,
+      "ADR-0007": 3,
+      "CF-DGM-0019": 7,
+      "CF-TPL-0027": 3
+    }
+  },
+  "visual_review": {
+    "scope": "24 pages in contact-sheet overview of newly generated iteration-0 PDFs",
+    "evidence_directory": "/private/tmp/sprint2-new130-generated-review",
+    "obvious_clipping_or_overlap_observed": false,
+    "pagination_observations": [
+      "Report F7 table row alone at top of page 3",
+      "Test-plan T07 and T08 continue onto page 2",
+      "Security review final page sparse"
+    ],
+    "disposition": "Nonblocking polish observations on unfinished examples; variable-content tests still required"
+  },
+  "limits": [
+    "Not production service latency",
+    "Not final-template or full 25-type acceptance",
+    "Tagged metadata is not accessibility validation",
+    "HTML generated but no browser visual acceptance claimed",
+    "Markdown source inventory only; no generation timing claimed",
+    "No changes to #130"
+  ],
+  "next": [
+    "Complete structural and variable-content validation in #121",
+    "Validate production integration and remaining declared formats as templates become available"
+  ],
+  "retained_measurements": "new130-sample-measurements.json",
+  "retained_input_inventory": "new130-sample-measurements.json#/identity/input_files"
+}

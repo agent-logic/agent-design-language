@@ -1,0 +1,25 @@
+{
+  "agent_instance_id": "csm-live-4980",
+  "gauges": {
+    "backpressure_deferred_count": null,
+    "backpressure_lag_ms": null,
+    "backpressure_queue_depth": null,
+    "backpressure_shed_count": null,
+    "checkpoint_interval_secs": 2,
+    "completed_cycle_count": 601,
+    "consecutive_failure_count": 0,
+    "operator_event_count_observed": 2404,
+    "restart_count": 0
+  },
+  "runtime_owner": "csm",
+  "schema": "adl.csm.runtime_api.metrics.v1",
+  "states": {
+    "agent_state": "idle",
+    "backpressure_health": null,
+    "backpressure_safe_fail_action": null,
+    "health": "healthy",
+    "ready": "ready",
+    "restart_policy": "always",
+    "service_mode": "permanent"
+  }
+}
