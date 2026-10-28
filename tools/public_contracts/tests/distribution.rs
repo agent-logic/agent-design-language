@@ -149,3 +149,83 @@ fn hostile_tar_members_refuse() {
         );
     }
 }
+
+// PVF fast deterministic custody proof: an empty repository contains no archived
+// source commits. Missing, changed, extra and aliased inputs must fail before export.
+#[test]
+fn compact_source_packet_exports_without_history_and_refuses_drift() {
+    for godel in [true, false] {
+        let d = Distribution::load(godel).unwrap();
+        let t = tempfile::tempdir().unwrap();
+        let repo = fs::canonicalize(t.path()).unwrap();
+        let relative = if godel {
+            "tools/godel_contract_distribution/source"
+        } else {
+            "tools/remote_validation_distribution/source"
+        };
+        let packet = repo.join(relative);
+        let sources = archive::walk(&root().join(relative)).unwrap();
+        for (name, (bytes, _)) in &sources {
+            let path = packet.join(name);
+            fs::create_dir_all(path.parent().unwrap()).unwrap();
+            fs::write(path, bytes).unwrap();
+        }
+        let init = std::process::Command::new("git")
+            .args(["init", "--quiet"])
+            .arg(&repo)
+            .output()
+            .unwrap();
+        assert!(init.status.success());
+        let old = std::process::Command::new("git")
+            .arg("-C")
+            .arg(&repo)
+            .args([
+                "cat-file",
+                "-e",
+                d.manifest["source_revision"].as_str().unwrap(),
+            ])
+            .output()
+            .unwrap();
+        assert!(!old.status.success());
+        d.export(&repo, &repo.join("valid-export")).unwrap();
+        let (name, (original, _)) = sources.iter().next().unwrap();
+        let file = packet.join(name);
+        for kind in ["changed", "missing", "extra", "symlink", "wrong-blob"] {
+            let extra = packet.join("unexpected");
+            let mut candidate = Distribution::load(godel).unwrap();
+            match kind {
+                "changed" => fs::write(&file, b"changed").unwrap(),
+                "missing" => fs::remove_file(&file).unwrap(),
+                "extra" => fs::write(&extra, b"extra").unwrap(),
+                "wrong-blob" => {
+                    candidate.manifest["files"][0]["git_blob"] =
+                        "0000000000000000000000000000000000000000".into()
+                }
+                _ => {
+                    #[cfg(unix)]
+                    {
+                        fs::remove_file(&file).unwrap();
+                        std::os::unix::fs::symlink(repo.join("outside"), &file).unwrap();
+                    }
+                    #[cfg(not(unix))]
+                    {
+                        continue;
+                    }
+                }
+            }
+            let output = repo.join(format!("refused-{kind}"));
+            assert!(candidate.export(&repo, &output).is_err(), "{kind}");
+            assert!(!output.exists());
+            if kind == "extra" {
+                fs::remove_file(extra).unwrap();
+            }
+            if file.is_symlink() {
+                fs::remove_file(&file).unwrap();
+            }
+            fs::write(&file, original).unwrap();
+        }
+        fs::remove_dir_all(&packet).unwrap();
+        assert!(d.export(&repo, &repo.join("no-packet")).is_err());
+        assert!(!repo.join("no-packet").exists());
+    }
+}

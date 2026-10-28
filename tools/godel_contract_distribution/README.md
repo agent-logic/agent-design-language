@@ -40,7 +40,8 @@ writes. It does not activate anything. It assumes the caller owns the new
 installation parent; concurrent hostile mutation of that parent is outside the
 extractor contract. Do not use a shared writable extraction parent.
 
-To reproduce from a Git repository containing the frozen source objects:
+To reproduce from the retained, manifest-pinned `source/` packet in a compact
+clone (historical Git objects are not required):
 
 ```sh
 cargo run --locked --quiet --manifest-path tools/public_contracts/Cargo.toml --bin adl-public-contracts -- godel export \
