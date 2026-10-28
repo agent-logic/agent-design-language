@@ -161,38 +161,36 @@ impl Distribution {
         }
     }
     pub fn export(&self, repo: &Path, output: &Path) -> Result<Value> {
-        let rev = self.manifest["source_revision"]
-            .as_str()
-            .context("source revision")?;
-        let git = |args: &[&str]| -> Result<Vec<u8>> {
-            let o = Command::new("git")
-                .arg("-C")
-                .arg(repo)
-                .args(args)
-                .output()?;
-            ensure!(o.status.success(), "frozen source Git read failed");
-            Ok(o.stdout)
+        // These exact public source bytes were retained from the manifest's
+        // historical revision. Export needs no historical Git object database.
+        let directory = if self.godel {
+            "tools/godel_contract_distribution/source"
+        } else {
+            "tools/remote_validation_distribution/source"
         };
-        if !self.godel {
-            let bytes = git(&[
-                "ls-tree",
-                "-r",
-                "--name-only",
-                rev,
-                "tools/remote_validation/",
-            ])?;
-            let mut observed: Vec<_> = std::str::from_utf8(&bytes)?.lines().collect();
-            observed.sort();
-            let mut expected: Vec<_> = self.manifest["files"]
-                .as_array()
-                .context("files")?
-                .iter()
-                .filter_map(|r| r["source_path"].as_str())
-                .filter(|p| *p != "LICENSE")
-                .collect();
-            expected.sort();
-            ensure!(observed == expected, "source inventory mismatch");
-        }
+        archive::real_root(&repo.join(directory))?;
+        let sources = archive::walk(&repo.join(directory))?;
+        let expected_sources: std::collections::BTreeSet<_> = self.manifest["files"]
+            .as_array()
+            .context("files")?
+            .iter()
+            .map(|row| {
+                if self.godel {
+                    &row["path"]
+                } else {
+                    &row["source_path"]
+                }
+            })
+            .map(|name| name.as_str().context("source path"))
+            .collect::<Result<_>>()?;
+        ensure!(
+            sources
+                .keys()
+                .map(String::as_str)
+                .collect::<std::collections::BTreeSet<_>>()
+                == expected_sources,
+            "source inventory mismatch"
+        );
         let mut files = BTreeMap::new();
         for (name, row) in self.expected()? {
             if self.godel && name == "source-manifest.json" {
@@ -204,16 +202,28 @@ impl Distribution {
             } else {
                 &row["source_path"]
             };
-            let spec = format!("{rev}:{}", source.as_str().context("source path")?);
-            let bytes = git(&["show", &spec])?;
-            let blob = String::from_utf8(git(&["rev-parse", &spec])?)?;
+            let bytes = &sources[source.as_str().context("source path")?].0;
+            let mut child = Command::new("git")
+                .args(["hash-object", "--stdin", "--no-filters"])
+                .current_dir(repo)
+                .stdin(std::process::Stdio::piped())
+                .stdout(std::process::Stdio::piped())
+                .spawn()?;
+            child
+                .stdin
+                .take()
+                .context("source hash input")?
+                .write_all(bytes)?;
+            let hashed = child.wait_with_output()?;
+            ensure!(hashed.status.success(), "source blob hashing failed");
+            let blob = String::from_utf8(hashed.stdout)?;
             ensure!(
                 blob.trim() == row["git_blob"]
                     && sha(&bytes) == row["sha256"]
                     && Some(bytes.len() as u64) == row["bytes"].as_u64(),
                 "frozen source provenance mismatch"
             );
-            files.insert(name, (bytes, 0o644));
+            files.insert(name, (bytes.clone(), 0o644));
         }
         let data = gzip(&pack(&files)?)?;
         ensure!(
