@@ -1,0 +1,272 @@
+{
+  "schema": "adl1223.fitness_five.proposal.v1",
+  "status": "applied_local_reversible_implementation",
+  "source_head": "2275ae447c44a0e3895aabd4b42a87af906bfd41",
+  "removed_count": 5,
+  "rows": [
+    {
+      "id": "RD07-0003",
+      "path": ".github/codefriend-fitness-policy.json",
+      "owner": "codefriend",
+      "component": "codefriend-other-consumers",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "790ec0d103ec47eed4f69562ae42b2a511350ea1"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Owner has artifact-consuming candidate/pass/fail/error lane and original source inventory. Require existing outcome/assertion evidence and caller cutover, not new broad build.",
+        "coherent caller and component disposition; no source-only qualification claim"
+      ],
+      "successor_mapping": {
+        "mapping": "same_path_changed",
+        "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
+        "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CODEFRIEND_27_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "7639a5a6ece66e2dfcc4ad5bcd4a95a804db23836e0298f552b8227d1b746a10",
+        "proposal": "Owner has artifact-consuming candidate/pass/fail/error lane and original source inventory. Require existing outcome/assertion evidence and caller cutover, not new broad build.",
+        "review": "Independent source-only review PASS; hosted acquisition claim remains linked to prior receipt rather than re-executed here."
+      }
+    },
+    {
+      "id": "RD07-1282",
+      "path": "adl/tools/codefriend_fitness_ci.sh",
+      "owner": "codefriend",
+      "component": "codefriend-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "f25f7a9165e89a264824a0e84ebfeffdb055665d"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "same_path_changed",
+        "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
+        "exact_successor_paths": []
+      }
+    },
+    {
+      "id": "RD07-1283",
+      "path": "adl/tools/codefriend_fitness_ci_artifacts.py",
+      "owner": "codefriend",
+      "component": "codefriend-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "99f730b7755771d6552d624443dccea29c0bd077"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "same_path_changed",
+        "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
+        "exact_successor_paths": []
+      }
+    },
+    {
+      "id": "RD07-1284",
+      "path": "adl/tools/codefriend_fitness_ci_fixture.py",
+      "owner": "codefriend",
+      "component": "codefriend-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "d6ca95b361b853baa21405f46a0458df6a39fa2e"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "same_path_changed",
+        "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
+        "exact_successor_paths": []
+      }
+    },
+    {
+      "id": "RD07-1285",
+      "path": "adl/tools/codefriend_fitness_ci_proof.py",
+      "owner": "codefriend",
+      "component": "codefriend-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "583b6efe1ce455c9552c8bf59ddae5f8ce16bf00"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
+        "exact_successor_paths": [
+          "adl/tools/codefriend_fitness_ci_proof.py"
+        ]
+      }
+    }
+  ],
+  "files": [
+    {
+      "path": ".github/codefriend-fitness-policy.json",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "790ec0d103ec47eed4f69562ae42b2a511350ea1",
+        "sha256": "808f39bd0cc58e2140722dbd8b593afbe225e5a08a8ea8ff20e59403c61422d6"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/codefriend_fitness_ci.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "f25f7a9165e89a264824a0e84ebfeffdb055665d",
+        "sha256": "eb3717b68e047c66f0f8e8e8cddb5cf540910622a5095105e4810ba601ccf4ea"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/codefriend_fitness_ci_artifacts.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "99f730b7755771d6552d624443dccea29c0bd077",
+        "sha256": "83d7b303193d3d21abe81e539c52faab1a9523122e6277fa39764fe5675da3f1"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/codefriend_fitness_ci_fixture.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "d6ca95b361b853baa21405f46a0458df6a39fa2e",
+        "sha256": "350577c153d78c6246b400f102e7a3c5a9869902e3836d524ddedfe305141fed"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/codefriend_fitness_ci_proof.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "583b6efe1ce455c9552c8bf59ddae5f8ce16bf00",
+        "sha256": "75a93cc75682f3b0197e644d3fdec4a454d593d3886fa08e43ae3821d27d5876"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_codefriend_fitness_ci_artifacts.py",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "f0a6f9f7f806a696f778550ebc0e56b66b32d5f5",
+        "sha256": "81ff9d5841088eaf0f72675f44558758d1025c3aa9524b2cb3e49e413051cb07"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "ff5bd97ec67600fc6a6485929cb315163a5912f2",
+        "sha256": "4917c7da5097b9a219f0d6062841279585f35dd772b76255db487d9a87b27c6e"
+      }
+    },
+    {
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "ca8c5316dfd630f390b337ce9008ce084564d852",
+        "sha256": "6c4c72fc6955e614768025f98bf66275cbd031933b9bd9d9daa96dae37dd965a"
+      },
+      "after": {
+        "mode": "100644",
+        "sha256": "9017d143f408549287202643d4f54b74633227c7de7fc59ab66d7440f7d35a34",
+        "blob": "5cc8378114cb63ad0329ba162119b6a2a067a649"
+      }
+    }
+  ],
+  "owner_resources": [
+    {
+      "path": ".github/codefriend-fitness-policy.json",
+      "mode": "0o644",
+      "sha256": "d9eb281a9b3601cbcf81160d1178df5a0ddaae17c4523de5675b143db3252f4a"
+    },
+    {
+      "path": "adl/tools/codefriend_fitness_ci.sh",
+      "mode": "0o755",
+      "sha256": "4c375e078bc84826509126c4e7b42363cb1ae7c2688332802f7c55d1c383e44e"
+    },
+    {
+      "path": "adl/tools/codefriend_fitness_ci_artifacts.py",
+      "mode": "0o644",
+      "sha256": "2643d16c953d1fbe23a9ae6d131ff360a7e69c2ce436bd469f9dac6f58056836"
+    },
+    {
+      "path": "adl/tools/codefriend_fitness_ci_fixture.py",
+      "mode": "0o644",
+      "sha256": "4ed95734b9f8202b2c53166d7cbd8bdcf59ac8a7df32af846a7d01b2161cb778"
+    },
+    {
+      "path": "adl/tools/codefriend_fitness_ci_proof.py",
+      "mode": "0o644",
+      "sha256": "75a93cc75682f3b0197e644d3fdec4a454d593d3886fa08e43ae3821d27d5876"
+    }
+  ],
+  "owner_candidate": "e93a457ad6325017627a66a2abe31a3376fa28fd",
+  "artifact_id": 11804671827,
+  "archive": "/Volumes/FastWork/c1223/evidence/codefriend/issue104-installed-preparation/codefriend-product.tar",
+  "archive_sha256": "9bb54979951435d136e153d74369fe8d4baf28b65ae71078d2e38a6e001f5a14",
+  "patch_path": "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/fitness-five/fitness-five.patch",
+  "patch_sha256": "ef5676b01ccda65abecc9a8bfd0352ce77cf07a82f633aba422e59b47528627c",
+  "custody": {
+    "path": "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/fitness-five/rollback-preimages.tar",
+    "sha256": "9739945bd4cd95ddfbf38159ec76d2893eaab84f094e1fb7a62279aa4ac0552b",
+    "members": 6
+  },
+  "evidence": {
+    "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/installed-original-proof/FULL_RESULT.json": "806ecbc686738d6d2f290cded0d559dce6321622e607376e47bbbcb3fee5a64e",
+    "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/installed-original-proof/SOURCE_COMPARISON.diff": "5a8ad2f3c6214b8afecca765c75f4b271f537fc2b0992012b34457a13d7bbae4",
+    "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/installed-original-proof/SOURCE_COMPARISON_REVIEW.json": "3cf013ae9cc5cbe485b17725ae95af7a1c58b4f2cfbe8c84f637d9b49d60f163",
+    "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/offline-source-proof/FINAL_RESULT.json": "47a00ffd506f81980ae7380e524d39bfa786f85aa67ad27c72cee189e0d8f123",
+    "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/ORIGINAL_ASSERTION_MAPPING.json": "393559eed58057faf8b89b295ac7bc88726f4ee7a26d983abc2197fbef4a7934",
+    "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/fitness-five/ROUTING_RESULT.json": "42e6811796f68ebb32d9fd5cb4a33127b0307c4e734a5bc6c281bc195f0455cb"
+  },
+  "assertion_preservation": "Original TransportContract class and all five method bodies unchanged; only TOOL selection before temporary fixture creation now requires explicit absolute owner root and exact authenticated parser SHA. Original five already passed against that exact parser.",
+  "caller_closure": "Local fitness wrapper+parser+fixture+proof+policy transferred together; original transport test remains with explicit owner parser route. Retired ci_select.py path strings are historical unavailable route, not executable consumer. Parent must regenerate actual registry for four tool deletions.",
+  "limits": [
+    "No originalcase rerun",
+    "No model/provider/cloud",
+    "CI acquisition1279 separately awaiting exact hosted receipt",
+    "Memory1288 and host11 in separate qualified12 patch",
+    "No full ownership inferred from label"
+  ],
+  "registry_custody": {
+    "path": "/Volumes/FastWork/c1223/codefriend-remaining-doc-closure/fitness-five/registry-2275ae447c44.tar",
+    "sha256": "84f3a6af0f7c6a503594efa3427eb19a2e98069218075387df6a60f6da1b8b08"
+  },
+  "proposal_source_head": "9707731d50f4209c07e3f7193d8be254ab6b9167",
+  "issue": 1223,
+  "review": {
+    "reviewer": "review_1223_historical_retention",
+    "result": "PASS",
+    "scope": "Exact source and proof custody, original assertion preservation and caller closure; actual registry composed at application; no repeated tests"
+  }
+}

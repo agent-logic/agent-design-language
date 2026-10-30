@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ADL Task Bundle Editor</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <main class="page">
+    <header class="hero">
+      <p class="eyebrow">Current Skill Wiring Slice</p>
+      <h1>ADL Task Bundle Editor</h1>
+      <p class="lede">
+        A bounded task-bundle workspace shell for Structured Task Prompts, Structured Implementation Prompts,
+        and a real review-first Structured Output Record surface.
+        This editor keeps the current local task-bundle model visible while reducing fragile raw markdown editing.
+      </p>
+    </header>
+
+    <section class="panel language-contract">
+      <div class="section-header">
+        <h2>ADL Language Contract</h2>
+        <p id="contract-summary">
+          This editor does not author full ADL documents, but it should still describe the same canonical language shape as the runtime, schema, and docs.
+        </p>
+      </div>
+      <div class="contract-grid">
+        <div class="contract-block">
+          <h3>Six Primitives</h3>
+          <ul id="contract-primitives" class="contract-list"></ul>
+        </div>
+        <div class="contract-block">
+          <h3>Top-level Features</h3>
+          <ul id="contract-features" class="contract-list"></ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel controls">
+      <div class="control-grid">
+        <label>
+          Task ID
+          <input id="task-id" type="text" placeholder="issue-2053">
+        </label>
+        <label>
+          Title
+          <input id="title" type="text" placeholder="[v0.90][tools] Refresh web task editor for current ADL skills">
+        </label>
+        <label>
+          Branch / Slug
+          <input id="branch" type="text" placeholder="codex/2053-backlog-tools-refresh-web-task-editor-current-skills">
+        </label>
+      </div>
+      <div class="bundle-path" id="bundle-root"></div>
+      <div class="bundle-path bundle-path-secondary" id="bundle-active-path"></div>
+    </section>
+
+    <section class="panel bundle-shell">
+      <div class="section-header">
+        <h2>Task Bundle Workspace</h2>
+        <p>Three linked cards, one bounded bundle.</p>
+      </div>
+      <div id="bundle-cards" class="bundle-cards"></div>
+    </section>
+
+    <section class="panel action-panel">
+      <div class="section-header">
+        <h2>Workflow Action</h2>
+        <p>Copy-only control-plane bridge. Until V3-F/#505 is approved, merged, and terminally reconciled, C-SDLC v2 remains live authority; run the copied typed lifecycle command from the repo root.</p>
+      </div>
+      <div id="action-summary" class="action-summary"></div>
+      <pre id="action-command" class="action-command"></pre>
+      <button id="copy-action" type="button">Copy lifecycle command</button>
+    </section>
+
+    <section class="panel review-panel">
+      <div class="section-header">
+        <h2>Review Flow</h2>
+        <p>Bounded reviewer-facing loop tied to the SOR proof surface and validation state.</p>
+      </div>
+      <div class="review-grid">
+        <div class="review-block">
+          <h3>Review Recommendation</h3>
+          <p id="review-summary" class="review-summary"></p>
+          <div id="review-decision" class="review-decision"></div>
+        </div>
+        <div class="review-block">
+          <h3>Checklist</h3>
+          <ul id="review-checklist" class="review-checklist"></ul>
+        </div>
+      </div>
+      <div class="review-note-block">
+        <div class="section-header review-note-head">
+          <h3>Review Note</h3>
+          <button id="copy-review-note" type="button">Copy Review Note</button>
+        </div>
+        <pre id="review-note" class="review-note"></pre>
+      </div>
+    </section>
+
+    <section class="workspace">
+      <section class="panel form-panel">
+        <div class="section-header">
+          <h2 id="editor-panel-title">Structured Fields</h2>
+          <p id="editor-panel-copy">Fill the required sections. The preview updates as you type.</p>
+        </div>
+        <form id="artifact-form" class="artifact-form"></form>
+      </section>
+
+      <section class="panel preview-panel">
+        <div class="section-header">
+          <h2>Validation</h2>
+          <p>Contract-aware checks for normalized IDs, enums, required sections, and structured preview readiness.</p>
+        </div>
+        <ul id="validation-list" class="validation-list"></ul>
+        <div class="section-header preview-head">
+          <h2>Rendered Artifact</h2>
+          <button id="copy-preview" type="button">Copy Markdown</button>
+        </div>
+        <pre id="artifact-preview" class="preview"></pre>
+      </section>
+    </section>
+
+    <section class="panel notes">
+      <h2>Current Boundaries</h2>
+      <ul>
+        <li>This issue refreshes the task-bundle workspace shell for the current ADL workflow skill family.</li>
+        <li>The editor consumes the canonical ADL six-primitives contract: providers, tools, agents, tasks, workflows, and singular run.</li>
+        <li>Patterns and signature are top-level language features, not extra primitives.</li>
+        <li>STP and SIP remain editable authoring surfaces, and SOR remains an editable review-first closeout surface.</li>
+        <li>SOR now has a bounded review-first surface for evidence, integration state, and follow-up structure.</li>
+        <li>The review flow now turns SOR evidence, proof, and follow-up fields into a reviewer-facing checklist and bounded recommendation.</li>
+        <li>The editor prepares current lifecycle commands for a human to copy and run; browser direct execution remains out of scope.</li>
+        <li>The current canonical workflow state lives under <code>.adl/</code>; older <code>docs/records/</code> examples are historical proof surfaces only.</li>
+      </ul>
+    </section>
+  </main>
+
+  <script src="./task_bundle_editor.js"></script>
+</body>
+</html>

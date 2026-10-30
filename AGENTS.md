@@ -1,0 +1,426 @@
+# ADL Agent Guidelines
+
+## Applicability
+
+The native lifecycle and workstation policy below govern Agent Logic maintainers
+and managed agent sessions. External contributors use the public
+[fork-and-PR workflow](CONTRIBUTING.md#external-contributors); they do not need
+private owner tools, native cards or the maintainer worktree root. Maintainers
+perform internal admission and delivery. General scope, evidence and code-quality
+rules still apply to contributed changes. This distinction does not relax native
+authority for internal agents.
+
+## Repository scope after the split
+
+This repository owns public ADL language/contracts and CLI dispatch. Runtime,
+CodeFriend and Cognitive-SDLC implementations and their validation belong to
+separate owners; see [the repository map](docs/REPOSITORIES.md). Do not restore
+private source or require sibling checkouts to validate public-only changes.
+Historical milestone and review records retain their original scope.
+
+## C-SDLC v3 authority after V3-F
+
+The v1 C-SDLC command wrappers, `pr.sh` lifecycle wrappers, prompt-template
+wrappers, and `csdlc-import` binary are sunset. PR #591 merged the explicit
+operator-reviewed V3-F/#505 cutover on 2026-09-07. C-SDLC v3 is now the
+operational authority through the authenticated installed C-SDLC owner package.
+Its integrity, repository binding and retained lifecycle evidence must validate;
+historical project selectors and cutover receipts are not ordinary authority.
+Typed v2 may be used only for an explicitly authorized rollback or bounded
+transition remediation such as issue #725. The final
+coexistence inventory explicitly records `v1_sunset`; historical Gate 10A-C
+records remain immutable evidence and are not an instruction to retain deleted
+binaries. Issue ownership is derived from the bound Git branch and worktree;
+claims, leases, heartbeats, and protected-path ledgers are not lifecycle authority.
+C-SDLC v3 was construction and cutover-readiness evidence only before that
+cutover. Prepared v3 issue start should be inspectable,
+bindable, and ready for first useful work in three minutes or less once its
+dependencies are satisfied, while preserving typed authority guards and review truth.
+
+## Operator manual
+
+C-SDLC binaries and manuals come from the same authenticated owner package.
+Use native `csdlc package-install --request REVIEWED_REQUEST.json` for an explicitly
+reviewed first installation; see [owner-package manual lookup](docs/csdlc-v3/man/README.md).
+Use the exact `executable` returned by successful installation/admission. Its
+package manual directory is `installed/resources/docs/csdlc-v3/man`, beside the
+same package's `bin/csdlc`; add that directory to `MANPATH` and run
+`man csdlc-workflow` (or `man csdlc` for the overview).
+
+`bash adl/tools/install_owner_binaries.sh --bin csdlc` only reports manuals for
+an already selected package. `ADL_OWNER_BIN_DIR` or `--stable-bin-dir` identifies
+the directory containing the selected executable; it is not a manual-copy target.
+The helper follows the selected executable to its package and performs no install,
+activation, source build, binary replacement or shell startup edit. It does not
+establish package authority. Check `man -w csdlc-workflow` resolves inside that
+exact admitted package. Coordinate any shared owner-binary replacement with active
+sessions; documentation lookup alone is not a reason to replace it.
+
+## Completed C-SDLC tooling changeover
+
+Issue #505 was the sole V3-F transition-decision lane. PR #591 is merged and
+#505 has terminal reconciliation, so the atomic authority cutover is complete.
+The pre-merge v2 authority boundary remains immutable historical evidence, not
+current routing guidance.
+
+Current routing is documented in `docs/csdlc-v3/CURRENT_AUTHORITY.md`.
+The original `docs/csdlc-v3/TOOLING_CHANGEOVER_NOTICE.md` is immutable
+pre-cutover notification evidence, not current authority. Future authority
+changes require a new operator-reviewed decision and notification. Missing or
+stale current proof suspends authority; it does not authorize automatic v2
+fallback. V2 remains restricted to explicit rollback or transition exceptions.
+
+This file is the repository-local operating contract for coding agents working
+in ADL.
+
+It follows the OpenAI `AGENTS.md` pattern of keeping one predictable,
+high-signal instruction surface at the repo root, then adapts that pattern to
+ADL's real workflow and review discipline.
+
+## Core Principles
+
+These are the four behavioral principles at the center of this file.
+
+1. Think before coding.
+   - Understand the goal, the acceptance surface, and the smallest safe change
+     before editing.
+2. Simplicity first.
+   - Prefer the simplest truthful solution over cleverness, abstraction churn,
+     or framework theater.
+3. Make surgical changes.
+   - Change only the files and behavior needed for the issue you are working
+     on.
+4. Stay goal-driven.
+   - Keep work tied to the issue outcome, not to adjacent cleanup or tempting
+     side quests.
+
+## Workflow Rules
+
+These rules are mandatory for ADL issue work.
+
+1. Use the typed C-SDLC v3 route for C-SDLC issues and lifecycle stages.
+   - `workflow-conductor` and repo-native `pr.sh` are historical v1 routes and
+     are not valid C-SDLC lifecycle commands.
+   - GitHub operations should use the shared token resolver. When an explicit
+     token-file source is needed, use
+     `ADL_GITHUB_TOKEN_FILE=$HOME/keys/github.token`. Never print, copy,
+     commit, or expose the token contents. When no explicit override is set,
+     repo-native GitHub commands may also discover the operator-approved
+     default token file at `$HOME/keys/github.token`; explicit environment
+     sources still take precedence.
+   - Covered native routes under `.adl/bin/native-v3/csdlc`: issue actions =
+     `github-issue`; PR state = `github-pr`; publication = `publish`; terminal
+     delivery = `finish`. Standalone `csdlc-*` v2 owners apply only to explicitly
+     authorized rollback or bounded transition remediation.
+   - Route rule: the ChatGPT GitHub connector and raw `gh` are prohibited for
+     covered lifecycle writes except for the audited break-glass transport
+     below. A missing binary, unfamiliar error, timeout, or operator preference
+     is not by itself break-glass authority.
+   - Audited raw-`gh` break-glass transport:
+     - The active typed C-SDLC authority remains the default and final lifecycle authority. This
+       exception is available only for a confirmed, reproducible tooling regression
+       in the applicable typed GitHub owner, recorded in a durable tooling-regression issue
+       with safe reproduction evidence.
+     - The operator must provide explicit operator authorization after seeing
+       the failure, naming the exact repository, issue or pull request, and operation.
+       Authorization for one target or invocation does not authorize another.
+     - Before the write, capture the bound worktree, branch, exact HEAD, typed
+       generation and digest, exact remote pre-state, regression issue, and
+       authorization reference. Reject any identity or topology ambiguity.
+     - Only the canonical argv shapes documented in
+       `docs/tooling/SESSION_COORDINATION_AND_ROOT_CHECKOUT_POLICY.md` are
+       permitted: issue body comment or edit; pull-request create, body edit,
+       ready, or comment. Exact `--repo` and numeric targets are mandatory where
+       the remote target already exists. No unlisted or reordered flags are
+       permitted.
+     - The denylist includes every merge, issue close, finish, cleanup, deletion, release, administration, secret or variable mutation, workflow mutation or dispatch, force operation, and bulk mutation.
+       Issue creation, `gh api`, aliases, extensions, target aliases, shell
+       expansion, and label, milestone, project, assignee, reviewer, or PR-base
+       mutation are also denied.
+     - Use a mode-0600 body file under the invocation directory, never body text
+       in argv or stdin. Never print, copy, or retain credentials, token values,
+       token-file contents, environment dumps, sensitive bodies, or raw response
+       bodies.
+     - Create an append-only local break-glass receipt under
+       `.git/csdlc-v2/break-glass/` as the three create-only events defined in
+       the coordination policy. Receipt evidence is transport evidence, not
+       lifecycle authority.
+     - After the raw mutation, readiness, review, publication, merge-ready,
+       terminal, and finish claims must not proceed until typed reconciliation
+       has observed the exact remote result, updated or recovered typed state,
+       and produced the immutable successful reconciliation event. If no typed
+       reconciliation route exists, remain blocked on the tooling repair.
+   - Provider credentials, when available, may also be sourced from
+     operator-approved files outside the repo under `$HOME/keys/`. Do not scan,
+     print, copy, commit, or expose that directory or file contents. Map the
+     approved source into the expected provider environment variable only for
+     the command that needs it, such as `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`,
+     or `DEEPSEEK_API_KEY`. For provider-specific names such as Gemini/Google,
+     follow the active provider setup docs instead of assuming aliases, and
+     prefer those docs when preparing reusable local environment files.
+   - AWS work for ADL must default to the Agent Logic business AWS account, not
+     the operator's personal/default AWS account. Use the approved business
+     profile `agent-logic-admin` for AWS billing checks, runtime experiments,
+     SSM, CodeBuild, SNS, EC2/Spot, storage, and other ADL-related AWS work.
+     Before relying on AWS account state, verify that the profile resolves to
+     the approved Agent Logic business account rather than recording a static
+     account identifier in repo policy.
+     Personal/default profiles such as `default` or legacy user profiles may be
+     used only when the operator explicitly authorizes a bounded task against a
+     personal account. Do not print, copy, commit, or expose AWS credentials or
+     credential-file contents.
+2. Edit cards only with editor skills.
+   - Use `sip-editor`, `stp-editor`, `spp-editor`, `srp-editor`, `sor-editor`,
+     or other issue-card editor skills when card surfaces need normalization.
+   - Do not hand-edit cards opportunistically.
+   - Do not hand-roll new cards from memory. New issue cards must come from
+     the active versioned prompt templates in `docs/templates/prompts/`.
+   - The current prompt-template registry is `docs/templates/prompts/current.json`;
+     use it rather than hard-coding a template version unless an issue
+     explicitly requires a compatibility path.
+   - For new or fully re-rendered cards, use the native v3
+     `edit` and `validate` typed routes (retained v2 owners only for an
+     explicitly authorized rollback or transition task) over direct Markdown/state
+     edits. The v1 prompt-template wrappers are historical and sunset.
+   - For supported field-level card updates, send a native v3 `edit` request, then run `validate` (use the retained
+     v2 owners only for an explicitly authorized exception). Do not patch rendered Markdown when a
+     declared semantic field edit is sufficient.
+   - When starting from an existing rendered card, use the active typed editor and AST/schema validation before accepting
+     a rewrite; retained v2 AST import belongs only to an authorized exception.
+   - Treat the tracked structure schemas under
+     `docs/templates/prompts/<version>/schemas/` as the template-shape
+     authority. If a rendered card fails structure validation, fix the values or
+     intentionally version/regenerate the template schema; do not patch locked
+     template prose by hand.
+3. Always work in a bound worktree on a specific branch.
+   - Never do tracked issue work on `main`.
+   - Prefer FastWork for worktrees on this workstation. Keep machine-specific
+     locations in local configuration, not tracked policy. The `.adl/` directory
+     is ignored local tooling/state and must not be added to Git.
+   - Use the native v3 `csdlc bind` flow to bind execution context.
+   - Keep the primary working tree clean on `main`; do not write tracked or
+     untracked issue artifacts there. Preparation and terminal receipts use
+     resolved Git metadata (`.git/csdlc-v3/local` in the ordinary primary
+     checkout). Native bind materializes cards only in the registered issue
+     worktree. Implementation, janitor and repair edits happen there.
+   - Do not restore archived bootstrap artifacts into primary. Preserve legacy
+     state and use a reviewed, issue-scoped recovery; cleanup is not permission
+     to recreate primary residue. Never hide residue with ignore rules.
+   - Before issue work, check root `git status --short --branch` and
+     `git worktree list --porcelain`. If the primary checkout is on a feature
+     branch or has tracked changes, stop and route the recovery through
+     typed v3 `csdlc doctor` / `csdlc bind` evidence when
+     available. Use only the narrowest manual fallback needed to preserve work
+     into an issue worktree and restore the primary checkout to clean `main`.
+   - See `docs/tooling/SESSION_COORDINATION_AND_ROOT_CHECKOUT_POLICY.md` for
+     the cross-session coordination and broadcast-note contract.
+4. Always create an issue-bound session goal before implementation work starts.
+   - For tracked issue sessions, call `create_goal` after the issue is ready and
+     before bounded implementation begins in the issue worktree.
+   - The goal should minimally name the issue number and the concrete session
+     objective so token accounting, completion, and blocked-state reporting stay
+     tied to the tracked issue.
+   - Use `update_goal` only for truthful terminal state changes:
+     `complete` when the current session's declared terminal boundary is
+     actually satisfied. Handoff-only completion is allowed only when the goal
+     explicitly declares a handoff boundary such as setup-only or review-only
+     publication. Default tracked implementation goals stay active while the PR
+     is red, pending, conflicted, draft, missing required checks, or missing
+     current SRP/SOR truth. Use `blocked` only when the repeated blocking
+     threshold is met and meaningful progress cannot continue.
+5. Always review work with a subagent before opening the PR.
+   - Run a bounded review subagent over the changed work product.
+   - Fix all actionable findings immediately before publication.
+   - Every implementation PR body must include the correct GitHub closing
+     keyword for its tracked issue, normally `Closes #<issue>`, so GitHub closes
+     the issue immediately when the PR merges. A bare issue mention such as
+     `Related #<issue>` is not sufficient. `csdlc-finish` derives terminal
+     authority from live GitHub state and must not create a second closeout PR
+     or rewrite tracked cards after merge.
+6. Always finish and clean up truthfully.
+   - Use native `finish` for terminal authority, then run native `clean`
+     separately for the exact registered worktree.
+
+## Repository-Specific Working Style
+
+### C-SDLC post-cutover authority
+
+- Ordinary authority comes from the authenticated installed C-SDLC owner package
+  and its repository binding. Historical #505 selector/receipt evidence remains
+  recoverable from published Git history; it is not a tracked project grant.
+- Gate 10A-D2 and the former v2 selector are historical pre-cutover evidence.
+- Explicitly authorized rollback or transition-remediation work may still use
+  the retained typed v2 contracts without making v2 the default authority.
+- Resolve current lifecycle commands through the native v3 authority contract;
+  do not read the former v2 generation selector as an operational substrate.
+- Historical rollback and recovery proofs remain immutable evidence. The exact D2 approval authorizes the completed v1 command-surface sunset; retained session ownership remains a shared invariant.
+
+- ADL is deterministic by design. Do not introduce hidden state, undeclared
+  side effects, or review-hostile magic.
+- Treat model/tool output as governed work, not free authority.
+- Keep milestone claims, proof claims, and review claims evidence-bound.
+- Prefer repo-relative paths in artifacts and records.
+- Do not silently widen issue scope.
+- For process liveness or port checks, use the permission-safe helper instead
+  of broad host process scans: `adl process status --pid-file <path> --json`,
+  `adl process status --pid <pid> --json`, or
+  `adl process status --port <port> --json`. See
+  `docs/tooling/PERMISSION_SAFE_PROCESS_STATUS.md`. Do not use `ps aux`,
+  `ps -ef`, broad `pgrep`, or broad `lsof` dumps as normal workflow control.
+- New tests must be PVF-classifiable at authoring time. When adding a new test
+  surface, make lane class, proof role, determinism posture, resource profile,
+  and release-gate status explicit in the same issue/PR through the tracked
+  manifest, inventory, or tightly-coupled proof packet.
+- Keep tests boring. Do not push shard mechanics, CI/release-mode branching, or
+  hidden routing policy down into ordinary test logic; that belongs in manifests,
+  runners, and policy docs.
+- Preserve the canonical card lifecycle:
+  `SIP -> STP -> SPP -> VPP -> SRP -> SOR`. `VPP` is validation-planning
+  truth; `SRP` is the Structured Review Prompt and review-result surface; `SOR`
+  is the truthful execution and integration record.
+- Treat prompt cards as durable C-SDLC state, not disposable chat output.
+  `SIP`, `STP`, and `SPP` should be issue-specific and design-time ready before
+  execution starts. If they are generic, stale, or incomplete, route them through
+  the appropriate editor skill before running the issue.
+- The retained v0.91.6 rescue-sprint contract is historical evidence. Current
+  work follows this file and the native v3 command contracts; retained v2
+  operator skills apply only to explicitly authorized exceptions.
+- Treat `SPP` as the operative issue-local plan. If real execution diverges
+  materially from the tracked plan, update the `SPP` before continuing.
+- Treat `SRP` and `SOR` as truth surfaces. `SRP` records review prompts,
+  findings, and dispositions; `SOR` records actual execution, validation,
+  integration, and closeout truth.
+- Prefer the human prompt editor or card editor skills for filling and
+  normalizing cards. Do not regenerate complete card prose when a template field
+  update is sufficient.
+- When the issue context supports values-rendered prompt cards, update the
+  values object first, render through the Rust tooling, then run structure and
+  schema validation. Use editor skills for lifecycle truth and bounded repairs,
+  not as a reason to bypass the renderer/schema path.
+- Treat observability as part of workflow truth, not optional garnish. When a
+  change touches workflow control-plane paths, runtime/provider execution,
+  watchdog behavior, or machine-readable command output, record the relevant
+  logging policy and proof in the issue artifacts.
+- When ADL lifecycle tooling exposes a real tooling bug, suspicious stuck
+  state, or repeatable control-plane anomaly, capture a durable local bug
+  packet or follow-on issue instead of silently retrying around it.
+- Preserve the current logging channel contract unless the issue explicitly
+  changes it:
+  - machine-readable payloads belong on stdout
+  - human-oriented `adl_event` observability belongs on stderr by default
+  - compatibility redirection such as `ADL_OBSERVABILITY_STDERR=0` and
+    `ADL_OBSERVABILITY_LOG=<path>` must be documented truthfully when used
+- Do not claim OpenTelemetry, runtime/provider correlation, heartbeat coverage,
+  or JSON-safe observability beyond what the tracked proofs actually establish.
+
+## Where To Start
+
+For a normal tracked issue:
+
+1. read the source issue prompt and current task bundle
+2. route through the typed v3 C-SDLC skill and binary for C-SDLC issues, except
+   for an explicitly authorized rollback or bounded transition remediation
+3. confirm the primary checkout is clean on `main`, inspect active worktrees,
+   and preserve any session handoff or collision evidence before binding work
+4. confirm all six C-SDLC cards exist and came from the active prompt-template
+   registry
+5. make sure `SIP`, `STP`, and `SPP` are issue-specific and design-time ready
+6. follow the conductor-selected lifecycle step
+7. if the issue is ready for execution binding, use the native v3 `bind` route with its declared request, registry and
+   registration inputs
+8. call `create_goal` for the bound tracked issue session before implementation
+   starts
+9. make the bounded change in the issue worktree, never on `main`
+10. before Rust validation in a fresh or cold issue worktree, warm dependency
+   artifacts through the shared wrapper when a trusted same-host source target
+   is available: `bash adl/tools/rust_validation_warm_cache.sh`; see
+   `docs/tooling/HARDLINKED_RUST_DEPENDENCY_CACHE.md`
+11. run the smallest meaningful validation for the touched surface
+12. run a pre-PR subagent review and fix findings
+13. run native `review` before `publish`; publication must fail closed without current review truth
+14. use `update_goal` for truthful terminal session state after native `finish`,
+   then run cleanup separately after merge/closure
+
+## Validation Expectations
+
+- Run the smallest proving validation that matches the issue's outcome type.
+- Do not skip required proof just because the change is small.
+- Do not run broad validation reflexively when focused proof is enough.
+- Separate local preflight proof from CI integration proof. Local records must
+  say what ran locally, what is deferred to GitHub CI, and why that deferral is
+  safe for the touched surface.
+- For public ADL CLI surfaces, use `bash tools/public_adl/run_cli_ci.sh`.
+  Private owner validation belongs to the separately qualified Runtime,
+  CodeFriend, or C-SDLC repository lane; the retired ADL owner aggregate is
+  not a current validation route.
+- C-SDLC executables and manuals come from an authenticated owner package.
+  Use the exact admitted executable and its paired manuals. The compatibility
+  `install_owner_binaries.sh --bin csdlc` helper only locates manuals; it does not
+  install or activate C-SDLC. Public `adl` installation is a separate contract.
+  Treat Cargo target directories as disposable build output and never select
+  their binaries as operational owner authority.
+- Before Rust-heavy validation in a fresh issue worktree or on an EC2/remote
+  builder, use the dependency-cache warmup wrapper only when a trusted warm
+  target from the same host, same filesystem, same checkout family, and same
+  toolchain is available:
+  `ADL_RUST_WARM_CACHE_SOURCE_TARGET=<warm-target> ADL_RUST_WARM_CACHE_DEST_TARGET=<issue-worktree>/adl/target ADL_RUST_WARM_CACHE_MANIFEST_PATH=<issue-worktree>/adl/Cargo.toml bash adl/tools/rust_validation_warm_cache.sh`.
+  Treat this as build acceleration only, not validation proof, and never replace
+  the required validation lane with cache-warmup evidence.
+- Keep review records and output cards truthful about what was and was not run.
+- Docs-only and policy-only PVF work should prefer focused docs/path/contract/
+  guardrail proof unless tracked runtime behavior changed.
+- Prompt-card generation or repair work should include the focused renderer
+  checks that apply to the touched surface: values validation, rendered
+  structure validation, schema parity validation, and the JSON artifact schema
+  smoke check when schema artifacts are touched.
+- Logging- or observability-affecting work should also record the smallest
+  proving checks for:
+  - stdout/stderr separation when machine-readable output is involved
+  - redaction and path hygiene for emitted log lines or durable log artifacts
+  - compatibility-log behavior when `ADL_OBSERVABILITY_LOG` or quiet-stderr
+    mode is part of the claimed workflow
+
+## Review And Publication Rules
+
+- No PR should open before the work has had bounded subagent review.
+- Verify the intended base branch before publication and verify the actual PR
+  base immediately after creation, especially for stacked issue work.
+- Findings come before summary.
+- Fixes should stay within the issue's scope unless the operator explicitly
+  widens it.
+- If review uncovers a separate problem, open or route a follow-on issue
+  instead of hiding new scope inside the current one.
+
+## Non-Goals For This File
+
+This root `AGENTS.md` is intentionally compact.
+
+It is not:
+
+- the full milestone manual
+- a replacement for skill docs
+- a substitute for issue cards
+- the final word on nested package-specific agent guidance
+
+## Source Baseline Used
+
+Last reviewed: 2026-06-19.
+
+This file was shaped from the OpenAI/source baselines named by `#2986`, plus
+ADL-specific workflow policy:
+
+- issue-named OpenAI `agents.md` GitHub baseline:
+  `https://github.com/openai/agents.md`
+- official OpenAI guide for `AGENTS.md` in Codex:
+  `https://developers.openai.com/codex/guides/agents-md`
+- practical OpenAI repository example:
+  `https://github.com/openai/openai-cookbook/blob/main/AGENTS.md`
+- broader open-format companion reference:
+  `https://agents.md/`
+- ADL's conductor, worktree, review, and closeout discipline
+- ADL's shared GitHub token resolver and permission-safe process-status helper
+
+The issue named the GitHub `openai/agents.md` baseline explicitly. That
+repository now routes into the broader `agents.md` effort, so this file keeps
+both the issue-named GitHub source and the live `agents.md` reference visible
+for traceability.

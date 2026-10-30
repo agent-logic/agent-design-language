@@ -1,0 +1,202 @@
+{
+  "schema": "adl.repository_adapter_admission.v1",
+  "issue": 1275,
+  "repositories": [
+    {
+      "repository": "agent-logic/agent-logic.ai",
+      "issue": 100,
+      "head": "e30187fd6ab1c16f37066ff6fcfb73838f4b7c6a",
+      "package_artifact": "12369122943",
+      "status": "completed",
+      "read_only": true,
+      "operational_authority": true,
+      "phase": "merge_ready",
+      "semantic_version": {
+        "generation": 14,
+        "digest": "semantic-state-v1:a3f2aa572d2a86b94dc622bd52149f6100274775e8646811e177df0c3292f560"
+      },
+      "doctor_findings": [
+        {
+          "status": "passed",
+          "code": "semantic_cards_current",
+          "message": "current semantic card projection is healthy"
+        },
+        {
+          "status": "passed",
+          "code": "binding_live",
+          "message": "exact Git worktree registration is live"
+        }
+      ],
+      "registry_version": "1.0.5",
+      "evidence_sha256": "b9860c0a0a4c7d0f9c745cf2a8a8c044ff84fe262c31c20d1145e641b66cfaa1"
+    },
+    {
+      "repository": "agent-logic/codefriend.ai",
+      "issue": 62,
+      "head": "a8cb0338e5e1b7cc6c7cedc16d2afa151244c9c2",
+      "package_artifact": "12369122943",
+      "status": "completed",
+      "read_only": true,
+      "operational_authority": true,
+      "phase": "merge_ready",
+      "semantic_version": {
+        "generation": 14,
+        "digest": "semantic-state-v1:544ac7c7ef88c5017a839bf78f1f7ab3465970c8af96abe66a744301e5cf65d3"
+      },
+      "doctor_findings": [
+        {
+          "status": "passed",
+          "code": "semantic_cards_current",
+          "message": "current semantic card projection is healthy"
+        },
+        {
+          "status": "passed",
+          "code": "binding_live",
+          "message": "exact Git worktree registration is live"
+        }
+      ],
+      "registry_version": "1.0.5",
+      "evidence_sha256": "2b736b31bad706158ae7aff00099f8cb272f4cb4117bf241878f115af9b8386e"
+    },
+    {
+      "repository": "agent-logic/godel-hadamard-bayes-paper",
+      "issue": 3,
+      "head": "ebdcf0b2751c44fb5911a1515648453f95be4aa3",
+      "package_artifact": "12369122943",
+      "status": "completed",
+      "read_only": true,
+      "operational_authority": true,
+      "phase": "merge_ready",
+      "semantic_version": {
+        "generation": 21,
+        "digest": "semantic-state-v1:f7f98d01e92f05444efdd372c3dad58b81b93f959ac16a4634efc54b3c5c7e89"
+      },
+      "doctor_findings": [
+        {
+          "status": "passed",
+          "code": "semantic_cards_current",
+          "message": "current semantic card projection is healthy"
+        },
+        {
+          "status": "passed",
+          "code": "binding_live",
+          "message": "exact Git worktree registration is live"
+        }
+      ],
+      "registry_version": "1.0.5",
+      "evidence_sha256": "21a1c57a826e5dd49d4f73ac4b0381bcb8451cb47949a06e7b425be20063956f"
+    },
+    {
+      "repository": "agent-logic/general-intelligence-paper-private",
+      "issue": 3,
+      "head": "e38abf8850414fdc550f652d9620a3fdd951908e",
+      "package_artifact": "12369122943",
+      "status": "completed",
+      "read_only": true,
+      "operational_authority": true,
+      "phase": "merge_ready",
+      "semantic_version": {
+        "generation": 21,
+        "digest": "semantic-state-v1:09a75c24dd853dac60c67f01e1043d99ca501eb159a9efb0cafc17bebe7e0e72"
+      },
+      "doctor_findings": [
+        {
+          "status": "passed",
+          "code": "semantic_cards_current",
+          "message": "current semantic card projection is healthy"
+        },
+        {
+          "status": "passed",
+          "code": "binding_live",
+          "message": "exact Git worktree registration is live"
+        }
+      ],
+      "registry_version": "1.0.5",
+      "evidence_sha256": "3cfeec92a796a8bfd6693b748a60d8c2915290c7b5372e9b731f71e1cbbdb7a2"
+    },
+    {
+      "repository": "agent-logic/universal-tool-schema",
+      "issue": 12,
+      "head": "149fa7a0db3cc69bcfe059b29ac0abdb93a3777c",
+      "package_artifact": "12369122943",
+      "status": "completed",
+      "read_only": true,
+      "operational_authority": true,
+      "phase": "published",
+      "semantic_version": {
+        "generation": 12,
+        "digest": "semantic-state-v1:3c31941ff689968d0894ce1d99be46e8426d406e212e8746ff352313f4894190"
+      },
+      "doctor_findings": [
+        {
+          "status": "passed",
+          "code": "semantic_cards_current",
+          "message": "current semantic card projection is healthy"
+        },
+        {
+          "status": "passed",
+          "code": "binding_live",
+          "message": "exact Git worktree registration is live"
+        }
+      ],
+      "registry_version": "1.0.5",
+      "evidence_sha256": "6d6dee7806bd0c179b05d9a3df4898d4f5af3503c501dd03ea04106be7eb7736"
+    },
+    {
+      "repository": "agent-logic/strategic-cognitive-reserve",
+      "issue": 30,
+      "head": "05f0d5cbe1081e1ed789c36e2e65e7cd94ef79f5",
+      "package_artifact": "12369122943",
+      "status": "completed",
+      "read_only": true,
+      "operational_authority": true,
+      "phase": "merge_ready",
+      "semantic_version": {
+        "generation": 14,
+        "digest": "semantic-state-v1:adde5895205258a0d13998d1ecc8492a51b255a85232d04050dbbb230a1c9607"
+      },
+      "doctor_findings": [
+        {
+          "status": "passed",
+          "code": "semantic_cards_current",
+          "message": "current semantic card projection is healthy"
+        },
+        {
+          "status": "passed",
+          "code": "binding_live",
+          "message": "exact Git worktree registration is live"
+        }
+      ],
+      "registry_version": "1.0.5",
+      "evidence_sha256": "26d23ed013d568905eb46f7eafb997fd753378289fb10c1daef9e9bb81010b48"
+    },
+    {
+      "repository": "agent-logic/cognitive-sdlc-paper",
+      "issue": 3,
+      "head": "b81158dce4cb5ab0faf04bc9711fb6a30199c4d4",
+      "package_artifact": "12369122943",
+      "status": "completed",
+      "read_only": true,
+      "operational_authority": true,
+      "phase": "merge_ready",
+      "semantic_version": {
+        "generation": 14,
+        "digest": "semantic-state-v1:5c986bd669251d28d3d76e8b90f2d4f2db2d74aa1c438a606b6812e8fd9ba6db"
+      },
+      "doctor_findings": [
+        {
+          "status": "passed",
+          "code": "semantic_cards_current",
+          "message": "current semantic card projection is healthy"
+        },
+        {
+          "status": "passed",
+          "code": "binding_live",
+          "message": "exact Git worktree registration is live"
+        }
+      ],
+      "registry_version": "1.0.5",
+      "evidence_sha256": "04d1c6d42b539342b5364b4febf914321bc10033b68587d91cf85913aa3d85ef"
+    }
+  ]
+}

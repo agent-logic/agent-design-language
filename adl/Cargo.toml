@@ -1,0 +1,37 @@
+[package]
+name = "adl"
+version = "0.93.2"
+edition = "2021"
+rust-version = "1.92"
+default-run = "adl"
+license = "MIT OR Apache-2.0"
+description = "Portable ADL planning and installed-product CLI"
+# Product binaries and CodeFriend build provenance belong to their owner repos.
+autobins = false
+build = false
+
+[lib]
+name = "adl"
+path = "src/lib.rs"
+
+[[bin]]
+name = "adl"
+path = "src/main.rs"
+
+[[bin]]
+name = "adl-process"
+path = "src/bin/adl_process.rs"
+
+[dependencies]
+adl-legacy-contracts = { version = "=0.1.0", path = "../adl-legacy-contracts" }
+anyhow = "1.0"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+chrono = { version = "0.4", features = ["serde"] }
+fs2 = "0.4"
+tempfile = "3"
+tracing = "0.1"
+reqwest = { version = "0.12", default-features = false, features = ["json", "blocking", "rustls-tls"] }
+
+[dev-dependencies]
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }

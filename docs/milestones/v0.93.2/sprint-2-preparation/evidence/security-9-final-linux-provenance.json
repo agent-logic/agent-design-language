@@ -1,0 +1,20 @@
+{
+  "id": 12295660122,
+  "node_id": "MDg6QXJ0aWZhY3QxMjI5NTY2MDEyMg==",
+  "name": "enterprise-codefriend-installed-proof",
+  "size_in_bytes": 2689,
+  "url": "https://api.github.com/repos/agent-logic/agent-logic-enterprise-security/actions/artifacts/12295660122",
+  "archive_download_url": "https://api.github.com/repos/agent-logic/agent-logic-enterprise-security/actions/artifacts/12295660122/zip",
+  "expired": false,
+  "digest": "sha256:f0296e1b83f9198f02ffe73102c1db1f92413933aa846fb19a05e93054d066ee",
+  "created_at": "2026-10-20T20:10:43Z",
+  "updated_at": "2026-10-20T20:10:43Z",
+  "expires_at": "2027-01-18T20:09:40Z",
+  "workflow_run": {
+    "id": 39489599848,
+    "repository_id": 1388432552,
+    "head_repository_id": 1388432552,
+    "head_branch": "codex/9-v0932-codefriend-zero-trust-contract",
+    "head_sha": "da372408a1035ea4c71d975bf862fe3f1a8bc1f5"
+  }
+}

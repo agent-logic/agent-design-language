@@ -1,0 +1,57 @@
+{
+  "schema": "adl.godel.contract-distribution.v1",
+  "package": "adl-godel-contracts",
+  "version": "0.8.0",
+  "source_repository": "agent-logic/agent-design-language",
+  "source_revision": "248f00e359e412f6bc0061ac88be9ff374e3a212",
+  "files": [
+    {
+      "path": "adl-spec/schemas/v0.8/evaluation_plan.v1.json",
+      "git_blob": "cbceaa25ef0ed1e9bd8aec9d73e72495a0de016c",
+      "sha256": "54d8ee71589b9bddf56e94130422ac21f437d2880f10cdc48389d7e95eb742af",
+      "bytes": 8226
+    },
+    {
+      "path": "adl-spec/schemas/v0.8/mutation.v1.json",
+      "git_blob": "b3c42e950122898f1651d74a19bcd3c2bb218d9c",
+      "sha256": "eceeeaef68ecc880c5f0ae3c3500597728a7d97049c7b18d94b913e354308228",
+      "bytes": 5615
+    },
+    {
+      "path": "adl-spec/schemas/v0.8/canonical_evidence_view.v1.schema.json",
+      "git_blob": "961e36cddd0dbbf1c4b54f7505027d201bc887ec",
+      "sha256": "698e1b138159a21588792134917e1dee245c12bc19ced525e1a42dcf0582ea8d",
+      "bytes": 5190
+    },
+    {
+      "path": "adl-spec/schemas/v0.8/experiment_record.v1.schema.json",
+      "git_blob": "a4c8871a9b2f87ef039ead35098b97f2a6e0a136",
+      "sha256": "8bd5ac195934193e8d96e8a3c6ecd247b356df58acb9e58a86ba60c7db24aa18",
+      "bytes": 9712
+    },
+    {
+      "path": "adl-spec/examples/v0.8/mutation.v1.example.json",
+      "git_blob": "8d5413358c45385af0e020d05c96cc2be5907db9",
+      "sha256": "34b4f8e9ff25db95c897b398f7ea013450ee707762481256661f2650c6854d80",
+      "bytes": 1836
+    },
+    {
+      "path": "adl-spec/examples/v0.8/evaluation_plan.v1.example.json",
+      "git_blob": "1076a2cdcc5d7e85e669706198daa366ed3d2425",
+      "sha256": "c28051ffdc7ea87f8f6e0554cc855a95df19420831f2b7d4b29d52a2cd918fbd",
+      "bytes": 3163
+    },
+    {
+      "path": "adl-spec/examples/v0.8/canonical_evidence_view.v1.example.json",
+      "git_blob": "1fedd7d0f96a64c3a62bb7cc52e754498b7cfea3",
+      "sha256": "0f3b62a39cbb1b9821c8aed9777ec4641f67502dada2216d611868a1a97a8ef2",
+      "bytes": 2261
+    },
+    {
+      "path": "LICENSE",
+      "git_blob": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64",
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "bytes": 11357
+    }
+  ]
+}

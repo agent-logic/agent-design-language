@@ -1,0 +1,90 @@
+{
+  "schema_version": "uts.v1.1",
+  "compatible_versions": [
+    "uts.v1",
+    "uts.v1.1"
+  ],
+  "name": "registry.publish_preview",
+  "version": "1.1.0",
+  "description": "Create a human-visible preview record in a tool registry dry-run environment.",
+  "lifecycle": "experimental",
+  "categories": [
+    "state_mutating",
+    "human_visible",
+    "external_network"
+  ],
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string"
+      },
+      "body": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "title",
+      "body"
+    ],
+    "additionalProperties": false
+  },
+  "output_schema": {
+    "type": "object",
+    "properties": {
+      "preview_url": {
+        "type": "string"
+      },
+      "status": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "preview_url",
+      "status"
+    ],
+    "additionalProperties": false
+  },
+  "side_effect_class": "external_write",
+  "side_effects": [
+    "external_state",
+    "human_visible"
+  ],
+  "determinism": "bounded_nondeterministic",
+  "replay_safety": "replay_requires_approval",
+  "idempotence": "conditionally_idempotent",
+  "resources": [
+    {
+      "resource_type": "registry",
+      "scope": "preview-records"
+    }
+  ],
+  "authentication": {
+    "mode": "api_key",
+    "required": true
+  },
+  "data_sensitivity": "internal",
+  "exfiltration_risk": "low",
+  "execution_environment": {
+    "kind": "external_service",
+    "isolation": "registry sandbox"
+  },
+  "errors": [
+    {
+      "code": "registry_unavailable",
+      "message": "The registry endpoint is unavailable.",
+      "retryable": true
+    }
+  ],
+  "observability": "full",
+  "planning": {
+    "high_risk": false,
+    "irreversible": false,
+    "expensive": false,
+    "slow": false,
+    "review_recommended": true
+  },
+  "extensions": {
+    "x-authority": "approved"
+  }
+}

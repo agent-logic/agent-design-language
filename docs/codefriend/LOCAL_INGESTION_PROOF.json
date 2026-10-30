@@ -1,0 +1,147 @@
+{
+  "schema": "codefriend.local_ingestion_proof.v1",
+  "issue": 878,
+  "platform": "Darwin-arm64",
+  "binary_sha256": "f96bcaed55b0b1e310cae88d4f8ee31f060f1670de4d00826f582cd3a2c74227",
+  "installation_provenance": "4411b06ac63903f55e696272777b937a87ec1e1e6618ec48fb096c9e8b9f8ee4",
+  "fixtures": [
+    {
+      "fixture": "vector",
+      "repository": "https://github.com/vectordotdev/vector",
+      "revision": "410da89a0ed42c523143da89fffeb7f6402833e0",
+      "scope": {
+        "analysis": [
+          "lib/dnsmsg-parser/Cargo.toml",
+          "lib/dnsmsg-parser/LICENSE",
+          "lib/dnsmsg-parser/benches/benches.rs",
+          "lib/dnsmsg-parser/src/dns_message.rs",
+          "lib/dnsmsg-parser/src/dns_message_parser.rs",
+          "lib/dnsmsg-parser/src/ede.rs",
+          "lib/dnsmsg-parser/src/lib.rs"
+        ],
+        "context": [
+          "Cargo.lock",
+          "Cargo.toml",
+          "LICENSE"
+        ],
+        "max_files": 10,
+        "max_bytes": 614400,
+        "max_file_bytes": 409600
+      },
+      "packet_id": "dd7a0761f63569d44eb902ad4e02e9018fce7221a82b0d4c8d85b102129821b1",
+      "scope_digest": "2ae43ce60f30cdb57943ba9bda0fccc8d0f28d897271d9f92327bb29c5a6cddf",
+      "source_bytes": 520777,
+      "objects": [
+        {
+          "path": "Cargo.lock",
+          "disposition": "included",
+          "source_bytes": 350676,
+          "content_digest": "54d3e364160340e9959316ab1f0b5679a7f995afda62a14e76da53b1839e46ac"
+        },
+        {
+          "path": "Cargo.toml",
+          "disposition": "included",
+          "source_bytes": 52534,
+          "content_digest": "d8e3210bc8f2753c0e1a178fadcc7b3700a81a4ee025e71a711a0d64c6c38070"
+        },
+        {
+          "path": "LICENSE",
+          "disposition": "included",
+          "source_bytes": 15922,
+          "content_digest": "902ac1eb2a62c5bdb5dd1e3b340fc926c6f347708a5e8a5b8814884e542b38fe"
+        },
+        {
+          "path": "lib/dnsmsg-parser/Cargo.toml",
+          "disposition": "included",
+          "source_bytes": 388,
+          "content_digest": "1d31c6ea6577d08b7c968c7e67140355553919eed66de29beb0141c1d81271e9"
+        },
+        {
+          "path": "lib/dnsmsg-parser/LICENSE",
+          "disposition": "included",
+          "source_bytes": 1080,
+          "content_digest": "d5fa54fb0603eefed4065c0ae17b2e3bc3e107e7b904e7e8566971ca1db08630"
+        },
+        {
+          "path": "lib/dnsmsg-parser/benches/benches.rs",
+          "disposition": "included",
+          "source_bytes": 3634,
+          "content_digest": "0391a7e4c8aa452a852868a1104b96545b2141e528f37837eaf659132e2b1fe1"
+        },
+        {
+          "path": "lib/dnsmsg-parser/src/dns_message.rs",
+          "disposition": "included",
+          "source_bytes": 3368,
+          "content_digest": "8cf178237232852f48ba40b476ae0555256495f70bf0d9f0ef81bcd79673f53d"
+        },
+        {
+          "path": "lib/dnsmsg-parser/src/dns_message_parser.rs",
+          "disposition": "included",
+          "source_bytes": 89969,
+          "content_digest": "9846e49ae486e0d441f1638413105719d00d542d15a378cd317fe0d27b2c3a97"
+        },
+        {
+          "path": "lib/dnsmsg-parser/src/ede.rs",
+          "disposition": "included",
+          "source_bytes": 2957,
+          "content_digest": "da956b15be82632c4ebb1030ad70a80587df0f541d93b437384a7010e058ecaa"
+        },
+        {
+          "path": "lib/dnsmsg-parser/src/lib.rs",
+          "disposition": "included",
+          "source_bytes": 249,
+          "content_digest": "eb5a567d5e73686a09fac9a38461befc680604c5e92ff8b509c49c480a1b5dd8"
+        }
+      ],
+      "repeat_bytes_identical": true,
+      "production_readback_passed": true,
+      "source_status_unchanged": true,
+      "completeness": "complete_scoped_acquisition",
+      "review_state": "not_reviewed"
+    },
+    {
+      "fixture": "adl",
+      "repository": "https://github.com/agent-logic/agent-design-language",
+      "revision": "2c09eca135808fb6385a6613f7317088b01ffeab",
+      "scope": {
+        "analysis": [
+          "adl/src/uts.rs"
+        ],
+        "context": [
+          "adl/Cargo.toml"
+        ],
+        "max_files": 2,
+        "max_bytes": 614400,
+        "max_file_bytes": 409600
+      },
+      "packet_id": "5e703109f9b73580ffc5d7c2c3902118e71912a6db24786081968a7071d98b13",
+      "scope_digest": "d77bb9a18546af303a8e087f91c414be7888add0354c463c9801bd299ab564f2",
+      "source_bytes": 44739,
+      "objects": [
+        {
+          "path": "adl/Cargo.toml",
+          "disposition": "included",
+          "source_bytes": 4065,
+          "content_digest": "d9c5f18451e50e1632fedf6fb6ed844fafc6cc242b291593b21c0076ae35b844"
+        },
+        {
+          "path": "adl/src/uts.rs",
+          "disposition": "included",
+          "source_bytes": 40674,
+          "content_digest": "5aabd04e0428b5b1c38921d6c913f107498e9769cfea75e4d8562ade31be342c"
+        }
+      ],
+      "repeat_bytes_identical": true,
+      "production_readback_passed": true,
+      "source_status_unchanged": true,
+      "completeness": "complete_scoped_acquisition",
+      "review_state": "not_reviewed"
+    }
+  ],
+  "nonclaims": [
+    "No review or evidence-store admission",
+    "No GitHub/CI adapter parity",
+    "Linux qualification pending required hosted CI",
+    "No model/network call or Vector execution"
+  ]
+}

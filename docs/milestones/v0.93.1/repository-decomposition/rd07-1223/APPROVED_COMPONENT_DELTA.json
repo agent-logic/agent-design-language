@@ -1,0 +1,154 @@
+{
+  "schema": "adl.source_retirement.approved_component_delta.v1",
+  "issue": 1223,
+  "authorization": "Operator: ok finish 1223; consolidated 36-path decision previously presented; coordinator acknowledged no repeated approval needed",
+  "removed": [
+    ".github/workflows/aws-codefriend-build.yaml",
+    "adl-v2/crates/adl-runtime-v3-adapter/Cargo.lock",
+    "adl-v2/crates/adl-runtime-v3-adapter/Cargo.toml",
+    "adl-v2/crates/adl-runtime-v3-adapter/src/lib.rs",
+    "adl-v2/crates/adl-runtime-v3-adapter/src/outcome.rs",
+    "adl-v2/crates/adl-runtime-v3-adapter/tests/adapter.rs",
+    "adl-v2/crates/adl-workcell-conductor/Cargo.lock",
+    "adl-v2/crates/adl-workcell-conductor/Cargo.toml",
+    "adl-v2/crates/adl-workcell-conductor/README.md",
+    "adl-v2/crates/adl-workcell-conductor/src/lib.rs",
+    "adl-v2/crates/adl-workcell-conductor/src/model.rs",
+    "adl-v2/crates/adl-workcell-conductor/src/planner.rs",
+    "adl-v2/crates/adl-workcell-conductor/tests/conductor.rs",
+    "adl-v2/crates/adl-workcell-convergence/Cargo.toml",
+    "adl-v2/crates/adl-workcell-convergence/src/hygiene.rs",
+    "adl-v2/crates/adl-workcell-convergence/src/lib.rs",
+    "adl-v2/crates/adl-workcell-convergence/src/model.rs",
+    "adl-v2/crates/adl-workcell-convergence/tests/convergence.rs",
+    "adl-v2/crates/adl-workcell-task-adapter/Cargo.toml",
+    "adl-v2/crates/adl-workcell-task-adapter/README.md",
+    "adl-v2/crates/adl-workcell-task-adapter/src/lib.rs",
+    "adl-v2/crates/adl-workcell-task-adapter/src/model.rs",
+    "adl-v2/crates/adl-workcell-task-adapter/tests/adapter.rs",
+    "adl/tools/run_aws_codefriend_build_lane.sh",
+    "adl/tools/setup_aws_codefriend_build_resources.sh",
+    "adl/tools/test_run_aws_codefriend_build_lane.sh",
+    "infra/aws/csm-runtime-health/.gitignore",
+    "infra/aws/csm-runtime-health/.terraform.lock.hcl",
+    "infra/aws/csm-runtime-health/README.md",
+    "infra/aws/csm-runtime-health/locals.tf",
+    "infra/aws/csm-runtime-health/main.tf",
+    "infra/aws/csm-runtime-health/outputs.tf",
+    "infra/aws/csm-runtime-health/shepherd.tf",
+    "infra/aws/csm-runtime-health/terraform.tfvars.example",
+    "infra/aws/csm-runtime-health/variables.tf",
+    "infra/aws/csm-runtime-health/versions.tf"
+  ],
+  "repairs": {
+    "adl/config/validation_lane_selector.v0.91.6.json": [
+      "100644",
+      "5dc4fc4076ed7298a07abec47449292f26bdf5df"
+    ],
+    "adl/tools/test_select_validation_lanes.sh": [
+      "100755",
+      "7fa39d0d8d01bbc44f61b9369e6b1fb8cc55c013"
+    ],
+    "adl/tools/test_validation_manager.sh": [
+      "100755",
+      "292733b69574cf4517046d33bede7dead55fae5c"
+    ],
+    "adl/tools/validation_manager.py": [
+      "100644",
+      "08e2cfd8f988028498b19c4f81b1f16c3b11138b"
+    ],
+    "docs/tooling/AWS_CODEFRIEND_BUILD_LANE.md": [
+      "100644",
+      "1047549202fb151040cbefcb214f7e252c367f53"
+    ],
+    "adl-v2/Cargo.toml": [
+      "100644",
+      "21ca333bfd944143ac156866dd1e70814eec1be5"
+    ],
+    "adl-v2/Cargo.lock": [
+      "100644",
+      "94e5598e0824d6e50651c226fba383c33da18dfc"
+    ],
+    "adl/src/cli/run.rs": [
+      "100644",
+      "9d43c8fcb600fe21a6c43de7819a40aedc6f525d"
+    ],
+    "adl/src/cli/workflow_args.rs": [
+      "100644",
+      "78a6ebbc0dbe5ccfdce5e28c0cc40a827da64bca"
+    ],
+    "adl/src/cli/workflow_display.rs": [
+      "100644",
+      "50828cc3d3267fedc8334f6139a1a325ea834a6c"
+    ],
+    "adl/src/cli/runtime_owner.rs": [
+      "100644",
+      "417120da28c7b50c8562e6c71b1cc23c298406e2"
+    ],
+    "adl/src/cli/resume_args.rs": [
+      "100644",
+      "b2a609eafbdef4b389134aafea4c4badd5bc92cf"
+    ],
+    "adl/src/cli/mod.rs": [
+      "100644",
+      "0779a488e5cf60cb4e899eb63a0afe986f1cd900"
+    ],
+    "adl/src/cli/codefriend_owner.rs": [
+      "100644",
+      "c4b00fe6c63a04eaba08eb33c3fc0085a2db8b03"
+    ],
+    "adl/src/cli/public_workflow.rs": [
+      "100644",
+      "3b2ca82c4322af31c1e1578f1cbd7b8b24c2c708"
+    ],
+    "adl/src/cli/public_dispatch.rs": [
+      "100644",
+      "ca1bc53db06de14e6e3da5fc8017508e1b41d36e"
+    ],
+    "adl/src/main.rs": [
+      "100644",
+      "e3bc8d4ffd603fc1ce8dbb22037d7f200357e360"
+    ],
+    "adl/Cargo.toml": [
+      "100644",
+      "03766d115e8d7d285717731573710ff52159a2bd"
+    ],
+    "adl/Cargo.lock": [
+      "100644",
+      "3f989532f48fdfe88dbdacf8610c21e1ff4302fe"
+    ],
+    "adl/src/lib.rs": [
+      "100644",
+      "2e172355f99d929d90fd621d5cf5340bb0159cdb"
+    ],
+    "adl/tools/install_owner_binaries.sh": [
+      "100755",
+      "26a8f29af16f4aa66bfb31dadac251931e4f6731"
+    ],
+    "adl/tests/adl_tests.rs": [
+      "100644",
+      "5dea8d79544c2a4aed61c7a262dd67e6a2fe2c24"
+    ],
+    "adl/tests/resolve_tests.rs": [
+      "100644",
+      "b7ec6a42a1cb17f806e96a8125a21986a90c2aa9"
+    ],
+    "adl/tests/schema_tests.rs": [
+      "100644",
+      "940ae35fb4b819709c9d0afc3ea8c64381274060"
+    ],
+    "adl/tests/issue_327_removed_tooling.rs": [
+      "100644",
+      "91abfeaf670075fbc54bdd2004e3f9674b2f4406"
+    ],
+    "adl/tools/owner_binary_resolution.sh": [
+      "100755",
+      "d226fb182dcd1a7f57b09facb0dc5e9d3f3ce31e"
+    ],
+    "adl/tools/test_owner_binary_install.sh": [
+      "100755",
+      "368d774b4e24a8891ad10430eab23833bbad9cae"
+    ]
+  },
+  "surgical_followup": "Public CLI/library dependency and installer cutover with exact consumer pins; no new source removals and unresolved owner integration tests retained."
+}

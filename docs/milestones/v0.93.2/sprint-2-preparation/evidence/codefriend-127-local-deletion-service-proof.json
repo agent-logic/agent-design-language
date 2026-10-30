@@ -1,0 +1,26 @@
+{
+  "observed_at": "2026-10-20T19:10:59.808173+00:00",
+  "scope": "Local service fixture with Runtime authority host and effect-counting backend",
+  "results": {
+    "explicit_runtime_fixture": "1 passed, 0 failed, 0 ignored",
+    "server_regressions": "25 passed, 0 failed, 1 ignored (explicit fixture run separately)"
+  },
+  "inspected_assertions": [
+    "Audit readable before deletion without private key material",
+    "Deletion reports complete and zero remaining entries",
+    "work and result removed; operation identity retained",
+    "Result read returns GONE after deletion",
+    "Deletion status and audit remain accessible after deletion",
+    "Backend call count remains one"
+  ],
+  "test_source_sha256": "7a60d6dae6f68b5e026a19650037da783695be02fbac0392ce37e61c74634e94",
+  "logs_sha256": {
+    "codefriend-127-deletion-route-proof.log": "0dac42e1ee910779b2f76ccbf245780f3abd2b2e37bc41ac1df16e2c8cf3172f",
+    "codefriend-127-audit-deletion-regressions.log": "ebd8cd8948a858883eb441f48ba540a86e894d2ed8f2027408ea42ce596c477b"
+  },
+  "limitations": [
+    "Local source-host fixture is not installed Linux package acceptance",
+    "Active uncommitted candidate still requires final review and CI",
+    "No full enterprise-security 9 or Sprint 2 completion claim"
+  ]
+}

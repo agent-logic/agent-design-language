@@ -1,0 +1,169 @@
+{
+  "schema": "adl1223.runtime_selector_two_retirement.v1",
+  "status": "applied_reviewed_qualified_retirement",
+  "source_head": "0558cfaac766691e819119668371a58debec0836",
+  "removed_count": 2,
+  "rows": [
+    {
+      "id": "RD07-1528",
+      "path": "adl/tools/runtime_v3_operational_selector.sh",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "f8f85ae2a6170b3cd8b8e52a1e281b46638670f1"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/runtime_v3_operational_selector.sh"
+        ]
+      }
+    },
+    {
+      "id": "RD07-2110",
+      "path": "adl/tools/test_runtime_v3_operational_selector.sh",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-active-tool-contracts",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "9be41ac140f0c4417bfd077a1e5dc5d59b093461"
+      },
+      "existing_action": "retain",
+      "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
+      "proposed_action": "hold_explicit_reconciliation",
+      "required_before_execution": [
+        "Runtime selector plus historical issue5590 transition script: retain historical fixture or explicit assertion map; no new native state fabrication."
+      ],
+      "successor_mapping": {
+        "mapping": "unmapped",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "ACTIVE_19_TOOL_DISPOSITIONS.json",
+        "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
+        "proposal": "specific_family_reconciliation",
+        "reason": "Runtime selector plus historical issue5590 transition script: retain historical fixture or explicit assertion map; no new native state fabrication."
+      }
+    }
+  ],
+  "files": [
+    {
+      "path": "adl/tools/runtime_v3_operational_selector.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "sha256": "d91fe1e6a716eec4b947a94085abb31ff72e1c3fbf0b375dcbda55eb503ec66c",
+        "blob": "f8f85ae2a6170b3cd8b8e52a1e281b46638670f1"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_runtime_v3_operational_selector.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "sha256": "1d7a7e4fd4857913d5f6db448bbcbb275c6d0c0d50c4f463502571b9ec35d331",
+        "blob": "9be41ac140f0c4417bfd077a1e5dc5d59b093461"
+      },
+      "after": null
+    },
+    {
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "sha256": "280b4b1cabeb5f1ca584243139b975c5555f0d666151d4c6b2ec4e19c26818e2",
+        "blob": "bc1cf67fdf3785a352a807482f84a636243856b3"
+      },
+      "after": {
+        "mode": "100644",
+        "sha256": "a726219d0505c282c6cdf098ac44288503a0ec4a2dd3e7cd37dd0cbcea8ec6fd",
+        "blob": "c707e13f1ed1fe8d3ac677cac6d0b1cb63b20ea0"
+      }
+    }
+  ],
+  "hold_resolution": "RD07-2110 original assertions verified exact after one fixture-path relocation; actual retained owner safety suite executes original Bash once and requires success. No rerun required.",
+  "evidence": [
+    {
+      "path": "/Volumes/FastWork/c1223/runtime-selector-two-reconciliation/RECONCILIATION.json",
+      "sha256": "2bf67e627a6a83497090e9f65bee75f9b6fdc397724c74b3ea696809ea9e33a8"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime-contract-repair/ci-success.log",
+      "sha256": "4fb1b3ccd6e568d6053baed178408988d08293bb719db2bdc2d3c77b11b34daf"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime-contract-repair/ci-qualification-passed.json",
+      "sha256": "bc338428e45f62e4afba6bbdedbd798d8bfd22ecac934d3dd57b9717ee215551"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime-contract-repair/preservation-proof.log",
+      "sha256": "eded29046c820a4ef0c72b7bc290a47d0c4e4c14d73b89edffa0db2eb33d0ad8"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime-contract-repair/ci-failure.log",
+      "sha256": "cccae30ed36657ed81efb3b367d452b51ff2b586eef49ee8fa42cc0e8505d849"
+    }
+  ],
+  "custody": [
+    {
+      "path": "/Volumes/FastWork/c1223/runtime-selector-two-reconciliation/current-original-owner-custody.tar",
+      "sha256": "eea0a92961fb26dee833462820d6ac69fffeccc954ba31350b5c11b8cb52bcb3",
+      "members": 6
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime-selector-two-reconciliation/retirement/current-preimages.tar",
+      "sha256": "a9243f23636ede0ec460a65c8f52fe0f3d7ab9f15090438eece31eccb2bc5190",
+      "members": 3
+    }
+  ],
+  "patch": {
+    "path": "/Volumes/FastWork/c1223/runtime-selector-two-reconciliation/retirement/selector-two.patch",
+    "sha256": "f42708afa66e1424a8edaf4388b365a417dd05ce50ac9b70645be9264e9b3b32"
+  },
+  "preservation": {
+    "remove_after_review": [
+      "RD07-1528",
+      "RD07-2110"
+    ],
+    "retain_protected": ".csdlc/prepared/issues/5590/run_operational_selector_transition.sh",
+    "reason": "Existing genuine original synthetic process safety proof with exact relocated historical fixture resolves2110 missing source/assertion obligation. Relocation is source custody, no state fabrication.",
+    "caller_repairs": [
+      "Real tool registry regeneration removes exactly two tool rows.",
+      "No active public selector/workflow caller found; test is only active source caller of selector.",
+      "Protected .csdlc/prepared/issues/5590 validators/test_preparation_guards/revision inventory still call historical helper and remain unchanged."
+    ],
+    "limits": [
+      "Historical transition fixture remains protected ADL evidence; do not remove/rewrite .csdlc source or receipts.",
+      "No distributed2235/2236 closure or Runtime146 qualification inferred.",
+      "No installed selector/native authority equivalence inferred."
+    ]
+  },
+  "limits": [
+    "One original synthetic process-safety script within four-case source suite, not four original scripts.",
+    "CI component passed at7d0; retained metadata snapshot was overall in-progress.",
+    "Protected .csdlc5590 helper, consumers, receipts and native authority untouched.",
+    "No distributed2235/2236 equivalence or current installed-selector proof."
+  ],
+  "issue": 1223,
+  "applied_base": "5b3d5c9aeada58a7126262939b0db4227d21b5d4",
+  "review": {
+    "reviewer": "review_1223_applied_components",
+    "result": "PASS",
+    "findings": []
+  },
+  "validation": {
+    "registry": "actual generator matches reviewed afterimage",
+    "proof": "existing exact original selector test and owner source-suite receipt verified; no rerun"
+  }
+}

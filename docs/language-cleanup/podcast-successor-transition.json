@@ -1,0 +1,25 @@
+{
+  "schema": "adl.language_cleanup.successor.v1",
+  "issue": 1350,
+  "repairs_issue": 1356,
+  "source_commit": "5bb41c550d03b004a9fd5cc838faffd4c9058fc7",
+  "reviewed_successor_commits": [
+    "b67a68316c1cda6558684c519ce5d5e760b1b480",
+    "a81bfe2a5defeb9e288148f82b673fa5e5d804ed"
+  ],
+  "removed": [],
+  "changes": [
+    {
+      "path": "demos/README.md",
+      "before": [
+        "100644",
+        "51b9cb2ad84813bd121d9b204f2df0177032ba3f"
+      ],
+      "after": [
+        "100644",
+        "d1ebad50e557c61c6b2f3fb3f23eb39dd2c474e1"
+      ],
+      "before_sha256": "7ca40104cb0d2be7f58bbe8954338ca3db4130891d06de8b2e8628e6d2e9dc85"
+    }
+  ]
+}

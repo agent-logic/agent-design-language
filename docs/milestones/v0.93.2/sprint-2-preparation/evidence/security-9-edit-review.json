@@ -1,0 +1,15 @@
+{
+  "schema": "csdlc.v3.intent_changes.v1",
+  "srp_prompt": {
+    "review_scope": "Define and enforce CodeFriend principal, tenant, repository, service and paired-agent trust boundaries against supported Runtime interfaces; identify any missing primitive as a bounded prerequisite.",
+    "review_instructions": "Verify issue scope, explicit dependencies, actual evidence, candidate provenance, negative cases and proportional validation. Exact consumer/runtime/interface identities and actual scenario counts are retained. Explicitly verify least privilege, per-message checks, revocation, secret redaction, audit integrity, tenant isolation, deletion and fail-closed consumer behavior. Exercise implicit internal trust and connection-as-permission rejection. Runtime retains final enforcement; adapter restrictions cannot add grants. Document missing primitives and refuse unsupported acceptance; independent review resolves actionable findings.",
+    "review_evidence_requirements": "README.product.md; src/, tests/, conformance/; tools/validate_rd09.py; authenticated adl-runtime-policy-interface 0.1.0 artifact; accepted CodeFriend #120 outputs; ADL v0.93.2 WP-S1 contract; retained RD-09 producer/consumer proof.; exact work-product revision, changed paths, VPP/SOR and retained native receipts.",
+    "reviewer_constraints": "Independent exact-head review before publication. Preparation review by Planning #12 is separate from later implementation review. No duplicate builds, paid calls or invented results.",
+    "refusal_policy": "Reject unsupported readiness, missing required behavior proof, false completion, scope expansion and unresolved actionable findings.",
+    "follow_up_routing": "Return preparation findings to Worker #29 under ADL #1299; implementation findings to the sole child owner; missing owner primitives remain explicit prerequisites.",
+    "review_results": {
+      "status": "not_run"
+    },
+    "reset_prior_results": false
+  }
+}

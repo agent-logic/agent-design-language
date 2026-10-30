@@ -1,0 +1,46 @@
+   Compiling codefriend v0.93.1 (/Volumes/FastWork/codefriend-worktrees/adl-issue-127-v0932-security-prerequisite-callsite/crates/codefriend)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 7.26s
+     Running unittests src/lib.rs (/Volumes/FastWork/worker30-codefriend-target/debug/deps/codefriend-70bedeb786098b5f)
+
+running 39 tests
+test codefriend::server::boundary::keys::tests::key_ids_and_revocation_tombstones_cannot_be_rebound ... ok
+test codefriend::server::boundary::audit::tests::signed_rollback_wrong_scope_and_revoked_key_refuse ... ok
+test codefriend::server::boundary::keys::tests::current_scoped_key_roundtrip_excludes_private_bytes ... ok
+test codefriend::server::boundary::audit::tests::free_text_cannot_enter_redacted_event_contract ... ok
+test codefriend::server::boundary::keys::tests::revoked_and_rotated_keys_cannot_authorize_current_consumers ... ok
+test codefriend::server::boundary::audit::tests::verifies_scoped_chain_and_rejects_changes_reordering_and_all_deletions ... ok
+test codefriend::server::boundary::keys::tests::wrong_tenant_repository_purpose_payload_and_expiry_refuse ... ok
+test codefriend::server::boundary::policy::tests::constructor_binds_trusted_identity_and_explicit_constraints ... ok
+test codefriend::server::boundary::audit_owner::tests::broad_or_aliased_private_key_files_are_rejected ... ok
+test codefriend::server::boundary::policy::tests::missing_ambiguous_or_revoked_grants_refuse_construction ... ok
+test codefriend::server::boundary::policy::tests::tenant_change_never_rewrites_allowed_resources ... ok
+test codefriend::server::boundary::policy::tests::policy_revision_and_registry_edits_change_consumer_binding ... ok
+test codefriend::server::boundary::replay::tests::missing_root_is_not_silently_provisioned ... ok
+test codefriend::server::boundary::replay::tests::concurrent_replay_has_exactly_one_reservation ... ok
+test codefriend::server::boundary::state::tests::deleted_state_is_not_rebootstrapped_on_restart ... ok
+test codefriend::server::boundary::replay::tests::out_of_order_and_duplicate_sequences_do_not_consume_next ... ok
+test codefriend::server::boundary::replay::tests::incomplete_journal_refuses_fresh_requests ... ok
+test codefriend::server::boundary::replay::tests::restart_duplicate_and_changed_body_replay_are_rejected ... ok
+test codefriend::server::boundary::tests::authenticated_subject_selects_tenant_and_exact_repository ... ok
+test codefriend::server::boundary::tests::delegation_depth_is_not_truncated_at_runtime_boundary ... ok
+test codefriend::server::boundary::tests::existing_operation_rechecks_revocation_and_requested_action ... ok
+test codefriend::server::boundary::tests::internal_and_pairing_names_do_not_grant_actions ... ok
+test codefriend::server::boundary::tests::registry_reassignment_cannot_transfer_existing_operation ... ok
+test codefriend::server::boundary::audit_store::tests::competing_appends_with_same_head_cannot_both_commit ... ok
+test codefriend::server::boundary::tests::repository_identity_matches_packet_contract_without_aliases ... ok
+test codefriend::server::boundary::tests::revocation_expiry_and_overlap_never_fall_back ... ok
+test codefriend::server::boundary::audit_owner::tests::second_custody_owner_is_excluded_until_drop ... ok
+test codefriend::server::boundary::audit_store::tests::missing_sink_retained_intent_and_deleted_tail_refuse ... ok
+test codefriend::server::boundary::audit_store::tests::durable_append_restart_and_stale_custody_refusal ... ok
+test codefriend::server::boundary::transport::tests::mismatched_artifact_never_executes ... ok
+test codefriend::server::boundary::admission::tests::cancelled_caller_keeps_runtime_process_capacity_reserved ... ok
+test codefriend::server::boundary::state::tests::retained_intent_blocks_restart_even_with_complete_snapshot ... ok
+test codefriend::server::boundary::state::tests::uncertain_persistence_blocks_all_admission ... ok
+test codefriend::server::boundary::audit_owner::tests::failed_custody_commit_prevents_effect_and_poison_survives_restart ... ok
+test codefriend::server::boundary::state::tests::stale_skipped_and_replayed_updates_are_rejected ... ok
+test codefriend::server::boundary::audit_owner::tests::custody_survives_restart_and_export_is_redacted_and_scoped ... ok
+test codefriend::server::boundary::state::tests::update_invalidates_old_admission_and_survives_restart ... ok
+test codefriend::server::boundary::state::tests::authenticated_key_updates_preserve_revocation_across_restart ... ok
+test codefriend::server::boundary::transport::tests::transport_bounds_output_exit_and_time ... ok
+
+test result: ok. 39 passed; 0 failed; 0 ignored; 0 measured; 195 filtered out; finished in 0.45s

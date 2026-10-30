@@ -1,0 +1,293 @@
+{
+  "removed": [
+    "docs/operations/cloud/aws/access-billing/AWS_ACCESS_BILLING_BASELINE.md",
+    "docs/operations/cloud/aws/adoption/AWS_RESOURCE_ADOPTION_REGISTER.md",
+    "docs/operations/cloud/aws/audit-security/AWS_AUDIT_SECURITY_BASELINE.md",
+    "docs/operations/cloud/aws/audit-security/README.md",
+    "docs/operations/cloud/aws/dns/COMPANY_HOSTED_ZONES.md",
+    "docs/operations/cloud/aws/dns/COMPANY_HOSTED_ZONES_VERIFICATION.json",
+    "docs/operations/cloud/aws/inventory/AWS_RESOURCE_OWNERSHIP_INVENTORY.md",
+    "docs/operations/cloud/aws/inventory/README.md",
+    "docs/operations/cloud/aws/runtime-platform/README.md",
+    "docs/operations/cloud/aws/shepherd-gpu-proof/README.md",
+    "docs/operations/cloud/aws/terraform-bootstrap/AWS_TERRAFORM_BOOTSTRAP_RUNBOOK.md",
+    "docs/operations/cloud/gcp/decisions/GCP_HIERARCHY_COST_DECISION.md",
+    "docs/operations/cloud/gcp/organization-billing/README.md",
+    "docs/operations/cloud/gcp/platform-foundation/README.md",
+    "docs/operations/cloud/gcp/terraform-bootstrap/README.md"
+  ],
+  "modified": [
+    "docs/tooling/README.md"
+  ],
+  "prior": "owner_cleanup_1386",
+  "owner_repository": "agent-logic/agent-logic-infrastructure",
+  "owner_resources": [
+    {
+      "path": "docs/operations/cloud/aws/access-billing/AWS_ACCESS_BILLING_BASELINE.md",
+      "owner_revision": "5cd48811ef8cdf4df169476c87e14b37b38c5eb9",
+      "owner_copy": "present",
+      "owner_sha256": "d9d1e3bfb281d824f8c524ce390a30a0f8b4eb7b32f89c588cc0d0d07d76348a",
+      "disposition": "Current Infrastructure guide is authoritative; original ADL copy remains historical Git evidence, not current cloud state."
+    },
+    {
+      "path": "docs/operations/cloud/aws/adoption/AWS_RESOURCE_ADOPTION_REGISTER.md",
+      "owner_revision": "5cd48811ef8cdf4df169476c87e14b37b38c5eb9",
+      "owner_copy": "present",
+      "owner_sha256": "4a714baf16d13f71c9b4289e333f32d05b1cc7294c3b87cfb162688142da9db3",
+      "disposition": "Current Infrastructure guide is authoritative; original ADL copy remains historical Git evidence, not current cloud state."
+    },
+    {
+      "path": "docs/operations/cloud/aws/audit-security/AWS_AUDIT_SECURITY_BASELINE.md",
+      "owner_revision": "5cd48811ef8cdf4df169476c87e14b37b38c5eb9",
+      "owner_copy": "present",
+      "owner_sha256": "cc8fd3a28653a2fc47d4cba4794ec1053275238acb0add1d7239b59a4dcb7000",
+      "disposition": "Current Infrastructure guide is authoritative; original ADL copy remains historical Git evidence, not current cloud state."
+    },
+    {
+      "path": "docs/operations/cloud/aws/audit-security/README.md",
+      "owner_revision": "5cd48811ef8cdf4df169476c87e14b37b38c5eb9",
+      "owner_copy": "present",
+      "owner_sha256": "7fc961f94c68aaa7d3ae70b3886401f2549e4734fda33029b57fc1da3244f984",
+      "disposition": "Current Infrastructure guide is authoritative; original ADL copy remains historical Git evidence, not current cloud state."
+    },
+    {
+      "path": "docs/operations/cloud/aws/dns/COMPANY_HOSTED_ZONES.md",
+      "owner_revision": "5cd48811ef8cdf4df169476c87e14b37b38c5eb9",
+      "owner_copy": "present",
+      "owner_sha256": "ae067da956484b915a2bb5ebc0449118f2c02b3597ee0dcf121d8292fd1d7e85",
+      "disposition": "Current Infrastructure guide is authoritative; original ADL copy remains historical Git evidence, not current cloud state."
+    },
+    {
+      "path": "docs/operations/cloud/aws/dns/COMPANY_HOSTED_ZONES_VERIFICATION.json",
+      "owner_revision": "5cd48811ef8cdf4df169476c87e14b37b38c5eb9",
+      "owner_copy": "present",
+      "owner_sha256": "f6be37e308a936a6a5937733ad1f56fac55ce1b271953ac90a3569d0e395a874",
+      "disposition": "Current Infrastructure guide is authoritative; original ADL copy remains historical Git evidence, not current cloud state."
+    },
+    {
+      "path": "docs/operations/cloud/aws/inventory/AWS_RESOURCE_OWNERSHIP_INVENTORY.md",
+      "owner_revision": "5cd48811ef8cdf4df169476c87e14b37b38c5eb9",
+      "owner_copy": "present",
+      "owner_sha256": "71579a682ef3fe789c39e1b890707227825685baeecfa4cd4dd900d3ac2e9907",
+      "disposition": "Current Infrastructure guide is authoritative; original ADL copy remains historical Git evidence, not current cloud state."
+    },
+    {
+      "path": "docs/operations/cloud/aws/inventory/README.md",
+      "owner_revision": "5cd48811ef8cdf4df169476c87e14b37b38c5eb9",
+      "owner_copy": "present",
+      "owner_sha256": "e23ca05ccc590302a97bd08b76717c6727faa2d806879b4a125a6ecfa93742a0",
+      "disposition": "Current Infrastructure guide is authoritative; original ADL copy remains historical Git evidence, not current cloud state."
+    },
+    {
+      "path": "docs/operations/cloud/aws/runtime-platform/README.md",
+      "owner_revision": "5cd48811ef8cdf4df169476c87e14b37b38c5eb9",
+      "owner_copy": "present",
+      "owner_sha256": "f76f95009ab35ede44a1860fe7ab6333fcc64191aa88ec20fbc6a66e0726272e",
+      "disposition": "Current Infrastructure guide is authoritative; original ADL copy remains historical Git evidence, not current cloud state."
+    },
+    {
+      "path": "docs/operations/cloud/aws/shepherd-gpu-proof/README.md",
+      "owner_revision": "5cd48811ef8cdf4df169476c87e14b37b38c5eb9",
+      "owner_copy": "historical_only",
+      "owner_sha256": null,
+      "disposition": "Current Infrastructure guide is authoritative; original ADL copy remains historical Git evidence, not current cloud state."
+    },
+    {
+      "path": "docs/operations/cloud/aws/terraform-bootstrap/AWS_TERRAFORM_BOOTSTRAP_RUNBOOK.md",
+      "owner_revision": "5cd48811ef8cdf4df169476c87e14b37b38c5eb9",
+      "owner_copy": "present",
+      "owner_sha256": "bfab613e2861f0db1f075657af9b5ef48c5a60b43dcff94bbcd3b8b6950aec09",
+      "disposition": "Current Infrastructure guide is authoritative; original ADL copy remains historical Git evidence, not current cloud state."
+    },
+    {
+      "path": "docs/operations/cloud/gcp/decisions/GCP_HIERARCHY_COST_DECISION.md",
+      "owner_revision": "5cd48811ef8cdf4df169476c87e14b37b38c5eb9",
+      "owner_copy": "present",
+      "owner_sha256": "49f59ef4662ea5247d5c9d0b89630e6073d9895c667aa4c0e8d1596c1bfc6232",
+      "disposition": "Current Infrastructure guide is authoritative; original ADL copy remains historical Git evidence, not current cloud state."
+    },
+    {
+      "path": "docs/operations/cloud/gcp/organization-billing/README.md",
+      "owner_revision": "5cd48811ef8cdf4df169476c87e14b37b38c5eb9",
+      "owner_copy": "present",
+      "owner_sha256": "7938a7a5b9e286579f4077959b4e662283161339e88c765b931487a379810fcc",
+      "disposition": "Current Infrastructure guide is authoritative; original ADL copy remains historical Git evidence, not current cloud state."
+    },
+    {
+      "path": "docs/operations/cloud/gcp/platform-foundation/README.md",
+      "owner_revision": "5cd48811ef8cdf4df169476c87e14b37b38c5eb9",
+      "owner_copy": "present",
+      "owner_sha256": "ef0d72321fd4c2846045ac0ab78a0ba6284ac193f629e723210873713372586a",
+      "disposition": "Current Infrastructure guide is authoritative; original ADL copy remains historical Git evidence, not current cloud state."
+    },
+    {
+      "path": "docs/operations/cloud/gcp/terraform-bootstrap/README.md",
+      "owner_revision": "5cd48811ef8cdf4df169476c87e14b37b38c5eb9",
+      "owner_copy": "present",
+      "owner_sha256": "b2455a86b752fb3e1900e9f522245743d19f437cac2f0d022e5b268bae924b63",
+      "disposition": "Current Infrastructure guide is authoritative; original ADL copy remains historical Git evidence, not current cloud state."
+    }
+  ],
+  "dispositions": {
+    "docs/operations/cloud": "Remove duplicate or historical cloud operator documents; maintained guides belong to Infrastructure. Missing current owner copies are historical records preserved via published ADL Git, not required public interfaces.",
+    "tools/remote_validation and tools/remote_validation_distribution": "Keep: portable request/result and offline source-distribution contracts actively consumed by public_contracts distribution checks and legacy compatibility lanes; not AWS provisioning implementation. Frozen candidate status unchanged.",
+    "adl/tools/validation_manager and run_nessus_remote_validation": "Keep: optional ADL build/test consumer execution helpers invoked by validation profiles, not owner product validation. No new sibling requirement. Infrastructure AWS orchestration implementation already retired by #1223.",
+    "SSM status helpers": "Keep: public status-source contracts tested by tools/public_contracts/tests/status_source.rs. No AWS resource mutation; current public integration.",
+    "AWS/GCP retirement stubs": "Keep: fail-closed public migration guidance required by tool_registry contracts, no owner implementation.",
+    "other historical milestone/cloud reference records": "Retain dated records pending #1382; existing remote owner links remain valid."
+  },
+  "schema": "adl.owner_cleanup.v1",
+  "issue": 1385,
+  "source_commit": "fb84dc2ef97472317cb11c04acd7b522696a8b57",
+  "changes": [
+    {
+      "path": "docs/operations/cloud/aws/access-billing/AWS_ACCESS_BILLING_BASELINE.md",
+      "before": [
+        "100644",
+        "aa51a99bfdc404b91720d0724d099da3a12841c8"
+      ],
+      "before_sha256": "af32e0fcadaabe2dd89f0d96609fa4517f1fb290926362d4e79a5e76ad2bb86a",
+      "after": null
+    },
+    {
+      "path": "docs/operations/cloud/aws/adoption/AWS_RESOURCE_ADOPTION_REGISTER.md",
+      "before": [
+        "100644",
+        "8962989906b001f45c94b999c8ecda2db2b81a19"
+      ],
+      "before_sha256": "6394bd6308cd5b4affcb16d92b120b6705249c45f188f6a067c9d68ece8892e8",
+      "after": null
+    },
+    {
+      "path": "docs/operations/cloud/aws/audit-security/AWS_AUDIT_SECURITY_BASELINE.md",
+      "before": [
+        "100644",
+        "4746cde43fad709e73afd16ef13b28d2682617a3"
+      ],
+      "before_sha256": "96b4a5d82d4bd53e2e2e51aa4a6cca23390e8c879eb91438aa654976f8277d83",
+      "after": null
+    },
+    {
+      "path": "docs/operations/cloud/aws/audit-security/README.md",
+      "before": [
+        "100644",
+        "b8ddb16b4f89f88d0ad80f0dcda548b9ffc88fcc"
+      ],
+      "before_sha256": "7fc961f94c68aaa7d3ae70b3886401f2549e4734fda33029b57fc1da3244f984",
+      "after": null
+    },
+    {
+      "path": "docs/operations/cloud/aws/dns/COMPANY_HOSTED_ZONES.md",
+      "before": [
+        "100644",
+        "22a591a476cc726efc70b0857c23ef5a099f4153"
+      ],
+      "before_sha256": "ae067da956484b915a2bb5ebc0449118f2c02b3597ee0dcf121d8292fd1d7e85",
+      "after": null
+    },
+    {
+      "path": "docs/operations/cloud/aws/dns/COMPANY_HOSTED_ZONES_VERIFICATION.json",
+      "before": [
+        "100644",
+        "c39320d3e45913a631e07e4e2b0dbc8aee830113"
+      ],
+      "before_sha256": "f6be37e308a936a6a5937733ad1f56fac55ce1b271953ac90a3569d0e395a874",
+      "after": null
+    },
+    {
+      "path": "docs/operations/cloud/aws/inventory/AWS_RESOURCE_OWNERSHIP_INVENTORY.md",
+      "before": [
+        "100644",
+        "43f63e75f36010a5d61e6931bc170d27456f4a8d"
+      ],
+      "before_sha256": "71579a682ef3fe789c39e1b890707227825685baeecfa4cd4dd900d3ac2e9907",
+      "after": null
+    },
+    {
+      "path": "docs/operations/cloud/aws/inventory/README.md",
+      "before": [
+        "100644",
+        "343afb2eb45daade984f0914748b9660dfe2dc9c"
+      ],
+      "before_sha256": "e23ca05ccc590302a97bd08b76717c6727faa2d806879b4a125a6ecfa93742a0",
+      "after": null
+    },
+    {
+      "path": "docs/operations/cloud/aws/runtime-platform/README.md",
+      "before": [
+        "100644",
+        "faa9c3ed09463af044f96c1ab9a2b978caf3970f"
+      ],
+      "before_sha256": "3c7a4c1ebcd44d6a805485648946bcda1913a71ca980fa372d2e23176ebd08fe",
+      "after": null
+    },
+    {
+      "path": "docs/operations/cloud/aws/shepherd-gpu-proof/README.md",
+      "before": [
+        "100644",
+        "5e0b0630d0db8571782c8bb86c208c25b37becd2"
+      ],
+      "before_sha256": "96cf966a03c3a134262a638e3bd65dbbff4a75d1e6c90898c212c2b2c2ac4ebb",
+      "after": null
+    },
+    {
+      "path": "docs/operations/cloud/aws/terraform-bootstrap/AWS_TERRAFORM_BOOTSTRAP_RUNBOOK.md",
+      "before": [
+        "100644",
+        "3f4f094b1677c7307dee745c7ca6c0e265800cf9"
+      ],
+      "before_sha256": "001b4a29ba410ce48f7bba138b3d84f0987c7824afb6b940ddf5461ea9d4688d",
+      "after": null
+    },
+    {
+      "path": "docs/operations/cloud/gcp/decisions/GCP_HIERARCHY_COST_DECISION.md",
+      "before": [
+        "100644",
+        "17ee63579870a57e3e2a22342a530151f2274ba2"
+      ],
+      "before_sha256": "49f59ef4662ea5247d5c9d0b89630e6073d9895c667aa4c0e8d1596c1bfc6232",
+      "after": null
+    },
+    {
+      "path": "docs/operations/cloud/gcp/organization-billing/README.md",
+      "before": [
+        "100644",
+        "154fce063b02bdf65d029ab67e75b5fb04ad8f67"
+      ],
+      "before_sha256": "a4fdfd1d87e2caf42980753149391289af0f0afcd70b85b8e5a366773544361c",
+      "after": null
+    },
+    {
+      "path": "docs/operations/cloud/gcp/platform-foundation/README.md",
+      "before": [
+        "100644",
+        "ce3f7f6147a95c97e0d3a9a8a3d4118fed4346ba"
+      ],
+      "before_sha256": "9587bd7cd4ea29ae0f836e7e25eb85a94d0fcb32de7ee81da2f9b3ed201ffd6b",
+      "after": null
+    },
+    {
+      "path": "docs/operations/cloud/gcp/terraform-bootstrap/README.md",
+      "before": [
+        "100644",
+        "6133c95599e0d2a65f659abb93825cf92334d14a"
+      ],
+      "before_sha256": "f62ea0ff3631e4bb481c7060fd62bba52e30a1faea45bfcc626d969762022a5b",
+      "after": null
+    },
+    {
+      "path": "docs/tooling/README.md",
+      "before": [
+        "100644",
+        "9231f89dc9a745b50108e8fa6f46be3a60323a8d"
+      ],
+      "before_sha256": "9a0555497754e7aec1f1eed3ff00924d8fa826d53e60c292e088cdcb03cd7db6",
+      "after": [
+        "100644",
+        "bf0e95ac2920398720043e947dbdeb51e240776a"
+      ]
+    }
+  ],
+  "recovery": "Recover exact bytes with git show SOURCE_COMMIT:PATH and mode with git ls-tree. Published history is preserved. Coordinate #1382 before any rewrite.",
+  "validation": "PVF focused_contract; deterministic custody and successor regression; small local CPU/disk; public CI integration required. Owner inspection is custody evidence, not owner execution acceptance."
+}

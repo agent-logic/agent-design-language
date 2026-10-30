@@ -1,0 +1,81 @@
+{
+  "schema": "codefriend.structure_installed_proof.v1",
+  "issue": 882,
+  "platform": "Darwin-arm64",
+  "binary_sha256": "521b78a0b812cd0873447fbd8975e0ed6f27e2204aef2b59cc1f0da656cfd59b",
+  "installation_provenance": "42e782b1a883bd433274527377d4a119703be4270b335e29213d3412d0005aeb",
+  "fixture_revision": "36dc9fe10d99cf1222188e434165ea5087efca3f",
+  "first_summary": {
+    "schema": "codefriend.structure.v1",
+    "digest": "08ed89c39227bc34d0a1d34a3741aa461205cfdf16e6af6f476164b754f0ca10",
+    "run_id": "047ce3df3c6396965a17fd9d643d256efcb0d89fd68cb414db0c24cdb60c31e3",
+    "analysis_complete": true,
+    "nodes": 4,
+    "edges": 2,
+    "findings": 1,
+    "unknowns": 0
+  },
+  "changed_policy_summary": {
+    "schema": "codefriend.structure.v1",
+    "digest": "7e0dabf326cb9d45c07a58701fc8e6d7dbbdae5895f439262f23f2c16b7eebcc",
+    "run_id": "1285e1f5c6adad3273d18fafd03b0684d36b9f5eac011a314aa7319c3ad3fb2e",
+    "analysis_complete": true,
+    "nodes": 4,
+    "edges": 2,
+    "findings": 2,
+    "unknowns": 0
+  },
+  "repeat_deterministic": true,
+  "persisted_readback": true,
+  "policy_identity_distinct": true,
+  "tampering_denied": true,
+  "post_delete_read_denied": true,
+  "source_unchanged": true,
+  "stdout_json_stderr_events": true,
+  "executed_scenarios": 9,
+  "pathological_source_partial": [
+    {
+      "fixture": "unary",
+      "summary": {
+        "schema": "codefriend.structure.v1",
+        "digest": "8127c79bd48bd9f5c53c052d16f3a34f77494272cc93624fe37eef77f5e545f7",
+        "run_id": "ebced541f1f8050e824e1aa134167b5ae3b4a0dab9a02cec63468e0a45e5649e",
+        "analysis_complete": false,
+        "nodes": 0,
+        "edges": 0,
+        "findings": 0,
+        "unknowns": 1
+      }
+    },
+    {
+      "fixture": "keyword",
+      "summary": {
+        "schema": "codefriend.structure.v1",
+        "digest": "f599d119b98e18dc226303f9b1071adaa6cab44235438e78a4534a92542165c6",
+        "run_id": "c030514e7a0972ea2e3f7967809b587306436bed4f7407944975dff88672fd6e",
+        "analysis_complete": false,
+        "nodes": 0,
+        "edges": 0,
+        "findings": 0,
+        "unknowns": 1
+      }
+    },
+    {
+      "fixture": "delimiter",
+      "summary": {
+        "schema": "codefriend.structure.v1",
+        "digest": "e06bdd4ebaf879cc58f9713a79e5e5327a4bacc23468d4daa97fb863e6a0fa2a",
+        "run_id": "b5908af1a7cce162bfa32945261e1632185818800cfe3ab2fc61abcdb72ae1d9",
+        "analysis_complete": false,
+        "nodes": 0,
+        "edges": 0,
+        "findings": 0,
+        "unknowns": 1
+      }
+    }
+  ],
+  "nonclaims": [
+    "No provider or external repository execution",
+    "No Linux qualification from this local run"
+  ]
+}

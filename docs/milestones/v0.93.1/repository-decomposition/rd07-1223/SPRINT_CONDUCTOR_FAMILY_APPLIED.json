@@ -1,0 +1,743 @@
+{
+  "schema": "adl1223.sprint_twelve_historical_retirement.v1",
+  "status": "applied_local_reversible_implementation",
+  "source_head": "95d2f92c37dff0a01557aaf69abc805c9f252fe0",
+  "rows": [
+    {
+      "id": "RD07-1849",
+      "path": "adl/tools/skills/sprint-conductor/scripts/check_sprint_closeout_readiness.py",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "6f2df70070726fe781ef92a1f89fb354075a3a09"
+      },
+      "existing_action": "retain",
+      "hold_reason": "Existing owner composition maps implementation; authentic installed qualification and native admission remain required.",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Authenticate actual owner distribution and dependency composition; source manifest is not producer authentication",
+        "Execute or reuse exact existing mapped original assertions with complete installer/conductor denominator",
+        "For lifecycle helper effects require real admitted native owner evidence separately from transport doubles",
+        "Reconcile ADL caller/selector removal with final coherent retirement approval"
+      ],
+      "successor_mapping": {
+        "mapping": "reviewed_owner_composition",
+        "successor_revision": "b3dc3d7dd8f89e38a3ff410be3bf0c9045d4b3ca",
+        "source_path": "docs/skill-distributions/original-contracts/current-conductor/check_sprint_closeout_readiness.py",
+        "installed_path": "skills/sprint-conductor/scripts/check_sprint_closeout_readiness.py",
+        "sha256": "f53209eab9f5dd034d368c4dad8f4a16f6a98f81d9e25ff05384ac681027b1db"
+      },
+      "reviewed_disposition": {
+        "packet": "CONDUCTOR_11_DISPOSITIONS.json",
+        "packet_sha256": "db3c46fa4275ad569a56c5423f8f8a4f34bd489189b3177b7e5dad58d9a98b9c",
+        "proposal": "proposed_owner_transfer_with_consumer_qualification"
+      }
+    },
+    {
+      "id": "RD07-1850",
+      "path": "adl/tools/skills/sprint-conductor/scripts/check_sprint_readiness.py",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "97fb46119f7df7c4612dcb8df0b645ebee7b72fb"
+      },
+      "existing_action": "retain",
+      "hold_reason": "Existing owner composition maps implementation; authentic installed qualification and native admission remain required.",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Authenticate actual owner distribution and dependency composition; source manifest is not producer authentication",
+        "Execute or reuse exact existing mapped original assertions with complete installer/conductor denominator",
+        "For lifecycle helper effects require real admitted native owner evidence separately from transport doubles",
+        "Reconcile ADL caller/selector removal with final coherent retirement approval"
+      ],
+      "successor_mapping": {
+        "mapping": "reviewed_owner_composition",
+        "successor_revision": "b3dc3d7dd8f89e38a3ff410be3bf0c9045d4b3ca",
+        "source_path": "docs/skill-distributions/original-contracts/current-conductor/check_sprint_readiness.py",
+        "installed_path": "skills/sprint-conductor/scripts/check_sprint_readiness.py",
+        "sha256": "d6346aa6a4776736dbdba156f4aa5265473d6a9deb8e777c300ad7f0927f6325"
+      },
+      "reviewed_disposition": {
+        "packet": "CONDUCTOR_11_DISPOSITIONS.json",
+        "packet_sha256": "db3c46fa4275ad569a56c5423f8f8a4f34bd489189b3177b7e5dad58d9a98b9c",
+        "proposal": "proposed_owner_transfer_with_consumer_qualification"
+      }
+    },
+    {
+      "id": "RD07-1851",
+      "path": "adl/tools/skills/sprint-conductor/scripts/check_sprint_structured_prompt_readiness.py",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "257b5abbf209bb1108f5281a3b3ebffaff12b0e4"
+      },
+      "existing_action": "retain",
+      "hold_reason": "Existing owner composition maps implementation; authentic installed qualification and native admission remain required.",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Authenticate actual owner distribution and dependency composition; source manifest is not producer authentication",
+        "Execute or reuse exact existing mapped original assertions with complete installer/conductor denominator",
+        "For lifecycle helper effects require real admitted native owner evidence separately from transport doubles",
+        "Reconcile ADL caller/selector removal with final coherent retirement approval"
+      ],
+      "successor_mapping": {
+        "mapping": "reviewed_owner_composition",
+        "successor_revision": "b3dc3d7dd8f89e38a3ff410be3bf0c9045d4b3ca",
+        "source_path": "docs/skill-distributions/original-contracts/current-conductor/check_sprint_structured_prompt_readiness.py",
+        "installed_path": "skills/sprint-conductor/scripts/check_sprint_structured_prompt_readiness.py",
+        "sha256": "1d6c0dda842c0563fdf409e5d9f5d8c7eb9cc4ce9e0938dbe50f07bb0a98f356"
+      },
+      "reviewed_disposition": {
+        "packet": "CONDUCTOR_11_DISPOSITIONS.json",
+        "packet_sha256": "db3c46fa4275ad569a56c5423f8f8a4f34bd489189b3177b7e5dad58d9a98b9c",
+        "proposal": "proposed_owner_transfer_with_consumer_qualification"
+      }
+    },
+    {
+      "id": "RD07-1852",
+      "path": "adl/tools/skills/sprint-conductor/scripts/check_sprint_truth.py",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "989b5643968aa824f2e37857c97a40063915b30c"
+      },
+      "existing_action": "retain",
+      "hold_reason": "Existing owner composition maps implementation; authentic installed qualification and native admission remain required.",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Authenticate actual owner distribution and dependency composition; source manifest is not producer authentication",
+        "Execute or reuse exact existing mapped original assertions with complete installer/conductor denominator",
+        "For lifecycle helper effects require real admitted native owner evidence separately from transport doubles",
+        "Reconcile ADL caller/selector removal with final coherent retirement approval"
+      ],
+      "successor_mapping": {
+        "mapping": "reviewed_owner_composition",
+        "successor_revision": "b3dc3d7dd8f89e38a3ff410be3bf0c9045d4b3ca",
+        "source_path": "docs/skill-distributions/original-contracts/current-conductor/check_sprint_truth.py",
+        "installed_path": "skills/sprint-conductor/scripts/check_sprint_truth.py",
+        "sha256": "332a334060cb6b260fd7ac43d67214d75d6974f9bd3a8015d6bc3944f4ce6416"
+      },
+      "reviewed_disposition": {
+        "packet": "CONDUCTOR_11_DISPOSITIONS.json",
+        "packet_sha256": "db3c46fa4275ad569a56c5423f8f8a4f34bd489189b3177b7e5dad58d9a98b9c",
+        "proposal": "proposed_owner_transfer_with_consumer_qualification"
+      }
+    },
+    {
+      "id": "RD07-1853",
+      "path": "adl/tools/skills/sprint-conductor/scripts/close_sprint_issue.py",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "474a7aca355892a9e9afc3fe6c9b6049d2fff57e"
+      },
+      "existing_action": "retain",
+      "hold_reason": "Existing owner composition maps implementation; authentic installed qualification and native admission remain required.",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Authenticate actual owner distribution and dependency composition; source manifest is not producer authentication",
+        "Execute or reuse exact existing mapped original assertions with complete installer/conductor denominator",
+        "For lifecycle helper effects require real admitted native owner evidence separately from transport doubles",
+        "Reconcile ADL caller/selector removal with final coherent retirement approval"
+      ],
+      "successor_mapping": {
+        "mapping": "reviewed_owner_composition",
+        "successor_revision": "b3dc3d7dd8f89e38a3ff410be3bf0c9045d4b3ca",
+        "source_path": "docs/skill-distributions/original-contracts/current-conductor/close_sprint_issue.py",
+        "installed_path": "skills/sprint-conductor/scripts/close_sprint_issue.py",
+        "sha256": "e627a3a97d73e0127a2a6b37d1f53d5680cfe3fb00aacf4c8db7d9df6f3674cb"
+      },
+      "reviewed_disposition": {
+        "packet": "CONDUCTOR_11_DISPOSITIONS.json",
+        "packet_sha256": "db3c46fa4275ad569a56c5423f8f8a4f34bd489189b3177b7e5dad58d9a98b9c",
+        "proposal": "proposed_owner_transfer_with_consumer_qualification"
+      }
+    },
+    {
+      "id": "RD07-1854",
+      "path": "adl/tools/skills/sprint-conductor/scripts/create_missing_sprint_issue.py",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "da172ebc8c58c5e128a1296b23e2235dcec7a4e4"
+      },
+      "existing_action": "retain",
+      "hold_reason": "Existing owner composition maps implementation; authentic installed qualification and native admission remain required.",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Authenticate actual owner distribution and dependency composition; source manifest is not producer authentication",
+        "Execute or reuse exact existing mapped original assertions with complete installer/conductor denominator",
+        "For lifecycle helper effects require real admitted native owner evidence separately from transport doubles",
+        "Reconcile ADL caller/selector removal with final coherent retirement approval"
+      ],
+      "successor_mapping": {
+        "mapping": "reviewed_owner_composition",
+        "successor_revision": "b3dc3d7dd8f89e38a3ff410be3bf0c9045d4b3ca",
+        "source_path": "docs/skill-distributions/original-contracts/current-conductor/create_missing_sprint_issue.py",
+        "installed_path": "skills/sprint-conductor/scripts/create_missing_sprint_issue.py",
+        "sha256": "85b6a7613e5f3fb6a5dd5fbe88ccdc955bcc5f41990c643e66eef4935322e2ca"
+      },
+      "reviewed_disposition": {
+        "packet": "CONDUCTOR_11_DISPOSITIONS.json",
+        "packet_sha256": "db3c46fa4275ad569a56c5423f8f8a4f34bd489189b3177b7e5dad58d9a98b9c",
+        "proposal": "proposed_owner_transfer_with_consumer_qualification"
+      }
+    },
+    {
+      "id": "RD07-1856",
+      "path": "adl/tools/skills/sprint-conductor/scripts/predict_issue_execution_metrics.py",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "3caf11889e7935a3e1389434bf77439de317e7da"
+      },
+      "existing_action": "retain",
+      "hold_reason": "Existing owner composition maps implementation; authentic installed qualification and native admission remain required.",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Authenticate actual owner distribution and dependency composition; source manifest is not producer authentication",
+        "Execute or reuse exact existing mapped original assertions with complete installer/conductor denominator",
+        "For lifecycle helper effects require real admitted native owner evidence separately from transport doubles",
+        "Reconcile ADL caller/selector removal with final coherent retirement approval"
+      ],
+      "successor_mapping": {
+        "mapping": "reviewed_owner_composition",
+        "successor_revision": "b3dc3d7dd8f89e38a3ff410be3bf0c9045d4b3ca",
+        "source_path": "docs/skill-distributions/original-contracts/original/adl/tools/skills/sprint-conductor/scripts/predict_issue_execution_metrics.py",
+        "installed_path": "adl/tools/skills/sprint-conductor/scripts/predict_issue_execution_metrics.py",
+        "sha256": "631ae4b30a7f781b0a7c87ed2b92419b93c544539ea38c2a4f025b47c4d5df4a"
+      },
+      "reviewed_disposition": {
+        "packet": "CONDUCTOR_11_DISPOSITIONS.json",
+        "packet_sha256": "db3c46fa4275ad569a56c5423f8f8a4f34bd489189b3177b7e5dad58d9a98b9c",
+        "proposal": "proposed_owner_transfer_with_consumer_qualification"
+      }
+    },
+    {
+      "id": "RD07-1857",
+      "path": "adl/tools/skills/sprint-conductor/scripts/record_child_issue_closeout.py",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "c706abd03a0f0970961687ff81d035c4e55644f3"
+      },
+      "existing_action": "retain",
+      "hold_reason": "Existing owner composition maps implementation; authentic installed qualification and native admission remain required.",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Authenticate actual owner distribution and dependency composition; source manifest is not producer authentication",
+        "Execute or reuse exact existing mapped original assertions with complete installer/conductor denominator",
+        "For lifecycle helper effects require real admitted native owner evidence separately from transport doubles",
+        "Reconcile ADL caller/selector removal with final coherent retirement approval"
+      ],
+      "successor_mapping": {
+        "mapping": "reviewed_owner_composition",
+        "successor_revision": "b3dc3d7dd8f89e38a3ff410be3bf0c9045d4b3ca",
+        "source_path": "docs/skill-distributions/original-contracts/current-conductor/record_child_issue_closeout.py",
+        "installed_path": "skills/sprint-conductor/scripts/record_child_issue_closeout.py",
+        "sha256": "113d89472aa51e9b4b2e89c01b67f21db758777dd6c7b0cc217d75a03019f853"
+      },
+      "reviewed_disposition": {
+        "packet": "CONDUCTOR_11_DISPOSITIONS.json",
+        "packet_sha256": "db3c46fa4275ad569a56c5423f8f8a4f34bd489189b3177b7e5dad58d9a98b9c",
+        "proposal": "proposed_owner_transfer_with_consumer_qualification"
+      }
+    },
+    {
+      "id": "RD07-1860",
+      "path": "adl/tools/skills/sprint-conductor/scripts/record_issue_goal_stage_artifacts.py",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "a269f205fe536bac2039cd26c8025c69523aae95"
+      },
+      "existing_action": "retain",
+      "hold_reason": "Existing owner composition maps implementation; authentic installed qualification and native admission remain required.",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Authenticate actual owner distribution and dependency composition; source manifest is not producer authentication",
+        "Execute or reuse exact existing mapped original assertions with complete installer/conductor denominator",
+        "For lifecycle helper effects require real admitted native owner evidence separately from transport doubles",
+        "Reconcile ADL caller/selector removal with final coherent retirement approval"
+      ],
+      "successor_mapping": {
+        "mapping": "reviewed_owner_composition",
+        "successor_revision": "b3dc3d7dd8f89e38a3ff410be3bf0c9045d4b3ca",
+        "source_path": "docs/skill-distributions/original-contracts/original/adl/tools/skills/sprint-conductor/scripts/record_issue_goal_stage_artifacts.py",
+        "installed_path": "adl/tools/skills/sprint-conductor/scripts/record_issue_goal_stage_artifacts.py",
+        "sha256": "b0c2b8ff84bd7eb2528aead54bc6301d352b058eac364ab38ee70d29a692ba50"
+      },
+      "reviewed_disposition": {
+        "packet": "CONDUCTOR_11_DISPOSITIONS.json",
+        "packet_sha256": "db3c46fa4275ad569a56c5423f8f8a4f34bd489189b3177b7e5dad58d9a98b9c",
+        "proposal": "proposed_owner_transfer_with_consumer_qualification"
+      }
+    },
+    {
+      "id": "RD07-1862",
+      "path": "adl/tools/skills/sprint-conductor/scripts/update_sprint_state.py",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "761b8b57c85b91ef8ec3280f638fe84de48dfaec"
+      },
+      "existing_action": "retain",
+      "hold_reason": "Existing owner composition maps implementation; authentic installed qualification and native admission remain required.",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Authenticate actual owner distribution and dependency composition; source manifest is not producer authentication",
+        "Execute or reuse exact existing mapped original assertions with complete installer/conductor denominator",
+        "For lifecycle helper effects require real admitted native owner evidence separately from transport doubles",
+        "Reconcile ADL caller/selector removal with final coherent retirement approval"
+      ],
+      "successor_mapping": {
+        "mapping": "reviewed_owner_composition",
+        "successor_revision": "b3dc3d7dd8f89e38a3ff410be3bf0c9045d4b3ca",
+        "source_path": "docs/skill-distributions/original-contracts/current-conductor/update_sprint_state.py",
+        "installed_path": "skills/sprint-conductor/scripts/update_sprint_state.py",
+        "sha256": "a227c7f452dd3c514ad609623e47db92ab62957e53d814b7cf4860360866a4e3"
+      },
+      "reviewed_disposition": {
+        "packet": "CONDUCTOR_11_DISPOSITIONS.json",
+        "packet_sha256": "db3c46fa4275ad569a56c5423f8f8a4f34bd489189b3177b7e5dad58d9a98b9c",
+        "proposal": "proposed_owner_transfer_with_consumer_qualification"
+      }
+    },
+    {
+      "id": "RD07-1864",
+      "path": "adl/tools/skills/sprint-conductor/scripts/write_issue_goal_metrics_report.py",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "14cf4b75c7ce4e23b16df145800b7a2d32be16cf"
+      },
+      "existing_action": "retain",
+      "hold_reason": "Existing owner composition maps implementation; authentic installed qualification and native admission remain required.",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "Authenticate actual owner distribution and dependency composition; source manifest is not producer authentication",
+        "Execute or reuse exact existing mapped original assertions with complete installer/conductor denominator",
+        "For lifecycle helper effects require real admitted native owner evidence separately from transport doubles",
+        "Reconcile ADL caller/selector removal with final coherent retirement approval"
+      ],
+      "successor_mapping": {
+        "mapping": "reviewed_owner_composition",
+        "successor_revision": "b3dc3d7dd8f89e38a3ff410be3bf0c9045d4b3ca",
+        "source_path": "docs/skill-distributions/original-contracts/original/adl/tools/skills/sprint-conductor/scripts/write_issue_goal_metrics_report.py",
+        "installed_path": "adl/tools/skills/sprint-conductor/scripts/write_issue_goal_metrics_report.py",
+        "sha256": "4809a13f1064d64cdbef25bf8c435350acee28c8b874001c561c8069cdd3b388"
+      },
+      "reviewed_disposition": {
+        "packet": "CONDUCTOR_11_DISPOSITIONS.json",
+        "packet_sha256": "db3c46fa4275ad569a56c5423f8f8a4f34bd489189b3177b7e5dad58d9a98b9c",
+        "proposal": "proposed_owner_transfer_with_consumer_qualification"
+      }
+    },
+    {
+      "id": "RD07-2120",
+      "path": "adl/tools/test_sprint_conductor_helpers.sh",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "1110a47cb26b31537b4e8e442730434538e6785d"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
+      "required_before_execution": [
+        {
+          "path": "adl/config/validation_lane_selector.v0.91.6.json",
+          "line": 1508,
+          "reference": "        \"adl/tools/test_sprint_conductor_helpers.sh\",",
+          "kind": "source_or_configuration_reference",
+          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+        },
+        {
+          "path": "adl/config/validation_lane_selector.v0.91.6.json",
+          "line": 1513,
+          "reference": "        \"adl/tools/test_sprint_conductor_helpers.sh\",",
+          "kind": "source_or_configuration_reference",
+          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+        },
+        {
+          "path": "adl/config/validation_lane_selector.v0.91.6.json",
+          "line": 1516,
+          "reference": "      \"command\": \"bash adl/tools/test_sprint_conductor_helpers.sh && bash adl/tools/test_install_adl_operational_skills.sh\",",
+          "kind": "source_or_configuration_reference",
+          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+        },
+        {
+          "path": "adl/config/validation_lane_selector.v0.91.6.json",
+          "line": 1517,
+          "reference": "      \"run_command\": \"bash adl/tools/test_sprint_conductor_helpers.sh && bash adl/tools/test_install_adl_operational_skills.sh\",",
+          "kind": "source_or_configuration_reference",
+          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+        },
+        {
+          "path": "adl/tools/skills/sprint-review/SKILL.md",
+          "line": 172,
+          "reference": "    - adl/tools/test_sprint_conductor_helpers.sh",
+          "kind": "documentation_reference",
+          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+        },
+        {
+          "path": "adl/tools/test_ci_path_policy.sh",
+          "line": 875,
+          "reference": "  printf '#!/usr/bin/env bash\\nexit 0\\n' > adl/tools/test_sprint_conductor_helpers.sh",
+          "kind": "source_or_configuration_reference",
+          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+        },
+        {
+          "path": "adl/tools/test_ci_path_policy.sh",
+          "line": 880,
+          "reference": "    adl/tools/test_sprint_conductor_helpers.sh \\",
+          "kind": "source_or_configuration_reference",
+          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+        },
+        {
+          "path": "adl/tools/test_ci_path_policy.sh",
+          "line": 906,
+          "reference": "  printf '#!/usr/bin/env bash\\nexit 0\\n' > adl/tools/test_sprint_conductor_helpers.sh",
+          "kind": "source_or_configuration_reference",
+          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+        },
+        {
+          "path": "adl/tools/test_ci_path_policy.sh",
+          "line": 910,
+          "reference": "    adl/tools/test_sprint_conductor_helpers.sh \\",
+          "kind": "source_or_configuration_reference",
+          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+        },
+        {
+          "path": "adl/tools/test_ci_path_policy.sh",
+          "line": 1056,
+          "reference": "  printf '#!/usr/bin/env bash\\nexit 0\\n' > adl/tools/test_sprint_conductor_helpers.sh",
+          "kind": "source_or_configuration_reference",
+          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+        },
+        {
+          "path": "adl/tools/test_ci_path_policy.sh",
+          "line": 1069,
+          "reference": "    adl/tools/test_sprint_conductor_helpers.sh \\",
+          "kind": "source_or_configuration_reference",
+          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+        },
+        {
+          "path": "adl/tools/test_install_adl_operational_skills.sh",
+          "line": 211,
+          "reference": "bash \"${repo_root}/adl/tools/test_sprint_conductor_helpers.sh\"",
+          "kind": "source_or_configuration_reference",
+          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+        },
+        {
+          "path": "adl/tools/test_process_drift_regressions.sh",
+          "line": 8,
+          "reference": "bash adl/tools/test_sprint_conductor_helpers.sh",
+          "kind": "source_or_configuration_reference",
+          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+        },
+        {
+          "path": "adl/tools/test_validation_manager.sh",
+          "line": 699,
+          "reference": "M\tadl/tools/test_sprint_conductor_helpers.sh",
+          "kind": "source_or_configuration_reference",
+          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+        },
+        {
+          "path": "adl/tools/test_validation_manager.sh",
+          "line": 723,
+          "reference": "M\tadl/tools/test_sprint_conductor_helpers.sh",
+          "kind": "source_or_configuration_reference",
+          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+        },
+        {
+          "path": "adl/tools/test_validation_manager.sh",
+          "line": 755,
+          "reference": "M\tadl/tools/test_sprint_conductor_helpers.sh",
+          "kind": "source_or_configuration_reference",
+          "obligation": "Reconcile literal selector/runner/documentation reference with this row disposition; fixture mentions stay historical; do not redirect to an inert archive."
+        },
+        "Accept per-row disposition and close listed caller/dependency obligations.",
+        "For transfers, bind actual owner package/fixture outcomes to the mapped assertion denominator; source availability alone is insufficient.",
+        "Obtain coherent source-retirement approval and guard qualification.",
+        "Reconcile selector, aggregate, installer-child and documentation callers to exact owner component contracts.",
+        "Preserve421-expression assertion map and retired ABI dispositions.",
+        "Native admission remains separate and unproven by transport doubles.",
+        "Exact scoped retirement decision."
+      ],
+      "successor_mapping": {
+        "mapping": "unmapped",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "CONDUCTOR_WRAPPER_HISTORICAL_DISPOSITION.json",
+        "packet_sha256": "74215108b875e13a217d829ad44dc226321df7de410a8f03fbd859c95fac8039",
+        "proposal": "proposed_historical_retirement_with_caller_repair",
+        "reason": "Retire original wrapper transport/card-directory ABI explicitly; preserve mapped component assertions and independent native-admission requirement.",
+        "review": "review_1223_public_facade"
+      },
+      "prior_hold_reason": "Changed current-conductor activation and check_conductor_correspondence.py map explicit readiness/card exports, metrics, parity, lifecycle and closeout portions. Native transport doubles and full_original_acceptance=false are explicit; preserve CONDUCTOR_ASSERTION_MAP denominator and unmatched bootstrap/native admission obligations."
+    }
+  ],
+  "files": [
+    {
+      "path": "adl/tools/skills/sprint-conductor/scripts/check_sprint_closeout_readiness.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "6f2df70070726fe781ef92a1f89fb354075a3a09",
+        "sha256": "5f6f3ceee583aace8dce016eea483fb51f63a8dbb8d37ea30ccfd3b50c02082e"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/sprint-conductor/scripts/check_sprint_readiness.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "97fb46119f7df7c4612dcb8df0b645ebee7b72fb",
+        "sha256": "7abcce87dfb652d9f470a88b72871df905558f4b8ff549a0923a48ba7d90dbdb"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/sprint-conductor/scripts/check_sprint_structured_prompt_readiness.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "257b5abbf209bb1108f5281a3b3ebffaff12b0e4",
+        "sha256": "cac78e18518772f783f5c4d0b3e73214cdcf4cffde4f2600e4e3fab0587c2983"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/sprint-conductor/scripts/check_sprint_truth.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "989b5643968aa824f2e37857c97a40063915b30c",
+        "sha256": "4c63e291d697b78b46b95f19e7a3f192e24b3aa01de538a912534c815d569944"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/sprint-conductor/scripts/close_sprint_issue.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "474a7aca355892a9e9afc3fe6c9b6049d2fff57e",
+        "sha256": "4e2135d77ed4d79f044e043afce0a13aca66e21667c9a4be0ed9b5ac98e496c1"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/sprint-conductor/scripts/create_missing_sprint_issue.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "da172ebc8c58c5e128a1296b23e2235dcec7a4e4",
+        "sha256": "af9375c61a327d09af8d825e61d90fb529edc91d19e1fe4b4553ca82441c84b1"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/sprint-conductor/scripts/predict_issue_execution_metrics.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "3caf11889e7935a3e1389434bf77439de317e7da",
+        "sha256": "631ae4b30a7f781b0a7c87ed2b92419b93c544539ea38c2a4f025b47c4d5df4a"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/sprint-conductor/scripts/record_child_issue_closeout.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "c706abd03a0f0970961687ff81d035c4e55644f3",
+        "sha256": "b973e76f575329d080251abba524203ac5696c52a2b9dc7093656978c5db1d4c"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/sprint-conductor/scripts/record_issue_goal_stage_artifacts.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "a269f205fe536bac2039cd26c8025c69523aae95",
+        "sha256": "b0c2b8ff84bd7eb2528aead54bc6301d352b058eac364ab38ee70d29a692ba50"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/sprint-conductor/scripts/update_sprint_state.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "761b8b57c85b91ef8ec3280f638fe84de48dfaec",
+        "sha256": "a68717309c29c0551521f1d3386380d8f0e24e40236e1b46bb82044fe06e7a73"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/skills/sprint-conductor/scripts/write_issue_goal_metrics_report.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "14cf4b75c7ce4e23b16df145800b7a2d32be16cf",
+        "sha256": "4809a13f1064d64cdbef25bf8c435350acee28c8b874001c561c8069cdd3b388"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_sprint_conductor_helpers.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "1110a47cb26b31537b4e8e442730434538e6785d",
+        "sha256": "97ef0393dcf40f1d19e391334ef56eb9c72973bfb4fe39a1049c17c0dce1b5de"
+      },
+      "after": null
+    },
+    {
+      "path": "tools/sprint_contracts/owner_inputs.json",
+      "action": "add",
+      "before": null,
+      "after": {
+        "mode": "100644",
+        "sha256": "99fc722126dc1594803351535b3545f7c62ed224fc5be635a91869cc60fc20c6",
+        "blob": "1742140bd537939e8b547f39d709c9dd32ccc2c2"
+      }
+    },
+    {
+      "path": "tools/sprint_contracts/run_owner_correspondence.py",
+      "action": "add",
+      "before": null,
+      "after": {
+        "mode": "100644",
+        "sha256": "40f5c1c2e41fb6b45d60fc5711357d9ed0680183b532614a3f989e99b07d0e90",
+        "blob": "411da1d6e4eb77f088120a68b6d5100ffe5409af"
+      }
+    },
+    {
+      "path": "adl/tools/test_install_adl_operational_skills.sh",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "5f8b588e25bf3996af3b1350b44548996eae756e",
+        "sha256": "791113312b1e248e001a70ec1a83161d651694919191b370186d47b1cb5750c9"
+      },
+      "after": {
+        "mode": "100644",
+        "sha256": "39e78b3d4a49d4410a2c5eecf6acf141c8732ebb1470e7d2f30df7d34e64b32b",
+        "blob": "f9f813dca04b2445b498b5fb0bb29a8d4794d0d8"
+      }
+    },
+    {
+      "path": "adl/config/validation_lane_selector.v0.91.6.json",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "86a1d93500563a740828ffbc23626bd04fc5a14a",
+        "sha256": "0d636b424ee8a8529fe29c407c6b7db64ee33e565bedab1e2e333194c58c46fd"
+      },
+      "after": {
+        "mode": "100644",
+        "sha256": "4d815e1de0036c3c4cb97a5ce4fc2b1797293e9fb1b68ea614ed74c8d20400a9",
+        "blob": "487769de8a2f0db33e3fa80fb614a43e11c89a41"
+      }
+    },
+    {
+      "path": "docs/tooling/SPRINT_CONDUCTOR_OWNER_CONTRACT.md",
+      "action": "add",
+      "before": null,
+      "after": {
+        "mode": "100644",
+        "sha256": "365a5ba6228c9b9cbb421247b0ce7d4c93ccc05b2860a665d3ca0441d1d47c94",
+        "blob": "4c9427e56bd546a58cce61414d1e63d873c1f6be"
+      }
+    },
+    {
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "2f245d65e62cc7222cf21a95324910d0e1e6de2e",
+        "sha256": "9ccb46aae7426aea92883bef3fd9899518a22b9bfc98f2235523b6db34b5212c"
+      },
+      "after": {
+        "mode": "100644",
+        "sha256": "9a3dfe47affbf053cf433cd4d6eecb360f29534bc4b8f924fc7e5e1fa63860c9",
+        "blob": "940ab94e8ef290ee9eb720569aedb35078af609c"
+      }
+    }
+  ],
+  "removal_count": 12,
+  "custody": {
+    "path": "/Volumes/FastWork/c1223/sprint-twelve-preparation/preimages.tar",
+    "sha256": "2befcaee51681dd211b012d35090281ec12d23f9fc621b6c4247925e1ac669a8"
+  },
+  "patch_sha256": "ea9bd833c87d0f54740f077f4f9ff055a9a19a08d305ac0318b2984ce2bd66ef",
+  "proof_reuse_plan": {
+    "path": "/Volumes/FastWork/c1223/sprint-conductor-qualification-plan/PLAN.json",
+    "sha256": "305ec171899281bb4421e1e1f87cb5b2ce5b45a7cb3ec03e04c20ecd056f3bbb"
+  },
+  "original_assertion_expressions": 421,
+  "full_original_acceptance": false,
+  "native_admission": false,
+  "caller_decision": "Installer child explicitly changes from retired original aggregate ABI to authenticated mapped components; installer individual assertions and independent audio child remain. Selector calls installer once to avoid duplicate conductor execution. Missing inputs refuse before installation.",
+  "retained_helpers": [
+    "adl/tools/skills/sprint-conductor/scripts/write_sprint_closeout_artifact.py",
+    "adl/tools/skills/sprint-conductor/scripts/check_installed_skill_parity.py",
+    "adl/tools/skills/sprint-conductor/scripts/record_codex_goal_tool_snapshot.py",
+    "adl/tools/skills/sprint-conductor/scripts/record_issue_goal_stage_from_codex_session.py",
+    "adl/tools/skills/sprint-conductor/scripts/record_issue_goal_metrics.py",
+    "adl/tools/skills/sprint-conductor/scripts/issue_goal_metrics.py"
+  ],
+  "new_test_surface": {
+    "lane": "cli_workflow",
+    "proof_role": "historical_mapped_contract",
+    "deterministic": true,
+    "resources": "small local CPU/disk; private fixture subprocesses",
+    "release_gate": "Existing legacy selector/installer-child gate; no new native acceptance gate"
+  },
+  "limits": [
+    "No shared edits or deletions. Only11mocked routing/prefix checks executed; no original/component/native tests.",
+    "New adapter routing and refusal proof passed; original components not rerun.",
+    "Do not claim complete installer/audio/native/full421 acceptance.",
+    "Current native acceptance and retired ABI distinctions remain exact in assertion map.",
+    "Registry regenerated prospectively; compose with concurrent source batches on application."
+  ],
+  "focused_routing": {
+    "path": "/Volumes/FastWork/c1223/sprint-twelve-preparation/ROUTING_RESULT.json",
+    "sha256": "547380fa3ad0ed0270aabb1231b8422d4a9f0502636a59022b92906e1c6986f2",
+    "script_sha256": "1b64aa358a5dd6a242f37cdba8aef89804d16a4954369bc89aff9dcf246e792a",
+    "cases": 11,
+    "original_components_executed": false
+  },
+  "source_review": {
+    "reviewer": "review_1223_applied_components",
+    "status": "PASS; permitted mocked routing checks",
+    "scope": "43resources/20scripts/12custody; no original execution"
+  },
+  "issue": 1223,
+  "removed_count": 12,
+  "final_review": {
+    "reviewer": "review_1223_applied_components",
+    "result": "PASS",
+    "scope": "Exact final43resource/20script pins,12custody entries,11inert routing cases, changed-interface and421expression limits; registry five nested skill navigation paths corrected"
+  }
+}

@@ -1,0 +1,796 @@
+{
+  "schema": "adl1223.v0871_historical_aggregate_retirement.v1",
+  "status": "applied_local_reversible_implementation",
+  "source_head": "9707731d50f4209c07e3f7193d8be254ab6b9167",
+  "files": [
+    {
+      "path": "adl/tools/README.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "7f042e8d1974933a17b1a824dbbdee3253f6fa26",
+        "sha256": "d4668fc97adb3cbaae2e93e3a2c0adc5e4e42f4336b66c1f06495c93a7ea5590"
+      },
+      "after": {
+        "mode": "100644",
+        "sha256": "c28b541379b3b0bcbd9fc4c74e17b2a083dea2b24f327e4b04ab2c8eb94e37bd",
+        "blob": "516889694d38c591e0961f5cc31d232cca45a203"
+      },
+      "id": "RD07-1233",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "3a6334f2e29d10598bffd49297bf882fbd6b3452"
+      }
+    },
+    {
+      "path": "adl/tools/demo_v0871_docs_review.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "e665e6abb213ab6516ddeeac7bcde9e62c3e984a",
+        "sha256": "d20201f174cda031667b9bd6763d9c04323c5718ea727f4752ea90e8bb339c30"
+      },
+      "after": null,
+      "id": "RD07-1318",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "e665e6abb213ab6516ddeeac7bcde9e62c3e984a"
+      }
+    },
+    {
+      "path": "adl/tools/demo_v0871_integrated_runtime.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "ad3ee0d0b56a66d1ddc44ef3ac636a7a260c6656",
+        "sha256": "6b642896cef6d0892abc24cbf7901df4cbdcd799def003078e6a86e4e923cbe4"
+      },
+      "after": null,
+      "id": "RD07-1319",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "608d5698aac535db9911b0866839146e26106499"
+      }
+    },
+    {
+      "path": "adl/tools/demo_v0871_lifecycle.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "f47558b0325275bab2015763b53666d342fa6c8d",
+        "sha256": "26a00cdf995448cfccb6873c05e596dd33fc96fd3884bd364c4789f624fb17cc"
+      },
+      "after": null,
+      "id": "RD07-1320",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "f47558b0325275bab2015763b53666d342fa6c8d"
+      }
+    },
+    {
+      "path": "adl/tools/demo_v0871_quality_gate.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "554c5a6844834c27208ede903ac92a020b859282",
+        "sha256": "555e5bb16013d3a6c9f84794f2b12d968625e228498f5678efe52dae8460ad8f"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/demo_v0871_release_review_package.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "987e4086b43d40228bdd6b194698f58097318a16",
+        "sha256": "5b79f75452c70c1642fc4012f58828c297ab222ff4ca9b525281d7ca17ab15a6"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/demo_v0871_resilience_failure.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "5efb6f7dbcc9b6e4af8f99b4020c4f02fb48f07e",
+        "sha256": "345362ccb828c44bc153ab5a7b85e5b8b73d5a09159f228283220100a8c56dc1"
+      },
+      "after": null,
+      "id": "RD07-1328",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "5efb6f7dbcc9b6e4af8f99b4020c4f02fb48f07e"
+      }
+    },
+    {
+      "path": "adl/tools/demo_v0871_restartability.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "4142a6ee7f2685d3e7b7ffe6f9a23357da23a36c",
+        "sha256": "4220abb17c69b171494538be1613031ab768491e89c9745d1561d027b925c47c"
+      },
+      "after": null,
+      "id": "RD07-1329",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "b55e0f426409129eaaf4a274756ba3042bd6f686"
+      }
+    },
+    {
+      "path": "adl/tools/demo_v0871_review_surface.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "2257989c958e1867ab9d8c7bb1643c986b56bffe",
+        "sha256": "14e0c45f5b555a14c72bcd33a03326cf8151c6469a60213b32cf329828163d5c"
+      },
+      "after": null,
+      "id": "RD07-1330",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "5030b07bed7fc0d83a02709d0186c58906d6b10d"
+      }
+    },
+    {
+      "path": "adl/tools/demo_v0871_runtime_environment.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "92daef6f349a370103de233828362cc86c32e95b",
+        "sha256": "d28d0007dcc718300b5f32168abee7b1f9618c07946a2964da9efa2ca91afffc"
+      },
+      "after": null,
+      "id": "RD07-1331",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "92daef6f349a370103de233828362cc86c32e95b"
+      }
+    },
+    {
+      "path": "adl/tools/demo_v0871_shepherd_recovery.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "9eacf353c9bf7f6d9b25f504a9cc0876d5062bc1",
+        "sha256": "72fb0e2f7de06f0a198fc70800f11ba6f415356edc20141d11e5cf6a372793bd"
+      },
+      "after": null,
+      "id": "RD07-1333",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "76be369e1fd70ef1c8bf4b38b492748925333efd"
+      }
+    },
+    {
+      "path": "adl/tools/demo_v0871_suite.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "6ce0abce43908d79285a2c68f89c1e692bdc1512",
+        "sha256": "adc0458b4dc66bf3a294361fe79c6da1b05913730b440bac5003c4051e195339"
+      },
+      "after": null,
+      "id": "RD07-1334",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "6ce0abce43908d79285a2c68f89c1e692bdc1512"
+      }
+    },
+    {
+      "path": "adl/tools/demo_v0871_trace_runtime.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "7bcf897f0d37e1861934d3d60651faf4e7d634b3",
+        "sha256": "e98a41ce804093f2c24e889678323ceea825532efd0dd2cd06da0c8f906f4bc6"
+      },
+      "after": null,
+      "id": "RD07-1335",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "7bcf897f0d37e1861934d3d60651faf4e7d634b3"
+      }
+    },
+    {
+      "path": "adl/tools/test_demo_v0871_review_surface.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "9bb54f3b8518e20b5f55dcae7846c5e80d9f1ca5",
+        "sha256": "60b4b7248e8bbd1e58659c9d6be2ba61c91efa22945dda9089287e859f72c24e"
+      },
+      "after": null,
+      "id": "RD07-1958",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "9bb54f3b8518e20b5f55dcae7846c5e80d9f1ca5"
+      }
+    },
+    {
+      "path": "adl/tools/test_demo_v0871_review_tail_rows.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "3019ee374389b53099649fb1e96f229f16533649",
+        "sha256": "18b6cc55cd34b2ca441db0969b59041c084ca2a8dba89d0adde2b444a21e6f66"
+      },
+      "after": null,
+      "id": "RD07-1959",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "3019ee374389b53099649fb1e96f229f16533649"
+      }
+    },
+    {
+      "path": "adl/tools/test_demo_v0871_runtime_rows.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "2f2c2868eac3d547d78b26f82c67378d0342d1ad",
+        "sha256": "eafe646f8aa4fec097ef536b4b5d15de2b1533cacad66857aa18ce48c31c17f1"
+      },
+      "after": null,
+      "id": "RD07-1960",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "2f2c2868eac3d547d78b26f82c67378d0342d1ad"
+      }
+    },
+    {
+      "path": "adl/tools/test_demo_v0871_suite.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "f7acc7314f8013e018c22137131fb1035051e767",
+        "sha256": "74cb6ac60266124a933dd6a710bafeb3f8276cfd27af79bdcbd2e228e3a4fb37"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/v0871_demo_common.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "8d8a438ed6a65220dd4bf64e1f744a1c363b0aca",
+        "sha256": "2e54196b6f6814ba96f7273fcd19e4e3ab387334354063ee1c2276960d9f74e2"
+      },
+      "after": null,
+      "id": "RD07-2171",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "8d8a438ed6a65220dd4bf64e1f744a1c363b0aca"
+      }
+    },
+    {
+      "path": "demos/README.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "6f0df20f0039555a1c51de92b406c90e51d39655",
+        "sha256": "aba7ca043121049f289b9182507c190f311e7a2df0c42406bf83aca35e68593e"
+      },
+      "after": {
+        "mode": "100644",
+        "sha256": "b2ab4e6a19f20658df8aa484c5f264fa61e8fbb05332d002bc9e453cf151cf96",
+        "blob": "8c020ed8b7849a7fb559313a23a0986ff4626754"
+      }
+    },
+    {
+      "path": "docs/tooling/README.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "a5bf5690a3bd32752cbd650c91691ecf85f9b5af",
+        "sha256": "1f6016b24910c9722fa7416b5e21f9429db7ac694fd50dd1cd85f6f863a34a34"
+      },
+      "after": {
+        "mode": "100644",
+        "sha256": "db68ee7ac93801f7809569a5e861d336a2868d42aaff4ebc7a20f186168d5f9b",
+        "blob": "8274eb8a4f86e2735af8bdf22f262cd4a93611a5"
+      }
+    },
+    {
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "590542b287b9c702afb84805ab56bdf41f8a7da8",
+        "sha256": "670de7b5fba75fe85f183b42bd821a0eca4c0962fe9f1ccc4c2a8f645adcc71d"
+      },
+      "after": {
+        "mode": "100644",
+        "sha256": "6c4c72fc6955e614768025f98bf66275cbd031933b9bd9d9daa96dae37dd965a",
+        "blob": "ca8c5316dfd630f390b337ce9008ce084564d852"
+      }
+    },
+    {
+      "path": "docs/tooling/V0871_HISTORICAL_AGGREGATE.md",
+      "action": "add",
+      "before": null,
+      "after": {
+        "mode": "100644",
+        "sha256": "0e408fb5908b8d59fcbed1d21af9aeca8edd3b1eac372b25779dfbc1ebf8e2f8",
+        "blob": "4669ef40706d3ab5abf2ad2eb2e504638bdc8ab8"
+      }
+    },
+    {
+      "path": "docs/tooling/reviewer-surface.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "0efcc92a67b19692a91fcde248b87bd49a86360c",
+        "sha256": "2127c885fd338c2eabc4d3adffd10f1f363305487a820de5c509995b96271382"
+      },
+      "after": {
+        "mode": "100644",
+        "sha256": "ca25a2421e64e07341a8a54a41b3bfc77d555a42863082390f320b61a63de695",
+        "blob": "dcfd64e4e56f2874bd23d2ec85520a150f272df7"
+      },
+      "id": "RD07-3824",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "0efcc92a67b19692a91fcde248b87bd49a86360c"
+      }
+    }
+  ],
+  "removal_count": 17,
+  "captured_removal_count": 14,
+  "supplemental_removal_count": 3,
+  "supplemental_paths": [
+    {
+      "path": "adl/tools/demo_v0871_quality_gate.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "554c5a6844834c27208ede903ac92a020b859282",
+        "sha256": "555e5bb16013d3a6c9f84794f2b12d968625e228498f5678efe52dae8460ad8f"
+      },
+      "after": null,
+      "frozen_original": {
+        "revision": "248f00e359e412f6bc0061ac88be9ff374e3a212",
+        "mode": "100755",
+        "blob": "50b7d40fa0f9494ca962c765b66497a2d0eda4f7",
+        "sha256": "8f8aa1415e45bd500b2f5ffe57d01d03582cd642075db510d98123366936d997",
+        "custody_member": "frozen-original/adl/tools/demo_v0871_quality_gate.sh"
+      },
+      "accounting": "Separately enumerated supplemental retirement, outside immutable4134 and22 captures; not an original candidate."
+    },
+    {
+      "path": "adl/tools/demo_v0871_release_review_package.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "987e4086b43d40228bdd6b194698f58097318a16",
+        "sha256": "5b79f75452c70c1642fc4012f58828c297ab222ff4ca9b525281d7ca17ab15a6"
+      },
+      "after": null,
+      "frozen_original": {
+        "revision": "248f00e359e412f6bc0061ac88be9ff374e3a212",
+        "mode": "100755",
+        "blob": "987e4086b43d40228bdd6b194698f58097318a16",
+        "sha256": "5b79f75452c70c1642fc4012f58828c297ab222ff4ca9b525281d7ca17ab15a6",
+        "custody_member": "frozen-original/adl/tools/demo_v0871_release_review_package.sh"
+      },
+      "accounting": "Separately enumerated supplemental retirement, outside immutable4134 and22 captures; not an original candidate."
+    },
+    {
+      "path": "adl/tools/test_demo_v0871_suite.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "f7acc7314f8013e018c22137131fb1035051e767",
+        "sha256": "74cb6ac60266124a933dd6a710bafeb3f8276cfd27af79bdcbd2e228e3a4fb37"
+      },
+      "after": null,
+      "frozen_original": {
+        "revision": "248f00e359e412f6bc0061ac88be9ff374e3a212",
+        "mode": "100755",
+        "blob": "f7acc7314f8013e018c22137131fb1035051e767",
+        "sha256": "74cb6ac60266124a933dd6a710bafeb3f8276cfd27af79bdcbd2e228e3a4fb37",
+        "custody_member": "frozen-original/adl/tools/test_demo_v0871_suite.sh"
+      },
+      "accounting": "Separately enumerated supplemental retirement, outside immutable4134 and22 captures; not an original candidate."
+    }
+  ],
+  "removal_ids": [
+    "RD07-1318",
+    "RD07-1319",
+    "RD07-1320",
+    "RD07-1328",
+    "RD07-1329",
+    "RD07-1330",
+    "RD07-1331",
+    "RD07-1333",
+    "RD07-1334",
+    "RD07-1335",
+    "RD07-1958",
+    "RD07-1959",
+    "RD07-1960",
+    "RD07-2171"
+  ],
+  "disposition": "Explicit historical source-tree aggregate retirement; no owner behavioral-equivalence or new execution claim.",
+  "source_basis": "v0871_demo_common.sh unconditionally refuses sunset v1 workflow; lifecycle/environment/trace depend on it; aggregate suite invokes those before all children. D8 test names retired private tooling dispatcher.",
+  "retired_assertions": "All four full original tests remain in archive: environment/lifecycle/trace/failure/resume/restart; D8 manifest/readme/ordering/privateCLI; D9-D12 manifest/quality/release; full WP13 file inventory.",
+  "preserved_children": "Four provider demos and five tests, two multiagent demos/tests, provider common, public CI/coverage helpers and qualified owner operator/state demos not removed or newly qualified.",
+  "custody": {
+    "path": "/Volumes/FastWork/c1223/v0871-historical-family-preparation/current-and-original-preimages.tar",
+    "sha256": "1edf813d616698a9b91d0fef12958ca21361530463791b1a114c17fe54e04037"
+  },
+  "patch_sha256": "e7502be53fc0ae1871a84c00fed9db86ff26235f08a6cfca14d4518e59a7c10c",
+  "caller_scan": "Active executable/config incoming refs only within selected family. Four nonhistorical navigation documents repaired. CHANGELOG, immutable milestone/review records remain historical.",
+  "coordination": "public_facade confirmed no overlapping quality/release wrapper work; prior Runtime5 repairs preserved in last-current custody.",
+  "limits": [
+    "No tests/builds/provider/cloud calls.",
+    "No retirement authority until independent review and parent scoped application. Three supplemental paths separately enumerated; immutable4134 and22 inventories never expanded/relabelled.",
+    "Unresolved live/Signal and2110/2235/2236 obligations untouched."
+  ],
+  "application_check": "git apply --check PASS; no application",
+  "registry_custody": {
+    "path": "/Volumes/FastWork/c1223/v0871-historical-family-preparation/registry-9707731d50f4.tar",
+    "sha256": "51596991cd4733d3a15f8ad2877282e6dcd166b153eaf0e2d6b421481241047a"
+  },
+  "proposal_source_head": "14706c14b12090a4d354755387b0b49997f6c0a7",
+  "issue": 1223,
+  "removed_count": 17,
+  "rows": [
+    {
+      "id": "RD07-1318",
+      "path": "adl/tools/demo_v0871_docs_review.sh",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "e665e6abb213ab6516ddeeac7bcde9e62c3e984a"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/demo_v0871_docs_review.sh"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1319",
+      "path": "adl/tools/demo_v0871_integrated_runtime.sh",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "608d5698aac535db9911b0866839146e26106499"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/demo_v0871_integrated_runtime.sh"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1320",
+      "path": "adl/tools/demo_v0871_lifecycle.sh",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "f47558b0325275bab2015763b53666d342fa6c8d"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/demo_v0871_lifecycle.sh"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1328",
+      "path": "adl/tools/demo_v0871_resilience_failure.sh",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "5efb6f7dbcc9b6e4af8f99b4020c4f02fb48f07e"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/demo_v0871_resilience_failure.sh"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1329",
+      "path": "adl/tools/demo_v0871_restartability.sh",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "b55e0f426409129eaaf4a274756ba3042bd6f686"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/demo_v0871_restartability.sh"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1330",
+      "path": "adl/tools/demo_v0871_review_surface.sh",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "5030b07bed7fc0d83a02709d0186c58906d6b10d"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/demo_v0871_review_surface.sh"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1331",
+      "path": "adl/tools/demo_v0871_runtime_environment.sh",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "92daef6f349a370103de233828362cc86c32e95b"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/demo_v0871_runtime_environment.sh"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1333",
+      "path": "adl/tools/demo_v0871_shepherd_recovery.sh",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "76be369e1fd70ef1c8bf4b38b492748925333efd"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/demo_v0871_shepherd_recovery.sh"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1334",
+      "path": "adl/tools/demo_v0871_suite.sh",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "6ce0abce43908d79285a2c68f89c1e692bdc1512"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
+      "required_before_execution": [
+        "Reconcile exact active callers and every child obligation",
+        "Scoped retirement decision"
+      ],
+      "successor_mapping": {
+        "mapping": "unmapped",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_DEMO_RETIREMENT_DISPOSITION.json",
+        "packet_sha256": "31a169792124dd2a6e9ed933ed7fc5e333b10eddc0bd2300fe73c3933a33328d",
+        "proposal": "proposed_historical_retirement_with_caller_repair",
+        "reason": "Retire historical16child aggregate topology, preserving each child and manifest/index/README obligations separately.",
+        "review": "Bounded independent source and exact packet/caller review; conditional disposition, no broad equivalence claim"
+      }
+    },
+    {
+      "id": "RD07-1335",
+      "path": "adl/tools/demo_v0871_trace_runtime.sh",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "7bcf897f0d37e1861934d3d60651faf4e7d634b3"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_historical_retirement_with_caller_repair",
+      "required_before_execution": [
+        "Reconcile exact active callers and every child obligation",
+        "Scoped retirement decision"
+      ],
+      "successor_mapping": {
+        "mapping": "unmapped",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_DEMO_RETIREMENT_DISPOSITION.json",
+        "packet_sha256": "31a169792124dd2a6e9ed933ed7fc5e333b10eddc0bd2300fe73c3933a33328d",
+        "proposal": "proposed_historical_retirement_with_caller_repair",
+        "reason": "First workflow call reaches explicit retired return2 before trace archive/manifest creation; retain historical trace/summary/archive/event expectations.",
+        "review": "Bounded independent source and exact packet/caller review; conditional disposition, no broad equivalence claim"
+      }
+    },
+    {
+      "id": "RD07-1958",
+      "path": "adl/tools/test_demo_v0871_review_surface.sh",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "9bb54f3b8518e20b5f55dcae7846c5e80d9f1ca5"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/test_demo_v0871_review_surface.sh"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1959",
+      "path": "adl/tools/test_demo_v0871_review_tail_rows.sh",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "3019ee374389b53099649fb1e96f229f16533649"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/test_demo_v0871_review_tail_rows.sh"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1960",
+      "path": "adl/tools/test_demo_v0871_runtime_rows.sh",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "2f2c2868eac3d547d78b26f82c67378d0342d1ad"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/test_demo_v0871_runtime_rows.sh"
+        ]
+      }
+    },
+    {
+      "id": "RD07-2171",
+      "path": "adl/tools/v0871_demo_common.sh",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "8d8a438ed6a65220dd4bf64e1f744a1c363b0aca"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "specific_consumer_or_document_disposition_required",
+        "Coherently transfer or retire all6callers: RD07-1329, RD07-1333, RD07-1320, RD07-1335, RD07-1331, RD07-1328",
+        "Scoped operator decision; component archive proof is not complete Runtime/demo acceptance"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_repository": "agent-logic/agent-logic-runtime",
+        "successor_revision": "dc88ec20b91a9375823808d633029a0d02f095b3",
+        "exact_successor_paths": [
+          "adl/tools/v0871_demo_common.sh"
+        ]
+      },
+      "prior_proposed_action": "hold_explicit_reconciliation",
+      "prior_successor_mapping": {
+        "mapping": "unmapped",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": []
+      },
+      "disposition_evidence": "RUNTIME_ARCHIVE_CALLER_TRANSFER.json"
+    }
+  ],
+  "review": {
+    "reviewer": "review_1223_historical_retention",
+    "result": "PASS",
+    "scope": "14captured+3separately enumerated supplemental originals,22currentpreimages/42custodymembers,retired aggregate callers; provider/live children preserved; no successor equivalence or passing tests inferred"
+  }
+}

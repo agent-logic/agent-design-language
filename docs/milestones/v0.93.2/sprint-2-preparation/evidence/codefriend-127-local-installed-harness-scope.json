@@ -1,0 +1,12 @@
+{
+  "result": "codefriend-127-local-installed-harness.json",
+  "sha256": "e3c253b26234085b44e63839b23684f9e1a02efe1994c02fb8e45035fae96e66",
+  "qualification": "supplementary local Darwin copied-binary run; not authenticated Linux package proof",
+  "observed_case_count": 24,
+  "remaining": [
+    "Linux installed qualification",
+    "Actual export/cache/paired-copy coverage or supported-scope disposition; inventory reports these absent",
+    "Final independent review and native delivery"
+  ],
+  "template_scope": "This security fixture does not accept existing document templates; new #130 templates remain the selected launch templates."
+}

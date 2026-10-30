@@ -1,0 +1,41 @@
+{
+  "schema_version": "uts.v1.1",
+  "compatible_versions": ["uts.v1", "uts.v1.1"],
+  "name": "registry.bad_auth",
+  "version": "1.1.0",
+  "description": "Invalid fixture requiring authentication while declaring no authentication mode.",
+  "input_schema": {
+    "type": "object"
+  },
+  "output_schema": {
+    "type": "object"
+  },
+  "side_effect_class": "external_write",
+  "side_effects": ["external_state"],
+  "determinism": "bounded_nondeterministic",
+  "replay_safety": "replay_requires_approval",
+  "idempotence": "conditionally_idempotent",
+  "resources": [
+    {
+      "resource_type": "registry",
+      "scope": "preview-records"
+    }
+  ],
+  "authentication": {
+    "mode": "none",
+    "required": true
+  },
+  "data_sensitivity": "internal",
+  "exfiltration_risk": "low",
+  "execution_environment": {
+    "kind": "external_service",
+    "isolation": "registry sandbox"
+  },
+  "errors": [
+    {
+      "code": "registry_unavailable",
+      "message": "The registry endpoint is unavailable.",
+      "retryable": true
+    }
+  ]
+}

@@ -1,0 +1,257 @@
+{
+  "schema": "adl.language_cleanup.transition.v1",
+  "issue": 1348,
+  "source_commit": "d96a3cee67f7d281bb90189fde33c0fba51bbad8",
+  "removed": [
+    "tools/public_adl/ci_policy.py",
+    "tools/public_adl/coverage.py",
+    "tools/public_adl/test_action_pins.py",
+    "tools/public_adl/test_ci_contract.py",
+    "tools/public_adl/test_ci_policy.py",
+    "tools/public_adl/test_coverage.py",
+    "tools/public_adl/test_planning_contract.py",
+    "tools/public_adl/test_validation_interfaces.py"
+  ],
+  "changes": [
+    {
+      "path": ".github/workflows/ci.yaml",
+      "before": [
+        "100644",
+        "cb90f8ef19a3be9c1c09839d172747b9f19ac15e"
+      ],
+      "after": [
+        "100644",
+        "62d052355bc1eac146936d92ea81d85b17c08a19"
+      ],
+      "before_sha256": "bcac36f67fca4cfb1ae482c3f85abee5c756023d04e56fa6e0167f031183374d"
+    },
+    {
+      "path": ".github/workflows/nightly-coverage-ratchet.yaml",
+      "before": [
+        "100644",
+        "e31744223e5523cc98ef37f422a01515288193f9"
+      ],
+      "after": [
+        "100644",
+        "52df005c8da0ce03ca6d028dda4f4c3d82ee57a2"
+      ],
+      "before_sha256": "55a585c1f350bb77ca752710ac1790885f6f892a8290f378c265f3f07f4b7d20"
+    },
+    {
+      "path": "adl/config/validation_lane_selector.public.v1.json",
+      "before": [
+        "100644",
+        "6129d6d08a8bd1c8d85cf3ec3c788b60eb19e307"
+      ],
+      "after": [
+        "100644",
+        "7c68372d5ecae65cddd2c83407ca830da1dbfa96"
+      ],
+      "before_sha256": "7e2838badb611ddadc75a672812f35b812f5ae4156514f5ad6e2d953b089dd78"
+    },
+    {
+      "path": "adl/tools/ci_path_policy.sh",
+      "before": [
+        "100755",
+        "c3ba898ff3bb12da226185598eef6e6387f89e18"
+      ],
+      "after": [
+        "100755",
+        "41d195cca73e46b4929670b8f049fe32b4edc451"
+      ],
+      "before_sha256": "9fb3888c1bd86f907c714d30ca996bcbcfbf8445aa14d1862c2fed5e0f1d8f99"
+    },
+    {
+      "path": "adl/tools/validation_inventory.py",
+      "before": [
+        "100644",
+        "ff6db6c7f19da171e3fa6ae9e0ffb681e4854fd0"
+      ],
+      "after": [
+        "100644",
+        "b493a2ea88eaf64a6257d50093f9afef573e16d3"
+      ],
+      "before_sha256": "b4f5f06f3ecc7dce7628cdeadbce7e41e89a1860af56bbd0c51862bf62314045"
+    },
+    {
+      "path": "tools/ci_contracts/Cargo.lock",
+      "before": [
+        "100644",
+        "9572b27e702cd85e3efe3aaada0cedc85b9fdaf2"
+      ],
+      "after": [
+        "100644",
+        "19f9ee04c09fba76ddb2f59e12d031d8ce9de91c"
+      ],
+      "before_sha256": "0240e2266cb2a00504088bed8d3ce835b2c9d8cb4a7d09111166f4987086cfd4"
+    },
+    {
+      "path": "tools/ci_contracts/Cargo.toml",
+      "before": [
+        "100644",
+        "6c459e187da12b7fdf49d174eef782730bc346ea"
+      ],
+      "after": [
+        "100644",
+        "640dbf0d62f511e2e85ce3292013970beafe8380"
+      ],
+      "before_sha256": "3d98dfd4a082a3c6e3c54bafe09840253b8ac05378493a701b8958d61f65d33a"
+    },
+    {
+      "path": "tools/ci_contracts/src/lib.rs",
+      "before": [
+        "100644",
+        "09fe8d6122da426aeedf71e736b92d799cc9b2b8"
+      ],
+      "after": [
+        "100644",
+        "6962eb95c8571b8f0d5eb10d4c5166527fc43508"
+      ],
+      "before_sha256": "eb4a4f3671b96473a25e4ba7d6afdbdb50420a9b7c876f68923c8ac1033c3e0c"
+    },
+    {
+      "path": "tools/ci_contracts/src/main.rs",
+      "before": [
+        "100644",
+        "7676fcea8dd2ce9d15be18f32004b7a02e8754c6"
+      ],
+      "after": [
+        "100644",
+        "2ab9862c1f8a6ea5d867d5d9ccd3da56190f5bef"
+      ],
+      "before_sha256": "3ad8c6c2fad360ece64db5f7c19458ee560f316257455d60b1a432d8021867f1"
+    },
+    {
+      "path": "tools/ci_contracts/tests/policy.rs",
+      "before": [
+        "100644",
+        "2462223c3d680b1d7668b78a7ec10ae12d8a29d4"
+      ],
+      "after": [
+        "100644",
+        "6c27b1cf093a476764dcd09c3ad40fc72f9098d3"
+      ],
+      "before_sha256": "80ca7b23271cfeabec088099d83c5bfb8ce248bb72ce58aa359d5e7181becafc"
+    },
+    {
+      "path": "tools/groupd_validation/src/lib.rs",
+      "before": [
+        "100644",
+        "cbf379732cb43d843cca7812d466de2009318abf"
+      ],
+      "after": [
+        "100644",
+        "dac8bcff31c0332ead1dd2d2d7b21a841c8ee40b"
+      ],
+      "before_sha256": "81106f903656203604d9ba69b3b7493f85af65fb740a60929931bc4ee6ab3fe4"
+    },
+    {
+      "path": "tools/public_adl/ci_policy.py",
+      "before": [
+        "100644",
+        "5479c5222f03afdbc501e82c671f298c3978b8b8"
+      ],
+      "after": null,
+      "before_sha256": "620f64f11cfc437282b05a83aee2dcfdac5a9610f7e3183bbb735a3b9e34ec6d"
+    },
+    {
+      "path": "tools/public_adl/coverage.py",
+      "before": [
+        "100644",
+        "2fb452f3316581737f8d2905e37209b7cb839f73"
+      ],
+      "after": null,
+      "before_sha256": "178a90a4a79f4399191822248a26a0852bde0fa3ceffff5942edd09e60962885"
+    },
+    {
+      "path": "tools/public_adl/run_ci.sh",
+      "before": [
+        "100755",
+        "da55223854b27106e9a2cffc4522dd371e5ef85f"
+      ],
+      "after": [
+        "100755",
+        "3546edc576534fdb51f9e228906c94f35dde16d8"
+      ],
+      "before_sha256": "cf5336ff9f14d6dd7bf5d1c25a0e79625c19503ed4c2a4770d7b51c8e9dac83f"
+    },
+    {
+      "path": "tools/public_adl/test_action_pins.py",
+      "before": [
+        "100644",
+        "b9d849af83768382fc3b63b1beb23b473cf671c8"
+      ],
+      "after": null,
+      "before_sha256": "9ae7ac34e255b8676dbdc74613c8880f943b7c2a310895378925f42d9cc15850"
+    },
+    {
+      "path": "tools/public_adl/test_ci_contract.py",
+      "before": [
+        "100755",
+        "3bb18d15a2bd21baaa91a2f668fcae6ba260dc6d"
+      ],
+      "after": null,
+      "before_sha256": "6428baa0d372bd5cd948ef5d445f04c20b893921b8c0715cb4f210e80cc8e84f"
+    },
+    {
+      "path": "tools/public_adl/test_ci_policy.py",
+      "before": [
+        "100644",
+        "9d355630522ddaaafb03d00758213dab50632274"
+      ],
+      "after": null,
+      "before_sha256": "2dfb4e74ff0248dd024f5b7a814a0a21e04d7ed19b754f0497db6491dc086b23"
+    },
+    {
+      "path": "tools/public_adl/test_ci_routing.sh",
+      "before": [
+        "100755",
+        "f895b325e82d5f2150001b33dd052fd4c1f16aa5"
+      ],
+      "after": [
+        "100755",
+        "f8f7c35582229917aeb849e93eddf92f32e7cc5b"
+      ],
+      "before_sha256": "960c897a41ad53980531109dde684fb416a6ed9e9b7005ad09724ec9f9020cd3"
+    },
+    {
+      "path": "tools/public_adl/test_coverage.py",
+      "before": [
+        "100644",
+        "3efd28dcacdedc508c350b8748b5c8ff1d30c8a7"
+      ],
+      "after": null,
+      "before_sha256": "59cc7c22a0bee55567b37fbf41f677dd83ff57b18d5da6882d5e905000502ab1"
+    },
+    {
+      "path": "tools/public_adl/test_planning_contract.py",
+      "before": [
+        "100644",
+        "cb185abd6ee8cc5aa2c3cd68ed288f15a2942d16"
+      ],
+      "after": null,
+      "before_sha256": "ac66d2b3887175ea5ccbe90e98aaf488afe81ab587e260ba2d4df06da7825eca"
+    },
+    {
+      "path": "tools/public_adl/test_validation_interfaces.py",
+      "before": [
+        "100644",
+        "2c0d332d738aab85e37a90740916771d2356206a"
+      ],
+      "after": null,
+      "before_sha256": "ebd87a480449cb6acf7949fd70e589b1b647f7007a396887a19e3c879707117f"
+    },
+    {
+      "path": "tools/repository_cleanup/validate.py",
+      "before": [
+        "100644",
+        "42c9ca2ded80d55cb7306f9bb8f45f84d75d5ec9"
+      ],
+      "after": [
+        "100644",
+        "a1aee933f4f572fda6c38d5bd7729e30c1f7ca2a"
+      ],
+      "before_sha256": "ad8744aa9a3468ded2c2e075b851593fd82a0c8bb8e0d91f8a53ba84a8a5d239"
+    }
+  ]
+}

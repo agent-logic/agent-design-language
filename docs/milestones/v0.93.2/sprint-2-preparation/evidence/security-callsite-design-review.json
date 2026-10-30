@@ -1,0 +1,30 @@
+{
+  "reviewer": "Planning #12",
+  "review_turn": "01a15a7a-5e06-7e70-8fc9-97b52386cba9",
+  "scope": "CodeFriend127 CONSUMER_CALLSITE_MAP against full security9 OWNER_PREREQUISITES",
+  "outcome": "design requirements documented; implementation and installed proof pending",
+  "findings": [
+    {
+      "id": "replay-ordering",
+      "requirement": "Name enforcement seam, request identity and sequence binding; demonstrate duplicate/out-of-order rejection before protected effects. Freshness and live grants alone are insufficient.",
+      "status": "design map clarified; implementation and installed proof pending"
+    },
+    {
+      "id": "trusted-context-updates",
+      "requirement": "Identify exact trusted context constructor and policy-update interface; map authority fields to trusted sources and invalidate stale decisions after updates.",
+      "status": "design map clarified; implementation and installed proof pending"
+    }
+  ],
+  "positive_observation": "Immutable persisted ownership and reassignment are explicitly addressed in design.",
+  "acceptance_limit": "Not implementation review or installed acceptance; no new operator approval gate.",
+  "followup_observation": "Inspected updated callsite map: planned AuthorityInput::from_trusted field mapping, authenticated generation-CAS update, persistent replay ledger, final generation check serialized with admission, and installed zero-effect negative cases now explicit.",
+  "source_progress": {
+    "head": "be0f26bf0a99c4ae359fafaabff0bf2ea3bceaec",
+    "constructor": "boundary::policy::AuthorityInput::from_trusted",
+    "policy_state": "server/boundary/state.rs snapshot/update/commit methods",
+    "administrative_route": "existing private peer-authenticated Unix control socket",
+    "reported_validation": "Worker30 reports21 boundary tests and3 actual control-socket tests passing",
+    "inspection": "Commit identity and source interfaces verified by root",
+    "remaining": "Runtime process bridge, protected service wiring, installed zero-effect and full audit/deletion proof"
+  }
+}

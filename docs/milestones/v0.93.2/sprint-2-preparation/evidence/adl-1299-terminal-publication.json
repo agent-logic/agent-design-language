@@ -1,0 +1,9 @@
+{
+  "schema": "csdlc.v3.intent_changes.v1",
+  "publication": {
+    "base": "main",
+    "title": "[v0.93.2][Sprint 2] Accept CodeFriend assessment and enterprise trust boundaries",
+    "body": "Closes #1299\n\nTerminal Sprint 2 delivery only: requires accepted CodeFriend #120 and enterprise-security #9 outcomes, actual proof, independent implementation review, and truthful sprint closeout.\n\nDO NOT PUBLISH THIS METADATA FOR PREPARATION ONLY. The preparation packet is a local review handoff and cannot close the sprint.",
+    "draft": true
+  }
+}
