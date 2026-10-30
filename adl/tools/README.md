@@ -40,7 +40,7 @@ Keep behavioral and milestone narrative in canonical docs, not here.
 The retired original `test_skill_documentation_completeness.sh` checked the
 historical monorepo skill layout; its source and assertions remain in retirement
 custody. Its 51-family, 205-input inventory and missing Sprint
-Review schema are preserved in the [historical disposition](../../docs/milestones/v0.93.1/repository-decomposition/rd07-1223/SKILL_COMPLETENESS_HISTORICAL_DISPOSITION.json);
+Review schema are preserved in the [historical disposition](../../docs/archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.93.1/repository-decomposition/rd07-1223/SKILL_COMPLETENESS_HISTORICAL_DISPOSITION.json");
 no full completeness pass is claimed. Each skill owner must check its declared
 current inventory, manifests, schemas, output contracts, guide coverage, and
 installation contract in that owner's layout. Individual resource checks do not

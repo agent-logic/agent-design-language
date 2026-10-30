@@ -132,7 +132,7 @@ A lower-level `adl codefriend architecture four-plus-one --store STORE --graph
 GRAPH --provider-request REQUEST --out NEW_DIRECTORY` command uses the same
 contracts. That command alone does not establish product-journey qualification.
 Installed native generation and retrieval passed on ADL and a bounded external
-repository; see [the #1109 evidence](../milestones/v0.92.2/evidence/issue-1109/README.md)
+repository; see [the #1109 evidence](../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.92.2/evidence/issue-1109/README.md")
 for exact candidates, source revisions and partial-coverage limits. Hosted and
 paired-local activity integration remains with #1101 (and the website integration
 in agent-logic/codefriend.ai#6); those paths must consume this package and existing

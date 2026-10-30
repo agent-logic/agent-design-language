@@ -69,9 +69,9 @@ determinism, governance, or reviewability.
 
 ## Deeper References
 
-- [Agent Comms v1 feature surface](../milestones/v0.90.5/features/AGENT_COMMS_v1.md)
-- [v0.91 agent comms split plan](../milestones/v0.91/AGENT_COMMS_SPLIT_PLAN_v0.91.md)
-- [A2A external agent adapter plan](../milestones/v0.91/features/A2A_EXTERNAL_AGENT_ADAPTER.md)
+- [Agent Comms v1 feature surface](../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.90.5/features/AGENT_COMMS_v1.md")
+- [v0.91 agent comms split plan](../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.91/AGENT_COMMS_SPLIT_PLAN_v0.91.md")
+- [A2A external agent adapter plan](../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.91/features/A2A_EXTERNAL_AGENT_ADAPTER.md")
 - [v0.91 ChatGPT + Gemini task handoff demo](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.91/chatgpt_gemini_task_handoff_demo.md)
 - [v0.91 ChatGPT + Gemini + Claude review panel demo](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/demos/v0.91/chatgpt_gemini_claude_review_panel_demo.md)
 

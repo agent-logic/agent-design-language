@@ -4,7 +4,7 @@ All notable project-level changes are summarized here by milestone/release.
 
 ## v0.92.2 (External-review preparation; not a release)
 
-The [milestone package](docs/milestones/v0.92.2/README.md) records merged
+The [milestone package](docs/archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.92.2/README.md") records merged
 implementation and internal-review remediation. The #916 assessment is accepted
 for handoff, with product qualification still `not_proven`. The approved #922
 successor split places remaining Beta 1 launch work in v0.93.1, including repairs

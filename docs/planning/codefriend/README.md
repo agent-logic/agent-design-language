@@ -1,6 +1,6 @@
 # CodeFriend Planning Home
 
-Current scheduling authority is [v0.92.2](../../milestones/v0.92.2/README.md), which supersedes the earlier v0.93–v0.95 alpha schedule for Beta 1 scope. The older assumptions below remain planning history. Successor reconciliation, including the operator-selected C-SDLC simplification program, is owned by #523; no implementation or date commitment is implied.
+Current scheduling authority is [v0.92.2](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.92.2/README.md"), which supersedes the earlier v0.93–v0.95 alpha schedule for Beta 1 scope. The older assumptions below remain planning history. Successor reconciliation, including the operator-selected C-SDLC simplification program, is owned by #523; no implementation or date commitment is implied.
 
 ## Status
 
@@ -43,11 +43,11 @@ and local-only notes.
 
 Current tracked baseline:
 
-- [CodeFriend productization feature](../../milestones/v0.91.2/features/CODEFRIEND_PRODUCTIZATION.md)
-- [CodeFriend review-packet workflow package](../../milestones/v0.91.2/review/codefriend_productization/review_packet_workflow_package.md)
-- [CodeFriend product report template](../../milestones/v0.91.2/review/codefriend_productization/product_report_template.md)
-- [CodeFriend evidence requirements](../../milestones/v0.91.2/review/codefriend_productization/evidence_requirements.md)
-- [CodeFriend skill and demo alignment](../../milestones/v0.91.2/review/codefriend_productization/skill_demo_alignment.md)
+- [CodeFriend productization feature](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.91.2/features/CODEFRIEND_PRODUCTIZATION.md")
+- [CodeFriend review-packet workflow package](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.91.2/review/codefriend_productization/review_packet_workflow_package.md")
+- [CodeFriend product report template](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.91.2/review/codefriend_productization/product_report_template.md")
+- [CodeFriend evidence requirements](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.91.2/review/codefriend_productization/evidence_requirements.md")
+- [CodeFriend skill and demo alignment](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.91.2/review/codefriend_productization/skill_demo_alignment.md")
 - [ADR 0025](../../adr/0025-codefriend-review-packet-product-boundary.md)
 - [ADL feature list](../ADL_FEATURE_LIST.md)
 

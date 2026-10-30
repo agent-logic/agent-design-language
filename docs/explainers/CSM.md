@@ -148,7 +148,7 @@ identity, migration, or birthday surface is already finished.
 
 ## Deeper References
 
-- [Runtime v2 foundation demo](../milestones/v0.90.1/features/RUNTIME_V2_FOUNDATION_PROTOTYPE.md)
+- [Runtime v2 foundation demo](../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.90.1/features/RUNTIME_V2_FOUNDATION_PROTOTYPE.md")
 - [Runtime v2 bounded CSM run ADR](../adr/0012-runtime-v2-bounded-csm-run.md)
 - [Runtime v2 and birthday boundary](../planning/ROADMAP_RUNTIME_V2_AND_BIRTHDAY_BOUNDARY.md)
 - [Glossary: CSM](../GLOSSARY.md)

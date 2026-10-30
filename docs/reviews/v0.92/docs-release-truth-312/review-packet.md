@@ -9,7 +9,7 @@ for a context-free findings-first review?
 ## Packet entrypoint
 
 Use
-[`docs/milestones/v0.92/review/THIRD_PARTY_REVIEW_HANDOFF_v0.92.md`](../../../milestones/v0.92/review/THIRD_PARTY_REVIEW_HANDOFF_v0.92.md).
+[`docs/milestones/v0.92/review/THIRD_PARTY_REVIEW_HANDOFF_v0.92.md`](../../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.92/review/THIRD_PARTY_REVIEW_HANDOFF_v0.92.md").
 The complete denominator and file digests are in [inventory.json](inventory.json).
 
 ## Current decisive fact

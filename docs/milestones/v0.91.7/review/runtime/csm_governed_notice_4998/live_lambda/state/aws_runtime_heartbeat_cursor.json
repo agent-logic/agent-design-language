@@ -1,4 +1,0 @@
-{
-  "schema": "adl.runtime.aws_signal_heartbeat_cursor.v1",
-  "next_heartbeat_seq": 10
-}

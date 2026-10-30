@@ -1,9 +1,9 @@
 # ADL Feature List
 
 Current accounting: merged #517 follow-up PR #752 reconciles all 245 historical non-proving rows and five exception groups. Accounting is complete; historical gate results are preserved and release authorization remains separate.
-Historical v0.92.1 review status is recorded in [the TAIL-02 packet](../milestones/v0.92.1/evidence/release/tail-02/README.md). Requirements below do not establish delivered acceptance; #517 merged its quality evaluation with release acceptance blocked; the documentation handoff preserves that finding. #84 Unity and #251 TLS are explicitly deferred backlog, not accepted milestone features.
+Historical v0.92.1 review status is recorded in [the TAIL-02 packet](../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.92.1/evidence/release/tail-02/README.md"). Requirements below do not establish delivered acceptance; #517 merged its quality evaluation with release acceptance blocked; the documentation handoff preserves that finding. #84 Unity and #251 TLS are explicitly deferred backlog, not accepted milestone features.
 
-Current review context: [v0.92.2](../milestones/v0.92.2/README.md). Its accepted #916 handoff preserves product qualification as `not_proven`; #922 allocates Beta 1 launch and the repository split to v0.93.1, with Runtime v4 in v0.93.2.
+Current review context: [v0.92.2](../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.92.2/README.md"). Its accepted #916 handoff preserves product qualification as `not_proven`; #922 allocates Beta 1 launch and the repository split to v0.93.1, with Runtime v4 in v0.93.2.
 
 The approved successor split is included in [v0.93.1](../milestones/v0.93.1/README.md) and [v0.93.2](../milestones/v0.93.2/README.md), delivered through [PR #1156](https://github.com/agent-logic/agent-design-language/pull/1156). Local `docs/milestones/v0.93/` paths below preserve the original planning package; they do not override the approved allocation.
 
@@ -154,8 +154,8 @@ Recent completed/planned milestone reading:
   pre-v0.92 path
 - `v0.91.6` and `v0.91.7` are readiness, implementation, and integrated-proof
   tranches feeding the required
-  [v0.91.8 bridge](../milestones/v0.91.8/README.md). v0.92 consumes only the
-  reviewed [v0.91.8 handoff](../milestones/v0.91.8/NEXT_MILESTONE_HANDOFF_v0.91.8.md).
+  [v0.91.8 bridge](../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.91.8/README.md"). v0.92 consumes only the
+  reviewed [v0.91.8 handoff](../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.91.8/NEXT_MILESTONE_HANDOFF_v0.91.8.md").
 - most recently completed tooling/workflow-pressure milestone package: `v0.91.2`
 - most recently completed inhabited-runtime milestone package: `v0.91.1`
 - most recently completed moral-governance milestone package: `v0.91`

@@ -39,3 +39,7 @@ retains migrated and retired scenarios; use the current demo index for runnable 
 [Source-retirement evidence](../tools/source_retirement/README.md) preserves custody
 and restoration contracts. Current work and remaining acceptance belong in the
 [roadmap](ROADMAP.md), not an inferred conclusion from old milestone names.
+
+Most older milestone packets are preserved in the verified
+[historical archive](archives/HISTORICAL_FILES_1395.md), rather than downloaded
+with every clone. Current/future plans and required public fixtures remain here.

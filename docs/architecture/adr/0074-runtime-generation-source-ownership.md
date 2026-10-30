@@ -31,10 +31,10 @@ Refines coexistence and source ownership alongside [ADR 0054](../../adr/0054-run
 ## Source Evidence
 
 - [DEC-01 topology](../../runtime/runtime-v2-v3-authority-topology.md)
-- [Machine-readable topology](../../milestones/v0.92.1/evidence/runtime-decoupling/runtime-authority-topology.json)
-- [Topology validator](../../milestones/v0.92.1/evidence/runtime-decoupling/validate-runtime-authority-topology.sh)
+- [Machine-readable topology](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.92.1/evidence/runtime-decoupling/runtime-authority-topology.json")
+- [Topology validator](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.92.1/evidence/runtime-decoupling/validate-runtime-authority-topology.sh")
 - [DEC-01 execution record](../../../.csdlc/issues/513/cards/sor.md)
-- [Milestone decisions](../../milestones/v0.92.1/DECISIONS_v0.92.1.md)
+- [Milestone decisions](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.92.1/DECISIONS_v0.92.1.md")
 
 ## Validation Notes
 

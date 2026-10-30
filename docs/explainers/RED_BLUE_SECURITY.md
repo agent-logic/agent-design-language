@@ -58,6 +58,6 @@ explore, test, evaluate, mitigate, replay, and retain what was learned.
 
 ## Deeper References
 
-- [Red / Blue Agent Architecture](../milestones/v0.89.1/features/RED_BLUE_AGENT_ARCHITECTURE.md)
-- [Self-Attacking Systems](../milestones/v0.89.1/features/SELF_ATTACKING_SYSTEMS.md)
-- [Adversarial runtime demo matrix](../milestones/v0.89.1/DEMO_MATRIX_v0.89.1.md)
+- [Red / Blue Agent Architecture](../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.89.1/features/RED_BLUE_AGENT_ARCHITECTURE.md")
+- [Self-Attacking Systems](../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.89.1/features/SELF_ATTACKING_SYSTEMS.md")
+- [Adversarial runtime demo matrix](../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.89.1/DEMO_MATRIX_v0.89.1.md")

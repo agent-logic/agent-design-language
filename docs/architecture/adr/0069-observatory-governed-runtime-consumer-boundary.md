@@ -55,7 +55,7 @@ and observability boundary in
 [ADR 0048](../../adr/0048-runtime-observability-and-otel-boundary.md) continue to
 apply. This update does not promote the dual-client completion decision.
 
-The [milestone decisions](../../milestones/v0.92.1/DECISIONS_v0.92.1.md) require
+The [milestone decisions](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.92.1/DECISIONS_v0.92.1.md") require
 authentic Runtime data and prohibit invented, mocked, or status-only authority
 from release proof. The [OBS-B record](../../../.csdlc/issues/512/cards/sor.md)
 reports HTML polis isolation, origin/provenance display, conversation/A2A
@@ -63,7 +63,7 @@ activity, recovery, accessibility, and security tests. Those are concrete
 implementation inputs; HTML evidence alone does not discharge this record's
 real HTML-and-Unity, authenticated, redacted, replay-aware consumption gate.
 
-The [release-tail report](../../milestones/v0.92.1/evidence/integration/gap_analysis_report.md)
+The [release-tail report](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.92.1/evidence/integration/gap_analysis_report.md")
 also retains review/proof gaps. Its recorded BLOCKED decision cannot be
 converted into Observatory acceptance by writing an ADR. This curation did not
 perform a new live dual-client proof or adjudicate those findings.

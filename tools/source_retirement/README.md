@@ -1,8 +1,20 @@
+# Source retirement: current guard and historical audit
+
+Current public CI enforces the original retired/required paths and verifies
+current provenance plus the pinned compact archive catalog. It does not load
+the archived historical audit corpus. See the
+[archive and restore contract](../../docs/archives/HISTORICAL_FILES_1395.md).
+Run full historical audit commands in the restored original checkout with its
+original custody files, not in a compact current checkout.
+
+The following retained explanation describes the original issue1223 audit.
+Its counts and acceptance boundaries are historical, not new deletion authority.
+
 # Issue 1223 source retirement guard
 
 The completed ledger records **3,407 retirement actions**: 3,405
 execution-baseline deletions and two transient helpers. See
-[`COMBINED_REMAINING_DELTA.json`](../../docs/milestones/v0.93.1/repository-decomposition/rd07-1223/COMBINED_REMAINING_DELTA.json)
+[`COMBINED_REMAINING_DELTA.json`](../../docs/archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.93.1/repository-decomposition/rd07-1223/COMBINED_REMAINING_DELTA.json")
 for the final accounting. The staged totals below describe earlier execution
 boundaries; they are not the final total. Subsequent repository changes, including
 the separate podcast migration, do not rewrite those immutable records.
@@ -49,7 +61,7 @@ Runtime artifact acceptance. The earlier 27-of-28 matrix failure remains
 historical evidence alongside the later bounded ALB repair proof. All unrelated
 holds and original inventory identities remain unchanged.
 
-The native `source-retirement-validator` reads committed Git objects, including approval packets. It verifies
+In its preserved historical checkout, the native `source-retirement-validator` reads committed Git objects, including approval packets. It verifies
 original identities, combined counts, disjoint held groups, exact executed deletion
 scope, protected/historical evidence, rollback custody and direct references.
 Dirty files cannot override committed approval inputs.

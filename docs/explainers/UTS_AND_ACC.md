@@ -55,8 +55,8 @@ agents, bounded enough for security review.
 
 ## Deeper References
 
-- [UTS public spec and conformance](../milestones/v0.90.5/features/UTS_PUBLIC_SPEC_AND_CONFORMANCE.md)
-- [ACC authority and visibility](../milestones/v0.90.5/features/ACC_AUTHORITY_AND_VISIBILITY.md)
-- [Governed Tools v1.0 release evidence](../milestones/v0.90.5/RELEASE_EVIDENCE_v0.90.5.md)
-- [UTS + ACC multi-model benchmark plan](../milestones/v0.91.2/features/UTS_ACC_MULTI_MODEL_BENCHMARK.md)
+- [UTS public spec and conformance](../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.90.5/features/UTS_PUBLIC_SPEC_AND_CONFORMANCE.md")
+- [ACC authority and visibility](../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.90.5/features/ACC_AUTHORITY_AND_VISIBILITY.md")
+- [Governed Tools v1.0 release evidence](../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.90.5/RELEASE_EVIDENCE_v0.90.5.md")
+- [UTS + ACC multi-model benchmark plan](../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.91.2/features/UTS_ACC_MULTI_MODEL_BENCHMARK.md")
 

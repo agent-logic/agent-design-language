@@ -48,8 +48,8 @@ Refines proposed ADR0072 and the current native v3 contract. ADR0056 retains his
 
 Planning/source revision: `f1c4e2a915c215797f0d2708cb8b0568f2b80b32`. Requirements below are planning contracts; the alternatives and tradeoff assessment above are the curator's proposed rationale, not a claim that stakeholders previously debated them.
 
-- [docs/milestones/v0.92.2/cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md](../../../milestones/v0.92.2/cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md)
-- [docs/milestones/v0.92.2/ATOMIC_TASK_CONTRACTS_v0.92.2.json](../../../milestones/v0.92.2/ATOMIC_TASK_CONTRACTS_v0.92.2.json)
+- [docs/milestones/v0.92.2/cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md](../../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.92.2/cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md")
+- [docs/milestones/v0.92.2/ATOMIC_TASK_CONTRACTS_v0.92.2.json](../../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.92.2/ATOMIC_TASK_CONTRACTS_v0.92.2.json")
 - [docs/architecture/adr/0072-csdlc-v3-native-authority.md](../0072-csdlc-v3-native-authority.md)
 - [docs/csdlc-v3/CURRENT_AUTHORITY.md](../../../csdlc-v3/CURRENT_AUTHORITY.md)
 
@@ -70,4 +70,4 @@ Proposed clarification: Replace future-only adoption wording with an implemented
 - [csdlc-v3/src/application/intent/remote.rs](../../../../csdlc-v3/src/application/intent/remote.rs)
 - [docs/csdlc-v3/INTENT_COMMANDS.md](../../../csdlc-v3/INTENT_COMMANDS.md)
 
-Decision recommendation: accept the revised text as a design decision, subject to explicit operator approval. Current disposition: pending_operator_decision. No numeric allocation or supersession enacted. See the [current decision packet](../../../milestones/v0.92.2/adr/issue-945/README.md) for exact-content hashes, all69 accounting and #925 gate consequences.
+Decision recommendation: accept the revised text as a design decision, subject to explicit operator approval. Current disposition: pending_operator_decision. No numeric allocation or supersession enacted. See the [current decision packet](../../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.92.2/adr/issue-945/README.md") for exact-content hashes, all69 accounting and #925 gate consequences.

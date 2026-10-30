@@ -40,7 +40,7 @@ learning, convergence, and policy-aware execution.
 
 ## Deeper References
 
-- [AEE convergence model](../milestones/v0.89/features/AEE_CONVERGENCE_MODEL.md)
-- [v0.89 vision](../milestones/v0.89/VISION_v0.89.md)
+- [AEE convergence model](../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.89/features/AEE_CONVERGENCE_MODEL.md")
+- [v0.89 vision](../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.89/VISION_v0.89.md")
 - [Glossary: AEE](../GLOSSARY.md)
 

@@ -46,7 +46,7 @@ runtime evidence, not as a completed claim of autonomous personhood.
 ## Deeper References
 
 - [Gödel-Hadamard-Bayes algorithm](../milestones/v0.86/features/GODEL_HADAMARD_BAYES_ALGORITHM.md)
-- [Gödel experiment system](../milestones/v0.89/features/GODEL_EXPERIMENT_SYSTEM.md)
+- [Gödel experiment system](../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.89/features/GODEL_EXPERIMENT_SYSTEM.md")
 - [Runtime v2 birthday boundary](../planning/ROADMAP_RUNTIME_V2_AND_BIRTHDAY_BOUNDARY.md)
 - [Glossary: Gödel agent](../GLOSSARY.md)
 

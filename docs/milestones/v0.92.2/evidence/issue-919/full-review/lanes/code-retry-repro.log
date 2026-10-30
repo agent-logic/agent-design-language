@@ -1,3 +1,0 @@
-Incomplete active attempt with no run or settlement receipt: settled=true
-REPRODUCED: running attempt is admitted by retry settlement predicate
-exit_code=0

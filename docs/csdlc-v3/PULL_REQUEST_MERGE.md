@@ -170,5 +170,5 @@ API sources: [GitHub merge endpoint](https://docs.github.com/en/rest/pulls/pulls
 [effective active branch rules](https://docs.github.com/en/rest/repos/rules#get-rules-for-a-branch).
 
 Issue #849 release-criterion correction mapping is recorded separately in
-[MERGE_LINKAGE_849.md](../milestones/v0.92.2/evidence/MERGE_LINKAGE_849.md).
+[MERGE_LINKAGE_849.md](../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.92.2/evidence/MERGE_LINKAGE_849.md").
 Earlier #835/#844 and #522/#833 failed evidence remains historical evidence.

@@ -48,11 +48,11 @@ Refines accepted ADR0004/0041 and proposed ADR0075 without promoting0075. Record
 
 Planning/source revision: `f1c4e2a915c215797f0d2708cb8b0568f2b80b32`. Requirements below are planning contracts; the alternatives and tradeoff assessment above are the curator's proposed rationale, not a claim that stakeholders previously debated them.
 
-- [docs/milestones/v0.92.2/ATOMIC_TASK_CONTRACTS_v0.92.2.json](../../../milestones/v0.92.2/ATOMIC_TASK_CONTRACTS_v0.92.2.json)
+- [docs/milestones/v0.92.2/ATOMIC_TASK_CONTRACTS_v0.92.2.json](../../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.92.2/ATOMIC_TASK_CONTRACTS_v0.92.2.json")
 - [docs/adr/0004-provider-profiles.md](../../../adr/0004-provider-profiles.md)
 - [docs/adr/0041-provider-model-suitability-boundary-v2.md](../../../adr/0041-provider-model-suitability-boundary-v2.md)
 - [docs/architecture/adr/0075-provider-profile-and-shadow-authority.md](../0075-provider-profile-and-shadow-authority.md)
-- [docs/milestones/v0.92.2/DECISIONS_v0.92.2.md](../../../milestones/v0.92.2/DECISIONS_v0.92.2.md)
+- [docs/milestones/v0.92.2/DECISIONS_v0.92.2.md](../../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.92.2/DECISIONS_v0.92.2.md")
 
 ## Approval Boundary
 
@@ -71,4 +71,4 @@ Proposed clarification: Separate configuration candidate validation, immutable r
 - [adl-runtime-kernel/src/provider_registry.rs](../../../../adl-runtime-kernel/src/provider_registry.rs)
 - [adl/src/codefriend/review/runner.rs](../../../../adl/src/codefriend/review/runner.rs)
 
-Decision recommendation: accept the revised text as a design decision, subject to explicit operator approval. Current disposition: pending_operator_decision. No numeric allocation or supersession enacted. See the [current decision packet](../../../milestones/v0.92.2/adr/issue-945/README.md) for exact-content hashes, all69 accounting and #925 gate consequences.
+Decision recommendation: accept the revised text as a design decision, subject to explicit operator approval. Current disposition: pending_operator_decision. No numeric allocation or supersession enacted. See the [current decision packet](../../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.92.2/adr/issue-945/README.md") for exact-content hashes, all69 accounting and #925 gate consequences.

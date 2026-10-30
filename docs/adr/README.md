@@ -94,4 +94,4 @@ The operator individually accepted the twelve decisions under #945. Original can
 - [0086: ADR-CSDLC-01](0086-csdlc-01.md)
 - [0087: ADR-CSDLC-02](0087-csdlc-02.md)
 
-[Approval packet and Beta 1 delivery gates](../milestones/v0.92.2/adr/issue-945/README.md).
+[Approval packet and Beta 1 delivery gates](../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.92.2/adr/issue-945/README.md").

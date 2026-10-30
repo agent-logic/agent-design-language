@@ -18,7 +18,7 @@ The preserved contract covers structured request/model identity, a 120-second
 single-attempt policy, separate result/log files, and redaction. Its original
 `test_opus_review_runbook.sh` is retired with its unavailable monorepo adapter
 contract; its original assertions remain in Git and retirement custody. See
-[the retirement disposition](../milestones/v0.93.1/repository-decomposition/rd07-1223/CODEFRIEND_LEGACY_CI_RETIREMENT.json)
+[the retirement disposition](../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CODEFRIEND_LEGACY_CI_RETIREMENT.json")
 for the preserved historical obligations.
 
 The procedure below is retained in its historical form.
