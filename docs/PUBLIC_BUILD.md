@@ -11,11 +11,20 @@ From repository root, the optional Make targets delegate to existing commands:
 | `make packages` | Run `tools/public_adl/run_package_checks.sh` for five public packages. |
 | `make docs` | Check current public links/anchors and command/version contracts, including negative fixtures. |
 
-Make is optional; `make docs` requires Python 3.11 or later.
+`make docs` runs the Rust public-contract checker using Git, Make and local files.
 Make is only a convenience; all underlying commands remain available in
 [CONTRIBUTING.md](../CONTRIBUTING.md) and [the demo index](../demos/README.md).
 No target installs a private product or calls a model provider. Build dependencies
 may be downloaded by rustup/Cargo. Public checks do not imply owner qualification.
+
+## Documentation changes in CI
+
+Prose-only README entrypoints use repository contracts and path checks without
+compiling public packages, collecting coverage or building installed demos.
+The selector explicitly lists these entrypoints; arbitrary nested READMEs,
+Markdown fixtures, schemas, templates and packaged resources retain conservative
+validation. Source, lockfile, workflow and policy changes keep their existing
+gates, including when mixed with documentation edits.
 
 ## Why keep explicit manifests?
 

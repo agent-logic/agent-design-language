@@ -78,6 +78,9 @@ impl AdlDoc {
     /// - include paths must be relative and cannot traverse via `..`
     /// - resolved includes must stay within the canonical initial document directory
     /// - include cycles are rejected
+    /// - one load permits at most 32 simultaneously nested documents (including
+    ///   the root), 256 file reads and 8 MiB of aggregate UTF-8 input; repeated
+    ///   includes count again, and reads stop at the byte limit plus one sentinel
     ///
     /// This is static path validation, not protection against concurrent filesystem changes.
     pub fn load_from_file(path: &str) -> Result<Self> {

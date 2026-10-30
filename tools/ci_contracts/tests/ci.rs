@@ -15,6 +15,67 @@ fn docs_only() {
     assert_eq!(d["ci_contracts_required"], "true");
 }
 #[test]
+fn prose_readmes_skip_compilation_but_keep_contracts() {
+    // PVF local_contract: deterministic routing; tiny path-only inputs, no IO or providers.
+    // Release gate: ci / adl-tooling-contracts, not installed-product qualification.
+    for path in [
+        "README.md",
+        "adl/README.md",
+        "adl/examples/README.md",
+        "adl/tools/README.md",
+        "adl-schema/README.md",
+        "adl-uts/README.md",
+        "adl-legacy-contracts/README.md",
+        "adl-v2/README.md",
+        "adl-v2/crates/adl-language/README.md",
+        "adl-v2/crates/adl-compiler/README.md",
+        "adl-spec/examples/README.md",
+        "demos/rust-transpiler/README.md",
+        "docs/tooling/README.md",
+        "tools/transpiler_distribution/README.md",
+    ] {
+        let d = selected(&[path]);
+        assert_eq!(d["public_adl_validation_required"], "false", "{path}");
+        assert_eq!(d["transpiler_distribution_required"], "false", "{path}");
+        assert_eq!(d["ci_contracts_required"], "true");
+    }
+}
+#[test]
+fn markdown_data_and_policy_keep_full_gates() {
+    for path in [
+        "adl-legacy-contracts/fixtures/README.md",
+        "adl-legacy-contracts/fixtures/gate.md",
+        "adl-uts/resources/README.md",
+        "adl-spec/schemas/README.md",
+        "docs/templates/planning/fixtures/minimal/readme.md",
+        "docs/templates/README.md",
+        "docs/repository-setup/1314/scaffold/README.md",
+        "unknown/README.md",
+        "adl/src/README.md",
+        "tools/godel_contract_distribution/README.md",
+        "tools/source_retirement/README.md",
+        ".github/README.md",
+    ] {
+        assert_eq!(
+            selected(&[path])["public_adl_validation_required"],
+            "true",
+            "{path}"
+        );
+    }
+    for paths in [
+        vec!["adl/README.md", "adl/src/main.rs"],
+        vec!["adl/src/main.rs", "adl/README.md"],
+        vec!["demos/rust-transpiler/README.md", "Cargo.lock"],
+        vec!["README.md", ".github/workflows/ci.yaml"],
+    ] {
+        assert_eq!(selected(&paths)["public_adl_validation_required"], "true");
+    }
+    assert_eq!(
+        selected(&["demos/rust-transpiler/Cargo.toml"])["transpiler_distribution_required"],
+        "true"
+    );
+}
+#[test]
 fn conservative_paths() {
     for path in [
         "adl/src/main.rs",

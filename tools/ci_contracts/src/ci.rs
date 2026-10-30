@@ -1,5 +1,40 @@
 //! Public CI routing and selected-result contracts. No interpreter subprocesses.
 use std::{collections::BTreeMap, fs::OpenOptions, io::Write, path::Path, process::Command};
+// Explicit prose entrypoints only: an arbitrary README under source, fixtures,
+// schemas or packaged resources is not automatically documentation-only.
+fn prose_only(path: &str) -> bool {
+    let data_component = path.split('/').any(|part| {
+        matches!(
+            part,
+            "fixtures" | "resources" | "schemas" | "templates" | "scaffold"
+        )
+    });
+    if data_component {
+        return false;
+    }
+    (path.ends_with(".md") && (path.starts_with("docs/") || !path.contains('/')))
+        || [
+            "adl/README.md",
+            "adl/examples/README.md",
+            "adl/tools/README.md",
+            "adl-schema/README.md",
+            "adl-uts/README.md",
+            "adl-legacy-contracts/README.md",
+            "adl-v2/README.md",
+            "adl-v2/crates/adl-language/README.md",
+            "adl-v2/crates/adl-compiler/README.md",
+            "adl-spec/README.md",
+            "adl-spec/examples/README.md",
+            "adl-spec/examples/v0.8/README.md",
+            "adl-spec/spec/README.md",
+            "demos/README.md",
+            "demos/podcast/README.md",
+            "demos/rust-transpiler/README.md",
+            "tools/transpiler_distribution/README.md",
+        ]
+        .contains(&path)
+}
+
 pub fn select(event: &str, paths: &[String]) -> BTreeMap<String, String> {
     let full = event != "pull_request" || paths.is_empty();
     let (mut public, mut transpiler) = (full, full);
@@ -21,6 +56,9 @@ pub fn select(event: &str, paths: &[String]) -> BTreeMap<String, String> {
             public = true;
             transpiler = true;
             reason = "repository_policy";
+        } else if prose_only(path) {
+            // Repository policy paths above always retain their full gates.
+            continue;
         } else if [
             "demos/transpiler_demo/",
             "demos/rust-transpiler/",
@@ -44,7 +82,7 @@ pub fn select(event: &str, paths: &[String]) -> BTreeMap<String, String> {
         {
             public = true;
             reason = "public_source_or_contract";
-        } else if !(path.ends_with(".md") && (path.starts_with("docs/") || !path.contains('/'))) {
+        } else {
             public = true;
             transpiler = true;
             reason = "unknown_or_retired_path_public_baseline";
