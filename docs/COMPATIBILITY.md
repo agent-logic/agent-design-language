@@ -5,7 +5,7 @@ installed product can have different versions without contradicting one another.
 
 | Surface | Source baseline | What it means |
 | --- | --- | --- |
-| Public CLI | [`adl` 0.92.1](../adl/Cargo.toml) | The public command package; listed owner commands require separate installations. |
+| Public CLI | [`adl` 0.93.2](../adl/Cargo.toml) | The public command package; listed owner commands require separate installations. |
 | Rust build | [Rust 1.92.0](../rust-toolchain.toml) | Repository toolchain and components; inspected packages declare Rust 1.92 minimum. |
 | ADL documents | [Legacy document types](../adl-legacy-contracts/src/adl/types.rs), [example](../adl/examples/v0-3-fork-join-seq-run.adl.yaml) | The `adl_version` field is a document-format version, not the CLI release. The demonstrated document uses `0.3`. |
 | Language design | [ADL 1.0 draft](../adl-spec/README.md) | Evolving specification; not a claim that every proposed runtime semantic is implemented. |
