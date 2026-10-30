@@ -49,9 +49,9 @@ Active planning docs:
   for retiring obsolete PR/card compatibility paths in `v0.92` after a reviewed
   migration window, while preserving historical records as readable audit
   artifacts
-- `codefriend/` - single tracked home for current CodeFriend planning,
-  including product setup, naming migration, source inventory, and links back to
-  historical milestone proof
+- [CodeFriend planning history](codefriend/README.md) - earlier product setup,
+  naming and source context; current allocation and separate product owner are
+  linked from that historical index
 
 Planning provenance docs:
 

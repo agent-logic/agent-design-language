@@ -24,7 +24,7 @@ So the split is:
 
 - tracked templates and guidance: `docs/tooling/issue-prompts/`
 - historical tracked public task-record examples: versioned directories under `docs/records/`
-- live local/generated prompt drafts and canonical task execution records: `.adl/`
+- local authoring scratch: `.adl/`; current execution state and cards: native C-SDLC binding
 
 The important distinction is:
 
@@ -33,7 +33,7 @@ The important distinction is:
 - `docs/records/`
   - historical tracked task-bundle examples, organized by milestone/version where applicable
 - `.adl/`
-  - local draft workspace, generated intermediate state, and the current canonical task-bundle / issue-record surface
+  - optional local draft workspace and generated intermediate state; not lifecycle authority
   - tracked `.adl/.../bodies/issue-*` and `.adl/.../tasks/issue-*` residue is not allowed; preserve any intentional historical/public examples under `docs/records/` instead
 
 ## Template Set
@@ -51,7 +51,10 @@ The important distinction is:
 - Prefer exact repo paths in `Repo Inputs` when a prompt depends on specific files or modules.
 - Include demo expectations when the WP requires runnable proof surfaces.
 - Use `Issue-Graph Notes` to record duplicate, supersede, split, merge, or renumber intent explicitly.
-- Treat `.adl/` as the live execution surface for current workflow state; use `docs/records/` only when intentionally preserving a tracked historical/public example.
+- Use the authenticated installed owner and [native workflow](../../default_workflow.md)
+  for current execution state. Preparation uses resolved Git metadata; native
+  binding materializes cards in the registered issue worktree. Keep `.adl/` for
+  optional local scratch and `docs/records/` for historical/public examples.
 
 ## Transitional Stub Guidance
 

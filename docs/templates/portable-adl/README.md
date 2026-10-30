@@ -3,7 +3,14 @@
 This directory contains reusable templates for ADL-governed external
 repositories.
 
-The initial template set is:
+This is the retained v1 adapter template set, not current installed-package
+admission or a requirement for external public contributors. Its `ADL_HOME` and
+sibling-source discovery model is historical. For current maintainer operations,
+use [native authority](../../csdlc-v3/CURRENT_AUTHORITY.md) and the selected
+[installed package manuals](../../csdlc-v3/man/README.md). External contributors
+use the [public fork-and-PR workflow](../../../CONTRIBUTING.md#external-contributors).
+
+The historical initial template set is:
 
 - version: `1.0.0`
 - contract issue: `#3569`
@@ -29,6 +36,7 @@ tooling compatibility.
 
 - Template paths must stay repo-relative.
 - Templates must not embed operator-local absolute paths.
-- External repositories must resolve ADL tooling through `ADL_HOME`, an explicit
-  repo-relative path, or a declared sibling checkout.
+- The v1 templates describe historical `ADL_HOME`/source discovery. Current
+  maintainers select an authenticated installed owner package; a path or sibling
+  checkout alone does not grant authority.
 - The canonical card lifecycle remains `SIP -> STP -> SPP -> VPP -> SRP -> SOR`.

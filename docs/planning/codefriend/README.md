@@ -1,12 +1,17 @@
-# CodeFriend Planning Home
+# CodeFriend planning history
 
-Current scheduling authority is [v0.92.2](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.92.2/README.md"), which supersedes the earlier v0.93–v0.95 alpha schedule for Beta 1 scope. The older assumptions below remain planning history. Successor reconciliation, including the operator-selected C-SDLC simplification program, is owned by #523; no implementation or date commitment is implied.
+This directory preserves earlier CodeFriend planning and naming decisions.
+Current Beta 1 allocation belongs to [v0.93.2](../../milestones/v0.93.2/README.md)
+and the [roadmap](../../ROADMAP.md). Product implementation and maintained
+instructions belong to the separate [CodeFriend owner](https://github.com/agent-logic/codefriend).
+The archived v0.92.2 scope and alpha assumptions below are historical, not the
+current schedule or evidence of public launch.
 
 ## Status
 
-Tracked planning home for current CodeFriend work.
+Retained planning context; use the current allocation and owner links above.
 
-Current milestone planning assumption: CodeFriend alpha should become a
+Historical milestone planning assumption: CodeFriend alpha should become a
 dedicated product milestone, likely in the `v0.93.x` band. The exit bar for
 that milestone is a fully working alpha version of CodeFriend ready for
 operator/customer-style testing.
@@ -16,7 +21,7 @@ CloudFront landing-page mini-sprint was expected to execute in `v0.91.4`, not
 `v0.91.3`. The `v0.91.3` work records the plan only so that earlier milestone
 did not expand at close.
 
-Planning must also extend beyond `v0.93.x`: the alpha milestone should prove a
+The earlier plan also extended beyond `v0.93.x`: the alpha milestone should prove a
 usable first product, while later CodeFriend roadmap bands add the remaining
 structural-intelligence, architecture-governance, fitness-function,
 organizational-memory, and product-delivery features.
@@ -41,7 +46,7 @@ and local-only notes.
 
 ## Source Baseline
 
-Current tracked baseline:
+Historical tracked baseline:
 
 - [CodeFriend productization feature](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.91.2/features/CODEFRIEND_PRODUCTIZATION.md")
 - [CodeFriend review-packet workflow package](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.91.2/review/codefriend_productization/review_packet_workflow_package.md")
@@ -62,17 +67,14 @@ Explicitly ignored for this pass:
 
 - `.adl/docs/TBD/codebuddy_ai/ADL_MULTIAGENT_INVESTIGATE_ENHANCE.md`
 
-## Placement Rule
+## Placement rule
 
-Future CodeFriend planning docs should go under `docs/planning/codefriend/`
-unless they are milestone-specific proof artifacts. Milestone proof artifacts may
-stay inside their milestone package, but this directory should link to them so
-operators have one durable CodeFriend entry point.
+Maintain product planning and implementation instructions in the CodeFriend
+owner repository. ADL milestone-specific allocation and proof remain in their
+milestone packages; this historical index is not a competing current schedule.
 
 ## Boundary
 
-This home does not claim CodeFriend is a shipped product. It records planning
-for product setup, naming cleanup, architecture-cognition positioning, and a
-future `v0.93.x` alpha milestone whose goal is a working testable product. It
-also records that later CodeFriend planning must continue past the alpha to
-complete the full feature set.
+These earlier alpha plans do not claim current deployment, public release or
+customer qualification. Use the current milestone and selected owner evidence
+for those outcomes.

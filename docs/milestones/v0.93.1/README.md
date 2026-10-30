@@ -1,5 +1,11 @@
 # v0.93.1 — CodeFriend Beta 1 launch
 
+> Historical index: the original milestone text below retains its source-time
+> scope and status. Relocated links now lead to verified archive lookup, with
+> original paths retained in link titles; they do not imply current commands or
+> newly accepted outcomes. See [archive access and restoration](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/").
+
+
 ## Metadata
 
 Planning template family 1.1.0; authoring issue #922. The original Sprint 1 preparation baseline below is historical. See the dated status update for current tail work; release is not authorized by this page.
@@ -34,27 +40,27 @@ Existing #1148 (citation-grounded correctness) and #1149 (uncertain second-run r
 
 ## Source Map
 
-The [original v0.93 package](../v0.93/README.md) retains historical planning context. The [v0.92.2 handoff](../v0.92.2/NEXT_MILESTONE_HANDOFF_v0.92.2.md) supplies accepted evidence and explicit limitations. The latest operator scope decision overrides the old blanket Runtime v4 launch dependency.
+The [original v0.93 package](../v0.93/README.md) retains historical planning context. The [v0.92.2 handoff](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.92.2/NEXT_MILESTONE_HANDOFF_v0.92.2.md") supplies accepted evidence and explicit limitations. The latest operator scope decision overrides the old blanket Runtime v4 launch dependency.
 
 ## Document Map
 
-- [VISION_v0.93.1.md](VISION_v0.93.1.md)
+- [VISION_v0.93.1.md](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.93.1/VISION_v0.93.1.md")
 - [DESIGN_v0.93.1.md](DESIGN_v0.93.1.md)
-- [DECISIONS_v0.93.1.md](DECISIONS_v0.93.1.md)
+- [DECISIONS_v0.93.1.md](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.93.1/DECISIONS_v0.93.1.md")
 - [WBS_v0.93.1.md](WBS_v0.93.1.md)
-- [SPRINT_v0.93.1.md](SPRINT_v0.93.1.md)
+- [SPRINT_v0.93.1.md](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.93.1/SPRINT_v0.93.1.md")
 - [REPOSITORY_MIGRATION_v0.93.1.md](REPOSITORY_MIGRATION_v0.93.1.md)
-- [DEMO_MATRIX_v0.93.1.md](DEMO_MATRIX_v0.93.1.md)
-- [MILESTONE_CHECKLIST_v0.93.1.md](MILESTONE_CHECKLIST_v0.93.1.md)
+- [DEMO_MATRIX_v0.93.1.md](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.93.1/DEMO_MATRIX_v0.93.1.md")
+- [MILESTONE_CHECKLIST_v0.93.1.md](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.93.1/MILESTONE_CHECKLIST_v0.93.1.md")
 - [RELEASE_PLAN_v0.93.1.md](RELEASE_PLAN_v0.93.1.md)
-- [RELEASE_NOTES_v0.93.1.md](RELEASE_NOTES_v0.93.1.md)
+- [RELEASE_NOTES_v0.93.1.md](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.93.1/RELEASE_NOTES_v0.93.1.md")
 - [QUALITY_GATE_v0.93.1.md](QUALITY_GATE_v0.93.1.md)
-- [FEATURE_PROOF_COVERAGE_v0.93.1.md](FEATURE_PROOF_COVERAGE_v0.93.1.md)
-- [WP_EXECUTION_READINESS_v0.93.1.md](WP_EXECUTION_READINESS_v0.93.1.md)
-- [ADR_PLAN_v0.93.1.md](ADR_PLAN_v0.93.1.md)
-- [NEXT_MILESTONE_HANDOFF_v0.93.1.md](NEXT_MILESTONE_HANDOFF_v0.93.1.md)
-- [features/README.md](features/README.md)
-- [TAIL02_DOCUMENTATION_HANDOFF_1234.md](TAIL02_DOCUMENTATION_HANDOFF_1234.md)
+- [FEATURE_PROOF_COVERAGE_v0.93.1.md](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.93.1/FEATURE_PROOF_COVERAGE_v0.93.1.md")
+- [WP_EXECUTION_READINESS_v0.93.1.md](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.93.1/WP_EXECUTION_READINESS_v0.93.1.md")
+- [ADR_PLAN_v0.93.1.md](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.93.1/ADR_PLAN_v0.93.1.md")
+- [NEXT_MILESTONE_HANDOFF_v0.93.1.md](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.93.1/NEXT_MILESTONE_HANDOFF_v0.93.1.md")
+- [features/README.md](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.93.1/features/README.md")
+- [TAIL02_DOCUMENTATION_HANDOFF_1234.md](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.93.1/TAIL02_DOCUMENTATION_HANDOFF_1234.md")
 
 ## Execution Model
 
@@ -80,4 +86,4 @@ Sprint 1 closeout requires RD-11 acceptance and every Sprint 1 result accepted o
 
 ## Sprint 4 documentation checkpoint — 2026-10-13
 
-The operator authorized Sprint 4 preparation while #1223 was open. #1223 has since closed through [merged PR #1273](https://github.com/agent-logic/agent-design-language/pull/1273) at `791e44216659a14eeb95c8a05f79e965709b3421`; this source-retirement result does not itself select the final seven-role release lockset. The reviewed #1232 current-state matrix still records qualified CodeFriend/website evidence and a `NOT_READY_FOR_FINAL_RELEASE_ACCEPTANCE` decision pending its own reconciliation. [TAIL-02/#1234 documentation handoff](TAIL02_DOCUMENTATION_HANDOFF_1234.md) identifies current claims, source/artifact versions, adverse evidence, disclosure boundaries and unresolved owner inputs. ADL #1269 owns the multi-repository README update and CodeFriend #101 closed after the merged document-readability correction; final artifact correspondence remains open. TAIL-03 must still freeze the exact publication candidate before final internal/external review. No final release, live launch, or external review is approved by this checkpoint.
+The operator authorized Sprint 4 preparation while #1223 was open. #1223 has since closed through [merged PR #1273](https://github.com/agent-logic/agent-design-language/pull/1273) at `791e44216659a14eeb95c8a05f79e965709b3421`; this source-retirement result does not itself select the final seven-role release lockset. The reviewed #1232 current-state matrix still records qualified CodeFriend/website evidence and a `NOT_READY_FOR_FINAL_RELEASE_ACCEPTANCE` decision pending its own reconciliation. [TAIL-02/#1234 documentation handoff](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.93.1/TAIL02_DOCUMENTATION_HANDOFF_1234.md") identifies current claims, source/artifact versions, adverse evidence, disclosure boundaries and unresolved owner inputs. ADL #1269 owns the multi-repository README update and CodeFriend #101 closed after the merged document-readability correction; final artifact correspondence remains open. TAIL-03 must still freeze the exact publication candidate before final internal/external review. No final release, live launch, or external review is approved by this checkpoint.

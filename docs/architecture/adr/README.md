@@ -40,8 +40,8 @@ These ADRs are accepted in `docs/adr/`. The copies in this directory preserve
 the original candidate review surface and should not be treated as the active
 accepted records.
 
-Current v0.91.8 accepted ADRs are tracked in
-`docs/milestones/v0.91.8/ADR_PLAN_v0.91.8.md` and live under `docs/adr/` as
+The v0.91.8 accepted ADRs are indexed in
+[archived v0.91.8 ADR plan](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.91.8/ADR_PLAN_v0.91.8.md") and live under `docs/adr/` as
 ADR 0051 through ADR 0058. Runtime v3 OpenAPI, WSS, TLS, Observatory, and OTel
 details are consequences of ADR 0054 and ADR 0048 unless a future issue records
 an incompatible decision.
