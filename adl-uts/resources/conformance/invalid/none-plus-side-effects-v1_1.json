@@ -1,0 +1,41 @@
+{
+  "schema_version": "uts.v1.1",
+  "compatible_versions": ["uts.v1", "uts.v1.1"],
+  "name": "registry.bad_none_mix",
+  "version": "1.1.0",
+  "description": "Invalid fixture mixing none with concrete side-effect values.",
+  "input_schema": {
+    "type": "object"
+  },
+  "output_schema": {
+    "type": "object"
+  },
+  "side_effect_class": "external_write",
+  "side_effects": ["none", "external_state"],
+  "determinism": "bounded_nondeterministic",
+  "replay_safety": "replay_requires_approval",
+  "idempotence": "conditionally_idempotent",
+  "resources": [
+    {
+      "resource_type": "registry",
+      "scope": "preview-records"
+    }
+  ],
+  "authentication": {
+    "mode": "api_key",
+    "required": true
+  },
+  "data_sensitivity": "internal",
+  "exfiltration_risk": "low",
+  "execution_environment": {
+    "kind": "external_service",
+    "isolation": "registry sandbox"
+  },
+  "errors": [
+    {
+      "code": "bad_side_effects",
+      "message": "The side_effects array cannot mix none with concrete side effects.",
+      "retryable": false
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+   Compiling codefriend v0.93.1 (/Volumes/FastWork/codefriend-worktrees/adl-issue-127-v0932-security-prerequisite-callsite/crates/codefriend)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 8.38s
+     Running unittests src/lib.rs (/Volumes/FastWork/worker30-codefriend-target/debug/deps/codefriend-70bedeb786098b5f)
+
+running 5 tests
+test codefriend::server::boundary::audit_owner::tests::broad_or_aliased_private_key_files_are_rejected ... ok
+test codefriend::server::boundary::audit_owner::tests::second_custody_owner_is_excluded_until_drop ... ok
+test codefriend::server::boundary::audit_owner::tests::failed_custody_commit_prevents_effect_and_poison_survives_restart ... ok
+test codefriend::server::boundary::audit_owner::tests::custody_survives_restart_and_export_is_redacted_and_scoped ... ok
+test codefriend::server::boundary::audit_owner::tests::rotation_preserves_chain_and_rejects_prior_signed_export ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 230 filtered out; finished in 0.31s

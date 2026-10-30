@@ -1,0 +1,18 @@
+{
+  "issue": 1299,
+  "applied_cards": [
+    "sip",
+    "stp",
+    "spp",
+    "vpp"
+  ],
+  "remaining_template_fields": {
+    "sip": [],
+    "stp": [],
+    "spp": [],
+    "vpp": []
+  },
+  "native_validation": "completed",
+  "execution_ready": false,
+  "scope": "Preparation-card corrections only; child card amendments remain blocked by binding policy."
+}

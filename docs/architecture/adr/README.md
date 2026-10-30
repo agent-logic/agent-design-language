@@ -1,0 +1,66 @@
+# Architecture Decision Records
+
+This directory stores ADL architecture decision candidates and architecture
+review outputs. The accepted records remain in `docs/adr/`; this directory is
+provenance and candidate material unless a file explicitly says otherwise.
+
+Accepted ADRs live in `docs/adr/`.
+
+Current tracked candidate file:
+
+- `CANDIDATE_ADRS.md`
+
+The v0.92 candidate packet is indexed by `V092_ADR_INDEX_143.md`. ADR 0059
+through ADR 0071 remain Proposed or Deferred and are not accepted authority.
+
+Retained v0.91.6 release-tail candidate ADR drafts:
+
+- `0035-local-polis-ssm-operations-boundary.md`
+- `0036-validation-lane-selector-pvf-test-cost-policy.md`
+- `0037-github-csdlc-projection-ownership.md`
+- `0038-runtime-integration-soak-boundary.md`
+- `0039-cognitive-scheduler-v1-authority-boundary.md`
+- `0040-workflow-lockfile-discipline.md`
+- `0041-provider-model-suitability-boundary-v2.md`
+- `0042-public-prompt-records-publication-boundary.md`
+
+Promoted v0.91.2 candidate ADR source files retained for provenance:
+
+- `0020-universal-tool-schema-portable-tool-description-standard.md`
+- `0021-adl-capability-contract-runtime-authority-boundary.md`
+- `0022-speculative-decoding-deterministic-commit-boundary.md`
+- `0023-google-workspace-cms-bridge-canonical-promotion-boundary.md`
+- `0024-workflow-guardrails-issue-lifecycle-control-plane.md`
+- `0025-codefriend-review-packet-product-boundary.md`
+- `0026-repo-visibility-manifest-linkage-layer.md`
+- `0027-governed-code-modernization-moderne-openrewrite-lst.md`
+- `0028-c-sdlc-tracked-workflow-state-and-signed-trace.md`
+
+These ADRs are accepted in `docs/adr/`. The copies in this directory preserve
+the original candidate review surface and should not be treated as the active
+accepted records.
+
+Current v0.91.8 accepted ADRs are tracked in
+`docs/milestones/v0.91.8/ADR_PLAN_v0.91.8.md` and live under `docs/adr/` as
+ADR 0051 through ADR 0058. Runtime v3 OpenAPI, WSS, TLS, Observatory, and OTel
+details are consequences of ADR 0054 and ADR 0048 unless a future issue records
+an incompatible decision.
+
+## v0.92.1 candidates
+
+[The v0.92.1 ADR plan](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.92.1/ADR_PLAN_v0.92.1.md") accounts for
+all eight planned topics. Candidates below are tracked by issue #745; none is accepted by this index.
+
+- [0072: C-SDLC v3 native authority](0072-csdlc-v3-native-authority.md)
+- [0073: Validated configuration snapshot reload](0073-validated-configuration-snapshot-reload.md)
+- [0074: Runtime generation source ownership](0074-runtime-generation-source-ownership.md)
+- [0075: Provider profile and shadow authority](0075-provider-profile-and-shadow-authority.md)
+- [0069: Observatory](0069-observatory-governed-runtime-consumer-boundary.md) retains Deferred status with an added v0.92.1 disposition.
+
+## v0.92.2 proposed decision set
+
+[Issue #911 candidate set](issue-911/README.md) contains twelve complete proposed records covering CodeFriend, shared providers and the C-SDLC simplification. [The milestone packet](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.92.2/adr/issue-911/README.md") accounts for all 69 core tasks, prior decisions, source revisions and unresolved acceptance. No candidate is accepted or allocated an accepted numeric ADR by this index.
+
+## v0.92.2 accepted successors
+
+The issue-911 candidate files above retain their historical Proposed text. The operator-approved successors ADR 0076–0087 are indexed in the [#945 approval packet](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.92.2/adr/issue-945/README.md"). ADR-CF-09 was revised to require both website execution modes in Beta 1; its old CLI-only proposal is not current authority.

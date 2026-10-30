@@ -1,0 +1,29 @@
+version: "0.5"
+providers:
+  local:
+    type: ollama
+agents:
+  worker:
+    provider: local
+    model: test
+tasks:
+  left:
+    prompt: {user: "left"}
+  right:
+    prompt: {user: "right"}
+  join:
+    prompt: {user: "join"}
+patterns:
+  - id: parallel
+    type: fork_join
+    fork:
+      branches:
+        - id: left-branch
+          steps: [left]
+        - id: right-branch
+          steps: [right]
+    join:
+      step: join
+run:
+  name: fork-join
+  pattern_ref: parallel

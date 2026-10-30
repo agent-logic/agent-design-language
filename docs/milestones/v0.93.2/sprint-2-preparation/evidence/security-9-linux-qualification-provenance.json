@@ -1,0 +1,14 @@
+{
+  "artifact_id": 12294138820,
+  "digest": "sha256:e9c75a33781210f53541e8d2bf9cae58d3f4dc6619aa12e145ca9b5986e5bb21",
+  "workflow_run": {
+    "id": 39488660006,
+    "repository_id": 1388432552,
+    "head_repository_id": 1388432552,
+    "head_branch": "codex/9-v0932-codefriend-zero-trust-contract",
+    "head_sha": "efbc1e33e114b5c7b32baa78dd234a98cd812acc"
+  },
+  "report_sha256": "915f482a01fff9ac76541f62dfd9b60048d1fd2d36cb0b911a57bde88072a8e8",
+  "verified": "GitHub artifact digest and exact run/head; report Linux PASS 34 unique consumer cases",
+  "scope": "Qualification evidence; native delivery and sprint acceptance still pending"
+}

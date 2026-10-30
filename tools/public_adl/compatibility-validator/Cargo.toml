@@ -1,0 +1,16 @@
+[package]
+name = "adl-compatibility-validator"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[[test]]
+name = "full_contract"
+path = "tests/full_contract.rs"
+
+
+[dev-dependencies]
+adl-public-contracts = { path = "../../public_contracts" }
+anyhow = "1"
+serde_json = "1"
+tempfile = "3"

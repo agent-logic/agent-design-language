@@ -1,0 +1,49 @@
+{
+  "schema": "csdlc.v3.intent_changes.v1",
+  "cards": {
+    "spp": {
+      "card_status": "ready",
+      "plan_summary": "1. After #299 acceptance, bind one FastWork issue worktree and create child goal naming ADL #1299 and CodeFriend #120. 2. Agree representative corpus and candidate with operator and inventory reusable evidence. 3. Inspect actual outputs and journeys, recording provenance and limitations. 4. Prioritize only reproduced gaps and map to existing packages. 5. Obtain operator denominator acceptance and independent exact-head review; publish only with actual proof. Stop for missing candidate/evidence, need for unapproved spend, or materially changed scope.",
+      "required_outcome_inline": "Review actual outputs and end-to-end journeys on representative repositories; agree a prioritized gap register and measurable Beta 1 acceptance denominator with the operator.",
+      "deliverables_inline": "Produce docs/codefriend/beta1/assessment-120/ candidate-and-corpus register, scenario/evidence matrix, prioritized gap register, and operator acceptance decision. Record actual readable reports/exports and login, consent, pairing, first-review, result and recovery journeys from representative repositories. Route accepted gaps to existing #121/#123/#125/#126; do not recreate closed work.",
+      "acceptance_criteria_inline": "Each observed case identifies repository revision, candidate components, scenario, expected/actual result and evidence. Each gap has reproduction, impact, priority, acceptance measure and existing follow-on mapping. Label unexercised paths honestly. Operator agrees corpus, measurable denominator and priorities; independent review checks evidence. Reject unreproduced defects and substitution of prior qualification for user acceptance.",
+      "dependencies_inline": "ADL #1296 accepted opening; C-SDLC #299 must deliver before execution. On 2026-10-19 #299 is OPEN. Operator selection of representative corpus and candidate is the first assessment step, not a fabricated current acceptance.",
+      "repo_inputs_inline": "README.md; docs/codefriend/INSTALLED_CONTENT_JOURNEY.md; current representative report/export artifacts and journey evidence; runtime-dependencies and shared-library-dependencies authenticated manifests; ADL v0.93.2 CodeFriend feature contract; GitHub #120.",
+      "target_files_surfaces_inline": "docs/codefriend/beta1/assessment-120/ and issue-local evidence/cards. Product correctness fixes belong to the accepted follow-on issues, not this assessment.",
+      "validation_plan_inline": "PVF planning_contract for evidence-led assessment per live issue; product_behavior evidence is required to support actual journey claims. Small deterministic artifact/link/schema checks plus bounded inspection of already available outputs. Record candidate, platform, scenario counts and failed/blocked/skipped lanes separately. No broad rebuild, new paid run or release qualification. Operator acceptance is a required human gate, never automated by git diff.",
+      "non_goals_inline": "No deployment, paid provider/cloud calls, Runtime restart, shared binary replacement, downstream implementation, or v0.93.3 activation. Preserve sole-writer ownership. Worktrees/builds/scratch on FastWork. This session prepares only; later child execution requires accepted dependencies and an assigned owner.",
+      "notes_risks_inline": "Prepared design only; dependency readiness is separate. Planning #12 review pending. No implementation, product validation, publication, merge or closeout claimed.",
+      "estimate_validation_seconds": "1800",
+      "source_issue_prompt": "https://github.com/agent-logic/codefriend/issues/120",
+      "step_3_status": "pending",
+      "variance_threshold_percent": "25",
+      "estimate_confidence": "low",
+      "sprint_goal_ref": "ADL #1299",
+      "issue_goal_ref": "Create issue-bound goal for ADL #1299 / codefriend #120 after execution binding; no child goal exists yet.",
+      "stp_card": ".csdlc/issues/120/cards/stp.md",
+      "initial_pvf_lane": "planning_contract",
+      "step_1_status": "pending",
+      "estimate_source_ref": "Sprint 2 preparation 2026-10-19",
+      "step_2_status": "pending",
+      "activation_state": "blocked_on_dependencies_and_review",
+      "issue_goal_token_budget": "not_set_by_operator",
+      "estimate_total_tokens": "12000",
+      "timestamp": "2026-10-19",
+      "status": "prepared_not_executing",
+      "estimate_elapsed_seconds": "3600",
+      "sip_card": ".csdlc/issues/120/cards/sip.md",
+      "step_5_status": "pending",
+      "goal_metrics_rollup_ref": "Sprint 2 activity record; unavailable metrics remain unknown",
+      "planned_pvf_lane": "planning_contract",
+      "planned_pvf_lane_source": "Live issue validation contract; see SEP for source-plan PVF distinction.",
+      "risks_inline": "Prepared design only; dependency readiness is separate. Planning #12 review pending. No implementation, product validation, publication, merge or closeout claimed.",
+      "step_4_status": "pending",
+      "slug": "v0932-beta1-acceptance-assessment",
+      "estimate_data_source": "planning estimate; no fresh runs"
+    }
+  },
+  "amendment": {
+    "class": "plan",
+    "transition_approved": true
+  }
+}

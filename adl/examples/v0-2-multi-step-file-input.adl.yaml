@@ -1,0 +1,44 @@
+version: "0.2"
+
+providers:
+  local_ollama:
+    type: "local_ollama"
+    default_model: "gemma3:latest"
+
+agents:
+  summarizer:
+    provider: "local_ollama"
+    model: "gemma3:latest"
+
+tasks:
+  summarize_doc:
+    prompt:
+      user: |
+        Summarize the document.
+        Document:
+        {{doc}}
+
+run:
+  name: "v0-2-multi-step-file-input"
+  workflow:
+    kind: "sequential"
+    steps:
+      - id: "step-file-1"
+        agent: "summarizer"
+        task: "summarize_doc"
+        inputs:
+          doc: "@file:docs/doc_1.txt"
+        save_as: "summary_1"
+      - id: "step-file-2"
+        agent: "summarizer"
+        task: "summarize_doc"
+        prompt:
+          user: |
+            Summarize the document, then include the prior summary:
+            {{summary_1}}
+
+            Document:
+            {{doc}}
+        inputs:
+          doc: "@file:docs/doc_2.txt"
+          summary_1: "Placeholder from step-file-1 (state wiring planned for v0.2+)."

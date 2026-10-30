@@ -1,0 +1,106 @@
+version: adl.prompt_contract.v1
+artifact: structured_output_record
+description: >
+  Compatibility contract for Structured Outcome Records (SORs). The historical
+  artifact identifier remains `structured_output_record`, but the canonical
+  v0.91.2 semantic role is outcome truth in the
+  `SIP -> STP -> SPP -> SRP -> SOR` lifecycle.
+fields:
+  Task ID:
+    type: task_id
+    required: true
+  Run ID:
+    type: task_id
+    required: true
+  Version:
+    type: version
+    required: true
+  Title:
+    type: string
+    required: true
+  Branch:
+    type: branch
+    required: true
+  Status:
+    type: enum
+    values: [NOT_STARTED, IN_PROGRESS, DONE, FAILED]
+    required: true
+  Execution.Start Time:
+    type: iso8601_datetime
+    required: false
+  Execution.End Time:
+    type: iso8601_datetime
+    required: false
+  Main Repo Integration.Integration state:
+    type: enum
+    values: [worktree_only, pr_open, merged, closed_no_pr]
+    required: false
+  Main Repo Integration.Verification scope:
+    type: enum
+    values: [worktree, pr_branch, main_repo]
+    required: false
+  Main Repo Integration.Result:
+    type: enum
+    values: [PASS, FAIL]
+    required: false
+  Lifecycle stage:
+    type: enum
+    values: [SOR]
+    required: false
+  Activation state:
+    type: enum
+    values: [scaffold, active, pr_open, merged, closed_no_pr, legacy_compatible]
+    required: false
+required_sections:
+  - Summary
+  - Artifacts produced
+  - Actions taken
+  - Main Repo Integration (REQUIRED)
+  - Validation
+  - Verification Summary
+  - Determinism Evidence
+  - Security / Privacy Checks
+  - Replay Artifacts
+  - Artifact Verification
+  - Decisions / Deviations
+  - Follow-ups / Deferred work
+phases:
+  scaffold:
+    notes: >
+      File exists for path stability before execution produces outcome truth.
+  active:
+    notes: >
+      SOR is being updated with current execution outcome truth.
+  pr_open:
+    notes: >
+      Branch artifacts are represented by an open PR; merge and closeout are not
+      yet final.
+  merged:
+    notes: >
+      Issue artifacts are merged and closeout truth should be final.
+  closed_no_pr:
+    notes: >
+      Issue closed intentionally without a PR, with the disposition recorded.
+  legacy_compatible:
+    notes: >
+      Historical SOR shape remains readable while migration tooling is rolled
+      out.
+  bootstrap:
+    allow_blank:
+      - Execution.Actor
+      - Execution.Model
+      - Execution.Provider
+      - Execution.Start Time
+      - Execution.End Time
+      - Main Repo Integration.Main-repo paths updated
+      - Main Repo Integration.Worktree-only paths remaining
+      - Main Repo Integration.Integration state
+      - Main Repo Integration.Verification scope
+      - Main Repo Integration.Integration method used
+      - Main Repo Integration.Result
+  completed:
+    allow_blank:
+      - Replay Artifacts.Trace bundle path(s)
+      - Replay Artifacts.Run artifact root
+      - Replay Artifacts.Replay command used for verification
+      - Replay Artifacts.Replay result

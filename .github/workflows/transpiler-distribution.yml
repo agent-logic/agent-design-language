@@ -1,0 +1,25 @@
+name: Transpiler installed distribution
+on:
+  workflow_dispatch:
+  workflow_call:
+permissions:
+  contents: read
+jobs:
+  installed-demo:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-15]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: dtolnay/rust-toolchain@631a55b12751854ce901bb631d5902ceb48146f7
+        with:
+          toolchain: 1.92.0
+      - run: cargo test --locked --manifest-path demos/transpiler_demo/Cargo.toml
+      - run: cargo build --locked --manifest-path demos/transpiler_demo/Cargo.toml
+      - run: cargo run --locked --quiet --manifest-path tools/public_contracts/Cargo.toml --bin adl-public-contracts -- transpiler-test --binary demos/transpiler_demo/target/debug/transpiler_demo
+      - run: cargo run --locked --quiet --manifest-path tools/public_contracts/Cargo.toml --bin adl-public-contracts -- transpiler-pack --binary demos/transpiler_demo/target/debug/transpiler_demo --output transpiler-demo.tar
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: transpiler-demo-${{ matrix.os }}
+          path: transpiler-demo.tar

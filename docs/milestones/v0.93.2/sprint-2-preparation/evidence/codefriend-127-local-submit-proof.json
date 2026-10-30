@@ -1,0 +1,25 @@
+{
+  "scope": "Local candidate submit-path proof; not installed Linux/full security9 acceptance",
+  "test": "enterprise_submit_uses_runtime_and_denials_have_zero_backend_effects",
+  "source_file": "crates/codefriend/tests/codefriend_server.rs",
+  "source_sha256": "38013306a092a8a84a209cbee624dc167d5926d71460873d39ef5b23eee7c14e",
+  "source_state": "uncommitted integration after be0f26bf0a99c4ae359fafaabff0bf2ea3bceaec",
+  "execution_log": "codefriend-127-local-submit-proof.log",
+  "observed_result": "1 explicit ignored-by-default integration test executed: passed, zero ignored",
+  "cases": [
+    "allowed dispatch once",
+    "successful request replay produces no second dispatch",
+    "denied role",
+    "revoked grant",
+    "empty service grant",
+    "out-of-order sequence",
+    "missing configured provider",
+    "missing request identity"
+  ],
+  "assertions": "Every denial checks403, zero backend calls and absence of operation directory. Allowed case checks persisted tenant ownership.",
+  "limits": [
+    "Backend is effect-counting fixture",
+    "Host supplied from verified local Runtime candidate; Linux installed lane pending",
+    "No read/export/audit/deletion acceptance from submit test"
+  ]
+}

@@ -1,0 +1,521 @@
+{
+  "schema": "adl.language_cleanup.transition.v1",
+  "issue": 1349,
+  "source_commit": "efb520d32edde0f210907e6f2b07f4c2db0e9f12",
+  "removed": [
+    "adl-uts/tools/verify_install.py",
+    "tools/godel_contract_distribution/package.py",
+    "tools/godel_contract_distribution/test_distribution.py",
+    "tools/public_adl/check_public_docs.py",
+    "tools/public_adl/compare_resume_args.py",
+    "tools/public_adl/test_codefriend_owner.py",
+    "tools/public_adl/test_compatibility_lockset.py",
+    "tools/public_adl/test_demo_output_safety.py",
+    "tools/public_adl/test_install_storage.py",
+    "tools/public_adl/test_package_checks.py",
+    "tools/public_adl/test_portable_workflow.py",
+    "tools/public_adl/test_public_cli_refusals.py",
+    "tools/public_adl/test_public_codefriend_dispatch.py",
+    "tools/public_adl/test_public_runtime_dispatch.py",
+    "tools/public_adl/test_public_session.py",
+    "tools/public_adl/test_runtime_owner.py",
+    "tools/public_adl/test_workflow_args.py",
+    "tools/public_adl/verify_compatibility_lockset.py",
+    "tools/public_adl/verify_install.py",
+    "tools/public_adl/verify_install_validator.py",
+    "tools/remote_validation_distribution/package.py",
+    "tools/remote_validation_distribution/test_distribution.py",
+    "tools/remote_validation_distribution/verify_consumer.py",
+    "tools/transpiler_distribution/package.py",
+    "tools/transpiler_distribution/test_installed.py",
+    "tools/transpiler_distribution/verify_install.py"
+  ],
+  "changes": [
+    {
+      "path": ".github/workflows/ci.yaml",
+      "before": [
+        "100644",
+        "62d052355bc1eac146936d92ea81d85b17c08a19"
+      ],
+      "after": [
+        "100644",
+        "029f2ea07fd560b6ad5d83f7c3db64a75f5f88b0"
+      ],
+      "before_sha256": "65a195e5c22c6b7be7fd96f0f2d7cd40ea285a8e83b78798effd1beb6ff10ae9"
+    },
+    {
+      "path": ".github/workflows/transpiler-distribution.yml",
+      "before": [
+        "100644",
+        "e574fdb75fa4ac1389ddb3409f5b56fbb4566bb0"
+      ],
+      "after": [
+        "100644",
+        "41bf00552dc4d1b6264197c0b62f571871e89177"
+      ],
+      "before_sha256": "3e234881f7e7d822e2dfae9f6b933e5013b9c862cbfbb3406f6a0308212d3ee4"
+    },
+    {
+      "path": "Makefile",
+      "before": [
+        "100644",
+        "1b96f861fc29c2d26471eb2670db40edbedcc8dd"
+      ],
+      "after": [
+        "100644",
+        "9a7bf7b117cfdea6755cb78803a760d687d942e0"
+      ],
+      "before_sha256": "1071318b540476dbbf3b4136ddad122ccbb83ed7697468c8dc2f7fe22a8be430"
+    },
+    {
+      "path": "REVIEW.md",
+      "before": [
+        "100644",
+        "71c0bf299e87de94553b42a0d9e955445565b1a0"
+      ],
+      "after": [
+        "100644",
+        "40fd54940f267af10e91e91a504715f47d4e9240"
+      ],
+      "before_sha256": "de6475464204a81ac44a4a5b051f365feadee70cee82abd3329af0d6bfe2617b"
+    },
+    {
+      "path": "adl-uts/tools/verify_install.py",
+      "before": [
+        "100644",
+        "1afb438b487c9113464c82aceee29a285932ce6a"
+      ],
+      "after": null,
+      "before_sha256": "3cd37b87207279e0ef209c7ddfd8a8d408a846b4037abb414e79c23433c11c34"
+    },
+    {
+      "path": "docs/specs/uts/PACKAGE.md",
+      "before": [
+        "100644",
+        "e5d97fd8475cc16737812555c5e23e3b37a140f3"
+      ],
+      "after": [
+        "100644",
+        "4a0868a6468865798821ca7245ce451c3fe5f4c0"
+      ],
+      "before_sha256": "28b6594eefd34e5911567c536b4a06c425c3bbc1c0396c29027bb34f3d69537e"
+    },
+    {
+      "path": "docs/tooling/SESSION_LEDGER_LOCKING.md",
+      "before": [
+        "100644",
+        "c314a4daa8583ba1faafbf9335a0c72d7072664b"
+      ],
+      "after": [
+        "100644",
+        "bec9e85280f5b3cfd6dfb9d6701283cfe81206a3"
+      ],
+      "before_sha256": "63aa64f0a893d68553e019889ed53f3f8857c598f517e983a580eb1be710c450"
+    },
+    {
+      "path": "docs/validation/issue877_uts_package.json",
+      "before": [
+        "100644",
+        "b1d85190b2ac46fa204c0aa537d59afb970af785"
+      ],
+      "after": [
+        "100644",
+        "272cd61d410c62a141145d6f70712698c0ac50a6"
+      ],
+      "before_sha256": "30c7f8f7374d6967519a55534ee9e66d7ff6ba72ad999631b60297e978c0adcc"
+    },
+    {
+      "path": "tools/ci_contracts/src/coverage.rs",
+      "before": [
+        "100644",
+        "255328f497c01e442b591cebf41517f3fe538dff"
+      ],
+      "after": [
+        "100644",
+        "275a0d2e4e868a95fc203e188dc72fc2ec34fb90"
+      ],
+      "before_sha256": "40920aebc466bb370756464f29d41129325842cc8e6f5ccc0d55965d5c44592c"
+    },
+    {
+      "path": "tools/godel_contract_distribution/README.md",
+      "before": [
+        "100644",
+        "dca4eb5c3446bd568785462445aebb1f16b4ddbb"
+      ],
+      "after": [
+        "100644",
+        "a858f81d7d3f4905b5fb98c704b42978270ce916"
+      ],
+      "before_sha256": "75f544e75373f1ea300722e7a7bc4f66a01479fce4260a4832becb31587afeb6"
+    },
+    {
+      "path": "tools/godel_contract_distribution/package.py",
+      "before": [
+        "100644",
+        "4fe660f569cc371c5f630ff2775cb5a9b6c40e3a"
+      ],
+      "after": null,
+      "before_sha256": "54f639b4b673d508811f50b500bd393ef7c645f8d2d4c5d1594bd8f53dddabc1"
+    },
+    {
+      "path": "tools/godel_contract_distribution/test_distribution.py",
+      "before": [
+        "100644",
+        "572536c0f4d181c06f3c530db733eafdc70bc84b"
+      ],
+      "after": null,
+      "before_sha256": "c165f9ed5d86dbb105f8487e554c7be0a3b71ebf8e0789191643ffa134cb4fcf"
+    },
+    {
+      "path": "tools/public_adl/check_public_docs.py",
+      "before": [
+        "100644",
+        "ea19b96a0eb733b34919e6e56061cbf953d4b4b4"
+      ],
+      "after": null,
+      "before_sha256": "8e35f8827cd9a0b4e9b847fe768570dd11f7c4e67a6df043a848821ed69569bb"
+    },
+    {
+      "path": "tools/public_adl/compare_resume_args.py",
+      "before": [
+        "100644",
+        "13c0676171d0e6e11aa778765734e220df6519cf"
+      ],
+      "after": null,
+      "before_sha256": "61a033a5146ba2fe43c176965a1ec7d50c92fa78fe2fe25a867ec6564a8c775c"
+    },
+    {
+      "path": "tools/public_adl/compatibility-validator/Cargo.lock",
+      "before": [
+        "100644",
+        "608a623dc350b7690d5de1e942dca840ac851195"
+      ],
+      "after": [
+        "100644",
+        "a0eb2c50ca5be712d26279118e57dfcd7811f6a7"
+      ],
+      "before_sha256": "55b60852ce9a6de683eda6b7197dbd19bbf22ef70fb4d13d68740bd6588ba5bf"
+    },
+    {
+      "path": "tools/public_adl/compatibility-validator/Cargo.toml",
+      "before": [
+        "100644",
+        "183ceea08c7d80983655fb77d2093d3b48d987fa"
+      ],
+      "after": [
+        "100644",
+        "307643a6c643df80d8a42e9aba44654ed828821e"
+      ],
+      "before_sha256": "c951b7e646b381416f2784ff98eb04c1933e0ab9bfd936d19f4414e3ff100cd0"
+    },
+    {
+      "path": "tools/public_adl/compatibility-validator/tests/full_contract.rs",
+      "before": [
+        "100644",
+        "1fab2c4f3e68eb8fb397f01e32c9d67a5976025c"
+      ],
+      "after": [
+        "100644",
+        "05420e23676d6308fd2e86104897c96d341c9d0c"
+      ],
+      "before_sha256": "f0d2f4ff2b933a2d8f6c0d19148435f90ae06b23b1c04130dbbda4a38ca8fd8f"
+    },
+    {
+      "path": "tools/public_adl/run_ci.sh",
+      "before": [
+        "100755",
+        "3546edc576534fdb51f9e228906c94f35dde16d8"
+      ],
+      "after": [
+        "100755",
+        "e62b500e2190e185efeb698efeece9551e5fa475"
+      ],
+      "before_sha256": "d641924427657554bad8dc168cf5f547d32a0be7f82d252ad64dae7f78066e2e"
+    },
+    {
+      "path": "tools/public_adl/run_cli_ci.sh",
+      "before": [
+        "100644",
+        "befb4b3f785e227b3aea445efc4a6b157f010e80"
+      ],
+      "after": [
+        "100644",
+        "856cc53f1c4eaea73cac688246427e4a47c45053"
+      ],
+      "before_sha256": "d72a13f408a6e0e9917419e1a8ea4fcc6057e343ecd1eda8efe06e0b88e7f8f3"
+    },
+    {
+      "path": "tools/public_adl/test_codefriend_owner.py",
+      "before": [
+        "100644",
+        "43577c60d0e4e396faa900436e8ba8ea7db88f25"
+      ],
+      "after": null,
+      "before_sha256": "4fb6cc5c4fc232cc93dc25a2f469dc9fe0f9caa855be80419a625dcf9b147608"
+    },
+    {
+      "path": "tools/public_adl/test_compatibility_lockset.py",
+      "before": [
+        "100644",
+        "70eccbbd87ff5e658168b7f3f4aa017fe6be0ecb"
+      ],
+      "after": null,
+      "before_sha256": "28952fcb995b70ee849822b459ba811676e2241dae28e9322486c58bfed29a4b"
+    },
+    {
+      "path": "tools/public_adl/test_demo_output_safety.py",
+      "before": [
+        "100644",
+        "47db1f72d72acf6885796848179d5a986e08d5a7"
+      ],
+      "after": null,
+      "before_sha256": "8ded12e2b54ce8f0f08b5134ee646774026913e375537b98eab9ac9cf49cd79c"
+    },
+    {
+      "path": "tools/public_adl/test_install_storage.py",
+      "before": [
+        "100644",
+        "5b43af7f8831be990ddfc7d2d8098a86e1635618"
+      ],
+      "after": null,
+      "before_sha256": "f9b5d4eb3538260f161240156228aa17149ebfc9fd69230a9bfffc7e10893298"
+    },
+    {
+      "path": "tools/public_adl/test_package_checks.py",
+      "before": [
+        "100644",
+        "bf275a8a7542a72f3f1b4b986bb5dff5376fac30"
+      ],
+      "after": null,
+      "before_sha256": "284fced9e8fcd3ee15cb13f8a9acc07026eb6910f5f883626e59b591b38b6ea2"
+    },
+    {
+      "path": "tools/public_adl/test_portable_workflow.py",
+      "before": [
+        "100644",
+        "8e5cd086059bce46cd275fe758033e7423e78eee"
+      ],
+      "after": null,
+      "before_sha256": "64ec53b33e4e03d5052efe3ec16bc49b794a81ece3f0ab6a45cc97a8f79faaa5"
+    },
+    {
+      "path": "tools/public_adl/test_public_cli_refusals.py",
+      "before": [
+        "100644",
+        "f54292256190e00b81124cb24a3492442588fce2"
+      ],
+      "after": null,
+      "before_sha256": "595814a4a277b173d4db67ed4411b871ea84a87db47fe41496ec75286c82dfd7"
+    },
+    {
+      "path": "tools/public_adl/test_public_codefriend_dispatch.py",
+      "before": [
+        "100644",
+        "0406d7f36f7fa9c5e8fa5d67f4a9cc96ad295b0b"
+      ],
+      "after": null,
+      "before_sha256": "5a6718e4de621ee31f999d6194e48d3b46da59a6987c04390f185f5987089c57"
+    },
+    {
+      "path": "tools/public_adl/test_public_runtime_dispatch.py",
+      "before": [
+        "100644",
+        "4df3a048490736fd18b1cef31a690ba2740b7c25"
+      ],
+      "after": null,
+      "before_sha256": "f49e57795c658dc4710d92320a9198084af689ca7d87b081f484161b7f09d14e"
+    },
+    {
+      "path": "tools/public_adl/test_public_session.py",
+      "before": [
+        "100644",
+        "1892eb4267dee5459203ccdb668da176dc575ad5"
+      ],
+      "after": null,
+      "before_sha256": "fdacec8679e03dad1e80428878f35955b28541957659dd8e1a23f782c73865c2"
+    },
+    {
+      "path": "tools/public_adl/test_runtime_owner.py",
+      "before": [
+        "100644",
+        "399585da821b0f541151ae4c46927dfd7a177aad"
+      ],
+      "after": null,
+      "before_sha256": "01bb763198897f0b22e7b8fcd768fe77d0a6a2054d04feec874177f9279f0a5f"
+    },
+    {
+      "path": "tools/public_adl/test_workflow_args.py",
+      "before": [
+        "100644",
+        "8f66088c5f0dddd51d371299e08f45e2388924b9"
+      ],
+      "after": null,
+      "before_sha256": "cb7f82370f6ab63fcb9215c159f83b3d6df8ede347b993534516c8753dd4108b"
+    },
+    {
+      "path": "tools/public_adl/validator/public_adl_install_validator.rs",
+      "before": [
+        "100644",
+        "d3e69db09f2acfb5e8602feca56536e199fc643e"
+      ],
+      "after": [
+        "100644",
+        "e6babeda79ad95b2aabe05ef27473b9a5f15549c"
+      ],
+      "before_sha256": "c393bf87710ba70d632230295775c8e757e62f5618ee112cbacdcf2ac566829c"
+    },
+    {
+      "path": "tools/public_adl/verify_compatibility_lockset.py",
+      "before": [
+        "100644",
+        "cc2aa08ac95f64fe7b4b597dec5228ace4a08431"
+      ],
+      "after": null,
+      "before_sha256": "cbf383c2772db496d62e26b150159116aec0c5420104743032499b2e1d812696"
+    },
+    {
+      "path": "tools/public_adl/verify_install.py",
+      "before": [
+        "100644",
+        "1f500b2f9a9276fdad8c1da496b6f225217e9ef3"
+      ],
+      "after": null,
+      "before_sha256": "2cccbda788fd2af247fc4c951626c1b2f8ef209fd67ae97a50df3ec0d6f3bf22"
+    },
+    {
+      "path": "tools/public_adl/verify_install_validator.py",
+      "before": [
+        "100644",
+        "2d26658e90ff02770d17aa8d1eef87a83f5890b0"
+      ],
+      "after": null,
+      "before_sha256": "c6e80aa60a42bb942fec3230606462946b6a759c58bee02a69bf3e26fa554765"
+    },
+    {
+      "path": "tools/remote_validation_distribution/Cargo.lock",
+      "before": [
+        "100644",
+        "ca36e26cc109109eb475c5e4394d67d94de5f200"
+      ],
+      "after": [
+        "100644",
+        "c969d589a8c64566c91eb3fd1cefe6078cde4568"
+      ],
+      "before_sha256": "64f7dd58fa66f12f42739b030d9c4cee5d9b645debdbc60421f3f16f8fb9b990"
+    },
+    {
+      "path": "tools/remote_validation_distribution/Cargo.toml",
+      "before": [
+        "100644",
+        "ae110f4f2c29445268692277f5b0b1164bb8dc90"
+      ],
+      "after": [
+        "100644",
+        "cf2d2c92309ee60af50a989e509407fbed38e538"
+      ],
+      "before_sha256": "2d64c11582ed277c56ad96d63f85456a88662becb998da0e75acfef2a360078b"
+    },
+    {
+      "path": "tools/remote_validation_distribution/package.py",
+      "before": [
+        "100644",
+        "c2c14fe8012e0c5a929251e49aea5d1174437653"
+      ],
+      "after": null,
+      "before_sha256": "56339dd2bee9162f5596f906046c585100bf13e0661aca7e7be381dfa973a476"
+    },
+    {
+      "path": "tools/remote_validation_distribution/test_distribution.py",
+      "before": [
+        "100644",
+        "7d570692a4d2aae56f16b285ada74dc56e3ae9eb"
+      ],
+      "after": null,
+      "before_sha256": "e6b353f9dc4c9e77e23bad87851238c1619db0d4586ffe675f152af6d7cb40f5"
+    },
+    {
+      "path": "tools/remote_validation_distribution/tests/distribution.rs",
+      "before": [
+        "100644",
+        "1c3f0171a2c5e3956fa19e149ad80c28916704f4"
+      ],
+      "after": [
+        "100644",
+        "bdf6366f268da08724593cab7d186038a9ec4ba4"
+      ],
+      "before_sha256": "59219a812c524e4ea724ad9747e6bb5744b758fec714381ae096db88072cb3e5"
+    },
+    {
+      "path": "tools/remote_validation_distribution/verify_consumer.py",
+      "before": [
+        "100644",
+        "abf5f95cc37cae3a1688dcc04b293daf996845e7"
+      ],
+      "after": null,
+      "before_sha256": "a672228c4b1d906ff87de7a468860d2cc9f3af802daa0874de7824d3e0bde7e2"
+    },
+    {
+      "path": "tools/repository_cleanup/validate.py",
+      "before": [
+        "100644",
+        "a1aee933f4f572fda6c38d5bd7729e30c1f7ca2a"
+      ],
+      "after": [
+        "100644",
+        "8aab8c9215d517a9be1b14037a4d6c40e6f9ef38"
+      ],
+      "before_sha256": "bae77ddcf185f6fb39fa0734483e36ca88e160cfe93155f93c82ec4dd906b9ca"
+    },
+    {
+      "path": "tools/source_retirement/validator/installed_public_packages.rs",
+      "before": [
+        "100644",
+        "1025f3bcc40b3935e916614627dec5f47d158662"
+      ],
+      "after": [
+        "100644",
+        "387b737dc71c4b6f72d6cbe8e3772cd771a3fb33"
+      ],
+      "before_sha256": "45c8d86786703926fc51d172389eae64df95b012ab15cb450deeffd4dda12dd7"
+    },
+    {
+      "path": "tools/transpiler_distribution/README.md",
+      "before": [
+        "100644",
+        "b0abc39d5a94d6bd89c2bb4de90fe1f55617726c"
+      ],
+      "after": [
+        "100644",
+        "4fc804e50e6d23d1d0056c99c9bf86e1426a01c4"
+      ],
+      "before_sha256": "e3596e47339cd515082a782c3c1f1ec9f40ebb5554d2fb88e775b863a91d213b"
+    },
+    {
+      "path": "tools/transpiler_distribution/package.py",
+      "before": [
+        "100644",
+        "fbcf65ddd544b51ed6d01d166897162391bbef49"
+      ],
+      "after": null,
+      "before_sha256": "888e53466170678c09b86a2568f3f364f31917f93a95d48b1f92c39b74ab8328"
+    },
+    {
+      "path": "tools/transpiler_distribution/test_installed.py",
+      "before": [
+        "100644",
+        "7797aae1bbd64b98800471272b8b69b84eedbc62"
+      ],
+      "after": null,
+      "before_sha256": "69c1c15ae441bbc54e7263ffe057e7cdb871d745acf83cd1186a3ccc7b9780c7"
+    },
+    {
+      "path": "tools/transpiler_distribution/verify_install.py",
+      "before": [
+        "100644",
+        "fa24bd4e0707a9efb1d8718ce7d3eea775cdabf9"
+      ],
+      "after": null,
+      "before_sha256": "5d6fe730d9e64199ba90362dbe38bad2655bd5c429992b07c5e0ea0c7bceedb5"
+    }
+  ]
+}

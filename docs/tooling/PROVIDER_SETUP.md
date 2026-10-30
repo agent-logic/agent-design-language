@@ -1,0 +1,165 @@
+# Provider Setup
+
+`adl provider setup <family>` generates a local, untracked setup bundle for a
+remote provider family.
+
+Current `adl provider setup` families:
+- `chatgpt`
+- `claude`
+- `openai`
+- `anthropic`
+- `gemini`
+- `deepseek`
+- `kimi`
+- `moonshot`
+- `bedrock`
+- `openrouter`
+- `z_ai`
+- `http`
+
+Deepgram is a typed speech provider, not a completion provider, and is
+configured directly through the profiles documented below. It is not generated
+by `adl provider setup`.
+
+Related shared proof-surface docs:
+- `docs/tooling/PROVIDER_DEMO_SURFACES.md`
+- `docs/milestones/v0.87.1/DEMO_MATRIX_v0.87.1.md`
+
+Default output location:
+- `.adl/provider-setup/<family>/`
+
+Generated files:
+- `provider.adl.yaml`
+- `.env.example`
+- `README.md`
+
+The generated bundle is intentionally local-only:
+- no secrets are stored by the command
+- `.env.example` is a template, not a credential store
+- users are expected to copy/fill a local env file and source it before running ADL
+
+Important transport note:
+- `openai`, `anthropic`, `deepseek`, `kimi`/`moonshot`, `openrouter`, `bedrock`, and `z_ai` now use Rust-native provider adapters by default:
+  - `type: "openai"` targets the OpenAI Responses API unless `config.endpoint` is explicitly overridden
+  - `type: "anthropic"` targets the Anthropic Messages API unless `config.endpoint` is explicitly overridden
+  - `type: "deepseek"` targets the DeepSeek chat completions API unless `config.endpoint` is explicitly overridden
+  - `type: "kimi"` targets Moonshot's OpenAI-compatible chat completions API unless `config.endpoint` is explicitly overridden
+  - `type: "openrouter"` targets the OpenRouter chat completions API unless `config.endpoint` is explicitly overridden
+  - `type: "bedrock"` targets AWS Bedrock Runtime through the AWS SDK and defaults to `ADL_AWS_PROFILE=agent-logic-admin`
+  - `type: "z_ai"` targets the Z.ai/Zhipu OpenAI-compatible chat completions API unless `config.endpoint` is explicitly overridden
+- ADL's bounded HTTP provider expects a completion-style contract:
+  - request JSON with `{"prompt": "..."}`
+  - response JSON with `{"output": "..."}`
+- raw vendor-native endpoints may need an adapter or compatibility gateway if
+  they do not expose that exact contract directly; this applies to HTTP/profile
+  families such as `chatgpt`, `claude`, `gemini`, and `http`
+- provider-family demos should keep setup instructions here and keep family-specific
+  runtime proof steps in their own wrapper surfaces
+
+Example:
+
+```bash
+adl provider setup chatgpt
+adl provider setup claude
+adl provider setup openai --out ./.adl/provider-setup/openai
+adl provider setup deepseek
+adl provider setup kimi
+adl provider setup bedrock
+adl provider setup z_ai
+```
+
+AWS Bedrock native note:
+- `adl provider setup bedrock` emits `type: "bedrock"`, defaults to `profile: "agent-logic-admin"` and `region: "us-west-2"`, and uses AWS SDK credential resolution rather than bearer-token auth
+- ADL AWS work must use the Agent Logic business profile unless the operator explicitly authorizes a bounded personal-account diagnostic
+- the initial provider mini-sprint target is `amazon.nova-lite-v1:0`; `amazon.nova-pro-v1:0` is the secondary target when access and cost posture allow
+
+DeepSeek native note:
+- `adl provider setup deepseek` emits `type: "deepseek"`, reads `DEEPSEEK_API_KEY`, and uses `https://api.deepseek.com/chat/completions` by default
+- the older `http:deepseek-chat` profile remains a compatibility surface for ADL-style completion gateways; it is not the native DeepSeek API path
+
+Moonshot/Kimi native note:
+- `adl provider setup kimi` emits `type: "kimi"`, reads `MOONSHOT_API_KEY`, and uses `https://api.moonshot.ai/v1/chat/completions` by default
+- `adl provider setup moonshot` is an alias for the same provider family
+- the built-in Kimi profiles include `kimi:k2.5` and `kimi:k3`; `kimi:k3` maps to provider model id `kimi-k3` for the provider route `hosted:adl-kimi:kimi-k3`
+- Kimi K3 reasoning configuration is explicit and bounded: `reasoning_effort` may be `low`, `high`, or `max`; ADL follows Moonshot's documented OpenAI-compatible API default of `max` when the field is omitted
+
+Z.ai native note:
+- `adl provider setup z_ai` emits `type: "z_ai"` and reads `ZAI_API_KEY`; the default `glm-5` setup path preserves the established `https://open.bigmodel.cn/api/paas/v4/chat/completions` endpoint, while the `z_ai:glm-5.3-flash` profile uses `https://api.z.ai/api/paas/v4/chat/completions`
+- the built-in Z.ai profiles include `z_ai:glm-5`, which maps to provider model id `glm-5` for the provider mini-sprint UTS route `hosted:adl-z-ai:glm-5`, and `z_ai:glm-5.3-flash`, which maps to provider model id `glm-5.3-flash` for `hosted:adl-z-ai:glm-5.3-flash`
+
+Loopback demo note:
+- the `v0.87.1` bounded HTTP family demo uses `http://127.0.0.1:8787/complete` with a dummy bearer token as a local proof path for the ADL completion contract
+
+ChatGPT demo note:
+- the `v0.87.1` ChatGPT family demo uses the `chatgpt:gpt-5.4` profile plus a local bounded completion adapter on `http://127.0.0.1:8787/complete`; it proves the current setup/profile surface, not a raw vendor-native endpoint
+
+Claude family note:
+- the first-class Claude setup surface uses `claude:claude-3-7-sonnet` plus the same bounded ADL completion contract; it is distinct from the generic `anthropic` compatibility setup so Claude can be referenced symmetrically with ChatGPT in multi-agent workflows
+
+Fable 5 UTS acceptance note:
+- the benchmark implementation is owned by [Runtime](https://github.com/agent-logic/agent-logic-runtime); its [Fable 5 acceptance source](https://github.com/agent-logic/agent-logic-runtime/blob/4610077ca808318598c70dc50378c5c3627996f3/adl/tools/run_fable5_uts_acceptance.sh) is retained at this exact merged revision. ADL no longer supplies this command. Merged source delivery and bounded offline consumer evidence do not establish installed acceptance or a credentialed provider run
+- use [docs/tooling/CALL_CLAUDE_FABLE_5.md](https://github.com/agent-logic/agent-logic-runtime/blob/7d0db620ad79c50ff5d8fabf0fb543183583d05c/docs/tooling/CALL_CLAUDE_FABLE_5.md) for a bounded diagnostic or review call with retained provider artifacts
+- the owner script writes an ad-hoc selector for `hosted:adl-anthropic:claude-fable-5`, injects a portable `max_output_tokens` budget through its owner-local `adl/tools/adl_provider_adapter_with_budget.py`, runs the UTS deterministic self-check, runs an optional hosted probe, and then runs the `regular,uts_only` lanes
+- provide credentials with `--key-file "$HOME/keys/claude2.key"` or an already-set `ANTHROPIC_API_KEY`; the script must not print or retain the key value
+- proof for issue #5044 is recorded in `docs/milestones/v0.91.7/review/provider/FABLE5_UTS_ACCEPTANCE_5044.md`
+
+Historical triad and review-panel credential contract (ADL source scripts retired by #1223):
+- the original `demo_v091_chatgpt_gemini_claude_triad_conversation.sh` and `demo_v091_chatgpt_gemini_claude_review_panel.sh` accepted exported `OPENAI_API_KEY`, `GEMINI_API_KEY`, and `ANTHROPIC_API_KEY` first; their current and frozen source bytes remain in #1223 custody
+- the original scripts also accepted explicit `ADL_OPENAI_KEY_FILE`, `ADL_GEMINI_KEY_FILE`, and `ADL_ANTHROPIC_KEY_FILE`, corresponding `ADL_*_API_KEY_FILE` aliases, and an optional `ADL_HOSTED_PROVIDER_KEYS_FILE` registry. These describe historical behavior, not current ADL setup instructions
+- the separate Runtime owner retains successor source at revision `11ce6614603532738e9ceffab093e35d96b262b5`. Source correspondence does not qualify either live demo or authorize provider calls
+
+Historical multi-agent demo note (ADL wrappers retired in #1223; the following describes the preserved original contract, not a current ADL command):
+- `adl/tools/demo_v0871_real_multi_agent_discussion.sh` is the operator-run live-provider companion to the deterministic multi-agent demo
+- `adl/tools/test_demo_v0871_real_multi_agent_discussion.sh` preserves local ergonomics by exiting successfully when operator credentials are unavailable, but it now emits an explicit machine-readable non-proving skip disposition instead of implying live-provider proof
+- it reads `OPENAI_API_KEY` and `ANTHROPIC_API_KEY` from the environment when set, or from explicit operator-selected key-file overrides when provided
+- it starts a local adapter that bridges ADL's current `{"prompt": "..."} -> {"output": "..."}` HTTP contract to vendor-native OpenAI and Anthropic APIs
+- generated artifacts record provider family/model/status metadata only; they must not include secret values or raw credential headers
+- a real D13L proof claim requires the credentialed path to complete and write the invocation/transcript artifacts named in the demo matrix
+
+## Deepgram Speech Provider
+
+Deepgram is exposed through the typed `SpeechProvider` boundary for batch
+synthesis and prerecorded transcription. It does not implement the text
+completion `Provider` trait.
+
+Canonical profiles:
+
+- `deepgram:aura-2-pluto-en`
+- `deepgram:nova-3`
+
+Use `DEEPGRAM_API_KEY` for an already-exported credential. For an
+operator-approved key file, set `ADL_DEEPGRAM_API_KEY_FILE` to its path. ADL
+reads the file only when a request is made; the key value and authorization
+header are never included in provider debug output, errors, provenance, or
+evidence.
+
+```yaml
+providers:
+  podcast_speech:
+    profile: "deepgram:aura-2-pluto-en"
+```
+
+Downstream Rust code expands the ADL profile, then calls
+`build_speech_provider` with the resulting `ProviderSpec`. Synthesis requires
+explicit text, model, voice, encoding, container, and sample rate.
+Transcription requires explicit audio bytes, content type, model, and language.
+Supported initial media combinations are WAV-wrapped linear PCM for synthesis,
+MP3 without an additional container, and WAV/MP3 input for transcription. MP3
+synthesis uses Deepgram's fixed `22050` Hz rate; the typed request uses
+`container: none` as the no-container sentinel, while the HTTP adapter omits
+both `container` and `sample_rate` from the Deepgram query.
+
+The opt-in live canary is intentionally separate from ordinary tests. It uses
+Pluto synthesis and Nova-3 prerecorded transcription, discards source audio,
+and writes only `.csdlc/evidence/66/deepgram-live-receipt.json`. The receipt
+contains request identities, provider request IDs, model/media/usage metadata,
+latency, a redacted expected-phrase-match result, a dated pricing estimate, and
+explicit redaction assertions.
+
+Current limitations:
+
+- batch REST operations only
+- no realtime streaming or Gemini Live routing
+- no voice cloning or custom training
+- no automatic provider selection by price
+- no episode publication or feed mutation

@@ -1,0 +1,549 @@
+{
+  "schema": "adl.corporate.critical_asset_schedule.v1",
+  "issue": 482,
+  "umbrella_issue": 529,
+  "schedule_id": "corp-a-critical-asset-schedule",
+  "version": 1,
+  "accepted": true,
+  "accepted_by": "corporate-operator-role",
+  "accepted_at": "2026-08-26",
+  "authority_boundary": {
+    "classification": "documentation-and-evidence-only",
+    "private_instruments_included": false,
+    "credential_material_included": false,
+    "legal_advice_included": false,
+    "notes": [
+      "This schedule records operational custody and validation surfaces only.",
+      "Underlying assignments, provider credentials, tax instruments, and private recovery materials remain outside the repository."
+    ]
+  },
+  "source_basis": [
+    {
+      "path": "docs/milestones/v0.92.1/features/corporate-operational-readiness.md",
+      "role": "corporate-readiness-scope"
+    },
+    {
+      "path": ".csdlc/prepared/issues/153/stp.md",
+      "role": "planned-assignment-predecessor"
+    },
+    {
+      "path": ".csdlc/prepared/issues/154/stp.md",
+      "role": "planned-licensing-predecessor"
+    },
+    {
+      "path": ".csdlc/prepared/issues/155/stp.md",
+      "role": "planned-trademark-predecessor"
+    },
+    {
+      "path": ".csdlc/prepared/issues/482/canonical-critical-asset-denominator.v1.json",
+      "role": "independent-14-class-denominator"
+    }
+  ],
+  "critical_asset_classes": [
+    "source_control",
+    "ci_cd",
+    "production_domains",
+    "dns_route53",
+    "certificates",
+    "email",
+    "infrastructure_as_code",
+    "aws_infrastructure",
+    "deployment_operations",
+    "brand_trademark",
+    "provenance_license",
+    "assignment_acceptance",
+    "private_custody",
+    "data_model_media"
+  ],
+  "assets": [
+    {
+      "id": "corp-a-source-control",
+      "asset_class": "source_control",
+      "name": "Agent Design Language source repositories",
+      "business_owner": "Agent Logic corporate operator",
+      "custodian": "engineering-maintainer-role",
+      "disposition": "accepted-for-corporate-schedule",
+      "provenance": {
+        "source_refs": [
+          "GitHub organization agent-logic"
+        ],
+        "evidence_refs": [
+          "docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json#corp-a-source-control"
+        ]
+      },
+      "licensing": {
+        "disposition": "repository-license-surface-recorded",
+        "review_route": "License review remains issue-bound before external distribution."
+      },
+      "trademark": {
+        "disposition": "brand-use-observed",
+        "counsel_route": "Counsel review required before public trademark claims."
+      },
+      "assignment": {
+        "disposition": "operator-accepted-custody",
+        "receipt_ref": "corp-a-source-control"
+      },
+      "custody_receipt_ref": "corp-a-source-control",
+      "validation_surfaces": [
+        "asset-denominator",
+        "provenance-and-license",
+        "redaction-and-custody"
+      ]
+    },
+    {
+      "id": "corp-a-ci-cd",
+      "asset_class": "ci_cd",
+      "name": "GitHub Actions and release automation",
+      "business_owner": "Agent Logic corporate operator",
+      "custodian": "release-maintainer-role",
+      "disposition": "accepted-for-corporate-schedule",
+      "provenance": {
+        "source_refs": [
+          ".github/workflows"
+        ],
+        "evidence_refs": [
+          "docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json#corp-a-ci-cd"
+        ]
+      },
+      "licensing": {
+        "disposition": "automation-source-recorded",
+        "review_route": "Third-party action licensing is routed through dependency review before production reliance."
+      },
+      "trademark": {
+        "disposition": "no-new-public-mark-claim",
+        "counsel_route": "No trademark assertion is made by this custody row."
+      },
+      "assignment": {
+        "disposition": "operator-accepted-custody",
+        "receipt_ref": "corp-a-ci-cd"
+      },
+      "custody_receipt_ref": "corp-a-ci-cd",
+      "validation_surfaces": [
+        "asset-denominator",
+        "provenance-and-license",
+        "redaction-and-custody"
+      ]
+    },
+    {
+      "id": "corp-a-production-domains",
+      "asset_class": "production_domains",
+      "name": "Production-facing DNS names and web properties",
+      "business_owner": "Agent Logic corporate operator",
+      "custodian": "infrastructure-maintainer-role",
+      "disposition": "accepted-for-corporate-schedule",
+      "provenance": {
+        "source_refs": [
+          "docs/milestones/v0.92.1/features/corporate-operational-readiness.md"
+        ],
+        "evidence_refs": [
+          "docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json#corp-a-production-domains"
+        ]
+      },
+      "licensing": {
+        "disposition": "domain-control-surface-recorded",
+        "review_route": "Registrar records remain private and are represented only by redacted custody evidence."
+      },
+      "trademark": {
+        "disposition": "domain-brand-signal",
+        "counsel_route": "Counsel review required for brand-bearing domain use."
+      },
+      "assignment": {
+        "disposition": "operator-accepted-custody",
+        "receipt_ref": "corp-a-production-domains"
+      },
+      "custody_receipt_ref": "corp-a-production-domains",
+      "validation_surfaces": [
+        "asset-denominator",
+        "provenance-and-license",
+        "redaction-and-custody"
+      ]
+    },
+    {
+      "id": "corp-a-dns-route53",
+      "asset_class": "dns_route53",
+      "name": "Route53 hosted zones and DNS delegation",
+      "business_owner": "Agent Logic corporate operator",
+      "custodian": "infrastructure-maintainer-role",
+      "disposition": "accepted-for-corporate-schedule",
+      "provenance": {
+        "source_refs": [
+          "docs/tooling/CUSTOMER_CLOUD_IDENTITY_AND_AUDIT_BOUNDARIES.md"
+        ],
+        "evidence_refs": [
+          "docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json#corp-a-dns-route53"
+        ]
+      },
+      "licensing": {
+        "disposition": "provider-service-custody-recorded",
+        "review_route": "AWS account proof remains private; service terms review is outside this issue."
+      },
+      "trademark": {
+        "disposition": "no-new-public-mark-claim",
+        "counsel_route": "No trademark assertion is made by this custody row."
+      },
+      "assignment": {
+        "disposition": "operator-accepted-custody",
+        "receipt_ref": "corp-a-dns-route53"
+      },
+      "custody_receipt_ref": "corp-a-dns-route53",
+      "validation_surfaces": [
+        "asset-denominator",
+        "provenance-and-license",
+        "redaction-and-custody"
+      ]
+    },
+    {
+      "id": "corp-a-certificates",
+      "asset_class": "certificates",
+      "name": "Public TLS certificate inventory and renewal path",
+      "business_owner": "Agent Logic corporate operator",
+      "custodian": "infrastructure-maintainer-role",
+      "disposition": "accepted-for-corporate-schedule",
+      "provenance": {
+        "source_refs": [
+          "docs/tooling/CUSTOMER_CLOUD_IDENTITY_AND_AUDIT_BOUNDARIES.md"
+        ],
+        "evidence_refs": [
+          "docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json#corp-a-certificates"
+        ]
+      },
+      "licensing": {
+        "disposition": "provider-service-custody-recorded",
+        "review_route": "Certificate authority terms remain external to this repository."
+      },
+      "trademark": {
+        "disposition": "no-new-public-mark-claim",
+        "counsel_route": "No trademark assertion is made by this custody row."
+      },
+      "assignment": {
+        "disposition": "operator-accepted-custody",
+        "receipt_ref": "corp-a-certificates"
+      },
+      "custody_receipt_ref": "corp-a-certificates",
+      "validation_surfaces": [
+        "asset-denominator",
+        "provenance-and-license",
+        "redaction-and-custody"
+      ]
+    },
+    {
+      "id": "corp-a-email",
+      "asset_class": "email",
+      "name": "Corporate email and administrative contact routing",
+      "business_owner": "Agent Logic corporate operator",
+      "custodian": "business-operations-role",
+      "disposition": "accepted-for-corporate-schedule",
+      "provenance": {
+        "source_refs": [
+          "docs/milestones/v0.92.1/features/corporate-operational-readiness.md"
+        ],
+        "evidence_refs": [
+          "docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json#corp-a-email"
+        ]
+      },
+      "licensing": {
+        "disposition": "provider-service-custody-recorded",
+        "review_route": "Mailbox provider contract terms remain private and outside repository custody."
+      },
+      "trademark": {
+        "disposition": "brand-bearing-communications-route",
+        "counsel_route": "Counsel review required before formal public brand correspondence claims."
+      },
+      "assignment": {
+        "disposition": "operator-accepted-custody",
+        "receipt_ref": "corp-a-email"
+      },
+      "custody_receipt_ref": "corp-a-email",
+      "validation_surfaces": [
+        "asset-denominator",
+        "provenance-and-license",
+        "redaction-and-custody"
+      ]
+    },
+    {
+      "id": "corp-a-infrastructure-as-code",
+      "asset_class": "infrastructure_as_code",
+      "name": "Terraform, deployment manifests, and infrastructure runbooks",
+      "business_owner": "Agent Logic corporate operator",
+      "custodian": "infrastructure-maintainer-role",
+      "disposition": "accepted-for-corporate-schedule",
+      "provenance": {
+        "source_refs": [
+          "infra",
+          "docs/tooling"
+        ],
+        "evidence_refs": [
+          "docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json#corp-a-infrastructure-as-code"
+        ]
+      },
+      "licensing": {
+        "disposition": "repository-license-surface-recorded",
+        "review_route": "IaC modules and provider terms are routed through dependency and infrastructure review."
+      },
+      "trademark": {
+        "disposition": "no-new-public-mark-claim",
+        "counsel_route": "No trademark assertion is made by this custody row."
+      },
+      "assignment": {
+        "disposition": "operator-accepted-custody",
+        "receipt_ref": "corp-a-infrastructure-as-code"
+      },
+      "custody_receipt_ref": "corp-a-infrastructure-as-code",
+      "validation_surfaces": [
+        "asset-denominator",
+        "provenance-and-license",
+        "redaction-and-custody"
+      ]
+    },
+    {
+      "id": "corp-a-aws-infrastructure",
+      "asset_class": "aws_infrastructure",
+      "name": "Agent Logic business AWS account resources",
+      "business_owner": "Agent Logic corporate operator",
+      "custodian": "cloud-operations-role",
+      "disposition": "accepted-for-corporate-schedule",
+      "provenance": {
+        "source_refs": [
+          "docs/tooling/CUSTOMER_CLOUD_IDENTITY_AND_AUDIT_BOUNDARIES.md"
+        ],
+        "evidence_refs": [
+          "docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json#corp-a-aws-infrastructure"
+        ]
+      },
+      "licensing": {
+        "disposition": "provider-service-custody-recorded",
+        "review_route": "AWS terms and account proofs are not reproduced in this repository."
+      },
+      "trademark": {
+        "disposition": "no-new-public-mark-claim",
+        "counsel_route": "No trademark assertion is made by this custody row."
+      },
+      "assignment": {
+        "disposition": "operator-accepted-custody",
+        "receipt_ref": "corp-a-aws-infrastructure"
+      },
+      "custody_receipt_ref": "corp-a-aws-infrastructure",
+      "validation_surfaces": [
+        "asset-denominator",
+        "provenance-and-license",
+        "redaction-and-custody"
+      ]
+    },
+    {
+      "id": "corp-a-deployment-operations",
+      "asset_class": "deployment_operations",
+      "name": "Release, deployment, and incident-operation procedures",
+      "business_owner": "Agent Logic corporate operator",
+      "custodian": "release-maintainer-role",
+      "disposition": "accepted-for-corporate-schedule",
+      "provenance": {
+        "source_refs": [
+          "docs/tooling",
+          ".github/workflows"
+        ],
+        "evidence_refs": [
+          "docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json#corp-a-deployment-operations"
+        ]
+      },
+      "licensing": {
+        "disposition": "process-custody-recorded",
+        "review_route": "Operational procedures are repository-governed and do not include private provider instruments."
+      },
+      "trademark": {
+        "disposition": "no-new-public-mark-claim",
+        "counsel_route": "No trademark assertion is made by this custody row."
+      },
+      "assignment": {
+        "disposition": "operator-accepted-custody",
+        "receipt_ref": "corp-a-deployment-operations"
+      },
+      "custody_receipt_ref": "corp-a-deployment-operations",
+      "validation_surfaces": [
+        "asset-denominator",
+        "provenance-and-license",
+        "redaction-and-custody"
+      ]
+    },
+    {
+      "id": "corp-a-brand-trademark",
+      "asset_class": "brand_trademark",
+      "name": "Agent Logic and Agent Design Language brand/trademark surfaces",
+      "business_owner": "Agent Logic corporate operator",
+      "custodian": "business-operations-role",
+      "disposition": "accepted-for-corporate-schedule",
+      "provenance": {
+        "source_refs": [
+          "docs/milestones/v0.92.1/features/corporate-operational-readiness.md"
+        ],
+        "evidence_refs": [
+          "docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json#corp-a-brand-trademark"
+        ]
+      },
+      "licensing": {
+        "disposition": "brand-surface-recorded",
+        "review_route": "Brand license and use permissions route through counsel before public distribution."
+      },
+      "trademark": {
+        "disposition": "counsel-review-required",
+        "counsel_route": "Counsel review required before registration, enforcement, or public ownership claims."
+      },
+      "assignment": {
+        "disposition": "operator-accepted-custody",
+        "receipt_ref": "corp-a-brand-trademark"
+      },
+      "custody_receipt_ref": "corp-a-brand-trademark",
+      "validation_surfaces": [
+        "asset-denominator",
+        "provenance-and-license",
+        "redaction-and-custody"
+      ]
+    },
+    {
+      "id": "corp-a-provenance-license",
+      "asset_class": "provenance_license",
+      "name": "Project provenance, inbound license, and outbound license records",
+      "business_owner": "Agent Logic corporate operator",
+      "custodian": "engineering-maintainer-role",
+      "disposition": "accepted-for-corporate-schedule",
+      "provenance": {
+        "source_refs": [
+          "LICENSE",
+          "docs/milestones/v0.92.1/features/corporate-operational-readiness.md"
+        ],
+        "evidence_refs": [
+          "docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json#corp-a-provenance-license"
+        ]
+      },
+      "licensing": {
+        "disposition": "license-review-surface-recorded",
+        "review_route": "Inbound and outbound licensing remains a required review gate before external release claims."
+      },
+      "trademark": {
+        "disposition": "brand-reference-only",
+        "counsel_route": "Counsel review required for brand-bearing license language."
+      },
+      "assignment": {
+        "disposition": "operator-accepted-custody",
+        "receipt_ref": "corp-a-provenance-license"
+      },
+      "custody_receipt_ref": "corp-a-provenance-license",
+      "validation_surfaces": [
+        "asset-denominator",
+        "provenance-and-license",
+        "redaction-and-custody"
+      ]
+    },
+    {
+      "id": "corp-a-assignment-acceptance",
+      "asset_class": "assignment_acceptance",
+      "name": "Assignment and acceptance evidence surface",
+      "business_owner": "Agent Logic corporate operator",
+      "custodian": "business-operations-role",
+      "disposition": "accepted-for-corporate-schedule",
+      "provenance": {
+        "source_refs": [
+          ".csdlc/prepared/issues/153/stp.md"
+        ],
+        "evidence_refs": [
+          "docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json#corp-a-assignment-acceptance"
+        ]
+      },
+      "licensing": {
+        "disposition": "private-instrument-not-reproduced",
+        "review_route": "Executed assignments remain in private custody with only redacted receipt evidence here."
+      },
+      "trademark": {
+        "disposition": "assignment-may-include-brand-rights",
+        "counsel_route": "Counsel review required before asserting transferred trademark rights."
+      },
+      "assignment": {
+        "disposition": "operator-accepted-custody",
+        "receipt_ref": "corp-a-assignment-acceptance"
+      },
+      "custody_receipt_ref": "corp-a-assignment-acceptance",
+      "validation_surfaces": [
+        "asset-denominator",
+        "provenance-and-license",
+        "redaction-and-custody"
+      ]
+    },
+    {
+      "id": "corp-a-private-custody",
+      "asset_class": "private_custody",
+      "name": "Private custody envelope for credentials, instruments, and recovery materials",
+      "business_owner": "Agent Logic corporate operator",
+      "custodian": "business-operations-role",
+      "disposition": "accepted-for-corporate-schedule",
+      "provenance": {
+        "source_refs": [
+          "docs/milestones/v0.92.1/features/corporate-operational-readiness.md"
+        ],
+        "evidence_refs": [
+          "docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json#corp-a-private-custody"
+        ]
+      },
+      "licensing": {
+        "disposition": "private-material-excluded",
+        "review_route": "Private instruments are retained outside the repository and are not validation inputs."
+      },
+      "trademark": {
+        "disposition": "private-material-excluded",
+        "counsel_route": "Counsel review handles any brand-bearing private instruments."
+      },
+      "assignment": {
+        "disposition": "operator-accepted-custody",
+        "receipt_ref": "corp-a-private-custody"
+      },
+      "custody_receipt_ref": "corp-a-private-custody",
+      "validation_surfaces": [
+        "asset-denominator",
+        "provenance-and-license",
+        "redaction-and-custody"
+      ]
+    },
+    {
+      "id": "corp-a-data-model-media",
+      "asset_class": "data_model_media",
+      "name": "Public data model, documentation, diagrams, and media assets",
+      "business_owner": "Agent Logic corporate operator",
+      "custodian": "documentation-maintainer-role",
+      "disposition": "accepted-for-corporate-schedule",
+      "provenance": {
+        "source_refs": [
+          "docs",
+          "adl/crates",
+          "csdlc-v2"
+        ],
+        "evidence_refs": [
+          "docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json#corp-a-data-model-media"
+        ]
+      },
+      "licensing": {
+        "disposition": "repository-license-surface-recorded",
+        "review_route": "Media and diagram provenance route through documentation review before public distribution."
+      },
+      "trademark": {
+        "disposition": "brand-bearing-media-route",
+        "counsel_route": "Brand-bearing media routes to counsel before public release."
+      },
+      "assignment": {
+        "disposition": "operator-accepted-custody",
+        "receipt_ref": "corp-a-data-model-media"
+      },
+      "custody_receipt_ref": "corp-a-data-model-media",
+      "validation_surfaces": [
+        "asset-denominator",
+        "provenance-and-license",
+        "redaction-and-custody"
+      ]
+    }
+  ],
+  "acceptance_authority": {
+    "authority_receipt_ref": "docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json#corp-a-authority-receipt-2026-08-26-r1",
+    "accepted_by": "corporate-operator-role",
+    "accepted_at": "2026-08-26",
+    "redacted_authority_binding_id": "corp-a-authority-binding-2026-08-26-r1",
+    "redacted_authority_binding_digest": "sha256:b390e740f8628af5e4bc94722163bfa45f49c5c604ded001a6b96e791a14112d",
+    "binding_digest_scope": "sha256 over public tuple: issue|schedule_id|authority_receipt_id|redacted_authority_binding_id|accepted_by|accepted_at"
+  }
+}

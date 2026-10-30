@@ -1,0 +1,117 @@
+{
+  "schema": "adl.historical_payload_archive.v1",
+  "repository": "https://github.com/agent-logic/agent-design-language",
+  "source_commit": "2f26936b9c0ec582471a3f8fbebcce31b471512e",
+  "retention": "source_commit is a published ancestor; no history rewrite authorized",
+  "restore_verified": true,
+  "entries": [
+    {
+      "path": ".csdlc/evidence/5820/native/linux/adl-runtime-guardian.gz.part-00",
+      "mode": "100644",
+      "git_blob": "1427b0d3c9711c263c3f7e4a699715ccd971dfd3",
+      "bytes": 8388608
+    },
+    {
+      "path": ".csdlc/evidence/5820/native/linux/adl-runtime-guardian.gz.part-01",
+      "mode": "100644",
+      "git_blob": "98b5a0aaec07ccbf4b748a3af6afe0e9e2e0160d",
+      "bytes": 8388608
+    },
+    {
+      "path": ".csdlc/evidence/5820/native/linux/adl-runtime-guardian.gz.part-02",
+      "mode": "100644",
+      "git_blob": "5c88406b2b86c897632e3bd98502f3bd31260bdf",
+      "bytes": 8388608
+    },
+    {
+      "path": ".csdlc/evidence/5820/native/linux/adl-runtime-guardian.gz.part-03",
+      "mode": "100644",
+      "git_blob": "4c8792f6e26f3738690120b18a6abc6f612789d9",
+      "bytes": 4843012
+    },
+    {
+      "path": ".csdlc/evidence/5820/native/linux/adl-runtime-kernel.gz.part-00",
+      "mode": "100644",
+      "git_blob": "55a30ca757458e6d1ac61548b9321553415720ec",
+      "bytes": 8388608
+    },
+    {
+      "path": ".csdlc/evidence/5820/native/linux/adl-runtime-kernel.gz.part-01",
+      "mode": "100644",
+      "git_blob": "3a9add2743ea03bffb4973a01b3e78d1c3673a93",
+      "bytes": 8388608
+    },
+    {
+      "path": ".csdlc/evidence/5820/native/linux/adl-runtime-kernel.gz.part-02",
+      "mode": "100644",
+      "git_blob": "de781530c6cb3bec64506b305dd30410338e5447",
+      "bytes": 8388608
+    },
+    {
+      "path": ".csdlc/evidence/5820/native/linux/adl-runtime-kernel.gz.part-03",
+      "mode": "100644",
+      "git_blob": "e789127e90ad87530f03ec4e250b854e9d9084c8",
+      "bytes": 8388608
+    },
+    {
+      "path": ".csdlc/evidence/5820/native/linux/adl-runtime-kernel.gz.part-04",
+      "mode": "100644",
+      "git_blob": "6154c5a1675a9f56ef9847304aab76246c13ee7b",
+      "bytes": 4266942
+    },
+    {
+      "path": ".csdlc/evidence/5820/native/macos/adl-runtime-guardian.gz",
+      "mode": "100755",
+      "git_blob": "32f723e8a7cf6b383735bf60fc576abd7a433ecb",
+      "bytes": 1968761
+    },
+    {
+      "path": ".csdlc/evidence/5820/native/macos/adl-runtime-kernel.gz",
+      "mode": "100755",
+      "git_blob": "321a19351bd54dad42c8fd6b116074deb43c0886",
+      "bytes": 10260164
+    },
+    {
+      "path": ".csdlc/evidence/872/conversion-rehearsal/restore/pre-effect-sandbox/csdlc",
+      "mode": "100755",
+      "git_blob": "c642fd7b4321c16cc92e12ec222765734aa8b190",
+      "bytes": 10721624
+    },
+    {
+      "path": ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/local/conversion-rehearsals/conversion-f11db7374a69984b47fccbfa/executable-slot/active",
+      "mode": "100644",
+      "git_blob": "c642fd7b4321c16cc92e12ec222765734aa8b190",
+      "bytes": 10721624
+    },
+    {
+      "path": ".csdlc/evidence/872/conversion-rehearsal/snapshots/pre-effect-converted/local/conversion-rehearsals/conversion-f11db7374a69984b47fccbfa/executable-slot/prior",
+      "mode": "100644",
+      "git_blob": "c642fd7b4321c16cc92e12ec222765734aa8b190",
+      "bytes": 10721624
+    },
+    {
+      "path": "adl/tools/csdlc_obs_ready_canary.sh",
+      "mode": "100644",
+      "git_blob": "c8feecb35e6272385650961d1e0fab74ee4b7141",
+      "bytes": 258
+    },
+    {
+      "path": "adl/tools/install_aws_remote_validation_tool.sh",
+      "mode": "100755",
+      "git_blob": "7a27c084f58560d4d53818f057ac5d6a591f51e1",
+      "bytes": 393
+    },
+    {
+      "path": "adl/tools/run_authoritative_coverage_lane.sh",
+      "mode": "100755",
+      "git_blob": "6200e1a51b524c43569e86a9d7be138b110e77b1",
+      "bytes": 355
+    },
+    {
+      "path": "adl/tools/test_run_authoritative_coverage_lane.sh",
+      "mode": "100755",
+      "git_blob": "6200e1a51b524c43569e86a9d7be138b110e77b1",
+      "bytes": 355
+    }
+  ]
+}

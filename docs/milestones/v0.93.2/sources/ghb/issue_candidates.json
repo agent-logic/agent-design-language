@@ -1,0 +1,260 @@
+{
+  "status": "draft_not_created",
+  "umbrella": {
+    "id": "GHB-SPRINT",
+    "repository": "agent-logic/agent-logic-runtime",
+    "title": "[GHB][Sprint] Deliver governed recursive improvement in the installed Agent Logic Runtime",
+    "children": [
+      "WP00",
+      "WP01",
+      "WP02",
+      "WP03",
+      "WP04",
+      "WP05",
+      "WP06",
+      "WP07",
+      "WP08",
+      "WP09",
+      "WP10",
+      "WP11",
+      "WP12"
+    ]
+  },
+  "total_issues": 14,
+  "new_issues": 13,
+  "existing_issues": 1,
+  "issues": [
+    {
+      "id": "WP00",
+      "title": "[GHB][WP00] Source-to-caller audit and baseline",
+      "repository": "agent-logic/agent-logic-runtime",
+      "status": "draft_not_created",
+      "url": null,
+      "parent": "GHB-SPRINT",
+      "dependencies": [],
+      "base_engineering_days": 3,
+      "base_development_tokens": 250000,
+      "scope_and_acceptance": "Owner: program + Runtime. Dependencies: none.\n\nInventory all actual callers of GHB, adaptive learning, provider execution, memory, body/config changes, continuity and birthday. Map every required behavior to an existing owner, missing integration, or new implementation. Refresh Runtime #112 and coordinate with its current owner. Record the actual supported Runtime release, deployment topology, installed package versions, service entrypoints and durable state paths, and baseline tasks/results. Select the first domain, fixed task split, mutation permissions and cost envelope.\n\nAcceptance: source-to-caller matrix at pinned revisions; no duplicated owner planned; runnable unchanged-agent baseline; measurable Gate A scenario; approved evaluation protocol and task/data licenses. A missing existing owner is an explicit gap rather than assumed absence.",
+      "evidence": "DESIGN_AND_RESEARCH.md \u00a72; Runtime #112; installed release and production callers to be pinned.",
+      "validation": "Reproduce a baseline through the installed resident path; inspect production call sites and installed artifact versions; review task split, licenses and measurable acceptance protocol.",
+      "non_goals": "No implementation rewrite, new execution owner, deployment, or benchmark performance claim."
+    },
+    {
+      "id": "WP01",
+      "title": "[GHB][WP01] Normative specification and invariants",
+      "repository": "agent-logic/agent-design-language",
+      "status": "draft_not_created",
+      "url": null,
+      "parent": "GHB-SPRINT",
+      "dependencies": [
+        "WP00"
+      ],
+      "base_engineering_days": 3,
+      "base_development_tokens": 250000,
+      "scope_and_acceptance": "Owner: ADL. Dependencies: WP00.\n\nResolve phase semantics, task/improvement loops, termination, replay, evidence provenance, mutable/protected surfaces, identity/body distinction and conformance profiles. Write a proposed ADR and migration mapping from existing proof packets. Define typed rejection and recovery conditions.\n\nAcceptance: every transition has inputs, outputs, authority, side effects and stop conditions; fresh inference versus replay is explicit; historical docs link to the normative successor after review; conformance labels remain proposed until accepted.",
+      "evidence": "ADL docs/milestones/v0.86/features/GODEL_HADAMARD_BAYES_ALGORITHM.md and docs/milestones/v0.89/ideas/GHB_EXECUTION_MODEL.md have conflicting phase semantics.",
+      "validation": "Review every transition against source contracts; walk positive, denied, deferred and interrupted scenarios; check historical terminology mappings and replay semantics.",
+      "non_goals": "No production algorithm implementation or claim of mathematical optimality."
+    },
+    {
+      "id": "WP02",
+      "title": "[GHB][WP02] Schemas and installed contract parity",
+      "repository": "agent-logic/agent-design-language",
+      "status": "draft_not_created",
+      "url": null,
+      "parent": "GHB-SPRINT",
+      "dependencies": [
+        "WP01"
+      ],
+      "base_engineering_days": 4,
+      "base_development_tokens": 450000,
+      "scope_and_acceptance": "Owner: ADL. Dependencies: WP01.\n\nImplement observation, belief, hypothesis, candidate, body, experiment, trial, posterior, disposition, activation and lineage contracts. Reuse existing record types when compatible. Version semantic changes explicitly; distribute through the established installed contract path.\n\nAcceptance: canonical digest/round-trip tests, malformed and stale-reference rejection, schema examples, installed Runtime compatibility test, and a migration policy for existing artifacts. New tests are classified in the validation inventory when authored.",
+      "evidence": "Existing installed G\u00f6del contract distribution and ADL adl/src/godel/ghb_loop.rs packet types; DESIGN_AND_RESEARCH.md \u00a7\u00a74\u20137.",
+      "validation": "Run schema/serde round trips, digest stability, negative compatibility cases and installed Runtime consumption without an ADL checkout. Register new test lanes.",
+      "non_goals": "No separate Runtime engine in ADL; no silent incompatible schema replacement."
+    },
+    {
+      "id": "WP03",
+      "title": "[GHB][WP03] Belief update and experiment selection",
+      "repository": "agent-logic/agent-logic-runtime",
+      "status": "draft_not_created",
+      "url": null,
+      "parent": "GHB-SPRINT",
+      "dependencies": [
+        "WP02"
+      ],
+      "base_engineering_days": 7,
+      "base_development_tokens": 800000,
+      "scope_and_acceptance": "Owner: Runtime algorithm lane; exact module selected by WP00. Dependencies: WP02.\n\nImplement tractable posterior models, likelihood adapters, calibration metrics, paired baseline comparison, unknown-evidence handling, information gain/value-of-information selection, resource costs and stopping rules. Keep model-based confidence separate from observed outcomes.\n\nAcceptance: analytically known posterior fixtures; zero/impossible likelihood handling; correlated evidence cannot be silently double-counted; replay reproduces updates; informative experiments can differ from high-utility candidates; sparse evidence defers promotion.",
+      "evidence": "ADL adl/src/godel/promotion.rs currently uses a fixed score; DESIGN_AND_RESEARCH.md \u00a75 defines the proposed statistical replacement.",
+      "validation": "Run analytical posterior cases, numerical edge cases, correlated/missing evidence cases, calibrated synthetic trials and deterministic evidence replay.",
+      "non_goals": "No invented probabilities for qualitative evidence; no candidate activation."
+    },
+    {
+      "id": "WP04",
+      "title": "[GHB][WP04] Candidate generation and archive",
+      "repository": "agent-logic/agent-logic-runtime",
+      "status": "draft_not_created",
+      "url": null,
+      "parent": "GHB-SPRINT",
+      "dependencies": [
+        "WP02",
+        "WP03"
+      ],
+      "base_engineering_days": 6,
+      "base_development_tokens": 650000,
+      "scope_and_acceptance": "Owner: Runtime algorithm lane. Dependencies: WP02; integrate WP03 selection after initial archive support.\n\nAdd proposer interfaces, typed interventions, predicted effects, falsification tests, candidate diversity/deduplication, parent selection, archive DAG, and bounded search. Retain rejected and inconclusive variants with provenance. Provider adapters supply actual outputs in separately budgeted trials.\n\nAcceptance: candidate changes match the declared mutation class; exact parent and proposal provenance retained; archive cannot change production head; budget exhaustion terminates cleanly; at least two distinct useful candidate strategies are exercised.",
+      "evidence": "ADL adl/src/godel/stage_loop.rs and ghb_loop.rs; DESIGN_AND_RESEARCH.md \u00a76; archive and live-provider gaps in the inspected path.",
+      "validation": "Test DAG provenance, deduplication, parent selection, bounded candidate count and budgets; retain evidence of actual provider-generated distinct candidates separately from fixtures.",
+      "non_goals": "No production-head mutation or unbounded search; no evaluator access."
+    },
+    {
+      "id": "WP05",
+      "title": "[GHB][WP05] Isolated body builder and experiment executor",
+      "repository": "agent-logic/agent-logic-runtime",
+      "status": "draft_not_created",
+      "url": null,
+      "parent": "GHB-SPRINT",
+      "dependencies": [
+        "WP02"
+      ],
+      "base_engineering_days": 7,
+      "base_development_tokens": 800000,
+      "scope_and_acceptance": "Owner: Runtime/execution. Dependencies: WP02.\n\nBuild candidate bodies from immutable parents in isolated worktrees/containers; use explicit capability and resource admission; compile/package as needed; run tasks with captured outputs and declared effects. Protect production credentials, evaluator data and production state.\n\nAcceptance: denied network/filesystem/capability escapes; killed and timed-out experiments leave no production changes; exact candidate digest in results; measured resource accounting; controlled-adapter and live-provider execution classifications remain distinct.",
+      "evidence": "DESIGN_AND_RESEARCH.md Runtime delivery contract and \u00a77; Runtime adapter/capability owners to be mapped by WP00.",
+      "validation": "Test prohibited effects, termination, timeout, resource exhaustion, candidate digest binding and interrupted cleanup using isolated state; separately prove live adapter integration.",
+      "non_goals": "No production deployment or credential access by candidates; no duplicate provider subsystem."
+    },
+    {
+      "id": "WP06",
+      "title": "[GHB][WP06] Independent evaluator and promotion decision",
+      "repository": "agent-logic/agent-logic-runtime",
+      "status": "draft_not_created",
+      "url": null,
+      "parent": "GHB-SPRINT",
+      "dependencies": [
+        "WP00",
+        "WP02",
+        "WP03",
+        "WP05"
+      ],
+      "base_engineering_days": 8,
+      "base_development_tokens": 900000,
+      "scope_and_acceptance": "Owner: evaluation lane. Dependencies: WP00 protocol, WP02 contracts, WP03 statistics, WP05 executor.\n\nImplement development, selection and untouched final test splits; paired trials; quality/cost/reliability metrics; regression invariants; sequential-selection controls; evaluator versioning; and commit/reject/quarantine/defer decisions. Add candidates that intentionally alter tests, suppress failures, leak hidden tasks or falsify metrics.\n\nAcceptance: these malicious/invalid candidates fail; raw outcomes can be independently recomputed; unseen final tasks are excluded from candidate context; thresholds declared before trials; non-improvement is a legitimate terminal outcome. Promotion recommendation cannot itself activate a body.",
+      "evidence": "ADL adl/src/godel/promotion.rs fixed threshold and DESIGN_AND_RESEARCH.md \u00a75; independent measured promotion remains required.",
+      "validation": "Independently recompute outcomes; test hidden-data access, test tampering, forged scores and suppressed failure attempts; verify predeclared statistical protocol and all four dispositions.",
+      "non_goals": "No self-scoring authority or hidden-test exposure; no body activation."
+    },
+    {
+      "id": "WP07",
+      "title": "[P1] Complete the governed resident-to-birthday activation path",
+      "repository": "agent-logic/agent-logic-runtime",
+      "status": "existing_issue_reuse",
+      "url": "https://github.com/agent-logic/agent-logic-runtime/issues/112",
+      "parent": "GHB-SPRINT",
+      "dependencies": [
+        "WP00"
+      ],
+      "base_engineering_days": 5,
+      "base_development_tokens": 550000,
+      "scope_and_acceptance": "Owner: Runtime. Dependencies: WP00 audit; coordinate/reuse Runtime #112 rather than opening a duplicate.\n\nComplete production resident construction/consumption of identity, continuity, memory, capabilities, profile, adaptive history and witness authorities. Preserve the existing transaction store. Add explicit activation and useful continuation after restart.\n\nAcceptance: Runtime #112's actual-resident positive/negative criteria pass without test-support authority substitutes; no implicit birthday on startup; one birthday under retry/concurrency/interruption; authenticated restored resident performs a useful task.",
+      "evidence": "https://github.com/agent-logic/agent-logic-runtime/issues/112; Runtime adl-runtime-kernel/src/production_birthday.rs.",
+      "validation": "Use the existing issue\u2019s actual-resident integration tests, forged/stale/missing prerequisite cases, duplicate/concurrent activation, interrupted recovery and useful restored continuation.",
+      "non_goals": "No duplicate birthday store or implicit birth on startup; no expansion of the existing issue without owner coordination."
+    },
+    {
+      "id": "WP08",
+      "title": "[GHB][WP08] Successor activation and rollback",
+      "repository": "agent-logic/agent-logic-runtime",
+      "status": "draft_not_created",
+      "url": null,
+      "parent": "GHB-SPRINT",
+      "dependencies": [
+        "WP02",
+        "WP05",
+        "WP06",
+        "WP07"
+      ],
+      "base_engineering_days": 7,
+      "base_development_tokens": 800000,
+      "scope_and_acceptance": "Owner: Runtime. Dependencies: WP02, WP05, WP06, WP07.\n\nBind a promotion proposal to exact parent, candidate, evaluation version and capability envelope. Reuse continuity transactions for durable activation and recovery. Record rollback as a forward lineage transition. Define memory/body migration compatibility and staged cleanup.\n\nAcceptance: failpoints at durable boundaries; stale parents and concurrent conflicting activations reject; crash recovery yields one authoritative head; accepted successor is actually loaded; rollback restores compatible execution without erasing history or replaying external effects.",
+      "evidence": "Runtime continuity and production_birthday owners; DESIGN_AND_RESEARCH.md \u00a77 requires successor activation distinct from birthday.",
+      "validation": "Inject interruption at each durable boundary; test stale-parent/concurrent proposals, incompatible migration, actual successor loading and rollback as a retained lineage event.",
+      "non_goals": "No identity reset, history deletion, capability expansion, or blind memory rewind."
+    },
+    {
+      "id": "WP09",
+      "title": "[GHB][WP09] Live GHB resident loop and Gate A",
+      "repository": "agent-logic/agent-logic-runtime",
+      "status": "draft_not_created",
+      "url": null,
+      "parent": "GHB-SPRINT",
+      "dependencies": [
+        "WP03",
+        "WP04",
+        "WP05",
+        "WP06",
+        "WP07",
+        "WP08"
+      ],
+      "base_engineering_days": 6,
+      "base_development_tokens": 650000,
+      "scope_and_acceptance": "Owner: Runtime resident integration. Dependencies: WP03\u2013WP08.\n\nWire observation, inadequacy detection, generation, experiments, posterior updates, decision, activation, memory and continuation into the normal installed resident execution path. Package every executable dependency in the Runtime distribution; add configuration compatibility, startup checks, durable migration handling, and version pinning or draining for in-flight work. Add cycle scheduling, budgets, cancellation, structured logs, traces, redaction and offline replay. Prevent runaway improvement triggers.\n\nAcceptance: full Gate A scenario from a clean installed Runtime environment with no ADL source checkout or development binaries; separate controlled-adapter regression and live-provider evidence; successor handles later tasks; replay performs no external mutations; two competing cycles cannot both activate against one parent. Export an exact-version evidence packet.",
+      "evidence": "ADL ghb_loop.rs proof path does not invoke hosted providers; mandatory installed Runtime chain in IMPLEMENTATION_PLAN.md.",
+      "validation": "Install the release in a clean environment; execute Gate A with real provider/tool calls; restart service and continue tasks; verify replay is side-effect free and logs are redacted.",
+      "non_goals": "No acceptance from a standalone ADL demo, fixture constructor, manual receipt injection or development checkout."
+    },
+    {
+      "id": "WP10",
+      "title": "[GHB][WP10] Bounded recursive improvement",
+      "repository": "agent-logic/agent-logic-runtime",
+      "status": "draft_not_created",
+      "url": null,
+      "parent": "GHB-SPRINT",
+      "dependencies": [
+        "WP09"
+      ],
+      "base_engineering_days": 8,
+      "base_development_tokens": 900000,
+      "scope_and_acceptance": "Owner: Runtime algorithm and activation owners. Dependencies: Gate A.\n\nAllow candidates to modify a bounded proposer, search-policy or experiment-allocation component. Define immutable authority/evaluator boundaries and compatibility checks. Retain both the original baseline and successor lineage. Require initial human review of source changes.\n\nAcceptance: at least one admitted successor changes improvement behavior and executes the next cycle using that change; independent tests verify the change did not modify protected evaluation or authority rules. If no improvement emerges within budget, report the capability as implemented but empirical improvement unproven; do not manufacture acceptance.",
+      "evidence": "DESIGN_AND_RESEARCH.md \u00a7\u00a77,9; empirical recursion requires a successor actually running the next improvement cycle.",
+      "validation": "Run a successor that changes an allowed improvement component and uses it in the next cycle; compare held-out outcomes and verify protected-state integrity independently.",
+      "non_goals": "No mutation of protected authority, identity roots, hidden evaluators, or capability ceilings."
+    },
+    {
+      "id": "WP11",
+      "title": "[GHB][WP11] Longitudinal qualification, fleet adoption and Gate B",
+      "repository": "agent-logic/agent-logic-runtime",
+      "status": "draft_not_created",
+      "url": null,
+      "parent": "GHB-SPRINT",
+      "dependencies": [
+        "WP10"
+      ],
+      "base_engineering_days": 10,
+      "base_development_tokens": 1100000,
+      "scope_and_acceptance": "Owner: evaluation + Runtime. Dependencies: WP10; test design begins during WP06.\n\nRun held-out transfer, multiple model/provider configurations, phase ablations, restart/migration, corrupted input, concurrency, rollback and reward-hacking campaigns. Inventory each resident's compatible body/capability profile. Define opt-in rollout, shadow operation, canary, monitored promotion, abort and rollback criteria.\n\nAcceptance: qualification matrix names each tested domain/configuration; one resident reaches Gate B with useful post-restore continuation; every intended fleet profile is either qualified, pending or excluded with a reason; no blanket claim that all agents qualify from one demonstration. Rollout authorization is separate from local qualification.",
+      "evidence": "DESIGN_AND_RESEARCH.md \u00a79 and IMPLEMENTATION_PLAN.md Gate B; current proof packets do not establish fleet qualification.",
+      "validation": "Run preregistered held-out/transfer and ablation campaigns, two-week longitudinal observation, restart/concurrency/rollback cases, and a per-profile conformance matrix.",
+      "non_goals": "No automatic fleet deployment or universal claim from one resident; no threshold relaxation to obtain a pass."
+    },
+    {
+      "id": "WP12",
+      "title": "[GHB][WP12] Research evidence and operator documentation",
+      "repository": "agent-logic/agent-logic-runtime",
+      "status": "draft_not_created",
+      "url": null,
+      "parent": "GHB-SPRINT",
+      "dependencies": [
+        "WP01",
+        "WP11"
+      ],
+      "base_engineering_days": 3,
+      "base_development_tokens": 350000,
+      "scope_and_acceptance": "Owner: docs/research, with independent review. Dependencies: WP01 for vocabulary; WP11 for final claims.\n\nCurate bibliography and related-work comparison; update paper claims only from exact source/experiment receipts. Publish internal operator runbooks for start, inspect, defer, quarantine, recover and rollback. Document model/data versions, costs, failed experiments and limitations.\n\nAcceptance: claim-to-evidence ledger; reproducible benchmark instructions; installed command/manual parity where applicable; no unsupported theorem, novelty, personhood or general-performance claim. Scholarly publication is outside this plan's authorization.",
+      "evidence": "Paper GODEL_HADAMARD_BAYES_SOURCE_PACKET.md, GODEL_HADAMARD_BAYES_CLAIM_AND_CITATION_PACKET.md and provisional refs/sources.bib.",
+      "validation": "Check each claim against source and trial receipts; verify bibliography metadata, runbook commands against installed help/manuals, links and reproducibility inputs.",
+      "non_goals": "No public paper submission, unsupported novelty claims, or invented implementation evidence."
+    }
+  ]
+}

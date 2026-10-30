@@ -1,0 +1,11 @@
+{
+  "status": "pass",
+  "scope": "preparation consistency only; no product or execution-readiness proof",
+  "checks": [
+    "adl-1299: six cards, unchanged acceptance/dependencies, pending steps, not-run review, draft outcome, correct publication identity",
+    "codefriend-120: six cards, unchanged acceptance/dependencies, pending steps, not-run review, draft outcome, correct publication identity",
+    "security-9: six cards, unchanged acceptance/dependencies, pending steps, not-run review, draft outcome, correct publication identity",
+    "native preparation/rebuild receipts agree with readiness report",
+    "sequential routing and unapplied proposal state preserved"
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "source": "https://api.osv.dev/v1/querybatch",
+  "observed_utc": "2026-10-21T00:54:54.184935+00:00",
+  "scope": "Same six public lockfiles as original1329; current candidate versions. Version matching only, not exploitability.",
+  "lock_sha256": {
+    "adl/Cargo.lock": "1e9e76bcc22790a045b1a68ad8a8f7b18e8d2ecd49afbdd4003a7aa55eebff10",
+    "adl-legacy-contracts/Cargo.lock": "34c60d3f640f5ff3b74453d45212616757566cd5e4a2bc615225e4afa31f2942",
+    "adl-schema/Cargo.lock": "01895b114d28fde7844dff7fe5656a332c6d35a3381c4cc4054162b32032fdec",
+    "adl-uts/Cargo.lock": "ff840dadcde03eab4b9243047c42d6c0aa4e56eb808e0b1082196af0b5880bff",
+    "adl-v2/Cargo.lock": "499bebe6660d9cf86761914e120d2bcd23293b1b88fb2f3b5577eb370fd360b3",
+    "adl-characterization/Cargo.lock": "821ec4e1224f359e100bab0419e6fae0bd43c5e89fa2485d781269b4a05a2b92"
+  },
+  "package_versions_queried": 395,
+  "results_count": 395,
+  "findings": [
+    {
+      "name": "unsafe-libyaml",
+      "version": "0.2.11",
+      "lockfiles": [
+        "adl/Cargo.lock",
+        "adl-legacy-contracts/Cargo.lock",
+        "adl-characterization/Cargo.lock"
+      ],
+      "advisories": [
+        {
+          "id": "RUSTSEC-2024-0449",
+          "modified": "2026-10-12T11:45:02.518189Z"
+        }
+      ]
+    }
+  ]
+}

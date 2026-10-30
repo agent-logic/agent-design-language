@@ -1,0 +1,31 @@
+   Compiling codefriend v0.93.1 (/Volumes/FastWork/codefriend-worktrees/adl-issue-127-v0932-security-prerequisite-callsite/crates/codefriend)
+warning: methods `label` and `env_name` are never used
+  --> crates/codefriend/src/bin/cli/github_token.rs:28:19
+   |
+27 | impl GithubTokenSource {
+   | ---------------------- methods in this implementation
+28 |     pub(crate) fn label(self) -> &'static str {
+   |                   ^^^^^
+...
+38 |     pub(crate) fn env_name(self) -> &'static str {
+   |                   ^^^^^^^^
+   |
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: method `source` is never used
+  --> crates/codefriend/src/bin/cli/github_token.rs:72:19
+   |
+58 | impl ResolvedGithubToken {
+   | ------------------------ method in this implementation
+...
+72 |     pub(crate) fn source(&self) -> GithubTokenSource {
+   |                   ^^^^^^
+
+warning: `codefriend` (bin "codefriend") generated 2 warnings
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 15.20s
+     Running tests/codefriend_server.rs (/Volumes/FastWork/worker30-codefriend-target/debug/deps/codefriend_server-989fa22e13a6477e)
+
+running 1 test
+test enterprise_submit_uses_runtime_and_denials_have_zero_backend_effects ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 25 filtered out; finished in 1.30s

@@ -1,0 +1,67 @@
+{
+  "removed": [
+    "adl/tools/test_codefriend_fitness_ci_artifacts.py",
+    "adl/tools/tests/cf05_qualification_checkpoint.test.mjs"
+  ],
+  "modified": [
+    "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+  ],
+  "prior": "runtime_owner_cleanup",
+  "owner_repository": "agent-logic/codefriend",
+  "owner_resources": [
+    {
+      "path": "adl/tools/codefriend_fitness_ci_artifacts.py",
+      "revision": "819814fc9871ff9288e42c292c862a378effd74d",
+      "sha256": "2643d16c953d1fbe23a9ae6d131ff360a7e69c2ce436bd469f9dac6f58056836"
+    },
+    {
+      "path": "crates/codefriend/tests/codefriend_language_fitness_ci.rs",
+      "revision": "819814fc9871ff9288e42c292c862a378effd74d",
+      "sha256": "c95a74590a73fe4f599f40f62732e55e40f4abaea135501f8ffc73fb90bd273f"
+    }
+  ],
+  "dispositions": {
+    "fitness_transport_test": "Retire ADL-only owner test; parser is exact pinned owner copy, current CodeFriend fitness tests remain owner-owned. Original test retained by Git custody.",
+    "CF05_checkpoint": "Retire historical test requiring untracked .csdlc/evidence/1150; it hard-codes historical counts and is not a current public gate.",
+    "showcase_scripts_and_validation": "Keep: public contract generator/validator, tested by tools/public_contracts document_packets/public_helpers. No product review executed.",
+    "Aptitude_fixture_and_demo": "Keep: generic bounded public ADL review example, no product runtime dependency.",
+    "historical_milestone_records": "Retain until #1382 archive; no blanket deletion."
+  },
+  "schema": "adl.owner_cleanup.v1",
+  "issue": 1386,
+  "source_commit": "3c1e8354834516cf063772cfab40aeecac32b0fa",
+  "changes": [
+    {
+      "path": "adl/tools/test_codefriend_fitness_ci_artifacts.py",
+      "before": [
+        "100644",
+        "ff5bd97ec67600fc6a6485929cb315163a5912f2"
+      ],
+      "before_sha256": "4917c7da5097b9a219f0d6062841279585f35dd772b76255db487d9a87b27c6e",
+      "after": null
+    },
+    {
+      "path": "adl/tools/tests/cf05_qualification_checkpoint.test.mjs",
+      "before": [
+        "100644",
+        "89db6fb1e363322ccac807729c2d157af9e67bfb"
+      ],
+      "before_sha256": "ae5d14bba13ab274548ae53c9718e276c36cda6650c27de526078d1160558fef",
+      "after": null
+    },
+    {
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "before": [
+        "100644",
+        "a8358e256477aca04a776c2eb7a286009e50629c"
+      ],
+      "before_sha256": "77e57ed5a92fd85dc412be1fa1484385c6b7badc87c45f4734fd3c030e105928",
+      "after": [
+        "100644",
+        "1546d31f51716e904209a732dc80b3f0fae02be4"
+      ]
+    }
+  ],
+  "recovery": "Recover exact bytes with git show SOURCE_COMMIT:PATH and mode with git ls-tree. Published history is preserved. Coordinate #1382 before any rewrite.",
+  "validation": "PVF focused_contract; deterministic custody and successor regression; small local CPU/disk; public CI integration required. Owner inspection is custody evidence, not owner execution acceptance."
+}

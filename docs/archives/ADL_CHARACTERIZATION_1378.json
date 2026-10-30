@@ -1,0 +1,1956 @@
+{
+  "schema": "adl.characterization_retirement.v1",
+  "issue": 1378,
+  "source_commit": "7525a5a40692862b89387b5717944985de7909d5",
+  "boundary": "Retire the standalone migration harness and observations. Exact published Git preimages preserve source and historical evidence. Language/compiler source, local fixtures, tests and manifests remain unchanged. Dated historical references retain their source-time meaning.",
+  "removed": [
+    "adl-characterization/Cargo.lock",
+    "adl-characterization/Cargo.toml",
+    "adl-characterization/LICENSE-APACHE",
+    "adl-characterization/LICENSE-MIT",
+    "adl-characterization/README.md",
+    "adl-characterization/corpus/v1/COVERAGE.md",
+    "adl-characterization/corpus/v1/corpus.yaml",
+    "adl-characterization/corpus/v1/fixtures/branch-a.adl.yaml",
+    "adl-characterization/corpus/v1/fixtures/branch-b.adl.yaml",
+    "adl-characterization/corpus/v1/fixtures/cycle.adl.yaml",
+    "adl-characterization/corpus/v1/fixtures/fork-join.adl.yaml",
+    "adl-characterization/corpus/v1/fixtures/malformed.adl.yaml",
+    "adl-characterization/corpus/v1/fixtures/map-a.adl.yaml",
+    "adl-characterization/corpus/v1/fixtures/map-b.adl.yaml",
+    "adl-characterization/corpus/v1/fixtures/mock-run.adl.yaml",
+    "adl-characterization/corpus/v1/fixtures/schema-unknown.adl.yaml",
+    "adl-characterization/corpus/v1/fixtures/sequential-a.adl.yaml",
+    "adl-characterization/corpus/v1/fixtures/sequential-b.adl.yaml",
+    "adl-characterization/corpus/v1/fixtures/six-primitives.adl.yaml",
+    "adl-characterization/corpus/v1/fixtures/state-missing.adl.yaml",
+    "adl-characterization/corpus/v1/fixtures/unknown-agent.adl.yaml",
+    "adl-characterization/corpus/v1/fixtures/unknown-provider.adl.yaml",
+    "adl-characterization/corpus/v1/fixtures/unknown-task.adl.yaml",
+    "adl-characterization/corpus/v1/fixtures/unknown-tool.adl.yaml",
+    "adl-characterization/corpus/v1/fixtures/unknown-workflow.adl.yaml",
+    "adl-characterization/corpus/v1/fixtures/unsupported-run-field.adl.yaml",
+    "adl-characterization/corpus/v1/schema.json",
+    "adl-characterization/corpus/v2/event-record.json",
+    "adl-characterization/corpus/v2/shadow.yaml",
+    "adl-characterization/observations/v1/branch-order-a/01.normalized.json",
+    "adl-characterization/observations/v1/branch-order-a/01.raw.json",
+    "adl-characterization/observations/v1/branch-order-a/02.normalized.json",
+    "adl-characterization/observations/v1/branch-order-a/02.raw.json",
+    "adl-characterization/observations/v1/branch-order-a/03.normalized.json",
+    "adl-characterization/observations/v1/branch-order-a/03.raw.json",
+    "adl-characterization/observations/v1/branch-order-b/01.normalized.json",
+    "adl-characterization/observations/v1/branch-order-b/01.raw.json",
+    "adl-characterization/observations/v1/branch-order-b/02.normalized.json",
+    "adl-characterization/observations/v1/branch-order-b/02.raw.json",
+    "adl-characterization/observations/v1/branch-order-b/03.normalized.json",
+    "adl-characterization/observations/v1/branch-order-b/03.raw.json",
+    "adl-characterization/observations/v1/cli-help/01.normalized.json",
+    "adl-characterization/observations/v1/cli-help/01.raw.json",
+    "adl-characterization/observations/v1/cli-help/02.normalized.json",
+    "adl-characterization/observations/v1/cli-help/02.raw.json",
+    "adl-characterization/observations/v1/cli-help/03.normalized.json",
+    "adl-characterization/observations/v1/cli-help/03.raw.json",
+    "adl-characterization/observations/v1/cli-version/01.normalized.json",
+    "adl-characterization/observations/v1/cli-version/01.raw.json",
+    "adl-characterization/observations/v1/cli-version/02.normalized.json",
+    "adl-characterization/observations/v1/cli-version/02.raw.json",
+    "adl-characterization/observations/v1/cli-version/03.normalized.json",
+    "adl-characterization/observations/v1/cli-version/03.raw.json",
+    "adl-characterization/observations/v1/dependency-cycle/01.normalized.json",
+    "adl-characterization/observations/v1/dependency-cycle/01.raw.json",
+    "adl-characterization/observations/v1/dependency-cycle/02.normalized.json",
+    "adl-characterization/observations/v1/dependency-cycle/02.raw.json",
+    "adl-characterization/observations/v1/dependency-cycle/03.normalized.json",
+    "adl-characterization/observations/v1/dependency-cycle/03.raw.json",
+    "adl-characterization/observations/v1/ed25519-sign-verify-tamper/01.normalized.json",
+    "adl-characterization/observations/v1/ed25519-sign-verify-tamper/01.raw.json",
+    "adl-characterization/observations/v1/ed25519-sign-verify-tamper/02.normalized.json",
+    "adl-characterization/observations/v1/ed25519-sign-verify-tamper/02.raw.json",
+    "adl-characterization/observations/v1/ed25519-sign-verify-tamper/03.normalized.json",
+    "adl-characterization/observations/v1/ed25519-sign-verify-tamper/03.raw.json",
+    "adl-characterization/observations/v1/fork-join-ordering/01.normalized.json",
+    "adl-characterization/observations/v1/fork-join-ordering/01.raw.json",
+    "adl-characterization/observations/v1/fork-join-ordering/02.normalized.json",
+    "adl-characterization/observations/v1/fork-join-ordering/02.raw.json",
+    "adl-characterization/observations/v1/fork-join-ordering/03.normalized.json",
+    "adl-characterization/observations/v1/fork-join-ordering/03.raw.json",
+    "adl-characterization/observations/v1/graph-json/01.normalized.json",
+    "adl-characterization/observations/v1/graph-json/01.raw.json",
+    "adl-characterization/observations/v1/graph-json/02.normalized.json",
+    "adl-characterization/observations/v1/graph-json/02.raw.json",
+    "adl-characterization/observations/v1/graph-json/03.normalized.json",
+    "adl-characterization/observations/v1/graph-json/03.raw.json",
+    "adl-characterization/observations/v1/invalid-argument/01.normalized.json",
+    "adl-characterization/observations/v1/invalid-argument/01.raw.json",
+    "adl-characterization/observations/v1/invalid-argument/02.normalized.json",
+    "adl-characterization/observations/v1/invalid-argument/02.raw.json",
+    "adl-characterization/observations/v1/invalid-argument/03.normalized.json",
+    "adl-characterization/observations/v1/invalid-argument/03.raw.json",
+    "adl-characterization/observations/v1/local-mock-run/01.normalized.json",
+    "adl-characterization/observations/v1/local-mock-run/01.raw.json",
+    "adl-characterization/observations/v1/local-mock-run/02.normalized.json",
+    "adl-characterization/observations/v1/local-mock-run/02.raw.json",
+    "adl-characterization/observations/v1/local-mock-run/03.normalized.json",
+    "adl-characterization/observations/v1/local-mock-run/03.raw.json",
+    "adl-characterization/observations/v1/malformed-yaml/01.normalized.json",
+    "adl-characterization/observations/v1/malformed-yaml/01.raw.json",
+    "adl-characterization/observations/v1/malformed-yaml/02.normalized.json",
+    "adl-characterization/observations/v1/malformed-yaml/02.raw.json",
+    "adl-characterization/observations/v1/malformed-yaml/03.normalized.json",
+    "adl-characterization/observations/v1/malformed-yaml/03.raw.json",
+    "adl-characterization/observations/v1/map-order-a/01.normalized.json",
+    "adl-characterization/observations/v1/map-order-a/01.raw.json",
+    "adl-characterization/observations/v1/map-order-a/02.normalized.json",
+    "adl-characterization/observations/v1/map-order-a/02.raw.json",
+    "adl-characterization/observations/v1/map-order-a/03.normalized.json",
+    "adl-characterization/observations/v1/map-order-a/03.raw.json",
+    "adl-characterization/observations/v1/map-order-b/01.normalized.json",
+    "adl-characterization/observations/v1/map-order-b/01.raw.json",
+    "adl-characterization/observations/v1/map-order-b/02.normalized.json",
+    "adl-characterization/observations/v1/map-order-b/02.raw.json",
+    "adl-characterization/observations/v1/map-order-b/03.normalized.json",
+    "adl-characterization/observations/v1/map-order-b/03.raw.json",
+    "adl-characterization/observations/v1/missing-state/01.normalized.json",
+    "adl-characterization/observations/v1/missing-state/01.raw.json",
+    "adl-characterization/observations/v1/missing-state/02.normalized.json",
+    "adl-characterization/observations/v1/missing-state/02.raw.json",
+    "adl-characterization/observations/v1/missing-state/03.normalized.json",
+    "adl-characterization/observations/v1/missing-state/03.raw.json",
+    "adl-characterization/observations/v1/prompt-projection/01.normalized.json",
+    "adl-characterization/observations/v1/prompt-projection/01.raw.json",
+    "adl-characterization/observations/v1/prompt-projection/02.normalized.json",
+    "adl-characterization/observations/v1/prompt-projection/02.raw.json",
+    "adl-characterization/observations/v1/prompt-projection/03.normalized.json",
+    "adl-characterization/observations/v1/prompt-projection/03.raw.json",
+    "adl-characterization/observations/v1/schema-error/01.normalized.json",
+    "adl-characterization/observations/v1/schema-error/01.raw.json",
+    "adl-characterization/observations/v1/schema-error/02.normalized.json",
+    "adl-characterization/observations/v1/schema-error/02.raw.json",
+    "adl-characterization/observations/v1/schema-error/03.normalized.json",
+    "adl-characterization/observations/v1/schema-error/03.raw.json",
+    "adl-characterization/observations/v1/sequential-order-a/01.normalized.json",
+    "adl-characterization/observations/v1/sequential-order-a/01.raw.json",
+    "adl-characterization/observations/v1/sequential-order-a/02.normalized.json",
+    "adl-characterization/observations/v1/sequential-order-a/02.raw.json",
+    "adl-characterization/observations/v1/sequential-order-a/03.normalized.json",
+    "adl-characterization/observations/v1/sequential-order-a/03.raw.json",
+    "adl-characterization/observations/v1/sequential-order-b/01.normalized.json",
+    "adl-characterization/observations/v1/sequential-order-b/01.raw.json",
+    "adl-characterization/observations/v1/sequential-order-b/02.normalized.json",
+    "adl-characterization/observations/v1/sequential-order-b/02.raw.json",
+    "adl-characterization/observations/v1/sequential-order-b/03.normalized.json",
+    "adl-characterization/observations/v1/sequential-order-b/03.raw.json",
+    "adl-characterization/observations/v1/six-primitives-plan/01.normalized.json",
+    "adl-characterization/observations/v1/six-primitives-plan/01.raw.json",
+    "adl-characterization/observations/v1/six-primitives-plan/02.normalized.json",
+    "adl-characterization/observations/v1/six-primitives-plan/02.raw.json",
+    "adl-characterization/observations/v1/six-primitives-plan/03.normalized.json",
+    "adl-characterization/observations/v1/six-primitives-plan/03.raw.json",
+    "adl-characterization/observations/v1/unknown-agent/01.normalized.json",
+    "adl-characterization/observations/v1/unknown-agent/01.raw.json",
+    "adl-characterization/observations/v1/unknown-agent/02.normalized.json",
+    "adl-characterization/observations/v1/unknown-agent/02.raw.json",
+    "adl-characterization/observations/v1/unknown-agent/03.normalized.json",
+    "adl-characterization/observations/v1/unknown-agent/03.raw.json",
+    "adl-characterization/observations/v1/unknown-provider/01.normalized.json",
+    "adl-characterization/observations/v1/unknown-provider/01.raw.json",
+    "adl-characterization/observations/v1/unknown-provider/02.normalized.json",
+    "adl-characterization/observations/v1/unknown-provider/02.raw.json",
+    "adl-characterization/observations/v1/unknown-provider/03.normalized.json",
+    "adl-characterization/observations/v1/unknown-provider/03.raw.json",
+    "adl-characterization/observations/v1/unknown-task/01.normalized.json",
+    "adl-characterization/observations/v1/unknown-task/01.raw.json",
+    "adl-characterization/observations/v1/unknown-task/02.normalized.json",
+    "adl-characterization/observations/v1/unknown-task/02.raw.json",
+    "adl-characterization/observations/v1/unknown-task/03.normalized.json",
+    "adl-characterization/observations/v1/unknown-task/03.raw.json",
+    "adl-characterization/observations/v1/unknown-tool/01.normalized.json",
+    "adl-characterization/observations/v1/unknown-tool/01.raw.json",
+    "adl-characterization/observations/v1/unknown-tool/02.normalized.json",
+    "adl-characterization/observations/v1/unknown-tool/02.raw.json",
+    "adl-characterization/observations/v1/unknown-tool/03.normalized.json",
+    "adl-characterization/observations/v1/unknown-tool/03.raw.json",
+    "adl-characterization/observations/v1/unknown-workflow/01.normalized.json",
+    "adl-characterization/observations/v1/unknown-workflow/01.raw.json",
+    "adl-characterization/observations/v1/unknown-workflow/02.normalized.json",
+    "adl-characterization/observations/v1/unknown-workflow/02.raw.json",
+    "adl-characterization/observations/v1/unknown-workflow/03.normalized.json",
+    "adl-characterization/observations/v1/unknown-workflow/03.raw.json",
+    "adl-characterization/observations/v1/unsupported-run-field/01.normalized.json",
+    "adl-characterization/observations/v1/unsupported-run-field/01.raw.json",
+    "adl-characterization/observations/v1/unsupported-run-field/02.normalized.json",
+    "adl-characterization/observations/v1/unsupported-run-field/02.raw.json",
+    "adl-characterization/observations/v1/unsupported-run-field/03.normalized.json",
+    "adl-characterization/observations/v1/unsupported-run-field/03.raw.json",
+    "adl-characterization/observations/v1/verification.json",
+    "adl-characterization/src/bin/adl-characterize.rs",
+    "adl-characterization/src/compare.rs",
+    "adl-characterization/src/lib.rs",
+    "adl-characterization/src/manifest.rs",
+    "adl-characterization/src/model.rs",
+    "adl-characterization/src/normalize.rs",
+    "adl-characterization/src/runner.rs",
+    "adl-characterization/src/shadow.rs",
+    "adl-characterization/tests/cli.rs",
+    "adl-characterization/tests/evidence.rs",
+    "adl-characterization/tests/manifest.rs"
+  ],
+  "changes": [
+    {
+      "path": "adl-characterization/Cargo.lock",
+      "before": [
+        "100644",
+        "5921713b38d422d04b4aca6a62c09fb65d9e6413"
+      ],
+      "before_sha256": "2338d3be520819becf26d29ce61042181bc9cc28278e70ca81fccbbe5afedf4b",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/Cargo.toml",
+      "before": [
+        "100644",
+        "df4dd2249be033b1620ead321ea345def33c0a6e"
+      ],
+      "before_sha256": "eb7d71f07ff4a558101c8d7967d3760caa0e6d6ceb56eeb100c7d60c135362b6",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/LICENSE-APACHE",
+      "before": [
+        "100644",
+        "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64"
+      ],
+      "before_sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/LICENSE-MIT",
+      "before": [
+        "100644",
+        "cb0ed390966db75e8f6c81f023a6fc68e58bdc9d"
+      ],
+      "before_sha256": "fd7806d752dced563ec192cb02dc9c470bf0dd5340eed193d1583e06f7dc6f6c",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/README.md",
+      "before": [
+        "100644",
+        "0473a381d7c37dbcb9fd0229643265028bfb4ec9"
+      ],
+      "before_sha256": "dcdcb1d68ff7bf6e874161f120bc33b7f2d14eaeaf0ff1b59f22211329a43238",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/corpus/v1/COVERAGE.md",
+      "before": [
+        "100644",
+        "5f455ba32a700de1f50b4a41c99c5fa61dafef4d"
+      ],
+      "before_sha256": "e413a73cf2c93827087ce25fa9a0b26add545ad0146f695eb2e6072789944387",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/corpus/v1/corpus.yaml",
+      "before": [
+        "100644",
+        "01cd07cf8ecef4bb0bc7a4b7b7b82399dc43654c"
+      ],
+      "before_sha256": "010eecaf70d908027230347f4f5999b228499af50d1d9aaa8915b687de581448",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/corpus/v1/fixtures/branch-a.adl.yaml",
+      "before": [
+        "100644",
+        "0129972c4846d456218d21585739ce577465aaa5"
+      ],
+      "before_sha256": "b6c3017505d53a62590668b7fc6f9a1c5cc6aded9b2e1def0fa392aee459f36e",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/corpus/v1/fixtures/branch-b.adl.yaml",
+      "before": [
+        "100644",
+        "245132fa39ab8141d05f8dd69ca0b30b87a9f2c6"
+      ],
+      "before_sha256": "fc65badd0fa03b7d8782bc1afc75e4ed8be12eb9d7122475defc30ee628064a1",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/corpus/v1/fixtures/cycle.adl.yaml",
+      "before": [
+        "100644",
+        "81e2aecb82fd1f511da1b4ee79cf194f8fb31522"
+      ],
+      "before_sha256": "5d118276eb3acf4ba73d6aa3ce92cc3e5e74543b3342cca46c9e57475051d245",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/corpus/v1/fixtures/fork-join.adl.yaml",
+      "before": [
+        "100644",
+        "c9a23f8f035c3768d592250371ae4f1fd6c90c85"
+      ],
+      "before_sha256": "50eb261a57aa90cda09d1473c635b3498bda09b6b376366b9c26e5306972e2b4",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/corpus/v1/fixtures/malformed.adl.yaml",
+      "before": [
+        "100644",
+        "6409a6b451c50d287a525b8683316dc049d226a8"
+      ],
+      "before_sha256": "1f88148875c6bd74a06b7268899e63c0f844cc837ba89e61ee6c8c55029c86c4",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/corpus/v1/fixtures/map-a.adl.yaml",
+      "before": [
+        "100644",
+        "82116872642d0979282046ff9022cd8f951e654f"
+      ],
+      "before_sha256": "43a71bf5bb308249c13f92e71e491fe664a620b90c057c4a45ff2db46179a437",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/corpus/v1/fixtures/map-b.adl.yaml",
+      "before": [
+        "100644",
+        "09766a5412902dd366c36a81aea839caf7fe8829"
+      ],
+      "before_sha256": "d9c96509ec131a67c1d60fb255cadce5defd8b6d4b6472d44e36e8d1ef67adaa",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/corpus/v1/fixtures/mock-run.adl.yaml",
+      "before": [
+        "100644",
+        "be2ec3effe106c4edac4b9e6d78170634c5278bd"
+      ],
+      "before_sha256": "80f040b59086d80df0cb365e83152964de6ff21bff9fe377d9fe7da8df9c7161",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/corpus/v1/fixtures/schema-unknown.adl.yaml",
+      "before": [
+        "100644",
+        "013453ae6204582a2fbfa29af0dbe89c1fe42f5a"
+      ],
+      "before_sha256": "2e807f878484ae7c0cc144622af0279c1080395ed6cb2e191ddd0f0e93723f7d",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/corpus/v1/fixtures/sequential-a.adl.yaml",
+      "before": [
+        "100644",
+        "7e713d04b09a526c0e58c8666fc31a8e3b1fdb26"
+      ],
+      "before_sha256": "c91ee2bbb0e6f30784c06791bb00cdf1a5e073bcfd10dffc759ab74213dc1da9",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/corpus/v1/fixtures/sequential-b.adl.yaml",
+      "before": [
+        "100644",
+        "2d8213a7bcee6da492421230325458a6e8201131"
+      ],
+      "before_sha256": "581d05219a84416aaa01d72d1cc8e4bb4072b695daaf473937230329b8ebfcf6",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/corpus/v1/fixtures/six-primitives.adl.yaml",
+      "before": [
+        "100644",
+        "7c3a66ae2b6ad2d1dc60938bd9d24f06f7e71ff2"
+      ],
+      "before_sha256": "cba56b902fa298bbbb82c5769cf8cb57b641659df67d0fa21935484d81e8d0d8",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/corpus/v1/fixtures/state-missing.adl.yaml",
+      "before": [
+        "100644",
+        "e88c5989f58155e1d6691ce81a4d3b3e17f6c66f"
+      ],
+      "before_sha256": "b10fba1b529403eedd7914ba15ac34eb8428179619750a013b5e36ff9bdef87d",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/corpus/v1/fixtures/unknown-agent.adl.yaml",
+      "before": [
+        "100644",
+        "bf0746430056fd1bb0fbe96f3b973b11e28a95da"
+      ],
+      "before_sha256": "5fd65127cf8254ffa242d9a27f1761a9908e260e24ee22c8a9a418a563fcaa81",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/corpus/v1/fixtures/unknown-provider.adl.yaml",
+      "before": [
+        "100644",
+        "92391da32ccf0d38ae29152cf92d681433866bcf"
+      ],
+      "before_sha256": "0d451ef06b1f13a02a11f86faf5b746fa2f4fa929405d6e9812b0b3857854e4c",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/corpus/v1/fixtures/unknown-task.adl.yaml",
+      "before": [
+        "100644",
+        "503c0b32271158d8b0e9eca50770bb08438aa67b"
+      ],
+      "before_sha256": "f871b1ac45e1197c2143932512d68fda3928d06312a43dc0cdda8c3078b41f6e",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/corpus/v1/fixtures/unknown-tool.adl.yaml",
+      "before": [
+        "100644",
+        "5878245a69a6dbd81382e3c8c2fdc49549c45058"
+      ],
+      "before_sha256": "a7eb4886d1a454adb8391cd47d52b7062dc40119f82eced4b1950164053873f4",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/corpus/v1/fixtures/unknown-workflow.adl.yaml",
+      "before": [
+        "100644",
+        "17137a5e644bd4ebfbeef37b81261db5f9ddd548"
+      ],
+      "before_sha256": "d126143c5220d79cd271b393e928416b288ac121ba981a6c94b272896014b3d8",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/corpus/v1/fixtures/unsupported-run-field.adl.yaml",
+      "before": [
+        "100644",
+        "6e9dd0fe45615b77ba9558b5820962b20e509763"
+      ],
+      "before_sha256": "940703ff482abac53ef269edf10ede4da2e9127fd78fa410b9e91995f9e4e9f8",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/corpus/v1/schema.json",
+      "before": [
+        "100644",
+        "67da8d36b000cd1c53d253f35ff3ba7b4173a976"
+      ],
+      "before_sha256": "c7802b2e1fbbda99efd116d93aba945c3bcdc775a76af31395010d7086aed9a8",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/corpus/v2/event-record.json",
+      "before": [
+        "100644",
+        "9a68a3e3a157fdf90cdff55594bf29d1ce234f32"
+      ],
+      "before_sha256": "c04630a1f4e5b564e553c9d4102d738cf27c57d65791b7813f6aa6c801afd94f",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/corpus/v2/shadow.yaml",
+      "before": [
+        "100644",
+        "737e0d116bc1b66f2e8aaefbc52e4df9f284b0e0"
+      ],
+      "before_sha256": "edeeb45fef0e851e28dce99fb8f76397cbbf3f32aafc7f5a788ec33c812e9a63",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/branch-order-a/01.normalized.json",
+      "before": [
+        "100644",
+        "bf7d82b9ec8103d3a86c1cc5aaffadace456d816"
+      ],
+      "before_sha256": "65590a23b4d82881ec61eae5bd9890b38a7a5096cb1c80b09ddc832f4e45f6ab",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/branch-order-a/01.raw.json",
+      "before": [
+        "100644",
+        "d9cbb49369c7fb1ab13138f0c7b031bc186da9a4"
+      ],
+      "before_sha256": "8585b45d81d30b4f47fb52d56d68231e9644e6ddf39bcf74cdc8fa39018cabf1",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/branch-order-a/02.normalized.json",
+      "before": [
+        "100644",
+        "10a73c2c6a2ffe7d458c69cd014ed0b48d79fe2b"
+      ],
+      "before_sha256": "8da560ce855201db1327e077f615752dec2c8181b5dd46e3bf4ef7d66280fe5e",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/branch-order-a/02.raw.json",
+      "before": [
+        "100644",
+        "7d6050069e0dbf89dede96acb5fa2bd45635271a"
+      ],
+      "before_sha256": "0dacf3d0ff2924d82f9815f45acd0ccb5b9d9926c2d7a961b711bfe65a86ebd5",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/branch-order-a/03.normalized.json",
+      "before": [
+        "100644",
+        "085c3caa1233246c7535553fbacfd334785ac8ea"
+      ],
+      "before_sha256": "5f254e93d3317fe0fd434d9d112e10a0b41ff042974076bfc02fdde066e47a4f",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/branch-order-a/03.raw.json",
+      "before": [
+        "100644",
+        "7c8586e8f63907a2d1210f20adff85a6377293a0"
+      ],
+      "before_sha256": "d20b093ea630367900d65579254dcf8d5a8826efe69343d9e0d2b7f5cf0e1cb5",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/branch-order-b/01.normalized.json",
+      "before": [
+        "100644",
+        "6cd8c55eee87db02b1c13d42a848b06f9bd2116c"
+      ],
+      "before_sha256": "49369819a1f927d1ec79d9b2068af9c00880e4f704832d3c94a56b64df50fd66",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/branch-order-b/01.raw.json",
+      "before": [
+        "100644",
+        "dd9797a38a78fba1e8bcb361f91fbaf531b6e4cd"
+      ],
+      "before_sha256": "7021d93d3bdd8ba34e14c73a03fb87c313ddcb013b853de344da2715fdef065e",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/branch-order-b/02.normalized.json",
+      "before": [
+        "100644",
+        "e3799690ff1d924ffef6e72bd3b99ac6167fa2f7"
+      ],
+      "before_sha256": "7c6e7a2cb87e325695698c655a713be37d3037b0a2b78ca36629d6e2fd883bed",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/branch-order-b/02.raw.json",
+      "before": [
+        "100644",
+        "1bf363c412d867b9c17043374df4af1f0847b602"
+      ],
+      "before_sha256": "6709c6bb21d1d47ac4add5832bf0bcbda2aef93741628aeeb603ec6ddc3dbe84",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/branch-order-b/03.normalized.json",
+      "before": [
+        "100644",
+        "e2f05fb3263718660ddfbf1c5a3938071ec9639d"
+      ],
+      "before_sha256": "88c56d326efa799d4d8c3f0bd2f9f51cd75791817ab633af16d6202651b01c93",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/branch-order-b/03.raw.json",
+      "before": [
+        "100644",
+        "2aa7adb5af3e86308744b19f0708b76d6533c594"
+      ],
+      "before_sha256": "cc2ecd07a8d7fbd1b4d686822c2e4f029271e41ccbfdd8181dac6e602e4c0bb4",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/cli-help/01.normalized.json",
+      "before": [
+        "100644",
+        "c338bca63de458a5a040ac9a6a3fb7c586265a70"
+      ],
+      "before_sha256": "bb7898f083c294e599c0361f273536b50090fcb41ba2392c8640fcb0803ff17f",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/cli-help/01.raw.json",
+      "before": [
+        "100644",
+        "fe158f15c176ac0dd7fab3aa6b318874c33482cd"
+      ],
+      "before_sha256": "e81baf0fd12bdcc063664a86b7dedc1b539131d2413c7f211fc9abb0271ae815",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/cli-help/02.normalized.json",
+      "before": [
+        "100644",
+        "7154eaaf5c9772f55819e405dd932c07754eba05"
+      ],
+      "before_sha256": "4961ac5ed33a3bda8ab5f61a180576dc88f40091fa28775a12f132090a2ba697",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/cli-help/02.raw.json",
+      "before": [
+        "100644",
+        "fddaf282796c4b7a578d3c4a39c9624a5efe2eb2"
+      ],
+      "before_sha256": "fe7c3dee1462f8f3641269d41120536194397d9d93a78a75b76e60734777172f",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/cli-help/03.normalized.json",
+      "before": [
+        "100644",
+        "f948591efe448a0bc46fd4d0217819c8670458d5"
+      ],
+      "before_sha256": "78194ddbad6facfabc2c5e74ec2afd23f5abdf435e5c751ac46f2395e1a77ef9",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/cli-help/03.raw.json",
+      "before": [
+        "100644",
+        "00b7a45247315584160c1a2a26d1d16755da4654"
+      ],
+      "before_sha256": "32586e06606dfc16ee8c9cea1458d67094ebebd1ee47e5cbe58ef1c79e8d9287",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/cli-version/01.normalized.json",
+      "before": [
+        "100644",
+        "fecc7509e9f30a912c944162c53c8764861a401a"
+      ],
+      "before_sha256": "f07ced756d2835a0e148df4c8e7bfb27a857d0fb015b0a52ab1c13d4e9e193d5",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/cli-version/01.raw.json",
+      "before": [
+        "100644",
+        "d85dc1f0727476727ee2dede7c72af0771d3d32e"
+      ],
+      "before_sha256": "8a5a1a167e456c6e6f05cf3daa10090e16d42fe10542a6fa1e9d5cf34f768baf",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/cli-version/02.normalized.json",
+      "before": [
+        "100644",
+        "360ad886b4072fdaae2f1c0decc4976579066ddc"
+      ],
+      "before_sha256": "9492345a633c9c0988bef36cbb9ad5aaa028a2753b618f498877ba4b3ed2f408",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/cli-version/02.raw.json",
+      "before": [
+        "100644",
+        "6e51586418be1baebf6d38966b2de151044de611"
+      ],
+      "before_sha256": "980e4e9d5916f24987ba097322704926909504df457522f88a92aa2b96c4b130",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/cli-version/03.normalized.json",
+      "before": [
+        "100644",
+        "e3d191cd9b7cc4879e19b90c1e3200af32a3d579"
+      ],
+      "before_sha256": "4955a152973d2b607afb3b8c0843ac621456616285af4be9d819cc0774903f57",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/cli-version/03.raw.json",
+      "before": [
+        "100644",
+        "929bb5a06f2acd47a6819b79fbcb7441bdde4260"
+      ],
+      "before_sha256": "29db56558bb6d9c3c784e529fb9bd913842ead3337d64de437a33b904415e55d",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/dependency-cycle/01.normalized.json",
+      "before": [
+        "100644",
+        "03eefc17efa6265be20c1c050cfe232f44c0f7a2"
+      ],
+      "before_sha256": "c2c3e4ec914d0627faf3a8077c2e0d2757ff7d9f7e46489927f1b041a0aa2c67",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/dependency-cycle/01.raw.json",
+      "before": [
+        "100644",
+        "6afc4676f4b4c8d1f8145ccfc1c104105fb1ad7a"
+      ],
+      "before_sha256": "dfb4a7f4fbbaff162ef53bfff6692896c0c814f1faf6f26d26f9170e6a6c5618",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/dependency-cycle/02.normalized.json",
+      "before": [
+        "100644",
+        "98694951b5b9c86a8d8ce2b4a9fb977971f10eb1"
+      ],
+      "before_sha256": "fa3d105e881d367d5959f8a991bbf02f3a48b34421bf36a69dce1aff519262f5",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/dependency-cycle/02.raw.json",
+      "before": [
+        "100644",
+        "e3c9eeb81d64fa116f7f2248da1cc7072bd507e1"
+      ],
+      "before_sha256": "7e2f76baeba4a7d5765c71f802d9ee863612c9d3c8422dc7ed8f14006f94eb91",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/dependency-cycle/03.normalized.json",
+      "before": [
+        "100644",
+        "41c1db630a3f4d48c6a33c5da7eff102ab1515a0"
+      ],
+      "before_sha256": "345fd8dd94942eb7971f8bef7af5c9de7ba4380cb071ad0bdcb5f64e8ec37314",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/dependency-cycle/03.raw.json",
+      "before": [
+        "100644",
+        "ca5bf4270433a4eb4faf9eb95381ceb11df00485"
+      ],
+      "before_sha256": "3ea4d7d85d6c22ab0d80cc966864dc174c195909bb21a658fd6d1f5862047abd",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/ed25519-sign-verify-tamper/01.normalized.json",
+      "before": [
+        "100644",
+        "56d1b7b3ee92cdde82b805711b7c2d1ad59af74e"
+      ],
+      "before_sha256": "10911d10fd0e175ccbd8205b4485620df6a19d926323830914704d64f7e91f4d",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/ed25519-sign-verify-tamper/01.raw.json",
+      "before": [
+        "100644",
+        "08be6dcc431c996838f494f8da2c75bd4f2e55be"
+      ],
+      "before_sha256": "f9b04ab911cd29b76f4ae9e3893f9c5f886b6a977015166b78b2c4bfc9bf10dd",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/ed25519-sign-verify-tamper/02.normalized.json",
+      "before": [
+        "100644",
+        "9b29c18a02a2a2c3a076053ee0d8348f726af023"
+      ],
+      "before_sha256": "767ec3438b4a50aedab3636bd23cc5792afe93fd53426a15db45dde196045f87",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/ed25519-sign-verify-tamper/02.raw.json",
+      "before": [
+        "100644",
+        "5e64a847a28b93d12619bb050fa70935329bccac"
+      ],
+      "before_sha256": "5ec73a66ddeda4af2eabf0919999b3f9c48ecebe6427d60456f68175f220b740",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/ed25519-sign-verify-tamper/03.normalized.json",
+      "before": [
+        "100644",
+        "0a7cc2773ffcbc8e749d80fc8f849fcfbcf88c55"
+      ],
+      "before_sha256": "a1cae3e06479366e75859dde16613538b89554335d0b9e93a6544e89e4c3dcff",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/ed25519-sign-verify-tamper/03.raw.json",
+      "before": [
+        "100644",
+        "4677ecd5e15e1d8f5d4d9086b1364177c87bb94a"
+      ],
+      "before_sha256": "8d57a2d9c058a5943184514b99ea046ba3bcbe99638d900864f93d329690e143",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/fork-join-ordering/01.normalized.json",
+      "before": [
+        "100644",
+        "7c45ecddfc5f85afea21a2671e0723e1f9431f96"
+      ],
+      "before_sha256": "f55ba580680ae842a8f188ed5eb219849f97b6c0a0abcf7c6a88391f58a3bc94",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/fork-join-ordering/01.raw.json",
+      "before": [
+        "100644",
+        "841a91e82406c557fd678ba486074bfef721cac2"
+      ],
+      "before_sha256": "a013037ee3579cfe01e2a5b06e352e3681328814516c772f1eaff530568e7317",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/fork-join-ordering/02.normalized.json",
+      "before": [
+        "100644",
+        "531f84890a9917c6dd2782476d9dabcad054d804"
+      ],
+      "before_sha256": "4c9a870ee07209c02e872db703c34e3f7f5351ca54205d8c4b743809fc98f037",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/fork-join-ordering/02.raw.json",
+      "before": [
+        "100644",
+        "990781106a073753e4780277fa7dd10eea32b861"
+      ],
+      "before_sha256": "d3df50a2bd5e437b824e857f45ccbc458481e74f00222bfc0af424b934be5420",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/fork-join-ordering/03.normalized.json",
+      "before": [
+        "100644",
+        "bf6a743fb817f22b0ff27baefe73d26dd20c085c"
+      ],
+      "before_sha256": "4042d531004fba738f18fb811f3be16f04b8b8202f4aaf28f1612c46b0636d4c",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/fork-join-ordering/03.raw.json",
+      "before": [
+        "100644",
+        "ed4fcf1a49e8b45868c9fd0b9d6ef3f77fcee5b3"
+      ],
+      "before_sha256": "a4df8834445a8115b79de61dd37722150e48326d1b73fb470b5fbce0ebcc03fd",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/graph-json/01.normalized.json",
+      "before": [
+        "100644",
+        "00f873e19c7f688849eda91798e5081af3040bde"
+      ],
+      "before_sha256": "68fde5a252209811fc3c8b0cdbe874678170e702f9dea851c48708def8a12f11",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/graph-json/01.raw.json",
+      "before": [
+        "100644",
+        "69dd1e537d4986aae13bc7faaae3fbd37619241f"
+      ],
+      "before_sha256": "1d26cf9e46535aa621bcba689a32a96e4357299b00cdfa048a2afa36e4ba51de",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/graph-json/02.normalized.json",
+      "before": [
+        "100644",
+        "116a7d9650ebe2696fea5cc4fa83d64cac0e772c"
+      ],
+      "before_sha256": "03b8460d6b2370453ad679e90c8458bde5c44683533767c0953069dd442b5004",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/graph-json/02.raw.json",
+      "before": [
+        "100644",
+        "55efaffc56561fcb2540c1d9562f0b366a644a0e"
+      ],
+      "before_sha256": "e884cb6390bff0bd36d7e1cea20c20ea09dfdac9a37ae6ee87b21653740f56c4",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/graph-json/03.normalized.json",
+      "before": [
+        "100644",
+        "4d9a0406a50255ebd83ca0f80bd305c2814d707a"
+      ],
+      "before_sha256": "d722e2052a2da03d7337ce9ebe82cb126bd4b477ae4a4dc0521523adbd111617",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/graph-json/03.raw.json",
+      "before": [
+        "100644",
+        "a5e548a77e00ac4941c8ab517608b37e0fc2e25d"
+      ],
+      "before_sha256": "fd2287a92b9cc70d7c5e4bafe820338e16382191ec30a699a7a694a6e2a65b4b",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/invalid-argument/01.normalized.json",
+      "before": [
+        "100644",
+        "21e7e9703c44fb22add2efd0cfacc0d962bd4229"
+      ],
+      "before_sha256": "7d96b1e8ac6c3b9ae3b1462933d2a9b6131298e6c23100719aefb2a377811ea9",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/invalid-argument/01.raw.json",
+      "before": [
+        "100644",
+        "65e8f985f3d74f2cd571574e642c8b349cfa6b35"
+      ],
+      "before_sha256": "4b5967260e16d450a7b75f9d57a5d3ef5dc64008d76b83d9f5f0b8f43c888471",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/invalid-argument/02.normalized.json",
+      "before": [
+        "100644",
+        "a43ce9f30e726120cc7f121b0352de05821e2db1"
+      ],
+      "before_sha256": "61816aac7dd8bfee9098826254291eeafff5d69fc5f7d42ccd4677fad147dad3",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/invalid-argument/02.raw.json",
+      "before": [
+        "100644",
+        "4c900a54f5e5e8239a14c501ce5738d9ab6f9fa9"
+      ],
+      "before_sha256": "6e1f6da95d19c997320fec98b7ca5225a57714157393739158e49565237e954a",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/invalid-argument/03.normalized.json",
+      "before": [
+        "100644",
+        "6a5be1b15e4fb9b756b5a0937a5e659dc2d1eeca"
+      ],
+      "before_sha256": "f861a39cdc39561acbae440bd027d05d3ccc255ee8fb3216ce81de9765436bba",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/invalid-argument/03.raw.json",
+      "before": [
+        "100644",
+        "299a1e5f11450b8dbcd410a651e1b16642505356"
+      ],
+      "before_sha256": "1faba5280214571c744b8abda755326c595beca094d1406b98c4f60f116f8359",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/local-mock-run/01.normalized.json",
+      "before": [
+        "100644",
+        "77bedec274e94a01cc2fb25fab7e1724299d5229"
+      ],
+      "before_sha256": "516183e9c9c81432589867bcc9824eb38c292daf290c859110940c1c3f06b21c",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/local-mock-run/01.raw.json",
+      "before": [
+        "100644",
+        "9fd8bb05c20f89e035a592d52fc9d91b0426704c"
+      ],
+      "before_sha256": "6049b132472ddf2844cb35be0220226c48b7f65a0775c7522dfdebe09cb7d7c5",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/local-mock-run/02.normalized.json",
+      "before": [
+        "100644",
+        "f1e08dee3594a50102233cf14c1301e408e0ee03"
+      ],
+      "before_sha256": "bd3c842761909fe20d0bf537c427e578398ce107924e3f8c7d4bc890c028f81c",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/local-mock-run/02.raw.json",
+      "before": [
+        "100644",
+        "ffa3f4534ee98ce9582511163bc4fd5251d1b5c5"
+      ],
+      "before_sha256": "b1fc4eaf67cefdd26e7cf233c59423740c0c68a61a3a0cba00bcf844424e4abd",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/local-mock-run/03.normalized.json",
+      "before": [
+        "100644",
+        "a1818b820a1c2b6c58b0af49a33623eda54d84c0"
+      ],
+      "before_sha256": "3c68275e7798e9ecbd3991014214eaba87d8f382988337c97722392bd2e93140",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/local-mock-run/03.raw.json",
+      "before": [
+        "100644",
+        "596dcfac534f27b85f1117783445aef925f189bf"
+      ],
+      "before_sha256": "b08efb48a2177a2d261137a27bb59d91f5238e05b770acee4e67e2700ecd999b",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/malformed-yaml/01.normalized.json",
+      "before": [
+        "100644",
+        "6234e9dfc47ff291d366bfbe842c437c92d8a5e0"
+      ],
+      "before_sha256": "2ca1aecc5457af9ad733866883e5a8dee5b2e32b6b75f1638990a15750dafee7",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/malformed-yaml/01.raw.json",
+      "before": [
+        "100644",
+        "5449401efec85a3e27bcb29ffd3d3565fbde556e"
+      ],
+      "before_sha256": "0161e31aadfd072cde33d6f636dae8f69ea28d0e7136af0f92339c065a2a2932",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/malformed-yaml/02.normalized.json",
+      "before": [
+        "100644",
+        "2e584ef14b25811fe4c9449e29990159e92a4a70"
+      ],
+      "before_sha256": "1f80b230861073fc2d2c7503b8e62abd47c4e966bd4d9c80a2a1fa29ace8eb54",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/malformed-yaml/02.raw.json",
+      "before": [
+        "100644",
+        "f5b93b9b2b36ea35622b8f6195c26a1d0ad4eae8"
+      ],
+      "before_sha256": "a5936cd228b49ac5d4b5e782434b9600e78d3b884b5eaef15a09334807aa15ba",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/malformed-yaml/03.normalized.json",
+      "before": [
+        "100644",
+        "5605f5ece63af255912a76d7f066c288afc90942"
+      ],
+      "before_sha256": "e64096cf504d1e165b2d1f246d582505d4eaaab20141a5a3665107667abec1a4",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/malformed-yaml/03.raw.json",
+      "before": [
+        "100644",
+        "8dd9528e16767c6b90a3462651ba55b398713a05"
+      ],
+      "before_sha256": "e0e8f77225b0fd38cc13587774a5b340336a85b3cbeb578b9e3efd8d0da094ec",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/map-order-a/01.normalized.json",
+      "before": [
+        "100644",
+        "282e8eb0878d76cd8099b2c9da5d29e1bc2e0964"
+      ],
+      "before_sha256": "059a1de3856006becbc399edac819d8324012be64bbbeafc7261420fe1e9edcd",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/map-order-a/01.raw.json",
+      "before": [
+        "100644",
+        "4f29b62eafa468a2b3f03b0a807753b146537199"
+      ],
+      "before_sha256": "09c668fcff647d21f8be5686e2cf09caf0efb2729f5cfaa0e65aa7517cd2543c",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/map-order-a/02.normalized.json",
+      "before": [
+        "100644",
+        "294a93036b5289900c8d1c064a010b4413230b21"
+      ],
+      "before_sha256": "bb62d1b9beb1affab6708c1f9287f8d4202cdbe39c1171e40644c12b89e5ad92",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/map-order-a/02.raw.json",
+      "before": [
+        "100644",
+        "ecce898e29dcae5172b98cc8c1ed14cfd0ec07fa"
+      ],
+      "before_sha256": "af4efe38cb9420a13bf09f2d16cbfd7326ff8bed8d002b4a51ce80022c58325f",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/map-order-a/03.normalized.json",
+      "before": [
+        "100644",
+        "51543c0f2f52597753f99be35266a00bdeb935d0"
+      ],
+      "before_sha256": "7dad31bafdd94b73c19deede839d9683b94f317da0465cbf25a28800f6226969",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/map-order-a/03.raw.json",
+      "before": [
+        "100644",
+        "48116fe51d4b80365bb1660fb4b481d5994adb0f"
+      ],
+      "before_sha256": "d0d044df381dfb300565b485ed56590347bdc48efb9a03f7db01d4a44f349db6",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/map-order-b/01.normalized.json",
+      "before": [
+        "100644",
+        "6cba5b73b7c72859145e6b5061a37eb95b462120"
+      ],
+      "before_sha256": "1f5306e634591983c138db63395d0fe7d630ae348a477d9b64429fc25ed62ba4",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/map-order-b/01.raw.json",
+      "before": [
+        "100644",
+        "f22d3e13931a3909f3633d69d0043a7d8f238fa5"
+      ],
+      "before_sha256": "42d1a20e4f017a9bc0a0752d9d15bf9804e83393954a7dfa8d1729f6ed6126ca",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/map-order-b/02.normalized.json",
+      "before": [
+        "100644",
+        "8f63b33ae339d49687bc88b7c79107716135b129"
+      ],
+      "before_sha256": "e6679898fd72b04a5211c66b6bc60e52ad95d96fd992f2e4d74daf3ba2b40736",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/map-order-b/02.raw.json",
+      "before": [
+        "100644",
+        "2f5610eed9f1d41139282003ff282b7212698c95"
+      ],
+      "before_sha256": "f611a1943d5a3526df71c58e7ffaa6b51d1175a95d3c68a9f8792cd7b824515a",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/map-order-b/03.normalized.json",
+      "before": [
+        "100644",
+        "5587ae6f0fa7382b0e8c9153f83afee2e57fcddb"
+      ],
+      "before_sha256": "19b9d06fcd00346e0f722f2a0f00af5bb82e9625a5cb768409d46dca2e3d54a8",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/map-order-b/03.raw.json",
+      "before": [
+        "100644",
+        "dbb11a5c5146686c5dedf7e4000f09c17ff1dde6"
+      ],
+      "before_sha256": "4ee0c64f26256825181519e6507b550c50ed89487631af8ce646c1a98d634d27",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/missing-state/01.normalized.json",
+      "before": [
+        "100644",
+        "739b08929de7877784070e214d346acfe0c73b28"
+      ],
+      "before_sha256": "ca3f0167963eeb7dabadef8f45aefb2a21eb13fa5ccd464f61eb8a8f6c775164",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/missing-state/01.raw.json",
+      "before": [
+        "100644",
+        "b83be062c6d232df54c4142c01ef4de0162b9e56"
+      ],
+      "before_sha256": "87a5e4211f25f0f857bb578b14b4bc845718bdb43af15507e525279c5431b644",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/missing-state/02.normalized.json",
+      "before": [
+        "100644",
+        "338adba3201e5939d6a000f1d68eb183032a1224"
+      ],
+      "before_sha256": "f963ba83414151c4bdde6ee9e064e9a690dd8e9872f2c6dc9db36eacc2a19af8",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/missing-state/02.raw.json",
+      "before": [
+        "100644",
+        "2403ea837e931e7b3a9bb133c06f280220d61262"
+      ],
+      "before_sha256": "07828f2769ada62fed57187f1680f22680cd9b800caeac6b725ff25b08032ab1",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/missing-state/03.normalized.json",
+      "before": [
+        "100644",
+        "077263fc5cac172854eee9077d92149297ebadb9"
+      ],
+      "before_sha256": "a709dc589d3852c30287ea9bf0138ce6b4925ad3041900a97c00b4b5c710939b",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/missing-state/03.raw.json",
+      "before": [
+        "100644",
+        "fc75e845a8b1bec26ecb5c3832c7e246b500a94d"
+      ],
+      "before_sha256": "a5f88b378ab84a985efd0f4c93874542323a1cc445a6336635e597eba72c1468",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/prompt-projection/01.normalized.json",
+      "before": [
+        "100644",
+        "0c131fd071b1510d17b18359ebf531ce5066d5aa"
+      ],
+      "before_sha256": "74cb4b0f0a63612f296344149e2dc5e5b5874001af426f43f3dbe91d5e27edb3",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/prompt-projection/01.raw.json",
+      "before": [
+        "100644",
+        "0094b786889d1d3a7a1c10cd8f6ced7a20e31944"
+      ],
+      "before_sha256": "fbdf0f67275cbdb93cd9b867aa2f20efe90c078fbebe0af655e6812ceb0b0c7b",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/prompt-projection/02.normalized.json",
+      "before": [
+        "100644",
+        "d22766ccb7aac967ade46ae006ccb43236cb810a"
+      ],
+      "before_sha256": "93f09ba6dcd353c5f33fed543918d867b7ccac6875c70c55a45f2a3a2bed8130",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/prompt-projection/02.raw.json",
+      "before": [
+        "100644",
+        "635493af565c53b7841c18ef0cca9fe304b6591b"
+      ],
+      "before_sha256": "e53834df5900f8cc1d0979419d5a5c20ec358e57fc91a2a546aead0ffd68192a",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/prompt-projection/03.normalized.json",
+      "before": [
+        "100644",
+        "ef9ca546c96a09cbb11d89e419a1ec3889571c61"
+      ],
+      "before_sha256": "5b5784b8b3a7ff4fd906210d26bb1435d783032274ae5a5c09590c0dec949ecb",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/prompt-projection/03.raw.json",
+      "before": [
+        "100644",
+        "91684e3884a7a709a3b1685ea148f6cc3c528817"
+      ],
+      "before_sha256": "03510f3650fde55b2bfe3eab5bb02d52286c418662cbabb97396b38b8e555b48",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/schema-error/01.normalized.json",
+      "before": [
+        "100644",
+        "a292b53f1bb44cdaf03c1215284a9dfdd30e99df"
+      ],
+      "before_sha256": "d44aaad2bc3e49c2faa23e4e6c81eb3aa35cbb303ba9edff954f70b404f31a05",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/schema-error/01.raw.json",
+      "before": [
+        "100644",
+        "5308f5cca261fd72107a9d70ff661901e6a4fabd"
+      ],
+      "before_sha256": "40dddb8dc3da4c3d646c5b2c7a49a66b19f2e27be56345d573e13f01e3f342a4",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/schema-error/02.normalized.json",
+      "before": [
+        "100644",
+        "b89bf9c0be65c9a82513119e3574193347a811c0"
+      ],
+      "before_sha256": "53aabee3b6007ba4bd88e38f0ce0d25034212af5d2d01939d91322a88ca6fc52",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/schema-error/02.raw.json",
+      "before": [
+        "100644",
+        "20b7d0b97193f378db30223fbba9306452dd0891"
+      ],
+      "before_sha256": "852bc2bd57b116f956c4757b00075eee0a4c348facd0f3fe7366ac9616c0ed81",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/schema-error/03.normalized.json",
+      "before": [
+        "100644",
+        "2fa5932a3306a064029659f91bfc86e646c56a6c"
+      ],
+      "before_sha256": "45d9017a6ba18b1b43b32263c6eb8a67383a0dfea838bb4c8188eed15ab80a69",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/schema-error/03.raw.json",
+      "before": [
+        "100644",
+        "9d3ccdf957c82abd416ab6b6310daaec97af490c"
+      ],
+      "before_sha256": "4743d54978e1ef4582f45a23fbe2ca75cdf6feca350bd8f2087d0467aa4a36de",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/sequential-order-a/01.normalized.json",
+      "before": [
+        "100644",
+        "ceb9676dc66c7efcc5c08921a44115282362214d"
+      ],
+      "before_sha256": "a177078cf1c4df11dbee05d4cab678b76e8b23818725be29a634dfd7cc2b4d77",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/sequential-order-a/01.raw.json",
+      "before": [
+        "100644",
+        "971ce623c3c1571fe0b415ee1fd9f73d693f66a0"
+      ],
+      "before_sha256": "0dc0f058e654c5690b7f230c882b6562585d0b81c9f00088b6d16920b65bbb64",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/sequential-order-a/02.normalized.json",
+      "before": [
+        "100644",
+        "52734645090589127a775ed94985e5ab1a91ead1"
+      ],
+      "before_sha256": "3e1192b0ab6090d5f242e287553ad9ade2e6b52329648d3c7f4d2989d07eeaf0",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/sequential-order-a/02.raw.json",
+      "before": [
+        "100644",
+        "522e6a72ef32cf0d2a5ccd21d37e21fd6262012e"
+      ],
+      "before_sha256": "4b73ab7110965b5f4a8e430511c11247c404723e4a1135fdd6b009950056df65",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/sequential-order-a/03.normalized.json",
+      "before": [
+        "100644",
+        "5be26155c88a0182610d13006839b14816b1edc4"
+      ],
+      "before_sha256": "5bc7f45797e7934bf2e39b6c433a67b7b6edeb02003590a499fdf219fdc9d405",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/sequential-order-a/03.raw.json",
+      "before": [
+        "100644",
+        "53bdb6dba2376428c15c7c0fb1c014d539d57455"
+      ],
+      "before_sha256": "d70c22d7045dc555166b82b2d088877b448f9d2a8bc33e4c130506ed55d352ff",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/sequential-order-b/01.normalized.json",
+      "before": [
+        "100644",
+        "522a35ddf6b4c2597577dd6e6d44d97b78eac8d0"
+      ],
+      "before_sha256": "7d80c41acd47ab8a9286fe11f38e304a3309282462792f35807a38e52191681d",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/sequential-order-b/01.raw.json",
+      "before": [
+        "100644",
+        "a1c3bfadbc1b9d4da3a6f438d5958b9a7da9d50d"
+      ],
+      "before_sha256": "b6940edf8294f56644b53e25a9d4b1ffc2177132fe3c3c3822897c4059ed919c",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/sequential-order-b/02.normalized.json",
+      "before": [
+        "100644",
+        "3226162518c76ac40ed6ad18b5177d8116fbc4db"
+      ],
+      "before_sha256": "559b061a2efa8db87fa93c5617c47e7ba9187b1cd3c38ac73737bdf399ba576c",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/sequential-order-b/02.raw.json",
+      "before": [
+        "100644",
+        "7a2f182a90547537651514ad462ddf5bae1eec58"
+      ],
+      "before_sha256": "b32503339d44ad54e48724914f2466b377452381e79b2ac1dce2566b70191d15",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/sequential-order-b/03.normalized.json",
+      "before": [
+        "100644",
+        "69ba646113fab88215758636220f36d4f943e0ee"
+      ],
+      "before_sha256": "1b796fd52b2b25ecf2c242730ed4d0e790887f5b4135ab05f08a1a1a0f8da148",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/sequential-order-b/03.raw.json",
+      "before": [
+        "100644",
+        "047e544bd2b2d13d4ee71886b5ce7b9759b1adb4"
+      ],
+      "before_sha256": "70bb23684932e2e4941b570a6a979e9125e056e64ef1e25c25f1b6e26a473350",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/six-primitives-plan/01.normalized.json",
+      "before": [
+        "100644",
+        "15297c77c042053cb317644cbbe1ebe97ad9c93b"
+      ],
+      "before_sha256": "819adfbf0afc00d1374ef978f30c2b928211dcd21d7e6029e721c21921d1fefa",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/six-primitives-plan/01.raw.json",
+      "before": [
+        "100644",
+        "4e00add077cf08e1e50613f19333208ab29d7844"
+      ],
+      "before_sha256": "1046c95be0e8ac90d18ad4219dfc2ca98b0b06c4e60617a24f7cd61fb3ccf55d",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/six-primitives-plan/02.normalized.json",
+      "before": [
+        "100644",
+        "fc46128b14cdb38f6419d209a606033adb10da8a"
+      ],
+      "before_sha256": "6372d8699b08e1def6c6c9d0bf9d861f95183b892bd140efe04c29ea0903ac31",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/six-primitives-plan/02.raw.json",
+      "before": [
+        "100644",
+        "334fab89a5085088c9feece334fca2ca76687dbd"
+      ],
+      "before_sha256": "e387abd8ac8f7291e739c9f5f672f080132df25b0e03e96818dde9c5da4cf911",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/six-primitives-plan/03.normalized.json",
+      "before": [
+        "100644",
+        "e46543946f9d8b964ffd13abf79ddeb3e855d2f7"
+      ],
+      "before_sha256": "5a10250d65afc1ffcbd2a38785d25710d50db0a18401f81e600e82e8e1812f20",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/six-primitives-plan/03.raw.json",
+      "before": [
+        "100644",
+        "48f64edef476156841ee5ebaf5d31d0c48fcd164"
+      ],
+      "before_sha256": "40ac1feb6578719065b59f6a612274aaa073c54126f391fba955d92ef0b58ccd",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/unknown-agent/01.normalized.json",
+      "before": [
+        "100644",
+        "ed96c80f35d0ed3723a99327e868e436b0ca61ae"
+      ],
+      "before_sha256": "cb271e06a61c6c49b3355f0e82f838711f28b1715f4b4bda7d349be409cb169e",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/unknown-agent/01.raw.json",
+      "before": [
+        "100644",
+        "2becb0174762f5fb4b17b85091d5188d73e45de5"
+      ],
+      "before_sha256": "ea390fbeccc00facc7e5e7e19b9f17bd2bcaaf8553a5b4a0c4cc80d0f17b680e",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/unknown-agent/02.normalized.json",
+      "before": [
+        "100644",
+        "ee9618c792a090a9f9b2415a452a2c851c7cf1b2"
+      ],
+      "before_sha256": "9898e52d871877bffce45e7c6f425b96cb41369a2e05407c2c5726c5dff7c832",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/unknown-agent/02.raw.json",
+      "before": [
+        "100644",
+        "013aecdac7511d77c416691ce10cf492544e4288"
+      ],
+      "before_sha256": "fc1d476708a51fc0a2ded909b48941bf56fefa86417194e47b783dadb6ca50ce",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/unknown-agent/03.normalized.json",
+      "before": [
+        "100644",
+        "d33de1824677829b3337befb074139e05b76ee50"
+      ],
+      "before_sha256": "d6565668bd4934879666e22bc34319c4347ec4fe9ac765935adea9b5b612d044",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/unknown-agent/03.raw.json",
+      "before": [
+        "100644",
+        "fa1184f4e2b18eff97cb012de1c7632f9959eee0"
+      ],
+      "before_sha256": "9b45226c3311eaa818e4c5a7990cd67f64d97d4ad481a6ea6b8dc159d95b2b88",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/unknown-provider/01.normalized.json",
+      "before": [
+        "100644",
+        "27e3f12ec27ac6eb5091294d6fe51551fa643eba"
+      ],
+      "before_sha256": "4470dbcb4595b8cec1d07171051b0b1e360af411182156b84a06335ff5a1286a",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/unknown-provider/01.raw.json",
+      "before": [
+        "100644",
+        "f35c648e9c8f6e574eff0c6076b9757a2aeb2586"
+      ],
+      "before_sha256": "2fe505d4e8c736bf43d4d4d689be2dc11c6b5a57ada8dea9c3fcf242826445d5",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/unknown-provider/02.normalized.json",
+      "before": [
+        "100644",
+        "bc5249c67610b45aa4e3791c70a3517908ef3738"
+      ],
+      "before_sha256": "96e721886ed43252793f4328144772e4320662a6abb19c54c4ec4edd633576f0",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/unknown-provider/02.raw.json",
+      "before": [
+        "100644",
+        "89195361e1cfe09a8914d90de2c9ca9941766176"
+      ],
+      "before_sha256": "50691d35d20d5df79aaf08ee6c1f285d7f401867ce1823c04ea17b735e54840a",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/unknown-provider/03.normalized.json",
+      "before": [
+        "100644",
+        "8c10b036926f2264127f6457b5dc220e01b11d44"
+      ],
+      "before_sha256": "11ccdba818d2b114966efa04ff9afa3ecaecab510352b03dafeaf6a6baede668",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/unknown-provider/03.raw.json",
+      "before": [
+        "100644",
+        "b7dfc5ae65faa06a532499a7a4b8403133906397"
+      ],
+      "before_sha256": "a2c0d03c3fd0f609cd96d24c74e1fdb56091b1a9860e006eb487e97352bb01cc",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/unknown-task/01.normalized.json",
+      "before": [
+        "100644",
+        "618e146209adb1c02934119b31bee098e45dbd6c"
+      ],
+      "before_sha256": "2af68dbe28cc7f242b5f1fd3feddf1df899f8239a31d7d77cc266c5977ce0363",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/unknown-task/01.raw.json",
+      "before": [
+        "100644",
+        "a3eb5ebc79e39331edd58bbf18d74f40a99bf087"
+      ],
+      "before_sha256": "3d148cfccced22606974991978b8641477ded1cfac54774a738e51c689e519c8",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/unknown-task/02.normalized.json",
+      "before": [
+        "100644",
+        "7b9803692954b872bd16b4be741e501aa4c74424"
+      ],
+      "before_sha256": "d88f9b8889c1094658f1bdbf42cbb243712ce487d665dd9fd95b2453a584291a",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/unknown-task/02.raw.json",
+      "before": [
+        "100644",
+        "f1bb547e9bc4ca48514d70b0e835fe145f222276"
+      ],
+      "before_sha256": "3c5ab678fffc9b5500ce2ae97a67207d37387a2a38b4656927813b1f5e496953",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/unknown-task/03.normalized.json",
+      "before": [
+        "100644",
+        "45e77782caa1a30ef5b55d5981e323e43b8d51d4"
+      ],
+      "before_sha256": "1fdea2d2550cf90044d5a17211a0597ce55e8d58c7fbe785c459b5c4123ae92c",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/unknown-task/03.raw.json",
+      "before": [
+        "100644",
+        "5e812bc43b3af8af7e0c9e4d4c6ae5da0df8d3f0"
+      ],
+      "before_sha256": "bb671fa60c317cd4b351f4d6599fb46fd4cf0f0c2f98fe0e88eb0cc77891f72b",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/unknown-tool/01.normalized.json",
+      "before": [
+        "100644",
+        "17f3a23331d7abb6313e43bec0e01184040e8ca1"
+      ],
+      "before_sha256": "fe85dbb0d025221f5d772221565eca93b7dc6216ce1f802217d1ad506b8ca554",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/unknown-tool/01.raw.json",
+      "before": [
+        "100644",
+        "606e789d4aeb660e19c0ce3afbd1d8ab6a3517ab"
+      ],
+      "before_sha256": "54d18d8e6fc9b7069efbf07d926fc6c0c1942a002c76344494d10ad49a79a86d",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/unknown-tool/02.normalized.json",
+      "before": [
+        "100644",
+        "66ea6f8697028fd702f5c5320487472b4111d225"
+      ],
+      "before_sha256": "c5dbe2d3df9734715e0fffaae702518549477dbb8421e9c354bdae1c883c9fb3",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/unknown-tool/02.raw.json",
+      "before": [
+        "100644",
+        "076d8f6059c13363bded6ba74ce7a53b25c17055"
+      ],
+      "before_sha256": "cf8ccb3f813f4d8e62f0f74e33a3685cfae975d38cac64778698084cf6272598",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/unknown-tool/03.normalized.json",
+      "before": [
+        "100644",
+        "ff6694ffce16d401eb29c468513774953109c80b"
+      ],
+      "before_sha256": "c0da2a8ae4173ba417465b99f7f9c03970980a915a8d383eddf1723bd307903b",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/unknown-tool/03.raw.json",
+      "before": [
+        "100644",
+        "96d44b91164e744e4e11533e967589c383171b45"
+      ],
+      "before_sha256": "ec4b0a214e586e78292cf3d2264cc6292fd0620099d92c770dd533b66ee6f15f",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/unknown-workflow/01.normalized.json",
+      "before": [
+        "100644",
+        "7632a6d7f5dc98c35fbcc733b88a2395e077e1ce"
+      ],
+      "before_sha256": "fc06a5a9a32b90274b0fd0fd25c6b3708e2e5853445057c42b4b370808617636",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/unknown-workflow/01.raw.json",
+      "before": [
+        "100644",
+        "19113b520b15530c56fd99cae9c444df05711879"
+      ],
+      "before_sha256": "56333e9dc07b3df600a22d5b365291aa06f962486787b240038abd7af1e56576",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/unknown-workflow/02.normalized.json",
+      "before": [
+        "100644",
+        "d0a428e7e9a40f805ec2e9c1705616eca143524d"
+      ],
+      "before_sha256": "ae80407c450afea54c3033d567616deb69a86d08206603c396cda66d09946998",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/unknown-workflow/02.raw.json",
+      "before": [
+        "100644",
+        "e1f1a968f3dd5f8368767493d05e98f1840e3383"
+      ],
+      "before_sha256": "8e4c9b00697f3e011823e7962127d906f8bd57bef78001b9e67c80fa09540201",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/unknown-workflow/03.normalized.json",
+      "before": [
+        "100644",
+        "e8cf78bf852e626f029882ac97efb18907b434d5"
+      ],
+      "before_sha256": "26487aa5669174ababd2b279841bfe1f1954a9ac88b0c59e76ef041e4a10834d",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/unknown-workflow/03.raw.json",
+      "before": [
+        "100644",
+        "260a79aa1ccff1237d226c9b611e33026891fb66"
+      ],
+      "before_sha256": "0b3d710caab8896d88c2818025ea6c5f15f696d8dd450ca85c0e691500d411bb",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/unsupported-run-field/01.normalized.json",
+      "before": [
+        "100644",
+        "3ed5edd3f0a2be91f31bc9ba8b6e9ceb272361a5"
+      ],
+      "before_sha256": "26b3212d24e8ce8870ec0258b1b37a0e467c62a4b00f99578aecb05c45e368c5",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/unsupported-run-field/01.raw.json",
+      "before": [
+        "100644",
+        "fcd082544557eca85f97345a97e8baa086ded539"
+      ],
+      "before_sha256": "5504e0c0e11b9d2f371e2a4d6f9d2799e80595425dcc2c2641978aed2ad0546c",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/unsupported-run-field/02.normalized.json",
+      "before": [
+        "100644",
+        "d7e314752688654fd3b1d6339a71845a423f7ab7"
+      ],
+      "before_sha256": "741dff21925e3c1b0a113bdbee27c89228628b0ff70f06b305c4a6db9d1605f4",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/unsupported-run-field/02.raw.json",
+      "before": [
+        "100644",
+        "60afce9e58ea040bfe137f5b69ebca07f1fbc1be"
+      ],
+      "before_sha256": "463cc9951a62869c39cd13b521cc06f31d993344243bf7f94bfcf0783b996b45",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/unsupported-run-field/03.normalized.json",
+      "before": [
+        "100644",
+        "f821052101f287ed78851d173b2a25ed88945e31"
+      ],
+      "before_sha256": "8bbd655e33de8a7489592b533589300c97ab153027982a4a6da87dff369e23aa",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/unsupported-run-field/03.raw.json",
+      "before": [
+        "100644",
+        "f64a5bf9df0a1b48d37947d60ffb40ee2a79fe99"
+      ],
+      "before_sha256": "7c738706f3f7e6e0fac238646b3c6fa2aa27466e822216bd120d0023eb214e7f",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/observations/v1/verification.json",
+      "before": [
+        "100644",
+        "80811739513c2aaf1e49219671d6ff97bfad7024"
+      ],
+      "before_sha256": "bb26361b7300432abc94b76e2d5219f78a7e71ba505979f97e2b6084d0365e4b",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/src/bin/adl-characterize.rs",
+      "before": [
+        "100644",
+        "2c4a2115eb403af01959fbed8b87d1d5aa280f3f"
+      ],
+      "before_sha256": "f6f22146621589d0e6dffbfddfc380dddff6ed3f0a11c1e8e0790fce5e7b2bb2",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/src/compare.rs",
+      "before": [
+        "100644",
+        "3a4df5251589597ffe23bb6d441bba6c273bcf6e"
+      ],
+      "before_sha256": "ac24d199704d2620a2cc3f231e5162715a0a81bef904382a6b6a419549fa1ffb",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/src/lib.rs",
+      "before": [
+        "100644",
+        "d314849ae6e44476037d69c72f6b2d3b1e0e8e71"
+      ],
+      "before_sha256": "ca9849889506619486f5fe4d5d8bc77d2afb1f127f0f4ff18f2c87006e1c1062",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/src/manifest.rs",
+      "before": [
+        "100644",
+        "a45e589e7098f72b06ad0ee4eece9c0d117860d6"
+      ],
+      "before_sha256": "aedf2c7ad108b1dccf5d295fc1d76f5f9b3b1c23a233bfbc233eee7f8560ad6c",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/src/model.rs",
+      "before": [
+        "100644",
+        "58d72316223e64f47af6906eeb63148e05eca940"
+      ],
+      "before_sha256": "f3774678b24cf468ab0bd7dc6346d0de34dff0564c657aae6ec913e0d53733d0",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/src/normalize.rs",
+      "before": [
+        "100644",
+        "4cd9438bc99741ff6ddd70f4fe454ba0034fc659"
+      ],
+      "before_sha256": "a4d4360c21551257db839ddbb24c33f233ad90539240c6e491a6544116f66e00",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/src/runner.rs",
+      "before": [
+        "100644",
+        "e2ac5a2b8f5f26fbd9d3098653311431f2caac96"
+      ],
+      "before_sha256": "1970b3ece10facb0171e5bccdba50f88b5580209f5f3f4d9ca9e383643435243",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/src/shadow.rs",
+      "before": [
+        "100644",
+        "4de430eab410a4573a94b48f86b20dd32c3dc2d9"
+      ],
+      "before_sha256": "54951179701f9aa52fc0c4fcc45662bcd6aad1165b005bc6f941136600c71eec",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/tests/cli.rs",
+      "before": [
+        "100644",
+        "f421dc3355e036fe825db2f36cc36e91d7fd9898"
+      ],
+      "before_sha256": "7cc832ebaf0066ea9918b0e4ece2392f0594999fccf15f79da272c46e462f730",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/tests/evidence.rs",
+      "before": [
+        "100644",
+        "34c74cacb4127ed988079c09528e6a95e3ea9f3c"
+      ],
+      "before_sha256": "2b896fa0a536deeb9056591baf47b2df61f38e79a81f04df6463f8f942472cad",
+      "after": null
+    },
+    {
+      "path": "adl-characterization/tests/manifest.rs",
+      "before": [
+        "100644",
+        "2e180484e627d0968b05411fb5042724f673de5b"
+      ],
+      "before_sha256": "b2ace6c15bca648277fea0d806aab5636fc5c4d7cf94767f0c8feb1adb050810",
+      "after": null
+    },
+    {
+      "path": "adl/config/validation_lane_selector.v0.91.6.json",
+      "before": [
+        "100644",
+        "8df0638aa1ea3b1d76f6c8cf7105b7153f9a491d"
+      ],
+      "before_sha256": "1618e472ad5a0d4336258cba6c1d9d771bffd2b7b769e33cda362474afa1afd8",
+      "after": [
+        "100644",
+        "ad7ae449e3c785f84d1df901eb9cebc0748f6897"
+      ]
+    },
+    {
+      "path": "adl-v2/crates/adl-language/README.md",
+      "before": [
+        "100644",
+        "63e4443dea9aabb0708a8b51de95540aeaf20703"
+      ],
+      "before_sha256": "6850e16e155f02c881a76beef318f9dc5a77529ade44ae6e78a9f31f762f1755",
+      "after": [
+        "100644",
+        "6ea3e21632c0dfcd221ad3c9596b73e5ae760717"
+      ]
+    },
+    {
+      "path": "adl-v2/crates/adl-language/CHARACTERIZATION_PARITY.md",
+      "before": [
+        "100644",
+        "3ce377f080f26ff491531e56d27017fbb3b419a7"
+      ],
+      "before_sha256": "95741f522f58a6fb4b2e6c97d1473afd6cc541d029200e7bf90fd52d23d5dd66",
+      "after": [
+        "100644",
+        "deb809db73e28c15bca81a852092f65b8a4b1b41"
+      ]
+    }
+  ]
+}

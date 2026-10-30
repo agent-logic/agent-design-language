@@ -1,0 +1,72 @@
+# v0.93.2 Platform evolution
+
+## Metadata
+
+Planning template set: 1.1.0. Target: v0.93.2. Planning issue: #922. Accountable role: milestone owner; named execution owners remain unassigned.
+
+## Status
+
+Milestone opening authorized on 2026-10-19; [WP-01 #1296](https://github.com/agent-logic/agent-design-language/issues/1296) is in progress in Planning #12. See [opening record](OPENING_1296.md). Downstream execution, provider spend, deployment and release are not authorized by this opening.
+
+## Purpose
+
+Deliver Runtime v4, governed citizen behavior, enterprise security and citizen continuity after CodeFriend Beta 1 reaches ready-to-deploy qualification in v0.93.1. 67 planned identities: the retained 52 platform candidates, existing CodeFriend #92, plus `GHB-SPRINT` and `GHB-WP00` through `GHB-WP12`. Existing #875 is a separately gated v0.93.1 sidecar and is not counted in 52. Podcast #671 is completed in v0.92.2 (PR #1174).
+
+## Scope
+
+Accepted v0.93.1 handoff and pinned repository lockset are prerequisites: external references v0.93.1/RD-11, v0.93.1/RD-09 and v0.93.1/TAIL-10. WP-01 also requires explicit opening authorization. The repository split is consumed, not repeated. Runtime v4 is not a retroactive Beta 1 launch prerequisite. Preserve the qualified ready-to-deploy CodeFriend interface and qualify upgrade and rollback.
+
+## Document Map
+
+- [Vision](VISION_v0.93.2.md)
+- [Design](DESIGN_v0.93.2.md)
+- [Decisions](DECISIONS_v0.93.2.md)
+- [Wbs](WBS_v0.93.2.md)
+- [Sprint](SPRINT_v0.93.2.md)
+- [Demo Matrix](DEMO_MATRIX_v0.93.2.md)
+- [Milestone Checklist](MILESTONE_CHECKLIST_v0.93.2.md)
+- [Release Plan](RELEASE_PLAN_v0.93.2.md)
+- [Release Notes](RELEASE_NOTES_v0.93.2.md)
+- [Quality Gate](QUALITY_GATE_v0.93.2.md)
+- [Feature Proof Coverage](FEATURE_PROOF_COVERAGE_v0.93.2.md)
+- [Wp Execution Readiness](WP_EXECUTION_READINESS_v0.93.2.md)
+- [Adr Plan](ADR_PLAN_v0.93.2.md)
+- [Next Milestone Handoff](NEXT_MILESTONE_HANDOFF_v0.93.2.md)
+- [Feature documents](features/README.md)
+- [Execution graph](EXECUTION_PLAN_v0.93.2.json)
+- [Issue wave](WP_ISSUE_WAVE_v0.93.2.yaml)
+- [Execution specifications](WP_EXECUTION_SPECIFICATIONS_v0.93.2.yaml)
+
+## Execution boundary
+
+Five allocated delivery groups; no dates or staffing promises. WP-01 owns opening reconciliation. Each downstream task needs its own issue mapping, owner, accepted dependencies and resources before activation.
+
+## Existing Observatory backlog
+
+Operator amendment routes existing #1145 (Everyone Observatory) and #875 to v0.93.1, outside both milestones' core counts. Preserve their existing task identities and authority; v0.93.1 owns their scope, dependencies and disposition, without duplicate creation or assumed completion. #875 retains its original gates and is excluded from the core count. #671 is completed in v0.92.2 and has no successor allocation.
+
+## Current scope refresh (2026-10-10)
+
+The approved scope is the 52 platform candidates retained after deferring PY-01, plus CodeFriend launch readiness/deployment planning and the full GHB program. CodeFriend #92 is the existing v0.93.2-or-later launch candidate; deployment still requires exact candidate, audience, environment and budget authorization. ADL #1226 remains a deferred assessment, not committed work.
+
+### Repository disposition
+
+| Repository | v0.93.2 disposition |
+| --- | --- |
+| `agent-logic/agent-design-language` | active owner or dependency; exact work-package routing required before execution |
+| `agent-logic/agent-logic-runtime` | active owner or dependency; exact work-package routing required before execution |
+| `agent-logic/codefriend` | active owner or dependency; exact work-package routing required before execution |
+| `agent-logic/cognitive-sdlc` | #304 installation-identity repair is a separately requested v0.93.2 follow-up, outside the 67 core identities |
+| `agent-logic/codefriend.ai` | active owner or dependency; exact work-package routing required before execution |
+| `agent-logic/agent-logic-infrastructure` | no matching open v0.93.2 issue found; observe and reuse only if a mapped dependency is verified |
+| `agent-logic/agent-logic-enterprise-security` | active owner or dependency; exact work-package routing required before execution |
+| `agent-logic/agent-logic.ai` | no matching open v0.93.2 issue found; observe and reuse only if a mapped dependency is verified |
+| `agent-logic/universal-tool-schema` | active owner or dependency; exact work-package routing required before execution |
+| `agent-logic/general-intelligence-paper-private` | no matching open v0.93.2 issue found; observe and reuse only if a mapped dependency is verified |
+| `agent-logic/godel-hadamard-bayes-paper` | active owner or dependency; exact work-package routing required before execution |
+| `agent-logic/cognitive-sdlc-paper` | no matching open v0.93.2 issue found; observe and reuse only if a mapped dependency is verified |
+| `agent-logic/strategic-cognitive-reserve` | no matching open v0.93.2 issue found; observe and reuse only if a mapped dependency is verified |
+
+## #1242 scope reconciliation
+
+Reuse merged #1259; 67 planned identities retain the full approved scope except PY-01. Its complete original definition is preserved in `tail07-1242/SUCCESSOR_PLAN.json`. Affect/humour remain outside v0.93.2; no later milestone is activated here. #1241 final dispositions and selected installed lockset correspondence were accepted in #1245; see [opening record](OPENING_1296.md); source retirement #1223 is merged, not a public deployment.
