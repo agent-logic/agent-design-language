@@ -6,8 +6,8 @@ installed product can have different versions without contradicting one another.
 | Surface | Source baseline | What it means |
 | --- | --- | --- |
 | Public CLI | [`adl` 0.93.2](../adl/Cargo.toml) | The public command package; listed owner commands require separate installations. |
-| Rust build | [Rust 1.92.0](../rust-toolchain.toml) | Repository toolchain and components; inspected packages declare Rust 1.92 minimum. |
-| ADL documents | [Legacy document types](../adl-legacy-contracts/src/adl/types.rs), [example](../adl/examples/v0-3-fork-join-seq-run.adl.yaml) | The `adl_version` field is a document-format version, not the CLI release. The demonstrated document uses `0.3`. |
+| Rust build | [Rust 1.92.0](../rust-toolchain.toml) | Repository toolchain and components used for validation. Individual manifests declare their own minimum (the language/compiler packages declare 1.85); that declaration alone does not establish qualification on an older toolchain. |
+| ADL documents | [Legacy document types](../adl-legacy-contracts/src/adl.rs), [example](../adl/examples/v0-3-fork-join-seq-run.adl.yaml) | The top-level `version` field is a document-format version, not the CLI release. The demonstrated document uses `0.3`. |
 | Language design | [ADL 1.0 draft](../adl-spec/README.md) | Evolving specification; not a claim that every proposed runtime semantic is implemented. |
 | Public schema and legacy packages | [`adl-schema`](../adl-schema/Cargo.toml), [`adl-legacy-contracts`](../adl-legacy-contracts/Cargo.toml), both 0.1.0 | Public Rust contracts; valid data does not establish Runtime admission. |
 | UTS package | [`adl-uts` 0.1.0](../adl-uts/Cargo.toml) | Implements `uts.v1` and the declared `uts.v1.1` surface; see [package boundaries](specs/uts/PACKAGE.md). Package version is not a wire version. |

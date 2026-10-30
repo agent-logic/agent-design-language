@@ -2,7 +2,50 @@ use crate::yaml as serde_yaml;
 use anyhow::{anyhow, Context, Result};
 use serde_yaml::{Mapping as YamlMapping, Value as YamlValue};
 use std::fs;
+use std::io::Read;
 use std::path::{Component, Path, PathBuf};
+
+// One budget per top-level load; repeated includes consume reads and bytes again.
+const MAX_DOCUMENT_DEPTH: usize = 32;
+const MAX_DOCUMENT_READS: usize = 256;
+const MAX_DOCUMENT_BYTES: usize = 8 * 1024 * 1024;
+
+struct LoadBudget {
+    reads_left: usize,
+    bytes_left: usize,
+}
+
+impl Default for LoadBudget {
+    fn default() -> Self {
+        Self {
+            reads_left: MAX_DOCUMENT_READS,
+            bytes_left: MAX_DOCUMENT_BYTES,
+        }
+    }
+}
+
+impl LoadBudget {
+    fn read(&mut self, path: &Path) -> Result<String> {
+        if self.reads_left == 0 {
+            return Err(anyhow!("ADL include read-count limit exceeded"));
+        }
+        self.reads_left -= 1;
+        // Read at most the remaining budget plus one sentinel byte. Metadata alone
+        // cannot bound a file that grows between inspection and the actual read.
+        let file = fs::File::open(path)
+            .with_context(|| format!("read adl include file: {}", path.display()))?;
+        let mut bytes = Vec::new();
+        file.take(self.bytes_left as u64 + 1)
+            .read_to_end(&mut bytes)
+            .with_context(|| format!("read adl include file: {}", path.display()))?;
+        if bytes.len() > self.bytes_left {
+            return Err(anyhow!("ADL include aggregate-byte limit exceeded"));
+        }
+        self.bytes_left -= bytes.len();
+        String::from_utf8(bytes)
+            .with_context(|| format!("ADL include is not UTF-8: {}", path.display()))
+    }
+}
 
 pub(super) fn load_yaml_with_includes(path: &Path, stack: &mut Vec<PathBuf>) -> Result<YamlValue> {
     let canonical = path
@@ -11,10 +54,20 @@ pub(super) fn load_yaml_with_includes(path: &Path, stack: &mut Vec<PathBuf>) -> 
     let root = canonical
         .parent()
         .context("initial ADL document has no parent")?;
-    load_yaml_within_root(&canonical, root, stack)
+    load_yaml_within_root(&canonical, root, stack, &mut LoadBudget::default())
 }
 
-fn load_yaml_within_root(path: &Path, root: &Path, stack: &mut Vec<PathBuf>) -> Result<YamlValue> {
+fn load_yaml_within_root(
+    path: &Path,
+    root: &Path,
+    stack: &mut Vec<PathBuf>,
+    budget: &mut LoadBudget,
+) -> Result<YamlValue> {
+    if stack.len() >= MAX_DOCUMENT_DEPTH {
+        return Err(anyhow!(
+            "ADL include depth limit exceeded (maximum {MAX_DOCUMENT_DEPTH} documents)"
+        ));
+    }
     let canonical = path
         .canonicalize()
         .with_context(|| format!("resolve include path: {}", path.display()))?;
@@ -35,8 +88,7 @@ fn load_yaml_within_root(path: &Path, root: &Path, stack: &mut Vec<PathBuf>) -> 
 
     stack.push(canonical.clone());
     let result = (|| -> Result<YamlValue> {
-        let text = fs::read_to_string(&canonical)
-            .with_context(|| format!("read adl include file: {}", canonical.display()))?;
+        let text = budget.read(&canonical)?;
         let mut doc: YamlValue = serde_yaml::from_str(&text)
             .with_context(|| format!("parse adl yaml: {}", canonical.display()))?;
         let map = doc.as_mapping_mut().ok_or_else(|| {
@@ -76,7 +128,7 @@ fn load_yaml_within_root(path: &Path, root: &Path, stack: &mut Vec<PathBuf>) -> 
                     ));
                 }
                 let include_file = base_dir.join(include_path);
-                let include_doc = load_yaml_within_root(&include_file, root, stack)?;
+                let include_doc = load_yaml_within_root(&include_file, root, stack, budget)?;
                 let include_map = include_doc.as_mapping().ok_or_else(|| {
                     anyhow!(
                         "included ADL document must be a mapping: {}",
@@ -171,6 +223,117 @@ fn merge_top_level_map(dst: &mut YamlMapping, src: &YamlMapping, src_path: &Path
 mod tests {
     use super::*;
     use serde_yaml::Number as YamlNumber;
+
+    // PVF deterministic unit regression: bounded temporary YAML fixtures, no providers.
+    // Proof role: loader resource boundaries and semantic preservation; small local IO.
+    // Release gate: public package validation and coverage (adl-legacy-contracts).
+    #[test]
+    fn include_depth_boundary_and_stack_cleanup() {
+        let temp = tempfile::tempdir().unwrap();
+        for n in 0..MAX_DOCUMENT_DEPTH {
+            let text = if n + 1 == MAX_DOCUMENT_DEPTH {
+                "{}".to_string()
+            } else {
+                format!("include: ['{}.yaml']", n + 1)
+            };
+            fs::write(temp.path().join(format!("{n}.yaml")), text).unwrap();
+        }
+        let root = temp.path().join("0.yaml");
+        let mut stack = Vec::new();
+        load_yaml_with_includes(&root, &mut stack).unwrap();
+        assert!(stack.is_empty());
+        fs::write(
+            temp.path().join(format!("{}.yaml", MAX_DOCUMENT_DEPTH - 1)),
+            format!("include: ['{}.yaml']", MAX_DOCUMENT_DEPTH),
+        )
+        .unwrap();
+        // The rejected child need not exist: depth is refused before filesystem IO.
+        let error = load_yaml_with_includes(&root, &mut stack).unwrap_err();
+        assert!(error.to_string().contains("depth limit exceeded"));
+        assert!(stack.is_empty());
+    }
+
+    #[test]
+    fn repeated_includes_consume_global_read_budget() {
+        let temp = tempfile::tempdir().unwrap();
+        fs::write(temp.path().join("empty.yaml"), "{}").unwrap();
+        let root = temp.path().join("root.yaml");
+        for (includes, succeeds) in [(MAX_DOCUMENT_READS - 1, true), (MAX_DOCUMENT_READS, false)] {
+            fs::write(
+                &root,
+                format!("include: [{}]", vec!["empty.yaml"; includes].join(",")),
+            )
+            .unwrap();
+            let mut stack = Vec::new();
+            let result = load_yaml_with_includes(&root, &mut stack);
+            if succeeds {
+                result.unwrap();
+            } else {
+                assert!(result
+                    .unwrap_err()
+                    .to_string()
+                    .contains("read-count limit exceeded"));
+            }
+            assert!(stack.is_empty());
+        }
+    }
+
+    #[test]
+    fn aggregate_bytes_include_root_and_repeated_fragments() {
+        let temp = tempfile::tempdir().unwrap();
+        let root = temp.path().join("root.yaml");
+        let text = "include: [empty.yaml, empty.yaml]";
+        fs::write(&root, text).unwrap();
+        fs::write(temp.path().join("empty.yaml"), "{}").unwrap();
+        let canonical = root.canonicalize().unwrap();
+        let total = text.len() + 4;
+        for (limit, succeeds) in [(total, true), (total - 1, false)] {
+            let mut budget = LoadBudget {
+                reads_left: 3,
+                bytes_left: limit,
+            };
+            let mut stack = Vec::new();
+            let result = load_yaml_within_root(
+                &canonical,
+                canonical.parent().unwrap(),
+                &mut stack,
+                &mut budget,
+            );
+            if succeeds {
+                result.unwrap();
+                assert_eq!(budget.bytes_left, 0);
+                assert_eq!(budget.reads_left, 0);
+            } else {
+                assert!(result
+                    .unwrap_err()
+                    .to_string()
+                    .contains("aggregate-byte limit exceeded"));
+            }
+            assert!(stack.is_empty());
+        }
+    }
+
+    #[test]
+    fn bounded_read_rejects_oversize_before_utf8_or_yaml_parsing() {
+        let temp = tempfile::tempdir().unwrap();
+        let root = temp.path().join("root.yaml");
+        fs::write(&root, [0xff; 64]).unwrap();
+        let mut budget = LoadBudget {
+            reads_left: 1,
+            bytes_left: 8,
+        };
+        assert!(budget
+            .read(&root)
+            .unwrap_err()
+            .to_string()
+            .contains("aggregate-byte limit exceeded"));
+        let mut budget = LoadBudget::default();
+        assert!(budget
+            .read(&root)
+            .unwrap_err()
+            .to_string()
+            .contains("not UTF-8"));
+    }
 
     #[test]
     fn merge_top_level_map_rejects_non_string_keys_and_shape_mismatches() {
