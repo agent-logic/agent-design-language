@@ -1,0 +1,18 @@
+{
+  "schema": "adl.csm.continuity_capsule_command_result.v1",
+  "format_version": "csm.continuity-capsule.v1",
+  "runtime_owner": "csm",
+  "operation": "capture",
+  "status": "captured",
+  "bundle_dir": "capsule",
+  "manifest_ref": "continuity_capsule_manifest.json",
+  "report_ref": null,
+  "agent_instance_id": "csm-continuity-4910",
+  "target_host": "ec2-staging",
+  "event_count": 1,
+  "non_claims": [
+    "not_live_multi_region_disaster_recovery",
+    "not_secret_material_capture",
+    "not_live_ec2_transfer_without_operator_authorization"
+  ]
+}

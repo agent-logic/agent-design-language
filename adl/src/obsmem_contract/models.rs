@@ -1,0 +1,395 @@
+use serde::{Deserialize, Serialize};
+
+use super::validation::{contains_disallowed_content, validate_relative_path};
+use super::{ObsMemContractError, ObsMemContractErrorCode};
+
+/// Current ObsMem contract schema version expected by runtime surfaces.
+pub const OBSMEM_CONTRACT_VERSION: u32 = 1;
+
+/// Citation to a deterministic artifact path/hash pair that supports replay-safe
+/// evidence references.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct MemoryCitation {
+    /// Repository-relative or run-relative path to a cited artifact.
+    pub path: String,
+    /// Stable deterministic hash/fingerprint for cited artifact contents.
+    pub hash: String,
+}
+
+/// Structured review finding preserved at the memory boundary so later agents
+/// can distinguish review judgment from final outcome facts.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct MemoryReviewFinding {
+    pub id: String,
+    pub severity: String,
+    pub summary: String,
+    pub disposition: String,
+}
+
+/// Explicit follow-on issue or obligation that should remain visible in memory
+/// instead of being flattened into free-form summary text.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct MemoryFollowOnRef {
+    pub issue_number: u64,
+    pub title: String,
+    pub status: String,
+}
+
+/// Deterministic reference back to the trace event(s) that support a memory
+/// record. v0.87 uses event sequence plus bounded identity fields as the
+/// "event_id or equivalent" coherence contract.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct MemoryTraceRef {
+    pub event_sequence: usize,
+    pub event_kind: String,
+    pub step_id: Option<String>,
+    pub delegation_id: Option<String>,
+}
+
+/// Optional Chronosense-compatible temporal anchor for memory records.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct MemoryTemporalAnchor {
+    pub t_created_epoch_ms: u128,
+    pub t_observed_epoch_ms: Option<u128>,
+    pub t_effective_epoch_ms: Option<u128>,
+    pub continuity_id: Option<String>,
+    pub event_sequence: Option<usize>,
+}
+
+impl MemoryTemporalAnchor {
+    pub fn effective_epoch_ms(&self) -> u128 {
+        self.t_effective_epoch_ms
+            .or(self.t_observed_epoch_ms)
+            .unwrap_or(self.t_created_epoch_ms)
+    }
+
+    pub fn validate(&self) -> Result<(), ObsMemContractError> {
+        if let Some(observed) = self.t_observed_epoch_ms {
+            if observed < self.t_created_epoch_ms {
+                return Err(ObsMemContractError::new(
+                    ObsMemContractErrorCode::InvalidRequest,
+                    "memory temporal anchor observed time must not precede created time",
+                ));
+            }
+        }
+        if let Some(effective) = self.t_effective_epoch_ms {
+            if effective < self.t_created_epoch_ms {
+                return Err(ObsMemContractError::new(
+                    ObsMemContractErrorCode::InvalidRequest,
+                    "memory temporal anchor effective time must not precede created time",
+                ));
+            }
+        }
+        if self
+            .continuity_id
+            .as_ref()
+            .is_some_and(|id| id.trim().is_empty())
+        {
+            return Err(ObsMemContractError::new(
+                ObsMemContractErrorCode::InvalidRequest,
+                "memory temporal anchor continuity_id must be non-empty when present",
+            ));
+        }
+        Ok(())
+    }
+}
+
+/// Contract payload used to write a normalized run summary into ObsMem.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct MemoryWriteRequest {
+    pub contract_version: u32,
+    pub run_id: String,
+    pub workflow_id: String,
+    pub trace_bundle_rel_path: String,
+    pub activation_log_rel_path: String,
+    pub failure_code: Option<String>,
+    pub summary: String,
+    pub tags: Vec<String>,
+    pub citations: Vec<MemoryCitation>,
+    pub trace_event_refs: Vec<MemoryTraceRef>,
+    #[serde(default)]
+    pub temporal_anchor: Option<MemoryTemporalAnchor>,
+    #[serde(default)]
+    pub review_findings: Vec<MemoryReviewFinding>,
+    #[serde(default)]
+    pub residual_risks: Vec<String>,
+    #[serde(default)]
+    pub follow_on_refs: Vec<MemoryFollowOnRef>,
+}
+
+impl MemoryWriteRequest {
+    /// Canonicalize in-memory ordering for deterministic equality, hashing, and
+    /// serialization across runs.
+    pub fn normalize(&mut self) {
+        self.tags.sort();
+        self.tags.dedup();
+        self.citations
+            .sort_by(|a, b| a.path.cmp(&b.path).then_with(|| a.hash.cmp(&b.hash)));
+        self.citations
+            .dedup_by(|a, b| a.path == b.path && a.hash == b.hash);
+        self.trace_event_refs.sort_by(|a, b| {
+            a.event_sequence
+                .cmp(&b.event_sequence)
+                .then_with(|| a.event_kind.cmp(&b.event_kind))
+                .then_with(|| a.step_id.cmp(&b.step_id))
+                .then_with(|| a.delegation_id.cmp(&b.delegation_id))
+        });
+        self.trace_event_refs.dedup_by(|a, b| {
+            a.event_sequence == b.event_sequence
+                && a.event_kind == b.event_kind
+                && a.step_id == b.step_id
+                && a.delegation_id == b.delegation_id
+        });
+        self.review_findings.sort_by(|a, b| {
+            a.id.cmp(&b.id)
+                .then_with(|| a.severity.cmp(&b.severity))
+                .then_with(|| a.summary.cmp(&b.summary))
+                .then_with(|| a.disposition.cmp(&b.disposition))
+        });
+        self.review_findings.dedup_by(|a, b| {
+            a.id == b.id
+                && a.severity == b.severity
+                && a.summary == b.summary
+                && a.disposition == b.disposition
+        });
+        self.residual_risks.sort();
+        self.residual_risks.dedup();
+        self.follow_on_refs.sort_by(|a, b| {
+            a.issue_number
+                .cmp(&b.issue_number)
+                .then_with(|| a.title.cmp(&b.title))
+                .then_with(|| a.status.cmp(&b.status))
+        });
+        self.follow_on_refs.dedup_by(|a, b| {
+            a.issue_number == b.issue_number && a.title == b.title && a.status == b.status
+        });
+    }
+
+    /// Validate request semantics and privacy guards for contract ingestion.
+    ///
+    /// This is the canonical validation path used by runtime and tests.
+    pub fn validate(&self) -> Result<(), ObsMemContractError> {
+        if self.contract_version != OBSMEM_CONTRACT_VERSION {
+            return Err(ObsMemContractError::new(
+                ObsMemContractErrorCode::ContractVersionMismatch,
+                format!(
+                    "unsupported ObsMem contract version {} (expected {})",
+                    self.contract_version, OBSMEM_CONTRACT_VERSION
+                ),
+            ));
+        }
+        if self.run_id.trim().is_empty() || self.workflow_id.trim().is_empty() {
+            return Err(ObsMemContractError::new(
+                ObsMemContractErrorCode::InvalidRequest,
+                "run_id and workflow_id must be non-empty",
+            ));
+        }
+        if self.summary.trim().is_empty() {
+            return Err(ObsMemContractError::new(
+                ObsMemContractErrorCode::InvalidRequest,
+                "summary must be non-empty",
+            ));
+        }
+
+        validate_relative_path(&self.trace_bundle_rel_path)?;
+        validate_relative_path(&self.activation_log_rel_path)?;
+        for citation in &self.citations {
+            validate_relative_path(&citation.path)?;
+            if citation.hash.trim().is_empty() {
+                return Err(ObsMemContractError::new(
+                    ObsMemContractErrorCode::InvalidRequest,
+                    "citation hash must be non-empty",
+                ));
+            }
+        }
+        for trace_ref in &self.trace_event_refs {
+            if trace_ref.event_kind.trim().is_empty() {
+                return Err(ObsMemContractError::new(
+                    ObsMemContractErrorCode::InvalidRequest,
+                    "trace event refs require non-empty event_kind",
+                ));
+            }
+        }
+        if let Some(anchor) = &self.temporal_anchor {
+            anchor.validate()?;
+        }
+        for finding in &self.review_findings {
+            if finding.id.trim().is_empty()
+                || finding.severity.trim().is_empty()
+                || finding.summary.trim().is_empty()
+                || finding.disposition.trim().is_empty()
+            {
+                return Err(ObsMemContractError::new(
+                    ObsMemContractErrorCode::InvalidRequest,
+                    "review findings require non-empty id, severity, summary, and disposition",
+                ));
+            }
+        }
+        for risk in &self.residual_risks {
+            if risk.trim().is_empty() {
+                return Err(ObsMemContractError::new(
+                    ObsMemContractErrorCode::InvalidRequest,
+                    "residual risks must be non-empty when present",
+                ));
+            }
+        }
+        for follow_on in &self.follow_on_refs {
+            if follow_on.issue_number == 0
+                || follow_on.title.trim().is_empty()
+                || follow_on.status.trim().is_empty()
+            {
+                return Err(ObsMemContractError::new(
+                    ObsMemContractErrorCode::InvalidRequest,
+                    "follow-on refs require non-zero issue_number plus non-empty title and status",
+                ));
+            }
+        }
+
+        let text = format!(
+            "{}\n{}\n{:?}\n{:?}\n{:?}\n{:?}\n{:?}\n{:?}\n{:?}",
+            self.summary,
+            self.trace_bundle_rel_path,
+            self.tags,
+            self.citations,
+            self.trace_event_refs,
+            self.temporal_anchor,
+            self.review_findings,
+            self.residual_risks,
+            self.follow_on_refs
+        );
+        if contains_disallowed_content(&text) {
+            return Err(ObsMemContractError::new(
+                ObsMemContractErrorCode::PrivacyViolation,
+                "memory write request contains disallowed host-path or token-like content",
+            ));
+        }
+
+        Ok(())
+    }
+}
+
+/// Acknowledgement returned by a contract write operation.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct MemoryWriteAck {
+    pub entry_id: String,
+    pub accepted: bool,
+}
+
+/// Structured deterministic query surface for v0.75 retrieval.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct MemoryQuery {
+    pub contract_version: u32,
+    pub workflow_id: Option<String>,
+    pub failure_code: Option<String>,
+    pub tags: Vec<String>,
+    #[serde(default)]
+    pub temporal: Option<MemoryTemporalQuery>,
+    pub limit: usize,
+}
+
+/// Temporal retrieval filters for ObsMem / Memory Palace query paths.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, Default)]
+pub struct MemoryTemporalQuery {
+    pub after_epoch_ms: Option<u128>,
+    pub before_epoch_ms: Option<u128>,
+    pub interval_start_epoch_ms: Option<u128>,
+    pub interval_end_epoch_ms: Option<u128>,
+    pub stale_at_epoch_ms: Option<u128>,
+    pub stale_after_ms: Option<u128>,
+    pub continuity_id: Option<String>,
+}
+
+impl MemoryTemporalQuery {
+    pub fn validate(&self) -> Result<(), ObsMemContractError> {
+        if let (Some(start), Some(end)) = (self.interval_start_epoch_ms, self.interval_end_epoch_ms)
+        {
+            if start > end {
+                return Err(ObsMemContractError::new(
+                    ObsMemContractErrorCode::InvalidQuery,
+                    "temporal interval start must be <= interval end",
+                ));
+            }
+        }
+        if self.stale_at_epoch_ms.is_some() != self.stale_after_ms.is_some() {
+            return Err(ObsMemContractError::new(
+                ObsMemContractErrorCode::InvalidQuery,
+                "staleness queries require both stale_at_epoch_ms and stale_after_ms",
+            ));
+        }
+        if self
+            .continuity_id
+            .as_ref()
+            .is_some_and(|id| id.trim().is_empty())
+        {
+            return Err(ObsMemContractError::new(
+                ObsMemContractErrorCode::InvalidQuery,
+                "temporal continuity_id must be non-empty when present",
+            ));
+        }
+        Ok(())
+    }
+}
+
+impl MemoryQuery {
+    /// Canonicalize query tags for deterministic backend behavior.
+    pub fn normalize(&mut self) {
+        self.tags.sort();
+        self.tags.dedup();
+    }
+
+    /// Validate query contract invariants before dispatching to backend clients.
+    pub fn validate(&self) -> Result<(), ObsMemContractError> {
+        if self.contract_version != OBSMEM_CONTRACT_VERSION {
+            return Err(ObsMemContractError::new(
+                ObsMemContractErrorCode::ContractVersionMismatch,
+                format!(
+                    "unsupported ObsMem contract version {} (expected {})",
+                    self.contract_version, OBSMEM_CONTRACT_VERSION
+                ),
+            ));
+        }
+        if self.limit == 0 {
+            return Err(ObsMemContractError::new(
+                ObsMemContractErrorCode::InvalidQuery,
+                "query limit must be >= 1",
+            ));
+        }
+        if self.limit > 1000 {
+            return Err(ObsMemContractError::new(
+                ObsMemContractErrorCode::InvalidQuery,
+                "query limit must be <= 1000",
+            ));
+        }
+        if let Some(temporal) = &self.temporal {
+            temporal.validate()?;
+        }
+        Ok(())
+    }
+}
+
+/// Normalized memory hit returned by an ObsMem query.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct MemoryRecord {
+    pub id: String,
+    pub run_id: String,
+    pub workflow_id: String,
+    pub tags: Vec<String>,
+    pub payload: String,
+    pub score: String,
+    pub citations: Vec<MemoryCitation>,
+    pub trace_event_refs: Vec<MemoryTraceRef>,
+    #[serde(default)]
+    pub temporal_anchor: Option<MemoryTemporalAnchor>,
+    #[serde(default)]
+    pub review_findings: Vec<MemoryReviewFinding>,
+    #[serde(default)]
+    pub residual_risks: Vec<String>,
+    #[serde(default)]
+    pub follow_on_refs: Vec<MemoryFollowOnRef>,
+}
+
+/// Query response wrapper for deterministic hit lists.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct MemoryQueryResult {
+    pub hits: Vec<MemoryRecord>,
+}

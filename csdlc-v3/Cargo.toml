@@ -1,0 +1,23 @@
+[package]
+name = "csdlc-v3"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.92"
+license = "MIT OR Apache-2.0"
+description = "Typed C-SDLC v3 lifecycle with authenticated selector and receipt authority guards"
+
+[lib]
+name = "csdlc_v3"
+path = "src/lib.rs"
+
+[[bin]]
+name = "csdlc"
+path = "src/main.rs"
+
+[dependencies]
+blake3 = "1"
+fs2 = "0.4"
+markdown = "1.0.0"
+serde = { version = "1", features = ["derive"] }
+serde_json = { version = "1", features = ["preserve_order"] }
+toml = "0.8"

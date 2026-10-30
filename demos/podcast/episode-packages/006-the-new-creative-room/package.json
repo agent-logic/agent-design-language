@@ -1,0 +1,14 @@
+{
+  "schema": "agent_logic.podcast.episode_source_package.v1",
+  "episode": 6,
+  "slug": "006-the-new-creative-room",
+  "title": "The New Creative Room",
+  "show_working_title": "The Cognitive Stack",
+  "status": "source_package_ready_audio_pending",
+  "premise": "Show how AI changes creative collaboration: ideation, critique, taste, iteration, and the tension between speed and meaning.",
+  "agent_panel": ["Codex", "ChatGPT", "Claude", "creative-model guest"],
+  "listener_takeaway": "The best creative AI systems act less like vending machines and more like rooms full of useful collaborators.",
+  "promotes": ["creative workflows", "AI studio tooling", "human taste"],
+  "audio": {"final_mp3": null, "archive_audio": null, "status": "pending_final_package_proof"},
+  "publication_claimed": false
+}

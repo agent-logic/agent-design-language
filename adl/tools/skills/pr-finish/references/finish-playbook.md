@@ -1,0 +1,29 @@
+# PR Finish Playbook
+
+Use this file after the main skill triggers and you are ready to execute `pr finish`.
+
+## Purpose
+
+Close out a bounded issue truthfully by validating the output record, staging the intended paths, and creating or updating the reviewable PR.
+
+Publication does not end the issue lifecycle by itself. After finish succeeds,
+the next active handoff is PR shepherding through `pr-janitor` until merge or
+explicit closure settles and `pr-closeout` can run truthfully.
+
+## Checklist
+
+- resolve the target issue/branch/worktree
+- confirm the output record is present and no longer a bootstrap stub
+- confirm the staged paths are explicit and issue-scoped
+- use typed `csdlc-validate`, `csdlc-review`, and `csdlc-publish` requests
+- record exactly what validation ran
+- record the shepherding handoff rather than treating draft PR publication as a
+  natural stop state
+- stop after PR publication/update
+
+## Failure Handling
+
+If finish cannot proceed:
+- report the missing or inconsistent finish input
+- report whether the output record was present
+- stop without widening scope

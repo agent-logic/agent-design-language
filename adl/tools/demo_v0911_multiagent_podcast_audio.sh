@@ -1,0 +1,684 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+OUT_DIR="${1:-$ROOT_DIR/artifacts/v0911/multiagent_podcast_pilot_audio}"
+SOURCE_DIR="${ADL_PODCAST_AUDIO_SOURCE_DIR:-$OUT_DIR/source_episode}"
+DIALOGUE_SCRIPT="${ADL_PODCAST_DIALOGUE_SCRIPT:-$SOURCE_DIR/script.md}"
+SEGMENTS_DIR="$OUT_DIR/audio/segments"
+AUDIO_MANIFEST="$OUT_DIR/audio_manifest.json"
+AUDIO_PACKET="$OUT_DIR/audio_packet.md"
+EPISODE_AUDIO="$OUT_DIR/episode.wav"
+OPENAI_KEY_FILE="${ADL_OPENAI_KEY_FILE:-$HOME/keys/openai2.key}"
+GEMINI_KEY_FILE="${ADL_GEMINI_KEY_FILE:-$HOME/keys/gcp-ace-2023.key}"
+DEEPGRAM_KEY_FILE="${ADL_DEEPGRAM_KEY_FILE:-$HOME/keys/adl-deepgram-01.key}"
+OPENAI_TTS_MODEL="${ADL_PODCAST_OPENAI_TTS_MODEL:-gpt-4o-mini-tts}"
+GEMINI_TTS_MODEL="${ADL_PODCAST_GEMINI_TTS_MODEL:-gemini-3.1-flash-tts-preview}"
+TTS_TIMEOUT_SECS="${ADL_PODCAST_TTS_TIMEOUT_SECS:-300}"
+CHATGPT_VOICE="${ADL_PODCAST_CHATGPT_VOICE:-coral}"
+GEMINI_VOICE="${ADL_PODCAST_GEMINI_VOICE:-Kore}"
+GEMINI_AUDIO_PROVIDER="${ADL_PODCAST_GEMINI_AUDIO_PROVIDER:-gemini}"
+GEMINI_OPENAI_SURROGATE_VOICE="${ADL_PODCAST_GEMINI_OPENAI_SURROGATE_VOICE:-echo}"
+CLAUDE_SURROGATE_PROVIDER="${ADL_PODCAST_CLAUDE_SURROGATE_PROVIDER:-deepgram}"
+CLAUDE_SURROGATE_VOICE="${ADL_PODCAST_CLAUDE_SURROGATE_VOICE:-aura-2-pluto-en}"
+
+if [[ "$GEMINI_AUDIO_PROVIDER" == "openai" ]]; then
+  GEMINI_RENDER_VOICE="$GEMINI_OPENAI_SURROGATE_VOICE"
+  GEMINI_SURROGATE="true"
+else
+  GEMINI_RENDER_VOICE="$GEMINI_VOICE"
+  GEMINI_SURROGATE="false"
+fi
+
+CHATGPT_INSTRUCTIONS="${ADL_PODCAST_CHATGPT_INSTRUCTIONS:-Speak warmly, thoughtfully, and with grounded podcast-host clarity.}"
+if [[ "$GEMINI_SURROGATE" == "true" ]]; then
+  GEMINI_INSTRUCTIONS="${ADL_PODCAST_GEMINI_INSTRUCTIONS:-Speak with bright, quick, lightly androgynous analytical precision. Keep the cadence brisk, the consonants crisp, and the energy forward so you sound clearly distinct from the other speakers.}"
+else
+  GEMINI_INSTRUCTIONS="${ADL_PODCAST_GEMINI_INSTRUCTIONS:-Speak brightly, clearly, and incisively, like a fast systems analyst on a podcast.}"
+fi
+CLAUDE_INSTRUCTIONS="${ADL_PODCAST_CLAUDE_INSTRUCTIONS:-Speak reflectively and slightly formally, with calm measured emphasis.}"
+if [[ "$CLAUDE_SURROGATE_PROVIDER" == "openai" ]]; then
+  CLAUDE_INSTRUCTIONS="${ADL_PODCAST_CLAUDE_INSTRUCTIONS:-Speak naturally and conversationally, with reflective warmth, clear phrasing, and restrained emphasis.}"
+fi
+
+load_key() {
+  local env_name="$1"
+  local key_file="$2"
+  if [[ -n "${!env_name:-}" ]]; then
+    return 0
+  fi
+  if [[ ! -s "$key_file" ]]; then
+    echo "missing required key file for $env_name: $key_file" >&2
+    return 1
+  fi
+  local key_value
+  key_value="$(python3 - "$env_name" "$key_file" <<'PY'
+import sys
+env_name, path = sys.argv[1:3]
+raw = open(path, encoding='utf-8').read().strip()
+value = raw
+for line in raw.splitlines():
+    stripped = line.strip()
+    if not stripped or stripped.startswith('#'):
+        continue
+    if stripped.startswith(env_name + '='):
+        value = stripped.split('=', 1)[1].strip().strip("'\"")
+        break
+    value = stripped.strip("'\"")
+    break
+print(value, end='')
+PY
+)"
+  if [[ -z "$key_value" ]]; then
+    echo "empty required key file for $env_name: $key_file" >&2
+    return 1
+  fi
+  export "$env_name=$key_value"
+}
+
+render_openai_wav() {
+  local text="$1"
+  local voice="$2"
+  local instructions="$3"
+  local out_path="$4"
+  local payload
+  payload="$(python3 - "$text" "$voice" "$instructions" "$OPENAI_TTS_MODEL" <<'PY'
+import json, sys
+text, voice, instructions, model = sys.argv[1:5]
+print(json.dumps({
+  'model': model,
+  'voice': voice,
+  'input': text,
+  'instructions': instructions,
+  'response_format': 'wav',
+}))
+PY
+)"
+  curl -sS https://api.openai.com/v1/audio/speech \
+    --connect-timeout 10 \
+    --max-time "$TTS_TIMEOUT_SECS" \
+    -H "Authorization: Bearer $OPENAI_API_KEY" \
+    -H "Content-Type: application/json" \
+    -d "$payload" \
+    --output "$out_path"
+}
+
+render_gemini_wav() {
+  local text="$1"
+  local voice="$2"
+  local out_path="$3"
+  local response_json="$out_path.response.json"
+  local payload
+  payload="$(python3 - "$text" "$voice" "$GEMINI_TTS_MODEL" <<'PY'
+import json, sys
+text, voice, model = sys.argv[1:4]
+print(json.dumps({
+  'contents': [{'parts': [{'text': text}]}],
+  'generationConfig': {
+    'responseModalities': ['AUDIO'],
+    'speechConfig': {
+      'voiceConfig': {
+        'prebuiltVoiceConfig': {
+          'voiceName': voice,
+        }
+      }
+    }
+  },
+  'model': model,
+}))
+PY
+)"
+  curl -sS "https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_TTS_MODEL}:generateContent" \
+    --connect-timeout 10 \
+    --max-time "$TTS_TIMEOUT_SECS" \
+    -H "x-goog-api-key: $GEMINI_API_KEY" \
+    -H "Content-Type: application/json" \
+    -d "$payload" \
+    > "$response_json"
+  python3 - "$response_json" "$out_path" <<'PY'
+import base64
+import json
+import math
+import sys
+import sys
+import wave
+from pathlib import Path
+
+response_path, out_path = sys.argv[1:3]
+payload = json.loads(Path(response_path).read_text(encoding='utf-8'))
+data = payload['candidates'][0]['content']['parts'][0]['inlineData']['data']
+pcm = base64.b64decode(data)
+with wave.open(out_path, 'wb') as wf:
+    wf.setnchannels(1)
+    wf.setsampwidth(2)
+    wf.setframerate(24000)
+    wf.writeframes(pcm)
+PY
+  rm -f "$response_json"
+}
+
+render_deepgram_wav() {
+  local text="$1"
+  local voice="$2"
+  local out_path="$3"
+  local payload
+  payload="$(python3 - "$text" <<'PY'
+import json, sys
+print(json.dumps({'text': sys.argv[1]}))
+PY
+)"
+  curl -sS --fail-with-body \
+    "https://api.deepgram.com/v1/speak?model=${voice}&encoding=linear16&container=wav" \
+    --connect-timeout 10 \
+    --max-time "$TTS_TIMEOUT_SECS" \
+    -H "Authorization: Token $DEEPGRAM_API_KEY" \
+    -H "Content-Type: application/json" \
+    -d "$payload" \
+    --output "$out_path"
+}
+
+if [[ "${ADL_PODCAST_AUDIO_TEST_TONES:-0}" != "1" ]]; then
+  load_key OPENAI_API_KEY "$OPENAI_KEY_FILE"
+  if [[ "$GEMINI_AUDIO_PROVIDER" == "gemini" ]]; then
+    load_key GEMINI_API_KEY "$GEMINI_KEY_FILE"
+  fi
+  if [[ "$CLAUDE_SURROGATE_PROVIDER" == "deepgram" ]]; then
+    load_key DEEPGRAM_API_KEY "$DEEPGRAM_KEY_FILE"
+  fi
+fi
+
+rm -rf "$OUT_DIR"
+mkdir -p "$SEGMENTS_DIR"
+
+if [[ ! -f "$SOURCE_DIR/transcript.md" && ! -f "$DIALOGUE_SCRIPT" ]]; then
+  bash "$ROOT_DIR/adl/tools/demo_v0911_multiagent_podcast_pilot.sh" "$SOURCE_DIR"
+fi
+
+TURN_FILES=()
+TURN_SOURCES_DIR="$SOURCE_DIR/out/podcast"
+if [[ -f "$DIALOGUE_SCRIPT" ]]; then
+  TURN_SOURCES_DIR="$OUT_DIR/script_turns"
+  TURN_INDEX="$OUT_DIR/turn-index.tsv"
+  mkdir -p "$TURN_SOURCES_DIR"
+  python3 - "$DIALOGUE_SCRIPT" "$TURN_SOURCES_DIR" "$TURN_INDEX" <<'PY'
+import re
+import sys
+from pathlib import Path
+
+script_path = Path(sys.argv[1])
+output_dir = Path(sys.argv[2])
+index_path = Path(sys.argv[3])
+speaker = None
+paragraphs = []
+turns = []
+
+def flush():
+    global paragraphs
+    text = "\n\n".join(paragraphs).strip()
+    if speaker and text:
+        turns.append((speaker, text))
+    paragraphs = []
+
+for line in script_path.read_text(encoding="utf-8").splitlines():
+    match = re.fullmatch(r"### (ChatGPT|Gemini|Claude)", line.strip())
+    if match:
+        flush()
+        speaker = match.group(1)
+    elif line.startswith("## "):
+        flush()
+        speaker = None
+    elif speaker is not None:
+        paragraphs.append(line)
+flush()
+
+if not turns:
+    raise SystemExit(f"no dialogue turns found in {script_path}")
+
+output_dir.mkdir(parents=True, exist_ok=True)
+index_lines = []
+for index, (name, text) in enumerate(turns, 1):
+    filename = f"{index:02d}-{name.lower()}.md"
+    (output_dir / filename).write_text(text + "\n", encoding="utf-8")
+    index_lines.append(f"{filename}\t{name}\tscript.md#turn-{index:02d}")
+index_path.write_text("\n".join(index_lines) + "\n", encoding="utf-8")
+PY
+  while IFS=$'\t' read -r filename speaker source_ref; do
+    case "$speaker" in
+      ChatGPT) TURN_FILES+=("$filename|ChatGPT|host / synthesizer|$CHATGPT_VOICE|openai|false|$CHATGPT_INSTRUCTIONS|$source_ref") ;;
+      Gemini) TURN_FILES+=("$filename|Gemini|challenger / systems analyst|$GEMINI_RENDER_VOICE|$GEMINI_AUDIO_PROVIDER|$GEMINI_SURROGATE|$GEMINI_INSTRUCTIONS|$source_ref") ;;
+      Claude) TURN_FILES+=("$filename|Claude|refiner / moral stylist|$CLAUDE_SURROGATE_VOICE|$CLAUDE_SURROGATE_PROVIDER|true|$CLAUDE_INSTRUCTIONS|$source_ref") ;;
+      *) echo "unsupported dialogue speaker: $speaker" >&2; exit 1 ;;
+    esac
+  done < "$TURN_INDEX"
+else
+  TURN_FILES=(
+    "01-chatgpt-opening.md|ChatGPT|host / synthesizer|$CHATGPT_VOICE|openai|false|$CHATGPT_INSTRUCTIONS|out/podcast/01-chatgpt-opening.md"
+    "02-gemini-challenge.md|Gemini|challenger / systems analyst|$GEMINI_RENDER_VOICE|$GEMINI_AUDIO_PROVIDER|$GEMINI_SURROGATE|$GEMINI_INSTRUCTIONS|out/podcast/02-gemini-challenge.md"
+    "03-claude-reframe.md|Claude|refiner / moral stylist|$CLAUDE_SURROGATE_VOICE|$CLAUDE_SURROGATE_PROVIDER|true|$CLAUDE_INSTRUCTIONS|out/podcast/03-claude-reframe.md"
+    "04-chatgpt-bridge.md|ChatGPT|host / synthesizer|$CHATGPT_VOICE|openai|false|$CHATGPT_INSTRUCTIONS|out/podcast/04-chatgpt-bridge.md"
+    "05-gemini-deepening.md|Gemini|challenger / systems analyst|$GEMINI_RENDER_VOICE|$GEMINI_AUDIO_PROVIDER|$GEMINI_SURROGATE|$GEMINI_INSTRUCTIONS|out/podcast/05-gemini-deepening.md"
+    "06-claude-closure.md|Claude|refiner / moral stylist|$CLAUDE_SURROGATE_VOICE|$CLAUDE_SURROGATE_PROVIDER|true|$CLAUDE_INSTRUCTIONS|out/podcast/06-claude-closure.md"
+  )
+fi
+
+SEGMENT_MANIFEST_TMP="$OUT_DIR/segment_manifest.jsonl"
+: > "$SEGMENT_MANIFEST_TMP"
+SPEAKERS_INTRODUCED="|"
+
+for spec in "${TURN_FILES[@]}"; do
+  IFS='|' read -r filename speaker role voice provider surrogate instructions source_ref <<< "$spec"
+  original_text="$(cat "$TURN_SOURCES_DIR/$filename")"
+  if [[ "$SPEAKERS_INTRODUCED" != *"|$speaker|"* ]]; then
+    if python3 - "$speaker" "$original_text" <<'PY'
+import re
+import sys
+
+speaker = sys.argv[1].strip().lower()
+text = sys.argv[2].strip().lower().replace("’", "'").replace("‘", "'")
+pattern = r"^['\"“”‘’\s-]*(i\s*'m|i\s+am)\s+" + re.escape(speaker) + r"([\s\.,;:!?-]|$)"
+sys.exit(0 if re.match(pattern, text) else 1)
+PY
+    then
+      text="$original_text"
+    else
+      text="I'm ${speaker}. ${original_text}"
+    fi
+    SPEAKERS_INTRODUCED="${SPEAKERS_INTRODUCED}${speaker}|"
+  else
+    text="$original_text"
+  fi
+  out_wav="$SEGMENTS_DIR/${filename%.md}.wav"
+  if [[ "${ADL_PODCAST_AUDIO_TEST_TONES:-0}" == "1" ]]; then
+    python3 - "$out_wav" "$speaker" <<'PY'
+import math
+import struct
+import sys
+import wave
+
+out_path, speaker = sys.argv[1:3]
+rate = 24000
+duration = 1.2
+freq_map = {
+    'ChatGPT': 220.0,
+    'Gemini': 330.0,
+    'Claude': 262.0,
+}
+freq = freq_map.get(speaker, 247.0)
+amplitude = 9800
+frame_count = int(rate * duration)
+
+with wave.open(out_path, 'wb') as wf:
+    wf.setnchannels(1)
+    wf.setsampwidth(2)
+    wf.setframerate(rate)
+    frames = bytearray()
+    for i in range(frame_count):
+        sample = int(round(amplitude * math.sin(2.0 * math.pi * freq * (i / rate))))
+        frames.extend(struct.pack('<h', sample))
+    wf.writeframes(bytes(frames))
+PY
+  elif [[ "$provider" == "openai" ]]; then
+    render_openai_wav "$text" "$voice" "$instructions" "$out_wav"
+  elif [[ "$provider" == "gemini" ]]; then
+    render_gemini_wav "$text" "$voice" "$out_wav"
+  elif [[ "$provider" == "deepgram" ]]; then
+    render_deepgram_wav "$text" "$voice" "$out_wav"
+  else
+    echo "unsupported provider for audio segment: $provider" >&2
+    exit 1
+  fi
+  python3 - "$SEGMENT_MANIFEST_TMP" "$speaker" "$role" "$source_ref" "$(basename "$out_wav")" "$provider" "$voice" "$surrogate" <<'PY'
+import json, sys
+path, speaker, role, source_file, audio_file, provider, voice, surrogate = sys.argv[1:9]
+with open(path, 'a', encoding='utf-8') as f:
+    f.write(json.dumps({
+        'speaker': speaker,
+        'role': role,
+        'source_text_file': source_file,
+        'audio_file': audio_file,
+        'provider': provider,
+        'voice': voice,
+        'surrogate_render': surrogate == 'true',
+    }) + '\n')
+PY
+done
+
+python3 - "$SEGMENT_MANIFEST_TMP" "$AUDIO_MANIFEST" "$AUDIO_PACKET" "$EPISODE_AUDIO" "$SEGMENTS_DIR" "$SOURCE_DIR" "$CHATGPT_VOICE" "$GEMINI_AUDIO_PROVIDER" "$GEMINI_VOICE" "$GEMINI_OPENAI_SURROGATE_VOICE" "$CLAUDE_SURROGATE_PROVIDER" "$CLAUDE_SURROGATE_VOICE" <<'PY'
+from array import array
+import json
+import math
+import wave
+import sys
+from pathlib import Path
+
+segment_manifest_tmp, manifest_path, packet_path, episode_audio_path, segments_dir, source_dir, chatgpt_voice, gemini_provider, gemini_voice, gemini_openai_voice, claude_provider, claude_voice = sys.argv[1:13]
+segments = [json.loads(line) for line in Path(segment_manifest_tmp).read_text(encoding='utf-8').splitlines() if line.strip()]
+BASE_GAP_MS = 240
+SAME_SPEAKER_GAP_MS = 180
+INTRO_GAP_MS = 320
+CLOSING_GAP_MS = 420
+TRANSITION_GAP_MS = {
+    ('ChatGPT', 'Gemini'): 220,
+    ('Gemini', 'Claude'): 280,
+    ('Claude', 'ChatGPT'): 260,
+    ('ChatGPT', 'Claude'): 300,
+    ('Gemini', 'ChatGPT'): 230,
+    ('Claude', 'Gemini'): 250,
+}
+params = None
+combined = []
+peak_headroom = 30000.0
+speaker_target_rms = {
+    'ChatGPT': 4200.0,
+    'Gemini': 3600.0,
+    'Claude': 3600.0,
+}
+intro_duck_ms = 425
+compression_threshold = 11000
+compression_ratio = 2.25
+final_mix_target_rms = 3350.0
+final_mix_ceiling = 26500
+speaker_tone_profiles = {
+    'ChatGPT': {
+        'native': {'low_gain': -0.05, 'high_gain': 0.09, 'makeup_gain': 1.02},
+        'surrogate': {'low_gain': -0.05, 'high_gain': 0.09, 'makeup_gain': 1.02},
+    },
+    'Gemini': {
+        'native': {'low_gain': -0.02, 'high_gain': -0.03, 'makeup_gain': 0.99},
+        'surrogate': {'low_gain': -0.16, 'high_gain': 0.22, 'makeup_gain': 0.97},
+    },
+    'Claude': {
+        'native': {'low_gain': -0.08, 'high_gain': 0.05, 'makeup_gain': 1.01},
+        'surrogate': {'low_gain': 0.16, 'high_gain': -0.14, 'makeup_gain': 1.03},
+    },
+}
+
+def compress_pcm_16le(frames: bytes) -> bytes:
+    samples = array('h')
+    samples.frombytes(frames)
+    if sys.byteorder != 'little':
+        samples.byteswap()
+    for i, sample in enumerate(samples):
+        sign = 1 if sample >= 0 else -1
+        magnitude = abs(int(sample))
+        if magnitude > compression_threshold:
+            excess = magnitude - compression_threshold
+            magnitude = compression_threshold + int(round(excess / compression_ratio))
+        value = sign * magnitude
+        if value > 32767:
+            value = 32767
+        elif value < -32768:
+            value = -32768
+        samples[i] = value
+    if sys.byteorder != 'little':
+        samples.byteswap()
+    return samples.tobytes()
+
+def limit_pcm_16le(frames: bytes, ceiling: int) -> bytes:
+    samples = array('h')
+    samples.frombytes(frames)
+    if sys.byteorder != 'little':
+        samples.byteswap()
+    for i, sample in enumerate(samples):
+        if sample > ceiling:
+            samples[i] = ceiling
+        elif sample < -ceiling:
+            samples[i] = -ceiling
+    if sys.byteorder != 'little':
+        samples.byteswap()
+    return samples.tobytes()
+
+def measure_pcm_16le(frames: bytes) -> tuple[float, int]:
+    samples = array('h')
+    samples.frombytes(frames)
+    if sys.byteorder != 'little':
+        samples.byteswap()
+    if not samples:
+        return 0.0, 0
+    rms = math.sqrt(sum(int(s) * int(s) for s in samples) / len(samples))
+    peak = max(abs(int(s)) for s in samples)
+    return rms, peak
+
+def transition_gap_ms(segments: list[dict], idx: int) -> int:
+    if idx >= len(segments) - 1:
+        return 0
+    current = segments[idx]
+    nxt = segments[idx + 1]
+    if idx == len(segments) - 2:
+        return CLOSING_GAP_MS
+    if idx == 0:
+        return INTRO_GAP_MS
+    if current['speaker'] == nxt['speaker']:
+        return SAME_SPEAKER_GAP_MS
+    return TRANSITION_GAP_MS.get((current['speaker'], nxt['speaker']), BASE_GAP_MS)
+
+def tone_profile_for(entry: dict) -> dict | None:
+    profile = speaker_tone_profiles.get(entry['speaker'])
+    if profile is None:
+        return None
+    variant = 'surrogate' if entry.get('surrogate_render') else 'native'
+    return profile.get(variant, profile.get('native'))
+
+def shape_voice_pcm_16le(frames: bytes, entry: dict) -> bytes:
+    profile = tone_profile_for(entry)
+    if profile is None:
+        return frames
+    samples = array('h')
+    samples.frombytes(frames)
+    if sys.byteorder != 'little':
+        samples.byteswap()
+    if not samples:
+        return frames
+
+    low_state = 0.0
+    low_alpha = 0.075
+    for i, sample in enumerate(samples):
+        x = float(sample)
+        low_state += low_alpha * (x - low_state)
+        low = low_state
+        high = x - low
+        shaped = x + (profile['low_gain'] * low) + (profile['high_gain'] * high)
+        shaped *= profile['makeup_gain']
+        value = int(round(shaped))
+        if value > 32767:
+            value = 32767
+        elif value < -32768:
+            value = -32768
+        samples[i] = value
+
+    if sys.byteorder != 'little':
+        samples.byteswap()
+    return samples.tobytes()
+
+def normalize_pcm_16le(frames: bytes, target_rms: float, rate: int, duck_intro: bool) -> bytes:
+    samples = array('h')
+    samples.frombytes(frames)
+    if sys.byteorder != 'little':
+        samples.byteswap()
+    if not samples:
+        return frames
+    rms = math.sqrt(sum(int(s) * int(s) for s in samples) / len(samples))
+    peak = max(abs(int(s)) for s in samples)
+    if rms > 1.0:
+        scale_rms = target_rms / rms
+        scale_peak = peak_headroom / peak if peak > 0 else scale_rms
+        scale = min(scale_rms, scale_peak)
+        if scale > 6.0:
+            scale = 6.0
+        if scale < 0.35:
+            scale = 0.35
+        for i, sample in enumerate(samples):
+            value = int(round(sample * scale))
+            if value > 32767:
+                value = 32767
+            elif value < -32768:
+                value = -32768
+            samples[i] = value
+    if duck_intro:
+        intro_samples = min(len(samples), int(rate * (intro_duck_ms / 1000.0)))
+        for i in range(intro_samples):
+            value = int(round(samples[i] * 0.82))
+            samples[i] = max(-32768, min(32767, value))
+    if sys.byteorder != 'little':
+        samples.byteswap()
+    return samples.tobytes()
+
+seen_speakers = set()
+for entry in segments:
+    segment_path = Path(segments_dir) / entry['audio_file']
+    with wave.open(str(segment_path), 'rb') as wf:
+        current_params = (wf.getnchannels(), wf.getsampwidth(), wf.getframerate())
+        frames = wf.readframes(wf.getnframes())
+    if params is None:
+        params = current_params
+    elif current_params != params:
+        raise SystemExit(f"mismatched wav params: expected {params}, got {current_params} for {entry['audio_file']}")
+    if current_params[1] == 2:
+        target_rms = speaker_target_rms.get(entry['speaker'], 3800.0)
+        duck_intro = entry['speaker'] not in seen_speakers
+        frames = shape_voice_pcm_16le(frames, entry)
+        frames = normalize_pcm_16le(frames, target_rms, current_params[2], duck_intro)
+        frames = compress_pcm_16le(frames)
+        frames = limit_pcm_16le(frames, final_mix_ceiling)
+        with wave.open(str(segment_path), 'wb') as out_segment:
+            out_segment.setnchannels(current_params[0])
+            out_segment.setsampwidth(current_params[1])
+            out_segment.setframerate(current_params[2])
+            out_segment.writeframes(frames)
+        segment_rms, segment_peak = measure_pcm_16le(frames)
+        entry['segment_metrics'] = {
+            'rms': round(segment_rms, 1),
+            'peak': segment_peak,
+        }
+    combined.append(frames)
+    seen_speakers.add(entry['speaker'])
+channels, width, rate = params
+speech_only_rms = None
+speech_only_peak = None
+speech_only_frames = b''.join(combined)
+assembled_frames = b''
+for idx, frames in enumerate(combined):
+    assembled_frames += frames
+    if idx != len(combined) - 1:
+        gap_ms = transition_gap_ms(segments, idx)
+        silence = b'\x00' * int(rate * width * channels * (gap_ms / 1000.0))
+        assembled_frames += silence
+pre_mix_rms = None
+pre_mix_peak = None
+post_mix_rms = None
+post_mix_peak = None
+if width == 2:
+    speech_only_rms, speech_only_peak = measure_pcm_16le(speech_only_frames)
+    pre_mix_rms, pre_mix_peak = measure_pcm_16le(assembled_frames)
+    assembled_frames = normalize_pcm_16le(assembled_frames, final_mix_target_rms, rate, False)
+    assembled_frames = compress_pcm_16le(assembled_frames)
+    assembled_frames = limit_pcm_16le(assembled_frames, final_mix_ceiling)
+    post_mix_rms, post_mix_peak = measure_pcm_16le(assembled_frames)
+with wave.open(episode_audio_path, 'wb') as out:
+    out.setnchannels(channels)
+    out.setsampwidth(width)
+    out.setframerate(rate)
+    out.writeframes(assembled_frames)
+manifest = {
+    'schema_version': 'adl.demo.multiagent_podcast_audio_manifest.v1',
+    'source_episode_root': str(Path(source_dir)),
+    'episode_audio': Path(episode_audio_path).name,
+    'mastering': {
+        'segment_target_rms': speaker_target_rms,
+        'speaker_tone_profiles': speaker_tone_profiles,
+        'active_rendering': {
+            'ChatGPT': {'provider': 'openai', 'voice': chatgpt_voice, 'mode': 'native'},
+            'Gemini': {
+                'provider': gemini_provider,
+                'voice': gemini_voice if gemini_provider == 'gemini' else gemini_openai_voice,
+                'mode': 'native' if gemini_provider == 'gemini' else 'surrogate',
+            },
+            'Claude': {'provider': claude_provider, 'voice': claude_voice, 'mode': 'surrogate'},
+        },
+        'available_fallback_casting': {
+            'ChatGPT': {
+                'native': {'provider': 'openai', 'voice': chatgpt_voice},
+            },
+            'Gemini': {
+                'native': {'provider': 'gemini', 'voice': gemini_voice},
+                'surrogate': {
+                    'provider': 'openai',
+                    'voice': gemini_openai_voice,
+                    'intent': 'bright, quick, lightly androgynous analytical contrast',
+                },
+            },
+            'Claude': {
+                'surrogate': {
+                    'provider': claude_provider,
+                    'voice': claude_voice,
+                    'intent': 'calm, empathetic, conversational baritone contrast',
+                },
+            },
+        },
+        'final_mix_target_rms': final_mix_target_rms,
+        'final_mix_ceiling': final_mix_ceiling,
+        'compression_threshold': compression_threshold,
+        'compression_ratio': compression_ratio,
+        'intro_duck_ms': intro_duck_ms,
+        'speech_only_input_metrics': {
+            'rms': round(speech_only_rms, 1) if speech_only_rms is not None else None,
+            'peak': speech_only_peak,
+        },
+        'full_episode_mix_metrics': {
+            'pre_rms': round(pre_mix_rms, 1) if pre_mix_rms is not None else None,
+            'pre_peak': pre_mix_peak,
+            'post_rms': round(post_mix_rms, 1) if post_mix_rms is not None else None,
+            'post_peak': post_mix_peak,
+        },
+    },
+    'timing': {
+        'base_gap_ms': BASE_GAP_MS,
+        'same_speaker_gap_ms': SAME_SPEAKER_GAP_MS,
+        'intro_gap_ms': INTRO_GAP_MS,
+        'closing_gap_ms': CLOSING_GAP_MS,
+        'transition_gap_ms': {
+            f'{left}->{right}': gap for (left, right), gap in TRANSITION_GAP_MS.items()
+        },
+    },
+    'segments': segments,
+}
+Path(manifest_path).write_text(json.dumps(manifest, indent=2) + '\n', encoding='utf-8')
+packet = [
+    '# Multi-Agent Podcast Audio Packet',
+    '',
+    '- source packet: `source_episode/`',
+    '- final episode audio: `episode.wav`',
+    '- segment audio root: `audio/segments/`',
+    '',
+    '## Voice Routing',
+    '',
+    f'- `ChatGPT`: native OpenAI TTS via `{chatgpt_voice}`',
+    f'- `Gemini`: {"native Gemini TTS" if gemini_provider == "gemini" else "surrogate OpenAI TTS"} via `{gemini_voice if gemini_provider == "gemini" else gemini_openai_voice}`',
+    f'- `Claude`: surrogate `{claude_provider}` TTS via `{claude_voice}`',
+    '',
+    '## Audio Presentation',
+    '',
+    '- each speaker says their own name only on their first appearance',
+    '- segment loudness is normalized toward a shared target so the episode is easier to follow',
+    '- the manifest separates speech-only input metrics from full-episode mix metrics so silence padding does not silently dilute the mastering story',
+    '- the final episode mix gets one more mastering pass for overall loudness consistency and peak control',
+    '- pause timing is deterministic but no longer one-size-fits-all; handoff gaps vary by speaker transition and closing position',
+    '',
+    '## Proof Boundary',
+    '',
+    '- transcript authorship and audio-renderer identity remain separate',
+    '- Claude remains the transcript author for Claude turns even though the audio is rendered by a surrogate TTS lane',
+    '- audio does not prove long-term identity continuity',
+]
+if gemini_provider == 'gemini':
+    packet.insert(-5, '- Gemini rendered natively in this run, so the surrogate fallback casting lane remained available but inactive')
+else:
+    packet.insert(-5, '- fallback casting is active in this run so Gemini stays brighter and quicker while Claude stays calm and empathetic')
+Path(packet_path).write_text('\n'.join(packet).rstrip() + '\n', encoding='utf-8')
+PY
+rm -f "$SEGMENT_MANIFEST_TMP"
+
+echo "Podcast audio proof surfaces:"
+echo "  $EPISODE_AUDIO"
+echo "  $AUDIO_MANIFEST"
+echo "  $AUDIO_PACKET"

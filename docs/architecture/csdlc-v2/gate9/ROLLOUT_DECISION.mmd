@@ -1,0 +1,24 @@
+flowchart TD
+  A["Repository default: v1"] --> B{"Explicit v2 request?"}
+  B -- "no" --> A
+  B -- "yes" --> C{"Issue in typed opt-in set?"}
+  C -- "no" --> X["Fail closed"]
+  C -- "yes" --> D["Generate six cards + design + diagram"]
+  D --> E["Run docs, Rust, failure, retry, restart, and remote scenarios"]
+  E --> F["Measure LoC, tests, binaries, construction, and validation"]
+  F --> G["Compare normalized v1/v2 outcomes"]
+  G --> H{"All scenarios evidenced and passed?"}
+  H -- "no evidence / waiting" --> I["Incubate"]
+  H -- "hard failure" --> J["Stop"]
+  H -- "yes" --> K{"Hard budgets pass and critical parity loss = 0?"}
+  K -- "no" --> J
+  K -- "yes" --> L["Proceed recommendation"]
+  I --> A
+  J --> A
+  L --> M["Gate 10 operator review"]
+  M --> N{"Explicit cutover authorization?"}
+  N -- "no" --> A
+  N -- "yes" --> O["Migrate contracts, then switch default"]
+  O --> P["14-day executable rollback window"]
+  P --> Q["30-day read-only importer sunset"]
+  O -. "rollback during window" .-> A

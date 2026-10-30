@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+VERBOSE="${ADL_CHECKS_VERBOSE:-0}"
+
+if [[ "${1:-}" == "--verbose" ]]; then
+  VERBOSE="1"
+fi
+
+run_step() {
+  local label="$1"
+  shift
+  if [[ "$VERBOSE" == "1" ]]; then
+    echo "  • $label"
+    "$@"
+    return 0
+  fi
+
+  local log
+  log="$(mktemp)"
+  if "$@" >"$log" 2>&1; then
+    echo "  ✓ $label"
+    rm -f "$log"
+    return 0
+  fi
+
+  echo "  ✗ $label"
+  cat "$log" >&2
+  rm -f "$log"
+  return 1
+}
+
+echo "• Running tooling sanity checks (batched)…"
+run_step "C-SDLC v2 installer" "$ROOT/csdlc-v2/target/debug/csdlc-install" --help
+run_step "repo-code-review contract check" bash "$ROOT/adl/tools/test_repo_code_review_skill_contracts.sh"
+run_step "repo-packet-builder contract check" bash "$ROOT/adl/tools/test_repo_packet_builder_skill_contracts.sh"
+run_step "redaction-and-evidence-auditor contract check" bash "$ROOT/adl/tools/test_redaction_and_evidence_auditor_skill_contracts.sh"
+run_step "repo-architecture-review contract check" bash "$ROOT/adl/tools/test_repo_architecture_review_skill_contracts.sh"
+run_step "repo-dependency-review contract check" bash "$ROOT/adl/tools/test_repo_dependency_review_skill_contracts.sh"
+run_step "multi-agent repo-review specialist contract check" bash "$ROOT/adl/tools/test_multi_agent_repo_review_specialist_skill_contracts.sh"
+run_step "repo-diagram-planner contract check" bash "$ROOT/adl/tools/test_repo_diagram_planner_skill_contracts.sh"
+run_step "architecture-diagram-reviewer contract check" bash "$ROOT/adl/tools/test_architecture_diagram_reviewer_skill_contracts.sh"
+run_step "review-to-test-planner contract check" bash "$ROOT/adl/tools/test_review_to_test_planner_skill_contracts.sh"
+run_step "adr-curator contract check" bash "$ROOT/adl/tools/test_adr_curator_skill_contracts.sh"
+run_step "architecture-fitness-function-author contract check" bash "$ROOT/adl/tools/test_architecture_fitness_function_author_skill_contracts.sh"
+run_step "finding-to-issue-planner contract check" bash "$ROOT/adl/tools/test_finding_to_issue_planner_skill_contracts.sh"
+run_step "review-comment-triage contract check" bash "$ROOT/adl/tools/test_review_comment_triage_skill_contracts.sh"
+run_step "test-generator contract check" bash "$ROOT/adl/tools/test_test_generator_skill_contracts.sh"
+run_step "demo-operator contract check" bash "$ROOT/adl/tools/test_demo_operator_skill_contracts.sh"
+run_step "release-evidence contract check" bash "$ROOT/adl/tools/test_release_evidence_skill_contracts.sh"
+run_step "review-readiness-cleanup contract check" bash "$ROOT/adl/tools/test_review_readiness_cleanup_skill_contracts.sh"
+run_step "portable-contract-normalizer contract check" bash "$ROOT/adl/tools/test_portable_contract_normalizer_skill_contracts.sh"
+run_step "medium-article-writer contract check" bash "$ROOT/adl/tools/test_medium_article_writer_skill_contracts.sh"
+run_step "arxiv-paper-writer contract check" bash "$ROOT/adl/tools/test_arxiv_paper_writer_skill_contracts.sh"
+run_step "diagram-author contract check" bash "$ROOT/adl/tools/test_diagram_author_skill_contracts.sh"
+run_step "records-hygiene contract check" bash "$ROOT/adl/tools/test_records_hygiene_skill_contracts.sh"
+run_step "pr-stack-manager contract check" bash "$ROOT/adl/tools/test_pr_stack_manager_skill_contracts.sh"
+run_step "adl-milestone-creator contract check" bash "$ROOT/adl/tools/test_adl_milestone_creator_skill_contracts.sh"
+run_step "planning-doc-editor contract check" bash "$ROOT/adl/tools/test_planning_doc_editor_skill_contracts.sh"
+run_step "issue lifecycle shepherd contract check" bash "$ROOT/adl/tools/test_issue_lifecycle_shepherd_contract.sh"
+run_step "CCC v0 instrumentation check" bash "$ROOT/adl/tools/test_ccc_v0_instrumentation.sh"
+run_step "skill documentation completeness check" bash "$ROOT/adl/tools/test_skill_documentation_completeness.sh"
+run_step "tracked .adl issue-record residue guard" bash "$ROOT/adl/tools/check_no_tracked_adl_issue_record_residue.sh"
+echo "• Running adl checks (batched)…"
+(
+  cd "$ROOT/adl"
+  run_step "cargo fmt --check" cargo fmt --check
+  run_step "cargo clippy --all-targets -- -D warnings" cargo clippy --all-targets -- -D warnings
+  run_step "cargo test" cargo test
+)

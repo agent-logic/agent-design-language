@@ -1,0 +1,777 @@
+use anyhow::{anyhow, Context, Result};
+use std::fs;
+use std::path::{Path, PathBuf};
+use std::process::Command;
+
+pub(crate) fn real_provider(args: &[String]) -> Result<()> {
+    let repo_root = repo_root()?;
+    real_provider_in_repo(args, &repo_root)
+}
+
+fn real_provider_in_repo(args: &[String], repo_root: &Path) -> Result<()> {
+    let Some(subcommand) = args.first().map(|arg| arg.as_str()) else {
+        return Err(anyhow!("provider requires a subcommand: setup"));
+    };
+
+    match subcommand {
+        "setup" => real_provider_setup(repo_root, &args[1..]),
+        "--help" | "-h" | "help" => {
+            println!("{}", super::usage::usage());
+            Ok(())
+        }
+        other => Err(anyhow!(
+            "unknown provider subcommand '{other}' (expected setup)"
+        )),
+    }
+}
+
+fn real_provider_setup(repo_root: &Path, args: &[String]) -> Result<()> {
+    let mut family: Option<String> = None;
+    let mut out_dir: Option<PathBuf> = None;
+    let mut model_override: Option<String> = None;
+    let mut force = false;
+
+    let mut i = 0usize;
+    while i < args.len() {
+        match args[i].as_str() {
+            "--out" => {
+                let value = required_value(args, i, "--out")?;
+                if value.starts_with('-') {
+                    return Err(anyhow!("--out requires a value"));
+                }
+                out_dir = Some(PathBuf::from(value));
+                i += 1;
+            }
+            "--model" => {
+                let value = required_value(args, i, "--model")?;
+                if value.starts_with('-') {
+                    return Err(anyhow!("--model requires a value"));
+                }
+                model_override = Some(value);
+                i += 1;
+            }
+            "--force" => force = true,
+            "--help" | "-h" => {
+                println!("{}", super::usage::usage());
+                return Ok(());
+            }
+            value if family.is_none() => family = Some(value.to_string()),
+            other => return Err(anyhow!("unknown arg for provider setup: {other}")),
+        }
+        i += 1;
+    }
+
+    let family = family.ok_or_else(|| anyhow!("provider setup requires <family>"))?;
+    let template = template_for_family(&family)?;
+    let out_dir = out_dir.unwrap_or_else(|| {
+        repo_root
+            .join(".adl")
+            .join("provider-setup")
+            .join(template.family)
+    });
+
+    if out_dir.exists() && !force {
+        return Err(anyhow!(
+            "provider setup output already exists at {} (pass --force to overwrite)",
+            out_dir.display()
+        ));
+    }
+    fs::create_dir_all(&out_dir)
+        .with_context(|| format!("failed to create setup directory {}", out_dir.display()))?;
+
+    let provider_path = out_dir.join("provider.adl.yaml");
+    let env_path = out_dir.join("env.example");
+    let readme_path = out_dir.join("README.md");
+    let selected_model = model_override
+        .as_deref()
+        .unwrap_or(template.provider_model_id);
+
+    fs::write(
+        &provider_path,
+        render_provider_yaml(template, selected_model).as_bytes(),
+    )
+    .with_context(|| format!("failed to write {}", provider_path.display()))?;
+    fs::write(&env_path, render_env_example(template).as_bytes())
+        .with_context(|| format!("failed to write {}", env_path.display()))?;
+    fs::write(
+        &readme_path,
+        render_readme(template, selected_model).as_bytes(),
+    )
+    .with_context(|| format!("failed to write {}", readme_path.display()))?;
+
+    println!("PROVIDER_SETUP_FAMILY={}", template.family);
+    println!("PROVIDER_SETUP_MODEL={selected_model}");
+    println!("PROVIDER_SETUP_DIR={}", out_dir.display());
+    println!("PROVIDER_SNIPPET_PATH={}", provider_path.display());
+    println!("PROVIDER_ENV_EXAMPLE={}", env_path.display());
+    println!("PROVIDER_SETUP_README={}", readme_path.display());
+    Ok(())
+}
+
+struct ProviderSetupTemplate {
+    family: &'static str,
+    profile: Option<&'static str>,
+    kind: Option<&'static str>,
+    env_var: &'static str,
+    provider_id: &'static str,
+    agent_id: &'static str,
+    model_ref: &'static str,
+    provider_model_id: &'static str,
+    endpoint_hint: Option<&'static str>,
+    notes: &'static str,
+}
+
+fn template_for_family(family: &str) -> Result<&'static ProviderSetupTemplate> {
+    let normalized = family.trim().to_lowercase();
+    let template = match normalized.as_str() {
+        "chatgpt" => &ProviderSetupTemplate {
+            family: "chatgpt",
+            profile: Some("chatgpt:gpt-5.4"),
+            kind: None,
+            env_var: "OPENAI_API_KEY",
+            provider_id: "chatgpt_primary",
+            agent_id: "chatgpt_agent",
+            model_ref: "gpt-5.4",
+            provider_model_id: "gpt-5.4",
+            endpoint_hint: Some("https://api.example.invalid/v1/complete"),
+            notes: "Use this when you want the ChatGPT/GPT-5 family surface. Keep the endpoint pointed at an ADL-compatible completion endpoint and supply your own OpenAI key through the generated env file.",
+        },
+        "claude" => &ProviderSetupTemplate {
+            family: "claude",
+            profile: Some("claude:claude-3-7-sonnet"),
+            kind: None,
+            env_var: "ANTHROPIC_API_KEY",
+            provider_id: "claude_primary",
+            agent_id: "claude_agent",
+            model_ref: "claude-3-7-sonnet",
+            provider_model_id: "claude-3-7-sonnet-latest",
+            endpoint_hint: Some("https://api.example.invalid/v1/complete"),
+            notes: "Use this when you want the first-class Claude family surface. Keep the endpoint pointed at an ADL-compatible completion endpoint and supply your Anthropic credential through the generated env file.",
+        },
+        "claude-opus-5" => &ProviderSetupTemplate {
+            family: "claude-opus-5",
+            profile: Some("claude:claude-opus-5"),
+            kind: None,
+            env_var: "ANTHROPIC_API_KEY",
+            provider_id: "claude_opus_5_primary",
+            agent_id: "claude_opus_5_agent",
+            model_ref: "claude-opus-5",
+            provider_model_id: "claude-opus-5",
+            endpoint_hint: Some("https://api.anthropic.com/v1/messages"),
+            notes: "Use this for the first-class Claude Opus 5 profile. The profile selects the Rust-native Anthropic Messages adapter and the canonical claude-opus-5 model; supply your Anthropic credential through the generated env file.",
+        },
+        "openai" => &ProviderSetupTemplate {
+            family: "openai",
+            profile: None,
+            kind: Some("openai"),
+            env_var: "OPENAI_API_KEY",
+            provider_id: "openai_primary",
+            agent_id: "openai_agent",
+            model_ref: "reasoning/default",
+            provider_model_id: "gpt-4.1-mini",
+            endpoint_hint: None,
+            notes: "Use this for the Rust-native OpenAI provider path. The default endpoint is OpenAI's Responses API; override config.endpoint only for tests or a trusted compatible endpoint.",
+        },
+        "anthropic" => &ProviderSetupTemplate {
+            family: "anthropic",
+            profile: None,
+            kind: Some("anthropic"),
+            env_var: "ANTHROPIC_API_KEY",
+            provider_id: "anthropic_primary",
+            agent_id: "anthropic_agent",
+            model_ref: "reasoning/default",
+            provider_model_id: "claude-haiku-4-5-20251001",
+            endpoint_hint: None,
+            notes: "Use this for the Rust-native Anthropic provider path. The default endpoint is Anthropic's Messages API; override config.endpoint only for tests or a trusted compatible endpoint.",
+        },
+        "gemini" => &ProviderSetupTemplate {
+            family: "gemini",
+            profile: Some("http:gemini-2.0-flash"),
+            kind: None,
+            env_var: "GEMINI_API_KEY",
+            provider_id: "gemini_primary",
+            agent_id: "gemini_agent",
+            model_ref: "reasoning/default",
+            provider_model_id: "gemini-2.0-flash",
+            endpoint_hint: Some("https://api.example.invalid/v1/complete"),
+            notes: "Use this with an ADL-compatible HTTP endpoint that fronts Gemini-compatible models. The generated env file is local-only and should not be committed.",
+        },
+        "deepseek" => &ProviderSetupTemplate {
+            family: "deepseek",
+            profile: None,
+            kind: Some("deepseek"),
+            env_var: "DEEPSEEK_API_KEY",
+            provider_id: "deepseek_primary",
+            agent_id: "deepseek_agent",
+            model_ref: "reasoning/default",
+            provider_model_id: "deepseek-chat",
+            endpoint_hint: None,
+            notes: "Use this for the Rust-native DeepSeek provider path. The default endpoint is DeepSeek's chat completions API; override config.endpoint only for tests or a trusted compatible endpoint.",
+        },
+        "kimi" | "moonshot" | "kimi-k3" => &ProviderSetupTemplate {
+            family: "kimi",
+            profile: None,
+            kind: Some("kimi"),
+            env_var: "MOONSHOT_API_KEY",
+            provider_id: "kimi_primary",
+            agent_id: "kimi_agent",
+            model_ref: "hosted:adl-kimi:kimi-k3",
+            provider_model_id: "kimi-k3",
+            endpoint_hint: None,
+            notes: "Use this for the Rust-native Moonshot/Kimi provider path. The default endpoint is Moonshot's OpenAI-compatible chat completions API; Kimi K3 supports reasoning_effort values low, high, and max.",
+        },
+        "openrouter" => &ProviderSetupTemplate {
+            family: "openrouter",
+            profile: None,
+            kind: Some("openrouter"),
+            env_var: "OPENROUTER_API_KEY",
+            provider_id: "openrouter_primary",
+            agent_id: "openrouter_agent",
+            model_ref: "reasoning/default",
+            provider_model_id: "deepseek/deepseek-v4-flash",
+            endpoint_hint: None,
+            notes: "Use this for the Rust-native OpenRouter provider path. The default endpoint is OpenRouter's chat completions API; override config.endpoint only for tests or a trusted compatible endpoint. OpenRouter capability support is model-dependent, so record model-specific lane evidence rather than assuming gateway-wide tool or JSON support.",
+        },
+        "bedrock" | "aws-bedrock" | "aws_bedrock" => &ProviderSetupTemplate {
+            family: "bedrock",
+            profile: None,
+            kind: Some("bedrock"),
+            env_var: "ADL_AWS_PROFILE",
+            provider_id: "bedrock_primary",
+            agent_id: "bedrock_agent",
+            model_ref: "hosted:adl-bedrock:amazon.nova-lite-v1:0",
+            provider_model_id: "amazon.nova-lite-v1:0",
+            endpoint_hint: None,
+            notes: "Use this for the Rust-native AWS Bedrock provider path. ADL AWS work must use the Agent Logic business profile `agent-logic-admin`; set `ADL_AWS_REGION` or `AWS_REGION` when selecting a Bedrock region.",
+        },
+        "z_ai" | "zai" | "zhipu" => &ProviderSetupTemplate {
+            family: "z_ai",
+            profile: None,
+            kind: Some("z_ai"),
+            env_var: "ZAI_API_KEY",
+            provider_id: "z_ai_primary",
+            agent_id: "z_ai_agent",
+            model_ref: "hosted:adl-z-ai:glm-5",
+            provider_model_id: "glm-5",
+            endpoint_hint: None,
+            notes: "Use this for the Rust-native Z.ai provider path. The default endpoint is Z.ai/Zhipu's OpenAI-compatible chat completions API; override config.endpoint only for tests or a trusted compatible endpoint. Z.ai capability support is model-specific, so record model-specific UTS/provider proof before routing production work.",
+        },
+        "http" | "generic-http" => &ProviderSetupTemplate {
+            family: "http",
+            profile: Some("http:gpt-4.1-mini"),
+            kind: None,
+            env_var: "ADL_REMOTE_BEARER_TOKEN",
+            provider_id: "portable_http",
+            agent_id: "http_agent",
+            model_ref: "reasoning/default",
+            provider_model_id: "gpt-4.1-mini",
+            endpoint_hint: Some("https://api.example.invalid/v1/complete"),
+            notes: "Use this as a provider-agnostic bounded HTTP setup. Replace the endpoint and token env var with the ones your remote gateway expects.",
+        },
+        other => {
+            return Err(anyhow!(
+                "unsupported provider setup family '{other}' (supported: chatgpt, claude, claude-opus-5, openai, anthropic, gemini, deepseek, kimi, moonshot, openrouter, bedrock, z_ai, http)"
+            ))
+        }
+    };
+    Ok(template)
+}
+
+fn render_provider_yaml(template: &ProviderSetupTemplate, selected_model: &str) -> String {
+    let provider_identity = match (template.profile, template.kind) {
+        (Some(profile), None) => format!("profile: \"{profile}\""),
+        (None, Some(kind)) => format!("type: \"{kind}\""),
+        _ => unreachable!("provider setup templates must declare exactly one identity surface"),
+    };
+    let endpoint_line = template
+        .endpoint_hint
+        .map(|endpoint| format!("      endpoint: \"{endpoint}\"\n"))
+        .unwrap_or_default();
+    let auth_block = if template.family == "bedrock" {
+        "      profile: \"agent-logic-admin\"\n      region: \"us-west-2\"\n".to_string()
+    } else {
+        format!(
+            "      auth:\n        type: bearer\n        env: {}\n",
+            template.env_var
+        )
+    };
+    let headers_line = if template.kind.is_some() {
+        String::new()
+    } else {
+        "      headers:\n        X-Client: \"adl-provider-setup\"\n".to_string()
+    };
+    format!(
+        "version: \"0.5\"\n\nproviders:\n  {provider_id}:\n    {provider_identity}\n    config:\n{endpoint_line}{auth_block}{headers_line}      timeout_secs: 15\n      model_ref: \"{model_ref}\"\n      provider_model_id: \"{provider_model_id}\"\n\nagents:\n  {agent_id}:\n    provider: \"{provider_id}\"\n    model: \"{model_ref}\"\n\n# Merge this provider/agent snippet into your workflow file.\n# provider_model_id may be changed to any trusted model ID supported by this provider family.\n",
+        provider_id = template.provider_id,
+        provider_identity = provider_identity,
+        endpoint_line = endpoint_line,
+        headers_line = headers_line,
+        auth_block = auth_block,
+        model_ref = template.model_ref,
+        provider_model_id = selected_model,
+        agent_id = template.agent_id,
+    )
+}
+
+fn render_env_example(template: &ProviderSetupTemplate) -> String {
+    if template.family == "bedrock" {
+        return "# Copy to a local env file and fill in the approved account pin.\n# Do not commit the filled-in file.\nADL_AWS_PROFILE=agent-logic-admin\nADL_AWS_REGION=us-west-2\nADL_AWS_BEDROCK_ACCOUNT_SHA256=replace-me-with-approved-account-sha256\n".to_string();
+    }
+    format!(
+        "# Copy to a local env file and fill in your real secret.\n# Do not commit the filled-in file.\n{env_var}=replace-me\n",
+        env_var = template.env_var
+    )
+}
+
+fn render_readme(template: &ProviderSetupTemplate, selected_model: &str) -> String {
+    let transport_note = if template.family == "bedrock" {
+        "- This family uses ADL's Rust-native AWS Bedrock adapter through the AWS SDK.\n- ADL AWS work must use the Agent Logic business AWS profile `agent-logic-admin`.\n- Bedrock invocation fails closed until `ADL_AWS_BEDROCK_ACCOUNT_SHA256` or `config.expected_account_sha256` contains the operator-approved AWS account hash."
+    } else if template.kind.is_some() {
+        "- This family uses ADL's Rust-native provider adapter for its vendor API.\n- Leave `config.endpoint` unset for the default vendor endpoint unless you are testing against a trusted compatible endpoint."
+    } else {
+        "- ADL's bounded HTTP provider expects a completion-style HTTP contract: request body with `{\"prompt\": ...}`, response body with `{\"output\": ...}`.\n- Raw vendor-native endpoints may require a compatibility gateway or adapter if they do not expose that contract directly."
+    };
+    let endpoint_step = if template.family == "bedrock" {
+        "2. Confirm `ADL_AWS_PROFILE=agent-logic-admin`, set `ADL_AWS_REGION` to the Bedrock region you want to use, and replace `ADL_AWS_BEDROCK_ACCOUNT_SHA256` with the operator-approved AWS account SHA-256 before invocation."
+    } else if template.kind.is_some() {
+        "2. Leave `config.endpoint` unset unless you are testing against a trusted compatible endpoint."
+    } else {
+        "2. Set `config.endpoint` in `provider.adl.yaml` to a real ADL-compatible completion endpoint."
+    };
+    let env_step = if template.family == "bedrock" {
+        "1. Copy `env.example` to a local untracked env file and fill in the approved account pin."
+            .to_string()
+    } else {
+        format!(
+            "1. Copy `env.example` to a local untracked env file and put your real credential in `{}`.",
+            template.env_var
+        )
+    };
+    format!(
+        "# Provider setup: {family}\n\nThis bundle gives you a local starting point for configuring the `{family}` provider family.\n\nFiles:\n- `provider.adl.yaml`: mergeable ADL provider/agent snippet\n- `env.example`: local env template for your credential\n\nSelected default model:\n- `{selected_model}`\n\nSteps:\n{env_step}\n{endpoint_step}\n3. Merge the provider/agent snippet into your workflow file.\n4. Change `provider_model_id` to any trusted model ID supported by this provider family when you want a different task/model route.\n5. Source your local env file before running ADL.\n\nImportant:\n{transport_note}\n- No secrets are stored by this command; the generated env file is only a local template.\n\nNotes:\n{notes}\n",
+        family = template.family,
+        selected_model = selected_model,
+        env_step = env_step,
+        endpoint_step = endpoint_step,
+        transport_note = transport_note,
+        notes = template.notes
+    )
+}
+
+fn required_value(args: &[String], index: usize, flag: &str) -> Result<String> {
+    args.get(index + 1)
+        .cloned()
+        .ok_or_else(|| anyhow!("{flag} requires a value"))
+}
+
+fn run_git_capture(args: &[&str]) -> Result<String> {
+    let output = Command::new("git")
+        .args(args)
+        .output()
+        .with_context(|| format!("failed to invoke git {}", args.join(" ")))?;
+    if !output.status.success() {
+        return Err(anyhow!(
+            "git {} failed with status {}",
+            args.join(" "),
+            output.status
+        ));
+    }
+    String::from_utf8(output.stdout).context("git output was not valid UTF-8")
+}
+
+fn repo_root() -> Result<PathBuf> {
+    Ok(PathBuf::from(
+        run_git_capture(&["rev-parse", "--show-toplevel"])?
+            .trim()
+            .to_string(),
+    ))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::cli::tests::env_lock;
+    use std::env;
+    use std::time::{SystemTime, UNIX_EPOCH};
+
+    struct TestDirLock {
+        path: PathBuf,
+    }
+
+    impl Drop for TestDirLock {
+        fn drop(&mut self) {
+            let _ = fs::remove_dir(&self.path);
+        }
+    }
+
+    fn acquire_test_dir_lock(path: PathBuf) -> TestDirLock {
+        for _ in 0..500 {
+            match fs::create_dir(&path) {
+                Ok(()) => return TestDirLock { path },
+                Err(err) if err.kind() == std::io::ErrorKind::AlreadyExists => {
+                    std::thread::sleep(std::time::Duration::from_millis(10));
+                }
+                Err(err) => panic!("failed to create test lock {}: {err}", path.display()),
+            }
+        }
+        panic!("timed out waiting for test lock {}", path.display());
+    }
+
+    fn temp_repo(name: &str) -> PathBuf {
+        let unique = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .expect("clock")
+            .as_nanos();
+        let repo = env::temp_dir().join(format!("adl-provider-{name}-{unique}"));
+        fs::create_dir_all(&repo).expect("create repo dir");
+        Command::new(if Path::new("/usr/bin/git").exists() {
+            "/usr/bin/git"
+        } else {
+            "git"
+        })
+        .arg("init")
+        .current_dir(&repo)
+        .status()
+        .expect("git init")
+        .success()
+        .then_some(())
+        .expect("git init should succeed");
+        repo
+    }
+
+    #[test]
+    fn provider_requires_subcommand_and_rejects_unknown_subcommand() {
+        let repo = temp_repo("subcommands");
+        let err = real_provider_in_repo(&[], &repo).expect_err("missing subcommand should fail");
+        assert!(err
+            .to_string()
+            .contains("provider requires a subcommand: setup"));
+
+        let err =
+            real_provider_in_repo(&["nope".to_string()], &repo).expect_err("unknown should fail");
+        assert!(err
+            .to_string()
+            .contains("unknown provider subcommand 'nope'"));
+    }
+
+    #[test]
+    fn provider_help_paths_succeed() {
+        let repo = temp_repo("help");
+        real_provider_in_repo(&["help".to_string()], &repo).expect("help should succeed");
+        real_provider_in_repo(&["--help".to_string()], &repo).expect("--help should succeed");
+        real_provider_in_repo(&["-h".to_string()], &repo).expect("-h should succeed");
+    }
+
+    #[test]
+    fn provider_setup_writes_expected_bundle_for_chatgpt() {
+        let repo = temp_repo("chatgpt");
+        real_provider_in_repo(&["setup".to_string(), "chatgpt".to_string()], &repo)
+            .expect("chatgpt setup should succeed");
+
+        let out = repo.join(".adl/provider-setup/chatgpt");
+        let provider_text =
+            fs::read_to_string(out.join("provider.adl.yaml")).expect("provider yaml");
+        let env_text = fs::read_to_string(out.join("env.example")).expect("env example");
+        let readme = fs::read_to_string(out.join("README.md")).expect("readme");
+
+        assert!(provider_text.contains("profile: \"chatgpt:gpt-5.4\""));
+        assert!(provider_text.contains("env: OPENAI_API_KEY"));
+        assert!(env_text.contains("OPENAI_API_KEY=replace-me"));
+        assert!(readme.contains("compatibility gateway or adapter"));
+    }
+
+    #[test]
+    fn provider_setup_writes_expected_bundle_for_claude() {
+        let repo = temp_repo("claude");
+        real_provider_in_repo(&["setup".to_string(), "claude".to_string()], &repo)
+            .expect("claude setup should succeed");
+
+        let out = repo.join(".adl/provider-setup/claude");
+        let provider_text =
+            fs::read_to_string(out.join("provider.adl.yaml")).expect("provider yaml");
+        let env_text = fs::read_to_string(out.join("env.example")).expect("env example");
+        let readme = fs::read_to_string(out.join("README.md")).expect("readme");
+
+        assert!(provider_text.contains("profile: \"claude:claude-3-7-sonnet\""));
+        assert!(provider_text.contains("provider: \"claude_primary\""));
+        assert!(provider_text.contains("env: ANTHROPIC_API_KEY"));
+        assert!(env_text.contains("ANTHROPIC_API_KEY=replace-me"));
+        assert!(readme.contains("first-class Claude family surface"));
+    }
+
+    #[test]
+    fn provider_setup_writes_expected_bundle_for_claude_opus_5() {
+        let repo = temp_repo("claude-opus-5");
+        real_provider_in_repo(&["setup".to_string(), "claude-opus-5".to_string()], &repo)
+            .expect("claude opus 5 setup should succeed");
+
+        let out = repo.join(".adl/provider-setup/claude-opus-5");
+        let provider_text =
+            fs::read_to_string(out.join("provider.adl.yaml")).expect("provider yaml");
+        let env_text = fs::read_to_string(out.join("env.example")).expect("env example");
+        let readme = fs::read_to_string(out.join("README.md")).expect("readme");
+
+        assert!(provider_text.contains("profile: \"claude:claude-opus-5\""));
+        assert!(provider_text.contains("model: \"claude-opus-5\""));
+        assert!(provider_text.contains("provider: \"claude_opus_5_primary\""));
+        assert!(provider_text.contains("env: ANTHROPIC_API_KEY"));
+        assert!(env_text.contains("ANTHROPIC_API_KEY=replace-me"));
+        assert!(readme.contains("Rust-native Anthropic Messages adapter"));
+    }
+
+    #[test]
+    fn provider_setup_writes_bedrock_account_pin_material() {
+        let repo = temp_repo("bedrock");
+        real_provider_in_repo(&["setup".to_string(), "bedrock".to_string()], &repo)
+            .expect("bedrock setup should succeed");
+
+        let out = repo.join(".adl/provider-setup/bedrock");
+        let provider_text =
+            fs::read_to_string(out.join("provider.adl.yaml")).expect("provider yaml");
+        let env_text = fs::read_to_string(out.join("env.example")).expect("env example");
+        let readme = fs::read_to_string(out.join("README.md")).expect("readme");
+
+        assert!(provider_text.contains("type: \"bedrock\""));
+        assert!(provider_text.contains("profile: \"agent-logic-admin\""));
+        assert!(provider_text.contains("region: \"us-west-2\""));
+        assert!(env_text.contains("ADL_AWS_PROFILE=agent-logic-admin"));
+        assert!(env_text.contains("ADL_AWS_REGION=us-west-2"));
+        assert!(env_text
+            .contains("ADL_AWS_BEDROCK_ACCOUNT_SHA256=replace-me-with-approved-account-sha256"));
+        assert!(readme.contains("fails closed"));
+        assert!(readme.contains("ADL_AWS_BEDROCK_ACCOUNT_SHA256"));
+        assert!(readme.contains("config.expected_account_sha256"));
+    }
+
+    #[test]
+    fn provider_setup_supports_explicit_out_and_force() {
+        let repo = temp_repo("out-force");
+        let out = repo.join("custom/provider-setup/openai");
+
+        real_provider_in_repo(
+            &[
+                "setup".to_string(),
+                "openai".to_string(),
+                "--out".to_string(),
+                out.display().to_string(),
+            ],
+            &repo,
+        )
+        .expect("first write should succeed");
+
+        let err = real_provider_in_repo(
+            &[
+                "setup".to_string(),
+                "openai".to_string(),
+                "--out".to_string(),
+                out.display().to_string(),
+            ],
+            &repo,
+        )
+        .expect_err("existing dir without force should fail");
+        assert!(err.to_string().contains("pass --force to overwrite"));
+
+        real_provider_in_repo(
+            &[
+                "setup".to_string(),
+                "openai".to_string(),
+                "--out".to_string(),
+                out.display().to_string(),
+                "--force".to_string(),
+            ],
+            &repo,
+        )
+        .expect("force overwrite should succeed");
+    }
+
+    #[test]
+    fn provider_setup_validates_setup_args() {
+        let repo = temp_repo("bad-args");
+
+        real_provider_in_repo(&["setup".to_string(), "--help".to_string()], &repo)
+            .expect("setup help should succeed");
+
+        let err = real_provider_in_repo(&["setup".to_string()], &repo)
+            .expect_err("missing family should fail");
+        assert!(err.to_string().contains("provider setup requires <family>"));
+
+        let err = real_provider_in_repo(
+            &[
+                "setup".to_string(),
+                "chatgpt".to_string(),
+                "--bogus".to_string(),
+            ],
+            &repo,
+        )
+        .expect_err("unknown arg should fail");
+        assert!(err
+            .to_string()
+            .contains("unknown arg for provider setup: --bogus"));
+
+        let err = real_provider_in_repo(
+            &[
+                "setup".to_string(),
+                "chatgpt".to_string(),
+                "--out".to_string(),
+            ],
+            &repo,
+        )
+        .expect_err("missing out value should fail");
+        assert!(err.to_string().contains("--out requires a value"));
+
+        let err = real_provider_in_repo(
+            &[
+                "setup".to_string(),
+                "chatgpt".to_string(),
+                "--out".to_string(),
+                "--force".to_string(),
+            ],
+            &repo,
+        )
+        .expect_err("flag-like out value should fail");
+        assert!(err.to_string().contains("--out requires a value"));
+
+        let err = real_provider_in_repo(
+            &[
+                "setup".to_string(),
+                "chatgpt".to_string(),
+                "--out".to_string(),
+                "-h".to_string(),
+            ],
+            &repo,
+        )
+        .expect_err("single-dash flag-like out value should fail");
+        assert!(err.to_string().contains("--out requires a value"));
+
+        let err = real_provider_in_repo(
+            &[
+                "setup".to_string(),
+                "openrouter".to_string(),
+                "--model".to_string(),
+            ],
+            &repo,
+        )
+        .expect_err("missing model value should fail");
+        assert!(err.to_string().contains("--model requires a value"));
+    }
+
+    #[test]
+    fn provider_setup_rejects_unknown_family() {
+        let repo = temp_repo("unknown-family");
+        let err = real_provider_in_repo(&["setup".to_string(), "bogus".to_string()], &repo)
+            .expect_err("unknown family should fail");
+        assert!(err
+            .to_string()
+            .contains("unsupported provider setup family"));
+    }
+
+    #[test]
+    fn provider_setup_supports_all_declared_families() {
+        let families = [
+            ("chatgpt", "profile: \"chatgpt:gpt-5.4\"", "OPENAI_API_KEY"),
+            (
+                "claude",
+                "profile: \"claude:claude-3-7-sonnet\"",
+                "ANTHROPIC_API_KEY",
+            ),
+            (
+                "claude-opus-5",
+                "profile: \"claude:claude-opus-5\"",
+                "ANTHROPIC_API_KEY",
+            ),
+            ("openai", "type: \"openai\"", "OPENAI_API_KEY"),
+            ("anthropic", "type: \"anthropic\"", "ANTHROPIC_API_KEY"),
+            (
+                "gemini",
+                "profile: \"http:gemini-2.0-flash\"",
+                "GEMINI_API_KEY",
+            ),
+            ("deepseek", "type: \"deepseek\"", "DEEPSEEK_API_KEY"),
+            ("kimi", "type: \"kimi\"", "MOONSHOT_API_KEY"),
+            ("moonshot", "type: \"kimi\"", "MOONSHOT_API_KEY"),
+            ("openrouter", "type: \"openrouter\"", "OPENROUTER_API_KEY"),
+            ("z_ai", "type: \"z_ai\"", "ZAI_API_KEY"),
+            (
+                "generic-http",
+                "profile: \"http:gpt-4.1-mini\"",
+                "ADL_REMOTE_BEARER_TOKEN",
+            ),
+        ];
+
+        for (family, provider_identity, env_var) in families {
+            let template = template_for_family(family).expect("family should resolve");
+            assert_eq!(template.env_var, env_var);
+
+            let provider_yaml = render_provider_yaml(template, template.provider_model_id);
+            let env_example = render_env_example(template);
+            let readme = render_readme(template, template.provider_model_id);
+
+            assert!(provider_yaml.contains(provider_identity));
+            assert!(env_example.contains(env_var));
+            assert!(readme.contains(template.family));
+            if template.kind.is_some() {
+                assert!(readme.contains("Rust-native provider adapter"));
+            } else {
+                assert!(readme.contains("completion-style HTTP contract"));
+            }
+        }
+    }
+
+    #[test]
+    fn real_provider_uses_repo_root_for_default_output() {
+        let _guard = env_lock();
+        let repo_root = Path::new(env!("CARGO_MANIFEST_DIR"))
+            .parent()
+            .expect("adl crate lives under repo root")
+            .to_path_buf();
+        fs::create_dir_all(repo_root.join(".adl/provider-setup"))
+            .expect("create provider setup root");
+        let _dir_guard =
+            acquire_test_dir_lock(repo_root.join(".adl/provider-setup/.deepseek-test.lock"));
+        let prev_dir = env::current_dir().expect("cwd");
+        env::set_current_dir(&repo_root).expect("switch to repo root");
+        let out = repo_root.join(".adl/provider-setup/deepseek");
+        if out.exists() {
+            fs::remove_dir_all(&out).expect("remove stale output");
+        }
+
+        real_provider(&["setup".to_string(), "deepseek".to_string()])
+            .expect("top-level provider entrypoint should succeed");
+
+        assert!(out.join("provider.adl.yaml").exists());
+        assert!(out.join("env.example").exists());
+        assert!(out.join("README.md").exists());
+
+        fs::remove_dir_all(out).expect("cleanup generated output");
+        env::set_current_dir(prev_dir).expect("restore cwd");
+    }
+
+    #[test]
+    fn provider_setup_supports_model_override_for_openrouter() {
+        let repo = temp_repo("openrouter-model-override");
+        let out = repo.join("custom/provider-setup/openrouter");
+
+        real_provider_in_repo(
+            &[
+                "setup".to_string(),
+                "openrouter".to_string(),
+                "--model".to_string(),
+                "google/gemini-2.5-flash-lite".to_string(),
+                "--out".to_string(),
+                out.display().to_string(),
+            ],
+            &repo,
+        )
+        .expect("openrouter setup with model override should succeed");
+
+        let provider_text =
+            fs::read_to_string(out.join("provider.adl.yaml")).expect("provider yaml");
+        let readme = fs::read_to_string(out.join("README.md")).expect("readme");
+
+        assert!(provider_text.contains("type: \"openrouter\""));
+        assert!(provider_text.contains("provider_model_id: \"google/gemini-2.5-flash-lite\""));
+        assert!(readme.contains("Selected default model:"));
+        assert!(readme.contains("google/gemini-2.5-flash-lite"));
+        assert!(readme.contains("Change `provider_model_id` to any trusted model ID"));
+    }
+}

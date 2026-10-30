@@ -1,0 +1,14 @@
+{
+  "schema": "agent_logic.podcast.episode_source_package.v1",
+  "episode": 2,
+  "slug": "002-can-an-ai-be-a-good-teammate",
+  "title": "Can an AI Be a Good Teammate?",
+  "show_working_title": "The Cognitive Stack",
+  "status": "source_package_ready_audio_pending",
+  "premise": "Explore what makes an AI useful inside a team: initiative, humility, context, memory, and knowing when to stop.",
+  "agent_panel": ["Codex", "ChatGPT", "Claude", "Gemini"],
+  "listener_takeaway": "A good AI teammate is not just fast; it is bounded, legible, corrigible, and able to share context with others.",
+  "promotes": ["CodeFriend", "handoffs", "review loops"],
+  "audio": {"final_mp3": null, "archive_audio": null, "status": "pending_final_package_proof"},
+  "publication_claimed": false
+}

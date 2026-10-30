@@ -1,0 +1,35 @@
+---
+name: csdlc-v2-finish
+description: Finish one reviewed and published C-SDLC v2 issue by merging its exact green reviewed PR head, or by recognizing an already-terminal GitHub state, without a second closeout PR.
+---
+
+# C-SDLC v2 Finish
+
+C-SDLC v2 remains the live lifecycle authority only until explicit V3-F/#505
+cutover. Before that cutover, `csdlc-v3/**` is non-authoritative construction
+evidence and must not finish issues, derive terminal truth, clean worktrees, or
+retire v2.
+
+Use `csdlc-install resolve` to locate the active `csdlc-finish` binary, then pass
+one typed finish request with `--root` and `--request`.
+
+The command validates canonical pre-merge evidence and live GitHub identity. An
+open PR is merged only at the declared SHA after its required checks and exact-
+head review pass. A merged or closed-unmerged PR is recognized from re-observed
+GitHub state. A no-PR closure additionally requires the fixed
+`closeout:no-pr-approved` GitHub label.
+
+The result is a minimal derived terminal envelope retained beneath the Git
+common directory. It is a rebuildable cache, not a new lifecycle record. The
+command never edits tracked cards after merge, opens a closeout PR, or removes a
+worktree.
+
+When publication evidence names a PR repository different from the issue
+record repository, finish treats the record repository as issue authority and
+the publication repository as code/PR authority. It requires the exact
+qualified closing relationship, PR repository, base, head, and head SHA, then
+re-observes the preserved issue as closed before deriving terminal success. A
+merged canonical PR with an open preserved issue remains nonterminal.
+
+Run cleanup separately. Historical terminal records and retained receipts are
+read-only compatibility evidence; finish never rewrites them.

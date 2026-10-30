@@ -1,0 +1,14 @@
+{
+  "schema": "agent_logic.podcast.episode_source_package.v1",
+  "episode": 5,
+  "slug": "005-can-ai-help-us-think-better",
+  "title": "Can AI Help Us Think Better?",
+  "show_working_title": "The Cognitive Stack",
+  "status": "source_package_ready_audio_pending",
+  "premise": "Frame AI as a cognitive partner: generating alternatives, finding blind spots, preserving decisions, and challenging drift.",
+  "agent_panel": ["ChatGPT", "Claude", "Gemini", "domain specialist guest"],
+  "listener_takeaway": "Better thinking comes from structured disagreement and memory, not from a single model sounding confident.",
+  "promotes": ["Polis-style reasoning", "decision records", "reviewable cognition"],
+  "audio": {"final_mp3": null, "archive_audio": null, "status": "pending_final_package_proof"},
+  "publication_claimed": false
+}

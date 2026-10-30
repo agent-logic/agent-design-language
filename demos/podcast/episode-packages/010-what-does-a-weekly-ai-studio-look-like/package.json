@@ -1,0 +1,14 @@
+{
+  "schema": "agent_logic.podcast.episode_source_package.v1",
+  "episode": 10,
+  "slug": "010-what-does-a-weekly-ai-studio-look-like",
+  "title": "What Does a Weekly AI Studio Look Like?",
+  "show_working_title": "The Cognitive Stack",
+  "status": "source_package_ready_audio_pending",
+  "premise": "Make the operating model tangible: recurring production, model roles, review gates, launch rituals, and product learning loops.",
+  "agent_panel": ["Codex", "ChatGPT", "Claude", "Gemini"],
+  "listener_takeaway": "A weekly AI studio is not a content treadmill; it is a disciplined way to turn product reasoning into public proof.",
+  "promotes": ["Agent Logic process", "repeatable demos", "market education"],
+  "audio": {"final_mp3": null, "archive_audio": null, "status": "pending_final_package_proof"},
+  "publication_claimed": false
+}

@@ -1,0 +1,83 @@
+{
+  "schema": "adl.characterization.normalized.v1",
+  "case_id": "ed25519-sign-verify-tamper",
+  "repetition": 2,
+  "incumbent_revision": "19c2b6e2ad18bddc75db9231643a54b2a446ce72",
+  "binary_sha256": "f558fa2111474e2fab540f8d0244be82cdb727ebbaa15aee758d8a7d57d0969c",
+  "commands": [
+    {
+      "step_id": "sign",
+      "declared_args": [
+        "sign",
+        "{ROOT}/fixtures/six-primitives.adl.yaml",
+        "--key",
+        "{WORK}/keys/private.b64",
+        "--key-id",
+        "characterization-fixed",
+        "--out",
+        "{WORK}/signed.adl.yaml"
+      ],
+      "expanded_args": [
+        "sign",
+        "<ROOT>/fixtures/six-primitives.adl.yaml",
+        "--key",
+        "<WORK>/keys/private.b64",
+        "--key-id",
+        "characterization-fixed",
+        "--out",
+        "<WORK>/signed.adl.yaml"
+      ],
+      "exit_code": 0,
+      "captured_stdout_sha256": "ba1943240de917f0b0bcdfe73f8b413bebe2d72d4b05056a617a8a018569e0ff",
+      "captured_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "portable_stdout_sha256": "35904205cc7ec8934a4c036b8a0a386dfb685e878c1f13f6d355433473e52d2c",
+      "portable_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "SIGN ok path=<WORK>/signed.adl.yaml\n",
+      "stderr": ""
+    },
+    {
+      "step_id": "verify",
+      "declared_args": [
+        "verify",
+        "{WORK}/signed.adl.yaml",
+        "--key",
+        "{WORK}/keys/public.b64"
+      ],
+      "expanded_args": [
+        "verify",
+        "<WORK>/signed.adl.yaml",
+        "--key",
+        "<WORK>/keys/public.b64"
+      ],
+      "exit_code": 0,
+      "captured_stdout_sha256": "a9873feccf069830b1da6ab8f6f5338539b660b45a0427f5a3458406c08533ba",
+      "captured_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "portable_stdout_sha256": "a9873feccf069830b1da6ab8f6f5338539b660b45a0427f5a3458406c08533ba",
+      "portable_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "VERIFY ok\n",
+      "stderr": ""
+    },
+    {
+      "step_id": "tamper",
+      "declared_args": [
+        "verify",
+        "{WORK}/signed.adl.yaml",
+        "--key",
+        "{WORK}/keys/public.b64"
+      ],
+      "expanded_args": [
+        "verify",
+        "<WORK>/signed.adl.yaml",
+        "--key",
+        "<WORK>/keys/public.b64"
+      ],
+      "exit_code": 1,
+      "captured_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "captured_stderr_sha256": "91105dd7cf605fa2ad10b55fc42a3ae06148fc226946a54a0ec0bd50dc0c58a4",
+      "portable_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "portable_stderr_sha256": "91105dd7cf605fa2ad10b55fc42a3ae06148fc226946a54a0ec0bd50dc0c58a4",
+      "stdout": "",
+      "stderr": "Error: SIGNATURE_MISMATCH: signature verification failed: signature error: Verification equation was not satisfied\n"
+    }
+  ]
+}

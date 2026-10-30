@@ -1,0 +1,35 @@
+{
+  "schema": "adl.characterization.normalized.v1",
+  "case_id": "local-mock-run",
+  "repetition": 3,
+  "incumbent_revision": "19c2b6e2ad18bddc75db9231643a54b2a446ce72",
+  "binary_sha256": "f558fa2111474e2fab540f8d0244be82cdb727ebbaa15aee758d8a7d57d0969c",
+  "commands": [
+    {
+      "step_id": "run",
+      "declared_args": [
+        "{ROOT}/fixtures/mock-run.adl.yaml",
+        "--run",
+        "--allow-unsigned",
+        "--out",
+        "{WORK}/run",
+        "--quiet"
+      ],
+      "expanded_args": [
+        "<ROOT>/fixtures/mock-run.adl.yaml",
+        "--run",
+        "--allow-unsigned",
+        "--out",
+        "<WORK>/run",
+        "--quiet"
+      ],
+      "exit_code": 0,
+      "captured_stdout_sha256": "11ce9c2c7bc32a9cf30f0ab4abc24df0b0e740b5ab2253a691b8c7ca983cb1ae",
+      "captured_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "portable_stdout_sha256": "11ce9c2c7bc32a9cf30f0ab4abc24df0b0e740b5ab2253a691b8c7ca983cb1ae",
+      "portable_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "RUN SUMMARY: 1 step(s)\n  step=emit provider=local_mock status=success attempts=1 bytes=30\n",
+      "stderr": ""
+    }
+  ]
+}

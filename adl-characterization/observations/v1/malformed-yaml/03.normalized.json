@@ -1,0 +1,27 @@
+{
+  "schema": "adl.characterization.normalized.v1",
+  "case_id": "malformed-yaml",
+  "repetition": 3,
+  "incumbent_revision": "19c2b6e2ad18bddc75db9231643a54b2a446ce72",
+  "binary_sha256": "f558fa2111474e2fab540f8d0244be82cdb727ebbaa15aee758d8a7d57d0969c",
+  "commands": [
+    {
+      "step_id": "parse",
+      "declared_args": [
+        "{ROOT}/fixtures/malformed.adl.yaml",
+        "--print-plan"
+      ],
+      "expanded_args": [
+        "<ROOT>/fixtures/malformed.adl.yaml",
+        "--print-plan"
+      ],
+      "exit_code": 1,
+      "captured_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "captured_stderr_sha256": "c716c9db8c214af507bd1831f5a7d6669202c53506a008c264da1305b21bdf34",
+      "portable_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "portable_stderr_sha256": "d9070acf556be016f09a51ac7515c71a690443489b7d6fc185661e333547d891",
+      "stdout": "",
+      "stderr": "Error: failed to load ADL document: <ROOT>/fixtures/malformed.adl.yaml\n  0: read/merge adl file (with includes): <ROOT>/fixtures/malformed.adl.yaml\n  1: parse adl yaml: <ROOT>/fixtures/malformed.adl.yaml\n  2: did not find expected ',' or ']' at line 3 column 1, while parsing a flow sequence at line 2 column 12\n"
+    }
+  ]
+}

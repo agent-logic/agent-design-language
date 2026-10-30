@@ -1,0 +1,21 @@
+version: "0.5"
+providers:
+  local_mock:
+    profile: "mock:echo-v1"
+agents:
+  writer:
+    provider: local_mock
+    model: echo-v1
+tasks:
+  emit:
+    prompt:
+      user: "CHARACTERIZATION_MOCK_OK"
+run:
+  name: characterization-mock
+  workflow:
+    kind: sequential
+    steps:
+      - id: emit
+        agent: writer
+        task: emit
+        save_as: result

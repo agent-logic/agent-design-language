@@ -1,0 +1,103 @@
+{
+  "adl_role": "tooling_control_plane",
+  "aee_resilience": {
+    "failure_recovery": "restart_budget_and_checkpoint_restore",
+    "recoverable_states": [
+      "idle",
+      "completed",
+      "failed",
+      "stopped",
+      "leased"
+    ],
+    "status": "integrated"
+  },
+  "agent_instance_id": "csm-liveness-4976-full",
+  "agent_status": {
+    "completed_cycle_count": 87,
+    "consecutive_failure_count": 0,
+    "last_cycle_id": "cycle-000087",
+    "last_cycle_status": "success",
+    "state": "idle",
+    "stop_requested": false,
+    "updated_at": "2026-07-06T17:18:26.506105Z"
+  },
+  "backpressure": {
+    "ref": "csm_backpressure_state.json",
+    "schema": null,
+    "status": "missing"
+  },
+  "checkpoint": {
+    "age_secs": 5,
+    "checkpoint_ref": "continuity_checkpoint.json",
+    "last_checkpoint_at": "2026-07-06T17:18:24.497627Z",
+    "status": "fresh"
+  },
+  "chronosense": {
+    "clock_stack_capture": "daemon_event_time",
+    "clock_stack_schema": "chronosense_clock_stack.v1",
+    "service_schema": "chronosense_runtime_service.v1",
+    "status": "integrated"
+  },
+  "continuity": {
+    "checkpoint": {
+      "ref": "continuity_checkpoint.json",
+      "schema": "adl.long_lived_agent_continuity_checkpoint.v1",
+      "status": "serialized"
+    },
+    "replay_manifest": {
+      "ref": "continuity_replay_manifest.json",
+      "schema": "adl.long_lived_agent_continuity_replay_manifest.v1",
+      "status": "serialized"
+    },
+    "safe_fail_bundle": {
+      "ref": "safe_fail_bundle.json",
+      "schema": "adl.csm.safe_fail_bundle.v1",
+      "status": "serialized"
+    }
+  },
+  "daemon_liveness": {
+    "last_event": "child_exit",
+    "state": "running",
+    "status": "observed",
+    "updated_at": "2026-07-06T17:18:24.497627Z"
+  },
+  "events": {
+    "bytes": 987888,
+    "ref": "operator_events.jsonl",
+    "status": "retained"
+  },
+  "otel": {
+    "log": {
+      "bytes": 556256,
+      "ref": "ADL_OTEL_LOG",
+      "status": "retained"
+    },
+    "status": {
+      "ref": "ADL_OTEL_STATUS",
+      "schema": "adl.otel.monitor_status.v1",
+      "status": "serialized"
+    }
+  },
+  "ready": "ready",
+  "redaction": {
+    "absolute_host_paths": "not_returned",
+    "cloud_account_identifiers": "not_returned",
+    "secret_material": "not_returned"
+  },
+  "resilience_middleware": {
+    "lease_policy": "active_stale_recoverable_blocked",
+    "partial_checkpoints": "daemon_partial_checkpoint",
+    "restart_backoff": "bounded_exponential",
+    "safe_fail_serialization": "integrated_safe_fail_bundle",
+    "status": "integrated"
+  },
+  "runtime_owner": "csm",
+  "scheduler": {
+    "cadence_source": "heartbeat.interval_secs_or_daemon_default",
+    "partial_checkpoint_interval": "checkpoint_interval_secs",
+    "status": "integrated",
+    "stop_observation": "stop_json_checked_between_cycles_and_sleep_slices"
+  },
+  "schema": "adl.csm.runtime_api.status.v1",
+  "status": "healthy"
+}

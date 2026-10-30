@@ -1,0 +1,250 @@
+//! Runtime v2 public surface for core operational APIs and proof artifacts.
+//!
+//! This module groups the prototype runtime domain into smaller documented surfaces:
+//! manifold state, kernel control, citizen lifecycle, private-state pathways,
+//! and proof-bearing contracts used by downstream review tooling.
+
+mod a2a_adapter_boundary;
+mod access_control;
+mod acip_hardening;
+mod aee_obsmem_pvf_trace_handoff;
+mod affect_reasoning_control;
+mod agent_lifecycle_state;
+mod anti_harm_trajectory_constraints;
+mod bid_schema;
+mod boot_admission;
+mod challenge;
+mod citizen;
+mod citizen_state_substrate;
+mod codefriend_adapter_obligations;
+mod cognitive_being_flagship_demo;
+mod constructability_anchor_validator;
+mod contract_lifecycle_state;
+mod contract_market_demo;
+mod contract_schema;
+mod contracts;
+mod csm_run;
+mod cultivating_intelligence;
+mod curiosity_engine;
+mod delegation_subcontract;
+mod economics_civilization_boundary;
+mod evaluation_selection;
+mod external_counterparty;
+mod feature_proof_coverage;
+mod foundation;
+mod godel_agent_runtime;
+mod godel_constructability_boundary;
+mod governed_episode;
+mod governed_learning_substrate;
+mod governed_tools_flagship_demo;
+mod guild_foundation_boundary;
+mod hardening;
+mod humor_and_absurdity;
+mod integrated_csm_run;
+mod intelligence_metric_architecture;
+mod invariant;
+mod invariant_contract;
+mod kernel_loop;
+mod kindness_model;
+mod loop_runtime;
+mod manifold;
+mod memory_identity_architecture;
+mod minimal_integrated_runtime_path;
+mod moral_event_validation;
+mod moral_metrics;
+mod moral_resources;
+mod moral_trace_schema;
+mod moral_trajectory_review;
+mod observatory;
+mod observatory_flagship;
+mod operator;
+mod outcome_linkage_attribution;
+mod private_state;
+mod private_state_envelope;
+mod private_state_equivocation;
+mod private_state_lineage;
+mod private_state_observatory;
+mod private_state_sanctuary;
+mod private_state_sealing;
+mod private_state_witness;
+mod quarantine;
+mod reasoning_graph;
+mod reasoning_runtime_bridge;
+mod recovery;
+mod resource_stewardship_bridge;
+mod runtime_inhabitant_integration;
+mod security;
+mod shutdown_dag;
+mod snapshot;
+mod standing;
+mod theory_of_mind_foundation;
+mod transition_authority;
+mod types;
+mod unified_runtime_kernel;
+mod validators;
+mod wellbeing_metrics;
+
+use anyhow::{anyhow, Context, Result};
+use serde::{Deserialize, Serialize};
+use std::path::{Path, PathBuf};
+
+#[allow(unused_imports)]
+pub use a2a_adapter_boundary::*;
+#[allow(unused_imports)]
+pub use access_control::*;
+#[allow(unused_imports)]
+pub use acip_hardening::*;
+#[allow(unused_imports)]
+pub use aee_obsmem_pvf_trace_handoff::*;
+#[allow(unused_imports)]
+pub use affect_reasoning_control::*;
+pub use agent_lifecycle_state::*;
+#[allow(unused_imports)]
+pub use anti_harm_trajectory_constraints::*;
+#[allow(unused_imports)]
+pub use bid_schema::*;
+#[allow(unused_imports)]
+pub use boot_admission::*;
+#[allow(unused_imports)]
+pub use challenge::*;
+#[allow(unused_imports)]
+pub use citizen::*;
+#[allow(unused_imports)]
+pub use citizen_state_substrate::*;
+#[allow(unused_imports)]
+pub use codefriend_adapter_obligations::*;
+#[allow(unused_imports)]
+pub use cognitive_being_flagship_demo::*;
+#[allow(unused_imports)]
+pub use constructability_anchor_validator::*;
+#[allow(unused_imports)]
+pub use contract_lifecycle_state::*;
+#[allow(unused_imports)]
+pub use contract_market_demo::*;
+#[allow(unused_imports)]
+pub use contract_schema::*;
+#[allow(unused_imports)]
+pub use contracts::*;
+#[allow(unused_imports)]
+pub use csm_run::*;
+#[allow(unused_imports)]
+pub use cultivating_intelligence::*;
+#[allow(unused_imports)]
+pub use curiosity_engine::*;
+#[allow(unused_imports)]
+pub use delegation_subcontract::*;
+#[allow(unused_imports)]
+pub use economics_civilization_boundary::*;
+#[allow(unused_imports)]
+pub use evaluation_selection::*;
+#[allow(unused_imports)]
+pub use external_counterparty::*;
+#[allow(unused_imports)]
+pub use feature_proof_coverage::*;
+#[allow(unused_imports)]
+pub use foundation::*;
+#[allow(unused_imports)]
+pub use godel_agent_runtime::*;
+#[allow(unused_imports)]
+pub use godel_constructability_boundary::*;
+#[allow(unused_imports)]
+pub use governed_episode::*;
+#[allow(unused_imports)]
+pub use governed_learning_substrate::*;
+#[allow(unused_imports)]
+pub use governed_tools_flagship_demo::*;
+#[allow(unused_imports)]
+pub use guild_foundation_boundary::*;
+#[allow(unused_imports)]
+pub use hardening::*;
+#[allow(unused_imports)]
+pub use humor_and_absurdity::*;
+#[allow(unused_imports)]
+pub use integrated_csm_run::*;
+#[allow(unused_imports)]
+pub use intelligence_metric_architecture::*;
+#[allow(unused_imports)]
+pub use invariant::*;
+#[allow(unused_imports)]
+pub use invariant_contract::*;
+#[allow(unused_imports)]
+pub use kernel_loop::*;
+#[allow(unused_imports)]
+pub use kindness_model::*;
+#[allow(unused_imports)]
+pub use loop_runtime::*;
+#[allow(unused_imports)]
+pub use manifold::*;
+#[allow(unused_imports)]
+pub use memory_identity_architecture::*;
+#[allow(unused_imports)]
+pub use minimal_integrated_runtime_path::*;
+#[allow(unused_imports)]
+pub use moral_event_validation::*;
+#[allow(unused_imports)]
+pub use moral_metrics::*;
+#[allow(unused_imports)]
+pub use moral_resources::*;
+#[allow(unused_imports)]
+pub use moral_trace_schema::*;
+#[allow(unused_imports)]
+pub use moral_trajectory_review::*;
+#[allow(unused_imports)]
+pub use observatory::*;
+#[allow(unused_imports)]
+pub use observatory_flagship::*;
+#[allow(unused_imports)]
+pub use operator::*;
+#[allow(unused_imports)]
+pub use outcome_linkage_attribution::*;
+#[allow(unused_imports)]
+pub use private_state::*;
+#[allow(unused_imports)]
+pub use private_state_envelope::*;
+#[allow(unused_imports)]
+pub use private_state_equivocation::*;
+#[allow(unused_imports)]
+pub use private_state_lineage::*;
+#[allow(unused_imports)]
+pub use private_state_observatory::*;
+#[allow(unused_imports)]
+pub use private_state_sanctuary::*;
+#[allow(unused_imports)]
+pub use private_state_sealing::*;
+#[allow(unused_imports)]
+pub use private_state_witness::*;
+#[allow(unused_imports)]
+pub use quarantine::*;
+#[allow(unused_imports)]
+pub use reasoning_graph::*;
+#[allow(unused_imports)]
+pub use reasoning_runtime_bridge::*;
+#[allow(unused_imports)]
+pub use recovery::*;
+#[allow(unused_imports)]
+pub use resource_stewardship_bridge::*;
+#[allow(unused_imports)]
+pub use runtime_inhabitant_integration::*;
+#[allow(unused_imports)]
+pub use security::*;
+#[allow(unused_imports)]
+pub use shutdown_dag::*;
+#[allow(unused_imports)]
+pub use snapshot::*;
+#[allow(unused_imports)]
+pub use standing::*;
+#[allow(unused_imports)]
+pub use theory_of_mind_foundation::*;
+#[allow(unused_imports)]
+pub use transition_authority::*;
+#[allow(unused_imports)]
+pub use types::*;
+#[allow(unused_imports)]
+pub use unified_runtime_kernel::*;
+#[allow(unused_imports)]
+pub(crate) use validators::*;
+#[allow(unused_imports)]
+pub use wellbeing_metrics::*;
+
+#[cfg(test)]
+mod tests;

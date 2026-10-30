@@ -1,0 +1,70 @@
+{
+  "schema": "csdlc.cutover_evidence.v1",
+  "code_revision": "7238809b67efe0e3af84719091c338cfa9ad4a3d",
+  "pre_switch_evidence_blake3": "a313881ce6429217dc8247de7919882d3fba0312fa75d553fe61fe14e175a54f",
+  "transitions": [
+    "v1",
+    "v2",
+    "v1",
+    "v2"
+  ],
+  "steps": [
+    {
+      "id": "v2_lifecycle_smoke",
+      "executable": "cargo",
+      "args": [
+        "test",
+        "--manifest-path",
+        "csdlc-v2/Cargo.toml",
+        "--test",
+        "gate7_lifecycle"
+      ],
+      "exit_code": 0,
+      "elapsed_millis": 6337,
+      "stdout_blake3": "b9af8d62cca638d3caced5e2eed86bd474d4757d2413fa5b1a099a3a4c53577b",
+      "stderr_blake3": "87784c97ffd976fe5a41892aaae1a6ad7fdd533a5bdfc74d613f486391e40950",
+      "passed": true
+    },
+    {
+      "id": "v1_rollback_smoke",
+      "executable": "<primary>/.adl/bin/adl-session",
+      "args": [
+        "claim",
+        "heartbeat",
+        "release",
+        "status",
+        "--temporary-ledger"
+      ],
+      "exit_code": 0,
+      "elapsed_millis": 272,
+      "stdout_blake3": "bdd760745d1c18c0c7eb9872b58f7c74ffea24acb87a2df9336daf8ef41c16a6",
+      "stderr_blake3": "af1349b9f5f9a1a6a0404dea36dcc9499bcb25c9adc112b7cc9a93cae41f3262",
+      "passed": true
+    },
+    {
+      "id": "v2_switch_back_smoke",
+      "executable": "cargo",
+      "args": [
+        "test",
+        "--manifest-path",
+        "csdlc-v2/Cargo.toml",
+        "--test",
+        "gate7_lifecycle"
+      ],
+      "exit_code": 0,
+      "elapsed_millis": 6288,
+      "stdout_blake3": "e12375bc2583631c4542e862f06249aaa4c56ca00b7a3c724fcade9ec8cb5143",
+      "stderr_blake3": "4ce20ea75e7ed9b5f703c2c7035d0f2b648bfdddba17fd200e75ba3d1e796d54",
+      "passed": true
+    }
+  ],
+  "final_generation": "v2",
+  "explicit_v1_override": true,
+  "v1_paths_before": true,
+  "v1_paths_after": true,
+  "cutover_at": "2026-07-13T02:03:02.808013Z",
+  "rollback_expires_at": "2026-07-27T02:03:02.808013Z",
+  "importer_expires_at": "2026-08-12T02:03:02.808013Z",
+  "deletion_authorized": false,
+  "passed": true
+}

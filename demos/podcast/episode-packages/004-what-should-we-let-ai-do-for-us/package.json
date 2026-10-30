@@ -1,0 +1,14 @@
+{
+  "schema": "agent_logic.podcast.episode_source_package.v1",
+  "episode": 4,
+  "slug": "004-what-should-we-let-ai-do-for-us",
+  "title": "What Should We Let AI Do for Us?",
+  "show_working_title": "The Cognitive Stack",
+  "status": "source_package_ready_audio_pending",
+  "premise": "Separate helpful delegation from unsafe automation by looking at authority, consequence, reversibility, and evidence.",
+  "agent_panel": ["Codex", "ChatGPT", "Claude", "Gemini"],
+  "listener_takeaway": "AI authority should be granted in layers, with explicit proof before side effects and refusal when context is missing.",
+  "promotes": ["Layer 8 authority", "trusted workflows", "safety by design"],
+  "audio": {"final_mp3": null, "archive_audio": null, "status": "pending_final_package_proof"},
+  "publication_claimed": false
+}

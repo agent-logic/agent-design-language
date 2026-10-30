@@ -1,0 +1,35 @@
+{
+  "schema": "adl.birthday.candidate.v1",
+  "candidate_id": "godel-agent-birthday-001",
+  "lifecycle_event": "birth_candidate",
+  "stable_name": "Aster",
+  "identity_root": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "continuity_head": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+  "bounded_cycles": [
+    {
+      "cycle": 1,
+      "identity_root": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "continuity_head": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    },
+    {
+      "cycle": 2,
+      "identity_root": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "continuity_head": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    }
+  ],
+  "evidence": [
+    { "kind": "stable_name", "path": "evidence/name.json", "sha256": "1111111111111111111111111111111111111111111111111111111111111111", "visibility": "reviewer_visible" },
+    { "kind": "identity_root", "path": "evidence/identity.json", "sha256": "2222222222222222222222222222222222222222222222222222222222222222", "visibility": "reviewer_visible" },
+    { "kind": "continuity_head", "path": "evidence/continuity.json", "sha256": "3333333333333333333333333333333333333333333333333333333333333333", "visibility": "reviewer_visible" },
+    { "kind": "memory_grounding", "path": "evidence/memory.json", "sha256": "4444444444444444444444444444444444444444444444444444444444444444", "visibility": "reviewer_visible" },
+    { "kind": "capability_envelope", "path": "evidence/capabilities.json", "sha256": "5555555555555555555555555555555555555555555555555555555555555555", "visibility": "reviewer_visible" },
+    { "kind": "cognitive_profile", "path": "evidence/acp.json", "sha256": "6666666666666666666666666666666666666666666666666666666666666666", "visibility": "reviewer_visible" },
+    { "kind": "inherited_moral_context", "path": "evidence/moral-context.json", "sha256": "7777777777777777777777777777777777777777777777777777777777777777", "visibility": "reviewer_visible" },
+    { "kind": "witness_set", "path": "evidence/witnesses.json", "sha256": "8888888888888888888888888888888888888888888888888888888888888888", "visibility": "reviewer_visible" },
+    { "kind": "receipt", "path": "evidence/receipt.json", "sha256": "9999999999999999999999999999999999999999999999999999999999999999", "visibility": "reviewer_visible" },
+    { "kind": "reviewer_validation", "path": "evidence/review.json", "sha256": "0000000000000000000000000000000000000000000000000000000000000000", "visibility": "reviewer_visible" }
+  ],
+  "cognitive_profile": "bounded_acp_v1",
+  "public_claims": [],
+  "packet_sha256": "f277cdd3ad2f73339c75320bbfe161111a11cd1eb28be87f7004693a5f6060b3"
+}

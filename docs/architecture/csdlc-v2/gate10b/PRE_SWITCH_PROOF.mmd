@@ -1,0 +1,15 @@
+flowchart TD
+  A["V1 default and v1 paths intact"] --> B["Explicit v2 opt-in selection"]
+  B --> C["Typed command manifest"]
+  C --> D["Full independent suite"]
+  C --> E["Samples and normalized parity"]
+  C --> F["Clippy quality proof"]
+  C --> G["V1 runnable smoke"]
+  D --> H["Exact revision evidence"]
+  E --> H
+  F --> H
+  G --> H
+  H --> I{"All green and v1 still default/intact?"}
+  I -->|"no / unknown"| X["Deny cutover and deletion"]
+  I -->|"yes"| R["Rollback selection resolves to v1"]
+  R --> P["Phase B pass"]

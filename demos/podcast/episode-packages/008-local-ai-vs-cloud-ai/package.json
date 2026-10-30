@@ -1,0 +1,14 @@
+{
+  "schema": "agent_logic.podcast.episode_source_package.v1",
+  "episode": 8,
+  "slug": "008-local-ai-vs-cloud-ai",
+  "title": "Local AI vs Cloud AI",
+  "show_working_title": "The Cognitive Stack",
+  "status": "source_package_ready_audio_pending",
+  "premise": "Compare local and cloud models through privacy, latency, capability, cost, resilience, and organizational control.",
+  "agent_panel": ["local model guest", "cloud model guest", "Codex", "Claude"],
+  "listener_takeaway": "The future is not local or cloud; it is governed routing among models with clear data and authority boundaries.",
+  "promotes": ["provider-neutral AI", "deployment choices", "customer-controlled infrastructure"],
+  "audio": {"final_mp3": null, "archive_audio": null, "status": "pending_final_package_proof"},
+  "publication_claimed": false
+}

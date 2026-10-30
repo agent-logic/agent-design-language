@@ -1,0 +1,21 @@
+{
+  "schema": "csdlc.normalized_outcome.v1",
+  "issue": 9002,
+  "phase": "closed_out",
+  "card_statuses": {
+    "sip": "ready",
+    "stp": "ready",
+    "spp": "ready",
+    "vpp": "ready",
+    "srp": "pre_phase",
+    "sor": "complete"
+  },
+  "review_result": "pass",
+  "integration_state": "merged",
+  "publication_state": "closed",
+  "merge_state": "merged",
+  "closeout_state": "complete",
+  "claim_active": false,
+  "doctor_status": "pass",
+  "doctor_findings": []
+}

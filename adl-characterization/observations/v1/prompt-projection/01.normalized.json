@@ -1,0 +1,27 @@
+{
+  "schema": "adl.characterization.normalized.v1",
+  "case_id": "prompt-projection",
+  "repetition": 1,
+  "incumbent_revision": "19c2b6e2ad18bddc75db9231643a54b2a446ce72",
+  "binary_sha256": "f558fa2111474e2fab540f8d0244be82cdb727ebbaa15aee758d8a7d57d0969c",
+  "commands": [
+    {
+      "step_id": "prompts",
+      "declared_args": [
+        "{ROOT}/fixtures/six-primitives.adl.yaml",
+        "--print-prompts"
+      ],
+      "expanded_args": [
+        "<ROOT>/fixtures/six-primitives.adl.yaml",
+        "--print-prompts"
+      ],
+      "exit_code": 0,
+      "captured_stdout_sha256": "2b532c8c66e200321fccc7e43958bcd5344f075924aae7c8b773437d68b4b183",
+      "captured_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "portable_stdout_sha256": "2b532c8c66e200321fccc7e43958bcd5344f075924aae7c8b773437d68b4b183",
+      "portable_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "--- step 0: summarize.topic ---\nSYSTEM:\nYou summarize deterministically.\n\nUSER:\nSummarize characterization.\n\n",
+      "stderr": ""
+    }
+  ]
+}

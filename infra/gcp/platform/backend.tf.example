@@ -1,0 +1,6 @@
+terraform {
+  backend "gcs" {
+    bucket = "REPLACE_WITH_GCP_D_TERRAFORM_STATE_BUCKET"
+    prefix = "v0.92.1/gcp-d/platform-foundation"
+  }
+}

@@ -1,0 +1,529 @@
+use std::{
+    collections::BTreeMap,
+    path::{Path, PathBuf},
+    sync::Arc,
+    time::Duration,
+};
+
+use async_trait::async_trait;
+use ed25519_dalek::VerifyingKey;
+use serde::{Deserialize, Serialize};
+use thiserror::Error;
+
+use crate::{
+    CanonicalIngress, CheckpointAuthority, CheckpointCoordinator, CheckpointManifest,
+    CheckpointParticipant, CheckpointRequest, ContinuityError, ContinuityHead, IngressSnapshot,
+    KernelExit, LifecycleControl, LoadedCheckpoint, MigrationPolicy, RuntimeRecorder,
+    RuntimeSnapshot, RUNTIME_SNAPSHOT_SCHEMA,
+};
+
+pub const LIVE_KERNEL_SNAPSHOT_SCHEMA: &str = "adl.runtime.live_kernel_snapshot.v1";
+pub const LIVE_KERNEL_CHECKPOINT_SCHEMA: &str = "adl.runtime.live_kernel_checkpoint.v1";
+
+type ResidentPopulationValidator<'a> = &'a mut dyn FnMut(&[u8]) -> Result<(), String>;
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+pub struct LiveKernelSnapshot {
+    pub schema: String,
+    pub topology_hash: String,
+    pub config_hash: String,
+    pub services: BTreeMap<String, String>,
+}
+
+impl LiveKernelSnapshot {
+    pub fn new(
+        topology_hash: impl Into<String>,
+        config_hash: impl Into<String>,
+        services: BTreeMap<String, String>,
+    ) -> Self {
+        Self {
+            schema: LIVE_KERNEL_SNAPSHOT_SCHEMA.to_owned(),
+            topology_hash: topology_hash.into(),
+            config_hash: config_hash.into(),
+            services,
+        }
+    }
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+pub struct LiveKernelCheckpoint {
+    pub schema: String,
+    pub identity: LiveKernelSnapshot,
+    pub runtime: RuntimeSnapshot,
+    #[serde(default)]
+    pub ingress: IngressSnapshot,
+    /// Runtime-owned resident population subrecord. It remains inside the
+    /// existing signed `live_kernel` participant rather than creating a new
+    /// checkpoint authority or service.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub resident_population: Option<Vec<u8>>,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct RestoredLiveContinuity {
+    pub generation: u64,
+    pub resident_population: Option<Vec<u8>>,
+}
+
+#[derive(Debug, Error)]
+pub enum LiveContinuityError {
+    #[error(transparent)]
+    Continuity(#[from] ContinuityError),
+    #[error("continuity generation {actual} is below required minimum {minimum}")]
+    Rollback { minimum: u64, actual: u64 },
+    #[error("live kernel checkpoint payload does not match the active runtime")]
+    SnapshotIdentity,
+    #[error("live kernel checkpoint payload could not be decoded: {0}")]
+    Encoding(String),
+    #[error("continuity generation {generation} has invalid predecessor integrity")]
+    Lineage { generation: u64 },
+    #[error("continuity signing key must be exactly 32 bytes of hex")]
+    SigningKey,
+    #[error("resident population checkpoint requires resident-aware restore before admission")]
+    ResidentPopulationRequired,
+    #[error("resident population checkpoint validation failed: {0}")]
+    ResidentPopulationValidation(String),
+}
+
+pub struct LiveContinuity {
+    root: PathBuf,
+    coordinator: CheckpointCoordinator,
+    trusted_keys: BTreeMap<String, VerifyingKey>,
+    snapshot: LiveKernelSnapshot,
+    minimum_generation: u64,
+    generation: u64,
+    last_integrity: Option<String>,
+    ingress: Option<CanonicalIngress>,
+    resident_population: Option<Vec<u8>>,
+}
+
+impl LiveContinuity {
+    pub fn new(
+        root: impl Into<PathBuf>,
+        key_id: impl Into<String>,
+        secret: &[u8; 32],
+        snapshot: LiveKernelSnapshot,
+        minimum_generation: u64,
+    ) -> Self {
+        let root = root.into();
+        let key_id = key_id.into();
+        let authority = CheckpointAuthority::from_bytes(key_id.clone(), secret);
+        let trusted_keys = BTreeMap::from([(key_id, authority.verifying_key())]);
+        Self {
+            coordinator: CheckpointCoordinator::new(&root, authority),
+            root,
+            trusted_keys,
+            snapshot,
+            minimum_generation,
+            generation: 0,
+            last_integrity: None,
+            ingress: None,
+            resident_population: None,
+        }
+    }
+
+    pub fn with_canonical_ingress(mut self, ingress: CanonicalIngress) -> Self {
+        self.ingress = Some(ingress);
+        self
+    }
+
+    pub fn with_resident_population(mut self, resident_population: Vec<u8>) -> Self {
+        self.resident_population = Some(resident_population);
+        self
+    }
+
+    pub fn set_resident_population(&mut self, resident_population: Vec<u8>) {
+        self.resident_population = Some(resident_population);
+    }
+
+    pub fn signing_key_from_hex(value: &str) -> Result<[u8; 32], LiveContinuityError> {
+        let bytes = hex::decode(value).map_err(|_| LiveContinuityError::SigningKey)?;
+        bytes
+            .try_into()
+            .map_err(|_| LiveContinuityError::SigningKey)
+    }
+
+    pub async fn restore_latest(
+        &mut self,
+        recorder: &RuntimeRecorder,
+    ) -> Result<Option<u64>, LiveContinuityError> {
+        let restored = self.restore_latest_inner(recorder, None).await?;
+        Ok(restored.map(|value| value.generation))
+    }
+
+    pub async fn restore_latest_with_resident_population<F>(
+        &mut self,
+        recorder: &RuntimeRecorder,
+        mut validate: F,
+    ) -> Result<Option<RestoredLiveContinuity>, LiveContinuityError>
+    where
+        F: FnMut(&[u8]) -> Result<(), String>,
+    {
+        self.restore_latest_inner(recorder, Some(&mut validate))
+            .await
+    }
+
+    async fn restore_latest_inner(
+        &mut self,
+        recorder: &RuntimeRecorder,
+        mut resident_validator: Option<ResidentPopulationValidator<'_>>,
+    ) -> Result<Option<RestoredLiveContinuity>, LiveContinuityError> {
+        let Some(generation) = latest_generation(&self.root).await? else {
+            if self.minimum_generation > 0 {
+                return Err(LiveContinuityError::Rollback {
+                    minimum: self.minimum_generation,
+                    actual: 0,
+                });
+            }
+            return Ok(None);
+        };
+        if generation < self.minimum_generation {
+            return Err(LiveContinuityError::Rollback {
+                minimum: self.minimum_generation,
+                actual: generation,
+            });
+        }
+        let (loaded, schema) = self.load_generation(generation).await?;
+        let bytes = &loaded.blobs["live_kernel"];
+        let (restored, ingress, resident_population) = match schema {
+            LIVE_KERNEL_CHECKPOINT_SCHEMA => {
+                let checkpoint: LiveKernelCheckpoint = serde_json::from_slice(bytes)
+                    .map_err(|error| LiveContinuityError::Encoding(error.to_string()))?;
+                if checkpoint.schema != LIVE_KERNEL_CHECKPOINT_SCHEMA {
+                    return Err(LiveContinuityError::Encoding(format!(
+                        "unsupported live checkpoint schema {}",
+                        checkpoint.schema
+                    )));
+                }
+                if checkpoint.runtime.schema != RUNTIME_SNAPSHOT_SCHEMA
+                    || checkpoint.runtime.revision != loaded.manifest.accepted_through
+                {
+                    return Err(LiveContinuityError::Encoding(
+                        "live runtime snapshot does not match the signed manifest".to_owned(),
+                    ));
+                }
+                (
+                    checkpoint.identity,
+                    Some(checkpoint.ingress),
+                    checkpoint.resident_population,
+                )
+            }
+            LIVE_KERNEL_SNAPSHOT_SCHEMA => (
+                serde_json::from_slice::<LiveKernelSnapshot>(bytes)
+                    .map_err(|error| LiveContinuityError::Encoding(error.to_string()))?,
+                None,
+                None,
+            ),
+            _ => unreachable!("load_generation only accepts known schemas"),
+        };
+        if restored.topology_hash != self.snapshot.topology_hash
+            || restored.services != self.snapshot.services
+        {
+            return Err(LiveContinuityError::SnapshotIdentity);
+        }
+        if let Some(population) = resident_population.as_deref() {
+            let validator = resident_validator
+                .as_mut()
+                .ok_or(LiveContinuityError::ResidentPopulationRequired)?;
+            validator(population).map_err(LiveContinuityError::ResidentPopulationValidation)?;
+        }
+        self.validate_lineage(&loaded.manifest).await?;
+        if let (Some(target), Some(snapshot)) = (&self.ingress, ingress) {
+            target.restore(snapshot);
+        }
+        self.generation = generation;
+        self.last_integrity = Some(loaded.manifest.integrity.clone());
+        recorder.set_continuity_head(ContinuityHead {
+            generation,
+            accepted_through: loaded.manifest.accepted_through,
+            topology_hash: loaded.manifest.topology_hash,
+            config_hash: loaded.manifest.config_hash,
+            integrity: loaded.manifest.integrity,
+        });
+        Ok(Some(RestoredLiveContinuity {
+            generation,
+            resident_population,
+        }))
+    }
+
+    pub async fn checkpoint(
+        &mut self,
+        recorder: &RuntimeRecorder,
+        deadline: Duration,
+    ) -> Result<CheckpointManifest, LiveContinuityError> {
+        self.checkpoint_with_provenance(recorder, deadline, "runtime-v3-live-shutdown")
+            .await
+    }
+
+    pub async fn establish_genesis(
+        &mut self,
+        recorder: &RuntimeRecorder,
+        deadline: Duration,
+    ) -> Result<CheckpointManifest, LiveContinuityError> {
+        self.checkpoint_with_provenance(recorder, deadline, "runtime-v3-live-startup")
+            .await
+    }
+
+    async fn checkpoint_with_provenance(
+        &mut self,
+        recorder: &RuntimeRecorder,
+        deadline: Duration,
+        provenance: &str,
+    ) -> Result<CheckpointManifest, LiveContinuityError> {
+        let generation = self.generation.saturating_add(1);
+        let runtime = recorder.snapshot();
+        let participant = Arc::new(LiveKernelParticipant {
+            checkpoint: LiveKernelCheckpoint {
+                schema: LIVE_KERNEL_CHECKPOINT_SCHEMA.to_owned(),
+                identity: self.snapshot.clone(),
+                runtime: runtime.clone(),
+                ingress: self
+                    .ingress
+                    .as_ref()
+                    .map(CanonicalIngress::snapshot)
+                    .unwrap_or_default(),
+                resident_population: self.resident_population.clone(),
+            },
+        });
+        let manifest = self
+            .coordinator
+            .checkpoint(
+                CheckpointRequest {
+                    generation,
+                    previous_integrity: self.last_integrity.clone(),
+                    accepted_through: runtime.revision,
+                    provenance: provenance.to_owned(),
+                    topology_hash: self.snapshot.topology_hash.clone(),
+                    config_hash: self.snapshot.config_hash.clone(),
+                    migration: MigrationPolicy::Exact,
+                    deadline,
+                    max_parallel: 1,
+                },
+                vec![participant],
+            )
+            .await?;
+        self.generation = generation;
+        self.last_integrity = Some(manifest.integrity.clone());
+        recorder.set_continuity_head(ContinuityHead {
+            generation,
+            accepted_through: manifest.accepted_through,
+            topology_hash: manifest.topology_hash.clone(),
+            config_hash: manifest.config_hash.clone(),
+            integrity: manifest.integrity.clone(),
+        });
+        Ok(manifest)
+    }
+
+    async fn validate_lineage(
+        &self,
+        latest: &CheckpointManifest,
+    ) -> Result<(), LiveContinuityError> {
+        let mut current = latest.clone();
+        while current.generation > self.minimum_generation.max(1) {
+            let previous_generation = current.generation - 1;
+            let expected =
+                current
+                    .previous_integrity
+                    .as_deref()
+                    .ok_or(LiveContinuityError::Lineage {
+                        generation: current.generation,
+                    })?;
+            let (previous, _) = self.load_generation(previous_generation).await?;
+            if previous.manifest.integrity != expected {
+                return Err(LiveContinuityError::Lineage {
+                    generation: current.generation,
+                });
+            }
+            current = previous.manifest;
+        }
+        if current.generation == 1 && current.previous_integrity.is_some() {
+            return Err(LiveContinuityError::Lineage { generation: 1 });
+        }
+        Ok(())
+    }
+
+    async fn load_generation(
+        &self,
+        generation: u64,
+    ) -> Result<(LoadedCheckpoint, &'static str), LiveContinuityError> {
+        for schema in [LIVE_KERNEL_CHECKPOINT_SCHEMA, LIVE_KERNEL_SNAPSHOT_SCHEMA] {
+            let schemas = BTreeMap::from([("live_kernel".to_owned(), schema.to_owned())]);
+            match self
+                .coordinator
+                .load(
+                    generation,
+                    &self.snapshot.topology_hash,
+                    &self.snapshot.config_hash,
+                    &schemas,
+                    &self.trusted_keys,
+                )
+                .await
+            {
+                Ok(loaded) => return Ok((loaded, schema)),
+                Err(ContinuityError::ServiceSchemaMismatch(service))
+                    if service == "live_kernel" => {}
+                Err(error) => return Err(error.into()),
+            }
+        }
+        Err(ContinuityError::ServiceSchemaMismatch("live_kernel".to_owned()).into())
+    }
+}
+
+pub async fn verify_live_continuity_lineage(
+    root: &Path,
+    signing_key_id: &str,
+    verifying_key: VerifyingKey,
+    expected_generation: u64,
+) -> Result<(), LiveContinuityError> {
+    if expected_generation == 0 {
+        return Ok(());
+    }
+    let coordinator = CheckpointCoordinator::new(
+        root,
+        CheckpointAuthority::from_bytes("read-only-verifier", &[0_u8; 32]),
+    );
+    let trusted_keys = BTreeMap::from([(signing_key_id.to_owned(), verifying_key)]);
+    let mut previous_integrity = None;
+    for generation in 1..=expected_generation {
+        let manifest_path = root
+            .join(format!("generation-{generation}"))
+            .join("manifest.json");
+        let bytes = tokio::fs::read(&manifest_path)
+            .await
+            .map_err(ContinuityError::from)?;
+        let manifest: CheckpointManifest = serde_json::from_slice(&bytes)
+            .map_err(|error| LiveContinuityError::Encoding(error.to_string()))?;
+        let mut loaded = None;
+        for schema in [LIVE_KERNEL_CHECKPOINT_SCHEMA, LIVE_KERNEL_SNAPSHOT_SCHEMA] {
+            let schemas = BTreeMap::from([("live_kernel".to_owned(), schema.to_owned())]);
+            match coordinator
+                .load(
+                    generation,
+                    &manifest.topology_hash,
+                    &manifest.config_hash,
+                    &schemas,
+                    &trusted_keys,
+                )
+                .await
+            {
+                Ok(checkpoint) => {
+                    loaded = Some(checkpoint.manifest);
+                    break;
+                }
+                Err(ContinuityError::ServiceSchemaMismatch(service))
+                    if service == "live_kernel" => {}
+                Err(error) => return Err(error.into()),
+            }
+        }
+        let manifest = loaded.ok_or_else(|| {
+            LiveContinuityError::Continuity(ContinuityError::ServiceSchemaMismatch(
+                "live_kernel".to_owned(),
+            ))
+        })?;
+        if manifest.previous_integrity != previous_integrity {
+            return Err(LiveContinuityError::Lineage { generation });
+        }
+        previous_integrity = Some(manifest.integrity);
+    }
+    Ok(())
+}
+
+#[derive(Clone)]
+pub struct CheckpointingControl {
+    requests: tokio::sync::mpsc::Sender<CheckpointShutdownRequest>,
+}
+
+impl CheckpointingControl {
+    pub fn channel(
+        capacity: usize,
+    ) -> (Self, tokio::sync::mpsc::Receiver<CheckpointShutdownRequest>) {
+        let (requests, receiver) = tokio::sync::mpsc::channel(capacity);
+        (Self { requests }, receiver)
+    }
+}
+
+pub struct CheckpointShutdownRequest {
+    pub grace: Duration,
+    pub restart: bool,
+    response: Option<tokio::sync::oneshot::Sender<Result<KernelExit, ()>>>,
+}
+
+impl CheckpointShutdownRequest {
+    pub fn respond(self, result: Result<KernelExit, ()>) {
+        if let Some(response) = self.response {
+            let _ = response.send(result);
+        }
+    }
+}
+
+#[async_trait]
+impl LifecycleControl for CheckpointingControl {
+    async fn shutdown(&self, grace: Duration) -> Result<KernelExit, ()> {
+        let (response, result) = tokio::sync::oneshot::channel();
+        self.requests
+            .send(CheckpointShutdownRequest {
+                grace,
+                restart: false,
+                response: Some(response),
+            })
+            .await
+            .map_err(|_| ())?;
+        result.await.map_err(|_| ())?
+    }
+
+    async fn restart(&self, grace: Duration) -> Result<(), ()> {
+        self.requests
+            .send(CheckpointShutdownRequest {
+                grace,
+                restart: true,
+                response: None,
+            })
+            .await
+            .map_err(|_| ())?;
+        Ok(())
+    }
+}
+
+struct LiveKernelParticipant {
+    checkpoint: LiveKernelCheckpoint,
+}
+
+#[async_trait]
+impl CheckpointParticipant for LiveKernelParticipant {
+    fn service(&self) -> &str {
+        "live_kernel"
+    }
+
+    fn schema(&self) -> &str {
+        LIVE_KERNEL_CHECKPOINT_SCHEMA
+    }
+
+    async fn quiesce(&self) -> Result<(), String> {
+        Ok(())
+    }
+
+    async fn snapshot(&self) -> Result<Vec<u8>, String> {
+        serde_json::to_vec(&self.checkpoint).map_err(|error| error.to_string())
+    }
+}
+
+async fn latest_generation(root: &Path) -> Result<Option<u64>, ContinuityError> {
+    let mut entries = match tokio::fs::read_dir(root).await {
+        Ok(entries) => entries,
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(None),
+        Err(error) => return Err(error.into()),
+    };
+    let mut latest = None;
+    while let Some(entry) = entries.next_entry().await? {
+        let Some(name) = entry.file_name().to_str().map(str::to_owned) else {
+            continue;
+        };
+        let Some(value) = name.strip_prefix("generation-") else {
+            continue;
+        };
+        if let Ok(generation) = value.parse::<u64>() {
+            latest = Some(latest.map_or(generation, |current: u64| current.max(generation)));
+        }
+    }
+    Ok(latest)
+}

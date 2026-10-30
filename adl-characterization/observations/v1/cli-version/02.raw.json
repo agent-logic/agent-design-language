@@ -1,0 +1,27 @@
+{
+  "schema": "adl.characterization.observation.v1",
+  "case_id": "cli-version",
+  "repetition": 2,
+  "incumbent_revision": "19c2b6e2ad18bddc75db9231643a54b2a446ce72",
+  "binary_sha256": "f558fa2111474e2fab540f8d0244be82cdb727ebbaa15aee758d8a7d57d0969c",
+  "corpus_bundle_sha256": "5c42a61fab6cbfaebf8a77ebeb3fcc6ab7ae71beb086ee011a2fb525ad4cb63b",
+  "commands": [
+    {
+      "step_id": "version",
+      "declared_args": [
+        "--version"
+      ],
+      "expanded_args": [
+        "--version"
+      ],
+      "exit_code": 0,
+      "captured_stdout_sha256": "81154bdb8f14fbab3804ea41cfe2a701e9e34c3ec9ee23ac041bbc58ec232089",
+      "captured_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "portable_stdout_sha256": "81154bdb8f14fbab3804ea41cfe2a701e9e34c3ec9ee23ac041bbc58ec232089",
+      "portable_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "0.91.7\n",
+      "stderr": ""
+    }
+  ],
+  "evidence_envelope_sha256": "750e6309e1436c1362f249cfa23e859212da0300a114f6ae85db72879e88f8c8"
+}

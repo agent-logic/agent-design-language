@@ -1,0 +1,40 @@
+# CSMctl static Observatory config.
+#
+# Copy to:
+#   .adl/runtime-v3-service/CSMctl.observatory.conf
+#
+# This file controls only the local HTML Observatory static server and the
+# Runtime API URL it points at. The Runtime may be local, on another machine,
+# or in AWS. Do not put Runtime secrets here.
+
+# Runtime API consumed by the browser Observatory.
+# For local testing:
+ADL_CSM_OBSERVATORY_RUNTIME_BASE=https://localhost:20997
+
+# For an AWS Runtime, set these to the Runtime's public HTTPS origin instead:
+# ADL_CSM_OBSERVATORY_RUNTIME_BASE=https://runtime.example.com
+
+# Local static Observatory server.
+ADL_CSM_OBSERVATORY_REPO_ROOT=/path/to/agent-design-language
+ADL_CSM_OBSERVATORY_DIR=/path/to/agent-design-language/demos/html-observatory
+ADL_CSM_OBSERVATORY_ENTRY=/path/to/agent-design-language/demos/html-observatory/index.html
+ADL_CSM_OBSERVATORY_HOST=127.0.0.1
+ADL_CSM_OBSERVATORY_PORT=8765
+ADL_CSM_OBSERVATORY_PORTS='8765'
+ADL_CSM_OBSERVATORY_BASE=https://localhost:8765
+
+# Local TLS for the browser-facing Observatory static server.
+ADL_CSM_OBSERVATORY_TLS_CERT=/Users/daniel/cert/localhost.pem
+ADL_CSM_OBSERVATORY_TLS_KEY=/Users/daniel/cert/localhost-key.pem
+
+# Local launchd identity and process files.
+ADL_CSM_OBSERVATORY_LAUNCH_LABEL=com.agentlogic.csm-observatory
+ADL_CSM_OBSERVATORY_LAUNCH_DOMAIN=gui/501
+ADL_CSM_STATE_DIR=/path/to/agent-design-language/.adl/runtime-v3-service/state
+ADL_CSM_GENERATED_DIR=/path/to/agent-design-language/.adl/runtime-v3-service/generated
+ADL_CSM_OBSERVATORY_PID_FILE=/path/to/agent-design-language/.adl/runtime-v3-service/state/CSMctl.observatory.pid
+ADL_CSM_OBSERVATORY_STATE_FILE=/path/to/agent-design-language/.adl/runtime-v3-service/state/CSMctl.observatory.env
+ADL_CSM_OBSERVATORY_LOG_FILE=/path/to/agent-design-language/.adl/runtime-v3-service/state/CSMctl.observatory.log
+ADL_CSM_OBSERVATORY_SERVER_FILE=/path/to/agent-design-language/.adl/runtime-v3-service/generated/CSMctl_observatory_server.py
+ADL_CSM_OBSERVATORY_RUNNER_FILE=/path/to/agent-design-language/.adl/runtime-v3-service/generated/CSMctl_observatory_runner.sh
+ADL_CSM_OBSERVATORY_PLIST_FILE=/path/to/agent-design-language/.adl/runtime-v3-service/generated/com.agentlogic.csm-observatory.plist

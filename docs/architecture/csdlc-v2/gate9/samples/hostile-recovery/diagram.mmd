@@ -1,0 +1,7 @@
+flowchart LR
+  A["Explicit v2 opt-in"] --> B["Automated six-card packet"]
+  B --> C["hostile-recovery proof"]
+  C --> D["Exact-revision review"]
+  D --> E["Typed outcome evidence"]
+  C -. failure .-> R["Fail closed and retry"]
+  R --> C

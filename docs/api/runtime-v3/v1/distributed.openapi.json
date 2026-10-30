@@ -1,0 +1,129 @@
+{
+  "openapi": "3.1.0",
+  "info": { "title": "ADL Runtime v3 Distributed Projection", "version": "1.0.0" },
+  "x-adl-max-response-bytes": 65536,
+  "paths": {
+    "/runtime/v3/distributed/projection": {
+      "get": {
+        "operationId": "getDistributedProjectionV1",
+        "summary": "Read one coherent authenticated least-privilege distributed projection",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "name": "version", "in": "query", "required": true, "schema": { "type": "string", "const": "v1" } },
+          { "name": "X-ADL-Trust-Domain", "in": "header", "required": true, "schema": { "type": "string", "minLength": 1, "maxLength": 128 } }
+        ],
+        "responses": {
+          "200": { "description": "Complete coherent redacted projection", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/DistributedProjectionV1" } } } },
+          "400": { "$ref": "#/components/responses/Projection400" },
+          "401": { "$ref": "#/components/responses/Projection401" },
+          "403": { "$ref": "#/components/responses/Projection403" },
+          "406": { "$ref": "#/components/responses/Projection406" },
+          "413": { "$ref": "#/components/responses/Projection413" },
+          "500": { "$ref": "#/components/responses/Projection500" },
+          "503": { "$ref": "#/components/responses/Projection503" }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": { "bearerAuth": { "type": "http", "scheme": "bearer" } },
+    "responses": {
+      "Projection400": { "description": "Invalid policy or request", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProjectionError400" } } } },
+      "Projection401": { "description": "Authentication failed", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProjectionError401" } } } },
+      "Projection403": { "description": "Trust domain denied", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProjectionError403" } } } },
+      "Projection406": { "description": "Unsupported projection version", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProjectionError406" } } } },
+      "Projection413": { "description": "Projection exceeds a declared hard bound", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProjectionError413" } } } },
+      "Projection500": { "description": "Malformed authority or serialization failure", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProjectionError500" } } } },
+      "Projection503": { "description": "Authority cut is stale or incoherent", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProjectionError503" } } } }
+    },
+    "schemas": {
+      "ProjectionError": {
+        "type": "object", "additionalProperties": false, "required": ["code"],
+        "properties": { "code": { "type": "string", "enum": ["invalid_policy", "invalid_request", "unauthorized", "unsupported_version", "wrong_trust_domain", "stale_cut", "incoherent_cut", "malformed_authority", "resource_exhausted", "serialization_failure"] } }
+      },
+      "ProjectionError400": { "allOf": [{ "$ref": "#/components/schemas/ProjectionError" }, { "properties": { "code": { "enum": ["invalid_policy", "invalid_request"] } } }] },
+      "ProjectionError401": { "allOf": [{ "$ref": "#/components/schemas/ProjectionError" }, { "properties": { "code": { "const": "unauthorized" } } }] },
+      "ProjectionError403": { "allOf": [{ "$ref": "#/components/schemas/ProjectionError" }, { "properties": { "code": { "const": "wrong_trust_domain" } } }] },
+      "ProjectionError406": { "allOf": [{ "$ref": "#/components/schemas/ProjectionError" }, { "properties": { "code": { "const": "unsupported_version" } } }] },
+      "ProjectionError413": { "allOf": [{ "$ref": "#/components/schemas/ProjectionError" }, { "properties": { "code": { "const": "resource_exhausted" } } }] },
+      "ProjectionError500": { "allOf": [{ "$ref": "#/components/schemas/ProjectionError" }, { "properties": { "code": { "enum": ["malformed_authority", "serialization_failure"] } } }] },
+      "ProjectionError503": { "allOf": [{ "$ref": "#/components/schemas/ProjectionError" }, { "properties": { "code": { "enum": ["stale_cut", "incoherent_cut"] } } }] },
+      "DistributedProjectionV1": {
+        "type": "object", "additionalProperties": false,
+        "required": ["schema", "projection_id", "captured_at_unix_secs", "membership_epoch", "committed_log_index", "ready", "nodes", "certificates", "leases", "fences", "placements", "migrations", "recoveries"],
+        "properties": {
+          "schema": { "type": "string", "const": "adl.distributed.projection.v1" },
+          "projection_id": { "$ref": "#/components/schemas/ProjectionId" },
+          "captured_at_unix_secs": { "$ref": "#/components/schemas/Uint64" },
+          "membership_epoch": { "$ref": "#/components/schemas/PositiveUint64" },
+          "committed_log_index": { "$ref": "#/components/schemas/PositiveUint64" },
+          "ready": { "type": "boolean" },
+          "nodes": { "type": "array", "maxItems": 4096, "items": { "$ref": "#/components/schemas/ProjectedNode" } },
+          "certificates": { "type": "array", "maxItems": 16384, "items": { "$ref": "#/components/schemas/ProjectedCertificate" } },
+          "leases": { "type": "array", "maxItems": 4096, "items": { "$ref": "#/components/schemas/ProjectedLease" } },
+          "fences": { "type": "array", "maxItems": 4096, "items": { "$ref": "#/components/schemas/ProjectedFence" } },
+          "placements": { "type": "array", "maxItems": 4096, "items": { "$ref": "#/components/schemas/ProjectedPlacement" } },
+          "migrations": { "type": "array", "maxItems": 4096, "items": { "$ref": "#/components/schemas/ProjectedMigration" } },
+          "recoveries": { "type": "array", "maxItems": 4096, "items": { "$ref": "#/components/schemas/ProjectedRecovery" } }
+        }
+      },
+      "ProjectedNode": {
+        "type": "object", "additionalProperties": false,
+        "required": ["node_id", "guardian_id", "identity_generation", "role", "peer_state", "failure_class", "failure_reason", "failure_freshness", "advertisement_freshness"],
+        "properties": {
+          "node_id": { "$ref": "#/components/schemas/OpaqueId" }, "guardian_id": { "$ref": "#/components/schemas/OpaqueId" },
+          "identity_generation": { "$ref": "#/components/schemas/PositiveUint64" },
+          "role": { "type": "string", "enum": ["non_voting", "voter"] },
+          "peer_state": { "type": "string", "enum": ["connected", "degraded", "unavailable"] },
+          "failure_class": { "oneOf": [{ "type": "null" }, { "type": "string", "enum": ["healthy", "suspect", "unavailable", "partitioned", "recovered", "flapping"] }] },
+          "failure_reason": { "type": "string", "enum": ["no_evidence", "healthy_evidence", "suspected_failure", "quorum_unavailable", "network_partition", "recovery_evidence", "flapping_evidence"] }, "failure_freshness": { "type": "string", "enum": ["unavailable", "fresh", "stale"] },
+          "advertisement_freshness": { "type": "string", "enum": ["verified_at_decision", "unavailable"] }
+        }
+      },
+      "ProjectedCertificate": {
+        "type": "object", "additionalProperties": false,
+        "required": ["certificate_id", "holder_id", "holder_kind", "purpose", "generation", "health"],
+        "properties": {
+          "certificate_id": { "$ref": "#/components/schemas/OpaqueId" }, "holder_id": { "$ref": "#/components/schemas/OpaqueId" },
+          "holder_kind": { "type": "string", "enum": ["node", "guardian"] }, "purpose": { "type": "string", "enum": ["node_identity", "guardian_control", "transport", "advertisement_signing", "snapshot_signing"] },
+          "generation": { "$ref": "#/components/schemas/PositiveUint64" }, "health": { "type": "string", "enum": ["active", "rotation_overlap", "superseded", "not_yet_valid", "expired", "revoked", "fenced"] }
+        }
+      },
+      "ProjectedLease": {
+        "type": "object", "additionalProperties": false,
+        "required": ["lineage_id", "holder_node_id", "holder_guardian_id", "epoch", "committed_log_index", "certificate_generation", "health"],
+        "properties": {
+          "lineage_id": { "$ref": "#/components/schemas/OpaqueId" }, "holder_node_id": { "$ref": "#/components/schemas/NullableOpaqueId" }, "holder_guardian_id": { "$ref": "#/components/schemas/NullableOpaqueId" },
+          "epoch": { "$ref": "#/components/schemas/PositiveUint64" }, "committed_log_index": { "$ref": "#/components/schemas/Uint64" },
+          "certificate_generation": { "$ref": "#/components/schemas/Uint64" }, "health": { "type": "string", "enum": ["active", "expired", "revoked"] }
+        }
+      },
+      "ProjectedFence": {
+        "type": "object", "additionalProperties": false,
+        "required": ["lineage_id", "epoch", "committed_log_index", "voter_set_generation", "operation"],
+        "properties": { "lineage_id": { "$ref": "#/components/schemas/OpaqueId" }, "epoch": { "$ref": "#/components/schemas/PositiveUint64" }, "committed_log_index": { "$ref": "#/components/schemas/PositiveUint64" }, "voter_set_generation": { "$ref": "#/components/schemas/PositiveUint64" }, "operation": { "type": "string", "enum": ["fence", "revoke"] } }
+      },
+      "ProjectedPlacement": {
+        "type": "object", "additionalProperties": false,
+        "required": ["lineage_id", "node_id", "guardian_id", "freshness", "capacity"],
+        "properties": { "lineage_id": { "$ref": "#/components/schemas/OpaqueId" }, "node_id": { "$ref": "#/components/schemas/OpaqueId" }, "guardian_id": { "$ref": "#/components/schemas/OpaqueId" }, "freshness": { "type": "string", "const": "verified_at_decision" }, "capacity": { "type": "string", "enum": ["available", "constrained", "unavailable"] } }
+      },
+      "ProjectedMigration": {
+        "type": "object", "additionalProperties": false,
+        "required": ["migration_id", "lineage_id", "source_node_id", "source_guardian_id", "target_node_id", "target_guardian_id", "phase"],
+        "properties": { "migration_id": { "$ref": "#/components/schemas/OpaqueId" }, "lineage_id": { "$ref": "#/components/schemas/OpaqueId" }, "source_node_id": { "$ref": "#/components/schemas/OpaqueId" }, "source_guardian_id": { "$ref": "#/components/schemas/OpaqueId" }, "target_node_id": { "$ref": "#/components/schemas/OpaqueId" }, "target_guardian_id": { "$ref": "#/components/schemas/OpaqueId" }, "phase": { "type": "string", "enum": ["prepared", "quiesced", "checkpointed", "transferred", "validated", "fenced", "activated", "committed", "aborted"] } }
+      },
+      "ProjectedRecovery": {
+        "type": "object", "additionalProperties": false,
+        "required": ["recovery_id", "migration_id", "lineage_id", "owner_node_id", "owner_guardian_id", "phase", "reason", "operator_required"],
+        "properties": { "recovery_id": { "$ref": "#/components/schemas/OpaqueId" }, "migration_id": { "$ref": "#/components/schemas/OpaqueId" }, "lineage_id": { "$ref": "#/components/schemas/OpaqueId" }, "owner_node_id": { "$ref": "#/components/schemas/NullableOpaqueId" }, "owner_guardian_id": { "$ref": "#/components/schemas/NullableOpaqueId" }, "phase": { "type": "string", "enum": ["assessing", "planned", "cleanup_pending", "target_discarded", "rollback_pending", "fence_pending", "fenced", "operator_required", "activate_pending", "restored", "commit_pending", "committed"] }, "reason": { "type": "string", "enum": ["assessing_interrupted_migration", "planned_recovery", "target_cleanup_required", "target_discarded", "rollback_required", "fencing_required", "fenced", "operator_required", "activation_required", "restored", "commit_required", "committed"] }, "operator_required": { "type": "boolean" } }
+      },
+      "ProjectionId": { "type": "string", "pattern": "^prj_[0-9a-f]{64}$", "maxLength": 68 },
+      "OpaqueId": { "type": "string", "pattern": "^id_[0-9a-f]{64}$", "maxLength": 67 },
+      "NullableOpaqueId": { "oneOf": [{ "type": "null" }, { "$ref": "#/components/schemas/OpaqueId" }] },
+      "Label": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-z0-9_]+$" },
+      "Uint64": { "type": "integer", "minimum": 0, "maximum": 18446744073709551615 },
+      "PositiveUint64": { "type": "integer", "minimum": 1, "maximum": 18446744073709551615 }
+    }
+  }
+}

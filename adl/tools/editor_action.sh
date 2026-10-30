@@ -1,0 +1,199 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+die() {
+  echo "ERROR: $*" >&2
+  exit 1
+}
+
+usage() {
+  cat <<'USAGE'
+Usage:
+  adl/tools/editor_action.sh contract [--format text|json]
+  adl/tools/editor_action.sh prepare --phase init|doctor-ready|run|finish --issue <number> --slug <slug> [--version <vN.N[.P]>] [--title <title>] [--paths <paths>]
+
+Purpose:
+  Thin editor-adjacent adapter for bounded control-plane actions.
+
+Current actions:
+  contract Print the supported near-term editor adapter surface.
+  prepare  Validate fields and print one current native C-SDLC v3 lifecycle command for a human to run from the repo root.
+USAGE
+}
+
+emit_contract_text() {
+  cat <<'EOF'
+editor_adapter_schema: editor.command_adapter.v2
+supported_actions:
+  - action: prepare
+    adapter_entry: adl/tools/editor_action.sh prepare --phase init|doctor-ready|run|finish --issue <number> --slug <slug> [--version <vN.N[.P]>] [--title <title>] [--paths <paths>]
+    maps_to: copy-only native C-SDLC v3 lifecycle command
+    invocation_mode: browser_prepared_human_run
+    browser_direct: false
+    status: supported
+    phases:
+      - init
+      - doctor-ready
+      - run
+      - finish
+unsupported_browser_direct_actions:
+  - csdlc issue
+  - csdlc doctor
+  - csdlc bind
+  - csdlc validate
+  - csdlc review
+  - csdlc publish
+  - csdlc shepherd
+  - csdlc finish
+  - csdlc clean
+notes:
+  - Browser/editor surfaces may prepare or copy lifecycle commands, but must not claim direct browser execution.
+  - The current taught path uses the one native v3 executable at .adl/bin/native-v3/csdlc.
+language_contract:
+  primitives:
+    - providers
+    - tools
+    - agents
+    - tasks
+    - workflows
+    - run
+  top_level_features:
+    - patterns
+    - signature
+  notes:
+    - singular run is the canonical top-level execution primitive
+    - packet and control-plane contracts are outside the six-primitives language core
+EOF
+}
+
+emit_contract_json() {
+  cat <<'EOF'
+{
+  "schema_version": "editor.command_adapter.v2",
+  "supported_actions": [
+    {
+      "action": "prepare",
+      "adapter_entry": "adl/tools/editor_action.sh prepare --phase init|doctor-ready|run|finish --issue <number> --slug <slug> [--version <vN.N[.P]>] [--title <title>] [--paths <paths>]",
+      "maps_to": "copy-only native C-SDLC v3 lifecycle command",
+      "invocation_mode": "browser_prepared_human_run",
+      "browser_direct": false,
+      "status": "supported",
+      "phases": ["init", "doctor-ready", "run", "finish"]
+    }
+  ],
+  "legacy_compatibility_actions": [],
+  "unsupported_browser_direct_actions": [
+    "csdlc issue",
+    "csdlc doctor",
+    "csdlc bind",
+    "csdlc validate",
+    "csdlc review",
+    "csdlc publish",
+    "csdlc shepherd",
+    "csdlc finish",
+    "csdlc clean"
+  ],
+  "notes": [
+    "Browser/editor surfaces may prepare or copy lifecycle commands, but must not claim direct browser execution.",
+    "The current taught path uses the one native v3 executable at .adl/bin/native-v3/csdlc."
+  ],
+  "language_contract": {
+    "primitives": ["providers", "tools", "agents", "tasks", "workflows", "run"],
+    "top_level_features": ["patterns", "signature"],
+    "notes": [
+      "singular run is the canonical top-level execution primitive",
+      "packet and control-plane contracts are outside the six-primitives language core"
+    ]
+  }
+}
+EOF
+}
+
+normalize_issue_or_die() {
+  local raw="$1"
+  [[ "$raw" =~ ^#?[0-9]+$ ]] || die "invalid issue number: $raw"
+  echo "${raw#\#}"
+}
+
+version_or_default() {
+  local value="$1"
+  if [[ -z "$value" ]]; then
+    echo "v0.90"
+    return
+  fi
+  [[ "$value" =~ ^v[0-9]+\.[0-9]+(\.[0-9]+)*$ ]] || die "version must match vN.N or vN.N.P"
+  echo "$value"
+}
+
+emit_prepare_command() {
+  local phase="$1" issue="$2" slug="$3" version="$4" title="$5" paths="$6"
+  case "$phase" in
+    init)
+      printf '.adl/bin/native-v3/csdlc issue --request <request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>\n'
+      ;;
+    doctor-ready)
+      printf '.adl/bin/native-v3/csdlc doctor --request <request-%s.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>\n' "$issue"
+      ;;
+    run)
+      printf '.adl/bin/native-v3/csdlc bind --request <request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>\n'
+      ;;
+    finish)
+      printf '.adl/bin/native-v3/csdlc validate --request <request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>\n'
+      ;;
+    *) die "--phase must be one of: init, doctor-ready, run, finish" ;;
+  esac
+}
+
+ACTION="${1:-}"
+[[ -n "$ACTION" ]] || { usage; exit 1; }
+shift || true
+
+case "$ACTION" in
+  prepare|contract) ;;
+  -h|--help) usage; exit 0 ;;
+  *) die "unsupported action: $ACTION" ;;
+esac
+
+ISSUE=""
+SLUG=""
+FORMAT="text"
+PHASE=""
+VERSION=""
+TITLE=""
+PATHS_ARG=""
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --phase) PHASE="$2"; shift 2 ;;
+    --issue) ISSUE="$2"; shift 2 ;;
+    --slug) SLUG="$2"; shift 2 ;;
+    --format) FORMAT="$2"; shift 2 ;;
+    --version) VERSION="$2"; shift 2 ;;
+    --title) TITLE="$2"; shift 2 ;;
+    --paths) PATHS_ARG="$2"; shift 2 ;;
+    -h|--help) usage; exit 0 ;;
+    *) die "unknown argument: $1" ;;
+  esac
+done
+
+if [[ "$ACTION" == "contract" ]]; then
+  case "$FORMAT" in
+    text) emit_contract_text ;;
+    json) emit_contract_json ;;
+    *) die "--format must be text or json" ;;
+  esac
+  exit 0
+fi
+
+[[ -n "$ISSUE" ]] || die "--issue is required"
+
+ISSUE="$(normalize_issue_or_die "$ISSUE")"
+
+if [[ "$ACTION" == "prepare" ]]; then
+  [[ -n "$PHASE" ]] || die "--phase is required"
+  [[ -n "$SLUG" ]] || die "--slug is required"
+  [[ "$SLUG" =~ ^[a-z0-9][a-z0-9-]*$ ]] || die "slug must match [a-z0-9-]+"
+  VERSION="$(version_or_default "$VERSION")"
+  emit_prepare_command "$PHASE" "$ISSUE" "$SLUG" "$VERSION" "$TITLE" "$PATHS_ARG"
+  exit 0
+fi

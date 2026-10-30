@@ -1,0 +1,27 @@
+{
+  "schema": "adl.characterization.normalized.v1",
+  "case_id": "fork-join-ordering",
+  "repetition": 1,
+  "incumbent_revision": "19c2b6e2ad18bddc75db9231643a54b2a446ce72",
+  "binary_sha256": "f558fa2111474e2fab540f8d0244be82cdb727ebbaa15aee758d8a7d57d0969c",
+  "commands": [
+    {
+      "step_id": "plan",
+      "declared_args": [
+        "{ROOT}/fixtures/fork-join.adl.yaml",
+        "--print-plan"
+      ],
+      "expanded_args": [
+        "<ROOT>/fixtures/fork-join.adl.yaml",
+        "--print-plan"
+      ],
+      "exit_code": 0,
+      "captured_stdout_sha256": "3da6243a4ef9f3e637380952834de9f0caa536eb78c2e91a274b6c10a0c83f4d",
+      "captured_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "portable_stdout_sha256": "3da6243a4ef9f3e637380952834de9f0caa536eb78c2e91a274b6c10a0c83f4d",
+      "portable_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "Resolved run: fork-join\nWorkflow:     pattern:parallel\nSteps:        3\n  0. p::parallel::left-branch::left  agent=worker provider=local task=left\n  1. p::parallel::right-branch::right  agent=worker provider=local task=right\n  2. p::parallel::join  agent=worker provider=local task=join\n",
+      "stderr": ""
+    }
+  ]
+}

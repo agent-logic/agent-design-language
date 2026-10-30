@@ -1,0 +1,1256 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+SCRIPT="$ROOT/adl/tools/select_validation_lanes.sh"
+MANAGER="$ROOT/adl/tools/validation_manager.sh"
+TMP="$(mktemp -d)"
+UNTRACKED_FIXTURE="$ROOT/docs/architecture/__selector_untracked_fixture__.md"
+JAVASCRIPT_VALIDATOR_FIXTURE=""
+JAVASCRIPT_VALIDATOR_BACKUP=""
+cleanup() {
+  if [[ -n "$JAVASCRIPT_VALIDATOR_BACKUP" ]]; then
+    mv "$JAVASCRIPT_VALIDATOR_BACKUP" "$ROOT/adl/tools/validate_v092_html_observatory_roster.mjs"
+  fi
+  if [[ -n "$JAVASCRIPT_VALIDATOR_FIXTURE" ]]; then
+    rm -f "$JAVASCRIPT_VALIDATOR_FIXTURE"
+  fi
+  rm -rf "$TMP" "$UNTRACKED_FIXTURE"
+}
+trap cleanup EXIT
+
+assert_has() {
+  local file="$1"
+  local needle="$2"
+  if ! grep -F -- "$needle" "$file" >/dev/null; then
+    echo "expected $file to contain: $needle" >&2
+    echo "actual output:" >&2
+    cat "$file" >&2
+    exit 1
+  fi
+}
+
+assert_not_has() {
+  local file="$1"
+  local needle="$2"
+  if grep -F -- "$needle" "$file" >/dev/null; then
+    echo "expected $file not to contain: $needle" >&2
+    echo "actual output:" >&2
+    cat "$file" >&2
+    exit 1
+  fi
+}
+
+assert_observatory_tooling_run() {
+  local report="$1"
+  local expected_path="$2"
+  local expected_lane="$3"
+  python3 - <<'PY' "$report" "$expected_path" "$expected_lane"
+import json
+import sys
+
+plan = json.load(open(sys.argv[1]))
+expected_path = sys.argv[2]
+expected_lane = sys.argv[3]
+selected = sorted(
+    lane_id
+    for lane_id, lane in plan["lanes"].items()
+    if lane["status"] == "selected"
+)
+lane = plan["lanes"][expected_lane]
+assert plan["run_status"] == "passed", json.dumps(plan, indent=2, sort_keys=True)
+assert selected == [expected_lane], selected
+assert lane["matched_paths"] == [expected_path], lane["matched_paths"]
+assert lane["resource_class"] == "tiny", lane["resource_class"]
+assert lane["run_status"] == "passed", lane
+assert lane["run_reason"] == "command_succeeded", lane
+PY
+}
+
+docs_only="$TMP/docs-only.txt"
+printf 'M\tdocs/milestones/v0.91.6/README.md\n' >"$docs_only"
+bash "$SCRIPT" --changed-files "$docs_only" >"$TMP/docs.out"
+assert_has "$TMP/docs.out" "aggregate_status=selected"
+assert_has "$TMP/docs.out" "docs_diff_check status=selected"
+assert_not_has "$TMP/docs.out" "rust_pr_fast"
+
+csdlc_metadata="$TMP/csdlc-metadata.txt"
+printf 'M\t.csdlc/issues/5615/index.json\n' >"$csdlc_metadata"
+bash "$SCRIPT" --changed-files "$csdlc_metadata" >"$TMP/csdlc-metadata.out"
+assert_not_has "$TMP/csdlc-metadata.out" "csdlc_v2_standalone status=selected"
+
+csdlc_v2="$TMP/csdlc-v2.txt"
+printf 'M\tcsdlc-v2/tests/gate7_lifecycle.rs\n' >"$csdlc_v2"
+bash "$SCRIPT" --changed-files "$csdlc_v2" >"$TMP/csdlc-v2.out"
+assert_has "$TMP/csdlc-v2.out" "csdlc_v2_standalone status=selected"
+
+prompt_template="$TMP/prompt-template.txt"
+printf 'M\tdocs/templates/prompts/current.json\n' >"$prompt_template"
+bash "$SCRIPT" --changed-files "$prompt_template" >"$TMP/prompt.out"
+assert_has "$TMP/prompt.out" "prompt_template_contracts status=selected"
+assert_not_has "$TMP/prompt.out" "docs_diff_check status=selected"
+
+focused_rust="$TMP/focused-rust.txt"
+printf 'M\tadl/src/runtime_v2/contract_schema.rs\n' >"$focused_rust"
+bash "$SCRIPT" --changed-files "$focused_rust" >"$TMP/focused.out"
+assert_has "$TMP/focused.out" "rust_pr_fast status=selected"
+assert_has "$TMP/focused.out" "mode=focused"
+assert_has "$TMP/focused.out" "filter_expression=test(contract_schema)"
+assert_not_has "$TMP/focused.out" "runtime_owner_lane status=selected"
+
+focused_adl_runtime="$TMP/focused-adl-runtime.txt"
+cat >"$focused_adl_runtime" <<'EOF'
+M	adl-runtime/Cargo.toml
+M	adl-runtime/Cargo.lock
+M	adl-runtime/src/weather.rs
+EOF
+bash "$SCRIPT" --changed-files "$focused_adl_runtime" >"$TMP/focused-adl-runtime.out"
+assert_has "$TMP/focused-adl-runtime.out" "rust_pr_fast status=selected"
+assert_has "$TMP/focused-adl-runtime.out" "runtime_owner_lane status=selected"
+assert_has "$TMP/focused-adl-runtime.out" "mode=focused"
+assert_has "$TMP/focused-adl-runtime.out" "filter_expression=all()"
+
+focused_adl_runtime_example="$TMP/focused-adl-runtime-example.txt"
+printf 'M\tadl-runtime/examples/observability_vector_proof.rs\n' >"$focused_adl_runtime_example"
+bash "$SCRIPT" --changed-files "$focused_adl_runtime_example" >"$TMP/focused-adl-runtime-example.out"
+assert_has "$TMP/focused-adl-runtime-example.out" "rust_pr_fast status=selected"
+assert_has "$TMP/focused-adl-runtime-example.out" "runtime_owner_lane status=selected"
+assert_has "$TMP/focused-adl-runtime-example.out" "mode=focused"
+
+runtime_kernel="$TMP/runtime-kernel.txt"
+cat >"$runtime_kernel" <<'EOF'
+A	adl-runtime-kernel/src/lib.rs
+A	adl-runtime-kernel/tests/kernel.rs
+A	infra/rustysd/adl-runtime-kernel.service
+A	infra/horust/adl-runtime-kernel.toml
+A	infra/horust/adl-runtime-kernel-bakeoff.toml
+A	infra/systemd/adl-runtime-kernel.service
+EOF
+bash "$SCRIPT" --changed-files "$runtime_kernel" >"$TMP/runtime-kernel.out"
+assert_has "$TMP/runtime-kernel.out" "aggregate_status=selected"
+assert_has "$TMP/runtime-kernel.out" "runtime_kernel_contracts status=selected"
+assert_not_has "$TMP/runtime-kernel.out" "unmapped_change_surface"
+
+issue_111_113="$TMP/issue-111-113.txt"
+cat >"$issue_111_113" <<'EOF'
+M	.csdlc/evidence/113/roster-live-proof-2118c05b3/manifest.json
+M	.csdlc/issues/111/index.json
+M	.csdlc/issues/113/index.json
+M	.csdlc/prepared/issues/111/record-validation-browser.json
+M	.csdlc/prepared/issues/113/record-validation-browser-final.json
+M	adl-runtime-kernel/build.rs
+M	adl-runtime-kernel/src/agent_roster.rs
+M	adl-runtime-kernel/src/assembly.rs
+M	adl-runtime-kernel/src/bin/adl-runtime-kernel.rs
+M	adl-runtime-kernel/src/control.rs
+M	adl-runtime-kernel/src/ingress.rs
+M	adl-runtime-kernel/src/lib.rs
+M	adl-runtime-kernel/src/live_continuity.rs
+M	adl-runtime-kernel/src/operations.rs
+M	adl-runtime-kernel/src/telemetry.rs
+M	adl-runtime-kernel/tests/agent_roster.rs
+M	adl-runtime-kernel/tests/control.rs
+M	adl-runtime-kernel/tests/conversation_sessions.rs
+M	adl-runtime-kernel/tests/openapi_contract.rs
+M	adl/tools/test_html_observatory.sh
+M	adl/tools/validate_v092_html_observatory_roster.mjs
+M	demos/html-observatory/app.js
+M	demos/html-observatory/index.html
+M	demos/html-observatory/styles.css
+M	demos/html-observatory/tests/conversation_sessions.test.mjs
+M	design/issue-111.md
+M	design/issue-111.mmd
+M	docs/api/runtime-v3/v1/observatory.openapi.json
+M	docs/api/runtime-v3/v1/openapi.json
+EOF
+bash "$SCRIPT" --changed-files "$issue_111_113" >"$TMP/issue-111-113.out"
+assert_has "$TMP/issue-111-113.out" "aggregate_status=selected"
+assert_has "$TMP/issue-111-113.out" "html_observatory_v0917_runtime_surface status=selected"
+assert_has "$TMP/issue-111-113.out" "html_observatory_tooling_syntax status=selected"
+assert_has "$TMP/issue-111-113.out" "docs_diff_check status=selected"
+assert_has "$TMP/issue-111-113.out" "runtime_kernel_contracts status=selected"
+assert_not_has "$TMP/issue-111-113.out" "unmapped_change_surface"
+assert_not_has "$TMP/issue-111-113.out" "slow_proof"
+bash "$MANAGER" --changed-files "$issue_111_113" --json >"$TMP/issue-111-113.profile.json"
+python3 - <<'PY' "$TMP/issue-111-113.profile.json"
+import json
+import sys
+
+profile = json.load(open(sys.argv[1]))
+assert profile["status"] == "ready_to_run"
+assert profile["pr_publication_sufficient"] is True
+assert profile["escalation"]["required"] is False
+assert all(
+    reason["lane_id"] != "unmapped_change_surface"
+    for reason in profile["escalation"]["reasons"]
+)
+assert all(item["lane_id"] != "slow_proof_review" for item in profile["run"])
+assert any(item["surface"] == "slow_proof" for item in profile["not_run"])
+PY
+
+shell_tool="$TMP/html-observatory-shell-tool.txt"
+printf 'M\tadl/tools/test_html_observatory.sh\n' >"$shell_tool"
+bash "$SCRIPT" --changed-files "$shell_tool" >"$TMP/html-observatory-shell-tool.out"
+assert_has "$TMP/html-observatory-shell-tool.out" "html_observatory_tooling_syntax status=selected"
+assert_has "$TMP/html-observatory-shell-tool.out" "bash -n adl/tools/test_html_observatory.sh"
+assert_not_has "$TMP/html-observatory-shell-tool.out" "html_observatory_v0917_runtime_surface status=selected"
+bash "$SCRIPT" --changed-files "$shell_tool" --run \
+  --report-out "$TMP/html-observatory-shell-tool-run.json" \
+  >"$TMP/html-observatory-shell-tool-run.out"
+assert_observatory_tooling_run \
+  "$TMP/html-observatory-shell-tool-run.json" \
+  "adl/tools/test_html_observatory.sh" \
+  "html_observatory_tooling_syntax"
+
+javascript_tool="$TMP/html-observatory-javascript-tool.txt"
+printf 'M\tadl/tools/validate_v092_html_observatory_roster.mjs\n' >"$javascript_tool"
+bash "$SCRIPT" --changed-files "$javascript_tool" >"$TMP/html-observatory-javascript-tool.out"
+assert_has "$TMP/html-observatory-javascript-tool.out" "html_observatory_roster_javascript_syntax status=selected"
+assert_has "$TMP/html-observatory-javascript-tool.out" "node --check adl/tools/validate_v092_html_observatory_roster.mjs"
+assert_not_has "$TMP/html-observatory-javascript-tool.out" "html_observatory_v0917_runtime_surface status=selected"
+javascript_validator="$ROOT/adl/tools/validate_v092_html_observatory_roster.mjs"
+javascript_validator_created=false
+if [[ ! -e "$javascript_validator" ]]; then
+  printf 'export const observatoryRosterValidator = true;\n' >"$javascript_validator"
+  javascript_validator_created=true
+  JAVASCRIPT_VALIDATOR_FIXTURE="$javascript_validator"
+fi
+bash "$SCRIPT" --changed-files "$javascript_tool" --run \
+  --report-out "$TMP/html-observatory-javascript-tool-run.json" \
+  >"$TMP/html-observatory-javascript-tool-run.out"
+assert_observatory_tooling_run \
+  "$TMP/html-observatory-javascript-tool-run.json" \
+  "adl/tools/validate_v092_html_observatory_roster.mjs" \
+  "html_observatory_roster_javascript_syntax"
+if [[ "$javascript_validator_created" == true ]]; then
+  rm "$javascript_validator"
+  JAVASCRIPT_VALIDATOR_FIXTURE=""
+else
+  JAVASCRIPT_VALIDATOR_BACKUP="$TMP/validate_v092_html_observatory_roster.mjs"
+  mv "$javascript_validator" "$JAVASCRIPT_VALIDATOR_BACKUP"
+fi
+if bash "$SCRIPT" --changed-files "$javascript_tool" --run \
+  --report-out "$TMP/html-observatory-javascript-tool-missing.json" \
+  >"$TMP/html-observatory-javascript-tool-missing.out" 2>&1; then
+  echo "expected a deleted Observatory JavaScript validator to fail closed" >&2
+  exit 1
+fi
+if [[ -n "$JAVASCRIPT_VALIDATOR_BACKUP" ]]; then
+  mv "$JAVASCRIPT_VALIDATOR_BACKUP" "$javascript_validator"
+  JAVASCRIPT_VALIDATOR_BACKUP=""
+fi
+
+printf 'if then\n' >"$TMP/invalid-observatory-tool.sh"
+if bash -n "$TMP/invalid-observatory-tool.sh" >/dev/null 2>&1; then
+  echo "expected malformed Observatory shell tooling to fail syntax validation" >&2
+  exit 1
+fi
+printf 'const = ;\n' >"$TMP/invalid-observatory-tool.mjs"
+if node --check "$TMP/invalid-observatory-tool.mjs" >/dev/null 2>&1; then
+  echo "expected malformed Observatory JavaScript tooling to fail syntax validation" >&2
+  exit 1
+fi
+
+unknown_tooling="$TMP/unknown-tooling.txt"
+printf 'A\tadl/tools/future_unclassified_route.sh\n' >"$unknown_tooling"
+bash "$MANAGER" --changed-files "$unknown_tooling" --json >"$TMP/unknown-tooling.json"
+python3 - <<'PY' "$TMP/unknown-tooling.json"
+import json
+import sys
+
+profile = json.load(open(sys.argv[1]))
+assert profile["status"] == "escalation_required"
+assert profile["pr_publication_sufficient"] is False
+assert profile["escalation"]["required"] is True
+assert any(
+    reason["lane_id"] == "unmapped_change_surface"
+    and reason["matched_paths"] == ["adl/tools/future_unclassified_route.sh"]
+    for reason in profile["escalation"]["reasons"]
+)
+PY
+
+focused_rust_with_space="$TMP/focused rust paths.txt"
+printf 'M\tadl/src/runtime_v2/contract_schema.rs\n' >"$focused_rust_with_space"
+focused_rust_with_space_resolved="$(python3 - <<'PY' "$focused_rust_with_space"
+from pathlib import Path
+import sys
+
+print(Path(sys.argv[1]).resolve())
+PY
+)"
+bash "$SCRIPT" --changed-files "$focused_rust_with_space" >"$TMP/focused-space.out"
+assert_has "$TMP/focused-space.out" "rust_pr_fast status=selected"
+assert_has "$TMP/focused-space.out" "--changed-files '$focused_rust_with_space_resolved'"
+
+shared_rust="$TMP/shared-rust.txt"
+printf 'M\tadl/src/lib.rs\n' >"$shared_rust"
+bash "$SCRIPT" --changed-files "$shared_rust" >"$TMP/shared.out"
+assert_has "$TMP/shared.out" "aggregate_status=escalated"
+assert_has "$TMP/shared.out" "rust_pr_fast status=escalated"
+
+csdlc_owner_paths=(
+  "adl/tools/install_owner_binaries.sh"
+  "adl/tools/build_v0917_execution_outlier_analysis.py"
+  "adl/tools/build_v0916_workflow_metric_backfill_inventory.py"
+  "adl/tools/test_build_v0916_workflow_metric_backfill_inventory.py"
+  "adl/tools/validation_inventory.py"
+  "adl/tools/validation_inventory.sh"
+  "adl/tools/run_owner_validation_lane.sh"
+  "adl/tools/test_owner_validation_lane.sh"
+  "adl/tools/test_readiness_prep_metrics_non_terminal.sh"
+  "adl/tools/test_validation_inventory.sh"
+)
+for index in "${!csdlc_owner_paths[@]}"; do
+  path="${csdlc_owner_paths[$index]}"
+  changed_file="$TMP/csdlc-owner-$index.txt"
+  output_file="$TMP/csdlc-owner-$index.out"
+  printf 'M\t%s\n' "$path" >"$changed_file"
+  bash "$SCRIPT" --changed-files "$changed_file" >"$output_file"
+  assert_has "$output_file" "aggregate_status=selected"
+  assert_has "$output_file" "csdlc_owner_lane status=selected"
+  assert_not_has "$output_file" "unmapped_change_surface"
+done
+
+python3 - "$ROOT" <<'PY'
+import importlib.util
+import json
+from pathlib import Path
+import sys
+
+root = Path(sys.argv[1])
+selector = json.loads(
+    (root / "adl/config/validation_lane_selector.v0.91.6.json").read_text()
+)
+lane = next(lane for lane in selector["lanes"] if lane["id"] == "csdlc_owner_lane")
+selected_paths = [path for path in lane["path_selectors"] if "*" not in path]
+expected_paths = [
+    "adl/tools/install_owner_binaries.sh",
+    "adl/tools/build_v0917_execution_outlier_analysis.py",
+    "adl/tools/build_v0916_workflow_metric_backfill_inventory.py",
+    "adl/tools/test_build_v0916_workflow_metric_backfill_inventory.py",
+    "adl/tools/validation_inventory.py",
+    "adl/tools/validation_inventory.sh",
+    "adl/tools/run_owner_validation_lane.sh",
+    "adl/tools/test_owner_validation_lane.sh",
+    "adl/tools/test_readiness_prep_metrics_non_terminal.sh",
+    "adl/tools/test_validation_inventory.sh",
+]
+if selected_paths != expected_paths:
+    raise SystemExit(
+        "csdlc_owner_lane exact active selectors drifted:\n"
+        f"expected={expected_paths!r}\nactual={selected_paths!r}"
+    )
+
+scanner_path = root / "adl/tools/generate_active_command_reference_scan.py"
+spec = importlib.util.spec_from_file_location("active_command_reference_scan", scanner_path)
+scanner = importlib.util.module_from_spec(spec)
+sys.modules[spec.name] = scanner
+spec.loader.exec_module(scanner)
+
+historical = sorted(set(selected_paths) & scanner.HISTORICAL_EXACT_PATHS)
+if historical:
+    raise SystemExit(
+        "active csdlc_owner_lane selectors are scanner historical exemptions: "
+        + ", ".join(historical)
+    )
+
+excluded = sorted(set(selected_paths) & scanner.EXCLUDED_REL_PATHS)
+if excluded:
+    raise SystemExit(
+        "active csdlc_owner_lane selectors are scanner exclusions: "
+        + ", ".join(excluded)
+    )
+
+for path in selected_paths:
+    absolute = root / path
+    if not absolute.is_file():
+        raise SystemExit(f"active csdlc_owner_lane selector is missing: {path}")
+    if scanner.classify_path(path) != "active":
+        raise SystemExit(f"active selector is not scanner-active: {path}")
+    rows, _ = scanner.build_rows(paths=[absolute], root=root)
+    blocking = [row for row in rows if row[3] in {"active", "unknown"}]
+    if blocking:
+        details = "; ".join(
+            f"{row[0]} at {row[1]}:{row[2]}: {row[6]}" for row in blocking
+        )
+        raise SystemExit(f"active selector contains runnable sunset route: {details}")
+
+print("PASS csdlc_owner_lane active selector/scanner consistency")
+PY
+
+remote_validation_tool="$TMP/remote-validation-tool.txt"
+printf 'M\tadl/tools/run_nessus_remote_validation.sh\n' >"$remote_validation_tool"
+bash "$SCRIPT" --changed-files "$remote_validation_tool" >"$TMP/remote-validation-tool.out"
+assert_has "$TMP/remote-validation-tool.out" "aggregate_status=selected"
+assert_has "$TMP/remote-validation-tool.out" "ci_path_policy_contracts status=selected"
+assert_not_has "$TMP/remote-validation-tool.out" "unmapped_change_surface"
+
+scheduler_fixture_repair="$TMP/scheduler-fixture-repair.txt"
+cat >"$scheduler_fixture_repair" <<'EOF'
+M	adl/tests/fixtures/scheduler/local_agent_delegation_readiness_inputs_v1.json
+M	docs/milestones/v0.91.7/review/provider/artifacts/local_agent_delegation_readiness_plan_4675.json
+EOF
+bash "$SCRIPT" --changed-files "$scheduler_fixture_repair" >"$TMP/scheduler-fixture-repair.out"
+assert_has "$TMP/scheduler-fixture-repair.out" "aggregate_status=selected"
+assert_has "$TMP/scheduler-fixture-repair.out" "scheduler_fixture_validation status=selected"
+assert_has "$TMP/scheduler-fixture-repair.out" "command=cargo test --manifest-path adl/Cargo.toml --lib scheduler_economics"
+assert_not_has "$TMP/scheduler-fixture-repair.out" "rust_pr_fast"
+assert_not_has "$TMP/scheduler-fixture-repair.out" "no_rust_surface_detected_for_fast_lane"
+
+aws_remote_validation_tool="$TMP/aws-remote-validation-tool.txt"
+printf 'A\ttools/aws_remote_validation/src/aws_remote_validation.rs\n' >"$aws_remote_validation_tool"
+bash "$SCRIPT" --changed-files "$aws_remote_validation_tool" >"$TMP/aws-remote-validation-tool.out"
+assert_has "$TMP/aws-remote-validation-tool.out" "aggregate_status=selected"
+assert_has "$TMP/aws-remote-validation-tool.out" "aws_remote_validation_tooling status=selected"
+assert_not_has "$TMP/aws-remote-validation-tool.out" "unmapped_change_surface"
+
+aws_codefriend_build_lane="$TMP/aws-codefriend-build-lane.txt"
+cat >"$aws_codefriend_build_lane" <<'EOF'
+A	.github/workflows/aws-codefriend-build.yaml
+A	adl/tools/run_aws_codefriend_build_lane.sh
+A	adl/tools/run_build_platform_benchmark.sh
+A	adl/tools/setup_aws_codefriend_build_resources.sh
+A	adl/tools/test_run_aws_codefriend_build_lane.sh
+A	docs/tooling/AWS_CODEFRIEND_BUILD_LANE.md
+EOF
+bash "$SCRIPT" --changed-files "$aws_codefriend_build_lane" >"$TMP/aws-codefriend-build-lane.out"
+assert_has "$TMP/aws-codefriend-build-lane.out" "aggregate_status=release_gate_required"
+assert_has "$TMP/aws-codefriend-build-lane.out" "aws_codefriend_build_lane status=selected"
+assert_has "$TMP/aws-codefriend-build-lane.out" "ci_path_policy_contracts status=selected"
+assert_has "$TMP/aws-codefriend-build-lane.out" "release_gate_review status=release_gate_required"
+assert_not_has "$TMP/aws-codefriend-build-lane.out" "unmapped_change_surface"
+
+aws_spot_wrapper_tool="$TMP/aws-spot-wrapper-tool.txt"
+cat >"$aws_spot_wrapper_tool" <<'EOF'
+A	adl/tools/run_aws_spot_remote_validation_lane.sh
+A	adl/tools/run_build_platform_benchmark.sh
+A	adl/tools/setup_aws_spot_remote_validation_github_resources.sh
+A	adl/tools/test_run_aws_spot_remote_validation_lane.sh
+A	docs/tooling/AWS_SPOT_REMOTE_VALIDATION_LANE.md
+EOF
+bash "$SCRIPT" --changed-files "$aws_spot_wrapper_tool" >"$TMP/aws-spot-wrapper-tool.out"
+assert_has "$TMP/aws-spot-wrapper-tool.out" "aggregate_status=selected"
+assert_has "$TMP/aws-spot-wrapper-tool.out" "aws_remote_validation_tooling status=selected"
+assert_has "$TMP/aws-spot-wrapper-tool.out" "docs_diff_check status=selected"
+assert_not_has "$TMP/aws-spot-wrapper-tool.out" "unmapped_change_surface"
+
+rust_warm_cache_surface="$TMP/rust-warm-cache-surface.txt"
+cat >"$rust_warm_cache_surface" <<'EOF'
+M	AGENTS.md
+M	adl/config/validation_lane_selector.v0.91.6.json
+M	adl/tools/run_authoritative_coverage_lane.sh
+M	adl/tools/run_owner_validation_lane.sh
+M	adl/tools/run_pr_fast_coverage_lane.sh
+M	adl/tools/run_pr_fast_test_lane.sh
+A	adl/tools/rust_validation_warm_cache.sh
+A	adl/tools/test_rust_validation_warm_cache.sh
+M	docs/tooling/HARDLINKED_RUST_DEPENDENCY_CACHE.md
+EOF
+bash "$SCRIPT" --changed-files "$rust_warm_cache_surface" >"$TMP/rust-warm-cache-surface.out"
+assert_has "$TMP/rust-warm-cache-surface.out" "aggregate_status=selected"
+assert_has "$TMP/rust-warm-cache-surface.out" "rust_dependency_cache_warmup_contracts status=selected"
+assert_has "$TMP/rust-warm-cache-surface.out" "ci_path_policy_contracts status=selected"
+assert_not_has "$TMP/rust-warm-cache-surface.out" "unmapped_change_surface"
+
+final_merge_gate_surface="$TMP/final-merge-gate-surface.txt"
+cat >"$final_merge_gate_surface" <<'EOF'
+A	adl/tools/ensure_final_merge_gate.sh
+A	adl/tools/test_ensure_final_merge_gate.sh
+EOF
+bash "$SCRIPT" --changed-files "$final_merge_gate_surface" >"$TMP/final-merge-gate-surface.out"
+assert_has "$TMP/final-merge-gate-surface.out" "aggregate_status=selected"
+assert_has "$TMP/final-merge-gate-surface.out" "ci_path_policy_contracts status=selected"
+assert_has "$TMP/final-merge-gate-surface.out" "command=bash adl/tools/test_ci_path_policy.sh && bash adl/tools/test_ci_runtime_contracts.sh && bash adl/tools/test_select_validation_lanes.sh && bash adl/tools/test_validation_manager.sh && bash adl/tools/test_run_nessus_remote_validation.sh && bash adl/tools/test_run_validation_manager_nessus_lane.sh"
+assert_not_has "$TMP/final-merge-gate-surface.out" "unmapped_change_surface"
+
+issue_4603_surface="$TMP/issue-4603-surface.txt"
+cat >"$issue_4603_surface" <<'EOF'
+M	adl/Cargo.lock
+M	adl/Cargo.toml
+A	adl/src/aws_remote_validation.rs
+A	adl/src/bin/adl_aws_remote_validation.rs
+A	docs/milestones/v0.91.7/features/AWS_SPOT_REMOTE_VALIDATION_LANE_v0.91.7.md
+A	tools/aws_remote_validation/Cargo.lock
+A	tools/aws_remote_validation/Cargo.toml
+A	tools/aws_remote_validation/scripts/remote_validation_runner.sh
+A	tools/aws_remote_validation/scripts/ssh_debug_control.sh
+A	tools/aws_remote_validation/src/aws_remote_validation.rs
+A	tools/aws_remote_validation/src/bin/adl_aws_remote_validation.rs
+A	tools/aws_remote_validation/src/cli/observability.rs
+EOF
+bash "$SCRIPT" --changed-files "$issue_4603_surface" >"$TMP/issue-4603-surface.out"
+assert_has "$TMP/issue-4603-surface.out" "aggregate_status=selected"
+assert_has "$TMP/issue-4603-surface.out" "aws_remote_validation_tooling status=selected"
+assert_has "$TMP/issue-4603-surface.out" "rust_pr_fast status=selected"
+assert_not_has "$TMP/issue-4603-surface.out" "unmapped_change_surface"
+
+no_sparrow_4909_surface="$TMP/no-sparrow-4909-surface.txt"
+cat >"$no_sparrow_4909_surface" <<'EOF'
+A	adl/tools/run_v0917_no_sparrow_4909_proof.sh
+A	adl/tools/validate_v0917_no_sparrow_4909_status.sh
+A	docs/milestones/v0.91.7/review/runtime/no_sparrow_4909/proof_summary.json
+EOF
+bash "$SCRIPT" --changed-files "$no_sparrow_4909_surface" >"$TMP/no-sparrow-4909-surface.out"
+assert_has "$TMP/no-sparrow-4909-surface.out" "aggregate_status=selected"
+assert_has "$TMP/no-sparrow-4909-surface.out" "v0917_no_sparrow_4909_contracts status=selected"
+assert_not_has "$TMP/no-sparrow-4909-surface.out" "unmapped_change_surface"
+
+wp12_ssm_readiness_4657_surface="$TMP/wp12-ssm-readiness-4657-surface.txt"
+cat >"$wp12_ssm_readiness_4657_surface" <<'EOF'
+A	adl/tools/validate_wp12_ssm_readiness_4657.py
+A	adl/tools/test_validate_wp12_ssm_readiness_4657.sh
+A	docs/milestones/v0.91.7/review/security/WP12_SSM_READINESS_4657.md
+A	docs/milestones/v0.91.7/review/security/wp12_ssm_readiness_4657.json
+M	docs/milestones/v0.91.7/review/security/wp12_security_cav_gate_4656.json
+EOF
+bash "$SCRIPT" --changed-files "$wp12_ssm_readiness_4657_surface" >"$TMP/wp12-ssm-readiness-4657-surface.out"
+assert_has "$TMP/wp12-ssm-readiness-4657-surface.out" "aggregate_status=selected"
+assert_has "$TMP/wp12-ssm-readiness-4657-surface.out" "wp12_ssm_readiness_4657_contracts status=selected"
+assert_not_has "$TMP/wp12-ssm-readiness-4657-surface.out" "unmapped_change_surface"
+
+wp12_cav_red_blue_4914_surface="$TMP/wp12-cav-red-blue-4914-surface.txt"
+cat >"$wp12_cav_red_blue_4914_surface" <<'EOF'
+A	adl/src/csm_cav_red_blue.rs
+A	adl/tools/validate_wp12_cav_red_blue_4914.py
+A	docs/milestones/v0.91.7/review/security/wp12_cav_red_blue_4914/cav_red_blue_summary.json
+A	docs/milestones/v0.91.7/review/security/wp12_cav_red_blue_4914/cav_red_blue_events.jsonl
+M	docs/milestones/v0.91.7/review/security/wp12_security_cav_gate_4656.json
+M	docs/milestones/v0.91.7/review/runtime/final_csm_coherence_4906/runtime_coherence_matrix_4906.json
+EOF
+bash "$SCRIPT" --changed-files "$wp12_cav_red_blue_4914_surface" >"$TMP/wp12-cav-red-blue-4914-surface.out"
+assert_has "$TMP/wp12-cav-red-blue-4914-surface.out" "aggregate_status=selected"
+assert_has "$TMP/wp12-cav-red-blue-4914-surface.out" "wp12_cav_red_blue_4914_contracts status=selected"
+assert_not_has "$TMP/wp12-cav-red-blue-4914-surface.out" "unmapped_change_surface"
+
+csm_otlp_4904_surface="$TMP/csm-otlp-4904-surface.txt"
+cat >"$csm_otlp_4904_surface" <<'EOF'
+A	adl/tools/run_v0917_csm_otlp_4904_proof.sh
+A	adl/tools/validate_v0917_csm_otlp_4904_status.sh
+A	docs/milestones/v0.91.7/review/runtime/csm_otlp_4904/proof_summary.json
+EOF
+bash "$SCRIPT" --changed-files "$csm_otlp_4904_surface" >"$TMP/csm-otlp-4904-surface.out"
+assert_has "$TMP/csm-otlp-4904-surface.out" "aggregate_status=selected"
+assert_has "$TMP/csm-otlp-4904-surface.out" "v0917_csm_otlp_4904_contracts status=selected"
+assert_not_has "$TMP/csm-otlp-4904-surface.out" "unmapped_change_surface"
+
+csm_continuity_capsule_4910_surface="$TMP/csm-continuity-capsule-4910-surface.txt"
+cat >"$csm_continuity_capsule_4910_surface" <<'EOF'
+A	adl/src/csm_continuity_capsule.rs
+A	adl/tools/run_v0917_csm_continuity_capsule_4910_proof.sh
+A	adl/tools/validate_v0917_csm_continuity_capsule_4910_status.sh
+A	docs/milestones/v0.91.7/review/runtime/csm_continuity_capsule_4910/proof_summary.json
+EOF
+bash "$SCRIPT" --changed-files "$csm_continuity_capsule_4910_surface" >"$TMP/csm-continuity-capsule-4910-surface.out"
+assert_has "$TMP/csm-continuity-capsule-4910-surface.out" "aggregate_status=selected"
+assert_has "$TMP/csm-continuity-capsule-4910-surface.out" "v0917_csm_continuity_capsule_4910_contracts status=selected"
+assert_not_has "$TMP/csm-continuity-capsule-4910-surface.out" "unmapped_change_surface"
+
+wp07_csm_api_gateway_bridge_surface="$TMP/wp07-csm-api-gateway-bridge-surface.txt"
+cat >"$wp07_csm_api_gateway_bridge_surface" <<'EOF'
+A	adl/src/csm_api_gateway_bridge.rs
+A	adl/tools/run_v0917_csm_api_gateway_bridge_live_proof.sh
+A	adl/tools/test_run_v0917_csm_api_gateway_bridge_proof.sh
+A	adl/tools/validate_v0917_csm_api_gateway_bridge_proof.py
+A	docs/milestones/v0.91.7/review/runtime/csm_api_gateway_bridge_5039/live_20260710T004221Z/api_gateway_bridge_summary.json
+EOF
+bash "$SCRIPT" --changed-files "$wp07_csm_api_gateway_bridge_surface" >"$TMP/wp07-csm-api-gateway-bridge-surface.out"
+assert_has "$TMP/wp07-csm-api-gateway-bridge-surface.out" "aggregate_status=selected"
+assert_has "$TMP/wp07-csm-api-gateway-bridge-surface.out" "wp07_csm_api_gateway_bridge_proof status=selected"
+assert_not_has "$TMP/wp07-csm-api-gateway-bridge-surface.out" "unmapped_change_surface"
+
+release_gate="$TMP/release-gate.txt"
+printf 'M\t.github/workflows/ci.yaml\n' >"$release_gate"
+bash "$SCRIPT" --changed-files "$release_gate" >"$TMP/release.out"
+assert_has "$TMP/release.out" "aggregate_status=release_gate_required"
+assert_has "$TMP/release.out" "release_gate_review status=release_gate_required"
+assert_has "$TMP/release.out" "ci_path_policy_contracts status=selected"
+
+bash "$SCRIPT" --changed-files "$docs_only" --json >"$TMP/docs.json"
+python3 - <<'PY' "$TMP/docs.json"
+import json
+import sys
+
+plan = json.load(open(sys.argv[1]))
+docs_lane = plan["lanes"]["docs_diff_check"]
+assert docs_lane["owner"] == "docs"
+assert docs_lane["default_surface"] == "docs"
+assert docs_lane["resource_class"] == "tiny"
+assert docs_lane["proof_role"] == "diff_hygiene"
+assert docs_lane["vpp_record"]["contract_version"] == "vpp.lane.v1"
+assert docs_lane["vpp_record"]["expected_runtime_class"] == "tiny"
+assert docs_lane["vpp_record"]["parallel_group"] == "docs_hygiene"
+assert docs_lane["vpp_record"]["cache_equivalence_group"] == "git_diff_check"
+assert docs_lane["vpp_record"]["failure_semantics"] == "fail_closed"
+PY
+
+bash "$SCRIPT" --changed-files "$focused_rust" --json >"$TMP/focused.json"
+python3 - <<'PY' "$TMP/focused.json"
+import json
+import sys
+
+plan = json.load(open(sys.argv[1]))
+assert plan["schema_version"] == "adl.validation_lane_plan.v1"
+assert plan["lanes"]["rust_pr_fast"]["mode"] == "focused"
+assert plan["lanes"]["rust_pr_fast"]["owner"] == "shared"
+assert plan["lanes"]["rust_pr_fast"]["resource_class"] == "medium"
+assert plan["lanes"]["rust_pr_fast"]["escalation_rule"] == "delegate_or_escalate"
+assert plan["pr_publication_sufficient"] is True
+PY
+
+bash "$SCRIPT" --changed-files "$release_gate" --json >"$TMP/release.json"
+python3 - <<'PY' "$TMP/release.json"
+import json
+import sys
+
+plan = json.load(open(sys.argv[1]))
+release_gate_lane = plan["lanes"]["release_gate_review"]
+ci_policy_lane = plan["lanes"]["ci_path_policy_contracts"]
+assert release_gate_lane["proof_role"] == "release_gate"
+assert release_gate_lane["resource_class"] == "high"
+assert release_gate_lane["escalation_rule"] == "require_release_gate_disposition"
+assert ci_policy_lane["proof_role"] == "ci_contract"
+assert ci_policy_lane["default_surface"] == "ci_policy"
+PY
+
+bash "$SCRIPT" --changed-files "$scheduler_fixture_repair" --json >"$TMP/scheduler-fixture-repair.json"
+python3 - <<'PY' "$TMP/scheduler-fixture-repair.json"
+import json
+import sys
+
+plan = json.load(open(sys.argv[1]))
+assert plan["schema_version"] == "adl.validation_lane_plan.v1"
+assert plan["aggregate_status"] == "selected"
+assert plan["pr_publication_sufficient"] is True
+assert set(plan["lanes"]) == {"scheduler_fixture_validation"}
+lane = plan["lanes"]["scheduler_fixture_validation"]
+assert lane["status"] == "selected"
+assert lane["owner"] == "tools"
+assert lane["proof_role"] == "scheduler_fixture_contract"
+assert lane["matched_paths"] == [
+    "adl/tests/fixtures/scheduler/local_agent_delegation_readiness_inputs_v1.json",
+    "docs/milestones/v0.91.7/review/provider/artifacts/local_agent_delegation_readiness_plan_4675.json",
+]
+assert lane["vpp_record"]["parallel_group"] == "scheduler_validation"
+assert "rust_pr_fast" not in plan["lanes"]
+PY
+
+report="$TMP/report.json"
+bash "$SCRIPT" --changed-files "$focused_rust" --json --report-out "$report" >/dev/null
+python3 - <<'PY' "$report"
+import json
+import sys
+
+plan = json.load(open(sys.argv[1]))
+assert plan["lanes"]["rust_pr_fast"]["status"] == "selected"
+PY
+
+if bash "$SCRIPT" --changed-files "$shared_rust" --run >"$TMP/refuse.out" 2>"$TMP/refuse.err"; then
+  echo "expected --run to refuse an escalated plan" >&2
+  exit 1
+fi
+assert_has "$TMP/refuse.err" "refusing --run because the plan is not fully selected"
+
+printf '# selector untracked fixture\n' >"$UNTRACKED_FIXTURE"
+bash "$SCRIPT" --include-working-tree >"$TMP/include-working-tree.out"
+assert_has "$TMP/include-working-tree.out" "path=docs/architecture/__selector_untracked_fixture__.md"
+
+run_docs="$TMP/run-docs.txt"
+printf 'M\tdocs/architecture/VALIDATION_LANE_SELECTOR.md\n' >"$run_docs"
+bash "$SCRIPT" --changed-files "$run_docs" --run --report-out "$TMP/run-docs-report.json" >/dev/null
+python3 - <<'PY' "$TMP/run-docs-report.json"
+import json
+import sys
+
+plan = json.load(open(sys.argv[1]))
+assert plan["run_status"] == "passed", json.dumps(plan, indent=2, sort_keys=True)
+assert "docs_diff_check" in plan["lanes"], json.dumps(plan, indent=2, sort_keys=True)
+assert plan["lanes"]["docs_diff_check"]["run_status"] == "passed", json.dumps(plan, indent=2, sort_keys=True)
+PY
+
+invalid_manifest="$TMP/invalid-manifest.json"
+cat >"$invalid_manifest" <<'EOF'
+{
+  "schema_version": "adl.validation_lane_selector.v1",
+  "surface_defaults": {
+    "docs": {
+      "owner": "docs",
+      "resource_class": "tiny",
+      "determinism_posture": "deterministic",
+      "proof_role": "diff_hygiene",
+      "risk_class": "low",
+      "escalation_rule": "none"
+    }
+  },
+  "lanes": [
+    {
+      "id": "broken_lane",
+      "lane_class": "docs",
+      "default_surface": "missing_surface",
+      "path_selectors": [
+        "docs/**"
+      ],
+      "command": "git diff --check",
+      "reason": "broken"
+    }
+  ],
+  "release_gate_hints": [],
+  "rust_path_hints": []
+}
+EOF
+if bash "$SCRIPT" --manifest "$invalid_manifest" --changed-files "$docs_only" >"$TMP/invalid.out" 2>"$TMP/invalid.err"; then
+  echo "expected invalid manifest to fail" >&2
+  exit 1
+fi
+assert_has "$TMP/invalid.err" "$invalid_manifest"
+assert_has "$TMP/invalid.err" "references unknown default_surface: missing_surface"
+
+invalid_vpp_manifest="$TMP/invalid-vpp-manifest.json"
+cat >"$invalid_vpp_manifest" <<'EOF'
+{
+  "schema_version": "adl.validation_lane_selector.v1",
+  "surface_defaults": {
+    "docs": {
+      "owner": "docs",
+      "resource_class": "tiny",
+      "determinism_posture": "deterministic",
+      "proof_role": "diff_hygiene",
+      "risk_class": "low",
+      "escalation_rule": "none"
+    }
+  },
+  "lanes": [
+    {
+      "id": "docs_diff_check",
+      "lane_class": "docs",
+      "default_surface": "docs",
+      "path_selectors": [
+        "docs/**"
+      ],
+      "command": "git diff --check",
+      "run_command": "git diff --check",
+      "reason": "docs_only_surface_requires_diff_hygiene",
+      "vpp_record": {
+        "contract_version": "vpp.lane.v1",
+        "artifacts": [
+          "working_tree_diff_hygiene"
+        ],
+        "parallel_group": "docs_hygiene",
+        "cache_equivalence_group": "git_diff_check",
+        "failure_semantics": "fail_closed"
+      }
+    }
+  ],
+  "release_gate_hints": [],
+  "rust_path_hints": []
+}
+EOF
+if bash "$SCRIPT" --manifest "$invalid_vpp_manifest" --changed-files "$docs_only" >"$TMP/invalid-vpp.out" 2>"$TMP/invalid-vpp.err"; then
+  echo "expected invalid vpp manifest to fail" >&2
+  exit 1
+fi
+assert_has "$TMP/invalid-vpp.err" "$invalid_vpp_manifest"
+assert_has "$TMP/invalid-vpp.err" "vpp_record missing required key: expected_runtime_class"
+
+invalid_special_surface_manifest="$TMP/invalid-special-surface-manifest.json"
+cat >"$invalid_special_surface_manifest" <<'EOF'
+{
+  "schema_version": "adl.validation_lane_selector.v1",
+  "surface_defaults": {
+    "docs": {
+      "owner": "docs",
+      "resource_class": "tiny",
+      "determinism_posture": "deterministic",
+      "proof_role": "diff_hygiene",
+      "risk_class": "low",
+      "escalation_rule": "none"
+    }
+  },
+  "lanes": [
+    {
+      "id": "docs_diff_check",
+      "lane_class": "docs",
+      "default_surface": "docs",
+      "path_selectors": [
+        "docs/**"
+      ],
+      "command": "git diff --check",
+      "run_command": "git diff --check",
+      "reason": "docs_only_surface_requires_diff_hygiene"
+    }
+  ],
+  "special_surfaces": {
+    "release_gate_review": "broken"
+  },
+  "release_gate_hints": [],
+  "rust_path_hints": []
+}
+EOF
+if bash "$SCRIPT" --manifest "$invalid_special_surface_manifest" --changed-files "$docs_only" >"$TMP/invalid-special.out" 2>"$TMP/invalid-special.err"; then
+  echo "expected invalid special surface manifest to fail" >&2
+  exit 1
+fi
+assert_has "$TMP/invalid-special.err" "$invalid_special_surface_manifest"
+assert_has "$TMP/invalid-special.err" "special_surfaces.release_gate_review must be an object"
+
+special_surface_manifest="$TMP/special-surface-manifest.json"
+cat >"$special_surface_manifest" <<'EOF'
+{
+  "schema_version": "adl.validation_lane_selector.v1",
+  "surface_defaults": {
+    "docs": {
+      "owner": "docs",
+      "resource_class": "tiny",
+      "determinism_posture": "deterministic",
+      "proof_role": "diff_hygiene",
+      "risk_class": "low",
+      "escalation_rule": "none"
+    },
+    "shared_rust": {
+      "owner": "shared",
+      "resource_class": "medium",
+      "determinism_posture": "deterministic",
+      "proof_role": "regression",
+      "risk_class": "medium",
+      "escalation_rule": "delegate_or_escalate"
+    },
+    "release_gate": {
+      "owner": "tools",
+      "resource_class": "high",
+      "determinism_posture": "evidence_bound",
+      "proof_role": "release_gate",
+      "risk_class": "high",
+      "escalation_rule": "require_release_gate_disposition"
+    }
+  },
+  "lanes": [
+    {
+      "id": "docs_diff_check",
+      "lane_class": "docs",
+      "default_surface": "docs",
+      "path_selectors": [
+        "docs/**"
+      ],
+      "command": "git diff --check",
+      "run_command": "git diff --check",
+      "reason": "docs_only_surface_requires_diff_hygiene"
+    }
+  ],
+  "special_surfaces": {
+    "release_gate_review": {
+      "id": "release_gate_review",
+      "lane_class": "release_gate",
+      "default_surface": "release_gate",
+      "path_selectors": [
+        "special/release/**"
+      ],
+      "command": "record release-gate disposition; do not treat focused PR validation as release proof",
+      "run_command": "",
+      "reason": "special_release_gate_surface"
+    },
+    "rust_pr_fast": {
+      "id": "rust_pr_fast",
+      "lane_class": "fast_unit",
+      "escalated_lane_class": "release_gate",
+      "default_surface": "shared_rust",
+      "path_selectors": [
+        "special/rust/**"
+      ],
+      "command": "bash adl/tools/run_pr_fast_test_lane.sh",
+      "run_command": "bash adl/tools/run_pr_fast_test_lane.sh",
+      "reason": "special_rust_surface"
+    }
+  },
+  "release_gate_hints": [],
+  "rust_path_hints": []
+}
+EOF
+special_release="$TMP/special-release.txt"
+printf 'M\tspecial/release/packet.md\n' >"$special_release"
+bash "$SCRIPT" --manifest "$special_surface_manifest" --changed-files "$special_release" --json >"$TMP/special-release.json"
+python3 - <<'PY' "$TMP/special-release.json"
+import json
+import sys
+
+plan = json.load(open(sys.argv[1]))
+assert plan["aggregate_status"] == "release_gate_required"
+assert plan["lanes"]["release_gate_review"]["matched_paths"] == ["special/release/packet.md"]
+PY
+
+special_rust="$TMP/special-rust.txt"
+printf 'M\tspecial/rust/module.rs\n' >"$special_rust"
+bash "$SCRIPT" --manifest "$special_surface_manifest" --changed-files "$special_rust" --json >"$TMP/special-rust.json"
+python3 - <<'PY' "$TMP/special-rust.json"
+import json
+import sys
+
+plan = json.load(open(sys.argv[1]))
+assert plan["lanes"]["rust_pr_fast"]["matched_paths"] == ["special/rust/module.rs"]
+PY
+
+missing_metadata_manifest="$TMP/missing-metadata-manifest.json"
+cat >"$missing_metadata_manifest" <<'EOF'
+{
+  "schema_version": "adl.validation_lane_selector.v1",
+  "surface_defaults": {
+    "docs": {
+      "owner": "docs",
+      "resource_class": "tiny",
+      "determinism_posture": "deterministic",
+      "risk_class": "low",
+      "escalation_rule": "none"
+    }
+  },
+  "lanes": [
+    {
+      "id": "docs_diff_check",
+      "lane_class": "docs",
+      "default_surface": "docs",
+      "path_selectors": [
+        "docs/**"
+      ],
+      "command": "git diff --check",
+      "run_command": "git diff --check",
+      "reason": "docs_only_surface_requires_diff_hygiene"
+    }
+  ],
+  "release_gate_hints": [],
+  "rust_path_hints": []
+}
+EOF
+if bash "$SCRIPT" --manifest "$missing_metadata_manifest" --changed-files "$docs_only" >"$TMP/missing-metadata.out" 2>"$TMP/missing-metadata.err"; then
+  echo "expected missing surface metadata to fail" >&2
+  exit 1
+fi
+assert_has "$TMP/missing-metadata.err" "missing required surface metadata: proof_role"
+
+html_observatory="$TMP/html-observatory.txt"
+cat >"$html_observatory" <<'EOF'
+M	adl/tools/test_demo_v0904_csm_observatory_governed_prototype.sh
+M	adl/tools/validate_csm_governed_observatory.py
+M	demos/fixtures/csm_observatory/proto-csm-02-governed-observatory-packet.json
+M	demos/v0.90.4/csm_observatory_governed_prototype.html
+M	demos/v0.90.4/csm_observatory_governed_prototype.css
+M	demos/v0.90.4/csm_observatory_governed_prototype.js
+M	demos/v0.90.4/csm_observatory_governed_prototype.md
+M	docs/milestones/v0.91.6/review/observatory/HTML_MOBILE_GOVERNED_OBSERVATORY_PROOF_4341.md
+EOF
+bash "$SCRIPT" --changed-files "$html_observatory" --json >"$TMP/html-observatory.json"
+python3 - <<'PY' "$TMP/html-observatory.json"
+import json
+import sys
+
+profile = json.load(open(sys.argv[1]))
+assert profile["schema_version"] == "adl.validation_lane_plan.v1"
+assert profile["aggregate_status"] == "selected"
+assert profile["pr_publication_sufficient"] is True
+assert set(profile["lanes"].keys()) == {"html_observatory_governed_surface"}
+lane = profile["lanes"]["html_observatory_governed_surface"]
+assert lane["status"] == "selected"
+assert lane["proof_role"] == "demo_contract"
+assert lane["owner"] == "review"
+PY
+
+html_observatory_v0917="$TMP/html-observatory-v0917.txt"
+cat >"$html_observatory_v0917" <<'EOF'
+A	adl/tools/test_v0917_html_observatory_integrated_proof.sh
+A	adl/tools/validate_v0917_html_observatory.py
+A	demos/html-observatory/README.md
+A	demos/html-observatory/app.js
+A	demos/html-observatory/index.html
+A	demos/html-observatory/styles.css
+EOF
+bash "$SCRIPT" --changed-files "$html_observatory_v0917" --json >"$TMP/html-observatory-v0917.json"
+python3 - <<'PY' "$TMP/html-observatory-v0917.json"
+import json
+import sys
+
+profile = json.load(open(sys.argv[1]))
+assert profile["schema_version"] == "adl.validation_lane_plan.v1"
+assert profile["aggregate_status"] == "selected"
+assert profile["pr_publication_sufficient"] is True
+assert set(profile["lanes"].keys()) == {"html_observatory_v0917_runtime_surface"}
+lane = profile["lanes"]["html_observatory_v0917_runtime_surface"]
+assert lane["status"] == "selected"
+assert lane["proof_role"] == "demo_contract"
+assert lane["owner"] == "review"
+assert lane["run_command"] == "bash adl/tools/test_v0917_html_observatory_integrated_proof.sh"
+assert set(lane["matched_paths"]) == {
+    "adl/tools/test_v0917_html_observatory_integrated_proof.sh",
+    "adl/tools/validate_v0917_html_observatory.py",
+    "demos/html-observatory/README.md",
+    "demos/html-observatory/app.js",
+    "demos/html-observatory/index.html",
+    "demos/html-observatory/styles.css",
+}
+PY
+
+podcast_static_demo="$TMP/podcast-static-demo.txt"
+cat >"$podcast_static_demo" <<'EOF'
+A	demos/podcast/index.html
+A	demos/podcast/feed.xml
+A	demos/podcast/studio/podcast-studio.html
+A	demos/_preview/podcast/index.html
+EOF
+bash "$SCRIPT" --changed-files "$podcast_static_demo" --json >"$TMP/podcast-static-demo.json"
+python3 - <<'PY' "$TMP/podcast-static-demo.json"
+import json
+import sys
+
+profile = json.load(open(sys.argv[1]))
+assert profile["schema_version"] == "adl.validation_lane_plan.v1", json.dumps(profile, indent=2, sort_keys=True)
+assert profile["aggregate_status"] == "selected", json.dumps(profile, indent=2, sort_keys=True)
+assert profile["pr_publication_sufficient"] is True, json.dumps(profile, indent=2, sort_keys=True)
+assert set(profile["lanes"].keys()) == {
+    "podcast_launch_packet",
+    "podcast_static_demo_surface",
+}, json.dumps(profile, indent=2, sort_keys=True)
+launch_lane = profile["lanes"]["podcast_launch_packet"]
+assert launch_lane["status"] == "selected", json.dumps(profile, indent=2, sort_keys=True)
+assert launch_lane["proof_role"] == "demo_contract", json.dumps(profile, indent=2, sort_keys=True)
+assert launch_lane["owner"] == "review", json.dumps(profile, indent=2, sort_keys=True)
+assert launch_lane["run_command"] == "bash adl/tools/test_podcast_launch_packet.sh", json.dumps(profile, indent=2, sort_keys=True)
+assert set(launch_lane["matched_paths"]) == {
+    "demos/podcast/index.html",
+    "demos/podcast/feed.xml",
+    "demos/podcast/studio/podcast-studio.html",
+}
+static_lane = profile["lanes"]["podcast_static_demo_surface"]
+assert static_lane["status"] == "selected", json.dumps(profile, indent=2, sort_keys=True)
+assert static_lane["proof_role"] == "demo_contract", json.dumps(profile, indent=2, sort_keys=True)
+assert static_lane["owner"] == "site", json.dumps(profile, indent=2, sort_keys=True)
+assert static_lane["run_command"] == "git diff --check", json.dumps(profile, indent=2, sort_keys=True)
+assert set(static_lane["matched_paths"]) == {
+    "demos/_preview/podcast/index.html",
+}
+PY
+
+unity_observatory="$TMP/unity-observatory.txt"
+cat >"$unity_observatory" <<'EOF'
+M	adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh
+M	adl/tools/test_v0916_unity_observatory_contract.sh
+M	adl/tools/test_v0916_unity_observatory_soak_integration.sh
+M	adl/tools/test_v0916_unity_observatory_unity65_smoke.sh
+M	demos/v0.91.6/unity-observatory/README.md
+M	demos/v0.91.6/unity-observatory/PROOF_PACKET.md
+M	demos/v0.91.6/unity-observatory/Assets/Resources/observatory_contract.json
+M	demos/v0.91.6/unity-observatory/Assets/Scripts/UnityObservatoryBootstrap.cs
+M	docs/milestones/v0.91.6/review/observatory/UNITY_OBSERVATORY_LOCAL_RUNTIME_CONSUMPTION_4548.md
+EOF
+bash "$SCRIPT" --changed-files "$unity_observatory" --json >"$TMP/unity-observatory.json"
+python3 - <<'PY' "$TMP/unity-observatory.json"
+import json
+import sys
+
+profile = json.load(open(sys.argv[1]))
+assert profile["schema_version"] == "adl.validation_lane_plan.v1"
+assert profile["aggregate_status"] == "selected"
+assert profile["pr_publication_sufficient"] is True
+assert set(profile["lanes"].keys()) == {
+    "unity_editor_liveness",
+    "unity_observatory_contract_surface",
+}
+focused = profile["lanes"]["unity_editor_liveness"]
+assert focused["matched_paths"] == [
+    "adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh",
+]
+assert focused["status"] == "selected"
+assert focused["owner"] == "review"
+assert "test_v0916_unity_observatory_local_runtime_consumption_unit.sh" in focused["command"]
+lane = profile["lanes"]["unity_observatory_contract_surface"]
+assert lane["status"] == "selected"
+assert lane["proof_role"] == "demo_contract"
+assert lane["owner"] == "review"
+assert "bash -n adl/tools/test_v0916_unity_observatory_unity65_smoke.sh" in lane["command"]
+assert "test_v0916_unity_observatory_baseline.sh" in lane["command"]
+assert "test_v0916_unity_observatory_contract.sh" in lane["command"]
+assert "test_v0916_unity_observatory_local_runtime_consumption_unit.sh" in lane["command"]
+assert "test_v0916_unity_observatory_local_runtime_consumption.sh" in lane["command"]
+assert "test_v0916_unity_observatory_soak_integration.sh" in lane["command"]
+assert "csm_observatory_cli_writes_unity_contract_bundle" in lane["command"]
+PY
+
+unity_mcp_alignment="$TMP/unity-mcp-alignment.txt"
+cat >"$unity_mcp_alignment" <<'EOF'
+A	adl/tools/probe_unity_mcp_observatory_alignment.sh
+A	adl/tools/test_v0916_unity_mcp_alignment_unit.sh
+A	docs/tooling/unity_mcp_observatory_alignment.md
+EOF
+bash "$SCRIPT" --changed-files "$unity_mcp_alignment" --json >"$TMP/unity-mcp-alignment.json"
+python3 - <<'PY' "$TMP/unity-mcp-alignment.json"
+import json
+import sys
+
+profile = json.load(open(sys.argv[1]))
+assert profile["aggregate_status"] == "selected"
+assert profile["pr_publication_sufficient"] is True
+assert set(profile["lanes"].keys()) == {"unity_mcp_alignment"}
+lane = profile["lanes"]["unity_mcp_alignment"]
+assert lane["matched_paths"] == [
+    "adl/tools/probe_unity_mcp_observatory_alignment.sh",
+    "adl/tools/test_v0916_unity_mcp_alignment_unit.sh",
+    "docs/tooling/unity_mcp_observatory_alignment.md",
+]
+assert lane["proof_role"] == "demo_contract"
+assert lane["owner"] == "review"
+assert "test_v0916_unity_mcp_alignment_unit.sh" in lane["command"]
+assert "test_v0916_unity_observatory_contract.sh" in lane["command"]
+PY
+
+unity_observatory_v0917="$TMP/unity-observatory-v0917.txt"
+cat >"$unity_observatory_v0917" <<'EOF'
+A	adl/tools/test_v0917_unity_observatory_integrated_proof.sh
+A	docs/milestones/v0.91.7/review/unity_observatory_4689/4689-unity-observatory-integrated-proof.md
+EOF
+bash "$SCRIPT" --changed-files "$unity_observatory_v0917" --json >"$TMP/unity-observatory-v0917.json"
+python3 - <<'PY' "$TMP/unity-observatory-v0917.json"
+import json
+import sys
+
+profile = json.load(open(sys.argv[1]))
+assert profile["schema_version"] == "adl.validation_lane_plan.v1"
+assert profile["aggregate_status"] == "selected"
+assert profile["pr_publication_sufficient"] is True
+assert set(profile["lanes"].keys()) == {"unity_observatory_v0917_integrated_proof"}
+lane = profile["lanes"]["unity_observatory_v0917_integrated_proof"]
+assert lane["matched_paths"] == [
+    "adl/tools/test_v0917_unity_observatory_integrated_proof.sh",
+    "docs/milestones/v0.91.7/review/unity_observatory_4689/4689-unity-observatory-integrated-proof.md",
+]
+assert lane["proof_role"] == "demo_contract"
+assert lane["owner"] == "review"
+assert lane["command"] == "bash adl/tools/test_v0917_unity_observatory_integrated_proof.sh"
+PY
+
+unity_observatory_docs="$TMP/unity-observatory-docs.txt"
+cat >"$unity_observatory_docs" <<'EOF'
+M	demos/v0.91.6/unity-observatory/README.md
+M	demos/v0.91.6/unity-observatory/PROOF_PACKET.md
+M	docs/milestones/v0.91.6/review/observatory/UNITY_OBSERVATORY_LOCAL_RUNTIME_CONSUMPTION_4548.md
+M	docs/milestones/v0.91.6/review/observatory/UNITY_OBSERVATORY_LOGGING_OTEL_SECURITY_CONSUMPTION_4034.md
+EOF
+bash "$SCRIPT" --changed-files "$unity_observatory_docs" --json >"$TMP/unity-observatory-docs.json"
+python3 - <<'PY' "$TMP/unity-observatory-docs.json"
+import json
+import sys
+
+profile = json.load(open(sys.argv[1]))
+assert profile["schema_version"] == "adl.validation_lane_plan.v1"
+assert profile["aggregate_status"] == "selected"
+assert profile["pr_publication_sufficient"] is True
+assert set(profile["lanes"].keys()) == {"unity_observatory_contract_surface"}
+lane = profile["lanes"]["unity_observatory_contract_surface"]
+assert lane["matched_paths"] == [
+    "demos/v0.91.6/unity-observatory/README.md",
+    "demos/v0.91.6/unity-observatory/PROOF_PACKET.md",
+    "docs/milestones/v0.91.6/review/observatory/UNITY_OBSERVATORY_LOCAL_RUNTIME_CONSUMPTION_4548.md",
+    "docs/milestones/v0.91.6/review/observatory/UNITY_OBSERVATORY_LOGGING_OTEL_SECURITY_CONSUMPTION_4034.md",
+]
+assert "test_v0916_unity_observatory_local_runtime_consumption.sh" in lane["command"]
+assert "test_v0916_unity_observatory_local_runtime_consumption_unit.sh" in lane["command"]
+assert "test_v0916_unity_observatory_contract.sh" in lane["command"]
+PY
+
+unity_observatory_runtime_script="$TMP/unity-observatory-runtime-script.txt"
+cat >"$unity_observatory_runtime_script" <<'EOF'
+M	adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh
+M	adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh
+EOF
+bash "$SCRIPT" --changed-files "$unity_observatory_runtime_script" --json >"$TMP/unity-observatory-runtime-script.json"
+python3 - <<'PY' "$TMP/unity-observatory-runtime-script.json"
+import json
+import sys
+
+profile = json.load(open(sys.argv[1]))
+assert profile["schema_version"] == "adl.validation_lane_plan.v1"
+assert profile["aggregate_status"] == "selected"
+assert profile["pr_publication_sufficient"] is True
+assert set(profile["lanes"].keys()) == {"unity_editor_liveness"}
+lane = profile["lanes"]["unity_editor_liveness"]
+assert lane["matched_paths"] == [
+    "adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh",
+    "adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh",
+]
+assert "test_v0916_unity_observatory_local_runtime_consumption.sh" in lane["command"]
+assert "test_v0916_unity_observatory_local_runtime_consumption_unit.sh" in lane["command"]
+assert "test_v0916_unity_observatory_contract.sh" in lane["command"]
+PY
+
+unity_ilpp_diagnostics="$TMP/unity-ilpp-diagnostics.txt"
+cat >"$unity_ilpp_diagnostics" <<'EOF'
+A	adl/tools/lib/unity_observatory_batch_classifiers.sh
+A	adl/tools/run_v0918_unity_ilpp_diagnostic_matrix.sh
+A	adl/tools/test_v0918_unity_ilpp_diagnostic_matrix.sh
+A	docs/tooling/unity_ilpp_getdomainname_diagnosis.md
+EOF
+bash "$SCRIPT" --changed-files "$unity_ilpp_diagnostics" --json >"$TMP/unity-ilpp-diagnostics.json"
+python3 - <<'PY' "$TMP/unity-ilpp-diagnostics.json"
+import json
+import sys
+
+profile = json.load(open(sys.argv[1]))
+assert profile["aggregate_status"] == "selected"
+assert set(profile["lanes"].keys()) == {"unity_ilpp_diagnostics"}
+lane = profile["lanes"]["unity_ilpp_diagnostics"]
+assert lane["matched_paths"] == [
+    "adl/tools/lib/unity_observatory_batch_classifiers.sh",
+    "adl/tools/run_v0918_unity_ilpp_diagnostic_matrix.sh",
+    "adl/tools/test_v0918_unity_ilpp_diagnostic_matrix.sh",
+    "docs/tooling/unity_ilpp_getdomainname_diagnosis.md",
+]
+assert lane["proof_role"] == "demo_contract"
+assert "unity_observatory_batch_classifiers.sh" in lane["command"]
+assert "run_v0918_unity_ilpp_diagnostic_matrix.sh" in lane["command"]
+assert "test_v0918_unity_ilpp_diagnostic_matrix.sh" in lane["command"]
+PY
+
+for unity_full_lane_path in \
+  adl/tools/test_v0916_unity_observatory_soak_integration.sh \
+  adl/tools/test_v0916_unity_observatory_unity65_smoke.sh
+do
+  unity_full_lane_input="$TMP/$(basename "$unity_full_lane_path").txt"
+  printf 'M\t%s\n' "$unity_full_lane_path" >"$unity_full_lane_input"
+  bash "$SCRIPT" --changed-files "$unity_full_lane_input" --json >"$unity_full_lane_input.json"
+  python3 - <<'PY' "$unity_full_lane_input.json" "$unity_full_lane_path"
+import json
+import sys
+
+profile = json.load(open(sys.argv[1]))
+changed_path = sys.argv[2]
+assert set(profile["lanes"].keys()) == {"unity_observatory_contract_surface"}
+lane = profile["lanes"]["unity_observatory_contract_surface"]
+assert lane["matched_paths"] == [changed_path]
+assert "test_v0916_unity_observatory_soak_integration.sh" in lane["command"]
+assert "test_v0916_unity_observatory_unity65_smoke.sh" in lane["command"]
+PY
+done
+
+scheduler_provider_policy="$TMP/scheduler-provider-policy.txt"
+cat >"$scheduler_provider_policy" <<'EOF'
+M	adl/src/provider/profiles.rs
+M	adl/src/scheduler.rs
+M	adl/tests/fixtures/scheduler/cheapest_validated_outcome_inputs_v1.json
+M	docs/milestones/v0.91.7/review/provider/CHEAPEST_VALIDATED_OUTCOME_POLICY_4674.md
+M	docs/milestones/v0.91.7/review/provider/artifacts/cheapest_validated_outcome_plan_4674.json
+EOF
+bash "$SCRIPT" --changed-files "$scheduler_provider_policy" --json >"$TMP/scheduler-provider-policy.json"
+python3 - <<'PY' "$TMP/scheduler-provider-policy.json"
+import json
+import sys
+
+profile = json.load(open(sys.argv[1]))
+assert profile["schema_version"] == "adl.validation_lane_plan.v1"
+assert profile["aggregate_status"] == "selected"
+assert profile["pr_publication_sufficient"] is True
+assert "rust_pr_fast" in profile["lanes"]
+lane = profile["lanes"]["rust_pr_fast"]
+assert lane["status"] == "selected"
+assert lane["mode"] == "focused"
+assert lane["filter_tokens"] == "scheduler_economics"
+assert "scheduler::tests::" in lane["filter_expression"]
+assert "provider::tests::provider_mod_" in lane["filter_expression"]
+assert "binary_id(adl::provider_tests) and test(/^profiles::/)" in lane["filter_expression"]
+assert "adl/src/provider/profiles.rs" in lane["matched_paths"]
+assert "adl/src/scheduler.rs" in lane["matched_paths"]
+PY
+
+echo "PASS test_select_validation_lanes"

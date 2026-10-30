@@ -1,0 +1,29 @@
+{
+  "schema": "adl.characterization.observation.v1",
+  "case_id": "sequential-order-a",
+  "repetition": 1,
+  "incumbent_revision": "19c2b6e2ad18bddc75db9231643a54b2a446ce72",
+  "binary_sha256": "f558fa2111474e2fab540f8d0244be82cdb727ebbaa15aee758d8a7d57d0969c",
+  "corpus_bundle_sha256": "5c42a61fab6cbfaebf8a77ebeb3fcc6ab7ae71beb086ee011a2fb525ad4cb63b",
+  "commands": [
+    {
+      "step_id": "plan",
+      "declared_args": [
+        "{ROOT}/fixtures/sequential-a.adl.yaml",
+        "--print-plan"
+      ],
+      "expanded_args": [
+        "<ROOT>/fixtures/sequential-a.adl.yaml",
+        "--print-plan"
+      ],
+      "exit_code": 0,
+      "captured_stdout_sha256": "8236b50143e4cd4fb165589cedfef0b102e68c97760675f35cb470241b9ddb81",
+      "captured_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "portable_stdout_sha256": "8236b50143e4cd4fb165589cedfef0b102e68c97760675f35cb470241b9ddb81",
+      "portable_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "Resolved run: sequential-order\nWorkflow:     workflow\nSteps:        2\n  0. first  agent=worker provider=local task=first\n  1. second  agent=worker provider=local task=second\n",
+      "stderr": ""
+    }
+  ],
+  "evidence_envelope_sha256": "f563179d8c5cfffc5085d788cc207c8e2c276b1ca6e53d0ef1594f7add27e8aa"
+}

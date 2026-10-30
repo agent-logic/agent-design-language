@@ -1,0 +1,188 @@
+#!/bin/bash
+set -Eeuo pipefail
+export DEBIAN_FRONTEND=noninteractive HOME=/root
+work=/opt/adl-issue607-runtime-preparation
+mkdir -p "$work"
+stage=bootstrap
+
+s3_get() {
+  python3 - "$@" <<'PY'
+import boto3, sys
+region, bucket, key, version, destination = sys.argv[1:]
+boto3.client("s3", region_name=region).download_file(
+    bucket, key, destination, ExtraArgs={"VersionId": version}
+)
+PY
+}
+
+s3_put_once() {
+  python3 - "$@" <<'PY'
+import boto3, sys
+region, bucket, key, source = sys.argv[1:]
+client = boto3.client("s3", region_name=region)
+client.meta.events.register(
+    "before-sign.s3.PutObject",
+    lambda request, **kwargs: request.headers.__setitem__("If-None-Match", "*"),
+)
+with open(source, "rb") as body:
+    client.put_object(Bucket=bucket, Key=key, Body=body)
+PY
+}
+
+finalize_preparation() {
+  cloud-init clean --logs --machine-id || return
+  rm -f /etc/ssh/ssh_host_* || return
+  s3_put_once '${region}' '${artifact_bucket}' '${receipt_write_prefix}runtime-preparation-final.json' "$work/final.json"
+}
+
+finish_failure() {
+  rc=$?
+  logger -t adl-issue607 "runtime preparation bootstrap failed rc=$rc" || true
+  shutdown -h now || true
+  exit "$rc"
+}
+trap finish_failure EXIT
+
+apt-get update -qq
+apt-get install -y -qq jq zstd gdisk cryptsetup-bin e2fsprogs build-essential cmake pkg-config libssl-dev ca-certificates python3 python3-boto3 socat curl openssl
+
+for command in cloud-init systemctl mount veritysetup python3 openssl curl jq readlink; do
+  command -v "$command" >/dev/null
+done
+python3 -c 'import boto3, botocore' >/dev/null
+base_facility_inventory="$(jq -n \
+  --arg ami_id '${runtime_ami_id}' --arg availability_zone '${availability_zone}' \
+  --arg libc "$(ldd --version 2>&1 | head -1)" --arg kernel "$(uname -r)" \
+  --arg boto3 "$(python3 -c 'import boto3; print(boto3.__version__)')" \
+  --argjson commands "$(for command in cloud-init systemctl mount veritysetup python3 openssl curl jq readlink; do command -v "$command"; done | jq -Rsc 'split("\n")[:-1]')" \
+  '{ami_id:$ami_id,availability_zone:$availability_zone,kernel:$kernel,libc:$libc,boto3:$boto3,commands:$commands,measured_after_preparation_bootstrap:true}')"
+
+finish_failure() {
+  rc=$?
+  jq -n --argjson rc "$rc" --arg stage "$stage" '{schema:"adl.issue607.runtime_preparation.v1",status:"failed",exit_code:$rc,failure_stage:$stage}' >"$work/final.json" 2>/dev/null || true
+  s3_put_once '${region}' '${artifact_bucket}' '${receipt_write_prefix}runtime-preparation-failed.json' "$work/final.json" >/dev/null 2>&1 || true
+  shutdown -h now || true
+  exit "$rc"
+}
+
+volume_device() {
+  id="$1" compact="$${1//-/}"
+  for _ in $(seq 1 120); do
+    candidate="/dev/disk/by-id/nvme-Amazon_Elastic_Block_Store_$compact"
+    [[ -e "$candidate" ]] && { readlink -f "$candidate"; return 0; }
+    sleep 1
+  done
+  return 1
+}
+
+stage=volume_initialization
+dev="$(volume_device '${runtime_volume_id}')"
+sgdisk --zap-all "$dev"
+sgdisk -n 1:1MiB:-8GiB -t 1:8300 -c 1:adl-content "$dev"
+sgdisk -n 2:0:0 -t 2:8300 -c 2:adl-verity "$dev"
+partprobe "$dev"
+udevadm settle
+mkfs.ext4 -F -m 0 "$${dev}p1"
+wipefs -a "$${dev}p2"
+mkdir -p "$work/content"
+mount "$${dev}p1" "$work/content"
+
+stage=artifact_download
+manifest="$work/artifact-manifest.json"
+s3_get '${region}' '${artifact_bucket}' '${artifact_manifest_key}' '${artifact_manifest_version_id}' "$manifest"
+printf '%s  %s\n' '${artifact_manifest_sha256}' "$manifest" | sha256sum -c -
+source_tar="$work/source.tar"
+s3_get '${region}' '${artifact_bucket}' '${source_archive_key}' '${source_archive_version_id}' "$source_tar"
+printf '%s  %s\n' '${source_archive_sha256}' "$source_tar" | sha256sum -c -
+
+mkdir -p "$work/content/repo" "$work/content/target" "$work/content/vector" "$work/content/install/bin" "$work/content/install/config"
+tar -xf "$source_tar" -C "$work/content/repo"
+read -r rustup_key rustup_version rustup_sha < <(jq -r '.artifacts[]|select(.kind=="rustup_init")|[.key,.version_id,.sha256]|@tsv' "$manifest")
+[[ -n "$rustup_key" && -n "$rustup_version" && "$rustup_sha" =~ ^[0-9a-f]{64}$ ]]
+rustup_init="$work/rustup-init"
+s3_get '${region}' '${artifact_bucket}' "$rustup_key" "$rustup_version" "$rustup_init"
+printf '%s  %s\n' "$rustup_sha" "$rustup_init" | sha256sum -c -
+chmod 0700 "$rustup_init"
+"$rustup_init" -y --profile minimal --default-toolchain 1.92.0
+source /root/.cargo/env
+
+stage=runtime_build
+cd "$work/content/repo"
+export CARGO_TARGET_DIR="$work/content/target"
+export ADL_RUNTIME_SOURCE_REVISION='${source_commit}'
+cargo build --locked --manifest-path adl/Cargo.toml --bin adl --bin csm
+cargo build --locked --manifest-path adl-runtime-kernel/Cargo.toml --bin adl-runtime-kernel
+cargo build --locked --manifest-path adl-runtime/Cargo.toml --bin adl-runtime-guardian --bin adl-runtime-lifecycle-soak
+cargo test --locked --manifest-path adl-runtime/Cargo.toml --test shepherd_local_model --no-run
+ADL_VECTOR_INSTALL_ROOT="$work/content/vector" bash adl/tools/install_vector_component.sh
+
+cp "$work/content/target/debug/adl" "$work/content/install/bin/adl"
+cp "$work/content/target/debug/csm" "$work/content/install/bin/csm"
+cp "$work/content/target/debug/adl-runtime-lifecycle-soak" "$work/content/install/bin/adl-runtime-lifecycle-soak"
+cp "$work/content/target/debug/adl-runtime-guardian" "$work/content/install/bin/adl-runtime-guardian"
+cp "$work/content/target/debug/adl-runtime-kernel" "$work/content/install/bin/adl-runtime-kernel"
+shepherd_test="$(find "$work/content/target/debug/deps" -maxdepth 1 -type f -name 'shepherd_local_model-*' -perm -111 -print -quit)"
+[[ -n "$shepherd_test" ]]
+cp "$shepherd_test" "$work/content/install/bin/adl-shepherd-local-model-test"
+cp "$work/content/vector/bin/vector" "$work/content/install/bin/vector"
+cp -R infra/runtime-v3/. "$work/content/install/config/runtime-v3/"
+cp -R docs/api/runtime-v3/v1 "$work/content/install/config/runtime-api-v1"
+cp -R adl-runtime/tests/support/tls-fixtures "$work/content/install/config/tls-fixtures"
+cp adl/tools/issue268_six_resident_uts_plan.json adl/tools/issue268_runtime_uts_task_panel.json adl/tools/run_issue268_six_resident_uts_cycle.py "$work/content/install/config/"
+cp "$manifest" "$work/content/install/config/artifact-manifest.json"
+
+stage=runtime_state
+prepared_evidence="$work/content/repo/.adl/issue607-prepared-state"
+mkdir -p "$prepared_evidence"
+ADL_RUNTIME_USE_PREBUILT_BINARIES=1 \
+ADL_RUNTIME_PREPARE_STATE_ONLY=1 \
+ADL_RUNTIME_SOURCE_REVISION='${source_commit}' \
+ADL_RUNTIME_GUARDIAN_EVIDENCE_ROOT="$prepared_evidence" \
+ADL_RUNTIME_GUARDIAN_TARGET_ROOT="$work/content" \
+CARGO_TARGET_DIR="$work/content/target" \
+ADL_RUNTIME_VECTOR_BIN="$work/content/vector/bin/vector" \
+  bash "$work/content/repo/adl/tools/validate_v092_runtime_guardian_lifecycle.sh" --suite preflight_1x
+prepared_run="$(find "$prepared_evidence" -maxdepth 1 -type d -name '5820-run.*' -print -quit)"
+prepared_state="$prepared_run/state"
+[[ -f "$prepared_state/runtime-init.toml" ]]
+mkdir -p "$work/content/install/runtime-state"
+cp -a "$prepared_state/." "$work/content/install/runtime-state/"
+python3 - "$prepared_state" "$work/content/install/runtime-state/runtime-init.toml" "$work/content" <<'PY'
+import pathlib, sys
+old, destination, old_content = sys.argv[1:]
+path = pathlib.Path(destination)
+text = path.read_text(encoding="utf-8")
+if old not in text:
+    raise SystemExit("prepared Runtime state prefix is absent")
+text = text.replace(old, "/var/lib/adl/issue607-runtime-template")
+text = text.replace(old_content, "/mnt/adl-warm-runtime")
+if "/opt/adl-issue607-runtime-preparation" in text:
+    raise SystemExit("prepared Runtime init retains a preparation-host path")
+path.write_text(text, encoding="utf-8")
+PY
+mkdir -p "$work/content/repo/.adl/issue607-qualification"
+
+facility_inventory="$base_facility_inventory"
+jq -n --arg source_commit '${source_commit}' --arg generation '${artifact_generation}' \
+  --arg volume_id '${runtime_volume_id}' --arg filesystem_uuid "$(blkid -s UUID -o value "$${dev}p1")" \
+  --arg manifest_version_id '${artifact_manifest_version_id}' --arg manifest_sha256 '${artifact_manifest_sha256}' \
+  --argjson facility_inventory "$facility_inventory" \
+  --arg ami_metadata_sha256 '${ami_metadata_sha256}' --argjson ami_metadata '${runtime_ami_metadata_json}' \
+  '{schema:"adl.issue607.sealed_volume_manifest.v1",node:"runtime",source_commit:$source_commit,artifact_generation:$generation,volume_id:$volume_id,filesystem_uuid:$filesystem_uuid,artifact_manifest_version_id:$manifest_version_id,artifact_manifest_sha256:$manifest_sha256,ami_metadata_sha256:$ami_metadata_sha256,ami_metadata:$ami_metadata,facility_inventory:$facility_inventory}' \
+  >"$work/content/sealed-volume-manifest.json"
+find "$work/content" -xdev -type f ! -name files.sha256 -print0 | sort -z | xargs -0 sha256sum >"$work/content/files.sha256"
+
+stage=seal
+cd "$work"
+sync
+umount "$work/content"
+verity_output="$(veritysetup format "$${dev}p1" "$${dev}p2")"
+root_hash="$(awk '/Root hash:/ {print $3}' <<<"$verity_output")"
+[[ "$root_hash" =~ ^[0-9a-f]{64}$ ]]
+jq -n --arg source_commit '${source_commit}' --arg generation '${artifact_generation}' \
+  --arg volume_id '${runtime_volume_id}' --arg root_hash "$root_hash" --argjson facility_inventory "$facility_inventory" \
+  '{schema:"adl.issue607.runtime_preparation.v1",status:"prepared",source_commit:$source_commit,artifact_generation:$generation,volume_id:$volume_id,root_hash:$root_hash,fully_initialized:true,facility_inventory:$facility_inventory}' >"$work/final.json"
+stage=image_hygiene
+finalize_preparation
+trap - EXIT
+shutdown -h now

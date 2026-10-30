@@ -1,0 +1,471 @@
+# CI Runtime Policy Guide For Operational Skills
+
+## Purpose
+
+This guide explains how ADL operational skills should interpret PR validation
+after the v0.90.4 changed-path CI policy introduced stable check names, explicit
+full-coverage policy surfaces, PR-fast Rust validation, and truthful
+skip/defer behavior.
+
+The source milestone policy is:
+
+- `docs/milestones/v0.90.4/CI_RUNTIME_POLICY_v0.90.4.md`
+- `docs/milestones/v0.90.4/RUST_VALIDATION_ACCELERATION_v0.90.4.md`
+
+## Core Rule
+
+`adl-ci` and `adl-coverage` remain stable required PR check names, but a green
+check does not always mean the same validation lane ran.
+
+Skills must distinguish:
+
+- `docs_only_path_policy_skip`: docs, planning, or non-runtime tooling changed;
+  expensive Rust, demo smoke, and coverage phases were explicitly skipped
+- `runtime_full_validation`: runtime, source, test, or demo-affecting surfaces
+  changed on a full-evidence event; Rust validation, demo smoke where required,
+  and full coverage gates ran
+- `runtime_pr_fast_validation`: runtime, source, test, or demo-affecting
+  surfaces changed on a pull request; Rust fmt, clippy, normal tests, demo
+  smoke where required, and coverage-impact preflight ran, while full
+  instrumented coverage was deferred to avoid a duplicate full test universe
+- `failed_closed_full_validation`: changed-path classification failed or was
+  ambiguous; CI must require full validation instead of granting a waiver
+- `release_or_main_full_validation`: pushes to `main` and release evidence gates
+  require full validation regardless of PR-level skip behavior
+
+## Path-Policy Evidence
+
+When a skill needs to interpret a stable check, inspect the
+`Classify changed paths` step in `adl-ci` or `adl-coverage`.
+
+The classifier is:
+
+```bash
+adl/tools/ci_path_policy.sh
+```
+
+It emits:
+
+- `rust_required`
+- `coverage_required`
+- `full_coverage_required`
+- `demo_smoke_required`
+- `fail_closed`
+- `coverage_lane`
+- `coverage_authority`
+- `changed_count`
+- `reason`
+
+The stable interpretation order is:
+
+1. `coverage_lane`
+2. `coverage_authority`
+3. `reason`
+
+`reason` remains the human-facing explanation, while `coverage_lane` and
+`coverage_authority` make the event/risk split machine-readable.
+
+## Skill Interpretation Rules
+
+Use these rules when choosing validation, publishing PR truth, monitoring CI,
+or assembling release evidence:
+
+- A docs-only `adl-coverage` path-policy skip can be healthy for a PR, but it
+  is not release coverage evidence.
+- A runtime/source/test/demo-affecting PR should not skip Rust validation,
+  demo smoke when required, or the PR coverage-impact preflight.
+- Ordinary Rust source additions and edits should run the coverage-impact
+  preflight before publication. On normal PRs, this is the fast
+  `adl-coverage` lane rather than a second full instrumented test run.
+- PRs that change explicit coverage-governance surfaces should still run the
+  authoritative coverage lane. Tooling-only policy PRs may use the bounded
+  authoritative workspace pass, while mixed runtime-plus-policy PRs still run
+  the full default-feature lane. The trigger is policy-surface based, not size-
+  or novelty-based.
+- When `full_coverage_required=true`, the JSON summary and changed-source
+  impact gate should execute before LCOV artifact generation. A coverage
+  failure should fail at the first reviewable policy gate instead of spending
+  extra time producing upload artifacts for a known-bad run.
+- `fail_closed=true` means full validation is required; it is not an approved
+  skip.
+- If the stable check result and changed files disagree, treat the PR as
+  blocked or action-required until `pr-janitor` or a human resolves the
+  discrepancy.
+- Do not claim "full coverage passed" unless the full coverage-required lane ran
+  and produced coverage artifacts such as `coverage-summary.json`.
+- Do not treat a green `adl-coverage` check as sufficient release evidence
+  unless the evidence shows the full coverage lane ran.
+
+## Local Validation Selection Before PR
+
+The CI path-policy classifier does not mean every issue should run the full
+local Rust cycle before publication.
+
+ADL issue publication should prefer the repo-native validation profile emitted
+by:
+
+```bash
+python3 adl/tools/validation_manager.py --json --changed-files <changed-files>
+```
+
+That profile now includes a `validation_split` block when the manager can
+classify the changed surface. Skills and scripts that consume validation truth
+should preserve this block rather than flattening it into a generic pass/skip:
+
+- `fast_lane` records the ordinary PR validation lane that is selected for the
+  current changed surface, including whether it is runnable and sufficient for
+  PR publication.
+- `slow_families` records explicit slow-proof families that are fanned out or
+  deferred, with the family owner and command that would run the proof.
+- `fanout_policy.missing_or_unmapped_proof=fail_closed` means an unmapped
+  required proof is not an approved skip; it requires an explicit family
+  selection, a broader validation lane, or human/process routing.
+- `fail_closed.required=true` keeps the existing manager gates authoritative;
+  do not mark a PR-ready validation result from the fast lane alone when the
+  manager says fail-closed proof is required.
+
+For ordinary PRs, the fast lane can prove the changed surface while the slow
+families remain visible as deferred or release-owned work. For release evidence
+or a fail-closed manager result, the same slow-family entries become routing
+obligations instead of background notes.
+
+When the selected profile contains exactly one deterministic local lane and the
+operator wants to offload it to Nessus, consume the validation-manager result
+through:
+
+```bash
+bash adl/tools/run_validation_manager_nessus_lane.sh \
+  --changed-files <changed-files> \
+  --remote-artifact-dir <artifact-dir> \
+  --remote-git-ref <branch-or-ref> \
+  --report-out <report.json> \
+  --run \
+  --json
+```
+
+Do not hand-promote docs-only, tiny, escalated, multi-lane, or missing-command
+profiles to Nessus. The validation manager's `--remote-runner nessus` eligibility
+gates remain authoritative, and the resulting report must preserve the consumed
+`local_run` evidence under the `nessus_remote_validation` lane.
+For live SSH proof, pass a pushed issue branch or explicit commit ref with
+`--remote-git-ref`; `--changed-files` manifests are recreated inside the remote
+checkout before the consumed lane runs.
+
+Skills should classify the changed surface first:
+
+- `docs-only`
+- `milestone-package-truth`
+- `workflow-docs`
+- `tooling-focused`
+- `rust-focused`
+- `demo-focused`
+- `review-remediation`
+- `release-tail`
+
+Expected local-validation posture:
+
+- `docs-only`, `milestone-package-truth`, and most `workflow-docs` work use
+  docs, path, contract, Markdown, and guardrail checks rather than local Rust
+  fmt, clippy, tests, or coverage
+- `tooling-focused` work uses the smallest shell, unit, or contract check that
+  proves the changed behavior
+- `rust-focused` work uses targeted Rust validation and widens only when the
+  changed module or contract boundary is broad
+- `demo-focused` work runs the named demo or smallest proving proof surface
+- `review-remediation` work reruns the narrow validation that proves the named
+  finding is fixed
+- `release-tail` work uses tracker, gap, closeout, review-truth, path, and
+  evidence checks unless tracked code changed
+
+For the canonical docs-only bundle and `SOR` wording expectations, use:
+
+- `docs/milestones/v0.91.5/DOCS_ONLY_VALIDATION_BUNDLE_3736.md`
+
+This is the main compression rule:
+
+- do not use the full local test cycle as the default for every issue
+- do use the smallest truthful local validation that proves the changed surface
+- widen only when the issue, ambiguity, or failed checks justify it
+
+When recording PR or output-card truth, say both:
+
+- what validation class ran
+- what larger validation did not run and why that was acceptable
+
+## Examples
+
+## Build Acceleration Posture
+
+Current CI posture also includes bounded build acceleration:
+
+- `sccache` is installed in Rust lanes and wired through `RUSTC_WRAPPER`
+- `~/.cache/sccache` is persisted through the existing Rust cache action
+- `lld` is used as optional linker acceleration on GitHub-hosted Linux runners
+  when available; Rust lanes fall back to the default linker when it is absent
+- CI logs emit `sccache --show-stats` so operators can tell whether compiler
+  output reuse is actually happening
+
+Skills should treat this as throughput infrastructure, not proof by itself:
+
+- a green run still needs the correct validation lane
+- cache hits are supporting evidence about efficiency, not correctness
+- missing `lld` is not a CI failure by itself; the workflow records default
+  linker fallback instead of claiming hosted-runner linker acceleration
+
+For local issue worktrees and remote builders, ADL also provides a bounded
+dependency-artifact warmup helper:
+
+```bash
+python3 adl/tools/warm_rust_dependency_cache.py \
+  --source-target <warm-target> \
+  --dest-target <issue-worktree>/adl/target \
+  --manifest-path <issue-worktree>/adl/Cargo.toml \
+  --json
+```
+
+Use it before Rust-heavy validation only when a trusted warm source target from
+the same host, same filesystem, same checkout family, and same toolchain is
+available. It hardlinks dependency artifacts under `target/<profile>/deps` and
+intentionally avoids workspace outputs, `.fingerprint`, and `build` metadata.
+Its focused proof is:
+
+```bash
+python3 adl/tools/test_warm_rust_dependency_cache.py
+```
+
+Skills must treat this as acceleration only. A successful warmup does not prove
+the issue and must not replace the selected validation lane.
+
+### Docs-Only PR
+
+Observed:
+
+- `adl-ci`: pass
+- `adl-coverage`: pass with explicit path-policy skip
+- `reason`: changed paths are docs/planning/non-runtime tooling only
+
+Truthful interpretation:
+
+- PR CI is healthy for the changed surface.
+- Rust coverage did not run and must not be cited as release coverage.
+
+### Runtime PR
+
+Observed:
+
+- `rust_required=true`
+- `coverage_required=true`
+- `full_coverage_required=false`
+- `coverage_lane=pr_fast`
+- `coverage_authority=pr_changed_surface`
+- `demo_smoke_required=true` when demo surfaces changed
+
+Truthful interpretation:
+
+- Rust fmt, clippy, doc tests via `cargo test --doc`, demo smoke where
+  applicable, and the fast coverage-impact preflight are expected.
+- The non-coverage `test` step now runs through
+  `adl/tools/run_pr_fast_test_lane.sh`. For bounded PRs, that runner may use a
+  focused `cargo nextest` expression. For broad or ambiguous PRs, it fails
+  closed before cache warmup or cargo execution. Full nextest fanout is allowed
+  only when an explicit manual or release lane sets
+  `ADL_PR_FAST_ALLOW_FULL_NEXTEST=1` and records why full fanout is intended.
+- When the validation manager emits `validation_split.fast_lane`, use it as the
+  machine-readable explanation for why the PR-fast lane is sufficient or not
+  sufficient for publication. Keep `validation_profile.status`,
+  `pr_publication_sufficient`, and `escalation.required` as the authoritative
+  gates.
+- The ordinary PR lane must not re-enable heavyweight opt-in features such as
+  `slow-proof-tests`; those stay reserved for dedicated heavy proof or
+  authoritative coverage lanes.
+- Known slow proof-materialization families must not live in the default
+  ordinary PR nextest set. If a runtime-v2 test is expected to spend tens of
+  seconds materializing proof packets, comparing golden release fixtures, or
+  proving release-only evidence, classify it under `slow-proof-tests` and keep
+  the ordinary PR lane focused on fast correctness proof.
+- The initial slow-proof runtime-v2 module set is `a2a_adapter_boundary`,
+  `access_control`, `acip_hardening`, `challenge`, `citizen_state_substrate`,
+  `contract_registry_accessors`, `delegation_subcontract`,
+  `governed_learning_substrate`, `intelligence_metric_architecture`,
+  `memory_identity_architecture`, and `observatory_flagship`.
+- Full instrumented coverage is intentionally deferred for the PR to avoid
+  running all tests twice.
+- The PR does not itself provide full release coverage evidence.
+
+### Runtime slow-proof lane
+
+The slow-proof command is explicit:
+
+```bash
+cargo nextest run --features slow-proof-tests --status-level all --final-status-level slow
+```
+
+When the slow lane must run in parallel, shard it with nextest partitions:
+
+```bash
+cargo nextest run --features slow-proof-tests --partition count:1/4 --status-level all --final-status-level slow
+```
+
+Use the matching `count:2/4`, `count:3/4`, and `count:4/4` partitions for the
+other shards. Individual tests should not contain shard-specific logic; they
+should only be classified as ordinary fast proof or explicit slow proof.
+
+When slow proof is intentionally deferred from a PR, record the family in
+`validation_split.slow_families` with disposition
+`reserved_for_explicit_family_selection` or a more specific owner-visible
+state. Do not collapse slow proof into a generic skipped check; the SOR and PR
+evidence should say which family owns the remaining proof and why ordinary
+PR-fast validation did not run it.
+
+### Full-Evidence Runtime Event Or Policy-Surface PR
+
+Observed:
+
+- `rust_required=true`
+- `coverage_required=true`
+- `full_coverage_required=true`
+- `coverage_lane=authoritative_full`
+- `coverage_authority=push_main`, `pr_policy_surface_tooling_only`,
+  `pr_policy_surface_runtime_mixed`, or another authoritative trigger
+
+Truthful interpretation:
+
+- Standalone `cargo test` may be skipped because the authoritative
+  `cargo llvm-cov` lane is the relevant Rust test execution for that event.
+- A lightweight `cargo test --doc` check may still run to preserve doc-test
+  coverage without duplicating the whole suite.
+- Full coverage artifacts and workspace policy gates are expected on
+  push-to-main, nightly ratchet, and non-PR fail-closed events.
+- Pull requests that enter this lane use the authoritative coverage run plus
+  changed-source coverage-impact validation, but they must not claim the full
+  workspace coverage ratchet passed unless the workflow also produced the
+  release-evidence artifacts.
+
+For a tooling-only policy-surface PR, `rust_required` and `demo_smoke_required`
+may stay false while `full_coverage_required=true` still means the
+authoritative coverage lane must run. In that bounded case, the PR uses one
+workspace `cargo llvm-cov nextest` pass without `--all-features`. If the same
+PR also changes runtime or demo-affecting surfaces, the authority upgrades to
+`pr_policy_surface_runtime_mixed` and the full default-feature authoritative
+lane still runs. Slow proof remains a separate `slow-proof-tests` lane rather
+than being pulled back into coverage through `--all-features`.
+
+Policy-surface PRs should still run changed-source coverage-impact validation
+from the generated `coverage-summary.json`, but they should not be described as
+having passed the full workspace coverage gate or produced full release-evidence
+LCOV artifacts. Those remain reserved for full-evidence authorities such as
+`push_main`, nightly ratchet, and non-PR fail-closed events.
+
+The authoritative coverage implementation is now explicit:
+
+```bash
+adl/tools/run_authoritative_coverage_lane.sh
+```
+
+That runner performs one pass per event:
+
+- `full_authoritative_default_features` on `main` and other full-evidence
+  events
+- `bounded_policy_surface_pr` on policy-surface pull requests
+
+and then emits one coverage summary report. Skills should treat
+`bounded_policy_surface_pr` as bounded PR governance validation, not as full
+release evidence.
+
+## PVF Integration Mapping
+
+The first PVF integration does not replace stable checks. It adds a truthful
+lane vocabulary beneath them.
+
+The bounded v0.91.4 policy slice should distinguish at least:
+
+- `docs_only_pr`
+  : ordinary PR docs-only validation for docs/planning/operator-policy changes
+- `docs_only_reuse_candidate`
+  : explicit reuse-capable docs-only proof lane for unchanged docs-only inputs
+- `runtime_pr_fast`
+  : ordinary PR runtime/source validation using the existing PR-fast posture
+- `authoritative_release_gate`
+  : release-gate-only proof that stays visible as required future work on an
+    ordinary PR and becomes runnable proof on release-mode execution
+
+This matters for two reasons:
+
+1. docs-only work must not be forced to impersonate runtime validation
+2. release-gate-only proof must not disappear into a generic skip
+
+Truthful ordinary PR interpretation under the bounded policy fixture:
+
+- docs-only lanes may `pass` and/or `reuse`
+- runtime PR-fast lane may `pass` or `skip` based on changed surfaces
+- authoritative release lane should report `release_gate_required`, not
+  `skipped`
+
+Truthful release-mode interpretation under PVF:
+
+- the same authoritative release lane becomes runnable proof and should report
+  ordinary success/failure status
+
+The bounded manifest and proof packet for this lane live at:
+
+- `docs/milestones/v0.91.4/features/PVF_CI_RELEASE_POLICY_v0.91.4.md`
+- `docs/milestones/v0.91.4/features/PVF_CI_RELEASE_POLICY_MANIFEST_v0.91.4.json`
+
+Those tracked commands are intentionally policy-fixture commands. They prove
+lane routing and aggregate truth, not the complete production docs-only
+validator bundle or full authoritative coverage workflow.
+
+## PVF Test Authoring Guardrails
+
+Future tests should enter the repository already classifiable into the PVF lane
+model.
+
+At authoring time, new test surfaces should have explicit tracked metadata for:
+
+- `lane_class`
+- `proof_role`
+- `determinism`
+- `resource_profile`
+- `release_gate_class`
+
+This metadata may live in a manifest, inventory, or tightly-coupled proof
+packet. It does not need to be embedded directly into every test file.
+
+Reviewer rule:
+
+- block new uncategorized test surfaces
+- allow existing uncategorized tests only with a bounded migration rationale or
+  follow-on when the current issue is not the right place to classify them
+
+Authoring rule:
+
+- keep tests boring
+- keep shard/routing/release mechanics in manifests, runners, and policy
+  surfaces rather than inside ordinary test logic
+
+### Failed-Closed Classification
+
+Observed:
+
+- `fail_closed=true`
+- `coverage_lane=authoritative_full`
+- `coverage_authority=fail_closed`
+
+Truthful interpretation:
+
+- CI should require full validation.
+- Skills must not waive validation on the grounds that the path classifier was
+  uncertain.
+
+### Release Evidence
+
+Observed:
+
+- Several docs-only PRs have green `adl-coverage` checks with skip messages.
+
+Truthful interpretation:
+
+- Those checks support PR-level readiness for docs-only changes.
+- They do not satisfy release coverage gates. Release evidence needs full
+  validation from `main`, release ceremony, fail-closed full-validation events,
+  or explicit coverage artifacts produced by a full coverage lane.

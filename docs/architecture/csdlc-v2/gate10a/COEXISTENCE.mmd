@@ -1,0 +1,12 @@
+flowchart LR
+  O["Operator"] --> M["Nine thin v2 skills"]
+  M --> B["Typed v2 binaries"]
+  B --> S["Independent v2 state"]
+  O --> D{"Explicit v2 request?"}
+  D -->|"no"| V1["V1 default remains runnable"]
+  D -->|"yes"| B
+  I["csdlc-install verify"] --> V1
+  I --> B
+  I --> G{"Complete coexistence inventory?"}
+  G -->|"no"| X["Fail and block merge"]
+  G -->|"yes"| P["Phase A proof"]

@@ -1,0 +1,29 @@
+{
+  "schema": "adl.characterization.observation.v1",
+  "case_id": "map-order-b",
+  "repetition": 2,
+  "incumbent_revision": "19c2b6e2ad18bddc75db9231643a54b2a446ce72",
+  "binary_sha256": "f558fa2111474e2fab540f8d0244be82cdb727ebbaa15aee758d8a7d57d0969c",
+  "corpus_bundle_sha256": "5c42a61fab6cbfaebf8a77ebeb3fcc6ab7ae71beb086ee011a2fb525ad4cb63b",
+  "commands": [
+    {
+      "step_id": "plan",
+      "declared_args": [
+        "{ROOT}/fixtures/map-b.adl.yaml",
+        "--print-plan"
+      ],
+      "expanded_args": [
+        "<ROOT>/fixtures/map-b.adl.yaml",
+        "--print-plan"
+      ],
+      "exit_code": 0,
+      "captured_stdout_sha256": "9164f0df46accd328bc6bb0d62b00be443c00492d6cbea017af9a5840a388ce4",
+      "captured_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "portable_stdout_sha256": "9164f0df46accd328bc6bb0d62b00be443c00492d6cbea017af9a5840a388ce4",
+      "portable_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "Resolved run: map-order\nWorkflow:     workflow\nSteps:        1\n  0. one  agent=worker provider=alpha task=one\n",
+      "stderr": ""
+    }
+  ],
+  "evidence_envelope_sha256": "45d3bcfb9399bcf5c84feedf5d2d53dc2428020d088ef198a6f2f2fc1356710b"
+}

@@ -1,0 +1,14 @@
+{
+  "schema": "agent_logic.podcast.episode_source_package.v1",
+  "episode": 9,
+  "slug": "009-when-ai-gets-stuck",
+  "title": "When AI Gets Stuck",
+  "show_working_title": "The Cognitive Stack",
+  "status": "source_package_ready_audio_pending",
+  "premise": "Talk honestly about stalls, loops, tool failures, ambiguity, and how good systems recover without pretending.",
+  "agent_panel": ["Codex", "ChatGPT", "Claude", "operator voice"],
+  "listener_takeaway": "A system that can say what blocked it, preserve state, and resume cleanly is more valuable than one that only performs confidence.",
+  "promotes": ["recovery workflows", "operator packets", "fail-closed automation"],
+  "audio": {"final_mp3": null, "archive_audio": null, "status": "pending_final_package_proof"},
+  "publication_claimed": false
+}

@@ -1,0 +1,163 @@
+{
+  "claims": {
+    "acip_tcp_trace_observed": true,
+    "credential_material_recorded": false,
+    "local_reference_only": false,
+    "private_observatory_only": true,
+    "public_exposure_claimed": false,
+    "raw_payloads_recorded": false,
+    "real_provider_positive_claimed": true
+  },
+  "issue": 341,
+  "mode": "positive",
+  "negative_cases": [
+    {
+      "case": "malformed_acip",
+      "outcome": "non_pass",
+      "reason": "missing versioned ACIP envelope",
+      "receipt_sha256": "2ceae880f213284a1e16c5b1ccb8e9f72f5864922604903911708b566d3811cb",
+      "visible": true
+    },
+    {
+      "case": "denied_authority",
+      "outcome": "non_pass",
+      "reason": "request lacks authorized execution context",
+      "receipt_sha256": "60931c59fc03719ffac1711dc31b774241f80b6ffec0bcd8bf64965b0a278fc4",
+      "visible": true
+    },
+    {
+      "case": "interrupted_provider",
+      "outcome": "non_pass",
+      "reason": "partial response cannot be completed proof",
+      "receipt_sha256": "d325736c3db4491b20e1b735a695b5d0589a9e4347c3384e7d06834db4269426",
+      "visible": true
+    },
+    {
+      "case": "provider_unavailable",
+      "outcome": "non_pass",
+      "reason": "unavailable provider marks only its column failed",
+      "receipt_sha256": "5d2b3bdd124e13491bf80d12ded1eb5db14e056bf4d36cafd82196edac877d20",
+      "visible": true
+    },
+    {
+      "case": "provider_loss",
+      "outcome": "non_pass",
+      "reason": "lost state cannot be reconstructed from cache",
+      "receipt_sha256": "41d6900d2293443f1cbbbe312dcf02a3aa061e58a5a20991d3317a9e7dd42308",
+      "visible": true
+    },
+    {
+      "case": "substitution_attempt",
+      "outcome": "non_pass",
+      "reason": "fixture/cached output cannot satisfy live positive proof",
+      "receipt_sha256": "1e17c2c6a922d4e2cde7e32a015bbc25f62956a8bf6fac857b1ef58ce81a768d",
+      "visible": true
+    }
+  ],
+  "observatory": null,
+  "provider_columns": [
+    {
+      "acip_operations": [
+        {
+          "op": "load_birthday_packet",
+          "version": "v0.92"
+        },
+        {
+          "op": "evaluate_identity_continuity",
+          "version": "v0.92"
+        },
+        {
+          "op": "emit_bounded_witness_summary",
+          "version": "v0.92"
+        }
+      ],
+      "agent_id": "issue341-openai-agent",
+      "capabilities": [
+        "bounded_summary",
+        "acip_compatible_completion",
+        "direct_tcp_agent"
+      ],
+      "credential_material_recorded": false,
+      "execution_mode": "live_provider",
+      "model": "gpt-4.1-mini",
+      "outcome": "pass",
+      "output_sha256": "b41d16d371fce2b2816a36274e53d84e9e61c3117edf0de12a99caf6f26486a2",
+      "positive": true,
+      "provider": "openai",
+      "raw_output_recorded": false,
+      "raw_prompt_recorded": false,
+      "receipt_sha256": "92ebde6fd68db79fae1ed09920df2cec40f801a83c7fa1544df5a7f16ea3353d",
+      "request_id_present": true,
+      "scenario_id": "v0.92.wp18b.provider-neutral-birthday.v1",
+      "schema": "adl.issue341.acip_receipt.v1",
+      "semantic_assertions": {
+        "names_continuity_boundary": true,
+        "names_identity_boundary": true,
+        "rejects_startup_as_birthday": true,
+        "retains_witness_boundary": true
+      },
+      "trace_ref": "acip-trace-positive.json"
+    },
+    {
+      "acip_operations": [
+        {
+          "op": "load_birthday_packet",
+          "version": "v0.92"
+        },
+        {
+          "op": "evaluate_identity_continuity",
+          "version": "v0.92"
+        },
+        {
+          "op": "emit_bounded_witness_summary",
+          "version": "v0.92"
+        }
+      ],
+      "agent_id": "issue341-anthropic-agent",
+      "capabilities": [
+        "bounded_summary",
+        "acip_compatible_completion",
+        "direct_tcp_agent"
+      ],
+      "credential_material_recorded": false,
+      "execution_mode": "live_provider",
+      "model": "claude-opus-5",
+      "outcome": "pass",
+      "output_sha256": "49fd8e49d0bfe644abfc8a0a4df9c8a76357a9614fca084073d71c62ef57de74",
+      "positive": true,
+      "provider": "anthropic",
+      "raw_output_recorded": false,
+      "raw_prompt_recorded": false,
+      "receipt_sha256": "c532b15a34fefbafd2d5e3d1404739aa49183f32e6a0c933513b6e56ab8138bd",
+      "request_id_present": true,
+      "scenario_id": "v0.92.wp18b.provider-neutral-birthday.v1",
+      "schema": "adl.issue341.acip_receipt.v1",
+      "semantic_assertions": {
+        "names_continuity_boundary": true,
+        "names_identity_boundary": true,
+        "rejects_startup_as_birthday": true,
+        "retains_witness_boundary": true
+      },
+      "trace_ref": "acip-trace-positive.json"
+    }
+  ],
+  "scenario": {
+    "acip_operations": [
+      {
+        "op": "load_birthday_packet",
+        "version": "v0.92"
+      },
+      {
+        "op": "evaluate_identity_continuity",
+        "version": "v0.92"
+      },
+      {
+        "op": "emit_bounded_witness_summary",
+        "version": "v0.92"
+      }
+    ],
+    "id": "v0.92.wp18b.provider-neutral-birthday.v1",
+    "prompt_sha256": "70426b51524e0e0ef8c80b89149e3376ff4d87cd6116d7b061c550c83bd348e0"
+  },
+  "schema": "adl.issue341.provider_neutral_birthday_matrix.v1"
+}

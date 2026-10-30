@@ -1,0 +1,370 @@
+# ADL Runtime (`adl/`)
+
+Current engineering/review context: [v0.92.1](../docs/milestones/v0.92.1/README.md), with quality and release acceptance pending. The runtime package version and completed v0.92 history below are separate from milestone acceptance.
+
+The ADL runtime is the reference Rust runtime and CLI for **Agent Design Language (ADL)**. It takes schema-validated ADL documents, resolves them into a deterministic execution plan, and executes them with explicit semantics for concurrency, retries, failures, signing, tracing, and bounded remote execution.
+
+The runtime is built for readers and builders who want AI workflow execution to be predictable, inspectable, and reviewable. It emphasizes clear execution behavior, stable artifacts, and reproducible runs over hidden orchestration logic.
+
+[![adl-ci (main)](https://github.com/agent-logic/agent-design-language/actions/workflows/ci.yaml/badge.svg?branch=main&event=push)](https://github.com/agent-logic/agent-design-language/actions/workflows/ci.yaml)
+[![coverage](https://codecov.io/gh/agent-logic/agent-design-language/graph/badge.svg?branch=main)](https://app.codecov.io/gh/agent-logic/agent-design-language/tree/main)
+![License](https://img.shields.io/badge/license-MIT%20or%20Apache--2.0-blue)
+![Rust toolchain](https://img.shields.io/badge/Rust-stable-blue)
+
+## Why the Runtime Matters
+
+The runtime is where ADL’s design promises become operational reality.
+
+It provides:
+- deterministic plan materialization and execution
+- bounded concurrency and explicit retry/failure policy
+- stable run artifacts and replay-friendly state
+- signing and verification surfaces for safer execution
+- CLI review surfaces for plan inspection and runtime debugging
+- a foundation for bounded reflective and scientific execution loops
+
+## Current Status
+
+- Most recently completed milestone in the main repo: **v0.92**
+- Current development state: **the v0.92 issue wave and engineering milestone
+  are complete; external publication remains separately authorized**
+- Retained upstream handoff milestone: **v0.91.8**
+- Current crate version: **0.92.0**
+
+This README describes the runtime as it exists on the current `main` branch and points to the relevant milestone and demo surfaces in the parent repository.
+
+## Recent Runtime Milestones
+
+### v0.92 - Completed Runtime and Identity Milestone
+
+v0.92 delivered the bounded runtime, continuity, and identity-bearing-agent
+work described by its canonical milestone package. Detailed implementation and
+proof truth remains governed by the merged issues and retained evidence. See the
+[v0.92 milestone README](../docs/milestones/v0.92/README.md) and
+[execution-readiness packet](../docs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md).
+
+### v0.91.4 — Cognitive SDLC Default Operation
+
+v0.91.4 is a completed historical milestone. The runtime-adjacent work hardened the
+v0.91.3 first slice into default C-SDLC operation: validator/doctor/conductor
+alignment, signed trace and ObsMem handoff, five-minute-sprint repeatability,
+validation-tail/PVF work, and active-issue migration policy.
+
+Highlights:
+- default `SIP -> STP -> SPP -> SRP -> SOR` lifecycle operation for future
+  software-development issues
+- signed trace and ObsMem handoff hardening
+- validation-tail and Parallel Validation Fabric work so fast sprint
+  coordination does not hide long proof cycles
+- CodeFriend and WildClawBench sidecar preparation without making them C-SDLC
+  core proof
+
+### v0.91.3 — Cognitive SDLC First Slice
+
+v0.91.3 is complete. The runtime-adjacent work centered on the first
+bounded Cognitive SDLC slice: tracked issue cards, transition manifest and DAG,
+review/evidence convergence, merge-readiness truth, ObsMem handoff, and the
+first measured proof surface.
+
+Highlights:
+- one bounded Cognitive State Transition proof stack
+- public `SIP -> STP -> SPP -> SRP -> SOR` lifecycle discipline
+- transition manifest, DAG, evidence bundle, merge gate, and ObsMem handoff
+  proof surfaces
+- focused quality-gate lane that avoids unnecessary broad test cycles
+
+### v0.91.2 — Tooling, Evaluation, Productization, And Workflow Pressure Release
+
+v0.91.2 is complete. The runtime-adjacent work landed through
+UTS + ACC benchmark expansion, runtime/test-cycle recovery, quality-gate
+ergonomics, workflow guardrails, and release-tail proof/quality surfaces.
+Sprint 4 completed corrective internal review, third-party review,
+accepted-finding remediation, next-milestone planning, and release closeout.
+
+Highlights:
+- standalone and governed UTS/ACC benchmark evidence
+- faster validation policy surfaces for avoiding unnecessary broad test cycles
+- workflow guardrails around main-branch writes, closeout truth, and shell
+  report generation
+- quality-gate packet with authoritative coverage evidence captured during
+  `WP-18`
+
+### v0.91.1 — Inhabited Runtime Readiness
+
+v0.91.1 is the completed inhabited-runtime readiness milestone. It connected
+Runtime v2, polis/citizen surfaces, memory/identity architecture, Theory of
+Mind, capability and intelligence metrics, governed learning, ACIP/A2A
+hardening, and observatory-visible runtime proof into a closed milestone
+package.
+
+Highlights:
+- runtime/polis architecture alignment and agent lifecycle state surfaces
+- citizen standing/state substrate and memory/identity architecture
+- bounded Theory of Mind, capability testing, intelligence metrics, governed
+  learning, and ANRM/Gemma placement
+- ACIP hardening, A2A adapter boundary, and runtime inhabitant proof
+
+### v0.91 — Moral Governance And Cognitive-Being Milestone
+
+v0.91 is the completed moral-governance and cognitive-being milestone. It
+landed wellbeing, affect, kindness, moral cognition, humor, structured
+planning/SRP surfaces, and secure intra-polis Agent Comms as a bounded release
+line.
+
+Highlights:
+- cognitive-being flagship demo and proof coverage
+- moral, wellbeing, affect, humor, and kindness proof surfaces
+- structured planning and Structured Review Prompt workflow baseline
+- secure local Agent Comms substrate and A2A boundary planning
+
+### v0.90 — Long-Lived Runtime And Reviewer-Facing Proof Package
+
+v0.90 is the completed long-lived runtime milestone. The implementation and
+proof wave landed the long-lived runtime, stock-league demo, demo-extension
+lane, milestone compression pilot, repo visibility prototype, coverage ratchet,
+Rust refactoring pass, docs pass, review, and release closeout.
+
+Highlights:
+- supervised long-lived agents with heartbeat, lease, status, tick/run/stop controls, and bounded cycle records
+- per-cycle artifact contracts for observe/decide/persist behavior
+- pre-v0.92 continuity handles that avoid claiming full identity
+- operator guardrail and stop surfaces
+- stock-league demo proof packets with fixture-backed, paper-only behavior
+- measured coverage and maintainability trackers for release-readiness review
+
+### v0.87.1 — Runtime Completion And Reviewer-Facing Proof Package
+
+v0.87.1 is the completed runtime milestone that v0.88 through v0.90 build on.
+
+Highlights:
+- runtime environment, lifecycle, execution-boundary, resilience, and review surfaces promoted into one canonical milestone package
+- bounded runtime, provider, quality-gate, and release-review demo surfaces for reviewer navigation
+- explicit run manifest and trace-archive surfaces for provenance and later review/export
+- live-provider companion proof kept explicit as credential-gated reviewer evidence rather than default CI proof
+
+### v0.87 — Substrate Convergence and Reviewer-Facing Runtime Truth
+
+v0.87 focuses on making the runtime-adjacent substrate legible and deterministic across trace, provider portability, shared memory, skills, and control-plane proof surfaces.
+
+Highlights:
+- trace, provider, shared-memory, skills, and control-plane work aligned under one canonical milestone spine
+- promoted milestone feature docs and review surfaces reconciled with the actual runtime-adjacent issue sequence
+- bounded demo and reviewer proof surfaces for trace, provider portability, shared ObsMem, skills, and control-plane behavior
+- active Sprint 3 closeout work for docs, review, quality gate, and release packaging
+- explicit handoff into the `v0.87.1` runtime-completion milestone now being carried through review and release-tail closeout
+
+### v0.86 — Bounded Cognitive System and Runtime Proof Surfaces
+
+v0.86 established the first working bounded cognitive system on `main`.
+
+Highlights:
+- one canonical bounded cognitive path from signals through Freedom Gate
+- canonical runtime artifacts for the bounded cognitive path and related proof surfaces
+- local demo and review surfaces for the integrated milestone proof set
+- Sprint 7 quality-gate work with passing local `fmt`, `clippy`, `test`, coverage, and demo-validation proof
+- runtime docs and reviewer entry points aligned toward milestone truth
+
+### v0.85 — Authoring Alignment and Runtime Proof Surfaces
+
+v0.85 focused on making the surrounding authoring model, demos, and proof surfaces line up cleanly with the runtime and tooling.
+
+Highlights:
+- five-command authoring lifecycle clarified and aligned with runtime-adjacent tooling
+- bounded end-to-end demo and regression proof surfaces for authoring workflows
+- improved queue/worktree hygiene and execution truth surfaces
+- Rust maintainability pass across large modules and oversized test surfaces
+- stronger documentation and review surfaces around what is actually shipped and runnable
+
+### v0.8 — Bounded Gödel Runtime and Artifact-Centered Review
+
+v0.8 extended the runtime into bounded reflective execution with explicit artifact surfaces.
+
+Highlights:
+- bounded Gödel-style scientific loop integrated into runtime/demo surfaces
+- canonical artifact emission for mutation, evaluation, experiment, and evidence records
+- CLI surfaces for running and inspecting bounded reasoning workflows
+- ObsMem-backed indexing and retrieval-assisted review flows
+- runnable demos and review packets for bounded adaptive execution
+
+### v0.7 — Deterministic Runtime Foundation
+
+v0.7 established the deterministic runtime core that ADL builds on.
+
+Highlights:
+- ExecutionPlan-driven runtime
+- deterministic fork/join and concurrency semantics
+- bounded parallelism and explicit retry/failure policy
+- replay-oriented trace and graph export tooling
+- signing and verification surfaces for execution integrity
+
+## Quick Start
+
+From the `adl/` directory:
+
+```bash
+cargo run -q --bin adl -- examples/v0-5-primitives-minimal.adl.yaml --print-plan
+```
+
+This prints a deterministic plan for a small workflow fixture without requiring provider runtime setup.
+
+A second quick check:
+
+```bash
+cargo run -q --bin adl -- examples/v0-5-pattern-fork-join.adl.yaml --print-plan
+```
+
+For a retry-oriented fixture:
+
+```bash
+cargo run -q --bin adl -- examples/v0-3-on-error-retry.adl.yaml --print-plan
+```
+
+## Common CLI Surfaces
+
+```bash
+cargo run -q --bin adl -- <path-to-adl.yaml> [OPTIONS]
+```
+
+Common options:
+- `--run` — execute the workflow
+- `--print-plan` — print the resolved execution plan only
+- `--print-prompts` — print assembled prompts without execution
+- `--trace` — emit deterministic trace events to stdout
+- `--help` — usage and flag summary
+
+Exit behavior is explicit:
+- `2` — invalid CLI usage
+- non-zero — schema, validation, or runtime error
+
+## Signing Quickstart
+
+For workflows that require signing:
+
+```bash
+# 1) generate local dev keys
+cargo run -q --bin adl -- keygen --out-dir ./.keys
+
+# 2) sign a workflow
+cargo run -q --bin adl -- sign examples/v0-5-pattern-linear.adl.yaml \
+  --key ./.keys/ed25519-private.b64 \
+  --out /tmp/signed.adl.yaml
+
+# 3) verify signature
+cargo run -q --bin adl -- verify /tmp/signed.adl.yaml --key ./.keys/ed25519-public.b64
+
+# 4) run signed workflow
+cargo run -q --bin adl -- /tmp/signed.adl.yaml --run
+```
+
+Dev-only bypass:
+
+```bash
+cargo run -q --bin adl -- examples/v0-5-pattern-linear.adl.yaml --run --allow-unsigned
+```
+
+## Run Artifacts
+
+When running with `--run`, `adl` writes deterministic run state under:
+
+```bash
+.adl/runs/<run_id>/
+```
+
+Typical run-state files include:
+- `run.json`
+- `steps.json`
+
+These surfaces are intended to make runs inspectable, replay-friendly, and easier to debug.
+
+## Remote Execution Surfaces
+
+The runtime supports a minimal remote provider via `type: "http"` and also supports a minimal remote execution protocol for step placement.
+
+Remote execution boundary:
+- scheduler ownership remains local in `adl`
+- the remote server executes one fully resolved step at a time
+- the remote endpoint is a bounded execution surface, not a remote planner/compiler
+
+Key endpoints in the MVP protocol:
+- `GET /v1/health`
+- `POST /v1/execute`
+
+This transport boundary is intended for trusted infrastructure and bounded deployment scenarios, not as a hardened public service.
+
+## Documentation Map
+
+For readers who want the broader context around the runtime:
+- root repo README: `../README.md`
+- canonical demo index: `../demos/README.md`
+- v0.87 milestone docs: `../docs/milestones/v0.87/`
+- v0.86 milestone docs: `../docs/milestones/v0.86/`
+- v0.85 milestone docs: `../docs/milestones/v0.85/`
+- v0.8 milestone docs: `../docs/milestones/v0.8/`
+- v0.7 milestone docs: `../docs/milestones/v0.7/`
+- architecture decisions: `../docs/adr/`
+- crate-local fixture inventory: `examples/README.md`
+
+Important demo/readiness references:
+- `../docs/milestones/v0.87/DEMO_MATRIX_v0.87.md`
+- `../docs/milestones/v0.86/DEMO_MATRIX_v0.86.md`
+- `../docs/milestones/v0.8/DEMOS_V0.8.md`
+- `../docs/milestones/v0.85/DEMO_MATRIX_v0.85.md`
+- `../docs/tooling/editor/README.md`
+
+## Project Layout
+
+```text
+src/
+  main.rs
+  adl.rs
+  schema.rs
+  resolve.rs
+  prompt.rs
+  provider.rs
+  execute.rs
+  trace.rs
+tests/
+examples/
+```
+
+Broadly:
+- `src/` contains the reference runtime and CLI
+- `tests/` contains runtime, schema, and CLI validation surfaces
+- `examples/` contains runnable fixtures used by demos, tests, and inspection workflows
+
+## Development
+
+Run the local quality gate from `adl/`:
+
+```bash
+cargo fmt --check
+cargo clippy --all-targets -- -D warnings
+cargo test
+```
+
+Coverage is commonly checked with:
+
+```bash
+cargo llvm-cov --workspace --all-features --summary-only
+```
+
+The runtime uses coverage as a design signal for core compiler-like behavior: parsing, validation, resolution, execution, and CLI behavior should remain well exercised.
+
+The current repository policy tracks the stable Rust toolchain in CI, and local
+operator coverage workflows are expected to use a compatible Rust toolchain.
+This README does not claim a separately enforced fixed MSRV. If we need a
+strict MSRV guarantee later, that should be encoded in the manifest and CI
+explicitly rather than implied by documentation alone.
+
+Coverage outputs such as `lcov.info`, `coverage-summary.json`, and
+`coverage-summary.txt` are CI/operator review surfaces. Normalize runner-local
+paths and apply redaction/publication review before reusing them in
+publication-adjacent or customer-facing packets.
+
+## License
+
+The `adl` crate metadata declares `MIT OR Apache-2.0`.
+
+The repository root currently carries Apache-2.0 license text. Any repo-wide
+license-term change remains a maintainer policy decision rather than an
+automatic tooling decision.

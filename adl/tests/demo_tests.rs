@@ -1,0 +1,1115 @@
+use std::fs;
+use std::path::{Path, PathBuf};
+use std::process::Command;
+
+mod helpers;
+use helpers::unique_test_temp_dir;
+
+const CSM_DISK_READY_ENV: [(&str, &str); 2] = [
+    ("ADL_CSM_DISK_FLOOR_BYTES", "0"),
+    ("ADL_CSM_TEST_AVAILABLE_BYTES", "1073741824"),
+];
+
+fn demo_test_command(exe: &str) -> Command {
+    let mut command = Command::new(exe);
+    for (key, value) in CSM_DISK_READY_ENV {
+        command.env(key, value);
+    }
+    command
+}
+
+fn run_swarm(args: &[&str]) -> std::process::Output {
+    let exe = env!("CARGO_BIN_EXE_adl");
+    demo_test_command(exe).args(args).output().unwrap()
+}
+
+fn run_swarm_with_env(args: &[&str], envs: &[(&str, &str)]) -> std::process::Output {
+    let exe = env!("CARGO_BIN_EXE_adl");
+    let mut cmd = demo_test_command(exe);
+    cmd.args(args);
+    for (key, value) in envs {
+        cmd.env(key, value);
+    }
+    cmd.output().unwrap()
+}
+
+fn run_swarm_with_ci(args: &[&str]) -> std::process::Output {
+    let exe = env!("CARGO_BIN_EXE_adl");
+    demo_test_command(exe)
+        .env("CI", "1")
+        .args(args)
+        .output()
+        .unwrap()
+}
+
+fn tmp_dir(prefix: &str) -> PathBuf {
+    unique_test_temp_dir(prefix)
+}
+
+#[test]
+fn demo_print_plan_works() {
+    let out = run_swarm(&["demo", "demo-a-say-mcp", "--print-plan"]);
+    assert!(
+        out.status.success(),
+        "expected success, stderr:\n{}",
+        String::from_utf8_lossy(&out.stderr)
+    );
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(stdout.contains("Demo: demo-a-say-mcp"), "stdout:\n{stdout}");
+    assert!(stdout.contains("Steps: 4"), "stdout:\n{stdout}");
+}
+
+#[test]
+fn demo_run_writes_required_artifacts() {
+    let out_root = tmp_dir("demo-run");
+    let out = run_swarm(&[
+        "demo",
+        "demo-a-say-mcp",
+        "--run",
+        "--trace",
+        "--out",
+        out_root.to_string_lossy().as_ref(),
+    ]);
+    assert!(
+        out.status.success(),
+        "expected success, stderr:\n{}",
+        String::from_utf8_lossy(&out.stderr)
+    );
+
+    let run_out = out_root.join("demo-a-say-mcp");
+    assert!(run_out.join("design.md").is_file());
+    assert!(run_out.join("Cargo.toml").is_file());
+    assert!(run_out.join("README.md").is_file());
+    assert!(run_out.join("src/lib.rs").is_file());
+    assert!(run_out.join("src/main.rs").is_file());
+    assert!(run_out.join("tests/say_server_tests.rs").is_file());
+    assert!(run_out.join("coverage.txt").is_file());
+    assert!(run_out.join("index.html").is_file());
+    assert!(run_out.join("trace.jsonl").is_file());
+
+    // Ensure README includes canonical run instructions
+    let readme = fs::read_to_string(run_out.join("README.md")).unwrap();
+    assert!(
+        readme.contains("cargo build"),
+        "README missing 'cargo build':\n{readme}"
+    );
+    assert!(
+        readme.contains("cargo test"),
+        "README missing 'cargo test':\n{readme}"
+    );
+    assert!(
+        readme.contains("cargo run"),
+        "README missing 'cargo run':\n{readme}"
+    );
+    let trace = fs::read_to_string(run_out.join("trace.jsonl")).unwrap();
+    assert!(
+        trace.contains("TRACE run_id=demo-a-say-mcp"),
+        "trace:\n{trace}"
+    );
+    assert!(trace.contains("RunFinished"), "trace:\n{trace}");
+}
+
+#[test]
+fn demo_unknown_name_exits_with_code_2() {
+    let out = run_swarm(&["demo", "nope", "--run"]);
+    assert_eq!(
+        out.status.code(),
+        Some(2),
+        "expected exit 2, got {:?}\nstderr:\n{}",
+        out.status.code(),
+        String::from_utf8_lossy(&out.stderr)
+    );
+}
+
+#[test]
+fn demo_b_print_plan_is_deterministic() {
+    let out = run_swarm(&["demo", "demo-b-one-command", "--print-plan"]);
+    assert!(
+        out.status.success(),
+        "expected success, stderr:\n{}",
+        String::from_utf8_lossy(&out.stderr)
+    );
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(
+        stdout.contains("Demo: demo-b-one-command"),
+        "stdout:\n{stdout}"
+    );
+    assert!(stdout.contains("Steps: 3"), "stdout:\n{stdout}");
+    assert!(stdout.contains("0. plan"), "stdout:\n{stdout}");
+    assert!(stdout.contains("1. build"), "stdout:\n{stdout}");
+    assert!(stdout.contains("2. verify"), "stdout:\n{stdout}");
+}
+
+#[test]
+fn demo_b_run_is_quiet_and_writes_artifacts() {
+    let out_root = tmp_dir("demo-b-run");
+    let out = run_swarm_with_ci(&[
+        "demo",
+        "demo-b-one-command",
+        "--run",
+        "--trace",
+        "--out",
+        out_root.to_string_lossy().as_ref(),
+    ]);
+    assert!(
+        out.status.success(),
+        "expected success, stderr:\n{}",
+        String::from_utf8_lossy(&out.stderr)
+    );
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(
+        stdout.contains("DEMO OK run_id=demo-b-one-command"),
+        "stdout:\n{stdout}"
+    );
+
+    let run_out = out_root.join("demo-b-one-command");
+    assert!(run_out.join("design.md").is_file());
+    assert!(run_out.join("README.md").is_file());
+    assert!(run_out.join("coverage.txt").is_file());
+    assert!(run_out.join("index.html").is_file());
+    assert!(run_out.join("trace.jsonl").is_file());
+
+    let readme = fs::read_to_string(run_out.join("README.md")).unwrap();
+    assert!(
+        readme.contains("cargo run -- demo demo-b-one-command --run --out <dir>"),
+        "README missing run instruction:\n{readme}"
+    );
+
+    let trace = fs::read_to_string(run_out.join("trace.jsonl")).unwrap();
+    assert!(trace.contains("RunFinished"), "trace:\n{trace}");
+
+    let stderr = String::from_utf8_lossy(&out.stderr);
+    assert!(
+        stderr.contains(
+            "adl_event schema=adl.observability.event.v1 command=adl stage=dispatch result=started subcommand=demo"
+        ),
+        "expected structured dispatch observability on stderr, got:\n{stderr}"
+    );
+    assert!(
+        !stderr.contains("RUN failed") && !stderr.contains("STEP failed"),
+        "success stderr should not report runtime failure noise:\n{stderr}"
+    );
+}
+
+#[test]
+fn demo_c_print_plan_works() {
+    let out = run_swarm(&["demo", "demo-c-godel-runtime", "--print-plan"]);
+    assert!(
+        out.status.success(),
+        "expected success, stderr:\n{}",
+        String::from_utf8_lossy(&out.stderr)
+    );
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(
+        stdout.contains("Demo: demo-c-godel-runtime"),
+        "stdout:\n{stdout}"
+    );
+    assert!(stdout.contains("Steps: 3"), "stdout:\n{stdout}");
+    assert!(stdout.contains("0. load"), "stdout:\n{stdout}");
+    assert!(stdout.contains("1. verify"), "stdout:\n{stdout}");
+    assert!(stdout.contains("2. emit"), "stdout:\n{stdout}");
+}
+
+#[test]
+fn demo_c_run_writes_runtime_surface_artifacts() {
+    let out_root = tmp_dir("demo-c-run");
+    let out = run_swarm(&[
+        "demo",
+        "demo-c-godel-runtime",
+        "--run",
+        "--trace",
+        "--out",
+        out_root.to_string_lossy().as_ref(),
+    ]);
+    assert!(
+        out.status.success(),
+        "expected success, stderr:\n{}",
+        String::from_utf8_lossy(&out.stderr)
+    );
+
+    let run_out = out_root.join("demo-c-godel-runtime");
+    assert!(run_out.join("godel_runtime_surface_status.json").is_file());
+    assert!(run_out.join("verification.txt").is_file());
+    assert!(run_out.join("README.md").is_file());
+    assert!(run_out.join("trace.jsonl").is_file());
+
+    let status = fs::read_to_string(run_out.join("godel_runtime_surface_status.json")).unwrap();
+    assert!(
+        status.contains("\"status_version\": 1"),
+        "status:\n{status}"
+    );
+    assert!(status.contains("\"failure\""), "status:\n{status}");
+    assert!(status.contains("\"record\""), "status:\n{status}");
+}
+
+#[test]
+fn demo_h_run_writes_adversarial_review_packet() {
+    let out_root = tmp_dir("demo-h-run");
+    let out = run_swarm(&[
+        "demo",
+        "demo-h-v0891-adversarial-self-attack",
+        "--run",
+        "--trace",
+        "--out",
+        out_root.to_string_lossy().as_ref(),
+        "--no-open",
+    ]);
+    assert!(
+        out.status.success(),
+        "expected success, stderr:\n{}",
+        String::from_utf8_lossy(&out.stderr)
+    );
+
+    let run_out = out_root.join("demo-h-v0891-adversarial-self-attack");
+    assert!(run_out.join("review_packet.json").is_file());
+    assert!(run_out.join("replay_manifest.json").is_file());
+    assert!(run_out.join("replay_pre_fix/result.json").is_file());
+    assert!(run_out.join("replay_post_fix/result.json").is_file());
+    assert!(run_out.join("promotion.json").is_file());
+    assert!(run_out.join("trace.jsonl").is_file());
+
+    let review: serde_json::Value =
+        serde_json::from_str(&fs::read_to_string(run_out.join("review_packet.json")).unwrap())
+            .unwrap();
+    assert_eq!(
+        review["primary_claim"],
+        "full exploit -> replay -> mitigation -> promotion loop"
+    );
+    assert_eq!(
+        review["result_summary"]["pre_mitigation_unsafe_state_reached"],
+        true
+    );
+    assert_eq!(
+        review["result_summary"]["post_mitigation_unsafe_state_reached"],
+        false
+    );
+    assert_eq!(review["result_summary"]["promotion_status"], "applied");
+
+    let trace = fs::read_to_string(run_out.join("trace.jsonl")).unwrap();
+    assert!(
+        trace.contains("StepStarted step=target_and_posture"),
+        "trace:\n{trace}"
+    );
+    assert!(
+        trace.contains("StepStarted step=replay_pre_fix"),
+        "trace:\n{trace}"
+    );
+    assert!(
+        trace.contains("StepStarted step=replay_post_fix"),
+        "trace:\n{trace}"
+    );
+    assert!(
+        trace.contains("StepStarted step=promotion"),
+        "trace:\n{trace}"
+    );
+}
+
+#[test]
+fn demo_i_v090_stock_league_scaffold_print_plan_works() {
+    let out = run_swarm(&["demo", "demo-i-v090-stock-league-scaffold", "--print-plan"]);
+    assert!(
+        out.status.success(),
+        "expected success, stderr:\n{}",
+        String::from_utf8_lossy(&out.stderr)
+    );
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(
+        stdout.contains("Demo: demo-i-v090-stock-league-scaffold"),
+        "stdout:\n{stdout}"
+    );
+    assert!(stdout.contains("Steps: 4"), "stdout:\n{stdout}");
+    assert!(stdout.contains("0. fixture"), "stdout:\n{stdout}");
+    assert!(stdout.contains("3. proof_packet"), "stdout:\n{stdout}");
+}
+
+#[test]
+fn demo_i_v090_stock_league_scaffold_writes_guarded_fixture_packet() {
+    let out_root = tmp_dir("demo-i-stock-league");
+    let out = run_swarm(&[
+        "demo",
+        "demo-i-v090-stock-league-scaffold",
+        "--run",
+        "--trace",
+        "--out",
+        out_root.to_string_lossy().as_ref(),
+        "--no-open",
+    ]);
+    assert!(
+        out.status.success(),
+        "expected success, stderr:\n{}",
+        String::from_utf8_lossy(&out.stderr)
+    );
+
+    let run_out = out_root.join("demo-i-v090-stock-league-scaffold");
+    assert!(run_out.join("README.md").is_file());
+    assert!(run_out.join("season_manifest.json").is_file());
+    assert!(run_out.join("proof_packet.json").is_file());
+    assert!(run_out.join("fixture/season_001_fixture.json").is_file());
+    assert!(run_out.join("market/universe.json").is_file());
+    assert!(run_out.join("agents/value_monk/identity.json").is_file());
+    assert!(run_out.join("agents/risk_goblin/style_card.md").is_file());
+    assert!(run_out.join("decisions/day-001.json").is_file());
+    assert!(run_out.join("paper_ledger.jsonl").is_file());
+    assert!(run_out.join("audit/guardrail_report.json").is_file());
+    assert!(run_out.join("audit/artifact_safety_scan.json").is_file());
+    assert!(run_out.join("trace.jsonl").is_file());
+
+    let proof: serde_json::Value =
+        serde_json::from_str(&fs::read_to_string(run_out.join("proof_packet.json")).unwrap())
+            .unwrap();
+    assert_eq!(proof["schema_version"], "adl.stock_league.proof_packet.v1");
+    assert_eq!(proof["required_outputs"]["fixture_backed_scaffold"], true);
+    assert_eq!(proof["required_outputs"]["paper_only_league_rules"], true);
+    assert_eq!(
+        proof["wp08_integration"]["demo_id"],
+        "demo-j-v090-stock-league-recurring"
+    );
+
+    let manifest: serde_json::Value =
+        serde_json::from_str(&fs::read_to_string(run_out.join("season_manifest.json")).unwrap())
+            .unwrap();
+    assert_eq!(manifest["mode"], "fixture_replay");
+    assert!(
+        manifest["agents"]
+            .as_array()
+            .is_some_and(|agents| agents.len() >= 7),
+        "manifest:\n{manifest}"
+    );
+
+    let guardrails: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(run_out.join("audit/guardrail_report.json")).unwrap(),
+    )
+    .unwrap();
+    assert_eq!(guardrails["status"], "pass");
+    let checks = guardrails["checks"].as_array().expect("guardrail checks");
+    assert!(checks
+        .iter()
+        .any(|check| check["check_id"] == "no_real_trading"));
+    assert!(checks
+        .iter()
+        .any(|check| check["check_id"] == "no_broker_integration"));
+    assert_eq!(guardrails["rejected_actions"][0]["action"], "execute_order");
+
+    let scan: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(run_out.join("audit/artifact_safety_scan.json")).unwrap(),
+    )
+    .unwrap();
+    assert_eq!(scan["passed"], true, "scan:\n{scan}");
+    assert!(
+        scan["findings"]
+            .as_array()
+            .is_some_and(|findings| findings.is_empty()),
+        "scan:\n{scan}"
+    );
+
+    let decisions: serde_json::Value =
+        serde_json::from_str(&fs::read_to_string(run_out.join("decisions/day-001.json")).unwrap())
+            .unwrap();
+    let decisions = decisions["decisions"].as_array().expect("decisions");
+    assert!(decisions.len() >= 7);
+    assert!(decisions
+        .iter()
+        .all(|decision| decision["paper_only"] == true));
+    assert!(decisions
+        .iter()
+        .all(|decision| decision["not_financial_advice"] == true));
+
+    let readme = fs::read_to_string(run_out.join("README.md")).unwrap();
+    assert!(
+        readme.contains("not financial advice, trading advice, or a real investment strategy"),
+        "README:\n{readme}"
+    );
+
+    let public_text = collect_text_artifacts(&run_out);
+    for banned in [
+        "/Users/",
+        "bearer ",
+        "private_key",
+        "broker_account",
+        "personalized financial recommendation",
+        "you should buy",
+        "market beating",
+    ] {
+        assert!(
+            !public_text
+                .to_ascii_lowercase()
+                .contains(&banned.to_ascii_lowercase()),
+            "banned pattern {banned:?} found in artifacts"
+        );
+    }
+}
+
+#[test]
+fn demo_j_v090_stock_league_recurring_print_plan_works() {
+    let out = run_swarm(&["demo", "demo-j-v090-stock-league-recurring", "--print-plan"]);
+    assert!(
+        out.status.success(),
+        "expected success, stderr:\n{}",
+        String::from_utf8_lossy(&out.stderr)
+    );
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(
+        stdout.contains("Demo: demo-j-v090-stock-league-recurring"),
+        "stdout:\n{stdout}"
+    );
+    assert!(stdout.contains("Steps: 4"), "stdout:\n{stdout}");
+    assert!(stdout.contains("0. scaffold"), "stdout:\n{stdout}");
+    assert!(stdout.contains("1. recurring_cycles"), "stdout:\n{stdout}");
+    assert!(stdout.contains("3. proof_packet"), "stdout:\n{stdout}");
+}
+
+#[test]
+fn demo_k_v090_stock_league_proof_expansion_print_plan_works() {
+    let out = run_swarm(&[
+        "demo",
+        "demo-k-v090-stock-league-proof-expansion",
+        "--print-plan",
+    ]);
+    assert!(
+        out.status.success(),
+        "expected success, stderr:\n{}",
+        String::from_utf8_lossy(&out.stderr)
+    );
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(
+        stdout.contains("Demo: demo-k-v090-stock-league-proof-expansion"),
+        "stdout:\n{stdout}"
+    );
+    assert!(stdout.contains("Steps: 4"), "stdout:\n{stdout}");
+    assert!(stdout.contains("0. selected_demos"), "stdout:\n{stdout}");
+    assert!(stdout.contains("1. recurring_proof"), "stdout:\n{stdout}");
+    assert!(stdout.contains("2. evidence_index"), "stdout:\n{stdout}");
+    assert!(stdout.contains("3. review_packet"), "stdout:\n{stdout}");
+}
+
+#[test]
+fn demo_l_v0901_runtime_v2_foundation_print_plan_works() {
+    let out = run_swarm(&["demo", "demo-l-v0901-runtime-v2-foundation", "--print-plan"]);
+    assert!(
+        out.status.success(),
+        "expected success, stderr:\n{}",
+        String::from_utf8_lossy(&out.stderr)
+    );
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(
+        stdout.contains("Demo: demo-l-v0901-runtime-v2-foundation"),
+        "stdout:\n{stdout}"
+    );
+    assert!(stdout.contains("Steps: 4"), "stdout:\n{stdout}");
+    assert!(stdout.contains("0. assemble"), "stdout:\n{stdout}");
+    assert!(stdout.contains("3. proof_packet"), "stdout:\n{stdout}");
+}
+
+#[test]
+fn demo_l_v0901_runtime_v2_foundation_writes_integrated_proof_packet() {
+    let out_root = tmp_dir("demo-l-runtime-v2");
+    let out = run_swarm(&[
+        "demo",
+        "demo-l-v0901-runtime-v2-foundation",
+        "--run",
+        "--trace",
+        "--out",
+        out_root.to_string_lossy().as_ref(),
+        "--no-open",
+    ]);
+    assert!(
+        out.status.success(),
+        "expected success, stderr:\n{}",
+        String::from_utf8_lossy(&out.stderr)
+    );
+
+    let run_out = out_root.join("demo-l-v0901-runtime-v2-foundation");
+    assert!(run_out.join("runtime_v2/demo_assembly.json").is_file());
+    assert!(run_out.join("runtime_v2/proof_packet.json").is_file());
+    assert!(run_out.join("runtime_v2/manifold.json").is_file());
+    assert!(run_out
+        .join("runtime_v2/kernel/service_registry.json")
+        .is_file());
+    assert!(run_out
+        .join("runtime_v2/kernel/service_state.json")
+        .is_file());
+    assert!(run_out
+        .join("runtime_v2/kernel/service_loop.jsonl")
+        .is_file());
+    assert!(run_out
+        .join("runtime_v2/citizens/proto-citizen-alpha.json")
+        .is_file());
+    assert!(run_out
+        .join("runtime_v2/citizens/proto-citizen-beta.json")
+        .is_file());
+    assert!(run_out
+        .join("runtime_v2/snapshots/snapshot-0001.json")
+        .is_file());
+    assert!(run_out.join("runtime_v2/rehydration_report.json").is_file());
+    assert!(run_out
+        .join("runtime_v2/invariants/violation-0001.json")
+        .is_file());
+    assert!(run_out
+        .join("runtime_v2/operator/control_report.json")
+        .is_file());
+    assert!(run_out
+        .join("runtime_v2/security_boundary/proof_packet.json")
+        .is_file());
+    assert!(run_out
+        .join("runtime_v2/reviewer_boundary_notes.md")
+        .is_file());
+    assert!(run_out.join("trace.jsonl").is_file());
+
+    let proof: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(run_out.join("runtime_v2/proof_packet.json")).unwrap(),
+    )
+    .unwrap();
+    assert_eq!(
+        proof["schema_version"],
+        "runtime_v2.foundation_proof_packet.v1"
+    );
+    assert_eq!(proof["demo_id"], "D7");
+    assert_eq!(proof["classification"], "proving");
+    assert!(proof["integrated_artifacts"]
+        .as_array()
+        .is_some_and(|artifacts| artifacts.len() >= 10));
+    assert!(proof["non_claims"]
+        .as_array()
+        .is_some_and(|non_claims| non_claims.len() >= 3));
+
+    let public_text = collect_text_artifacts(&run_out);
+    for banned in ["/Users/", "bearer ", "private_key", "tool arguments"] {
+        assert!(
+            !public_text
+                .to_ascii_lowercase()
+                .contains(&banned.to_ascii_lowercase()),
+            "banned pattern {banned:?} found in artifacts"
+        );
+    }
+}
+
+#[test]
+fn demo_j_v090_stock_league_recurring_writes_multi_cycle_proof_packet() {
+    let out_root = tmp_dir("demo-j-stock-league");
+    let out = run_swarm_with_env(
+        &[
+            "demo",
+            "demo-j-v090-stock-league-recurring",
+            "--run",
+            "--trace",
+            "--out",
+            out_root.to_string_lossy().as_ref(),
+            "--no-open",
+        ],
+        &CSM_DISK_READY_ENV,
+    );
+    assert!(
+        out.status.success(),
+        "expected success, stderr:\n{}",
+        String::from_utf8_lossy(&out.stderr)
+    );
+
+    let run_out = out_root.join("demo-j-v090-stock-league-recurring");
+    assert!(run_out.join("integration_manifest.json").is_file());
+    assert!(run_out.join("integration_proof_packet.json").is_file());
+    assert!(run_out
+        .join("long_lived_agent/stock_league_agent.yaml")
+        .is_file());
+    assert!(run_out.join("long_lived_agent/state/status.json").is_file());
+    assert!(run_out
+        .join("long_lived_agent/state/cycle_ledger.jsonl")
+        .is_file());
+    assert!(run_out
+        .join("long_lived_agent/state/continuity.json")
+        .is_file());
+    assert!(run_out
+        .join("long_lived_agent/state/continuity_checkpoint.json")
+        .is_file());
+    assert!(run_out
+        .join("long_lived_agent/state/continuity_replay_manifest.json")
+        .is_file());
+    assert!(run_out.join("inspection/latest.json").is_file());
+    assert!(run_out.join("inspection/cycle-000001.json").is_file());
+    assert!(run_out.join("inspection/cycle-000003.json").is_file());
+    assert!(run_out.join("continuity/continuity_proof.json").is_file());
+    assert!(run_out
+        .join("audit/recurring_guardrail_summary.json")
+        .is_file());
+    assert!(run_out.join("audit/artifact_safety_scan.json").is_file());
+    assert!(run_out.join("trace.jsonl").is_file());
+
+    for cycle_id in ["cycle-000001", "cycle-000002", "cycle-000003"] {
+        let cycle_dir = run_out.join("long_lived_agent/state/cycles").join(cycle_id);
+        assert!(cycle_dir.join("cycle_manifest.json").is_file());
+        assert!(cycle_dir.join("guardrail_report.json").is_file());
+        assert!(cycle_dir.join("cycle_summary.md").is_file());
+        assert!(cycle_dir.join("memory_writes.jsonl").is_file());
+    }
+
+    let ledger =
+        fs::read_to_string(run_out.join("long_lived_agent/state/cycle_ledger.jsonl")).unwrap();
+    assert_eq!(ledger.lines().count(), 3, "ledger:\n{ledger}");
+
+    let status: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(run_out.join("long_lived_agent/state/status.json")).unwrap(),
+    )
+    .unwrap();
+    assert_eq!(status["state"], "completed");
+    assert_eq!(status["completed_cycle_count"], 3);
+    assert_eq!(status["last_cycle_id"], "cycle-000003");
+
+    let latest: serde_json::Value =
+        serde_json::from_str(&fs::read_to_string(run_out.join("inspection/latest.json")).unwrap())
+            .unwrap();
+    assert_eq!(
+        latest["schema"],
+        "adl.long_lived_agent_inspection_packet.v1"
+    );
+    assert_eq!(latest["cycle_count"], 3);
+    assert_eq!(latest["selected_cycle_id"], "cycle-000003");
+    assert_eq!(latest["reviewer_proof"]["status"], "pass");
+
+    let continuity: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(run_out.join("continuity/continuity_proof.json")).unwrap(),
+    )
+    .unwrap();
+    assert_eq!(continuity["status"], "pass");
+    assert_eq!(continuity["cycle_count"], 3);
+    assert_eq!(
+        continuity["restore_readiness"]["checkpoint_latest_cycle_id"],
+        "cycle-000003"
+    );
+    assert_eq!(
+        continuity["restore_readiness"]["restart_resume_proof_status"],
+        "not_executed_in_fixture"
+    );
+    assert_eq!(
+        continuity["restore_readiness"]["expected_next_cycle_id"],
+        "cycle-000004"
+    );
+    assert_eq!(
+        continuity["restart_resume_non_claim"],
+        "This recurring fixture proves checkpoint and replay-manifest artifact readiness plus append-only cycle continuity; it does not execute a restart/resume path itself."
+    );
+    assert_eq!(
+        continuity["history_preservation"]["prior_commitments_preserved"],
+        true
+    );
+    assert_eq!(
+        continuity["history_preservation"]["cycle_chain_links_prior_cycle_ids"],
+        true
+    );
+
+    let proof: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(run_out.join("integration_proof_packet.json")).unwrap(),
+    )
+    .unwrap();
+    assert_eq!(
+        proof["schema_version"],
+        "adl.stock_league.recurring_integration_proof_packet.v1"
+    );
+    assert_eq!(proof["required_outputs"]["recurring_bounded_cycles"], true);
+    assert_eq!(
+        proof["required_outputs"]["history_preservation_proof"],
+        true
+    );
+
+    let guardrails: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(run_out.join("audit/recurring_guardrail_summary.json")).unwrap(),
+    )
+    .unwrap();
+    assert_eq!(guardrails["status"], "pass");
+    assert!(guardrails["cycle_reports"]
+        .as_array()
+        .is_some_and(|reports| reports.len() == 3));
+
+    let scan: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(run_out.join("audit/artifact_safety_scan.json")).unwrap(),
+    )
+    .unwrap();
+    assert_eq!(scan["passed"], true, "scan:\n{scan}");
+    assert!(
+        scan["findings"]
+            .as_array()
+            .is_some_and(|findings| findings.is_empty()),
+        "scan:\n{scan}"
+    );
+
+    let rerun = run_swarm(&[
+        "demo",
+        "demo-j-v090-stock-league-recurring",
+        "--run",
+        "--trace",
+        "--out",
+        out_root.to_string_lossy().as_ref(),
+        "--no-open",
+    ]);
+    assert!(
+        rerun.status.success(),
+        "expected rerun success, stderr:\n{}",
+        String::from_utf8_lossy(&rerun.stderr)
+    );
+    let rerun_ledger =
+        fs::read_to_string(run_out.join("long_lived_agent/state/cycle_ledger.jsonl")).unwrap();
+    assert_eq!(rerun_ledger.lines().count(), 3, "ledger:\n{rerun_ledger}");
+    assert!(
+        !run_out
+            .join("long_lived_agent/state/cycles/cycle-000004")
+            .exists(),
+        "rerun must reset recurring state instead of appending extra cycles"
+    );
+    let rerun_scan: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(run_out.join("audit/artifact_safety_scan.json")).unwrap(),
+    )
+    .unwrap();
+    assert_eq!(rerun_scan["passed"], true, "scan:\n{rerun_scan}");
+    assert!(
+        rerun_scan["findings"]
+            .as_array()
+            .is_some_and(|findings| findings.is_empty()),
+        "scan:\n{rerun_scan}"
+    );
+
+    let public_text = collect_text_artifacts(&run_out);
+    for banned in [
+        "/Users/",
+        "bearer ",
+        "private_key",
+        "broker_account",
+        "personalized financial recommendation",
+        "you should buy",
+        "market beating",
+    ] {
+        assert!(
+            !public_text
+                .to_ascii_lowercase()
+                .contains(&banned.to_ascii_lowercase()),
+            "banned pattern {banned:?} found in artifacts"
+        );
+    }
+}
+
+#[test]
+fn demo_k_v090_stock_league_proof_expansion_writes_selected_extension_packet() {
+    let out_root = tmp_dir("demo-k-stock-league");
+    let out = run_swarm(&[
+        "demo",
+        "demo-k-v090-stock-league-proof-expansion",
+        "--run",
+        "--trace",
+        "--out",
+        out_root.to_string_lossy().as_ref(),
+        "--no-open",
+    ]);
+    assert!(
+        out.status.success(),
+        "expected success, stderr:\n{}",
+        String::from_utf8_lossy(&out.stderr)
+    );
+
+    let run_out = out_root.join("demo-k-v090-stock-league-proof-expansion");
+    assert!(run_out.join("demo_extension_selection.json").is_file());
+    assert!(run_out.join("integration_proof_packet.json").is_file());
+    assert!(run_out.join("extension_proof_packet.json").is_file());
+    assert!(run_out.join("extensions/evidence_index.json").is_file());
+    assert!(run_out.join("extensions/proof_claims.json").is_file());
+    assert!(run_out.join("extensions/replay_manifest.json").is_file());
+    assert!(run_out
+        .join("extensions/non_goals_and_deferrals.json")
+        .is_file());
+    assert!(run_out
+        .join("extensions/extension_artifact_safety_scan.json")
+        .is_file());
+    assert!(run_out.join("trace.jsonl").is_file());
+
+    let ledger =
+        fs::read_to_string(run_out.join("long_lived_agent/state/cycle_ledger.jsonl")).unwrap();
+    assert_eq!(ledger.lines().count(), 3, "ledger:\n{ledger}");
+
+    let selection: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(run_out.join("demo_extension_selection.json")).unwrap(),
+    )
+    .unwrap();
+    assert_eq!(selection["matrix_row"], "D5");
+    assert_eq!(
+        selection["selected_demo_choices"][0]["entrypoint"],
+        "demo-k-v090-stock-league-proof-expansion"
+    );
+    assert_eq!(
+        selection["selected_demo_choices"][0]["classification"],
+        "proving"
+    );
+    assert!(selection["explicit_deferrals"]
+        .as_array()
+        .is_some_and(|deferrals| deferrals.len() == 3));
+
+    let proof: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(run_out.join("extension_proof_packet.json")).unwrap(),
+    )
+    .unwrap();
+    assert_eq!(
+        proof["schema_version"],
+        "adl.stock_league.demo_extension_proof_packet.v1"
+    );
+    assert_eq!(proof["status"], "pass");
+    assert_eq!(proof["matrix_row"], "D5");
+    assert_eq!(proof["required_outputs"]["named_demo_choices"], true);
+    assert_eq!(proof["required_outputs"]["demo_matrix_disposition"], true);
+
+    let evidence: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(run_out.join("extensions/evidence_index.json")).unwrap(),
+    )
+    .unwrap();
+    assert_eq!(evidence["status"], "pass");
+    assert_eq!(
+        evidence["extends_demo"],
+        "demo-j-v090-stock-league-recurring"
+    );
+    assert!(evidence["evidence_refs"]
+        .as_array()
+        .is_some_and(|refs| refs.len() >= 7));
+
+    let claims: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(run_out.join("extensions/proof_claims.json")).unwrap(),
+    )
+    .unwrap();
+    assert!(claims["claims"].as_array().is_some_and(|items| {
+        items
+            .iter()
+            .all(|claim| claim["result"].as_str() == Some("pass"))
+    }));
+
+    let replay: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(run_out.join("extensions/replay_manifest.json")).unwrap(),
+    )
+    .unwrap();
+    assert_eq!(replay["replay_mode"], "deterministic_fixture");
+    assert_eq!(replay["expected_cycle_count"], 3);
+    assert_eq!(replay["network_required"], false);
+
+    let scan: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(run_out.join("extensions/extension_artifact_safety_scan.json"))
+            .unwrap(),
+    )
+    .unwrap();
+    assert_eq!(scan["passed"], true, "scan:\n{scan}");
+    assert!(
+        scan["findings"]
+            .as_array()
+            .is_some_and(|findings| findings.is_empty()),
+        "scan:\n{scan}"
+    );
+
+    let rerun = run_swarm(&[
+        "demo",
+        "demo-k-v090-stock-league-proof-expansion",
+        "--run",
+        "--trace",
+        "--out",
+        out_root.to_string_lossy().as_ref(),
+        "--no-open",
+    ]);
+    assert!(
+        rerun.status.success(),
+        "expected rerun success, stderr:\n{}",
+        String::from_utf8_lossy(&rerun.stderr)
+    );
+    let rerun_ledger =
+        fs::read_to_string(run_out.join("long_lived_agent/state/cycle_ledger.jsonl")).unwrap();
+    assert_eq!(rerun_ledger.lines().count(), 3, "ledger:\n{rerun_ledger}");
+    assert!(
+        !run_out
+            .join("long_lived_agent/state/cycles/cycle-000004")
+            .exists(),
+        "rerun must reset recurring state instead of appending extra cycles"
+    );
+}
+
+fn collect_text_artifacts(root: &Path) -> String {
+    fn visit(path: &Path, out: &mut String) {
+        let Ok(metadata) = fs::metadata(path) else {
+            return;
+        };
+        if metadata.is_dir() {
+            let mut entries = fs::read_dir(path)
+                .unwrap()
+                .collect::<Result<Vec<_>, _>>()
+                .unwrap();
+            entries.sort_by_key(|entry| entry.path());
+            for entry in entries {
+                visit(&entry.path(), out);
+            }
+        } else if metadata.is_file() {
+            if let Ok(contents) = fs::read_to_string(path) {
+                out.push_str(&contents);
+                out.push('\n');
+            }
+        }
+    }
+
+    let mut out = String::new();
+    visit(root, &mut out);
+    out
+}
+
+#[test]
+fn demo_d_print_plan_works() {
+    let out = run_swarm(&["demo", "demo-d-godel-obsmem-loop", "--print-plan"]);
+    assert!(
+        out.status.success(),
+        "expected success, stderr:\n{}",
+        String::from_utf8_lossy(&out.stderr)
+    );
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(
+        stdout.contains("Demo: demo-d-godel-obsmem-loop"),
+        "stdout:\n{stdout}"
+    );
+    assert!(stdout.contains("Steps: 3"), "stdout:\n{stdout}");
+}
+
+#[test]
+fn demo_d_run_writes_godel_obsmem_artifacts() {
+    let out_root = tmp_dir("demo-d-run");
+    let out = run_swarm(&[
+        "demo",
+        "demo-d-godel-obsmem-loop",
+        "--run",
+        "--trace",
+        "--out",
+        out_root.to_string_lossy().as_ref(),
+    ]);
+    assert!(
+        out.status.success(),
+        "expected success, stderr:\n{}",
+        String::from_utf8_lossy(&out.stderr)
+    );
+    let run_out = out_root.join("demo-d-godel-obsmem-loop");
+    assert!(run_out.join("failure_signal.json").is_file());
+    assert!(run_out.join("godel_obsmem_demo_summary.json").is_file());
+    assert!(run_out
+        .join("runs/demo-d-run-001/godel/mutation.v1.json")
+        .is_file());
+    assert!(run_out
+        .join("runs/demo-d-run-001/godel/canonical_evidence_view.v1.json")
+        .is_file());
+    assert!(run_out
+        .join("runs/demo-d-run-001/godel/evaluation_plan.v1.json")
+        .is_file());
+    assert!(run_out
+        .join("runs/demo-d-run-001/godel/experiment_record.runtime.v1.json")
+        .is_file());
+    assert!(run_out
+        .join("runs/demo-d-run-001/godel/experiment_record.v1.json")
+        .is_file());
+    assert!(run_out
+        .join("runs/demo-d-run-001/godel/obsmem_index_entry.runtime.v1.json")
+        .is_file());
+}
+
+#[test]
+fn demo_e_run_writes_card_pipeline_artifacts() {
+    let out_root = tmp_dir("demo-e-run");
+    let out = run_swarm(&[
+        "demo",
+        "demo-e-multi-agent-card-pipeline",
+        "--run",
+        "--trace",
+        "--out",
+        out_root.to_string_lossy().as_ref(),
+    ]);
+    assert!(
+        out.status.success(),
+        "expected success, stderr:\n{}",
+        String::from_utf8_lossy(&out.stderr)
+    );
+    let run_out = out_root.join("demo-e-multi-agent-card-pipeline");
+    assert!(run_out.join("pipeline/input_card.md").is_file());
+    assert!(run_out.join("pipeline/pipeline_manifest.json").is_file());
+}
+
+#[test]
+fn demo_f_run_writes_retrieval_artifacts() {
+    let out_root = tmp_dir("demo-f-run");
+    let out = run_swarm(&[
+        "demo",
+        "demo-f-obsmem-retrieval",
+        "--run",
+        "--trace",
+        "--out",
+        out_root.to_string_lossy().as_ref(),
+    ]);
+    assert!(
+        out.status.success(),
+        "expected success, stderr:\n{}",
+        String::from_utf8_lossy(&out.stderr)
+    );
+    let run_out = out_root.join("demo-f-obsmem-retrieval");
+    assert!(run_out.join("obsmem_retrieval_result.json").is_file());
+    assert!(run_out.join("runs/_shared/obsmem_store.v1.json").is_file());
+    assert!(run_out
+        .join("runs/demo-f-run-a/godel/obsmem_index_entry.runtime.v1.json")
+        .is_file());
+    assert!(run_out
+        .join("runs/demo-f-run-b/godel/obsmem_index_entry.runtime.v1.json")
+        .is_file());
+    assert!(run_out
+        .join("runs/demo-f-run-c/godel/obsmem_index_entry.runtime.v1.json")
+        .is_file());
+
+    let retrieval_text =
+        std::fs::read_to_string(run_out.join("obsmem_retrieval_result.json")).unwrap();
+    let retrieval: serde_json::Value = serde_json::from_str(&retrieval_text).unwrap();
+    assert_eq!(
+        retrieval
+            .get("schema_version")
+            .and_then(serde_json::Value::as_str),
+        Some("obsmem_retrieval_result.demo.v2")
+    );
+    let explained = retrieval
+        .get("explained_results")
+        .and_then(serde_json::Value::as_array)
+        .expect("explained_results array");
+    assert_eq!(explained.len(), 3);
+    assert_eq!(
+        explained[0]
+            .get("record")
+            .and_then(|entry| entry.get("run_id"))
+            .and_then(serde_json::Value::as_str),
+        Some("demo-f-run-a")
+    );
+    assert_eq!(
+        explained[1]
+            .get("record")
+            .and_then(|entry| entry.get("run_id"))
+            .and_then(serde_json::Value::as_str),
+        Some("demo-f-run-b")
+    );
+    assert_eq!(
+        explained[2]
+            .get("record")
+            .and_then(|entry| entry.get("run_id"))
+            .and_then(serde_json::Value::as_str),
+        Some("demo-f-run-c")
+    );
+    assert!(explained[0]
+        .get("explanation")
+        .and_then(|entry| entry.get("provenance_families"))
+        .and_then(serde_json::Value::as_array)
+        .is_some_and(|families| {
+            families
+                .iter()
+                .filter_map(serde_json::Value::as_str)
+                .collect::<Vec<_>>()
+                == vec!["activation_log", "run_status", "run_summary"]
+        }));
+    assert!(explained[0]
+        .get("explanation")
+        .and_then(|entry| entry.get("explanation_signals"))
+        .and_then(serde_json::Value::as_array)
+        .is_some_and(|signals| signals
+            .iter()
+            .any(|signal| signal == "status_success_boost")));
+    assert!(explained[2]
+        .get("explanation")
+        .and_then(|entry| entry.get("explanation_signals"))
+        .and_then(serde_json::Value::as_array)
+        .is_some_and(|signals| signals
+            .iter()
+            .any(|signal| signal == "status_failure_penalty")));
+}

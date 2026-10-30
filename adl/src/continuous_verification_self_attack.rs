@@ -1,0 +1,904 @@
+use serde::{Deserialize, Serialize};
+
+pub const CONTINUOUS_VERIFICATION_SELF_ATTACK_SCHEMA: &str =
+    "continuous_verification_self_attack.v1";
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub struct ContinuousVerificationCadenceContract {
+    pub supported_modes: Vec<String>,
+    pub trigger_requirements: Vec<String>,
+    pub scheduling_guarantees: Vec<String>,
+    pub noise_controls: Vec<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub struct ContinuousVerificationRuntimeIntegrationContract {
+    pub shared_runtime_surfaces: Vec<String>,
+    pub cadence_requirements: Vec<String>,
+    pub bounded_execution_guards: Vec<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub struct VerificationSurfaceSelectionContract {
+    pub eligible_surface_types: Vec<String>,
+    pub selection_requirements: Vec<String>,
+    pub posture_constraints: Vec<String>,
+    pub prohibited_targets: Vec<String>,
+}
+
+#[derive(Debug, Clone, Default, Serialize, Deserialize, PartialEq, Eq)]
+pub struct GovernedTargetRegistryContract {
+    pub required_registry_fields: Vec<String>,
+    pub selection_rules: Vec<String>,
+    pub posture_binding_rules: Vec<String>,
+    pub fail_closed_rules: Vec<String>,
+}
+
+#[derive(Debug, Clone, Default, Serialize, Deserialize, PartialEq, Eq)]
+pub struct ContinuousVerificationQueueControlContract {
+    pub queue_requirements: Vec<String>,
+    pub dedupe_rules: Vec<String>,
+    pub defer_rules: Vec<String>,
+    pub replay_reuse_rules: Vec<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub struct ContinuousVerificationStageContract {
+    pub stage_id: String,
+    pub role: String,
+    pub purpose: String,
+    pub required_inputs: Vec<String>,
+    pub required_outputs: Vec<String>,
+    pub blocking_rules: Vec<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub struct SelfAttackLayerContract {
+    pub layer_id: String,
+    pub purpose: String,
+    pub required_artifacts: Vec<String>,
+    pub policy_bounds: Vec<String>,
+    pub evidence_expectations: Vec<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub struct ContinuousVerificationArtifactPackageContract {
+    pub required_artifacts: Vec<String>,
+    pub lifecycle_linkage_rules: Vec<String>,
+    pub replay_requirements: Vec<String>,
+    pub promotion_requirements: Vec<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub struct ContinuousVerificationPolicyContract {
+    pub posture_profiles: Vec<String>,
+    pub freedom_gate_rules: Vec<String>,
+    pub mutation_rules: Vec<String>,
+    pub limit_rules: Vec<String>,
+    pub prohibited_shortcuts: Vec<String>,
+}
+
+#[derive(Debug, Clone, Default, Serialize, Deserialize, PartialEq, Eq)]
+pub struct ContinuousVerificationSafetyControlContract {
+    pub quarantine_rules: Vec<String>,
+    pub degrade_rules: Vec<String>,
+    pub stop_rules: Vec<String>,
+    pub verifier_fault_fail_closed_rules: Vec<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub struct ContinuousVerificationReviewSurfaceContract {
+    pub required_questions: Vec<String>,
+    pub required_visibility: Vec<String>,
+    pub downstream_boundaries: Vec<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub struct ContinuousVerificationSelfAttackContract {
+    pub schema_version: String,
+    pub owned_runtime_surfaces: Vec<String>,
+    pub runtime_condition: String,
+    pub upstream_contracts: Vec<String>,
+    pub cadence: ContinuousVerificationCadenceContract,
+    pub runtime_integration: ContinuousVerificationRuntimeIntegrationContract,
+    pub surface_selection: VerificationSurfaceSelectionContract,
+    #[serde(default)]
+    pub target_registry: GovernedTargetRegistryContract,
+    #[serde(default)]
+    pub queue_controls: ContinuousVerificationQueueControlContract,
+    pub lifecycle: Vec<ContinuousVerificationStageContract>,
+    pub self_attack_layers: Vec<SelfAttackLayerContract>,
+    pub artifact_package: ContinuousVerificationArtifactPackageContract,
+    pub policy: ContinuousVerificationPolicyContract,
+    #[serde(default)]
+    pub safety_controls: ContinuousVerificationSafetyControlContract,
+    pub review_surface: ContinuousVerificationReviewSurfaceContract,
+    pub proof_fixture_hooks: Vec<String>,
+    pub proof_hook_command: String,
+    pub proof_hook_output_path: String,
+    pub scope_boundary: String,
+}
+
+fn strings(items: &[&str]) -> Vec<String> {
+    items.iter().map(|item| (*item).to_string()).collect()
+}
+
+impl ContinuousVerificationSelfAttackContract {
+    pub fn v1() -> Self {
+        Self {
+            schema_version: CONTINUOUS_VERIFICATION_SELF_ATTACK_SCHEMA.to_string(),
+            owned_runtime_surfaces: strings(&[
+                "adl::continuous_verification_self_attack::ContinuousVerificationSelfAttackContract",
+                "adl::continuous_verification_self_attack::ContinuousVerificationStageContract",
+                "adl::continuous_verification_self_attack::SelfAttackLayerContract",
+                "adl::continuous_verification_self_attack::ContinuousVerificationPolicyContract",
+                "adl identity continuous-verification",
+            ]),
+            runtime_condition:
+                "ADL adversarial verification must run as a bounded, posture-governed, replay-linked loop rather than as occasional narrative red-team prose."
+                    .to_string(),
+            upstream_contracts: strings(&[
+                "adversarial_runtime_model.v1",
+                "red_blue_agent_architecture.v1",
+                "adversarial_execution_runner.v1",
+                "exploit_artifact_replay.v1",
+            ]),
+            cadence: ContinuousVerificationCadenceContract {
+                supported_modes: strings(&[
+                    "on_demand",
+                    "scheduled",
+                    "change_triggered",
+                    "continuous_bounded",
+                ]),
+                trigger_requirements: strings(&[
+                    "each run declares trigger source before target selection",
+                    "change-triggered runs cite the changed surface or dependency",
+                    "scheduled runs declare cadence and stop condition",
+                    "continuous-bounded runs declare iteration, time, or budget limits",
+                ]),
+                scheduling_guarantees: strings(&[
+                    "identical inputs preserve lifecycle order",
+                    "limit exhaustion emits an explicit defer artifact",
+                    "cadence never grants additional target or mutation authority",
+                ]),
+                noise_controls: strings(&[
+                    "hypothesis generation must be prioritized by posture, target criticality, and prior evidence",
+                    "duplicate findings link to prior exploit knowledge instead of creating uncorrelated churn",
+                    "low-confidence speculation remains a hypothesis artifact rather than proof",
+                ]),
+            },
+            runtime_integration: ContinuousVerificationRuntimeIntegrationContract {
+                shared_runtime_surfaces: strings(&[
+                    "Tokio shared runtime substrate",
+                    "long-lived agent cadence and supervision loop",
+                    "ordinary ADL runtime control plane",
+                ]),
+                cadence_requirements: strings(&[
+                    "future scheduled and continuous_bounded verification cadence must run on the shared Tokio runtime rather than a parallel security daemon",
+                    "future continuous verification cadence must reuse runtime stop, lease, and status boundaries before the next bounded iteration proceeds",
+                    "bounded verification tasks remain review-visible and artifact-linked inside the ordinary runtime control plane",
+                ]),
+                bounded_execution_guards: strings(&[
+                    "shared cadence never grants additional target, mutation, or scheduling authority",
+                    "this contract does not claim always-on autonomous red/blue runtime execution",
+                    "CAV cadence consumes the same shared runtime substrate as ACIP-facing runtime work while preserving separate issue-owned execution logic",
+                ]),
+            },
+            surface_selection: VerificationSurfaceSelectionContract {
+                eligible_surface_types: strings(&[
+                    "input parser",
+                    "workflow state transition",
+                    "policy boundary",
+                    "identity or permission check",
+                    "artifact validation surface",
+                    "trace or replay integrity surface",
+                    "provider or tool integration boundary",
+                ]),
+                selection_requirements: strings(&[
+                    "governed target registry entry is required before surface selection",
+                    "target_ref is required before adversarial hypothesis generation",
+                    "security_posture_ref is required before any exploit attempt",
+                    "authorization basis is recorded in the verification plan artifact",
+                    "selected surfaces are trace-visible and reviewable",
+                ]),
+                posture_constraints: strings(&[
+                    "audit posture may enumerate and hypothesize but blocks exploit attempts",
+                    "validation posture may attempt bounded non-mutating exploit paths",
+                    "hardening posture may prioritize mitigation and replay validation",
+                    "internal_contest posture may increase exploration only inside declared internal targets",
+                ]),
+                prohibited_targets: strings(&[
+                    "arbitrary external systems",
+                    "live production targets without explicit authorization",
+                    "targets lacking a stable target_ref",
+                    "targets whose posture forbids the requested action",
+                ]),
+            },
+            target_registry: GovernedTargetRegistryContract {
+                required_registry_fields: strings(&[
+                    "target_ref",
+                    "target_owner",
+                    "target_surface_kind",
+                    "security_posture_ref",
+                    "authorization_basis",
+                    "allowed_action_matrix",
+                    "mutation_boundary",
+                    "cadence_limit_class",
+                ]),
+                selection_rules: strings(&[
+                    "surface selection must cite one governed target registry entry",
+                    "target registry entries must declare via allowed_action_matrix whether exploit, replay, mitigation, and promotion are allowed",
+                    "unknown or stale registry entries produce explicit blocked-selection evidence",
+                ]),
+                posture_binding_rules: strings(&[
+                    "security_posture_ref binds allowed exploit classes for the selected target",
+                    "mutation_boundary must remain narrower than the active posture and authorization basis",
+                    "target registry posture mismatches degrade or block execution before exploit attempts begin",
+                ]),
+                fail_closed_rules: strings(&[
+                    "missing target registry entry blocks the verification loop",
+                    "missing authorization basis blocks exploit planning and execution",
+                    "missing allowed_action_matrix blocks cadence admission and exploit execution",
+                    "missing mutation boundary forces audit-only behavior",
+                ]),
+            },
+            queue_controls: ContinuousVerificationQueueControlContract {
+                queue_requirements: strings(&[
+                    "bounded queues must carry target_ref, posture, trigger, and limit class for every queued item",
+                    "continuous_bounded cadence may enqueue additional work only inside the declared target registry and iteration budget",
+                    "queue admission records whether work is exploit, replay, mitigation, review, or defer follow-up",
+                ]),
+                dedupe_rules: strings(&[
+                    "active queued work dedupes on target_ref, hypothesis family, and posture",
+                    "evidence-linked exploit replays reuse the prior replay manifest instead of spawning an uncorrelated queue item",
+                    "duplicate verifier requests emit linkage to the existing work item rather than silent churn",
+                ]),
+                defer_rules: strings(&[
+                    "budget, iteration, or review-limit exhaustion emits an explicit defer record",
+                    "deferred work must preserve target_ref, posture, owner, and resume basis",
+                    "defer records may not silently widen cadence or mutation authority on resume",
+                ]),
+                replay_reuse_rules: strings(&[
+                    "post-mitigation validation should prefer the existing replay manifest when target and posture remain compatible",
+                    "replay reuse must preserve trace linkage and residual-risk visibility",
+                ]),
+            },
+            lifecycle: vec![
+                ContinuousVerificationStageContract {
+                    stage_id: "select_verification_surface".to_string(),
+                    role: "purple".to_string(),
+                    purpose: "choose an eligible bounded surface and record why it is in scope"
+                        .to_string(),
+                    required_inputs: strings(&["trigger source", "posture profile"]),
+                    required_outputs: strings(&["VerificationPlanArtifact"]),
+                    blocking_rules: strings(&[
+                        "missing target_ref blocks red execution",
+                        "missing authorization basis blocks self-attack",
+                    ]),
+                },
+                ContinuousVerificationStageContract {
+                    stage_id: "declare_cadence_and_posture".to_string(),
+                    role: "purple".to_string(),
+                    purpose: "make cadence, posture, goal, and limits visible before the loop proceeds"
+                        .to_string(),
+                    required_inputs: strings(&[
+                        "VerificationPlanArtifact",
+                        "bounded_limit",
+                        "security_posture_ref",
+                    ]),
+                    required_outputs: strings(&["posture and cadence declaration"]),
+                    blocking_rules: strings(&[
+                        "continuous mode without limit produces explicit defer",
+                        "posture mismatch blocks the requested stage",
+                    ]),
+                },
+                ContinuousVerificationStageContract {
+                    stage_id: "enumerate_attack_surface".to_string(),
+                    role: "red".to_string(),
+                    purpose: "list bounded attack surfaces without yet claiming exploitability"
+                        .to_string(),
+                    required_inputs: strings(&["VerificationPlanArtifact"]),
+                    required_outputs: strings(&["attack-surface inventory"]),
+                    blocking_rules: strings(&[
+                        "empty eligible surface set records no-op evidence instead of fabricating findings",
+                    ]),
+                },
+                ContinuousVerificationStageContract {
+                    stage_id: "generate_exploit_hypothesis".to_string(),
+                    role: "red".to_string(),
+                    purpose: "produce attributable exploit hypotheses with preconditions and uncertainty"
+                        .to_string(),
+                    required_inputs: strings(&["attack-surface inventory"]),
+                    required_outputs: strings(&["ExploitHypothesisArtifact"]),
+                    blocking_rules: strings(&[
+                        "hypothesis cannot omit expected unsafe outcome",
+                        "hypothesis cannot omit required preconditions",
+                    ]),
+                },
+                ContinuousVerificationStageContract {
+                    stage_id: "analyze_preconditions".to_string(),
+                    role: "red".to_string(),
+                    purpose: "decide whether the hypothesis is reachable under current target and posture"
+                        .to_string(),
+                    required_inputs: strings(&["ExploitHypothesisArtifact", "posture declaration"]),
+                    required_outputs: strings(&["precondition analysis"]),
+                    blocking_rules: strings(&[
+                        "missing preconditions create a blocked-action record",
+                        "unmet policy requirements block exploit attempt",
+                    ]),
+                },
+                ContinuousVerificationStageContract {
+                    stage_id: "attempt_bounded_exploit".to_string(),
+                    role: "red".to_string(),
+                    purpose: "attempt the declared path only when preconditions and posture permit it"
+                        .to_string(),
+                    required_inputs: strings(&["precondition analysis", "ExploitHypothesisArtifact"]),
+                    required_outputs: strings(&["ExploitEvidenceArtifact or blocked-action record"]),
+                    blocking_rules: strings(&[
+                        "audit posture blocks this stage",
+                        "mutation requires explicit mutation authority",
+                        "limit exhaustion produces explicit defer",
+                    ]),
+                },
+                ContinuousVerificationStageContract {
+                    stage_id: "capture_evidence".to_string(),
+                    role: "purple".to_string(),
+                    purpose: "capture observed result, trace anchors, and uncertainty as durable evidence"
+                        .to_string(),
+                    required_inputs: strings(&["exploit attempt result or blocked-action record"]),
+                    required_outputs: strings(&["ExploitEvidenceArtifact"]),
+                    blocking_rules: strings(&[
+                        "narrative-only result is rejected",
+                        "missing trace_refs require explicit limitation",
+                    ]),
+                },
+                ContinuousVerificationStageContract {
+                    stage_id: "classify_result".to_string(),
+                    role: "blue".to_string(),
+                    purpose: "classify severity, reproducibility, and mitigation complexity without overwriting evidence"
+                        .to_string(),
+                    required_inputs: strings(&["ExploitEvidenceArtifact"]),
+                    required_outputs: strings(&["ExploitClassificationArtifact"]),
+                    blocking_rules: strings(&[
+                        "ambiguous evidence may defer classification but cannot claim proof",
+                    ]),
+                },
+                ContinuousVerificationStageContract {
+                    stage_id: "package_replay".to_string(),
+                    role: "purple".to_string(),
+                    purpose: "define deterministic, bounded-variance, or best-effort replay requirements"
+                        .to_string(),
+                    required_inputs: strings(&["ExploitEvidenceArtifact", "ExploitClassificationArtifact"]),
+                    required_outputs: strings(&["AdversarialReplayManifest"]),
+                    blocking_rules: strings(&[
+                        "non-replayable evidence must disclose limitations",
+                        "deterministic replay requires stable inputs and expected outcome",
+                    ]),
+                },
+                ContinuousVerificationStageContract {
+                    stage_id: "link_mitigation".to_string(),
+                    role: "blue".to_string(),
+                    purpose: "link the defensive response or explicit defer to exploit evidence"
+                        .to_string(),
+                    required_inputs: strings(&["ExploitEvidenceArtifact", "AdversarialReplayManifest"]),
+                    required_outputs: strings(&["MitigationLinkageArtifact"]),
+                    blocking_rules: strings(&[
+                        "mitigation cannot be claimed without evidence linkage",
+                        "auto-application requires explicit posture permission",
+                    ]),
+                },
+                ContinuousVerificationStageContract {
+                    stage_id: "validate_replay".to_string(),
+                    role: "blue".to_string(),
+                    purpose: "validate mitigation or residual risk against replay expectations"
+                        .to_string(),
+                    required_inputs: strings(&["MitigationLinkageArtifact", "AdversarialReplayManifest"]),
+                    required_outputs: strings(&["ReplayValidationArtifact"]),
+                    blocking_rules: strings(&[
+                        "patch-without-proof records residual risk",
+                        "replay omission requires explicit defer reason",
+                    ]),
+                },
+                ContinuousVerificationStageContract {
+                    stage_id: "promote_learning".to_string(),
+                    role: "purple".to_string(),
+                    purpose: "turn verified exploit knowledge into durable future proof surfaces"
+                        .to_string(),
+                    required_inputs: strings(&["ReplayValidationArtifact", "MitigationLinkageArtifact"]),
+                    required_outputs: strings(&["RegressionPromotionArtifact"]),
+                    blocking_rules: strings(&[
+                        "promotion cannot omit evidence and mitigation provenance",
+                        "deferred promotion must include a defer reason",
+                    ]),
+                },
+                ContinuousVerificationStageContract {
+                    stage_id: "emit_verification_packet".to_string(),
+                    role: "purple".to_string(),
+                    purpose: "emit the ordered review packet for the full verification or self-attack loop"
+                        .to_string(),
+                    required_inputs: strings(&[
+                        "VerificationPlanArtifact",
+                        "ExploitEvidenceArtifact",
+                        "ReplayValidationArtifact",
+                        "RegressionPromotionArtifact",
+                    ]),
+                    required_outputs: strings(&["SelfAttackReviewPacket"]),
+                    blocking_rules: strings(&[
+                        "packet must preserve executed, blocked, and deferred stages",
+                    ]),
+                },
+            ],
+            self_attack_layers: vec![
+                SelfAttackLayerContract {
+                    layer_id: "target_selection".to_string(),
+                    purpose: "prevent indiscriminate self-probing by declaring authorized targets"
+                        .to_string(),
+                    required_artifacts: strings(&["VerificationPlanArtifact"]),
+                    policy_bounds: strings(&[
+                        "target allowlist required",
+                        "scope and authorization are review-visible",
+                    ]),
+                    evidence_expectations: strings(&["target identity survives into trace and artifacts"]),
+                },
+                SelfAttackLayerContract {
+                    layer_id: "adversarial_hypothesis".to_string(),
+                    purpose: "generate candidate failure paths with attribution and uncertainty"
+                        .to_string(),
+                    required_artifacts: strings(&["ExploitHypothesisArtifact"]),
+                    policy_bounds: strings(&[
+                        "hypotheses remain non-executing until posture permits action",
+                    ]),
+                    evidence_expectations: strings(&[
+                        "preconditions, unsafe outcome, confidence, and uncertainty are explicit",
+                    ]),
+                },
+                SelfAttackLayerContract {
+                    layer_id: "bounded_exploit".to_string(),
+                    purpose: "convert suspicion into evidence without exceeding declared posture"
+                        .to_string(),
+                    required_artifacts: strings(&["ExploitEvidenceArtifact"]),
+                    policy_bounds: strings(&[
+                        "exploit attempts require posture permission",
+                        "mutation authority is explicit and narrow",
+                    ]),
+                    evidence_expectations: strings(&[
+                        "success, failure, ambiguity, and policy blocking are distinct outcomes",
+                    ]),
+                },
+                SelfAttackLayerContract {
+                    layer_id: "defensive_response".to_string(),
+                    purpose: "choose mitigation, containment, or defer while preserving residual risk"
+                        .to_string(),
+                    required_artifacts: strings(&["MitigationLinkageArtifact"]),
+                    policy_bounds: strings(&[
+                        "auto-remediation is not implied by mitigation planning",
+                    ]),
+                    evidence_expectations: strings(&[
+                        "defensive claims cite exploit evidence and accepted tradeoffs",
+                    ]),
+                },
+                SelfAttackLayerContract {
+                    layer_id: "replay_validation".to_string(),
+                    purpose: "prove or limit defensive success using replay expectations".to_string(),
+                    required_artifacts: strings(&["AdversarialReplayManifest", "ReplayValidationArtifact"]),
+                    policy_bounds: strings(&[
+                        "non-replayable cases remain explicit rather than hidden",
+                    ]),
+                    evidence_expectations: strings(&[
+                        "validation result records success, failure, uncertainty, or defer",
+                    ]),
+                },
+                SelfAttackLayerContract {
+                    layer_id: "learning_promotion".to_string(),
+                    purpose: "make verified adversarial knowledge cumulative instead of episodic"
+                        .to_string(),
+                    required_artifacts: strings(&["RegressionPromotionArtifact"]),
+                    policy_bounds: strings(&[
+                        "promotion target must be named before claiming durable learning",
+                    ]),
+                    evidence_expectations: strings(&[
+                        "promotion links exploit, mitigation, replay outcome, and future proof surface",
+                    ]),
+                },
+            ],
+            artifact_package: ContinuousVerificationArtifactPackageContract {
+                required_artifacts: strings(&[
+                    "VerificationPlanArtifact",
+                    "ExploitHypothesisArtifact",
+                    "ExploitEvidenceArtifact",
+                    "ExploitClassificationArtifact",
+                    "AdversarialReplayManifest",
+                    "MitigationLinkageArtifact",
+                    "ReplayValidationArtifact",
+                    "RegressionPromotionArtifact",
+                    "SelfAttackReviewPacket",
+                ]),
+                replay_requirements: strings(&[
+                    "each proven exploit must produce replay requirements or a non-replayable limitation",
+                    "post-mitigation validation must cite the replay manifest when replay is available",
+                    "replay result preserves unsafe_state_reached before and after mitigation",
+                ]),
+                lifecycle_linkage_rules: strings(&[
+                    "VerificationPlanArtifact -> ExploitHypothesisArtifact via target_ref and security_posture_ref",
+                    "ExploitHypothesisArtifact -> ExploitEvidenceArtifact via hypothesis_ref",
+                    "ExploitEvidenceArtifact -> AdversarialReplayManifest via evidence_ref",
+                    "ExploitEvidenceArtifact -> MitigationLinkageArtifact via evidence_ref",
+                    "MitigationLinkageArtifact -> ReplayValidationArtifact via mitigation_ref and replay_id",
+                    "ReplayValidationArtifact -> RegressionPromotionArtifact via validation_result_ref",
+                    "AUTO-01 first bounded autonomous proof preserves exploit -> replay -> mitigation -> validation -> promotion linkage as one review-visible chain",
+                ]),
+                promotion_requirements: strings(&[
+                    "promotion target names a regression test, replay suite, hardening rule, provider warning, or posture rule",
+                    "promotion records why the knowledge should be permanent",
+                    "deferred promotion records owner, reason, and expected future surface",
+                ]),
+            },
+            policy: ContinuousVerificationPolicyContract {
+                posture_profiles: strings(&[
+                    "audit",
+                    "validation",
+                    "hardening",
+                    "internal_contest",
+                ]),
+                freedom_gate_rules: strings(&[
+                    "target scope must be declared before self-attack",
+                    "posture must be declared before exploit attempts",
+                    "allowed exploit classes are limited by the active posture",
+                    "human review requirement is explicit when posture or mutation authority demands it",
+                ]),
+                mutation_rules: strings(&[
+                    "default posture is no live mutation",
+                    "mutation requires explicit posture_permission and mutation_boundary",
+                    "auto-remediation may emit a mitigation artifact but does not apply changes unless separately authorized",
+                ]),
+                limit_rules: strings(&[
+                    "continuous loops require iteration, duration, or budget limits",
+                    "limit exhaustion records defer status instead of continuing silently",
+                    "scheduler cadence cannot widen target scope or exploit authority",
+                ]),
+                prohibited_shortcuts: strings(&[
+                    "unbounded continuous verification",
+                    "self-attack without target allowlist",
+                    "exploit attempt without posture declaration",
+                    "narrative-only exploit or mitigation claims",
+                    "patch-without-proof when replay is available",
+                    "promotion without evidence and mitigation provenance",
+                ]),
+            },
+            safety_controls: ContinuousVerificationSafetyControlContract {
+                quarantine_rules: strings(&[
+                    "verifier-side policy violations create a quarantine artifact instead of continuing execution",
+                    "quarantined verifier state preserves evidence and blocks further exploit attempts pending review",
+                    "trace-integrity loss or unauthorized mutation requests may escalate the loop into quarantine",
+                    "AUTO-01 may truthfully block quarantine as future executable runner work while still requiring fail-closed packet visibility",
+                ]),
+                degrade_rules: strings(&[
+                    "missing mutation authority degrades execution to audit-only mode",
+                    "stale target posture or authorization may degrade execution to hypothesis generation and replay review only",
+                    "degraded mode must remain review-visible in the emitted verification packet",
+                    "AUTO-01 records degrade behavior as a required operator-visible outcome rather than claiming new autonomous enforcement beyond declared posture rules",
+                ]),
+                stop_rules: strings(&[
+                    "duplicate activation, stop request, or shared-runtime lease conflict stops the loop before the next exploit attempt",
+                    "continuous verification respects ordinary runtime stop, lease, and status controls",
+                    "safety stop emits an explicit operator-visible reason and defer/resume basis",
+                    "AUTO-01 records stop control behavior through the ordinary runtime stop, lease, and status boundaries already declared by this contract",
+                ]),
+                verifier_fault_fail_closed_rules: strings(&[
+                    "queue corruption blocks execution and emits a fail-closed review artifact",
+                    "missing replay linkage blocks mitigation claims when replay is expected",
+                    "verifier misbehavior may quarantine, degrade, or stop but may not silently continue",
+                ]),
+            },
+            review_surface: ContinuousVerificationReviewSurfaceContract {
+                required_questions: strings(&[
+                    "what triggered the verification loop and which cadence governed it",
+                    "which target and posture bounded self-attack behavior",
+                    "which governed target registry decision admitted or blocked the work",
+                    "which lifecycle stages executed, blocked, or deferred",
+                    "what exploit evidence, replay expectation, mitigation link, and promotion decision resulted",
+                    "what residual risk remains explicit",
+                    "how AUTO-01 recorded stop, degrade, or truthfully blocked quarantine behavior",
+                    "which non-claims remained explicit in the first bounded autonomous proof packet",
+                ]),
+                required_visibility: strings(&[
+                    "cadence and trigger source",
+                    "target_ref, security_posture_ref, and authorization basis",
+                    "queue, dedupe, defer, quarantine, degrade, or stop state when invoked",
+                    "ordered lifecycle stage results",
+                    "artifact linkage from hypothesis through promotion",
+                    "defer, limitation, and residual-risk records",
+                    "AUTO-01 proof id, bounded limit, and operator review packet sections",
+                ]),
+                downstream_boundaries: strings(&[
+                    "flagship adversarial demo wiring remains WP-07",
+                    "operational skill composition remains WP-08",
+                    "provider extension and packaging convergence remain WP-10",
+                    "full continuous scheduler and exploit runner CLI remain future executable tooling beyond this contract",
+                ]),
+            },
+            proof_fixture_hooks: strings(&[
+                "adl::continuous_verification_self_attack::ContinuousVerificationSelfAttackContract::v1",
+                "adl identity continuous-verification --out .adl/state/continuous_verification_self_attack_v1.json",
+                "AUTO-01 first bounded autonomous proof packet: mode=continuous_bounded target_ref=adl.runtime.autonomy.continuous_verification posture=validation limit=single bounded proof loop operator_review_sections=trigger,target,ledger,linkage,controls,non_claims,residual_risks",
+            ]),
+            proof_hook_command:
+                "adl identity continuous-verification --out .adl/state/continuous_verification_self_attack_v1.json"
+                    .to_string(),
+            proof_hook_output_path:
+                ".adl/state/continuous_verification_self_attack_v1.json".to_string(),
+            scope_boundary:
+                "bounded continuous-verification and self-attack contract only; flagship demos, operational skill composition, and full scheduler or exploit runner execution remain future executable tooling beyond this contract."
+                    .to_string(),
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::ContinuousVerificationSelfAttackContract;
+    use serde_json::json;
+
+    #[test]
+    fn continuous_verification_contract_covers_cadence_lifecycle_and_artifacts() {
+        let contract = ContinuousVerificationSelfAttackContract::v1();
+
+        assert_eq!(
+            contract.schema_version,
+            "continuous_verification_self_attack.v1"
+        );
+        assert!(contract
+            .owned_runtime_surfaces
+            .iter()
+            .any(|surface| surface == "adl identity continuous-verification"));
+        assert_eq!(
+            contract
+                .cadence
+                .supported_modes
+                .iter()
+                .map(String::as_str)
+                .collect::<Vec<_>>(),
+            vec![
+                "on_demand",
+                "scheduled",
+                "change_triggered",
+                "continuous_bounded"
+            ]
+        );
+        assert!(contract
+            .runtime_integration
+            .shared_runtime_surfaces
+            .iter()
+            .any(|surface| surface == "Tokio shared runtime substrate"));
+        assert!(contract
+            .runtime_integration
+            .cadence_requirements
+            .iter()
+            .any(|rule| rule.contains("shared Tokio runtime")));
+        assert!(contract
+            .target_registry
+            .required_registry_fields
+            .iter()
+            .any(|field| field == "target_ref"));
+        assert!(contract
+            .queue_controls
+            .dedupe_rules
+            .iter()
+            .any(|rule| rule.contains("dedupes on target_ref")));
+        assert_eq!(
+            contract
+                .lifecycle
+                .first()
+                .map(|stage| stage.stage_id.as_str()),
+            Some("select_verification_surface")
+        );
+        assert_eq!(
+            contract
+                .lifecycle
+                .last()
+                .map(|stage| stage.stage_id.as_str()),
+            Some("emit_verification_packet")
+        );
+        assert!(contract
+            .lifecycle
+            .iter()
+            .any(|stage| stage.stage_id == "attempt_bounded_exploit"
+                && stage
+                    .blocking_rules
+                    .iter()
+                    .any(|rule| rule == "audit posture blocks this stage")));
+        assert!(contract
+            .artifact_package
+            .required_artifacts
+            .iter()
+            .any(|artifact| artifact == "ReplayValidationArtifact"));
+        assert!(contract
+            .artifact_package
+            .promotion_requirements
+            .iter()
+            .any(|rule| rule.contains("regression test")));
+        assert!(contract
+            .artifact_package
+            .lifecycle_linkage_rules
+            .iter()
+            .any(|rule| rule.contains("AUTO-01 first bounded autonomous proof preserves exploit -> replay -> mitigation -> validation -> promotion linkage")));
+        assert!(contract
+            .review_surface
+            .required_visibility
+            .iter()
+            .any(|section| section
+                == "AUTO-01 proof id, bounded limit, and operator review packet sections"));
+    }
+
+    #[test]
+    fn self_attack_contract_is_policy_bounded_and_reviewable() {
+        let contract = ContinuousVerificationSelfAttackContract::v1();
+
+        assert_eq!(
+            contract.upstream_contracts,
+            vec![
+                "adversarial_runtime_model.v1",
+                "red_blue_agent_architecture.v1",
+                "adversarial_execution_runner.v1",
+                "exploit_artifact_replay.v1",
+            ]
+        );
+        assert_eq!(
+            contract
+                .self_attack_layers
+                .iter()
+                .map(|layer| layer.layer_id.as_str())
+                .collect::<Vec<_>>(),
+            vec![
+                "target_selection",
+                "adversarial_hypothesis",
+                "bounded_exploit",
+                "defensive_response",
+                "replay_validation",
+                "learning_promotion",
+            ]
+        );
+        assert!(contract
+            .surface_selection
+            .prohibited_targets
+            .iter()
+            .any(|target| target == "arbitrary external systems"));
+        assert!(contract
+            .policy
+            .prohibited_shortcuts
+            .iter()
+            .any(|shortcut| shortcut == "self-attack without target allowlist"));
+        assert!(contract
+            .policy
+            .mutation_rules
+            .iter()
+            .any(|rule| rule.contains("does not apply changes unless separately authorized")));
+        assert!(contract
+            .safety_controls
+            .degrade_rules
+            .iter()
+            .any(|rule| rule.contains("audit-only mode")));
+        assert!(contract
+            .review_surface
+            .downstream_boundaries
+            .iter()
+            .any(|boundary| boundary.contains("WP-07")));
+        assert!(contract
+            .runtime_integration
+            .bounded_execution_guards
+            .iter()
+            .any(|guard| guard
+                .contains("does not claim always-on autonomous red/blue runtime execution")));
+        assert!(contract
+            .proof_fixture_hooks
+            .iter()
+            .any(|hook| hook.contains("operator_review_sections=trigger,target,ledger,linkage,controls,non_claims,residual_risks")));
+        assert!(contract
+            .scope_boundary
+            .contains("future executable tooling"));
+    }
+
+    #[test]
+    fn self_attack_contract_fail_closes_registry_queue_and_verifier_faults() {
+        let contract = ContinuousVerificationSelfAttackContract::v1();
+
+        assert!(contract
+            .target_registry
+            .fail_closed_rules
+            .iter()
+            .any(|rule| rule == "missing target registry entry blocks the verification loop"));
+        assert!(contract
+            .queue_controls
+            .defer_rules
+            .iter()
+            .any(|rule| rule.contains("budget, iteration, or review-limit exhaustion")));
+        assert!(contract
+            .safety_controls
+            .quarantine_rules
+            .iter()
+            .any(|rule| rule.contains("quarantine artifact")));
+        assert!(contract
+            .safety_controls
+            .stop_rules
+            .iter()
+            .any(|rule| rule.contains("duplicate activation")));
+        assert!(contract
+            .safety_controls
+            .stop_rules
+            .iter()
+            .any(|rule| rule.contains("AUTO-01 records stop control behavior")));
+        assert!(contract
+            .safety_controls
+            .degrade_rules
+            .iter()
+            .any(|rule| rule.contains("AUTO-01 records degrade behavior")));
+        assert!(contract
+            .safety_controls
+            .quarantine_rules
+            .iter()
+            .any(|rule| rule.contains("AUTO-01 may truthfully block quarantine")));
+        assert!(contract
+            .safety_controls
+            .verifier_fault_fail_closed_rules
+            .iter()
+            .any(|rule| rule.contains("queue corruption blocks execution")));
+    }
+
+    #[test]
+    fn v1_contract_remains_backward_readable_when_new_controls_are_absent() {
+        let legacy_v1 = json!({
+            "schema_version": "continuous_verification_self_attack.v1",
+            "owned_runtime_surfaces": ["adl identity continuous-verification"],
+            "runtime_condition": "bounded runtime loop",
+            "upstream_contracts": ["adversarial_runtime_model.v1"],
+            "cadence": {
+                "supported_modes": ["on_demand"],
+                "trigger_requirements": ["declare trigger"],
+                "scheduling_guarantees": ["preserve lifecycle order"],
+                "noise_controls": ["dedupe findings"]
+            },
+            "runtime_integration": {
+                "shared_runtime_surfaces": ["Tokio shared runtime substrate"],
+                "cadence_requirements": ["reuse stop and lease boundaries"],
+                "bounded_execution_guards": ["no extra authority"]
+            },
+            "surface_selection": {
+                "eligible_surface_types": ["policy boundary"],
+                "selection_requirements": ["target_ref is required before adversarial hypothesis generation"],
+                "posture_constraints": ["audit posture may enumerate and hypothesize but blocks exploit attempts"],
+                "prohibited_targets": ["arbitrary external systems"]
+            },
+            "lifecycle": [],
+            "self_attack_layers": [],
+            "artifact_package": {
+                "required_artifacts": ["VerificationPlanArtifact"],
+                "lifecycle_linkage_rules": ["VerificationPlanArtifact -> ExploitHypothesisArtifact via target_ref and security_posture_ref"],
+                "replay_requirements": ["each proven exploit must produce replay requirements or a non-replayable limitation"],
+                "promotion_requirements": ["promotion target names a regression test, replay suite, hardening rule, provider warning, or posture rule"]
+            },
+            "policy": {
+                "posture_profiles": ["audit"],
+                "freedom_gate_rules": ["target scope must be declared before self-attack"],
+                "mutation_rules": ["default posture is no live mutation"],
+                "limit_rules": ["continuous loops require iteration, duration, or budget limits"],
+                "prohibited_shortcuts": ["unbounded continuous verification"]
+            },
+            "review_surface": {
+                "required_questions": ["what triggered the verification loop and which cadence governed it"],
+                "required_visibility": ["cadence and trigger source"],
+                "downstream_boundaries": ["full scheduler and exploit runner CLI remain future executable tooling beyond this contract"]
+            },
+            "proof_fixture_hooks": ["adl identity continuous-verification --out .adl/state/continuous_verification_self_attack_v1.json"],
+            "proof_hook_command": "adl identity continuous-verification --out .adl/state/continuous_verification_self_attack_v1.json",
+            "proof_hook_output_path": ".adl/state/continuous_verification_self_attack_v1.json",
+            "scope_boundary": "bounded contract only"
+        });
+
+        let parsed: ContinuousVerificationSelfAttackContract =
+            serde_json::from_value(legacy_v1).expect("legacy v1 stays readable");
+
+        assert!(parsed.target_registry.required_registry_fields.is_empty());
+        assert!(parsed.queue_controls.queue_requirements.is_empty());
+        assert!(parsed.safety_controls.quarantine_rules.is_empty());
+    }
+}

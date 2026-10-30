@@ -1,0 +1,2210 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+POLICY="$ROOT_DIR/adl/tools/ci_path_policy.sh"
+
+assert_has() {
+  local haystack="$1"
+  local needle="$2"
+  if ! grep -Fqx -- "$needle" <<<"$haystack"; then
+    echo "expected path-policy output to contain: $needle" >&2
+    echo "actual output:" >&2
+    echo "$haystack" >&2
+    exit 1
+  fi
+}
+
+
+assert_file_has() {
+  local file="$1"
+  local needle="$2"
+  if ! grep -Fq -- "$needle" "$file"; then
+    echo "expected $file to contain: $needle" >&2
+    exit 1
+  fi
+}
+
+assert_file_not_has() {
+  local file="$1"
+  local needle="$2"
+  if grep -Fq -- "$needle" "$file"; then
+    echo "expected $file not to contain: $needle" >&2
+    exit 1
+  fi
+}
+
+assert_file_order() {
+  local file="$1"
+  local first="$2"
+  local second="$3"
+  local first_line
+  local second_line
+  first_line="$(grep -Fn -- "$first" "$file" | head -n 1 | cut -d: -f1 || true)"
+  second_line="$(grep -Fn -- "$second" "$file" | head -n 1 | cut -d: -f1 || true)"
+  if [ -z "$first_line" ] || [ -z "$second_line" ] || [ "$first_line" -ge "$second_line" ]; then
+    echo "expected $file to contain '$first' before '$second'" >&2
+    exit 1
+  fi
+}
+
+assert_current_coverage_workflow_contract() {
+  local workflow="$ROOT_DIR/.github/workflows/ci.yaml"
+  assert_file_has "$workflow" 'Determine PR fast coverage filters'
+  assert_file_has "$workflow" "adl_coverage_workspace_fast_hosted:"
+  assert_file_has "$workflow" "if: needs.adl_path_policy.outputs.runtime_coverage_required == 'true'"
+  assert_file_has "$workflow" "if: needs.adl_path_policy.outputs.workspace_fast_coverage_required == 'true'"
+  assert_file_has "$workflow" "if: needs.adl_path_policy.outputs.workspace_full_coverage_required == 'true'"
+  assert_file_has "$workflow" "if: github.event_name == 'pull_request' && !contains(github.event.pull_request.head.ref, 'csdlc-v2')"
+  assert_file_has "$workflow" '--print-risk-nextest-expression > adl/coverage-impact-filter-expression.txt'
+  assert_file_has "$workflow" 'filter_expression<<ADL_COVERAGE_EXPR'
+  assert_file_has "$workflow" 'PR fast coverage summary (json)'
+  # runtime-bounded-pr-fast-coverage-policy-change
+  assert_file_has "$workflow" "if: github.event_name == 'pull_request' && steps.coverage-impact.outputs.needs_fast_summary == 'true'"
+  assert_file_has "$workflow" 'bash adl/tools/run_pr_fast_coverage_lane.sh --filter-expression "${{ steps.coverage-impact.outputs.filter_expression }}"'
+  assert_file_has "$workflow" 'PR coverage-impact preflight'
+  assert_file_has "$workflow" 'args+=(--summary coverage-artifacts/workspace/adl/target/coverage-impact-summary.json)'
+  assert_file_has "$workflow" 'args+=(--require-summary-for-risk)'
+  assert_file_has "$workflow" "if: needs.adl_path_policy.outputs.full_coverage_required == 'true'"
+  assert_file_has "$workflow" 'run: bash adl/tools/setup_required_coverage_toolchain.sh install-lld'
+  assert_file_has "$workflow" 'bash adl/tools/setup_required_coverage_toolchain.sh configure "$GITHUB_ENV"'
+  assert_file_has "$workflow" 'run: bash adl/tools/setup_required_coverage_toolchain.sh verify'
+  assert_file_order "$workflow" 'Install cargo-llvm-cov for CI contract checks' 'path-policy PR-fast coverage contract'
+  assert_file_order "$workflow" 'Install cargo-nextest for CI contract checks' 'path-policy PR-fast coverage contract'
+  assert_file_has "$workflow" 'run: bash adl/tools/run_ci_step_with_log.sh --name "coverage-runtime-summary-json" --log-root ci-step-logs -- bash adl/tools/run_authoritative_coverage_lane.sh --profile adl-runtime --authority "${{ needs.adl_path_policy.outputs.coverage_authority }}" --event-name "${{ github.event_name }}"'
+  assert_file_has "$workflow" 'run: bash adl/tools/run_ci_step_with_log.sh --name "coverage-workspace-summary-json" --log-root ci-step-logs -- bash adl/tools/run_authoritative_coverage_lane.sh --profile workspace --authority "${{ needs.adl_path_policy.outputs.coverage_authority }}" --event-name "${{ github.event_name }}"'
+  assert_file_has "$workflow" 'Install workspace coverage summary'
+  assert_file_not_has "$workflow" 'coverage-workspace-aggregate-summary-json'
+  assert_file_has "$workflow" 'Upload runtime coverage evidence'
+  assert_file_has "$workflow" 'Upload workspace coverage evidence'
+  assert_file_has "$workflow" 'name: adl-coverage-runtime-${{ github.run_id }}-${{ github.run_attempt }}'
+  assert_file_has "$workflow" 'name: adl-coverage-workspace-${{ github.run_id }}-${{ github.run_attempt }}'
+  assert_file_not_has "$workflow" 'name: adl-coverage-workspace-profraw-${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.shard }}'
+  assert_file_not_has "$workflow" 'pattern: adl-coverage-workspace-profraw-${{ github.run_id }}-${{ github.run_attempt }}-*'
+  assert_file_has "$workflow" 'policy coverage execution state'
+  assert_file_has "$workflow" 'run: bash adl/tools/setup_required_coverage_toolchain.sh stats'
+  assert_file_has "$workflow" "steps.coverage-toolchain.outputs.ready == 'true'"
+  assert_file_has "$workflow" 'actual adl-coverage execution state'
+  # The tooling-contract job always executes nested llvm-cov/nextest contracts.
+  assert_file_not_has "$workflow" "needs.adl_path_policy.outputs.ci_contract_toolchain_required == 'true'"
+  assert_file_has "$workflow" "needs.adl_path_policy.outputs.ci_path_policy_contracts_required == 'true'"
+  assert_file_has "$workflow" "needs.adl_path_policy.outputs.skill_author_contracts_required == 'true'"
+  assert_file_has "$workflow" "Aggregate split adl-ci lanes"
+  assert_file_has "$workflow" 'Stable required check \`adl-ci\` is an aggregator over parallel lanes.'
+  assert_file_has "$workflow" 'name: adl-runtime-v3-fast'
+  assert_file_has "$workflow" "if: needs.adl_path_policy.outputs.runtime_v3_fast_required == 'true'"
+  assert_file_has "$workflow" 'cargo test --manifest-path adl-runtime-kernel/Cargo.toml'
+  assert_file_has "$workflow" 'adl_runtime_v3_fast:${{ needs.adl_runtime_v3_fast.result }}'
+  assert_file_has "$workflow" 'name: csdlc-v2-standalone'
+  assert_file_has "$workflow" "if: needs.adl_path_policy.outputs.csdlc_v2_standalone_required == 'true'"
+  assert_file_has "$workflow" 'csdlc_v2_standalone:${{ needs.csdlc_v2_standalone.result }}'
+  assert_file_has "$workflow" 'selected C-SDLC v2 standalone lane is $CSDLC_V2_STANDALONE_RESULT; expected success'
+  assert_file_has "$workflow" 'unselected C-SDLC v2 standalone lane is $CSDLC_V2_STANDALONE_RESULT; expected skipped'
+  assert_file_has "$workflow" 'csdlc_v2_standalone_required must be exactly true or false'
+  assert_file_has "$workflow" 'name: csdlc-v3-standalone'
+  assert_file_has "$workflow" "if: needs.adl_path_policy.outputs.csdlc_v3_standalone_required == 'true'"
+  assert_file_has "$workflow" 'csdlc_v3_standalone:${{ needs.csdlc_v3_standalone.result }}'
+  assert_file_has "$workflow" 'cargo test --locked --manifest-path csdlc-v3/Cargo.toml'
+  assert_file_has "$workflow" 'cargo clippy --locked --manifest-path csdlc-v3/Cargo.toml --all-targets -- -D warnings'
+  assert_file_has "$workflow" 'selected C-SDLC v3 standalone lane is $CSDLC_V3_STANDALONE_RESULT; expected success'
+  assert_file_has "$workflow" 'unselected C-SDLC v3 standalone lane is $CSDLC_V3_STANDALONE_RESULT; expected skipped'
+  assert_file_has "$workflow" 'csdlc_v3_standalone_required must be exactly true or false'
+  assert_file_has "$workflow" 'name: adl-v2-standalone'
+  assert_file_has "$workflow" "if: needs.adl_path_policy.outputs.adl_v2_standalone_required == 'true'"
+  assert_file_has "$workflow" 'adl_v2_standalone:${{ needs.adl_v2_standalone.result }}'
+  assert_file_has "$workflow" 'selected ADL v2 standalone lane is $ADL_V2_STANDALONE_RESULT; expected success'
+  assert_file_has "$workflow" 'unselected ADL v2 standalone lane is $ADL_V2_STANDALONE_RESULT; expected skipped'
+  assert_file_has "$workflow" 'adl_v2_standalone_required must be exactly true or false'
+  assert_file_has "$workflow" 'Full workspace coverage gate deferred for PR'
+  assert_file_has "$workflow" 'adl/target/coverage-impact-summary.json'
+  assert_file_not_has "$workflow" '--authority "adl_coverage_always_on"'
+}
+
+tmp_dir="${ADL_CI_PATH_POLICY_TEST_TMP_DIR:-$ROOT_DIR/.csdlc/evidence/ci-path-policy-test/tmp}"
+case "$tmp_dir" in
+  "$ROOT_DIR"/.csdlc/evidence/ci-path-policy-test/*) ;;
+  *)
+    echo "refusing non-repo-contained ci path policy scratch directory: $tmp_dir" >&2
+    exit 2
+    ;;
+esac
+rm -rf "$tmp_dir"
+mkdir -p "$tmp_dir"
+mkdir -p "$tmp_dir/env-tmp" "$tmp_dir/rust-validation"
+export TMPDIR="$tmp_dir/env-tmp"
+export ADL_TEST_TMP_ROOT="$tmp_dir/rust-validation"
+trap 'rm -rf "$tmp_dir"' EXIT
+
+python3 "$ROOT_DIR/adl/tools/test_warm_rust_dependency_cache.py"
+bash "$ROOT_DIR/adl/tools/test_run_authoritative_coverage_lane.sh"
+bash "$ROOT_DIR/adl/tools/test_run_ci_step_with_log.sh"
+bash "$ROOT_DIR/adl/tools/test_setup_required_coverage_toolchain.sh"
+assert_current_coverage_workflow_contract
+(cd "$ROOT_DIR" && bash adl/tools/test_select_validation_lanes.sh && bash adl/tools/test_validation_manager.sh)
+
+(
+  cd "$tmp_dir"
+  git init -q
+  git config user.email "ci-path-policy@example.invalid"
+  git config user.name "CI Path Policy Test"
+
+  mkdir -p adl/src docs
+  printf 'pub fn baseline() -> bool { true }\n' > adl/src/lib.rs
+  printf '# adl baseline\n' > adl/README.md
+  mkdir -p .github/workflows
+  cat > adl/Cargo.toml <<'EOF'
+[package]
+name = "adl"
+version = "0.90.3"
+edition = "2021"
+EOF
+  cat > adl/Cargo.lock <<'EOF'
+version = 4
+
+[[package]]
+name = "adl"
+version = "0.90.3"
+EOF
+  printf '# baseline\n' > docs/readme.md
+  cat > .github/workflows/ci.yaml <<'EOF'
+jobs:
+  adl-coverage:
+    steps:
+      - name: Determine PR fast coverage filters
+        id: coverage-impact
+        if: github.event_name == 'pull_request' && steps.path-policy.outputs.coverage_required == 'true' && steps.path-policy.outputs.full_coverage_required != 'true'
+        run: |
+          set -euo pipefail
+          bash adl/tools/check_coverage_impact.sh \
+            --base "${{ github.event.pull_request.base.sha }}" \
+            --head "${{ github.event.pull_request.head.sha }}" \
+            --print-risk-nextest-expression > adl/coverage-impact-filter-expression.txt
+          if test -s adl/coverage-impact-filter-expression.txt; then
+            echo "needs_fast_summary=true" >> "$GITHUB_OUTPUT"
+            {
+              echo "filter_expression<<ADL_COVERAGE_EXPR"
+              cat adl/coverage-impact-filter-expression.txt
+              echo "ADL_COVERAGE_EXPR"
+            } >> "$GITHUB_OUTPUT"
+          else
+            echo "needs_fast_summary=false" >> "$GITHUB_OUTPUT"
+            echo "filter_expression=" >> "$GITHUB_OUTPUT"
+          fi
+        working-directory: .
+      - name: PR fast coverage summary (json)
+        if: github.event_name == 'pull_request' && steps.path-policy.outputs.coverage_required == 'true' && steps.path-policy.outputs.full_coverage_required != 'true' && steps.coverage-impact.outputs.needs_fast_summary == 'true'
+        run: |
+          rm -rf target/debug target/llvm-cov-target
+          COVERAGE_BUILD_ROOT="${RUNNER_TEMP:-/tmp}/adl-pr-fast-coverage"
+          mkdir -p "$COVERAGE_BUILD_ROOT/target" "$COVERAGE_BUILD_ROOT/llvm-cov-target"
+          export CARGO_TARGET_DIR="$COVERAGE_BUILD_ROOT/target"
+          export CARGO_LLVM_COV_TARGET_DIR="$COVERAGE_BUILD_ROOT/llvm-cov-target"
+          bash adl/tools/run_pr_fast_coverage_lane.sh --filter-expression "${{ steps.coverage-impact.outputs.filter_expression }}"
+          cargo llvm-cov report --json --summary-only --output-path coverage-summary.json
+        working-directory: .
+      - name: Coverage run and summary (json)
+        run: bash adl/tools/run_authoritative_coverage_lane.sh
+      - name: Coverage summary (text)
+        run: cargo llvm-cov report --summary-only | tee coverage-summary.txt
+      - name: Upload coverage artifact
+        with:
+          path: |
+            adl/coverage-summary.txt
+      - name: Upload coverage to Codecov
+        with:
+          files: adl/lcov.info
+          flags: adl
+EOF
+  cat > .github/workflows/nightly-coverage-ratchet.yaml <<'EOF'
+name: nightly-coverage-ratchet
+
+on:
+  workflow_dispatch:
+EOF
+  mkdir -p 'docs/日本語 folder'
+  printf 'portable UTF-8 path\n' > 'docs/日本語 folder/readme file.md'
+  git add .
+  git commit -q -m baseline
+  base_sha="$(git rev-parse HEAD)"
+
+  printf 'invalid on Windows\n' > 'docs/windows:illegal.md'
+  git add 'docs/windows:illegal.md'
+  git commit -q -m windows-illegal-path
+  if "$POLICY" --event-name pull_request --base "$base_sha" --head HEAD --ref "refs/pull/1/merge" >"$tmp_dir/windows-illegal.out" 2>"$tmp_dir/windows-illegal.err"; then
+    echo "expected path policy to reject a Windows-illegal tracked path" >&2
+    exit 1
+  fi
+  assert_file_has "$tmp_dir/windows-illegal.err" 'docs/windows:illegal.md'
+  git reset -q --hard "$base_sha"
+
+  git checkout -q -b windows-illegal-path-deletion-base "$base_sha"
+  printf 'invalid path to remove\n' > 'docs/windows:illegal.md'
+  git add 'docs/windows:illegal.md'
+  git commit -q -m windows-illegal-path-base
+  windows_illegal_base="$(git rev-parse HEAD)"
+  rm 'docs/windows:illegal.md'
+  git add 'docs/windows:illegal.md'
+  git commit -q -m remove-windows-illegal-path
+  "$POLICY" --event-name pull_request --base "$windows_illegal_base" --head HEAD --ref "refs/pull/1/merge" >"$tmp_dir/windows-illegal-delete.out"
+  assert_has "$(cat "$tmp_dir/windows-illegal-delete.out")" "fail_closed=false"
+  git reset -q --hard "$base_sha"
+
+  newline_illegal_path=$'docs/portable\nwindows:illegal.md'
+  printf 'invalid suffix after newline\n' > "$newline_illegal_path"
+  git add "$newline_illegal_path"
+  git commit -q -m windows-illegal-path-after-newline
+  if "$POLICY" --event-name pull_request --base "$base_sha" --head HEAD --ref "refs/pull/1/merge" >"$tmp_dir/windows-newline-illegal.out" 2>"$tmp_dir/windows-newline-illegal.err"; then
+    echo "expected path policy to reject a Windows-illegal component after an embedded newline" >&2
+    exit 1
+  fi
+  assert_file_has "$tmp_dir/windows-newline-illegal.err" 'windows:illegal.md'
+  git reset -q --hard "$base_sha"
+
+  printf '\nmore docs\n' >> docs/readme.md
+  git add docs/readme.md
+  git commit -q -m docs-change
+  docs_head="$(git rev-parse HEAD)"
+
+  docs_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$docs_head" --ref "refs/pull/1/merge")"
+  assert_has "$docs_output" "change_class=current_docs_review"
+  assert_has "$docs_output" "pvf_lane=diff_hygiene"
+  assert_has "$docs_output" "release_gate_role=docs_guardrail"
+  assert_has "$docs_output" "rust_required=false"
+  assert_has "$docs_output" "coverage_required=false"
+  assert_has "$docs_output" "full_coverage_required=false"
+  assert_has "$docs_output" "demo_smoke_required=false"
+  assert_has "$docs_output" "v0913_proof_required=false"
+  assert_has "$docs_output" "release_version_only=false"
+  assert_has "$docs_output" "ci_contracts_required=false"
+  assert_has "$docs_output" "validation_profile_contract_lanes_selected=false"
+  assert_has "$docs_output" "coverage_lane=skip"
+  assert_has "$docs_output" "coverage_authority=not_required"
+  assert_has "$docs_output" "coverage_execution_state=skipped_by_path_policy"
+  assert_has "$docs_output" "proof_validation_scope=not_required"
+  assert_has "$docs_output" "validation_profile_selected=docs_diff_check_profile"
+  assert_has "$docs_output" "validation_profile_status=ready_to_run"
+  assert_has "$docs_output" "validation_profile_escalation_required=false"
+  assert_has "$docs_output" "validation_profile_run_lanes=docs_diff_check"
+  assert_has "$docs_output" "validation_profile_primary_reason=docs_only_surface_requires_diff_hygiene"
+
+  docs_profile_report="$tmp_dir/docs-profile-report.json"
+  docs_report_output="$(ADL_VALIDATION_PROFILE_REPORT="$docs_profile_report" "$POLICY" --event-name pull_request --base "$base_sha" --head "$docs_head" --ref "refs/pull/1/merge")"
+  assert_has "$docs_report_output" "validation_profile_report=$docs_profile_report"
+  python3 - <<'PY' "$docs_profile_report"
+import json
+import sys
+
+profile = json.load(open(sys.argv[1]))
+assert profile["schema_version"] == "adl.validation_profile.v1"
+assert profile["selected_profile"] == "docs_diff_check_profile"
+assert profile["status"] == "ready_to_run"
+assert [item["lane_id"] for item in profile["run"]] == ["docs_diff_check"]
+PY
+
+  git checkout -q -b aws-runtime-platform-static "$base_sha"
+  mkdir -p infra/aws/modules/csm-runtime-alb infra/aws/runtime/alb-origin infra/aws/runtime/private-node docs/operations/cloud/aws/runtime-platform docs/milestones/v0.92.1/evidence/cloud/aws-f
+  printf 'resource "aws_vpc_security_group_ingress_rule" "runtime_https" {\n  cidr_ipv4 = "10.0.0.0/8"\n}\n' > infra/aws/modules/csm-runtime-alb/main.tf
+  printf 'data "aws_caller_identity" "current" {}\nlocals { valid = terraform.workspace == var.expected_terraform_workspace && data.aws_caller_identity.current.account_id == var.expected_aws_account_id }\n' > infra/aws/runtime/alb-origin/main.tf
+  printf 'data "aws_caller_identity" "current" {}\nlocals { valid = terraform.workspace == var.expected_terraform_workspace && data.aws_caller_identity.current.account_id == var.expected_aws_account_id }\n' > infra/aws/runtime/private-node/main.tf
+  printf 'aws runtime docs\n' > docs/operations/cloud/aws/runtime-platform/README.md
+  printf 'cloud_mutation=false\n' > docs/milestones/v0.92.1/evidence/cloud/aws-f/aws-f-runtime-platform-proof.md
+  git add infra/aws/modules/csm-runtime-alb/main.tf infra/aws/runtime/alb-origin/main.tf infra/aws/runtime/private-node/main.tf docs/operations/cloud/aws/runtime-platform/README.md docs/milestones/v0.92.1/evidence/cloud/aws-f/aws-f-runtime-platform-proof.md
+  git commit -q -m aws-runtime-platform-static
+  aws_runtime_platform_head="$(git rev-parse HEAD)"
+  aws_runtime_platform_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$aws_runtime_platform_head" --ref "refs/pull/1/merge")"
+  assert_has "$aws_runtime_platform_output" "rust_required=false"
+  assert_has "$aws_runtime_platform_output" "coverage_required=false"
+  assert_has "$aws_runtime_platform_output" "full_coverage_required=false"
+  assert_has "$aws_runtime_platform_output" "runtime_coverage_required=false"
+  assert_has "$aws_runtime_platform_output" "workspace_full_coverage_required=false"
+  assert_has "$aws_runtime_platform_output" "validation_profile_status=ready_to_run"
+  assert_has "$aws_runtime_platform_output" "validation_profile_escalation_required=false"
+  assert_has "$aws_runtime_platform_output" "validation_profile_run_lanes=aws_runtime_platform_static"
+  assert_has "$aws_runtime_platform_output" "validation_profile_primary_reason=aws_runtime_platform_surface_requires_static_terraform_and_public_edge_boundary_contracts"
+
+  git checkout -q -b podcast-static-demo "$base_sha"
+  mkdir -p demos/podcast/studio demos/_preview/podcast
+  printf '<!doctype html><title>Podcast</title>\n' > demos/podcast/index.html
+  printf '<rss version="2.0"></rss>\n' > demos/podcast/feed.xml
+  printf '<!doctype html><title>Podcast Studio</title>\n' > demos/podcast/studio/podcast-studio.html
+  printf '<!doctype html><title>Podcast Preview</title>\n' > demos/_preview/podcast/index.html
+  git add demos/podcast/index.html demos/podcast/feed.xml demos/podcast/studio/podcast-studio.html demos/_preview/podcast/index.html
+  git commit -q -m podcast-static-demo
+  podcast_static_demo_head="$(git rev-parse HEAD)"
+
+  podcast_static_demo_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$podcast_static_demo_head" --ref "refs/pull/1/merge")"
+  assert_has "$podcast_static_demo_output" "rust_required=false"
+  assert_has "$podcast_static_demo_output" "coverage_required=false"
+  assert_has "$podcast_static_demo_output" "full_coverage_required=false"
+  assert_has "$podcast_static_demo_output" "demo_smoke_required=false"
+  assert_has "$podcast_static_demo_output" "ci_contracts_required=true"
+  assert_has "$podcast_static_demo_output" "coverage_lane=skip"
+  assert_has "$podcast_static_demo_output" "coverage_authority=not_required"
+  assert_has "$podcast_static_demo_output" "coverage_execution_state=skipped_by_path_policy"
+  assert_has "$podcast_static_demo_output" "reason=podcast_launch_surface_requires_audio_rss_and_studio_packet_validation"
+  assert_has "$podcast_static_demo_output" "validation_profile_selected=selected_2_lane_profile"
+  assert_has "$podcast_static_demo_output" "validation_profile_status=ready_to_run"
+  assert_has "$podcast_static_demo_output" "validation_profile_escalation_required=false"
+  assert_has "$podcast_static_demo_output" "validation_profile_run_lanes=podcast_launch_packet,podcast_static_demo_surface"
+  assert_has "$podcast_static_demo_output" "validation_profile_primary_reason=podcast_launch_surface_requires_audio_rss_and_studio_packet_validation"
+
+  git checkout -q -b csdlc-metadata-only "$base_sha"
+  mkdir -p .csdlc/issues/1
+  printf '{"phase":"bound"}\n' > .csdlc/issues/1/index.json
+  git add .csdlc/issues/1/index.json
+  git commit -q -m csdlc-metadata-only
+  csdlc_metadata_head="$(git rev-parse HEAD)"
+  csdlc_metadata_output="$($POLICY --event-name pull_request --base "$base_sha" --head "$csdlc_metadata_head" --ref "refs/pull/1/merge")"
+  assert_has "$csdlc_metadata_output" "change_class=lifecycle_metadata"
+  assert_has "$csdlc_metadata_output" "csdlc_v2_standalone_required=false"
+  assert_has "$csdlc_metadata_output" "csdlc_v3_standalone_required=false"
+  assert_has "$csdlc_metadata_output" "rust_required=false"
+  assert_has "$csdlc_metadata_output" "coverage_required=false"
+
+  git checkout -q -b csdlc-v2-standalone "$base_sha"
+  mkdir -p csdlc-v2/tests
+  printf '#[test]\nfn gate7_contract() {}\n' > csdlc-v2/tests/gate7_lifecycle.rs
+  git add csdlc-v2/tests/gate7_lifecycle.rs
+  git commit -q -m csdlc-v2-standalone
+  csdlc_v2_head="$(git rev-parse HEAD)"
+  csdlc_v2_output="$($POLICY --event-name pull_request --base "$base_sha" --head "$csdlc_v2_head" --ref "refs/pull/1/merge")"
+  assert_has "$csdlc_v2_output" "csdlc_v2_standalone_required=true"
+  assert_has "$csdlc_v2_output" "csdlc_v3_standalone_required=false"
+  assert_has "$csdlc_v2_output" "rust_required=false"
+  assert_has "$csdlc_v2_output" "coverage_required=false"
+  assert_has "$csdlc_v2_output" "full_coverage_required=false"
+  assert_has "$csdlc_v2_output" "reason=standalone_csdlc_v2_surface_requires_only_its_independent_focused_suite"
+
+  git checkout -q -b csdlc-v3-standalone "$base_sha"
+  mkdir -p csdlc-v3/src
+  printf 'pub fn v3() {}\n' > csdlc-v3/src/lib.rs
+  git add csdlc-v3/src/lib.rs
+  git commit -q -m csdlc-v3-standalone
+  csdlc_v3_head="$(git rev-parse HEAD)"
+  csdlc_v3_output="$($POLICY --event-name pull_request --base "$base_sha" --head "$csdlc_v3_head" --ref "refs/pull/1/merge")"
+  assert_has "$csdlc_v3_output" "csdlc_v3_standalone_required=true"
+  assert_has "$csdlc_v3_output" "csdlc_v2_standalone_required=false"
+  assert_has "$csdlc_v3_output" "rust_required=false"
+  assert_has "$csdlc_v3_output" "coverage_required=false"
+  assert_has "$csdlc_v3_output" "full_coverage_required=false"
+  assert_has "$csdlc_v3_output" "reason=standalone_csdlc_v3_surface_requires_only_its_independent_focused_suite"
+
+  git checkout -q -b adl-v2-standalone "$base_sha"
+  mkdir -p adl-v2/crates/adl-records/src
+  printf 'pub fn signed_record() {}\n' > adl-v2/crates/adl-records/src/lib.rs
+  git add adl-v2/crates/adl-records/src/lib.rs
+  git commit -q -m adl-v2-standalone
+  adl_v2_head="$(git rev-parse HEAD)"
+  adl_v2_output="$($POLICY --event-name pull_request --base "$base_sha" --head "$adl_v2_head" --ref "refs/pull/1/merge")"
+  assert_has "$adl_v2_output" "validation_profile_run_lanes=adl_v2_standalone"
+  assert_has "$adl_v2_output" "adl_v2_standalone_required=true"
+  assert_has "$adl_v2_output" "csdlc_v2_standalone_required=false"
+  assert_has "$adl_v2_output" "csdlc_v3_standalone_required=false"
+  assert_has "$adl_v2_output" "rust_required=false"
+  assert_has "$adl_v2_output" "coverage_required=false"
+  assert_has "$adl_v2_output" "full_coverage_required=false"
+  assert_has "$adl_v2_output" "demo_smoke_required=false"
+  assert_has "$adl_v2_output" "reason=standalone_adl_v2_surface_requires_only_its_independent_focused_suite"
+
+  git checkout -q -b csdlc-v2-operator-surface "$base_sha"
+  mkdir -p csdlc-v2/operator/skills/example
+  printf 'contract\n' > csdlc-v2/operator/skills/example/SKILL.md
+  git add csdlc-v2/operator/skills/example/SKILL.md
+  git commit -q -m csdlc-v2-operator-surface
+  csdlc_v2_operator_head="$(git rev-parse HEAD)"
+  csdlc_v2_operator_output="$($POLICY --event-name pull_request --base "$base_sha" --head "$csdlc_v2_operator_head" --ref "refs/pull/1/merge")"
+  assert_has "$csdlc_v2_operator_output" "validation_profile_run_lanes=csdlc_v2_standalone"
+  assert_has "$csdlc_v2_operator_output" "csdlc_v2_standalone_required=true"
+
+  git checkout -q -b runtime-v3-with-lifecycle "$base_sha"
+  mkdir -p adl-runtime-kernel/src .csdlc/issues/5589
+  printf 'pub fn governed_operations() {}\n' > adl-runtime-kernel/src/governed_operations.rs
+  printf '{"phase":"published"}\n' > .csdlc/issues/5589/index.json
+  git add adl-runtime-kernel/src/governed_operations.rs .csdlc/issues/5589/index.json
+  git commit -q -m runtime-v3-with-lifecycle
+  runtime_v3_lifecycle_head="$(git rev-parse HEAD)"
+  runtime_v3_lifecycle_output="$($POLICY --event-name pull_request --base "$base_sha" --head "$runtime_v3_lifecycle_head" --ref "refs/pull/1/merge")"
+  assert_has "$runtime_v3_lifecycle_output" "runtime_v3_fast_required=true"
+  assert_has "$runtime_v3_lifecycle_output" "csdlc_v2_standalone_required=false"
+
+  git checkout -q -b runtime-v3-with-csdlc-v2 "$base_sha"
+  mkdir -p adl-runtime-kernel/src csdlc-v2/operator/skills/example
+  printf 'pub fn governed_operations() {}\n' > adl-runtime-kernel/src/governed_operations.rs
+  printf 'contract\n' > csdlc-v2/operator/skills/example/SKILL.md
+  git add adl-runtime-kernel/src/governed_operations.rs csdlc-v2/operator/skills/example/SKILL.md
+  git commit -q -m runtime-v3-with-csdlc-v2
+  runtime_v3_csdlc_head="$(git rev-parse HEAD)"
+  runtime_v3_csdlc_output="$($POLICY --event-name pull_request --base "$base_sha" --head "$runtime_v3_csdlc_head" --ref "refs/pull/1/merge")"
+  assert_has "$runtime_v3_csdlc_output" "validation_profile_run_lanes=csdlc_v2_standalone,runtime_kernel_contracts"
+  assert_has "$runtime_v3_csdlc_output" "csdlc_v2_standalone_required=true"
+  assert_has "$runtime_v3_csdlc_output" "runtime_v3_fast_required=true"
+  assert_has "$runtime_v3_csdlc_output" "reason=csdlc_v2_and_runtime_v3_surfaces_run_both_independent_focused_lanes"
+
+  git checkout -q -b runtime-v3-only "$base_sha"
+  mkdir -p infra/runtime-v3
+  printf 'api_base = "https://observatory.example.test"\n' > infra/runtime-v3/runtime-init.toml
+  git add infra/runtime-v3/runtime-init.toml
+  git commit -q -m runtime-v3-only
+  runtime_v3_head="$(git rev-parse HEAD)"
+  runtime_v3_output="$($POLICY --event-name pull_request --base "$base_sha" --head "$runtime_v3_head" --ref "refs/pull/1/merge")"
+  assert_has "$runtime_v3_output" "change_class=runtime_critical_source"
+  assert_has "$runtime_v3_output" "pvf_lane=runtime_v3_fast"
+  assert_has "$runtime_v3_output" "release_gate_role=source_required"
+  assert_has "$runtime_v3_output" "runtime_v3_fast_required=true"
+  assert_has "$runtime_v3_output" "rust_required=false"
+  assert_has "$runtime_v3_output" "coverage_required=false"
+  assert_has "$runtime_v3_output" "full_coverage_required=false"
+  assert_has "$runtime_v3_output" "demo_smoke_required=false"
+  assert_has "$runtime_v3_output" "ci_contracts_required=false"
+  assert_has "$runtime_v3_output" "validation_profile_run_lanes=runtime_kernel_contracts"
+  assert_has "$runtime_v3_output" "reason=runtime_v3_only_change_runs_independent_runtime_kernel_fast_lane"
+
+  git checkout -q -b runtime-v3-mixed "$base_sha"
+  mkdir -p infra/runtime-v3
+  printf 'api_base = "https://observatory.example.test"\n' > infra/runtime-v3/runtime-init.toml
+  printf 'pub fn legacy_change() -> bool { true }\n' >> adl/src/lib.rs
+  git add infra/runtime-v3/runtime-init.toml adl/src/lib.rs
+  git commit -q -m runtime-v3-mixed
+  runtime_v3_mixed_head="$(git rev-parse HEAD)"
+  runtime_v3_mixed_output="$($POLICY --event-name pull_request --base "$base_sha" --head "$runtime_v3_mixed_head" --ref "refs/pull/1/merge")"
+  assert_has "$runtime_v3_mixed_output" "change_class=mixed"
+  assert_has "$runtime_v3_mixed_output" "runtime_v3_fast_required=false"
+  assert_has "$runtime_v3_mixed_output" "rust_required=true"
+
+  git checkout -q -b runtime-owner-observatory-only "$base_sha"
+  mkdir -p .csdlc/issues/5800/cards adl-runtime/src/bin adl-runtime/tests adl/tools demos/html-observatory
+  printf '{"phase":"published"}\n' > .csdlc/issues/5800/index.json
+  printf '{}\n' > .csdlc/issues/5800/cards/sor.values.json
+  printf 'fn main() {}\n' > adl-runtime/src/bin/adl-runtime-local-tls-bootstrap.rs
+  printf 'pub fn local_tls() {}\n' > adl-runtime/src/local_tls.rs
+  printf '#[test]\nfn local_tls_works() {}\n' > adl-runtime/tests/local_tls.rs
+  printf 'console.log("validate observatory")\n' > adl/tools/validate_v092_browser_trusted_observatory.mjs
+  printf '# observatory\n' > demos/html-observatory/README.md
+  printf '{}\n' > demos/html-observatory/runtime-v3.config.json
+  git add .csdlc/issues/5800 adl-runtime adl/tools/validate_v092_browser_trusted_observatory.mjs demos/html-observatory
+  git commit -q -m runtime-owner-observatory-only
+  runtime_owner_observatory_head="$(git rev-parse HEAD)"
+  runtime_owner_observatory_output="$($POLICY --event-name pull_request --base "$base_sha" --head "$runtime_owner_observatory_head" --ref "refs/pull/1/merge")"
+  assert_has "$runtime_owner_observatory_output" "coverage_required=true"
+  assert_has "$runtime_owner_observatory_output" "full_coverage_required=false"
+  assert_has "$runtime_owner_observatory_output" "runtime_coverage_required=true"
+  assert_has "$runtime_owner_observatory_output" "workspace_fast_coverage_required=false"
+  assert_has "$runtime_owner_observatory_output" "workspace_full_coverage_required=false"
+  assert_has "$runtime_owner_observatory_output" "validation_profile_status=ready_to_run"
+  assert_has "$runtime_owner_observatory_output" "validation_profile_escalation_required=false"
+  assert_has "$runtime_owner_observatory_output" "reason=runtime_owner_surface_runs_runtime_only_coverage"
+
+  git checkout -q -b issue-111-113-focused-routing "$base_sha"
+  mkdir -p .csdlc/issues/111 .csdlc/issues/113 \
+    adl-runtime-kernel/src adl-runtime-kernel/tests adl/tools \
+    demos/html-observatory/tests design docs/api/runtime-v3/v1
+  printf '{}\n' > .csdlc/issues/111/index.json
+  printf '{}\n' > .csdlc/issues/113/index.json
+  printf 'pub fn conversation() {}\n' > adl-runtime-kernel/src/control.rs
+  printf '#[test]\nfn conversation_session() {}\n' > adl-runtime-kernel/tests/conversation_sessions.rs
+  printf '#!/usr/bin/env bash\nexit 0\n' > adl/tools/test_html_observatory.sh
+  printf 'process.exit(0);\n' > adl/tools/validate_v092_html_observatory_roster.mjs
+  printf 'console.log("conversation");\n' > demos/html-observatory/app.js
+  printf 'export const conversation = true;\n' > demos/html-observatory/tests/conversation_sessions.test.mjs
+  printf '# Issue 111\n' > design/issue-111.md
+  printf 'flowchart LR\n  A --> B\n' > design/issue-111.mmd
+  printf '{}\n' > docs/api/runtime-v3/v1/observatory.openapi.json
+  git add .csdlc adl-runtime-kernel adl/tools demos design docs/api/runtime-v3/v1
+  git commit -q -m issue-111-113-focused-routing
+  issue_111_113_head="$(git rev-parse HEAD)"
+  issue_111_113_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$issue_111_113_head" --ref "refs/pull/1/merge")"
+  assert_has "$issue_111_113_output" "fail_closed=false"
+  assert_has "$issue_111_113_output" "full_coverage_required=false"
+  assert_has "$issue_111_113_output" "slow_proof_contract_required=false"
+  assert_has "$issue_111_113_output" "coverage_lane=skip"
+  assert_has "$issue_111_113_output" "coverage_authority=not_required"
+  assert_has "$issue_111_113_output" "validation_profile_status=ready_to_run"
+  assert_has "$issue_111_113_output" "validation_profile_escalation_required=false"
+  assert_has "$issue_111_113_output" "validation_profile_run_lanes=docs_diff_check,html_observatory_roster_javascript_syntax,html_observatory_tooling_syntax,html_observatory_v0917_runtime_surface,runtime_kernel_contracts"
+
+  git checkout -q -b issue-341-provider-neutral-proof-routing "$base_sha"
+  mkdir -p .csdlc/evidence/341 .csdlc/issues/341/cards .csdlc/prepared/issues/341 \
+    adl/tools demos/html-observatory demos/v0.92/provider-neutral-birthday \
+    docs/milestones/v0.92/features
+  printf '{}\n' > .csdlc/evidence/341/proof-matrix.json
+  printf '{}\n' > .csdlc/issues/341/index.json
+  printf '# SOR\n' > .csdlc/issues/341/cards/sor.md
+  printf '# design\n' > .csdlc/prepared/issues/341/design.md
+  printf '#!/usr/bin/env bash\nexit 0\n' > adl/tools/demo_v092_provider_neutral_birthday.sh
+  printf 'print("serve observatory")\n' > adl/tools/serve_v092_provider_neutral_observatory_api.py
+  printf '#!/usr/bin/env bash\nexit 0\n' > adl/tools/test_v092_provider_neutral_proof.sh
+  printf 'print("validate proof")\n' > adl/tools/validate_v092_provider_neutral_proof.py
+  printf '#!/usr/bin/env bash\nexit 0\n' > adl/tools/test_html_observatory.sh
+  printf 'console.log("runtime badge");\n' > demos/html-observatory/app.js
+  printf '# provider neutral proof\n' > demos/v0.92/provider-neutral-birthday/README.md
+  printf '{}\n' > demos/v0.92/provider-neutral-birthday/proof-matrix.json
+  printf '# feature\n' > docs/milestones/v0.92/features/PROVIDER_NEUTRAL_MULTI_AGENT_PROOF_v0.92.md
+  git add .csdlc adl/tools demos docs/milestones/v0.92/features
+  git commit -q -m issue-341-provider-neutral-proof-routing
+  issue_341_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head HEAD --ref "refs/pull/442/merge")"
+  assert_has "$issue_341_output" "fail_closed=false"
+  assert_has "$issue_341_output" "rust_required=false"
+  assert_has "$issue_341_output" "coverage_required=false"
+  assert_has "$issue_341_output" "full_coverage_required=false"
+  assert_has "$issue_341_output" "workspace_full_coverage_required=false"
+  assert_has "$issue_341_output" "coverage_lane=skip"
+  assert_has "$issue_341_output" "coverage_authority=not_required"
+  assert_has "$issue_341_output" "validation_profile_status=ready_to_run"
+  assert_has "$issue_341_output" "validation_profile_escalation_required=false"
+  assert_has "$issue_341_output" "validation_profile_run_lanes=docs_diff_check,html_observatory_tooling_syntax,html_observatory_v0917_runtime_surface,provider_neutral_multi_agent_proof"
+  assert_has "$issue_341_output" "reason=provider_neutral_multi_agent_proof_surface_requires_focused_demo_packet_validation"
+
+  printf '#!/usr/bin/env bash\nexit 0\n' > adl/tools/future_unclassified_route.sh
+  git add adl/tools/future_unclassified_route.sh
+  git commit -q -m issue-111-113-unknown-path
+  issue_111_113_unknown_head="$(git rev-parse HEAD)"
+  issue_111_113_unknown_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$issue_111_113_unknown_head" --ref "refs/pull/1/merge")"
+  assert_has "$issue_111_113_unknown_output" "fail_closed=true"
+  assert_has "$issue_111_113_unknown_output" "full_coverage_required=true"
+  assert_has "$issue_111_113_unknown_output" "coverage_authority=fail_closed"
+  assert_has "$issue_111_113_unknown_output" "validation_profile_escalation_lanes=unmapped_change_surface"
+
+  git checkout -q -b runtime-v3-unmapped "$base_sha"
+  mkdir -p infra/runtime-v3-extra
+  printf 'unknown = true\n' > infra/runtime-v3-extra/config.toml
+  git add infra/runtime-v3-extra/config.toml
+  git commit -q -m runtime-v3-unmapped
+  runtime_v3_unmapped_head="$(git rev-parse HEAD)"
+  runtime_v3_unmapped_output="$($POLICY --event-name pull_request --base "$base_sha" --head "$runtime_v3_unmapped_head" --ref "refs/pull/1/merge")"
+  assert_has "$runtime_v3_unmapped_output" "change_class=unknown"
+  assert_has "$runtime_v3_unmapped_output" "pvf_lane=authoritative_full"
+  assert_has "$runtime_v3_unmapped_output" "runtime_v3_fast_required=false"
+  assert_has "$runtime_v3_unmapped_output" "full_coverage_required=true"
+  assert_has "$runtime_v3_unmapped_output" "fail_closed=true"
+
+  git checkout -q -b release-version-only "$base_sha"
+  python3 - <<'PY'
+from pathlib import Path
+
+manifest = Path("adl/Cargo.toml")
+manifest.write_text(manifest.read_text().replace('version = "0.90.3"', 'version = "0.90.4"', 1))
+
+lock = Path("adl/Cargo.lock")
+lock.write_text(lock.read_text().replace('version = "0.90.3"', 'version = "0.90.4"', 1))
+
+doc = Path("docs/readme.md")
+doc.write_text(doc.read_text() + "\nrelease-truth update\n")
+PY
+  git add adl/Cargo.toml adl/Cargo.lock docs/readme.md
+  git commit -q -m release-version-only
+  release_version_head="$(git rev-parse HEAD)"
+
+  release_version_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$release_version_head" --ref "refs/pull/1/merge")"
+  assert_has "$release_version_output" "rust_required=false"
+  assert_has "$release_version_output" "coverage_required=false"
+  assert_has "$release_version_output" "full_coverage_required=false"
+  assert_has "$release_version_output" "demo_smoke_required=false"
+  assert_has "$release_version_output" "v0913_proof_required=false"
+  assert_has "$release_version_output" "release_version_only=true"
+  assert_has "$release_version_output" "ci_contracts_required=false"
+  assert_has "$release_version_output" "coverage_lane=skip"
+  assert_has "$release_version_output" "coverage_authority=not_required"
+  assert_has "$release_version_output" "proof_validation_scope=not_required"
+  assert_has "$release_version_output" "reason=release_version_only_cargo_surface_change_runs_lightweight_validation"
+
+  git checkout -q -b release-version-only-with-adl-readme "$base_sha"
+  python3 - <<'PY'
+from pathlib import Path
+
+manifest = Path("adl/Cargo.toml")
+manifest.write_text(manifest.read_text().replace('version = "0.90.3"', 'version = "0.90.4"', 1))
+
+lock = Path("adl/Cargo.lock")
+lock.write_text(lock.read_text().replace('version = "0.90.3"', 'version = "0.90.4"', 1))
+
+Path("README.md").write_text("# repo release truth\n")
+Path("CHANGELOG.md").write_text("# changelog\n\n- v0.90.4\n")
+Path("adl/README.md").write_text("# adl release truth\n")
+doc = Path("docs/readme.md")
+doc.write_text(doc.read_text() + "\nrelease-truth update with adl readme\n")
+PY
+  git add README.md CHANGELOG.md adl/README.md adl/Cargo.toml adl/Cargo.lock docs/readme.md
+  git commit -q -m release-version-only-with-adl-readme
+  release_version_adl_readme_head="$(git rev-parse HEAD)"
+
+  release_version_adl_readme_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$release_version_adl_readme_head" --ref "refs/pull/1/merge")"
+  assert_has "$release_version_adl_readme_output" "rust_required=false"
+  assert_has "$release_version_adl_readme_output" "coverage_required=false"
+  assert_has "$release_version_adl_readme_output" "full_coverage_required=false"
+  assert_has "$release_version_adl_readme_output" "demo_smoke_required=false"
+  assert_has "$release_version_adl_readme_output" "v0913_proof_required=false"
+  assert_has "$release_version_adl_readme_output" "release_version_only=true"
+  assert_has "$release_version_adl_readme_output" "ci_contracts_required=false"
+  assert_has "$release_version_adl_readme_output" "coverage_lane=skip"
+  assert_has "$release_version_adl_readme_output" "coverage_authority=not_required"
+  assert_has "$release_version_adl_readme_output" "proof_validation_scope=not_required"
+  assert_has "$release_version_adl_readme_output" "reason=release_version_only_cargo_surface_change_runs_lightweight_validation"
+
+  git checkout -q -b cargo-structural-change "$base_sha"
+  cat >> adl/Cargo.toml <<'EOF'
+
+[features]
+example = []
+EOF
+  git add adl/Cargo.toml
+  git commit -q -m cargo-structural-change
+  cargo_structural_head="$(git rev-parse HEAD)"
+
+  cargo_structural_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$cargo_structural_head" --ref "refs/pull/1/merge")"
+  assert_has "$cargo_structural_output" "rust_required=true"
+  assert_has "$cargo_structural_output" "coverage_required=false"
+  assert_has "$cargo_structural_output" "full_coverage_required=false"
+  assert_has "$cargo_structural_output" "demo_smoke_required=false"
+  assert_has "$cargo_structural_output" "v0913_proof_required=false"
+  assert_has "$cargo_structural_output" "release_version_only=false"
+  assert_has "$cargo_structural_output" "ci_contracts_required=true"
+  assert_has "$cargo_structural_output" "validation_profile_contract_lanes_selected=false"
+  assert_has "$cargo_structural_output" "fail_closed=false"
+  assert_has "$cargo_structural_output" "coverage_lane=deferred_pr_fast"
+  assert_has "$cargo_structural_output" "coverage_authority=focused_nextest_pr_fast"
+  assert_has "$cargo_structural_output" "coverage_execution_state=deferred_to_focused_nextest_pr_fast"
+  assert_has "$cargo_structural_output" "proof_validation_scope=not_required"
+  assert_has "$cargo_structural_output" "reason=manifest_only_rust_wave_runs_focused_nextest"
+  assert_has "$cargo_structural_output" "validation_profile_selected=rust_pr_fast_profile"
+  assert_has "$cargo_structural_output" "validation_profile_status=ready_to_run"
+  assert_has "$cargo_structural_output" "validation_profile_escalation_required=false"
+  assert_has "$cargo_structural_output" "validation_profile_run_lanes=rust_pr_fast"
+
+  git checkout -q -b runtime-change "$base_sha"
+  printf 'pub fn added_runtime() -> bool { true }\n' >> adl/src/lib.rs
+  git add adl/src/lib.rs
+  git commit -q -m runtime-change
+  runtime_head="$(git rev-parse HEAD)"
+
+  runtime_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$runtime_head" --ref "refs/pull/1/merge")"
+  assert_has "$runtime_output" "change_class=ordinary_product_source"
+  assert_has "$runtime_output" "pvf_lane=focused_rust"
+  assert_has "$runtime_output" "release_gate_role=source_required"
+  assert_has "$runtime_output" "rust_required=true"
+  assert_has "$runtime_output" "coverage_required=false"
+  assert_has "$runtime_output" "full_coverage_required=false"
+  assert_has "$runtime_output" "demo_smoke_required=false"
+  assert_has "$runtime_output" "v0913_proof_required=false"
+  assert_has "$runtime_output" "release_version_only=false"
+  assert_has "$runtime_output" "ci_contracts_required=true"
+  assert_has "$runtime_output" "fail_closed=false"
+  assert_has "$runtime_output" "coverage_lane=deferred_pr_fast"
+  assert_has "$runtime_output" "coverage_authority=focused_nextest_pr_fast"
+  assert_has "$runtime_output" "coverage_execution_state=deferred_to_focused_nextest_pr_fast"
+  assert_has "$runtime_output" "proof_validation_scope=not_required"
+  assert_has "$runtime_output" "reason=wp08_cloudfront_control_surface_requires_csm_runtime_hook_wrapper_contract_checks; retained live summary validation runs through adl/tools/validate_wp08_cloudfront_control_proof.py"
+  assert_has "$runtime_output" "validation_profile_selected=escalated_2_lane_profile"
+  assert_has "$runtime_output" "validation_profile_status=escalation_required"
+  assert_has "$runtime_output" "validation_profile_escalation_required=true"
+  assert_has "$runtime_output" "validation_profile_run_lanes=wp08_cloudfront_control_proof"
+  assert_has "$runtime_output" "validation_profile_primary_reason=wp08_cloudfront_control_surface_requires_csm_runtime_hook_wrapper_contract_checks; retained live summary validation runs through adl/tools/validate_wp08_cloudfront_control_proof.py"
+  assert_has "$runtime_output" "validation_profile_escalation_lanes=rust_pr_fast"
+  assert_has "$runtime_output" "automatic_pr_entrypoint=ci"
+  assert_has "$runtime_output" "optional_workflows_status=deferred"
+  assert_has "$runtime_output" "optional_workflows_reason=explicit_dispatch_required"
+  assert_has "$runtime_output" "soak_workflows_status=deferred"
+  assert_has "$runtime_output" "soak_workflows_reason=explicit_dispatch_required"
+  assert_has "$runtime_output" "duplicate_head_status=canceled"
+  assert_has "$runtime_output" "duplicate_head_reason=source_branch_concurrency_cancel_in_progress"
+
+  git checkout -q -b runtime-v3-csm-bridge "$base_sha"
+  mkdir -p adl-runtime/src adl/src/cli adl/src/long_lived_agent \
+    .csdlc/issues/5509/cards .csdlc/prepared/issues/5509 .csdlc/locks \
+    docs/milestones/v0.91.7/review docs/review-fixes/runtime
+  printf 'pub fn auth() {}\n' > adl-runtime/src/runtime_api_auth.rs
+  printf 'pub fn supervise() {}\n' > adl-runtime/src/supervision.rs
+  printf 'pub fn topology() {}\n' > adl-runtime/src/topology.rs
+  printf 'pub fn client() {}\n' > adl/src/cli/csmctl_cmd.rs
+  printf 'pub fn api() {}\n' > adl/src/csm_runtime_api.rs
+  printf 'pub fn agent() {}\n' > adl/src/long_lived_agent.rs
+  printf 'fn test_agent() {}\n' > adl/src/long_lived_agent/tests.rs
+  printf '{}\n' > .csdlc/issues/5509/index.json
+  printf '# card\n' > .csdlc/issues/5509/cards/sip.md
+  printf '{}\n' > .csdlc/prepared/issues/5509/bootstrap-request.json
+  printf '{}\n' > .csdlc/locks/5509.lock
+  printf '# register\n' > docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md
+  printf '# repair\n' > docs/review-fixes/runtime/WP07A_REARCHITECTURE_REPAIR_5409.md
+  git add adl-runtime adl/src/cli/csmctl_cmd.rs adl/src/csm_runtime_api.rs \
+    adl/src/long_lived_agent.rs adl/src/long_lived_agent/tests.rs \
+    .csdlc docs/milestones/v0.91.7/review docs/review-fixes/runtime
+  git commit -q -m runtime-v3-csm-bridge
+  runtime_v3_csm_bridge_head="$(git rev-parse HEAD)"
+
+  runtime_v3_csm_bridge_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$runtime_v3_csm_bridge_head" --ref "refs/pull/1/merge")"
+  assert_has "$runtime_v3_csm_bridge_output" "rust_required=true"
+  assert_has "$runtime_v3_csm_bridge_output" "coverage_required=true"
+  assert_has "$runtime_v3_csm_bridge_output" "full_coverage_required=false"
+  assert_has "$runtime_v3_csm_bridge_output" "coverage_lane=pr_fast_coverage"
+  assert_has "$runtime_v3_csm_bridge_output" "coverage_authority=focused_runtime_v3_csm"
+  assert_has "$runtime_v3_csm_bridge_output" "coverage_execution_state=focused_pr_coverage_required"
+  assert_has "$runtime_v3_csm_bridge_output" "reason=bounded_runtime_v3_csm_bridge_runs_independent_focused_validation"
+  assert_has "$runtime_v3_csm_bridge_output" "validation_profile_selected=bounded_runtime_v3_csm_profile"
+  assert_has "$runtime_v3_csm_bridge_output" "validation_profile_status=ready_to_run"
+  assert_has "$runtime_v3_csm_bridge_output" "validation_profile_escalation_required=false"
+
+  printf 'pub fn unrelated() {}\n' > adl/src/cli/mod.rs
+  git add adl/src/cli/mod.rs
+  git commit -q -m runtime-v3-csm-bridge-plus-unrelated
+  runtime_v3_csm_unrelated_head="$(git rev-parse HEAD)"
+  runtime_v3_csm_unrelated_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$runtime_v3_csm_unrelated_head" --ref "refs/pull/1/merge")"
+  assert_has "$runtime_v3_csm_unrelated_output" "full_coverage_required=true"
+  assert_has "$runtime_v3_csm_unrelated_output" "coverage_authority=fail_closed"
+  assert_has "$runtime_v3_csm_unrelated_output" "reason=validation_manager_escalation_requires_authoritative_full_coverage"
+
+  git checkout -q -b rust-test-manifest-change "$base_sha"
+  mkdir -p adl/src/runtime_v2
+  printf 'mod slow_proof_contract;\n' > adl/src/runtime_v2/tests.rs
+  git add adl/src/runtime_v2/tests.rs
+  git commit -q -m rust-test-manifest-change
+  rust_test_manifest_head="$(git rev-parse HEAD)"
+
+  rust_test_manifest_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$rust_test_manifest_head" --ref "refs/pull/1/merge")"
+  assert_has "$rust_test_manifest_output" "rust_required=true"
+  assert_has "$rust_test_manifest_output" "coverage_required=false"
+  assert_has "$rust_test_manifest_output" "full_coverage_required=false"
+  assert_has "$rust_test_manifest_output" "demo_smoke_required=false"
+  assert_has "$rust_test_manifest_output" "v0913_proof_required=false"
+  assert_has "$rust_test_manifest_output" "release_version_only=false"
+  assert_has "$rust_test_manifest_output" "ci_contracts_required=true"
+  assert_has "$rust_test_manifest_output" "coverage_lane=deferred_pr_fast"
+  assert_has "$rust_test_manifest_output" "coverage_authority=focused_nextest_pr_fast"
+  assert_has "$rust_test_manifest_output" "reason=bounded_rust_surface_runs_focused_nextest"
+
+  git checkout -q -b sprint-conductor-surface "$base_sha"
+  mkdir -p adl/tools/skills/sprint-conductor/scripts
+  printf '# sprint conductor skill\n' > adl/tools/skills/sprint-conductor/SKILL.md
+  printf 'print(\"goal metrics\")\n' > adl/tools/skills/sprint-conductor/scripts/issue_goal_metrics.py
+  printf '#!/usr/bin/env bash\nexit 0\n' > adl/tools/test_sprint_conductor_helpers.sh
+  printf '#!/usr/bin/env bash\nexit 0\n' > adl/tools/test_install_adl_operational_skills.sh
+  printf '\nsprint conductor note\n' >> docs/readme.md
+  git add adl/tools/skills/sprint-conductor/SKILL.md \
+    adl/tools/skills/sprint-conductor/scripts/issue_goal_metrics.py \
+    adl/tools/test_sprint_conductor_helpers.sh \
+    adl/tools/test_install_adl_operational_skills.sh \
+    docs/readme.md
+  git commit -q -m sprint-conductor-surface
+  sprint_conductor_head="$(git rev-parse HEAD)"
+
+  sprint_conductor_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$sprint_conductor_head" --ref "refs/pull/1/merge")"
+  assert_has "$sprint_conductor_output" "rust_required=false"
+  assert_has "$sprint_conductor_output" "coverage_required=false"
+  assert_has "$sprint_conductor_output" "full_coverage_required=false"
+  assert_has "$sprint_conductor_output" "demo_smoke_required=false"
+  assert_has "$sprint_conductor_output" "v0913_proof_required=false"
+  assert_has "$sprint_conductor_output" "release_version_only=false"
+  assert_has "$sprint_conductor_output" "ci_contracts_required=false"
+  assert_has "$sprint_conductor_output" "fail_closed=false"
+  assert_has "$sprint_conductor_output" "coverage_lane=skip"
+  assert_has "$sprint_conductor_output" "coverage_authority=not_required"
+  assert_has "$sprint_conductor_output" "reason=sprint_conductor_surface_requires_helper_contract_checks"
+  assert_has "$sprint_conductor_output" "validation_profile_status=ready_to_run"
+  assert_has "$sprint_conductor_output" "validation_profile_escalation_required=false"
+  assert_has "$sprint_conductor_output" "validation_profile_run_lanes=docs_diff_check,sprint_conductor_contracts"
+
+  git checkout -q -b sprint-conductor-only "$base_sha"
+  mkdir -p adl/tools/skills/sprint-conductor/scripts
+  printf '# sprint conductor skill\n' > adl/tools/skills/sprint-conductor/SKILL.md
+  printf 'print(\"goal metrics\")\n' > adl/tools/skills/sprint-conductor/scripts/issue_goal_metrics.py
+  printf '#!/usr/bin/env bash\nexit 0\n' > adl/tools/test_sprint_conductor_helpers.sh
+  printf '#!/usr/bin/env bash\nexit 0\n' > adl/tools/test_install_adl_operational_skills.sh
+  git add adl/tools/skills/sprint-conductor/SKILL.md \
+    adl/tools/skills/sprint-conductor/scripts/issue_goal_metrics.py \
+    adl/tools/test_sprint_conductor_helpers.sh \
+    adl/tools/test_install_adl_operational_skills.sh
+  git commit -q -m sprint-conductor-only
+  sprint_conductor_only_head="$(git rev-parse HEAD)"
+
+  sprint_conductor_only_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$sprint_conductor_only_head" --ref "refs/pull/1/merge")"
+  assert_has "$sprint_conductor_only_output" "rust_required=false"
+  assert_has "$sprint_conductor_only_output" "coverage_required=false"
+  assert_has "$sprint_conductor_only_output" "full_coverage_required=false"
+  assert_has "$sprint_conductor_only_output" "demo_smoke_required=false"
+  assert_has "$sprint_conductor_only_output" "v0913_proof_required=false"
+  assert_has "$sprint_conductor_only_output" "release_version_only=false"
+  assert_has "$sprint_conductor_only_output" "ci_contracts_required=false"
+  assert_has "$sprint_conductor_only_output" "fail_closed=false"
+  assert_has "$sprint_conductor_only_output" "coverage_lane=skip"
+  assert_has "$sprint_conductor_only_output" "coverage_authority=not_required"
+  assert_has "$sprint_conductor_only_output" "reason=sprint_conductor_surface_requires_helper_contract_checks"
+  assert_has "$sprint_conductor_only_output" "validation_profile_status=ready_to_run"
+  assert_has "$sprint_conductor_only_output" "validation_profile_escalation_required=false"
+  assert_has "$sprint_conductor_only_output" "validation_profile_run_lanes=sprint_conductor_contracts"
+
+  git checkout -q -b rust-dependency-cache-warmup-helper "$base_sha"
+  mkdir -p adl/tools docs/tooling
+  printf 'print("warmup")\n' > adl/tools/warm_rust_dependency_cache.py
+  printf '# Hardlinked Rust dependency cache\n' > docs/tooling/HARDLINKED_RUST_DEPENDENCY_CACHE.md
+  git add adl/tools/warm_rust_dependency_cache.py docs/tooling/HARDLINKED_RUST_DEPENDENCY_CACHE.md
+  git commit -q -m rust-dependency-cache-warmup-helper
+  rust_dependency_cache_warmup_head="$(git rev-parse HEAD)"
+
+  rust_dependency_cache_warmup_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$rust_dependency_cache_warmup_head" --ref "refs/pull/1/merge")"
+  assert_has "$rust_dependency_cache_warmup_output" "rust_required=false"
+  assert_has "$rust_dependency_cache_warmup_output" "coverage_required=false"
+  assert_has "$rust_dependency_cache_warmup_output" "full_coverage_required=false"
+  assert_has "$rust_dependency_cache_warmup_output" "demo_smoke_required=false"
+  assert_has "$rust_dependency_cache_warmup_output" "v0913_proof_required=false"
+  assert_has "$rust_dependency_cache_warmup_output" "release_version_only=false"
+  assert_has "$rust_dependency_cache_warmup_output" "ci_contracts_required=false"
+  assert_has "$rust_dependency_cache_warmup_output" "validation_profile_contract_lanes_selected=true"
+  assert_has "$rust_dependency_cache_warmup_output" "fail_closed=false"
+  assert_has "$rust_dependency_cache_warmup_output" "coverage_lane=skip"
+  assert_has "$rust_dependency_cache_warmup_output" "coverage_authority=not_required"
+  assert_has "$rust_dependency_cache_warmup_output" "reason=rust_dependency_cache_warmup_helper_requires_python_contract_checks"
+  assert_has "$rust_dependency_cache_warmup_output" "validation_profile_status=ready_to_run"
+  assert_has "$rust_dependency_cache_warmup_output" "validation_profile_escalation_required=false"
+  assert_has "$rust_dependency_cache_warmup_output" "validation_profile_run_lanes=docs_diff_check,rust_dependency_cache_warmup_contracts"
+
+  git checkout -q -b rust-dependency-cache-warmup-policy-change "$base_sha"
+  mkdir -p adl/config adl/tools/skills/docs adl/tools/skills/pr-run docs/tooling
+  printf '{\"schema_version\":\"adl.validation_lane_selector.v1\",\"surface_defaults\":{},\"lanes\":[],\"special_surfaces\":{},\"manager_guardrails\":{\"docs_only_forbidden_lane_ids\":[\"rust_pr_fast\"],\"pr_fast\":{\"max_rust_surface_count\":4,\"max_filter_token_count\":4,\"max_family_token_count\":3,\"blocked_modes\":[\"full\",\"contract_only\"]}},\"release_gate_hints\":[],\"rust_path_hints\":[]}\n' > adl/config/validation_lane_selector.v0.91.6.json
+  printf '#!/usr/bin/env bash\nprintf policy\\n' > adl/tools/ci_path_policy.sh
+  printf '#!/usr/bin/env bash\nprintf policy-test\\n' > adl/tools/test_ci_path_policy.sh
+  printf 'print("warmup")\n' > adl/tools/warm_rust_dependency_cache.py
+  printf 'print("warmup test")\n' > adl/tools/test_warm_rust_dependency_cache.py
+  printf '# AGENTS warmup guidance\n' > AGENTS.md
+  printf '# CI warmup guidance\n' > adl/tools/skills/docs/CI_RUNTIME_POLICY_GUIDE.md
+  printf '# pr-run warmup guidance\n' > adl/tools/skills/pr-run/SKILL.md
+  printf '# Hardlinked Rust dependency cache\n' > docs/tooling/HARDLINKED_RUST_DEPENDENCY_CACHE.md
+  git add AGENTS.md \
+    adl/config/validation_lane_selector.v0.91.6.json \
+    adl/tools/skills/docs/CI_RUNTIME_POLICY_GUIDE.md \
+    adl/tools/skills/pr-run/SKILL.md \
+    adl/tools/ci_path_policy.sh \
+    adl/tools/test_ci_path_policy.sh \
+    adl/tools/warm_rust_dependency_cache.py \
+    adl/tools/test_warm_rust_dependency_cache.py \
+    docs/tooling/HARDLINKED_RUST_DEPENDENCY_CACHE.md
+  git commit -q -m rust-dependency-cache-warmup-policy-change
+  rust_dependency_cache_policy_head="$(git rev-parse HEAD)"
+
+  rust_dependency_cache_policy_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$rust_dependency_cache_policy_head" --ref "refs/pull/1/merge")"
+  assert_has "$rust_dependency_cache_policy_output" "rust_required=false"
+  assert_has "$rust_dependency_cache_policy_output" "coverage_required=false"
+  assert_has "$rust_dependency_cache_policy_output" "full_coverage_required=false"
+  assert_has "$rust_dependency_cache_policy_output" "demo_smoke_required=false"
+  assert_has "$rust_dependency_cache_policy_output" "v0913_proof_required=false"
+  assert_has "$rust_dependency_cache_policy_output" "release_version_only=false"
+  assert_has "$rust_dependency_cache_policy_output" "ci_contracts_required=false"
+  assert_has "$rust_dependency_cache_policy_output" "validation_profile_contract_lanes_selected=true"
+  assert_has "$rust_dependency_cache_policy_output" "fail_closed=false"
+  assert_has "$rust_dependency_cache_policy_output" "coverage_lane=skip"
+  assert_has "$rust_dependency_cache_policy_output" "coverage_authority=not_required"
+  assert_has "$rust_dependency_cache_policy_output" "reason=bounded_rust_dependency_cache_warmup_policy_change_runs_python_and_path_policy_checks"
+  assert_has "$rust_dependency_cache_policy_output" "validation_profile_status=ready_to_run"
+  assert_has "$rust_dependency_cache_policy_output" "validation_profile_escalation_required=false"
+  assert_has "$rust_dependency_cache_policy_output" "validation_profile_run_lanes=ci_path_policy_contracts,docs_diff_check,rust_dependency_cache_warmup_contracts"
+
+  git checkout -q -b rust-dependency-cache-warmup-mixed-policy-change "$base_sha"
+  mkdir -p adl/config adl/tools docs/tooling
+  printf '{\"schema_version\":\"adl.validation_lane_selector.v1\",\"surface_defaults\":{},\"lanes\":[],\"special_surfaces\":{},\"manager_guardrails\":{\"docs_only_forbidden_lane_ids\":[\"rust_pr_fast\"],\"pr_fast\":{\"max_rust_surface_count\":4,\"max_filter_token_count\":4,\"max_family_token_count\":3,\"blocked_modes\":[\"full\",\"contract_only\"]}},\"release_gate_hints\":[],\"rust_path_hints\":[]}\n' > adl/config/validation_lane_selector.v0.91.6.json
+  printf '#!/usr/bin/env bash\nprintf policy\\n' > adl/tools/ci_path_policy.sh
+  printf '#!/usr/bin/env bash\nprintf policy-test\\n' > adl/tools/test_ci_path_policy.sh
+  printf 'print("selector mixed change")\n' > adl/tools/select_validation_lanes.py
+  printf 'print("warmup")\n' > adl/tools/warm_rust_dependency_cache.py
+  printf 'print("warmup test")\n' > adl/tools/test_warm_rust_dependency_cache.py
+  printf '# Hardlinked Rust dependency cache\n' > docs/tooling/HARDLINKED_RUST_DEPENDENCY_CACHE.md
+  git add adl/config/validation_lane_selector.v0.91.6.json \
+    adl/tools/ci_path_policy.sh \
+    adl/tools/test_ci_path_policy.sh \
+    adl/tools/select_validation_lanes.py \
+    adl/tools/warm_rust_dependency_cache.py \
+    adl/tools/test_warm_rust_dependency_cache.py \
+    docs/tooling/HARDLINKED_RUST_DEPENDENCY_CACHE.md
+  git commit -q -m rust-dependency-cache-warmup-mixed-policy-change
+  rust_dependency_cache_mixed_policy_head="$(git rev-parse HEAD)"
+
+  rust_dependency_cache_mixed_policy_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$rust_dependency_cache_mixed_policy_head" --ref "refs/pull/1/merge")"
+  assert_has "$rust_dependency_cache_mixed_policy_output" "ci_contracts_required=true"
+  assert_has "$rust_dependency_cache_mixed_policy_output" "reason=ci_policy_surface_requires_path_policy_contract_checks"
+  assert_has "$rust_dependency_cache_mixed_policy_output" "validation_profile_status=ready_to_run"
+  assert_has "$rust_dependency_cache_mixed_policy_output" "validation_profile_escalation_required=false"
+  assert_has "$rust_dependency_cache_mixed_policy_output" "validation_profile_run_lanes=ci_path_policy_contracts,docs_diff_check,rust_dependency_cache_warmup_contracts"
+
+  git checkout -q -b rust-dependency-cache-warmup-unrelated-guidance-change "$base_sha"
+  mkdir -p adl/config adl/tools/skills/docs adl/tools/skills/pr-run docs/tooling
+  printf '{\"schema_version\":\"adl.validation_lane_selector.v1\",\"surface_defaults\":{},\"lanes\":[],\"special_surfaces\":{},\"manager_guardrails\":{\"docs_only_forbidden_lane_ids\":[\"rust_pr_fast\"],\"pr_fast\":{\"max_rust_surface_count\":4,\"max_filter_token_count\":4,\"max_family_token_count\":3,\"blocked_modes\":[\"full\",\"contract_only\"]}},\"release_gate_hints\":[],\"rust_path_hints\":[]}\n' > adl/config/validation_lane_selector.v0.91.6.json
+  printf '#!/usr/bin/env bash\nprintf policy\\n' > adl/tools/ci_path_policy.sh
+  printf '#!/usr/bin/env bash\nprintf policy-test\\n' > adl/tools/test_ci_path_policy.sh
+  printf 'print("warmup")\n' > adl/tools/warm_rust_dependency_cache.py
+  printf 'print("warmup test")\n' > adl/tools/test_warm_rust_dependency_cache.py
+  printf '# unrelated AGENTS guidance\n' > AGENTS.md
+  printf '# unrelated CI guidance\n' > adl/tools/skills/docs/CI_RUNTIME_POLICY_GUIDE.md
+  printf '# unrelated pr-run guidance\n' > adl/tools/skills/pr-run/SKILL.md
+  printf '# Hardlinked Rust dependency cache\n' > docs/tooling/HARDLINKED_RUST_DEPENDENCY_CACHE.md
+  git add AGENTS.md \
+    adl/config/validation_lane_selector.v0.91.6.json \
+    adl/tools/skills/docs/CI_RUNTIME_POLICY_GUIDE.md \
+    adl/tools/skills/pr-run/SKILL.md \
+    adl/tools/ci_path_policy.sh \
+    adl/tools/test_ci_path_policy.sh \
+    adl/tools/warm_rust_dependency_cache.py \
+    adl/tools/test_warm_rust_dependency_cache.py \
+    docs/tooling/HARDLINKED_RUST_DEPENDENCY_CACHE.md
+  git commit -q -m rust-dependency-cache-warmup-unrelated-guidance-change
+  rust_dependency_cache_unrelated_guidance_head="$(git rev-parse HEAD)"
+
+  rust_dependency_cache_unrelated_guidance_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$rust_dependency_cache_unrelated_guidance_head" --ref "refs/pull/1/merge")"
+  assert_has "$rust_dependency_cache_unrelated_guidance_output" "ci_contracts_required=true"
+  assert_has "$rust_dependency_cache_unrelated_guidance_output" "reason=ci_policy_surface_requires_path_policy_contract_checks"
+  assert_has "$rust_dependency_cache_unrelated_guidance_output" "validation_profile_status=ready_to_run"
+  assert_has "$rust_dependency_cache_unrelated_guidance_output" "validation_profile_escalation_required=false"
+  assert_has "$rust_dependency_cache_unrelated_guidance_output" "validation_profile_run_lanes=ci_path_policy_contracts,docs_diff_check,rust_dependency_cache_warmup_contracts"
+
+  git checkout -q -b classifier-followup "$base_sha"
+  mkdir -p adl/tools/skills/sprint-conductor/scripts adl/config adl/tools
+  printf '# sprint conductor skill\n' > adl/tools/skills/sprint-conductor/SKILL.md
+  printf 'print(\"goal metrics\")\n' > adl/tools/skills/sprint-conductor/scripts/issue_goal_metrics.py
+  printf '#!/usr/bin/env bash\nexit 0\n' > adl/tools/test_sprint_conductor_helpers.sh
+  printf '#!/usr/bin/env bash\nexit 0\n' > adl/tools/test_install_adl_operational_skills.sh
+  printf '#!/usr/bin/env bash\nprintf ok\\n' > adl/tools/ci_path_policy.sh
+  printf '#!/usr/bin/env bash\nprintf ok\\n' > adl/tools/test_ci_path_policy.sh
+  printf '{\"schema_version\":\"adl.validation_lane_selector.v1\",\"surface_defaults\":{},\"lanes\":[],\"special_surfaces\":{},\"manager_guardrails\":{\"docs_only_forbidden_lane_ids\":[\"rust_pr_fast\"],\"pr_fast\":{\"max_rust_surface_count\":4,\"max_filter_token_count\":4,\"max_family_token_count\":3,\"blocked_modes\":[\"full\",\"contract_only\"]}},\"release_gate_hints\":[],\"rust_path_hints\":[]}\n' > adl/config/validation_lane_selector.v0.91.6.json
+  printf '#!/usr/bin/env bash\nprintf ok\\n' > adl/tools/test_validation_manager.sh
+  printf '\nclassifier followup note\n' >> docs/readme.md
+  git add adl/config/validation_lane_selector.v0.91.6.json \
+    adl/tools/ci_path_policy.sh \
+    adl/tools/test_ci_path_policy.sh \
+    adl/tools/test_validation_manager.sh \
+    adl/tools/skills/sprint-conductor/SKILL.md \
+    adl/tools/skills/sprint-conductor/scripts/issue_goal_metrics.py \
+    adl/tools/test_sprint_conductor_helpers.sh \
+    adl/tools/test_install_adl_operational_skills.sh \
+    docs/readme.md
+  git commit -q -m classifier-followup
+  classifier_followup_head="$(git rev-parse HEAD)"
+
+  classifier_followup_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$classifier_followup_head" --ref "refs/pull/1/merge")"
+  assert_has "$classifier_followup_output" "change_class=mixed"
+  assert_has "$classifier_followup_output" "pvf_lane=contract"
+  assert_has "$classifier_followup_output" "release_gate_role=contract_required"
+  assert_has "$classifier_followup_output" "rust_required=false"
+  assert_has "$classifier_followup_output" "coverage_required=false"
+  assert_has "$classifier_followup_output" "full_coverage_required=false"
+  assert_has "$classifier_followup_output" "demo_smoke_required=false"
+  assert_has "$classifier_followup_output" "v0913_proof_required=false"
+  assert_has "$classifier_followup_output" "release_version_only=false"
+  assert_has "$classifier_followup_output" "ci_contracts_required=true"
+  assert_has "$classifier_followup_output" "fail_closed=false"
+  assert_has "$classifier_followup_output" "coverage_lane=skip"
+  assert_has "$classifier_followup_output" "coverage_authority=not_required"
+  assert_has "$classifier_followup_output" "reason=ci_policy_surface_requires_path_policy_contract_checks"
+  assert_has "$classifier_followup_output" "validation_profile_status=ready_to_run"
+  assert_has "$classifier_followup_output" "validation_profile_escalation_required=false"
+
+  git checkout -q -b new-runtime-file "$base_sha"
+  printf 'pub fn contract_schema() -> bool { true }\n' > adl/src/contract_schema.rs
+  git add adl/src/contract_schema.rs
+  git commit -q -m new-runtime-file
+  new_runtime_file_head="$(git rev-parse HEAD)"
+
+  new_runtime_file_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$new_runtime_file_head" --ref "refs/pull/1/merge")"
+  assert_has "$new_runtime_file_output" "rust_required=true"
+  assert_has "$new_runtime_file_output" "coverage_required=false"
+  assert_has "$new_runtime_file_output" "full_coverage_required=false"
+  assert_has "$new_runtime_file_output" "demo_smoke_required=false"
+  assert_has "$new_runtime_file_output" "v0913_proof_required=false"
+  assert_has "$new_runtime_file_output" "release_version_only=false"
+  assert_has "$new_runtime_file_output" "ci_contracts_required=true"
+  assert_has "$new_runtime_file_output" "fail_closed=false"
+  assert_has "$new_runtime_file_output" "coverage_lane=deferred_pr_fast"
+  assert_has "$new_runtime_file_output" "coverage_authority=focused_nextest_pr_fast"
+  assert_has "$new_runtime_file_output" "proof_validation_scope=not_required"
+  assert_has "$new_runtime_file_output" "reason=bounded_rust_surface_runs_focused_nextest"
+  assert_has "$new_runtime_file_output" "validation_profile_selected=rust_pr_fast_profile"
+  assert_has "$new_runtime_file_output" "validation_profile_status=ready_to_run"
+  assert_has "$new_runtime_file_output" "validation_profile_escalation_required=false"
+  assert_has "$new_runtime_file_output" "validation_profile_primary_reason=bounded_rust_surface_runs_focused_nextest"
+  assert_has "$new_runtime_file_output" "validation_profile_escalation_lanes="
+
+  git checkout -q -b typed-publication-control-plane "$base_sha"
+  mkdir -p csdlc-v2/src/bin
+  printf 'fn publish_request_is_typed() {}\n' > csdlc-v2/src/bin/csdlc-publish.rs
+  printf 'fn closeout_request_is_typed() {}\n' > csdlc-v2/src/bin/csdlc-closeout.rs
+  git add csdlc-v2/src/bin/csdlc-publish.rs csdlc-v2/src/bin/csdlc-closeout.rs
+  git commit -q -m typed-publication-control-plane
+  typed_publication_control_plane_head="$(git rev-parse HEAD)"
+
+  typed_publication_control_plane_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$typed_publication_control_plane_head")"
+  assert_has "$typed_publication_control_plane_output" "rust_required=false"
+  assert_has "$typed_publication_control_plane_output" "coverage_required=false"
+  assert_has "$typed_publication_control_plane_output" "full_coverage_required=false"
+  assert_has "$typed_publication_control_plane_output" "demo_smoke_required=false"
+  assert_has "$typed_publication_control_plane_output" "v0913_proof_required=false"
+  assert_has "$typed_publication_control_plane_output" "release_version_only=false"
+  assert_has "$typed_publication_control_plane_output" "ci_contracts_required=true"
+  assert_has "$typed_publication_control_plane_output" "csdlc_v2_standalone_required=true"
+  assert_has "$typed_publication_control_plane_output" "reason=standalone_csdlc_v2_surface_requires_only_its_independent_focused_suite"
+
+  git checkout -q -b typed-closeout-plus-runtime-escalation "$base_sha"
+  mkdir -p adl/src/bin adl/src/runtime_v2 csdlc-v2/src/bin
+  printf 'pub fn runtime_compat() -> bool { true }\n' > adl/src/bin/adl_runtime.rs
+  printf 'pub fn csm_bin() -> bool { true }\n' > adl/src/bin/csm.rs
+  printf 'pub fn csm_runtime() -> bool { true }\n' > adl/src/csm_runtime.rs
+  printf 'pub fn csm_daemon() -> bool { true }\n' > adl/src/csm_daemon.rs
+  printf 'pub fn runtime_v2() -> bool { true }\n' > adl/src/runtime_v2.rs
+  printf 'pub fn observability() -> bool { true }\n' > adl/src/observability.rs
+  printf 'fn closeout_request_is_typed() {}\n' > csdlc-v2/src/bin/csdlc-closeout.rs
+  git add adl/src/bin/adl_runtime.rs \
+    adl/src/bin/csm.rs \
+    adl/src/csm_runtime.rs \
+    adl/src/csm_daemon.rs \
+    adl/src/runtime_v2.rs \
+    adl/src/observability.rs \
+    csdlc-v2/src/bin/csdlc-closeout.rs
+  git commit -q -m typed-closeout-plus-runtime-escalation
+  typed_closeout_plus_runtime_head="$(git rev-parse HEAD)"
+
+  typed_closeout_plus_runtime_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$typed_closeout_plus_runtime_head" --ref "refs/pull/1/merge")"
+  assert_has "$typed_closeout_plus_runtime_output" "rust_required=true"
+  assert_has "$typed_closeout_plus_runtime_output" "coverage_required=true"
+  assert_has "$typed_closeout_plus_runtime_output" "full_coverage_required=true"
+  assert_has "$typed_closeout_plus_runtime_output" "demo_smoke_required=false"
+  assert_has "$typed_closeout_plus_runtime_output" "ci_contracts_required=true"
+  assert_has "$typed_closeout_plus_runtime_output" "csdlc_v2_standalone_required=true"
+  assert_has "$typed_closeout_plus_runtime_output" "fail_closed=true"
+  assert_has "$typed_closeout_plus_runtime_output" "coverage_lane=authoritative_full"
+  assert_has "$typed_closeout_plus_runtime_output" "coverage_authority=fail_closed"
+  assert_has "$typed_closeout_plus_runtime_output" "coverage_execution_state=fail_closed_authoritative_full_required"
+  assert_has "$typed_closeout_plus_runtime_output" "reason=validation_manager_escalation_requires_authoritative_full_coverage"
+  assert_has "$typed_closeout_plus_runtime_output" "validation_profile_status=escalation_required"
+  assert_has "$typed_closeout_plus_runtime_output" "validation_profile_escalation_required=true"
+  assert_has "$typed_closeout_plus_runtime_output" "validation_profile_escalation_lanes=rust_pr_fast"
+
+  git checkout -q -b typed-csdlc-owner-focused "$base_sha"
+  mkdir -p csdlc-v2/src/bin csdlc-v2/tests \
+    docs/milestones/v0.91.7/review/pr_finish_release_gate_disposition \
+    docs/templates/prompts/1.0.3
+  printf 'fn doctor_is_typed() {}\n' > csdlc-v2/src/bin/csdlc-doctor.rs
+  printf 'fn closeout_is_typed() {}\n' > csdlc-v2/src/bin/csdlc-closeout.rs
+  printf 'fn edit_is_typed() {}\n' > csdlc-v2/src/bin/csdlc-edit.rs
+  printf 'fn validate_is_typed() {}\n' > csdlc-v2/src/bin/csdlc-validate.rs
+  printf 'pub fn semantic_edit() {}\n' > csdlc-v2/src/edit.rs
+  printf 'pub fn markdown_ast() {}\n' > csdlc-v2/src/markdown.rs
+  printf '#[test]\nfn terminal_review_status_is_typed() {}\n' > csdlc-v2/tests/gate7_lifecycle.rs
+  printf 'status: reviewed\n' > docs/milestones/v0.91.7/review/pr_finish_release_gate_disposition/ISSUE_4999_TERMINAL_REVIEW_STATUS_BROAD_OWNER_LANE_DISPOSITION.yaml
+  printf '# SRP\n\nreview_results: review_failed\n' > docs/templates/prompts/1.0.3/srp.md
+  git add csdlc-v2/src/bin/csdlc-doctor.rs \
+    csdlc-v2/src/bin/csdlc-closeout.rs \
+    csdlc-v2/src/bin/csdlc-edit.rs \
+    csdlc-v2/src/bin/csdlc-validate.rs \
+    csdlc-v2/src/edit.rs \
+    csdlc-v2/src/markdown.rs \
+    csdlc-v2/tests/gate7_lifecycle.rs \
+    docs/milestones/v0.91.7/review/pr_finish_release_gate_disposition/ISSUE_4999_TERMINAL_REVIEW_STATUS_BROAD_OWNER_LANE_DISPOSITION.yaml \
+    docs/templates/prompts/1.0.3/srp.md
+  git commit -q -m typed-csdlc-owner-focused
+  typed_csdlc_owner_head="$(git rev-parse HEAD)"
+
+  typed_csdlc_owner_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$typed_csdlc_owner_head" --ref "refs/pull/1/merge")"
+  assert_has "$typed_csdlc_owner_output" "rust_required=false"
+  assert_has "$typed_csdlc_owner_output" "coverage_required=false"
+  assert_has "$typed_csdlc_owner_output" "full_coverage_required=false"
+  assert_has "$typed_csdlc_owner_output" "demo_smoke_required=false"
+  assert_has "$typed_csdlc_owner_output" "ci_contracts_required=true"
+  assert_has "$typed_csdlc_owner_output" "validation_profile_contract_lanes_selected=true"
+  assert_has "$typed_csdlc_owner_output" "csdlc_v2_standalone_required=true"
+  assert_has "$typed_csdlc_owner_output" "fail_closed=false"
+  assert_has "$typed_csdlc_owner_output" "coverage_lane=skip"
+  assert_has "$typed_csdlc_owner_output" "coverage_authority=not_required"
+  assert_has "$typed_csdlc_owner_output" "reason=standalone_csdlc_v2_surface_requires_only_its_independent_focused_suite"
+  assert_has "$typed_csdlc_owner_output" "validation_profile_status=ready_to_run"
+  assert_has "$typed_csdlc_owner_output" "validation_profile_escalation_required=false"
+  assert_has "$typed_csdlc_owner_output" "validation_profile_run_lanes=csdlc_v2_standalone,docs_diff_check,prompt_template_contracts"
+  assert_has "$typed_csdlc_owner_output" "validation_profile_escalation_lanes="
+
+  git checkout -q -b policy-surface-change "$base_sha"
+  mkdir -p adl/tools
+  printf '#!/usr/bin/env bash\nprintf policy\n' > adl/tools/enforce_coverage_gates.sh
+  git add adl/tools/enforce_coverage_gates.sh
+  git commit -q -m policy-surface-change
+  policy_surface_head="$(git rev-parse HEAD)"
+
+  policy_surface_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$policy_surface_head" --ref "refs/pull/1/merge")"
+  assert_has "$policy_surface_output" "change_class=workflow_tooling"
+  assert_has "$policy_surface_output" "pvf_lane=contract"
+  assert_has "$policy_surface_output" "release_gate_role=contract_required"
+  assert_has "$policy_surface_output" "rust_required=false"
+  assert_has "$policy_surface_output" "coverage_required=false"
+  assert_has "$policy_surface_output" "full_coverage_required=false"
+  assert_has "$policy_surface_output" "demo_smoke_required=false"
+  assert_has "$policy_surface_output" "v0913_proof_required=false"
+  assert_has "$policy_surface_output" "release_version_only=false"
+  assert_has "$policy_surface_output" "ci_contracts_required=true"
+  assert_has "$policy_surface_output" "ci_path_policy_contracts_required=false"
+  assert_has "$policy_surface_output" "ci_contract_toolchain_required=false"
+  assert_has "$policy_surface_output" "pvf_ci_release_contract_required=false"
+  assert_has "$policy_surface_output" "v0913_proof_contract_required=false"
+  assert_has "$policy_surface_output" "slow_proof_contract_required=false"
+  assert_has "$policy_surface_output" "skill_author_contracts_required=false"
+  assert_has "$policy_surface_output" "coverage_lane=skip"
+  assert_has "$policy_surface_output" "coverage_authority=not_required"
+  assert_has "$policy_surface_output" "proof_validation_scope=not_required"
+  assert_has "$policy_surface_output" "reason=coverage_policy_surface_tooling_change_runs_contract_validation"
+  assert_has "$policy_surface_output" "validation_profile_selected=coverage_impact_contracts_profile"
+  assert_has "$policy_surface_output" "validation_profile_status=ready_to_run"
+  assert_has "$policy_surface_output" "validation_profile_escalation_required=false"
+  assert_has "$policy_surface_output" "validation_profile_run_lanes=coverage_impact_contracts"
+  assert_has "$policy_surface_output" "validation_profile_primary_reason=coverage_impact_surface_requires_coverage_impact_contract_checks"
+  assert_has "$policy_surface_output" "validation_profile_escalation_lanes="
+
+  git checkout -q -b policy-surface-plus-demo-tooling "$base_sha"
+  mkdir -p adl/tools docs/milestones/v0.91.4/review/demo_showcase
+  printf '#!/usr/bin/env bash\nprintf policy\n' > adl/tools/enforce_coverage_gates.sh
+  printf '#!/usr/bin/env bash\nprintf demo\n' > adl/tools/demo_v0914_complete_issue.sh
+  printf '# demo note\n' > docs/milestones/v0.91.4/review/demo_showcase/DEMO_NOTE.md
+  git add adl/tools/enforce_coverage_gates.sh adl/tools/demo_v0914_complete_issue.sh docs/milestones/v0.91.4/review/demo_showcase/DEMO_NOTE.md
+  git commit -q -m policy-surface-plus-demo-tooling
+  policy_surface_plus_demo_head="$(git rev-parse HEAD)"
+
+  policy_surface_plus_demo_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$policy_surface_plus_demo_head" --ref "refs/pull/1/merge")"
+  assert_has "$policy_surface_plus_demo_output" "rust_required=false"
+  assert_has "$policy_surface_plus_demo_output" "coverage_required=false"
+  assert_has "$policy_surface_plus_demo_output" "full_coverage_required=false"
+  assert_has "$policy_surface_plus_demo_output" "demo_smoke_required=true"
+  assert_has "$policy_surface_plus_demo_output" "ci_contracts_required=true"
+  assert_has "$policy_surface_plus_demo_output" "coverage_lane=skip"
+  assert_has "$policy_surface_plus_demo_output" "coverage_authority=not_required"
+  assert_has "$policy_surface_plus_demo_output" "reason=coverage_policy_surface_tooling_change_runs_contract_validation"
+
+  git checkout -q -b podcast-launch-static-surface "$base_sha"
+  mkdir -p .csdlc/issues/5715 adl/tools demos/podcast/studio-reference demos/podcast/studio
+  printf '{"phase":"published"}\n' > .csdlc/issues/5715/index.json
+  printf '#!/usr/bin/env python3\nprint("generate podcast launch packet")\n' > adl/tools/generate_podcast_launch_packet.py
+  printf '#!/usr/bin/env python3\nprint("validate podcast launch packet")\n' > adl/tools/validate_podcast_launch_packet.py
+  printf '<!doctype html><title>Podcast</title>\n' > demos/podcast/index.html
+  printf '<!doctype html><title>Podcast Studio Reference</title>\n' > demos/podcast/studio-reference/podcast-studio.html
+  printf '<!doctype html><title>Podcast Studio</title>\n' > demos/podcast/studio/podcast-studio.html
+  printf 'sha256  podcast-studio.html\n' > demos/podcast/studio/reference.sha256
+  git add .csdlc/issues/5715/index.json adl/tools/generate_podcast_launch_packet.py adl/tools/validate_podcast_launch_packet.py demos/podcast/index.html demos/podcast/studio-reference/podcast-studio.html demos/podcast/studio/podcast-studio.html demos/podcast/studio/reference.sha256
+  git commit -q -m podcast-launch-static-surface
+  podcast_launch_static_head="$(git rev-parse HEAD)"
+
+  podcast_launch_static_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$podcast_launch_static_head" --ref "refs/pull/5716/merge")"
+  assert_has "$podcast_launch_static_output" "rust_required=false"
+  assert_has "$podcast_launch_static_output" "coverage_required=false"
+  assert_has "$podcast_launch_static_output" "full_coverage_required=false"
+  assert_has "$podcast_launch_static_output" "demo_smoke_required=false"
+  assert_has "$podcast_launch_static_output" "ci_contracts_required=true"
+  assert_has "$podcast_launch_static_output" "ci_path_policy_contracts_required=false"
+  assert_has "$podcast_launch_static_output" "coverage_lane=skip"
+  assert_has "$podcast_launch_static_output" "coverage_authority=not_required"
+  assert_has "$podcast_launch_static_output" "coverage_execution_state=skipped_by_path_policy"
+  assert_has "$podcast_launch_static_output" "validation_profile_status=ready_to_run"
+  assert_has "$podcast_launch_static_output" "validation_profile_escalation_required=false"
+  assert_has "$podcast_launch_static_output" "validation_profile_run_lanes=docs_diff_check,podcast_launch_packet"
+  assert_has "$podcast_launch_static_output" "validation_profile_primary_reason=docs_only_surface_requires_diff_hygiene"
+  assert_has "$podcast_launch_static_output" "reason=podcast_launch_surface_requires_audio_rss_and_studio_packet_validation"
+
+  git checkout -q -b podcast-launch-with-path-policy-contracts "$base_sha"
+  mkdir -p .csdlc/issues/5715 adl/tools demos/podcast/studio-reference demos/podcast/studio
+  printf '{"phase":"published"}\n' > .csdlc/issues/5715/index.json
+  printf '#!/usr/bin/env python3\nprint("generate podcast launch packet")\n' > adl/tools/generate_podcast_launch_packet.py
+  printf '#!/usr/bin/env python3\nprint("validate podcast launch packet")\n' > adl/tools/validate_podcast_launch_packet.py
+  printf '#!/usr/bin/env bash\nprintf path-policy-contract\n' > adl/tools/ci_path_policy.sh
+  printf '#!/usr/bin/env bash\nprintf path-policy-test\n' > adl/tools/test_ci_path_policy.sh
+  printf '<!doctype html><title>Podcast</title>\n' > demos/podcast/index.html
+  printf '<!doctype html><title>Podcast Studio Reference</title>\n' > demos/podcast/studio-reference/podcast-studio.html
+  printf '<!doctype html><title>Podcast Studio</title>\n' > demos/podcast/studio/podcast-studio.html
+  printf 'sha256  podcast-studio.html\n' > demos/podcast/studio/reference.sha256
+  git add .csdlc/issues/5715/index.json adl/tools/generate_podcast_launch_packet.py adl/tools/validate_podcast_launch_packet.py adl/tools/ci_path_policy.sh adl/tools/test_ci_path_policy.sh demos/podcast/index.html demos/podcast/studio-reference/podcast-studio.html demos/podcast/studio/podcast-studio.html demos/podcast/studio/reference.sha256
+  git commit -q -m podcast-launch-with-path-policy-contracts
+  podcast_launch_policy_head="$(git rev-parse HEAD)"
+
+  podcast_launch_policy_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$podcast_launch_policy_head" --ref "refs/pull/5720/merge")"
+  assert_has "$podcast_launch_policy_output" "rust_required=false"
+  assert_has "$podcast_launch_policy_output" "coverage_required=false"
+  assert_has "$podcast_launch_policy_output" "full_coverage_required=false"
+  assert_has "$podcast_launch_policy_output" "demo_smoke_required=false"
+  assert_has "$podcast_launch_policy_output" "ci_contracts_required=true"
+  assert_has "$podcast_launch_policy_output" "ci_path_policy_contracts_required=true"
+  assert_has "$podcast_launch_policy_output" "coverage_lane=skip"
+  assert_has "$podcast_launch_policy_output" "coverage_authority=not_required"
+  assert_has "$podcast_launch_policy_output" "coverage_execution_state=skipped_by_path_policy"
+  assert_has "$podcast_launch_policy_output" "validation_profile_run_lanes=ci_path_policy_contracts,docs_diff_check,podcast_launch_packet"
+  assert_has "$podcast_launch_policy_output" "reason=ci_policy_surface_requires_path_policy_contract_checks"
+
+  git checkout -q -b pvf-runner-policy-surface "$base_sha"
+  mkdir -p adl/tools
+  printf '#!/usr/bin/env bash\nprintf pvf-runner\n' > adl/tools/run_pvf_validation_lane.sh
+  git add adl/tools/run_pvf_validation_lane.sh
+  git commit -q -m pvf-runner-policy-surface
+  pvf_runner_policy_head="$(git rev-parse HEAD)"
+
+  pvf_runner_policy_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$pvf_runner_policy_head" --ref "refs/pull/1/merge")"
+  assert_has "$pvf_runner_policy_output" "ci_contracts_required=true"
+
+  git checkout -q -b workflow-reporting-only-change "$base_sha"
+  python3 - <<'PY'
+from pathlib import Path
+
+path = Path(".github/workflows/ci.yaml")
+path.write_text(path.read_text().replace("            adl/coverage-summary.txt\n", "            adl/coverage-summary.txt\n            adl/coverage-summary.json\n", 1))
+PY
+  git add .github/workflows/ci.yaml
+  git commit -q -m workflow-reporting-only-change
+  workflow_reporting_head="$(git rev-parse HEAD)"
+
+  workflow_reporting_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$workflow_reporting_head" --ref "refs/pull/1/merge")"
+  assert_has "$workflow_reporting_output" "rust_required=false"
+  assert_has "$workflow_reporting_output" "coverage_required=false"
+  assert_has "$workflow_reporting_output" "full_coverage_required=false"
+  assert_has "$workflow_reporting_output" "demo_smoke_required=false"
+  assert_has "$workflow_reporting_output" "v0913_proof_required=false"
+  assert_has "$workflow_reporting_output" "release_version_only=false"
+  assert_has "$workflow_reporting_output" "ci_contracts_required=true"
+  assert_has "$workflow_reporting_output" "coverage_lane=skip"
+  assert_has "$workflow_reporting_output" "coverage_authority=not_required"
+  assert_has "$workflow_reporting_output" "proof_validation_scope=not_required"
+  assert_has "$workflow_reporting_output" "reason=coverage_reporting_workflow_change_skips_authoritative_coverage"
+
+  git checkout -q -b workflow-pvf-slow-proof-change "$base_sha"
+  python3 - <<'PY'
+from pathlib import Path
+
+path = Path(".github/workflows/ci.yaml")
+text = path.read_text()
+text = text.replace(
+    "jobs:\n",
+    'on:\n  workflow_dispatch:\n  schedule:\n    - cron: "17 10 * * *"\n\njobs:\n',
+    1,
+)
+text = text.replace(
+    "      - name: Coverage run and summary (json)\n        run: bash adl/tools/run_authoritative_coverage_lane.sh\n",
+    "      - name: slow-proof lane contract\n        if: steps.path-policy.outputs.ci_contracts_required == 'true'\n        run: bash adl/tools/test_slow_proof_lane_contract.sh\n      - name: Coverage run and summary (json)\n        run: bash adl/tools/run_authoritative_coverage_lane.sh\n",
+    1,
+)
+text += """
+  adl-slow-proof:
+    if: github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
+    defaults:
+      run:
+        working-directory: adl
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+        with:
+          fetch-depth: 0
+      - name: Install cargo-nextest
+        uses: taiki-e/install-action@e5c52b603cc5f5e9b52b6a43afad8e9fe0527090
+        with:
+          tool: nextest
+      - name: Slow proof shard
+        run: cargo nextest run --features slow-proof-tests --partition count:${{ matrix.shard }}/4 --status-level all --final-status-level slow
+"""
+path.write_text(text)
+PY
+  git add .github/workflows/ci.yaml
+  git commit -q -m workflow-pvf-slow-proof-change
+  workflow_pvf_slow_proof_head="$(git rev-parse HEAD)"
+
+  workflow_pvf_slow_proof_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$workflow_pvf_slow_proof_head" --ref "refs/pull/1/merge")"
+  assert_has "$workflow_pvf_slow_proof_output" "rust_required=true"
+  assert_has "$workflow_pvf_slow_proof_output" "coverage_required=false"
+  assert_has "$workflow_pvf_slow_proof_output" "full_coverage_required=false"
+  assert_has "$workflow_pvf_slow_proof_output" "demo_smoke_required=false"
+  assert_has "$workflow_pvf_slow_proof_output" "v0913_proof_required=false"
+  assert_has "$workflow_pvf_slow_proof_output" "ci_contracts_required=true"
+  assert_has "$workflow_pvf_slow_proof_output" "coverage_lane=skip"
+  assert_has "$workflow_pvf_slow_proof_output" "coverage_authority=not_required"
+  assert_has "$workflow_pvf_slow_proof_output" "reason=pvf_slow_proof_change_runs_contract_validation"
+
+  git checkout -q -b slow-proof-runtime-bounded-pr-fast-coverage-policy-change "$base_sha"
+  mkdir -p adl/src/runtime_v2 adl/tools
+  python3 - <<'PY'
+from pathlib import Path
+
+workflow = Path(".github/workflows/ci.yaml")
+text = workflow.read_text()
+text = text.replace(
+    "      - name: Coverage run and summary (json)\n        run: bash adl/tools/run_authoritative_coverage_lane.sh\n",
+    "      - name: slow-proof lane contract\n        if: steps.path-policy.outputs.ci_contracts_required == 'true'\n        run: bash adl/tools/test_slow_proof_lane_contract.sh\n      - name: Coverage run and summary (json)\n        run: bash adl/tools/run_authoritative_coverage_lane.sh\n",
+    1,
+)
+text += """
+  adl-slow-proof:
+    if: github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || needs.adl_path_policy.outputs.slow_proof_contract_required == 'true'
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
+    steps:
+      - name: Slow proof shard
+        run: bash tools/run_slow_proof_family.sh --family all --run --partition "count:${{ matrix.shard }}/4"
+"""
+workflow.write_text(text)
+
+Path("adl/src/runtime_v2/tests.rs").write_text(
+    '#[cfg(feature = "slow-proof-tests")]\n'
+    'mod private_state_observatory;\n'
+)
+Path("adl/src/runtime_v2/private_state_observatory.rs").write_text(
+    "pub fn private_state_observatory_fixture() -> bool { true }\n"
+)
+
+coverage = Path("adl/tools/check_coverage_impact.sh")
+coverage.write_text(
+    "#!/usr/bin/env bash\n"
+    "candidate_filter_for_path() {\n"
+    "  local path=\"$1\"\n"
+    "  case \"$path\" in\n"
+    "    adl/src/runtime_v2/private_state_observatory.rs)\n"
+    "      printf 'private_state_observatory'\n"
+    "      ;;\n"
+    "  esac\n"
+    "}\n"
+)
+Path("adl/tools/test_check_coverage_impact.sh").write_text(
+    "#!/usr/bin/env bash\n# private_state_observatory\n"
+)
+PY
+  git add .github/workflows/ci.yaml \
+    adl/src/runtime_v2/tests.rs \
+    adl/src/runtime_v2/private_state_observatory.rs \
+    adl/tools/check_coverage_impact.sh \
+    adl/tools/test_check_coverage_impact.sh
+  git commit -q -m slow-proof-runtime-bounded-pr-fast-coverage-policy-change
+  slow_proof_runtime_bounded_head="$(git rev-parse HEAD)"
+
+  slow_proof_runtime_bounded_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$slow_proof_runtime_bounded_head" --ref "refs/pull/1/merge")"
+  assert_has "$slow_proof_runtime_bounded_output" "rust_required=true"
+  assert_has "$slow_proof_runtime_bounded_output" "coverage_required=false"
+  assert_has "$slow_proof_runtime_bounded_output" "full_coverage_required=false"
+  assert_has "$slow_proof_runtime_bounded_output" "demo_smoke_required=false"
+  assert_has "$slow_proof_runtime_bounded_output" "ci_contracts_required=true"
+  assert_has "$slow_proof_runtime_bounded_output" "slow_proof_contract_required=true"
+  assert_has "$slow_proof_runtime_bounded_output" "coverage_lane=deferred_pr_fast"
+  assert_has "$slow_proof_runtime_bounded_output" "coverage_authority=focused_nextest_pr_fast"
+  assert_has "$slow_proof_runtime_bounded_output" "reason=bounded_pr_fast_coverage_policy_change_keeps_pr_fast_rust_validation"
+
+  git checkout -q -b workflow-authoritative-policy-change "$base_sha"
+  python3 - <<'PY'
+from pathlib import Path
+
+path = Path(".github/workflows/ci.yaml")
+path.write_text(path.read_text().replace("run: bash adl/tools/run_authoritative_coverage_lane.sh", "run: bash adl/tools/run_authoritative_coverage_lane.sh --strict", 1))
+PY
+  git add .github/workflows/ci.yaml
+  git commit -q -m workflow-authoritative-policy-change
+  workflow_policy_head="$(git rev-parse HEAD)"
+
+  workflow_policy_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$workflow_policy_head" --ref "refs/pull/1/merge")"
+  assert_has "$workflow_policy_output" "rust_required=false"
+  assert_has "$workflow_policy_output" "coverage_required=false"
+  assert_has "$workflow_policy_output" "full_coverage_required=false"
+  assert_has "$workflow_policy_output" "demo_smoke_required=false"
+  assert_has "$workflow_policy_output" "v0913_proof_required=false"
+  assert_has "$workflow_policy_output" "ci_contracts_required=true"
+  assert_has "$workflow_policy_output" "coverage_lane=skip"
+  assert_has "$workflow_policy_output" "coverage_authority=not_required"
+  assert_has "$workflow_policy_output" "proof_validation_scope=not_required"
+
+  git checkout -q -b v0913-proof-surface "$base_sha"
+  mkdir -p docs/milestones/v0.91.3/review/merge_readiness
+  printf '\nproof note\n' >> docs/milestones/v0.91.3/review/merge_readiness/ct_demo_001_merge_gate.md
+  git add docs/milestones/v0.91.3/review/merge_readiness/ct_demo_001_merge_gate.md
+  git commit -q -m v0913-proof-surface
+  v0913_proof_head="$(git rev-parse HEAD)"
+
+  v0913_proof_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$v0913_proof_head" --ref "refs/pull/1/merge")"
+  assert_has "$v0913_proof_output" "rust_required=true"
+  assert_has "$v0913_proof_output" "coverage_required=false"
+  assert_has "$v0913_proof_output" "full_coverage_required=false"
+  assert_has "$v0913_proof_output" "demo_smoke_required=false"
+  assert_has "$v0913_proof_output" "v0913_proof_required=true"
+  assert_has "$v0913_proof_output" "ci_contracts_required=true"
+  assert_has "$v0913_proof_output" "v0913_proof_contract_required=true"
+  assert_has "$v0913_proof_output" "proof_validation_scope=v0_91_3"
+  assert_has "$v0913_proof_output" "reason=v0913_proof_surface_change_runs_targeted_packet_validation"
+  assert_has "$workflow_policy_output" "reason=coverage_policy_surface_tooling_change_runs_contract_validation"
+
+  git checkout -q -b v0913-proof-contract-surface "$base_sha"
+  mkdir -p adl/tools
+  printf '#!/usr/bin/env bash\nprintf v0913-proof\n' > adl/tools/run_v0913_proof_validation_lane.sh
+  printf '#!/usr/bin/env bash\nprintf v0913-proof-test\n' > adl/tools/test_run_v0913_proof_validation_lane.sh
+  git add adl/tools/run_v0913_proof_validation_lane.sh adl/tools/test_run_v0913_proof_validation_lane.sh
+  git commit -q -m v0913-proof-contract-surface
+  v0913_proof_contract_head="$(git rev-parse HEAD)"
+
+  v0913_proof_contract_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$v0913_proof_contract_head" --ref "refs/pull/1/merge")"
+  assert_has "$v0913_proof_contract_output" "ci_contracts_required=true"
+  assert_has "$v0913_proof_contract_output" "ci_path_policy_contracts_required=true"
+  assert_has "$v0913_proof_contract_output" "v0913_proof_contract_required=true"
+  assert_has "$v0913_proof_contract_output" "full_coverage_required=false"
+  assert_has "$v0913_proof_contract_output" "reason=v0913_proof_contract_surface_runs_tracked_proof_contract"
+
+  git checkout -q -b v0913-feature-proof-surface "$base_sha"
+  mkdir -p docs/milestones/v0.91.3/features docs/milestones/v0.91.3/review/evidence/csdlc/issues/issue-3201-card-lifecycle-demo
+  printf '# feature proof\n' > docs/milestones/v0.91.3/features/CARD_LIFECYCLE_INTEGRATION.md
+  printf '# tracked bundle\n' > docs/milestones/v0.91.3/review/evidence/csdlc/issues/issue-3201-card-lifecycle-demo/README.md
+  git add docs/milestones/v0.91.3/features/CARD_LIFECYCLE_INTEGRATION.md docs/milestones/v0.91.3/review/evidence/csdlc/issues/issue-3201-card-lifecycle-demo/README.md
+  git commit -q -m v0913-feature-proof-surface
+  v0913_feature_proof_head="$(git rev-parse HEAD)"
+
+  v0913_feature_proof_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$v0913_feature_proof_head" --ref "refs/pull/1/merge")"
+  assert_has "$v0913_feature_proof_output" "rust_required=true"
+  assert_has "$v0913_feature_proof_output" "coverage_required=false"
+  assert_has "$v0913_feature_proof_output" "full_coverage_required=false"
+  assert_has "$v0913_feature_proof_output" "demo_smoke_required=false"
+  assert_has "$v0913_feature_proof_output" "v0913_proof_required=true"
+  assert_has "$v0913_feature_proof_output" "ci_contracts_required=true"
+  assert_has "$v0913_feature_proof_output" "proof_validation_scope=v0_91_3"
+  assert_has "$v0913_feature_proof_output" "reason=v0913_proof_surface_change_runs_targeted_packet_validation"
+
+  git checkout -q -b v0913-proof-surface-deletion "$base_sha"
+  mkdir -p docs/milestones/v0.91.3/review/demo_coverage
+  printf '# proof packet\n' > docs/milestones/v0.91.3/review/demo_coverage/DEMO_COVERAGE_PACKET_v0.91.3.md
+  git add docs/milestones/v0.91.3/review/demo_coverage/DEMO_COVERAGE_PACKET_v0.91.3.md
+  git commit -q -m seed-v0913-proof-surface-deletion
+  deletion_base="$(git rev-parse HEAD)"
+  rm docs/milestones/v0.91.3/review/demo_coverage/DEMO_COVERAGE_PACKET_v0.91.3.md
+  git add -A docs/milestones/v0.91.3/review/demo_coverage/DEMO_COVERAGE_PACKET_v0.91.3.md
+  git commit -q -m delete-v0913-proof-surface
+  deletion_head="$(git rev-parse HEAD)"
+
+  deletion_output="$("$POLICY" --event-name pull_request --base "$deletion_base" --head "$deletion_head" --ref "refs/pull/1/merge")"
+  assert_has "$deletion_output" "rust_required=true"
+  assert_has "$deletion_output" "coverage_required=false"
+  assert_has "$deletion_output" "full_coverage_required=false"
+  assert_has "$deletion_output" "demo_smoke_required=false"
+  assert_has "$deletion_output" "v0913_proof_required=true"
+  assert_has "$deletion_output" "ci_contracts_required=true"
+  assert_has "$deletion_output" "proof_validation_scope=v0_91_3"
+  assert_has "$deletion_output" "reason=v0913_proof_surface_change_runs_targeted_packet_validation"
+
+  git checkout -q -b runtime-policy-surface-change "$base_sha"
+  mkdir -p adl/tools
+  printf '#!/usr/bin/env bash\nprintf policy\n' > adl/tools/enforce_coverage_gates.sh
+  printf 'pub fn runtime_with_policy() -> bool { true }\n' >> adl/src/lib.rs
+  git add adl/tools/enforce_coverage_gates.sh adl/src/lib.rs
+  git commit -q -m runtime-policy-surface-change
+  runtime_policy_surface_head="$(git rev-parse HEAD)"
+
+  runtime_policy_surface_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$runtime_policy_surface_head" --ref "refs/pull/1/merge")"
+  assert_has "$runtime_policy_surface_output" "rust_required=true"
+  assert_has "$runtime_policy_surface_output" "coverage_required=true"
+  assert_has "$runtime_policy_surface_output" "full_coverage_required=true"
+  assert_has "$runtime_policy_surface_output" "demo_smoke_required=false"
+  assert_has "$runtime_policy_surface_output" "ci_contracts_required=true"
+  assert_has "$runtime_policy_surface_output" "coverage_lane=authoritative_full"
+  assert_has "$runtime_policy_surface_output" "coverage_authority=pr_policy_surface_runtime_mixed"
+  assert_has "$runtime_policy_surface_output" "reason=coverage_policy_surface_change_with_runtime_surface_runs_full_coverage"
+
+  git checkout -q -b workflow-summary-only-change "$base_sha"
+  python3 - <<'PY'
+from pathlib import Path
+
+workflow = Path(".github/workflows/ci.yaml")
+text = workflow.read_text()
+needle = "      - name: Determine PR fast coverage filters\n"
+if needle not in text:
+    raise SystemExit("expected coverage classifier insertion point missing")
+replacement = r"""      - name: Validation profile summary (adl-coverage)
+        run: |
+          {
+            echo "## ADL coverage validation profile"
+            echo
+            echo "| Field | Value |"
+            echo "|---|---|"
+            echo "| reason | \`${{ steps.path-policy.outputs.reason }}\` |"
+            echo "| selected profile | \`${{ steps.path-policy.outputs.validation_profile_selected }}\` |"
+            echo "| profile status | \`${{ steps.path-policy.outputs.validation_profile_status }}\` |"
+            echo "| coverage lane | \`${{ steps.path-policy.outputs.coverage_lane }}\` |"
+            echo "| coverage authority | \`${{ steps.path-policy.outputs.coverage_authority }}\` |"
+            echo "| profile run lanes | \`${{ steps.path-policy.outputs.validation_profile_run_lanes }}\` |"
+            echo "| escalation required | \`${{ steps.path-policy.outputs.validation_profile_escalation_required }}\` |"
+          } >> "$GITHUB_STEP_SUMMARY"
+        working-directory: .
+
+      - name: Determine PR fast coverage filters
+"""
+workflow.write_text(text.replace(needle, replacement, 1))
+PY
+  git add .github/workflows/ci.yaml
+  git commit -q -m workflow-summary-only-change
+  workflow_summary_only_head="$(git rev-parse HEAD)"
+
+  workflow_summary_only_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$workflow_summary_only_head" --ref "refs/pull/1/merge")"
+  assert_has "$workflow_summary_only_output" "rust_required=false"
+  assert_has "$workflow_summary_only_output" "coverage_required=false"
+  assert_has "$workflow_summary_only_output" "full_coverage_required=false"
+  assert_has "$workflow_summary_only_output" "demo_smoke_required=false"
+  assert_has "$workflow_summary_only_output" "ci_contracts_required=true"
+  assert_has "$workflow_summary_only_output" "coverage_lane=skip"
+  assert_has "$workflow_summary_only_output" "coverage_authority=not_required"
+  assert_has "$workflow_summary_only_output" "reason=validation_profile_summary_workflow_change_skips_authoritative_coverage"
+
+  git checkout -q -b workflow-validation-manager-test-deferral "$base_sha"
+  python3 - <<'PY'
+from pathlib import Path
+
+workflow = Path(".github/workflows/ci.yaml")
+text = workflow.read_text()
+old_without_deferral = """      - name: test
+        if: steps.path-policy.outputs.rust_required == 'true' && steps.path-policy.outputs.full_coverage_required != 'true'
+        run: bash adl/tools/run_pr_fast_test_lane.sh --base \"${{ github.event.pull_request.base.sha }}\" --head \"${{ github.event.pull_request.head.sha }}\"
+        working-directory: .
+
+"""
+old_with_deferral = """      - name: test
+        if: steps.path-policy.outputs.rust_required == 'true' && steps.path-policy.outputs.full_coverage_required != 'true' && steps.path-policy.outputs.validation_profile_escalation_required != 'true'
+        run: bash adl/tools/run_pr_fast_test_lane.sh --base \"${{ github.event.pull_request.base.sha }}\" --head \"${{ github.event.pull_request.head.sha }}\"
+        working-directory: .
+
+      - name: test deferred to validation-manager escalation
+        if: steps.path-policy.outputs.rust_required == 'true' && steps.path-policy.outputs.full_coverage_required != 'true' && steps.path-policy.outputs.validation_profile_escalation_required == 'true'
+        run: |
+          echo \"Ordinary PR-fast Rust test lane deferred because the validation manager selected an escalation profile.\"
+          echo \"Selected profile: ${{ steps.path-policy.outputs.validation_profile_selected }}\"
+          echo \"Profile status: ${{ steps.path-policy.outputs.validation_profile_status }}\"
+          echo \"PR publication sufficient: ${{ steps.path-policy.outputs.validation_profile_pr_publication_sufficient }}\"
+          echo \"Run lanes: ${{ steps.path-policy.outputs.validation_profile_run_lanes }}\"
+          echo \"Escalation lanes: ${{ steps.path-policy.outputs.validation_profile_escalation_lanes }}\"
+          echo \"Reason: ${{ steps.path-policy.outputs.validation_profile_primary_reason }}\"
+        working-directory: .
+
+"""
+if old_without_deferral in text:
+    text = text.replace(old_without_deferral, old_with_deferral, 1)
+elif old_with_deferral not in text:
+    text = text.rstrip() + "\n\n" + old_with_deferral
+workflow.write_text(text)
+PY
+  git add .github/workflows/ci.yaml
+  git commit -q -m workflow-validation-manager-test-deferral
+  workflow_test_deferral_head="$(git rev-parse HEAD)"
+
+  workflow_test_deferral_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$workflow_test_deferral_head" --ref "refs/pull/1/merge")"
+  assert_has "$workflow_test_deferral_output" "rust_required=false"
+  assert_has "$workflow_test_deferral_output" "coverage_required=false"
+  assert_has "$workflow_test_deferral_output" "full_coverage_required=false"
+  assert_has "$workflow_test_deferral_output" "demo_smoke_required=false"
+  assert_has "$workflow_test_deferral_output" "ci_contracts_required=true"
+  assert_has "$workflow_test_deferral_output" "coverage_lane=skip"
+  assert_has "$workflow_test_deferral_output" "coverage_authority=not_required"
+  assert_has "$workflow_test_deferral_output" "reason=validation_manager_test_deferral_workflow_change_skips_authoritative_coverage"
+
+  git checkout -q -b workflow-summary-plus-policy-change "$base_sha"
+  python3 - <<'PY'
+from pathlib import Path
+
+workflow = Path(".github/workflows/ci.yaml")
+text = workflow.read_text()
+needle = "      - name: Determine PR fast coverage filters\n"
+replacement = r"""      - name: Validation profile summary (adl-coverage)
+        run: |
+          {
+            echo "## ADL coverage validation profile"
+            echo
+            echo "| Field | Value |"
+            echo "|---|---|"
+            echo "| reason | \`${{ steps.path-policy.outputs.reason }}\` |"
+            echo "| selected profile | \`${{ steps.path-policy.outputs.validation_profile_selected }}\` |"
+            echo "| profile status | \`${{ steps.path-policy.outputs.validation_profile_status }}\` |"
+            echo "| coverage lane | \`${{ steps.path-policy.outputs.coverage_lane }}\` |"
+            echo "| coverage authority | \`${{ steps.path-policy.outputs.coverage_authority }}\` |"
+            echo "| profile run lanes | \`${{ steps.path-policy.outputs.validation_profile_run_lanes }}\` |"
+            echo "| escalation required | \`${{ steps.path-policy.outputs.validation_profile_escalation_required }}\` |"
+          } >> "$GITHUB_STEP_SUMMARY"
+        working-directory: .
+
+      - name: Determine PR fast coverage filters
+"""
+text = text.replace(needle, replacement, 1)
+text = text.replace("run: bash adl/tools/run_authoritative_coverage_lane.sh", "run: bash adl/tools/run_authoritative_coverage_lane.sh --strict", 1)
+workflow.write_text(text)
+PY
+  git add .github/workflows/ci.yaml
+  git commit -q -m workflow-summary-plus-policy-change
+  workflow_summary_plus_policy_head="$(git rev-parse HEAD)"
+
+  workflow_summary_plus_policy_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$workflow_summary_plus_policy_head" --ref "refs/pull/1/merge")"
+  assert_has "$workflow_summary_plus_policy_output" "rust_required=false"
+  assert_has "$workflow_summary_plus_policy_output" "coverage_required=false"
+  assert_has "$workflow_summary_plus_policy_output" "full_coverage_required=false"
+  assert_has "$workflow_summary_plus_policy_output" "demo_smoke_required=false"
+  assert_has "$workflow_summary_plus_policy_output" "ci_contracts_required=true"
+  assert_has "$workflow_summary_plus_policy_output" "coverage_lane=skip"
+  assert_has "$workflow_summary_plus_policy_output" "coverage_authority=not_required"
+  assert_has "$workflow_summary_plus_policy_output" "reason=coverage_policy_surface_tooling_change_runs_contract_validation"
+
+  git checkout -q -b nightly-schedule-only-change "$base_sha"
+  python3 - <<'PY'
+from pathlib import Path
+
+nightly = Path(".github/workflows/nightly-coverage-ratchet.yaml")
+nightly.write_text(nightly.read_text() + '  schedule:\n    - cron: "43 11 * * *"\n')
+PY
+  git add .github/workflows/nightly-coverage-ratchet.yaml
+  git commit -q -m nightly-schedule-only-change
+  nightly_schedule_only_head="$(git rev-parse HEAD)"
+
+  nightly_schedule_only_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$nightly_schedule_only_head" --ref "refs/pull/1/merge")"
+  assert_has "$nightly_schedule_only_output" "rust_required=false"
+  assert_has "$nightly_schedule_only_output" "coverage_required=false"
+  assert_has "$nightly_schedule_only_output" "full_coverage_required=false"
+  assert_has "$nightly_schedule_only_output" "demo_smoke_required=false"
+  assert_has "$nightly_schedule_only_output" "ci_contracts_required=true"
+  assert_has "$nightly_schedule_only_output" "coverage_lane=skip"
+  assert_has "$nightly_schedule_only_output" "coverage_authority=not_required"
+  assert_has "$nightly_schedule_only_output" "reason=nightly_coverage_schedule_only_change_skips_authoritative_coverage"
+
+  git checkout -q -b validation-summary-policy-bundle "$base_sha"
+  python3 - <<'PY'
+from pathlib import Path
+
+workflow = Path(".github/workflows/ci.yaml")
+text = workflow.read_text()
+needle = "      - name: Determine PR fast coverage filters\n"
+replacement = r"""      - name: Validation profile summary (adl-coverage)
+        run: |
+          {
+            echo "## ADL coverage validation profile"
+            echo
+            echo "| Field | Value |"
+            echo "|---|---|"
+            echo "| reason | \`${{ steps.path-policy.outputs.reason }}\` |"
+            echo "| selected profile | \`${{ steps.path-policy.outputs.validation_profile_selected }}\` |"
+            echo "| profile status | \`${{ steps.path-policy.outputs.validation_profile_status }}\` |"
+            echo "| coverage lane | \`${{ steps.path-policy.outputs.coverage_lane }}\` |"
+            echo "| coverage authority | \`${{ steps.path-policy.outputs.coverage_authority }}\` |"
+            echo "| profile run lanes | \`${{ steps.path-policy.outputs.validation_profile_run_lanes }}\` |"
+            echo "| escalation required | \`${{ steps.path-policy.outputs.validation_profile_escalation_required }}\` |"
+          } >> "$GITHUB_STEP_SUMMARY"
+        working-directory: .
+
+      - name: Determine PR fast coverage filters
+"""
+workflow.write_text(text.replace(needle, replacement, 1))
+workflow = Path(".github/workflows/ci.yaml")
+text = workflow.read_text()
+deferred = """      - name: Full workspace gate deferred for bounded authoritative PR
+        if: github.event_name == 'pull_request' && steps.path-policy.outputs.full_coverage_required == 'true'
+        run: |
+          echo "Workspace coverage gate and lcov artifact generation are deferred for pull requests."
+          echo "This PR ran the authoritative coverage pass plus changed-source coverage-impact validation."
+          echo "Full workspace coverage gating remains required on push-to-main, nightly ratchet, and non-PR fail-closed events."
+          echo "Policy reason: ${{ steps.path-policy.outputs.reason }}"
+          echo "Coverage lane: ${{ steps.path-policy.outputs.coverage_lane }}"
+          echo "Coverage authority: ${{ steps.path-policy.outputs.coverage_authority }}"
+
+"""
+if deferred in text:
+    text = text.replace(deferred, "", 1)
+workflow.write_text(text)
+
+nightly = Path(".github/workflows/nightly-coverage-ratchet.yaml")
+nightly.write_text(nightly.read_text() + '  schedule:\n    - cron: "43 11 * * *"\n')
+
+policy = Path("adl/tools/ci_path_policy.sh")
+policy.parent.mkdir(parents=True, exist_ok=True)
+policy.write_text(
+    "#!/usr/bin/env bash\n"
+    "is_validation_profile_summary_workflow_change() { :; }\n"
+    "is_nightly_coverage_schedule_only_change() { :; }\n"
+    "reason=validation_profile_summary_workflow_change_skips_authoritative_coverage\n"
+)
+
+Path("adl/tools/test_ci_path_policy.sh").write_text(
+    "#!/usr/bin/env bash\n"
+    "# workflow-summary-only-change\n"
+    "# workflow-summary-plus-policy-change\n"
+    "# nightly-schedule-only-change\n"
+    "# validation_profile_summary_workflow_change_skips_authoritative_coverage\n"
+    "# nightly_coverage_schedule_only_change_skips_authoritative_coverage\n"
+)
+
+Path("adl/tools/test_ci_runtime_contracts.sh").write_text(
+    "#!/usr/bin/env bash\n"
+    "# Validation profile summary (adl-ci)\n"
+    "# Validation profile summary (adl-coverage)\n"
+    "# GITHUB_STEP_SUMMARY\n"
+)
+
+Path("docs/milestones/v0.91.6/review").mkdir(parents=True, exist_ok=True)
+Path("docs/milestones/v0.91.6/review/ADL_CI_VALIDATION_COST_REVIEW_4322.md").write_text(
+    "# ADL CI Validation Cost Review\n"
+)
+PY
+  git add .github/workflows/ci.yaml .github/workflows/nightly-coverage-ratchet.yaml \
+    adl/tools/ci_path_policy.sh adl/tools/test_ci_path_policy.sh adl/tools/test_ci_runtime_contracts.sh \
+    docs/milestones/v0.91.6/review/ADL_CI_VALIDATION_COST_REVIEW_4322.md
+  git commit -q -m validation-summary-policy-bundle
+  validation_summary_policy_bundle_head="$(git rev-parse HEAD)"
+
+  validation_summary_policy_bundle_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$validation_summary_policy_bundle_head" --ref "refs/pull/1/merge")"
+  assert_has "$validation_summary_policy_bundle_output" "rust_required=false"
+  assert_has "$validation_summary_policy_bundle_output" "coverage_required=false"
+  assert_has "$validation_summary_policy_bundle_output" "full_coverage_required=false"
+  assert_has "$validation_summary_policy_bundle_output" "demo_smoke_required=false"
+  assert_has "$validation_summary_policy_bundle_output" "ci_contracts_required=true"
+  assert_has "$validation_summary_policy_bundle_output" "coverage_lane=skip"
+  assert_has "$validation_summary_policy_bundle_output" "coverage_authority=not_required"
+  assert_has "$validation_summary_policy_bundle_output" "reason=coverage_policy_surface_tooling_change_runs_contract_validation"
+
+  git checkout -q -b runtime-bounded-pr-fast-coverage-policy-change "$base_sha"
+  mkdir -p adl/src/cli adl/tools
+  cat > adl/src/cli/process_cmd.rs <<'EOF'
+pub fn process_status_probe() -> bool { true }
+EOF
+  python3 - <<'PY'
+from pathlib import Path
+
+
+def replace_once(text: str, old: str, new: str, label: str) -> str:
+    if old not in text:
+        raise SystemExit(f"expected workflow snippet missing for {label}")
+    return text.replace(old, new, 1)
+
+workflow = Path(".github/workflows/ci.yaml")
+text = workflow.read_text()
+text = replace_once(
+    text,
+    r"""            {
+              echo "filter_expression<<ADL_COVERAGE_EXPR"
+              cat adl/coverage-impact-filter-expression.txt
+              echo "ADL_COVERAGE_EXPR"
+            } >> "$GITHUB_OUTPUT"
+""",
+    r"""            {
+              echo "filter_expression<<ADL_COVERAGE_EXPR"
+              cat adl/coverage-impact-filter-expression.txt
+              echo "ADL_COVERAGE_EXPR"
+            } >> "$GITHUB_OUTPUT"
+            echo "run_cli_smoke_process_status=true" >> "$GITHUB_OUTPUT"
+            echo "run_cli_smoke_basics=true" >> "$GITHUB_OUTPUT"
+""",
+    "coverage-impact output augmentation",
+)
+workflow.write_text(text)
+
+coverage = Path("adl/tools/check_coverage_impact.sh")
+coverage.parent.mkdir(parents=True, exist_ok=True)
+coverage.write_text(
+    "#!/usr/bin/env bash\n"
+    "candidate_filter_for_path() {\n"
+    "  local path=\"$1\"\n"
+    "  case \"$path\" in\n"
+    "    adl/src/cli/process_cmd.rs)\n"
+    "      printf 'process_status'\n"
+    "      ;;\n"
+    "    adl/src/cli/mod.rs|adl/src/cli/usage.rs)\n"
+    "      printf 'cli_basics'\n"
+    "      ;;\n"
+    "  esac\n"
+    "}\n"
+)
+
+coverage_test = Path("adl/tools/test_check_coverage_impact.sh")
+coverage_test.write_text("#!/usr/bin/env bash\n# process_status\n")
+
+runtime_contract = Path("adl/tools/test_ci_runtime_contracts.sh")
+runtime_contract.write_text("if 'coverage-summary.json' not in fast_summary_step:\n    pass\n")
+
+runner_contract = Path("adl/tools/test_run_pr_fast_coverage_lane.sh")
+runner_contract.write_text(
+    "#!/usr/bin/env bash\n"
+    "# PR-fast coverage test threads: nextest-default\n"
+    "# ADL_PR_FAST_COVERAGE_TEST_THREADS\n"
+    "# --test-threads\n"
+)
+
+authoritative_runner = Path("adl/tools/run_authoritative_coverage_lane.sh")
+authoritative_runner.write_text(
+    "#!/usr/bin/env bash\n"
+    "cargo llvm-cov nextest --workspace --no-report\n"
+    "export ADL_CSM_DISK_FLOOR_BYTES=\"${ADL_CSM_DISK_FLOOR_BYTES:-0}\"\n"
+    "# --test-threads removed from authoritative coverage\n"
+)
+
+authoritative_runner_test = Path("adl/tools/test_run_authoritative_coverage_lane.sh")
+authoritative_runner_test.write_text(
+    "#!/usr/bin/env bash\n"
+    "# ADL_CSM_DISK_FLOOR_BYTES\n"
+    "# --test-threads removed from authoritative coverage\n"
+)
+PY
+  git add adl/src/cli/process_cmd.rs .github/workflows/ci.yaml adl/tools/check_coverage_impact.sh adl/tools/test_check_coverage_impact.sh adl/tools/test_ci_runtime_contracts.sh adl/tools/test_run_pr_fast_coverage_lane.sh adl/tools/run_authoritative_coverage_lane.sh adl/tools/test_run_authoritative_coverage_lane.sh
+  git commit -q -m runtime-bounded-pr-fast-coverage-policy-change
+  runtime_bounded_pr_fast_head="$(git rev-parse HEAD)"
+
+  runtime_bounded_pr_fast_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$runtime_bounded_pr_fast_head" --ref "refs/pull/1/merge")"
+  assert_has "$runtime_bounded_pr_fast_output" "rust_required=true"
+  assert_has "$runtime_bounded_pr_fast_output" "coverage_required=false"
+  assert_has "$runtime_bounded_pr_fast_output" "full_coverage_required=false"
+  assert_has "$runtime_bounded_pr_fast_output" "demo_smoke_required=false"
+  assert_has "$runtime_bounded_pr_fast_output" "ci_contracts_required=true"
+  assert_has "$runtime_bounded_pr_fast_output" "coverage_lane=deferred_pr_fast"
+  assert_has "$runtime_bounded_pr_fast_output" "coverage_authority=focused_nextest_pr_fast"
+  assert_has "$runtime_bounded_pr_fast_output" "reason=bounded_pr_fast_coverage_policy_change_keeps_pr_fast_rust_validation"
+
+  git checkout -q -b aws-remote-validation-bounded-pr-fast-coverage-policy-change "$base_sha"
+  mkdir -p adl/src/bin adl/tools
+  cat > adl/src/bin/adl_aws_remote_validation.rs <<'EOF'
+fn main() {}
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn smoke() {
+        assert!(true);
+    }
+}
+EOF
+  python3 - <<'PY'
+from pathlib import Path
+
+coverage = Path("adl/tools/check_coverage_impact.sh")
+coverage.parent.mkdir(parents=True, exist_ok=True)
+coverage.write_text(
+    "#!/usr/bin/env bash\n"
+    "candidate_filter_for_path() {\n"
+    "  local path=\"$1\"\n"
+    "  case \"$path\" in\n"
+    "    adl/src/bin/adl_aws_remote_validation.rs)\n"
+    "      printf 'adl_aws_remote_validation_bin'\n"
+    "      ;;\n"
+    "  esac\n"
+    "}\n"
+)
+
+coverage_test = Path("adl/tools/test_check_coverage_impact.sh")
+coverage_test.write_text("#!/usr/bin/env bash\n# adl_aws_remote_validation_bin\n")
+
+runner = Path("adl/tools/run_authoritative_coverage_lane.sh")
+runner.write_text(
+    "#!/usr/bin/env bash\n"
+    "echo \"Authoritative coverage linker mode: ${RUST_LINK_ACCEL:-default}\"\n"
+    "echo \"Authoritative coverage cargo build jobs: ${ADL_AUTHORITATIVE_COVERAGE_BUILD_JOBS:-1}\"\n"
+)
+
+runner_test = Path("adl/tools/test_run_authoritative_coverage_lane.sh")
+runner_test.write_text("#!/usr/bin/env bash\n# build_jobs=1\n# link_accel=lld\n")
+PY
+  git add adl/src/bin/adl_aws_remote_validation.rs \
+    adl/tools/check_coverage_impact.sh \
+    adl/tools/test_check_coverage_impact.sh \
+    adl/tools/run_authoritative_coverage_lane.sh \
+    adl/tools/test_run_authoritative_coverage_lane.sh
+  git commit -q -m aws-remote-validation-bounded-pr-fast-coverage-policy-change
+  aws_remote_validation_bounded_pr_fast_head="$(git rev-parse HEAD)"
+
+  aws_remote_validation_bounded_pr_fast_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$aws_remote_validation_bounded_pr_fast_head" --ref "refs/pull/1/merge")"
+  assert_has "$aws_remote_validation_bounded_pr_fast_output" "rust_required=true"
+  assert_has "$aws_remote_validation_bounded_pr_fast_output" "coverage_required=false"
+  assert_has "$aws_remote_validation_bounded_pr_fast_output" "full_coverage_required=false"
+  assert_has "$aws_remote_validation_bounded_pr_fast_output" "demo_smoke_required=false"
+  assert_has "$aws_remote_validation_bounded_pr_fast_output" "ci_contracts_required=true"
+  assert_has "$aws_remote_validation_bounded_pr_fast_output" "coverage_lane=deferred_pr_fast"
+  assert_has "$aws_remote_validation_bounded_pr_fast_output" "coverage_authority=focused_nextest_pr_fast"
+  assert_has "$aws_remote_validation_bounded_pr_fast_output" "reason=bounded_pr_fast_coverage_policy_change_keeps_pr_fast_rust_validation"
+
+  git checkout -q -b focused-escalation-with-unmapped-surface "$base_sha"
+  mkdir -p .csdlc/evidence/5791 \
+    .csdlc/issues/5791/cards \
+    .csdlc/locks \
+    .csdlc/publication \
+    adl-runtime \
+    adl/tools/skills/docs \
+    csdlc-v2/src \
+    csdlc-v2/tests \
+    docs/milestones/v0.91.8 \
+    docs/reviews/v0.91.8/internal-review-5791 \
+    docs/tooling/editor \
+    tools/aws_remote_validation
+  printf '# focused validation log\n' > .csdlc/evidence/5791/focused-5791-validation.log
+  printf '{}\n' > .csdlc/issues/5791/index.json
+  printf '{}\n' > .csdlc/issues/5791/audit.jsonl
+  printf '# card\n' > .csdlc/issues/5791/cards/sip.md
+  printf '{}\n' > .csdlc/issues/5791/cards/sip.values.json
+  printf '{}\n' > .csdlc/locks/5791.lock
+  printf '{}\n' > .csdlc/publication/5791.intent.json
+  printf '# README\n' > README.md
+  printf '[package]\nname = "adl-runtime"\nversion = "0.1.0"\nedition = "2021"\n' > adl-runtime/Cargo.toml
+  printf '# lock\n' > adl-runtime/Cargo.lock
+  printf '[package]\nname = "adl"\nversion = "0.91.8"\nedition = "2021"\n' > adl/Cargo.toml
+  printf '# lock\n' > adl/Cargo.lock
+  printf '#!/usr/bin/env bash\ncargo "$@"\n' > adl/tools/run_cargo_validation.sh
+  printf '#!/usr/bin/env bash\nbash adl/tools/run_cargo_validation.sh\n' > adl/tools/test_run_cargo_validation.sh
+  printf '# skill guide\n' > adl/tools/skills/docs/OPERATIONAL_SKILLS_GUIDE.md
+  printf 'pub fn review() {}\n' > csdlc-v2/src/review.rs
+  printf '#[test]\nfn gate4() {}\n' > csdlc-v2/tests/gate4.rs
+  printf '# inventory\n' > docs/milestones/v0.91.8/CANONICAL_DOC_INVENTORY_v0.91.8.md
+  printf '# review\n' > docs/reviews/v0.91.8/internal-review-5791/README.md
+  printf '# playbook\n' > docs/tooling/C_SDLC_V2_V1_ORIGIN_PR_TAIL_PLAYBOOK.md
+  printf '# adapter\n' > docs/tooling/editor/command_adapter.md
+  printf '[package]\nname = "adl-aws-remote-validation"\nversion = "0.1.0"\nedition = "2021"\n' > tools/aws_remote_validation/Cargo.toml
+  printf '# lock\n' > tools/aws_remote_validation/Cargo.lock
+  git add .csdlc README.md adl-runtime adl/Cargo.toml adl/Cargo.lock \
+    adl/tools/run_cargo_validation.sh \
+    adl/tools/test_run_cargo_validation.sh \
+    adl/tools/skills/docs/OPERATIONAL_SKILLS_GUIDE.md \
+    csdlc-v2/src/review.rs \
+    csdlc-v2/tests/gate4.rs \
+    docs/milestones/v0.91.8/CANONICAL_DOC_INVENTORY_v0.91.8.md \
+    docs/reviews/v0.91.8/internal-review-5791/README.md \
+    docs/tooling/C_SDLC_V2_V1_ORIGIN_PR_TAIL_PLAYBOOK.md \
+    docs/tooling/editor/command_adapter.md \
+    tools/aws_remote_validation
+  git commit -q -m focused-escalation-with-unmapped-surface
+  focused_escalation_with_unmapped_head="$(git rev-parse HEAD)"
+
+  focused_escalation_with_unmapped_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$focused_escalation_with_unmapped_head" --ref "refs/pull/1/merge")"
+  assert_has "$focused_escalation_with_unmapped_output" "rust_required=true"
+  assert_has "$focused_escalation_with_unmapped_output" "coverage_required=false"
+  assert_has "$focused_escalation_with_unmapped_output" "full_coverage_required=false"
+  assert_has "$focused_escalation_with_unmapped_output" "ci_contracts_required=true"
+  assert_has "$focused_escalation_with_unmapped_output" "csdlc_v2_standalone_required=true"
+  assert_has "$focused_escalation_with_unmapped_output" "fail_closed=false"
+  assert_has "$focused_escalation_with_unmapped_output" "coverage_lane=deferred_pr_fast"
+  assert_has "$focused_escalation_with_unmapped_output" "coverage_authority=focused_nextest_pr_fast"
+  assert_has "$focused_escalation_with_unmapped_output" "reason=aws_remote_validation_tool_surface_requires_focused_tooling_regression_checks"
+  assert_has "$focused_escalation_with_unmapped_output" "validation_profile_status=escalation_required"
+  assert_has "$focused_escalation_with_unmapped_output" "validation_profile_escalation_lanes=rust_pr_fast,unmapped_change_surface"
+
+  git checkout -q -b wp08-cloudfront-policy-mixed-focused "$base_sha"
+  mkdir -p adl/config adl/src/cli adl/tools csdlc-v2/src/bin csdlc-v2/tests docs/milestones/v0.91.7/review/runtime/wp08_cloudfront_4915 docs/tooling
+  printf '# validation selector cloudfront policy fixture\n' > adl/config/validation_lane_selector.v0.91.6.json
+  cat > adl/src/cli/csm_cmd.rs <<'EOF'
+pub fn csm_cloudfront_status() -> bool { true }
+EOF
+  cat > csdlc-v2/src/bin/csdlc-closeout.rs <<'EOF'
+fn closeout_request_fixture() {}
+EOF
+  cat > csdlc-v2/src/cards.rs <<'EOF'
+pub fn terminal_card_fixture() {}
+EOF
+  cat > csdlc-v2/tests/gate7_lifecycle.rs <<'EOF'
+#[test]
+fn closeout_request_fixture_is_typed() {}
+EOF
+  cat > adl/src/csm_cloud_control.rs <<'EOF'
+pub fn cloudfront_control_fixture() -> bool { true }
+EOF
+  cat > adl/tools/ci_path_policy.sh <<'EOF'
+#!/usr/bin/env bash
+# wp08_cloudfront_control_proof
+EOF
+  cat > adl/tools/test_ci_path_policy.sh <<'EOF'
+#!/usr/bin/env bash
+# release_gate_required_5_lane_profile
+EOF
+  cat > adl/tools/test_ci_runtime_contracts.sh <<'EOF'
+#!/usr/bin/env bash
+# path-policy PR-fast coverage contract
+EOF
+  cat > adl/tools/run_wp08_cloudfront_control_proof.sh <<'EOF'
+#!/usr/bin/env bash
+printf 'cloudfront proof\n'
+EOF
+  cat > adl/tools/test_run_wp08_cloudfront_control_proof.sh <<'EOF'
+#!/usr/bin/env bash
+printf 'cloudfront proof contract\n'
+EOF
+  cat > adl/tools/validate_wp08_cloudfront_control_proof.py <<'EOF'
+print("cloudfront proof validator")
+EOF
+  printf '{"status":"Deployed"}\n' > docs/milestones/v0.91.7/review/runtime/wp08_cloudfront_4915/cloudfront_status_summary.json
+  printf '{"status":"passed"}\n' > docs/milestones/v0.91.7/review/runtime/wp08_cloudfront_4915/csm_cloudfront_command_result.json
+  printf '# Runtime CloudFront Control\n' > docs/tooling/RUNTIME_CLOUD_CONTROL_CLOUDFRONT.md
+  cat > docs/milestones/v0.91.7/review/runtime/RELEASE_GATE_DISPOSITION_4915.yaml <<'EOF'
+issue: 4915
+disposition: approved_for_merge_after_green_ci
+changed_release_gate_surfaces:
+  - .github/workflows/ci.yaml
+reviewer_or_review_mode: bounded fixture review
+focused_validation_run: fixture focused validation
+residual_ci_proof_required_before_merge: fixture green CI required
+summary: fixture release-gate disposition
+non_claims:
+  - fixture non-claim
+EOF
+  python3 - <<'PY'
+from pathlib import Path
+
+workflow = Path(".github/workflows/ci.yaml")
+text = workflow.read_text()
+if "PR-fast coverage scratch target" not in text:
+    text = text.replace(
+        'bash adl/tools/run_pr_fast_coverage_lane.sh --filter-expression "${{ steps.coverage-impact.outputs.filter_expression }}"',
+        'if [ "${{ steps.path-policy.outputs.full_coverage_required }}" = "true" ] && [ -d /mnt ] && [ -w /mnt ]; then\n'
+        '            export ADL_PR_FAST_COVERAGE_BUILD_ROOT=/mnt/adl-pr-fast-coverage\n'
+        '          fi\n'
+        '          if [ -n "${ADL_PR_FAST_COVERAGE_BUILD_ROOT:-}" ]; then\n'
+        '            rm -rf "$ADL_PR_FAST_COVERAGE_BUILD_ROOT"\n'
+        '            mkdir -p "$ADL_PR_FAST_COVERAGE_BUILD_ROOT"\n'
+        '            echo "PR-fast coverage scratch target: $ADL_PR_FAST_COVERAGE_BUILD_ROOT"\n'
+        '          fi\n'
+        '          bash adl/tools/run_pr_fast_coverage_lane.sh --filter-expression "${{ steps.coverage-impact.outputs.filter_expression }}"',
+        1,
+    )
+workflow.write_text(text)
+PY
+  git add .github/workflows/ci.yaml adl/config/validation_lane_selector.v0.91.6.json \
+    adl/src/cli/csm_cmd.rs \
+    csdlc-v2/src/bin/csdlc-closeout.rs \
+    csdlc-v2/src/cards.rs \
+    csdlc-v2/tests/gate7_lifecycle.rs \
+    adl/src/csm_cloud_control.rs adl/src/lib.rs \
+    adl/tools/ci_path_policy.sh \
+    adl/tools/run_wp08_cloudfront_control_proof.sh \
+    adl/tools/test_ci_path_policy.sh \
+    adl/tools/test_ci_runtime_contracts.sh \
+    adl/tools/test_run_wp08_cloudfront_control_proof.sh \
+    adl/tools/validate_wp08_cloudfront_control_proof.py \
+    docs/milestones/v0.91.7/review/runtime/wp08_cloudfront_4915/cloudfront_status_summary.json \
+    docs/milestones/v0.91.7/review/runtime/wp08_cloudfront_4915/csm_cloudfront_command_result.json \
+    docs/milestones/v0.91.7/review/runtime/RELEASE_GATE_DISPOSITION_4915.yaml \
+    docs/tooling/RUNTIME_CLOUD_CONTROL_CLOUDFRONT.md
+  git commit -q -m wp08-cloudfront-policy-mixed-focused
+  wp08_cloudfront_policy_mixed_head="$(git rev-parse HEAD)"
+
+  wp08_cloudfront_policy_mixed_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$wp08_cloudfront_policy_mixed_head" --ref "refs/pull/1/merge")"
+  assert_has "$wp08_cloudfront_policy_mixed_output" "rust_required=true"
+  assert_has "$wp08_cloudfront_policy_mixed_output" "coverage_required=true"
+  assert_has "$wp08_cloudfront_policy_mixed_output" "full_coverage_required=true"
+  assert_has "$wp08_cloudfront_policy_mixed_output" "demo_smoke_required=false"
+  assert_has "$wp08_cloudfront_policy_mixed_output" "ci_contracts_required=true"
+  assert_has "$wp08_cloudfront_policy_mixed_output" "coverage_lane=authoritative_full"
+  assert_has "$wp08_cloudfront_policy_mixed_output" "coverage_authority=pr_policy_surface_runtime_mixed"
+  assert_has "$wp08_cloudfront_policy_mixed_output" "reason=coverage_policy_surface_change_with_runtime_surface_runs_full_coverage"
+  assert_has "$wp08_cloudfront_policy_mixed_output" "validation_profile_selected=release_gate_required_6_lane_profile"
+  assert_has "$wp08_cloudfront_policy_mixed_output" "validation_profile_status=escalation_required"
+  assert_has "$wp08_cloudfront_policy_mixed_output" "validation_profile_run_lanes=ci_path_policy_contracts,csdlc_v2_standalone,docs_diff_check,rust_pr_fast,wp08_cloudfront_control_proof"
+  assert_has "$wp08_cloudfront_policy_mixed_output" "validation_profile_escalation_lanes=release_gate_review"
+
+  git checkout -q -b feature-branch-before-main-advances "$base_sha"
+  mkdir -p adl/tools docs/milestones/v0.91.4/review/demo_showcase
+  printf '#!/usr/bin/env bash\nprintf demo\n' > adl/tools/demo_v0914_complete_issue.sh
+  printf '# tool demo note\n' > docs/milestones/v0.91.4/review/demo_showcase/DEMO_NOTE.md
+  git add adl/tools/demo_v0914_complete_issue.sh docs/milestones/v0.91.4/review/demo_showcase/DEMO_NOTE.md
+  git commit -q -m feature-branch-before-main-advances
+  stale_feature_head="$(git rev-parse HEAD)"
+
+  git checkout -q -b main-advances-with-policy-surface "$base_sha"
+  mkdir -p .github/workflows docs/milestones/v0.91.4/review/demo_showcase
+  printf 'name: nightly coverage\n' > .github/workflows/nightly-coverage-ratchet.yaml
+  printf '# stale packet\n' > docs/milestones/v0.91.4/review/demo_showcase/STALE_PACKET.md
+  git add .github/workflows/nightly-coverage-ratchet.yaml docs/milestones/v0.91.4/review/demo_showcase/STALE_PACKET.md
+  git commit -q -m main-advance-seed
+  rm docs/milestones/v0.91.4/review/demo_showcase/STALE_PACKET.md
+  git add -A docs/milestones/v0.91.4/review/demo_showcase/STALE_PACKET.md
+  git commit -q -m main-advances-with-policy-surface
+  advanced_main_head="$(git rev-parse HEAD)"
+
+  stale_feature_output="$("$POLICY" --event-name pull_request --base "$advanced_main_head" --head "$stale_feature_head" --ref "refs/pull/1/merge")"
+  assert_has "$stale_feature_output" "rust_required=true"
+  assert_has "$stale_feature_output" "coverage_required=true"
+  assert_has "$stale_feature_output" "full_coverage_required=true"
+  assert_has "$stale_feature_output" "demo_smoke_required=false"
+  assert_has "$stale_feature_output" "ci_contracts_required=true"
+  assert_has "$stale_feature_output" "fail_closed=true"
+  assert_has "$stale_feature_output" "coverage_lane=authoritative_full"
+  assert_has "$stale_feature_output" "coverage_authority=fail_closed"
+  assert_has "$stale_feature_output" "reason=validation_manager_escalation_requires_authoritative_full_coverage"
+  assert_has "$stale_feature_output" "validation_profile_selected=docs_diff_check_profile"
+  assert_has "$stale_feature_output" "validation_profile_status=escalation_required"
+  assert_has "$stale_feature_output" "validation_profile_escalation_required=true"
+  assert_has "$stale_feature_output" "validation_profile_run_lanes=docs_diff_check"
+  assert_has "$stale_feature_output" "validation_profile_escalation_lanes=unmapped_change_surface"
+
+  main_output="$("$POLICY" --event-name push --ref "refs/heads/main")"
+  assert_has "$main_output" "rust_required=false"
+  assert_has "$main_output" "coverage_required=false"
+  assert_has "$main_output" "full_coverage_required=false"
+  assert_has "$main_output" "demo_smoke_required=false"
+  assert_has "$main_output" "release_version_only=false"
+  assert_has "$main_output" "ci_contracts_required=false"
+  assert_has "$main_output" "ci_path_policy_contracts_required=false"
+  assert_has "$main_output" "ci_contract_toolchain_required=false"
+  assert_has "$main_output" "pvf_ci_release_contract_required=false"
+  assert_has "$main_output" "v0913_proof_contract_required=false"
+  assert_has "$main_output" "slow_proof_contract_required=false"
+  assert_has "$main_output" "skill_author_contracts_required=false"
+  assert_has "$main_output" "coverage_lane=skip"
+  assert_has "$main_output" "coverage_authority=not_required"
+  assert_has "$main_output" "coverage_execution_state=skipped_after_pr_validation"
+  assert_has "$main_output" "reason=push_main_skips_duplicate_post_merge_validation"
+  assert_has "$main_output" "change_class=unknown"
+  assert_has "$main_output" "pvf_lane=diff_hygiene"
+  assert_has "$main_output" "release_gate_role=docs_guardrail"
+
+  non_pr_output="$($POLICY --event-name schedule --ref "refs/heads/main")"
+  assert_has "$non_pr_output" "rust_required=true"
+  assert_has "$non_pr_output" "coverage_required=true"
+  assert_has "$non_pr_output" "full_coverage_required=true"
+  assert_has "$non_pr_output" "demo_smoke_required=false"
+  assert_has "$non_pr_output" "release_version_only=false"
+  assert_has "$non_pr_output" "ci_contracts_required=true"
+  assert_has "$non_pr_output" "ci_path_policy_contracts_required=true"
+  assert_has "$non_pr_output" "ci_contract_toolchain_required=true"
+  assert_has "$non_pr_output" "pvf_ci_release_contract_required=true"
+  assert_has "$non_pr_output" "v0913_proof_contract_required=true"
+  assert_has "$non_pr_output" "slow_proof_contract_required=true"
+  assert_has "$non_pr_output" "skill_author_contracts_required=true"
+  assert_has "$non_pr_output" "coverage_lane=authoritative_full"
+  assert_has "$non_pr_output" "coverage_authority=non_pr_event"
+  assert_has "$non_pr_output" "coverage_execution_state=authoritative_full_required"
+  assert_has "$non_pr_output" "reason=non_pull_request_event_runs_full_validation"
+  assert_has "$non_pr_output" "change_class=unknown"
+  assert_has "$non_pr_output" "pvf_lane=authoritative_full"
+  assert_has "$non_pr_output" "release_gate_role=source_required"
+
+  manual_output="$($POLICY --event-name workflow_dispatch --ref "refs/heads/main")"
+  assert_has "$manual_output" "full_coverage_required=true"
+  assert_has "$manual_output" "demo_smoke_required=true"
+  assert_has "$manual_output" "optional_workflows_status=deferred"
+  assert_has "$manual_output" "optional_workflows_reason=explicit_dispatch_required"
+
+  fail_closed_output="$("$POLICY" --event-name pull_request --base "" --head "$runtime_head" --ref "refs/pull/1/merge")"
+  assert_has "$fail_closed_output" "rust_required=true"
+  assert_has "$fail_closed_output" "coverage_required=true"
+  assert_has "$fail_closed_output" "full_coverage_required=true"
+  assert_has "$fail_closed_output" "release_version_only=false"
+  assert_has "$fail_closed_output" "fail_closed=true"
+  assert_has "$fail_closed_output" "ci_contracts_required=true"
+  assert_has "$fail_closed_output" "ci_path_policy_contracts_required=true"
+  assert_has "$fail_closed_output" "ci_contract_toolchain_required=true"
+  assert_has "$fail_closed_output" "pvf_ci_release_contract_required=true"
+  assert_has "$fail_closed_output" "v0913_proof_contract_required=true"
+  assert_has "$fail_closed_output" "slow_proof_contract_required=true"
+  assert_has "$fail_closed_output" "skill_author_contracts_required=true"
+  assert_has "$fail_closed_output" "coverage_lane=authoritative_full"
+  assert_has "$fail_closed_output" "coverage_authority=fail_closed"
+  assert_has "$fail_closed_output" "validation_profile_selected="
+  assert_has "$fail_closed_output" "validation_profile_status="
+
+  mkdir -p "$tmp_dir/fake-bin"
+  cat > "$tmp_dir/fake-bin/python3" <<'EOF'
+#!/usr/bin/env bash
+exit 7
+EOF
+  chmod +x "$tmp_dir/fake-bin/python3"
+
+  manager_failure_output="$(PATH="$tmp_dir/fake-bin:$PATH" "$POLICY" --event-name pull_request --base "$base_sha" --head "$runtime_head" --ref "refs/pull/1/merge")"
+  assert_has "$manager_failure_output" "rust_required=true"
+  assert_has "$manager_failure_output" "coverage_required=true"
+  assert_has "$manager_failure_output" "full_coverage_required=true"
+  assert_has "$manager_failure_output" "demo_smoke_required=false"
+  assert_has "$manager_failure_output" "release_version_only=false"
+  assert_has "$manager_failure_output" "ci_contracts_required=true"
+  assert_has "$manager_failure_output" "fail_closed=true"
+  assert_has "$manager_failure_output" "ci_path_policy_contracts_required=true"
+  assert_has "$manager_failure_output" "ci_contract_toolchain_required=true"
+  assert_has "$manager_failure_output" "pvf_ci_release_contract_required=true"
+  assert_has "$manager_failure_output" "v0913_proof_contract_required=true"
+  assert_has "$manager_failure_output" "slow_proof_contract_required=true"
+  assert_has "$manager_failure_output" "skill_author_contracts_required=true"
+  assert_has "$manager_failure_output" "coverage_lane=authoritative_full"
+  assert_has "$manager_failure_output" "coverage_authority=fail_closed"
+  assert_has "$manager_failure_output" "reason=validation_manager_failed_closed_for_pull_request"
+  assert_has "$manager_failure_output" "validation_profile_selected="
+  assert_has "$manager_failure_output" "validation_profile_status="
+)
+
+echo "PASS: ci_path_policy PR-fast/full-coverage contract"

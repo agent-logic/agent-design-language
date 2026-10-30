@@ -1,0 +1,22 @@
+[
+  "missing_required_role",
+  "duplicate_witness_id",
+  "duplicate_role",
+  "duplicate_signing_key",
+  "unauthorized_witness",
+  "role_substitution",
+  "stale_generation",
+  "candidate_digest_substitution",
+  "evidence_digest_substitution",
+  "forged_signature",
+  "wrong_signing_key",
+  "roster_digest_mismatch",
+  "policy_candidate_mismatch",
+  "equivocal_witness",
+  "raw_private_state",
+  "machine_local_path",
+  "secret_like_identifier",
+  "receipt_field_tamper",
+  "premature_birth_claim",
+  "unknown_field"
+]

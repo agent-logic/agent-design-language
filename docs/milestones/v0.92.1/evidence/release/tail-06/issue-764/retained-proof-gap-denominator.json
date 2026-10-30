@@ -1,0 +1,2686 @@
+{
+  "schema": "adl.v0921.tail06.issue764.retained_proof_gap_denominator.v1",
+  "issue": 764,
+  "source_review_issue": 520,
+  "parent_issue": 522,
+  "source_candidate_review_sha": "c24f8fa65ce445b03ce6cd69007307291d78b60c",
+  "historical_candidate_sha": "bf159eb416950dfa3399933829726a7b7e71f897",
+  "source_inputs": [
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/census.json",
+      "sha256": "fbbb546e2ed39b659c0d5fb79cd89ed4a8d5bc0f39df80093c31d1afbe96ff52"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/retained-corporate-runtime.json",
+      "sha256": "fa9a8f5623196c66e46c876e5ae2ed3fa766f854f6c74c9dbf4cf0c1d2d9d027"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/retained-v3.json",
+      "sha256": "75ecf4a1eac0fbb065386720623540a7bd86407f57cb77ce3d8778d8a243d4de"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/release-stage-mapping.json",
+      "sha256": "dcb4d6fc325d310c48ebddb7c02c4d91f0d76685bdf7ec8a472f48698e5e56f4"
+    }
+  ],
+  "partition": {
+    "remediation_total": 198,
+    "expected_remediation_total": 198,
+    "remediation_counts": {
+      "non_proving": 143,
+      "source_supported_not_execution_proof": 51,
+      "current_gate_obligation": 4
+    },
+    "preserved_total": 29,
+    "expected_preserved_total": 29,
+    "preserved_counts": {
+      "proven": 10,
+      "accepted_amendment": 8,
+      "not_applicable_at_quality_gate": 11
+    },
+    "accounted_non_764_eligible_total": 3,
+    "expected_accounted_non_764_eligible_total": 3,
+    "accounted_non_764_eligible_counts": {
+      "review_freshness_resolved": 3
+    },
+    "eligible_partition_total": 230,
+    "eligible_total": 230,
+    "excluded_accounting_rows": 15,
+    "excluded_accounting_classes": {
+      "accepted_amendment": 4,
+      "proven": 6,
+      "non_proving": 1,
+      "review_freshness_resolved": 4
+    }
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [
+
+    ]
+  },
+  "remediation_rows": [
+    {
+      "row_id": "CORP-A:retained-153-ac-2",
+      "criterion_id": "CORP-A:retained-153-ac-2",
+      "criterion_text_digest": "222e275a97effb36759cb9d49c0c6f146f91304f9c7bde9401651975bb50869e",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#482",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "CORP-A:retained-153-ac-3",
+      "criterion_id": "CORP-A:retained-153-ac-3",
+      "criterion_text_digest": "ca40aa895a984a8ddf0c0f61b7731dda8c0ad2a7c39a045c75515631b76f27ff",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#482",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "CORP-A:retained-154-ac-1",
+      "criterion_id": "CORP-A:retained-154-ac-1",
+      "criterion_text_digest": "ca3976b4d0428be9c4eb77452bd7968e9fa57425975c7ee745293c124b0b29c3",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#482",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "CORP-A:retained-154-ac-2",
+      "criterion_id": "CORP-A:retained-154-ac-2",
+      "criterion_text_digest": "e5bdbbaf0d7b717c45635902cc346143a8305d23069a1aa51a8c091cfc66b00d",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#482",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "CORP-A:retained-154-ac-3",
+      "criterion_id": "CORP-A:retained-154-ac-3",
+      "criterion_text_digest": "e287f7708a6ea1a74677c45e4c92eee2e486bfb06ad711947e7673353ce28375",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#482",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "CORP-A:retained-154-ac-4",
+      "criterion_id": "CORP-A:retained-154-ac-4",
+      "criterion_text_digest": "bada2f880722358d51a5e907e4ce42d6850ada9501e1e63db6ee8c28d4d69413",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#482",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "CORP-A:retained-155-ac-1",
+      "criterion_id": "CORP-A:retained-155-ac-1",
+      "criterion_text_digest": "055ce901e1dd92bd689b65f909ed29558b0ec81e521ea1e49bd3c1793866be82",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#482",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "CORP-A:retained-155-ac-2",
+      "criterion_id": "CORP-A:retained-155-ac-2",
+      "criterion_text_digest": "15ff9c44a13407d7213716d18bd6b7f7a370b5d637496b47048ee4284e507974",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#482",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "CORP-A:retained-155-ac-3",
+      "criterion_id": "CORP-A:retained-155-ac-3",
+      "criterion_text_digest": "e2881ebd0873bc4cff6d6e4e7638bd25d99df249d5a5d041797df3f5bd92a1f5",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#482",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "CORP-C:retained-157-ac-1",
+      "criterion_id": "CORP-C:retained-157-ac-1",
+      "criterion_text_digest": "25d2236f0b6611f0661f5166d4a0a4e9b9ff87b9534bc7eb823bbd576bf58aa3",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#497",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "CORP-C:retained-157-ac-2",
+      "criterion_id": "CORP-C:retained-157-ac-2",
+      "criterion_text_digest": "0f905797b5a61fd7174689f8990abc484ebe0e33264a148ccaee74b728050cc6",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#497",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "CORP-C:retained-157-ac-3",
+      "criterion_id": "CORP-C:retained-157-ac-3",
+      "criterion_text_digest": "3dcf8200c3266e29ec916967f7363aac45dca1287cc76bb01dc71511876e3d63",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#497",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "CORP-C:retained-158-ac-4",
+      "criterion_id": "CORP-C:retained-158-ac-4",
+      "criterion_text_digest": "3f0889ef158b1921a566431dcafcfd3d8da702e478504d28eb72c700cf49a6a3",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#497",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "CORP-C:retained-159-ac-1",
+      "criterion_id": "CORP-C:retained-159-ac-1",
+      "criterion_text_digest": "a2a2be9ebddd548f9454593a95ec36b28101b2691c71c14395b30e5bbba24a96",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#497",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "CORP-C:retained-159-ac-4",
+      "criterion_id": "CORP-C:retained-159-ac-4",
+      "criterion_text_digest": "ab9a7a8716af01ebb9ba72e1dd36f349f8777da799ffcdcc9e3b32e4b8ca494d",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#497",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "CORP-D:retained-160-ac-1",
+      "criterion_id": "CORP-D:retained-160-ac-1",
+      "criterion_text_digest": "d3bbfdbb029344120aac085ee66b5de2a3cf00194b9e039e510633491d0ae486",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#498",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "CORP-D:retained-160-ac-2",
+      "criterion_id": "CORP-D:retained-160-ac-2",
+      "criterion_text_digest": "4d337b4ea0131d30c0d9bc20e444224e97f2e444d0b14b74485640be65b7ea6d",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#498",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "DRT-A:retained-181-ac-4",
+      "criterion_id": "DRT-A:retained-181-ac-4",
+      "criterion_text_digest": "76a0dbcbed0f2bc143dc8a22f9497719a20a8949f24f0f1163a6ae35f3ff5dc9",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#506",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "DRT-A:retained-182-ac-1",
+      "criterion_id": "DRT-A:retained-182-ac-1",
+      "criterion_text_digest": "82c249d7e386619f86ef7443c61e8cabb34f88c05d4bdf29e863195ae8557dc9",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#506",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "DRT-A:retained-182-ac-2",
+      "criterion_id": "DRT-A:retained-182-ac-2",
+      "criterion_text_digest": "623a019ffc849906b7ebc757d3d50151b8bbb2337327e5b61088ffde79291941",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#506",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "DRT-A:retained-182-ac-3",
+      "criterion_id": "DRT-A:retained-182-ac-3",
+      "criterion_text_digest": "91d52a4c8575af1a8c1843cc8497898fad8397f0495681d5ef67ad5b239096ca",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#506",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "DRT-A:retained-182-ac-4",
+      "criterion_id": "DRT-A:retained-182-ac-4",
+      "criterion_text_digest": "e3da9825a0c8de26df141a5975c3287492247eec51bc98a4d0fb545f2301bd70",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#506",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "DRT-B:retained-183-ac-1",
+      "criterion_id": "DRT-B:retained-183-ac-1",
+      "criterion_text_digest": "dc3d158a66967b63df4bd7c422cfe736748ea9594a2dc09020aff2734d6e0f7b",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#507",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "DRT-B:retained-183-ac-2",
+      "criterion_id": "DRT-B:retained-183-ac-2",
+      "criterion_text_digest": "891a884517277ee9662ea8e27d83527a8cfd3ebdd1ec8df66bc447d76cf65135",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#507",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "DRT-B:retained-183-ac-3",
+      "criterion_id": "DRT-B:retained-183-ac-3",
+      "criterion_text_digest": "eaab1a742ae3ecda06f8bd3b032420440c6404bdc71839af3ebeb01847337e7b",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#507",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "DRT-B:retained-183-ac-4",
+      "criterion_id": "DRT-B:retained-183-ac-4",
+      "criterion_text_digest": "8b362059cca797d697920cc4f17532f8ce9945d27bb40eb947a1e664bfde5418",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#507",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "DRT-B:retained-184-ac-1",
+      "criterion_id": "DRT-B:retained-184-ac-1",
+      "criterion_text_digest": "122958fc68a0a381194aa1905684588ed758954e6c8eb1e2b2f81cdf8e0fef08",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#507",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "DRT-B:retained-184-ac-2",
+      "criterion_id": "DRT-B:retained-184-ac-2",
+      "criterion_text_digest": "d2b3931131b4356a16130abab2b15138bd5dd0722a44ce53e94e4a06a5cb2c67",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#507",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "DRT-B:retained-184-ac-3",
+      "criterion_id": "DRT-B:retained-184-ac-3",
+      "criterion_text_digest": "9b4bf955696df07925d1262055cc9463cdb6657851e76680087a3d057d254707",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#507",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "DRT-B:retained-184-ac-4",
+      "criterion_id": "DRT-B:retained-184-ac-4",
+      "criterion_text_digest": "48613229cacfbee35565ce50c11e293ddc1c922f0994b6397b3f454473bd51f4",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#507",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "DRT-C:retained-185-ac-1",
+      "criterion_id": "DRT-C:retained-185-ac-1",
+      "criterion_text_digest": "d7211f439c0e87773a8ed96e8a4a5a380f50efa9fc48b8f600e40d4e41104a07",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#508",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "DRT-C:retained-185-ac-2",
+      "criterion_id": "DRT-C:retained-185-ac-2",
+      "criterion_text_digest": "3e4bb733824b8a375b6a2ad4328c367676fe93cd0e1967b3c061d657f7903c05",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#508",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "DRT-C:retained-185-ac-3",
+      "criterion_id": "DRT-C:retained-185-ac-3",
+      "criterion_text_digest": "9d0da038696016a01c03c7146b33e0ed1d3067c220aa357b47bebc4e00793dcc",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#508",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "DRT-C:retained-185-ac-4",
+      "criterion_id": "DRT-C:retained-185-ac-4",
+      "criterion_text_digest": "b4f26d62ced9b440f26d6bf63bb6084c6134ef4e2cb54cbbaf4e6ab1291b6417",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#508",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "DRT-C:retained-186-ac-1",
+      "criterion_id": "DRT-C:retained-186-ac-1",
+      "criterion_text_digest": "e21b9ef6e84b39d4b20d911462505d7193e5f3b05c5209389498de0bdd70690e",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#508",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "DRT-C:retained-186-ac-2",
+      "criterion_id": "DRT-C:retained-186-ac-2",
+      "criterion_text_digest": "989afbfba7a1b91f8f66e0aac0cd07335dcbbd6ac7ebdd5123dad8792df30549",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#508",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "DRT-C:retained-186-ac-3",
+      "criterion_id": "DRT-C:retained-186-ac-3",
+      "criterion_text_digest": "18540a498be06f9056597aa763c3d33bba3e2641d015a72e2423438716264531",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#508",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "DRT-C:retained-186-ac-4",
+      "criterion_id": "DRT-C:retained-186-ac-4",
+      "criterion_text_digest": "bf56798728eb215a7c9eed74ce5ac21a624cbb1272c6ccf8bb89bc2639a22a8e",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#508",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "DRT-C:retained-187-ac-1",
+      "criterion_id": "DRT-C:retained-187-ac-1",
+      "criterion_text_digest": "db936eb095fd1e9500d2523f282da284fd03f85758dfab66ddc8ed6fdb38ebfd",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#508",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "DRT-C:retained-187-ac-2",
+      "criterion_id": "DRT-C:retained-187-ac-2",
+      "criterion_text_digest": "22e7975b6a1c8f700795150e08a8f711cfca049e17aaef162e0d90ceb8062b85",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#508",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "DRT-C:retained-187-ac-3",
+      "criterion_id": "DRT-C:retained-187-ac-3",
+      "criterion_text_digest": "b9b9c0077b66301e39e89497c0a0f6876f4eb56055bbce98695ca65833453e3a",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#508",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "DRT-C:retained-187-ac-4",
+      "criterion_id": "DRT-C:retained-187-ac-4",
+      "criterion_text_digest": "bf6907f6977ed5a30bec264a54f02664e5332d6d84fab0d0adfdb9b0eda1a748",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#508",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "TAIL-01:retained-188-ac-1",
+      "criterion_id": "TAIL-01:retained-188-ac-1",
+      "criterion_text_digest": "e7fba2ffb7e41ef5e4e124ce97c1151f7d26dd20c0d5f387b381c349c4bb0831",
+      "mapping_file": "release-stage-mapping.json",
+      "reconciliation_class": "current_gate_obligation",
+      "proof_requirement": "current release gate obligation requires candidate-bound proof",
+      "successor_authority": "release-stage-mapping.json",
+      "owner": "#517",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "TAIL-01:retained-188-ac-2",
+      "criterion_id": "TAIL-01:retained-188-ac-2",
+      "criterion_text_digest": "7be23d5ca21e9ca702200136c470aae393f22b48203a026dffc495067d985074",
+      "mapping_file": "release-stage-mapping.json",
+      "reconciliation_class": "current_gate_obligation",
+      "proof_requirement": "current release gate obligation requires candidate-bound proof",
+      "successor_authority": "release-stage-mapping.json",
+      "owner": "#517",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "TAIL-01:retained-188-ac-3",
+      "criterion_id": "TAIL-01:retained-188-ac-3",
+      "criterion_text_digest": "6200b85a7deb245c892668756bb301ce3d882402d67cca857d20c6115983232c",
+      "mapping_file": "release-stage-mapping.json",
+      "reconciliation_class": "current_gate_obligation",
+      "proof_requirement": "current release gate obligation requires candidate-bound proof",
+      "successor_authority": "release-stage-mapping.json",
+      "owner": "#517",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "TAIL-01:retained-188-ac-4",
+      "criterion_id": "TAIL-01:retained-188-ac-4",
+      "criterion_text_digest": "3d073ef1e4834070e5329992ecaabe7a900c2d4de957b0ff01f45624509dc914",
+      "mapping_file": "release-stage-mapping.json",
+      "reconciliation_class": "current_gate_obligation",
+      "proof_requirement": "current release gate obligation requires candidate-bound proof",
+      "successor_authority": "release-stage-mapping.json",
+      "owner": "#517",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-A:retained-161-ac-1",
+      "criterion_id": "V3-A:retained-161-ac-1",
+      "criterion_text_digest": "c51dc16b65c101e7e51dea6b81d0be7ac0471d85357a0d7ce5a9d56cb042a1ce",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#500",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-A:retained-161-ac-10",
+      "criterion_id": "V3-A:retained-161-ac-10",
+      "criterion_text_digest": "63cac612406e985175d19911c48d3cf877fe8d107198881e745d5a565f4988b4",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#500",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-A:retained-161-ac-11",
+      "criterion_id": "V3-A:retained-161-ac-11",
+      "criterion_text_digest": "c34eaccb96840af29d5070b3b447dbcda7c82365e40599b207c5881d905ed208",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#500",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-A:retained-161-ac-12",
+      "criterion_id": "V3-A:retained-161-ac-12",
+      "criterion_text_digest": "7c531a60b08a8b02195eeac903b0c8d181dba90503f4a7d8b4619d9d1255c47a",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#500",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-A:retained-161-ac-13",
+      "criterion_id": "V3-A:retained-161-ac-13",
+      "criterion_text_digest": "ff46cace6a0bd28e67ab1668c2c055ee292445ca7cf6cd717dbbe5c23563e94a",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#500",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-A:retained-161-ac-14",
+      "criterion_id": "V3-A:retained-161-ac-14",
+      "criterion_text_digest": "af138822aaedf1631157b7d6587546595194f4bbb5025d57687d09bfd48668da",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#500",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-A:retained-161-ac-15",
+      "criterion_id": "V3-A:retained-161-ac-15",
+      "criterion_text_digest": "04a053cb811f1ad4074717056a67a9af158835b77c6f6ca6264f1fb5c2407211",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#500",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-A:retained-161-ac-16",
+      "criterion_id": "V3-A:retained-161-ac-16",
+      "criterion_text_digest": "8bd833eef90b0705bdcfc679d393d68e409c0499cd885aeb30f77b2691910cd2",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#500",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-A:retained-161-ac-2",
+      "criterion_id": "V3-A:retained-161-ac-2",
+      "criterion_text_digest": "576eacc4b4a4a36618d7789d6dd4723e60af9203b47cd69e86546db4496db3f1",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#500",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-A:retained-161-ac-3",
+      "criterion_id": "V3-A:retained-161-ac-3",
+      "criterion_text_digest": "70a2feb335628e7a5e616b297ff4ac6a325b1c6de3bb81639b8b9ddf2ce8ecc5",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#500",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-A:retained-161-ac-4",
+      "criterion_id": "V3-A:retained-161-ac-4",
+      "criterion_text_digest": "484e9939f4840097748731b78663f46b75f87c417e219125b2ad597389da6329",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#500",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-A:retained-161-ac-5",
+      "criterion_id": "V3-A:retained-161-ac-5",
+      "criterion_text_digest": "889825adcdb616f167344832623c9a30f98c7d83ff29e6b8bd7ee6e021b20d10",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "source_supported_not_execution_proof",
+      "proof_requirement": "execution receipt required; source support alone is not release proof",
+      "successor_authority": "retained-v3.json",
+      "owner": "#500",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-A:retained-161-ac-6",
+      "criterion_id": "V3-A:retained-161-ac-6",
+      "criterion_text_digest": "e437014398d770a162ff50e9de8e2d00c2285d29ac7272791debee0cba33c0b6",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#500",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-A:retained-161-ac-7",
+      "criterion_id": "V3-A:retained-161-ac-7",
+      "criterion_text_digest": "ecba5d54ff62840f70aad945792a825aad5bbd709a816bee4ec831f3e405151b",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#500",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-A:retained-161-ac-8",
+      "criterion_id": "V3-A:retained-161-ac-8",
+      "criterion_text_digest": "b451357ff59a838ce4a7d63c34da5364d106ae759a0a44468f07f06bf3f92327",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "source_supported_not_execution_proof",
+      "proof_requirement": "execution receipt required; source support alone is not release proof",
+      "successor_authority": "retained-v3.json",
+      "owner": "#500",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-A:retained-161-ac-9",
+      "criterion_id": "V3-A:retained-161-ac-9",
+      "criterion_text_digest": "4218511061f55e4987156d9c731e3c52a0273303f9383da81bffc1f7304e6382",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#500",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-A:retained-162-ac-1",
+      "criterion_id": "V3-A:retained-162-ac-1",
+      "criterion_text_digest": "f3ae248c1b2125c198433ff0c8f211d87ce8dfc48db443d94a069af9782b1ec8",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "source_supported_not_execution_proof",
+      "proof_requirement": "execution receipt required; source support alone is not release proof",
+      "successor_authority": "retained-v3.json",
+      "owner": "#500",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-A:retained-162-ac-2",
+      "criterion_id": "V3-A:retained-162-ac-2",
+      "criterion_text_digest": "1af5c0b736211e0243b96dd55cb5432e3dbbaff2e90d08e7930d36619e1b8731",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "source_supported_not_execution_proof",
+      "proof_requirement": "execution receipt required; source support alone is not release proof",
+      "successor_authority": "retained-v3.json",
+      "owner": "#500",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-A:retained-162-ac-3",
+      "criterion_id": "V3-A:retained-162-ac-3",
+      "criterion_text_digest": "90ee5dff666e1e49d98bc81064fbcdcd60b2e0b902fc8fc9f800d5ec13964b31",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#500",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-A:retained-162-ac-4",
+      "criterion_id": "V3-A:retained-162-ac-4",
+      "criterion_text_digest": "9bb90223983252e3e6df0354f3115185b361b47b2fa8338cbc48a32c8706f286",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#500",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-A:retained-162-ac-5",
+      "criterion_id": "V3-A:retained-162-ac-5",
+      "criterion_text_digest": "42ec9e24b09906f9fde0a0c131d6c4b87c01995688836b582af5ed9c97c82268",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#500",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-A:retained-162-ac-6",
+      "criterion_id": "V3-A:retained-162-ac-6",
+      "criterion_text_digest": "5c055c3904031384209c9a435514b7c044a56c7a8b257aabd1b28918ae475ec7",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#500",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-A:retained-162-ac-7",
+      "criterion_id": "V3-A:retained-162-ac-7",
+      "criterion_text_digest": "0c66a594ffdebe68dc830fdfbbc56b440b9c4d0c8a4b99e9c647cd6924a3d941",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#500",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-A:retained-163-ac-1",
+      "criterion_id": "V3-A:retained-163-ac-1",
+      "criterion_text_digest": "ca2cdfc720cf21efaf7bb19595b279f0fe5b35a539378e16e438e5db40077e72",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#500",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-A:retained-163-ac-2",
+      "criterion_id": "V3-A:retained-163-ac-2",
+      "criterion_text_digest": "c35437134ae2416e74459e6ea4467d136a801d8e537423be428800b4dc6a26f2",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#500",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-A:retained-163-ac-3",
+      "criterion_id": "V3-A:retained-163-ac-3",
+      "criterion_text_digest": "640e6397628846e2fbbdd3ad631ee060f22294f6d141377992aff2d3c201af0b",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#500",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-A:retained-163-ac-4",
+      "criterion_id": "V3-A:retained-163-ac-4",
+      "criterion_text_digest": "7205d668626f687e9c4b8dd892cc4f3473ea7cba5ffd9d5d410b9d8d199f3a7a",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#500",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-B:retained-164-ac-1",
+      "criterion_id": "V3-B:retained-164-ac-1",
+      "criterion_text_digest": "ef701526a377e7991087fcf14d70166cab404ffb0ee5036bb78785e84b765423",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "source_supported_not_execution_proof",
+      "proof_requirement": "execution receipt required; source support alone is not release proof",
+      "successor_authority": "retained-v3.json",
+      "owner": "#501",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-B:retained-164-ac-2",
+      "criterion_id": "V3-B:retained-164-ac-2",
+      "criterion_text_digest": "793cb5b1e47a4d4bc45c0ecc3e847c8b182aedfa8262c6ae4ce8a46f0a5a578f",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#501",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-B:retained-164-ac-3",
+      "criterion_id": "V3-B:retained-164-ac-3",
+      "criterion_text_digest": "2537d74e2350e96631c63c77c2ddcc913ab5ce3b6e1a31014ce4574a6218e329",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#501",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-B:retained-164-ac-4",
+      "criterion_id": "V3-B:retained-164-ac-4",
+      "criterion_text_digest": "404750720ab51db67e4913d12fbe20db7e7391912244789602c269f72972cfb4",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "source_supported_not_execution_proof",
+      "proof_requirement": "execution receipt required; source support alone is not release proof",
+      "successor_authority": "retained-v3.json",
+      "owner": "#501",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-B:retained-164-ac-5",
+      "criterion_id": "V3-B:retained-164-ac-5",
+      "criterion_text_digest": "e0ee8c91762090aa8e8a6eb93bdcc718da0516601fa3aec25b85f8fbf4b0c867",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#501",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-B:retained-164-ac-6",
+      "criterion_id": "V3-B:retained-164-ac-6",
+      "criterion_text_digest": "1e9662bcfe18ffe71cbacc35513bc1ea94da4770541bfd5c797f96064ee9ed9d",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#501",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-B:retained-164-ac-7",
+      "criterion_id": "V3-B:retained-164-ac-7",
+      "criterion_text_digest": "9ed36640edee8ebc11b9eefa488da56ae0efd0ed81a7e3f907038784a5ce9f58",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#501",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-B:retained-164-ac-8",
+      "criterion_id": "V3-B:retained-164-ac-8",
+      "criterion_text_digest": "cbbf971eead4988de7d8304e7e4360f608317d13b69374474c22d794c6dd9085",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#501",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-B:retained-164-ac-9",
+      "criterion_id": "V3-B:retained-164-ac-9",
+      "criterion_text_digest": "09ac49df00cd28170e66c6fc5c6b5426e912a29f2f516e3330d9bc4b15437ba3",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#501",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-B:retained-165-ac-1",
+      "criterion_id": "V3-B:retained-165-ac-1",
+      "criterion_text_digest": "e669007f2ea57e63eb436c4fb6a703205e62537c7ad2f09076d4141d6657eca0",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#501",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-B:retained-165-ac-10",
+      "criterion_id": "V3-B:retained-165-ac-10",
+      "criterion_text_digest": "0225b1fce1801c7c83816cec5711f9e54e1968124e5e8db195943dbd3f43dbd9",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#501",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-B:retained-165-ac-11",
+      "criterion_id": "V3-B:retained-165-ac-11",
+      "criterion_text_digest": "d1cabdfe735662fe98302c7decd45f064a9515dd7591b5a5dbd12db826281e93",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "source_supported_not_execution_proof",
+      "proof_requirement": "execution receipt required; source support alone is not release proof",
+      "successor_authority": "retained-v3.json",
+      "owner": "#501",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-B:retained-165-ac-12",
+      "criterion_id": "V3-B:retained-165-ac-12",
+      "criterion_text_digest": "bcb814b0f178ca2d4aaa94026d28605f4f82389e494223f633b781de6e9c85a9",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#501",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-B:retained-165-ac-2",
+      "criterion_id": "V3-B:retained-165-ac-2",
+      "criterion_text_digest": "7987b994d9c22615dad5c9e0682bff430c30132763be3831bf21800fc8a9df27",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#501",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-B:retained-165-ac-3",
+      "criterion_id": "V3-B:retained-165-ac-3",
+      "criterion_text_digest": "2e45a41239b25f07007cb44bcc6a40c38f21dd35c45b6c50e5bbd791b3f8f8fe",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#501",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-B:retained-165-ac-4",
+      "criterion_id": "V3-B:retained-165-ac-4",
+      "criterion_text_digest": "b35545d394f31967488d9635bee3038764273aade89d82d4b6f9885927c5af98",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#501",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-B:retained-165-ac-5",
+      "criterion_id": "V3-B:retained-165-ac-5",
+      "criterion_text_digest": "ef13b31acc6c5e488c768ecb555b319755d19f18ce2bacc5237c57e8af9f59f0",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#501",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-B:retained-165-ac-6",
+      "criterion_id": "V3-B:retained-165-ac-6",
+      "criterion_text_digest": "3af6bb01017446aca7dd2c3fa9f913806fd8672b1fcfbea6c31c989a67178549",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#501",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-B:retained-165-ac-7",
+      "criterion_id": "V3-B:retained-165-ac-7",
+      "criterion_text_digest": "457e69ad53e1ab0df32704178af41b6586fbaf353c34102b2f2eab0c4a7daeae",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#501",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-B:retained-165-ac-8",
+      "criterion_id": "V3-B:retained-165-ac-8",
+      "criterion_text_digest": "ba5e14a79d69b7d248c67d049be21905bba0ed56180dd8532fc1171f189c26b5",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#501",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-B:retained-165-ac-9",
+      "criterion_id": "V3-B:retained-165-ac-9",
+      "criterion_text_digest": "bcca27afabe9accbe6447b32a5ce87ef9f7c7e1acc983e04ce2b9efcb031b9a3",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#501",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-B:retained-166-ac-1",
+      "criterion_id": "V3-B:retained-166-ac-1",
+      "criterion_text_digest": "ade9517f1b98f595920255cb434b77ab6434e80e3c66e70d5dd075ba1cc00343",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#501",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-B:retained-166-ac-2",
+      "criterion_id": "V3-B:retained-166-ac-2",
+      "criterion_text_digest": "b78a05ced8ea61b2e44e5f0325658838566ed89e5a4b2e55d68dba8e1f5577a0",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#501",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-B:retained-166-ac-3",
+      "criterion_id": "V3-B:retained-166-ac-3",
+      "criterion_text_digest": "bba4fd4742123cc0174b638f0f600bf7879ed04ac1030c01e8bca8290d3042de",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#501",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-B:retained-166-ac-4",
+      "criterion_id": "V3-B:retained-166-ac-4",
+      "criterion_text_digest": "fcec33db67c0522cd75902bcd64866ba6b5ab5123dfd84482b97317cb41f8506",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#501",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-B:retained-166-ac-5",
+      "criterion_id": "V3-B:retained-166-ac-5",
+      "criterion_text_digest": "efa74b138611beb5bc846634fe95dcd548aba74b2857e894d012f3fb1afd814d",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "source_supported_not_execution_proof",
+      "proof_requirement": "execution receipt required; source support alone is not release proof",
+      "successor_authority": "retained-v3.json",
+      "owner": "#501",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-B:retained-167-ac-1",
+      "criterion_id": "V3-B:retained-167-ac-1",
+      "criterion_text_digest": "1dbfafc518e079984fde054fcaf6a4c413f2c6f318b071bd01fd425ebaa38a63",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#501",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-B:retained-167-ac-2",
+      "criterion_id": "V3-B:retained-167-ac-2",
+      "criterion_text_digest": "bf9bf5a1d4ce1c11cc6483ad8eba6baeac7a369a11fd29de07e7c80dbea4d0dd",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#501",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-B:retained-167-ac-3",
+      "criterion_id": "V3-B:retained-167-ac-3",
+      "criterion_text_digest": "b395046ba22dea68c4fda9261111c789e7f947fec30019f3a003bcf585ea1ecf",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "source_supported_not_execution_proof",
+      "proof_requirement": "execution receipt required; source support alone is not release proof",
+      "successor_authority": "retained-v3.json",
+      "owner": "#501",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-B:retained-167-ac-4",
+      "criterion_id": "V3-B:retained-167-ac-4",
+      "criterion_text_digest": "3d9aeda4525d96bca6eb4697ab1b12717bc1257d386cb88fd72995e7b29deb5d",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#501",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-B:retained-167-ac-5",
+      "criterion_id": "V3-B:retained-167-ac-5",
+      "criterion_text_digest": "7bdf9e1b11c863788ad66f1bd6c7b6673a374d22bef2f1f8583da27f7d6e73f5",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#501",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-B:retained-167-ac-6",
+      "criterion_id": "V3-B:retained-167-ac-6",
+      "criterion_text_digest": "42f83271a54745b445851ef13bb317dacf1ab56e94a14b5f54e94f0a15512056",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "source_supported_not_execution_proof",
+      "proof_requirement": "execution receipt required; source support alone is not release proof",
+      "successor_authority": "retained-v3.json",
+      "owner": "#501",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-C:retained-168-ac-1",
+      "criterion_id": "V3-C:retained-168-ac-1",
+      "criterion_text_digest": "f22fe11262f1bba5d7e24a90aee1495c4314aa7957bbf03606acb6c231ad8a1d",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "source_supported_not_execution_proof",
+      "proof_requirement": "execution receipt required; source support alone is not release proof",
+      "successor_authority": "retained-v3.json",
+      "owner": "#502",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-C:retained-168-ac-2",
+      "criterion_id": "V3-C:retained-168-ac-2",
+      "criterion_text_digest": "bf8f2b7860484152721bd44f075eae6d785673faa1cc7183378c33e5ef5e5aee",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#502",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-C:retained-168-ac-3",
+      "criterion_id": "V3-C:retained-168-ac-3",
+      "criterion_text_digest": "79e6f53657d5be45f5225529f8aa7a195efa59e6b5639c1e23558e749d4e7b45",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "source_supported_not_execution_proof",
+      "proof_requirement": "execution receipt required; source support alone is not release proof",
+      "successor_authority": "retained-v3.json",
+      "owner": "#502",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-C:retained-168-ac-4",
+      "criterion_id": "V3-C:retained-168-ac-4",
+      "criterion_text_digest": "d145e5b71a9298f69b7874d1bac6da9b7332157db344eca9cf18a25dd85840cb",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#502",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-C:retained-168-ac-5",
+      "criterion_id": "V3-C:retained-168-ac-5",
+      "criterion_text_digest": "d2cf62a16ab8680074d7c103d0aac458830b6d444b9c69fdfbd43a1a698adadc",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#502",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-C:retained-168-ac-6",
+      "criterion_id": "V3-C:retained-168-ac-6",
+      "criterion_text_digest": "8c03665bafcb6d24534a726304fa3f482ebeb537c1a4c254bd9e001f223b4e4b",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "source_supported_not_execution_proof",
+      "proof_requirement": "execution receipt required; source support alone is not release proof",
+      "successor_authority": "retained-v3.json",
+      "owner": "#502",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-C:retained-168-ac-7",
+      "criterion_id": "V3-C:retained-168-ac-7",
+      "criterion_text_digest": "9e8cd85140a07c4df4d60f45766f5a32983508b409fcc68e29857c3f8be1eb00",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#502",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-C:retained-168-ac-8",
+      "criterion_id": "V3-C:retained-168-ac-8",
+      "criterion_text_digest": "9446d3b0529a2efe0302c3751d5be45c0f6f0e466d1cda91d1623cfbb6e22465",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "source_supported_not_execution_proof",
+      "proof_requirement": "execution receipt required; source support alone is not release proof",
+      "successor_authority": "retained-v3.json",
+      "owner": "#502",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-C:retained-169-ac-1",
+      "criterion_id": "V3-C:retained-169-ac-1",
+      "criterion_text_digest": "f13d04875f04965596272f4fcb5d2c4fd3c2d847290bee1e155e4ec5eb841f58",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#502",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-C:retained-169-ac-10",
+      "criterion_id": "V3-C:retained-169-ac-10",
+      "criterion_text_digest": "0854f4739e574c6dffa447e722493a23a0ef1c1fb27372263408ca5f335b53c2",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "source_supported_not_execution_proof",
+      "proof_requirement": "execution receipt required; source support alone is not release proof",
+      "successor_authority": "retained-v3.json",
+      "owner": "#502",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-C:retained-169-ac-2",
+      "criterion_id": "V3-C:retained-169-ac-2",
+      "criterion_text_digest": "cc8b485e5693fda10212e37a466e8fe907ef42281c72cef2c0e520be2a0a1f3c",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "source_supported_not_execution_proof",
+      "proof_requirement": "execution receipt required; source support alone is not release proof",
+      "successor_authority": "retained-v3.json",
+      "owner": "#502",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-C:retained-169-ac-3",
+      "criterion_id": "V3-C:retained-169-ac-3",
+      "criterion_text_digest": "6a61a3c29fd9089b4223ff585764a274ca07610f6a96f53f07f73344eb27cafa",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#502",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-C:retained-169-ac-4",
+      "criterion_id": "V3-C:retained-169-ac-4",
+      "criterion_text_digest": "0de3e1e423ca6edbc1ea6acf6e6a66f58767576d02d405d1d2dd21763ba2e477",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "source_supported_not_execution_proof",
+      "proof_requirement": "execution receipt required; source support alone is not release proof",
+      "successor_authority": "retained-v3.json",
+      "owner": "#502",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-C:retained-169-ac-5",
+      "criterion_id": "V3-C:retained-169-ac-5",
+      "criterion_text_digest": "af870f133a7b8320772cb3bfcd530c365751542371bafd3903f63f0f9ef6740b",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#502",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-C:retained-169-ac-6",
+      "criterion_id": "V3-C:retained-169-ac-6",
+      "criterion_text_digest": "bfdb76127260364076dd5c6e419a966dbc5f8b6213df92cd15c1ffc6db716b9a",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "source_supported_not_execution_proof",
+      "proof_requirement": "execution receipt required; source support alone is not release proof",
+      "successor_authority": "retained-v3.json",
+      "owner": "#502",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-C:retained-169-ac-7",
+      "criterion_id": "V3-C:retained-169-ac-7",
+      "criterion_text_digest": "ed90a2bfb1c88d3c84e35843e0c27a5e87015d92c01e91497e068af52e71566b",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#502",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-C:retained-169-ac-8",
+      "criterion_id": "V3-C:retained-169-ac-8",
+      "criterion_text_digest": "d0c9a1cfaf9135e04acc4c0e38189d31102a50806565c90821a95237e9b2e3f0",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#502",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-C:retained-169-ac-9",
+      "criterion_id": "V3-C:retained-169-ac-9",
+      "criterion_text_digest": "6e5cccc0c150f981b602fd7d35207e174edd3824349791a69803bb356556e0cb",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#502",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-C:retained-170-ac-1",
+      "criterion_id": "V3-C:retained-170-ac-1",
+      "criterion_text_digest": "fa617b4a27849d14c6ce2658bb20655412ea23a58c9c42743f3d23d1800083f5",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "source_supported_not_execution_proof",
+      "proof_requirement": "execution receipt required; source support alone is not release proof",
+      "successor_authority": "retained-v3.json",
+      "owner": "#502",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-C:retained-170-ac-2",
+      "criterion_id": "V3-C:retained-170-ac-2",
+      "criterion_text_digest": "f8f1152d4fb2bc4e2d35825a24862162ad3b2fecec729e10cc07404f147c7108",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#502",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-C:retained-170-ac-3",
+      "criterion_id": "V3-C:retained-170-ac-3",
+      "criterion_text_digest": "8f801c64aca09dba01d821a830df4b3efb3400c309630cd9181c4525f20fd567",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#502",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-C:retained-170-ac-4",
+      "criterion_id": "V3-C:retained-170-ac-4",
+      "criterion_text_digest": "09ce440960fcfaeaed09e2aa595c6b158d738b4fa9746a38e750f23788416c15",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "source_supported_not_execution_proof",
+      "proof_requirement": "execution receipt required; source support alone is not release proof",
+      "successor_authority": "retained-v3.json",
+      "owner": "#502",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-D:retained-171-ac-1",
+      "criterion_id": "V3-D:retained-171-ac-1",
+      "criterion_text_digest": "71449fb913a8f8fc344c9cde091b6d96662a42ffaf3b0a950ffa87a22cdaeb31",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#503",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-D:retained-171-ac-2",
+      "criterion_id": "V3-D:retained-171-ac-2",
+      "criterion_text_digest": "f3b60aa92c76ed62fdaaf9b38de51a1f580e7e70538cf45de8a80be4d335bc16",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#503",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-D:retained-171-ac-3",
+      "criterion_id": "V3-D:retained-171-ac-3",
+      "criterion_text_digest": "814c77689258c875d7358687ee31bc017f874c0ca260efa67b3a1036c4c36911",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#503",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-D:retained-171-ac-4",
+      "criterion_id": "V3-D:retained-171-ac-4",
+      "criterion_text_digest": "4edf2f63daa1d478f6b9f52db9a6f3b906525aebde4b1d7b6ae7bbd00b70d9f6",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#503",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-D:retained-172-ac-1",
+      "criterion_id": "V3-D:retained-172-ac-1",
+      "criterion_text_digest": "ee0f76bd87de8ab558e2843d776cf557d29ef0a0e9ba7e014d923b8e3b64231d",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "source_supported_not_execution_proof",
+      "proof_requirement": "execution receipt required; source support alone is not release proof",
+      "successor_authority": "retained-v3.json",
+      "owner": "#503",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-D:retained-172-ac-2",
+      "criterion_id": "V3-D:retained-172-ac-2",
+      "criterion_text_digest": "a731f27c66f87c44f3f759db9c7fc667f8e6667fa0013433c2f5eeaa63c63fd0",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "source_supported_not_execution_proof",
+      "proof_requirement": "execution receipt required; source support alone is not release proof",
+      "successor_authority": "retained-v3.json",
+      "owner": "#503",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-D:retained-172-ac-3",
+      "criterion_id": "V3-D:retained-172-ac-3",
+      "criterion_text_digest": "0ffa6de7ac908f4a9c061c0b3cac4ad18574694bb3ea9976be379c5099112322",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#503",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-D:retained-172-ac-4",
+      "criterion_id": "V3-D:retained-172-ac-4",
+      "criterion_text_digest": "28114709c3411a848870c014b6731c7e35e3169d34559404a3b2a66c0f94238e",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#503",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-D:retained-172-ac-5",
+      "criterion_id": "V3-D:retained-172-ac-5",
+      "criterion_text_digest": "a5177b76891724f6bea71b857015ebfe78b859ca1b69476770d751df01123200",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "source_supported_not_execution_proof",
+      "proof_requirement": "execution receipt required; source support alone is not release proof",
+      "successor_authority": "retained-v3.json",
+      "owner": "#503",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-D:retained-172-ac-6",
+      "criterion_id": "V3-D:retained-172-ac-6",
+      "criterion_text_digest": "a3549112aa7acba220cb60cf6c237b4244699a645d0ddae05b86433d3c4b8596",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#503",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-D:retained-173-ac-1",
+      "criterion_id": "V3-D:retained-173-ac-1",
+      "criterion_text_digest": "45ea600aee253cbd13d0abc1ef1077c30d7d1ff5dbe3b6e08f616babd88db8b2",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#503",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-D:retained-173-ac-2",
+      "criterion_id": "V3-D:retained-173-ac-2",
+      "criterion_text_digest": "7541a7425fa472ed35cb08b8ae1adf8ad5734aecd8ad94107e0eb28d8152e4ff",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "source_supported_not_execution_proof",
+      "proof_requirement": "execution receipt required; source support alone is not release proof",
+      "successor_authority": "retained-v3.json",
+      "owner": "#503",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-D:retained-173-ac-3",
+      "criterion_id": "V3-D:retained-173-ac-3",
+      "criterion_text_digest": "2be2e4e88eabfaf669c51b86d70c4345eac0dbe7454b88f03f45adbe3cbd2f18",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#503",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-D:retained-173-ac-4",
+      "criterion_id": "V3-D:retained-173-ac-4",
+      "criterion_text_digest": "765ff83162e3ca2ee45f2ed3eaf9486bf8237cddb2d14cc1b4ca0a09a158747c",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "source_supported_not_execution_proof",
+      "proof_requirement": "execution receipt required; source support alone is not release proof",
+      "successor_authority": "retained-v3.json",
+      "owner": "#503",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-E:retained-174-ac-1",
+      "criterion_id": "V3-E:retained-174-ac-1",
+      "criterion_text_digest": "9fe5bfff296007850f390e5225f2ee1e2d8f87f32194825f29fc8452fbb39100",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#504",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-E:retained-174-ac-2",
+      "criterion_id": "V3-E:retained-174-ac-2",
+      "criterion_text_digest": "1df98e47b9bd833476965019a4b6afccf60a51d8f25a49a9d782074b50768f1c",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#504",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-E:retained-174-ac-3",
+      "criterion_id": "V3-E:retained-174-ac-3",
+      "criterion_text_digest": "030b428505c1cba63a36d68f64601815d504fae089c31b0322d553a7b4846104",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#504",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-E:retained-174-ac-4",
+      "criterion_id": "V3-E:retained-174-ac-4",
+      "criterion_text_digest": "7e80afc3e193c07f16b03154f51dffe7cae951b5e5086979c7a02233279dac3b",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "source_supported_not_execution_proof",
+      "proof_requirement": "execution receipt required; source support alone is not release proof",
+      "successor_authority": "retained-v3.json",
+      "owner": "#504",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-E:retained-174-ac-5",
+      "criterion_id": "V3-E:retained-174-ac-5",
+      "criterion_text_digest": "84971c74f31d5e3487a25037cebb74d1ea459b7c31f54f8030842faeb7343fb9",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#504",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-E:retained-174-ac-6",
+      "criterion_id": "V3-E:retained-174-ac-6",
+      "criterion_text_digest": "644e5b8e2b6b737949b0e1695a7c85c5f4652d55ce1f6b3021d58a431842c7df",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "source_supported_not_execution_proof",
+      "proof_requirement": "execution receipt required; source support alone is not release proof",
+      "successor_authority": "retained-v3.json",
+      "owner": "#504",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-E:retained-175-ac-1",
+      "criterion_id": "V3-E:retained-175-ac-1",
+      "criterion_text_digest": "a8abc158c3f52fde3b34f41401dc617082bc65d72e9244223d1ca35b0ec6be5d",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "source_supported_not_execution_proof",
+      "proof_requirement": "execution receipt required; source support alone is not release proof",
+      "successor_authority": "retained-v3.json",
+      "owner": "#504",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-E:retained-175-ac-10",
+      "criterion_id": "V3-E:retained-175-ac-10",
+      "criterion_text_digest": "607d29abc5a8e60e442c89307af61853cddf58f0718bd2c4f6d9c53c6bc13c26",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "source_supported_not_execution_proof",
+      "proof_requirement": "execution receipt required; source support alone is not release proof",
+      "successor_authority": "retained-v3.json",
+      "owner": "#504",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-E:retained-175-ac-11",
+      "criterion_id": "V3-E:retained-175-ac-11",
+      "criterion_text_digest": "9a7ad53c795329d2c001073695d9f07dd6c35fb0a1c432b333b74121e4bd0958",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "source_supported_not_execution_proof",
+      "proof_requirement": "execution receipt required; source support alone is not release proof",
+      "successor_authority": "retained-v3.json",
+      "owner": "#504",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-E:retained-175-ac-2",
+      "criterion_id": "V3-E:retained-175-ac-2",
+      "criterion_text_digest": "fc734cbe41e6562fc4763338520b8de6d746bc7c56f347fb22a2db86b20b405f",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "source_supported_not_execution_proof",
+      "proof_requirement": "execution receipt required; source support alone is not release proof",
+      "successor_authority": "retained-v3.json",
+      "owner": "#504",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-E:retained-175-ac-3",
+      "criterion_id": "V3-E:retained-175-ac-3",
+      "criterion_text_digest": "91d425eb10b416b3c370757ef49cc5592dd2e8e2d5aa956eb29a65d70c4ea3c9",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#504",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-E:retained-175-ac-4",
+      "criterion_id": "V3-E:retained-175-ac-4",
+      "criterion_text_digest": "ff9259fffae6b9c10abb1f5e49953bfa192d2d9c5f75316c5ca97ee653e9b47f",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#504",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-E:retained-175-ac-5",
+      "criterion_id": "V3-E:retained-175-ac-5",
+      "criterion_text_digest": "6f9b0d900dff37f78276ae1f91ee91113d30fb25c9b4c60cde38696f2dabdfde",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#504",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-E:retained-175-ac-6",
+      "criterion_id": "V3-E:retained-175-ac-6",
+      "criterion_text_digest": "7f6f12357e3d131082d32075f066c1de6f886838baa2a91a44843ca3421205c0",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "source_supported_not_execution_proof",
+      "proof_requirement": "execution receipt required; source support alone is not release proof",
+      "successor_authority": "retained-v3.json",
+      "owner": "#504",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-E:retained-175-ac-7",
+      "criterion_id": "V3-E:retained-175-ac-7",
+      "criterion_text_digest": "3a7954522a8687d9b142fc83133aef2165fcd8018df5d2355de2254bfe1f1ec2",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "source_supported_not_execution_proof",
+      "proof_requirement": "execution receipt required; source support alone is not release proof",
+      "successor_authority": "retained-v3.json",
+      "owner": "#504",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-E:retained-175-ac-8",
+      "criterion_id": "V3-E:retained-175-ac-8",
+      "criterion_text_digest": "c1af220abad47cb52a6baeacc7110eb53c3804df06c87c3c7e0502a32aff3a28",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#504",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-E:retained-175-ac-9",
+      "criterion_id": "V3-E:retained-175-ac-9",
+      "criterion_text_digest": "7243c5b0a3fb05970fb95727cd2919df02eb4dbe04ca951999f293b32721e7b9",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#504",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-E:retained-176-ac-1",
+      "criterion_id": "V3-E:retained-176-ac-1",
+      "criterion_text_digest": "f26b7790eabb61e0f583537dcfef598e04e5eb4c7ff5b38559469e2f25e6c1e6",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "source_supported_not_execution_proof",
+      "proof_requirement": "execution receipt required; source support alone is not release proof",
+      "successor_authority": "retained-v3.json",
+      "owner": "#504",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-E:retained-176-ac-2",
+      "criterion_id": "V3-E:retained-176-ac-2",
+      "criterion_text_digest": "f08e9360c1582bf3bcd741138d1375beb19131019b14b3d34a87bb4ea6a86fc3",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#504",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-E:retained-176-ac-3",
+      "criterion_id": "V3-E:retained-176-ac-3",
+      "criterion_text_digest": "7f3bae27a224e836eae202a3d7149d9618b75b7c6e5df8f459cf3060982d8844",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "source_supported_not_execution_proof",
+      "proof_requirement": "execution receipt required; source support alone is not release proof",
+      "successor_authority": "retained-v3.json",
+      "owner": "#504",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-E:retained-176-ac-4",
+      "criterion_id": "V3-E:retained-176-ac-4",
+      "criterion_text_digest": "b204b4e74727ff4153c9e6676bd84a52da98d0285fd8e9fbaa323282807f2fac",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#504",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-E:retained-176-ac-5",
+      "criterion_id": "V3-E:retained-176-ac-5",
+      "criterion_text_digest": "38e9792b9dd3d03f646665e89202baed55cc98ec55bdb6f7d5fab733b869af8d",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#504",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-E:retained-176-ac-6",
+      "criterion_id": "V3-E:retained-176-ac-6",
+      "criterion_text_digest": "5f59818e8ad7099e86a87ee89f1160ce389679232e16142e61774db61546b61f",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#504",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-E:retained-176-ac-7",
+      "criterion_id": "V3-E:retained-176-ac-7",
+      "criterion_text_digest": "3d931365630c6a7119f1327928bea8492300cf4e11cb8a32adc73db4643c037f",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "source_supported_not_execution_proof",
+      "proof_requirement": "execution receipt required; source support alone is not release proof",
+      "successor_authority": "retained-v3.json",
+      "owner": "#504",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-E:retained-176-ac-8",
+      "criterion_id": "V3-E:retained-176-ac-8",
+      "criterion_text_digest": "44f380c2d3631251e2ab63fd16fec6827cee393df0eb1feba3c08590794fbc86",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#504",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-E:retained-177-ac-1",
+      "criterion_id": "V3-E:retained-177-ac-1",
+      "criterion_text_digest": "747f09a0b7399dfda95cd7449c9e8252734d811263f8db935e4a89370b5a5a37",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "source_supported_not_execution_proof",
+      "proof_requirement": "execution receipt required; source support alone is not release proof",
+      "successor_authority": "retained-v3.json",
+      "owner": "#504",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-E:retained-177-ac-10",
+      "criterion_id": "V3-E:retained-177-ac-10",
+      "criterion_text_digest": "42ad08d76820d36a4b91b0d2612e38f98a0170559a36d5ec75e3b6f810f39fcc",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "source_supported_not_execution_proof",
+      "proof_requirement": "execution receipt required; source support alone is not release proof",
+      "successor_authority": "retained-v3.json",
+      "owner": "#504",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-E:retained-177-ac-2",
+      "criterion_id": "V3-E:retained-177-ac-2",
+      "criterion_text_digest": "863b4be37561e336923aee2b0e6db721062e1b83fa691b5563145943eebef75a",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "source_supported_not_execution_proof",
+      "proof_requirement": "execution receipt required; source support alone is not release proof",
+      "successor_authority": "retained-v3.json",
+      "owner": "#504",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-E:retained-177-ac-3",
+      "criterion_id": "V3-E:retained-177-ac-3",
+      "criterion_text_digest": "8fa37f73657b7b9b5b2eca218319f8fbe3b8d5a107b1abcc8cd19fe578cab32e",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "source_supported_not_execution_proof",
+      "proof_requirement": "execution receipt required; source support alone is not release proof",
+      "successor_authority": "retained-v3.json",
+      "owner": "#504",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-E:retained-177-ac-4",
+      "criterion_id": "V3-E:retained-177-ac-4",
+      "criterion_text_digest": "b743de271cb8dca9653519127fb6a86ef431e01f658da141c44bb807ccb7f00c",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "source_supported_not_execution_proof",
+      "proof_requirement": "execution receipt required; source support alone is not release proof",
+      "successor_authority": "retained-v3.json",
+      "owner": "#504",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-E:retained-177-ac-5",
+      "criterion_id": "V3-E:retained-177-ac-5",
+      "criterion_text_digest": "085ec242fa21fbef50d141997d94d21e6272ac0671e53cdde8a6c7c42b3a10f7",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#504",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-E:retained-177-ac-6",
+      "criterion_id": "V3-E:retained-177-ac-6",
+      "criterion_text_digest": "3ed67d7ce452b25a3f65da421388cdb07427b3127ddb69cfc6655019d395edc3",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#504",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-E:retained-177-ac-7",
+      "criterion_id": "V3-E:retained-177-ac-7",
+      "criterion_text_digest": "64165edd118488cf7a1a95ade196c235a9f5ce1ed132e01f45d0b23c0f556dda",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#504",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-E:retained-177-ac-8",
+      "criterion_id": "V3-E:retained-177-ac-8",
+      "criterion_text_digest": "bbd27c9e79c1239c65b7676e496b013d8f3f3a4e10a0615a8067d70527a4282e",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#504",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-E:retained-177-ac-9",
+      "criterion_id": "V3-E:retained-177-ac-9",
+      "criterion_text_digest": "ba2a823ef361626ba98e6b0b8b491ae51d4ddf45573c6101fe513edcdf7c4eaa",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#504",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-E:retained-178-ac-1",
+      "criterion_id": "V3-E:retained-178-ac-1",
+      "criterion_text_digest": "0a4391e4f45fbfcc5493bb55287874c98180de1a4a0b97f8a24e1142e3b99646",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "source_supported_not_execution_proof",
+      "proof_requirement": "execution receipt required; source support alone is not release proof",
+      "successor_authority": "retained-v3.json",
+      "owner": "#504",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-E:retained-178-ac-10",
+      "criterion_id": "V3-E:retained-178-ac-10",
+      "criterion_text_digest": "aa5cc3771c697e018ef6bbe0b0de306620a951b985dcdabd6e36525516020dd2",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "source_supported_not_execution_proof",
+      "proof_requirement": "execution receipt required; source support alone is not release proof",
+      "successor_authority": "retained-v3.json",
+      "owner": "#504",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-E:retained-178-ac-2",
+      "criterion_id": "V3-E:retained-178-ac-2",
+      "criterion_text_digest": "9dc3cb4d3300780bea14596a33da3f6645e1b7b15e2ac804f5c57f327c9d3124",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "source_supported_not_execution_proof",
+      "proof_requirement": "execution receipt required; source support alone is not release proof",
+      "successor_authority": "retained-v3.json",
+      "owner": "#504",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-E:retained-178-ac-3",
+      "criterion_id": "V3-E:retained-178-ac-3",
+      "criterion_text_digest": "4a8818430fdd8681f0cdde0829702a9e0bc680b93af400434c2d127fe255e01e",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#504",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-E:retained-178-ac-4",
+      "criterion_id": "V3-E:retained-178-ac-4",
+      "criterion_text_digest": "d33a280cee0d5b963060fd021c0c51d74e81007362cc623f9e03e812c6c06842",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#504",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-E:retained-178-ac-5",
+      "criterion_id": "V3-E:retained-178-ac-5",
+      "criterion_text_digest": "b2c12c44f2df3858dbdec9f91d0c0f41ff97ad8c3cfe08b37e724b64594f4fca",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#504",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-E:retained-178-ac-6",
+      "criterion_id": "V3-E:retained-178-ac-6",
+      "criterion_text_digest": "2c7aad46bc97141158bc66c71c5e92e19a66219fa9dcf4aa5a378317a5ade7d2",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "source_supported_not_execution_proof",
+      "proof_requirement": "execution receipt required; source support alone is not release proof",
+      "successor_authority": "retained-v3.json",
+      "owner": "#504",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-E:retained-178-ac-7",
+      "criterion_id": "V3-E:retained-178-ac-7",
+      "criterion_text_digest": "157d46b8792013f6e8273a3f8f11a194139dcd5bc3202afbda12b66ca507619b",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#504",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-E:retained-178-ac-8",
+      "criterion_id": "V3-E:retained-178-ac-8",
+      "criterion_text_digest": "03044653195ed27392b61e73247d1308512104391de709eebab84a85c04676fe",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "source_supported_not_execution_proof",
+      "proof_requirement": "execution receipt required; source support alone is not release proof",
+      "successor_authority": "retained-v3.json",
+      "owner": "#504",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-E:retained-178-ac-9",
+      "criterion_id": "V3-E:retained-178-ac-9",
+      "criterion_text_digest": "33fddf88a36b65a11e32e6e4f15ca71239f3b7834cee9e84834c1da6df2ac235",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "source_supported_not_execution_proof",
+      "proof_requirement": "execution receipt required; source support alone is not release proof",
+      "successor_authority": "retained-v3.json",
+      "owner": "#504",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-F:retained-179-ac-1",
+      "criterion_id": "V3-F:retained-179-ac-1",
+      "criterion_text_digest": "6c66843a7244c7490034dc9fa8beda310dd6e3b860431581be3a892d558745c5",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#505",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-F:retained-179-ac-10",
+      "criterion_id": "V3-F:retained-179-ac-10",
+      "criterion_text_digest": "39252365409b696ace4d2c2ccdf84071816c334605daf79e9c91ca752027b05c",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "source_supported_not_execution_proof",
+      "proof_requirement": "execution receipt required; source support alone is not release proof",
+      "successor_authority": "retained-v3.json",
+      "owner": "#505",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-F:retained-179-ac-11",
+      "criterion_id": "V3-F:retained-179-ac-11",
+      "criterion_text_digest": "7484ed9e33d6a2e018f62c37873d53e039df21296cf67308250a34fbfd023acd",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#505",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-F:retained-179-ac-2",
+      "criterion_id": "V3-F:retained-179-ac-2",
+      "criterion_text_digest": "6cda39c79d94f39750dd7d858ef5b1bb3a9864a2db43e97c3432bee406ef37d9",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "source_supported_not_execution_proof",
+      "proof_requirement": "execution receipt required; source support alone is not release proof",
+      "successor_authority": "retained-v3.json",
+      "owner": "#505",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-F:retained-179-ac-3",
+      "criterion_id": "V3-F:retained-179-ac-3",
+      "criterion_text_digest": "43a0dc4e846474875a0ba793a3c824d78748cbfd001bbf9cb57909abf53a1b8c",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#505",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-F:retained-179-ac-4",
+      "criterion_id": "V3-F:retained-179-ac-4",
+      "criterion_text_digest": "bd96abd1ebd5a38df8b977b41b0ee9c20c8f60085dcff6a6a3c7684729824d81",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#505",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-F:retained-179-ac-5",
+      "criterion_id": "V3-F:retained-179-ac-5",
+      "criterion_text_digest": "1d4e8a93f7881b6f9e87e492db03bbbdd1c7c2589aeae69fadb3a21ef9723b24",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#505",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-F:retained-179-ac-6",
+      "criterion_id": "V3-F:retained-179-ac-6",
+      "criterion_text_digest": "c29c18d4b577c09db7cc148860b9e9106218cd0aa939d4a49c9c387980bcf4de",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#505",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-F:retained-179-ac-7",
+      "criterion_id": "V3-F:retained-179-ac-7",
+      "criterion_text_digest": "cf95b640dfc48961856e20fc0406777ef8ef337e608633d49dff13ad3553e6b3",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#505",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-F:retained-179-ac-8",
+      "criterion_id": "V3-F:retained-179-ac-8",
+      "criterion_text_digest": "7385ce22ad424c8e337501eaeb8ac98fee5840c8a1e5ca6e281ecfb59541abea",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "non_proving",
+      "proof_requirement": "candidate-bound behavioral proof or governed amendment/removal required",
+      "successor_authority": "retained-v3.json",
+      "owner": "#505",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-F:retained-179-ac-9",
+      "criterion_id": "V3-F:retained-179-ac-9",
+      "criterion_text_digest": "caa23e64a1ad8660d68d52b19f6e50d0450b38095fb0fe57cb7d7887cf260e17",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "source_supported_not_execution_proof",
+      "proof_requirement": "execution receipt required; source support alone is not release proof",
+      "successor_authority": "retained-v3.json",
+      "owner": "#505",
+      "disposition": "unproved"
+    },
+    {
+      "row_id": "V3-F:retained-180-ac-2",
+      "criterion_id": "V3-F:retained-180-ac-2",
+      "criterion_text_digest": "11b83711a8b70fa6d90761e2571fd189c7f58a8e783db4c4636dd46fe90efefa",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "source_supported_not_execution_proof",
+      "proof_requirement": "execution receipt required; source support alone is not release proof",
+      "successor_authority": "retained-v3.json",
+      "owner": "#505",
+      "disposition": "unproved"
+    }
+  ],
+  "preserved_rows": [
+    {
+      "row_id": "CORP-A:retained-153-ac-1",
+      "criterion_id": "CORP-A:retained-153-ac-1",
+      "criterion_text_digest": "dca178400b2847bb2a416f68454ce78e6ad71b951d09c0abca0e99b8bbba9012",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "proven",
+      "proof_requirement": "preserved as reviewed proof disposition",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#482",
+      "disposition": "preserved"
+    },
+    {
+      "row_id": "CORP-A:retained-153-ac-4",
+      "criterion_id": "CORP-A:retained-153-ac-4",
+      "criterion_text_digest": "53ac598a4b1daaf994dcb4eb5cb877e00b8a0f39973c7869ddfa0d4871b5b4a7",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "proven",
+      "proof_requirement": "preserved as reviewed proof disposition",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#482",
+      "disposition": "preserved"
+    },
+    {
+      "row_id": "CORP-A:retained-155-ac-4",
+      "criterion_id": "CORP-A:retained-155-ac-4",
+      "criterion_text_digest": "33b2101c6d85fe5e289080e88a37ac46ac0700f2437827d75f830eee3dbd2f34",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "proven",
+      "proof_requirement": "preserved as reviewed proof disposition",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#482",
+      "disposition": "preserved"
+    },
+    {
+      "row_id": "CORP-B:retained-156-ac-1",
+      "criterion_id": "CORP-B:retained-156-ac-1",
+      "criterion_text_digest": "a2700f4cddd0edd779a4b5fe1f54b53d7e60a29d3774ff4a28d209a72cf420af",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "accepted_amendment",
+      "proof_requirement": "preserved as governed amendment disposition",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#483",
+      "disposition": "preserved"
+    },
+    {
+      "row_id": "CORP-B:retained-156-ac-2",
+      "criterion_id": "CORP-B:retained-156-ac-2",
+      "criterion_text_digest": "74b7c84de7eabc2aed4e4df2e68b0d8e8d78225d4d44a9007664db3de4ed3adb",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "accepted_amendment",
+      "proof_requirement": "preserved as governed amendment disposition",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#483",
+      "disposition": "preserved"
+    },
+    {
+      "row_id": "CORP-B:retained-156-ac-3",
+      "criterion_id": "CORP-B:retained-156-ac-3",
+      "criterion_text_digest": "d0afe215a4507bafa4b11200c66496da3a85a25e1d9c1b97a0ac9c65385e9a9e",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "accepted_amendment",
+      "proof_requirement": "preserved as governed amendment disposition",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#483",
+      "disposition": "preserved"
+    },
+    {
+      "row_id": "CORP-B:retained-156-ac-4",
+      "criterion_id": "CORP-B:retained-156-ac-4",
+      "criterion_text_digest": "b9626dfa2d7a814e24e4e2ee19aa694168fbf5de23ad7aad903dbdf0dc3d8d97",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "proven",
+      "proof_requirement": "preserved as reviewed proof disposition",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#483",
+      "disposition": "preserved"
+    },
+    {
+      "row_id": "CORP-C:retained-157-ac-4",
+      "criterion_id": "CORP-C:retained-157-ac-4",
+      "criterion_text_digest": "003780997fde47e8f368da48ef35e422266dccd88f4ae45665b15b18f95afa05",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "accepted_amendment",
+      "proof_requirement": "preserved as governed amendment disposition",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#497",
+      "disposition": "preserved"
+    },
+    {
+      "row_id": "CORP-C:retained-158-ac-1",
+      "criterion_id": "CORP-C:retained-158-ac-1",
+      "criterion_text_digest": "e430c2f62383cf7995085edc0241308a8302961722cb4c93ff73860b1d631a3c",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "proven",
+      "proof_requirement": "preserved as reviewed proof disposition",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#497",
+      "disposition": "preserved"
+    },
+    {
+      "row_id": "CORP-C:retained-158-ac-2",
+      "criterion_id": "CORP-C:retained-158-ac-2",
+      "criterion_text_digest": "1812a675f452e93888149c8e182b63a93ad7517ae514ce1a95d4fa21f0581017",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "accepted_amendment",
+      "proof_requirement": "preserved as governed amendment disposition",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#497",
+      "disposition": "preserved"
+    },
+    {
+      "row_id": "CORP-C:retained-158-ac-3",
+      "criterion_id": "CORP-C:retained-158-ac-3",
+      "criterion_text_digest": "364fd6a25b98c14e06def1834225b9e26a5f53c54d7da8d463defd628e4f0608",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "accepted_amendment",
+      "proof_requirement": "preserved as governed amendment disposition",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#497",
+      "disposition": "preserved"
+    },
+    {
+      "row_id": "CORP-C:retained-159-ac-2",
+      "criterion_id": "CORP-C:retained-159-ac-2",
+      "criterion_text_digest": "fe174d8efadc5432528a45edebd9554ab1f36a01a2563dfe9d8d6dbd7bed50c7",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "accepted_amendment",
+      "proof_requirement": "preserved as governed amendment disposition",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#497",
+      "disposition": "preserved"
+    },
+    {
+      "row_id": "CORP-C:retained-159-ac-3",
+      "criterion_id": "CORP-C:retained-159-ac-3",
+      "criterion_text_digest": "b517636e4ad55aab255ea24088e26f07598c280283e255bb2a8f0aeee0da6b56",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "accepted_amendment",
+      "proof_requirement": "preserved as governed amendment disposition",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#497",
+      "disposition": "preserved"
+    },
+    {
+      "row_id": "CORP-D:retained-160-ac-3",
+      "criterion_id": "CORP-D:retained-160-ac-3",
+      "criterion_text_digest": "a3156d74c3207b31b600f441e23dd96109cbec0f59d19e00a4d78a60a899b23f",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "proven",
+      "proof_requirement": "preserved as reviewed proof disposition",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#498",
+      "disposition": "preserved"
+    },
+    {
+      "row_id": "CORP-D:retained-160-ac-4",
+      "criterion_id": "CORP-D:retained-160-ac-4",
+      "criterion_text_digest": "7dfbcb2fd393aae19025a4632a78e8720fd304afcd80b9cba009258aa3461346",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "proven",
+      "proof_requirement": "preserved as reviewed proof disposition",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#498",
+      "disposition": "preserved"
+    },
+    {
+      "row_id": "DRT-A:retained-181-ac-1",
+      "criterion_id": "DRT-A:retained-181-ac-1",
+      "criterion_text_digest": "74e890ea6b25a2b212df6cbb3fe3c73ccb52c2897ad33cb375aed940245154c0",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "proven",
+      "proof_requirement": "preserved as reviewed proof disposition",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#506",
+      "disposition": "preserved"
+    },
+    {
+      "row_id": "DRT-A:retained-181-ac-2",
+      "criterion_id": "DRT-A:retained-181-ac-2",
+      "criterion_text_digest": "7ed63997d6faaf5ad6ce07fd07afb79b8fc034c5048d11701aa1ad7fcf6a134f",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "proven",
+      "proof_requirement": "preserved as reviewed proof disposition",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#506",
+      "disposition": "preserved"
+    },
+    {
+      "row_id": "DRT-A:retained-181-ac-3",
+      "criterion_id": "DRT-A:retained-181-ac-3",
+      "criterion_text_digest": "5293861287ba01073f3794c0f31e0ab051d7856f3d7d1e79b937b8a0ec006372",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "proven",
+      "proof_requirement": "preserved as reviewed proof disposition",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#506",
+      "disposition": "preserved"
+    },
+    {
+      "row_id": "TAIL-07:retained-190-ac-1",
+      "criterion_id": "TAIL-07:retained-190-ac-1",
+      "criterion_text_digest": "193343a3c92198dd04ba85451f282d05e8059897683498751afb7f5f5e9cba50",
+      "mapping_file": "release-stage-mapping.json",
+      "reconciliation_class": "not_applicable_at_quality_gate",
+      "proof_requirement": "preserved as later-stage or not-applicable quality-gate disposition",
+      "successor_authority": "release-stage-mapping.json",
+      "owner": "TAIL-07",
+      "disposition": "preserved"
+    },
+    {
+      "row_id": "TAIL-07:retained-190-ac-2",
+      "criterion_id": "TAIL-07:retained-190-ac-2",
+      "criterion_text_digest": "b3c4d15be8923f5c3025234d818c8274cf94cfbacbe84fa93f20e6dd84fbda47",
+      "mapping_file": "release-stage-mapping.json",
+      "reconciliation_class": "not_applicable_at_quality_gate",
+      "proof_requirement": "preserved as later-stage or not-applicable quality-gate disposition",
+      "successor_authority": "release-stage-mapping.json",
+      "owner": "TAIL-07",
+      "disposition": "preserved"
+    },
+    {
+      "row_id": "TAIL-07:retained-190-ac-3",
+      "criterion_id": "TAIL-07:retained-190-ac-3",
+      "criterion_text_digest": "1d25ba049d45e6e8e2f3ec088a45f60d5b4b09b990fec2a8da7d1a0572a8ad68",
+      "mapping_file": "release-stage-mapping.json",
+      "reconciliation_class": "not_applicable_at_quality_gate",
+      "proof_requirement": "preserved as later-stage or not-applicable quality-gate disposition",
+      "successor_authority": "release-stage-mapping.json",
+      "owner": "TAIL-07",
+      "disposition": "preserved"
+    },
+    {
+      "row_id": "TAIL-07:retained-190-ac-4",
+      "criterion_id": "TAIL-07:retained-190-ac-4",
+      "criterion_text_digest": "86fcfeb9d06cfd78791257a346338b4c2fa773579e300995954556363ee915d9",
+      "mapping_file": "release-stage-mapping.json",
+      "reconciliation_class": "not_applicable_at_quality_gate",
+      "proof_requirement": "preserved as later-stage or not-applicable quality-gate disposition",
+      "successor_authority": "release-stage-mapping.json",
+      "owner": "TAIL-07",
+      "disposition": "preserved"
+    },
+    {
+      "row_id": "TAIL-10:retained-189-ac-1",
+      "criterion_id": "TAIL-10:retained-189-ac-1",
+      "criterion_text_digest": "88ba3c2a56a6c016c6cf2460c974f3b2a15df90edb70e317a92a70e37f1420a8",
+      "mapping_file": "release-stage-mapping.json",
+      "reconciliation_class": "not_applicable_at_quality_gate",
+      "proof_requirement": "preserved as later-stage or not-applicable quality-gate disposition",
+      "successor_authority": "release-stage-mapping.json",
+      "owner": "TAIL-10",
+      "disposition": "preserved"
+    },
+    {
+      "row_id": "TAIL-10:retained-189-ac-2",
+      "criterion_id": "TAIL-10:retained-189-ac-2",
+      "criterion_text_digest": "26ceae10fda9f59b425dbf5c487d7629509669e8306f4b0c70920651fbb40f62",
+      "mapping_file": "release-stage-mapping.json",
+      "reconciliation_class": "not_applicable_at_quality_gate",
+      "proof_requirement": "preserved as later-stage or not-applicable quality-gate disposition",
+      "successor_authority": "release-stage-mapping.json",
+      "owner": "TAIL-10",
+      "disposition": "preserved"
+    },
+    {
+      "row_id": "TAIL-10:retained-189-ac-3",
+      "criterion_id": "TAIL-10:retained-189-ac-3",
+      "criterion_text_digest": "385f329b3ebb163883a88cf77e093b8b371143b68eaccb9072c3f438c0274f17",
+      "mapping_file": "release-stage-mapping.json",
+      "reconciliation_class": "not_applicable_at_quality_gate",
+      "proof_requirement": "preserved as later-stage or not-applicable quality-gate disposition",
+      "successor_authority": "release-stage-mapping.json",
+      "owner": "TAIL-10",
+      "disposition": "preserved"
+    },
+    {
+      "row_id": "TAIL-10:retained-189-ac-4",
+      "criterion_id": "TAIL-10:retained-189-ac-4",
+      "criterion_text_digest": "c2dc196889373cb5101f9d79171d6ab1f2754356b2bce57d44873485d64b4e07",
+      "mapping_file": "release-stage-mapping.json",
+      "reconciliation_class": "not_applicable_at_quality_gate",
+      "proof_requirement": "preserved as later-stage or not-applicable quality-gate disposition",
+      "successor_authority": "release-stage-mapping.json",
+      "owner": "TAIL-10",
+      "disposition": "preserved"
+    },
+    {
+      "row_id": "V3-F:retained-180-ac-1",
+      "criterion_id": "V3-F:retained-180-ac-1",
+      "criterion_text_digest": "bcba06426e7ef1f452b50cb6c69c3e43b08af55c4ba7595d387fa0b017502eba",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "not_applicable_at_quality_gate",
+      "proof_requirement": "preserved as later-stage or not-applicable quality-gate disposition",
+      "successor_authority": "retained-v3.json",
+      "owner": "#505",
+      "disposition": "preserved"
+    },
+    {
+      "row_id": "V3-F:retained-180-ac-3",
+      "criterion_id": "V3-F:retained-180-ac-3",
+      "criterion_text_digest": "c00a16ead727b30e2c5b3de891c72ebd9ecb10788df83b87b1223f6be8824198",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "not_applicable_at_quality_gate",
+      "proof_requirement": "preserved as later-stage or not-applicable quality-gate disposition",
+      "successor_authority": "retained-v3.json",
+      "owner": "#505",
+      "disposition": "preserved"
+    },
+    {
+      "row_id": "V3-F:retained-180-ac-4",
+      "criterion_id": "V3-F:retained-180-ac-4",
+      "criterion_text_digest": "c22158b39061d95f4efd8fee9454d557a41fc880347c748cc22c8e69eb9f8e80",
+      "mapping_file": "retained-v3.json",
+      "reconciliation_class": "not_applicable_at_quality_gate",
+      "proof_requirement": "preserved as later-stage or not-applicable quality-gate disposition",
+      "successor_authority": "retained-v3.json",
+      "owner": "#505",
+      "disposition": "preserved"
+    }
+  ],
+  "accounted_non_764_eligible_rows": [
+    {
+      "row_id": "CORP-A:CORP-A-ac-1",
+      "criterion_id": "CORP-A:CORP-A-ac-1",
+      "criterion_text_digest": "dcfba0727c2d81928d75f6b3a1b6c0cdd7ddcdd76e063068f4fad3fabae2038f",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "review_freshness_resolved",
+      "proof_requirement": "not part of #764 retained proof-gap partition",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#482",
+      "disposition": "outside_issue_764_partition"
+    },
+    {
+      "row_id": "CORP-A:CORP-A-ac-2",
+      "criterion_id": "CORP-A:CORP-A-ac-2",
+      "criterion_text_digest": "a18411b2faf1a9ffbc54fd8870ee7d1babfeb3d1bb02441e0671f0dde0ceceee",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "review_freshness_resolved",
+      "proof_requirement": "not part of #764 retained proof-gap partition",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#482",
+      "disposition": "outside_issue_764_partition"
+    },
+    {
+      "row_id": "CORP-A:CORP-A-ac-3",
+      "criterion_id": "CORP-A:CORP-A-ac-3",
+      "criterion_text_digest": "091e9f774e4317433dcf2316608634336f44a1e31dce5d68deb3aa457f1d3f4c",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "review_freshness_resolved",
+      "proof_requirement": "not part of #764 retained proof-gap partition",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#482",
+      "disposition": "outside_issue_764_partition"
+    }
+  ],
+  "child_buckets": [
+    {
+      "bucket": "C-SDLC v3 retained proof",
+      "candidate_title": "[v0.92.1][TAIL-06.08b][quality] Close C-SDLC v3 retained proof gaps",
+      "row_count": 152,
+      "classes": {
+        "non_proving": 101,
+        "source_supported_not_execution_proof": 51
+      },
+      "source_mapping_files": [
+        "retained-v3.json"
+      ],
+      "dependencies": [
+        "#764 denominator packet"
+      ],
+      "candidate_child_scope": "candidate-bound execution receipts for C-SDLC v3 retained criteria",
+      "non_goals": [
+        "do not relabel ownership, closure, accounting, or documentation presence as behavioral proof",
+        "do not silently remove retained requirements",
+        "do not absorb product fixes into the #764 umbrella"
+      ]
+    },
+    {
+      "bucket": "Corporate/runtime retained proof",
+      "candidate_title": "[v0.92.1][TAIL-06.08a][quality] Close corporate Runtime retained proof gaps",
+      "row_count": 17,
+      "classes": {
+        "non_proving": 17
+      },
+      "source_mapping_files": [
+        "retained-corporate-runtime.json"
+      ],
+      "dependencies": [
+        "#764 denominator packet"
+      ],
+      "candidate_child_scope": "candidate-bound proof or governed amendments for corporate/runtime retained criteria",
+      "non_goals": [
+        "do not relabel ownership, closure, accounting, or documentation presence as behavioral proof",
+        "do not silently remove retained requirements",
+        "do not absorb product fixes into the #764 umbrella"
+      ]
+    },
+    {
+      "bucket": "Distributed Runtime retained proof",
+      "candidate_title": "[v0.92.1][TAIL-06.08c][quality] Close distributed Runtime retained proof gaps",
+      "row_count": 25,
+      "classes": {
+        "non_proving": 25
+      },
+      "source_mapping_files": [
+        "retained-corporate-runtime.json"
+      ],
+      "dependencies": [
+        "#764 denominator packet"
+      ],
+      "candidate_child_scope": "candidate-bound Runtime/DRT proof for distributed retained criteria",
+      "non_goals": [
+        "do not relabel ownership, closure, accounting, or documentation presence as behavioral proof",
+        "do not silently remove retained requirements",
+        "do not absorb product fixes into the #764 umbrella"
+      ]
+    },
+    {
+      "bucket": "TAIL-01 current quality gate",
+      "candidate_title": "[v0.92.1][TAIL-06.08d][quality] Reprove current TAIL-01 quality-gate obligations",
+      "row_count": 4,
+      "classes": {
+        "current_gate_obligation": 4
+      },
+      "source_mapping_files": [
+        "release-stage-mapping.json"
+      ],
+      "dependencies": [
+        "#764 denominator packet",
+        "all proof-bearing retained child buckets it consumes"
+      ],
+      "candidate_child_scope": "current TAIL-01 quality-gate proof obligations",
+      "non_goals": [
+        "do not relabel ownership, closure, accounting, or documentation presence as behavioral proof",
+        "do not silently remove retained requirements",
+        "do not absorb product fixes into the #764 umbrella"
+      ]
+    }
+  ],
+  "release_decision": {
+    "status": "blocked",
+    "reason": "The #764 denominator is now stable, but candidate-bound behavioral proof or governed disposition remains required for all remediation rows before release authorization."
+  }
+}

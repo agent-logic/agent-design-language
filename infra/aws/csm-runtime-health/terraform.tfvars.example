@@ -1,0 +1,6 @@
+environment                = "dev"
+polis_id                   = "konishi"
+runtime_instance_role_name = "adl-konishi-dev-runtime"
+notification_email         = null
+runtime_plist_path          = "/opt/agent-logic/runtime-v3/com.agentlogic.adl-runtime-v3.plist"
+runtime_run_as_user         = null

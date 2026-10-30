@@ -1,0 +1,40 @@
+{
+  "aws_account_hash": "b05e1f4379b5c745",
+  "aws_profile": "agent-logic-admin",
+  "aws_region": "us-west-2",
+  "cloudwatch": {
+    "cleanup_requested": false,
+    "cleanup_target": "not_requested",
+    "event_count": 4,
+    "log_group": "/adl/v0917/wp08/4684/runtime-heartbeat",
+    "log_stream": "run-wp08-4684-live-20260706T082608Z",
+    "retention_days": 7
+  },
+  "heartbeat": {
+    "cycle_id": "cycle-000001",
+    "heartbeat_seq": 4,
+    "payload_state": "idle",
+    "projection_level": "operations_safe",
+    "runtime_id": "wp08-heartbeat-4684",
+    "schema_version": "adl.runtime.aws_signal.v1",
+    "signal_kind": "heartbeat",
+    "status": "completed",
+    "target_kind": "cloudwatch_logs",
+    "transport_mode": "live"
+  },
+  "issue": 4684,
+  "negative_cases": {
+    "approval_gate": "covered_by_focused_rust_tests",
+    "profile_missing": "covered_by_focused_rust_tests",
+    "unsupported_target": "covered_by_focused_rust_tests"
+  },
+  "redaction": {
+    "cloudwatch_export_contains_account_id": false,
+    "credentials_recorded": false,
+    "observability_contains_account_id": false,
+    "raw_account_id_recorded": false
+  },
+  "run_id": "wp08-4684-live-20260706T082608Z",
+  "schema": "adl.wp08.heartbeat_live_proof.v1",
+  "status": "passed"
+}

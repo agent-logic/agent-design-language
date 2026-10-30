@@ -1,0 +1,25 @@
+{
+  "agent_instance_id": "csm-liveness-4976-full",
+  "gauges": {
+    "backpressure_deferred_count": null,
+    "backpressure_lag_ms": null,
+    "backpressure_queue_depth": null,
+    "backpressure_retry_budget_remaining": null,
+    "backpressure_shed_count": null,
+    "checkpoint_interval_secs": 2,
+    "completed_cycle_count": 87,
+    "consecutive_failure_count": 0,
+    "max_restarts": 1,
+    "operator_event_count_observed": 348,
+    "restart_count": 0
+  },
+  "runtime_owner": "csm",
+  "schema": "adl.csm.runtime_api.metrics.v1",
+  "states": {
+    "agent_state": "idle",
+    "backpressure_health": null,
+    "backpressure_safe_fail_action": null,
+    "health": "healthy",
+    "ready": "ready"
+  }
+}

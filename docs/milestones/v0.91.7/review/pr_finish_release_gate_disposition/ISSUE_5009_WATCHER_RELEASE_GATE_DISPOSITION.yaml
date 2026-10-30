@@ -1,0 +1,28 @@
+schema_version: adl.release_gate_disposition.v1
+issue: 5009
+decision: publishable_with_focused_local_proof_and_required_ci_before_merge
+reviewer_or_review_mode: pre_pr_subagent_review_plus_focused_local_tooling_validation
+changed_release_gate_surfaces:
+  - adl/src/cli/pr_cmd.rs
+  - adl/src/cli/pr_cmd/finish_support.rs
+  - adl/src/cli/pr_cmd/github.rs
+  - adl/src/cli/pr_cmd/github/tests/helpers.rs
+  - adl/src/cli/pr_cmd/lifecycle/reconciliation.rs
+  - adl/src/cli/tests/pr_cmd_inline/finish/arg_render.rs
+  - adl/src/cli/tests/pr_cmd_inline/finish/publication/flow.rs
+  - adl/src/cli/tests/pr_cmd_inline/finish/publication/janitor.rs
+focused_validation_run: >
+  Focused local proof passed after review fixes and rebase: cargo fmt
+  --manifest-path adl/Cargo.toml --all -- --check; cargo check
+  --manifest-path adl/Cargo.toml --bin adl-pr-inventory --bin
+  adl-pr-finish --bin adl-pr-closeout --quiet; cargo test
+  --manifest-path adl/Cargo.toml issue_watcher; git diff --check; SRP and
+  SOR structured prompt validation.
+residual_ci_proof_required_before_merge: >
+  GitHub PR checks must pass before merge. If adl-ci or adl-coverage fails,
+  route the PR to pr-janitor and keep the issue watcher attached until the
+  failed check is resolved or an operator-approved blocker is recorded.
+notes:
+  - This issue changes PR lifecycle tooling and therefore triggers the slow PR-command release-gate posture.
+  - The release-gate disposition is scoped to watcher attachment, PR inventory watcher status, closeout terminal watcher disposition, and SOR watcher facts.
+  - The bounded pre-PR review found three issues; all were fixed before this disposition was written.

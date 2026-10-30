@@ -1,0 +1,2691 @@
+use super::runner::{
+    build_remote_execute_request, effective_max_concurrency_with_source, effective_step_placement,
+    emit_delegation_lifecycle_finish, emit_delegation_lifecycle_start,
+    enforce_delegation_policy_for_step_actions, resolve_call_binding, RemoteExecuteRequestContext,
+};
+use super::*;
+use crate::adl::{
+    AdlDoc, DelegationPolicyRuleSpec, DelegationPolicySpec, DelegationRuleEffect, PlacementMode,
+    PromptSpec, RunDefaults, RunPlacementSpec, RunSpec, StepRetry, WorkflowKind, WorkflowSpec,
+};
+use crate::resilience::RuntimeResilienceDispositionV1;
+use crate::resolve::AdlResolved;
+use crate::trace::TraceEvent;
+use std::time::{SystemTime, UNIX_EPOCH};
+
+fn minimal_resolved() -> AdlResolved {
+    AdlResolved {
+        run_id: "run".to_string(),
+        workflow_id: "wf".to_string(),
+        doc: AdlDoc {
+            version: "0.3".to_string(),
+            providers: HashMap::new(),
+            tools: HashMap::new(),
+            agents: HashMap::new(),
+            tasks: HashMap::new(),
+            workflows: HashMap::new(),
+            patterns: vec![],
+            signature: None,
+            run: RunSpec {
+                id: None,
+                name: Some("run".to_string()),
+                created_at: None,
+                defaults: RunDefaults::default(),
+                workflow_ref: None,
+                workflow: Some(WorkflowSpec {
+                    id: None,
+                    kind: WorkflowKind::Concurrent,
+                    max_concurrency: None,
+                    steps: vec![],
+                }),
+                pattern_ref: None,
+                inputs: HashMap::new(),
+                placement: None,
+                remote: None,
+                delegation_policy: None,
+            },
+        },
+        steps: vec![],
+        execution_plan: crate::execution_plan::ExecutionPlan {
+            workflow_kind: WorkflowKind::Concurrent,
+            nodes: vec![],
+        },
+    }
+}
+
+fn step_with_write_to(id: &str, write_to: Option<&str>) -> crate::resolve::ResolvedStep {
+    crate::resolve::ResolvedStep {
+        id: id.to_string(),
+        agent: None,
+        provider: None,
+        placement: None,
+        task: None,
+        call: None,
+        with: HashMap::new(),
+        as_ns: None,
+        delegation: None,
+        conversation: None,
+        prompt: None,
+        inputs: HashMap::new(),
+        guards: vec![],
+        save_as: Some("saved.output".to_string()),
+        write_to: write_to.map(str::to_string),
+        on_error: None,
+        retry: None,
+    }
+}
+
+fn remote_retry_step(max_attempts: u32) -> crate::resolve::ResolvedStep {
+    crate::resolve::ResolvedStep {
+        id: "remote-step".to_string(),
+        agent: None,
+        provider: Some("p1".to_string()),
+        placement: Some(PlacementMode::Remote),
+        task: None,
+        call: None,
+        with: HashMap::new(),
+        as_ns: None,
+        delegation: None,
+        conversation: None,
+        prompt: Some(PromptSpec {
+            user: Some("hello".to_string()),
+            ..Default::default()
+        }),
+        inputs: HashMap::new(),
+        guards: vec![],
+        save_as: None,
+        write_to: None,
+        on_error: None,
+        retry: Some(StepRetry { max_attempts }),
+    }
+}
+
+fn local_retry_step(max_attempts: u32) -> crate::resolve::ResolvedStep {
+    crate::resolve::ResolvedStep {
+        id: "local-step".to_string(),
+        agent: None,
+        provider: Some("p1".to_string()),
+        placement: Some(PlacementMode::Local),
+        task: None,
+        call: None,
+        with: HashMap::new(),
+        as_ns: None,
+        delegation: None,
+        conversation: None,
+        prompt: Some(PromptSpec {
+            user: Some("hello".to_string()),
+            ..Default::default()
+        }),
+        inputs: HashMap::new(),
+        guards: vec![],
+        save_as: None,
+        write_to: None,
+        on_error: None,
+        retry: Some(StepRetry { max_attempts }),
+    }
+}
+
+fn delegated_step(id: &str) -> crate::resolve::ResolvedStep {
+    crate::resolve::ResolvedStep {
+        id: id.to_string(),
+        agent: None,
+        provider: Some("p1".to_string()),
+        placement: None,
+        task: None,
+        call: None,
+        with: HashMap::new(),
+        as_ns: None,
+        delegation: Some(crate::adl::DelegationSpec {
+            role: Some("reviewer".to_string()),
+            requires_verification: Some(true),
+            escalation_target: None,
+            tags: vec!["safety".to_string()],
+        }),
+        conversation: None,
+        prompt: None,
+        inputs: HashMap::new(),
+        guards: vec![],
+        save_as: None,
+        write_to: None,
+        on_error: None,
+        retry: None,
+    }
+}
+
+fn remote_provider_spec() -> crate::adl::ProviderSpec {
+    crate::adl::ProviderSpec {
+        id: None,
+        profile: None,
+        kind: "http".to_string(),
+        base_url: None,
+        default_model: None,
+        config: HashMap::new(),
+    }
+}
+
+fn mock_provider_spec() -> crate::adl::ProviderSpec {
+    crate::adl::ProviderSpec {
+        id: None,
+        profile: None,
+        kind: "mock".to_string(),
+        base_url: None,
+        default_model: Some("echo-v1".to_string()),
+        config: HashMap::new(),
+    }
+}
+
+fn unique_temp_path(label: &str) -> std::path::PathBuf {
+    let now = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .expect("time")
+        .as_nanos();
+    std::env::temp_dir().join(format!("{label}-{now}-{}", std::process::id()))
+}
+
+fn provider_reload_resolved(fixed_output: &str, sleep_ms: u64) -> AdlResolved {
+    let mut provider = mock_provider_spec();
+    provider
+        .config
+        .insert("fixed_output".to_string(), serde_json::json!(fixed_output));
+    if sleep_ms > 0 {
+        provider
+            .config
+            .insert("sleep_ms".to_string(), serde_json::json!(sleep_ms));
+    }
+
+    let step = crate::resolve::ResolvedStep {
+        id: "reload.step".to_string(),
+        agent: None,
+        provider: Some("p1".to_string()),
+        placement: Some(PlacementMode::Local),
+        task: None,
+        call: None,
+        with: HashMap::new(),
+        as_ns: None,
+        delegation: None,
+        conversation: None,
+        prompt: Some(PromptSpec {
+            user: Some("provider reload production prompt".to_string()),
+            ..Default::default()
+        }),
+        inputs: HashMap::new(),
+        guards: vec![],
+        save_as: None,
+        write_to: None,
+        on_error: None,
+        retry: None,
+    };
+
+    let mut doc = minimal_resolved().doc;
+    doc.providers.insert("p1".to_string(), provider);
+    doc.run.workflow = Some(WorkflowSpec {
+        id: None,
+        kind: WorkflowKind::Sequential,
+        max_concurrency: None,
+        steps: vec![],
+    });
+
+    AdlResolved {
+        run_id: "run".to_string(),
+        workflow_id: "wf".to_string(),
+        doc,
+        steps: vec![step],
+        execution_plan: crate::execution_plan::ExecutionPlan {
+            workflow_kind: WorkflowKind::Sequential,
+            nodes: vec![crate::execution_plan::ExecutionNode {
+                step_id: "reload.step".to_string(),
+                depends_on: vec![],
+                save_as: None,
+                delegation: None,
+            }],
+        },
+    }
+}
+
+fn provider_reload_sidecar(fixed_output: &str, sleep_ms: u64) -> String {
+    format!(
+        r#"schema: adl.provider_reload_sidecar.v1
+version: "0.3"
+providers:
+  p1:
+    type: mock
+    default_model: echo-v1
+    config:
+      fixed_output: "{fixed_output}"
+      sleep_ms: {sleep_ms}
+"#
+    )
+}
+
+fn execute_reload_once_with_handle(
+    resolved: &AdlResolved,
+    base: &std::path::Path,
+    handle: &crate::provider::ProviderReloadHandle,
+) -> String {
+    let out_dir = base.join("out");
+    std::fs::create_dir_all(&out_dir).expect("create out dir");
+    let mut tr = crate::trace::Trace::new("run", "wf", "0.3");
+    let result = execute_sequential_with_provider_reload_handle(
+        resolved, &mut tr, false, false, base, &out_dir, handle,
+    )
+    .expect("provider reload execution should succeed");
+    result.outputs[0].model_output.clone()
+}
+
+#[test]
+fn execute_sequential_consumes_provider_reload_snapshots_without_restart() {
+    let base = unique_temp_path("adl-provider-reload-production");
+    std::fs::create_dir_all(&base).expect("create base");
+    let sidecar = base.join("providers.yaml");
+    std::fs::write(&sidecar, provider_reload_sidecar("old-output", 0)).expect("write sidecar");
+
+    let resolved = provider_reload_resolved("base-output", 0);
+    let runtime = tokio::runtime::Runtime::new().expect("runtime");
+    let owner = runtime
+        .block_on(crate::provider::ProviderReloadOwner::start(
+            sidecar.clone(),
+            resolved.doc.clone(),
+            adl_runtime_kernel::config_reload::ConfigReloadOptions {
+                poll_interval: std::time::Duration::from_millis(10),
+                debounce: std::time::Duration::from_millis(20),
+            },
+        ))
+        .expect("start provider reload owner");
+    let mut handle = owner.handle();
+
+    assert_eq!(handle.current_snapshot().generation, 0);
+    assert_eq!(
+        execute_reload_once_with_handle(&resolved, &base, &handle),
+        "old-output"
+    );
+
+    std::fs::write(&sidecar, provider_reload_sidecar("new-output", 0)).expect("rewrite sidecar");
+    let changed = runtime
+        .block_on(async {
+            tokio::time::timeout(std::time::Duration::from_secs(2), handle.changed()).await
+        })
+        .expect("provider reload should publish changed snapshot")
+        .expect("changed snapshot");
+    assert_eq!(changed.generation, 1);
+
+    assert_eq!(
+        execute_reload_once_with_handle(&resolved, &base, &handle),
+        "new-output"
+    );
+
+    std::fs::write(
+        &sidecar,
+        r#"schema: adl.provider_reload_sidecar.v1
+version: "0.3"
+providers:
+  p1:
+    type: mock
+    default_model: echo-v1
+    config:
+      api_key: "secret-value"
+"#,
+    )
+    .expect("write invalid sidecar");
+    std::thread::sleep(std::time::Duration::from_millis(80));
+
+    assert_eq!(
+        execute_reload_once_with_handle(&resolved, &base, &handle),
+        "new-output"
+    );
+    let diagnostic = handle
+        .last_diagnostic()
+        .expect("invalid candidate should leave redacted diagnostic");
+    assert!(diagnostic.generation >= 1);
+    assert_eq!(diagnostic.code, "validation_error");
+    assert!(diagnostic.redacted_message.contains("<redacted>"));
+
+    let outcome = runtime.block_on(owner.shutdown()).expect("shutdown owner");
+    assert!(outcome.shutdown_requested);
+    assert!(outcome.reloads_applied >= 1);
+    assert!(outcome.invalid_updates_rejected >= 1);
+}
+
+#[test]
+fn execute_sequential_retains_starting_provider_snapshot_for_in_flight_step() {
+    let base = unique_temp_path("adl-provider-reload-inflight");
+    std::fs::create_dir_all(&base).expect("create base");
+    let sidecar = base.join("providers.yaml");
+    std::fs::write(&sidecar, provider_reload_sidecar("slow-old-output", 180))
+        .expect("write sidecar");
+
+    let resolved = provider_reload_resolved("base-output", 0);
+    let runtime = tokio::runtime::Runtime::new().expect("runtime");
+    let owner = runtime
+        .block_on(crate::provider::ProviderReloadOwner::start(
+            sidecar.clone(),
+            resolved.doc.clone(),
+            adl_runtime_kernel::config_reload::ConfigReloadOptions {
+                poll_interval: std::time::Duration::from_millis(10),
+                debounce: std::time::Duration::from_millis(20),
+            },
+        ))
+        .expect("start provider reload owner");
+    let mut handle = owner.handle();
+
+    assert_eq!(handle.current_snapshot().generation, 0);
+    let thread_resolved = resolved.clone();
+    let thread_base = base.clone();
+    let thread_handle = handle.clone();
+    let running = std::thread::spawn(move || {
+        execute_reload_once_with_handle(&thread_resolved, &thread_base, &thread_handle)
+    });
+
+    std::thread::sleep(std::time::Duration::from_millis(30));
+    std::fs::write(&sidecar, provider_reload_sidecar("fast-new-output", 0))
+        .expect("rewrite sidecar");
+    let changed = runtime
+        .block_on(async {
+            tokio::time::timeout(std::time::Duration::from_secs(2), handle.changed()).await
+        })
+        .expect("provider reload should publish changed snapshot")
+        .expect("changed snapshot");
+    assert_eq!(changed.generation, 1);
+
+    assert_eq!(
+        running.join().expect("join in-flight run"),
+        "slow-old-output"
+    );
+    assert_eq!(
+        execute_reload_once_with_handle(&resolved, &base, &handle),
+        "fast-new-output"
+    );
+
+    let outcome = runtime.block_on(owner.shutdown()).expect("shutdown owner");
+    assert!(outcome.shutdown_requested);
+}
+
+#[test]
+fn execute_sequential_provider_reload_handles_are_run_scoped_across_overlap_and_shutdown() {
+    let base_a = unique_temp_path("adl-provider-reload-overlap-a");
+    let base_b = unique_temp_path("adl-provider-reload-overlap-b");
+    std::fs::create_dir_all(&base_a).expect("create base a");
+    std::fs::create_dir_all(&base_b).expect("create base b");
+    let sidecar_a = base_a.join("providers.yaml");
+    let sidecar_b = base_b.join("providers.yaml");
+    std::fs::write(&sidecar_a, provider_reload_sidecar("workflow-a-output", 0))
+        .expect("write sidecar a");
+    std::fs::write(&sidecar_b, provider_reload_sidecar("workflow-b-output", 0))
+        .expect("write sidecar b");
+
+    let resolved_a = provider_reload_resolved("base-a-output", 0);
+    let resolved_b = provider_reload_resolved("base-b-output", 0);
+    let runtime_a = tokio::runtime::Runtime::new().expect("runtime a");
+    let runtime_b = tokio::runtime::Runtime::new().expect("runtime b");
+    let owner_a = runtime_a
+        .block_on(crate::provider::ProviderReloadOwner::start(
+            sidecar_a,
+            resolved_a.doc.clone(),
+            adl_runtime_kernel::config_reload::ConfigReloadOptions::default(),
+        ))
+        .expect("start provider reload owner a");
+    let owner_b = runtime_b
+        .block_on(crate::provider::ProviderReloadOwner::start(
+            sidecar_b,
+            resolved_b.doc.clone(),
+            adl_runtime_kernel::config_reload::ConfigReloadOptions::default(),
+        ))
+        .expect("start provider reload owner b");
+    let handle_a = owner_a.handle();
+    let handle_b = owner_b.handle();
+
+    assert_eq!(
+        execute_reload_once_with_handle(&resolved_a, &base_a, &handle_a),
+        "workflow-a-output"
+    );
+    assert_eq!(
+        execute_reload_once_with_handle(&resolved_b, &base_b, &handle_b),
+        "workflow-b-output"
+    );
+
+    let outcome_b = runtime_b.block_on(owner_b.shutdown()).expect("shutdown b");
+    assert!(outcome_b.shutdown_requested);
+    assert_eq!(
+        execute_reload_once_with_handle(&resolved_a, &base_a, &handle_a),
+        "workflow-a-output",
+        "shutting down workflow B must not clear workflow A's run-scoped provider reload handle"
+    );
+
+    let outcome_a = runtime_a.block_on(owner_a.shutdown()).expect("shutdown a");
+    assert!(outcome_a.shutdown_requested);
+}
+
+fn steering_patch() -> SteeringPatch {
+    let mut set_state = HashMap::new();
+    set_state.insert("next.input".to_string(), "ready".to_string());
+
+    SteeringPatch {
+        schema_version: STEERING_PATCH_SCHEMA_VERSION.to_string(),
+        apply_at: STEERING_APPLY_AT_RESUME_BOUNDARY.to_string(),
+        reason: Some("operator update".to_string()),
+        set_state,
+        remove_state: vec![],
+    }
+}
+
+#[test]
+fn resolve_state_inputs_resolves_and_validates_state_bindings() {
+    let mut inputs = HashMap::new();
+    inputs.insert("a".to_string(), "@state:key1".to_string());
+    inputs.insert("b".to_string(), "literal".to_string());
+    let mut state = HashMap::new();
+    state.insert("key1".to_string(), "value1".to_string());
+
+    let merged = resolve_state_inputs("s1", &inputs, &state).expect("resolve");
+    assert_eq!(merged.get("a").map(String::as_str), Some("value1"));
+    assert_eq!(merged.get("b").map(String::as_str), Some("literal"));
+
+    inputs.insert("a".to_string(), "@state:".to_string());
+    let empty_err = resolve_state_inputs("s1", &inputs, &state).expect_err("empty key fails");
+    assert!(empty_err
+        .to_string()
+        .contains("uses @state: with an empty key"));
+
+    inputs.insert("a".to_string(), "@state:missing".to_string());
+    let missing_err = resolve_state_inputs("s1", &inputs, &state).expect_err("missing key fails");
+    assert!(missing_err
+        .to_string()
+        .contains("references missing saved state"));
+}
+
+#[test]
+fn validate_steering_patch_rejects_invalid_shapes() {
+    let mut patch = steering_patch();
+    patch.schema_version = "steering_patch.v0".to_string();
+    let schema_err = validate_steering_patch(&patch).expect_err("schema mismatch should fail");
+    assert!(schema_err.to_string().contains("schema_version mismatch"));
+
+    let mut patch = steering_patch();
+    patch.apply_at = "after_step".to_string();
+    let apply_err = validate_steering_patch(&patch).expect_err("apply_at mismatch should fail");
+    assert!(apply_err.to_string().contains("apply_at must be"));
+
+    let mut patch = steering_patch();
+    patch.set_state.clear();
+    patch.remove_state = vec!["   ".to_string()];
+    let empty_remove_err =
+        validate_steering_patch(&patch).expect_err("empty remove_state key should fail");
+    assert!(empty_remove_err
+        .to_string()
+        .contains("contains an empty key"));
+
+    let mut patch = steering_patch();
+    patch.set_state.clear();
+    patch.remove_state = vec!["dup".to_string(), " dup ".to_string()];
+    let duplicate_remove_err =
+        validate_steering_patch(&patch).expect_err("duplicate remove_state keys should fail");
+    assert!(duplicate_remove_err
+        .to_string()
+        .contains("contains duplicate key 'dup'"));
+
+    let mut patch = steering_patch();
+    patch.set_state.clear();
+    patch
+        .set_state
+        .insert("  ".to_string(), "value".to_string());
+    let empty_set_err =
+        validate_steering_patch(&patch).expect_err("empty set_state key should fail");
+    assert!(empty_set_err
+        .to_string()
+        .contains("set_state contains an empty key"));
+
+    let mut patch = steering_patch();
+    patch.remove_state = vec!["next.input".to_string()];
+    let overlap_err =
+        validate_steering_patch(&patch).expect_err("overlapping set/remove keys should fail");
+    assert!(overlap_err
+        .to_string()
+        .contains("cannot appear in both set_state and remove_state"));
+
+    let mut patch = steering_patch();
+    patch.set_state.clear();
+    patch.remove_state.clear();
+    let empty_err = validate_steering_patch(&patch).expect_err("empty patch should fail");
+    assert!(empty_err
+        .to_string()
+        .contains("must set or remove at least one"));
+}
+
+#[test]
+fn apply_steering_patch_updates_resume_state_and_records_sorted_keys() {
+    let mut resume = ResumeState {
+        completed_step_ids: HashSet::new(),
+        saved_state: HashMap::from([
+            ("keep".to_string(), "present".to_string()),
+            ("remove.me".to_string(), "old".to_string()),
+            ("trimmed.remove".to_string(), "old".to_string()),
+        ]),
+        completed_outputs: HashMap::new(),
+        steering_history: vec![SteeringRecord {
+            sequence: 1,
+            apply_at: STEERING_APPLY_AT_RESUME_BOUNDARY.to_string(),
+            reason: Some("earlier update".to_string()),
+            payload_fingerprint: "fp-old".to_string(),
+            set_state_keys: vec!["a".to_string()],
+            removed_state_keys: vec![],
+        }],
+    };
+    let mut patch = steering_patch();
+    patch.set_state = HashMap::from([
+        (" z.last ".to_string(), "final".to_string()),
+        ("a.first".to_string(), "fresh".to_string()),
+    ]);
+    patch.remove_state = vec![" remove.me ".to_string(), "trimmed.remove".to_string()];
+
+    let record = apply_steering_patch(&mut resume, &patch, "fp-new".to_string())
+        .expect("patch should apply");
+
+    assert_eq!(
+        resume.saved_state.get("keep").map(String::as_str),
+        Some("present")
+    );
+    assert_eq!(
+        resume.saved_state.get("a.first").map(String::as_str),
+        Some("fresh")
+    );
+    assert_eq!(
+        resume.saved_state.get("z.last").map(String::as_str),
+        Some("final")
+    );
+    assert!(!resume.saved_state.contains_key("remove.me"));
+    assert!(!resume.saved_state.contains_key("trimmed.remove"));
+
+    assert_eq!(record.sequence, 2);
+    assert_eq!(record.payload_fingerprint, "fp-new");
+    assert_eq!(record.reason.as_deref(), Some("operator update"));
+    assert_eq!(
+        record.set_state_keys,
+        vec![" z.last ".to_string(), "a.first".to_string()]
+    );
+    assert_eq!(
+        record.removed_state_keys,
+        vec![" remove.me ".to_string(), "trimmed.remove".to_string()]
+    );
+
+    assert_eq!(resume.steering_history.len(), 2);
+    assert_eq!(resume.steering_history.last(), Some(&record));
+}
+
+#[test]
+fn missing_prompt_inputs_dedupes_and_sorts_missing_keys() {
+    let prompt = PromptSpec {
+        system: Some("{{ b }}".to_string()),
+        user: Some("{{a}} and {{b}} and {{ a }}".to_string()),
+        context: Some("{{c}}".to_string()),
+        ..Default::default()
+    };
+    let mut inputs = HashMap::new();
+    inputs.insert("c".to_string(), "ok".to_string());
+    let missing = missing_prompt_inputs(&prompt, &inputs);
+    assert_eq!(missing, vec!["a".to_string(), "b".to_string()]);
+}
+
+#[test]
+fn validate_write_to_rejects_invalid_paths() {
+    let empty_err = validate_write_to("s1", "   ").expect_err("empty should fail");
+    assert!(empty_err.to_string().contains("empty write_to"));
+
+    let abs_err =
+        validate_write_to("s1", &format!("/{}/out.txt", "tmp")).expect_err("absolute should fail");
+    assert!(abs_err.to_string().contains("must be a relative path"));
+
+    let traversal_err =
+        validate_write_to("s1", "../escape.txt").expect_err("traversal should fail");
+    assert!(traversal_err.to_string().contains("without '..'"));
+}
+
+#[test]
+fn write_output_creates_parent_directories() {
+    let now = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .expect("time")
+        .as_nanos();
+    let out_dir =
+        std::env::temp_dir().join(format!("adl-write-output-{now}-{}", std::process::id()));
+    let path = write_output("s1", &out_dir, "nested/result.txt", "hello").expect("write output");
+    let written = std::fs::read_to_string(&path).expect("read output");
+    assert_eq!(written, "hello");
+    let _ = std::fs::remove_dir_all(out_dir);
+}
+
+#[cfg(unix)]
+#[test]
+fn write_output_rejects_symlink_escape() {
+    use std::os::unix::fs as unix_fs;
+
+    let now = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .expect("time")
+        .as_nanos();
+    let base = std::env::temp_dir().join(format!(
+        "adl-write-output-symlink-{now}-{}",
+        std::process::id()
+    ));
+    let out_dir = base.join("root");
+    let outside = base.join("outside");
+    std::fs::create_dir_all(&out_dir).expect("create out dir");
+    std::fs::create_dir_all(&outside).expect("create outside dir");
+    unix_fs::symlink(&outside, out_dir.join("link")).expect("create symlink");
+
+    let err = write_output("s1", &out_dir, "link/escape.txt", "data")
+        .expect_err("symlink escape must be rejected");
+    assert!(
+        err.to_string().contains("sandbox resolver"),
+        "unexpected error: {err}"
+    );
+
+    let _ = std::fs::remove_dir_all(base);
+}
+
+#[test]
+fn resume_disposition_validates_saved_artifacts_and_fingerprints() {
+    let now = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .expect("time")
+        .as_nanos();
+    let out_dir = std::env::temp_dir().join(format!(
+        "adl-resume-disposition-{now}-{}",
+        std::process::id()
+    ));
+    std::fs::create_dir_all(out_dir.join("nested")).expect("create nested out dir");
+    let artifact = out_dir.join("nested").join("result.txt");
+    std::fs::write(&artifact, "hello").expect("write artifact");
+
+    let step = crate::resolve::ResolvedStep {
+        id: "s1".to_string(),
+        agent: None,
+        provider: None,
+        placement: None,
+        task: None,
+        call: None,
+        with: HashMap::new(),
+        as_ns: None,
+        delegation: None,
+        conversation: None,
+        prompt: None,
+        inputs: HashMap::new(),
+        guards: vec![],
+        save_as: Some("saved".to_string()),
+        write_to: Some("nested/result.txt".to_string()),
+        on_error: None,
+        retry: None,
+    };
+
+    let missing = resume_disposition_for_step(&step, &out_dir, &HashMap::new())
+        .expect("missing fingerprint should rerun");
+    assert_eq!(
+        missing,
+        ResumeDisposition::Rerun("missing_output_fingerprint")
+    );
+
+    let mut wrong = HashMap::new();
+    wrong.insert("s1".to_string(), model_output_fingerprint("different"));
+    let mismatch =
+        resume_disposition_for_step(&step, &out_dir, &wrong).expect("mismatch should rerun");
+    assert_eq!(
+        mismatch,
+        ResumeDisposition::Rerun("invalid_expected_artifact")
+    );
+
+    let mut exact = HashMap::new();
+    exact.insert("s1".to_string(), model_output_fingerprint("hello"));
+    let verified = resume_disposition_for_step(&step, &out_dir, &exact).expect("match should skip");
+    assert_eq!(
+        verified,
+        ResumeDisposition::Skip("completed_artifact_verified")
+    );
+
+    std::fs::write(&artifact, vec![0xff, 0xfe, 0xfd]).expect("overwrite with invalid utf8");
+    let err = resume_disposition_for_step(&step, &out_dir, &exact)
+        .expect_err("invalid utf8 should surface artifact read failure");
+    assert!(err
+        .to_string()
+        .contains("failed to read expected resume artifact"));
+
+    let _ = std::fs::remove_dir_all(out_dir);
+}
+
+#[test]
+fn effective_max_concurrency_precedence_and_validation() {
+    let mut resolved = minimal_resolved();
+    assert_eq!(
+        effective_max_concurrency_with_source(&resolved)
+            .expect("default")
+            .0,
+        4
+    );
+
+    resolved.doc.run.defaults.max_concurrency = Some(3);
+    assert_eq!(
+        effective_max_concurrency_with_source(&resolved)
+            .expect("run default")
+            .0,
+        3
+    );
+
+    resolved
+        .doc
+        .run
+        .workflow
+        .as_mut()
+        .expect("workflow")
+        .max_concurrency = Some(2);
+    assert_eq!(
+        effective_max_concurrency_with_source(&resolved)
+            .expect("workflow override")
+            .0,
+        2
+    );
+
+    resolved
+        .doc
+        .run
+        .workflow
+        .as_mut()
+        .expect("workflow")
+        .max_concurrency = Some(0);
+    let err = effective_max_concurrency_with_source(&resolved).expect_err("zero should fail");
+    assert!(err.to_string().contains("must be >= 1"));
+}
+
+#[test]
+fn effective_max_concurrency_supports_workflow_ref_overrides() {
+    let mut resolved = minimal_resolved();
+    resolved.doc.run.workflow = None;
+    resolved.doc.run.workflow_ref = Some("wf_ref".to_string());
+    resolved.doc.workflows.insert(
+        "wf_ref".to_string(),
+        WorkflowSpec {
+            id: Some("wf_ref".to_string()),
+            kind: WorkflowKind::Concurrent,
+            max_concurrency: Some(5),
+            steps: vec![],
+        },
+    );
+    assert_eq!(
+        effective_max_concurrency_with_source(&resolved)
+            .expect("workflow ref override")
+            .0,
+        5
+    );
+}
+
+#[test]
+fn pause_reason_for_step_detects_pause_guard_and_optional_reason() {
+    let mut step = crate::resolve::ResolvedStep {
+        id: "s1".to_string(),
+        agent: None,
+        provider: None,
+        placement: None,
+        task: None,
+        call: None,
+        with: HashMap::new(),
+        as_ns: None,
+        delegation: None,
+        conversation: None,
+        prompt: None,
+        inputs: HashMap::new(),
+        guards: vec![],
+        save_as: None,
+        write_to: None,
+        on_error: None,
+        retry: None,
+    };
+    assert_eq!(pause_reason_for_step(&step), None);
+
+    step.guards.push(crate::adl::GuardSpec {
+        kind: "pause".to_string(),
+        config: HashMap::new(),
+    });
+    assert_eq!(pause_reason_for_step(&step), Some(None));
+
+    step.guards[0].config.insert(
+        "reason".to_string(),
+        serde_json::Value::String("needs review".to_string()),
+    );
+    assert_eq!(
+        pause_reason_for_step(&step),
+        Some(Some("needs review".to_string()))
+    );
+}
+
+#[test]
+fn execute_step_with_retry_does_not_retry_remote_schema_violation() {
+    let mut doc = minimal_resolved().doc;
+    doc.providers.insert(
+        "p1".to_string(),
+        crate::adl::ProviderSpec {
+            id: None,
+            profile: None,
+            kind: "http".to_string(),
+            base_url: None,
+            default_model: None,
+            config: HashMap::new(),
+        },
+    );
+    doc.run.placement = Some(RunPlacementSpec::Mode(PlacementMode::Remote));
+    doc.run.remote = None;
+    let step = remote_retry_step(3);
+
+    let failure = execute_step_with_retry_core(
+        &step,
+        &doc,
+        "run-1",
+        "wf-1",
+        &HashMap::new(),
+        std::path::Path::new("."),
+        false,
+        None,
+        |_| {},
+    )
+    .expect_err("remote schema violation should fail");
+
+    assert_eq!(failure.attempts, 1);
+    assert!(
+        failure.err.to_string().contains("REMOTE_SCHEMA_VIOLATION"),
+        "unexpected error: {:#}",
+        failure.err
+    );
+}
+
+#[test]
+fn build_remote_execute_request_preserves_conversation_as_audit_metadata() {
+    let mut doc = minimal_resolved().doc;
+    doc.providers
+        .insert("p1".to_string(), remote_provider_spec());
+    doc.run.placement = Some(RunPlacementSpec::Mode(PlacementMode::Remote));
+    doc.run.remote = Some(crate::adl::RunRemoteSpec {
+        endpoint: "http://127.0.0.1:4100/v1/execute".to_string(),
+        timeout_ms: Some(45_000),
+        require_signed_requests: false,
+        require_key_id: false,
+        verify_allowed_algs: vec!["ed25519".to_string()],
+        verify_allowed_key_sources: vec!["embedded".to_string()],
+    });
+
+    let mut step = remote_retry_step(2);
+    step.write_to = Some("artifacts/reply.json".to_string());
+    step.conversation = Some(crate::adl::ConversationTurnSpec {
+        id: "turn_01".to_string(),
+        speaker: "agent.alpha".to_string(),
+        sequence: Some(1),
+        thread_id: Some("thread.local".to_string()),
+        responds_to: Some("turn_00".to_string()),
+    });
+
+    let mut inputs = HashMap::new();
+    inputs.insert("topic".to_string(), "acip".to_string());
+    let mut saved_state = HashMap::new();
+    saved_state.insert("history.latest".to_string(), "turn_00".to_string());
+
+    let context = RemoteExecuteRequestContext {
+        doc: &doc,
+        run_id: "run-1",
+        workflow_id: "wf-1",
+        provider_id: "p1",
+        prompt_text: "respond carefully",
+        inputs: &inputs,
+        saved_state: &saved_state,
+        adl_base_dir: std::path::Path::new("."),
+        spec: doc.providers.get("p1").expect("provider spec"),
+        model_override: Some("gpt-5.5"),
+    };
+    let req = build_remote_execute_request(&step, &context).expect("remote execute request");
+
+    assert_eq!(req.run_id, "run-1");
+    assert_eq!(req.workflow_id, "wf-1");
+    assert_eq!(req.step_id, step.id);
+    assert_eq!(req.timeout_ms, 45_000);
+    assert_eq!(req.step.provider, "p1");
+    assert_eq!(req.step.prompt, "respond carefully");
+    assert_eq!(req.step.model_override.as_deref(), Some("gpt-5.5"));
+    assert_eq!(req.step.conversation, step.conversation);
+    assert!(req.step.tools.is_empty());
+    assert_eq!(req.inputs.inputs, inputs);
+    assert_eq!(req.inputs.state, saved_state);
+
+    let security = req.security.expect("security envelope");
+    assert_eq!(security.sandbox_root.as_deref(), Some("."));
+    assert_eq!(
+        security.requested_paths,
+        vec!["artifacts/reply.json".to_string()]
+    );
+    assert_eq!(security.allowed_algs, vec!["ed25519".to_string()]);
+    assert_eq!(security.allowed_key_sources, vec!["embedded".to_string()]);
+}
+
+#[test]
+fn execute_step_with_retry_does_not_retry_missing_prompt_binding() {
+    let doc = minimal_resolved().doc;
+    let mut step = local_retry_step(3);
+    step.prompt = Some(PromptSpec {
+        user: Some("hello {{name}}".to_string()),
+        ..Default::default()
+    });
+
+    let failure = execute_step_with_retry_core(
+        &step,
+        &doc,
+        "run-1",
+        "wf-1",
+        &HashMap::new(),
+        std::path::Path::new("."),
+        false,
+        None,
+        |_| {},
+    )
+    .expect_err("missing prompt binding should fail");
+
+    assert_eq!(failure.attempts, 1);
+    assert!(
+        failure.err.to_string().contains("missing input bindings"),
+        "unexpected error: {:#}",
+        failure.err
+    );
+}
+
+#[test]
+fn execute_step_with_retry_does_not_retry_unknown_provider_setup_failure() {
+    let doc = minimal_resolved().doc;
+    let step = local_retry_step(4);
+
+    let failure = execute_step_with_retry_core(
+        &step,
+        &doc,
+        "run-1",
+        "wf-1",
+        &HashMap::new(),
+        std::path::Path::new("."),
+        false,
+        None,
+        |_| {},
+    )
+    .expect_err("unknown provider should fail");
+
+    assert_eq!(failure.attempts, 1);
+    assert!(
+        failure
+            .err
+            .to_string()
+            .contains("references unknown provider 'p1'"),
+        "unexpected error: {:#}",
+        failure.err
+    );
+}
+
+#[test]
+fn effective_step_placement_prefers_step_then_run_then_local_default() {
+    let mut doc = minimal_resolved().doc;
+    let step = crate::resolve::ResolvedStep {
+        id: "s1".to_string(),
+        agent: None,
+        provider: None,
+        placement: None,
+        task: None,
+        call: None,
+        with: HashMap::new(),
+        as_ns: None,
+        delegation: None,
+        conversation: None,
+        prompt: None,
+        inputs: HashMap::new(),
+        guards: vec![],
+        save_as: None,
+        write_to: None,
+        on_error: None,
+        retry: None,
+    };
+    assert_eq!(
+        effective_step_placement(&step, &doc),
+        crate::adl::PlacementMode::Local
+    );
+
+    doc.run.placement = Some(crate::adl::RunPlacementSpec::Mode(
+        crate::adl::PlacementMode::Remote,
+    ));
+    assert_eq!(
+        effective_step_placement(&step, &doc),
+        crate::adl::PlacementMode::Remote
+    );
+
+    let mut step_override = step.clone();
+    step_override.placement = Some(crate::adl::PlacementMode::Local);
+    assert_eq!(
+        effective_step_placement(&step_override, &doc),
+        crate::adl::PlacementMode::Local
+    );
+}
+
+#[test]
+fn resolve_call_binding_requires_state_prefix_and_known_key() {
+    let mut state = HashMap::new();
+    state.insert("inputs.topic".to_string(), "ADL".to_string());
+
+    let resolved =
+        resolve_call_binding("@state:inputs.topic", &state).expect("state binding should work");
+    assert_eq!(resolved, "ADL");
+    let templated = resolve_call_binding("{{ state.inputs.topic }}", &state)
+        .expect("templated state binding should work");
+    assert_eq!(templated, "ADL");
+
+    let missing = resolve_call_binding("@state:inputs.missing", &state)
+        .expect_err("missing state key should fail");
+    assert!(missing.to_string().contains("missing state key"));
+
+    let passthrough = resolve_call_binding("literal", &state).expect("literal passthrough");
+    assert_eq!(passthrough, "literal");
+}
+
+#[test]
+fn stable_failure_kind_detects_only_policy_errors() {
+    let policy_err = anyhow::Error::new(ExecutionPolicyError {
+        kind: ExecutionPolicyErrorKind::Denied,
+        step_id: "s1".to_string(),
+        action_kind: "tool".to_string(),
+        target_id: "fs.write".to_string(),
+        rule_id: Some("rule-1".to_string()),
+    });
+    assert_eq!(stable_failure_kind(&policy_err), Some("policy_denied"));
+
+    let generic = anyhow::anyhow!("not policy related");
+    assert_eq!(stable_failure_kind(&generic), None);
+}
+
+#[test]
+fn scheduler_policy_source_as_str_matches_wire_values() {
+    assert_eq!(
+        SchedulerPolicySource::WorkflowOverride.as_str(),
+        "workflow_override"
+    );
+    assert_eq!(SchedulerPolicySource::RunDefault.as_str(), "run_default");
+    assert_eq!(
+        SchedulerPolicySource::EngineDefault.as_str(),
+        "engine_default"
+    );
+}
+
+#[test]
+fn execution_policy_error_code_covers_all_kinds() {
+    let denied = ExecutionPolicyError {
+        kind: ExecutionPolicyErrorKind::Denied,
+        step_id: "s1".to_string(),
+        action_kind: "provider_call".to_string(),
+        target_id: "default".to_string(),
+        rule_id: None,
+    };
+    assert_eq!(denied.code(), DELEGATION_POLICY_DENY_CODE);
+
+    let approval = ExecutionPolicyError {
+        kind: ExecutionPolicyErrorKind::ApprovalRequired,
+        step_id: "s1".to_string(),
+        action_kind: "provider_call".to_string(),
+        target_id: "default".to_string(),
+        rule_id: None,
+    };
+    assert_eq!(approval.code(), "DELEGATION_POLICY_APPROVAL_REQUIRED");
+}
+
+#[test]
+fn execution_policy_error_display_includes_rule_id_for_denied() {
+    let denied = ExecutionPolicyError {
+        kind: ExecutionPolicyErrorKind::Denied,
+        step_id: "step-a".to_string(),
+        action_kind: "remote_exec".to_string(),
+        target_id: "profile-x".to_string(),
+        rule_id: Some("rule-7".to_string()),
+    };
+    let rendered = denied.to_string();
+    assert!(rendered.contains("denied"));
+    assert!(rendered.contains("rule_id=rule-7"));
+}
+
+#[test]
+fn execution_policy_error_display_handles_approval_without_rule_id() {
+    let approval = ExecutionPolicyError {
+        kind: ExecutionPolicyErrorKind::ApprovalRequired,
+        step_id: "step-b".to_string(),
+        action_kind: "provider_call".to_string(),
+        target_id: "provider-1".to_string(),
+        rule_id: None,
+    };
+    let rendered = approval.to_string();
+    assert!(rendered.contains("requires approval"));
+    assert!(!rendered.contains("rule_id="));
+}
+
+#[test]
+fn pause_reason_for_step_ignores_non_pause_guards() {
+    let mut step = step_with_write_to("s1", None);
+    step.guards.push(crate::adl::GuardSpec {
+        kind: "retry".to_string(),
+        config: HashMap::new(),
+    });
+    assert_eq!(pause_reason_for_step(&step), None);
+}
+
+#[test]
+fn scheduler_policy_for_run_returns_none_for_sequential_workflows() {
+    let mut resolved = minimal_resolved();
+    resolved.execution_plan.workflow_kind = WorkflowKind::Sequential;
+    resolved.doc.run.workflow = Some(WorkflowSpec {
+        id: None,
+        kind: WorkflowKind::Sequential,
+        max_concurrency: None,
+        steps: vec![],
+    });
+    let policy = scheduler_policy_for_run(&resolved).expect("sequential policy");
+    assert!(policy.is_none());
+}
+
+#[test]
+fn effective_max_concurrency_tracks_source_order() {
+    let mut resolved = minimal_resolved();
+    assert_eq!(
+        effective_max_concurrency_with_source(&resolved).expect("engine default"),
+        (
+            DEFAULT_MAX_CONCURRENCY,
+            SchedulerPolicySource::EngineDefault
+        )
+    );
+
+    resolved.doc.run.defaults.max_concurrency = Some(6);
+    assert_eq!(
+        effective_max_concurrency_with_source(&resolved).expect("run default"),
+        (6, SchedulerPolicySource::RunDefault)
+    );
+
+    resolved
+        .doc
+        .run
+        .workflow
+        .as_mut()
+        .expect("workflow")
+        .max_concurrency = Some(3);
+    assert_eq!(
+        effective_max_concurrency_with_source(&resolved).expect("workflow override"),
+        (3, SchedulerPolicySource::WorkflowOverride)
+    );
+}
+
+#[test]
+fn resume_disposition_for_step_skips_when_no_artifact_expected() {
+    let step = step_with_write_to("s1", None);
+    let out_dir = std::env::temp_dir();
+    let completed_outputs = HashMap::new();
+    let disposition =
+        resume_disposition_for_step(&step, &out_dir, &completed_outputs).expect("disposition");
+    assert_eq!(
+        disposition,
+        ResumeDisposition::Skip("completed_no_artifact_expected")
+    );
+}
+
+#[test]
+fn resume_disposition_for_step_reruns_when_expected_artifact_missing() {
+    let now = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .expect("time")
+        .as_nanos();
+    let out_dir = std::env::temp_dir().join(format!("adl-resume-missing-{now}"));
+    std::fs::create_dir_all(&out_dir).expect("create out_dir");
+    let step = step_with_write_to("s1", Some("outputs/out.txt"));
+    let completed_outputs = HashMap::new();
+    let disposition =
+        resume_disposition_for_step(&step, &out_dir, &completed_outputs).expect("disposition");
+    assert_eq!(
+        disposition,
+        ResumeDisposition::Rerun("missing_expected_artifact")
+    );
+    let _ = std::fs::remove_dir_all(out_dir);
+}
+
+#[test]
+fn resume_disposition_for_step_reruns_when_fingerprint_missing() {
+    let now = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .expect("time")
+        .as_nanos();
+    let out_dir = std::env::temp_dir().join(format!("adl-resume-no-fp-{now}"));
+    let artifact = out_dir.join("outputs/out.txt");
+    std::fs::create_dir_all(artifact.parent().expect("parent")).expect("create parent");
+    std::fs::write(&artifact, "ok").expect("write artifact");
+    let step = step_with_write_to("s1", Some("outputs/out.txt"));
+    let completed_outputs = HashMap::new();
+    let disposition =
+        resume_disposition_for_step(&step, &out_dir, &completed_outputs).expect("disposition");
+    assert_eq!(
+        disposition,
+        ResumeDisposition::Rerun("missing_output_fingerprint")
+    );
+    let _ = std::fs::remove_dir_all(out_dir);
+}
+
+#[test]
+fn resume_disposition_for_step_reruns_on_fingerprint_mismatch() {
+    let now = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .expect("time")
+        .as_nanos();
+    let out_dir = std::env::temp_dir().join(format!("adl-resume-bad-fp-{now}"));
+    let artifact = out_dir.join("outputs/out.txt");
+    std::fs::create_dir_all(artifact.parent().expect("parent")).expect("create parent");
+    std::fs::write(&artifact, "actual").expect("write artifact");
+    let step = step_with_write_to("s1", Some("outputs/out.txt"));
+    let mut completed_outputs = HashMap::new();
+    completed_outputs.insert("s1".to_string(), model_output_fingerprint("expected"));
+    let disposition =
+        resume_disposition_for_step(&step, &out_dir, &completed_outputs).expect("disposition");
+    assert_eq!(
+        disposition,
+        ResumeDisposition::Rerun("invalid_expected_artifact")
+    );
+    let _ = std::fs::remove_dir_all(out_dir);
+}
+
+#[test]
+fn resume_disposition_for_step_skips_when_artifact_and_fingerprint_match() {
+    let now = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .expect("time")
+        .as_nanos();
+    let out_dir = std::env::temp_dir().join(format!("adl-resume-ok-fp-{now}"));
+    let artifact = out_dir.join("outputs/out.txt");
+    std::fs::create_dir_all(artifact.parent().expect("parent")).expect("create parent");
+    std::fs::write(&artifact, "stable output").expect("write artifact");
+    let step = step_with_write_to("s1", Some("outputs/out.txt"));
+    let mut completed_outputs = HashMap::new();
+    completed_outputs.insert("s1".to_string(), model_output_fingerprint("stable output"));
+    let disposition =
+        resume_disposition_for_step(&step, &out_dir, &completed_outputs).expect("disposition");
+    assert_eq!(
+        disposition,
+        ResumeDisposition::Skip("completed_artifact_verified")
+    );
+    let _ = std::fs::remove_dir_all(out_dir);
+}
+
+#[test]
+fn execution_policy_error_display_covers_approval_required_branch() {
+    let err = ExecutionPolicyError {
+        kind: ExecutionPolicyErrorKind::ApprovalRequired,
+        step_id: "s-approve".to_string(),
+        action_kind: "tool".to_string(),
+        target_id: "fs.write".to_string(),
+        rule_id: Some("rule-approval".to_string()),
+    };
+
+    assert_eq!(err.code(), "DELEGATION_POLICY_APPROVAL_REQUIRED");
+    let rendered = err.to_string();
+    assert!(rendered.contains("requires approval"));
+    assert!(rendered.contains("rule_id=rule-approval"));
+}
+
+#[test]
+fn execute_called_workflow_rejects_unknown_workflow() {
+    let resolved = minimal_resolved();
+    let mut tr = crate::trace::Trace::new("run", "wf", "0.8");
+    let caller_state = HashMap::new();
+    let err = execute_called_workflow(
+        "caller",
+        "ns",
+        "missing-workflow",
+        &HashMap::new(),
+        &resolved,
+        &mut tr,
+        false,
+        false,
+        Path::new("."),
+        Path::new("."),
+        &caller_state,
+        None,
+    )
+    .expect_err("unknown called workflow should fail");
+    assert!(err.to_string().contains("call references unknown workflow"));
+}
+
+#[test]
+fn execute_called_workflow_rejects_missing_state_binding_in_call_with() {
+    let mut resolved = minimal_resolved();
+    resolved.doc.workflows.insert(
+        "callee".to_string(),
+        WorkflowSpec {
+            id: Some("callee".to_string()),
+            kind: WorkflowKind::Sequential,
+            max_concurrency: None,
+            steps: vec![],
+        },
+    );
+
+    let mut tr = crate::trace::Trace::new("run", "wf", "0.8");
+    let mut call_with = HashMap::new();
+    call_with.insert("topic".to_string(), "@state:inputs.missing".to_string());
+    let caller_state = HashMap::new();
+
+    let err = execute_called_workflow(
+        "caller",
+        "ns",
+        "callee",
+        &call_with,
+        &resolved,
+        &mut tr,
+        false,
+        false,
+        Path::new("."),
+        Path::new("."),
+        &caller_state,
+        None,
+    )
+    .expect_err("missing call.with binding should fail");
+    let text = err.to_string();
+    assert!(text.contains("failed to resolve call.with binding"));
+    assert!(text.contains("caller step"));
+}
+
+#[test]
+fn execute_called_workflow_rejects_write_to_without_save_as() {
+    let mut resolved = minimal_resolved();
+    resolved.doc.workflows.insert(
+        "callee".to_string(),
+        WorkflowSpec {
+            id: Some("callee".to_string()),
+            kind: WorkflowKind::Sequential,
+            max_concurrency: None,
+            steps: vec![crate::adl::StepSpec {
+                id: Some("writer".to_string()),
+                write_to: Some("out/result.txt".to_string()),
+                // This intentionally triggers the write_to/save_as contract.
+                save_as: None,
+                ..crate::adl::StepSpec::default()
+            }],
+        },
+    );
+
+    let mut tr = crate::trace::Trace::new("run", "wf", "0.8");
+    let caller_state = HashMap::new();
+    let err = execute_called_workflow(
+        "caller",
+        "ns",
+        "callee",
+        &HashMap::new(),
+        &resolved,
+        &mut tr,
+        false,
+        false,
+        Path::new("."),
+        Path::new("."),
+        &caller_state,
+        None,
+    )
+    .expect_err("write_to without save_as should fail in called workflow");
+    assert!(err
+        .to_string()
+        .contains("uses write_to but is missing save_as"));
+}
+
+#[test]
+fn execute_called_workflow_nested_call_failure_is_propagated() {
+    let mut resolved = minimal_resolved();
+    resolved.doc.workflows.insert(
+        "parent".to_string(),
+        WorkflowSpec {
+            id: Some("parent".to_string()),
+            kind: WorkflowKind::Sequential,
+            max_concurrency: None,
+            steps: vec![crate::adl::StepSpec {
+                id: Some("call-child".to_string()),
+                call: Some("missing-child".to_string()),
+                ..crate::adl::StepSpec::default()
+            }],
+        },
+    );
+
+    let mut tr = crate::trace::Trace::new("run", "wf", "0.8");
+    let caller_state = HashMap::new();
+    let err = execute_called_workflow(
+        "caller",
+        "ns",
+        "parent",
+        &HashMap::new(),
+        &resolved,
+        &mut tr,
+        false,
+        false,
+        Path::new("."),
+        Path::new("."),
+        &caller_state,
+        None,
+    )
+    .expect_err("nested call to missing workflow should fail");
+    assert!(err.to_string().contains("unknown workflow"));
+}
+
+#[test]
+fn enforce_delegation_policy_for_step_actions_denies_filesystem_write_targets() {
+    let mut resolved = minimal_resolved();
+    resolved.doc.run.delegation_policy = Some(DelegationPolicySpec {
+        default_allow: true,
+        rules: vec![DelegationPolicyRuleSpec {
+            id: "deny-write".to_string(),
+            action: crate::adl::DelegationActionKind::FilesystemWrite,
+            target_id: Some("outputs/out.txt".to_string()),
+            effect: DelegationRuleEffect::Deny,
+            require_approval: false,
+        }],
+    });
+
+    let mut step = delegated_step("write-step");
+    step.write_to = Some("outputs/out.txt".to_string());
+    step.save_as = Some("saved.output".to_string());
+
+    let mut tr = crate::trace::Trace::new("run", "wf", "0.8");
+    let err = enforce_delegation_policy_for_step_actions(&mut tr, &step, &resolved.doc)
+        .expect_err("write policy should deny the step");
+
+    let rendered = err.to_string();
+    assert!(rendered.contains("filesystem_write"));
+    assert!(rendered.contains("outputs/out.txt"));
+    assert!(rendered.contains("rule_id=deny-write"));
+    assert_eq!(stable_failure_kind(&err), Some("policy_denied"));
+    assert!(tr.events.iter().any(|event| matches!(
+        event,
+        TraceEvent::DelegationDenied {
+            step_id,
+            action_kind,
+            target_id,
+            rule_id,
+            ..
+        } if step_id == "write-step"
+            && action_kind == "filesystem_write"
+            && target_id == "outputs/out.txt"
+            && rule_id.as_deref() == Some("deny-write")
+    )));
+}
+
+#[test]
+fn enforce_delegation_policy_for_step_actions_requires_approval_for_remote_exec() {
+    let mut resolved = minimal_resolved();
+    resolved.doc.run.delegation_policy = Some(DelegationPolicySpec {
+        default_allow: true,
+        rules: vec![DelegationPolicyRuleSpec {
+            id: "approve-remote".to_string(),
+            action: crate::adl::DelegationActionKind::RemoteExec,
+            target_id: Some("run.remote.endpoint".to_string()),
+            effect: DelegationRuleEffect::Allow,
+            require_approval: true,
+        }],
+    });
+
+    let mut step = delegated_step("remote-step");
+    step.placement = Some(PlacementMode::Remote);
+
+    let mut tr = crate::trace::Trace::new("run", "wf", "0.8");
+    let err = enforce_delegation_policy_for_step_actions(&mut tr, &step, &resolved.doc)
+        .expect_err("remote exec should require approval");
+
+    let rendered = err.to_string();
+    assert!(rendered.contains("requires approval"));
+    assert!(rendered.contains("remote_exec"));
+    assert!(rendered.contains("run.remote.endpoint"));
+    assert_eq!(stable_failure_kind(&err), Some("policy_denied"));
+    assert!(tr.events.iter().any(|event| matches!(
+        event,
+        TraceEvent::DelegationPolicyEvaluated {
+            step_id,
+            action_kind,
+            target_id,
+            decision,
+            rule_id,
+            ..
+        } if step_id == "remote-step"
+            && action_kind == "remote_exec"
+            && target_id == "run.remote.endpoint"
+            && decision == "needs_approval"
+            && rule_id.as_deref() == Some("approve-remote")
+    )));
+}
+
+#[test]
+fn delegation_lifecycle_events_follow_remote_step_shape() {
+    let resolved = minimal_resolved();
+    let mut step = delegated_step("remote-step");
+    step.provider = Some("remote-provider".to_string());
+    step.placement = Some(PlacementMode::Remote);
+
+    let mut tr = crate::trace::Trace::new("run", "wf", "0.8");
+    emit_delegation_lifecycle_start(&mut tr, &step, &resolved.doc);
+    emit_delegation_lifecycle_finish(&mut tr, &step, &resolved.doc, false, 17);
+
+    assert!(tr.events.iter().any(|event| matches!(
+        event,
+        TraceEvent::DelegationRequested {
+            step_id,
+            action_kind,
+            target_id,
+            ..
+        } if step_id == "remote-step"
+            && action_kind == "remote_exec"
+            && target_id == "remote-provider"
+    )));
+    assert!(tr.events.iter().any(|event| matches!(
+        event,
+        TraceEvent::DelegationCompleted {
+            step_id,
+            outcome,
+            ..
+        } if step_id == "remote-step" && outcome == "failure"
+    )));
+}
+
+#[test]
+fn runner_executes_concurrent_mock_workflow_success_path() {
+    let mut resolved = minimal_resolved();
+    resolved
+        .doc
+        .providers
+        .insert("p1".to_string(), mock_provider_spec());
+    resolved.doc.run.defaults.max_concurrency = Some(1);
+
+    let branch_a = crate::resolve::ResolvedStep {
+        id: "fork.branch.a".to_string(),
+        agent: None,
+        provider: Some("p1".to_string()),
+        placement: Some(PlacementMode::Local),
+        task: None,
+        call: None,
+        with: HashMap::new(),
+        as_ns: None,
+        delegation: None,
+        conversation: None,
+        prompt: Some(PromptSpec {
+            user: Some("BRANCH_A={{label}}".to_string()),
+            ..Default::default()
+        }),
+        inputs: HashMap::from([("label".to_string(), "alpha".to_string())]),
+        guards: vec![],
+        save_as: Some("branch_a".to_string()),
+        write_to: None,
+        on_error: None,
+        retry: None,
+    };
+    let branch_b = crate::resolve::ResolvedStep {
+        id: "fork.branch.b".to_string(),
+        agent: None,
+        provider: Some("p1".to_string()),
+        placement: Some(PlacementMode::Local),
+        task: None,
+        call: None,
+        with: HashMap::new(),
+        as_ns: None,
+        delegation: None,
+        conversation: None,
+        prompt: Some(PromptSpec {
+            user: Some("BRANCH_B={{label}}".to_string()),
+            ..Default::default()
+        }),
+        inputs: HashMap::from([("label".to_string(), "beta".to_string())]),
+        guards: vec![],
+        save_as: Some("branch_b".to_string()),
+        write_to: None,
+        on_error: None,
+        retry: None,
+    };
+    let join = crate::resolve::ResolvedStep {
+        id: "fork.join".to_string(),
+        agent: None,
+        provider: Some("p1".to_string()),
+        placement: Some(PlacementMode::Local),
+        task: None,
+        call: None,
+        with: HashMap::new(),
+        as_ns: None,
+        delegation: None,
+        conversation: None,
+        prompt: Some(PromptSpec {
+            user: Some("JOIN={{a}}+{{b}}".to_string()),
+            ..Default::default()
+        }),
+        inputs: HashMap::from([
+            ("a".to_string(), "@state:branch_a".to_string()),
+            ("b".to_string(), "@state:branch_b".to_string()),
+        ]),
+        guards: vec![],
+        save_as: Some("joined".to_string()),
+        write_to: Some("artifacts/join.txt".to_string()),
+        on_error: None,
+        retry: None,
+    };
+
+    resolved.steps = vec![branch_a, branch_b, join];
+    resolved.execution_plan = crate::execution_plan::ExecutionPlan {
+        workflow_kind: WorkflowKind::Concurrent,
+        nodes: vec![
+            crate::execution_plan::ExecutionNode {
+                step_id: "fork.branch.a".to_string(),
+                depends_on: vec![],
+                save_as: Some("branch_a".to_string()),
+                delegation: None,
+            },
+            crate::execution_plan::ExecutionNode {
+                step_id: "fork.branch.b".to_string(),
+                depends_on: vec![],
+                save_as: Some("branch_b".to_string()),
+                delegation: None,
+            },
+            crate::execution_plan::ExecutionNode {
+                step_id: "fork.join".to_string(),
+                depends_on: vec!["fork.branch.a".to_string(), "fork.branch.b".to_string()],
+                save_as: Some("joined".to_string()),
+                delegation: None,
+            },
+        ],
+    };
+
+    let base = unique_temp_path("adl-runner-concurrent");
+    let out_dir = base.join("out");
+    std::fs::create_dir_all(&out_dir).expect("create out dir");
+    let mut tr = crate::trace::Trace::new("run", "wf", "0.3");
+    let result = execute_sequential(&resolved, &mut tr, false, false, &base, &out_dir)
+        .expect("concurrent mock workflow should succeed");
+
+    assert_eq!(result.outputs.len(), 3);
+    assert_eq!(result.records.len(), 3);
+    assert!(result.pause.is_none());
+    assert_eq!(result.artifacts.len(), 1);
+
+    let join_output = result
+        .outputs
+        .iter()
+        .find(|output| output.step_id == "fork.join")
+        .expect("join output");
+    assert!(join_output.model_output.contains("JOIN="));
+    assert!(join_output.model_output.contains("BRANCH_A=alpha"));
+    assert!(join_output.model_output.contains("BRANCH_B=beta"));
+    let join_artifact =
+        std::fs::read_to_string(out_dir.join("artifacts/join.txt")).expect("read join artifact");
+    assert_eq!(join_artifact, join_output.model_output);
+    assert!(tr.events.iter().any(|event| matches!(
+        event,
+        TraceEvent::RuntimeResilienceDecision { record, .. }
+            if record.step_id == "fork.branch.a"
+                && record.watcher_disposition == RuntimeResilienceDispositionV1::Admitted
+                && record.middleware_disposition == RuntimeResilienceDispositionV1::Admitted
+                && record.max_concurrency == Some(1)
+    )));
+    assert!(tr.events.iter().any(|event| matches!(
+        event,
+        TraceEvent::RuntimeResilienceDecision { record, .. }
+            if record.step_id == "fork.branch.b"
+                && record.watcher_disposition == RuntimeResilienceDispositionV1::QueuedBackpressure
+                && record.middleware_disposition == RuntimeResilienceDispositionV1::QueuedBackpressure
+                && record.queue_depth == Some(1)
+    )));
+    assert!(tr.events.iter().any(|event| matches!(
+        event,
+        TraceEvent::RuntimeResilienceDecision { record, .. }
+            if record.step_id == "fork.join"
+                && record.watcher_disposition == RuntimeResilienceDispositionV1::Succeeded
+                && record.middleware_disposition == RuntimeResilienceDispositionV1::Succeeded
+                && !record.terminal
+    )));
+
+    let _ = std::fs::remove_dir_all(base);
+}
+
+#[test]
+fn runner_executes_called_workflow_success_path() {
+    let mut resolved = minimal_resolved();
+    resolved
+        .doc
+        .providers
+        .insert("p1".to_string(), mock_provider_spec());
+    resolved.doc.agents.insert(
+        "a1".to_string(),
+        crate::adl::AgentSpec {
+            id: None,
+            provider: "p1".to_string(),
+            model: "echo-v1".to_string(),
+            temperature: None,
+            top_k: None,
+            description: None,
+            prompt: None,
+            tools: vec![],
+        },
+    );
+    resolved.doc.tasks.insert(
+        "callee_task".to_string(),
+        crate::adl::TaskSpec {
+            id: None,
+            agent_ref: Some("a1".to_string()),
+            inputs: vec!["topic".to_string()],
+            tool_allowlist: vec![],
+            description: None,
+            prompt: PromptSpec {
+                user: Some("CALLEE={{topic}}".to_string()),
+                ..Default::default()
+            },
+        },
+    );
+    resolved.doc.workflows.insert(
+        "callee".to_string(),
+        WorkflowSpec {
+            id: Some("callee".to_string()),
+            kind: WorkflowKind::Sequential,
+            max_concurrency: None,
+            steps: vec![crate::adl::StepSpec {
+                id: Some("reply".to_string()),
+                task: Some("callee_task".to_string()),
+                save_as: Some("reply_text".to_string()),
+                write_to: Some("callee/reply.txt".to_string()),
+                inputs: HashMap::from([("topic".to_string(), "{{ topic }}".to_string())]),
+                ..crate::adl::StepSpec::default()
+            }],
+        },
+    );
+
+    resolved.steps = vec![crate::resolve::ResolvedStep {
+        id: "call.callee".to_string(),
+        agent: None,
+        provider: None,
+        placement: None,
+        task: None,
+        call: Some("callee".to_string()),
+        with: HashMap::from([("topic".to_string(), "acip".to_string())]),
+        as_ns: Some("nested".to_string()),
+        delegation: None,
+        conversation: None,
+        prompt: None,
+        inputs: HashMap::new(),
+        guards: vec![],
+        save_as: None,
+        write_to: None,
+        on_error: None,
+        retry: None,
+    }];
+    resolved.execution_plan = crate::execution_plan::ExecutionPlan {
+        workflow_kind: WorkflowKind::Sequential,
+        nodes: vec![crate::execution_plan::ExecutionNode {
+            step_id: "call.callee".to_string(),
+            depends_on: vec![],
+            save_as: None,
+            delegation: None,
+        }],
+    };
+
+    let base = unique_temp_path("adl-runner-call");
+    let out_dir = base.join("out");
+    std::fs::create_dir_all(&out_dir).expect("create out dir");
+    let mut tr = crate::trace::Trace::new("run", "wf", "0.3");
+    let result = execute_sequential(&resolved, &mut tr, false, false, &base, &out_dir)
+        .expect("called workflow should succeed");
+
+    assert!(result.pause.is_none());
+    assert_eq!(result.outputs.len(), 1);
+    assert_eq!(result.artifacts.len(), 1);
+    assert!(result
+        .records
+        .iter()
+        .any(|record| record.step_id == "call.callee" && record.provider_id == "<call>"));
+    let output = &result.outputs[0];
+    assert!(output.step_id.contains("reply"));
+    assert!(!output.model_output.is_empty());
+    assert!(tr.events.iter().any(|event| matches!(
+        event,
+        TraceEvent::RuntimeResilienceDecision { record, .. }
+            if record.step_id == "call.callee::reply"
+                && record.watcher_disposition == RuntimeResilienceDispositionV1::Succeeded
+                && record.middleware_disposition == RuntimeResilienceDispositionV1::Succeeded
+                && !record.terminal
+    )));
+    let artifact =
+        std::fs::read_to_string(out_dir.join("callee/reply.txt")).expect("read callee artifact");
+    assert_eq!(artifact, output.model_output);
+
+    let _ = std::fs::remove_dir_all(base);
+}
+
+#[test]
+fn runner_executes_nested_called_workflow_success_path() {
+    let mut resolved = minimal_resolved();
+    resolved
+        .doc
+        .providers
+        .insert("p1".to_string(), mock_provider_spec());
+    resolved.doc.agents.insert(
+        "a1".to_string(),
+        crate::adl::AgentSpec {
+            id: None,
+            provider: "p1".to_string(),
+            model: "echo-v1".to_string(),
+            temperature: None,
+            top_k: None,
+            description: None,
+            prompt: None,
+            tools: vec![],
+        },
+    );
+    resolved.doc.tasks.insert(
+        "leaf_task".to_string(),
+        crate::adl::TaskSpec {
+            id: None,
+            agent_ref: Some("a1".to_string()),
+            inputs: vec!["topic".to_string()],
+            tool_allowlist: vec![],
+            description: None,
+            prompt: PromptSpec {
+                user: Some("LEAF={{topic}}".to_string()),
+                ..Default::default()
+            },
+        },
+    );
+    resolved.doc.tasks.insert(
+        "summary_task".to_string(),
+        crate::adl::TaskSpec {
+            id: None,
+            agent_ref: Some("a1".to_string()),
+            inputs: vec!["reply".to_string()],
+            tool_allowlist: vec![],
+            description: None,
+            prompt: PromptSpec {
+                user: Some("SUMMARY={{reply}}".to_string()),
+                ..Default::default()
+            },
+        },
+    );
+    resolved.doc.workflows.insert(
+        "grandchild".to_string(),
+        WorkflowSpec {
+            id: Some("grandchild".to_string()),
+            kind: WorkflowKind::Sequential,
+            max_concurrency: None,
+            steps: vec![crate::adl::StepSpec {
+                id: Some("leaf".to_string()),
+                task: Some("leaf_task".to_string()),
+                save_as: Some("reply_text".to_string()),
+                inputs: HashMap::from([("topic".to_string(), "{{ topic }}".to_string())]),
+                ..crate::adl::StepSpec::default()
+            }],
+        },
+    );
+    resolved.doc.workflows.insert(
+        "callee".to_string(),
+        WorkflowSpec {
+            id: Some("callee".to_string()),
+            kind: WorkflowKind::Sequential,
+            max_concurrency: None,
+            steps: vec![
+                crate::adl::StepSpec {
+                    id: Some("call-grandchild".to_string()),
+                    call: Some("grandchild".to_string()),
+                    as_ns: Some("child".to_string()),
+                    with: HashMap::from([("topic".to_string(), "nested".to_string())]),
+                    ..crate::adl::StepSpec::default()
+                },
+                crate::adl::StepSpec {
+                    id: Some("summarize".to_string()),
+                    task: Some("summary_task".to_string()),
+                    save_as: Some("summary_text".to_string()),
+                    inputs: HashMap::from([(
+                        "reply".to_string(),
+                        "@state:child.reply_text".to_string(),
+                    )]),
+                    ..crate::adl::StepSpec::default()
+                },
+            ],
+        },
+    );
+
+    resolved.steps = vec![crate::resolve::ResolvedStep {
+        id: "call.callee".to_string(),
+        agent: None,
+        provider: None,
+        placement: None,
+        task: None,
+        call: Some("callee".to_string()),
+        with: HashMap::new(),
+        as_ns: Some("nested".to_string()),
+        delegation: None,
+        conversation: None,
+        prompt: None,
+        inputs: HashMap::new(),
+        guards: vec![],
+        save_as: None,
+        write_to: None,
+        on_error: None,
+        retry: None,
+    }];
+    resolved.execution_plan = crate::execution_plan::ExecutionPlan {
+        workflow_kind: WorkflowKind::Sequential,
+        nodes: vec![crate::execution_plan::ExecutionNode {
+            step_id: "call.callee".to_string(),
+            depends_on: vec![],
+            save_as: None,
+            delegation: None,
+        }],
+    };
+
+    let base = unique_temp_path("adl-runner-nested-call");
+    let out_dir = base.join("out");
+    std::fs::create_dir_all(&out_dir).expect("create out dir");
+    let mut tr = crate::trace::Trace::new("run", "wf", "0.3");
+    let result = execute_sequential(&resolved, &mut tr, false, false, &base, &out_dir)
+        .expect("nested called workflow should succeed");
+
+    assert!(result.pause.is_none());
+    assert_eq!(result.outputs.len(), 2);
+    assert!(result.records.iter().any(|record| {
+        record.step_id == "call.callee::call-grandchild" && record.provider_id == "<call>"
+    }));
+    assert!(result
+        .records
+        .iter()
+        .any(|record| { record.step_id == "call.callee" && record.provider_id == "<call>" }));
+    assert!(result
+        .outputs
+        .iter()
+        .any(|output| output.step_id.ends_with("leaf")));
+    assert!(result
+        .outputs
+        .iter()
+        .any(|output| output.step_id.ends_with("summarize")));
+
+    let _ = std::fs::remove_dir_all(base);
+}
+
+#[test]
+fn runner_concurrent_failure_can_continue_when_step_is_marked_continue_on_error() {
+    let mut resolved = minimal_resolved();
+    resolved
+        .doc
+        .providers
+        .insert("p1".to_string(), mock_provider_spec());
+
+    let failing = crate::resolve::ResolvedStep {
+        id: "fork.fail".to_string(),
+        agent: None,
+        provider: Some("p1".to_string()),
+        placement: Some(PlacementMode::Local),
+        task: None,
+        call: None,
+        with: HashMap::new(),
+        as_ns: None,
+        delegation: None,
+        conversation: None,
+        prompt: Some(PromptSpec {
+            user: Some("FAIL={{missing}}".to_string()),
+            ..Default::default()
+        }),
+        inputs: HashMap::new(),
+        guards: vec![],
+        save_as: None,
+        write_to: None,
+        on_error: Some(crate::adl::StepOnError::Continue),
+        retry: None,
+    };
+    let succeeding = crate::resolve::ResolvedStep {
+        id: "fork.ok".to_string(),
+        agent: None,
+        provider: Some("p1".to_string()),
+        placement: Some(PlacementMode::Local),
+        task: None,
+        call: None,
+        with: HashMap::new(),
+        as_ns: None,
+        delegation: None,
+        conversation: None,
+        prompt: Some(PromptSpec {
+            user: Some("OK={{value}}".to_string()),
+            ..Default::default()
+        }),
+        inputs: HashMap::from([("value".to_string(), "present".to_string())]),
+        guards: vec![],
+        save_as: Some("ok".to_string()),
+        write_to: None,
+        on_error: None,
+        retry: None,
+    };
+
+    resolved.steps = vec![failing, succeeding];
+    resolved.execution_plan = crate::execution_plan::ExecutionPlan {
+        workflow_kind: WorkflowKind::Concurrent,
+        nodes: vec![
+            crate::execution_plan::ExecutionNode {
+                step_id: "fork.fail".to_string(),
+                depends_on: vec![],
+                save_as: None,
+                delegation: None,
+            },
+            crate::execution_plan::ExecutionNode {
+                step_id: "fork.ok".to_string(),
+                depends_on: vec![],
+                save_as: Some("ok".to_string()),
+                delegation: None,
+            },
+        ],
+    };
+
+    let base = unique_temp_path("adl-runner-continue");
+    let out_dir = base.join("out");
+    std::fs::create_dir_all(&out_dir).expect("create out dir");
+    let mut tr = crate::trace::Trace::new("run", "wf", "0.3");
+    let result = execute_sequential(&resolved, &mut tr, false, false, &base, &out_dir)
+        .expect("continue_on_error branch should allow overall success");
+
+    assert!(result.pause.is_none());
+    assert_eq!(result.outputs.len(), 1);
+    assert!(result
+        .records
+        .iter()
+        .any(|record| record.step_id == "fork.fail" && record.status == "failure"));
+    assert!(result
+        .records
+        .iter()
+        .any(|record| record.step_id == "fork.ok" && record.status == "success"));
+    assert!(tr.events.iter().any(|event| matches!(
+        event,
+        TraceEvent::RuntimeResilienceDecision { record, .. }
+            if record.step_id == "fork.fail"
+                && record.watcher_disposition == RuntimeResilienceDispositionV1::DegradedContinue
+                && record.middleware_disposition == RuntimeResilienceDispositionV1::DegradedContinue
+                && !record.terminal
+                && record.fault.is_some()
+    )));
+
+    let _ = std::fs::remove_dir_all(base);
+}
+
+#[test]
+fn runner_runtime_resilience_negative_failures_record_terminal_dispositions() {
+    let mut resolved = minimal_resolved();
+    resolved
+        .doc
+        .providers
+        .insert("p1".to_string(), mock_provider_spec());
+    resolved.steps = vec![crate::resolve::ResolvedStep {
+        id: "terminal.fail".to_string(),
+        agent: None,
+        provider: Some("p1".to_string()),
+        placement: Some(PlacementMode::Local),
+        task: None,
+        call: None,
+        with: HashMap::new(),
+        as_ns: None,
+        delegation: None,
+        conversation: None,
+        prompt: Some(PromptSpec {
+            user: Some("FAIL={{missing}}".to_string()),
+            ..Default::default()
+        }),
+        inputs: HashMap::new(),
+        guards: vec![],
+        save_as: None,
+        write_to: None,
+        on_error: None,
+        retry: None,
+    }];
+    resolved.execution_plan = crate::execution_plan::ExecutionPlan {
+        workflow_kind: WorkflowKind::Concurrent,
+        nodes: vec![crate::execution_plan::ExecutionNode {
+            step_id: "terminal.fail".to_string(),
+            depends_on: vec![],
+            save_as: None,
+            delegation: None,
+        }],
+    };
+
+    let base = unique_temp_path("adl-runner-terminal-resilience");
+    let out_dir = base.join("out");
+    std::fs::create_dir_all(&out_dir).expect("create out dir");
+    let mut tr = crate::trace::Trace::new("run", "wf", "0.3");
+    let result = execute_sequential(&resolved, &mut tr, false, false, &base, &out_dir);
+
+    assert!(result.is_err(), "terminal failure must fail the run");
+    assert!(tr.events.iter().any(|event| matches!(
+        event,
+        TraceEvent::RuntimeResilienceDecision { record, .. }
+            if record.step_id == "terminal.fail"
+                && record.watcher_disposition == RuntimeResilienceDispositionV1::TerminalFailure
+                && record.middleware_disposition == RuntimeResilienceDispositionV1::TerminalFailure
+                && record.terminal
+                && record.fault.is_some()
+    )));
+
+    let _ = std::fs::remove_dir_all(base);
+}
+
+#[test]
+fn runner_sequential_runtime_resilience_records_admitted_and_success() {
+    let mut resolved = minimal_resolved();
+    resolved
+        .doc
+        .providers
+        .insert("p1".to_string(), mock_provider_spec());
+    resolved.doc.run.workflow.as_mut().expect("workflow").kind = WorkflowKind::Sequential;
+    resolved.steps = vec![crate::resolve::ResolvedStep {
+        id: "seq.ok".to_string(),
+        agent: None,
+        provider: Some("p1".to_string()),
+        placement: Some(PlacementMode::Local),
+        task: None,
+        call: None,
+        with: HashMap::new(),
+        as_ns: None,
+        delegation: None,
+        conversation: None,
+        prompt: Some(PromptSpec {
+            user: Some("hello sequential".to_string()),
+            ..Default::default()
+        }),
+        inputs: HashMap::new(),
+        guards: vec![],
+        save_as: None,
+        write_to: None,
+        on_error: None,
+        retry: None,
+    }];
+    resolved.execution_plan = crate::execution_plan::ExecutionPlan {
+        workflow_kind: WorkflowKind::Sequential,
+        nodes: vec![crate::execution_plan::ExecutionNode {
+            step_id: "seq.ok".to_string(),
+            depends_on: vec![],
+            save_as: None,
+            delegation: None,
+        }],
+    };
+
+    let base = unique_temp_path("adl-runner-seq-resilience");
+    let out_dir = base.join("out");
+    std::fs::create_dir_all(&out_dir).expect("create out dir");
+    let mut tr = crate::trace::Trace::new("run", "wf", "0.3");
+    let result = execute_sequential(&resolved, &mut tr, false, false, &base, &out_dir)
+        .expect("sequential step should succeed");
+
+    assert_eq!(result.outputs.len(), 1);
+    assert!(tr.events.iter().any(|event| matches!(
+        event,
+        TraceEvent::RuntimeResilienceDecision { record, .. }
+            if record.step_id == "seq.ok"
+                && record.watcher_disposition == RuntimeResilienceDispositionV1::Admitted
+                && record.middleware_disposition == RuntimeResilienceDispositionV1::Admitted
+                && record.max_concurrency == Some(1)
+    )));
+    assert!(tr.events.iter().any(|event| matches!(
+        event,
+        TraceEvent::RuntimeResilienceDecision { record, .. }
+            if record.step_id == "seq.ok"
+                && record.watcher_disposition == RuntimeResilienceDispositionV1::Succeeded
+                && record.middleware_disposition == RuntimeResilienceDispositionV1::Succeeded
+                && !record.terminal
+    )));
+
+    let _ = std::fs::remove_dir_all(base);
+}
+
+#[test]
+fn runner_local_provider_invokes_configured_shadow_without_authority() {
+    let evidence_path = std::path::PathBuf::from(format!(
+        ".adl/test-artifacts/runner-provider-shadow-{}.jsonl",
+        std::process::id()
+    ));
+    let _ = std::fs::remove_file(&evidence_path);
+
+    let mut provider_spec = mock_provider_spec();
+    provider_spec.config.insert(
+        "local_shadow_model".to_string(),
+        serde_json::json!("shadow-echo-v1"),
+    );
+    provider_spec.config.insert(
+        "local_shadow_provider_kind".to_string(),
+        serde_json::json!("mock"),
+    );
+    provider_spec.config.insert(
+        "local_shadow_rule_set".to_string(),
+        serde_json::json!("runner_provider_shadow_v1"),
+    );
+    provider_spec.config.insert(
+        "local_shadow_evidence_path".to_string(),
+        serde_json::json!(evidence_path.to_string_lossy()),
+    );
+
+    let mut resolved = minimal_resolved();
+    resolved
+        .doc
+        .providers
+        .insert("p1".to_string(), provider_spec);
+    resolved.doc.run.workflow.as_mut().expect("workflow").kind = WorkflowKind::Sequential;
+    resolved.steps = vec![crate::resolve::ResolvedStep {
+        id: "seq.shadow".to_string(),
+        agent: None,
+        provider: Some("p1".to_string()),
+        placement: Some(PlacementMode::Local),
+        task: None,
+        call: None,
+        with: HashMap::new(),
+        as_ns: None,
+        delegation: None,
+        conversation: None,
+        prompt: Some(PromptSpec {
+            user: Some("hello shadow runner".to_string()),
+            ..Default::default()
+        }),
+        inputs: HashMap::new(),
+        guards: vec![],
+        save_as: None,
+        write_to: None,
+        on_error: None,
+        retry: None,
+    }];
+    resolved.execution_plan = crate::execution_plan::ExecutionPlan {
+        workflow_kind: WorkflowKind::Sequential,
+        nodes: vec![crate::execution_plan::ExecutionNode {
+            step_id: "seq.shadow".to_string(),
+            depends_on: vec![],
+            save_as: None,
+            delegation: None,
+        }],
+    };
+
+    let base = std::path::PathBuf::from(format!(
+        ".adl/test-artifacts/runner-provider-shadow-run-{}",
+        std::process::id()
+    ));
+    let out_dir = base.join("out");
+    std::fs::create_dir_all(&out_dir).expect("create out dir");
+    let mut tr = crate::trace::Trace::new("run", "wf", "0.3");
+    let result = execute_sequential(&resolved, &mut tr, false, false, &base, &out_dir)
+        .expect("sequential shadow-configured provider should succeed");
+
+    assert_eq!(result.outputs.len(), 1);
+    assert_eq!(result.outputs[0].model_output, "USER:\nhello shadow runner");
+    let evidence = std::fs::read_to_string(&evidence_path).expect("shadow evidence log");
+    assert!(evidence.contains("\"authority_channel\":\"authoritative\""));
+    assert!(evidence.contains("\"shadow_channel\":\"shadow\""));
+    assert!(evidence.contains("\"comparison_rule_set\":\"runner_provider_shadow_v1\""));
+    assert!(
+        !evidence.contains("hello shadow runner"),
+        "runtime shadow evidence must not retain prompt text"
+    );
+
+    let _ = std::fs::remove_file(&evidence_path);
+    if let Some(parent) = evidence_path.parent() {
+        let _ = std::fs::remove_dir(parent);
+    }
+    let _ = std::fs::remove_dir_all(base);
+}
+
+#[test]
+fn runner_sequential_runtime_resilience_records_degraded_continue_and_terminal_failure() {
+    let mut resolved = minimal_resolved();
+    resolved
+        .doc
+        .providers
+        .insert("p1".to_string(), mock_provider_spec());
+    resolved.doc.run.workflow.as_mut().expect("workflow").kind = WorkflowKind::Sequential;
+    resolved.steps = vec![
+        crate::resolve::ResolvedStep {
+            id: "seq.degraded".to_string(),
+            agent: None,
+            provider: Some("p1".to_string()),
+            placement: Some(PlacementMode::Local),
+            task: None,
+            call: None,
+            with: HashMap::new(),
+            as_ns: None,
+            delegation: None,
+            conversation: None,
+            prompt: Some(PromptSpec {
+                user: Some("FAIL={{missing}}".to_string()),
+                ..Default::default()
+            }),
+            inputs: HashMap::new(),
+            guards: vec![],
+            save_as: None,
+            write_to: None,
+            on_error: Some(crate::adl::StepOnError::Continue),
+            retry: None,
+        },
+        crate::resolve::ResolvedStep {
+            id: "seq.terminal".to_string(),
+            agent: None,
+            provider: Some("p1".to_string()),
+            placement: Some(PlacementMode::Local),
+            task: None,
+            call: None,
+            with: HashMap::new(),
+            as_ns: None,
+            delegation: None,
+            conversation: None,
+            prompt: Some(PromptSpec {
+                user: Some("FAIL={{missing}}".to_string()),
+                ..Default::default()
+            }),
+            inputs: HashMap::new(),
+            guards: vec![],
+            save_as: None,
+            write_to: None,
+            on_error: None,
+            retry: None,
+        },
+    ];
+    resolved.execution_plan = crate::execution_plan::ExecutionPlan {
+        workflow_kind: WorkflowKind::Sequential,
+        nodes: vec![
+            crate::execution_plan::ExecutionNode {
+                step_id: "seq.degraded".to_string(),
+                depends_on: vec![],
+                save_as: None,
+                delegation: None,
+            },
+            crate::execution_plan::ExecutionNode {
+                step_id: "seq.terminal".to_string(),
+                depends_on: vec!["seq.degraded".to_string()],
+                save_as: None,
+                delegation: None,
+            },
+        ],
+    };
+
+    let base = unique_temp_path("adl-runner-seq-resilience-failures");
+    let out_dir = base.join("out");
+    std::fs::create_dir_all(&out_dir).expect("create out dir");
+    let mut tr = crate::trace::Trace::new("run", "wf", "0.3");
+    let result = execute_sequential(&resolved, &mut tr, false, false, &base, &out_dir);
+
+    assert!(
+        result.is_err(),
+        "terminal sequential failure must fail the run"
+    );
+    assert!(tr.events.iter().any(|event| matches!(
+        event,
+        TraceEvent::RuntimeResilienceDecision { record, .. }
+            if record.step_id == "seq.degraded"
+                && record.watcher_disposition == RuntimeResilienceDispositionV1::DegradedContinue
+                && record.middleware_disposition == RuntimeResilienceDispositionV1::DegradedContinue
+                && !record.terminal
+                && record.fault.is_some()
+    )));
+    assert!(tr.events.iter().any(|event| matches!(
+        event,
+        TraceEvent::RuntimeResilienceDecision { record, .. }
+            if record.step_id == "seq.terminal"
+                && record.watcher_disposition == RuntimeResilienceDispositionV1::TerminalFailure
+                && record.middleware_disposition == RuntimeResilienceDispositionV1::TerminalFailure
+                && record.terminal
+                && record.fault.is_some()
+    )));
+
+    let _ = std::fs::remove_dir_all(base);
+}
+
+#[test]
+fn runner_sequential_resume_skips_completed_step_then_writes_and_pauses() {
+    let mut resolved = minimal_resolved();
+    resolved
+        .doc
+        .providers
+        .insert("p1".to_string(), mock_provider_spec());
+    resolved.doc.run.workflow.as_mut().expect("workflow").kind = WorkflowKind::Sequential;
+    resolved.steps = vec![
+        crate::resolve::ResolvedStep {
+            id: "seq.done".to_string(),
+            agent: None,
+            provider: Some("p1".to_string()),
+            placement: Some(PlacementMode::Local),
+            task: None,
+            call: None,
+            with: HashMap::new(),
+            as_ns: None,
+            delegation: None,
+            conversation: None,
+            prompt: Some(PromptSpec {
+                user: Some("DONE".to_string()),
+                ..Default::default()
+            }),
+            inputs: HashMap::new(),
+            guards: vec![],
+            save_as: Some("first".to_string()),
+            write_to: None,
+            on_error: None,
+            retry: None,
+        },
+        crate::resolve::ResolvedStep {
+            id: "seq.pause".to_string(),
+            agent: None,
+            provider: Some("p1".to_string()),
+            placement: Some(PlacementMode::Local),
+            task: None,
+            call: None,
+            with: HashMap::new(),
+            as_ns: None,
+            delegation: None,
+            conversation: None,
+            prompt: Some(PromptSpec {
+                user: Some("SECOND={{prior}}".to_string()),
+                ..Default::default()
+            }),
+            inputs: HashMap::from([("prior".to_string(), "@state:first".to_string())]),
+            guards: vec![crate::adl::GuardSpec {
+                kind: "pause".to_string(),
+                config: HashMap::from([(
+                    "reason".to_string(),
+                    serde_json::Value::String("operator checkpoint".to_string()),
+                )]),
+            }],
+            save_as: Some("second".to_string()),
+            write_to: Some("artifacts/second.txt".to_string()),
+            on_error: None,
+            retry: None,
+        },
+    ];
+    resolved.execution_plan = crate::execution_plan::ExecutionPlan {
+        workflow_kind: WorkflowKind::Sequential,
+        nodes: vec![
+            crate::execution_plan::ExecutionNode {
+                step_id: "seq.done".to_string(),
+                depends_on: vec![],
+                save_as: Some("first".to_string()),
+                delegation: None,
+            },
+            crate::execution_plan::ExecutionNode {
+                step_id: "seq.pause".to_string(),
+                depends_on: vec!["seq.done".to_string()],
+                save_as: Some("second".to_string()),
+                delegation: None,
+            },
+        ],
+    };
+
+    let base = unique_temp_path("adl-runner-seq-resume-pause");
+    let out_dir = base.join("out");
+    std::fs::create_dir_all(&out_dir).expect("create out dir");
+    let mut completed_step_ids = std::collections::HashSet::new();
+    completed_step_ids.insert("seq.done".to_string());
+    let resume = ResumeState {
+        completed_step_ids,
+        saved_state: HashMap::from([("first".to_string(), "already-done".to_string())]),
+        completed_outputs: HashMap::new(),
+        steering_history: vec![],
+    };
+    let mut tr = crate::trace::Trace::new("run", "wf", "0.3");
+    let result = execute_sequential_with_resume(
+        &resolved,
+        &mut tr,
+        true,
+        true,
+        &base,
+        &out_dir,
+        Some(resume),
+    )
+    .expect("resume should skip completed step and pause after next step");
+
+    assert_eq!(result.outputs.len(), 1);
+    assert_eq!(result.records.len(), 1);
+    assert!(result
+        .records
+        .iter()
+        .any(|record| record.step_id == "seq.pause" && record.status == "success"));
+    let artifact = out_dir.join("artifacts/second.txt");
+    assert!(
+        artifact.exists(),
+        "sequential write_to branch should emit artifact"
+    );
+    let pause = result.pause.expect("pause result");
+    assert_eq!(pause.paused_step_id, "seq.pause");
+    assert_eq!(pause.reason.as_deref(), Some("operator checkpoint"));
+    assert_eq!(
+        pause.completed_step_ids,
+        vec!["seq.done".to_string(), "seq.pause".to_string()]
+    );
+    assert!(pause.remaining_step_ids.is_empty());
+    assert_eq!(
+        pause.saved_state.get("first").map(String::as_str),
+        Some("already-done")
+    );
+    assert!(pause.saved_state.contains_key("second"));
+    assert!(pause.completed_outputs.contains_key("seq.pause"));
+    assert!(!tr.events.iter().any(
+        |event| matches!(event, TraceEvent::StepStarted { step_id, .. } if step_id == "seq.done")
+    ));
+
+    let _ = std::fs::remove_dir_all(base);
+}
+
+#[test]
+fn runtime_resilience_failure_helper_classifies_timeout_and_cancelled() {
+    let step = local_retry_step(1);
+    let mut timeout_trace = crate::trace::Trace::new("run", "wf", "0.3");
+    super::runner::emit_runtime_resilience_failure(
+        &mut timeout_trace,
+        &step,
+        &anyhow::anyhow!("provider timed out while completing step"),
+        super::runner::RuntimeResilienceExecutionContext::new(true, 1, 10, Some(1), None),
+    );
+    assert!(timeout_trace.events.iter().any(|event| matches!(
+        event,
+        TraceEvent::RuntimeResilienceDecision { record, .. }
+            if record.watcher_disposition == RuntimeResilienceDispositionV1::Timeout
+                && record.middleware_disposition == RuntimeResilienceDispositionV1::Timeout
+                && record.terminal
+    )));
+
+    let mut cancel_trace = crate::trace::Trace::new("run", "wf", "0.3");
+    super::runner::emit_runtime_resilience_failure(
+        &mut cancel_trace,
+        &step,
+        &anyhow::anyhow!("operator cancelled runtime step"),
+        super::runner::RuntimeResilienceExecutionContext::new(true, 1, 10, Some(1), None),
+    );
+    assert!(cancel_trace.events.iter().any(|event| matches!(
+        event,
+        TraceEvent::RuntimeResilienceDecision { record, .. }
+            if record.watcher_disposition == RuntimeResilienceDispositionV1::Cancelled
+                && record.middleware_disposition == RuntimeResilienceDispositionV1::Cancelled
+                && record.terminal
+    )));
+}
+
+#[test]
+fn runner_concurrent_success_can_pause_after_completed_step() {
+    let mut resolved = minimal_resolved();
+    resolved
+        .doc
+        .providers
+        .insert("p1".to_string(), mock_provider_spec());
+
+    let paused = crate::resolve::ResolvedStep {
+        id: "pause.step".to_string(),
+        agent: None,
+        provider: Some("p1".to_string()),
+        placement: Some(PlacementMode::Local),
+        task: None,
+        call: None,
+        with: HashMap::new(),
+        as_ns: None,
+        delegation: None,
+        conversation: None,
+        prompt: Some(PromptSpec {
+            user: Some("PAUSE={{value}}".to_string()),
+            ..Default::default()
+        }),
+        inputs: HashMap::from([("value".to_string(), "now".to_string())]),
+        guards: vec![crate::adl::GuardSpec {
+            kind: "pause".to_string(),
+            config: HashMap::from([(
+                "reason".to_string(),
+                serde_json::Value::String("operator checkpoint".to_string()),
+            )]),
+        }],
+        save_as: Some("paused".to_string()),
+        write_to: None,
+        on_error: None,
+        retry: None,
+    };
+
+    resolved.steps = vec![paused];
+    resolved.execution_plan = crate::execution_plan::ExecutionPlan {
+        workflow_kind: WorkflowKind::Concurrent,
+        nodes: vec![crate::execution_plan::ExecutionNode {
+            step_id: "pause.step".to_string(),
+            depends_on: vec![],
+            save_as: Some("paused".to_string()),
+            delegation: None,
+        }],
+    };
+
+    let base = unique_temp_path("adl-runner-pause");
+    let out_dir = base.join("out");
+    std::fs::create_dir_all(&out_dir).expect("create out dir");
+    let mut tr = crate::trace::Trace::new("run", "wf", "0.3");
+    let result = execute_sequential(&resolved, &mut tr, false, false, &base, &out_dir)
+        .expect("pause branch should return paused result");
+
+    let pause = result.pause.expect("pause result");
+    assert_eq!(pause.paused_step_id, "pause.step");
+    assert_eq!(pause.reason.as_deref(), Some("operator checkpoint"));
+    assert_eq!(pause.completed_step_ids, vec!["pause.step".to_string()]);
+    assert!(pause.remaining_step_ids.is_empty());
+
+    let _ = std::fs::remove_dir_all(base);
+}
+
+#[test]
+fn runner_validation_covers_core_helper_paths() {
+    resolve_state_inputs_resolves_and_validates_state_bindings();
+    validate_steering_patch_rejects_invalid_shapes();
+    apply_steering_patch_updates_resume_state_and_records_sorted_keys();
+    effective_max_concurrency_precedence_and_validation();
+    effective_max_concurrency_supports_workflow_ref_overrides();
+    effective_step_placement_prefers_step_then_run_then_local_default();
+    pause_reason_for_step_detects_pause_guard_and_optional_reason();
+    pause_reason_for_step_ignores_non_pause_guards();
+    effective_max_concurrency_tracks_source_order();
+    scheduler_policy_for_run_returns_none_for_sequential_workflows();
+}
+
+#[test]
+fn runner_validation_covers_retry_and_remote_request_paths() {
+    execute_step_with_retry_does_not_retry_remote_schema_violation();
+    build_remote_execute_request_preserves_conversation_as_audit_metadata();
+    execute_step_with_retry_does_not_retry_missing_prompt_binding();
+    execute_step_with_retry_does_not_retry_unknown_provider_setup_failure();
+    execution_policy_error_code_covers_all_kinds();
+    execution_policy_error_display_covers_approval_required_branch();
+    execution_policy_error_display_handles_approval_without_rule_id();
+    execution_policy_error_display_includes_rule_id_for_denied();
+    stable_failure_kind_detects_only_policy_errors();
+}
+
+#[test]
+fn runner_validation_covers_called_workflow_and_delegation_paths() {
+    resolve_call_binding_requires_state_prefix_and_known_key();
+    execute_called_workflow_rejects_unknown_workflow();
+    execute_called_workflow_rejects_missing_state_binding_in_call_with();
+    execute_called_workflow_rejects_write_to_without_save_as();
+    execute_called_workflow_nested_call_failure_is_propagated();
+    enforce_delegation_policy_for_step_actions_denies_filesystem_write_targets();
+    enforce_delegation_policy_for_step_actions_requires_approval_for_remote_exec();
+    delegation_lifecycle_events_follow_remote_step_shape();
+}

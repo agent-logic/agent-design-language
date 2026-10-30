@@ -1,0 +1,25 @@
+environment    = "dev"
+csm_name       = "wuji"
+zone_name      = "csm.agent-logic.ai"
+hosted_zone_id = "Z_REPLACE"
+
+vpc_id     = "vpc-REPLACE"
+subnet_ids = ["subnet-REPLACE-A", "subnet-REPLACE-B"]
+
+# Normal path: leave certificate_arn null and reuse_existing_certificate true.
+# Terraform looks up an existing ISSUED regional ACM cert for the origin FQDN.
+# First bootstrap only: set reuse_existing_certificate=false and
+# create_certificate=true to request and DNS-validate the reusable cert.
+certificate_arn            = null
+reuse_existing_certificate = true
+certificate_lookup_domain  = null
+create_certificate         = false
+create_dns_record  = true
+
+runtime_port       = 20997
+target_instance_id = null
+
+# Defaults closed. For a bounded smoke, set operator-approved CIDRs or AWS
+# CloudFront origin-facing prefix-list CIDRs explicitly; do not leave a reusable
+# Runtime origin open to the whole internet by accident.
+allowed_ingress_cidrs = []

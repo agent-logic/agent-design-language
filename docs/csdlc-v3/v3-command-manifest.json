@@ -1,0 +1,257 @@
+{
+  "schema": "csdlc.v3.command_manifest.v1",
+  "authority_issue": 505,
+  "sprint_issue": 625,
+  "source_issue": 627,
+  "status": "post_cutover_operational",
+  "operational_authority": true,
+  "one_binary": "csdlc",
+  "denominator": {
+    "v2_entrypoints": 21,
+    "current_v3_commands": 26,
+    "implemented_commands": 26,
+    "partial_commands": 0,
+    "fail_closed_commands": 0,
+    "implemented_replacement_routes": 21,
+    "partial_replacement_routes": 0,
+    "fail_closed_replacement_routes": 0,
+    "remaining_replacement_routes": 0
+  },
+  "commands": [
+    {
+      "command": "foundation",
+      "replaces": [],
+      "owner_issue": 501,
+      "implementation_status": "implemented",
+      "authority_status": "read_only_helper"
+    },
+    {
+      "command": "local",
+      "replaces": [],
+      "owner_issue": 503,
+      "implementation_status": "implemented",
+      "authority_status": "read_only_helper"
+    },
+    {
+      "command": "bind",
+      "replaces": [
+        "csdlc-bind"
+      ],
+      "owner_issue": 628,
+      "implementation_status": "implemented",
+      "authority_status": "authenticated_v3"
+    },
+    {
+      "command": "clean",
+      "replaces": [
+        "csdlc-clean"
+      ],
+      "owner_issue": 630,
+      "implementation_status": "implemented",
+      "authority_status": "authenticated_v3"
+    },
+    {
+      "command": "cutover",
+      "replaces": [
+        "csdlc-cutover"
+      ],
+      "owner_issue": 630,
+      "implementation_status": "implemented",
+      "authority_status": "authenticated_v3"
+    },
+    {
+      "command": "doctor",
+      "replaces": [
+        "csdlc-doctor"
+      ],
+      "owner_issue": 628,
+      "implementation_status": "implemented",
+      "authority_status": "authenticated_v3"
+    },
+    {
+      "command": "edit",
+      "replaces": [
+        "csdlc-edit"
+      ],
+      "owner_issue": 628,
+      "implementation_status": "implemented",
+      "authority_status": "authenticated_v3"
+    },
+    {
+      "command": "eligibility",
+      "replaces": [
+        "csdlc-eligibility"
+      ],
+      "owner_issue": 628,
+      "implementation_status": "implemented",
+      "authority_status": "authenticated_v3"
+    },
+    {
+      "command": "finish",
+      "replaces": [
+        "csdlc-finish"
+      ],
+      "owner_issue": 630,
+      "implementation_status": "implemented",
+      "authority_status": "authenticated_v3"
+    },
+    {
+      "command": "github",
+      "replaces": [
+        "csdlc-github"
+      ],
+      "owner_issue": 629,
+      "implementation_status": "implemented",
+      "authority_status": "authenticated_v3"
+    },
+    {
+      "command": "github-issue",
+      "replaces": [
+        "csdlc-github-issue"
+      ],
+      "owner_issue": 629,
+      "implementation_status": "implemented",
+      "authority_status": "authenticated_v3"
+    },
+    {
+      "command": "github-pr",
+      "replaces": [
+        "csdlc-github-pr"
+      ],
+      "owner_issue": 629,
+      "implementation_status": "implemented",
+      "authority_status": "authenticated_v3"
+    },
+    {
+      "command": "install",
+      "replaces": [
+        "csdlc-install"
+      ],
+      "owner_issue": 631,
+      "implementation_status": "implemented_construction",
+      "authority_status": "proof_only"
+    },
+    {
+      "command": "issue",
+      "replaces": [
+        "csdlc-issue"
+      ],
+      "owner_issue": 628,
+      "implementation_status": "implemented",
+      "authority_status": "authenticated_v3"
+    },
+    {
+      "command": "pr-state",
+      "replaces": [
+        "csdlc-pr-state"
+      ],
+      "owner_issue": 629,
+      "implementation_status": "implemented",
+      "authority_status": "authenticated_v3"
+    },
+    {
+      "command": "proof",
+      "replaces": [
+        "csdlc-proof"
+      ],
+      "owner_issue": 631,
+      "implementation_status": "implemented_construction",
+      "authority_status": "proof_only"
+    },
+    {
+      "command": "publish",
+      "replaces": [
+        "csdlc-publish"
+      ],
+      "owner_issue": 629,
+      "implementation_status": "implemented",
+      "authority_status": "authenticated_v3"
+    },
+    {
+      "command": "review",
+      "replaces": [
+        "csdlc-review"
+      ],
+      "owner_issue": 629,
+      "implementation_status": "implemented",
+      "authority_status": "authenticated_v3"
+    },
+    {
+      "command": "remote",
+      "replaces": [],
+      "owner_issue": 504,
+      "implementation_status": "implemented",
+      "authority_status": "read_only_helper"
+    },
+    {
+      "command": "schedule",
+      "replaces": [
+        "csdlc-schedule"
+      ],
+      "owner_issue": 628,
+      "implementation_status": "implemented",
+      "authority_status": "authenticated_v3"
+    },
+    {
+      "command": "shadow",
+      "replaces": [
+        "csdlc-shadow"
+      ],
+      "owner_issue": 631,
+      "implementation_status": "implemented_construction",
+      "authority_status": "proof_only"
+    },
+    {
+      "command": "shepherd",
+      "replaces": [
+        "csdlc-shepherd"
+      ],
+      "owner_issue": 628,
+      "implementation_status": "implemented",
+      "authority_status": "authenticated_v3"
+    },
+    {
+      "command": "soak",
+      "replaces": [
+        "csdlc-soak"
+      ],
+      "owner_issue": 631,
+      "implementation_status": "implemented_construction",
+      "authority_status": "proof_only"
+    },
+    {
+      "command": "sprint",
+      "replaces": [],
+      "owner_issue": 632,
+      "implementation_status": "implemented",
+      "authority_status": "read_only_helper"
+    },
+    {
+      "command": "validate",
+      "replaces": [
+        "csdlc-validate"
+      ],
+      "owner_issue": 628,
+      "implementation_status": "implemented",
+      "authority_status": "authenticated_v3"
+    },
+    {
+      "command": "release-preflight",
+      "replaces": [],
+      "owner_issue": 856,
+      "implementation_status": "implemented",
+      "authority_status": "read_only_helper"
+    }
+  ],
+  "invariants": [
+    "C-SDLC v3 is operational after #505 / PR #591; authenticated canonical selector and reconciliation receipt validation are required. Missing or stale proof suspends authority.",
+    "The v3 replacement target is one csdlc binary.",
+    "Unsupported routes fail closed without automatic v2 fallback, raw GitHub writes or shell commands.",
+    "Retained construction and bridge proof is not operational authority.",
+    "Visible helpers remain in the command denominator but do not grant mutation authority.",
+    "Command owner_issue fields retain construction provenance; current execution follows authenticated native authority.",
+    "install/proof/shadow/soak retain their construction-proof role after cutover; they do not independently authorize lifecycle mutation.",
+    "The separate full-replacement-denominator.json is immutable pre-cutover evidence. Its historical cutover_ready=false is not current routing policy."
+  ],
+  "authority_condition": "C-SDLC v3 is operational after #505 / PR #591; authenticated canonical selector and reconciliation receipt validation are required. Missing or stale proof suspends authority."
+}

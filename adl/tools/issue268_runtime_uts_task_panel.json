@@ -1,0 +1,18 @@
+{
+  "schema": "adl.issue268.runtime_uts_task_panel.v1",
+  "tool": "runtime.observe",
+  "tasks": [
+    {"id": "shepherd_pre_observe", "resident": "issue268-shepherd-controller", "phase": "pre", "objective": "Observe the admitted resident population before continuity dehydration."},
+    {"id": "shepherd_post_observe", "resident": "issue268-shepherd-controller", "phase": "post", "objective": "Observe the restored resident population after admission reopens."},
+    {"id": "planner_pre_observe", "resident": "issue268-planner", "phase": "pre", "objective": "Observe current cycle and checkpoint readiness before planning continuation."},
+    {"id": "planner_post_observe", "resident": "issue268-planner", "phase": "post", "objective": "Observe restored cycle lineage before planning the pending task."},
+    {"id": "executor_pre_observe", "resident": "issue268-tool-executor", "phase": "pre", "objective": "Exercise the governed Runtime observation adapter before dehydration."},
+    {"id": "executor_post_observe", "resident": "issue268-tool-executor", "phase": "post", "objective": "Exercise the governed Runtime observation adapter from restored state."},
+    {"id": "observer_pre_observe", "resident": "issue268-runtime-observer", "phase": "pre", "objective": "Record the redacted aggregate Runtime state before admission closes."},
+    {"id": "observer_post_observe", "resident": "issue268-runtime-observer", "phase": "post", "objective": "Record the redacted aggregate Runtime state after admission reopens."},
+    {"id": "custodian_pre_observe", "resident": "issue268-recovery-custodian", "phase": "pre", "objective": "Observe checkpoint readiness before signed dehydration."},
+    {"id": "custodian_post_observe", "resident": "issue268-recovery-custodian", "phase": "post", "objective": "Observe restored checkpoint generation before continuation."},
+    {"id": "reviewer_pre_observe", "resident": "issue268-reviewer-escalation", "phase": "pre", "objective": "Review the redacted Runtime observation before continuity transition."},
+    {"id": "reviewer_post_observe", "resident": "issue268-reviewer-escalation", "phase": "post", "objective": "Review the redacted restored Runtime observation and continuation state."}
+  ]
+}

@@ -1,0 +1,421 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "ADL issue #194 ephemeral private Wuji/AWS recovery qualification network. No Internet gateway, NAT gateway, public subnet, or public Runtime/model exposure.",
+  "Parameters": {
+    "RunId": {
+      "Type": "String",
+      "AllowedPattern": "^issue-194-[A-Za-z0-9._-]+$"
+    },
+    "TtlExpiresAt": {
+      "Type": "String"
+    },
+    "AvailabilityZoneA": {
+      "Type": "AWS::EC2::AvailabilityZone::Name"
+    },
+    "AvailabilityZoneB": {
+      "Type": "AWS::EC2::AvailabilityZone::Name"
+    },
+    "LaunchVoters": {
+      "Type": "String",
+      "Default": "false",
+      "AllowedValues": ["true", "false"]
+    },
+    "LaunchVoterA": {
+      "Type": "String",
+      "Default": "true",
+      "AllowedValues": ["true", "false"]
+    },
+    "LaunchVoterB": {
+      "Type": "String",
+      "Default": "true",
+      "AllowedValues": ["true", "false"]
+    },
+    "AmiId": {
+      "Type": "String",
+      "Default": "ami-disabled-until-launch-voters"
+    },
+    "InstanceType": {
+      "Type": "String",
+      "Default": "m7i.large"
+    },
+    "InstanceProfileName": {
+      "Type": "String",
+      "Default": "ADLRemoteValidationPermanentProfile"
+    },
+    "ArtifactBucketName": {
+      "Type": "String",
+      "Default": "adl-shepherd-model-artifacts-b05e1f4379b5c745-us-west-2"
+    },
+    "S3PrefixListId": {
+      "Type": "String",
+      "Description": "AWS-managed S3 prefix list id for the selected region; resolved by the runner."
+    }
+  },
+  "Conditions": {
+    "ShouldLaunchVoters": {"Fn::Equals": [{"Ref": "LaunchVoters"}, "true"]},
+    "ShouldLaunchVoterA": {"Fn::And": [{"Condition": "ShouldLaunchVoters"}, {"Fn::Equals": [{"Ref": "LaunchVoterA"}, "true"]}]},
+    "ShouldLaunchVoterB": {"Fn::And": [{"Condition": "ShouldLaunchVoters"}, {"Fn::Equals": [{"Ref": "LaunchVoterB"}, "true"]}]}
+  },
+  "Resources": {
+    "Vpc": {
+      "Type": "AWS::EC2::VPC",
+      "Properties": {
+        "CidrBlock": "10.194.0.0/16",
+        "EnableDnsHostnames": true,
+        "EnableDnsSupport": true,
+        "Tags": [
+          {"Key": "Name", "Value": {"Fn::Sub": "${RunId}-private-vpc"}},
+          {"Key": "adl:issue", "Value": "194"},
+          {"Key": "adl:run_id", "Value": {"Ref": "RunId"}},
+          {"Key": "adl:component", "Value": "private-wuji-aws-recovery"},
+          {"Key": "adl:cleanup_required", "Value": "true"},
+          {"Key": "adl:ttl_expires_at", "Value": {"Ref": "TtlExpiresAt"}}
+        ]
+      }
+    },
+    "PrivateSubnetA": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "VpcId": {"Ref": "Vpc"},
+        "CidrBlock": "10.194.10.0/24",
+        "AvailabilityZone": {"Ref": "AvailabilityZoneA"},
+        "MapPublicIpOnLaunch": false,
+        "Tags": [
+          {"Key": "Name", "Value": {"Fn::Sub": "${RunId}-private-a"}},
+          {"Key": "adl:issue", "Value": "194"},
+          {"Key": "adl:run_id", "Value": {"Ref": "RunId"}},
+          {"Key": "adl:cleanup_required", "Value": "true"},
+          {"Key": "adl:ttl_expires_at", "Value": {"Ref": "TtlExpiresAt"}}
+        ]
+      }
+    },
+    "PrivateSubnetB": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "VpcId": {"Ref": "Vpc"},
+        "CidrBlock": "10.194.20.0/24",
+        "AvailabilityZone": {"Ref": "AvailabilityZoneB"},
+        "MapPublicIpOnLaunch": false,
+        "Tags": [
+          {"Key": "Name", "Value": {"Fn::Sub": "${RunId}-private-b"}},
+          {"Key": "adl:issue", "Value": "194"},
+          {"Key": "adl:run_id", "Value": {"Ref": "RunId"}},
+          {"Key": "adl:cleanup_required", "Value": "true"},
+          {"Key": "adl:ttl_expires_at", "Value": {"Ref": "TtlExpiresAt"}}
+        ]
+      }
+    },
+    "RouteTableA": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": {"Ref": "Vpc"},
+        "Tags": [
+          {"Key": "Name", "Value": {"Fn::Sub": "${RunId}-rt-a"}},
+          {"Key": "adl:issue", "Value": "194"},
+          {"Key": "adl:run_id", "Value": {"Ref": "RunId"}},
+          {"Key": "adl:cleanup_required", "Value": "true"},
+          {"Key": "adl:ttl_expires_at", "Value": {"Ref": "TtlExpiresAt"}}
+        ]
+      }
+    },
+    "RouteTableB": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": {"Ref": "Vpc"},
+        "Tags": [
+          {"Key": "Name", "Value": {"Fn::Sub": "${RunId}-rt-b"}},
+          {"Key": "adl:issue", "Value": "194"},
+          {"Key": "adl:run_id", "Value": {"Ref": "RunId"}},
+          {"Key": "adl:cleanup_required", "Value": "true"},
+          {"Key": "adl:ttl_expires_at", "Value": {"Ref": "TtlExpiresAt"}}
+        ]
+      }
+    },
+    "RouteTableAssociationA": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "SubnetId": {"Ref": "PrivateSubnetA"},
+        "RouteTableId": {"Ref": "RouteTableA"}
+      }
+    },
+    "RouteTableAssociationB": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "SubnetId": {"Ref": "PrivateSubnetB"},
+        "RouteTableId": {"Ref": "RouteTableB"}
+      }
+    },
+    "InstanceSecurityGroup": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "Issue #194 private Runtime nodes: no ingress; HTTPS only to VPC endpoints.",
+        "VpcId": {"Ref": "Vpc"},
+        "SecurityGroupIngress": [],
+        "SecurityGroupEgress": [],
+        "Tags": [
+          {"Key": "Name", "Value": {"Fn::Sub": "${RunId}-runtime-private-sg"}},
+          {"Key": "adl:issue", "Value": "194"},
+          {"Key": "adl:run_id", "Value": {"Ref": "RunId"}},
+          {"Key": "adl:cleanup_required", "Value": "true"},
+          {"Key": "adl:ttl_expires_at", "Value": {"Ref": "TtlExpiresAt"}}
+        ]
+      }
+    },
+    "EndpointSecurityGroup": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "Issue #194 SSM endpoint access from private Runtime nodes only.",
+        "VpcId": {"Ref": "Vpc"},
+        "SecurityGroupIngress": [],
+        "SecurityGroupEgress": [],
+        "Tags": [
+          {"Key": "Name", "Value": {"Fn::Sub": "${RunId}-ssm-endpoint-sg"}},
+          {"Key": "adl:issue", "Value": "194"},
+          {"Key": "adl:run_id", "Value": {"Ref": "RunId"}},
+          {"Key": "adl:cleanup_required", "Value": "true"},
+          {"Key": "adl:ttl_expires_at", "Value": {"Ref": "TtlExpiresAt"}}
+        ]
+      }
+    },
+    "InstanceToEndpointEgress": {
+      "Type": "AWS::EC2::SecurityGroupEgress",
+      "Properties": {
+        "GroupId": {"Ref": "InstanceSecurityGroup"},
+        "IpProtocol": "tcp",
+        "FromPort": 443,
+        "ToPort": 443,
+        "DestinationSecurityGroupId": {"Ref": "EndpointSecurityGroup"}
+      }
+    },
+    "EndpointFromInstanceIngress": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "Properties": {
+        "GroupId": {"Ref": "EndpointSecurityGroup"},
+        "IpProtocol": "tcp",
+        "FromPort": 443,
+        "ToPort": 443,
+        "SourceSecurityGroupId": {"Ref": "InstanceSecurityGroup"}
+      }
+    },
+    "VoterMeshIngress": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "Properties": {
+        "GroupId": {"Ref": "InstanceSecurityGroup"},
+        "IpProtocol": "-1",
+        "SourceSecurityGroupId": {"Ref": "InstanceSecurityGroup"},
+        "Description": "Full private voter-to-voter mesh; no public ingress."
+      }
+    },
+    "VoterMeshEgress": {
+      "Type": "AWS::EC2::SecurityGroupEgress",
+      "Properties": {
+        "GroupId": {"Ref": "InstanceSecurityGroup"},
+        "IpProtocol": "-1",
+        "DestinationSecurityGroupId": {"Ref": "InstanceSecurityGroup"},
+        "Description": "Full private voter-to-voter mesh; no public egress."
+      }
+    },
+    "InstanceToS3GatewayEgress": {
+      "Type": "AWS::EC2::SecurityGroupEgress",
+      "Properties": {
+        "GroupId": {"Ref": "InstanceSecurityGroup"},
+        "IpProtocol": "tcp",
+        "FromPort": 443,
+        "ToPort": 443,
+        "DestinationPrefixListId": {"Ref": "S3PrefixListId"},
+        "Description": "HTTPS to the regional S3 prefix list; the route target is the private S3 gateway endpoint."
+      }
+    },
+    "SsmEndpoint": {
+      "Type": "AWS::EC2::VPCEndpoint",
+      "Properties": {
+        "VpcId": {"Ref": "Vpc"},
+        "VpcEndpointType": "Interface",
+        "PrivateDnsEnabled": true,
+        "ServiceName": {"Fn::Sub": "com.amazonaws.${AWS::Region}.ssm"},
+        "SubnetIds": [{"Ref": "PrivateSubnetA"}, {"Ref": "PrivateSubnetB"}],
+        "SecurityGroupIds": [{"Ref": "EndpointSecurityGroup"}],
+        "Tags": [
+          {"Key": "Name", "Value": {"Fn::Sub": "${RunId}-ssm-endpoint"}},
+          {"Key": "adl:issue", "Value": "194"},
+          {"Key": "adl:run_id", "Value": {"Ref": "RunId"}},
+          {"Key": "adl:cleanup_required", "Value": "true"},
+          {"Key": "adl:ttl_expires_at", "Value": {"Ref": "TtlExpiresAt"}}
+        ]
+      }
+    },
+    "SsmMessagesEndpoint": {
+      "Type": "AWS::EC2::VPCEndpoint",
+      "Properties": {
+        "VpcId": {"Ref": "Vpc"},
+        "VpcEndpointType": "Interface",
+        "PrivateDnsEnabled": true,
+        "ServiceName": {"Fn::Sub": "com.amazonaws.${AWS::Region}.ssmmessages"},
+        "SubnetIds": [{"Ref": "PrivateSubnetA"}, {"Ref": "PrivateSubnetB"}],
+        "SecurityGroupIds": [{"Ref": "EndpointSecurityGroup"}],
+        "Tags": [
+          {"Key": "Name", "Value": {"Fn::Sub": "${RunId}-ssmmessages-endpoint"}},
+          {"Key": "adl:issue", "Value": "194"},
+          {"Key": "adl:run_id", "Value": {"Ref": "RunId"}},
+          {"Key": "adl:cleanup_required", "Value": "true"},
+          {"Key": "adl:ttl_expires_at", "Value": {"Ref": "TtlExpiresAt"}}
+        ]
+      }
+    },
+    "Ec2MessagesEndpoint": {
+      "Type": "AWS::EC2::VPCEndpoint",
+      "Properties": {
+        "VpcId": {"Ref": "Vpc"},
+        "VpcEndpointType": "Interface",
+        "PrivateDnsEnabled": true,
+        "ServiceName": {"Fn::Sub": "com.amazonaws.${AWS::Region}.ec2messages"},
+        "SubnetIds": [{"Ref": "PrivateSubnetA"}, {"Ref": "PrivateSubnetB"}],
+        "SecurityGroupIds": [{"Ref": "EndpointSecurityGroup"}],
+        "Tags": [
+          {"Key": "Name", "Value": {"Fn::Sub": "${RunId}-ec2messages-endpoint"}},
+          {"Key": "adl:issue", "Value": "194"},
+          {"Key": "adl:run_id", "Value": {"Ref": "RunId"}},
+          {"Key": "adl:cleanup_required", "Value": "true"},
+          {"Key": "adl:ttl_expires_at", "Value": {"Ref": "TtlExpiresAt"}}
+        ]
+      }
+    },
+    "S3GatewayEndpoint": {
+      "Type": "AWS::EC2::VPCEndpoint",
+      "Properties": {
+        "VpcId": {"Ref": "Vpc"},
+        "VpcEndpointType": "Gateway",
+        "ServiceName": {"Fn::Sub": "com.amazonaws.${AWS::Region}.s3"},
+        "RouteTableIds": [{"Ref": "RouteTableA"}, {"Ref": "RouteTableB"}],
+        "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Sid": "AllowShepherdArtifactReads",
+              "Effect": "Allow",
+              "Principal": "*",
+              "Action": ["s3:GetObject", "s3:GetObjectVersion"],
+              "Resource": {"Fn::Sub": "arn:aws:s3:::${ArtifactBucketName}/shepherd/*"}
+            },
+            {
+              "Sid": "AllowShepherdArtifactListing",
+              "Effect": "Allow",
+              "Principal": "*",
+              "Action": ["s3:ListBucket", "s3:ListBucketVersions"],
+              "Resource": [
+                {"Fn::Sub": "arn:aws:s3:::${ArtifactBucketName}"}
+              ],
+              "Condition": {
+                "StringLike": {
+                  "s3:prefix": "shepherd/*"
+                }
+              }
+            }
+          ]
+        },
+        "Tags": [
+          {"Key": "Name", "Value": {"Fn::Sub": "${RunId}-s3-gateway-endpoint"}},
+          {"Key": "adl:issue", "Value": "194"},
+          {"Key": "adl:run_id", "Value": {"Ref": "RunId"}},
+          {"Key": "adl:cleanup_required", "Value": "true"},
+          {"Key": "adl:ttl_expires_at", "Value": {"Ref": "TtlExpiresAt"}}
+        ]
+      }
+    },
+    "AwsVoterA": {
+      "Type": "AWS::EC2::Instance",
+      "Condition": "ShouldLaunchVoterA",
+      "DependsOn": ["SsmEndpoint", "SsmMessagesEndpoint", "Ec2MessagesEndpoint", "S3GatewayEndpoint"],
+      "Properties": {
+        "ImageId": {"Ref": "AmiId"},
+        "InstanceType": {"Ref": "InstanceType"},
+        "IamInstanceProfile": {"Ref": "InstanceProfileName"},
+        "SubnetId": {"Ref": "PrivateSubnetA"},
+        "SecurityGroupIds": [{"Ref": "InstanceSecurityGroup"}],
+        "PropagateTagsToVolumeOnCreation": true,
+        "BlockDeviceMappings": [
+          {
+            "DeviceName": "/dev/xvda",
+            "Ebs": {
+              "DeleteOnTermination": true,
+              "Encrypted": true,
+              "VolumeSize": 32,
+              "VolumeType": "gp3"
+            }
+          }
+        ],
+        "Tags": [
+          {"Key": "Name", "Value": {"Fn::Sub": "${RunId}-aws-voter-a"}},
+          {"Key": "adl:issue", "Value": "194"},
+          {"Key": "adl:run_id", "Value": {"Ref": "RunId"}},
+          {"Key": "adl:node_id", "Value": "aws-voter-a"},
+          {"Key": "adl:component", "Value": "private-wuji-aws-recovery"},
+          {"Key": "adl:cleanup_required", "Value": "true"},
+          {"Key": "adl:ttl_expires_at", "Value": {"Ref": "TtlExpiresAt"}},
+          {"Key": "adl:public_runtime_exposure", "Value": "false"},
+          {"Key": "adl:hosted_model_fallback", "Value": "false"}
+        ],
+        "UserData": {
+          "Fn::Base64": {
+            "Fn::Sub": "#!/bin/bash\nset -euo pipefail\nmkdir -p /var/lib/adl/issue194\necho '${RunId} aws-voter-a' > /var/lib/adl/issue194/node.txt\n"
+          }
+        }
+      }
+    },
+    "AwsVoterB": {
+      "Type": "AWS::EC2::Instance",
+      "Condition": "ShouldLaunchVoterB",
+      "DependsOn": ["SsmEndpoint", "SsmMessagesEndpoint", "Ec2MessagesEndpoint", "S3GatewayEndpoint"],
+      "Properties": {
+        "ImageId": {"Ref": "AmiId"},
+        "InstanceType": {"Ref": "InstanceType"},
+        "IamInstanceProfile": {"Ref": "InstanceProfileName"},
+        "SubnetId": {"Ref": "PrivateSubnetB"},
+        "SecurityGroupIds": [{"Ref": "InstanceSecurityGroup"}],
+        "PropagateTagsToVolumeOnCreation": true,
+        "BlockDeviceMappings": [
+          {
+            "DeviceName": "/dev/xvda",
+            "Ebs": {
+              "DeleteOnTermination": true,
+              "Encrypted": true,
+              "VolumeSize": 32,
+              "VolumeType": "gp3"
+            }
+          }
+        ],
+        "Tags": [
+          {"Key": "Name", "Value": {"Fn::Sub": "${RunId}-aws-voter-b"}},
+          {"Key": "adl:issue", "Value": "194"},
+          {"Key": "adl:run_id", "Value": {"Ref": "RunId"}},
+          {"Key": "adl:node_id", "Value": "aws-voter-b"},
+          {"Key": "adl:component", "Value": "private-wuji-aws-recovery"},
+          {"Key": "adl:cleanup_required", "Value": "true"},
+          {"Key": "adl:ttl_expires_at", "Value": {"Ref": "TtlExpiresAt"}},
+          {"Key": "adl:public_runtime_exposure", "Value": "false"},
+          {"Key": "adl:hosted_model_fallback", "Value": "false"}
+        ],
+        "UserData": {
+          "Fn::Base64": {
+            "Fn::Sub": "#!/bin/bash\nset -euo pipefail\nmkdir -p /var/lib/adl/issue194\necho '${RunId} aws-voter-b' > /var/lib/adl/issue194/node.txt\n"
+          }
+        }
+      }
+    }
+  },
+  "Outputs": {
+    "VpcId": {"Value": {"Ref": "Vpc"}},
+    "PrivateSubnetA": {"Value": {"Ref": "PrivateSubnetA"}},
+    "PrivateSubnetB": {"Value": {"Ref": "PrivateSubnetB"}},
+    "InstanceSecurityGroupId": {"Value": {"Ref": "InstanceSecurityGroup"}},
+    "S3GatewayEndpointId": {"Value": {"Ref": "S3GatewayEndpoint"}},
+    "AwsVoterAInstanceId": {
+      "Condition": "ShouldLaunchVoterA",
+      "Value": {"Ref": "AwsVoterA"}
+    },
+    "AwsVoterBInstanceId": {
+      "Condition": "ShouldLaunchVoterB",
+      "Value": {"Ref": "AwsVoterB"}
+    }
+  }
+}

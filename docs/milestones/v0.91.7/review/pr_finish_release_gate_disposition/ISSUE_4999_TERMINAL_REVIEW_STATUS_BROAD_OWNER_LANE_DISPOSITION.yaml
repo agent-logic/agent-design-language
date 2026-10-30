@@ -1,0 +1,21 @@
+schema_version: adl.release_gate_disposition.v1
+issue: 4999
+disposition: approved_with_runtime_owner_lane_proof
+changed_release_gate_surfaces:
+  - adl/src/cli/pr_cmd/doctor/card_lifecycle.rs
+  - adl/src/cli/pr_cmd/doctor/tests.rs
+  - adl/src/cli/pr_cmd/lifecycle/reconciliation.rs
+  - adl/src/cli/pr_cmd/lifecycle/tests.rs
+  - adl/src/cli/tests/pr_cmd_inline/finish/arg_render.rs
+  - adl/src/cli/tooling_cmd/srp_sor_update.rs
+  - adl/src/cli/tooling_cmd/structured_prompt.rs
+  - adl/src/cli/tooling_cmd/tests/structured_prompt.rs
+  - adl/src/cli/tooling_cmd/tests/tooling_dispatch.rs
+  - adl/src/csdlc_prompt_editor.rs
+reviewer_or_review_mode: bounded runtime owner-lane review
+focused_validation_run: bash adl/tools/run_owner_validation_lane.sh runtime --build
+residual_ci_proof_required_before_merge: required
+notes:
+  - "Validation manager escalated #4999 because the Rust/tooling surface required broad owner-lane proof before PR publication."
+  - "Local proof passed: bash adl/tools/run_owner_validation_lane.sh runtime --build."
+  - "Pre-PR independent review remains recorded as review_unavailable/block in the issue SRP because subagent spawning is gated to explicit user delegation."

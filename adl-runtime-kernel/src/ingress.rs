@@ -1,0 +1,847 @@
+use std::{
+    collections::BTreeMap,
+    sync::{
+        atomic::{AtomicU64, Ordering},
+        Arc, Mutex,
+    },
+    time::Duration,
+};
+
+use async_trait::async_trait;
+use serde::{Deserialize, Serialize};
+use thiserror::Error;
+use tokio::sync::{oneshot, Mutex as AsyncMutex, Notify};
+use tokio_util::sync::CancellationToken;
+
+use crate::{
+    ChannelFullPolicy, Component, ComponentContext, ComponentError, ComponentFactory, ComponentId,
+    ComponentSpec, ExternalInput, ExternalInputBinding, FailurePolicy, OperationError,
+    OperationRequest, OperationalFactory, PortAccessError, PortProtocol, RuntimeEvent,
+    RuntimeRecorder, OPERATION_REQUEST_SCHEMA,
+};
+
+pub const DOMAIN_WORK_SCHEMA: &str = "adl.runtime.domain_work.v1";
+pub const DOMAIN_RESULT_SCHEMA: &str = "adl.runtime.domain_result.v1";
+pub const AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA: &str =
+    "adl.runtime.agent_to_agent_initiation_request.v2";
+pub const LEGACY_AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA: &str =
+    "adl.runtime.agent_to_agent_initiation_request.v1";
+const AGENT_CONVERSATION_MESSAGE_PART_LIMIT_BYTES: usize = 32 * 1024;
+const AGENT_CONVERSATION_MESSAGE_TOTAL_LIMIT_BYTES: usize = 256 * 1024;
+const AGENT_CONVERSATION_MESSAGE_MAX_PARTS: usize = 64;
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct DomainWork {
+    pub schema: String,
+    pub work_id: String,
+    pub kind: String,
+    pub payload: Vec<u8>,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+pub struct DomainResult {
+    pub schema: String,
+    pub work_id: String,
+    pub accepted_sequence: u64,
+    pub result_hash: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub public_output: Option<serde_json::Value>,
+}
+
+#[derive(Clone, Debug, Default, Eq, PartialEq, Serialize, Deserialize)]
+pub struct IngressSnapshot {
+    pub accepted_through: u64,
+    pub completed: BTreeMap<String, DomainResult>,
+}
+
+#[derive(Debug, Error, Eq, PartialEq)]
+pub enum IngressError {
+    #[error("domain work is invalid")]
+    Invalid,
+    #[error("domain work id was reused with a different payload")]
+    Conflict,
+    #[error("canonical ingress is saturated")]
+    Saturated,
+    #[error("canonical ingress is closed")]
+    Closed,
+    #[error("domain work kind is not allowlisted")]
+    UnsupportedKind,
+    #[error("domain work execution failed")]
+    ExecutionFailed,
+    #[error("canonical ingress drain timed out")]
+    DrainTimeout,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+struct Envelope {
+    nonce: u64,
+    work: DomainWork,
+    correlation_id: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    adapter_execution_id: Option<String>,
+}
+
+impl PortProtocol for Envelope {
+    const PROTOCOL: &'static str = "adl.runtime.canonical_ingress.request.v1";
+}
+
+struct PendingIngress {
+    incarnation: u64,
+    cancellation: CancellationToken,
+    reply: oneshot::Sender<Result<DomainResult, IngressError>>,
+}
+
+#[derive(Clone)]
+pub struct CanonicalIngress {
+    external_input: ExternalInput<Envelope>,
+    pending: Arc<AsyncMutex<BTreeMap<u64, PendingIngress>>>,
+    nonce: Arc<AtomicU64>,
+    next_incarnation: Arc<AtomicU64>,
+    active_incarnation: Arc<AtomicU64>,
+    state: Arc<Mutex<IngressSnapshot>>,
+    recorder: RuntimeRecorder,
+    admission: Arc<Mutex<AdmissionState>>,
+    drained: Arc<Notify>,
+    dispatchers: Arc<BTreeMap<String, OperationalFactory>>,
+}
+
+struct AdmissionState {
+    open: bool,
+    active: usize,
+}
+
+struct AdmissionLease(Arc<Mutex<AdmissionState>>, Arc<Notify>);
+
+impl Drop for AdmissionLease {
+    fn drop(&mut self) {
+        let mut admission = self.0.lock().expect("ingress admission mutex poisoned");
+        admission.active = admission.active.saturating_sub(1);
+        if admission.active == 0 {
+            self.1.notify_one();
+        }
+    }
+}
+
+impl CanonicalIngress {
+    pub fn new(
+        capacity: usize,
+        recorder: RuntimeRecorder,
+        dispatchers: BTreeMap<String, OperationalFactory>,
+    ) -> Self {
+        let external_input = ExternalInput::new(
+            "runtime.canonical_ingress.requests",
+            capacity,
+            ChannelFullPolicy::Reject,
+        );
+        Self {
+            external_input,
+            pending: Arc::new(AsyncMutex::new(BTreeMap::new())),
+            nonce: Arc::new(AtomicU64::new(0)),
+            next_incarnation: Arc::new(AtomicU64::new(0)),
+            active_incarnation: Arc::new(AtomicU64::new(0)),
+            state: Arc::new(Mutex::new(IngressSnapshot::default())),
+            recorder,
+            admission: Arc::new(Mutex::new(AdmissionState {
+                open: true,
+                active: 0,
+            })),
+            drained: Arc::new(Notify::new()),
+            dispatchers: Arc::new(dispatchers),
+        }
+    }
+
+    pub async fn submit(
+        &self,
+        work: DomainWork,
+        correlation_id: String,
+    ) -> Result<DomainResult, IngressError> {
+        self.submit_with_cancellation(work, correlation_id, CancellationToken::new())
+            .await
+    }
+
+    pub async fn submit_with_cancellation(
+        &self,
+        work: DomainWork,
+        correlation_id: String,
+        cancellation: CancellationToken,
+    ) -> Result<DomainResult, IngressError> {
+        self.submit_with_adapter_execution_id(work, correlation_id, cancellation, None)
+            .await
+    }
+
+    pub(crate) async fn submit_with_adapter_execution_id(
+        &self,
+        work: DomainWork,
+        correlation_id: String,
+        cancellation: CancellationToken,
+        adapter_execution_id: Option<String>,
+    ) -> Result<DomainResult, IngressError> {
+        validate(&work)?;
+        if adapter_execution_id
+            .as_deref()
+            .is_some_and(|value| !safe_identifier(value))
+        {
+            return Err(IngressError::Invalid);
+        }
+        let _lease = self.begin_admission()?;
+        let (reply, result) = oneshot::channel();
+        let nonce = self.nonce.fetch_add(1, Ordering::Relaxed);
+        self.pending.lock().await.insert(
+            nonce,
+            PendingIngress {
+                incarnation: self.active_incarnation.load(Ordering::Acquire),
+                cancellation,
+                reply,
+            },
+        );
+        if let Err(error) = self
+            .external_input
+            .send(&Envelope {
+                nonce,
+                work,
+                correlation_id,
+                adapter_execution_id,
+            })
+            .await
+        {
+            self.pending.lock().await.remove(&nonce);
+            return Err(match error {
+                PortAccessError::Full(_) => IngressError::Saturated,
+                _ => IngressError::Closed,
+            });
+        }
+        result.await.map_err(|_| IngressError::Closed)?
+    }
+
+    pub fn snapshot(&self) -> IngressSnapshot {
+        self.state
+            .lock()
+            .expect("ingress state mutex poisoned")
+            .clone()
+    }
+
+    pub fn restore(&self, snapshot: IngressSnapshot) {
+        *self.state.lock().expect("ingress state mutex poisoned") = snapshot;
+    }
+
+    pub fn close(&self) {
+        let mut admission = self
+            .admission
+            .lock()
+            .expect("ingress admission mutex poisoned");
+        admission.open = false;
+    }
+
+    pub async fn close_and_drain(&self, deadline: Duration) -> Result<(), IngressError> {
+        self.close();
+        tokio::time::timeout(deadline, async {
+            loop {
+                let drained = self.drained.notified();
+                let active = self
+                    .admission
+                    .lock()
+                    .expect("ingress admission mutex poisoned")
+                    .active;
+                if active == 0 {
+                    return;
+                }
+                drained.await;
+            }
+        })
+        .await
+        .map_err(|_| IngressError::DrainTimeout)
+    }
+
+    pub fn reopen(&self) {
+        self.admission
+            .lock()
+            .expect("ingress admission mutex poisoned")
+            .open = true;
+    }
+
+    pub fn admission_is_open(&self) -> bool {
+        self.admission
+            .lock()
+            .expect("ingress admission mutex poisoned")
+            .open
+    }
+
+    fn begin_admission(&self) -> Result<AdmissionLease, IngressError> {
+        let mut admission = self
+            .admission
+            .lock()
+            .expect("ingress admission mutex poisoned");
+        if !admission.open {
+            return Err(IngressError::Closed);
+        }
+        admission.active = admission.active.saturating_add(1);
+        Ok(AdmissionLease(self.admission.clone(), self.drained.clone()))
+    }
+
+    async fn dispatch(
+        &self,
+        work: &DomainWork,
+        adapter_execution_id: Option<&str>,
+        cancellation: CancellationToken,
+    ) -> Result<DomainResult, IngressError> {
+        let dispatcher = self
+            .dispatchers
+            .get(&work.kind)
+            .ok_or(IngressError::UnsupportedKind)?;
+        let adapter_execution_id = adapter_execution_id.unwrap_or(&work.work_id);
+        let operation = dispatcher
+            .submit_with_cancellation(
+                OperationRequest {
+                    schema: OPERATION_REQUEST_SCHEMA.to_owned(),
+                    request_id: adapter_execution_id.to_owned(),
+                    idempotency_key: adapter_execution_id.to_owned(),
+                    principal: "canonical-ingress".to_owned(),
+                    payload: work.payload.clone(),
+                    permit: None,
+                },
+                cancellation,
+            )
+            .await
+            .map_err(|error| match error {
+                OperationError::InvalidRequest => IngressError::Conflict,
+                _ => IngressError::ExecutionFailed,
+            })?;
+        apply(&self.state, work, &operation)
+    }
+}
+
+struct CanonicalIngressComponent {
+    ingress: CanonicalIngress,
+    incarnation: u64,
+}
+
+fn take_pending_ingress(
+    pending: &mut BTreeMap<u64, PendingIngress>,
+    incarnation: u64,
+) -> Vec<PendingIngress> {
+    let keys = pending
+        .iter()
+        .filter_map(|(nonce, pending)| (pending.incarnation == incarnation).then_some(*nonce))
+        .collect::<Vec<_>>();
+    keys.into_iter()
+        .filter_map(|nonce| pending.remove(&nonce))
+        .collect()
+}
+
+#[async_trait]
+impl Component for CanonicalIngressComponent {
+    async fn run(self: Box<Self>, mut context: ComponentContext) -> Result<(), ComponentError> {
+        context.ready();
+        loop {
+            tokio::select! {
+                _ = context.cancellation.cancelled() => {
+                    let mut pending = self.ingress.pending.lock().await;
+                    let closed = take_pending_ingress(&mut pending, self.incarnation);
+                    drop(pending);
+                    for pending in closed {
+                        let _ = pending.reply.send(Err(IngressError::Closed));
+                    }
+                    return Ok(())
+                },
+                envelope = context.recv::<Envelope>("runtime.canonical_ingress.requests") => {
+                    let Some(envelope) = envelope.map_err(|error| ComponentError::new(error.to_string()))? else { return Ok(()); };
+                    let Some(pending) = self.ingress.pending.lock().await.remove(&envelope.nonce) else { continue; };
+                    let result = self.ingress
+                        .dispatch(
+                            &envelope.work,
+                            envelope.adapter_execution_id.as_deref(),
+                            pending.cancellation,
+                        )
+                        .await;
+                    if result.is_ok() {
+                        self.ingress.recorder.emit_correlated(Some(ComponentId::new("canonical_ingress")),
+                            RuntimeEvent::DomainWorkCompleted, Some(&envelope.correlation_id));
+                    }
+                    let _ = pending.reply.send(result);
+                }
+            }
+        }
+    }
+}
+
+impl ComponentFactory for CanonicalIngress {
+    fn spec(&self) -> ComponentSpec {
+        ComponentSpec {
+            id: ComponentId::new("canonical_ingress"),
+            dependencies: vec![],
+            inputs: vec![self.external_input.spec()],
+            outputs: vec![],
+            failure_policy: FailurePolicy::Fatal,
+        }
+    }
+    fn build(&self) -> Box<dyn Component> {
+        let incarnation = self.next_incarnation.fetch_add(1, Ordering::AcqRel);
+        self.active_incarnation
+            .store(incarnation, Ordering::Release);
+        Box::new(CanonicalIngressComponent {
+            ingress: self.clone(),
+            incarnation,
+        })
+    }
+
+    fn external_inputs(&self) -> Vec<ExternalInputBinding> {
+        vec![self.external_input.binding()]
+    }
+
+    fn lifecycle_role(&self) -> crate::LifecycleRole {
+        crate::LifecycleRole::Ingress
+    }
+
+    fn required_core(&self) -> bool {
+        true
+    }
+}
+
+fn validate(work: &DomainWork) -> Result<(), IngressError> {
+    if work.schema != DOMAIN_WORK_SCHEMA
+        || !safe_identifier(&work.work_id)
+        || !safe_identifier(&work.kind)
+        || work.payload.is_empty()
+        || work.payload.len() > 1_048_576
+    {
+        return Err(IngressError::Invalid);
+    }
+    Ok(())
+}
+
+fn safe_identifier(value: &str) -> bool {
+    !value.is_empty()
+        && value.len() <= 128
+        && value
+            .bytes()
+            .all(|b| b.is_ascii_alphanumeric() || matches!(b, b'.' | b':' | b'_' | b'-'))
+}
+
+fn apply(
+    state: &Mutex<IngressSnapshot>,
+    work: &DomainWork,
+    operation: &crate::OperationResult,
+) -> Result<DomainResult, IngressError> {
+    let public_output = project_public_output(work, operation)?;
+    let result_hash =
+        blake3::hash(&serde_json::to_vec(&(work, operation)).map_err(|_| IngressError::Invalid)?)
+            .to_hex()
+            .to_string();
+    let mut state = state.lock().expect("ingress state mutex poisoned");
+    if let Some(existing) = state.completed.get(&work.work_id) {
+        return (existing.result_hash == result_hash)
+            .then(|| existing.clone())
+            .ok_or(IngressError::Conflict);
+    }
+    state.accepted_through = state.accepted_through.saturating_add(1);
+    let result = DomainResult {
+        schema: DOMAIN_RESULT_SCHEMA.to_owned(),
+        work_id: work.work_id.clone(),
+        accepted_sequence: state.accepted_through,
+        result_hash,
+        public_output,
+    };
+    state.completed.insert(work.work_id.clone(), result.clone());
+    Ok(result)
+}
+
+fn project_public_output(
+    work: &DomainWork,
+    operation: &crate::OperationResult,
+) -> Result<Option<serde_json::Value>, IngressError> {
+    if work.kind == crate::AdapterKind::Shepherd.service_name() {
+        let request: crate::ShepherdRequest =
+            serde_json::from_slice(&work.payload).map_err(|_| IngressError::ExecutionFailed)?;
+        let response: crate::ShepherdResponse = serde_json::from_slice(&operation.payload)
+            .map_err(|_| IngressError::ExecutionFailed)?;
+        let Some(recipient_id) = request
+            .conversation_recipient_id
+            .filter(|value| !value.is_empty() && value.len() <= 128)
+        else {
+            return Ok(None);
+        };
+        if response.schema != crate::SHEPHERD_RESPONSE_SCHEMA
+            || response.correlation_id != request.correlation_id
+            || response.runtime_id != request.runtime_id
+            || response.response.is_empty()
+            || response.response.len() > 4_096
+        {
+            return Err(IngressError::ExecutionFailed);
+        }
+        return Ok(Some(serde_json::json!({
+            "schema": "adl.runtime.conversation_reply.v1",
+            "recipient_id": recipient_id,
+            "message": response.response,
+        })));
+    }
+    let Ok(command) = serde_json::from_slice::<serde_json::Value>(&work.payload) else {
+        return Ok(None);
+    };
+    let Some(tasks) = command.get("tasks").and_then(serde_json::Value::as_array) else {
+        return Ok(None);
+    };
+    if command.get("schema").and_then(serde_json::Value::as_str)
+        != Some("adl.runtime.local_agent_work.v1")
+        || tasks.len() != 1
+        || tasks[0].get("op").and_then(serde_json::Value::as_str) != Some("conversation_message")
+    {
+        return Ok(None);
+    }
+    let execution: serde_json::Value =
+        serde_json::from_slice(&operation.payload).map_err(|_| IngressError::ExecutionFailed)?;
+    if execution.get("schema").and_then(serde_json::Value::as_str)
+        != Some("adl.runtime.local_agent_execution.v1")
+    {
+        return Err(IngressError::ExecutionFailed);
+    }
+    let output = execution
+        .get("outputs")
+        .and_then(serde_json::Value::as_array)
+        .and_then(|outputs| outputs.first())
+        .and_then(|entry| entry.get("output"))
+        .ok_or(IngressError::ExecutionFailed)?;
+    let recipient_id = output
+        .get("recipient_id")
+        .and_then(serde_json::Value::as_str)
+        .filter(|value| !value.is_empty() && value.len() <= 128)
+        .ok_or(IngressError::ExecutionFailed)?;
+    let requested_recipient_id = tasks[0]
+        .get("recipient_id")
+        .and_then(serde_json::Value::as_str)
+        .ok_or(IngressError::ExecutionFailed)?;
+    if recipient_id != requested_recipient_id {
+        return Err(IngressError::ExecutionFailed);
+    }
+    let message = output
+        .get("message")
+        .and_then(serde_json::Value::as_str)
+        .filter(|value| {
+            !value.is_empty() && value.len() <= AGENT_CONVERSATION_MESSAGE_TOTAL_LIMIT_BYTES
+        })
+        .ok_or(IngressError::ExecutionFailed)?;
+    let mut projected = serde_json::json!({
+        "schema": "adl.runtime.conversation_reply.v1",
+        "recipient_id": recipient_id,
+        "message": message,
+    });
+    if let Some(action) = output.get("agent_to_agent_initiation") {
+        let schema = action.get("schema").and_then(serde_json::Value::as_str);
+        let valid_recipient = match schema {
+            Some(AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA) => action
+                .get("recipient_name")
+                .and_then(serde_json::Value::as_str)
+                .is_some_and(|value| !value.is_empty() && value.len() <= 128),
+            Some(LEGACY_AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA) => action
+                .get("recipient_id")
+                .and_then(serde_json::Value::as_str)
+                .is_some_and(|value| !value.is_empty() && value.len() <= 128),
+            _ => false,
+        };
+        let valid_action = valid_recipient
+            && valid_multipart_agent_message(
+                action.get("message").and_then(serde_json::Value::as_str),
+                action
+                    .get("message_parts")
+                    .and_then(serde_json::Value::as_array)
+                    .map(Vec::as_slice),
+            );
+        if !valid_action {
+            return Err(IngressError::ExecutionFailed);
+        }
+        projected["agent_to_agent_initiation"] = if schema
+            == Some(LEGACY_AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA)
+        {
+            let legacy_id = action
+                .get("recipient_id")
+                .and_then(serde_json::Value::as_str)
+                .ok_or(IngressError::ExecutionFailed)?;
+            let recipient_name = tasks[0]
+                .get("peer_addresses")
+                .and_then(serde_json::Value::as_array)
+                .and_then(|peers| {
+                    peers.iter().find_map(|peer| {
+                        (peer.get("id").and_then(serde_json::Value::as_str) == Some(legacy_id))
+                            .then(|| peer.get("name").and_then(serde_json::Value::as_str))
+                            .flatten()
+                    })
+                })
+                .filter(|value| !value.is_empty() && value.len() <= 128)
+                .ok_or(IngressError::ExecutionFailed)?;
+            serde_json::json!({
+                "schema": AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA,
+                "recipient_name": recipient_name,
+                "message": action.get("message").cloned().unwrap_or(serde_json::Value::Null),
+                "message_parts": action.get("message_parts").cloned().unwrap_or(serde_json::Value::Null),
+            })
+        } else {
+            action.clone()
+        };
+    }
+    Ok(Some(projected))
+}
+
+fn valid_multipart_agent_message(
+    message: Option<&str>,
+    message_parts: Option<&[serde_json::Value]>,
+) -> bool {
+    let parts = message_parts.unwrap_or_default();
+    if parts.is_empty() {
+        return message.is_some_and(|value| {
+            !value.trim().is_empty() && value.len() <= AGENT_CONVERSATION_MESSAGE_PART_LIMIT_BYTES
+        });
+    }
+    let scalar_part_count = usize::from(message.is_some_and(|value| !value.trim().is_empty()));
+    if parts.len() + scalar_part_count > AGENT_CONVERSATION_MESSAGE_MAX_PARTS {
+        return false;
+    }
+    let mut total = message
+        .filter(|value| !value.trim().is_empty())
+        .map(|value| {
+            (value.len() <= AGENT_CONVERSATION_MESSAGE_PART_LIMIT_BYTES).then_some(value.len())
+        })
+        .unwrap_or(Some(0));
+    for part in parts {
+        let Some(part) = part.as_str() else {
+            return false;
+        };
+        if part.trim().is_empty() || part.len() > AGENT_CONVERSATION_MESSAGE_PART_LIMIT_BYTES {
+            return false;
+        }
+        total = total.and_then(|value| value.checked_add(part.len()));
+        if total.is_none_or(|value| value > AGENT_CONVERSATION_MESSAGE_TOTAL_LIMIT_BYTES) {
+            return false;
+        }
+    }
+    total.is_some_and(|value| value > 0)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn conversation_work_payload(recipient_id: &str) -> Vec<u8> {
+        serde_json::to_vec(&serde_json::json!({
+            "schema": "adl.runtime.local_agent_work.v1",
+            "tasks": [{
+                "op": "conversation_message",
+                "recipient_id": recipient_id,
+                "peer_addresses": [{"id": "ember", "name": "ember.axioma"}],
+                "message": "Please contact Ember."
+            }]
+        }))
+        .expect("conversation work payload serializes")
+    }
+
+    fn operation_with_output(output: serde_json::Value) -> crate::OperationResult {
+        crate::OperationResult {
+            schema: crate::OPERATION_RESULT_SCHEMA.to_owned(),
+            request_id: "work-beacon".to_owned(),
+            adapter: crate::AdapterKind::Agent,
+            attempts: 1,
+            payload: serde_json::to_vec(&serde_json::json!({
+                "schema": "adl.runtime.local_agent_execution.v1",
+                "outputs": [{
+                    "unit": 0,
+                    "output": output
+                }]
+            }))
+            .expect("operation payload serializes"),
+        }
+    }
+
+    #[test]
+    fn conversation_public_output_projects_agent_initiation_action() {
+        let work = DomainWork {
+            schema: DOMAIN_WORK_SCHEMA.to_owned(),
+            work_id: "work-beacon".to_owned(),
+            kind: crate::AdapterKind::Agent.service_name().to_owned(),
+            payload: conversation_work_payload("beacon"),
+        };
+        let operation = operation_with_output(serde_json::json!({
+            "recipient_id": "beacon",
+            "message": "Beacon is asking Ember through A2A.",
+            "agent_to_agent_initiation": {
+                "schema": AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA,
+                "recipient_name": "ember.axioma",
+                "message": "Multipart governed handoff follows.",
+                "message_parts": [
+                    "Ember, please reply through governed A2A.",
+                    "Include your welcome-package orientation receipt."
+                ]
+            }
+        }));
+
+        let projected = project_public_output(&work, &operation)
+            .expect("projection succeeds")
+            .expect("conversation output projects");
+        assert_eq!(
+            projected
+                .get("agent_to_agent_initiation")
+                .and_then(|action| action.get("recipient_name"))
+                .and_then(serde_json::Value::as_str),
+            Some("ember.axioma")
+        );
+        assert_eq!(
+            projected
+                .get("agent_to_agent_initiation")
+                .and_then(|action| action.get("message_parts"))
+                .and_then(serde_json::Value::as_array)
+                .map(Vec::len),
+            Some(2)
+        );
+    }
+
+    #[test]
+    fn malformed_agent_initiation_action_is_not_projected() {
+        let work = DomainWork {
+            schema: DOMAIN_WORK_SCHEMA.to_owned(),
+            work_id: "work-beacon".to_owned(),
+            kind: crate::AdapterKind::Agent.service_name().to_owned(),
+            payload: conversation_work_payload("beacon"),
+        };
+        let operation = operation_with_output(serde_json::json!({
+            "recipient_id": "beacon",
+            "message": "Beacon is asking Ember through A2A.",
+            "agent_to_agent_initiation": {
+                "schema": AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA,
+                "recipient_id": "ember"
+            }
+        }));
+
+        assert_eq!(
+            project_public_output(&work, &operation),
+            Err(IngressError::ExecutionFailed)
+        );
+    }
+
+    #[test]
+    fn legacy_id_addressed_agent_initiation_remains_bounded_compatible() {
+        let work = DomainWork {
+            schema: DOMAIN_WORK_SCHEMA.to_owned(),
+            work_id: "work-beacon-legacy".to_owned(),
+            kind: crate::AdapterKind::Agent.service_name().to_owned(),
+            payload: conversation_work_payload("beacon"),
+        };
+        let operation = operation_with_output(serde_json::json!({
+            "recipient_id": "beacon",
+            "message": "Beacon is asking Ember through legacy A2A.",
+            "agent_to_agent_initiation": {
+                "schema": LEGACY_AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA,
+                "recipient_id": "ember",
+                "message": "Legacy governed handoff."
+            }
+        }));
+        let projected = project_public_output(&work, &operation)
+            .expect("legacy projection succeeds")
+            .expect("legacy conversation output projects");
+        assert_eq!(
+            projected["agent_to_agent_initiation"]["schema"],
+            AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA
+        );
+        assert_eq!(
+            projected["agent_to_agent_initiation"]["recipient_name"],
+            "ember.axioma"
+        );
+        assert!(projected["agent_to_agent_initiation"]
+            .get("recipient_id")
+            .is_none());
+    }
+
+    #[test]
+    fn oversized_agent_initiation_message_part_is_not_projected() {
+        let work = DomainWork {
+            schema: DOMAIN_WORK_SCHEMA.to_owned(),
+            work_id: "work-beacon".to_owned(),
+            kind: crate::AdapterKind::Agent.service_name().to_owned(),
+            payload: conversation_work_payload("beacon"),
+        };
+        let operation = operation_with_output(serde_json::json!({
+            "recipient_id": "beacon",
+            "message": "Beacon is asking Ember through A2A.",
+            "agent_to_agent_initiation": {
+                "schema": AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA,
+                "recipient_name": "ember.axioma",
+                "message_parts": [
+                    "x".repeat((32 * 1024) + 1)
+                ]
+            }
+        }));
+
+        assert_eq!(
+            project_public_output(&work, &operation),
+            Err(IngressError::ExecutionFailed)
+        );
+    }
+
+    #[test]
+    fn too_many_agent_initiation_logical_message_parts_are_not_projected() {
+        let work = DomainWork {
+            schema: DOMAIN_WORK_SCHEMA.to_owned(),
+            work_id: "work-beacon".to_owned(),
+            kind: crate::AdapterKind::Agent.service_name().to_owned(),
+            payload: conversation_work_payload("beacon"),
+        };
+        let operation = operation_with_output(serde_json::json!({
+            "recipient_id": "beacon",
+            "message": "Beacon is asking Ember through A2A.",
+            "agent_to_agent_initiation": {
+                "schema": AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA,
+                "recipient_name": "ember.axioma",
+                "message": "Scalar chunk.",
+                "message_parts": vec!["part"; AGENT_CONVERSATION_MESSAGE_MAX_PARTS]
+            }
+        }));
+
+        assert_eq!(
+            project_public_output(&work, &operation),
+            Err(IngressError::ExecutionFailed)
+        );
+    }
+
+    #[test]
+    fn pause_and_submit_admission_are_one_atomic_transition() {
+        let ingress = CanonicalIngress::new(1, RuntimeRecorder::new(4), BTreeMap::new());
+        let lease = ingress.begin_admission().unwrap();
+        ingress.close();
+        assert!(matches!(
+            ingress.begin_admission(),
+            Err(IngressError::Closed)
+        ));
+        drop(lease);
+        ingress.reopen();
+        assert!(ingress.begin_admission().is_ok());
+    }
+
+    #[tokio::test]
+    async fn cancelled_incarnation_closes_only_its_queued_requests() {
+        let (old_reply, old_result) = oneshot::channel();
+        let (new_reply, mut new_result) = oneshot::channel();
+        let mut pending = BTreeMap::from([
+            (
+                1,
+                PendingIngress {
+                    incarnation: 0,
+                    cancellation: CancellationToken::new(),
+                    reply: old_reply,
+                },
+            ),
+            (
+                2,
+                PendingIngress {
+                    incarnation: 1,
+                    cancellation: CancellationToken::new(),
+                    reply: new_reply,
+                },
+            ),
+        ]);
+        for pending in take_pending_ingress(&mut pending, 0) {
+            let _ = pending.reply.send(Err(IngressError::Closed));
+        }
+        assert_eq!(old_result.await.unwrap(), Err(IngressError::Closed));
+        assert!(matches!(
+            new_result.try_recv(),
+            Err(tokio::sync::oneshot::error::TryRecvError::Empty)
+        ));
+    }
+}

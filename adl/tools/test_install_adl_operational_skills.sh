@@ -1,0 +1,214 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+repo_root="$(git rev-parse --show-toplevel)"
+tmpdir="$(mktemp -d)"
+trap 'rm -rf "${tmpdir}"' EXIT
+
+assert_skill_bundle() {
+  local root="$1"
+
+  for skill in issue-watcher pr-init pr-ready pr-run pr-finish pr-janitor pr-closeout repo-code-review repo-packet-builder redaction-and-evidence-auditor repo-architecture-review repo-dependency-review repo-diagram-planner architecture-diagram-reviewer review-to-test-planner adr-curator architecture-fitness-function-author finding-to-issue-planner test-generator demo-operator release-evidence review-readiness-cleanup portable-contract-normalizer medium-article-writer arxiv-paper-writer diagram-author spp-editor srp-editor sprint-conductor sprint-review stp-editor sip-editor sor-editor; do
+    [[ -d "${root}/skills/${skill}" ]]
+  done
+
+  [[ -f "${root}/skills/issue-watcher/SKILL.md" ]]
+  [[ -f "${root}/skills/pr-init/SKILL.md" ]]
+  [[ -f "${root}/skills/pr-ready/SKILL.md" ]]
+  [[ -f "${root}/skills/pr-run/SKILL.md" ]]
+  [[ -f "${root}/skills/pr-finish/SKILL.md" ]]
+  [[ -f "${root}/skills/pr-janitor/SKILL.md" ]]
+  [[ -f "${root}/skills/pr-closeout/SKILL.md" ]]
+  [[ -f "${root}/skills/repo-code-review/SKILL.md" ]]
+  [[ -f "${root}/skills/repo-packet-builder/SKILL.md" ]]
+  [[ -x "${root}/skills/repo-packet-builder/scripts/build_repo_packet.py" ]]
+  [[ -f "${root}/skills/redaction-and-evidence-auditor/SKILL.md" ]]
+  [[ -x "${root}/skills/redaction-and-evidence-auditor/scripts/audit_review_packet.py" ]]
+  [[ -f "${root}/skills/repo-architecture-review/SKILL.md" ]]
+  [[ -x "${root}/skills/repo-architecture-review/scripts/prepare_architecture_review.py" ]]
+  [[ -f "${root}/skills/repo-dependency-review/SKILL.md" ]]
+  [[ -x "${root}/skills/repo-dependency-review/scripts/prepare_dependency_review.py" ]]
+  [[ -f "${root}/skills/repo-diagram-planner/SKILL.md" ]]
+  [[ -x "${root}/skills/repo-diagram-planner/scripts/plan_repo_diagrams.py" ]]
+  [[ -f "${root}/skills/architecture-diagram-reviewer/SKILL.md" ]]
+  [[ -x "${root}/skills/architecture-diagram-reviewer/scripts/review_architecture_diagrams.py" ]]
+  [[ -f "${root}/skills/review-to-test-planner/SKILL.md" ]]
+  [[ -x "${root}/skills/review-to-test-planner/scripts/plan_review_tests.py" ]]
+  [[ -f "${root}/skills/adr-curator/SKILL.md" ]]
+  [[ -x "${root}/skills/adr-curator/scripts/curate_adrs.py" ]]
+  [[ -f "${root}/skills/architecture-fitness-function-author/SKILL.md" ]]
+  [[ -x "${root}/skills/architecture-fitness-function-author/scripts/author_architecture_fitness_functions.py" ]]
+  [[ -f "${root}/skills/finding-to-issue-planner/SKILL.md" ]]
+  [[ -x "${root}/skills/finding-to-issue-planner/scripts/plan_review_issues.py" ]]
+  [[ -f "${root}/skills/test-generator/SKILL.md" ]]
+  [[ -f "${root}/skills/repo-review-code/references/output-contract.md" ]]
+  [[ -f "${root}/skills/repo-review-docs/references/output-contract.md" ]]
+  [[ -f "${root}/skills/repo-review-security/references/output-contract.md" ]]
+  [[ -f "${root}/skills/repo-review-synthesis/references/output-contract.md" ]]
+  [[ -f "${root}/skills/repo-review-tests/references/output-contract.md" ]]
+  [[ -f "${root}/skills/demo-operator/SKILL.md" ]]
+  [[ -f "${root}/skills/release-evidence/SKILL.md" ]]
+  [[ -x "${root}/skills/release-evidence/scripts/assemble_release_evidence.py" ]]
+  [[ -f "${root}/skills/review-readiness-cleanup/SKILL.md" ]]
+  [[ -x "${root}/skills/review-readiness-cleanup/scripts/inspect_review_readiness.py" ]]
+  [[ -f "${root}/skills/portable-contract-normalizer/SKILL.md" ]]
+  [[ -x "${root}/skills/portable-contract-normalizer/scripts/normalize_portable_contracts.py" ]]
+  [[ -f "${root}/skills/medium-article-writer/SKILL.md" ]]
+  [[ -f "${root}/skills/arxiv-paper-writer/SKILL.md" ]]
+  [[ -f "${root}/skills/diagram-author/SKILL.md" ]]
+  [[ -x "${root}/skills/diagram-author/scripts/render_diagrams.sh" ]]
+  [[ -f "${root}/skills/spp-editor/SKILL.md" ]]
+  [[ -f "${root}/skills/srp-editor/SKILL.md" ]]
+  [[ -f "${root}/skills/sprint-conductor/SKILL.md" ]]
+  [[ -f "${root}/skills/sprint-conductor/adl-skill.yaml" ]]
+  [[ -f "${root}/skills/sprint-conductor/references/output-contract.md" ]]
+  [[ -f "${root}/skills/sprint-review/SKILL.md" ]]
+  [[ -f "${root}/skills/sprint-review/adl-skill.yaml" ]]
+  [[ -f "${root}/skills/sprint-review/docs/SPRINT_REVIEW_SKILL_INPUT_SCHEMA.md" ]]
+  [[ -f "${root}/skills/sprint-review/agents/openai.yaml" ]]
+  [[ -f "${root}/skills/sprint-review/references/output-contract.md" ]]
+  [[ -x "${root}/skills/sprint-conductor/scripts/create_missing_sprint_issue.py" ]]
+  [[ -x "${root}/skills/sprint-conductor/scripts/check_sprint_readiness.py" ]]
+  [[ -x "${root}/skills/sprint-conductor/scripts/check_installed_skill_parity.py" ]]
+  [[ -x "${root}/skills/sprint-conductor/scripts/check_sprint_structured_prompt_readiness.py" ]]
+  [[ -x "${root}/skills/sprint-conductor/scripts/check_sprint_closeout_readiness.py" ]]
+  [[ -x "${root}/skills/sprint-conductor/scripts/close_sprint_issue.py" ]]
+  [[ -x "${root}/skills/sprint-conductor/scripts/record_child_issue_closeout.py" ]]
+  [[ -x "${root}/skills/sprint-conductor/scripts/record_issue_goal_metrics.py" ]]
+  [[ -x "${root}/skills/sprint-conductor/scripts/update_sprint_state.py" ]]
+  [[ -x "${root}/skills/sprint-conductor/scripts/check_sprint_truth.py" ]]
+  [[ -x "${root}/skills/sprint-conductor/scripts/validate_review_subagent_policy.py" ]]
+  [[ -x "${root}/skills/sprint-conductor/scripts/write_sprint_closeout_artifact.py" ]]
+  [[ -f "${root}/skills/stp-editor/SKILL.md" ]]
+  [[ -f "${root}/skills/sip-editor/SKILL.md" ]]
+  [[ -f "${root}/skills/sor-editor/SKILL.md" ]]
+
+  grep -Fq "Watch one issue, PR, branch, or dependency gate" "${root}/skills/issue-watcher/SKILL.md"
+  grep -Fq "qualitative card review" "${root}/skills/pr-init/SKILL.md"
+  grep -Fq "execution_readiness" "${root}/skills/pr-ready/references/output-contract.md"
+  grep -Fq "perform the bounded implementation work" "${root}/skills/pr-run/SKILL.md"
+  grep -Fq "truthful closeout" "${root}/skills/pr-finish/SKILL.md"
+  grep -Fq "active issue session into explicit PR shepherding" "${root}/skills/pr-finish/SKILL.md"
+  grep -Fq "failed checks or merge conflicts" "${root}/skills/pr-janitor/SKILL.md"
+  grep -Fq "healthy waiting states as active shepherding work" "${root}/skills/pr-janitor/SKILL.md"
+  grep -Fq "post-merge and post-closure cleanup phase" "${root}/skills/pr-closeout/SKILL.md"
+  grep -Fq "settle the shepherding handoff once PR outcome truth is known" "${root}/skills/pr-closeout/SKILL.md"
+  grep -Fq "findings-first" "${root}/skills/repo-code-review/SKILL.md"
+  grep -Fq "packet-construction skill, not a reviewer" "${root}/skills/repo-packet-builder/SKILL.md"
+  grep -Fq "safety gate, not a reviewer" "${root}/skills/redaction-and-evidence-auditor/SKILL.md"
+  grep -Fq "findings-first and source-grounded" "${root}/skills/repo-architecture-review/SKILL.md"
+  grep -Fq "dependency and supply-chain surfaces" "${root}/skills/repo-dependency-review/SKILL.md"
+  grep -Fq "without becoming the diagram author" "${root}/skills/repo-diagram-planner/SKILL.md"
+  grep -Fq 'quality gate after `diagram-author`' "${root}/skills/architecture-diagram-reviewer/SKILL.md"
+  grep -Fq 'between review artifacts and `test-generator`' "${root}/skills/review-to-test-planner/SKILL.md"
+  grep -Fq "This skill is a curation lane, not a decision authority" "${root}/skills/adr-curator/SKILL.md"
+  grep -Fq "turns recurring architecture risks into bounded checks" "${root}/skills/architecture-fitness-function-author/SKILL.md"
+  grep -Fq "Convert source-grounded CodeBuddy review findings" "${root}/skills/finding-to-issue-planner/SKILL.md"
+  grep -Fq "smallest truthful test surface" "${root}/skills/test-generator/SKILL.md"
+  grep -Fq "run one named demo" "${root}/skills/demo-operator/SKILL.md"
+  grep -Fq "evidence packaging skill" "${root}/skills/release-evidence/SKILL.md"
+  grep -Fq "readiness cleanup classifier" "${root}/skills/review-readiness-cleanup/SKILL.md"
+  grep -Fq "portability guard and optional narrow normalizer" "${root}/skills/portable-contract-normalizer/SKILL.md"
+  grep -Fq "stopping before publication" "${root}/skills/medium-article-writer/SKILL.md"
+  grep -Fq "without submitting, publishing, inventing citations" "${root}/skills/arxiv-paper-writer/SKILL.md"
+  grep -Fq "diagram-as-code and model-as-code router" "${root}/skills/diagram-author/SKILL.md"
+  grep -Fq "planning artifact rather than an execution log" "${root}/skills/spp-editor/SKILL.md"
+  grep -Fq "Structured Review Prompt" "${root}/skills/srp-editor/SKILL.md"
+  grep -Fq "one issue at a time, fully closed out before the next" "${root}/skills/sprint-conductor/SKILL.md"
+  grep -Fq "attach the issue-bound session-goal requirement as part of the SEP handoff" "${root}/skills/sprint-conductor/SKILL.md"
+  grep -Fq "issue-goal metrics are available" "${root}/skills/sprint-conductor/references/conductor-playbook.md"
+  grep -Fq "findings-first review orchestrator" "${root}/skills/sprint-review/SKILL.md"
+  grep -Fq "bounded editing of \`stp.md\`" "${root}/skills/stp-editor/SKILL.md"
+  grep -Fq "truthful lifecycle state" "${root}/skills/sip-editor/SKILL.md"
+  grep -Fq "truthful execution and integration state" "${root}/skills/sor-editor/SKILL.md"
+
+  bash "${repo_root}/adl/tools/validate_skill_frontmatter.sh" \
+    "${root}/skills/issue-watcher/SKILL.md" \
+    "${root}/skills/pr-init/SKILL.md" \
+    "${root}/skills/pr-ready/SKILL.md" \
+    "${root}/skills/pr-run/SKILL.md" \
+    "${root}/skills/pr-finish/SKILL.md" \
+    "${root}/skills/pr-janitor/SKILL.md" \
+    "${root}/skills/pr-closeout/SKILL.md" \
+    "${root}/skills/repo-code-review/SKILL.md" \
+    "${root}/skills/repo-packet-builder/SKILL.md" \
+    "${root}/skills/redaction-and-evidence-auditor/SKILL.md" \
+    "${root}/skills/repo-architecture-review/SKILL.md" \
+    "${root}/skills/repo-dependency-review/SKILL.md" \
+    "${root}/skills/repo-diagram-planner/SKILL.md" \
+    "${root}/skills/architecture-diagram-reviewer/SKILL.md" \
+    "${root}/skills/review-to-test-planner/SKILL.md" \
+    "${root}/skills/adr-curator/SKILL.md" \
+    "${root}/skills/architecture-fitness-function-author/SKILL.md" \
+    "${root}/skills/finding-to-issue-planner/SKILL.md" \
+    "${root}/skills/test-generator/SKILL.md" \
+    "${root}/skills/demo-operator/SKILL.md" \
+    "${root}/skills/release-evidence/SKILL.md" \
+    "${root}/skills/review-readiness-cleanup/SKILL.md" \
+    "${root}/skills/portable-contract-normalizer/SKILL.md" \
+    "${root}/skills/medium-article-writer/SKILL.md" \
+    "${root}/skills/arxiv-paper-writer/SKILL.md" \
+    "${root}/skills/diagram-author/SKILL.md" \
+    "${root}/skills/spp-editor/SKILL.md" \
+    "${root}/skills/srp-editor/SKILL.md" \
+    "${root}/skills/sprint-conductor/SKILL.md" \
+    "${root}/skills/sprint-review/SKILL.md" \
+    "${root}/skills/stp-editor/SKILL.md" \
+    "${root}/skills/sip-editor/SKILL.md" \
+    "${root}/skills/sor-editor/SKILL.md"
+}
+
+export CODEX_HOME="${tmpdir}/codex-home-copy"
+bash "${repo_root}/adl/tools/install_adl_operational_skills.sh" >/dev/null
+assert_skill_bundle "${CODEX_HOME}"
+[[ ! -L "${CODEX_HOME}/skills/pr-init" ]]
+
+export CODEX_HOME="${tmpdir}/codex-home-symlink"
+ADL_OPERATIONAL_SKILLS_INSTALL_MODE=symlink bash "${repo_root}/adl/tools/install_adl_operational_skills.sh" >/dev/null
+assert_skill_bundle "${CODEX_HOME}"
+[[ -L "${CODEX_HOME}/skills/pr-init" ]]
+[[ -L "${CODEX_HOME}/skills/issue-watcher" ]]
+[[ -L "${CODEX_HOME}/skills/pr-ready" ]]
+[[ -L "${CODEX_HOME}/skills/repo-packet-builder" ]]
+[[ -L "${CODEX_HOME}/skills/redaction-and-evidence-auditor" ]]
+[[ -L "${CODEX_HOME}/skills/repo-architecture-review" ]]
+[[ -L "${CODEX_HOME}/skills/repo-dependency-review" ]]
+[[ -L "${CODEX_HOME}/skills/repo-diagram-planner" ]]
+[[ -L "${CODEX_HOME}/skills/architecture-diagram-reviewer" ]]
+[[ -L "${CODEX_HOME}/skills/review-to-test-planner" ]]
+[[ -L "${CODEX_HOME}/skills/sprint-review" ]]
+[[ -L "${CODEX_HOME}/skills/adr-curator" ]]
+[[ -L "${CODEX_HOME}/skills/architecture-fitness-function-author" ]]
+[[ -L "${CODEX_HOME}/skills/finding-to-issue-planner" ]]
+[[ -L "${CODEX_HOME}/skills/release-evidence" ]]
+[[ -L "${CODEX_HOME}/skills/review-readiness-cleanup" ]]
+[[ -L "${CODEX_HOME}/skills/portable-contract-normalizer" ]]
+[[ -L "${CODEX_HOME}/skills/arxiv-paper-writer" ]]
+[[ -L "${CODEX_HOME}/skills/diagram-author" ]]
+[[ "$(cd "${CODEX_HOME}/skills/pr-init" && pwd -P)" == "${repo_root}/adl/tools/skills/pr-init" ]]
+[[ "$(cd "${CODEX_HOME}/skills/issue-watcher" && pwd -P)" == "${repo_root}/adl/tools/skills/issue-watcher" ]]
+
+malformed_root="${tmpdir}/malformed-skills"
+cp -R "${repo_root}/adl/tools/skills" "${malformed_root}"
+cat >"${malformed_root}/issue-watcher/SKILL.md" <<'EOF'
+---
+name: broken
+description: first
+description: second
+---
+EOF
+if ADL_OPERATIONAL_SKILLS_SOURCE_ROOT="${malformed_root}" \
+  bash "${repo_root}/adl/tools/install_adl_operational_skills.sh" >/dev/null 2>&1; then
+  echo "expected malformed operational skill source to fail" >&2
+  exit 1
+fi
+
+if ADL_OPERATIONAL_SKILLS_INSTALL_MODE=bogus bash "${repo_root}/adl/tools/install_adl_operational_skills.sh" >/dev/null 2>&1; then
+  echo "expected invalid install mode to fail" >&2
+  exit 1
+fi
+
+bash "${repo_root}/adl/tools/test_sprint_conductor_helpers.sh"
+bash "${repo_root}/adl/tools/test_multiagent_podcast_audio_policy.sh"
+
+echo "PASS test_install_adl_operational_skills"

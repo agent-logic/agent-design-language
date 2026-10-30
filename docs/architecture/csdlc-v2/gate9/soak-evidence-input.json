@@ -1,0 +1,47 @@
+{
+  "schema": "csdlc.soak_evidence.v1",
+  "default_generation": "v1",
+  "scenarios": [
+    {"scenario":"docs_only","outcome":"passed","evidence_refs":["csdlc-v2/tests/gate9.rs::representative_samples_reopen_persisted_store_between_lifecycle_phases","docs/architecture/csdlc-v2/gate9/samples/docs-only/packet.json"],"findings":[]},
+    {"scenario":"small_rust","outcome":"passed","evidence_refs":["csdlc-v2/tests/gate9.rs::representative_samples_reopen_persisted_store_between_lifecycle_phases","docs/architecture/csdlc-v2/gate9/samples/small-rust/packet.json"],"findings":[]},
+    {"scenario":"validation_failure_retry","outcome":"passed","evidence_refs":["csdlc-v2/tests/gate4.rs::failed_lane_can_be_repaired_and_retried_to_local_pass"],"findings":[]},
+    {"scenario":"review_finding_repair","outcome":"passed","evidence_refs":["csdlc-v2/tests/gate5.rs::missing_incomplete_stale_and_unresolved_review_fail_closed","csdlc-v2/tests/gate5.rs::exact_completed_review_with_resolved_findings_is_publishable"],"findings":[]},
+    {"scenario":"pr_check_failure_recovery","outcome":"passed","evidence_refs":["csdlc-v2/tests/gate7.rs::pending_failed_and_unobserved_required_checks_are_distinct","csdlc-v2/tests/gate7.rs::green_required_truth_is_ready_without_promoting_optional_skips"],"findings":[]},
+    {"scenario":"merge_closeout","outcome":"passed","evidence_refs":["csdlc-v2/tests/gate7_lifecycle.rs::readiness_regression_and_exact_terminal_closeout_are_atomic_and_idempotent"],"findings":[]},
+    {"scenario":"interrupt_initialized_ready","outcome":"passed","evidence_refs":["csdlc-v2/tests/gate9.rs::representative_samples_reopen_persisted_store_between_lifecycle_phases"],"findings":[]},
+    {"scenario":"interrupt_ready_bound","outcome":"passed","evidence_refs":["csdlc-v2/tests/gate9.rs::representative_samples_reopen_persisted_store_between_lifecycle_phases"],"findings":[]},
+    {"scenario":"interrupt_bound_implemented","outcome":"passed","evidence_refs":["csdlc-v2/tests/gate9.rs::representative_samples_reopen_persisted_store_between_lifecycle_phases"],"findings":[]},
+    {"scenario":"interrupt_implemented_reviewed","outcome":"passed","evidence_refs":["csdlc-v2/tests/gate9.rs::representative_samples_reopen_persisted_store_between_lifecycle_phases"],"findings":[]},
+    {"scenario":"interrupt_reviewed_published","outcome":"passed","evidence_refs":["csdlc-v2/tests/gate9.rs::representative_samples_reopen_persisted_store_between_lifecycle_phases"],"findings":[]},
+    {"scenario":"interrupt_published_merge_ready","outcome":"passed","evidence_refs":["csdlc-v2/tests/gate9.rs::representative_samples_reopen_persisted_store_between_lifecycle_phases"],"findings":[]},
+    {"scenario":"interrupt_merge_closeout_transaction","outcome":"passed","evidence_refs":["csdlc-v2/tests/gate7_lifecycle.rs::readiness_regression_and_exact_terminal_closeout_are_atomic_and_idempotent","csdlc-v2/tests/gate9.rs::representative_samples_reopen_persisted_store_between_lifecycle_phases"],"findings":[]},
+    {"scenario":"dirty_worktree_refusal","outcome":"passed","evidence_refs":["csdlc-v2/tests/gate7.rs::prune_guard_requires_exact_topology_and_clean_worktree"],"findings":[]},
+    {"scenario":"github_outage_retry","outcome":"passed","evidence_refs":["csdlc-v2/src/bin/csdlc-publish.rs::tests::ambiguous_create_failure_observes_before_deciding_retry","csdlc-v2/tests/gate6.rs::ambiguous_create_outage_is_reconciled_by_observation_before_retry"],"findings":[]}
+  ],
+  "budgets": [
+    {"name":"implementation_loc","measured":8005.0,"target":8000.0,"hard_ceiling":8000.0,"unit":"rust_lines","hard_pass":false,"review_approved":true,"qualification":"Reviewer-approved five-line overage adds canonical budget enforcement, reviewed-LoC semantics, and ambiguous-publication proof (0.0625% above threshold).","evidence_ref":"docs/architecture/csdlc-v2/gate9/VALIDATION.md#implementation-size"},
+    {"name":"rust_tests","measured":73.0,"target":100.0,"hard_ceiling":150.0,"unit":"tests","hard_pass":true,"review_approved":false,"qualification":null,"evidence_ref":"docs/architecture/csdlc-v2/gate9/VALIDATION.md#test-and-validation-time"},
+    {"name":"largest_installed_binary","measured":5570864.0,"target":null,"hard_ceiling":15728640.0,"unit":"bytes","hard_pass":true,"review_approved":false,"qualification":"Largest is csdlc-publish.","evidence_ref":"docs/architecture/csdlc-v2/gate9/VALIDATION.md#installed-binary-size"},
+    {"name":"seven_installed_binaries_total","measured":19676608.0,"target":null,"hard_ceiling":73400320.0,"unit":"bytes","hard_pass":true,"review_approved":false,"qualification":null,"evidence_ref":"docs/architecture/csdlc-v2/gate9/VALIDATION.md#installed-binary-size"},
+    {"name":"clean_release_construction","measured":198.83,"target":209.275,"hard_ceiling":209.275,"unit":"seconds","hard_pass":true,"review_approved":false,"qualification":"Exact reviewed source, isolated empty target on the Gate1/Gate2 FastWork measurement filesystem; a concurrent /tmp run at 226.06 seconds is retained as host-contention evidence.","evidence_ref":"docs/architecture/csdlc-v2/gate9/VALIDATION.md#construction"},
+    {"name":"warm_release_construction","measured":0.27,"target":0.8125,"hard_ceiling":0.8125,"unit":"seconds","hard_pass":true,"review_approved":false,"qualification":"Median of three exact-source no-change samples: 0.84, 0.27, and 0.22 seconds.","evidence_ref":"docs/architecture/csdlc-v2/gate9/VALIDATION.md#construction"},
+    {"name":"init_plus_doctor_p95","measured":0.96,"target":1.0,"hard_ceiling":1.0,"unit":"seconds","hard_pass":true,"review_approved":false,"qualification":"Nearest-rank p95 over 21 process-isolated fixtures; the combined path is stricter evidence than init alone.","evidence_ref":"docs/architecture/csdlc-v2/gate9/VALIDATION.md#local-latency"},
+    {"name":"bind_p95","measured":1.20,"target":2.0,"hard_ceiling":2.0,"unit":"seconds","hard_pass":true,"review_approved":false,"qualification":"Nearest-rank p95 over 21 process-isolated temporary-Git fixtures.","evidence_ref":"docs/architecture/csdlc-v2/gate9/VALIDATION.md#local-latency"},
+    {"name":"focused_validation","measured":23.47,"target":120.0,"hard_ceiling":120.0,"unit":"seconds","hard_pass":true,"review_approved":false,"qualification":"Gate 9 executable soak test execution inside the final full run.","evidence_ref":"docs/architecture/csdlc-v2/gate9/VALIDATION.md#test-and-validation-time"},
+    {"name":"full_deterministic_validation","measured":65.00,"target":600.0,"hard_ceiling":600.0,"unit":"seconds","hard_pass":true,"review_approved":false,"qualification":"Final warm full cargo test wall time including build check.","evidence_ref":"docs/architecture/csdlc-v2/gate9/VALIDATION.md#test-and-validation-time"}
+  ],
+  "parity": {
+    "compared_cases": 3,
+    "critical_differences": 0,
+    "explained_noncritical_differences": [
+      "V2 has one canonical typed index rather than independently mutable lifecycle truth.",
+      "V2 cards are generated projections and reject direct Markdown mutation.",
+      "V2 separates the seven installed owners from bounded qualification and migration helpers."
+    ],
+    "evidence_ref": "csdlc-v2/tests/gate9.rs::representative_samples_reopen_persisted_store_between_lifecycle_phases"
+  },
+  "residual_risks": [
+    "Live GitHub latency and provider availability remain external to deterministic local proof.",
+    "Gate 10 contract migration and deletion must be split if one reviewable change cannot preserve rollback safety."
+  ]
+}

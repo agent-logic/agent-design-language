@@ -1,0 +1,10 @@
+flowchart TD
+  T["Trusted current time"] --> G{"At or after 2026-08-12T02:03:02.808013Z?"}
+  A["Explicit sunset approval"] --> G
+  M["Migration complete"] --> G
+  C["No active importer contract"] --> G
+  H["Current green v2 health"] --> G
+  G -->|"no or unknown"| N["Zero mutation"]
+  G -->|"yes"| R["Remove exact importer surface"]
+  R --> P["Preserve evidence and prove v2"]
+  P --> V["Exact-revision review and green checks"]
