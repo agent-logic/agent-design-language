@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/danielbaustin/universal-tool-schema/schemas/uts/v1.1/tool_invocation.v1_1.schema.json",
+  "$id": "https://raw.githubusercontent.com/agent-logic/universal-tool-schema/main/schemas/uts/v1.1/tool_invocation.v1_1.schema.json",
   "title": "UTS Tool Invocation Metadata v1.1",
   "type": "object",
   "additionalProperties": false,

@@ -203,8 +203,11 @@ an active delivery commitment.
 - [Historical planning overview](docs/milestones/v0.93/README.md)
 - [Successor allocation register](docs/milestones/v0.93.2/REALLOCATION_1296.json)
 
-See the [roadmap and milestone index](docs/ROADMAP.md) for the full history and
-status references. Historical milestone documents remain available unchanged.
+See the [roadmap and milestone index](docs/ROADMAP.md) for current status. The
+public Git history was compacted to keep clones small; the original history and
+relocated milestone documents are preserved in verified archives. See the
+[history archive and restore guides](docs/archives/README.md) for lookup,
+maintainer access and contributor continuity.
 
 ## Documentation Map
 

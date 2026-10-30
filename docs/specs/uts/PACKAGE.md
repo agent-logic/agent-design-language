@@ -15,10 +15,10 @@ Package version and schema version are different contracts:
 | Anything else, including `0.1.0` | Rejected by the package loader before registry dispatch. |
 
 The normative owner is `agent-logic/universal-tool-schema`. The bundled resource
-is `0.1.0-rc.1`, payload revision
-`09ec2659c8f82365643341d4f66bac85f1bcaf60`, packaging revision
-`4f923dcc2043a7d99572f9d4ff44fd1e4f17925e`, archive SHA-256
-`3ce3da2a5bcf7fd8a1cf0bf4ccc00e32012d623c8c9fab72341ddfa3ea786761`.
+is `0.1.0-rc.2`, payload revision
+`fb7be6967ea5076b227380ab8cf308ef8d9234f8`, packaging revision
+`fb7be6967ea5076b227380ab8cf308ef8d9234f8`, archive SHA-256
+`e7e6c1181b4b1a5c922b962d72c767656f8234730be60653bb2c02008265cce8`.
 The [resource pin](../../../adl-uts/resources-pin.json) and
 [upstream manifest](../../../adl-uts/resources/RESOURCE_MANIFEST.json) bind the
 schemas, specifications, license/NOTICE and canonical corpus. Local historical

@@ -208,7 +208,7 @@ mod tests {
         let report = run(|_, _| false).unwrap();
         assert_eq!(report.fixture_count, 23);
         assert!(!report.passed);
-        assert_eq!(report.resource_pin["resource_version"], "0.1.0-rc.1");
+        assert_eq!(report.resource_pin["resource_version"], "0.1.0-rc.2");
         assert!(report.cases.iter().all(|case| !case.execution_granted));
         let stable = report
             .cases

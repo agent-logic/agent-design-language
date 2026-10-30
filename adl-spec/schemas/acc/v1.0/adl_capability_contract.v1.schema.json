@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://raw.githubusercontent.com/danielbaustin/agent-design-language/main/adl-spec/schemas/acc/v1.0/adl_capability_contract.v1.schema.json",
+  "$id": "https://raw.githubusercontent.com/agent-logic/agent-design-language/main/adl-spec/schemas/acc/v1.0/adl_capability_contract.v1.schema.json",
   "title": "ADL Capability Contract v1.0",
   "type": "object",
   "additionalProperties": false,
