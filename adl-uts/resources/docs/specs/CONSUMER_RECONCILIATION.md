@@ -70,3 +70,14 @@ not live provider calls. Dependency advisory review and public-release approval
 remain in #5 and #6. Disabling npm's install-time audit avoids making advisory
 service availability part of deterministic CI; it does not resolve retained audit
 findings or approve dependency safety.
+
+## Canonical schema identity migration (#40)
+
+UTS schemas identify the canonical Agent Logic repository using
+`https://raw.githubusercontent.com/agent-logic/universal-tool-schema/main/schemas/uts/`
+and their versioned schema path. The former personal-account `github.com` IDs
+were not schema download URLs. Consumers registering schemas by their old IDs
+should migrate those registry keys; validation constraints and fragment-only
+`$ref` targets are unchanged. Immutable resource acquisition still uses an exact
+source revision and archive digest, not the mutable `main` URL. Previously pinned
+resource archives retain their original bytes and identities.

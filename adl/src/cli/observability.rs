@@ -1223,7 +1223,7 @@ mod tests {
         );
         assert_eq!(
             sanitize_value(
-                "diagnostic path=/Users/daniel/elsewhere/example.txt, fallback=/tmp/proof.json"
+                "diagnostic path=/Users/operator/elsewhere/example.txt, fallback=/tmp/proof.json"
             ),
             "diagnostic path=<path>, fallback=<path>"
         );

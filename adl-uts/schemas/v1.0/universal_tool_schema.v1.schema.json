@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/danielbaustin/universal-tool-schema/schemas/uts/v1.0/universal_tool_schema.v1.schema.json",
+  "$id": "https://raw.githubusercontent.com/agent-logic/universal-tool-schema/main/schemas/uts/v1.0/universal_tool_schema.v1.schema.json",
   "title": "Universal Tool Schema v1",
   "type": "object",
   "additionalProperties": false,
