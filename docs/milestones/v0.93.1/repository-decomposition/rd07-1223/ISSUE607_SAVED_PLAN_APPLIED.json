@@ -1,0 +1,144 @@
+{
+  "schema": "adl1223.issue607_saved_plan_retirement.v1",
+  "status": "applied",
+  "source_head": "251d42922db494100c986f4775fe1dc8fcd58679",
+  "removed_count": 1,
+  "rows": [
+    {
+      "id": "RD07-1423",
+      "path": "adl/tools/issue607_validate_saved_plan.sh",
+      "owner": "agent-logic-infrastructure",
+      "component": "agent-logic-infrastructure-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "6079505bb427e4a8839aac6ba57a2f18080357f5"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+        "exact_successor_paths": [
+          "adl/tools/issue607_validate_saved_plan.sh"
+        ]
+      }
+    }
+  ],
+  "files": [
+    {
+      "path": "adl/tools/issue607_validate_saved_plan.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "6079505bb427e4a8839aac6ba57a2f18080357f5",
+        "sha256": "a12c9e54107ef9e55a0c84d6ec57f0c17215e62949a4a2911c678ca1f6a0c6ae"
+      },
+      "after": null
+    },
+    {
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "9e5f349efd60e3f03f11f4b878c001705c186ed8",
+        "sha256": "57a2ee3b94edd29379a7123396291551205cdf22beabc6294f7433307f295dc3"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "cabb469c00bc73117ae37ed2d0e5bf9c1e58a2cf",
+        "sha256": "6b4de47fb4d1261fa0998ff9b3a4060e0a65563ef38a54ac9b30efb491833ce8"
+      }
+    }
+  ],
+  "owner_revision": "5bf3272df8bf51d4573238f2b3dbd75834c45cde",
+  "owner_checkout": "/Volumes/FastWork/c1223/infrastructure18-controller/agent-logic-infrastructure",
+  "source_evidence": [
+    {
+      "path": "adl/tools/issue607_validate_saved_plan.sh",
+      "mode": "100755",
+      "blob": "6079505bb427e4a8839aac6ba57a2f18080357f5",
+      "sha256": "a12c9e54107ef9e55a0c84d6ec57f0c17215e62949a4a2911c678ca1f6a0c6ae",
+      "retained_copy": "/Volumes/FastWork/c1223/issue607-saved-plan-retirement/owner-source/adl/tools/issue607_validate_saved_plan.sh"
+    },
+    {
+      "path": "adl/tools/test_issue607_warm_polis.sh",
+      "mode": "100755",
+      "blob": "6d8b2b40932ec431e69072d48531920db8782d88",
+      "sha256": "0388c34f0275c9a5241dd767960d6d0b61aed89769b7839a8764e69ac7988cf1",
+      "retained_copy": "/Volumes/FastWork/c1223/issue607-saved-plan-retirement/owner-source/adl/tools/test_issue607_warm_polis.sh"
+    },
+    {
+      "path": "tools/artifacts/test_warm_polis.py",
+      "mode": "100644",
+      "blob": "c710a7a69e6216a7101a5838b665e1b88c1d0011",
+      "sha256": "ec606f6bd251219aed3afc10cf835969c90df9fab36509774ab79cf8146a5802",
+      "retained_copy": "/Volumes/FastWork/c1223/issue607-saved-plan-retirement/owner-source/tools/artifacts/test_warm_polis.py"
+    }
+  ],
+  "qualification": {
+    "reuse": "connected-reproduction.log named test_original_contracts_with_pinned_runtime_sources PASS, within47tests; no rerun",
+    "original_consumer": "Owner test_warm_polis.py invokes original test_issue607_warm_polis.sh contracts and requires returncode0 plus issue607_contracts=pass. Original contracts directly exercise saved-plan validator five modes with accepted/refused synthetic JSON.",
+    "denominator": "One named original-contract wrapper case within existing47-case aggregate. No claim of47validator tests or live Terraform/cloud acceptance.",
+    "current_correspondence": "Exact validator bytes and mode100755 equal mergedowner5bf3272. The already-reviewed owner runner/test original assertion mapping remains in INFRASTRUCTURE_CONTINUITY_OWNER_DISPOSITIONS."
+  },
+  "evidence": [
+    {
+      "path": "/Volumes/FastWork/c1223/infra607-delivery/connected-reproduction.log",
+      "sha256": "9393feda1d5d9b7bbf5275b282c828f0829aa6d926a5e76628c7f115cd86745b"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/infra607-delivery/contracts-r7.stdout",
+      "sha256": "b98783b26b7c14ead8697ea163d679b2d63302b17371f6d23d1adc390fd85718"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/infra607-delivery/contracts-r7.stderr",
+      "sha256": "618d6195c39d3bcbfbdc7556bb42d4ffb67f47ea8e0b9d40dc5aa6d43aac6a8a"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/infra607-delivery/proof-r5.json",
+      "sha256": "50dd04b2e8f793ab65629f48a674cb79e17741a2333c19738ac02450cc45122f"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/infra607-delivery/review-result-r4.json",
+      "sha256": "7d41f50510dd78b053bb33ba420bdb175201b3290d0c2427c4796550446ff3a1"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/infra607-delivery/merge-result-r6.json",
+      "sha256": "74081bb6dbb51055f887a5c08c73ae4f17a83153ef7ae5c51e7544cdbae94310"
+    }
+  ],
+  "custody": [
+    {
+      "path": "/Volumes/FastWork/c1223/issue607-saved-plan-retirement/current-and-original-preimages.tar",
+      "sha256": "59bf9dd61601ab35616e15163c08171dff98d32ec100005cd21d2fb3924ef71c",
+      "members": 3
+    }
+  ],
+  "patch": {
+    "path": "/Volumes/FastWork/c1223/issue607-saved-plan-retirement/saved-plan-and-registry.patch",
+    "sha256": "1268287459c35df2a0675014c04db633a27f5458ddfd9d055fc6b3e82aea0df9"
+  },
+  "caller_closure": [
+    "Current active adl/tools,.github,tools,adl/config,demos,docs/tooling scan has no executable consumer beyond self and registry; original runner/test already transferred.",
+    "Historical issue520 changed-path fixture stays immutable filename data.",
+    "Existing registry Infrastructure owner navigation remains; exact one helper row removed with actual inventory generator.",
+    "No new navigation helper or compatibility stub is required without a retained executable consumer."
+  ],
+  "limits": [
+    "Existing proof reused; no original tests or cloud operations rerun.",
+    "Only saved-plan synthetic JSON acceptance/refusal qualified; no real Terraform plan, apply, AWS, provider, live warm-Polis or installed artifact acceptance.",
+    "Reviewed saved-plan source removal applied; original4134 and additional22 identities preserved."
+  ],
+  "application_head": "a2e869956258a4d576e86772fd9066cd65040b5d",
+  "review": {
+    "status": "PASS",
+    "reviewer": "/root/review_1223_public_facade",
+    "proposal_sha256": "7a70b419925cb0f808f0e17e909b477741bcf5d67b5550ea60f511ccd37741c4",
+    "scope": "Existing named original-contract proof, exact source/custody/caller closure; intervening guard-only commit leaves both reviewed preimages unchanged."
+  }
+}

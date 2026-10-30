@@ -1,0 +1,189 @@
+# Versioned C-SDLC Prompt Templates
+
+This directory is the canonical tracked home for C-SDLC issue-card templates.
+
+The active template set is declared in [`current.json`](current.json). Each
+template file is a direct copy-and-fill card form, not an explanatory wrapper.
+Each active template entry also points at a generated structure schema artifact
+used by prompt-card structure validation.
+
+## Current Set
+
+- Template set: `1.0.5`
+- Lifecycle: `SIP -> STP -> SPP -> VPP -> SRP -> SOR`
+- Template root: `docs/templates/prompts/1.0.5/`
+- Registry: `docs/templates/prompts/current.json`
+- Structure schemas: `docs/templates/prompts/1.0.5/schemas/*.structure.json`
+- Implementation owner: Rust tooling owns the canonical template registry,
+  field model, schema extraction, and validation path. Consumer tools may
+  load schema artifacts, fill templates, or call the Rust-backed validators, but
+  they should not become a separate template authority.
+
+The registry is generation-aware. `legacy_import` selects the full active
+`1.0.5` template set, while `csdlc_v2_native` selects the independently
+compiled compact `1.0.0` projection family. Native v2 initialization validates
+that entry against `csdlc-v2/operator/native-card-shape.json` before writing;
+the two families are compatible lifecycle representations, not interchangeable
+template versions.
+
+## Previous Sets
+
+- Template sets: `1.0.0` through `1.0.4`
+- Lifecycle: `SIP -> STP -> SPP -> VPP -> SRP -> SOR`
+- Status: historical and superseded by `1.0.5` for new issue-bundle generation.
+- Template roots: `docs/templates/prompts/1.0.0/` through
+  `docs/templates/prompts/1.0.4/`
+
+## Values Renderer
+
+v0.91.5 adds the next authoring model described in
+[`PROMPT_TEMPLATE_VALUES_RENDERER_PLAN_v0.91.5.md`](../../tooling/PROMPT_TEMPLATE_VALUES_RENDERER_PLAN_v0.91.5.md).
+The short operator checklist for using the renderer and structure schemas is
+[`PROMPT_TEMPLATE_CARD_GENERATION_CHECKLIST.md`](../../tooling/PROMPT_TEMPLATE_CARD_GENERATION_CHECKLIST.md).
+
+The intended direction is deterministic rendering:
+
+```text
+prompt template set + card kind + values object -> rendered card Markdown
+```
+
+Rendered Markdown remains the reviewable lifecycle artifact. The ordinary
+editing surface can now be a values object with locked system fields, required
+values, enum validation, placeholder checks, and Rust-owned static validation.
+The browser editor exposes those values, but it must not become a separate
+template or validation authority.
+
+For new or fully re-rendered cards, prefer this path over direct Markdown
+structure edits:
+
+1. fill or export values YAML;
+2. run `validate-values`;
+3. render with `render` or `render-all`;
+4. run `validate-structure` on each rendered card;
+5. run `validate-schemas` and the native JSON schema smoke check when schema
+   artifacts are touched.
+
+When a template family exposes budgeting, readiness, PVF, watcher, estimate,
+actual, or variance fields, treat those as values-first inputs. Edit the values
+object, then re-render and re-validate; do not hand-patch the rendered
+Markdown to sneak those fields in after the fact.
+
+Editor skills still own lifecycle-truth repairs. The renderer owns deterministic
+template filling and shape preservation; it does not invent execution, review,
+PR, merge, or closeout truth.
+
+## Structure Schemas
+
+The `*.structure.json` files under the active template set are generated from
+the Markdown templates and consumed by the Rust validator. They record:
+
+- the template set and card kind;
+- the source template path;
+- the parser used for Markdown extraction;
+- frontmatter key inventory;
+- Markdown heading order;
+- fenced code block shape;
+- locked template prose.
+
+Use the Rust tool to regenerate schemas only when template structure changes
+intentionally:
+
+```sh
+csdlc tooling prompt-template \
+  write-structure-schemas \
+  --template-set 1.0.5 \
+  --out-dir docs/templates/prompts/1.0.5/schemas
+```
+
+Then run the native structure and JSON artifact checks:
+
+```sh
+csdlc tooling prompt-template validate-schemas --template-set 1.0.5
+bash adl/tools/test_prompt_template_structure_schemas.sh --template-set 1.0.5
+```
+
+If `csdlc` is not already on `PATH`, use the installed repo-owned binary at
+`.adl/bin/csdlc`. Rebuild it only when working on the binary surface itself or
+when no trusted repo binary exists.
+
+`current.json` should not move to a new active template set until every card
+kind in that set has renderer fixtures, values validation, and compatibility
+notes. `1.0.3` was the first six-card set; the active `1.0.5` set retains `VPP`
+as validation-planning truth between `SPP` and `SRP` and carries the current
+C-SDLC v3 authority wording.
+
+## Local Editor
+
+The local human editor for this template set lives at
+`docs/tooling/csdlc-prompt-editor/`. Its field model and browser metadata are
+generated from Rust with:
+
+```sh
+cargo run --manifest-path adl/Cargo.toml --bin csdlc -- tooling csdlc-prompt-editor \
+  --emit-model-js docs/tooling/csdlc-prompt-editor/editor_model.js
+```
+
+## Versioning Policy
+
+- Template-set versions use SemVer.
+- `1.0.0/` through `1.0.4/` are immutable after adoption except for obvious
+  typo fixes.
+- Future semantic changes create a new SemVer directory, such as `1.1.0/` or
+  `2.0.0/`, then update `current.json`.
+- Tools should resolve active paths from `current.json`; direct version paths
+  are for intentional compatibility or historical validation only.
+
+## Template Objects
+
+Each prompt template is treated as a first-class C-SDLC object:
+
+- it has a semantic role (`SIP`, `STP`, `SPP`, `VPP`, `SRP`, or `SOR`)
+- it belongs to one SemVer template set
+- it carries a deterministic `card_status`
+- it is human-readable Markdown
+- it is machine-fillable through stable placeholder fields
+- it remains validator-compatible after placeholders are filled
+
+## Card Status
+
+Every filled prompt card uses this small lifecycle enum:
+
+- `draft`: the card exists but is incomplete or locally invalid
+- `ready`: the card is filled and locally validator-clean
+- `reviewed`: the card has been reviewed but is not yet an execution gate
+- `approved`: the required review gate has accepted the card for use
+- `completed`: the card has fulfilled its lifecycle role and is now audit truth
+- `blocked`: the card cannot advance until an upstream condition changes
+- `superseded`: a newer card or template version has replaced this card
+
+The local browser editor derives `draft` or `ready` from form validation.
+Lifecycle tooling should set `reviewed`, `approved`, `completed`, `blocked`,
+or `superseded` only at the corresponding C-SDLC state transition.
+
+Execution preflight is intentionally stricter than enum validation:
+
+- `SIP`, `STP`, and `SPP` must be `ready` or `approved` before execution binds.
+- `SPP` may return to `draft` when the real execution path materially diverges.
+- `SRP` may be `completed` only after review results, dispositions, or an
+  explicit final policy exception are recorded.
+- `SOR` may be `completed` only after terminal closeout truth is present.
+- `SOR` execution `Status` remains separate from card lifecycle `Card Status`.
+
+## Host-Path Scan Wording
+
+Lifecycle cards must not record concrete machine-local absolute paths. It is
+acceptable to describe the scan patterns that were checked, such as a macOS
+user-home prefix, Linux home prefix, temporary-directory prefix, and macOS
+per-user temporary folder prefix, when the card also states that no
+concrete host-local paths were recorded. Do not include example usernames,
+temporary directories, or full local artifact paths in durable cards.
+
+## Compatibility
+
+Older files under `adl/templates/cards/` and legacy structured-prompt template
+docs remain compatibility surfaces. New card generation should treat the active
+registry target from `current.json` as canonical. Historical or compatibility
+sets such as `docs/templates/prompts/1.0.3/` remain immutable inputs for
+intentional compatibility audits. Their schema metadata may be checked with
+the version-aware schema smoke test; no current historical-card rendering
+route is implied.

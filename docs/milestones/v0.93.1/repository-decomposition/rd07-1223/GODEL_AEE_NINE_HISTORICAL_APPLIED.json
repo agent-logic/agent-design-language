@@ -1,0 +1,610 @@
+{
+  "schema": "adl1223.godel_aee_historical_nine.v1",
+  "status": "applied",
+  "source_head": "bd90e84f8db8e2f612fd136fd4d029ed0f3ee8dd",
+  "original_baseline": "248f00e359e412f6bc0061ac88be9ff374e3a212",
+  "removed_count": 9,
+  "rows": [
+    {
+      "id": "RD07-1300",
+      "path": "adl/tools/demo_adaptive_godel_loop.sh",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "235806c9d67d8929eb5eb9c29c6c15706d5e979a"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "same_path_changed",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": []
+      }
+    },
+    {
+      "id": "RD07-1301",
+      "path": "adl/tools/demo_aee_bounded_adaptation.sh",
+      "owner": "agent-logic-infrastructure",
+      "component": "agent-logic-infrastructure-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "27d6a155538067355b72ba09ea4a37eef7c8a391"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "same_path_changed",
+        "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+        "exact_successor_paths": []
+      }
+    },
+    {
+      "id": "RD07-1302",
+      "path": "adl/tools/demo_affect_engine.sh",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "35bdff87edab47b41614fcbdbb6a46bfab361fd7"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "same_path_changed",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": []
+      }
+    },
+    {
+      "id": "RD07-1303",
+      "path": "adl/tools/demo_affect_godel_vertical_slice.sh",
+      "owner": "agent-logic-infrastructure",
+      "component": "agent-logic-infrastructure-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "e4c24a3a115a4b24886c1fea97b1c191b2ef6001"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+        "exact_successor_paths": [
+          "adl/tools/demo_affect_godel_vertical_slice.sh"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1305",
+      "path": "adl/tools/demo_cross_workflow_learning.sh",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "2a6a14d5d72156df070e2122f42e8b243356acbb"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "same_path_changed",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": []
+      }
+    },
+    {
+      "id": "RD07-1307",
+      "path": "adl/tools/demo_experiment_prioritization.sh",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "c5dbdb070ccfccbadcf3a40cd1019198f0c64e86"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "same_path_changed",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": []
+      }
+    },
+    {
+      "id": "RD07-1310",
+      "path": "adl/tools/demo_godel_hypothesis_engine.sh",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "ee5372dc5357ea79c5d6cfad23b78586cbe99549"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "same_path_changed",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": []
+      }
+    },
+    {
+      "id": "RD07-1313",
+      "path": "adl/tools/demo_promotion_eval_loop.sh",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "2dfdbbe882b1b6801f40d5ad07b5b7e9a0193364"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "same_path_changed",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": []
+      }
+    },
+    {
+      "id": "RD07-1314",
+      "path": "adl/tools/demo_reasoning_graph_affect.sh",
+      "owner": "agent-logic-infrastructure",
+      "component": "agent-logic-infrastructure-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "bd4ec1fa067e2cc5f069cba0919a3f5e3b28fad9"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+        "exact_successor_paths": [
+          "adl/tools/demo_reasoning_graph_affect.sh"
+        ]
+      }
+    }
+  ],
+  "files": [
+    {
+      "path": "adl/tools/demo_promotion_eval_loop.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "2dfdbbe882b1b6801f40d5ad07b5b7e9a0193364",
+        "sha256": "eb05a5a5d9d9b059eeeb65889e457e6f4a0bc0c4c6766a551f662df18ae8722c"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/demo_cross_workflow_learning.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "2a6a14d5d72156df070e2122f42e8b243356acbb",
+        "sha256": "c9cce09c047876c8087995d27c1bf510be69e8b3845f43d838b14935614621f9"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/demo_adaptive_godel_loop.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "235806c9d67d8929eb5eb9c29c6c15706d5e979a",
+        "sha256": "8a8442db9f627934cdfe11daae0354577161b4fb2cd92c0afc5090a597266b66"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/demo_affect_godel_vertical_slice.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "e4c24a3a115a4b24886c1fea97b1c191b2ef6001",
+        "sha256": "d58e6903f4227d031196bc6ee689d1c810119d923fb321c1aa0dc03958b21833"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/demo_aee_bounded_adaptation.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "27d6a155538067355b72ba09ea4a37eef7c8a391",
+        "sha256": "0171e9df065780743bc231ae0a66ccf42678e2ff9c90f3641d8f6c148dffece5"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/demo_affect_engine.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "35bdff87edab47b41614fcbdbb6a46bfab361fd7",
+        "sha256": "a27f3290c362dff167e157a6002d53bf790079dab0e8b4b077c473136d1fba7a"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/demo_experiment_prioritization.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "c5dbdb070ccfccbadcf3a40cd1019198f0c64e86",
+        "sha256": "be6d7889bd9579654c178fe7e6299dbc6d68e5477282c4934bec092937a09444"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/demo_reasoning_graph_affect.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "bd4ec1fa067e2cc5f069cba0919a3f5e3b28fad9",
+        "sha256": "7aed77d0a30166054a59df2ed6b9beb7c37f539f2ac522d8abdb7aff81740151"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/demo_godel_hypothesis_engine.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "ee5372dc5357ea79c5d6cfad23b78586cbe99549",
+        "sha256": "9e3fcd041e4aec52741b661be90d6483f6941de5104cc47d41909f0ada8d4811"
+      },
+      "after": null
+    },
+    {
+      "path": "demos/v0.85/adaptive_godel_loop_demo.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "87279fb4d4388e7fb736091ab1de0911bb8f166d",
+        "sha256": "bffc5f9600c983b70b0d79cb4f9cedb07ea7ead736ed91785d94d14c49a1f4f9"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "402358bbc56002c2199e85f081e77f3bc926b906",
+        "sha256": "638e751c5b9b7c40eeb9d628e876482aef156de1de12b869ba39cf27797aeb34"
+      }
+    },
+    {
+      "path": "demos/v0.85/godel_hypothesis_engine_demo.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "042d339d532198125e24a6dcc66bb81606ce7964",
+        "sha256": "76bf0f7a7dec7bc8d7650f57b3459af8a2719558d07e8f56203b73682955340c"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "48cb4e4f387c6ba9111b377d5dda31571df03a6f",
+        "sha256": "7c5041b926559e87cf52b091704fcdc1eb54d059e7b9814a364ad34ea2964d55"
+      }
+    },
+    {
+      "path": "demos/v0.85/v085_demo_program.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "59d3d16ca4bfdf4b2ce9e66886347199b0491db4",
+        "sha256": "97325688a27a685fd4ecf381d3b6c94f9f8b53076df57bb4e68248ee45f1e27b"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "5197b5cd3312f7980ef8202dfd2b9651080ee7b3",
+        "sha256": "c1135a4ec408b80bfac9aace9ef1d985d668777fe86075b867f7eb37744cee36"
+      }
+    },
+    {
+      "path": "demos/README.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "c05f57c767f3f394b28d4d9a263b1cb67e2f34f7",
+        "sha256": "b082681a956a56af098dca80185779de74660a18714dd1f4506a86ed703a4bbc"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "5da38e8bc94eafa37dffe7bf1406e47364b2ee85",
+        "sha256": "b4f9f2aae35aaee701bf19cdb12094abd80750ad46c8430024a17b96c2780cd8"
+      }
+    },
+    {
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "935c2b23a272d2d2ef15a21041e6c757061a332d",
+        "sha256": "1def71b709c5532d45ea0e49336ae4a73daa6b3c8fcd1a93371571931c68adf3"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "31a1672e5b78fdbfdac8596f17ff2d7062b485f9",
+        "sha256": "7a38df964f9bbbf9dc2afac554aefe4379b25c1022d13c1a39d7cfe5acad590d"
+      }
+    }
+  ],
+  "owner_inputs": [
+    {
+      "path": "adl/tools/demo_adaptive_godel_loop.sh",
+      "revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "checkout": "/Volumes/FastWork/runtime-installer147/agent-logic-runtime",
+      "identity": {
+        "mode": "100755",
+        "blob": "e9ebf76f24693f3eb35af588905a5c87c39c2f65",
+        "sha256": "8797e7a45788ed55a526b23e692947b2c26a83e86228859952a0862279ad1fda"
+      },
+      "exact_current": false,
+      "full_source_delta": "--- currentADL\n+++ owner\n@@ -6,14 +6,17 @@\n RUNS_DIR=\"$OUT_ROOT/runs\"\n RUN_ID=\"review-godel-policy-001\"\n \n+source \"$ROOT/adl/tools/runtime_demo_common.sh\"\n+runtime_godel_preflight\n+\n echo \"[adaptive-godel-loop-demo] root=$ROOT\"\n echo \"[adaptive-godel-loop-demo] out=$OUT_ROOT\"\n \n-rm -rf \"$OUT_ROOT\"\n+\n mkdir -p \"$RUNS_DIR\"\n \n echo \"[adaptive-godel-loop-demo] step 1: run deterministic bounded godel loop\"\n-cargo run --manifest-path \"$ROOT/adl/Cargo.toml\" --bin adl -- godel run \\\n+\"$ADL_RUNTIME_BIN\" godel run \\\n   --run-id \"$RUN_ID\" \\\n   --workflow-id wf-godel-loop \\\n   --failure-code tool_failure \\\n@@ -23,7 +26,7 @@\n   --runs-dir \"$RUNS_DIR\"\n \n echo \"[adaptive-godel-loop-demo] step 2: inspect persisted policy-learning surfaces\"\n-cargo run --manifest-path \"$ROOT/adl/Cargo.toml\" --bin adl -- godel inspect \\\n+\"$ADL_RUNTIME_BIN\" godel inspect \\\n   --run-id \"$RUN_ID\" \\\n   --runs-dir \"$RUNS_DIR\"\n \n"
+    },
+    {
+      "path": "adl/tools/demo_aee_bounded_adaptation.sh",
+      "revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+      "checkout": "/Users/daniel/git/agent-logic-infrastructure",
+      "identity": {
+        "mode": "100755",
+        "blob": "6b0ad2cc1448d5ba610519078e4f2880aacfca15",
+        "sha256": "5cebf98cc04dd7e5e62848b4b853ba1ef38cbe7a457119196a7c3f88a75b87df"
+      },
+      "exact_current": false,
+      "full_source_delta": "--- currentADL\n+++ owner\n@@ -2,6 +2,10 @@\n set -euo pipefail\n \n ROOT=\"$(cd \"$(dirname \"${BASH_SOURCE[0]}\")/../..\" && pwd)\"\n+if [[ -n \"${ADL_DEMO_ADL_BIN:-}\" && ! -x \"$ADL_DEMO_ADL_BIN\" ]]; then\n+  echo \"installed Runtime CLI is not executable\" >&2\n+  exit 2\n+fi\n OUT_ROOT=\"${1:-$ROOT/.adl/reports/demo-aee-bounded-adaptation}\"\n STATE_ROOT=\"$OUT_ROOT/state\"\n RUNS_ROOT=\"${ADL_RUNS_ROOT:-$ROOT/.adl/runs}\"\n@@ -34,7 +38,9 @@\n \n run_adl() {\n   local adl_bin\n-  if adl_bin=\"$(resolve_adl_bin)\"; then\n+  if [[ -n \"${ADL_DEMO_ADL_BIN:-}\" ]]; then\n+    \"$ADL_DEMO_ADL_BIN\" run \"$@\"\n+  elif adl_bin=\"$(resolve_adl_bin)\"; then\n     \"$adl_bin\" \"$@\"\n   else\n     cargo run --manifest-path \"$ROOT/adl/Cargo.toml\" --bin adl -- \"$@\"\n"
+    },
+    {
+      "path": "adl/tools/demo_affect_engine.sh",
+      "revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "checkout": "/Volumes/FastWork/runtime-installer147/agent-logic-runtime",
+      "identity": {
+        "mode": "100755",
+        "blob": "911e12d34f13bace8ad1b42816a72bbff2e01277",
+        "sha256": "7a777a450a85f69aa89a2d77a52e5e66cc554b1a399727942c7b13cf801b0217"
+      },
+      "exact_current": false,
+      "full_source_delta": "--- currentADL\n+++ owner\n@@ -3,7 +3,7 @@\n \n ROOT=\"$(cd \"$(dirname \"${BASH_SOURCE[0]}\")/../..\" && pwd)\"\n OUT_ROOT=\"${1:-$ROOT/.adl/reports/demo-affect-engine}\"\n-RUNS_ROOT=\"${ADL_RUNS_ROOT:-$ROOT/.adl/runs}\"\n+RUNS_ROOT=\"${ADL_RUNS_ROOT:-$OUT_ROOT/runs}\"\n \n echo \"[affect-demo] running bounded affect engine demo\"\n \"$ROOT/adl/tools/demo_aee_bounded_adaptation.sh\" \"$OUT_ROOT\"\n"
+    },
+    {
+      "path": "adl/tools/demo_affect_godel_vertical_slice.sh",
+      "revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+      "checkout": "/Users/daniel/git/agent-logic-infrastructure",
+      "identity": {
+        "mode": "100755",
+        "blob": "e4c24a3a115a4b24886c1fea97b1c191b2ef6001",
+        "sha256": "d58e6903f4227d031196bc6ee689d1c810119d923fb321c1aa0dc03958b21833"
+      },
+      "exact_current": true,
+      "full_source_delta": ""
+    },
+    {
+      "path": "adl/tools/demo_cross_workflow_learning.sh",
+      "revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "checkout": "/Volumes/FastWork/runtime-installer147/agent-logic-runtime",
+      "identity": {
+        "mode": "100755",
+        "blob": "1e96b323573f3d10f1a4d24663a7a96d33694955",
+        "sha256": "79b4dd566ed2aae8b2bcaaeeb369297e5d9656eb6569f5287cec14a49678964c"
+      },
+      "exact_current": false,
+      "full_source_delta": "--- currentADL\n+++ owner\n@@ -6,14 +6,17 @@\n RUNS_DIR=\"$OUT_ROOT/runs\"\n RUN_ID=\"review-godel-crossflow-001\"\n \n+source \"$ROOT/adl/tools/runtime_demo_common.sh\"\n+runtime_godel_preflight\n+\n echo \"[cross-workflow-learning-demo] root=$ROOT\"\n echo \"[cross-workflow-learning-demo] out=$OUT_ROOT\"\n \n-rm -rf \"$OUT_ROOT\"\n+\n mkdir -p \"$RUNS_DIR\"\n \n echo \"[cross-workflow-learning-demo] step 1: run deterministic godel learning flow\"\n-cargo run --manifest-path \"$ROOT/adl/Cargo.toml\" --bin adl -- godel run \\\n+\"$ADL_RUNTIME_BIN\" godel run \\\n   --run-id \"$RUN_ID\" \\\n   --workflow-id wf-godel-loop \\\n   --failure-code tool_failure \\\n@@ -23,7 +26,7 @@\n   --runs-dir \"$RUNS_DIR\"\n \n echo \"[cross-workflow-learning-demo] step 2: inspect downstream learning decision\"\n-cargo run --manifest-path \"$ROOT/adl/Cargo.toml\" --bin adl -- godel inspect \\\n+\"$ADL_RUNTIME_BIN\" godel inspect \\\n   --run-id \"$RUN_ID\" \\\n   --runs-dir \"$RUNS_DIR\"\n \n"
+    },
+    {
+      "path": "adl/tools/demo_experiment_prioritization.sh",
+      "revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "checkout": "/Volumes/FastWork/runtime-installer147/agent-logic-runtime",
+      "identity": {
+        "mode": "100755",
+        "blob": "21e252f4139bee5c8c03beb7e2f7e2d1d032faf7",
+        "sha256": "56d10dc4d57294391353e46e94910b82ab6d7a783cdec86c0fd70eeb956497d1"
+      },
+      "exact_current": false,
+      "full_source_delta": "--- currentADL\n+++ owner\n@@ -6,14 +6,17 @@\n RUNS_DIR=\"$OUT_ROOT/runs\"\n RUN_ID=\"review-godel-priority-001\"\n \n+source \"$ROOT/adl/tools/runtime_demo_common.sh\"\n+runtime_godel_preflight\n+\n echo \"[experiment-prioritization-demo] root=$ROOT\"\n echo \"[experiment-prioritization-demo] out=$OUT_ROOT\"\n \n-rm -rf \"$OUT_ROOT\"\n+\n mkdir -p \"$RUNS_DIR\"\n \n echo \"[experiment-prioritization-demo] step 1: run deterministic godel prioritization flow\"\n-cargo run --manifest-path \"$ROOT/adl/Cargo.toml\" --bin adl -- godel run \\\n+\"$ADL_RUNTIME_BIN\" godel run \\\n   --run-id \"$RUN_ID\" \\\n   --workflow-id wf-godel-loop \\\n   --failure-code tool_failure \\\n@@ -23,7 +26,7 @@\n   --runs-dir \"$RUNS_DIR\"\n \n echo \"[experiment-prioritization-demo] step 2: inspect ranked experiment output\"\n-cargo run --manifest-path \"$ROOT/adl/Cargo.toml\" --bin adl -- godel inspect \\\n+\"$ADL_RUNTIME_BIN\" godel inspect \\\n   --run-id \"$RUN_ID\" \\\n   --runs-dir \"$RUNS_DIR\"\n \n"
+    },
+    {
+      "path": "adl/tools/demo_godel_hypothesis_engine.sh",
+      "revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "checkout": "/Volumes/FastWork/runtime-installer147/agent-logic-runtime",
+      "identity": {
+        "mode": "100755",
+        "blob": "9bb53bf2bf5dcd3b2ea9ab514450196ca3bc2563",
+        "sha256": "8aad3bac67a7107cc2796f84afacdd1c0d1b188214a415afc9b5cd43d66a5988"
+      },
+      "exact_current": false,
+      "full_source_delta": "--- currentADL\n+++ owner\n@@ -6,14 +6,17 @@\n RUNS_DIR=\"$OUT_ROOT/runs\"\n RUN_ID=\"review-godel-cli-001\"\n \n+source \"$ROOT/adl/tools/runtime_demo_common.sh\"\n+runtime_godel_preflight\n+\n echo \"[godel-hypothesis-demo] root=$ROOT\"\n echo \"[godel-hypothesis-demo] out=$OUT_ROOT\"\n \n-rm -rf \"$OUT_ROOT\"\n+\n mkdir -p \"$RUNS_DIR\"\n \n echo \"[godel-hypothesis-demo] step 1: generate deterministic hypothesis artifacts\"\n-cargo run --manifest-path \"$ROOT/adl/Cargo.toml\" --bin adl -- godel run \\\n+\"$ADL_RUNTIME_BIN\" godel run \\\n   --run-id \"$RUN_ID\" \\\n   --workflow-id wf-godel-loop \\\n   --failure-code tool_failure \\\n@@ -23,7 +26,7 @@\n   --runs-dir \"$RUNS_DIR\"\n \n echo \"[godel-hypothesis-demo] step 2: inspect the persisted hypothesis surface\"\n-cargo run --manifest-path \"$ROOT/adl/Cargo.toml\" --bin adl -- godel inspect \\\n+\"$ADL_RUNTIME_BIN\" godel inspect \\\n   --run-id \"$RUN_ID\" \\\n   --runs-dir \"$RUNS_DIR\"\n \n"
+    },
+    {
+      "path": "adl/tools/demo_promotion_eval_loop.sh",
+      "revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "checkout": "/Volumes/FastWork/runtime-installer147/agent-logic-runtime",
+      "identity": {
+        "mode": "100755",
+        "blob": "ccf5b4a515b729482fad7428195c5b2914bc1e05",
+        "sha256": "6f69f8c326ab8e4168910ba85d92ad5717fa2c48958f54596444bc5b4057d753"
+      },
+      "exact_current": false,
+      "full_source_delta": "--- currentADL\n+++ owner\n@@ -6,14 +6,17 @@\n RUNS_DIR=\"$OUT_ROOT/runs\"\n RUN_ID=\"review-godel-promotion-001\"\n \n+source \"$ROOT/adl/tools/runtime_demo_common.sh\"\n+runtime_godel_preflight\n+\n echo \"[promotion-eval-loop-demo] root=$ROOT\"\n echo \"[promotion-eval-loop-demo] out=$OUT_ROOT\"\n \n-rm -rf \"$OUT_ROOT\"\n+\n mkdir -p \"$RUNS_DIR\"\n \n echo \"[promotion-eval-loop-demo] step 1: run deterministic promotion/eval flow\"\n-cargo run --manifest-path \"$ROOT/adl/Cargo.toml\" --bin adl -- godel run \\\n+\"$ADL_RUNTIME_BIN\" godel run \\\n   --run-id \"$RUN_ID\" \\\n   --workflow-id wf-godel-loop \\\n   --failure-code tool_failure \\\n@@ -23,7 +26,7 @@\n   --runs-dir \"$RUNS_DIR\"\n \n echo \"[promotion-eval-loop-demo] step 2: inspect evaluation and promotion outputs\"\n-cargo run --manifest-path \"$ROOT/adl/Cargo.toml\" --bin adl -- godel inspect \\\n+\"$ADL_RUNTIME_BIN\" godel inspect \\\n   --run-id \"$RUN_ID\" \\\n   --runs-dir \"$RUNS_DIR\"\n \n"
+    },
+    {
+      "path": "adl/tools/demo_reasoning_graph_affect.sh",
+      "revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+      "checkout": "/Users/daniel/git/agent-logic-infrastructure",
+      "identity": {
+        "mode": "100755",
+        "blob": "bd4ec1fa067e2cc5f069cba0919a3f5e3b28fad9",
+        "sha256": "7aed77d0a30166054a59df2ed6b9beb7c37f539f2ac522d8abdb7aff81740151"
+      },
+      "exact_current": true,
+      "full_source_delta": ""
+    }
+  ],
+  "custody": {
+    "path": "/Volumes/FastWork/c1223/godel-aee-nine-historical/prepared/current-original.tar",
+    "sha256": "c556be293da8c21edeb79802050c16ebe1df7617e24d190d73c89cef5af330e5",
+    "current_members": 14,
+    "original_members": 9
+  },
+  "patch": {
+    "path": "/Volumes/FastWork/c1223/godel-aee-nine-historical/prepared/nine-and-callers.patch",
+    "sha256": "29e78ce916536389e444665f9d5ab834022d5d763e0f946cceade37651ee9b5a"
+  },
+  "assertion_dispositions": [
+    {
+      "path": "adl/tools/demo_adaptive_godel_loop.sh",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "235806c9d67d8929eb5eb9c29c6c15706d5e979a",
+        "sha256": "8a8442db9f627934cdfe11daae0354577161b4fb2cd92c0afc5090a597266b66"
+      },
+      "shell_file_checks": 2,
+      "contract": "Original complete command/exit/assertion body retained in custody; no test execution claimed."
+    },
+    {
+      "path": "adl/tools/demo_aee_bounded_adaptation.sh",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "27d6a155538067355b72ba09ea4a37eef7c8a391",
+        "sha256": "0171e9df065780743bc231ae0a66ccf42678e2ff9c90f3641d8f6c148dffece5"
+      },
+      "shell_file_checks": 6,
+      "contract": "Original complete command/exit/assertion body retained in custody; no test execution claimed."
+    },
+    {
+      "path": "adl/tools/demo_affect_engine.sh",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "35bdff87edab47b41614fcbdbb6a46bfab361fd7",
+        "sha256": "a27f3290c362dff167e157a6002d53bf790079dab0e8b4b077c473136d1fba7a"
+      },
+      "shell_file_checks": 0,
+      "contract": "Original complete command/exit/assertion body retained in custody; no test execution claimed."
+    },
+    {
+      "path": "adl/tools/demo_affect_godel_vertical_slice.sh",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "e4c24a3a115a4b24886c1fea97b1c191b2ef6001",
+        "sha256": "d58e6903f4227d031196bc6ee689d1c810119d923fb321c1aa0dc03958b21833"
+      },
+      "shell_file_checks": 1,
+      "contract": "Original complete command/exit/assertion body retained in custody; no test execution claimed."
+    },
+    {
+      "path": "adl/tools/demo_cross_workflow_learning.sh",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "2a6a14d5d72156df070e2122f42e8b243356acbb",
+        "sha256": "c9cce09c047876c8087995d27c1bf510be69e8b3845f43d838b14935614621f9"
+      },
+      "shell_file_checks": 1,
+      "contract": "Original complete command/exit/assertion body retained in custody; no test execution claimed."
+    },
+    {
+      "path": "adl/tools/demo_experiment_prioritization.sh",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "c5dbdb070ccfccbadcf3a40cd1019198f0c64e86",
+        "sha256": "be6d7889bd9579654c178fe7e6299dbc6d68e5477282c4934bec092937a09444"
+      },
+      "shell_file_checks": 1,
+      "contract": "Original complete command/exit/assertion body retained in custody; no test execution claimed."
+    },
+    {
+      "path": "adl/tools/demo_godel_hypothesis_engine.sh",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "ee5372dc5357ea79c5d6cfad23b78586cbe99549",
+        "sha256": "9e3fcd041e4aec52741b661be90d6483f6941de5104cc47d41909f0ada8d4811"
+      },
+      "shell_file_checks": 1,
+      "contract": "Original complete command/exit/assertion body retained in custody; no test execution claimed."
+    },
+    {
+      "path": "adl/tools/demo_promotion_eval_loop.sh",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "2dfdbbe882b1b6801f40d5ad07b5b7e9a0193364",
+        "sha256": "eb05a5a5d9d9b059eeeb65889e457e6f4a0bc0c4c6766a551f662df18ae8722c"
+      },
+      "shell_file_checks": 2,
+      "contract": "Original complete command/exit/assertion body retained in custody; no test execution claimed."
+    },
+    {
+      "path": "adl/tools/demo_reasoning_graph_affect.sh",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "bd4ec1fa067e2cc5f069cba0919a3f5e3b28fad9",
+        "sha256": "7aed77d0a30166054a59df2ed6b9beb7c37f539f2ac522d8abdb7aff81740151"
+      },
+      "shell_file_checks": 0,
+      "contract": "Original complete command/exit/assertion body retained in custody; no test execution claimed."
+    }
+  ],
+  "family_contract": "Five direct godel run/inspect producers; AEE initial expected failure plus adapted success and six file checks; affect -> AEE and reasoning -> affect child chain; vertical slice -> reasoning plus godel run/affect-slice and output check. All original trace, artifact, run-id, overlay and command-success requirements remain historical and unqualified here.",
+  "caller_closure": "Only executable inbound edges found in tracked tools/config/workflows are internal vertical->reasoning->affect->AEE. Four current navigation guides repaired, including two preserved arxiv manuscript inputs. No public selector or compiler behavior changes. Immutable milestone/review packets retain original mentions.",
+  "prior_evidence": [
+    {
+      "path": "/Volumes/FastWork/adl-worktrees/adl-issue-1223-1223-coherent-source-retirement/docs/milestones/v0.93.1/repository-decomposition/rd07-1223/RUNTIME_SOURCE_FAMILY_APPLIED.json",
+      "sha256": "9600a1fb0ee1a58508069b5847f5b8cf475805cf9b0059bc3f3f5ee3b51fd486"
+    },
+    {
+      "path": "/Volumes/FastWork/adl-worktrees/adl-issue-1223-1223-coherent-source-retirement/docs/milestones/v0.93.1/repository-decomposition/rd07-1223/ARXIV_MANUSCRIPT_ADL_RETAINED_PAIR.json",
+      "sha256": "fadf1b01f359470344c62bca6a739a90d7e0740e10e90a08be33586cb18f8d61"
+    }
+  ],
+  "limits": [
+    "Historical ADL monolith interface retirement, not an assertion of runtime feature removal or equivalent successor acceptance.",
+    "Owner source pins preserve custody only; no original demo/test/provider/Cargo execution or new Godel/AEE proof.",
+    "Existing Runtime source qualification does not establish these historical shell scenarios. All models, fixtures, public behavior, independent product tests and immutable evidence remain outside this patch.",
+    "Original4134+22 identities unchanged; no supplemental scope."
+  ],
+  "proposal_source_head": "bd90e84f8db8e2f612fd136fd4d029ed0f3ee8dd",
+  "review": {
+    "status": "PASS",
+    "reviewer": "review_1223_historical_retention",
+    "proposal_sha256": "dd6b0e7349a246a033c782a3a684235c9d9015a0513561ee56296ea5c5dd235e",
+    "scope": "Reviewed source/caller/custody composition; all individual qualification and historical limits preserved."
+  }
+}

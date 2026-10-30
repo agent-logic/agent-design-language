@@ -1,0 +1,14 @@
+{
+  "schema": "sprint2.child_source_baselines.v1",
+  "observed": "2026-10-19",
+  "codefriend": {
+    "origin_main": "08ddd97c3777510cc0b85068f0e1d06f09d31321",
+    "includes": "PR119 macOS renderer product proof; existing #120 evidence inventory should consider this source without equating it to user acceptance"
+  },
+  "enterprise_security": {
+    "origin_main": "51a1c02e1ed273b63b397b3371d0230158a0450c",
+    "includes": "PR8 post-split docs and PR6 CI selection; same four adapter/six installed denominator, explicit no skipped/filtered cases"
+  },
+  "application": "fast-forward only the issue worktrees after bind; preserve primary policy deletions",
+  "candidate_acceptance": "not_established"
+}

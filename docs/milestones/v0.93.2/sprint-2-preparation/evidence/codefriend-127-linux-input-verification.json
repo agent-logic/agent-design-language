@@ -1,0 +1,20 @@
+{
+  "status": "verified",
+  "members": 22081,
+  "resource_members": 22080,
+  "payload_bytes": 768634880,
+  "uncompressed_member_bytes": 741463280,
+  "member_cap": 32768,
+  "byte_cap": 4294967296,
+  "platform_executed": false,
+  "archive": "/private/tmp/worker30-codefriend273-package/codefriend-product.tar",
+  "checks": [
+    "authenticated artifact ZIP digest",
+    "payload SHA256",
+    "independent source/run/attempt/successful job/workflow identity",
+    "safe unique regular members",
+    "complete manifest inventory and mode/hash correspondence",
+    "ELF CodeFriend/server binaries"
+  ],
+  "earlier_refusal": "10000 member cap incompatible with current bundled renderer; retained same authenticated archive and added32769-member rejection regression"
+}

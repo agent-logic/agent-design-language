@@ -1,0 +1,12 @@
+{
+  "result": "codefriend-127-local-installed-export-proof.json",
+  "sha256": "d861460077cb9cf21aa9dd1879588202b99302921f9868f29e106609c39fc025",
+  "supersedes_coverage_gap": "Earlier 24-case run had no exports. This 30-case local run creates a supported Markdown export, tests tenant/revocation denial before and after export, removes it, and denies post-delete access.",
+  "qualification": "Local Darwin copied-binary proof only; Linux qualification pending. Harness and fixture hashes in report bind updates beyond executable candidate.",
+  "remaining": [
+    "Authenticated installed Linux evidence",
+    "Independent final review",
+    "Native delivery and Sprint 2 acceptance"
+  ],
+  "template_scope": "Diagnostic security fixture only; no acceptance of old templates. #130 remains selected."
+}

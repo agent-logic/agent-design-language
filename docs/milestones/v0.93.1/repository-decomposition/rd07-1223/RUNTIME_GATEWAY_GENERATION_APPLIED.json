@@ -1,0 +1,232 @@
+{
+  "schema": "adl1223.runtime164_two_contract_retirement.v1",
+  "source_head": "648b6717b7b1aa11dc4370f9a61643aef840a5a1",
+  "status": "applied_local_reversible_implementation",
+  "files": [
+    {
+      "path": "adl/config/validation_lane_selector.v0.91.6.json",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "ad47d25909ef35d3900353b6138b0b93397442c4",
+        "sha256": "61a9629a47d8b09ea18bb3b1fc8ef56b14196418851d796bdc98cde8b08cc370"
+      },
+      "after": {
+        "mode": "100644",
+        "sha256": "0d636b424ee8a8529fe29c407c6b7db64ee33e565bedab1e2e333194c58c46fd",
+        "blob": "86a1d93500563a740828ffbc23626bd04fc5a14a"
+      },
+      "id": "RD07-0328",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "5dc4fc4076ed7298a07abec47449292f26bdf5df"
+      }
+    },
+    {
+      "path": "adl/tools/generate_tool_surface_registry.py",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "2c38c2d3dbcfd66f5ccdf00c210a607fab9e23f6",
+        "sha256": "20b469a6c2c7ea7c1b9271b0493f7c5dfc179d6531ceb441cd2161fc76f8fc57"
+      },
+      "after": {
+        "mode": "100644",
+        "sha256": "87feaa46a41e62274fd78934e3c5f9ff5d272a592b0bb3095f8b86fdd525a34e",
+        "blob": "84045d8305ccbf5e2e00b4cd5faba0016eefabfa"
+      },
+      "id": "RD07-1398",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "f490235aeb10ef360442c83f983b3d824cdbe96a"
+      }
+    },
+    {
+      "path": "adl/tools/run_runtime_gateway_owner_contract.py",
+      "action": "add",
+      "before": null,
+      "after": {
+        "mode": "100644",
+        "sha256": "032eca9c424f6fa22692fa2d5516dc3ff264dabbb28fc73de6a1f5e70f927941",
+        "blob": "f6610f8d3a76600636891ba4d01100847259ef37"
+      }
+    },
+    {
+      "path": "adl/tools/test_run_v0917_csm_api_gateway_bridge_proof.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "7ac981024ac4b2cea3b6a5c9f0c039f7430cb66a",
+        "sha256": "523979bf6905e48afd1799602000af96bb87c31bf5fd50c8ab24bab08230df51"
+      },
+      "after": null,
+      "id": "RD07-2100",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "7ac981024ac4b2cea3b6a5c9f0c039f7430cb66a"
+      }
+    },
+    {
+      "path": "adl/tools/test_runtime_v3_cross_binary_generation.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "6200e1a51b524c43569e86a9d7be138b110e77b1",
+        "sha256": "aae9b3a39a9f5a52afd0ab4d1663e4b34d554b41a03f382cd9f1b4318130735d"
+      },
+      "after": null,
+      "id": "RD07-2108",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "5a195ddda6f5e19f7af8fa55c77aa128dc68beec"
+      }
+    },
+    {
+      "path": "docs/tooling/RUNTIME_GATEWAY_OWNER_CONTRACT.md",
+      "action": "add",
+      "before": null,
+      "after": {
+        "mode": "100644",
+        "sha256": "6e862e5f7df2115ab08c5be2599373370f00069a5c8e15c802c815a874356795",
+        "blob": "dfe33121cf6ab98d53b2dc061df70a99d06dd825"
+      }
+    },
+    {
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "1d46861e5ca52efa62e0551973b8f0dd4542bcbb",
+        "sha256": "90b04733f7bf6246f30e98b12f21f76a8ab37333544ee3df56d4357488884091"
+      },
+      "after": {
+        "mode": "100644",
+        "sha256": "9ccb46aae7426aea92883bef3fd9899518a22b9bfc98f2235523b6db34b5212c",
+        "blob": "2f245d65e62cc7222cf21a95324910d0e1e6de2e"
+      }
+    }
+  ],
+  "removal_ids": [
+    "RD07-2100",
+    "RD07-2108"
+  ],
+  "owner_revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+  "owner_resource_sha256": {
+    "adl/tools/test_run_v0917_csm_api_gateway_bridge_proof.sh": "3ec45e8dc970ba6f22e85aca40d34c9e0e27dec42ffa8c41a3305288479735dc",
+    "adl/tools/validate_v0917_csm_api_gateway_bridge_proof.py": "f1a726b5130c1f1a37fe290d61ea752878a6eb9c375b25121126b37364a5a1a1"
+  },
+  "qualified_reconciliation": {
+    "path": "/Volumes/FastWork/c1223/runtime-remaining-tool-reconciliation/RUNTIME164_TWO_HOLD_RECONCILIATION.json",
+    "sha256": "3064dbdebc6ca52fce94f8ad6345a6f8257f0c81e200c919540276175ea77f1f"
+  },
+  "original_custody": {
+    "path": "/Volumes/FastWork/c1223/runtime164-two-contract-retirement/inspected-current-and-original.tar",
+    "sha256": "1b6407294d0545be6e73df35b8f163261122a0900869fb7f22132685816e7ba5"
+  },
+  "current_custody": {
+    "path": "/Volumes/FastWork/c1223/runtime164-two-contract-retirement/current-preimages.tar",
+    "sha256": "0cefd92635a0bf5d1037b3ffdb34796e876b207c2e350b894d5172de4005cfe8"
+  },
+  "patch_sha256": "69405a1e0c5db4bf6d6778d417400512e27a246412138a83832892470ff3ce74",
+  "caller_closure": "WP07 selector preserves original mock assertions through explicit Runtime source + selected binary; no Cargo fallback.2108 has no active executable caller; obsolete historical registry row removed. Live1513producer+2223validator remain pending separate disposition.",
+  "limits": [
+    "No tests/builds/cloud/provider run; existing Runtime164 actualCI proof reused.",
+    "Selected binary explicit operator input, not authenticated artifact provenance.",
+    "Earlier Runtime162 failures and live gateway/weather acceptance remain separate.",
+    "No ledger/hold/guard updates; exact source proposal only."
+  ],
+  "routing_proof": {
+    "path": "/Volumes/FastWork/c1223/runtime164-two-contract-retirement/ROUTING_RESULT.json",
+    "sha256": "f68d59023b3f9475f9946296bf055f08a83b5b1076caf187da9f09d1ad86851e",
+    "cases": 8,
+    "original_tests_rerun": false
+  },
+  "proposal_source_head": "55f3501eeae5e200788e60d746298cf90b937735",
+  "issue": 1223,
+  "removed_count": 2,
+  "rows": [
+    {
+      "id": "RD07-2100",
+      "path": "adl/tools/test_run_v0917_csm_api_gateway_bridge_proof.sh",
+      "owner": "agent-logic-infrastructure",
+      "component": "agent-logic-infrastructure-active-tool-contracts",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "7ac981024ac4b2cea3b6a5c9f0c039f7430cb66a"
+      },
+      "existing_action": "retain",
+      "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
+      "proposed_action": "hold_explicit_reconciliation",
+      "required_before_execution": [
+        "Route source tests2100/2108 to Runtime owner with manifests, fixtures and existing scenario obligations; copied source alone does not close these dependencies."
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+        "exact_successor_paths": [
+          "adl/tools/test_run_v0917_csm_api_gateway_bridge_proof.sh"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "hold_runtime_owner_test_and_consumer_reconciliation",
+        "family": "Source-bound Runtime tests",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
+      }
+    },
+    {
+      "id": "RD07-2108",
+      "path": "adl/tools/test_runtime_v3_cross_binary_generation.sh",
+      "owner": "agent-logic-infrastructure",
+      "component": "agent-logic-infrastructure-active-tool-contracts",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "5a195ddda6f5e19f7af8fa55c77aa128dc68beec"
+      },
+      "existing_action": "retain",
+      "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
+      "proposed_action": "hold_explicit_reconciliation",
+      "required_before_execution": [
+        "Route source tests2100/2108 to Runtime owner with manifests, fixtures and existing scenario obligations; copied source alone does not close these dependencies."
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+        "exact_successor_paths": [
+          "adl/tools/test_runtime_v3_cross_binary_generation.sh"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0",
+        "proposal": "hold_runtime_owner_test_and_consumer_reconciliation",
+        "family": "Source-bound Runtime tests",
+        "review": {
+          "review": "bounded independent review found one stale guardian classification; corrected after direct exact-revision inspection",
+          "fixed_ids": [
+            "RD07-2243",
+            "RD07-1483"
+          ],
+          "other_findings": 0
+        }
+      }
+    }
+  ],
+  "custody": {
+    "path": "/Volumes/FastWork/c1223/runtime164-two-contract-retirement/current-preimages.tar",
+    "sha256": "0cefd92635a0bf5d1037b3ffdb34796e876b207c2e350b894d5172de4005cfe8"
+  },
+  "review": {
+    "result": "PASS",
+    "reviewer": "review_1223_historical_retention",
+    "scope": "Exact source/custody and actual Runtime164 original CI proof, two-resource adapter, mandatory binary and no Cargo fallback, eight inert routing cases, caller closure"
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 505,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-F] C-SDLC v3 authority-transition decision",
+    "slug": "v0-92-1-v3-f-c-sdlc-v3-authority-transition-decision",
+    "version": "v0.92.1",
+    "generation": 11
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "prebind-v3-f-preparation",
+          "proof_role": "Prove the initialized #505 preparation packet preserves the #504 terminal dependency, the #570/#571 cutover-readiness gates, v2-live authority boundary, no-silent-retirement rule, explicit operator approval gate, and future visible `Closes #505` publication linkage requirement.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1500,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/505/validate-authority-transition-prep.rb"
+          ],
+          "parallel_group": "505-prebind-local",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed if the packet omits the #504 dependency, v2 live-authority boundary, no-silent-retirement rule, explicit operator approval gate, or future visible closing linkage.",
+      "design_ref": ".csdlc/prepared/issues/505/design.md",
+      "design_digest": "8a1fccb205c7ed4511fccc1b027bcecaedc257f65197fe7dfc8a9ec35d643d8a",
+      "diagram_ref": ".csdlc/prepared/issues/505/diagram.mmd",
+      "diagram_digest": "72b7875592231b8ecf51ff326181c7b4b93ab5dd13080ff8a9353c70d8ad67ff"
+    }
+  }
+}

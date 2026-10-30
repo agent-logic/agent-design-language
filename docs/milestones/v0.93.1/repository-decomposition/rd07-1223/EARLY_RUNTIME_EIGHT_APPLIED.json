@@ -1,0 +1,495 @@
+{
+  "schema": "adl1223.early_runtime_eight_document_transfer.v1",
+  "status": "applied",
+  "source_head": "af5a909318c9609a26e7d59e43dffcdeb75d0a72",
+  "removed_count": 8,
+  "rows": [
+    {
+      "id": "RD07-3112",
+      "path": "demos/aee-recovery/README.md",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-other-consumers",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "d5ce6fec4dee0455787471ebc0b476d3235ec843"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "coherent component and caller cutover",
+        "qualified owner adoption; exact source correspondence alone is insufficient"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "demos/aee-recovery/README.md"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_200_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
+        "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+        "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      }
+    },
+    {
+      "id": "RD07-3185",
+      "path": "demos/v0.85/affect_engine_demo.md",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-other-consumers",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "1d778e0a8a7a824d522a5217e9aeb1c5099f59f0"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "coherent component and caller cutover",
+        "qualified owner adoption; exact source correspondence alone is insufficient"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "demos/v0.85/affect_engine_demo.md"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_200_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
+        "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+        "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      }
+    },
+    {
+      "id": "RD07-3186",
+      "path": "demos/v0.85/affect_godel_vertical_slice_demo.md",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-other-consumers",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "8a46470bc35d2669b3659b82be2a50915100b41b"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "coherent component and caller cutover",
+        "qualified owner adoption; exact source correspondence alone is insufficient"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "demos/v0.85/affect_godel_vertical_slice_demo.md"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_200_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
+        "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+        "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      }
+    },
+    {
+      "id": "RD07-3187",
+      "path": "demos/v0.85/cross_workflow_learning_demo.md",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-other-consumers",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "4928962959a9185b3c9506a04dcd1357b4b96a21"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "coherent component and caller cutover",
+        "qualified owner adoption; exact source correspondence alone is insufficient"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "demos/v0.85/cross_workflow_learning_demo.md"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_200_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
+        "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+        "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      }
+    },
+    {
+      "id": "RD07-3188",
+      "path": "demos/v0.85/experiment_prioritization_demo.md",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-other-consumers",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "c1f00af0727bdd7698ec3205cbbff371ee6ef75c"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "coherent component and caller cutover",
+        "qualified owner adoption; exact source correspondence alone is insufficient"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "demos/v0.85/experiment_prioritization_demo.md"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_200_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
+        "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+        "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      }
+    },
+    {
+      "id": "RD07-3191",
+      "path": "demos/v0.85/promotion_eval_loop_demo.md",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-other-consumers",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "5188fd1c51cd457ad0fcfcb7253313076d74693b"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "coherent component and caller cutover",
+        "qualified owner adoption; exact source correspondence alone is insufficient"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "demos/v0.85/promotion_eval_loop_demo.md"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_200_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
+        "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+        "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      }
+    },
+    {
+      "id": "RD07-3192",
+      "path": "demos/v0.85/reasoning_graph_affect_demo.md",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-other-consumers",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "2ee4e5b54475cbbaa57e593f1b5cffc8bd97bca0"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "coherent component and caller cutover",
+        "qualified owner adoption; exact source correspondence alone is insufficient"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "demos/v0.85/reasoning_graph_affect_demo.md"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_200_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
+        "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+        "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      }
+    },
+    {
+      "id": "RD07-3193",
+      "path": "demos/v0.85/steering_queue_checkpoint_demo.md",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-other-consumers",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "d7afa6e00f447a17d11214da4447d60241432c9d"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "coherent component and caller cutover",
+        "qualified owner adoption; exact source correspondence alone is insufficient"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "demos/v0.85/steering_queue_checkpoint_demo.md"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_200_DISPOSITION_PROPOSAL.json",
+        "packet_sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a",
+        "proposal": "conditional_owner_transfer_preserving_family_and_consumers",
+        "review": "Planning #12 independent source review accepted; no execution/deletion authority"
+      }
+    }
+  ],
+  "files": [
+    {
+      "path": "demos/aee-recovery/README.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "d5ce6fec4dee0455787471ebc0b476d3235ec843",
+        "sha256": "2764c626bed7d4e33e9106d60997eeadfde1bb01593296f6996456806fcf045c"
+      },
+      "after": null
+    },
+    {
+      "path": "demos/v0.85/affect_engine_demo.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "1d778e0a8a7a824d522a5217e9aeb1c5099f59f0",
+        "sha256": "2f13b7d5d61973c1599c65d7d7a5a0839ba221a7fb81cbde7aad7b353295a777"
+      },
+      "after": null
+    },
+    {
+      "path": "demos/v0.85/affect_godel_vertical_slice_demo.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "8a46470bc35d2669b3659b82be2a50915100b41b",
+        "sha256": "f02894cbcb9f49ea5dd130a2ae9eef3a4590d247e140b56f5bdab07f26163da8"
+      },
+      "after": null
+    },
+    {
+      "path": "demos/v0.85/cross_workflow_learning_demo.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "4928962959a9185b3c9506a04dcd1357b4b96a21",
+        "sha256": "87ed3e88a6c76e1fbab4a9d240be996dd65bc3f0daf8d3895c78a02c241ef302"
+      },
+      "after": null
+    },
+    {
+      "path": "demos/v0.85/experiment_prioritization_demo.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "c1f00af0727bdd7698ec3205cbbff371ee6ef75c",
+        "sha256": "8ad19611cb465085c30cebc210052d7413fc2b49b748043e9316e0ec441ab279"
+      },
+      "after": null
+    },
+    {
+      "path": "demos/v0.85/promotion_eval_loop_demo.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "5188fd1c51cd457ad0fcfcb7253313076d74693b",
+        "sha256": "2b67849b4659dc5ba73b120b1b7c6fbb08febe49cd17dfb0541e8b5613b9ad67"
+      },
+      "after": null
+    },
+    {
+      "path": "demos/v0.85/reasoning_graph_affect_demo.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "2ee4e5b54475cbbaa57e593f1b5cffc8bd97bca0",
+        "sha256": "332719f98f328e2084d1859b7a113ebfdb56572ace26c68d0ae524d6d740e67f"
+      },
+      "after": null
+    },
+    {
+      "path": "demos/v0.85/steering_queue_checkpoint_demo.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "d7afa6e00f447a17d11214da4447d60241432c9d",
+        "sha256": "868063c42a8c48dc0a1ed92241bd86c60064395af215ddbb55c6b72e4cc2b5c7"
+      },
+      "after": null
+    },
+    {
+      "path": "demos/README.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "bf010a6cd0893180bcd79c161796f791a6bc9eba",
+        "sha256": "f8c0a410770dffb7e703bb4690bbcfb5f2a4ef0dc47bae242dd0bd9802a02f38"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "bf083a6583e64850bf4094b77b885bdca16517f4",
+        "sha256": "912258f3fd3ec1b8d80108407c3ae4b52fa4ff3d73a244e8dec774027dc7e0e8"
+      }
+    },
+    {
+      "path": "demos/v0.85/v085_demo_program.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "6f4983c4ee0612b8fd2e76f3820e22e473f120e3",
+        "sha256": "6e9659c4b9f67a8a76f812a8d6a89a8cd134f485935a5f03731c4f6b9803c1bc"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "59d3d16ca4bfdf4b2ce9e66886347199b0491db4",
+        "sha256": "97325688a27a685fd4ecf381d3b6c94f9f8b53076df57bb4e68248ee45f1e27b"
+      }
+    }
+  ],
+  "owner_revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+  "owner_inputs": [
+    {
+      "path": "demos/aee-recovery/README.md",
+      "revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "mode": "100644",
+      "blob": "d5ce6fec4dee0455787471ebc0b476d3235ec843",
+      "sha256": "2764c626bed7d4e33e9106d60997eeadfde1bb01593296f6996456806fcf045c",
+      "exact_current_bytes": true
+    },
+    {
+      "path": "demos/v0.85/affect_engine_demo.md",
+      "revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "mode": "100644",
+      "blob": "1d778e0a8a7a824d522a5217e9aeb1c5099f59f0",
+      "sha256": "2f13b7d5d61973c1599c65d7d7a5a0839ba221a7fb81cbde7aad7b353295a777",
+      "exact_current_bytes": true
+    },
+    {
+      "path": "demos/v0.85/affect_godel_vertical_slice_demo.md",
+      "revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "mode": "100644",
+      "blob": "8a46470bc35d2669b3659b82be2a50915100b41b",
+      "sha256": "f02894cbcb9f49ea5dd130a2ae9eef3a4590d247e140b56f5bdab07f26163da8",
+      "exact_current_bytes": true
+    },
+    {
+      "path": "demos/v0.85/cross_workflow_learning_demo.md",
+      "revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "mode": "100644",
+      "blob": "4928962959a9185b3c9506a04dcd1357b4b96a21",
+      "sha256": "87ed3e88a6c76e1fbab4a9d240be996dd65bc3f0daf8d3895c78a02c241ef302",
+      "exact_current_bytes": true
+    },
+    {
+      "path": "demos/v0.85/experiment_prioritization_demo.md",
+      "revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "mode": "100644",
+      "blob": "c1f00af0727bdd7698ec3205cbbff371ee6ef75c",
+      "sha256": "8ad19611cb465085c30cebc210052d7413fc2b49b748043e9316e0ec441ab279",
+      "exact_current_bytes": true
+    },
+    {
+      "path": "demos/v0.85/promotion_eval_loop_demo.md",
+      "revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "mode": "100644",
+      "blob": "5188fd1c51cd457ad0fcfcb7253313076d74693b",
+      "sha256": "2b67849b4659dc5ba73b120b1b7c6fbb08febe49cd17dfb0541e8b5613b9ad67",
+      "exact_current_bytes": true
+    },
+    {
+      "path": "demos/v0.85/reasoning_graph_affect_demo.md",
+      "revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "mode": "100644",
+      "blob": "2ee4e5b54475cbbaa57e593f1b5cffc8bd97bca0",
+      "sha256": "332719f98f328e2084d1859b7a113ebfdb56572ace26c68d0ae524d6d740e67f",
+      "exact_current_bytes": true
+    },
+    {
+      "path": "demos/v0.85/steering_queue_checkpoint_demo.md",
+      "revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "mode": "100644",
+      "blob": "d7afa6e00f447a17d11214da4447d60241432c9d",
+      "sha256": "868063c42a8c48dc0a1ed92241bd86c60064395af215ddbb55c6b72e4cc2b5c7",
+      "exact_current_bytes": true
+    }
+  ],
+  "prior_dispositions": [
+    {
+      "path": "/Volumes/FastWork/adl-worktrees/adl-issue-1223-1223-coherent-source-retirement/docs/milestones/v0.93.1/repository-decomposition/rd07-1223/RUNTIME_DEMO_RETIREMENT_DISPOSITION.json",
+      "sha256": "31a169792124dd2a6e9ed933ed7fc5e333b10eddc0bd2300fe73c3933a33328d"
+    },
+    {
+      "path": "/Volumes/FastWork/adl-worktrees/adl-issue-1223-1223-coherent-source-retirement/docs/milestones/v0.93.1/repository-decomposition/rd07-1223/RUNTIME_200_DISPOSITION_PROPOSAL.json",
+      "sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a"
+    },
+    {
+      "path": "/Volumes/FastWork/adl-worktrees/adl-issue-1223-1223-coherent-source-retirement/docs/milestones/v0.93.1/repository-decomposition/rd07-1223/RUNTIME_29_DOC_DISPOSITIONS.json",
+      "sha256": "2ae4a55dbaee23c4367e3503cd4f94378f6eec43ea42d8fec40f750296335dc1"
+    }
+  ],
+  "qualification_boundary": "Documentation custody only: all8 current Markdown files byte-identical to authenticated ownerGit tree. No machine-readable fixtures or executable source deleted; this is not functional/provider/conversation qualification. Existing adverse scenario evidence remains unchanged.",
+  "custody": {
+    "path": "/Volumes/FastWork/c1223/early-runtime-eight-docs/prepared-provider13-composed/current-and-original-preimages.tar",
+    "sha256": "f989c4330e13568ed69d6a28cc23488f6a650ad5c06f000ef32ed1ba9d52b7a1",
+    "current_members": 10,
+    "original_members": 8,
+    "original_revision": "248f00e359e412f6bc0061ac88be9ff374e3a212"
+  },
+  "caller_closure": {
+    "scan": {
+      "path": "/Volumes/FastWork/c1223/remaining-doc49/EARLY10_CALLERS.txt",
+      "sha256": "c6d9510ffc9194c74d4238b5ad9b59ab28365b612312134aca9d1374ee9d8d21"
+    },
+    "source": "No executable source consumer found for these8 guide contents; two Markdown navigation files patched to exact immutable Runtime blob URLs.",
+    "review_correction": "Prior ten-guide proposal found retained manuscript test requires local source_refs existence. Therefore RD07-3184 and RD07-3189 remain unchanged with their original generator/test; neither is in this eight-document patch.",
+    "historical": "Original milestone/review/issue evidence and captured source records remain unchanged.",
+    "registry": "No tool registry entries or generator change; all8paths are documents."
+  },
+  "preserved_operational_fixtures": [
+    {
+      "path": "demos/aee-recovery/retry-budget.overlay.json",
+      "sha256": "cd68576b967e669eb7ed794afef665dba94e5080b136aafb2c0911a034c03697",
+      "reason": "Active producer input or retained manuscript test local-source existence assertion; no operational equivalence inferred from document custody."
+    },
+    {
+      "path": "demos/v0.85/steering_queue_checkpoint_patch.json",
+      "sha256": "10f0158313e946e1f9f044f49341a64df02e1ffcb37097283c7c9d262778efa8",
+      "reason": "Active producer input or retained manuscript test local-source existence assertion; no operational equivalence inferred from document custody."
+    },
+    {
+      "path": "demos/v0.85/adaptive_godel_loop_demo.md",
+      "sha256": "bffc5f9600c983b70b0d79cb4f9cedb07ea7ead736ed91785d94d14c49a1f4f9",
+      "reason": "Active producer input or retained manuscript test local-source existence assertion; no operational equivalence inferred from document custody."
+    },
+    {
+      "path": "demos/v0.85/godel_hypothesis_engine_demo.md",
+      "sha256": "76bf0f7a7dec7bc8d7650f57b3459af8a2719558d07e8f56203b73682955340c",
+      "reason": "Active producer input or retained manuscript test local-source existence assertion; no operational equivalence inferred from document custody."
+    }
+  ],
+  "limits": [
+    "No tests/builds/providers/cloud/model/runtime/native operations executed.",
+    "No website or audio repo changes; only split Runtime early scenario guides.",
+    "Original4134+22 and both distributed holds unchanged;exact8captured proposed transfers only."
+  ],
+  "patch": {
+    "path": "/Volumes/FastWork/c1223/early-runtime-eight-docs/prepared-provider13-composed/eight-and-navigation.patch",
+    "sha256": "4652eaa423ff6057b9513ffeb81fcf8b5e6681ba16d5e512f73ca780e4485439"
+  },
+  "proposal_source_head": "af5a909318c9609a26e7d59e43dffcdeb75d0a72",
+  "review": {
+    "status": "PASS",
+    "reviewer": "/root/review_1223_public_facade",
+    "proposal_sha256": "05aa6b89305abb484fd679a9340233bea256483c8d5849382b07bc902208b3f7",
+    "scope": "Owner document correspondence, exact custody and navigation; no executable or live qualification."
+  }
+}

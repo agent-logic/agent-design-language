@@ -1,0 +1,34 @@
+{
+  "full_name": "agent-logic/atec",
+  "id": 1427382791,
+  "private": true,
+  "visibility": "private",
+  "default_branch": "main",
+  "html_url": "https://github.com/agent-logic/atec",
+  "has_issues": true,
+  "has_wiki": false,
+  "allow_merge_commit": true,
+  "allow_squash_merge": true,
+  "allow_rebase_merge": false,
+  "delete_branch_on_merge": true,
+  "issue": "agent-logic/agent-design-language#1314",
+  "head": "a3f7976a1769427f031774afd0d0051ee879e066",
+  "ci": {
+    "run_id": 39470787085,
+    "conclusion": "success",
+    "url": "https://github.com/agent-logic/atec/actions/runs/39470787085"
+  },
+  "local_validation": [
+    "python3 tools/check_repository.py: passed, 9 tracked UTF-8 files",
+    "git diff --cached --check: passed",
+    "clean main checkout matching origin/main"
+  ],
+  "independent_review": {
+    "reviewer": "/root/review_atec_scaffold",
+    "findings": [],
+    "scope": "All nine scaffold files, minimal CI and contributor/security guidance before initial push"
+  },
+  "local_checkout": "/Volumes/FastWork/atec",
+  "worktree_parent": "/Volumes/FastWork/atec-worktrees",
+  "path_exception": "Exact FastWork paths are required setup deliverables. No credential or private host data is included."
+}

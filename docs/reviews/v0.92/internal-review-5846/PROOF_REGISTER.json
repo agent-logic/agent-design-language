@@ -1,0 +1,118 @@
+{
+  "schema": "adl.internal_review.proof_register.v1",
+  "target_sha": "c6792e54df1db5969fa28c59b6dfe4c714ed5559",
+  "lanes": [
+    {
+      "lane": "architecture",
+      "reviewer_identity": "codex:/root",
+      "target_sha": "c6792e54df1db5969fa28c59b6dfe4c714ed5559",
+      "report_path": "docs/reviews/v0.92/internal-review-5846/specialists/architecture.md",
+      "report_sha256": "d9481630befaf1e36fcd58c7a2991bab20a9b90a4812171d5f97f15bf0b77ac5",
+      "inspected_denominator": 736,
+      "assignment_sha256": "9577f34df42b60645e8527e60ef858ccde3b3b372a8f4125461c3afba235fb6c",
+      "method": "bounded specialist inspection against deterministic exact-target assignment",
+      "limitations": "risk-selected depth; see the reviewer-authored report",
+      "finding_count": 1
+    },
+    {
+      "lane": "code",
+      "reviewer_identity": "Codex code specialist /root/review_313_code",
+      "target_sha": "c6792e54df1db5969fa28c59b6dfe4c714ed5559",
+      "report_path": "docs/reviews/v0.92/internal-review-5846/specialists/code.md",
+      "report_sha256": "b800a5245ed4d8efd96ec2a7f7f541bed48962af36a1e301e2ad3e3eff39dccc",
+      "inspected_denominator": 1442,
+      "assignment_sha256": "5131b4b6cbe102e9cd43287631a575a0cd730f13649f8437cfbadc8053479f7f",
+      "method": "bounded specialist inspection against deterministic exact-target assignment",
+      "limitations": "risk-selected depth; see the reviewer-authored report",
+      "finding_count": 2
+    },
+    {
+      "lane": "dependencies",
+      "reviewer_identity": "Codex dependency specialist /root/review_313_tests",
+      "target_sha": "c6792e54df1db5969fa28c59b6dfe4c714ed5559",
+      "report_path": "docs/reviews/v0.92/internal-review-5846/specialists/dependencies.md",
+      "report_sha256": "86b0ae2c27b46ed034b921f4567e5f2ca446b4f5fa57178901bd7ade972b2bed",
+      "inspected_denominator": 61,
+      "assignment_sha256": "80753d08453b5b0c24e3547d5a14eb73d0089a1ad8f3b907212ae40a463885c4",
+      "method": "bounded specialist inspection against deterministic exact-target assignment",
+      "limitations": "risk-selected depth; see the reviewer-authored report",
+      "finding_count": 4
+    },
+    {
+      "lane": "docs",
+      "reviewer_identity": "Codex documentation specialist /root/review_313_code",
+      "target_sha": "c6792e54df1db5969fa28c59b6dfe4c714ed5559",
+      "report_path": "docs/reviews/v0.92/internal-review-5846/specialists/docs.md",
+      "report_sha256": "9e56c9fbbfe71f9f19879a48577ce443b8e9c3d3ef9d0fadc260b7e8acdb5d5e",
+      "inspected_denominator": 6349,
+      "assignment_sha256": "43f2e078348a21c6b2ee7861b20c6345b9078437f856a57c96ed7fea799de184",
+      "method": "bounded specialist inspection against deterministic exact-target assignment",
+      "limitations": "risk-selected depth; see the reviewer-authored report",
+      "finding_count": 4
+    },
+    {
+      "lane": "security",
+      "reviewer_identity": "Codex security specialist review_313_security",
+      "target_sha": "c6792e54df1db5969fa28c59b6dfe4c714ed5559",
+      "report_path": "docs/reviews/v0.92/internal-review-5846/specialists/security.md",
+      "report_sha256": "2a333cfa2bff1f55580eb1bbb9582f04a4d06a37fa0cbbfc9783ae91a7a65202",
+      "inspected_denominator": 1756,
+      "assignment_sha256": "e87854ca1381f123279aed7eb3edb835378c95479cb1a6bfe116acf552b49da9",
+      "method": "bounded specialist inspection against deterministic exact-target assignment",
+      "limitations": "risk-selected depth; see the reviewer-authored report",
+      "finding_count": 2
+    },
+    {
+      "lane": "tests",
+      "reviewer_identity": "Codex test/PVF/CI specialist /root/review_313_tests",
+      "target_sha": "c6792e54df1db5969fa28c59b6dfe4c714ed5559",
+      "report_path": "docs/reviews/v0.92/internal-review-5846/specialists/tests.md",
+      "report_sha256": "d6f4c468697dfda229c991888f32000ca8021d9483a721d42933ff938d2d7955",
+      "inspected_denominator": 834,
+      "assignment_sha256": "3e1e5d257467c6fcc047a4818a4ac32b8968fce872fbcf075e1601f2feb57ed4",
+      "method": "bounded specialist inspection against deterministic exact-target assignment",
+      "limitations": "risk-selected depth; see the reviewer-authored report",
+      "finding_count": 2
+    },
+    {
+      "lane": "lifecycle",
+      "reviewer_identity": "Codex lifecycle/evidence specialist review_313_security",
+      "target_sha": "c6792e54df1db5969fa28c59b6dfe4c714ed5559",
+      "report_path": "docs/reviews/v0.92/internal-review-5846/specialists/lifecycle.md",
+      "report_sha256": "bfe7d96cf7b7888816be63114f5494333208195ca2b237f8dceb03f450bf1bf8",
+      "inspected_denominator": 6050,
+      "assignment_sha256": "aeca3df9659155a5cf2a4e92156886ea3dc770640d3eb73d4952db62296430ff",
+      "method": "bounded specialist inspection against deterministic exact-target assignment",
+      "limitations": "risk-selected depth; see the reviewer-authored report",
+      "finding_count": 1
+    },
+    {
+      "lane": "demos",
+      "reviewer_identity": "Codex demo/integration specialist /root/review_313_code",
+      "target_sha": "c6792e54df1db5969fa28c59b6dfe4c714ed5559",
+      "report_path": "docs/reviews/v0.92/internal-review-5846/specialists/demos.md",
+      "report_sha256": "1ccaf315273b0ab42f9f1b57773fc6c09cc2c89395c3221ad18150bf30affdd0",
+      "inspected_denominator": 1216,
+      "assignment_sha256": "4306e33128958f46c8f70677d12c559ace71da5e9a0d57156ae1d146939a1c69",
+      "method": "bounded specialist inspection against deterministic exact-target assignment",
+      "limitations": "risk-selected depth; see the reviewer-authored report",
+      "finding_count": 2
+    },
+    {
+      "lane": "release_publication",
+      "reviewer_identity": "codex:/root",
+      "target_sha": "c6792e54df1db5969fa28c59b6dfe4c714ed5559",
+      "report_path": "docs/reviews/v0.92/internal-review-5846/specialists/release_publication.md",
+      "report_sha256": "807356ad07328ea54e8e409aa992a8af85048ce9fd4e1f285dea31efcbcd755d",
+      "inspected_denominator": 4909,
+      "assignment_sha256": "9c9923a63db52aaeb027b3ae430f69547a656cc938281e6fed81ccfe7aff4515",
+      "method": "bounded specialist inspection against deterministic exact-target assignment",
+      "limitations": "risk-selected depth; see the reviewer-authored report",
+      "finding_count": 2
+    }
+  ],
+  "api_meta_review": {
+    "receipt": "docs/reviews/v0.92/internal-review-5846/independent-api-review/receipt.json",
+    "review": "docs/reviews/v0.92/internal-review-5846/independent-api-review/gemini-meta-review.md"
+  }
+}

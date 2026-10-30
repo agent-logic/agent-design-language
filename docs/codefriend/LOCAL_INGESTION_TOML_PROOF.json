@@ -1,0 +1,150 @@
+{
+  "schema": "codefriend.local_ingestion_proof.v1",
+  "supersedes_for_candidate": "Initial 4ff9e8ab1f packet contract; original proof retained unchanged",
+  "issue": 878,
+  "platform": "Darwin-arm64",
+  "binary_sha256": "3cf19f7725cf30edddfa9814e4f2bc769327e251fbe4e1204f5a8450c8597150",
+  "installation_provenance": "c2c3ed0f6ddd5eaa695c3d8bf7353de48e6b779458701f996f01b686a9e8691f",
+  "fixtures": [
+    {
+      "fixture": "vector",
+      "repository": "https://github.com/vectordotdev/vector",
+      "revision": "410da89a0ed42c523143da89fffeb7f6402833e0",
+      "scope": {
+        "analysis": [
+          "lib/dnsmsg-parser/Cargo.toml",
+          "lib/dnsmsg-parser/LICENSE",
+          "lib/dnsmsg-parser/benches/benches.rs",
+          "lib/dnsmsg-parser/src/dns_message.rs",
+          "lib/dnsmsg-parser/src/dns_message_parser.rs",
+          "lib/dnsmsg-parser/src/ede.rs",
+          "lib/dnsmsg-parser/src/lib.rs"
+        ],
+        "context": [
+          "Cargo.lock",
+          "Cargo.toml",
+          "LICENSE"
+        ],
+        "max_files": 10,
+        "max_bytes": 614400,
+        "max_file_bytes": 409600
+      },
+      "packet_id": "6baa7ec10f500c88d0f6aa2cc2db38316a5dadb22e6abf6e5e983b76c7b5426f",
+      "scope_digest": "2ae43ce60f30cdb57943ba9bda0fccc8d0f28d897271d9f92327bb29c5a6cddf",
+      "object_format": "sha1",
+      "source_bytes": 520777,
+      "objects": [
+        {
+          "path": "Cargo.lock",
+          "disposition": "included",
+          "source_bytes": 350676,
+          "content_digest": "54d3e364160340e9959316ab1f0b5679a7f995afda62a14e76da53b1839e46ac"
+        },
+        {
+          "path": "Cargo.toml",
+          "disposition": "included",
+          "source_bytes": 52534,
+          "content_digest": "d8e3210bc8f2753c0e1a178fadcc7b3700a81a4ee025e71a711a0d64c6c38070"
+        },
+        {
+          "path": "LICENSE",
+          "disposition": "included",
+          "source_bytes": 15922,
+          "content_digest": "902ac1eb2a62c5bdb5dd1e3b340fc926c6f347708a5e8a5b8814884e542b38fe"
+        },
+        {
+          "path": "lib/dnsmsg-parser/Cargo.toml",
+          "disposition": "included",
+          "source_bytes": 388,
+          "content_digest": "1d31c6ea6577d08b7c968c7e67140355553919eed66de29beb0141c1d81271e9"
+        },
+        {
+          "path": "lib/dnsmsg-parser/LICENSE",
+          "disposition": "included",
+          "source_bytes": 1080,
+          "content_digest": "d5fa54fb0603eefed4065c0ae17b2e3bc3e107e7b904e7e8566971ca1db08630"
+        },
+        {
+          "path": "lib/dnsmsg-parser/benches/benches.rs",
+          "disposition": "included",
+          "source_bytes": 3634,
+          "content_digest": "0391a7e4c8aa452a852868a1104b96545b2141e528f37837eaf659132e2b1fe1"
+        },
+        {
+          "path": "lib/dnsmsg-parser/src/dns_message.rs",
+          "disposition": "included",
+          "source_bytes": 3368,
+          "content_digest": "8cf178237232852f48ba40b476ae0555256495f70bf0d9f0ef81bcd79673f53d"
+        },
+        {
+          "path": "lib/dnsmsg-parser/src/dns_message_parser.rs",
+          "disposition": "included",
+          "source_bytes": 89969,
+          "content_digest": "9846e49ae486e0d441f1638413105719d00d542d15a378cd317fe0d27b2c3a97"
+        },
+        {
+          "path": "lib/dnsmsg-parser/src/ede.rs",
+          "disposition": "included",
+          "source_bytes": 2957,
+          "content_digest": "da956b15be82632c4ebb1030ad70a80587df0f541d93b437384a7010e058ecaa"
+        },
+        {
+          "path": "lib/dnsmsg-parser/src/lib.rs",
+          "disposition": "included",
+          "source_bytes": 249,
+          "content_digest": "eb5a567d5e73686a09fac9a38461befc680604c5e92ff8b509c49c480a1b5dd8"
+        }
+      ],
+      "repeat_bytes_identical": true,
+      "production_readback_passed": true,
+      "source_status_unchanged": true,
+      "completeness": "complete_scoped_acquisition",
+      "review_state": "not_reviewed"
+    },
+    {
+      "fixture": "adl",
+      "repository": "https://github.com/agent-logic/agent-design-language",
+      "revision": "f0158cc07e15f72489bdfb072ef06e2839288ff6",
+      "scope": {
+        "analysis": [
+          "adl/src/uts.rs"
+        ],
+        "context": [
+          "adl/Cargo.toml"
+        ],
+        "max_files": 2,
+        "max_bytes": 614400,
+        "max_file_bytes": 409600
+      },
+      "packet_id": "06eebebe6cfea43643c6f7ee97c953b37076e1e7fe21e89176e3deff13688097",
+      "scope_digest": "d77bb9a18546af303a8e087f91c414be7888add0354c463c9801bd299ab564f2",
+      "object_format": "sha1",
+      "source_bytes": 4264,
+      "objects": [
+        {
+          "path": "adl/Cargo.toml",
+          "disposition": "included",
+          "source_bytes": 4119,
+          "content_digest": "242342b156303cab4fa30a74f3e53fcaedba067c48c46dc7fe3f8a351b3175af"
+        },
+        {
+          "path": "adl/src/uts.rs",
+          "disposition": "included",
+          "source_bytes": 145,
+          "content_digest": "f2d288b03b63450ff2db0634215a132dd5fdccd30f78bccbd1252919cb35eb94"
+        }
+      ],
+      "repeat_bytes_identical": true,
+      "production_readback_passed": true,
+      "source_status_unchanged": true,
+      "completeness": "complete_scoped_acquisition",
+      "review_state": "not_reviewed"
+    }
+  ],
+  "nonclaims": [
+    "No review or evidence-store admission",
+    "No GitHub/CI adapter parity",
+    "Linux qualification pending required hosted CI",
+    "No model/network call or Vector execution"
+  ]
+}

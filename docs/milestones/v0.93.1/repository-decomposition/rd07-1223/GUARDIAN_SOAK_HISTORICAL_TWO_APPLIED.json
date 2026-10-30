@@ -1,0 +1,167 @@
+{
+  "schema": "adl1223.guardian_soak_historical_two.v1",
+  "status": "applied",
+  "source_head": "c92da9257ae010b092d4b11351b739dc0e83e16a",
+  "removed_count": 2,
+  "rows": [
+    {
+      "id": "RD07-1501",
+      "path": "adl/tools/run_runtime_v3_guardian_soak.sh",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "62f4c760d164249a2579bf9133a3ee350b56562e"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "same_path_changed",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": []
+      }
+    },
+    {
+      "id": "RD07-2098",
+      "path": "adl/tools/test_run_runtime_v3_guardian_soak.sh",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "33f037002636343d66350f2213e54ed63e057a97"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "same_path_changed",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": []
+      }
+    }
+  ],
+  "files": [
+    {
+      "path": "adl/tools/generate_tool_surface_registry.py",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "9446000bde841cbc3efa798c1292ebb5633e8c80",
+        "sha256": "988118257ad4f7be6c9ec9a7d9cacee3039cb7701b3baf3a23c2d059654dcefb"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "9d8d239231ff178be92ac108c13181775a65e3ec",
+        "sha256": "8f495119012635a442bfd1dc81045464be0ab11b84cb55a12c192bdbc170ed21"
+      }
+    },
+    {
+      "path": "adl/tools/run_runtime_v3_guardian_soak.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "6200e1a51b524c43569e86a9d7be138b110e77b1",
+        "sha256": "aae9b3a39a9f5a52afd0ab4d1663e4b34d554b41a03f382cd9f1b4318130735d"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_run_runtime_v3_guardian_soak.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "33f037002636343d66350f2213e54ed63e057a97",
+        "sha256": "6c87c6f466b678326c48f399a4556c139028278f42572fe795ef0d410458a10d"
+      },
+      "after": null
+    },
+    {
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "5de72b96d2fa000e04b7e85cdebad74b382f6236",
+        "sha256": "d21c09f6970de80e6ffae1764730703ad6420d22da4ae480f56132821ada8eb8"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "c5c1b94a68bd9266ec616cc72994b5f9b8f9a209",
+        "sha256": "96120733c76f35a55ab037b023f889d1bfd7b46dc87bce112fc783b66e4ab0fb"
+      }
+    }
+  ],
+  "original_baseline": "248f00e359e412f6bc0061ac88be9ff374e3a212",
+  "basis": "Coherent retirement of the Runtime896-refused source-tree wrapper and its original companion. Current wrapper unconditionally exits2 before report/Cargo behavior. Companion assumes original behavior: stale report removed even when synthetic Cargo produces none, invalid report refused. Retaining companion no longer exercises that historical contract. No success is inferred from refusal.",
+  "original_assertions": {
+    "companion": "Two designed synthetic Cargo executions: refuse zero-test stale-report acceptance and require stale report deletion; refuse semantically invalid report. Original full source preserved.",
+    "real_soak": "Original wrapper invokes adl-runtime-kernel guardian_soak bounded_runtime_v3_guardian_soak --exact --ignored --nocapture, then requires schema/result/pass,100cycles,1600items,continuity_generation100,automatic_cutoverfalse. This genuine original execution obligation is not run or satisfied by removal.",
+    "custody_vs_acceptance": "Original/source custody and refusal lineage only; no current or owner soak qualification claimed."
+  },
+  "evidence": [
+    {
+      "path": "/Volumes/FastWork/adl-worktrees/adl-issue-1223-1223-coherent-source-retirement/docs/milestones/v0.93.1/repository-decomposition/rd07-1223/RUNTIME_SOURCE_FAMILY_APPLIED.json",
+      "sha256": "9600a1fb0ee1a58508069b5847f5b8cf475805cf9b0059bc3f3f5ee3b51fd486"
+    }
+  ],
+  "preserved_historical_inputs": [
+    {
+      "path": "docs/architecture/RUNTIME_V3_STATE_AUTHENTICITY_5412.md",
+      "sha256": "513631b7ba0be7da6bfd8bcce1cfc7a8faf3811d458948df9dbfb5b300fd5e33"
+    },
+    {
+      "path": "docs/architecture/runtime_v3_state_authenticity_5412.v1.json",
+      "sha256": "6186e506377d807a1f839f1ca210fe3f067ee0768f55595cf244334a6e27d957"
+    },
+    {
+      "path": "docs/architecture/runtime_v3_guardian_soak.mmd",
+      "sha256": "2ea969942827d10b4e199326ac8e23d1378b7ed5f339139357b6b155a3ff79d9"
+    },
+    {
+      "path": "docs/architecture/runtime_v3_guardian_soak.svg",
+      "sha256": "679735807ede5ff83b73be7675edbf334014acff764c1e731eb373530a573ab1"
+    }
+  ],
+  "caller_closure": "Bounded active adl/tools,tools,adl/config,.github scan finds only pairedtest and generator classification; both removed together with actual registry2rows. Historical #5412 disposition/snapshot/diagrams remain byte-exact, not active execution instructions.",
+  "custody": {
+    "path": "/Volumes/FastWork/c1223/guardian-soak-historical-two/prepared-unity-composed/current-original.tar",
+    "sha256": "871bbae4a5960d09977f3cff0fc4c023352b1cfc918b87f0085e50f36043c782",
+    "current_members": 4,
+    "original_members": 2
+  },
+  "patch": {
+    "path": "/Volumes/FastWork/c1223/guardian-soak-historical-two/prepared-unity-composed/two-and-registry.patch",
+    "sha256": "8ea64c8c9e9371ec672f555e2184de9a7b60d0d90502359cb6e386086e6236d5"
+  },
+  "limits": [
+    "No tests/builds/native/runtime/provider/cloud operations.",
+    "Original4134+22 identities unchanged;two captured paths, no supplemental retirement.",
+    "Real Runtime owner ignored soak and result semantics remain separate acceptance obligations; historical receipts never rewritten."
+  ],
+  "composition": {
+    "reviewed_proposal": {
+      "path": "/Volumes/FastWork/c1223/guardian-soak-historical-two/prepared/PROPOSAL.json",
+      "sha256": "2e31dc72c74f5c88cb0412e9ad358995b6834f2eaf169d8bf98c69d3df08e6de"
+    },
+    "changed_file_identities": [
+      "adl/tools/generate_tool_surface_registry.py",
+      "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+    ],
+    "reason": "Compose actual generator and generated registry against committed Unity94/Paper13; same two historical removals and original assertions/custody boundary."
+  },
+  "proposal_source_head": "ee69f40a4f0a965316384a559e813fe86e45d4fb",
+  "review": {
+    "status": "PASS",
+    "reviewer": "review_1223_applied_components",
+    "proposal_sha256": "2872efc5d7999bb3baaad5d97884924577dbe501fa0a17419899951f6fdc9500",
+    "scope": "Reviewed source/caller/custody composition; all individual qualification and historical limits preserved."
+  }
+}

@@ -1,0 +1,12 @@
+[
+  {
+    "issue": "codefriend-120",
+    "missing_proposal_fields": {},
+    "proof_role": "proposal_coverage_only_not_native_application"
+  },
+  {
+    "issue": "security-9",
+    "missing_proposal_fields": {},
+    "proof_role": "proposal_coverage_only_not_native_application"
+  }
+]

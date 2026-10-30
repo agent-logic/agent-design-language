@@ -1,0 +1,174 @@
+{
+  "status": "applied",
+  "source_head": "1635ecbd5a934e36ffcaffee8aa73c7f48a8c44a",
+  "original_baseline": "248f00e359e412f6bc0061ac88be9ff374e3a212",
+  "removed_count": 2,
+  "rows": [
+    {
+      "id": "RD07-1379",
+      "path": "adl/tools/demo_v0914_codex_only_complete_issue_workcell.sh",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "80c7126737fbc1e180351e656f5c435fa54854b5"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "adl/tools/demo_v0914_codex_only_complete_issue_workcell.sh"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1992",
+      "path": "adl/tools/test_demo_v0914_codex_only_complete_issue_workcell.sh",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "1b8e702676bca471e7924d090f45cca6f5e7fb18"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "same_path_changed",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": []
+      }
+    }
+  ],
+  "files": [
+    {
+      "path": "adl/tools/demo_v0914_codex_only_complete_issue_workcell.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "80c7126737fbc1e180351e656f5c435fa54854b5",
+        "sha256": "eb83b6c3cd278dc40fa3b13c9f839eea200031a148e9f833547910ac937c0660"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_demo_v0914_codex_only_complete_issue_workcell.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "1b8e702676bca471e7924d090f45cca6f5e7fb18",
+        "sha256": "2ac4fd396d50c813beff1a126cc0ef00018829600c2d9582582ff8d84407c6bd"
+      },
+      "after": null
+    },
+    {
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "f9098a52e03325d5fdc35d750e09ec5a3c307d82",
+        "sha256": "95ee8797b0692fb609335f1fc02e64d980ff22425bd8dacab8f2f76d8c2346a1"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "e14685ec4cb94a475887d52bb08b54fe09976e74",
+        "sha256": "4c45e900c0bc51545493707acd3c713721c2ff822fc0a5ac8bbe026b45cd77a5"
+      }
+    }
+  ],
+  "owner_inputs": [
+    {
+      "path": "adl/tools/demo_v0914_codex_only_complete_issue_workcell.sh",
+      "repository": "/Users/daniel/git/cognitive-sdlc",
+      "revision": "d316340c212800ff523f957b1bf290db68d8efad",
+      "identity": {
+        "mode": "100644",
+        "blob": "80c7126737fbc1e180351e656f5c435fa54854b5",
+        "sha256": "eb83b6c3cd278dc40fa3b13c9f839eea200031a148e9f833547910ac937c0660"
+      },
+      "exact_source_bytes": true,
+      "change": null
+    },
+    {
+      "path": "adl/tools/test_demo_v0914_codex_only_complete_issue_workcell.sh",
+      "repository": "/Users/daniel/git/cognitive-sdlc",
+      "revision": "d316340c212800ff523f957b1bf290db68d8efad",
+      "identity": {
+        "mode": "100644",
+        "blob": "c8eeb20aa2489e58fa65c63586e6b440a1e62da0",
+        "sha256": "d6350a624054499d00585dccffafd8a5708fcc550322ebf2e89d022c19e31234"
+      },
+      "exact_source_bytes": false,
+      "change": "Only original negative invocation becomes cwd-relative to TMPDIR. Assertions unchanged; adapted owner test not rerun."
+    }
+  ],
+  "evidence": [
+    {
+      "path": "/Volumes/FastWork/c1223/workcell-original-consumer/PLAN.json",
+      "sha256": "aab2019a3bfdbae064c1c28ad58ec2a6a2491b43a7ea5d7d42797961ae916a4b"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/workcell-original-consumer/RESULT.json",
+      "sha256": "367fc6252c842c0a83ff828786bf53d252591c827b4c219f6e9c970fbc1430f6"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/workcell-original-consumer/run.py",
+      "sha256": "0af85e9a702c24e68cf2fd2b2754e32596a25f4cf19f87d202a1ad04c6b24d9f"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/workcell-two-retirement/composed-1635ecbd/owner-test-difference.patch",
+      "sha256": "286f413ff717e9e5357d7cf7f1d1843b36de32a18b2faf551dc966ba3cb067e1"
+    }
+  ],
+  "custody": {
+    "path": "/Volumes/FastWork/c1223/workcell-two-retirement/composed-1635ecbd/current-original.tar",
+    "sha256": "d4b3d7d1fb7616054e339b74fae5aa5c689732f094d0cf6e9c28544d523ad3f6",
+    "current_members": 3,
+    "original_members": 2
+  },
+  "patch": {
+    "path": "/Volumes/FastWork/c1223/workcell-two-retirement/composed-1635ecbd/two-and-registry.patch",
+    "sha256": "ce8e1c8888914414f3bff23279ee2c79a3b5f9368ab7ee6803d46059c02c139c"
+  },
+  "qualification": "Root actual unchanged original companion PASS once:11file checks,10grep checks, gate order,3dependencies and existing-output refusal/preservation. Both exact source inputs unchanged; private TMPDIR outside allowed-delete roots. Reused without rerun.",
+  "caller_closure": {
+    "paired_test": "Only active caller imports paired producer; retire together.",
+    "registry_removed_rows": 2,
+    "registry_added_rows": 0,
+    "historical_references": "Existing immutable milestone records retain original source identities and documentary proof; not operational lifecycle routes."
+  },
+  "limits": [
+    "Producer creates deterministic documentary fixtures, not actual hosted-agent execution or native lifecycle proof.",
+    "CSDL producer bytes exact; delivered owner test changes only negative-case invocation to cwd-relative TMPDIR. Its assertions are unchanged, but that adapted test was not executed here.",
+    "No paid providers, models, cloud, builds, or product lifecycle ran.",
+    "Original ADL test and producer preserved in frozen Git and exact current/original custody."
+  ],
+  "composition": {
+    "prior_reviewed_proposal": {
+      "path": "/Volumes/FastWork/c1223/workcell-two-retirement/PROPOSAL.json",
+      "sha256": "83cfa65f608c982ed4f33b1daa0f5977e07e9fcf67159d5409c0b6467ff10d1a"
+    },
+    "changed_file_identities": [
+      "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+    ],
+    "scope": "Two source identities unchanged; actual registry regenerated minus2 zeroadded, preserving WP12. No original rerun."
+  },
+  "proposal_source_head": "1635ecbd5a934e36ffcaffee8aa73c7f48a8c44a",
+  "review": {
+    "status": "PASS",
+    "reviewer": "review_1223_public_facade",
+    "proposal_sha256": "8ff47b091bfe5ade8cef4093a9dfb45c6ba8e105e6b244bfb1b7bc21d0c3d401",
+    "scope": "Reviewed source/caller/custody composition; all individual qualification and historical limits preserved."
+  }
+}

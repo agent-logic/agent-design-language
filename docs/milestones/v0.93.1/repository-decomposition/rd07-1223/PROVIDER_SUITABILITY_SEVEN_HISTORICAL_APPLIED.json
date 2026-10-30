@@ -1,0 +1,436 @@
+{
+  "status": "applied",
+  "source_head": "8be8cf133ec536fb3a7875162226a0a0e8ecc3fc",
+  "original_baseline": "248f00e359e412f6bc0061ac88be9ff374e3a212",
+  "removed_count": 7,
+  "rows": [
+    {
+      "id": "RD07-1508",
+      "path": "adl/tools/run_v0915_multi_agent_quality_comparison.py",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "31466d67a7bafe5577e7450cf285412bba487408"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/run_v0915_multi_agent_quality_comparison.py"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1509",
+      "path": "adl/tools/run_v0915_openrouter_matrix.py",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "0703a8bd78ad601d984dbfbbb493a1bca52a9fff"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/run_v0915_openrouter_matrix.py"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1510",
+      "path": "adl/tools/run_v0915_remote_gemma_watcher_probe.py",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "a767aae2419622f2770311469ef7bca87ff25d19"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/run_v0915_remote_gemma_watcher_probe.py"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1511",
+      "path": "adl/tools/run_v0916_agent_suitability_panel.py",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "e60c6383cedd683d5ac74e4929ee22d7f6066b31"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/run_v0916_agent_suitability_panel.py"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1512",
+      "path": "adl/tools/run_v0916_deepseek_suitability.py",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "4b398c840e6afffc3972f8854e6bffb0fb12a397"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/run_v0916_deepseek_suitability.py"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1894",
+      "path": "adl/tools/suitability_specs/openrouter_current_models_4429.json",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "30452b565f1691dafd83ea5638c70be23ff13895"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/suitability_specs/openrouter_current_models_4429.json"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1895",
+      "path": "adl/tools/suitability_specs/openrouter_next_tranche_4448.json",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "4bfe3c688505953a6c4da85694505a7223658fbb"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/suitability_specs/openrouter_next_tranche_4448.json"
+        ]
+      }
+    }
+  ],
+  "files": [
+    {
+      "path": "adl/tools/run_v0915_multi_agent_quality_comparison.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "31466d67a7bafe5577e7450cf285412bba487408",
+        "sha256": "c594d8e015337be2741426884ff44b59a20f8e344c0e3ce23c59239cf10a1419"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/run_v0915_openrouter_matrix.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "0703a8bd78ad601d984dbfbbb493a1bca52a9fff",
+        "sha256": "9db4dd5ce7325f581880a54953f4302457c296a7ee8f106c11945c6f5d842541"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/run_v0915_remote_gemma_watcher_probe.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "a767aae2419622f2770311469ef7bca87ff25d19",
+        "sha256": "1e75fc1e67f34a5cc375ccb69b1bcc4d889d53998866997019e85e889f80119e"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/run_v0916_agent_suitability_panel.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "e60c6383cedd683d5ac74e4929ee22d7f6066b31",
+        "sha256": "90feb673f6dcdcc0fa9afacaae4a8b3392854c9f6afea4bd7e2c38083a57705a"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/run_v0916_deepseek_suitability.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "4b398c840e6afffc3972f8854e6bffb0fb12a397",
+        "sha256": "2b6a2e4cf3782b142544fa66e64005ad051fdea5655dc5a0bcb08c8ad0166edc"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/suitability_specs/openrouter_current_models_4429.json",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "30452b565f1691dafd83ea5638c70be23ff13895",
+        "sha256": "5443a9b7b4c2e8a5fbe9262e8f88e618d6045425284248f378b05c73db9052a4"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/suitability_specs/openrouter_next_tranche_4448.json",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "4bfe3c688505953a6c4da85694505a7223658fbb",
+        "sha256": "0f537a724aa70544ca107c2a81dbd5d94171a29405ad569cc765c4706ce489dc"
+      },
+      "after": null
+    },
+    {
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "46ace7781274936d77e2020e6e65f91ac400b91f",
+        "sha256": "f16c8997bb22e5458a210e4cfb867a743ccd19e8e18edb81849fa4c2fa678e6d"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "757e597bb978a02874e41443f7d96faecafdbc4b",
+        "sha256": "f9afdcfd389b7ce90507f01eba15bbb124c352666b660e982a15eab0c0f9aafc"
+      }
+    }
+  ],
+  "owner_inputs": [
+    {
+      "path": "adl/tools/run_v0915_multi_agent_quality_comparison.py",
+      "revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "mode": "100644",
+      "blob": "31466d67a7bafe5577e7450cf285412bba487408",
+      "sha256": "c594d8e015337be2741426884ff44b59a20f8e344c0e3ce23c59239cf10a1419",
+      "current_bytes_exact": true
+    },
+    {
+      "path": "adl/tools/run_v0915_openrouter_matrix.py",
+      "revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "mode": "100644",
+      "blob": "0703a8bd78ad601d984dbfbbb493a1bca52a9fff",
+      "sha256": "9db4dd5ce7325f581880a54953f4302457c296a7ee8f106c11945c6f5d842541",
+      "current_bytes_exact": true
+    },
+    {
+      "path": "adl/tools/run_v0915_remote_gemma_watcher_probe.py",
+      "revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "mode": "100644",
+      "blob": "a767aae2419622f2770311469ef7bca87ff25d19",
+      "sha256": "1e75fc1e67f34a5cc375ccb69b1bcc4d889d53998866997019e85e889f80119e",
+      "current_bytes_exact": true
+    },
+    {
+      "path": "adl/tools/run_v0916_agent_suitability_panel.py",
+      "revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "mode": "100644",
+      "blob": "e60c6383cedd683d5ac74e4929ee22d7f6066b31",
+      "sha256": "90feb673f6dcdcc0fa9afacaae4a8b3392854c9f6afea4bd7e2c38083a57705a",
+      "current_bytes_exact": true
+    },
+    {
+      "path": "adl/tools/run_v0916_deepseek_suitability.py",
+      "revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "mode": "100644",
+      "blob": "4b398c840e6afffc3972f8854e6bffb0fb12a397",
+      "sha256": "2b6a2e4cf3782b142544fa66e64005ad051fdea5655dc5a0bcb08c8ad0166edc",
+      "current_bytes_exact": true
+    },
+    {
+      "path": "adl/tools/suitability_specs/openrouter_current_models_4429.json",
+      "revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "mode": "100644",
+      "blob": "30452b565f1691dafd83ea5638c70be23ff13895",
+      "sha256": "5443a9b7b4c2e8a5fbe9262e8f88e618d6045425284248f378b05c73db9052a4",
+      "current_bytes_exact": true
+    },
+    {
+      "path": "adl/tools/suitability_specs/openrouter_next_tranche_4448.json",
+      "revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "mode": "100644",
+      "blob": "4bfe3c688505953a6c4da85694505a7223658fbb",
+      "sha256": "0f537a724aa70544ca107c2a81dbd5d94171a29405ad569cc765c4706ce489dc",
+      "current_bytes_exact": true
+    }
+  ],
+  "custody": {
+    "path": "/Volumes/FastWork/c1223/provider-suitability-seven-historical/current-original.tar",
+    "sha256": "dfa71f5c9a1a1f796af7ec4c63552abe10fdf18442e56abe813b64433048f394",
+    "current_members": 8,
+    "original_members": 7
+  },
+  "patch": {
+    "path": "/Volumes/FastWork/c1223/provider-suitability-seven-historical/seven-and-registry.patch",
+    "sha256": "74384c1b116c7dc31e5ccfccdd688e148fd4543e4cb7991c0b45568c9d0215e7"
+  },
+  "retained_consumers": [
+    {
+      "id": "RD07-1893",
+      "path": "adl/tools/suitability_specs/deepseek_csdlc_panel_4096.json",
+      "mode": "100644",
+      "blob": "31996d82ceedc5ab37f327aa4fbdfd92cfedd7d4",
+      "sha256": "5ba82c1deeefbc677092bc009bd151a1fa6dd3efbfee1142bb7a13f5f5c651bf"
+    },
+    {
+      "id": "RD07-2137",
+      "path": "adl/tools/test_v0915_multi_agent_quality_comparison.sh",
+      "mode": "100755",
+      "blob": "256312ef8f7f69e408f7400baf983e5d3cc0db01",
+      "sha256": "a230102150e9c03520808c98207cc5bd1bdab97a9b3968ddc7901fee09cc1b01"
+    },
+    {
+      "id": "RD07-2138",
+      "path": "adl/tools/test_v0915_openrouter_matrix.sh",
+      "mode": "100644",
+      "blob": "3d177e226944a3229ca151a91666b9d2e135826d",
+      "sha256": "c48b7c2afc4fbdf9f19824c9c77e211a8841438e79a11481a8f08fd6407e17aa"
+    },
+    {
+      "id": "RD07-2139",
+      "path": "adl/tools/test_v0915_remote_gemma_watcher_probe.sh",
+      "mode": "100644",
+      "blob": "250455d3f71f0e9ad486290cfad004f8f2933bad",
+      "sha256": "04adc5b5ad9e282ab424034362bde8293f3b70db6f73ef42cbb39e490f0c12c5"
+    },
+    {
+      "id": "RD07-2140",
+      "path": "adl/tools/test_v0916_deepseek_suitability.sh",
+      "mode": "100644",
+      "blob": "684f490755de7ba69e28497a2cf1750f95bb0c78",
+      "sha256": "d90449f97dfbfe64b1b9aacf4ddb9462854250c3e431380d900f1966b6c7b981"
+    },
+    {
+      "id": "RD07-2217",
+      "path": "adl/tools/validate_v0915_multi_agent_quality_comparison.py",
+      "mode": "100644",
+      "blob": "51c9b8fd9c8f43862243330d253cac2097f1d4ea",
+      "sha256": "6c8216d816bea819e1c882c0c2a2b95ad5579d7d5c2048008b8aa89b1b6d5f68"
+    },
+    {
+      "id": "RD07-2218",
+      "path": "adl/tools/validate_v0915_openrouter_matrix.py",
+      "mode": "100644",
+      "blob": "9e55fa20c46b36ad976ad607589b9af77e1e4958",
+      "sha256": "185c7f4e422d5c07cebb84867ecf0ab827a1c40b5527ce73199b0af5d8b712d7"
+    },
+    {
+      "id": "RD07-2219",
+      "path": "adl/tools/validate_v0915_remote_gemma_watcher_probe.py",
+      "mode": "100644",
+      "blob": "4d7331b3bcb10170a10d0e973efbae51c326c761",
+      "sha256": "1445c697a6a8ad8b468f5b944f530af9d3a10739be75e6da8b40e6327d9a5689"
+    },
+    {
+      "id": "RD07-2220",
+      "path": "adl/tools/validate_v0916_agent_suitability_panel.py",
+      "mode": "100644",
+      "blob": "2a1c3b4fb6a15329bbd0285aac01587b6ad66e82",
+      "sha256": "062fa6b024d99d5315ea2afb3d75974a4bd28c41f47165e764d79eb518e64c2b"
+    },
+    {
+      "id": "RD07-2221",
+      "path": "adl/tools/validate_v0916_deepseek_suitability.py",
+      "mode": "100644",
+      "blob": "c88e9af55f4c83e5054897f467c81565ec889f51",
+      "sha256": "c084a938181b2b391f01b5ab3be09acf9560132bdf42fc28749c8eea869e78ae"
+    }
+  ],
+  "historical_disposition": {
+    "v0915_quality": "Fixed2026-06-15 issue3725 HTTP experiment writes dated historical packet. Do not rerun or replace historical proof.",
+    "v0915_openrouter_remote_gemma": "Historical experiment production builds retired monolith adl-provider-adapter/adl interfaces; remoteGemma fixed private Ollama address and dated2026-06-15 output.",
+    "v0916_generic_deepseek": "Coupled generic alias and producer build retired monolith ADL/provider binaries; caller-independent validators and historical packet tests remain.",
+    "two_specs": "Two OpenRouter experiment configurations have no remaining active consumer after producer retirement. DeepSeek panel4096 spec remains for explicit historical packet validation.",
+    "decision": "Retire historical ADL experiment-production interfaces, preserve original assertions and owner source. Not proof of replacement execution or retirement of Runtime model/provider capability."
+  },
+  "caller_closure": "Current tools/config/workflows contain no incoming producer invocation except generic alias removed together and registry repaired. Current retained tests validate recorded packets only; all their bytes preserved. Historical milestone reproduction commands remain original-revision obligations, not current ADL routes.",
+  "limits": [
+    "No original tests, HTTP, model, provider, service, build or credential access performed.",
+    "Exact owner source availability is custody, not current behavioral/installed qualification.",
+    "Existing retained validators preserve packet checks and adverse outcomes; historical fixtures are not new provider acceptance.",
+    "Standalone native_qwen and ANRM tools excluded: not justified as obsolete monolith interfaces."
+  ],
+  "registry_delta": {
+    "removed": 5,
+    "added": 0
+  },
+  "composition": {
+    "prior_proposal": "/Volumes/FastWork/c1223/provider-suitability-seven-historical/prior-662645/PROPOSAL.json",
+    "sha256": "699ba5b5c377669aa9565a8e67d19fb65ef15eb120e8b8b913fc6a4c720521d9",
+    "changed_file_identities": [
+      "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+    ],
+    "other_seven_source_and_ten_retained_identities_unchanged": true,
+    "registry_delta": "Exactly five removed rows, zero added; preserves two Distributed2 removals."
+  },
+  "proposal_source_head": "8be8cf133ec536fb3a7875162226a0a0e8ecc3fc",
+  "review": {
+    "status": "PASS",
+    "reviewer": "review_1223_public_facade",
+    "proposal_sha256": "8777d996f5827a5ce6a935cc389d362bba28c6d18c6fd812ef404e530a9a272f",
+    "scope": "Reviewed source/caller/custody composition; all individual qualification and historical limits preserved."
+  }
+}

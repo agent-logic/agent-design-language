@@ -1,0 +1,1345 @@
+{
+  "schema": "adl1223.reviewed_family_applied.v1",
+  "status": "applied_local_reversible_implementation",
+  "source_head": "1eb50b3eefb1fe41ad39d1c8dd2fd1e6971387d2",
+  "original_inventory": 4134,
+  "additional_separate": 22,
+  "counts": {
+    "remove": 20,
+    "modify": 4,
+    "explicit_retention_proposals": 18
+  },
+  "rows": [
+    {
+      "id": "RD07-1410",
+      "path": "adl/tools/issue194_model_health_command.py",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "49e876f566f6540f1dfb415b87f8b04489b95b6d"
+      }
+    },
+    {
+      "id": "RD07-1411",
+      "path": "adl/tools/issue194_private_network.cloudformation.json",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "4094e107b601f4d35525212ddebc39900ed16e3d"
+      }
+    },
+    {
+      "id": "RD07-1412",
+      "path": "adl/tools/issue194_private_wuji_aws_runner.sh",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "de072e2c01cd365883b40810950feb66cb1633ad"
+      }
+    },
+    {
+      "id": "RD07-1453",
+      "path": "adl/tools/private_wuji_aws_recovery_qualification.py",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "fe531b38f6ed7660748296d4fac963bc541faf99"
+      }
+    },
+    {
+      "id": "RD07-2018",
+      "path": "adl/tools/test_issue194_private_network_template.sh",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "577c2768ca83cbb3771b9a35053f01a50ab00985"
+      }
+    },
+    {
+      "id": "RD07-2050",
+      "path": "adl/tools/test_private_wuji_aws_recovery_qualification.sh",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "62563199814768e8a98e861a2fa532e965a02de4"
+      }
+    },
+    {
+      "id": "RD07-1417",
+      "path": "adl/tools/issue414_restore_and_admit.sh",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "becf29334a9c598e3d6e6b8c2488bddb33dc864c"
+      }
+    },
+    {
+      "id": "RD07-1418",
+      "path": "adl/tools/issue414_s3_linux_bootstrap.py",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "d8f864e4957377c036d295d35a91c6493529217f"
+      }
+    },
+    {
+      "id": "RD07-1419",
+      "path": "adl/tools/issue414_spot_dehydrate_callback.sh",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "5399e34873af6a21204c6b881ad810cb87449008"
+      }
+    },
+    {
+      "id": "RD07-1487",
+      "path": "adl/tools/run_issue414_cpu_shepherd_continuity.sh",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "7d8c12e9b118cf88baf24951f885157e85ff743f"
+      }
+    },
+    {
+      "id": "RD07-2020",
+      "path": "adl/tools/test_issue414_s3_linux_bootstrap.py",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "bf10396ec52330414c1d37d178fa034a2231ef4b"
+      }
+    },
+    {
+      "id": "RD07-4118",
+      "path": "tools/codefriend_host/release/README.md",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "4c0e12eebd79f0396fb282c0d62afe209e77494f"
+      }
+    },
+    {
+      "id": "RD07-4119",
+      "path": "tools/codefriend_host/release/assemble.py",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "abd31cf2f28336022eda87e44363b6d0dbc66292"
+      }
+    },
+    {
+      "id": "RD07-4120",
+      "path": "tools/codefriend_host/release/test_assemble.py",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "bef1f7745d709e3373b5dc4c0ad64ac12dbf9e16"
+      }
+    },
+    {
+      "id": "RD07-4121",
+      "path": "tools/codefriend_host/release/validation.json",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "5fa12bdc014e16dfe3624710fd6c293c25a80be7"
+      }
+    },
+    {
+      "id": "RD07-4122",
+      "path": "tools/codefriend_host/release/verify_packet.py",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "1e5c4e27b7ab27ad504fd52f729ac6e86616abd7"
+      }
+    },
+    {
+      "id": "RD07-4127",
+      "path": "tools/codefriend_host/terraform/.gitignore",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "e63927116ca18f8756b26473bcf1cf7acd98260d"
+      }
+    },
+    {
+      "id": "RD07-4128",
+      "path": "tools/codefriend_host/terraform/.terraform.lock.hcl",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "cdec8db461a63a92af6b8e7908cd393f0c1342b5"
+      }
+    },
+    {
+      "id": "RD07-4129",
+      "path": "tools/codefriend_host/terraform/main.tf",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "64aa73ca2aa5d10b65560a5e63f8aeb5cc508716"
+      }
+    },
+    {
+      "id": "RD07-4130",
+      "path": "tools/codefriend_host/terraform/variables.tf",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "7a3b17048476937b7ddc1b32808ad9950b1dfba9"
+      }
+    }
+  ],
+  "files": [
+    {
+      "path": "adl/tools/generate_tool_surface_registry.py",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "d272b85e584a4debd3b1941270c935b8944fe201",
+        "sha256": "9374961ce3d7fadeb645e3a000f493bb34bcca4d6bf98ca35cae8b418dd93826"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "2c38c2d3dbcfd66f5ccdf00c210a607fab9e23f6",
+        "sha256": "20b469a6c2c7ea7c1b9271b0493f7c5dfc179d6531ceb441cd2161fc76f8fc57"
+      }
+    },
+    {
+      "path": "adl/tools/issue194_model_health_command.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "49e876f566f6540f1dfb415b87f8b04489b95b6d",
+        "sha256": "1b7f021e6c69bd8bbc227f098d694bfca49581a483991059007d64832e1ec3ad"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/issue194_private_network.cloudformation.json",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "4094e107b601f4d35525212ddebc39900ed16e3d",
+        "sha256": "80905a1c6adec4623c3dac504e673ebb318aec0873b4d4d243b650c86f514030"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/issue194_private_wuji_aws_runner.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "de072e2c01cd365883b40810950feb66cb1633ad",
+        "sha256": "84d83cff9c5a22e19efcd5c6781fb9163ce87e85cd44cbdd569b52b41da77369"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/issue414_restore_and_admit.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "becf29334a9c598e3d6e6b8c2488bddb33dc864c",
+        "sha256": "8fe37096c47356b6e625dc5cca213aa2cb06907e8fecdb8f650b144af1a50265"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/issue414_s3_linux_bootstrap.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "d8f864e4957377c036d295d35a91c6493529217f",
+        "sha256": "4b77b6b680fdb657346bce3ad4b646bf73bed2b0ccac8ba4293b78b5f6a7537f"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/issue414_spot_dehydrate_callback.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "5399e34873af6a21204c6b881ad810cb87449008",
+        "sha256": "3a31607a8ab0667132b7965f562bfc2b170eed7d587bd352de791cdba28b9b9a"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/private_wuji_aws_recovery_qualification.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "fe531b38f6ed7660748296d4fac963bc541faf99",
+        "sha256": "ad91442470c010efdc9d01a748886d56cec7a0df97eaae059469e33097464bb9"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/run_issue414_cpu_shepherd_continuity.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "7d8c12e9b118cf88baf24951f885157e85ff743f",
+        "sha256": "9022cf562ec6c254bedca25633e2370af7b1d0ae08f0892167560c9a1bb3aeb9"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/run_issue414_llama_baseline.sh",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "89a98465dc3a68a8cfd8a6867fc86f6b5bd10227",
+        "sha256": "7edc581c6b67cfbdbf9d98faade1281d983e48cdaa3c92aafe10eb2ed63eda55"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "e1cedc099ca03a9671c80364f2395c6923ddd81f",
+        "sha256": "66546bdd4864b1e09b15f88173dbb1bf917fb5ae3bc25c950f3129efc8bc0548"
+      }
+    },
+    {
+      "path": "adl/tools/test_issue194_private_network_template.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "577c2768ca83cbb3771b9a35053f01a50ab00985",
+        "sha256": "5bff0ce64134ee67c9f01af7555b1afe63398cc914d39306a9f297359ab6b4b9"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_issue414_s3_linux_bootstrap.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "bf10396ec52330414c1d37d178fa034a2231ef4b",
+        "sha256": "30c1477758ae7b3977e08e8eccf7ddb9aa56fdf622be3d37a9245e7211ce3442"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_private_wuji_aws_recovery_qualification.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "62563199814768e8a98e861a2fa532e965a02de4",
+        "sha256": "e84b79eec80caaa92f3ad6684101ec952a5675a857261568746006dcbfa14188"
+      },
+      "after": null
+    },
+    {
+      "path": "docs/codefriend/HOSTING.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "111e0690fb10820a3e0df0898f16c0936637051b",
+        "sha256": "4dfe6f85005a2a0f953f4448c212b73cdb37cf603c88758ac22a74b9b97e4651"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "874d38a57c1ebd30b12880d41b664b5930cb5248",
+        "sha256": "e6b5330003490bade52f61836ed14aca41042dbb83e096376c647a24dfa43c36"
+      }
+    },
+    {
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "0b367b11e8efe9f3967f7a4baea79065ef87d7d8",
+        "sha256": "2ee13c2544039316187df469001a77dd3fcbdd391203ebcb2e926a92386095a3"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "7d93709bcd1194c7446608754ef4cd50b69eba28",
+        "sha256": "6a9c99b3640888421e52b61ac41744d11c23d1ee170e0d70577e7e14e6d7633b"
+      }
+    },
+    {
+      "path": "tools/codefriend_host/release/README.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "4c0e12eebd79f0396fb282c0d62afe209e77494f",
+        "sha256": "d8b89e1517f7f145eaaec896809859217254ccb9821570b4a4e040e41ac3a752"
+      },
+      "after": null
+    },
+    {
+      "path": "tools/codefriend_host/release/assemble.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "f076b58a9d0f7672d1129cb62283fc51192ed3e1",
+        "sha256": "df4f55e1066206bf8b46a6302be6d517204d3697e70f9f52a01b95c632462bf7"
+      },
+      "after": null
+    },
+    {
+      "path": "tools/codefriend_host/release/test_assemble.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "bef1f7745d709e3373b5dc4c0ad64ac12dbf9e16",
+        "sha256": "fe4161ea56cc917d92f8b2efecaa006dc665d1f05e4fc15c03d488981f2ed788"
+      },
+      "after": null
+    },
+    {
+      "path": "tools/codefriend_host/release/validation.json",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "5fa12bdc014e16dfe3624710fd6c293c25a80be7",
+        "sha256": "1151810cb870e3c6c49312de41e5f47ccd824c1a2c28f010c49b819748ca2146"
+      },
+      "after": null
+    },
+    {
+      "path": "tools/codefriend_host/release/verify_packet.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "1e5c4e27b7ab27ad504fd52f729ac6e86616abd7",
+        "sha256": "d3a57659cd58e6eaf92e06b2125b913bfec9001967cc797cc58c2068e01e02b2"
+      },
+      "after": null
+    },
+    {
+      "path": "tools/codefriend_host/terraform/.gitignore",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "e63927116ca18f8756b26473bcf1cf7acd98260d",
+        "sha256": "d72d34078e73a0584080f8f5b26227f5140e9c4674aa70af76e4d6abecad77fd"
+      },
+      "after": null
+    },
+    {
+      "path": "tools/codefriend_host/terraform/.terraform.lock.hcl",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "cdec8db461a63a92af6b8e7908cd393f0c1342b5",
+        "sha256": "94bff334cb514eae21870f892d1a660487f9a2db11841c584adf25e473830785"
+      },
+      "after": null
+    },
+    {
+      "path": "tools/codefriend_host/terraform/main.tf",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "64aa73ca2aa5d10b65560a5e63f8aeb5cc508716",
+        "sha256": "9b16e116427198506a07aa5f003b99daca4f8cf20546650a001d8574baade3cd"
+      },
+      "after": null
+    },
+    {
+      "path": "tools/codefriend_host/terraform/variables.tf",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "7a3b17048476937b7ddc1b32808ad9950b1dfba9",
+        "sha256": "556a9839c31ccd607785e7c2106d11b6ba2141debdd93a885b469ac9514c6031"
+      },
+      "after": null
+    }
+  ],
+  "owner_correspondence": [
+    {
+      "id": "RD07-1410",
+      "path": "adl/tools/issue194_model_health_command.py",
+      "family": "private_wuji",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "49e876f566f6540f1dfb415b87f8b04489b95b6d"
+      },
+      "current": {
+        "mode": "100644",
+        "blob": "49e876f566f6540f1dfb415b87f8b04489b95b6d",
+        "sha256": "1b7f021e6c69bd8bbc227f098d694bfca49581a483991059007d64832e1ec3ad"
+      },
+      "owner": {
+        "mode": "100644",
+        "blob": "49e876f566f6540f1dfb415b87f8b04489b95b6d",
+        "sha256": "1b7f021e6c69bd8bbc227f098d694bfca49581a483991059007d64832e1ec3ad"
+      },
+      "qualified_revision": "8b7494642c423d024c79bef5b4d493eaee126f63",
+      "qualified_checkout": "/Volumes/FastWork/c1223/infrastructure18-controller/agent-logic-infrastructure",
+      "current_owner_revision": "61c2806b6274b1003aa42f02adec99faf5f2a74b",
+      "exact_adl_bytes": true,
+      "current_owner_equals_qualified": true
+    },
+    {
+      "id": "RD07-1411",
+      "path": "adl/tools/issue194_private_network.cloudformation.json",
+      "family": "private_wuji",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "4094e107b601f4d35525212ddebc39900ed16e3d"
+      },
+      "current": {
+        "mode": "100644",
+        "blob": "4094e107b601f4d35525212ddebc39900ed16e3d",
+        "sha256": "80905a1c6adec4623c3dac504e673ebb318aec0873b4d4d243b650c86f514030"
+      },
+      "owner": {
+        "mode": "100644",
+        "blob": "4094e107b601f4d35525212ddebc39900ed16e3d",
+        "sha256": "80905a1c6adec4623c3dac504e673ebb318aec0873b4d4d243b650c86f514030"
+      },
+      "qualified_revision": "8b7494642c423d024c79bef5b4d493eaee126f63",
+      "qualified_checkout": "/Volumes/FastWork/c1223/infrastructure18-controller/agent-logic-infrastructure",
+      "current_owner_revision": "61c2806b6274b1003aa42f02adec99faf5f2a74b",
+      "exact_adl_bytes": true,
+      "current_owner_equals_qualified": true
+    },
+    {
+      "id": "RD07-1412",
+      "path": "adl/tools/issue194_private_wuji_aws_runner.sh",
+      "family": "private_wuji",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "de072e2c01cd365883b40810950feb66cb1633ad"
+      },
+      "current": {
+        "mode": "100755",
+        "blob": "de072e2c01cd365883b40810950feb66cb1633ad",
+        "sha256": "84d83cff9c5a22e19efcd5c6781fb9163ce87e85cd44cbdd569b52b41da77369"
+      },
+      "owner": {
+        "mode": "100755",
+        "blob": "ea1214d428bfb36becacf92d795eb77eb052a7b7",
+        "sha256": "f921dba089d40099f72012f4f97bd590536c18b15e799d658882d864d83e7f63"
+      },
+      "qualified_revision": "8b7494642c423d024c79bef5b4d493eaee126f63",
+      "qualified_checkout": "/Volumes/FastWork/c1223/infrastructure18-controller/agent-logic-infrastructure",
+      "current_owner_revision": "61c2806b6274b1003aa42f02adec99faf5f2a74b",
+      "exact_adl_bytes": false,
+      "current_owner_equals_qualified": true
+    },
+    {
+      "id": "RD07-1453",
+      "path": "adl/tools/private_wuji_aws_recovery_qualification.py",
+      "family": "private_wuji",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "fe531b38f6ed7660748296d4fac963bc541faf99"
+      },
+      "current": {
+        "mode": "100755",
+        "blob": "fe531b38f6ed7660748296d4fac963bc541faf99",
+        "sha256": "ad91442470c010efdc9d01a748886d56cec7a0df97eaae059469e33097464bb9"
+      },
+      "owner": {
+        "mode": "100755",
+        "blob": "fe531b38f6ed7660748296d4fac963bc541faf99",
+        "sha256": "ad91442470c010efdc9d01a748886d56cec7a0df97eaae059469e33097464bb9"
+      },
+      "qualified_revision": "8b7494642c423d024c79bef5b4d493eaee126f63",
+      "qualified_checkout": "/Volumes/FastWork/c1223/infrastructure18-controller/agent-logic-infrastructure",
+      "current_owner_revision": "61c2806b6274b1003aa42f02adec99faf5f2a74b",
+      "exact_adl_bytes": true,
+      "current_owner_equals_qualified": true
+    },
+    {
+      "id": "RD07-2018",
+      "path": "adl/tools/test_issue194_private_network_template.sh",
+      "family": "private_wuji",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "577c2768ca83cbb3771b9a35053f01a50ab00985"
+      },
+      "current": {
+        "mode": "100755",
+        "blob": "577c2768ca83cbb3771b9a35053f01a50ab00985",
+        "sha256": "5bff0ce64134ee67c9f01af7555b1afe63398cc914d39306a9f297359ab6b4b9"
+      },
+      "owner": {
+        "mode": "100755",
+        "blob": "577c2768ca83cbb3771b9a35053f01a50ab00985",
+        "sha256": "5bff0ce64134ee67c9f01af7555b1afe63398cc914d39306a9f297359ab6b4b9"
+      },
+      "qualified_revision": "8b7494642c423d024c79bef5b4d493eaee126f63",
+      "qualified_checkout": "/Volumes/FastWork/c1223/infrastructure18-controller/agent-logic-infrastructure",
+      "current_owner_revision": "61c2806b6274b1003aa42f02adec99faf5f2a74b",
+      "exact_adl_bytes": true,
+      "current_owner_equals_qualified": true
+    },
+    {
+      "id": "RD07-2050",
+      "path": "adl/tools/test_private_wuji_aws_recovery_qualification.sh",
+      "family": "private_wuji",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "62563199814768e8a98e861a2fa532e965a02de4"
+      },
+      "current": {
+        "mode": "100755",
+        "blob": "62563199814768e8a98e861a2fa532e965a02de4",
+        "sha256": "e84b79eec80caaa92f3ad6684101ec952a5675a857261568746006dcbfa14188"
+      },
+      "owner": {
+        "mode": "100755",
+        "blob": "62563199814768e8a98e861a2fa532e965a02de4",
+        "sha256": "e84b79eec80caaa92f3ad6684101ec952a5675a857261568746006dcbfa14188"
+      },
+      "qualified_revision": "8b7494642c423d024c79bef5b4d493eaee126f63",
+      "qualified_checkout": "/Volumes/FastWork/c1223/infrastructure18-controller/agent-logic-infrastructure",
+      "current_owner_revision": "61c2806b6274b1003aa42f02adec99faf5f2a74b",
+      "exact_adl_bytes": true,
+      "current_owner_equals_qualified": true
+    },
+    {
+      "id": "RD07-1417",
+      "path": "adl/tools/issue414_restore_and_admit.sh",
+      "family": "continuity_bootstrap",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "becf29334a9c598e3d6e6b8c2488bddb33dc864c"
+      },
+      "current": {
+        "mode": "100644",
+        "blob": "becf29334a9c598e3d6e6b8c2488bddb33dc864c",
+        "sha256": "8fe37096c47356b6e625dc5cca213aa2cb06907e8fecdb8f650b144af1a50265"
+      },
+      "owner": {
+        "mode": "100755",
+        "blob": "883accf891dc43946266d48cd0f44d1cc60967b7",
+        "sha256": "f0d54ed5df95afc981261663c25733ab906333e843a28943e570b9cddbba409f"
+      },
+      "qualified_revision": "051fabe60d60dffeb3e200e689ea64ebf37f6cb4",
+      "qualified_checkout": "/Volumes/FastWork/c1223/infrastructure14/agent-logic-infrastructure",
+      "current_owner_revision": "61c2806b6274b1003aa42f02adec99faf5f2a74b",
+      "exact_adl_bytes": false,
+      "current_owner_equals_qualified": true
+    },
+    {
+      "id": "RD07-1418",
+      "path": "adl/tools/issue414_s3_linux_bootstrap.py",
+      "family": "continuity_bootstrap",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "d8f864e4957377c036d295d35a91c6493529217f"
+      },
+      "current": {
+        "mode": "100644",
+        "blob": "d8f864e4957377c036d295d35a91c6493529217f",
+        "sha256": "4b77b6b680fdb657346bce3ad4b646bf73bed2b0ccac8ba4293b78b5f6a7537f"
+      },
+      "owner": {
+        "mode": "100755",
+        "blob": "e9540a31af73781edaeeed33b40da56024303627",
+        "sha256": "c34930e9126b32dcdcde1d44f273361a84aef47c73f9fcea3046379e6b65d984"
+      },
+      "qualified_revision": "051fabe60d60dffeb3e200e689ea64ebf37f6cb4",
+      "qualified_checkout": "/Volumes/FastWork/c1223/infrastructure14/agent-logic-infrastructure",
+      "current_owner_revision": "61c2806b6274b1003aa42f02adec99faf5f2a74b",
+      "exact_adl_bytes": false,
+      "current_owner_equals_qualified": true
+    },
+    {
+      "id": "RD07-1419",
+      "path": "adl/tools/issue414_spot_dehydrate_callback.sh",
+      "family": "continuity_bootstrap",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "5399e34873af6a21204c6b881ad810cb87449008"
+      },
+      "current": {
+        "mode": "100755",
+        "blob": "5399e34873af6a21204c6b881ad810cb87449008",
+        "sha256": "3a31607a8ab0667132b7965f562bfc2b170eed7d587bd352de791cdba28b9b9a"
+      },
+      "owner": {
+        "mode": "100755",
+        "blob": "7fe2a7cb3e69986c43c9882862565432c17f7243",
+        "sha256": "11c01d4c18c404dc2436cd2822764dce9cf1b41aaa483b126bf9ac6c783c040c"
+      },
+      "qualified_revision": "051fabe60d60dffeb3e200e689ea64ebf37f6cb4",
+      "qualified_checkout": "/Volumes/FastWork/c1223/infrastructure14/agent-logic-infrastructure",
+      "current_owner_revision": "61c2806b6274b1003aa42f02adec99faf5f2a74b",
+      "exact_adl_bytes": false,
+      "current_owner_equals_qualified": true
+    },
+    {
+      "id": "RD07-1487",
+      "path": "adl/tools/run_issue414_cpu_shepherd_continuity.sh",
+      "family": "continuity_bootstrap",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "7d8c12e9b118cf88baf24951f885157e85ff743f"
+      },
+      "current": {
+        "mode": "100755",
+        "blob": "7d8c12e9b118cf88baf24951f885157e85ff743f",
+        "sha256": "9022cf562ec6c254bedca25633e2370af7b1d0ae08f0892167560c9a1bb3aeb9"
+      },
+      "owner": {
+        "mode": "100755",
+        "blob": "32204a71b9de3f58cb60418c33bf6d2b3156d841",
+        "sha256": "62631130b6bc50ab5406505db8e37adbda9068e1885d892db415f5ade2d43587"
+      },
+      "qualified_revision": "051fabe60d60dffeb3e200e689ea64ebf37f6cb4",
+      "qualified_checkout": "/Volumes/FastWork/c1223/infrastructure14/agent-logic-infrastructure",
+      "current_owner_revision": "61c2806b6274b1003aa42f02adec99faf5f2a74b",
+      "exact_adl_bytes": false,
+      "current_owner_equals_qualified": true
+    },
+    {
+      "id": "RD07-2020",
+      "path": "adl/tools/test_issue414_s3_linux_bootstrap.py",
+      "family": "continuity_bootstrap",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "bf10396ec52330414c1d37d178fa034a2231ef4b"
+      },
+      "current": {
+        "mode": "100644",
+        "blob": "bf10396ec52330414c1d37d178fa034a2231ef4b",
+        "sha256": "30c1477758ae7b3977e08e8eccf7ddb9aa56fdf622be3d37a9245e7211ce3442"
+      },
+      "owner": {
+        "mode": "100644",
+        "blob": "f15c5af3c0bb41c534bcd333f144a8571bb48757",
+        "sha256": "2146d6051298fc76600dfb8db8b09ef07c285e4a0651626ca05bb5e8c2129fb0"
+      },
+      "qualified_revision": "051fabe60d60dffeb3e200e689ea64ebf37f6cb4",
+      "qualified_checkout": "/Volumes/FastWork/c1223/infrastructure14/agent-logic-infrastructure",
+      "current_owner_revision": "61c2806b6274b1003aa42f02adec99faf5f2a74b",
+      "exact_adl_bytes": false,
+      "current_owner_equals_qualified": true
+    },
+    {
+      "id": "RD07-4118",
+      "path": "tools/codefriend_host/release/README.md",
+      "family": "codefriend_host_artifacts",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "4c0e12eebd79f0396fb282c0d62afe209e77494f"
+      },
+      "current": {
+        "mode": "100644",
+        "blob": "4c0e12eebd79f0396fb282c0d62afe209e77494f",
+        "sha256": "d8b89e1517f7f145eaaec896809859217254ccb9821570b4a4e040e41ac3a752"
+      },
+      "owner": {
+        "mode": "100644",
+        "blob": "d75a54083ec81481f7a65f10d2fe87be4f5cea4e",
+        "sha256": "32d4205554f03466aabc25fb58c226efc286f4520d2beccb90501b839b86a775"
+      },
+      "qualified_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+      "qualified_checkout": "/Volumes/FastWork/c1223/infrastructure14/agent-logic-infrastructure",
+      "current_owner_revision": "61c2806b6274b1003aa42f02adec99faf5f2a74b",
+      "exact_adl_bytes": false,
+      "current_owner_equals_qualified": true
+    },
+    {
+      "id": "RD07-4119",
+      "path": "tools/codefriend_host/release/assemble.py",
+      "family": "codefriend_host_artifacts",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "abd31cf2f28336022eda87e44363b6d0dbc66292"
+      },
+      "current": {
+        "mode": "100755",
+        "blob": "f076b58a9d0f7672d1129cb62283fc51192ed3e1",
+        "sha256": "df4f55e1066206bf8b46a6302be6d517204d3697e70f9f52a01b95c632462bf7"
+      },
+      "owner": {
+        "mode": "100755",
+        "blob": "5d56e031d4b43fd0b34cc9af513cf2ddcaaab1a9",
+        "sha256": "3214d780151d7356e7925ea4616c79f0535651b4247a9a39820d414a45d06c21"
+      },
+      "qualified_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+      "qualified_checkout": "/Volumes/FastWork/c1223/infrastructure14/agent-logic-infrastructure",
+      "current_owner_revision": "61c2806b6274b1003aa42f02adec99faf5f2a74b",
+      "exact_adl_bytes": false,
+      "current_owner_equals_qualified": true
+    },
+    {
+      "id": "RD07-4120",
+      "path": "tools/codefriend_host/release/test_assemble.py",
+      "family": "codefriend_host_artifacts",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "bef1f7745d709e3373b5dc4c0ad64ac12dbf9e16"
+      },
+      "current": {
+        "mode": "100644",
+        "blob": "bef1f7745d709e3373b5dc4c0ad64ac12dbf9e16",
+        "sha256": "fe4161ea56cc917d92f8b2efecaa006dc665d1f05e4fc15c03d488981f2ed788"
+      },
+      "owner": {
+        "mode": "100644",
+        "blob": "014ec3cb31168f3b4de047703340b1360789543f",
+        "sha256": "79d7e8c321e773cddb431cf15419a9b910319691eab5f1fd53b42026de280d5a"
+      },
+      "qualified_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+      "qualified_checkout": "/Volumes/FastWork/c1223/infrastructure14/agent-logic-infrastructure",
+      "current_owner_revision": "61c2806b6274b1003aa42f02adec99faf5f2a74b",
+      "exact_adl_bytes": false,
+      "current_owner_equals_qualified": true
+    },
+    {
+      "id": "RD07-4121",
+      "path": "tools/codefriend_host/release/validation.json",
+      "family": "codefriend_host_artifacts",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "5fa12bdc014e16dfe3624710fd6c293c25a80be7"
+      },
+      "current": {
+        "mode": "100644",
+        "blob": "5fa12bdc014e16dfe3624710fd6c293c25a80be7",
+        "sha256": "1151810cb870e3c6c49312de41e5f47ccd824c1a2c28f010c49b819748ca2146"
+      },
+      "owner": {
+        "mode": "100644",
+        "blob": "5fa12bdc014e16dfe3624710fd6c293c25a80be7",
+        "sha256": "1151810cb870e3c6c49312de41e5f47ccd824c1a2c28f010c49b819748ca2146"
+      },
+      "qualified_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+      "qualified_checkout": "/Volumes/FastWork/c1223/infrastructure14/agent-logic-infrastructure",
+      "current_owner_revision": "61c2806b6274b1003aa42f02adec99faf5f2a74b",
+      "exact_adl_bytes": true,
+      "current_owner_equals_qualified": true
+    },
+    {
+      "id": "RD07-4122",
+      "path": "tools/codefriend_host/release/verify_packet.py",
+      "family": "codefriend_host_artifacts",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "1e5c4e27b7ab27ad504fd52f729ac6e86616abd7"
+      },
+      "current": {
+        "mode": "100755",
+        "blob": "1e5c4e27b7ab27ad504fd52f729ac6e86616abd7",
+        "sha256": "d3a57659cd58e6eaf92e06b2125b913bfec9001967cc797cc58c2068e01e02b2"
+      },
+      "owner": {
+        "mode": "100755",
+        "blob": "7e88d1073a56fb6a91dd2ad3f2da76f1f6dea927",
+        "sha256": "5e183ad821d82d9a5caf742b2d5f33d0b15d6798f8c2bb00f99d0a48b706f569"
+      },
+      "qualified_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+      "qualified_checkout": "/Volumes/FastWork/c1223/infrastructure14/agent-logic-infrastructure",
+      "current_owner_revision": "61c2806b6274b1003aa42f02adec99faf5f2a74b",
+      "exact_adl_bytes": false,
+      "current_owner_equals_qualified": true
+    },
+    {
+      "id": "RD07-4127",
+      "path": "tools/codefriend_host/terraform/.gitignore",
+      "family": "codefriend_host_artifacts",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "e63927116ca18f8756b26473bcf1cf7acd98260d"
+      },
+      "current": {
+        "mode": "100644",
+        "blob": "e63927116ca18f8756b26473bcf1cf7acd98260d",
+        "sha256": "d72d34078e73a0584080f8f5b26227f5140e9c4674aa70af76e4d6abecad77fd"
+      },
+      "owner": {
+        "mode": "100644",
+        "blob": "e63927116ca18f8756b26473bcf1cf7acd98260d",
+        "sha256": "d72d34078e73a0584080f8f5b26227f5140e9c4674aa70af76e4d6abecad77fd"
+      },
+      "qualified_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+      "qualified_checkout": "/Volumes/FastWork/c1223/infrastructure14/agent-logic-infrastructure",
+      "current_owner_revision": "61c2806b6274b1003aa42f02adec99faf5f2a74b",
+      "exact_adl_bytes": true,
+      "current_owner_equals_qualified": true
+    },
+    {
+      "id": "RD07-4128",
+      "path": "tools/codefriend_host/terraform/.terraform.lock.hcl",
+      "family": "codefriend_host_artifacts",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "cdec8db461a63a92af6b8e7908cd393f0c1342b5"
+      },
+      "current": {
+        "mode": "100644",
+        "blob": "cdec8db461a63a92af6b8e7908cd393f0c1342b5",
+        "sha256": "94bff334cb514eae21870f892d1a660487f9a2db11841c584adf25e473830785"
+      },
+      "owner": {
+        "mode": "100644",
+        "blob": "cdec8db461a63a92af6b8e7908cd393f0c1342b5",
+        "sha256": "94bff334cb514eae21870f892d1a660487f9a2db11841c584adf25e473830785"
+      },
+      "qualified_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+      "qualified_checkout": "/Volumes/FastWork/c1223/infrastructure14/agent-logic-infrastructure",
+      "current_owner_revision": "61c2806b6274b1003aa42f02adec99faf5f2a74b",
+      "exact_adl_bytes": true,
+      "current_owner_equals_qualified": true
+    },
+    {
+      "id": "RD07-4129",
+      "path": "tools/codefriend_host/terraform/main.tf",
+      "family": "codefriend_host_artifacts",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "64aa73ca2aa5d10b65560a5e63f8aeb5cc508716"
+      },
+      "current": {
+        "mode": "100644",
+        "blob": "64aa73ca2aa5d10b65560a5e63f8aeb5cc508716",
+        "sha256": "9b16e116427198506a07aa5f003b99daca4f8cf20546650a001d8574baade3cd"
+      },
+      "owner": {
+        "mode": "100644",
+        "blob": "64aa73ca2aa5d10b65560a5e63f8aeb5cc508716",
+        "sha256": "9b16e116427198506a07aa5f003b99daca4f8cf20546650a001d8574baade3cd"
+      },
+      "qualified_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+      "qualified_checkout": "/Volumes/FastWork/c1223/infrastructure14/agent-logic-infrastructure",
+      "current_owner_revision": "61c2806b6274b1003aa42f02adec99faf5f2a74b",
+      "exact_adl_bytes": true,
+      "current_owner_equals_qualified": true
+    },
+    {
+      "id": "RD07-4130",
+      "path": "tools/codefriend_host/terraform/variables.tf",
+      "family": "codefriend_host_artifacts",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "7a3b17048476937b7ddc1b32808ad9950b1dfba9"
+      },
+      "current": {
+        "mode": "100644",
+        "blob": "7a3b17048476937b7ddc1b32808ad9950b1dfba9",
+        "sha256": "556a9839c31ccd607785e7c2106d11b6ba2141debdd93a885b469ac9514c6031"
+      },
+      "owner": {
+        "mode": "100644",
+        "blob": "7a3b17048476937b7ddc1b32808ad9950b1dfba9",
+        "sha256": "556a9839c31ccd607785e7c2106d11b6ba2141debdd93a885b469ac9514c6031"
+      },
+      "qualified_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+      "qualified_checkout": "/Volumes/FastWork/c1223/infrastructure14/agent-logic-infrastructure",
+      "current_owner_revision": "61c2806b6274b1003aa42f02adec99faf5f2a74b",
+      "exact_adl_bytes": true,
+      "current_owner_equals_qualified": true
+    }
+  ],
+  "retention_rows": [
+    {
+      "id": "RD07-1390",
+      "path": "adl/tools/ensure_csm_binary.sh",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "44f105034824796aba2eade3dd8d4c577e51b696"
+      },
+      "current": {
+        "mode": "100755",
+        "blob": "6d11a0ad18ca64aef90c1ef20c2cef130003574a",
+        "sha256": "b794915a755ff89a598bbfaa8ffbdc8c90c8226b110143b010121ba587fbdc85"
+      },
+      "proposed_action": "retain_public_source_or_fixture",
+      "reason": "retain_public_compatibility_diagnostic_and_its_nine_inert_contract_assertions; original Cargo-build tests retired explicitly in Runtime batch."
+    },
+    {
+      "id": "RD07-1402",
+      "path": "adl/tools/install_aws_remote_validation_tool.sh",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "d25daf5b0c9ac4640b517681d96f60fda7ba7245"
+      },
+      "current": {
+        "mode": "100755",
+        "blob": "7a27c084f58560d4d53818f057ac5d6a591f51e1",
+        "sha256": "f0ec056e9df5f9007a16a6a62f6580a7a40c2419cc87deb1b3165c7f52b1c799"
+      },
+      "proposed_action": "retain_public_source_or_fixture",
+      "reason": "retain_explicit_historical_refusal: committed prior owner cutover retains compatibility diagnostic; no original assertions execute."
+    },
+    {
+      "id": "RD07-1473",
+      "path": "adl/tools/run_authoritative_coverage_lane.sh",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "86522bed74536718197dac34d3b55dfe601b78e8"
+      },
+      "current": {
+        "mode": "100755",
+        "blob": "6200e1a51b524c43569e86a9d7be138b110e77b1",
+        "sha256": "aae9b3a39a9f5a52afd0ab4d1663e4b34d554b41a03f382cd9f1b4318130735d"
+      },
+      "proposed_action": "retain_public_source_or_fixture",
+      "reason": "retain_explicit_historical_refusal: committed prior owner cutover retains compatibility diagnostic; no original assertions execute."
+    },
+    {
+      "id": "RD07-1477",
+      "path": "adl/tools/run_aws_spot_remote_validation_lane.sh",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "f2ac6b16f57a64ad18abcfb0854fee8442cd6c10"
+      },
+      "current": {
+        "mode": "100755",
+        "blob": "a161ea422dfd2514d4f4f9a55e30abaf178cba0a",
+        "sha256": "f55ec679c58c479a668cb3ff40f00db6d7d6a2f74895cec5232308ca3343371b"
+      },
+      "proposed_action": "retain_public_source_or_fixture",
+      "reason": "retain_explicit_historical_refusal: committed prior owner cutover retains compatibility diagnostic; no original assertions execute."
+    },
+    {
+      "id": "RD07-1486",
+      "path": "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "9189bfe03203be33883a8ec008b9355707049ba0"
+      },
+      "current": {
+        "mode": "100755",
+        "blob": "6200e1a51b524c43569e86a9d7be138b110e77b1",
+        "sha256": "aae9b3a39a9f5a52afd0ab4d1663e4b34d554b41a03f382cd9f1b4318130735d"
+      },
+      "proposed_action": "retain_public_source_or_fixture",
+      "reason": "retain_explicit_historical_refusal: committed prior owner cutover retains compatibility diagnostic; no original assertions execute."
+    },
+    {
+      "id": "RD07-1489",
+      "path": "adl/tools/run_issue509_gcp_drt_d_qualification.sh",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "add5dffb7e3ad4299f28d29bbe62a1866b8c43ac"
+      },
+      "current": {
+        "mode": "100755",
+        "blob": "99ab3812eb5b04a37f450b69e90ed8bde26356d7",
+        "sha256": "b4a152ce2273f1996b411788f1b880e695e57c6e1745cb8eed990696834e5bfb"
+      },
+      "proposed_action": "retain_public_source_or_fixture",
+      "reason": "retain_explicit_historical_refusal: committed prior owner cutover retains compatibility diagnostic; no original assertions execute."
+    },
+    {
+      "id": "RD07-1498",
+      "path": "adl/tools/run_pr_fast_test_lane.sh",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "9a929c1953ff7682bb23fe1d6eec0f69493fdd0b"
+      },
+      "current": {
+        "mode": "100644",
+        "blob": "6200e1a51b524c43569e86a9d7be138b110e77b1",
+        "sha256": "aae9b3a39a9f5a52afd0ab4d1663e4b34d554b41a03f382cd9f1b4318130735d"
+      },
+      "proposed_action": "retain_public_source_or_fixture",
+      "reason": "retain_explicit_historical_refusal: committed prior owner cutover retains compatibility diagnostic; no original assertions execute."
+    },
+    {
+      "id": "RD07-1502",
+      "path": "adl/tools/run_runtime_v3_operational_proof.sh",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "6a1568d5cec3ea2be2533e31e458ec2d790413a7"
+      },
+      "current": {
+        "mode": "100755",
+        "blob": "6200e1a51b524c43569e86a9d7be138b110e77b1",
+        "sha256": "aae9b3a39a9f5a52afd0ab4d1663e4b34d554b41a03f382cd9f1b4318130735d"
+      },
+      "proposed_action": "retain_public_source_or_fixture",
+      "reason": "retain_explicit_historical_refusal: committed prior owner cutover retains compatibility diagnostic; no original assertions execute."
+    },
+    {
+      "id": "RD07-1702",
+      "path": "adl/tools/skills/pr-run/SKILL.md",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "922bd7d6d01865b5c4996f661f4b4112834481cd"
+      },
+      "current": {
+        "mode": "100644",
+        "blob": "69421c25acc92b5642cf2c7595e0bde2a332b27d",
+        "sha256": "b36041994be34214b2b7f289d23fab8ebec01fc8242e4e6e16ca7c0e8551969c"
+      },
+      "proposed_action": "retain_public_source_or_fixture",
+      "reason": "retain_partial_historical_pr_run_reference; previous historical83 batch intentionally retained these and registry marks pr-run historical. Not an operational lifecycle route."
+    },
+    {
+      "id": "RD07-1706",
+      "path": "adl/tools/skills/pr-run/references/run-playbook.md",
+      "original_identity": {
+        "mode": "100644",
+        "blob": "43bd8b0e8ab02218cfbc81aa28562cca0f47b53f"
+      },
+      "current": {
+        "mode": "100644",
+        "blob": "43bd8b0e8ab02218cfbc81aa28562cca0f47b53f",
+        "sha256": "1b3654354673de8c1a64151b6538feb25d30a0b81e2412c85e591b0d3ee35056"
+      },
+      "proposed_action": "retain_public_source_or_fixture",
+      "reason": "retain_partial_historical_pr_run_reference; previous historical83 batch intentionally retained these and registry marks pr-run historical. Not an operational lifecycle route."
+    },
+    {
+      "id": "RD07-1998",
+      "path": "adl/tools/test_ensure_csm_binary.sh",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "78ce6fbfff8b91b34f936be30a2ab3f2e77e7048"
+      },
+      "current": {
+        "mode": "100755",
+        "blob": "4d7786d26261100aced84489df563e016fa2457c",
+        "sha256": "f9453c110d4ea8f7938f86cae89d07e0319affdf2fd5bb0970e96ae83895c901"
+      },
+      "proposed_action": "retain_public_source_or_fixture",
+      "reason": "retain_public_compatibility_diagnostic_and_its_nine_inert_contract_assertions; original Cargo-build tests retired explicitly in Runtime batch."
+    },
+    {
+      "id": "RD07-2079",
+      "path": "adl/tools/test_run_authoritative_coverage_lane.sh",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "60ada319d396e9ae9ca51e56df28cfac992e1435"
+      },
+      "current": {
+        "mode": "100755",
+        "blob": "6200e1a51b524c43569e86a9d7be138b110e77b1",
+        "sha256": "aae9b3a39a9f5a52afd0ab4d1663e4b34d554b41a03f382cd9f1b4318130735d"
+      },
+      "proposed_action": "retain_public_source_or_fixture",
+      "reason": "retain_explicit_historical_refusal: committed prior owner cutover retains compatibility diagnostic; no original assertions execute."
+    },
+    {
+      "id": "RD07-2081",
+      "path": "adl/tools/test_run_aws_spot_builder_image_validation.sh",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "16b94e284732826bb30689eea4e54f037bf7f3fd"
+      },
+      "current": {
+        "mode": "100755",
+        "blob": "107af3b83f4c23154d68fcdcc0f1cf09286d217a",
+        "sha256": "ff8fcffbb1c0708041f6361110ac441f1a52dade60d383bd41f31474d67a8684"
+      },
+      "proposed_action": "retain_public_source_or_fixture",
+      "reason": "retain_explicit_historical_refusal: committed prior owner cutover retains compatibility diagnostic; no original assertions execute."
+    },
+    {
+      "id": "RD07-2082",
+      "path": "adl/tools/test_run_aws_spot_ci_profile.sh",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "a52a866fe27c9fcdc26a657e866ae7ab48394f81"
+      },
+      "current": {
+        "mode": "100755",
+        "blob": "91623b22fef5b710eda47416dab7fe9a8c840fbe",
+        "sha256": "c4b1c15966cf82433171863781ef2581cb521d20d499e4ed59ea47bded8eb321"
+      },
+      "proposed_action": "retain_public_source_or_fixture",
+      "reason": "retain_explicit_historical_refusal: committed prior owner cutover retains compatibility diagnostic; no original assertions execute."
+    },
+    {
+      "id": "RD07-2083",
+      "path": "adl/tools/test_run_aws_spot_remote_validation_lane.sh",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "a15e18eb9f77d81c91144885d6a2e196a7bc1d43"
+      },
+      "current": {
+        "mode": "100755",
+        "blob": "6200e1a51b524c43569e86a9d7be138b110e77b1",
+        "sha256": "aae9b3a39a9f5a52afd0ab4d1663e4b34d554b41a03f382cd9f1b4318130735d"
+      },
+      "proposed_action": "retain_public_source_or_fixture",
+      "reason": "retain_explicit_historical_refusal: committed prior owner cutover retains compatibility diagnostic; no original assertions execute."
+    },
+    {
+      "id": "RD07-2088",
+      "path": "adl/tools/test_run_issue268_six_hour_spot_qualification.sh",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "6917caac69965df1feb75189a654e15edab869ce"
+      },
+      "current": {
+        "mode": "100755",
+        "blob": "6200e1a51b524c43569e86a9d7be138b110e77b1",
+        "sha256": "aae9b3a39a9f5a52afd0ab4d1663e4b34d554b41a03f382cd9f1b4318130735d"
+      },
+      "proposed_action": "retain_public_source_or_fixture",
+      "reason": "retain_explicit_historical_refusal: committed prior owner cutover retains compatibility diagnostic; no original assertions execute."
+    },
+    {
+      "id": "RD07-2118",
+      "path": "adl/tools/test_slow_proof_lane_contract.sh",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "9e545f009bfef123c265e487eab06fc9d41031d2"
+      },
+      "current": {
+        "mode": "100755",
+        "blob": "6200e1a51b524c43569e86a9d7be138b110e77b1",
+        "sha256": "aae9b3a39a9f5a52afd0ab4d1663e4b34d554b41a03f382cd9f1b4318130735d"
+      },
+      "proposed_action": "retain_public_source_or_fixture",
+      "reason": "retain_explicit_historical_refusal: committed prior owner cutover retains compatibility diagnostic; no original assertions execute."
+    },
+    {
+      "id": "RD07-2243",
+      "path": "adl/tools/validate_v092_runtime_guardian_lifecycle.sh",
+      "original_identity": {
+        "mode": "100755",
+        "blob": "e8301c15e617e23cc9cf3fec9f367b420f014075"
+      },
+      "current": {
+        "mode": "100755",
+        "blob": "6200e1a51b524c43569e86a9d7be138b110e77b1",
+        "sha256": "aae9b3a39a9f5a52afd0ab4d1663e4b34d554b41a03f382cd9f1b4318130735d"
+      },
+      "proposed_action": "retain_public_source_or_fixture",
+      "reason": "retain_explicit_historical_refusal: committed prior owner cutover retains compatibility diagnostic; no original assertions execute."
+    }
+  ],
+  "evidence": [
+    {
+      "path": "/Volumes/FastWork/adl-worktrees/adl-issue-1223-1223-coherent-source-retirement/docs/milestones/v0.93.1/repository-decomposition/rd07-1223/PRIVATE_WUJI_OWNER_DISPOSITION.json",
+      "sha256": "eb7cb3ba55c85567ee8db8863456e490849cfee7b4a0bf7c891b04257e1753d5"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/infra-private-wuji-delivery/source-transfer.json",
+      "sha256": "db48e8a448323fa487926de3ab03e62e8a26bc3192a86c3c86b4759c5c778fcd"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/infra-private-wuji-delivery/proof-counted.json",
+      "sha256": "dc79ec28fc9ea79d063c8cddff2d49eb089bd189f8badc465973a6f0b5a33a4b"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/infra-private-wuji-delivery/review-counted.json",
+      "sha256": "174a45f61b010c07339182353e0c504fb1a3c0fecbea99bb46ad0ae77c0638de"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/infra-private-wuji-delivery/merge-executed.json",
+      "sha256": "915ba6f2c5b5be02de6875ae2af64b8a5323ede8bcb30a4057663c7f4e8e4576"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/infra-private-wuji-delivery/pr-final-readback.json",
+      "sha256": "488c77aa19be17b497aff5649a7c825b0ae95c42a56a29710d63206f9c46258c"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/infra-private-wuji-delivery/authorized-premerge-readback.json",
+      "sha256": "d7892a672a79490e03329fcc5b4ca91ceffac37f694f83264c3c7ec81cf504eb"
+    },
+    {
+      "path": "/Volumes/FastWork/adl-worktrees/adl-issue-1223-1223-coherent-source-retirement/docs/milestones/v0.93.1/repository-decomposition/rd07-1223/INFRASTRUCTURE_CONTINUITY_OWNER_DISPOSITIONS.json",
+      "sha256": "d7b7720cec1797fc6f0947b952eecf443df93f91b5f5ea09252d0f23aeedef70"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/infra607-delivery/merge-result-r6.json",
+      "sha256": "74081bb6dbb51055f887a5c08c73ae4f17a83153ef7ae5c51e7544cdbae94310"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/infra607-delivery/proof-r5.json",
+      "sha256": "50dd04b2e8f793ab65629f48a674cb79e17741a2333c19738ac02450cc45122f"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/infra607-delivery/review-result-r4.json",
+      "sha256": "7d41f50510dd78b053bb33ba420bdb175201b3290d0c2427c4796550446ff3a1"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/infra607-delivery/connected-reproduction.log",
+      "sha256": "9393feda1d5d9b7bbf5275b282c828f0829aa6d926a5e76628c7f115cd86745b"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/infra607-delivery/original-run_issue607_warm_polis.sh",
+      "sha256": "354981907d3fb9b35c203ad0661f0db9c1ab0bcbc25d2a2c67e173474a700461"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/infra607-delivery/original-test_issue607_warm_polis.sh",
+      "sha256": "fff1336ae94ae374c428119a4cd26cd8f747118873659949203cd67e24b5a2c8"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/infrastructure14/agent-logic-infrastructure-worktrees/adl-issue-30-restore-continuity-offline-contracts/.csdlc/v3/issues/30/proof.json",
+      "sha256": "9f942b540708b5050299116edc5a85a7ab332f121d990badb6618c354a507be2"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/infrastructure14/review-30.json",
+      "sha256": "a7a1b329b6f11b4ef190b3cf18227db30e012512e43f47c31a03f9a210ebf84c"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/infrastructure14/agent-logic-infrastructure-worktrees/adl-issue-30-restore-continuity-offline-contracts/.csdlc/evidence/30/intent-review/051fabe60d60dffeb3e200e689ea64ebf37f6cb4/b5a63101270a44b93f79cc4d499badcbf35cdee18d9d4be79299f9809c802823.json",
+      "sha256": "95ab68c069293f41eff72f9932304083bc1e648a7fd6f3e7b70ce7daa2c05682"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/infrastructure14/agent-logic-infrastructure/.git/csdlc-v3/remote/merges/742401894653b0f9ec25c9803fcbc97d22d0132d52fae2691897f9eadd4bc8cb.response.json",
+      "sha256": "f550d43d04b2033318e07b48c35b36817b5bbc6dd085eecd20749b4dc9043d8d"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/infrastructure14/agent-logic-infrastructure/.git/csdlc-v3/remote/merges/742401894653b0f9ec25c9803fcbc97d22d0132d52fae2691897f9eadd4bc8cb.reconciliation.json",
+      "sha256": "cb2128ce10af75e75d3277cc22c5bf2c285316b277cb8412165a99a55e939456"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/infrastructure14/agent-logic-infrastructure/.git/csdlc-v3/remote/mutations/742401894653b0f9ec25c9803fcbc97d22d0132d52fae2691897f9eadd4bc8cb.json",
+      "sha256": "850e9f5674b8d86632c903d0d61615d65ff278034aebf9b325dce1314bd97ded"
+    },
+    {
+      "path": "/Volumes/FastWork/adl-worktrees/adl-issue-1223-1223-coherent-source-retirement/docs/milestones/v0.93.1/repository-decomposition/rd07-1223/INFRASTRUCTURE_62_DISPOSITION_PROPOSAL.json",
+      "sha256": "0d58a218dc33abaec51dd33b16e24d8d2cb841d682d3b6910c78a16e6955d0a0"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/private-wuji-caller-closure.json",
+      "sha256": "9a8fe2f3cef7494486fe129367e9cfb1ea0bf2ecae1a7880a1130b732606a930"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/evidence/infrastructure/build.log",
+      "sha256": "09e9308239953d5a9c09af56cd0700e5525b8c80e86b44a13b01e7fc3b5e0cdd"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/evidence/infrastructure/qualification.json",
+      "sha256": "50e540af38dc4429d80278201f59b7b62660932755e0b09d78807e6c51f8d64f"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/evidence/infrastructure/qualification-arm64.json",
+      "sha256": "b9d86c770ccf66f4fb9bb6a6a5264bb7727bd895468610411a7b6520b5a42e55"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/evidence/infrastructure/RESULT.json",
+      "sha256": "5564111ec4b3be6367691aca475e0c4f241a188c14ba70c267ff78b3f8cfc97e"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/evidence/infrastructure/ARM64_RESULT.json",
+      "sha256": "6a07fb4fdb17533eb9a4097d06ab4eb04370a1381220fea420601f15155f7ab8"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/infrastructure-remaining-family-preparation/OWNER_SOURCE_DELTAS.diff",
+      "sha256": "d8dc3721da8812f03a6f8f4ad9b7259ff691a36fd5e593c95ee4e80157183a8d"
+    }
+  ],
+  "patch": {
+    "path": "/Volumes/FastWork/c1223/infrastructure-remaining-family-preparation/twenty-and-callers.patch",
+    "sha256": "f52ca066bdcbb8b6e8d20bbf758912d63fa975f399eaf83f3a243056daba91dd"
+  },
+  "custody": {
+    "path": "/Volumes/FastWork/c1223/infrastructure-remaining-family-preparation/current-preimages.tar",
+    "sha256": "816d0d7fecc1bc6ee3ec26855a6a9bda7c2bc54e32fd1d899ab1ebde5b2aa2ca",
+    "members": 24
+  },
+  "qualification": {
+    "private_wuji": "Existing 3/0 offline original network/recovery + mocked Runtime-boundary cases. Real Runtime semantic test and live AWS/model acceptance remain unrun.",
+    "continuity": "Existing 14/0 original five manifest cases plus fake restore/admission, receipt/hash, EBS refusal, no-model-before-artifact, managed-output regressions. Not genuine Linux or live three-model acceptance.",
+    "codefriend_release": "Original three low-level ELF/integrity cases are unchanged; the assembly case explicitly supersedes source-clone/private-source/remote-removal assertions with pinned artifact payload, no Git source, create-only output and structural verification. Existing four offline cases at ed02: pinned fixture assembly/create-only output; ELF structural acceptance; invalid/Mach-O/nonexecutables refused; integrity tamper/addition refused. Owner changes source-clone input to digest-pinned artifact payload; no source-recipe equivalence claimed.",
+    "terraform": "Existing ARM64 lock/init/validate for CodeFriend host all exit0; platform hash additions in evidence are explicit. Overall ARM64 run failed elsewhere, initial larger run exit137 and Python extraction error remain preserved. No Terraform apply or live host acceptance."
+  },
+  "caller_closure": [
+    "Six Wuji paths removed together; previously coupled runtime-portable paths already retired in Infra212. Immutable aws-g and xcl-01 validators remain unchanged and replay only with complete pinned historical Git tree/index detailed in private-wuji-caller-closure.json.",
+    "Continuity source, spot dehydration callback and bootstrap test removed together; remaining llama baseline becomes concise refusal, original full body held in exact preimage archive, no original acceptance is claimed.",
+    "CodeFriend ci_select.py path classifier remains as historical/synthetic changed-path contract; it does not open or run removed source. Hosting navigation changes to exact owner; original shutdown/security obligations retained.",
+    "Registry regenerated for prospective exact current topology: eleven tool-source rows removed, baseline classified historical. No test assertions weakened."
+  ],
+  "limits": [
+    "No tests, builds, providers, AWS, Terraform or product binaries executed. Source and receipt reads only.",
+    "Docs/codefriend/HOSTING.md remains original operational contract history and navigation; actual website/gateway/systemd/live shutdown proof still outstanding.",
+    "Owner artifact verifier tools/artifacts/verify.py is required by adapted release assembly and remains owner-local. Historical ADL source-clone assembly is not presented as runnable on current ADL.",
+    "This does not remove the rest of Infrastructure130 based on source presence. Builder test execution evidence has not yet been located; remaining public/mixed consumers require individual source-backed disposition."
+  ],
+  "source_head_before": "b890c02c1c35f7819c1bb47954bd3415f2d7de57",
+  "implementation_commit": "pending_parent_commit",
+  "proposal": {
+    "path": "/Volumes/FastWork/c1223/infrastructure-remaining-family-preparation/PROPOSAL.json",
+    "sha256": "dcb5f26b98e2b27d46860390ad5c7e272dd09435ad1c57d5b30d307f82a08596"
+  },
+  "reviewed_patch": {
+    "path": "/Volumes/FastWork/c1223/infrastructure-remaining-family-preparation/twenty-and-callers.patch",
+    "sha256": "f52ca066bdcbb8b6e8d20bbf758912d63fa975f399eaf83f3a243056daba91dd"
+  },
+  "registry_custody": {
+    "path": "/Volumes/FastWork/c1223/infrastructure-remaining-family-preparation/application-registry-b890c02c1c35.tar",
+    "sha256": "b0a402e948d22fcbd4fb430b462ebcfd26addb19c0583717de40fe5caa8a4046",
+    "member": "source/docs/tooling/TOOL_SURFACE_REGISTRY.md"
+  },
+  "authorization_basis": "User-directed coherent ADL1223 source retirement, with bounded independent exact-family review.",
+  "independent_review": "Historical-retention subagent PASS on exact source/custody/caller and prior qualified or explicit historical retirement boundaries.",
+  "application_verification": "Non-registry current preimages and removal/modified afterimages verified; actual registry regenerated preserving preceding batches. Original evidence unchanged; no original tests/builds/cloud/native operations repeated."
+}

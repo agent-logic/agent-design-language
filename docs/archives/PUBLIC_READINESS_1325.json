@@ -1,0 +1,457 @@
+{
+  "schema": "adl.public_readiness.retention.v1",
+  "source_commit": "8cf07d2208b24906b93da27f08e3ef184bf49869",
+  "history_rewrite": false,
+  "counts": {
+    "other": [
+      1891,
+      14882218
+    ],
+    ".csdlc": [
+      26034,
+      137037650
+    ],
+    "docs/milestones": [
+      6757,
+      150421823
+    ]
+  },
+  "retained_packages": [
+    {
+      "path": "adl-v2/crates/adl-adapters/Cargo.lock",
+      "mode": "100644",
+      "git_blob": "9ca27e512d6176baf0b0e8a48d14b0ea623a8996",
+      "bytes": 52363,
+      "sha256": "3996e972b46016fb29fda6ae324a59857b939ef622674c79fa609a95ec4ffe5c",
+      "disposition": "archived_published_git_preimage",
+      "reason": "No current public workspace consumer found; historical ADR/review references preserve context. Selected for bounded archive with published Git preimages, not characterization-manifest retention."
+    },
+    {
+      "path": "adl-v2/crates/adl-adapters/Cargo.toml",
+      "mode": "100644",
+      "git_blob": "67a5e2c3dfd76905ccb69c28e665f7777045d56a",
+      "bytes": 834,
+      "sha256": "648cd0c878d11de836ef1ca08d2d6d615df8b4355f38f6cc66c15942c7731774",
+      "disposition": "archived_published_git_preimage",
+      "reason": "No current public workspace consumer found; historical ADR/review references preserve context. Selected for bounded archive with published Git preimages, not characterization-manifest retention."
+    },
+    {
+      "path": "adl-v2/crates/adl-adapters/src/compatibility.rs",
+      "mode": "100644",
+      "git_blob": "dc6edf279cc9bd634f0819ff734e4593f27ca4d0",
+      "bytes": 1244,
+      "sha256": "2a208e144b97b117c6efdcefae4be21a4f17ad7cb30d10620228b20544c70aa0",
+      "disposition": "archived_published_git_preimage",
+      "reason": "No current public workspace consumer found; historical ADR/review references preserve context. Selected for bounded archive with published Git preimages, not characterization-manifest retention."
+    },
+    {
+      "path": "adl-v2/crates/adl-adapters/src/governed_tool.rs",
+      "mode": "100644",
+      "git_blob": "1b8c6e0b439f083c0a4de958beb9076c7f22558e",
+      "bytes": 3716,
+      "sha256": "15363722727942f15793591ba2291beaa41e41bfe66016e421946e94c7fbb84b",
+      "disposition": "archived_published_git_preimage",
+      "reason": "No current public workspace consumer found; historical ADR/review references preserve context. Selected for bounded archive with published Git preimages, not characterization-manifest retention."
+    },
+    {
+      "path": "adl-v2/crates/adl-adapters/src/https.rs",
+      "mode": "100644",
+      "git_blob": "ad423b81af90d20b805e8470bf1a8eab45314b07",
+      "bytes": 8845,
+      "sha256": "9541bc4f4ccbf2ee64992a10fa3a4d08190cb891e24f8c149cad6d31f20dd27f",
+      "disposition": "archived_published_git_preimage",
+      "reason": "No current public workspace consumer found; historical ADR/review references preserve context. Selected for bounded archive with published Git preimages, not characterization-manifest retention."
+    },
+    {
+      "path": "adl-v2/crates/adl-adapters/src/lib.rs",
+      "mode": "100644",
+      "git_blob": "3991684d8fc9a9388e1291178b06a499637e800b",
+      "bytes": 597,
+      "sha256": "e508c9a13c489bd3379ab1ba6d4d2a1f6d4b333969f81fe3c2fd96e30d8c5170",
+      "disposition": "archived_published_git_preimage",
+      "reason": "No current public workspace consumer found; historical ADR/review references preserve context. Selected for bounded archive with published Git preimages, not characterization-manifest retention."
+    },
+    {
+      "path": "adl-v2/crates/adl-adapters/src/mock.rs",
+      "mode": "100644",
+      "git_blob": "ce40068067bdf6159856c2fc2702872a8ebee10d",
+      "bytes": 2485,
+      "sha256": "91e5829807654827d253a6165e1125a12d64ecf2be32d3e0935140898a113b29",
+      "disposition": "archived_published_git_preimage",
+      "reason": "No current public workspace consumer found; historical ADR/review references preserve context. Selected for bounded archive with published Git preimages, not characterization-manifest retention."
+    },
+    {
+      "path": "adl-v2/crates/adl-adapters/tests/common/mod.rs",
+      "mode": "100644",
+      "git_blob": "3d2c1eed0f0c8a814a1977f028b52be0e4d96730",
+      "bytes": 957,
+      "sha256": "2377cbbc02c0c61758da12b61089b3ef8651ebc5f9ecbaf012cbb6467e106d4e",
+      "disposition": "archived_published_git_preimage",
+      "reason": "No current public workspace consumer found; historical ADR/review references preserve context. Selected for bounded archive with published Git preimages, not characterization-manifest retention."
+    },
+    {
+      "path": "adl-v2/crates/adl-adapters/tests/compatibility_adapter.rs",
+      "mode": "100644",
+      "git_blob": "02ad7ce95a42b6289541269aaa5240ac605f88e2",
+      "bytes": 1856,
+      "sha256": "8e329ca5d30e3a9ec28311e220acde67cdfb8936900fb2a9f75b7d7e5493fbf0",
+      "disposition": "archived_published_git_preimage",
+      "reason": "No current public workspace consumer found; historical ADR/review references preserve context. Selected for bounded archive with published Git preimages, not characterization-manifest retention."
+    },
+    {
+      "path": "adl-v2/crates/adl-adapters/tests/governed_tool_adapter.rs",
+      "mode": "100644",
+      "git_blob": "119e7286160cdd3c5037540d6e672c5fdb6ad705",
+      "bytes": 5130,
+      "sha256": "5ce8954cb1fd628a8f995fd8f127712e8bd46144ede3c300c174d64cf2e97f83",
+      "disposition": "archived_published_git_preimage",
+      "reason": "No current public workspace consumer found; historical ADR/review references preserve context. Selected for bounded archive with published Git preimages, not characterization-manifest retention."
+    },
+    {
+      "path": "adl-v2/crates/adl-adapters/tests/https_adapter.rs",
+      "mode": "100644",
+      "git_blob": "07531603f12cc721f0ee3ab41ece4fa1bc7ad20d",
+      "bytes": 7581,
+      "sha256": "30acbb53c178b7a4cd9bbadfd7d1072d01a766cc969b115a9056d22bb271ade2",
+      "disposition": "archived_published_git_preimage",
+      "reason": "No current public workspace consumer found; historical ADR/review references preserve context. Selected for bounded archive with published Git preimages, not characterization-manifest retention."
+    },
+    {
+      "path": "adl-v2/crates/adl-adapters/tests/mock_adapter.rs",
+      "mode": "100644",
+      "git_blob": "c3227a13736feef88f19990c5a24346dab0db37a",
+      "bytes": 3008,
+      "sha256": "85f9ae09962fae58abf0bb0e294b803eac8269e9df347e91de28ca61cfa16b9f",
+      "disposition": "archived_published_git_preimage",
+      "reason": "No current public workspace consumer found; historical ADR/review references preserve context. Selected for bounded archive with published Git preimages, not characterization-manifest retention."
+    },
+    {
+      "path": "adl-v2/crates/adl-adapters/tests/negative_authority.rs",
+      "mode": "100644",
+      "git_blob": "db38e3c82521e366263b5a234255a6b3524b95f7",
+      "bytes": 1528,
+      "sha256": "18cac2fc45f0dcce674b7d804527c7aab74e2bb18ddbd6bc768b08ddb1317ff8",
+      "disposition": "archived_published_git_preimage",
+      "reason": "No current public workspace consumer found; historical ADR/review references preserve context. Selected for bounded archive with published Git preimages, not characterization-manifest retention."
+    },
+    {
+      "path": "adl-v2/crates/adl-adapters/tests/secret_hygiene.rs",
+      "mode": "100644",
+      "git_blob": "f22078826395f6f65412c3b7899d6f034685a8fa",
+      "bytes": 910,
+      "sha256": "faec436d78cbcd561435e0896dbd1a3a9e318bc5d57667e07157420ab9c5dc5f",
+      "disposition": "archived_published_git_preimage",
+      "reason": "No current public workspace consumer found; historical ADR/review references preserve context. Selected for bounded archive with published Git preimages, not characterization-manifest retention."
+    },
+    {
+      "path": "adl-v2/crates/adl-cli/Cargo.toml",
+      "mode": "100644",
+      "git_blob": "fd5b3c6749aef6725f868eab3e02fdbfd5d31418",
+      "bytes": 740,
+      "sha256": "678c4a74cbcf36db22dbc61b05c5d2bc6db555a9d222371d68bc65f6666a100a",
+      "disposition": "retain_historical_unbuilt",
+      "reason": "Historical characterization source/proof references remain; outside current public workspace. Do not enable or remove silently."
+    },
+    {
+      "path": "adl-v2/crates/adl-cli/src/main.rs",
+      "mode": "100644",
+      "git_blob": "02764f2d47db83539bac75cb1865579edb76b988",
+      "bytes": 14300,
+      "sha256": "fc5c9e647b2abaa03a90312d09a713e44a14e751e1df3efda5a5faa79c165e4f",
+      "disposition": "retain_historical_unbuilt",
+      "reason": "Historical characterization source/proof references remain; outside current public workspace. Do not enable or remove silently."
+    },
+    {
+      "path": "adl-v2/crates/adl-cli/tests/cli.rs",
+      "mode": "100644",
+      "git_blob": "6dccc5a2ef4b128498cc737e4367cfbc0bd06827",
+      "bytes": 5432,
+      "sha256": "8336f2daa43903b03b57328aa6b05b273b79866358628f0ee552ff63b978fbd4",
+      "disposition": "retain_historical_unbuilt",
+      "reason": "Historical characterization source/proof references remain; outside current public workspace. Do not enable or remove silently."
+    },
+    {
+      "path": "adl-v2/crates/adl-engine/Cargo.lock",
+      "mode": "100644",
+      "git_blob": "49b5233f77f9519b2082783ec7ba3eaca115718c",
+      "bytes": 8429,
+      "sha256": "51fa3e6a34320014b45e4a1544bdb79052b55c03238d0dff9bca8eacafb590f2",
+      "disposition": "retain_historical_unbuilt",
+      "reason": "Historical characterization source/proof references remain; outside current public workspace. Do not enable or remove silently."
+    },
+    {
+      "path": "adl-v2/crates/adl-engine/Cargo.toml",
+      "mode": "100644",
+      "git_blob": "74ec094d576daeef0c00fdd9caa7125dc79c8848",
+      "bytes": 569,
+      "sha256": "ae0b75f7f3e3f647707ca741537476ba9942cb71c3d2b90d6c3d60f42d9c207b",
+      "disposition": "retain_historical_unbuilt",
+      "reason": "Historical characterization source/proof references remain; outside current public workspace. Do not enable or remove silently."
+    },
+    {
+      "path": "adl-v2/crates/adl-engine/README.md",
+      "mode": "100644",
+      "git_blob": "3fae431ff89bc3fa503e04b3e7b874526f4fd3f0",
+      "bytes": 1836,
+      "sha256": "c6e95e0093fdf2fad9b85a13f4e238bd20a2c8b9449eca9b636830c711d12f91",
+      "disposition": "retain_historical_unbuilt",
+      "reason": "Historical characterization source/proof references remain; outside current public workspace. Do not enable or remove silently."
+    },
+    {
+      "path": "adl-v2/crates/adl-engine/src/engine.rs",
+      "mode": "100644",
+      "git_blob": "523d54cc5ce18e8f2e263c863e6b537adc32fbc5",
+      "bytes": 89435,
+      "sha256": "0c63e26680a3b38644f8d8f956ef95f78c9a467da86a61b4760578c8e3a9c886",
+      "disposition": "retain_historical_unbuilt",
+      "reason": "Historical characterization source/proof references remain; outside current public workspace. Do not enable or remove silently."
+    },
+    {
+      "path": "adl-v2/crates/adl-engine/src/lib.rs",
+      "mode": "100644",
+      "git_blob": "9bc649ff13a12d68251cfb4abebaf061e7243ff3",
+      "bytes": 677,
+      "sha256": "650e528e85cd47a2b893650a4fefdfdf862e8d87375ed9ef381ba88496b33be4",
+      "disposition": "retain_historical_unbuilt",
+      "reason": "Historical characterization source/proof references remain; outside current public workspace. Do not enable or remove silently."
+    },
+    {
+      "path": "adl-v2/crates/adl-engine/src/model.rs",
+      "mode": "100644",
+      "git_blob": "c50f1e9cbc06240114eedf037a7c58c1d3e0f27e",
+      "bytes": 12080,
+      "sha256": "dee576ddc3ab567e0a31fa99fa728d23bbf5269e2608883b5e810b625af247a5",
+      "disposition": "retain_historical_unbuilt",
+      "reason": "Historical characterization source/proof references remain; outside current public workspace. Do not enable or remove silently."
+    },
+    {
+      "path": "adl-v2/crates/adl-engine/tests/bounded_schedule.rs",
+      "mode": "100644",
+      "git_blob": "b0695c57bc7df42e406aa1f4a63b5dc1df743910",
+      "bytes": 17764,
+      "sha256": "dd30f16efa87212ad124b5ae92ea463f3ded6dacf3153d7c81f92dc86fe3c230",
+      "disposition": "retain_historical_unbuilt",
+      "reason": "Historical characterization source/proof references remain; outside current public workspace. Do not enable or remove silently."
+    },
+    {
+      "path": "adl-v2/crates/adl-engine/tests/common/mod.rs",
+      "mode": "100644",
+      "git_blob": "443d8a4ebd4c2414a48582739f7f1e28d49fa3b9",
+      "bytes": 7132,
+      "sha256": "c6964de7dba7be1ff9fae52d18dd0d8987884c039befb98d472cc8f80dca260b",
+      "disposition": "retain_historical_unbuilt",
+      "reason": "Historical characterization source/proof references remain; outside current public workspace. Do not enable or remove silently."
+    },
+    {
+      "path": "adl-v2/crates/adl-engine/tests/compiler_fixture_mapping.rs",
+      "mode": "100644",
+      "git_blob": "c254696d2cc503e4b219e894fe8b0be7b3c1b030",
+      "bytes": 10621,
+      "sha256": "78807dff41faee4ad13ef3db7b3ca471a34dfb8ca4a6bedafe638f9cf36d313d",
+      "disposition": "retain_historical_unbuilt",
+      "reason": "Historical characterization source/proof references remain; outside current public workspace. Do not enable or remove silently."
+    },
+    {
+      "path": "adl-v2/crates/adl-engine/tests/failure_resume.rs",
+      "mode": "100644",
+      "git_blob": "7fba80b50525edc9415c4ec6077d32a68e2ec9ad",
+      "bytes": 22486,
+      "sha256": "b263acb6e0ab67c233e3205f94de8ca88a8b3d3f1a65787783f90c56d71a3b72",
+      "disposition": "retain_historical_unbuilt",
+      "reason": "Historical characterization source/proof references remain; outside current public workspace. Do not enable or remove silently."
+    },
+    {
+      "path": "adl-v2/crates/adl-engine/tests/fresh_process_driver.rs",
+      "mode": "100644",
+      "git_blob": "9278d4e66202385bd7d1e218e159d6d0cfb28c90",
+      "bytes": 1155,
+      "sha256": "0f01762795dc12d4e7fafea0014397b801edea43b35ab9776f14f5dc2d4ed65a",
+      "disposition": "retain_historical_unbuilt",
+      "reason": "Historical characterization source/proof references remain; outside current public workspace. Do not enable or remove silently."
+    },
+    {
+      "path": "adl-v2/crates/adl-engine/tests/port_contracts.rs",
+      "mode": "100644",
+      "git_blob": "abc5fa43caa44d3742574c2d70386146d591a548",
+      "bytes": 8478,
+      "sha256": "e70c195752392df815e94d375c4602ac2979dda3610a0e8010d734d18e77d388",
+      "disposition": "retain_historical_unbuilt",
+      "reason": "Historical characterization source/proof references remain; outside current public workspace. Do not enable or remove silently."
+    },
+    {
+      "path": "adl-v2/crates/adl-records/Cargo.lock",
+      "mode": "100644",
+      "git_blob": "8ad5142c909df65093c3b6b9b2d8ccbd56c8857a",
+      "bytes": 31515,
+      "sha256": "d646bbdf0b26ec23a5095d0402dc304295cbbed7fcd60d846e43e5f24164b790",
+      "disposition": "retain_historical_unbuilt",
+      "reason": "Historical characterization source/proof references remain; outside current public workspace. Do not enable or remove silently."
+    },
+    {
+      "path": "adl-v2/crates/adl-records/Cargo.toml",
+      "mode": "100644",
+      "git_blob": "8aa9eb3bbafcf8b106aa216678675aa718012a3e",
+      "bytes": 718,
+      "sha256": "a15ac0478479bbd1610df493eb9e291581ed49658b5cb5f592445d7cf859b797",
+      "disposition": "retain_historical_unbuilt",
+      "reason": "Historical characterization source/proof references remain; outside current public workspace. Do not enable or remove silently."
+    },
+    {
+      "path": "adl-v2/crates/adl-records/README.md",
+      "mode": "100644",
+      "git_blob": "0af7f7ed709895fd50857b042aa6db2c3a7981ee",
+      "bytes": 461,
+      "sha256": "b7b87a1d77b57a8f97dfe8227898eeff7e01485f75221594b7dda2a875c835ec",
+      "disposition": "retain_historical_unbuilt",
+      "reason": "Historical characterization source/proof references remain; outside current public workspace. Do not enable or remove silently."
+    },
+    {
+      "path": "adl-v2/crates/adl-records/examples/generate_schema.rs",
+      "mode": "100644",
+      "git_blob": "e97ad3326cbbad74bf628414dd9630f2acd2f8cc",
+      "bytes": 510,
+      "sha256": "b0fea30a0be592a07e6ddb0660bfce540a61a6a2f290631437545df9bc3af288",
+      "disposition": "retain_historical_unbuilt",
+      "reason": "Historical characterization source/proof references remain; outside current public workspace. Do not enable or remove silently."
+    },
+    {
+      "path": "adl-v2/crates/adl-records/schema/adl-records.schema.json",
+      "mode": "100644",
+      "git_blob": "76d04ce06d0e7b344c42ead814da48a559bc0dc0",
+      "bytes": 13246,
+      "sha256": "1715a158c3ee4a6abe339b3d14e6d34ed657cd6adc2ef641cb7d9a8901b899e0",
+      "disposition": "retain_historical_unbuilt",
+      "reason": "Historical characterization source/proof references remain; outside current public workspace. Do not enable or remove silently."
+    },
+    {
+      "path": "adl-v2/crates/adl-records/src/canonical.rs",
+      "mode": "100644",
+      "git_blob": "0d03b794864f4ff81333cdcdb63c36899d09777a",
+      "bytes": 4179,
+      "sha256": "1a28833fd08404324091e05a7b03282e4d7c2115f2a0ebc2161c79bd72d09dba",
+      "disposition": "retain_historical_unbuilt",
+      "reason": "Historical characterization source/proof references remain; outside current public workspace. Do not enable or remove silently."
+    },
+    {
+      "path": "adl-v2/crates/adl-records/src/error.rs",
+      "mode": "100644",
+      "git_blob": "5e6986d7d7fad9636d08a7efdc0dea5a8e3ad9f8",
+      "bytes": 756,
+      "sha256": "0cfb0f1da754953cc565f82150aa499c38838633cefefda13fa8ae80d7e341df",
+      "disposition": "retain_historical_unbuilt",
+      "reason": "Historical characterization source/proof references remain; outside current public workspace. Do not enable or remove silently."
+    },
+    {
+      "path": "adl-v2/crates/adl-records/src/lib.rs",
+      "mode": "100644",
+      "git_blob": "2ede086c989782c6e73ee948b7c0091de2a08f07",
+      "bytes": 650,
+      "sha256": "a9e0e829f043f36edadf77ece5702806bb05b23d13d9e7d74889bb26e7e2c202",
+      "disposition": "retain_historical_unbuilt",
+      "reason": "Historical characterization source/proof references remain; outside current public workspace. Do not enable or remove silently."
+    },
+    {
+      "path": "adl-v2/crates/adl-records/src/model.rs",
+      "mode": "100644",
+      "git_blob": "2377f145c6e37582f31ebc74ccd753342854ae9b",
+      "bytes": 6857,
+      "sha256": "d2bfb258822134cd1c78aab622de6f3c137225f30d11d561f7df107f2e5f86f6",
+      "disposition": "retain_historical_unbuilt",
+      "reason": "Historical characterization source/proof references remain; outside current public workspace. Do not enable or remove silently."
+    },
+    {
+      "path": "adl-v2/crates/adl-records/src/signing.rs",
+      "mode": "100644",
+      "git_blob": "9343ff2352fcf79298dd6ac505fb8e528d7fda3c",
+      "bytes": 6451,
+      "sha256": "1ca2024971486e72f287fadb1c1d2c70bc12b82162adaa43be46bb8cfd682078",
+      "disposition": "retain_historical_unbuilt",
+      "reason": "Historical characterization source/proof references remain; outside current public workspace. Do not enable or remove silently."
+    },
+    {
+      "path": "adl-v2/crates/adl-records/src/strict_json.rs",
+      "mode": "100644",
+      "git_blob": "b7c8b0adfc197223ad2ceab4d8c4e89fe5247a1a",
+      "bytes": 4986,
+      "sha256": "5429af8b437143c9eff32ddbac0d199da8d62f86b4aaefe3467ea6545cadc6e2",
+      "disposition": "retain_historical_unbuilt",
+      "reason": "Historical characterization source/proof references remain; outside current public workspace. Do not enable or remove silently."
+    },
+    {
+      "path": "adl-v2/crates/adl-records/src/trust.rs",
+      "mode": "100644",
+      "git_blob": "b2f15a1abf821b485fe9ac98fc0b61d83c8cc3a9",
+      "bytes": 8777,
+      "sha256": "f144d87235e176d9d99d4820314e0f2586637076b85b91cca42a903edb5ee5dd",
+      "disposition": "retain_historical_unbuilt",
+      "reason": "Historical characterization source/proof references remain; outside current public workspace. Do not enable or remove silently."
+    },
+    {
+      "path": "adl-v2/crates/adl-records/tests/fresh_process_driver.rs",
+      "mode": "100644",
+      "git_blob": "5df89e14b3e7927ada1d5847bfbf8558bf4cf11a",
+      "bytes": 2705,
+      "sha256": "11e0c7b0ad7203613e1d635ce85ce9edd67b2dd4e36c503212c05fb951acc60d",
+      "disposition": "retain_historical_unbuilt",
+      "reason": "Historical characterization source/proof references remain; outside current public workspace. Do not enable or remove silently."
+    },
+    {
+      "path": "adl-v2/crates/adl-records/tests/records.rs",
+      "mode": "100644",
+      "git_blob": "44bee7ab2150dc45de606af57a81e317301ea6c7",
+      "bytes": 16001,
+      "sha256": "f937643fd473b05e17aa9b75d322087cc457702e2ca3c82053efecad10088d53",
+      "disposition": "retain_historical_unbuilt",
+      "reason": "Historical characterization source/proof references remain; outside current public workspace. Do not enable or remove silently."
+    },
+    {
+      "path": "adl-v2/crates/adl-records/tests/tamper_channel.rs",
+      "mode": "100644",
+      "git_blob": "69e27a3fced6e96dc1c2421994be759936ac6d57",
+      "bytes": 9858,
+      "sha256": "1aeac4ad41f00f7080a35034c4cf89518630c17f79cb1ce068ca950f99b14c67",
+      "disposition": "retain_historical_unbuilt",
+      "reason": "Historical characterization source/proof references remain; outside current public workspace. Do not enable or remove silently."
+    }
+  ],
+  "removals": [
+    "adl-v2/crates/adl-adapters/Cargo.lock",
+    "adl-v2/crates/adl-adapters/Cargo.toml",
+    "adl-v2/crates/adl-adapters/src/compatibility.rs",
+    "adl-v2/crates/adl-adapters/src/governed_tool.rs",
+    "adl-v2/crates/adl-adapters/src/https.rs",
+    "adl-v2/crates/adl-adapters/src/lib.rs",
+    "adl-v2/crates/adl-adapters/src/mock.rs",
+    "adl-v2/crates/adl-adapters/tests/common/mod.rs",
+    "adl-v2/crates/adl-adapters/tests/compatibility_adapter.rs",
+    "adl-v2/crates/adl-adapters/tests/governed_tool_adapter.rs",
+    "adl-v2/crates/adl-adapters/tests/https_adapter.rs",
+    "adl-v2/crates/adl-adapters/tests/mock_adapter.rs",
+    "adl-v2/crates/adl-adapters/tests/negative_authority.rs",
+    "adl-v2/crates/adl-adapters/tests/secret_hygiene.rs"
+  ],
+  "retention_groups": [
+    {
+      "paths": ".csdlc/evidence/872/** and related conversion snapshots",
+      "decision": "retain",
+      "reason": "Immutable authenticated conversion evidence and protected historical references; byte duplication alone is not removal authority."
+    },
+    {
+      "paths": ".csdlc/prepared/** and .csdlc/issues/**",
+      "decision": "retain_classified_historical",
+      "reason": "659 issue snapshots classified:255 recorded closed_out,404 earlier phases; retain authenticated historical evidence rather than infer live terminal authority. Prepared bundles retained as historical preparation, not current execution authority."
+    },
+    {
+      "paths": "docs/milestones/v0.93.2/sprint-2-preparation/**",
+      "decision": "retain_active",
+      "reason": "Current accepted sprint preparation and evidence."
+    },
+    {
+      "paths": "docs/milestones/** historical records",
+      "decision": "retain_indexed",
+      "reason": "Dated release/acceptance evidence; current navigation routes through docs/ROADMAP.md."
+    }
+  ],
+  "archive_transition": "tools/public_readiness_archive/transition.json",
+  "removed_logical_bytes": 91054
+}

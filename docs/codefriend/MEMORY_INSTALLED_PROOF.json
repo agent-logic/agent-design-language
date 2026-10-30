@@ -1,0 +1,34 @@
+{
+  "schema": "codefriend.memory_installed_proof.v1",
+  "issue": 885,
+  "platform": "Darwin-arm64",
+  "binary_sha256": "560663e1968b335adffdb5d62e2faca0f641e1417c13dfbbff0f31e0990959ac",
+  "installation_provenance": "4fb59962f31cf99a1dcd37230042eb1f2aa187d7a49f735ac92a3d055dbc887e",
+  "fixture_proof": {
+    "schema": "codefriend.memory_fixture.v1",
+    "revisions": [
+      "4e7844768e9841093ac7f87c75eb51bb063df981",
+      "125c8ce3e695ccf5f7cee55f8aa337df7c7a1e1f"
+    ],
+    "producer": "production local acquisition, Store admission, Run and Finding contract constructors",
+    "source_unchanged": true
+  },
+  "outcomes": [
+    "added",
+    "resolved",
+    "changed",
+    "unchanged"
+  ],
+  "scenarios_passed": 8,
+  "deterministic": true,
+  "moved_evidence_stable_identity": true,
+  "incompatible_and_partial_no_resolution": true,
+  "tampering_denied": true,
+  "deletion_denies_saved_delta_and_resurrection": true,
+  "source_unchanged": true,
+  "stdout_json_stderr_events": true,
+  "nonclaims": [
+    "Known fixture assessments, not a new source analysis producer",
+    "No provider or external source execution"
+  ]
+}

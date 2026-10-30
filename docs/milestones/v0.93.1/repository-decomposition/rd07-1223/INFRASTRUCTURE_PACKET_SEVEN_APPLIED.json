@@ -1,0 +1,528 @@
+{
+  "schema": "adl1223.infrastructure_packet_seven_retirement.v1",
+  "status": "applied_reviewed_qualified_retirement",
+  "source_head": "9880bcdff4c089d049d6642c0e99d401ec5ac2a6",
+  "removed_count": 7,
+  "rows": [
+    {
+      "id": "RD07-1361",
+      "path": "adl/tools/demo_v089_proof_entrypoints.sh",
+      "owner": "agent-logic-infrastructure",
+      "component": "agent-logic-infrastructure-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "706ceeabf5a1986afde670d38707776e00240c0b"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+        "exact_successor_paths": [
+          "adl/tools/demo_v089_proof_entrypoints.sh"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1363",
+      "path": "adl/tools/demo_v089_review_surface.sh",
+      "owner": "agent-logic-infrastructure",
+      "component": "agent-logic-infrastructure-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "726164a490b7d12e7c5868650fa7592bedfff37a"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+        "exact_successor_paths": [
+          "adl/tools/demo_v089_review_surface.sh"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1366",
+      "path": "adl/tools/demo_v0902_multi_agent_repo_review_proof.sh",
+      "owner": "agent-logic-infrastructure",
+      "component": "agent-logic-infrastructure-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "e43c1c9b569d712034e25c3a1a5d9d24035e0f7c"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+        "exact_successor_paths": [
+          "adl/tools/demo_v0902_multi_agent_repo_review_proof.sh"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1981",
+      "path": "adl/tools/test_demo_v089_proof_entrypoints.sh",
+      "owner": "agent-logic-infrastructure",
+      "component": "agent-logic-infrastructure-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "2c1f8cd90d90ba393572ca7c40afed709158f856"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+        "exact_successor_paths": [
+          "adl/tools/test_demo_v089_proof_entrypoints.sh"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1982",
+      "path": "adl/tools/test_demo_v089_review_surface.sh",
+      "owner": "agent-logic-infrastructure",
+      "component": "agent-logic-infrastructure-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "b9eb8915d1fa75f94709f35ebade5886aa9ed741"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+        "exact_successor_paths": [
+          "adl/tools/test_demo_v089_review_surface.sh"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1986",
+      "path": "adl/tools/test_demo_v0902_multi_agent_repo_review_proof.sh",
+      "owner": "agent-logic-infrastructure",
+      "component": "agent-logic-infrastructure-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "06ae1b466bd98189ad614fc99827c74208555764"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+        "exact_successor_paths": [
+          "adl/tools/test_demo_v0902_multi_agent_repo_review_proof.sh"
+        ]
+      }
+    },
+    {
+      "id": "RD07-2210",
+      "path": "adl/tools/validate_v0902_multi_agent_repo_review_proof.py",
+      "owner": "agent-logic-infrastructure",
+      "component": "agent-logic-infrastructure-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "318cf8ffe28a2675f9426afe222b7589dc6797bc"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+        "exact_successor_paths": [
+          "adl/tools/validate_v0902_multi_agent_repo_review_proof.py"
+        ]
+      }
+    }
+  ],
+  "files": [
+    {
+      "path": "adl/tools/demo_v089_proof_entrypoints.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "706ceeabf5a1986afde670d38707776e00240c0b",
+        "sha256": "ee8ed579868f055cb210cd78f834384ec68f633694bfaee3dcc9c534841dc6bc"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/demo_v089_review_surface.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "726164a490b7d12e7c5868650fa7592bedfff37a",
+        "sha256": "d08f36a2118cd2c02d4199008e92f749c3914c99567f4b19eed3d2445422b3e3"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_demo_v089_proof_entrypoints.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "2c1f8cd90d90ba393572ca7c40afed709158f856",
+        "sha256": "fa43e4f368482988bf2de83a79ce7aa63fcad9601c1a9b1b2369964e20ae8597"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_demo_v089_review_surface.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "b9eb8915d1fa75f94709f35ebade5886aa9ed741",
+        "sha256": "69cc153d6add4bf8885cac6da0e7244bdf29b29068b8b95f85eba8a983a9f73b"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/demo_v0902_multi_agent_repo_review_proof.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "e43c1c9b569d712034e25c3a1a5d9d24035e0f7c",
+        "sha256": "d5c88c7113008384cb6677a06dd98ad455640c3de7a21eba790c3d0df5ec6a37"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_demo_v0902_multi_agent_repo_review_proof.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "06ae1b466bd98189ad614fc99827c74208555764",
+        "sha256": "f8887c4a19fc74614eeb5fd6845086b0d6807b89f32043694476c61f28a2bb1f"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/validate_v0902_multi_agent_repo_review_proof.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "318cf8ffe28a2675f9426afe222b7589dc6797bc",
+        "sha256": "dcd6b542dcadafbe1fe1b33473de6326155c0403939e92499b55c664498c46d0"
+      },
+      "after": null
+    },
+    {
+      "path": "demos/README.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "9a17d3829d30024ddd5c28d365b4b1a6b98d1cc3",
+        "sha256": "dd688e0206b788b405ab26b43008322e5114217c2a9a09c189b0d57bca1652f7"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "e4007b82e6946a01ff9618c26463c28cd5ccd027",
+        "sha256": "a012699f4882853a1335bf506737ebdf62d08d338b9bccce33e879d3f96f4131"
+      }
+    },
+    {
+      "path": "demos/v0.89/v089_demo_program.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "3ea9cfeb5e89f2f7470b23cd7abdebe24054de9f",
+        "sha256": "cf5e345d546d7933f382280797e43339e524656dcc56d08889495f563d149fd4"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "b82bbac1dabfc59181c042d9eb3085d7e1cab611",
+        "sha256": "b45cc1b022ffd162aa1f4a1543b8d51728947054a50e0bf4fe8e7b28cb830e76"
+      }
+    },
+    {
+      "path": "demos/v0.90.2/multi_agent_repo_review_proof_demo.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "f89920064566dcbd9a550601eaf14088fd8a66bd",
+        "sha256": "2b671be4a528f171c5810c55cdf97db07bf2b8703a0796445998743d0c96df3d"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "7448a30c8871eb9a73baf1e7df87d5100a8faddc",
+        "sha256": "d2213cfa515e80dc956f09923f15e377c59970a603ae4095d2b151fa580b9382"
+      }
+    },
+    {
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "c707e13f1ed1fe8d3ac677cac6d0b1cb63b20ea0",
+        "sha256": "a726219d0505c282c6cdf098ac44288503a0ec4a2dd3e7cd37dd0cbcea8ec6fd"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "874e21ebcec69b09c2985e415b8e3a54c29904ac",
+        "sha256": "c50dff5746f9ff16a410d73d052454df2d3fe71a2fc7b3037e8e802bdded0102"
+      }
+    }
+  ],
+  "owner_revision": "025850d265cbd1a55b28a8e9b238b2fe0bfcaf1d",
+  "owner_inputs": [
+    {
+      "id": "RD07-1361",
+      "path": "adl/tools/demo_v089_proof_entrypoints.sh",
+      "owner_mode": "100644",
+      "owner_blob": "706ceeabf5a1986afde670d38707776e00240c0b",
+      "sha256": "ee8ed579868f055cb210cd78f834384ec68f633694bfaee3dcc9c534841dc6bc",
+      "current_mode": "0o644",
+      "current_bytes_equal_owner": true
+    },
+    {
+      "id": "RD07-1363",
+      "path": "adl/tools/demo_v089_review_surface.sh",
+      "owner_mode": "100644",
+      "owner_blob": "726164a490b7d12e7c5868650fa7592bedfff37a",
+      "sha256": "d08f36a2118cd2c02d4199008e92f749c3914c99567f4b19eed3d2445422b3e3",
+      "current_mode": "0o644",
+      "current_bytes_equal_owner": true
+    },
+    {
+      "id": "RD07-1981",
+      "path": "adl/tools/test_demo_v089_proof_entrypoints.sh",
+      "owner_mode": "100644",
+      "owner_blob": "2c1f8cd90d90ba393572ca7c40afed709158f856",
+      "sha256": "fa43e4f368482988bf2de83a79ce7aa63fcad9601c1a9b1b2369964e20ae8597",
+      "current_mode": "0o644",
+      "current_bytes_equal_owner": true
+    },
+    {
+      "id": "RD07-1982",
+      "path": "adl/tools/test_demo_v089_review_surface.sh",
+      "owner_mode": "100644",
+      "owner_blob": "b9eb8915d1fa75f94709f35ebade5886aa9ed741",
+      "sha256": "69cc153d6add4bf8885cac6da0e7244bdf29b29068b8b95f85eba8a983a9f73b",
+      "current_mode": "0o644",
+      "current_bytes_equal_owner": true
+    },
+    {
+      "id": "RD07-1366",
+      "path": "adl/tools/demo_v0902_multi_agent_repo_review_proof.sh",
+      "owner_mode": "100644",
+      "owner_blob": "e43c1c9b569d712034e25c3a1a5d9d24035e0f7c",
+      "sha256": "d5c88c7113008384cb6677a06dd98ad455640c3de7a21eba790c3d0df5ec6a37",
+      "current_mode": "0o644",
+      "current_bytes_equal_owner": true
+    },
+    {
+      "id": "RD07-1986",
+      "path": "adl/tools/test_demo_v0902_multi_agent_repo_review_proof.sh",
+      "owner_mode": "100644",
+      "owner_blob": "06ae1b466bd98189ad614fc99827c74208555764",
+      "sha256": "f8887c4a19fc74614eeb5fd6845086b0d6807b89f32043694476c61f28a2bb1f",
+      "current_mode": "0o644",
+      "current_bytes_equal_owner": true
+    },
+    {
+      "id": "RD07-2210",
+      "path": "adl/tools/validate_v0902_multi_agent_repo_review_proof.py",
+      "owner_mode": "100644",
+      "owner_blob": "318cf8ffe28a2675f9426afe222b7589dc6797bc",
+      "sha256": "dcd6b542dcadafbe1fe1b33473de6326155c0403939e92499b55c664498c46d0",
+      "current_mode": "0o644",
+      "current_bytes_equal_owner": true
+    }
+  ],
+  "qualification": {
+    "status": "PASS",
+    "original_scripts_executed": 3,
+    "tests": [
+      {
+        "argv": [
+          "bash",
+          "adl/tools/test_demo_v089_proof_entrypoints.sh"
+        ],
+        "exit_code": 0,
+        "timeout": false,
+        "seconds": 0.05861336999805644,
+        "stdout_sha256": "cb63eb6dc7730d681c6cb3e27e7e86be6b41cec2430b29f5dc1f34aa0a1ff84e",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "source_after_exact": true
+      },
+      {
+        "argv": [
+          "bash",
+          "adl/tools/test_demo_v089_review_surface.sh"
+        ],
+        "exit_code": 0,
+        "timeout": false,
+        "seconds": 0.11154181900201365,
+        "stdout_sha256": "7a25e9d85ac680739e65831e854720416867f843fab0f238fc7cd742a3889339",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "source_after_exact": true
+      },
+      {
+        "argv": [
+          "bash",
+          "adl/tools/test_demo_v0902_multi_agent_repo_review_proof.sh"
+        ],
+        "exit_code": 0,
+        "timeout": false,
+        "seconds": 0.38240010899608023,
+        "stdout_sha256": "498afbaf19aa8b4ebc8b80a51c41254e5bc73dc855e78490cbfba6b950282ef7",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "source_after_exact": true
+      }
+    ],
+    "source_before_exact": true,
+    "source_before_after_exact": true,
+    "denominators": [
+      {
+        "original": "1981",
+        "file_existence_checks": 3,
+        "grep_checks": 5,
+        "producer_calls": 1
+      },
+      {
+        "original": "1982",
+        "file_existence_checks": 7,
+        "grep_checks": 5,
+        "producer_calls": 2,
+        "note": "review producer calls entrypoint producer once"
+      },
+      {
+        "original": "1986",
+        "file_existence_checks": 13,
+        "python_assert_expressions": 8,
+        "grep_checks": 2,
+        "negative_validator_calls": 3,
+        "positive_validator_calls": 2,
+        "producer_calls": 1
+      }
+    ],
+    "scope": "Generated packet/schema/redaction only; represented skills and embedded Cargo commands never executed."
+  },
+  "evidence": [
+    {
+      "path": "/Volumes/FastWork/c1223/infrastructure-offline-packet-seven-plan/PLAN.json",
+      "sha256": "4b65bc75c9dd6700acfe4c7536d16420850c475871f8461574940434a66a040e"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/infrastructure-offline-packet-seven-plan/EXECUTION_PINS.json",
+      "sha256": "4649fe496832b157245dc4b19995fb9fc19bb33940ad873348fb994fe63bc44c"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/infrastructure-offline-packet-seven-plan/execution/RESULT.json",
+      "sha256": "8e774a0b283a8d58e9c3edb9f84e9f5add61c8a379aa0cf09b239d7b8b8d2778"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/infrastructure-offline-packet-seven-plan/execution/CONTAINER.json",
+      "sha256": "62f7ef6a9457a8ed1bfb376f8e18623e7d2ba827e8646dc8c419e96170c9fc02"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/infrastructure-offline-packet-seven-plan/execution/output/result.json",
+      "sha256": "d52c1d3a65f32a43f6553ac60ea2e838d38fd317645a31189804c9f16c026a1c"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/infrastructure-offline-packet-seven-plan/execution/output/case-1/stdout",
+      "sha256": "cb63eb6dc7730d681c6cb3e27e7e86be6b41cec2430b29f5dc1f34aa0a1ff84e"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/infrastructure-offline-packet-seven-plan/execution/output/case-2/stdout",
+      "sha256": "7a25e9d85ac680739e65831e854720416867f843fab0f238fc7cd742a3889339"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/infrastructure-offline-packet-seven-plan/execution/output/case-3/stdout",
+      "sha256": "498afbaf19aa8b4ebc8b80a51c41254e5bc73dc855e78490cbfba6b950282ef7"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/infrastructure-offline-packet-seven-plan/execution/output/case-1/stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/infrastructure-offline-packet-seven-plan/execution/output/case-2/stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/infrastructure-offline-packet-seven-plan/execution/output/case-3/stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "custody": [
+    {
+      "path": "/Volumes/FastWork/c1223/infrastructure-offline-packet-seven-plan/retirement/current-and-original-preimages.tar",
+      "sha256": "ece579cee2c79f90ac331d8a0b151bcc0319a4f7b4de2b51d5f21ce86771f418",
+      "members": 18
+    }
+  ],
+  "patch": {
+    "path": "/Volumes/FastWork/c1223/infrastructure-offline-packet-seven-plan/retirement/seven-and-callers.patch",
+    "sha256": "6e4bb05d3ebd43a950cf5758ed622413119cd6471386756428c6a3b8af3fd211"
+  },
+  "caller_closure": [
+    "Seven source files form three unchanged original offline tests and their producer/validator closure. No active executable caller outside family found in adl/config,adl/tools,.github,tools,demos.",
+    "Actual registry algorithm renders exact seven tool removals.",
+    "Three retained ADL demo navigation guides route only moved shell commands through explicit owner checkout; historical embedded runtime commands and scenario obligations remain historical."
+  ],
+  "guide_disposition": [
+    {
+      "path": "demos/v0.89/v089_demo_program.md",
+      "reason": "Not a captured4134 row; absent Infrastructure025850d. Retain historical ADL guide and repair only moved producer navigation."
+    },
+    {
+      "path": "demos/v0.90.2/multi_agent_repo_review_proof_demo.md",
+      "id": "RD07-3219",
+      "reason": "Explicit prior public-cutover historical-context retention, absent Infrastructure025850d. Retain and repair owner navigation; do not invent delivered owner guide."
+    }
+  ],
+  "limits": [
+    "Only original generated packet/schema/redaction behavior qualified; no represented skills, Rust runtime-control, publication or provider execution.",
+    "Seven source removals and scoped guide/registry repairs applied after independent review.",
+    "Paper Sonata missing production fixtures remain excluded.",
+    "Retained guides absent from the owner remain ADL historical context; owner guide delivery is not claimed."
+  ],
+  "issue": 1223,
+  "review": {
+    "reviewer": "review_1223_historical_retention",
+    "result": "PASS",
+    "findings": []
+  },
+  "validation": {
+    "registry": "actual generator matches reviewed afterimage",
+    "proof": "three original scripts passed once with exact source identities; no rerun"
+  }
+}

@@ -1,0 +1,600 @@
+{
+  "schema": "adl1223.historical_six_vllm_two_composition.v1",
+  "status": "applied",
+  "source_head": "6d631bff948779e33e278cf7c22710709d33c4fb",
+  "removed_count": 8,
+  "rows": [
+    {
+      "id": "RD07-2134",
+      "path": "adl/tools/test_v0914_csdlc_evidence_bundle.sh",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "e075387fad4bbef5651f9dbd926dc1bba5089355"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "docs/skill-distributions/planning-utilities/original/adl/tools/test_v0914_csdlc_evidence_bundle.sh"
+        ]
+      }
+    },
+    {
+      "id": "RD07-2135",
+      "path": "adl/tools/test_v0914_merge_readiness_gate.sh",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "ebc874d87243bb3c1fa104aeaae5ec695516c58e"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "docs/skill-distributions/planning-utilities/original/adl/tools/test_v0914_merge_readiness_gate.sh"
+        ]
+      }
+    },
+    {
+      "id": "RD07-2136",
+      "path": "adl/tools/test_v0914_obsmem_transition_memory.sh",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "3b0d7b6ed18231cc687657aa91aba5f3cb4a1952"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/test_v0914_obsmem_transition_memory.sh"
+        ]
+      }
+    },
+    {
+      "id": "RD07-2159",
+      "path": "adl/tools/test_vllm_qwen_speculative_decoding_benchmark.py",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "1cf940eec3c8670436d6ef779ee028ea10b8f44b"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/test_vllm_qwen_speculative_decoding_benchmark.py"
+        ]
+      }
+    },
+    {
+      "id": "RD07-2213",
+      "path": "adl/tools/validate_v0914_csdlc_evidence_bundle.py",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "c0587a898ee23db174753c3cd154882a4236c9e7"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "docs/skill-distributions/planning-utilities/original/adl/tools/validate_v0914_csdlc_evidence_bundle.py"
+        ]
+      }
+    },
+    {
+      "id": "RD07-2214",
+      "path": "adl/tools/validate_v0914_merge_readiness_gate.py",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "870bd3545cd730eccd120bbee56b63ebbcb97700"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": [
+          "docs/skill-distributions/planning-utilities/original/adl/tools/validate_v0914_merge_readiness_gate.py"
+        ]
+      }
+    },
+    {
+      "id": "RD07-2216",
+      "path": "adl/tools/validate_v0914_obsmem_transition_memory.py",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "99210934e5a561f03b691fb5718e299a2d84357a"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/validate_v0914_obsmem_transition_memory.py"
+        ]
+      }
+    },
+    {
+      "id": "RD07-2263",
+      "path": "adl/tools/vllm_qwen_speculative_decoding_benchmark.py",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "d021780377aa9262670d73aa5230eb34ce40c6a9"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/vllm_qwen_speculative_decoding_benchmark.py"
+        ]
+      }
+    }
+  ],
+  "files": [
+    {
+      "path": "adl/tools/test_v0914_csdlc_evidence_bundle.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "e075387fad4bbef5651f9dbd926dc1bba5089355",
+        "sha256": "ced77f2ce0c5c5a269f854b135dd5966c16735f09ecc2ca365de21e5a5296b03"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_v0914_merge_readiness_gate.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "ebc874d87243bb3c1fa104aeaae5ec695516c58e",
+        "sha256": "7eb0d2d90835375b39c8607467a79f748a43686fc5a98340bf812791da7a46fe"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_v0914_obsmem_transition_memory.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "3b0d7b6ed18231cc687657aa91aba5f3cb4a1952",
+        "sha256": "b02049497875ad4f5910c645535037386530dde649a668acd7b48b9a9cc2f4da"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_vllm_qwen_speculative_decoding_benchmark.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "1cf940eec3c8670436d6ef779ee028ea10b8f44b",
+        "sha256": "ee903bd4af0d031f0d8af730ed24ba48ec9870fb0da05e0b82c994e1e9cb15be"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/validate_v0914_csdlc_evidence_bundle.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "c0587a898ee23db174753c3cd154882a4236c9e7",
+        "sha256": "d2d5b560a0df1b2c16ac0d678fc38f0ea263accd73aef157d75b81fbe6db5701"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/validate_v0914_merge_readiness_gate.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "870bd3545cd730eccd120bbee56b63ebbcb97700",
+        "sha256": "5d21bf960bb3ee6c57d560b7ab950a9a67cace191c278220393661685f8161b0"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/validate_v0914_obsmem_transition_memory.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "99210934e5a561f03b691fb5718e299a2d84357a",
+        "sha256": "d367d44f6a6ecd2115416b499cdf134ba0d264df2943e843248f6a5eb2b4a489"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/vllm_qwen_speculative_decoding_benchmark.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "d021780377aa9262670d73aa5230eb34ce40c6a9",
+        "sha256": "0ed5f4746b2f1e0c82520ec6bdf2f3119ff4b45fc7323cf9ea32dcbea04d08cc"
+      },
+      "after": null
+    },
+    {
+      "path": "docs/tooling/README.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "e701ac25f48cfdaf2c442f5536bb2afff6d9a0c2",
+        "sha256": "7c3367201ead5865a72056a3c9986702cf89bb881cd3758637aee1ecec28e700"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "9829f4c91ca24a3c6b88b1f9a0beb5ec9c82ed48",
+        "sha256": "cd63bb4503bca7f3ff4b8e36bd83e01aac34aafee046bfc42531a40a93012dbb"
+      }
+    },
+    {
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "f2fbcb1884b55478c6aebdf7a155e2f4410b00f0",
+        "sha256": "570dda74cf37ed146513c118560f001ad6aed9f40b1a969f7e4d9c35e8e62303"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "842548afbcf05bf0fe0e9da8b3974e1f9a95e509",
+        "sha256": "ddb87b56e9c37a45f16368785f6ce58898a6978a3f0b819100bafa4ad217f6c8"
+      }
+    }
+  ],
+  "parent_proposals": [
+    {
+      "path": "/Volumes/FastWork/c1223/v0914-historical-six/prepared/PROPOSAL.json",
+      "sha256": "fbaf615eb4ada1c5b474eefe8454216e897c2f4eea994d4b19223695690972c5"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime-vllm-accounting-two-original-r2-plan/retirement/PROPOSAL.json",
+      "sha256": "95427b73b094db4198bbbb61278059b070da5b6adf01413a71ff47ee07cbe6b4"
+    }
+  ],
+  "historical_six": {
+    "qualification_boundary": "Historical aggregation retirement, not qualified functional replacement. All original script and validator assertions are retained in immutable Git and custody. No original test or native command ran; no successor equivalence or current lifecycle acceptance is claimed.",
+    "assertion_dispositions": {
+      "csdlc_evidence_bundle": "Original packet validation from repo and /private/tmp, authentic signed CLI verification, tampered signature refusal, digest drift and review disposition drift refusal remain historical obligations. Public ADL verify behavior is not removed or claimed newly proven.",
+      "merge_readiness_gate": "Original packet validator plus five named monolithic lifecycle test filters (focused CI gate, actual changed paths, helper selection, SRP exception, premature completed SOR refusal) and two negative report/snapshot cases are preserved. Their old Cargo invocation is not a current split-product gate.",
+      "obsmem_transition_memory": "Original root-independent packet validation, trace binding refusal, evidence digest drift refusal and transition_handoff/file_store_round_trips_structured_review_fields Cargo filters are preserved; no synthetic assertion substitute."
+    },
+    "owner_inputs": [
+      {
+        "repository": "cognitive-sdlc",
+        "revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "path": "docs/skill-distributions/planning-utilities/original/adl/tools/test_v0914_csdlc_evidence_bundle.sh",
+        "sha256": "ced77f2ce0c5c5a269f854b135dd5966c16735f09ecc2ca365de21e5a5296b03",
+        "mode": "100755",
+        "current_source_exact": true
+      },
+      {
+        "repository": "cognitive-sdlc",
+        "revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "path": "docs/skill-distributions/planning-utilities/original/adl/tools/test_v0914_merge_readiness_gate.sh",
+        "sha256": "7eb0d2d90835375b39c8607467a79f748a43686fc5a98340bf812791da7a46fe",
+        "mode": "100755",
+        "current_source_exact": true
+      },
+      {
+        "repository": "agent-logic-runtime",
+        "revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "path": "adl/tools/test_v0914_obsmem_transition_memory.sh",
+        "sha256": "b02049497875ad4f5910c645535037386530dde649a668acd7b48b9a9cc2f4da",
+        "mode": "100755",
+        "current_source_exact": true
+      },
+      {
+        "repository": "cognitive-sdlc",
+        "revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "path": "docs/skill-distributions/planning-utilities/original/adl/tools/validate_v0914_csdlc_evidence_bundle.py",
+        "sha256": "d2d5b560a0df1b2c16ac0d678fc38f0ea263accd73aef157d75b81fbe6db5701",
+        "mode": "100755",
+        "current_source_exact": true
+      },
+      {
+        "repository": "cognitive-sdlc",
+        "revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "path": "docs/skill-distributions/planning-utilities/original/adl/tools/validate_v0914_merge_readiness_gate.py",
+        "sha256": "5d21bf960bb3ee6c57d560b7ab950a9a67cace191c278220393661685f8161b0",
+        "mode": "100755",
+        "current_source_exact": true
+      },
+      {
+        "repository": "agent-logic-runtime",
+        "revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "path": "adl/tools/validate_v0914_obsmem_transition_memory.py",
+        "sha256": "d367d44f6a6ecd2115416b499cdf134ba0d264df2943e843248f6a5eb2b4a489",
+        "mode": "100755",
+        "current_source_exact": true
+      }
+    ],
+    "caller_closure": {
+      "scan": {
+        "path": "/Volumes/FastWork/c1223/v0914-historical-six/prepared/CALLERS.txt",
+        "sha256": "bcb424dc10750a86117324379be312f0d8f4bed5e4f8c45194abc6f9db4cf8bb"
+      },
+      "scope": "Literal active code references resolve only within the six-file family; current registry removes six entries using actual generator. Historical v0.91.4 packet commands remain unchanged, identified as historical by current tooling index. No current CI command found for this family."
+    }
+  },
+  "vllm_two": {
+    "qualification": {
+      "status": "PASS",
+      "original_scripts_executed": 1,
+      "tests": [
+        {
+          "argv": [
+            "python3",
+            "-B",
+            "adl/tools/test_vllm_qwen_speculative_decoding_benchmark.py",
+            "-v",
+            "AccountingTests.test_existing_result_or_journal_refuses_before_engine_initialization",
+            "AccountingTests.test_missing_dependency_retains_failed_setup",
+            "AccountingTests.test_raw_engine_request_does_not_claim_speculative_activation"
+          ],
+          "exit_code": 0,
+          "timeout": false,
+          "seconds": 0.23806078599591274,
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr_sha256": "6d3e02d6915d7dc56243c825b8a2a9c1d274960b0ce649fa10278528d9c77a55",
+          "source_after_exact": true
+        }
+      ],
+      "source_before_exact": true,
+      "source_before_after_exact": true,
+      "denominators": {
+        "original_scripts": 1,
+        "original_methods": 3,
+        "method_names": [
+          "test_existing_result_or_journal_refuses_before_engine_initialization",
+          "test_missing_dependency_retains_failed_setup",
+          "test_raw_engine_request_does_not_claim_speculative_activation"
+        ],
+        "prior_passed_methods_not_repeated": 10
+      },
+      "scope": "Three setup-failed original vLLM accounting methods; prior10passes retained with unchanged original engine mocks; no actual model/Runtime/provider execution or installed/native qualification."
+    },
+    "actual_unittest_result": "Original13 accounting methods: initial10PASS+3setup-errors; corrected private output directory then only3original failed methods PASS. No passing tests repeated, original sources/assertions/mocks unchanged; no model/GPU/runtime execution.",
+    "owner_inputs": [
+      {
+        "path": "adl/tools/vllm_qwen_speculative_decoding_benchmark.py",
+        "sha256": "0ed5f4746b2f1e0c82520ec6bdf2f3119ff4b45fc7323cf9ea32dcbea04d08cc",
+        "owner_mode": "100644",
+        "blob": "d021780377aa9262670d73aa5230eb34ce40c6a9"
+      },
+      {
+        "path": "adl/tools/test_vllm_qwen_speculative_decoding_benchmark.py",
+        "sha256": "ee903bd4af0d031f0d8af730ed24ba48ec9870fb0da05e0b82c994e1e9cb15be",
+        "owner_mode": "100644",
+        "blob": "1cf940eec3c8670436d6ef779ee028ea10b8f44b"
+      }
+    ],
+    "owner_revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+    "caller_closure": "Only executable source caller is paired original test import. Legacy v0.91.6 selector includes py_compile command but is rejected before lane execution by current load_manifest required public surfaces. Preserve historical selector without claiming it runs. No current public manifest/CI consumer; registry regeneration removes exactly two tool rows. Original issue905 evidence remains unchanged.",
+    "limits": [
+      "CPU accounting and mock engine safety only; no model generation, GPU, performance benefit, installed/native or provider acceptance.",
+      "Preserves first-run failure and10passing methods; corrected run executes only3setup-failed methods.",
+      "No test or product source changes; scratch-directory correction is orchestration only."
+    ]
+  },
+  "preserved_historical_outputs": [
+    {
+      "path": "docs/milestones/v0.91.4/review/evidence/csdlc/C_SDLC_EVIDENCE_BUNDLE_PACKET_v0.91.4.md",
+      "sha256": "9f5f0c221ddae11e95250952b4a93110ae6ce1a713572763ded262addbadca18"
+    },
+    {
+      "path": "docs/milestones/v0.91.4/review/evidence/csdlc/README.md",
+      "sha256": "3a21085795ad650cf7c5e26db5ab06a954992bc4462b121e264fe6aa1529f131"
+    },
+    {
+      "path": "docs/milestones/v0.91.4/review/evidence/csdlc/ct_demo_001_review_synthesis.json",
+      "sha256": "9605e8540df0870dbd362c9e3da24b08daf9cb65bb190dd7cfb63f6f5a03bb0a"
+    },
+    {
+      "path": "docs/milestones/v0.91.4/review/evidence/csdlc/ct_demo_001_transition_evidence_bundle.json",
+      "sha256": "1a7a0308caa5b21e1917528da514c34949602d3a439a1efce2eb75eece633cdc"
+    },
+    {
+      "path": "docs/milestones/v0.91.4/review/evidence/csdlc/fixtures/minimal_transition_trace_public_key.b64",
+      "sha256": "1a258a63d27ed45ad13a711a7d817ce560ed9ea009836fe923b71228467a476c"
+    },
+    {
+      "path": "docs/milestones/v0.91.4/review/evidence/csdlc/fixtures/minimal_transition_trace_signed.adl.yaml",
+      "sha256": "c003e3e11b6ec386f0343402f7f5b8f0d3039f041585583668179d7d0013d2ca"
+    },
+    {
+      "path": "docs/milestones/v0.91.4/review/evidence/csdlc/fixtures/minimal_transition_trace_unsigned.adl.yaml",
+      "sha256": "6c7db848a85e0a1903bc5ca37ed39ca82cfeace726d9868836b6e7fca001cde3"
+    },
+    {
+      "path": "docs/milestones/v0.91.4/review/merge_readiness/MERGE_READINESS_GATE_PACKET_v0.91.4.md",
+      "sha256": "b4fe4f5e623175c00fc1379310d29384b718939f5b44bb553af39958cfb6c7b3"
+    },
+    {
+      "path": "docs/milestones/v0.91.4/review/merge_readiness/README.md",
+      "sha256": "616e0139047b08b6bf0449c7a240c7a06b307c6207616a7fdd8a453f67c7e1e2"
+    },
+    {
+      "path": "docs/milestones/v0.91.4/review/merge_readiness/ct_demo_001_merge_gate_profile_report.md",
+      "sha256": "9de0cad108c956fa3840e085b3cf481435e40e56b24da845de0e90f02880b28c"
+    },
+    {
+      "path": "docs/milestones/v0.91.4/review/merge_readiness/ct_demo_001_merge_gate_snapshot.json",
+      "sha256": "56d44797a1f86fca41880dceff6d46035400eb9c596a10bb70bedfae4ff4d726"
+    },
+    {
+      "path": "docs/milestones/v0.91.4/review/obsmem_transition_memory/OBSMEM_TRANSITION_MEMORY_PACKET_v0.91.4.md",
+      "sha256": "34bcd8f59fb75fa008da696a15904bcda931759a9a5fc63f984c650643e28deb"
+    },
+    {
+      "path": "docs/milestones/v0.91.4/review/obsmem_transition_memory/README.md",
+      "sha256": "fd7f8b9b936a897389450876b6013c9c1dcbae770abd4b815564e22e2845228b"
+    },
+    {
+      "path": "docs/milestones/v0.91.4/review/obsmem_transition_memory/ct_demo_001_obsmem_transition_memory_handoff.json",
+      "sha256": "de4c19067cf489607104d24b6ce5bb2af5049148d88823a9d93b138afff4dacb"
+    },
+    {
+      "path": "docs/milestones/v0.91.4/review/obsmem_transition_memory/ct_demo_001_transition_outcome_truth.json",
+      "sha256": "a4841404b2778f668b3040604bdfbfb478785c25909d2f3f67d0b5775952c401"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "/Volumes/FastWork/c1223/v0914-historical-six/prepared/PROPOSAL.json",
+      "sha256": "fbaf615eb4ada1c5b474eefe8454216e897c2f4eea994d4b19223695690972c5"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime-vllm-accounting-two-original-r2-plan/retirement/PROPOSAL.json",
+      "sha256": "95427b73b094db4198bbbb61278059b070da5b6adf01413a71ff47ee07cbe6b4"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime-vllm-accounting-two-original-r2-plan/PLAN.json",
+      "sha256": "a46fb79e9326508e6243ee7d560046ddc28480de8c185a466d911eef72431734"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime-vllm-accounting-two-original-r2-plan/EXECUTION_PINS.json",
+      "sha256": "80f6e9ec0602f3446ef4e1f17c7f0ad1cf19c585a6b58ddec201afc806fdba6c"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime-vllm-accounting-two-original-r2-plan/execution/RESULT.json",
+      "sha256": "fc961d1db026f6c44a6102436fb2a24f2679f9e3c34976cc5e6117d19993747e"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime-vllm-accounting-two-original-r2-plan/execution/output/result.json",
+      "sha256": "0d260ec409064011c5e3b008ace5025a74608546fdef5b81d25ed1b6116571a5"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime-vllm-accounting-two-original-r2-plan/execution/output/case-1/stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime-vllm-accounting-two-original-r2-plan/execution/output/case-1/stderr",
+      "sha256": "6d3e02d6915d7dc56243c825b8a2a9c1d274960b0ce649fa10278528d9c77a55"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime-vllm-accounting-two-original-r2-plan/execution/CONTAINER.json",
+      "sha256": "b9cdbd402cc5a321df87daa4947fb685549d53a04464faa83aec73412dd9d52e"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime-vllm-accounting-two-original-r2-plan/retirement/CALLERS.txt",
+      "sha256": "428434fb61a856ff2490cded121b8310c8f51607553b17e66743ea2344002cd5"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime-vllm-accounting-two-original-plan/PLAN.json",
+      "sha256": "57471a0abd757dab8445f97bedb58ed31f1b1ac188bd44a90a0c8ddb5c34b4c3"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime-vllm-accounting-two-original-plan/driver.py",
+      "sha256": "445cbe8e3a2a815451a7c38174b2a737ab8ce0ec0906ec93bb1eab7cdb5950b9"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime-vllm-accounting-two-original-plan/execute.py",
+      "sha256": "1a25b69016c1db6cfd44f3a325e2ccf04834727e2202491553e0de1c581a30e1"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime-vllm-accounting-two-original-plan/execution/RESULT.json",
+      "sha256": "7aceb298627cb136e81272f91f575cfbd695b1cb40c45ab9581cbcc7fecd0723"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime-vllm-accounting-two-original-plan/execution/output/result.json",
+      "sha256": "100f04ce755cf12410739ea3016f2df40cc95c517f798676cdf640056195a057"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/runtime-vllm-accounting-two-original-plan/execution/output/case-1/stderr",
+      "sha256": "1d161de3789706c93d9c53fb006d7426a44146b5559d5421637e346a08bc35f2"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/v0914-historical-six/prepared/CALLERS.txt",
+      "sha256": "bcb424dc10750a86117324379be312f0d8f4bed5e4f8c45194abc6f9db4cf8bb"
+    }
+  ],
+  "custody": {
+    "path": "/Volumes/FastWork/c1223/historical-six-vllm-two-composed/current-and-original-preimages.tar",
+    "sha256": "fd3524d87764d1903afbff46cdcbce36b304d18664d4cf7389f453ee7b395014",
+    "current_members": 10,
+    "original_members": 8
+  },
+  "patch": {
+    "path": "/Volumes/FastWork/c1223/historical-six-vllm-two-composed/eight-and-callers.patch",
+    "sha256": "5980971d50f26a1fa35ebd140959c94c3c377e80d2f9f8a577452fad0f3c9e1a"
+  },
+  "composition": "Same eight reviewed deletions and exact tooling README postimage; actual registry generation against declared current HEAD removes exactly eight rows, no additions. Original two proposals and their adverse evidence preserved.",
+  "limits": [
+    "No original reruns or shared edits.",
+    "Six historical aggregation files are not qualified functional successors; two accounting files have mocked CPU original-method proof only.",
+    "No new native lifecycle, provider, GPU, runtime or installed acceptance."
+  ],
+  "proposal_source_head": "6d631bff948779e33e278cf7c22710709d33c4fb",
+  "review": {
+    "status": "PASS",
+    "reviewer": "/root/review_1223_historical_retention",
+    "proposal_sha256": "9c661713c8c5b164866be9aebbf2b28fef2785323e4d62927874231889d7a548",
+    "scope": "Reviewed source/caller/custody composition; all individual qualification and historical limits preserved."
+  }
+}

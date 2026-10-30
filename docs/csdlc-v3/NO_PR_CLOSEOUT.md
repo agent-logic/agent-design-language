@@ -1,0 +1,61 @@
+# Closed issue reconciliation without a PR
+
+An issue closed as retired, duplicate, superseded, absorbed, completed coordination,
+or historical disposition still requires durable closeout. These outcomes are not
+merged implementation proof and must not be represented by a fabricated PR.
+
+Use native `csdlc finish ISSUE --disposition <disposition.json>`. The disposition
+file contains:
+
+```json
+{
+  "disposition": "retired_without_execution",
+  "operator": "authorized operator identity",
+  "rationale": "Issue retired before execution; scope is retained by its successor.",
+  "evidence_refs": ["https://github.com/owner/repo/issues/123#issuecomment-456"]
+}
+```
+
+Supported dispositions are `retired_without_execution`, `duplicate`, `superseded`,
+`absorbed`, `coordination_completed`, and `historical_disposition`. The operator
+must authorize the disposition based on the cited evidence. The tool authenticates
+GitHub closure and exact timestamps; it does not independently evaluate whether
+all implementation or coordination acceptance criteria were fulfilled. A closed
+issue alone is insufficient to author the rationale.
+
+The semantic intent derives the repository, issue, exact checkout identity,
+credential selection, and canonical terminal paths from current native state.
+The owner derives closure timestamps from authenticated GitHub observation and
+checks them again before persistence; do not supply timestamps in this semantic
+disposition object. Open
+issues, PR objects, missing rationale/evidence/operator, mixed PR/no-PR state,
+and stale snapshots fail closed. Repeated identical reconciliation is
+idempotent; conflicting receipts preserve existing state and require explicit
+investigation. For reviewed automation, generate an exact request with
+`--emit-request` and replay it through `finish --intent-request`; direct
+`finish --request` writer syntax is retired.
+
+Receipts retain `pull_request: null` and the complete `no_pr_closeout` disposition.
+Existing merged-PR receipt serialization is unchanged. Cleanup requires the same
+no-PR disposition as the receipt, plus the existing exact-head, clean-worktree,
+registered-path and preview guards. No-PR closeout does not authorize forced cleanup,
+public launch, release approval, reopening issues, or changing old PR bodies.
+
+A merged checkpoint whose current body says `Part-Of` remains nonterminal in the
+merged-PR route. If later operator adjudication closes the issue, record that
+historical disposition explicitly rather than converting the checkpoint into
+implementation acceptance.
+
+Validation: the focused `terminal_cleanup_cutover_commands` integration target
+covers authenticated no-PR observation, missing/ambiguous request failures, stale
+closure timestamps, idempotent persistence, conflict preservation and cleanup
+identity. These are deterministic offline tooling tests; live issue reconciliation
+is separate operational evidence.
+
+For an open coordination-only umbrella, use the explicitly authorized
+[native coordination completion route](https://github.com/agent-logic/cognitive-sdlc/blob/fa5e22e818f9eb5478faac298877f188492cd879/docs/csdlc-v3/COORDINATION_COMPLETION.md) first.
+The existing no-PR finish route observes closure; it does not close an open issue.
+
+The linked owner revision documents the selected native contract, including
+repository-qualified child identities and publication linkage. This navigation
+change does not execute coordination operations or establish live acceptance.

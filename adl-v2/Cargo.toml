@@ -1,0 +1,9 @@
+[workspace]
+resolver = "2"
+members = [
+  "crates/adl-language",
+  "crates/adl-compiler",
+]
+
+[workspace.package]
+version = "0.92.1"

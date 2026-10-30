@@ -1,0 +1,29 @@
+{
+  "credential_policy": "operator_env_or_home_keys_no_secret_material_recorded",
+  "invocations": [
+    {
+      "completed_at_unix_ms": 1787623073943,
+      "family": "gemini",
+      "finish_reasons": [
+        "STOP"
+      ],
+      "http_status": 200,
+      "latency_ms": 16153,
+      "model": "gemini-3.1-pro-preview",
+      "model_version": "gemini-3.1-pro-preview",
+      "output_chars": 2974,
+      "prompt_chars": 95956,
+      "prompt_sha256": "f0bbbe403da6cd12ca1850d8d2154fd24b497c72aa9a65ea6919ae72b2f8ebcf",
+      "provider_response_id_sha256": "c0eed7cb66cda876330f9c50d94b088924056e076b112f4e830f0fcd7928d4f2",
+      "request_id_present": true,
+      "response_payload_sha256": "66faba5623beb26746812519486f7c06e61be4f2e0409279532b6cd65325c416"
+    }
+  ],
+  "providers": [
+    {
+      "family": "gemini",
+      "model": "gemini-3.1-pro-preview"
+    }
+  ],
+  "schema_version": "adl.live_provider_invocations.v1"
+}
