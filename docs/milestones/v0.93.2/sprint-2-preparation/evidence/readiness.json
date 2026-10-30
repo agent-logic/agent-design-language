@@ -1,0 +1,160 @@
+{
+  "schema": "sprint2.preparation_readiness.v1",
+  "sprint": "agent-logic/agent-design-language#1299",
+  "execution_ready": true,
+  "review": "PASS",
+  "execution_mode": "sequential",
+  "ordered_children": [
+    "agent-logic/codefriend#120",
+    "agent-logic/agent-logic-enterprise-security#9"
+  ],
+  "blockers": [],
+  "children": [
+    {
+      "issue": 120,
+      "worktree": "/Volumes/FastWork/codefriend-worktrees/adl-issue-120-v0932-beta1-acceptance-assessment",
+      "head": "08ddd97c3777510cc0b85068f0e1d06f09d31321",
+      "native_validation": "completed",
+      "active_cards": ".csdlc/v3/issues/120/cards",
+      "remaining_placeholders": {
+        "sip": [],
+        "stp": [],
+        "spp": [],
+        "vpp": [],
+        "srp": [
+          "findings",
+          "outcome",
+          "review_notes",
+          "reviewer",
+          "sip_card",
+          "slug",
+          "sor_card",
+          "spp_card",
+          "stp_card",
+          "timestamp",
+          "vpp_card"
+        ],
+        "sor": []
+      },
+      "srp_review_results": {
+        "status": "not_run"
+      }
+    },
+    {
+      "issue": 9,
+      "worktree": "/Volumes/FastWork/agent-logic-enterprise-security-worktrees/adl-issue-9-v0932-codefriend-zero-trust-contract",
+      "head": "51a1c02e1ed273b63b397b3371d0230158a0450c",
+      "native_validation": "completed",
+      "active_cards": ".csdlc/v3/issues/9/cards",
+      "remaining_placeholders": {
+        "sip": [],
+        "stp": [],
+        "spp": [],
+        "vpp": [],
+        "srp": [
+          "findings",
+          "outcome",
+          "review_notes",
+          "reviewer",
+          "sip_card",
+          "slug",
+          "sor_card",
+          "spp_card",
+          "stp_card",
+          "timestamp",
+          "vpp_card"
+        ],
+        "sor": []
+      },
+      "srp_review_results": {
+        "status": "not_run"
+      }
+    }
+  ],
+  "card_amendment_probe": {
+    "target": "agent-logic/codefriend#120",
+    "finding": "intent_semantic_binding_stale",
+    "request": "codefriend-120-spp-amendment.json",
+    "result": "codefriend-120-spp-amendment-result.json",
+    "readback": "codefriend-120-status-final.json",
+    "generation_unchanged": true,
+    "pending_remote": []
+  },
+  "review_thread": "01a0f889-1a07-77f0-a2dc-fe1ad6ce632b",
+  "review_turn": "01a157e3-f5c9-7ea1-9fdf-23a89418b996",
+  "umbrella_base": "74c5431062974e410e41d315088beb68b18a63d1",
+  "publication_for_preparation": false,
+  "review_follow_up_turn": "01a156f5-c3d2-74d1-b1bd-ec7d4dae76e3",
+  "p2_dispositions_verified": true,
+  "umbrella_card_corrections": {
+    "applied": [
+      "sip",
+      "stp",
+      "spp",
+      "vpp"
+    ],
+    "remaining_template_fields_in_corrected_cards": 0,
+    "native_validation": "completed",
+    "projection": "healthy"
+  },
+  "operator_location_instruction": {
+    "fastwork": "machine_default_not_gate",
+    "repository_policy_files": "removed_locally_uncommitted",
+    "native_enforcement": "removed_in_admitted_owner",
+    "handoff": "LOCATION_DEFAULT_HANDOFF.md",
+    "correction_issue": "agent-logic/cognitive-sdlc#304",
+    "correction_status": "merged_installed_verified",
+    "coordination": "handoff_retained_here_no_worker18_message",
+    "pull_request": "https://github.com/agent-logic/cognitive-sdlc/pull/311",
+    "reviewed_head": "fe2b80788b1a6edf640fe549482e6f15177f14ea",
+    "ci_run": 39362097223,
+    "merge_performed": true,
+    "merge_commit": "7429dbacf6a5442d92762f291c0c27f273175edb",
+    "issue_state": "CLOSED"
+  },
+  "location_disposition_review": {
+    "thread": "01a0f889-1a07-77f0-a2dc-fe1ad6ce632b",
+    "turn": "01a1570f-65c6-70f0-8899-dccbf8b5ae8e",
+    "result": "revised_disposition_accepted",
+    "implementation_blocker_resolved": false
+  },
+  "csdlc_299_delivery": {
+    "issue_state": "CLOSED",
+    "pull_request": 308,
+    "merge": "007f84b4a98ba2c38767f67dadc88a142e1cfa88",
+    "installed_admission": "verified_package12237907988_includes299_and304"
+  },
+  "validator_review": {
+    "reviewer": "Planning #12",
+    "turn": "01a15734-a55f-7bd2-899b-5c05efe23150",
+    "disposition": "resolved_for_preparation_execution_registration_pending",
+    "contract": "VALIDATION_CONTRACT.md"
+  },
+  "proposed_content_review": {
+    "reviewer": "Planning #12",
+    "turn": "01a15739-36ea-7cf0-9f60-232628c30113",
+    "outcome": "accepted_no_actionable_findings",
+    "native_application": "pending"
+  },
+  "preparation_ready": true,
+  "dispatch_gates": [
+    "assign_one_execution_owner_per_child",
+    "security_9_requires_accepted_codefriend_120_outputs"
+  ],
+  "execution_setup": [
+    "agree_codefriend_candidate_corpus_denominator",
+    "register_concrete_validators_before_native_proof_or_publication",
+    "authenticate_runtime_artifact_and_matching_linux_runner_for_security"
+  ],
+  "native_final_readback": "native-final-readback.json",
+  "execution_readiness_scope": "sequential_start_of_codefriend120_security9_waits_accepted_inputs",
+  "residual_followups": [
+    "SRP generated name/date/link placeholders: accepted by Planning12 as nonblocking template follow-up; actual implementation review remains not_run"
+  ],
+  "execution_owner_handoff": {
+    "thread": "01a15657-81eb-7802-972a-26a0c4a054cc",
+    "title": "Worker #30",
+    "status": "dispatched_and_active",
+    "turn": "01a157e5-3d75-7d82-a80f-4080b3bebab5"
+  }
+}

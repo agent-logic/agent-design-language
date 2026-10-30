@@ -1,0 +1,1623 @@
+{
+  "milestone": "v0.93.2",
+  "status": "wp01_open_downstream_not_activated",
+  "work_packages": [
+    {
+      "id": "WP-01",
+      "title": "Open the reviewed v0.93.2 execution wave",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "v0.93.1/TAIL-10",
+        "v0.93.1/RD-11"
+      ],
+      "result": "Reconcile the approved smaller milestones and losslessly route all prior identities without downstream activation.",
+      "acceptance": [
+        "Reconcile the approved smaller milestones and losslessly route all prior identities without downstream activation.",
+        "Record exact consumer versions, scenario counts, failures and review dispositions."
+      ],
+      "negative_cases": [
+        "Unaccepted predecessor",
+        "Missing opening approval",
+        "Duplicate issue identities"
+      ],
+      "phase": "opening",
+      "source": "README.md",
+      "status": "in_progress",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Open the reviewed v0.93.2 execution wave",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 1,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "WP-01",
+        "kind": "version_specific_gate"
+      },
+      "existing_issue": 1296,
+      "issue_repository": "agent-logic/agent-design-language"
+    },
+    {
+      "id": "CSDLC-296",
+      "title": "Use one editable issue source and remove projection-drift gates",
+      "repository": "cognitive-sdlc",
+      "depends_on": [],
+      "result": "Preserve edits and historical compatibility while ensuring derived-view drift cannot block valid source publication.",
+      "acceptance": [
+        "Preserve edits and historical compatibility while ensuring derived-view drift cannot block valid source publication.",
+        "Preserve the full acceptance and adverse cases of existing agent-logic/cognitive-sdlc#296; this planning summary does not narrow its scope.",
+        "Measure affected-operation owned overhead and external calls; no duplicate builds, reviews or remote writes."
+      ],
+      "negative_cases": [
+        "Required proof bypassed",
+        "Existing work or historical evidence lost",
+        "Uncertain operation repeated"
+      ],
+      "phase": "tooling",
+      "source": "features/CSDLC_IMPROVEMENTS_v0.93.2.md",
+      "status": "planned",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "tooling_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Use one editable issue source and remove projection-drift gates",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 1,
+      "origin": {
+        "milestone": "v0.93.2",
+        "id": "CSDLC-296",
+        "kind": "operator_requested_existing_issue"
+      },
+      "existing_issue": 296,
+      "issue_repository": "agent-logic/cognitive-sdlc"
+    },
+    {
+      "id": "CSDLC-297",
+      "title": "Preserve proof and review across metadata-only edits",
+      "repository": "cognitive-sdlc",
+      "depends_on": [],
+      "result": "Preserve applicable proof/review for title/body-only changes; source, head, configuration and linkage changes retain correct freshness and identity checks.",
+      "acceptance": [
+        "Preserve applicable proof/review for title/body-only changes; source, head, configuration and linkage changes retain correct freshness and identity checks.",
+        "Preserve the full acceptance and adverse cases of existing agent-logic/cognitive-sdlc#297; this planning summary does not narrow its scope.",
+        "Measure affected-operation owned overhead and external calls; no duplicate builds, reviews or remote writes."
+      ],
+      "negative_cases": [
+        "Required proof bypassed",
+        "Existing work or historical evidence lost",
+        "Uncertain operation repeated"
+      ],
+      "phase": "tooling",
+      "source": "features/CSDLC_IMPROVEMENTS_v0.93.2.md",
+      "status": "planned",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "tooling_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Preserve proof and review across metadata-only edits",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 1,
+      "origin": {
+        "milestone": "v0.93.2",
+        "id": "CSDLC-297",
+        "kind": "operator_requested_existing_issue"
+      },
+      "existing_issue": 297,
+      "issue_repository": "agent-logic/cognitive-sdlc"
+    },
+    {
+      "id": "CSDLC-298",
+      "title": "Remove mandatory portable-review attestation and publication receipt gates",
+      "repository": "cognitive-sdlc",
+      "depends_on": [],
+      "result": "Use ordinary independent candidate review and authenticated package provenance without mutable PR-body attestation or unrelated lifecycle gates.",
+      "acceptance": [
+        "Use ordinary independent candidate review and authenticated package provenance without mutable PR-body attestation or unrelated lifecycle gates.",
+        "Preserve the full acceptance and adverse cases of existing agent-logic/cognitive-sdlc#298; this planning summary does not narrow its scope.",
+        "Measure affected-operation owned overhead and external calls; no duplicate builds, reviews or remote writes."
+      ],
+      "negative_cases": [
+        "Required proof bypassed",
+        "Existing work or historical evidence lost",
+        "Uncertain operation repeated"
+      ],
+      "phase": "tooling",
+      "source": "features/CSDLC_IMPROVEMENTS_v0.93.2.md",
+      "status": "planned",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "tooling_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Remove mandatory portable-review attestation and publication receipt gates",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 1,
+      "origin": {
+        "milestone": "v0.93.2",
+        "id": "CSDLC-298",
+        "kind": "operator_requested_existing_issue"
+      },
+      "existing_issue": 298,
+      "issue_repository": "agent-logic/cognitive-sdlc"
+    },
+    {
+      "id": "CSDLC-299",
+      "title": "Simplify lifecycle commands with optional start and consolidated delivery",
+      "repository": "cognitive-sdlc",
+      "depends_on": [
+        "CSDLC-296",
+        "CSDLC-297",
+        "CSDLC-298"
+      ],
+      "result": "Provide optional safe worktree start and coherent expected-head delivery; confirmed merge is delivery, issue closure is reported separately and cleanup stays optional.",
+      "acceptance": [
+        "Provide optional safe worktree start and coherent expected-head delivery; confirmed merge is delivery, issue closure is reported separately and cleanup stays optional.",
+        "Preserve the full acceptance and adverse cases of existing agent-logic/cognitive-sdlc#299; this planning summary does not narrow its scope.",
+        "Measure affected-operation owned overhead and external calls; no duplicate builds, reviews or remote writes."
+      ],
+      "negative_cases": [
+        "Required proof bypassed",
+        "Existing work or historical evidence lost",
+        "Uncertain operation repeated"
+      ],
+      "phase": "tooling",
+      "source": "features/CSDLC_IMPROVEMENTS_v0.93.2.md",
+      "status": "planned",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "tooling_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Simplify lifecycle commands with optional start and consolidated delivery",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 1,
+      "origin": {
+        "milestone": "v0.93.2",
+        "id": "CSDLC-299",
+        "kind": "operator_requested_existing_issue"
+      },
+      "existing_issue": 299,
+      "issue_repository": "agent-logic/cognitive-sdlc"
+    },
+    {
+      "id": "CF-B1-01",
+      "title": "Assess Beta 1 against customer acceptance",
+      "repository": "codefriend",
+      "depends_on": [
+        "WP-01",
+        "CSDLC-299"
+      ],
+      "result": "Review actual outputs and end-to-end journeys on representative repositories; agree a prioritized gap register and measurable Beta 1 acceptance denominator with the operator.",
+      "acceptance": [
+        "Review actual outputs and end-to-end journeys on representative repositories; agree a prioritized gap register and measurable Beta 1 acceptance denominator with the operator.",
+        "Record exact candidate, exercised cases, failures and user-visible evidence; no completion from scaffolding."
+      ],
+      "negative_cases": [
+        "Unreproduced defect claimed",
+        "Prior qualification substituted for user acceptance"
+      ],
+      "phase": "product",
+      "source": "features/CODEFRIEND_BETA1_v0.93.2.md",
+      "status": "planned",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "product_behavior",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Assess Beta 1 against customer acceptance",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 2,
+      "origin": {
+        "milestone": "v0.93.2",
+        "id": "CF-B1-01",
+        "kind": "operator_approved_product_gap_work"
+      },
+      "existing_issue": 120,
+      "issue_repository": "agent-logic/codefriend"
+    },
+    {
+      "id": "WP-S1",
+      "title": "Enforce the enterprise zero-trust boundary",
+      "repository": "agent-logic-enterprise-security",
+      "depends_on": [
+        "CF-B1-01",
+        "v0.93.1/RD-09"
+      ],
+      "result": "Define and enforce CodeFriend principal, tenant, repository, service and paired-agent trust boundaries against supported Runtime interfaces; identify any missing primitive as a bounded prerequisite.",
+      "acceptance": [
+        "Define and enforce CodeFriend principal, tenant, repository, service and paired-agent trust boundaries against supported Runtime interfaces; identify any missing primitive as a bounded prerequisite.",
+        "Record exact consumer versions, scenario counts, failures and review dispositions.",
+        "Preserve least privilege, revocation, secret redaction, audit integrity, tenant isolation and supported-consumer failure behavior; do not silently remove an invariant to eliminate a dependency."
+      ],
+      "negative_cases": [
+        "Implicit internal trust",
+        "Connection treated as permission"
+      ],
+      "phase": "security",
+      "source": "features/CODEFRIEND_BETA1_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Enforce the enterprise zero-trust boundary",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 2,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "WP-S1",
+        "kind": "retained_work"
+      },
+      "existing_issue": 9,
+      "issue_repository": "agent-logic/agent-logic-enterprise-security"
+    },
+    {
+      "id": "CF-B1-02",
+      "title": "Deliver readable and useful reports and exports",
+      "repository": "codefriend",
+      "depends_on": [
+        "CF-B1-01"
+      ],
+      "result": "Resolve accepted report-quality gaps against the comprehensive-review PDF reference, using Geist; verify supported export formats, evidence links and human readability.",
+      "acceptance": [
+        "Resolve accepted report-quality gaps against the comprehensive-review PDF reference, using Geist; verify supported export formats, evidence links and human readability.",
+        "Record exact candidate, exercised cases, failures and user-visible evidence; no completion from scaffolding."
+      ],
+      "negative_cases": [
+        "Unreadable export",
+        "Broken evidence link",
+        "Unsupported format claimed"
+      ],
+      "phase": "product",
+      "source": "features/CODEFRIEND_BETA1_v0.93.2.md",
+      "status": "planned",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "product_behavior",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Deliver readable and useful reports and exports",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 3,
+      "origin": {
+        "milestone": "v0.93.2",
+        "id": "CF-B1-02",
+        "kind": "operator_approved_product_gap_work"
+      },
+      "existing_issue": 121,
+      "issue_repository": "agent-logic/codefriend"
+    },
+    {
+      "id": "CF-B1-03",
+      "title": "Close review quality and recovery gaps",
+      "repository": "codefriend",
+      "depends_on": [
+        "CF-B1-01"
+      ],
+      "result": "Resolve accepted review correctness, actionable-finding and recovery gaps using the agreed repository denominator.",
+      "acceptance": [
+        "Resolve accepted review correctness, actionable-finding and recovery gaps using the agreed repository denominator.",
+        "Record exact candidate, exercised cases, failures and user-visible evidence; no completion from scaffolding."
+      ],
+      "negative_cases": [
+        "Unsupported finding",
+        "Silent partial result",
+        "Retry duplicates work"
+      ],
+      "phase": "product",
+      "source": "features/CODEFRIEND_BETA1_v0.93.2.md",
+      "status": "planned",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "product_behavior",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Close review quality and recovery gaps",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 3,
+      "origin": {
+        "milestone": "v0.93.2",
+        "id": "CF-B1-03",
+        "kind": "operator_approved_product_gap_work"
+      },
+      "existing_issue": 123,
+      "issue_repository": "agent-logic/codefriend"
+    },
+    {
+      "id": "WP-S2",
+      "title": "Enforce per-action and per-message authorization",
+      "repository": "agent-logic-enterprise-security",
+      "depends_on": [
+        "WP-S1"
+      ],
+      "result": "Enforce per-action and per-message least privilege, bounded delegation and revocation for CodeFriend using supported Runtime contracts; preserve denial reasons.",
+      "acceptance": [
+        "Enforce per-action and per-message least privilege, bounded delegation and revocation for CodeFriend using supported Runtime contracts; preserve denial reasons.",
+        "Record exact consumer versions, scenario counts, failures and review dispositions.",
+        "Preserve least privilege, revocation, secret redaction, audit integrity, tenant isolation and supported-consumer failure behavior; do not silently remove an invariant to eliminate a dependency."
+      ],
+      "negative_cases": [
+        "Stale/revoked grant",
+        "Malformed/replayed/out-of-order message"
+      ],
+      "phase": "security",
+      "source": "features/CODEFRIEND_BETA1_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Enforce per-action and per-message authorization",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 3,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "WP-S2",
+        "kind": "retained_work"
+      },
+      "existing_issue": 10,
+      "issue_repository": "agent-logic/agent-logic-enterprise-security"
+    },
+    {
+      "id": "WP-S3",
+      "title": "Enforce key and secret lifecycle",
+      "repository": "agent-logic-enterprise-security",
+      "depends_on": [
+        "WP-S2"
+      ],
+      "result": "Current scoped keys work and rotated/revoked keys fail in signed/encrypted message and checkpoint consumers.",
+      "acceptance": [
+        "Current scoped keys work and rotated/revoked keys fail in signed/encrypted message and checkpoint consumers.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings.",
+        "Preserve least privilege, revocation, secret redaction, audit integrity, tenant isolation and supported-consumer failure behavior; do not silently remove an invariant to eliminate a dependency."
+      ],
+      "negative_cases": [
+        "Wrong-scope key",
+        "Secret in output",
+        "Revocation ignored"
+      ],
+      "phase": "security",
+      "source": "features/CODEFRIEND_BETA1_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Enforce key and secret lifecycle",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 3,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "WP-S3",
+        "kind": "retained_work"
+      },
+      "existing_issue": 12,
+      "issue_repository": "agent-logic/agent-logic-enterprise-security"
+    },
+    {
+      "id": "WP-S4",
+      "title": "Produce tamper-evident incident evidence",
+      "repository": "agent-logic-enterprise-security",
+      "depends_on": [
+        "WP-S3"
+      ],
+      "result": "Produce tamper-evident, linked and redacted CodeFriend incident evidence accepted by the operator-review consumer; preserve full constitutional-appeal integration for v0.93.3.",
+      "acceptance": [
+        "Produce tamper-evident, linked and redacted CodeFriend incident evidence accepted by the operator-review consumer; preserve full constitutional-appeal integration for v0.93.3.",
+        "Record exact consumer versions, scenario counts, failures and review dispositions.",
+        "Preserve least privilege, revocation, secret redaction, audit integrity, tenant isolation and supported-consumer failure behavior; do not silently remove an invariant to eliminate a dependency."
+      ],
+      "negative_cases": [
+        "Tampered event",
+        "Raw private-state dump"
+      ],
+      "phase": "security",
+      "source": "features/CODEFRIEND_BETA1_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Produce tamper-evident incident evidence",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 3,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "WP-S4",
+        "kind": "retained_work"
+      },
+      "existing_issue": 14,
+      "issue_repository": "agent-logic/agent-logic-enterprise-security"
+    },
+    {
+      "id": "WP-S5",
+      "title": "Enforce protected data lifecycle and isolation",
+      "repository": "agent-logic-enterprise-security",
+      "depends_on": [
+        "WP-S3"
+      ],
+      "result": "Enforce tenant/repository isolation, consent, retention, deletion and redacted CodeFriend exports; preserve citizen and social-memory integration for v0.93.3.",
+      "acceptance": [
+        "Enforce tenant/repository isolation, consent, retention, deletion and redacted CodeFriend exports; preserve citizen and social-memory integration for v0.93.3.",
+        "Record exact consumer versions, scenario counts, failures and review dispositions.",
+        "Preserve least privilege, revocation, secret redaction, audit integrity, tenant isolation and supported-consumer failure behavior; do not silently remove an invariant to eliminate a dependency."
+      ],
+      "negative_cases": [
+        "Cross-tenant or cross-repository leak",
+        "Unredacted private-data export",
+        "Deletion leaves accessible data"
+      ],
+      "phase": "security",
+      "source": "features/CODEFRIEND_BETA1_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Enforce protected data lifecycle and isolation",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 3,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "WP-S5",
+        "kind": "retained_work"
+      },
+      "existing_issue": 15,
+      "issue_repository": "agent-logic/agent-logic-enterprise-security"
+    },
+    {
+      "id": "CF-B1-04",
+      "title": "Complete the first-review user journey",
+      "repository": "codefriend",
+      "depends_on": [
+        "CF-B1-01",
+        "WP-S2"
+      ],
+      "result": "Prove invited login, repository consent, agent pairing where enabled, first review and results, including revocation and recovery.",
+      "acceptance": [
+        "Prove invited login, repository consent, agent pairing where enabled, first review and results, including revocation and recovery.",
+        "Record exact candidate, exercised cases, failures and user-visible evidence; no completion from scaffolding."
+      ],
+      "negative_cases": [
+        "Consent bypass",
+        "Revoked pairing accepted",
+        "Login loop"
+      ],
+      "phase": "product",
+      "source": "features/CODEFRIEND_BETA1_v0.93.2.md",
+      "status": "planned",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "product_behavior",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Complete the first-review user journey",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 3,
+      "origin": {
+        "milestone": "v0.93.2",
+        "id": "CF-B1-04",
+        "kind": "operator_approved_product_gap_work"
+      },
+      "existing_issue": 125,
+      "issue_repository": "agent-logic/codefriend"
+    },
+    {
+      "id": "CF-B1-05",
+      "title": "Complete Beta 1 operational readiness",
+      "repository": "codefriend",
+      "depends_on": [
+        "CF-B1-01",
+        "WP-S3",
+        "WP-S4",
+        "WP-S5"
+      ],
+      "result": "Resolve accepted resource, diagnostics, retention and support gaps; verify bounded execution and safe disablement on the supported deployment configuration.",
+      "acceptance": [
+        "Resolve accepted resource, diagnostics, retention and support gaps; verify bounded execution and safe disablement on the supported deployment configuration.",
+        "Record exact candidate, exercised cases, failures and user-visible evidence; no completion from scaffolding."
+      ],
+      "negative_cases": [
+        "Unbounded resource use",
+        "Secret in error",
+        "Deletion leaves accessible data"
+      ],
+      "phase": "product",
+      "source": "features/CODEFRIEND_BETA1_v0.93.2.md",
+      "status": "planned",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "product_behavior",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Complete Beta 1 operational readiness",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 3,
+      "origin": {
+        "milestone": "v0.93.2",
+        "id": "CF-B1-05",
+        "kind": "operator_approved_product_gap_work"
+      },
+      "existing_issue": 126,
+      "issue_repository": "agent-logic/codefriend"
+    },
+    {
+      "id": "WP-S6",
+      "title": "Operate a replayable security regression drill",
+      "repository": "agent-logic-enterprise-security",
+      "depends_on": [
+        "WP-S4",
+        "WP-S5"
+      ],
+      "result": "One bounded red/blue/purple drill replays a seed per control area and produces mitigation, provenance, threat-board and release-risk evidence.",
+      "acceptance": [
+        "One bounded red/blue/purple drill replays a seed per control area and produces mitigation, provenance, threat-board and release-risk evidence.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings.",
+        "Preserve least privilege, revocation, secret redaction, audit integrity, tenant isolation and supported-consumer failure behavior; do not silently remove an invariant to eliminate a dependency."
+      ],
+      "negative_cases": [
+        "Undeclared target",
+        "Non-replayable finding",
+        "Unproven mitigation"
+      ],
+      "phase": "security",
+      "source": "features/CODEFRIEND_BETA1_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Operate a replayable security regression drill",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 3,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "WP-S6",
+        "kind": "retained_work"
+      },
+      "existing_issue": 16,
+      "issue_repository": "agent-logic/agent-logic-enterprise-security"
+    },
+    {
+      "id": "DEMO-SEC",
+      "title": "Run integrated security demonstrations",
+      "repository": "agent-logic-enterprise-security",
+      "depends_on": [
+        "WP-S6"
+      ],
+      "result": "Execute D9-D12 plus per-message ACIP cases against the private provider and installed Runtime.",
+      "acceptance": [
+        "Execute D9-D12 plus per-message ACIP cases against the private provider and installed Runtime.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Synthetic mechanics claimed as enterprise qualification"
+      ],
+      "phase": "qualification",
+      "source": "features/CODEFRIEND_BETA1_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Run integrated security demonstrations",
+        "supporting_work": "Execute and report the declared qualification/demo denominator. Implementation defects return to their owning result or a separately scoped corrective issue; do not absorb implementation into qualification.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 3,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "DEMO-SEC",
+        "kind": "retained_work"
+      },
+      "existing_issue": 17,
+      "issue_repository": "agent-logic/agent-logic-enterprise-security"
+    },
+    {
+      "id": "CI-205",
+      "title": "Normalize CI across code and non-paper documentation repositories",
+      "repository": "cognitive-sdlc",
+      "depends_on": [],
+      "result": "Complete existing C-SDLC #205: normalize CI using shared conventions and repository-appropriate change-selected checks; remove duplicate proof while preserving required coverage and measuring duration/cost. Paper CI remains out of scope.",
+      "acceptance": [
+        "Preserve the full repository coverage, shared-contract, required-check and measured-budget acceptance criteria in existing C-SDLC #205.",
+        "Code and non-paper documentation repositories use appropriate distinct lanes; paper workflows remain unchanged.",
+        "No duplicate builds or tests, no missing required checks, and no blanket cancellation or restart of paid runs."
+      ],
+      "negative_cases": [
+        "Required checks remain pending",
+        "Unexecuted proof reported green",
+        "Coverage removed without rationale"
+      ],
+      "phase": "ci",
+      "source": "features/CI_NORMALIZATION_v0.93.2.md",
+      "status": "planned",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "tooling_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Normalize CI across code and non-paper documentation repositories",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 3,
+      "origin": {
+        "milestone": "v0.93.2",
+        "id": "CI-205",
+        "kind": "operator_requested_independent_existing_issue"
+      },
+      "existing_issue": 205,
+      "issue_repository": "agent-logic/cognitive-sdlc"
+    },
+    {
+      "id": "INTEGRATE",
+      "title": "Integrate the CodeFriend Beta 1 candidate and enterprise security",
+      "repository": "codefriend",
+      "depends_on": [
+        "CF-B1-02",
+        "CF-B1-03",
+        "CF-B1-04",
+        "CF-B1-05",
+        "DEMO-SEC"
+      ],
+      "result": "Integrate the exact CodeFriend, site, supported Runtime and enterprise-security lockset; prove complete customer journeys and safe disablement without Runtime v4 or GHB.",
+      "acceptance": [
+        "Integrate the exact CodeFriend, site, supported Runtime and enterprise-security lockset; prove complete customer journeys and safe disablement without Runtime v4 or GHB.",
+        "Record exact consumer versions, scenario counts, failures and review dispositions."
+      ],
+      "negative_cases": [
+        "Authority lost across product boundary"
+      ],
+      "phase": "qualification",
+      "source": "README.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Integrate the CodeFriend Beta 1 candidate and enterprise security",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 4,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "INTEGRATE",
+        "kind": "retained_work"
+      },
+      "existing_issue": 127,
+      "issue_repository": "agent-logic/codefriend"
+    },
+    {
+      "id": "QUALIFY",
+      "title": "Independently qualify the installed milestone",
+      "repository": "codefriend",
+      "depends_on": [
+        "INTEGRATE"
+      ],
+      "result": "Independently qualify the exact Beta 1 candidate against the accepted product and security denominator before launch; prior v0.93.1 evidence is reused only where still applicable.",
+      "acceptance": [
+        "Independently qualify the exact Beta 1 candidate against the accepted product and security denominator before launch; prior v0.93.1 evidence is reused only where still applicable.",
+        "Record exact consumer versions, scenario counts, failures and review dispositions."
+      ],
+      "negative_cases": [
+        "Wrong artifact head",
+        "Missing negative scenario"
+      ],
+      "phase": "qualification",
+      "source": "README.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Independently qualify the installed milestone",
+        "supporting_work": "Execute and report the declared qualification/demo denominator. Implementation defects return to their owning result or a separately scoped corrective issue; do not absorb implementation into qualification.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 4,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "QUALIFY",
+        "kind": "retained_work"
+      },
+      "existing_issue": 128,
+      "issue_repository": "agent-logic/codefriend"
+    },
+    {
+      "id": "CF-92",
+      "result": "Deploy and launch the separately authorized Beta 1 candidate; verify live onboarding, review/results, waiting list and rollback or safe disablement.",
+      "phase": "release",
+      "status": "existing_issue_candidate",
+      "resources": "Deployment environment and budget require explicit issue-specific authorization.",
+      "pvf": "installed_and_public_codefriend_launch",
+      "non_goals": [
+        "No candidate, audience, environment or spend inferred from planning approval"
+      ],
+      "task_boundary": {
+        "single_result": "Authorized CodeFriend deployment and public launch",
+        "supporting_work": "Qualification, waiting-list, website and rollback evidence required for launch.",
+        "completion_rule": "Accept the public journey and rollback at the exact candidate; ready-to-deploy evidence alone is insufficient."
+      },
+      "origin": {
+        "milestone": "v0.93.2",
+        "id": "CF-92",
+        "kind": "existing_issue"
+      },
+      "title": "Deploy and launch the qualified CodeFriend service",
+      "repository": "codefriend",
+      "depends_on": [
+        "QUALIFY",
+        "ADL-1150",
+        "CodeFriend-45",
+        "CodeFriend-46",
+        "codefriend.ai-21"
+      ],
+      "acceptance": [
+        "Deploy and launch the separately authorized Beta 1 candidate; verify live onboarding, review/results, waiting list and rollback or safe disablement.",
+        "Record exact consumer versions, scenario counts, failures and review dispositions."
+      ],
+      "negative_cases": [
+        "Planning allocation treated as deployment authorization",
+        "Unqualified candidate or missing predecessor",
+        "Public availability inferred from ready-to-deploy evidence"
+      ],
+      "source": "features/CODEFRIEND_BETA1_v0.93.2.md",
+      "sprint": 5,
+      "existing_issue": 92,
+      "issue_repository": "agent-logic/codefriend"
+    },
+    {
+      "id": "TAIL-01",
+      "title": "Quality gate",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "CF-92",
+        "CSDLC-299",
+        "CI-205"
+      ],
+      "result": "Verify launch outcomes and all required release evidence before the milestone review tail.",
+      "acceptance": [
+        "Verify launch outcomes and all required release evidence before the milestone review tail.",
+        "Record exact consumer versions, scenario counts, failures and review dispositions."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "phase": "tail",
+      "source": "README.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Quality gate",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 5,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "TAIL-01",
+        "kind": "version_specific_gate"
+      },
+      "existing_issue": 1303,
+      "issue_repository": "agent-logic/agent-design-language"
+    },
+    {
+      "id": "TAIL-02",
+      "title": "Documentation review and external-review handoff",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-01"
+      ],
+      "result": "Deliver the complete documentation review and external-review handoff result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "acceptance": [
+        "Deliver the complete documentation review and external-review handoff result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "phase": "tail",
+      "source": "RELEASE_PLAN_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Documentation review and external-review handoff",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 5,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "TAIL-02",
+        "kind": "version_specific_gate"
+      },
+      "existing_issue": 1304,
+      "issue_repository": "agent-logic/agent-design-language"
+    },
+    {
+      "id": "TAIL-03",
+      "title": "Publication finalization",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-02"
+      ],
+      "result": "Deliver the complete publication finalization result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "acceptance": [
+        "Deliver the complete publication finalization result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "phase": "tail",
+      "source": "RELEASE_PLAN_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Publication finalization",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 5,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "TAIL-03",
+        "kind": "version_specific_gate"
+      },
+      "existing_issue": 1305,
+      "issue_repository": "agent-logic/agent-design-language"
+    },
+    {
+      "id": "TAIL-04",
+      "title": "Internal milestone review",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-03"
+      ],
+      "result": "Deliver the complete internal milestone review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "acceptance": [
+        "Deliver the complete internal milestone review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "phase": "tail",
+      "source": "RELEASE_PLAN_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Internal milestone review",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 5,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "TAIL-04",
+        "kind": "version_specific_gate"
+      },
+      "existing_issue": 1306,
+      "issue_repository": "agent-logic/agent-design-language"
+    },
+    {
+      "id": "TAIL-05",
+      "title": "External or third-party review",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-04"
+      ],
+      "result": "Deliver the complete external or third-party review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "acceptance": [
+        "Deliver the complete external or third-party review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "phase": "tail",
+      "source": "RELEASE_PLAN_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "External or third-party review",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 5,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "TAIL-05",
+        "kind": "version_specific_gate"
+      },
+      "existing_issue": 1307,
+      "issue_repository": "agent-logic/agent-design-language"
+    },
+    {
+      "id": "TAIL-06",
+      "title": "Accepted-findings remediation or explicit deferral capture",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-05"
+      ],
+      "result": "Deliver the complete accepted-findings remediation or explicit deferral capture result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "acceptance": [
+        "Deliver the complete accepted-findings remediation or explicit deferral capture result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "phase": "tail",
+      "source": "RELEASE_PLAN_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Accepted-findings remediation or explicit deferral capture",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 5,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "TAIL-06",
+        "kind": "version_specific_gate"
+      },
+      "existing_issue": 1308,
+      "issue_repository": "agent-logic/agent-design-language"
+    },
+    {
+      "id": "TAIL-07",
+      "title": "Next-milestone planning",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-06"
+      ],
+      "result": "Deliver the complete next-milestone planning result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "acceptance": [
+        "Deliver the complete next-milestone planning result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "phase": "tail",
+      "source": "RELEASE_PLAN_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Next-milestone planning",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 5,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "TAIL-07",
+        "kind": "version_specific_gate"
+      },
+      "existing_issue": 1309,
+      "issue_repository": "agent-logic/agent-design-language"
+    },
+    {
+      "id": "TAIL-08",
+      "title": "Next-milestone closeout planning",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-07"
+      ],
+      "result": "Deliver the complete next-milestone closeout planning result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "acceptance": [
+        "Deliver the complete next-milestone closeout planning result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "phase": "tail",
+      "source": "RELEASE_PLAN_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Next-milestone closeout planning",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 5,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "TAIL-08",
+        "kind": "version_specific_gate"
+      },
+      "existing_issue": 1310,
+      "issue_repository": "agent-logic/agent-design-language"
+    },
+    {
+      "id": "TAIL-09",
+      "title": "Next-milestone planning review",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-08"
+      ],
+      "result": "Deliver the complete next-milestone planning review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "acceptance": [
+        "Deliver the complete next-milestone planning review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "phase": "tail",
+      "source": "RELEASE_PLAN_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Next-milestone planning review",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 5,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "TAIL-09",
+        "kind": "version_specific_gate"
+      },
+      "existing_issue": 1311,
+      "issue_repository": "agent-logic/agent-design-language"
+    },
+    {
+      "id": "TAIL-10",
+      "title": "Release ceremony and milestone close",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-09"
+      ],
+      "result": "Deliver the complete release ceremony and milestone close result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "acceptance": [
+        "Deliver the complete release ceremony and milestone close result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "phase": "tail",
+      "source": "RELEASE_PLAN_v0.93.2.md",
+      "status": "candidate",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Release ceremony and milestone close",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 5,
+      "origin": {
+        "milestone": "v0.93",
+        "id": "TAIL-10",
+        "kind": "version_specific_gate"
+      },
+      "existing_issue": 1312,
+      "issue_repository": "agent-logic/agent-design-language"
+    }
+  ],
+  "sprint_plan": {
+    "status": "allocated_planning_only",
+    "sprint_count": 5,
+    "sizing": "Dependency-based groups; no calendar or staffing promise.",
+    "execution_rule": "Only v0.93.2 WP-01 is active. Accept dependencies and explicit issue authorization before execution.",
+    "sprints": [
+      {
+        "number": 1,
+        "title": "C-SDLC lifecycle simplification",
+        "work_packages": [
+          "WP-01",
+          "CSDLC-296",
+          "CSDLC-297",
+          "CSDLC-298",
+          "CSDLC-299"
+        ],
+        "umbrella": {
+          "repository": "agent-logic/agent-design-language",
+          "number": 1298,
+          "url": "https://github.com/agent-logic/agent-design-language/issues/1298"
+        }
+      },
+      {
+        "number": 2,
+        "title": "Acceptance and security contracts",
+        "work_packages": [
+          "CF-B1-01",
+          "WP-S1"
+        ],
+        "umbrella": {
+          "repository": "agent-logic/agent-design-language",
+          "number": 1299,
+          "url": "https://github.com/agent-logic/agent-design-language/issues/1299"
+        }
+      },
+      {
+        "number": 3,
+        "title": "Beta 1 improvements and enterprise security",
+        "work_packages": [
+          "CF-B1-02",
+          "CF-B1-03",
+          "WP-S2",
+          "WP-S3",
+          "WP-S4",
+          "WP-S5",
+          "CF-B1-04",
+          "CF-B1-05",
+          "WP-S6",
+          "DEMO-SEC",
+          "CI-205"
+        ],
+        "umbrella": {
+          "repository": "agent-logic/agent-design-language",
+          "number": 1301,
+          "url": "https://github.com/agent-logic/agent-design-language/issues/1301",
+          "native_reconciliation": "pending; authenticated remote content confirmed; no retry"
+        }
+      },
+      {
+        "number": 4,
+        "title": "Candidate integration and qualification",
+        "work_packages": [
+          "INTEGRATE",
+          "QUALIFY"
+        ],
+        "umbrella": {
+          "repository": "agent-logic/agent-design-language",
+          "number": 1302,
+          "url": "https://github.com/agent-logic/agent-design-language/issues/1302",
+          "native_reconciliation": "pending; authenticated remote content confirmed; no retry"
+        }
+      },
+      {
+        "number": 5,
+        "title": "Authorized launch and release review",
+        "work_packages": [
+          "CF-92",
+          "TAIL-01",
+          "TAIL-02",
+          "TAIL-03",
+          "TAIL-04",
+          "TAIL-05",
+          "TAIL-06",
+          "TAIL-07",
+          "TAIL-08",
+          "TAIL-09",
+          "TAIL-10"
+        ],
+        "umbrella": {
+          "repository": "agent-logic/agent-design-language",
+          "number": 1313,
+          "url": "https://github.com/agent-logic/agent-design-language/issues/1313",
+          "native_reconciliation": "pending; authenticated remote content confirmed; no retry"
+        }
+      }
+    ]
+  },
+  "external_dependencies": {
+    "v0.93.1/TAIL-10": "Accepted ready-to-deploy milestone closure",
+    "v0.93.1/RD-11": "Accepted repository compatibility lockset",
+    "v0.93.1/RD-09": "Accepted enterprise security repository boundary",
+    "ADL-1150": "https://github.com/agent-logic/agent-design-language/issues/1150 \u2014 independent CodeFriend qualification predecessor (accepted in v0.93.1)",
+    "CodeFriend-45": "https://github.com/agent-logic/codefriend/issues/45 \u2014 existing launch predecessor",
+    "CodeFriend-46": "https://github.com/agent-logic/codefriend/issues/46 \u2014 built waiting-list predecessor",
+    "codefriend.ai-21": "https://github.com/agent-logic/codefriend.ai/issues/21 \u2014 website predecessor"
+  },
+  "successor_scope_amendment": {
+    "decision": "v0.93.2/REORGANIZATION_1296.md",
+    "allocation": "v0.93.2/REALLOCATION_1296.json"
+  },
+  "existing_issue_routing": [
+    {
+      "wp": "WP-01",
+      "repository": "agent-logic/agent-design-language",
+      "issue": 1296,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "CSDLC-296",
+      "repository": "agent-logic/cognitive-sdlc",
+      "issue": 296,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "CSDLC-297",
+      "repository": "agent-logic/cognitive-sdlc",
+      "issue": 297,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "CSDLC-298",
+      "repository": "agent-logic/cognitive-sdlc",
+      "issue": 298,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "CSDLC-299",
+      "repository": "agent-logic/cognitive-sdlc",
+      "issue": 299,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "CI-205",
+      "repository": "agent-logic/cognitive-sdlc",
+      "issue": 205,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "CF-92",
+      "repository": "agent-logic/codefriend",
+      "issue": 92,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "CF-B1-01",
+      "repository": "agent-logic/codefriend",
+      "issue": 120,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "WP-S1",
+      "repository": "agent-logic/agent-logic-enterprise-security",
+      "issue": 9,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "CF-B1-02",
+      "repository": "agent-logic/codefriend",
+      "issue": 121,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "CF-B1-03",
+      "repository": "agent-logic/codefriend",
+      "issue": 123,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "WP-S2",
+      "repository": "agent-logic/agent-logic-enterprise-security",
+      "issue": 10,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "WP-S3",
+      "repository": "agent-logic/agent-logic-enterprise-security",
+      "issue": 12,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "WP-S4",
+      "repository": "agent-logic/agent-logic-enterprise-security",
+      "issue": 14,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "WP-S5",
+      "repository": "agent-logic/agent-logic-enterprise-security",
+      "issue": 15,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "CF-B1-04",
+      "repository": "agent-logic/codefriend",
+      "issue": 125,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "CF-B1-05",
+      "repository": "agent-logic/codefriend",
+      "issue": 126,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "WP-S6",
+      "repository": "agent-logic/agent-logic-enterprise-security",
+      "issue": 16,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "DEMO-SEC",
+      "repository": "agent-logic/agent-logic-enterprise-security",
+      "issue": 17,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "INTEGRATE",
+      "repository": "agent-logic/codefriend",
+      "issue": 127,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "QUALIFY",
+      "repository": "agent-logic/codefriend",
+      "issue": 128,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "TAIL-01",
+      "repository": "agent-logic/agent-design-language",
+      "issue": 1303,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "TAIL-02",
+      "repository": "agent-logic/agent-design-language",
+      "issue": 1304,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "TAIL-03",
+      "repository": "agent-logic/agent-design-language",
+      "issue": 1305,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "TAIL-04",
+      "repository": "agent-logic/agent-design-language",
+      "issue": 1306,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "TAIL-05",
+      "repository": "agent-logic/agent-design-language",
+      "issue": 1307,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "TAIL-06",
+      "repository": "agent-logic/agent-design-language",
+      "issue": 1308,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "TAIL-07",
+      "repository": "agent-logic/agent-design-language",
+      "issue": 1309,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "TAIL-08",
+      "repository": "agent-logic/agent-design-language",
+      "issue": 1310,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "TAIL-09",
+      "repository": "agent-logic/agent-design-language",
+      "issue": 1311,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    },
+    {
+      "wp": "TAIL-10",
+      "repository": "agent-logic/agent-design-language",
+      "issue": 1312,
+      "state": "OPEN",
+      "disposition": "Created or reused; cards deferred until sprint preparation"
+    }
+  ],
+  "opening": {
+    "issue": 1296,
+    "repository": "agent-logic/agent-design-language",
+    "authorized_on": "2026-10-19",
+    "owner": "Planning #12",
+    "execution_authorized": [
+      "WP-01",
+      "CSDLC-296",
+      "CSDLC-297",
+      "CSDLC-298",
+      "CSDLC-299"
+    ],
+    "downstream_execution_authorized": true,
+    "deployment_authorized": false,
+    "predecessor_issue": 1230,
+    "predecessor_closure": "closed_with_native_coordination_completed",
+    "acceptance_pr": 1295,
+    "acceptance_merge": "69fae86cde65861cdace95183c2c373dcb09ca01",
+    "record": "OPENING_1296.md",
+    "execution_scope": "Only the four existing C-SDLC simplification issues; #299 follows #296-298. Other product work and sidecars remain unactivated."
+  },
+  "sidecars": [
+    {
+      "id": "ADL-1275",
+      "repository": "agent-logic/agent-design-language",
+      "issue": 1275,
+      "title": "Reconcile post-split repository adapters and native lifecycle admission",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/1275",
+      "milestone": "v0.93.2",
+      "status": "planned",
+      "execution_authorized": false,
+      "disposition": "Reuse existing issue as an explicitly included sidecar; excluded from core sprint counts."
+    },
+    {
+      "id": "CSDLC-304",
+      "repository": "agent-logic/cognitive-sdlc",
+      "issue": 304,
+      "title": "Preserve C-SDLC installation identity across filesystem remounts",
+      "url": "https://github.com/agent-logic/cognitive-sdlc/issues/304",
+      "milestone": "v0.93.2",
+      "status": "planned",
+      "execution_authorized": false,
+      "disposition": "Reuse existing issue as an explicitly included sidecar; preserve integrity checks without recurring payload hashes."
+    }
+  ]
+}

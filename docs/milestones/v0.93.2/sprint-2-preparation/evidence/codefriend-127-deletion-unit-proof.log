@@ -1,0 +1,10 @@
+   Compiling codefriend v0.93.1 (/Volumes/FastWork/codefriend-worktrees/adl-issue-127-v0932-security-prerequisite-callsite/crates/codefriend)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 9.70s
+     Running unittests src/lib.rs (/Volumes/FastWork/worker30-codefriend-target/debug/deps/codefriend-70bedeb786098b5f)
+
+running 3 tests
+test codefriend::server::deletion::tests::lease_prevents_deletion_during_active_read_or_render ... ok
+test codefriend::server::deletion::tests::full_declared_tree_removed_tombstones_remain_and_symlinks_are_not_followed ... ok
+test codefriend::server::deletion::tests::bounded_inventory_failure_reports_partial_and_retains_denial_marker ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 235 filtered out; finished in 0.06s

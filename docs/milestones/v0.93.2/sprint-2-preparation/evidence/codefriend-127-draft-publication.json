@@ -1,0 +1,73 @@
+{
+  "observed_at": "2026-10-20T19:35:50.846207+00:00",
+  "remote": {
+    "baseRefName": "main",
+    "headRefOid": "81759ba50585d8167da4e6008ee77c98988c9b14",
+    "isDraft": true,
+    "state": "OPEN",
+    "statusCheckRollup": [
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-20T19:34:42Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/agent-logic/codefriend/actions/runs/39484621055/job/118841699945",
+        "name": "select-tests",
+        "startedAt": "2026-10-20T19:34:35Z",
+        "status": "COMPLETED",
+        "workflowName": "Product CI"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-20T19:35:05Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/agent-logic/codefriend/actions/runs/39484621055/job/118841778985",
+        "name": "tests [01/05 fast documents and source]",
+        "startedAt": "2026-10-20T19:34:45Z",
+        "status": "COMPLETED",
+        "workflowName": "Product CI"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-20T19:35:03Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/agent-logic/codefriend/actions/runs/39484621055/job/118841779004",
+        "name": "tests [02/05 fast product contracts]",
+        "startedAt": "2026-10-20T19:34:45Z",
+        "status": "COMPLETED",
+        "workflowName": "Product CI"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "0001-01-01T00:00:00Z",
+        "conclusion": "",
+        "detailsUrl": "https://github.com/agent-logic/codefriend/actions/runs/39484621055/job/118841952386",
+        "name": "tests [03/05 slow Rust unit and CLI]",
+        "startedAt": "2026-10-20T19:35:06Z",
+        "status": "IN_PROGRESS",
+        "workflowName": "Product CI"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "0001-01-01T00:00:00Z",
+        "conclusion": "",
+        "detailsUrl": "https://github.com/agent-logic/codefriend/actions/runs/39484621055/job/118841952267",
+        "name": "tests [04/05 slow installed product]",
+        "startedAt": "2026-10-20T19:35:06Z",
+        "status": "IN_PROGRESS",
+        "workflowName": "Product CI"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "0001-01-01T00:00:00Z",
+        "conclusion": "",
+        "detailsUrl": "https://github.com/agent-logic/codefriend/actions/runs/39484621055/job/118841952248",
+        "name": "tests [05/05 slow native Mac product]",
+        "startedAt": "2026-10-20T19:35:09Z",
+        "status": "IN_PROGRESS",
+        "workflowName": "Product CI"
+      }
+    ],
+    "url": "https://github.com/agent-logic/codefriend/pull/132"
+  },
+  "scope": "Draft source publication for exact Linux package production. Does not establish broader CodeFriend127 completion or enterprise-security9 acceptance."
+}

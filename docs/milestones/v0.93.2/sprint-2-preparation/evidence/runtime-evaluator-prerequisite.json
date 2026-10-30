@@ -1,0 +1,59 @@
+{
+  "issue": 189,
+  "owner": "Runtime",
+  "state": "delivered",
+  "purpose": "Expose existing baseline-first authorization evaluator through supported installed package for CodeFriend security integration",
+  "scope": "Small installed host preserving existing evaluator semantics; no fabricated consumer baseline grants",
+  "authorization": "Operator-approved minimum identity enforcement prerequisites",
+  "evidence_source": "Worker #30 live execution report",
+  "review": "Worker30 reports corrected candidate independently reviewed; native proof and review passed",
+  "completion": true,
+  "pull_request": "https://github.com/agent-logic/agent-logic-runtime/pull/190",
+  "head": "16da266454949d01a5237e120e583e11e32db049",
+  "base": "main",
+  "remote_observation": "PR190 MERGED at reviewed head; native finish completed, delivered, issue189 closed, effects_unknown false.",
+  "ci_runs": [
+    39469755004,
+    39469754970,
+    39469754971
+  ],
+  "native_publication": {
+    "status": "completed",
+    "effects_unknown": false,
+    "authenticated": true,
+    "expected_head_sha": "16da266454949d01a5237e120e583e11e32db049",
+    "operation_digest": "f28f29fbfc4fe950a74a72e9e08da3d81948fd551e103b97a6b32f5c4bbcfb52",
+    "reconciliation_digest": "92b1ef48fceefa07a17c5d6a488c808a16b70dc1f104179c39fc5097b9e6c654"
+  },
+  "policy_ci": {
+    "run": 39469754970,
+    "status": "SUCCESS",
+    "head": "16da266454949d01a5237e120e583e11e32db049",
+    "includes": "fast Runtime policy and slow Runtime policy package jobs"
+  },
+  "candidate_artifact_observation": {
+    "id": 12286711747,
+    "expired": false,
+    "archive_digest": "sha256:5a1699f8793aa11822a82eed3b1f7a28f931e86eb3c86ca7d1df8725567f0415",
+    "size_bytes": 803688,
+    "upload_observation_artifact": 12287245553,
+    "verification_limit": "GitHub metadata observed; payload/manifest verification belongs to consumer acquisition. Not terminal delivery."
+  },
+  "security_consumer_qualification_pin": {
+    "artifact_id": 12286711747,
+    "run_id": 39469754970,
+    "source_revision": "16da266454949d01a5237e120e583e11e32db049",
+    "zip_sha256": "5a1699f8793aa11822a82eed3b1f7a28f931e86eb3c86ca7d1df8725567f0415",
+    "payload_sha256": "bf7e0c2c4429d26cd7d97c8ab18e9b7898ccc5971dc2157707f8a434455d7086",
+    "payload_filename": "runtime-policy-linux-x86_64-16da266454949d01a5237e120e583e11e32db049-39469754970-1.tar",
+    "target": "x86_64-unknown-linux-gnu",
+    "status": "accepted",
+    "reason": "Selected as an authenticated qualification input after exact-head Linux policy CI passed. Verified GitHub ZIP digest, payload digest, 33-member inventory, exact committed source provenance and both Linux ELF hosts. Runtime189 terminal delivery and full security9/CodeFriend consumer acceptance remain separate."
+  },
+  "qualification_observation": "Worker30 verified archive/payload, all 33 members and both Linux hosts; acquisition tests pass. Pin observed in security9 source. Installed integrated acceptance remains outstanding.",
+  "merge_commit": "b0c09c714697c1fb0e526df1c56e753bf1b5c72c",
+  "merged_at": "2026-10-20T18:15:05Z",
+  "native_finish": "runtime-189-terminal-finish.json",
+  "cleanup": "not completed; native clean reports cleanup_dirty; preserve worktree evidence",
+  "acceptance_boundary": "Runtime189 prerequisite delivered; full security9 and CodeFriend consumer acceptance remain outstanding"
+}

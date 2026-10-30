@@ -1,0 +1,892 @@
+{
+  "status": "applied",
+  "source_root": "/Volumes/FastWork/adl-worktrees/adl-issue-1223-1223-coherent-source-retirement",
+  "source_head": "a0ab8b9cb361415f42eecc137dcdd7440f811a9d",
+  "source_status": "Not re-observed; preserved historical source_status is in prior packet.",
+  "scope_ids": [
+    "RD07-2235",
+    "RD07-2236"
+  ],
+  "changes": [
+    {
+      "path": "adl/tools/validate_v092_distributed_guardian.sh",
+      "before": {
+        "mode": "100755",
+        "blob": "6200e1a51b524c43569e86a9d7be138b110e77b1",
+        "sha256": "aae9b3a39a9f5a52afd0ab4d1663e4b34d554b41a03f382cd9f1b4318130735d"
+      },
+      "after": null,
+      "action": "remove"
+    },
+    {
+      "path": "adl/tools/validate_v092_distributed_native_receipts.rb",
+      "before": {
+        "mode": "100755",
+        "blob": "740cf05ef2c5ebe27f7d7ec01f4e42129123e9f6",
+        "sha256": "8f1f7b8f3c983163a18523c89d413c6c51881a8c5f0299898abf8949ff5ad6ca"
+      },
+      "after": null,
+      "action": "remove"
+    },
+    {
+      "path": "adl/tools/generate_tool_surface_registry.py",
+      "before": {
+        "mode": "100644",
+        "blob": "47dc0df5e1452ee97033d0c2ed8fdc4832d0324e",
+        "sha256": "14284caa6a783e003ff1b20b8ae309130fadee3a6186ef005577e86e3396300f"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "5544ed23e529c745f8920d69278f7199ef3e1384",
+        "sha256": "eadd9b5f544d178e74017a2b631d55e5769d533945709685da9a6230a6200a27"
+      },
+      "action": "modify"
+    },
+    {
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "before": {
+        "mode": "100644",
+        "blob": "b6ee1d93148618c2cdcf983897d5f983fc4a70c8",
+        "sha256": "29d7fc7ea7165210180dbf5028d588995c988d1b0560461ae997c059de788f11"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "46ace7781274936d77e2020e6e65f91ac400b91f",
+        "sha256": "f16c8997bb22e5458a210e4cfb867a743ccd19e8e18edb81849fa4c2fa678e6d"
+      },
+      "action": "modify"
+    }
+  ],
+  "custody": {
+    "path": "/Volumes/FastWork/c1223/distributed-two-composed/current-and-original-preimages.tar",
+    "sha256": "6b187dc3edb2cdf505e17935e25b9f304e64803dbdbd30e299f3eb9549f407ba"
+  },
+  "evidence": [
+    {
+      "path": "/Volumes/FastWork/c1223/worker25-distributed-two-retirement/PROPOSAL.json",
+      "sha256": "3acfb0d8f980d13c66a6541f7fd6a3482754aa71a5c42c934e8d0d8f2eab5e23"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/worker25-distributed-two-retirement/REVIEW.json",
+      "sha256": "a69da8c3c4929feab5bd86fa8a72d3c6239c73e05f600fc5416fa497885c4833"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/worker25-distributed-two-retirement/HISTORICAL_PROOF_READBACK.json",
+      "sha256": "bedd4c15ddb744e90901ac19747a0f1217158a94e21589d2f8fac38e5df0923d"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/worker25-distributed-two-retirement/HISTORICAL_CALLER_BOUNDARY.json",
+      "sha256": "f1f19ec32b836c75b23455538f4e003e693e3ad651e02240f22e4be36a7f4433"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/worker25-distributed-two-retirement/evidence/MERGED_SOURCE_READBACK.json",
+      "sha256": "7eec52600f26f4e306cf2a52e2d83ae8ce0128b520d3f02489804938a2f978db"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/worker25-distributed-two-retirement/evidence/finish170-pr173.json",
+      "sha256": "f42cadf17893b33220dc92c08b2004a99feb262c0196305851a70f4763819969"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/worker25-distributed-two-retirement/evidence/MERGED_REMOTE_READBACK.json",
+      "sha256": "959875b56d4734d6cabbaf4712ec3b906114fd465ac1bc40004e699ebae9469f"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/worker25-distributed-two-retirement/evidence/CI_FINAL.json",
+      "sha256": "019deae385826f636d446984cc33e81354569ca8fc608c7de465ed022a82e3f1"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/worker25-distributed-two-retirement/evidence/review170-ci-head.json",
+      "sha256": "85c69c8b087773237caf38cf8669fc23682f2d8957d31b3c5407aeea4c36252e"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/worker25-distributed-two-retirement/evidence/COMPLETION_AUDIT.json",
+      "sha256": "09aa49d0420df62cfe08e50d6650e270eff4f98fd60cb6129a10eaa9a7fe889e"
+    }
+  ],
+  "preserved_reference_files": [
+    {
+      "path": ".csdlc/evidence/5860/V092_CHILD_READINESS_MATRIX.md",
+      "sha256": "71359c0b396ed42c33025c3f39038514ad5d6bdca3ee933fcba3af86c8d119dc"
+    },
+    {
+      "path": ".csdlc/evidence/5860/live-issue-bodies/5878.md",
+      "sha256": "88c01c38bdb3df68702a57f781703cd53311164b4c7d76b12c5afbf7947eedfd"
+    },
+    {
+      "path": ".csdlc/evidence/5878/execution-proof.json",
+      "sha256": "c6eef86743055f0af725193dc3c0b610c6aa0da66a0ba30cde7accb0d468d24f"
+    },
+    {
+      "path": ".csdlc/evidence/5878/native/linux/receipt.json",
+      "sha256": "829b6f349b5958344d19b03a950edd8e4ea590a80621fa8c933e77d3a92cdb3e"
+    },
+    {
+      "path": ".csdlc/evidence/5878/native/macos/receipt.json",
+      "sha256": "bcb0f86fbf2413ee2bcb64a9f7cb6ecfdfbf85d702a4427b7ba8c4da9c96cda9"
+    },
+    {
+      "path": ".csdlc/evidence/5878/native/windows/receipt.json",
+      "sha256": "65efc883b10b82df79e04d28c16718c0aaa8817e4f0a93771cd836e8493ee569"
+    },
+    {
+      "path": ".csdlc/evidence/5878/produce-execution-proof.rb",
+      "sha256": "2597eda8d7c2f3f6ca79d75b9eceb589d575e4067bb8a4c1440ea65368e3209c"
+    },
+    {
+      "path": ".csdlc/issues/137/cards/stp.md",
+      "sha256": "0da22e9d2ff4f9edb1d176b877656b95e1879458a90faca71211895549031d3d"
+    },
+    {
+      "path": ".csdlc/issues/137/cards/stp.values.json",
+      "sha256": "44e2e9d1a2dc8546f60b451e4c2cd456a72312cd99a67884f3b8f469d770a78b"
+    },
+    {
+      "path": ".csdlc/issues/5878/audit.jsonl",
+      "sha256": "3cdd097f638ac7629b6b13bd0bbbd3bca018cecd3440425e14b556f9050182be"
+    },
+    {
+      "path": ".csdlc/issues/5878/cards/sip.md",
+      "sha256": "cd3e5beedf67285466066bc60b8705cf5dcc5f50e11f50a5b5979865524aaa9d"
+    },
+    {
+      "path": ".csdlc/issues/5878/cards/sip.values.json",
+      "sha256": "33c62c86d68d8c77c4d9a682702a166e1ce67946a161dd80cb649011877b73e6"
+    },
+    {
+      "path": ".csdlc/issues/5878/cards/sor.md",
+      "sha256": "4cef2a408ad5905ab1b6e2a73ec8564ceb301a91178bfe1b8c532214b724ae75"
+    },
+    {
+      "path": ".csdlc/issues/5878/cards/sor.values.json",
+      "sha256": "196055e3ebfa5b02be0d28f7184bb4a772eef30739898f209969ec38e3f42a18"
+    },
+    {
+      "path": ".csdlc/issues/5878/cards/spp.md",
+      "sha256": "7bbcb67857162d0d994b2b6b3b1ed9d5f8436b8c707682b1f7835ebd538acbd3"
+    },
+    {
+      "path": ".csdlc/issues/5878/cards/spp.values.json",
+      "sha256": "628a125bc5e6a19149844cb9408d82bb39d3e14cc72ffec610227f0aec729071"
+    },
+    {
+      "path": ".csdlc/issues/5878/cards/srp.md",
+      "sha256": "a561549f56524c7b1b7ca31792a25c8c6b67cfdc03105c19ee5a617d51ecad00"
+    },
+    {
+      "path": ".csdlc/issues/5878/cards/srp.values.json",
+      "sha256": "c079680e2da7c54610000a674643930a5f0bff7825fe3988a81f92a8292e7cbc"
+    },
+    {
+      "path": ".csdlc/issues/5878/cards/stp.md",
+      "sha256": "8345c109b29996d230cee5a92460363960cccb194017a1cc74f2b591daace107"
+    },
+    {
+      "path": ".csdlc/issues/5878/cards/stp.values.json",
+      "sha256": "bae29ea70e0797be96e60dd07907cb95cb4ac8f2093b9e6f3f4c9510032cc872"
+    },
+    {
+      "path": ".csdlc/issues/5878/cards/vpp.md",
+      "sha256": "53e7f962e3ebf8814358b275e4f551c88d1d4f0ad28e5d150a21b2826f69427a"
+    },
+    {
+      "path": ".csdlc/issues/5878/cards/vpp.values.json",
+      "sha256": "51a9356dc8014ad0f00f4309af1825e9098b9fb87f8804f2c7e423fc932fd70d"
+    },
+    {
+      "path": ".csdlc/issues/5878/index.json",
+      "sha256": "d27f32bb9d6cb26eb8a430c28ad86138908945e7eb01669380751df3510ea106"
+    },
+    {
+      "path": ".csdlc/prepared/issues/137/validate-workflow.rb",
+      "sha256": "4cf2728bd32f9323ad9ec6ab40da30501a1e62af97486a20ccc2c94bcac5b79b"
+    },
+    {
+      "path": ".csdlc/prepared/issues/5821/design.md",
+      "sha256": "d75d14954cffe2c953feac9507685acde946800059607751f0c7fb15d2987c8d"
+    },
+    {
+      "path": ".csdlc/prepared/issues/5821/generate-wp04-implementation-wave.rb",
+      "sha256": "d40fd8b9521bd1c702a3eb49a250b5ac60926cb2b175dc4f39210fbca26806fe"
+    },
+    {
+      "path": ".csdlc/prepared/issues/5821/wp04-implementation-wave/create/wp-04-16.json",
+      "sha256": "04623e120984d6817536b05da5f3186ade58491feffa155dced5349b693d97dc"
+    },
+    {
+      "path": ".csdlc/prepared/issues/5821/wp04-implementation-wave/results/wp-04-16.json",
+      "sha256": "4dea89733c97b1fa8fd0dcc3db4327e2144f7330f8225dd2db9d817733270ef4"
+    },
+    {
+      "path": ".csdlc/prepared/issues/5821/wp04-implementation-wave/update-results/5878.json",
+      "sha256": "2c3669510ed5fda2c84427c136b8ae6cb89de7c81ed0184d142e09659ea2b13d"
+    },
+    {
+      "path": ".csdlc/prepared/issues/5821/wp04-implementation-wave/update/5878.json",
+      "sha256": "7421ebec68478ff2b978cd66253e8009795af7b05bd30acb519ad6ca9535d3d4"
+    },
+    {
+      "path": ".csdlc/prepared/issues/5860/validate-v092-ownership.rb",
+      "sha256": "0f16832baf332e010782d3092d0322456434321756424464723f8bf94a72b349"
+    },
+    {
+      "path": ".csdlc/prepared/issues/5862/test-validate-implementation-wave.rb",
+      "sha256": "873766e5b438d162b5789f55a31f3a632a9035e6407ac515527828f456307673"
+    },
+    {
+      "path": ".csdlc/prepared/issues/5862/validate-implementation-wave.rb",
+      "sha256": "3998acb5c648a19b3b74ae5509de1b538b7d057348c5aa00e5972dbf59c0324b"
+    },
+    {
+      "path": ".csdlc/prepared/issues/5878/assign-final-review.json",
+      "sha256": "ebbb05e25dcdd7ea53cd8ebb220a4c40e2582bae8cbdee41f4be7a0a7e1caa0d"
+    },
+    {
+      "path": ".csdlc/prepared/issues/5878/bootstrap-request.json",
+      "sha256": "7321372187c70468ba606df21f003c7c4783195cf30a9a133d629be861aa0ddd"
+    },
+    {
+      "path": ".csdlc/prepared/issues/5878/design.md",
+      "sha256": "549bc41ec870281bea814f5aca000377ed28a0fc75af329b0fc71214c1b45e96"
+    },
+    {
+      "path": ".csdlc/prepared/issues/5878/expand-spp-native-invariants.json",
+      "sha256": "92ec86cc44aedbeb076fcc4fd8694e976c84d59136ef1f5f6ff48de43edf6f49"
+    },
+    {
+      "path": ".csdlc/prepared/issues/5878/expand-spp-native-workflow.json",
+      "sha256": "fcbafb08059bdf0e7618425a8c5a3fb992b203fe6191ec44b26baaf05c282bf2"
+    },
+    {
+      "path": ".csdlc/prepared/issues/5878/expand-stp-native-workflow.json",
+      "sha256": "c47016255b55db33b4ab81749ecdeb96654078832c0e98857bdcb937e5a7765d"
+    },
+    {
+      "path": ".csdlc/prepared/issues/5878/expand-vpp-native-workflow.json",
+      "sha256": "fcc92235aac3383303aa0d7c616969c0970060af4e6539532e5efcb2e00786f1"
+    },
+    {
+      "path": ".csdlc/prepared/issues/5878/finalize-native-integration.json",
+      "sha256": "f78f2f20eb330d02985d9db07701943cb5e07907805f5b486957aea10c00d306"
+    },
+    {
+      "path": ".csdlc/prepared/issues/5878/prepare-spp-invariants.json",
+      "sha256": "c1a79a1ed2fab8ddada1e4f73497c897fc33759a491ab9ab2713a198bd194d01"
+    },
+    {
+      "path": ".csdlc/prepared/issues/5878/prepare-stp-deliverables.json",
+      "sha256": "a44d3c4d13cc5b049454a6d30d947232dec4116fe878902cc7784d99c3805e25"
+    },
+    {
+      "path": ".csdlc/prepared/issues/5878/prepare-vpp-lanes.json",
+      "sha256": "11de04f7739ab448e328cf609922d1602ea99e8c9790228f35d544699ee4b390"
+    },
+    {
+      "path": ".csdlc/prepared/issues/5878/record-final-review.json",
+      "sha256": "7c38392ce599e6710089764a220e4b693a9d6034a24785353b18e3a8bbc37055"
+    },
+    {
+      "path": ".csdlc/prepared/issues/5878/runtime-repair-edit-vpp.json",
+      "sha256": "95eaa44081df0bf165032282da28862e9a6ad6b42da9ac7d0b84dcb3a4f8477d"
+    },
+    {
+      "path": ".csdlc/prepared/issues/5878/validate-proof-receipt.rb",
+      "sha256": "d7d2897640886842b580b2099c2473f8725f3b858b29fa95276b0357173605a9"
+    },
+    {
+      "path": ".csdlc/prepared/issues/5901/test-implementation-wave.rb",
+      "sha256": "4adde79e16729689ac5e14ddd67eee29a3c7d1fe2506a4321555203e7d8b66ae"
+    },
+    {
+      "path": "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+      "sha256": "8e5fe09fbe43d7fe1f3ed1fad491af026b8532ba89ecdb22a2fb1b5117436c6c"
+    },
+    {
+      "path": "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/mixed-generation-dispositions.json",
+      "sha256": "b132333c76bf9165c98db6d2272f87b8ca8f9f4773124b6866dbede8a9fa3847"
+    },
+    {
+      "path": "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/ACTIVE_19_TOOL_DISPOSITIONS.json",
+      "sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba"
+    },
+    {
+      "path": "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/COMBINED_REMAINING_DELTA.json",
+      "sha256": "33bdacc5c221d271e8f281f0e4cfff36cd5d5bcfd3bb98a6543a40563c0b1218"
+    },
+    {
+      "path": "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CSDLC_TOOL_FAMILY_BOUNDARIES.json",
+      "sha256": "2737f78d4a5fcb19f50869cd85249ab213a4b97ac10ec4f767bdda4015ce172c"
+    },
+    {
+      "path": "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CSDLC_UNMAPPED_TOOLS_DISPOSITIONS.json",
+      "sha256": "2682d1f5904ff8cf484acec5c0a8f2e62c45798c7f7a9b1de3fbc422ec655f35"
+    },
+    {
+      "path": "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CURRENT_CONSUMER_FINDINGS.json",
+      "sha256": "4ba5cce5f0c9067b1b0910bd2082c5fde9c96818167f65d1f2252e304eca5dd2"
+    },
+    {
+      "path": "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CURRENT_SUCCESSOR_ROWS.jsonl",
+      "sha256": "2699ad1a08e91db9f8504d33515be48d815876049ebf39b27d64c7709af2197f"
+    },
+    {
+      "path": "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/DISPOSITION_REGISTER.json",
+      "sha256": "27e9488ebfaba50202b367b4c42e9076e55e82e8a495c8d802b994245d206ca4"
+    },
+    {
+      "path": "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/EXECUTION_OVERLAY.json",
+      "sha256": "72411ed0f1f1325ded816992cc6a5154dfe3b662a3b5a917846dd9072da0c318"
+    },
+    {
+      "path": "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/GROUPED_REMAINING_HOLDS.json",
+      "sha256": "1f9e8b9a221f34d6926c36bd6de6d50ed3491fa8c666ff2b24d2dda55b84e328"
+    },
+    {
+      "path": "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/GROUPED_REMAINING_HOLDS.md",
+      "sha256": "208ac4f366dc9119b577d76e8824810f7975693eb9568bb8a7d44d60b77b5e9e"
+    },
+    {
+      "path": "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/HISTORICAL_CONSUMER_CLOSURE_GAPS.json",
+      "sha256": "a26b59c6660ef619b7468ff56b81e09d189aa2231e0450beb00db0099e105bed"
+    },
+    {
+      "path": "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/MIXED_CONSUMER_FAMILY_ACTIONS.json",
+      "sha256": "1828bad727eabf8ab3100590f26e34b5f26d457ac6c0114a03a1485f74afa999"
+    },
+    {
+      "path": "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/REMAINING_COMPONENT_DECISIONS.json",
+      "sha256": "6bcfaa9b4661c1943f5a6f624896c1a3ed6d6caa5c69945dba0bc1bcf64d341f"
+    },
+    {
+      "path": "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/RUNTIME_SOURCE_FAMILY_APPLIED.json",
+      "sha256": "9600a1fb0ee1a58508069b5847f5b8cf475805cf9b0059bc3f3f5ee3b51fd486"
+    },
+    {
+      "path": "docs/reviews/v0.92/internal-review-5846/specialist_assignments.json",
+      "sha256": "2d74250618e5f8caf3b4f23e547f6bb98a2ebde7bd3fce668e22568ebe65d4af"
+    }
+  ],
+  "qualification": "Historical source custody only. No current Runtime admission, activation, distributed proof rerun, or producer/validator execution.",
+  "historical_denominator": "Three historical platforms each ran the same two tests and same three negatives; not six or nine unique cases.",
+  "root_integration": "Sole shared writer must recheck four preimages, apply bounded patch, regenerate registry if concurrent changes affect it, and record exact two IDs as historical/manual transfer. Preserve all historical proof, provider removals and RD07-2147 selector retirement.",
+  "independent_review": "REVIEW.json",
+  "files": [
+    {
+      "path": "adl/tools/validate_v092_distributed_guardian.sh",
+      "before": {
+        "mode": "100755",
+        "blob": "6200e1a51b524c43569e86a9d7be138b110e77b1",
+        "sha256": "aae9b3a39a9f5a52afd0ab4d1663e4b34d554b41a03f382cd9f1b4318130735d"
+      },
+      "after": null,
+      "action": "remove"
+    },
+    {
+      "path": "adl/tools/validate_v092_distributed_native_receipts.rb",
+      "before": {
+        "mode": "100755",
+        "blob": "740cf05ef2c5ebe27f7d7ec01f4e42129123e9f6",
+        "sha256": "8f1f7b8f3c983163a18523c89d413c6c51881a8c5f0299898abf8949ff5ad6ca"
+      },
+      "after": null,
+      "action": "remove"
+    },
+    {
+      "path": "adl/tools/generate_tool_surface_registry.py",
+      "before": {
+        "mode": "100644",
+        "blob": "47dc0df5e1452ee97033d0c2ed8fdc4832d0324e",
+        "sha256": "14284caa6a783e003ff1b20b8ae309130fadee3a6186ef005577e86e3396300f"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "5544ed23e529c745f8920d69278f7199ef3e1384",
+        "sha256": "eadd9b5f544d178e74017a2b631d55e5769d533945709685da9a6230a6200a27"
+      },
+      "action": "modify"
+    },
+    {
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "before": {
+        "mode": "100644",
+        "blob": "b6ee1d93148618c2cdcf983897d5f983fc4a70c8",
+        "sha256": "29d7fc7ea7165210180dbf5028d588995c988d1b0560461ae997c059de788f11"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "46ace7781274936d77e2020e6e65f91ac400b91f",
+        "sha256": "f16c8997bb22e5458a210e4cfb867a743ccd19e8e18edb81849fa4c2fa678e6d"
+      },
+      "action": "modify"
+    }
+  ],
+  "patch": {
+    "path": "/Volumes/FastWork/c1223/distributed-two-composed/three-and-callers.patch",
+    "sha256": "095149e73a18a590538147e6ed85aa1d6fd22b304ac23211b04a892e96c03092"
+  },
+  "composition": {
+    "reviewed_proposal": "/Volumes/FastWork/c1223/worker25-distributed-two-retirement/PROPOSAL.json",
+    "sha256": "3acfb0d8f980d13c66a6541f7fd6a3482754aa71a5c42c934e8d0d8f2eab5e23",
+    "changed_source_postimages": [
+      "adl/tools/generate_tool_surface_registry.py",
+      "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+    ],
+    "reason": "Two removed-source identities unchanged; compose one generator historical classification removal and regenerate current registry with exactly two removed rows and zero additions. Preserve all concurrent source changes."
+  },
+  "rows": [
+    {
+      "id": "RD07-2235",
+      "path": "adl/tools/validate_v092_distributed_guardian.sh",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-active-tool-contracts",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "44cc3ca2c4faf7afc9efc779de903b830fa1942a"
+      },
+      "existing_action": "retain",
+      "hold_reason": "protect_existing_public_contract_policy_or_control_plane",
+      "proposed_action": "hold_explicit_reconciliation",
+      "required_before_execution": [
+        "Manual Runtime distributed producer requires nextest target/source/receiptvalidator/nativeworkflow; preserve issue5878 containment, committed-source, boundedlogs and negative-case extraction."
+      ],
+      "successor_mapping": {
+        "mapping": "unmapped",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": []
+      },
+      "reviewed_disposition": {
+        "packet": "ACTIVE_19_TOOL_DISPOSITIONS.json",
+        "packet_sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba",
+        "proposal": "specific_family_reconciliation",
+        "reason": "Manual Runtime distributed producer requires nextest target/source/receiptvalidator/nativeworkflow; preserve issue5878 containment, committed-source, boundedlogs and negative-case extraction."
+      }
+    },
+    {
+      "id": "RD07-2236",
+      "path": "adl/tools/validate_v092_distributed_native_receipts.rb",
+      "owner": "cognitive-sdlc",
+      "component": "cognitive-sdlc-unmapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "740cf05ef2c5ebe27f7d7ec01f4e42129123e9f6"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_no_proven_current_successor_mapping",
+      "proposed_action": "hold_explicit_reconciliation",
+      "required_before_execution": [
+        "specific_consumer_or_document_disposition_required"
+      ],
+      "successor_mapping": {
+        "mapping": "unmapped",
+        "successor_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+        "exact_successor_paths": []
+      },
+      "qualification_followup": {
+        "record": "HISTORICAL_CONSUMER_CLOSURE_GAPS.json",
+        "status": "full_effectful_contract_not_executed",
+        "changes_removal_authority": false
+      }
+    }
+  ],
+  "removed_count": 2,
+  "prior_reviewed_packet": {
+    "status": "independently_reviewed_external_proposal",
+    "source_root": "/Volumes/FastWork/adl-worktrees/adl-issue-1223-1223-coherent-source-retirement",
+    "source_head": "bd90e84f8db8e2f612fd136fd4d029ed0f3ee8dd",
+    "source_status": " D .csdlc/evidence/872/conversion-rehearsal/restore/pre-effect-sandbox/csdlc\n?? dev/\n",
+    "scope_ids": [
+      "RD07-2235",
+      "RD07-2236"
+    ],
+    "changes": [
+      {
+        "path": "adl/tools/validate_v092_distributed_guardian.sh",
+        "before": {
+          "mode": "100755",
+          "blob": "6200e1a51b524c43569e86a9d7be138b110e77b1",
+          "sha256": "aae9b3a39a9f5a52afd0ab4d1663e4b34d554b41a03f382cd9f1b4318130735d"
+        },
+        "after": null
+      },
+      {
+        "path": "adl/tools/validate_v092_distributed_native_receipts.rb",
+        "before": {
+          "mode": "100755",
+          "blob": "740cf05ef2c5ebe27f7d7ec01f4e42129123e9f6",
+          "sha256": "8f1f7b8f3c983163a18523c89d413c6c51881a8c5f0299898abf8949ff5ad6ca"
+        },
+        "after": null
+      },
+      {
+        "path": "adl/tools/generate_tool_surface_registry.py",
+        "before": {
+          "mode": "100644",
+          "blob": "47dc0df5e1452ee97033d0c2ed8fdc4832d0324e",
+          "sha256": "14284caa6a783e003ff1b20b8ae309130fadee3a6186ef005577e86e3396300f"
+        },
+        "after": {
+          "mode": "100644",
+          "sha256": "eadd9b5f544d178e74017a2b631d55e5769d533945709685da9a6230a6200a27",
+          "blob": "5544ed23e529c745f8920d69278f7199ef3e1384"
+        }
+      },
+      {
+        "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+        "before": {
+          "mode": "100644",
+          "blob": "935c2b23a272d2d2ef15a21041e6c757061a332d",
+          "sha256": "1def71b709c5532d45ea0e49336ae4a73daa6b3c8fcd1a93371571931c68adf3"
+        },
+        "after": {
+          "mode": "100644",
+          "sha256": "b8264e5fa2884ad5bb315f7cd6629204dca4dbcc20982db265df238d90c7ab9f",
+          "blob": "2c3e67eec2088a6bb1c94de92cf75ad0958ae167"
+        }
+      }
+    ],
+    "custody": [
+      {
+        "id": "RD07-2235",
+        "path": "adl/tools/validate_v092_distributed_guardian.sh",
+        "original": {
+          "revision": "413c1e09992e8e1d996858f8b4a70d210b3eb0d8",
+          "mode": "100755",
+          "blob": "44cc3ca2c4faf7afc9efc779de903b830fa1942a",
+          "sha256": "13487a44c6477393bbadfbf342e0e25123164a5d0e2b45dfa3f8c2a2e7e83a52"
+        },
+        "merged_runtime_path": "docs/ci/historical-workflows/wp04-inputs/adl/tools/validate_v092_distributed_guardian.sh",
+        "merged_runtime_commit": "033edb6f4387ad6138373f1994e7248ded437e29",
+        "exact_bytes_mode_blob": true
+      },
+      {
+        "id": "RD07-2236",
+        "path": "adl/tools/validate_v092_distributed_native_receipts.rb",
+        "original": {
+          "revision": "413c1e09992e8e1d996858f8b4a70d210b3eb0d8",
+          "mode": "100755",
+          "blob": "740cf05ef2c5ebe27f7d7ec01f4e42129123e9f6",
+          "sha256": "8f1f7b8f3c983163a18523c89d413c6c51881a8c5f0299898abf8949ff5ad6ca"
+        },
+        "merged_runtime_path": "docs/ci/historical-workflows/wp04-inputs/adl/tools/validate_v092_distributed_native_receipts.rb",
+        "merged_runtime_commit": "033edb6f4387ad6138373f1994e7248ded437e29",
+        "exact_bytes_mode_blob": true
+      }
+    ],
+    "evidence": {
+      "MERGED_SOURCE_READBACK.json": {
+        "source": "/Volumes/FastWork/c1223/runtime-distributed-archive-delivery/MERGED_SOURCE_READBACK.json",
+        "copy": "evidence/MERGED_SOURCE_READBACK.json",
+        "sha256": "7eec52600f26f4e306cf2a52e2d83ae8ce0128b520d3f02489804938a2f978db"
+      },
+      "finish170-pr173.json": {
+        "source": "/Volumes/FastWork/c1223/runtime-distributed-archive-delivery/finish170-pr173.json",
+        "copy": "evidence/finish170-pr173.json",
+        "sha256": "f42cadf17893b33220dc92c08b2004a99feb262c0196305851a70f4763819969"
+      },
+      "MERGED_REMOTE_READBACK.json": {
+        "source": "/Volumes/FastWork/c1223/runtime-distributed-archive-delivery/MERGED_REMOTE_READBACK.json",
+        "copy": "evidence/MERGED_REMOTE_READBACK.json",
+        "sha256": "959875b56d4734d6cabbaf4712ec3b906114fd465ac1bc40004e699ebae9469f"
+      },
+      "CI_FINAL.json": {
+        "source": "/Volumes/FastWork/c1223/runtime-distributed-archive-delivery/CI_FINAL.json",
+        "copy": "evidence/CI_FINAL.json",
+        "sha256": "019deae385826f636d446984cc33e81354569ca8fc608c7de465ed022a82e3f1"
+      },
+      "review170-ci-head.json": {
+        "source": "/Volumes/FastWork/c1223/runtime-distributed-archive-delivery/review170-ci-head.json",
+        "copy": "evidence/review170-ci-head.json",
+        "sha256": "85c69c8b087773237caf38cf8669fc23682f2d8957d31b3c5407aeea4c36252e"
+      },
+      "COMPLETION_AUDIT.json": {
+        "source": "/Volumes/FastWork/c1223/runtime-distributed-archive-delivery/COMPLETION_AUDIT.json",
+        "copy": "evidence/COMPLETION_AUDIT.json",
+        "sha256": "09aa49d0420df62cfe08e50d6650e270eff4f98fd60cb6129a10eaa9a7fe889e"
+      }
+    },
+    "preserved_reference_files": [
+      {
+        "path": ".csdlc/evidence/5860/V092_CHILD_READINESS_MATRIX.md",
+        "sha256": "71359c0b396ed42c33025c3f39038514ad5d6bdca3ee933fcba3af86c8d119dc"
+      },
+      {
+        "path": ".csdlc/evidence/5860/live-issue-bodies/5878.md",
+        "sha256": "88c01c38bdb3df68702a57f781703cd53311164b4c7d76b12c5afbf7947eedfd"
+      },
+      {
+        "path": ".csdlc/evidence/5878/execution-proof.json",
+        "sha256": "c6eef86743055f0af725193dc3c0b610c6aa0da66a0ba30cde7accb0d468d24f"
+      },
+      {
+        "path": ".csdlc/evidence/5878/native/linux/receipt.json",
+        "sha256": "829b6f349b5958344d19b03a950edd8e4ea590a80621fa8c933e77d3a92cdb3e"
+      },
+      {
+        "path": ".csdlc/evidence/5878/native/macos/receipt.json",
+        "sha256": "bcb0f86fbf2413ee2bcb64a9f7cb6ecfdfbf85d702a4427b7ba8c4da9c96cda9"
+      },
+      {
+        "path": ".csdlc/evidence/5878/native/windows/receipt.json",
+        "sha256": "65efc883b10b82df79e04d28c16718c0aaa8817e4f0a93771cd836e8493ee569"
+      },
+      {
+        "path": ".csdlc/evidence/5878/produce-execution-proof.rb",
+        "sha256": "2597eda8d7c2f3f6ca79d75b9eceb589d575e4067bb8a4c1440ea65368e3209c"
+      },
+      {
+        "path": ".csdlc/issues/137/cards/stp.md",
+        "sha256": "0da22e9d2ff4f9edb1d176b877656b95e1879458a90faca71211895549031d3d"
+      },
+      {
+        "path": ".csdlc/issues/137/cards/stp.values.json",
+        "sha256": "44e2e9d1a2dc8546f60b451e4c2cd456a72312cd99a67884f3b8f469d770a78b"
+      },
+      {
+        "path": ".csdlc/issues/5878/audit.jsonl",
+        "sha256": "3cdd097f638ac7629b6b13bd0bbbd3bca018cecd3440425e14b556f9050182be"
+      },
+      {
+        "path": ".csdlc/issues/5878/cards/sip.md",
+        "sha256": "cd3e5beedf67285466066bc60b8705cf5dcc5f50e11f50a5b5979865524aaa9d"
+      },
+      {
+        "path": ".csdlc/issues/5878/cards/sip.values.json",
+        "sha256": "33c62c86d68d8c77c4d9a682702a166e1ce67946a161dd80cb649011877b73e6"
+      },
+      {
+        "path": ".csdlc/issues/5878/cards/sor.md",
+        "sha256": "4cef2a408ad5905ab1b6e2a73ec8564ceb301a91178bfe1b8c532214b724ae75"
+      },
+      {
+        "path": ".csdlc/issues/5878/cards/sor.values.json",
+        "sha256": "196055e3ebfa5b02be0d28f7184bb4a772eef30739898f209969ec38e3f42a18"
+      },
+      {
+        "path": ".csdlc/issues/5878/cards/spp.md",
+        "sha256": "7bbcb67857162d0d994b2b6b3b1ed9d5f8436b8c707682b1f7835ebd538acbd3"
+      },
+      {
+        "path": ".csdlc/issues/5878/cards/spp.values.json",
+        "sha256": "628a125bc5e6a19149844cb9408d82bb39d3e14cc72ffec610227f0aec729071"
+      },
+      {
+        "path": ".csdlc/issues/5878/cards/srp.md",
+        "sha256": "a561549f56524c7b1b7ca31792a25c8c6b67cfdc03105c19ee5a617d51ecad00"
+      },
+      {
+        "path": ".csdlc/issues/5878/cards/srp.values.json",
+        "sha256": "c079680e2da7c54610000a674643930a5f0bff7825fe3988a81f92a8292e7cbc"
+      },
+      {
+        "path": ".csdlc/issues/5878/cards/stp.md",
+        "sha256": "8345c109b29996d230cee5a92460363960cccb194017a1cc74f2b591daace107"
+      },
+      {
+        "path": ".csdlc/issues/5878/cards/stp.values.json",
+        "sha256": "bae29ea70e0797be96e60dd07907cb95cb4ac8f2093b9e6f3f4c9510032cc872"
+      },
+      {
+        "path": ".csdlc/issues/5878/cards/vpp.md",
+        "sha256": "53e7f962e3ebf8814358b275e4f551c88d1d4f0ad28e5d150a21b2826f69427a"
+      },
+      {
+        "path": ".csdlc/issues/5878/cards/vpp.values.json",
+        "sha256": "51a9356dc8014ad0f00f4309af1825e9098b9fb87f8804f2c7e423fc932fd70d"
+      },
+      {
+        "path": ".csdlc/issues/5878/index.json",
+        "sha256": "d27f32bb9d6cb26eb8a430c28ad86138908945e7eb01669380751df3510ea106"
+      },
+      {
+        "path": ".csdlc/prepared/issues/137/validate-workflow.rb",
+        "sha256": "4cf2728bd32f9323ad9ec6ab40da30501a1e62af97486a20ccc2c94bcac5b79b"
+      },
+      {
+        "path": ".csdlc/prepared/issues/5821/design.md",
+        "sha256": "d75d14954cffe2c953feac9507685acde946800059607751f0c7fb15d2987c8d"
+      },
+      {
+        "path": ".csdlc/prepared/issues/5821/generate-wp04-implementation-wave.rb",
+        "sha256": "d40fd8b9521bd1c702a3eb49a250b5ac60926cb2b175dc4f39210fbca26806fe"
+      },
+      {
+        "path": ".csdlc/prepared/issues/5821/wp04-implementation-wave/create/wp-04-16.json",
+        "sha256": "04623e120984d6817536b05da5f3186ade58491feffa155dced5349b693d97dc"
+      },
+      {
+        "path": ".csdlc/prepared/issues/5821/wp04-implementation-wave/results/wp-04-16.json",
+        "sha256": "4dea89733c97b1fa8fd0dcc3db4327e2144f7330f8225dd2db9d817733270ef4"
+      },
+      {
+        "path": ".csdlc/prepared/issues/5821/wp04-implementation-wave/update-results/5878.json",
+        "sha256": "2c3669510ed5fda2c84427c136b8ae6cb89de7c81ed0184d142e09659ea2b13d"
+      },
+      {
+        "path": ".csdlc/prepared/issues/5821/wp04-implementation-wave/update/5878.json",
+        "sha256": "7421ebec68478ff2b978cd66253e8009795af7b05bd30acb519ad6ca9535d3d4"
+      },
+      {
+        "path": ".csdlc/prepared/issues/5860/validate-v092-ownership.rb",
+        "sha256": "0f16832baf332e010782d3092d0322456434321756424464723f8bf94a72b349"
+      },
+      {
+        "path": ".csdlc/prepared/issues/5862/test-validate-implementation-wave.rb",
+        "sha256": "873766e5b438d162b5789f55a31f3a632a9035e6407ac515527828f456307673"
+      },
+      {
+        "path": ".csdlc/prepared/issues/5862/validate-implementation-wave.rb",
+        "sha256": "3998acb5c648a19b3b74ae5509de1b538b7d057348c5aa00e5972dbf59c0324b"
+      },
+      {
+        "path": ".csdlc/prepared/issues/5878/assign-final-review.json",
+        "sha256": "ebbb05e25dcdd7ea53cd8ebb220a4c40e2582bae8cbdee41f4be7a0a7e1caa0d"
+      },
+      {
+        "path": ".csdlc/prepared/issues/5878/bootstrap-request.json",
+        "sha256": "7321372187c70468ba606df21f003c7c4783195cf30a9a133d629be861aa0ddd"
+      },
+      {
+        "path": ".csdlc/prepared/issues/5878/design.md",
+        "sha256": "549bc41ec870281bea814f5aca000377ed28a0fc75af329b0fc71214c1b45e96"
+      },
+      {
+        "path": ".csdlc/prepared/issues/5878/expand-spp-native-invariants.json",
+        "sha256": "92ec86cc44aedbeb076fcc4fd8694e976c84d59136ef1f5f6ff48de43edf6f49"
+      },
+      {
+        "path": ".csdlc/prepared/issues/5878/expand-spp-native-workflow.json",
+        "sha256": "fcbafb08059bdf0e7618425a8c5a3fb992b203fe6191ec44b26baaf05c282bf2"
+      },
+      {
+        "path": ".csdlc/prepared/issues/5878/expand-stp-native-workflow.json",
+        "sha256": "c47016255b55db33b4ab81749ecdeb96654078832c0e98857bdcb937e5a7765d"
+      },
+      {
+        "path": ".csdlc/prepared/issues/5878/expand-vpp-native-workflow.json",
+        "sha256": "fcc92235aac3383303aa0d7c616969c0970060af4e6539532e5efcb2e00786f1"
+      },
+      {
+        "path": ".csdlc/prepared/issues/5878/finalize-native-integration.json",
+        "sha256": "f78f2f20eb330d02985d9db07701943cb5e07907805f5b486957aea10c00d306"
+      },
+      {
+        "path": ".csdlc/prepared/issues/5878/prepare-spp-invariants.json",
+        "sha256": "c1a79a1ed2fab8ddada1e4f73497c897fc33759a491ab9ab2713a198bd194d01"
+      },
+      {
+        "path": ".csdlc/prepared/issues/5878/prepare-stp-deliverables.json",
+        "sha256": "a44d3c4d13cc5b049454a6d30d947232dec4116fe878902cc7784d99c3805e25"
+      },
+      {
+        "path": ".csdlc/prepared/issues/5878/prepare-vpp-lanes.json",
+        "sha256": "11de04f7739ab448e328cf609922d1602ea99e8c9790228f35d544699ee4b390"
+      },
+      {
+        "path": ".csdlc/prepared/issues/5878/record-final-review.json",
+        "sha256": "7c38392ce599e6710089764a220e4b693a9d6034a24785353b18e3a8bbc37055"
+      },
+      {
+        "path": ".csdlc/prepared/issues/5878/runtime-repair-edit-vpp.json",
+        "sha256": "95eaa44081df0bf165032282da28862e9a6ad6b42da9ac7d0b84dcb3a4f8477d"
+      },
+      {
+        "path": ".csdlc/prepared/issues/5878/validate-proof-receipt.rb",
+        "sha256": "d7d2897640886842b580b2099c2473f8725f3b858b29fa95276b0357173605a9"
+      },
+      {
+        "path": ".csdlc/prepared/issues/5901/test-implementation-wave.rb",
+        "sha256": "4adde79e16729689ac5e14ddd67eee29a3c7d1fe2506a4321555203e7d8b66ae"
+      },
+      {
+        "path": "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json",
+        "sha256": "8e5fe09fbe43d7fe1f3ed1fad491af026b8532ba89ecdb22a2fb1b5117436c6c"
+      },
+      {
+        "path": "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/mixed-generation-dispositions.json",
+        "sha256": "b132333c76bf9165c98db6d2272f87b8ca8f9f4773124b6866dbede8a9fa3847"
+      },
+      {
+        "path": "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/ACTIVE_19_TOOL_DISPOSITIONS.json",
+        "sha256": "5615bda7c8d1d6a3f933f347e2b746d7ed66eedc80178f5160fb20e922b955ba"
+      },
+      {
+        "path": "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/COMBINED_REMAINING_DELTA.json",
+        "sha256": "33bdacc5c221d271e8f281f0e4cfff36cd5d5bcfd3bb98a6543a40563c0b1218"
+      },
+      {
+        "path": "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CSDLC_TOOL_FAMILY_BOUNDARIES.json",
+        "sha256": "2737f78d4a5fcb19f50869cd85249ab213a4b97ac10ec4f767bdda4015ce172c"
+      },
+      {
+        "path": "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CSDLC_UNMAPPED_TOOLS_DISPOSITIONS.json",
+        "sha256": "2682d1f5904ff8cf484acec5c0a8f2e62c45798c7f7a9b1de3fbc422ec655f35"
+      },
+      {
+        "path": "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CURRENT_CONSUMER_FINDINGS.json",
+        "sha256": "4ba5cce5f0c9067b1b0910bd2082c5fde9c96818167f65d1f2252e304eca5dd2"
+      },
+      {
+        "path": "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CURRENT_SUCCESSOR_ROWS.jsonl",
+        "sha256": "2699ad1a08e91db9f8504d33515be48d815876049ebf39b27d64c7709af2197f"
+      },
+      {
+        "path": "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/DISPOSITION_REGISTER.json",
+        "sha256": "27e9488ebfaba50202b367b4c42e9076e55e82e8a495c8d802b994245d206ca4"
+      },
+      {
+        "path": "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/EXECUTION_OVERLAY.json",
+        "sha256": "72411ed0f1f1325ded816992cc6a5154dfe3b662a3b5a917846dd9072da0c318"
+      },
+      {
+        "path": "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/GROUPED_REMAINING_HOLDS.json",
+        "sha256": "1f9e8b9a221f34d6926c36bd6de6d50ed3491fa8c666ff2b24d2dda55b84e328"
+      },
+      {
+        "path": "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/GROUPED_REMAINING_HOLDS.md",
+        "sha256": "208ac4f366dc9119b577d76e8824810f7975693eb9568bb8a7d44d60b77b5e9e"
+      },
+      {
+        "path": "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/HISTORICAL_CONSUMER_CLOSURE_GAPS.json",
+        "sha256": "a26b59c6660ef619b7468ff56b81e09d189aa2231e0450beb00db0099e105bed"
+      },
+      {
+        "path": "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/MIXED_CONSUMER_FAMILY_ACTIONS.json",
+        "sha256": "1828bad727eabf8ab3100590f26e34b5f26d457ac6c0114a03a1485f74afa999"
+      },
+      {
+        "path": "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/REMAINING_COMPONENT_DECISIONS.json",
+        "sha256": "6bcfaa9b4661c1943f5a6f624896c1a3ed6d6caa5c69945dba0bc1bcf64d341f"
+      },
+      {
+        "path": "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/RUNTIME_SOURCE_FAMILY_APPLIED.json",
+        "sha256": "9600a1fb0ee1a58508069b5847f5b8cf475805cf9b0059bc3f3f5ee3b51fd486"
+      },
+      {
+        "path": "docs/reviews/v0.92/internal-review-5846/specialist_assignments.json",
+        "sha256": "2d74250618e5f8caf3b4f23e547f6bb98a2ebde7bd3fce668e22568ebe65d4af"
+      }
+    ],
+    "preimages_sha256": "88d9624e26826acdf07a50640b10843cb9834a5cbef295a0348f6c8da00c8f0d",
+    "patch_sha256": "77af4f3b0136f55aa5b88cd49c8c143cd6cca9208d2405c5e23ad89bbf8e6e1b",
+    "qualification": "Historical source custody only. No current Runtime admission, activation, distributed proof rerun, or producer/validator execution.",
+    "historical_denominator": "Three historical platforms each ran the same two tests and same three negatives; not six or nine unique cases.",
+    "root_integration": "Sole shared writer must recheck four preimages, apply bounded patch, regenerate registry if concurrent changes affect it, and record exact two IDs as historical/manual transfer. Preserve all historical proof, provider removals and RD07-2147 selector retirement.",
+    "independent_review": "REVIEW.json"
+  },
+  "hold_resolution": {
+    "ids": [
+      "RD07-2235",
+      "RD07-2236"
+    ],
+    "basis": "Explicit historical/manual contract transfer to merged Runtime archival custody, with historical proof retained. Not new Runtime activation or distributed acceptance. Original/current validator contracts and all previous hold reasons preserved in rows and prior packet.",
+    "historical_denominator": "Three historical platforms each ran the same two tests and same three negatives; not six or nine unique cases.",
+    "current_runtime_qualification": false
+  },
+  "metadata_normalization": "Redundant top-level legacy hash aliases removed. Structured patch/custody are authoritative current composition; exact prior aliases remain only within prior_reviewed_packet.",
+  "proposal_source_head": "662645845ea15df2f13b16532327cdaa242fdab3",
+  "review": {
+    "status": "PASS",
+    "reviewer": "review_1223_public_facade",
+    "proposal_sha256": "ab22e929578d6b77ea2db481e1a07ac4878bbff7183efead9bcc55e781bc34f9",
+    "scope": "Reviewed source/caller/custody composition; all individual qualification and historical limits preserved."
+  }
+}

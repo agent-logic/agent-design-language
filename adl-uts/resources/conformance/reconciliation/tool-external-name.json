@@ -1,0 +1,25 @@
+{
+  "invocation_id": "inv_001",
+  "caller": {
+    "kind": "agent",
+    "id": "example-agent"
+  },
+  "tool": {
+    "name": "External/Tool",
+    "version": "vendor-revision"
+  },
+  "intent": "Read the fixture requested by the operator.",
+  "purpose": "Demonstrate UTS invocation metadata.",
+  "side_effect_expectations": [
+    "none"
+  ],
+  "replay_safety": "replay_safe",
+  "observability": "basic",
+  "retry_policy": {
+    "retryable": false,
+    "max_attempts": 0
+  },
+  "extensions": {
+    "x-example-profile": "documentation"
+  }
+}

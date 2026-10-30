@@ -1,0 +1,354 @@
+{
+  "schema_version": "adl.validation_lane_selector.v1",
+  "cutover_status": "active_public_default",
+  "surface_defaults": {
+    "public": {
+      "owner": "adl",
+      "resource_class": "normal",
+      "determinism_posture": "deterministic",
+      "proof_role": "public_source_regression",
+      "risk_class": "medium",
+      "escalation_rule": "owner_and_installed_proof_separate"
+    }
+  },
+  "ownership_overrides": [
+    {
+      "owner": "adl",
+      "paths": [
+        "adl/**",
+        "adl-schema/**",
+        "adl-uts/**",
+        "adl-v2/Cargo.toml",
+        "adl-v2/Cargo.lock",
+        "adl-v2/crates/adl-language/**",
+        "adl-v2/crates/adl-compiler/**",
+        "adl-legacy-contracts/**"
+      ]
+    }
+  ],
+  "lanes": [
+    {
+      "id": "public_docs",
+      "lane_class": "docs",
+      "default_surface": "public",
+      "path_selectors": [
+        "docs/**",
+        "README.md",
+        "AGENTS.md"
+      ],
+      "path_hints": [
+        "docs/**",
+        "README.md",
+        "AGENTS.md"
+      ],
+      "command": "git diff --check",
+      "run_command": "git diff --check",
+      "reason": "public_source_contract"
+    },
+    {
+      "id": "public_validation_inventory",
+      "lane_class": "cli_workflow",
+      "default_surface": "public",
+      "owner": "adl/tools",
+      "proof_role": "inventory_generation_not_owner_test_qualification",
+      "resource_class": "small",
+      "determinism_posture": "deterministic_local",
+      "requirement_ids": [
+        "public_validation_inventory"
+      ],
+      "path_selectors": [
+        "adl/tools/validation_inventory.py",
+        "adl/tools/validation_inventory.sh"
+      ],
+      "path_hints": [
+        "adl/tools/validation_inventory.py",
+        "adl/tools/validation_inventory.sh"
+      ],
+      "command": "bash adl/tools/validation_inventory.sh --format json",
+      "run_command": "bash adl/tools/validation_inventory.sh --format json",
+      "reason": "public_validation_inventory_requires_explicit_public_contract"
+    },
+    {
+      "id": "csm_retired_route_diagnostics",
+      "lane_class": "cli_workflow",
+      "default_surface": "public",
+      "owner": "adl/tools",
+      "proof_role": "diagnostic_refusal_contract_not_runtime_acceptance",
+      "resource_class": "small",
+      "determinism_posture": "deterministic_local",
+      "requirement_ids": [
+        "csm_retired_route_diagnostics"
+      ],
+      "path_selectors": [
+        "adl/tools/ensure_csm_binary.sh",
+        "adl/tools/test_ensure_csm_binary.sh"
+      ],
+      "path_hints": [
+        "adl/tools/ensure_csm_binary.sh",
+        "adl/tools/test_ensure_csm_binary.sh"
+      ],
+      "command": "bash adl/tools/test_ensure_csm_binary.sh",
+      "run_command": "bash adl/tools/test_ensure_csm_binary.sh",
+      "reason": "csm_retired_route_diagnostics_requires_explicit_public_contract"
+    },
+    {
+      "id": "sprint_conductor_contracts",
+      "lane_class": "cli_workflow",
+      "default_surface": "public",
+      "owner": "tools",
+      "proof_role": "regression",
+      "resource_class": "small",
+      "determinism_posture": "deterministic_local_with_explicit_owner_inputs",
+      "requirement_ids": [
+        "sprint_conductor_contracts"
+      ],
+      "path_selectors": [
+        "tools/sprint_contracts/**",
+        "adl/tools/test_install_adl_operational_skills.sh"
+      ],
+      "path_hints": [
+        "tools/sprint_contracts/**",
+        "adl/tools/test_install_adl_operational_skills.sh"
+      ],
+      "command": "bash adl/tools/test_install_adl_operational_skills.sh",
+      "run_command": "bash adl/tools/test_install_adl_operational_skills.sh",
+      "reason": "exact_owner_components_and_original_installer_contract; no_full_native_acceptance"
+    },
+    {
+      "id": "podcast_migration_contract",
+      "lane_class": "docs",
+      "default_surface": "public",
+      "owner": "adl",
+      "proof_role": "migration_preservation_not_media_qualification",
+      "resource_class": "tiny",
+      "determinism_posture": "deterministic_local",
+      "requirement_ids": [
+        "podcast_migration_preservation"
+      ],
+      "path_selectors": [
+        "demos/podcast/**",
+        "demos/_preview/podcast/**",
+        "tools/test_podcast_migration.mjs",
+        "tools/podcast_migration/**"
+      ],
+      "path_hints": [
+        "demos/podcast/",
+        "demos/_preview/podcast/",
+        "tools/podcast_migration/"
+      ],
+      "command": "node --test tools/test_podcast_migration.mjs",
+      "run_command": "node --test tools/test_podcast_migration.mjs",
+      "reason": "podcast_owner_migration_preservation_contract"
+    }
+  ],
+  "release_gate_hints": [
+    ".github/**",
+    "tools/source_retirement/**"
+  ],
+  "rust_path_hints": [
+    "adl-schema/**",
+    "adl-uts/**",
+    "adl-v2/Cargo.toml",
+    "adl-v2/Cargo.lock",
+    "adl-v2/crates/adl-language/**",
+    "adl-v2/crates/adl-compiler/**",
+    "adl-legacy-contracts/**",
+    "tools/public_adl/**",
+    "adl/Cargo.toml",
+    "adl/Cargo.lock",
+    "adl/src/main.rs",
+    "adl/src/lib.rs",
+    "adl/src/cli/public_dispatch.rs",
+    "adl/src/cli/public_workflow.rs",
+    "adl/src/cli/workflow_args.rs",
+    "adl/src/cli/workflow_display.rs",
+    "adl/src/cli/resume_args.rs",
+    "adl/src/cli/runtime_owner.rs",
+    "adl/src/cli/codefriend_owner.rs",
+    "adl/src/cli/process_cmd.rs",
+    "adl/src/cli/process_cmd/**",
+    "adl/src/cli/session_cmd.rs",
+    "adl/src/cli/observability.rs",
+    "adl/src/cli/usage.rs",
+    "adl/src/control_plane.rs",
+    "adl/src/session_ledger.rs",
+    "adl/src/bin/adl_process.rs",
+    "adl/tests/adl_tests.rs",
+    "adl/tests/resolve_tests.rs",
+    "adl/tests/schema_tests.rs",
+    "adl/tests/public_process.rs",
+    "adl/tests/public_observation.rs",
+    "adl/tests/issue_327_removed_tooling.rs",
+    "adl/tests/cli_smoke/process_status.rs",
+    "adl/tests/helpers.rs",
+    "adl/tools/install_owner_binaries.sh",
+    "adl/tools/owner_binary_resolution.sh",
+    "adl/tools/test_owner_binary_install.sh",
+    "adl/tools/batched_checks.sh",
+    "adl/tools/preflight_review.sh",
+    "adl/tests/fixtures/cli_smoke.adl.yaml",
+    "adl/examples/adl-0.1.yaml",
+    "adl/examples/v0-2-multi-step-basic.adl.yaml",
+    "adl/examples/v0-2-multi-step-file-input.adl.yaml",
+    "adl/examples/v0-2-coordinator-agents-sdk.adl.yaml"
+  ],
+  "special_surfaces": {
+    "rust_pr_fast": {
+      "id": "public_source",
+      "lane_class": "fast_unit",
+      "default_surface": "public",
+      "path_selectors": [
+        "adl-schema/**",
+        "adl-uts/**",
+        "adl-v2/Cargo.toml",
+        "adl-v2/Cargo.lock",
+        "adl-v2/crates/adl-language/**",
+        "adl-v2/crates/adl-compiler/**",
+        "adl-legacy-contracts/**",
+        "tools/public_adl/**",
+        "adl/Cargo.toml",
+        "adl/Cargo.lock",
+        "adl/src/main.rs",
+        "adl/src/lib.rs",
+        "adl/src/cli/public_dispatch.rs",
+        "adl/src/cli/public_workflow.rs",
+        "adl/src/cli/workflow_args.rs",
+        "adl/src/cli/workflow_display.rs",
+        "adl/src/cli/resume_args.rs",
+        "adl/src/cli/runtime_owner.rs",
+        "adl/src/cli/codefriend_owner.rs",
+        "adl/src/cli/process_cmd.rs",
+        "adl/src/cli/process_cmd/**",
+        "adl/src/cli/session_cmd.rs",
+        "adl/src/cli/observability.rs",
+        "adl/src/cli/usage.rs",
+        "adl/src/control_plane.rs",
+        "adl/src/session_ledger.rs",
+        "adl/src/bin/adl_process.rs",
+        "adl/tests/adl_tests.rs",
+        "adl/tests/resolve_tests.rs",
+        "adl/tests/schema_tests.rs",
+        "adl/tests/public_process.rs",
+        "adl/tests/public_observation.rs",
+        "adl/tests/issue_327_removed_tooling.rs",
+        "adl/tests/cli_smoke/process_status.rs",
+        "adl/tests/helpers.rs",
+        "adl/tools/install_owner_binaries.sh",
+        "adl/tools/owner_binary_resolution.sh",
+        "adl/tools/test_owner_binary_install.sh",
+        "adl/tools/batched_checks.sh",
+        "adl/tools/preflight_review.sh",
+        "adl/tests/fixtures/cli_smoke.adl.yaml",
+        "adl/examples/adl-0.1.yaml",
+        "adl/examples/v0-2-multi-step-basic.adl.yaml",
+        "adl/examples/v0-2-multi-step-file-input.adl.yaml",
+        "adl/examples/v0-2-coordinator-agents-sdk.adl.yaml"
+      ],
+      "path_hints": [
+        "adl-schema/**",
+        "adl-uts/**",
+        "adl-v2/Cargo.toml",
+        "adl-v2/Cargo.lock",
+        "adl-v2/crates/adl-language/**",
+        "adl-v2/crates/adl-compiler/**",
+        "adl-legacy-contracts/**",
+        "tools/public_adl/**",
+        "adl/Cargo.toml",
+        "adl/Cargo.lock",
+        "adl/src/main.rs",
+        "adl/src/lib.rs",
+        "adl/src/cli/public_dispatch.rs",
+        "adl/src/cli/public_workflow.rs",
+        "adl/src/cli/workflow_args.rs",
+        "adl/src/cli/workflow_display.rs",
+        "adl/src/cli/resume_args.rs",
+        "adl/src/cli/runtime_owner.rs",
+        "adl/src/cli/codefriend_owner.rs",
+        "adl/src/cli/process_cmd.rs",
+        "adl/src/cli/process_cmd/**",
+        "adl/src/cli/session_cmd.rs",
+        "adl/src/cli/observability.rs",
+        "adl/src/cli/usage.rs",
+        "adl/src/control_plane.rs",
+        "adl/src/session_ledger.rs",
+        "adl/src/bin/adl_process.rs",
+        "adl/tests/adl_tests.rs",
+        "adl/tests/resolve_tests.rs",
+        "adl/tests/schema_tests.rs",
+        "adl/tests/public_process.rs",
+        "adl/tests/public_observation.rs",
+        "adl/tests/issue_327_removed_tooling.rs",
+        "adl/tests/cli_smoke/process_status.rs",
+        "adl/tests/helpers.rs",
+        "adl/tools/install_owner_binaries.sh",
+        "adl/tools/owner_binary_resolution.sh",
+        "adl/tools/test_owner_binary_install.sh",
+        "adl/tools/batched_checks.sh",
+        "adl/tools/preflight_review.sh",
+        "adl/tests/fixtures/cli_smoke.adl.yaml",
+        "adl/examples/adl-0.1.yaml",
+        "adl/examples/v0-2-multi-step-basic.adl.yaml",
+        "adl/examples/v0-2-multi-step-file-input.adl.yaml",
+        "adl/examples/v0-2-coordinator-agents-sdk.adl.yaml"
+      ],
+      "command": "bash adl/tools/batched_checks.sh",
+      "run_command": "bash adl/tools/batched_checks.sh",
+      "reason": "public_source_contract",
+      "planner": "manifest_command"
+    },
+    "release_gate_review": {
+      "id": "release_gate_review",
+      "lane_class": "fast_unit",
+      "default_surface": "public",
+      "path_selectors": [
+        ".github/**",
+        "tools/source_retirement/**"
+      ],
+      "path_hints": [
+        ".github/**",
+        "tools/source_retirement/**"
+      ],
+      "command": "record exact CI and retirement decision; run public CI separately",
+      "run_command": "",
+      "reason": "public_source_contract"
+    },
+    "slow_proof_review": {
+      "id": "slow_proof_review",
+      "lane_class": "fast_unit",
+      "default_surface": "public",
+      "path_selectors": [
+        "adl/config/slow_proof_families.v0.91.6.json"
+      ],
+      "path_hints": [
+        "adl/config/slow_proof_families.v0.91.6.json"
+      ],
+      "command": "record original owner slow-proof disposition",
+      "run_command": "",
+      "reason": "public_source_contract"
+    },
+    "unmapped_review": {
+      "id": "unmapped_review",
+      "lane_class": "fast_unit",
+      "default_surface": "public",
+      "path_selectors": [
+        "*"
+      ],
+      "path_hints": [
+        "*"
+      ],
+      "command": "resolve original owner obligation before execution",
+      "run_command": "",
+      "reason": "public_source_contract"
+    }
+  },
+  "manager_guardrails": {
+    "docs_only_forbidden_lane_ids": [
+      "public_source"
+    ]
+  },
+  "deferred_obligations": {
+    "installed_public": "bash tools/public_adl/run_ci.sh requires macOS sandbox-exec; not selected source proof",
+    "coverage": "cargo run --locked --quiet --manifest-path tools/ci_contracts/Cargo.toml -- coverage --mode full --output <create-only-output>; separate exact-source gate",
+    "owner_contracts": "Original 4134-row register remains authoritative; unknown/retired paths escalate instead of claiming owner execution."
+  }
+}

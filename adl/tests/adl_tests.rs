@@ -1,0 +1,1248 @@
+use adl_legacy_contracts::yaml as serde_yaml;
+use std::collections::HashMap;
+
+use ::adl_legacy_contracts::adl::{
+    AdlDoc, AgentSpec, PromptSpec, RunDefaults, RunSpec, StepSpec, TaskSpec, WorkflowKind,
+    WorkflowSpec,
+};
+use ::adl_legacy_contracts::resolve;
+
+mod helpers;
+use helpers::unique_test_temp_dir;
+
+fn parse_doc(yaml: &str) -> AdlDoc {
+    let doc: AdlDoc = serde_yaml::from_str(yaml).expect("yaml should parse");
+    doc.validate().expect("doc should validate");
+    doc
+}
+
+#[test]
+fn validate_allows_minimal_valid_doc() {
+    let yaml = r#"
+version: "0.1"
+providers:
+  local:
+    type: "ollama"
+agents:
+  a1:
+    provider: "local"
+    model: "phi4"
+tasks:
+  t1:
+    description: "summarize"
+    prompt:
+      user: "Summarize the input."
+run:
+  name: "demo"
+  workflow:
+    kind: sequential
+    steps:
+      - agent: "a1"
+        task: "t1"
+        inputs:
+          text: "hello"
+"#;
+
+    let doc = parse_doc(yaml);
+    assert_eq!(doc.version, "0.1");
+    assert!(doc.providers.contains_key("local"));
+    assert!(doc.agents.contains_key("a1"));
+    assert!(doc.tasks.contains_key("t1"));
+    assert_eq!(
+        doc.run
+            .workflow
+            .as_ref()
+            .expect("inline workflow")
+            .steps
+            .len(),
+        1
+    );
+}
+
+#[test]
+fn validate_rejects_unknown_agent_reference() {
+    let yaml = r#"
+version: "0.1"
+agents:
+  a1:
+    provider: "p"
+    model: "m"
+tasks:
+  t1:
+    prompt:
+      user: "Do it"
+run:
+  workflow:
+    steps:
+      - agent: "missing"
+        task: "t1"
+"#;
+
+    let doc: AdlDoc = serde_yaml::from_str(yaml).expect("yaml should parse");
+    let err = doc.validate().expect_err("should fail validation");
+    let msg = format!("{err:#}");
+    assert!(msg.contains("unknown agent"), "unexpected error: {msg}");
+}
+
+#[test]
+fn validate_rejects_unknown_task_reference() {
+    let yaml = r#"
+version: "0.1"
+agents:
+  a1:
+    provider: "p"
+    model: "m"
+tasks:
+  t1:
+    prompt:
+      user: "Do it"
+run:
+  workflow:
+    steps:
+      - agent: "a1"
+        task: "missing"
+"#;
+
+    let doc: AdlDoc = serde_yaml::from_str(yaml).expect("yaml should parse");
+    let err = doc.validate().expect_err("should fail validation");
+    let msg = format!("{err:#}");
+    assert!(msg.contains("unknown task"), "unexpected error: {msg}");
+}
+
+#[test]
+fn effective_prompt_priority_is_step_then_task_then_agent() {
+    let mut doc = AdlDoc {
+        version: "0.1".to_string(),
+        providers: HashMap::new(),
+        tools: HashMap::new(),
+        agents: HashMap::new(),
+        tasks: HashMap::new(),
+        workflows: HashMap::new(),
+        patterns: vec![],
+        signature: None,
+        run: RunSpec {
+            id: None,
+            name: Some("demo".to_string()),
+            created_at: None,
+            defaults: RunDefaults::default(),
+            workflow_ref: None,
+            workflow: Some(WorkflowSpec {
+                id: None,
+                kind: WorkflowKind::Sequential,
+                max_concurrency: None,
+                steps: vec![],
+            }),
+            pattern_ref: None,
+            inputs: HashMap::new(),
+            placement: None,
+            remote: None,
+            delegation_policy: None,
+        },
+    };
+
+    let agent_prompt = PromptSpec {
+        system: Some("agent-system".to_string()),
+        ..Default::default()
+    };
+    doc.agents.insert(
+        "a1".to_string(),
+        AgentSpec {
+            id: None,
+            provider: "p".to_string(),
+            model: "m".to_string(),
+            temperature: None,
+            top_k: None,
+            description: None,
+            prompt: Some(agent_prompt.clone()),
+            tools: vec![],
+        },
+    );
+
+    let task_prompt = PromptSpec {
+        user: Some("task-user".to_string()),
+        ..Default::default()
+    };
+    doc.tasks.insert(
+        "t1".to_string(),
+        TaskSpec {
+            id: None,
+            agent_ref: None,
+            inputs: vec![],
+            tool_allowlist: vec![],
+            description: None,
+            prompt: task_prompt.clone(),
+        },
+    );
+
+    let step_prompt = PromptSpec {
+        developer: Some("step-dev".to_string()),
+        ..Default::default()
+    };
+
+    let step_with_step_prompt = StepSpec {
+        id: None,
+        save_as: None,
+        agent: Some("a1".to_string()),
+        task: Some("t1".to_string()),
+        prompt: Some(step_prompt.clone()),
+        ..Default::default()
+    };
+    let p = step_with_step_prompt
+        .effective_prompt(&doc)
+        .expect("should resolve a prompt");
+    assert_eq!(p.developer.as_deref(), Some("step-dev"));
+
+    let step_with_task_prompt = StepSpec {
+        id: None,
+        save_as: None,
+        agent: Some("a1".to_string()),
+        task: Some("t1".to_string()),
+        prompt: None,
+        ..Default::default()
+    };
+    let p = step_with_task_prompt
+        .effective_prompt(&doc)
+        .expect("should resolve a prompt");
+    assert_eq!(p.user.as_deref(), Some("task-user"));
+
+    let step_with_agent_prompt = StepSpec {
+        id: None,
+        save_as: None,
+        agent: Some("a1".to_string()),
+        task: None,
+        prompt: None,
+        ..Default::default()
+    };
+    let p = step_with_agent_prompt
+        .effective_prompt(&doc)
+        .expect("should resolve a prompt");
+    assert_eq!(p.system.as_deref(), Some("agent-system"));
+
+    let step_with_no_prompt = StepSpec {
+        id: None,
+        save_as: None,
+        agent: None,
+        task: None,
+        prompt: None,
+        ..Default::default()
+    };
+    assert!(step_with_no_prompt.effective_prompt(&doc).is_none());
+}
+
+#[test]
+fn validate_accepts_v0_5_complete_doc_with_all_primitives() {
+    let yaml = r#"
+version: "0.5"
+providers:
+  local_ollama:
+    id: "local_ollama"
+    type: "local_ollama"
+    config:
+      model: "phi4-mini"
+tools:
+  fetch_docs:
+    id: "fetch_docs"
+    type: "mcp"
+    config:
+      server: "docs"
+agents:
+  planner:
+    id: "planner"
+    provider: "local_ollama"
+    model: "phi4-mini"
+    tools: ["fetch_docs"]
+tasks:
+  summarize:
+    id: "summarize"
+    agent_ref: "planner"
+    inputs: ["topic"]
+    tool_allowlist: ["fetch_docs"]
+    prompt:
+      user: "Summarize {{topic}}."
+workflows:
+  wf_main:
+    id: "wf_main"
+    kind: sequential
+    steps:
+      - id: "s1"
+        task: "summarize"
+run:
+  id: "run_main"
+  name: "demo-v0-5"
+  workflow_ref: "wf_main"
+  inputs:
+    topic: "ADL"
+  placement:
+    target: "local"
+"#;
+
+    let doc: AdlDoc = serde_yaml::from_str(yaml).expect("yaml parse");
+    doc.validate().expect("v0.5 complete doc should validate");
+
+    assert_eq!(doc.workflows.len(), 1);
+    assert_eq!(doc.tasks["summarize"].agent_ref.as_deref(), Some("planner"));
+    assert_eq!(doc.run.workflow_ref.as_deref(), Some("wf_main"));
+}
+
+#[test]
+fn validate_accepts_step_delegation_block() {
+    let yaml = r#"
+version: "0.5"
+providers:
+  local:
+    type: "ollama"
+agents:
+  a1:
+    provider: "local"
+    model: "phi4-mini"
+tasks:
+  t1:
+    prompt:
+      user: "u"
+run:
+  workflow:
+    kind: sequential
+    steps:
+      - id: "s1"
+        agent: "a1"
+        task: "t1"
+        delegation:
+          role: "reviewer"
+          requires_verification: true
+          escalation_target: "human"
+          tags: ["safety", "compliance"]
+"#;
+    let doc = parse_doc(yaml);
+    let step = &doc.run.workflow.as_ref().expect("workflow").steps[0];
+    let delegation = step.delegation.as_ref().expect("delegation");
+    assert_eq!(delegation.role.as_deref(), Some("reviewer"));
+    assert_eq!(delegation.requires_verification, Some(true));
+    assert_eq!(delegation.escalation_target.as_deref(), Some("human"));
+    assert_eq!(delegation.tags, vec!["safety", "compliance"]);
+}
+
+#[test]
+fn parse_rejects_unknown_step_delegation_field() {
+    let yaml = r#"
+version: "0.5"
+providers:
+  local:
+    type: "ollama"
+agents:
+  a1:
+    provider: "local"
+    model: "phi4-mini"
+tasks:
+  t1:
+    prompt:
+      user: "u"
+run:
+  workflow:
+    kind: sequential
+    steps:
+      - id: "s1"
+        agent: "a1"
+        task: "t1"
+        delegation:
+          role: "reviewer"
+          unknown_field: "nope"
+"#;
+    let err = serde_yaml::from_str::<AdlDoc>(yaml).expect_err("unknown delegation field must fail");
+    assert!(
+        err.to_string().contains("unknown_field"),
+        "unexpected error: {err}"
+    );
+}
+
+#[test]
+fn validate_rejects_duplicate_delegation_policy_rule_ids() {
+    let yaml = r#"
+version: "0.5"
+providers:
+  local:
+    type: "ollama"
+agents:
+  a1:
+    provider: "local"
+    model: "phi4-mini"
+tasks:
+  t1:
+    prompt:
+      user: "u"
+run:
+  delegation_policy:
+    default_allow: true
+    rules:
+      - id: "dup"
+        action: provider_call
+        effect: allow
+      - id: "dup"
+        action: filesystem_write
+        effect: deny
+  workflow:
+    kind: sequential
+    steps:
+      - id: "s1"
+        agent: "a1"
+        task: "t1"
+        delegation:
+          role: "reviewer"
+"#;
+    let doc: AdlDoc = serde_yaml::from_str(yaml).expect("yaml parse");
+    let err = doc
+        .validate()
+        .expect_err("duplicate delegation rule ids must fail");
+    assert!(
+        err.to_string().contains("duplicate id 'dup'"),
+        "unexpected error: {err:#}"
+    );
+}
+
+#[test]
+fn validate_rejects_empty_delegation_policy_target_id() {
+    let yaml = r#"
+version: "0.5"
+providers:
+  local:
+    type: "ollama"
+agents:
+  a1:
+    provider: "local"
+    model: "phi4-mini"
+tasks:
+  t1:
+    prompt:
+      user: "u"
+run:
+  delegation_policy:
+    default_allow: true
+    rules:
+      - id: "bad-target"
+        action: provider_call
+        target_id: "   "
+        effect: deny
+  workflow:
+    kind: sequential
+    steps:
+      - id: "s1"
+        agent: "a1"
+        task: "t1"
+        delegation:
+          role: "reviewer"
+"#;
+    let doc: AdlDoc = serde_yaml::from_str(yaml).expect("yaml parse");
+    let err = doc
+        .validate()
+        .expect_err("empty delegation target_id must fail");
+    assert!(
+        err.to_string().contains("target_id must not be empty"),
+        "unexpected error: {err:#}"
+    );
+}
+
+#[test]
+fn resolve_preserves_absent_step_delegation_as_none() {
+    let yaml = r#"
+version: "0.5"
+providers:
+  local:
+    type: "ollama"
+agents:
+  a1:
+    provider: "local"
+    model: "phi4-mini"
+tasks:
+  t1:
+    prompt:
+      user: "u"
+run:
+  workflow:
+    kind: sequential
+    steps:
+      - id: "s1"
+        agent: "a1"
+        task: "t1"
+"#;
+    let doc = parse_doc(yaml);
+    let resolved = resolve::resolve_run(&doc).expect("resolve");
+    assert!(resolved.steps[0].delegation.is_none());
+    assert!(resolved.execution_plan.nodes[0].delegation.is_none());
+}
+
+#[test]
+fn resolve_preserves_conversation_turn_metadata() {
+    let yaml = r#"
+version: "0.5"
+providers:
+  local:
+    type: "ollama"
+agents:
+  a1:
+    provider: "local"
+    model: "phi4-mini"
+tasks:
+  t1:
+    prompt:
+      user: "u"
+run:
+  workflow:
+    kind: sequential
+    steps:
+      - id: "discussion.opening"
+        agent: "a1"
+        task: "t1"
+        conversation:
+          id: "turn_01"
+          speaker: "ChatGPT"
+          sequence: 1
+          thread_id: "tea_discussion"
+"#;
+    let doc = parse_doc(yaml);
+    let resolved = resolve::resolve_run(&doc).expect("resolve");
+    let turn = resolved.steps[0]
+        .conversation
+        .as_ref()
+        .expect("conversation metadata");
+    assert_eq!(turn.id, "turn_01");
+    assert_eq!(turn.speaker, "ChatGPT");
+    assert_eq!(turn.sequence, Some(1));
+    assert_eq!(turn.thread_id.as_deref(), Some("tea_discussion"));
+}
+
+#[test]
+fn validate_rejects_invalid_conversation_turn_metadata() {
+    let yaml = r#"
+version: "0.5"
+providers:
+  local:
+    type: "ollama"
+agents:
+  a1:
+    provider: "local"
+    model: "phi4-mini"
+tasks:
+  t1:
+    prompt:
+      user: "u"
+run:
+  workflow:
+    kind: sequential
+    steps:
+      - id: "discussion.bad"
+        agent: "a1"
+        task: "t1"
+        conversation:
+          id: "turn_01"
+          speaker: ""
+          sequence: 0
+"#;
+    let doc: AdlDoc = serde_yaml::from_str(yaml).expect("yaml parse");
+    let err = doc
+        .validate()
+        .expect_err("invalid conversation metadata must fail");
+    assert!(
+        err.to_string()
+            .contains("conversation.speaker must not be empty"),
+        "unexpected error: {err:#}"
+    );
+}
+
+#[test]
+fn validate_rejects_empty_conversation_turn_id() {
+    let yaml = r#"
+version: "0.5"
+providers:
+  local:
+    type: "ollama"
+agents:
+  a1:
+    provider: "local"
+    model: "phi4-mini"
+tasks:
+  t1:
+    prompt:
+      user: "u"
+run:
+  workflow:
+    kind: sequential
+    steps:
+      - id: "discussion.bad"
+        agent: "a1"
+        task: "t1"
+        conversation:
+          id: "   "
+          speaker: "ChatGPT"
+"#;
+    let doc: AdlDoc = serde_yaml::from_str(yaml).expect("yaml parse");
+    let err = doc
+        .validate()
+        .expect_err("empty conversation turn id must fail");
+    assert!(
+        err.to_string()
+            .contains("conversation.id must not be empty"),
+        "unexpected error: {err:#}"
+    );
+}
+
+#[test]
+fn validate_rejects_zero_conversation_turn_sequence() {
+    let yaml = r#"
+version: "0.5"
+providers:
+  local:
+    type: "ollama"
+agents:
+  a1:
+    provider: "local"
+    model: "phi4-mini"
+tasks:
+  t1:
+    prompt:
+      user: "u"
+run:
+  workflow:
+    kind: sequential
+    steps:
+      - id: "discussion.bad"
+        agent: "a1"
+        task: "t1"
+        conversation:
+          id: "turn_01"
+          speaker: "ChatGPT"
+          sequence: 0
+"#;
+    let doc: AdlDoc = serde_yaml::from_str(yaml).expect("yaml parse");
+    let err = doc
+        .validate()
+        .expect_err("zero conversation sequence must fail");
+    assert!(
+        err.to_string()
+            .contains("conversation.sequence must be >= 1"),
+        "unexpected error: {err:#}"
+    );
+}
+
+#[test]
+fn validate_rejects_self_referential_conversation_response() {
+    let yaml = r#"
+version: "0.5"
+providers:
+  local:
+    type: "ollama"
+agents:
+  a1:
+    provider: "local"
+    model: "phi4-mini"
+tasks:
+  t1:
+    prompt:
+      user: "u"
+run:
+  workflow:
+    kind: sequential
+    steps:
+      - id: "discussion.bad"
+        agent: "a1"
+        task: "t1"
+        conversation:
+          id: "turn_01"
+          speaker: "ChatGPT"
+          responds_to: "turn_01"
+"#;
+    let doc: AdlDoc = serde_yaml::from_str(yaml).expect("yaml parse");
+    let err = doc
+        .validate()
+        .expect_err("self-referential conversation response must fail");
+    assert!(
+        err.to_string()
+            .contains("conversation.responds_to must not reference the same turn id"),
+        "unexpected error: {err:#}"
+    );
+}
+
+#[test]
+fn validate_rejects_duplicate_conversation_turn_ids() {
+    let yaml = r#"
+version: "0.5"
+providers:
+  local:
+    type: "ollama"
+agents:
+  a1:
+    provider: "local"
+    model: "phi4-mini"
+tasks:
+  t1:
+    prompt:
+      user: "u"
+run:
+  workflow:
+    kind: sequential
+    steps:
+      - id: "discussion.opening"
+        agent: "a1"
+        task: "t1"
+        conversation:
+          id: "turn_01"
+          speaker: "ChatGPT"
+      - id: "discussion.reply"
+        agent: "a1"
+        task: "t1"
+        conversation:
+          id: "turn_01"
+          speaker: "Claude"
+"#;
+    let doc: AdlDoc = serde_yaml::from_str(yaml).expect("yaml parse");
+    let err = doc
+        .validate()
+        .expect_err("duplicate conversation turn ids must fail");
+    assert!(
+        err.to_string()
+            .contains("duplicate conversation turn id 'turn_01'"),
+        "unexpected error: {err:#}"
+    );
+}
+
+#[test]
+fn resolve_and_plan_round_trip_step_delegation() {
+    let yaml = r#"
+version: "0.5"
+providers:
+  local:
+    type: "ollama"
+agents:
+  a1:
+    provider: "local"
+    model: "phi4-mini"
+tasks:
+  t1:
+    prompt:
+      user: "u"
+run:
+  workflow:
+    kind: sequential
+    steps:
+      - id: "s1"
+        agent: "a1"
+        task: "t1"
+        delegation:
+          role: "reviewer"
+          requires_verification: true
+          escalation_target: "human"
+          tags: ["safety"]
+"#;
+    let doc = parse_doc(yaml);
+    let resolved = resolve::resolve_run(&doc).expect("resolve");
+    let step = &resolved.steps[0];
+    let node = &resolved.execution_plan.nodes[0];
+    assert_eq!(
+        step.delegation.as_ref().and_then(|d| d.role.as_deref()),
+        Some("reviewer")
+    );
+    assert_eq!(
+        node.delegation
+            .as_ref()
+            .and_then(|d| d.requires_verification),
+        Some(true)
+    );
+}
+
+#[test]
+fn validate_rejects_zero_max_concurrency() {
+    let yaml = r#"
+version: "0.3"
+providers:
+  local:
+    type: "ollama"
+agents:
+  a1:
+    provider: "local"
+    model: "phi4-mini"
+tasks:
+  t1:
+    prompt:
+      user: "hello"
+run:
+  defaults:
+    max_concurrency: 0
+  workflow:
+    kind: concurrent
+    steps:
+      - id: "s1"
+        agent: "a1"
+        task: "t1"
+"#;
+    let doc: AdlDoc = serde_yaml::from_str(yaml).expect("yaml should parse");
+    let err = doc.validate().expect_err("max_concurrency=0 must fail");
+    assert!(
+        err.to_string().contains("max_concurrency must be >= 1"),
+        "unexpected error: {err:#}"
+    );
+}
+
+#[test]
+fn validate_rejects_zero_inline_workflow_max_concurrency() {
+    let yaml = r#"
+version: "0.3"
+providers:
+  local:
+    type: "ollama"
+agents:
+  a1:
+    provider: "local"
+    model: "phi4-mini"
+tasks:
+  t1:
+    prompt:
+      user: "hello"
+run:
+  workflow:
+    kind: concurrent
+    max_concurrency: 0
+    steps:
+      - id: "s1"
+        agent: "a1"
+        task: "t1"
+"#;
+    let doc: AdlDoc = serde_yaml::from_str(yaml).expect("yaml should parse");
+    let err = doc
+        .validate()
+        .expect_err("run.workflow.max_concurrency=0 must fail");
+    assert!(
+        err.to_string()
+            .contains("run.workflow.max_concurrency must be >= 1"),
+        "unexpected error: {err:#}"
+    );
+}
+
+#[test]
+fn validate_rejects_zero_workflow_ref_max_concurrency() {
+    let yaml = r#"
+version: "0.5"
+providers:
+  local:
+    type: "ollama"
+agents:
+  a1:
+    provider: "local"
+    model: "phi4-mini"
+tasks:
+  t1:
+    prompt:
+      user: "hello"
+workflows:
+  wf_main:
+    kind: concurrent
+    max_concurrency: 0
+    steps:
+      - id: "s1"
+        agent: "a1"
+        task: "t1"
+run:
+  workflow_ref: "wf_main"
+"#;
+    let doc: AdlDoc = serde_yaml::from_str(yaml).expect("yaml should parse");
+    let err = doc
+        .validate()
+        .expect_err("workflows.wf_main.max_concurrency=0 must fail");
+    assert!(
+        err.to_string()
+            .contains("workflows.wf_main.max_concurrency must be >= 1"),
+        "unexpected error: {err:#}"
+    );
+}
+
+#[test]
+fn validate_rejects_unknown_workflow_ref() {
+    let yaml = r#"
+version: "0.5"
+providers:
+  p1: { type: "ollama" }
+agents:
+  a1:
+    provider: "p1"
+    model: "m"
+tasks:
+  t1:
+    prompt:
+      user: "u"
+workflows: {}
+run:
+  workflow_ref: "wf_missing"
+"#;
+    let doc: AdlDoc = serde_yaml::from_str(yaml).expect("yaml parse");
+    let err = doc
+        .validate()
+        .expect_err("unknown workflow_ref should fail");
+    assert!(
+        err.to_string()
+            .contains("run.workflow_ref references unknown workflow"),
+        "{err:#}"
+    );
+}
+
+#[test]
+fn validate_rejects_unsupported_provider_kind() {
+    let yaml = r#"
+version: "0.5"
+providers:
+  p1:
+    type: "weird_provider"
+agents:
+  a1:
+    provider: "p1"
+    model: "m"
+tasks:
+  t1:
+    prompt:
+      user: "u"
+run:
+  workflow:
+    steps:
+      - task: "t1"
+        agent: "a1"
+"#;
+    let doc: AdlDoc = serde_yaml::from_str(yaml).expect("yaml parse");
+    let err = doc
+        .validate()
+        .expect_err("unsupported provider kind should fail");
+    assert!(err.to_string().contains("unsupported kind"), "{err:#}");
+}
+
+#[test]
+fn validate_accepts_native_openai_anthropic_and_vertex_provider_kinds() {
+    let yaml = r#"
+version: "0.5"
+providers:
+  openai_primary:
+    type: "openai"
+    config:
+      provider_model_id: "gpt-test"
+  anthropic_primary:
+    type: "anthropic"
+    config:
+      provider_model_id: "claude-test"
+  vertex_primary:
+    type: "vertex_ai_gemini"
+    config:
+      project: "company-project"
+      location: "us-west1"
+      provider_model_id: "gemini-2.5-flash"
+agents:
+  a1:
+    provider: "openai_primary"
+    model: "gpt-test"
+tasks:
+  t1:
+    prompt:
+      user: "u"
+run:
+  workflow:
+    steps:
+      - task: "t1"
+        agent: "a1"
+"#;
+    let doc: AdlDoc = serde_yaml::from_str(yaml).expect("yaml parse");
+    doc.validate()
+        .expect("native OpenAI/Anthropic/Vertex AI provider kinds should validate");
+}
+
+#[test]
+fn validate_rejects_both_workflow_ref_and_inline_workflow() {
+    let yaml = r#"
+version: "0.5"
+providers:
+  p1: { type: "ollama" }
+agents:
+  a1:
+    provider: "p1"
+    model: "m"
+tasks:
+  t1:
+    prompt:
+      user: "u"
+workflows:
+  wf_main:
+    steps:
+      - task: "t1"
+        agent: "a1"
+run:
+  workflow_ref: "wf_main"
+  workflow:
+    steps:
+      - task: "t1"
+        agent: "a1"
+"#;
+    let doc: AdlDoc = serde_yaml::from_str(yaml).expect("yaml parse");
+    let err = doc
+        .validate()
+        .expect_err("both workflow_ref and inline workflow should fail");
+    assert!(
+        err.to_string()
+            .contains("either workflow_ref or inline workflow, but not both"),
+        "{err:#}"
+    );
+}
+
+#[test]
+fn validate_rejects_pattern_ref_with_inline_workflow() {
+    let yaml = r#"
+version: "0.5"
+providers:
+  local:
+    type: "ollama"
+tasks:
+  A:
+    prompt:
+      user: "A"
+patterns:
+  - id: p1
+    type: linear
+    steps: [A]
+run:
+  pattern_ref: p1
+  workflow:
+    kind: sequential
+    steps: []
+"#;
+
+    let doc: AdlDoc = serde_yaml::from_str(yaml).expect("yaml should parse");
+    let err = doc
+        .validate()
+        .expect_err("should reject ambiguous run shape");
+    assert!(
+        err.to_string().contains(
+            "run.pattern_ref cannot be combined with run.workflow_ref or inline run.workflow"
+        ),
+        "unexpected error: {err:#}"
+    );
+}
+
+#[test]
+fn validate_rejects_pattern_ref_with_workflow_ref() {
+    let yaml = r#"
+version: "0.5"
+providers:
+  local:
+    type: "ollama"
+tasks:
+  A:
+    prompt:
+      user: "A"
+workflows:
+  wf:
+    id: "wf"
+    kind: sequential
+    steps:
+      - id: "s1"
+        task: "A"
+patterns:
+  - id: p1
+    type: linear
+    steps: [A]
+run:
+  pattern_ref: p1
+  workflow_ref: "wf"
+"#;
+
+    let doc: AdlDoc = serde_yaml::from_str(yaml).expect("yaml should parse");
+    let err = doc
+        .validate()
+        .expect_err("should reject ambiguous run shape");
+    assert!(
+        err.to_string().contains(
+            "run.pattern_ref cannot be combined with run.workflow_ref or inline run.workflow"
+        ),
+        "unexpected error: {err:#}"
+    );
+}
+
+#[test]
+fn load_from_file_rejects_include_with_parent_dir() {
+    let dir = unique_test_temp_dir("adl-include-parent");
+    let adl_path = dir.join("doc.yaml");
+    let yaml = r#"
+version: "0.1"
+include:
+  - "../outside.yaml"
+providers:
+  local:
+    type: "ollama"
+agents:
+  a1:
+    provider: "local"
+    model: "m"
+tasks:
+  t1:
+    prompt:
+      user: "hi"
+run:
+  workflow:
+    steps:
+      - agent: "a1"
+        task: "t1"
+"#;
+    std::fs::write(&adl_path, yaml).expect("write adl");
+
+    let err = AdlDoc::load_from_file(adl_path.to_str().unwrap()).unwrap_err();
+    let msg = format!("{err:#}");
+    assert!(
+        msg.contains("include path must be relative") && msg.contains("must not contain '..'"),
+        "unexpected error: {msg}"
+    );
+}
+
+#[test]
+fn validate_rejects_write_to_without_save_as() {
+    let yaml = r#"
+version: "0.1"
+providers:
+  local:
+    type: "ollama"
+agents:
+  a1:
+    provider: "local"
+    model: "m"
+tasks:
+  t1:
+    prompt:
+      user: "hi"
+run:
+  workflow:
+    steps:
+      - id: "s1"
+        agent: "a1"
+        task: "t1"
+        write_to: "out/result.txt"
+"#;
+
+    let doc: AdlDoc = serde_yaml::from_str(yaml).expect("yaml should parse");
+    let err = doc
+        .validate()
+        .expect_err("write_to without save_as should fail");
+    let msg = format!("{err:#}");
+    assert!(
+        msg.contains("uses write_to but is missing save_as"),
+        "unexpected error: {msg}"
+    );
+}
+
+#[test]
+fn validate_accepts_provider_profile_without_explicit_provider_fields() {
+    let yaml = r#"
+version: "0.5"
+providers:
+  local:
+    profile: "ollama:phi4-mini"
+agents:
+  a1:
+    provider: "local"
+    model: "phi4-mini"
+tasks:
+  t1:
+    prompt:
+      user: "u"
+run:
+  workflow:
+    kind: sequential
+    steps:
+      - id: "s1"
+        agent: "a1"
+        task: "t1"
+"#;
+    let doc: AdlDoc = serde_yaml::from_str(yaml).expect("yaml should parse");
+    doc.validate()
+        .expect("profile-only provider should validate");
+}
+
+#[test]
+fn validate_rejects_profile_with_explicit_provider_fields() {
+    let yaml = r#"
+version: "0.5"
+providers:
+  local:
+    profile: "ollama:phi4-mini"
+    type: "ollama"
+agents:
+  a1:
+    provider: "local"
+    model: "phi4-mini"
+tasks:
+  t1:
+    prompt:
+      user: "u"
+run:
+  workflow:
+    kind: sequential
+    steps:
+      - id: "s1"
+        agent: "a1"
+        task: "t1"
+"#;
+    let doc: AdlDoc = serde_yaml::from_str(yaml).expect("yaml should parse");
+    let err = doc
+        .validate()
+        .expect_err("profile + explicit provider fields should fail");
+    assert!(
+        err.to_string()
+            .contains("profile and explicit provider identity fields together"),
+        "{err:#}"
+    );
+}
+
+// PVF local_contract: deterministic path fixtures; bounded temp disk; public source gate.
+#[cfg(unix)]
+#[test]
+fn load_from_file_enforces_canonical_include_root() {
+    use std::os::unix::fs::symlink;
+    let dir = unique_test_temp_dir("adl-include-root");
+    let root = dir.join("root");
+    std::fs::create_dir_all(root.join("nested")).unwrap();
+    let body = r#"version: "0.1"
+providers:
+  local: {type: ollama}
+agents:
+  a1: {provider: local, model: m}
+tasks:
+  t1:
+    prompt: {user: hi}
+run:
+  workflow:
+    steps:
+      - {agent: a1, task: t1}
+"#;
+    std::fs::write(root.join("body.yaml"), body).unwrap();
+    std::fs::write(dir.join("outside.yaml"), body).unwrap();
+    symlink(dir.join("outside.yaml"), root.join("escape.yaml")).unwrap();
+    symlink(root.join("body.yaml"), root.join("nested/inside.yaml")).unwrap();
+    let entry = root.join("entry.yaml");
+    for include in ["escape.yaml", "nested/escape.yaml"] {
+        if include.starts_with("nested/") {
+            symlink(dir.join("outside.yaml"), root.join(include)).unwrap();
+            std::fs::write(root.join("nested/part.yaml"), "include: [escape.yaml]\n").unwrap();
+            std::fs::write(&entry, "include: [nested/part.yaml]\n").unwrap();
+        } else {
+            std::fs::write(&entry, "include: [escape.yaml]\n").unwrap();
+        }
+        let err = AdlDoc::load_from_file(entry.to_str().unwrap()).unwrap_err();
+        assert!(format!("{err:#}").contains("outside initial document directory"));
+    }
+    // A nested include may resolve elsewhere within the original root.
+    std::fs::write(root.join("nested/part.yaml"), "include: [inside.yaml]\n").unwrap();
+    std::fs::write(&entry, "include: [nested/part.yaml]\n").unwrap();
+    let doc = AdlDoc::load_from_file(entry.to_str().unwrap()).unwrap();
+    assert!(doc.agents.contains_key("a1"));
+    std::fs::write(&entry, "include: [body.yaml, body.yaml]\n").unwrap();
+    assert!(format!(
+        "{:#}",
+        AdlDoc::load_from_file(entry.to_str().unwrap()).unwrap_err()
+    )
+    .contains("duplicate"));
+    std::fs::write(&entry, "include: [entry.yaml]\n").unwrap();
+    assert!(format!(
+        "{:#}",
+        AdlDoc::load_from_file(entry.to_str().unwrap()).unwrap_err()
+    )
+    .contains("include cycle"));
+    std::fs::remove_dir_all(dir).unwrap();
+}

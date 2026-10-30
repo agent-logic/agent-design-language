@@ -1,0 +1,323 @@
+{
+  "status": "applied",
+  "source_head": "0b9ea27933aec47c76e0c5e2deefa79f842f2a29",
+  "original_baseline": "248f00e359e412f6bc0061ac88be9ff374e3a212",
+  "removed_count": 4,
+  "rows": [
+    {
+      "id": "RD07-1428",
+      "path": "adl/tools/local_model_capabilities.v1.json",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "c3c952c787414d3e4b504fae55068e5569bef7a9"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/local_model_capabilities.v1.json"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1442",
+      "path": "adl/tools/native_qwen_assisted_generation_benchmark.py",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "05bb66e47bcdc79b8053b2a24701358d11f18973"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/native_qwen_assisted_generation_benchmark.py"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1455",
+      "path": "adl/tools/provider/run_dspark_gpu_smoke_preflight.sh",
+      "owner": "agent-logic-infrastructure",
+      "component": "agent-logic-infrastructure-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "169ce2513b6eea1a098778d59f31c23b3ba7e219"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+        "exact_successor_paths": [
+          "adl/tools/provider/run_dspark_gpu_smoke_preflight.sh"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1472",
+      "path": "adl/tools/run_anrm_gemma_shepherd_trials.py",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "d3d1bc1d3d1e0e9a8b94f0ba546a11cdcd92ef57"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/run_anrm_gemma_shepherd_trials.py"
+        ]
+      }
+    }
+  ],
+  "files": [
+    {
+      "path": "adl/tools/local_model_capabilities.v1.json",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "c3c952c787414d3e4b504fae55068e5569bef7a9",
+        "sha256": "257bfab5c8a72b82649beec21312c06603d7b3f88ff2b04988a2ead6754103aa"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/native_qwen_assisted_generation_benchmark.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "05bb66e47bcdc79b8053b2a24701358d11f18973",
+        "sha256": "5ba76f9b130436a62b8789c7fd6a06d785ae589e17aa974c6f63a6118297ad9f"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/provider/run_dspark_gpu_smoke_preflight.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "169ce2513b6eea1a098778d59f31c23b3ba7e219",
+        "sha256": "38f6b80f5699d558e2964f53b9c37f7e1d6b2f72d4d5d5b76d8f83549e4f51e7"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/run_anrm_gemma_shepherd_trials.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "d3d1bc1d3d1e0e9a8b94f0ba546a11cdcd92ef57",
+        "sha256": "addc549712eb51a86986846de8f90a6b4baf89de22832fe29e6b3407644fd413"
+      },
+      "after": null
+    },
+    {
+      "path": "demos/v0.87.1/codex_ollama_operational_skills_demo.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "b5e2b367955f03f16397feaf4a1934feee936839",
+        "sha256": "2abfd36c6ae85aacdfd503deefb1125eacc2542c4400ea64df841ba4aa63261f"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "c18c40328fbc06b33de0de613e273cdd2bf93079",
+        "sha256": "9d67d8874a96b13e1393e47b7ee7c707d9649d3e7232181c4f756cd2bd3c44e6"
+      }
+    },
+    {
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "510bb22e6d67254fa54f1309cb2897bd75f1dfba",
+        "sha256": "b503ef4e9c87d054d1fcbfaa91ad890ea6f99fd98c43da691fb6cab74ce7e68f"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "9c79741687a34d6ec5e1ce58ec353b53b6f326ba",
+        "sha256": "b94b74366430c64d6a6ea4b9af9abf98ae8dcb68f90d7b9c3dc67b27265ba741"
+      }
+    }
+  ],
+  "owner_inputs": [
+    {
+      "path": "adl/tools/local_model_capabilities.v1.json",
+      "repository": "/Volumes/FastWork/runtime-installer147/agent-logic-runtime",
+      "revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "mode": "100644",
+      "blob": "c3c952c787414d3e4b504fae55068e5569bef7a9",
+      "sha256": "257bfab5c8a72b82649beec21312c06603d7b3f88ff2b04988a2ead6754103aa",
+      "current_bytes_exact": true
+    },
+    {
+      "path": "adl/tools/native_qwen_assisted_generation_benchmark.py",
+      "repository": "/Volumes/FastWork/runtime-installer147/agent-logic-runtime",
+      "revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "mode": "100755",
+      "blob": "05bb66e47bcdc79b8053b2a24701358d11f18973",
+      "sha256": "5ba76f9b130436a62b8789c7fd6a06d785ae589e17aa974c6f63a6118297ad9f",
+      "current_bytes_exact": true
+    },
+    {
+      "path": "adl/tools/provider/run_dspark_gpu_smoke_preflight.sh",
+      "repository": "/Volumes/FastWork/c1223/infrastructure14/agent-logic-infrastructure",
+      "revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+      "mode": "100755",
+      "blob": "169ce2513b6eea1a098778d59f31c23b3ba7e219",
+      "sha256": "38f6b80f5699d558e2964f53b9c37f7e1d6b2f72d4d5d5b76d8f83549e4f51e7",
+      "current_bytes_exact": true
+    },
+    {
+      "path": "adl/tools/run_anrm_gemma_shepherd_trials.py",
+      "repository": "/Volumes/FastWork/runtime-installer147/agent-logic-runtime",
+      "revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "mode": "100755",
+      "blob": "d3d1bc1d3d1e0e9a8b94f0ba546a11cdcd92ef57",
+      "sha256": "addc549712eb51a86986846de8f90a6b4baf89de22832fe29e6b3407644fd413",
+      "current_bytes_exact": true
+    }
+  ],
+  "evidence": [
+    {
+      "path": "/Volumes/FastWork/c1223/standalone-four-offline/INPUTS.json",
+      "sha256": "7c50442c083e49201efc71e62d05ff13312b967eb2bf6352061f98699cb3a240"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/standalone-four-offline/check_pure.py",
+      "sha256": "8363beed271c9a6997f53c9a12eeeadc3d206698d6a36ef07350e446fd904d91"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/standalone-four-offline/RESULT.json",
+      "sha256": "e582e7e81dad8610518322806c313ef3347dacd3ded5302cddac8bda43235d1a"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/standalone-four-offline/CAPABILITY_INPUTS.json",
+      "sha256": "66a5565b407e141542f6dd87b3e88f452074d4f7cd6e66e24672433e22744718"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/standalone-four-offline/capability-loader-exact.py",
+      "sha256": "f1a4e0b66d0a431f974556d19bfd06499fe57d6cf958a8a328788c9736b89dee"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/standalone-four-offline/check_capability.py",
+      "sha256": "0e7dc86f94a49b5f3f38f8b48b9d9d2ccd5b97dc7b85c55ff32788f6f96a4afc"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/standalone-four-offline/CAPABILITY_RESULT.json",
+      "sha256": "f0cd70e0cd884c6a7e8806353cb0c6a6f6aef28d4c4a90ab38802d8fe30a506b"
+    }
+  ],
+  "custody": {
+    "path": "/Volumes/FastWork/c1223/standalone-four-owner-transfer/current-original.tar",
+    "sha256": "4e84c017edbae6a64e00dc202350be9c0b22542874ffad473d90e9b63c2c15b6",
+    "current_members": 6,
+    "original_members": 4
+  },
+  "patch": {
+    "path": "/Volumes/FastWork/c1223/standalone-four-owner-transfer/four-and-navigation.patch",
+    "sha256": "5254e7b71278187f20fb7a45be2e08f23983e87b30d575c36ed22c3e1f060639"
+  },
+  "preserved_historical_evidence": [
+    {
+      "path": "docs/milestones/v0.91.7/review/provider/NATIVE_QWEN_ASSISTED_GENERATION_BENCHMARK_4653.json",
+      "mode": "100644",
+      "blob": "3352a5799bf93be36d4174cf2c936b7bc8af0b81",
+      "sha256": "04d898762fd67b2a654ca21cb9f721b0a22567ebff823ce0896a8d0ec0d6fd9d"
+    },
+    {
+      "path": "docs/milestones/v0.91.7/review/provider/NATIVE_QWEN_ASSISTED_GENERATION_BENCHMARK_OFFLINE_4653.json",
+      "mode": "100644",
+      "blob": "aa4b11fd29a06e3181dade44a6f153b743ac233f",
+      "sha256": "c37d4b6e7d76c5e25025992e05d9998d5277c633283c1d58a5830f2345f3dbdf"
+    },
+    {
+      "path": "docs/milestones/v0.91.7/review/provider/DSPARK_SPECULATIVE_DECODING_EVALUATION_4653.md",
+      "mode": "100644",
+      "blob": "5f6ed843900a7ed147390a2f3f1427e7b251f756",
+      "sha256": "5ddf5427286e6655cfacd2a197cfc8f92c27e5cd115c555757d4543ea38f6c19"
+    },
+    {
+      "path": "docs/milestones/v0.91.7/review/provider/dspark_gpu_smoke_4654/README.md",
+      "mode": "100644",
+      "blob": "f5fd785d7c493755aafa7d354bc2da7b1fb47c03",
+      "sha256": "383b2fdb6a5e3d20b28d84380034f27cbbcbfdee18a5e285152fac0ac3c08d3b"
+    },
+    {
+      "path": "docs/milestones/v0.91.7/review/provider/dspark_gpu_smoke_4654/preflight_summary.json",
+      "mode": "100644",
+      "blob": "a842439f61c33bcae3d787c1484c87fcb87f3df7",
+      "sha256": "fe163d10d59c3f1e01ffb6d109858c4fe46eccc2314e1bd7b975899e5f4390ab"
+    },
+    {
+      "path": "docs/milestones/v0.91.1/review/anrm_gemma_trace_dataset/anrm_trace_dataset.json",
+      "mode": "100644",
+      "blob": "7c6ca8cc1125df6e7061e6f9ac4f0bc547c1cf00",
+      "sha256": "611112c166fabc1009286092b7e36262cffad3700505b07ef7567f160b2bca16"
+    }
+  ],
+  "disposition": "Transfer standalone model/cloud helper source to exact existing owner paths, not declare those features obsolete. ADL has no remaining compiled or active dispatched consumer; retain owner manual/live obligations and historical outputs.",
+  "qualification": {
+    "qwen_anrm": "Actual once6 NEW deterministic helper groups PASS on exact owner source: Qwen input/statistics, ANRM parsing/schema/decision scoring across5original cases and subject aggregation. Zero original mains or live models; not original benchmark/trial performance acceptance.",
+    "capabilities": "Actual7cases PASS using unmodified delivered CSDL loader heredoc and authentic Runtime registry: fourprofiles, unknown, provider mismatch, forcedfallback. No surrounding installer/Codex/model execution.",
+    "dspark": "Existing historical actual preflight report is blocked_p_family_quota_zero_or_pending; preserved without rerun. No successful GPU smoke, model inference or new branch/owner behavior qualification claimed."
+  },
+  "caller_closure": {
+    "guide": "Two capability registry references route to exact Runtime owner; historical demo procedure otherwise unchanged.",
+    "selector": "v0.91.6 selector is already historical/rejected by active public manager; original py_compile command remains immutable historical routing evidence, not repaired into active lane.",
+    "anrm": "Runtime owner trace dataset producer preserves source reference; existing ADL trace dataset remains historical evidence. No active public caller.",
+    "registry": "Three top-level rows removed; nested DSpark script has no own row, provider directory still contains other retained tools."
+  },
+  "limits": [
+    "Model loading/performance, live Ollama trials, AWS/HuggingFace readback and optional quota mutation remain manual owner obligations.",
+    "No paid/model/cloud/build execution occurred in this preparation.",
+    "Source transfer and bounded helper/loader checks do not imply installed Runtime acceptance, current model capabilities or historical output regeneration."
+  ],
+  "composition": {
+    "prior_proposal": "/Volumes/FastWork/c1223/standalone-four-owner-transfer/prior-96562/PROPOSAL.json",
+    "sha256": "0196273207003e781c94f11c86d73356207523e2809c9998c60eee106f500123",
+    "changed_file_identities": [
+      "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+    ],
+    "other_five_source_identities_unchanged": true,
+    "registry_delta": "Exactly three removed rows and zero added, preserving LegacyDemo8."
+  },
+  "proposal_source_head": "0b9ea27933aec47c76e0c5e2deefa79f842f2a29",
+  "review": {
+    "status": "PASS",
+    "reviewer": "review_1223_public_facade",
+    "proposal_sha256": "f39252d7d2dd244e34161d38e982b5144bc1d6828e8106d46b5128ce8fbfe159",
+    "scope": "Reviewed source/caller/custody composition; all individual qualification and historical limits preserved."
+  }
+}

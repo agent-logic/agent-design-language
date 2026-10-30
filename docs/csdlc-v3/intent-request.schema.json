@@ -1,0 +1,963 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-logic.github.io/agent-design-language/csdlc/intent-request.v1.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "const": "csdlc.v3.intent_request.v1"
+    },
+    "command": {
+      "enum": [
+        "status",
+        "prepare",
+        "bind",
+        "edit",
+        "rebuild",
+        "validate",
+        "proof",
+        "review",
+        "publish",
+        "finish",
+        "clean",
+        "recover",
+        "github-issue",
+        "github-pr",
+        "pr-state",
+        "install",
+        "cutover",
+        "rollback"
+      ]
+    },
+    "content": {},
+    "execute": {
+      "type": "boolean"
+    },
+    "preview": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "snapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "repository": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$"
+        },
+        "issue": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "platform": {
+          "type": "string",
+          "minLength": 1
+        },
+        "authority": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "selector_digest": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          },
+          "required": [
+            "selector_digest"
+          ]
+        },
+        "version": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "generation": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "minimum": 1
+            },
+            "digest": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "generation",
+            "digest"
+          ]
+        },
+        "checkout": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "branch": {
+              "type": "string",
+              "minLength": 1
+            },
+            "head": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{40}$"
+            },
+            "root": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "branch",
+            "head",
+            "root"
+          ]
+        },
+        "semantic_version": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "generation": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "minimum": 1
+            },
+            "digest": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "pattern": "^semantic-state-v1:[0-9a-f]{64}$"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "generation",
+            "digest"
+          ]
+        }
+      },
+      "required": [
+        "repository",
+        "issue",
+        "platform",
+        "authority",
+        "version",
+        "checkout"
+      ]
+    }
+  },
+  "required": [
+    "schema",
+    "command",
+    "content",
+    "execute",
+    "preview",
+    "snapshot"
+  ],
+  "$defs": {
+    "plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema": {
+          "const": "csdlc.v3.intent_plan.v1"
+        },
+        "slug": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]{1,100}$"
+        },
+        "cards": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "sip": {
+              "type": "object"
+            },
+            "stp": {
+              "type": "object"
+            },
+            "spp": {
+              "type": "object"
+            },
+            "vpp": {
+              "type": "object"
+            },
+            "srp": {
+              "type": "object"
+            },
+            "sor": {
+              "type": "object"
+            }
+          },
+          "required": [
+            "sip",
+            "stp",
+            "spp",
+            "vpp",
+            "srp",
+            "sor"
+          ]
+        },
+        "validators": {
+          "$ref": "#/$defs/validators"
+        },
+        "publication": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "base": {
+              "type": "string",
+              "minLength": 1
+            },
+            "title": {
+              "type": "string",
+              "minLength": 1
+            },
+            "body": {
+              "type": "string",
+              "minLength": 1
+            },
+            "draft": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "base",
+            "title",
+            "body",
+            "draft"
+          ]
+        }
+      },
+      "required": [
+        "schema",
+        "slug",
+        "cards",
+        "validators",
+        "publication"
+      ]
+    },
+    "changes": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema": {
+          "const": "csdlc.v3.intent_changes.v1"
+        },
+        "cards": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": false,
+          "properties": {
+            "sip": {
+              "type": "object"
+            },
+            "stp": {
+              "type": "object"
+            },
+            "spp": {
+              "type": "object"
+            },
+            "vpp": {
+              "type": "object"
+            },
+            "srp": {
+              "type": "object"
+            },
+            "sor": {
+              "type": "object"
+            }
+          }
+        },
+        "amendment": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "class": {
+              "enum": [
+                "scope_acceptance",
+                "plan",
+                "proof_validator",
+                "implementation",
+                "review",
+                "display_only"
+              ]
+            },
+            "transition_approved": {
+              "type": "boolean"
+            },
+            "implementation_revision": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{40}$"
+            },
+            "new_commit": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "class",
+            "transition_approved"
+          ]
+        },
+        "publication": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "base": {
+              "type": "string",
+              "minLength": 1
+            },
+            "title": {
+              "type": "string",
+              "minLength": 1
+            },
+            "body": {
+              "type": "string",
+              "minLength": 1
+            },
+            "draft": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "base",
+            "title",
+            "body",
+            "draft"
+          ]
+        },
+        "validators": {
+          "$ref": "#/$defs/validators"
+        }
+      },
+      "required": [
+        "schema"
+      ],
+      "oneOf": [
+        {
+          "required": [
+            "cards",
+            "amendment"
+          ],
+          "not": {
+            "anyOf": [
+              {
+                "required": [
+                  "publication"
+                ]
+              },
+              {
+                "required": [
+                  "validators"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "required": [
+            "publication"
+          ],
+          "not": {
+            "anyOf": [
+              {
+                "required": [
+                  "cards"
+                ]
+              },
+              {
+                "required": [
+                  "amendment"
+                ]
+              },
+              {
+                "required": [
+                  "validators"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "required": [
+            "validators"
+          ],
+          "not": {
+            "anyOf": [
+              {
+                "required": [
+                  "cards"
+                ]
+              },
+              {
+                "required": [
+                  "publication"
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "status_decisions": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "design_ready": {
+          "type": "boolean"
+        },
+        "dependencies_ready": {
+          "type": "boolean"
+        },
+        "budget_available": {
+          "type": "boolean"
+        },
+        "retryable_failure": {
+          "type": "boolean"
+        },
+        "operator_decision_needed": {
+          "type": "boolean"
+        }
+      }
+    },
+    "no_pr_disposition": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "disposition": {
+          "enum": [
+            "retired_without_execution",
+            "duplicate",
+            "superseded",
+            "absorbed",
+            "coordination_completed",
+            "historical_disposition"
+          ]
+        },
+        "operator": {
+          "type": "string",
+          "minLength": 1
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence_refs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "required": [
+        "disposition",
+        "operator",
+        "rationale",
+        "evidence_refs"
+      ]
+    },
+    "validator": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^(?!\\.{1,2}$)[^/\\\\]+$"
+        },
+        "program": {
+          "enum": [
+            "cargo",
+            "python3",
+            "git",
+            "manual-review"
+          ]
+        },
+        "args": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "success_marker": {
+          "type": "string",
+          "minLength": 1
+        },
+        "timeout_seconds": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 300,
+          "default": 300
+        }
+      },
+      "required": [
+        "id",
+        "program",
+        "args",
+        "success_marker"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "program": {
+                "const": "cargo"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "success_marker": {
+                "const": "test result: ok."
+              },
+              "args": {
+                "prefixItems": [
+                  {
+                    "const": "test"
+                  }
+                ]
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "success_marker": {
+                "maxLength": 256,
+                "pattern": "\\S"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "program": {
+                "const": "git"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "const": [
+                  "diff",
+                  "--check"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "program": {
+                "const": "manual-review"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "minItems": 1,
+                "maxItems": 1,
+                "items": {
+                  "type": "string",
+                  "pattern": "^(?!\\.{1,2}$)[^/\\\\]+$"
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "program": {
+                "const": "python3"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "minItems": 1,
+                "maxItems": 2,
+                "prefixItems": [
+                  {
+                    "type": "string",
+                    "pattern": "\\.py$"
+                  },
+                  {
+                    "const": "--self-test"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "description": "Declaration shape only. Native admission additionally enforces safe repository paths, tracked script/manifest inputs, unique IDs, and bounded Cargo argument syntax; non-Cargo declarations are planning-only and cannot execute through proof."
+    },
+    "validators": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/validator"
+      }
+    },
+    "creation_journal_recovery_disposition": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema": {
+          "const": "csdlc.v3.creation_journal_recovery_disposition.v1"
+        },
+        "operation_id": {
+          "type": "string",
+          "pattern": "^semantic-operation-v1:[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "schema",
+        "operation_id"
+      ]
+    },
+    "proof_recovery_disposition": {
+      "type": "object",
+      "properties": {
+        "schema": {
+          "const": "csdlc.v3.semantic_proof_recovery_disposition.v1"
+        },
+        "action": {
+          "const": "abandon_indeterminate_proof"
+        },
+        "operation_id": {
+          "type": "string",
+          "pattern": "^semantic-operation-v1:[0-9a-f]{64}$"
+        },
+        "rationale": {
+          "type": "string",
+          "pattern": "\\S"
+        }
+      },
+      "required": [
+        "schema",
+        "action",
+        "operation_id",
+        "rationale"
+      ]
+    },
+    "review_recovery_disposition": {
+      "type": "object",
+      "properties": {
+        "schema": {
+          "const": "csdlc.v3.semantic_review_recovery_disposition.v1"
+        },
+        "action": {
+          "const": "abandon_stale_review"
+        },
+        "operation_id": {
+          "type": "string",
+          "pattern": "^semantic-operation-v1:[0-9a-f]{64}$"
+        },
+        "rationale": {
+          "type": "string",
+          "pattern": "\\S"
+        }
+      },
+      "required": [
+        "schema",
+        "action",
+        "operation_id",
+        "rationale"
+      ]
+    },
+    "cleanup_absence_recovery_disposition": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema": {
+          "const": "csdlc.v3.semantic_cleanup_absence_recovery_disposition.v1"
+        },
+        "disposition": {
+          "const": "reconcile_already_absent_cleanup"
+        },
+        "repository": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$"
+        },
+        "issue": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "worktree": {
+          "type": "string",
+          "pattern": "\\S"
+        },
+        "branch": {
+          "type": "string",
+          "pattern": "\\S"
+        },
+        "head": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "terminal_receipt_digest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "operator": {
+          "type": "string",
+          "pattern": "\\S"
+        },
+        "rationale": {
+          "type": "string",
+          "pattern": "\\S"
+        },
+        "evidence_refs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "pattern": "\\S"
+          }
+        }
+      },
+      "required": [
+        "schema",
+        "disposition",
+        "repository",
+        "issue",
+        "worktree",
+        "branch",
+        "head",
+        "terminal_receipt_digest",
+        "operator",
+        "rationale",
+        "evidence_refs"
+      ]
+    },
+    "merge_retirement_disposition": {
+      "type": "object",
+      "properties": {
+        "schema": {
+          "const": "csdlc.v3.semantic_merge_retirement_disposition.v1"
+        },
+        "action": {
+          "const": "retire_never_dispatched_merge"
+        },
+        "operation_id": {
+          "type": "string",
+          "pattern": "^semantic-operation-v1:[0-9a-f]{64}$"
+        },
+        "rationale": {
+          "type": "string",
+          "pattern": "\\S"
+        }
+      },
+      "required": [
+        "schema",
+        "action",
+        "operation_id",
+        "rationale"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "command": {
+            "const": "prepare"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "content": {
+            "$ref": "#/$defs/plan"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "command": {
+            "const": "edit"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "content": {
+            "$ref": "#/$defs/changes"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "command": {
+            "enum": [
+              "bind",
+              "rebuild",
+              "validate",
+              "proof",
+              "publish",
+              "clean",
+              "pr-state"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "content": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "command": {
+            "const": "status"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "content": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/$defs/status_decisions"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "command": {
+            "const": "finish"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "content": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/$defs/no_pr_disposition"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "command": {
+            "const": "rebuild"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "snapshot": {
+            "required": [
+              "repository",
+              "issue",
+              "platform",
+              "authority",
+              "version",
+              "semantic_version",
+              "checkout"
+            ],
+            "properties": {
+              "semantic_version": {
+                "type": "object",
+                "required": [
+                  "generation",
+                  "digest"
+                ],
+                "properties": {
+                  "generation": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "digest": {
+                    "type": "string",
+                    "pattern": "^semantic-state-v1:[0-9a-f]{64}$"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "command": {
+            "const": "recover"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "content": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/$defs/creation_journal_recovery_disposition"
+              },
+              {
+                "$ref": "#/$defs/proof_recovery_disposition"
+              },
+              {
+                "$ref": "#/$defs/review_recovery_disposition"
+              },
+              {
+                "$ref": "#/$defs/merge_retirement_disposition"
+              },
+              {
+                "$ref": "#/$defs/cleanup_absence_recovery_disposition"
+              }
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

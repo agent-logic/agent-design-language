@@ -1,0 +1,227 @@
+{
+  "schema": "adl1223.infrastructure_lifecycle_redaction_two.v1",
+  "status": "applied_local_reversible_implementation",
+  "source_head": "b4de36db7cd69203c6794139951f808fd4ca8377",
+  "removed_count": 2,
+  "rows": [
+    {
+      "id": "RD07-1241",
+      "path": "adl/tools/aws_spot_artifact_redaction_verify.py",
+      "owner": "agent-logic-infrastructure",
+      "component": "agent-logic-infrastructure-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "da9d76f707dd153eddcb1ea7011106be33f3226e"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+        "exact_successor_paths": [
+          "adl/tools/aws_spot_artifact_redaction_verify.py"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1912",
+      "path": "adl/tools/test_aws_spot_lifecycle_controls.sh",
+      "owner": "agent-logic-infrastructure",
+      "component": "agent-logic-infrastructure-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "087f869c55d8559e5f30e6a5f206865a7e5e40d5"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "ed02d55985482a0dbb1469951d36efef931b63e2",
+        "exact_successor_paths": [
+          "adl/tools/test_aws_spot_lifecycle_controls.sh"
+        ]
+      }
+    }
+  ],
+  "files": [
+    {
+      "path": "adl/tools/aws_spot_artifact_redaction_verify.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "da9d76f707dd153eddcb1ea7011106be33f3226e",
+        "sha256": "27907c114e4b6f2b19f414f9b6d8a2e8ee4256f6d4e42938ac162a16b6ff7e65"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_aws_spot_lifecycle_controls.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "087f869c55d8559e5f30e6a5f206865a7e5e40d5",
+        "sha256": "11ad65bb494fb8fe44576b08dae69a3db8612a54dc34a8d4bb9a6b634e09fa8c"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/config/validation_lane_selector.v0.91.6.json",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "9acc47bd3643e438a0c919ef5f058a22a6f1dd8c",
+        "sha256": "2cf4d3c1dffec60a596b3a23a2bafbb137dc14fc8387ec1e8392f655579ab43c"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "a56f26b9bb38636d931aef3cfb9989943de3451d",
+        "sha256": "138dd6032939e0ad540b73071f2adf4b2b8f89ab0d887f4e9d1db8211611f1fc"
+      }
+    },
+    {
+      "path": "docs/tooling/GITHUB_SPOT_CI_COVERAGE_HOW_TO.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "a2254cd47f695657fd05adbc151dc08089b0ac11",
+        "sha256": "c2281120a7280f53cbdd3172c3b293b7c99e64b125eb289a61094ca5405cc138"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "ced34a6d0b9b3139435f21d062b8e3eb2004ce6b",
+        "sha256": "d5ca90495e555e7be7f0d76b4aeb1b5014c131dfca9e169b76554bac13f11589"
+      }
+    },
+    {
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "984b3cd3af5511997b7235b417e84c9a23e124f0",
+        "sha256": "d8918dfbf9357f81e8012c3875f71794087876fcca83e4b06c65846404853779"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "3c6726008bda13d2ecbfb5b66ea524732d17cfad",
+        "sha256": "722010a1191dc21274cef1f314f44978d53f82626a85a5f56c0a08fab2c7c336"
+      }
+    }
+  ],
+  "owner_revision": "025850d265cbd1a55b28a8e9b238b2fe0bfcaf1d",
+  "owner_inputs": [
+    {
+      "path": "adl/tools/test_aws_spot_lifecycle_controls.sh",
+      "owner_revision": "025850d265cbd1a55b28a8e9b238b2fe0bfcaf1d",
+      "sha256": "11ad65bb494fb8fe44576b08dae69a3db8612a54dc34a8d4bb9a6b634e09fa8c",
+      "git_identity": "100755 blob 087f869c55d8559e5f30e6a5f206865a7e5e40d5\tadl/tools/test_aws_spot_lifecycle_controls.sh"
+    },
+    {
+      "path": "adl/tools/run_aws_spot_remote_validation_lane.sh",
+      "owner_revision": "025850d265cbd1a55b28a8e9b238b2fe0bfcaf1d",
+      "sha256": "1762d23c121489437c8d80af48fc7f34ed4eac07abb0083e6f55d21286841dd8",
+      "git_identity": "100755 blob f2ac6b16f57a64ad18abcfb0854fee8442cd6c10\tadl/tools/run_aws_spot_remote_validation_lane.sh"
+    },
+    {
+      "path": "adl/tools/aws_spot_artifact_redaction_verify.py",
+      "owner_revision": "025850d265cbd1a55b28a8e9b238b2fe0bfcaf1d",
+      "sha256": "27907c114e4b6f2b19f414f9b6d8a2e8ee4256f6d4e42938ac162a16b6ff7e65",
+      "git_identity": "100755 blob da9d76f707dd153eddcb1ea7011106be33f3226e\tadl/tools/aws_spot_artifact_redaction_verify.py"
+    },
+    {
+      "path": "adl/tools/test_run_aws_spot_ci_profile.sh",
+      "owner_revision": "025850d265cbd1a55b28a8e9b238b2fe0bfcaf1d",
+      "sha256": "cc15d25c86fa3f6fddde4607428ed5bb2c5b602cb2f2f6d7f870c9196d779598",
+      "git_identity": "100755 blob a52a866fe27c9fcdc26a657e866ae7ab48394f81\tadl/tools/test_run_aws_spot_ci_profile.sh"
+    }
+  ],
+  "qualification": {
+    "container_exit": 0,
+    "lanes": [
+      {
+        "lane": "original_redaction_subset",
+        "exit": 0,
+        "seconds": 0.5153937979994225,
+        "stdout": "PASS original redaction assertion subset only\n",
+        "stderr": ""
+      },
+      {
+        "lane": "adapter_help_preflight",
+        "exit": 0,
+        "stdout": "adl-aws-remote-validation run --issue <number> --command <shell-command> --ami-id <ami> --subnet-id <subnet> --security-group-id <sg> --instance-profile-name <name> --out <summary.json> [--artifact-dir <dir>] [--instance-type <type> ...] [--spot-only|--on-demand-only] [--budget-name <name>] [--expected-max-cost-usd <usd>] [--estimated-hourly-cost-usd <usd>] [--total-run-timeout-seconds <seconds>] [--repo-url <url>] [--git-ref <ref>] [--cache-bucket <bucket>] [--cache-prefix <prefix>] [--sccache-tarball-url <url>] [--nextest-tarball-url <url>] [--ssh-key-name <name>] [--ssh-private-key-path <path>] [--ssh-user <user>] [--ssh-allowed-cidr <cidr>] [--cache-volume-id <id>] [--cache-volume-name <name>] [--cache-volume-size-gib <gib>] [--cache-volume-type <type>] [--cache-volume-iops <iops>] [--cache-volume-throughput-mbps <mbps>] [--cache-volume-device-name <device>] [--cache-volume-mount-path <path>] [--existing-instance-id <id> --pre-mounted-runtime-volume-id <id> --pre-mounted-runtime-root /opt/adl-runtime --pre-mounted-runtime-volume-id-sha256 <sha256>] [--command-timeout-seconds <seconds>] [--region <region>] [--profile <profile>] [--json]\n",
+        "stderr": ""
+      },
+      {
+        "lane": "original_lifecycle",
+        "exit": 0,
+        "seconds": 0.18440774599730503,
+        "stdout": "PASS test_aws_spot_lifecycle_controls\n",
+        "stderr": ""
+      }
+    ],
+    "scope": "Exact original redaction assertion subset only; lifecycle conditional on authentic binary help contract, no full mixed CI acceptance",
+    "no_network_mounts_credentials": true
+  },
+  "qualification_denominator": {
+    "lifecycle": "One unchanged original shell consumer, six fakeAWS/SSH invocations; genuine adapter used only for help prerequisite",
+    "redaction": "One exact original redaction assertion block, NOT full mixed script; all assertions retained",
+    "unqualified": "23backend snapshot assertions plus other original mixed CI/route clauses remain explicit historical owner obligations, not discarded or claimed passing"
+  },
+  "evidence": {
+    "/Volumes/FastWork/c1223/infrastructure-mapped65-followup/next-lifecycle-redaction/proof/PROVENANCE.json": "ed016239ddcd4ac817b32ab0e742590041b83ce87089f0613dc415f89dc2b1d2",
+    "/Volumes/FastWork/c1223/infrastructure-mapped65-followup/next-lifecycle-redaction/proof/RESULT.json": "bf3cd53dfb79e2487f7ae0ef58a5d48f3c87f77f737ff0989530a9f77a11270e",
+    "/Volumes/FastWork/c1223/infrastructure-mapped65-followup/next-lifecycle-redaction/proof/CONTAINER.json": "54fb1c663e1b1f64298e942f58f9a0797c1b599ecee30ec5962fabafc3c6ce09",
+    "/Volumes/FastWork/c1223/infrastructure-mapped65-followup/next-lifecycle-redaction/proof/stdout.jsonl": "227343ae54bf3429e2ccdec924c1bd134bf5295f66291b3ecfe7578cf0b2a24d",
+    "/Volumes/FastWork/c1223/infrastructure-mapped65-followup/next-lifecycle-redaction/proof/stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/Volumes/FastWork/c1223/infrastructure-mapped65-followup/next-lifecycle-redaction/proof/driver.py": "ac7255482ae864d8dd291b29ce172b5e43897b8be798c305b6edf027719c5405",
+    "/Volumes/FastWork/c1223/infrastructure-mapped65-followup/next-lifecycle-redaction/proof/redaction-subset.sh": "633b30b16cb494ff7380a907db9c75c4e450a36031ec626983a7c0d24b511323",
+    "/Volumes/FastWork/c1223/infrastructure-mapped65-followup/next-lifecycle-redaction/source/adl/tools/test_run_aws_spot_ci_profile.sh": "cc15d25c86fa3f6fddde4607428ed5bb2c5b602cb2f2f6d7f870c9196d779598",
+    "/Volumes/FastWork/c1223/infrastructure-mapped65-followup/next-lifecycle-redaction/redaction-original-subset.sh.txt": "402dc245c85b1d34ac3989abed9c7dca99bf0b81384fd2506b5c0640ff2cfcc3"
+  },
+  "custody": {
+    "path": "/Volumes/FastWork/c1223/infrastructure-mapped65-followup/next-lifecycle-redaction/qualified-two/rollback-preimages.tar",
+    "sha256": "2dfed82fda9a67d83407b9894f6533855b104267279906a238f1ab9dbd5ae112",
+    "members": 4
+  },
+  "patches": {
+    "source-and-navigation.patch": {
+      "path": "/Volumes/FastWork/c1223/infrastructure-mapped65-followup/next-lifecycle-redaction/qualified-two/source-and-navigation.patch",
+      "sha256": "9878408e757b46ed4a4b1b89bb5c7e20c12c818321350b8b684da3937836a3d0"
+    },
+    "selector-caller.patch": {
+      "path": "/Volumes/FastWork/c1223/infrastructure-mapped65-followup/next-lifecycle-redaction/qualified-two/selector-caller.patch",
+      "sha256": "fa3800354c0a50e61a6b11712c600f914d3d6f2401f8474042b4d4c1f9adc9ab"
+    }
+  },
+  "caller_closure": [
+    "Only current ADL executable/config reference to these2 paths is1912selector, supplied separately for coordinator composition.",
+    "Owner wrapper and workflow invoke redaction verifier in owner checkout; no ADL local fallback.",
+    "Parent regenerates actual registry for2deleted source entries."
+  ],
+  "limits": [
+    "No full mixedCI/backend assertion acceptance.",
+    "Real adapter help only; fakeAWS/SSH, no liveeffects.",
+    "No final public package or native lifecycle acceptance claimed."
+  ],
+  "issue": 1223,
+  "proposal_source_head": "153aa38de4ccf7a93836f1c03cb675d5fab5ebe2",
+  "registry_custody": {
+    "path": "/Volumes/FastWork/c1223/infrastructure-mapped65-followup/next-lifecycle-redaction/qualified-two/registry-preimage.tar",
+    "sha256": "5bf4a8499fb1db7e66766d0a2e21e170ee0968e09f01f0b477a38140b358bdbd",
+    "members": 1
+  },
+  "review": {
+    "reviewer": "review_1223_applied_components",
+    "result": "PASS",
+    "scope": "Exact originalredactionblock, original6lifecycleactions, real retained adapterprovenance, networknone/custody/callerclosure"
+  }
+}

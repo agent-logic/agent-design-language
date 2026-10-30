@@ -1,0 +1,59 @@
+{
+  "receipt_path": "/private/tmp/worker30-codefriend127-817-proof.json",
+  "receipt_sha256": "e5805c462894d7e5b0beed32be9ccef8ad760efe975da03636571f61cc56e548",
+  "status": "completed",
+  "candidate": {
+    "branch": "codex/127-v0932-security-prerequisite-callsite",
+    "head": "81759ba50585d8167da4e6008ee77c98988c9b14",
+    "root": "/Volumes/FastWork/codefriend-worktrees/adl-issue-127-v0932-security-prerequisite-callsite"
+  },
+  "proof_status": "passed",
+  "input_revalidation": {
+    "status": "unchanged",
+    "input_digest": "d554fb1d0f0015046b106ad4471170ab0e02002c28d1e7b1ab41e76418233d2a"
+  },
+  "payload_digest": "705468fd1f7dacdf5792b3a210709e15cdff6d328cf79eba4c7849a987da59ca",
+  "validators": [
+    {
+      "id": "boundary",
+      "passed": true,
+      "tests_passed": 40,
+      "tests_failed": 0,
+      "exit_code": 0,
+      "timed_out": false
+    },
+    {
+      "id": "deletion",
+      "passed": true,
+      "tests_passed": 3,
+      "tests_failed": 0,
+      "exit_code": 0,
+      "timed_out": false
+    },
+    {
+      "id": "server",
+      "passed": true,
+      "tests_passed": 25,
+      "tests_failed": 0,
+      "exit_code": 0,
+      "timed_out": false
+    },
+    {
+      "id": "package-preflight",
+      "passed": true,
+      "tests_passed": 0,
+      "tests_failed": 0,
+      "exit_code": 0,
+      "timed_out": false
+    },
+    {
+      "id": "diff-hygiene",
+      "passed": true,
+      "tests_passed": 0,
+      "tests_failed": 0,
+      "exit_code": 0,
+      "timed_out": false
+    }
+  ],
+  "scope": "Native local source proof; package-preflight separately reports 24 Python tests. No Linux installed qualification or delivery claim."
+}

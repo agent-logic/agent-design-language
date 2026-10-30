@@ -1,0 +1,28 @@
+{
+  "scope": "Local candidate audit integration; installed Linux and full9 acceptance pending",
+  "results": [
+    "Explicit real Runtime-host route fixture passed, zero ignored",
+    "39 focused boundary tests passed",
+    "5 audit-owner tests passed including rotation/history preservation and old signed export rejection"
+  ],
+  "evidence": [
+    {
+      "path": "codefriend-127-audit-route-proof.log",
+      "sha256": "642a719e8e9b26ea0ae425278644e8110617a91ffb0d59b1620729cb2371a6d2"
+    },
+    {
+      "path": "codefriend-127-audit-rotation-tests.log",
+      "sha256": "d4cf3063ad9c419022ff5d784d8245ba8a8392e920179008db4387d78b6fb18a"
+    },
+    {
+      "path": "codefriend-127-audit-wired-unit-tests.log",
+      "sha256": "255356de30e1e372ad7fd14281ab5267c00d157412ee9cce68a452031f157ebf"
+    }
+  ],
+  "remaining": [
+    "Tenant-scoped audit route acceptance",
+    "Explicit deletion and in-flight output race proof",
+    "Installed Linux acceptance",
+    "Independent final review and native delivery"
+  ]
+}

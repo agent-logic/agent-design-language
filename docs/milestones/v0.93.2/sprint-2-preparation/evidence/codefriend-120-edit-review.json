@@ -1,0 +1,15 @@
+{
+  "schema": "csdlc.v3.intent_changes.v1",
+  "srp_prompt": {
+    "review_scope": "Review actual outputs and end-to-end journeys on representative repositories; agree a prioritized gap register and measurable Beta 1 acceptance denominator with the operator.",
+    "review_instructions": "Verify issue scope, explicit dependencies, actual evidence, candidate provenance, negative cases and proportional validation. Each observed case identifies repository revision, candidate components, scenario, expected/actual result and evidence. Each gap has reproduction, impact, priority, acceptance measure and existing follow-on mapping. Label unexercised paths honestly. Operator agrees corpus, measurable denominator and priorities; independent review checks evidence. Reject unreproduced defects and substitution of prior qualification for user acceptance.",
+    "review_evidence_requirements": "README.md; docs/codefriend/INSTALLED_CONTENT_JOURNEY.md; current representative report/export artifacts and journey evidence; runtime-dependencies and shared-library-dependencies authenticated manifests; ADL v0.93.2 CodeFriend feature contract; GitHub #120.; exact work-product revision, changed paths, VPP/SOR and retained native receipts.",
+    "reviewer_constraints": "Independent exact-head review before publication. Preparation review by Planning #12 is separate from later implementation review. No duplicate builds, paid calls or invented results.",
+    "refusal_policy": "Reject unsupported readiness, missing required behavior proof, false completion, scope expansion and unresolved actionable findings.",
+    "follow_up_routing": "Return preparation findings to Worker #29 under ADL #1299; implementation findings to the sole child owner; missing owner primitives remain explicit prerequisites.",
+    "review_results": {
+      "status": "not_run"
+    },
+    "reset_prior_results": false
+  }
+}

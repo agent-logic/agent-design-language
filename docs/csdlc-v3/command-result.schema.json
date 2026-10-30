@@ -1,0 +1,228 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "csdlc.v3.command_result.v1",
+  "title": "Common additive envelope at /envelope; owner payload fields remain unchanged",
+  "type": "object",
+  "required": [
+    "schema",
+    "command",
+    "issue",
+    "status",
+    "process_status",
+    "authority_status",
+    "issue_version",
+    "effects",
+    "findings",
+    "reason_code",
+    "allowed_next_operations",
+    "correlation_id",
+    "intent_identity",
+    "evidence_invalidation",
+    "timing",
+    "wait_owner"
+  ],
+  "properties": {
+    "schema": {
+      "const": "csdlc.v3.command_result.v1"
+    },
+    "command": {
+      "type": "string"
+    },
+    "issue": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "status",
+            "number"
+          ],
+          "properties": {
+            "status": {
+              "const": "identified"
+            },
+            "number": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "status"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "unavailable",
+                "not_applicable"
+              ]
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "status": {
+      "enum": [
+        "completed",
+        "ready",
+        "passed",
+        "blocked",
+        "failed",
+        "deferred",
+        "skipped",
+        "expected_noop",
+        "recovery_required"
+      ]
+    },
+    "process_status": {
+      "enum": [
+        "succeeded",
+        "failed"
+      ]
+    },
+    "authority_status": {
+      "enum": [
+        "verified",
+        "not_established",
+        "non_operational"
+      ]
+    },
+    "issue_version": {
+      "type": "object",
+      "required": [
+        "before",
+        "after"
+      ],
+      "properties": {
+        "before": {
+          "type": "object",
+          "required": [
+            "basis",
+            "digest"
+          ],
+          "properties": {
+            "basis": {
+              "type": "string"
+            },
+            "digest": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "after": {
+          "type": "object",
+          "required": [
+            "basis",
+            "digest"
+          ],
+          "properties": {
+            "basis": {
+              "type": "string"
+            },
+            "digest": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "effects": {
+      "type": "object",
+      "required": [
+        "class",
+        "outcome"
+      ],
+      "properties": {
+        "class": {
+          "enum": [
+            "observation",
+            "guarded_local",
+            "guarded_local_and_remote",
+            "undeclared_mutation"
+          ]
+        },
+        "outcome": {
+          "enum": [
+            "none",
+            "performed",
+            "unknown"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "reason_code": {
+      "type": "string"
+    },
+    "allowed_next_operations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "correlation_id": {
+      "type": "string"
+    },
+    "intent_identity": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "evidence_invalidation": {
+      "type": "object",
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "const": "not_reported"
+        }
+      },
+      "additionalProperties": false
+    },
+    "timing": {
+      "type": "object",
+      "required": [
+        "started_unix_ms",
+        "monotonic_duration_ms"
+      ],
+      "properties": {
+        "started_unix_ms": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "monotonic_duration_ms": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false
+    },
+    "wait_owner": {
+      "enum": [
+        "operator",
+        "none"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

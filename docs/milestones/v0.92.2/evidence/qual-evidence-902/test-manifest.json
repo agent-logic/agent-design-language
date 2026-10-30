@@ -1,0 +1,47 @@
+{
+  "issue": 902,
+  "schema": "adl.pvf_test_manifest.v1",
+  "tests": [
+    {
+      "command": "python3 -m unittest adl/tools/test_validate_v0922_runtime_qualification.py",
+      "determinism": "isolated worktree-local temporary files and archives; no clock, network, credentials, or provider",
+      "lane": "local-required",
+      "negative_cases": [
+        "altered criterion text",
+        "altered criterion digest",
+        "stale canonical source revision",
+        "stale producer revision",
+        "missing scenario set",
+        "substituted execution profile",
+        "changed execution artifact",
+        "changed signed protected member",
+        "missing independent review",
+        "self-authored approval",
+        "cross-criterion substitution",
+        "partial row denominator",
+        "changed historical 19/5/2 boundary",
+        "release-authority escalation",
+        "unresolved review finding",
+        "empty residual-risk boundary",
+        "reduced protected-member allowlist",
+        "typed review evidence-digest substitution",
+        "refreshed partial producer outcome",
+        "refreshed execution-log substitution",
+        "refreshed install provenance substitution",
+        "coherent synthetic archive replacement",
+        "missing #899 execution inventory archive",
+        "missing #852 execution-log archive",
+        "refreshed timeout outcome substitution",
+        "refreshed timeout deadline substitution",
+        "refreshed Runtime execution-profile substitution",
+        "review-evidence path escape outside protected root"
+      ],
+      "proof_role": "evidence-integrity and behavioral admission regression",
+      "release_gate": "required issue gate; no release approval conferred",
+      "reporting_cases": [
+        "late-row rejection preserves four earlier pass results and reports complete=4, missing=0"
+      ],
+      "resource_profile": "small local Python CPU and temporary filesystem"
+    }
+  ]
+}

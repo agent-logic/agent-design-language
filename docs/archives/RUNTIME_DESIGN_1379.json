@@ -1,0 +1,36 @@
+{
+  "schema": "adl.runtime_design_retirement.v1",
+  "issue": 1379,
+  "source_commit": "0b97942ce353c6c98a952ed961462065d70248f3",
+  "owner_repository": "agent-logic/agent-logic-runtime",
+  "boundary": "Historical conversation-session preparation design belongs to Runtime/Observatory. Preserve original source-time status and instructions as history only, not current execution guidance. No active Runtime implementation or services changed.",
+  "owner_inspection": {
+    "revision": "8ce28157b9b27b5d52697a4370eec24353e7ef0c",
+    "scope": "local origin/main snapshot, design and docs paths",
+    "result": "No matching issue-111 design copy found; exact original remains recoverable in the published ADL source revision."
+  },
+  "removed": [
+    "design/issue-111.md",
+    "design/issue-111.mmd"
+  ],
+  "changes": [
+    {
+      "path": "design/issue-111.md",
+      "before": [
+        "100644",
+        "d2896cb3e5247142c10171b83fd02fc4c506ce33"
+      ],
+      "before_sha256": "2c6eb940f73ccad5ca756e0ed57a1adccf8e70f19ca3c6587a2f786def471ba5",
+      "after": null
+    },
+    {
+      "path": "design/issue-111.mmd",
+      "before": [
+        "100644",
+        "7491617a4cf85e0eeedb647b60b81b86b2e33cfa"
+      ],
+      "before_sha256": "07f3c6548faf1630edd3538f4ba36d8d01c070b6ed299c3fd2ace3ed13058cb7",
+      "after": null
+    }
+  ]
+}

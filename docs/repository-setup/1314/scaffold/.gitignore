@@ -1,0 +1,15 @@
+# Local credentials and environment files
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Local workflow evidence and disposable output
+.adl/
+.build/
+.scratch/
+.worktrees/
+__pycache__/
+*.py[cod]
+.DS_Store

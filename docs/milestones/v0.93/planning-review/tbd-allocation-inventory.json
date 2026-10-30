@@ -1,0 +1,104 @@
+[
+  {
+    "source": ".adl/docs/TBD/ADL_DOC_CLEANUP_LEDGER.md",
+    "sha256": "73f784efae7af020fbadf7b2d1df5911db32ff0163d0d831d5968a54d3721069",
+    "review_scope": "v0.93 allocation and neighboring context; historical file is not execution authority",
+    "disposition": "Historical allocation/cleanup index; current feature and successor routing below supersedes stale scheduling."
+  },
+  {
+    "source": ".adl/docs/TBD/ADL_REPOSITORY_DECOMPOSITION_CANDIDATE_PLAN.md",
+    "sha256": "1792a6d1907c849273311527355fd9f77421acd636e17451c0509215b0be5488",
+    "review_scope": "v0.93 allocation and neighboring context; historical file is not execution authority",
+    "disposition": "Historical candidate; current operator decisions require one public/six private, separate CodeFriend software/site, and opening-v0.93 migration through RD-11."
+  },
+  {
+    "source": ".adl/docs/TBD/TBD_DOC_STATUS_INVENTORY.md",
+    "sha256": "397b726890babe842817724ae27cf37817c917895d3d437de581989c81ea84f3",
+    "review_scope": "v0.93 allocation and neighboring context; historical file is not execution authority",
+    "disposition": "Historical allocation/cleanup index; current feature and successor routing below supersedes stale scheduling."
+  },
+  {
+    "source": ".adl/docs/TBD/acip/WEBSOCKET_TRANSPORT_SUPPORT_PLAN_2026-05-20.md",
+    "sha256": "6e2d57194cac6c1a53713ea486738f2146a3a22573cd1ab742115caa49eed491",
+    "review_scope": "v0.93 allocation and neighboring context; historical file is not execution authority",
+    "disposition": "Per-message transport authorization maps to WP-S2; encryption/key rotation/revocation maps to WP-S3; signed/queryable trace convergence stays v0.94."
+  },
+  {
+    "source": ".adl/docs/TBD/anrm/README.md",
+    "sha256": "1aa951f6df8e6618eef18066cd41a31280478e5d9de538c3e9880caad45ca775",
+    "review_scope": "v0.93 allocation and neighboring context; historical file is not execution authority",
+    "disposition": "Dedicated future research band; source explicitly says not to force training into governance. No training admission."
+  },
+  {
+    "source": ".adl/docs/TBD/codefriend_ai/CODEFRIEND_PRODUCT_MILESTONE_PLAN_V0912_TO_V095_2026-05-19.md",
+    "sha256": "ebe881f16b75fe5ed696b7fa4d9de827fcf189a34241519c4ee30d39a6246e4a",
+    "review_scope": "v0.93 allocation and neighboring context; historical file is not execution authority",
+    "disposition": "Historical product scheduling superseded by current Drive Beta1 brief and qualified v0.92.2 handoff; CF-01 through CF-07 cover launch."
+  },
+  {
+    "source": ".adl/docs/TBD/economics/CSM_CONTRACT_LIFECYCLE_STATE.md",
+    "sha256": "001143480b6d0261a10d39dd441e52d273e371c2a3489bc2da6b99f4c0c042f7",
+    "review_scope": "v0.93 allocation and neighboring context; historical file is not execution authority",
+    "disposition": "Deferred separate economics band under D-06/D-18; v0.93+ is not explicit v0.93 admission. Guest/counterparty identity boundaries are retained by GOV-01."
+  },
+  {
+    "source": ".adl/docs/TBD/economics/CSM_EXTERNAL_COUNTERPARTY_MODEL.md",
+    "sha256": "ac9ed6ff13b3789c0daf88a7c12ef870bd36878d4a6d7790ea7916c369fee3ac",
+    "review_scope": "v0.93 allocation and neighboring context; historical file is not execution authority",
+    "disposition": "Deferred separate economics band under D-06/D-18; v0.93+ is not explicit v0.93 admission. Guest/counterparty identity boundaries are retained by GOV-01."
+  },
+  {
+    "source": ".adl/docs/TBD/guilds/README.md",
+    "sha256": "fb84d554ed42bad5338749b32e749452f06d6da46e928673c0639ad569266014",
+    "review_scope": "v0.93 allocation and neighboring context; historical file is not execution authority",
+    "disposition": "GOV-15 and D13 preserve bounded identity, membership, authority, resources, privacy and review; v0.95 consumes accepted evidence."
+  },
+  {
+    "source": ".adl/docs/TBD/moral_governance/README.md",
+    "sha256": "82decef935a95da3e2a6606a0121242afa69bb832e5942ca35ca9d9cfa2cdf79",
+    "review_scope": "v0.93 allocation and neighboring context; historical file is not execution authority",
+    "disposition": "GOV-01 through GOV-05, GOV-14 and GOV-16 consume existing moral trace; no scalar karma or legal-personhood claim."
+  },
+  {
+    "source": ".adl/docs/TBD/planning/FEATURE_DOC_ISSUE_SPLIT_PLAN_2026-06-15.md",
+    "sha256": "72c11c4d949a847f6d223b2c909d786ab0e4f93747916b79b1961c0f54ee7e74",
+    "review_scope": "v0.93 allocation and neighboring context; historical file is not execution authority",
+    "disposition": "Historical allocation/cleanup index; current feature and successor routing below supersedes stale scheduling."
+  },
+  {
+    "source": ".adl/docs/TBD/planning/MVP_FEATURE_DOC_PRODUCTION_PLAN_2026-06-15.md",
+    "sha256": "3d9c7924b3a5be88b0491f4b174358b9cbeb4b64dac2a50587e9980d664dfcf0",
+    "review_scope": "v0.93 allocation and neighboring context; historical file is not execution authority",
+    "disposition": "Historical allocation/cleanup index; current feature and successor routing below supersedes stale scheduling."
+  },
+  {
+    "source": ".adl/docs/TBD/planning/MVP_SCOPE_LOCK_CROSSCHECK_2026-06-15.md",
+    "sha256": "c45bc9c44d05778441e2874ddb556fd755c73a9d9be979fd523e9fbc46531d06",
+    "review_scope": "v0.93 allocation and neighboring context; historical file is not execution authority",
+    "disposition": "Historical allocation/cleanup index; current feature and successor routing below supersedes stale scheduling."
+  },
+  {
+    "source": ".adl/docs/TBD/planning/NEW_FEATURE_MILESTONE_ASSIGNMENT_PLAN.md",
+    "sha256": "a38c7ffaabcc963703a70916c2062fa80d5daa940fc9a2e694b7fafecc8767b0",
+    "review_scope": "v0.93 allocation and neighboring context; historical file is not execution authority",
+    "disposition": "Historical allocation/cleanup index; current feature and successor routing below supersedes stale scheduling."
+  },
+  {
+    "source": ".adl/docs/TBD/planning/TBD_CLEANUP_3635_CLOSEOUT_PREP_2026-06-15.md",
+    "sha256": "acd4f9e595982da3ff13cfcaad9bb45558a85c3f55b0348608421d463469a9af",
+    "review_scope": "v0.93 allocation and neighboring context; historical file is not execution authority",
+    "disposition": "Historical allocation/cleanup index; current feature and successor routing below supersedes stale scheduling."
+  },
+  {
+    "source": ".adl/docs/TBD/security/README.md",
+    "sha256": "75d3d72bfaa6d315754f4e51d294f7f775c2866d6ba6bd8805b1702683457b80",
+    "review_scope": "v0.93 allocation and neighboring context; historical file is not execution authority",
+    "disposition": "WP-S1 through WP-S6 and governance consumers cover security governance; v0.94 convergence remains separate."
+  },
+  {
+    "source": ".adl/docs/TBD/upstream_delegation/README.md",
+    "sha256": "5a358566e52e68bf21c0aa5027c3191efe45e4463f76821a4e76480627bf3716",
+    "review_scope": "v0.93 allocation and neighboring context; historical file is not execution authority",
+    "disposition": "GOV-11 through GOV-13 and GOV-03 through GOV-05 implement full authority, standing, challenge and appeal consumers."
+  }
+]

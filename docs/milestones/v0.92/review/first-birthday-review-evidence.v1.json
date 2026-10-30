@@ -1,0 +1,57 @@
+{
+  "schema": "adl.v092.first-birthday-review-evidence.v1",
+  "digest_algorithm": "sha256",
+  "packet_sha256": "63b39f5a2ddb42aee44cf900f437525ecef211c7aea531c45c3a7b668405f007",
+  "closure_evidence": {
+    "path": ".csdlc/evidence/5834/dependency-closure.json",
+    "digest": "3c3c3a93d14ea4dc6fe5026651259ae5f1eb83d500f595847778c2f64a28568c"
+  },
+  "entries": [
+    {"wp":"WP-08","issue_repository":"danielbaustin/agent-design-language","code_repository":"agent-logic/agent-design-language","issue":5825,"pull_request":104,"revision":"cebb4774d9f8933de0b2833b81e82b99be7b6180","merge_commit":"c2ab28e6a74bd614982c2c18f9ebea5a4e5d64ae","path":".csdlc/evidence/5825/local-validation-manifest.json","digest":"a7ab302b740a681adb03fb84c6f51b0bfe0e4e7ec74cb871ae6670994bf409de","terminal_state":"merged_closed","review_state":"approved","reviewed_revision":"git-blake3:a3d4ba435f4ee37d93eed06912845e5166d11420:76dd13f3839fdd8153d0185dd8bd588fdf26f0065f606a6d3522dc4ef54824ac","public_projection":"Birthday boundary and six-case fail-closed contract proof."},
+    {"wp":"WP-09","issue_repository":"danielbaustin/agent-design-language","code_repository":"agent-logic/agent-design-language","issue":5826,"pull_request":118,"revision":"e263d8aa349af8b70b2ee588386dc091d51ee359","merge_commit":"755d4032c7e48306d2d5f5f1b0c19edadf19c822","path":".csdlc/evidence/5826/local-validation-manifest.json","digest":"66aecc321026cf4ae112457ca70cc2a91579a3771b7768bb02c270d7c136f9fb","terminal_state":"merged_closed","review_state":"approved","reviewed_revision":"git-blake3:fac563679bfe26182490b7cd1f732c451111bf5c:e3b7ac45f1be97839519a70219e298d73af900bf852ed605ac94fee39d7eab19","public_projection":"Authority-bound stable identity record proof."},
+    {"wp":"WP-10","issue_repository":"danielbaustin/agent-design-language","code_repository":"agent-logic/agent-design-language","issue":5827,"pull_request":127,"revision":"7f0f195cfb1b6066b499cf27c65fde0bf741a88b","merge_commit":"02b4ad6651fd87100184395d18d4d49f0183f360","path":".csdlc/evidence/5827/native-validation-manifest.json","digest":"4e0a1dd72d30a46530413920bd5988f4aaa19d0328cc5335e8027b572d0d366c","terminal_state":"merged_closed","review_state":"approved","reviewed_revision":"git-blake3:9965dd19fc95ea561cc791915ceed5d937242b4f:6cd9cb64e4541d1e1545dc1da3d69d19349b55b74cc038a8bee13f3c9b89ee3c","public_projection":"Bounded continuity and replay proof on Linux and macOS."},
+    {"wp":"WP-11","issue_repository":"danielbaustin/agent-design-language","code_repository":"agent-logic/agent-design-language","issue":5828,"pull_request":131,"revision":"e20b9870dbc56ab59c68f123ed355af331ee5614","merge_commit":"aac0c689c657132e8b8324c8f1e23e979bc3e1a8","path":".csdlc/evidence/5828/native-validation-manifest.json","digest":"453bddf472989ef672e7fe0c8c390b7c48913ef2dd3dfe75751eb619bba1a186","terminal_state":"merged_closed","review_state":"approved","reviewed_revision":"git-blake3:c370a3096afe9e6486444cf1e76ab527cf3f212d:e28cdafe669d5292380a7aba7c05a05cc0ea7b3a2b2a5bd7e7f7fcdc07aa31da","public_projection":"Redaction-safe Memory Palace context topology proof."},
+    {"wp":"WP-12","issue_repository":"danielbaustin/agent-design-language","code_repository":"agent-logic/agent-design-language","issue":5829,"pull_request":135,"revision":"5b078101282d0e3334629bc5f2ab54e4900be6a4","merge_commit":"2010bd36c41e59558066120627ea6a2121d13103","path":".csdlc/evidence/5829/native-validation-manifest.json","digest":"d1b1a36a801d1d36cff8c7dd7846b331b437a6e07def489b4e9a711fd833b5b5","terminal_state":"merged_closed","review_state":"approved","reviewed_revision":"git-blake3:e0271f2f437f44c740e6de230cb97d219d11d5e4:01e43cecd4292667001537d2077323a6adcb163150885e291018b21a79f44b62","public_projection":"Bounded capability envelope and denial proof."},
+    {"wp":"WP-13","issue_repository":"danielbaustin/agent-design-language","code_repository":"agent-logic/agent-design-language","issue":5830,"pull_request":139,"revision":"60197504fa86566c8c4b1983d3be09f89b595e94","merge_commit":"ead2527f1b386342fe684e109df4d6105716a007","path":".csdlc/evidence/5830/native-validation-manifest.json","digest":"141f046ea297b598207f12fa47b64018f9fb9704094545cc2e6bdce978eddc10","terminal_state":"merged_closed","review_state":"approved","reviewed_revision":"git-blake3:4ce4f737eaedb3c8d011bdfe4da345491aee09c3:ee4f3d04932204f34399cd0c857304747aa1b630b13a6fcc51176360db01d2c7","public_projection":"Evidence-grounded cognitive-profile proof with private policy authority."},
+    {"wp":"WP-13A","issue_repository":"danielbaustin/agent-design-language","code_repository":"agent-logic/agent-design-language","issue":5831,"pull_request":195,"revision":"4cff1680fa6ad97b3002dee070521b7ab24bd08c","merge_commit":"1e72393363da347f86545985347203b7f2ea52d0","path":".csdlc/evidence/5831/native-validation-manifest.json","digest":"1039460b1d9aeadaebadbeebe07ed91115aa2e9a32dea617c523c967793740d4","terminal_state":"merged_closed","review_state":"approved","reviewed_revision":"git-blake3:f16ec055dd00b4310eb1c57ef4a736dc3d0ca34a:a1fb97a5c4cc4b42fefcbee1bf50c3d43f509f57fa5cfa6e11badbe475356d36","public_projection":"Governed adaptive-learning DAG, durable history, recovery, and concurrency proof."},
+    {"wp":"WP-14","issue_repository":"agent-logic/agent-design-language","code_repository":"agent-logic/agent-design-language","issue":209,"pull_request":215,"revision":"aef6729640dc89918f34b4337a27167c6ed625fb","merge_commit":"a77519c3fca9f64752af41c9a2ebd396468891f7","path":".csdlc/evidence/209/local-validation-manifest.json","digest":"33b6d90ba1330aec3ca9ff228bb997c7fd8cbf062208119669991cc846dd1c74","terminal_state":"merged_closed","review_state":"approved","reviewed_revision":"git-blake3:f8ccbd4b5f245a2d82cb9dfa421e5d1441954c15:7d943700a84dfa2b9d603382d4d82b4a0ab69b8d3ce4b3803bd55f947c4a8d14","public_projection":"Production Guardian/kernel ACIP dispatch, pressure rollback, replay isolation, and contract proof."},
+    {"wp":"WP-15","issue_repository":"danielbaustin/agent-design-language","code_repository":"agent-logic/agent-design-language","issue":5833,"pull_request":198,"revision":"33dad75ef4150eb06410805e0775afadc62635d2","merge_commit":"ed657e4494e08d4ce3de1b554d097632111a83a9","path":".csdlc/evidence/5833/native-validation-manifest.json","digest":"b020ded941a125351dda14fb654da46409873eea3b2b8fdf7b162208140fc0b0","terminal_state":"merged_closed","review_state":"approved","reviewed_revision":"git-blake3:c2c4c275d89501a9e8d81a8ee595ae76d5892c48:08c85d180df1d3b7fa2e903adf47685aa1fa0a8aeada7ae1465d28f8cd8ec754","public_projection":"Four-role witness and redacted public-receipt proof."}
+  ],
+  "adr_serialization": {
+    "schema": "adl.v092.adr_serialization_review.v1",
+    "issue": 288,
+    "status_matrix": [
+      {"adr": "0065", "status": "Proposed", "source_issue": 283, "terminal_cache": ".git/csdlc-v2/derived-terminal/283.json", "merge_sha": "2bca3a60243ffc03b8264659ca1d6dd2770dfb0a", "canonical_digest": "45d457db9ef5232896a358aa3ab3bf941e0cbaff3f04bc634a183c61853939cd", "classification": "replacement_terminal_authority"},
+      {"adr": "0066", "status": "Deferred", "source_issue": 284, "terminal_cache": ".git/csdlc-v2/derived-terminal/284.json", "merge_sha": "52de626194d37e25b00e2536285d5e0de332d893", "canonical_digest": "642bb3f4524ced9efddd8c52a7ac9f96ae3c852695bbf04281e29b2db7b6027f", "classification": "residual_gap"},
+      {"adr": "0068", "status": "Deferred", "source_issue": 285, "terminal_cache": ".git/csdlc-v2/derived-terminal/285.json", "merge_sha": "298a23476b3cdc55e952e60793689fc6b738491f", "canonical_digest": "8b695c8622e7443a6216788f4ece3f09dd4b2842978ac4d9871b5aae661da3e6", "classification": "residual_gap"},
+      {"adr": "0069", "status": "Deferred", "source_issue": 286, "terminal_cache": ".git/csdlc-v2/derived-terminal/286.json", "merge_sha": "af49f8f674722bee671d65db5b6a49ea08eeb4b0", "canonical_digest": "1114e8843d92731a241e46de38c65623da5aa87c801247445684a54a12d6bc75", "classification": "residual_gap"},
+      {"adr": "0071", "status": "Deferred", "source_issue": 287, "terminal_cache": ".git/csdlc-v2/derived-terminal/287.json", "merge_sha": "b4f4b1a9104e4d72c52b32b6b42451665a7cca97", "canonical_digest": "0d55b10c3e0d48d572e5cfc9a23cd850743a008ab1e3cd2118f448ee8e36f227", "classification": "residual_gap"}
+    ],
+    "handoff_packet": "docs/milestones/v0.92/review/V092_ADR_INTERNAL_REVIEW_HANDOFF.md",
+    "non_claims": [
+      "No ADR is Accepted by #288.",
+      "#207 remains coordination-only and is not closed by this manifest.",
+      "Provider execution, Unity proof, cloud runs, citizenship, governance approval, and public release are not claimed."
+    ]
+  },
+  "public_claims": [
+    "The repository contains an integrated, reviewable evidence packet for WP-08 through WP-15.",
+    "Each cited child issue is closed by a merged pull request whose merge commit is ancestral to this packet.",
+    "The packet exposes only bounded evidence descriptions and repository-relative proof references."
+  ],
+  "non_claims": [
+    "This packet does not claim that the flagship birthday demo has run.",
+    "This packet does not claim legal personhood or consciousness.",
+    "This packet does not claim production citizenship.",
+    "This packet does not complete constitutional governance.",
+    "This packet does not authorize public release or publication.",
+    "This packet does not expose raw private state."
+  ],
+  "reviewer_questions": [
+    "Does every required work package have one exact evidence revision and digest?",
+    "Are all merge commits ancestral and all issue and pull-request states terminal?",
+    "Do the public projections remain narrower than the retained evidence?",
+    "Are missing, stale, contradictory, private, and overclaiming inputs rejected?",
+    "Are the demo and governance boundaries explicit?"
+  ]
+}

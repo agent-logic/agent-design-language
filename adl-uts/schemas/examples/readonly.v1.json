@@ -1,0 +1,60 @@
+{
+  "schema_version": "uts.v1",
+  "name": "fixture.safe_read",
+  "version": "1.0.0",
+  "description": "Read a bounded local fixture for reviewer-visible conformance.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "fixture_id": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "fixture_id"
+    ],
+    "additionalProperties": false
+  },
+  "output_schema": {
+    "type": "object",
+    "properties": {
+      "content": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "content"
+    ],
+    "additionalProperties": false
+  },
+  "side_effect_class": "read",
+  "determinism": "deterministic",
+  "replay_safety": "replay_safe",
+  "idempotence": "idempotent",
+  "resources": [
+    {
+      "resource_type": "fixture",
+      "scope": "local-readonly"
+    }
+  ],
+  "authentication": {
+    "mode": "none",
+    "required": false
+  },
+  "data_sensitivity": "internal",
+  "exfiltration_risk": "none",
+  "execution_environment": {
+    "kind": "fixture",
+    "isolation": "local deterministic fixture only"
+  },
+  "errors": [
+    {
+      "code": "fixture_not_found",
+      "message": "The requested fixture is not available.",
+      "retryable": false
+    }
+  ],
+  "extensions": {
+    "x-adl-review-note": "UTS compatibility only; no execution authority."
+  }
+}

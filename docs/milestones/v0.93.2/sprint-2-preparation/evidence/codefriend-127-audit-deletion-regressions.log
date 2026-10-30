@@ -1,0 +1,80 @@
+warning: methods `label` and `env_name` are never used
+  --> crates/codefriend/src/bin/cli/github_token.rs:28:19
+   |
+27 | impl GithubTokenSource {
+   | ---------------------- methods in this implementation
+28 |     pub(crate) fn label(self) -> &'static str {
+   |                   ^^^^^
+...
+38 |     pub(crate) fn env_name(self) -> &'static str {
+   |                   ^^^^^^^^
+   |
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: method `source` is never used
+  --> crates/codefriend/src/bin/cli/github_token.rs:72:19
+   |
+58 | impl ResolvedGithubToken {
+   | ------------------------ method in this implementation
+...
+72 |     pub(crate) fn source(&self) -> GithubTokenSource {
+   |                   ^^^^^^
+
+warning: `codefriend` (bin "codefriend") generated 2 warnings
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.33s
+     Running tests/codefriend_server.rs (/Volumes/FastWork/worker30-codefriend-target/debug/deps/codefriend_server-989fa22e13a6477e)
+
+running 26 tests
+test drain_rejects_uncertain_or_corrupt_reservations ... ok
+test candidate_identity_must_match_the_compiled_build ... ok
+test enterprise_submit_uses_runtime_and_denials_have_zero_backend_effects ... ignored, requires CODEFRIEND_TEST_RUNTIME_AUTHORITY from the verified Runtime input
+test empty_registry_starts_denies_then_provisions_revokes_and_restarts ... ok
+test drain_retains_interrupted_uncertainty_through_expiry_and_restart ... ok
+test drain_blocks_new_reservations_without_consuming_identity_and_can_resume ... ok
+test authentication_scope_and_isolation_precede_provider_effects ... ok
+test cancel_does_not_free_capacity_or_publish_late_success ... ok
+test durable_reservation_rejects_replay_and_restart_interruption ... ok
+test drain_waits_for_worker_and_retained_payload_then_keeps_no_replay_identity ... ok
+warning: this method call resolves to `<&[T; N] as IntoIterator>::into_iter` (due to backwards compatibility), but will resolve to `<[T; N] as IntoIterator>::into_iter` in Rust 2021
+  --> /Volumes/FastWork/codefriend-worktrees/adl-issue-127-v0932-security-prerequisite-callsite/crates/codefriend/target/codefriend-server-tests/356-1792523384-5/cargo-provenance/crates/codefriend/build.rs:51:6
+   |
+51 |     .into_iter()
+   |      ^^^^^^^^^
+   |
+   = warning: this changes meaning in Rust 2021
+   = note: for more information, see <https://doc.rust-lang.org/edition-guide/rust-2021/IntoIterator-for-arrays.html>
+   = note: `#[warn(array_into_iter)]` (part of `#[warn(rust_2021_compatibility)]`) on by default
+help: use `.iter()` instead of `.into_iter()` to avoid ambiguity
+   |
+51 -     .into_iter()
+51 +     .iter()
+   |
+help: or use `IntoIterator::into_iter(..)` instead of `.into_iter()` to explicitly iterate by value
+   |
+46 ~     for reference in IntoIterator::into_iter([
+47 |         Some("HEAD".to_string()),
+48 |         git(&["symbolic-ref", "-q", "HEAD"]),
+49 |         Some("packed-refs".to_string()),
+50 ~     ])
+   |
+
+test model_generation_is_explicit_and_legacy_submit_bytes_are_preserved ... ok
+warning: 1 warning emitted
+
+test authorization_is_rechecked_after_a_delayed_body ... ok
+test unauthorized_bodies_are_never_polled_or_parsed ... ok
+test private_control_binds_drain_to_instance_and_attempt ... ok
+test expired_credentials_and_oversized_requests_never_dispatch ... ok
+test local_model_scope_and_lane_are_restricted ... ok
+test failures_quotas_and_expiry_do_not_create_success ... ok
+test private_control_rejects_shared_directory_and_oversized_requests ... ok
+test uncertain_provider_effect_is_retained_after_cancel_and_cannot_redispatch ... ok
+test update_cycle_plan_is_validated_before_reservation_for_hosted_and_local_modes ... ok
+test server_cli_control_socket_drains_resumes_and_shuts_down_gracefully ... ok
+test empty_registry_support_does_not_admit_invalid_registries ... ok
+test build_provenance_tracks_sources_without_lifecycle_residue ... ok
+test cargo_provenance_stays_fresh_and_detects_packed_ref_recreation ... ok
+test assessment_prompt_maximum_source_and_acquisition_limit ... ok
+test built_server_runs_hosted_pipeline_and_rejects_invalid_local_findings ... ok
+
+test result: ok. 25 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 18.71s

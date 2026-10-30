@@ -1,0 +1,574 @@
+{
+  "schema": "adl1223.runtime_issue268_thirteen_proposal.v1",
+  "status": "applied_local_reversible_implementation",
+  "source_head": "86a57303285aa8eb973f93869badbb32e84a855a",
+  "rows": [
+    {
+      "id": "RD07-1413",
+      "path": "adl/tools/issue268_runtime_qualification.cloudformation.yaml",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "5bb9d7da98a3855458f25fb4599825dfa77e4af8"
+      },
+      "current_git": "100644 blob 5bb9d7da98a3855458f25fb4599825dfa77e4af8\tadl/tools/issue268_runtime_qualification.cloudformation.yaml",
+      "owner_revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "owner_git": "100644 blob 5bb9d7da98a3855458f25fb4599825dfa77e4af8\tadl/tools/issue268_runtime_qualification.cloudformation.yaml",
+      "sha256": "e6fa89e5f1d8a18ec22de86ae036835692578c9de7c5972ebdb169dc8185db23",
+      "source_exact": true
+    },
+    {
+      "id": "RD07-1414",
+      "path": "adl/tools/issue268_runtime_uts_task_panel.json",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "c8460073e70141c78f11d79bf0541bf6be1aa9fa"
+      },
+      "current_git": "100644 blob c8460073e70141c78f11d79bf0541bf6be1aa9fa\tadl/tools/issue268_runtime_uts_task_panel.json",
+      "owner_revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "owner_git": "100644 blob c8460073e70141c78f11d79bf0541bf6be1aa9fa\tadl/tools/issue268_runtime_uts_task_panel.json",
+      "sha256": "d0959ef79168d6e8fc05ba02cab7d98b267280511eb5884684e14150ded3617e",
+      "source_exact": true
+    },
+    {
+      "id": "RD07-1415",
+      "path": "adl/tools/issue268_six_resident_uts_plan.json",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "3774d9b5bb43585d7ac5ac0d433595f0686c1f87"
+      },
+      "current_git": "100644 blob 3774d9b5bb43585d7ac5ac0d433595f0686c1f87\tadl/tools/issue268_six_resident_uts_plan.json",
+      "owner_revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "owner_git": "100644 blob 3774d9b5bb43585d7ac5ac0d433595f0686c1f87\tadl/tools/issue268_six_resident_uts_plan.json",
+      "sha256": "7fa623819342d86bcfd5b0d16c5a502c5a7950141a7292e5689f8d257ea75f8b",
+      "source_exact": true
+    },
+    {
+      "id": "RD07-1429",
+      "path": "adl/tools/materialize_issue268_ollama_plan.py",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "6a4a965d4f4a8dc026f7918e5f09e68f516d46d9"
+      },
+      "current_git": "100644 blob 6a4a965d4f4a8dc026f7918e5f09e68f516d46d9\tadl/tools/materialize_issue268_ollama_plan.py",
+      "owner_revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "owner_git": "100644 blob 6a4a965d4f4a8dc026f7918e5f09e68f516d46d9\tadl/tools/materialize_issue268_ollama_plan.py",
+      "sha256": "b12738bffa746b9b0b0c7a35215ddced7771b9d7adaf627523db1c0e3369a4f3",
+      "source_exact": true
+    },
+    {
+      "id": "RD07-1482",
+      "path": "adl/tools/run_issue268_continuity_uts_qualification.py",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "f82d682a3e49f371a6e597c925eea1c38e94ad73"
+      },
+      "current_git": "100644 blob f82d682a3e49f371a6e597c925eea1c38e94ad73\tadl/tools/run_issue268_continuity_uts_qualification.py",
+      "owner_revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "owner_git": "100644 blob f82d682a3e49f371a6e597c925eea1c38e94ad73\tadl/tools/run_issue268_continuity_uts_qualification.py",
+      "sha256": "580027455b08064b591ea69077b97e56f27048a0b414e4240f64cf898e98bedf",
+      "source_exact": true
+    },
+    {
+      "id": "RD07-1485",
+      "path": "adl/tools/run_issue268_six_resident_uts_cycle.py",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "505f578a99460f18833b88268172cc60e8de0b46"
+      },
+      "current_git": "100644 blob 505f578a99460f18833b88268172cc60e8de0b46\tadl/tools/run_issue268_six_resident_uts_cycle.py",
+      "owner_revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "owner_git": "100644 blob 505f578a99460f18833b88268172cc60e8de0b46\tadl/tools/run_issue268_six_resident_uts_cycle.py",
+      "sha256": "d104c2a4c3f5294e83587c9e30c422f2dba9d19543bd8740f702714d75f375cd",
+      "source_exact": true
+    },
+    {
+      "id": "RD07-2019",
+      "path": "adl/tools/test_issue268_runtime_qualification_cloudformation.py",
+      "captured_identity": {
+        "mode": "100755",
+        "blob": "a05d4cf565875be5442dd73b45496f4869502885"
+      },
+      "current_git": "100755 blob a05d4cf565875be5442dd73b45496f4869502885\tadl/tools/test_issue268_runtime_qualification_cloudformation.py",
+      "owner_revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "owner_git": "100755 blob a05d4cf565875be5442dd73b45496f4869502885\tadl/tools/test_issue268_runtime_qualification_cloudformation.py",
+      "sha256": "93576398e544942e95313bf30103cae0cac487ea8198a5960fc7c849fb1db4d6",
+      "source_exact": true
+    },
+    {
+      "id": "RD07-2030",
+      "path": "adl/tools/test_materialize_issue268_ollama_plan.py",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "ccf6f48577921bbba2960e2d734b900383d727e8"
+      },
+      "current_git": "100644 blob ccf6f48577921bbba2960e2d734b900383d727e8\tadl/tools/test_materialize_issue268_ollama_plan.py",
+      "owner_revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "owner_git": "100644 blob ccf6f48577921bbba2960e2d734b900383d727e8\tadl/tools/test_materialize_issue268_ollama_plan.py",
+      "sha256": "5b677e6899be9ef1b31cf491d152aacddcee5af926291485159d605992b3a60e",
+      "source_exact": true
+    },
+    {
+      "id": "RD07-2086",
+      "path": "adl/tools/test_run_issue268_continuity_uts_qualification.py",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "26194668e7ecca29959a3a032b99a9e7f42e0d67"
+      },
+      "current_git": "100644 blob 26194668e7ecca29959a3a032b99a9e7f42e0d67\tadl/tools/test_run_issue268_continuity_uts_qualification.py",
+      "owner_revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "owner_git": "100644 blob 26194668e7ecca29959a3a032b99a9e7f42e0d67\tadl/tools/test_run_issue268_continuity_uts_qualification.py",
+      "sha256": "29386d1cdc2a8e1faa28948bd2d6dfb06daa2f37c9f016c5240c4f2794f9fab5",
+      "source_exact": true
+    },
+    {
+      "id": "RD07-2089",
+      "path": "adl/tools/test_run_issue268_six_resident_uts_cycle.py",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "5a25ad5c1299122636b2f73f82f4c5d3bd118b02"
+      },
+      "current_git": "100644 blob 5a25ad5c1299122636b2f73f82f4c5d3bd118b02\tadl/tools/test_run_issue268_six_resident_uts_cycle.py",
+      "owner_revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "owner_git": "100644 blob 5a25ad5c1299122636b2f73f82f4c5d3bd118b02\tadl/tools/test_run_issue268_six_resident_uts_cycle.py",
+      "sha256": "e5369948db2acf1e6bce02cd6a31f85d93dc0bf0851773ae5baa18cb5f09beff",
+      "source_exact": true
+    },
+    {
+      "id": "RD07-2160",
+      "path": "adl/tools/test_warm_issue268_ollama_models.py",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "111efed9fcbe5f5a7103c331175ec2d86d4de399"
+      },
+      "current_git": "100644 blob 111efed9fcbe5f5a7103c331175ec2d86d4de399\tadl/tools/test_warm_issue268_ollama_models.py",
+      "owner_revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "owner_git": "100644 blob 111efed9fcbe5f5a7103c331175ec2d86d4de399\tadl/tools/test_warm_issue268_ollama_models.py",
+      "sha256": "1f404c1960abfe635d5d65ef8d398a35322576d906a4640c2ccbe7c7bf1f4da8",
+      "source_exact": true
+    },
+    {
+      "id": "RD07-2190",
+      "path": "adl/tools/validate_issue268_six_resident_uts_plan.py",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "0b72a0cfb2aa1863170c9cc6fb30ac32961cd949"
+      },
+      "current_git": "100644 blob 0b72a0cfb2aa1863170c9cc6fb30ac32961cd949\tadl/tools/validate_issue268_six_resident_uts_plan.py",
+      "owner_revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "owner_git": "100644 blob 0b72a0cfb2aa1863170c9cc6fb30ac32961cd949\tadl/tools/validate_issue268_six_resident_uts_plan.py",
+      "sha256": "6383833aee37ff75ea239294e3d5b5c29e28e92730683bc3a3c8ca32850a23da",
+      "source_exact": true
+    },
+    {
+      "id": "RD07-2264",
+      "path": "adl/tools/warm_issue268_ollama_models.py",
+      "captured_identity": {
+        "mode": "100644",
+        "blob": "19275e6d55370f304b46e3fa99189c5041f217d5"
+      },
+      "current_git": "100644 blob 19275e6d55370f304b46e3fa99189c5041f217d5\tadl/tools/warm_issue268_ollama_models.py",
+      "owner_revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "owner_git": "100644 blob 19275e6d55370f304b46e3fa99189c5041f217d5\tadl/tools/warm_issue268_ollama_models.py",
+      "sha256": "fef747c8e948eae40acd6aee96eaf7240a91c39b16ba03352843c7b6668d3c76",
+      "source_exact": true
+    }
+  ],
+  "removed_count": 13,
+  "files": [
+    {
+      "path": "adl/tools/issue268_runtime_qualification.cloudformation.yaml",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "5bb9d7da98a3855458f25fb4599825dfa77e4af8",
+        "sha256": "e6fa89e5f1d8a18ec22de86ae036835692578c9de7c5972ebdb169dc8185db23"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/issue268_runtime_uts_task_panel.json",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "c8460073e70141c78f11d79bf0541bf6be1aa9fa",
+        "sha256": "d0959ef79168d6e8fc05ba02cab7d98b267280511eb5884684e14150ded3617e"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/issue268_six_resident_uts_plan.json",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "3774d9b5bb43585d7ac5ac0d433595f0686c1f87",
+        "sha256": "7fa623819342d86bcfd5b0d16c5a502c5a7950141a7292e5689f8d257ea75f8b"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/materialize_issue268_ollama_plan.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "6a4a965d4f4a8dc026f7918e5f09e68f516d46d9",
+        "sha256": "b12738bffa746b9b0b0c7a35215ddced7771b9d7adaf627523db1c0e3369a4f3"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/run_issue268_continuity_uts_qualification.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "f82d682a3e49f371a6e597c925eea1c38e94ad73",
+        "sha256": "580027455b08064b591ea69077b97e56f27048a0b414e4240f64cf898e98bedf"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/run_issue268_six_resident_uts_cycle.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "505f578a99460f18833b88268172cc60e8de0b46",
+        "sha256": "d104c2a4c3f5294e83587c9e30c422f2dba9d19543bd8740f702714d75f375cd"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_issue268_runtime_qualification_cloudformation.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "a05d4cf565875be5442dd73b45496f4869502885",
+        "sha256": "93576398e544942e95313bf30103cae0cac487ea8198a5960fc7c849fb1db4d6"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_materialize_issue268_ollama_plan.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "ccf6f48577921bbba2960e2d734b900383d727e8",
+        "sha256": "5b677e6899be9ef1b31cf491d152aacddcee5af926291485159d605992b3a60e"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_run_issue268_continuity_uts_qualification.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "26194668e7ecca29959a3a032b99a9e7f42e0d67",
+        "sha256": "29386d1cdc2a8e1faa28948bd2d6dfb06daa2f37c9f016c5240c4f2794f9fab5"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_run_issue268_six_resident_uts_cycle.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "5a25ad5c1299122636b2f73f82f4c5d3bd118b02",
+        "sha256": "e5369948db2acf1e6bce02cd6a31f85d93dc0bf0851773ae5baa18cb5f09beff"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_warm_issue268_ollama_models.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "111efed9fcbe5f5a7103c331175ec2d86d4de399",
+        "sha256": "1f404c1960abfe635d5d65ef8d398a35322576d906a4640c2ccbe7c7bf1f4da8"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/validate_issue268_six_resident_uts_plan.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "0b72a0cfb2aa1863170c9cc6fb30ac32961cd949",
+        "sha256": "6383833aee37ff75ea239294e3d5b5c29e28e92730683bc3a3c8ca32850a23da"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/warm_issue268_ollama_models.py",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "19275e6d55370f304b46e3fa99189c5041f217d5",
+        "sha256": "fef747c8e948eae40acd6aee96eaf7240a91c39b16ba03352843c7b6668d3c76"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/lib/issue268_runtime_resources.py",
+      "action": "add",
+      "before": null,
+      "after": {
+        "mode": "100644",
+        "blob": "f94781ac51dd381cde614c850fb7c673a13637ad",
+        "sha256": "e1b0d05a03aa1ae94f5946816867facb926c31f8b74aaba2822b2db3a40e9212"
+      }
+    },
+    {
+      "path": "adl/tools/run_issue268_remote_resident_qualification.sh",
+      "action": "modify",
+      "before": {
+        "mode": "100755",
+        "blob": "f12f98344ff6d277779b5ddf3aac509b10baac62",
+        "sha256": "d847a6cd96de2f2f790a50afd7ce38a45d44b4d54dd5427c6b130d548545ea80"
+      },
+      "after": {
+        "mode": "100755",
+        "blob": "9608835f27bee97b8982d7f0d88fd38e5bef961c",
+        "sha256": "13323d46ac9e9f384a118a01b6f76a2e8c3adbdcdd51ea5e6ab0787201b5367a"
+      }
+    },
+    {
+      "path": "adl/tools/run_issue268_six_hour_spot_qualification.sh",
+      "action": "modify",
+      "before": {
+        "mode": "100755",
+        "blob": "7ecc02ac0ba2a6372604b159bd83a40e25a8df07",
+        "sha256": "8c4fb74df1fee8c7788329f1fceb615b467010a3c3923b9a39bd43c0d1af6ca1"
+      },
+      "after": {
+        "mode": "100755",
+        "blob": "238fc1e325143d404d20a3c507d505ef168c630f",
+        "sha256": "fa26777185085958a31b3683ed02a9fc8ab384217f3bd2376c2fcc170fd4e717"
+      }
+    },
+    {
+      "path": "adl/tools/build_issue509_runtime_bundle_on_relay.sh",
+      "action": "modify",
+      "before": {
+        "mode": "100755",
+        "blob": "b8b57df617266a93fda577591620b28660bb8649",
+        "sha256": "d47918744da52d731dc271ab273f3bb196843fece54beb50afae8169b4928296"
+      },
+      "after": {
+        "mode": "100755",
+        "blob": "578731664da1bc3deaf5c31e4992b3e78c31759d",
+        "sha256": "49c862d05bbe16992117f3e4754873396df8e896db69949c423e31461a9ba2f0"
+      }
+    },
+    {
+      "path": "adl/tools/test_run_issue268_remote_resident_qualification.sh",
+      "action": "modify",
+      "before": {
+        "mode": "100755",
+        "blob": "1048e536957dfd4fb4ff634db5c5b9d60444366e",
+        "sha256": "20ccc0f3fd5565bd0acd231387b16bfa89cb0bdde4d965556270f5835d31413b"
+      },
+      "after": {
+        "mode": "100755",
+        "blob": "d6964df33107318b0e8eba84947d46195c9b5911",
+        "sha256": "9883899d923992f768bffb86daec6d61d69acf990c95788b6074b964e9e1d098"
+      }
+    },
+    {
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "4931d852b7c0301b7945c0c0ccd4d8e4bdf707b1",
+        "sha256": "4cf723531bc2f8c4c6142b09d73943f57e85c0f82782198cd1dd6ca06ed8c3e5"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "d70cbedd205f5115fb665676eecb3d4fbf19f825",
+        "sha256": "dbe0d01c4a905bd75b4815b4d6e2f97eef62a21d65f552303e2e2418751a1844"
+      }
+    }
+  ],
+  "qualified_owner": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+  "qualification": {
+    "original_scripts": 5,
+    "original_validator": 1,
+    "all_exit_zero": true,
+    "input_files": 13,
+    "result": "/Volumes/FastWork/c1223/runtime-issue268-offline-family/execution-r2/output/result.json",
+    "sha256": "5ae5d6f21da58aa013bb734f7b1a9aba1fe305f7cd7d17468128679276bddde1",
+    "prior_failure": "/Volumes/FastWork/c1223/runtime-issue268-offline-family/R1_PREFLIGHT_FAILURE.json",
+    "prior_failure_sha256": "bd9e5e455aa3fe67abf925813e17ccf8d3606b2dfad6840da558c6cbf7267a13"
+  },
+  "custody": {
+    "path": "/Volumes/FastWork/c1223/runtime-issue268-offline-family/retirement-r5/current-and-original-preimages.tar",
+    "sha256": "63664742bfe203fed2557d7437b35fae5c3b854e197cc941d876026dcdb6db44",
+    "current_members": 17,
+    "original_members": 13
+  },
+  "patch": {
+    "path": "/Volumes/FastWork/c1223/runtime-issue268-offline-family/retirement-final-registry/thirteen-and-callers.patch",
+    "sha256": "18df1bb9161e4fb80d0c87a4c6e6762fb597a07c998d8b0ade9fff7a84c7c4f0"
+  },
+  "required_before_apply": [
+    "Parent exact preimage and proof/evidence review; actual registry regeneration after composed source application.",
+    "No native remote request, relay build, provider or cloud acceptance inferred from inert transport/fixtures."
+  ],
+  "preserved_boundaries": [
+    "Original13 source resources are exact owner Git objects and passed declared original offline consumers. No live Runtime/provider/cloud/installed acceptance.",
+    "Remote resident launch authorization/custody and effect logic preserved; only resource default selection changes.",
+    "Relay legacy ADL Cargo csm build path remains independently unresolved; this change does not qualify it.",
+    "Installer1404/2017 and remote launcher product behavior remain separate; no test count transfer to those contracts.",
+    "Issue607 consumes installed bundle copies; no new installed acceptance.",
+    "4134+22 and seven supplemental inventory preserved; these13 are original captured rows."
+  ],
+  "new_adapter_pvf": {
+    "lane_class": "fast_unit",
+    "proof_role": "source_resource_routing_and_refusal",
+    "determinism": "pinned SHA256 inputs",
+    "resource_profile": "Python stdlib; no processes beyond helper; no network",
+    "release_gate": false,
+    "focused_proof": "planned_not_executed"
+  },
+  "remote_resource_delivery": {
+    "six_hour": "Command profile argv embeds compressed exact13resource payload. Generated bootstrap pins all13 SHA256s in its code, verifies complete key set and bytes before writes, materializes temporary root, sets explicit child root and propagates child return code. No host root assumed remotely. Native profile digest covers entire argv.",
+    "allowlist": "ADL_ISSUE268_RUNTIME_SOURCE_ROOT added; bootstrap overrides inherited value with validated private remote root.",
+    "producer_revision": "Explicit pre-existing SOURCE_REVISION passed into orchestrator to preserve original source provenance when resources are materialized without Git metadata. This is not new binary provenance qualification.",
+    "temporary_modes": "Remote payload resources mode0644; original operational paths invoke Python explicitly. Original execution/source modes preserved in custody.",
+    "relay_archive": {
+      "path": "/Volumes/FastWork/c1223/runtime-issue268-offline-family/retirement-r4/relay-resource-delivery.tar",
+      "sha256": "981da21c885da94503afb656aeabca8986401c34aa018eee7831c6b7da95c611",
+      "members": [
+        {
+          "member": "runtime-resources/adl/tools/issue268_runtime_qualification.cloudformation.yaml",
+          "sha256": "e6fa89e5f1d8a18ec22de86ae036835692578c9de7c5972ebdb169dc8185db23",
+          "mode": "0o644"
+        },
+        {
+          "member": "runtime-resources/adl/tools/issue268_runtime_uts_task_panel.json",
+          "sha256": "d0959ef79168d6e8fc05ba02cab7d98b267280511eb5884684e14150ded3617e",
+          "mode": "0o644"
+        },
+        {
+          "member": "runtime-resources/adl/tools/issue268_six_resident_uts_plan.json",
+          "sha256": "7fa623819342d86bcfd5b0d16c5a502c5a7950141a7292e5689f8d257ea75f8b",
+          "mode": "0o644"
+        },
+        {
+          "member": "runtime-resources/adl/tools/materialize_issue268_ollama_plan.py",
+          "sha256": "b12738bffa746b9b0b0c7a35215ddced7771b9d7adaf627523db1c0e3369a4f3",
+          "mode": "0o644"
+        },
+        {
+          "member": "runtime-resources/adl/tools/run_issue268_continuity_uts_qualification.py",
+          "sha256": "580027455b08064b591ea69077b97e56f27048a0b414e4240f64cf898e98bedf",
+          "mode": "0o644"
+        },
+        {
+          "member": "runtime-resources/adl/tools/run_issue268_six_resident_uts_cycle.py",
+          "sha256": "d104c2a4c3f5294e83587c9e30c422f2dba9d19543bd8740f702714d75f375cd",
+          "mode": "0o644"
+        },
+        {
+          "member": "runtime-resources/adl/tools/test_issue268_runtime_qualification_cloudformation.py",
+          "sha256": "93576398e544942e95313bf30103cae0cac487ea8198a5960fc7c849fb1db4d6",
+          "mode": "0o755"
+        },
+        {
+          "member": "runtime-resources/adl/tools/test_materialize_issue268_ollama_plan.py",
+          "sha256": "5b677e6899be9ef1b31cf491d152aacddcee5af926291485159d605992b3a60e",
+          "mode": "0o644"
+        },
+        {
+          "member": "runtime-resources/adl/tools/test_run_issue268_continuity_uts_qualification.py",
+          "sha256": "29386d1cdc2a8e1faa28948bd2d6dfb06daa2f37c9f016c5240c4f2794f9fab5",
+          "mode": "0o644"
+        },
+        {
+          "member": "runtime-resources/adl/tools/test_run_issue268_six_resident_uts_cycle.py",
+          "sha256": "e5369948db2acf1e6bce02cd6a31f85d93dc0bf0851773ae5baa18cb5f09beff",
+          "mode": "0o644"
+        },
+        {
+          "member": "runtime-resources/adl/tools/test_warm_issue268_ollama_models.py",
+          "sha256": "1f404c1960abfe635d5d65ef8d398a35322576d906a4640c2ccbe7c7bf1f4da8",
+          "mode": "0o644"
+        },
+        {
+          "member": "runtime-resources/adl/tools/validate_issue268_six_resident_uts_plan.py",
+          "sha256": "6383833aee37ff75ea239294e3d5b5c29e28e92730683bc3a3c8ca32850a23da",
+          "mode": "0o644"
+        },
+        {
+          "member": "runtime-resources/adl/tools/warm_issue268_ollama_models.py",
+          "sha256": "fef747c8e948eae40acd6aee96eaf7240a91c39b16ba03352843c7b6668d3c76",
+          "mode": "0o644"
+        },
+        {
+          "member": "build_issue509_runtime_bundle_on_relay.sh",
+          "sha256": "49c862d05bbe16992117f3e4754873396df8e896db69949c423e31461a9ba2f0",
+          "mode": "0o755"
+        }
+      ]
+    },
+    "relay_layout": "Deliver this exact tar to an explicitly authorized private remote directory. Extracted standalone relay script uses no repository-relative helper. ADL_ISSUE268_RUNTIME_SOURCE_ROOT must be the absolute extracted runtime-resources directory; all13hashes checked before any original effects. No remote delivery or execution performed.",
+    "retained_test": "RD07-2087 adds exact source-root validation/export before existing source checks and four invocation blocks; original assertion bodies unchanged.",
+    "transport_fix": "All profile argv elements are single-line: separately base64-encoded bootstrap program executed by a fixed one-line decoder. Complies with retained portable shell_join newline/NUL refusal without relaxing it."
+  },
+  "original_proposal_status": "external_caller_adapter_requires_review_and_focused_proof",
+  "original_required_before_apply": [
+    "Independent source review; focused inert adapter valid/missing/wrong-root/changed-resource routing checks only, not original reruns.",
+    "Regenerate actual TOOL_SURFACE_REGISTRY after composed source application, retaining independently changed rows; generator is authoritative.",
+    "Review remote command-profile compressed authenticated13-file payload, temporary root materialization, explicit child root and return-code propagation. No host resource path transported. Relay uses standalone preflight and requires an explicit preprovisioned complete remote resource root; no helper checkout dependency."
+  ],
+  "caller_proof": {
+    "prefix": {
+      "cases": 15,
+      "result": "/Volumes/FastWork/c1223/runtime-issue268-offline-family/retirement/review/prefix-execution/RESULT.json",
+      "sha256": "188f0ff1a364f8824d5f707ede859eeab6f3646bf9ca7200278365ab8fe25f23"
+    },
+    "transport": {
+      "cases": 2,
+      "result": "/Volumes/FastWork/c1223/runtime-issue268-offline-family/retirement/review/transport-execution/RESULT.json",
+      "sha256": "4754de18123bb9084ab4802d20ee9faf2df6c26bb0df0dadeb9693e59b21c663"
+    },
+    "retained2087": {
+      "scripts": 1,
+      "mocked_wrapper_invocations": 6,
+      "result": "/Volumes/FastWork/c1223/runtime-issue268-offline-family/retained-2087/execution-r2/output/result.json",
+      "sha256": "6b4c0cfbc7a86c346e7dabdb12644bd06df1f3eb3d55e796a568340a1ee8de43",
+      "outer_result_sha256": "b2f6fce38f1218396abcbc789710a48489b3b4c769696482f4e054489040e6d1",
+      "container_inspect_sha256": "7aadbcc2998e32f6cf6420bb36939adb6af99b4fa446251d7dd0fe036efe89c9",
+      "initial_zero_original_failure": "/Volumes/FastWork/c1223/runtime-issue268-offline-family/retained-2087/R1_PREFLIGHT_FAILURE.json",
+      "initial_failure_sha256": "26d3ed724f482770e1fc22fe257d3d65c4f22453db3caf01c5ff5d4052396eb7",
+      "assertion_body": "unchanged apart from explicit root selection/export; original mock fixture success/refusals executed",
+      "source_before_after_exact": true
+    },
+    "nonadditivity": "The five original Runtime13 tests plus one validator, fifteen prefixes, two inert payload cases and one six-invocation retained caller script are separate proof denominators. They do not sum to product/remote acceptance."
+  },
+  "registry_custody": {
+    "path": "/Volumes/FastWork/c1223/runtime-issue268-offline-family/retirement-final-registry/registry-preimage.tar",
+    "sha256": "763e888d3e911ed86ae5fb50f53646de95e1c9543cb2820f0b303cd3f624e83f",
+    "members": 1
+  },
+  "original_proposal_head": "4abc29798955d5b87c98454939d68856d7f52eb1",
+  "registry_composition": {
+    "method": "Actual current generator rendered complete shallow current tool/skill inventory +current Cargo manifest, after exact13 removals; parent must actualregenerate and require exactafterhash.",
+    "removed_rows": 13,
+    "added_rows": 0,
+    "before": {
+      "mode": "100644",
+      "blob": "4931d852b7c0301b7945c0c0ccd4d8e4bdf707b1",
+      "sha256": "4cf723531bc2f8c4c6142b09d73943f57e85c0f82782198cd1dd6ca06ed8c3e5"
+    },
+    "after": {
+      "mode": "100644",
+      "blob": "d70cbedd205f5115fb665676eecb3d4fbf19f825",
+      "sha256": "dbe0d01c4a905bd75b4815b4d6e2f97eef62a21d65f552303e2e2418751a1844"
+    }
+  },
+  "issue": 1223,
+  "review": {
+    "reviewer": "review_1223_public_facade",
+    "result": "PASS",
+    "scope": "final19source transitions/custody;original5tests+validator,15prefix,2transport and retained2087sixmock invocations;native/live/legacyrelaybuild claims excluded"
+  },
+  "caller_shell_syntax": "bash -n passed all four modified caller/test scripts"
+}

@@ -1,0 +1,16 @@
+{
+  "schema": "adl.enterprise.codefriend_input.v1",
+  "status": "authenticated_candidate",
+  "target": "x86_64-unknown-linux-gnu",
+  "source_revision": "2734eff484d25ac76e807209e01e348804eaf9d0",
+  "run_id": 39485680891,
+  "run_attempt": 1,
+  "artifact_id": 12292859850,
+  "zip_sha256": "27eed0da95d3c8a9708f8aaf1951a57c52ee1487f436e37d639af2b09e0a2009",
+  "payload_sha256": "ad371f3ab227e3de4f34e00e8ff196801918d7610b636becd28c61659847f828",
+  "workflow_ref": "agent-logic/codefriend/.github/workflows/product-ci.yaml@refs/pull/132/merge",
+  "workflow_sha": "dddf099e70f505283b54af598df5a7d0a06c41a2",
+  "job_name": "installed-product",
+  "job_id": 118846085823,
+  "job_display_name": "tests [04/05 slow installed product]"
+}

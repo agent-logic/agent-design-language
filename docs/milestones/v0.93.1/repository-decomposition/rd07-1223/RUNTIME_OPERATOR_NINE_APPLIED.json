@@ -1,0 +1,543 @@
+{
+  "schema": "adl1223.runtime_operator_nine_document_transfer.v1",
+  "status": "applied",
+  "source_head": "f74bdef05ba4eb0d198ba243c020823b55b1d9b0",
+  "removed_count": 9,
+  "rows": [
+    {
+      "id": "RD07-3574",
+      "path": "docs/providers/provider-profile-hot-loading.md",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "37aa812beaf0727fa52e9598d77cd22e063f68c0"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "active ADL navigation and source consumers reconciled",
+        "reuse applicable owner proof; source presence alone not execution",
+        "scoped retirement approval"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "docs/providers/provider-profile-hot-loading.md"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_29_DOC_DISPOSITIONS.json",
+        "packet_sha256": "2ae4a55dbaee23c4367e3503cd4f94378f6eec43ea42d8fec40f750296335dc1",
+        "proposal": "conditional_owner_document_transfer_with_caller_cutover",
+        "review": "Source specialist and root finite-disposition review; no execution or owner acceptance inferred"
+      }
+    },
+    {
+      "id": "RD07-3727",
+      "path": "docs/tooling/CALL_CLAUDE_FABLE_5.md",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "62a1e4a4230ac4f6967bca53b1b877a6dd26ac64"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "active ADL navigation and source consumers reconciled",
+        "reuse applicable owner proof; source presence alone not execution",
+        "scoped retirement approval"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "docs/tooling/CALL_CLAUDE_FABLE_5.md"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_29_DOC_DISPOSITIONS.json",
+        "packet_sha256": "2ae4a55dbaee23c4367e3503cd4f94378f6eec43ea42d8fec40f750296335dc1",
+        "proposal": "conditional_owner_document_transfer_with_caller_cutover",
+        "review": "Source specialist and root finite-disposition review; no execution or owner acceptance inferred"
+      }
+    },
+    {
+      "id": "RD07-3731",
+      "path": "docs/tooling/CODEX_USAGE_WATCHER.md",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "3a968c0499c4d4098b241c5a835e8b1a477b8fb3"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "active ADL navigation and source consumers reconciled",
+        "reuse applicable owner proof; source presence alone not execution",
+        "scoped retirement approval"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "docs/tooling/CODEX_USAGE_WATCHER.md"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_29_DOC_DISPOSITIONS.json",
+        "packet_sha256": "2ae4a55dbaee23c4367e3503cd4f94378f6eec43ea42d8fec40f750296335dc1",
+        "proposal": "conditional_owner_document_transfer_with_caller_cutover",
+        "review": "Source specialist and root finite-disposition review; no execution or owner acceptance inferred"
+      }
+    },
+    {
+      "id": "RD07-3750",
+      "path": "docs/tooling/LOCAL_POLIS_SSM_OPERATIONS.md",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "fffdbe15325ad8ed8d044b79f885ce13fb5f2690"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "active ADL navigation and source consumers reconciled",
+        "reuse applicable owner proof; source presence alone not execution",
+        "scoped retirement approval"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "docs/tooling/LOCAL_POLIS_SSM_OPERATIONS.md"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_29_DOC_DISPOSITIONS.json",
+        "packet_sha256": "2ae4a55dbaee23c4367e3503cd4f94378f6eec43ea42d8fec40f750296335dc1",
+        "proposal": "conditional_owner_document_transfer_with_caller_cutover",
+        "review": "Source specialist and root finite-disposition review; no execution or owner acceptance inferred"
+      }
+    },
+    {
+      "id": "RD07-3770",
+      "path": "docs/tooling/RUNTIME_AWS_ACIP_SNS.md",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "9c93ae48cc6144ff27b8905b08cd4292778bc0a6"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "active ADL navigation and source consumers reconciled",
+        "reuse applicable owner proof; source presence alone not execution",
+        "scoped retirement approval"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "docs/tooling/RUNTIME_AWS_ACIP_SNS.md"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_29_DOC_DISPOSITIONS.json",
+        "packet_sha256": "2ae4a55dbaee23c4367e3503cd4f94378f6eec43ea42d8fec40f750296335dc1",
+        "proposal": "conditional_owner_document_transfer_with_caller_cutover",
+        "review": "Source specialist and root finite-disposition review; no execution or owner acceptance inferred"
+      }
+    },
+    {
+      "id": "RD07-3771",
+      "path": "docs/tooling/RUNTIME_AWS_HEARTBEAT.md",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "a71a1a5b81e6947d6f6cbef1511d704f8e78b7d7"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "active ADL navigation and source consumers reconciled",
+        "reuse applicable owner proof; source presence alone not execution",
+        "scoped retirement approval"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "docs/tooling/RUNTIME_AWS_HEARTBEAT.md"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_29_DOC_DISPOSITIONS.json",
+        "packet_sha256": "2ae4a55dbaee23c4367e3503cd4f94378f6eec43ea42d8fec40f750296335dc1",
+        "proposal": "conditional_owner_document_transfer_with_caller_cutover",
+        "review": "Source specialist and root finite-disposition review; no execution or owner acceptance inferred"
+      }
+    },
+    {
+      "id": "RD07-3772",
+      "path": "docs/tooling/RUNTIME_AWS_SIGNAL_INTEGRATION.md",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "23eb2b7d449e0ffe06e9c59bf79883aa2a7c7e3a"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "active ADL navigation and source consumers reconciled",
+        "reuse applicable owner proof; source presence alone not execution",
+        "scoped retirement approval"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "docs/tooling/RUNTIME_AWS_SIGNAL_INTEGRATION.md"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_29_DOC_DISPOSITIONS.json",
+        "packet_sha256": "2ae4a55dbaee23c4367e3503cd4f94378f6eec43ea42d8fec40f750296335dc1",
+        "proposal": "conditional_owner_document_transfer_with_caller_cutover",
+        "review": "Source specialist and root finite-disposition review; no execution or owner acceptance inferred"
+      }
+    },
+    {
+      "id": "RD07-3773",
+      "path": "docs/tooling/RUNTIME_CLOUD_CONTROL_CLOUDFRONT.md",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "6dafddd58c52693009c225c4d3de5b9054560037"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "active ADL navigation and source consumers reconciled",
+        "reuse applicable owner proof; source presence alone not execution",
+        "scoped retirement approval"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "docs/tooling/RUNTIME_CLOUD_CONTROL_CLOUDFRONT.md"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_29_DOC_DISPOSITIONS.json",
+        "packet_sha256": "2ae4a55dbaee23c4367e3503cd4f94378f6eec43ea42d8fec40f750296335dc1",
+        "proposal": "conditional_owner_document_transfer_with_caller_cutover",
+        "review": "Source specialist and root finite-disposition review; no execution or owner acceptance inferred"
+      }
+    },
+    {
+      "id": "RD07-3774",
+      "path": "docs/tooling/RUNTIME_POLIS_DURABLE_STORAGE.md",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-product-docs",
+      "current_identity": {
+        "mode": "100644",
+        "blob": "301550fe99c238ebd20102c5154f660bd881df85"
+      },
+      "existing_action": "retain",
+      "hold_reason": "hold_until_component_consumers_and_qualified_replacement_are_reconciled",
+      "proposed_action": "proposed_owner_transfer_with_consumer_qualification",
+      "required_before_execution": [
+        "active ADL navigation and source consumers reconciled",
+        "reuse applicable owner proof; source presence alone not execution",
+        "scoped retirement approval"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "docs/tooling/RUNTIME_POLIS_DURABLE_STORAGE.md"
+        ]
+      },
+      "reviewed_disposition": {
+        "packet": "RUNTIME_29_DOC_DISPOSITIONS.json",
+        "packet_sha256": "2ae4a55dbaee23c4367e3503cd4f94378f6eec43ea42d8fec40f750296335dc1",
+        "proposal": "conditional_owner_document_transfer_with_caller_cutover",
+        "review": "Source specialist and root finite-disposition review; no execution or owner acceptance inferred"
+      }
+    }
+  ],
+  "files": [
+    {
+      "path": "docs/providers/provider-profile-hot-loading.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "37aa812beaf0727fa52e9598d77cd22e063f68c0",
+        "sha256": "36b358ac8cdbda9b6b848bc4407280d5fcfacaf75b7a668960cbba99712bcf17"
+      },
+      "after": null
+    },
+    {
+      "path": "docs/tooling/CALL_CLAUDE_FABLE_5.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "62a1e4a4230ac4f6967bca53b1b877a6dd26ac64",
+        "sha256": "f6fe67d0546cf9e6d6740c27b0fd48a6453e8170ddf1f365bc39b14262df2eb0"
+      },
+      "after": null
+    },
+    {
+      "path": "docs/tooling/CODEX_USAGE_WATCHER.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "3a968c0499c4d4098b241c5a835e8b1a477b8fb3",
+        "sha256": "0b5556fb436cd7030047050cef62c61c36e84cf2e710e250ad0046c7be191231"
+      },
+      "after": null
+    },
+    {
+      "path": "docs/tooling/LOCAL_POLIS_SSM_OPERATIONS.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "fffdbe15325ad8ed8d044b79f885ce13fb5f2690",
+        "sha256": "ffc3b4aa48edbffbe9a83d2f4e7a0f9c8c3cefbbb257fa9f0a9e9906ef702302"
+      },
+      "after": null
+    },
+    {
+      "path": "docs/tooling/RUNTIME_AWS_ACIP_SNS.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "9c93ae48cc6144ff27b8905b08cd4292778bc0a6",
+        "sha256": "8074e740fc1a9e2a677c1785de0ca0386bfee598f3f27bac8aa2f03ed8e8642c"
+      },
+      "after": null
+    },
+    {
+      "path": "docs/tooling/RUNTIME_AWS_HEARTBEAT.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "a71a1a5b81e6947d6f6cbef1511d704f8e78b7d7",
+        "sha256": "2cabc0174745e10000cbfd78e884a5613e2807db9970511bcd540039c106434b"
+      },
+      "after": null
+    },
+    {
+      "path": "docs/tooling/RUNTIME_AWS_SIGNAL_INTEGRATION.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "23eb2b7d449e0ffe06e9c59bf79883aa2a7c7e3a",
+        "sha256": "6977c773fff7eb4123aa1ae06d1f13a7579031ab9ffd66adaf0c2e4c336f32e3"
+      },
+      "after": null
+    },
+    {
+      "path": "docs/tooling/RUNTIME_CLOUD_CONTROL_CLOUDFRONT.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "6dafddd58c52693009c225c4d3de5b9054560037",
+        "sha256": "b59d4242497c7b56262f1031adfdecbe8f0c2d9ef201ce5dcd4dd13996b3326f"
+      },
+      "after": null
+    },
+    {
+      "path": "docs/tooling/RUNTIME_POLIS_DURABLE_STORAGE.md",
+      "action": "remove",
+      "before": {
+        "mode": "100644",
+        "blob": "301550fe99c238ebd20102c5154f660bd881df85",
+        "sha256": "ad325be8d0337a901e5b6abbbb43c46fdfe3063695fcd2393a5427be0ceb98a4"
+      },
+      "after": null
+    },
+    {
+      "path": "docs/tooling/PROVIDER_SETUP.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "939408d098ead225c31d7af50d902ad20fa29f73",
+        "sha256": "3d4b352d59b54a681f8a92f5b5b89198468368af112df7a4bf11e576d1d2f55e"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "e9cc9e964ecde41749486f2c76d73efe94ef03c5",
+        "sha256": "c4223e055cd0e653c16a68813de0e02e3f891edb758dcb96cb8b88c640e93998"
+      }
+    },
+    {
+      "path": "docs/tooling/README.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "12d79ffeab3fc090c1746c6ad7048a1d24d19f09",
+        "sha256": "5685e5b2ae0e4368ee411dffba87252a7c7e15acc6d3a20e5f73b87dbbf41177"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "6d57d31d18145345add634c35189c6bdcbea3349",
+        "sha256": "ac89ea6ab6b6335343ef68ba6c0da5c745ff8a5f628feba974422b0459db39a5"
+      }
+    }
+  ],
+  "owner_revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+  "owner_inputs": [
+    {
+      "path": "docs/providers/provider-profile-hot-loading.md",
+      "revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "mode": "100644",
+      "blob": "37aa812beaf0727fa52e9598d77cd22e063f68c0",
+      "sha256": "36b358ac8cdbda9b6b848bc4407280d5fcfacaf75b7a668960cbba99712bcf17",
+      "exact_current_bytes": true
+    },
+    {
+      "path": "docs/tooling/CALL_CLAUDE_FABLE_5.md",
+      "revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "mode": "100644",
+      "blob": "62a1e4a4230ac4f6967bca53b1b877a6dd26ac64",
+      "sha256": "f6fe67d0546cf9e6d6740c27b0fd48a6453e8170ddf1f365bc39b14262df2eb0",
+      "exact_current_bytes": true
+    },
+    {
+      "path": "docs/tooling/CODEX_USAGE_WATCHER.md",
+      "revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "mode": "100644",
+      "blob": "3a968c0499c4d4098b241c5a835e8b1a477b8fb3",
+      "sha256": "0b5556fb436cd7030047050cef62c61c36e84cf2e710e250ad0046c7be191231",
+      "exact_current_bytes": true
+    },
+    {
+      "path": "docs/tooling/LOCAL_POLIS_SSM_OPERATIONS.md",
+      "revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "mode": "100644",
+      "blob": "fffdbe15325ad8ed8d044b79f885ce13fb5f2690",
+      "sha256": "ffc3b4aa48edbffbe9a83d2f4e7a0f9c8c3cefbbb257fa9f0a9e9906ef702302",
+      "exact_current_bytes": true
+    },
+    {
+      "path": "docs/tooling/RUNTIME_AWS_ACIP_SNS.md",
+      "revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "mode": "100644",
+      "blob": "9c93ae48cc6144ff27b8905b08cd4292778bc0a6",
+      "sha256": "8074e740fc1a9e2a677c1785de0ca0386bfee598f3f27bac8aa2f03ed8e8642c",
+      "exact_current_bytes": true
+    },
+    {
+      "path": "docs/tooling/RUNTIME_AWS_HEARTBEAT.md",
+      "revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "mode": "100644",
+      "blob": "a71a1a5b81e6947d6f6cbef1511d704f8e78b7d7",
+      "sha256": "2cabc0174745e10000cbfd78e884a5613e2807db9970511bcd540039c106434b",
+      "exact_current_bytes": true
+    },
+    {
+      "path": "docs/tooling/RUNTIME_AWS_SIGNAL_INTEGRATION.md",
+      "revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "mode": "100644",
+      "blob": "23eb2b7d449e0ffe06e9c59bf79883aa2a7c7e3a",
+      "sha256": "6977c773fff7eb4123aa1ae06d1f13a7579031ab9ffd66adaf0c2e4c336f32e3",
+      "exact_current_bytes": true
+    },
+    {
+      "path": "docs/tooling/RUNTIME_CLOUD_CONTROL_CLOUDFRONT.md",
+      "revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "mode": "100644",
+      "blob": "6dafddd58c52693009c225c4d3de5b9054560037",
+      "sha256": "b59d4242497c7b56262f1031adfdecbe8f0c2d9ef201ce5dcd4dd13996b3326f",
+      "exact_current_bytes": true
+    },
+    {
+      "path": "docs/tooling/RUNTIME_POLIS_DURABLE_STORAGE.md",
+      "revision": "7d0db620ad79c50ff5d8fabf0fb543183583d05c",
+      "mode": "100644",
+      "blob": "301550fe99c238ebd20102c5154f660bd881df85",
+      "sha256": "ad325be8d0337a901e5b6abbbb43c46fdfe3063695fcd2393a5427be0ceb98a4",
+      "exact_current_bytes": true
+    }
+  ],
+  "prior_dispositions": [
+    {
+      "path": "/Volumes/FastWork/adl-worktrees/adl-issue-1223-1223-coherent-source-retirement/docs/milestones/v0.93.1/repository-decomposition/rd07-1223/RUNTIME_DEMO_RETIREMENT_DISPOSITION.json",
+      "sha256": "31a169792124dd2a6e9ed933ed7fc5e333b10eddc0bd2300fe73c3933a33328d"
+    },
+    {
+      "path": "/Volumes/FastWork/adl-worktrees/adl-issue-1223-1223-coherent-source-retirement/docs/milestones/v0.93.1/repository-decomposition/rd07-1223/RUNTIME_200_DISPOSITION_PROPOSAL.json",
+      "sha256": "cb31cac8e386b0098cd10a04ae8dbde3f0a0c31f297bbcdda37daa9fd93eae9a"
+    },
+    {
+      "path": "/Volumes/FastWork/adl-worktrees/adl-issue-1223-1223-coherent-source-retirement/docs/milestones/v0.93.1/repository-decomposition/rd07-1223/RUNTIME_29_DOC_DISPOSITIONS.json",
+      "sha256": "2ae4a55dbaee23c4367e3503cd4f94378f6eec43ea42d8fec40f750296335dc1"
+    }
+  ],
+  "qualification_boundary": "Documentation custody only: all9 current Markdown files byte-identical to authenticated ownerGit tree. No machine-readable fixtures or executable source deleted; this is not functional/provider/conversation qualification. Existing adverse scenario evidence remains unchanged.",
+  "custody": {
+    "path": "/Volumes/FastWork/c1223/runtime-operator-nine-docs/prepared/current-and-original-preimages.tar",
+    "sha256": "4b57b27ed71bc4801f57537d4cbf1f63f4f749c15883b27e780c06248a5f56f4",
+    "current_members": 11,
+    "original_members": 9,
+    "original_revision": "248f00e359e412f6bc0061ac88be9ff374e3a212"
+  },
+  "caller_closure": {
+    "scan": {
+      "path": "/Volumes/FastWork/c1223/remaining-doc49/OPERATOR9_CALLERS.txt",
+      "sha256": "7164dc06ca6bf655b17fe1d296dec2e6e6c3e96510a22c4c37034d1d9ae5dd59"
+    },
+    "source": "No executable source consumer found for these9 guide contents; two retained Markdown navigation/reference files patched to exact immutable Runtime blob URLs.",
+    "selector": "Existing old selector document path hints are classification strings, not file reads or executable commands. Preserved unchanged; source-contract or live lane behavior is not claimed here.",
+    "historical": "Original milestone/review/issue evidence and captured source records remain unchanged.",
+    "registry": "No tool registry entries or generator change; all9paths are documents."
+  },
+  "preserved_operational_fixtures": [
+    {
+      "path": "docs/tooling/PROVIDER_SETUP.md",
+      "reason": "Shared ADL provider setup retained; only its outgoing Claude guide navigation is updated.",
+      "preimage_sha256": "3d4b352d59b54a681f8a92f5b5b89198468368af112df7a4bf11e576d1d2f55e",
+      "expected_postimage_sha256": "c4223e055cd0e653c16a68813de0e02e3f891edb758dcb96cb8b88c640e93998",
+      "preserved_content_exception": "PROVIDER_SETUP remains retained shared source. Only the already-reviewed outgoing CALL_CLAUDE_FABLE_5 link changes to the pinned owner URL; source content is not byte-unchanged."
+    }
+  ],
+  "limits": [
+    "No tests/builds/providers/cloud/model/runtime/native operations executed.",
+    "No website or audio repo changes; only split Runtime operator guides; no AWS or provider operations.",
+    "Original4134+22 and both distributed holds unchanged;exact9captured proposed transfers only."
+  ],
+  "patch": {
+    "path": "/Volumes/FastWork/c1223/runtime-operator-nine-docs/prepared/nine-and-navigation.patch",
+    "sha256": "4d2d32715c8225832d99e5f30f03027735614fae15eb6c3fa184d303e8fcb1d7"
+  },
+  "prior_proposal": {
+    "path": "/Volumes/FastWork/c1223/runtime-operator-nine-docs/prepared/PROPOSAL.json",
+    "sha256": "6b87a413a2c78fe4c64252d16259aca376b051f074760f0393eca86bae367209"
+  },
+  "proposal_source_head": "af5a909318c9609a26e7d59e43dffcdeb75d0a72",
+  "review": {
+    "status": "PASS",
+    "reviewer": "/root/review_1223_public_facade",
+    "proposal_sha256": "7b432cacef93601b5352664418f42a7943907da941a74a38b13ec33dfee7e5b6",
+    "scope": "Nine owner documents and navigation; reviewed metadata correction preserves explicit PROVIDER_SETUP link change."
+  }
+}

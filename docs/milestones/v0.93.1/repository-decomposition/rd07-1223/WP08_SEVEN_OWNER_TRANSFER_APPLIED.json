@@ -1,0 +1,1946 @@
+{
+  "schema": "adl1223.wp08_seven_composed.v1",
+  "status": "applied",
+  "source_head": "b19bb610be0d7e4bf47dae7d0e7726c79d8fd80b",
+  "original_baseline": "248f00e359e412f6bc0061ac88be9ff374e3a212",
+  "removed_count": 7,
+  "rows": [
+    {
+      "id": "RD07-1523",
+      "path": "adl/tools/run_wp08_local_polis_ssm_proof.py",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "4a1297a3614fbafdce1f7cec375ba3d16e7bdc0f"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/run_wp08_local_polis_ssm_proof.py"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1524",
+      "path": "adl/tools/run_wp08_local_polis_ssm_proof.sh",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "195d1b8840414c4725d75b79dc8fd2b6aa6fa145"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/run_wp08_local_polis_ssm_proof.sh"
+        ]
+      }
+    },
+    {
+      "id": "RD07-1538",
+      "path": "adl/tools/setup_wp08_s3_obsmem_archive_policy.sh",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "57bc2eb68c202ed4a0ffcf541440ef8aac415a7f"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/setup_wp08_s3_obsmem_archive_policy.sh"
+        ]
+      }
+    },
+    {
+      "id": "RD07-2106",
+      "path": "adl/tools/test_run_wp08_local_polis_ssm_proof.sh",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "12b28412b416444ee4fa160f9df69a7c59430c4a"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/test_run_wp08_local_polis_ssm_proof.sh"
+        ]
+      }
+    },
+    {
+      "id": "RD07-2115",
+      "path": "adl/tools/test_setup_wp08_s3_obsmem_archive_policy.sh",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "369d5afd0e31ae6e0c5e9dc576918239d8e79199"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/test_setup_wp08_s3_obsmem_archive_policy.sh"
+        ]
+      }
+    },
+    {
+      "id": "RD07-2249",
+      "path": "adl/tools/validate_wp08_local_polis_ssm_proof.py",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "f1b7a1472944a28be8140d18d93db85956026437"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/validate_wp08_local_polis_ssm_proof.py"
+        ]
+      }
+    },
+    {
+      "id": "RD07-2251",
+      "path": "adl/tools/validate_wp08_s3_obsmem_archive_policy.py",
+      "owner": "agent-logic-runtime",
+      "component": "agent-logic-runtime-mapped-tools",
+      "current_identity": {
+        "mode": "100755",
+        "blob": "c44033b7e341f4ed5df63a9c671ce4965b8772c6"
+      },
+      "existing_action": "retain",
+      "proposed_action": "proposed_remove_with_entire_tool_family",
+      "required_before_execution": [
+        "qualified_successor_tool_family",
+        "inbound_active_callers_repaired_or_retired",
+        "scoped_operator_decision"
+      ],
+      "successor_mapping": {
+        "mapping": "exact_successor",
+        "successor_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+        "exact_successor_paths": [
+          "adl/tools/validate_wp08_s3_obsmem_archive_policy.py"
+        ]
+      }
+    }
+  ],
+  "files": [
+    {
+      "path": "adl/tools/run_wp08_local_polis_ssm_proof.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "4a1297a3614fbafdce1f7cec375ba3d16e7bdc0f",
+        "sha256": "fecd35842a495bfe015c993d789acd9950b26f9e13b4de4cf6e6f546f7fed24e"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/run_wp08_local_polis_ssm_proof.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "195d1b8840414c4725d75b79dc8fd2b6aa6fa145",
+        "sha256": "2194c346695b4535a3499da26f1dd405b0edc462963161a80af87694f801ce65"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/setup_wp08_s3_obsmem_archive_policy.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "57bc2eb68c202ed4a0ffcf541440ef8aac415a7f",
+        "sha256": "f27fafa4e59260b35c3d9346d9f39685832ede0fc832bc9135016b3297d03253"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_run_wp08_local_polis_ssm_proof.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "12b28412b416444ee4fa160f9df69a7c59430c4a",
+        "sha256": "0f10ac6098c008324254b8769ba32a97655485cb0410edce9b8b7960e7ee9419"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/test_setup_wp08_s3_obsmem_archive_policy.sh",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "369d5afd0e31ae6e0c5e9dc576918239d8e79199",
+        "sha256": "3013bee75912f2de1e338cb21c3a3df6cb038621085bf6c1e3c28d239663d260"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/validate_wp08_local_polis_ssm_proof.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "f1b7a1472944a28be8140d18d93db85956026437",
+        "sha256": "15cab031fce539d0b696d0d6cc7e537e8414a7a3e542b43d9e3523275159f8f5"
+      },
+      "after": null
+    },
+    {
+      "path": "adl/tools/validate_wp08_s3_obsmem_archive_policy.py",
+      "action": "remove",
+      "before": {
+        "mode": "100755",
+        "blob": "c44033b7e341f4ed5df63a9c671ce4965b8772c6",
+        "sha256": "8e6e326ceab5a597b9661a9c25a6ce2bec17f8a6f92356e0e9204073c666887b"
+      },
+      "after": null
+    },
+    {
+      "path": "docs/tooling/S3_OBSMEM_COMMUNITY_MEMORY_ARCHIVE_POLICY.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "273ccc997c006b43458e308e1ea44ed48bd36d09",
+        "sha256": "f44db3d4eff357a307c07fa309fab5239e1ceba2e963e37ebe8ebf6aa77d4d82"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "6422f162b8e1a7230598e08492d7ec6dba042938",
+        "sha256": "5150d27f68b7d32734a05213890a491909b526a96758b983ef6c015f93c90c59"
+      }
+    },
+    {
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md",
+      "action": "modify",
+      "before": {
+        "mode": "100644",
+        "blob": "a670742c0fc3cae7c302d84341537bf602f27c0f",
+        "sha256": "1fa4504c876a53d434d0d1854502b76fda6a50f8b4db5de0df5c112d43d6a9d6"
+      },
+      "after": {
+        "mode": "100644",
+        "blob": "b3d3f6e9b00354f7f56677f6bfb9d34a27ef6f86",
+        "sha256": "abef4748172e1cc82e52b659059b67b5970da6ce51c0b19f2eff89dc387e0c88"
+      }
+    }
+  ],
+  "custody": {
+    "path": "/Volumes/FastWork/c1223/wp08-seven-composed/b19bb610be0d7e4bf47dae7d0e7726c79d8fd80b/current-original.tar",
+    "sha256": "b7652c1d5877b61320c389238b9a45ba3d593407e126ec7a658fd1137a31cdfb",
+    "current_members": 9,
+    "original_members": 7
+  },
+  "patch": {
+    "path": "/Volumes/FastWork/c1223/wp08-seven-composed/b19bb610be0d7e4bf47dae7d0e7726c79d8fd80b/seven-and-callers.patch",
+    "sha256": "9a35bde251eb41b5bd1795cef91a58e1ee283ad80b67247a33cd20d01d5db048"
+  },
+  "evidence": [
+    {
+      "path": "/Volumes/FastWork/c1223/wp08-worker21-proposal/PROPOSAL.json",
+      "sha256": "5e9b963fcb6654217f02c0f53cfc2585af2b49971d5b84490c599cd50722a5d2"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/wp08-worker21-proposal/INDEPENDENT_REVIEW.json",
+      "sha256": "cbb5ad726b4c5af5ddba40a1534d628e16f1d38657107f431fc75c799a8862f7"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/wp08-worker21-proposal/QUALIFICATION.json",
+      "sha256": "c6cbce661bbeab75eef6e8808abcba4758a416048ce958410dd03b8d786cf3ac"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/wp08-worker21-proposal/ORIGINAL_ASSERTIONS.json",
+      "sha256": "34c337f35c982fba92ec943d1ff588f1214c2d5fee6cd61c55a8bdb1dcb3ee15"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/wp08-worker21-proposal/CALLER_DISPOSITIONS.json",
+      "sha256": "a06172b521f5e2f579a3c621fd300e30c424491d8a5ee83d08a1425c73e1afda"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/wp08-worker21-proposal/VERIFICATION.json",
+      "sha256": "3bf4cabd7a2d578e98bccdebcc8b985d87de3fc4b3ad33de7c2d7da1eff4aa6f"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/wp08-worker21-proposal/CSM_ORIGINAL_WRAPPER_QUALIFICATION.json",
+      "sha256": "fce04ffd5985f903b6df91e08029594d6b12c9449147eafb0246d43f64f16353"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/wp08-worker21-proposal/INFRASTRUCTURE_CSM_FAMILY_DELIVERY.json",
+      "sha256": "33fb1d8e16f40bf0d5d8451300dbdb0dcf73ad61dc268bb13422b778ab74b2b8"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/wp08-worker21-proposal/current-and-frozen-custody.tar",
+      "sha256": "7e54193eda11ab643d39360520cb4338d8dd13f0a9accd1ec84dc56cd3f60c50"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/wp08-worker21-proposal/test_run_wp08_local_polis_ssm_proof.sh.stdout",
+      "sha256": "7e4550169bf04f0d853588dea8b1121d87c1896d9a71e9802ef34c3cfa959ee3"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/wp08-worker21-proposal/test_run_wp08_local_polis_ssm_proof.sh.stderr",
+      "sha256": "74db381ecb10ee67e13d32f3745c2042b595acbfe5d615bfef59c979308a8f4e"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/wp08-worker21-proposal/test_setup_wp08_s3_obsmem_archive_policy.sh.stdout",
+      "sha256": "2fb4b12c8fb9fb436dd1d69332c90522e618aa5c8481f818be899f6f85f9761c"
+    },
+    {
+      "path": "/Volumes/FastWork/c1223/wp08-worker21-proposal/test_setup_wp08_s3_obsmem_archive_policy.sh.stderr",
+      "sha256": "74db381ecb10ee67e13d32f3745c2042b595acbfe5d615bfef59c979308a8f4e"
+    }
+  ],
+  "prior_reviewed_proposal": {
+    "schema": "adl1223.wp08_external_proposal.v1",
+    "status": "external_proposal_not_applied",
+    "execution_authorized": false,
+    "source_head": "e766b05f48d9155c8813c72b7d743cfcb6630965",
+    "original_inventory": 4134,
+    "separate_additional_paths": 22,
+    "owners": {
+      "infrastructure": [
+        "/Volumes/FastWork/c1223/infrastructure14/agent-logic-infrastructure",
+        "0589ee84d895a472feee4645cf94574ce85a7fe6"
+      ],
+      "runtime": [
+        "/Users/daniel/git/agent-logic-runtime",
+        "033edb6f4387ad6138373f1994e7248ded437e29"
+      ]
+    },
+    "rows": [
+      {
+        "id": "RD07-1519",
+        "path": "adl/tools/run_wp08_acip_sns_live_proof.sh",
+        "current": {
+          "mode": "100755",
+          "blob": "22641bf9d4530c0010c0c2a7018943c8af14c126",
+          "sha256": "f4e217a7d0e4e96a35f40cc153f9ac66072f350828c81c18527f2630ed64555c"
+        },
+        "frozen": {
+          "mode": "100755",
+          "blob": "22641bf9d4530c0010c0c2a7018943c8af14c126"
+        },
+        "owners": {
+          "infrastructure": {
+            "mode": "100755",
+            "blob": "c62aef7e99d3e7fdddf14630ddd51a5fd74724a8",
+            "sha256": "4ce1e92319165f89c14a886995208d9a3e2ddf6d467a00ceb8fa2311e42a8377"
+          },
+          "runtime": null
+        },
+        "action": "hold_in_ADL",
+        "reason": "Mixed-owner wrapper/test support incomplete or original assertion proof absent; source correspondence is not acceptance"
+      },
+      {
+        "id": "RD07-1520",
+        "path": "adl/tools/run_wp08_aws_signal_integration_live_proof.sh",
+        "current": {
+          "mode": "100755",
+          "blob": "8a1b6d53860bc711210af84c95b14e028cb2839d",
+          "sha256": "cbc83397e8494d6ea88899eeca59c21a78717c41353476522b1f300cc119c274"
+        },
+        "frozen": {
+          "mode": "100755",
+          "blob": "8a1b6d53860bc711210af84c95b14e028cb2839d"
+        },
+        "owners": {
+          "infrastructure": {
+            "mode": "100755",
+            "blob": "18638bea3d26cbad073d56d2691b6126830a867f",
+            "sha256": "6c86f5e71c7af951aff9faa1d60a3e52fc3615e2bc4437bf1d56355738a06c00"
+          },
+          "runtime": null
+        },
+        "action": "hold_in_ADL",
+        "reason": "Mixed-owner wrapper/test support incomplete or original assertion proof absent; source correspondence is not acceptance"
+      },
+      {
+        "id": "RD07-1521",
+        "path": "adl/tools/run_wp08_cloudfront_control_proof.sh",
+        "current": {
+          "mode": "100755",
+          "blob": "5538499f70e03f7e693f7713ae1c99e0b3f145c8",
+          "sha256": "c7454cab4c243fe4365d128b19d12ad07413afcd777477c6bf277d7eb12dcf93"
+        },
+        "frozen": {
+          "mode": "100755",
+          "blob": "5538499f70e03f7e693f7713ae1c99e0b3f145c8"
+        },
+        "owners": {
+          "infrastructure": {
+            "mode": "100755",
+            "blob": "102b3028b1699702c2bb2cfa49062e8ae20a5c91",
+            "sha256": "1bd3cdb1ece3921caa5d8d05de4577b8722c8ad54a8959e98252029681600244"
+          },
+          "runtime": {
+            "mode": "100755",
+            "blob": "5538499f70e03f7e693f7713ae1c99e0b3f145c8",
+            "sha256": "c7454cab4c243fe4365d128b19d12ad07413afcd777477c6bf277d7eb12dcf93"
+          }
+        },
+        "action": "hold_in_ADL",
+        "reason": "Mixed-owner wrapper/test support incomplete or original assertion proof absent; source correspondence is not acceptance"
+      },
+      {
+        "id": "RD07-1522",
+        "path": "adl/tools/run_wp08_heartbeat_live_proof.sh",
+        "current": {
+          "mode": "100755",
+          "blob": "90544d83ac9c0baa4c8ce7a5d4a19b3608763031",
+          "sha256": "421e3e9b0b3920a62482716e899ecf5d1ebc912ce680c4e0e2a145f59e3c54bd"
+        },
+        "frozen": {
+          "mode": "100755",
+          "blob": "90544d83ac9c0baa4c8ce7a5d4a19b3608763031"
+        },
+        "owners": {
+          "infrastructure": {
+            "mode": "100755",
+            "blob": "4db98db7407e07cc4f9f1bb02fe740833e95da8f",
+            "sha256": "0519f511be61770fde08f87491395c72e4fbbebee48f09bdff7e07c285c3b733"
+          },
+          "runtime": null
+        },
+        "action": "hold_in_ADL",
+        "reason": "Mixed-owner wrapper/test support incomplete or original assertion proof absent; source correspondence is not acceptance"
+      },
+      {
+        "id": "RD07-1523",
+        "path": "adl/tools/run_wp08_local_polis_ssm_proof.py",
+        "current": {
+          "mode": "100755",
+          "blob": "4a1297a3614fbafdce1f7cec375ba3d16e7bdc0f",
+          "sha256": "fecd35842a495bfe015c993d789acd9950b26f9e13b4de4cf6e6f546f7fed24e"
+        },
+        "frozen": {
+          "mode": "100755",
+          "blob": "4a1297a3614fbafdce1f7cec375ba3d16e7bdc0f"
+        },
+        "owners": {
+          "infrastructure": null,
+          "runtime": {
+            "mode": "100755",
+            "blob": "4a1297a3614fbafdce1f7cec375ba3d16e7bdc0f",
+            "sha256": "fecd35842a495bfe015c993d789acd9950b26f9e13b4de4cf6e6f546f7fed24e"
+          }
+        },
+        "action": "propose_remove_after_integration_gates",
+        "reason": "Complete Runtime source family with exact source and offline fixture qualification"
+      },
+      {
+        "id": "RD07-1524",
+        "path": "adl/tools/run_wp08_local_polis_ssm_proof.sh",
+        "current": {
+          "mode": "100755",
+          "blob": "195d1b8840414c4725d75b79dc8fd2b6aa6fa145",
+          "sha256": "2194c346695b4535a3499da26f1dd405b0edc462963161a80af87694f801ce65"
+        },
+        "frozen": {
+          "mode": "100755",
+          "blob": "195d1b8840414c4725d75b79dc8fd2b6aa6fa145"
+        },
+        "owners": {
+          "infrastructure": null,
+          "runtime": {
+            "mode": "100755",
+            "blob": "195d1b8840414c4725d75b79dc8fd2b6aa6fa145",
+            "sha256": "2194c346695b4535a3499da26f1dd405b0edc462963161a80af87694f801ce65"
+          }
+        },
+        "action": "propose_remove_after_integration_gates",
+        "reason": "Complete Runtime source family with exact source and offline fixture qualification"
+      },
+      {
+        "id": "RD07-1525",
+        "path": "adl/tools/run_wp08_polis_storage_live_proof.sh",
+        "current": {
+          "mode": "100644",
+          "blob": "39ef22f262e9d095ce51e4a9a44f654f7d015fc8",
+          "sha256": "25b1dc90c61c813bd3a35637166fa0695e1f46d877fac2cd360ac035e8ec4a58"
+        },
+        "frozen": {
+          "mode": "100644",
+          "blob": "39ef22f262e9d095ce51e4a9a44f654f7d015fc8"
+        },
+        "owners": {
+          "infrastructure": {
+            "mode": "100644",
+            "blob": "2a957e214bc8bb8b40236e110b1101405cef8985",
+            "sha256": "4d033ae5708a90c3371a0ca1e866ce15a49b1138ad4a68b3301264a4b660ae66"
+          },
+          "runtime": null
+        },
+        "action": "hold_in_ADL",
+        "reason": "Mixed-owner wrapper/test support incomplete or original assertion proof absent; source correspondence is not acceptance"
+      },
+      {
+        "id": "RD07-1538",
+        "path": "adl/tools/setup_wp08_s3_obsmem_archive_policy.sh",
+        "current": {
+          "mode": "100755",
+          "blob": "57bc2eb68c202ed4a0ffcf541440ef8aac415a7f",
+          "sha256": "f27fafa4e59260b35c3d9346d9f39685832ede0fc832bc9135016b3297d03253"
+        },
+        "frozen": {
+          "mode": "100755",
+          "blob": "57bc2eb68c202ed4a0ffcf541440ef8aac415a7f"
+        },
+        "owners": {
+          "infrastructure": null,
+          "runtime": {
+            "mode": "100755",
+            "blob": "57bc2eb68c202ed4a0ffcf541440ef8aac415a7f",
+            "sha256": "f27fafa4e59260b35c3d9346d9f39685832ede0fc832bc9135016b3297d03253"
+          }
+        },
+        "action": "propose_remove_after_integration_gates",
+        "reason": "Complete Runtime source family with exact source and offline fixture qualification"
+      },
+      {
+        "id": "RD07-2102",
+        "path": "adl/tools/test_run_wp08_acip_sns_live_proof.sh",
+        "current": {
+          "mode": "100755",
+          "blob": "7daf42fbf36b0df08b23f77d7f5d7db5f2c2601d",
+          "sha256": "4bc52558b5a8b4f4749807a4ecbd2be2f9da4c32689664540025a2be30be8a56"
+        },
+        "frozen": {
+          "mode": "100755",
+          "blob": "7daf42fbf36b0df08b23f77d7f5d7db5f2c2601d"
+        },
+        "owners": {
+          "infrastructure": null,
+          "runtime": {
+            "mode": "100755",
+            "blob": "7daf42fbf36b0df08b23f77d7f5d7db5f2c2601d",
+            "sha256": "4bc52558b5a8b4f4749807a4ecbd2be2f9da4c32689664540025a2be30be8a56"
+          }
+        },
+        "action": "hold_in_ADL",
+        "reason": "Mixed-owner wrapper/test support incomplete or original assertion proof absent; source correspondence is not acceptance"
+      },
+      {
+        "id": "RD07-2103",
+        "path": "adl/tools/test_run_wp08_aws_signal_integration_live_proof.sh",
+        "current": {
+          "mode": "100755",
+          "blob": "e05e5fde4f295e755f9b6d7ef43d5d9412bdb85e",
+          "sha256": "7048c6e9dd667f0635772bc535967ce9a6fcf67f1ba4328b46d5a6f5389ab664"
+        },
+        "frozen": {
+          "mode": "100755",
+          "blob": "e05e5fde4f295e755f9b6d7ef43d5d9412bdb85e"
+        },
+        "owners": {
+          "infrastructure": null,
+          "runtime": null
+        },
+        "action": "hold_in_ADL",
+        "reason": "Mixed-owner wrapper/test support incomplete or original assertion proof absent; source correspondence is not acceptance"
+      },
+      {
+        "id": "RD07-2104",
+        "path": "adl/tools/test_run_wp08_cloudfront_control_proof.sh",
+        "current": {
+          "mode": "100755",
+          "blob": "1d92bf7afa1c637804f5d067fd8833287df117cb",
+          "sha256": "56cc336aeaf3d11ff9ffcd70b7a2cb6f6a11f185914098b98b3191dda5527cb6"
+        },
+        "frozen": {
+          "mode": "100755",
+          "blob": "1d92bf7afa1c637804f5d067fd8833287df117cb"
+        },
+        "owners": {
+          "infrastructure": null,
+          "runtime": {
+            "mode": "100755",
+            "blob": "1d92bf7afa1c637804f5d067fd8833287df117cb",
+            "sha256": "56cc336aeaf3d11ff9ffcd70b7a2cb6f6a11f185914098b98b3191dda5527cb6"
+          }
+        },
+        "action": "hold_in_ADL",
+        "reason": "Mixed-owner wrapper/test support incomplete or original assertion proof absent; source correspondence is not acceptance"
+      },
+      {
+        "id": "RD07-2105",
+        "path": "adl/tools/test_run_wp08_heartbeat_live_proof.sh",
+        "current": {
+          "mode": "100755",
+          "blob": "03499d244506b7777ff82bf083552b7e42615e22",
+          "sha256": "5477f4887128bc23b2aca87e2b1e6b5564c50576c4fddc2f044398990cf2a9db"
+        },
+        "frozen": {
+          "mode": "100755",
+          "blob": "03499d244506b7777ff82bf083552b7e42615e22"
+        },
+        "owners": {
+          "infrastructure": null,
+          "runtime": {
+            "mode": "100755",
+            "blob": "03499d244506b7777ff82bf083552b7e42615e22",
+            "sha256": "5477f4887128bc23b2aca87e2b1e6b5564c50576c4fddc2f044398990cf2a9db"
+          }
+        },
+        "action": "hold_in_ADL",
+        "reason": "Mixed-owner wrapper/test support incomplete or original assertion proof absent; source correspondence is not acceptance"
+      },
+      {
+        "id": "RD07-2106",
+        "path": "adl/tools/test_run_wp08_local_polis_ssm_proof.sh",
+        "current": {
+          "mode": "100755",
+          "blob": "12b28412b416444ee4fa160f9df69a7c59430c4a",
+          "sha256": "0f10ac6098c008324254b8769ba32a97655485cb0410edce9b8b7960e7ee9419"
+        },
+        "frozen": {
+          "mode": "100755",
+          "blob": "12b28412b416444ee4fa160f9df69a7c59430c4a"
+        },
+        "owners": {
+          "infrastructure": null,
+          "runtime": {
+            "mode": "100755",
+            "blob": "12b28412b416444ee4fa160f9df69a7c59430c4a",
+            "sha256": "0f10ac6098c008324254b8769ba32a97655485cb0410edce9b8b7960e7ee9419"
+          }
+        },
+        "action": "propose_remove_after_integration_gates",
+        "reason": "Complete Runtime source family with exact source and offline fixture qualification"
+      },
+      {
+        "id": "RD07-2107",
+        "path": "adl/tools/test_run_wp08_polis_storage_live_proof.sh",
+        "current": {
+          "mode": "100644",
+          "blob": "a29daf54895043167820d15af5f40714eefcf37a",
+          "sha256": "f2a7b4a7f13d236d894eeaee1429d3a143e3e05d1914aed7620565b43d4009fe"
+        },
+        "frozen": {
+          "mode": "100644",
+          "blob": "a29daf54895043167820d15af5f40714eefcf37a"
+        },
+        "owners": {
+          "infrastructure": null,
+          "runtime": {
+            "mode": "100644",
+            "blob": "a29daf54895043167820d15af5f40714eefcf37a",
+            "sha256": "f2a7b4a7f13d236d894eeaee1429d3a143e3e05d1914aed7620565b43d4009fe"
+          }
+        },
+        "action": "hold_in_ADL",
+        "reason": "Mixed-owner wrapper/test support incomplete or original assertion proof absent; source correspondence is not acceptance"
+      },
+      {
+        "id": "RD07-2115",
+        "path": "adl/tools/test_setup_wp08_s3_obsmem_archive_policy.sh",
+        "current": {
+          "mode": "100755",
+          "blob": "369d5afd0e31ae6e0c5e9dc576918239d8e79199",
+          "sha256": "3013bee75912f2de1e338cb21c3a3df6cb038621085bf6c1e3c28d239663d260"
+        },
+        "frozen": {
+          "mode": "100755",
+          "blob": "369d5afd0e31ae6e0c5e9dc576918239d8e79199"
+        },
+        "owners": {
+          "infrastructure": null,
+          "runtime": {
+            "mode": "100755",
+            "blob": "369d5afd0e31ae6e0c5e9dc576918239d8e79199",
+            "sha256": "3013bee75912f2de1e338cb21c3a3df6cb038621085bf6c1e3c28d239663d260"
+          }
+        },
+        "action": "propose_remove_after_integration_gates",
+        "reason": "Complete Runtime source family with exact source and offline fixture qualification"
+      },
+      {
+        "id": "RD07-2245",
+        "path": "adl/tools/validate_wp08_acip_sns_live_proof.py",
+        "current": {
+          "mode": "100755",
+          "blob": "ac58055a24a488ff80bb18567fd7bc561ce0404f",
+          "sha256": "5c93e73e85318ce79dd02a463917b0a04c2f555fc51fdc8dea89eb70d4558570"
+        },
+        "frozen": {
+          "mode": "100755",
+          "blob": "ac58055a24a488ff80bb18567fd7bc561ce0404f"
+        },
+        "owners": {
+          "infrastructure": {
+            "mode": "100755",
+            "blob": "ac58055a24a488ff80bb18567fd7bc561ce0404f",
+            "sha256": "5c93e73e85318ce79dd02a463917b0a04c2f555fc51fdc8dea89eb70d4558570"
+          },
+          "runtime": null
+        },
+        "action": "hold_in_ADL",
+        "reason": "Mixed-owner wrapper/test support incomplete or original assertion proof absent; source correspondence is not acceptance"
+      },
+      {
+        "id": "RD07-2246",
+        "path": "adl/tools/validate_wp08_aws_signal_integration_live_proof.py",
+        "current": {
+          "mode": "100755",
+          "blob": "e3eb4d4490512ae787b379856de84e75a4cb48ed",
+          "sha256": "ce90fdc4cd3f568385f578a683622f04544928286b3739720730eb4dd2ae2043"
+        },
+        "frozen": {
+          "mode": "100755",
+          "blob": "e3eb4d4490512ae787b379856de84e75a4cb48ed"
+        },
+        "owners": {
+          "infrastructure": {
+            "mode": "100755",
+            "blob": "e3eb4d4490512ae787b379856de84e75a4cb48ed",
+            "sha256": "ce90fdc4cd3f568385f578a683622f04544928286b3739720730eb4dd2ae2043"
+          },
+          "runtime": null
+        },
+        "action": "hold_in_ADL",
+        "reason": "Mixed-owner wrapper/test support incomplete or original assertion proof absent; source correspondence is not acceptance"
+      },
+      {
+        "id": "RD07-2247",
+        "path": "adl/tools/validate_wp08_cloudfront_control_proof.py",
+        "current": {
+          "mode": "100755",
+          "blob": "087edcc2cb0a2e4f135355629673a62ce4912e10",
+          "sha256": "2c0376db4e0f90bc39866c7b1bffa90b6dd966ee2c46d42c0c979c27b8fe4caf"
+        },
+        "frozen": {
+          "mode": "100755",
+          "blob": "087edcc2cb0a2e4f135355629673a62ce4912e10"
+        },
+        "owners": {
+          "infrastructure": {
+            "mode": "100755",
+            "blob": "087edcc2cb0a2e4f135355629673a62ce4912e10",
+            "sha256": "2c0376db4e0f90bc39866c7b1bffa90b6dd966ee2c46d42c0c979c27b8fe4caf"
+          },
+          "runtime": {
+            "mode": "100755",
+            "blob": "087edcc2cb0a2e4f135355629673a62ce4912e10",
+            "sha256": "2c0376db4e0f90bc39866c7b1bffa90b6dd966ee2c46d42c0c979c27b8fe4caf"
+          }
+        },
+        "action": "hold_in_ADL",
+        "reason": "Mixed-owner wrapper/test support incomplete or original assertion proof absent; source correspondence is not acceptance"
+      },
+      {
+        "id": "RD07-2248",
+        "path": "adl/tools/validate_wp08_heartbeat_live_proof.py",
+        "current": {
+          "mode": "100755",
+          "blob": "b66427548a30ae4fc4f8ab8d7546e76d334a8079",
+          "sha256": "d751fb1fea55d047c80c1fda345bb1f8c36e2746ff1d82f687a730c213d6a980"
+        },
+        "frozen": {
+          "mode": "100755",
+          "blob": "b66427548a30ae4fc4f8ab8d7546e76d334a8079"
+        },
+        "owners": {
+          "infrastructure": null,
+          "runtime": {
+            "mode": "100755",
+            "blob": "b66427548a30ae4fc4f8ab8d7546e76d334a8079",
+            "sha256": "d751fb1fea55d047c80c1fda345bb1f8c36e2746ff1d82f687a730c213d6a980"
+          }
+        },
+        "action": "hold_in_ADL",
+        "reason": "Mixed-owner wrapper/test support incomplete or original assertion proof absent; source correspondence is not acceptance"
+      },
+      {
+        "id": "RD07-2249",
+        "path": "adl/tools/validate_wp08_local_polis_ssm_proof.py",
+        "current": {
+          "mode": "100755",
+          "blob": "f1b7a1472944a28be8140d18d93db85956026437",
+          "sha256": "15cab031fce539d0b696d0d6cc7e537e8414a7a3e542b43d9e3523275159f8f5"
+        },
+        "frozen": {
+          "mode": "100755",
+          "blob": "f1b7a1472944a28be8140d18d93db85956026437"
+        },
+        "owners": {
+          "infrastructure": null,
+          "runtime": {
+            "mode": "100755",
+            "blob": "f1b7a1472944a28be8140d18d93db85956026437",
+            "sha256": "15cab031fce539d0b696d0d6cc7e537e8414a7a3e542b43d9e3523275159f8f5"
+          }
+        },
+        "action": "propose_remove_after_integration_gates",
+        "reason": "Complete Runtime source family with exact source and offline fixture qualification"
+      },
+      {
+        "id": "RD07-2250",
+        "path": "adl/tools/validate_wp08_polis_storage_live_proof.py",
+        "current": {
+          "mode": "100644",
+          "blob": "36625bb40de978adb640b559e2dfee9b19a2f4a2",
+          "sha256": "b6357401a3d4a3f817ae85cbb3c8bbeebf34834af0dde958974e97ea6cd617c8"
+        },
+        "frozen": {
+          "mode": "100644",
+          "blob": "36625bb40de978adb640b559e2dfee9b19a2f4a2"
+        },
+        "owners": {
+          "infrastructure": null,
+          "runtime": {
+            "mode": "100644",
+            "blob": "36625bb40de978adb640b559e2dfee9b19a2f4a2",
+            "sha256": "b6357401a3d4a3f817ae85cbb3c8bbeebf34834af0dde958974e97ea6cd617c8"
+          }
+        },
+        "action": "hold_in_ADL",
+        "reason": "Mixed-owner wrapper/test support incomplete or original assertion proof absent; source correspondence is not acceptance"
+      },
+      {
+        "id": "RD07-2251",
+        "path": "adl/tools/validate_wp08_s3_obsmem_archive_policy.py",
+        "current": {
+          "mode": "100755",
+          "blob": "c44033b7e341f4ed5df63a9c671ce4965b8772c6",
+          "sha256": "8e6e326ceab5a597b9661a9c25a6ce2bec17f8a6f92356e0e9204073c666887b"
+        },
+        "frozen": {
+          "mode": "100755",
+          "blob": "c44033b7e341f4ed5df63a9c671ce4965b8772c6"
+        },
+        "owners": {
+          "infrastructure": null,
+          "runtime": {
+            "mode": "100755",
+            "blob": "c44033b7e341f4ed5df63a9c671ce4965b8772c6",
+            "sha256": "8e6e326ceab5a597b9661a9c25a6ce2bec17f8a6f92356e0e9204073c666887b"
+          }
+        },
+        "action": "propose_remove_after_integration_gates",
+        "reason": "Complete Runtime source family with exact source and offline fixture qualification"
+      }
+    ],
+    "counts": {
+      "audited": 22,
+      "proposed_remove": 7,
+      "hold": 15,
+      "caller_doc_change": 1
+    },
+    "patch": "seven-and-caller.patch",
+    "patch_sha256": "90e79dcc6131f73512fe842fe047b6898605f3e7768c62bb0d3bed6494de80b4",
+    "custody": "current-and-frozen-custody.tar",
+    "custody_sha256": "7e54193eda11ab643d39360520cb4338d8dd13f0a9accd1ec84dc56cd3f60c50",
+    "required_integration_gates": [
+      "Reconcile against current shared HEAD; sole writer applies only after review.",
+      "Regenerate TOOL_SURFACE_REGISTRY.md using current full topology after removing seven; registry diff cannot be inferred from sparse fixture.",
+      "Record exact seven dispositions in COMBINED_REMAINING_DELTA and native review/proof without changing immutable original identities.",
+      "Preserve rejected legacy selector and historical milestone/evidence references as historical; verify current public selector refuses legacy config."
+    ],
+    "retained_public_routes": [
+      "adl/tools/polis_status_for_ssm.sh and related host public status routes remain; local-polis remote command strings depend on them.",
+      "CSM/Observatory helper ownership remains outside this patch."
+    ],
+    "limits": [
+      "No AWS, SSM, deployment, provider, installed or live acceptance.",
+      "Existing wrapper fixture proof used resolver doubles and externally supplied support; not promoted to complete owner delivery.",
+      "No new broad builds; Runtime and Infrastructure source custody are distinguished."
+    ]
+  },
+  "scope_denominator": {
+    "audited": 22,
+    "proposed_removals": 7,
+    "held": 15
+  },
+  "held_remaining": [
+    {
+      "id": "RD07-1519",
+      "path": "adl/tools/run_wp08_acip_sns_live_proof.sh",
+      "current": {
+        "mode": "100755",
+        "blob": "22641bf9d4530c0010c0c2a7018943c8af14c126",
+        "sha256": "f4e217a7d0e4e96a35f40cc153f9ac66072f350828c81c18527f2630ed64555c"
+      },
+      "frozen": {
+        "mode": "100755",
+        "blob": "22641bf9d4530c0010c0c2a7018943c8af14c126"
+      },
+      "owners": {
+        "infrastructure": {
+          "mode": "100755",
+          "blob": "c62aef7e99d3e7fdddf14630ddd51a5fd74724a8",
+          "sha256": "4ce1e92319165f89c14a886995208d9a3e2ddf6d467a00ceb8fa2311e42a8377"
+        },
+        "runtime": null
+      },
+      "action": "hold_in_ADL",
+      "reason": "Mixed-owner wrapper/test support incomplete or original assertion proof absent; source correspondence is not acceptance"
+    },
+    {
+      "id": "RD07-1520",
+      "path": "adl/tools/run_wp08_aws_signal_integration_live_proof.sh",
+      "current": {
+        "mode": "100755",
+        "blob": "8a1b6d53860bc711210af84c95b14e028cb2839d",
+        "sha256": "cbc83397e8494d6ea88899eeca59c21a78717c41353476522b1f300cc119c274"
+      },
+      "frozen": {
+        "mode": "100755",
+        "blob": "8a1b6d53860bc711210af84c95b14e028cb2839d"
+      },
+      "owners": {
+        "infrastructure": {
+          "mode": "100755",
+          "blob": "18638bea3d26cbad073d56d2691b6126830a867f",
+          "sha256": "6c86f5e71c7af951aff9faa1d60a3e52fc3615e2bc4437bf1d56355738a06c00"
+        },
+        "runtime": null
+      },
+      "action": "hold_in_ADL",
+      "reason": "Mixed-owner wrapper/test support incomplete or original assertion proof absent; source correspondence is not acceptance"
+    },
+    {
+      "id": "RD07-1521",
+      "path": "adl/tools/run_wp08_cloudfront_control_proof.sh",
+      "current": {
+        "mode": "100755",
+        "blob": "5538499f70e03f7e693f7713ae1c99e0b3f145c8",
+        "sha256": "c7454cab4c243fe4365d128b19d12ad07413afcd777477c6bf277d7eb12dcf93"
+      },
+      "frozen": {
+        "mode": "100755",
+        "blob": "5538499f70e03f7e693f7713ae1c99e0b3f145c8"
+      },
+      "owners": {
+        "infrastructure": {
+          "mode": "100755",
+          "blob": "102b3028b1699702c2bb2cfa49062e8ae20a5c91",
+          "sha256": "1bd3cdb1ece3921caa5d8d05de4577b8722c8ad54a8959e98252029681600244"
+        },
+        "runtime": {
+          "mode": "100755",
+          "blob": "5538499f70e03f7e693f7713ae1c99e0b3f145c8",
+          "sha256": "c7454cab4c243fe4365d128b19d12ad07413afcd777477c6bf277d7eb12dcf93"
+        }
+      },
+      "action": "hold_in_ADL",
+      "reason": "Mixed-owner wrapper/test support incomplete or original assertion proof absent; source correspondence is not acceptance"
+    },
+    {
+      "id": "RD07-1522",
+      "path": "adl/tools/run_wp08_heartbeat_live_proof.sh",
+      "current": {
+        "mode": "100755",
+        "blob": "90544d83ac9c0baa4c8ce7a5d4a19b3608763031",
+        "sha256": "421e3e9b0b3920a62482716e899ecf5d1ebc912ce680c4e0e2a145f59e3c54bd"
+      },
+      "frozen": {
+        "mode": "100755",
+        "blob": "90544d83ac9c0baa4c8ce7a5d4a19b3608763031"
+      },
+      "owners": {
+        "infrastructure": {
+          "mode": "100755",
+          "blob": "4db98db7407e07cc4f9f1bb02fe740833e95da8f",
+          "sha256": "0519f511be61770fde08f87491395c72e4fbbebee48f09bdff7e07c285c3b733"
+        },
+        "runtime": null
+      },
+      "action": "hold_in_ADL",
+      "reason": "Mixed-owner wrapper/test support incomplete or original assertion proof absent; source correspondence is not acceptance"
+    },
+    {
+      "id": "RD07-1525",
+      "path": "adl/tools/run_wp08_polis_storage_live_proof.sh",
+      "current": {
+        "mode": "100644",
+        "blob": "39ef22f262e9d095ce51e4a9a44f654f7d015fc8",
+        "sha256": "25b1dc90c61c813bd3a35637166fa0695e1f46d877fac2cd360ac035e8ec4a58"
+      },
+      "frozen": {
+        "mode": "100644",
+        "blob": "39ef22f262e9d095ce51e4a9a44f654f7d015fc8"
+      },
+      "owners": {
+        "infrastructure": {
+          "mode": "100644",
+          "blob": "2a957e214bc8bb8b40236e110b1101405cef8985",
+          "sha256": "4d033ae5708a90c3371a0ca1e866ce15a49b1138ad4a68b3301264a4b660ae66"
+        },
+        "runtime": null
+      },
+      "action": "hold_in_ADL",
+      "reason": "Mixed-owner wrapper/test support incomplete or original assertion proof absent; source correspondence is not acceptance"
+    },
+    {
+      "id": "RD07-2102",
+      "path": "adl/tools/test_run_wp08_acip_sns_live_proof.sh",
+      "current": {
+        "mode": "100755",
+        "blob": "7daf42fbf36b0df08b23f77d7f5d7db5f2c2601d",
+        "sha256": "4bc52558b5a8b4f4749807a4ecbd2be2f9da4c32689664540025a2be30be8a56"
+      },
+      "frozen": {
+        "mode": "100755",
+        "blob": "7daf42fbf36b0df08b23f77d7f5d7db5f2c2601d"
+      },
+      "owners": {
+        "infrastructure": null,
+        "runtime": {
+          "mode": "100755",
+          "blob": "7daf42fbf36b0df08b23f77d7f5d7db5f2c2601d",
+          "sha256": "4bc52558b5a8b4f4749807a4ecbd2be2f9da4c32689664540025a2be30be8a56"
+        }
+      },
+      "action": "hold_in_ADL",
+      "reason": "Mixed-owner wrapper/test support incomplete or original assertion proof absent; source correspondence is not acceptance"
+    },
+    {
+      "id": "RD07-2103",
+      "path": "adl/tools/test_run_wp08_aws_signal_integration_live_proof.sh",
+      "current": {
+        "mode": "100755",
+        "blob": "e05e5fde4f295e755f9b6d7ef43d5d9412bdb85e",
+        "sha256": "7048c6e9dd667f0635772bc535967ce9a6fcf67f1ba4328b46d5a6f5389ab664"
+      },
+      "frozen": {
+        "mode": "100755",
+        "blob": "e05e5fde4f295e755f9b6d7ef43d5d9412bdb85e"
+      },
+      "owners": {
+        "infrastructure": null,
+        "runtime": null
+      },
+      "action": "hold_in_ADL",
+      "reason": "Mixed-owner wrapper/test support incomplete or original assertion proof absent; source correspondence is not acceptance"
+    },
+    {
+      "id": "RD07-2104",
+      "path": "adl/tools/test_run_wp08_cloudfront_control_proof.sh",
+      "current": {
+        "mode": "100755",
+        "blob": "1d92bf7afa1c637804f5d067fd8833287df117cb",
+        "sha256": "56cc336aeaf3d11ff9ffcd70b7a2cb6f6a11f185914098b98b3191dda5527cb6"
+      },
+      "frozen": {
+        "mode": "100755",
+        "blob": "1d92bf7afa1c637804f5d067fd8833287df117cb"
+      },
+      "owners": {
+        "infrastructure": null,
+        "runtime": {
+          "mode": "100755",
+          "blob": "1d92bf7afa1c637804f5d067fd8833287df117cb",
+          "sha256": "56cc336aeaf3d11ff9ffcd70b7a2cb6f6a11f185914098b98b3191dda5527cb6"
+        }
+      },
+      "action": "hold_in_ADL",
+      "reason": "Mixed-owner wrapper/test support incomplete or original assertion proof absent; source correspondence is not acceptance"
+    },
+    {
+      "id": "RD07-2105",
+      "path": "adl/tools/test_run_wp08_heartbeat_live_proof.sh",
+      "current": {
+        "mode": "100755",
+        "blob": "03499d244506b7777ff82bf083552b7e42615e22",
+        "sha256": "5477f4887128bc23b2aca87e2b1e6b5564c50576c4fddc2f044398990cf2a9db"
+      },
+      "frozen": {
+        "mode": "100755",
+        "blob": "03499d244506b7777ff82bf083552b7e42615e22"
+      },
+      "owners": {
+        "infrastructure": null,
+        "runtime": {
+          "mode": "100755",
+          "blob": "03499d244506b7777ff82bf083552b7e42615e22",
+          "sha256": "5477f4887128bc23b2aca87e2b1e6b5564c50576c4fddc2f044398990cf2a9db"
+        }
+      },
+      "action": "hold_in_ADL",
+      "reason": "Mixed-owner wrapper/test support incomplete or original assertion proof absent; source correspondence is not acceptance"
+    },
+    {
+      "id": "RD07-2107",
+      "path": "adl/tools/test_run_wp08_polis_storage_live_proof.sh",
+      "current": {
+        "mode": "100644",
+        "blob": "a29daf54895043167820d15af5f40714eefcf37a",
+        "sha256": "f2a7b4a7f13d236d894eeaee1429d3a143e3e05d1914aed7620565b43d4009fe"
+      },
+      "frozen": {
+        "mode": "100644",
+        "blob": "a29daf54895043167820d15af5f40714eefcf37a"
+      },
+      "owners": {
+        "infrastructure": null,
+        "runtime": {
+          "mode": "100644",
+          "blob": "a29daf54895043167820d15af5f40714eefcf37a",
+          "sha256": "f2a7b4a7f13d236d894eeaee1429d3a143e3e05d1914aed7620565b43d4009fe"
+        }
+      },
+      "action": "hold_in_ADL",
+      "reason": "Mixed-owner wrapper/test support incomplete or original assertion proof absent; source correspondence is not acceptance"
+    },
+    {
+      "id": "RD07-2245",
+      "path": "adl/tools/validate_wp08_acip_sns_live_proof.py",
+      "current": {
+        "mode": "100755",
+        "blob": "ac58055a24a488ff80bb18567fd7bc561ce0404f",
+        "sha256": "5c93e73e85318ce79dd02a463917b0a04c2f555fc51fdc8dea89eb70d4558570"
+      },
+      "frozen": {
+        "mode": "100755",
+        "blob": "ac58055a24a488ff80bb18567fd7bc561ce0404f"
+      },
+      "owners": {
+        "infrastructure": {
+          "mode": "100755",
+          "blob": "ac58055a24a488ff80bb18567fd7bc561ce0404f",
+          "sha256": "5c93e73e85318ce79dd02a463917b0a04c2f555fc51fdc8dea89eb70d4558570"
+        },
+        "runtime": null
+      },
+      "action": "hold_in_ADL",
+      "reason": "Mixed-owner wrapper/test support incomplete or original assertion proof absent; source correspondence is not acceptance"
+    },
+    {
+      "id": "RD07-2246",
+      "path": "adl/tools/validate_wp08_aws_signal_integration_live_proof.py",
+      "current": {
+        "mode": "100755",
+        "blob": "e3eb4d4490512ae787b379856de84e75a4cb48ed",
+        "sha256": "ce90fdc4cd3f568385f578a683622f04544928286b3739720730eb4dd2ae2043"
+      },
+      "frozen": {
+        "mode": "100755",
+        "blob": "e3eb4d4490512ae787b379856de84e75a4cb48ed"
+      },
+      "owners": {
+        "infrastructure": {
+          "mode": "100755",
+          "blob": "e3eb4d4490512ae787b379856de84e75a4cb48ed",
+          "sha256": "ce90fdc4cd3f568385f578a683622f04544928286b3739720730eb4dd2ae2043"
+        },
+        "runtime": null
+      },
+      "action": "hold_in_ADL",
+      "reason": "Mixed-owner wrapper/test support incomplete or original assertion proof absent; source correspondence is not acceptance"
+    },
+    {
+      "id": "RD07-2247",
+      "path": "adl/tools/validate_wp08_cloudfront_control_proof.py",
+      "current": {
+        "mode": "100755",
+        "blob": "087edcc2cb0a2e4f135355629673a62ce4912e10",
+        "sha256": "2c0376db4e0f90bc39866c7b1bffa90b6dd966ee2c46d42c0c979c27b8fe4caf"
+      },
+      "frozen": {
+        "mode": "100755",
+        "blob": "087edcc2cb0a2e4f135355629673a62ce4912e10"
+      },
+      "owners": {
+        "infrastructure": {
+          "mode": "100755",
+          "blob": "087edcc2cb0a2e4f135355629673a62ce4912e10",
+          "sha256": "2c0376db4e0f90bc39866c7b1bffa90b6dd966ee2c46d42c0c979c27b8fe4caf"
+        },
+        "runtime": {
+          "mode": "100755",
+          "blob": "087edcc2cb0a2e4f135355629673a62ce4912e10",
+          "sha256": "2c0376db4e0f90bc39866c7b1bffa90b6dd966ee2c46d42c0c979c27b8fe4caf"
+        }
+      },
+      "action": "hold_in_ADL",
+      "reason": "Mixed-owner wrapper/test support incomplete or original assertion proof absent; source correspondence is not acceptance"
+    },
+    {
+      "id": "RD07-2248",
+      "path": "adl/tools/validate_wp08_heartbeat_live_proof.py",
+      "current": {
+        "mode": "100755",
+        "blob": "b66427548a30ae4fc4f8ab8d7546e76d334a8079",
+        "sha256": "d751fb1fea55d047c80c1fda345bb1f8c36e2746ff1d82f687a730c213d6a980"
+      },
+      "frozen": {
+        "mode": "100755",
+        "blob": "b66427548a30ae4fc4f8ab8d7546e76d334a8079"
+      },
+      "owners": {
+        "infrastructure": null,
+        "runtime": {
+          "mode": "100755",
+          "blob": "b66427548a30ae4fc4f8ab8d7546e76d334a8079",
+          "sha256": "d751fb1fea55d047c80c1fda345bb1f8c36e2746ff1d82f687a730c213d6a980"
+        }
+      },
+      "action": "hold_in_ADL",
+      "reason": "Mixed-owner wrapper/test support incomplete or original assertion proof absent; source correspondence is not acceptance"
+    },
+    {
+      "id": "RD07-2250",
+      "path": "adl/tools/validate_wp08_polis_storage_live_proof.py",
+      "current": {
+        "mode": "100644",
+        "blob": "36625bb40de978adb640b559e2dfee9b19a2f4a2",
+        "sha256": "b6357401a3d4a3f817ae85cbb3c8bbeebf34834af0dde958974e97ea6cd617c8"
+      },
+      "frozen": {
+        "mode": "100644",
+        "blob": "36625bb40de978adb640b559e2dfee9b19a2f4a2"
+      },
+      "owners": {
+        "infrastructure": null,
+        "runtime": {
+          "mode": "100644",
+          "blob": "36625bb40de978adb640b559e2dfee9b19a2f4a2",
+          "sha256": "b6357401a3d4a3f817ae85cbb3c8bbeebf34834af0dde958974e97ea6cd617c8"
+        }
+      },
+      "action": "hold_in_ADL",
+      "reason": "Mixed-owner wrapper/test support incomplete or original assertion proof absent; source correspondence is not acceptance"
+    }
+  ],
+  "retained_public_route": {
+    "path": "adl/tools/polis_status_for_ssm.sh",
+    "identity": {
+      "mode": "100755",
+      "blob": "e6c55092f88ef979ebcfc80b3cd0cb2a495643e9",
+      "sha256": "74cce20085ef6afd2013c684102b95d28af7340d32a5e665ee7dc49fb332d46f"
+    },
+    "boundary": "Real ADL polis status source remains; synthetic AWS fixture does not qualify live SSM execution."
+  },
+  "qualification": [
+    {
+      "test": "test_run_wp08_local_polis_ssm_proof.sh",
+      "exit_code": 0,
+      "seconds": 0.636,
+      "stdout_sha256": "7e4550169bf04f0d853588dea8b1121d87c1896d9a71e9802ef34c3cfa959ee3",
+      "stderr_sha256": "74db381ecb10ee67e13d32f3745c2042b595acbfe5d615bfef59c979308a8f4e",
+      "boundary": "Unchanged original test; test-owned fake AWS_BIN; no credentials supplied; no builds"
+    },
+    {
+      "test": "test_setup_wp08_s3_obsmem_archive_policy.sh",
+      "exit_code": 0,
+      "seconds": 0.288,
+      "stdout_sha256": "2fb4b12c8fb9fb436dd1d69332c90522e618aa5c8481f818be899f6f85f9761c",
+      "stderr_sha256": "74db381ecb10ee67e13d32f3745c2042b595acbfe5d615bfef59c979308a8f4e",
+      "boundary": "Unchanged original test; test-owned fake AWS_BIN; no credentials supplied; no builds"
+    }
+  ],
+  "original_assertion_dispositions": [
+    {
+      "path": "adl/tools/test_run_wp08_acip_sns_live_proof.sh",
+      "sha256": "4bc52558b5a8b4f4749807a4ecbd2be2f9da4c32689664540025a2be30be8a56",
+      "assertion_and_refusal_lines": [
+        {
+          "line": 111,
+          "text": "  --expected-account-sha256 2a33349e7e606a8ad2e30e3c84521f9377450cf09083e162e0a9b1480ce0f972 \\"
+        },
+        {
+          "line": 123,
+          "text": "assert summary[\"schema\"] == \"adl.wp08.acip_sns_live_proof.v1\""
+        },
+        {
+          "line": 124,
+          "text": "assert summary[\"status\"] == \"passed\""
+        },
+        {
+          "line": 125,
+          "text": "assert summary[\"aws_profile\"] == \"agent-logic-admin\""
+        },
+        {
+          "line": 126,
+          "text": "assert summary[\"aws_account_hash\"] != \"123456789012\""
+        },
+        {
+          "line": 127,
+          "text": "assert \"aws_account_sha256\" not in summary"
+        },
+        {
+          "line": 128,
+          "text": "assert summary[\"sns\"][\"topic_name\"] == \"adl-v0917-wp08-acip-sns-4685\""
+        },
+        {
+          "line": 129,
+          "text": "assert resource[\"schema\"] == \"adl.wp08.acip_sns_resource.v1\""
+        },
+        {
+          "line": 130,
+          "text": "assert \"aws_account_sha256\" not in resource"
+        },
+        {
+          "line": 131,
+          "text": "assert resource[\"redaction\"][\"raw_topic_arn_recorded\"] is False"
+        },
+        {
+          "line": 137,
+          "text": "    assert required in aws_log, required"
+        },
+        {
+          "line": 138,
+          "text": "assert \"agent-logic-admin\" in aws_log"
+        },
+        {
+          "line": 141,
+          "text": "python3 \"$ROOT/adl/tools/validate_wp08_acip_sns_live_proof.py\" \\"
+        },
+        {
+          "line": 144,
+          "text": "create_count_before=\"$(grep -c \"sns create-topic\" \"$FAKE_AWS_LOG\" || true)\""
+        },
+        {
+          "line": 151,
+          "text": "  --expected-account-sha256 ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff \\"
+        },
+        {
+          "line": 153,
+          "text": "  echo \"expected mismatched account hash to fail\" >&2"
+        },
+        {
+          "line": 154,
+          "text": "  exit 1"
+        },
+        {
+          "line": 156,
+          "text": "grep -F \"AWS profile did not resolve to the approved Agent Logic account hash\" \"$TMP/bad.err\" >/dev/null"
+        },
+        {
+          "line": 157,
+          "text": "create_count_after=\"$(grep -c \"sns create-topic\" \"$FAKE_AWS_LOG\" || true)\""
+        },
+        {
+          "line": 160,
+          "text": "  exit 1"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/test_run_wp08_aws_signal_integration_live_proof.sh",
+      "sha256": "7048c6e9dd667f0635772bc535967ce9a6fcf67f1ba4328b46d5a6f5389ab664",
+      "assertion_and_refusal_lines": [
+        {
+          "line": 16,
+          "text": "  *) echo \"unexpected aws call $*\" >&2; exit 1 ;;"
+        },
+        {
+          "line": 145,
+          "text": "  --expected-account-sha256 \"$EXPECTED\" \\"
+        },
+        {
+          "line": 151,
+          "text": "python3 \"$ROOT/adl/tools/validate_wp08_aws_signal_integration_live_proof.py\" \\"
+        },
+        {
+          "line": 153,
+          "text": "grep -F \"heartbeat\" \"$FAKE_CHILD_LOG\" >/dev/null"
+        },
+        {
+          "line": 154,
+          "text": "grep -F \"acip\" \"$FAKE_CHILD_LOG\" >/dev/null"
+        },
+        {
+          "line": 159,
+          "text": "  --expected-account-sha256 0000000000000000000000000000000000000000000000000000000000000000 \\"
+        },
+        {
+          "line": 164,
+          "text": "  echo \"expected mismatch failure\" >&2"
+        },
+        {
+          "line": 165,
+          "text": "  exit 1"
+        },
+        {
+          "line": 170,
+          "text": "  exit 1"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/test_run_wp08_cloudfront_control_proof.sh",
+      "sha256": "56cc336aeaf3d11ff9ffcd70b7a2cb6f6a11f185914098b98b3191dda5527cb6",
+      "assertion_and_refusal_lines": [
+        {
+          "line": 35,
+          "text": "      exit 255"
+        },
+        {
+          "line": 42,
+          "text": "    echo \"unexpected aws args: $*\" >&2"
+        },
+        {
+          "line": 43,
+          "text": "    exit 2"
+        },
+        {
+          "line": 68,
+          "text": "  --expected-account-sha256 2a33349e7e606a8ad2e30e3c84521f9377450cf09083e162e0a9b1480ce0f972 \\"
+        },
+        {
+          "line": 71,
+          "text": "python3 \"$ROOT/adl/tools/validate_wp08_cloudfront_control_proof.py\" \\"
+        },
+        {
+          "line": 81,
+          "text": "assert summary[\"schema\"] == \"adl.wp08.cloud_control_cloudfront.v1\""
+        },
+        {
+          "line": 82,
+          "text": "assert summary[\"status\"] == \"passed\""
+        },
+        {
+          "line": 83,
+          "text": "assert summary[\"cloudfront\"][\"distribution_count\"] == 1"
+        },
+        {
+          "line": 84,
+          "text": "assert summary[\"cloudfront\"][\"selected_status\"] == \"Deployed\""
+        },
+        {
+          "line": 85,
+          "text": "assert summary[\"live_negative_cases\"][\"nonexistent_distribution\"] == \"cloudfront_distribution_not_found\""
+        },
+        {
+          "line": 86,
+          "text": "assert \"123456789012\" not in Path(sys.argv[1]).read_text()"
+        },
+        {
+          "line": 87,
+          "text": "assert \"E123ABC456DEF\" not in Path(sys.argv[1]).read_text()"
+        },
+        {
+          "line": 88,
+          "text": "assert \"fixture.cloudfront.net\" not in Path(sys.argv[1]).read_text()"
+        },
+        {
+          "line": 94,
+          "text": "    assert required in aws_log, required"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/test_run_wp08_heartbeat_live_proof.sh",
+      "sha256": "5477f4887128bc23b2aca87e2b1e6b5564c50576c4fddc2f044398990cf2a9db",
+      "assertion_and_refusal_lines": [
+        {
+          "line": 75,
+          "text": "assert summary[\"schema\"] == \"adl.wp08.heartbeat_live_proof.v1\""
+        },
+        {
+          "line": 76,
+          "text": "assert summary[\"status\"] == \"passed\""
+        },
+        {
+          "line": 77,
+          "text": "assert summary[\"aws_profile\"] == \"agent-logic-admin\""
+        },
+        {
+          "line": 78,
+          "text": "assert summary[\"aws_account_hash\"] != \"123456789012\""
+        },
+        {
+          "line": 79,
+          "text": "assert summary[\"heartbeat\"][\"transport_mode\"] == \"live\""
+        },
+        {
+          "line": 80,
+          "text": "assert summary[\"heartbeat\"][\"target_kind\"] == \"cloudwatch_logs\""
+        },
+        {
+          "line": 81,
+          "text": "assert summary[\"cloudwatch\"][\"cleanup_requested\"] is True"
+        },
+        {
+          "line": 89,
+          "text": "    assert required in aws_log, required"
+        },
+        {
+          "line": 90,
+          "text": "assert \"logs delete-log-group\" not in aws_log"
+        },
+        {
+          "line": 91,
+          "text": "assert \"daemon --spec\" in csm_log"
+        },
+        {
+          "line": 94,
+          "text": "python3 \"$ROOT/adl/tools/validate_wp08_heartbeat_live_proof.py\" \\"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/test_run_wp08_local_polis_ssm_proof.sh",
+      "sha256": "0f10ac6098c008324254b8769ba32a97655485cb0410edce9b8b7960e7ee9419",
+      "assertion_and_refusal_lines": [
+        {
+          "line": 77,
+          "text": "    echo \"unexpected fake aws call: $*\" >&2"
+        },
+        {
+          "line": 78,
+          "text": "    exit 1"
+        },
+        {
+          "line": 92,
+          "text": "  --expected-account-sha256 \"$EXPECTED\" \\"
+        },
+        {
+          "line": 95,
+          "text": "python3 \"$ROOT/adl/tools/validate_wp08_local_polis_ssm_proof.py\" \\"
+        },
+        {
+          "line": 98,
+          "text": "for expected_call in \\"
+        },
+        {
+          "line": 105,
+          "text": "  grep -F \"$expected_call\" \"$FAKE_AWS_LOG\" >/dev/null"
+        },
+        {
+          "line": 108,
+          "text": "if grep -E '123456789012|mi-[0-9a-f]+|cmd-(wuji|nessus|opticon)' \"$TMP/proof/local_polis_ssm_summary.json\" >/dev/null; then"
+        },
+        {
+          "line": 110,
+          "text": "  exit 1"
+        },
+        {
+          "line": 118,
+          "text": "  --expected-account-sha256 0000000000000000000000000000000000000000000000000000000000000000 \\"
+        },
+        {
+          "line": 121,
+          "text": "  echo \"expected account mismatch to fail\" >&2"
+        },
+        {
+          "line": 122,
+          "text": "  exit 1"
+        },
+        {
+          "line": 124,
+          "text": "if grep -E 'ssm describe-instance-information|ssm send-command|ssm get-command-invocation|logs describe-log-streams' \"$FAKE_AWS_LOG\" >/dev/null; then"
+        },
+        {
+          "line": 127,
+          "text": "  exit 1"
+        },
+        {
+          "line": 129,
+          "text": "grep -F \"sts get-caller-identity\" \"$FAKE_AWS_LOG\" >/dev/null"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/test_run_wp08_polis_storage_live_proof.sh",
+      "sha256": "f2a7b4a7f13d236d894eeaee1429d3a143e3e05d1914aed7620565b43d4009fe",
+      "assertion_and_refusal_lines": [
+        {
+          "line": 46,
+          "text": "    --expected-account-sha256) EXPECTED=\"${2:?--expected-account-sha256 requires a value}\"; shift ;;"
+        },
+        {
+          "line": 104,
+          "text": "  \"aws_account_matches_expected\": true,"
+        },
+        {
+          "line": 123,
+          "text": "    \"missing_object\": {\"status\": \"passed\", \"expected_failure\": \"missing\", \"observed_failure_class\": \"s3_head_object_missing_or_not_found\", \"raw_error_retained\": false},"
+        },
+        {
+          "line": 124,
+          "text": "    \"corrupted_restore\": {\"status\": \"passed\", \"expected_failure\": \"corrupt\", \"observed_failure_class\": \"checksum_mismatch_detected\", \"raw_error_retained\": false},"
+        },
+        {
+          "line": 125,
+          "text": "    \"unsigned_access_denial\": {\"status\": \"passed\", \"expected_failure\": \"deny\", \"observed_failure_class\": \"unsigned_access_denied_or_forbidden\", \"raw_error_retained\": false}"
+        },
+        {
+          "line": 161,
+          "text": "  --expected-account-sha256 \"$EXPECTED_FIXTURE_ACCOUNT_SHA256\" \\"
+        },
+        {
+          "line": 164,
+          "text": "python3 \"$ROOT/adl/tools/validate_wp08_polis_storage_live_proof.py\" \\"
+        },
+        {
+          "line": 167,
+          "text": "grep -F \"sts get-caller-identity\" \"$FAKE_AWS_LOG\" >/dev/null"
+        },
+        {
+          "line": 168,
+          "text": "grep -F \"agent-logic-admin\" \"$FAKE_AWS_LOG\" >/dev/null"
+        },
+        {
+          "line": 176,
+          "text": "  --expected-account-sha256 ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff \\"
+        },
+        {
+          "line": 178,
+          "text": "  echo \"expected mismatched account hash to fail\" >&2"
+        },
+        {
+          "line": 179,
+          "text": "  exit 1"
+        },
+        {
+          "line": 181,
+          "text": "grep -F \"AWS profile account hash does not match expected Agent Logic account hash\" \"$TMP/bad.err\" >/dev/null"
+        }
+      ]
+    },
+    {
+      "path": "adl/tools/test_setup_wp08_s3_obsmem_archive_policy.sh",
+      "sha256": "3013bee75912f2de1e338cb21c3a3df6cb038621085bf6c1e3c28d239663d260",
+      "assertion_and_refusal_lines": [
+        {
+          "line": 13,
+          "text": "  \"s3api head-bucket\") exit 1 ;;"
+        },
+        {
+          "line": 20,
+          "text": "  *) echo \"unexpected aws call $*\" >&2; exit 1 ;;"
+        },
+        {
+          "line": 26,
+          "text": "bash \"$ROOT/adl/tools/setup_wp08_s3_obsmem_archive_policy.sh\" --out \"$TMP/proof\" --expected-account-sha256 \"$EXPECTED\""
+        },
+        {
+          "line": 27,
+          "text": "python3 \"$ROOT/adl/tools/validate_wp08_s3_obsmem_archive_policy.py\" \"$TMP/proof/archive_policy_summary.json\" >/dev/null"
+        },
+        {
+          "line": 29,
+          "text": "  grep -F \"$call\" \"$FAKE_AWS_LOG\" >/dev/null"
+        },
+        {
+          "line": 32,
+          "text": "if bash \"$ROOT/adl/tools/setup_wp08_s3_obsmem_archive_policy.sh\" --out \"$TMP/bad\" --expected-account-sha256 0000000000000000000000000000000000000000000000000000000000000000 2>/tmp/wp08-s3-bad.err; then"
+        },
+        {
+          "line": 33,
+          "text": "  echo \"expected mismatch failure\" >&2; exit 1"
+        },
+        {
+          "line": 35,
+          "text": "if grep -F \"s3api\" \"$FAKE_AWS_LOG\" >/dev/null; then"
+        },
+        {
+          "line": 36,
+          "text": "  echo \"mismatch reached s3api\" >&2; cat \"$FAKE_AWS_LOG\" >&2; exit 1"
+        }
+      ]
+    }
+  ],
+  "caller_closure": {
+    "boundary": "literal tracked-source scan at pinned head, not semantic absence proof",
+    "paths": {
+      "adl/config/validation_lane_selector.v0.91.6.json": {
+        "classification": "retained historical config; public selector rejection directly verified",
+        "lines": [
+          661,
+          662,
+          663,
+          664,
+          669,
+          670,
+          671,
+          672,
+          676,
+          677,
+          937,
+          938,
+          939,
+          944,
+          945,
+          946,
+          950,
+          951,
+          952
+        ]
+      },
+      "adl/tools/run_wp08_local_polis_ssm_proof.sh": {
+        "classification": "internal edge removed with complete seven-file family",
+        "lines": [
+          5
+        ]
+      },
+      "adl/tools/setup_wp08_s3_obsmem_archive_policy.sh": {
+        "classification": "internal edge removed with complete seven-file family",
+        "lines": [
+          6
+        ]
+      },
+      "adl/tools/test_run_wp08_local_polis_ssm_proof.sh": {
+        "classification": "internal edge removed with complete seven-file family",
+        "lines": [
+          88,
+          95,
+          114,
+          131
+        ]
+      },
+      "adl/tools/test_setup_wp08_s3_obsmem_archive_policy.sh": {
+        "classification": "internal edge removed with complete seven-file family",
+        "lines": [
+          26,
+          27,
+          32,
+          38
+        ]
+      },
+      "adl/tools/validate_wp08_local_polis_ssm_proof.py": {
+        "classification": "internal edge removed with complete seven-file family",
+        "lines": [
+          16,
+          21,
+          83
+        ]
+      },
+      "adl/tools/validate_wp08_s3_obsmem_archive_policy.py": {
+        "classification": "internal edge removed with complete seven-file family",
+        "lines": [
+          6,
+          9,
+          40
+        ]
+      },
+      "docs/milestones/v0.91.5/TOOL_SURFACE_REGISTRY_3734.md": {
+        "classification": "historical evidence or retirement inventory; preserve source evidence, integrate exact dispositions separately",
+        "lines": [
+          295,
+          296,
+          307,
+          502,
+          509,
+          614,
+          616
+        ]
+      },
+      "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/docs-dispositions.json": {
+        "classification": "historical evidence or retirement inventory; preserve source evidence, integrate exact dispositions separately",
+        "lines": [
+          57649,
+          57650,
+          57663,
+          57789,
+          57791,
+          61485,
+          61492,
+          92353,
+          92354,
+          95897
+        ]
+      },
+      "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/mixed-generation-dispositions.json": {
+        "classification": "historical evidence or retirement inventory; preserve source evidence, integrate exact dispositions separately",
+        "lines": [
+          37841,
+          37851,
+          37862,
+          37872,
+          38205,
+          38215,
+          51084,
+          51094,
+          51466,
+          51476,
+          54874,
+          54884,
+          54916,
+          54926
+        ]
+      },
+      "docs/milestones/v0.93.1/repository-decomposition/rd02-1182/mapping-inputs/tool-runtime-infra-dispositions.json": {
+        "classification": "historical evidence or retirement inventory; preserve source evidence, integrate exact dispositions separately",
+        "lines": [
+          3295,
+          3303,
+          3325,
+          3333,
+          3397,
+          3405,
+          5314,
+          5322,
+          5396,
+          5404,
+          6905,
+          6913,
+          6960,
+          6968
+        ]
+      },
+      "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/COMBINED_REMAINING_DELTA.json": {
+        "classification": "historical evidence or retirement inventory; preserve source evidence, integrate exact dispositions separately",
+        "lines": [
+          55907,
+          55925,
+          55931,
+          55949,
+          56390,
+          56408,
+          76517,
+          76535,
+          76806,
+          76824,
+          81232,
+          81250,
+          81280,
+          81298
+        ]
+      },
+      "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/CURRENT_SUCCESSOR_ROWS.jsonl": {
+        "classification": "historical evidence or retirement inventory; preserve source evidence, integrate exact dispositions separately",
+        "lines": [
+          1523,
+          1524,
+          1538,
+          2106,
+          2115,
+          2249,
+          2251
+        ]
+      },
+      "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/DISPOSITION_REGISTER.json": {
+        "classification": "historical evidence or retirement inventory; preserve source evidence, integrate exact dispositions separately",
+        "lines": [
+          31260,
+          31272,
+          31276,
+          31281,
+          31293,
+          31297,
+          31565,
+          31577,
+          31581,
+          42952,
+          42964,
+          42968,
+          43129,
+          43141,
+          43145,
+          45777,
+          45789,
+          45793,
+          45819,
+          45831,
+          45835
+        ]
+      },
+      "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/REMAINING_COMPONENT_DECISIONS.json": {
+        "classification": "historical evidence or retirement inventory; preserve source evidence, integrate exact dispositions separately",
+        "lines": [
+          7527,
+          7533,
+          7540,
+          7546,
+          7592,
+          7598,
+          8552,
+          8558,
+          8578,
+          8584,
+          9291,
+          9297,
+          9317,
+          9323
+        ]
+      },
+      "docs/reviews/v0.92/internal-review-5846/specialist_assignments.json": {
+        "classification": "historical evidence or retirement inventory; preserve source evidence, integrate exact dispositions separately",
+        "lines": [
+          1888,
+          1889,
+          1902,
+          2028,
+          2030,
+          11013,
+          11020,
+          17655,
+          17656,
+          17733,
+          17758
+        ]
+      },
+      "docs/tooling/S3_OBSMEM_COMMUNITY_MEMORY_ARCHIVE_POLICY.md": {
+        "classification": "active operator caller repaired by patch; owner checkout explicitly required",
+        "lines": [
+          35
+        ]
+      },
+      "docs/tooling/TOOL_SURFACE_REGISTRY.md": {
+        "classification": "generated current registry; sole writer must regenerate after application",
+        "lines": [
+          215,
+          216,
+          224,
+          331,
+          336,
+          424,
+          426
+        ]
+      }
+    }
+  },
+  "limits": [
+    "No AWS, SSM, deployment, provider, installed or live acceptance.",
+    "Existing wrapper fixture proof used resolver doubles and externally supplied support; not promoted to complete owner delivery.",
+    "No new broad builds; Runtime and Infrastructure source custody are distinguished."
+  ],
+  "composition": "Preserve exact reviewed seven source removals and owner-local documentation repair; regenerate registry from actual current tracked topology. Fifteen other rows held without current qualification; no original tests rerun.",
+  "proposal_source_head": "b19bb610be0d7e4bf47dae7d0e7726c79d8fd80b",
+  "review": {
+    "status": "PASS",
+    "reviewer": "review_1223_historical_retention",
+    "proposal_sha256": "568b308921c90188a69ce5546e8dc56c152efe69bb1cd95061ed8adb46168f39",
+    "scope": "Reviewed source/caller/custody composition; all individual qualification and historical limits preserved."
+  }
+}

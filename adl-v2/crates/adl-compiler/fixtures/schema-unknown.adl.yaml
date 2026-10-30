@@ -1,0 +1,5 @@
+version: "0.5"
+unknown_top_level: true
+run:
+  name: invalid-schema
+  workflow: {kind: sequential, steps: []}

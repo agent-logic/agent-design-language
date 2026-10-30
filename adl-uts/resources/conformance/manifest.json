@@ -1,0 +1,134 @@
+{
+  "schema_version": "uts_conformance_manifest.v1",
+  "fixtures": [
+    {
+      "path": "conformance/valid/safe-read-v1.json",
+      "schema": "uts.v1",
+      "expected": "valid"
+    },
+    {
+      "path": "conformance/valid/registry-preview-v1_1.json",
+      "schema": "uts.v1.1",
+      "expected": "valid"
+    },
+    {
+      "path": "conformance/valid/invocation-read-v1_1.json",
+      "schema": "tool_invocation.v1.1",
+      "expected": "valid"
+    },
+    {
+      "path": "conformance/invalid/auth-required-none-v1.json",
+      "schema": "uts.v1",
+      "expected": "invalid"
+    },
+    {
+      "path": "conformance/invalid/auth-required-none-v1_1.json",
+      "schema": "uts.v1.1",
+      "expected": "invalid"
+    },
+    {
+      "path": "conformance/invalid/high-risk-without-exfiltration-v1_1.json",
+      "schema": "uts.v1.1",
+      "expected": "invalid"
+    },
+    {
+      "path": "conformance/invalid/none-plus-side-effects-v1_1.json",
+      "schema": "uts.v1.1",
+      "expected": "invalid"
+    },
+    {
+      "path": "conformance/invalid/none-plus-side-effects-invocation.json",
+      "schema": "tool_invocation.v1.1",
+      "expected": "invalid"
+    },
+    {
+      "path": "conformance/dangerous/exfiltration-high-v1.json",
+      "schema": "uts.v1",
+      "expected": "dangerous_valid"
+    },
+    {
+      "path": "conformance/reconciliation/lifecycle-stable.json",
+      "schema": "uts.v1.1",
+      "expected": "valid",
+      "reason": "Lifecycle is descriptive; it does not authorize execution."
+    },
+    {
+      "path": "conformance/reconciliation/lifecycle-unknown.json",
+      "schema": "uts.v1.1",
+      "expected": "invalid",
+      "reason": "Unknown lifecycle values are rejected."
+    },
+    {
+      "path": "conformance/reconciliation/description-short.json",
+      "schema": "uts.v1.1",
+      "expected": "invalid",
+      "reason": "Declaration descriptions need at least twelve characters."
+    },
+    {
+      "path": "conformance/reconciliation/extension-authority.json",
+      "schema": "uts.v1.1",
+      "expected": "invalid",
+      "reason": "Authority-like extension names are forbidden."
+    },
+    {
+      "path": "conformance/reconciliation/caller-string.json",
+      "schema": "tool_invocation.v1.1",
+      "expected": "invalid",
+      "reason": "Legacy string caller requires explicit mapping with externally known kind."
+    },
+    {
+      "path": "conformance/reconciliation/intent-extensible.json",
+      "schema": "tool_invocation.v1.1",
+      "expected": "valid",
+      "reason": "Intent is extensible metadata, not an execution permission."
+    },
+    {
+      "path": "conformance/reconciliation/legacy-retry.json",
+      "schema": "tool_invocation.v1.1",
+      "expected": "invalid",
+      "reason": "Legacy retry must be mapped; scheduling belongs to Runtime policy."
+    },
+    {
+      "path": "conformance/reconciliation/legacy-timeout.json",
+      "schema": "tool_invocation.v1.1",
+      "expected": "invalid",
+      "reason": "Timeout must be retained in the Runtime envelope, not silently discarded."
+    },
+    {
+      "path": "conformance/reconciliation/retry-negative.json",
+      "schema": "tool_invocation.v1.1",
+      "expected": "invalid",
+      "reason": "Negative retry limits are structurally invalid."
+    },
+    {
+      "path": "conformance/reconciliation/retry-declared-not-authorized.json",
+      "schema": "tool_invocation.v1.1",
+      "expected": "dangerous_valid",
+      "reason": "Structurally valid retry metadata never overrides replay denial or local ceilings."
+    },
+    {
+      "path": "conformance/reconciliation/tool-external-name.json",
+      "schema": "tool_invocation.v1.1",
+      "expected": "valid",
+      "reason": "Invocation identity is a nonempty external reference; registry binding remains separate."
+    },
+    {
+      "path": "conformance/reconciliation/invocation-extension-permission.json",
+      "schema": "tool_invocation.v1.1",
+      "expected": "invalid",
+      "reason": "Invocation extensions cannot claim execution permission."
+    },
+    {
+      "path": "conformance/reconciliation/errors-empty.json",
+      "schema": "uts.v1.1",
+      "expected": "invalid",
+      "reason": "Canonical schema requires at least one error model."
+    },
+    {
+      "path": "conformance/reconciliation/extension-required.json",
+      "schema": "uts.v1.1",
+      "expected": "valid",
+      "reason": "Unsupported required extension behavior is a consumer admission refusal, not structural invalidity."
+    }
+  ]
+}

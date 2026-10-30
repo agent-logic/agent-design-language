@@ -1,0 +1,576 @@
+{
+  "caller_closure": [
+    {
+      "finding": "only executable ADL callers are the two retired v0.89 repo-review scripts; removed with them",
+      "surface": "adl/tools/validate_multi_agent_repo_review_demo.py"
+    },
+    {
+      "finding": "Gemma example now names Cognitive-SDLC owner root; no current ADL execution claim",
+      "surface": "adl/tools/skills/docs/OPERATIONAL_SKILLS_GUIDE.md"
+    },
+    {
+      "finding": "v0.89 repo-review command replaced with historical navigation",
+      "surface": "demos/README.md"
+    },
+    {
+      "finding": "repo-review, Gemma, and Medium commands explicitly labelled historical",
+      "surface": "demos/v0.89 scenario pages"
+    },
+    {
+      "finding": "generated after all 15 paths removed and verified against physical external tool inventory",
+      "surface": "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+    },
+    {
+      "finding": "frozen milestone/issue evidence and retired source-era guides retain references for provenance; no active CI/config/Group D caller found",
+      "surface": "remaining literals"
+    },
+    {
+      "finding": "Triad/review-panel credential guidance now explicitly historical with separate Runtime owner and no live-run claim",
+      "surface": "docs/tooling/PROVIDER_SETUP.md"
+    }
+  ],
+  "custody": {
+    "entry_count": 52,
+    "mode_policy": "Exact Git modes retained for current, frozen-original and owner payloads.",
+    "path": "/Volumes/FastWork/c1223/worker16-historical-provider-demos/current-5a91/current-frozen-owner-custody.tar",
+    "sha256": "c5722445b03d020ef06431006b155dd4777a5065f5dd7e9e1b1b9e8393a482c6"
+  },
+  "custody_rows": [
+    {
+      "current_blob": "cf62b50c24f3f3784bc9f8f7979b958ba22469f3",
+      "exact_current_to_owner": false,
+      "exact_frozen_to_owner": false,
+      "id": "RD07-1346",
+      "original_assertion_status": "retained_in_custody_not_replayed_as_current_acceptance",
+      "original_blob": "cf62b50c24f3f3784bc9f8f7979b958ba22469f3",
+      "original_revision": "248f00e359e412f6bc0061ac88be9ff374e3a212",
+      "owner": "agent-logic-runtime",
+      "owner_blob": "c352b2bdb1bec6e844e46a7e5f1b0a9cfabcf7ce",
+      "owner_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+      "path": "adl/tools/demo_v088_real_multi_agent_discussion.sh"
+    },
+    {
+      "current_blob": "be8a9e799e3303f07b5a2e1035c77d8a7860ebc5",
+      "exact_current_to_owner": false,
+      "exact_frozen_to_owner": false,
+      "id": "RD07-1356",
+      "original_assertion_status": "retained_in_custody_not_replayed_as_current_acceptance",
+      "original_blob": "be8a9e799e3303f07b5a2e1035c77d8a7860ebc5",
+      "original_revision": "248f00e359e412f6bc0061ac88be9ff374e3a212",
+      "owner": "agent-logic-runtime",
+      "owner_blob": "3775c8fbdc3e6f19b19bb68f1c7fe8c2d8aa5e1f",
+      "owner_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+      "path": "adl/tools/demo_v089_gemini_in_the_loop.sh"
+    },
+    {
+      "current_blob": "d1dd174ca7c249278883bd666b91c3bd888a1517",
+      "exact_current_to_owner": false,
+      "exact_frozen_to_owner": false,
+      "id": "RD07-1357",
+      "original_assertion_status": "retained_in_custody_not_replayed_as_current_acceptance",
+      "original_blob": "d1dd174ca7c249278883bd666b91c3bd888a1517",
+      "original_revision": "248f00e359e412f6bc0061ac88be9ff374e3a212",
+      "owner": "agent-logic-runtime",
+      "owner_blob": "37570e2382798e67536caaaa6cc4e67d6d2979ef",
+      "owner_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+      "path": "adl/tools/demo_v089_gemini_provider_harmony_and_economics.sh"
+    },
+    {
+      "current_blob": "580f01b537d5447f1152dbd5caa2fb8e31ece825",
+      "exact_current_to_owner": true,
+      "exact_frozen_to_owner": true,
+      "id": "RD07-1358",
+      "original_assertion_status": "retained_in_custody_not_replayed_as_current_acceptance",
+      "original_blob": "580f01b537d5447f1152dbd5caa2fb8e31ece825",
+      "original_revision": "248f00e359e412f6bc0061ac88be9ff374e3a212",
+      "owner": "cognitive-sdlc",
+      "owner_blob": "580f01b537d5447f1152dbd5caa2fb8e31ece825",
+      "owner_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+      "path": "adl/tools/demo_v089_gemma4_issue_clerk.sh"
+    },
+    {
+      "current_blob": "78941ae327f38a9c97f0bba85c37d105b870a6bb",
+      "exact_current_to_owner": false,
+      "exact_frozen_to_owner": false,
+      "id": "RD07-1359",
+      "original_assertion_status": "retained_in_custody_not_replayed_as_current_acceptance",
+      "original_blob": "78941ae327f38a9c97f0bba85c37d105b870a6bb",
+      "original_revision": "248f00e359e412f6bc0061ac88be9ff374e3a212",
+      "owner": "agent-logic-runtime",
+      "owner_blob": "eff801f003ddaa449b21132565b85276100bdd78",
+      "owner_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+      "path": "adl/tools/demo_v089_medium_article_writing.sh"
+    },
+    {
+      "current_blob": "5f602db2d799dc94486ae4d841fbc4ff42428d75",
+      "exact_current_to_owner": false,
+      "exact_frozen_to_owner": false,
+      "id": "RD07-1360",
+      "original_assertion_status": "retained_in_custody_not_replayed_as_current_acceptance",
+      "original_blob": "80db573f58a00d6cef7abb47edc556f5405c20c5",
+      "original_revision": "248f00e359e412f6bc0061ac88be9ff374e3a212",
+      "owner": "cognitive-sdlc",
+      "owner_blob": "82cf5fcf39173ddb2d3daaf87aedb81774af9ddb",
+      "owner_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+      "path": "adl/tools/demo_v089_multi_agent_repo_code_review.sh"
+    },
+    {
+      "current_blob": "ada30b5d1aa0249cc9d1512d34d018f6c913acdc",
+      "exact_current_to_owner": false,
+      "exact_frozen_to_owner": false,
+      "id": "RD07-1382",
+      "original_assertion_status": "retained_in_custody_not_replayed_as_current_acceptance",
+      "original_blob": "ce0c9bf11e12686afc42cd9e89ce69496cc69534",
+      "original_revision": "248f00e359e412f6bc0061ac88be9ff374e3a212",
+      "owner": "agent-logic-runtime",
+      "owner_blob": "6b483b515847c8212b1b279bcb9edc723a7d3bd8",
+      "owner_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+      "path": "adl/tools/demo_v091_chatgpt_gemini_claude_review_panel.sh"
+    },
+    {
+      "current_blob": "002c38ccacfc5c6b5894f8887aa88b4ddcc481e3",
+      "exact_current_to_owner": false,
+      "exact_frozen_to_owner": false,
+      "id": "RD07-1383",
+      "original_assertion_status": "retained_in_custody_not_replayed_as_current_acceptance",
+      "original_blob": "0e10576f24bf773bc84d52cd910d18d4f5e5d85a",
+      "original_revision": "248f00e359e412f6bc0061ac88be9ff374e3a212",
+      "owner": "agent-logic-runtime",
+      "owner_blob": "533ab298a7a1d0aeb0aade3efc3703b4b59c6d16",
+      "owner_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+      "path": "adl/tools/demo_v091_chatgpt_gemini_claude_triad_conversation.sh"
+    },
+    {
+      "current_blob": "29ff0e50df70a3e7d89575f9db9d20bf8f928d95",
+      "exact_current_to_owner": true,
+      "exact_frozen_to_owner": true,
+      "id": "RD07-1966",
+      "original_assertion_status": "retained_in_custody_not_replayed_as_current_acceptance",
+      "original_blob": "29ff0e50df70a3e7d89575f9db9d20bf8f928d95",
+      "original_revision": "248f00e359e412f6bc0061ac88be9ff374e3a212",
+      "owner": "agent-logic-runtime",
+      "owner_blob": "29ff0e50df70a3e7d89575f9db9d20bf8f928d95",
+      "owner_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+      "path": "adl/tools/test_demo_v088_real_multi_agent_discussion.sh"
+    },
+    {
+      "current_blob": "529e9f4f03d6707126647bc7cb56e30df2d67f66",
+      "exact_current_to_owner": true,
+      "exact_frozen_to_owner": true,
+      "id": "RD07-1976",
+      "original_assertion_status": "retained_in_custody_not_replayed_as_current_acceptance",
+      "original_blob": "529e9f4f03d6707126647bc7cb56e30df2d67f66",
+      "original_revision": "248f00e359e412f6bc0061ac88be9ff374e3a212",
+      "owner": "agent-logic-runtime",
+      "owner_blob": "529e9f4f03d6707126647bc7cb56e30df2d67f66",
+      "owner_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+      "path": "adl/tools/test_demo_v089_gemini_in_the_loop.sh"
+    },
+    {
+      "current_blob": "1b9cb036d85b566ec1fe09ca678dc5fb82a0315f",
+      "exact_current_to_owner": true,
+      "exact_frozen_to_owner": true,
+      "id": "RD07-1977",
+      "original_assertion_status": "retained_in_custody_not_replayed_as_current_acceptance",
+      "original_blob": "1b9cb036d85b566ec1fe09ca678dc5fb82a0315f",
+      "original_revision": "248f00e359e412f6bc0061ac88be9ff374e3a212",
+      "owner": "agent-logic-runtime",
+      "owner_blob": "1b9cb036d85b566ec1fe09ca678dc5fb82a0315f",
+      "owner_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+      "path": "adl/tools/test_demo_v089_gemini_provider_harmony_and_economics.sh"
+    },
+    {
+      "current_blob": "7dcdf44c7dddaab97d5d0028f0ecbc5ec8525c83",
+      "exact_current_to_owner": true,
+      "exact_frozen_to_owner": true,
+      "id": "RD07-1978",
+      "original_assertion_status": "retained_in_custody_not_replayed_as_current_acceptance",
+      "original_blob": "7dcdf44c7dddaab97d5d0028f0ecbc5ec8525c83",
+      "original_revision": "248f00e359e412f6bc0061ac88be9ff374e3a212",
+      "owner": "cognitive-sdlc",
+      "owner_blob": "7dcdf44c7dddaab97d5d0028f0ecbc5ec8525c83",
+      "owner_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+      "path": "adl/tools/test_demo_v089_gemma4_issue_clerk.sh"
+    },
+    {
+      "current_blob": "c3cc7694c7c17920aed752eb035b04cbfbed2fe9",
+      "exact_current_to_owner": true,
+      "exact_frozen_to_owner": true,
+      "id": "RD07-1979",
+      "original_assertion_status": "retained_in_custody_not_replayed_as_current_acceptance",
+      "original_blob": "c3cc7694c7c17920aed752eb035b04cbfbed2fe9",
+      "original_revision": "248f00e359e412f6bc0061ac88be9ff374e3a212",
+      "owner": "agent-logic-runtime",
+      "owner_blob": "c3cc7694c7c17920aed752eb035b04cbfbed2fe9",
+      "owner_revision": "11ce6614603532738e9ceffab093e35d96b262b5",
+      "path": "adl/tools/test_demo_v089_medium_article_writing.sh"
+    },
+    {
+      "current_blob": "44fe249597e70d5cba544e78567f98695e341c41",
+      "exact_current_to_owner": false,
+      "exact_frozen_to_owner": false,
+      "id": "RD07-1980",
+      "original_assertion_status": "retained_in_custody_not_replayed_as_current_acceptance",
+      "original_blob": "44fe249597e70d5cba544e78567f98695e341c41",
+      "original_revision": "248f00e359e412f6bc0061ac88be9ff374e3a212",
+      "owner": "codefriend",
+      "owner_blob": "adf4f1792e3a5072215a6e7b4bedfee465d3a595",
+      "owner_revision": "7520ee4aff1010870d0a87c94ff43598cbe8d23f",
+      "path": "adl/tools/test_demo_v089_multi_agent_repo_code_review.sh"
+    },
+    {
+      "current_blob": "7386fd44ce88ff818ee11588ad2a6319f6115eff",
+      "exact_current_to_owner": true,
+      "exact_frozen_to_owner": true,
+      "id": "RD07-2195",
+      "original_assertion_status": "retained_in_custody_not_replayed_as_current_acceptance",
+      "original_blob": "7386fd44ce88ff818ee11588ad2a6319f6115eff",
+      "original_revision": "248f00e359e412f6bc0061ac88be9ff374e3a212",
+      "owner": "cognitive-sdlc",
+      "owner_blob": "7386fd44ce88ff818ee11588ad2a6319f6115eff",
+      "owner_revision": "d316340c212800ff523f957b1bf290db68d8efad",
+      "path": "adl/tools/validate_multi_agent_repo_review_demo.py"
+    }
+  ],
+  "excluded_already_retired": [
+    "adl/tools/demo_v0891_gemini_provider_harmony_roundtable.sh",
+    "adl/tools/test_demo_v0891_gemini_provider_harmony_roundtable.sh"
+  ],
+  "files": [
+    {
+      "action": "remove",
+      "after": null,
+      "before": {
+        "blob": "cf62b50c24f3f3784bc9f8f7979b958ba22469f3",
+        "mode": "100644",
+        "sha256": "b1af4af9895428c232b5b3f6c41d5b406f42d6e585c53148adfde7d07eef8072"
+      },
+      "path": "adl/tools/demo_v088_real_multi_agent_discussion.sh"
+    },
+    {
+      "action": "remove",
+      "after": null,
+      "before": {
+        "blob": "be8a9e799e3303f07b5a2e1035c77d8a7860ebc5",
+        "mode": "100644",
+        "sha256": "977d7b46b04ebc0d5d8bcbd00390721f4d82d7cca9cd7b82eecc95f44f002da5"
+      },
+      "path": "adl/tools/demo_v089_gemini_in_the_loop.sh"
+    },
+    {
+      "action": "remove",
+      "after": null,
+      "before": {
+        "blob": "d1dd174ca7c249278883bd666b91c3bd888a1517",
+        "mode": "100644",
+        "sha256": "f1b4cd4d69994bb7f021150dc94fde06e6c74880ce9f48b45255437ea105358d"
+      },
+      "path": "adl/tools/demo_v089_gemini_provider_harmony_and_economics.sh"
+    },
+    {
+      "action": "remove",
+      "after": null,
+      "before": {
+        "blob": "580f01b537d5447f1152dbd5caa2fb8e31ece825",
+        "mode": "100755",
+        "sha256": "473ecf9ecfa338dd7cb1a5715bf586b4131433e97d9724743046dc74b6037d7b"
+      },
+      "path": "adl/tools/demo_v089_gemma4_issue_clerk.sh"
+    },
+    {
+      "action": "remove",
+      "after": null,
+      "before": {
+        "blob": "78941ae327f38a9c97f0bba85c37d105b870a6bb",
+        "mode": "100644",
+        "sha256": "148a340596a9f9e1c9eaa0dd38194bbfe8f9885f84e108e24f408c56382f56a0"
+      },
+      "path": "adl/tools/demo_v089_medium_article_writing.sh"
+    },
+    {
+      "action": "remove",
+      "after": null,
+      "before": {
+        "blob": "5f602db2d799dc94486ae4d841fbc4ff42428d75",
+        "mode": "100644",
+        "sha256": "f7c4e3d145edd6d50a867dfef5231113489c72ef303652b9599531f50cacd20a"
+      },
+      "path": "adl/tools/demo_v089_multi_agent_repo_code_review.sh"
+    },
+    {
+      "action": "remove",
+      "after": null,
+      "before": {
+        "blob": "ada30b5d1aa0249cc9d1512d34d018f6c913acdc",
+        "mode": "100755",
+        "sha256": "7350ecbad7cb472cfa2f5051e15bce6fdc27bd4476bb9ebad274cd61b8f3ea65"
+      },
+      "path": "adl/tools/demo_v091_chatgpt_gemini_claude_review_panel.sh"
+    },
+    {
+      "action": "remove",
+      "after": null,
+      "before": {
+        "blob": "002c38ccacfc5c6b5894f8887aa88b4ddcc481e3",
+        "mode": "100755",
+        "sha256": "c1aec709b12d58f4a0b5a009bdecdbd4a220d7b76f918a98786b028887daa44a"
+      },
+      "path": "adl/tools/demo_v091_chatgpt_gemini_claude_triad_conversation.sh"
+    },
+    {
+      "action": "modify",
+      "after": {
+        "blob": "c3a14788f4d5bd71195565ae20eafc35a383b3e5",
+        "mode": "100644",
+        "sha256": "06431ea7b8a582d3951aaf87884235c4439aea260424eb04e21b1954952389e9"
+      },
+      "before": {
+        "blob": "58efb746bef29b143a173bb3bb64811c5f6b4221",
+        "mode": "100644",
+        "sha256": "4f3ea4c4705d1e2096cefabcd06f78ec90e6466580f30278d15d29474e22513e"
+      },
+      "path": "adl/tools/skills/docs/OPERATIONAL_SKILLS_GUIDE.md"
+    },
+    {
+      "action": "remove",
+      "after": null,
+      "before": {
+        "blob": "29ff0e50df70a3e7d89575f9db9d20bf8f928d95",
+        "mode": "100755",
+        "sha256": "95cc4a85a99ecece5c38e72b550288e2eebbeb158b112d9cccc17ae9a472c826"
+      },
+      "path": "adl/tools/test_demo_v088_real_multi_agent_discussion.sh"
+    },
+    {
+      "action": "remove",
+      "after": null,
+      "before": {
+        "blob": "529e9f4f03d6707126647bc7cb56e30df2d67f66",
+        "mode": "100644",
+        "sha256": "090bd8d870e8e48608d85816070f597753805482d06d15f276d5573c461f81c6"
+      },
+      "path": "adl/tools/test_demo_v089_gemini_in_the_loop.sh"
+    },
+    {
+      "action": "remove",
+      "after": null,
+      "before": {
+        "blob": "1b9cb036d85b566ec1fe09ca678dc5fb82a0315f",
+        "mode": "100644",
+        "sha256": "ec06c47bfad736e940cd17dd1bea02af75be3f2efa6845009efa63737611d6a7"
+      },
+      "path": "adl/tools/test_demo_v089_gemini_provider_harmony_and_economics.sh"
+    },
+    {
+      "action": "remove",
+      "after": null,
+      "before": {
+        "blob": "7dcdf44c7dddaab97d5d0028f0ecbc5ec8525c83",
+        "mode": "100755",
+        "sha256": "a42ae28c97be92ba7fb3c75b1ddfce11a5b9ea6bafe46d3285df47743a479196"
+      },
+      "path": "adl/tools/test_demo_v089_gemma4_issue_clerk.sh"
+    },
+    {
+      "action": "remove",
+      "after": null,
+      "before": {
+        "blob": "c3cc7694c7c17920aed752eb035b04cbfbed2fe9",
+        "mode": "100644",
+        "sha256": "251f8bd6503a11c5d62ac96a1c0ff17bc33062df35ada365de36c851990c5d8e"
+      },
+      "path": "adl/tools/test_demo_v089_medium_article_writing.sh"
+    },
+    {
+      "action": "remove",
+      "after": null,
+      "before": {
+        "blob": "44fe249597e70d5cba544e78567f98695e341c41",
+        "mode": "100644",
+        "sha256": "fc963c082f34cd947e720736bb5215ed160c9e0a6eda664ed91ccad72680b780"
+      },
+      "path": "adl/tools/test_demo_v089_multi_agent_repo_code_review.sh"
+    },
+    {
+      "action": "remove",
+      "after": null,
+      "before": {
+        "blob": "7386fd44ce88ff818ee11588ad2a6319f6115eff",
+        "mode": "100644",
+        "sha256": "889569f7f84a70b8d9d94dfb1d16f5879d23bd2d75a4d0d575e33ddd226a1cfd"
+      },
+      "path": "adl/tools/validate_multi_agent_repo_review_demo.py"
+    },
+    {
+      "action": "modify",
+      "after": {
+        "blob": "e4413de417e4cb8b46c41bbe54b0f7fee651c609",
+        "mode": "100644",
+        "sha256": "b6ba357b01629d539b0eff759cc64e88189a1f95d9b112d1d994fce66f214317"
+      },
+      "before": {
+        "blob": "5da38e8bc94eafa37dffe7bf1406e47364b2ee85",
+        "mode": "100644",
+        "sha256": "b4f9f2aae35aaee701bf19cdb12094abd80750ad46c8430024a17b96c2780cd8"
+      },
+      "path": "demos/README.md"
+    },
+    {
+      "action": "modify",
+      "after": {
+        "blob": "b58d60df96db4d9ce6323e6b7334cc1a3e20822d",
+        "mode": "100644",
+        "sha256": "1de2b1dbe126a50d942c5f2ea90ebbe84562638dafdbc997f571bc8fe6d98d2d"
+      },
+      "before": {
+        "blob": "8fe0820555f05ad06b34f71bc2d01ab866d0b2af",
+        "mode": "100644",
+        "sha256": "6d7cc208742b84a99d74f13e4a4c7fd0304a843087a01fba6c89a47d24314e8c"
+      },
+      "path": "demos/v0.89/gemma4_issue_clerk_demo.md"
+    },
+    {
+      "action": "modify",
+      "after": {
+        "blob": "1f9dc6a688f2d77ccf139ba9d3a8adf702c3063c",
+        "mode": "100644",
+        "sha256": "6de70a951af9983ae6256a2ab90f9c768ba8292b174406c3737773526575ee9b"
+      },
+      "before": {
+        "blob": "2444759587312a9ec5be1eebcecb39176ae9353c",
+        "mode": "100644",
+        "sha256": "b1f3da93a85fc9d87cb5a3bae094289eb4571f3e3d3f7e23acc8c769b9fc7828"
+      },
+      "path": "demos/v0.89/medium_article_writing_demo.md"
+    },
+    {
+      "action": "modify",
+      "after": {
+        "blob": "4ab2f7a4f7533705399a54ee46b4f2b1acae79f9",
+        "mode": "100644",
+        "sha256": "feff2c61b8adc88d43ccd592dbf5560abcd7551cb2cdb9a14c829b8312d4307d"
+      },
+      "before": {
+        "blob": "341f33ad9b56134842b85d6b8e76915a020d4026",
+        "mode": "100644",
+        "sha256": "537ff9676041a483e7f9095a677d5cafbe942ccc09714ec8bf524329c42a71c2"
+      },
+      "path": "demos/v0.89/multi_agent_repo_code_review_demo.md"
+    },
+    {
+      "action": "modify",
+      "after": {
+        "blob": "cb1a8da882ef2fb9c54f63facac6243145db3eea",
+        "mode": "100644",
+        "sha256": "144ddaefa94214aa79a65d96e3f0232e84aaab3fe1158969f100dbfc97b638e1"
+      },
+      "before": {
+        "blob": "31dfbd6b742c87b6c9d5bf978536e07d69815d70",
+        "mode": "100644",
+        "sha256": "db6425d0f362d8bdc0bbd3a3bc1d635ce5911dce081a8f6bdb3ced314d947153"
+      },
+      "path": "docs/tooling/PROVIDER_SETUP.md"
+    },
+    {
+      "action": "modify",
+      "after": {
+        "blob": "2cd0069e66506f7ab1e4a469926243042301f24c",
+        "mode": "100644",
+        "sha256": "68fd7f11bace64c5b046fbd739351508eae8d6bc8856d14421f1341594e747c3"
+      },
+      "before": {
+        "blob": "348cbf5950140f0c5fa065bfd18d1ee1ef3b5f1c",
+        "mode": "100644",
+        "sha256": "6eb9cd339d0adbaa76606c051fb22533fe8ed9fbf15b31b58a37575b6a2474b7"
+      },
+      "path": "docs/tooling/TOOL_SURFACE_REGISTRY.md"
+    }
+  ],
+  "independent_review": {
+    "identity_scope": "22 before, 7 after, 52 custody bytes and modes",
+    "receipt": "/Volumes/FastWork/c1223/worker16-historical-provider-demos/current-5a91/REVIEW.md",
+    "registry_delta": "15 removals, zero additions, surviving rows identical",
+    "result": "GO_no_actionable_findings",
+    "reviewer": "provider15_final_delta_review",
+    "source_head": "5a91f4550382da5744bd0e6b81b29e53eaf2cb05"
+  },
+  "limits": [
+    "No shared source edits or provider calls.",
+    "Live v0.88 and v0.91 conversation/review-panel assertions are custody only; no paid replay.",
+    "Owner source correspondence does not qualify owner runtime or current provider behavior.",
+    "Historical milestone evidence and scenario pages retain source-era commands with explicit history labels."
+  ],
+  "not_run": [
+    "v0.88 live 10 OpenAI plus 10 Anthropic invocation test",
+    "Gemini/Medium/triad/review-panel provider demos or tests",
+    "Cargo/builds",
+    "owner installed qualification",
+    "full ADL CI"
+  ],
+  "patch": {
+    "path": "/Volumes/FastWork/c1223/worker16-historical-provider-demos/current-5a91/integration.patch",
+    "sha256": "af0b25ebc0fe748eeb71a66ea7339982f37788618ac77159f27462046056069f"
+  },
+  "registry_delta": {
+    "added_tool_rows": 0,
+    "basis": "fresh source topology at 5a91f4550382da5744bd0e6b81b29e53eaf2cb05",
+    "removed_tool_rows": 15
+  },
+  "retained_shared_adapters": [
+    "adl/tools/validate_multi_agent_transcript.py",
+    "adl/tools/test_multi_agent_repo_review_skill_suite_contracts.sh",
+    "adl/tools/test_multi_agent_repo_review_specialist_skill_contracts.sh"
+  ],
+  "retirement_paths": [
+    "adl/tools/demo_v088_real_multi_agent_discussion.sh",
+    "adl/tools/demo_v089_gemini_in_the_loop.sh",
+    "adl/tools/demo_v089_gemini_provider_harmony_and_economics.sh",
+    "adl/tools/demo_v089_gemma4_issue_clerk.sh",
+    "adl/tools/demo_v089_medium_article_writing.sh",
+    "adl/tools/demo_v089_multi_agent_repo_code_review.sh",
+    "adl/tools/demo_v091_chatgpt_gemini_claude_review_panel.sh",
+    "adl/tools/demo_v091_chatgpt_gemini_claude_triad_conversation.sh",
+    "adl/tools/test_demo_v088_real_multi_agent_discussion.sh",
+    "adl/tools/test_demo_v089_gemini_in_the_loop.sh",
+    "adl/tools/test_demo_v089_gemini_provider_harmony_and_economics.sh",
+    "adl/tools/test_demo_v089_gemma4_issue_clerk.sh",
+    "adl/tools/test_demo_v089_medium_article_writing.sh",
+    "adl/tools/test_demo_v089_multi_agent_repo_code_review.sh",
+    "adl/tools/validate_multi_agent_repo_review_demo.py"
+  ],
+  "schema": "adl1223.historical_provider_demo_family.v1",
+  "scope_decision": "Scoped retirement of 15 historical ADL source-era provider/demo files with direct callers closed. This does not certify equivalence to owner successors; frozen originals, current variants, and owner revisions are all retained.",
+  "source_head": "5a91f4550382da5744bd0e6b81b29e53eaf2cb05",
+  "status": "applied",
+  "validation": [
+    {
+      "command": "bash external original test_demo_v089_gemma4_issue_clerk.sh with original script and response fixtures",
+      "result": "passed dry-run, valid response, invalid response; no model call"
+    },
+    {
+      "command": "bash -n on 14 original shell scripts and AST parse on validator",
+      "result": "passed"
+    },
+    {
+      "command": "fresh post-deletion registry composition",
+      "result": "15 tool rows removed, zero added; current topology"
+    },
+    {
+      "command": "git apply --check --whitespace=error integration.patch",
+      "result": "passed at source_head"
+    }
+  ],
+  "proposal_source_head": "5a91f4550382da5744bd0e6b81b29e53eaf2cb05",
+  "review": {
+    "status": "PASS",
+    "reviewer": "historical_provider_delta_review",
+    "proposal_sha256": "7491aeaad40a876c8b46e78f87da0f9310d3107ae54c02f3f2fee68ba5b3305c",
+    "scope": "Reviewed source/caller/custody composition; all individual qualification and historical limits preserved."
+  },
+  "guard_schema_normalization": {
+    "original_packet": "docs/milestones/v0.93.1/repository-decomposition/rd07-1223/PROVIDER_DEMO_FIFTEEN_APPLIED.json",
+    "original_sha256": "ae8312ff33ee1ca30968e3a86de1c21e65e1aedbfa65cff90d4400893ed1b6c9",
+    "source_commit": "927d89c431cd02850460b150d115ca76d01df93a",
+    "change": "Exactly fifteen file action aliases delete\u2192remove for existing strict guard schema. Original bytes, identities, custody, scope and historical nonclaims unchanged. No additional source action authorized."
+  }
+}

@@ -1,0 +1,67 @@
+nextest-version = "0.9.133"
+
+[profile.default]
+retries = 0
+leak-timeout = "100ms"
+
+[profile.ci-coverage]
+retries = 0
+leak-timeout = "100ms"
+# Coverage instrumentation can make ordinary tests slower, but no individual
+# test may hold the hosted release gate indefinitely. Terminate a test that
+# exceeds this bounded coverage-only ceiling and report its exact identity.
+slow-timeout = { period = "120s", terminate-after = 1 }
+
+# Issue #560: hosted workspace coverage first showed three runtime_v2
+# unified-kernel correlation/drift proofs reaching the generic 120s ceiling
+# while 1221/1224 tests passed, then showed four sibling unified-kernel module
+# tests reaching the same ceiling once the first three had a bounded allowance.
+# Keep the default fail-closed ceiling for unrelated tests and grant only this
+# exact module prefix a bounded coverage allowance.
+[[profile.ci-coverage.overrides]]
+filter = 'test(/^runtime_v2::tests::unified_runtime_kernel::/)'
+slow-timeout = { period = "240s", terminate-after = 1 }
+
+# Issue #1110: run 35557102726 timed out this existing negative-matrix proof
+# at 120s under coverage; its sibling completed in 116s. The exact test passes
+# locally in 2.73s without instrumentation. Keep the assertions and zero retries,
+# and apply the existing bounded coverage allowance only to this test identity.
+[[profile.ci-coverage.overrides]]
+filter = 'test(/^runtime_v2::tests::resource_stewardship_bridge::runtime_v2_resource_stewardship_bridge_negative_matrix_rejects_drift$/)'
+slow-timeout = { period = "240s", terminate-after = 1 }
+
+# Issue #1110: the unchanged governed-shutdown failure proof passed in 118.773s
+# in run 35557102726, then reached the generic 120s ceiling in run 35559799557.
+# Preserve both failure scenarios and zero retries; bound only this exact
+# coverage test at the existing 240s allowance.
+[[profile.ci-coverage.overrides]]
+filter = 'test(/^agent::csm_governed_shutdown_retains_continuity_and_publish_failures_without_false_success$/)'
+slow-timeout = { period = "240s", terminate-after = 1 }
+
+# The governed-stop status proof uses the shared 120s shutdown observation
+# budget plus service startup. Retain its terminal-state assertions and allow
+# this exact coverage case to finish within the same bounded 240s ceiling.
+[[profile.ci-coverage.overrides]]
+filter = 'test(/^agent::csm_governed_stop_records_checkpoint_safe_fail_lifelog_and_notices$/)'
+slow-timeout = { period = "240s", terminate-after = 1 }
+
+# Rust 1.92.0 coverage instrumentation can push the exact signed continuity
+# restore proof past the generic 120s hosted ceiling even while the ordinary
+# required Rust test lane remains green. Keep the proof in required coverage
+# and grant only this named long-running admission/restore test the same
+# bounded ceiling as the existing unified-kernel coverage allowances.
+[[profile.ci-coverage.overrides]]
+filter = 'test(signed_restore_validates_exact_models_before_admission)'
+slow-timeout = { period = "240s", terminate-after = 1 }
+
+# Both issue #208 harnesses synchronously close their fixture roots, and every
+# client case additionally proves at its shared teardown boundary that it owns
+# no live or unreaped child process before returning.
+# On loaded macOS hosts, nextest's 100 ms post-exit pipe-closure observation can
+# still expire before the runner is rescheduled. Match the exact tracked case
+# names instead of binary-name selectors, whose absent-target validation breaks
+# unrelated workspace shards. Repeated loaded-host proof showed resource-free
+# cases can exceed 2 seconds, so fail any inherited-handle leak past 5 seconds.
+[[profile.default.overrides]]
+filter = 'test(/^(internal_listener_config_valid|nonloopback_bind_rejected|unsafe_root_config_rejected|guardian_identity_distinct|guardian_mtls_authorized|unknown_client_certificate_denied|invalid_client_eku_denied|stale_certificate_denied|bearer_only_denied|agent_control_identity_denied|wrong_trust_domain_denied|wrong_polis_denied|wrong_node_denied|wrong_guardian_denied|replay_rejected|conflicting_duplicate_rejected|reordered_request_rejected|wrong_kernel_instance_denied|durable_channel_restart_retry|certificate_succession_retry|stale_channel_epoch_denied|real_quiesce_checkpoint|partial_quiesce_rollback|signed_bundle_export|export_bounds|export_exact_retry|source_resume|source_resume_exact_retry|isolated_stage|isolated_import_validate|wrong_manifest_signature|wrong_generation|wrong_predecessor|wrong_accepted_prefix|wrong_topology|wrong_config|wrong_service_set|wrong_service_schema|corrupt_content|oversized_bundle|caller_path_rejected|symlink_path_rejected|deadline_before_effect|cancellation_no_partial|restart_after_accept|crash_after_bundle_commit|target_discard|discard_exact_retry|validated_target_discard|zero_residue|dual_open|opened_handle_replacement|evidence_redaction|public_surface_absent|guardian_initialization_live|participant_registry_complete)$/)'
+leak-timeout = { period = "5s", result = "fail" }

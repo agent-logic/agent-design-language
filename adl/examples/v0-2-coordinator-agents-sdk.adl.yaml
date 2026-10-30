@@ -1,0 +1,68 @@
+version: "0.2"
+
+providers:
+  local_ollama:
+    type: "local_ollama"
+    default_model: "gemma3:latest"
+
+agents:
+  coordinator:
+    provider: "local_ollama"
+    model: "gemma3:latest"
+    prompt:
+      system: "You coordinate work across specialist agents and keep the plan consistent."
+  designer:
+    provider: "local_ollama"
+    model: "gemma3:latest"
+    prompt:
+      system: "You outline gameplay mechanics and controls."
+  implementer:
+    provider: "local_ollama"
+    model: "gemma3:latest"
+    prompt:
+      system: "You produce a complete HTML file for the game."
+
+tasks:
+  brief:
+    prompt:
+      user: |
+        BRIEF_STATE:
+        Define a simple HTML game concept and constraints:
+        - single HTML file
+        - no external assets
+        Topic: {{topic}}
+  design:
+    prompt:
+      user: |
+        DESIGN_FROM_FILE={{brief}}
+  implementation:
+    prompt:
+      user: |
+        IMPLEMENTATION_FROM_FILE={{design}}
+
+run:
+  name: "v0-2-coordinator-agents-sdk"
+  workflow:
+    kind: "sequential"
+    steps:
+      - id: "coordinator-brief"
+        agent: "coordinator"
+        task: "brief"
+        inputs:
+          topic: "Simple HTML game demo."
+        save_as: "brief"
+        write_to: "state/brief.txt"
+      - id: "design"
+        agent: "designer"
+        task: "design"
+        inputs:
+          brief: "@file:out/state/brief.txt"
+        save_as: "design"
+        write_to: "state/design.txt"
+      - id: "implementation"
+        agent: "implementer"
+        task: "implementation"
+        inputs:
+          design: "@file:out/state/design.txt"
+        save_as: "html"
+        write_to: "index.html"

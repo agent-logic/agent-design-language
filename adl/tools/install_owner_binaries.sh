@@ -1,0 +1,198 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+MANIFEST="$ROOT_DIR/adl/Cargo.toml"
+STABLE_BIN_DIR="${ADL_OWNER_BIN_DIR:-$ROOT_DIR/.adl/bin}"
+SOURCE_BIN_DIR=""
+SOURCE_COMPONENT="adl"
+SOURCE_PATHS=(
+  adl/Cargo.toml adl/Cargo.lock adl/src/main.rs adl/src/lib.rs
+  adl/src/control_plane.rs adl/src/session_ledger.rs adl/src/bin/adl_process.rs
+  adl/src/cli/public_dispatch.rs adl/src/cli/public_workflow.rs
+  adl/src/cli/workflow_args.rs adl/src/cli/workflow_display.rs adl/src/cli/resume_args.rs
+  adl/src/cli/runtime_owner.rs adl/src/cli/codefriend_owner.rs
+  adl/src/cli/process_cmd.rs adl/src/cli/process_cmd adl/src/cli/session_cmd.rs
+  adl/src/cli/observability.rs adl/src/cli/usage.rs
+  adl-legacy-contracts/Cargo.toml adl-legacy-contracts/src adl-legacy-contracts/schemas
+  adl-schema/Cargo.toml adl-schema/src adl-schema/schemas
+)
+NO_BUILD=0
+EXPLICIT_BINS=0
+BINS=()
+
+usage() {
+  cat <<'EOF' >&2
+Usage:
+  adl/tools/install_owner_binaries.sh [--bin <name>]... [--stable-bin-dir <dir>] [--source-bin-dir <dir>] [--no-build]
+
+Installs the public adl and adl-process binaries into a stable repo-local generated
+directory outside Cargo target. Runtime, CodeFriend and C-SDLC use their owner packages.
+--bin csdlc only reports manuals for an already selected installed package; it
+does not build, copy or replace C-SDLC. For first installation, use the admitted
+native csdlc package-install --request REVIEWED_REQUEST.json route.
+csdlc-transition source installation is retired; obtain it from its owner package.
+The csdlc lookup prints MANPATH for that package resource directory.
+It never copies ADL pages into the selected package or edits shell startup files.
+Re-running without relevant source changes is a no-op and does
+not replace binaries.
+EOF
+}
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --bin)
+      [[ $# -ge 2 ]] || { usage; exit 2; }
+      EXPLICIT_BINS=1
+      BINS+=("$2")
+      shift 2
+      ;;
+    --stable-bin-dir)
+      [[ $# -ge 2 ]] || { usage; exit 2; }
+      STABLE_BIN_DIR="$2"
+      shift 2
+      ;;
+    --source-bin-dir)
+      [[ $# -ge 2 ]] || { usage; exit 2; }
+      SOURCE_BIN_DIR="$2"
+      shift 2
+      ;;
+    --no-build)
+      NO_BUILD=1
+      shift
+      ;;
+    -h|--help|help)
+      usage
+      exit 0
+      ;;
+    *)
+      usage
+      echo "install_owner_binaries: unsupported argument '$1'" >&2
+      exit 2
+      ;;
+  esac
+done
+
+if [[ "${#BINS[@]}" -eq 0 ]]; then
+  BINS=(adl adl-process)
+fi
+
+for bin in "${BINS[@]}"; do
+  case "$bin" in
+    csdlc-transition)
+      echo "install_owner_binaries: csdlc-transition source installation is retired; use the qualified C-SDLC owner package" >&2
+      exit 2 ;;
+    adl|adl-process|csdlc) ;;
+    *)
+      echo "install_owner_binaries: '$bin' is not a public ADL binary; install product binaries from their qualified owner packages" >&2
+      exit 2
+      ;;
+  esac
+  if [[ "$bin" == "csdlc" ]]; then
+    [[ "${#BINS[@]}" == 1 ]] || { echo 'install_owner_binaries: install csdlc separately from ADL owners' >&2; exit 2; }
+    [[ -z "$SOURCE_BIN_DIR" ]] || { echo 'install_owner_binaries: C-SDLC source binary installation is retired; use native package-install with a reviewed request' >&2; exit 2; }
+    if [[ "$STABLE_BIN_DIR" == "$ROOT_DIR/.adl/bin" ]]; then STABLE_BIN_DIR="$ROOT_DIR/.adl/bin/native-v3"; fi
+    bash "$ROOT_DIR/adl/tools/install_csdlc_man_pages.sh" --stable-bin-dir "$STABLE_BIN_DIR"
+    exit 0
+  fi
+ done
+
+source_hash() {
+  if git -C "$ROOT_DIR" rev-parse --show-toplevel >/dev/null 2>&1; then
+    (
+      cd "$ROOT_DIR"
+      git ls-files --cached --others --exclude-standard -- "${SOURCE_PATHS[@]}" |
+        grep -Ev '(^adl/src/cli/tests/|/tests\.rs$|/tests/)' |
+        LC_ALL=C sort |
+        while IFS= read -r path; do
+          [[ -f "$path" ]] || continue
+          shasum -a 256 "$path"
+        done |
+        shasum -a 256 |
+        awk '{print $1}'
+    )
+    return 0
+  fi
+  (
+    cd "$ROOT_DIR"
+    for path in "${SOURCE_PATHS[@]}"; do
+      if [[ -d "$path" ]]; then
+        find "$path" -type f -print
+      elif [[ -f "$path" ]]; then
+        printf '%s\n' "$path"
+      fi
+    done |
+      grep -Ev '(^adl/src/cli/tests/|/tests\.rs$|/tests/)' |
+      LC_ALL=C sort |
+      while IFS= read -r path; do
+        [[ -f "$path" ]] || continue
+        shasum -a 256 "$path"
+      done |
+      shasum -a 256 |
+      awk '{print $1}'
+  )
+}
+
+SOURCE_HASH="$(source_hash)"
+BUILD_BINS=()
+for bin in "${BINS[@]}"; do
+  target="$STABLE_BIN_DIR/$bin"
+  provenance="$STABLE_BIN_DIR/.provenance/$bin.sha256"
+  if [[ -x "$target" && -f "$provenance" && "$(cat "$provenance" 2>/dev/null || true)" == "$SOURCE_HASH" ]]; then
+    echo "owner-binary unchanged: $bin"
+    continue
+  fi
+  BUILD_BINS+=("$bin")
+done
+
+if [[ "${#BUILD_BINS[@]}" -eq 0 ]]; then
+  echo "owner-binary install: all requested binaries are current"
+  exit 0
+fi
+
+if [[ "$NO_BUILD" != "1" ]]; then
+  OWNER_BUILD_ROOT="${ADL_OWNER_BUILD_ROOT:-${ADL_FASTWORK_ROOT:-/Volumes/FastWork}/adl-owner-binaries}"
+  mkdir -p "$OWNER_BUILD_ROOT"
+  cargo_args=(cargo build --quiet --locked --manifest-path "$MANIFEST")
+  for bin in "${BUILD_BINS[@]}"; do
+    cargo_args+=(--bin "$bin")
+  done
+  ADL_CARGO_BUILD_ROOT="$OWNER_BUILD_ROOT" \
+    bash "$ROOT_DIR/adl/tools/run_cargo_validation.sh" "${cargo_args[@]}"
+  if [[ -z "$SOURCE_BIN_DIR" ]]; then
+    SOURCE_BIN_DIR="$OWNER_BUILD_ROOT/cargo-target/debug"
+  fi
+elif [[ -z "$SOURCE_BIN_DIR" ]]; then
+  SOURCE_BIN_DIR="${CARGO_TARGET_DIR:-$ROOT_DIR/$SOURCE_COMPONENT/target}/debug"
+fi
+
+mkdir -p "$STABLE_BIN_DIR/.provenance"
+
+MISSING_BINS=()
+for bin in "${BUILD_BINS[@]}"; do
+  src="$SOURCE_BIN_DIR/$bin"
+  dest="$STABLE_BIN_DIR/$bin"
+  [[ -x "$src" ]] || {
+    if [[ "$NO_BUILD" == "1" && "$EXPLICIT_BINS" != "1" ]]; then
+      echo "owner-binary source missing; skipped in default --no-build install: $src" >&2
+      MISSING_BINS+=("$bin")
+      continue
+    fi
+    echo "install_owner_binaries: missing built source binary: $src" >&2
+    exit 1
+  }
+  tmp="$(mktemp "$STABLE_BIN_DIR/.${bin}.XXXXXX")"
+  cp "$src" "$tmp"
+  chmod 0755 "$tmp"
+  mv "$tmp" "$dest"
+  printf '%s\n' "$SOURCE_HASH" >"$STABLE_BIN_DIR/.provenance/$bin.sha256"
+  cat >"$STABLE_BIN_DIR/.provenance/$bin.json" <<EOF
+{"binary":"$bin","source_hash":"$SOURCE_HASH","build_profile":"debug","platform":"$(uname -s)-$(uname -m)","installed_path":"$dest"}
+EOF
+  echo "owner-binary installed: $bin -> $dest"
+done
+
+if [[ "${#MISSING_BINS[@]}" -gt 0 ]]; then
+  echo "install_owner_binaries: incomplete default --no-build install; missing source binaries: ${MISSING_BINS[*]}" >&2
+  exit 1
+fi
