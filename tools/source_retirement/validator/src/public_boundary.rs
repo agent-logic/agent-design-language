@@ -158,4 +158,4 @@ pub fn run(repo: &Repo) -> Result<()> {
 }
 
 // Updated only with an independently reviewed policy amendment.
-const POLICY_SHA256: &str = "8e9225a96a6dca01d07ea5ea733d69311da875f1ccb30fcdc3455e09c209c4df";
+const POLICY_SHA256: &str = "7ab97803141bd87242ed9a0f9aea184366130f7f4f9cae062985961f2a092544";
