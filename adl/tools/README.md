@@ -29,7 +29,13 @@ Keep behavioral and milestone narrative in canonical docs, not here.
 - Issue execution uses the selected native C-SDLC owner and bound FastWork worktrees.
 - `batched_checks.sh`, `preflight_review.sh`: quality/preflight checks, including the repo-code-review skill contract guard.
 - `check_repo_quality_staleness.py`: focused reviewer-facing docs and tracked-junk audit for the current milestone package and root repo status surfaces.
-- Public coverage uses `tools/public_adl/coverage.py` with its declared inventory; see [coverage authority](../../docs/tooling/COVERAGE_AUTHORITY_AND_RELEASE_PROOF.md). Historical mixed-workspace gates and prerequisite installers are retired under #1223.
+- Public coverage uses the Rust producer in `tools/ci_contracts`; see the
+  [current CI invocation](../../.github/workflows/ci.yaml). For a manual full
+  measurement, set `COVERAGE_OUTPUT` to a fresh directory outside the checkout,
+  then run `cargo run --locked --quiet --manifest-path tools/ci_contracts/Cargo.toml -- coverage --mode full --output "$COVERAGE_OUTPUT"`.
+  The retained [coverage policy and proof history](../../docs/tooling/COVERAGE_AUTHORITY_AND_RELEASE_PROOF.md)
+  includes retired Python recipes, not current producer instructions.
+  Historical mixed-workspace gates and prerequisite installers are retired under #1223.
 - `clean_coverage_artifacts.sh`: removes local generated coverage summaries and loose LLVM profile shards after coverage/report runs.
 - `report_large_rust_modules.sh`: non-blocking Rust source-and-test module size report for maintainability review.
 - Inspect cards and reports directly in their registered issue worktree or retained evidence directory.
@@ -114,7 +120,7 @@ diff -qr "$CSDLC_SKILL_CONTRACT_ROOT/test-generator" "$CODEX_HOME/skills/test-ge
 # Current public CLI checks: bash tools/public_adl/run_cli_ci.sh
 
 # audit root + milestone reviewer-facing docs for current-milestone staleness
-python3 ./adl/tools/check_repo_quality_staleness.py --milestone v0.93.1
+python3 ./adl/tools/check_repo_quality_staleness.py --milestone v0.93.2
 
 # inspect the public coverage contract and exact-commit proof requirements
 # docs/tooling/COVERAGE_AUTHORITY_AND_RELEASE_PROOF.md
@@ -143,8 +149,8 @@ The repo still carries a few compatibility and maintenance entrypoints, but they
 are not the preferred public workflow:
 
 - v1 lifecycle aliases are removed and must not be used for issue work
-- `adl_pr_cycle` install/resync helpers are retained only for historical or
-  compatibility inspection, not for current native v3 lifecycle operation
+- `adl_pr_cycle` is retired; historical install/resync references do not provide
+  a current native lifecycle entrypoint
 - `codex_pr.sh` and `codexw.sh` have been removed after their fail-closed
   migration period. Use the current native C-SDLC authority and run Codex
   directly in its bound worktree; historical v2 guidance is not current routing.

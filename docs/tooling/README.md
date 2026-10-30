@@ -141,7 +141,9 @@ Important repo-local tooling surfaces include:
 - `adl-lint-prompt-spec` — direct Prompt Spec lint and validation binary
 - `adl-prompt-template` — direct prompt-card editor and renderer binary
 - `adl-validate-structured-prompt` — direct structured prompt contract validator
-- `bash adl/tools/run_aws_codefriend_build_lane.sh` — manual GitHub Actions plus AWS CodeBuild lane wrapper for CodeFriend build orchestration; see [AWS CodeFriend Build Lane](AWS_CODEFRIEND_BUILD_LANE.md)
+- The former local `run_aws_codefriend_build_lane.sh` command is retired. Use the
+  separately governed [AWS CodeFriend Build Lane](AWS_CODEFRIEND_BUILD_LANE.md)
+  owner instructions; ADL does not supply that wrapper.
 - CI log archival is not exposed through the removed tooling multiplexer; see
   [CI Log Archive To S3](CI_LOG_ARCHIVE_S3.md) for historical context.
 - `adl/tools/validation_manager.py --run` — emit durable `adl.build_action_log.v1` packets for local validation actions; see [Build Action Logs](BUILD_ACTION_LOGS.md)
@@ -150,7 +152,8 @@ Important repo-local tooling surfaces include:
 - current direct owner binaries and typed skills own planning, provenance, and
   review validation; the removed `adl tooling` multiplexer is not an
   operational route.
-- `bash adl/tools/demo_v0871_operator_surface.sh` — canonical `v0.87.1` operator-surface demo for runtime bring-up and proof-surface inspection
+- The historical v0.87.1 operator-surface demo belongs to Runtime; see the
+  [owner boundary](../../adl/tools/README.md). It is not a local ADL command.
 - [Historical v0.87.1 aggregate](V0871_HISTORICAL_AGGREGATE.md) — retired runtime reviewer walkthrough and aggregate assertion custody.
 - `bash adl/tools/run_validation_manager_nessus_lane.sh` — validation-manager
   wrapper that consumes one eligible local lane and routes it to the Nessus
@@ -171,7 +174,9 @@ Important repo-local tooling surfaces include:
 - [Historical build-platform benchmarks](BUILD_PLATFORM_BENCHMARKS.md) preserve
   the original timing workload and evidence. The ADL command is retired;
   use separately admitted Infrastructure owner routes for new execution.
-- lifecycle authority is native v3 via `.adl/bin/native-v3/csdlc`, subject to its selector and authenticated receipt; retained v2 binaries require explicit rollback or transition authorization
+- lifecycle authority comes from the authenticated installed C-SDLC owner package
+  and its repository binding. Use its exact admitted executable and paired
+  manuals; project-local selectors are historical. See [current authority](../csdlc-v3/CURRENT_AUTHORITY.md).
 - `adl/tools/report_large_rust_modules.sh` — non-blocking Rust source-and-test module size report; by default it scans both `adl/src` and `adl/tests`, and current snapshots should live under `.adl/reports/manual/` instead of tracked repo docs
 - Legacy draft-to-task-bundle synchronization has been retired. Current cards
   are governed by native C-SDLC editing and binding; historical `.adl/cards`
@@ -193,7 +198,9 @@ For `v0.87.1`, the bounded runtime operator contract is:
 - one canonical runtime-root marker at `runtime_environment.json`
 - one canonical per-run inspection set rooted at `run_summary.json`, `run_status.json`, and `logs/trace_v1.json`
 
-Use `bash adl/tools/demo_v0871_operator_surface.sh` as the smallest repo-local proof of that operator surface.
+The original operator proof now belongs to the separately qualified Runtime
+owner. Use its selected installation and owner instructions; this historical
+section does not offer a runnable public-clone proof.
 
 ## Runtime Review Surface
 

@@ -1,25 +1,33 @@
 # adl/examples
 
-Runnable ADL example documents for the `adl` runtime.
-Use these files for local smoke checks, deterministic demo runs, and CLI validation.
+ADL documents and retained historical execution fixtures. The public CLI can
+print supported portable plans; workflow execution belongs to a separately
+qualified Runtime installation. This is the crate-local inventory. Start with
+the [public demo index](../../demos/README.md) for current runnable examples.
 
-This directory is the crate-local fixture inventory, not the primary user-facing demo index.
-For demo discovery from repo root, start with `../../demos/README.md`.
+## Print a plan from a public clone
 
-## Run An Example
+From the repository root:
 
-From `adl/`:
-
-```bash
-cargo run -q --bin adl -- examples/<file>.adl.yaml --print-plan
-cargo run -q --bin adl -- examples/<file>.adl.yaml --run --trace
+```sh
+cargo run --locked --manifest-path adl/Cargo.toml --bin adl -- adl/examples/v0-3-fork-join-seq-run.adl.yaml --print-plan
 ```
 
-No-network mock-provider pattern:
+This prints an inert plan without provider credentials or calls. See the
+[expected output](../../demos/README.md#runnable-from-a-public-clone).
 
-```bash
-ADL_OLLAMA_BIN=tools/mock_ollama_v0_4.sh cargo run -q --bin adl -- examples/v0-6-hitl-no-pause.adl.yaml --run --trace --out ./out
-```
+## Runtime-owned execution
+
+`--run`, `--trace`, resume and provider-profile operations require an
+owner-qualified Runtime installation selected through `ADL_RUNTIME_INSTALL_PREFIX`
+and its exact `ADL_RUNTIME_ARCHIVE_SHA256`. Follow the
+[public CLI owner contract](../README.md#selected-product-owners) and the
+[Runtime owner](https://github.com/agent-logic/agent-logic-runtime) instructions.
+A source checkout or mock-provider script alone does not qualify that installation.
+
+The old `ADL_OLLAMA_BIN=tools/mock_ollama_v0_4.sh` example was an execution
+fixture for the former monolithic Runtime. It is not a standalone public-clone
+execution recipe or current provider qualification.
 
 ## Example Families (Short Index)
 
@@ -56,8 +64,8 @@ home for later control-plane contracts or milestone-local packet schemas.
 
 - Canonical demo index: `../../demos/README.md`
 - Provider demo proof governance: `../../docs/tooling/PROVIDER_DEMO_SURFACES.md`
-- v0.7 demo matrix (canonical): `../../docs/milestones/v0.7/DEMOS_v0.7.md`
-- v0.6 release notes: `../../docs/milestones/v0.6/RELEASE_NOTES_v0.6.md`
+- v0.7 demo matrix (canonical): [archived v0.7 demo matrix](../../docs/archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.7/DEMOS_v0.7.md")
+- v0.6 release notes: [archived v0.6 release notes](../../docs/archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.6/RELEASE_NOTES_v0.6.md")
 - Runtime/CLI usage: `../README.md`
 - ADRs: `../../docs/adr/`
 - Root project entrypoint: `../../README.md`

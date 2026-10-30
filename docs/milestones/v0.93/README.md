@@ -1,10 +1,16 @@
 > **Superseded combined plan.** The operator-approved split is planned under #922 in [v0.93.1](../v0.93.1/README.md) (repo split, templates and CodeFriend Beta 1 launch) and [v0.93.2](../v0.93.2/README.md) (remaining platform work). The original combined scope below is retained for traceability; it does not require Runtime v4 before Beta 1 launch or authorize execution.
 
+> Historical index: the original milestone text below retains its source-time
+> scope and status. Relocated links now lead to verified archive lookup, with
+> original paths retained in link titles; they do not imply current commands or
+> newly accepted outcomes. See [archive access and restoration](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/").
+
+
 # v0.93 Milestone README
 
 ## Current planning sources
 
-Start with this milestone package and the [candidate catalog](PLANNED_ISSUE_CATALOG_v0.93.md). The current CodeFriend product source is [CodeFriend Beta 1 Plan — Second-pass working draft](https://docs.google.com/document/d/1_CDM8QydW8_Lmue82j5tTHRJpi-hWzOo2u3y6M312b0/edit), last edited August 23 and inspected September 16. Its successor launch work is mapped in [CodeFriend Launch](features/CODEFRIEND_LAUNCH_v0.93.md). The website-only issue is an input, not the product plan.
+Start with this milestone package and the [candidate catalog](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.93/PLANNED_ISSUE_CATALOG_v0.93.md"). The current CodeFriend product source is [CodeFriend Beta 1 Plan — Second-pass working draft](https://docs.google.com/document/d/1_CDM8QydW8_Lmue82j5tTHRJpi-hWzOo2u3y6M312b0/edit), last edited August 23 and inspected September 16. Its successor launch work is mapped in [CodeFriend Launch](features/CODEFRIEND_LAUNCH_v0.93.md). The website-only issue is an input, not the product plan.
 
 This first pass contains 83 candidate results. The opening repository split precedes feature development. [Runtime v4](features/RUNTIME_V4_PLUGIN_SYSTEM_v0.93.md) must be completed in v0.93. This package remains under review and does not open the milestone.
 
@@ -31,7 +37,7 @@ moral-trace, identity, and standing work into a bounded governance layer for the
 ADL polis.
 
 The canonical allocation is recorded in
-[CONSTITUTIONAL_CITIZENSHIP_AND_POLIS_GOVERNANCE_PLAN_v0.93.md](CONSTITUTIONAL_CITIZENSHIP_AND_POLIS_GOVERNANCE_PLAN_v0.93.md).
+[CONSTITUTIONAL_CITIZENSHIP_AND_POLIS_GOVERNANCE_PLAN_v0.93.md](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.93/CONSTITUTIONAL_CITIZENSHIP_AND_POLIS_GOVERNANCE_PLAN_v0.93.md").
 
 ## Milestone Role
 
@@ -123,19 +129,19 @@ where the measured footprint supports it. QUALIFY consumes this disposition.
 
 ## Document Map
 
-- Vision: [VISION_v0.93.md](VISION_v0.93.md)
+- Vision: [VISION_v0.93.md](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.93/VISION_v0.93.md")
 - Design: [DESIGN_v0.93.md](DESIGN_v0.93.md)
-- WBS: [WBS_v0.93.md](WBS_v0.93.md)
-- Sprint plan: [SPRINT_v0.93.md](SPRINT_v0.93.md)
-- Decisions: [DECISIONS_v0.93.md](DECISIONS_v0.93.md)
+- WBS: [WBS_v0.93.md](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.93/WBS_v0.93.md")
+- Sprint plan: [SPRINT_v0.93.md](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.93/SPRINT_v0.93.md")
+- Decisions: [DECISIONS_v0.93.md](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.93/DECISIONS_v0.93.md")
 - Demo matrix: [DEMO_MATRIX_v0.93.md](DEMO_MATRIX_v0.93.md)
-- Milestone checklist: [MILESTONE_CHECKLIST_v0.93.md](MILESTONE_CHECKLIST_v0.93.md)
+- Milestone checklist: [MILESTONE_CHECKLIST_v0.93.md](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.93/MILESTONE_CHECKLIST_v0.93.md")
 - Release plan: [RELEASE_PLAN_v0.93.md](RELEASE_PLAN_v0.93.md)
-- Release notes: [RELEASE_NOTES_v0.93.md](RELEASE_NOTES_v0.93.md)
+- Release notes: [RELEASE_NOTES_v0.93.md](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.93/RELEASE_NOTES_v0.93.md")
 - Candidate issue wave: [WP_ISSUE_WAVE_v0.93.yaml](WP_ISSUE_WAVE_v0.93.yaml)
-- Feature plans: [features/README.md](features/README.md)
+- Feature plans: [features/README.md](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.93/features/README.md")
 - Constitutional citizenship and polis governance allocation:
-  [CONSTITUTIONAL_CITIZENSHIP_AND_POLIS_GOVERNANCE_PLAN_v0.93.md](CONSTITUTIONAL_CITIZENSHIP_AND_POLIS_GOVERNANCE_PLAN_v0.93.md)
+  [CONSTITUTIONAL_CITIZENSHIP_AND_POLIS_GOVERNANCE_PLAN_v0.93.md](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.93/CONSTITUTIONAL_CITIZENSHIP_AND_POLIS_GOVERNANCE_PLAN_v0.93.md")
 - Theory of Mind and social cognition:
   [THEORY_OF_MIND_AND_SOCIAL_COGNITION_v0.93.md](features/THEORY_OF_MIND_AND_SOCIAL_COGNITION_v0.93.md)
 - Social relationship, reputation, and shared memory:
@@ -147,7 +153,7 @@ where the measured footprint supports it. QUALIFY consumes this disposition.
 - Guilds and collective organization:
   [GUILDS_AND_COLLECTIVE_ORGANIZATION_v0.93.md](features/GUILDS_AND_COLLECTIVE_ORGANIZATION_v0.93.md)
 - Enterprise security:
-  [ENTERPRISE_SECURITY_v0.93.md](features/ENTERPRISE_SECURITY_v0.93.md)
+  [ENTERPRISE_SECURITY_v0.93.md](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.93/features/ENTERPRISE_SECURITY_v0.93.md")
 - Enterprise-security WPs:
   [SECURITY_WP_S1_ZERO_TRUST_ARCHITECTURE_v0.93.md](features/SECURITY_WP_S1_ZERO_TRUST_ARCHITECTURE_v0.93.md),
   [SECURITY_WP_S2_POLICY_ENFORCEMENT_AUTHORIZATION_v0.93.md](features/SECURITY_WP_S2_POLICY_ENFORCEMENT_AUTHORIZATION_v0.93.md),
@@ -156,7 +162,7 @@ where the measured footprint supports it. QUALIFY consumes this disposition.
   [SECURITY_WP_S5_ISOLATION_DATA_GOVERNANCE_PRIVACY_v0.93.md](features/SECURITY_WP_S5_ISOLATION_DATA_GOVERNANCE_PRIVACY_v0.93.md),
   [SECURITY_WP_S6_SECURITY_OPERATIONS_ADVERSARIAL_PROVENANCE_v0.93.md](features/SECURITY_WP_S6_SECURITY_OPERATIONS_ADVERSARIAL_PROVENANCE_v0.93.md)
 - Red/blue adversarial security issue wave:
-  [RED_BLUE_ADVERSARIAL_SECURITY_ISSUE_WAVE_v0.93.md](RED_BLUE_ADVERSARIAL_SECURITY_ISSUE_WAVE_v0.93.md)
+  [RED_BLUE_ADVERSARIAL_SECURITY_ISSUE_WAVE_v0.93.md](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.93/RED_BLUE_ADVERSARIAL_SECURITY_ISSUE_WAVE_v0.93.md")
 
 ## Execution Model
 
@@ -191,7 +197,7 @@ Repository decomposition opens v0.93 after accepted v0.92.2 closure, before all 
 
 ## First-Pass Execution Map
 
-[Canonical graph](EXECUTION_PLAN_v0.93.json), [issue catalog](PLANNED_ISSUE_CATALOG_v0.93.md), [readiness](WP_EXECUTION_READINESS_v0.93.md), [quality gate](QUALITY_GATE_v0.93.md), [source accounting](TBD_SCHEDULING_RECONCILIATION_v0.93.md), [review](planning-review/REVIEW.md), and [successor handoff](NEXT_MILESTONE_HANDOFF_v0.93.md) complete this package. No GitHub milestone or issue wave has opened.
+[Canonical graph](EXECUTION_PLAN_v0.93.json), [issue catalog](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.93/PLANNED_ISSUE_CATALOG_v0.93.md"), [readiness](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.93/WP_EXECUTION_READINESS_v0.93.md"), [quality gate](QUALITY_GATE_v0.93.md), [source accounting](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.93/TBD_SCHEDULING_RECONCILIATION_v0.93.md"), [review](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.93/planning-review/REVIEW.md"), and [successor handoff](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.93/NEXT_MILESTONE_HANDOFF_v0.93.md") complete this package. No GitHub milestone or issue wave has opened.
 
 
 ## Confirmed scope reconciliation — #922
@@ -199,7 +205,7 @@ Repository decomposition opens v0.93 after accepted v0.92.2 closure, before all 
 The reconciled graph contains **83 candidate results**, including required
 CT-01–CT-10 branded artifact templates/style guides and CM-01–CM-04 citizen
 reproduction/migration. CT-05 gates CF-05; CM-04 gates INTEGRATE. All remain
-behind the accepted repository split. See [feature coverage](FEATURE_COVERAGE_v0.93.md)
+behind the accepted repository split. See [feature coverage](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.93/FEATURE_COVERAGE_v0.93.md")
 for all 21 inherited v0.93 feature rows and the two confirmed additions.
 
 #922 drafting is authorized early; accepted final #921 residuals and the final
@@ -210,4 +216,4 @@ deferred. Existing #875/#671 retain separate identities in the issue ledger.
 
 ## Sprint allocation — #922
 
-The [numbered sprint plan](SPRINT_v0.93.md) allocates all 83 core candidates across **8 proposed sprints**. Sprint 1 finishes and accept the repository split before feature work; CodeFriend Beta 1 launch is allocated to Sprint 4 and the release tail to Sprint 8. Existing #875/#671 keep separate identities and gated windows. Sprint numbering creates neither calendar commitments nor execution authority.
+The [numbered sprint plan](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.93/SPRINT_v0.93.md") allocates all 83 core candidates across **8 proposed sprints**. Sprint 1 finishes and accept the repository split before feature work; CodeFriend Beta 1 launch is allocated to Sprint 4 and the release tail to Sprint 8. Existing #875/#671 keep separate identities and gated windows. Sprint numbering creates neither calendar commitments nor execution authority.

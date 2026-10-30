@@ -13,12 +13,14 @@ These records remain useful as:
 They are not the current canonical issue-record surface for the active PR
 workflow.
 
-Current repo truth:
+Current workflow uses the authenticated installed C-SDLC owner package and its
+repository binding. Preparation state belongs in resolved Git metadata; native
+binding materializes cards only in the registered issue worktree. `.adl/` may
+hold local scratch/cache, but it is not a substitute for native lifecycle state.
+`docs/records/` remains only for explicitly tracked historical/public examples.
 
-- canonical issue/task execution records live under `.adl/`
-- `docs/records/` remains only for explicitly tracked historical/public examples
-- GitHub issues and PRs are integrations over that workflow rather than the
-  canonical record store
+See [current authority](../csdlc-v3/CURRENT_AUTHORITY.md),
+[the native workflow](../default_workflow.md) and [package manuals](../csdlc-v3/man/README.md).
 
 External reviewers should treat this directory as historical tracked proof, not
 as the live destination for new STP/SIP/SOR publication.

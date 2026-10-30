@@ -1,5 +1,11 @@
 # v0.91.6 Milestone README
 
+> Historical index: the original milestone text below retains its source-time
+> scope and status. Relocated links now lead to verified archive lookup, with
+> original paths retained in link titles; they do not imply current commands or
+> newly accepted outcomes. See [archive access and restoration](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/").
+
+
 ## Metadata
 
 - Milestone: `v0.91.6`
@@ -86,11 +92,11 @@ issue state by re-reading scattered issue threads or historical packets.
 Use these tracked sources as the current issue-truth surfaces:
 
 - Closed bridge umbrellas and retained review/closeout evidence:
-  [review/V0916_COMPLETED_SPRINT_RETAINED_EVIDENCE_MATRIX_4251.md](review/V0916_COMPLETED_SPRINT_RETAINED_EVIDENCE_MATRIX_4251.md)
+  [review/V0916_COMPLETED_SPRINT_RETAINED_EVIDENCE_MATRIX_4251.md](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.91.6/review/V0916_COMPLETED_SPRINT_RETAINED_EVIDENCE_MATRIX_4251.md")
 - Ordered open release-tail sequencing and wait-state policy:
-  [CLOSEOUT_TAIL_SPRINT_v0.91.6.md](CLOSEOUT_TAIL_SPRINT_v0.91.6.md)
+  [CLOSEOUT_TAIL_SPRINT_v0.91.6.md](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.91.6/CLOSEOUT_TAIL_SPRINT_v0.91.6.md")
 
-Use [review/V0916_RELEASE_AND_BRIDGE_DOC_TRUTH_CONSUMPTION_REVIEW_4522.md](review/V0916_RELEASE_AND_BRIDGE_DOC_TRUTH_CONSUMPTION_REVIEW_4522.md)
+Use [review/V0916_RELEASE_AND_BRIDGE_DOC_TRUTH_CONSUMPTION_REVIEW_4522.md](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.91.6/review/V0916_RELEASE_AND_BRIDGE_DOC_TRUTH_CONSUMPTION_REVIEW_4522.md")
 as the bounded audit of this consumption rule and the remaining manual
 boundary, not as a third current-state ledger.
 
@@ -133,7 +139,7 @@ complete its first-tranche `SOR` convergence slice within this milestone.
 account. It is not a `v0.92` activation surface and should not expand the
 birthday milestone. The account setup is operationally complete and the
 sanitized decision record is tracked at
-[review/AGENT_LOGIC_AWS_ACCOUNT_DECISION_RECORD_3902.md](review/AGENT_LOGIC_AWS_ACCOUNT_DECISION_RECORD_3902.md).
+[review/AGENT_LOGIC_AWS_ACCOUNT_DECISION_RECORD_3902.md](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.91.6/review/AGENT_LOGIC_AWS_ACCOUNT_DECISION_RECORD_3902.md").
 AWS Activate review and private credit visibility remain post-close external
 follow-up rather than blockers for `#3902` closeout.
 
@@ -177,32 +183,32 @@ Expected `v0.91.7` residuals:
 
 ## Document Map
 
-- Work breakdown: [WBS_v0.91.6.md](WBS_v0.91.6.md)
-- Vision: [VISION_v0.91.6.md](VISION_v0.91.6.md)
-- Design: [DESIGN_v0.91.6.md](DESIGN_v0.91.6.md)
-- Decisions: [DECISIONS_v0.91.6.md](DECISIONS_v0.91.6.md)
-- Sprint plan: [SPRINT_PLAN_v0.91.6.md](SPRINT_PLAN_v0.91.6.md)
-- Demo matrix: [DEMO_MATRIX_v0.91.6.md](DEMO_MATRIX_v0.91.6.md)
+- Work breakdown: [WBS_v0.91.6.md](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.91.6/WBS_v0.91.6.md")
+- Vision: [VISION_v0.91.6.md](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.91.6/VISION_v0.91.6.md")
+- Design: [DESIGN_v0.91.6.md](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.91.6/DESIGN_v0.91.6.md")
+- Decisions: [DECISIONS_v0.91.6.md](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.91.6/DECISIONS_v0.91.6.md")
+- Sprint plan: [SPRINT_PLAN_v0.91.6.md](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.91.6/SPRINT_PLAN_v0.91.6.md")
+- Demo matrix: [DEMO_MATRIX_v0.91.6.md](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.91.6/DEMO_MATRIX_v0.91.6.md")
 - Feature-doc index: [FEATURE_DOCS_v0.91.6.md](FEATURE_DOCS_v0.91.6.md)
-- Candidate issue wave: [WP_ISSUE_WAVE_v0.91.6.yaml](WP_ISSUE_WAVE_v0.91.6.yaml)
+- Candidate issue wave: [WP_ISSUE_WAVE_v0.91.6.yaml](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.91.6/WP_ISSUE_WAVE_v0.91.6.yaml")
 - Checklist: [MILESTONE_CHECKLIST_v0.91.6.md](MILESTONE_CHECKLIST_v0.91.6.md)
 - Release plan: [RELEASE_PLAN_v0.91.6.md](RELEASE_PLAN_v0.91.6.md)
 - Release notes: [RELEASE_NOTES_v0.91.6.md](RELEASE_NOTES_v0.91.6.md)
 - Review and validation checklist:
-  [REVIEW_AND_VALIDATION_CHECKLIST_v0.91.6.md](REVIEW_AND_VALIDATION_CHECKLIST_v0.91.6.md)
+  [REVIEW_AND_VALIDATION_CHECKLIST_v0.91.6.md](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.91.6/REVIEW_AND_VALIDATION_CHECKLIST_v0.91.6.md")
 - Feature directory index: [features/README.md](features/README.md)
 - Review packet:
-  [review/CSDLC_GITHUB_PROJECTION_CONVERGENCE_REVIEW_3935.md](review/CSDLC_GITHUB_PROJECTION_CONVERGENCE_REVIEW_3935.md)
+  [review/CSDLC_GITHUB_PROJECTION_CONVERGENCE_REVIEW_3935.md](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.91.6/review/CSDLC_GITHUB_PROJECTION_CONVERGENCE_REVIEW_3935.md")
 - Runtime AWS signal bridge design:
-  [review/runtime_aws_signal_bridge/RUNTIME_AWS_SIGNAL_BRIDGE_DESIGN_4294.md](review/runtime_aws_signal_bridge/RUNTIME_AWS_SIGNAL_BRIDGE_DESIGN_4294.md)
+  [review/runtime_aws_signal_bridge/RUNTIME_AWS_SIGNAL_BRIDGE_DESIGN_4294.md](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.91.6/review/runtime_aws_signal_bridge/RUNTIME_AWS_SIGNAL_BRIDGE_DESIGN_4294.md")
 - Runtime AWS heartbeat publisher proof:
-  [review/runtime_aws_signal_bridge/RUNTIME_AWS_HEARTBEAT_PUBLISHER_PROOF_4295.md](review/runtime_aws_signal_bridge/RUNTIME_AWS_HEARTBEAT_PUBLISHER_PROOF_4295.md)
+  [review/runtime_aws_signal_bridge/RUNTIME_AWS_HEARTBEAT_PUBLISHER_PROOF_4295.md](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.91.6/review/runtime_aws_signal_bridge/RUNTIME_AWS_HEARTBEAT_PUBLISHER_PROOF_4295.md")
 - Runtime ACIP-to-SNS bridge proof:
-  [review/runtime_aws_signal_bridge/RUNTIME_ACIP_SNS_BRIDGE_PROOF_4296.md](review/runtime_aws_signal_bridge/RUNTIME_ACIP_SNS_BRIDGE_PROOF_4296.md)
+  [review/runtime_aws_signal_bridge/RUNTIME_ACIP_SNS_BRIDGE_PROOF_4296.md](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.91.6/review/runtime_aws_signal_bridge/RUNTIME_ACIP_SNS_BRIDGE_PROOF_4296.md")
 - Runtime AWS signal bridge mini-sprint closeout:
-  [review/runtime_aws_signal_bridge/RUNTIME_AWS_SIGNAL_BRIDGE_MINI_SPRINT_CLOSEOUT_4325.md](review/runtime_aws_signal_bridge/RUNTIME_AWS_SIGNAL_BRIDGE_MINI_SPRINT_CLOSEOUT_4325.md)
+  [review/runtime_aws_signal_bridge/RUNTIME_AWS_SIGNAL_BRIDGE_MINI_SPRINT_CLOSEOUT_4325.md](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.91.6/review/runtime_aws_signal_bridge/RUNTIME_AWS_SIGNAL_BRIDGE_MINI_SPRINT_CLOSEOUT_4325.md")
 - Validation-tail A/B index:
-  [review/PVF_LONG_VALIDATION_LANE_INDEX_4223.md](review/PVF_LONG_VALIDATION_LANE_INDEX_4223.md)
+  [review/PVF_LONG_VALIDATION_LANE_INDEX_4223.md](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.91.6/review/PVF_LONG_VALIDATION_LANE_INDEX_4223.md")
 
 ## Non-Goals
 
@@ -223,6 +229,6 @@ Expected `v0.91.7` residuals:
 
 ## Closeout-tail sprint
 
-The standard milestone closeout tail for `v0.91.6` is tracked in [CLOSEOUT_TAIL_SPRINT_v0.91.6.md](CLOSEOUT_TAIL_SPRINT_v0.91.6.md). Use that file as the canonical ordered sprint surface for demo convergence, quality gate, review, remediation/preflight, next-milestone planning, and release ceremony sequencing.
+The standard milestone closeout tail for `v0.91.6` is tracked in [CLOSEOUT_TAIL_SPRINT_v0.91.6.md](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.91.6/CLOSEOUT_TAIL_SPRINT_v0.91.6.md"). Use that file as the canonical ordered sprint surface for demo convergence, quality gate, review, remediation/preflight, next-milestone planning, and release ceremony sequencing.
 
-Document-map addendum: [CLOSEOUT_TAIL_SPRINT_v0.91.6.md](CLOSEOUT_TAIL_SPRINT_v0.91.6.md) is part of the milestone planning and closeout packet set and should be read alongside the sprint plan, release plan, and review surfaces.
+Document-map addendum: [CLOSEOUT_TAIL_SPRINT_v0.91.6.md](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.91.6/CLOSEOUT_TAIL_SPRINT_v0.91.6.md") is part of the milestone planning and closeout packet set and should be read alongside the sprint plan, release plan, and review surfaces.

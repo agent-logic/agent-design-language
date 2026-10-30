@@ -104,7 +104,7 @@ Key current artifacts include:
 - `examples/freedom_gate_event.example.yaml` (alternative example)
 
 Historical and repo-wide reference materials live outside `adl-spec/`:
-- v0.2 schema draft history: `../docs/milestones/v0.2/ADL_v0.2_Schema_Extensions.md`
+- v0.2 schema draft history: [v0.2 schema draft history](../docs/archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.2/ADL_v0.2_Schema_Extensions.md")
 - repository license: `../LICENSE`
 
 ## Specification vs Runtime

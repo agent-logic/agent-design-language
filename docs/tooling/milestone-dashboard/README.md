@@ -1,7 +1,9 @@
-# Milestone Compression Dashboard
+# Historical milestone compression dashboard
 
-This directory contains a reusable static HTML dashboard for milestone
-compression visibility.
+This directory preserves a reusable static HTML dashboard and its historical
+v0.90.4 dataset. It is not a current sprint status page. Use the
+[roadmap](../../ROADMAP.md) and [v0.93.2 allocation](../../milestones/v0.93.2/README.md)
+for current planning and the relevant issue/PR evidence for live state.
 
 ## Purpose
 
@@ -28,21 +30,21 @@ Observatory authority, or human release ceremony.
 The bundled dataset is `v0.90.4`; it remains the historical snapshot mirrored
 in `data/v0.90.4.js` and refreshed from:
 
-- `docs/milestones/v0.90.4/README.md`
-- `docs/milestones/v0.90.4/WBS_v0.90.4.md`
-- `docs/milestones/v0.90.4/WP_ISSUE_WAVE_v0.90.4.yaml`
-- `docs/milestones/v0.90.4/MILESTONE_CHECKLIST_v0.90.4.md`
-- `docs/milestones/v0.90.4/RELEASE_PLAN_v0.90.4.md`
-- `docs/milestones/v0.90/milestone_compression/README.md`
-- `docs/milestones/v0.90/milestone_compression/CANONICAL_MILESTONE_STATE_v0.90.yaml`
-- `docs/milestones/v0.90/milestone_compression/DRIFT_CHECK_REPORT_v0.90.md`
-- `docs/milestones/v0.90/milestone_compression/FINISH_VALIDATION_PROFILES_v0.90.md`
+- [archived README.md](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.90.4/README.md")
+- [archived WBS_v0.90.4.md](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.90.4/WBS_v0.90.4.md")
+- [archived WP_ISSUE_WAVE_v0.90.4.yaml](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.90.4/WP_ISSUE_WAVE_v0.90.4.yaml")
+- [archived MILESTONE_CHECKLIST_v0.90.4.md](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.90.4/MILESTONE_CHECKLIST_v0.90.4.md")
+- [archived RELEASE_PLAN_v0.90.4.md](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.90.4/RELEASE_PLAN_v0.90.4.md")
+- [archived README.md](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.90/milestone_compression/README.md")
+- [archived CANONICAL_MILESTONE_STATE_v0.90.yaml](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.90/milestone_compression/CANONICAL_MILESTONE_STATE_v0.90.yaml")
+- [archived DRIFT_CHECK_REPORT_v0.90.md](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.90/milestone_compression/DRIFT_CHECK_REPORT_v0.90.md")
+- [archived FINISH_VALIDATION_PROFILES_v0.90.md](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.90/milestone_compression/FINISH_VALIDATION_PROFILES_v0.90.md")
 - a bounded read-only GitHub snapshot of the then-live v0.90.4 issue wave and
   PR posture taken at refresh time
 
-The active reviewer entry surface for the current milestone is now:
+The reviewer entrypoint selected at that historical refresh was:
 
-- `docs/milestones/v0.90.5/RELEASE_READINESS_v0.90.5.md`
+- [archived RELEASE_READINESS_v0.90.5.md](../../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.90.5/RELEASE_READINESS_v0.90.5.md")
 
 The same dataset also carries the #5500 WP-10A workcell operator snapshot under
 `workcellOperator`. That snapshot is versioned as
@@ -64,10 +66,11 @@ text.
 Unknown, stale, or unverifiable evidence must be marked unknown/stale rather
 than treated as green.
 
-## Refresh Rule
+## Refresh Rule (historical policy)
 
-Refresh the dashboard during WP-01 or the first milestone-compression
-readiness pass for each new milestone. At minimum, update:
+The original policy proposed refreshing during WP-01 or the first milestone-
+compression readiness pass. Any future reactivation needs a separately scoped
+current dataset and review. That update would include:
 
 - the current milestone data file under `data/`
 - the `<script src>` target in `index.html` when switching milestones
@@ -78,9 +81,8 @@ readiness pass for each new milestone. At minimum, update:
   dashboard contract changes
 
 The dashboard may remain static temporarily as a historical visibility surface,
-but it must not be mistaken for the active milestone truth once the current
-milestone has moved on. The next bounded dashboard refresh should either add a
-real `v0.90.5` dataset or explicitly archive this dashboard as historical.
+and is explicitly historical here. A future dataset must name its real target
+milestone; neither the retained snapshot nor a README edit establishes live status.
 
 ## Files
 

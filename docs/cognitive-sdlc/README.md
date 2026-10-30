@@ -1,6 +1,18 @@
-# Cognitive SDLC
+# Cognitive SDLC — historical design
 
-## Status
+## Current operations
+
+This directory preserves the v0.91.3/v0.91.4 design. Its Git-tracked workflow
+namespace and source-time implementation statements below are historical.
+Current lifecycle implementation belongs to
+[Cognitive-SDLC](https://github.com/agent-logic/cognitive-sdlc), through its
+authenticated installed owner package. Use [current authority](../csdlc-v3/CURRENT_AUTHORITY.md),
+the [native workflow](../default_workflow.md) and
+[paired package manuals](../csdlc-v3/man/README.md).
+Preparation uses resolved Git metadata; native binding materializes cards in the
+registered issue worktree. Do not recreate historical tracked record stores.
+
+## Historical status
 
 Tracked canonical documentation home for the Cognitive SDLC planning and
 workflow-state decisions that support `v0.91.3` and `v0.91.4`.
@@ -26,7 +38,7 @@ governance.
 ## Implementation Framing
 
 The general C-SDLC idea is portable, but this docs set describes the ADL
-implementation we are building in `v0.91.3` and `v0.91.4`.
+implementation being designed in `v0.91.3` and `v0.91.4`.
 
 For this implementation:
 
@@ -68,7 +80,7 @@ C-SDLC requires durable, replayable workflow state when records are needed for
 governance, review, closeout, release evidence, signed trace proof, or ObsMem
 ingestion. The general model does not require a specific storage backend.
 
-ADL's current implementation uses tracked Git state as the clearest substrate
+That historical ADL implementation proposed tracked Git state as the clearest substrate
 for observable workflow transitions because it is public to the repo,
 versioned, reviewable, and tied to the code and docs it governs.
 
@@ -76,7 +88,7 @@ Local `.adl/` state may remain for execution cache, staging, and machine-local
 helper files. It is not sufficient as the only authoritative home for durable
 C-SDLC truth.
 
-The target namespace for durable workflow records is:
+The historical target namespace for durable workflow records was:
 
 ```text
 docs/milestones/<version>/review/evidence/csdlc/

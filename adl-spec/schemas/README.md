@@ -8,12 +8,24 @@ spec docs.
 
 - `adl_constitution.yaml` — constitutional governance artifact for delegation/runtime planning
 - `freedom_gate_event.yaml` — Freedom Gate event schema
-- `uts/v1.0/universal_tool_schema.v1.schema.json` — current implemented UTS baseline schema
-- `uts/v1.1/universal_tool_schema.v1_1.schema.json` — additive UTS v1.1 schema target
-- `uts/v1.1/tool_invocation.v1_1.schema.json` — additive UTS invocation schema target
-- `acc/v1.0/adl_capability_contract.v1.schema.json` — current implemented ACC baseline schema
+- `uts/v1.0/universal_tool_schema.v1.schema.json` — supported UTS v1 declaration schema
+- `uts/v1.1/universal_tool_schema.v1_1.schema.json` — implemented UTS v1.1 declaration schema
+- `uts/v1.1/tool_invocation.v1_1.schema.json` — embedded UTS v1.1 invocation schema
+
+The UTS files here are compatibility mirrors of the verified upstream payload
+in [`adl-uts/resources/`](../../adl-uts/resources/), identified by its
+[resource pin](../../adl-uts/resources-pin.json). UTS owns the normative contract.
+The public package validates declarations and exposes the invocation schema for
+structural validation; neither establishes execution or replay permission.
+See [supported UTS contracts](../../docs/specs/uts/README.md).
+
+ACC specification surfaces:
+
+- `acc/v1.0/adl_capability_contract.v1.schema.json` — ACC v1.0 specification baseline
 - `acc/v1.1/adl_capability_contract.v1_1.schema.json` — additive ACC v1.1 schema target
-- future schema artifacts for ADL language versions
+
+ACC enforcement belongs to the separately installed Runtime owner. The presence
+of either ACC schema does not establish installed Runtime support or qualification.
 
 ## See Also / Canonical Docs
 

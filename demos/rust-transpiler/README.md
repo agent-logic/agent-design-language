@@ -21,7 +21,7 @@ skeleton, and one explicit path to deterministic verification in `#703`.
    - `demos/rust-transpiler/output/workflow_runtime.rs`
 4. Verification evidence surface
    - `demos/rust-transpiler/output/transpiler_verification.v0.8.json`
-   - `docs/milestones/v0.8/RUST_TRANSPILER_VERIFICATION_V0.8.md`
+   - [archived v0.8 verification plan](../../docs/archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.8/RUST_TRANSPILER_VERIFICATION_V0.8.md")
 5. This explainer
    - `demos/rust-transpiler/README.md`
 
