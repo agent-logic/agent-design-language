@@ -1152,4 +1152,3 @@ Runtime/#1352 v0.93.3; tooling plus GOV-01/02/03/11 and CM-01..04 v0.93.4; GHB v
 - Evidence: Bounded working integration with declared success criteria or an explicit defer/drop decision. Historical source references retained; current owner/installed acceptance not requalified by #1407.
 - Remaining work / disposition: Optional Zed cannot replace the required portable web-editor baseline or remain an ambiguous must-have.
 - Original row: FEATURE_BASELINE_1407.json, source line 348; original status and evidence are preserved exactly.
-
