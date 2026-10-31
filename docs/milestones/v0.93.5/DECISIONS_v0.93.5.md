@@ -2,11 +2,11 @@
 
 ## Metadata
 
-Planning template set: 1.1.0. Milestone: v0.93.5. Date: 2026-10-30. Setup issue: [#1403](https://github.com/agent-logic/agent-design-language/issues/1403). Planning owner: Planning #12. Implementation owners assigned at sprint activation.
+Planning template set: 1.1.0. Milestone: v0.93.5. Date: 2026-10-30. Setup amendment: [#1405](https://github.com/agent-logic/agent-design-language/issues/1405). Planning owner: Planning #12; implementation owners assigned at sprint activation.
 
 ## Purpose
 
-GHB and required continuity foundations. 25 planned work-package identities across 3 dependency waves. Counts include coordination/review/release gates; no one-PR-per-row requirement. GHB retains the eight required standing/delegation and citizen-migration/reproduction prerequisite packages; all broader cognitive work moves to v0.93.6.
+GHB. 17 planned work-package identities across 3 dependency waves. Counts include coordination/review/release gates; no one-PR-per-row requirement. Hand off accepted GHB interfaces to [governance v0.93.6](../v0.93.6/README.md) and later [affect/humour v0.93.7](../v0.93.7/README.md); neither is a GHB baseline dependency.
 
 ## How To Use
 
@@ -14,11 +14,11 @@ Read the WBS and execution graph together; qualified milestone/ID pairs are iden
 
 ## Decision Log
 
-2026-10-30: operator approved the four-milestone sequence, retained #1352 in v0.93.3 and placed GHB in v0.93.5 and the remaining governance/affect/humour in v0.93.6. [Lossless register](../v0.93.3/REALLOCATION_1403.json). Scope is approved; detailed design, implementation activation and release are not.
+2026-10-30: operator approved #1405 balancing amendment. [Current lossless register](../v0.93.3/REALLOCATION_1405.json). Original #1296 and #1403 registers remain provenance. Scope approved; implementation, installed acceptance and release are not.
 
 ## Open Questions
 
-Named owners, exact accepted artifact locksets and sprint issue creation at activation. C-SDLC v4 measurements determine removals and compatibility mechanism. Review future sprint sizing and prerequisite acceptance before activation.
+Assign owners and exact accepted inputs at sprint activation. Measure C-SDLC removals/compatibility before implementation; retain existing privacy and recovery acceptance.
 
 ## Exit Criteria
 

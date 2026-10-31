@@ -2,7 +2,7 @@
 
 ## Metadata
 
-Planning template set: 1.1.0. Milestone: v0.93.4. Date: 2026-10-30. Setup issue: [#1403](https://github.com/agent-logic/agent-design-language/issues/1403). Planning owner: Planning #12. Implementation owners assigned at sprint activation.
+Planning template set: 1.1.0. Milestone: v0.93.4. Date: 2026-10-30. Setup amendment: [#1405](https://github.com/agent-logic/agent-design-language/issues/1405). Planning owner: Planning #12; implementation owners assigned at sprint activation.
 
 ## How To Use
 
@@ -10,11 +10,11 @@ Read the WBS and execution graph together; qualified milestone/ID pairs are iden
 
 ## Summary
 
-C-SDLC v4 simplification. 9 planned work-package identities across 3 dependency waves. Counts include coordination/review/release gates; no one-PR-per-row requirement. Package boundaries are first-pass design proposals under the approved C-SDLC v4 scope; validate them against actual workflow measurements.
+C-SDLC v4 and governance/continuity foundations. 17 planned work-package identities across 4 dependency waves. Counts include coordination/review/release gates; no one-PR-per-row requirement. Hand off both accepted tooling compatibility and installed governance/continuity foundations to [GHB v0.93.5](../v0.93.5/README.md). Tool cutover alone does not accept foundation consumers.
 
 ## Highlights
 
-C-SDLC v4 simplification. 9 planned work-package identities across 3 dependency waves. Counts include coordination/review/release gates; no one-PR-per-row requirement. Package boundaries are first-pass design proposals under the approved C-SDLC v4 scope; validate them against actual workflow measurements.
+C-SDLC v4 and governance/continuity foundations. 17 planned work-package identities across 4 dependency waves. Counts include coordination/review/release gates; no one-PR-per-row requirement. Hand off both accepted tooling compatibility and installed governance/continuity foundations to [GHB v0.93.5](../v0.93.5/README.md). Tool cutover alone does not accept foundation consumers.
 
 ## What's New In Detail
 
@@ -25,12 +25,20 @@ Planned scope only:
 | WP-01 | 1 | cognitive-sdlc | Approve one bounded issue-to-delivery workflow and measurable overhead/compatibility denominator before implementation. | v0.93.3/FOUNDATION-CLOSE |
 | CS4-01 | 1 | cognitive-sdlc | Map create/start, implementation/proof, review, publish/deliver and optional closeout to source-backed sequence diagrams; measure wall/internal/external-tool/network time and identify steps to remove. | WP-01 |
 | CS4-02 | 1 | cognitive-sdlc | One editable issue source, one canonical installation, minimal command transitions and precise remote identity replace duplicate projections/attestations/receipts. Define bounded recovery and explicit compatibility; retain only independently justified integrity checks. | CS4-01 |
-| CS4-03 | 2 | cognitive-sdlc | Prototype ordinary operations and interrupted recovery against the approved denominator; demonstrate whether each sample stays below 30 seconds internal overhead and a ten-operation path below 300 seconds, reporting cold/warm and external costs separately. | CS4-02 |
+| CS4-03 | 1 | cognitive-sdlc | Prototype ordinary operations and interrupted recovery against the approved denominator; demonstrate whether each sample stays below 30 seconds internal overhead and a ten-operation path below 300 seconds, reporting cold/warm and external costs separately. | CS4-02 |
 | CS4-04 | 2 | cognitive-sdlc | Read existing v3 issue/proof/review state without rewriting history; preserve exact repository/issue/head and uncertain-effect recovery. Prove rollback and a staged cutover with one canonical installed tool set; no automatic authority fallback. | CS4-03 |
-| CS4-05 | 3 | cognitive-sdlc | Implement only the reviewed workflow with changed-input validation and reusable proof/review, no repeated binary hashing or duplicate builds/CI, and asynchronous optional administrative closeout. Prove supported native macOS/Linux behavior. | CS4-04 |
-| CS4-06 | 3 | cognitive-sdlc | Independent installed end-to-end acceptance covers creation through delivery, metadata-only edits, unchanged proof reuse, conflicts, lost/uncertain responses, crash recovery and optional cleanup. Every ordinary sample meets the internal-overhead goals; failed or ambiguous effects are not silently replayed. | CS4-05 |
-| REVIEW | 3 | cognitive-sdlc | Resolve actionable correctness, compatibility and performance findings once on the final candidate; no extra attestation/receipt campaign. | CS4-06 |
-| RELEASE | 3 | cognitive-sdlc | Obtain explicit operator cutover decision, preserve recoverable v3 state, then record one canonical admitted installation and the supported migration/rollback outcome. No cutover is authorized by this plan. | REVIEW |
+| CS4-05 | 2 | cognitive-sdlc | Implement only the reviewed workflow with changed-input validation and reusable proof/review, no repeated binary hashing or duplicate builds/CI, and asynchronous optional administrative closeout. Prove supported native macOS/Linux behavior. | CS4-04 |
+| CS4-06 | 2 | cognitive-sdlc | Independent installed end-to-end acceptance covers creation through delivery, metadata-only edits, unchanged proof reuse, conflicts, lost/uncertain responses, crash recovery and optional cleanup. Every ordinary sample meets the internal-overhead goals; failed or ambiguous effects are not silently replayed. | CS4-05 |
+| REVIEW | 4 | cognitive-sdlc | Resolve actionable tooling correctness, compatibility/performance and installed governance/continuity findings on the exact accepted candidates, reusing unchanged proof. | CS4-06, CM-04 |
+| RELEASE | 4 | cognitive-sdlc | Obtain explicit operator cutover decision, preserve recoverable v3 state, then record one canonical admitted installation and the supported migration/rollback outcome. No cutover is authorized by this plan. | REVIEW |
+| GOV-01 | 3 | agent-logic-runtime | Runtime admits citizen conduct only through bound identity, Freedom Gate and signed trace; guest/operator action remains distinct. | v0.93.3/RV-08, WP-01 |
+| GOV-02 | 3 | agent-logic-runtime | A Runtime policy evaluator returns rights/duties decisions with trace evidence for a bounded action. | GOV-01 |
+| GOV-03 | 3 | agent-logic-runtime | Standing maintenance, restriction, restoration and revocation consume existing state primitives and retain reasons and challenge context. | GOV-02 |
+| GOV-11 | 3 | agent-logic-runtime | Delegated action binds identity, standing, resource, capability and policy without exceeding the delegator grant. | GOV-03 |
+| CM-01 | 3 | agent-logic-runtime | A reviewed contract distinguishes same-identity migration and recovery from new-identity descendants, replication and independent clones; it defines authority, lineage, consent, state inheritance, fencing and recovery outcomes. | v0.93.3/RV-08, GOV-01 |
+| CM-02 | 3 | agent-logic-runtime | Two owned Runtime endpoints transfer one authorized citizen checkpoint and scoped continuity evidence; the source is fenced before destination activation and interruption can recover without two active holders or lost lineage. | CM-01, v0.93.2/WP-S3 |
+| CM-03 | 3 | agent-logic-runtime | An authorized parent creates one distinctly identified descendant with explicit lineage, selected inherited state and newly scoped authority while preserving the parent and protecting private state. | CM-01, GOV-11, v0.93.2/WP-S5 |
+| CM-04 | 3 | agent-logic-runtime | Independent installed scenarios exercise migration and descendant creation across restart, interruption and retry, verify lineage/privacy/fencing and expose the resulting identity and custody status to the operator. | CM-02, CM-03 |
 
 ## Upgrade Notes
 
@@ -38,7 +46,7 @@ No released implementation is produced here. Later delivery must document suppor
 
 ## Known Limitations
 
-First-pass successor plan; scope allocation is not implementation or release acceptance. No child implementation, provider/cloud spend, deployment, Runtime restart, shared-binary replacement, tag or release is authorized by this planning package. Create child issues/cards per sprint at activation; preserve native C-SDLC v3 authority until a separately accepted compatibility cutover.
+First-pass successor plan; not opened for implementation or release. Planning only. No child implementation, provider/cloud spend, deployment, Runtime restart, shared-binary replacement, tag or release is authorized. Create child issues/cards per activated sprint; current authenticated C-SDLC remains authority until separately accepted cutover.
 
 ## Validation Notes
 

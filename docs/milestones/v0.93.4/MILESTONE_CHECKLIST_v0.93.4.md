@@ -2,11 +2,11 @@
 
 ## Metadata
 
-Planning template set: 1.1.0. Milestone: v0.93.4. Date: 2026-10-30. Setup issue: [#1403](https://github.com/agent-logic/agent-design-language/issues/1403). Planning owner: Planning #12. Implementation owners assigned at sprint activation.
+Planning template set: 1.1.0. Milestone: v0.93.4. Date: 2026-10-30. Setup amendment: [#1405](https://github.com/agent-logic/agent-design-language/issues/1405). Planning owner: Planning #12; implementation owners assigned at sprint activation.
 
 ## Purpose
 
-C-SDLC v4 simplification. 9 planned work-package identities across 3 dependency waves. Counts include coordination/review/release gates; no one-PR-per-row requirement. Package boundaries are first-pass design proposals under the approved C-SDLC v4 scope; validate them against actual workflow measurements.
+C-SDLC v4 and governance/continuity foundations. 17 planned work-package identities across 4 dependency waves. Counts include coordination/review/release gates; no one-PR-per-row requirement. Hand off both accepted tooling compatibility and installed governance/continuity foundations to [GHB v0.93.5](../v0.93.5/README.md). Tool cutover alone does not accept foundation consumers.
 
 ## Planning
 

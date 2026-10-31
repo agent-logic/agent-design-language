@@ -83,7 +83,7 @@
       ],
       "pvf": "tooling_contract",
       "source": "features/CSDLC_V4_WORKFLOW_v0.93.4.md",
-      "sprint": 2,
+      "sprint": 1,
       "status": "planned",
       "wp": "CS4-03",
       "outcome": "Prototype ordinary operations and interrupted recovery against the approved denominator; demonstrate whether each sample stays below 30 seconds internal overhead and a ten-operation path below 300 seconds, reporting cold/warm and external costs separately."
@@ -127,7 +127,7 @@
       ],
       "pvf": "tooling_contract",
       "source": "features/CSDLC_V4_WORKFLOW_v0.93.4.md",
-      "sprint": 3,
+      "sprint": 2,
       "status": "planned",
       "wp": "CS4-05",
       "outcome": "Implement only the reviewed workflow with changed-input validation and reusable proof/review, no repeated binary hashing or duplicate builds/CI, and asynchronous optional administrative closeout. Prove supported native macOS/Linux behavior."
@@ -149,16 +149,17 @@
       ],
       "pvf": "tooling_contract",
       "source": "features/CSDLC_V4_WORKFLOW_v0.93.4.md",
-      "sprint": 3,
+      "sprint": 2,
       "status": "planned",
       "wp": "CS4-06",
       "outcome": "Independent installed end-to-end acceptance covers creation through delivery, metadata-only edits, unchanged proof reuse, conflicts, lost/uncertain responses, crash recovery and optional cleanup. Every ordinary sample meets the internal-overhead goals; failed or ambiguous effects are not silently replayed."
     },
     {
-      "title": "Review the installed C-SDLC v4 candidate",
+      "title": "Review tooling and foundation candidates",
       "repository": "cognitive-sdlc",
       "depends_on": [
-        "CS4-06"
+        "CS4-06",
+        "CM-04"
       ],
       "acceptance": [
         "Resolve actionable correctness, compatibility and performance findings once on the final candidate; no extra attestation/receipt campaign."
@@ -169,10 +170,10 @@
       ],
       "pvf": "planning_contract",
       "source": "README.md",
-      "sprint": 3,
+      "sprint": 4,
       "status": "planned",
       "wp": "REVIEW",
-      "outcome": "Resolve actionable correctness, compatibility and performance findings once on the final candidate; no extra attestation/receipt campaign."
+      "outcome": "Resolve actionable tooling correctness, compatibility/performance and installed governance/continuity findings on the exact accepted candidates, reusing unchanged proof."
     },
     {
       "title": "Accept compatibility cutover and handoff",
@@ -181,7 +182,8 @@
         "REVIEW"
       ],
       "acceptance": [
-        "Obtain explicit operator cutover decision, preserve recoverable v3 state, then record one canonical admitted installation and the supported migration/rollback outcome. No cutover is authorized by this plan."
+        "Obtain explicit operator cutover decision, preserve recoverable v3 state, then record one canonical admitted installation and the supported migration/rollback outcome. No cutover is authorized by this plan.",
+        "Accept GOV-01/02/03/11 and CM-01..04 installed outcomes before GHB activation; C-SDLC cutover alone does not accept these foundations."
       ],
       "negative_cases": [
         "Missing predecessor acceptance",
@@ -189,41 +191,241 @@
       ],
       "pvf": "planning_contract",
       "source": "README.md",
-      "sprint": 3,
+      "sprint": 4,
       "status": "planned",
       "wp": "RELEASE",
       "outcome": "Obtain explicit operator cutover decision, preserve recoverable v3 state, then record one canonical admitted installation and the supported migration/rollback outcome. No cutover is authorized by this plan."
+    },
+    {
+      "title": "Enforce citizen and guest actor boundaries",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "v0.93.3/RV-08",
+        "WP-01"
+      ],
+      "acceptance": [
+        "Runtime admits citizen conduct only through bound identity, Freedom Gate and signed trace; guest/operator action remains distinct.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings.",
+        "Installed cognitive-loop and instinct-originated actions traverse bound identity, Freedom Gate and temporal anchoring; guest or stale identity cannot acquire citizen authority."
+      ],
+      "negative_cases": [
+        "Guest impersonates citizen",
+        "Instinct bypasses governance",
+        "Missing or inconsistent temporal anchor"
+      ],
+      "pvf": "installed_integration",
+      "source": "features/CITIZENSHIP_RIGHTS_DUTIES_AND_SOCIAL_CONTRACT_v0.93.2.md",
+      "sprint": 3,
+      "status": "planned",
+      "wp": "GOV-01",
+      "outcome": "Runtime admits citizen conduct only through bound identity, Freedom Gate and signed trace; guest/operator action remains distinct."
+    },
+    {
+      "title": "Evaluate trace-grounded rights and duties",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GOV-01"
+      ],
+      "acceptance": [
+        "A Runtime policy evaluator returns rights/duties decisions with trace evidence for a bounded action.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Evidence-free verdict"
+      ],
+      "pvf": "installed_integration",
+      "source": "features/CITIZENSHIP_RIGHTS_DUTIES_AND_SOCIAL_CONTRACT_v0.93.2.md",
+      "sprint": 3,
+      "status": "planned",
+      "wp": "GOV-02",
+      "outcome": "A Runtime policy evaluator returns rights/duties decisions with trace evidence for a bounded action."
+    },
+    {
+      "title": "Apply evidence-backed standing transitions",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GOV-02"
+      ],
+      "acceptance": [
+        "Standing maintenance, restriction, restoration and revocation consume existing state primitives and retain reasons and challenge context.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Unexplained restriction",
+        "Restoration loses history"
+      ],
+      "pvf": "installed_integration",
+      "source": "features/DELEGATION_IAM_STANDING_AND_APPEAL_GOVERNANCE_v0.93.2.md",
+      "sprint": 3,
+      "status": "planned",
+      "wp": "GOV-03",
+      "outcome": "Standing maintenance, restriction, restoration and revocation consume existing state primitives and retain reasons and challenge context."
+    },
+    {
+      "title": "Enforce delegated action authority",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GOV-03"
+      ],
+      "acceptance": [
+        "Delegated action binds identity, standing, resource, capability and policy without exceeding the delegator grant.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings.",
+        "A bounded remote action accepts a current scoped delegation and rejects refusal, revocation and replay without applying the action twice."
+      ],
+      "negative_cases": [
+        "Overbroad delegation",
+        "Revoked grant",
+        "Remote replay duplicates effect",
+        "Remote refusal ignored"
+      ],
+      "pvf": "installed_integration",
+      "source": "features/DELEGATION_IAM_STANDING_AND_APPEAL_GOVERNANCE_v0.93.2.md",
+      "sprint": 3,
+      "status": "planned",
+      "wp": "GOV-11",
+      "outcome": "Delegated action binds identity, standing, resource, capability and policy without exceeding the delegator grant."
+    },
+    {
+      "title": "Accept citizen migration and descendant identity contracts",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "v0.93.3/RV-08",
+        "GOV-01"
+      ],
+      "acceptance": [
+        "A reviewed contract distinguishes same-identity migration and recovery from new-identity descendants, replication and independent clones; it defines authority, lineage, consent, state inheritance, fencing and recovery outcomes.",
+        "Independent design review checks the enumerated success, denial and recovery examples against the contract; implementation and installed scenario counts belong to downstream results."
+      ],
+      "negative_cases": [
+        "Copy treated as same active identity",
+        "Implicit grant inheritance",
+        "Ambiguous ownership during transfer"
+      ],
+      "pvf": "planning_contract",
+      "source": "features/CITIZEN_REPRODUCTION_AND_MIGRATION_v0.93.2.md",
+      "sprint": 3,
+      "status": "planned",
+      "wp": "CM-01",
+      "outcome": "A reviewed contract distinguishes same-identity migration and recovery from new-identity descendants, replication and independent clones; it defines authority, lineage, consent, state inheritance, fencing and recovery outcomes."
+    },
+    {
+      "title": "Migrate one citizen without conflicting active identity",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "CM-01",
+        "v0.93.2/WP-S3"
+      ],
+      "acceptance": [
+        "Two owned Runtime endpoints transfer one authorized citizen checkpoint and scoped continuity evidence; the source is fenced before destination activation and interruption can recover without two active holders or lost lineage.",
+        "Exact versioned inputs and actual positive, denial and recovery scenario counts are retained; independent review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Stale or replayed transfer",
+        "Unauthorized destination",
+        "Interrupted handover",
+        "Source continues after destination activation",
+        "Wrong key or corrupt checkpoint"
+      ],
+      "pvf": "installed_integration",
+      "source": "features/CITIZEN_REPRODUCTION_AND_MIGRATION_v0.93.2.md",
+      "sprint": 3,
+      "status": "planned",
+      "wp": "CM-02",
+      "outcome": "Two owned Runtime endpoints transfer one authorized citizen checkpoint and scoped continuity evidence; the source is fenced before destination activation and interruption can recover without two active holders or lost lineage."
+    },
+    {
+      "title": "Create a governed descendant with distinct identity",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "CM-01",
+        "GOV-11",
+        "v0.93.2/WP-S5"
+      ],
+      "acceptance": [
+        "An authorized parent creates one distinctly identified descendant with explicit lineage, selected inherited state and newly scoped authority while preserving the parent and protecting private state.",
+        "Exact versioned inputs and actual positive, denial and recovery scenario counts are retained; independent review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Unauthorized cloning",
+        "Duplicate descendant on retry",
+        "Private state inherited without scope",
+        "Parent standing or credentials copied as authority"
+      ],
+      "pvf": "installed_integration",
+      "source": "features/CITIZEN_REPRODUCTION_AND_MIGRATION_v0.93.2.md",
+      "sprint": 3,
+      "status": "planned",
+      "wp": "CM-03",
+      "outcome": "An authorized parent creates one distinctly identified descendant with explicit lineage, selected inherited state and newly scoped authority while preserving the parent and protecting private state."
+    },
+    {
+      "title": "Qualify citizen migration and reproduction recovery",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "CM-02",
+        "CM-03"
+      ],
+      "acceptance": [
+        "Independent installed scenarios exercise migration and descendant creation across restart, interruption and retry, verify lineage/privacy/fencing and expose the resulting identity and custody status to the operator.",
+        "Exact versioned inputs and actual positive, denial and recovery scenario counts are retained; independent review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Split-brain identity",
+        "Orphaned in-transit custody",
+        "Silent lineage loss",
+        "Retry creates extra descendant"
+      ],
+      "pvf": "installed_integration",
+      "source": "features/CITIZEN_REPRODUCTION_AND_MIGRATION_v0.93.2.md",
+      "sprint": 3,
+      "status": "planned",
+      "wp": "CM-04",
+      "outcome": "Independent installed scenarios exercise migration and descendant creation across restart, interruption and retry, verify lineage/privacy/fencing and expose the resulting identity and custody status to the operator."
     }
   ],
   "sprint_plan": {
     "status": "prepared_planning_only",
-    "sprint_count": 3,
-    "sizing": "Dependency waves, not dates or staffing commitments.",
-    "execution_rule": "No child execution in #1403. Bind only the next admitted owner issue after activation.",
+    "sprint_count": 4,
+    "sizing": "Dependency waves, not staffing/calendar promises. Disjoint foundations and tooling may proceed in parallel after WP-01; sprint numbering is a conservative dependency allocation, not a forced serial schedule.",
+    "execution_rule": "No child execution by setup #1405; create issues/cards only per activated sprint.",
     "sprints": [
       {
         "number": 1,
-        "title": "Workflow and design",
+        "title": "Tooling design and prototype",
         "work_packages": [
           "WP-01",
           "CS4-01",
-          "CS4-02"
+          "CS4-02",
+          "CS4-03"
         ]
       },
       {
         "number": 2,
-        "title": "Prototype and compatibility",
+        "title": "Tooling compatibility and native delivery",
         "work_packages": [
-          "CS4-03",
-          "CS4-04"
+          "CS4-04",
+          "CS4-05",
+          "CS4-06"
         ]
       },
       {
         "number": 3,
-        "title": "Implementation, qualification and handoff",
+        "title": "Governance and continuity foundations",
         "work_packages": [
-          "CS4-05",
-          "CS4-06",
+          "GOV-01",
+          "GOV-02",
+          "GOV-03",
+          "GOV-11",
+          "CM-01",
+          "CM-02",
+          "CM-03",
+          "CM-04"
+        ]
+      },
+      {
+        "number": 4,
+        "title": "Independent acceptance and handoff",
+        "work_packages": [
           "REVIEW",
           "RELEASE"
         ]
@@ -238,8 +440,8 @@
     "v0.93.2/WP-S5": "Accepted v0.93.2 consumer contract and evidence, not inferred from planning."
   },
   "successor_scope_amendment": {
-    "decision": "../v0.93.3/REORGANIZATION_1403.md",
-    "allocation": "../v0.93.3/REALLOCATION_1403.json"
+    "decision": "../v0.93.3/REORGANIZATION_1405.md",
+    "allocation": "../v0.93.3/REALLOCATION_1405.json"
   },
   "existing_issue_routing": [],
   "version": "v0.93.4",

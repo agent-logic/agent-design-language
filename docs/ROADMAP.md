@@ -21,14 +21,15 @@ it is not a new product release or a replacement for the existing sprint plan.
 
 ## Approved successor sequence — 2026-10-30
 
-| Milestone | Planned scope | Setup posture |
+| Milestone | Scope | Planned WPs |
 | --- | --- | --- |
-| [v0.93.3](milestones/v0.93.3/README.md) | Runtime v4 foundations; 15 work-package identities | Prepared plan; implementation not started |
-| [v0.93.4](milestones/v0.93.4/README.md) | C-SDLC v4 simplification; 9 work-package identities | First-pass plan |
-| [v0.93.5](milestones/v0.93.5/README.md) | GHB and required continuity foundations; 25 work-package identities | First-pass plan |
-| [v0.93.6](milestones/v0.93.6/README.md) | Governance, affect and humour; 38 work-package identities | First-pass plan |
+| [v0.93.3](milestones/v0.93.3/README.md) | Runtime v4 foundations | 15 |
+| [v0.93.4](milestones/v0.93.4/README.md) | C-SDLC v4 and governance/continuity foundations | 17 |
+| [v0.93.5](milestones/v0.93.5/README.md) | GHB | 17 |
+| [v0.93.6](milestones/v0.93.6/README.md) | Governance and social cognition | 17 |
+| [v0.93.7](milestones/v0.93.7/README.md) | Affect and humour | 25 |
 
-[Decision and lossless routing](milestones/v0.93.3/REORGANIZATION_1403.md). GHB retains its eight existing standing/continuity prerequisite packages in v0.93.5; broader governance stays in v0.93.6. Counts include setup/review/release gates and existing carryovers, not one implementation project or PR per row. Create child issues/cards per sprint; container packaging remains deferred. Planning does not authorize implementation, deployment or release.
+[Current allocation and lossless routing](milestones/v0.93.3/REORGANIZATION_1405.md). Eight foundations move ahead of GHB; remaining governance and affect/humour have independent milestone boundaries. Counts include setup/review/release gates. Child issues/cards are created per activated sprint; planning authorizes no implementation or release.
 
 ## Milestone index
 

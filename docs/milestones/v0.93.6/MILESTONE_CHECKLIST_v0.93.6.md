@@ -2,11 +2,11 @@
 
 ## Metadata
 
-Planning template set: 1.1.0. Milestone: v0.93.6. Date: 2026-10-30. Setup issue: [#1403](https://github.com/agent-logic/agent-design-language/issues/1403). Planning owner: Planning #12. Implementation owners assigned at sprint activation.
+Planning template set: 1.1.0. Milestone: v0.93.6. Date: 2026-10-30. Setup amendment: [#1405](https://github.com/agent-logic/agent-design-language/issues/1405). Planning owner: Planning #12; implementation owners assigned at sprint activation.
 
 ## Purpose
 
-Governance, affect and humour. 38 planned work-package identities across 4 dependency waves. Counts include coordination/review/release gates; no one-PR-per-row requirement. Remaining governance and all twelve affect/humour packages follow the accepted GHB baseline. Original integration/qualification and ten tail identities remain here.
+Governance and social cognition. 17 planned work-package identities across 2 dependency waves. Counts include coordination/review/release gates; no one-PR-per-row requirement. Use GOV-CLOSE to hand off independently accepted governance interfaces and limitations to [affect/humour v0.93.7](../v0.93.7/README.md). Governance can complete before affect/humour exists.
 
 ## Planning
 

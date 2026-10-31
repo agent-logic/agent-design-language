@@ -2,15 +2,15 @@
 
 ## Status
 
-First-pass successor plan; scope allocation is not implementation or release acceptance. No child implementation, provider/cloud spend, deployment, Runtime restart, shared-binary replacement, tag or release is authorized by this planning package. Create child issues/cards per sprint at activation; preserve native C-SDLC v3 authority until a separately accepted compatibility cutover.
+First-pass successor plan; not opened for implementation or release. Planning only. No child implementation, provider/cloud spend, deployment, Runtime restart, shared-binary replacement, tag or release is authorized. Create child issues/cards per activated sprint; current authenticated C-SDLC remains authority until separately accepted cutover.
 
 ## Metadata
 
-Planning template set: 1.1.0. Milestone: v0.93.5. Date: 2026-10-30. Setup issue: [#1403](https://github.com/agent-logic/agent-design-language/issues/1403). Planning owner: Planning #12. Implementation owners assigned at sprint activation.
+Planning template set: 1.1.0. Milestone: v0.93.5. Date: 2026-10-30. Setup amendment: [#1405](https://github.com/agent-logic/agent-design-language/issues/1405). Planning owner: Planning #12; implementation owners assigned at sprint activation.
 
 ## Purpose
 
-GHB and required continuity foundations. 25 planned work-package identities across 3 dependency waves. Counts include coordination/review/release gates; no one-PR-per-row requirement. GHB retains the eight required standing/delegation and citizen-migration/reproduction prerequisite packages; all broader cognitive work moves to v0.93.6.
+GHB. 17 planned work-package identities across 3 dependency waves. Counts include coordination/review/release gates; no one-PR-per-row requirement. Hand off accepted GHB interfaces to [governance v0.93.6](../v0.93.6/README.md) and later [affect/humour v0.93.7](../v0.93.7/README.md); neither is a GHB baseline dependency.
 
 ## How To Use
 
@@ -18,7 +18,7 @@ Read the WBS and execution graph together; qualified milestone/ID pairs are iden
 
 ## Scope
 
-GHB and required continuity foundations. 25 planned work-package identities across 3 dependency waves. Counts include coordination/review/release gates; no one-PR-per-row requirement. GHB retains the eight required standing/delegation and citizen-migration/reproduction prerequisite packages; all broader cognitive work moves to v0.93.6.
+GHB. 17 planned work-package identities across 3 dependency waves. Counts include coordination/review/release gates; no one-PR-per-row requirement. Hand off accepted GHB interfaces to [governance v0.93.6](../v0.93.6/README.md) and later [affect/humour v0.93.7](../v0.93.7/README.md); neither is a GHB baseline dependency.
 
 ## Runtime Preconditions
 
@@ -28,15 +28,7 @@ Use the exact owner-qualified installed candidate and accepted configuration for
 
 | WP | Acceptance / proof | Adverse cases |
 | --- | --- | --- |
-| WP-01 | The complete installed GHB contract and its required standing/delegation and migration/reproduction prerequisites remain required.; Broader governance, affect and humour are planned in v0.93.6, not GHB baseline dependencies. | Missing predecessor acceptance; Unsupported completion claim |
-| GOV-01 | Runtime admits citizen conduct only through bound identity, Freedom Gate and signed trace; guest/operator action remains distinct.; Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings.; Installed cognitive-loop and instinct-originated actions traverse bound identity, Freedom Gate and temporal anchoring; guest or stale identity cannot acquire citizen authority. | Guest impersonates citizen; Instinct bypasses governance; Missing or inconsistent temporal anchor |
-| GOV-02 | A Runtime policy evaluator returns rights/duties decisions with trace evidence for a bounded action.; Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings. | Evidence-free verdict |
-| GOV-03 | Standing maintenance, restriction, restoration and revocation consume existing state primitives and retain reasons and challenge context.; Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings. | Unexplained restriction; Restoration loses history |
-| GOV-11 | Delegated action binds identity, standing, resource, capability and policy without exceeding the delegator grant.; Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings.; A bounded remote action accepts a current scoped delegation and rejects refusal, revocation and replay without applying the action twice. | Overbroad delegation; Revoked grant; Remote replay duplicates effect; Remote refusal ignored |
-| CM-01 | A reviewed contract distinguishes same-identity migration and recovery from new-identity descendants, replication and independent clones; it defines authority, lineage, consent, state inheritance, fencing and recovery outcomes.; Independent design review checks the enumerated success, denial and recovery examples against the contract; implementation and installed scenario counts belong to downstream results. | Copy treated as same active identity; Implicit grant inheritance; Ambiguous ownership during transfer |
-| CM-02 | Two owned Runtime endpoints transfer one authorized citizen checkpoint and scoped continuity evidence; the source is fenced before destination activation and interruption can recover without two active holders or lost lineage.; Exact versioned inputs and actual positive, denial and recovery scenario counts are retained; independent review resolves actionable findings. | Stale or replayed transfer; Unauthorized destination; Interrupted handover; Source continues after destination activation; Wrong key or corrupt checkpoint |
-| CM-03 | An authorized parent creates one distinctly identified descendant with explicit lineage, selected inherited state and newly scoped authority while preserving the parent and protecting private state.; Exact versioned inputs and actual positive, denial and recovery scenario counts are retained; independent review resolves actionable findings. | Unauthorized cloning; Duplicate descendant on retry; Private state inherited without scope; Parent standing or credentials copied as authority |
-| CM-04 | Independent installed scenarios exercise migration and descendant creation across restart, interruption and retry, verify lineage/privacy/fencing and expose the resulting identity and custody status to the operator.; Exact versioned inputs and actual positive, denial and recovery scenario counts are retained; independent review resolves actionable findings. | Split-brain identity; Orphaned in-transit custody; Silent lineage loss; Retry creates extra descendant |
+| WP-01 | Accept all required v0.93.4 foundation and compatibility outcomes before GHB activation; broader governance and affect/humour remain later. | Missing predecessor acceptance; Unsupported completion claim |
 | GHB-SPRINT | The GHB roster, ownership, scope, budgets-to-approve, dependency order, and separate Gate A/Gate B acceptance are reviewable before child execution. | Planning status treated as execution authority; Duplicate owner or issue identity; Fixture evidence substituted for installed behavior |
 | GHB-WP00 | source-to-caller matrix at pinned revisions; no duplicated owner planned; runnable unchanged-agent baseline; measurable Gate A scenario; approved evaluation protocol and task/data licenses. A missing existing owner is an explicit gap rather than assumed absence. | Planning status treated as execution authority; Duplicate owner or issue identity; Fixture evidence substituted for installed behavior |
 | GHB-WP01 | every transition has inputs, outputs, authority, side effects and stop conditions; fresh inference versus replay is explicit; historical docs link to the normative successor after review; conformance labels remain proposed until accepted. | Planning status treated as execution authority; Duplicate owner or issue identity; Fixture evidence substituted for installed behavior |

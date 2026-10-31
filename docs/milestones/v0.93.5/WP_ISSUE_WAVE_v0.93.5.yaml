@@ -3,15 +3,14 @@
   "status": "planned_not_open",
   "work_packages": [
     {
-      "title": "Prepare the GHB delivery wave",
+      "title": "Prepare GHB on accepted foundations",
       "repository": "agent-design-language",
       "depends_on": [
         "v0.93.3/FOUNDATION-CLOSE",
         "v0.93.4/RELEASE"
       ],
       "acceptance": [
-        "The complete installed GHB contract and its required standing/delegation and migration/reproduction prerequisites remain required.",
-        "Broader governance, affect and humour are planned in v0.93.6, not GHB baseline dependencies."
+        "Accept all required v0.93.4 foundation and compatibility outcomes before GHB activation; broader governance and affect/humour remain later."
       ],
       "negative_cases": [
         "Missing predecessor acceptance",
@@ -22,193 +21,7 @@
       "sprint": 1,
       "status": "planned",
       "wp": "WP-01",
-      "outcome": "Consume accepted Runtime foundations and tooling compatibility, then activate only the reviewed GHB wave and its minimum existing continuity/standing prerequisites."
-    },
-    {
-      "title": "Enforce citizen and guest actor boundaries",
-      "repository": "agent-logic-runtime",
-      "depends_on": [
-        "v0.93.3/RV-08",
-        "WP-01"
-      ],
-      "acceptance": [
-        "Runtime admits citizen conduct only through bound identity, Freedom Gate and signed trace; guest/operator action remains distinct.",
-        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings.",
-        "Installed cognitive-loop and instinct-originated actions traverse bound identity, Freedom Gate and temporal anchoring; guest or stale identity cannot acquire citizen authority."
-      ],
-      "negative_cases": [
-        "Guest impersonates citizen",
-        "Instinct bypasses governance",
-        "Missing or inconsistent temporal anchor"
-      ],
-      "pvf": "installed_integration",
-      "source": "features/CITIZENSHIP_RIGHTS_DUTIES_AND_SOCIAL_CONTRACT_v0.93.2.md",
-      "sprint": 1,
-      "status": "planned",
-      "wp": "GOV-01",
-      "outcome": "Runtime admits citizen conduct only through bound identity, Freedom Gate and signed trace; guest/operator action remains distinct."
-    },
-    {
-      "title": "Evaluate trace-grounded rights and duties",
-      "repository": "agent-logic-runtime",
-      "depends_on": [
-        "GOV-01"
-      ],
-      "acceptance": [
-        "A Runtime policy evaluator returns rights/duties decisions with trace evidence for a bounded action.",
-        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
-      ],
-      "negative_cases": [
-        "Evidence-free verdict"
-      ],
-      "pvf": "installed_integration",
-      "source": "features/CITIZENSHIP_RIGHTS_DUTIES_AND_SOCIAL_CONTRACT_v0.93.2.md",
-      "sprint": 1,
-      "status": "planned",
-      "wp": "GOV-02",
-      "outcome": "A Runtime policy evaluator returns rights/duties decisions with trace evidence for a bounded action."
-    },
-    {
-      "title": "Apply evidence-backed standing transitions",
-      "repository": "agent-logic-runtime",
-      "depends_on": [
-        "GOV-02"
-      ],
-      "acceptance": [
-        "Standing maintenance, restriction, restoration and revocation consume existing state primitives and retain reasons and challenge context.",
-        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
-      ],
-      "negative_cases": [
-        "Unexplained restriction",
-        "Restoration loses history"
-      ],
-      "pvf": "installed_integration",
-      "source": "features/DELEGATION_IAM_STANDING_AND_APPEAL_GOVERNANCE_v0.93.2.md",
-      "sprint": 1,
-      "status": "planned",
-      "wp": "GOV-03",
-      "outcome": "Standing maintenance, restriction, restoration and revocation consume existing state primitives and retain reasons and challenge context."
-    },
-    {
-      "title": "Enforce delegated action authority",
-      "repository": "agent-logic-runtime",
-      "depends_on": [
-        "GOV-03"
-      ],
-      "acceptance": [
-        "Delegated action binds identity, standing, resource, capability and policy without exceeding the delegator grant.",
-        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings.",
-        "A bounded remote action accepts a current scoped delegation and rejects refusal, revocation and replay without applying the action twice."
-      ],
-      "negative_cases": [
-        "Overbroad delegation",
-        "Revoked grant",
-        "Remote replay duplicates effect",
-        "Remote refusal ignored"
-      ],
-      "pvf": "installed_integration",
-      "source": "features/DELEGATION_IAM_STANDING_AND_APPEAL_GOVERNANCE_v0.93.2.md",
-      "sprint": 1,
-      "status": "planned",
-      "wp": "GOV-11",
-      "outcome": "Delegated action binds identity, standing, resource, capability and policy without exceeding the delegator grant."
-    },
-    {
-      "title": "Accept citizen migration and descendant identity contracts",
-      "repository": "agent-logic-runtime",
-      "depends_on": [
-        "v0.93.3/RV-08",
-        "GOV-01"
-      ],
-      "acceptance": [
-        "A reviewed contract distinguishes same-identity migration and recovery from new-identity descendants, replication and independent clones; it defines authority, lineage, consent, state inheritance, fencing and recovery outcomes.",
-        "Independent design review checks the enumerated success, denial and recovery examples against the contract; implementation and installed scenario counts belong to downstream results."
-      ],
-      "negative_cases": [
-        "Copy treated as same active identity",
-        "Implicit grant inheritance",
-        "Ambiguous ownership during transfer"
-      ],
-      "pvf": "planning_contract",
-      "source": "features/CITIZEN_REPRODUCTION_AND_MIGRATION_v0.93.2.md",
-      "sprint": 1,
-      "status": "planned",
-      "wp": "CM-01",
-      "outcome": "A reviewed contract distinguishes same-identity migration and recovery from new-identity descendants, replication and independent clones; it defines authority, lineage, consent, state inheritance, fencing and recovery outcomes."
-    },
-    {
-      "title": "Migrate one citizen without conflicting active identity",
-      "repository": "agent-logic-runtime",
-      "depends_on": [
-        "CM-01",
-        "v0.93.2/WP-S3"
-      ],
-      "acceptance": [
-        "Two owned Runtime endpoints transfer one authorized citizen checkpoint and scoped continuity evidence; the source is fenced before destination activation and interruption can recover without two active holders or lost lineage.",
-        "Exact versioned inputs and actual positive, denial and recovery scenario counts are retained; independent review resolves actionable findings."
-      ],
-      "negative_cases": [
-        "Stale or replayed transfer",
-        "Unauthorized destination",
-        "Interrupted handover",
-        "Source continues after destination activation",
-        "Wrong key or corrupt checkpoint"
-      ],
-      "pvf": "installed_integration",
-      "source": "features/CITIZEN_REPRODUCTION_AND_MIGRATION_v0.93.2.md",
-      "sprint": 1,
-      "status": "planned",
-      "wp": "CM-02",
-      "outcome": "Two owned Runtime endpoints transfer one authorized citizen checkpoint and scoped continuity evidence; the source is fenced before destination activation and interruption can recover without two active holders or lost lineage."
-    },
-    {
-      "title": "Create a governed descendant with distinct identity",
-      "repository": "agent-logic-runtime",
-      "depends_on": [
-        "CM-01",
-        "GOV-11",
-        "v0.93.2/WP-S5"
-      ],
-      "acceptance": [
-        "An authorized parent creates one distinctly identified descendant with explicit lineage, selected inherited state and newly scoped authority while preserving the parent and protecting private state.",
-        "Exact versioned inputs and actual positive, denial and recovery scenario counts are retained; independent review resolves actionable findings."
-      ],
-      "negative_cases": [
-        "Unauthorized cloning",
-        "Duplicate descendant on retry",
-        "Private state inherited without scope",
-        "Parent standing or credentials copied as authority"
-      ],
-      "pvf": "installed_integration",
-      "source": "features/CITIZEN_REPRODUCTION_AND_MIGRATION_v0.93.2.md",
-      "sprint": 1,
-      "status": "planned",
-      "wp": "CM-03",
-      "outcome": "An authorized parent creates one distinctly identified descendant with explicit lineage, selected inherited state and newly scoped authority while preserving the parent and protecting private state."
-    },
-    {
-      "title": "Qualify citizen migration and reproduction recovery",
-      "repository": "agent-logic-runtime",
-      "depends_on": [
-        "CM-02",
-        "CM-03"
-      ],
-      "acceptance": [
-        "Independent installed scenarios exercise migration and descendant creation across restart, interruption and retry, verify lineage/privacy/fencing and expose the resulting identity and custody status to the operator.",
-        "Exact versioned inputs and actual positive, denial and recovery scenario counts are retained; independent review resolves actionable findings."
-      ],
-      "negative_cases": [
-        "Split-brain identity",
-        "Orphaned in-transit custody",
-        "Silent lineage loss",
-        "Retry creates extra descendant"
-      ],
-      "pvf": "installed_integration",
-      "source": "features/CITIZEN_REPRODUCTION_AND_MIGRATION_v0.93.2.md",
-      "sprint": 1,
-      "status": "planned",
-      "wp": "CM-04",
-      "outcome": "Independent installed scenarios exercise migration and descendant creation across restart, interruption and retry, verify lineage/privacy/fencing and expose the resulting identity and custody status to the operator."
+      "outcome": "Consume accepted Runtime v4 and v0.93.4 tooling/governance/continuity inputs, then activate only the reviewed GHB sprint."
     },
     {
       "title": "[GHB][Sprint] Deliver governed recursive improvement in the installed Agent Logic Runtime",
@@ -227,7 +40,7 @@
       ],
       "pvf": "installed_runtime_and_independent_evaluation",
       "source": "features/GODEL_HADAMARD_BAYES_v0.93.2.md",
-      "sprint": 2,
+      "sprint": 1,
       "status": "planned",
       "wp": "GHB-SPRINT",
       "outcome": "Open and coordinate the approved GHB program without granting execution, spend, or completion authority.",
@@ -249,7 +62,7 @@
       ],
       "pvf": "installed_runtime_and_independent_evaluation",
       "source": "features/GODEL_HADAMARD_BAYES_v0.93.2.md",
-      "sprint": 2,
+      "sprint": 1,
       "status": "planned",
       "wp": "GHB-WP00",
       "outcome": "Owner: program + Runtime. Dependencies: none.",
@@ -272,7 +85,7 @@
       ],
       "pvf": "installed_runtime_and_independent_evaluation",
       "source": "features/GODEL_HADAMARD_BAYES_v0.93.2.md",
-      "sprint": 2,
+      "sprint": 1,
       "status": "planned",
       "wp": "GHB-WP01",
       "outcome": "Owner: ADL. Dependencies: WP00.",
@@ -295,7 +108,7 @@
       ],
       "pvf": "installed_runtime_and_independent_evaluation",
       "source": "features/GODEL_HADAMARD_BAYES_v0.93.2.md",
-      "sprint": 2,
+      "sprint": 1,
       "status": "planned",
       "wp": "GHB-WP02",
       "outcome": "Owner: ADL. Dependencies: WP01.",
@@ -405,7 +218,7 @@
         "GHB-WP00",
         "v0.93.3/RV-09",
         "v0.93.3/RV-10",
-        "CM-02"
+        "v0.93.4/CM-02"
       ],
       "acceptance": [
         "Runtime #112's actual-resident positive/negative criteria pass without test-support authority substitutes; no implicit birthday on startup; one birthday under retry/concurrency/interruption; authenticated restored resident performs a useful task."
@@ -433,8 +246,8 @@
         "GHB-WP06",
         "GHB-WP07",
         "v0.93.3/RV-11",
-        "CM-03",
-        "CM-04"
+        "v0.93.4/CM-03",
+        "v0.93.4/CM-04"
       ],
       "acceptance": [
         "failpoints at durable boundaries; stale parents and concurrent conflicting activations reject; crash recovery yields one authoritative head; accepted successor is actually loaded; rollback restores compatible execution without erasing history or replaying external effects."
@@ -474,7 +287,7 @@
       ],
       "pvf": "installed_runtime_and_independent_evaluation",
       "source": "features/GODEL_HADAMARD_BAYES_v0.93.2.md",
-      "sprint": 2,
+      "sprint": 3,
       "status": "planned",
       "wp": "GHB-WP09",
       "outcome": "Owner: Runtime resident integration. Dependencies: WP03\u2013WP08.",
@@ -497,7 +310,7 @@
       ],
       "pvf": "installed_runtime_and_independent_evaluation",
       "source": "features/GODEL_HADAMARD_BAYES_v0.93.2.md",
-      "sprint": 2,
+      "sprint": 3,
       "status": "planned",
       "wp": "GHB-WP10",
       "outcome": "Owner: Runtime algorithm and activation owners. Dependencies: Gate A.",
@@ -520,7 +333,7 @@
       ],
       "pvf": "installed_runtime_and_independent_evaluation",
       "source": "features/GODEL_HADAMARD_BAYES_v0.93.2.md",
-      "sprint": 2,
+      "sprint": 3,
       "status": "planned",
       "wp": "GHB-WP11",
       "outcome": "Owner: evaluation + Runtime. Dependencies: WP10; test design begins during WP06.",
@@ -544,7 +357,7 @@
       ],
       "pvf": "installed_runtime_and_independent_evaluation",
       "source": "features/GODEL_HADAMARD_BAYES_v0.93.2.md",
-      "sprint": 2,
+      "sprint": 3,
       "status": "planned",
       "wp": "GHB-WP12",
       "outcome": "Owner: docs/research, with independent review. Dependencies: WP01 for vocabulary; WP11 for final claims.",
@@ -555,7 +368,7 @@
       "repository": "agent-design-language",
       "depends_on": [
         "GHB-WP12",
-        "CM-04"
+        "v0.93.4/CM-04"
       ],
       "acceptance": [
         "Independently accept the complete installed GHB baseline and its required continuity/standing proof, reusing unchanged input evidence."
@@ -589,54 +402,46 @@
       "sprint": 3,
       "status": "planned",
       "wp": "GHB-CLOSE",
-      "outcome": "Record the exact accepted GHB/continuity interfaces and limitations for v0.93.6. Any release remains separately authorized."
+      "outcome": "Record the exact accepted GHB interfaces and limitations for v0.93.6 governance and v0.93.7 affect/humour. Any release remains separately authorized."
     }
   ],
   "sprint_plan": {
     "status": "prepared_planning_only",
     "sprint_count": 3,
-    "sizing": "Dependency waves, not staffing/calendar promises.",
-    "execution_rule": "No child execution by setup #1403; create issues/cards per activated sprint.",
+    "sizing": "Dependency waves, not staffing/calendar promises. Disjoint foundations and tooling may proceed in parallel after WP-01; sprint numbering is a conservative dependency allocation, not a forced serial schedule.",
+    "execution_rule": "No child execution by setup #1405; create issues/cards only per activated sprint.",
     "sprints": [
       {
         "number": 1,
-        "title": "Minimum GHB prerequisites",
+        "title": "Prepare the GHB baseline",
         "work_packages": [
           "WP-01",
-          "GOV-01",
-          "GOV-02",
-          "GOV-03",
-          "GOV-11",
-          "CM-01",
-          "CM-02",
-          "CM-03",
-          "CM-04"
+          "GHB-SPRINT",
+          "GHB-WP00",
+          "GHB-WP01",
+          "GHB-WP02"
         ]
       },
       {
         "number": 2,
-        "title": "Installed GHB baseline",
+        "title": "Build and evaluate GHB",
         "work_packages": [
-          "GHB-SPRINT",
-          "GHB-WP00",
-          "GHB-WP01",
-          "GHB-WP02",
           "GHB-WP03",
           "GHB-WP04",
           "GHB-WP05",
           "GHB-WP06",
           "GHB-WP07",
-          "GHB-WP08",
-          "GHB-WP09",
-          "GHB-WP10",
-          "GHB-WP11",
-          "GHB-WP12"
+          "GHB-WP08"
         ]
       },
       {
         "number": 3,
-        "title": "Acceptance and handoff",
+        "title": "Installed recursive improvement and handoff",
         "work_packages": [
+          "GHB-WP09",
+          "GHB-WP10",
+          "GHB-WP11",
+          "GHB-WP12",
           "GHB-REVIEW",
           "GHB-CLOSE"
         ]
@@ -651,8 +456,8 @@
     "v0.93.2/WP-S5": "Accepted v0.93.2 consumer contract and evidence, not inferred from planning."
   },
   "successor_scope_amendment": {
-    "decision": "../v0.93.3/REORGANIZATION_1403.md",
-    "allocation": "../v0.93.3/REALLOCATION_1403.json"
+    "decision": "../v0.93.3/REORGANIZATION_1405.md",
+    "allocation": "../v0.93.3/REALLOCATION_1405.json"
   },
   "existing_issue_routing": [
     {
