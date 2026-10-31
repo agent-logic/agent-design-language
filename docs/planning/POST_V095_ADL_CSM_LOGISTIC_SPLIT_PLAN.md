@@ -1,4 +1,7 @@
 > Superseded by operator decision on 2026-09-15. The two-repository strategy
+
+> **Current reconciliation (2026-10-31, #1407):** This retained plan/audit predates the latest allocation and repository ownership. Use the [current127-feature crosswalk](v095-reconciliation/FEATURE_CROSSWALK_1407.md) and [decision/deferral register](v095-reconciliation/DECISIONS_AND_DEFERRALS_1407.md) for current routing, MVP requirements and unresolved questions. Historical target dates, source paths, proposed issues and completion claims below retain their original evidence scope; they do not override #1405 or authorize new work. The repositories are already split. No second logistic split or routine mergeback operation is admitted; any distinct residual needs a new bounded decision.
+
 > will not be executed. See the [current decomposition plan](../archives/HISTORICAL_FILES_1395.md#find-and-restore-a-historical-path "Archived: docs/milestones/v0.92.2/repository-decomposition/PLAN.md").
 > The text below is retained historical context, not current scheduling or migration authority.
 

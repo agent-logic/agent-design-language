@@ -13,7 +13,7 @@ work_packages:
       - "v0.94 closeout"
     deliverables:
       - "Opened GitHub issue wave"
-      - "SIP/STP/SPP/SRP/SOR cards for each opened issue"
+      - "SIP/STP/SPP/VPP/SRP/SOR cards for each opened issue"
   - wp: WP-02
     title: Payment adapter boundary
     outcome: Define the adapter interface and authority boundary for payments.
@@ -61,3 +61,11 @@ work_packages:
       - "Quality gate"
       - "Review packets"
       - "Release-tail packet"
+
+reconciliation_1407:
+  status: candidate_not_activated
+  feature_crosswalk: docs/planning/v095-reconciliation/FEATURE_CROSSWALK_1407.json
+  decisions: docs/planning/v095-reconciliation/DECISIONS_AND_DEFERRALS_1407.md
+  native_workflow: "Use the admitted C-SDLC owner and current six-card registry; historical wrapper/source instructions are not operational authority."
+  required_wp_acceptance:
+    WP-01: "Declare whether each payment/economic output is required by a specific MVP consumer or adjacent; v0.95 D02 resolves the required subset without discarding unpromoted work."

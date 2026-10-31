@@ -1,0 +1,2301 @@
+{
+  "schema": "adl.feature_crosswalk.v1",
+  "baseline_revision": "6b4126980209c7de68b91fd227612e1b161e87b1",
+  "planning_issue": 1407,
+  "row_count": 127,
+  "allocation_counts": {
+    "v0.93.3": 15,
+    "v0.93.4": 17,
+    "v0.93.5": 17,
+    "v0.93.6": 17,
+    "v0.93.7": 25
+  },
+  "entries": [
+    {
+      "id": "F-001",
+      "feature": "Deterministic workflow execution",
+      "original": {
+        "line": 222,
+        "feature": "Deterministic workflow execution",
+        "status": "Implemented",
+        "proof": "runtime/CLI, examples, milestone docs",
+        "target": "Completed baseline by `v0.8`"
+      },
+      "current_owner": "agent-logic-runtime",
+      "delivery_home": "v0.93.3/RV-08",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Exact owner source/artifact lockset and installed positive/refusal/recovery evidence; reuse valid prior proof.",
+      "remaining_or_disposition": "Reconcile this historical baseline with the accepted Runtime v4 consumer. Missing parity remains a named gap; do not infer it from plugin signing/metadata or a former Runtime v2 fixture."
+    },
+    {
+      "id": "F-002",
+      "feature": "ExecutionPlan runtime",
+      "original": {
+        "line": 223,
+        "feature": "ExecutionPlan runtime",
+        "status": "Implemented",
+        "proof": "Rust runtime and plan execution",
+        "target": "Completed baseline by `v0.8`"
+      },
+      "current_owner": "agent-logic-runtime",
+      "delivery_home": "v0.93.3/RV-08",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Exact owner source/artifact lockset and installed positive/refusal/recovery evidence; reuse valid prior proof.",
+      "remaining_or_disposition": "Reconcile this historical baseline with the accepted Runtime v4 consumer. Missing parity remains a named gap; do not infer it from plugin signing/metadata or a former Runtime v2 fixture."
+    },
+    {
+      "id": "F-003",
+      "feature": "Sequential + fork/join coordination",
+      "original": {
+        "line": 224,
+        "feature": "Sequential + fork/join coordination",
+        "status": "Implemented",
+        "proof": "examples, tests, demo docs",
+        "target": "Completed baseline by `v0.8`"
+      },
+      "current_owner": "agent-logic-runtime",
+      "delivery_home": "v0.93.3/RV-08",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Exact owner source/artifact lockset and installed positive/refusal/recovery evidence; reuse valid prior proof.",
+      "remaining_or_disposition": "Reconcile this historical baseline with the accepted Runtime v4 consumer. Missing parity remains a named gap; do not infer it from plugin signing/metadata or a former Runtime v2 fixture."
+    },
+    {
+      "id": "F-004",
+      "feature": "Bounded concurrency and retry/failure controls",
+      "original": {
+        "line": 225,
+        "feature": "Bounded concurrency and retry/failure controls",
+        "status": "Implemented",
+        "proof": "runtime semantics, tests, `v0.7` docs, and `v0.8` crosswalk evidence",
+        "target": "Completed baseline by `v0.8`"
+      },
+      "current_owner": "agent-logic-runtime",
+      "delivery_home": "v0.93.3/RV-08",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Exact owner source/artifact lockset and installed positive/refusal/recovery evidence; reuse valid prior proof.",
+      "remaining_or_disposition": "Reconcile this historical baseline with the accepted Runtime v4 consumer. Missing parity remains a named gap; do not infer it from plugin signing/metadata or a former Runtime v2 fixture."
+    },
+    {
+      "id": "F-005",
+      "feature": "Run artifacts and replay-oriented inspection",
+      "original": {
+        "line": 226,
+        "feature": "Run artifacts and replay-oriented inspection",
+        "status": "Implemented baseline",
+        "proof": "run artifacts, trace/review docs, milestone demos",
+        "target": "Completed baseline in `v0.90`; inhabited-runtime integration complete in `v0.91.1`"
+      },
+      "current_owner": "agent-logic-runtime",
+      "delivery_home": "v0.93.3/RV-08",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Exact owner source/artifact lockset and installed positive/refusal/recovery evidence; reuse valid prior proof.",
+      "remaining_or_disposition": "Reconcile this historical baseline with the accepted Runtime v4 consumer. Missing parity remains a named gap; do not infer it from plugin signing/metadata or a former Runtime v2 fixture."
+    },
+    {
+      "id": "F-006",
+      "feature": "Signing, verification, and trust policy",
+      "original": {
+        "line": 227,
+        "feature": "Signing, verification, and trust policy",
+        "status": "Implemented baseline",
+        "proof": "signing/verification surfaces, trust docs",
+        "target": "Completed baseline in `v0.90`; enterprise hardening complete in `v0.93`"
+      },
+      "current_owner": "agent-logic-enterprise-security + agent-logic-runtime",
+      "delivery_home": "v0.93.2/WP-S1..WP-S6",
+      "mvp_consumption_home": "v0.94/WP-02..WP-04 \u2192 v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Enforced identity/authorization, isolation, secrets/revocation, redacted audit and adverse-case proof from their exact owners.",
+      "remaining_or_disposition": "Consume accepted enterprise-security evidence; v0.94 closes cross-band deltas, not a duplicate security implementation. External certification remains a separate non-claim."
+    },
+    {
+      "id": "F-007",
+      "feature": "Provider and transport substrate",
+      "original": {
+        "line": 228,
+        "feature": "Provider and transport substrate",
+        "status": "Implemented baseline",
+        "proof": "provider docs, HTTP/local provider surfaces, reviewer package",
+        "target": "Runtime/provider completion target: `v0.92`"
+      },
+      "current_owner": "agent-logic-runtime",
+      "delivery_home": "v0.93.3/RV-08",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Exact owner source/artifact lockset and installed positive/refusal/recovery evidence; reuse valid prior proof.",
+      "remaining_or_disposition": "Reconcile this historical baseline with the accepted Runtime v4 consumer. Missing parity remains a named gap; do not infer it from plugin signing/metadata or a former Runtime v2 fixture."
+    },
+    {
+      "id": "F-008",
+      "feature": "Remote execution baseline",
+      "original": {
+        "line": 229,
+        "feature": "Remote execution baseline",
+        "status": "Implemented baseline",
+        "proof": "bounded remote execution surfaces and docs",
+        "target": "Runtime/security completion target: `v0.93`"
+      },
+      "current_owner": "agent-logic-runtime + infrastructure owner",
+      "delivery_home": "v0.95/WP-06; accepted v0.94 secure execution",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Owned placement/scheduler/trust boundary and installed multi-node success/refusal/recovery evidence at a compatible lockset.",
+      "remaining_or_disposition": "Reuse accepted earlier distributed qualification and name only residual integration gaps. No new orchestration architecture or cloud deployment from planning."
+    },
+    {
+      "id": "F-009",
+      "feature": "Human-in-the-loop pause/resume",
+      "original": {
+        "line": 230,
+        "feature": "Human-in-the-loop pause/resume",
+        "status": "Implemented baseline; AEE-required subset pulled forward",
+        "proof": "runtime/control surfaces and review docs",
+        "target": "AEE-required queue/wake/handoff subset targeted for `v0.92`; broad operator UX polish by `v0.95`"
+      },
+      "current_owner": "agent-logic-runtime",
+      "delivery_home": "v0.93.3/RV-08",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Exact owner source/artifact lockset and installed positive/refusal/recovery evidence; reuse valid prior proof.",
+      "remaining_or_disposition": "Reconcile this historical baseline with the accepted Runtime v4 consumer. Missing parity remains a named gap; do not infer it from plugin signing/metadata or a former Runtime v2 fixture."
+    },
+    {
+      "id": "F-010",
+      "feature": "Structured authoring model",
+      "original": {
+        "line": 231,
+        "feature": "Structured authoring model",
+        "status": "Implemented baseline",
+        "proof": "SIP/STP/SPP/SRP/SOR contracts and prompt tooling",
+        "target": "MVP completion target: `v0.95`"
+      },
+      "current_owner": "cognitive-sdlc + affected public ADL validation owner",
+      "delivery_home": "v0.93.4/CS4-01..CS4-06",
+      "mvp_consumption_home": "v0.95/WP-08 \u2192 WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Native macOS/Linux, existing-state compatibility, changed-input proof reuse and measured overhead/recovery; six cards SIP/STP/SPP/VPP/SRP/SOR.",
+      "remaining_or_disposition": "Use #1352 and accepted C-SDLC v4 results first. Only newly evidenced residuals belong in v0.95; obsolete public-ADL PR wrappers and old extraction lists are historical."
+    },
+    {
+      "id": "F-011",
+      "feature": "Structured planning and Structured Review Prompt workflow",
+      "original": {
+        "line": 232,
+        "feature": "Structured planning and Structured Review Prompt workflow",
+        "status": "Implemented baseline",
+        "proof": "`v0.91` SPP/SRP feature docs, readiness records, validation tooling, and issue-bundle workflow surfaces; historical records may still mention the older Structured Review Policy wording",
+        "target": "Completed baseline by `v0.91.0`; validator/closeout hardening continues in `v0.91.1`"
+      },
+      "current_owner": "cognitive-sdlc + affected public ADL validation owner",
+      "delivery_home": "v0.93.4/CS4-01..CS4-06",
+      "mvp_consumption_home": "v0.95/WP-08 \u2192 WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Native macOS/Linux, existing-state compatibility, changed-input proof reuse and measured overhead/recovery; six cards SIP/STP/SPP/VPP/SRP/SOR.",
+      "remaining_or_disposition": "Use #1352 and accepted C-SDLC v4 results first. Only newly evidenced residuals belong in v0.95; obsolete public-ADL PR wrappers and old extraction lists are historical."
+    },
+    {
+      "id": "F-012",
+      "feature": "Control-plane lifecycle",
+      "original": {
+        "line": 233,
+        "feature": "Control-plane lifecycle",
+        "status": "Implemented baseline; AEE-required truth surfaces pulled forward",
+        "proof": "`pr init/create/start/run/finish`, doctor, janitor, closeout surfaces",
+        "target": "AEE/control-path truth subset targeted for `v0.91.5`/`v0.92`; broad hardening by `v0.95`"
+      },
+      "current_owner": "cognitive-sdlc + affected public ADL validation owner",
+      "delivery_home": "v0.93.4/CS4-01..CS4-06",
+      "mvp_consumption_home": "v0.95/WP-08 \u2192 WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Native macOS/Linux, existing-state compatibility, changed-input proof reuse and measured overhead/recovery; six cards SIP/STP/SPP/VPP/SRP/SOR.",
+      "remaining_or_disposition": "Use #1352 and accepted C-SDLC v4 results first. Only newly evidenced residuals belong in v0.95; obsolete public-ADL PR wrappers and old extraction lists are historical."
+    },
+    {
+      "id": "F-013",
+      "feature": "Editor and command-adapter surfaces",
+      "original": {
+        "line": 234,
+        "feature": "Editor and command-adapter surfaces",
+        "status": "Implemented baseline",
+        "proof": "editor docs, demos, bounded command adapters",
+        "target": "MVP completion target: `v0.95`"
+      },
+      "current_owner": "cognitive-sdlc + selected editor UI owner",
+      "delivery_home": "v0.95/WP-09",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Bounded author/edit/validate/review journey through the admitted lifecycle, with private data and authority boundaries.",
+      "remaining_or_disposition": "Required portable web/editor floor remains planned; select the UI owner and exact consumer before implementation. No second lifecycle state engine."
+    },
+    {
+      "id": "F-014",
+      "feature": "Review and validation surfaces",
+      "original": {
+        "line": 235,
+        "feature": "Review and validation surfaces",
+        "status": "Implemented baseline",
+        "proof": "reviewer contracts, validation tools, review packages",
+        "target": "MVP completion target: `v0.95`"
+      },
+      "current_owner": "cognitive-sdlc + affected public ADL validation owner",
+      "delivery_home": "v0.93.4/CS4-01..CS4-06",
+      "mvp_consumption_home": "v0.95/WP-08 \u2192 WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Native macOS/Linux, existing-state compatibility, changed-input proof reuse and measured overhead/recovery; six cards SIP/STP/SPP/VPP/SRP/SOR.",
+      "remaining_or_disposition": "Use #1352 and accepted C-SDLC v4 results first. Only newly evidenced residuals belong in v0.95; obsolete public-ADL PR wrappers and old extraction lists are historical."
+    },
+    {
+      "id": "F-015",
+      "feature": "Task-bundle workflow",
+      "original": {
+        "line": 236,
+        "feature": "Task-bundle workflow",
+        "status": "Implemented baseline",
+        "proof": "issue/task bundles and public execution records",
+        "target": "MVP completion target: `v0.95`"
+      },
+      "current_owner": "cognitive-sdlc + affected public ADL validation owner",
+      "delivery_home": "v0.93.4/CS4-01..CS4-06",
+      "mvp_consumption_home": "v0.95/WP-08 \u2192 WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Native macOS/Linux, existing-state compatibility, changed-input proof reuse and measured overhead/recovery; six cards SIP/STP/SPP/VPP/SRP/SOR.",
+      "remaining_or_disposition": "Use #1352 and accepted C-SDLC v4 results first. Only newly evidenced residuals belong in v0.95; obsolete public-ADL PR wrappers and old extraction lists are historical."
+    },
+    {
+      "id": "F-016",
+      "feature": "Agency, cognitive loop, and cognitive stack",
+      "original": {
+        "line": 237,
+        "feature": "Agency, cognitive loop, and cognitive stack",
+        "status": "Implemented baseline",
+        "proof": "`v0.86` agency/cognition feature package, demos, and review artifacts",
+        "target": "Cognitive-being completion target: `v0.91`; identity/governance integration complete by `v0.93`"
+      },
+      "current_owner": "agent-logic-runtime",
+      "delivery_home": "v0.93.3/RV-08",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Exact owner source/artifact lockset and installed positive/refusal/recovery evidence; reuse valid prior proof.",
+      "remaining_or_disposition": "Reconcile this historical baseline with the accepted Runtime v4 consumer. Missing parity remains a named gap; do not infer it from plugin signing/metadata or a former Runtime v2 fixture."
+    },
+    {
+      "id": "F-017",
+      "feature": "Fast/slow thinking and cognitive arbitration",
+      "original": {
+        "line": 238,
+        "feature": "Fast/slow thinking and cognitive arbitration",
+        "status": "Implemented baseline",
+        "proof": "`v0.86` feature docs and bounded proof package",
+        "target": "Moral-cognition completion target: `v0.91`; MVP integration complete by `v0.95`"
+      },
+      "current_owner": "agent-logic-runtime",
+      "delivery_home": "v0.93.7/AF-01..08,HU-01..04",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Actual executed selection/recovery/reframing, captured-input replay, held-out comparison, bounded fallback and installed proof.",
+      "remaining_or_disposition": "Preserve prior bounded cognitive/moral/affect evidence and non-claims. No subjective feeling, consciousness or unbounded improvement claim from this plan."
+    },
+    {
+      "id": "F-018",
+      "feature": "Bounded Godel loop",
+      "original": {
+        "line": 239,
+        "feature": "Bounded Godel loop",
+        "status": "Implemented baseline",
+        "proof": "`v0.8` runtime artifacts, demos, experiment surfaces, `v0.89` experiment package",
+        "target": "Godel-agent completion target: `v0.92`"
+      },
+      "current_owner": "agent-logic-runtime + public ADL contract owner",
+      "delivery_home": "v0.93.5/GHB-WP00..GHB-WP12",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Installed bounded improvement and activation/rollback evidence; actual Gate A/B outcomes, longitudinal limits and exact candidate identities.",
+      "remaining_or_disposition": "Preserve historical birthday/loop proof separately. It is not GHB recursive-improvement completion or qualification for a new candidate."
+    },
+    {
+      "id": "F-019",
+      "feature": "Godel agents and Godel-Hadamard-Bayes algorithm",
+      "original": {
+        "line": 240,
+        "feature": "Godel agents and Godel-Hadamard-Bayes algorithm",
+        "status": "Partially implemented",
+        "proof": "`v0.8` bounded Godel loop, `v0.89` Godel experiment system, GHB execution/state-space-compression idea docs, reasoning-pattern substrate, ObsMem, trace, cognitive proof surfaces, and `docs/milestones/v0.91.7/features/GODEL_MECHANICS_BRIDGE_v0.91.7.md`",
+        "target": "GHB runtime/story explicit in `v0.91.1`; paper packet in `v0.91.2`; first true Godel-agent birthday complete in `v0.92`"
+      },
+      "current_owner": "agent-logic-runtime + public ADL contract owner",
+      "delivery_home": "v0.93.5/GHB-WP00..GHB-WP12",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Installed bounded improvement and activation/rollback evidence; actual Gate A/B outcomes, longitudinal limits and exact candidate identities.",
+      "remaining_or_disposition": "Preserve historical birthday/loop proof separately. It is not GHB recursive-improvement completion or qualification for a new candidate."
+    },
+    {
+      "id": "F-020",
+      "feature": "ObsMem indexing, retrieval, and evidence-aware ranking",
+      "original": {
+        "line": 241,
+        "feature": "ObsMem indexing, retrieval, and evidence-aware ranking",
+        "status": "Implemented baseline",
+        "proof": "`v0.8` / `v0.87` proof surfaces plus `v0.89` D6 retrieval/ranking proof",
+        "target": "Memory/identity completion target: `v0.92`"
+      },
+      "current_owner": "agent-logic-runtime",
+      "delivery_home": "v0.93.3/RV-08",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Exact owner source/artifact lockset and installed positive/refusal/recovery evidence; reuse valid prior proof.",
+      "remaining_or_disposition": "Reconcile this historical baseline with the accepted Runtime v4 consumer. Missing parity remains a named gap; do not infer it from plugin signing/metadata or a former Runtime v2 fixture."
+    },
+    {
+      "id": "F-021",
+      "feature": "Shared ObsMem foundation",
+      "original": {
+        "line": 242,
+        "feature": "Shared ObsMem foundation",
+        "status": "Implemented baseline",
+        "proof": "`v0.87` shared-memory docs and proof surfaces",
+        "target": "Identity/continuity completion target: `v0.92`"
+      },
+      "current_owner": "agent-logic-runtime + public ADL contract owner",
+      "delivery_home": "v0.93.4/GOV-01..03,GOV-11,CM-01..04; v0.93.6/GOV-04..16 as applicable",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Scoped actor/standing/delegation and migration/lineage/fencing proof, then relevant constitutional review/appeal consumer outcomes.",
+      "remaining_or_disposition": "Preserve foundation versus remaining governance separation; original per-WP acceptance determines the applicable subset. No automatic new governance requirements."
+    },
+    {
+      "id": "F-022",
+      "feature": "Trace validation, trace review, and trace-to-memory ingestion",
+      "original": {
+        "line": 243,
+        "feature": "Trace validation, trace review, and trace-to-memory ingestion",
+        "status": "Implemented baseline",
+        "proof": "`v0.87` trace schema/emission/artifact/review package and trace-ObsMem docs",
+        "target": "Signed/queryable trace completion target: `v0.94`"
+      },
+      "current_owner": "agent-logic-runtime + public ADL contract owner",
+      "delivery_home": "v0.94/WP-02..WP-05",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Explicit reasoning-graph and signed/queryable trace outcomes with access checks, provenance and exact owner evidence.",
+      "remaining_or_disposition": "Reasoning graph is a named WP-05 acceptance obligation alongside trace, not an implicitly satisfied feature. Reuse earlier bounded loops/skill proof."
+    },
+    {
+      "id": "F-023",
+      "feature": "Bounded cognitive path",
+      "original": {
+        "line": 244,
+        "feature": "Bounded cognitive path",
+        "status": "Implemented baseline",
+        "proof": "`v0.86` cognitive demo/artifact package",
+        "target": "Cognitive-being completion target: `v0.91`; MVP integration complete by `v0.95`"
+      },
+      "current_owner": "agent-logic-runtime",
+      "delivery_home": "v0.93.7/AF-01..08,HU-01..04",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Actual executed selection/recovery/reframing, captured-input replay, held-out comparison, bounded fallback and installed proof.",
+      "remaining_or_disposition": "Preserve prior bounded cognitive/moral/affect evidence and non-claims. No subjective feeling, consciousness or unbounded improvement claim from this plan."
+    },
+    {
+      "id": "F-024",
+      "feature": "Freedom Gate baseline",
+      "original": {
+        "line": 245,
+        "feature": "Freedom Gate baseline",
+        "status": "Implemented baseline",
+        "proof": "`v0.86` bounded cognitive proof path",
+        "target": "Completed baseline by `v0.86`"
+      },
+      "current_owner": "agent-logic-runtime",
+      "delivery_home": "v0.93.3/RV-08",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Exact owner source/artifact lockset and installed positive/refusal/recovery evidence; reuse valid prior proof.",
+      "remaining_or_disposition": "Reconcile this historical baseline with the accepted Runtime v4 consumer. Missing parity remains a named gap; do not infer it from plugin signing/metadata or a former Runtime v2 fixture."
+    },
+    {
+      "id": "F-025",
+      "feature": "Freedom Gate v2",
+      "original": {
+        "line": 246,
+        "feature": "Freedom Gate v2",
+        "status": "Implemented baseline",
+        "proof": "`v0.89` judgment-boundary and gate proof surfaces",
+        "target": "Governance completion target: `v0.93`"
+      },
+      "current_owner": "agent-logic-runtime + public ADL contract owner",
+      "delivery_home": "v0.93.4/GOV-01..03,GOV-11,CM-01..04; v0.93.6/GOV-04..16 as applicable",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Scoped actor/standing/delegation and migration/lineage/fencing proof, then relevant constitutional review/appeal consumer outcomes.",
+      "remaining_or_disposition": "Preserve foundation versus remaining governance separation; original per-WP acceptance determines the applicable subset. No automatic new governance requirements."
+    },
+    {
+      "id": "F-026",
+      "feature": "Trace substrate",
+      "original": {
+        "line": 247,
+        "feature": "Trace substrate",
+        "status": "Implemented baseline",
+        "proof": "`v0.87` trace docs and reviewer-facing proof surfaces",
+        "target": "Runtime v2 integration complete in `v0.91.1`; signed/queryable trace complete by `v0.94`"
+      },
+      "current_owner": "agent-logic-runtime + public ADL contract owner",
+      "delivery_home": "v0.94/WP-02..WP-05",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Explicit reasoning-graph and signed/queryable trace outcomes with access checks, provenance and exact owner evidence.",
+      "remaining_or_disposition": "Reasoning graph is a named WP-05 acceptance obligation alongside trace, not an implicitly satisfied feature. Reuse earlier bounded loops/skill proof."
+    },
+    {
+      "id": "F-027",
+      "feature": "Operational skills substrate",
+      "original": {
+        "line": 248,
+        "feature": "Operational skills substrate",
+        "status": "Implemented baseline",
+        "proof": "`v0.87` skills/control-plane docs and operational demos",
+        "target": "MVP completion target: `v0.95`"
+      },
+      "current_owner": "agent-logic-runtime",
+      "delivery_home": "v0.93.3/RV-08",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Exact owner source/artifact lockset and installed positive/refusal/recovery evidence; reuse valid prior proof.",
+      "remaining_or_disposition": "Reconcile this historical baseline with the accepted Runtime v4 consumer. Missing parity remains a named gap; do not infer it from plugin signing/metadata or a former Runtime v2 fixture."
+    },
+    {
+      "id": "F-028",
+      "feature": "Runtime environment and lifecycle completion",
+      "original": {
+        "line": 249,
+        "feature": "Runtime environment and lifecycle completion",
+        "status": "Implemented baseline",
+        "proof": "`v0.87.1` runtime docs, demos, and review package",
+        "target": "Agent lifecycle completion target: `v0.91.1`"
+      },
+      "current_owner": "agent-logic-runtime",
+      "delivery_home": "v0.93.3/RV-08",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Exact owner source/artifact lockset and installed positive/refusal/recovery evidence; reuse valid prior proof.",
+      "remaining_or_disposition": "Reconcile this historical baseline with the accepted Runtime v4 consumer. Missing parity remains a named gap; do not infer it from plugin signing/metadata or a former Runtime v2 fixture."
+    },
+    {
+      "id": "F-029",
+      "feature": "Execution boundaries and capability-aware local execution",
+      "original": {
+        "line": 250,
+        "feature": "Execution boundaries and capability-aware local execution",
+        "status": "Implemented baseline",
+        "proof": "`v0.87.1` runtime, local-model, and capability-aware execution docs/demos",
+        "target": "Capability/evaluator completion target: `v0.91.2`"
+      },
+      "current_owner": "agent-logic-runtime",
+      "delivery_home": "v0.93.3/RV-08",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Exact owner source/artifact lockset and installed positive/refusal/recovery evidence; reuse valid prior proof.",
+      "remaining_or_disposition": "Reconcile this historical baseline with the accepted Runtime v4 consumer. Missing parity remains a named gap; do not infer it from plugin signing/metadata or a former Runtime v2 fixture."
+    },
+    {
+      "id": "F-030",
+      "feature": "Local runtime resilience and Shepherd preservation",
+      "original": {
+        "line": 251,
+        "feature": "Local runtime resilience and Shepherd preservation",
+        "status": "Implemented baseline",
+        "proof": "`v0.87.1` resilience and preservation docs/demos",
+        "target": "Runtime resilience completion target: `v0.91.2`"
+      },
+      "current_owner": "agent-logic-runtime",
+      "delivery_home": "v0.93.3/RV-08",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Exact owner source/artifact lockset and installed positive/refusal/recovery evidence; reuse valid prior proof.",
+      "remaining_or_disposition": "Reconcile this historical baseline with the accepted Runtime v4 consumer. Missing parity remains a named gap; do not infer it from plugin signing/metadata or a former Runtime v2 fixture."
+    },
+    {
+      "id": "F-031",
+      "feature": "Chronosense / temporal substrate",
+      "original": {
+        "line": 252,
+        "feature": "Chronosense / temporal substrate",
+        "status": "Implemented baseline",
+        "proof": "`v0.88` feature package and review surfaces",
+        "target": "Identity/governance integration complete by `v0.93`"
+      },
+      "current_owner": "agent-logic-runtime",
+      "delivery_home": "v0.93.3/RV-08",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Exact owner source/artifact lockset and installed positive/refusal/recovery evidence; reuse valid prior proof.",
+      "remaining_or_disposition": "Reconcile this historical baseline with the accepted Runtime v4 consumer. Missing parity remains a named gap; do not infer it from plugin signing/metadata or a former Runtime v2 fixture."
+    },
+    {
+      "id": "F-032",
+      "feature": "Temporal query, retrieval, identity semantics, and continuity hooks",
+      "original": {
+        "line": 253,
+        "feature": "Temporal query, retrieval, identity semantics, and continuity hooks",
+        "status": "Implemented baseline",
+        "proof": "`v0.88` temporal schema, retrieval, and continuity/identity feature docs",
+        "target": "Identity completion target: `v0.92`"
+      },
+      "current_owner": "agent-logic-runtime",
+      "delivery_home": "v0.93.3/RV-08",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Exact owner source/artifact lockset and installed positive/refusal/recovery evidence; reuse valid prior proof.",
+      "remaining_or_disposition": "Reconcile this historical baseline with the accepted Runtime v4 consumer. Missing parity remains a named gap; do not infer it from plugin signing/metadata or a former Runtime v2 fixture."
+    },
+    {
+      "id": "F-033",
+      "feature": "Commitments, deadlines, and bounded temporal causality",
+      "original": {
+        "line": 254,
+        "feature": "Commitments, deadlines, and bounded temporal causality",
+        "status": "Implemented baseline",
+        "proof": "`v0.88` feature docs and reviewer package",
+        "target": "Governance completion target: `v0.93`"
+      },
+      "current_owner": "agent-logic-runtime + public ADL contract owner",
+      "delivery_home": "v0.93.4/GOV-01..03,GOV-11,CM-01..04; v0.93.6/GOV-04..16 as applicable",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Scoped actor/standing/delegation and migration/lineage/fencing proof, then relevant constitutional review/appeal consumer outcomes.",
+      "remaining_or_disposition": "Preserve foundation versus remaining governance separation; original per-WP acceptance determines the applicable subset. No automatic new governance requirements."
+    },
+    {
+      "id": "F-034",
+      "feature": "Cost model, accounting primitives, and bounded economics hooks",
+      "original": {
+        "line": 255,
+        "feature": "Cost model, accounting primitives, and bounded economics hooks",
+        "status": "Implemented baseline",
+        "proof": "`v0.88` cost-model feature docs and planning surfaces plus `docs/milestones/v0.91.7/features/ECONOMICS_CONTEXT_DECISION_v0.91.7.md`",
+        "target": "Bounded economics baseline complete in `v0.90.4`; MVP integration complete by `v0.95`"
+      },
+      "current_owner": "Runtime economics owner + explicitly selected payment adapter owner",
+      "delivery_home": "v0.94.1/WP-02..WP-06 (existing bounded economics preserved)",
+      "mvp_consumption_home": "v0.95/WP-11 conditional decision",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Declared MVP-required subset with reviewed accounting/settlement/economic traces and bounded refusal/recovery evidence, or explicit nonblocking disposition.",
+      "remaining_or_disposition": "Payments subset is unresolved, not all-rails mandatory and not silently excluded. Preserve existing bounded contract-market evidence and defer unpromoted rails/productization."
+    },
+    {
+      "id": "F-035",
+      "feature": "PHI-style integration metrics",
+      "original": {
+        "line": 256,
+        "feature": "PHI-style integration metrics",
+        "status": "Implemented baseline",
+        "proof": "`v0.88` feature docs and review surfaces",
+        "target": "Evaluation completion target: `v0.91.2`"
+      },
+      "current_owner": "agent-logic-runtime",
+      "delivery_home": "v0.93.3/RV-08",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Exact owner source/artifact lockset and installed positive/refusal/recovery evidence; reuse valid prior proof.",
+      "remaining_or_disposition": "Reconcile this historical baseline with the accepted Runtime v4 consumer. Missing parity remains a named gap; do not infer it from plugin signing/metadata or a former Runtime v2 fixture."
+    },
+    {
+      "id": "F-036",
+      "feature": "Instinct and bounded agency",
+      "original": {
+        "line": 257,
+        "feature": "Instinct and bounded agency",
+        "status": "Implemented baseline",
+        "proof": "`v0.88` feature docs, instinct review surface, Paper Sonata",
+        "target": "Cognitive-being completion target: `v0.91`; governance integration complete by `v0.93`"
+      },
+      "current_owner": "agent-logic-runtime",
+      "delivery_home": "v0.93.7/AF-01..08,HU-01..04",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Actual executed selection/recovery/reframing, captured-input replay, held-out comparison, bounded fallback and installed proof.",
+      "remaining_or_disposition": "Preserve prior bounded cognitive/moral/affect evidence and non-claims. No subjective feeling, consciousness or unbounded improvement claim from this plan."
+    },
+    {
+      "id": "F-037",
+      "feature": "Paper Sonata public-facing proof surface",
+      "original": {
+        "line": 258,
+        "feature": "Paper Sonata public-facing proof surface",
+        "status": "Implemented baseline",
+        "proof": "`demo_v088_paper_sonata.sh` and milestone docs",
+        "target": "Publication/demo catalog completion target: `v0.95`"
+      },
+      "current_owner": "source-demo owner + ADL catalog owner",
+      "delivery_home": "v0.95/WP-07",
+      "mvp_consumption_home": "v0.95/WP-12",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Runnable selected flagship/proof/walkthrough entrypoint, declared candidate and scenario outcomes, redacted export and current runbook.",
+      "remaining_or_disposition": "Catalog existing demo families without forcing every historical demo to run. Retire or explicitly defer unsupported demos; preserve their original evidence."
+    },
+    {
+      "id": "F-038",
+      "feature": "Deep-agents comparative proof",
+      "original": {
+        "line": 259,
+        "feature": "Deep-agents comparative proof",
+        "status": "Implemented baseline",
+        "proof": "`demo_v088_deep_agents_comparative_proof.sh` and `v0.89` follow-on demo docs",
+        "target": "Publication/demo catalog completion target: `v0.95`"
+      },
+      "current_owner": "source-demo owner + ADL catalog owner",
+      "delivery_home": "v0.95/WP-07",
+      "mvp_consumption_home": "v0.95/WP-12",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Runnable selected flagship/proof/walkthrough entrypoint, declared candidate and scenario outcomes, redacted export and current runbook.",
+      "remaining_or_disposition": "Catalog existing demo families without forcing every historical demo to run. Retire or explicitly defer unsupported demos; preserve their original evidence."
+    },
+    {
+      "id": "F-039",
+      "feature": "AEE 1.0 convergence",
+      "original": {
+        "line": 260,
+        "feature": "AEE 1.0 convergence",
+        "status": "Implemented baseline; subsystem closure explicitly pulled forward",
+        "proof": "`v0.89` `control_path/convergence.json`, D1 proof row, feature doc, `docs/milestones/v0.91.5/features/AEE_COMPLETION_TRANCHE_v0.91.5.md`, `docs/milestones/v0.91.5/features/V092_ACTIVATION_READINESS_v0.91.5.md`, and `docs/milestones/v0.91.6/features/AEE_MEMORY_ACP_BRIDGE_ACCOUNTING_v0.91.6.md`",
+        "target": "Runtime-inhabitant integration complete in `v0.91.1`; closure tranche defined in `v0.91.5`; subsystem proof targeted for `v0.92`; MVP polish only by `v0.95`"
+      },
+      "current_owner": "agent-logic-runtime",
+      "delivery_home": "v0.93.3/RV-08",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Exact owner source/artifact lockset and installed positive/refusal/recovery evidence; reuse valid prior proof.",
+      "remaining_or_disposition": "Reconcile this historical baseline with the accepted Runtime v4 consumer. Missing parity remains a named gap; do not infer it from plugin signing/metadata or a former Runtime v2 fixture."
+    },
+    {
+      "id": "F-040",
+      "feature": "Decision, action, and skill-governance surfaces",
+      "original": {
+        "line": 261,
+        "feature": "Decision, action, and skill-governance surfaces",
+        "status": "Implemented baseline",
+        "proof": "`v0.89` and `v0.89.1` decision/action/skill docs, runtime/proof surfaces",
+        "target": "Governance completion target: `v0.93`"
+      },
+      "current_owner": "agent-logic-runtime + public ADL contract owner",
+      "delivery_home": "v0.93.4/GOV-01..03,GOV-11,CM-01..04; v0.93.6/GOV-04..16 as applicable",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Scoped actor/standing/delegation and migration/lineage/fencing proof, then relevant constitutional review/appeal consumer outcomes.",
+      "remaining_or_disposition": "Preserve foundation versus remaining governance separation; original per-WP acceptance determines the applicable subset. No automatic new governance requirements."
+    },
+    {
+      "id": "F-041",
+      "feature": "Delegation, refusal, and coordination contracts",
+      "original": {
+        "line": 262,
+        "feature": "Delegation, refusal, and coordination contracts",
+        "status": "Implemented baseline",
+        "proof": "`v0.89.1` operational-skill and coordination package",
+        "target": "Governance completion target: `v0.93`"
+      },
+      "current_owner": "agent-logic-runtime + public ADL contract owner",
+      "delivery_home": "v0.93.4/GOV-01..03,GOV-11,CM-01..04; v0.93.6/GOV-04..16 as applicable",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Scoped actor/standing/delegation and migration/lineage/fencing proof, then relevant constitutional review/appeal consumer outcomes.",
+      "remaining_or_disposition": "Preserve foundation versus remaining governance separation; original per-WP acceptance determines the applicable subset. No automatic new governance requirements."
+    },
+    {
+      "id": "F-042",
+      "feature": "Provider-extension packaging and safe extension boundaries",
+      "original": {
+        "line": 263,
+        "feature": "Provider-extension packaging and safe extension boundaries",
+        "status": "Implemented baseline",
+        "proof": "`v0.89.1` provider-extension package and proof surfaces",
+        "target": "Provider/security completion target: `v0.93`"
+      },
+      "current_owner": "agent-logic-enterprise-security + agent-logic-runtime",
+      "delivery_home": "v0.93.2/WP-S1..WP-S6",
+      "mvp_consumption_home": "v0.94/WP-02..WP-04 \u2192 v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Enforced identity/authorization, isolation, secrets/revocation, redacted audit and adverse-case proof from their exact owners.",
+      "remaining_or_disposition": "Consume accepted enterprise-security evidence; v0.94 closes cross-band deltas, not a duplicate security implementation. External certification remains a separate non-claim."
+    },
+    {
+      "id": "F-043",
+      "feature": "Security, posture, and trust-under-adversary package",
+      "original": {
+        "line": 264,
+        "feature": "Security, posture, and trust-under-adversary package",
+        "status": "Implemented baseline",
+        "proof": "`v0.89` security posture package plus `v0.89.1` adversarial-runtime proof surfaces",
+        "target": "Enterprise security completion target: `v0.93`"
+      },
+      "current_owner": "agent-logic-enterprise-security + agent-logic-runtime",
+      "delivery_home": "v0.93.2/WP-S1..WP-S6",
+      "mvp_consumption_home": "v0.94/WP-02..WP-04 \u2192 v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Enforced identity/authorization, isolation, secrets/revocation, redacted audit and adverse-case proof from their exact owners.",
+      "remaining_or_disposition": "Consume accepted enterprise-security evidence; v0.94 closes cross-band deltas, not a duplicate security implementation. External certification remains a separate non-claim."
+    },
+    {
+      "id": "F-044",
+      "feature": "Adversarial runtime, exploit/replay, and self-attack band",
+      "original": {
+        "line": 265,
+        "feature": "Adversarial runtime, exploit/replay, and self-attack band",
+        "status": "Implemented baseline",
+        "proof": "`v0.89.1` issue wave and feature package",
+        "target": "Enterprise security completion target: `v0.93`"
+      },
+      "current_owner": "agent-logic-enterprise-security + agent-logic-runtime",
+      "delivery_home": "v0.93.2/WP-S1..WP-S6",
+      "mvp_consumption_home": "v0.94/WP-02..WP-04 \u2192 v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Enforced identity/authorization, isolation, secrets/revocation, redacted audit and adverse-case proof from their exact owners.",
+      "remaining_or_disposition": "Consume accepted enterprise-security evidence; v0.94 closes cross-band deltas, not a duplicate security implementation. External certification remains a separate non-claim."
+    },
+    {
+      "id": "F-045",
+      "feature": "Demo proof entry points and quality gate",
+      "original": {
+        "line": 266,
+        "feature": "Demo proof entry points and quality gate",
+        "status": "Implemented baseline",
+        "proof": "`v0.89.1` demo matrix, proof-entry work, quality gate, and release review surfaces",
+        "target": "MVP demo/review completion target: `v0.95`"
+      },
+      "current_owner": "source-demo owner + ADL catalog owner",
+      "delivery_home": "v0.95/WP-07",
+      "mvp_consumption_home": "v0.95/WP-12",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Runnable selected flagship/proof/walkthrough entrypoint, declared candidate and scenario outcomes, redacted export and current runbook.",
+      "remaining_or_disposition": "Catalog existing demo families without forcing every historical demo to run. Retire or explicitly defer unsupported demos; preserve their original evidence."
+    },
+    {
+      "id": "F-046",
+      "feature": "Five-agent Hey Jude MIDI demo",
+      "original": {
+        "line": 267,
+        "feature": "Five-agent Hey Jude MIDI demo",
+        "status": "Implemented baseline",
+        "proof": "`v0.89.1` planning/proof surfaces and demo package",
+        "target": "Demo catalog completion target: `v0.95`"
+      },
+      "current_owner": "source-demo owner + ADL catalog owner",
+      "delivery_home": "v0.95/WP-07",
+      "mvp_consumption_home": "v0.95/WP-12",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Runnable selected flagship/proof/walkthrough entrypoint, declared candidate and scenario outcomes, redacted export and current runbook.",
+      "remaining_or_disposition": "Catalog existing demo families without forcing every historical demo to run. Retire or explicitly defer unsupported demos; preserve their original evidence."
+    },
+    {
+      "id": "F-047",
+      "feature": "arXiv paper writer and three-paper program",
+      "original": {
+        "line": 268,
+        "feature": "arXiv paper writer and three-paper program",
+        "status": "Implemented baseline",
+        "proof": "`v0.89.1` skills/publication package",
+        "target": "Publication packet completion target: `v0.91.2`; MVP publication lane complete by `v0.95`"
+      },
+      "current_owner": "respective paper repository + ADL evidence consumer",
+      "delivery_home": "Historical publication packets; v0.95/WP-07,WP-11 consumption",
+      "mvp_consumption_home": "v0.95/WP-13",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Dated reviewable paper/source packet and verified claims/citations if reused; manuscript publication remains separately authorized.",
+      "remaining_or_disposition": "No arXiv/publication or independent paper-product release is required by docs reconciliation. Record exact retained packet or explicit non-consumption."
+    },
+    {
+      "id": "F-048",
+      "feature": "Long-lived supervisor, heartbeat, and cycle artifacts",
+      "original": {
+        "line": 269,
+        "feature": "Long-lived supervisor, heartbeat, and cycle artifacts",
+        "status": "Implemented baseline",
+        "proof": "`v0.90` feature contracts, runtime surfaces, and stock-league demo package",
+        "target": "Inhabited-runtime completion target: `v0.91.1`"
+      },
+      "current_owner": "agent-logic-runtime",
+      "delivery_home": "v0.93.3/RV-08",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Exact owner source/artifact lockset and installed positive/refusal/recovery evidence; reuse valid prior proof.",
+      "remaining_or_disposition": "Reconcile this historical baseline with the accepted Runtime v4 consumer. Missing parity remains a named gap; do not infer it from plugin signing/metadata or a former Runtime v2 fixture."
+    },
+    {
+      "id": "F-049",
+      "feature": "Stock-league long-lived demo family",
+      "original": {
+        "line": 270,
+        "feature": "Stock-league long-lived demo family",
+        "status": "Implemented baseline",
+        "proof": "`v0.90` stock-league scaffold, recurring run, and proof artifacts",
+        "target": "Demo catalog completion target: `v0.95`"
+      },
+      "current_owner": "source-demo owner + ADL catalog owner",
+      "delivery_home": "v0.95/WP-07",
+      "mvp_consumption_home": "v0.95/WP-12",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Runnable selected flagship/proof/walkthrough entrypoint, declared candidate and scenario outcomes, redacted export and current runbook.",
+      "remaining_or_disposition": "Catalog existing demo families without forcing every historical demo to run. Retire or explicitly defer unsupported demos; preserve their original evidence."
+    },
+    {
+      "id": "F-050",
+      "feature": "Minimal status/inspection boundary",
+      "original": {
+        "line": 271,
+        "feature": "Minimal status/inspection boundary",
+        "status": "Implemented baseline",
+        "proof": "`v0.90` trace/status issue, CLI/report surfaces, and review gate",
+        "target": "Observatory/runtime completion target: `v0.91.1`"
+      },
+      "current_owner": "agent-logic-runtime",
+      "delivery_home": "v0.93.3/RV-08",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Exact owner source/artifact lockset and installed positive/refusal/recovery evidence; reuse valid prior proof.",
+      "remaining_or_disposition": "Reconcile this historical baseline with the accepted Runtime v4 consumer. Missing parity remains a named gap; do not infer it from plugin signing/metadata or a former Runtime v2 fixture."
+    },
+    {
+      "id": "F-051",
+      "feature": "CodeFriend review showcase and architecture-document generation",
+      "original": {
+        "line": 272,
+        "feature": "CodeFriend review showcase and architecture-document generation",
+        "status": "Implemented baseline",
+        "proof": "`v0.90` repo-review, diagram, product-report, and architecture-doc skill/demo package",
+        "target": "Productization completion target: `v0.91.2`; MVP completion target: `v0.95`"
+      },
+      "current_owner": "codefriend + codefriend.ai; Runtime/security for consumed interfaces",
+      "delivery_home": "v0.93.2/CF-B1-01..05,CF-92",
+      "mvp_consumption_home": "v0.95/WP-05 \u2192 WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Accepted external-repo/adapter review and actual onboarding/report/export contract, template/journal/full4+1 lineage where required by Beta1; exact product lockset and redacted exports.",
+      "remaining_or_disposition": "Reuse existing Beta1 qualification and separately authorized launch. Do not defer already required product journeys or revive superseded templates; billing/portfolio expansion needs distinct scope."
+    },
+    {
+      "id": "F-052",
+      "feature": "Coverage ratchet, test tracker, and quality tracking",
+      "original": {
+        "line": 273,
+        "feature": "Coverage ratchet, test tracker, and quality tracking",
+        "status": "Implemented baseline",
+        "proof": "`v0.90` coverage/test tracker updates and quality-gate docs",
+        "target": "Runtime/test-cycle recovery target: `v0.91.2`; MVP quality target: `v0.95`"
+      },
+      "current_owner": "cognitive-sdlc + affected public ADL validation owner",
+      "delivery_home": "v0.93.4/CS4-01..CS4-06",
+      "mvp_consumption_home": "v0.95/WP-08 \u2192 WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Native macOS/Linux, existing-state compatibility, changed-input proof reuse and measured overhead/recovery; six cards SIP/STP/SPP/VPP/SRP/SOR.",
+      "remaining_or_disposition": "Use #1352 and accepted C-SDLC v4 results first. Only newly evidenced residuals belong in v0.95; obsolete public-ADL PR wrappers and old extraction lists are historical."
+    },
+    {
+      "id": "F-053",
+      "feature": "Rust refactoring tracker and evidence-driven maintenance",
+      "original": {
+        "line": 274,
+        "feature": "Rust refactoring tracker and evidence-driven maintenance",
+        "status": "Implemented baseline",
+        "proof": "`v0.90` refactoring tracker, ADR remediation, and follow-on maintenance planning",
+        "target": "Rustdoc/tooling cleanup target: `v0.91.2`; MVP hardening target: `v0.95`"
+      },
+      "current_owner": "cognitive-sdlc + affected public ADL validation owner",
+      "delivery_home": "v0.93.4/CS4-01..CS4-06",
+      "mvp_consumption_home": "v0.95/WP-08 \u2192 WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Native macOS/Linux, existing-state compatibility, changed-input proof reuse and measured overhead/recovery; six cards SIP/STP/SPP/VPP/SRP/SOR.",
+      "remaining_or_disposition": "Use #1352 and accepted C-SDLC v4 results first. Only newly evidenced residuals belong in v0.95; obsolete public-ADL PR wrappers and old extraction lists are historical."
+    },
+    {
+      "id": "F-054",
+      "feature": "Milestone compression and repo visibility prototypes",
+      "original": {
+        "line": 275,
+        "feature": "Milestone compression and repo visibility prototypes",
+        "status": "Implemented baseline",
+        "proof": "`v0.90` compression and repo-visibility docs/proofs",
+        "target": "Repo-visibility follow-on target: `v0.91.2`; fuller repo-cognition convergence target: `v0.95`"
+      },
+      "current_owner": "cognitive-sdlc reporting owner + ADL catalog",
+      "delivery_home": "v0.95/WP-02",
+      "mvp_consumption_home": "v0.95/WP-07,WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Maintained read-only dashboard/report using canonical milestone state with timestamped refresh and compression metrics.",
+      "remaining_or_disposition": "No parallel release authority or live-telemetry claim from a static report. Reconcile historical repo-visibility work before creating residual tasks."
+    },
+    {
+      "id": "F-055",
+      "feature": "HTML milestone dashboard and compression reporting",
+      "original": {
+        "line": 276,
+        "feature": "HTML milestone dashboard and compression reporting",
+        "status": "MVP-scoped",
+        "proof": "`docs/milestones/v0.95/features/HTML_MILESTONE_DASHBOARD_AND_COMPRESSION_REPORTING_v0.95.md` plus the milestone-dashboard tooling baseline",
+        "target": "Dashboard/compression completion target: `v0.95`"
+      },
+      "current_owner": "cognitive-sdlc reporting owner + ADL catalog",
+      "delivery_home": "v0.95/WP-02",
+      "mvp_consumption_home": "v0.95/WP-07,WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Maintained read-only dashboard/report using canonical milestone state with timestamped refresh and compression metrics.",
+      "remaining_or_disposition": "No parallel release authority or live-telemetry claim from a static report. Reconcile historical repo-visibility work before creating residual tasks."
+    },
+    {
+      "id": "F-056",
+      "feature": "Runtime v2 foundation prototype",
+      "original": {
+        "line": 277,
+        "feature": "Runtime v2 foundation prototype",
+        "status": "Implemented baseline",
+        "proof": "`v0.90.1` feature contracts, Runtime v2 WPs, integrated demo, and proof packet",
+        "target": "Foundation complete; hardened by `v0.90.2`"
+      },
+      "current_owner": "agent-logic-runtime",
+      "delivery_home": "v0.93.3/RV-08",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Exact owner source/artifact lockset and installed positive/refusal/recovery evidence; reuse valid prior proof.",
+      "remaining_or_disposition": "Reconcile this historical baseline with the accepted Runtime v4 consumer. Missing parity remains a named gap; do not infer it from plugin signing/metadata or a former Runtime v2 fixture."
+    },
+    {
+      "id": "F-057",
+      "feature": "CSM Observatory visibility and operator-report surfaces",
+      "original": {
+        "line": 278,
+        "feature": "CSM Observatory visibility and operator-report surfaces",
+        "status": "Implemented baseline with retained Runtime v3 parity proof",
+        "proof": "visibility packet, static console, operator report, CLI bundle, command packet design, v0.90.2 operator report integration, v0.90.3 redacted projections, multimode UI architecture, inhabited flagship demo, `docs/milestones/v0.91.5/features/DEMO_AND_UNITY_OBSERVATORY_READINESS_v0.91.5.md`, `docs/milestones/v0.91.6/features/OBSERVATORY_UNITY_CONSUMPTION_CLASSIFICATION_v0.91.6.md`, v0.91.8 #5590, #5701/#5722 source-route hardening, and WP-16 issue-outcome audit",
+        "target": "#5590 proves authenticated HTML Observatory consumption through configuration-driven Runtime v3 access; WP-15 #5354 owns Unity proof issues #4839/#4741/#5332 independently of WP-14A; public cloud hosting remains unclaimed"
+      },
+      "current_owner": "agent-logic-runtime",
+      "delivery_home": "v0.93.3/RV-08",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Exact owner source/artifact lockset and installed positive/refusal/recovery evidence; reuse valid prior proof.",
+      "remaining_or_disposition": "Reconcile this historical baseline with the accepted Runtime v4 consumer. Missing parity remains a named gap; do not infer it from plugin signing/metadata or a former Runtime v2 fixture."
+    },
+    {
+      "id": "F-058",
+      "feature": "Runtime v2 hardening, recovery, quarantine, and expanded invariants",
+      "original": {
+        "line": 279,
+        "feature": "Runtime v2 hardening, recovery, quarantine, and expanded invariants",
+        "status": "Implemented baseline",
+        "proof": "`v0.90.2` implementation docs, proof packets, tests, and demo matrix",
+        "target": "Completed baseline by `v0.90.2`"
+      },
+      "current_owner": "agent-logic-runtime",
+      "delivery_home": "v0.93.3/RV-08",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Exact owner source/artifact lockset and installed positive/refusal/recovery evidence; reuse valid prior proof.",
+      "remaining_or_disposition": "Reconcile this historical baseline with the accepted Runtime v4 consumer. Missing parity remains a named gap; do not infer it from plugin signing/metadata or a former Runtime v2 fixture."
+    },
+    {
+      "id": "F-059",
+      "feature": "First bounded CSM run",
+      "original": {
+        "line": 280,
+        "feature": "First bounded CSM run",
+        "status": "Implemented baseline",
+        "proof": "`v0.90.2` integrated first-run demo, feature-proof coverage, CSM run packet, Observatory report",
+        "target": "Completed baseline by `v0.90.2`"
+      },
+      "current_owner": "agent-logic-runtime",
+      "delivery_home": "v0.93.3/RV-08",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Exact owner source/artifact lockset and installed positive/refusal/recovery evidence; reuse valid prior proof.",
+      "remaining_or_disposition": "Reconcile this historical baseline with the accepted Runtime v4 consumer. Missing parity remains a named gap; do not infer it from plugin signing/metadata or a former Runtime v2 fixture."
+    },
+    {
+      "id": "F-060",
+      "feature": "Third-party review and review-quality gates",
+      "original": {
+        "line": 281,
+        "feature": "Third-party review and review-quality gates",
+        "status": "Implemented baseline",
+        "proof": "v0.90.1 WP-15A, v0.90.2 review-tail planning, review handoff packets, finding disposition",
+        "target": "Release-tail completion target: every milestone through `v0.95`"
+      },
+      "current_owner": "cognitive-sdlc + affected public ADL validation owner",
+      "delivery_home": "v0.93.4/CS4-01..CS4-06",
+      "mvp_consumption_home": "v0.95/WP-08 \u2192 WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Native macOS/Linux, existing-state compatibility, changed-input proof reuse and measured overhead/recovery; six cards SIP/STP/SPP/VPP/SRP/SOR.",
+      "remaining_or_disposition": "Use #1352 and accepted C-SDLC v4 results first. Only newly evidenced residuals belong in v0.95; obsolete public-ADL PR wrappers and old extraction lists are historical."
+    },
+    {
+      "id": "F-061",
+      "feature": "ANRM / shepherd-model experiments",
+      "original": {
+        "line": 282,
+        "feature": "ANRM / shepherd-model experiments",
+        "status": "Partially implemented",
+        "proof": "v0.90.1 ANRM Gemma scaffold comparison and ten-trial results",
+        "target": "Placement complete in `v0.91.1`; evaluator/training path complete by `v0.95`"
+      },
+      "current_owner": "agent-logic-runtime evaluation/data owner; public ADL contract consumer",
+      "delivery_home": "v0.95/WP-03 (mixed row also v0.93.6 governance)",
+      "mvp_consumption_home": "v0.95/WP-04,WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Candidate and dataset provenance/permissions, frozen held-out denominator and thresholds; distinguish evaluated existing model, dataset, actual training and installed integration.",
+      "remaining_or_disposition": "The required trained-versus-evaluated outcome is an unresolved admission decision; no plan-only claim of training completion. Mixed memory/ToM/learning rows require component evidence, not one blanket done flag."
+    },
+    {
+      "id": "F-062",
+      "feature": "CSM Shepherd model and Gemma training path",
+      "original": {
+        "line": 283,
+        "feature": "CSM Shepherd model and Gemma training path",
+        "status": "MVP-scoped",
+        "proof": "`docs/milestones/v0.95/features/CSM_SHEPHERD_AND_GEMMA_TRAINING_PATH_v0.95.md` plus ANRM comparison/trace-dataset foundations",
+        "target": "Placement and trace dataset complete in `v0.91.1`; training/evaluator MVP complete by `v0.95`"
+      },
+      "current_owner": "agent-logic-runtime evaluation/data owner; public ADL contract consumer",
+      "delivery_home": "v0.95/WP-03 (mixed row also v0.93.6 governance)",
+      "mvp_consumption_home": "v0.95/WP-04,WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Candidate and dataset provenance/permissions, frozen held-out denominator and thresholds; distinguish evaluated existing model, dataset, actual training and installed integration.",
+      "remaining_or_disposition": "The required trained-versus-evaluated outcome is an unresolved admission decision; no plan-only claim of training completion. Mixed memory/ToM/learning rows require component evidence, not one blanket done flag."
+    },
+    {
+      "id": "F-063",
+      "feature": "Capability-testing evidence and Aptitude Atlas boundary",
+      "original": {
+        "line": 284,
+        "feature": "Capability-testing evidence and Aptitude Atlas boundary",
+        "status": "Post-MVP Aptitude Atlas productization; v0.95 evidence consumption only",
+        "proof": "capability/aptitude harness baseline and `docs/milestones/v0.95/features/APTITUDE_ATLAS_MODEL_EVALUATION_PLATFORM_v0.95.md`",
+        "target": "Harness baseline complete in `v0.91.1`; `v0.95` consumes capability-testing evidence only; Aptitude Atlas product/baseline productization is post-v0.95"
+      },
+      "current_owner": "capability-evidence owner; ATEC/AVP only if explicitly selected",
+      "delivery_home": "v0.95/WP-04",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Methodology-backed capability evidence tied to exact candidate, task families and limitations.",
+      "remaining_or_disposition": "Aptitude Atlas productization remains post-v0.95. ATEC/AVP are separate owners; inclusion and exact contract require an explicit decision, not a presumed replacement."
+    },
+    {
+      "id": "F-064",
+      "feature": "Governed tool calls and capability contracts",
+      "original": {
+        "line": 285,
+        "feature": "Governed tool calls and capability contracts",
+        "status": "Implemented baseline",
+        "proof": "`docs/milestones/v0.90.5` Governed Tools v1.0 planning, Universal Tool Schema, ADL Capability Contract, and tool-to-capability compiler design",
+        "target": "Completed baseline; benchmark and conformance expansion in `v0.91.2`"
+      },
+      "current_owner": "universal-tool-schema descriptive contract; Runtime ACC/enforcement/benchmark owner",
+      "delivery_home": "Existing UTS release/adoption issues and accepted owner contracts",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Versioned UTS/SDK contract and conformance evidence if consumed; Runtime retains ACC authorization and benchmark custody.",
+      "remaining_or_disposition": "Reconcile current UTS1.1 and Python/TypeScript SDK identities from owner evidence before inclusion; preserve UTS7/39 without reopening or inventing publication/readiness."
+    },
+    {
+      "id": "F-065",
+      "feature": "Cognitive Compression Cost instrumentation",
+      "original": {
+        "line": 286,
+        "feature": "Cognitive Compression Cost instrumentation",
+        "status": "Implemented first pass",
+        "proof": "CCC v0 fixture extractor, generated comparison report, validation command, metric draft, and milestone-compression planning",
+        "target": "Trace-backed metric completion target: `v0.91.1`; reporting completion target: `v0.95`"
+      },
+      "current_owner": "cognitive-sdlc reporting owner + ADL catalog",
+      "delivery_home": "v0.95/WP-02",
+      "mvp_consumption_home": "v0.95/WP-07,WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Maintained read-only dashboard/report using canonical milestone state with timestamped refresh and compression metrics.",
+      "remaining_or_disposition": "No parallel release authority or live-telemetry claim from a static report. Reconcile historical repo-visibility work before creating residual tasks."
+    },
+    {
+      "id": "F-066",
+      "feature": "Web-based code editor integration",
+      "original": {
+        "line": 287,
+        "feature": "Web-based code editor integration",
+        "status": "MVP-scoped",
+        "proof": "`docs/milestones/v0.95/features/WEB_BASED_CODE_EDITOR_INTEGRATION_v0.95.md` plus the HTA editor-planning baseline",
+        "target": "Editor/operator completion target: `v0.95`"
+      },
+      "current_owner": "cognitive-sdlc + selected editor UI owner",
+      "delivery_home": "v0.95/WP-09",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Bounded author/edit/validate/review journey through the admitted lifecycle, with private data and authority boundaries.",
+      "remaining_or_disposition": "Required portable web/editor floor remains planned; select the UI owner and exact consumer before implementation. No second lifecycle state engine."
+    },
+    {
+      "id": "F-067",
+      "feature": "Reasoning graph baseline",
+      "original": {
+        "line": 288,
+        "feature": "Reasoning graph baseline",
+        "status": "Bounded Runtime v2 proof retained; Runtime v3 parity proof retained; broader provenance MVP-scoped",
+        "proof": "`docs/milestones/v0.94/features/REASONING_GRAPH_BASELINE_v0.94.md`, closed #4694-#4697 proof, v0.91.8 #5592, and WP-16 issue-outcome audit",
+        "target": "#5592 preserves the bounded live graph/loop/adaptation parity path; broader reasoning/provenance completion remains v0.94"
+      },
+      "current_owner": "agent-logic-runtime + public ADL contract owner",
+      "delivery_home": "v0.94/WP-02..WP-05",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Explicit reasoning-graph and signed/queryable trace outcomes with access checks, provenance and exact owner evidence.",
+      "remaining_or_disposition": "Reasoning graph is a named WP-05 acceptance obligation alongside trace, not an implicitly satisfied feature. Reuse earlier bounded loops/skill proof."
+    },
+    {
+      "id": "F-068",
+      "feature": "Signed trace and trace query",
+      "original": {
+        "line": 289,
+        "feature": "Signed trace and trace query",
+        "status": "MVP-scoped",
+        "proof": "`docs/milestones/v0.94/features/SIGNED_TRACE_AND_TRACE_QUERY_v0.94.md`",
+        "target": "Reasoning/provenance completion target: `v0.94`"
+      },
+      "current_owner": "agent-logic-runtime + public ADL contract owner",
+      "delivery_home": "v0.94/WP-02..WP-05",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Explicit reasoning-graph and signed/queryable trace outcomes with access checks, provenance and exact owner evidence.",
+      "remaining_or_disposition": "Reasoning graph is a named WP-05 acceptance obligation alongside trace, not an implicitly satisfied feature. Reuse earlier bounded loops/skill proof."
+    },
+    {
+      "id": "F-069",
+      "feature": "Wellbeing, affect, kindness, moral cognition, humor",
+      "original": {
+        "line": 290,
+        "feature": "Wellbeing, affect, kindness, moral cognition, humor",
+        "status": "Implemented Runtime v2 baseline; bounded Runtime v3 parity disposition retained",
+        "proof": "`v0.91` feature docs, Runtime v2 proof surfaces, demo matrix, feature-proof coverage, release evidence, ADR 0016, `docs/milestones/v0.91.7/features/AFFECT_HAPPINESS_BRIDGE_v0.91.7.md`, v0.91.8 #5592, and WP-16 issue-outcome audit",
+        "target": "#5592 preserves affect reasoning-control as a bounded Runtime v3 parity surface with safe non-claims; subjective affect, consciousness, suffering, happiness, or unbounded self-improvement remain unclaimed"
+      },
+      "current_owner": "agent-logic-runtime",
+      "delivery_home": "v0.93.7/AF-01..08,HU-01..04",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Actual executed selection/recovery/reframing, captured-input replay, held-out comparison, bounded fallback and installed proof.",
+      "remaining_or_disposition": "Preserve prior bounded cognitive/moral/affect evidence and non-claims. No subjective feeling, consciousness or unbounded improvement claim from this plan."
+    },
+    {
+      "id": "F-070",
+      "feature": "Secure Agent Communication and Invocation Protocol",
+      "original": {
+        "line": 291,
+        "feature": "Secure Agent Communication and Invocation Protocol",
+        "status": "Implemented baseline plus active hardening",
+        "proof": "v0.90.5 ACIP planning plus v0.91 secure local Agent Comms, A2A boundary docs, proof coverage, and ADR 0017",
+        "target": "`v0.91.0` substrate complete; local hardening baseline completes in `v0.91.1`"
+      },
+      "current_owner": "agent-logic-runtime",
+      "delivery_home": "v0.93.3/RV-08",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Exact owner source/artifact lockset and installed positive/refusal/recovery evidence; reuse valid prior proof.",
+      "remaining_or_disposition": "Reconcile this historical baseline with the accepted Runtime v4 consumer. Missing parity remains a named gap; do not infer it from plugin signing/metadata or a former Runtime v2 fixture."
+    },
+    {
+      "id": "F-071",
+      "feature": "Inhabited runtime readiness",
+      "original": {
+        "line": 292,
+        "feature": "Inhabited runtime readiness",
+        "status": "Implemented baseline",
+        "proof": "`docs/milestones/v0.91.1` WBS, sprint plan, issue-wave YAML, readiness docs, demo matrix, feature index, and completed WP issue wave",
+        "target": "Completed baseline by `v0.91.1`"
+      },
+      "current_owner": "agent-logic-runtime",
+      "delivery_home": "v0.93.3/RV-08",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Exact owner source/artifact lockset and installed positive/refusal/recovery evidence; reuse valid prior proof.",
+      "remaining_or_disposition": "Reconcile this historical baseline with the accepted Runtime v4 consumer. Missing parity remains a named gap; do not infer it from plugin signing/metadata or a former Runtime v2 fixture."
+    },
+    {
+      "id": "F-072",
+      "feature": "Runtime/polis architecture alignment",
+      "original": {
+        "line": 293,
+        "feature": "Runtime/polis architecture alignment",
+        "status": "Implemented baseline",
+        "proof": "`docs/milestones/v0.91.1/features/RUNTIME_POLIS_ARCHITECTURE.md` plus landed docs/runtime alignment from closed `WP-02` / `#2824`",
+        "target": "Completed baseline by `v0.91.1`"
+      },
+      "current_owner": "agent-logic-runtime",
+      "delivery_home": "v0.93.3/RV-08",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Exact owner source/artifact lockset and installed positive/refusal/recovery evidence; reuse valid prior proof.",
+      "remaining_or_disposition": "Reconcile this historical baseline with the accepted Runtime v4 consumer. Missing parity remains a named gap; do not infer it from plugin signing/metadata or a former Runtime v2 fixture."
+    },
+    {
+      "id": "F-073",
+      "feature": "Agent lifecycle state model",
+      "original": {
+        "line": 294,
+        "feature": "Agent lifecycle state model",
+        "status": "Implemented baseline",
+        "proof": "`docs/milestones/v0.91.1/features/AGENT_LIFECYCLE_STATE_MODEL.md` plus landed runtime/tests from closed `WP-03` / `#2825`",
+        "target": "Completed baseline by `v0.91.1`"
+      },
+      "current_owner": "agent-logic-runtime",
+      "delivery_home": "v0.93.3/RV-08",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Exact owner source/artifact lockset and installed positive/refusal/recovery evidence; reuse valid prior proof.",
+      "remaining_or_disposition": "Reconcile this historical baseline with the accepted Runtime v4 consumer. Missing parity remains a named gap; do not infer it from plugin signing/metadata or a former Runtime v2 fixture."
+    },
+    {
+      "id": "F-074",
+      "feature": "CSM Observatory active agent runtime",
+      "original": {
+        "line": 295,
+        "feature": "CSM Observatory active agent runtime",
+        "status": "Implemented baseline",
+        "proof": "`docs/milestones/v0.91.1/features/CSM_OBSERVATORY_ACTIVE_SURFACE.md` plus landed runtime/tests from closed `WP-04` / `#2826`",
+        "target": "Completed baseline by `v0.91.1`"
+      },
+      "current_owner": "agent-logic-runtime",
+      "delivery_home": "v0.93.3/RV-08",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Exact owner source/artifact lockset and installed positive/refusal/recovery evidence; reuse valid prior proof.",
+      "remaining_or_disposition": "Reconcile this historical baseline with the accepted Runtime v4 consumer. Missing parity remains a named gap; do not infer it from plugin signing/metadata or a former Runtime v2 fixture."
+    },
+    {
+      "id": "F-075",
+      "feature": "Citizen standing and citizen state follow-on",
+      "original": {
+        "line": 296,
+        "feature": "Citizen standing and citizen state follow-on",
+        "status": "Implemented baseline",
+        "proof": "`docs/milestones/v0.91.1/features/CITIZEN_STANDING_MODEL.md`, `docs/milestones/v0.91.1/features/CITIZEN_STATE_SUBSTRATE.md`, and landed runtime/fixture proof from closed `WP-05` / `#2827` and `WP-06` / `#2828`",
+        "target": "Completed baseline by `v0.91.1`"
+      },
+      "current_owner": "agent-logic-runtime + public ADL contract owner",
+      "delivery_home": "v0.93.4/GOV-01..03,GOV-11,CM-01..04; v0.93.6/GOV-04..16 as applicable",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Scoped actor/standing/delegation and migration/lineage/fencing proof, then relevant constitutional review/appeal consumer outcomes.",
+      "remaining_or_disposition": "Preserve foundation versus remaining governance separation; original per-WP acceptance determines the applicable subset. No automatic new governance requirements."
+    },
+    {
+      "id": "F-076",
+      "feature": "Memory, Theory of Mind, capability testing, intelligence metrics, governed learning, and ANRM/Gemma",
+      "original": {
+        "line": 297,
+        "feature": "Memory, Theory of Mind, capability testing, intelligence metrics, governed learning, and ANRM/Gemma",
+        "status": "Implemented baseline",
+        "proof": "`docs/milestones/v0.91.1/features/README.md` plus landed proof surfaces from closed `WP-07` through `WP-12` / `#2829` through `#2834`",
+        "target": "Completed baseline by `v0.91.1`"
+      },
+      "current_owner": "agent-logic-runtime evaluation/data owner; public ADL contract consumer",
+      "delivery_home": "v0.95/WP-03 (mixed row also v0.93.6 governance)",
+      "mvp_consumption_home": "v0.95/WP-04,WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Candidate and dataset provenance/permissions, frozen held-out denominator and thresholds; distinguish evaluated existing model, dataset, actual training and installed integration.",
+      "remaining_or_disposition": "The required trained-versus-evaluated outcome is an unresolved admission decision; no plan-only claim of training completion. Mixed memory/ToM/learning rows require component evidence, not one blanket done flag."
+    },
+    {
+      "id": "F-077",
+      "feature": "ACIP hardening and local encryption boundary",
+      "original": {
+        "line": 298,
+        "feature": "ACIP hardening and local encryption boundary",
+        "status": "Implemented baseline",
+        "proof": "`docs/milestones/v0.91.1/features/ACIP_HARDENING.md` plus landed hardening/conformance work from closed `WP-13` / `#2835`",
+        "target": "Completed local hardening baseline by `v0.91.1`"
+      },
+      "current_owner": "agent-logic-enterprise-security + agent-logic-runtime",
+      "delivery_home": "v0.93.2/WP-S1..WP-S6",
+      "mvp_consumption_home": "v0.94/WP-02..WP-04 \u2192 v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Enforced identity/authorization, isolation, secrets/revocation, redacted audit and adverse-case proof from their exact owners.",
+      "remaining_or_disposition": "Consume accepted enterprise-security evidence; v0.94 closes cross-band deltas, not a duplicate security implementation. External certification remains a separate non-claim."
+    },
+    {
+      "id": "F-078",
+      "feature": "A2A adapter boundary",
+      "original": {
+        "line": 299,
+        "feature": "A2A adapter boundary",
+        "status": "Implemented baseline",
+        "proof": "`docs/milestones/v0.91.1/features/A2A_ADAPTER_BOUNDARY.md` and closed `WP-14` / `#2836`",
+        "target": "Completed baseline by `v0.91.1`"
+      },
+      "current_owner": "agent-logic-runtime",
+      "delivery_home": "v0.93.3/RV-08",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Exact owner source/artifact lockset and installed positive/refusal/recovery evidence; reuse valid prior proof.",
+      "remaining_or_disposition": "Reconcile this historical baseline with the accepted Runtime v4 consumer. Missing parity remains a named gap; do not infer it from plugin signing/metadata or a former Runtime v2 fixture."
+    },
+    {
+      "id": "F-079",
+      "feature": "Runtime inhabitant proof",
+      "original": {
+        "line": 300,
+        "feature": "Runtime inhabitant proof",
+        "status": "Implemented baseline",
+        "proof": "`docs/milestones/v0.91.1/features/RUNTIME_INHABITANT_PROOF.md` and closed `WP-15` / `#2837`",
+        "target": "Completed baseline by `v0.91.1`"
+      },
+      "current_owner": "agent-logic-runtime",
+      "delivery_home": "v0.93.3/RV-08",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Exact owner source/artifact lockset and installed positive/refusal/recovery evidence; reuse valid prior proof.",
+      "remaining_or_disposition": "Reconcile this historical baseline with the accepted Runtime v4 consumer. Missing parity remains a named gap; do not infer it from plugin signing/metadata or a former Runtime v2 fixture."
+    },
+    {
+      "id": "F-080",
+      "feature": "UTS + ACC multi-model benchmark and provider-native tool-call comparison",
+      "original": {
+        "line": 301,
+        "feature": "UTS + ACC multi-model benchmark and provider-native tool-call comparison",
+        "status": "Implemented baseline",
+        "proof": "`docs/milestones/v0.91.2/features/UTS_ACC_MULTI_MODEL_BENCHMARK.md` plus `docs/milestones/v0.91.2/review/uts_benchmark_evidence/`",
+        "target": "`v0.91.2` historical ADL baseline; benchmark source ownership is Runtime under ADL `#1223`. Historical evidence remains unchanged; current owner publication and qualification are separate gates"
+      },
+      "current_owner": "universal-tool-schema descriptive contract; Runtime ACC/enforcement/benchmark owner",
+      "delivery_home": "Existing UTS release/adoption issues and accepted owner contracts",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Versioned UTS/SDK contract and conformance evidence if consumed; Runtime retains ACC authorization and benchmark custody.",
+      "remaining_or_disposition": "Reconcile current UTS1.1 and Python/TypeScript SDK identities from owner evidence before inclusion; preserve UTS7/39 without reopening or inventing publication/readiness."
+    },
+    {
+      "id": "F-081",
+      "feature": "Runtime/test-cycle recovery and coverage ergonomics",
+      "original": {
+        "line": 302,
+        "feature": "Runtime/test-cycle recovery and coverage ergonomics",
+        "status": "Implemented baseline",
+        "proof": "`docs/milestones/v0.91.2/features/RUNTIME_TEST_CYCLE_RECOVERY.md`, runtime recovery reports, coverage ergonomics report, and CI runtime budget docs",
+        "target": "`v0.91.2` baseline complete with follow-on observability/hardening continuing as needed"
+      },
+      "current_owner": "cognitive-sdlc + affected public ADL validation owner",
+      "delivery_home": "v0.93.4/CS4-01..CS4-06",
+      "mvp_consumption_home": "v0.95/WP-08 \u2192 WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Native macOS/Linux, existing-state compatibility, changed-input proof reuse and measured overhead/recovery; six cards SIP/STP/SPP/VPP/SRP/SOR.",
+      "remaining_or_disposition": "Use #1352 and accepted C-SDLC v4 results first. Only newly evidenced residuals belong in v0.95; obsolete public-ADL PR wrappers and old extraction lists are historical."
+    },
+    {
+      "id": "F-082",
+      "feature": "CodeFriend repo-review product layer",
+      "original": {
+        "line": 303,
+        "feature": "CodeFriend repo-review product layer",
+        "status": "Implemented baseline",
+        "proof": "`docs/milestones/v0.91.2/features/CODEFRIEND_PRODUCTIZATION.md` plus existing review-product proof baseline",
+        "target": "`v0.91.2` productization lane complete; MVP polish continues by `v0.95`"
+      },
+      "current_owner": "codefriend + codefriend.ai; Runtime/security for consumed interfaces",
+      "delivery_home": "v0.93.2/CF-B1-01..05,CF-92",
+      "mvp_consumption_home": "v0.95/WP-05 \u2192 WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Accepted external-repo/adapter review and actual onboarding/report/export contract, template/journal/full4+1 lineage where required by Beta1; exact product lockset and redacted exports.",
+      "remaining_or_disposition": "Reuse existing Beta1 qualification and separately authorized launch. Do not defer already required product journeys or revive superseded templates; billing/portfolio expansion needs distinct scope."
+    },
+    {
+      "id": "F-083",
+      "feature": "Review heuristics and reviewer demo lane",
+      "original": {
+        "line": 304,
+        "feature": "Review heuristics and reviewer demo lane",
+        "status": "Implemented baseline",
+        "proof": "`docs/milestones/v0.91.2/features/REVIEW_HEURISTICS_AND_DEMOS.md`",
+        "target": "`v0.91.2` review/demo baseline complete"
+      },
+      "current_owner": "source-demo owner + ADL catalog owner",
+      "delivery_home": "v0.95/WP-07",
+      "mvp_consumption_home": "v0.95/WP-12",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Runnable selected flagship/proof/walkthrough entrypoint, declared candidate and scenario outcomes, redacted export and current runbook.",
+      "remaining_or_disposition": "Catalog existing demo families without forcing every historical demo to run. Retire or explicitly defer unsupported demos; preserve their original evidence."
+    },
+    {
+      "id": "F-084",
+      "feature": "Google Workspace CMS bridge and Rust-native adapter boundary",
+      "original": {
+        "line": 305,
+        "feature": "Google Workspace CMS bridge and Rust-native adapter boundary",
+        "status": "Implemented baseline plus active hardening",
+        "proof": "`docs/milestones/v0.91.2/features/GOOGLE_WORKSPACE_CMS_BRIDGE.md`",
+        "target": "Completed bounded baseline in `v0.91.2`; live hardening and future project operational use continue as follow-on work"
+      },
+      "current_owner": "separate Workspace adapter owner (to confirm)",
+      "delivery_home": "Retained bounded bridge; future productization deferred",
+      "mvp_consumption_home": "v0.95/WP-11 disposition",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Existing dated bridge proof or explicit non-consumption decision.",
+      "remaining_or_disposition": "Broad Google Workspace CMS remains on planning hold; no active implementation is inferred from older allocated prose."
+    },
+    {
+      "id": "F-085",
+      "feature": "Automated repository modernization and external refactoring integration",
+      "original": {
+        "line": 306,
+        "feature": "Automated repository modernization and external refactoring integration",
+        "status": "Implemented bounded packet",
+        "proof": "`docs/milestones/v0.91.2/features/CODE_MODERNIZATION_DEMO.md` plus existing Moderne/OpenRewrite and code-modernization planning docs",
+        "target": "`v0.91.2` bounded Moderne/OpenRewrite LST demo lane complete"
+      },
+      "current_owner": "modernization/refactoring integration owner (to confirm)",
+      "delivery_home": "Retained bounded Moderne/OpenRewrite packet; broader service deferred",
+      "mvp_consumption_home": "v0.95/WP-11 disposition",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Reviewable existing evaluation packet, or explicit non-consumption.",
+      "remaining_or_disposition": "Do not reopen historical modernization/transpiler service work; broader productization remains deferred."
+    },
+    {
+      "id": "F-086",
+      "feature": "Generic speculative decoding runtime acceleration",
+      "original": {
+        "line": 307,
+        "feature": "Generic speculative decoding runtime acceleration",
+        "status": "Implemented evaluation packet",
+        "proof": "`docs/milestones/v0.91.2/features/SPECULATIVE_DECODING_PROTOTYPE.md`, `docs/milestones/v0.91.2/review/speculative_decoding/speculative_decoding_prototype_packet.md`, and `docs/adr/0022-speculative-decoding-deterministic-commit-boundary.md`",
+        "target": "`v0.91.2` bounded evaluation complete; productization deferred pending real backend follow-on"
+      },
+      "current_owner": "agent-logic-runtime provider/backend owner",
+      "delivery_home": "Retained bounded evaluation; MVP inclusion unresolved",
+      "mvp_consumption_home": "v0.95/WP-11 decision",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "A viable backend with actual evidence if promoted, otherwise dated explicit post-MVP/excluded disposition.",
+      "remaining_or_disposition": "No silent backend productization promise; old evaluation packet is not a qualified serving feature."
+    },
+    {
+      "id": "F-087",
+      "feature": "Repo visibility follow-on",
+      "original": {
+        "line": 308,
+        "feature": "Repo visibility follow-on",
+        "status": "Implemented baseline",
+        "proof": "`docs/milestones/v0.91.2/features/REPO_VISIBILITY_FOLLOW_ON.md` plus the `v0.90` repo-visibility baseline",
+        "target": "`v0.91.2` follow-on packet complete"
+      },
+      "current_owner": "cognitive-sdlc reporting owner + ADL catalog",
+      "delivery_home": "v0.95/WP-02",
+      "mvp_consumption_home": "v0.95/WP-07,WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Maintained read-only dashboard/report using canonical milestone state with timestamped refresh and compression metrics.",
+      "remaining_or_disposition": "No parallel release authority or live-telemetry claim from a static report. Reconcile historical repo-visibility work before creating residual tasks."
+    },
+    {
+      "id": "F-088",
+      "feature": "Publication packet program and GHB paper lane",
+      "original": {
+        "line": 309,
+        "feature": "Publication packet program and GHB paper lane",
+        "status": "Implemented packet",
+        "proof": "`docs/milestones/v0.91.2/features/PUBLICATION_PROGRAM.md` plus GHB paper lineage docs",
+        "target": "`v0.91.2` publication-planning packet complete; no publication approval claimed"
+      },
+      "current_owner": "respective paper repository + ADL evidence consumer",
+      "delivery_home": "Historical publication packets; v0.95/WP-07,WP-11 consumption",
+      "mvp_consumption_home": "v0.95/WP-13",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Dated reviewable paper/source packet and verified claims/citations if reused; manuscript publication remains separately authorized.",
+      "remaining_or_disposition": "No arXiv/publication or independent paper-product release is required by docs reconciliation. Record exact retained packet or explicit non-consumption."
+    },
+    {
+      "id": "F-089",
+      "feature": "General-intelligence paper packet",
+      "original": {
+        "line": 310,
+        "feature": "General-intelligence paper packet",
+        "status": "Implemented packet",
+        "proof": "`docs/milestones/v0.91.2/features/GENERAL_INTELLIGENCE_PAPER_PACKET.md`",
+        "target": "`v0.91.2` paper packet complete with canonical paper repo as source of manuscript truth"
+      },
+      "current_owner": "respective paper repository + ADL evidence consumer",
+      "delivery_home": "Historical publication packets; v0.95/WP-07,WP-11 consumption",
+      "mvp_consumption_home": "v0.95/WP-13",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Dated reviewable paper/source packet and verified claims/citations if reused; manuscript publication remains separately authorized.",
+      "remaining_or_disposition": "No arXiv/publication or independent paper-product release is required by docs reconciliation. Record exact retained packet or explicit non-consumption."
+    },
+    {
+      "id": "F-090",
+      "feature": "Rustdoc/doc cleanup",
+      "original": {
+        "line": 311,
+        "feature": "Rustdoc/doc cleanup",
+        "status": "Implemented baseline",
+        "proof": "`docs/milestones/v0.91.2/features/RUSTDOC_DOC_CLEANUP.md`",
+        "target": "`v0.91.2` cleanup baseline complete"
+      },
+      "current_owner": "cognitive-sdlc + affected public ADL validation owner",
+      "delivery_home": "v0.93.4/CS4-01..CS4-06",
+      "mvp_consumption_home": "v0.95/WP-08 \u2192 WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Native macOS/Linux, existing-state compatibility, changed-input proof reuse and measured overhead/recovery; six cards SIP/STP/SPP/VPP/SRP/SOR.",
+      "remaining_or_disposition": "Use #1352 and accepted C-SDLC v4 results first. Only newly evidenced residuals belong in v0.95; obsolete public-ADL PR wrappers and old extraction lists are historical."
+    },
+    {
+      "id": "F-091",
+      "feature": "Workflow guardrails",
+      "original": {
+        "line": 312,
+        "feature": "Workflow guardrails",
+        "status": "Implemented baseline",
+        "proof": "`docs/milestones/v0.91.2/features/WORKFLOW_GUARDRAILS.md`",
+        "target": "`v0.91.2` guardrail baseline complete"
+      },
+      "current_owner": "cognitive-sdlc + affected public ADL validation owner",
+      "delivery_home": "v0.93.4/CS4-01..CS4-06",
+      "mvp_consumption_home": "v0.95/WP-08 \u2192 WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Native macOS/Linux, existing-state compatibility, changed-input proof reuse and measured overhead/recovery; six cards SIP/STP/SPP/VPP/SRP/SOR.",
+      "remaining_or_disposition": "Use #1352 and accepted C-SDLC v4 results first. Only newly evidenced residuals belong in v0.95; obsolete public-ADL PR wrappers and old extraction lists are historical."
+    },
+    {
+      "id": "F-092",
+      "feature": "Cognitive SDLC first slice and transition manifest",
+      "original": {
+        "line": 313,
+        "feature": "Cognitive SDLC first slice and transition manifest",
+        "status": "Implemented baseline",
+        "proof": "`docs/milestones/v0.91.3/features/COGNITIVE_SDLC_FIRST_SLICE.md`, `docs/milestones/v0.91.3/features/COGNITIVE_TRANSITION_MANIFEST.md`, `docs/milestones/v0.91.3/features/CARD_LIFECYCLE_INTEGRATION.md`, `docs/milestones/v0.91.3/features/TRANSITION_DAG_AND_SHARD_COORDINATION.md`, `docs/milestones/v0.91.3/features/EVIDENCE_BUNDLE_AND_REVIEW_SYNTHESIS.md`, `docs/milestones/v0.91.3/features/GOVERNED_MERGE_READINESS_GATE.md`, `docs/milestones/v0.91.3/features/SRP_SOR_OBSMEM_HANDOFF.md`, and `docs/milestones/v0.91.3/features/FIVE_MINUTE_SPRINT_FIRST_PROOF.md`",
+        "target": "`v0.91.3` proved one bounded Cognitive State Transition; `v0.91.4` hardens repeatable/default operation"
+      },
+      "current_owner": "cognitive-sdlc + affected public ADL validation owner",
+      "delivery_home": "v0.93.4/CS4-01..CS4-06",
+      "mvp_consumption_home": "v0.95/WP-08 \u2192 WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Native macOS/Linux, existing-state compatibility, changed-input proof reuse and measured overhead/recovery; six cards SIP/STP/SPP/VPP/SRP/SOR.",
+      "remaining_or_disposition": "Use #1352 and accepted C-SDLC v4 results first. Only newly evidenced residuals belong in v0.95; obsolete public-ADL PR wrappers and old extraction lists are historical."
+    },
+    {
+      "id": "F-093",
+      "feature": "Cognitive SDLC default operation and five-minute-sprint repeatability",
+      "original": {
+        "line": 314,
+        "feature": "Cognitive SDLC default operation and five-minute-sprint repeatability",
+        "status": "Implemented baseline",
+        "proof": "`docs/milestones/v0.91.4/features/COGNITIVE_SDLC_DEFAULT_OPERATION.md`, `docs/milestones/v0.91.4/features/CSDL_VALIDATION_AND_ROUTING_HARDENING.md`, `docs/milestones/v0.91.4/features/SOFTWARE_DEVELOPMENT_POLIS_AND_ACTOR_STANDING.md`, `docs/milestones/v0.91.4/features/SHARD_OWNERSHIP_AND_INTERFACE_FREEZE.md`, `docs/milestones/v0.91.4/features/EVIDENCE_CONVERGENCE_REVIEW_SYNTHESIS_AND_SIGNED_TRACE.md`, `docs/milestones/v0.91.4/features/MERGE_READINESS_AND_PR_GATE_HARDENING.md`, `docs/milestones/v0.91.4/features/OBSMEM_TRANSITION_MEMORY_INTEGRATION.md`, `docs/milestones/v0.91.4/features/SPRINT_CONDUCTOR_DEFAULT_CSDL_LANE.md`, `docs/milestones/v0.91.4/features/FIVE_MINUTE_SPRINT_REPEATABILITY.md`, `docs/milestones/v0.91.4/features/ACTIVE_ISSUE_MIGRATION_POLICY.md`, `docs/milestones/v0.91.4/features/PROCESS_DRIFT_REGRESSION_FIXTURES.md`, and `docs/planning/C_SDLC_PROMPT_TEMPLATE_EDITOR_TRANSITION_PLAN.md`",
+        "target": "`v0.91.4` completes the C-SDLC rollout and makes it the default software-development path, including validation-tail/proof-latency handling and Parallel Validation Fabric planning so sprint speed does not hide long blocking proof cycles; tracked prompt-record migration consumes the versioned `docs/templates/prompts/1.0.0/` substrate, Rust-owned field validation, browser-assisted human review, and the transition plan created in `v0.91.3`"
+      },
+      "current_owner": "cognitive-sdlc + affected public ADL validation owner",
+      "delivery_home": "v0.93.4/CS4-01..CS4-06",
+      "mvp_consumption_home": "v0.95/WP-08 \u2192 WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Native macOS/Linux, existing-state compatibility, changed-input proof reuse and measured overhead/recovery; six cards SIP/STP/SPP/VPP/SRP/SOR.",
+      "remaining_or_disposition": "Use #1352 and accepted C-SDLC v4 results first. Only newly evidenced residuals belong in v0.95; obsolete public-ADL PR wrappers and old extraction lists are historical."
+    },
+    {
+      "id": "F-094",
+      "feature": "Logging, observability, and OTel-compatible proof-loop readiness",
+      "original": {
+        "line": 315,
+        "feature": "Logging, observability, and OTel-compatible proof-loop readiness",
+        "status": "Retained bounded prerequisite and consumer proof",
+        "proof": "`docs/milestones/v0.91.5/CONTROL_PLANE_OBSERVABILITY_CONTRACT_3609.md`, `docs/milestones/v0.91.5/SHARED_OBSERVABILITY_AND_OTEL_CONTRACT_3705.md`, `docs/milestones/v0.91.5/OPEN_TELEMETRY_INTEGRATION_BOUNDARY_3709.md`, closed `#4718`, retained Soak #2, and WP-09/WP-15 consumption packets",
+        "target": "`#4718` is the retained prerequisite proof for parse-safe JSON, stderr `adl_event` behavior, redaction hygiene, and OTel-compatible mapping. Soak and Observatory consumers provide bounded consumption evidence; Unity live production export remains unclaimed."
+      },
+      "current_owner": "agent-logic-runtime",
+      "delivery_home": "v0.93.3/RV-08",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Exact owner source/artifact lockset and installed positive/refusal/recovery evidence; reuse valid prior proof.",
+      "remaining_or_disposition": "Reconcile this historical baseline with the accepted Runtime v4 consumer. Missing parity remains a named gap; do not infer it from plugin signing/metadata or a former Runtime v2 fixture."
+    },
+    {
+      "id": "F-095",
+      "feature": "Resilience, citizen persistence, and operational sleep/wake",
+      "original": {
+        "line": 316,
+        "feature": "Resilience, citizen persistence, and operational sleep/wake",
+        "status": "Retained bounded integration proof",
+        "proof": "`docs/milestones/v0.91.5/features/AEE_COMPLETION_TRANCHE_v0.91.5.md`, `docs/milestones/v0.91.6/features/RESILIENCE_PERSISTENCE_SLEEP_WAKE_v0.91.6.md`, closed `#4778`, closed `#4780`-`#4784`, and `docs/milestones/v0.91.7/review/V0917_RESILIENCE_INTEGRATION_MINI_SPRINT_4778.md`",
+        "target": "v0.92 may consume only the retained workflow, provider/model, remote, runtime-middleware, and failure-injection proof. Full product resilience beyond those surfaces is not claimed."
+      },
+      "current_owner": "agent-logic-runtime",
+      "delivery_home": "v0.93.3/RV-08",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Exact owner source/artifact lockset and installed positive/refusal/recovery evidence; reuse valid prior proof.",
+      "remaining_or_disposition": "Reconcile this historical baseline with the accepted Runtime v4 consumer. Missing parity remains a named gap; do not infer it from plugin signing/metadata or a former Runtime v2 fixture."
+    },
+    {
+      "id": "F-096",
+      "feature": "Public prompt records export, redaction, validation, and indexing",
+      "original": {
+        "line": 317,
+        "feature": "Public prompt records export, redaction, validation, and indexing",
+        "status": "Required pre-v0.92 implementation/proof surface",
+        "proof": "local prompt-card authoring surface, public prompt-record export work, `docs/milestones/v0.91.5/features/PUBLIC_PROMPT_RECORDS_v0.91.5.md`, and `docs/milestones/v0.91.6/features/PUBLIC_PROMPT_RECORDS_EXPORT_v0.91.6.md`",
+        "target": "Local cards remain editable; v0.92 may consume public records only after export, redaction, validation, indexing, security, and evidence boundaries are implemented or blocked with evidence."
+      },
+      "current_owner": "cognitive-sdlc + affected public ADL validation owner",
+      "delivery_home": "v0.93.4/CS4-01..CS4-06",
+      "mvp_consumption_home": "v0.95/WP-08 \u2192 WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Native macOS/Linux, existing-state compatibility, changed-input proof reuse and measured overhead/recovery; six cards SIP/STP/SPP/VPP/SRP/SOR.",
+      "remaining_or_disposition": "Use #1352 and accepted C-SDLC v4 results first. Only newly evidenced residuals belong in v0.95; obsolete public-ADL PR wrappers and old extraction lists are historical."
+    },
+    {
+      "id": "F-097",
+      "feature": "Provider/model reliability and multi-agent readiness",
+      "original": {
+        "line": 318,
+        "feature": "Provider/model reliability and multi-agent readiness",
+        "status": "Retained bounded implementation/proof",
+        "proof": "Sprint 2/remediation proof packets, closed WP-05, provider mini-sprint packets, and scheduler/provider/local-agent review evidence",
+        "target": "Reliability proof remains separate from training or ANRM product claims; v0.92 may consume only paths with role suitability, known failure modes, and retained proof."
+      },
+      "current_owner": "agent-logic-runtime",
+      "delivery_home": "v0.93.3/RV-08",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Exact owner source/artifact lockset and installed positive/refusal/recovery evidence; reuse valid prior proof.",
+      "remaining_or_disposition": "Reconcile this historical baseline with the accepted Runtime v4 consumer. Missing parity remains a named gap; do not infer it from plugin signing/metadata or a former Runtime v2 fixture."
+    },
+    {
+      "id": "F-098",
+      "feature": "Security readiness and Continuous Adversarial Verification",
+      "original": {
+        "line": 319,
+        "feature": "Security readiness and Continuous Adversarial Verification",
+        "status": "Retained bounded implementation/proof and review remediation",
+        "proof": "v0.91.7 WP-12 packets, closed `#4656`-`#4660`, and closed remediation `#5404`/`#5406`",
+        "target": "v0.92 may consume only the retained CAV, SSM, access, protocol, and validation claims. Broad release security remains gated by the closeout review chain."
+      },
+      "current_owner": "agent-logic-enterprise-security + agent-logic-runtime",
+      "delivery_home": "v0.93.2/WP-S1..WP-S6",
+      "mvp_consumption_home": "v0.94/WP-02..WP-04 \u2192 v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Enforced identity/authorization, isolation, secrets/revocation, redacted audit and adverse-case proof from their exact owners.",
+      "remaining_or_disposition": "Consume accepted enterprise-security evidence; v0.94 closes cross-band deltas, not a duplicate security implementation. External certification remains a separate non-claim."
+    },
+    {
+      "id": "F-099",
+      "feature": "Curiosity Engine and Discovery Substrate",
+      "original": {
+        "line": 320,
+        "feature": "Curiosity Engine and Discovery Substrate",
+        "status": "Bounded Runtime v2 cycle implemented/proven",
+        "proof": "closed `#4692`, `docs/milestones/v0.91.7/features/CURIOSITY_ENGINE_DISCOVERY_SUBSTRATE_v0.91.7.md`, and the WP-10 review packet",
+        "target": "One governed discovery cycle is retained; autonomous or unbounded discovery is not claimed."
+      },
+      "current_owner": "agent-logic-runtime",
+      "delivery_home": "v0.93.3/RV-08",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Exact owner source/artifact lockset and installed positive/refusal/recovery evidence; reuse valid prior proof.",
+      "remaining_or_disposition": "Reconcile this historical baseline with the accepted Runtime v4 consumer. Missing parity remains a named gap; do not infer it from plugin signing/metadata or a former Runtime v2 fixture."
+    },
+    {
+      "id": "F-100",
+      "feature": "Constructability Gate for shared ADL reality",
+      "original": {
+        "line": 321,
+        "feature": "Constructability Gate for shared ADL reality",
+        "status": "Bounded Runtime v2 validator implemented/proven",
+        "proof": "closed `#4693`, `docs/milestones/v0.91.7/features/CONSTRUCTABILITY_GATE_v0.91.7.md`, and the WP-10 review packet",
+        "target": "Construction-event, anchor, admissibility, and fail-closed proof is retained; broader shared-reality authority is not claimed."
+      },
+      "current_owner": "agent-logic-runtime",
+      "delivery_home": "v0.93.3/RV-08",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Exact owner source/artifact lockset and installed positive/refusal/recovery evidence; reuse valid prior proof.",
+      "remaining_or_disposition": "Reconcile this historical baseline with the accepted Runtime v4 consumer. Missing parity remains a named gap; do not infer it from plugin signing/metadata or a former Runtime v2 fixture."
+    },
+    {
+      "id": "F-101",
+      "feature": "Reasoning graph, loop runtime, and `adl.skill.v1`",
+      "original": {
+        "line": 322,
+        "feature": "Reasoning graph, loop runtime, and `adl.skill.v1`",
+        "status": "Bounded Runtime v2 implementation/proof retained; Runtime v3 parity proof retained",
+        "proof": "closed `#4694`-`#4697`, WP-11 review and cognitive-control evidence packets, follow-ons `#4912`, `#5096`, `#5136`, v0.91.8 `#5592`, and WP-16 issue-outcome audit",
+        "target": "Runtime v3 receives no parity credit from metadata or fixtures; #5592 supplies the bounded live kernel parity path. Full adaptive-learning and final-standard convergence remain later work."
+      },
+      "current_owner": "agent-logic-runtime + public ADL contract owner",
+      "delivery_home": "v0.94/WP-02..WP-05",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Explicit reasoning-graph and signed/queryable trace outcomes with access checks, provenance and exact owner evidence.",
+      "remaining_or_disposition": "Reasoning graph is a named WP-05 acceptance obligation alongside trace, not an implicitly satisfied feature. Reuse earlier bounded loops/skill proof."
+    },
+    {
+      "id": "F-102",
+      "feature": "ACP / cognitive profiles runtime surface",
+      "original": {
+        "line": 323,
+        "feature": "ACP / cognitive profiles runtime surface",
+        "status": "Runtime resident-cycle integration in progress",
+        "proof": "`docs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md`, issue `#448`",
+        "target": "`v0.92` now distinguishes the implemented governed profile substrate from the Runtime resident-cycle consumer that builds verified handles"
+      },
+      "current_owner": "agent-logic-runtime",
+      "delivery_home": "v0.93.3/RV-08",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Exact owner source/artifact lockset and installed positive/refusal/recovery evidence; reuse valid prior proof.",
+      "remaining_or_disposition": "Reconcile this historical baseline with the accepted Runtime v4 consumer. Missing parity remains a named gap; do not infer it from plugin signing/metadata or a former Runtime v2 fixture."
+    },
+    {
+      "id": "F-103",
+      "feature": "ACIP binary schema and WebSocket carrier",
+      "original": {
+        "line": 324,
+        "feature": "ACIP binary schema and WebSocket carrier",
+        "status": "Planned",
+        "proof": "`docs/milestones/v0.91.6/features/ACIP_A2A_PROVIDER_COMMUNICATIONS_v0.91.6.md`, `docs/milestones/v0.91.7/features/ACIP_A2A_PROTOBUF_RESIDUALS_v0.91.7.md`, and `docs/milestones/v0.92/features/ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md`",
+        "target": "`v0.92` binary/schema carrier; `v0.93` security; `v0.94` signed trace"
+      },
+      "current_owner": "agent-logic-runtime",
+      "delivery_home": "v0.93.3/RV-08",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Exact owner source/artifact lockset and installed positive/refusal/recovery evidence; reuse valid prior proof.",
+      "remaining_or_disposition": "Reconcile this historical baseline with the accepted Runtime v4 consumer. Missing parity remains a named gap; do not infer it from plugin signing/metadata or a former Runtime v2 fixture."
+    },
+    {
+      "id": "F-104",
+      "feature": "Identity, stable name, and continuity substrate",
+      "original": {
+        "line": 325,
+        "feature": "Identity, stable name, and continuity substrate",
+        "status": "Planned",
+        "proof": "`docs/milestones/v0.91.6/features/IDENTITY_CONTINUITY_CAPABILITY_SELECTOR_BRIDGE_v0.91.6.md`, `docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md`, and `docs/milestones/v0.92/features/CROSS_POLIS_CONTINUITY_AND_MIGRATION_v0.92.md`",
+        "target": "`v0.92`"
+      },
+      "current_owner": "agent-logic-runtime",
+      "delivery_home": "v0.93.3/RV-08",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Exact owner source/artifact lockset and installed positive/refusal/recovery evidence; reuse valid prior proof.",
+      "remaining_or_disposition": "Reconcile this historical baseline with the accepted Runtime v4 consumer. Missing parity remains a named gap; do not infer it from plugin signing/metadata or a former Runtime v2 fixture."
+    },
+    {
+      "id": "F-105",
+      "feature": "Memory grounding, capability envelope, and birth witnesses/receipt",
+      "original": {
+        "line": 326,
+        "feature": "Memory grounding, capability envelope, and birth witnesses/receipt",
+        "status": "Production composition implemented",
+        "proof": "`docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md`, issues `#448` and `#451`",
+        "target": "The verified resident-cycle handles, authenticated ACC receipt, Adaptive Learning receipt, witness packet, and Memory Palace authority converge through the exactly-once production birthday store; retained #451 audit evidence proves the complete live wiring denominator."
+      },
+      "current_owner": "agent-logic-runtime",
+      "delivery_home": "v0.93.3/RV-08",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Exact owner source/artifact lockset and installed positive/refusal/recovery evidence; reuse valid prior proof.",
+      "remaining_or_disposition": "Reconcile this historical baseline with the accepted Runtime v4 consumer. Missing parity remains a named gap; do not infer it from plugin signing/metadata or a former Runtime v2 fixture."
+    },
+    {
+      "id": "F-106",
+      "feature": "Memory Palace navigable context topology",
+      "original": {
+        "line": 327,
+        "feature": "Memory Palace navigable context topology",
+        "status": "Implemented Runtime-kernel production-authority slice",
+        "proof": "`docs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md`, issue `#450`, PR `#458`, `adl-runtime-kernel::memory_palace`, `adl-runtime::memory_palace`, and `adl::memory_palace` adapter tests",
+        "target": "`v0.92` now names `adl-runtime-kernel::memory_palace` as the production authority for admission, topology, working set, context cache, and canonical digest. `adl-runtime` owns durable retained checkpoint/latest/journal state, and `adl` consumes that authority through a compatibility projection; distributed or unbounded Memory Palace expansion remains later work."
+      },
+      "current_owner": "agent-logic-runtime",
+      "delivery_home": "v0.93.3/RV-08",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Exact owner source/artifact lockset and installed positive/refusal/recovery evidence; reuse valid prior proof.",
+      "remaining_or_disposition": "Reconcile this historical baseline with the accepted Runtime v4 consumer. Missing parity remains a named gap; do not infer it from plugin signing/metadata or a former Runtime v2 fixture."
+    },
+    {
+      "id": "F-107",
+      "feature": "First true G\u00f6del-agent birthday",
+      "original": {
+        "line": 328,
+        "feature": "First true G\u00f6del-agent birthday",
+        "status": "Planned",
+        "proof": "`docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md` and `docs/milestones/v0.92/features/FIRST_BIRTHDAY_DEMO_AND_GOVERNANCE_HANDOFF_v0.92.md`",
+        "target": "`v0.92`"
+      },
+      "current_owner": "agent-logic-runtime + public ADL contract owner",
+      "delivery_home": "v0.93.5/GHB-WP00..GHB-WP12",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Installed bounded improvement and activation/rollback evidence; actual Gate A/B outcomes, longitudinal limits and exact candidate identities.",
+      "remaining_or_disposition": "Preserve historical birthday/loop proof separately. It is not GHB recursive-improvement completion or qualification for a new candidate."
+    },
+    {
+      "id": "F-108",
+      "feature": "Opening repository split",
+      "original": {
+        "line": 329,
+        "feature": "Opening repository split",
+        "status": "Planned; operator-selected v0.93.1 opening phase",
+        "proof": "`docs/milestones/v0.93.1/REPOSITORY_MIGRATION_v0.93.1.md` and `EXECUTION_PLAN_v0.93.1.json`",
+        "target": "RD-01 through RD-13 after accepted v0.92.2 closure and explicit opening; one public ADL plus six private repositories; CodeFriend software separate from existing website; complete before new feature work"
+      },
+      "current_owner": "ADL coordination and each split repository",
+      "delivery_home": "Delivered source allocation/history #1223 and repository map",
+      "mvp_consumption_home": "v0.95/WP-11 disposition",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Existing split/build qualification and current repository identities; deployment remains separate.",
+      "remaining_or_disposition": "Reconcile obsolete logistic-split decision against the already split topology. Do not perform another split/mergeback programme from historical prose."
+    },
+    {
+      "id": "F-109",
+      "feature": "Runtime v4 CSM plugin system",
+      "original": {
+        "line": 330,
+        "feature": "Runtime v4 CSM plugin system",
+        "status": "Required v0.93.2 outcome; not implemented by planning",
+        "proof": "`docs/milestones/v0.93.2/features/RUNTIME_V4_PLUGIN_SYSTEM_v0.93.2.md`",
+        "target": "RV-01 through RV-11: native/process/WASM adapters, migration/reconfiguration/removal, fenced recovery, provider integration and installed qualification; cannot be deferred as a reduced native-only release"
+      },
+      "current_owner": "agent-logic-runtime",
+      "delivery_home": "v0.93.3/RV-01..RV-11",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Complete native/process/WASM plugin, state/config migration, activation/removal/fenced-recovery and installed consumer evidence.",
+      "remaining_or_disposition": "Keep #1352 as the same v0.93.3 carryover. No scope reduction or native-only substitution for original acceptance."
+    },
+    {
+      "id": "F-110",
+      "feature": "CodeFriend launch after qualified Beta 1",
+      "original": {
+        "line": 331,
+        "feature": "CodeFriend launch after qualified Beta 1",
+        "status": "Required v0.93.1 release outcome; audience/environment/limits resolved before launch",
+        "proof": "`docs/milestones/v0.93.1/features/CODEFRIEND_LAUNCH_v0.93.1.md` and current Drive Beta 1 plan linked there",
+        "target": "CF-01 through CF-07: preserve Beta 1 evidence, deployable product, onboarding, operations/recovery, independent rehearsal, website handoff and explicitly authorized live launch; no launch performed by #1047"
+      },
+      "current_owner": "codefriend + codefriend.ai; Runtime/security for consumed interfaces",
+      "delivery_home": "v0.93.2/CF-B1-01..05,CF-92",
+      "mvp_consumption_home": "v0.95/WP-05 \u2192 WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Accepted external-repo/adapter review and actual onboarding/report/export contract, template/journal/full4+1 lineage where required by Beta1; exact product lockset and redacted exports.",
+      "remaining_or_disposition": "Reuse existing Beta1 qualification and separately authorized launch. Do not defer already required product journeys or revive superseded templates; billing/portfolio expansion needs distinct scope."
+    },
+    {
+      "id": "F-111",
+      "feature": "CodeFriend versioned artifact templates and style guides",
+      "original": {
+        "line": 332,
+        "feature": "CodeFriend versioned artifact templates and style guides",
+        "status": "Required v0.93.1; operator confirmed",
+        "proof": "`docs/milestones/v0.93.1/features/CODEFRIEND_ARTIFACT_TEMPLATES_AND_STYLE_GUIDES_v0.93.1.md`",
+        "target": "CT-01\u2013CT-10; fill-in-the-blank preparation, REV 01 branded output, all supported documents/diagrams/reviews/tests and full 4+1; qualify before CF-05"
+      },
+      "current_owner": "codefriend + codefriend.ai; Runtime/security for consumed interfaces",
+      "delivery_home": "v0.93.2/CF-B1-01..05,CF-92",
+      "mvp_consumption_home": "v0.95/WP-05 \u2192 WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Accepted external-repo/adapter review and actual onboarding/report/export contract, template/journal/full4+1 lineage where required by Beta1; exact product lockset and redacted exports.",
+      "remaining_or_disposition": "Reuse existing Beta1 qualification and separately authorized launch. Do not defer already required product journeys or revive superseded templates; billing/portfolio expansion needs distinct scope."
+    },
+    {
+      "id": "F-112",
+      "feature": "Citizen reproduction and migration",
+      "original": {
+        "line": 333,
+        "feature": "Citizen reproduction and migration",
+        "status": "Required v0.93.2; operator confirmed",
+        "proof": "`docs/milestones/v0.93.2/features/CITIZEN_REPRODUCTION_AND_MIGRATION_v0.93.2.md`",
+        "target": "CM-01\u2013CM-04; governed same-identity migration, new-identity descendants, lineage, scoped inheritance and recovery before INTEGRATE"
+      },
+      "current_owner": "agent-logic-runtime + public ADL contract owner",
+      "delivery_home": "v0.93.4/GOV-01..03,GOV-11,CM-01..04; v0.93.6/GOV-04..16 as applicable",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Scoped actor/standing/delegation and migration/lineage/fencing proof, then relevant constitutional review/appeal consumer outcomes.",
+      "remaining_or_disposition": "Preserve foundation versus remaining governance separation; original per-WP acceptance determines the applicable subset. No automatic new governance requirements."
+    },
+    {
+      "id": "F-113",
+      "feature": "Constitutional citizenship, rights/duties, and governance review",
+      "original": {
+        "line": 334,
+        "feature": "Constitutional citizenship, rights/duties, and governance review",
+        "status": "Planned",
+        "proof": "`docs/milestones/v0.93.2/features/CITIZENSHIP_RIGHTS_DUTIES_AND_SOCIAL_CONTRACT_v0.93.2.md` plus the v0.93.2 execution plan",
+        "target": "`v0.93.2`"
+      },
+      "current_owner": "agent-logic-runtime + public ADL contract owner",
+      "delivery_home": "v0.93.4/GOV-01..03,GOV-11,CM-01..04; v0.93.6/GOV-04..16 as applicable",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Scoped actor/standing/delegation and migration/lineage/fencing proof, then relevant constitutional review/appeal consumer outcomes.",
+      "remaining_or_disposition": "Preserve foundation versus remaining governance separation; original per-WP acceptance determines the applicable subset. No automatic new governance requirements."
+    },
+    {
+      "id": "F-114",
+      "feature": "Bounded Theory of Mind, relationship, reputation, and shared social memory boundary",
+      "original": {
+        "line": 335,
+        "feature": "Bounded Theory of Mind, relationship, reputation, and shared social memory boundary",
+        "status": "Planned",
+        "proof": "`docs/milestones/v0.93.2/features/THEORY_OF_MIND_AND_SOCIAL_COGNITION_v0.93.2.md` and `docs/milestones/v0.93.2/features/SOCIAL_RELATIONSHIP_REPUTATION_AND_SHARED_MEMORY_v0.93.2.md`",
+        "target": "`v0.93.2`"
+      },
+      "current_owner": "agent-logic-runtime",
+      "delivery_home": "v0.93.6/GOV-06..16,DEMO-GOV",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Installed ToM, social memory, relationships/reputation or guild consumer evidence including privacy, uncertainty, revocation and challenge.",
+      "remaining_or_disposition": "Consume GOV-CLOSE; do not count private-state inspection, a schema alone or a scalar ranking as governance acceptance."
+    },
+    {
+      "id": "F-115",
+      "feature": "Delegation, upstream delegation, IAM, standing transition, and challenge/appeal governance",
+      "original": {
+        "line": 336,
+        "feature": "Delegation, upstream delegation, IAM, standing transition, and challenge/appeal governance",
+        "status": "Planned",
+        "proof": "`docs/milestones/v0.93.2/features/DELEGATION_IAM_STANDING_AND_APPEAL_GOVERNANCE_v0.93.2.md` plus local upstream-delegation source planning",
+        "target": "`v0.93.2`"
+      },
+      "current_owner": "agent-logic-runtime + public ADL contract owner",
+      "delivery_home": "v0.93.4/GOV-01..03,GOV-11,CM-01..04; v0.93.6/GOV-04..16 as applicable",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Scoped actor/standing/delegation and migration/lineage/fencing proof, then relevant constitutional review/appeal consumer outcomes.",
+      "remaining_or_disposition": "Preserve foundation versus remaining governance separation; original per-WP acceptance determines the applicable subset. No automatic new governance requirements."
+    },
+    {
+      "id": "F-116",
+      "feature": "Guilds and collective organization",
+      "original": {
+        "line": 337,
+        "feature": "Guilds and collective organization",
+        "status": "MVP-scoped planned governance surface",
+        "proof": "`docs/milestones/v0.93.2/features/GUILDS_AND_COLLECTIVE_ORGANIZATION_v0.93.2.md`",
+        "target": "v0.93.2 feature doc with v0.95 MVP consumption; must define identity, membership, authority, delegation, shared resources/capabilities, isolation, privacy, trace, and review/challenge boundaries"
+      },
+      "current_owner": "agent-logic-runtime",
+      "delivery_home": "v0.93.6/GOV-06..16,DEMO-GOV",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Installed ToM, social memory, relationships/reputation or guild consumer evidence including privacy, uncertainty, revocation and challenge.",
+      "remaining_or_disposition": "Consume GOV-CLOSE; do not count private-state inspection, a schema alone or a scalar ranking as governance acceptance."
+    },
+    {
+      "id": "F-117",
+      "feature": "Enterprise security for the ADL polis",
+      "original": {
+        "line": 338,
+        "feature": "Enterprise security for the ADL polis",
+        "status": "Planned",
+        "proof": "`docs/milestones/v0.93.2/features/ENTERPRISE_SECURITY_v0.93.2.md`, `docs/milestones/v0.93.2/features/SECURITY_WP_S1_ZERO_TRUST_ARCHITECTURE_v0.93.2.md`, `docs/milestones/v0.93.2/features/SECURITY_WP_S2_POLICY_ENFORCEMENT_AUTHORIZATION_v0.93.2.md`, `docs/milestones/v0.93.2/features/SECURITY_WP_S3_SECRETS_KEYS_CRYPTOGRAPHIC_TRUST_v0.93.2.md`, `docs/milestones/v0.93.2/features/SECURITY_WP_S4_AUDIT_COMPLIANCE_INCIDENT_EVIDENCE_v0.93.2.md`, `docs/milestones/v0.93.2/features/SECURITY_WP_S5_ISOLATION_DATA_GOVERNANCE_PRIVACY_v0.93.2.md`, and `docs/milestones/v0.93.2/features/SECURITY_WP_S6_SECURITY_OPERATIONS_ADVERSARIAL_PROVENANCE_v0.93.2.md`",
+        "target": "`v0.93.2`"
+      },
+      "current_owner": "agent-logic-enterprise-security + agent-logic-runtime",
+      "delivery_home": "v0.93.2/WP-S1..WP-S6",
+      "mvp_consumption_home": "v0.94/WP-02..WP-04 \u2192 v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Enforced identity/authorization, isolation, secrets/revocation, redacted audit and adverse-case proof from their exact owners.",
+      "remaining_or_disposition": "Consume accepted enterprise-security evidence; v0.94 closes cross-band deltas, not a duplicate security implementation. External certification remains a separate non-claim."
+    },
+    {
+      "id": "F-118",
+      "feature": "Secure execution, policy, identity/auth, isolation, and provider-trust convergence",
+      "original": {
+        "line": 339,
+        "feature": "Secure execution, policy, identity/auth, isolation, and provider-trust convergence",
+        "status": "Planned",
+        "proof": "`docs/milestones/v0.94/features/SECURE_EXECUTION_AND_TRUST_CONVERGENCE_v0.94.md` and the tracked `v0.94` milestone package",
+        "target": "`v0.94`; enterprise-security repo/module separation must be explicitly planned before large code movement"
+      },
+      "current_owner": "agent-logic-runtime + public ADL contract owner",
+      "delivery_home": "v0.94/WP-02..WP-05",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Explicit reasoning-graph and signed/queryable trace outcomes with access checks, provenance and exact owner evidence.",
+      "remaining_or_disposition": "Reasoning graph is a named WP-05 acceptance obligation alongside trace, not an implicitly satisfied feature. Reuse earlier bounded loops/skill proof."
+    },
+    {
+      "id": "F-119",
+      "feature": "Mental time travel / temporal self-projection",
+      "original": {
+        "line": 340,
+        "feature": "Mental time travel / temporal self-projection",
+        "status": "Planned",
+        "proof": "`docs/milestones/v0.94/features/MENTAL_TIME_TRAVEL_v0.94.md` plus the `MTT-v1` source note",
+        "target": "`v0.94`"
+      },
+      "current_owner": "agent-logic-runtime + public ADL contracts",
+      "delivery_home": "v0.94/WP-06",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Bounded remembered/simulated temporal projection and reasoning artifact with explicit non-claims.",
+      "remaining_or_disposition": "No unbounded forecast or state authority through simulated outcomes; reuse signed reasoning/trace predecessor proof."
+    },
+    {
+      "id": "F-120",
+      "feature": "Payments, settlement, economic agency, and `x402` / Lightning adapters",
+      "original": {
+        "line": 341,
+        "feature": "Payments, settlement, economic agency, and `x402` / Lightning adapters",
+        "status": "Planned",
+        "proof": "`docs/milestones/v0.94.1/features/PAYMENTS_SETTLEMENT_AND_X402_v0.94.1.md` and the tracked `v0.94.1` milestone package",
+        "target": "`v0.94.1`"
+      },
+      "current_owner": "Runtime economics owner + explicitly selected payment adapter owner",
+      "delivery_home": "v0.94.1/WP-02..WP-06 (existing bounded economics preserved)",
+      "mvp_consumption_home": "v0.95/WP-11 conditional decision",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Declared MVP-required subset with reviewed accounting/settlement/economic traces and bounded refusal/recovery evidence, or explicit nonblocking disposition.",
+      "remaining_or_disposition": "Payments subset is unresolved, not all-rails mandatory and not silently excluded. Preserve existing bounded contract-market evidence and defer unpromoted rails/productization."
+    },
+    {
+      "id": "F-121",
+      "feature": "Bounded contract-market and resource-stewardship bridge",
+      "original": {
+        "line": 342,
+        "feature": "Bounded contract-market and resource-stewardship bridge",
+        "status": "Implemented baseline",
+        "proof": "`docs/milestones/v0.90.4` contract-market docs, proof coverage, and demo matrix",
+        "target": "Completed bounded baseline by `v0.90.4`"
+      },
+      "current_owner": "Runtime economics owner + explicitly selected payment adapter owner",
+      "delivery_home": "v0.94.1/WP-02..WP-06 (existing bounded economics preserved)",
+      "mvp_consumption_home": "v0.95/WP-11 conditional decision",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Declared MVP-required subset with reviewed accounting/settlement/economic traces and bounded refusal/recovery evidence, or explicit nonblocking disposition.",
+      "remaining_or_disposition": "Payments subset is unresolved, not all-rails mandatory and not silently excluded. Preserve existing bounded contract-market evidence and defer unpromoted rails/productization."
+    },
+    {
+      "id": "F-122",
+      "feature": "Distributed execution integration",
+      "original": {
+        "line": 343,
+        "feature": "Distributed execution integration",
+        "status": "Partially implemented; AEE/multi-agent boundary subset pulled forward",
+        "proof": "`docs/milestones/v0.95/features/DISTRIBUTED_EXECUTION_INTEGRATION_v0.95.md`, ADR 0003, cluster-execution groundwork docs, and `docs/milestones/v0.91.5/features/AEE_COMPLETION_TRANCHE_v0.91.5.md`",
+        "target": "AEE/multi-agent boundary proof targeted for `v0.91.5`/`v0.92`; broad distributed integration by `v0.95`"
+      },
+      "current_owner": "agent-logic-runtime + infrastructure owner",
+      "delivery_home": "v0.95/WP-06; accepted v0.94 secure execution",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Owned placement/scheduler/trust boundary and installed multi-node success/refusal/recovery evidence at a compatible lockset.",
+      "remaining_or_disposition": "Reuse accepted earlier distributed qualification and name only residual integration gaps. No new orchestration architecture or cloud deployment from planning."
+    },
+    {
+      "id": "F-123",
+      "feature": "CodeFriend Beta 1 and portable Adapter v2",
+      "original": {
+        "line": 344,
+        "feature": "CodeFriend Beta 1 and portable Adapter v2",
+        "status": "Planned complete beta milestone",
+        "proof": "`docs/milestones/v0.92.2/README.md` and its feature/proof package",
+        "target": "v0.92.2 must deliver the usable Beta 1 product, not another prototype; v0.95 consumes and hardens that beta toward MVP convergence"
+      },
+      "current_owner": "codefriend + codefriend.ai; Runtime/security for consumed interfaces",
+      "delivery_home": "v0.93.2/CF-B1-01..05,CF-92",
+      "mvp_consumption_home": "v0.95/WP-05 \u2192 WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Accepted external-repo/adapter review and actual onboarding/report/export contract, template/journal/full4+1 lineage where required by Beta1; exact product lockset and redacted exports.",
+      "remaining_or_disposition": "Reuse existing Beta1 qualification and separately authorized launch. Do not defer already required product journeys or revive superseded templates; billing/portfolio expansion needs distinct scope."
+    },
+    {
+      "id": "F-124",
+      "feature": "Capability-testing evidence consumption / Aptitude Atlas boundary",
+      "original": {
+        "line": 345,
+        "feature": "Capability-testing evidence consumption / Aptitude Atlas boundary",
+        "status": "MVP-scoped evidence consumption; productization post-v0.95",
+        "proof": "capability-testing harness docs, local capability-testing planning, and `LB-046`",
+        "target": "v0.95 consumes capability-testing evidence only; Aptitude Atlas product/baseline productization is post-v0.95"
+      },
+      "current_owner": "capability-evidence owner; ATEC/AVP only if explicitly selected",
+      "delivery_home": "v0.95/WP-04",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Methodology-backed capability evidence tied to exact candidate, task families and limitations.",
+      "remaining_or_disposition": "Aptitude Atlas productization remains post-v0.95. ATEC/AVP are separate owners; inclusion and exact contract require an explicit decision, not a presumed replacement."
+    },
+    {
+      "id": "F-125",
+      "feature": "Demo catalog and polished MVP walkthrough",
+      "original": {
+        "line": 346,
+        "feature": "Demo catalog and polished MVP walkthrough",
+        "status": "Partially implemented",
+        "proof": "`docs/milestones/v0.95/features/DEMO_CATALOG_AND_MVP_WALKTHROUGH_v0.95.md` plus milestone demo matrices and reviewer packages",
+        "target": "`v0.95`"
+      },
+      "current_owner": "source-demo owner + ADL catalog owner",
+      "delivery_home": "v0.95/WP-07",
+      "mvp_consumption_home": "v0.95/WP-12",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Runnable selected flagship/proof/walkthrough entrypoint, declared candidate and scenario outcomes, redacted export and current runbook.",
+      "remaining_or_disposition": "Catalog existing demo families without forcing every historical demo to run. Retire or explicitly defer unsupported demos; preserve their original evidence."
+    },
+    {
+      "id": "F-126",
+      "feature": "Control-plane Rust migration / tooling hardening",
+      "original": {
+        "line": 347,
+        "feature": "Control-plane Rust migration / tooling hardening",
+        "status": "Partially implemented",
+        "proof": "`docs/milestones/v0.95/features/CONTROL_PLANE_RUST_MIGRATION_AND_TOOLING_HARDENING_v0.95.md` and Python-elimination/tooling-hardening planning",
+        "target": "`v0.95`"
+      },
+      "current_owner": "cognitive-sdlc + affected public ADL validation owner",
+      "delivery_home": "v0.93.4/CS4-01..CS4-06",
+      "mvp_consumption_home": "v0.95/WP-08 \u2192 WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Native macOS/Linux, existing-state compatibility, changed-input proof reuse and measured overhead/recovery; six cards SIP/STP/SPP/VPP/SRP/SOR.",
+      "remaining_or_disposition": "Use #1352 and accepted C-SDLC v4 results first. Only newly evidenced residuals belong in v0.95; obsolete public-ADL PR wrappers and old extraction lists are historical."
+    },
+    {
+      "id": "F-127",
+      "feature": "Zed integration",
+      "original": {
+        "line": 348,
+        "feature": "Zed integration",
+        "status": "MVP-scoped decision",
+        "proof": "`docs/milestones/v0.95/features/ZED_INTEGRATION_v0.95.md` plus the v0.85 MVP-boundary/editor-planning notes",
+        "target": "Complete the adapter or explicitly remove it from MVP scope by `v0.95`"
+      },
+      "current_owner": "selected Zed adapter owner + lifecycle consumer",
+      "delivery_home": "v0.95/WP-10",
+      "mvp_consumption_home": "v0.95/WP-11",
+      "required_state": "Reviewable bounded baseline and explicit proof posture; subsystem/MVP completion only where the original contract requires it.",
+      "evidence_status": "Historical source references retained; current owner/installed acceptance not requalified by #1407.",
+      "proof_requirement": "Bounded working integration with declared success criteria or an explicit defer/drop decision.",
+      "remaining_or_disposition": "Optional Zed cannot replace the required portable web-editor baseline or remain an ambiguous must-have."
+    }
+  ]
+}

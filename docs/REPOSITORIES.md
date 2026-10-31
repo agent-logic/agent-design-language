@@ -48,3 +48,7 @@ It is an audit scope, not a claim that every candidate needs a change.
 
 See the [delivery checklist](repository-split/DOCUMENTATION_DELIVERY_1269.md) for
 all 13 PRs, retained-document decisions, validation and adapter follow-up.
+
+## Independent evaluation and new-owner planning boundary
+
+[ATEC](https://github.com/agent-logic/atec) and [AVP](https://github.com/agent-logic/avp) have independent evaluation/proof work; their names here establish neither delivered qualification nor inclusion in ADL MVP. The v0.95 D03 decision must verify the selected repository/interface/revision and evidence or explicitly record non-consumption. UTS owns its descriptive specification and SDKs; Runtime retains ACC execution/authorization and benchmark ownership. Read current owner release/adoption evidence before asserting UTS1.1 or Python/TypeScript SDK readiness. No new grants, binary activation or product publication follows from this owner map.

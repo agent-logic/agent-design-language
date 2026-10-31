@@ -14,7 +14,7 @@ work_packages:
       - "v0.94.1 closeout where MVP-scoped"
     deliverables:
       - "Opened GitHub issue wave"
-      - "SIP/STP/SPP/SRP/SOR cards for each opened issue"
+      - "SIP/STP/SPP/VPP/SRP/SOR cards for each opened issue"
   - wp: WP-02
     title: HTML milestone dashboard and compression reporting
     outcome: Converge milestone dashboard and compression surfaces into one maintained entrypoint.
@@ -115,3 +115,20 @@ work_packages:
       - "Quality gate"
       - "Review packets"
       - "Release-tail packet"
+
+reconciliation_1407:
+  status: candidate_not_activated
+  feature_crosswalk: docs/planning/v095-reconciliation/FEATURE_CROSSWALK_1407.json
+  decisions: docs/planning/v095-reconciliation/DECISIONS_AND_DEFERRALS_1407.md
+  native_workflow: "Use the admitted C-SDLC owner and current six-card registry; historical wrapper/source instructions are not operational authority."
+  required_wp_acceptance:
+    WP-01: "Reconcile every F-001..F-127 row and accepted predecessor owner locksets. Preserve 15/17/17/17/25 scope; no implicit implementation activation or bulk card creation."
+    WP-03: "Resolve D01 before execution: select the bounded evaluated-versus-trained/dataset/installed outcome, candidate/data identity and permission, held-out baseline/thresholds and resources. A plan alone is not completed training."
+    WP-04: "Consume methodology-backed capability evidence only. D03 must identify selected UTS/SDK/ATEC/AVP interface/evidence or explicit non-consumption; no separate product launch is inferred."
+    WP-05: "Consume accepted Beta1 onboarding/repository/report/export and current template, journal and full4+1 obligations where already required; prove portable review/redaction. Broad billing/portfolio expansion remains separately scoped."
+    WP-06: "Reuse accepted distributed/secure-execution qualification, name only residual integration and pin compatible multi-repo inputs."
+    WP-08: "Consume #1352 and accepted C-SDLC v4 first; replace obsolete ADL PR-wrapper/extraction targets with evidenced residuals in the owning repository."
+    WP-10: "Resolve D05: bounded Zed acceptance or explicit defer/drop, without substituting for required web-editor capability."
+    WP-11: "Produce the complete127-row MVP evidence/disposition map; resolve D02 payments subset, D03 independent owner consumption, D04 speculative backend and D06 obsolete split. Record feature freeze and1.0 scope boundary, accepted lockset, missing proof and residual/non-goal rationale; preserve every proposal, never treat unresolved as accepted."
+    WP-12: "Map each required MVP feature to accepted reused owner proof or named missing proof, including GHB/governance/guilds/affect, Curiosity/Constructability, Memory Palace and AEE/arbitration; do not rerun every historical demo."
+    WP-13: "Bounded public-doc/character/style disposition preserves domain terms/notation. Final reviews and notes consume the accepted feature map and candidate lockset. No noisy punctuation rewrite, repeated reviews or closeout-only PR."
