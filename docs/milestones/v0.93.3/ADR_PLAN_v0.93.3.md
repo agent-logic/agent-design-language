@@ -2,20 +2,18 @@
 
 ## Metadata
 
-Planning template set: 1.1.0. Target: v0.93.3. Setup issue: ADL #1296. Owner of planning: Planning #12. Product execution owners remain unassigned.
+Planning template set: 1.1.0. Milestone: v0.93.3. Date: 2026-10-30. Setup issue: [#1403](https://github.com/agent-logic/agent-design-language/issues/1403). Planning owner: Planning #12. Implementation owners assigned at sprint activation.
 
 ## Status
 
-Planned successor only. No opening or execution is authorized. No deployment, provider spend, release or Runtime restart is authorized by these documents.
+Setup prepared for later sprint activation; no implementation started. No child implementation, provider/cloud spend, deployment, Runtime restart, shared-binary replacement, tag or release is authorized by this planning package. Create child issues/cards per sprint at activation; preserve native C-SDLC v3 authority until a separately accepted compatibility cutover.
 
-## Decision ownership
+## Scope and acceptance
 
-Record plugin lifecycle, citizen continuity, full governance consumer integration and GHB promotion/rollback ownership.
+Runtime lifecycle, epochs, activation journal, state/config migration, dependency-safe removal and adapter equivalence: RV-01 design review owns decisions; RV-02–11 own implementation/qualification.
 
-## Compatibility
+ADRs record reviewed decisions, not installed proof. Reuse prior accepted decisions; do not require repetitive attestations.
 
-Preserve accepted consumer interfaces and identify migrations explicitly. Public ADL must remain independently usable.
+## Validation
 
-## Acceptance
-
-An ADR records a decision; it does not establish implemented or qualified behavior.
+PVF planning_contract for this setup: registry headings, JSON/YAML mirrors, source/link validity, complete allocation and acyclic qualified dependencies. Product work must later prove each acceptance and negative case through the owning installed consumer; schema, source or CI alone is not live qualification. Reuse unchanged exact-input evidence; no broad local Rust or paid qualification campaign for planning.

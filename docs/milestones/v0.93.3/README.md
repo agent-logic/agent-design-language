@@ -1,20 +1,16 @@
-# v0.93.3 Runtime v4, governance and GHB
+# v0.93.3 Readme
 
 ## Metadata
 
-Planning template set: 1.1.0. Target: v0.93.3. Setup issue: ADL #1296. Owner of planning: Planning #12. Product execution owners remain unassigned.
+Planning template set: 1.1.0. Milestone: v0.93.3. Date: 2026-10-30. Setup issue: [#1403](https://github.com/agent-logic/agent-design-language/issues/1403). Planning owner: Planning #12. Implementation owners assigned at sprint activation.
 
 ## Status
 
-Planned successor only. No opening or execution is authorized. No deployment, provider spend, release or Runtime restart is authorized by these documents.
+Setup prepared for later sprint activation; no implementation started. No child implementation, provider/cloud spend, deployment, Runtime restart, shared-binary replacement, tag or release is authorized by this planning package. Create child issues/cards per sprint at activation; preserve native C-SDLC v3 authority until a separately accepted compatibility cutover.
 
 ## Purpose
 
-Runtime v4, governance and GHB. 59 planned identities across four dependency-based sprints. Preserve all 67 earlier identities through [the allocation register](../v0.93.2/REALLOCATION_1296.json). 46 moved platform identities plus 13 version-specific opening, integration, qualification and release-tail gates. This is an allocation, not permission to launch a large parallel execution wave.
-
-## Scope
-
-Python reduction, affect and humour remain deferred outside both allocations. Existing historical evidence is retained. No repository split is repeated; no sibling checkout is required to validate public ADL.
+Runtime v4 foundations. 15 planned work-package identities across 3 dependency waves. Counts include coordination/review/release gates; no one-PR-per-row requirement. All RV-01–RV-11 are retained. #1352 stays here as a reused carryover. Governance, GHB, affect and humour are outside this milestone.
 
 ## Document Map
 
@@ -27,15 +23,12 @@ Python reduction, affect and humour remain deferred outside both allocations. Ex
 - [Milestone Checklist](MILESTONE_CHECKLIST_v0.93.3.md)
 - [Release Plan](RELEASE_PLAN_v0.93.3.md)
 - [Release Notes](RELEASE_NOTES_v0.93.3.md)
-- [Quality Gate](QUALITY_GATE_v0.93.3.md)
-- [Feature Proof Coverage](FEATURE_PROOF_COVERAGE_v0.93.3.md)
-- [Wp Execution Readiness](WP_EXECUTION_READINESS_v0.93.3.md)
-- [Adr Plan](ADR_PLAN_v0.93.3.md)
-- [Next Milestone Handoff](NEXT_MILESTONE_HANDOFF_v0.93.3.md)
-- [Features](features/README.md)
-
-[Execution graph](EXECUTION_PLAN_v0.93.3.json), [specifications](WP_EXECUTION_SPECIFICATIONS_v0.93.3.yaml), and [issue wave](WP_ISSUE_WAVE_v0.93.3.yaml) carry exact acceptance and dependencies.
-
-## Execution boundary
-
-Planned successor only. No opening or execution is authorized. Owners, accepted dependencies, scoped resources and a tracked issue are required before each implementation begins.
+- [QUALITY_GATE](QUALITY_GATE_v0.93.3.md)
+- [FEATURE_PROOF_COVERAGE](FEATURE_PROOF_COVERAGE_v0.93.3.md)
+- [WP_EXECUTION_READINESS](WP_EXECUTION_READINESS_v0.93.3.md)
+- [ADR_PLAN](ADR_PLAN_v0.93.3.md)
+- [NEXT_MILESTONE_HANDOFF](NEXT_MILESTONE_HANDOFF_v0.93.3.md)
+- [Feature map](features/README.md)
+- [Execution graph](EXECUTION_PLAN_v0.93.3.json)
+- [Issue-wave input](WP_ISSUE_WAVE_v0.93.3.yaml)
+- [Allocation decision](../v0.93.3/REORGANIZATION_1403.md)

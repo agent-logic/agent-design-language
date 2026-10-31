@@ -1,3 +1,5 @@
+> **Current successor routing (2026-10-30):** [#1403 organization](../v0.93.3/REORGANIZATION_1403.md) supersedes older successor-placement text below. Runtime v4 and #1352 belong to v0.93.3; C-SDLC v4 to v0.93.4; GHB and its required prerequisites to v0.93.5; remaining governance, affect and humour to v0.93.6. v0.93.2 product scope is unchanged.
+
 # v0.93.2 Wp Execution Readiness
 
 ## Metadata

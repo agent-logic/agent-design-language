@@ -2,32 +2,36 @@
 
 ## Metadata
 
-Planning template set: 1.1.0. Target: v0.93.3. Setup issue: ADL #1296. Owner of planning: Planning #12. Product execution owners remain unassigned.
+Planning template set: 1.1.0. Milestone: v0.93.3. Date: 2026-10-30. Setup issue: [#1403](https://github.com/agent-logic/agent-design-language/issues/1403). Planning owner: Planning #12. Implementation owners assigned at sprint activation.
 
-## Status
+## How To Use
 
-Planned successor only. No opening or execution is authorized. No deployment, provider spend, release or Runtime restart is authorized by these documents.
+Read the WBS and execution graph together; qualified milestone/ID pairs are identities. Preserve dependencies and adverse cases; reuse existing owner issues. Plan review does not establish product proof.
 
-## Release-Tail Convergence
+## 0. Release-Tail Convergence
 
-INTEGRATE and QUALIFY must cover the full platform including GHB before TAIL-01–10.
+Reuse accepted integration evidence and resolve blocking findings. Short coordination gates may share a delivery where truthful; no mandatory closeout-only PR.
 
-## Release Readiness
+## 1. Release Readiness
 
-Require exact artifact/source lockset, accepted scenarios, resolved findings, supported install/upgrade/rollback and operator approval.
+Consume all outcomes in [the quality gate](QUALITY_GATE_v0.93.3.md); record missing or deferred proof honestly.
 
-## Branch And Tag Preparation
+## 2. Branch And Tag Preparation
 
-Do not create a tag or release during planning. Select and review the exact candidate first.
+Use issue branches/worktrees and exact accepted revisions. Tagging is a separate scoped release decision; not authorized by this setup.
 
-## Verification
+## 3. GitHub Release Steps
 
-Record actual installed and live outcomes separately. Waiting-list implementation is not evidence of a deployed working flow.
+Draft approved notes/assets, verify destinations and ask for release authority only when a concrete reviewed candidate is ready. No release is published now.
 
-## Communication
+## 4. Verification
 
-Publish only approved factual release claims; retain limitations and safe-disablement guidance.
+Authenticate source/artifact identity, consumer outcomes, recovery/rollback and negative cases using existing evidence where valid.
+
+## 5. Communication
+
+Publish only approved public-safe material; external messaging and private reviewer access remain separately authorized.
 
 ## Exit Criteria
 
-Separate code merge, product qualification, deployment and release approval truth.
+Every assigned outcome and required adverse case is accepted at exact input/candidate identities; review findings are resolved or explicitly dispositioned. No source/CI-only substitution for installed/live proof. Administrative cleanup is optional and asynchronous.

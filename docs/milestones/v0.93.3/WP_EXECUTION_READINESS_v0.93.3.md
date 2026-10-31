@@ -2,24 +2,20 @@
 
 ## Metadata
 
-Planning template set: 1.1.0. Target: v0.93.3. Setup issue: ADL #1296. Owner of planning: Planning #12. Product execution owners remain unassigned.
+Planning template set: 1.1.0. Milestone: v0.93.3. Date: 2026-10-30. Setup issue: [#1403](https://github.com/agent-logic/agent-design-language/issues/1403). Planning owner: Planning #12. Implementation owners assigned at sprint activation.
 
 ## Status
 
-Planned successor only. No opening or execution is authorized. No deployment, provider spend, release or Runtime restart is authorized by these documents.
+Setup prepared for later sprint activation; no implementation started. No child implementation, provider/cloud spend, deployment, Runtime restart, shared-binary replacement, tag or release is authorized by this planning package. Create child issues/cards per sprint at activation; preserve native C-SDLC v3 authority until a separately accepted compatibility cutover.
 
-## Opening prerequisites
+## Scope and acceptance
 
-Consume accepted v0.93.2/TAIL-10 and obtain a separate opening decision. No successor issue wave is activated now.
+Setup prepared for later sprint activation; no implementation started. No child implementation, provider/cloud spend, deployment, Runtime restart, shared-binary replacement, tag or release is authorized by this planning package. Create child issues/cards per sprint at activation; preserve native C-SDLC v3 authority until a separately accepted compatibility cutover.
 
-## Before each issue
+One accountable owner per admitted issue; native bind/start and issue-bound goal precede implementation. Independent review precedes a PR; merge only green at the reviewed head. Preserve source and evidence; administrative reconciliation and optional cleanup may run asynchronously. Do not create a second closeout PR or repeat tests/reviews merely to update records.
 
-Assign owner, reuse existing issue where applicable, agree acceptance and negative cases, bind execution context and run focused validation.
+Every row is an input plan, not a bound execution. All acceptance/adverse cases must be issue-specific at activation. #1352 and Runtime #112 retain their distinct existing identities where routed.
 
-## Coordination scope
+## Validation
 
-59 planned identities across four dependency-based sprints. Preserve all 67 earlier identities through [the allocation register](../v0.93.2/REALLOCATION_1296.json). 46 moved platform identities plus 13 version-specific opening, integration, qualification and release-tail gates. This is an allocation, not permission to launch a large parallel execution wave.
-
-## Unresolved readiness
-
-CF-B1-01 must measure actual gaps before downstream issue seeding. CodeFriend #92 already exists; Runtime #112 stays reused as GHB predecessor evidence. Sidecars #1275 and C-SDLC #304 remain separate, and ADL #1226 remains deferred.
+PVF planning_contract for this setup: registry headings, JSON/YAML mirrors, source/link validity, complete allocation and acyclic qualified dependencies. Product work must later prove each acceptance and negative case through the owning installed consumer; schema, source or CI alone is not live qualification. Reuse unchanged exact-input evidence; no broad local Rust or paid qualification campaign for planning.

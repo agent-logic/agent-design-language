@@ -2,24 +2,18 @@
 
 ## Metadata
 
-Planning template set: 1.1.0. Target: v0.93.3. Setup issue: ADL #1296. Owner of planning: Planning #12. Product execution owners remain unassigned.
+Planning template set: 1.1.0. Milestone: v0.93.3. Date: 2026-10-30. Setup issue: [#1403](https://github.com/agent-logic/agent-design-language/issues/1403). Planning owner: Planning #12. Implementation owners assigned at sprint activation.
 
 ## Status
 
-Planned successor only. No opening or execution is authorized. No deployment, provider spend, release or Runtime restart is authorized by these documents.
+Setup prepared for later sprint activation; no implementation started. No child implementation, provider/cloud spend, deployment, Runtime restart, shared-binary replacement, tag or release is authorized by this planning package. Create child issues/cards per sprint at activation; preserve native C-SDLC v3 authority until a separately accepted compatibility cutover.
 
-## Current status
+## Scope and acceptance
 
-Planned successor only. No opening or execution is authorized.
+Consume accepted foundations in [C-SDLC v4](../v0.93.4/README.md) and [GHB](../v0.93.5/README.md) and [remaining cognitive work](../v0.93.6/README.md). #1352 remains in this milestone.
 
-## Required contents
+No child implementation, provider/cloud spend, deployment, Runtime restart, shared-binary replacement, tag or release is authorized by this planning package. Create child issues/cards per sprint at activation; preserve native C-SDLC v3 authority until a separately accepted compatibility cutover.
 
-Retain completed platform proofs, unresolved findings and deferred Python/affect/humour scope without opening a new milestone.
+## Validation
 
-## Preparation sequence
-
-Preserve each existing identity, dependencies and negative cases. Review the successor plan before its separate opening decision.
-
-## Stop boundary
-
-No successor activation, deployment or spend follows from this document.
+PVF planning_contract for this setup: registry headings, JSON/YAML mirrors, source/link validity, complete allocation and acyclic qualified dependencies. Product work must later prove each acceptance and negative case through the owning installed consumer; schema, source or CI alone is not live qualification. Reuse unchanged exact-input evidence; no broad local Rust or paid qualification campaign for planning.

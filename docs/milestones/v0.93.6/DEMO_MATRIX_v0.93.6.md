@@ -1,0 +1,92 @@
+# v0.93.6 Demo Matrix
+
+## Status
+
+First-pass successor plan; scope allocation is not implementation or release acceptance. No child implementation, provider/cloud spend, deployment, Runtime restart, shared-binary replacement, tag or release is authorized by this planning package. Create child issues/cards per sprint at activation; preserve native C-SDLC v3 authority until a separately accepted compatibility cutover.
+
+## Metadata
+
+Planning template set: 1.1.0. Milestone: v0.93.6. Date: 2026-10-30. Setup issue: [#1403](https://github.com/agent-logic/agent-design-language/issues/1403). Planning owner: Planning #12. Implementation owners assigned at sprint activation.
+
+## Purpose
+
+Governance, affect and humour. 38 planned work-package identities across 4 dependency waves. Counts include coordination/review/release gates; no one-PR-per-row requirement. Remaining governance and all twelve affect/humour packages follow the accepted GHB baseline. Original integration/qualification and ten tail identities remain here.
+
+## How To Use
+
+Read the WBS and execution graph together; qualified milestone/ID pairs are identities. Preserve dependencies and adverse cases; reuse existing owner issues. Plan review does not establish product proof.
+
+## Scope
+
+Governance, affect and humour. 38 planned work-package identities across 4 dependency waves. Counts include coordination/review/release gates; no one-PR-per-row requirement. Remaining governance and all twelve affect/humour packages follow the accepted GHB baseline. Original integration/qualification and ten tail identities remain here.
+
+## Runtime Preconditions
+
+Use the exact owner-qualified installed candidate and accepted configuration for product proof. Public-only planning validation needs no Runtime or sibling checkout.
+
+## Demo Coverage Summary
+
+| WP | Acceptance / proof | Adverse cases |
+| --- | --- | --- |
+| WP-01 | Consume accepted GHB and Runtime interfaces and activate only the next bounded remaining-governance/affect/humour sprint. | Missing predecessor acceptance; Unsupported completion claim |
+| GOV-04 | A review consumer emits findings over trace/outcome/policy evidence without raw private-state access.; Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings. | Fabricated evidence; Raw state disclosure |
+| GOV-05 | A challenged finding progresses through appeal and recorded disposition without destroying original evidence.; Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings. | Replay changes verdict; Evidence lost on appeal |
+| GOV-06 | Signed evidence-backed model updates replay under standing, consent/scope and projection controls.; Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings. | Unsigned update; Guest scope exceeded |
+| GOV-07 | Conflicting and stale entries change a bounded consumer decision through explicit uncertainty/decay events.; Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings. | Conflict overwritten; Stale confidence unchanged |
+| GOV-08 | Relationship records preserve evidence and permitted scope across restart without becoming standing verdicts.; Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings. | Untraceable relationship assertion |
+| GOV-09 | Authorized redacted projections can inform review while retaining challenge and source lineage.; Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings. | Raw ToM leak; Scalar moral verdict |
+| GOV-10 | Two governed consumers share evidence projections with preserved uncertainty, access rules and freshness.; Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings. | Private model copied; Stale projection trusted |
+| GOV-12 | A selected/rejected upstream call retains citizen identity, policy, provenance and verification; ToM may inform selection but cannot override authority.; Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings. | Provider becomes sovereign; Unverified answer accepted |
+| GOV-13 | A governed exchange succeeds while an associated unauthorized private-state/ToM inspection is denied.; Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings. | Message receipt grants inspection |
+| GOV-14 | A policy consumer evaluates explicit polis/citizen obligations and emits reviewable evidence.; Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings.; The installed obligations consumer evaluates accepted, expired and missed commitments and rejects causally invalid ordering using explicit temporal evidence and reviewable policy disposition. | Policy text treated as executed behavior; Expired commitment treated as current; Missed deadline silently satisfied; Causally invalid commitment accepted |
+| GOV-15 | Guild identity, membership, scoped resources and delegated actions persist with trace and challenge support.; Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings. | Revoked membership acts; Guild exceeds citizen authority |
+| GOV-16 | The operator receives evidence-linked standing, appeals and social-memory summaries without private-state leaks or scalar moral ranking.; Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings. | Hidden uncertainty; Protected data in report |
+| DEMO-GOV | Execute D1-D8 and guild D13 through installed Runtime consumers with accepted and refused paths.; Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings. | Demo replaces production path |
+| AF-01 | Every proposed effect maps to an actual Runtime owner and a named missing or existing consumer; historical proofs retained | Annotations or scores without an executed choice; Budget/governance bypass; Duplicate or ambiguous effects after recovery; Cross-task private-state leakage |
+| AF-02 | Bounds, missingness, scope isolation and exact captured-input replay; preserve five WP-13 signals and separately identify the two proposed extensions | Annotations or scores without an executed choice; Budget/governance bypass; Duplicate or ambiguous effects after recovery; Cross-task private-state leakage |
+| AF-03 | Automatic same-workflow recovery; transient and deterministic failures choose appropriately different actions; no handwritten retry overlay | Annotations or scores without an executed choice; Budget/governance bypass; Duplicate or ambiguous effects after recovery; Cross-task private-state leakage |
+| AF-04 | Each enabled effect changes actual admissible selection or dispatch; annotations and score changes alone do not pass | Annotations or scores without an executed choice; Budget/governance bypass; Duplicate or ambiguous effects after recovery; Cross-task private-state leakage |
+| AF-05 | Recovery reconciles ambiguous effects and avoids duplicate dispatch; v1 history remains readable | Annotations or scores without an executed choice; Budget/governance bypass; Duplicate or ambiguous effects after recovery; Cross-task private-state leakage |
+| AF-06 | Relevant history changes an executed choice; unrelated tasks remain isolated; active controller identity is exposed truthfully | Annotations or scores without an executed choice; Budget/governance bypass; Duplicate or ambiguous effects after recovery; Cross-task private-state leakage |
+| AF-07 | Mandatory contract gates pass and predeclared outcome thresholds are met; adverse results and fallback intervals retained | Annotations or scores without an executed choice; Budget/governance bypass; Duplicate or ambiguous effects after recovery; Cross-task private-state leakage |
+| AF-08 | Claims match demonstrated deployment and measured scope; exclusivity is omitted unless independently substantiated | Annotations or scores without an executed choice; Budget/governance bypass; Duplicate or ambiguous effects after recovery; Cross-task private-state leakage |
+| HU-01 | Distinguish wrong assumptions from transient errors, missing inputs, impossibility, policy refusal and unknown causes | Annotations or scores without an executed choice; Budget/governance bypass; Duplicate or ambiguous effects after recovery; Cross-task private-state leakage |
+| HU-02 | Alternatives name changed assumptions, supporting/opposing evidence, predictions and budgets; preserve goals, truth and dignity; reject harmful reinterpretations | Annotations or scores without an executed choice; Budget/governance bypass; Duplicate or ambiguous effects after recovery; Cross-task private-state leakage |
+| HU-03 | A validated frame changes the next executed plan; bounded attempts and oscillation detection; failed reframes retained and replayable | Annotations or scores without an executed choice; Budget/governance bypass; Duplicate or ambiguous effects after recovery; Cross-task private-state leakage |
+| HU-04 | Held-out evidence shows whether explicit frames outperform competent diagnosis under matched budgets, including false-reframing and adequate-original-frame cases | Annotations or scores without an executed choice; Budget/governance bypass; Duplicate or ambiguous effects after recovery; Cross-task private-state leakage |
+| INTEGRATE | One installed polis joins citizen action, upstream delegation, private cognition, policy enforcement, appeal and plugin restart without contract drift.; Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings.; The inherited feature crosswalk is executed: remote delegation, cognitive-loop and instinct actions, Chronosense anchoring, commitments/deadlines and citizen migration/reproduction retain governance across restart.; Integrated affect and humour consumers preserve goals, budgets, recovery and privacy; qualification consumes AF-07/AF-08 and HU-04 evidence. | Authority lost across product boundary |
+| QUALIFY | Independent reviewer runs the accepted success/failure/recovery denominator on the exact multi-repository lockset.; Qualify platform upgrade, rollback and full governance/security integration against the accepted CodeFriend interface. | Wrong artifact head; Missing negative scenario |
+| TAIL-01 | Deliver the complete quality gate result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.; Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings. | Missing predecessor acceptance; Private evidence in public report |
+| TAIL-02 | Deliver the complete documentation review and external-review handoff result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.; Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings. | Missing predecessor acceptance; Private evidence in public report |
+| TAIL-03 | Deliver the complete publication finalization result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.; Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings. | Missing predecessor acceptance; Private evidence in public report |
+| TAIL-04 | Deliver the complete internal milestone review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.; Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings. | Missing predecessor acceptance; Private evidence in public report |
+| TAIL-05 | Deliver the complete external or third-party review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.; Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings. | Missing predecessor acceptance; Private evidence in public report |
+| TAIL-06 | Deliver the complete accepted-findings remediation or explicit deferral capture result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.; Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings. | Missing predecessor acceptance; Private evidence in public report |
+| TAIL-07 | Deliver the complete next-milestone planning result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.; Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings. | Missing predecessor acceptance; Private evidence in public report |
+| TAIL-08 | Deliver the complete next-milestone closeout planning result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.; Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings. | Missing predecessor acceptance; Private evidence in public report |
+| TAIL-09 | Deliver the complete next-milestone planning review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.; Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings. | Missing predecessor acceptance; Private evidence in public report |
+| TAIL-10 | Deliver the complete release ceremony and milestone close result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.; Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings. | Missing predecessor acceptance; Private evidence in public report |
+
+## Coverage Rules
+
+PVF planning_contract for this setup: registry headings, JSON/YAML mirrors, source/link validity, complete allocation and acyclic qualified dependencies. Product work must later prove each acceptance and negative case through the owning installed consumer; schema, source or CI alone is not live qualification. Reuse unchanged exact-input evidence; no broad local Rust or paid qualification campaign for planning.
+
+## Demo Details
+
+[Exact work-package inputs and adverse cases](WP_EXECUTION_SPECIFICATIONS_v0.93.6.yaml).
+
+## Cross-Demo Validation
+
+An unchanged accepted proof may serve several consumers if its exact input/version matches; document shared evidence rather than rerunning scenarios.
+
+## Determinism Evidence
+
+Deterministic contracts replay captured inputs. Fresh model/provider experiments remain empirical; retain actual failures, budgets, scenario counts and fallback intervals.
+
+## Reviewer Sign-Off Surface
+
+Record reviewer identity, exact reviewed revisions, scope and actionable finding dispositions during execution; no sign-off is fabricated by this setup.
+
+## Exit Criteria
+
+Every assigned outcome and required adverse case is accepted at exact input/candidate identities; review findings are resolved or explicitly dispositioned. No source/CI-only substitution for installed/live proof. Administrative cleanup is optional and asynchronous.
