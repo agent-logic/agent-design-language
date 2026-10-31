@@ -1,0 +1,620 @@
+{
+  "milestone": "v0.93.7",
+  "status": "planned_not_open",
+  "work_packages": [
+    {
+      "title": "Prepare affect and humour",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "v0.93.6/GOV-CLOSE"
+      ],
+      "acceptance": [
+        "All eight affect and four humour packages remain required, with actual consumer effects, held-out evidence and installed qualification; prior governance is reused, not reimplemented."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Unsupported completion claim"
+      ],
+      "pvf": "planning_contract",
+      "source": "README.md",
+      "sprint": 1,
+      "status": "planned",
+      "wp": "WP-01",
+      "outcome": "Consume accepted governance, GHB and Runtime interfaces, then activate only AF-01..08 and HU-01..04 with their integrated qualification and existing final review/release tail."
+    },
+    {
+      "title": "Current source/installed baseline, consumer map and compatibility requirements for both programmes",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "WP-01",
+        "v0.93.3/RV-08"
+      ],
+      "acceptance": [
+        "Every proposed effect maps to an actual Runtime owner and a named missing or existing consumer; historical proofs retained"
+      ],
+      "negative_cases": [
+        "Annotations or scores without an executed choice",
+        "Budget/governance bypass",
+        "Duplicate or ambiguous effects after recovery",
+        "Cross-task private-state leakage"
+      ],
+      "pvf": "installed_runtime_behavior",
+      "source": "features/AFFECT_AND_HUMOUR_v0.93.7.md",
+      "sprint": 1,
+      "status": "planned",
+      "wp": "AF-01",
+      "outcome": "Every proposed effect maps to an actual Runtime owner and a named missing or existing consumer; historical proofs retained"
+    },
+    {
+      "title": "Typed observations, AppraisalFrame, pure persistent reducer, v1 projection, temporal rules and calibration",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "AF-01"
+      ],
+      "acceptance": [
+        "Bounds, missingness, scope isolation and exact captured-input replay; preserve five WP-13 signals and separately identify the two proposed extensions"
+      ],
+      "negative_cases": [
+        "Annotations or scores without an executed choice",
+        "Budget/governance bypass",
+        "Duplicate or ambiguous effects after recovery",
+        "Cross-task private-state leakage"
+      ],
+      "pvf": "installed_runtime_behavior",
+      "source": "features/AFFECT_AND_HUMOUR_v0.93.7.md",
+      "sprint": 1,
+      "status": "planned",
+      "wp": "AF-02",
+      "outcome": "Bounds, missingness, scope isolation and exact captured-input replay; preserve five WP-13 signals and separately identify the two proposed extensions"
+    },
+    {
+      "title": "Online recovery, strategy choice and changeability-aware deferral",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "AF-02"
+      ],
+      "acceptance": [
+        "Automatic same-workflow recovery; transient and deterministic failures choose appropriately different actions; no handwritten retry overlay"
+      ],
+      "negative_cases": [
+        "Annotations or scores without an executed choice",
+        "Budget/governance bypass",
+        "Duplicate or ambiguous effects after recovery",
+        "Cross-task private-state leakage"
+      ],
+      "pvf": "installed_runtime_behavior",
+      "source": "features/AFFECT_AND_HUMOUR_v0.93.7.md",
+      "sprint": 1,
+      "status": "planned",
+      "wp": "AF-03",
+      "outcome": "Automatic same-workflow recovery; transient and deterministic failures choose appropriately different actions; no handwritten retry overlay"
+    },
+    {
+      "title": "Real GHB selection, critique/probe, effort and attention consumers",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "AF-03",
+        "v0.93.5/GHB-WP12"
+      ],
+      "acceptance": [
+        "Each enabled effect changes actual admissible selection or dispatch; annotations and score changes alone do not pass"
+      ],
+      "negative_cases": [
+        "Annotations or scores without an executed choice",
+        "Budget/governance bypass",
+        "Duplicate or ambiguous effects after recovery",
+        "Cross-task private-state leakage"
+      ],
+      "pvf": "installed_runtime_behavior",
+      "source": "features/AFFECT_AND_HUMOUR_v0.93.7.md",
+      "sprint": 1,
+      "status": "planned",
+      "wp": "AF-04",
+      "outcome": "Each enabled effect changes actual admissible selection or dispatch; annotations and score changes alone do not pass"
+    },
+    {
+      "title": "Checkpoints, cursors, wake conditions, effect identities, fencing and restore",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "AF-03"
+      ],
+      "acceptance": [
+        "Recovery reconciles ambiguous effects and avoids duplicate dispatch; v1 history remains readable"
+      ],
+      "negative_cases": [
+        "Annotations or scores without an executed choice",
+        "Budget/governance bypass",
+        "Duplicate or ambiguous effects after recovery",
+        "Cross-task private-state leakage"
+      ],
+      "pvf": "installed_runtime_behavior",
+      "source": "features/AFFECT_AND_HUMOUR_v0.93.7.md",
+      "sprint": 1,
+      "status": "planned",
+      "wp": "AF-05",
+      "outcome": "Recovery reconciles ambiguous effects and avoids duplicate dispatch; v1 history remains readable"
+    },
+    {
+      "title": "Scoped ObsMem episodes and installed resident integration",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "AF-04",
+        "AF-05"
+      ],
+      "acceptance": [
+        "Relevant history changes an executed choice; unrelated tasks remain isolated; active controller identity is exposed truthfully"
+      ],
+      "negative_cases": [
+        "Annotations or scores without an executed choice",
+        "Budget/governance bypass",
+        "Duplicate or ambiguous effects after recovery",
+        "Cross-task private-state leakage"
+      ],
+      "pvf": "installed_runtime_behavior",
+      "source": "features/AFFECT_AND_HUMOUR_v0.93.7.md",
+      "sprint": 1,
+      "status": "planned",
+      "wp": "AF-06",
+      "outcome": "Relevant history changes an executed choice; unrelated tasks remain isolated; active controller identity is exposed truthfully"
+    },
+    {
+      "title": "Held-out comparisons, installed workload qualification, pressure/fallback diagnostics",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "AF-06"
+      ],
+      "acceptance": [
+        "Mandatory contract gates pass and predeclared outcome thresholds are met; adverse results and fallback intervals retained"
+      ],
+      "negative_cases": [
+        "Annotations or scores without an executed choice",
+        "Budget/governance bypass",
+        "Duplicate or ambiguous effects after recovery",
+        "Cross-task private-state leakage"
+      ],
+      "pvf": "installed_runtime_behavior",
+      "source": "features/AFFECT_AND_HUMOUR_v0.93.7.md",
+      "sprint": 1,
+      "status": "planned",
+      "wp": "AF-07",
+      "outcome": "Mandatory contract gates pass and predeclared outcome thresholds are met; adverse results and fallback intervals retained"
+    },
+    {
+      "title": "Evidence-backed product description and dated comparison dossier",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "AF-07"
+      ],
+      "acceptance": [
+        "Claims match demonstrated deployment and measured scope; exclusivity is omitted unless independently substantiated"
+      ],
+      "negative_cases": [
+        "Annotations or scores without an executed choice",
+        "Budget/governance bypass",
+        "Duplicate or ambiguous effects after recovery",
+        "Cross-task private-state leakage"
+      ],
+      "pvf": "installed_runtime_behavior",
+      "source": "features/AFFECT_AND_HUMOUR_v0.93.7.md",
+      "sprint": 1,
+      "status": "planned",
+      "wp": "AF-08",
+      "outcome": "Claims match demonstrated deployment and measured scope; exclusivity is omitted unless independently substantiated"
+    },
+    {
+      "title": "Live frame observations and mismatch diagnosis",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "AF-01",
+        "AF-02"
+      ],
+      "acceptance": [
+        "Distinguish wrong assumptions from transient errors, missing inputs, impossibility, policy refusal and unknown causes"
+      ],
+      "negative_cases": [
+        "Annotations or scores without an executed choice",
+        "Budget/governance bypass",
+        "Duplicate or ambiguous effects after recovery",
+        "Cross-task private-state leakage"
+      ],
+      "pvf": "installed_runtime_behavior",
+      "source": "features/AFFECT_AND_HUMOUR_v0.93.7.md",
+      "sprint": 1,
+      "status": "planned",
+      "wp": "HU-01",
+      "outcome": "Distinguish wrong assumptions from transient errors, missing inputs, impossibility, policy refusal and unknown causes"
+    },
+    {
+      "title": "Candidate alternative frames and validation",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "HU-01"
+      ],
+      "acceptance": [
+        "Alternatives name changed assumptions, supporting/opposing evidence, predictions and budgets; preserve goals, truth and dignity; reject harmful reinterpretations"
+      ],
+      "negative_cases": [
+        "Annotations or scores without an executed choice",
+        "Budget/governance bypass",
+        "Duplicate or ambiguous effects after recovery",
+        "Cross-task private-state leakage"
+      ],
+      "pvf": "installed_runtime_behavior",
+      "source": "features/AFFECT_AND_HUMOUR_v0.93.7.md",
+      "sprint": 1,
+      "status": "planned",
+      "wp": "HU-02",
+      "outcome": "Alternatives name changed assumptions, supporting/opposing evidence, predictions and budgets; preserve goals, truth and dignity; reject harmful reinterpretations"
+    },
+    {
+      "title": "Governed revised execution and shared recovery/memory integration",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "HU-02",
+        "AF-03",
+        "AF-05"
+      ],
+      "acceptance": [
+        "A validated frame changes the next executed plan; bounded attempts and oscillation detection; failed reframes retained and replayable"
+      ],
+      "negative_cases": [
+        "Annotations or scores without an executed choice",
+        "Budget/governance bypass",
+        "Duplicate or ambiguous effects after recovery",
+        "Cross-task private-state leakage"
+      ],
+      "pvf": "installed_runtime_behavior",
+      "source": "features/AFFECT_AND_HUMOUR_v0.93.7.md",
+      "sprint": 1,
+      "status": "planned",
+      "wp": "HU-03",
+      "outcome": "A validated frame changes the next executed plan; bounded attempts and oscillation detection; failed reframes retained and replayable"
+    },
+    {
+      "title": "Comparative and installed reframing qualification",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "HU-03",
+        "AF-06"
+      ],
+      "acceptance": [
+        "Held-out evidence shows whether explicit frames outperform competent diagnosis under matched budgets, including false-reframing and adequate-original-frame cases"
+      ],
+      "negative_cases": [
+        "Annotations or scores without an executed choice",
+        "Budget/governance bypass",
+        "Duplicate or ambiguous effects after recovery",
+        "Cross-task private-state leakage"
+      ],
+      "pvf": "installed_runtime_behavior",
+      "source": "features/AFFECT_AND_HUMOUR_v0.93.7.md",
+      "sprint": 1,
+      "status": "planned",
+      "wp": "HU-04",
+      "outcome": "Held-out evidence shows whether explicit frames outperform competent diagnosis under matched budgets, including false-reframing and adequate-original-frame cases"
+    },
+    {
+      "title": "Integrate governance with security and plugin operations",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "v0.93.6/DEMO-GOV",
+        "v0.93.2/DEMO-SEC",
+        "v0.93.4/CM-04",
+        "v0.93.5/GHB-WP12",
+        "AF-08",
+        "HU-04"
+      ],
+      "acceptance": [
+        "One installed polis joins citizen action, upstream delegation, private cognition, policy enforcement, appeal and plugin restart without contract drift.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings.",
+        "The inherited feature crosswalk is executed: remote delegation, cognitive-loop and instinct actions, Chronosense anchoring, commitments/deadlines and citizen migration/reproduction retain governance across restart.",
+        "Integrated affect and humour consumers preserve goals, budgets, recovery and privacy; qualification consumes AF-07/AF-08 and HU-04 evidence."
+      ],
+      "negative_cases": [
+        "Authority lost across product boundary"
+      ],
+      "pvf": "installed_integration",
+      "source": "README.md",
+      "sprint": 2,
+      "status": "planned",
+      "wp": "INTEGRATE",
+      "outcome": "One installed polis joins citizen action, upstream delegation, private cognition, policy enforcement, appeal and plugin restart without contract drift."
+    },
+    {
+      "title": "Independently qualify the installed milestone",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "INTEGRATE"
+      ],
+      "acceptance": [
+        "Independent reviewer runs the accepted success/failure/recovery denominator on the exact multi-repository lockset.",
+        "Qualify platform upgrade, rollback and full governance/security integration against the accepted CodeFriend interface."
+      ],
+      "negative_cases": [
+        "Wrong artifact head",
+        "Missing negative scenario"
+      ],
+      "pvf": "installed_integration",
+      "source": "README.md",
+      "sprint": 2,
+      "status": "planned",
+      "wp": "QUALIFY",
+      "outcome": "Independent reviewer runs the accepted success/failure/recovery denominator on the exact multi-repository lockset."
+    },
+    {
+      "title": "Quality gate",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "QUALIFY"
+      ],
+      "acceptance": [
+        "Deliver the complete quality gate result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "pvf": "planning_contract",
+      "source": "README.md",
+      "sprint": 3,
+      "status": "planned",
+      "wp": "TAIL-01",
+      "outcome": "Deliver the complete quality gate result over the qualified product lockset, with exact artifact links and truthful approval/deferral status."
+    },
+    {
+      "title": "Documentation review and external-review handoff",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-01"
+      ],
+      "acceptance": [
+        "Deliver the complete documentation review and external-review handoff result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "pvf": "planning_contract",
+      "source": "README.md",
+      "sprint": 3,
+      "status": "planned",
+      "wp": "TAIL-02",
+      "outcome": "Deliver the complete documentation review and external-review handoff result over the qualified product lockset, with exact artifact links and truthful approval/deferral status."
+    },
+    {
+      "title": "Publication finalization",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-02"
+      ],
+      "acceptance": [
+        "Deliver the complete publication finalization result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "pvf": "planning_contract",
+      "source": "README.md",
+      "sprint": 3,
+      "status": "planned",
+      "wp": "TAIL-03",
+      "outcome": "Deliver the complete publication finalization result over the qualified product lockset, with exact artifact links and truthful approval/deferral status."
+    },
+    {
+      "title": "Internal milestone review",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-03"
+      ],
+      "acceptance": [
+        "Deliver the complete internal milestone review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "pvf": "planning_contract",
+      "source": "README.md",
+      "sprint": 3,
+      "status": "planned",
+      "wp": "TAIL-04",
+      "outcome": "Deliver the complete internal milestone review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status."
+    },
+    {
+      "title": "External or third-party review",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-04"
+      ],
+      "acceptance": [
+        "Deliver the complete external or third-party review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "pvf": "planning_contract",
+      "source": "README.md",
+      "sprint": 3,
+      "status": "planned",
+      "wp": "TAIL-05",
+      "outcome": "Deliver the complete external or third-party review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status."
+    },
+    {
+      "title": "Accepted-findings remediation or explicit deferral capture",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-05"
+      ],
+      "acceptance": [
+        "Deliver the complete accepted-findings remediation or explicit deferral capture result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "pvf": "planning_contract",
+      "source": "README.md",
+      "sprint": 3,
+      "status": "planned",
+      "wp": "TAIL-06",
+      "outcome": "Deliver the complete accepted-findings remediation or explicit deferral capture result over the qualified product lockset, with exact artifact links and truthful approval/deferral status."
+    },
+    {
+      "title": "Next-milestone planning",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-06"
+      ],
+      "acceptance": [
+        "Deliver the complete next-milestone planning result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "pvf": "planning_contract",
+      "source": "README.md",
+      "sprint": 3,
+      "status": "planned",
+      "wp": "TAIL-07",
+      "outcome": "Deliver the complete next-milestone planning result over the qualified product lockset, with exact artifact links and truthful approval/deferral status."
+    },
+    {
+      "title": "Next-milestone closeout planning",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-07"
+      ],
+      "acceptance": [
+        "Deliver the complete next-milestone closeout planning result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "pvf": "planning_contract",
+      "source": "README.md",
+      "sprint": 3,
+      "status": "planned",
+      "wp": "TAIL-08",
+      "outcome": "Deliver the complete next-milestone closeout planning result over the qualified product lockset, with exact artifact links and truthful approval/deferral status."
+    },
+    {
+      "title": "Next-milestone planning review",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-08"
+      ],
+      "acceptance": [
+        "Deliver the complete next-milestone planning review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "pvf": "planning_contract",
+      "source": "README.md",
+      "sprint": 3,
+      "status": "planned",
+      "wp": "TAIL-09",
+      "outcome": "Deliver the complete next-milestone planning review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status."
+    },
+    {
+      "title": "Release ceremony and milestone close",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-09"
+      ],
+      "acceptance": [
+        "Deliver the complete release ceremony and milestone close result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "pvf": "planning_contract",
+      "source": "README.md",
+      "sprint": 3,
+      "status": "planned",
+      "wp": "TAIL-10",
+      "outcome": "Deliver the complete release ceremony and milestone close result over the qualified product lockset, with exact artifact links and truthful approval/deferral status."
+    }
+  ],
+  "sprint_plan": {
+    "status": "prepared_planning_only",
+    "sprint_count": 3,
+    "sizing": "Dependency waves, not staffing/calendar promises. Disjoint foundations and tooling may proceed in parallel after WP-01; sprint numbering is a conservative dependency allocation, not a forced serial schedule.",
+    "execution_rule": "No child execution by setup #1405; create issues/cards only per activated sprint.",
+    "sprints": [
+      {
+        "number": 1,
+        "title": "Affect and humour",
+        "work_packages": [
+          "WP-01",
+          "AF-01",
+          "AF-02",
+          "AF-03",
+          "AF-04",
+          "AF-05",
+          "AF-06",
+          "AF-07",
+          "AF-08",
+          "HU-01",
+          "HU-02",
+          "HU-03",
+          "HU-04"
+        ]
+      },
+      {
+        "number": 2,
+        "title": "Integrated qualification",
+        "work_packages": [
+          "INTEGRATE",
+          "QUALIFY"
+        ]
+      },
+      {
+        "number": 3,
+        "title": "Review and release",
+        "work_packages": [
+          "TAIL-01",
+          "TAIL-02",
+          "TAIL-03",
+          "TAIL-04",
+          "TAIL-05",
+          "TAIL-06",
+          "TAIL-07",
+          "TAIL-08",
+          "TAIL-09",
+          "TAIL-10"
+        ]
+      }
+    ]
+  },
+  "external_dependencies": {
+    "v0.93.1/RD-11": "Accepted repository compatibility lockset",
+    "v0.93.2/TAIL-10": "Accepted v0.93.2 consumer contract and evidence, not inferred from planning.",
+    "v0.93.2/DEMO-SEC": "Accepted v0.93.2 consumer contract and evidence, not inferred from planning.",
+    "v0.93.2/WP-S3": "Accepted v0.93.2 consumer contract and evidence, not inferred from planning.",
+    "v0.93.2/WP-S5": "Accepted v0.93.2 consumer contract and evidence, not inferred from planning."
+  },
+  "successor_scope_amendment": {
+    "decision": "../v0.93.3/REORGANIZATION_1405.md",
+    "allocation": "../v0.93.3/REALLOCATION_1405.json"
+  },
+  "existing_issue_routing": [],
+  "version": "v0.93.7",
+  "serialization": "JSON-compatible YAML"
+}

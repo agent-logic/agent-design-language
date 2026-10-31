@@ -1,0 +1,940 @@
+{
+  "milestone": "v0.93.7",
+  "status": "planned_not_open",
+  "work_packages": [
+    {
+      "status": "planned",
+      "resources": "Bounded local work/owned CI; paid or deployment effects require scoped authority.",
+      "phase": "planning",
+      "source": "README.md",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No child execution or new scope from planning."
+      ],
+      "id": "WP-01",
+      "title": "Prepare affect and humour",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "v0.93.6/GOV-CLOSE"
+      ],
+      "result": "Consume accepted governance, GHB and Runtime interfaces, then activate only AF-01..08 and HU-01..04 with their integrated qualification and existing final review/release tail.",
+      "acceptance": [
+        "All eight affect and four humour packages remain required, with actual consumer effects, held-out evidence and installed qualification; prior governance is reused, not reimplemented."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Unsupported completion claim"
+      ],
+      "task_boundary": {
+        "single_result": "Prepare remaining governance, affect and humour",
+        "supporting_work": "Reuse accepted exact-input proof; no duplicate qualification.",
+        "completion_rule": "Independent acceptance of named outcomes; no completion from preparation."
+      },
+      "sprint": 1
+    },
+    {
+      "id": "AF-01",
+      "title": "Current source/installed baseline, consumer map and compatibility requirements for both programmes",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "WP-01",
+        "v0.93.3/RV-08"
+      ],
+      "result": "Every proposed effect maps to an actual Runtime owner and a named missing or existing consumer; historical proofs retained",
+      "acceptance": [
+        "Every proposed effect maps to an actual Runtime owner and a named missing or existing consumer; historical proofs retained"
+      ],
+      "negative_cases": [
+        "Annotations or scores without an executed choice",
+        "Budget/governance bypass",
+        "Duplicate or ambiguous effects after recovery",
+        "Cross-task private-state leakage"
+      ],
+      "phase": "product",
+      "source": "features/AFFECT_AND_HUMOUR_v0.93.7.md",
+      "status": "planned",
+      "resources": "Bounded local work and owned CI. Any provider/cloud/deployment effect needs separately scoped authority.",
+      "pvf": "installed_runtime_behavior",
+      "non_goals": [
+        "No unrelated scope or duplicate implementation/qualification"
+      ],
+      "task_boundary": {
+        "single_result": "Current source/installed baseline, consumer map and compatibility requirements for both programmes",
+        "supporting_work": "Only the focused documentation, code, tests and recovery behavior needed for this result.",
+        "completion_rule": "Accept the result and adverse cases; preparation alone is insufficient."
+      },
+      "sprint": 1
+    },
+    {
+      "id": "AF-02",
+      "title": "Typed observations, AppraisalFrame, pure persistent reducer, v1 projection, temporal rules and calibration",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "AF-01"
+      ],
+      "result": "Bounds, missingness, scope isolation and exact captured-input replay; preserve five WP-13 signals and separately identify the two proposed extensions",
+      "acceptance": [
+        "Bounds, missingness, scope isolation and exact captured-input replay; preserve five WP-13 signals and separately identify the two proposed extensions"
+      ],
+      "negative_cases": [
+        "Annotations or scores without an executed choice",
+        "Budget/governance bypass",
+        "Duplicate or ambiguous effects after recovery",
+        "Cross-task private-state leakage"
+      ],
+      "phase": "product",
+      "source": "features/AFFECT_AND_HUMOUR_v0.93.7.md",
+      "status": "planned",
+      "resources": "Bounded local work and owned CI. Any provider/cloud/deployment effect needs separately scoped authority.",
+      "pvf": "installed_runtime_behavior",
+      "non_goals": [
+        "No unrelated scope or duplicate implementation/qualification"
+      ],
+      "task_boundary": {
+        "single_result": "Typed observations, AppraisalFrame, pure persistent reducer, v1 projection, temporal rules and calibration",
+        "supporting_work": "Only the focused documentation, code, tests and recovery behavior needed for this result.",
+        "completion_rule": "Accept the result and adverse cases; preparation alone is insufficient."
+      },
+      "sprint": 1
+    },
+    {
+      "id": "AF-03",
+      "title": "Online recovery, strategy choice and changeability-aware deferral",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "AF-02"
+      ],
+      "result": "Automatic same-workflow recovery; transient and deterministic failures choose appropriately different actions; no handwritten retry overlay",
+      "acceptance": [
+        "Automatic same-workflow recovery; transient and deterministic failures choose appropriately different actions; no handwritten retry overlay"
+      ],
+      "negative_cases": [
+        "Annotations or scores without an executed choice",
+        "Budget/governance bypass",
+        "Duplicate or ambiguous effects after recovery",
+        "Cross-task private-state leakage"
+      ],
+      "phase": "product",
+      "source": "features/AFFECT_AND_HUMOUR_v0.93.7.md",
+      "status": "planned",
+      "resources": "Bounded local work and owned CI. Any provider/cloud/deployment effect needs separately scoped authority.",
+      "pvf": "installed_runtime_behavior",
+      "non_goals": [
+        "No unrelated scope or duplicate implementation/qualification"
+      ],
+      "task_boundary": {
+        "single_result": "Online recovery, strategy choice and changeability-aware deferral",
+        "supporting_work": "Only the focused documentation, code, tests and recovery behavior needed for this result.",
+        "completion_rule": "Accept the result and adverse cases; preparation alone is insufficient."
+      },
+      "sprint": 1
+    },
+    {
+      "id": "AF-04",
+      "title": "Real GHB selection, critique/probe, effort and attention consumers",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "AF-03",
+        "v0.93.5/GHB-WP12"
+      ],
+      "result": "Each enabled effect changes actual admissible selection or dispatch; annotations and score changes alone do not pass",
+      "acceptance": [
+        "Each enabled effect changes actual admissible selection or dispatch; annotations and score changes alone do not pass"
+      ],
+      "negative_cases": [
+        "Annotations or scores without an executed choice",
+        "Budget/governance bypass",
+        "Duplicate or ambiguous effects after recovery",
+        "Cross-task private-state leakage"
+      ],
+      "phase": "product",
+      "source": "features/AFFECT_AND_HUMOUR_v0.93.7.md",
+      "status": "planned",
+      "resources": "Bounded local work and owned CI. Any provider/cloud/deployment effect needs separately scoped authority.",
+      "pvf": "installed_runtime_behavior",
+      "non_goals": [
+        "No unrelated scope or duplicate implementation/qualification"
+      ],
+      "task_boundary": {
+        "single_result": "Real GHB selection, critique/probe, effort and attention consumers",
+        "supporting_work": "Only the focused documentation, code, tests and recovery behavior needed for this result.",
+        "completion_rule": "Accept the result and adverse cases; preparation alone is insufficient."
+      },
+      "sprint": 1
+    },
+    {
+      "id": "AF-05",
+      "title": "Checkpoints, cursors, wake conditions, effect identities, fencing and restore",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "AF-03"
+      ],
+      "result": "Recovery reconciles ambiguous effects and avoids duplicate dispatch; v1 history remains readable",
+      "acceptance": [
+        "Recovery reconciles ambiguous effects and avoids duplicate dispatch; v1 history remains readable"
+      ],
+      "negative_cases": [
+        "Annotations or scores without an executed choice",
+        "Budget/governance bypass",
+        "Duplicate or ambiguous effects after recovery",
+        "Cross-task private-state leakage"
+      ],
+      "phase": "product",
+      "source": "features/AFFECT_AND_HUMOUR_v0.93.7.md",
+      "status": "planned",
+      "resources": "Bounded local work and owned CI. Any provider/cloud/deployment effect needs separately scoped authority.",
+      "pvf": "installed_runtime_behavior",
+      "non_goals": [
+        "No unrelated scope or duplicate implementation/qualification"
+      ],
+      "task_boundary": {
+        "single_result": "Checkpoints, cursors, wake conditions, effect identities, fencing and restore",
+        "supporting_work": "Only the focused documentation, code, tests and recovery behavior needed for this result.",
+        "completion_rule": "Accept the result and adverse cases; preparation alone is insufficient."
+      },
+      "sprint": 1
+    },
+    {
+      "id": "AF-06",
+      "title": "Scoped ObsMem episodes and installed resident integration",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "AF-04",
+        "AF-05"
+      ],
+      "result": "Relevant history changes an executed choice; unrelated tasks remain isolated; active controller identity is exposed truthfully",
+      "acceptance": [
+        "Relevant history changes an executed choice; unrelated tasks remain isolated; active controller identity is exposed truthfully"
+      ],
+      "negative_cases": [
+        "Annotations or scores without an executed choice",
+        "Budget/governance bypass",
+        "Duplicate or ambiguous effects after recovery",
+        "Cross-task private-state leakage"
+      ],
+      "phase": "product",
+      "source": "features/AFFECT_AND_HUMOUR_v0.93.7.md",
+      "status": "planned",
+      "resources": "Bounded local work and owned CI. Any provider/cloud/deployment effect needs separately scoped authority.",
+      "pvf": "installed_runtime_behavior",
+      "non_goals": [
+        "No unrelated scope or duplicate implementation/qualification"
+      ],
+      "task_boundary": {
+        "single_result": "Scoped ObsMem episodes and installed resident integration",
+        "supporting_work": "Only the focused documentation, code, tests and recovery behavior needed for this result.",
+        "completion_rule": "Accept the result and adverse cases; preparation alone is insufficient."
+      },
+      "sprint": 1
+    },
+    {
+      "id": "AF-07",
+      "title": "Held-out comparisons, installed workload qualification, pressure/fallback diagnostics",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "AF-06"
+      ],
+      "result": "Mandatory contract gates pass and predeclared outcome thresholds are met; adverse results and fallback intervals retained",
+      "acceptance": [
+        "Mandatory contract gates pass and predeclared outcome thresholds are met; adverse results and fallback intervals retained"
+      ],
+      "negative_cases": [
+        "Annotations or scores without an executed choice",
+        "Budget/governance bypass",
+        "Duplicate or ambiguous effects after recovery",
+        "Cross-task private-state leakage"
+      ],
+      "phase": "product",
+      "source": "features/AFFECT_AND_HUMOUR_v0.93.7.md",
+      "status": "planned",
+      "resources": "Bounded local work and owned CI. Any provider/cloud/deployment effect needs separately scoped authority.",
+      "pvf": "installed_runtime_behavior",
+      "non_goals": [
+        "No unrelated scope or duplicate implementation/qualification"
+      ],
+      "task_boundary": {
+        "single_result": "Held-out comparisons, installed workload qualification, pressure/fallback diagnostics",
+        "supporting_work": "Only the focused documentation, code, tests and recovery behavior needed for this result.",
+        "completion_rule": "Accept the result and adverse cases; preparation alone is insufficient."
+      },
+      "sprint": 1
+    },
+    {
+      "id": "AF-08",
+      "title": "Evidence-backed product description and dated comparison dossier",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "AF-07"
+      ],
+      "result": "Claims match demonstrated deployment and measured scope; exclusivity is omitted unless independently substantiated",
+      "acceptance": [
+        "Claims match demonstrated deployment and measured scope; exclusivity is omitted unless independently substantiated"
+      ],
+      "negative_cases": [
+        "Annotations or scores without an executed choice",
+        "Budget/governance bypass",
+        "Duplicate or ambiguous effects after recovery",
+        "Cross-task private-state leakage"
+      ],
+      "phase": "product",
+      "source": "features/AFFECT_AND_HUMOUR_v0.93.7.md",
+      "status": "planned",
+      "resources": "Bounded local work and owned CI. Any provider/cloud/deployment effect needs separately scoped authority.",
+      "pvf": "installed_runtime_behavior",
+      "non_goals": [
+        "No unrelated scope or duplicate implementation/qualification"
+      ],
+      "task_boundary": {
+        "single_result": "Evidence-backed product description and dated comparison dossier",
+        "supporting_work": "Only the focused documentation, code, tests and recovery behavior needed for this result.",
+        "completion_rule": "Accept the result and adverse cases; preparation alone is insufficient."
+      },
+      "sprint": 1
+    },
+    {
+      "id": "HU-01",
+      "title": "Live frame observations and mismatch diagnosis",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "AF-01",
+        "AF-02"
+      ],
+      "result": "Distinguish wrong assumptions from transient errors, missing inputs, impossibility, policy refusal and unknown causes",
+      "acceptance": [
+        "Distinguish wrong assumptions from transient errors, missing inputs, impossibility, policy refusal and unknown causes"
+      ],
+      "negative_cases": [
+        "Annotations or scores without an executed choice",
+        "Budget/governance bypass",
+        "Duplicate or ambiguous effects after recovery",
+        "Cross-task private-state leakage"
+      ],
+      "phase": "product",
+      "source": "features/AFFECT_AND_HUMOUR_v0.93.7.md",
+      "status": "planned",
+      "resources": "Bounded local work and owned CI. Any provider/cloud/deployment effect needs separately scoped authority.",
+      "pvf": "installed_runtime_behavior",
+      "non_goals": [
+        "No unrelated scope or duplicate implementation/qualification"
+      ],
+      "task_boundary": {
+        "single_result": "Live frame observations and mismatch diagnosis",
+        "supporting_work": "Only the focused documentation, code, tests and recovery behavior needed for this result.",
+        "completion_rule": "Accept the result and adverse cases; preparation alone is insufficient."
+      },
+      "sprint": 1
+    },
+    {
+      "id": "HU-02",
+      "title": "Candidate alternative frames and validation",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "HU-01"
+      ],
+      "result": "Alternatives name changed assumptions, supporting/opposing evidence, predictions and budgets; preserve goals, truth and dignity; reject harmful reinterpretations",
+      "acceptance": [
+        "Alternatives name changed assumptions, supporting/opposing evidence, predictions and budgets; preserve goals, truth and dignity; reject harmful reinterpretations"
+      ],
+      "negative_cases": [
+        "Annotations or scores without an executed choice",
+        "Budget/governance bypass",
+        "Duplicate or ambiguous effects after recovery",
+        "Cross-task private-state leakage"
+      ],
+      "phase": "product",
+      "source": "features/AFFECT_AND_HUMOUR_v0.93.7.md",
+      "status": "planned",
+      "resources": "Bounded local work and owned CI. Any provider/cloud/deployment effect needs separately scoped authority.",
+      "pvf": "installed_runtime_behavior",
+      "non_goals": [
+        "No unrelated scope or duplicate implementation/qualification"
+      ],
+      "task_boundary": {
+        "single_result": "Candidate alternative frames and validation",
+        "supporting_work": "Only the focused documentation, code, tests and recovery behavior needed for this result.",
+        "completion_rule": "Accept the result and adverse cases; preparation alone is insufficient."
+      },
+      "sprint": 1
+    },
+    {
+      "id": "HU-03",
+      "title": "Governed revised execution and shared recovery/memory integration",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "HU-02",
+        "AF-03",
+        "AF-05"
+      ],
+      "result": "A validated frame changes the next executed plan; bounded attempts and oscillation detection; failed reframes retained and replayable",
+      "acceptance": [
+        "A validated frame changes the next executed plan; bounded attempts and oscillation detection; failed reframes retained and replayable"
+      ],
+      "negative_cases": [
+        "Annotations or scores without an executed choice",
+        "Budget/governance bypass",
+        "Duplicate or ambiguous effects after recovery",
+        "Cross-task private-state leakage"
+      ],
+      "phase": "product",
+      "source": "features/AFFECT_AND_HUMOUR_v0.93.7.md",
+      "status": "planned",
+      "resources": "Bounded local work and owned CI. Any provider/cloud/deployment effect needs separately scoped authority.",
+      "pvf": "installed_runtime_behavior",
+      "non_goals": [
+        "No unrelated scope or duplicate implementation/qualification"
+      ],
+      "task_boundary": {
+        "single_result": "Governed revised execution and shared recovery/memory integration",
+        "supporting_work": "Only the focused documentation, code, tests and recovery behavior needed for this result.",
+        "completion_rule": "Accept the result and adverse cases; preparation alone is insufficient."
+      },
+      "sprint": 1
+    },
+    {
+      "id": "HU-04",
+      "title": "Comparative and installed reframing qualification",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "HU-03",
+        "AF-06"
+      ],
+      "result": "Held-out evidence shows whether explicit frames outperform competent diagnosis under matched budgets, including false-reframing and adequate-original-frame cases",
+      "acceptance": [
+        "Held-out evidence shows whether explicit frames outperform competent diagnosis under matched budgets, including false-reframing and adequate-original-frame cases"
+      ],
+      "negative_cases": [
+        "Annotations or scores without an executed choice",
+        "Budget/governance bypass",
+        "Duplicate or ambiguous effects after recovery",
+        "Cross-task private-state leakage"
+      ],
+      "phase": "product",
+      "source": "features/AFFECT_AND_HUMOUR_v0.93.7.md",
+      "status": "planned",
+      "resources": "Bounded local work and owned CI. Any provider/cloud/deployment effect needs separately scoped authority.",
+      "pvf": "installed_runtime_behavior",
+      "non_goals": [
+        "No unrelated scope or duplicate implementation/qualification"
+      ],
+      "task_boundary": {
+        "single_result": "Comparative and installed reframing qualification",
+        "supporting_work": "Only the focused documentation, code, tests and recovery behavior needed for this result.",
+        "completion_rule": "Accept the result and adverse cases; preparation alone is insufficient."
+      },
+      "sprint": 1
+    },
+    {
+      "id": "INTEGRATE",
+      "title": "Integrate governance with security and plugin operations",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "v0.93.6/DEMO-GOV",
+        "v0.93.2/DEMO-SEC",
+        "v0.93.4/CM-04",
+        "v0.93.5/GHB-WP12",
+        "AF-08",
+        "HU-04"
+      ],
+      "result": "One installed polis joins citizen action, upstream delegation, private cognition, policy enforcement, appeal and plugin restart without contract drift.",
+      "acceptance": [
+        "One installed polis joins citizen action, upstream delegation, private cognition, policy enforcement, appeal and plugin restart without contract drift.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings.",
+        "The inherited feature crosswalk is executed: remote delegation, cognitive-loop and instinct actions, Chronosense anchoring, commitments/deadlines and citizen migration/reproduction retain governance across restart.",
+        "Integrated affect and humour consumers preserve goals, budgets, recovery and privacy; qualification consumes AF-07/AF-08 and HU-04 evidence."
+      ],
+      "negative_cases": [
+        "Authority lost across product boundary"
+      ],
+      "phase": "qualification",
+      "source": "README.md",
+      "status": "planned",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Integrate governance with security and plugin operations",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 2,
+      "origin": {
+        "milestone": "v0.93.3",
+        "id": "INTEGRATE",
+        "kind": "version_specific_gate"
+      }
+    },
+    {
+      "id": "QUALIFY",
+      "title": "Independently qualify the installed milestone",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "INTEGRATE"
+      ],
+      "result": "Independent reviewer runs the accepted success/failure/recovery denominator on the exact multi-repository lockset.",
+      "acceptance": [
+        "Independent reviewer runs the accepted success/failure/recovery denominator on the exact multi-repository lockset.",
+        "Qualify platform upgrade, rollback and full governance/security integration against the accepted CodeFriend interface."
+      ],
+      "negative_cases": [
+        "Wrong artifact head",
+        "Missing negative scenario"
+      ],
+      "phase": "qualification",
+      "source": "README.md",
+      "status": "planned",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "installed_integration",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Independently qualify the installed milestone",
+        "supporting_work": "Execute and report the declared qualification/demo denominator. Implementation defects return to their owning result or a separately scoped corrective issue; do not absorb implementation into qualification.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 2,
+      "origin": {
+        "milestone": "v0.93.3",
+        "id": "QUALIFY",
+        "kind": "version_specific_gate"
+      }
+    },
+    {
+      "id": "TAIL-01",
+      "title": "Quality gate",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "QUALIFY"
+      ],
+      "result": "Deliver the complete quality gate result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "acceptance": [
+        "Deliver the complete quality gate result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "phase": "tail",
+      "source": "README.md",
+      "status": "planned",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Quality gate",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 3,
+      "origin": {
+        "milestone": "v0.93.3",
+        "id": "TAIL-01",
+        "kind": "version_specific_gate"
+      }
+    },
+    {
+      "id": "TAIL-02",
+      "title": "Documentation review and external-review handoff",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-01"
+      ],
+      "result": "Deliver the complete documentation review and external-review handoff result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "acceptance": [
+        "Deliver the complete documentation review and external-review handoff result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "phase": "tail",
+      "source": "README.md",
+      "status": "planned",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Documentation review and external-review handoff",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 3,
+      "origin": {
+        "milestone": "v0.93.3",
+        "id": "TAIL-02",
+        "kind": "version_specific_gate"
+      }
+    },
+    {
+      "id": "TAIL-03",
+      "title": "Publication finalization",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-02"
+      ],
+      "result": "Deliver the complete publication finalization result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "acceptance": [
+        "Deliver the complete publication finalization result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "phase": "tail",
+      "source": "README.md",
+      "status": "planned",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Publication finalization",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 3,
+      "origin": {
+        "milestone": "v0.93.3",
+        "id": "TAIL-03",
+        "kind": "version_specific_gate"
+      }
+    },
+    {
+      "id": "TAIL-04",
+      "title": "Internal milestone review",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-03"
+      ],
+      "result": "Deliver the complete internal milestone review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "acceptance": [
+        "Deliver the complete internal milestone review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "phase": "tail",
+      "source": "README.md",
+      "status": "planned",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Internal milestone review",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 3,
+      "origin": {
+        "milestone": "v0.93.3",
+        "id": "TAIL-04",
+        "kind": "version_specific_gate"
+      }
+    },
+    {
+      "id": "TAIL-05",
+      "title": "External or third-party review",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-04"
+      ],
+      "result": "Deliver the complete external or third-party review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "acceptance": [
+        "Deliver the complete external or third-party review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "phase": "tail",
+      "source": "README.md",
+      "status": "planned",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "External or third-party review",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 3,
+      "origin": {
+        "milestone": "v0.93.3",
+        "id": "TAIL-05",
+        "kind": "version_specific_gate"
+      }
+    },
+    {
+      "id": "TAIL-06",
+      "title": "Accepted-findings remediation or explicit deferral capture",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-05"
+      ],
+      "result": "Deliver the complete accepted-findings remediation or explicit deferral capture result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "acceptance": [
+        "Deliver the complete accepted-findings remediation or explicit deferral capture result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "phase": "tail",
+      "source": "README.md",
+      "status": "planned",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Accepted-findings remediation or explicit deferral capture",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 3,
+      "origin": {
+        "milestone": "v0.93.3",
+        "id": "TAIL-06",
+        "kind": "version_specific_gate"
+      }
+    },
+    {
+      "id": "TAIL-07",
+      "title": "Next-milestone planning",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-06"
+      ],
+      "result": "Deliver the complete next-milestone planning result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "acceptance": [
+        "Deliver the complete next-milestone planning result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "phase": "tail",
+      "source": "README.md",
+      "status": "planned",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Next-milestone planning",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 3,
+      "origin": {
+        "milestone": "v0.93.3",
+        "id": "TAIL-07",
+        "kind": "version_specific_gate"
+      }
+    },
+    {
+      "id": "TAIL-08",
+      "title": "Next-milestone closeout planning",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-07"
+      ],
+      "result": "Deliver the complete next-milestone closeout planning result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "acceptance": [
+        "Deliver the complete next-milestone closeout planning result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "phase": "tail",
+      "source": "README.md",
+      "status": "planned",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Next-milestone closeout planning",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 3,
+      "origin": {
+        "milestone": "v0.93.3",
+        "id": "TAIL-08",
+        "kind": "version_specific_gate"
+      }
+    },
+    {
+      "id": "TAIL-09",
+      "title": "Next-milestone planning review",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-08"
+      ],
+      "result": "Deliver the complete next-milestone planning review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "acceptance": [
+        "Deliver the complete next-milestone planning review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "phase": "tail",
+      "source": "README.md",
+      "status": "planned",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Next-milestone planning review",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 3,
+      "origin": {
+        "milestone": "v0.93.3",
+        "id": "TAIL-09",
+        "kind": "version_specific_gate"
+      }
+    },
+    {
+      "id": "TAIL-10",
+      "title": "Release ceremony and milestone close",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "TAIL-09"
+      ],
+      "result": "Deliver the complete release ceremony and milestone close result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+      "acceptance": [
+        "Deliver the complete release ceremony and milestone close result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
+        "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Private evidence in public report"
+      ],
+      "phase": "tail",
+      "source": "README.md",
+      "status": "planned",
+      "resources": "Bounded local CPU/files and owned CI; paid providers, cloud changes and publication require issue-specific authorization.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated feature expansion",
+        "No completion from scaffolding, schema-only work or zero executed scenarios"
+      ],
+      "task_boundary": {
+        "single_result": "Release ceremony and milestone close",
+        "supporting_work": "Only tests, documentation, fixtures and recovery behavior required to accept this result. Independently usable additional outcomes require their own logical issue.",
+        "completion_rule": "Accept the named result and its negative cases; do not close on a partial scaffold."
+      },
+      "sprint": 3,
+      "origin": {
+        "milestone": "v0.93.3",
+        "id": "TAIL-10",
+        "kind": "version_specific_gate"
+      }
+    }
+  ],
+  "sprint_plan": {
+    "status": "prepared_planning_only",
+    "sprint_count": 3,
+    "sizing": "Dependency waves, not staffing/calendar promises. Disjoint foundations and tooling may proceed in parallel after WP-01; sprint numbering is a conservative dependency allocation, not a forced serial schedule.",
+    "execution_rule": "No child execution by setup #1405; create issues/cards only per activated sprint.",
+    "sprints": [
+      {
+        "number": 1,
+        "title": "Affect and humour",
+        "work_packages": [
+          "WP-01",
+          "AF-01",
+          "AF-02",
+          "AF-03",
+          "AF-04",
+          "AF-05",
+          "AF-06",
+          "AF-07",
+          "AF-08",
+          "HU-01",
+          "HU-02",
+          "HU-03",
+          "HU-04"
+        ]
+      },
+      {
+        "number": 2,
+        "title": "Integrated qualification",
+        "work_packages": [
+          "INTEGRATE",
+          "QUALIFY"
+        ]
+      },
+      {
+        "number": 3,
+        "title": "Review and release",
+        "work_packages": [
+          "TAIL-01",
+          "TAIL-02",
+          "TAIL-03",
+          "TAIL-04",
+          "TAIL-05",
+          "TAIL-06",
+          "TAIL-07",
+          "TAIL-08",
+          "TAIL-09",
+          "TAIL-10"
+        ]
+      }
+    ]
+  },
+  "external_dependencies": {
+    "v0.93.1/RD-11": "Accepted repository compatibility lockset",
+    "v0.93.2/TAIL-10": "Accepted v0.93.2 consumer contract and evidence, not inferred from planning.",
+    "v0.93.2/DEMO-SEC": "Accepted v0.93.2 consumer contract and evidence, not inferred from planning.",
+    "v0.93.2/WP-S3": "Accepted v0.93.2 consumer contract and evidence, not inferred from planning.",
+    "v0.93.2/WP-S5": "Accepted v0.93.2 consumer contract and evidence, not inferred from planning."
+  },
+  "successor_scope_amendment": {
+    "decision": "../v0.93.3/REORGANIZATION_1405.md",
+    "allocation": "../v0.93.3/REALLOCATION_1405.json"
+  },
+  "existing_issue_routing": []
+}

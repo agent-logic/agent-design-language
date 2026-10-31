@@ -330,8 +330,8 @@
   "sprint_plan": {
     "status": "prepared_planning_only",
     "sprint_count": 3,
-    "sizing": "Dependency waves, not dates or staffing commitments.",
-    "execution_rule": "No child execution in #1403. Bind only the next admitted owner issue after activation.",
+    "sizing": "Dependency waves, not staffing/calendar promises. Disjoint foundations and tooling may proceed in parallel after WP-01; sprint numbering is a conservative dependency allocation, not a forced serial schedule.",
+    "execution_rule": "No child execution by setup #1405; create issues/cards only per activated sprint.",
     "sprints": [
       {
         "number": 1,
@@ -376,8 +376,8 @@
     "v0.93.2/WP-S5": "Accepted v0.93.2 consumer contract and evidence, not inferred from planning."
   },
   "successor_scope_amendment": {
-    "decision": "../v0.93.3/REORGANIZATION_1403.md",
-    "allocation": "../v0.93.3/REALLOCATION_1403.json"
+    "decision": "../v0.93.3/REORGANIZATION_1405.md",
+    "allocation": "../v0.93.3/REALLOCATION_1405.json"
   },
   "existing_issue_routing": [
     {

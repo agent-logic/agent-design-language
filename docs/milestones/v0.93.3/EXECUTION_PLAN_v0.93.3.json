@@ -2,7 +2,7 @@
   "schema": "adl.v093.first_pass.v1",
   "milestone": "v0.93.3",
   "status": "setup_prepared_execution_not_started",
-  "planning_issue": 1403,
+  "planning_issue": 1405,
   "opening_requires": [
     "Accepted predecessor interfaces and later explicit sprint activation."
   ],
@@ -595,8 +595,8 @@
   "sprint_plan": {
     "status": "prepared_planning_only",
     "sprint_count": 3,
-    "sizing": "Dependency waves, not dates or staffing commitments.",
-    "execution_rule": "No child execution in #1403. Bind only the next admitted owner issue after activation.",
+    "sizing": "Dependency waves, not staffing/calendar promises. Disjoint foundations and tooling may proceed in parallel after WP-01; sprint numbering is a conservative dependency allocation, not a forced serial schedule.",
+    "execution_rule": "No child execution by setup #1405; create issues/cards only per activated sprint.",
     "sprints": [
       {
         "number": 1,
@@ -633,7 +633,7 @@
       }
     ]
   },
-  "scope_authority": "Operator-approved 2026-10-30 sequence, #1352 carryover and affect/humour placement; #1403 first-pass planning implementation.",
+  "scope_authority": "Operator-approved #1405 balancing: eight foundations v0.93.4; GHB v0.93.5; remaining governance v0.93.6; all12 affect/humour and final integrated tail v0.93.7.",
   "external_dependencies": {
     "v0.93.1/RD-11": "Accepted repository compatibility lockset",
     "v0.93.2/TAIL-10": "Accepted v0.93.2 consumer contract and evidence, not inferred from planning.",
@@ -657,7 +657,7 @@
     "note": "Count includes setup/review/release gates and reused issue identities; not a promise of one PR per row."
   },
   "successor_scope_amendment": {
-    "decision": "../v0.93.3/REORGANIZATION_1403.md",
-    "allocation": "../v0.93.3/REALLOCATION_1403.json"
+    "decision": "../v0.93.3/REORGANIZATION_1405.md",
+    "allocation": "../v0.93.3/REALLOCATION_1405.json"
   }
 }

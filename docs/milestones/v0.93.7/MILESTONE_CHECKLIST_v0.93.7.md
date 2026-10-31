@@ -1,0 +1,34 @@
+# v0.93.7 Milestone Checklist
+
+## Metadata
+
+Planning template set: 1.1.0. Milestone: v0.93.7. Date: 2026-10-30. Setup amendment: [#1405](https://github.com/agent-logic/agent-design-language/issues/1405). Planning owner: Planning #12; implementation owners assigned at sprint activation.
+
+## Purpose
+
+Affect and humour. 25 planned work-package identities across 3 dependency waves. Counts include coordination/review/release gates; no one-PR-per-row requirement. Retain the original integrated qualification and final review/release tail. Record accepted product lockset, limitations and unscheduled work; another milestone requires its own decision.
+
+## Planning
+
+- [ ] Review the complete scope and qualified dependency graph.
+- [ ] Assign only the next sprint; reuse existing issues and preserve planned successors.
+
+## Execution Discipline
+
+One accountable owner per admitted issue; native bind/start and issue-bound goal precede implementation. Independent review precedes a PR; merge only green at the reviewed head. Preserve source and evidence; administrative reconciliation and optional cleanup may run asynchronously. Do not create a second closeout PR or repeat tests/reviews merely to update records.
+
+## Quality Gates
+
+[Quality gate](QUALITY_GATE_v0.93.7.md) and PVF planning_contract for this setup: registry headings, JSON/YAML mirrors, source/link validity, complete allocation and acyclic qualified dependencies. Product work must later prove each acceptance and negative case through the owning installed consumer; schema, source or CI alone is not live qualification. Reuse unchanged exact-input evidence; no broad local Rust or paid qualification campaign for planning.
+
+## Release Packaging
+
+Prepare source/artifact lockset, public-safe notes and accepted limitations. No tags, releases, deployments or visibility changes are performed by planning.
+
+## Post-Release
+
+Optional reconciliation and safe cleanup preserve evidence; successor implementation requires activation.
+
+## Exit Criteria
+
+Every assigned outcome and required adverse case is accepted at exact input/candidate identities; review findings are resolved or explicitly dispositioned. No source/CI-only substitution for installed/live proof. Administrative cleanup is optional and asynchronous.
