@@ -37,7 +37,8 @@
       "title": "Produce constitutional review from evidence",
       "repository": "agent-logic-runtime",
       "depends_on": [
-        "v0.93.5/GOV-03"
+        "v0.93.5/GOV-03",
+        "WP-01"
       ],
       "result": "A review consumer emits findings over trace/outcome/policy evidence without raw private-state access.",
       "acceptance": [
@@ -111,7 +112,8 @@
       "title": "Persist governed private ToM updates",
       "repository": "agent-logic-runtime",
       "depends_on": [
-        "v0.93.5/GOV-01"
+        "v0.93.5/GOV-01",
+        "WP-01"
       ],
       "result": "Signed evidence-backed model updates replay under standing, consent/scope and projection controls.",
       "acceptance": [
@@ -335,7 +337,8 @@
       "title": "Communicate without private inspection",
       "repository": "agent-logic-runtime",
       "depends_on": [
-        "v0.93.5/GOV-11"
+        "v0.93.5/GOV-11",
+        "WP-01"
       ],
       "result": "A governed exchange succeeds while an associated unauthorized private-state/ToM inspection is denied.",
       "acceptance": [

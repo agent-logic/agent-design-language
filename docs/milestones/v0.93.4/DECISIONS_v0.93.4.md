@@ -14,7 +14,7 @@ Read the WBS and execution graph together; qualified milestone/ID pairs are iden
 
 ## Decision Log
 
-2026-10-30: operator approved the three-milestone sequence, retained #1352 in v0.93.3 and placed GHB in v0.93.5 and the remaining governance/affect/humour in v0.93.6. [Lossless register](../v0.93.3/REALLOCATION_1403.json). Scope is approved; detailed design, implementation activation and release are not.
+2026-10-30: operator approved the four-milestone sequence, retained #1352 in v0.93.3 and placed GHB in v0.93.5 and the remaining governance/affect/humour in v0.93.6. [Lossless register](../v0.93.3/REALLOCATION_1403.json). Scope is approved; detailed design, implementation activation and release are not.
 
 ## Open Questions
 
