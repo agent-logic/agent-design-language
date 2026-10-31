@@ -2,37 +2,33 @@
 
 ## Metadata
 
-Planning template set: 1.1.0. Target: v0.93.3. Setup issue: ADL #1296. Owner of planning: Planning #12. Product execution owners remain unassigned.
+Planning template set: 1.1.0. Milestone: v0.93.3. Date: 2026-10-30. Setup issue: [#1403](https://github.com/agent-logic/agent-design-language/issues/1403). Planning owner: Planning #12. Implementation owners assigned at sprint activation.
 
-## Status
+## Purpose
 
-Planned successor only. No opening or execution is authorized. No deployment, provider spend, release or Runtime restart is authorized by these documents.
+Runtime v4 foundations. 15 planned work-package identities across 3 dependency waves. Counts include coordination/review/release gates; no one-PR-per-row requirement. All RV-01–RV-11 are retained. #1352 stays here as a reused carryover. Governance, GHB, affect and humour are outside this milestone.
 
 ## Planning
 
-- [ ] Reconciled graphs and allocation independently reviewed.
-- [ ] Concrete issue identities and owners assigned before execution.
-- [ ] Acceptance denominator and supported contracts agreed.
+- [ ] Review the complete scope and qualified dependency graph.
+- [ ] Assign only the next sprint; reuse existing issues and preserve planned successors.
 
 ## Execution Discipline
 
-- [ ] All required package outcomes and adverse cases accepted.
-- [ ] No duplicate work, unsupported platform claims or unintended deployment.
+One accountable owner per admitted issue; native bind/start and issue-bound goal precede implementation. Independent review precedes a PR; merge only green at the reviewed head. Preserve source and evidence; administrative reconciliation and optional cleanup may run asynchronously. Do not create a second closeout PR or repeat tests/reviews merely to update records.
 
 ## Quality Gates
 
-- [ ] INTEGRATE and QUALIFY accepted.
-- [ ] Findings resolved or explicitly dispositioned.
+[Quality gate](QUALITY_GATE_v0.93.3.md) and PVF planning_contract for this setup: registry headings, JSON/YAML mirrors, source/link validity, complete allocation and acyclic qualified dependencies. Product work must later prove each acceptance and negative case through the owning installed consumer; schema, source or CI alone is not live qualification. Reuse unchanged exact-input evidence; no broad local Rust or paid qualification campaign for planning.
 
 ## Release Packaging
 
-- [ ] Exact candidate and separate release/launch approval recorded.
-- [ ] Release-tail obligations complete.
+Prepare source/artifact lockset, public-safe notes and accepted limitations. No tags, releases, deployments or visibility changes are performed by planning.
 
 ## Post-Release
 
-- [ ] Successor handoff retains unresolved/deferred work and truthful evidence.
+Optional reconciliation and safe cleanup preserve evidence; successor implementation requires activation.
 
 ## Exit Criteria
 
-Unchecked items are not completed by this planning update.
+Every assigned outcome and required adverse case is accepted at exact input/candidate identities; review findings are resolved or explicitly dispositioned. No source/CI-only substitution for installed/live proof. Administrative cleanup is optional and asynchronous.

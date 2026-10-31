@@ -1,0 +1,376 @@
+{
+  "schema": "adl.v093.first_pass.v1",
+  "milestone": "v0.93.4",
+  "status": "planned_not_open",
+  "planning_issue": 1403,
+  "opening_requires": [
+    "Accepted predecessor interfaces and later explicit sprint activation."
+  ],
+  "feature_gate": "Acceptance and adverse-case evidence for every assigned work package; no completion from planning.",
+  "required_release_tracks": [
+    "WP-01",
+    "CS4-01",
+    "CS4-02",
+    "CS4-03",
+    "CS4-04",
+    "CS4-05",
+    "CS4-06",
+    "REVIEW",
+    "RELEASE"
+  ],
+  "repositories": {
+    "agent-design-language": "public",
+    "cognitive-sdlc": "private",
+    "agent-logic-runtime": "private",
+    "codefriend": "private",
+    "codefriend.ai": "private",
+    "agent-logic-infrastructure": "private",
+    "agent-logic-enterprise-security": "private"
+  },
+  "decisions_pending": [
+    "Named issue owners and exact accepted artifact lockset",
+    "Issue-specific paid/deployment/release authority when applicable"
+  ],
+  "work_packages": [
+    {
+      "id": "WP-01",
+      "title": "Scope C-SDLC v4 from the actual workflow",
+      "repository": "cognitive-sdlc",
+      "depends_on": [
+        "v0.93.3/FOUNDATION-CLOSE"
+      ],
+      "result": "Approve one bounded issue-to-delivery workflow and measurable overhead/compatibility denominator before implementation.",
+      "acceptance": [
+        "Approve one bounded issue-to-delivery workflow and measurable overhead/compatibility denominator before implementation."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Unsupported completion claim"
+      ],
+      "phase": "planning",
+      "source": "features/CSDLC_V4_WORKFLOW_v0.93.4.md",
+      "status": "planned",
+      "resources": "Bounded local work and owned CI. Any provider/cloud/deployment effect needs separately scoped authority.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated scope or duplicate implementation/qualification"
+      ],
+      "task_boundary": {
+        "single_result": "Scope C-SDLC v4 from the actual workflow",
+        "supporting_work": "Only the focused documentation, code, tests and recovery behavior needed for this result.",
+        "completion_rule": "Accept the result and adverse cases; preparation alone is insufficient."
+      },
+      "sprint": 1
+    },
+    {
+      "id": "CS4-01",
+      "title": "Measure and map the current workflow",
+      "repository": "cognitive-sdlc",
+      "depends_on": [
+        "WP-01"
+      ],
+      "result": "Map create/start, implementation/proof, review, publish/deliver and optional closeout to source-backed sequence diagrams; measure wall/internal/external-tool/network time and identify steps to remove.",
+      "acceptance": [
+        "Map create/start, implementation/proof, review, publish/deliver and optional closeout to source-backed sequence diagrams; measure wall/internal/external-tool/network time and identify steps to remove."
+      ],
+      "negative_cases": [
+        "Duplicate remote effect",
+        "Stale review accepted",
+        "Incompatible v3 state",
+        "Unaccounted internal overhead"
+      ],
+      "phase": "product",
+      "source": "features/CSDLC_V4_WORKFLOW_v0.93.4.md",
+      "status": "planned",
+      "resources": "Bounded local work and owned CI. Any provider/cloud/deployment effect needs separately scoped authority.",
+      "pvf": "tooling_contract",
+      "non_goals": [
+        "No unrelated scope or duplicate implementation/qualification"
+      ],
+      "task_boundary": {
+        "single_result": "Measure and map the current workflow",
+        "supporting_work": "Only the focused documentation, code, tests and recovery behavior needed for this result.",
+        "completion_rule": "Accept the result and adverse cases; preparation alone is insufficient."
+      },
+      "sprint": 1
+    },
+    {
+      "id": "CS4-02",
+      "title": "Review the simpler state and command design",
+      "repository": "cognitive-sdlc",
+      "depends_on": [
+        "CS4-01"
+      ],
+      "result": "One editable issue source, one canonical installation, minimal command transitions and precise remote identity replace duplicate projections/attestations/receipts. Define bounded recovery and explicit compatibility; retain only independently justified integrity checks.",
+      "acceptance": [
+        "One editable issue source, one canonical installation, minimal command transitions and precise remote identity replace duplicate projections/attestations/receipts. Define bounded recovery and explicit compatibility; retain only independently justified integrity checks."
+      ],
+      "negative_cases": [
+        "Duplicate remote effect",
+        "Stale review accepted",
+        "Incompatible v3 state",
+        "Unaccounted internal overhead"
+      ],
+      "phase": "product",
+      "source": "features/CSDLC_V4_WORKFLOW_v0.93.4.md",
+      "status": "planned",
+      "resources": "Bounded local work and owned CI. Any provider/cloud/deployment effect needs separately scoped authority.",
+      "pvf": "tooling_contract",
+      "non_goals": [
+        "No unrelated scope or duplicate implementation/qualification"
+      ],
+      "task_boundary": {
+        "single_result": "Review the simpler state and command design",
+        "supporting_work": "Only the focused documentation, code, tests and recovery behavior needed for this result.",
+        "completion_rule": "Accept the result and adverse cases; preparation alone is insufficient."
+      },
+      "sprint": 1
+    },
+    {
+      "id": "CS4-03",
+      "title": "Prototype and measure the minimum path",
+      "repository": "cognitive-sdlc",
+      "depends_on": [
+        "CS4-02"
+      ],
+      "result": "Prototype ordinary operations and interrupted recovery against the approved denominator; demonstrate whether each sample stays below 30 seconds internal overhead and a ten-operation path below 300 seconds, reporting cold/warm and external costs separately.",
+      "acceptance": [
+        "Prototype ordinary operations and interrupted recovery against the approved denominator; demonstrate whether each sample stays below 30 seconds internal overhead and a ten-operation path below 300 seconds, reporting cold/warm and external costs separately."
+      ],
+      "negative_cases": [
+        "Duplicate remote effect",
+        "Stale review accepted",
+        "Incompatible v3 state",
+        "Unaccounted internal overhead"
+      ],
+      "phase": "product",
+      "source": "features/CSDLC_V4_WORKFLOW_v0.93.4.md",
+      "status": "planned",
+      "resources": "Bounded local work and owned CI. Any provider/cloud/deployment effect needs separately scoped authority.",
+      "pvf": "tooling_contract",
+      "non_goals": [
+        "No unrelated scope or duplicate implementation/qualification"
+      ],
+      "task_boundary": {
+        "single_result": "Prototype and measure the minimum path",
+        "supporting_work": "Only the focused documentation, code, tests and recovery behavior needed for this result.",
+        "completion_rule": "Accept the result and adverse cases; preparation alone is insufficient."
+      },
+      "sprint": 2
+    },
+    {
+      "id": "CS4-04",
+      "title": "Prove v3 compatibility and migration",
+      "repository": "cognitive-sdlc",
+      "depends_on": [
+        "CS4-03"
+      ],
+      "result": "Read existing v3 issue/proof/review state without rewriting history; preserve exact repository/issue/head and uncertain-effect recovery. Prove rollback and a staged cutover with one canonical installed tool set; no automatic authority fallback.",
+      "acceptance": [
+        "Read existing v3 issue/proof/review state without rewriting history; preserve exact repository/issue/head and uncertain-effect recovery. Prove rollback and a staged cutover with one canonical installed tool set; no automatic authority fallback."
+      ],
+      "negative_cases": [
+        "Duplicate remote effect",
+        "Stale review accepted",
+        "Incompatible v3 state",
+        "Unaccounted internal overhead"
+      ],
+      "phase": "product",
+      "source": "features/CSDLC_V4_WORKFLOW_v0.93.4.md",
+      "status": "planned",
+      "resources": "Bounded local work and owned CI. Any provider/cloud/deployment effect needs separately scoped authority.",
+      "pvf": "tooling_contract",
+      "non_goals": [
+        "No unrelated scope or duplicate implementation/qualification"
+      ],
+      "task_boundary": {
+        "single_result": "Prove v3 compatibility and migration",
+        "supporting_work": "Only the focused documentation, code, tests and recovery behavior needed for this result.",
+        "completion_rule": "Accept the result and adverse cases; preparation alone is insufficient."
+      },
+      "sprint": 2
+    },
+    {
+      "id": "CS4-05",
+      "title": "Implement the accepted simplification",
+      "repository": "cognitive-sdlc",
+      "depends_on": [
+        "CS4-04"
+      ],
+      "result": "Implement only the reviewed workflow with changed-input validation and reusable proof/review, no repeated binary hashing or duplicate builds/CI, and asynchronous optional administrative closeout. Prove supported native macOS/Linux behavior.",
+      "acceptance": [
+        "Implement only the reviewed workflow with changed-input validation and reusable proof/review, no repeated binary hashing or duplicate builds/CI, and asynchronous optional administrative closeout. Prove supported native macOS/Linux behavior."
+      ],
+      "negative_cases": [
+        "Duplicate remote effect",
+        "Stale review accepted",
+        "Incompatible v3 state",
+        "Unaccounted internal overhead"
+      ],
+      "phase": "product",
+      "source": "features/CSDLC_V4_WORKFLOW_v0.93.4.md",
+      "status": "planned",
+      "resources": "Bounded local work and owned CI. Any provider/cloud/deployment effect needs separately scoped authority.",
+      "pvf": "tooling_contract",
+      "non_goals": [
+        "No unrelated scope or duplicate implementation/qualification"
+      ],
+      "task_boundary": {
+        "single_result": "Implement the accepted simplification",
+        "supporting_work": "Only the focused documentation, code, tests and recovery behavior needed for this result.",
+        "completion_rule": "Accept the result and adverse cases; preparation alone is insufficient."
+      },
+      "sprint": 3
+    },
+    {
+      "id": "CS4-06",
+      "title": "Qualify workflow overhead and failure recovery",
+      "repository": "cognitive-sdlc",
+      "depends_on": [
+        "CS4-05"
+      ],
+      "result": "Independent installed end-to-end acceptance covers creation through delivery, metadata-only edits, unchanged proof reuse, conflicts, lost/uncertain responses, crash recovery and optional cleanup. Every ordinary sample meets the internal-overhead goals; failed or ambiguous effects are not silently replayed.",
+      "acceptance": [
+        "Independent installed end-to-end acceptance covers creation through delivery, metadata-only edits, unchanged proof reuse, conflicts, lost/uncertain responses, crash recovery and optional cleanup. Every ordinary sample meets the internal-overhead goals; failed or ambiguous effects are not silently replayed."
+      ],
+      "negative_cases": [
+        "Duplicate remote effect",
+        "Stale review accepted",
+        "Incompatible v3 state",
+        "Unaccounted internal overhead"
+      ],
+      "phase": "product",
+      "source": "features/CSDLC_V4_WORKFLOW_v0.93.4.md",
+      "status": "planned",
+      "resources": "Bounded local work and owned CI. Any provider/cloud/deployment effect needs separately scoped authority.",
+      "pvf": "tooling_contract",
+      "non_goals": [
+        "No unrelated scope or duplicate implementation/qualification"
+      ],
+      "task_boundary": {
+        "single_result": "Qualify workflow overhead and failure recovery",
+        "supporting_work": "Only the focused documentation, code, tests and recovery behavior needed for this result.",
+        "completion_rule": "Accept the result and adverse cases; preparation alone is insufficient."
+      },
+      "sprint": 3
+    },
+    {
+      "id": "REVIEW",
+      "title": "Review the installed C-SDLC v4 candidate",
+      "repository": "cognitive-sdlc",
+      "depends_on": [
+        "CS4-06"
+      ],
+      "result": "Resolve actionable correctness, compatibility and performance findings once on the final candidate; no extra attestation/receipt campaign.",
+      "acceptance": [
+        "Resolve actionable correctness, compatibility and performance findings once on the final candidate; no extra attestation/receipt campaign."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Unsupported completion claim"
+      ],
+      "phase": "planning",
+      "source": "README.md",
+      "status": "planned",
+      "resources": "Bounded local work and owned CI. Any provider/cloud/deployment effect needs separately scoped authority.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated scope or duplicate implementation/qualification"
+      ],
+      "task_boundary": {
+        "single_result": "Review the installed C-SDLC v4 candidate",
+        "supporting_work": "Only the focused documentation, code, tests and recovery behavior needed for this result.",
+        "completion_rule": "Accept the result and adverse cases; preparation alone is insufficient."
+      },
+      "sprint": 3
+    },
+    {
+      "id": "RELEASE",
+      "title": "Accept compatibility cutover and handoff",
+      "repository": "cognitive-sdlc",
+      "depends_on": [
+        "REVIEW"
+      ],
+      "result": "Obtain explicit operator cutover decision, preserve recoverable v3 state, then record one canonical admitted installation and the supported migration/rollback outcome. No cutover is authorized by this plan.",
+      "acceptance": [
+        "Obtain explicit operator cutover decision, preserve recoverable v3 state, then record one canonical admitted installation and the supported migration/rollback outcome. No cutover is authorized by this plan."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Unsupported completion claim"
+      ],
+      "phase": "planning",
+      "source": "README.md",
+      "status": "planned",
+      "resources": "Bounded local work and owned CI. Any provider/cloud/deployment effect needs separately scoped authority.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated scope or duplicate implementation/qualification"
+      ],
+      "task_boundary": {
+        "single_result": "Accept compatibility cutover and handoff",
+        "supporting_work": "Only the focused documentation, code, tests and recovery behavior needed for this result.",
+        "completion_rule": "Accept the result and adverse cases; preparation alone is insufficient."
+      },
+      "sprint": 3
+    }
+  ],
+  "predecessor_reconciliation": {
+    "status": "pending_predecessor_acceptance",
+    "opening_authorized": false
+  },
+  "sprint_plan": {
+    "status": "prepared_planning_only",
+    "sprint_count": 3,
+    "sizing": "Dependency waves, not dates or staffing commitments.",
+    "execution_rule": "No child execution in #1403. Bind only the next admitted owner issue after activation.",
+    "sprints": [
+      {
+        "number": 1,
+        "title": "Workflow and design",
+        "work_packages": [
+          "WP-01",
+          "CS4-01",
+          "CS4-02"
+        ]
+      },
+      {
+        "number": 2,
+        "title": "Prototype and compatibility",
+        "work_packages": [
+          "CS4-03",
+          "CS4-04"
+        ]
+      },
+      {
+        "number": 3,
+        "title": "Implementation, qualification and handoff",
+        "work_packages": [
+          "CS4-05",
+          "CS4-06",
+          "REVIEW",
+          "RELEASE"
+        ]
+      }
+    ]
+  },
+  "scope_authority": "Operator-approved 2026-10-30 sequence, #1352 carryover and affect/humour placement; #1403 first-pass planning implementation.",
+  "external_dependencies": {
+    "v0.93.1/RD-11": "Accepted repository compatibility lockset",
+    "v0.93.2/TAIL-10": "Accepted v0.93.2 consumer contract and evidence, not inferred from planning.",
+    "v0.93.2/DEMO-SEC": "Accepted v0.93.2 consumer contract and evidence, not inferred from planning.",
+    "v0.93.2/WP-S3": "Accepted v0.93.2 consumer contract and evidence, not inferred from planning.",
+    "v0.93.2/WP-S5": "Accepted v0.93.2 consumer contract and evidence, not inferred from planning."
+  },
+  "existing_issue_routing": [],
+  "counts": {
+    "core_work_packages": 9,
+    "existing_additional_issues": 0,
+    "distinct_planned_issue_identities": 9,
+    "note": "Count includes setup/review/release gates and reused issue identities; not a promise of one PR per row."
+  },
+  "successor_scope_amendment": {
+    "decision": "../v0.93.3/REORGANIZATION_1403.md",
+    "allocation": "../v0.93.3/REALLOCATION_1403.json"
+  }
+}

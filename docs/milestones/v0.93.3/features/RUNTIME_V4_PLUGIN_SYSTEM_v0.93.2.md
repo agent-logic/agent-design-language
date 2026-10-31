@@ -1,12 +1,12 @@
 # Successor scheduling notice
 
-This retained source contract is allocated to planned v0.93.3 where mapped by its execution graph. Historical v0.93.2 labels and sequences below are source context, not current scheduling. Enterprise-security source requirements include full governance integration; Beta 1 subset completion does not prove these consumers.
+The 2026-10-30 #1403 allocation places this source in v0.93.3 only where its current execution graph references it. Other historical source requirements are provenance, not newly activated scope. Historical v0.93.2 labels and sequences below are source context, not current scheduling. Enterprise-security source requirements include full governance integration; Beta 1 subset completion does not prove these consumers.
 
 # v0.93.2 Runtime v4 CSM Plugin System
 
 ## Status
 
-The approved #922 split schedules the full Runtime v4 program in v0.93.2. RV-01 through RV-11 are mandatory release scope. The prior design is not automatically approved: RV-01 must resolve its review findings before implementation admission.
+The #1403 allocation schedules the full Runtime v4 foundation programme in v0.93.3. RV-01 through RV-11 are mandatory release scope. The prior design is not automatically approved: RV-01 must resolve its review findings before implementation admission.
 
 ## Purpose
 

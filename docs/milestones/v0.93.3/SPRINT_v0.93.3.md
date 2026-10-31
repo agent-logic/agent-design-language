@@ -2,42 +2,92 @@
 
 ## Metadata
 
-Planning template set: 1.1.0. Target: v0.93.3. Setup issue: ADL #1296. Owner of planning: Planning #12. Product execution owners remain unassigned.
+Planning template set: 1.1.0. Milestone: v0.93.3. Date: 2026-10-30. Setup issue: [#1403](https://github.com/agent-logic/agent-design-language/issues/1403). Planning owner: Planning #12. Implementation owners assigned at sprint activation.
 
 ## Status
 
-Planned successor only. No opening or execution is authorized. No deployment, provider spend, release or Runtime restart is authorized by these documents.
+Setup prepared for later sprint activation; no implementation started. No child implementation, provider/cloud spend, deployment, Runtime restart, shared-binary replacement, tag or release is authorized by this planning package. Create child issues/cards per sprint at activation; preserve native C-SDLC v3 authority until a separately accepted compatibility cutover.
+
+## How To Use
+
+Read the WBS and execution graph together; qualified milestone/ID pairs are identities. Preserve dependencies and adverse cases; reuse existing owner issues. Plan review does not establish product proof.
 
 ## Sprint Overview
 
-59 planned identities across four dependency-based sprints. Preserve all 67 earlier identities through [the allocation register](../v0.93.2/REALLOCATION_1296.json). 46 moved platform identities plus 13 version-specific opening, integration, qualification and release-tail gates. This is an allocation, not permission to launch a large parallel execution wave.
+Runtime v4 foundations. 15 planned work-package identities across 3 dependency waves. Counts include coordination/review/release gates; no one-PR-per-row requirement. All RV-01–RV-11 are retained. #1352 stays here as a reused carryover. Governance, GHB, affect and humour are outside this milestone.
+
+## Sprint Goals
+
+### Sprint 1: Interfaces and carryover
+
+WP-01, RV-01, ADL-1352.
+
+### Sprint 2: Lifecycle and migration
+
+RV-02, RV-03, RV-09, RV-10, RV-11.
+
+### Sprint 3: Adapters, recovery and handoff
+
+RV-04, RV-05, RV-06, RV-07, RV-08, FOUNDATION-REVIEW, FOUNDATION-CLOSE.
+
+## Sprint Goal
+
+Runtime v4 foundations. 15 planned work-package identities across 3 dependency waves. Counts include coordination/review/release gates; no one-PR-per-row requirement. All RV-01–RV-11 are retained. #1352 stays here as a reused carryover. Governance, GHB, affect and humour are outside this milestone.
+
+## Planned Scope
+
+| WP | Sprint | Repository | Outcome | Dependencies |
+| --- | --- | --- | --- | --- |
+| WP-01 | 1 | agent-design-language | Admit only the reviewed Runtime v4 foundations after accepted v0.93.2 inputs; assign the first bounded sprint without activating successor programmes. | v0.93.2/TAIL-10 |
+| RV-01 | 1 | agent-logic-runtime | An accepted plugin contract defines topology precedence, epochs, durable activation journal, in-flight delivery, cancellation, versioned state/config migration, two-phase reconfiguration, dependency-safe removal and recovery classes. | v0.93.1/RD-11, WP-01 |
+| RV-02 | 2 | agent-logic-runtime | Existing Runtime behavior and identity survive native adapter conversion with no second scheduler. | RV-01 |
+| RV-03 | 2 | agent-logic-runtime | The durable generation transaction stages, quiesces, activates and rolls back to one fenced generation after interruption; in-flight work and cancellation retain their declared disposition. | RV-02 |
+| RV-09 | 2 | agent-logic-runtime | An installed plugin migrates declared prior-version state to the selected version and preserves the prior generation when the migrator refuses or fails. | RV-03 |
+| RV-10 | 2 | agent-logic-runtime | Versioned configuration migration and two-phase validation/activation apply one accepted configuration, or preserve the prior version and active configuration on refusal, failure or interruption. | RV-09 |
+| RV-11 | 2 | agent-logic-runtime | A requested plugin removal checks dependencies and in-flight work, refuses unsafe removal, and completes authorized removal with durable recovery state. | RV-10 |
+| RV-04 | 3 | agent-logic-runtime | One real non-core plugin uses authenticated bounded transport, deadlines and process supervision. | RV-11 |
+| RV-05 | 3 | agent-logic-runtime | The canonical contract drives a default-deny WIT adapter with enforced memory, time and host-call limits. | RV-04 |
+| RV-06 | 3 | agent-logic-runtime | One module has equivalent CSM-visible identity, messages, failure and state behavior across native, process and WASM adapters. | RV-05 |
+| RV-07 | 3 | agent-logic-runtime | Provider instances consume host-owned credentials and versioned configuration through the common inference capability. | RV-06 |
+| RV-08 | 3 | agent-logic-runtime | Installed package signing, checkpoint compatibility, generation recovery and Observatory operations pass with a retained known-good rollback. | RV-07 |
+| ADL-1352 | 1 | agent-design-language | Complete the existing #1352 language-limit/interpreter-free public-delivery acceptance without reopening delivered cleanup. | WP-01 |
+| FOUNDATION-REVIEW | 3 | agent-design-language | One independent integrated review accepts the exact Runtime foundation lockset and carryover; reuse valid tests and qualification instead of repeating them. | RV-08, ADL-1352 |
+| FOUNDATION-CLOSE | 3 | agent-design-language | Record accepted foundation interfaces, compatibility, recovery limits and successor handoff; release/tag only under a separate scoped decision. | FOUNDATION-REVIEW |
 
 ## Work Plan
 
-### Sprint 1: Runtime foundations
+### Sprint 1: Interfaces and carryover
 
-WP-01, RV-01, RV-02, RV-03, RV-09, RV-10, RV-11, RV-04, RV-05, RV-06, RV-07, RV-08.
+WP-01, RV-01, ADL-1352.
 
-### Sprint 2: Governance and citizen continuity
+### Sprint 2: Lifecycle and migration
 
-GOV-01, GOV-02, GOV-03, GOV-04, GOV-05, GOV-06, GOV-07, GOV-08, GOV-09, GOV-10, GOV-11, GOV-12, GOV-13, GOV-14, GOV-15, GOV-16, CM-01, CM-02, CM-03, CM-04, DEMO-GOV.
+RV-02, RV-03, RV-09, RV-10, RV-11.
 
-### Sprint 3: GHB and platform integration
+### Sprint 3: Adapters, recovery and handoff
 
-GHB-SPRINT, GHB-WP00, GHB-WP01, GHB-WP02, GHB-WP03, GHB-WP04, GHB-WP05, GHB-WP06, GHB-WP07, GHB-WP08, GHB-WP09, GHB-WP10, GHB-WP11, GHB-WP12, INTEGRATE, QUALIFY.
-
-### Sprint 4: Platform release review
-
-TAIL-01, TAIL-02, TAIL-03, TAIL-04, TAIL-05, TAIL-06, TAIL-07, TAIL-08, TAIL-09, TAIL-10.
+RV-04, RV-05, RV-06, RV-07, RV-08, FOUNDATION-REVIEW, FOUNDATION-CLOSE.
 
 ## Execution Policy
 
-No calendar promises. Use parallel owners only for independent accepted inputs; do not rerun tests or provider work unnecessarily. Each package has one accountable owner.
+One accountable owner per admitted issue; native bind/start and issue-bound goal precede implementation. Independent review precedes a PR; merge only green at the reviewed head. Preserve source and evidence; administrative reconciliation and optional cleanup may run asynchronously. Do not create a second closeout PR or repeat tests/reviews merely to update records.
+
+## Cadence Expectations
+
+Dependency-driven waves; no calendar promises or implied parallel staffing. Parallelize only disjoint write sets with accepted interfaces; do not duplicate active work.
 
 ## Risks / Dependencies
 
-Security must retain supported-consumer invariants after broad governance moves. A graph change alone does not establish compatibility.
+Accepted predecessor inputs and compatibility. Provider/experiment costs require scoped approval. Missing proof is a named gap; no retries or new machinery merely to satisfy records.
+
+## Demo / Review Plan
+
+[Proof matrix](DEMO_MATRIX_v0.93.3.md); PVF planning_contract for this setup: registry headings, JSON/YAML mirrors, source/link validity, complete allocation and acyclic qualified dependencies. Product work must later prove each acceptance and negative case through the owning installed consumer; schema, source or CI alone is not live qualification. Reuse unchanged exact-input evidence; no broad local Rust or paid qualification campaign for planning.
 
 ## Closeout Bar
 
-Accept the sprint outcomes and recorded adverse cases. Administrative cleanup may run asynchronously but cannot substitute for product acceptance.
+One accountable owner per admitted issue; native bind/start and issue-bound goal precede implementation. Independent review precedes a PR; merge only green at the reviewed head. Preserve source and evidence; administrative reconciliation and optional cleanup may run asynchronously. Do not create a second closeout PR or repeat tests/reviews merely to update records.
+
+## Exit Criteria
+
+Every assigned outcome and required adverse case is accepted at exact input/candidate identities; review findings are resolved or explicitly dispositioned. No source/CI-only substitution for installed/live proof. Administrative cleanup is optional and asynchronous.

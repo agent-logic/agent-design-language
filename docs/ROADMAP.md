@@ -19,6 +19,17 @@ is the separate cleanup wave for onboarding, safety, security intake and
 controlled historical-material retention. Its seven children carry the work;
 it is not a new product release or a replacement for the existing sprint plan.
 
+## Approved successor sequence — 2026-10-30
+
+| Milestone | Planned scope | Setup posture |
+| --- | --- | --- |
+| [v0.93.3](milestones/v0.93.3/README.md) | Runtime v4 foundations; 15 work-package identities | Prepared plan; implementation not started |
+| [v0.93.4](milestones/v0.93.4/README.md) | C-SDLC v4 simplification; 9 work-package identities | First-pass plan |
+| [v0.93.5](milestones/v0.93.5/README.md) | GHB and required continuity foundations; 25 work-package identities | First-pass plan |
+| [v0.93.6](milestones/v0.93.6/README.md) | Governance, affect and humour; 38 work-package identities | First-pass plan |
+
+[Decision and lossless routing](milestones/v0.93.3/REORGANIZATION_1403.md). GHB retains its eight existing standing/continuity prerequisite packages in v0.93.5; broader governance stays in v0.93.6. Counts include setup/review/release gates and existing carryovers, not one implementation project or PR per row. Create child issues/cards per sprint; container packaging remains deferred. Planning does not authorize implementation, deployment or release.
+
 ## Milestone index
 
 This index was checked on **2026-10-20**. GitHub links show live scope and state;
