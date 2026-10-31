@@ -1,0 +1,896 @@
+{
+  "schema": "adl.feature_baseline.v1",
+  "revision": "6b4126980209c7de68b91fd227612e1b161e87b1",
+  "source": "docs/planning/ADL_FEATURE_LIST.md",
+  "rows": [
+    {
+      "line": 222,
+      "feature": "Deterministic workflow execution",
+      "status": "Implemented",
+      "proof": "runtime/CLI, examples, milestone docs",
+      "target": "Completed baseline by `v0.8`"
+    },
+    {
+      "line": 223,
+      "feature": "ExecutionPlan runtime",
+      "status": "Implemented",
+      "proof": "Rust runtime and plan execution",
+      "target": "Completed baseline by `v0.8`"
+    },
+    {
+      "line": 224,
+      "feature": "Sequential + fork/join coordination",
+      "status": "Implemented",
+      "proof": "examples, tests, demo docs",
+      "target": "Completed baseline by `v0.8`"
+    },
+    {
+      "line": 225,
+      "feature": "Bounded concurrency and retry/failure controls",
+      "status": "Implemented",
+      "proof": "runtime semantics, tests, `v0.7` docs, and `v0.8` crosswalk evidence",
+      "target": "Completed baseline by `v0.8`"
+    },
+    {
+      "line": 226,
+      "feature": "Run artifacts and replay-oriented inspection",
+      "status": "Implemented baseline",
+      "proof": "run artifacts, trace/review docs, milestone demos",
+      "target": "Completed baseline in `v0.90`; inhabited-runtime integration complete in `v0.91.1`"
+    },
+    {
+      "line": 227,
+      "feature": "Signing, verification, and trust policy",
+      "status": "Implemented baseline",
+      "proof": "signing/verification surfaces, trust docs",
+      "target": "Completed baseline in `v0.90`; enterprise hardening complete in `v0.93`"
+    },
+    {
+      "line": 228,
+      "feature": "Provider and transport substrate",
+      "status": "Implemented baseline",
+      "proof": "provider docs, HTTP/local provider surfaces, reviewer package",
+      "target": "Runtime/provider completion target: `v0.92`"
+    },
+    {
+      "line": 229,
+      "feature": "Remote execution baseline",
+      "status": "Implemented baseline",
+      "proof": "bounded remote execution surfaces and docs",
+      "target": "Runtime/security completion target: `v0.93`"
+    },
+    {
+      "line": 230,
+      "feature": "Human-in-the-loop pause/resume",
+      "status": "Implemented baseline; AEE-required subset pulled forward",
+      "proof": "runtime/control surfaces and review docs",
+      "target": "AEE-required queue/wake/handoff subset targeted for `v0.92`; broad operator UX polish by `v0.95`"
+    },
+    {
+      "line": 231,
+      "feature": "Structured authoring model",
+      "status": "Implemented baseline",
+      "proof": "SIP/STP/SPP/SRP/SOR contracts and prompt tooling",
+      "target": "MVP completion target: `v0.95`"
+    },
+    {
+      "line": 232,
+      "feature": "Structured planning and Structured Review Prompt workflow",
+      "status": "Implemented baseline",
+      "proof": "`v0.91` SPP/SRP feature docs, readiness records, validation tooling, and issue-bundle workflow surfaces; historical records may still mention the older Structured Review Policy wording",
+      "target": "Completed baseline by `v0.91.0`; validator/closeout hardening continues in `v0.91.1`"
+    },
+    {
+      "line": 233,
+      "feature": "Control-plane lifecycle",
+      "status": "Implemented baseline; AEE-required truth surfaces pulled forward",
+      "proof": "`pr init/create/start/run/finish`, doctor, janitor, closeout surfaces",
+      "target": "AEE/control-path truth subset targeted for `v0.91.5`/`v0.92`; broad hardening by `v0.95`"
+    },
+    {
+      "line": 234,
+      "feature": "Editor and command-adapter surfaces",
+      "status": "Implemented baseline",
+      "proof": "editor docs, demos, bounded command adapters",
+      "target": "MVP completion target: `v0.95`"
+    },
+    {
+      "line": 235,
+      "feature": "Review and validation surfaces",
+      "status": "Implemented baseline",
+      "proof": "reviewer contracts, validation tools, review packages",
+      "target": "MVP completion target: `v0.95`"
+    },
+    {
+      "line": 236,
+      "feature": "Task-bundle workflow",
+      "status": "Implemented baseline",
+      "proof": "issue/task bundles and public execution records",
+      "target": "MVP completion target: `v0.95`"
+    },
+    {
+      "line": 237,
+      "feature": "Agency, cognitive loop, and cognitive stack",
+      "status": "Implemented baseline",
+      "proof": "`v0.86` agency/cognition feature package, demos, and review artifacts",
+      "target": "Cognitive-being completion target: `v0.91`; identity/governance integration complete by `v0.93`"
+    },
+    {
+      "line": 238,
+      "feature": "Fast/slow thinking and cognitive arbitration",
+      "status": "Implemented baseline",
+      "proof": "`v0.86` feature docs and bounded proof package",
+      "target": "Moral-cognition completion target: `v0.91`; MVP integration complete by `v0.95`"
+    },
+    {
+      "line": 239,
+      "feature": "Bounded Godel loop",
+      "status": "Implemented baseline",
+      "proof": "`v0.8` runtime artifacts, demos, experiment surfaces, `v0.89` experiment package",
+      "target": "Godel-agent completion target: `v0.92`"
+    },
+    {
+      "line": 240,
+      "feature": "Godel agents and Godel-Hadamard-Bayes algorithm",
+      "status": "Partially implemented",
+      "proof": "`v0.8` bounded Godel loop, `v0.89` Godel experiment system, GHB execution/state-space-compression idea docs, reasoning-pattern substrate, ObsMem, trace, cognitive proof surfaces, and `docs/milestones/v0.91.7/features/GODEL_MECHANICS_BRIDGE_v0.91.7.md`",
+      "target": "GHB runtime/story explicit in `v0.91.1`; paper packet in `v0.91.2`; first true Godel-agent birthday complete in `v0.92`"
+    },
+    {
+      "line": 241,
+      "feature": "ObsMem indexing, retrieval, and evidence-aware ranking",
+      "status": "Implemented baseline",
+      "proof": "`v0.8` / `v0.87` proof surfaces plus `v0.89` D6 retrieval/ranking proof",
+      "target": "Memory/identity completion target: `v0.92`"
+    },
+    {
+      "line": 242,
+      "feature": "Shared ObsMem foundation",
+      "status": "Implemented baseline",
+      "proof": "`v0.87` shared-memory docs and proof surfaces",
+      "target": "Identity/continuity completion target: `v0.92`"
+    },
+    {
+      "line": 243,
+      "feature": "Trace validation, trace review, and trace-to-memory ingestion",
+      "status": "Implemented baseline",
+      "proof": "`v0.87` trace schema/emission/artifact/review package and trace-ObsMem docs",
+      "target": "Signed/queryable trace completion target: `v0.94`"
+    },
+    {
+      "line": 244,
+      "feature": "Bounded cognitive path",
+      "status": "Implemented baseline",
+      "proof": "`v0.86` cognitive demo/artifact package",
+      "target": "Cognitive-being completion target: `v0.91`; MVP integration complete by `v0.95`"
+    },
+    {
+      "line": 245,
+      "feature": "Freedom Gate baseline",
+      "status": "Implemented baseline",
+      "proof": "`v0.86` bounded cognitive proof path",
+      "target": "Completed baseline by `v0.86`"
+    },
+    {
+      "line": 246,
+      "feature": "Freedom Gate v2",
+      "status": "Implemented baseline",
+      "proof": "`v0.89` judgment-boundary and gate proof surfaces",
+      "target": "Governance completion target: `v0.93`"
+    },
+    {
+      "line": 247,
+      "feature": "Trace substrate",
+      "status": "Implemented baseline",
+      "proof": "`v0.87` trace docs and reviewer-facing proof surfaces",
+      "target": "Runtime v2 integration complete in `v0.91.1`; signed/queryable trace complete by `v0.94`"
+    },
+    {
+      "line": 248,
+      "feature": "Operational skills substrate",
+      "status": "Implemented baseline",
+      "proof": "`v0.87` skills/control-plane docs and operational demos",
+      "target": "MVP completion target: `v0.95`"
+    },
+    {
+      "line": 249,
+      "feature": "Runtime environment and lifecycle completion",
+      "status": "Implemented baseline",
+      "proof": "`v0.87.1` runtime docs, demos, and review package",
+      "target": "Agent lifecycle completion target: `v0.91.1`"
+    },
+    {
+      "line": 250,
+      "feature": "Execution boundaries and capability-aware local execution",
+      "status": "Implemented baseline",
+      "proof": "`v0.87.1` runtime, local-model, and capability-aware execution docs/demos",
+      "target": "Capability/evaluator completion target: `v0.91.2`"
+    },
+    {
+      "line": 251,
+      "feature": "Local runtime resilience and Shepherd preservation",
+      "status": "Implemented baseline",
+      "proof": "`v0.87.1` resilience and preservation docs/demos",
+      "target": "Runtime resilience completion target: `v0.91.2`"
+    },
+    {
+      "line": 252,
+      "feature": "Chronosense / temporal substrate",
+      "status": "Implemented baseline",
+      "proof": "`v0.88` feature package and review surfaces",
+      "target": "Identity/governance integration complete by `v0.93`"
+    },
+    {
+      "line": 253,
+      "feature": "Temporal query, retrieval, identity semantics, and continuity hooks",
+      "status": "Implemented baseline",
+      "proof": "`v0.88` temporal schema, retrieval, and continuity/identity feature docs",
+      "target": "Identity completion target: `v0.92`"
+    },
+    {
+      "line": 254,
+      "feature": "Commitments, deadlines, and bounded temporal causality",
+      "status": "Implemented baseline",
+      "proof": "`v0.88` feature docs and reviewer package",
+      "target": "Governance completion target: `v0.93`"
+    },
+    {
+      "line": 255,
+      "feature": "Cost model, accounting primitives, and bounded economics hooks",
+      "status": "Implemented baseline",
+      "proof": "`v0.88` cost-model feature docs and planning surfaces plus `docs/milestones/v0.91.7/features/ECONOMICS_CONTEXT_DECISION_v0.91.7.md`",
+      "target": "Bounded economics baseline complete in `v0.90.4`; MVP integration complete by `v0.95`"
+    },
+    {
+      "line": 256,
+      "feature": "PHI-style integration metrics",
+      "status": "Implemented baseline",
+      "proof": "`v0.88` feature docs and review surfaces",
+      "target": "Evaluation completion target: `v0.91.2`"
+    },
+    {
+      "line": 257,
+      "feature": "Instinct and bounded agency",
+      "status": "Implemented baseline",
+      "proof": "`v0.88` feature docs, instinct review surface, Paper Sonata",
+      "target": "Cognitive-being completion target: `v0.91`; governance integration complete by `v0.93`"
+    },
+    {
+      "line": 258,
+      "feature": "Paper Sonata public-facing proof surface",
+      "status": "Implemented baseline",
+      "proof": "`demo_v088_paper_sonata.sh` and milestone docs",
+      "target": "Publication/demo catalog completion target: `v0.95`"
+    },
+    {
+      "line": 259,
+      "feature": "Deep-agents comparative proof",
+      "status": "Implemented baseline",
+      "proof": "`demo_v088_deep_agents_comparative_proof.sh` and `v0.89` follow-on demo docs",
+      "target": "Publication/demo catalog completion target: `v0.95`"
+    },
+    {
+      "line": 260,
+      "feature": "AEE 1.0 convergence",
+      "status": "Implemented baseline; subsystem closure explicitly pulled forward",
+      "proof": "`v0.89` `control_path/convergence.json`, D1 proof row, feature doc, `docs/milestones/v0.91.5/features/AEE_COMPLETION_TRANCHE_v0.91.5.md`, `docs/milestones/v0.91.5/features/V092_ACTIVATION_READINESS_v0.91.5.md`, and `docs/milestones/v0.91.6/features/AEE_MEMORY_ACP_BRIDGE_ACCOUNTING_v0.91.6.md`",
+      "target": "Runtime-inhabitant integration complete in `v0.91.1`; closure tranche defined in `v0.91.5`; subsystem proof targeted for `v0.92`; MVP polish only by `v0.95`"
+    },
+    {
+      "line": 261,
+      "feature": "Decision, action, and skill-governance surfaces",
+      "status": "Implemented baseline",
+      "proof": "`v0.89` and `v0.89.1` decision/action/skill docs, runtime/proof surfaces",
+      "target": "Governance completion target: `v0.93`"
+    },
+    {
+      "line": 262,
+      "feature": "Delegation, refusal, and coordination contracts",
+      "status": "Implemented baseline",
+      "proof": "`v0.89.1` operational-skill and coordination package",
+      "target": "Governance completion target: `v0.93`"
+    },
+    {
+      "line": 263,
+      "feature": "Provider-extension packaging and safe extension boundaries",
+      "status": "Implemented baseline",
+      "proof": "`v0.89.1` provider-extension package and proof surfaces",
+      "target": "Provider/security completion target: `v0.93`"
+    },
+    {
+      "line": 264,
+      "feature": "Security, posture, and trust-under-adversary package",
+      "status": "Implemented baseline",
+      "proof": "`v0.89` security posture package plus `v0.89.1` adversarial-runtime proof surfaces",
+      "target": "Enterprise security completion target: `v0.93`"
+    },
+    {
+      "line": 265,
+      "feature": "Adversarial runtime, exploit/replay, and self-attack band",
+      "status": "Implemented baseline",
+      "proof": "`v0.89.1` issue wave and feature package",
+      "target": "Enterprise security completion target: `v0.93`"
+    },
+    {
+      "line": 266,
+      "feature": "Demo proof entry points and quality gate",
+      "status": "Implemented baseline",
+      "proof": "`v0.89.1` demo matrix, proof-entry work, quality gate, and release review surfaces",
+      "target": "MVP demo/review completion target: `v0.95`"
+    },
+    {
+      "line": 267,
+      "feature": "Five-agent Hey Jude MIDI demo",
+      "status": "Implemented baseline",
+      "proof": "`v0.89.1` planning/proof surfaces and demo package",
+      "target": "Demo catalog completion target: `v0.95`"
+    },
+    {
+      "line": 268,
+      "feature": "arXiv paper writer and three-paper program",
+      "status": "Implemented baseline",
+      "proof": "`v0.89.1` skills/publication package",
+      "target": "Publication packet completion target: `v0.91.2`; MVP publication lane complete by `v0.95`"
+    },
+    {
+      "line": 269,
+      "feature": "Long-lived supervisor, heartbeat, and cycle artifacts",
+      "status": "Implemented baseline",
+      "proof": "`v0.90` feature contracts, runtime surfaces, and stock-league demo package",
+      "target": "Inhabited-runtime completion target: `v0.91.1`"
+    },
+    {
+      "line": 270,
+      "feature": "Stock-league long-lived demo family",
+      "status": "Implemented baseline",
+      "proof": "`v0.90` stock-league scaffold, recurring run, and proof artifacts",
+      "target": "Demo catalog completion target: `v0.95`"
+    },
+    {
+      "line": 271,
+      "feature": "Minimal status/inspection boundary",
+      "status": "Implemented baseline",
+      "proof": "`v0.90` trace/status issue, CLI/report surfaces, and review gate",
+      "target": "Observatory/runtime completion target: `v0.91.1`"
+    },
+    {
+      "line": 272,
+      "feature": "CodeFriend review showcase and architecture-document generation",
+      "status": "Implemented baseline",
+      "proof": "`v0.90` repo-review, diagram, product-report, and architecture-doc skill/demo package",
+      "target": "Productization completion target: `v0.91.2`; MVP completion target: `v0.95`"
+    },
+    {
+      "line": 273,
+      "feature": "Coverage ratchet, test tracker, and quality tracking",
+      "status": "Implemented baseline",
+      "proof": "`v0.90` coverage/test tracker updates and quality-gate docs",
+      "target": "Runtime/test-cycle recovery target: `v0.91.2`; MVP quality target: `v0.95`"
+    },
+    {
+      "line": 274,
+      "feature": "Rust refactoring tracker and evidence-driven maintenance",
+      "status": "Implemented baseline",
+      "proof": "`v0.90` refactoring tracker, ADR remediation, and follow-on maintenance planning",
+      "target": "Rustdoc/tooling cleanup target: `v0.91.2`; MVP hardening target: `v0.95`"
+    },
+    {
+      "line": 275,
+      "feature": "Milestone compression and repo visibility prototypes",
+      "status": "Implemented baseline",
+      "proof": "`v0.90` compression and repo-visibility docs/proofs",
+      "target": "Repo-visibility follow-on target: `v0.91.2`; fuller repo-cognition convergence target: `v0.95`"
+    },
+    {
+      "line": 276,
+      "feature": "HTML milestone dashboard and compression reporting",
+      "status": "MVP-scoped",
+      "proof": "`docs/milestones/v0.95/features/HTML_MILESTONE_DASHBOARD_AND_COMPRESSION_REPORTING_v0.95.md` plus the milestone-dashboard tooling baseline",
+      "target": "Dashboard/compression completion target: `v0.95`"
+    },
+    {
+      "line": 277,
+      "feature": "Runtime v2 foundation prototype",
+      "status": "Implemented baseline",
+      "proof": "`v0.90.1` feature contracts, Runtime v2 WPs, integrated demo, and proof packet",
+      "target": "Foundation complete; hardened by `v0.90.2`"
+    },
+    {
+      "line": 278,
+      "feature": "CSM Observatory visibility and operator-report surfaces",
+      "status": "Implemented baseline with retained Runtime v3 parity proof",
+      "proof": "visibility packet, static console, operator report, CLI bundle, command packet design, v0.90.2 operator report integration, v0.90.3 redacted projections, multimode UI architecture, inhabited flagship demo, `docs/milestones/v0.91.5/features/DEMO_AND_UNITY_OBSERVATORY_READINESS_v0.91.5.md`, `docs/milestones/v0.91.6/features/OBSERVATORY_UNITY_CONSUMPTION_CLASSIFICATION_v0.91.6.md`, v0.91.8 #5590, #5701/#5722 source-route hardening, and WP-16 issue-outcome audit",
+      "target": "#5590 proves authenticated HTML Observatory consumption through configuration-driven Runtime v3 access; WP-15 #5354 owns Unity proof issues #4839/#4741/#5332 independently of WP-14A; public cloud hosting remains unclaimed"
+    },
+    {
+      "line": 279,
+      "feature": "Runtime v2 hardening, recovery, quarantine, and expanded invariants",
+      "status": "Implemented baseline",
+      "proof": "`v0.90.2` implementation docs, proof packets, tests, and demo matrix",
+      "target": "Completed baseline by `v0.90.2`"
+    },
+    {
+      "line": 280,
+      "feature": "First bounded CSM run",
+      "status": "Implemented baseline",
+      "proof": "`v0.90.2` integrated first-run demo, feature-proof coverage, CSM run packet, Observatory report",
+      "target": "Completed baseline by `v0.90.2`"
+    },
+    {
+      "line": 281,
+      "feature": "Third-party review and review-quality gates",
+      "status": "Implemented baseline",
+      "proof": "v0.90.1 WP-15A, v0.90.2 review-tail planning, review handoff packets, finding disposition",
+      "target": "Release-tail completion target: every milestone through `v0.95`"
+    },
+    {
+      "line": 282,
+      "feature": "ANRM / shepherd-model experiments",
+      "status": "Partially implemented",
+      "proof": "v0.90.1 ANRM Gemma scaffold comparison and ten-trial results",
+      "target": "Placement complete in `v0.91.1`; evaluator/training path complete by `v0.95`"
+    },
+    {
+      "line": 283,
+      "feature": "CSM Shepherd model and Gemma training path",
+      "status": "MVP-scoped",
+      "proof": "`docs/milestones/v0.95/features/CSM_SHEPHERD_AND_GEMMA_TRAINING_PATH_v0.95.md` plus ANRM comparison/trace-dataset foundations",
+      "target": "Placement and trace dataset complete in `v0.91.1`; training/evaluator MVP complete by `v0.95`"
+    },
+    {
+      "line": 284,
+      "feature": "Capability-testing evidence and Aptitude Atlas boundary",
+      "status": "Post-MVP Aptitude Atlas productization; v0.95 evidence consumption only",
+      "proof": "capability/aptitude harness baseline and `docs/milestones/v0.95/features/APTITUDE_ATLAS_MODEL_EVALUATION_PLATFORM_v0.95.md`",
+      "target": "Harness baseline complete in `v0.91.1`; `v0.95` consumes capability-testing evidence only; Aptitude Atlas product/baseline productization is post-v0.95"
+    },
+    {
+      "line": 285,
+      "feature": "Governed tool calls and capability contracts",
+      "status": "Implemented baseline",
+      "proof": "`docs/milestones/v0.90.5` Governed Tools v1.0 planning, Universal Tool Schema, ADL Capability Contract, and tool-to-capability compiler design",
+      "target": "Completed baseline; benchmark and conformance expansion in `v0.91.2`"
+    },
+    {
+      "line": 286,
+      "feature": "Cognitive Compression Cost instrumentation",
+      "status": "Implemented first pass",
+      "proof": "CCC v0 fixture extractor, generated comparison report, validation command, metric draft, and milestone-compression planning",
+      "target": "Trace-backed metric completion target: `v0.91.1`; reporting completion target: `v0.95`"
+    },
+    {
+      "line": 287,
+      "feature": "Web-based code editor integration",
+      "status": "MVP-scoped",
+      "proof": "`docs/milestones/v0.95/features/WEB_BASED_CODE_EDITOR_INTEGRATION_v0.95.md` plus the HTA editor-planning baseline",
+      "target": "Editor/operator completion target: `v0.95`"
+    },
+    {
+      "line": 288,
+      "feature": "Reasoning graph baseline",
+      "status": "Bounded Runtime v2 proof retained; Runtime v3 parity proof retained; broader provenance MVP-scoped",
+      "proof": "`docs/milestones/v0.94/features/REASONING_GRAPH_BASELINE_v0.94.md`, closed #4694-#4697 proof, v0.91.8 #5592, and WP-16 issue-outcome audit",
+      "target": "#5592 preserves the bounded live graph/loop/adaptation parity path; broader reasoning/provenance completion remains v0.94"
+    },
+    {
+      "line": 289,
+      "feature": "Signed trace and trace query",
+      "status": "MVP-scoped",
+      "proof": "`docs/milestones/v0.94/features/SIGNED_TRACE_AND_TRACE_QUERY_v0.94.md`",
+      "target": "Reasoning/provenance completion target: `v0.94`"
+    },
+    {
+      "line": 290,
+      "feature": "Wellbeing, affect, kindness, moral cognition, humor",
+      "status": "Implemented Runtime v2 baseline; bounded Runtime v3 parity disposition retained",
+      "proof": "`v0.91` feature docs, Runtime v2 proof surfaces, demo matrix, feature-proof coverage, release evidence, ADR 0016, `docs/milestones/v0.91.7/features/AFFECT_HAPPINESS_BRIDGE_v0.91.7.md`, v0.91.8 #5592, and WP-16 issue-outcome audit",
+      "target": "#5592 preserves affect reasoning-control as a bounded Runtime v3 parity surface with safe non-claims; subjective affect, consciousness, suffering, happiness, or unbounded self-improvement remain unclaimed"
+    },
+    {
+      "line": 291,
+      "feature": "Secure Agent Communication and Invocation Protocol",
+      "status": "Implemented baseline plus active hardening",
+      "proof": "v0.90.5 ACIP planning plus v0.91 secure local Agent Comms, A2A boundary docs, proof coverage, and ADR 0017",
+      "target": "`v0.91.0` substrate complete; local hardening baseline completes in `v0.91.1`"
+    },
+    {
+      "line": 292,
+      "feature": "Inhabited runtime readiness",
+      "status": "Implemented baseline",
+      "proof": "`docs/milestones/v0.91.1` WBS, sprint plan, issue-wave YAML, readiness docs, demo matrix, feature index, and completed WP issue wave",
+      "target": "Completed baseline by `v0.91.1`"
+    },
+    {
+      "line": 293,
+      "feature": "Runtime/polis architecture alignment",
+      "status": "Implemented baseline",
+      "proof": "`docs/milestones/v0.91.1/features/RUNTIME_POLIS_ARCHITECTURE.md` plus landed docs/runtime alignment from closed `WP-02` / `#2824`",
+      "target": "Completed baseline by `v0.91.1`"
+    },
+    {
+      "line": 294,
+      "feature": "Agent lifecycle state model",
+      "status": "Implemented baseline",
+      "proof": "`docs/milestones/v0.91.1/features/AGENT_LIFECYCLE_STATE_MODEL.md` plus landed runtime/tests from closed `WP-03` / `#2825`",
+      "target": "Completed baseline by `v0.91.1`"
+    },
+    {
+      "line": 295,
+      "feature": "CSM Observatory active agent runtime",
+      "status": "Implemented baseline",
+      "proof": "`docs/milestones/v0.91.1/features/CSM_OBSERVATORY_ACTIVE_SURFACE.md` plus landed runtime/tests from closed `WP-04` / `#2826`",
+      "target": "Completed baseline by `v0.91.1`"
+    },
+    {
+      "line": 296,
+      "feature": "Citizen standing and citizen state follow-on",
+      "status": "Implemented baseline",
+      "proof": "`docs/milestones/v0.91.1/features/CITIZEN_STANDING_MODEL.md`, `docs/milestones/v0.91.1/features/CITIZEN_STATE_SUBSTRATE.md`, and landed runtime/fixture proof from closed `WP-05` / `#2827` and `WP-06` / `#2828`",
+      "target": "Completed baseline by `v0.91.1`"
+    },
+    {
+      "line": 297,
+      "feature": "Memory, Theory of Mind, capability testing, intelligence metrics, governed learning, and ANRM/Gemma",
+      "status": "Implemented baseline",
+      "proof": "`docs/milestones/v0.91.1/features/README.md` plus landed proof surfaces from closed `WP-07` through `WP-12` / `#2829` through `#2834`",
+      "target": "Completed baseline by `v0.91.1`"
+    },
+    {
+      "line": 298,
+      "feature": "ACIP hardening and local encryption boundary",
+      "status": "Implemented baseline",
+      "proof": "`docs/milestones/v0.91.1/features/ACIP_HARDENING.md` plus landed hardening/conformance work from closed `WP-13` / `#2835`",
+      "target": "Completed local hardening baseline by `v0.91.1`"
+    },
+    {
+      "line": 299,
+      "feature": "A2A adapter boundary",
+      "status": "Implemented baseline",
+      "proof": "`docs/milestones/v0.91.1/features/A2A_ADAPTER_BOUNDARY.md` and closed `WP-14` / `#2836`",
+      "target": "Completed baseline by `v0.91.1`"
+    },
+    {
+      "line": 300,
+      "feature": "Runtime inhabitant proof",
+      "status": "Implemented baseline",
+      "proof": "`docs/milestones/v0.91.1/features/RUNTIME_INHABITANT_PROOF.md` and closed `WP-15` / `#2837`",
+      "target": "Completed baseline by `v0.91.1`"
+    },
+    {
+      "line": 301,
+      "feature": "UTS + ACC multi-model benchmark and provider-native tool-call comparison",
+      "status": "Implemented baseline",
+      "proof": "`docs/milestones/v0.91.2/features/UTS_ACC_MULTI_MODEL_BENCHMARK.md` plus `docs/milestones/v0.91.2/review/uts_benchmark_evidence/`",
+      "target": "`v0.91.2` historical ADL baseline; benchmark source ownership is Runtime under ADL `#1223`. Historical evidence remains unchanged; current owner publication and qualification are separate gates"
+    },
+    {
+      "line": 302,
+      "feature": "Runtime/test-cycle recovery and coverage ergonomics",
+      "status": "Implemented baseline",
+      "proof": "`docs/milestones/v0.91.2/features/RUNTIME_TEST_CYCLE_RECOVERY.md`, runtime recovery reports, coverage ergonomics report, and CI runtime budget docs",
+      "target": "`v0.91.2` baseline complete with follow-on observability/hardening continuing as needed"
+    },
+    {
+      "line": 303,
+      "feature": "CodeFriend repo-review product layer",
+      "status": "Implemented baseline",
+      "proof": "`docs/milestones/v0.91.2/features/CODEFRIEND_PRODUCTIZATION.md` plus existing review-product proof baseline",
+      "target": "`v0.91.2` productization lane complete; MVP polish continues by `v0.95`"
+    },
+    {
+      "line": 304,
+      "feature": "Review heuristics and reviewer demo lane",
+      "status": "Implemented baseline",
+      "proof": "`docs/milestones/v0.91.2/features/REVIEW_HEURISTICS_AND_DEMOS.md`",
+      "target": "`v0.91.2` review/demo baseline complete"
+    },
+    {
+      "line": 305,
+      "feature": "Google Workspace CMS bridge and Rust-native adapter boundary",
+      "status": "Implemented baseline plus active hardening",
+      "proof": "`docs/milestones/v0.91.2/features/GOOGLE_WORKSPACE_CMS_BRIDGE.md`",
+      "target": "Completed bounded baseline in `v0.91.2`; live hardening and future project operational use continue as follow-on work"
+    },
+    {
+      "line": 306,
+      "feature": "Automated repository modernization and external refactoring integration",
+      "status": "Implemented bounded packet",
+      "proof": "`docs/milestones/v0.91.2/features/CODE_MODERNIZATION_DEMO.md` plus existing Moderne/OpenRewrite and code-modernization planning docs",
+      "target": "`v0.91.2` bounded Moderne/OpenRewrite LST demo lane complete"
+    },
+    {
+      "line": 307,
+      "feature": "Generic speculative decoding runtime acceleration",
+      "status": "Implemented evaluation packet",
+      "proof": "`docs/milestones/v0.91.2/features/SPECULATIVE_DECODING_PROTOTYPE.md`, `docs/milestones/v0.91.2/review/speculative_decoding/speculative_decoding_prototype_packet.md`, and `docs/adr/0022-speculative-decoding-deterministic-commit-boundary.md`",
+      "target": "`v0.91.2` bounded evaluation complete; productization deferred pending real backend follow-on"
+    },
+    {
+      "line": 308,
+      "feature": "Repo visibility follow-on",
+      "status": "Implemented baseline",
+      "proof": "`docs/milestones/v0.91.2/features/REPO_VISIBILITY_FOLLOW_ON.md` plus the `v0.90` repo-visibility baseline",
+      "target": "`v0.91.2` follow-on packet complete"
+    },
+    {
+      "line": 309,
+      "feature": "Publication packet program and GHB paper lane",
+      "status": "Implemented packet",
+      "proof": "`docs/milestones/v0.91.2/features/PUBLICATION_PROGRAM.md` plus GHB paper lineage docs",
+      "target": "`v0.91.2` publication-planning packet complete; no publication approval claimed"
+    },
+    {
+      "line": 310,
+      "feature": "General-intelligence paper packet",
+      "status": "Implemented packet",
+      "proof": "`docs/milestones/v0.91.2/features/GENERAL_INTELLIGENCE_PAPER_PACKET.md`",
+      "target": "`v0.91.2` paper packet complete with canonical paper repo as source of manuscript truth"
+    },
+    {
+      "line": 311,
+      "feature": "Rustdoc/doc cleanup",
+      "status": "Implemented baseline",
+      "proof": "`docs/milestones/v0.91.2/features/RUSTDOC_DOC_CLEANUP.md`",
+      "target": "`v0.91.2` cleanup baseline complete"
+    },
+    {
+      "line": 312,
+      "feature": "Workflow guardrails",
+      "status": "Implemented baseline",
+      "proof": "`docs/milestones/v0.91.2/features/WORKFLOW_GUARDRAILS.md`",
+      "target": "`v0.91.2` guardrail baseline complete"
+    },
+    {
+      "line": 313,
+      "feature": "Cognitive SDLC first slice and transition manifest",
+      "status": "Implemented baseline",
+      "proof": "`docs/milestones/v0.91.3/features/COGNITIVE_SDLC_FIRST_SLICE.md`, `docs/milestones/v0.91.3/features/COGNITIVE_TRANSITION_MANIFEST.md`, `docs/milestones/v0.91.3/features/CARD_LIFECYCLE_INTEGRATION.md`, `docs/milestones/v0.91.3/features/TRANSITION_DAG_AND_SHARD_COORDINATION.md`, `docs/milestones/v0.91.3/features/EVIDENCE_BUNDLE_AND_REVIEW_SYNTHESIS.md`, `docs/milestones/v0.91.3/features/GOVERNED_MERGE_READINESS_GATE.md`, `docs/milestones/v0.91.3/features/SRP_SOR_OBSMEM_HANDOFF.md`, and `docs/milestones/v0.91.3/features/FIVE_MINUTE_SPRINT_FIRST_PROOF.md`",
+      "target": "`v0.91.3` proved one bounded Cognitive State Transition; `v0.91.4` hardens repeatable/default operation"
+    },
+    {
+      "line": 314,
+      "feature": "Cognitive SDLC default operation and five-minute-sprint repeatability",
+      "status": "Implemented baseline",
+      "proof": "`docs/milestones/v0.91.4/features/COGNITIVE_SDLC_DEFAULT_OPERATION.md`, `docs/milestones/v0.91.4/features/CSDL_VALIDATION_AND_ROUTING_HARDENING.md`, `docs/milestones/v0.91.4/features/SOFTWARE_DEVELOPMENT_POLIS_AND_ACTOR_STANDING.md`, `docs/milestones/v0.91.4/features/SHARD_OWNERSHIP_AND_INTERFACE_FREEZE.md`, `docs/milestones/v0.91.4/features/EVIDENCE_CONVERGENCE_REVIEW_SYNTHESIS_AND_SIGNED_TRACE.md`, `docs/milestones/v0.91.4/features/MERGE_READINESS_AND_PR_GATE_HARDENING.md`, `docs/milestones/v0.91.4/features/OBSMEM_TRANSITION_MEMORY_INTEGRATION.md`, `docs/milestones/v0.91.4/features/SPRINT_CONDUCTOR_DEFAULT_CSDL_LANE.md`, `docs/milestones/v0.91.4/features/FIVE_MINUTE_SPRINT_REPEATABILITY.md`, `docs/milestones/v0.91.4/features/ACTIVE_ISSUE_MIGRATION_POLICY.md`, `docs/milestones/v0.91.4/features/PROCESS_DRIFT_REGRESSION_FIXTURES.md`, and `docs/planning/C_SDLC_PROMPT_TEMPLATE_EDITOR_TRANSITION_PLAN.md`",
+      "target": "`v0.91.4` completes the C-SDLC rollout and makes it the default software-development path, including validation-tail/proof-latency handling and Parallel Validation Fabric planning so sprint speed does not hide long blocking proof cycles; tracked prompt-record migration consumes the versioned `docs/templates/prompts/1.0.0/` substrate, Rust-owned field validation, browser-assisted human review, and the transition plan created in `v0.91.3`"
+    },
+    {
+      "line": 315,
+      "feature": "Logging, observability, and OTel-compatible proof-loop readiness",
+      "status": "Retained bounded prerequisite and consumer proof",
+      "proof": "`docs/milestones/v0.91.5/CONTROL_PLANE_OBSERVABILITY_CONTRACT_3609.md`, `docs/milestones/v0.91.5/SHARED_OBSERVABILITY_AND_OTEL_CONTRACT_3705.md`, `docs/milestones/v0.91.5/OPEN_TELEMETRY_INTEGRATION_BOUNDARY_3709.md`, closed `#4718`, retained Soak #2, and WP-09/WP-15 consumption packets",
+      "target": "`#4718` is the retained prerequisite proof for parse-safe JSON, stderr `adl_event` behavior, redaction hygiene, and OTel-compatible mapping. Soak and Observatory consumers provide bounded consumption evidence; Unity live production export remains unclaimed."
+    },
+    {
+      "line": 316,
+      "feature": "Resilience, citizen persistence, and operational sleep/wake",
+      "status": "Retained bounded integration proof",
+      "proof": "`docs/milestones/v0.91.5/features/AEE_COMPLETION_TRANCHE_v0.91.5.md`, `docs/milestones/v0.91.6/features/RESILIENCE_PERSISTENCE_SLEEP_WAKE_v0.91.6.md`, closed `#4778`, closed `#4780`-`#4784`, and `docs/milestones/v0.91.7/review/V0917_RESILIENCE_INTEGRATION_MINI_SPRINT_4778.md`",
+      "target": "v0.92 may consume only the retained workflow, provider/model, remote, runtime-middleware, and failure-injection proof. Full product resilience beyond those surfaces is not claimed."
+    },
+    {
+      "line": 317,
+      "feature": "Public prompt records export, redaction, validation, and indexing",
+      "status": "Required pre-v0.92 implementation/proof surface",
+      "proof": "local prompt-card authoring surface, public prompt-record export work, `docs/milestones/v0.91.5/features/PUBLIC_PROMPT_RECORDS_v0.91.5.md`, and `docs/milestones/v0.91.6/features/PUBLIC_PROMPT_RECORDS_EXPORT_v0.91.6.md`",
+      "target": "Local cards remain editable; v0.92 may consume public records only after export, redaction, validation, indexing, security, and evidence boundaries are implemented or blocked with evidence."
+    },
+    {
+      "line": 318,
+      "feature": "Provider/model reliability and multi-agent readiness",
+      "status": "Retained bounded implementation/proof",
+      "proof": "Sprint 2/remediation proof packets, closed WP-05, provider mini-sprint packets, and scheduler/provider/local-agent review evidence",
+      "target": "Reliability proof remains separate from training or ANRM product claims; v0.92 may consume only paths with role suitability, known failure modes, and retained proof."
+    },
+    {
+      "line": 319,
+      "feature": "Security readiness and Continuous Adversarial Verification",
+      "status": "Retained bounded implementation/proof and review remediation",
+      "proof": "v0.91.7 WP-12 packets, closed `#4656`-`#4660`, and closed remediation `#5404`/`#5406`",
+      "target": "v0.92 may consume only the retained CAV, SSM, access, protocol, and validation claims. Broad release security remains gated by the closeout review chain."
+    },
+    {
+      "line": 320,
+      "feature": "Curiosity Engine and Discovery Substrate",
+      "status": "Bounded Runtime v2 cycle implemented/proven",
+      "proof": "closed `#4692`, `docs/milestones/v0.91.7/features/CURIOSITY_ENGINE_DISCOVERY_SUBSTRATE_v0.91.7.md`, and the WP-10 review packet",
+      "target": "One governed discovery cycle is retained; autonomous or unbounded discovery is not claimed."
+    },
+    {
+      "line": 321,
+      "feature": "Constructability Gate for shared ADL reality",
+      "status": "Bounded Runtime v2 validator implemented/proven",
+      "proof": "closed `#4693`, `docs/milestones/v0.91.7/features/CONSTRUCTABILITY_GATE_v0.91.7.md`, and the WP-10 review packet",
+      "target": "Construction-event, anchor, admissibility, and fail-closed proof is retained; broader shared-reality authority is not claimed."
+    },
+    {
+      "line": 322,
+      "feature": "Reasoning graph, loop runtime, and `adl.skill.v1`",
+      "status": "Bounded Runtime v2 implementation/proof retained; Runtime v3 parity proof retained",
+      "proof": "closed `#4694`-`#4697`, WP-11 review and cognitive-control evidence packets, follow-ons `#4912`, `#5096`, `#5136`, v0.91.8 `#5592`, and WP-16 issue-outcome audit",
+      "target": "Runtime v3 receives no parity credit from metadata or fixtures; #5592 supplies the bounded live kernel parity path. Full adaptive-learning and final-standard convergence remain later work."
+    },
+    {
+      "line": 323,
+      "feature": "ACP / cognitive profiles runtime surface",
+      "status": "Runtime resident-cycle integration in progress",
+      "proof": "`docs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md`, issue `#448`",
+      "target": "`v0.92` now distinguishes the implemented governed profile substrate from the Runtime resident-cycle consumer that builds verified handles"
+    },
+    {
+      "line": 324,
+      "feature": "ACIP binary schema and WebSocket carrier",
+      "status": "Planned",
+      "proof": "`docs/milestones/v0.91.6/features/ACIP_A2A_PROVIDER_COMMUNICATIONS_v0.91.6.md`, `docs/milestones/v0.91.7/features/ACIP_A2A_PROTOBUF_RESIDUALS_v0.91.7.md`, and `docs/milestones/v0.92/features/ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md`",
+      "target": "`v0.92` binary/schema carrier; `v0.93` security; `v0.94` signed trace"
+    },
+    {
+      "line": 325,
+      "feature": "Identity, stable name, and continuity substrate",
+      "status": "Planned",
+      "proof": "`docs/milestones/v0.91.6/features/IDENTITY_CONTINUITY_CAPABILITY_SELECTOR_BRIDGE_v0.91.6.md`, `docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md`, and `docs/milestones/v0.92/features/CROSS_POLIS_CONTINUITY_AND_MIGRATION_v0.92.md`",
+      "target": "`v0.92`"
+    },
+    {
+      "line": 326,
+      "feature": "Memory grounding, capability envelope, and birth witnesses/receipt",
+      "status": "Production composition implemented",
+      "proof": "`docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md`, issues `#448` and `#451`",
+      "target": "The verified resident-cycle handles, authenticated ACC receipt, Adaptive Learning receipt, witness packet, and Memory Palace authority converge through the exactly-once production birthday store; retained #451 audit evidence proves the complete live wiring denominator."
+    },
+    {
+      "line": 327,
+      "feature": "Memory Palace navigable context topology",
+      "status": "Implemented Runtime-kernel production-authority slice",
+      "proof": "`docs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md`, issue `#450`, PR `#458`, `adl-runtime-kernel::memory_palace`, `adl-runtime::memory_palace`, and `adl::memory_palace` adapter tests",
+      "target": "`v0.92` now names `adl-runtime-kernel::memory_palace` as the production authority for admission, topology, working set, context cache, and canonical digest. `adl-runtime` owns durable retained checkpoint/latest/journal state, and `adl` consumes that authority through a compatibility projection; distributed or unbounded Memory Palace expansion remains later work."
+    },
+    {
+      "line": 328,
+      "feature": "First true G\u00f6del-agent birthday",
+      "status": "Planned",
+      "proof": "`docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md` and `docs/milestones/v0.92/features/FIRST_BIRTHDAY_DEMO_AND_GOVERNANCE_HANDOFF_v0.92.md`",
+      "target": "`v0.92`"
+    },
+    {
+      "line": 329,
+      "feature": "Opening repository split",
+      "status": "Planned; operator-selected v0.93.1 opening phase",
+      "proof": "`docs/milestones/v0.93.1/REPOSITORY_MIGRATION_v0.93.1.md` and `EXECUTION_PLAN_v0.93.1.json`",
+      "target": "RD-01 through RD-13 after accepted v0.92.2 closure and explicit opening; one public ADL plus six private repositories; CodeFriend software separate from existing website; complete before new feature work"
+    },
+    {
+      "line": 330,
+      "feature": "Runtime v4 CSM plugin system",
+      "status": "Required v0.93.2 outcome; not implemented by planning",
+      "proof": "`docs/milestones/v0.93.2/features/RUNTIME_V4_PLUGIN_SYSTEM_v0.93.2.md`",
+      "target": "RV-01 through RV-11: native/process/WASM adapters, migration/reconfiguration/removal, fenced recovery, provider integration and installed qualification; cannot be deferred as a reduced native-only release"
+    },
+    {
+      "line": 331,
+      "feature": "CodeFriend launch after qualified Beta 1",
+      "status": "Required v0.93.1 release outcome; audience/environment/limits resolved before launch",
+      "proof": "`docs/milestones/v0.93.1/features/CODEFRIEND_LAUNCH_v0.93.1.md` and current Drive Beta 1 plan linked there",
+      "target": "CF-01 through CF-07: preserve Beta 1 evidence, deployable product, onboarding, operations/recovery, independent rehearsal, website handoff and explicitly authorized live launch; no launch performed by #1047"
+    },
+    {
+      "line": 332,
+      "feature": "CodeFriend versioned artifact templates and style guides",
+      "status": "Required v0.93.1; operator confirmed",
+      "proof": "`docs/milestones/v0.93.1/features/CODEFRIEND_ARTIFACT_TEMPLATES_AND_STYLE_GUIDES_v0.93.1.md`",
+      "target": "CT-01\u2013CT-10; fill-in-the-blank preparation, REV 01 branded output, all supported documents/diagrams/reviews/tests and full 4+1; qualify before CF-05"
+    },
+    {
+      "line": 333,
+      "feature": "Citizen reproduction and migration",
+      "status": "Required v0.93.2; operator confirmed",
+      "proof": "`docs/milestones/v0.93.2/features/CITIZEN_REPRODUCTION_AND_MIGRATION_v0.93.2.md`",
+      "target": "CM-01\u2013CM-04; governed same-identity migration, new-identity descendants, lineage, scoped inheritance and recovery before INTEGRATE"
+    },
+    {
+      "line": 334,
+      "feature": "Constitutional citizenship, rights/duties, and governance review",
+      "status": "Planned",
+      "proof": "`docs/milestones/v0.93.2/features/CITIZENSHIP_RIGHTS_DUTIES_AND_SOCIAL_CONTRACT_v0.93.2.md` plus the v0.93.2 execution plan",
+      "target": "`v0.93.2`"
+    },
+    {
+      "line": 335,
+      "feature": "Bounded Theory of Mind, relationship, reputation, and shared social memory boundary",
+      "status": "Planned",
+      "proof": "`docs/milestones/v0.93.2/features/THEORY_OF_MIND_AND_SOCIAL_COGNITION_v0.93.2.md` and `docs/milestones/v0.93.2/features/SOCIAL_RELATIONSHIP_REPUTATION_AND_SHARED_MEMORY_v0.93.2.md`",
+      "target": "`v0.93.2`"
+    },
+    {
+      "line": 336,
+      "feature": "Delegation, upstream delegation, IAM, standing transition, and challenge/appeal governance",
+      "status": "Planned",
+      "proof": "`docs/milestones/v0.93.2/features/DELEGATION_IAM_STANDING_AND_APPEAL_GOVERNANCE_v0.93.2.md` plus local upstream-delegation source planning",
+      "target": "`v0.93.2`"
+    },
+    {
+      "line": 337,
+      "feature": "Guilds and collective organization",
+      "status": "MVP-scoped planned governance surface",
+      "proof": "`docs/milestones/v0.93.2/features/GUILDS_AND_COLLECTIVE_ORGANIZATION_v0.93.2.md`",
+      "target": "v0.93.2 feature doc with v0.95 MVP consumption; must define identity, membership, authority, delegation, shared resources/capabilities, isolation, privacy, trace, and review/challenge boundaries"
+    },
+    {
+      "line": 338,
+      "feature": "Enterprise security for the ADL polis",
+      "status": "Planned",
+      "proof": "`docs/milestones/v0.93.2/features/ENTERPRISE_SECURITY_v0.93.2.md`, `docs/milestones/v0.93.2/features/SECURITY_WP_S1_ZERO_TRUST_ARCHITECTURE_v0.93.2.md`, `docs/milestones/v0.93.2/features/SECURITY_WP_S2_POLICY_ENFORCEMENT_AUTHORIZATION_v0.93.2.md`, `docs/milestones/v0.93.2/features/SECURITY_WP_S3_SECRETS_KEYS_CRYPTOGRAPHIC_TRUST_v0.93.2.md`, `docs/milestones/v0.93.2/features/SECURITY_WP_S4_AUDIT_COMPLIANCE_INCIDENT_EVIDENCE_v0.93.2.md`, `docs/milestones/v0.93.2/features/SECURITY_WP_S5_ISOLATION_DATA_GOVERNANCE_PRIVACY_v0.93.2.md`, and `docs/milestones/v0.93.2/features/SECURITY_WP_S6_SECURITY_OPERATIONS_ADVERSARIAL_PROVENANCE_v0.93.2.md`",
+      "target": "`v0.93.2`"
+    },
+    {
+      "line": 339,
+      "feature": "Secure execution, policy, identity/auth, isolation, and provider-trust convergence",
+      "status": "Planned",
+      "proof": "`docs/milestones/v0.94/features/SECURE_EXECUTION_AND_TRUST_CONVERGENCE_v0.94.md` and the tracked `v0.94` milestone package",
+      "target": "`v0.94`; enterprise-security repo/module separation must be explicitly planned before large code movement"
+    },
+    {
+      "line": 340,
+      "feature": "Mental time travel / temporal self-projection",
+      "status": "Planned",
+      "proof": "`docs/milestones/v0.94/features/MENTAL_TIME_TRAVEL_v0.94.md` plus the `MTT-v1` source note",
+      "target": "`v0.94`"
+    },
+    {
+      "line": 341,
+      "feature": "Payments, settlement, economic agency, and `x402` / Lightning adapters",
+      "status": "Planned",
+      "proof": "`docs/milestones/v0.94.1/features/PAYMENTS_SETTLEMENT_AND_X402_v0.94.1.md` and the tracked `v0.94.1` milestone package",
+      "target": "`v0.94.1`"
+    },
+    {
+      "line": 342,
+      "feature": "Bounded contract-market and resource-stewardship bridge",
+      "status": "Implemented baseline",
+      "proof": "`docs/milestones/v0.90.4` contract-market docs, proof coverage, and demo matrix",
+      "target": "Completed bounded baseline by `v0.90.4`"
+    },
+    {
+      "line": 343,
+      "feature": "Distributed execution integration",
+      "status": "Partially implemented; AEE/multi-agent boundary subset pulled forward",
+      "proof": "`docs/milestones/v0.95/features/DISTRIBUTED_EXECUTION_INTEGRATION_v0.95.md`, ADR 0003, cluster-execution groundwork docs, and `docs/milestones/v0.91.5/features/AEE_COMPLETION_TRANCHE_v0.91.5.md`",
+      "target": "AEE/multi-agent boundary proof targeted for `v0.91.5`/`v0.92`; broad distributed integration by `v0.95`"
+    },
+    {
+      "line": 344,
+      "feature": "CodeFriend Beta 1 and portable Adapter v2",
+      "status": "Planned complete beta milestone",
+      "proof": "`docs/milestones/v0.92.2/README.md` and its feature/proof package",
+      "target": "v0.92.2 must deliver the usable Beta 1 product, not another prototype; v0.95 consumes and hardens that beta toward MVP convergence"
+    },
+    {
+      "line": 345,
+      "feature": "Capability-testing evidence consumption / Aptitude Atlas boundary",
+      "status": "MVP-scoped evidence consumption; productization post-v0.95",
+      "proof": "capability-testing harness docs, local capability-testing planning, and `LB-046`",
+      "target": "v0.95 consumes capability-testing evidence only; Aptitude Atlas product/baseline productization is post-v0.95"
+    },
+    {
+      "line": 346,
+      "feature": "Demo catalog and polished MVP walkthrough",
+      "status": "Partially implemented",
+      "proof": "`docs/milestones/v0.95/features/DEMO_CATALOG_AND_MVP_WALKTHROUGH_v0.95.md` plus milestone demo matrices and reviewer packages",
+      "target": "`v0.95`"
+    },
+    {
+      "line": 347,
+      "feature": "Control-plane Rust migration / tooling hardening",
+      "status": "Partially implemented",
+      "proof": "`docs/milestones/v0.95/features/CONTROL_PLANE_RUST_MIGRATION_AND_TOOLING_HARDENING_v0.95.md` and Python-elimination/tooling-hardening planning",
+      "target": "`v0.95`"
+    },
+    {
+      "line": 348,
+      "feature": "Zed integration",
+      "status": "MVP-scoped decision",
+      "proof": "`docs/milestones/v0.95/features/ZED_INTEGRATION_v0.95.md` plus the v0.85 MVP-boundary/editor-planning notes",
+      "target": "Complete the adapter or explicitly remove it from MVP scope by `v0.95`"
+    }
+  ]
+}

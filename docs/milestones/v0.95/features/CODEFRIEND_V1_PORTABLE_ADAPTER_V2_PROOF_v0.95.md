@@ -1,5 +1,7 @@
 # v0.95 Feature: CodeFriend v1 And Portable Adapter v2 Proof
 
+> **Current planning boundary (#1407, 2026-10-31):** Follow the [feature acceptance crosswalk](../../../planning/v095-reconciliation/FEATURE_CROSSWALK_1407.md) and [decision register](../../../planning/v095-reconciliation/DECISIONS_AND_DEFERRALS_1407.md). Runtime v4 is v0.93.3; tooling/foundations v0.93.4; GHB v0.93.5; remaining governance v0.93.6; affect/humour v0.93.7. Private implementations remain in their owner repositories. Earlier milestone names, source paths and proposed operations in retained source inputs are historical, not current execution authority. No feature is accepted or scope changed by this candidate document.
+
 ## Metadata
 
 - Feature Name: CodeFriend v1 And Portable Adapter v2 Proof
@@ -156,8 +158,7 @@ This feature should establish:
 ## Non-goals
 
 - automatic customer PR mutation by default
-- broad CodeFriend product UX, accounts, billing, repo-connection UI, or
-  polished report UX
+- new billing/portfolio expansion beyond the accepted Beta1 scope; existing required onboarding, repository connection and readable report/export journeys remain prerequisites, not post-MVP exclusions
 - copying private `.adl` state into target repositories
 - customer-data ingestion before redaction and credential boundaries exist
 - treating external provider output as authoritative without synthesis and
@@ -165,9 +166,7 @@ This feature should establish:
 
 ## v0.95 Consumption
 
-`v0.95` consumes the proof packet and boundaries from this feature. The broad
-CodeFriend product remains post-MVP unless a later tracked decision promotes
-additional product scope.
+`v0.95` consumes the proof packet and boundaries from this feature. The accepted Beta1 product and its required onboarding/repository/report/export journeys are predecessor inputs. Only additional billing, portfolio and wider product expansion remain separately scoped; no required Beta1 outcome is postponed by this portability proof.
 
 ## Acceptance Criteria
 
@@ -175,21 +174,18 @@ additional product scope.
 - The v0.95 WBS names CodeFriend v1 / adapter v2 proof packaging.
 - The proof path demonstrates external-repo setup and review without relying on
   private ADL workspace state.
-- The document preserves the post-MVP boundary for broad CodeFriend product
-  surfaces.
+- Consume all already required Beta1 journeys and their exact owner evidence; preserve the separate boundary for additional billing/portfolio and wider product expansion.
 
 ## Risks
 
 - Risk: adapter installation leaks ADL-local assumptions. Mitigation: require
   adapter doctor checks and explicit local-state boundaries.
-- Risk: CodeFriend proof drifts into product scope. Mitigation: keep accounts,
-  billing, polished reports, and repo-connection UI as post-MVP work.
+- Risk: CodeFriend proof drifts into product scope. Mitigation: keep
+  additional billing/portfolio work separately scoped while preserving all already required Beta1 journeys.
 
 ## Future Work
 
-Later CodeFriend product milestones may add accounts, billing, polished
-reports, repo-connection UI, customer workflows, and broader UX after MVP
-convergence.
+Later separately scoped product milestones may expand billing, portfolio and UX. Reconcile existing Beta1/template/journal/full4+1 requirements and proof first; do not recreate or silently defer them.
 
 ## Notes
 

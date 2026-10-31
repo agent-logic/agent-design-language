@@ -13,6 +13,8 @@ package.
 
 Active planning docs:
 
+- [v0.95 reconciliation](v095-reconciliation/README.md) — complete127-feature crosswalk, eight finding dispositions,68doc-scope accounting and retained proposal/decision register. Current routing is the approved v0.93.3–v0.93.7 sequence; historical planning/audit files below do not override it.
+
 - `ADL_FEATURE_LIST.md` - full feature list, current status, implemented gaps,
   and target completion milestones through `v0.95`
 - `FEATURE_DOC_PRODUCTION_MINI_SPRINT_v0.91.5.md` - setup packet for the

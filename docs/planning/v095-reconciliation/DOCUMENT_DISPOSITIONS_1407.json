@@ -1,0 +1,347 @@
+{
+  "schema": "adl.doc_dispositions.v1",
+  "source_revision": "6b4126980209c7de68b91fd227612e1b161e87b1",
+  "count": 68,
+  "entries": [
+    {
+      "path": "docs/REPOSITORIES.md",
+      "disposition": "updated",
+      "reason": "Explicit independent ATEC/AVP and UTS-SDK consumption boundary, not product acceptance."
+    },
+    {
+      "path": "docs/ROADMAP.md",
+      "disposition": "updated",
+      "reason": "Forward candidate/crosswalk boundary; approved counts unchanged."
+    },
+    {
+      "path": "docs/milestones/v0.94.1/DECISIONS_v0.94.1.md",
+      "disposition": "updated",
+      "reason": "Current routing and authoritative row/decision pointer, preserving candidate scope and original contract."
+    },
+    {
+      "path": "docs/milestones/v0.94.1/DEMO_MATRIX_v0.94.1.md",
+      "disposition": "updated",
+      "reason": "Current routing and authoritative row/decision pointer, preserving candidate scope and original contract."
+    },
+    {
+      "path": "docs/milestones/v0.94.1/DESIGN_v0.94.1.md",
+      "disposition": "updated",
+      "reason": "Current routing and authoritative row/decision pointer, preserving candidate scope and original contract."
+    },
+    {
+      "path": "docs/milestones/v0.94.1/MILESTONE_CHECKLIST_v0.94.1.md",
+      "disposition": "updated",
+      "reason": "Current routing and authoritative row/decision pointer, preserving candidate scope and original contract."
+    },
+    {
+      "path": "docs/milestones/v0.94.1/README.md",
+      "disposition": "updated",
+      "reason": "Current routing and authoritative row/decision pointer, preserving candidate scope and original contract."
+    },
+    {
+      "path": "docs/milestones/v0.94.1/RELEASE_NOTES_v0.94.1.md",
+      "disposition": "updated",
+      "reason": "Current routing and authoritative row/decision pointer, preserving candidate scope and original contract."
+    },
+    {
+      "path": "docs/milestones/v0.94.1/RELEASE_PLAN_v0.94.1.md",
+      "disposition": "updated",
+      "reason": "Current routing and authoritative row/decision pointer, preserving candidate scope and original contract."
+    },
+    {
+      "path": "docs/milestones/v0.94.1/SPRINT_v0.94.1.md",
+      "disposition": "updated",
+      "reason": "Current routing and authoritative row/decision pointer, preserving candidate scope and original contract."
+    },
+    {
+      "path": "docs/milestones/v0.94.1/VISION_v0.94.1.md",
+      "disposition": "updated",
+      "reason": "Current routing and authoritative row/decision pointer, preserving candidate scope and original contract."
+    },
+    {
+      "path": "docs/milestones/v0.94.1/WBS_v0.94.1.md",
+      "disposition": "updated",
+      "reason": "Current routing and authoritative row/decision pointer, preserving candidate scope and original contract."
+    },
+    {
+      "path": "docs/milestones/v0.94.1/WP_ISSUE_WAVE_v0.94.1.yaml",
+      "disposition": "updated",
+      "reason": "Preserved candidate identities and original requirements; explicit current admission/acceptance supplement."
+    },
+    {
+      "path": "docs/milestones/v0.94.1/features/PAYMENTS_SETTLEMENT_AND_X402_v0.94.1.md",
+      "disposition": "updated",
+      "reason": "Current routing and authoritative row/decision pointer, preserving candidate scope and original contract."
+    },
+    {
+      "path": "docs/milestones/v0.94.1/features/README.md",
+      "disposition": "updated",
+      "reason": "Current routing and authoritative row/decision pointer, preserving candidate scope and original contract."
+    },
+    {
+      "path": "docs/milestones/v0.94/DECISIONS_v0.94.md",
+      "disposition": "updated",
+      "reason": "Current routing and authoritative row/decision pointer, preserving candidate scope and original contract."
+    },
+    {
+      "path": "docs/milestones/v0.94/DEMO_MATRIX_v0.94.md",
+      "disposition": "updated",
+      "reason": "Current routing and authoritative row/decision pointer, preserving candidate scope and original contract."
+    },
+    {
+      "path": "docs/milestones/v0.94/DESIGN_v0.94.md",
+      "disposition": "updated",
+      "reason": "Current routing and authoritative row/decision pointer, preserving candidate scope and original contract."
+    },
+    {
+      "path": "docs/milestones/v0.94/MILESTONE_CHECKLIST_v0.94.md",
+      "disposition": "updated",
+      "reason": "Current routing and authoritative row/decision pointer, preserving candidate scope and original contract."
+    },
+    {
+      "path": "docs/milestones/v0.94/README.md",
+      "disposition": "updated",
+      "reason": "Current routing and authoritative row/decision pointer, preserving candidate scope and original contract."
+    },
+    {
+      "path": "docs/milestones/v0.94/RELEASE_NOTES_v0.94.md",
+      "disposition": "updated",
+      "reason": "Current routing and authoritative row/decision pointer, preserving candidate scope and original contract."
+    },
+    {
+      "path": "docs/milestones/v0.94/RELEASE_PLAN_v0.94.md",
+      "disposition": "updated",
+      "reason": "Current routing and authoritative row/decision pointer, preserving candidate scope and original contract."
+    },
+    {
+      "path": "docs/milestones/v0.94/SPRINT_v0.94.md",
+      "disposition": "updated",
+      "reason": "Current routing and authoritative row/decision pointer, preserving candidate scope and original contract."
+    },
+    {
+      "path": "docs/milestones/v0.94/VISION_v0.94.md",
+      "disposition": "updated",
+      "reason": "Current routing and authoritative row/decision pointer, preserving candidate scope and original contract."
+    },
+    {
+      "path": "docs/milestones/v0.94/WBS_v0.94.md",
+      "disposition": "updated",
+      "reason": "Current routing and authoritative row/decision pointer, preserving candidate scope and original contract."
+    },
+    {
+      "path": "docs/milestones/v0.94/WP_ISSUE_WAVE_v0.94.yaml",
+      "disposition": "updated",
+      "reason": "Preserved candidate identities and original requirements; explicit current admission/acceptance supplement."
+    },
+    {
+      "path": "docs/milestones/v0.94/features/MENTAL_TIME_TRAVEL_v0.94.md",
+      "disposition": "updated",
+      "reason": "Current routing and authoritative row/decision pointer, preserving candidate scope and original contract."
+    },
+    {
+      "path": "docs/milestones/v0.94/features/README.md",
+      "disposition": "updated",
+      "reason": "Current routing and authoritative row/decision pointer, preserving candidate scope and original contract."
+    },
+    {
+      "path": "docs/milestones/v0.94/features/REASONING_GRAPH_BASELINE_v0.94.md",
+      "disposition": "updated",
+      "reason": "Current routing and authoritative row/decision pointer, preserving candidate scope and original contract."
+    },
+    {
+      "path": "docs/milestones/v0.94/features/SECURE_EXECUTION_AND_TRUST_CONVERGENCE_v0.94.md",
+      "disposition": "updated",
+      "reason": "Current routing and authoritative row/decision pointer, preserving candidate scope and original contract."
+    },
+    {
+      "path": "docs/milestones/v0.94/features/SIGNED_TRACE_AND_TRACE_QUERY_v0.94.md",
+      "disposition": "updated",
+      "reason": "Current routing and authoritative row/decision pointer, preserving candidate scope and original contract."
+    },
+    {
+      "path": "docs/milestones/v0.95/DECISIONS_v0.95.md",
+      "disposition": "updated",
+      "reason": "Current routing and authoritative row/decision pointer, preserving candidate scope and original contract."
+    },
+    {
+      "path": "docs/milestones/v0.95/DEMO_MATRIX_v0.95.md",
+      "disposition": "updated",
+      "reason": "Current routing and authoritative row/decision pointer, preserving candidate scope and original contract."
+    },
+    {
+      "path": "docs/milestones/v0.95/DESIGN_v0.95.md",
+      "disposition": "updated",
+      "reason": "Current routing and authoritative row/decision pointer, preserving candidate scope and original contract."
+    },
+    {
+      "path": "docs/milestones/v0.95/MILESTONE_CHECKLIST_v0.95.md",
+      "disposition": "updated",
+      "reason": "Current routing and authoritative row/decision pointer, preserving candidate scope and original contract."
+    },
+    {
+      "path": "docs/milestones/v0.95/README.md",
+      "disposition": "updated",
+      "reason": "Current routing and authoritative row/decision pointer, preserving candidate scope and original contract."
+    },
+    {
+      "path": "docs/milestones/v0.95/RELEASE_NOTES_v0.95.md",
+      "disposition": "updated",
+      "reason": "Current routing and authoritative row/decision pointer, preserving candidate scope and original contract."
+    },
+    {
+      "path": "docs/milestones/v0.95/RELEASE_PLAN_v0.95.md",
+      "disposition": "updated",
+      "reason": "Current routing and authoritative row/decision pointer, preserving candidate scope and original contract."
+    },
+    {
+      "path": "docs/milestones/v0.95/SPRINT_v0.95.md",
+      "disposition": "updated",
+      "reason": "Current routing and authoritative row/decision pointer, preserving candidate scope and original contract."
+    },
+    {
+      "path": "docs/milestones/v0.95/VISION_v0.95.md",
+      "disposition": "updated",
+      "reason": "Current routing and authoritative row/decision pointer, preserving candidate scope and original contract."
+    },
+    {
+      "path": "docs/milestones/v0.95/WBS_v0.95.md",
+      "disposition": "updated",
+      "reason": "Current routing and authoritative row/decision pointer, preserving candidate scope and original contract."
+    },
+    {
+      "path": "docs/milestones/v0.95/WP_ISSUE_WAVE_v0.95.yaml",
+      "disposition": "updated",
+      "reason": "Preserved candidate identities and original requirements; explicit current admission/acceptance supplement."
+    },
+    {
+      "path": "docs/milestones/v0.95/features/APTITUDE_ATLAS_MODEL_EVALUATION_PLATFORM_v0.95.md",
+      "disposition": "updated",
+      "reason": "Current routing and authoritative row/decision pointer, preserving candidate scope and original contract."
+    },
+    {
+      "path": "docs/milestones/v0.95/features/CODEFRIEND_V1_PORTABLE_ADAPTER_V2_PROOF_v0.95.md",
+      "disposition": "updated",
+      "reason": "Current routing and authoritative row/decision pointer, preserving candidate scope and original contract."
+    },
+    {
+      "path": "docs/milestones/v0.95/features/CONTROL_PLANE_RUST_MIGRATION_AND_TOOLING_HARDENING_v0.95.md",
+      "disposition": "updated",
+      "reason": "Current routing and authoritative row/decision pointer, preserving candidate scope and original contract."
+    },
+    {
+      "path": "docs/milestones/v0.95/features/CSM_SHEPHERD_AND_GEMMA_TRAINING_PATH_v0.95.md",
+      "disposition": "updated",
+      "reason": "Current routing and authoritative row/decision pointer, preserving candidate scope and original contract."
+    },
+    {
+      "path": "docs/milestones/v0.95/features/DEMO_CATALOG_AND_MVP_WALKTHROUGH_v0.95.md",
+      "disposition": "updated",
+      "reason": "Current routing and authoritative row/decision pointer, preserving candidate scope and original contract."
+    },
+    {
+      "path": "docs/milestones/v0.95/features/DISTRIBUTED_EXECUTION_INTEGRATION_v0.95.md",
+      "disposition": "updated",
+      "reason": "Current routing and authoritative row/decision pointer, preserving candidate scope and original contract."
+    },
+    {
+      "path": "docs/milestones/v0.95/features/HTML_MILESTONE_DASHBOARD_AND_COMPRESSION_REPORTING_v0.95.md",
+      "disposition": "updated",
+      "reason": "Current routing and authoritative row/decision pointer, preserving candidate scope and original contract."
+    },
+    {
+      "path": "docs/milestones/v0.95/features/README.md",
+      "disposition": "updated",
+      "reason": "Current routing and authoritative row/decision pointer, preserving candidate scope and original contract."
+    },
+    {
+      "path": "docs/milestones/v0.95/features/WEB_BASED_CODE_EDITOR_INTEGRATION_v0.95.md",
+      "disposition": "updated",
+      "reason": "Current routing and authoritative row/decision pointer, preserving candidate scope and original contract."
+    },
+    {
+      "path": "docs/milestones/v0.95/features/ZED_INTEGRATION_v0.95.md",
+      "disposition": "updated",
+      "reason": "Current routing and authoritative row/decision pointer, preserving candidate scope and original contract."
+    },
+    {
+      "path": "docs/planning/ADL_FEATURE_COMPLETION_AUDIT_v0.91.5.md",
+      "disposition": "updated",
+      "reason": "Current supersession/owner/decision pointer; dated historical body preserved."
+    },
+    {
+      "path": "docs/planning/ADL_FEATURE_LIST.md",
+      "disposition": "updated",
+      "reason": "Current capability overview; all127original row values retained exactly in crosswalk/baseline; chronological original narrative remains immutable baseline Git link."
+    },
+    {
+      "path": "docs/planning/ADL_LOGISTIC_SPLIT.md",
+      "disposition": "updated",
+      "reason": "Current supersession/owner/decision pointer; dated historical body preserved."
+    },
+    {
+      "path": "docs/planning/FEATURE_DOC_PRODUCTION_MINI_SPRINT_v0.91.5.md",
+      "disposition": "updated",
+      "reason": "Current supersession/owner/decision pointer; dated historical body preserved."
+    },
+    {
+      "path": "docs/planning/NEXT_MILESTONE_DEMO_CANDIDATES.md",
+      "disposition": "updated",
+      "reason": "Current supersession/owner/decision pointer; dated historical body preserved."
+    },
+    {
+      "path": "docs/planning/NEXT_MILESTONE_POSITIONING_CANDIDATES.md",
+      "disposition": "updated",
+      "reason": "Current supersession/owner/decision pointer; dated historical body preserved."
+    },
+    {
+      "path": "docs/planning/POST_V095_ADL_CSM_LOGISTIC_SPLIT_PLAN.md",
+      "disposition": "updated",
+      "reason": "Current supersession/owner/decision pointer; dated historical body preserved."
+    },
+    {
+      "path": "docs/planning/PYTHON_ELIMINATION_STAGED_PLAN.md",
+      "disposition": "updated",
+      "reason": "Current supersession/owner/decision pointer; dated historical body preserved."
+    },
+    {
+      "path": "docs/planning/README.md",
+      "disposition": "updated",
+      "reason": "Current reconciliation entrypoint; older source index retained."
+    },
+    {
+      "path": "docs/planning/TBD_PLAN_ALLOCATION_v0.91.2_TO_v0.95.md",
+      "disposition": "updated",
+      "reason": "Current supersession/owner/decision pointer; dated historical body preserved."
+    },
+    {
+      "path": "docs/planning/V093_V095_MVP_FEATURE_DOC_PLAN_v0.91.5.md",
+      "disposition": "updated",
+      "reason": "Current supersession/owner/decision pointer; dated historical body preserved."
+    },
+    {
+      "path": "docs/planning/codefriend/CODEFRIEND_PRE_ALPHA_REPO_AND_S3_WELCOME_MINI_SPRINT.md",
+      "disposition": "updated",
+      "reason": "Current supersession/owner/decision pointer; dated historical body preserved."
+    },
+    {
+      "path": "docs/planning/codefriend/CODEFRIEND_REFERENCE_INVENTORY.md",
+      "disposition": "updated",
+      "reason": "Current supersession/owner/decision pointer; dated historical body preserved."
+    },
+    {
+      "path": "docs/planning/codefriend/CODEFRIEND_SETUP_PLAN.md",
+      "disposition": "updated",
+      "reason": "Current supersession/owner/decision pointer; dated historical body preserved."
+    },
+    {
+      "path": "docs/planning/codefriend/CODEFRIEND_V1_BUILD_PLAN.md",
+      "disposition": "updated",
+      "reason": "Current supersession/owner/decision pointer; dated historical body preserved."
+    },
+    {
+      "path": "docs/planning/codefriend/README.md",
+      "disposition": "updated",
+      "reason": "Current supersession/owner/decision pointer; dated historical body preserved."
+    }
+  ]
+}

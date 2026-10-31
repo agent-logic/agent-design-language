@@ -10,10 +10,10 @@ work_packages:
     title: v0.94 planning promotion and issue-wave readiness
     outcome: Open the concrete v0.94 issue wave and card bundles from this candidate package.
     depends_on:
-      - "v0.93 closeout"
+      - "Accepted v0.93.2 security, v0.93.3 Runtime, v0.93.4 foundations, v0.93.5 GHB, v0.93.6 governance and v0.93.7 affect/humour inputs for the chosen consumer scope"
     deliverables:
       - "Opened GitHub issue wave"
-      - "SIP/STP/SPP/SRP/SOR cards for each opened issue"
+      - "SIP/STP/SPP/VPP/SRP/SOR cards for each opened issue"
   - wp: WP-02
     title: Secure execution model
     outcome: Define the runtime authority, execution, and fail-closed boundary.
@@ -72,3 +72,12 @@ work_packages:
       - "Quality gate"
       - "Review packets"
       - "Release-tail packet"
+
+reconciliation_1407:
+  status: candidate_not_activated
+  feature_crosswalk: docs/planning/v095-reconciliation/FEATURE_CROSSWALK_1407.json
+  decisions: docs/planning/v095-reconciliation/DECISIONS_AND_DEFERRALS_1407.md
+  native_workflow: "Use the admitted C-SDLC owner and current six-card registry; historical wrapper/source instructions are not operational authority."
+  required_wp_acceptance:
+    WP-01: "Consume exact accepted predecessor owner contracts, not historical milestone labels or source-only completion."
+    WP-05: "Explicitly accept reasoning graph and signed/queryable trace contracts, provenance and access checks; neither graph nor trace is silently satisfied by the other."

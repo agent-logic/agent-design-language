@@ -68,3 +68,7 @@ merged implementation, an empty issue list or a release tag proves deployment.
 For older plans, use the [milestone directory](milestones/). Preserve their
 historical claims as dated evidence rather than silently rewriting them into
 current product promises.
+
+## Forward MVP planning
+
+[v0.94](milestones/v0.94/README.md), [v0.94.1](milestones/v0.94.1/README.md) and [v0.95](milestones/v0.95/README.md) remain candidate plans. The [127-feature crosswalk](planning/v095-reconciliation/FEATURE_CROSSWALK_1407.md) preserves each capability and its owner proof requirement. [Decisions and retained proposals](planning/v095-reconciliation/DECISIONS_AND_DEFERRALS_1407.md) distinguish unresolved MVP boundaries from independent/deferred products. No new allocation or execution is established by this reconciliation.
