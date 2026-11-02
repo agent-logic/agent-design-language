@@ -3,8 +3,8 @@
 ## Current authority
 
 The [Universal Tool Schema owner](https://github.com/agent-logic/universal-tool-schema)
-owns the normative contract. ADL consumes immutable resource `0.1.0-rc.2` from
-source revision `fb7be6967ea5076b227380ab8cf308ef8d9234f8`; the full archive hash
+owns the normative contract. ADL consumes immutable resource `0.1.0-rc.3` from
+source revision `1d3f2a07858200e957f36ec4bab428333b9aa68c`; the full archive hash
 and packaging revision are recorded in the
 [resource pin](../../../adl-uts/resources-pin.json).
 

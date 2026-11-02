@@ -133,8 +133,8 @@
     },
     {
       "path": "docs/specs/CONSUMER_RECONCILIATION.md",
-      "sha256": "b4a165a31f3b78aaf84da2eb58efa0dc4d5cb332e248e0a3d71eb535b963e552",
-      "size": 6790
+      "sha256": "ca52ea2322d777a70025cca8baa72b20c9424d8b52669cf1e28b043da20c04e6",
+      "size": 7136
     },
     {
       "path": "docs/specs/UTS_V1.0_SCHEMA.md",
@@ -148,18 +148,18 @@
     },
     {
       "path": "schemas/uts/v1.0/universal_tool_schema.v1.schema.json",
-      "sha256": "5bf156fa141ff16b4fa0c0d1724da49918271b42f6f5652ca5531a3375c2c561",
-      "size": 4894
+      "sha256": "4348e8d8c7d5aa3f6bdc6a1fd686fd6b2eace36f368d84c2b33f41af7977e216",
+      "size": 4903
     },
     {
       "path": "schemas/uts/v1.1/tool_invocation.v1_1.schema.json",
-      "sha256": "f47a5d1d807951a1350f58547a466ace16e73454a2539f5d2cfe14c923852cb4",
-      "size": 2441
+      "sha256": "6f9d58f5ea339788a0cccd17e47f6b0eff0d10f6156815f0a1561220621fea42",
+      "size": 2450
     },
     {
       "path": "schemas/uts/v1.1/universal_tool_schema.v1_1.schema.json",
-      "sha256": "977c14251114ad8666381af7203dd4b454edbf9f5ef652a22a1c1dffaf63827b",
-      "size": 6488
+      "sha256": "0e96d8461e8bfc8134d654ece337fa6b0c6f9de4eba66ff2679e5051a799376b",
+      "size": 6497
     }
   ],
   "format_version": "uts.resources.v1",
@@ -167,12 +167,12 @@
     "LICENSE.md",
     "NOTICE"
   ],
-  "resource_version": "0.1.0-rc.2",
+  "resource_version": "0.1.0-rc.3",
   "schema_versions": [
     "tool_invocation.v1.1",
     "uts.v1",
     "uts.v1.1"
   ],
   "source_repository": "agent-logic/universal-tool-schema",
-  "source_revision": "fb7be6967ea5076b227380ab8cf308ef8d9234f8"
+  "source_revision": "1d3f2a07858200e957f36ec4bab428333b9aa68c"
 }

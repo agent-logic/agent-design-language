@@ -1,10 +1,10 @@
 {
   "schema": "adl.uts.resource-pin.v1",
   "source_repository": "agent-logic/universal-tool-schema",
-  "source_revision": "fb7be6967ea5076b227380ab8cf308ef8d9234f8",
-  "packaging_revision": "fb7be6967ea5076b227380ab8cf308ef8d9234f8",
-  "resource_version": "0.1.0-rc.2",
-  "archive_sha256": "e7e6c1181b4b1a5c922b962d72c767656f8234730be60653bb2c02008265cce8",
+  "source_revision": "1d3f2a07858200e957f36ec4bab428333b9aa68c",
+  "packaging_revision": "1d3f2a07858200e957f36ec4bab428333b9aa68c",
+  "resource_version": "0.1.0-rc.3",
+  "archive_sha256": "82c7a91893ceedfcf93c6c67ea89cb67e9083cf8ffbc41227a0fa6c6c97747c9",
   "resource_manifest": "resources/RESOURCE_MANIFEST.json",
   "canonical_fixture_count": 23,
   "historical_adl_fixture_count": 21
