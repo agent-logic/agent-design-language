@@ -4,6 +4,7 @@
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$ROOT"
+python3 -B tools/public_adl/test_schema_distribution.py
 
 manifests=(adl-schema/Cargo.toml adl-uts/Cargo.toml adl-v2/crates/adl-language/Cargo.toml adl-v2/crates/adl-compiler/Cargo.toml adl-legacy-contracts/Cargo.toml)
 packages=(

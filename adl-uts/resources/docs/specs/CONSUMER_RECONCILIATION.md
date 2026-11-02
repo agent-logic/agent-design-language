@@ -71,13 +71,18 @@ remain in #5 and #6. Disabling npm's install-time audit avoids making advisory
 service availability part of deterministic CI; it does not resolve retained audit
 findings or approve dependency safety.
 
-## Canonical schema identity migration (#40)
+## Public schema identity and acquisition
 
-UTS schemas identify the canonical Agent Logic repository using
-`https://raw.githubusercontent.com/agent-logic/universal-tool-schema/main/schemas/uts/`
-and their versioned schema path. The former personal-account `github.com` IDs
-were not schema download URLs. Consumers registering schemas by their old IDs
-should migrate those registry keys; validation constraints and fragment-only
-`$ref` targets are unchanged. Immutable resource acquisition still uses an exact
-source revision and archive digest, not the mutable `main` URL. Previously pinned
-resource archives retain their original bytes and identities.
+UTS remains the normative specification and resource owner. Its distributed
+schemas use anonymously accessible identifiers hosted by the public ADL mirror:
+`https://raw.githubusercontent.com/agent-logic/agent-design-language/main/adl-spec/schemas/uts/`
+followed by the versioned schema filename. Hosting does not make ADL the
+specification authority or require an ADL Runtime dependency. The upstream UTS
+repository may remain private; public validators must not require its credentials.
+
+Consumers registering schemas by earlier personal-account or private-repository
+IDs should migrate those registry keys. Validation constraints and fragment-only
+`$ref` targets are unchanged. An `$id` names the schema; immutable resource
+acquisition still uses an exact UTS source revision and archive digest, not a
+mutable `main` URL. Previously pinned archives retain their original bytes and
+identities. Offline consumers continue using their verified bundled copies.
