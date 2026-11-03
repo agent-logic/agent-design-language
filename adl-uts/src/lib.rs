@@ -800,11 +800,11 @@ pub fn uts_v1_schema_json() -> JsonValue {
 /// Package version, independent of the UTS wire schema version.
 pub const PACKAGE_VERSION: &str = env!("CARGO_PKG_VERSION");
 pub const V1_SCHEMA_JSON: &str =
-    include_str!("../schemas/v1.0/universal_tool_schema.v1.schema.json");
+    include_str!("../resources/schemas/uts/v1.0/universal_tool_schema.v1.schema.json");
 pub const V1_1_SCHEMA_JSON: &str =
-    include_str!("../schemas/v1.1/universal_tool_schema.v1_1.schema.json");
+    include_str!("../resources/schemas/uts/v1.1/universal_tool_schema.v1_1.schema.json");
 pub const V1_1_INVOCATION_SCHEMA_JSON: &str =
-    include_str!("../schemas/v1.1/tool_invocation.v1_1.schema.json");
+    include_str!("../resources/schemas/uts/v1.1/tool_invocation.v1_1.schema.json");
 
 /// Load the two supported declaration versions. Validate before upgrading v1:
 /// normalization must never erase an unsupported version or invalid declaration.

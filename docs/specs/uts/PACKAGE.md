@@ -66,7 +66,10 @@ must follow the Runtime owner migration contract. Deserialize untrusted declarat
 so version validation precedes normalization. Direct typed construction remains
 available for compatibility; validate constructed types before use. Runtime
 registry validation also checks programmatically constructed declarations.
-Old schema paths in `adl-spec/schemas/uts/` remain compatibility mirrors. The
+The Rust accessors embed directly from `adl-uts/resources/schemas/uts/`; the
+crate contains no second schema tree. Its readonly example is packaged under
+`fixtures/examples/`. Public schema paths in `adl-spec/schemas/uts/` remain
+compatibility distribution endpoints. The
 package assets and compatibility mirrors must match the pinned upstream bytes;
 update the reviewed resource pin when adopting a new upstream version rather
 than maintaining a separate normative contract.

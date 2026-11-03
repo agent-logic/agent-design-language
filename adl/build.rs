@@ -38,7 +38,8 @@ fn main() {
     // Production include_str!/include_bytes! resources outside the crate src trees.
     for resource in [
         "adl/schemas",
-        "adl-uts/schemas",
+        "adl-uts/resources",
+        "adl-uts/resources-pin.json",
         "adl-spec/examples/v0.8/godel_experiment_workflow.template.v1.json",
         "adl-spec/schemas/v0.8/tool_result.v1.schema.json",
         "docs/api/runtime-v3/v1/openapi.json",

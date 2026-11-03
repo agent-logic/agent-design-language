@@ -14,7 +14,7 @@ PUBLIC = "https://raw.githubusercontent.com/agent-logic/agent-design-language/ma
 
 
 class SchemaDistribution(unittest.TestCase):
-    def test_public_id_and_embedded_mirrors(self):
+    def test_public_id_and_pinned_payload(self):
         schemas = sorted((ROOT / "adl-spec/schemas/uts").glob("*/*.json"))
         self.assertEqual(3, len(schemas))
         for schema in schemas:
@@ -23,8 +23,17 @@ class SchemaDistribution(unittest.TestCase):
                 self.assertEqual(PUBLIC + schema.relative_to(ROOT).as_posix(),
                                  json.loads(data)["$id"])
                 suffix = schema.relative_to(ROOT / "adl-spec/schemas/uts")
-                for mirror in ["adl-uts/schemas", "adl-uts/resources/schemas/uts"]:
-                    self.assertEqual(data, (ROOT / mirror / suffix).read_bytes())
+                self.assertEqual(data, (ROOT / "adl-uts/resources/schemas/uts" / suffix).read_bytes())
+
+    def test_crate_embeds_only_the_pinned_schema_payload(self):
+        # Same tiny offline contract/release-gate lane as public-byte parity.
+        self.assertFalse((ROOT / "adl-uts" / "schemas").exists())
+        source = (ROOT / "adl-uts/src/lib.rs").read_text()
+        expected = sorted((ROOT / "adl-uts/resources/schemas/uts").glob("*/*.json"))
+        self.assertEqual(3, len(expected))
+        for schema in expected:
+            relative = schema.relative_to(ROOT / "adl-uts").as_posix()
+            self.assertIn('include_str!("../' + relative + '")', source)
 
     def test_references_are_resolvable_inside_each_schema(self):
         def references(value):
