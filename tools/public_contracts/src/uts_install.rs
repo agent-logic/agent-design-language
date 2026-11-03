@@ -138,6 +138,7 @@ pub fn run() -> Result<Value> {
     let artifact = snapshot.join("adl-uts/target/package/adl-uts-0.1.0.crate");
     let vendor = dest.join("vendor");
     archive::extract(&archive::unpack(&fs::read(&artifact)?, true)?, &vendor)?;
+    let resource_proof = install::resources(&vendor.join("adl-uts-0.1.0"))?;
     let consumer = dest.join("consumer");
     fs::create_dir_all(consumer.join("src"))?;
     fs::write(consumer.join("Cargo.toml"),"[package]\nname=\"isolated-uts-consumer\"\nversion=\"0.0.0\"\nedition=\"2021\"\n[dependencies]\nadl-uts={version=\"=0.1.0\",path=\"../vendor/adl-uts-0.1.0\"}\nserde_json=\"1\"\n")?;
@@ -188,7 +189,7 @@ pub fn run() -> Result<Value> {
             == fs::canonicalize(vendor.join("adl-uts-0.1.0/Cargo.toml"))?,
         "consumer reached producer source"
     );
-    let report = json!({"schema":"adl.uts.install_proof.v1","source_revision":head,"package":"adl-uts","version":package["version"],"artifact_sha256":archive::digest(&artifact)?,"consumer_uses_extracted_artifact":true,"schema_mirrors_equal":true,"consumer_output":text(&result).0.trim(),"execution_authority_claimed":false});
+    let report = json!({"schema":"adl.uts.install_proof.v1","source_revision":head,"package":"adl-uts","version":package["version"],"artifact_sha256":archive::digest(&artifact)?,"consumer_uses_extracted_artifact":true,"schema_mirrors_equal":true,"uts_resources":resource_proof,"consumer_output":text(&result).0.trim(),"execution_authority_claimed":false});
     fs::write(
         dest.join("report.json"),
         format!("{}\n", serde_json::to_string_pretty(&report)?),
