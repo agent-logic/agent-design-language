@@ -12,7 +12,8 @@ registry publication or complete implementation of proposed UTS v1.1 semantics.
 The immutable upstream resource identity is recorded in `resources-pin.json`.
 `resources/` preserves the verified upstream payload, including its license,
 NOTICE, schemas and 23-case conformance manifest. The schema accessors return
-these canonical schema bytes parsed as JSON; `JsonSchema` derives describe Rust
+these canonical schema bytes parsed as JSON, embedded directly from
+`resources/schemas/uts/` without a second crate-local schema tree; `JsonSchema` derives describe Rust
 shapes and are not the normative contract.
 
 `load_tool_declaration` validates the original v1 declaration before normalization,

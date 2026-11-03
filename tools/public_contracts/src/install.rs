@@ -27,14 +27,10 @@ pub fn resources(package: &Path) -> Result<Value> {
     for k in ["source_revision", "resource_version", "source_repository"] {
         ensure!(manifest[k] == pin[k], "UTS resource provenance mismatch");
     }
-    for (name, (bytes, _)) in &files {
-        if let Some(suffix) = name.strip_prefix("schemas/uts/") {
-            ensure!(
-                fs::read(package.join("schemas").join(suffix))? == *bytes,
-                "UTS embedded schema mirror mismatch"
-            );
-        }
-    }
+    ensure!(
+        !package.join("schemas").exists(),
+        "UTS package contains a redundant schema tree"
+    );
     Ok(json!({"pin":pin,"members_verified":files.len(),"archive_reconstructed":true}))
 }
 pub fn sandbox_profile(

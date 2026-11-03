@@ -66,10 +66,10 @@ pub fn run() -> Result<Value> {
     }
     archive::extract(&files, &snapshot)?;
     for (name, (bytes, _)) in &files {
-        if name.starts_with("adl-uts/schemas/") && name.ends_with(".schema.json") {
+        if name.starts_with("adl-uts/resources/schemas/uts/") && name.ends_with(".schema.json") {
             ensure!(
                 fs::read(snapshot.join(name.replacen(
-                    "adl-uts/schemas/",
+                    "adl-uts/resources/schemas/uts/",
                     "adl-spec/schemas/uts/",
                     1
                 )))? == *bytes,
