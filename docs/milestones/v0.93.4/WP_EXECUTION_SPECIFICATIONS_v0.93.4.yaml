@@ -286,5 +286,40 @@
       },
       "sprint": 4
     }
-  ]
+  ],
+  "sprint_plan": {
+    "status": "prepared_planning_only",
+    "sprint_count": 3,
+    "sizing": "Dependency waves, not staffing/calendar promises. Disjoint foundations and tooling may proceed in parallel after WP-01; sprint numbering is a conservative dependency allocation, not a forced serial schedule.",
+    "execution_rule": "No child execution by setup #1405; create issues/cards only per activated sprint.",
+    "sprints": [
+      {
+        "number": 1,
+        "title": "Tooling design and prototype",
+        "work_packages": [
+          "WP-01",
+          "CS4-01",
+          "CS4-02",
+          "CS4-03"
+        ]
+      },
+      {
+        "number": 2,
+        "title": "Tooling compatibility and native delivery",
+        "work_packages": [
+          "CS4-04",
+          "CS4-05",
+          "CS4-06"
+        ]
+      },
+      {
+        "number": 4,
+        "title": "Independent acceptance and handoff",
+        "work_packages": [
+          "REVIEW",
+          "RELEASE"
+        ]
+      }
+    ]
+  }
 }

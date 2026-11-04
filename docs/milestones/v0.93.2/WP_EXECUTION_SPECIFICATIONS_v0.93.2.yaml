@@ -1448,5 +1448,120 @@
       "issue_repository": "agent-logic/agent-logic-runtime",
       "relationship": "containment; umbrella depends on its exit, children do not depend on umbrella completion"
     }
-  ]
+  ],
+  "sprint_plan": {
+    "status": "allocated_planning_only",
+    "sprint_count": 6,
+    "sizing": "Dependency-based groups; no calendar or staffing promise.",
+    "execution_rule": "Only v0.93.2 WP-01 is active. Accept dependencies and explicit issue authorization before execution.",
+    "sprints": [
+      {
+        "number": 1,
+        "title": "C-SDLC lifecycle simplification",
+        "work_packages": [
+          "WP-01",
+          "CSDLC-296",
+          "CSDLC-297",
+          "CSDLC-298",
+          "CSDLC-299"
+        ],
+        "umbrella": {
+          "repository": "agent-logic/agent-design-language",
+          "number": 1298,
+          "url": "https://github.com/agent-logic/agent-design-language/issues/1298"
+        }
+      },
+      {
+        "number": 2,
+        "title": "Acceptance and security contracts",
+        "work_packages": [
+          "CF-B1-01",
+          "WP-S1"
+        ],
+        "umbrella": {
+          "repository": "agent-logic/agent-design-language",
+          "number": 1299,
+          "url": "https://github.com/agent-logic/agent-design-language/issues/1299"
+        }
+      },
+      {
+        "number": 3,
+        "title": "Beta 1 improvements and enterprise security",
+        "work_packages": [
+          "CF-B1-02",
+          "CF-B1-03",
+          "WP-S2",
+          "WP-S3",
+          "WP-S4",
+          "WP-S5",
+          "CF-B1-04",
+          "CF-B1-05",
+          "WP-S6",
+          "DEMO-SEC",
+          "CI-205"
+        ],
+        "umbrella": {
+          "repository": "agent-logic/agent-design-language",
+          "number": 1301,
+          "url": "https://github.com/agent-logic/agent-design-language/issues/1301",
+          "native_reconciliation": "pending; authenticated remote content confirmed; no retry"
+        }
+      },
+      {
+        "number": 4,
+        "title": "Candidate integration and qualification",
+        "work_packages": [
+          "INTEGRATE",
+          "QUALIFY"
+        ],
+        "umbrella": {
+          "repository": "agent-logic/agent-design-language",
+          "number": 1302,
+          "url": "https://github.com/agent-logic/agent-design-language/issues/1302",
+          "native_reconciliation": "pending; authenticated remote content confirmed; no retry"
+        }
+      },
+      {
+        "number": 5,
+        "title": "Authorized launch and release review",
+        "work_packages": [
+          "CF-92",
+          "TAIL-01",
+          "TAIL-02",
+          "TAIL-03",
+          "TAIL-04",
+          "TAIL-05",
+          "TAIL-06",
+          "TAIL-07",
+          "TAIL-08",
+          "TAIL-09",
+          "TAIL-10"
+        ],
+        "umbrella": {
+          "repository": "agent-logic/agent-design-language",
+          "number": 1313,
+          "url": "https://github.com/agent-logic/agent-design-language/issues/1313",
+          "native_reconciliation": "pending; authenticated remote content confirmed; no retry"
+        }
+      },
+      {
+        "number": 6,
+        "stream": "GHB",
+        "program_sprint": 1,
+        "title": "GHB program Sprint 1",
+        "work_packages": [
+          "GHB-PREP",
+          "GHB-WP00",
+          "GHB-WP01",
+          "GHB-WP02",
+          "GHB-S1"
+        ],
+        "umbrella": {
+          "repository": "agent-logic/agent-logic-runtime",
+          "number": 244,
+          "url": "https://github.com/agent-logic/agent-logic-runtime/issues/244"
+        }
+      }
+    ]
+  }
 }

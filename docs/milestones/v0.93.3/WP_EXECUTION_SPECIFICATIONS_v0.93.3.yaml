@@ -1525,5 +1525,95 @@
       "issue_repository": "agent-logic/agent-logic-runtime",
       "relationship": "containment; umbrella depends on its exit, children do not depend on umbrella completion"
     }
-  ]
+  ],
+  "sprint_plan": {
+    "status": "prepared_planning_only",
+    "sprint_count": 5,
+    "sizing": "Dependency waves, not staffing/calendar promises. Disjoint foundations and tooling may proceed in parallel after WP-01; sprint numbering is a conservative dependency allocation, not a forced serial schedule.",
+    "execution_rule": "No child execution by setup #1405; create issues/cards only per activated sprint.",
+    "sprints": [
+      {
+        "number": 1,
+        "title": "Interfaces and carryover",
+        "work_packages": [
+          "WP-01",
+          "RV-01",
+          "ADL-1352"
+        ]
+      },
+      {
+        "number": 2,
+        "title": "Lifecycle and migration",
+        "work_packages": [
+          "RV-02",
+          "RV-03",
+          "RV-09",
+          "RV-10",
+          "RV-11"
+        ]
+      },
+      {
+        "number": 3,
+        "title": "Adapters, recovery and handoff",
+        "work_packages": [
+          "RV-04",
+          "RV-05",
+          "RV-06",
+          "RV-07",
+          "RV-08",
+          "FOUNDATION-REVIEW",
+          "FOUNDATION-CLOSE"
+        ]
+      },
+      {
+        "number": 4,
+        "stream": "GHB",
+        "program_sprint": 2,
+        "title": "GHB program Sprint 2",
+        "work_packages": [
+          "GOV-01",
+          "GOV-02",
+          "GOV-03",
+          "GOV-11",
+          "CM-01",
+          "CM-02",
+          "CM-03",
+          "CM-04",
+          "GHB-WP03",
+          "GHB-WP04",
+          "GHB-WP05",
+          "GHB-WP06",
+          "GHB-WP07",
+          "GHB-WP08",
+          "GHB-S2"
+        ],
+        "umbrella": {
+          "repository": "agent-logic/agent-logic-runtime",
+          "number": 245,
+          "url": "https://github.com/agent-logic/agent-logic-runtime/issues/245"
+        }
+      },
+      {
+        "number": 5,
+        "stream": "GHB",
+        "program_sprint": 3,
+        "title": "GHB program Sprint 3",
+        "work_packages": [
+          "GHB-PROGRAM",
+          "GHB-WP09",
+          "GHB-WP10",
+          "GHB-WP11",
+          "GHB-WP12",
+          "GHB-REVIEW",
+          "GHB-CLOSE",
+          "GHB-S3"
+        ],
+        "umbrella": {
+          "repository": "agent-logic/agent-logic-runtime",
+          "number": 246,
+          "url": "https://github.com/agent-logic/agent-logic-runtime/issues/246"
+        }
+      }
+    ]
+  }
 }

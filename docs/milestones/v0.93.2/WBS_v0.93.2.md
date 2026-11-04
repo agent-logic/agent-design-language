@@ -55,12 +55,8 @@ WP-01 #1296 is in progress. Execution is authorized for C-SDLC #296–299 only; 
 | GHB-WP02 | 6 | agent-design-language | Owner: ADL. Dependencies: WP01. |
 | GHB-S1 | 6 | agent-logic-runtime | Coordinate and accept only GHB program Sprint 1; preserve its assigned package acceptance and negative cases. |
 
-| CSDLC-296 | 1 | cognitive-sdlc | Preserve edits and historical compatibility while ensuring derived-view drift cannot block valid source publication. |
-| CSDLC-297 | 1 | cognitive-sdlc | Preserve applicable proof/review for title/body-only changes; source, head, configuration and linkage changes retain correct freshness and identity checks. |
-| CSDLC-298 | 1 | cognitive-sdlc | Use ordinary independent candidate review and authenticated package provenance without mutable PR-body attestation or unrelated lifecycle gates. |
-| CSDLC-299 | 1 | cognitive-sdlc | Provide optional safe worktree start and coherent expected-head delivery; confirmed merge is delivery, issue closure is reported separately and cleanup stays optional. |
 
-| CI-205 | 3 | cognitive-sdlc | Complete existing C-SDLC #205: normalize CI using shared conventions and repository-appropriate change-selected checks; remove duplicate proof while preserving required coverage and measuring duration/cost. Paper CI remains out of scope. |
+
 
 ## Sequencing
 
@@ -76,7 +72,7 @@ No omitted identity, duplicate routing or unaccepted dependency.
 
 ## Approved sidecars
 
-The operator explicitly included these two existing issues in v0.93.2. They remain outside the 31 core work packages and numbered sprint counts; total tracked scope is 33 identities. Reuse both issues without duplication. Implementation remains unactivated; inclusion in the plan is not a completion claim. Record each sidecar disposition at milestone review.
+The operator explicitly included these two existing issues in v0.93.2. They remain outside the 36 core work packages and numbered sprint counts; total tracked scope is 38 identities. Reuse both issues without duplication. Implementation remains unactivated; inclusion in the plan is not a completion claim. Record each sidecar disposition at milestone review.
 
 - [ADL-1275](https://github.com/agent-logic/agent-design-language/issues/1275): Reconcile post-split repository adapters and native lifecycle admission.
 - [CSDLC-304](https://github.com/agent-logic/cognitive-sdlc/issues/304): Preserve C-SDLC installation identity across filesystem remounts.
