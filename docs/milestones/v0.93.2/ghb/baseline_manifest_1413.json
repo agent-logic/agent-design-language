@@ -1,0 +1,100 @@
+{
+  "schema": "adl.ghb.baseline_admission.v1",
+  "issue": 1413,
+  "recorded_date": "2026-11-04",
+  "status": "admitted_for_audit_spec_contracts",
+  "repository": "agent-logic/agent-design-language",
+  "public_input_revision": "3c11f03fd03560027e51a6a5396342409fb512f7",
+  "runtime": {
+    "repository": "agent-logic/agent-logic-runtime",
+    "installed_generation": "runtime232-ea995031-reviewed",
+    "installed_source_revision": "ea9950319acb45ca22352a138d406b1e0d3cbf6e",
+    "reviewed_ui_revision": "5a2b9858022cbe32c3d9daed3ef590895b342494",
+    "ui_merge_revision": "be26e6999ee9794a92206800a86f7d09834f2ec0",
+    "private_evidence_custodian": "Runtime owner",
+    "installed_ghb_success": false,
+    "audit_source_revision": "b6813a2faa07ffb21f5c3742f39179785f7fb398"
+  },
+  "public_inputs": [
+    {
+      "path": "adl-spec/schemas/v0.8/evaluation_plan.v1.json",
+      "sha256": "54d8ee71589b9bddf56e94130422ac21f437d2880f10cdc48389d7e95eb742af"
+    },
+    {
+      "path": "adl-spec/schemas/v0.8/mutation.v1.json",
+      "sha256": "eceeeaef68ecc880c5f0ae3c3500597728a7d97049c7b18d94b913e354308228"
+    },
+    {
+      "path": "adl-spec/schemas/v0.8/experiment_record.v1.schema.json",
+      "sha256": "8bd5ac195934193e8d96e8a3c6ecd247b356df58acb9e58a86ba60c7db24aa18"
+    },
+    {
+      "path": "adl-spec/schemas/v0.8/canonical_evidence_view.v1.schema.json",
+      "sha256": "698e1b138159a21588792134917e1dee245c12bc19ced525e1a42dcf0582ea8d"
+    },
+    {
+      "path": "tools/godel_contract_distribution/artifact-lock.json",
+      "sha256": "94a77c40998782b09a9b1222a488c6ebbe33287f1d14c023fc7cdcb04958827d"
+    },
+    {
+      "path": "tools/godel_contract_distribution/source-manifest.json",
+      "sha256": "d55bf97ac04bb58fcbca826e15aa48cfca13bce0a7e402157b9529c80f48f8be"
+    },
+    {
+      "path": "docs/milestones/v0.93.2/sources/ghb/README.md",
+      "sha256": "45011c1fc42fb815fc7e0b29a63a1bab3ea2203529e71df3c2f10923df886554"
+    }
+  ],
+  "protocol": {
+    "status": "proposed_unexecuted",
+    "domain": "synthetic_tool_lending_policy",
+    "proposed_license": "CC0-1.0",
+    "mutation_surface": [
+      "task_policy_parameters",
+      "reasoning_guidance"
+    ],
+    "corpus_digest": null,
+    "split_seed": null,
+    "acceptance_thresholds": null,
+    "proposed_development_tasks": [
+      "D01",
+      "D02",
+      "D03",
+      "D04"
+    ],
+    "proposed_final_heldout_tasks": [
+      "H01",
+      "H02",
+      "H03",
+      "H04"
+    ],
+    "protected_first_gate_a": [
+      "system_instruction_templates",
+      "evaluator_rubric",
+      "heldout_corpus",
+      "authority_credentials",
+      "provider_settings",
+      "model_weights",
+      "source",
+      "persistent_resident_state"
+    ]
+  },
+  "handoff_order": [
+    "agent-logic-runtime#239",
+    "agent-design-language#1414",
+    "agent-design-language#1415"
+  ],
+  "validation": {
+    "pvf_lane": "docs",
+    "role": "baseline_admission_contract",
+    "determinism": "local_deterministic",
+    "resource_profile": "small_local_cpu",
+    "runtime_release_gate": false
+  },
+  "non_claims": [
+    "future_release_acceptance",
+    "installed_ghb_success",
+    "model_quality_gain",
+    "new_live_experiment"
+  ]
+}
