@@ -212,9 +212,8 @@ pub fn validate(schema: &Value, packet: &Value, expected: &Value) -> Result<Valu
         }
         if a["artifact_type"] == "disposition" {
             ensure!(
-                !(c["loop_kind"] == "task" && p["decision"] == "recommend_activation")
-                    && !(c["loop_kind"] == "improvement"
-                        && p["decision"] == "recommend_task_action"),
+                !(c["loop_kind"] == "task" && p["decision"] == "recommend_activation"
+                    || c["loop_kind"] == "improvement" && p["decision"] == "recommend_task_action"),
                 "disposition loop mismatch"
             );
         }
