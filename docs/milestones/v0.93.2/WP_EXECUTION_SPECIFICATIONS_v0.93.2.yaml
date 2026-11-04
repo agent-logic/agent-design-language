@@ -860,12 +860,14 @@
       "depends_on": [
         "CF-92",
         "CSDLC-299",
-        "CI-205"
+        "CI-205",
+        "GHB-S1"
       ],
       "result": "Verify launch outcomes and all required release evidence before the milestone review tail.",
       "acceptance": [
         "Verify launch outcomes and all required release evidence before the milestone review tail.",
-        "Record exact consumer versions, scenario counts, failures and review dispositions."
+        "Record exact consumer versions, scenario counts, failures and review dispositions.",
+        "GHB Sprint 1 audit/spec/schema baseline accepted before milestone quality/release acceptance; unrelated active Beta Sprint 4 remains independently executable."
       ],
       "negative_cases": [
         "Missing predecessor acceptance",
@@ -1244,380 +1246,207 @@
       },
       "existing_issue": 1312,
       "issue_repository": "agent-logic/agent-design-language"
-    }
-  ],
-  "sprint_plan": {
-    "status": "allocated_planning_only",
-    "sprint_count": 5,
-    "sizing": "Dependency-based groups; no calendar or staffing promise.",
-    "execution_rule": "Only v0.93.2 WP-01 is active. Accept dependencies and explicit issue authorization before execution.",
-    "sprints": [
-      {
-        "number": 1,
-        "title": "C-SDLC lifecycle simplification",
-        "work_packages": [
-          "WP-01",
-          "CSDLC-296",
-          "CSDLC-297",
-          "CSDLC-298",
-          "CSDLC-299"
-        ],
-        "umbrella": {
-          "repository": "agent-logic/agent-design-language",
-          "number": 1298,
-          "url": "https://github.com/agent-logic/agent-design-language/issues/1298"
-        }
-      },
-      {
-        "number": 2,
-        "title": "Acceptance and security contracts",
-        "work_packages": [
-          "CF-B1-01",
-          "WP-S1"
-        ],
-        "umbrella": {
-          "repository": "agent-logic/agent-design-language",
-          "number": 1299,
-          "url": "https://github.com/agent-logic/agent-design-language/issues/1299"
-        }
-      },
-      {
-        "number": 3,
-        "title": "Beta 1 improvements and enterprise security",
-        "work_packages": [
-          "CF-B1-02",
-          "CF-B1-03",
-          "WP-S2",
-          "WP-S3",
-          "WP-S4",
-          "WP-S5",
-          "CF-B1-04",
-          "CF-B1-05",
-          "WP-S6",
-          "DEMO-SEC",
-          "CI-205"
-        ],
-        "umbrella": {
-          "repository": "agent-logic/agent-design-language",
-          "number": 1301,
-          "url": "https://github.com/agent-logic/agent-design-language/issues/1301",
-          "native_reconciliation": "pending; authenticated remote content confirmed; no retry"
-        }
-      },
-      {
-        "number": 4,
-        "title": "Candidate integration and qualification",
-        "work_packages": [
-          "INTEGRATE",
-          "QUALIFY"
-        ],
-        "umbrella": {
-          "repository": "agent-logic/agent-design-language",
-          "number": 1302,
-          "url": "https://github.com/agent-logic/agent-design-language/issues/1302",
-          "native_reconciliation": "pending; authenticated remote content confirmed; no retry"
-        }
-      },
-      {
-        "number": 5,
-        "title": "Authorized launch and release review",
-        "work_packages": [
-          "CF-92",
-          "TAIL-01",
-          "TAIL-02",
-          "TAIL-03",
-          "TAIL-04",
-          "TAIL-05",
-          "TAIL-06",
-          "TAIL-07",
-          "TAIL-08",
-          "TAIL-09",
-          "TAIL-10"
-        ],
-        "umbrella": {
-          "repository": "agent-logic/agent-design-language",
-          "number": 1313,
-          "url": "https://github.com/agent-logic/agent-design-language/issues/1313",
-          "native_reconciliation": "pending; authenticated remote content confirmed; no retry"
-        }
-      }
-    ]
-  },
-  "external_dependencies": {
-    "v0.93.1/TAIL-10": "Accepted ready-to-deploy milestone closure",
-    "v0.93.1/RD-11": "Accepted repository compatibility lockset",
-    "v0.93.1/RD-09": "Accepted enterprise security repository boundary",
-    "ADL-1150": "https://github.com/agent-logic/agent-design-language/issues/1150 \u2014 independent CodeFriend qualification predecessor (accepted in v0.93.1)",
-    "CodeFriend-45": "https://github.com/agent-logic/codefriend/issues/45 \u2014 existing launch predecessor",
-    "CodeFriend-46": "https://github.com/agent-logic/codefriend/issues/46 \u2014 built waiting-list predecessor",
-    "codefriend.ai-21": "https://github.com/agent-logic/codefriend.ai/issues/21 \u2014 website predecessor"
-  },
-  "successor_scope_amendment": {
-    "decision": "v0.93.2/REORGANIZATION_1296.md",
-    "allocation": "v0.93.2/REALLOCATION_1296.json"
-  },
-  "existing_issue_routing": [
-    {
-      "wp": "WP-01",
-      "repository": "agent-logic/agent-design-language",
-      "issue": 1296,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
     },
     {
-      "wp": "CSDLC-296",
-      "repository": "agent-logic/cognitive-sdlc",
-      "issue": 296,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "CSDLC-297",
-      "repository": "agent-logic/cognitive-sdlc",
-      "issue": 297,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "CSDLC-298",
-      "repository": "agent-logic/cognitive-sdlc",
-      "issue": 298,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "CSDLC-299",
-      "repository": "agent-logic/cognitive-sdlc",
-      "issue": 299,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "CI-205",
-      "repository": "agent-logic/cognitive-sdlc",
-      "issue": 205,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "CF-92",
-      "repository": "agent-logic/codefriend",
-      "issue": 92,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "CF-B1-01",
-      "repository": "agent-logic/codefriend",
-      "issue": 120,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "WP-S1",
-      "repository": "agent-logic/agent-logic-enterprise-security",
-      "issue": 9,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "CF-B1-02",
-      "repository": "agent-logic/codefriend",
-      "issue": 121,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "CF-B1-03",
-      "repository": "agent-logic/codefriend",
-      "issue": 123,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "WP-S2",
-      "repository": "agent-logic/agent-logic-enterprise-security",
-      "issue": 10,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "WP-S3",
-      "repository": "agent-logic/agent-logic-enterprise-security",
-      "issue": 12,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "WP-S4",
-      "repository": "agent-logic/agent-logic-enterprise-security",
-      "issue": 14,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "WP-S5",
-      "repository": "agent-logic/agent-logic-enterprise-security",
-      "issue": 15,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "CF-B1-04",
-      "repository": "agent-logic/codefriend",
-      "issue": 125,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "CF-B1-05",
-      "repository": "agent-logic/codefriend",
-      "issue": 126,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "WP-S6",
-      "repository": "agent-logic/agent-logic-enterprise-security",
-      "issue": 16,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "DEMO-SEC",
-      "repository": "agent-logic/agent-logic-enterprise-security",
-      "issue": 17,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "INTEGRATE",
-      "repository": "agent-logic/codefriend",
-      "issue": 127,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "QUALIFY",
-      "repository": "agent-logic/codefriend",
-      "issue": 128,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "TAIL-01",
-      "repository": "agent-logic/agent-design-language",
-      "issue": 1303,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "TAIL-02",
-      "repository": "agent-logic/agent-design-language",
-      "issue": 1304,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "TAIL-03",
-      "repository": "agent-logic/agent-design-language",
-      "issue": 1305,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "TAIL-04",
-      "repository": "agent-logic/agent-design-language",
-      "issue": 1306,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "TAIL-05",
-      "repository": "agent-logic/agent-design-language",
-      "issue": 1307,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "TAIL-06",
-      "repository": "agent-logic/agent-design-language",
-      "issue": 1308,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "TAIL-07",
-      "repository": "agent-logic/agent-design-language",
-      "issue": 1309,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "TAIL-08",
-      "repository": "agent-logic/agent-design-language",
-      "issue": 1310,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "TAIL-09",
-      "repository": "agent-logic/agent-design-language",
-      "issue": 1311,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "TAIL-10",
-      "repository": "agent-logic/agent-design-language",
-      "issue": 1312,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    }
-  ],
-  "opening": {
-    "issue": 1296,
-    "repository": "agent-logic/agent-design-language",
-    "authorized_on": "2026-10-19",
-    "owner": "Planning #12",
-    "execution_authorized": [
-      "WP-01",
-      "CSDLC-296",
-      "CSDLC-297",
-      "CSDLC-298",
-      "CSDLC-299"
-    ],
-    "downstream_execution_authorized": true,
-    "deployment_authorized": false,
-    "predecessor_issue": 1230,
-    "predecessor_closure": "closed_with_native_coordination_completed",
-    "acceptance_pr": 1295,
-    "acceptance_merge": "69fae86cde65861cdace95183c2c373dcb09ca01",
-    "record": "OPENING_1296.md",
-    "execution_scope": "Only the four existing C-SDLC simplification issues; #299 follows #296-298. Other product work and sidecars remain unactivated."
-  },
-  "sidecars": [
-    {
-      "id": "ADL-1275",
-      "repository": "agent-logic/agent-design-language",
-      "issue": 1275,
-      "title": "Reconcile post-split repository adapters and native lifecycle admission",
-      "url": "https://github.com/agent-logic/agent-design-language/issues/1275",
-      "milestone": "v0.93.2",
+      "id": "GHB-PREP",
+      "title": "Prepare the GHB baseline against current installed Runtime interfaces",
+      "repository": "agent-design-language",
+      "depends_on": [],
+      "result": "Pin the current installed Runtime #232 interfaces, existing owners and explicit gaps, then prepare only GHB Sprint 1 audit/spec/schema work.",
+      "acceptance": [
+        "Verify actual current installed interfaces and missing capabilities without claiming future Runtime v4, standing, continuity or evaluator integrity accepted.",
+        "Reuse ADL #1413; audit/specification work may proceed without future v0.93.3 foundations or v0.93.4 release; activation remains separately gated."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Unsupported completion claim"
+      ],
+      "phase": "planning",
+      "source": "README.md",
       "status": "planned",
-      "execution_authorized": false,
-      "disposition": "Reuse existing issue as an explicitly included sidecar; excluded from core sprint counts."
+      "resources": "Bounded local work and owned CI. Any provider/cloud/deployment effect needs separately scoped authority.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated scope or duplicate implementation/qualification"
+      ],
+      "task_boundary": {
+        "single_result": "Prepare the GHB baseline against current installed Runtime interfaces",
+        "supporting_work": "Only the focused documentation, code, tests and recovery behavior needed for this result.",
+        "completion_rule": "Accept the result and adverse cases; preparation alone is insufficient."
+      },
+      "sprint": 6,
+      "relocated_from": "v0.93.5/WP-01",
+      "program_sprint": 1,
+      "parent": "v0.93.3/GHB-PROGRAM",
+      "sprint_parent": "v0.93.2/GHB-S1",
+      "existing_issue": 1413,
+      "issue_repository": "agent-logic/agent-design-language"
     },
     {
-      "id": "CSDLC-304",
-      "repository": "agent-logic/cognitive-sdlc",
-      "issue": 304,
-      "title": "Preserve C-SDLC installation identity across filesystem remounts",
-      "url": "https://github.com/agent-logic/cognitive-sdlc/issues/304",
-      "milestone": "v0.93.2",
+      "id": "GHB-WP00",
+      "result": "Owner: program + Runtime. Dependencies: none.",
+      "phase": "ghb-program",
       "status": "planned",
-      "execution_authorized": false,
-      "disposition": "Reuse existing issue as an explicitly included sidecar; preserve integrity checks without recurring payload hashes."
+      "resources": "Issue-specific authorization required for provider spend, experiments, deployment and publication.",
+      "pvf": "installed_runtime_and_independent_evaluation",
+      "non_goals": [
+        "No issue creation from planning alone",
+        "No unbounded self-modification or global-optimality claim"
+      ],
+      "task_boundary": {
+        "single_result": "[GHB][WP00] Source-to-caller audit and baseline",
+        "supporting_work": "Only work required for the declared package and gates.",
+        "completion_rule": "Accept installed behavior and negative cases; planning or closure state is insufficient."
+      },
+      "origin": {
+        "milestone": "v0.93.2",
+        "id": "GHB-WP00",
+        "kind": "approved_ghb_scope"
+      },
+      "title": "[GHB][WP00] Source-to-caller audit and baseline",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GHB-PREP"
+      ],
+      "acceptance": [
+        "source-to-caller matrix at pinned revisions; no duplicated owner planned; runnable unchanged-agent baseline; measurable Gate A scenario; approved evaluation protocol and task/data licenses. A missing existing owner is an explicit gap rather than assumed absence."
+      ],
+      "negative_cases": [
+        "Planning status treated as execution authority",
+        "Duplicate owner or issue identity",
+        "Fixture evidence substituted for installed behavior"
+      ],
+      "source": "../v0.93.5/features/GODEL_HADAMARD_BAYES_v0.93.2.md",
+      "sprint": 6,
+      "existing_issue": 239,
+      "relocated_from": "v0.93.5/GHB-WP00",
+      "program_sprint": 1,
+      "parent": "v0.93.3/GHB-PROGRAM",
+      "sprint_parent": "v0.93.2/GHB-S1",
+      "issue_repository": "agent-logic/agent-logic-runtime"
+    },
+    {
+      "id": "GHB-WP01",
+      "result": "Owner: ADL. Dependencies: WP00.",
+      "phase": "ghb-program",
+      "status": "planned",
+      "resources": "Issue-specific authorization required for provider spend, experiments, deployment and publication.",
+      "pvf": "installed_runtime_and_independent_evaluation",
+      "non_goals": [
+        "No issue creation from planning alone",
+        "No unbounded self-modification or global-optimality claim"
+      ],
+      "task_boundary": {
+        "single_result": "[GHB][WP01] Normative specification and invariants",
+        "supporting_work": "Only work required for the declared package and gates.",
+        "completion_rule": "Accept installed behavior and negative cases; planning or closure state is insufficient."
+      },
+      "origin": {
+        "milestone": "v0.93.2",
+        "id": "GHB-WP01",
+        "kind": "approved_ghb_scope"
+      },
+      "title": "[GHB][WP01] Normative specification and invariants",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "GHB-WP00"
+      ],
+      "acceptance": [
+        "every transition has inputs, outputs, authority, side effects and stop conditions; fresh inference versus replay is explicit; historical docs link to the normative successor after review; conformance labels remain proposed until accepted."
+      ],
+      "negative_cases": [
+        "Planning status treated as execution authority",
+        "Duplicate owner or issue identity",
+        "Fixture evidence substituted for installed behavior"
+      ],
+      "source": "../v0.93.5/features/GODEL_HADAMARD_BAYES_v0.93.2.md",
+      "sprint": 6,
+      "existing_issue": 1414,
+      "relocated_from": "v0.93.5/GHB-WP01",
+      "program_sprint": 1,
+      "parent": "v0.93.3/GHB-PROGRAM",
+      "sprint_parent": "v0.93.2/GHB-S1",
+      "issue_repository": "agent-logic/agent-design-language"
+    },
+    {
+      "id": "GHB-WP02",
+      "result": "Owner: ADL. Dependencies: WP01.",
+      "phase": "ghb-program",
+      "status": "planned",
+      "resources": "Issue-specific authorization required for provider spend, experiments, deployment and publication.",
+      "pvf": "installed_runtime_and_independent_evaluation",
+      "non_goals": [
+        "No issue creation from planning alone",
+        "No unbounded self-modification or global-optimality claim"
+      ],
+      "task_boundary": {
+        "single_result": "[GHB][WP02] Schemas and installed contract parity",
+        "supporting_work": "Only work required for the declared package and gates.",
+        "completion_rule": "Accept installed behavior and negative cases; planning or closure state is insufficient."
+      },
+      "origin": {
+        "milestone": "v0.93.2",
+        "id": "GHB-WP02",
+        "kind": "approved_ghb_scope"
+      },
+      "title": "[GHB][WP02] Schemas and installed contract parity",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "GHB-WP01"
+      ],
+      "acceptance": [
+        "canonical digest/round-trip tests, malformed and stale-reference rejection, schema examples, installed Runtime compatibility test, and a migration policy for existing artifacts. New tests are classified in the validation inventory when authored."
+      ],
+      "negative_cases": [
+        "Planning status treated as execution authority",
+        "Duplicate owner or issue identity",
+        "Fixture evidence substituted for installed behavior"
+      ],
+      "source": "../v0.93.5/features/GODEL_HADAMARD_BAYES_v0.93.2.md",
+      "sprint": 6,
+      "existing_issue": 1415,
+      "relocated_from": "v0.93.5/GHB-WP02",
+      "program_sprint": 1,
+      "parent": "v0.93.3/GHB-PROGRAM",
+      "sprint_parent": "v0.93.2/GHB-S1",
+      "issue_repository": "agent-logic/agent-design-language"
+    },
+    {
+      "id": "GHB-S1",
+      "result": "Coordinate and accept only GHB program Sprint 1; preserve its assigned package acceptance and negative cases.",
+      "phase": "ghb-program",
+      "status": "planned",
+      "resources": "Issue-specific authorization required for provider spend, experiments, deployment and publication.",
+      "pvf": "installed_runtime_and_independent_evaluation",
+      "non_goals": [
+        "No issue creation from planning alone",
+        "No unbounded self-modification or global-optimality claim"
+      ],
+      "task_boundary": {
+        "single_result": "GHB Sprint 1: audit, normative specification and schemas",
+        "supporting_work": "Only work required for the declared package and gates.",
+        "completion_rule": "Accept installed behavior and negative cases; planning or closure state is insufficient."
+      },
+      "title": "GHB Sprint 1: audit, normative specification and schemas",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GHB-WP02"
+      ],
+      "acceptance": [
+        "All assigned GHB Sprint 1 results and adverse cases accepted; no completion from planning or closure status."
+      ],
+      "negative_cases": [
+        "Planning status treated as execution authority",
+        "Duplicate owner or issue identity",
+        "Fixture evidence substituted for installed behavior"
+      ],
+      "source": "../v0.93.5/features/GODEL_HADAMARD_BAYES_v0.93.2.md",
+      "sprint": 6,
+      "existing_issue": 244,
+      "program_sprint": 1,
+      "parent": "v0.93.3/GHB-PROGRAM",
+      "issue_repository": "agent-logic/agent-logic-runtime",
+      "relationship": "containment; umbrella depends on its exit, children do not depend on umbrella completion"
     }
   ]
 }

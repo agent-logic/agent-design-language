@@ -1,3 +1,5 @@
+> **Current #1416 routing (2026-11-04):** The former GHB schedule is superseded and vacated: zero active work packages or sprints remain in v0.93.5. Original feature sources remain historical provenance. Active GHB program Sprint 1 is in v0.93.2; Sprints 2/3 and the whole-program parent are in v0.93.3. This is relocation, not cancellation or acceptance. See [lossless relocation register](../v0.93.3/REALLOCATION_1416.json) and [three-sprint decision](../v0.93.3/REORGANIZATION_1416.md). Planning is not execution, spend, installed qualification or release authority.
+
 # v0.93.5 Vision
 
 ## Metadata
@@ -6,7 +8,7 @@ Planning template set: 1.1.0. Milestone: v0.93.5. Date: 2026-10-30. Setup amendm
 
 ## Purpose
 
-GHB. 17 planned work-package identities across 3 dependency waves. Counts include coordination/review/release gates; no one-PR-per-row requirement. Hand off accepted GHB interfaces to [governance v0.93.6](../v0.93.6/README.md) and later [affect/humour v0.93.7](../v0.93.7/README.md); neither is a GHB baseline dependency.
+0 active planned work-package identities across 0 dependency streams. The former GHB schedule is superseded and vacated: zero active work packages or sprints remain in v0.93.5. Original feature sources remain historical provenance. Active GHB program Sprint 1 is in v0.93.2; Sprints 2/3 and the whole-program parent are in v0.93.3. This is relocation, not cancellation or acceptance.
 
 ## How To Use
 
@@ -14,15 +16,15 @@ Read the WBS and execution graph together; qualified milestone/ID pairs are iden
 
 ## Overview
 
-GHB. 17 planned work-package identities across 3 dependency waves. Counts include coordination/review/release gates; no one-PR-per-row requirement. Hand off accepted GHB interfaces to [governance v0.93.6](../v0.93.6/README.md) and later [affect/humour v0.93.7](../v0.93.7/README.md); neither is a GHB baseline dependency.
+0 active planned work-package identities across 0 dependency streams. The former GHB schedule is superseded and vacated: zero active work packages or sprints remain in v0.93.5. Original feature sources remain historical provenance. Active GHB program Sprint 1 is in v0.93.2; Sprints 2/3 and the whole-program parent are in v0.93.3. This is relocation, not cancellation or acceptance.
 
 ## Core Goals
 
-GHB. 17 planned work-package identities across 3 dependency waves. Counts include coordination/review/release gates; no one-PR-per-row requirement. Hand off accepted GHB interfaces to [governance v0.93.6](../v0.93.6/README.md) and later [affect/humour v0.93.7](../v0.93.7/README.md); neither is a GHB baseline dependency.
+0 active planned work-package identities across 0 dependency streams. The former GHB schedule is superseded and vacated: zero active work packages or sprints remain in v0.93.5. Original feature sources remain historical provenance. Active GHB program Sprint 1 is in v0.93.2; Sprints 2/3 and the whole-program parent are in v0.93.3. This is relocation, not cancellation or acceptance.
 
 ## Milestone Context
 
-Approved sequence: v0.93.2 acceptance → v0.93.3 Runtime foundations → v0.93.4 tooling and governance/continuity foundations → v0.93.5 GHB → v0.93.6 governance → v0.93.7 affect/humour.
+Current sequence: GHB Sprint 1 runs in v0.93.2 alongside existing Beta streams; Runtime foundations and GHB Sprints 2/3 with minimal governance/continuity prerequisites run in v0.93.3. C-SDLC v4 tooling remains v0.93.4; v0.93.5 is vacated. Remaining governance stays v0.93.6; affect/humour stays v0.93.7.
 
 ## Long-Term Direction
 
@@ -30,7 +32,7 @@ Keep milestones bounded, public ADL independently usable and private owner imple
 
 ## Summary
 
-GHB. 17 planned work-package identities across 3 dependency waves. Counts include coordination/review/release gates; no one-PR-per-row requirement. Hand off accepted GHB interfaces to [governance v0.93.6](../v0.93.6/README.md) and later [affect/humour v0.93.7](../v0.93.7/README.md); neither is a GHB baseline dependency.
+0 active planned work-package identities across 0 dependency streams. The former GHB schedule is superseded and vacated: zero active work packages or sprints remain in v0.93.5. Original feature sources remain historical provenance. Active GHB program Sprint 1 is in v0.93.2; Sprints 2/3 and the whole-program parent are in v0.93.3. This is relocation, not cancellation or acceptance.
 
 ## Exit Criteria
 

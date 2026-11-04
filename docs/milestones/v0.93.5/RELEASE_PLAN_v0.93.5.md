@@ -1,3 +1,5 @@
+> **Current #1416 routing (2026-11-04):** The former GHB schedule is superseded and vacated: zero active work packages or sprints remain in v0.93.5. Original feature sources remain historical provenance. Active GHB program Sprint 1 is in v0.93.2; Sprints 2/3 and the whole-program parent are in v0.93.3. This is relocation, not cancellation or acceptance. See [lossless relocation register](../v0.93.3/REALLOCATION_1416.json) and [three-sprint decision](../v0.93.3/REORGANIZATION_1416.md). Planning is not execution, spend, installed qualification or release authority.
+
 # v0.93.5 Release Plan
 
 ## Metadata
@@ -35,3 +37,7 @@ Publish only approved public-safe material; external messaging and private revie
 ## Exit Criteria
 
 Every assigned outcome and required adverse case is accepted at exact input/candidate identities; review findings are resolved or explicitly dispositioned. No source/CI-only substitution for installed/live proof. Administrative cleanup is optional and asynchronous.
+
+## GHB relocation acceptance boundary
+
+The former GHB schedule is superseded and vacated: zero active work packages or sprints remain in v0.93.5. Original feature sources remain historical provenance. Active GHB program Sprint 1 is in v0.93.2; Sprints 2/3 and the whole-program parent are in v0.93.3. This is relocation, not cancellation or acceptance. No new later-child issues or cards are authorized by this planning amendment. Preserve all existing negative cases, resource bounds and legitimate non-improvement outcomes.

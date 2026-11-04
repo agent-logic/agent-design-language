@@ -1,4 +1,4 @@
-> **Current successor routing (2026-10-30):** [#1405 allocation](../v0.93.3/REORGANIZATION_1405.md): Runtime/#1352 v0.93.3; tooling and governance/continuity foundations v0.93.4; GHB v0.93.5; remaining governance v0.93.6; affect/humour v0.93.7. Older placement below is historical. v0.93.2 product scope is unchanged.
+> **Current #1416 routing (2026-11-04):** GHB program Sprint 1 is an additional stream (milestone index 6); the existing Beta Sprints 1–5 and release-tail order remain intact. GHB-PREP → GHB-WP00 → GHB-WP01 → GHB-WP02 must finish before TAIL-01 quality acceptance, without blocking unrelated active Beta Sprint 4. Audit/spec work uses current installed Runtime #232; future foundations are explicit gaps, never assumed accepted. See [lossless relocation register](../v0.93.3/REALLOCATION_1416.json) and [three-sprint decision](../v0.93.3/REORGANIZATION_1416.md). Planning is not execution, spend, installed qualification or release authority.
 
 # v0.93.2 Design
 
@@ -24,7 +24,7 @@ Python reduction, affect and humour remain deferred outside both allocations. Ex
 
 ## Scope
 
-31 planned identities across five dependency-based sprints. Preserve all 67 earlier identities through [the allocation register](../v0.93.2/REALLOCATION_1296.json). 21 retained identities plus five explicit Beta 1 product packages and four existing C-SDLC improvements plus independent CI #205; 46 platform identities move to v0.93.3.
+36 planned identities across the existing five Beta sprints and one separate GHB program Sprint 1 stream. Preserve all 67 earlier identities through [the allocation register](../v0.93.2/REALLOCATION_1296.json). 21 retained identities plus five explicit Beta 1 product packages and four existing C-SDLC improvements plus independent CI #205; 46 platform identities move to v0.93.3.
 
 ## Requirements
 

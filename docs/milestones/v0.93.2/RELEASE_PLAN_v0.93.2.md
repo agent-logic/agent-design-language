@@ -1,3 +1,5 @@
+> **Current #1416 routing (2026-11-04):** GHB program Sprint 1 is an additional stream (milestone index 6); the existing Beta Sprints 1–5 and release-tail order remain intact. GHB-PREP → GHB-WP00 → GHB-WP01 → GHB-WP02 must finish before TAIL-01 quality acceptance, without blocking unrelated active Beta Sprint 4. Audit/spec work uses current installed Runtime #232; future foundations are explicit gaps, never assumed accepted. See [lossless relocation register](../v0.93.3/REALLOCATION_1416.json) and [three-sprint decision](../v0.93.3/REORGANIZATION_1416.md). Planning is not execution, spend, installed qualification or release authority.
+
 # v0.93.2 Release Plan
 
 ## Metadata
@@ -31,3 +33,7 @@ Publish only approved factual release claims; retain limitations and safe-disabl
 ## Exit Criteria
 
 Separate code merge, product qualification, deployment and release approval truth.
+
+## GHB relocation acceptance boundary
+
+GHB program Sprint 1 is an additional stream (milestone index 6); the existing Beta Sprints 1–5 and release-tail order remain intact. GHB-PREP → GHB-WP00 → GHB-WP01 → GHB-WP02 must finish before TAIL-01 quality acceptance, without blocking unrelated active Beta Sprint 4. Audit/spec work uses current installed Runtime #232; future foundations are explicit gaps, never assumed accepted. No new later-child issues or cards are authorized by this planning amendment. Preserve all existing negative cases, resource bounds and legitimate non-improvement outcomes.

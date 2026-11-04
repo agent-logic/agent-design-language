@@ -1,3 +1,5 @@
+> **Historical feature source; #1416 routing supersedes schedule:** GHB Sprint 1 now belongs to v0.93.2; GHB Sprints 2/3 and standing/continuity prerequisites belong to v0.93.3. Requirements and adverse cases below remain source evidence; this document does not activate work.
+
 # Successor scheduling notice
 
 The 2026-10-30 #1403 allocation places this source in v0.93.5 only where its current execution graph references it. Other historical source requirements are provenance, not newly activated scope. Historical v0.93.2 labels and sequences below are source context, not current scheduling. Enterprise-security source requirements include full governance integration; Beta 1 subset completion does not prove these consumers.

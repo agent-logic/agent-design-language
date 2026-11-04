@@ -1,3 +1,5 @@
+> **Current #1416 routing (2026-11-04):** Runtime v4 foundations remain in Sprints 1–3. GHB program Sprint 2 is milestone Sprint 4, including GOV-01/02/03/11 and CM-01..04 unchanged requirements; GHB program Sprint 3 is milestone Sprint 5. Runtime #238 remains the whole-program parent and closes after all three sprints. Containment never makes a child depend on parent completion. Actual Runtime v4, standing, continuity and protected evaluator integrity precede activation; installed Gate A/B proof remains required. See [lossless relocation register](../v0.93.3/REALLOCATION_1416.json) and [three-sprint decision](../v0.93.3/REORGANIZATION_1416.md). Planning is not execution, spend, installed qualification or release authority.
+
 # v0.93.3 Readme
 
 ## Metadata
@@ -10,7 +12,7 @@ Setup prepared; implementation not started. Planning only. No child implementati
 
 ## Purpose
 
-Runtime v4 foundations. 15 planned work-package identities across 3 dependency waves. Counts include coordination/review/release gates; no one-PR-per-row requirement. All RV-01–RV-11 are retained. #1352 stays here as a reused carryover. Governance, GHB, affect and humour are outside this milestone. Hand off accepted Runtime foundations and #1352 to [v0.93.4](../v0.93.4/README.md); Runtime interfaces remain the product baseline.
+38 active planned work-package identities across 5 dependency streams. Runtime v4 foundations remain in Sprints 1–3. GHB program Sprint 2 is milestone Sprint 4, including GOV-01/02/03/11 and CM-01..04 unchanged requirements; GHB program Sprint 3 is milestone Sprint 5. Runtime #238 remains the whole-program parent and closes after all three sprints. Containment never makes a child depend on parent completion. Actual Runtime v4, standing, continuity and protected evaluator integrity precede activation; installed Gate A/B proof remains required.
 
 ## Document Map
 
