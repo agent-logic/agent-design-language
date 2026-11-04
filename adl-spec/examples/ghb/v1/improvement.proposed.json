@@ -1,0 +1,371 @@
+{
+  "schema": "adl.ghb.packet.v1",
+  "contract_version": 1,
+  "profile_id": "synthetic_tool_lending.v1",
+  "status": "proposed_unexecuted",
+  "external_refs": [
+    {
+      "artifact_id": "synthetic.resident_identity_ref",
+      "owner": "example.invalid/ghb-context",
+      "schema_version": 1,
+      "sha256": "d355207a79991e18c9308bb5f690bded226b407c48af7c71ebf7630ce40dab58"
+    },
+    {
+      "artifact_id": "synthetic.body_ref",
+      "owner": "example.invalid/ghb-context",
+      "schema_version": 1,
+      "sha256": "5a11d4f6aa2ef9c1553ac0e4694dc8e4c15ddb3a5e04596ef8102eb871b2003a"
+    },
+    {
+      "artifact_id": "synthetic.objective_ref",
+      "owner": "example.invalid/ghb-context",
+      "schema_version": 1,
+      "sha256": "3937f6e00b8afb46e398d784ff1dbdabae97d0653285a8c915bdc4e074a88e97"
+    },
+    {
+      "artifact_id": "synthetic.policy_ref",
+      "owner": "example.invalid/ghb-context",
+      "schema_version": 1,
+      "sha256": "e8d714a45e00fbf59f24c6b5b347115b8e8a8a697874a5eeaad6de0bd19834c1"
+    },
+    {
+      "artifact_id": "synthetic.memory_head_ref",
+      "owner": "example.invalid/ghb-context",
+      "schema_version": 1,
+      "sha256": "dfbff98d552050ab8f57563dc526c5e1e8b72849cc66a03a857cdcd988e48c38"
+    },
+    {
+      "artifact_id": "synthetic.continuity_head_ref",
+      "owner": "example.invalid/ghb-context",
+      "schema_version": 1,
+      "sha256": "a7d5cb3b111506e332879b9e1a02dca07ba3f14691d0c55967bfc73f71a33f4f"
+    },
+    {
+      "artifact_id": "synthetic.archive_head_ref",
+      "owner": "example.invalid/ghb-context",
+      "schema_version": 1,
+      "sha256": "088f3ac76ba065152f386f74491620fb97e28347fa9e3e5f9200a8a3940ca3f5"
+    }
+  ],
+  "cycle": {
+    "cycle_id": "example.improvement",
+    "loop_kind": "improvement",
+    "execution_mode": "replay",
+    "resident_identity_ref": {
+      "artifact_id": "synthetic.resident_identity_ref",
+      "owner": "example.invalid/ghb-context",
+      "schema_version": 1,
+      "sha256": "d355207a79991e18c9308bb5f690bded226b407c48af7c71ebf7630ce40dab58"
+    },
+    "body_ref": {
+      "artifact_id": "synthetic.body_ref",
+      "owner": "example.invalid/ghb-context",
+      "schema_version": 1,
+      "sha256": "5a11d4f6aa2ef9c1553ac0e4694dc8e4c15ddb3a5e04596ef8102eb871b2003a"
+    },
+    "objective_ref": {
+      "artifact_id": "synthetic.objective_ref",
+      "owner": "example.invalid/ghb-context",
+      "schema_version": 1,
+      "sha256": "3937f6e00b8afb46e398d784ff1dbdabae97d0653285a8c915bdc4e074a88e97"
+    },
+    "policy_ref": {
+      "artifact_id": "synthetic.policy_ref",
+      "owner": "example.invalid/ghb-context",
+      "schema_version": 1,
+      "sha256": "e8d714a45e00fbf59f24c6b5b347115b8e8a8a697874a5eeaad6de0bd19834c1"
+    },
+    "memory_head_ref": {
+      "artifact_id": "synthetic.memory_head_ref",
+      "owner": "example.invalid/ghb-context",
+      "schema_version": 1,
+      "sha256": "dfbff98d552050ab8f57563dc526c5e1e8b72849cc66a03a857cdcd988e48c38"
+    },
+    "continuity_head_ref": {
+      "artifact_id": "synthetic.continuity_head_ref",
+      "owner": "example.invalid/ghb-context",
+      "schema_version": 1,
+      "sha256": "a7d5cb3b111506e332879b9e1a02dca07ba3f14691d0c55967bfc73f71a33f4f"
+    },
+    "archive_head_ref": {
+      "artifact_id": "synthetic.archive_head_ref",
+      "owner": "example.invalid/ghb-context",
+      "schema_version": 1,
+      "sha256": "088f3ac76ba065152f386f74491620fb97e28347fa9e3e5f9200a8a3940ca3f5"
+    },
+    "runtime_incarnation": "synthetic.unexecuted",
+    "budget": {
+      "ceilings": {
+        "cycles": 1,
+        "candidates": 1,
+        "branch_depth": 1,
+        "parallel_experiments": 1,
+        "calls": 0,
+        "turns": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "elapsed_seconds": 0,
+        "monetary_cost": 0
+      },
+      "consumed": {
+        "cycles": 0,
+        "candidates": 0,
+        "branch_depth": 0,
+        "parallel_experiments": 0,
+        "calls": 0,
+        "turns": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "elapsed_seconds": 0,
+        "monetary_cost": 0
+      },
+      "deadline": "2026-11-04T23:59:00Z",
+      "authority_expires_at": null,
+      "cancelled": false,
+      "cleanup_scope": "No execution admitted; retain proposal records only."
+    },
+    "artifact_refs": [
+      {
+        "artifact_id": "observation.proposal",
+        "owner": "example.invalid/ghb-proposal",
+        "schema_version": 1,
+        "sha256": "80368334af429abdb1a866dc72e0ba646652cfbee558108d6e73565e0f961822"
+      },
+      {
+        "artifact_id": "hypothesis.proposal",
+        "owner": "example.invalid/ghb-proposal",
+        "schema_version": 1,
+        "sha256": "1dd6d8554dcefead655c133e8cc306531463978fe8e4ac078c0202a4a8a92800"
+      },
+      {
+        "artifact_id": "candidate.proposal",
+        "owner": "example.invalid/ghb-proposal",
+        "schema_version": 1,
+        "sha256": "a59d56970a29fbf2e80b1272ab6794d3ab42682a30fa59110cfe85baee80f9ee"
+      },
+      {
+        "artifact_id": "experiment.proposal",
+        "owner": "example.invalid/ghb-proposal",
+        "schema_version": 1,
+        "sha256": "19d072775e1b725f252b1f33fd4059ec8938b9599f2f00a16c0fd19fac3d21fc"
+      },
+      {
+        "artifact_id": "belief.unmodeled",
+        "owner": "example.invalid/ghb-proposal",
+        "schema_version": 1,
+        "sha256": "a1d354f5b965240c9ec33654136a62bf28b3affb84b4d4f1f2219b90ec8235b9"
+      },
+      {
+        "artifact_id": "disposition.deferred",
+        "owner": "example.invalid/ghb-proposal",
+        "schema_version": 1,
+        "sha256": "0cdb14c7ad06b568a8cab54a7948de1685b58c8e3783d006e76463f5ebf1dcbc"
+      }
+    ],
+    "transitions": []
+  },
+  "artifacts": [
+    {
+      "artifact_id": "observation.proposal",
+      "artifact_type": "observation",
+      "owner": "example.invalid/ghb-proposal",
+      "schema_version": 1,
+      "payload": {
+        "problem": "Proposed tool-lending reasoning contract; no resident operation was executed.",
+        "provenance_refs": [
+          {
+            "artifact_id": "synthetic.objective_ref",
+            "owner": "example.invalid/ghb-context",
+            "schema_version": 1,
+            "sha256": "3937f6e00b8afb46e398d784ff1dbdabae97d0653285a8c915bdc4e074a88e97"
+          }
+        ],
+        "observed_body_ref": {
+          "artifact_id": "synthetic.body_ref",
+          "owner": "example.invalid/ghb-context",
+          "schema_version": 1,
+          "sha256": "5a11d4f6aa2ef9c1553ac0e4694dc8e4c15ddb3a5e04596ef8102eb871b2003a"
+        },
+        "unknowns": [
+          "Independent evaluator, frozen corpus and authentic admission have not been supplied."
+        ]
+      }
+    },
+    {
+      "artifact_id": "hypothesis.proposal",
+      "artifact_type": "hypothesis",
+      "owner": "example.invalid/ghb-proposal",
+      "schema_version": 1,
+      "payload": {
+        "claim": "Explicit registry checking may prevent an unsupported outage extension.",
+        "falsification_criteria": [
+          "A frozen independent evaluation shows no gain or a new hard-constraint regression."
+        ],
+        "evidence_refs": [
+          {
+            "artifact_id": "observation.proposal",
+            "owner": "example.invalid/ghb-proposal",
+            "schema_version": 1,
+            "sha256": "80368334af429abdb1a866dc72e0ba646652cfbee558108d6e73565e0f961822"
+          }
+        ],
+        "competing_hypothesis_refs": []
+      }
+    },
+    {
+      "artifact_id": "candidate.proposal",
+      "artifact_type": "candidate",
+      "owner": "example.invalid/ghb-proposal",
+      "schema_version": 1,
+      "payload": {
+        "parent_body_ref": {
+          "artifact_id": "synthetic.body_ref",
+          "owner": "example.invalid/ghb-context",
+          "schema_version": 1,
+          "sha256": "5a11d4f6aa2ef9c1553ac0e4694dc8e4c15ddb3a5e04596ef8102eb871b2003a"
+        },
+        "hypothesis_refs": [
+          {
+            "artifact_id": "hypothesis.proposal",
+            "owner": "example.invalid/ghb-proposal",
+            "schema_version": 1,
+            "sha256": "1dd6d8554dcefead655c133e8cc306531463978fe8e4ac078c0202a4a8a92800"
+          }
+        ],
+        "mutation": {
+          "task_policy_parameters": {
+            "outage_extension_hours": 48,
+            "require_registry_confirmation": true,
+            "suspended_borrower_policy": "defer_to_owner"
+          },
+          "reasoning_guidance": [
+            "Check the admitted registry evidence before recommending an outage extension; retain uncertainty when evidence is absent."
+          ]
+        },
+        "predicted_effects": [
+          "A proposed data-level change; no body or state is changed."
+        ],
+        "falsification_criteria": [
+          "No strict held-out gain, any per-task regression, or any new safety/privacy/authority violation."
+        ]
+      }
+    },
+    {
+      "artifact_id": "experiment.proposal",
+      "artifact_type": "experiment_plan",
+      "owner": "example.invalid/ghb-proposal",
+      "schema_version": 1,
+      "payload": {
+        "candidate_ref": {
+          "artifact_id": "candidate.proposal",
+          "owner": "example.invalid/ghb-proposal",
+          "schema_version": 1,
+          "sha256": "a59d56970a29fbf2e80b1272ab6794d3ab42682a30fa59110cfe85baee80f9ee"
+        },
+        "baseline_body_ref": {
+          "artifact_id": "synthetic.body_ref",
+          "owner": "example.invalid/ghb-context",
+          "schema_version": 1,
+          "sha256": "5a11d4f6aa2ef9c1553ac0e4694dc8e4c15ddb3a5e04596ef8102eb871b2003a"
+        },
+        "evaluator_ref": null,
+        "corpus_ref": null,
+        "split_ref": null,
+        "rubric_ref": null,
+        "acceptance_thresholds_ref": null,
+        "admission_receipt_ref": null,
+        "budget": {
+          "ceilings": {
+            "cycles": 1,
+            "candidates": 1,
+            "branch_depth": 1,
+            "parallel_experiments": 1,
+            "calls": 0,
+            "turns": 0,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "elapsed_seconds": 0,
+            "monetary_cost": 0
+          },
+          "consumed": {
+            "cycles": 0,
+            "candidates": 0,
+            "branch_depth": 0,
+            "parallel_experiments": 0,
+            "calls": 0,
+            "turns": 0,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "elapsed_seconds": 0,
+            "monetary_cost": 0
+          },
+          "deadline": "2026-11-04T23:59:00Z",
+          "authority_expires_at": null,
+          "cancelled": false,
+          "cleanup_scope": "No execution admitted; retain proposal records only."
+        },
+        "development_task_ids": [
+          "D01",
+          "D02",
+          "D03",
+          "D04"
+        ],
+        "heldout_task_ids": [
+          "H01",
+          "H02",
+          "H03",
+          "H04"
+        ],
+        "license": "CC0-1.0",
+        "execution_admissible": false
+      }
+    },
+    {
+      "artifact_id": "belief.unmodeled",
+      "artifact_type": "belief_update",
+      "owner": "example.invalid/ghb-proposal",
+      "schema_version": 1,
+      "payload": {
+        "mode": "qualitative",
+        "prior_ref": null,
+        "evidence_refs": [
+          {
+            "artifact_id": "observation.proposal",
+            "owner": "example.invalid/ghb-proposal",
+            "schema_version": 1,
+            "sha256": "80368334af429abdb1a866dc72e0ba646652cfbee558108d6e73565e0f961822"
+          }
+        ],
+        "assessment": "No quantitative model or empirical comparison is available; no posterior is asserted."
+      }
+    },
+    {
+      "artifact_id": "disposition.deferred",
+      "artifact_type": "disposition",
+      "owner": "example.invalid/ghb-proposal",
+      "schema_version": 1,
+      "payload": {
+        "decision": "defer",
+        "measurement_ref": null,
+        "belief_update_ref": {
+          "artifact_id": "belief.unmodeled",
+          "owner": "example.invalid/ghb-proposal",
+          "schema_version": 1,
+          "sha256": "a1d354f5b965240c9ec33654136a62bf28b3affb84b4d4f1f2219b90ec8235b9"
+        },
+        "decision_rule_ref": {
+          "artifact_id": "synthetic.policy_ref",
+          "owner": "example.invalid/ghb-context",
+          "schema_version": 1,
+          "sha256": "e8d714a45e00fbf59f24c6b5b347115b8e8a8a697874a5eeaad6de0bd19834c1"
+        },
+        "hard_invariants_passed": false,
+        "proposal_ref": null,
+        "reason": {
+          "code": "missing_admission",
+          "detail": "No task action is admitted or executed."
+        }
+      }
+    }
+  ]
+}
