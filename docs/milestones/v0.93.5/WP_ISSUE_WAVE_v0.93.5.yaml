@@ -1,5 +1,12 @@
 {
   "milestone": "v0.93.5",
   "status": "superseded_vacated_schedule",
-  "work_packages": []
+  "work_packages": [],
+  "sprint_plan": {
+    "status": "prepared_planning_only",
+    "sprint_count": 0,
+    "sizing": "Dependency waves, not staffing/calendar promises. Disjoint foundations and tooling may proceed in parallel after WP-01; sprint numbering is a conservative dependency allocation, not a forced serial schedule.",
+    "execution_rule": "No child execution by setup #1405; create issues/cards only per activated sprint.",
+    "sprints": []
+  }
 }
