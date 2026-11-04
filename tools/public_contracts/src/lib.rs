@@ -4,6 +4,8 @@ pub mod codefriend;
 pub mod compatibility;
 pub mod distribution;
 pub mod document_packets;
+pub mod ghb_contract;
+pub mod ghb_distribution;
 pub mod install;
 pub mod install_validator;
 pub mod merge_packet;

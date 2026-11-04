@@ -268,6 +268,61 @@ fn run() -> Result<()> {
         println!("{report}");
         return Ok(());
     }
+    if action == "ghb-v1" {
+        let command = a.get(1).map(String::as_str).unwrap_or("");
+        let options = options(&a[2.min(a.len())..])?;
+        let required = |k: &str| -> Result<&str> {
+            options
+                .get(k)
+                .map(String::as_str)
+                .ok_or_else(|| anyhow::anyhow!("missing {k}"))
+        };
+        let result = match command {
+            "export" => {
+                allowed(&options, &["--repository", "--output"])?;
+                adl_public_contracts::ghb_distribution::export(
+                    std::path::Path::new(required("--repository")?),
+                    std::path::Path::new(required("--output")?),
+                )?
+            }
+            "verify" => {
+                allowed(&options, &["--artifact", "--manifest-sha256", "--extract"])?;
+                adl_public_contracts::ghb_distribution::verify(
+                    std::path::Path::new(required("--artifact")?),
+                    required("--manifest-sha256")?,
+                    options.get("--extract").map(std::path::Path::new),
+                )?
+            }
+            "verify-root" => {
+                allowed(&options, &["--root", "--manifest-sha256"])?;
+                adl_public_contracts::ghb_distribution::verify_root(
+                    std::path::Path::new(required("--root")?),
+                    required("--manifest-sha256")?,
+                )?
+            }
+            "validate" => {
+                allowed(
+                    &options,
+                    &["--root", "--manifest-sha256", "--packet", "--context"],
+                )?;
+                let root = std::path::Path::new(required("--root")?);
+                let schema = adl_public_contracts::ghb_distribution::verified_schema(
+                    root,
+                    required("--manifest-sha256")?,
+                )?;
+                let packet = adl_public_contracts::ghb_contract::parse(&std::fs::read(required(
+                    "--packet",
+                )?)?)?;
+                let context = adl_public_contracts::ghb_contract::parse(&std::fs::read(
+                    required("--context")?,
+                )?)?;
+                adl_public_contracts::ghb_contract::validate(&schema, &packet, &context)?
+            }
+            _ => bail!("unknown GHB distribution action"),
+        };
+        println!("{result}");
+        return Ok(());
+    }
     if matches!(action, "godel" | "remote-distribution") {
         let d = adl_public_contracts::distribution::Distribution::load(action == "godel")?;
         let command = a.get(1).map(String::as_str).unwrap_or("");

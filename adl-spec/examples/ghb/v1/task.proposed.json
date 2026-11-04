@@ -1,0 +1,277 @@
+{
+  "schema": "adl.ghb.packet.v1",
+  "contract_version": 1,
+  "profile_id": "synthetic_tool_lending.v1",
+  "status": "proposed_unexecuted",
+  "external_refs": [
+    {
+      "artifact_id": "synthetic.resident_identity_ref",
+      "owner": "example.invalid/ghb-context",
+      "schema_version": 1,
+      "sha256": "d355207a79991e18c9308bb5f690bded226b407c48af7c71ebf7630ce40dab58"
+    },
+    {
+      "artifact_id": "synthetic.body_ref",
+      "owner": "example.invalid/ghb-context",
+      "schema_version": 1,
+      "sha256": "5a11d4f6aa2ef9c1553ac0e4694dc8e4c15ddb3a5e04596ef8102eb871b2003a"
+    },
+    {
+      "artifact_id": "synthetic.objective_ref",
+      "owner": "example.invalid/ghb-context",
+      "schema_version": 1,
+      "sha256": "3937f6e00b8afb46e398d784ff1dbdabae97d0653285a8c915bdc4e074a88e97"
+    },
+    {
+      "artifact_id": "synthetic.policy_ref",
+      "owner": "example.invalid/ghb-context",
+      "schema_version": 1,
+      "sha256": "e8d714a45e00fbf59f24c6b5b347115b8e8a8a697874a5eeaad6de0bd19834c1"
+    },
+    {
+      "artifact_id": "synthetic.memory_head_ref",
+      "owner": "example.invalid/ghb-context",
+      "schema_version": 1,
+      "sha256": "dfbff98d552050ab8f57563dc526c5e1e8b72849cc66a03a857cdcd988e48c38"
+    },
+    {
+      "artifact_id": "synthetic.continuity_head_ref",
+      "owner": "example.invalid/ghb-context",
+      "schema_version": 1,
+      "sha256": "a7d5cb3b111506e332879b9e1a02dca07ba3f14691d0c55967bfc73f71a33f4f"
+    },
+    {
+      "artifact_id": "synthetic.archive_head_ref",
+      "owner": "example.invalid/ghb-context",
+      "schema_version": 1,
+      "sha256": "088f3ac76ba065152f386f74491620fb97e28347fa9e3e5f9200a8a3940ca3f5"
+    },
+    {
+      "artifact_id": "synthetic.absent_admission_declaration",
+      "owner": "example.invalid/ghb-context",
+      "schema_version": 1,
+      "sha256": "a26f73cfdd649a5a897b65c31e66229aea0a39bc44161c7cfd9bdc44d15487d2"
+    },
+    {
+      "artifact_id": "synthetic.absent_owner_result_declaration",
+      "owner": "example.invalid/ghb-context",
+      "schema_version": 1,
+      "sha256": "d31d3c7603ccda947f1d25399c5be3d00e21618a2f7059ecdefaed1c418db23f"
+    }
+  ],
+  "cycle": {
+    "cycle_id": "example.task",
+    "loop_kind": "task",
+    "execution_mode": "replay",
+    "resident_identity_ref": {
+      "artifact_id": "synthetic.resident_identity_ref",
+      "owner": "example.invalid/ghb-context",
+      "schema_version": 1,
+      "sha256": "d355207a79991e18c9308bb5f690bded226b407c48af7c71ebf7630ce40dab58"
+    },
+    "body_ref": {
+      "artifact_id": "synthetic.body_ref",
+      "owner": "example.invalid/ghb-context",
+      "schema_version": 1,
+      "sha256": "5a11d4f6aa2ef9c1553ac0e4694dc8e4c15ddb3a5e04596ef8102eb871b2003a"
+    },
+    "objective_ref": {
+      "artifact_id": "synthetic.objective_ref",
+      "owner": "example.invalid/ghb-context",
+      "schema_version": 1,
+      "sha256": "3937f6e00b8afb46e398d784ff1dbdabae97d0653285a8c915bdc4e074a88e97"
+    },
+    "policy_ref": {
+      "artifact_id": "synthetic.policy_ref",
+      "owner": "example.invalid/ghb-context",
+      "schema_version": 1,
+      "sha256": "e8d714a45e00fbf59f24c6b5b347115b8e8a8a697874a5eeaad6de0bd19834c1"
+    },
+    "memory_head_ref": {
+      "artifact_id": "synthetic.memory_head_ref",
+      "owner": "example.invalid/ghb-context",
+      "schema_version": 1,
+      "sha256": "dfbff98d552050ab8f57563dc526c5e1e8b72849cc66a03a857cdcd988e48c38"
+    },
+    "continuity_head_ref": {
+      "artifact_id": "synthetic.continuity_head_ref",
+      "owner": "example.invalid/ghb-context",
+      "schema_version": 1,
+      "sha256": "a7d5cb3b111506e332879b9e1a02dca07ba3f14691d0c55967bfc73f71a33f4f"
+    },
+    "archive_head_ref": {
+      "artifact_id": "synthetic.archive_head_ref",
+      "owner": "example.invalid/ghb-context",
+      "schema_version": 1,
+      "sha256": "088f3ac76ba065152f386f74491620fb97e28347fa9e3e5f9200a8a3940ca3f5"
+    },
+    "runtime_incarnation": "synthetic.unexecuted",
+    "budget": {
+      "ceilings": {
+        "cycles": 1,
+        "candidates": 1,
+        "branch_depth": 1,
+        "parallel_experiments": 1,
+        "calls": 0,
+        "turns": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "elapsed_seconds": 0,
+        "monetary_cost": 0
+      },
+      "consumed": {
+        "cycles": 0,
+        "candidates": 0,
+        "branch_depth": 0,
+        "parallel_experiments": 0,
+        "calls": 0,
+        "turns": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "elapsed_seconds": 0,
+        "monetary_cost": 0
+      },
+      "deadline": "2026-11-04T23:59:00Z",
+      "authority_expires_at": null,
+      "cancelled": false,
+      "cleanup_scope": "No execution admitted; retain proposal records only."
+    },
+    "artifact_refs": [
+      {
+        "artifact_id": "observation.proposal",
+        "owner": "example.invalid/ghb-proposal",
+        "schema_version": 1,
+        "sha256": "80368334af429abdb1a866dc72e0ba646652cfbee558108d6e73565e0f961822"
+      },
+      {
+        "artifact_id": "belief.unmodeled",
+        "owner": "example.invalid/ghb-proposal",
+        "schema_version": 1,
+        "sha256": "a1d354f5b965240c9ec33654136a62bf28b3affb84b4d4f1f2219b90ec8235b9"
+      },
+      {
+        "artifact_id": "disposition.deferred",
+        "owner": "example.invalid/ghb-proposal",
+        "schema_version": 1,
+        "sha256": "0cdb14c7ad06b568a8cab54a7948de1685b58c8e3783d006e76463f5ebf1dcbc"
+      },
+      {
+        "artifact_id": "task.result.deferred",
+        "owner": "example.invalid/ghb-proposal",
+        "schema_version": 1,
+        "sha256": "4729fbed7729321e746c0b3103a4079d2cb1017f576e235141698b38da16e0dd"
+      }
+    ],
+    "transitions": []
+  },
+  "artifacts": [
+    {
+      "artifact_id": "observation.proposal",
+      "artifact_type": "observation",
+      "owner": "example.invalid/ghb-proposal",
+      "schema_version": 1,
+      "payload": {
+        "problem": "Proposed tool-lending reasoning contract; no resident operation was executed.",
+        "provenance_refs": [
+          {
+            "artifact_id": "synthetic.objective_ref",
+            "owner": "example.invalid/ghb-context",
+            "schema_version": 1,
+            "sha256": "3937f6e00b8afb46e398d784ff1dbdabae97d0653285a8c915bdc4e074a88e97"
+          }
+        ],
+        "observed_body_ref": {
+          "artifact_id": "synthetic.body_ref",
+          "owner": "example.invalid/ghb-context",
+          "schema_version": 1,
+          "sha256": "5a11d4f6aa2ef9c1553ac0e4694dc8e4c15ddb3a5e04596ef8102eb871b2003a"
+        },
+        "unknowns": [
+          "Independent evaluator, frozen corpus and authentic admission have not been supplied."
+        ]
+      }
+    },
+    {
+      "artifact_id": "belief.unmodeled",
+      "artifact_type": "belief_update",
+      "owner": "example.invalid/ghb-proposal",
+      "schema_version": 1,
+      "payload": {
+        "mode": "qualitative",
+        "prior_ref": null,
+        "evidence_refs": [
+          {
+            "artifact_id": "observation.proposal",
+            "owner": "example.invalid/ghb-proposal",
+            "schema_version": 1,
+            "sha256": "80368334af429abdb1a866dc72e0ba646652cfbee558108d6e73565e0f961822"
+          }
+        ],
+        "assessment": "No quantitative model or empirical comparison is available; no posterior is asserted."
+      }
+    },
+    {
+      "artifact_id": "disposition.deferred",
+      "artifact_type": "disposition",
+      "owner": "example.invalid/ghb-proposal",
+      "schema_version": 1,
+      "payload": {
+        "decision": "defer",
+        "measurement_ref": null,
+        "belief_update_ref": {
+          "artifact_id": "belief.unmodeled",
+          "owner": "example.invalid/ghb-proposal",
+          "schema_version": 1,
+          "sha256": "a1d354f5b965240c9ec33654136a62bf28b3affb84b4d4f1f2219b90ec8235b9"
+        },
+        "decision_rule_ref": {
+          "artifact_id": "synthetic.policy_ref",
+          "owner": "example.invalid/ghb-context",
+          "schema_version": 1,
+          "sha256": "e8d714a45e00fbf59f24c6b5b347115b8e8a8a697874a5eeaad6de0bd19834c1"
+        },
+        "hard_invariants_passed": false,
+        "proposal_ref": null,
+        "reason": {
+          "code": "missing_admission",
+          "detail": "No task action is admitted or executed."
+        }
+      }
+    },
+    {
+      "artifact_id": "task.result.deferred",
+      "artifact_type": "task_result",
+      "owner": "example.invalid/ghb-proposal",
+      "schema_version": 1,
+      "payload": {
+        "disposition_ref": {
+          "artifact_id": "disposition.deferred",
+          "owner": "example.invalid/ghb-proposal",
+          "schema_version": 1,
+          "sha256": "0cdb14c7ad06b568a8cab54a7948de1685b58c8e3783d006e76463f5ebf1dcbc"
+        },
+        "admission_receipt_ref": {
+          "artifact_id": "synthetic.absent_admission_declaration",
+          "owner": "example.invalid/ghb-context",
+          "schema_version": 1,
+          "sha256": "a26f73cfdd649a5a897b65c31e66229aea0a39bc44161c7cfd9bdc44d15487d2"
+        },
+        "invocation_ids": [],
+        "owner_result_ref": {
+          "artifact_id": "synthetic.absent_owner_result_declaration",
+          "owner": "example.invalid/ghb-context",
+          "schema_version": 1,
+          "sha256": "d31d3c7603ccda947f1d25399c5be3d00e21618a2f7059ecdefaed1c418db23f"
+        },
+        "outcome": "deferred",
+        "reason": {
+          "code": "proposed_unexecuted",
+          "detail": "These references identify synthetic absence declarations, not real admission or owner-success receipts."
+        },
+        "operation_id": "synthetic.unexecuted.task",
+        "known_partial_effects": [],
+        "recovery_owner_ref": null
+      }
+    }
+  ]
+}
