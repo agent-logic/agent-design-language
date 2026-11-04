@@ -222,10 +222,24 @@ pub fn validate(schema: &Value, packet: &Value, expected: &Value) -> Result<Valu
     let mut previous: Option<&Value> = None;
     let mut last_remaining = b["ceilings"].clone();
     let mut recovery_blocked = false;
+    let mut operations = std::collections::BTreeSet::new();
     for t in c["transitions"].as_array().context("transitions")? {
         if let Some(prev) = previous {
             ensure!(prev == &t["source_state"], "transition chain discontinuity");
+        } else {
+            ensure!(
+                t["source_state"] == "initial",
+                "partial history lacks admission provenance"
+            );
         }
+        ensure!(
+            t["correlation_ids"]["cycle_id"] == c["cycle_id"],
+            "transition cycle mismatch"
+        );
+        ensure!(
+            operations.insert(t["operation_id"].as_str().context("operation identity")?),
+            "duplicate operation identity"
+        );
         previous = Some(&t["target_state"]);
         let name = t["transition"].as_str().context("transition identity")?;
         ensure!(
@@ -243,7 +257,7 @@ pub fn validate(schema: &Value, packet: &Value, expected: &Value) -> Result<Valu
             );
         }
         last_remaining = t["remaining_budget"].clone();
-        if t["outcome"] == "completed" {
+        {
             let (source, target) = match name {
                 "observe" => ("initial", "observed"),
                 "hypothesize" => ("observed", "hypothesized"),
@@ -264,9 +278,25 @@ pub fn validate(schema: &Value, packet: &Value, expected: &Value) -> Result<Valu
                 _ => bail!("unsupported transition"),
             };
             ensure!(
-                t["source_state"] == source && t["target_state"] == target,
-                "transition state mismatch"
+                t["source_state"] == source,
+                "transition source state mismatch"
             );
+            if t["outcome"] == "completed" {
+                ensure!(
+                    t["target_state"] == target,
+                    "transition target state mismatch"
+                );
+            } else if t["outcome"] == "interrupted" || t["outcome"] == "recovery_required" {
+                ensure!(
+                    t["target_state"] == "recovery_required",
+                    "unknown effects must stop for recovery"
+                );
+            } else {
+                ensure!(
+                    t["target_state"] == "stopped",
+                    "non-completed transition cannot advance admission"
+                );
+            }
             if name == "retain_lineage" {
                 ensure!(
                     matches!(
@@ -298,6 +328,12 @@ pub fn validate(schema: &Value, packet: &Value, expected: &Value) -> Result<Valu
             ensure!(
                 !matches!(name, "authorize_activation" | "reconcile_activation"),
                 "task cannot activate body"
+            );
+        }
+        if c["loop_kind"] == "improvement" {
+            ensure!(
+                !matches!(name, "admit_task_action" | "execute_task_action"),
+                "improvement cannot execute task action"
             );
         }
         if c["execution_mode"] == "replay" {

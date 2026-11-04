@@ -306,13 +306,10 @@ fn run() -> Result<()> {
                     &["--root", "--manifest-sha256", "--packet", "--context"],
                 )?;
                 let root = std::path::Path::new(required("--root")?);
-                adl_public_contracts::ghb_distribution::verify_root(
+                let schema = adl_public_contracts::ghb_distribution::verified_schema(
                     root,
                     required("--manifest-sha256")?,
                 )?;
-                let schema = adl_public_contracts::ghb_contract::parse(&std::fs::read(
-                    root.join("adl-spec/schemas/ghb/v1/packet.schema.json"),
-                )?)?;
                 let packet = adl_public_contracts::ghb_contract::parse(&std::fs::read(required(
                     "--packet",
                 )?)?)?;

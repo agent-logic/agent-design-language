@@ -129,6 +129,39 @@ fn export_exact_committed_data_and_install_refusals() {
     d::verify_root(&installed, pin).unwrap();
     assert!(d::verify(&a, &"0".repeat(64), None).is_err());
     assert!(d::verify(&a, pin, Some(&installed)).is_err());
+    #[cfg(unix)]
+    {
+        let alias = installed.join("adl-spec\\schemas\\ghb\\v1\\packet.schema.json");
+        fs::copy(
+            installed.join("adl-spec/schemas/ghb/v1/packet.schema.json"),
+            &alias,
+        )
+        .unwrap();
+        assert!(d::verify_root(&installed, pin).is_err());
+        fs::remove_file(alias).unwrap();
+        let target = installed.join("adl-spec/examples/ghb/v1/task.proposed.json");
+        let backup = fs::read(&target).unwrap();
+        fs::remove_file(&target).unwrap();
+        std::os::unix::fs::symlink(installed.join("LICENSE"), &target).unwrap();
+        assert!(d::verify_root(&installed, pin).is_err());
+        fs::remove_file(&target).unwrap();
+        fs::write(&target, &backup).unwrap();
+        let link = tmp.path().join("outside-hardlink");
+        fs::hard_link(&target, &link).unwrap();
+        assert!(d::verify_root(&installed, pin).is_err());
+        fs::remove_file(link).unwrap();
+    }
+    // A staged deletion must not omit committed canonical inputs.
+    git(
+        &repo,
+        &[
+            "rm",
+            "--cached",
+            "adl-spec/examples/ghb/v1/task.proposed.json",
+        ],
+    );
+    let staged = d::export(&repo, &tmp.path().join("staged.tar.gz")).unwrap();
+    assert_eq!(staged["manifest_sha256"], r["manifest_sha256"]);
     fs::write(installed.join("unexpected.json"), b"{}").unwrap();
     assert!(d::verify_root(&installed, pin).is_err());
     fs::remove_file(installed.join("unexpected.json")).unwrap();
@@ -216,5 +249,36 @@ fn protected_candidate_and_fabricated_posterior_refused() {
         .find(|a| a["artifact_type"] == "belief_update")
         .unwrap();
     a["payload"]["mode"] = json!("quantitative");
+    assert!(c::validate(&s, &q, &e).is_err());
+}
+#[test]
+fn noncompletion_never_grants_admission_and_partial_history_refused() {
+    let (s, p, e) = input("task");
+    for outcome in ["denied", "deferred", "failed", "interrupted"] {
+        let mut q = p.clone();
+        let mut t = observation(&q);
+        t["outcome"] = json!(outcome);
+        t["target_state"] = json!("task_admitted");
+        q["cycle"]["transitions"] = json!([t]);
+        assert!(c::validate(&s, &q, &e).is_err());
+    }
+    let mut q = p.clone();
+    let mut t = observation(&q);
+    t["transition"] = json!("execute_task_action");
+    t["source_state"] = json!("task_admitted");
+    t["target_state"] = json!("task_executed");
+    t["authority_ref"] = q["cycle"]["body_ref"].clone();
+    q["cycle"]["transitions"] = json!([t]);
+    assert!(c::validate(&s, &q, &e).is_err());
+    let mut q = p.clone();
+    let mut t = observation(&q);
+    t["outcome"] = json!("denied");
+    t["target_state"] = json!("stopped");
+    q["cycle"]["transitions"] = json!([t]);
+    c::validate(&s, &q, &e).unwrap();
+    let mut q = p.clone();
+    let mut t = observation(&q);
+    t["correlation_ids"]["cycle_id"] = json!("other-cycle");
+    q["cycle"]["transitions"] = json!([t]);
     assert!(c::validate(&s, &q, &e).is_err());
 }

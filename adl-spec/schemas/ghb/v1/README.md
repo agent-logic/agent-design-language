@@ -1,7 +1,7 @@
 # GHB v1 packet schema
 
 `packet.schema.json` is the sole editable JSON Schema for the versioned GHB
-packet proposed in [ADL #1414](../../../../../docs/milestones/v0.93.2/ghb/NORMATIVE_SPEC_1414.md).
+packet proposed in [ADL #1414](../../../../docs/milestones/v0.93.2/ghb/NORMATIVE_SPEC_1414.md).
 It uses Draft 7 and local `#/definitions/…` references only. Its stable public
 raw ID identifies the schema; readers must use authenticated installed bytes,
 not fetch that URL during validation. The frozen v0.8 distribution is unchanged.

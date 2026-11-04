@@ -94,8 +94,10 @@ pub fn export(repo: &Path, output: &Path) -> Result<Value> {
         .to_owned();
     ensure!(valid_sha(&revision, 40), "source revision invalid");
     let names = git(&[
-        "ls-files",
-        "-z",
+        "ls-tree",
+        "-rz",
+        "--name-only",
+        &revision,
         "--",
         "LICENSE",
         "adl-spec/schemas/ghb/v1",
@@ -107,7 +109,7 @@ pub fn export(repo: &Path, output: &Path) -> Result<Value> {
         if !admitted_path(name) {
             continue;
         }
-        let bytes = git(&["show", &format!("HEAD:{name}")])?;
+        let bytes = git(&["show", &format!("{revision}:{name}")])?;
         // The single editable canonical copy must match the committed source.
         let mut cursor = repo.to_path_buf();
         for part in Path::new(name).components() {
@@ -199,11 +201,16 @@ fn installed_files(root: &Path) -> Result<BTreeMap<String, (Vec<u8>, u32)>> {
                     use std::os::unix::fs::MetadataExt;
                     ensure!(m.nlink() == 1, "installed hardlink refused");
                 }
-                let name = p
-                    .strip_prefix(root)?
-                    .to_str()
-                    .context("installed UTF8 path")?
-                    .replace('\\', "/");
+                let mut components = vec![];
+                for part in p.strip_prefix(root)?.components() {
+                    let std::path::Component::Normal(part) = part else {
+                        bail!("invalid installed path")
+                    };
+                    let part = part.to_str().context("installed UTF8 path")?;
+                    ensure!(!part.contains('\\'), "installed backslash alias refused");
+                    components.push(part);
+                }
+                let name = components.join("/");
                 ensure!(
                     name == "source-manifest.json" || admitted_path(&name),
                     "unexpected installed input"
@@ -225,7 +232,10 @@ fn installed_files(root: &Path) -> Result<BTreeMap<String, (Vec<u8>, u32)>> {
                 };
                 #[cfg(not(unix))]
                 let mode = 0o644;
-                out.insert(name, (b, mode));
+                ensure!(
+                    out.insert(name, (b, mode)).is_none(),
+                    "duplicate installed path"
+                );
             }
         }
         Ok(())
@@ -241,5 +251,18 @@ pub fn verify_root(root: &Path, pin: &str) -> Result<Value> {
     Ok(
         json!({"schema":SCHEMA,"source_revision":m.source_revision,"manifest_sha256":pin,
         "producer_acceptance_implied":false}),
+    )
+}
+
+/// Validate and return the same immutable bytes that passed inventory checks.
+pub fn verified_schema(root: &Path, pin: &str) -> Result<Value> {
+    archive::real_root(root)?;
+    let files = installed_files(root)?;
+    inspect(&files, pin)?;
+    crate::ghb_contract::parse(
+        &files
+            .get("adl-spec/schemas/ghb/v1/packet.schema.json")
+            .context("schema missing")?
+            .0,
     )
 }
