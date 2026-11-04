@@ -1,3 +1,5 @@
+> **Current #1416 routing (2026-11-04):** Governance/continuity GOV-01/02/03/11 and CM-01..04 moved to v0.93.3 with unchanged acceptance, negative cases and resource limits. Only the nine C-SDLC v4 setup/tooling/review/release packages remain here. C-SDLC release is not a prerequisite for the current GHB audit/spec baseline. See [lossless relocation register](../v0.93.3/REALLOCATION_1416.json) and [three-sprint decision](../v0.93.3/REORGANIZATION_1416.md). Planning is not execution, spend, installed qualification or release authority.
+
 # v0.93.4 Release Plan
 
 ## Metadata
@@ -35,3 +37,7 @@ Publish only approved public-safe material; external messaging and private revie
 ## Exit Criteria
 
 Every assigned outcome and required adverse case is accepted at exact input/candidate identities; review findings are resolved or explicitly dispositioned. No source/CI-only substitution for installed/live proof. Administrative cleanup is optional and asynchronous.
+
+## GHB relocation acceptance boundary
+
+Governance/continuity GOV-01/02/03/11 and CM-01..04 moved to v0.93.3 with unchanged acceptance, negative cases and resource limits. Only the nine C-SDLC v4 setup/tooling/review/release packages remain here. C-SDLC release is not a prerequisite for the current GHB audit/spec baseline. No new later-child issues or cards are authorized by this planning amendment. Preserve all existing negative cases, resource bounds and legitimate non-improvement outcomes.

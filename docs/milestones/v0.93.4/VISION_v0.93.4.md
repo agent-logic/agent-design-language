@@ -1,3 +1,5 @@
+> **Current #1416 routing (2026-11-04):** Governance/continuity GOV-01/02/03/11 and CM-01..04 moved to v0.93.3 with unchanged acceptance, negative cases and resource limits. Only the nine C-SDLC v4 setup/tooling/review/release packages remain here. C-SDLC release is not a prerequisite for the current GHB audit/spec baseline. See [lossless relocation register](../v0.93.3/REALLOCATION_1416.json) and [three-sprint decision](../v0.93.3/REORGANIZATION_1416.md). Planning is not execution, spend, installed qualification or release authority.
+
 # v0.93.4 Vision
 
 ## Metadata
@@ -6,7 +8,7 @@ Planning template set: 1.1.0. Milestone: v0.93.4. Date: 2026-10-30. Setup amendm
 
 ## Purpose
 
-C-SDLC v4 and governance/continuity foundations. 17 planned work-package identities across 4 dependency waves. Counts include coordination/review/release gates; no one-PR-per-row requirement. Hand off both accepted tooling compatibility and installed governance/continuity foundations to [GHB v0.93.5](../v0.93.5/README.md). Tool cutover alone does not accept foundation consumers.
+C-SDLC v4 tooling. 9 active planned work-package identities across 3 dependency streams. Governance/continuity prerequisites now belong to v0.93.3 GHB Sprint 2; no forward dependency from GHB audit/spec to this release.
 
 ## How To Use
 
@@ -14,15 +16,15 @@ Read the WBS and execution graph together; qualified milestone/ID pairs are iden
 
 ## Overview
 
-C-SDLC v4 and governance/continuity foundations. 17 planned work-package identities across 4 dependency waves. Counts include coordination/review/release gates; no one-PR-per-row requirement. Hand off both accepted tooling compatibility and installed governance/continuity foundations to [GHB v0.93.5](../v0.93.5/README.md). Tool cutover alone does not accept foundation consumers.
+C-SDLC v4 tooling. 9 active planned work-package identities across 3 dependency streams. Governance/continuity prerequisites now belong to v0.93.3 GHB Sprint 2; no forward dependency from GHB audit/spec to this release.
 
 ## Core Goals
 
-C-SDLC v4 and governance/continuity foundations. 17 planned work-package identities across 4 dependency waves. Counts include coordination/review/release gates; no one-PR-per-row requirement. Hand off both accepted tooling compatibility and installed governance/continuity foundations to [GHB v0.93.5](../v0.93.5/README.md). Tool cutover alone does not accept foundation consumers.
+C-SDLC v4 tooling. 9 active planned work-package identities across 3 dependency streams. Governance/continuity prerequisites now belong to v0.93.3 GHB Sprint 2; no forward dependency from GHB audit/spec to this release.
 
 ## Milestone Context
 
-Approved sequence: v0.93.2 acceptance → v0.93.3 Runtime foundations → v0.93.4 tooling and governance/continuity foundations → v0.93.5 GHB → v0.93.6 governance → v0.93.7 affect/humour.
+Current sequence: GHB Sprint 1 runs in v0.93.2 alongside existing Beta streams; Runtime foundations and GHB Sprints 2/3 with minimal governance/continuity prerequisites run in v0.93.3. C-SDLC v4 tooling remains v0.93.4; v0.93.5 is vacated. Remaining governance stays v0.93.6; affect/humour stays v0.93.7.
 
 ## Long-Term Direction
 
@@ -30,7 +32,7 @@ Keep milestones bounded, public ADL independently usable and private owner imple
 
 ## Summary
 
-C-SDLC v4 and governance/continuity foundations. 17 planned work-package identities across 4 dependency waves. Counts include coordination/review/release gates; no one-PR-per-row requirement. Hand off both accepted tooling compatibility and installed governance/continuity foundations to [GHB v0.93.5](../v0.93.5/README.md). Tool cutover alone does not accept foundation consumers.
+C-SDLC v4 tooling. 9 active planned work-package identities across 3 dependency streams. Governance/continuity prerequisites now belong to v0.93.3 GHB Sprint 2; no forward dependency from GHB audit/spec to this release.
 
 ## Exit Criteria
 

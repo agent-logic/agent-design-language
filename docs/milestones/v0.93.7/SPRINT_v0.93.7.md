@@ -42,7 +42,7 @@ Affect and humour. 25 planned work-package identities across 3 dependency waves.
 | AF-01 | 1 | agent-logic-runtime | Every proposed effect maps to an actual Runtime owner and a named missing or existing consumer; historical proofs retained | WP-01, v0.93.3/RV-08 |
 | AF-02 | 1 | agent-logic-runtime | Bounds, missingness, scope isolation and exact captured-input replay; preserve five WP-13 signals and separately identify the two proposed extensions | AF-01 |
 | AF-03 | 1 | agent-logic-runtime | Automatic same-workflow recovery; transient and deterministic failures choose appropriately different actions; no handwritten retry overlay | AF-02 |
-| AF-04 | 1 | agent-logic-runtime | Each enabled effect changes actual admissible selection or dispatch; annotations and score changes alone do not pass | AF-03, v0.93.5/GHB-WP12 |
+| AF-04 | 1 | agent-logic-runtime | Each enabled effect changes actual admissible selection or dispatch; annotations and score changes alone do not pass | AF-03, v0.93.3/GHB-WP12 |
 | AF-05 | 1 | agent-logic-runtime | Recovery reconciles ambiguous effects and avoids duplicate dispatch; v1 history remains readable | AF-03 |
 | AF-06 | 1 | agent-logic-runtime | Relevant history changes an executed choice; unrelated tasks remain isolated; active controller identity is exposed truthfully | AF-04, AF-05 |
 | AF-07 | 1 | agent-logic-runtime | Mandatory contract gates pass and predeclared outcome thresholds are met; adverse results and fallback intervals retained | AF-06 |
@@ -51,7 +51,7 @@ Affect and humour. 25 planned work-package identities across 3 dependency waves.
 | HU-02 | 1 | agent-logic-runtime | Alternatives name changed assumptions, supporting/opposing evidence, predictions and budgets; preserve goals, truth and dignity; reject harmful reinterpretations | HU-01 |
 | HU-03 | 1 | agent-logic-runtime | A validated frame changes the next executed plan; bounded attempts and oscillation detection; failed reframes retained and replayable | HU-02, AF-03, AF-05 |
 | HU-04 | 1 | agent-logic-runtime | Held-out evidence shows whether explicit frames outperform competent diagnosis under matched budgets, including false-reframing and adequate-original-frame cases | HU-03, AF-06 |
-| INTEGRATE | 2 | agent-logic-runtime | One installed polis joins citizen action, upstream delegation, private cognition, policy enforcement, appeal and plugin restart without contract drift. | v0.93.6/DEMO-GOV, v0.93.2/DEMO-SEC, v0.93.4/CM-04, v0.93.5/GHB-WP12, AF-08, HU-04 |
+| INTEGRATE | 2 | agent-logic-runtime | One installed polis joins citizen action, upstream delegation, private cognition, policy enforcement, appeal and plugin restart without contract drift. | v0.93.6/DEMO-GOV, v0.93.2/DEMO-SEC, v0.93.3/CM-04, v0.93.3/GHB-WP12, AF-08, HU-04 |
 | QUALIFY | 2 | agent-logic-runtime | Independent reviewer runs the accepted success/failure/recovery denominator on the exact multi-repository lockset. | INTEGRATE |
 | TAIL-01 | 3 | agent-design-language | Deliver the complete quality gate result over the qualified product lockset, with exact artifact links and truthful approval/deferral status. | QUALIFY |
 | TAIL-02 | 3 | agent-design-language | Deliver the complete documentation review and external-review handoff result over the qualified product lockset, with exact artifact links and truthful approval/deferral status. | TAIL-01 |

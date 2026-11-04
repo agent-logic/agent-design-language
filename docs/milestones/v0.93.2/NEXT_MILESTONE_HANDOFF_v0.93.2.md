@@ -1,4 +1,4 @@
-> **Current successor routing (2026-10-30):** [#1405 allocation](../v0.93.3/REORGANIZATION_1405.md): Runtime/#1352 v0.93.3; tooling and governance/continuity foundations v0.93.4; GHB v0.93.5; remaining governance v0.93.6; affect/humour v0.93.7. Older placement below is historical. v0.93.2 product scope is unchanged.
+> **Current #1416 routing (2026-11-04):** GHB program Sprint 1 is an additional stream (milestone index 6); the existing Beta Sprints 1–5 and release-tail order remain intact. GHB-PREP → GHB-WP00 → GHB-WP01 → GHB-WP02 must finish before TAIL-01 quality acceptance, without blocking unrelated active Beta Sprint 4. Audit/spec work uses current installed Runtime #232; future foundations are explicit gaps, never assumed accepted. See [lossless relocation register](../v0.93.3/REALLOCATION_1416.json) and [three-sprint decision](../v0.93.3/REORGANIZATION_1416.md). Planning is not execution, spend, installed qualification or release authority.
 
 # v0.93.2 Next Milestone Handoff
 
@@ -25,3 +25,7 @@ Preserve each existing identity, dependencies and negative cases. Review the suc
 ## Stop boundary
 
 No successor activation, deployment or spend follows from this document.
+
+## GHB relocation acceptance boundary
+
+GHB program Sprint 1 is an additional stream (milestone index 6); the existing Beta Sprints 1–5 and release-tail order remain intact. GHB-PREP → GHB-WP00 → GHB-WP01 → GHB-WP02 must finish before TAIL-01 quality acceptance, without blocking unrelated active Beta Sprint 4. Audit/spec work uses current installed Runtime #232; future foundations are explicit gaps, never assumed accepted. No new later-child issues or cards are authorized by this planning amendment. Preserve all existing negative cases, resource bounds and legitimate non-improvement outcomes.

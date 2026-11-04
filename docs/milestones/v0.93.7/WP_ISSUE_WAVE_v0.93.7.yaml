@@ -94,7 +94,7 @@
       "repository": "agent-logic-runtime",
       "depends_on": [
         "AF-03",
-        "v0.93.5/GHB-WP12"
+        "v0.93.3/GHB-WP12"
       ],
       "acceptance": [
         "Each enabled effect changes actual admissible selection or dispatch; annotations and score changes alone do not pass"
@@ -299,8 +299,8 @@
       "depends_on": [
         "v0.93.6/DEMO-GOV",
         "v0.93.2/DEMO-SEC",
-        "v0.93.4/CM-04",
-        "v0.93.5/GHB-WP12",
+        "v0.93.3/CM-04",
+        "v0.93.3/GHB-WP12",
         "AF-08",
         "HU-04"
       ],

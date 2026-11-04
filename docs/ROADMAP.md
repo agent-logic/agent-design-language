@@ -7,7 +7,7 @@ For installation and a first local run, start with the [quickstart](../README.md
 ## Current work
 
 The current delivery plan is [v0.93.2](milestones/v0.93.2/README.md):
-CodeFriend Beta 1 and enterprise security across the owning repositories.
+CodeFriend Beta 1, enterprise security, and a separate GHB program Sprint 1 audit/spec/schema stream across the owning repositories.
 Use its [created issue index](milestones/v0.93.2/ISSUES_v0.93.2.md) and
 [execution graph](milestones/v0.93.2/EXECUTION_PLAN_v0.93.2.json) for scope and
 ordering. The [Sprint 2 preparation packet](milestones/v0.93.2/sprint-2-preparation/README.md)
@@ -19,17 +19,18 @@ is the separate cleanup wave for onboarding, safety, security intake and
 controlled historical-material retention. Its seven children carry the work;
 it is not a new product release or a replacement for the existing sprint plan.
 
-## Approved successor sequence — 2026-10-30
+## Current allocation — 2026-11-04
 
 | Milestone | Scope | Planned WPs |
 | --- | --- | --- |
-| [v0.93.3](milestones/v0.93.3/README.md) | Runtime v4 foundations | 15 |
-| [v0.93.4](milestones/v0.93.4/README.md) | C-SDLC v4 and governance/continuity foundations | 17 |
-| [v0.93.5](milestones/v0.93.5/README.md) | GHB | 17 |
+| [v0.93.2](milestones/v0.93.2/README.md) | Existing Beta Sprints 1–5 plus separate GHB program Sprint 1 | 36 |
+| [v0.93.3](milestones/v0.93.3/README.md) | Runtime v4 foundations, eight standing/continuity prerequisites, GHB program Sprints 2/3 | 38 |
+| [v0.93.4](milestones/v0.93.4/README.md) | C-SDLC v4 tooling | 9 |
+| [v0.93.5](milestones/v0.93.5/README.md) | Superseded/vacated GHB schedule; historical feature sources retained | 0 |
 | [v0.93.6](milestones/v0.93.6/README.md) | Governance and social cognition | 17 |
 | [v0.93.7](milestones/v0.93.7/README.md) | Affect and humour | 25 |
 
-[Current allocation and lossless routing](milestones/v0.93.3/REORGANIZATION_1405.md). Eight foundations move ahead of GHB; remaining governance and affect/humour have independent milestone boundaries. Counts include setup/review/release gates. Child issues/cards are created per activated sprint; planning authorizes no implementation or release.
+[Current allocation and lossless routing](milestones/v0.93.3/REORGANIZATION_1416.md). Runtime #238 remains the whole-program parent; Runtime #244/#245/#246 are the three GHB sprint umbrellas. Existing Beta sprint numbering stays intact. Current GHB audit/spec work uses installed Runtime #232 without waiting for future foundation acceptance; later activation still requires actual accepted Runtime v4, standing/continuity and installed Gate A/B proof. Remaining governance and affect/humour retain their milestone boundaries. Counts include setup/review/release gates. Child issues/cards are created per activated sprint; planning authorizes no implementation or release.
 
 ## Milestone index
 

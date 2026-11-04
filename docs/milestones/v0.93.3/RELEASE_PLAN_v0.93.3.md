@@ -1,3 +1,5 @@
+> **Current #1416 routing (2026-11-04):** Runtime v4 foundations remain in Sprints 1–3. GHB program Sprint 2 is milestone Sprint 4, including GOV-01/02/03/11 and CM-01..04 unchanged requirements; GHB program Sprint 3 is milestone Sprint 5. Runtime #238 remains the whole-program parent and closes after all three sprints. Containment never makes a child depend on parent completion. Actual Runtime v4, standing, continuity and protected evaluator integrity precede activation; installed Gate A/B proof remains required. See [lossless relocation register](../v0.93.3/REALLOCATION_1416.json) and [three-sprint decision](../v0.93.3/REORGANIZATION_1416.md). Planning is not execution, spend, installed qualification or release authority.
+
 # v0.93.3 Release Plan
 
 ## Metadata
@@ -35,3 +37,7 @@ Publish only approved public-safe material; external messaging and private revie
 ## Exit Criteria
 
 Every assigned outcome and required adverse case is accepted at exact input/candidate identities; review findings are resolved or explicitly dispositioned. No source/CI-only substitution for installed/live proof. Administrative cleanup is optional and asynchronous.
+
+## GHB relocation acceptance boundary
+
+Runtime v4 foundations remain in Sprints 1–3. GHB program Sprint 2 is milestone Sprint 4, including GOV-01/02/03/11 and CM-01..04 unchanged requirements; GHB program Sprint 3 is milestone Sprint 5. Runtime #238 remains the whole-program parent and closes after all three sprints. Containment never makes a child depend on parent completion. Actual Runtime v4, standing, continuity and protected evaluator integrity precede activation; installed Gate A/B proof remains required. No new later-child issues or cards are authorized by this planning amendment. Preserve all existing negative cases, resource bounds and legitimate non-improvement outcomes.

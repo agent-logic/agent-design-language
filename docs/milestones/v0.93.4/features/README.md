@@ -1,4 +1,6 @@
-# v0.93.4 active feature map
+> **#1416 current routing:** Governance/continuity GOV-01/02/03/11 and CM-01..04 moved to v0.93.3 with unchanged acceptance, negative cases and resource limits. Only the nine C-SDLC v4 setup/tooling/review/release packages remain here. C-SDLC release is not a prerequisite for the current GHB audit/spec baseline.
+
+# v0.93.4 feature source map (historical routing below superseded by #1416)
 
 First-pass successor plan; not opened for implementation or release.
 

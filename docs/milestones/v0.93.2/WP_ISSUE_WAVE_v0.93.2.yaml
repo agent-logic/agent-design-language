@@ -3,12 +3,14 @@
   "status": "wp01_open_downstream_not_activated",
   "work_packages": [
     {
+      "id": "WP-01",
       "title": "Open the reviewed v0.93.2 execution wave",
       "repository": "agent-design-language",
       "depends_on": [
         "v0.93.1/TAIL-10",
         "v0.93.1/RD-11"
       ],
+      "result": "Reconcile the approved smaller milestones and losslessly route all prior identities without downstream activation.",
       "acceptance": [
         "Reconcile the approved smaller milestones and losslessly route all prior identities without downstream activation.",
         "Record exact consumer versions, scenario counts, failures and review dispositions."
@@ -44,9 +46,11 @@
       "outcome": "Reconcile the approved smaller milestones and losslessly route all prior identities without downstream activation."
     },
     {
+      "id": "CSDLC-296",
       "title": "Use one editable issue source and remove projection-drift gates",
       "repository": "cognitive-sdlc",
       "depends_on": [],
+      "result": "Preserve edits and historical compatibility while ensuring derived-view drift cannot block valid source publication.",
       "acceptance": [
         "Preserve edits and historical compatibility while ensuring derived-view drift cannot block valid source publication.",
         "Preserve the full acceptance and adverse cases of existing agent-logic/cognitive-sdlc#296; this planning summary does not narrow its scope.",
@@ -83,9 +87,11 @@
       "outcome": "Preserve edits and historical compatibility while ensuring derived-view drift cannot block valid source publication."
     },
     {
+      "id": "CSDLC-297",
       "title": "Preserve proof and review across metadata-only edits",
       "repository": "cognitive-sdlc",
       "depends_on": [],
+      "result": "Preserve applicable proof/review for title/body-only changes; source, head, configuration and linkage changes retain correct freshness and identity checks.",
       "acceptance": [
         "Preserve applicable proof/review for title/body-only changes; source, head, configuration and linkage changes retain correct freshness and identity checks.",
         "Preserve the full acceptance and adverse cases of existing agent-logic/cognitive-sdlc#297; this planning summary does not narrow its scope.",
@@ -122,9 +128,11 @@
       "outcome": "Preserve applicable proof/review for title/body-only changes; source, head, configuration and linkage changes retain correct freshness and identity checks."
     },
     {
+      "id": "CSDLC-298",
       "title": "Remove mandatory portable-review attestation and publication receipt gates",
       "repository": "cognitive-sdlc",
       "depends_on": [],
+      "result": "Use ordinary independent candidate review and authenticated package provenance without mutable PR-body attestation or unrelated lifecycle gates.",
       "acceptance": [
         "Use ordinary independent candidate review and authenticated package provenance without mutable PR-body attestation or unrelated lifecycle gates.",
         "Preserve the full acceptance and adverse cases of existing agent-logic/cognitive-sdlc#298; this planning summary does not narrow its scope.",
@@ -161,6 +169,7 @@
       "outcome": "Use ordinary independent candidate review and authenticated package provenance without mutable PR-body attestation or unrelated lifecycle gates."
     },
     {
+      "id": "CSDLC-299",
       "title": "Simplify lifecycle commands with optional start and consolidated delivery",
       "repository": "cognitive-sdlc",
       "depends_on": [
@@ -168,6 +177,7 @@
         "CSDLC-297",
         "CSDLC-298"
       ],
+      "result": "Provide optional safe worktree start and coherent expected-head delivery; confirmed merge is delivery, issue closure is reported separately and cleanup stays optional.",
       "acceptance": [
         "Provide optional safe worktree start and coherent expected-head delivery; confirmed merge is delivery, issue closure is reported separately and cleanup stays optional.",
         "Preserve the full acceptance and adverse cases of existing agent-logic/cognitive-sdlc#299; this planning summary does not narrow its scope.",
@@ -204,12 +214,14 @@
       "outcome": "Provide optional safe worktree start and coherent expected-head delivery; confirmed merge is delivery, issue closure is reported separately and cleanup stays optional."
     },
     {
+      "id": "CF-B1-01",
       "title": "Assess Beta 1 against customer acceptance",
       "repository": "codefriend",
       "depends_on": [
         "WP-01",
         "CSDLC-299"
       ],
+      "result": "Review actual outputs and end-to-end journeys on representative repositories; agree a prioritized gap register and measurable Beta 1 acceptance denominator with the operator.",
       "acceptance": [
         "Review actual outputs and end-to-end journeys on representative repositories; agree a prioritized gap register and measurable Beta 1 acceptance denominator with the operator.",
         "Record exact candidate, exercised cases, failures and user-visible evidence; no completion from scaffolding."
@@ -238,18 +250,20 @@
         "id": "CF-B1-01",
         "kind": "operator_approved_product_gap_work"
       },
-      "wp": "CF-B1-01",
-      "outcome": "Review actual outputs and end-to-end journeys on representative repositories; agree a prioritized gap register and measurable Beta 1 acceptance denominator with the operator.",
       "existing_issue": 120,
-      "issue_repository": "agent-logic/codefriend"
+      "issue_repository": "agent-logic/codefriend",
+      "wp": "CF-B1-01",
+      "outcome": "Review actual outputs and end-to-end journeys on representative repositories; agree a prioritized gap register and measurable Beta 1 acceptance denominator with the operator."
     },
     {
+      "id": "WP-S1",
       "title": "Enforce the enterprise zero-trust boundary",
       "repository": "agent-logic-enterprise-security",
       "depends_on": [
         "CF-B1-01",
         "v0.93.1/RD-09"
       ],
+      "result": "Define and enforce CodeFriend principal, tenant, repository, service and paired-agent trust boundaries against supported Runtime interfaces; identify any missing primitive as a bounded prerequisite.",
       "acceptance": [
         "Define and enforce CodeFriend principal, tenant, repository, service and paired-agent trust boundaries against supported Runtime interfaces; identify any missing primitive as a bounded prerequisite.",
         "Record exact consumer versions, scenario counts, failures and review dispositions.",
@@ -279,17 +293,19 @@
         "id": "WP-S1",
         "kind": "retained_work"
       },
-      "wp": "WP-S1",
-      "outcome": "Define and enforce CodeFriend principal, tenant, repository, service and paired-agent trust boundaries against supported Runtime interfaces; identify any missing primitive as a bounded prerequisite.",
       "existing_issue": 9,
-      "issue_repository": "agent-logic/agent-logic-enterprise-security"
+      "issue_repository": "agent-logic/agent-logic-enterprise-security",
+      "wp": "WP-S1",
+      "outcome": "Define and enforce CodeFriend principal, tenant, repository, service and paired-agent trust boundaries against supported Runtime interfaces; identify any missing primitive as a bounded prerequisite."
     },
     {
+      "id": "CF-B1-02",
       "title": "Deliver readable and useful reports and exports",
       "repository": "codefriend",
       "depends_on": [
         "CF-B1-01"
       ],
+      "result": "Resolve accepted report-quality gaps against the comprehensive-review PDF reference, using Geist; verify supported export formats, evidence links and human readability.",
       "acceptance": [
         "Resolve accepted report-quality gaps against the comprehensive-review PDF reference, using Geist; verify supported export formats, evidence links and human readability.",
         "Record exact candidate, exercised cases, failures and user-visible evidence; no completion from scaffolding."
@@ -319,17 +335,19 @@
         "id": "CF-B1-02",
         "kind": "operator_approved_product_gap_work"
       },
-      "wp": "CF-B1-02",
-      "outcome": "Resolve accepted report-quality gaps against the comprehensive-review PDF reference, using Geist; verify supported export formats, evidence links and human readability.",
       "existing_issue": 121,
-      "issue_repository": "agent-logic/codefriend"
+      "issue_repository": "agent-logic/codefriend",
+      "wp": "CF-B1-02",
+      "outcome": "Resolve accepted report-quality gaps against the comprehensive-review PDF reference, using Geist; verify supported export formats, evidence links and human readability."
     },
     {
+      "id": "CF-B1-03",
       "title": "Close review quality and recovery gaps",
       "repository": "codefriend",
       "depends_on": [
         "CF-B1-01"
       ],
+      "result": "Resolve accepted review correctness, actionable-finding and recovery gaps using the agreed repository denominator.",
       "acceptance": [
         "Resolve accepted review correctness, actionable-finding and recovery gaps using the agreed repository denominator.",
         "Record exact candidate, exercised cases, failures and user-visible evidence; no completion from scaffolding."
@@ -359,17 +377,19 @@
         "id": "CF-B1-03",
         "kind": "operator_approved_product_gap_work"
       },
-      "wp": "CF-B1-03",
-      "outcome": "Resolve accepted review correctness, actionable-finding and recovery gaps using the agreed repository denominator.",
       "existing_issue": 123,
-      "issue_repository": "agent-logic/codefriend"
+      "issue_repository": "agent-logic/codefriend",
+      "wp": "CF-B1-03",
+      "outcome": "Resolve accepted review correctness, actionable-finding and recovery gaps using the agreed repository denominator."
     },
     {
+      "id": "WP-S2",
       "title": "Enforce per-action and per-message authorization",
       "repository": "agent-logic-enterprise-security",
       "depends_on": [
         "WP-S1"
       ],
+      "result": "Enforce per-action and per-message least privilege, bounded delegation and revocation for CodeFriend using supported Runtime contracts; preserve denial reasons.",
       "acceptance": [
         "Enforce per-action and per-message least privilege, bounded delegation and revocation for CodeFriend using supported Runtime contracts; preserve denial reasons.",
         "Record exact consumer versions, scenario counts, failures and review dispositions.",
@@ -399,17 +419,19 @@
         "id": "WP-S2",
         "kind": "retained_work"
       },
-      "wp": "WP-S2",
-      "outcome": "Enforce per-action and per-message least privilege, bounded delegation and revocation for CodeFriend using supported Runtime contracts; preserve denial reasons.",
       "existing_issue": 10,
-      "issue_repository": "agent-logic/agent-logic-enterprise-security"
+      "issue_repository": "agent-logic/agent-logic-enterprise-security",
+      "wp": "WP-S2",
+      "outcome": "Enforce per-action and per-message least privilege, bounded delegation and revocation for CodeFriend using supported Runtime contracts; preserve denial reasons."
     },
     {
+      "id": "WP-S3",
       "title": "Enforce key and secret lifecycle",
       "repository": "agent-logic-enterprise-security",
       "depends_on": [
         "WP-S2"
       ],
+      "result": "Current scoped keys work and rotated/revoked keys fail in signed/encrypted message and checkpoint consumers.",
       "acceptance": [
         "Current scoped keys work and rotated/revoked keys fail in signed/encrypted message and checkpoint consumers.",
         "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings.",
@@ -440,17 +462,19 @@
         "id": "WP-S3",
         "kind": "retained_work"
       },
-      "wp": "WP-S3",
-      "outcome": "Current scoped keys work and rotated/revoked keys fail in signed/encrypted message and checkpoint consumers.",
       "existing_issue": 12,
-      "issue_repository": "agent-logic/agent-logic-enterprise-security"
+      "issue_repository": "agent-logic/agent-logic-enterprise-security",
+      "wp": "WP-S3",
+      "outcome": "Current scoped keys work and rotated/revoked keys fail in signed/encrypted message and checkpoint consumers."
     },
     {
+      "id": "WP-S4",
       "title": "Produce tamper-evident incident evidence",
       "repository": "agent-logic-enterprise-security",
       "depends_on": [
         "WP-S3"
       ],
+      "result": "Produce tamper-evident, linked and redacted CodeFriend incident evidence accepted by the operator-review consumer; preserve full constitutional-appeal integration for v0.93.3.",
       "acceptance": [
         "Produce tamper-evident, linked and redacted CodeFriend incident evidence accepted by the operator-review consumer; preserve full constitutional-appeal integration for v0.93.3.",
         "Record exact consumer versions, scenario counts, failures and review dispositions.",
@@ -480,17 +504,19 @@
         "id": "WP-S4",
         "kind": "retained_work"
       },
-      "wp": "WP-S4",
-      "outcome": "Produce tamper-evident, linked and redacted CodeFriend incident evidence accepted by the operator-review consumer; preserve full constitutional-appeal integration for v0.93.3.",
       "existing_issue": 14,
-      "issue_repository": "agent-logic/agent-logic-enterprise-security"
+      "issue_repository": "agent-logic/agent-logic-enterprise-security",
+      "wp": "WP-S4",
+      "outcome": "Produce tamper-evident, linked and redacted CodeFriend incident evidence accepted by the operator-review consumer; preserve full constitutional-appeal integration for v0.93.3."
     },
     {
+      "id": "WP-S5",
       "title": "Enforce protected data lifecycle and isolation",
       "repository": "agent-logic-enterprise-security",
       "depends_on": [
         "WP-S3"
       ],
+      "result": "Enforce tenant/repository isolation, consent, retention, deletion and redacted CodeFriend exports; preserve citizen and social-memory integration for v0.93.3.",
       "acceptance": [
         "Enforce tenant/repository isolation, consent, retention, deletion and redacted CodeFriend exports; preserve citizen and social-memory integration for v0.93.3.",
         "Record exact consumer versions, scenario counts, failures and review dispositions.",
@@ -521,18 +547,20 @@
         "id": "WP-S5",
         "kind": "retained_work"
       },
-      "wp": "WP-S5",
-      "outcome": "Enforce tenant/repository isolation, consent, retention, deletion and redacted CodeFriend exports; preserve citizen and social-memory integration for v0.93.3.",
       "existing_issue": 15,
-      "issue_repository": "agent-logic/agent-logic-enterprise-security"
+      "issue_repository": "agent-logic/agent-logic-enterprise-security",
+      "wp": "WP-S5",
+      "outcome": "Enforce tenant/repository isolation, consent, retention, deletion and redacted CodeFriend exports; preserve citizen and social-memory integration for v0.93.3."
     },
     {
+      "id": "CF-B1-04",
       "title": "Complete the first-review user journey",
       "repository": "codefriend",
       "depends_on": [
         "CF-B1-01",
         "WP-S2"
       ],
+      "result": "Prove invited login, repository consent, agent pairing where enabled, first review and results, including revocation and recovery.",
       "acceptance": [
         "Prove invited login, repository consent, agent pairing where enabled, first review and results, including revocation and recovery.",
         "Record exact candidate, exercised cases, failures and user-visible evidence; no completion from scaffolding."
@@ -562,12 +590,13 @@
         "id": "CF-B1-04",
         "kind": "operator_approved_product_gap_work"
       },
-      "wp": "CF-B1-04",
-      "outcome": "Prove invited login, repository consent, agent pairing where enabled, first review and results, including revocation and recovery.",
       "existing_issue": 125,
-      "issue_repository": "agent-logic/codefriend"
+      "issue_repository": "agent-logic/codefriend",
+      "wp": "CF-B1-04",
+      "outcome": "Prove invited login, repository consent, agent pairing where enabled, first review and results, including revocation and recovery."
     },
     {
+      "id": "CF-B1-05",
       "title": "Complete Beta 1 operational readiness",
       "repository": "codefriend",
       "depends_on": [
@@ -576,6 +605,7 @@
         "WP-S4",
         "WP-S5"
       ],
+      "result": "Resolve accepted resource, diagnostics, retention and support gaps; verify bounded execution and safe disablement on the supported deployment configuration.",
       "acceptance": [
         "Resolve accepted resource, diagnostics, retention and support gaps; verify bounded execution and safe disablement on the supported deployment configuration.",
         "Record exact candidate, exercised cases, failures and user-visible evidence; no completion from scaffolding."
@@ -605,18 +635,20 @@
         "id": "CF-B1-05",
         "kind": "operator_approved_product_gap_work"
       },
-      "wp": "CF-B1-05",
-      "outcome": "Resolve accepted resource, diagnostics, retention and support gaps; verify bounded execution and safe disablement on the supported deployment configuration.",
       "existing_issue": 126,
-      "issue_repository": "agent-logic/codefriend"
+      "issue_repository": "agent-logic/codefriend",
+      "wp": "CF-B1-05",
+      "outcome": "Resolve accepted resource, diagnostics, retention and support gaps; verify bounded execution and safe disablement on the supported deployment configuration."
     },
     {
+      "id": "WP-S6",
       "title": "Operate a replayable security regression drill",
       "repository": "agent-logic-enterprise-security",
       "depends_on": [
         "WP-S4",
         "WP-S5"
       ],
+      "result": "One bounded red/blue/purple drill replays a seed per control area and produces mitigation, provenance, threat-board and release-risk evidence.",
       "acceptance": [
         "One bounded red/blue/purple drill replays a seed per control area and produces mitigation, provenance, threat-board and release-risk evidence.",
         "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings.",
@@ -647,17 +679,19 @@
         "id": "WP-S6",
         "kind": "retained_work"
       },
-      "wp": "WP-S6",
-      "outcome": "One bounded red/blue/purple drill replays a seed per control area and produces mitigation, provenance, threat-board and release-risk evidence.",
       "existing_issue": 16,
-      "issue_repository": "agent-logic/agent-logic-enterprise-security"
+      "issue_repository": "agent-logic/agent-logic-enterprise-security",
+      "wp": "WP-S6",
+      "outcome": "One bounded red/blue/purple drill replays a seed per control area and produces mitigation, provenance, threat-board and release-risk evidence."
     },
     {
+      "id": "DEMO-SEC",
       "title": "Run integrated security demonstrations",
       "repository": "agent-logic-enterprise-security",
       "depends_on": [
         "WP-S6"
       ],
+      "result": "Execute D9-D12 plus per-message ACIP cases against the private provider and installed Runtime.",
       "acceptance": [
         "Execute D9-D12 plus per-message ACIP cases against the private provider and installed Runtime.",
         "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
@@ -685,15 +719,17 @@
         "id": "DEMO-SEC",
         "kind": "retained_work"
       },
-      "wp": "DEMO-SEC",
-      "outcome": "Execute D9-D12 plus per-message ACIP cases against the private provider and installed Runtime.",
       "existing_issue": 17,
-      "issue_repository": "agent-logic/agent-logic-enterprise-security"
+      "issue_repository": "agent-logic/agent-logic-enterprise-security",
+      "wp": "DEMO-SEC",
+      "outcome": "Execute D9-D12 plus per-message ACIP cases against the private provider and installed Runtime."
     },
     {
+      "id": "CI-205",
       "title": "Normalize CI across code and non-paper documentation repositories",
       "repository": "cognitive-sdlc",
       "depends_on": [],
+      "result": "Complete existing C-SDLC #205: normalize CI using shared conventions and repository-appropriate change-selected checks; remove duplicate proof while preserving required coverage and measuring duration/cost. Paper CI remains out of scope.",
       "acceptance": [
         "Preserve the full repository coverage, shared-contract, required-check and measured-budget acceptance criteria in existing C-SDLC #205.",
         "Code and non-paper documentation repositories use appropriate distinct lanes; paper workflows remain unchanged.",
@@ -730,6 +766,7 @@
       "outcome": "Complete existing C-SDLC #205: normalize CI using shared conventions and repository-appropriate change-selected checks; remove duplicate proof while preserving required coverage and measuring duration/cost. Paper CI remains out of scope."
     },
     {
+      "id": "INTEGRATE",
       "title": "Integrate the CodeFriend Beta 1 candidate and enterprise security",
       "repository": "codefriend",
       "depends_on": [
@@ -739,6 +776,7 @@
         "CF-B1-05",
         "DEMO-SEC"
       ],
+      "result": "Integrate the exact CodeFriend, site, supported Runtime and enterprise-security lockset; prove complete customer journeys and safe disablement without Runtime v4 or GHB.",
       "acceptance": [
         "Integrate the exact CodeFriend, site, supported Runtime and enterprise-security lockset; prove complete customer journeys and safe disablement without Runtime v4 or GHB.",
         "Record exact consumer versions, scenario counts, failures and review dispositions."
@@ -766,17 +804,19 @@
         "id": "INTEGRATE",
         "kind": "retained_work"
       },
-      "wp": "INTEGRATE",
-      "outcome": "Integrate the exact CodeFriend, site, supported Runtime and enterprise-security lockset; prove complete customer journeys and safe disablement without Runtime v4 or GHB.",
       "existing_issue": 127,
-      "issue_repository": "agent-logic/codefriend"
+      "issue_repository": "agent-logic/codefriend",
+      "wp": "INTEGRATE",
+      "outcome": "Integrate the exact CodeFriend, site, supported Runtime and enterprise-security lockset; prove complete customer journeys and safe disablement without Runtime v4 or GHB."
     },
     {
+      "id": "QUALIFY",
       "title": "Independently qualify the installed milestone",
       "repository": "codefriend",
       "depends_on": [
         "INTEGRATE"
       ],
+      "result": "Independently qualify the exact Beta 1 candidate against the accepted product and security denominator before launch; prior v0.93.1 evidence is reused only where still applicable.",
       "acceptance": [
         "Independently qualify the exact Beta 1 candidate against the accepted product and security denominator before launch; prior v0.93.1 evidence is reused only where still applicable.",
         "Record exact consumer versions, scenario counts, failures and review dispositions."
@@ -805,12 +845,14 @@
         "id": "QUALIFY",
         "kind": "retained_work"
       },
-      "wp": "QUALIFY",
-      "outcome": "Independently qualify the exact Beta 1 candidate against the accepted product and security denominator before launch; prior v0.93.1 evidence is reused only where still applicable.",
       "existing_issue": 128,
-      "issue_repository": "agent-logic/codefriend"
+      "issue_repository": "agent-logic/codefriend",
+      "wp": "QUALIFY",
+      "outcome": "Independently qualify the exact Beta 1 candidate against the accepted product and security denominator before launch; prior v0.93.1 evidence is reused only where still applicable."
     },
     {
+      "id": "CF-92",
+      "result": "Deploy and launch the separately authorized Beta 1 candidate; verify live onboarding, review/results, waiting list and rollback or safe disablement.",
       "phase": "release",
       "status": "existing_issue_candidate",
       "resources": "Deployment environment and budget require explicit issue-specific authorization.",
@@ -849,21 +891,25 @@
       "source": "features/CODEFRIEND_BETA1_v0.93.2.md",
       "sprint": 5,
       "existing_issue": 92,
+      "issue_repository": "agent-logic/codefriend",
       "wp": "CF-92",
-      "outcome": "Deploy and launch the separately authorized Beta 1 candidate; verify live onboarding, review/results, waiting list and rollback or safe disablement.",
-      "issue_repository": "agent-logic/codefriend"
+      "outcome": "Deploy and launch the separately authorized Beta 1 candidate; verify live onboarding, review/results, waiting list and rollback or safe disablement."
     },
     {
+      "id": "TAIL-01",
       "title": "Quality gate",
       "repository": "agent-design-language",
       "depends_on": [
         "CF-92",
         "CSDLC-299",
-        "CI-205"
+        "CI-205",
+        "GHB-S1"
       ],
+      "result": "Verify launch outcomes and all required release evidence before the milestone review tail.",
       "acceptance": [
         "Verify launch outcomes and all required release evidence before the milestone review tail.",
-        "Record exact consumer versions, scenario counts, failures and review dispositions."
+        "Record exact consumer versions, scenario counts, failures and review dispositions.",
+        "GHB Sprint 1 audit/spec/schema baseline accepted before milestone quality/release acceptance; unrelated active Beta Sprint 4 remains independently executable."
       ],
       "negative_cases": [
         "Missing predecessor acceptance",
@@ -889,17 +935,19 @@
         "id": "TAIL-01",
         "kind": "version_specific_gate"
       },
-      "wp": "TAIL-01",
-      "outcome": "Verify launch outcomes and all required release evidence before the milestone review tail.",
       "existing_issue": 1303,
-      "issue_repository": "agent-logic/agent-design-language"
+      "issue_repository": "agent-logic/agent-design-language",
+      "wp": "TAIL-01",
+      "outcome": "Verify launch outcomes and all required release evidence before the milestone review tail."
     },
     {
+      "id": "TAIL-02",
       "title": "Documentation review and external-review handoff",
       "repository": "agent-design-language",
       "depends_on": [
         "TAIL-01"
       ],
+      "result": "Deliver the complete documentation review and external-review handoff result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
       "acceptance": [
         "Deliver the complete documentation review and external-review handoff result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
         "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
@@ -928,17 +976,19 @@
         "id": "TAIL-02",
         "kind": "version_specific_gate"
       },
-      "wp": "TAIL-02",
-      "outcome": "Deliver the complete documentation review and external-review handoff result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
       "existing_issue": 1304,
-      "issue_repository": "agent-logic/agent-design-language"
+      "issue_repository": "agent-logic/agent-design-language",
+      "wp": "TAIL-02",
+      "outcome": "Deliver the complete documentation review and external-review handoff result over the qualified product lockset, with exact artifact links and truthful approval/deferral status."
     },
     {
+      "id": "TAIL-03",
       "title": "Publication finalization",
       "repository": "agent-design-language",
       "depends_on": [
         "TAIL-02"
       ],
+      "result": "Deliver the complete publication finalization result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
       "acceptance": [
         "Deliver the complete publication finalization result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
         "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
@@ -967,17 +1017,19 @@
         "id": "TAIL-03",
         "kind": "version_specific_gate"
       },
-      "wp": "TAIL-03",
-      "outcome": "Deliver the complete publication finalization result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
       "existing_issue": 1305,
-      "issue_repository": "agent-logic/agent-design-language"
+      "issue_repository": "agent-logic/agent-design-language",
+      "wp": "TAIL-03",
+      "outcome": "Deliver the complete publication finalization result over the qualified product lockset, with exact artifact links and truthful approval/deferral status."
     },
     {
+      "id": "TAIL-04",
       "title": "Internal milestone review",
       "repository": "agent-design-language",
       "depends_on": [
         "TAIL-03"
       ],
+      "result": "Deliver the complete internal milestone review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
       "acceptance": [
         "Deliver the complete internal milestone review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
         "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
@@ -1006,17 +1058,19 @@
         "id": "TAIL-04",
         "kind": "version_specific_gate"
       },
-      "wp": "TAIL-04",
-      "outcome": "Deliver the complete internal milestone review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
       "existing_issue": 1306,
-      "issue_repository": "agent-logic/agent-design-language"
+      "issue_repository": "agent-logic/agent-design-language",
+      "wp": "TAIL-04",
+      "outcome": "Deliver the complete internal milestone review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status."
     },
     {
+      "id": "TAIL-05",
       "title": "External or third-party review",
       "repository": "agent-design-language",
       "depends_on": [
         "TAIL-04"
       ],
+      "result": "Deliver the complete external or third-party review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
       "acceptance": [
         "Deliver the complete external or third-party review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
         "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
@@ -1045,17 +1099,19 @@
         "id": "TAIL-05",
         "kind": "version_specific_gate"
       },
-      "wp": "TAIL-05",
-      "outcome": "Deliver the complete external or third-party review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
       "existing_issue": 1307,
-      "issue_repository": "agent-logic/agent-design-language"
+      "issue_repository": "agent-logic/agent-design-language",
+      "wp": "TAIL-05",
+      "outcome": "Deliver the complete external or third-party review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status."
     },
     {
+      "id": "TAIL-06",
       "title": "Accepted-findings remediation or explicit deferral capture",
       "repository": "agent-design-language",
       "depends_on": [
         "TAIL-05"
       ],
+      "result": "Deliver the complete accepted-findings remediation or explicit deferral capture result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
       "acceptance": [
         "Deliver the complete accepted-findings remediation or explicit deferral capture result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
         "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
@@ -1084,17 +1140,19 @@
         "id": "TAIL-06",
         "kind": "version_specific_gate"
       },
-      "wp": "TAIL-06",
-      "outcome": "Deliver the complete accepted-findings remediation or explicit deferral capture result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
       "existing_issue": 1308,
-      "issue_repository": "agent-logic/agent-design-language"
+      "issue_repository": "agent-logic/agent-design-language",
+      "wp": "TAIL-06",
+      "outcome": "Deliver the complete accepted-findings remediation or explicit deferral capture result over the qualified product lockset, with exact artifact links and truthful approval/deferral status."
     },
     {
+      "id": "TAIL-07",
       "title": "Next-milestone planning",
       "repository": "agent-design-language",
       "depends_on": [
         "TAIL-06"
       ],
+      "result": "Deliver the complete next-milestone planning result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
       "acceptance": [
         "Deliver the complete next-milestone planning result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
         "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
@@ -1123,17 +1181,19 @@
         "id": "TAIL-07",
         "kind": "version_specific_gate"
       },
-      "wp": "TAIL-07",
-      "outcome": "Deliver the complete next-milestone planning result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
       "existing_issue": 1309,
-      "issue_repository": "agent-logic/agent-design-language"
+      "issue_repository": "agent-logic/agent-design-language",
+      "wp": "TAIL-07",
+      "outcome": "Deliver the complete next-milestone planning result over the qualified product lockset, with exact artifact links and truthful approval/deferral status."
     },
     {
+      "id": "TAIL-08",
       "title": "Next-milestone closeout planning",
       "repository": "agent-design-language",
       "depends_on": [
         "TAIL-07"
       ],
+      "result": "Deliver the complete next-milestone closeout planning result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
       "acceptance": [
         "Deliver the complete next-milestone closeout planning result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
         "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
@@ -1162,17 +1222,19 @@
         "id": "TAIL-08",
         "kind": "version_specific_gate"
       },
-      "wp": "TAIL-08",
-      "outcome": "Deliver the complete next-milestone closeout planning result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
       "existing_issue": 1310,
-      "issue_repository": "agent-logic/agent-design-language"
+      "issue_repository": "agent-logic/agent-design-language",
+      "wp": "TAIL-08",
+      "outcome": "Deliver the complete next-milestone closeout planning result over the qualified product lockset, with exact artifact links and truthful approval/deferral status."
     },
     {
+      "id": "TAIL-09",
       "title": "Next-milestone planning review",
       "repository": "agent-design-language",
       "depends_on": [
         "TAIL-08"
       ],
+      "result": "Deliver the complete next-milestone planning review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
       "acceptance": [
         "Deliver the complete next-milestone planning review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
         "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
@@ -1201,17 +1263,19 @@
         "id": "TAIL-09",
         "kind": "version_specific_gate"
       },
-      "wp": "TAIL-09",
-      "outcome": "Deliver the complete next-milestone planning review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
       "existing_issue": 1311,
-      "issue_repository": "agent-logic/agent-design-language"
+      "issue_repository": "agent-logic/agent-design-language",
+      "wp": "TAIL-09",
+      "outcome": "Deliver the complete next-milestone planning review result over the qualified product lockset, with exact artifact links and truthful approval/deferral status."
     },
     {
+      "id": "TAIL-10",
       "title": "Release ceremony and milestone close",
       "repository": "agent-design-language",
       "depends_on": [
         "TAIL-09"
       ],
+      "result": "Deliver the complete release ceremony and milestone close result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
       "acceptance": [
         "Deliver the complete release ceremony and milestone close result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
         "Installed consumer evidence identifies exact source/artifact versions and actual scenario counts; review resolves actionable findings."
@@ -1240,15 +1304,226 @@
         "id": "TAIL-10",
         "kind": "version_specific_gate"
       },
-      "wp": "TAIL-10",
-      "outcome": "Deliver the complete release ceremony and milestone close result over the qualified product lockset, with exact artifact links and truthful approval/deferral status.",
       "existing_issue": 1312,
-      "issue_repository": "agent-logic/agent-design-language"
+      "issue_repository": "agent-logic/agent-design-language",
+      "wp": "TAIL-10",
+      "outcome": "Deliver the complete release ceremony and milestone close result over the qualified product lockset, with exact artifact links and truthful approval/deferral status."
+    },
+    {
+      "id": "GHB-PREP",
+      "title": "Prepare the GHB baseline against current installed Runtime interfaces",
+      "repository": "agent-design-language",
+      "depends_on": [],
+      "result": "Pin the current installed Runtime #232 interfaces, existing owners and explicit gaps, then prepare only GHB Sprint 1 audit/spec/schema work.",
+      "acceptance": [
+        "Verify actual current installed interfaces and missing capabilities without claiming future Runtime v4, standing, continuity or evaluator integrity accepted.",
+        "Reuse ADL #1413; audit/specification work may proceed without future v0.93.3 foundations or v0.93.4 release; activation remains separately gated."
+      ],
+      "negative_cases": [
+        "Missing predecessor acceptance",
+        "Unsupported completion claim"
+      ],
+      "phase": "planning",
+      "source": "README.md",
+      "status": "planned",
+      "resources": "Bounded local work and owned CI. Any provider/cloud/deployment effect needs separately scoped authority.",
+      "pvf": "planning_contract",
+      "non_goals": [
+        "No unrelated scope or duplicate implementation/qualification"
+      ],
+      "task_boundary": {
+        "single_result": "Prepare the GHB baseline against current installed Runtime interfaces",
+        "supporting_work": "Only the focused documentation, code, tests and recovery behavior needed for this result.",
+        "completion_rule": "Accept the result and adverse cases; preparation alone is insufficient."
+      },
+      "sprint": 6,
+      "relocated_from": "v0.93.5/WP-01",
+      "program_sprint": 1,
+      "parent": "v0.93.3/GHB-PROGRAM",
+      "sprint_parent": "v0.93.2/GHB-S1",
+      "existing_issue": 1413,
+      "issue_repository": "agent-logic/agent-design-language",
+      "wp": "GHB-PREP",
+      "outcome": "Pin the current installed Runtime #232 interfaces, existing owners and explicit gaps, then prepare only GHB Sprint 1 audit/spec/schema work."
+    },
+    {
+      "id": "GHB-WP00",
+      "result": "Owner: program + Runtime. Dependencies: none.",
+      "phase": "ghb-program",
+      "status": "planned",
+      "resources": "Issue-specific authorization required for provider spend, experiments, deployment and publication.",
+      "pvf": "installed_runtime_and_independent_evaluation",
+      "non_goals": [
+        "No issue creation from planning alone",
+        "No unbounded self-modification or global-optimality claim"
+      ],
+      "task_boundary": {
+        "single_result": "[GHB][WP00] Source-to-caller audit and baseline",
+        "supporting_work": "Only work required for the declared package and gates.",
+        "completion_rule": "Accept installed behavior and negative cases; planning or closure state is insufficient."
+      },
+      "origin": {
+        "milestone": "v0.93.2",
+        "id": "GHB-WP00",
+        "kind": "approved_ghb_scope"
+      },
+      "title": "[GHB][WP00] Source-to-caller audit and baseline",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GHB-PREP"
+      ],
+      "acceptance": [
+        "source-to-caller matrix at pinned revisions; no duplicated owner planned; runnable unchanged-agent baseline; measurable Gate A scenario; approved evaluation protocol and task/data licenses. A missing existing owner is an explicit gap rather than assumed absence."
+      ],
+      "negative_cases": [
+        "Planning status treated as execution authority",
+        "Duplicate owner or issue identity",
+        "Fixture evidence substituted for installed behavior"
+      ],
+      "source": "../v0.93.5/features/GODEL_HADAMARD_BAYES_v0.93.2.md",
+      "sprint": 6,
+      "existing_issue": 239,
+      "relocated_from": "v0.93.5/GHB-WP00",
+      "program_sprint": 1,
+      "parent": "v0.93.3/GHB-PROGRAM",
+      "sprint_parent": "v0.93.2/GHB-S1",
+      "issue_repository": "agent-logic/agent-logic-runtime",
+      "wp": "GHB-WP00",
+      "outcome": "Owner: program + Runtime. Dependencies: none."
+    },
+    {
+      "id": "GHB-WP01",
+      "result": "Owner: ADL. Dependencies: WP00.",
+      "phase": "ghb-program",
+      "status": "planned",
+      "resources": "Issue-specific authorization required for provider spend, experiments, deployment and publication.",
+      "pvf": "installed_runtime_and_independent_evaluation",
+      "non_goals": [
+        "No issue creation from planning alone",
+        "No unbounded self-modification or global-optimality claim"
+      ],
+      "task_boundary": {
+        "single_result": "[GHB][WP01] Normative specification and invariants",
+        "supporting_work": "Only work required for the declared package and gates.",
+        "completion_rule": "Accept installed behavior and negative cases; planning or closure state is insufficient."
+      },
+      "origin": {
+        "milestone": "v0.93.2",
+        "id": "GHB-WP01",
+        "kind": "approved_ghb_scope"
+      },
+      "title": "[GHB][WP01] Normative specification and invariants",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "GHB-WP00"
+      ],
+      "acceptance": [
+        "every transition has inputs, outputs, authority, side effects and stop conditions; fresh inference versus replay is explicit; historical docs link to the normative successor after review; conformance labels remain proposed until accepted."
+      ],
+      "negative_cases": [
+        "Planning status treated as execution authority",
+        "Duplicate owner or issue identity",
+        "Fixture evidence substituted for installed behavior"
+      ],
+      "source": "../v0.93.5/features/GODEL_HADAMARD_BAYES_v0.93.2.md",
+      "sprint": 6,
+      "existing_issue": 1414,
+      "relocated_from": "v0.93.5/GHB-WP01",
+      "program_sprint": 1,
+      "parent": "v0.93.3/GHB-PROGRAM",
+      "sprint_parent": "v0.93.2/GHB-S1",
+      "issue_repository": "agent-logic/agent-design-language",
+      "wp": "GHB-WP01",
+      "outcome": "Owner: ADL. Dependencies: WP00."
+    },
+    {
+      "id": "GHB-WP02",
+      "result": "Owner: ADL. Dependencies: WP01.",
+      "phase": "ghb-program",
+      "status": "planned",
+      "resources": "Issue-specific authorization required for provider spend, experiments, deployment and publication.",
+      "pvf": "installed_runtime_and_independent_evaluation",
+      "non_goals": [
+        "No issue creation from planning alone",
+        "No unbounded self-modification or global-optimality claim"
+      ],
+      "task_boundary": {
+        "single_result": "[GHB][WP02] Schemas and installed contract parity",
+        "supporting_work": "Only work required for the declared package and gates.",
+        "completion_rule": "Accept installed behavior and negative cases; planning or closure state is insufficient."
+      },
+      "origin": {
+        "milestone": "v0.93.2",
+        "id": "GHB-WP02",
+        "kind": "approved_ghb_scope"
+      },
+      "title": "[GHB][WP02] Schemas and installed contract parity",
+      "repository": "agent-design-language",
+      "depends_on": [
+        "GHB-WP01"
+      ],
+      "acceptance": [
+        "canonical digest/round-trip tests, malformed and stale-reference rejection, schema examples, installed Runtime compatibility test, and a migration policy for existing artifacts. New tests are classified in the validation inventory when authored."
+      ],
+      "negative_cases": [
+        "Planning status treated as execution authority",
+        "Duplicate owner or issue identity",
+        "Fixture evidence substituted for installed behavior"
+      ],
+      "source": "../v0.93.5/features/GODEL_HADAMARD_BAYES_v0.93.2.md",
+      "sprint": 6,
+      "existing_issue": 1415,
+      "relocated_from": "v0.93.5/GHB-WP02",
+      "program_sprint": 1,
+      "parent": "v0.93.3/GHB-PROGRAM",
+      "sprint_parent": "v0.93.2/GHB-S1",
+      "issue_repository": "agent-logic/agent-design-language",
+      "wp": "GHB-WP02",
+      "outcome": "Owner: ADL. Dependencies: WP01."
+    },
+    {
+      "id": "GHB-S1",
+      "result": "Coordinate and accept only GHB program Sprint 1; preserve its assigned package acceptance and negative cases.",
+      "phase": "ghb-program",
+      "status": "planned",
+      "resources": "Issue-specific authorization required for provider spend, experiments, deployment and publication.",
+      "pvf": "installed_runtime_and_independent_evaluation",
+      "non_goals": [
+        "No issue creation from planning alone",
+        "No unbounded self-modification or global-optimality claim"
+      ],
+      "task_boundary": {
+        "single_result": "GHB Sprint 1: audit, normative specification and schemas",
+        "supporting_work": "Only work required for the declared package and gates.",
+        "completion_rule": "Accept installed behavior and negative cases; planning or closure state is insufficient."
+      },
+      "title": "GHB Sprint 1: audit, normative specification and schemas",
+      "repository": "agent-logic-runtime",
+      "depends_on": [
+        "GHB-WP02"
+      ],
+      "acceptance": [
+        "All assigned GHB Sprint 1 results and adverse cases accepted; no completion from planning or closure status."
+      ],
+      "negative_cases": [
+        "Planning status treated as execution authority",
+        "Duplicate owner or issue identity",
+        "Fixture evidence substituted for installed behavior"
+      ],
+      "source": "../v0.93.5/features/GODEL_HADAMARD_BAYES_v0.93.2.md",
+      "sprint": 6,
+      "existing_issue": 244,
+      "program_sprint": 1,
+      "parent": "v0.93.3/GHB-PROGRAM",
+      "issue_repository": "agent-logic/agent-logic-runtime",
+      "relationship": "containment; umbrella depends on its exit, children do not depend on umbrella completion",
+      "wp": "GHB-S1",
+      "outcome": "Coordinate and accept only GHB program Sprint 1; preserve its assigned package acceptance and negative cases."
     }
   ],
   "sprint_plan": {
     "status": "allocated_planning_only",
-    "sprint_count": 5,
+    "sprint_count": 6,
     "sizing": "Dependency-based groups; no calendar or staffing promise.",
     "execution_rule": "Only v0.93.2 WP-01 is active. Accept dependencies and explicit issue authorization before execution.",
     "sprints": [
@@ -1340,286 +1615,25 @@
           "url": "https://github.com/agent-logic/agent-design-language/issues/1313",
           "native_reconciliation": "pending; authenticated remote content confirmed; no retry"
         }
+      },
+      {
+        "number": 6,
+        "stream": "GHB",
+        "program_sprint": 1,
+        "title": "GHB program Sprint 1",
+        "work_packages": [
+          "GHB-PREP",
+          "GHB-WP00",
+          "GHB-WP01",
+          "GHB-WP02",
+          "GHB-S1"
+        ],
+        "umbrella": {
+          "repository": "agent-logic/agent-logic-runtime",
+          "number": 244,
+          "url": "https://github.com/agent-logic/agent-logic-runtime/issues/244"
+        }
       }
     ]
-  },
-  "external_dependencies": {
-    "v0.93.1/TAIL-10": "Accepted ready-to-deploy milestone closure",
-    "v0.93.1/RD-11": "Accepted repository compatibility lockset",
-    "v0.93.1/RD-09": "Accepted enterprise security repository boundary",
-    "ADL-1150": "https://github.com/agent-logic/agent-design-language/issues/1150 \u2014 independent CodeFriend qualification predecessor (accepted in v0.93.1)",
-    "CodeFriend-45": "https://github.com/agent-logic/codefriend/issues/45 \u2014 existing launch predecessor",
-    "CodeFriend-46": "https://github.com/agent-logic/codefriend/issues/46 \u2014 built waiting-list predecessor",
-    "codefriend.ai-21": "https://github.com/agent-logic/codefriend.ai/issues/21 \u2014 website predecessor"
-  },
-  "successor_scope_amendment": {
-    "decision": "v0.93.2/REORGANIZATION_1296.md",
-    "allocation": "v0.93.2/REALLOCATION_1296.json"
-  },
-  "existing_issue_routing": [
-    {
-      "wp": "WP-01",
-      "repository": "agent-logic/agent-design-language",
-      "issue": 1296,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "CSDLC-296",
-      "repository": "agent-logic/cognitive-sdlc",
-      "issue": 296,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "CSDLC-297",
-      "repository": "agent-logic/cognitive-sdlc",
-      "issue": 297,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "CSDLC-298",
-      "repository": "agent-logic/cognitive-sdlc",
-      "issue": 298,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "CSDLC-299",
-      "repository": "agent-logic/cognitive-sdlc",
-      "issue": 299,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "CI-205",
-      "repository": "agent-logic/cognitive-sdlc",
-      "issue": 205,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "CF-92",
-      "repository": "agent-logic/codefriend",
-      "issue": 92,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "CF-B1-01",
-      "repository": "agent-logic/codefriend",
-      "issue": 120,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "WP-S1",
-      "repository": "agent-logic/agent-logic-enterprise-security",
-      "issue": 9,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "CF-B1-02",
-      "repository": "agent-logic/codefriend",
-      "issue": 121,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "CF-B1-03",
-      "repository": "agent-logic/codefriend",
-      "issue": 123,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "WP-S2",
-      "repository": "agent-logic/agent-logic-enterprise-security",
-      "issue": 10,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "WP-S3",
-      "repository": "agent-logic/agent-logic-enterprise-security",
-      "issue": 12,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "WP-S4",
-      "repository": "agent-logic/agent-logic-enterprise-security",
-      "issue": 14,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "WP-S5",
-      "repository": "agent-logic/agent-logic-enterprise-security",
-      "issue": 15,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "CF-B1-04",
-      "repository": "agent-logic/codefriend",
-      "issue": 125,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "CF-B1-05",
-      "repository": "agent-logic/codefriend",
-      "issue": 126,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "WP-S6",
-      "repository": "agent-logic/agent-logic-enterprise-security",
-      "issue": 16,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "DEMO-SEC",
-      "repository": "agent-logic/agent-logic-enterprise-security",
-      "issue": 17,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "INTEGRATE",
-      "repository": "agent-logic/codefriend",
-      "issue": 127,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "QUALIFY",
-      "repository": "agent-logic/codefriend",
-      "issue": 128,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "TAIL-01",
-      "repository": "agent-logic/agent-design-language",
-      "issue": 1303,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "TAIL-02",
-      "repository": "agent-logic/agent-design-language",
-      "issue": 1304,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "TAIL-03",
-      "repository": "agent-logic/agent-design-language",
-      "issue": 1305,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "TAIL-04",
-      "repository": "agent-logic/agent-design-language",
-      "issue": 1306,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "TAIL-05",
-      "repository": "agent-logic/agent-design-language",
-      "issue": 1307,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "TAIL-06",
-      "repository": "agent-logic/agent-design-language",
-      "issue": 1308,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "TAIL-07",
-      "repository": "agent-logic/agent-design-language",
-      "issue": 1309,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "TAIL-08",
-      "repository": "agent-logic/agent-design-language",
-      "issue": 1310,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "TAIL-09",
-      "repository": "agent-logic/agent-design-language",
-      "issue": 1311,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    },
-    {
-      "wp": "TAIL-10",
-      "repository": "agent-logic/agent-design-language",
-      "issue": 1312,
-      "state": "OPEN",
-      "disposition": "Created or reused; cards deferred until sprint preparation"
-    }
-  ],
-  "opening": {
-    "issue": 1296,
-    "repository": "agent-logic/agent-design-language",
-    "authorized_on": "2026-10-19",
-    "owner": "Planning #12",
-    "execution_authorized": [
-      "WP-01",
-      "CSDLC-296",
-      "CSDLC-297",
-      "CSDLC-298",
-      "CSDLC-299"
-    ],
-    "downstream_execution_authorized": true,
-    "deployment_authorized": false,
-    "predecessor_issue": 1230,
-    "predecessor_closure": "closed_with_native_coordination_completed",
-    "acceptance_pr": 1295,
-    "acceptance_merge": "69fae86cde65861cdace95183c2c373dcb09ca01",
-    "record": "OPENING_1296.md",
-    "execution_scope": "Only the four existing C-SDLC simplification issues; #299 follows #296-298. Other product work and sidecars remain unactivated."
-  },
-  "version": "v0.93.2",
-  "serialization": "JSON-compatible YAML",
-  "sidecars": [
-    {
-      "id": "ADL-1275",
-      "repository": "agent-logic/agent-design-language",
-      "issue": 1275,
-      "title": "Reconcile post-split repository adapters and native lifecycle admission",
-      "url": "https://github.com/agent-logic/agent-design-language/issues/1275",
-      "milestone": "v0.93.2",
-      "status": "planned",
-      "execution_authorized": false,
-      "disposition": "Reuse existing issue as an explicitly included sidecar; excluded from core sprint counts."
-    },
-    {
-      "id": "CSDLC-304",
-      "repository": "agent-logic/cognitive-sdlc",
-      "issue": 304,
-      "title": "Preserve C-SDLC installation identity across filesystem remounts",
-      "url": "https://github.com/agent-logic/cognitive-sdlc/issues/304",
-      "milestone": "v0.93.2",
-      "status": "planned",
-      "execution_authorized": false,
-      "disposition": "Reuse existing issue as an explicitly included sidecar; preserve integrity checks without recurring payload hashes."
-    }
-  ]
+  }
 }
