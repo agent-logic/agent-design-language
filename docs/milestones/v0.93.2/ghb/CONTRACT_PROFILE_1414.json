@@ -1,0 +1,168 @@
+{
+  "schema": "adl.ghb.contract_profile_proposal.v1",
+  "issue": 1414,
+  "contract_version": 1,
+  "status": "proposed_unexecuted",
+  "profile_id": "synthetic_tool_lending.v1",
+  "canonical_transitions": [
+    "observe",
+    "hypothesize",
+    "propose_candidate",
+    "admit_experiment",
+    "execute_experiment",
+    "measure",
+    "update_belief",
+    "disposition",
+    "admit_task_action",
+    "execute_task_action",
+    "authorize_activation",
+    "reconcile_activation",
+    "retain_lineage"
+  ],
+  "loop_kinds": [
+    "task",
+    "improvement"
+  ],
+  "execution_modes": [
+    "fresh",
+    "replay"
+  ],
+  "operation_outcomes": [
+    "completed",
+    "denied",
+    "deferred",
+    "failed",
+    "interrupted",
+    "recovery_required"
+  ],
+  "dispositions": [
+    "recommend_task_action",
+    "recommend_activation",
+    "reject",
+    "quarantine",
+    "defer"
+  ],
+  "belief_modes": [
+    "quantitative",
+    "qualitative",
+    "unmodeled"
+  ],
+  "artifact_families": [
+    "observation",
+    "hypothesis",
+    "candidate",
+    "experiment_plan",
+    "measurement",
+    "belief_update",
+    "disposition",
+    "activation_proposal",
+    "lineage_event",
+    "task_result"
+  ],
+  "reference_required": [
+    "owner",
+    "schema_version",
+    "sha256"
+  ],
+  "transition_record_required": [
+    "source_state",
+    "target_state",
+    "inputs",
+    "outputs",
+    "owner",
+    "authority_ref",
+    "effects",
+    "remaining_budget",
+    "stop_reason",
+    "correlation_ids"
+  ],
+  "identity_fields": [
+    "resident_identity_ref",
+    "body_ref",
+    "runtime_incarnation",
+    "cycle_id",
+    "experiment_id",
+    "operation_id"
+  ],
+  "budget_ceilings": [
+    "cycles",
+    "candidates",
+    "branch_depth",
+    "parallel_experiments",
+    "calls",
+    "turns",
+    "input_tokens",
+    "output_tokens",
+    "elapsed_seconds",
+    "monetary_cost"
+  ],
+  "first_profile": {
+    "domain": "synthetic_tool_lending_policy",
+    "mutable": [
+      "task_policy_parameters",
+      "reasoning_guidance"
+    ],
+    "protected": [
+      "system_control_templates",
+      "evaluator_rubric",
+      "split_heldout_corpus",
+      "authority_credentials",
+      "tool_permissions",
+      "provider_model_bindings",
+      "model_weights",
+      "source",
+      "service_init",
+      "persistent_resident_state"
+    ],
+    "max_candidates_per_attempt": 1,
+    "max_parallel_experiments": 1,
+    "development_tasks": [
+      "D01",
+      "D02",
+      "D03",
+      "D04"
+    ],
+    "heldout_tasks": [
+      "H01",
+      "H02",
+      "H03",
+      "H04"
+    ],
+    "proposed_license": "CC0-1.0",
+    "corpus_digest": null,
+    "split_seed": null,
+    "accepted_thresholds": null,
+    "execution_admissible": false,
+    "quality_rule_proposal": "Strict aggregate heldout hard-constraint improvement; no per-task regression; zero new safety/privacy/authority violations; count all attempts; tie means no measured improvement"
+  },
+  "conformance_facets": [
+    "artifacts",
+    "experiments",
+    "successor",
+    "continuity",
+    "recursive_component"
+  ],
+  "sources": {
+    "baseline_1413_merge": "c43cb02c492cbcfbd8c4c53e5dd59ff5b30e82e8",
+    "runtime_239_reviewed": "8d451e0881da062e0485d557e0ee604d5ad7ffe1",
+    "runtime_239_merge": "3a3cdf22d9749870925d15b85137e25e08fb0124"
+  },
+  "non_claims": [
+    "accepted_profile",
+    "installed_consumption",
+    "installed_ghb",
+    "gate_a",
+    "gate_b",
+    "quality_gain",
+    "performance_gain",
+    "global_optimality",
+    "personhood"
+  ],
+  "task_result_required": [
+    "disposition_ref",
+    "admission_receipt_ref",
+    "invocation_ids",
+    "owner_result_ref",
+    "outcome"
+  ]
+}
