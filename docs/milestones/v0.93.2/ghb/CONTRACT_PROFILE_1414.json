@@ -13,6 +13,8 @@
     "measure",
     "update_belief",
     "disposition",
+    "admit_task_action",
+    "execute_task_action",
     "authorize_activation",
     "reconcile_activation",
     "retain_lineage"
@@ -34,6 +36,7 @@
     "recovery_required"
   ],
   "dispositions": [
+    "recommend_task_action",
     "recommend_activation",
     "reject",
     "quarantine",
@@ -53,7 +56,8 @@
     "belief_update",
     "disposition",
     "activation_proposal",
-    "lineage_event"
+    "lineage_event",
+    "task_result"
   ],
   "reference_required": [
     "owner",
@@ -153,5 +157,12 @@
     "performance_gain",
     "global_optimality",
     "personhood"
+  ],
+  "task_result_required": [
+    "disposition_ref",
+    "admission_receipt_ref",
+    "invocation_ids",
+    "owner_result_ref",
+    "outcome"
   ]
 }

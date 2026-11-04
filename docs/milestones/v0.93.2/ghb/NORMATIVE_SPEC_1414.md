@@ -71,7 +71,9 @@ silently grant itself capability or skip an admission boundary.
 | `execute_experiment` | Admitted plan, exact baseline/candidate bindings → correlated invocation outcomes and retained operation IDs | Existing provider/tool/learning owners; bounded isolated effects specified in admission | Denial, cancellation, timeout, exhausted budget, unknown effect; never dispatch before admission |
 | `measure` | All trial outcomes and frozen rubric → per-task measures, failures, denominators and uncertainty | Independent evaluator; authenticated evidence records only | Missing arm/task, leakage, changed rubric, invalid result provenance; no selective omission |
 | `update_belief` | Prior belief, unique admitted evidence and declared model → revised belief or qualitative/unmodeled assessment | Evidence-update owner; derived artifacts only | Duplicate/dependent evidence mishandled, invalid model/likelihood, missing provenance; no fabricated posterior |
-| `disposition` | Measures, beliefs, hard invariants and predeclared decision rule → `recommend_activation`, `reject`, `quarantine` or `defer` | Recommendation authority only; no active head changes | Invariant violation overrides score; tie/no gain is no measured improvement; inadequate evidence defers |
+| `disposition` | Measures, beliefs, hard invariants and predeclared decision rule → `recommend_task_action` (task), `recommend_activation` (improvement), `reject`, `quarantine` or `defer` | Recommendation authority only; no active head changes | Invariant violation overrides score; tie/no gain is no measured improvement; inadequate evidence defers |
+| `admit_task_action` | Task disposition and exact answer/action proposal → admitted action or denial | Existing task/tool admission owner; exact capability and budget scope only | Improvement disposition, absent/expired authority, protected action or insufficient budget |
+| `execute_task_action` | Admitted task action → existing-owner result refs, actual invocation IDs and task result | Existing task/provider/tool owner; only admitted task effects | Denial, cancellation, timeout or unknown effects; retain partial results and recover through owner |
 | `authorize_activation` | Exact parent/candidate, authentic evaluation and current external authority → native activation intent or denial | Existing governed learning/Birthday/continuity admission; authorized intent only | Stale parent, conflicting writer, expired authority, missing evidence, unsupported migration; task loop cannot activate a body |
 | `reconcile_activation` | Native intent, retained operation ID and owner readback → committed successor, unchanged head or recovery-required | Existing operation/recovery owner; only its documented commit/recovery effects | Unknown effects, incompatible memory/continuity state; preserve intent and fail closed, never blind replay |
 | `retain_lineage` | Disposition, evaluation and owner-confirmed outcome → immutable lineage event and evidence refs | Existing durable evidence/continuity owners; append records, no authority escalation | Missing predecessor/result binding, inconsistent owner receipt; no success claim until reconciled |
@@ -85,8 +87,13 @@ candidate/experiment only while the original budget and profile permit it.
 `reject`, `quarantine` and `defer` retain evidence and end the attempt; re-entry
 requires an explicit new attempt linked to the previous outcome.
 
-Task cycles end after disposition plus separately admitted task execution and
-retention; they do not pass through body activation. Improvement cycles may
+A successful task disposition is `recommend_task_action`, which MUST bind the
+exact answer/action proposal. It passes through `admit_task_action`,
+`execute_task_action` and `retain_lineage`; `task_result` binds the disposition,
+admission receipt, invocation IDs and owner-confirmed outcome. Emitting an answer
+is a task effect subject to its existing admission scope. A task succeeds only
+on a completed owner-confirmed result; interruption follows the recovery rules
+below. Task cycles do not pass through body activation. Improvement cycles may
 reach activation only after an activation recommendation. Experiment selection
 and scheduling reuse existing owners; no new planner is required by this order.
 

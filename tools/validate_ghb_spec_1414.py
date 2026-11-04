@@ -14,6 +14,7 @@ spec = (PACKET / 'NORMATIVE_SPEC_1414.md').read_text()
 migration = (PACKET / 'MIGRATION_1414.md').read_text()
 expected = ['observe', 'hypothesize', 'propose_candidate', 'admit_experiment',
             'execute_experiment', 'measure', 'update_belief', 'disposition',
+            'admit_task_action', 'execute_task_action',
             'authorize_activation', 'reconcile_activation', 'retain_lineage']
 assert p['canonical_transitions'] == expected
 for transition in expected:
@@ -28,7 +29,10 @@ assert len(set(f['development_tasks'] + f['heldout_tasks'])) == 8
 assert {'evaluator_rubric', 'authority_credentials', 'system_control_templates',
         'source', 'persistent_resident_state'} <= set(f['protected'])
 assert {'denied', 'deferred', 'interrupted', 'recovery_required'} <= set(p['operation_outcomes'])
-assert 'recommend_activation' in p['dispositions'] and 'adopt' not in p['dispositions']
+assert {'recommend_activation', 'recommend_task_action'} <= set(p['dispositions'])
+assert 'adopt' not in p['dispositions']
+assert 'task_result' in p['artifact_families']
+assert {'disposition_ref', 'admission_receipt_ref', 'owner_result_ref', 'invocation_ids', 'outcome'} == set(p['task_result_required'])
 assert set(p['belief_modes']) == {'quantitative', 'qualitative', 'unmodeled'}
 for revision in p['sources'].values():
     assert re.fullmatch('[0-9a-f]{40}', revision)
