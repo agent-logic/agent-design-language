@@ -12,7 +12,7 @@ Reuse ADL #1413 for GHB-PREP, Runtime #239 for WP00, ADL #1414 for WP01, and ADL
 
 ## Sprint 2 — foundations, search and evaluation
 
-Move the minimum existing prerequisite set GOV-01/02/03/11 and CM-01/02/03/04 from v0.93.4 into v0.93.3 unchanged. GHB-WP03..08 stay in this sprint. Actual Runtime v4, standing/continuity and evaluator-integrity acceptance gates activation; an audit or normative schema cannot substitute. Runtime #112 remains WP07's existing closed identity: reassess applicable evidence at the dependency gate without duplication or reopening.
+Move the minimum existing prerequisite set GOV-01/02/03/11 and CM-01/02/03/04 from v0.93.4 into v0.93.3 unchanged. GHB-WP03..08 stay in this sprint. Sprint 2 acceptance waits for both WP08 and WP04 archive/generation; this umbrella gate adds no execution dependency between the packages. Actual Runtime v4, standing/continuity and evaluator-integrity acceptance gates activation; an audit or normative schema cannot substitute. Runtime #112 remains WP07's existing closed identity: reassess applicable evidence at the dependency gate without duplication or reopening.
 
 ## Sprint 3 — installed recursive improvement
 

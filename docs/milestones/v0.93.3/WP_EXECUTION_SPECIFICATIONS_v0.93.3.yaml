@@ -1467,7 +1467,8 @@
       "title": "GHB Sprint 2: foundations, bounded search and evaluation",
       "repository": "agent-logic-runtime",
       "depends_on": [
-        "GHB-WP08"
+        "GHB-WP08",
+        "GHB-WP04"
       ],
       "acceptance": [
         "All assigned GHB Sprint 2 results and adverse cases accepted; no completion from planning or closure status.",

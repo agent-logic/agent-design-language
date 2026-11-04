@@ -62,7 +62,7 @@ The Work Packages table is the executable allocation; each row names dependencie
 | GHB-WP12 | 5 | agent-logic-runtime | Owner: docs/research, with independent review. Dependencies: WP01 for vocabulary; WP11 for final claims. | v0.93.2/GHB-WP01, GHB-WP11 |
 | GHB-REVIEW | 5 | agent-design-language | Independently accept the complete installed GHB baseline and its required continuity/standing proof, reusing unchanged input evidence. | GHB-WP12, CM-04 |
 | GHB-CLOSE | 5 | agent-design-language | Record the exact accepted GHB interfaces and limitations for v0.93.6 governance and v0.93.7 affect/humour. Any release remains separately authorized. | GHB-REVIEW |
-| GHB-S2 | 4 | agent-logic-runtime | Coordinate and accept only GHB program Sprint 2; preserve its assigned package acceptance and negative cases. | GHB-WP08 |
+| GHB-S2 | 4 | agent-logic-runtime | Coordinate and accept only GHB program Sprint 2; preserve its assigned package acceptance and negative cases. | GHB-WP08, GHB-WP04 |
 | GHB-S3 | 5 | agent-logic-runtime | Coordinate and accept only GHB program Sprint 3; preserve its assigned package acceptance and negative cases. | GHB-CLOSE |
 
 ## Sequencing
