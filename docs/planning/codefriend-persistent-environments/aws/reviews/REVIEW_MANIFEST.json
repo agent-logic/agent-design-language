@@ -50,7 +50,9 @@
         "thoughtsTokenCount": 2438,
         "serviceTier": "standard"
       },
-      "review_sha256": "d5c793469fc8c85b92d1559434ab84fbdd7573732da312e8085c420bbec4213b"
+      "review_sha256": "87acd50192a1c0aabc1ef1103fb1cf8fe3d509373731c66768555d3e744996cc",
+      "original_provider_review_sha256": "d5c793469fc8c85b92d1559434ab84fbdd7573732da312e8085c420bbec4213b",
+      "publication_normalization": "Trailing whitespace stripped only; original provider review hash retained."
     }
   },
   "native_lifecycle": "prepare/recover/bind returned intent_semantic_RecoveryRequired; no native admission or terminal claim",
