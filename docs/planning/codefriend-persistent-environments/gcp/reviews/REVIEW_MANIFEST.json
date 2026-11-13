@@ -1,0 +1,72 @@
+{
+  "issue": 1422,
+  "reviewed_packet": {
+    "files": {
+      "PLAN.md": "bdd5748959bc8ad6954c3d958aaacd035fa1c9d0624ce34362197deedba5ffeb",
+      "COST_MODEL.json": "848d6bbaf08bec555ea5f78fdbf6f13d9480c12d4d4c11659c2cf6ec0954e65d",
+      "GCP_ARCHITECTURE.svg": "002dd01f9be9ccb0d9d3876fcf2adc5f735cfe662685806e2c8c07ebb2737ac4",
+      "GCP_ARCHITECTURE.png": "eec357d749cf39c8594e47d92b30f27520a1b5414b72172406edc25aca001f0a",
+      "ICON_PROVENANCE.json": "3db6cadcadf8ba50c4a72e66bc413f1fe8cb6111fb5b5d77b71f07a9d9555191"
+    },
+    "prompt_sha256": "d4a58ca3811e6d8c5e3e30f2ab2d581b9549bd1043b2c20865386e89d2cb3e97",
+    "png_alias": "AWS_ARCHITECTURE.png is exact GCP PNG; runner compatibility"
+  },
+  "provider_reviews": {
+    "claude": {
+      "model": "claude-sonnet-5-5",
+      "usage": {
+        "input_tokens": 11360,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "output_tokens": 2751,
+        "output_tokens_details": {
+          "thinking_tokens": 0
+        },
+        "service_tier": "standard",
+        "inference_geo": "global",
+        "speed": "standard"
+      },
+      "original_review_sha256": "5d3b2befcf2ab3139e5ada60d843af953d482db7fc0f051992d606659bcc95c5",
+      "published_review_sha256": "757f01b39201fafeab3cb10fecf7e71304d7fd07862eed8f7a0489d36ee3715b",
+      "complete_review": true,
+      "normalization": "Trailing whitespace only"
+    },
+    "gemini": {
+      "model": "gemini-3.1-pro-preview",
+      "usage": {
+        "promptTokenCount": 7249,
+        "candidatesTokenCount": 1120,
+        "totalTokenCount": 10821,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 6157
+          },
+          {
+            "modality": "IMAGE",
+            "tokenCount": 1092
+          }
+        ],
+        "thoughtsTokenCount": 2452,
+        "serviceTier": "standard"
+      },
+      "original_review_sha256": "97b9b35854120b65eafb18bdf0590ea9d923cea6dbb5d5bfa366a65d95bb25d9",
+      "published_review_sha256": "b0a55cf1cb2663c9b7fa4551bef91669d3043204141db8b7f87341e48b4ca370",
+      "complete_review": true,
+      "normalization": "Trailing whitespace only"
+    }
+  },
+  "final_files": {
+    "PLAN.md": "b4a3fdf7d0ac54d0ab1aadac630fd87a0ae41a7039ad752791d3a1eaad891477",
+    "COST_MODEL.json": "70b1c5906d4278438ce7dae877a53d14020a11032ae18ef0d4193b8407b91e73",
+    "GCP_ARCHITECTURE.svg": "002dd01f9be9ccb0d9d3876fcf2adc5f735cfe662685806e2c8c07ebb2737ac4",
+    "GCP_ARCHITECTURE.png": "eec357d749cf39c8594e47d92b30f27520a1b5414b72172406edc25aca001f0a",
+    "ICON_PROVENANCE.json": "3db6cadcadf8ba50c4a72e66bc413f1fe8cb6111fb5b5d77b71f07a9d9555191"
+  },
+  "limitation": "Provider v2 reviewed pinned source then final explicit refinements were checked independently; final status sentence corrected as a mechanical review disposition. No deployment acceptance.",
+  "final_independent_review": "PASS after correcting stale provider-review status; scenario math, exact SVG->PNG reproduction and embedded icon hashes verified. No substantive outstanding planning defects."
+}

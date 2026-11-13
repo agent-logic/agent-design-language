@@ -1,0 +1,82 @@
+{
+  "source": "https://cloud.google.com/icons",
+  "archives": {
+    "core": {
+      "url": "https://services.google.com/fh/files/misc/core-products-icons.zip",
+      "sha256": "6531a10f58bc599c24d9a455d81dd757c1a03c3c43da9cddf639b859c1c1eece"
+    },
+    "legacy": {
+      "url": "https://services.google.com/fh/files/misc/google-cloud-legacy-icons.zip",
+      "sha256": "a6d9d7921758042538b462f03cf64614c2cebd96743b3ed63580a769fc7de3e9"
+    }
+  },
+  "icons": {
+    "cloud_load_balancing": {
+      "member": "cloud_load_balancing/cloud_load_balancing.svg",
+      "sha256": "ea8974dc8766309a616bc10c09c0f630c0ff6a5bb1e9664cc17c4fb1ec29ef11",
+      "collection": "official legacy"
+    },
+    "cloud_nat": {
+      "member": "cloud_nat/cloud_nat.svg",
+      "sha256": "88428f716fe11510dfadf80e5fb356d3d62dac524705553df19a8c82064a00dc",
+      "collection": "official legacy"
+    },
+    "cloud_router": {
+      "member": "cloud_router/cloud_router.svg",
+      "sha256": "50a348b337bb27166a4fc4043d6812b29cd366fca4b5e7927d6f5cc83484fe22",
+      "collection": "official legacy"
+    },
+    "firestore": {
+      "member": "firestore/firestore.svg",
+      "sha256": "2452104b804806ec196f0cac9bb1f8c74884fede904f94f2adf8c7df4256c9d1",
+      "collection": "official legacy"
+    },
+    "pubsub": {
+      "member": "pubsub/pubsub.svg",
+      "sha256": "bd71cb16b24c5a368fc7913525e093f03e426d06e8917c1f255187e9f6c10217",
+      "collection": "official legacy"
+    },
+    "secret_manager": {
+      "member": "secret_manager/secret_manager.svg",
+      "sha256": "194b0f81870b265064680007e472d011797d01fbdede0bb4ade28e025a22e7b6",
+      "collection": "official legacy"
+    },
+    "cloud_dns": {
+      "member": "cloud_dns/cloud_dns.svg",
+      "sha256": "c7908fbe9f86108c969c2df1494d825c6f1d9f83133a84e64a8860615f0906b2",
+      "collection": "official legacy"
+    },
+    "cloud_build": {
+      "member": "cloud_build/cloud_build.svg",
+      "sha256": "2fbd6afc341de33de94ae428b4e50690c959f9ec57d29dafcc6c03eaa260c3e8",
+      "collection": "official legacy"
+    },
+    "cloud_logging": {
+      "member": "cloud_logging/cloud_logging.svg",
+      "sha256": "f7fdd93a1847fdebf174c78cce418fac52198be72893116e7787ca3e1659cf38",
+      "collection": "official legacy"
+    },
+    "cloud_cdn": {
+      "member": "cloud_cdn/cloud_cdn.svg",
+      "sha256": "9138a21222f0eb31c6d61d6481b6d61b1f8d7dd05d19508d91af2ac6ca88b64b",
+      "collection": "official legacy"
+    },
+    "cloud_run": {
+      "member": "Unique Icons/Cloud Run/SVG/CloudRun-512-color-rgb.svg",
+      "sha256": "42a910e5d9f5a8685227f91623bf50c8c9259c556a41eb9a97157fd1e78b0cea",
+      "collection": "core"
+    },
+    "cloud_storage": {
+      "member": "Unique Icons/Cloud Storage/SVG/Cloud_Storage-512-color.svg",
+      "sha256": "df42fc4b652cb133a4150bea7988aa965651d2c52fdfd141b6e8a359552eec8e",
+      "collection": "core"
+    },
+    "compute_engine": {
+      "member": "Unique Icons/Compute Engine/SVG/ComputeEngine-512-color-rgb.svg",
+      "sha256": "5cf9e57e4f99e125e45f9db269f3d5d1fa0dfd187aebfe00f3f97b9caf488af2",
+      "collection": "core"
+    }
+  },
+  "unmodified": true,
+  "layout": "custom SVG derived from PLAN.md"
+}
