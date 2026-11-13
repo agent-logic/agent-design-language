@@ -1,0 +1,61 @@
+{
+  "issue": 1422,
+  "scope": "AWS planning only; GCP remains outstanding under issue 1422",
+  "reviewed_files": {
+    "AWS_ARCHITECTURE.svg": "1e3ebdf58d23c1d2d9dc43581ee95b25673aeda21b2596c697ef73e11fc7d14a",
+    "AWS_ARCHITECTURE.png": "ab012e8300fa2c07e3612193bc6852f4b301bacab275f57ed6c22cbe1d442118",
+    "COST_MODEL.json": "3047c3f89d3d8499d54e84c80c3646bcf93f55c7d800275dfe32861e9c2cccf6",
+    "PLAN.md": "e56a9f825ceaab0704a2036d1c2e3c1e0dbd5d618433eb870930c0033f507340",
+    "ICON_PROVENANCE.json": "2d0fd35ddae14d6902927962dbea1cd172869001d82475afe6a7ebed08f4a898"
+  },
+  "final_reviews": {
+    "claude": {
+      "model": "claude-sonnet-5-5",
+      "stop_reason": "end_turn",
+      "usage": {
+        "input_tokens": 21400,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "output_tokens": 1464,
+        "output_tokens_details": {
+          "thinking_tokens": 0
+        },
+        "service_tier": "standard",
+        "inference_geo": "global",
+        "speed": "standard"
+      },
+      "review_sha256": "95a7d6bb36b62723a41f6ad60f706f6a51a23e9b4cb11eb7c947f3ec2fc0e38a"
+    },
+    "gemini": {
+      "model": "gemini-3.1-pro-preview",
+      "stop_reason": "STOP",
+      "usage": {
+        "promptTokenCount": 11973,
+        "candidatesTokenCount": 460,
+        "totalTokenCount": 14871,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 10871
+          },
+          {
+            "modality": "IMAGE",
+            "tokenCount": 1102
+          }
+        ],
+        "thoughtsTokenCount": 2438,
+        "serviceTier": "standard"
+      },
+      "review_sha256": "87acd50192a1c0aabc1ef1103fb1cf8fe3d509373731c66768555d3e744996cc",
+      "original_provider_review_sha256": "d5c793469fc8c85b92d1559434ab84fbdd7573732da312e8085c420bbec4213b",
+      "publication_normalization": "Trailing whitespace stripped only; original provider review hash retained."
+    }
+  },
+  "native_lifecycle": "prepare/recover/bind returned intent_semantic_RecoveryRequired; no native admission or terminal claim",
+  "authorization": "Human explicitly requested gh as needed and AWS PR publication",
+  "deployment_authorized": false
+}

@@ -1,0 +1,66 @@
+{
+  "region": "us-east-1",
+  "hours": 730,
+  "date": "2026-11-13",
+  "per_environment": {
+    "nat": "65.700",
+    "nat_ipv4": "7.300",
+    "alb_hour": "16.4250",
+    "alb_lcu": "5.840",
+    "interface_endpoints": "0",
+    "dns": "0.5",
+    "kms": "0",
+    "asg_service_fee": "0"
+  },
+  "per_environment_subtotal": "95.7650",
+  "three_foundations": "287.2950",
+  "usage_allowances": {
+    "dev": 20,
+    "staging": 35,
+    "prod": 100,
+    "shared": 10
+  },
+  "modeled_total_excluding_compute_database_etc": "452.2950",
+  "endpoint_services": [],
+  "instances": "TBD",
+  "database": "DynamoDB selected; application storage adapter/migration and workload cost TBD",
+  "price_status": "planning_estimate_not_bill_or_cap",
+  "optional_cloudwatch_logs_endpoint": "Add only for proven no-egress direct publishing or explicit private-only policy: USD14.60/environment/month; no deployed resources changed",
+  "kms_customer_managed_keys": "Optional only for demonstrated requirement; service-managed encryption baseline. No KMS interface endpoint included.",
+  "network_assumption": "All instances same-AZ NAT access; public AWS APIs over HTTPS. Optional private endpoints only for demonstrated need.",
+  "asgs": {
+    "per_environment": 2,
+    "AZs_per_group": 2,
+    "instance_capacity": "TBD"
+  },
+  "account_placement": "Undecided: one account/three VPCs versus three accounts",
+  "database_cost_included": false,
+  "rate_inputs": {
+    "nat_gateway_az_hour_usd": "0.045",
+    "public_ipv4_hour_usd": "0.005",
+    "alb_hour_usd": "0.0225",
+    "alb_lcu_hour_usd": "0.008",
+    "hosted_zone_month_usd": "0.50",
+    "nat_processed_gb_usd": "0.045"
+  },
+  "quantity_inputs": {
+    "environments": 3,
+    "azs_per_environment": 2,
+    "nat_gateways_per_environment": 2,
+    "nat_ipv4_per_environment": 2,
+    "alb_per_environment": 1,
+    "average_lcus_per_alb": 1,
+    "hosted_zones_per_environment": 1
+  },
+  "price_sources": [
+    "https://aws.amazon.com/vpc/pricing/",
+    "https://aws.amazon.com/elasticloadbalancing/pricing/",
+    "https://aws.amazon.com/route53/pricing/"
+  ],
+  "nat_processing_sensitivity": {
+    "illustrative_gb_per_environment": 100,
+    "all_three_usd": "13.50",
+    "included_in_baseline": false,
+    "double_count_rule": "Add only if incremental to usage allowance; not a traffic forecast"
+  }
+}

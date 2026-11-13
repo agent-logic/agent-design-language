@@ -1,0 +1,203 @@
+{
+  "status": "final_reviews_complete_dispositions_recorded",
+  "scope": "planning only",
+  "v1_grouped": [
+    {
+      "ids": "G1/C1",
+      "finding": "SQLite multi-active/data loss",
+      "proposed_disposition": "DynamoDB selected by operator; application launch/scale gated on adapter, migration and failure proof. No interim capacity selected.",
+      "status": "addressed_in_plan_or_explicit_disagreement",
+      "evidence": "PLAN.md: AWS review reconciliation requirements; operator DynamoDB decision; remaining decision register"
+    },
+    {
+      "ids": "G2/C3",
+      "finding": "Account blast radius",
+      "proposed_disposition": "Retain one-versus-three accounts OPEN as instructed. Add concrete decision criteria and one-account residual risks; reject mandatory three-account assertion as policy recommendation, not established requirement.",
+      "status": "addressed_in_plan_or_explicit_disagreement",
+      "evidence": "PLAN.md: AWS review reconciliation requirements; operator DynamoDB decision; remaining decision register"
+    },
+    {
+      "ids": "G3/C11",
+      "finding": "Cost volume and completeness",
+      "proposed_disposition": "Retain verified partial baseline; add explicit variable formulas and illustrative NAT-volume sensitivity without fabricating traffic forecast. Historical v1 C11 was truncated; completed v2/final reviews verified arithmetic and clarified cost inputs/exclusions.",
+      "status": "addressed_in_plan_or_explicit_disagreement",
+      "evidence": "PLAN.md: AWS review reconciliation requirements; operator DynamoDB decision; remaining decision register"
+    },
+    {
+      "ids": "G4/C4",
+      "finding": "Private ingress",
+      "proposed_disposition": "Add private route/public-IP guards, service-managed CloudFront SG restriction, TLS/Host/cache/session contract and subnet headroom. Verify implementation later.",
+      "status": "addressed_in_plan_or_explicit_disagreement",
+      "evidence": "PLAN.md: AWS review reconciliation requirements; operator DynamoDB decision; remaining decision register"
+    },
+    {
+      "ids": "G5",
+      "finding": "Backend/gateway routing",
+      "proposed_disposition": "Define Website as browser-facing target; gateway private module-to-module API by default. Separate ports/health and explicit network boundaries; do not expose gateway via new ALB target absent requirement.",
+      "status": "addressed_in_plan_or_explicit_disagreement",
+      "evidence": "PLAN.md: AWS review reconciliation requirements; operator DynamoDB decision; remaining decision register"
+    },
+    {
+      "ids": "C2",
+      "finding": "Provisioning budget gate",
+      "proposed_disposition": "Require recurring owner/budget/account/database design approval before paid foundation creation. Preserve three persistent environments target.",
+      "status": "addressed_in_plan_or_explicit_disagreement",
+      "evidence": "PLAN.md: AWS review reconciliation requirements; operator DynamoDB decision; remaining decision register"
+    },
+    {
+      "ids": "C5",
+      "finding": "Proof authenticity/input completeness",
+      "proposed_disposition": "Specify hermetic eligible lanes, graph/tool digests, authenticated producer receipts, protected immutable namespace and cache-bypass sampling. Live proofs never reused.",
+      "status": "addressed_in_plan_or_explicit_disagreement",
+      "evidence": "PLAN.md: AWS review reconciliation requirements; operator DynamoDB decision; remaining decision register"
+    },
+    {
+      "ids": "C6",
+      "finding": "Promotion/rollback",
+      "proposed_disposition": "Require N/N-1 schemas, worker drain/idempotency, staged release manifest, explicit migration rollback limits and promotion authority.",
+      "status": "addressed_in_plan_or_explicit_disagreement",
+      "evidence": "PLAN.md: AWS review reconciliation requirements; operator DynamoDB decision; remaining decision register"
+    },
+    {
+      "ids": "C7",
+      "finding": "Resource custody adoption",
+      "proposed_disposition": "Require exclusive state ownership, verified supported cleanup exclusion and no-op negative proof before adoption; no active guard changes in planning.",
+      "status": "addressed_in_plan_or_explicit_disagreement",
+      "evidence": "PLAN.md: AWS review reconciliation requirements; operator DynamoDB decision; remaining decision register"
+    },
+    {
+      "ids": "C8",
+      "finding": "SSM/SSH",
+      "proposed_disposition": "Retain operator-required SSH and SSM. Document tunnel-content logging gap, per-environment IAM, revocation and NAT failure management limitation; no default paid endpoints.",
+      "status": "addressed_in_plan_or_explicit_disagreement",
+      "evidence": "PLAN.md: AWS review reconciliation requirements; operator DynamoDB decision; remaining decision register"
+    },
+    {
+      "ids": "C9",
+      "finding": "CI trust",
+      "proposed_disposition": "Separate untrusted/trusted projects, roles and enforced storage namespaces; exact GitHub OIDC subjects and pinned dependencies. Reuse existing bucket only if policy isolation is proved.",
+      "status": "addressed_in_plan_or_explicit_disagreement",
+      "evidence": "PLAN.md: AWS review reconciliation requirements; operator DynamoDB decision; remaining decision register"
+    },
+    {
+      "ids": "C10",
+      "finding": "Failure analysis",
+      "proposed_disposition": "Add AZ/NAT/worker/data/ingress failure table; RTO/RPO and N-1 capacity are required operator decisions before provisioning, not invented SLA.",
+      "status": "addressed_in_plan_or_explicit_disagreement",
+      "evidence": "PLAN.md: AWS review reconciliation requirements; operator DynamoDB decision; remaining decision register"
+    }
+  ],
+  "v2_claude": [
+    {
+      "id": "C2-1",
+      "disposition": "Funding owner role/gate recorded"
+    },
+    {
+      "id": "C2-2",
+      "disposition": "RTO/RPO and N-1 architecture-freeze gate recorded"
+    },
+    {
+      "id": "C2-3",
+      "disposition": "Account step-2 exit gate; no automatic default"
+    },
+    {
+      "id": "C2-4",
+      "disposition": "Origin authentication decision gate added"
+    },
+    {
+      "id": "C2-5",
+      "disposition": "Per-environment WAF/rate-limit gate added"
+    },
+    {
+      "id": "C2-6",
+      "disposition": "DynamoDB capacity-mode gate; global tables out of scope"
+    },
+    {
+      "id": "C2-7",
+      "disposition": "Emergency management owner/gate; no independent path claimed"
+    },
+    {
+      "id": "C2-8",
+      "disposition": "Fresh authenticated adoption-window inventory required"
+    },
+    {
+      "id": "C2-9",
+      "disposition": "Promotion roles designated; production approval independent of producer"
+    },
+    {
+      "id": "C2-10",
+      "disposition": "Three delegated hosted zones clarified"
+    },
+    {
+      "id": "C2-11",
+      "disposition": "Range corrected to 452\u2013600 USD"
+    },
+    {
+      "id": "C2-12",
+      "disposition": "Rate/quantity/date/source inputs added"
+    },
+    {
+      "id": "C2-13",
+      "disposition": "Subnet classes described; additional labels optional"
+    },
+    {
+      "id": "C2-14",
+      "disposition": "Logical API arrows and visual limitation recorded"
+    },
+    {
+      "id": "C2-15",
+      "disposition": "Gateway contract included in step-2 freeze"
+    },
+    {
+      "id": "C2-16",
+      "disposition": "Brief amended for DynamoDB"
+    }
+  ],
+  "v2_gemini": [
+    {
+      "id": "G2-1",
+      "disposition": "Account gate retained open"
+    },
+    {
+      "id": "G2-2",
+      "disposition": "IPAM/CIDR gate retained"
+    },
+    {
+      "id": "G2-3",
+      "disposition": "Broker placement gate aligned before approval"
+    },
+    {
+      "id": "G2-4",
+      "disposition": "Compute/N-1 selection remains explicit deployment gate"
+    },
+    {
+      "id": "G2-5",
+      "disposition": "DynamoDB design and workload-cost gate recorded"
+    },
+    {
+      "id": "G2-6",
+      "disposition": "CI runner/image/network/producer gate recorded"
+    },
+    {
+      "id": "G2-7",
+      "disposition": "WAF per-environment gate recorded"
+    },
+    {
+      "id": "G2-8",
+      "disposition": "Endpoint routes remain textual diagram abstraction; documented visual limitation, no paid interface endpoint implied"
+    }
+  ],
+  "disagreements": [
+    "Mandatory three accounts rejected as unsupported override of operator-open decision; stronger-isolation recommendation retained.",
+    "Single-AZ/single-instance interim mode not selected; no workload launches until DynamoDB qualification.",
+    "NAT volume remains sensitivity rather than invented traffic forecast."
+  ],
+  "not_claimed": [
+    "deployed controls",
+    "database adapter/migration completion",
+    "accepted budgets or accounts",
+    "current cloud inventory",
+    "GCP completion"
+  ],
+  "publication_review": "Independent pre-PR review identified stale pending-review status; corrected before publication. No other findings."
+}
