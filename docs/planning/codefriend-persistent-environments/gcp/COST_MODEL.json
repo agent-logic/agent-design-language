@@ -1,0 +1,89 @@
+{
+  "date": "2026-11-13",
+  "region": "us-east4",
+  "hours": 730,
+  "environments": 3,
+  "compute": "TBD; scenario VM count only",
+  "rates_usd": {
+    "global_forwarding_rule_hour": "0.025",
+    "nat_assigned_vm_hour_up_to_32": "0.0014",
+    "nat_gateway_hour_above_32": "0.044",
+    "nat_ip_hour": "0.005",
+    "nat_processed_gib": "0.045",
+    "dns_zone_hour": "0.000273973"
+  },
+  "quantities_per_environment": {
+    "global_https_forwarding_rules": 1,
+    "reserved_nat_ipv4_scenario": 1,
+    "dns_zones": 1,
+    "regional_nat_gateways": 1
+  },
+  "formulas": {
+    "nat_hour": "0.0014*N for 0<=N<=32; 0.044 for N>32, per gateway (published pricing tiers)",
+    "per_env_month": "Three-project case: 730*(0.025 first-five-rule group +0.005*I+nat_hour(N)+0.000273973)",
+    "all_three": "sum(per_env_month)+165 usage allowances"
+  },
+  "usage_allowances_usd": {
+    "dev": 20,
+    "staging": 35,
+    "prod": 100,
+    "shared": 10
+  },
+  "scenario_note": "N means NAT-assigned VMs per environment; I=1 illustrative NAT IPv4. No machine types/counts selected. NAT IP pool and forwarding rules can change costs.",
+  "exclusions": [
+    "VMs",
+    "disks",
+    "application database",
+    "backups",
+    "model/provider",
+    "CI",
+    "Cloud Armor/security extras",
+    "tax"
+  ],
+  "sources": [
+    "https://cloud.google.com/nat/pricing",
+    "https://cloud.google.com/load-balancing/pricing",
+    "https://cloud.google.com/dns/pricing",
+    "https://cloud.google.com/vpc/network-pricing"
+  ],
+  "scenarios": [
+    {
+      "nat_assigned_vms_per_environment": 0,
+      "nat_ipv4_per_environment": 1,
+      "per_environment_fixed_and_nat_vm_usd": "22.100000290",
+      "all_three_plus_allowances_usd": "231.300000870"
+    },
+    {
+      "nat_assigned_vms_per_environment": 4,
+      "nat_ipv4_per_environment": 1,
+      "per_environment_fixed_and_nat_vm_usd": "26.188000290",
+      "all_three_plus_allowances_usd": "243.564000870"
+    },
+    {
+      "nat_assigned_vms_per_environment": 8,
+      "nat_ipv4_per_environment": 1,
+      "per_environment_fixed_and_nat_vm_usd": "30.276000290",
+      "all_three_plus_allowances_usd": "255.828000870"
+    },
+    {
+      "nat_assigned_vms_per_environment": 32,
+      "nat_ipv4_per_environment": 1,
+      "per_environment_fixed_and_nat_vm_usd": "54.804000290",
+      "all_three_plus_allowances_usd": "329.412000870"
+    },
+    {
+      "nat_assigned_vms_per_environment": 33,
+      "nat_ipv4_per_environment": 1,
+      "per_environment_fixed_and_nat_vm_usd": "54.220000290",
+      "all_three_plus_allowances_usd": "327.660000870"
+    }
+  ],
+  "forwarding_rule_scope": "Three-project scenarios: first-five global rule group per project. One project with three rules reduces total by 36.50 USD/month if no other rule inventory changes tier.",
+  "forwarding_rule_ipv4_charge_usd": "0",
+  "usage_allowance_scope": "Includes provisional control database operations, Pub/Sub, Cloud Run, logs/secrets, object storage and network/CDN usage; excludes application database as in AWS. Not workload-priced or a cap.",
+  "scenario_gates": [
+    "Reverify published >32 flat gateway tier",
+    "Inventory all global/regional forwarding rules including redirects per project",
+    "Measure NAT processed GiB; allowance is provisional and must not be double counted"
+  ]
+}
