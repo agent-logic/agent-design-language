@@ -1,0 +1,7 @@
+{
+  "source": "https://aws.amazon.com/architecture/icons/",
+  "package": "Icon-package_07312026",
+  "zip_sha256": "d2d166c453526471749d520e0db022c459abef759d2946cf2dd1d1c992dc6526",
+  "icons_unmodified": true,
+  "layout": "custom SVG, AWS service colors, VPC/AZ/subnet boundaries"
+}
